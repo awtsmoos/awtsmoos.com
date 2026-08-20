@@ -6,15 +6,16 @@
  * @module DriveDomainPolicy
  * @description
  * The Awtsmoos binds a proven DNS vessel to one site identity while Awtsmoos.com
- * keeps ownership, delegation, routing, and TLS as separate truthful states.
+ * lets old and new callers share one policy crown without dividing ownership truth.
  */
 
+const { normalizeDomainNameservers } = require('./domainNameserverPolicy.js');
 const { normalizeSiteId } = require('./siteMappingPolicy.js');
 const {
 	domainError,
-	normalizeDnsHostname,
 	normalizeHostname
 } = require('./domainHostnamePolicy.js');
+const compatibility = require('./domainCompatibilityPolicy.js');
 
 const DOMAIN_MODES = Object.freeze([
 	'external-dns',
@@ -30,7 +31,7 @@ function normalizeDomainRecord(hostname, input = {}, previous = {}, now = Date.n
 		hostname: normalizeHostname(hostname),
 		siteId: normalizeSiteId(valueFor(input, previous, 'siteId', 'home')),
 		mode,
-		nameservers: normalizeNameservers(valueFor(input, previous, 'nameservers', []), mode),
+		nameservers: normalizeDomainNameservers(valueFor(input, previous, 'nameservers', []), mode),
 		verificationToken: normalizeToken(valueFor(input, previous, 'verificationToken', '')),
 		ownershipState: stateFor(previous.ownershipState, 'pending'),
 		delegationState: delegationState(previous, mode, modeChanged),
@@ -55,19 +56,11 @@ function normalizeDomainRegistry(value) {
 	return domains;
 }
 
-function normalizeNameservers(value, mode) {
-	if (mode !== 'custom-nameservers') return [];
-	const source = Array.isArray(value) ? value : [];
-	const nameservers = [...new Set(source.map(name => normalizeDnsHostname(name)))];
-	if (nameservers.length < 2 || nameservers.length > 8) {
-		throw domainError('INVALID_CUSTOM_NAMESERVERS', 400);
-	}
-	return nameservers;
-}
-
 function normalizeMode(value) {
 	const mode = String(value || '').trim().toLowerCase();
-	if (!DOMAIN_MODES.includes(mode)) throw domainError('INVALID_DOMAIN_MODE', 400);
+	if (!DOMAIN_MODES.includes(mode)) {
+		throw domainError('INVALID_DOMAIN_MODE', 400);
+	}
 	if (mode === 'awtsmoos-nameservers') {
 		throw domainError('AWTSMOOS_NAMESERVERS_UNAVAILABLE', 409);
 	}
@@ -76,7 +69,9 @@ function normalizeMode(value) {
 
 function normalizeToken(value) {
 	const token = String(value || '');
-	if (!TOKEN_PATTERN.test(token)) throw domainError('INVALID_DOMAIN_TOKEN', 400);
+	if (!TOKEN_PATTERN.test(token)) {
+		throw domainError('INVALID_DOMAIN_TOKEN', 400);
+	}
 	return token;
 }
 
@@ -112,5 +107,6 @@ function objectOrEmpty(value) {
 module.exports = {
 	DOMAIN_MODES,
 	normalizeDomainRecord,
-	normalizeDomainRegistry
+	normalizeDomainRegistry,
+	...compatibility
 };

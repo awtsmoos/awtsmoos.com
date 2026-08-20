@@ -5,9 +5,10 @@
 const DEFAULT_PRESSURE_GRACE_MS = 10 * 60 * 1000;
 
 /**
- * @file Prevents a congestion witness from becoming permission to kill its parent.
- * @description The Awtsmoos distinguishes honest bounded work from silent death;
- * Awtsmoos.com defers replacement while recent pressure or active work can explain stale pulses.
+ * @file Defers repair only for pressure that is current, never for a historical maximum.
+ * @description
+ * The Awtsmoos remembers every thunderclap without mistaking memory for the present storm;
+ * Awtsmoos.com grants repair grace to living pressure and active work, then lets recovered vessels reform.
  */
 function evidence(stats = {}, options = {}) {
 	const circuit = stats.circuit || {};
@@ -15,9 +16,9 @@ function evidence(stats = {}, options = {}) {
 	const stages = stats.executionStages || {};
 	const level = String(circuit.level || "closed");
 	const pressureLagMs = Math.max(
-		nonnegative(circuit.pressureLagMs),
+		nonnegative(circuit.representativeLagMs),
 		nonnegative(lag.lastMs),
-		nonnegative(lag.maxMs)
+		nonnegative(lag.p90Ms)
 	);
 	const activeWork = nonnegative(stats.inflight) > 0 ||
 		nonnegative(stats.queued) > 0 ||

@@ -1,19 +1,24 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
+/**
+ * @file Composes Geelooy OS shell enhancements and truthful browser-peer presence.
+ * @description
+ * The Awtsmoos joins clock, search, desktop controls, and Tunnel Workspace while
+ * Awtsmoos.com keeps the OS browser peer distinct from a mounted remote machine. The
+ * compact shell status names whether this runtime is connected and whether future OS
+ * opens hold remembered permission, without implying native installation.
+ */
+
+import { consentLabel } from "../../shared/tunnel/peerConsent.js";
 import { startShellClock } from "./clock.js";
 import { bindCommandPalette } from "./commandPalette.js";
 import { renderPinnedApps } from "./pinnedApps.js";
 import { bindQuickSettings } from "./quickSettings.js";
 import { bindVisualViewportMetrics } from "./viewportMetrics.js";
-
-/**
- * @file enhancements.js
- * @description
- * The Awtsmoos joins clock, search, settings, pinned apps, and visible viewport.
- * Awtsmoos.com adds discoverability without replacing tasks, windows, or processes.
- */
+import { virtualOSTunnelStatus } from "../tunnel/launcher.js";
+import { initializeTunnelWorkspace } from "../tunnel/workspaceController.js";
 
 export function initializeShellEnhancements({ os, records }) {
 	const disposers = [
@@ -21,18 +26,36 @@ export function initializeShellEnhancements({ os, records }) {
 		bindCommandPalette({ records }),
 		bindQuickSettings({ os }),
 		renderPinnedApps(os),
-		bindVisualViewportMetrics()
+		bindVisualViewportMetrics(),
+		initializeTunnelWorkspace({ os })
 	];
-	const status = document.getElementById("shell-status");
-	if (status) {
-		status.textContent = window.VirtualOSTunnelAgent
-			? "Tunnel ready"
-			: "Local mode";
-	}
+	disposers.push(bindTunnelShellStatus(document.getElementById("shell-status")));
 	document.documentElement.classList.add("geelooy-revelation-ready");
 	return () => {
 		for (const dispose of disposers) {
 			dispose?.();
 		}
 	};
+}
+
+function bindTunnelShellStatus(element) {
+	if (!element) {
+		return () => {};
+	}
+	function render() {
+		const status = virtualOSTunnelStatus();
+		const memory = status.remembered ? "remembered" : "not remembered";
+		if (!status.enabled) {
+			element.textContent = `OS peer disabled · ${memory}`;
+			return;
+		}
+		if (status.connected) {
+			element.textContent = `OS browser peer connected · ${consentLabel(status.consentMode)}`;
+			return;
+		}
+		element.textContent = `OS peer ${status.phase} · ${consentLabel(status.consentMode)}`;
+	}
+	render();
+	const interval = globalThis.setInterval(render, 1500);
+	return () => globalThis.clearInterval(interval);
 }

@@ -1,62 +1,87 @@
-<!--B"H-->
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives identity a deliberate chamber: a name becomes a doorway, a
+handle becomes an address, and Awtsmoos.com lets the traveler see both before saving.
+-->
 <?<script>
-    var ac = $_GET["action"];
-    var alias = $_GET["alias"];
-    var returnURL = $_GET["returnURL"] || "/profile"
-    var det = null;
-    if(ac == "update" && alias) {
-        det = await fetchAwtsmoos("/api/social/aliases/"+alias+"/details")
-    }
-    return $a("nav/page.html", {
-        tochen: /*html*/`
-        <script>
-            var desc = 'JSON.stringify(det)}';
-            console.log(desc)
-            </script>
-            <link rel="stylesheet" type="text/css" href="./style.css">
-            <div class="container">
-                <a href="${
-                    returnURL
-                }"><- Back</a>
-                <h1>${
-                    
-                    (ac == "update" && det) ?
-                    "Update details for the alias: "
-                    + det.name : "Create New Alias"
-                }</h1>
-                <form id="alias-form">
-                    <label for="alias-name">Alias Name:</label><br>
-                    <input type="text" value="${
-                        det ? det.name : ""
-                    }" id="alias-name" name="alias-name" required><br><br>
-                    <label for="alias-description">Alias Description:</label><br>
-                    <textarea id="alias-description" value="${
-                        det ? det.description : ""
-                    }" name="alias-description">${
-                        det ? det.description : ""
-                    }</textarea><br><br>
-                    <div class="optional-id">
-                        <label for="alias-id">Custom Alias ID:</label>
-                        <input type="text" id="alias-id" name="alias-id">
-                        <span class="tooltip">?</span>
-                        <div class="tooltiptext">Custom Alias ID is optional. If not provided, it will be generated automatically based on the Alias Name.</div>
-                    </div>
-                    <span id="id-validation"></span><br><br>
-                    <div class="form-btns">
-                        <button type="submit">${
-                            ac == "update" ? "Update"
-                            : "Submit"
-                        }</button>
-                        ${
-                            ac == "update" ? /*html*/`
-                                <button class="delete" id="delete">Delete</button>
-                            ` : ""
-                        }
-                    </div>
-                </form>
-            </div>
-
-            <script src="script.js"></script>
-        `
-    })
+	var action = $_GET["action"] || "create";
+	var alias = $_GET["alias"] || "";
+	var returnURL = $_GET["returnURL"] || "/profile";
+	var details = null;
+	if(action == "update" && alias) {
+		details = await fetchAwtsmoos("/api/social/aliases/" + alias + "/details");
+	}
+	function safe(value) {
+		return String(value ?? "")
+			.replace(/&/g, "&amp;")
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;")
+			.replace(/"/g, "&quot;")
+			.replace(/'/g, "&#39;");
+	}
+	var isUpdate = action == "update" && alias;
+	var bootstrap = encodeURIComponent(JSON.stringify({ action, alias, returnURL, details: details || {} }));
+	var title = isUpdate ? "Refine your alias" : "Create an alias";
+	var submitLabel = isUpdate ? "Save changes" : "Create identity";
+	return $a("nav/page.html", {
+		tochen: /*html*/`
+			<link rel="stylesheet" href="/style/geelooy-app/index.css?v=alias-studio-002">
+			<link rel="stylesheet" href="./style.css?v=alias-studio-002">
+			<main class="alias-studio g-page" data-alias-studio data-bootstrap="${bootstrap}">
+				<header class="alias-studio-header">
+					<a class="alias-back" href="${safe(returnURL)}" aria-label="Return to profile">← <span>Profile</span></a>
+					<div class="alias-heading-copy">
+						<span class="alias-kicker">Identity studio</span>
+						<h1>${title}</h1>
+						<p>${isUpdate ? "Adjust how this identity appears across Geelooy." : "Shape a public identity before opening it across Geelooy."}</p>
+					</div>
+				</header>
+				<div class="alias-studio-grid">
+					<section class="alias-editor-card" aria-labelledby="alias-editor-title">
+						<h2 id="alias-editor-title" class="alias-section-title">Identity details</h2>
+						<form id="alias-form" novalidate aria-busy="false">
+							<label class="alias-field-shell" for="alias-name">
+								<span class="alias-field-caption">Display name</span>
+								<input id="alias-name" name="alias-name" type="text" maxlength="50" value="${safe(details?.name || "")}" placeholder="How people should know this alias" required autocomplete="off">
+								<span class="alias-field-helper">Up to 50 characters. This is the human-facing name.</span>
+							</label>
+							<label class="alias-field-shell alias-description-field" for="alias-description">
+								<span class="alias-field-caption">About this identity</span>
+								<textarea id="alias-description" name="alias-description" rows="5" maxlength="500" placeholder="What should this identity be known for?">${safe(details?.description || "")}</textarea>
+								<span class="alias-field-meta"><span>Public context, not a biography requirement.</span><span data-description-count>0 characters</span></span>
+							</label>
+							<details class="alias-advanced" ${isUpdate ? "open" : ""}>
+								<summary><span>Advanced identity address</span><small>${isUpdate ? "Current address is fixed" : "Optional — one can be generated"}</small></summary>
+								<div class="alias-advanced-body">
+									<label class="alias-field-shell" for="alias-id">
+										<span class="alias-field-caption">Alias address</span>
+										<div class="alias-address-control"><span aria-hidden="true">@</span><input id="alias-id" name="alias-id" type="text" value="${safe(isUpdate ? alias : "")}" placeholder="custom-address" autocomplete="off"></div>
+										<span class="alias-field-helper">Lower-level identifier used in links and mentions.</span>
+									</label>
+									<div id="id-validation" class="alias-validation" data-tone="neutral" role="status" aria-live="polite">${isUpdate ? `Identity address stays @${safe(alias)} in update mode.` : "A suggested address appears as you type."}</div>
+								</div>
+							</details>
+							<footer class="alias-command-bar">
+								<div id="alias-form-status" class="alias-form-status" data-tone="neutral" role="status" aria-live="polite">Ready.</div>
+								<div class="form-btns">
+									<button type="submit" data-alias-submit data-resting-label="${submitLabel}">${submitLabel}</button>
+									${isUpdate ? `<button class="delete" id="delete" type="button" aria-expanded="false">Delete identity</button>` : ""}
+								</div>
+							</footer>
+							${isUpdate ? `<section class="alias-delete-confirm" data-delete-confirm hidden aria-labelledby="delete-alias-title"><div><span class="alias-danger-mark" aria-hidden="true">!</span><div><h3 id="delete-alias-title">Delete @${safe(alias)}?</h3><p>This removes the identity. This action is intentionally separated from normal editing.</p></div></div><div class="alias-delete-actions"><button type="button" data-delete-cancel>Keep identity</button><button type="button" class="delete" data-delete-confirm-action>Delete permanently</button></div></section>` : ""}
+						</form>
+					</section>
+					<aside class="alias-preview-panel" aria-label="Live alias preview">
+						<details class="alias-preview-disclosure" data-preview-details open>
+							<summary><span>Live preview</span><small>How this identity reads at a glance</small></summary>
+							<div class="alias-preview-card"><div class="alias-preview-avatar" data-preview-avatar>א</div><div class="alias-preview-copy"><span class="alias-preview-handle" data-preview-handle>@generated-address</span><h2 data-preview-name>Your alias name</h2><p data-preview-description>A concise description will appear here.</p></div></div>
+							<div class="alias-rule-grid"><article><strong>Name</strong><span>Human and memorable.</span></article><article><strong>Address</strong><span>Stable for mentions and links.</span></article><article><strong>Description</strong><span>Enough context to recognize the voice.</span></article></div>
+						</details>
+					</aside>
+				</div>
+			</main>
+			<script type="module" src="./script.js?v=alias-studio-002"></script>
+		`
+	})
 </script>?>

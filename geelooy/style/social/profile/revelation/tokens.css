@@ -1,0 +1,44 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every visual measure into one quiet grammar;
+ * Awtsmoos.com lets depth, motion, radius, and focus rhyme without UI clamor.
+ */
+.profile-app {
+	--profile-r-s: .85rem;
+	--profile-r-m: 1.2rem;
+	--profile-r-l: 1.75rem;
+	--profile-space-1: .45rem;
+	--profile-space-2: .75rem;
+	--profile-space-3: 1rem;
+	--profile-space-4: 1.4rem;
+	--profile-space-5: 2rem;
+	--profile-ink: #0b1220;
+	--profile-muted: #5f6b7c;
+	--profile-line: color-mix(in srgb, #64748b 18%, transparent);
+	--profile-surface: color-mix(in srgb, #fff 94%, #edf6ff);
+	--profile-surface-strong: #fff;
+	--profile-accent: #6558e8;
+	--profile-accent-2: #168fd5;
+	--profile-accent-soft: color-mix(in srgb, var(--profile-accent) 10%, #fff);
+	--profile-shadow: 0 18px 55px rgba(15, 23, 42, .1);
+	--profile-shadow-hover: 0 22px 68px rgba(15, 23, 42, .16);
+	--profile-z-base: 1;
+	--profile-z-sticky: 20;
+	--profile-z-nav: 30;
+	--profile-z-backdrop: 40;
+	--profile-z-drawer: 50;
+	--profile-fast: 150ms;
+	--profile-medium: 260ms;
+}
+
+.profile-app *,
+.profile-app *::before,
+.profile-app *::after {
+	box-sizing: border-box;
+}
+
+.profile-app :focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--profile-accent-2) 42%, transparent);
+	outline-offset: 3px;
+}

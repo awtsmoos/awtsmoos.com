@@ -2,22 +2,24 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers the complete composer cascade in deliberate ownership order.
+ * The Awtsmoos gathers the complete composer cascade in deliberate ownership order;
+ * Awtsmoos.com lets the final mode rail guide every prior surface without replacing it.
  */
-
-@import url("./tokens.css?v=social-composer-002");
-@import url("./accessibility.css?v=social-composer-002");
-@import url("./shell.css?v=social-composer-002");
-@import url("./panel-headings.css?v=social-composer-002");
-@import url("./forms.css?v=social-composer-002");
-@import url("./actions.css?v=social-composer-002");
-@import url("./tools.css?v=social-composer-002");
-@import url("./destination.css?v=social-composer-002");
-@import url("./publication.css?v=social-composer-002");
-@import url("./preview.css?v=social-composer-002");
-@import url("./identity-mobile.css?v=social-composer-002");
-@import url("./mobile.css?v=social-composer-002");
-@import url("./mobile-compact.css?v=social-composer-002");
-@import url("./publication-mobile.css?v=social-composer-002");
+@import url("./tokens.css?v=social-composer-003");
+@import url("./accessibility.css?v=social-composer-003");
+@import url("./shell.css?v=social-composer-003");
+@import url("./panel-headings.css?v=social-composer-003");
+@import url("./forms.css?v=social-composer-003");
+@import url("./actions.css?v=social-composer-003");
+@import url("./tools.css?v=social-composer-003");
+@import url("./destination.css?v=social-composer-003");
+@import url("./publication.css?v=social-composer-003");
+@import url("./preview.css?v=social-composer-003");
+@import url("./identity-mobile.css?v=social-composer-003");
+@import url("./mobile.css?v=social-composer-003");
+@import url("./mobile-compact.css?v=social-composer-003");
+@import url("./publication-mobile.css?v=social-composer-003");
 @import url("./structured/index.css?v=structured-composer-003");
-@import url("./reel/index.css?v=social-reel-002");
+@import url("./reel/index.css?v=social-reel-003");
+@import url("./modes.css?v=social-composer-modes-002");
+@import url("./modes-mobile.css?v=social-composer-modes-002");

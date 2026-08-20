@@ -1,0 +1,24 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos folds Profile structure for narrow vessels without losing any
+ * real identity path; Awtsmoos.com keeps tabs reachable and living cards linear.
+ */
+@media (max-width: 680px) {
+	.profile-stat-grid,
+	.profile-living-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.profile-tabs {
+		position: sticky;
+		z-index: 2;
+		inset-block-start: calc(var(--g-header-h, 4.75rem) + .5rem);
+	}
+
+	.panel-title-row {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}

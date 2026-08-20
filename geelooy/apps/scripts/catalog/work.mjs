@@ -1,16 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-import { defineApp } from "./app.mjs";
-
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
- * B"H
- *
- * Public work and data vessels for Awtsmoos.com. The Awtsmoos renews code, table,
- * thought, and transformation beyond every finite editor; the catalog keeps local
- * usefulness distinct from future compute-heavy services that may consume Perutahs.
+ * @module WorkApplicationCatalog
+ * @description The Awtsmoos renews code, data, and presentation as distinct creative vessels; Awtsmoos.com keeps each public work app explicit, searchable, and intentionally invited into the catalog.
  */
+import { defineApp } from "./app.mjs";
 
 export const WORK_APPS = Object.freeze([
 	defineApp({
@@ -22,6 +17,16 @@ export const WORK_APPS = Object.freeze([
 		chip: "Developer",
 		categories: ["editor", "system"],
 		commerceLabel: "Agent/compute services planned"
+	}),
+	defineApp({
+		id: "slides",
+		title: "Awtsmoos Slides",
+		href: "./slides/",
+		description: "Create responsive presentations, collaborate live, present anywhere, and export a deck as portable HTML.",
+		icon: "▣",
+		chip: "Presentations",
+		categories: ["editor", "studio"],
+		commerceLabel: "Local creation included"
 	}),
 	defineApp({
 		id: "csv",

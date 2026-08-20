@@ -1,0 +1,58 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps raw transport truth available without letting machinery dominate the human view;
+ * Awtsmoos.com folds diagnostics into a quiet disclosure where support can inspect what the API knew.
+ */
+.community-technical {
+	overflow: clip;
+}
+
+.community-technical > summary {
+	display: flex;
+	min-height: var(--g-touch-target);
+	align-items: center;
+	justify-content: space-between;
+	gap: .8rem;
+	padding: .75rem .9rem;
+	list-style: none;
+	cursor: pointer;
+	transition: background var(--g-motion-fast) var(--g-motion-ease);
+}
+
+.community-technical > summary::-webkit-details-marker {
+	display: none;
+}
+
+.community-technical > summary:is(:hover, :focus-visible) {
+	background: rgba(60, 236, 255, .05);
+	outline: 0;
+}
+
+.community-technical > summary span {
+	font-weight: 850;
+}
+
+.community-technical > summary small {
+	color: var(--g-muted);
+}
+
+.community-technical pre {
+	max-height: 22rem;
+	margin: 0;
+	padding: .9rem;
+	border-top: 1px solid var(--g-line);
+	background: color-mix(in srgb, var(--g-bg-2) 94%, transparent);
+	color: color-mix(in srgb, var(--g-text) 82%, var(--g-cyan));
+	font: 500 .78rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	overflow: auto;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.community-technical > summary {
+		transition: none;
+	}
+}

@@ -1,0 +1,98 @@
+/*B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews the calendar before any numbered day can appear;
+ * Awtsmoos.com lets each date become a focused choice whose state remains unmistakably clear.
+ */
+.month-selector {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: .65rem;
+	margin-block: .5rem 1rem;
+	padding: .75rem;
+	border: 1px solid var(--mawgawl-line);
+	border-radius: var(--mawgawl-radius);
+	background: var(--mawgawl-surface);
+	box-shadow: var(--mawgawl-shadow);
+}
+
+.month-selector select,
+.month-selector span {
+	min-height: 2.75rem;
+	margin: 0;
+	padding: .65rem .85rem;
+	border: 1px solid var(--mawgawl-line-strong);
+	border-radius: var(--mawgawl-radius-sm);
+	background: var(--mawgawl-surface-strong);
+	color: var(--mawgawl-text);
+	font: inherit;
+	font-weight: 800;
+}
+
+.month-selector select {
+	appearance: none;
+	min-width: 11rem;
+	padding-inline-end: 2.3rem;
+	background-image:
+		linear-gradient(45deg, transparent 50%, var(--mawgawl-cyan) 50%),
+		linear-gradient(135deg, var(--mawgawl-cyan) 50%, transparent 50%);
+	background-position: calc(100% - 1rem) 52%, calc(100% - .72rem) 52%;
+	background-repeat: no-repeat;
+	background-size: .32rem .32rem;
+	cursor: pointer;
+}
+
+#calendar {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(4.2rem, 1fr));
+	gap: .55rem;
+	padding: .8rem;
+	border: 1px solid var(--mawgawl-line);
+	border-radius: var(--mawgawl-radius-lg);
+	background: var(--mawgawl-surface);
+	box-shadow: var(--mawgawl-shadow);
+}
+
+#calendar .day {
+	display: grid;
+	min-width: 0;
+	min-height: 4rem;
+	margin: 0;
+	padding: .6rem;
+	place-items: center;
+	border: 1px solid var(--mawgawl-line);
+	border-radius: var(--mawgawl-radius-sm);
+	background: linear-gradient(145deg, rgba(77, 231, 255, .04), transparent), var(--mawgawl-surface-strong);
+	color: var(--mawgawl-text);
+	font-weight: 850;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .04);
+	cursor: pointer;
+	transition: transform var(--mawgawl-fast) var(--mawgawl-ease), border-color var(--mawgawl-fast) var(--mawgawl-ease), background var(--mawgawl-fast) var(--mawgawl-ease), box-shadow var(--mawgawl-fast) var(--mawgawl-ease);
+}
+
+#calendar .day:hover,
+#calendar .day:focus-visible {
+	border-color: var(--mawgawl-cyan);
+	background: linear-gradient(145deg, rgba(77, 231, 255, .12), rgba(156, 123, 255, .06)), var(--mawgawl-surface-strong);
+	box-shadow: var(--mawgawl-glow);
+	transform: translateY(-1px);
+}
+
+#calendar .day.selected {
+	border-color: var(--mawgawl-magenta);
+	background: linear-gradient(135deg, rgba(77, 231, 255, .16), rgba(255, 105, 214, .16)), var(--mawgawl-surface-strong);
+	box-shadow: 0 0 0 3px rgba(255, 105, 214, .12);
+}
+
+#calendar .day.booked {
+	border-color: color-mix(in srgb, var(--mawgawl-warning) 60%, var(--mawgawl-line));
+	background: linear-gradient(145deg, rgba(255, 211, 109, .16), transparent), var(--mawgawl-surface-strong);
+}
+
+#calendar .day[aria-disabled="true"] {
+	cursor: not-allowed;
+	filter: grayscale(.65);
+	opacity: .46;
+}

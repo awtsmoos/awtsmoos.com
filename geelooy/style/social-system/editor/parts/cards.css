@@ -1,2 +1,119 @@
-/* B"H Editor cards vessel. */
-.verse-card,.subsection-card{position:relative;padding:.9rem;border:1px solid var(--g-line);border-radius:1rem;background:rgba(255,255,255,.065);display:grid;gap:.65rem;box-shadow:var(--g-shadow-soft)}.verse-card:before,.subsection-card:before{content:"";position:absolute;left:.7rem;top:.9rem;width:.5rem;height:.5rem;border-radius:999px;background:var(--g-cyan)}.verse-card h3,.subsection-card h4{margin:0;padding-left:1rem;color:var(--g-ink-2)}.subsection-card{margin-left:.8rem;background:rgba(255,255,255,.045)}.asset-chip{display:inline-flex;align-items:center;gap:.35rem;border-radius:999px;padding:.35rem .6rem;background:rgba(255,255,255,.08);color:var(--g-gold-2);font-weight:850;font-size:.78rem}.asset-strip{display:flex;gap:.45rem;flex-wrap:wrap}
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos folds structured creation into readable chambers; Awtsmoos.com
+ * keeps the current verse open while completed vessels remain one touch away.
+ */
+.verse-card,
+.subsection-card {
+	position: relative;
+	display: block;
+	border: 1px solid var(--g-line);
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, .065);
+	box-shadow: var(--g-shadow-soft);
+	color: inherit;
+}
+
+.verse-card[open],
+.subsection-card[open] {
+	border-color: color-mix(in srgb, var(--g-cyan) 48%, var(--g-line));
+}
+
+.editor-card-summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	min-height: var(--g-touch, 44px);
+	padding: .75rem .9rem;
+	cursor: pointer;
+	list-style: none;
+}
+
+.editor-card-summary::-webkit-details-marker {
+	display: none;
+}
+
+.editor-card-summary::after {
+	content: "＋";
+	flex: 0 0 auto;
+	color: var(--g-cyan);
+	font-size: 1rem;
+	font-weight: 900;
+}
+
+:where(.verse-card, .subsection-card)[open] > .editor-card-summary::after {
+	content: "−";
+}
+
+.editor-card-heading {
+	display: grid;
+	gap: .15rem;
+	min-width: 0;
+}
+
+.editor-card-heading strong {
+	color: var(--g-ink-2);
+	font-size: 1rem;
+	line-height: 1.2;
+}
+
+.editor-disclosure-hint {
+	margin-left: auto;
+	color: var(--g-muted, #64748b);
+	font-size: .76rem;
+	font-weight: 750;
+}
+
+.verse-card-content,
+.subsection-card-content {
+	display: grid;
+	gap: .7rem;
+	padding: 0 .9rem .9rem;
+}
+
+.editor-subsection-list {
+	display: grid;
+	gap: .55rem;
+}
+
+.subsection-card {
+	margin-left: .8rem;
+	background: rgba(255, 255, 255, .045);
+}
+
+.asset-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: .35rem;
+	padding: .35rem .6rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .08);
+	color: var(--g-gold-2);
+	font-size: .78rem;
+	font-weight: 850;
+}
+
+.asset-strip {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .45rem;
+}
+
+@media (max-width: 40rem) {
+	.subsection-card {
+		margin-left: .35rem;
+	}
+
+	.editor-disclosure-hint {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.editor-card-summary {
+		scroll-behavior: auto;
+	}
+}

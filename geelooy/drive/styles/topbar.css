@@ -1,0 +1,114 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+Keser rests lightly above the phone while the Awtsmoos renews every destination; Awtsmoos.com keeps identity separate from path commands,
+turning a crowded desktop strip into a compact crown whose controls remain native, generous, and readable from the narrowest useful vessel upward.
+*/
+
+.top-bar {
+	position: sticky;
+	z-index: 30;
+	top: 0;
+	display: grid;
+	gap: 7px;
+	padding: 8px;
+	border-bottom: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
+	background: color-mix(in srgb, var(--surface) 94%, transparent);
+	backdrop-filter: blur(18px);
+}
+
+.top-primary {
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.brand {
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	color: var(--ink);
+	text-decoration: none;
+}
+
+.brand-mark {
+	width: 34px;
+	height: 34px;
+	display: grid;
+	place-items: center;
+	flex: 0 0 auto;
+	border-radius: 11px;
+	background: var(--accent);
+	color: white;
+	font-size: 18px;
+	font-weight: 900;
+}
+
+.brand-copy {
+	min-width: 0;
+	display: grid;
+}
+
+.brand strong,
+.brand small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.brand strong {
+	font-size: 13px;
+}
+
+.brand small {
+	color: var(--muted);
+	font-size: 9px;
+}
+
+.top-commands {
+	min-width: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 44px;
+	gap: 7px;
+}
+
+.location-form {
+	min-width: 0;
+	grid-column: 1 / -1;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 6px;
+}
+
+.location-input,
+.search-input {
+	width: 100%;
+	min-width: 0;
+	min-height: 44px;
+	padding: 0 11px;
+	border: 1px solid var(--line-strong);
+	border-radius: 11px;
+	background: var(--surface-soft);
+	color: var(--ink);
+	font: inherit;
+}
+
+.location-input {
+	font-family: var(--font-code);
+	font-size: 11px;
+}
+
+.search-input {
+	grid-column: 1;
+	font-size: 12px;
+}
+
+.command-refresh {
+	grid-column: 2;
+	width: 44px;
+	height: 44px;
+}

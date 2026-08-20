@@ -1,0 +1,37 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the raw control a quiet palette before any route names its own light;
+ * Awtsmoos.com lets these fallback tokens bend toward existing design variables by day and by night.
+ */
+:root {
+	--aw-ui-surface: #ffffff;
+	--aw-ui-surface-2: #f5f7fb;
+	--aw-ui-text: #111827;
+	--aw-ui-muted: #64748b;
+	--aw-ui-line: rgba(15, 23, 42, .18);
+	--aw-ui-line-strong: rgba(15, 23, 42, .34);
+	--aw-ui-accent: #087e8b;
+	--aw-ui-accent-soft: rgba(8, 126, 139, .11);
+	--aw-ui-danger: #b4233f;
+	--aw-ui-radius: 12px;
+	--aw-ui-shadow: 0 8px 24px rgba(15, 23, 42, .09);
+	--aw-ui-focus: 0 0 0 3px rgba(8, 126, 139, .18);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--aw-ui-surface: #0d1724;
+		--aw-ui-surface-2: #132235;
+		--aw-ui-text: #f4f7fb;
+		--aw-ui-muted: #9aacbf;
+		--aw-ui-line: rgba(255, 255, 255, .15);
+		--aw-ui-line-strong: rgba(255, 255, 255, .28);
+		--aw-ui-accent: #61cbd9;
+		--aw-ui-accent-soft: rgba(97, 203, 217, .1);
+		--aw-ui-danger: #ff8ca4;
+		--aw-ui-shadow: 0 12px 30px rgba(0, 0, 0, .24);
+		--aw-ui-focus: 0 0 0 3px rgba(97, 203, 217, .16);
+	}
+}

@@ -1,0 +1,133 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets one life be searched through place, moment, and theme;
+ * Awtsmoos.com turns a long archive into a folding, navigable stream.
+ */
+.profile-app .profile-contribution-archive,
+.profile-app .profile-deep-section,
+.profile-app .profile-about-panel {
+	padding: clamp(1rem, 3vw, 1.65rem);
+}
+
+.profile-app .profile-section-heading {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	align-items: end;
+	margin-bottom: 1rem;
+}
+
+.profile-app .profile-section-heading h2 {
+	margin: .15rem 0;
+	font-size: clamp(1.45rem, 3vw, 2.25rem);
+	letter-spacing: -.035em;
+	color: var(--profile-ink);
+}
+
+.profile-app .profile-section-count {
+	display: grid;
+	justify-items: end;
+	white-space: nowrap;
+}
+
+.profile-app .profile-section-count strong {
+	font-size: 1.65rem;
+	line-height: 1;
+}
+
+.profile-app .profile-section-count small {
+	color: var(--profile-muted);
+}
+
+.profile-app .profile-archive-controls {
+	display: grid;
+	grid-template-columns: minmax(14rem, 1fr) minmax(0, 1.6fr) auto;
+	gap: .7rem;
+	margin-bottom: 1rem;
+}
+
+.profile-app .profile-archive-search {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	border: 1px solid var(--profile-line);
+	border-radius: var(--profile-r-m);
+	background: #fff;
+	overflow: hidden;
+}
+
+.profile-app .profile-archive-search input,
+.profile-app .profile-archive-type select {
+	min-height: 3.15rem;
+	border: 0;
+	background: transparent;
+	color: var(--profile-ink);
+	font: inherit;
+}
+
+.profile-app .profile-archive-search input {
+	min-width: 0;
+	padding: 0 .9rem;
+}
+
+.profile-app .profile-archive-search-button {
+	border: 0;
+	padding: 0 1rem;
+	background: var(--profile-ink);
+	color: #fff;
+	font-weight: 850;
+}
+
+.profile-app .profile-archive-modes {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .4rem;
+}
+
+.profile-app .profile-archive-mode {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: .55rem;
+	align-items: center;
+	min-height: 3.15rem;
+	padding: .55rem .7rem;
+	border: 1px solid var(--profile-line);
+	border-radius: var(--profile-r-m);
+	background: #fff;
+	color: var(--profile-ink);
+	text-align: left;
+}
+
+.profile-app .profile-archive-mode.active {
+	background: var(--profile-accent-soft);
+	border-color: color-mix(in srgb, var(--profile-accent) 34%, transparent);
+}
+
+.profile-app .profile-archive-mode-copy,
+.profile-app .profile-about-action-copy {
+	display: grid;
+	min-width: 0;
+}
+
+.profile-app .profile-archive-mode-copy small,
+.profile-app .profile-about-action-copy small {
+	color: var(--profile-muted);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.profile-app .profile-archive-type {
+	display: grid;
+	gap: .18rem;
+	font-size: .72rem;
+	font-weight: 850;
+	color: var(--profile-muted);
+}
+
+.profile-app .profile-archive-type select {
+	border: 1px solid var(--profile-line);
+	border-radius: var(--profile-r-m);
+	padding: 0 .7rem;
+	background: #fff;
+}

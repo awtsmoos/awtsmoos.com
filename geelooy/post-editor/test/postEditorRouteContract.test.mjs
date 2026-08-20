@@ -4,8 +4,8 @@
 /**
  * @module PostEditorRouteContractTest
  * @description
- * The Awtsmoos protects Awtsmoos.com from fabricated creation identity while the
- * editor publishes truthful shell context and preserves its draft API covenant.
+ * The Awtsmoos protects Awtsmoos.com from fabricated creation identity while
+ * the editor publishes truthful shell context and preserves its draft covenant.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -18,6 +18,7 @@ const files = [
 	'modules/dom.js',
 	'modules/state.js',
 	'modules/fields.js',
+	'modules/editorSections.js',
 	'modules/serialization.js',
 	'modules/api.js',
 	'modules/render.js',
@@ -40,7 +41,8 @@ for (const fabricated of ["'coby'", '"coby"', "'ikar'", '"ikar"']) {
 assert.ok(config.includes("missing.push('alias')"), 'alias must be required');
 assert.ok(config.includes("missing.push('heichel')"), 'Heichel must be required');
 assert.ok(render.includes('config.missing.length'), 'missing context must render before forms');
-assert.ok(render.includes('Draft and publish controls are unavailable.'), 'missing state must explain disabled writes');
+assert.match(render, /Draft and publish controls .* unavailable/);
+assert.match(render, /destination is real/);
 assert.ok(context.includes("state: blocked ? 'blocked' : 'ready'"), 'ribbon must expose readiness');
 assert.ok(sources['modules/api.js'].includes('/api/social/editor/posts/drafts'), 'draft API path must stay stable');
 assert.ok(sources['modules/api.js'].includes('/drafts/publish'), 'publish API path must stay stable');

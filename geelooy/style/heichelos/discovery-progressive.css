@@ -1,0 +1,96 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets a vast map breathe through layers instead of walls;
+ * Awtsmoos.com keeps twelve bright gateways visible while the quieter long tail folds.
+ */
+.spaces-result-summary {
+	color: var(--g-text-2);
+	font-size: var(--type-caption);
+	font-weight: 800;
+	margin: 0 auto;
+	width: min(100%, 56rem);
+}
+
+.spaces-more {
+	background: color-mix(in srgb, var(--awt-surface) 92%, transparent);
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-l);
+	grid-column: 1 / -1;
+	overflow: hidden;
+}
+
+.spaces-more > summary {
+	align-items: center;
+	cursor: pointer;
+	display: flex;
+	font-weight: 900;
+	gap: .6rem;
+	justify-content: space-between;
+	min-block-size: 3.25rem;
+	padding: .75rem 1rem;
+}
+
+.spaces-more > summary span {
+	color: var(--g-text-2);
+	font-size: var(--type-caption);
+	font-weight: 700;
+}
+
+.spaces-more[open] > summary {
+	border-bottom: 1px solid var(--g-border);
+}
+
+.spaces-compact-list {
+	display: grid;
+}
+
+.space-compact-row {
+	align-items: center;
+	border-bottom: 1px solid var(--g-border);
+	display: grid;
+	gap: .75rem;
+	grid-template-columns: minmax(0, 1fr) auto;
+	padding: .7rem .9rem;
+}
+
+.space-compact-row:last-child {
+	border-bottom: 0;
+}
+
+.space-compact-row h3,
+.space-compact-row p {
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.space-compact-row h3 {
+	font-size: .95rem;
+}
+
+.space-compact-row p {
+	color: var(--g-text-2);
+	font-size: var(--type-caption);
+	margin-top: .18rem;
+}
+
+.space-actions-compact {
+	justify-content: end;
+}
+
+.space-actions-compact .p-button {
+	min-block-size: 2.25rem;
+	padding: .4rem .65rem;
+}
+
+@media (max-width: 36rem) {
+	.space-compact-row {
+		align-items: stretch;
+		grid-template-columns: 1fr;
+	}
+
+	.space-actions-compact {
+		justify-content: start;
+	}
+}

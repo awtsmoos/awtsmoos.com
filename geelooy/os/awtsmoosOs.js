@@ -1,120 +1,58 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 
+import { MalchusWorkspaceFacade } from "./runtime/MalchusWorkspaceFacade.js";
 import { initializeOsFoundation } from "./runtime/osFoundation.js";
-import { loadOsUtilities, makeOsDesktop, maybeOpenRequestedExplorer, registerOsAdapters, startOs, toggleOsFullScreen } from "./runtime/osLifecycle.js";
-import { installOsListeners, routeOsInput, showDesktopContext } from "./runtime/osInteraction.js";
-import { openOsWindow } from "./runtime/osWindowing.js";
-import { createOsFile, createOsFolder, recordOsVfsMutation, refreshOsRemoteDrives, showOsFilesAtPath, updateOsDefaultProgram } from "./runtime/osWorkspace.js";
-import { getOsDesktop, getOsDisplaySnapshot, getOsGraphSnapshot, getOsScene, getOsSnapshot, recordOsGraphEvent, renderOsDesktop, syncOsGraphState, updateOsStatus } from "./runtime/osObservation.js";
+import {
+	loadOsUtilities,
+	makeOsDesktop,
+	maybeOpenRequestedExplorer,
+	registerOsAdapters,
+	startOs,
+	toggleOsFullScreen
+} from "./runtime/osLifecycle.js";
 
 /**
- * @file Compatibility crown for the Geelooy operating world.
+ * @file Thin public crown for Geelooy OS.
  * @description
- * The Awtsmoos is One while the vessels are many: this class preserves every historical doorway,
- * yet Awtsmoos.com lets lifecycle, input, windows, workspace, and observation reveal themselves in small modules.
+ * The Awtsmoos is One while Malchus, Yesod, lifecycle, VFS, windows, and observation reveal many ordered vessels;
+ * Awtsmoos.com keeps the historical AwtsmoosOS doorway small so behavior lives where it can be inspected, tested, and renewed without duplicated light.
  */
-export default class AwtsmoosOS {
+export default class AwtsmoosOS extends MalchusWorkspaceFacade {
+	/** Creates one OS facade and reveals its stable runtime foundation. */
 	constructor() {
+		super();
 		initializeOsFoundation(this);
 	}
 
+	/** Toggles browser fullscreen through the lifecycle vessel. */
 	toggleFullScreen() {
 		return toggleOsFullScreen(this);
 	}
 
+	/** Boots Geelooy OS through the preserved asynchronous doorway. */
 	async start() {
 		return startOs(this);
 	}
 
+	/** Publishes legacy utility exports expected by existing programs. */
 	async loadUtilities() {
 		return loadOsUtilities();
 	}
 
+	/** Registers canonical local, Tunnel, preview, and Social VFS adapters. */
 	registerAdapters() {
 		return registerOsAdapters(this);
 	}
 
-	listeners() {
-		return installOsListeners(this);
-	}
-
-	desktopContext(event) {
-		return showDesktopContext(this, event);
-	}
-
-	addWindow(options) {
-		return openOsWindow(this, options);
-	}
-
-	input(type, data = {}) {
-		return routeOsInput(this, type, data);
-	}
-
-	async refreshRemoteDrives() {
-		return refreshOsRemoteDrives(this);
-	}
-
-	async createFile(options) {
-		return createOsFile(this, options);
-	}
-
-	async createFolder(options) {
-		return createOsFolder(this, options);
-	}
-
-	async updateDefaultProgram(extension, programName) {
-		return updateOsDefaultProgram(this, extension, programName);
-	}
-
+	/** Installs desktop identity and shared runtime styles once. */
 	makeDesktop() {
 		return makeOsDesktop(this);
 	}
 
-	renderDesktop() {
-		return renderOsDesktop(this);
-	}
-
+	/** Opens an explicitly requested explorer or Social publishing route after boot. */
 	maybeOpenRequestedExplorer() {
 		return maybeOpenRequestedExplorer(this);
-	}
-
-	updateStatus(remote) {
-		return updateOsStatus(this, remote);
-	}
-
-	getDesktop() {
-		return getOsDesktop(this);
-	}
-
-	async showFilesAtPath(options) {
-		return showOsFilesAtPath(this, options);
-	}
-
-	recordVfsMutation(event) {
-		return recordOsVfsMutation(this, event);
-	}
-
-	recordGraphEvent(type, data = {}) {
-		return recordOsGraphEvent(this, type, data);
-	}
-
-	syncGraph() {
-		return syncOsGraphState(this);
-	}
-
-	graphSnapshot() {
-		return getOsGraphSnapshot(this);
-	}
-
-	scene() {
-		return getOsScene(this);
-	}
-
-	displaySnapshot() {
-		return getOsDisplaySnapshot(this);
-	}
-
-	snapshot() {
-		return getOsSnapshot(this);
 	}
 }

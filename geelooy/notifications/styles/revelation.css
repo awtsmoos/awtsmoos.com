@@ -1,0 +1,11 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers category, control, and responsive vessels without collapsing their boundaries;
+ * Awtsmoos.com keeps the Signals revelation modular so attention may grow without a monolithic stylesheet.
+ */
+
+@import "./revelation-categories.css?v=signals-revelation-006";
+@import "./revelation-controls.css?v=signals-revelation-006";
+@import "./revelation-responsive.css?v=signals-revelation-006";

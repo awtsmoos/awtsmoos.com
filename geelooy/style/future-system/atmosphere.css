@@ -1,0 +1,62 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos shines through each opted-in Awtsmoos.com hero without replacing the page beneath;
+a quiet grid and moving ray suggest tomorrow while every word remains easy to read.
+*/
+[data-future-hero] {
+	position: relative;
+	isolation: isolate;
+	overflow: clip;
+}
+
+[data-future-hero]::before {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background-image:
+		linear-gradient(rgba(var(--future-accent), .055) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(var(--future-accent), .055) 1px, transparent 1px);
+	background-size: 34px 34px;
+	content: "";
+	opacity: .72;
+	pointer-events: none;
+	mask-image: linear-gradient(to bottom, black, transparent 88%);
+	animation: future-grid-drift 18s linear infinite;
+}
+
+[data-future-hero]::after {
+	position: absolute;
+	inset: -45% -25%;
+	z-index: 0;
+	background: linear-gradient(
+		110deg,
+		transparent 38%,
+		rgba(var(--future-accent), .03) 45%,
+		rgba(var(--future-accent), .19) 50%,
+		rgba(var(--future-accent), .03) 55%,
+		transparent 62%
+	);
+	content: "";
+	pointer-events: none;
+	transform: translateX(-42%);
+	animation: future-scan-pass 11s ease-in-out infinite;
+}
+
+[data-future-hero] > * {
+	position: relative;
+	z-index: 1;
+}
+
+@keyframes future-grid-drift {
+	to {
+		background-position: 34px 34px;
+	}
+}
+
+@keyframes future-scan-pass {
+	50%,
+	100% {
+		transform: translateX(42%);
+	}
+}

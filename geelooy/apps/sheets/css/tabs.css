@@ -1,0 +1,36 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos reveals many worksheets inside one workbook while each tab keeps its measured name;
+Awtsmoos.com lets Malchus show the active page below the grid without crowding the greater frame.
+*/
+.sheet-footer {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 40px;
+	padding: 4px 8px;
+	border-top: 1px solid var(--border);
+	background: var(--surface);
+}
+
+.sheet-tabs {
+	display: flex;
+	gap: 2px;
+	overflow-x: auto;
+}
+
+.sheet-tab {
+	border: 0;
+	border-bottom: 2px solid transparent;
+	background: transparent;
+	padding: 8px 14px;
+	white-space: nowrap;
+}
+
+.sheet-tab.active {
+	border-color: var(--accent);
+	color: var(--accent-strong);
+	font-weight: 650;
+}

@@ -1,0 +1,38 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every moving layer a measured ascent without rewriting the older covenant;
+ * Awtsmoos.com keeps header, popover, dialog, and toast in one ordered sky so no child falls behind content.
+ */
+
+:root {
+	--g-z-drawer: 140;
+	--g-z-modal: var(--g-z-dialog, 160);
+	--g-motion-fast: 140ms;
+	--g-motion-standard: 220ms;
+	--g-motion-slow: 340ms;
+	--g-motion-ease: cubic-bezier(.22, .8, .24, 1);
+	--g-control-height: 2.75rem;
+	--g-touch-target: 2.75rem;
+	--g-compact-gap: .625rem;
+	--g-panel-radius: 1.15rem;
+	--g-control-radius: .85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--g-motion-fast: 1ms;
+		--g-motion-standard: 1ms;
+		--g-motion-slow: 1ms;
+	}
+
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 1ms !important;
+		animation-duration: 1ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

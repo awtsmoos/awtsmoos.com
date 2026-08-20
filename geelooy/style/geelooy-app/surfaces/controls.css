@@ -3,9 +3,8 @@
  * Blessed is He
  *
  * @fileoverview The shared command vocabulary for Awtsmoos.com.
- * A button is a finite keli for intention: rest, invitation, focus, pressure,
- * completion, and refusal each receive a visible state. The Awtsmoos renews the
- * will and the click without allowing spectacle to obscure the command.
+ * The Awtsmoos gives intention a finite keli: hover invites, focus reveals,
+ * pressure confirms, and every shared control keeps the same professional rhythm.
  */
 .g-button,
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
@@ -27,6 +26,7 @@
 	border: 1px solid var(--g-line-strong);
 	border-radius: var(--g-radius-sm);
 	background: var(--g-control-field);
+	background-position: 0 0;
 	box-shadow: var(--g-control-shadow);
 	color: var(--g-text);
 	font-weight: 800;
@@ -52,75 +52,39 @@
 	.profile-primary-action
 ):is(:hover, :focus-visible) {
 	border-color: var(--g-cyan);
-	background:
-		var(--g-control-energy),
-		var(--g-control-field);
+	background: var(--g-control-energy), var(--g-control-field);
 	box-shadow: var(--g-control-hover);
 	color: #fff;
 	transform: translateY(-1px);
 }
 
 .g-button:focus-visible,
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, input[type="button"], input[type="submit"], input[type="reset"]):focus-visible {
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
+	button,
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"]
+):focus-visible {
 	outline: 0;
 	box-shadow: var(--g-focus-ring);
 }
 
 .g-button:active,
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, input[type="button"], input[type="submit"], input[type="reset"]):active {
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
+	button,
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"]
+):active {
 	box-shadow: var(--g-control-active);
 	transform: translateY(1px) scale(.99);
-}
-
-.g-button-primary,
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(
-	button.g-button-primary,
-	input[type="submit"].g-button-primary,
-	.primaryAction,
-	.publishButton,
-	[data-primary-action]
-) {
-	border-color: rgba(120, 242, 255, .82);
-	background: var(--g-gradient-hot);
-	box-shadow: 0 .9rem 2.5rem rgba(76, 141, 255, .24), 0 0 1.5rem rgba(77, 233, 255, .2);
-	color: #020914;
-	font-weight: 900;
-}
-
-.g-button-danger,
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) [data-destructive="true"] {
-	border-color: color-mix(in srgb, var(--g-danger) 68%, transparent);
-	background: linear-gradient(145deg, rgba(89, 18, 45, .94), rgba(27, 6, 18, .98));
-	color: #ffe6ee;
-}
-
-.g-icon-button {
-	inline-size: var(--g-control-h);
-	padding: 0;
-	border-radius: var(--g-radius-md);
-}
-
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, [role="button"])[aria-pressed="true"],
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, [role="tab"])[aria-selected="true"] {
-	border-color: var(--g-cyan);
-	background: var(--g-surface-selected);
-	box-shadow: inset 0 0 0 1px rgba(77, 233, 255, .16), 0 0 1.4rem rgba(77, 233, 255, .12);
-	color: #fff;
-}
-
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, input[type="button"], input[type="submit"], input[type="reset"]):disabled {
-	cursor: not-allowed;
-	box-shadow: none;
-	filter: grayscale(.4);
-	opacity: .5;
-	transform: none;
 }
 
 @media (forced-colors: active) {
 	.g-button,
 	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) button {
-		background: ButtonFace;
 		border: 1px solid ButtonText;
+		background: ButtonFace;
 		box-shadow: none;
 		color: ButtonText;
 	}

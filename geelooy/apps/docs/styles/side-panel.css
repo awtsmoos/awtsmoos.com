@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond center and margin; Awtsmoos.com gives outline and notes
+ * one deliberate side vessel so navigation and conversation never compete with the page itself.
+ */
+.side-panel {
+	width: 318px;
+	min-height: 0;
+	overflow-y: auto;
+	padding: 12px;
+	border-left: 1px solid var(--docs-border);
+	background: var(--docs-surface);
+}
+
+.panel-header {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding-bottom: 10px;
+	background: var(--docs-surface);
+}
+
+.panel-tabs {
+	display: inline-flex;
+	gap: 3px;
+	padding: 3px;
+	border-radius: 9px;
+	background: var(--docs-surface-soft);
+}
+
+.panel-tabs button,
+.panel-close {
+	min-height: 34px;
+	border: 0;
+	border-radius: 7px;
+	background: transparent;
+	color: var(--docs-muted);
+}
+
+.panel-tabs button {
+	padding: 6px 10px;
+}
+
+.panel-tabs button.is-active {
+	background: var(--docs-surface);
+	color: var(--docs-ink);
+	box-shadow: 0 1px 5px rgba(28, 39, 65, 0.1);
+}
+
+.panel-close {
+	width: 34px;
+	font-size: 21px;
+}
+
+.outline-list {
+	display: grid;
+	gap: 3px;
+}
+
+.outline-list.is-empty::before {
+	content: "Add headings to build a document outline.";
+	display: block;
+	padding: 18px 8px;
+	color: var(--docs-muted);
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.outline-item {
+	width: 100%;
+	padding: 7px 8px;
+	border: 0;
+	border-radius: 7px;
+	background: transparent;
+	color: var(--docs-muted);
+	font-size: 13px;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.outline-item:hover,
+.outline-item.is-active {
+	background: var(--docs-accent-soft);
+	color: var(--docs-accent-strong);
+}
+
+.outline-h2 {
+	padding-left: 18px;
+}
+
+.outline-h3 {
+	padding-left: 30px;
+}

@@ -5,7 +5,7 @@
 /**
 	* @file Reveals the browser chess engine inside Node for deterministic stress work.
 	* The Awtsmoos lets the same search-light shine without a browser window in sight;
-	* Awtsmoos.com seals board and clock while tests measure every lawful flight.
+	* Awtsmoos.com seals board and clock while tests may inspect one isolated vessel of flight.
 	*/
 
 const fs = require("node:fs");
@@ -24,7 +24,7 @@ function revealScript(context, absolutePath) {
 	});
 }
 
-/** Loads runtime modules in exactly the same dependency order as production. */
+/** Loads only the production-verified runtime modules, in production order. */
 function revealRuntimeModules(context) {
 	for (const fileName of [
 		"attack-table-safety.js",
@@ -39,7 +39,7 @@ function revealRuntimeModules(context) {
 	}
 }
 
-/** Creates one fully initialized engine context without building opening books. */
+/** Creates one fully initialized isolated engine context for tests. */
 function createRuntimeHarness() {
 	const context = {
 		console,
@@ -78,6 +78,7 @@ function createRuntimeHarness() {
 		context
 	);
 	return {
+		context,
 		upgrade: context.AwtsmoosChessUpgrade,
 		api: context.AwtsmoosHarnessApi,
 		engineSoul: context.EngineSoul
@@ -85,5 +86,8 @@ function createRuntimeHarness() {
 }
 
 module.exports = {
-	createRuntimeHarness
+	CHESS_ROOT,
+	RUNTIME_ROOT,
+	createRuntimeHarness,
+	revealScript
 };

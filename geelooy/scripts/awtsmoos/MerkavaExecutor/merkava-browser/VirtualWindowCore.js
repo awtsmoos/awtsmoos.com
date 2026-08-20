@@ -28,8 +28,8 @@
 ) {
 	/**
 	 * Creates the immutable foundations of one virtual browser sky. The Awtsmoos
-	 * creates document, network, input, and GPU ledger anew; Awtsmoos.com leaves
-	 * timers and event behavior to the smaller public window garment.
+	 * creates document, network, input, and GPU ledger anew; Awtsmoos.com lets only
+	 * an explicit host transport carry unresolved fetches beyond the virtual world.
 	 */
 	class VirtualWindowCore {
 		constructor(options = {}) {
@@ -61,7 +61,8 @@
 			this.__network = new fetchMod.VirtualFetch({
 				baseUrl: this.location.href,
 				files: this.files,
-				graph: this.graph
+				graph: this.graph,
+				transport: options.fetchTransport || options.networkTransport || null
 			});
 			this.fetch = this.__network.fetch.bind(this.__network);
 			this.Event = events.VirtualEvent;

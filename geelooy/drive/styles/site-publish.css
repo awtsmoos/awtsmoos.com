@@ -1,0 +1,115 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos distinguishes reflection, temporary preview, durable public identity, and hostname arrival; Awtsmoos.com names every publication gate honestly.
+*/
+
+@import url("./canonical-publish.css");
+
+.site-publish-panel {
+	padding: 14px;
+}
+
+.site-publish-stages,
+.site-published-list {
+	display: grid;
+	gap: 7px;
+}
+
+.site-publish-stages {
+	margin: 0 0 11px;
+	padding: 0;
+	list-style: none;
+}
+
+.site-publish-stages li,
+.site-readiness-card,
+.site-preview-card {
+	display: grid;
+	gap: 4px;
+	padding: 10px;
+	border: 1px solid var(--line);
+	border-radius: 11px;
+	background: var(--surface-soft);
+}
+
+.site-publish-stages li {
+	grid-template-columns: 26px minmax(0, 1fr);
+}
+
+.site-publish-stages li.ready,
+.site-publish-stages li.available {
+	border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+}
+
+.site-publish-stages li.planning {
+	border-style: dashed;
+}
+
+.site-stage-number {
+	width: 24px;
+	height: 24px;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--accent-soft);
+	color: var(--accent-ink);
+	font-size: 10px;
+	font-weight: 900;
+}
+
+.site-stage-status {
+	display: inline-block;
+	margin: 2px 0;
+	color: var(--accent-ink);
+	font-size: 9px;
+	font-weight: 800;
+	letter-spacing: .03em;
+	text-transform: uppercase;
+}
+
+.site-publish-stages p,
+.site-readiness-card span,
+.site-preview-card span,
+.published-empty {
+	margin: 0;
+	color: var(--muted);
+	font-size: 10px;
+	line-height: 1.5;
+}
+
+.site-readiness-card.ready {
+	background: var(--accent-soft);
+}
+
+.site-publish-actions,
+.site-preview-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	margin-top: 10px;
+}
+
+.site-publish-actions .button {
+	flex: 1 1 130px;
+	min-height: 44px;
+}
+
+.site-published-title {
+	margin: 14px 0 7px;
+	font-size: 12px;
+}
+
+.site-preview-actions a {
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	padding: 0 10px;
+	border-radius: 9px;
+	background: var(--accent-soft);
+	color: var(--accent-ink);
+	font-size: 10px;
+	font-weight: 800;
+	text-decoration: none;
+}

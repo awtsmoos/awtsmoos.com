@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets a binary choice become a visible covenant instead of a lonely square;
+ * Awtsmoos.com gathers title, detail, and native truth into one responsive card of care.
+ */
+.g-choice-card {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: .7rem;
+	align-items: start;
+	min-height: var(--g-touch-target);
+	padding: .75rem .8rem;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-control-radius);
+	background: color-mix(in srgb, var(--g-surface-2) 91%, transparent);
+	cursor: pointer;
+	transition: border-color var(--g-motion-fast) var(--g-motion-ease), background var(--g-motion-fast) var(--g-motion-ease), box-shadow var(--g-motion-fast) var(--g-motion-ease), transform var(--g-motion-fast) var(--g-motion-ease);
+}
+
+.g-choice-card:hover,
+.g-choice-card:focus-within {
+	border-color: color-mix(in srgb, var(--g-cyan) 48%, var(--g-line));
+	background: color-mix(in srgb, var(--g-cyan) 5%, var(--g-surface-2));
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, .09);
+}
+
+.g-choice-card:has(input:checked) {
+	border-color: color-mix(in srgb, var(--g-magenta) 66%, var(--g-line));
+	background: linear-gradient(135deg, rgba(60, 236, 255, .08), rgba(255, 72, 203, .08));
+	box-shadow: 0 0 0 3px rgba(255, 72, 203, .08), var(--g-shadow-soft);
+}
+
+.g-choice-card:has(input:disabled) {
+	cursor: not-allowed;
+	filter: grayscale(.45);
+	opacity: .56;
+}
+
+.g-choice-copy {
+	display: grid;
+	gap: .22rem;
+	min-width: 0;
+}
+
+.g-choice-title {
+	color: var(--g-text);
+	font-weight: 840;
+	line-height: 1.3;
+}
+
+.g-choice-detail {
+	color: var(--g-muted);
+	font-size: .78rem;
+	line-height: 1.45;
+}
+
+.g-choice-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+	gap: .65rem;
+}
+
+@media (hover: hover) {
+	.g-choice-card:hover:not(:has(input:disabled)) {
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-choice-card {
+		transition: none;
+	}
+}

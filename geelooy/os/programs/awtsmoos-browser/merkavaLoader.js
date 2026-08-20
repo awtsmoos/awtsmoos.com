@@ -3,15 +3,15 @@
 //Blessed is He
 
 const BASE = "/scripts/awtsmoos/MerkavaExecutor/merkava-browser/";
-const BUILD_ID = "2026-07-14-universal-browser-3";
+const BUILD_ID = "2026-08-20-routed-fetch-1";
 const MODULES = Object.freeze([
 	"VirtualBytes", "VirtualStyleDeclaration", "VirtualClassList", "VirtualEvents",
 	"VirtualHtmlSerializer", "VirtualWebGLTextureArena", "VirtualPath2D",
 	"VirtualCanvas2DContext", "VirtualWebGLContext", "VirtualElement",
 	"VirtualFontGlyphs", "VirtualFontMetrics", "VirtualFontAtlas",
 	"CssColorResolver", "CssValueResolver", "VirtualCssEngine", "VirtualDocument",
-	"VirtualStorage", "VirtualConsole", "VirtualFetchHelpers", "VirtualFetch",
-	"VirtualMouse", "VirtualKeyboard", "VirtualInteractions", "RuntimeProbe",
+	"VirtualStorage", "VirtualConsole", "VirtualFetchHelpers", "VirtualFetchTransport",
+	"VirtualFetch", "VirtualMouse", "VirtualKeyboard", "VirtualInteractions", "RuntimeProbe",
 	"VirtualImagePaintResolver", "VirtualWebGLBoxRenderer", "RuntimeLog",
 	"RetainedLayoutEngine", "BrowserRenderPipeline", "VirtualOffscreenCanvas",
 	"VirtualWorker", "VirtualAudioDevices", "VirtualWindowMedia",

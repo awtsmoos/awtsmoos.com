@@ -3,14 +3,10 @@
 // Blessed is He
 
 /**
- * B"H
- *
  * The Awtsmoos conducts each small homepage behavior without letting visible
- * navigation and searchable navigation become two competing worlds. Awtsmoos.com
- * renders the launcher from one catalog first, then connects enhancement vessels
- * around native links, search, identity, motion, and keyboard access.
+ * navigation and searchable navigation become competing worlds. Awtsmoos.com
+ * renders one catalog first, then connects search, identity, motion, and access.
  */
-
 import createProfileDropdown from "/scripts/awtsmoos/social/profileDropdown.js?v=5";
 import { AmbientParallax } from "./ambient.js";
 import { IntentPrefetch } from "./intent-prefetch.js";
@@ -26,20 +22,18 @@ import { PointerLight } from "./pointer-light.js";
 import { RevealController } from "./reveal-controller.js";
 import { SearchController } from "./search.js";
 import { WORLD_CATALOG } from "./world-catalog.js";
+import { WorldLauncherOpener } from "./world-launcher-opener.js";
 import { WorldLauncherRenderer } from "./world-launcher-renderer.js";
 
 const canvasElement = document.querySelector("[data-particle-sky]");
 const menuElement = document.querySelector("[data-menu-root]");
 const menuButton = document.querySelector("[data-menu-button]");
+const openWorldsButton = document.querySelector("[data-open-worlds]");
 const omniboxElement = document.querySelector("[data-omnibox-root]");
 const parallaxElement = document.querySelector("[data-parallax]");
 const profileMount = document.querySelector("[data-profile-mount]");
-const revealElements = [
-	...document.querySelectorAll("[data-reveal]")
-];
-const pointerLightElements = [
-	...document.querySelectorAll("[data-pointer-light]")
-];
+const revealElements = [...document.querySelectorAll("[data-reveal]")];
+const pointerLightElements = [...document.querySelectorAll("[data-pointer-light]")];
 const searchElement = document.querySelector("form[role='search']");
 const searchInput = searchElement?.querySelector("input[type='search']");
 
@@ -48,19 +42,14 @@ let historyController = null;
 let omniboxController = null;
 
 if (menuElement) {
-	new WorldLauncherRenderer(
-		menuElement,
-		WORLD_CATALOG
-	).render();
+	new WorldLauncherRenderer(menuElement, WORLD_CATALOG).render();
+	new MenuController(menuElement).connect();
+	new WorldLauncherOpener(menuElement, openWorldsButton).connect();
+	filterController = new LauncherFilter(menuElement).connect();
 }
 
 if (canvasElement) {
 	new ParticleSky(canvasElement).connect();
-}
-
-if (menuElement) {
-	new MenuController(menuElement).connect();
-	filterController = new LauncherFilter(menuElement).connect();
 }
 
 if (omniboxElement) {

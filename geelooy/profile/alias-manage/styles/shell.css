@@ -2,66 +2,112 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives identity creation a deliberate chamber with one readable
- * surface, clear return path, and disciplined geometry on Awtsmoos.com. Every
- * descendant participates in border-box sizing so narrow vessels never spill.
+ * The Awtsmoos gives identity creation a two-zone studio instead of a form pile;
+ * Awtsmoos.com keeps the editing vessel wide, calm, and anchored to one clear path.
  */
-
-.container,
-.container * {
+.alias-studio,
+.alias-studio * {
 	box-sizing: border-box;
 }
 
-.container {
-	inline-size: min(calc(100% - 1.5rem), 42rem);
-	max-inline-size: 100%;
-	margin: clamp(1rem, 5vw, 4rem) auto;
-	padding: clamp(1rem, 4vw, 2rem);
-	overflow: clip;
-	border: 1px solid rgba(125, 214, 229, .24);
-	border-radius: 1.25rem;
-	background: linear-gradient(145deg, #101927, #0b121d);
-	box-shadow: 0 1.25rem 3.5rem rgba(0, 0, 0, .34);
-	color: #f3f7fc;
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+.alias-studio {
+	width: min(100%, 72rem);
+	margin-inline: auto;
+	color: var(--g-text, #f4f7fb);
 }
 
-.container > a {
+.alias-studio-header {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 14px;
+	align-items: start;
+	margin-bottom: 14px;
+}
+
+.alias-back {
 	display: inline-flex;
+	min-height: 44px;
 	align-items: center;
-	gap: .45rem;
-	min-block-size: 44px;
-	padding: .58rem .8rem;
-	border: 1px solid rgba(255, 255, 255, .12);
-	border-radius: .72rem;
-	background: #172333;
-	color: #a7e8f1;
-	font-weight: 780;
+	gap: 7px;
+	padding: 8px 11px;
+	border: 1px solid var(--g-line, rgba(255, 255, 255, .14));
+	border-radius: 12px;
+	background: var(--g-surface-2, #111b2a);
+	color: var(--g-text, #f4f7fb);
+	font-weight: 800;
 	text-decoration: none;
-	transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+	transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
 }
 
-.container > a:is(:hover, :focus-visible) {
-	border-color: rgba(97, 203, 217, .5);
-	background: #1b2a3b;
+.alias-back:is(:hover, :focus-visible) {
+	border-color: var(--g-cyan, #61cbd9);
+	background: color-mix(in srgb, var(--g-cyan, #61cbd9) 9%, var(--g-surface-2, #111b2a));
 	transform: translateY(-1px);
 }
 
-.container h1 {
-	margin: 1.25rem 0 1.5rem;
-	color: #f7f9fd;
-	font-size: clamp(1.55rem, 5vw, 2.3rem);
-	line-height: 1.08;
-	letter-spacing: -.035em;
+.alias-back:active {
+	transform: translateY(1px) scale(.98);
+}
+
+.alias-heading-copy {
+	display: grid;
+	gap: 5px;
+}
+
+.alias-heading-copy h1 {
+	margin: 0;
+	font-size: clamp(1.75rem, 4vw, 2.8rem);
+	line-height: 1.05;
+	letter-spacing: -.04em;
+}
+
+.alias-heading-copy p {
+	max-width: 48rem;
+	margin: 0;
+	color: var(--g-muted, #9aacbf);
+	line-height: 1.55;
+}
+
+.alias-kicker {
+	color: var(--g-cyan, #61cbd9);
+	font-size: .69rem;
+	font-weight: 850;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+}
+
+.alias-studio-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1.25fr) minmax(17rem, .75fr);
+	gap: 14px;
+	align-items: start;
+}
+
+.alias-editor-card,
+.alias-preview-panel {
+	border: 1px solid var(--g-line, rgba(255, 255, 255, .14));
+	border-radius: 18px;
+	background: color-mix(in srgb, var(--g-surface, #0b1422) 96%, transparent);
+	box-shadow: var(--g-shadow-float, 0 20px 50px rgba(0, 0, 0, .3));
+}
+
+.alias-editor-card {
+	padding: clamp(14px, 3vw, 22px);
+}
+
+.alias-section-title {
+	margin: 0 0 12px;
+	font-size: 1rem;
 }
 
 #alias-form {
 	display: grid;
-	gap: .6rem;
-	min-inline-size: 0;
-	text-align: start;
+	gap: 11px;
+	min-width: 0;
 }
 
-#alias-form br {
-	display: none;
+@media (prefers-reduced-motion: reduce) {
+	.alias-back {
+		transition: none;
+	}
 }

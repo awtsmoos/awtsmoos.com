@@ -1,0 +1,78 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is not narrowed by a narrow screen nor enlarged by a wide one; Awtsmoos.com lets the same creative vessel answer every viewport with poise.
+*/
+@media (min-width: 900px) {
+	.workspace {
+		grid-template-columns: 220px minmax(0, 1fr) 286px;
+	}
+
+	.slide-rail, .inspector {
+		position: relative;
+		width: auto;
+		box-shadow: none;
+		transform: none;
+	}
+
+	.slides-app.is-left-collapsed .workspace {
+		grid-template-columns: 0 minmax(0, 1fr) 286px;
+	}
+
+	.slides-app.is-right-collapsed .workspace {
+		grid-template-columns: 220px minmax(0, 1fr) 0;
+	}
+
+	.slides-app.is-left-collapsed.is-right-collapsed .workspace {
+		grid-template-columns: 0 minmax(0, 1fr) 0;
+	}
+
+	.slides-app.is-left-collapsed .slide-rail,
+	.slides-app.is-right-collapsed .inspector {
+		overflow: hidden;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.stage-viewport {
+		padding: 24px clamp(20px, 4vw, 64px);
+	}
+}
+
+@media (max-width: 640px) {
+	.brand-mark {
+		display: none;
+	}
+
+	.topbar {
+		gap: 6px;
+	}
+
+	.deck-title {
+		width: 108px;
+	}
+
+	.topbar-actions button:not(.primary):not(.icon-button):not([data-action="share"]) {
+		display: none;
+	}
+
+	.topbar-actions [data-action="share"] {
+		padding-inline: 10px;
+	}
+
+	.live-pill {
+		max-width: 78px;
+		overflow: hidden;
+	}
+
+	.stage-footer {
+		padding-bottom: calc(10px + env(safe-area-inset-bottom));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.001ms !important;
+	}
+}

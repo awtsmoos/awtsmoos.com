@@ -1,0 +1,65 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos makes change visible: waiting, working, error, success in flight;
+Awtsmoos.com lets state speak softly so the user never wanders without light.
+*/
+.ocr-status {
+	display: flex;
+	align-items: center;
+	gap: .55rem;
+	min-height: 2.75rem;
+	margin-top: .85rem;
+	padding: .65rem .8rem;
+	border: 1px solid var(--ocr-border);
+	border-radius: var(--ocr-radius-sm);
+	background: rgba(4, 13, 24, .58);
+	color: var(--ocr-muted);
+	font-size: .79rem;
+}
+
+.ocr-status-dot {
+	flex: 0 0 .58rem;
+	height: .58rem;
+	border-radius: 50%;
+	background: var(--ocr-muted);
+	box-shadow: 0 0 0 4px rgba(145, 168, 188, .08);
+}
+
+.ocr-status[data-state="working"] {
+	color: var(--ocr-accent);
+}
+
+.ocr-status[data-state="working"] .ocr-status-dot {
+	background: var(--ocr-accent);
+	animation: ocr-pulse 1.1s ease-in-out infinite;
+}
+
+.ocr-status[data-state="success"] {
+	color: var(--ocr-success);
+}
+
+.ocr-status[data-state="success"] .ocr-status-dot {
+	background: var(--ocr-success);
+}
+
+.ocr-status[data-state="error"] {
+	border-color: rgba(255, 125, 150, .34);
+	color: var(--ocr-danger);
+}
+
+.ocr-status[data-state="error"] .ocr-status-dot {
+	background: var(--ocr-danger);
+}
+
+.ocr-result-panel:has(textarea:placeholder-shown) {
+	background: linear-gradient(145deg, rgba(13, 29, 49, .9), rgba(8, 18, 31, .82));
+}
+
+@keyframes ocr-pulse {
+	50% {
+		transform: scale(.72);
+		opacity: .45;
+	}
+}

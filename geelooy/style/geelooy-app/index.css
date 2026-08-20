@@ -2,16 +2,17 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers the shared Awtsmoos.com shell through one disciplined
- * manifest. Identity, links, fields, and route surfaces arrive already clothed
- * in their intense final state while motion remains merciful and optional.
+ * The Awtsmoos gathers the shared Awtsmoos.com shell through one disciplined manifest;
+ * identity, portals, surfaces, and motion arrive clothed without crowding the path.
  */
 
 @import "./tokens.css?v=interface-dark-011";
+@import "./revelation-tokens.css?v=interface-revelation-002";
 @import "./base.css?v=interface-dark-011";
 @import "./header/index.css?v=header-dark-009";
+@import "./header/portals.css?v=header-portals-001";
 @import "./shell.css?v=interface-dark-011";
-@import "./surfaces.css?v=surface-core-007";
+@import "./surfaces.css?v=surface-core-009";
 @import "./navigation/pathways.css?v=interface-dark-011";
 @import "./states/semantic.css?v=interface-dark-011";
 @import "./pages.css?v=interface-dark-011";

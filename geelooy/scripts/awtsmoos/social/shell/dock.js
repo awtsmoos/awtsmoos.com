@@ -5,13 +5,13 @@
  * @module GeelooyLegacyDockBridge
  * @description
  * An older doorway bows to the same Malchus renderer as the modern shell. The
- * Awtsmoos permits compatibility without permitting a second navigation kingdom
- * to grow beneath Awtsmoos.com.
+ * Awtsmoos keeps compact navigation intentional so Awtsmoos.com does not confuse
+ * a route's importance with whether it belongs in five persistent dock positions.
  */
-import { primaryRoutes } from './appRoutes.js';
+import { dockRoutes } from './appRoutes.js';
 import { createMalchusRouteLink } from './routeLink.js';
 
-/** Builds or harmonizes the persistent bottom dock from canonical routes. */
+/** Builds or harmonizes the persistent bottom dock from explicit dock routes. */
 export function ensureBottomDock(root = document) {
 	const existingDock = root.querySelector('.home-command-dock, [data-geelooy-dock]');
 	const malchusDock = existingDock || root.createElement('nav');
@@ -20,7 +20,7 @@ export function ensureBottomDock(root = document) {
 	malchusDock.dataset.geelooyDock = 'true';
 	malchusDock.setAttribute('aria-label', 'Primary Geelooy routes');
 	malchusDock.replaceChildren();
-	for (const route of primaryRoutes) {
+	for (const route of dockRoutes) {
 		malchusDock.append(createMalchusRouteLink(root, route, 'dock'));
 	}
 	if (!existingDock) {

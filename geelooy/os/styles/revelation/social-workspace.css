@@ -1,0 +1,148 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos turns one social document into a chamber of reading and action;
+ * Awtsmoos.com keeps embed, context, and editing aligned without visual collision or distraction.
+ */
+.geelooy-social-workspace {
+	display: grid;
+	grid-template-rows: auto auto minmax(18rem, 1fr);
+	gap: .75rem;
+	inline-size: 100%;
+	block-size: 100%;
+	min-block-size: 28rem;
+	padding: .8rem;
+	background: radial-gradient(circle at 10% 0%, rgba(121, 232, 255, .09), transparent 28%), #07101f;
+	color: #f7fbff;
+}
+
+.geelooy-social-workspace *,
+.geelooy-social-workspace *::before,
+.geelooy-social-workspace *::after {
+	box-sizing: border-box;
+}
+
+.geelooy-social-workspace__header,
+.geelooy-social-workspace__actions,
+.geelooy-social-workspace__frame-shell {
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 1rem;
+	background: rgba(8, 18, 36, .88);
+	box-shadow: 0 .9rem 2.5rem rgba(0, 0, 0, .22);
+}
+
+.geelooy-social-workspace__header {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 1rem;
+	padding: .9rem;
+	align-items: end;
+}
+
+.geelooy-social-workspace__copy small {
+	color: #79e8ff;
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .13em;
+}
+
+.geelooy-social-workspace__copy h2,
+.geelooy-social-workspace__copy p {
+	margin: .18rem 0 0;
+}
+
+.geelooy-social-workspace__copy p,
+.geelooy-social-workspace__breadcrumbs {
+	color: rgba(235, 243, 255, .68);
+	line-height: 1.45;
+}
+
+.geelooy-social-workspace__breadcrumbs {
+	display: flex;
+	gap: .35rem;
+	flex-wrap: wrap;
+	justify-content: end;
+}
+
+.geelooy-social-workspace__breadcrumbs span {
+	padding: .3rem .5rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .06);
+}
+
+.geelooy-social-workspace__actions {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+	gap: .5rem;
+	padding: .55rem;
+}
+
+.geelooy-social-workspace__action {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: .55rem;
+	align-items: center;
+	min-block-size: 3.25rem;
+	padding: .6rem .7rem;
+	border: 1px solid rgba(255, 255, 255, .1);
+	border-radius: .8rem;
+	background: rgba(255, 255, 255, .045);
+	color: #fff;
+	text-decoration: none;
+	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.geelooy-social-workspace__action-copy {
+	display: grid;
+	min-inline-size: 0;
+}
+
+.geelooy-social-workspace__action-copy small {
+	color: rgba(235, 243, 255, .6);
+}
+
+.geelooy-social-workspace__action:is(:hover, :focus-visible) {
+	transform: translateY(-2px);
+	border-color: #79e8ff;
+	background: rgba(121, 232, 255, .08);
+}
+
+.geelooy-social-workspace__action:focus-visible {
+	outline: 3px solid rgba(121, 232, 255, .3);
+	outline-offset: 2px;
+}
+
+.geelooy-social-workspace__frame-shell {
+	overflow: hidden;
+	min-block-size: 0;
+}
+
+.geelooy-social-workspace__frame {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	min-block-size: 22rem;
+	border: 0;
+	background: #fff;
+}
+
+@media (max-width: 680px) {
+	.geelooy-social-workspace {
+		padding: .45rem;
+		grid-template-rows: auto auto minmax(20rem, 1fr);
+	}
+	.geelooy-social-workspace__header {
+		grid-template-columns: 1fr;
+	}
+	.geelooy-social-workspace__breadcrumbs {
+		justify-content: start;
+		overflow-x: auto;
+		flex-wrap: nowrap;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-social-workspace__action {
+		transition: none;
+	}
+}

@@ -1,38 +1,57 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
-
-import { ensureProgramStyles } from "../shared/programStyles.js";
-import { createBrowserController, defaultGuestMarkup } from "./runtime.js";
-import { createBrowserSurface } from "./surface.js";
-
-const STYLE_ID = "awtsmoos-merkava-browser-styles";
-const STYLE_URL = "/os/programs/awtsmoos-browser/style.css";
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Opens the custom Merkava/Fusion DOM browser inside Geelooy OS. The Awtsmoos
- * creates program surface and guest universe anew; Awtsmoos.com binds no iframe,
- * eval, Function constructor, or product-specific screenshot to this window.
+ * @module AwtsmoosBrowserProgram
+ * @description The Awtsmoos reveals one browser with local Merkava and living Chromium faces;
+ * Awtsmoos.com keeps remote secrets server-side while OAuth children remain inside OS spaces.
  */
+
+import { ensureProgramStyles } from "../shared/programStyles.js";
+import { createBrowserNavigationCoordinator } from "./browserNavigationCoordinator.js";
+import { createBrowserController, defaultGuestMarkup } from "./runtime.js";
+import { createRemoteBrowserSurface } from "./remoteSurface.js";
+import { createBrowserSurface } from "./surface.js";
+
+const BROWSER_STYLES = Object.freeze([
+	["awtsmoos-merkava-browser-styles", "/os/programs/awtsmoos-browser/style.css"],
+	["awtsmoos-merkava-browser-remote-styles", "/os/programs/awtsmoos-browser/remote.css"]
+]);
+
 export default function createAwtsmoosBrowser(options = {}) {
 	ensureProgramStyles();
 	ensureBrowserStyles();
 	const surface = createBrowserSurface();
+	const remoteSurface = createRemoteBrowserSurface(surface);
 	surface.editor.value = textContent(options.content) || defaultGuestMarkup();
 	let controller = null;
+	let navigation = null;
 	const render = () => controller?.render(surface.editor.value);
 	const selfHost = () => controller?.selfHost(Number(surface.depth.value || 0));
 	surface.renderButton.addEventListener("click", render);
 	surface.selfHostButton.addEventListener("click", selfHost);
-	surface.address.addEventListener("keydown", event => {
-		if (event.key === "Enter") {
-			render();
-		}
-	});
 
 	createBrowserController(surface, options).then(value => {
 		controller = value;
 		controller.render(surface.editor.value);
+		navigation = createBrowserNavigationCoordinator({
+			aliasId: options.aliasId,
+			jarId: options.jarId,
+			content: objectContent(options.content),
+			browserSurface: surface,
+			remoteSurface,
+			os: options.os || options.system,
+			renderLocal: render,
+			fallbackOptions: {
+				aliasId: options.aliasId,
+				jarId: options.jarId,
+				projectId: options.projectId,
+				remoteSurface,
+				browserSurface: surface,
+				render: markup => controller.render(markup)
+			}
+		});
 	}).catch(error => {
 		surface.metrics.textContent = browserFailureReport(error);
 	});
@@ -40,6 +59,7 @@ export default function createAwtsmoosBrowser(options = {}) {
 	return {
 		div: surface.root,
 		onclose() {
+			navigation?.destroy();
 			surface.renderButton.removeEventListener("click", render);
 			surface.selfHostButton.removeEventListener("click", selfHost);
 		},
@@ -50,21 +70,23 @@ export default function createAwtsmoosBrowser(options = {}) {
 }
 
 function ensureBrowserStyles(documentObject = document) {
-	if (documentObject.getElementById(STYLE_ID)) {
-		return;
+	for (const [id, href] of BROWSER_STYLES) {
+		if (documentObject.getElementById(id)) continue;
+		const link = documentObject.createElement("link");
+		link.id = id;
+		link.rel = "stylesheet";
+		link.href = href;
+		documentObject.head.appendChild(link);
 	}
-	const link = documentObject.createElement("link");
-	link.id = STYLE_ID;
-	link.rel = "stylesheet";
-	link.href = STYLE_URL;
-	documentObject.head.appendChild(link);
 }
 
 function textContent(content) {
-	if (typeof content === "string") {
-		return content;
-	}
+	if (typeof content === "string") return content;
 	return content?.content || "";
+}
+
+function objectContent(content) {
+	return content && typeof content === "object" ? content : null;
 }
 
 function browserFailureReport(error) {

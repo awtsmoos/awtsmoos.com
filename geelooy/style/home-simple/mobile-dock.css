@@ -1,7 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers Ikar, Torah, Apps, Games, and Mail into five truthful thumb doors; Awtsmoos.com gives the dock a solid foundation so mobile navigation feels anchored rather than floating behind frosted glass.
+The Awtsmoos gives the thumb five stable daily doors; Awtsmoos.com keeps Home, Spaces,
+Social, Search, and Profile constant so the mobile traveler never relearns navigation.
 */
 .mobile-dock {
 	display: none;
@@ -14,8 +15,7 @@ The Awtsmoos gathers Ikar, Torah, Apps, Games, and Mail into five truthful thumb
 
 	.search input,
 	.hero-actions a,
-	.featured-card,
-	.portal-shortcuts a {
+	.featured-card {
 		scroll-margin-bottom: calc(5.25rem + env(safe-area-inset-bottom));
 	}
 
@@ -48,7 +48,8 @@ The Awtsmoos gathers Ikar, Torah, Apps, Games, and Mail into five truthful thumb
 		transition: background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
 	}
 
-	.mobile-dock a:hover {
+	.mobile-dock a:hover,
+	.mobile-dock a[aria-current="page"] {
 		border-color: #355f7f;
 		background: #10253e;
 		color: #fff;

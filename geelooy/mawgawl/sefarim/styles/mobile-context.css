@@ -1,0 +1,30 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos places secondary search context beside the living source path;
+ * Awtsmoos.com keeps lanes, history, and guidance reachable without a vertical wall.
+ */
+@media (max-width: 42rem) {
+	.library-discovery-rail {
+		grid-template-columns: none;
+		grid-auto-flow: column;
+		grid-auto-columns: min(86vw, 21rem);
+		align-items: start;
+		overflow-x: auto;
+		overflow-y: hidden;
+		padding-bottom: .45rem;
+		overscroll-behavior-inline: contain;
+		scroll-snap-type: x proximity;
+		scrollbar-width: thin;
+	}
+
+	.library-rail-card {
+		align-content: start;
+		scroll-snap-align: start;
+	}
+
+	.library-tip-card {
+		grid-column: auto;
+	}
+}

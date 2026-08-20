@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps advanced discussion context available without crowding the
+ * human reply; Awtsmoos.com gives that secondary gate restrained light and motion.
+ */
+.comment-composer-advanced {
+	overflow: clip;
+	border: 1px solid rgba(15, 118, 110, .18);
+	border-radius: .95rem;
+	background: linear-gradient(145deg, rgba(240, 253, 250, .9), rgba(248, 250, 252, .96));
+}
+
+.comment-composer-advanced-summary {
+	display: flex;
+	align-items: center;
+	gap: .7rem;
+	min-height: 44px;
+	padding: .62rem .75rem;
+	cursor: pointer;
+	list-style: none;
+}
+
+.comment-composer-advanced-summary::-webkit-details-marker {
+	display: none;
+}
+
+.comment-composer-advanced-copy {
+	display: grid;
+	gap: .08rem;
+}
+
+.comment-composer-advanced-copy small {
+	color: #64748b;
+	font-size: .72rem;
+}
+
+.comment-composer-advanced-glyph {
+	margin-left: auto;
+	color: #0f766e;
+	font-weight: 900;
+	transition: transform .2s ease;
+}
+
+.comment-composer-advanced[open] .comment-composer-advanced-glyph {
+	transform: rotate(45deg);
+}
+
+.comment-composer-advanced-body {
+	display: grid;
+	gap: .65rem;
+	padding: 0 .75rem .75rem;
+	animation: comment-advanced-reveal .18s ease-out both;
+}
+
+@keyframes comment-advanced-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-.2rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.comment-composer-advanced-glyph {
+		transition: none;
+	}
+	.comment-composer-advanced-body {
+		animation: none;
+	}
+}

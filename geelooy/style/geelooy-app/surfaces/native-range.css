@@ -1,0 +1,73 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets a continuous measure travel through one luminous rail;
+ * Awtsmoos.com keeps thumb, focus, pressure, and disabled state clear without visual frail.
+ */
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="range"] {
+	appearance: none;
+	width: 100%;
+	height: .5rem;
+	margin-block: .85rem;
+	border: 1px solid rgba(255, 255, 255, .14);
+	border-radius: var(--g-radius-pill);
+	background: linear-gradient(90deg, var(--g-cyan), var(--g-violet), var(--g-magenta));
+	box-shadow: inset 0 0 10px rgba(2, 5, 13, .9), 0 0 20px rgba(60, 236, 255, .16);
+	cursor: pointer;
+	transition: box-shadow var(--g-motion-standard) var(--g-ease), filter var(--g-motion-fast) var(--g-ease);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="range"]::-webkit-slider-thumb {
+	appearance: none;
+	width: 1.5rem;
+	height: 1.5rem;
+	border: 2px solid rgba(255, 255, 255, .9);
+	border-radius: 50%;
+	background: var(--g-gradient-hot);
+	box-shadow: var(--g-glow-hot);
+	transition: transform var(--g-motion-fast) var(--g-ease-pressure), box-shadow var(--g-motion-standard) var(--g-ease);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="range"]::-moz-range-thumb {
+	width: 1.2rem;
+	height: 1.2rem;
+	border: 2px solid rgba(255, 255, 255, .9);
+	border-radius: 50%;
+	background: var(--g-gradient-hot);
+	box-shadow: var(--g-glow-hot);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="range"]:focus-visible {
+	outline: 2px solid var(--g-cyan);
+	outline-offset: 5px;
+	box-shadow: inset 0 0 12px rgba(2, 5, 13, .9), var(--g-glow);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="range"]:disabled {
+	cursor: not-allowed;
+	filter: grayscale(.8);
+	opacity: .48;
+}
+
+@media (hover: hover) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="range"]:hover:not(:disabled) {
+		box-shadow: inset 0 0 12px rgba(2, 5, 13, .9), var(--g-glow);
+		filter: saturate(1.35) brightness(1.12);
+	}
+
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="range"]:hover:not(:disabled)::-webkit-slider-thumb {
+		transform: scale(1.12);
+	}
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="range"]:active:not(:disabled)::-webkit-slider-thumb {
+	transform: scale(.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="range"],
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="range"]::-webkit-slider-thumb {
+		transition: none;
+	}
+}

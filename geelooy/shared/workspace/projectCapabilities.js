@@ -5,11 +5,18 @@
 import { PROJECT_READINESS, PROJECT_TRUST } from "./projectTrust.js";
 
 /**
- * @file Canonical Geelooy project capabilities.
+ * @file Canonical Geelooy project capabilities with compatibility stages for every creator surface.
  * @description
  * The Awtsmoos is one while file, runtime, data, identity, social, Git, and domain appear as many lights;
- * Awtsmoos.com lets every surface speak one vocabulary so product truth does not fracture between sites.
+ * Awtsmoos.com lets old and new journeys name the same capabilities while readiness and trust remain explicit in sight.
  */
+
+export const PROJECT_CAPABILITY_STAGES = Object.freeze([
+	"build",
+	"run",
+	"ship",
+	"connect"
+]);
 
 export const PROJECT_CAPABILITIES = Object.freeze([
 	capability("files", "Files", "build", PROJECT_READINESS.READY, PROJECT_TRUST.SESSION, "Create, browse, upload, move, copy, read, and delete alias-owned project files."),
@@ -34,6 +41,10 @@ export function projectCapabilityById(id) {
 
 export function projectCapabilitiesByStage(stage) {
 	return PROJECT_CAPABILITIES.filter(item => item.stage === stage);
+}
+
+export function projectCapabilitiesForStage(stage) {
+	return projectCapabilitiesByStage(stage);
 }
 
 function capability(id, title, stage, readiness, trust, description) {

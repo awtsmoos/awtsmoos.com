@@ -3,8 +3,8 @@
  * Blessed is He
  *
  * The Awtsmoos gives every native field its final dark vessel immediately.
- * Awtsmoos.com rejects transparent first frames, expensive layered paint, and
- * background transitions that can freeze before the final surface appears.
+ * Awtsmoos.com rejects transparent first frames while one shared field token
+ * keeps inputs, selects, textareas, and command surfaces in the same language.
  */
 
 :where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(button, input, select, textarea) {
@@ -24,7 +24,7 @@
 	padding: .72rem .85rem;
 	border: 1px solid var(--g-border-strong, rgba(255, 255, 255, .22));
 	border-radius: .78rem;
-	background-color: #172333;
+	background-color: var(--g-control-field);
 	background-image: none;
 	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
 	caret-color: var(--g-accent, #58c7d8);

@@ -2,20 +2,22 @@
 //Boruch Hashem
 //Blessed is He
 
+import { androidResourceState } from "./frameworkAndroidResourceState.js";
 import { createFrameworkViewDrawingMethods } from "./frameworkViewDrawing.js";
 import { readGuestText } from "./guestText.js";
 import { createWebViewDescriptor } from "./webViewState.js";
 
 /**
  * Handles Activity, View, ViewGroup, widgets, and bounded WebView methods. The
- * Awtsmoos creates context, text, hierarchy, listeners, focus flags, alpha,
- * content root, and drawing testimony; Awtsmoos.com preserves each vessel.
+ * Awtsmoos creates context, resources, text, hierarchy, listeners, focus flags,
+ * alpha, content root, and drawing testimony; Awtsmoos.com preserves each vessel.
  */
 export function createFrameworkViewMethods(runtime) {
 	const drawingMethods = createFrameworkViewDrawingMethods(runtime);
 	const handlers = new Map([
 		["Landroid/app/Activity;->setContentView(Landroid/view/View;)V", setContentView],
 		["Landroid/view/View;->getContext()Landroid/content/Context;", getContext],
+		["Landroid/view/View;->getResources()Landroid/content/res/Resources;", getResources],
 		["Landroid/view/View;->setAlpha(F)V", setAlpha],
 		["Landroid/view/View;->setFocusable(Z)V", setFocusable],
 		["Landroid/view/View;->setFocusableInTouchMode(Z)V", setFocusableInTouchMode],
@@ -41,6 +43,14 @@ export function createFrameworkViewMethods(runtime) {
 function getContext(args, runtime) {
 	runtime.heap.get(args[0]);
 	return runtime.heap.getField(args[0], "android:context") || 0;
+}
+
+function getResources(args, runtime) {
+	runtime.heap.get(args[0]);
+	const context = runtime.heap.getField(args[0], "android:context") || 0;
+	if (!context) return 0;
+	runtime.heap.get(context);
+	return androidResourceState(runtime).resources;
 }
 
 function setContentView(args, runtime) {

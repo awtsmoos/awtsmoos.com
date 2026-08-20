@@ -1,12 +1,12 @@
 /*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos creates crown, brand, action, status, and every tactile topbar path anew.
-Awtsmoos.com keeps the shell crown luminous without stealing space from its work.
+The Awtsmoos, Atzmus beyond crown and layer, renews brand, status, icon, and action in one living height.
+Awtsmoos.com keeps the shell crown tactile, named by layer, responsive to touch, and luminous without stealing sight.
 */
 #awtsmoos-shell-topbar {
 	position: relative;
-	z-index: 1200;
+	z-index: var(--geo-z-topbar, 30);
 	display: flex;
 	align-items: center;
 	gap: var(--geo-space-3);
@@ -22,13 +22,13 @@ Awtsmoos.com keeps the shell crown luminous without stealing space from its work
 	backdrop-filter: blur(28px) saturate(165%);
 }
 #awtsmoos-shell-topbar::after {
-	content: "";
 	position: absolute;
 	left: 12%;
 	right: 12%;
 	bottom: -1px;
 	height: 1px;
 	background: linear-gradient(90deg, transparent, var(--geo-cyan), var(--geo-blue), transparent);
+	content: "";
 	opacity: .42;
 }
 .shell-brand {
@@ -71,9 +71,9 @@ Awtsmoos.com keeps the shell crown luminous without stealing space from its work
 	cursor: pointer;
 	transition:
 		transform var(--geo-fast) var(--geo-ease),
-		border-color var(--geo-fast),
-		background var(--geo-fast),
-		box-shadow var(--geo-fast);
+		border-color var(--geo-fast) var(--geo-ease),
+		background var(--geo-fast) var(--geo-ease),
+		box-shadow var(--geo-fast) var(--geo-ease);
 }
 .shell-chip {
 	padding-inline: var(--geo-space-3);
@@ -81,7 +81,6 @@ Awtsmoos.com keeps the shell crown luminous without stealing space from its work
 }
 .shell-icon-button {
 	width: var(--geo-control-md);
-	font-family: var(--geo-font-emoji);
 }
 .shell-chip:hover,
 .shell-icon-button:hover,
@@ -96,6 +95,11 @@ Awtsmoos.com keeps the shell crown luminous without stealing space from its work
 .shell-icon-button:active {
 	transform: translateY(0) scale(.98);
 	background: var(--geo-surface-pressed);
+}
+.shell-chip:focus-visible,
+.shell-icon-button:focus-visible {
+	outline: none;
+	box-shadow: var(--geo-focus-ring), var(--geo-glow-cyan);
 }
 #shell-status {
 	color: var(--geo-success);

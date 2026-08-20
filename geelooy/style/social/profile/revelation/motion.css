@@ -1,0 +1,68 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews motion without making motion the master;
+ * Awtsmoos.com lets focus, hover, and opening feel alive, then yields when stillness is faster.
+ */
+.profile-app .profile-destination,
+.profile-app .profile-archive-mode,
+.profile-app .profile-social-pill,
+.profile-app .profile-hero-action,
+.profile-app .profile-about-action,
+.profile-app .profile-contribution-card,
+.profile-app .profile-context-card,
+.profile-app .profile-activity-item,
+.profile-app .profile-rich-link {
+	transition:
+		transform var(--profile-fast) ease,
+		box-shadow var(--profile-medium) ease,
+		border-color var(--profile-fast) ease,
+		background-color var(--profile-fast) ease;
+}
+
+.profile-app .profile-destination:hover,
+.profile-app .profile-archive-mode:hover,
+.profile-app .profile-social-pill:hover,
+.profile-app .profile-hero-action:hover,
+.profile-app .profile-about-action:hover,
+.profile-app .profile-contribution-card:hover,
+.profile-app .profile-context-card:hover,
+.profile-app .profile-activity-item:hover,
+.profile-app .profile-rich-link:hover {
+	transform: translateY(-2px);
+	box-shadow: var(--profile-shadow-hover);
+}
+
+.profile-app .profile-destination:active,
+.profile-app .profile-archive-mode:active,
+.profile-app .profile-social-pill:active,
+.profile-app .profile-hero-action:active,
+.profile-app .profile-about-action:active {
+	transform: translateY(0) scale(.985);
+}
+
+.profile-app .profile-archive-group[open] > .profile-archive-group-body {
+	animation: profile-reveal var(--profile-medium) ease both;
+}
+
+@keyframes profile-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-6px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.profile-app *,
+	.profile-app *::before,
+	.profile-app *::after {
+		scroll-behavior: auto !important;
+		animation-duration: .001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .001ms !important;
+	}
+}

@@ -1,0 +1,35 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos turns configured intention into one unmistakable act of recognition and light;
+Awtsmoos.com gives the primary action enough gravity to guide the hand without dominating the sight.
+*/
+.ocr-app .ocr-primary-action {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .8rem;
+	width: 100%;
+	min-height: 3.2rem;
+	margin-top: .85rem;
+	padding: .65rem .9rem;
+	border: 1px solid var(--ocr-border-strong);
+	border-radius: .9rem;
+	background: linear-gradient(135deg, var(--ocr-accent), var(--ocr-accent-strong));
+	color: #03111d;
+	font: inherit;
+	font-weight: 900;
+	cursor: pointer;
+}
+
+.ocr-app .ocr-primary-action small {
+	font-size: .68rem;
+	font-weight: 750;
+	opacity: .72;
+}
+
+.ocr-app .ocr-primary-action:disabled {
+	opacity: .38;
+	cursor: not-allowed;
+}

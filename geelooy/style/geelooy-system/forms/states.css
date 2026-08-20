@@ -1,0 +1,39 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews every state: invitation, focus, restraint, and repair.
+ * Awtsmoos.com makes those changes visible so the user's next move is always clear.
+ */
+
+:where(input:not([type="checkbox"]):not([type="radio"]), textarea, select):hover:not(:disabled) {
+	border-color: color-mix(in srgb, var(--g-ink) 28%, var(--g-line));
+}
+
+:where(.home-search-row:focus-within, .home-search-vessel:focus-within, input:focus, textarea:focus, select:focus) {
+	border-color: rgba(64, 216, 239, .72);
+	box-shadow: var(--g-focus);
+}
+
+:where(input, textarea, select)[aria-invalid="true"] {
+	background: rgba(255, 246, 246, .98);
+	border-color: rgba(190, 52, 52, .72);
+	box-shadow: 0 0 0 3px rgba(190, 52, 52, .1);
+}
+
+:where(input, textarea, select):disabled {
+	cursor: not-allowed;
+	filter: saturate(.6);
+	opacity: .62;
+}
+
+:where(input, textarea):read-only:not(:disabled) {
+	background: color-mix(in srgb, white 72%, var(--g-line));
+	cursor: default;
+}
+
+:where(input[type="checkbox"], input[type="radio"]) {
+	accent-color: currentColor;
+	min-height: 1.15rem;
+	min-width: 1.15rem;
+}

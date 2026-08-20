@@ -4,6 +4,10 @@
 
 import { vfsNode } from "./node.js";
 import { unsupported } from "./operations.js";
+import {
+	previewDriveDescriptor,
+	previewDriveUrl
+} from "./previewDriveDescriptor.js";
 
 /**
  * B"H
@@ -65,7 +69,8 @@ function previewNode(drive) {
 		...drive,
 		readOnly: true,
 		action: "openPreview",
-		url: previewUrl(drive)
+		url: previewDriveUrl(drive),
+		descriptor: previewDriveDescriptor(drive)
 	});
 }
 
@@ -77,13 +82,8 @@ function previewMetadata(drive) {
 		path: drive.root,
 		readOnly: true,
 		action: "openPreview",
-		url: previewUrl(drive),
-		preview: drive.preview || null
+		url: previewDriveUrl(drive),
+		preview: drive.preview || null,
+		descriptor: previewDriveDescriptor(drive)
 	};
-}
-
-function previewUrl(drive) {
-	return drive.preview?.viewUrl
-		|| drive.preview?.url
-		|| `/view/${drive.preview?.id || drive.id.replace(/^preview-/, "")}`;
 }

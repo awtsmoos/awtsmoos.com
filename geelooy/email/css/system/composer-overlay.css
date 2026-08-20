@@ -1,0 +1,105 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lifts one chosen task above the mail sea; Awtsmoos.com keeps the overlay honest, dismissible, and visually free.
+*/
+.overlay {
+	position: fixed;
+	z-index: var(--g-z-dialog, 160);
+	inset: 0;
+	display: grid;
+	place-items: center;
+	padding: 20px;
+	background: rgba(2, 5, 10, .74);
+	backdrop-filter: blur(12px);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 180ms ease;
+}
+
+.overlay.visible {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.overlay.hidden {
+	display: none;
+}
+
+.modal-card {
+	width: min(620px, 100%);
+	max-height: min(90dvh, 760px);
+	overflow: auto;
+	padding: 20px;
+	border: 1px solid var(--mail-border-strong);
+	border-radius: 20px;
+	background: var(--mail-panel);
+	box-shadow: 0 24px 70px rgba(0, 0, 0, .42);
+	transform: translateY(10px) scale(.985);
+	transition: transform 180ms ease;
+}
+
+.overlay.visible .modal-card {
+	transform: translateY(0) scale(1);
+}
+
+.compose-modal-card {
+	display: grid;
+	gap: 12px;
+}
+
+.compose-modal-top,
+.compose-modal-actions {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.compose-modal-top {
+	justify-content: space-between;
+}
+
+.compose-modal-heading {
+	display: grid;
+	gap: 2px;
+}
+
+.compose-kicker {
+	color: var(--mail-accent);
+	font-size: .68rem;
+	font-weight: 850;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+
+.close-modal {
+	width: 42px;
+	height: 42px;
+	border: 1px solid var(--mail-border);
+	border-radius: 12px;
+	background: color-mix(in srgb, var(--mail-panel-strong) 82%, transparent);
+	color: var(--mail-text);
+	font-size: 1.5rem;
+	cursor: pointer;
+	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.close-modal:is(:hover, :focus-visible) {
+	border-color: var(--mail-accent);
+	background: color-mix(in srgb, var(--mail-accent) 10%, var(--mail-panel));
+}
+
+.close-modal:active {
+	transform: scale(.94);
+}
+
+.compose-modal-actions {
+	justify-content: flex-end;
+	padding-top: 2px;
+}
+
+.compose-shortcut {
+	margin-right: auto;
+	color: var(--mail-text-muted);
+	font-size: .74rem;
+}

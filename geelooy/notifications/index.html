@@ -1,7 +1,8 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals comments, mentions, submissions, and mission signals through one calm Awtsmoos.com chamber.
+The Awtsmoos, Atzmus beyond all form, gathers every signal without making attention a prison;
+Awtsmoos.com gives categories, filters, reading, and action separate vessels so each choice stays risen.
 -->
 <!doctype html>
 <html lang="en">
@@ -11,37 +12,92 @@ The Awtsmoos reveals comments, mentions, submissions, and mission signals throug
 	<meta name="description" content="Search and manage comments, mentions, submissions, mission activity, and system signals for a Geelooy alias.">
 	<meta name="theme-color" content="#07090f">
 	<title>Signals — Geelooy</title>
-	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=interface-dark-007">
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=signals-revelation-007">
 	<link rel="stylesheet" href="/style/social-system/index.css?v=social-core-005">
-	<link rel="stylesheet" href="./style.css?v=signals-revelation-001">
+	<link rel="stylesheet" href="./style.css?v=signals-revelation-007">
 </head>
-<body data-notifications-page>
-	<a class="g-sr-only" href="#list">Skip to signal list</a>
-	<main class="g-page geelooy-content-region g-page-stack" aria-labelledby="notifications-title">
-		<section class="g-panel g-page-hero" data-enter>
-			<div>
-				<p class="field-label">Signal center</p>
+<body data-notifications-page data-geelooy-route="notifications">
+	<a class="g-sr-only" href="#list">Skip to notification stream</a>
+	<main class="g-page geelooy-content-region notifications-workspace" aria-labelledby="notifications-title">
+		<section class="g-panel notifications-hero" data-enter>
+			<div class="notifications-hero-copy">
+				<span class="notifications-kicker">Signal center</span>
 				<h1 id="notifications-title">Notifications</h1>
-				<p>Comments, mentions, submissions, missions, and system activity for your selected alias.</p>
+				<p>One focused stream for replies, mentions, submissions, missions, and system activity.</p>
 			</div>
-			<button id="markAll" class="g-button" type="button" data-icon="✓">Mark all read</button>
+			<div class="notifications-hero-actions">
+				<a class="g-button notifications-mail-link" href="/email">Open Mail</a>
+				<button id="markAll" class="g-button g-button-primary" type="button">Mark all read</button>
+			</div>
 		</section>
-		<form id="filters" class="notifications-console" aria-label="Notification filters" aria-busy="false">
-			<label><span>Alias</span><input name="aliasId" autocomplete="off" placeholder="Default alias loads automatically" required></label>
-			<label><span>Search signals</span><input name="search" type="search" autocomplete="off" placeholder="Comment, mention, mission, title"></label>
-			<label><span>Type</span><select name="type"><option value="">All types</option><option value="submission_created">Submissions</option><option value="comment">Comments</option><option value="mention">Mentions</option><option value="system">System</option></select></label>
-			<button class="g-button g-button-primary" type="submit" data-icon="⌕">Load signals</button>
-		</form>
-		<section id="summary" class="notifications-summary" aria-live="polite">Finding your default alias…</section>
-		<section id="list" class="notifications-list" aria-live="polite" aria-label="Notification results">
-			<article class="notification loading-state">
-				<h2>Opening the signal stream</h2>
-				<p>Your default alias will load automatically.</p>
-			</article>
-		</section>
-		<button id="more" class="g-button" type="button" hidden data-icon="＋">Load more</button>
+		<nav class="signal-category-tabs" aria-label="Notification categories">
+			<button type="button" data-signal-type="" aria-pressed="true"><span aria-hidden="true">◎</span><strong>All</strong></button>
+			<button type="button" data-signal-type="mention" aria-pressed="false"><span aria-hidden="true">@</span><strong>Mentions</strong></button>
+			<button type="button" data-signal-type="comment" aria-pressed="false"><span aria-hidden="true">↩</span><strong>Replies</strong></button>
+			<button type="button" data-signal-type="submission_created" aria-pressed="false"><span aria-hidden="true">◇</span><strong>Posts</strong></button>
+			<button type="button" data-signal-type="system" aria-pressed="false"><span aria-hidden="true">✦</span><strong>System</strong></button>
+		</nav>
+		<div class="notifications-layout">
+			<aside class="notifications-control-rail" aria-label="Notification controls">
+				<details id="signalAdvancedFilters" class="notifications-filter-panel">
+					<summary class="notifications-filter-summary">
+						<span class="notifications-filter-symbol" aria-hidden="true">⌁</span>
+						<span class="notifications-filter-copy">
+							<span class="notifications-kicker">Advanced</span>
+							<strong>Refine signals</strong>
+							<small>Identity, search, and exact type</small>
+						</span>
+						<span class="signal-summary-chevron" aria-hidden="true">⌄</span>
+					</summary>
+					<div class="notifications-filter-body">
+						<form id="filters" class="notifications-console" aria-label="Notification filters" aria-busy="false">
+							<label class="signal-field">
+								<span class="signal-field-icon" aria-hidden="true">◉</span>
+								<span class="signal-field-copy"><strong>Identity</strong><small>Alias receiving activity</small></span>
+								<input name="aliasId" autocomplete="off" placeholder="Default alias" required>
+							</label>
+							<label class="signal-field">
+								<span class="signal-field-icon" aria-hidden="true">⌕</span>
+								<span class="signal-field-copy"><strong>Search</strong><small>People, words, missions</small></span>
+								<input name="search" type="search" autocomplete="off" placeholder="Search signals">
+							</label>
+							<label class="signal-field signal-select-field">
+								<span class="signal-field-icon" aria-hidden="true">⌘</span>
+								<span class="signal-field-copy"><strong>Exact type</strong><small>Fine-grained category</small></span>
+								<select name="type">
+									<option value="">Everything</option>
+									<option value="submission_created">Submissions</option>
+									<option value="comment">Comments</option>
+									<option value="mention">Mentions</option>
+									<option value="system">System</option>
+								</select>
+							</label>
+							<button class="g-button g-button-primary notifications-refresh" type="submit">Refresh stream</button>
+						</form>
+						<div id="summary" class="notifications-summary" aria-live="polite">Finding your default alias…</div>
+					</div>
+				</details>
+			</aside>
+			<section class="notifications-stream" aria-labelledby="notifications-stream-title">
+				<header class="notifications-stream-heading">
+					<div>
+						<span class="notifications-kicker">Activity</span>
+						<h2 id="notifications-stream-title">Signal stream</h2>
+					</div>
+					<span class="notifications-stream-hint">Unread items stay visually distinct</span>
+				</header>
+				<div id="list" class="notifications-list" aria-live="polite" aria-label="Notification results">
+					<article class="notification loading-state">
+						<h2>Opening the signal stream</h2>
+						<p>Your default alias will load automatically.</p>
+					</article>
+				</div>
+				<button id="more" class="g-button notifications-more" type="button" hidden>Load more</button>
+			</section>
+		</div>
 	</main>
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=interface-dark-007"></script>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=signals-revelation-007"></script>
 	<script type="module" src="./app.js?v=app-001"></script>
+	<script type="module" src="./modules/categoryTabs.js?v=signals-revelation-007"></script>
 </body>
 </html>

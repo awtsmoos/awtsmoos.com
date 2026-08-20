@@ -1,17 +1,21 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
+import { hubIcon } from '../ui/IconCatalog.js';
+import { createMessageRequestComposer } from './MessageRequestComposer.js';
+import { renderMessageSections } from './MessagesSections.js';
+
 /**
  * @class MessagesView
  * @description
- * The Awtsmoos lets private consent, accepted rooms, and relationship truth become one reversible mobile route without forcing every opening into another application;
- * Awtsmoos.com keeps the list shell and room mount separate so summaries remain compact while one selected conversation can fill the chamber cleanly.
+ * The Awtsmoos lets private consent become visible through a small number of strong signs instead of backend prose;
+ * Awtsmoos.com keeps rooms, requests, friends, and unread truth intact while focused helper vessels carry request composition and the view remains light.
  */
-import { renderMessageSections } from './MessagesSections.js';
-
 export class MessagesView {
 	constructor(root) {
 		this.root = root;
+		this.requestHandler = null;
 	}
 
 	initialize() {
@@ -23,9 +27,13 @@ export class MessagesView {
 		this.panel.tabIndex = -1;
 		this.listSurface = this.root.createElement('div');
 		this.listSurface.className = 'hubMessagesListSurface';
+		this.requestComposer = createMessageRequestComposer(
+			this.root,
+			(aliasId, kind) => this.requestHandler?.(aliasId, kind)
+		);
 		this.listSurface.append(
 			this.heading(),
-			this.requestComposer(),
+			this.requestComposer.element,
 			this.region('hubMessagesSummary'),
 			this.region('hubMessagesConversations'),
 			this.region('hubMessagesRequests'),
@@ -39,15 +47,7 @@ export class MessagesView {
 	}
 
 	bindRequest(onRequest) {
-		this.requestForm?.addEventListener('submit', event => {
-			event.preventDefault();
-			const alias = this.requestAlias.value.trim();
-			if (!alias) {
-				this.requestAlias.focus();
-				return;
-			}
-			onRequest(alias, this.requestKind.value);
-		});
+		this.requestHandler = onRequest;
 	}
 
 	message(text) {
@@ -75,32 +75,10 @@ export class MessagesView {
 
 	heading() {
 		const header = this.root.createElement('header');
-		header.className = 'hubMessagesHeading';
-		header.append(
-			this.text('h2', 'Messages'),
-			this.text('p', 'Consent-based rooms, requests, friends, blocks, and exact unread sequence truth.')
-		);
+		header.className = 'hubMessagesHeading hubSectionHeading--icon';
+		header.append(this.text('span', hubIcon('messages'), 'hubSectionHeading__icon'));
+		header.append(this.text('h2', 'Messages'));
 		return header;
-	}
-
-	requestComposer() {
-		this.requestForm = this.root.createElement('form');
-		this.requestForm.className = 'hubPrivateRequestComposer';
-		this.requestAlias = this.root.createElement('input');
-		this.requestAlias.placeholder = 'Alias';
-		this.requestAlias.autocomplete = 'off';
-		this.requestKind = this.root.createElement('select');
-		for (const kind of ['whisper', 'chat', 'friend', 'mail']) {
-			const option = this.root.createElement('option');
-			option.value = kind;
-			option.textContent = kind;
-			this.requestKind.append(option);
-		}
-		const button = this.root.createElement('button');
-		button.type = 'submit';
-		button.textContent = 'Send request';
-		this.requestForm.append(this.requestAlias, this.requestKind, button);
-		return this.requestForm;
 	}
 
 	region(id) {

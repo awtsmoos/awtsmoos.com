@@ -1,0 +1,26 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives Profile panels one shared vessel while Awtsmoos.com keeps
+ * every path, graph, command, stat, and quick-action surface visually related.
+ */
+.profile-stat-grid article,
+.profile-command-panel,
+.profile-path-card,
+.profile-graph-card,
+.profile-action-drawer {
+	border: 1px solid var(--civil-line);
+	border-radius: var(--civil-radius);
+	background: var(--civil-panel);
+	box-shadow: 0 .8rem 2.4rem rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .045);
+	color: var(--civil-text);
+}
+
+.profile-stat-grid span,
+.profile-status,
+.profile-tab-panel p,
+.profile-path-card p,
+.profile-graph-card p {
+	color: var(--civil-text-soft);
+}

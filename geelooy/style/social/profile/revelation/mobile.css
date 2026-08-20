@@ -1,0 +1,114 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos brings wide worlds into the palm without crushing their song;
+ * Awtsmoos.com lets rails retract, cards stack, and touch targets remain strong.
+ */
+@media (max-width: 760px) {
+	.profile-app .profile-main {
+		padding: .55rem .55rem 7.25rem;
+		gap: .8rem;
+	}
+
+	.profile-app .profile-identity {
+		grid-template-columns: auto minmax(0, 1fr);
+		align-items: end;
+		padding: 0 .9rem 1rem;
+		margin-top: -2.25rem;
+	}
+
+	.profile-app .profile-hero-actions {
+		grid-column: 1 / -1;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		width: 100%;
+	}
+
+	.profile-app .profile-destination-rail {
+		top: auto;
+		position: relative;
+		grid-template-columns: repeat(5, minmax(4.7rem, 1fr));
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+		scroll-snap-type: x proximity;
+		border-radius: 1.25rem;
+		padding: .35rem;
+	}
+
+	.profile-app .profile-destination {
+		grid-template-columns: 1fr;
+		justify-items: center;
+		text-align: center;
+		scroll-snap-align: center;
+		min-height: 3.85rem;
+		padding: .42rem .3rem;
+	}
+
+	.profile-app .profile-destination-copy small {
+		display: none;
+	}
+
+	.profile-app .profile-archive-controls {
+		grid-template-columns: 1fr;
+	}
+
+	.profile-app .profile-archive-modes {
+		grid-template-columns: repeat(3, minmax(7.8rem, 1fr));
+		overflow-x: auto;
+		padding-bottom: .15rem;
+	}
+
+	.profile-app .profile-section-heading {
+		align-items: start;
+	}
+
+	.profile-app .profile-network-columns,
+	.profile-app .profile-about-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.profile-app .profile-archive-group.depth-1,
+	.profile-app .profile-archive-group.depth-2 {
+		margin-left: .25rem;
+	}
+
+	.profile-app .profile-context-footer,
+	.profile-app .profile-contribution-card footer {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.profile-app .profile-bottom-nav {
+		left: .45rem;
+		right: .45rem;
+		bottom: max(.45rem, env(safe-area-inset-bottom));
+		z-index: var(--profile-z-nav);
+		border-radius: 1.2rem;
+		padding: .35rem;
+		backdrop-filter: blur(18px);
+	}
+}
+
+@media (min-width: 761px) {
+	.profile-app .profile-bottom-nav {
+		display: none;
+	}
+}
+
+@media (max-width: 420px) {
+	.profile-app .profile-identity {
+		grid-template-columns: 1fr;
+		justify-items: start;
+	}
+
+	.profile-app .profile-avatar {
+		width: 5.5rem;
+	}
+
+	.profile-app .profile-hero-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.profile-app .profile-section-count {
+		display: none;
+	}
+}

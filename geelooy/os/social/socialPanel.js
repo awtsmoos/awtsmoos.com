@@ -1,102 +1,114 @@
 // B"H
-import { ensureSocialPanelStyles } from './styles.js';
-import {
-  card,
-  currentAlias,
-  inlineMessaging,
-  json,
-  status,
-  thanksFallback
-} from './localSocialWidgets.js';
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H
- * The mobile vessel once reached outside the OS for shared social modules,
- * but that river answered JSON instead of JavaScript. Now the OS imports
- * only local vessels, so the Awtsmoos-light flows without MIME fracture.
+ * @file Live data and interaction orchestration for the Geelooy OS Social Command Center.
+ * @description
+ * The Awtsmoos lets the static chamber and living signal remain distinct;
+ * Awtsmoos.com keeps feed, mount, search, and messaging motion small enough to inspect.
  */
-const APPS = [
-  ['mail', 'My Mail', '/email'],
-  ['posts', 'My Posts', '/profile'],
-  ['notifications', 'My Notifications', '/notifications'],
-  ['heichelos', 'My Heichelos', '/heichelos'],
-  ['aliases', 'My Aliases', '/profile'],
-  ['drafts', 'Drafts', '/email?folder=drafts'],
-  ['saved', 'Saved', '/profile'],
-  ['recent', 'Recent Activity', '/notifications']
-];
+import { ensureSocialPanelStyles } from "./styles.js";
+import {
+	currentAlias,
+	feedPreview,
+	inlineMessaging,
+	json,
+	mountCard,
+	status,
+	thanksFallback
+} from "./localSocialWidgets.js";
+import {
+	socialPanelShell,
+	socialWindowTitle
+} from "./socialPanelShell.js";
 
-function panelShell() {
-  const box = document.createElement('section');
-  box.className = 'geelooy-os-social-panel';
-  box.innerHTML = `<h2>Geelooy Social Command Center</h2>
-    <p>Email is signal. Posts are memory. Heichelos are worlds. Notifications are graph pulses.</p>
-    <div class="geelooy-os-social-panel__links"></div>
-    <form class="geelooy-os-social-panel__search">
-      <label>Search confirmed routes<input name="q" placeholder="Search mail and posts"></label>
-      <button type="submit">Search</button>
-    </form>
-    <div class="geelooy-os-social-panel__grid"></div>`;
-  return box;
+/** @param {{type?:string,os?:object}} options Social panel context. */
+export function socialPanel({ type = "command", os = null } = {}) {
+	ensureSocialPanelStyles();
+	const alias = os?.socialMount?.preference?.get?.().aliasId || currentAlias();
+	const box = socialPanelShell(alias);
+	fillSurface(type, box.querySelector("[data-social-surface]"), alias, os, box);
+	bindSearch(box, alias);
+	return box;
 }
 
-function previewUrl(type, alias) {
-  if (type === 'mail') {
-    return `/api/social/communications/${encodeURIComponent(alias)}/overview`;
-  }
-  return '/api/social/feed/home?limit=5';
+/** @param {object} os Live OS facade. @param {string} type Social window mode. */
+export async function openSocialWindow(os, type = "command") {
+	return os.addWindow({
+		title: socialWindowTitle(type),
+		content: socialPanel({ type, os }),
+		os
+	});
 }
 
-async function loadPreview(type, box) {
-  const alias = currentAlias();
-  if (!alias) {
-    box.append(status('Choose an alias to load live previews.'));
-    return;
-  }
-  box.append(status('Loading live preview…'));
-  try {
-    const data = await json(previewUrl(type, alias));
-    box.lastChild.remove();
-    box.append(status(data?.error ? 'Preview unavailable.' : 'Preview loaded.'));
-  } catch (error) {
-    box.lastChild.remove();
-    box.append(status(error.message));
-  }
+async function fillSurface(type, surface, alias, os, panel) {
+	if (type === "message") {
+		surface.append(inlineMessaging({ aliases: [alias].filter(Boolean), defaultAlias: alias }));
+		return;
+	}
+	if (type === "thanks") {
+		surface.append(thanksFallback());
+		return;
+	}
+	appendMount(surface, os, panel);
+	if (!alias) {
+		surface.append(status("Choose an alias to load live social activity."));
+		return;
+	}
+	await appendFeed(surface);
 }
 
-function fillGrid(type, grid) {
-  if (type === 'message') {
-    const alias = currentAlias();
-    grid.append(inlineMessaging({ aliases: [alias].filter(Boolean), defaultAlias: alias }));
-    return;
-  }
-  if (type === 'thanks') {
-    grid.append(thanksFallback({ href: '/heichelos' }));
-    return;
-  }
-  loadPreview(type, grid);
+function appendMount(surface, os, panel) {
+	if (!os?.socialMount) {
+		return;
+	}
+	const state = os.socialMount.preference.get();
+	surface.append(mountCard({
+		...state,
+		onToggle: () => toggleMount(os, panel)
+	}));
 }
 
-function bindSearch(box) {
-  box.querySelector('form').addEventListener('submit', event => {
-    event.preventDefault();
-    const q = event.currentTarget.q.value.trim();
-    if (q) location.href = `/email?search=${encodeURIComponent(q)}`;
-  });
+async function appendFeed(surface) {
+	const loading = status("Loading recent social activity…");
+	surface.append(loading);
+	try {
+		const data = await json("/api/social/feed/home?limit=6");
+		loading.replaceWith(feedPreview(feedItems(data)));
+	} catch (error) {
+		loading.replaceWith(status(error.message, "error"));
+	}
 }
 
-export function socialPanel({ type = 'command' } = {}) {
-  ensureSocialPanelStyles();
-  const box = panelShell();
-  box.querySelector('.geelooy-os-social-panel__links').replaceChildren(...APPS.map(card));
-  fillGrid(type, box.querySelector('.geelooy-os-social-panel__grid'));
-  bindSearch(box);
-  return box;
+function toggleMount(os, panel) {
+	const preference = os.socialMount.preference;
+	const state = preference.get();
+	const alias = state.aliasId || currentAlias();
+	if (!alias) {
+		os.taskbar?.notify?.("Choose an alias before mounting social space.", "warning");
+		return;
+	}
+	preference.setAlias(alias);
+	preference.setEnabled(!state.enabled);
+	os.socialMount.sync();
+	panel.replaceWith(socialPanel({ os }));
 }
 
-export async function openSocialWindow(os, type = 'command') {
-  const title = APPS.find(app => app[0] === type)?.[1] || 'Geelooy Command Center';
-  return os.addWindow({ title, content: socialPanel({ type }), os });
+function bindSearch(box, alias) {
+	box.querySelector("form").addEventListener("submit", event => {
+		event.preventDefault();
+		const query = event.currentTarget.q.value.trim();
+		if (!query) {
+			return;
+		}
+		location.href = `/email?alias=${encodeURIComponent(alias)}&search=${encodeURIComponent(query)}`;
+	});
 }
 
-export { APPS };
+function feedItems(data) {
+	if (Array.isArray(data)) {
+		return data;
+	}
+	return data?.items || data?.feed || data?.results || [];
+}

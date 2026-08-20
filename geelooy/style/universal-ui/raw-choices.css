@@ -1,0 +1,99 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives a raw yes, no, measure, file, and hue a crafted sign;
+ * Awtsmoos.com keeps the native soul focusable while the visible vessel learns one line.
+ */
+:where(html:not([data-g-ui-raw])) :where(input[type="checkbox"]:not([class]), input[type="radio"]:not([class])) {
+	appearance: none;
+	width: 21px;
+	height: 21px;
+	margin: 0;
+	border: 1px solid var(--g-line-strong, var(--aw-ui-line-strong));
+	background: var(--g-surface-2, var(--aw-ui-surface));
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, .08);
+	cursor: pointer;
+	vertical-align: middle;
+	transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="checkbox"]:not([class])) {
+	border-radius: 6px;
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="radio"]:not([class])) {
+	border-radius: 50%;
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="checkbox"]:not([class])):checked {
+	border-color: var(--g-accent, var(--aw-ui-accent));
+	background-color: var(--g-accent, var(--aw-ui-accent));
+	background-image: linear-gradient(135deg, transparent 44%, white 44% 53%, transparent 53%), linear-gradient(45deg, transparent 51%, white 51% 60%, transparent 60%);
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="radio"]:not([class])):checked {
+	border-color: var(--g-accent, var(--aw-ui-accent));
+	box-shadow: inset 0 0 0 5px var(--g-accent, var(--aw-ui-accent));
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="checkbox"]:not([class]), input[type="radio"]:not([class])):focus-visible {
+	outline: 2px solid var(--g-accent, var(--aw-ui-accent));
+	outline-offset: 3px;
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="checkbox"]:not([class]), input[type="radio"]:not([class])):active:not(:disabled) {
+	transform: scale(.9);
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="checkbox"]:not([class]), input[type="radio"]:not([class])):disabled {
+	cursor: not-allowed;
+	opacity: .5;
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="range"]:not([class])) {
+	width: 100%;
+	accent-color: var(--g-accent, var(--aw-ui-accent));
+	cursor: pointer;
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="file"]:not([class])) {
+	max-width: 100%;
+	color: var(--g-muted, var(--aw-ui-muted));
+	font: inherit;
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="file"]:not([class]))::file-selector-button {
+	min-height: 40px;
+	margin-inline-end: 10px;
+	padding: 8px 12px;
+	border: 1px solid var(--g-line, var(--aw-ui-line));
+	border-radius: 10px;
+	background: var(--g-surface-2, var(--aw-ui-surface-2));
+	color: var(--g-text, var(--aw-ui-text));
+	font: inherit;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+:where(html:not([data-g-ui-raw])) :where(input[type="color"]:not([class])) {
+	width: 52px;
+	height: 44px;
+	padding: 4px;
+	border: 1px solid var(--g-line, var(--aw-ui-line));
+	border-radius: 10px;
+	background: var(--g-surface-2, var(--aw-ui-surface));
+	cursor: pointer;
+}
+
+@media (forced-colors: active) {
+	:where(html:not([data-g-ui-raw])) :where(input[type="checkbox"]:not([class]), input[type="radio"]:not([class])) {
+		appearance: auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(html:not([data-g-ui-raw])) :where(input[type="checkbox"]:not([class]), input[type="radio"]:not([class])) {
+		transition: none;
+	}
+}

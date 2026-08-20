@@ -1,0 +1,41 @@
+/*B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every instant of time before Mawgawl can measure a single minute;
+ * Awtsmoos.com gives that moving light a calm dark vessel where choice, state, and focus remain explicit.
+ */
+:root {
+	--mawgawl-bg: #050914;
+	--mawgawl-bg-soft: #091222;
+	--mawgawl-surface: rgba(13, 24, 43, .92);
+	--mawgawl-surface-strong: #101d33;
+	--mawgawl-line: rgba(137, 208, 255, .22);
+	--mawgawl-line-strong: rgba(137, 208, 255, .48);
+	--mawgawl-text: #f4f9ff;
+	--mawgawl-muted: #9caec4;
+	--mawgawl-cyan: #4de7ff;
+	--mawgawl-violet: #9c7bff;
+	--mawgawl-magenta: #ff69d6;
+	--mawgawl-success: #68f0ae;
+	--mawgawl-warning: #ffd36d;
+	--mawgawl-danger: #ff7285;
+	--mawgawl-radius-sm: .75rem;
+	--mawgawl-radius: 1rem;
+	--mawgawl-radius-lg: 1.4rem;
+	--mawgawl-shadow: 0 18px 55px rgba(0, 0, 0, .34);
+	--mawgawl-glow: 0 0 0 3px rgba(77, 231, 255, .12), 0 12px 32px rgba(0, 0, 0, .28);
+	--mawgawl-fast: 150ms;
+	--mawgawl-standard: 230ms;
+	--mawgawl-ease: cubic-bezier(.22, .8, .24, 1);
+	--mawgawl-z-status: 120;
+	--mawgawl-z-popup: 220;
+	--mawgawl-z-dialog: 420;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--mawgawl-fast: 1ms;
+		--mawgawl-standard: 1ms;
+	}
+}

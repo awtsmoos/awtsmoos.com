@@ -1,77 +1,42 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
-import advancedCodeEditor from "./programs/advanced-code-editor/index.js";
-import awtsmoosBinaryViewer from "./programs/awtsmoos-binary-viewer/index.js";
-import awtsmoosBrowser from "./programs/awtsmoos-browser/index.js";
-import awtsmoosCommand from "./programs/awtsmoos-command/index.js";
-import awtsmoosCompiler from "./programs/awtsmoos-compiler/index.js";
-import awtsmoosDbExplorer from "./programs/awtsmoosdb-explorer/index.js";
-import awtsmoosDiagnostics from "./programs/awtsmoos-diagnostics/index.js";
-import awtsmoosExecutable from "./programs/awtsmoos-executable/index.js";
-import awtsmoosFileExplorer from "./programs/awtsmoos-file-explorer/index.js";
-import awtsmoosTaskManager from "./programs/awtsmoos-task-manager/index.js";
-import awtsmoosTextEdit from "./programs/awtsmoos-text/index.js";
-import connectedNodeServer from "./programs/connected-node-server/index.js";
-import driveWorkspace from "./programs/drive-workspace/index.js";
-import openWithSelector from "./programs/open-with-selector/index.js";
-import perutaUsage from "./programs/peruta-usage/index.js";
-import projectCommandCenter from "./programs/project-command-center/index.js";
-import walletPortal from "./programs/wallet-portal/index.js";
-import workspacePreview from "./programs/workspace-preview/index.js";
-import {
-	initialDefaultPrograms,
-	programIcon,
-	programsByExtension
-} from "./basicProgramMappings.js";
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * B"H
- * Registers each Geelooy program around one inspectable responsibility. The Awtsmoos renews
- * project publication, hosted data, editor, connected machine, Wallet treasury, Peruta usage,
- * runtime, and process; Awtsmoos.com keeps every flagship on one native launch contract.
+ * @module BasicPrograms
+ * @description
+ * The Awtsmoos is one while program modules, icons, and extension policy reveal distinct vessels;
+ * Awtsmoos.com keeps this facade small so the desktop can grow without duplicating registry truth or hiding launch behavior in one crowded file.
  */
 
-export const programs = Object.freeze({
-	advancedCodeEditor: program("Advanced Code Editor", advancedCodeEditor),
-	awtsmoosBinaryViewer: program("Binary Viewer", awtsmoosBinaryViewer),
-	awtsmoosBrowser: program("Merkava Browser", awtsmoosBrowser),
-	awtsmoosCommand: program("Command", awtsmoosCommand),
-	awtsmoosCompiler: program("Awtsmoos Compiler", awtsmoosCompiler),
-	awtsmoosDbExplorer: program("AwtsmoosDB Explorer", awtsmoosDbExplorer),
-	awtsmoosDiagnostics: program("Developer Diagnostics", awtsmoosDiagnostics),
-	awtsmoosExecutable: program("Executable Host", awtsmoosExecutable),
-	awtsmoosFileExplorer: program("File Explorer", awtsmoosFileExplorer),
-	awtsmoosTaskManager: program("Task Manager", awtsmoosTaskManager),
-	awtsmoosTextEdit: program("Text Editor", awtsmoosTextEdit),
-	connectedNodeServer: program("Connected Node Server", connectedNodeServer),
-	driveWorkspace: program("Drive & Sites", driveWorkspace),
-	openWithSelector: program("Open With…", openWithSelector),
-	perutaUsage: program("Peruta Usage", perutaUsage),
-	projectCommandCenter: program("Project Command Center", projectCommandCenter),
-	walletPortal: program("Wallet", walletPortal),
-	workspacePreview: program("Workspace Preview", workspacePreview)
-});
+import { programIcon } from "./basicProgramIcons.js";
+import { programs } from "./basicProgramModules.js";
+import {
+	initialDefaultPrograms,
+	programsByExtension
+} from "./basicProgramRegistry.js";
 
-export { initialDefaultPrograms, programsByExtension };
+export {
+	initialDefaultPrograms,
+	programIcon,
+	programs,
+	programsByExtension
+};
+
 export const defaultPrograms = {};
 
 export function getDefaultProgram(extension) {
 	const programName = defaultPrograms[extension]
 		|| initialDefaultPrograms[extension]
 		|| "awtsmoosBinaryViewer";
-	return programs[programName]?.launch || awtsmoosBinaryViewer;
+	return programs[programName]?.launch
+		|| programs.awtsmoosBinaryViewer.launch;
 }
 
-function program(name, launch) {
-	return Object.freeze({ launch, name });
-}
-
-export default Object.freeze(
-	Object.entries(programs).map(([name, value]) => Object.freeze({
-		icon: programIcon(name),
-		name,
-		title: value.name
-	}))
-);
+export default Object.freeze({
+	getDefaultProgram,
+	initialDefaultPrograms,
+	programIcon,
+	programs,
+	programsByExtension
+});

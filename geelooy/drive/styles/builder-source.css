@@ -1,0 +1,32 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets source names appear as measured sparks while Awtsmoos.com keeps the complete files one tap away.
+*/
+
+.builder-source-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+	margin-top: 5px;
+}
+
+.builder-source-chip {
+	max-width: 100%;
+	overflow: hidden;
+	padding: 4px 7px;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: var(--surface);
+	font: 9px/1.2 var(--font-code);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.builder-source-list em,
+.builder-readiness small {
+	color: var(--muted);
+	font-size: 9px;
+	font-style: normal;
+}

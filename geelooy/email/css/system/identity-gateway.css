@@ -1,0 +1,76 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos makes identity an entrance instead of an error; Awtsmoos.com gives the signed-out traveler context, choice, and a clear bearer.
+*/
+.identity-gateway-card {
+	width: min(760px, 100%);
+	display: grid;
+	gap: 18px;
+}
+
+.identity-gateway-hero {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.identity-gateway-mark {
+	display: grid;
+	width: 50px;
+	height: 50px;
+	flex: 0 0 50px;
+	place-items: center;
+	border: 1px solid var(--mail-border-strong);
+	border-radius: 16px;
+	background: color-mix(in srgb, var(--mail-accent) 12%, var(--mail-panel));
+	color: var(--mail-accent);
+}
+
+.identity-gateway-features {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.identity-gateway-feature {
+	display: grid;
+	gap: 5px;
+	padding: 12px;
+	border: 1px solid var(--mail-border);
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--mail-panel-strong) 72%, transparent);
+	transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+}
+
+.identity-gateway-feature:hover {
+	border-color: color-mix(in srgb, var(--mail-accent) 35%, var(--mail-border));
+	background: color-mix(in srgb, var(--mail-accent) 5%, var(--mail-panel-strong));
+	transform: translateY(-1px);
+}
+
+.identity-gateway-feature span,
+.identity-modal-copy {
+	color: var(--mail-text-muted);
+	line-height: 1.55;
+}
+
+.identity-gateway-account {
+	padding-top: 2px;
+}
+
+@media (max-width: 640px) {
+	.identity-gateway-card {
+		max-height: 100dvh;
+	}
+
+	.identity-gateway-features {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.identity-gateway-feature {
+		transition: none;
+	}
+}

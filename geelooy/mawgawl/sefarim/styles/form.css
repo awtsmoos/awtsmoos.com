@@ -1,7 +1,12 @@
 /* B"H
- * The Awtsmoos gives every search control a clear name, a full touch path, and a visible state;
- * on wide Awtsmoos.com screens the whole search intention fits one row before results begin.
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every search control a clear name and a visible state;
+ * Awtsmoos.com lets the question lead while deeper options wait behind one gate.
  */
+@import url('./form-disclosure.css?v=living-search-options-001');
+
 .library-search-form {
 	align-items: end;
 	background: #0a111c;
@@ -9,7 +14,7 @@
 	border-radius: .95rem;
 	display: grid;
 	gap: .75rem;
-	grid-template-columns: minmax(16rem, 1.35fr) minmax(12rem, .55fr) minmax(12rem, .55fr) auto;
+	grid-template-columns: minmax(16rem, 1.35fr) minmax(12rem, .65fr) auto;
 	padding: .8rem;
 	position: sticky;
 	top: 5.15rem;

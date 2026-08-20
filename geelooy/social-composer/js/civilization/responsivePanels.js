@@ -5,82 +5,103 @@
 /**
  * @module ResponsivePanels
  * @description
- * The Awtsmoos gives mobile writing in its first breath, while the compact
- * identity row opens every complete Awtsmoos.com alias field when requested.
+ * The Awtsmoos lets Advanced widen into the full editorial map while Simple
+ * and narrow vessels keep one deliberate decision visible at a time.
  */
+import { currentComposerMode } from "./composerModes.js";
 
+const FOCUSED_PANEL_QUERY = "(max-width: 1080px)";
+const PREVIEW_SHEET_QUERY = "(max-width: 820px)";
 let previewInvoker = null;
 
-function configureMajorPanels() {
-	const mobile = window.matchMedia('(max-width: 620px)').matches;
-	for (const panel of document.querySelectorAll('.majorPanel')) {
-		const openOnMobile = panel.dataset.mobilePanel === 'content';
-		panel.open = !mobile || openOnMobile;
+export function configureMajorPanels({ preferContent = false } = {}) {
+	const panels = majorPanels();
+	if (!panels.length) {
+		return;
 	}
+	if (wideAdvanced()) {
+		panels.forEach(panel => panel.open = true);
+		return;
+	}
+	const opened = panels.filter(panel => panel.open);
+	const target = !preferContent && opened.length === 1
+		? opened[0]
+		: contentPanel(panels);
+	panels.forEach(panel => panel.open = panel === target);
+}
+
+function collapseSiblingMajorPanels(event) {
+	const activePanel = event.currentTarget;
+	if (!activePanel.open || wideAdvanced()) {
+		return;
+	}
+	majorPanels().forEach(panel => panel.open = panel === activePanel);
+}
+
+function majorPanels() {
+	return [...document.querySelectorAll(".majorPanel")];
+}
+
+function contentPanel(panels) {
+	return panels.find(panel => panel.dataset.mobilePanel === "content") || panels[0];
+}
+
+function wideAdvanced() {
+	return !window.matchMedia(FOCUSED_PANEL_QUERY).matches
+		&& currentComposerMode() === "advanced";
 }
 
 function configurePreviewAvailability() {
-	const sheet = document.querySelector('.previewColumn');
+	const sheet = document.querySelector(".previewColumn");
 	if (!sheet) {
 		return;
 	}
-	const mobile = window.matchMedia('(max-width: 820px)').matches;
-	if (mobile && !sheet.classList.contains('is-open')) {
-		sheet.inert = true;
-		sheet.setAttribute('aria-hidden', 'true');
-		return;
-	}
-	sheet.inert = false;
-	sheet.setAttribute('aria-hidden', 'false');
+	const mobile = window.matchMedia(PREVIEW_SHEET_QUERY).matches;
+	const hidden = mobile && !sheet.classList.contains("is-open");
+	sheet.inert = hidden;
+	sheet.setAttribute("aria-hidden", hidden ? "true" : "false");
 }
 
-function closePreviewSheet() {
-	const sheet = document.querySelector('.previewColumn');
-	if (!sheet?.classList.contains('is-open')) {
+export function closePreviewSheet() {
+	const sheet = document.querySelector(".previewColumn");
+	if (!sheet?.classList.contains("is-open")) {
 		return;
 	}
-	sheet.classList.remove('is-open');
-	document.body.classList.remove('preview-sheet-open');
+	sheet.classList.remove("is-open");
+	document.body.classList.remove("preview-sheet-open");
 	configurePreviewAvailability();
 	previewInvoker?.focus();
 }
 
-function openPreviewSheet(event) {
-	const sheet = document.querySelector('.previewColumn');
+export function openPreviewSheet(event) {
+	const sheet = document.querySelector(".previewColumn");
 	if (!sheet) {
 		return;
 	}
-	if (!window.matchMedia('(max-width: 820px)').matches) {
-		sheet.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	if (!window.matchMedia(PREVIEW_SHEET_QUERY).matches) {
+		sheet.scrollIntoView({ behavior: "smooth", block: "start" });
 		return;
 	}
 	previewInvoker = event.currentTarget;
-	sheet.classList.add('is-open');
+	sheet.classList.add("is-open");
 	sheet.inert = false;
-	sheet.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('preview-sheet-open');
-	document.getElementById('closeMobilePreviewButton')?.focus();
+	sheet.setAttribute("aria-hidden", "false");
+	document.body.classList.add("preview-sheet-open");
+	document.getElementById("closeMobilePreviewButton")?.focus();
 }
 
-function installResponsivePanels() {
-	const panelQuery = window.matchMedia('(max-width: 620px)');
-	const previewQuery = window.matchMedia('(max-width: 820px)');
-	configureMajorPanels();
+export function installResponsivePanels() {
+	const panelQuery = window.matchMedia(FOCUSED_PANEL_QUERY);
+	const previewQuery = window.matchMedia(PREVIEW_SHEET_QUERY);
+	configureMajorPanels({ preferContent: true });
 	configurePreviewAvailability();
-	panelQuery.addEventListener('change', configureMajorPanels);
-	previewQuery.addEventListener('change', configurePreviewAvailability);
-	document.getElementById('mobilePreviewButton')?.addEventListener('click', openPreviewSheet);
-	document.getElementById('closeMobilePreviewButton')?.addEventListener('click', closePreviewSheet);
-	document.addEventListener('keydown', event => {
-		if (event.key === 'Escape') {
-			closePreviewSheet();
-		}
+	majorPanels().forEach(panel => panel.addEventListener("toggle", collapseSiblingMajorPanels));
+	panelQuery.addEventListener("change", () => configureMajorPanels());
+	previewQuery.addEventListener("change", configurePreviewAvailability);
+	window.addEventListener("awtsmoosComposerMode", () => configureMajorPanels({ preferContent: true }));
+	document.getElementById("mobilePreviewButton")?.addEventListener("click", openPreviewSheet);
+	document.getElementById("closeMobilePreviewButton")?.addEventListener("click", closePreviewSheet);
+	document.addEventListener("keydown", event => {
+		if (event.key === "Escape") closePreviewSheet();
 	});
 }
-
-export {
-	closePreviewSheet,
-	configureMajorPanels,
-	installResponsivePanels,
-	openPreviewSheet
-};

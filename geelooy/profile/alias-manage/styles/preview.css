@@ -1,0 +1,119 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets identity be seen before it is sealed. Awtsmoos.com keeps the
+ * live preview compact, sticky on wide screens, and collapsible when height is dear.
+ */
+.alias-preview-panel {
+	position: sticky;
+	top: calc(var(--g-header-h, 4.5rem) + 1rem);
+	overflow: clip;
+}
+
+.alias-preview-disclosure > summary {
+	display: grid;
+	gap: 2px;
+	min-height: 58px;
+	padding: 13px 14px;
+	border-bottom: 1px solid var(--g-line, rgba(255, 255, 255, .14));
+	list-style: none;
+	cursor: pointer;
+	transition: background 160ms ease;
+}
+
+.alias-preview-disclosure > summary::-webkit-details-marker {
+	display: none;
+}
+
+.alias-preview-disclosure > summary:is(:hover, :focus-visible) {
+	background: color-mix(in srgb, var(--g-cyan, #61cbd9) 7%, transparent);
+}
+
+.alias-preview-disclosure > summary span {
+	font-weight: 850;
+}
+
+.alias-preview-disclosure > summary small {
+	color: var(--g-muted, #9aacbf);
+}
+
+.alias-preview-card {
+	display: grid;
+	grid-template-columns: 58px minmax(0, 1fr);
+	gap: 12px;
+	align-items: start;
+	margin: 13px;
+	padding: 14px;
+	border: 1px solid color-mix(in srgb, var(--g-cyan, #61cbd9) 24%, var(--g-line, transparent));
+	border-radius: 16px;
+	background: linear-gradient(145deg, color-mix(in srgb, var(--g-cyan, #61cbd9) 8%, var(--g-surface-2, #111b2a)), var(--g-surface-2, #111b2a));
+}
+
+.alias-preview-avatar {
+	display: grid;
+	width: 58px;
+	height: 58px;
+	place-items: center;
+	border: 1px solid color-mix(in srgb, var(--g-cyan, #61cbd9) 45%, transparent);
+	border-radius: 17px;
+	background: color-mix(in srgb, var(--g-cyan, #61cbd9) 10%, var(--g-surface-3, #172536));
+	color: var(--g-cyan, #61cbd9);
+	font-size: 1.35rem;
+	font-weight: 900;
+}
+
+.alias-preview-copy {
+	display: grid;
+	gap: 4px;
+	min-width: 0;
+}
+
+.alias-preview-copy h2,
+.alias-preview-copy p {
+	margin: 0;
+}
+
+.alias-preview-copy h2 {
+	font-size: 1.05rem;
+}
+
+.alias-preview-copy p {
+	color: var(--g-muted, #9aacbf);
+	font-size: .82rem;
+	line-height: 1.5;
+}
+
+.alias-preview-handle {
+	overflow: hidden;
+	color: var(--g-cyan, #61cbd9);
+	font-size: .74rem;
+	font-weight: 800;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.alias-rule-grid {
+	display: grid;
+	gap: 8px;
+	padding: 0 13px 13px;
+}
+
+.alias-rule-grid article {
+	display: grid;
+	gap: 2px;
+	padding: 9px 10px;
+	border-radius: 11px;
+	background: color-mix(in srgb, var(--g-surface-3, #172536) 82%, transparent);
+}
+
+.alias-rule-grid article span {
+	color: var(--g-muted, #9aacbf);
+	font-size: .75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.alias-preview-disclosure > summary {
+		transition: none;
+	}
+}

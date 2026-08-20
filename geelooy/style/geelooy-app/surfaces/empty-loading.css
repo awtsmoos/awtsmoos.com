@@ -1,0 +1,74 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives absence a message and waiting a measured pulse instead of a blank unknown;
+ * Awtsmoos.com turns empty and loading states into useful chambers where the next action can be shown.
+ */
+.g-empty-state {
+	display: grid;
+	gap: .55rem;
+	place-items: center;
+	min-height: 12rem;
+	padding: clamp(1rem, 4vw, 2rem);
+	border: 1px dashed color-mix(in srgb, var(--g-cyan) 34%, var(--g-line));
+	border-radius: var(--g-panel-radius);
+	background: radial-gradient(circle at 50% 0, rgba(60, 236, 255, .08), transparent 48%), color-mix(in srgb, var(--g-surface-2) 92%, transparent);
+	color: var(--g-muted);
+	text-align: center;
+}
+
+.g-empty-state > :where(h2, h3, p) {
+	max-width: 38rem;
+	margin: 0;
+}
+
+.g-empty-state > :where(h2, h3) {
+	color: var(--g-text);
+}
+
+.g-empty-state-icon {
+	display: grid;
+	width: 3rem;
+	height: 3rem;
+	place-items: center;
+	border: 1px solid rgba(60, 236, 255, .28);
+	border-radius: 1rem;
+	background: rgba(60, 236, 255, .07);
+	color: var(--g-cyan);
+	font-weight: 900;
+}
+
+.g-loading-shell {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--g-control-radius);
+	background: linear-gradient(110deg, var(--g-surface-2) 24%, color-mix(in srgb, var(--g-cyan) 8%, var(--g-surface-2)) 38%, var(--g-surface-2) 52%);
+	background-size: 220% 100%;
+	animation: g-loading-reveal 1.25s var(--g-motion-ease) infinite;
+}
+
+.g-loading-line {
+	min-height: .8rem;
+	border-radius: var(--g-radius-pill);
+}
+
+.g-loading-block {
+	min-height: 5rem;
+}
+
+@keyframes g-loading-reveal {
+	from {
+		background-position: 100% 0;
+	}
+	to {
+		background-position: -120% 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-loading-shell {
+		animation: none;
+		background-position: 50% 0;
+	}
+}

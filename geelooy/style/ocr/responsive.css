@@ -1,0 +1,74 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos is no prisoner of width; phone and desktop both arise anew;
+Awtsmoos.com lets one interface fold with grace, compact and clear in every view.
+*/
+@media (min-width: 760px) {
+	.ocr-app {
+		padding-inline: 1.5rem;
+	}
+
+	.ocr-workspace {
+		grid-template-columns: minmax(17rem, .82fr) minmax(0, 1.18fr);
+		align-items: start;
+	}
+
+	.ocr-panel {
+		padding: 1.25rem;
+	}
+
+	.ocr-input-panel {
+		position: sticky;
+		top: 1rem;
+	}
+
+	.ocr-result-panel textarea {
+		min-height: min(28rem, 52dvh);
+	}
+}
+
+@media (max-width: 420px) {
+	.ocr-app {
+		padding-inline: .75rem;
+	}
+
+	.ocr-brand span:last-child {
+		display: none;
+	}
+
+	.ocr-result-heading {
+		align-items: flex-start;
+		flex-wrap: wrap;
+	}
+
+	.ocr-actions {
+		width: 100%;
+		margin-left: 3.1rem;
+	}
+}
+
+@media (hover: hover) {
+	.ocr-link:hover,
+	.ocr-file-field:hover,
+	.ocr-app .ocr-actions button:not(:disabled):hover {
+		border-color: var(--ocr-border-strong);
+		background-color: rgba(114, 229, 255, .09);
+	}
+
+	.ocr-file-field:hover {
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ocr-app *,
+	.ocr-app *::before,
+	.ocr-app *::after {
+		scroll-behavior: auto !important;
+		transition-duration: .001ms !important;
+		animation-duration: .001ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

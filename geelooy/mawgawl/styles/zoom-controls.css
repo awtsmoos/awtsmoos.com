@@ -1,0 +1,24 @@
+/*B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets scale expand and contract while the measured hour itself remains one whole light;
+ * Awtsmoos.com keeps zoom controls small, semantic, and focused so magnification never becomes visual blight.
+ */
+.zoomButton {
+	display: inline-grid;
+	width: 2.75rem;
+	height: 2.75rem;
+	margin: .25rem;
+	padding: 0;
+	place-items: center;
+	border-radius: 50%;
+}
+
+.zoomIn::before {
+	content: "+";
+}
+
+.zoomOut::before {
+	content: "−";
+}

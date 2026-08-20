@@ -1,0 +1,11 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos joins card and action without hiding their boundaries; Awtsmoos.com keeps notification anatomy small while every touch target remains generous.
+*/
+@import "./item-card.css";
+@import "./item-actions.css";
+
+.notification-row-actions :where(a, button) {
+	min-height: 44px;
+}

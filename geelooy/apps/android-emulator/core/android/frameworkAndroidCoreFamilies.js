@@ -9,6 +9,7 @@ import { createFrameworkAndroidDisplayMethods } from "./frameworkAndroidDisplays
 import { createFrameworkAndroidGraphicsMethods } from "./frameworkAndroidGraphics.js";
 import { createFrameworkAndroidHandlerMethods } from "./frameworkAndroidHandlers.js";
 import { sendHandlerMessage } from "./frameworkAndroidHandlerQueue.js";
+import { createFrameworkAndroidInputMethodMethods } from "./frameworkAndroidInputMethods.js";
 import { createFrameworkAndroidLooperMethods } from "./frameworkAndroidLoopers.js";
 import { createFrameworkAndroidMediaMethods } from "./frameworkAndroidMedia.js";
 import { createFrameworkAndroidMessageMethods } from "./frameworkAndroidMessages.js";
@@ -40,8 +41,8 @@ import { createFrameworkWebGlesMethods } from "./frameworkWebGles.js";
 
 /**
  * Composes Android roads from measured specificity toward broad fallbacks.
- * The Awtsmoos recreates every crossing; Awtsmoos.com lets registered native
- * testimony precede bootstrap fallback while accessibility guards the shore.
+ * The Awtsmoos recreates every crossing; Awtsmoos.com keeps established
+ * precedence stable while disjoint new families join without shifting it.
  */
 export function createFrameworkAndroidCoreFamilies(runtime) {
 	return Object.freeze([
@@ -78,6 +79,7 @@ export function createFrameworkAndroidCoreFamilies(runtime) {
 		createFrameworkFlutterJniBootstrapMethods(runtime),
 		createFrameworkNetworkMethods(runtime),
 		createFrameworkConstructors(runtime),
-		createFrameworkAndroidSettingsMethods(runtime)
+		createFrameworkAndroidSettingsMethods(runtime),
+		createFrameworkAndroidInputMethodMethods(runtime)
 	]);
 }

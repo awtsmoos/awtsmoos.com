@@ -1,50 +1,131 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * @module ProfileState
+ * @file Shared state for the public alias experience.
  * @description
- * Chapter 437: The profile app grows new chambers: graph, following, followers,
- * and recommendations. The hash is the doorway, the state is the breath.
+ * The Awtsmoos renews one identity while many views may shine;
+ * Awtsmoos.com keeps navigation, archive, and social graph in one truthful line.
  */
 
-const allowedTabs = new Set(["posts", "comments", "heichelos", "tree", "activity", "history", "graph", "following", "followers", "recommendations"]);
+const PRIMARY_SECTIONS = new Set([
+	"about",
+	"contributions",
+	"library",
+	"network",
+	"activity"
+]);
+
+const LEGACY_SECTION_MAP = new Map([
+	["posts", ["contributions", "post"]],
+	["comments", ["contributions", "comment"]],
+	["heichelos", ["library", "all"]],
+	["tree", ["library", "all"]],
+	["graph", ["network", "all"]],
+	["following", ["network", "all"]],
+	["followers", ["network", "all"]],
+	["recommendations", ["network", "all"]],
+	["history", ["activity", "all"]]
+]);
 
 export const profileState = {
-    aliasId: "",
-    viewerAliasId: "",
-    profile: null,
-    activeTab: "posts",
-    drawerOpen: false,
-    expandedTreeNodes: new Set(),
-    follows: [],
-    followers: [],
-    graph: null,
-    recommendations: []
+	aliasId: "",
+	viewerAliasId: "",
+	profile: null,
+	activeTab: "contributions",
+	archiveMode: "place",
+	archiveQuery: "",
+	archiveType: "all",
+	drawerOpen: false,
+	expandedTreeNodes: new Set(),
+	viewerFollows: [],
+	profileFollows: [],
+	followers: [],
+	graph: null,
+	recommendations: [],
+	socialExtrasLoaded: false
 };
 
+/** @param {string} aliasId Public alias identifier. @param {object} profile Aggregate profile payload. */
 export function setProfile(aliasId, profile) {
-    profileState.aliasId = aliasId;
-    profileState.profile = profile;
-    profileState.viewerAliasId = window.curAlias || window.currentAlias || localStorage.getItem("BH_PROFILE_VIEWER_ALIAS") || "";
-    const hashTab = location.hash ? location.hash.slice(1) : "";
-    profileState.activeTab = allowedTabs.has(hashTab) ? hashTab : (profile.activeTemplate?.defaultTab || "posts");
-    profileState.drawerOpen = false;
-    profileState.follows = [];
-    profileState.followers = [];
-    profileState.graph = null;
-    profileState.recommendations = [];
+	profileState.aliasId = aliasId;
+	profileState.profile = profile;
+	profileState.viewerAliasId = currentViewerAlias();
+	applySection(location.hash ? location.hash.slice(1) : profile.activeTemplate?.defaultTab);
+	profileState.drawerOpen = false;
+	profileState.viewerFollows = [];
+	profileState.profileFollows = [];
+	profileState.followers = [];
+	profileState.graph = null;
+	profileState.recommendations = [];
+	profileState.socialExtrasLoaded = false;
 }
 
-export function setTab(tab) {
-    profileState.activeTab = allowedTabs.has(tab) ? tab : "posts";
-    profileState.drawerOpen = false;
-    if (history.replaceState) history.replaceState(null, "", `#${profileState.activeTab}`);
+/** @param {string} section Primary section or backwards-compatible legacy hash. */
+export function setTab(section) {
+	applySection(section);
+	profileState.drawerOpen = false;
+	if (history.replaceState) {
+		history.replaceState(null, "", `#${profileState.activeTab}`);
+	}
 }
 
-export function setDrawer(open) { profileState.drawerOpen = Boolean(open); }
-export function toggleDrawer() { profileState.drawerOpen = !profileState.drawerOpen; }
-export function setSocialExtras({ follows, followers, graph, recommendations } = {}) {
-    if (Array.isArray(follows)) profileState.follows = follows;
-    if (Array.isArray(followers)) profileState.followers = followers;
-    if (graph) profileState.graph = graph;
-    if (Array.isArray(recommendations)) profileState.recommendations = recommendations;
+/** @param {object} next Partial archive view state. */
+export function setArchiveView(next = {}) {
+	if (["place", "timeline", "category"].includes(next.archiveMode)) {
+		profileState.archiveMode = next.archiveMode;
+	}
+	if (["all", "post", "comment"].includes(next.archiveType)) {
+		profileState.archiveType = next.archiveType;
+	}
+	if (next.archiveQuery !== undefined) {
+		profileState.archiveQuery = String(next.archiveQuery || "");
+	}
+}
+
+export function setDrawer(open) {
+	profileState.drawerOpen = Boolean(open);
+}
+
+export function toggleDrawer() {
+	profileState.drawerOpen = !profileState.drawerOpen;
+}
+
+/** @param {object} extras Public and viewer-specific social graph payloads. */
+export function setSocialExtras(extras = {}) {
+	if (Array.isArray(extras.viewerFollows)) {
+		profileState.viewerFollows = extras.viewerFollows;
+	}
+	if (Array.isArray(extras.profileFollows)) {
+		profileState.profileFollows = extras.profileFollows;
+	}
+	if (Array.isArray(extras.followers)) {
+		profileState.followers = extras.followers;
+	}
+	if (extras.graph) {
+		profileState.graph = extras.graph;
+	}
+	if (Array.isArray(extras.recommendations)) {
+		profileState.recommendations = extras.recommendations;
+	}
+	profileState.socialExtrasLoaded = true;
+}
+
+function applySection(rawSection) {
+	const requested = String(rawSection || "contributions");
+	const legacy = LEGACY_SECTION_MAP.get(requested);
+	if (legacy) {
+		profileState.activeTab = legacy[0];
+		profileState.archiveType = legacy[1];
+		return;
+	}
+	profileState.activeTab = PRIMARY_SECTIONS.has(requested) ? requested : "contributions";
+}
+
+function currentViewerAlias() {
+	return window.curAlias
+		|| window.currentAlias
+		|| localStorage.getItem("BH_PROFILE_VIEWER_ALIAS")
+		|| "";
 }

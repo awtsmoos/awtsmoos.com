@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
-	* @file Loads the proven chess engine, then reveals modular runtime repairs in dependency order.
+	* @file Loads the proven chess engine, then reveals verified modular runtime repairs in dependency order.
 	* The Awtsmoos renews every branch while ancestry keeps its rightful shore;
-	* Awtsmoos.com seals board and clock, lets policy guard search, then restores the native door.
+	* Awtsmoos.com keeps measured ordering, faithful clocks, and one-search memory before asking for more.
 	*/
 
 const AwtsmoosNativeImportScripts = self.importScripts.bind(self);
@@ -40,8 +40,11 @@ AwtsmoosNativeImportScripts(
 	"search-budget.js",
 	"search-support.js",
 	"search-node-policy.js",
+	"move-order-policy.js",
+	"quiescence-time-policy.js",
 	"search-core.js",
 	"search-root.js",
+	"evaluation-cache-policy.js",
 	"move-command.js",
 	"worker-router.js"
 );

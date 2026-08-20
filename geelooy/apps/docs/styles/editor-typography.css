@@ -1,0 +1,88 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond heading and body; Awtsmoos.com gives each level a measured
+ * voice so structure can be scanned, printed, exported, and outlined without typographic confusion.
+ */
+.document-canvas {
+	color: var(--docs-ink);
+	font: 16px/1.65 Georgia, "Times New Roman", serif;
+	caret-color: var(--docs-accent);
+}
+
+.document-canvas p,
+.document-canvas blockquote,
+.document-canvas pre,
+.document-canvas ul,
+.document-canvas ol,
+.document-canvas table {
+	margin-top: 0;
+	margin-bottom: 0.9em;
+}
+
+.document-canvas h1,
+.document-canvas h2,
+.document-canvas h3,
+.document-canvas h4,
+.document-canvas h5,
+.document-canvas h6 {
+	margin: 1.15em 0 0.45em;
+	color: var(--docs-ink);
+	font-family: var(--docs-font-ui);
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+}
+
+.document-canvas h1 {
+	font-size: 2.15rem;
+	font-weight: 780;
+}
+
+.document-canvas h2 {
+	font-size: 1.65rem;
+	font-weight: 740;
+}
+
+.document-canvas h3 {
+	font-size: 1.35rem;
+	font-weight: 720;
+}
+
+.document-canvas h4 {
+	font-size: 1.15rem;
+	font-weight: 700;
+}
+
+.document-canvas h5 {
+	font-size: 1rem;
+	font-weight: 720;
+}
+
+.document-canvas h6 {
+	font-size: 0.9rem;
+	font-weight: 760;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+}
+
+.document-canvas blockquote {
+	padding-left: 1em;
+	border-left: 3px solid var(--docs-border-strong);
+	color: var(--docs-muted);
+}
+
+.document-canvas pre,
+.document-canvas code {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.document-canvas pre {
+	overflow-x: auto;
+	padding: 12px 14px;
+	border-radius: 9px;
+	background: var(--docs-surface-soft);
+	font-size: 0.9rem;
+	line-height: 1.5;
+}

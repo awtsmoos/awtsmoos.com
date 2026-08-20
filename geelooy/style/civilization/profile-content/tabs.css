@@ -1,0 +1,55 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets one Profile chamber speak at a time; Awtsmoos.com keeps
+ * aliases, Heichelos, and account meaning keyboard-reachable in one compact rail.
+ */
+.profile-command-panel {
+	padding: clamp(.85rem, 2vw, 1.25rem);
+}
+
+.profile-tabs {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .25rem;
+	padding: .25rem;
+	border: 1px solid var(--civil-line);
+	border-radius: .85rem;
+	background: rgba(2, 7, 18, .78);
+}
+
+.profile-tabs button {
+	min-block-size: 2.9rem;
+	border: 1px solid transparent;
+	border-radius: .65rem;
+	background: transparent;
+	box-shadow: none;
+	color: var(--civil-text-soft);
+	font-weight: 800;
+}
+
+.profile-tabs button:is(.active, [aria-selected="true"]) {
+	border-color: var(--civil-line-strong);
+	background: linear-gradient(145deg, rgba(31, 72, 112, .76), rgba(28, 25, 75, .68));
+	box-shadow: inset 0 0 0 1px rgba(86, 207, 229, .1), 0 0 1.2rem rgba(86, 207, 229, .1);
+	color: var(--civil-text);
+}
+
+.profile-panel-body {
+	padding-block-start: 1rem;
+}
+
+.panel-title-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+}
+
+.social-card-list,
+.g-grid,
+.profile-living-grid {
+	display: grid;
+	gap: .8rem;
+}

@@ -2,76 +2,91 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives every alias field a visible name, a dark vessel, and a
- * clear focus ring. Awtsmoos.com never asks identity to emerge through a pale
- * browser-default rectangle or a cramped thirty-seven-pixel doorway.
+ * The Awtsmoos gives every identity field one composed boundary; Awtsmoos.com
+ * keeps captions, controls, hints, and live metadata together instead of adrift.
  */
+.alias-field-shell {
+	display: grid;
+	gap: 7px;
+	padding: 11px 12px 12px;
+	border: 1px solid var(--g-line, rgba(255, 255, 255, .15));
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--g-surface-2, #111b2a) 92%, transparent);
+	transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
 
-#alias-form label {
-	display: inline-flex;
-	align-items: center;
-	gap: .45rem;
-	margin-block-start: .4rem;
-	color: #c8d4e4;
-	font-size: .78rem;
-	font-weight: 840;
-	letter-spacing: .07em;
+.alias-field-shell:hover {
+	border-color: color-mix(in srgb, var(--g-cyan, #61cbd9) 36%, var(--g-line, rgba(255, 255, 255, .15)));
+}
+
+.alias-field-shell:focus-within {
+	border-color: var(--g-cyan, #61cbd9);
+	background: color-mix(in srgb, var(--g-cyan, #61cbd9) 5%, var(--g-surface-2, #111b2a));
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--g-cyan, #61cbd9) 13%, transparent);
+	transform: translateY(-1px);
+}
+
+.alias-field-caption {
+	color: var(--g-muted, #9aacbf);
+	font-size: .68rem;
+	font-weight: 850;
+	letter-spacing: .08em;
 	text-transform: uppercase;
 }
 
-#alias-form label::before {
-	inline-size: .42rem;
-	block-size: .42rem;
-	border-radius: 50%;
-	background: #61cbd9;
-	content: "";
-	flex: 0 0 auto;
+.alias-field-helper,
+.alias-field-meta {
+	color: var(--g-muted, #9aacbf);
+	font-size: .75rem;
+	line-height: 1.45;
 }
 
-#alias-form :is(input[type="text"], textarea) {
-	inline-size: 100%;
-	min-inline-size: 0;
-	min-block-size: 48px;
-	padding: .78rem .88rem;
-	border: 1px solid rgba(255, 255, 255, .2);
-	border-radius: .8rem;
-	background: #162231;
-	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
-	color: #f4f7fb;
-	font: 650 max(16px, 1rem)/1.45 Inter, ui-sans-serif, system-ui, sans-serif;
+.alias-field-meta {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.alias-field-shell :is(input, textarea) {
+	width: 100%;
+	min-width: 0;
+	padding: 0;
+	border: 0;
 	outline: 0;
-	transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+	background: transparent;
+	color: var(--g-text, #f4f7fb);
+	font: 650 max(16px, 1rem)/1.5 Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
-#alias-form textarea {
-	min-block-size: 9rem;
+.alias-field-shell textarea {
+	min-height: 8.5rem;
 	resize: vertical;
 }
 
-#alias-form :is(input, textarea)::placeholder {
-	color: #8f9eb3;
-	opacity: 1;
+.alias-field-shell :is(input, textarea)::placeholder {
+	color: color-mix(in srgb, var(--g-muted, #9aacbf) 70%, transparent);
 }
 
-#alias-form :is(input, textarea):focus-visible {
-	border-color: #61cbd9;
-	background: #192738;
-	box-shadow: 0 0 0 3px rgba(97, 203, 217, .16);
-}
-
-#alias-form :is(input, textarea):disabled {
+.alias-field-shell input:disabled {
 	cursor: not-allowed;
-	opacity: .58;
+	opacity: .62;
 }
 
-.optional-id {
-	position: relative;
+.alias-address-control {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) 44px;
-	gap: .55rem;
-	min-inline-size: 0;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 3px;
+	align-items: center;
+	color: var(--g-cyan, #61cbd9);
+	font-weight: 850;
 }
 
-.optional-id label {
-	grid-column: 1 / -1;
+.alias-address-control input {
+	color: var(--g-text, #f4f7fb);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.alias-field-shell {
+		transition: none;
+	}
 }

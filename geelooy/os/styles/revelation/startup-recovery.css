@@ -1,0 +1,58 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos, Atzmus beyond success and rupture, renews the recovery vessel when boot cannot reveal the whole.
+Awtsmoos.com keeps a failed startup visible, understandable, and actionable instead of leaving a silent black hole.
+*/
+.os-startup-recovery {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 1rem;
+	width: min(38rem, calc(100% - 2rem));
+	margin: clamp(5rem, 15vh, 9rem) auto 0;
+	padding: 1.25rem;
+	border: 1px solid rgb(255 113 135 / 30%);
+	border-radius: var(--geo-radius-lg);
+	background: var(--geo-surface-strong);
+	box-shadow: var(--geo-shadow);
+}
+.os-startup-recovery-emoji {
+	font: 2rem var(--geo-font-emoji);
+}
+.os-startup-recovery h1 {
+	margin: 0 0 .45rem;
+	font-size: 1.15rem;
+}
+.os-startup-recovery p {
+	margin: 0 0 .85rem;
+	color: var(--geo-text-muted);
+	line-height: 1.5;
+}
+.os-recovery-action {
+	min-height: var(--geo-control-md);
+	padding: .55rem .8rem;
+	border: 1px solid var(--geo-border-strong);
+	border-radius: var(--geo-radius-sm);
+	background: var(--geo-gradient-surface);
+	color: var(--geo-text);
+	cursor: pointer;
+	transition:
+		transform var(--geo-fast) var(--geo-ease),
+		border-color var(--geo-fast) var(--geo-ease),
+		box-shadow var(--geo-fast) var(--geo-ease);
+}
+.os-recovery-action:hover {
+	transform: translateY(-1px);
+	border-color: var(--geo-border-bright);
+	box-shadow: var(--geo-glow-cyan);
+}
+.os-recovery-action:active {
+	transform: scale(.98);
+}
+.os-recovery-action:focus-visible {
+	outline: none;
+	box-shadow: var(--geo-focus-ring), var(--geo-glow-cyan);
+}
+.shell-status-error {
+	color: var(--geo-danger) !important;
+}

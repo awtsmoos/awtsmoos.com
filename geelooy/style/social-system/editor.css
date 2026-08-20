@@ -2,37 +2,14 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers editor vessels without collapsing their distinctions;
- * Awtsmoos.com lets forms, cards, actions, and revelation polish remain modular.
+ * Shared structured-editor law for Awtsmoos.com: layout, fields, cards,
+ * retractable governance, state, and actions remain small independent vessels.
  */
-@import "./tokens.css";
-@import "./editor/parts/shell.css";
-@import "./editor/parts/forms.css";
-@import "./editor/parts/cards.css";
-@import "./editor/parts/actions.css";
-@import "./editor/parts/revelation.css?v=editor-revelation-001";
-@import "./editor/parts/mobile.css";
-
-:where(.social-editor, .editor-shell, .composer-shell, [data-editor-shell]) {
-	min-width: 0;
-	max-width: 100%;
-	overflow: clip;
-	border: 1px solid rgba(255, 255, 255, .5);
-	border-radius: var(--radius-xl, 2rem);
-	background: linear-gradient(145deg, rgba(255, 255, 255, .9), rgba(248, 250, 252, .72));
-	box-shadow: var(--shadow-card, 0 10px 30px rgba(15, 23, 42, .08));
-}
-
-:where(.editor-toolbar, .composer-toolbar, [data-editor-toolbar]) {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: .5rem;
-	padding: .75rem;
-}
-
-:where(.editor-body, .composer-body, [contenteditable="true"]) {
-	min-width: 0;
-	overflow-wrap: anywhere;
-	word-break: break-word;
-}
+@import url("./editor/parts/layout.css");
+@import url("./editor/parts/forms.css");
+@import url("./editor/parts/cards.css");
+@import url("./editor/parts/workbench-core.css");
+@import url("./editor/parts/workbench-disclosure.css");
+@import url("./editor/parts/workbench-mobile.css");
+@import url("./editor/parts/states.css");
+@import url("./editor/parts/actions.css");

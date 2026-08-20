@@ -1,0 +1,130 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives every modern post-block its own measured garment;
+ * Awtsmoos.com lets prose remain readable while a shared Chain App opens like a living portal, never a visual accident.
+ */
+.awtsmoos-rich-social-document {
+	display: grid;
+	gap: clamp(.85rem, 2vw, 1.25rem);
+	margin-block: clamp(1rem, 3vw, 2rem);
+}
+
+.awtsmoos-rich-block {
+	max-inline-size: 74ch;
+	margin: 0 auto;
+	inline-size: 100%;
+	color: var(--color-ink, currentColor);
+	line-height: 1.72;
+	white-space: pre-wrap;
+}
+
+.awtsmoos-rich-block--heading {
+	font-size: clamp(1.45rem, 3vw, 2.3rem);
+	line-height: 1.12;
+	letter-spacing: -.025em;
+}
+
+.awtsmoos-rich-block--quote,
+.awtsmoos-rich-block--callout {
+	padding: 1rem 1.15rem;
+	border-inline-start: .28rem solid var(--color-primary, #6558e8);
+	border-radius: .8rem;
+	background: color-mix(in srgb, var(--bg-vellum, #fff) 92%, var(--color-primary, #6558e8));
+}
+
+.awtsmoos-rich-block--code {
+	overflow: auto;
+	padding: 1rem;
+	border-radius: .9rem;
+	background: #0b1220;
+	color: #e6edf7;
+	font: .92rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace;
+	white-space: pre;
+}
+
+.awtsmoos-rich-block--bullet-list,
+.awtsmoos-rich-block--number-list {
+	padding-inline-start: 1.6rem;
+	white-space: normal;
+}
+
+.awtsmoos-rich-block a,
+.awtsmoos-chain-app-embed a {
+	color: var(--color-primary, #6558e8);
+	text-underline-offset: .16em;
+}
+
+.awtsmoos-chain-app-embed {
+	inline-size: min(100%, 76rem);
+	margin: .35rem auto;
+	border: 1px solid color-mix(in srgb, var(--color-primary, #6558e8) 24%, transparent);
+	border-radius: 1.15rem;
+	background: color-mix(in srgb, var(--bg-vellum, #fff) 96%, var(--color-primary, #6558e8));
+	box-shadow: 0 1.1rem 3rem rgba(20, 24, 40, .13);
+	overflow: clip;
+}
+
+.awtsmoos-chain-app-embed__header {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	align-items: center;
+	padding: .8rem 1rem;
+	border-block-end: 1px solid rgba(100, 116, 139, .18);
+}
+
+.awtsmoos-chain-app-embed__copy {
+	display: grid;
+	gap: .12rem;
+	min-inline-size: 0;
+}
+
+.awtsmoos-chain-app-embed__copy small {
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .14em;
+	color: var(--color-primary, #6558e8);
+}
+
+.awtsmoos-chain-app-embed__frame-shell {
+	min-block-size: clamp(22rem, 62vh, 44rem);
+	background: #fff;
+}
+
+.awtsmoos-chain-app-embed__frame {
+	display: block;
+	inline-size: 100%;
+	block-size: clamp(22rem, 62vh, 44rem);
+	border: 0;
+	background: #fff;
+}
+
+.awtsmoos-rich-social-document :is(a, button):focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--color-primary, #6558e8) 38%, transparent);
+	outline-offset: 3px;
+}
+
+@media (max-width: 620px) {
+	.awtsmoos-chain-app-embed {
+		border-radius: .85rem;
+	}
+	.awtsmoos-chain-app-embed__header {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+	.awtsmoos-chain-app-embed__frame,
+	.awtsmoos-chain-app-embed__frame-shell {
+		block-size: 70vh;
+		min-block-size: 24rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-rich-social-document *,
+	.awtsmoos-chain-app-embed * {
+		scroll-behavior: auto !important;
+		transition: none !important;
+		animation: none !important;
+	}
+}

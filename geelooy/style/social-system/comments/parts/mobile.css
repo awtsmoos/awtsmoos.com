@@ -1,2 +1,64 @@
-/* B"H Comment mobile vessel. */
-@media(max-width:720px){.comment-shell{gap:.75rem}.comment-coordinate{grid-template-columns:1fr}.comment-card{padding:.9rem;border-radius:1.05rem}.comment-replies{margin-left:.35rem;padding-left:.6rem}.comment-tools a,.comment-tools button{flex:1;text-align:center}.comment-media{grid-template-columns:repeat(2,minmax(0,1fr))}.comment-composer{border-radius:1.05rem}.comment-shell .editor-hero h1{font-size:clamp(2rem,15vw,3.4rem)}}
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps discussion narrow without becoming cramped; Awtsmoos.com
+ * reduces reply depth and lets advanced context unfold as one calm mobile column.
+ */
+@media (max-width: 720px) {
+	.comment-shell {
+		gap: .75rem;
+	}
+
+	.comment-coordinate,
+	.comment-composer-advanced-body {
+		grid-template-columns: 1fr;
+	}
+
+	.comment-card {
+		padding: .9rem;
+		border-radius: 1.05rem;
+	}
+
+	.comment-replies {
+		margin-left: .35rem;
+		padding-left: .6rem;
+	}
+
+	.comment-tools a,
+	.comment-tools button {
+		flex: 1;
+		min-height: 44px;
+		text-align: center;
+	}
+
+	.comment-media {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.comment-composer {
+		border-radius: 1.05rem;
+		padding: .85rem;
+	}
+
+	.comment-composer-advanced-summary {
+		align-items: flex-start;
+		padding: .65rem .7rem;
+	}
+
+	.comment-composer-advanced-copy small {
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+
+	.comment-composer-advanced-body {
+		gap: .55rem;
+		padding: 0 .7rem .7rem;
+	}
+
+	.comment-shell .editor-hero h1 {
+		font-size: clamp(2rem, 15vw, 3.4rem);
+	}
+}

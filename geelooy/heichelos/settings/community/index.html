@@ -1,50 +1,76 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives communal governance a chamber of deliberate gates instead of a wall of squares;
+Awtsmoos.com lets identity, publishing, content, status, and technical truth each receive their proper airs.
+-->
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Community Settings</title>
-  <link rel="stylesheet" href="/style/heichelos/community-settings.css?v=clean-002">
-  <script defer src="/heichelos/settings/community/app.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<title>Community Governance — Awtsmoos</title>
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=community-governance-001">
+	<link rel="stylesheet" href="/style/heichelos/community-settings.css?v=community-governance-001">
+	<script type="module" src="/heichelos/settings/community/app.js?v=community-governance-001"></script>
 </head>
 <body>
-  <main class="heichel-community-settings awt-panel" aria-labelledby="settingsTitle">
-    <header>
-      <p class="awt-eyebrow">Community</p>
-      <h1 id="settingsTitle">Settings</h1>
-      <p>Load a Heichel, review publishing gates, and save changes with a moderator alias.</p>
-      <p><a href="/heichelos/settings/community/moderation/">Open moderation queue</a></p>
-    </header>
-    <form id="settings">
-      <section class="awt-settings-section">
-        <h2>Identity</h2>
-        <label>Heichel ID <input name="heichelId" placeholder="Heichel ID" required></label>
-        <label>Moderator alias <input name="aliasId" placeholder="Alias for saving"></label>
-      </section>
-      <section class="awt-settings-section">
-        <h2>Publishing</h2>
-        <label><input type="checkbox" name="allowPublicSubmissions"> Allow public submissions</label>
-        <label><input type="checkbox" name="requireModeratorApproval"> Require moderator approval</label>
-        <label><input type="checkbox" name="allowAnonymous"> Allow anonymous</label>
-        <label><input type="checkbox" name="allowGuestViewing"> Allow guest viewing</label>
-      </section>
-      <section class="awt-settings-section">
-        <h2>Content</h2>
-        <label><input type="checkbox" name="allowQuestions"> Allow questions</label>
-        <label><input type="checkbox" name="allowAnswers"> Allow answers</label>
-        <label><input type="checkbox" name="allowPosts"> Allow posts</label>
-        <label><input type="checkbox" name="allowSeries"> Allow series</label>
-        <label><input type="checkbox" name="allowComments"> Allow comments</label>
-        <label><input type="checkbox" name="allowPolls"> Allow polls</label>
-        <label><input type="checkbox" name="commentModeration"> Moderate comments</label>
-      </section>
-      <div class="awt-action-row">
-        <button type="button" id="load">Load</button>
-        <button id="save">Save</button>
-      </div>
-    </form>
-    <section aria-live="polite" id="status"></section>
-    <pre id="out"></pre>
-  </main>
+	<main class="g-page heichel-community-settings" aria-labelledby="settingsTitle">
+		<header class="community-hero">
+			<div class="community-hero-copy">
+				<span class="community-kicker">Heichel governance</span>
+				<h1 id="settingsTitle">Community Settings</h1>
+				<p>Load one Heichel, shape who may contribute and what may appear, then save through a moderator alias.</p>
+			</div>
+			<div class="community-hero-actions">
+				<span class="community-loaded-badge" data-community-loaded>Not loaded</span>
+				<a class="g-control" href="/heichelos/settings/community/moderation/">Moderation queue</a>
+			</div>
+		</header>
+		<form id="settings" class="community-workspace" aria-busy="false">
+			<section class="community-panel community-identity" aria-labelledby="identityTitle">
+				<div class="community-section-heading"><span>01</span><div><h2 id="identityTitle">Identity</h2><p>Choose the community and the alias authorized to save.</p></div></div>
+				<label class="g-field-shell" for="heichelId">
+					<span class="g-field-caption">Heichel ID</span>
+					<input id="heichelId" name="heichelId" placeholder="community-address" required autocomplete="off">
+					<span class="g-field-helper">The stable Heichel address whose governance you want to inspect.</span>
+				</label>
+				<label class="g-field-shell" for="aliasId">
+					<span class="g-field-caption">Moderator alias</span>
+					<input id="aliasId" name="aliasId" placeholder="alias used for saving" autocomplete="off">
+					<span class="g-field-helper">Required by the existing API when governance changes are persisted.</span>
+				</label>
+			</section>
+			<section class="community-panel" aria-labelledby="publishingTitle">
+				<div class="community-section-heading"><span>02</span><div><h2 id="publishingTitle">Publishing gates</h2><p>Decide how work enters the community and when review is required.</p></div></div>
+				<div class="g-choice-grid">
+					<label class="g-choice-card"><input type="checkbox" name="allowPublicSubmissions"><span class="g-choice-copy"><span class="g-choice-title">Public submissions</span><span class="g-choice-detail">Let visitors submit work into the Heichel.</span></span></label>
+					<label class="g-choice-card"><input type="checkbox" name="requireModeratorApproval"><span class="g-choice-copy"><span class="g-choice-title">Moderator approval</span><span class="g-choice-detail">Hold submitted work for review before publication.</span></span></label>
+					<label class="g-choice-card"><input type="checkbox" name="allowAnonymous"><span class="g-choice-copy"><span class="g-choice-title">Anonymous contribution</span><span class="g-choice-detail">Permit submissions without a public alias identity.</span></span></label>
+					<label class="g-choice-card"><input type="checkbox" name="allowGuestViewing"><span class="g-choice-copy"><span class="g-choice-title">Guest viewing</span><span class="g-choice-detail">Allow people outside the signed-in community to read.</span></span></label>
+				</div>
+			</section>
+			<section class="community-panel community-content" aria-labelledby="contentTitle">
+				<div class="community-section-heading"><span>03</span><div><h2 id="contentTitle">Content capabilities</h2><p>Reveal only the formats this community is prepared to carry.</p></div></div>
+				<div class="g-choice-grid community-content-grid">
+					<label class="g-choice-card"><input type="checkbox" name="allowQuestions"><span class="g-choice-copy"><span class="g-choice-title">Questions</span><span class="g-choice-detail">Open inquiry threads.</span></span></label>
+					<label class="g-choice-card"><input type="checkbox" name="allowAnswers"><span class="g-choice-copy"><span class="g-choice-title">Answers</span><span class="g-choice-detail">Allow direct responses to questions.</span></span></label>
+					<label class="g-choice-card"><input type="checkbox" name="allowPosts"><span class="g-choice-copy"><span class="g-choice-title">Posts</span><span class="g-choice-detail">Publish standalone written work.</span></span></label>
+					<label class="g-choice-card"><input type="checkbox" name="allowSeries"><span class="g-choice-copy"><span class="g-choice-title">Series</span><span class="g-choice-detail">Group related posts into ordered collections.</span></span></label>
+					<label class="g-choice-card"><input type="checkbox" name="allowComments"><span class="g-choice-copy"><span class="g-choice-title">Comments</span><span class="g-choice-detail">Enable public discussion beneath content.</span></span></label>
+					<label class="g-choice-card"><input type="checkbox" name="allowPolls"><span class="g-choice-copy"><span class="g-choice-title">Polls</span><span class="g-choice-detail">Allow structured community voting.</span></span></label>
+					<label class="g-choice-card"><input type="checkbox" name="commentModeration"><span class="g-choice-copy"><span class="g-choice-title">Comment moderation</span><span class="g-choice-detail">Review comments before they become public.</span></span></label>
+				</div>
+			</section>
+			<footer class="g-command-bar community-command-bar" data-sticky="true">
+				<div id="status" class="g-status-rail" data-tone="neutral" role="status" aria-live="polite">Ready.</div>
+				<div class="g-command-actions"><button class="g-control" type="button" id="load">Load governance</button><button class="g-control g-primary-charge" id="save">Save changes</button></div>
+			</footer>
+		</form>
+		<details class="community-technical g-disclosure-card">
+			<summary><span>Technical response</span><small>Raw API result for debugging and support</small></summary>
+			<pre id="out">No response loaded yet.</pre>
+		</details>
+	</main>
 </body>
 </html>

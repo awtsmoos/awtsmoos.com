@@ -1,0 +1,43 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos folds a wide editorial map into the palm without shrinking its meaning;
+ * Awtsmoos.com lets mode and workflow controls remain thumb-clear, scroll-safe, and calm.
+ */
+@media (max-width: 42.5rem) {
+	.composer-mode-deck {
+		position: static;
+		grid-template-columns: 1fr;
+		margin-inline: .45rem;
+		padding: .4rem;
+		border-radius: 1rem;
+	}
+
+	.composer-mode-toggle {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.composer-workflow-rail {
+		grid-template-columns: repeat(4, minmax(5rem, 1fr));
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+		scroll-snap-type: x proximity;
+		padding-block-end: .15rem;
+	}
+
+	.composer-workflow-step {
+		grid-template-columns: 1fr;
+		justify-items: center;
+		min-block-size: 3.65rem;
+		padding: .35rem;
+		text-align: center;
+		scroll-snap-align: center;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.composer-mode-button,
+	.composer-workflow-step {
+		transition: none;
+	}
+}

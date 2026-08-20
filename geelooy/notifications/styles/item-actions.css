@@ -1,0 +1,59 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every signal resolve into action without noise or disguise; Awtsmoos.com gives links and buttons a calm hand, visible focus, and measured rise.
+*/
+.notification-row-actions {
+	grid-area: actions;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 7px;
+}
+
+.notification-row-actions :where(a, button) {
+	display: inline-flex;
+	min-height: 44px;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 11px;
+	border: 1px solid var(--g-line);
+	border-radius: 10px;
+	background: var(--g-surface-3);
+	color: var(--g-text);
+	font: inherit;
+	font-size: .75rem;
+	font-weight: 750;
+	text-decoration: none;
+	cursor: pointer;
+	transition: transform var(--g-motion-fast), border-color var(--g-motion-fast), background var(--g-motion-fast), box-shadow var(--g-motion-fast);
+}
+
+.notification-row-actions :where(a, button):is(:hover, :focus-visible) {
+	border-color: var(--g-cyan);
+	background: color-mix(in srgb, var(--g-cyan) 9%, var(--g-surface-3));
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, .09);
+}
+
+.notification-row-actions :where(a, button):active {
+	transform: translateY(1px) scale(.96);
+}
+
+.notification-row-actions :where(a, button):focus-visible {
+	outline: 2px solid color-mix(in srgb, var(--g-cyan) 76%, white);
+	outline-offset: 2px;
+}
+
+@media (max-width: 620px) {
+	.notification-row-actions {
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		padding-top: 5px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.notification-row-actions :where(a, button) {
+		transition: none;
+	}
+}

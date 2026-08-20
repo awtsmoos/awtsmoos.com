@@ -1,0 +1,116 @@
+/*B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers hidden choices into layered vessels without letting one plane swallow another;
+ * Awtsmoos.com gives popup, dialog, close action, and status a measured sky where each can serve the other.
+ */
+#hoursPopup,
+#minutesPopup {
+	position: fixed;
+	inset: clamp(.75rem, 4vw, 2rem);
+	z-index: var(--mawgawl-z-popup);
+	width: auto;
+	max-width: 72rem;
+	max-height: calc(100dvh - clamp(1.5rem, 8vw, 4rem));
+	margin: auto;
+	padding: clamp(.85rem, 2vw, 1.25rem);
+	border: 1px solid var(--mawgawl-line-strong);
+	border-radius: var(--mawgawl-radius-lg);
+	background: rgba(9, 18, 34, .97);
+	color: var(--mawgawl-text);
+	box-shadow: 0 30px 90px rgba(0, 0, 0, .58);
+	backdrop-filter: blur(18px);
+	overflow: auto;
+}
+
+#hoursPopup {
+	height: fit-content;
+	align-self: start;
+}
+
+#minutesPopup {
+	height: min(80dvh, 46rem);
+}
+
+#closeButton,
+#closeMinutesButton,
+.close {
+	display: grid;
+	width: 2.75rem;
+	height: 2.75rem;
+	margin: 0 0 .7rem auto;
+	padding: 0;
+	place-items: center;
+	border: 1px solid var(--mawgawl-line-strong);
+	border-radius: 50%;
+	background: rgba(255, 114, 133, .08);
+	color: var(--mawgawl-danger) !important;
+	font-size: 1.2rem !important;
+	font-weight: 900 !important;
+	line-height: 1;
+	cursor: pointer !important;
+	transition: transform var(--mawgawl-fast) var(--mawgawl-ease), border-color var(--mawgawl-fast) var(--mawgawl-ease), background var(--mawgawl-fast) var(--mawgawl-ease);
+}
+
+#closeButton:hover,
+#closeMinutesButton:hover,
+.close:hover,
+#closeButton:focus-visible,
+#closeMinutesButton:focus-visible,
+.close:focus-visible {
+	border-color: var(--mawgawl-danger);
+	background: rgba(255, 114, 133, .16);
+	transform: scale(1.04);
+	outline: 2px solid var(--mawgawl-danger);
+	outline-offset: 3px;
+}
+
+.modal {
+	position: fixed;
+	inset: 0;
+	z-index: var(--mawgawl-z-dialog);
+	display: none;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+	background: rgba(2, 6, 15, .78);
+	backdrop-filter: blur(14px);
+	overflow: auto;
+}
+
+.modal-content {
+	position: relative;
+	width: min(100%, 56rem);
+	max-height: min(88dvh, 52rem);
+	margin: auto;
+	padding: clamp(.9rem, 3vw, 1.35rem);
+	border: 1px solid var(--mawgawl-line-strong);
+	border-radius: var(--mawgawl-radius-lg);
+	background: var(--mawgawl-bg-soft);
+	box-shadow: 0 34px 100px rgba(0, 0, 0, .62);
+	overflow: auto;
+	text-align: center;
+}
+
+.modalMessage {
+	margin: 0;
+	padding: 0;
+}
+
+#info {
+	position: sticky;
+	bottom: max(.5rem, env(safe-area-inset-bottom));
+	z-index: var(--mawgawl-z-status);
+	width: min(100%, 72rem);
+	margin: 1rem auto 0;
+	padding: .7rem .9rem;
+	border: 1px solid var(--mawgawl-line);
+	border-radius: var(--mawgawl-radius-sm);
+	background: rgba(9, 18, 34, .94);
+	color: var(--mawgawl-muted);
+	box-shadow: var(--mawgawl-shadow);
+	backdrop-filter: blur(12px);
+	text-align: center;
+}

@@ -2,23 +2,23 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @module PublicDriveSiteGateway
- * @description
- * The Awtsmoos gives one mapped site an exact public path while Awtsmoos.com lets
- * the modern Drive response engine own bytes, ranges, cache validators, metering,
- * MIME, and HEAD law. Site identity wraps transport truth; it never reimplements it.
- */
-
 const { normalizeDrivePath } = require('../api/social/helper/drive/pathPolicy.js');
-const { buildPublicPathResponse } = require('../api/social/helper/drive/publicResponse.js');
+const {
+	SOURCE_KINDS,
+	effectiveSiteSource
+} = require('../api/social/helper/drive/siteSourcePolicy.js');
 const { readDriveState } = require('../api/social/helper/drive/stateRepository.js');
-const { isPublicFile } = require('../api/social/helper/drive/siteStatusService.js');
 const { resolveSiteRequest } = require('./siteResolution.js');
+const { buildMappedSourceResponse } = require('./siteGatewaySource.js');
 
-async function buildSiteResponse(options) {
+/**
+ * @module PublicSiteGateway
+ * @description
+ * The Awtsmoos gives one canonical public identity to both quiet files and living APIs;
+ * Awtsmoos.com keeps static gardens read-only while trusted hosted projects may receive full HTTP motion through a bounded loopback vessel, with no root or port exposed to the road.
+ */
+async function buildSiteResponse(options = {}) {
 	const method = String(options.method || 'GET').toUpperCase();
-	if (!['GET', 'HEAD'].includes(method)) return methodNotAllowed();
 	const requestPath = normalizeDrivePath(options.path || '', { allowRoot: true });
 	const state = await readDriveState(options.aliasId, options.$i);
 	const resolution = resolveSiteRequest({
@@ -26,50 +26,64 @@ async function buildSiteResponse(options) {
 		requestPath,
 		siteId: options.siteId
 	});
-	if (!resolution) return siteNotFound();
-	if (publicIndexPath(state, resolution) && !requestHasTrailingSlash(options.url)) {
+	if (!resolution || resolution.blocked) {
+		return brandedResponse(siteNotFound(), options.aliasId);
+	}
+	const source = effectiveSiteSource(resolution.site);
+	if (!methodAllowed(method, source.kind)) {
+		return methodNotAllowed(source.kind);
+	}
+	if (requiresNamedRootRedirect(resolution, options.url, method)) {
 		return brandedResponse(
 			redirect(`${pathnameOf(options.url)}/`),
 			options.aliasId,
-			resolution.site.id
+			publicSiteId(resolution)
 		);
 	}
-	let result = await publicPathResponse(options, resolution.drivePath, method);
-	if (result.statusCode === 404) {
-		result = await publicPathResponse(options, resolution.fallbackPath, method);
-		if (result.statusCode !== 404) result = { ...result, statusCode: 404 };
+	const mapped = await buildMappedSourceResponse(options, resolution, method, state);
+	if (mapped.directoryIndex && !requestHasTrailingSlash(options.url)) {
+		return brandedResponse(
+			redirect(`${pathnameOf(options.url)}/`),
+			options.aliasId,
+			publicSiteId(resolution)
+		);
 	}
-	return brandedResponse(result, options.aliasId, resolution.site.id);
+	return brandedResponse(mapped.result, options.aliasId, publicSiteId(resolution));
 }
 
-function publicIndexPath(state, resolution) {
-	return isPublicFile(state.entries[resolution.indexPath]) ? resolution.indexPath : null;
+function methodAllowed(method, sourceKind) {
+	if (sourceKind === SOURCE_KINDS.HOSTED_PROJECT) {
+		return ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'].includes(method);
+	}
+	return ['GET', 'HEAD'].includes(method);
 }
 
-function publicPathResponse(options, path, method) {
-	return buildPublicPathResponse({
-		aliasId: options.aliasId,
-		path,
-		method,
-		headers: options.headers || {},
-		$i: options.$i
-	});
+function methodNotAllowed(sourceKind) {
+	const allow = sourceKind === SOURCE_KINDS.HOSTED_PROJECT
+		? 'GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS'
+		: 'GET, HEAD';
+	return {
+		statusCode: 405,
+		headers: { Allow: allow },
+		response: Buffer.alloc(0)
+	};
 }
 
-function siteNotFound() {
-	return brandedResponse(
-		{ statusCode: 404, headers: {}, response: Buffer.alloc(0) },
-		'',
-		''
+function requiresNamedRootRedirect(resolution, url, method) {
+	return Boolean(
+		['GET', 'HEAD'].includes(method)
+		&& resolution.named
+		&& !resolution.relativePath
+		&& !requestHasTrailingSlash(url)
 	);
 }
 
-function methodNotAllowed() {
-	return {
-		statusCode: 405,
-		headers: { Allow: 'GET, HEAD' },
-		response: Buffer.alloc(0)
-	};
+function publicSiteId(resolution) {
+	return resolution.named ? resolution.site?.id : '';
+}
+
+function siteNotFound() {
+	return { statusCode: 404, headers: {}, response: Buffer.alloc(0) };
 }
 
 function redirect(location) {
@@ -97,7 +111,4 @@ function pathnameOf(url) {
 	return String(url || '/').split('?')[0].split('#')[0];
 }
 
-module.exports = {
-	buildSiteResponse,
-	publicIndexPath
-};
+module.exports = { buildSiteResponse };

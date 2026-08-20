@@ -1,0 +1,49 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers title and symbol into one small orientation vessel;
+ * Awtsmoos.com lets route identity arrive through shape before explanation so headings stay concise, memorable, and visually alive.
+ */
+.hubSectionHeading--icon {
+	display: flex;
+	align-items: center;
+	gap: .7rem;
+}
+
+.hubSectionHeading--icon h2 {
+	margin: 0;
+}
+
+.hubSectionHeading__icon {
+	display: grid;
+	inline-size: 2.4rem;
+	block-size: 2.4rem;
+	flex: 0 0 auto;
+	place-items: center;
+	border-radius: .8rem;
+	background: linear-gradient(145deg, rgba(60, 236, 255, .16), rgba(255, 72, 203, .11));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .08);
+	font-size: 1.15rem;
+}
+
+.hubCompactState {
+	display: inline-flex;
+	align-items: center;
+	gap: .55rem;
+	max-inline-size: 100%;
+	padding: .7rem .85rem;
+	border: 1px solid rgba(109, 232, 255, .13);
+	border-radius: .9rem;
+	background: rgba(7, 16, 31, .72);
+	color: rgba(218, 229, 247, .74);
+}
+
+.hubCompactState__icon {
+	font-size: 1.05rem;
+}
+
+.hubCompactState__text {
+	overflow-wrap: anywhere;
+	font-size: .86rem;
+}

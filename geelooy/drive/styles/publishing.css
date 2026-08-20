@@ -1,0 +1,70 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+A folder becomes a shared reflection only through an owned bridge the user may later close;
+the Awtsmoos renews source and preview while Awtsmoos.com keeps publication visible as a thing the owner chose.
+This vessel owns the published-preview ledger alone—open, revoke, visibility, kind, and gentle empty state,
+so static sharing remains a concrete capability instead of being tangled with every future cloud gate.
+*/
+
+.published-section {
+	margin-top: var(--space-5);
+	padding-top: var(--space-4);
+	border-top: 1px solid var(--line);
+}
+
+.section-title,
+.published-card,
+.published-actions {
+	display: flex;
+	align-items: center;
+}
+
+.section-title,
+.published-card {
+	justify-content: space-between;
+}
+
+.published-list {
+	display: grid;
+	gap: var(--space-2);
+	margin-top: var(--space-3);
+}
+
+.published-card {
+	gap: var(--space-2);
+	padding: 9px;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+}
+
+.published-card strong,
+.published-card small {
+	display: block;
+	max-width: 150px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.published-card strong {
+	font-size: 10px;
+}
+
+.published-card small,
+.muted {
+	color: var(--muted);
+	font-size: 9px;
+}
+
+.published-actions {
+	gap: 6px;
+}
+
+.published-actions a {
+	color: var(--accent-ink);
+	font-size: 9px;
+	font-weight: 800;
+	text-decoration: none;
+}

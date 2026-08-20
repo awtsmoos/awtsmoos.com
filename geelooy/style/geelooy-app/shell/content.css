@@ -1,20 +1,25 @@
-/* B"H — Content floats beneath the unusual roof without a conventional rail. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets page-content rest beneath navigation without inventing a rival sky;
+ * Awtsmoos.com keeps the main vessel at the base layer so menus may rise and never hide.
+ */
 .geelooy-content-region,
 .g-page {
 	width: min(100%, var(--g-content));
 	margin: 0 auto;
-	padding: calc(var(--g-header-h) + 2.5rem) clamp(0.9rem, 3vw, 2.5rem) 3rem;
+	padding: calc(var(--g-header-h) + 2.5rem) clamp(.9rem, 3vw, 2.5rem) 3rem;
 }
 
 .g-shell {
 	position: relative;
-	z-index: 3000;
+	z-index: var(--g-z-base);
 }
 
 @media (max-width: 54rem) {
 	.geelooy-content-region,
 	.g-page {
 		width: 100%;
-		padding: calc(var(--g-header-h) + 1.55rem) 0.85rem calc(5.5rem + env(safe-area-inset-bottom));
+		padding: calc(var(--g-header-h) + 1.55rem) .85rem calc(5.5rem + env(safe-area-inset-bottom));
 	}
 }

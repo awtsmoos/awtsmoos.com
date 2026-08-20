@@ -1,0 +1,73 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos hides complexity without hiding meaning; Awtsmoos.com lets the
+ * stable identity address unfold only when a traveler chooses to inspect it.
+ */
+.alias-advanced {
+	border: 1px solid var(--g-line, rgba(255, 255, 255, .14));
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--g-surface-2, #111b2a) 86%, transparent);
+	overflow: clip;
+}
+
+.alias-advanced > summary {
+	display: flex;
+	min-height: 52px;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px 12px;
+	list-style: none;
+	cursor: pointer;
+	transition: background 160ms ease, color 160ms ease;
+}
+
+.alias-advanced > summary::-webkit-details-marker {
+	display: none;
+}
+
+.alias-advanced > summary:is(:hover, :focus-visible) {
+	background: color-mix(in srgb, var(--g-cyan, #61cbd9) 7%, transparent);
+}
+
+.alias-advanced > summary span {
+	font-weight: 820;
+}
+
+.alias-advanced > summary small {
+	color: var(--g-muted, #9aacbf);
+}
+
+.alias-advanced-body {
+	display: grid;
+	gap: 9px;
+	padding: 0 10px 10px;
+}
+
+.alias-validation,
+.alias-form-status {
+	min-height: 1.3rem;
+	color: var(--g-muted, #9aacbf);
+	font-size: .8rem;
+	line-height: 1.45;
+}
+
+:is(.alias-validation, .alias-form-status)[data-tone="success"] {
+	color: var(--g-success, #7fe6b1);
+}
+
+:is(.alias-validation, .alias-form-status)[data-tone="error"] {
+	color: var(--g-danger, #ff8ca4);
+}
+
+:is(.alias-validation, .alias-form-status)[data-tone="busy"] {
+	color: var(--g-cyan, #61cbd9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.alias-advanced > summary {
+		transition: none;
+	}
+}

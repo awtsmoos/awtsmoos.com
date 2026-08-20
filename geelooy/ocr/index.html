@@ -1,149 +1,67 @@
-<!--B"H-->
-<html>
-    <head>
-        
-    </head>
-    <body>
-        <h2>B"H</h2>
-        <h3>OCR</h3>
-        <h4>Select a language</h4>
-        <select id="langw">
-            <option value="afr">Afrikaans</option>
-            <option value="amh">Amharic</option>
-            <option value="ara">Arabic</option>
-            <option value="asm">Assamese</option>
-            <option value="aze">Azerbaijani</option>
-            <option value="aze_cyrl">Azerbaijani - Cyrillic</option>
-            <option value="bel">Belarusian</option>
-            <option value="ben">Bengali</option>
-            <option value="bod">Tibetan</option>
-            <option value="bos">Bosnian</option>
-            <option value="bul">Bulgarian</option>
-            <option value="cat">Catalan; Valencian</option>
-            <option value="ceb">Cebuano</option>
-            <option value="ces">Czech</option>
-            <option value="chi_sim">Chinese - Simplified</option>
-            <option value="chi_tra">Chinese - Traditional</option>
-            <option value="chr">Cherokee</option>
-            <option value="cym">Welsh</option>
-            <option value="dan">Danish</option>
-            <option value="deu">German</option>
-            <option value="dzo">Dzongkha</option>
-            <option value="ell">Greek, Modern (1453-)</option>
-            <option value="eng">English</option>
-            <option value="enm">English, Middle (1100-1500)</option>
-            <option value="epo">Esperanto</option>
-            <option value="est">Estonian</option>
-            <option value="eus">Basque</option>
-            <option value="fas">Persian</option>
-            <option value="fin">Finnish</option>
-            <option value="fra">French</option>
-            <option value="frk">German Fraktur</option>
-            <option value="frm">French, Middle (ca. 1400-1600)</option>
-            <option value="gle">Irish</option>
-            <option value="glg">Galician</option>
-            <option value="grc">Greek, Ancient (-1453)</option>
-            <option value="guj">Gujarati</option>
-            <option value="hat">Haitian; Haitian Creole</option>
-            <option value="heb">Hebrew</option>
-            <option value="hin">Hindi</option>
-            <option value="hrv">Croatian</option>
-            <option value="hun">Hungarian</option>
-            <option value="iku">Inuktitut</option>
-            <option value="ind">Indonesian</option>
-            <option value="isl">Icelandic</option>
-            <option value="ita">Italian</option>
-            <option value="ita_old">Italian - Old</option>
-            <option value="jav">Javanese</option>
-            <option value="jpn">Japanese</option>
-            <option value="kan">Kannada</option>
-            <option value="kat">Georgian</option>
-            <option value="kat_old">Georgian - Old</option>
-            <option value="kaz">Kazakh</option>
-            <option value="khm">Central Khmer</option>
-            <option value="kir">Kirghiz; Kyrgyz</option>
-            <option value="kor">Korean</option>
-            <option value="kur">Kurdish</option>
-            <option value="lao">Lao</option>
-            <option value="lat">Latin</option>
-            <option value="lav">Latvian</option>
-            <option value="lit">Lithuanian</option>
-            <option value="mal">Malayalam</option>
-            <option value="mar">Marathi</option>
-            <option value="mkd">Macedonian</option>
-            <option value="mlt">Maltese</option>
-            <option value="msa">Malay</option>
-            <option value="mya">Burmese</option>
-            <option value="nep">Nepali</option>
-            <option value="nld">Dutch; Flemish</option>
-            <option value="nor">Norwegian</option>
-            <option value="ori">Oriya</option>
-            <option value="pan">Panjabi; Punjabi</option>
-            <option value="pol">Polish</option>
-            <option value="por">Portuguese</option>
-            <option value="pus">Pushto; Pashto</option>
-            <option value="ron">Romanian; Moldavian; Moldovan</option>
-            <option value="rus">Russian</option>
-            <option value="san">Sanskrit</option>
-            <option value="sin">Sinhala; Sinhalese</option>
-            <option value="slk">Slovak</option>
-            <option value="slv">Slovenian</option>
-            <option value="spa">Spanish; Castilian</option>
-            <option value="spa_old">Spanish; Castilian - Old</option>
-            <option value="sqi">Albanian</option>
-            <option value="srp">Serbian</option>
-            <option value="srp_latn">Serbian - Latin</option>
-            <option value="swa">Swahili</option>
-            <option value="swe">Swedish</option>
-            <option value="syr">Syriac</option>
-            <option value="tam">Tamil</option>
-            <option value="tel">Telugu</option>
-            <option value="tgk">Tajik</option>
-            <option value="tgl">Tagalog</option>
-            <option value="tha">Thai</option>
-            <option value="tir">Tigrinya</option>
-            <option value="tur">Turkish</option>
-            <option value="uig">Uighur; Uyghur</option>
-            <option value="ukr">Ukrainian</option>
-            <option value="urd">Urdu</option>
-            <option value="uzb">Uzbek</option>
-            <option value="uzb_cyrl">Uzbek - Cyrillic</option>
-            <option value="vie">Vietnamese</option>
-            <option value="yid">Yiddish</option>
-        </select><br>
-        <div id="prog">First select language, then select file!</div><br>
-        <input type="file" id="pic"><br>
+<!--B"H
+Boruch Hashem
+Blessed is He
 
-        <textarea id="outp"></textarea>
-        <script type="module">
-            import tes from "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.esm.min.js";
-            
-
-            
-
-            pic.onchange = async () => {
-                prog.innerHTML = "Loading possibly?"
-                if(!langw.value) {
-                    prog.innerHTML = "Problem loading..."
-                    return alert("No proper langauge selected!!")
-                }
-                try {
-                    const worker = await tes.createWorker(langw.value);
-                    (async () => {
-                        const {
-                            data: { text }
-                        } = await worker
-                        .recognize(URL.createObjectURL(pic.files[0]));
-                        outp.value = text;
-                        prog.innerHTML = "Loaded successful. "
-                        await worker.terminate();
-                    })();
-                } catch(e) {
-                    console.log(e);
-                    
-                    prog.innerHTML = "Problem loading... Check console"
-                }
-            }
-        </script>
-    </body>
+The Awtsmoos turns image-light into letters and hidden structure into a readable stream;
+Awtsmoos.com gives simple users one clear path and deeper users an advanced chamber for the dream.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="color-scheme" content="dark">
+	<meta name="theme-color" content="#07111f">
+	<title>OCR Studio — Awtsmoos</title>
+	<link rel="stylesheet" href="/style/ocr/index.css?v=tesseract-api-003">
+</head>
+<body class="ocr-document">
+	<main class="ocr-app">
+		<header class="ocr-topbar" aria-label="OCR navigation">
+			<a class="ocr-brand" href="/" aria-label="Awtsmoos home"><span class="ocr-brand-mark" aria-hidden="true">א</span><span>Awtsmoos</span></a>
+			<a class="ocr-link" href="/apps/">All tools</a>
+		</header>
+		<section class="ocr-hero" aria-labelledby="ocr-title">
+			<p class="ocr-kicker">Vision · Tesseract 7</p>
+			<h1 id="ocr-title">Reveal text from an image.</h1>
+			<p class="ocr-intro">Fast defaults for ordinary scans, with deeper recognition controls when the page needs them.</p>
+		</section>
+		<section class="ocr-workspace" aria-label="OCR workspace">
+			<form class="ocr-panel ocr-input-panel" id="ocr-form">
+				<div class="ocr-panel-heading"><span class="ocr-step">01</span><div><h2>Recognition setup</h2><p>Language, image, and optional engine tuning</p></div></div>
+				<label class="ocr-field" for="langw"><span>Primary language</span><select id="langw" name="language"></select></label>
+				<label class="ocr-file-field" for="pic"><input id="pic" name="image" type="file" accept="image/bmp,image/jpeg,image/png,image/webp,image/gif"><span class="ocr-file-icon" aria-hidden="true">↥</span><span class="ocr-file-copy"><strong>Choose an image</strong><small id="file-name">BMP, JPG, PNG, WEBP, or non-animated GIF</small></span></label>
+				<details class="ocr-advanced" id="advanced-recognition">
+					<summary><span>Advanced recognition</span><small>Accuracy, layout, exports</small></summary>
+					<div class="ocr-advanced-grid">
+						<label class="ocr-field" for="langw-secondary"><span>Second language</span><select id="langw-secondary"></select></label>
+						<label class="ocr-field" for="psm"><span>Page layout</span><select id="psm"></select></label>
+						<label class="ocr-field" for="rotation-mode"><span>Rotation</span><select id="rotation-mode"></select></label>
+						<label class="ocr-field" for="ocr-dpi"><span>DPI override</span><input id="ocr-dpi" type="number" min="0" max="1200" value="0" inputmode="numeric"></label>
+						<label class="ocr-field ocr-wide-field" for="ocr-whitelist"><span>Character whitelist</span><input id="ocr-whitelist" type="text" placeholder="Optional: 0123456789"></label>
+						<label class="ocr-field ocr-wide-field" for="ocr-blacklist"><span>Character blacklist</span><input id="ocr-blacklist" type="text" placeholder="Optional: characters to exclude"></label>
+					</div>
+					<div class="ocr-toggle-grid">
+						<label><input id="preserve-spaces" type="checkbox"><span>Preserve spacing</span></label>
+						<label><input id="analyze-layout" type="checkbox"><span>Analyze text regions</span></label>
+						<label><input id="export-structured" type="checkbox"><span>Prepare TSV + hOCR</span></label>
+						<label><input id="export-pdf" type="checkbox"><span>Prepare searchable PDF</span></label>
+						<label><input id="processed-preview" type="checkbox"><span>Show processed images</span></label>
+					</div>
+				</details>
+				<button class="ocr-primary-action" id="recognize-button" type="submit" disabled><span>Recognize image</span><small>Runs OCR in this browser</small></button>
+				<div class="ocr-status" id="prog" role="status" aria-live="polite" data-state="idle"><span class="ocr-status-dot" aria-hidden="true"></span><span id="status-copy">Ready for an image.</span></div>
+				<div class="ocr-progress-shell"><progress id="ocr-progress" max="1" value="0"></progress><span id="progress-copy">0%</span></div>
+			</form>
+			<section class="ocr-panel ocr-result-panel" aria-labelledby="result-title">
+				<div class="ocr-panel-heading ocr-result-heading"><span class="ocr-step">02</span><div><h2 id="result-title">Revealed text</h2><p>Selectable output with engine diagnostics</p></div><div class="ocr-actions"><button id="copy-output" type="button" disabled>Copy</button><button id="clear-output" type="button" disabled>Clear</button></div></div>
+				<div class="ocr-result-meta" id="result-meta" hidden><span id="confidence-chip">Confidence —</span><span id="psm-chip">Layout —</span><span id="version-chip">Engine —</span><span id="rotation-chip">Rotation —</span><span id="blocks-chip" hidden>Regions —</span></div>
+				<textarea id="outp" aria-label="Recognized text" placeholder="Recognized text will appear here." spellcheck="true"></textarea>
+				<div class="ocr-export-row" id="export-row" hidden><button id="download-tsv" type="button" disabled>Download TSV</button><button id="download-hocr" type="button" disabled>Download hOCR</button><button id="download-pdf" type="button" disabled>Download PDF</button></div>
+				<details class="ocr-previews" id="processed-previews" hidden><summary>Processed image views</summary><div><figure><figcaption>Greyscale</figcaption><img id="preview-grey" alt="Tesseract greyscale preprocessing output"></figure><figure><figcaption>Binary</figcaption><img id="preview-binary" alt="Tesseract binary preprocessing output"></figure></div></details>
+			</section>
+		</section>
+	</main>
+	<script type="module" src="/scripts/awtsmoos/ocr/index.js?v=tesseract-api-003"></script>
+</body>
 </html>

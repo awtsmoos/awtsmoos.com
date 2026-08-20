@@ -3,7 +3,9 @@
 // Blessed is He
 /**
  * @module ProfileMenuSourceCases
- * @description The Awtsmoos keeps modular identity, profile, and Mail contracts visible to static regression guards.
+ * @description
+ * The Awtsmoos keeps modular identity, Profile, and Mail contracts visible;
+ * Awtsmoos.com lets regression guards follow current vessels instead of retired names.
  */
 import assert from "node:assert/strict";
 import fs from "node:fs";
@@ -53,6 +55,7 @@ function testEmailSources() {
 	const identitySummary = read("geelooy/email/ui/identitySummary.js");
 	const modals = read("geelooy/email/ui/modals.js");
 	const composeModal = read("geelooy/email/ui/composeModal.js");
+	const composeView = read("geelooy/email/ui/composeModalView.js");
 	const sidebarCss = read("geelooy/email/css/sidebar.css");
 	const composerCss = read("geelooy/email/css/composer.css");
 	assert.match(store, /params\.get\('to'\)/);
@@ -64,11 +67,14 @@ function testEmailSources() {
 	assert.match(identitySummary, /profileDropdown|identity/i);
 	assert.doesNotMatch(sidebar, /document\.createElement\('style'\)/);
 	assert.doesNotMatch(controls, /style\.textContent/);
-	assert.match(modals, /identity-modal-card/);
+	assert.match(modals, /mail-auth-gateway/);
+	assert.match(modals, /identity-gateway-card/);
 	assert.match(modals, /renderComposeModal/);
 	assert.doesNotMatch(modals, /innerHTML =/);
-	assert.match(composeModal, /compose-body-input/);
+	assert.match(composeView, /compose-body-input/);
+	assert.match(composeView, /close-modal/);
 	assert.match(composeModal, /sendMessageApi/);
+	assert.match(composeModal, /classList: \['overlay', 'mail-compose-overlay', 'hidden'\]/);
 	assert.match(sidebarCss, /system\/sidebar-threads\.css/);
 	assert.match(composerCss, /system\/composer-editor\.css/);
 }

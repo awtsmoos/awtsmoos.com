@@ -1,0 +1,38 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets hidden work become visible as a measured current rather than a frozen screen;
+Awtsmoos.com gives the worker logger a compact progress vessel, restrained and clean.
+*/
+.ocr-progress-shell {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .65rem;
+	margin-top: .55rem;
+	color: var(--ocr-muted);
+	font-size: .7rem;
+	font-weight: 800;
+}
+
+.ocr-progress-shell progress {
+	width: 100%;
+	height: .42rem;
+	border: 0;
+	border-radius: 999px;
+	overflow: hidden;
+	appearance: none;
+}
+
+.ocr-progress-shell progress::-webkit-progress-bar {
+	background: var(--ocr-surface-soft);
+}
+
+.ocr-progress-shell progress::-webkit-progress-value {
+	background: linear-gradient(90deg, var(--ocr-accent), #8c7dff);
+}
+
+.ocr-progress-shell progress::-moz-progress-bar {
+	background: linear-gradient(90deg, var(--ocr-accent), #8c7dff);
+}

@@ -1,0 +1,88 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos, Atzmus beyond movement, lets every account action reveal intention through measured response;
+ * Awtsmoos.com keeps primary and secondary paths tactile, keyboard-visible, and calm rather than loud or compressed.
+ */
+
+.login-form button,
+.login-card > button,
+.login-card .g-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: 3.35rem;
+	margin-top: .2rem;
+	padding: .8rem 1rem;
+	border: 1px solid transparent;
+	border-radius: var(--auth-control-radius);
+	background: var(--auth-gradient);
+	color: #050914;
+	font: 850 1rem var(--auth-font);
+	cursor: pointer;
+	box-shadow: 0 16px 38px rgba(91, 125, 255, .24);
+	transition:
+		transform var(--auth-motion-fast) var(--auth-ease),
+		filter var(--auth-motion-fast) var(--auth-ease),
+		box-shadow var(--auth-motion-fast) var(--auth-ease);
+}
+
+.login-form button:hover,
+.login-card > button:hover,
+.login-card .g-button:hover {
+	transform: translateY(-1px);
+	filter: brightness(1.07);
+	box-shadow: 0 20px 44px rgba(91, 125, 255, .3);
+}
+
+.login-form button:active,
+.login-card > button:active,
+.login-card .g-button:active {
+	transform: translateY(0) scale(.985);
+	box-shadow: 0 10px 26px rgba(91, 125, 255, .2);
+}
+
+.login-form button:focus-visible,
+.login-card > button:focus-visible,
+.login-card .g-button:focus-visible,
+.secondary-link:focus-visible {
+	outline: 2px solid var(--auth-cyan);
+	outline-offset: 3px;
+}
+
+.secondary-link {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	min-height: var(--auth-touch);
+	margin-bottom: 1rem;
+	padding: .5rem .72rem;
+	border: 1px solid var(--auth-line);
+	border-radius: .78rem;
+	background: rgba(255, 255, 255, .025);
+	color: var(--auth-cyan);
+	font-size: .82rem;
+	font-weight: 800;
+	text-decoration: none;
+	transition:
+		transform var(--auth-motion-fast) var(--auth-ease),
+		border-color var(--auth-motion-fast) var(--auth-ease),
+		background var(--auth-motion-fast) var(--auth-ease);
+}
+
+.secondary-link::after {
+	content: "↗";
+	opacity: .7;
+}
+
+.secondary-link:hover {
+	transform: translateY(-1px);
+	border-color: var(--auth-line-strong);
+	background: rgba(75, 213, 255, .06);
+}
+
+.secondary-link:active {
+	transform: scale(.985);
+}

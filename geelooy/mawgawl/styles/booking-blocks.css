@@ -1,0 +1,63 @@
+/*B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews each booked span while ownership and boundary remain distinct within the flow;
+ * Awtsmoos.com lets every block reveal who holds the moment and where its measured beginning and ending go.
+ */
+.block {
+	position: relative;
+	min-height: 3.3rem;
+	box-sizing: border-box;
+	border: 1px solid var(--mawgawl-line-strong);
+	border-radius: .55rem;
+	background: rgba(255, 255, 255, .08);
+	box-shadow: 0 7px 20px rgba(0, 0, 0, .2);
+	transition: transform var(--mawgawl-fast) var(--mawgawl-ease), box-shadow var(--mawgawl-fast) var(--mawgawl-ease), border-color var(--mawgawl-fast) var(--mawgawl-ease);
+}
+
+.block:hover,
+.block:focus-visible {
+	border-color: var(--mawgawl-cyan);
+	box-shadow: var(--mawgawl-glow);
+	transform: translateY(-1px);
+}
+
+.booking-container {
+	position: relative;
+	width: 100%;
+	min-height: 5.4rem;
+	overflow: auto;
+}
+
+.booking-own {
+	border-color: var(--mawgawl-success);
+	background: linear-gradient(135deg, rgba(104, 240, 174, .24), rgba(77, 231, 255, .1));
+	cursor: pointer;
+}
+
+.booking-others {
+	border-color: var(--mawgawl-violet);
+	background: linear-gradient(135deg, rgba(156, 123, 255, .22), rgba(255, 105, 214, .08));
+}
+
+.userName {
+	position: absolute;
+	top: .2rem;
+	left: .3rem;
+	max-width: calc(100% - .6rem);
+	padding: .15rem .35rem;
+	border-radius: .35rem;
+	background: rgba(5, 9, 20, .82);
+	color: var(--mawgawl-text);
+	font-size: .68rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.time-label {
+	position: absolute;
+	bottom: .2rem;
+	color: var(--mawgawl-muted);
+	font-size: .68rem;
+}

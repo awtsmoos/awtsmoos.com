@@ -1,0 +1,106 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews private speech before it becomes message history;
+ * Awtsmoos.com gives that speech a rounded living composer, small action constellation, visible send state, and quiet keyboard hint so writing feels direct instead of form-like.
+ */
+.hubConversationComposer--rich {
+	position: sticky;
+	inset-block-end: .75rem;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: .6rem;
+	padding: .6rem;
+	border: 1px solid rgba(109, 232, 255, .16);
+	border-radius: 1.25rem;
+	background: rgba(4, 10, 22, .9);
+	box-shadow: 0 18px 54px rgba(0, 0, 0, .3);
+	backdrop-filter: blur(18px);
+}
+
+.hubComposerField {
+	display: grid;
+	gap: .35rem;
+	padding: .45rem .55rem .35rem;
+	border: 1px solid rgba(109, 232, 255, .17);
+	border-radius: 1rem;
+	background: linear-gradient(145deg, rgba(14, 30, 53, .94), rgba(7, 14, 29, .97));
+}
+
+.hubComposerField:focus-within {
+	border-color: rgba(60, 236, 255, .66);
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, .09);
+}
+
+.hubComposerField__input {
+	inline-size: 100%;
+	min-block-size: 2.5rem;
+	max-block-size: 180px;
+	padding: .55rem .35rem;
+	border: 0;
+	outline: 0;
+	resize: none;
+	overflow-y: auto;
+	background: transparent;
+	box-shadow: none;
+	color: inherit;
+	font: inherit;
+	line-height: 1.45;
+}
+
+.hubComposerField__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .6rem;
+}
+
+.hubComposerField__tray {
+	display: flex;
+	align-items: center;
+	gap: .25rem;
+}
+
+.hubComposerField__tray .hubIconButton {
+	inline-size: 34px;
+	block-size: 34px;
+	border: 0;
+	background: transparent;
+}
+
+.hubComposerField__count,
+.hubConversationComposer__hint {
+	color: rgba(218, 229, 247, .46);
+	font-size: .68rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.hubConversationComposer__send,
+.hubPrivateRequestComposer__send {
+	inline-size: 48px;
+	block-size: 48px;
+	border-color: rgba(60, 236, 255, .52);
+	border-radius: 1rem;
+	background: linear-gradient(135deg, rgba(60, 236, 255, .24), rgba(255, 72, 203, .2));
+	box-shadow: 0 10px 28px rgba(60, 236, 255, .12);
+	font-size: 1.2rem;
+}
+
+.hubConversationComposer__hint {
+	grid-column: 1 / -1;
+	justify-self: end;
+	padding-inline-end: .25rem;
+}
+
+@media (max-width: 720px) {
+	.hubConversationComposer--rich {
+		inset-block-end: calc(4.7rem + env(safe-area-inset-bottom));
+		border-radius: 1rem;
+	}
+
+	.hubConversationComposer__hint {
+		display: none;
+	}
+}

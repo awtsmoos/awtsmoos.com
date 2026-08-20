@@ -10,6 +10,7 @@
  */
 
 import { box, button, link } from '../layout-primitives.js';
+import { pendingHeichelIdentity } from '../pending-route-context.js';
 
 export function profileBlueprint(actions) {
 	return {
@@ -29,14 +30,15 @@ export function profileBlueprint(actions) {
 }
 
 function identity() {
+	const pending = pendingHeichelIdentity();
 	return box('heichel-profile-identity', [
 		{ tag: 'div', attr: { class: 'heichel-seal', 'aria-hidden': 'true' }, children: ['ב״ה'] },
 		box('heichel-profile-copy', [
 			box('heichel-profile-title-row', [
-				{ tag: 'h1', attr: { id: 'heichel-main-title' }, ref: 'mainTitle' },
+				{ tag: 'h1', attr: { id: 'heichel-main-title' }, ref: 'mainTitle', children: [pending.title] },
 				{ tag: 'span', attr: { class: 'heichel-verification', title: 'Verified Heichel' }, children: ['✓'] }
 			]),
-			{ tag: 'p', attr: { class: 'heichel-profile-compact-context' }, ref: 'profileCompactContext', children: ['Living Heichel'] }
+			{ tag: 'p', attr: { class: 'heichel-profile-compact-context' }, ref: 'profileCompactContext', children: [pending.context] }
 		])
 	]);
 }

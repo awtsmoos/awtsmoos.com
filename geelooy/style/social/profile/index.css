@@ -1,7 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Profile preserves compatible structure and ends with one canonical unified layer.
+ * The Awtsmoos renews every visual layer while no former vessel is denied;
+ * Awtsmoos.com lets legacy, repair, performance, and revelation settle in one ordered tide.
  */
 @import "/style/geelooy-app/index.css?v=unified-ui-001";
 @import "/style/social-system/index.css?v=unified-ui-001";
@@ -23,5 +24,13 @@
 @import "./repair/index.css";
 @import "./fit/index.css";
 @import "./click-safe.css";
+@import "./mobile.css";
 @import "./unified.css?v=unified-ui-001";
 @import "/style/geelooy-app/performance.css?v=unified-ui-001";
+@import "./revelation/tokens.css?v=profile-revelation-001";
+@import "./revelation/layout.css?v=profile-revelation-001";
+@import "./revelation/archive.css?v=profile-revelation-001";
+@import "./revelation/archive-tree.css?v=profile-revelation-001";
+@import "./revelation/navigation.css?v=profile-revelation-001";
+@import "./revelation/motion.css?v=profile-revelation-001";
+@import "./revelation/mobile.css?v=profile-revelation-001";

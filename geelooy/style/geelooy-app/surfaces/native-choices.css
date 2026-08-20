@@ -2,78 +2,106 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos turns choosing into visible covenant. Awtsmoos.com checks,
- * radios, and selects reveal energy before, during, and after commitment.
+ * The Awtsmoos turns choosing into visible covenant; Awtsmoos.com lets each
+ * selection glow with focus, restraint, and return, so touch and keyboard both discern.
  */
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) select {
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) select {
 	background-image:
 		linear-gradient(45deg, transparent 50%, var(--g-cyan) 50%),
 		linear-gradient(135deg, var(--g-cyan) 50%, transparent 50%),
-		linear-gradient(90deg, transparent, rgba(60, 236, 255, 0.4), rgba(255, 72, 203, 0.38), transparent),
+		linear-gradient(90deg, transparent, rgba(60, 236, 255, .4), rgba(255, 72, 203, .38), transparent),
 		var(--g-control-field);
-	background-position:
-		calc(100% - 1.1rem) 52%,
-		calc(100% - 0.78rem) 52%,
-		120% 100%,
-		0 0;
+	background-position: calc(100% - 1.1rem) 52%, calc(100% - .78rem) 52%, 120% 100%, 0 0;
 	background-repeat: no-repeat;
-	background-size: 0.34rem 0.34rem, 0.34rem 0.34rem, 220% 2px, 100% 100%;
+	background-size: .34rem .34rem, .34rem .34rem, 220% 2px, 100% 100%;
 	padding-inline-end: 2.5rem;
+	cursor: pointer;
 }
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input[type="checkbox"], input[type="radio"]) {
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]) {
 	appearance: none;
-	background: radial-gradient(circle, rgba(60, 236, 255, 0.1), transparent 62%), rgba(4, 10, 24, 0.98);
-	border: 1px solid rgba(117, 211, 255, 0.54);
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.32);
-	cursor: pointer;
 	display: inline-grid;
+	width: 1.45rem;
 	height: 1.45rem;
 	margin: 0;
 	place-content: center;
-	transition: background var(--g-motion-fast) var(--g-ease), border-color var(--g-motion-fast) var(--g-ease), box-shadow var(--g-motion-medium) var(--g-ease), transform var(--g-motion-fast) var(--g-ease-pressure);
+	border: 1px solid rgba(117, 211, 255, .54);
+	background: radial-gradient(circle, rgba(60, 236, 255, .1), transparent 62%), rgba(4, 10, 24, .98);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .08), 0 8px 24px rgba(0, 0, 0, .32);
+	cursor: pointer;
 	vertical-align: middle;
-	width: 1.45rem;
+	transition: background var(--g-motion-fast) var(--g-ease), border-color var(--g-motion-fast) var(--g-ease), box-shadow var(--g-motion-standard) var(--g-ease), transform var(--g-motion-fast) var(--g-ease-pressure);
 }
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) input[type="checkbox"] { border-radius: 0.42rem; }
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) input[type="radio"] { border-radius: 50%; }
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="checkbox"] {
+	border-radius: .42rem;
+}
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input[type="checkbox"], input[type="radio"])::before {
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="radio"] {
+	border-radius: 50%;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"])::before {
+	width: .78rem;
+	height: .78rem;
 	background: var(--g-gradient-hot);
-	box-shadow: 0 0 16px rgba(60, 236, 255, 0.64), 0 0 28px rgba(255, 72, 203, 0.34);
+	box-shadow: 0 0 16px rgba(60, 236, 255, .64), 0 0 28px rgba(255, 72, 203, .34);
 	content: "";
-	height: 0.78rem;
 	transform: rotate(-18deg) scale(0);
 	transition: transform var(--g-motion-fast) var(--g-ease-pressure);
-	width: 0.78rem;
 }
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) input[type="checkbox"]::before {
-	border-radius: 0.2rem;
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="checkbox"]::before {
+	border-radius: .2rem;
 	clip-path: polygon(14% 44%, 0 59%, 39% 100%, 100% 18%, 84% 4%, 37% 68%);
 }
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) input[type="radio"]::before { border-radius: 50%; }
-
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input[type="checkbox"], input[type="radio"]):checked {
-	background: radial-gradient(circle, rgba(139, 92, 255, 0.34), rgba(4, 10, 24, 0.98) 70%);
-	border-color: var(--g-magenta);
-	box-shadow: 0 0 0 3px rgba(255, 72, 203, 0.12), var(--g-glow-hot);
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="radio"]::before {
+	border-radius: 50%;
 }
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input[type="checkbox"], input[type="radio"]):checked::before {
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]):checked {
+	border-color: var(--g-magenta);
+	background: radial-gradient(circle, rgba(139, 92, 255, .34), rgba(4, 10, 24, .98) 70%);
+	box-shadow: 0 0 0 3px rgba(255, 72, 203, .12), var(--g-glow-hot);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]):checked::before {
 	transform: rotate(0) scale(1);
 }
 
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]):focus-visible {
+	outline: 2px solid var(--g-cyan);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 4px rgba(60, 236, 255, .14), var(--g-glow);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]):disabled {
+	cursor: not-allowed;
+	filter: grayscale(.55);
+	opacity: .48;
+}
+
 @media (hover: hover) {
-	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input[type="checkbox"], input[type="radio"]):hover:not(:disabled) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]):hover:not(:disabled) {
 		border-color: var(--g-cyan);
 		box-shadow: var(--g-glow);
-		transform: translateY(-2px) scale(1.1);
+		transform: translateY(-1px) scale(1.06);
 	}
 }
 
-:where(.g-page, .awtsmoosDrop, .geelooy-app-shell) :where(input[type="checkbox"], input[type="radio"]):active:not(:disabled) {
-	transform: scale(0.86);
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]):active:not(:disabled) {
+	transform: scale(.9);
+}
+
+@media (forced-colors: active) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]) {
+		appearance: auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) :where(input[type="checkbox"], input[type="radio"]) {
+		transition: none;
+	}
 }

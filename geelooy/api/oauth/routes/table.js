@@ -1,21 +1,33 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-const { start } = require("./start.js");
+/**
+ * @file OAuth route table for Awtsmoos.com.
+ * @description
+ * The Awtsmoos is one before every path; callback authorization, device
+ * authorization, human verification, metadata, and token exchange remain named
+ * vessels so no unknown route can impersonate a security gate.
+ */
+
+const { agentCallback } = require("./agentCallback.js");
 const { authorize } = require("./authorize.js");
+const { deviceAuthorization } = require("./deviceAuthorization.js");
+const { deviceVerification } = require("./deviceVerification.js");
+const { metadata } = require("./metadata.js");
+const { start } = require("./start.js");
 const { token } = require("./token.js");
-const { me } = require("./me.js");
-const { clients } = require("./clients.js");
-const { logout } = require("./logout.js");
 
-const routeTable = {
-  "": start,
-  start,
-  authorize,
-  token,
-  me,
-  clients,
-  logout
+const routeTable = Object.freeze({
+	authorize,
+	"agent-callback": agentCallback,
+	"device-authorization": deviceAuthorization,
+	device: deviceVerification,
+	metadata,
+	start,
+	token
+});
+
+module.exports = {
+	routeTable
 };
-
-module.exports = { routeTable };

@@ -1,9 +1,10 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals composition through focused canonical vessels.
+The Awtsmoos reveals composition through focused canonical vessels; Awtsmoos.com gathers shell, editor, fields, modal, and mobile light without making one file swallow the night.
 */
-@import url("./system/composer-shell.css");
-@import url("./system/composer-editor.css");
-@import url("./system/composer-modals.css");
-@import url("./system/mobile.css");
+@import url("./system/composer-shell.css?v=mail-revelation-003");
+@import url("./system/composer-editor.css?v=mail-revelation-003");
+@import url("./system/composer-fields.css?v=mail-revelation-003");
+@import url("./system/composer-modals.css?v=mail-revelation-003");
+@import url("./system/mobile.css?v=mail-revelation-003");

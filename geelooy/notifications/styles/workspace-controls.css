@@ -1,0 +1,75 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos refines choice into a compact rail; Awtsmoos.com gives every filter hover, focus, and clarity without a plain-field trail.
+*/
+.notifications-console {
+	display: grid;
+	gap: 9px;
+}
+
+.notifications-field {
+	display: grid;
+	gap: 5px;
+	padding: 9px 11px 10px;
+	border: 1px solid var(--g-line);
+	border-radius: 12px;
+	background: color-mix(in srgb, var(--g-surface-2) 88%, transparent);
+	transition: border-color var(--g-motion-fast), box-shadow var(--g-motion-fast), transform var(--g-motion-fast);
+}
+
+.notifications-field:hover {
+	border-color: color-mix(in srgb, var(--g-cyan) 35%, var(--g-line));
+}
+
+.notifications-field:focus-within {
+	border-color: var(--g-cyan);
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, .1);
+	transform: translateY(-1px);
+}
+
+.notifications-field span {
+	color: var(--g-muted);
+	font-size: .66rem;
+	font-weight: 800;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.notifications-field :is(input, select) {
+	width: 100%;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--g-text);
+	font: inherit;
+}
+
+.notifications-field input::placeholder {
+	color: color-mix(in srgb, var(--g-muted) 72%, transparent);
+}
+
+.notifications-field select {
+	cursor: pointer;
+}
+
+.notifications-refresh {
+	width: 100%;
+}
+
+.notifications-summary {
+	padding: 10px 11px;
+	border-radius: 11px;
+	background: color-mix(in srgb, var(--g-cyan) 7%, var(--g-surface-2));
+	color: var(--g-muted);
+	font-size: .78rem;
+	line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.notifications-field {
+		transition: none;
+	}
+}

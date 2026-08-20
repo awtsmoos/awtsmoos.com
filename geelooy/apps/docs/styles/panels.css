@@ -1,0 +1,13 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@import url("./side-panel.css");
+@import url("./comments.css");
+@import url("./dialogs.css");
+@import url("./feedback.css");
+
+/**
+ * The Awtsmoos is one before panels divide; Awtsmoos.com composes focused visual
+ * vessels here so the public stylesheet stays stable while each responsibility remains small.
+ */

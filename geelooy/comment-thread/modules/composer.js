@@ -4,8 +4,8 @@
 /**
  * @module CommentComposer
  * @description
- * Awtsmoos.com offers this vessel only to a named alias; the Awtsmoos keeps
- * authorship explicit and request state audible without modal alerts.
+ * Awtsmoos.com keeps the living reply itself in the foreground while the
+ * Awtsmoos leaves coordinates, assets, and links available one disclosure away.
  */
 import { createElement as el } from './dom.js';
 
@@ -20,21 +20,51 @@ export function createComposer(config, parentId, onSubmit) {
 	});
 	return el('form', {
 		className: 'geelooy-card comment-composer',
-		attrs: { 'aria-label': parentId ? 'Reply composer' : 'Comment composer', 'aria-busy': 'false' },
+		attrs: {
+			'aria-label': parentId ? 'Reply composer' : 'Comment composer',
+			'aria-busy': 'false'
+		},
 		on: { submit: event => {
 			event.preventDefault();
 			onSubmit(event.currentTarget, parentId, status);
 		} }
 	}, [
-		field('content', parentId ? 'Reply' : 'Comment', { multiline: true, required: true, placeholder: parentId ? 'Write a reply' : 'Write a comment' }),
-		el('div', { className: 'comment-coordinate' }, [
-			field('verseSection', 'Verse', { value: config.verseSection || 'root' }),
-			field('subsectionId', 'Subsection', { value: config.subsectionId })
-		]),
-		field('assets', 'Asset manifest JSON', { placeholder: 'Optional real asset manifests' }),
-		field('links', 'Link manifest JSON', { placeholder: 'Optional real links' }),
-		el('button', { className: 'gold-btn', text: parentId ? 'Send reply' : 'Send comment', attrs: { type: 'submit' } }),
+		field('content', parentId ? 'Reply' : 'Comment', {
+			multiline: true,
+			required: true,
+			placeholder: parentId ? 'Write a reply' : 'Write a comment'
+		}),
+		advancedContext(config),
+		el('button', {
+			className: 'gold-btn',
+			text: parentId ? 'Send reply' : 'Send comment',
+			attrs: { type: 'submit' }
+		}),
 		status
+	]);
+}
+
+function advancedContext(config) {
+	return el('details', { className: 'comment-composer-advanced' }, [
+		el('summary', { className: 'comment-composer-advanced-summary' }, [
+			el('span', { className: 'comment-composer-advanced-copy' }, [
+				el('strong', { text: 'Advanced context' }),
+				el('small', { text: 'Verse coordinates, assets, and links' })
+			]),
+			el('span', {
+				className: 'comment-composer-advanced-glyph',
+				text: '＋',
+				attrs: { 'aria-hidden': 'true' }
+			})
+		]),
+		el('div', { className: 'comment-composer-advanced-body' }, [
+			el('div', { className: 'comment-coordinate' }, [
+				field('verseSection', 'Verse', { value: config.verseSection || 'root' }),
+				field('subsectionId', 'Subsection', { value: config.subsectionId })
+			]),
+			field('assets', 'Asset manifest JSON', { placeholder: 'Optional real asset manifests' }),
+			field('links', 'Link manifest JSON', { placeholder: 'Optional real links' })
+		])
 	]);
 }
 

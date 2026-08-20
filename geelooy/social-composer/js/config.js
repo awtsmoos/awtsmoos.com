@@ -1,82 +1,78 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @module ComposerConfig
  * @description
- * Query context becomes a bounded doorway into alias, canonical origin, selected
- * destination, answer parent, and safe return path. The Awtsmoos contains the
- * whole journey while Awtsmoos.com accepts only same-origin, length-bounded hints.
+ * The Awtsmoos gives constants and location context one clear covenant;
+ * Awtsmoos.com delegates sanitization to ComposerQuery so configuration stays small and legible.
  */
+import {
+	canonicalSourceFromQuery,
+	firstQueryValue,
+	safeQueryValue,
+	safeReturnPath,
+	safeShareUrl,
+	shareFromQuery
+} from "./state/ComposerQuery.js";
 
-export const API_PREFIX = '/api/social';
+export const API_PREFIX = "/api/social";
 export const DRAFT_VERSION = 2;
 export const BLOCK_TYPES = Object.freeze([
-	'paragraph',
-	'heading',
-	'quote',
-	'bulletList',
-	'numberList',
-	'code',
-	'callout',
-	'divider'
+	"paragraph",
+	"heading",
+	"quote",
+	"bulletList",
+	"numberList",
+	"code",
+	"callout",
+	"divider"
 ]);
 export const PRESENTATION_KINDS = Object.freeze([
-	'post',
-	'question',
-	'answer',
-	'quote',
-	'image',
-	'short',
-	'video',
-	'audio',
-	'story',
-	'poll',
-	'live'
+	"post",
+	"question",
+	"answer",
+	"quote",
+	"image",
+	"short",
+	"video",
+	"audio",
+	"story",
+	"poll",
+	"live"
 ]);
 
-function safe(value, maximum = 160) {
-	return String(value || '')
-		.replace(/[<>\u0000-\u001f]/g, '')
-		.trim()
-		.slice(0, maximum);
-}
-
-function canonicalSource(parameters) {
-	const id = safe(parameters.get('source') || parameters.get('post'));
-	if (!id) return null;
-	return {
-		type: safe(parameters.get('sourceType') || 'post', 40),
-		id,
-		heichelId: safe(parameters.get('sourceHeichel') || parameters.get('heichel')),
-		seriesId: safe(parameters.get('sourceSeries') || parameters.get('series') || 'root'),
-		aliasId: safe(parameters.get('sourceAlias'))
-	};
-}
-
+/**
+ * Reads a sanitized composer destination and share context from one location.
+ * @param {Location|{search:string}} location Location-like source.
+ * @returns {object} Composer initialization context.
+ */
 export function contextFromLocation(location = window.location) {
 	const parameters = new URLSearchParams(location.search);
-	const questionId = safe(parameters.get('question'));
-	const source = canonicalSource(parameters);
+	const questionId = safeQueryValue(parameters.get("question"));
 	return {
-		aliasId: safe(parameters.get('alias')),
-		heichelId: safe(parameters.get('heichel')),
-		seriesId: safe(parameters.get('series') || 'root'),
+		aliasId: safeQueryValue(parameters.get("alias")),
+		heichelId: safeQueryValue(firstQueryValue(parameters, "heichel", "heichelId")),
+		seriesId: safeQueryValue(firstQueryValue(parameters, "series", "seriesId") || "root"),
 		questionId,
-		postKind: questionId ? 'answer' : safe(parameters.get('kind') || 'post', 20),
-		presentationKind: safe(parameters.get('presentation') || (questionId ? 'answer' : 'post'), 20),
-		canonicalSource: source,
-		returnPath: safeReturnPath(parameters.get('return'))
+		postKind: questionId
+			? "answer"
+			: safeQueryValue(parameters.get("kind") || "post", 20),
+		presentationKind: safeQueryValue(
+			parameters.get("presentation") || (questionId ? "answer" : "post"),
+			20
+		),
+		canonicalSource: canonicalSourceFromQuery(parameters),
+		share: shareFromQuery(parameters),
+		returnPath: safeReturnPath(parameters.get("return"))
 	};
-}
-
-export function safeReturnPath(value) {
-	const path = String(value || '');
-	return path.startsWith('/') && !path.startsWith('//') ? path : '';
 }
 
 export {
-	safe,
-	canonicalSource
+	canonicalSourceFromQuery as canonicalSource,
+	safeQueryValue as safe,
+	safeReturnPath,
+	safeShareUrl,
+	shareFromQuery as shareContext
 };

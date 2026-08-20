@@ -4,22 +4,26 @@
 
 /**
  * @file EretzCanonicalWorldBuilder.js
- * @description Builds canonical terrain and collision off-scene while bootstrap gameplay remains responsive.
- * The Awtsmoos prepares mountain, cottages, river, grass, and collision beyond the visible threshold;
- * Awtsmoos.com withholds the swap until every ground authority is ready, so no half-world interrupts the traveler below.
+ * @description Builds a complete medium-density canonical arrival before eventual high-density enrichment.
+ * The Awtsmoos reveals mountain, cottages, people, river, road, and ground as one believable valley in sight;
+ * Awtsmoos.com preserves the final quality covenant while refusing to make first reality wait for every distant light.
  */
 
+import { resolveEretzArrivalQuality } from './EretzArrivalQuality.js';
+import { createCanonicalNpcSeed } from './EretzCanonicalNpcSeed.js';
 import { loadCanonicalWorldAssets } from './EretzCanonicalWorldAssets.js';
 import {
 	loadTerrainConstructionModules,
 	loadWorldFinalizationModules
 } from './EretzWorldModuleLoader.js';
 
-/** Builds the canonical world package without adding it to the live scene. */
 export async function buildCanonicalWorldPromotion(context) {
 	const { environment, options, qualityProfile } = context;
-	const [assets, terrainModules, finalModules] = await Promise.all([
+	const arrivalQualityProfile = resolveEretzArrivalQuality(qualityProfile);
+	const quality = arrivalQualityProfile.quality;
+	const [assets, npcSeed, terrainModules, finalModules] = await Promise.all([
 		loadCanonicalWorldAssets(options.worldAssets || {}),
+		createCanonicalNpcSeed(quality),
 		loadTerrainConstructionModules(),
 		loadWorldFinalizationModules()
 	]);
@@ -39,7 +43,7 @@ export async function buildCanonicalWorldPromotion(context) {
 		{
 			environment,
 			onProgress: options.onProgress,
-			quality: qualityProfile.quality
+			quality
 		}
 	);
 	const mainOctree = await finalModules.buildWorldCollisionOctreeAsync(
@@ -54,7 +58,7 @@ export async function buildCanonicalWorldPromotion(context) {
 		terrainHeightAt: terrain.heightAt
 	});
 	terrain.stats.groundSampler = groundSampler.stats().mode;
-	terrain.stats.qualityProfile = { ...qualityProfile };
+	terrain.stats.qualityProfile = { ...arrivalQualityProfile };
 	return {
 		assets: assets.assets,
 		chunkRegistry: chunkRuntime.registry,
@@ -63,8 +67,11 @@ export async function buildCanonicalWorldPromotion(context) {
 		ground,
 		groundSampler,
 		mainOctree,
+		npcGltfs: npcSeed.npcGltfs,
+		npcProfiles: npcSeed.npcProfiles,
 		obstacles,
-		sky: finalModules.createSky3D(qualityProfile.quality),
+		qualityProfile: arrivalQualityProfile,
+		sky: finalModules.createSky3D(quality),
 		terrain
 	};
 }

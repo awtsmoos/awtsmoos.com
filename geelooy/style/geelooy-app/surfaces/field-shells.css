@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers caption, control, helper, and state into one lucid vessel;
+ * Awtsmoos.com lets a field feel authored before a single character begins to wrestle.
+ */
+.g-field-shell {
+	display: grid;
+	gap: .45rem;
+	min-width: 0;
+	padding: .75rem .8rem;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-control-radius);
+	background: color-mix(in srgb, var(--g-surface-2) 92%, transparent);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .045);
+	transition: border-color var(--g-motion-fast) var(--g-motion-ease), background var(--g-motion-fast) var(--g-motion-ease), box-shadow var(--g-motion-fast) var(--g-motion-ease), transform var(--g-motion-fast) var(--g-motion-ease);
+}
+
+.g-field-shell:hover {
+	border-color: color-mix(in srgb, var(--g-cyan) 38%, var(--g-line));
+}
+
+.g-field-shell:focus-within {
+	border-color: var(--g-cyan);
+	background: color-mix(in srgb, var(--g-cyan) 5%, var(--g-surface-2));
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, .12), inset 0 1px rgba(255, 255, 255, .055);
+	transform: translateY(-1px);
+}
+
+.g-field-caption {
+	color: var(--g-muted);
+	font-size: .7rem;
+	font-weight: 850;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.g-field-helper,
+.g-field-meta {
+	color: var(--g-muted);
+	font-size: .76rem;
+	line-height: 1.45;
+}
+
+.g-field-meta {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: .4rem .8rem;
+}
+
+.g-field-shell :where(input, textarea, select) {
+	margin: 0;
+}
+
+.g-field-shell[data-tone="error"] {
+	border-color: color-mix(in srgb, var(--g-danger) 68%, var(--g-line));
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--g-danger) 12%, transparent);
+}
+
+.g-field-shell[data-tone="success"] {
+	border-color: color-mix(in srgb, var(--g-success) 52%, var(--g-line));
+}
+
+.g-field-shell[data-disabled="true"] {
+	filter: grayscale(.45);
+	opacity: .58;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-field-shell {
+		transition: none;
+	}
+}

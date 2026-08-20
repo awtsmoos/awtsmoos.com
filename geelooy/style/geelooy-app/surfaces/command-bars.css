@@ -1,0 +1,79 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers decisive actions into one calm horizon instead of scattering command through space;
+ * Awtsmoos.com keeps status beside consequence, with enough room for touch, keyboard, and graceful pace.
+ */
+.g-command-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	padding: .65rem;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-control-radius);
+	background: color-mix(in srgb, var(--g-bg-2) 92%, transparent);
+	box-shadow: var(--g-shadow-soft);
+	backdrop-filter: blur(14px);
+}
+
+.g-command-bar[data-sticky="true"] {
+	position: sticky;
+	bottom: max(.55rem, env(safe-area-inset-bottom));
+	z-index: var(--g-z-sticky);
+}
+
+.g-command-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+	align-items: center;
+}
+
+.g-status-rail {
+	min-width: 0;
+	color: var(--g-muted);
+	font-size: .8rem;
+	line-height: 1.45;
+}
+
+.g-status-rail[data-tone="busy"] {
+	color: var(--g-cyan);
+}
+
+.g-status-rail[data-tone="success"] {
+	color: var(--g-success);
+}
+
+.g-status-rail[data-tone="warning"] {
+	color: var(--g-warning);
+}
+
+.g-status-rail[data-tone="error"] {
+	color: var(--g-danger);
+}
+
+.g-command-bar[aria-busy="true"] {
+	border-color: color-mix(in srgb, var(--g-cyan) 38%, var(--g-line));
+}
+
+@media (max-width: 42rem) {
+	.g-command-bar {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.g-command-bar[data-sticky="true"] {
+		position: static;
+	}
+
+	.g-command-actions {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.g-command-actions > :where(button, a) {
+		width: 100%;
+	}
+}

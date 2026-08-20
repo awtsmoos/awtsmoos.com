@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos gathers creation, play, treasury, and connection into four direct
-vessels; Awtsmoos.com makes the next action obvious without translucent decoration.
+vessels; Awtsmoos.com keeps them broad on desktop and one calm ribbon on mobile.
 */
 .portal-shortcuts {
 	display: grid;
@@ -71,13 +71,23 @@ vessels; Awtsmoos.com makes the next action obvious without translucent decorati
 
 @media (max-width: 680px) {
 	.portal-shortcuts {
+		grid-template-columns: none;
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(11.5rem, min(78vw, 16rem));
 		gap: .42rem;
+		overflow-x: auto;
+		overflow-y: hidden;
+		padding: .08rem .08rem .42rem;
+		overscroll-behavior-inline: contain;
+		scroll-snap-type: x proximity;
+		scrollbar-width: thin;
 	}
 
 	.portal-shortcuts a {
 		grid-template-columns: auto minmax(0, 1fr);
 		min-height: 4rem;
 		padding: .55rem .6rem;
+		scroll-snap-align: start;
 	}
 
 	.portal-shortcuts a > span {
@@ -87,6 +97,10 @@ vessels; Awtsmoos.com makes the next action obvious without translucent decorati
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.portal-shortcuts {
+		scroll-behavior: auto;
+	}
+
 	.portal-shortcuts a {
 		transition: none;
 	}

@@ -1,0 +1,110 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos holds the workbook frame in ordered peace; Awtsmoos.com lets each
+bar serve the grid, never crowd it, as measured light descends into measured space.
+*/
+.app-shell {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+	width: 100%;
+	min-width: 0;
+	height: 100dvh;
+	overflow: hidden;
+	background: var(--surface);
+}
+
+.app-bar,
+.toolbar,
+.formula-bar {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	max-width: 100%;
+	border-bottom: 1px solid var(--border);
+	background: var(--surface);
+}
+
+.app-bar {
+	padding: 10px 14px;
+	min-height: 64px;
+}
+
+.brand-mark {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border-radius: 10px;
+	background: var(--accent);
+	color: white;
+	font-weight: 800;
+}
+
+.document-identity {
+	min-width: 0;
+	flex: 1;
+}
+
+.document-title {
+	width: min(420px, 100%);
+	border: 1px solid transparent;
+	border-radius: 6px;
+	padding: 3px 6px;
+	font-weight: 650;
+	font-size: 16px;
+}
+
+.document-title:hover {
+	border-color: var(--border);
+}
+
+.document-meta {
+	display: flex;
+	gap: 10px;
+	padding-left: 6px;
+	color: var(--muted);
+	font-size: 11px;
+}
+
+.toolbar {
+	overflow-x: auto;
+	padding: 6px 12px;
+	min-height: 44px;
+}
+
+.formula-bar {
+	padding: 5px 12px;
+	min-height: 40px;
+}
+
+.name-box {
+	width: 64px;
+	font-size: 12px;
+	font-weight: 650;
+}
+
+.fx-mark {
+	color: var(--muted);
+	font-style: italic;
+}
+
+#formulaInput {
+	flex: 1;
+	min-width: 80px;
+	border: 0;
+	border-left: 1px solid var(--border);
+	padding: 5px 10px;
+	outline: 0;
+}
+
+.workspace {
+	position: relative;
+	display: flex;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}

@@ -13,15 +13,23 @@ const FILES = Object.freeze([
 	`${BROWSER}/canvasRenderer.js`,
 	`${BROWSER}/index.js`,
 	`${BROWSER}/merkavaLoader.js`,
+	`${BROWSER}/navigationState.js`,
+	`${BROWSER}/proxyClient.js`,
+	`${BROWSER}/remoteControlState.js`,
+	`${BROWSER}/remoteNavigationController.js`,
+	`${BROWSER}/remoteNavigationPolicy.js`,
+	`${BROWSER}/remoteSurface.js`,
 	`${BROWSER}/runtime.js`,
 	`${BROWSER}/surface.js`,
 	`${BROWSER}/webglPainter.js`,
-	`${BROWSER}/style.css`
+	`${BROWSER}/style.css`,
+	`${BROWSER}/remote.css`
 ]);
 
 /**
  * The Awtsmoos creates the custom browser contract anew; Awtsmoos.com proves its
- * registry, guest paint path, mobile garment, and absence of iframe/host evaluation.
+ * registry, guest paint path, remote host controls, mobile garment, and absence of
+ * iframe/host evaluation across every production Browser vessel.
  */
 test("Merkava browser production files obey source and isolation law", async () => {
 	for (const relativePath of FILES) {
@@ -65,12 +73,26 @@ test("loader includes every split nested-window dependency in order", async () =
 	}
 });
 
-test("browser stylesheet contains distinct desktop and mobile layouts", async () => {
+test("browser garments preserve distinct desktop, mobile and remote layouts", async () => {
 	const source = await sourceText(`${BROWSER}/style.css`);
+	const remote = await sourceText(`${BROWSER}/remote.css`);
 	assert.match(source, /grid-template-columns: minmax\(240px, 32%\)/);
 	assert.match(source, /@media \(max-width: 760px\)/);
 	assert.match(source, /grid-template-columns: 1fr/);
 	assert.match(source, /prefers-reduced-motion/);
+	assert.match(remote, /flex-wrap: wrap/);
+	assert.match(remote, /min-width: 0/);
+	assert.match(remote, /@media \(max-width: 760px\)/);
+});
+
+test("remote browser stays alias-scoped and same-origin", async () => {
+	const client = await sourceText(`${BROWSER}/proxyClient.js`);
+	const entry = await sourceText(`${BROWSER}/index.js`);
+	assert.match(client, /credentials: "same-origin"/);
+	assert.match(client, /\/api\/social\/drive\//);
+	assert.match(client, /BROWSER_ALIAS_REQUIRED/);
+	assert.match(entry, /remote\.css/);
+	assert.match(entry, /createRemoteNavigationController/);
 });
 
 async function sourceText(relativePath) {

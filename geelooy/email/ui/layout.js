@@ -4,9 +4,9 @@
 /**
  * @module MailWorkspaceLayout
  * @description
- * The Awtsmoos joins list and letter inside one lucid Mail frame while the shared
- * Awtsmoos.com shell owns global navigation. Mail keeps only route-local content,
- * status, and history so one narrow screen never carries two competing horizons.
+ * The Awtsmoos joins list and letter inside one measured workspace; Awtsmoos.com
+ * gives each Mail region explicit scroll ownership so messages move without making
+ * the whole document descend forever beneath the shared navigation horizon.
  */
 import { renderSidebar } from './sidebar.js';
 import { renderChat } from './chat.js';
@@ -22,7 +22,10 @@ export function renderAppLayout(ui, root) {
 		tag: 'section',
 		shaym: 'quantumMailShell',
 		classList: ['mail-civilization-shell', 'geelooy-content-region'],
-		attributes: { 'aria-label': 'Mail communication workspace' },
+		attributes: {
+			'aria-label': 'Mail communication workspace',
+			'data-scroll-owner': 'workspace'
+		},
 		children: [workspaceHeader(), workspaceFrame(ui)]
 	});
 	connectMalchusNavigation(ui);
@@ -32,7 +35,7 @@ function workspaceFrame(ui) {
 	return {
 		tag: 'div',
 		shaym: 'appContainer',
-		classList: ['app-container', 'mail-civilization-frame'],
+		classList: ['app-container', 'mail-civilization-frame', 'mail-workspace-frame'],
 		children: [sidebarVessel(ui), chatVessel(ui)]
 	};
 }
@@ -40,9 +43,12 @@ function workspaceFrame(ui) {
 function sidebarVessel(ui) {
 	return {
 		tag: 'aside',
-		classList: ['sidebar', 'mail-civilization-sidebar'],
+		classList: ['sidebar', 'mail-civilization-sidebar', 'mail-sidebar'],
 		shaym: 'sidebarPanel',
-		attributes: { 'aria-label': 'Conversation list' },
+		attributes: {
+			'aria-label': 'Conversation list',
+			'data-scroll-region': 'conversations'
+		},
 		ready: element => renderSidebar(ui, element)
 	};
 }
@@ -50,9 +56,12 @@ function sidebarVessel(ui) {
 function chatVessel(ui) {
 	return {
 		tag: 'main',
-		classList: ['chat-area', 'mail-civilization-chat'],
+		classList: ['chat-area', 'mail-civilization-chat', 'mail-chat'],
 		shaym: 'chatPanel',
-		attributes: { 'aria-label': 'Selected conversation' },
+		attributes: {
+			'aria-label': 'Selected conversation',
+			'data-scroll-region': 'conversation'
+		},
 		ready: element => renderChat(ui, element)
 	};
 }

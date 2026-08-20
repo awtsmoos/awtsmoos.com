@@ -1,62 +1,59 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 /**
- * @module HeichelWorkbenchGuide
+ * @module HeichelEditorWorkbenchGuide
  * @description
- * The Awtsmoos gives governance many powers but one intelligible path; Awtsmoos.com
- * names each existing chamber so settings, collaborators, and submissions feel like one workbench.
+ * The Awtsmoos reveals one governance gate at a time. Awtsmoos.com keeps each
+ * task native, keyboard-reachable, compact when closed, and luminous when active.
  */
 import { el } from './dom.js';
 
-export const WORKBENCH_SECTIONS = Object.freeze([
-	{
-		id: 'heichel-settings',
-		label: 'Settings',
-		description: 'Name, description, media, policy, and upload limits.'
-	},
-	{
-		id: 'heichel-collaborators',
-		label: 'Collaborators',
-		description: 'Invite aliases into the Heichel using the existing governance flow.'
-	},
-	{
-		id: 'heichel-submissions',
-		label: 'Submissions',
-		description: 'Open the established submission controls for this Heichel.'
-	}
-]);
+const WORKBENCH_STYLES = [
+	'/style/social-system/editor/parts/workbench-core.css',
+	'/style/social-system/editor/parts/workbench-disclosure.css',
+	'/style/social-system/editor/parts/workbench-mobile.css'
+];
 
-export function workbenchGuide() {
-	return el('nav', {
-		className: 'editor-workbench-guide geelooy-card',
-		attrs: { 'aria-label': 'Heichel editor sections' }
-	}, [
-		el('div', { className: 'editor-workbench-intro' }, [
-			el('p', { className: 'g-kicker', text: 'Governance workbench' }),
-			el('h2', { text: 'Choose the part you want to manage' }),
-			el('p', { text: 'Each section below uses the Heichel’s existing governance actions.' })
+export function workbenchSection(icon, title, description, child) {
+	ensureWorkbenchStyles();
+	const panel = el('details', {
+		className: 'editor-workbench-section',
+		attrs: title === 'Settings' ? { open: '' } : {}
+	});
+	panel.append(workbenchSummary(icon, title, description));
+	panel.append(el('div', { className: 'editor-workbench-body' }, [child]));
+	panel.addEventListener('toggle', () => collapseSiblingPanels(panel));
+	return panel;
+}
+
+function workbenchSummary(icon, title, description) {
+	return el('summary', { className: 'editor-workbench-summary' }, [
+		el('span', { className: 'editor-workbench-icon', text: icon, attrs: { 'aria-hidden': 'true' } }),
+		el('span', { className: 'editor-workbench-copy' }, [
+			el('span', { className: 'g-kicker', text: 'Governance task' }),
+			el('strong', { text: title }),
+			el('small', { text: description })
 		]),
-		el('div', { className: 'editor-workbench-links' }, WORKBENCH_SECTIONS.map(section =>
-			el('a', {
-				className: 'soft-btn editor-workbench-link',
-				text: section.label,
-				attrs: { href: `#${section.id}` }
-			})
-		))
+		el('span', { className: 'editor-workbench-chevron', text: '⌄', attrs: { 'aria-hidden': 'true' } })
 	]);
 }
 
-export function workbenchSection(section, form) {
-	return el('section', {
-		className: 'editor-workbench-section',
-		attrs: { id: section.id, 'aria-labelledby': `${section.id}-title` }
-	}, [
-		el('header', { className: 'editor-workbench-section-head' }, [
-			el('p', { className: 'g-kicker', text: 'Heichel governance' }),
-			el('h2', { text: section.label, attrs: { id: `${section.id}-title` } }),
-			el('p', { text: section.description })
-		]),
-		form
-	]);
+function collapseSiblingPanels(activePanel) {
+	if (!activePanel.open || !activePanel.parentElement) return;
+	const selector = ':scope > details.editor-workbench-section[open]';
+	for (const panel of activePanel.parentElement.querySelectorAll(selector)) {
+		if (panel !== activePanel) panel.removeAttribute('open');
+	}
+}
+
+function ensureWorkbenchStyles() {
+	for (const href of WORKBENCH_STYLES) {
+		if (document.head.querySelector(`link[href="${href}"]`)) continue;
+		const link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.href = href;
+		link.dataset.heichelWorkbenchStyle = 'true';
+		document.head.append(link);
+	}
 }

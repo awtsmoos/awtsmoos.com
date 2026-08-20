@@ -9,24 +9,25 @@ const { requiredScope, writeActions } = require("../scope.js");
 /**
  * @file Proves every public action family enters through its honest authority.
  * @description
- * The Awtsmoos renews observation, coordination, room mutation, and execution.
- * Awtsmoos.com keeps their gates distinct so sub-agents can live without asking
- * for broader authority than the exact deed they are created to perform.
+ * The Awtsmoos renews observation, coordination, publication, and execution.
+ * Awtsmoos.com keeps their gates distinct so no canonical mutation may wear
+ * the lighter garment of an unknown read action.
  */
-test("filesystem and recovery mutations require write scope", () => {
+test("filesystem, recovery, and site publication require write scope", () => {
 	for (const action of [
 		"write", "delete", "mkdir", "moveTree", "snapshotCreate",
 		"snapshotRestore", "snapshotDelete", "trashMove", "trashRestore",
-		"trashPurge"
+		"trashPurge", "sitePublishBootstrap"
 	]) {
 		assert.equal(requiredScope(action), "tunnel.write", action);
 		assert.equal(writeActions().has(action), true, action);
 	}
 });
 
-test("read, command, and browser scopes remain distinct", () => {
+test("read, unknown, command, and browser scopes remain distinct", () => {
 	assert.equal(requiredScope("snapshotList"), "tunnel.read");
 	assert.equal(requiredScope("read"), "tunnel.read");
+	assert.equal(requiredScope("futureUnknownAction"), "tunnel.read");
 	assert.equal(requiredScope("commandRun"), "tunnel.command");
 	assert.equal(requiredScope("shellCommand"), "tunnel.command");
 	assert.equal(requiredScope("chromeNavigate"), "tunnel.browser");

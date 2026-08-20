@@ -2,21 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @file Quantum Mail shared-shell contract.
+ * @module MailSharedShellContractTest
  * @description
- * The Awtsmoos names the correspondence chamber at Awtsmoos.com while one
- * generated global shell carries route navigation and native Mail owns content.
+ * The Awtsmoos keeps Mail inside one global navigation covenant; Awtsmoos.com
+ * may split route definitions from queries, but the user still enters one chamber.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-const html = readFileSync('geelooy/email/index.html', 'utf8');
-const layout = readFileSync('geelooy/email/ui/layout.js', 'utf8');
-const navigation = readFileSync('geelooy/email/ui/malchusNavigation.js', 'utf8');
-const chat = readFileSync('geelooy/email/ui/chat/switchThread.js', 'utf8');
-const boot = readFileSync('geelooy/scripts/awtsmoos/social/shell/boot.js', 'utf8');
-const appShell = readFileSync('geelooy/scripts/awtsmoos/social/shell/appShell.js', 'utf8');
-const routes = readFileSync('geelooy/scripts/awtsmoos/social/shell/appRoutes.js', 'utf8');
+function read(path) {
+	return readFileSync(path, 'utf8');
+}
+
+const html = read('geelooy/email/index.html');
+const layout = read('geelooy/email/ui/layout.js');
+const navigation = read('geelooy/email/ui/malchusNavigation.js');
+const chat = read('geelooy/email/ui/chat/switchThread.js');
+const boot = read('geelooy/scripts/awtsmoos/social/shell/boot.js');
+const appShell = read('geelooy/scripts/awtsmoos/social/shell/appShell.js');
+const routeDefinitions = read('geelooy/scripts/awtsmoos/social/shell/appRouteDefinitions.js');
 
 for (const token of [
 	'Awtsmoos Quantum Mail',
@@ -41,7 +45,7 @@ for (const token of [
 ]) {
 	assert.ok(appShell.includes(token), `generated shared shell missing ${token}`);
 }
-assert.ok(routes.includes("href: '/email/'"), 'canonical route map missing Mail');
+assert.ok(routeDefinitions.includes("route('/email', 'Mail'"), 'canonical route map missing Mail');
 for (const token of ['mail-civilization-shell', 'mail-civilization-frame', 'mail-civilization-sidebar', 'mail-civilization-chat', 'Quantum Mail']) {
 	assert.ok(layout.includes(token), `current Mail layout missing ${token}`);
 }

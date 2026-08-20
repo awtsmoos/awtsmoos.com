@@ -1,0 +1,70 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos moves no finite thing without purpose; on Awtsmoos.com motion should reveal, not conceal;
+small lifts and softened entrances hint at living depth while focus and reduced-motion remain fully real.
+*/
+.future-motion-ready [data-future-reveal] {
+	opacity: .84;
+	filter: blur(1px) saturate(.96);
+	translate: 0 10px;
+	transition:
+		opacity .5s ease,
+		filter .6s ease,
+		translate .68s cubic-bezier(.2, .72, .2, 1);
+}
+
+.future-motion-ready [data-future-reveal].future-is-visible {
+	opacity: 1;
+	filter: none;
+	translate: 0 0;
+}
+
+[data-future-action],
+[data-future-surface],
+body[data-future-page="games"] .gameCard,
+body[data-future-page="apps"] .g-app-card,
+.social-hub-document .quickActionGrid > * {
+	transition:
+		border-color .22s ease,
+		box-shadow .28s ease,
+		translate .22s ease;
+}
+
+[data-future-action]:hover,
+[data-future-action]:focus-visible,
+[data-future-surface]:hover,
+body[data-future-page="games"] .gameCard:hover,
+body[data-future-page="apps"] .g-app-card:hover,
+.social-hub-document .quickActionGrid > :hover {
+	translate: 0 -2px;
+}
+
+[data-future-surface]:hover,
+[data-future-surface]:focus-within,
+body[data-future-page="games"] .gameCard:hover,
+body[data-future-page="apps"] .g-app-card:hover,
+.social-hub-document .quickActionGrid > :hover {
+	border-color: var(--future-border-strong);
+	box-shadow: var(--future-glow), 0 0 0 1px var(--future-accent-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-future-hero]::before,
+	[data-future-hero]::after {
+		animation: none;
+	}
+
+	.future-motion-ready [data-future-reveal],
+	.future-motion-ready [data-future-reveal].future-is-visible,
+	[data-future-action],
+	[data-future-surface],
+	body[data-future-page="games"] .gameCard,
+	body[data-future-page="apps"] .g-app-card,
+	.social-hub-document .quickActionGrid > * {
+		opacity: 1;
+		filter: none;
+		translate: none;
+		transition: none;
+	}
+}

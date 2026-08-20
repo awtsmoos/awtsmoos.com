@@ -4,14 +4,12 @@
 
 /**
  * @file createEretzRuntime.js
- * @description Publishes movement first, then schedules rich rendering, districts, and deferred enrichment.
- * The Awtsmoos reveals control before distant texture, yet never leaves the valley in bootstrap color;
- * Awtsmoos.com opens the playable vessel first and only afterward begins every promised richer garment.
+ * @description Publishes movement first, then dynamically joins every post-play richness path.
+ * The Awtsmoos reveals control before distant valley garments contend for the same breath;
+ * Awtsmoos.com keeps first play light, then orders Chossid, districts, actors, and richness without theft.
  */
 
 import { resolveDeferredAppModuleUrl } from './DeferredAppModuleUrl.js';
-import { startProductionEretzDeferredEnrichment } from './EretzDeferredEnrichmentLaunch.js';
-import { startEretzDistrictStreaming } from './EretzDistrictStreamingLaunch.js';
 import { startEretzRendererHydration } from './EretzRendererHydrationLaunch.js';
 import {
 	markRendererHydration,
@@ -32,8 +30,13 @@ const STAGED_RUNTIME_URL = resolveDeferredAppModuleUrl(
 	import.meta.url,
 	'createEretzRuntime.js'
 );
+const POST_PLAYABLE_URL = resolveDeferredAppModuleUrl(
+	'EretzPostPlayablePriority.js?v=20260820-player-priority-02',
+	import.meta.url,
+	'createEretzRuntime.js'
+);
 
-/** Creates first-play Eretz, publishes it, then starts every non-blocking post-play system. */
+/** Creates first-play Eretz, publishes it, then starts non-blocking post-play systems. */
 export async function createEretzRuntime(hosts, options = {}) {
 	const environment = options.environment || globalThis;
 	markRuntimeStarting(environment.document);
@@ -54,7 +57,6 @@ export async function createEretzRuntime(hosts, options = {}) {
 			{ signal: options.signal || null }
 		);
 		startPostPlayableStreams(core, options, boot, environment);
-		core.diagnostics.deferredSystems = deferredSystemReceipt();
 		return core.diagnostics;
 	} catch (error) {
 		boot.fail(error);
@@ -68,25 +70,26 @@ export async function createEretzRuntime(hosts, options = {}) {
 }
 
 function startPostPlayableStreams(core, options, boot, environment) {
-	core.diagnostics.enrichmentPromise = startEretzDistrictStreaming(
-		core.runtime,
-		environment
-	);
-	core.diagnostics.deferredEnrichmentPromise = startProductionEretzDeferredEnrichment(
-		core,
-		options,
-		boot
-	);
+	const diagnostics = core.diagnostics;
+	diagnostics.postPlayablePriorityStage = 'loading-module';
+	const coordinator = import(POST_PLAYABLE_URL)
+		.then(module => module.startEretzPostPlayablePriority({
+			boot,
+			core,
+			environment,
+			options
+		}))
+		.catch(error => degradedPostPlayablePriority(diagnostics, error));
+	diagnostics.postPlayablePriorityPromise = coordinator;
+	diagnostics.enrichmentPromise = coordinator.then(receipt => receipt?.districts ?? null);
+	diagnostics.deferredEnrichmentPromise = coordinator.then(receipt => receipt?.enrichment ?? null);
 }
 
-function deferredSystemReceipt() {
-	return Object.freeze({
-		authoredTerrain: 'post-play-streaming-started',
-		inventoryAndRpg: 'deferred',
-		richActors: 'post-play-streaming-started',
-		richRenderer: 'deferred',
-		worldDiagnostics: 'bootstrap-and-deferred-stream-receipts'
-	});
+function degradedPostPlayablePriority(diagnostics, error) {
+	diagnostics.postPlayablePriorityError = error;
+	diagnostics.postPlayablePriorityStage = 'degraded';
+	console.warn('[MitzvahWorld] Post-play priority coordinator degraded.', error);
+	return null;
 }
 
 function publishRuntime(diagnostics, environment) {

@@ -1,0 +1,88 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos raises one Profile action into a visible vessel at the moment
+ * it is chosen; Awtsmoos.com keeps the sheet bounded, touchable, and truthful.
+ */
+.profile-action-drawer[hidden] {
+	display: none;
+}
+
+.profile-action-drawer:not([hidden]) {
+	position: fixed;
+	z-index: 80;
+	inset-inline: max(.75rem, env(safe-area-inset-left)) max(.75rem, env(safe-area-inset-right));
+	inset-block-end: max(.75rem, env(safe-area-inset-bottom));
+	display: grid;
+	gap: .8rem;
+	inline-size: min(calc(100% - 1.5rem), 38rem);
+	max-block-size: min(72dvh, 38rem);
+	margin-inline: auto;
+	padding: 1rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--civil-line-strong);
+	border-radius: 1.1rem;
+	background: color-mix(in srgb, var(--civil-panel) 96%, #050814);
+	box-shadow: 0 1.25rem 4rem rgba(0, 0, 0, .58), 0 0 0 1px rgba(86, 207, 229, .08);
+	color: var(--civil-text);
+}
+
+.profile-action-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	position: sticky;
+	z-index: 1;
+	inset-block-start: -.25rem;
+	padding-block: .25rem .5rem;
+	background: inherit;
+}
+
+.profile-action-head h2 {
+	margin: 0;
+	font-size: clamp(1.05rem, 3vw, 1.3rem);
+}
+
+.profile-action-head button,
+.profile-action-drawer :where(.g-social-button, .g-button, a, button, input, select, textarea) {
+	min-block-size: 44px;
+}
+
+.profile-action-head button {
+	min-inline-size: 44px;
+	border: 1px solid var(--civil-line);
+	border-radius: .7rem;
+	background: rgba(255, 255, 255, .06);
+	color: var(--civil-text);
+	font-size: 1.2rem;
+}
+
+.profile-action-drawer :where(a, button, input, select, textarea):focus-visible {
+	outline: 3px solid var(--civil-cyan);
+	outline-offset: 3px;
+}
+
+.profile-action-list,
+.inline-notification-list,
+[data-profile-action-body] {
+	display: grid;
+	gap: .65rem;
+	min-inline-size: 0;
+}
+
+@media (min-width: 56rem) {
+	.profile-action-drawer:not([hidden]) {
+		inset-inline: auto max(1rem, calc((100vw - var(--g-content, 78rem)) / 2));
+		inline-size: min(30rem, calc(100vw - 2rem));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.profile-action-drawer {
+		scroll-behavior: auto;
+	}
+}

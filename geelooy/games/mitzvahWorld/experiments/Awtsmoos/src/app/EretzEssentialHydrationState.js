@@ -4,21 +4,21 @@
 
 /**
  * @file EretzEssentialHydrationState.js
- * @description Defers canonical actors and rich material catalogs until after playability.
- * The Awtsmoos preserves the first moving soul while later garments wait beyond the threshold;
- * Awtsmoos.com makes each rich import explicit, idempotent, observable, and safely degradable.
+ * @description Defers canonical actor GLBs and rich materials while recovering friendly identities only after play.
+ * The Awtsmoos keeps first control free of quest-catalog weight, then restores each neighbor when the stream may flow;
+ * Awtsmoos.com never feeds an empty village into canonical actor hydration merely to make an early metric glow.
  */
 
-export function createEssentialActorHydration(options = {}) {
+export function createEssentialActorHydration(options = {}, dependencies = {}) {
 	const enabled = options.streamCanonicalActors === true;
+	const loadProfiles = dependencies.loadProfiles || loadFriendlyNpcProfiles;
+	const loadActors = dependencies.loadActors || loadRemoteActors;
 	return createDeferredState(
 		enabled ? 'waiting-for-playable' : 'fallback-stable',
 		enabled,
 		async () => {
-			const module = await import(
-				'./EretzActorAssetLoader.js?v=20260722-rich-actors-01'
-			);
-			return module.loadRemoteEretzActorAssets(options, []);
+			const profiles = await loadProfiles(options);
+			return loadActors(options, profiles);
 		}
 	);
 }
@@ -46,6 +46,21 @@ export function createEssentialMaterialHydration(assets, options = {}, boot = nu
 	);
 }
 
+async function loadFriendlyNpcProfiles(options) {
+	const module = await import(
+		'../world/npc/FriendlyNpcProfiles.js?v=20260820-deferred-profiles-01'
+	);
+	const quality = options.quality || options.qualityProfile?.quality || 'medium';
+	return module.friendlyNpcProfiles(quality);
+}
+
+async function loadRemoteActors(options, profiles) {
+	const module = await import(
+		'./EretzActorAssetLoader.js?v=20260820-profile-preserve-01'
+	);
+	return module.loadRemoteEretzActorAssets(options, profiles);
+}
+
 function createDeferredState(initialStatus, enabled, task) {
 	let promise = null;
 	const state = {
@@ -62,27 +77,29 @@ function createDeferredState(initialStatus, enabled, task) {
 			state.status = 'loading';
 			promise = Promise.resolve()
 				.then(task)
-				.then(value => {
-					state.value = value;
-					state.status = 'ready';
-					return value;
-				})
-				.catch(error => {
-					state.error = error?.message || String(error);
-					state.status = 'degraded';
-					return null;
-				});
+				.then(value => completeState(state, value))
+				.catch(error => degradeState(state, error));
 			return promise;
 		}
 	};
 	return state;
 }
 
+function completeState(state, value) {
+	state.value = value;
+	state.status = 'ready';
+	return value;
+}
+
+function degradeState(state, error) {
+	state.error = error?.message || String(error);
+	state.status = 'degraded';
+	return null;
+}
+
 function copyRichAssetValues(target, source = {}) {
 	for (const [key, value] of Object.entries(source)) {
-		if (key === 'publicMaterialStreaming' || key === 'publicMaterialHydration') {
-			continue;
-		}
+		if (key === 'publicMaterialStreaming' || key === 'publicMaterialHydration') continue;
 		target[key] = value;
 	}
 }

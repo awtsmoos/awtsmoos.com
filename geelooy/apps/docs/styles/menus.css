@@ -1,0 +1,113 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond menu and choice; Awtsmoos.com gives secondary power a
+ * temporary home so the page stays calm until the writer intentionally asks for more.
+ */
+.menu-bar {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	padding: 4px 12px 2px;
+}
+
+.menu-bar > button,
+.more-format > button {
+	min-height: 31px;
+	padding: 5px 9px;
+	border: 0;
+	border-radius: 7px;
+	background: transparent;
+	color: var(--docs-ink);
+	font-size: 13px;
+}
+
+.menu-bar > button:hover,
+.menu-bar > button[aria-expanded="true"],
+.more-format > button:hover,
+.more-format > button[aria-expanded="true"] {
+	background: var(--docs-surface-soft);
+}
+
+.docs-menu {
+	position: absolute;
+	z-index: 70;
+	display: none;
+	min-width: 218px;
+	padding: 6px;
+	border: 1px solid var(--docs-border);
+	border-radius: 12px;
+	background: var(--docs-surface);
+	box-shadow: 0 18px 54px rgba(24, 34, 62, 0.18);
+}
+
+.menu-bar > .docs-menu {
+	top: calc(100% - 1px);
+	left: 12px;
+}
+
+.menu-bar > [data-menu="insert"] {
+	left: 58px;
+}
+
+.menu-bar > [data-menu="view"] {
+	left: 112px;
+}
+
+.docs-menu.is-open {
+	display: grid;
+	gap: 2px;
+}
+
+.docs-menu button,
+.docs-menu label {
+	width: 100%;
+	min-height: 34px;
+	padding: 7px 9px;
+	border: 0;
+	border-radius: 7px;
+	background: transparent;
+	color: var(--docs-ink);
+	font-size: 13px;
+	text-align: left;
+}
+
+.docs-menu button:hover,
+.docs-menu button:focus-visible,
+.docs-menu label:hover {
+	background: var(--docs-accent-soft);
+}
+
+.docs-menu hr {
+	width: 100%;
+	margin: 4px 0;
+	border: 0;
+	border-top: 1px solid var(--docs-border);
+}
+
+.docs-menu label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.docs-menu input[type="color"] {
+	width: 34px;
+	height: 25px;
+	padding: 0;
+	border: 0;
+	background: transparent;
+}
+
+.more-format {
+	position: relative;
+}
+
+.more-format .docs-menu {
+	right: 0;
+	top: calc(100% + 5px);
+}

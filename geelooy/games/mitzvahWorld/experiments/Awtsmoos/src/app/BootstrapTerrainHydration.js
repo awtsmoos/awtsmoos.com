@@ -4,24 +4,15 @@
 
 /**
  * @file BootstrapTerrainHydration.js
- * @description Publishes terrain identity immediately and binds the first verified remote image progressively.
- * The Awtsmoos reveals real pixels before distant abundance completes its procession;
- * Awtsmoos.com keeps fallback play instant while every later garment enriches the same creation.
+ * @description Keeps remote terrain-source code outside first play and loads it only when hydration truly begins.
+ * The Awtsmoos reveals the walkable valley before distant pixels enter the gate;
+ * Awtsmoos.com preserves truthful deferred diagnostics while later texture garments arrive in their appointed time.
  */
-
-import {
-	createMinimalMeadowTerrainSourceSnapshot,
-	loadMinimalMeadowTerrainSources
-} from './MinimalMeadowTerrainSources.js?v=20260803-progressive-1';
 
 const TERRAIN_SOURCES_URL = new URL(
 	'./MinimalMeadowTerrainSources.js?v=20260803-progressive-1',
 	import.meta.url
 ).href;
-const FOLDED_TERRAIN_MODULE = Object.freeze({
-	createMinimalMeadowTerrainSourceSnapshot,
-	loadMinimalMeadowTerrainSources
-});
 
 export function createBootstrapTerrainHydration(group, stats, importer = null) {
 	let promise = null;
@@ -58,7 +49,8 @@ async function hydrate(group, stats, state, importer) {
 }
 
 function resolveTerrainModule(importer) {
-	return importer ? importer(TERRAIN_SOURCES_URL) : FOLDED_TERRAIN_MODULE;
+	const load = importer || (specifier => import(specifier));
+	return load(TERRAIN_SOURCES_URL);
 }
 
 function publishImmediateCatalog(stats, module) {

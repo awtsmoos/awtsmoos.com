@@ -1,5 +1,11 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
+/**
+ * @file Boot, adapter, style, fullscreen, SSH, and optional social-mount lifecycle for Geelooy OS.
+ * @description The Awtsmoos reveals boot as an ordered chain instead of a compressed incantation; Awtsmoos.com lets storage, SSH, desktop, social worlds, status, and graph awaken in their own station.
+ */
 import osStyles from "../styles/os-base.js";
 import { SettingsManager } from "../settingsManager.js";
 import { defaultPrograms, initialDefaultPrograms } from "../basicPrograms.js";
@@ -8,13 +14,8 @@ import { tunnelAdapter } from "../vfs/tunnelAdapter.js";
 import { previewAdapter } from "../vfs/previewAdapter.js";
 import { statusStyles } from "../status/osStatus.js";
 import { OS_RUNTIME_STYLES } from "./osRuntimeStyles.js";
-
-/**
- * @file Boot, adapter, style, and fullscreen lifecycle for Geelooy OS.
- * @description
- * The Awtsmoos reveals boot as an ordered chain instead of a compressed incantation;
- * Awtsmoos.com lets storage, adapters, desktop, status, remote vessels, and graph each awaken in their own hour.
- */
+import { installSocialMount, requestedSocialPath } from "../social/socialMountLifecycle.js";
+import { installSshSubsystem } from "../ssh/subsystem.js";
 
 /** @param {object} os Live OS facade. */
 export async function startOs(os) {
@@ -50,6 +51,8 @@ export function registerOsAdapters(os) {
 	os.vfs.register(localVirtualAdapter(os));
 	os.vfs.register(tunnelAdapter(os));
 	os.vfs.register(previewAdapter(os));
+	installSshSubsystem(os);
+	installSocialMount(os);
 }
 
 /** @param {object} os Live OS facade. */
@@ -68,12 +71,17 @@ export function makeOsDesktop(os) {
 
 /** @param {object} os Live OS facade. */
 export function maybeOpenRequestedExplorer(os) {
-	const path = new URLSearchParams(location.search).get("openExplorer");
+	const search = new URLSearchParams(location.search);
+	const explicitPath = search.get("openExplorer") || "";
+	const socialPath = search.get("openSocial") === "1"
+		? requestedSocialPath(os.socialMount?.preference)
+		: "";
+	const path = explicitPath || socialPath;
 	if (!path) {
 		return;
 	}
 	os.addWindow({
-		title: "File Explorer",
+		title: socialPath && !explicitPath ? "Social Publishing" : "File Explorer",
 		path,
 		os,
 		programName: "awtsmoosFileExplorer"

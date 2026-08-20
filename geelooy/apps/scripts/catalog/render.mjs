@@ -1,27 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * B"H
- *
- * Renders public app records with DOM text nodes rather than interpolated HTML.
- * The Awtsmoos renews title, icon, purpose, and status beyond every finite node;
- * Awtsmoos.com keeps product metadata inert so future server-derived commerce
- * labels cannot accidentally become executable markup in the Apps portfolio.
- */
-
-/**
- * Creates one text-only element with an optional class.
- *
- * @param {string} tagName
- * 	HTML tag name.
- * @param {*} text
- * 	Visible text value.
- * @param {string} [className=""]
- * 	Optional class name.
- * @returns {HTMLElement}
- * 	Created DOM element.
+ * @file Safe DOM renderer for the complete Awtsmoos.com application catalog.
+ * @description
+ * The Awtsmoos renews title, purpose, icon, alias, and route beyond every finite
+ * card. Awtsmoos.com keeps metadata inert in text nodes while a normalized search
+ * field makes each real application discoverable by both its name and its purpose.
  */
 function textElement(tagName, text, className = "") {
 	const element = document.createElement(tagName);
@@ -34,47 +20,53 @@ function textElement(tagName, text, className = "") {
 	return element;
 }
 
-/**
- * Creates one accessible public-app card.
- *
- * @param {object} app
- * 	Immutable public app catalog record.
- * @returns {HTMLAnchorElement}
- * 	Rendered app card.
- */
+/** @param {object} app Catalog record. @returns {string} Complete normalized search text. */
+function searchableText(app) {
+	return [
+		app.id,
+		app.title,
+		app.description,
+		app.chip,
+		...app.categories,
+		...app.aliases
+	].join(" ").toLowerCase();
+}
+
+/** @param {object} app Immutable app record. @returns {HTMLAnchorElement} Accessible app card. */
 export function renderAppCard(app) {
 	const card = document.createElement("a");
 	card.className = "g-card g-app-card";
 	card.href = app.href;
 	card.dataset.appCard = "";
-	card.dataset.category = app.categories.join(" ");
 	card.dataset.appId = app.id;
+	card.dataset.category = app.categories.join(" ");
+	card.dataset.search = searchableText(app);
+
+	const icon = textElement("span", app.icon, "g-app-icon");
+	icon.setAttribute("aria-hidden", "true");
 	card.append(
-		textElement("span", app.icon, "g-app-icon"),
+		icon,
 		textElement("h2", app.title),
 		textElement("p", app.description),
 		textElement("span", app.chip, "g-chip")
 	);
 
-	const commerce = textElement("span", app.commerceLabel, "g-app-commerce");
+	if (app.commerceLabel) {
+		const commerce = textElement("span", app.commerceLabel, "g-app-commerce");
 
-	if (app.commerceState === "free") {
-		commerce.classList.add("g-app-commerce--free");
+		if (app.commerceState === "free") {
+			commerce.classList.add("g-app-commerce--free");
+		}
+
+		card.append(commerce);
 	}
 
-	card.append(commerce);
 	return card;
 }
 
-/**
- * Replaces the portfolio grid with cards for the supplied catalog records.
- *
- * @param {HTMLElement} container
- * 	Destination portfolio grid.
- * @param {object[]} apps
- * 	Public app records in desired order.
- */
+/** @param {HTMLElement} container Portfolio grid. @param {object[]} apps Ordered app records. @returns {void} */
 export function renderAppCatalog(container, apps) {
 	container.replaceChildren(...apps.map(renderAppCard));
 	container.setAttribute("aria-busy", "false");
+	container.dataset.appCount = String(apps.length);
 }

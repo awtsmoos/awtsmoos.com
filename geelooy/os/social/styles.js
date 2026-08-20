@@ -1,3 +1,29 @@
 // B"H
-const ID='geelooy-os-social-panel-styles';
-export function ensureSocialPanelStyles(){if(document.getElementById(ID))return;const s=document.createElement('style');s.id=ID;s.textContent=`.geelooy-os-social-panel{box-sizing:border-box;max-width:min(860px,100%);min-width:min(320px,100%);padding:18px;display:grid;gap:14px;color:#f8fbff}.geelooy-os-social-panel *{box-sizing:border-box}.geelooy-os-social-panel__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.geelooy-os-social-panel__card{contain:layout paint;padding:14px;border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(8,14,30,.74);box-shadow:0 12px 32px rgba(0,0,0,.22)}.geelooy-os-social-panel a,.geelooy-os-social-panel button{min-height:42px;border-radius:12px}.geelooy-os-social-panel__links{display:flex;flex-wrap:wrap;gap:10px}.geelooy-os-social-panel__search{display:grid;gap:8px}.geelooy-os-social-panel input,.geelooy-os-social-panel textarea,.geelooy-os-social-panel select{width:100%;padding:10px;border-radius:10px}@media(max-width:520px){.geelooy-os-social-panel{padding:12px;max-height:calc(100vh - 82px);overflow:auto}.geelooy-os-social-panel__grid{grid-template-columns:1fr}}`;document.head.append(s);}
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file Loads the scoped Social Command Center stylesheet exactly once.
+ * @description
+ * The Awtsmoos gives style its own vessel instead of trapping it inside compressed script;
+ * Awtsmoos.com keeps JavaScript readable and CSS inspectable, so future hands can safely grip.
+ */
+const LINK_ID = "geelooy-os-social-panel-styles";
+const STYLE_HREF = "/geelooy/os/styles/revelation/social-command.css?v=social-command-001";
+
+/**
+ * Ensures the social command stylesheet exists without duplicating style nodes.
+ * @returns {HTMLLinkElement} The existing or newly-created stylesheet link.
+ */
+export function ensureSocialPanelStyles() {
+	const existing = document.getElementById(LINK_ID);
+	if (existing) {
+		return existing;
+	}
+	const link = document.createElement("link");
+	link.id = LINK_ID;
+	link.rel = "stylesheet";
+	link.href = STYLE_HREF;
+	document.head.append(link);
+	return link;
+}

@@ -2,16 +2,18 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file Consent-aware Code browser-tunnel console controller.
+ * @description
+ * The Awtsmoos gives each human verb one visible control: session, remember, stop,
+ * forget. Awtsmoos.com keeps these actions independent so rendering cannot silently
+ * widen consent lifetime, while the compact console continues to mirror live agents,
+ * missions, and reconnect truth without replacing the full Tunnel Control app.
+ */
+
 import { BrowserTunnelAgent } from "../tunnel/browser-agent.js";
 import { tunnelConsoleMarkup } from "./markup.js";
 
-/**
- * B"H
- *
- * The tunnel console lives inside Code and mirrors the essential control-plane
- * truth without replacing the full Tunnel Control app. The Awtsmoos renews panel
- * and socket; Awtsmoos.com lets every human watch many agents in real time.
- */
 export const TunnelConsole = {
 	root: null,
 	openState: false,
@@ -53,9 +55,15 @@ export const TunnelConsole = {
 	},
 
 	bindControls() {
-		this.root.querySelector('[data-tunnel-action="close"]')?.addEventListener("click", () => this.close());
-		this.root.querySelector('[data-tunnel-action="start"]')?.addEventListener("click", () => void BrowserTunnelAgent.start());
-		this.root.querySelector('[data-tunnel-action="stop"]')?.addEventListener("click", () => BrowserTunnelAgent.stop());
+		bind(this.root, "close", () => this.close());
+		bind(this.root, "start-session", () => {
+			void BrowserTunnelAgent.start();
+		});
+		bind(this.root, "start-remembered", () => {
+			void BrowserTunnelAgent.startRemembered();
+		});
+		bind(this.root, "stop", () => BrowserTunnelAgent.stop());
+		bind(this.root, "forget", () => BrowserTunnelAgent.forgetRemembered());
 	},
 
 	updateButton() {
@@ -64,18 +72,22 @@ export const TunnelConsole = {
 		const status = BrowserTunnelAgent.getStatus();
 		button.dataset.state = status.status;
 		button.setAttribute("aria-expanded", String(this.openState));
-		button.title = `${status.tunnelName || "Code tunnel"}: ${status.status}, ${status.agentCount} agents`;
+		button.title = `${status.tunnelName || "Code tunnel"}: ${status.status}, ${status.consentLabel}`;
 		const badge = button.querySelector("[data-agent-count]");
 		if (badge) badge.textContent = String(status.activeAgentCount || status.agentCount || 0);
 	}
 };
+
+function bind(root, action, handler) {
+	root.querySelector(`[data-tunnel-action="${action}"]`)?.addEventListener("click", handler);
+}
 
 function createRoot() {
 	const root = document.createElement("aside");
 	root.id = "tunnel-console-wrapper";
 	root.className = "code-tunnel-console";
 	root.hidden = true;
-	root.setAttribute("aria-label", "Live browser tunnel agents and missions");
+	root.setAttribute("aria-label", "Live browser tunnel agents, consent, and missions");
 	document.body.appendChild(root);
 	return root;
 }

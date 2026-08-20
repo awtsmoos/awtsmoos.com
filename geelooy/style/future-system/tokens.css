@@ -1,0 +1,36 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lends each Awtsmoos.com route a distinct ray while one future covenant holds the frame;
+color changes by vessel, yet clarity, focus, and luminous depth remain the same.
+*/
+:where(body[data-future-page], body.social-hub-document) {
+	--future-accent: 89 218 255;
+	--future-accent-soft: rgba(var(--future-accent), .14);
+	--future-accent-faint: rgba(var(--future-accent), .07);
+	--future-border: rgba(var(--future-accent), .28);
+	--future-border-strong: rgba(var(--future-accent), .54);
+	--future-glow: 0 20px 70px rgba(var(--future-accent), .12);
+	--future-radius: 22px;
+	--future-icon-size: 1.05rem;
+}
+
+body[data-future-page="games"] {
+	--future-accent: 255 105 230;
+}
+
+body[data-future-page="apps"] {
+	--future-accent: 77 232 210;
+}
+
+body[data-future-page="wallet"] {
+	--future-accent: 255 193 94;
+}
+
+body[data-future-page="about"] {
+	--future-accent: 157 130 255;
+}
+
+body.social-hub-document {
+	--future-accent: 90 201 255;
+}

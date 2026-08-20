@@ -1,0 +1,73 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@import url("./header.css");
+@import url("./status.css");
+
+/**
+ * The Awtsmoos is beyond page and panel; Awtsmoos.com arranges the finite workspace
+ * so chrome recedes, the writing vessel dominates, and focus mode can clear the surrounding noise.
+ */
+.docs-app {
+	min-height: 100vh;
+	display: grid;
+	grid-template-rows: auto auto 1fr;
+	background:
+		radial-gradient(circle at 50% 0, rgba(54, 92, 245, 0.05), transparent 28rem),
+		var(--docs-bg);
+}
+
+.command-shell {
+	position: sticky;
+	top: 58px;
+	z-index: 35;
+	background: color-mix(in srgb, var(--docs-surface) 97%, transparent);
+	border-bottom: 1px solid var(--docs-border);
+	box-shadow: 0 5px 20px rgba(27, 39, 76, 0.05);
+	backdrop-filter: blur(12px);
+}
+
+.workspace {
+	min-height: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.page-stage {
+	overflow: auto;
+	padding: 38px 24px 96px;
+}
+
+.document-stats {
+	width: min(100%, var(--docs-page-width));
+	margin: 12px auto 0;
+	padding: 8px 4px;
+	color: var(--docs-muted);
+	font-size: 12px;
+	text-align: right;
+}
+
+.docs-app.is-focus-mode .app-bar,
+.docs-app.is-focus-mode .command-shell,
+.docs-app.is-focus-mode .side-panel {
+	display: none;
+}
+
+.docs-app.is-focus-mode {
+	grid-template-rows: 1fr;
+}
+
+.docs-app.is-focus-mode .workspace {
+	grid-row: 1;
+}
+
+.docs-app.is-file-dragging .document-canvas {
+	outline: 3px dashed var(--docs-accent);
+	outline-offset: -12px;
+	background: color-mix(in srgb, var(--docs-accent-soft) 45%, white);
+}
+
+[hidden] {
+	display: none !important;
+}

@@ -1,24 +1,24 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
+import { hubIcon } from '../ui/IconCatalog.js';
+import { createSmartTextField } from '../ui/fields/SmartTextField.js';
+import { renderSpaceDetail } from './SpaceDetailView.js';
+
 /**
  * @class SpacesView
  * @description
- * The Awtsmoos lets a Heichel become a community while each nested series remains a navigable channel of light;
- * Awtsmoos.com keeps discovery separate from channel detail so both vessels remain small, readable, and right.
+ * The Awtsmoos lets communities appear as living destinations before explanation, while Awtsmoos.com replaces a bare search line with an icon-led discovery vessel and scannable community cards;
+ * Heichel and series semantics remain exact beneath the surface, yet the user meets name, signal, and action before implementation vocabulary enters the light.
  */
-import { renderSpaceDetail } from './SpaceDetailView.js';
-
 export class SpacesView {
 	constructor(root) {
 		this.root = root;
 	}
 
-	/** Creates the Spaces route panel before navigation chooses its first destination. */
 	ensurePanel() {
-		if (this.panel) {
-			return this.panel;
-		}
+		if (this.panel) return this.panel;
 		this.panel = this.root.createElement('section');
 		this.panel.className = 'panel spacesPanel';
 		this.panel.dataset.panel = 'spaces';
@@ -36,25 +36,25 @@ export class SpacesView {
 
 	heading() {
 		const wrapper = this.root.createElement('header');
-		wrapper.className = 'spacesHeading';
-		const title = this.root.createElement('h2');
-		title.textContent = 'Spaces';
-		const copy = this.root.createElement('p');
-		copy.textContent = 'Heichels are communities. Nested series are channels, categories, and durable discussion rooms.';
-		wrapper.append(title, copy);
+		wrapper.className = 'spacesHeading hubSectionHeading--icon';
+		wrapper.append(this.text('span', hubIcon('spaces'), 'hubSectionHeading__icon'));
+		wrapper.append(this.text('h2', 'Spaces'));
 		return wrapper;
 	}
 
 	searchForm() {
 		const form = this.root.createElement('form');
-		form.className = 'spacesSearch';
+		form.className = 'spacesSearch spacesSearch--smart';
 		form.setAttribute('role', 'search');
-		const input = this.root.createElement('input');
-		input.id = 'spacesSearchInput';
-		input.type = 'search';
-		input.placeholder = 'Find communities and spaces';
-		input.autocomplete = 'off';
-		form.append(input);
+		const field = createSmartTextField(this.root, {
+			id: 'spacesSearchInput',
+			kind: 'search',
+			label: 'Find communities and spaces',
+			placeholder: 'Find a space…',
+			icon: hubIcon('search'),
+			maxLength: 100
+		});
+		form.append(field.element);
 		return form;
 	}
 
@@ -69,40 +69,45 @@ export class SpacesView {
 
 	message(regionId, message) {
 		const region = this.root.getElementById(regionId);
-		const paragraph = this.root.createElement('p');
-		paragraph.className = 'spacesMessage';
-		paragraph.textContent = message;
-		region?.replaceChildren(paragraph);
+		const state = this.root.createElement('div');
+		state.className = 'hubCompactState';
+		state.append(this.text('span', hubIcon('spaces'), 'hubCompactState__icon'));
+		state.append(this.text('span', message, 'hubCompactState__text'));
+		region?.replaceChildren(state);
 	}
 
 	destinations(destinations, onOpen) {
 		const region = this.root.getElementById('spacesResults');
-		const cards = destinations.map(space => this.destinationCard(space, onOpen));
-		region?.replaceChildren(...cards);
+		region?.replaceChildren(...destinations.map(space => this.destinationCard(space, onOpen)));
 	}
 
 	destinationCard(space, onOpen) {
 		const card = this.root.createElement('article');
-		card.className = 'spaceCard';
+		card.className = 'spaceCard spaceCard--compact';
+		const emblem = this.text('span', '◫', 'spaceCard__emblem');
+		const copy = this.root.createElement('div');
+		copy.className = 'spaceCard__copy';
+		copy.append(this.text('strong', space.name || space.heichelId));
+		if (space.description) copy.append(this.text('p', space.description));
 		const button = this.root.createElement('button');
 		button.type = 'button';
-		button.className = 'spaceOpen';
-		button.textContent = space.name || space.heichelId;
+		button.className = 'spaceOpen spaceOpen--icon';
+		button.setAttribute('aria-label', `Open ${space.name || space.heichelId}`);
+		button.title = `Open ${space.name || space.heichelId}`;
+		button.textContent = '→';
 		button.addEventListener('click', () => onOpen(space.heichelId, 'root'));
-		const description = this.root.createElement('p');
-		description.textContent = space.description || 'Community space';
-		const role = this.root.createElement('small');
-		role.textContent = [space.role, ...(space.reasons || [])].filter(Boolean).join(' · ');
-		card.append(button, description, role);
+		card.append(emblem, copy, button);
 		return card;
 	}
 
 	detail(detail, onOpenSeries) {
-		renderSpaceDetail(
-			this.root,
-			this.root.getElementById('spaceDetail'),
-			detail,
-			onOpenSeries
-		);
+		renderSpaceDetail(this.root, this.root.getElementById('spaceDetail'), detail, onOpenSeries);
+	}
+
+	text(tag, value, className = '') {
+		const node = this.root.createElement(tag);
+		node.textContent = value;
+		if (className) node.className = className;
+		return node;
 	}
 }

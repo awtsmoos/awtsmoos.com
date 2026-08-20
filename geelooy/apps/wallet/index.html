@@ -2,8 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos renews owner, gift, purchase, source, and every finite coin.
-Awtsmoos.com keeps one quiet treasury: primary actions stay visible while historical
-study and utility links wait behind disclosures until the user actually asks for them.
+Awtsmoos.com keeps one quiet treasury, now carrying the same future light without moving the honest ledger beneath it.
 -->
 <!doctype html>
 <html lang="en">
@@ -14,47 +13,36 @@ study and utility links wait behind disclosures until the user actually asks for
 	<meta name="description" content="Send promotional Perutas, buy purchased Perutas, own Wallet cosmetics, and study source-backed historical denominations.">
 	<title>Awtsmoos Wallet — Send, Buy & Own</title>
 	<link rel="stylesheet" href="./style.css?v=wallet-currency-010">
+	<link rel="stylesheet" href="/style/future-system/index.css?v=future-001">
 </head>
-<body>
+<body data-future-page="wallet">
 	<main class="wallet-shell">
-		<section class="hero">
+		<section class="hero" data-future-hero data-future-surface data-future-aura data-future-reveal>
 			<div>
 				<p class="eyebrow">B"H · Awtsmoos Wallet</p>
 				<h1>One treasury. Three clear actions.</h1>
 				<p class="lead">Send promotional Perutas, top up purchased Perutas, or own optional cosmetics. Historical denominations appear automatically for readability while the ledger always remains exact whole Perutas.</p>
 				<nav class="row wallet-primary-nav" aria-label="Primary Wallet actions">
-					<a href="#send">Send Perutas</a>
-					<a href="#buy">Buy Perutas</a>
-					<a href="#store">Treasury Shop</a>
+					<a href="#send" data-future-action><span data-future-icon="send"></span>Send Perutas</a>
+					<a href="#buy" data-future-action><span data-future-icon="wallet"></span>Buy Perutas</a>
+					<a href="#store" data-future-action><span data-future-icon="spark"></span>Treasury Shop</a>
 				</nav>
 				<details class="wallet-more">
 					<summary>More</summary>
-					<div class="wallet-more__links">
-						<button id="refreshBtn" type="button">Refresh wallet</button>
-						<a href="/os/">Geelooy OS</a>
-						<a href="./docs.html">API Guide</a>
-						<a href="/login">Login</a>
-					</div>
+					<div class="wallet-more__links"><button id="refreshBtn" type="button">Refresh wallet</button><a href="/os/">Geelooy OS</a>
+						<a href="./docs.html">API Guide</a><a href="/login">Login</a></div>
 				</details>
 			</div>
-			<aside class="balance-card" aria-live="polite">
-				<span>Total balance</span>
-				<strong id="balance">Loading…</strong>
-				<em id="usdValue">Checking account…</em>
+			<aside class="balance-card" aria-live="polite" data-future-surface data-future-aura>
+				<span>Total balance</span><strong id="balance">Loading…</strong><em id="usdValue">Checking account…</em>
 				<div class="balance-breakdown">
-					<div>
-						<span>Promotional · sendable</span>
-						<b id="promotionalBalance">—</b>
-					</div>
-					<div>
-						<span>Purchased · account-bound</span>
-						<b id="purchasedBalance">—</b>
-					</div>
+					<div><span>Promotional · sendable</span><b id="promotionalBalance">—</b></div>
+					<div><span>Purchased · account-bound</span><b id="purchasedBalance">—</b></div>
 				</div>
 			</aside>
 		</section>
 		<section class="grid wallet-actions">
-			<form id="transferForm" class="panel transfer-panel">
+			<form id="transferForm" class="panel transfer-panel" data-future-surface data-future-reveal>
 				<p class="eyebrow">Person to person</p>
 				<h2 id="send">Send promotional Perutas</h2>
 				<p class="muted">Send to an @alias. Purchased Perutas stay account-bound and cannot be transferred.</p>
@@ -68,29 +56,28 @@ study and utility links wait behind disclosures until the user actually asks for
 						<textarea id="transferNote" name="note" maxlength="140" rows="3" placeholder="B'H · thank you"></textarea>
 					</label>
 				</div>
-				<button id="transferBtn" type="submit">Send promotional Perutas</button>
+				<button id="transferBtn" type="submit"><span data-future-icon="send"></span>Send promotional Perutas</button>
 				<p id="transferStatus" class="transfer-status" role="status">Enter an @alias and amount to prepare a send.</p>
 			</form>
-			<div id="buy" class="panel checkout-panel">
-				<p class="eyebrow">Verified top-up</p>
-				<h2>Buy purchased Perutas</h2>
+			<div id="buy" class="panel checkout-panel" data-future-surface data-future-reveal>
+				<p class="eyebrow">Verified top-up</p><h2>Buy purchased Perutas</h2>
 				<p class="muted">1¢ = 500 purchased Perutas · 2¢ = 1,000. Provider minimum: $1.00 = 50,000 purchased Perutas. Closed-loop value only; no cash-out.</p>
 				<label for="dollars">USD amount</label>
 				<input id="dollars" type="number" min="1" max="250" step="0.01" value="5" inputmode="decimal">
 				<p id="purchasePreview" class="purchase-preview">Loading current purchase rate…</p>
-				<button id="paypalBtn" type="button">Continue to PayPal</button>
+				<button id="paypalBtn" type="button"><span data-future-icon="wallet"></span>Continue to PayPal</button>
 				<p id="checkoutStatus" class="checkout-status" role="status">Choose a USD amount to create a verified PayPal top-up.</p>
 			</div>
 		</section>
-		<div id="storeMount">
-			<section id="store" class="panel treasury-shop">
-				<p class="eyebrow">Optional supporter goods</p>
-				<h2>Treasury Shop</h2>
+		<div id="storeMount" data-future-reveal>
+			<section id="store" class="panel treasury-shop" data-future-surface>
+				<p class="eyebrow">Optional supporter goods</p><h2>Treasury Shop</h2>
 				<p class="muted">Loading server-live Wallet goods…</p>
 			</section>
 		</div>
 		<div id="secondaryMount"></div>
 	</main>
 	<script type="module" src="./main.js?v=wallet-currency-010"></script>
+	<script type="module" src="/scripts/future-system/index.js?v=future-001"></script>
 </body>
 </html>

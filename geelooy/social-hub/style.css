@@ -2,13 +2,15 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers Inbox, live Torah Chat, inline private Messages, Spaces, presence, review, governance, profile identity, and neighboring communication vessels
- * through focused styles so Awtsmoos.com can grow radically without one global glass-panel stylesheet.
+ * The Awtsmoos gathers Inbox, Chat, Messages, Spaces, People, profile identity, and neighboring social vessels through focused styles;
+ * Awtsmoos.com now shares future borders and glow while preserving Social Hub's own nebula, icon navigation, and route-specific visual trials.
  */
 @import url('/style/social-system/index.css?v=social-core-006');
+@import url('/style/future-system/index.css?v=future-001');
 @import url('./styles/foundation.css?v=hub-nebula-004');
 @import url('./styles/typography.css?v=hub-nebula-004');
 @import url('./styles/forms.css?v=hub-nebula-004');
+@import url('./styles/smart-fields.css?v=hub-icon-ui-001');
 @import url('./styles/shell.css?v=hub-nebula-004');
 @import url('./styles/shell-status.css?v=hub-nebula-004');
 @import url('./styles/navigation.css?v=hub-nebula-004');
@@ -20,8 +22,11 @@
 @import url('./styles/messages-cards.css?v=hub-messages-002');
 @import url('./styles/messages-room-shell.css?v=hub-messages-004');
 @import url('./styles/messages-room-content.css?v=hub-messages-004');
+@import url('./styles/composer.css?v=hub-icon-ui-001');
 @import url('./styles/cards.css?v=hub-dark-003');
 @import url('./styles/interaction.css?v=hub-dark-003');
+@import url('./styles/interaction-disclosure.css?v=hub-disclosure-002');
+@import url('./styles/interaction-density.css?v=hub-density-001');
 @import url('./styles/interaction-media.css?v=hub-dark-003');
 @import url('./styles/activity.css?v=hub-dark-003');
 @import url('./styles/profile.css?v=hub-dark-003');
@@ -37,5 +42,6 @@
 @import url('./styles/mobile.css?v=hub-mobile-005');
 @import url('./styles/mobile-header.css?v=hub-nebula-004');
 @import url('./styles/mobile-narrow.css?v=hub-dark-003');
+@import url('./styles/icon-navigation.css?v=hub-icon-ui-001');
 @import url('./styles/accessibility.css?v=hub-dark-003');
 @import url('./styles/surface-contract.css?v=hub-contract-004');

@@ -1,0 +1,78 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lays a quiet horizon before any control can appear;
+Awtsmoos.com gives the OCR vessel one local sky, luminous yet clear.
+*/
+.ocr-app {
+	position: relative;
+	isolation: isolate;
+	width: min(100%, 76rem);
+	min-height: 100dvh;
+	margin: 0 auto;
+	padding: max(1rem, env(safe-area-inset-top)) 1rem max(1.25rem, env(safe-area-inset-bottom));
+	overflow: hidden;
+}
+
+.ocr-app::before,
+.ocr-app::after {
+	content: "";
+	position: fixed;
+	z-index: -1;
+	width: 18rem;
+	height: 18rem;
+	border-radius: 50%;
+	filter: blur(80px);
+	opacity: .18;
+	pointer-events: none;
+}
+
+.ocr-app::before {
+	top: -7rem;
+	right: -5rem;
+	background: #29d8ff;
+}
+
+.ocr-app::after {
+	bottom: -9rem;
+	left: -6rem;
+	background: #765cff;
+}
+
+.ocr-topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	min-height: 3.25rem;
+}
+
+.ocr-brand,
+.ocr-link {
+	display: inline-flex;
+	align-items: center;
+	gap: .6rem;
+	color: var(--ocr-text);
+	font-weight: 750;
+	text-decoration: none;
+}
+
+.ocr-brand-mark {
+	display: grid;
+	place-items: center;
+	width: 2rem;
+	height: 2rem;
+	border: 1px solid var(--ocr-border-strong);
+	border-radius: .7rem;
+	background: var(--ocr-surface-soft);
+	color: var(--ocr-accent);
+}
+
+.ocr-link {
+	min-height: 2.75rem;
+	padding: 0 .9rem;
+	border: 1px solid var(--ocr-border);
+	border-radius: 999px;
+	font-size: .88rem;
+}

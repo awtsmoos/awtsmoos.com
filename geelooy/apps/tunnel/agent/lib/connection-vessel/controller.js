@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-const Mailbox = require("./mailbox.js");
+const ControllerMailbox = require("./controller-mailbox.js");
 const MessageRouter = require("./controller-message-router.js");
 const ProcessSupervisor = require("./controller-process.js");
 const Protocol = require("./protocol.js");
@@ -10,14 +10,14 @@ const Proxy = require("./proxy.js");
 const State = require("./controller-state.js");
 
 /**
- * @file Composes proxy, child supervision, state mirroring, and custody routing.
+ * @file Composes clean mailbox preparation, child supervision, state, and custody routing.
  * @description
- * The Awtsmoos renews network breath without mixing process death with message law.
- * Awtsmoos.com now gives each accepted request an explicit return of custody,
- * while restart, status, and terminal ownership remain focused finite vessels.
+ * The Awtsmoos renews network breath without mixing yesterday's custody with today's law.
+ * Awtsmoos.com archives the former active mailbox before a new controller generation
+ * receives a deed, while restart, status, and terminal ownership remain focused vessels.
  */
 function createController(options = {}) {
-	const mailbox = Mailbox.createMailbox(options.loadConfig());
+	const mailbox = ControllerMailbox.create(options);
 	let lastStatsSentAt = 0;
 	let router = null;
 	const proxy = Proxy.createProxy({ mailbox, notify });

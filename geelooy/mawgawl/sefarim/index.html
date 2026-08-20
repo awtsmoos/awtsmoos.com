@@ -8,7 +8,7 @@ The Awtsmoos reveals each stored source beneath the one living Awtsmoos.com crow
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="description" content="Search indexed Torah source text, Tanach phrases, exact Hebrew words, and related source history with provenance.">
+	<meta name="description" content="Search indexed Torah source text, Tanach phrases, and exact Hebrew words with provenance.">
 	<meta name="theme-color" content="#050811">
 	<title>Search the Living Library — Geelooy</title>
 	<link rel="stylesheet" href="/style/civilization/core-tokens.css?v=living-search-006">
@@ -21,7 +21,7 @@ The Awtsmoos reveals each stored source beneath the one living Awtsmoos.com crow
 	<link rel="stylesheet" href="./styles/active-search.css?v=living-search-008">
 	<link rel="stylesheet" href="./styles/discovery.css?v=living-search-006">
 	<link rel="stylesheet" href="./styles/discovery-items.css?v=living-search-009">
-	<link rel="stylesheet" href="./styles/history.css?v=living-search-010">
+	<link rel="stylesheet" href="./styles/history.css?v=living-search-009">
 	<link rel="stylesheet" href="./styles/results.css?v=living-search-006">
 	<link rel="stylesheet" href="./styles/results-actions.css?v=living-search-006">
 	<link rel="stylesheet" href="./styles/comments.css?v=living-search-006">
@@ -35,12 +35,7 @@ The Awtsmoos reveals each stored source beneath the one living Awtsmoos.com crow
 	<a class="search-skip-link" href="#searchForm">Skip to search</a>
 	<main class="library-page geelooy-content-region" aria-labelledby="search-title">
 		<section class="library-hero">
-			<div class="library-hero-copy">
-				<p class="library-kicker">Living source graph</p>
-				<h1 id="search-title">Find the exact source.</h1>
-				<p>Search stored library text, Tanach phrases, exact Hebrew words, and selections remembered from post reading.</p>
-				<div class="library-truth-row" aria-label="Search guarantees"><span>Stored text only</span><span>Real provenance</span><span>Exact coordinates</span></div>
-			</div>
+			<div class="library-hero-copy"><p class="library-kicker">Living source graph</p><h1 id="search-title">Find the exact source.</h1><p>Search stored library text, Tanach phrases, or exact Hebrew words across Tanach, Mishnah, and Bavli.</p><div class="library-truth-row" aria-label="Search guarantees"><span>Stored text only</span><span>Real provenance</span><span>Exact coordinates</span></div></div>
 			<div class="library-hero-mark" aria-hidden="true"><span>א</span><i></i><i></i><i></i></div>
 		</section>
 		<form id="searchForm" class="library-search-form" role="search" action="/mawgawl/sefarim" method="get">
@@ -53,21 +48,14 @@ The Awtsmoos reveals each stored source beneath the one living Awtsmoos.com crow
 		</form>
 		<nav class="library-scope-nav" aria-label="Search and discovery scopes"><a class="is-active" href="/mawgawl/sefarim/" aria-current="page">Sources</a><a href="/heichelos">Heichelos</a><a href="/?view=feed">Posts</a><a href="/profile/">Aliases</a><a href="/heichelos/ikar?view=series">Series</a></nav>
 		<div class="library-workspace">
-			<section class="library-result-column" aria-labelledby="results-title">
-				<header class="library-section-heading"><div><p>Search results</p><h2 id="results-title">Sources worth opening</h2></div><a href="/heichelos/ikar?view=series">Browse library</a></header>
-				<p id="status" class="library-status" role="status" aria-live="polite">Enter a question to search stored source text.</p>
-				<section id="results" class="library-results" aria-live="polite" aria-label="Search results"><article class="library-empty library-empty-intro"><span aria-hidden="true">⌕</span><div><strong>Begin with a phrase, question, or teaching.</strong><p>The library reveals only results supplied by a live persisted index.</p></div></article></section>
-			</section>
+			<section class="library-result-column" aria-labelledby="results-title"><header class="library-section-heading"><div><p>Search results</p><h2 id="results-title">Sources worth opening</h2></div><a href="/heichelos/ikar?view=series">Browse library</a></header><p id="status" class="library-status" role="status" aria-live="polite">Enter a question to search stored source text.</p><section id="results" class="library-results" aria-live="polite" aria-label="Search results"><article class="library-empty library-empty-intro"><span aria-hidden="true">⌕</span><div><strong>Begin with a phrase, question, or teaching.</strong><p>The library reveals only results supplied by a live persisted index.</p></div></article></section></section>
 			<aside class="library-discovery-rail" aria-label="Search context">
 				<section class="library-rail-card"><header><div><p>Available libraries</p><h2>Indexed lanes</h2></div><span id="laneCount" aria-live="polite">Loading</span></header><div id="laneDirectory" class="library-lane-directory" aria-live="polite"></div></section>
-				<section class="library-rail-card">
-					<header><div><p>Your browser</p><h2>Search archive</h2></div><div class="library-history-controls"><select id="historyFilter" aria-label="Filter search history"><option value="all">All</option><option value="library">Library</option><option value="tanach">Tanach</option><option value="exact">Exact</option><option value="related">Related</option><option value="post-selection">Post selections</option><option value="comment-selection">Comment selections</option></select><button id="clearHistory" type="button">Clear</button></div></header>
-					<div id="recentSearches" class="library-recent-searches"><p>No local searches yet.</p></div>
-				</section>
-				<section class="library-rail-card library-tip-card"><p>Search with context</p><h2>Search here or highlight while reading.</h2><ul><li>Use Hebrew or English for broad library search.</li><li>Use Tanach or Exact mode for indexed Hebrew precision.</li><li>Select text in a post or comment to find related sources and save it in this archive.</li></ul></section>
+				<section class="library-rail-card"><header><div><p>Your browser</p><h2>Search history</h2></div><div class="library-history-controls"><select id="historyFilter" aria-label="Filter search history"><option value="all">All</option><option value="library">Library</option><option value="tanach">Tanach</option><option value="exact">Exact</option></select><button id="clearHistory" type="button">Clear</button></div></header><div id="recentSearches" class="library-recent-searches"><p>No local searches yet.</p></div></section>
+				<section class="library-rail-card library-tip-card"><p>Search with context</p><h2>Ask for a teaching, phrase, or exact word.</h2><ul><li>Use Hebrew or English for library search.</li><li>Use Tanach mode for Hebrew words or phrases.</li><li>Use Exact mode for one indexed Hebrew word.</li></ul></section>
 			</aside>
 		</div>
 	</main>
-	<script type="module" src="./script.js?v=living-search-010"></script>
+	<script type="module" src="./script.js?v=living-search-009"></script>
 </body>
 </html>

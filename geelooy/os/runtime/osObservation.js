@@ -1,4 +1,6 @@
-// B"H
+//B"H
+// Boruch Hashem
+// Blessed is He
 
 import { serializeScene } from "../scene/sceneSerializer.js";
 import { syncOsGraph } from "../graph/osGraphSync.js";
@@ -9,16 +11,14 @@ import { renderDesktopSurface } from "../desktopSurface.js";
 /**
  * @file Read models, status, scene, graph, and snapshot testimony for Geelooy OS.
  * @description
- * The Awtsmoos lets the living desktop know itself without mutating what it observes;
- * Awtsmoos.com gathers status, scene, graph, process, VFS, taskbar, input, display, and AI session into one inspectable testimony.
+ * The Awtsmoos lets the living desktop know itself while old and new witnesses name one light;
+ * Awtsmoos.com keeps desktop rendering, graph truth, and secret-free observation beneath one compatible crown.
  */
 
-/** @param {object} os Live OS facade. */
 export function renderOsDesktop(os) {
 	return renderDesktopSurface(os);
 }
 
-/** @param {object} os Live OS facade. */
 export function updateOsStatus(os, remote) {
 	os.status = computeOsStatus({
 		remote: remote || os.status?.remote
@@ -28,40 +28,33 @@ export function updateOsStatus(os, remote) {
 	return os.status;
 }
 
-/** @param {object} os Live OS facade. */
 export function getOsDesktop(os) {
 	os.desktop = document.getElementById("desktop") || document.querySelector(".desktop");
 	return os.desktop;
 }
 
-/** @param {object} os Live OS facade. */
 export function recordOsGraphEvent(os, type, data = {}) {
 	const event = os.graph?.emit?.(type, data);
 	os.syncGraph();
 	return event;
 }
 
-/** @param {object} os Live OS facade. */
 export function syncOsGraphState(os) {
 	return syncOsGraph(os);
 }
 
-/** @param {object} os Live OS facade. */
 export function getOsGraphSnapshot(os) {
 	return os.syncGraph();
 }
 
-/** @param {object} os Live OS facade. */
 export function getOsScene(os) {
 	return serializeScene(os);
 }
 
-/** @param {object} os Live OS facade. */
 export function getOsDisplaySnapshot(os) {
 	return sceneDisplay(os);
 }
 
-/** @param {object} os Live OS facade. */
 export function getOsSnapshot(os) {
 	return {
 		title: document.title,
@@ -79,4 +72,20 @@ export function getOsSnapshot(os) {
 		display: os.displaySnapshot(),
 		aiSession: os.aiSession
 	};
+}
+
+export function syncObservedOsGraph(os) {
+	return syncOsGraphState(os);
+}
+
+export function observeOsScene(os) {
+	return getOsScene(os);
+}
+
+export function observeOsDisplay(os) {
+	return getOsDisplaySnapshot(os);
+}
+
+export function observeOsSnapshot(os) {
+	return getOsSnapshot(os);
 }

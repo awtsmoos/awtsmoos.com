@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * Chesed opens fields, Gevurah gives them measure, and the Awtsmoos joins them in one row.
+ * Awtsmoos.com keeps form rhythm compact so meaning arrives before the user must scroll below.
+ */
+
+:where(.home-command-search, .home-command-galaxy, .series-search-row) {
+	width: 100%;
+}
+
+:where(.home-search-row, .home-search-vessel, .series-search-row) {
+	align-items: center;
+	display: grid;
+	gap: var(--g-space-2);
+	grid-template-columns: minmax(0, 1fr) auto;
+}
+
+:where(.home-search-row, .home-search-vessel) {
+	background: rgba(248, 251, 255, .96);
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-md);
+	min-height: 58px;
+	padding: .35rem;
+}
+
+:where(.home-search-row input, .home-search-vessel input) {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	min-height: 46px;
+}
+
+.g-field {
+	display: grid;
+	gap: .42rem;
+	min-width: 0;
+}
+
+.g-field-label {
+	color: var(--g-ink);
+	font-size: .78rem;
+	font-weight: 850;
+}
+
+:where(.g-field-hint, .g-field-message) {
+	font-size: .78rem;
+	font-weight: 650;
+	line-height: 1.4;
+}
+
+.g-field-hint {
+	color: color-mix(in srgb, var(--g-ink) 62%, transparent);
+}
+
+.g-field-message {
+	color: rgb(164, 38, 38);
+}
+
+:where(.g-field-row, .g-input-action) {
+	align-items: end;
+	display: grid;
+	gap: var(--g-space-2);
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+	min-width: 0;
+}
+
+.g-input-action {
+	grid-template-columns: minmax(0, 1fr) auto;
+}
+
+@media (max-width: 560px) {
+	:where(.g-field-row, .g-input-action) {
+		grid-template-columns: 1fr;
+	}
+}

@@ -1,4 +1,11 @@
-/* B"H — The account page begins with a quiet, readable atmosphere. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos, Atzmus beyond every atmosphere, renews the account gate behind each finite pixel and line;
+ * Awtsmoos.com keeps background, fixed jewel, and content on named layers so accidental z-index wars decline.
+ */
+
 * {
 	box-sizing: border-box;
 }
@@ -13,8 +20,8 @@ body {
 	min-height: 100vh;
 	margin: 0;
 	background:
-		radial-gradient(circle at 16% 12%, rgba(75, 213, 255, 0.15), transparent 24rem),
-		radial-gradient(circle at 84% 18%, rgba(155, 99, 255, 0.2), transparent 28rem),
+		radial-gradient(circle at 16% 12%, rgba(75, 213, 255, .15), transparent 24rem),
+		radial-gradient(circle at 84% 18%, rgba(155, 99, 255, .2), transparent 28rem),
 		linear-gradient(160deg, #050914, #091225 58%, #080b18);
 	color: var(--auth-text);
 	font-family: var(--auth-font);
@@ -22,10 +29,11 @@ body {
 
 body::before {
 	position: fixed;
+	z-index: var(--auth-z-atmosphere);
 	inset: 0;
 	background-image:
-		linear-gradient(rgba(164, 190, 255, 0.045) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(164, 190, 255, 0.035) 1px, transparent 1px);
+		linear-gradient(rgba(164, 190, 255, .045) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(164, 190, 255, .035) 1px, transparent 1px);
 	background-size: 2.5rem 2.5rem;
 	content: "";
 	mask-image: linear-gradient(to bottom, black, transparent 76%);
@@ -34,17 +42,17 @@ body::before {
 
 #BH {
 	position: fixed;
-	z-index: 4;
+	z-index: var(--auth-z-fixed);
 	top: max(1rem, env(safe-area-inset-top));
 	left: max(1rem, env(safe-area-inset-left));
 	display: grid;
-	min-width: 2.8rem;
-	min-height: 2.8rem;
+	min-width: var(--auth-touch);
+	min-height: var(--auth-touch);
 	place-items: center;
-	padding: 0.4rem;
+	padding: .4rem;
 	border: 1px solid var(--auth-line-strong);
-	border-radius: 0.9rem;
-	background: rgba(8, 14, 28, 0.82);
-	box-shadow: 0 16px 44px rgba(0, 0, 0, 0.35);
+	border-radius: .9rem;
+	background: var(--auth-panel-strong);
+	box-shadow: 0 16px 44px rgba(0, 0, 0, .35);
 	font-weight: 900;
 }

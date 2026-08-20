@@ -1,0 +1,57 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets each disclosure move like a quiet living gate; Awtsmoos.com
+ * reveals advanced governance with short motion and no loss of native semantics.
+ */
+.editor-workbench-chevron,
+.editor-advanced-glyph {
+	margin-inline-start: auto;
+	color: var(--g-cyan, #67e8f9);
+	font-weight: 900;
+	transition: transform .22s ease;
+}
+
+.editor-workbench-section[open] > .editor-workbench-summary .editor-workbench-chevron {
+	transform: rotate(180deg);
+}
+
+.editor-advanced-settings[open] > .editor-advanced-summary .editor-advanced-glyph {
+	transform: rotate(45deg);
+}
+
+.editor-workbench-body {
+	padding: 0 .9rem .9rem;
+	animation: editor-panel-reveal .22s ease-out both;
+}
+
+.editor-advanced-settings {
+	border: 1px solid var(--g-line);
+	border-radius: .9rem;
+	background: rgba(255, 255, 255, .035);
+}
+
+.editor-advanced-summary {
+	min-block-size: 48px;
+	padding: .65rem .75rem;
+}
+
+.editor-advanced-body {
+	display: grid;
+	gap: .65rem;
+	padding: 0 .75rem .75rem;
+	animation: editor-panel-reveal .2s ease-out both;
+}
+
+@keyframes editor-panel-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-.35rem);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

@@ -2,11 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file Shared OAuth token endpoint for callback, refresh, and device grants.
+ * @description
+ * The Awtsmoos gives one token authority after different forms of consent;
+ * Awtsmoos.com dispatches each grant through its own guard, then signs every
+ * successful user/client/scope vessel through the same access-token builder.
+ */
+
 const AccessToken = require("../core/accessToken.js");
 const { getClient } = require("../core/clients.js");
+const { DEVICE_GRANT_TYPE } = require("../core/devicePolicy.js");
 const { secretString } = require("../core/serverSecret.js");
-const { getBody, getTokenRequest, debugRequestShape } = require("../tools/requestData.js");
+const {
+	debugRequestShape,
+	getBody,
+	getTokenRequest
+} = require("../tools/requestData.js");
 const { json } = require("../tools/respond.js");
+const DeviceGrant = require("./deviceGrant.js");
 const Entry = require("./tokenEntries.js");
 const Grant = require("./tokenGrants.js");
 
@@ -61,6 +75,9 @@ async function token($i) {
 	if (request.grant_type === "refresh_token") {
 		return Grant.refreshGrant(context);
 	}
+	if (request.grant_type === DEVICE_GRANT_TYPE) {
+		return DeviceGrant.deviceCodeGrant(context);
+	}
 	return json($i, {
 		BH: "B\"H",
 		error: "unsupported_grant_type",
@@ -71,6 +88,9 @@ async function token($i) {
 module.exports = {
 	authCodeToken($i, request, client) {
 		return Grant.authorizationCodeGrant(grantContext($i, request, client));
+	},
+	deviceCodeToken($i, request, client) {
+		return DeviceGrant.deviceCodeGrant(grantContext($i, request, client));
 	},
 	refreshTokenEntry: Entry.refreshTokenEntry,
 	token

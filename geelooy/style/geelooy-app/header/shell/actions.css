@@ -1,12 +1,9 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- *
- * Search, Mail, profile, and constellation become jeweled instruments instead
- * of plain links. The Awtsmoos lets the active name shine in the Awtsmoos.com
- * crown while a wider bounded profile vessel still yields on smaller screens.
+ * The Awtsmoos gives each global doorway one luminous boundary; Awtsmoos.com
+ * keeps hover, focus, press, and current state clear without visual shouting.
  */
-
 .g-header-actions {
 	display: flex;
 	align-items: center;
@@ -23,31 +20,52 @@
 	min-block-size: 46px;
 	place-items: center;
 	padding: 0;
-	border: 1px solid rgba(255, 255, 255, .18);
+	border: 1px solid var(--g-line);
 	border-radius: .95rem .55rem .95rem .55rem;
-	background: linear-gradient(145deg, #17294a, #080f20 70%);
-	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 10px 28px rgba(0, 0, 0, .36);
-	color: var(--g-text, #f5f7fb);
-	font-size: 1.08rem;
+	background: linear-gradient(145deg, var(--g-surface-3), var(--g-bg-2) 72%);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .08), 0 10px 28px rgba(0, 0, 0, .28);
+	color: var(--g-text);
 	text-decoration: none;
 	cursor: pointer;
+	transition: transform var(--g-motion-fast), border-color var(--g-motion-fast), background var(--g-motion-fast), color var(--g-motion-fast), box-shadow var(--g-motion-fast);
+}
+
+.g-header-action-icon {
+	width: 20px;
+	height: 20px;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.8;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	pointer-events: none;
 }
 
 .g-header-action:is(:hover, :focus-visible),
+.g-header-action[aria-current="true"],
 .g-header-action[aria-current="page"] {
-	border-color: rgba(60, 236, 255, .72);
-	background: linear-gradient(145deg, #1d355e, #11132c);
-	color: #c9fbff;
-	box-shadow: 0 0 0 3px rgba(60, 236, 255, .14), 0 0 28px rgba(139, 92, 255, .25);
+	border-color: color-mix(in srgb, var(--g-cyan) 72%, var(--g-line));
+	background: linear-gradient(145deg, color-mix(in srgb, var(--g-cyan) 12%, var(--g-surface-3)), var(--g-bg-2));
+	color: var(--g-cyan);
+	box-shadow: 0 0 0 3px rgba(60, 236, 255, .11), 0 12px 28px rgba(0, 0, 0, .3);
+}
+
+.g-header-action:active {
+	transform: translateY(1px) scale(.96);
+	box-shadow: inset 0 1px 8px rgba(0, 0, 0, .3);
 }
 
 .g-header-action:focus-visible {
-	outline: 3px solid #7ed7e5;
+	outline: 3px solid color-mix(in srgb, var(--g-cyan) 82%, white);
 	outline-offset: 3px;
 }
 
 .g-mail-portal {
-	color: #8be2ed;
+	color: color-mix(in srgb, var(--g-cyan) 80%, var(--g-text));
+}
+
+.g-notification-portal {
+	color: color-mix(in srgb, var(--g-pink) 68%, var(--g-text));
 }
 
 .g-header-profile {
@@ -62,16 +80,28 @@
 .g-header-profile .profile-trigger {
 	inline-size: 100%;
 	min-block-size: 46px;
-	border-color: rgba(60, 236, 255, .48);
-	background: linear-gradient(125deg, rgba(60, 236, 255, .16), rgba(10, 19, 42, .98) 42%, rgba(255, 72, 203, .14));
-	box-shadow: inset 0 1px rgba(255, 255, 255, .12), 0 0 26px rgba(60, 236, 255, .12);
+	border-color: color-mix(in srgb, var(--g-cyan) 48%, var(--g-line));
+	background: linear-gradient(125deg, rgba(60, 236, 255, .13), rgba(10, 19, 42, .96) 42%, rgba(255, 72, 203, .11));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 0 26px rgba(60, 236, 255, .1);
+	transition: transform var(--g-motion-fast), border-color var(--g-motion-fast), box-shadow var(--g-motion-fast);
 }
 
-.g-header-profile .profile-trigger:hover {
-	border-color: rgba(255, 72, 203, .58);
-	box-shadow: 0 0 0 3px rgba(139, 92, 255, .13), 0 0 34px rgba(60, 236, 255, .2);
+.g-header-profile .profile-trigger:is(:hover, :focus-visible) {
+	border-color: color-mix(in srgb, var(--g-pink) 58%, var(--g-line));
+	box-shadow: 0 0 0 3px rgba(139, 92, 255, .12), 0 0 34px rgba(60, 236, 255, .16);
+}
+
+.g-header-profile .profile-trigger:active {
+	transform: translateY(1px) scale(.99);
 }
 
 .g-mobile-search-button {
 	display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-header-action,
+	.g-header-profile .profile-trigger {
+		transition: none;
+	}
 }

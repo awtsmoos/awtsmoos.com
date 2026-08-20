@@ -1,6 +1,6 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 const { dispatchOsFs } = require("../../osFs/index.js");
 const ActionNames = require("./actionNames.js");
@@ -8,26 +8,58 @@ const ActionResult = require("./actionResult.js");
 const { RecoveryRepository } = require("./recoveryRepository.js");
 const { SnapshotActions } = require("./snapshotActions.js");
 const { TrashActions } = require("./trashActions.js");
+const {
+	isSitePublicationAction
+} = require("./sitePublicationActions.js");
+const {
+	dispatchSitePublication
+} = require("./sitePublicationDispatcher.js");
 
 /**
- * B"H
- * The dispatcher keeps one content plane and one narrow recovery plane. The
- * Awtsmoos is indivisible; Awtsmoos.com delegates ordinary deeds unchanged and
- * invokes recovery only for explicit versioned verbs.
- *
- * @param {object} $i Server context with database and optional sockets.
- * @param {string} userId Authenticated user identity.
- * @param {object} payload Normalized filesystem request.
- * @returns {Promise<object>} Canonical filesystem or recovery response.
+ * @module HostedVirtualOsDispatcher
+ * @description
+ * The Awtsmoos keeps ordinary filesystem deeds, explicit recovery, and
+ * canonical publication in separate gates. Awtsmoos.com lets publication use
+ * the authenticated server context without letting payload identity become law.
  */
-async function dispatchHostedVirtualOs($i, userId, payload = {}) {
-	const action = String(payload.action || "list");
 
-	if (!ActionNames.isRecoveryAction(action)) {
-		return await dispatchOsFs($i, userId, payload);
+const DEFAULT_DEPENDENCIES = Object.freeze({
+	dispatchOsFs,
+	dispatchSitePublication
+});
+
+/**
+ * Route one hosted Virtual OS action through its bounded authority family.
+ *
+ * @param {object} $i Trusted Awtsmoos server context.
+ * @param {string} userId Authenticated user identity.
+ * @param {object} payload Hosted Virtual OS action payload.
+ * @param {object} dependencies Trusted internal dependency seam for tests.
+ * @returns {Promise<object>} Recovery, publication, or ordinary osFs response.
+ */
+async function dispatchHostedVirtualOs(
+	$i,
+	userId,
+	payload = {},
+	dependencies = DEFAULT_DEPENDENCIES
+) {
+	const normalized = payload && typeof payload === "object" ? payload : {};
+	const action = String(normalized.action || "list");
+
+	if (ActionNames.isRecoveryAction(action)) {
+		return await dispatchRecovery($i, userId, normalized, dependencies.dispatchOsFs);
 	}
 
-	const dispatch = nextPayload => dispatchOsFs($i, userId, nextPayload);
+	if (isSitePublicationAction(action)) {
+		return await dependencies.dispatchSitePublication($i, userId, normalized);
+	}
+
+	return await dependencies.dispatchOsFs($i, userId, normalized);
+}
+
+async function dispatchRecovery($i, userId, payload, osDispatch) {
+	const action = String(payload.action || "list");
+	const dispatch = nextPayload => osDispatch($i, userId, nextPayload);
 	const repository = new RecoveryRepository();
 	const snapshots = new SnapshotActions($i, userId, dispatch, repository);
 	const trash = new TrashActions($i, userId, dispatch, repository);
@@ -51,5 +83,6 @@ async function dispatchHostedVirtualOs($i, userId, payload = {}) {
 }
 
 module.exports = {
+	DEFAULT_DEPENDENCIES,
 	dispatchHostedVirtualOs
 };

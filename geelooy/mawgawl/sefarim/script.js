@@ -5,12 +5,13 @@
 /**
  * @module LivingLibrarySearchController
  * @description
- * The Awtsmoos guides Library, Tanach, and Exact through one visible vessel while shared memory gathers by date and intent;
- * Awtsmoos.com preserves Text/Semantic strategy with lane, corpus, source history, and every deliberate search coordinate.
+ * The Awtsmoos lets the question stand in front while deeper coordinates wait nearby;
+ * Awtsmoos.com preserves every search path without presenting every dial all at once.
  */
 import { renderLaneDirectory } from './discoveryView.js';
 import { renderSearchHistory } from './historyView.js';
 import { searchByMode } from './modeSearch.js';
+import { SearchControlDisclosure } from './SearchControlDisclosure.js';
 import { SearchIntentController } from './SearchIntentController.js';
 import { bindSearchControls } from './searchBindings.js';
 import { clearSearchHistory, readSearchHistory, rememberSearch } from './searchHistory.js';
@@ -29,7 +30,9 @@ async function loadLanes(selectedLane = '') {
 	try {
 		const lanes = await fetchLibraryLanes();
 		lanes.forEach(lane => addLane(series, lane));
-		if (selectedLane) series.value = selectedLane;
+		if (selectedLane) {
+			series.value = selectedLane;
+		}
 		renderLaneDirectory({
 			lanes,
 			container: laneDirectory,
@@ -72,7 +75,9 @@ function rememberCurrentSearch(query) {
 
 async function runSearch(query) {
 	const normalizedQuery = String(query || '').trim();
-	if (!normalizedQuery) return;
+	if (!normalizedQuery) {
+		return;
+	}
 	document.body.dataset.searchActive = 'true';
 	intentController.prepareMode(normalizedQuery);
 	setSearching(form, true);
@@ -90,6 +95,9 @@ async function runSearch(query) {
 }
 
 intentController = new SearchIntentController({ runSearch, loadLanes });
+const controlDisclosure = new SearchControlDisclosure({ form, mode, strategy, series, book, corpus });
+controlDisclosure.initialize();
+
 bindSearchControls({
 	form,
 	input,
@@ -97,10 +105,18 @@ bindSearchControls({
 	strategy,
 	clearHistoryButton,
 	onSearch: runSearch,
-	onModeChange: () => intentController.handleModeChange(),
-	onStrategyChange: () => intentController.handleStrategyChange(),
+	onModeChange: () => {
+		intentController.handleModeChange();
+		controlDisclosure.render();
+	},
+	onStrategyChange: () => {
+		intentController.handleStrategyChange();
+		controlDisclosure.render();
+	},
 	onClearHistory: () => renderHistory(clearSearchHistory())
 });
+
 historyFilter.addEventListener('change', () => renderHistory());
 renderHistory();
 intentController.hydrate();
+controlDisclosure.render();

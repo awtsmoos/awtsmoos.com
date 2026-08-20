@@ -5,21 +5,47 @@
 /**
  * @module DriveDomainRegistryPaths
  * @description
- * The Awtsmoos conceals raw host letters behind a fixed hash while Awtsmoos.com
- * keeps every global hostname reservation beneath one explicit database chamber.
+ * The Awtsmoos gathers global hostname truth and private claim files without confusing their vessels;
+ * Awtsmoos.com lets both registry generations meet in one path oracle while ownership remains sealed by hash.
  */
 
-const crypto = require('crypto');
-const path = require('path');
+const crypto = require('node:crypto');
+const path = require('node:path');
 const { databaseRoot } = require('./storagePaths.js');
 
-function domainRegistryPaths(hostname, $i = {}) {
-	const root = path.join(databaseRoot($i), 'socialAssets', 'domainClaims');
-	const key = crypto.createHash('sha256').update(String(hostname)).digest('hex');
+function domainRegistryPaths(hostnameOrContext, maybeContext = {}) {
+	const input = normalizeInput(hostnameOrContext, maybeContext);
+	const socialRoot = path.join(databaseRoot(input.context), 'socialAssets');
+	const claimRoot = path.join(socialRoot, 'domainClaims');
+	const registryRoot = path.join(socialRoot, 'site-domains');
 	return {
-		root,
-		claim: path.join(root, `${key}.json`)
+		root: claimRoot,
+		claim: input.hostname ? claimPath(claimRoot, input.hostname) : null,
+		directory: registryRoot,
+		registry: path.join(registryRoot, 'registry.json'),
+		lock: path.join(registryRoot, 'registry.lock')
 	};
+}
+
+function normalizeInput(hostnameOrContext, maybeContext) {
+	if (hostnameOrContext && typeof hostnameOrContext === 'object') {
+		return {
+			hostname: '',
+			context: hostnameOrContext
+		};
+	}
+	return {
+		hostname: String(hostnameOrContext || ''),
+		context: maybeContext || {}
+	};
+}
+
+function claimPath(root, hostname) {
+	const key = crypto
+		.createHash('sha256')
+		.update(String(hostname))
+		.digest('hex');
+	return path.join(root, `${key}.json`);
 }
 
 module.exports = {

@@ -1,0 +1,61 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives each engine parameter a bounded vessel, never a raw browser control in sight;
+Awtsmoos.com keeps fields and toggles mobile-readable while deeper Tesseract choices remain precise and bright.
+*/
+.ocr-advanced-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .7rem;
+	padding: .85rem .85rem .25rem;
+	border-top: 1px solid var(--ocr-border);
+}
+
+.ocr-app .ocr-advanced-grid .ocr-field {
+	margin: 0;
+}
+
+.ocr-app .ocr-advanced-grid input {
+	width: 100%;
+	min-height: 3rem;
+	padding: 0 .85rem;
+	border: 1px solid var(--ocr-border);
+	border-radius: var(--ocr-radius-sm);
+	outline: none;
+	background: var(--ocr-surface-strong);
+	color: var(--ocr-text);
+	font: inherit;
+}
+
+.ocr-wide-field {
+	grid-column: 1 / -1;
+}
+
+.ocr-toggle-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .5rem;
+	padding: .6rem .85rem .85rem;
+}
+
+.ocr-toggle-grid label {
+	display: flex;
+	align-items: center;
+	gap: .55rem;
+	min-height: 2.65rem;
+	padding: .55rem .65rem;
+	border: 1px solid var(--ocr-border);
+	border-radius: .75rem;
+	background: var(--ocr-surface-soft);
+	color: var(--ocr-muted);
+	font-size: .74rem;
+	cursor: pointer;
+}
+
+.ocr-toggle-grid input {
+	width: 1rem;
+	height: 1rem;
+	accent-color: var(--ocr-accent);
+}

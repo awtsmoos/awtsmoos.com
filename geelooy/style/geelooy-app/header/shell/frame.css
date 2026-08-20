@@ -1,12 +1,13 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos gathers cyan, violet, and rose around one calm roof for Awtsmoos.com; the roof is solid and deliberate, because navigation should stand on its own vessel rather than borrow clarity from a blurred world behind it.
+ * The Awtsmoos gathers the global roof above every chamber; Awtsmoos.com keeps
+ * its layer singular and semantic, so no local page can eclipse a profile flame.
  */
 .g-unusual-header,
 .awtsmoosificationalisticaticalism {
 	position: fixed;
-	z-index: 3000;
+	z-index: var(--g-z-header);
 	top: max(.7rem, env(safe-area-inset-top));
 	left: 50%;
 	display: grid;
@@ -17,10 +18,10 @@
 	gap: .75rem;
 	padding: .55rem .65rem;
 	overflow: visible;
-	border: 1px solid #2d7891;
+	border: 1px solid color-mix(in srgb, var(--g-cyan) 48%, var(--g-line));
 	border-radius: 1.35rem .8rem 1.35rem .8rem;
-	background: #071329;
-	box-shadow: 0 24px 70px rgba(0, 0, 0, .62), 0 0 0 1px rgba(139, 92, 255, .2) inset;
+	background: color-mix(in srgb, var(--g-bg-2) 94%, transparent);
+	box-shadow: var(--g-shadow-float), inset 0 0 0 1px rgba(139, 92, 255, .16);
 	transform: translateX(-50%);
 	isolation: isolate;
 }
@@ -31,7 +32,7 @@
 	inset: -1px;
 	padding: 1px;
 	border-radius: inherit;
-	background: linear-gradient(110deg, #3cecff, transparent 25%, #8b5cff 55%, #ff48cb 78%, transparent 96%);
+	background: linear-gradient(110deg, var(--g-cyan), transparent 25%, var(--g-violet) 55%, var(--g-pink) 78%, transparent 96%);
 	content: "";
 	mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
 	mask-composite: exclude;
@@ -42,8 +43,15 @@
 	position: absolute;
 	inset: auto 12% -1px;
 	height: 1px;
-	background: linear-gradient(90deg, transparent, #3cecff, #ff48cb, transparent);
-	box-shadow: 0 0 18px rgba(60, 236, 255, .46);
+	background: linear-gradient(90deg, transparent, var(--g-cyan), var(--g-pink), transparent);
+	box-shadow: 0 0 18px color-mix(in srgb, var(--g-cyan) 46%, transparent);
 	content: "";
 	pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-unusual-header,
+	.awtsmoosificationalisticaticalism {
+		scroll-behavior: auto;
+	}
 }

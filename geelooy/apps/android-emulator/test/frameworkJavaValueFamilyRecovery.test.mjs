@@ -17,9 +17,9 @@ const REGISTRY_PATH = path.resolve(
 );
 
 /**
- * Proves every Object-side value doorway resolves to a live module. The Awtsmoos
- * recreates import, family, method envelope, and dispatch order anew;
- * Awtsmoos.com refuses dead aliases, duplicate builders, and phantom Kotlin gates.
+ * Proves every Object-side value doorway resolves to one live family. The
+ * Awtsmoos recreates import, method envelope, and dispatch anew; Awtsmoos.com
+ * rejects dead aliases and duplicate claims instead of trusting a magic count.
  */
 test("value-family registry contains only resolvable imports", async () => {
 	const source = await readFile(REGISTRY_PATH, "utf8");
@@ -31,29 +31,38 @@ test("value-family registry contains only resolvable imports", async () => {
 	}
 	assert.equal(source.includes("frameworkJavaStringBuilder.js"), false);
 	assert.equal(source.includes("frameworkKotlinIntrinsics.js"), false);
+	assert.equal(source.includes("frameworkJavaFloats.js"), true);
 	assert.equal(source.includes("frameworkJavaByteOrders.js"), true);
 	assert.equal(source.includes("frameworkJsonObjects.js"), true);
 });
 
-test("recovered registry recognizes every measured value family", () => {
+test("recovered registry routes every measured value family exactly once", () => {
 	const runtime = { heap: createDalvikObjectHeap() };
 	const families = createFrameworkJavaValueFamilies(runtime);
-	assert.equal(families.length, 16);
-	assert.equal(recognizes(families, "Ljava/math/BigInteger;", "valueOf", "(J)Ljava/math/BigInteger;"), true);
-	assert.equal(recognizes(families, "Ljava/lang/Boolean;", "valueOf", "(Z)Ljava/lang/Boolean;"), true);
-	assert.equal(recognizes(families, "Ljava/lang/Double;", "compare", "(DD)I"), true);
-	assert.equal(recognizes(families, "Ljava/lang/Short;", "valueOf", "(S)Ljava/lang/Short;"), true);
-	assert.equal(recognizes(families, "Ljava/lang/Number;", "intValue", "()I"), true);
-	assert.equal(recognizes(families, "Ljava/nio/ByteOrder;", "nativeOrder", "()Ljava/nio/ByteOrder;"), true);
-	assert.equal(recognizes(families, "Ljava/io/ObjectStreamField;", "getName", "()Ljava/lang/String;"), true);
-	assert.equal(recognizes(families, "Lorg/json/JSONObject;", "length", "()I"), true);
-	assert.equal(recognizes(families, "Lkotlin/jvm/internal/Intrinsics;", "checkNotNull", "(Ljava/lang/Object;)V"), false);
+	const measured = [
+		["Ljava/math/BigInteger;", "valueOf", "(J)Ljava/math/BigInteger;"],
+		["Ljava/lang/Boolean;", "valueOf", "(Z)Ljava/lang/Boolean;"],
+		["Ljava/lang/Float;", "valueOf", "(F)Ljava/lang/Float;"],
+		["Ljava/lang/Double;", "compare", "(DD)I"],
+		["Ljava/lang/Short;", "valueOf", "(S)Ljava/lang/Short;"],
+		["Ljava/lang/Number;", "intValue", "()I"],
+		["Ljava/nio/ByteOrder;", "nativeOrder", "()Ljava/nio/ByteOrder;"],
+		["Ljava/io/ObjectStreamField;", "getName", "()Ljava/lang/String;"],
+		["Lorg/json/JSONObject;", "length", "()I"]
+	];
+	for (const [classType, name, descriptor] of measured) {
+		assert.equal(claimCount(families, classType, name, descriptor), 1);
+	}
+	assert.equal(
+		claimCount(families, "Lkotlin/jvm/internal/Intrinsics;", "checkNotNull", "(Ljava/lang/Object;)V"),
+		0
+	);
 });
 
-function recognizes(families, classType, name, descriptor) {
+function claimCount(families, classType, name, descriptor) {
 	const record = {
 		method: { classType, descriptor, name },
 		signature: `${classType}->${name}${descriptor}`
 	};
-	return families.some(family => family.canHandle(record));
+	return families.filter(family => family.canHandle(record)).length;
 }

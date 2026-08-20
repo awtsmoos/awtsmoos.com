@@ -59,18 +59,23 @@
 		return encodeUtf8(value);
 	}
 
-	function decodeBase64(value) {
+	function decodeBase64Bytes(value) {
 		const binary = globalThis.atob(String(value || ""));
 		const bytes = new Uint8Array(binary.length);
 		for (let index = 0; index < binary.length; index += 1) {
 			bytes[index] = binary.charCodeAt(index);
 		}
-		return decodeUtf8(bytes);
+		return bytes;
+	}
+
+	function decodeBase64(value) {
+		return decodeUtf8(decodeBase64Bytes(value));
 	}
 
 	return {
 		byteLength,
 		decodeBase64,
+		decodeBase64Bytes,
 		decodeUtf8,
 		encodeUtf8,
 		normalizeBytes

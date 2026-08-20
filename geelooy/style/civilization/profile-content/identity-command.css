@@ -1,0 +1,122 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives each alias many honest doors without making the card a maze;
+ * Awtsmoos.com lets identity, creation, workspace, and ownership glow in responsive rays.
+ */
+.alias-command-card,
+.heichel-command-card {
+	display: grid;
+	gap: .9rem;
+	padding: 1rem;
+	border: 1px solid var(--civil-line-strong);
+	border-radius: 1.15rem;
+	background: linear-gradient(145deg, rgba(14, 29, 52, .94), rgba(5, 11, 25, .97));
+	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .2), inset 0 1px rgba(255, 255, 255, .06);
+}
+
+.alias-command-card.default {
+	border-color: rgba(116, 241, 255, .7);
+	box-shadow: 0 1rem 3rem rgba(0, 0, 0, .22), 0 0 2rem rgba(86, 207, 229, .12);
+}
+
+.alias-command-head {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: .9rem;
+	align-items: start;
+}
+
+.alias-command-head .alias-copy {
+	min-inline-size: 0;
+}
+
+.alias-command-kicker {
+	display: block;
+	margin-block-end: .25rem;
+	color: var(--civil-cyan);
+	font: 800 .7rem/1.2 var(--g-mono, monospace);
+	letter-spacing: .1em;
+	text-transform: uppercase;
+}
+
+.alias-command-actions,
+.heichel-command-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .55rem;
+}
+
+.alias-command-link {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: .55rem;
+	align-items: center;
+	min-block-size: 3.4rem;
+	padding: .65rem .75rem;
+	border: 1px solid var(--civil-line);
+	border-radius: .85rem;
+	background: rgba(255, 255, 255, .035);
+	color: var(--civil-text);
+	text-decoration: none;
+	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.alias-command-link > span:first-child {
+	display: grid;
+	inline-size: 2rem;
+	block-size: 2rem;
+	place-items: center;
+	border-radius: .65rem;
+	background: rgba(86, 207, 229, .09);
+	color: var(--civil-cyan);
+}
+
+.alias-command-link > span:nth-child(2) {
+	display: grid;
+	min-inline-size: 0;
+}
+
+.alias-command-link small,
+.alias-default-action small {
+	color: var(--civil-text-faint);
+	white-space: normal;
+}
+
+.alias-command-link:is(:hover, :focus-visible) {
+	border-color: var(--civil-cyan);
+	background: rgba(86, 207, 229, .08);
+	transform: translateY(-2px);
+}
+
+.alias-default-action {
+	display: grid;
+	gap: .15rem;
+	inline-size: 100%;
+	min-block-size: 3.4rem;
+	padding: .7rem .85rem;
+	border: 1px solid rgba(187, 167, 255, .36);
+	border-radius: .85rem;
+	background: rgba(187, 167, 255, .08);
+	color: var(--civil-text);
+	text-align: start;
+	cursor: pointer;
+}
+
+@media (max-width: 620px) {
+	.alias-command-actions,
+	.heichel-command-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.alias-command-card,
+	.heichel-command-card {
+		padding: .78rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.alias-command-link {
+		transition: none;
+	}
+}

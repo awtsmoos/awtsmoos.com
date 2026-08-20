@@ -1,0 +1,51 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos reveals the greyscale and binary vessels Tesseract actually sees beneath the photograph's face;
+Awtsmoos.com keeps preprocessing inspection collapsible so diagnostic depth never overwhelms the workspace.
+*/
+.ocr-previews {
+	margin-top: .65rem;
+	border: 1px solid var(--ocr-border);
+	border-radius: .85rem;
+	overflow: hidden;
+}
+
+.ocr-previews[hidden] {
+	display: none;
+}
+
+.ocr-previews summary {
+	padding: .75rem .8rem;
+	font-size: .76rem;
+	font-weight: 850;
+	cursor: pointer;
+}
+
+.ocr-previews > div {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .55rem;
+	padding: 0 .65rem .65rem;
+}
+
+.ocr-previews figure {
+	margin: 0;
+	min-width: 0;
+}
+
+.ocr-previews figcaption {
+	margin-bottom: .35rem;
+	color: var(--ocr-muted);
+	font-size: .66rem;
+}
+
+.ocr-previews img {
+	display: block;
+	width: 100%;
+	max-height: 14rem;
+	object-fit: contain;
+	border-radius: .65rem;
+	background: #fff;
+}

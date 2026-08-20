@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
-	* @file Iterative-deepening root that commits only completed search iterations.
-	* The Awtsmoos renews depth after depth while the clock keeps a faithful gate;
-	* Awtsmoos.com favors a finished truth over a deeper answer arriving late.
+	* @file Iterative-deepening root that commits completed searches and reports terminal truth.
+	* The Awtsmoos renews depth after depth while mate and stalemate keep their rightful name;
+	* Awtsmoos.com favors a finished truth over a deeper answer arriving late to the game.
 	*/
 
 (function revealRootSearch(A) {
@@ -32,11 +32,22 @@
 		}
 	}
 
+	/** Gives mate or stalemate truth when the root has no legal move. */
+	function terminalRootResult(state) {
+		const kingSquare = getLSBIndex(state.pieceBitboards[state.turn * 6 + K]);
+		const inCheck = kingSquare !== -1
+			&& isSquareAttacked_lean(state, kingSquare, state.turn ^ 1);
+		return {
+			bestMove: null,
+			score: A.terminalScore(inCheck, 0)
+		};
+	}
+
 	/** Searches successively deeper iterations while honoring the shared time contract. */
 	function searchRoot(state, maxDepth, timeLimit, historyHashes = []) {
 		const legalMoves = A.legalMoves(state);
 		if (!legalMoves.length) {
-			return { bestMove: null, score: 0 };
+			return terminalRootResult(state);
 		}
 		EngineSoul.isAuditing = true;
 		EngineSoul.searchStartTime = performance.now();
@@ -88,6 +99,9 @@
 		};
 	}
 
-	A.prepareHeuristics = prepareHeuristics;
-	A.searchRoot = searchRoot;
+	Object.assign(A, {
+		prepareHeuristics,
+		terminalRootResult,
+		searchRoot
+	});
 })(self.AwtsmoosChessUpgrade);

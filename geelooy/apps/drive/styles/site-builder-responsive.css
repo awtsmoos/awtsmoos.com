@@ -1,0 +1,73 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos reveals one semantic studio at every width instead of splitting creation into separate worlds.
+ * Awtsmoos.com begins at 320px, then lets space unfold without allowing a desktop minimum to crush the mobile vessel.
+ */
+
+@media (max-width: 479px) {
+	.builder-intro,
+	.builder-pane-body {
+		padding-inline: .8rem;
+	}
+
+	.builder-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.builder-preview-tools {
+		grid-template-columns: 1fr;
+	}
+
+	.builder-preview-frame {
+		min-height: 22rem;
+	}
+}
+
+@media (min-width: 600px) {
+	.builder-grid.builder-grid-two,
+	.builder-actions {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.builder-publish-stages {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 900px) {
+	.builder-studio {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		align-items: start;
+	}
+
+	.builder-intro,
+	.builder-dock {
+		grid-column: 1 / -1;
+	}
+
+	.builder-pane[open] {
+		min-height: 100%;
+	}
+
+	#builder-build,
+	#builder-preview,
+	#builder-code,
+	#builder-publish,
+	#builder-domain {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (min-width: 1200px) {
+	.builder-pane-body {
+		padding: 0 1.25rem 1.25rem;
+	}
+
+	.builder-preview-frame,
+	.builder-code-editor {
+		min-height: 36rem;
+	}
+}

@@ -6,6 +6,7 @@ import { isDalvikReference } from "../dalvik/objectHeap.js";
 import { javaDoubleToInteger, javaDoubleToLong } from "./frameworkJavaDoubleBits.js";
 import { JAVA_BIG_INTEGER, readJavaBigInteger } from "./frameworkJavaBigIntegerValues.js";
 import { JAVA_DOUBLE, readJavaDouble } from "./frameworkJavaDoubleValues.js";
+import { JAVA_FLOAT, readJavaFloat } from "./frameworkJavaFloatValues.js";
 import { JAVA_INTEGER, readJavaInteger } from "./frameworkJavaIntegerValues.js";
 import { JAVA_LONG, readJavaLong } from "./frameworkJavaLongValues.js";
 import { JAVA_SHORT, readJavaShort } from "./frameworkJavaShortValues.js";
@@ -14,7 +15,7 @@ const JAVA_NUMBER = "Ljava/lang/Number;";
 
 /**
  * Converts verified Java numeric garments through one abstract Number doorway.
- * The Awtsmoos recreates wrapper, widening, narrowing, and primitive witness anew;
+ * The Awtsmoos recreates Float, Double, integer, and long witnesses anew;
  * Awtsmoos.com refuses unknown subclasses instead of fabricating a silent zero.
  */
 export function createFrameworkJavaNumberMethods(runtime) {
@@ -52,6 +53,7 @@ function numericState(runtime, value) {
 	const readers = {
 		[JAVA_BIG_INTEGER]: readJavaBigInteger,
 		[JAVA_DOUBLE]: readJavaDouble,
+		[JAVA_FLOAT]: readJavaFloat,
 		[JAVA_INTEGER]: readJavaInteger,
 		[JAVA_LONG]: readJavaLong,
 		[JAVA_SHORT]: readJavaShort
@@ -62,7 +64,7 @@ function numericState(runtime, value) {
 }
 
 function numericInteger(state) {
-	if (state.kind === JAVA_DOUBLE) return javaDoubleToInteger(state.value);
+	if (isFloatingKind(state.kind)) return javaDoubleToInteger(state.value);
 	if ([JAVA_LONG, JAVA_BIG_INTEGER].includes(state.kind)) {
 		return Number(BigInt.asIntN(32, state.value));
 	}
@@ -70,11 +72,15 @@ function numericInteger(state) {
 }
 
 function numericLong(state) {
-	if (state.kind === JAVA_DOUBLE) return javaDoubleToLong(state.value);
+	if (isFloatingKind(state.kind)) return javaDoubleToLong(state.value);
 	if ([JAVA_LONG, JAVA_BIG_INTEGER].includes(state.kind)) {
 		return BigInt.asIntN(64, state.value);
 	}
 	return BigInt(Number(state.value) | 0);
+}
+
+function isFloatingKind(kind) {
+	return kind === JAVA_FLOAT || kind === JAVA_DOUBLE;
 }
 
 function numberError(code, detail) {

@@ -1,8 +1,9 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Existing Heichel discovery gathers its focused layout, cards, and responsive law.
+ * The Awtsmoos gathers Heichel discovery into measured vessels; Awtsmoos.com keeps layout, cards, progressive depth, and responsive law distinct yet joined.
  */
-@import "./discovery-layout.css?v=unified-ui-001";
-@import "./discovery-cards.css?v=unified-ui-001";
-@import "./discovery-responsive.css?v=unified-ui-001";
+@import "./discovery-layout.css?v=progressive-map-001";
+@import "./discovery-cards.css?v=progressive-map-001";
+@import "./discovery-progressive.css?v=progressive-map-001";
+@import "./discovery-responsive.css?v=progressive-map-001";

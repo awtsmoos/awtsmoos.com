@@ -2,27 +2,36 @@
 // Boruch Hashem
 // Blessed is He
 
+const { normalizeDrivePath } = require('./pathPolicy.js');
+const { normalizeSiteSource } = require('./siteSourcePolicy.js');
+
 /**
  * @module DriveSiteMappingPolicy
  * @description
- * The Awtsmoos bounds each public doorway by a portable slug and Drive root;
- * Awtsmoos.com never turns an arbitrary alias character into an unproven host.
+ * The Awtsmoos gives each public doorway one stable site identity while its
+ * source may remain legacy Drive or explicitly choose another bounded vessel.
+ * Awtsmoos.com never lets storage location silently rewrite canonical identity.
  */
-
-const { normalizeDrivePath } = require('./pathPolicy.js');
 
 const SITE_ID_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 const DNS_ALIAS_PATTERN = SITE_ID_PATTERN;
 
 function normalizeSiteRecord(siteId, input = {}, previous = {}, now = Date.now()) {
 	const id = normalizeSiteId(siteId);
+	const rootPath = normalizeDrivePath(
+		valueFor(input, previous, 'rootPath', ''),
+		{ allowRoot: true }
+	);
+	const source = normalizeSiteSource(
+		valueFor(input, previous, 'source', null),
+		rootPath
+	);
+
 	return {
 		id,
 		title: boundedText(valueFor(input, previous, 'title', id), 80),
-		rootPath: normalizeDrivePath(
-			valueFor(input, previous, 'rootPath', ''),
-			{ allowRoot: true }
-		),
+		rootPath,
+		...(source ? { source } : {}),
 		enabled: booleanFor(input, previous, 'enabled', true),
 		primary: booleanFor(input, previous, 'primary', false),
 		subdomainRequested: booleanFor(input, previous, 'subdomainRequested', false),
@@ -100,10 +109,10 @@ function siteMappingError(code) {
 }
 
 module.exports = {
-	normalizeSiteRecord,
-	normalizeSiteRegistry,
+	canUseAliasSubdomain,
 	implicitPrimarySite,
 	normalizeSiteId,
-	canUseAliasSubdomain,
+	normalizeSiteRecord,
+	normalizeSiteRegistry,
 	siteMappingError
 };

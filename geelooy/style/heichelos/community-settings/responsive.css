@@ -1,0 +1,70 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets communal governance contract by task instead of merely shrinking its light;
+ * Awtsmoos.com folds columns, actions, and detail so mobile hands still hold every gate in sight.
+ */
+@media (max-width: 56rem) {
+	.community-hero {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.community-hero-actions {
+		justify-content: flex-start;
+	}
+
+	.community-workspace {
+		grid-template-columns: 1fr;
+	}
+
+	.community-panel,
+	.community-content,
+	.community-command-bar {
+		grid-column: 1;
+	}
+}
+
+@media (max-width: 40rem) {
+	.heichel-community-settings {
+		padding-inline: .7rem;
+		padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+	}
+
+	.community-hero,
+	.community-panel,
+	.community-technical {
+		border-radius: var(--g-control-radius);
+	}
+
+	.community-hero-actions,
+	.community-hero-actions > :where(a, button),
+	.community-loaded-badge {
+		width: 100%;
+	}
+
+	.community-loaded-badge {
+		justify-content: center;
+	}
+
+	.community-content-grid,
+	.g-choice-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.community-technical > summary {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}
+
+@media (max-height: 34rem) and (orientation: landscape) {
+	.heichel-community-settings {
+		padding-block-start: .6rem;
+	}
+
+	.community-panel {
+		padding: .7rem;
+	}
+}

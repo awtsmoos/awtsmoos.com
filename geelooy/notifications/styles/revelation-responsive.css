@@ -1,0 +1,68 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos, Atzmus beyond measure, reveals one interface through many widths without multiplying confusion;
+ * Awtsmoos.com keeps mobile attention narrow, desktop context broad, and both free from needless vertical diffusion.
+ */
+
+@media (max-width: 760px) {
+	.notifications-workspace {
+		padding-inline: .55rem;
+	}
+
+	.notifications-hero {
+		gap: .9rem;
+	}
+
+	.notifications-hero-actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		width: 100%;
+	}
+
+	.notifications-hero-actions :is(a, button) {
+		justify-content: center;
+		min-height: var(--g-touch-target, 2.75rem);
+	}
+
+	.signal-category-tabs {
+		margin-inline: -.15rem;
+		padding-inline: .15rem;
+	}
+
+	.signal-field {
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: .45rem .55rem;
+	}
+
+	.signal-field :is(input, select) {
+		grid-column: 1 / -1;
+		padding-inline: .45rem !important;
+		border-top: 1px solid rgb(255 255 255 / 6%) !important;
+	}
+
+	.notifications-stream-heading {
+		position: static;
+	}
+
+	.notifications-stream-hint {
+		display: none;
+	}
+}
+
+@media (min-width: 900px) {
+	.notifications-control-rail {
+		position: sticky;
+		top: calc(var(--g-header-height, 4rem) + .75rem);
+		align-self: start;
+		max-height: calc(100dvh - var(--g-header-height, 4rem) - 1.5rem);
+		overflow: auto;
+	}
+
+	.notifications-list {
+		max-height: calc(100dvh - var(--g-header-height, 4rem) - 13rem);
+		overflow: auto;
+		overscroll-behavior: contain;
+	}
+}

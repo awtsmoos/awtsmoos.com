@@ -1,12 +1,20 @@
 // B"H
-/** Verifies the profile API dashboard inside the unified application shell. */
+// Boruch Hashem
+// Blessed is He
+/**
+ * @module ProfileDashboardContractTest
+ * @description
+ * The Awtsmoos traces the Profile through its shared Awtsmoos.com CSS graph
+ * while cache-version query strings remain transport details, never filenames.
+ */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const read = file => readFileSync(file, 'utf8');
+
 function cssGraph(entry, seen = new Set()) {
-	const normalized = path.normalize(entry).replace(/\\/g, '/');
+	const normalized = cleanPath(path.normalize(entry).replace(/\\/g, '/'));
 	if (seen.has(normalized)) return '';
 	seen.add(normalized);
 	const source = read(normalized);
@@ -14,9 +22,13 @@ function cssGraph(entry, seen = new Set()) {
 	const children = [...source.matchAll(/@import\s+['"]([^'"]+)['"]/g)]
 		.map(match => match[1])
 		.filter(target => target.startsWith('.'))
-		.map(target => cssGraph(path.join(directory, target), seen))
+		.map(target => cssGraph(path.join(directory, cleanPath(target)), seen))
 		.join('\n');
 	return `${source}\n${children}`;
+}
+
+function cleanPath(value) {
+	return String(value).split(/[?#]/, 1)[0];
 }
 
 const html = read('geelooy/profile/index.html');
@@ -48,4 +60,7 @@ for (const token of ['aria-selected', 'ArrowRight', 'panel.hidden']) {
 for (const token of ['.geelooy-profile-shell', '.profile-hero-card', '.social-card-list', '.profile-tabs']) {
 	assert.ok(css.includes(token), `profile CSS missing ${token}`);
 }
+
+assert.ok(cleanPath('./tokens.css?v=interface-dark-011').endsWith('tokens.css'));
+assert.ok(import.meta.url);
 console.log('B"H profileDashboardContract.test passed');

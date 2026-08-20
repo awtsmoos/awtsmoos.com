@@ -4,14 +4,18 @@
 /**
  * @module GlobalHeaderGamesContractTest
  * @description
- * The Awtsmoos rejects parallel navigation kingdoms. One manifest and one link
- * renderer must feed header, dock, drawer, profile dishes, and the Games hub.
+ * The Awtsmoos rejects parallel navigation kingdoms. One definition covenant
+ * and one renderer must feed header, dock, drawer, profile dishes, and Games.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-const read = path => readFileSync(path, 'utf8');
+function read(path) {
+	return readFileSync(path, 'utf8');
+}
+
 const routes = read('geelooy/scripts/awtsmoos/social/shell/appRoutes.js');
+const definitions = read('geelooy/scripts/awtsmoos/social/shell/appRouteDefinitions.js');
 const renderer = read('geelooy/scripts/awtsmoos/social/shell/routeLink.js');
 const header = read('geelooy/scripts/awtsmoos/social/shell/unusualHeader.js');
 const shell = read('geelooy/scripts/awtsmoos/social/shell/appShell.js');
@@ -24,8 +28,8 @@ const headerManifest = read('geelooy/style/geelooy-app/header/index.css');
 const profileManifest = read('geelooy/style/social/profile-dropdown/index.css');
 const routeDishCss = read('geelooy/style/social/profile-dropdown/route-dishes.css');
 
-assert.equal(routes.match(/href: '\/games'/g)?.length, 1);
-assert.match(routes, /profileDish: true/);
+assert.equal(definitions.match(/href: '\/games'/g)?.length, 1);
+assert.match(definitions, /profileDish: true/);
 assert.match(routes, /profileDishRoutes/);
 for (const source of [header, shell, dock, drawer, dishes]) {
 	assert.match(source, /createMalchusRouteLink/);
@@ -46,7 +50,8 @@ assert.doesNotMatch(games, /nav\/header\.html/);
 assert.match(headerManifest, /profile-crown\.css/);
 assert.match(profileManifest, /route-dishes\.css/);
 assert.match(routeDishCss, /href="\/games"/);
-for (const [name, source] of Object.entries({ routes, renderer, header, shell, dock, drawer, dishes, template })) {
+const bounded = { routes, definitions, renderer, header, shell, dock, drawer, dishes, template };
+for (const [name, source] of Object.entries(bounded)) {
 	assert.ok(lineCount(source) <= 120, `${name} exceeds 120 lines`);
 }
 console.log('B"H global header and Games unification contract passed.');

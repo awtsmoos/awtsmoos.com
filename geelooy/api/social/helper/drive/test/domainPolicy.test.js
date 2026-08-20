@@ -35,8 +35,21 @@ test('custom nameservers normalize and unavailable Awtsmoos DNS fails truthfully
 	}), error => error.code === 'AWTSMOOS_NAMESERVERS_UNAVAILABLE');
 });
 
+test('custom nameservers accept the form text sent by the Drive web transport', () => {
+	const record = normalizeDomainRecord('example.com', {
+		mode: 'custom-nameservers',
+		nameservers: 'NS1.Example.net.,\nns2.example.net  ns2.example.net',
+		verificationToken: TOKEN
+	}, {}, 100);
+	assert.deepEqual(record.nameservers, ['ns1.example.net', 'ns2.example.net']);
+	assert.equal(record.delegationState, 'pending');
+});
+
 test('changing DNS mode resets delegation evidence without resetting ownership', () => {
-	const external = normalizeDomainRecord('example.com', { mode: 'external-dns', verificationToken: TOKEN }, {}, 100);
+	const external = normalizeDomainRecord('example.com', {
+		mode: 'external-dns',
+		verificationToken: TOKEN
+	}, {}, 100);
 	external.ownershipState = 'verified';
 	external.verifiedAt = 101;
 	const custom = normalizeDomainRecord('example.com', {

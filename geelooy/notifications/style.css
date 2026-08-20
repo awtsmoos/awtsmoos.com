@@ -1,97 +1,11 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos distinguishes urgent signal from quiet history; Awtsmoos.com makes unread state, chronology, and action visible without visual shouting.
-*/
-.notifications-console {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
-	gap: .75rem;
-	align-items: end;
-}
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers the notification garments while preserving each chamber's responsibility;
+ * Awtsmoos.com imports workspace, item, and revelation layers without turning the signal system into one monolith.
+ */
 
-.notifications-summary {
-	padding: .8rem 1rem;
-	border: 1px solid var(--g-line, rgba(255,255,255,.14));
-	border-radius: 1rem;
-	background: rgba(255,255,255,.035);
-	color: var(--g-ink-2, #cbd5e1);
-}
-
-.notifications-list {
-	display: grid;
-	gap: .8rem;
-}
-
-.notification {
-	display: grid;
-	grid-template-columns: auto minmax(0, 1fr);
-	gap: .35rem .8rem;
-	padding: 1rem;
-	border: 1px solid var(--g-line, rgba(255,255,255,.14));
-	border-radius: 1rem;
-	background: rgba(255,255,255,.04);
-}
-
-.notification.unread {
-	border-color: var(--g-cyan, #67e8f9);
-	box-shadow: inset 3px 0 var(--g-cyan, #67e8f9);
-}
-
-.notification-icon {
-	grid-row: 1 / span 4;
-	display: grid;
-	place-items: center;
-	width: 2.4rem;
-	height: 2.4rem;
-	border-radius: .8rem;
-	background: rgba(255,255,255,.07);
-}
-
-.notification h2,
-.notification p {
-	margin: 0;
-}
-
-.notification-meta,
-.notification-row-actions {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: .5rem;
-}
-
-.notification-meta {
-	color: var(--g-ink-3, #94a3b8);
-	font-size: .78rem;
-}
-
-.notification-state-badge {
-	padding: .18rem .5rem;
-	border-radius: 999px;
-	background: rgba(255,255,255,.08);
-	font-weight: 760;
-}
-
-.notification-state-badge.unread {
-	background: color-mix(in srgb, var(--g-cyan, #67e8f9) 18%, transparent);
-	color: var(--g-cyan, #67e8f9);
-}
-
-.notification-row-actions button {
-	min-height: 44px;
-}
-
-@media (max-width: 760px) {
-	.notifications-console {
-		grid-template-columns: 1fr;
-	}
-
-	.notification {
-		grid-template-columns: 1fr;
-	}
-
-	.notification-icon {
-		grid-row: auto;
-	}
-}
+@import "./styles/workspace.css?v=signals-revelation-003";
+@import "./styles/items.css?v=signals-revelation-003";
+@import "./styles/revelation.css?v=signals-revelation-006";

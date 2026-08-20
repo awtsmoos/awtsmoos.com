@@ -1,0 +1,71 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets the home-search spark dance without obscuring the path.
+ * Awtsmoos.com keeps delight small, focused, and gentle enough to leave the question first.
+ */
+
+.home-search-label {
+	animation: homeSearchGlow 3s ease-in-out infinite;
+	background: linear-gradient(145deg, #ff75c7, #745bff) !important;
+	border-radius: 50% !important;
+	box-shadow: 0 8px 24px rgba(131, 76, 255, .42);
+	color: white !important;
+	display: grid !important;
+	font-size: 0 !important;
+	height: 38px !important;
+	place-items: center !important;
+	width: 38px !important;
+}
+
+.home-search-label::before {
+	content: "🔎";
+	font-size: 1.25rem;
+}
+
+.home-filter-button {
+	background: rgba(255, 255, 255, .1) !important;
+	border-color: rgba(255, 255, 255, .22) !important;
+	transition: transform .2s, background .2s !important;
+}
+
+.home-filter-button:hover {
+	background: rgba(255, 255, 255, .18) !important;
+	transform: rotate(8deg) scale(1.06);
+}
+
+.home-sefarim-search-link {
+	align-items: center;
+	background: linear-gradient(100deg, rgba(255, 73, 182, .18), rgba(54, 211, 255, .15));
+	border: 1px solid rgba(255, 255, 255, .18);
+	border-radius: 16px;
+	color: white;
+	display: flex;
+	font-weight: 900;
+	gap: .6rem;
+	justify-content: center;
+	margin-top: 12px;
+	padding: 12px 16px;
+	text-decoration: none;
+	transition: .25s;
+}
+
+.home-sefarim-search-link:hover {
+	border-color: rgba(145, 227, 255, .55);
+	box-shadow: 0 14px 40px rgba(72, 140, 255, .2);
+	transform: translateY(-2px);
+}
+
+@keyframes homeSearchGlow {
+	50% {
+		box-shadow: 0 12px 34px rgba(255, 76, 190, .58);
+		transform: translateY(-2px) rotate(-7deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.home-search-label {
+		animation: none;
+	}
+}

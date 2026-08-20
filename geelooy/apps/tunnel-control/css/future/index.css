@@ -11,6 +11,8 @@
 @import url("./views/shell.css") layer(awt.views);
 @import url("./views/feature-compat.css") layer(awt.views);
 @import url("./views/device-security/index.css") layer(awt.views);
+@import url("./views/tunnel-vessels.css") layer(awt.views);
+@import url("./views/checkpoint-viewer.css") layer(awt.views);
 @import url("./views/activity/layout.css") layer(awt.views);
 @import url("./views/activity/identity.css") layer(awt.views);
 @import url("./views/activity/summary.css") layer(awt.views);

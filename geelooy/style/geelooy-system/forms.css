@@ -1,34 +1,11 @@
-/* B"H — forms: search is a quiet instrument, not a thunderstorm. */
-:where(.home-command-search, .home-command-galaxy, .series-search-row) { width: 100%; }
-:where(.home-search-row, .home-search-vessel, .series-search-row) {
-  align-items: center;
-  display: grid;
-  gap: var(--g-space-2);
-  grid-template-columns: minmax(0, 1fr) auto;
-}
-:where(.home-search-row, .home-search-vessel) {
-  background: rgba(248, 251, 255, .96);
-  border: 1px solid var(--g-line);
-  border-radius: var(--g-radius-md);
-  min-height: 58px;
-  padding: .35rem;
-}
-:where(input[type="search"], input[type="text"], textarea, select) {
-  background: rgba(255, 255, 255, .96);
-  border: 1px solid var(--g-line);
-  border-radius: var(--g-radius-sm);
-  color: var(--g-ink);
-  font: inherit;
-  font-weight: 760;
-  min-height: 48px;
-  min-width: 0;
-  outline: 0;
-  padding: 0 .95rem;
-  width: 100%;
-}
-:where(.home-search-row input, .home-search-vessel input) { background: transparent; border: 0; min-height: 46px; }
-:where(textarea) { min-height: 8rem; padding-block: .9rem; resize: vertical; }
-:where(.home-search-row:focus-within, .home-search-vessel:focus-within, input:focus, textarea:focus, select:focus) {
-  border-color: rgba(64, 216, 239, .72);
-  box-shadow: var(--g-focus);
-}
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * Awtsmoos.com gathers form vessels here, where many doors share one glow;
+ * small modules keep the keilim clear while the Awtsmoos renews their flow.
+ */
+
+@import "./forms/controls.css";
+@import "./forms/states.css";
+@import "./forms/layout.css";

@@ -1,0 +1,74 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond presence and announcement; Awtsmoos.com lets collaborators
+ * appear as gentle signs and lets transient outcomes speak without stealing the writer's focus.
+ */
+.presence {
+	display: flex;
+	align-items: center;
+	min-width: 34px;
+}
+
+.presence-chip {
+	display: grid;
+	place-items: center;
+	width: 32px;
+	height: 32px;
+	margin-left: -7px;
+	border: 2px solid white;
+	border-radius: 50%;
+	background: #dfe6ff;
+	color: #2644ad;
+	font-size: 11px;
+	font-weight: 800;
+}
+
+.presence-chip:first-child {
+	margin-left: 0;
+}
+
+.presence-chip[data-mode="editing"] {
+	background: #d8f6e8;
+	color: #11613d;
+}
+
+.toast-region {
+	position: fixed;
+	right: 18px;
+	bottom: 18px;
+	z-index: 120;
+	display: grid;
+	gap: 8px;
+	width: min(360px, calc(100vw - 36px));
+	pointer-events: none;
+}
+
+.docs-toast {
+	transform: translateY(8px);
+	opacity: 0;
+	padding: 11px 13px;
+	border: 1px solid var(--docs-border);
+	border-radius: 11px;
+	background: #172033;
+	color: white;
+	box-shadow: 0 14px 40px rgba(20, 28, 49, 0.22);
+	font-size: 13px;
+	line-height: 1.4;
+	transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.docs-toast.is-visible {
+	transform: translateY(0);
+	opacity: 1;
+}
+
+.docs-toast[data-tone="success"] {
+	background: #115e3a;
+}
+
+.docs-toast[data-tone="warning"] {
+	background: #8a4c05;
+}

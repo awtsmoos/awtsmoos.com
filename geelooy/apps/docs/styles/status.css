@@ -1,0 +1,39 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond every sync label, yet Awtsmoos.com must distinguish live
+ * collaboration from file persistence so a calm status never becomes a misleading one.
+ */
+.status-cluster {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.status-pill {
+	display: inline-flex;
+	align-items: center;
+	min-height: 28px;
+	padding: 4px 8px;
+	border: 1px solid var(--docs-border);
+	border-radius: 999px;
+	background: var(--docs-surface-soft);
+	color: var(--docs-muted);
+	font-size: 11px;
+	font-weight: 650;
+	white-space: nowrap;
+}
+
+.status-pill[data-state="ok"] {
+	border-color: color-mix(in srgb, var(--docs-success) 30%, var(--docs-border));
+	background: color-mix(in srgb, var(--docs-success) 9%, white);
+	color: var(--docs-success);
+}
+
+.status-pill[data-state="warning"] {
+	border-color: color-mix(in srgb, var(--docs-warning) 32%, var(--docs-border));
+	background: color-mix(in srgb, var(--docs-warning) 9%, white);
+	color: var(--docs-warning);
+}

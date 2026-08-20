@@ -5,10 +5,11 @@
 /**
  * @class TransformationPanel
  * @description
- * Comment-to-post preview and execution expose destination, title, summary, source,
- * payload, and idempotency before publication. The Awtsmoos reveals one thought
- * through a wider vessel while Awtsmoos.com refuses silent copying or mutation.
+ * Comment-to-post transformation keeps provenance visible while rare controls rest
+ * behind a deliberate disclosure. The Awtsmoos reveals power with measure, and
+ * Awtsmoos.com lets the ordinary comment path remain clear until promotion is chosen.
  */
+import { TransformationDisclosure } from './TransformationDisclosure.js';
 
 function value(root, id) {
 	return String(root.getElementById(id)?.value || '').trim();
@@ -17,9 +18,11 @@ function value(root, id) {
 export class TransformationPanel {
 	constructor({ root, api, state, status, tracker, onPublished }) {
 		Object.assign(this, { root, api, state, status, tracker, onPublished });
+		this.disclosure = new TransformationDisclosure({ root });
 	}
 
 	initialize() {
+		this.disclosure.initialize();
 		this.element('promotionPreview').addEventListener('click', () => this.preview());
 		this.element('promotionPublish').addEventListener('click', () => this.publish());
 	}
@@ -32,7 +35,7 @@ export class TransformationPanel {
 		this.element('promotionHeichelId').value = comment.heichelId;
 		this.element('promotionSeriesId').value = comment.seriesId || 'root';
 		location.hash = '#interact';
-		this.element('promotionPanel').scrollIntoView({ behavior: 'smooth', block: 'center' });
+		this.disclosure.reveal();
 	}
 
 	request() {

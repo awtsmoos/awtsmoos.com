@@ -1,0 +1,63 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond screen and printer; Awtsmoos.com lets one document descend
+ * into paper without app chrome, shadows, fake margins, or a second conflicting layout truth.
+ */
+@media print {
+	body,
+	.docs-app,
+	.workspace,
+	.page-stage {
+		background: white !important;
+	}
+
+	.app-bar,
+	.command-shell,
+	.side-panel,
+	.toast-region,
+	.selection-toolbar,
+	.document-stats {
+		display: none !important;
+	}
+
+	.docs-app,
+	.workspace {
+		display: block !important;
+	}
+
+	.page-stage {
+		overflow: visible;
+		padding: 0 !important;
+	}
+
+	.document-canvas,
+	.docs-app[data-page-mode="pageless"] .document-canvas {
+		width: auto !important;
+		max-width: none !important;
+		min-height: 0 !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		border: 0 !important;
+		border-radius: 0 !important;
+		box-shadow: none !important;
+	}
+
+	.document-canvas::before,
+	.document-canvas::after {
+		display: none !important;
+	}
+
+	.document-canvas a {
+		color: inherit;
+		text-decoration: underline;
+	}
+
+	.document-canvas table,
+	.document-canvas pre,
+	.document-canvas blockquote {
+		break-inside: avoid;
+	}
+}

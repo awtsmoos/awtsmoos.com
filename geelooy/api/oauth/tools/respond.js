@@ -1,67 +1,86 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
 
-function esc(x) {
-  return String(x ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "<")
-    .replace(/>/g, ">")
-    .replace(/"/g, "&quot;");
+/**
+ * @file OAuth response vessels for JSON, HTML, and browser redirects.
+ * @description
+ * The Awtsmoos gives every response its boundary; Awtsmoos.com escapes the
+ * visible path and suppresses caching so authorization values never become
+ * accidental markup, stale history, or a provider-specific illusion.
+ */
+
+function escapeHtml(value) {
+	return String(value ?? "")
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#39;");
 }
 
-function json($i, obj, status = 200) {
-  return {
-    statusCode: status,
-    mimeType: "application/json; charset=utf-8",
-    headers: { "Cache-Control": "no-store" },
-    response: JSON.stringify(obj, null, 2)
-  };
+function noStoreHeaders(extra = {}) {
+	return {
+		"Cache-Control": "no-store",
+		...extra
+	};
 }
 
-function html($i, body, status = 200) {
-  return {
-    statusCode: status,
-    mimeType: "text/html; charset=utf-8",
-    headers: { "Cache-Control": "no-store" },
-    response: String(body)
-  };
+function json($i, object, status = 200, headers = {}) {
+	return {
+		statusCode: status,
+		mimeType: "application/json; charset=utf-8",
+		headers: noStoreHeaders(headers),
+		response: JSON.stringify(object, null, 2)
+	};
 }
 
-function redirect($i, to) {
-  return {
-    statusCode: 302,
-    mimeType: "text/html; charset=utf-8",
-    headers: { Location: String(to), "Cache-Control": "no-store" },
-    response: redirectPage(to)
-  };
+function html($i, body, status = 200, headers = {}) {
+	return {
+		statusCode: status,
+		mimeType: "text/html; charset=utf-8",
+		headers: noStoreHeaders(headers),
+		response: String(body)
+	};
 }
 
-function browserRedirect($i, to) {
-  return {
-    statusCode: 200,
-    mimeType: "text/html; charset=utf-8",
-    headers: { "Cache-Control": "no-store" },
-    response: redirectPage(to)
-  };
+function redirect($i, destination) {
+	return html($i, redirectPage(destination), 302, {
+		Location: String(destination)
+	});
 }
 
-function redirectPage(to) {
-  const safe = esc(to);
-  const js = JSON.stringify(to);
-  return `<!doctype html>
-<html>
+function browserRedirect($i, destination) {
+	return html($i, redirectPage(destination));
+}
+
+function redirectPage(destination) {
+	const safe = escapeHtml(destination);
+	const scriptValue = JSON.stringify(String(destination))
+		.replace(/</g, "\\u003c");
+	return `<!doctype html>
+<html lang="en">
 <head>
-  <title>Returning to ChatGPT</title>
-  <meta http-equiv="refresh" content="0; url=${safe}">
-  <script>location.replace(${js});</script>
+	<meta charset="utf-8">
+	<meta name="referrer" content="no-referrer">
+	<title>Returning to OAuth client</title>
+	<meta http-equiv="refresh" content="0; url=${safe}">
+	<script>location.replace(${scriptValue});</script>
 </head>
 <body>
-  <h1>B"H Returning...</h1>
-  <p>The OAuth code was created. Your browser should continue automatically.</p>
-  <p><a href="${safe}">Continue</a></p>
-  <pre>${safe}</pre>
+	<h1>B&quot;H Returning...</h1>
+	<p>The OAuth code was created. Your browser should continue automatically.</p>
+	<p><a href="${safe}">Continue</a></p>
+	<pre>${safe}</pre>
 </body>
 </html>`;
 }
 
-module.exports = { json, html, redirect, browserRedirect };
+module.exports = {
+	browserRedirect,
+	escapeHtml,
+	html,
+	json,
+	redirect,
+	redirectPage
+};

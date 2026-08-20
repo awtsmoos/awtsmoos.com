@@ -2,11 +2,11 @@
  * Boruch Hashem
  * Blessed is He
  *
- * Alias management is one focused identity flow. Its shell, fields, help, and
- * responsive behavior remain separate small vessels under one existing route.
+ * Alias Studio joins editing, preview, advanced controls, and responsive behavior
+ * through small versioned vessels so Awtsmoos.com can evolve each independently.
  */
-
-@import "./styles/shell.css?v=alias-surface-001";
-@import "./styles/fields.css?v=alias-surface-001";
-@import "./styles/help-actions.css?v=alias-surface-001";
-@import "./styles/responsive.css?v=alias-surface-001";
+@import "./styles/shell.css?v=alias-studio-002";
+@import "./styles/fields.css?v=alias-studio-002";
+@import "./styles/help-actions.css?v=alias-studio-002";
+@import "./styles/preview.css?v=alias-studio-002";
+@import "./styles/responsive.css?v=alias-studio-002";

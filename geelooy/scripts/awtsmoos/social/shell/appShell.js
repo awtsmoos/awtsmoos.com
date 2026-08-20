@@ -5,10 +5,10 @@
  * @module GeelooyAppShell
  * @description
  * One horizon, context ribbon, dock, and universal Torah-discussion doorway surround Awtsmoos.com.
- * The Awtsmoos places every eligible route inside one shell while native content keeps its own performance budget.
+ * The Awtsmoos lets compact navigation reveal chosen essentials while the full constellation keeps every chamber near.
  */
 import { mountUniversalChat } from '../universalChat/bootstrap.js';
-import { currentAppRoute, primaryRoutes } from './appRoutes.js';
+import { currentAppRoute, dockRoutes } from './appRoutes.js';
 import { createContextRibbon } from './contextRibbon.js';
 import { isCanonicalRouteLink } from './routeCurrentState.js';
 import { createMalchusRouteLink } from './routeLink.js';
@@ -72,12 +72,12 @@ function markOneRouteLink(link, currentHref, pageHref) {
 	}
 }
 
-/** Creates the primary mobile/compact dock from the canonical route covenant. */
+/** Creates the compact dock from routes explicitly chosen for repeated daily movement. */
 function createDock(root) {
 	const dock = root.createElement('nav');
 	dock.className = 'g-dock';
 	dock.setAttribute('aria-label', 'Primary Geelooy routes');
-	for (const route of primaryRoutes) {
+	for (const route of dockRoutes) {
 		dock.append(createMalchusRouteLink(root, route, 'dock'));
 	}
 	return dock;

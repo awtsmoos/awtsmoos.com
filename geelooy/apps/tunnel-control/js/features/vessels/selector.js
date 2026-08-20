@@ -2,11 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file Renders and binds the routable vessel selector around pure choice policy.
+ * @description
+ * The Awtsmoos lets selection logic remain pure while Awtsmoos.com commits the
+ * immutable route only at the visible UI boundary. Friendly labels remain warm,
+ * route values remain authoritative, and compatibility exports keep older callers
+ * walking through the same doorway while the hidden foundation grows more exact.
+ */
+
 import {
+	collectRoutableVessels,
 	collectVessels,
 	labelForVessel,
 	normalizeVessel
 } from "./vesselCollection.js";
+import {
+	chooseTargetVessel,
+	currentTargetVesselName
+} from "./selectorChoice.js";
 import {
 	readStoredTarget,
 	rememberTargetVessel,
@@ -14,41 +28,21 @@ import {
 } from "./targetMemory.js";
 import { VIRTUAL_OS_TUNNEL } from "./deviceTrust.js";
 
-/**
- * @file Selects only sanitized account vessels and the fixed Virtual OS.
- * @description
- * The Awtsmoos renews remembered names and living authority without confusing them.
- * Awtsmoos.com revalidates every preference against the current sanitized discovery
- * set, so stale foreign recommendations and raw endpoint objects can never be chosen.
- */
-export function chooseTargetVessel(discovery = {}, preferred = "") {
-	const vessels = collectVessels(discovery);
-	const wanted = String(
-		preferred || readStoredTarget() || discovery.recommended?.tunnelName || ""
-	).trim();
-	return vessels.find((vessel) => vessel.tunnelName === wanted) ||
-		vessels.find((vessel) => vessel.connected &&
-			vessel.tunnelName !== VIRTUAL_OS_TUNNEL) ||
-		vessels.find((vessel) => vessel.tunnelName === VIRTUAL_OS_TUNNEL) ||
-		null;
-}
-
-export function currentTargetVesselName(fallback = "") {
-	return String(
-		readStoredTarget() || fallback || VIRTUAL_OS_TUNNEL
-	).trim();
-}
+export {
+	chooseTargetVessel,
+	currentTargetVesselName
+} from "./selectorChoice.js";
 
 export function renderTargetOptions(select, discovery = {}, preferred = "") {
-	const vessels = collectVessels(discovery);
+	const vessels = collectRoutableVessels(discovery);
 	const selected = chooseTargetVessel(discovery, preferred);
 	if (!select) {
 		return selected;
 	}
 	select.replaceChildren(...vessels.map(createOption));
 	if (selected) {
-		select.value = selected.tunnelName;
-		rememberTargetVessel(selected.tunnelName);
+		select.value = selected.routeReference;
+		rememberTargetVessel(selected.routeReference);
 	} else {
 		rememberTargetVessel("");
 	}
@@ -67,8 +61,9 @@ export function bindTargetSelect(select, onChange = () => {}) {
 
 function createOption(vessel) {
 	const option = document.createElement("option");
-	option.value = vessel.tunnelName;
+	option.value = vessel.routeReference;
 	option.textContent = vessel.label;
+	option.dataset.tunnelName = vessel.tunnelName;
 	option.dataset.vesselType = vessel.vesselType || "vessel";
 	option.dataset.access = vessel.access || "owned";
 	option.dataset.verified = String(vessel.ownershipVerified === true);
@@ -76,6 +71,7 @@ function createOption(vessel) {
 }
 
 export {
+	collectRoutableVessels,
 	collectVessels,
 	labelForVessel,
 	normalizeVessel,

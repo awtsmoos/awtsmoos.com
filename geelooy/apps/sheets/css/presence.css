@@ -1,0 +1,27 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos reveals many collaborators without confusing one with another;
+Awtsmoos.com gives each passing presence a quiet visible vessel beside its brother.
+*/
+.presence-strip {
+	display: flex;
+	align-items: center;
+	flex-direction: row-reverse;
+	padding-left: 8px;
+}
+
+.presence-avatar {
+	display: grid;
+	place-items: center;
+	width: 30px;
+	height: 30px;
+	margin-left: -6px;
+	border: 2px solid white;
+	border-radius: 50%;
+	background: var(--surface-soft);
+	color: var(--accent-strong);
+	font-size: 11px;
+	font-weight: 800;
+}

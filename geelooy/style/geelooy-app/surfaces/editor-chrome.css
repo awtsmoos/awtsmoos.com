@@ -1,0 +1,87 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives written thought a chamber, a toolbar, and a state that can be known;
+ * Awtsmoos.com keeps the semantic editor intact while surrounding creation with deliberate chrome.
+ */
+.g-editor-surface {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	min-height: min(70vh, 38rem);
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-panel-radius);
+	background: color-mix(in srgb, var(--g-surface) 96%, transparent);
+	box-shadow: var(--g-shadow-soft);
+	overflow: clip;
+}
+
+.g-editor-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .45rem;
+	padding: .55rem;
+	border-bottom: 1px solid var(--g-line);
+	background: color-mix(in srgb, var(--g-surface-2) 94%, transparent);
+}
+
+.g-editor-toolbar [role="group"] {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .25rem;
+	padding: .2rem;
+	border-radius: .65rem;
+	background: rgba(255, 255, 255, .035);
+}
+
+.g-editor-canvas {
+	min-width: 0;
+	min-height: 12rem;
+	padding: clamp(.8rem, 2vw, 1.2rem);
+	background: transparent;
+	color: var(--g-text);
+	line-height: 1.65;
+	overflow: auto;
+}
+
+.g-editor-canvas:focus-within {
+	box-shadow: inset 0 0 0 2px rgba(60, 236, 255, .1);
+}
+
+.g-editor-status {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: .5rem 1rem;
+	padding: .5rem .7rem;
+	border-top: 1px solid var(--g-line);
+	background: color-mix(in srgb, var(--g-bg-2) 92%, transparent);
+	color: var(--g-muted);
+	font-size: .74rem;
+}
+
+.g-editor-status [data-tone="busy"] {
+	color: var(--g-cyan);
+}
+
+.g-editor-status [data-tone="success"] {
+	color: var(--g-success);
+}
+
+.g-editor-status [data-tone="error"] {
+	color: var(--g-danger);
+}
+
+@media (max-width: 42rem) {
+	.g-editor-surface {
+		min-height: min(76vh, 34rem);
+		border-radius: var(--g-control-radius);
+	}
+
+	.g-editor-toolbar {
+		overflow-x: auto;
+		flex-wrap: nowrap;
+		scrollbar-width: thin;
+	}
+}

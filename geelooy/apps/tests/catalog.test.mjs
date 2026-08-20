@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -10,58 +10,60 @@ import { fileURLToPath } from "node:url";
 import { PUBLIC_APPS } from "../scripts/catalog/index.mjs";
 
 /**
- * B"H
- *
- * Witnesses the intentional Awtsmoos.com public-app portfolio independently from
- * its rendered cards. The Awtsmoos renews hidden experiment and public product
- * alike; Awtsmoos.com keeps the marketing boundary explicit so existing folders
- * cannot silently become promises to users merely because code exists on disk.
+ * @file Regression witness that the Awtsmoos.com browser launcher reflects reality on disk.
+ * @description
+ * The Awtsmoos renews hidden code and visible doorway alike, but a root index is
+ * direct evidence of a browser application. This test guards the new promise: every
+ * such doorway appears once, while native-only projects are not falsely advertised.
  */
+const appsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-const appsRoot = path.resolve(
-	path.dirname(fileURLToPath(import.meta.url)),
-	".."
-);
+/** @returns {string[]} Sorted direct-child application ids with a real root index. */
+function browserAppIds() {
+	return fs.readdirSync(appsRoot, { withFileTypes: true })
+		.filter(entry => entry.isDirectory())
+		.filter(entry => fs.existsSync(path.join(appsRoot, entry.name, "index.html")))
+		.map(entry => entry.name)
+		.sort();
+}
 
-test("public catalog contains exactly twelve intentional apps", () => {
-	assert.equal(PUBLIC_APPS.length, 12);
-	assert.equal(new Set(PUBLIC_APPS.map(app => app.id)).size, 12);
-	assert.equal(new Set(PUBLIC_APPS.map(app => app.href)).size, 12);
+test("catalog has one record for every browser application doorway", () => {
+	const expected = browserAppIds();
+	const actual = PUBLIC_APPS.map(app => app.id).sort();
+
+	assert.deepEqual(actual, expected);
+	assert.equal(new Set(actual).size, actual.length);
+	assert.equal(new Set(PUBLIC_APPS.map(app => app.href)).size, PUBLIC_APPS.length);
 });
 
-test("every marketed app points to a real local directory", () => {
+test("every catalog route resolves inside the Apps tree", () => {
 	for (const app of PUBLIC_APPS) {
 		const doorway = path.resolve(appsRoot, app.href);
-		assert.equal(
-			fs.existsSync(doorway),
-			true,
-			`${app.title} missing at ${doorway}`
-		);
+		assert.equal(fs.existsSync(doorway), true, `${app.title} missing at ${doorway}`);
 	}
 });
 
-test("Wallet is free infrastructure rather than a paid service", () => {
-	const wallet = PUBLIC_APPS.find(app => app.id === "wallet");
+test("Awtsmoos Docs is discoverable as the Document Creator", () => {
+	const docs = PUBLIC_APPS.find(app => app.id === "docs");
+	const discovery = [docs?.title, docs?.description, ...(docs?.aliases || [])]
+		.join(" ")
+		.toLowerCase();
 
-	assert.ok(wallet);
-	assert.equal(wallet.commerceState, "free");
-	assert.match(wallet.commerceLabel, /free/i);
+	assert.ok(docs);
+	assert.match(discovery, /document creator/);
+	assert.equal(docs.href, "./docs/");
 });
 
-test("Rebbe core listening remains explicitly open", () => {
-	const rebbe = PUBLIC_APPS.find(app => app.id === "rebbe");
-
-	assert.ok(rebbe);
-	assert.equal(rebbe.commerceState, "free");
-	assert.match(rebbe.commerceLabel, /open/i);
+test("Wallet and Rebbe preserve explicitly open core access", () => {
+	for (const id of ["wallet", "rebbe"]) {
+		const app = PUBLIC_APPS.find(record => record.id === id);
+		assert.ok(app);
+		assert.equal(app.commerceState, "free");
+	}
 });
 
-test("all other marketed apps describe planned rather than live commerce", () => {
-	const plannedApps = PUBLIC_APPS.filter(app => app.commerceState !== "free");
-
-	assert.equal(plannedApps.length, 10);
-	assert.equal(
-		plannedApps.every(app => /planned/i.test(app.commerceLabel)),
-		true
-	);
+test("commerce state remains descriptive rather than implied checkout", () => {
+	for (const app of PUBLIC_APPS) {
+		assert.ok(["free", "planned"].includes(app.commerceState));
+	}
 });

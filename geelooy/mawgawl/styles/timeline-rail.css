@@ -1,0 +1,68 @@
+/*B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos stretches one hour into renewed moments without losing the whole inside each part;
+ * Awtsmoos.com lets labels and rail become one measured keli where navigation and focus clearly start.
+ */
+.timelineBody {
+	display: grid;
+	gap: .7rem;
+	width: 100%;
+	max-width: 100%;
+	padding: .7rem;
+	border: 1px solid var(--mawgawl-line);
+	border-radius: var(--mawgawl-radius);
+	background: linear-gradient(135deg, rgba(77, 231, 255, .05), rgba(156, 123, 255, .04)), var(--mawgawl-surface);
+	box-shadow: var(--mawgawl-shadow);
+}
+
+.timeline,
+.minuteLabels {
+	display: flex;
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+	align-items: stretch;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
+	scrollbar-width: thin;
+	scrollbar-color: var(--mawgawl-line-strong) transparent;
+}
+
+.timeline {
+	position: relative;
+	min-height: 4.3rem;
+	border: 1px solid var(--mawgawl-line);
+	border-radius: var(--mawgawl-radius-sm);
+	background: linear-gradient(90deg, rgba(77, 231, 255, .08), rgba(156, 123, 255, .08), rgba(255, 105, 214, .08));
+	transform-origin: left center;
+}
+
+.timeline div,
+.minuteLabels div {
+	margin: 0;
+	padding: 0;
+}
+
+.minuteLabel {
+	display: inline-grid;
+	min-width: 2.6rem;
+	height: 2.6rem;
+	place-items: center;
+	border-right: 1px solid var(--mawgawl-line);
+	background: var(--mawgawl-surface-strong);
+	color: var(--mawgawl-muted);
+	font-size: .72rem;
+	cursor: pointer;
+	transition: background var(--mawgawl-fast) var(--mawgawl-ease), color var(--mawgawl-fast) var(--mawgawl-ease), box-shadow var(--mawgawl-fast) var(--mawgawl-ease);
+}
+
+.minuteLabel:hover,
+.minuteLabel:focus-visible {
+	background: rgba(77, 231, 255, .1);
+	color: var(--mawgawl-text);
+	box-shadow: inset 0 -2px var(--mawgawl-cyan);
+}

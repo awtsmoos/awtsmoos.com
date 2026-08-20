@@ -5,59 +5,91 @@
 /**
  * @module PublicSiteResolution
  * @description
- * The Awtsmoos lets one public request enter one explicit site covenant. Canonical
- * path routes may select a named site by prefix; a pre-bound custom Host supplies
- * siteId directly, and then no path segment may switch authority to a sibling site.
+ * The Awtsmoos lets one public request enter one explicit garden without
+ * stealing a sibling road. Awtsmoos.com distinguishes bound custom-domain
+ * identity, named canonical prefixes, primary alias roads, and blocked gardens
+ * so later layers reveal only the identity the route itself already proves.
  */
 
 const path = require('path');
+const { normalizeDrivePath } = require('../api/social/helper/drive/pathPolicy.js');
+const {
+	normalizeSiteRegistry,
+	normalizeSiteId
+} = require('../api/social/helper/drive/siteMappingPolicy.js');
 const {
 	primarySiteFromState,
 	siteMappingsFromState
 } = require('../api/social/helper/drive/siteMappingService.js');
-const { normalizeDrivePath } = require('../api/social/helper/drive/pathPolicy.js');
-const { normalizeSiteId } = require('../api/social/helper/drive/siteMappingPolicy.js');
 
-function resolveSiteRequest(options) {
+function resolveSiteRequest(options = {}) {
 	const requestPath = normalizeDrivePath(options.requestPath || '', { allowRoot: true });
 	const mappings = siteMappingsFromState(options.state);
-	const selection = options.siteId
-		? boundSiteSelection(mappings, options.siteId, requestPath)
-		: canonicalSiteSelection(options.state, mappings, requestPath);
-	if (!selection?.site?.enabled) return null;
-	return mappedResolution(selection.site, requestPath, selection.relativePath);
-}
-
-function boundSiteSelection(mappings, siteIdValue, requestPath) {
-	const siteId = normalizeSiteId(siteIdValue);
-	const site = mappings.find(candidate => candidate.id === siteId);
-	return site ? { site, relativePath: requestPath } : null;
-}
-
-function canonicalSiteSelection(state, mappings, requestPath) {
-	const segments = requestPath ? requestPath.split('/') : [];
-	const namedSite = segments.length
-		? mappings.find(site => site.id === segments[0])
-		: null;
-	if (namedSite) {
-		return {
-			site: namedSite,
-			relativePath: normalizeDrivePath(segments.slice(1).join('/'), { allowRoot: true })
-		};
+	if (options.siteId) {
+		return boundResolution(mappings, options.siteId, requestPath);
 	}
-	return { site: primarySiteFromState(state), relativePath: requestPath };
+	return canonicalResolution(options.state, requestPath);
 }
 
-function mappedResolution(site, requestPath, relativePath) {
-	const rootPath = normalizeDrivePath(site.rootPath || '', { allowRoot: true });
+function boundResolution(mappings, siteIdValue, requestPath) {
+	const siteId = normalizeSiteId(siteIdValue);
+	const mapping = mappings.find(candidate => candidate.id === siteId);
+	if (!mapping) return null;
+	if (!mapping.enabled) return blockedResolution(mapping, requestPath, false, true);
+	return activeResolution(mapping, requestPath, requestPath, false, true);
+}
+
+function canonicalResolution(state, requestPath) {
+	const segments = requestPath ? requestPath.split('/') : [];
+	const explicitMappings = Object.values(normalizeSiteRegistry(state?.sites));
+	const namedMapping = segments.length
+		? explicitMappings.find(mapping => mapping.id === segments[0])
+		: null;
+	if (namedMapping) {
+		const relativePath = normalizeDrivePath(
+			segments.slice(1).join('/'),
+			{ allowRoot: true }
+		);
+		if (!namedMapping.enabled) {
+			return blockedResolution(namedMapping, relativePath, true, false);
+		}
+		return activeResolution(namedMapping, requestPath, relativePath, true, false);
+	}
+	const primary = primarySiteFromState(state);
+	if (!primary) return null;
+	if (!primary.enabled) return blockedResolution(primary, requestPath, false, false);
+	return activeResolution(primary, requestPath, requestPath, false, false);
+}
+
+function activeResolution(mapping, requestPath, relativePath, named, bound) {
+	const rootPath = normalizeDrivePath(mapping.rootPath || '', { allowRoot: true });
 	const drivePath = joinedDrivePath(rootPath, relativePath);
 	return {
-		site,
+		site: mapping,
+		mapping,
 		requestPath,
 		relativePath,
 		drivePath,
 		indexPath: joinedDrivePath(drivePath, 'index.html'),
-		fallbackPath: joinedDrivePath(rootPath, '404.html')
+		fallbackPath: joinedDrivePath(rootPath, '404.html'),
+		named,
+		bound,
+		blocked: false
+	};
+}
+
+function blockedResolution(mapping, relativePath, named, bound) {
+	return {
+		site: mapping,
+		mapping,
+		requestPath: relativePath,
+		relativePath,
+		drivePath: null,
+		indexPath: null,
+		fallbackPath: null,
+		named,
+		bound,
+		blocked: true
 	};
 }
 
@@ -66,7 +98,22 @@ function joinedDrivePath(...parts) {
 	return normalizeDrivePath(joined === '.' ? '' : joined, { allowRoot: true });
 }
 
+function joinDrivePaths(...parts) {
+	return joinedDrivePath(...parts);
+}
+
+function namedSitePath(aliasId, siteId) {
+	return `/sites/${encodeURIComponent(aliasId)}/${encodeURIComponent(siteId)}/`;
+}
+
+function primarySitePath(aliasId) {
+	return `/sites/${encodeURIComponent(aliasId)}/`;
+}
+
 module.exports = {
 	resolveSiteRequest,
-	joinedDrivePath
+	joinedDrivePath,
+	joinDrivePaths,
+	namedSitePath,
+	primarySitePath
 };

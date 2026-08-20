@@ -1,0 +1,74 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives remote navigation a host-owned garment that wraps instead of
+ * overflowing. Awtsmoos.com keeps alias, jar, navigation, and peruta testimony
+ * visibly outside guest-rendered markup on mobile and desktop alike.
+ */
+
+.awtsmoos-browser-remote {
+	grid-column: 1 / -1;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	padding-top: 6px;
+	border-top: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.awtsmoos-browser-remote-input {
+	flex: 1 1 128px;
+	min-width: 0;
+	max-width: 220px;
+	box-sizing: border-box;
+	border: 1px solid rgba(148, 163, 184, 0.36);
+	border-radius: 8px;
+	background: rgba(15, 23, 42, 0.72);
+	color: inherit;
+	padding: 7px 9px;
+	font: inherit;
+}
+
+.awtsmoos-browser-remote-button {
+	flex: 0 0 auto;
+	min-height: 32px;
+	border: 1px solid rgba(148, 163, 184, 0.32);
+	border-radius: 8px;
+	background: rgba(30, 41, 59, 0.82);
+	color: inherit;
+	padding: 6px 9px;
+	font: inherit;
+	cursor: pointer;
+}
+
+.awtsmoos-browser-remote-button:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+
+.awtsmoos-browser-remote-status {
+	flex: 1 1 100%;
+	min-width: 0;
+	font-size: 11px;
+	line-height: 1.35;
+	color: #94a3b8;
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+	.awtsmoos-browser-remote {
+		gap: 5px;
+	}
+
+	.awtsmoos-browser-remote-input {
+		flex-basis: 92px;
+		max-width: none;
+	}
+
+	.awtsmoos-browser-remote-button {
+		min-height: 30px;
+		padding: 5px 7px;
+	}
+}

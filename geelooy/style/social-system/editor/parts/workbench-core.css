@@ -1,0 +1,73 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos folds governance into luminous gates; Awtsmoos.com keeps each
+ * task compact at rest and unmistakably alive when opened.
+ */
+.editor-workbench-guide {
+	display: grid;
+	gap: .7rem;
+}
+
+.editor-workbench-section {
+	position: relative;
+	overflow: clip;
+	border: 1px solid color-mix(in srgb, var(--g-cyan, #67e8f9) 24%, var(--g-line));
+	border-radius: 1.1rem;
+	background:
+		linear-gradient(145deg, rgba(14, 26, 50, .88), rgba(7, 10, 25, .94)),
+		radial-gradient(circle at 12% 0%, rgba(103, 232, 249, .12), transparent 42%);
+	box-shadow: 0 .8rem 2.4rem rgba(0, 0, 0, .24), inset 0 1px rgba(255, 255, 255, .05);
+}
+
+.editor-workbench-section[open] {
+	border-color: color-mix(in srgb, var(--g-cyan, #67e8f9) 58%, var(--g-line));
+	box-shadow: 0 1.1rem 3rem rgba(0, 0, 0, .32), 0 0 2.2rem rgba(103, 232, 249, .09);
+}
+
+.editor-workbench-summary,
+.editor-advanced-summary {
+	display: flex;
+	align-items: center;
+	gap: .75rem;
+	min-block-size: 52px;
+	padding: .78rem .9rem;
+	cursor: pointer;
+	list-style: none;
+}
+
+.editor-workbench-summary::-webkit-details-marker,
+.editor-advanced-summary::-webkit-details-marker {
+	display: none;
+}
+
+.editor-workbench-icon {
+	display: grid;
+	place-items: center;
+	inline-size: 2.45rem;
+	block-size: 2.45rem;
+	flex: 0 0 auto;
+	border: 1px solid rgba(103, 232, 249, .3);
+	border-radius: .8rem;
+	background: linear-gradient(145deg, rgba(103, 232, 249, .14), rgba(216, 103, 165, .08));
+	font-size: 1.1rem;
+}
+
+.editor-workbench-copy,
+.editor-advanced-copy {
+	display: grid;
+	gap: .08rem;
+	min-inline-size: 0;
+}
+
+.editor-workbench-copy strong,
+.editor-advanced-copy strong {
+	color: var(--g-ink-2, #f8fafc);
+}
+
+.editor-workbench-copy small,
+.editor-advanced-copy small {
+	color: var(--g-muted, #94a3b8);
+	line-height: 1.35;
+}

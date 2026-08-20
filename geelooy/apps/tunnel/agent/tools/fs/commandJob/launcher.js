@@ -6,10 +6,10 @@ const Context = require("./context.js");
 const Lifecycle = require("./lifecycle.js");
 
 /**
- * @file Launches one admitted command without caging its start receipt behind identity enrichment.
+ * @file Launches admitted commands and records whether failure happened before process birth.
  * @description
- * The Awtsmoos gives the child breath, durable custody, and then deeper testimony in its time;
- * Awtsmoos.com returns the job vessel once preliminary ownership is stored, while exact birth identity ripens behind the line.
+ * The Awtsmoos distinguishes a queue promise that expired from a child that failed
+ * to breathe; Awtsmoos.com keeps both terminal truths without inventing process cleanup for an unstarted deed.
  */
 async function launch(config, payload, meta) {
 	Context.MetaFactory.markLaunched(meta);
@@ -20,28 +20,12 @@ async function launch(config, payload, meta) {
 		{ env: payload.env || {} }
 	);
 	Context.ProcessControl.renice(spawned, payload);
-	Context.MetaFactory.attachPreliminary(
-		meta,
-		Context.ProcessControl.preliminary(spawned)
-	);
-	const live = Lifecycle.createLive(
-		config,
-		payload,
-		meta.jobId,
-		spawned,
-		meta
-	);
-	Lifecycle.wireProcess(
-		config,
-		meta.jobId,
-		live,
-		meta.timeoutMs
-	);
+	Context.MetaFactory.attachPreliminary(meta, Context.ProcessControl.preliminary(spawned));
+	const live = Lifecycle.createLive(config, payload, meta.jobId, spawned, meta);
+	Lifecycle.wireProcess(config, meta.jobId, live, meta.timeoutMs);
 	Lifecycle.beginIdentity(config, meta.jobId, live);
 	const saved = await Context.Meta.write(config, meta.jobId, meta);
-	if (!Context.Policy.TERMINAL.has(saved.status)) {
-		live.meta.revision = saved.revision;
-	}
+	if (!Context.Policy.TERMINAL.has(saved.status)) live.meta.revision = saved.revision;
 	return startReceipt(meta, live);
 }
 
@@ -58,16 +42,21 @@ function startReceipt(meta, live) {
 }
 
 async function fail(config, meta, error) {
-	return Lifecycle.finalizeDetached(
-		config,
-		meta.jobId,
-		meta,
-		{
+	const queueTimeout = error?.code === "COMMAND_QUEUE_START_TIMEOUT";
+	return Lifecycle.finalizeDetached(config, meta.jobId, meta, queueTimeout
+		? {
 			status: "failed",
-			error: error.message,
-			launchFailed: true
+			error: "command_queue_start_timed_out",
+			consumerStarted: false,
+			launchFailed: false,
+			queueStartTimedOut: true,
+			queueWaitMs: Math.max(0, Number(error.queueWaitMs || 0))
 		}
-	);
+		: {
+			status: "failed",
+			error: error?.message || String(error),
+			launchFailed: true
+		});
 }
 
 module.exports = {

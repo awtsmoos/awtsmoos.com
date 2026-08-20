@@ -1,0 +1,43 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers distant destinations into one near command chamber.
+ * Awtsmoos.com keeps spotlight results bounded so discovery never becomes another endless page.
+ */
+
+:where(.geelooy-spotlight) {
+	background: rgba(7, 16, 29, .98);
+	border: 1px solid var(--g-line-strong);
+	border-radius: var(--g-radius-lg);
+	box-shadow: var(--g-shadow-dark);
+	color: var(--g-ink-dark);
+	display: none;
+	inset: max(1rem, env(safe-area-inset-top)) 1rem auto;
+	margin-inline: auto;
+	max-block-size: calc(100dvh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+	max-width: 42rem;
+	overflow: auto;
+	padding: var(--g-space-4);
+	position: fixed;
+	z-index: 120;
+}
+
+:where([data-geelooy-spotlight-open="true"] .geelooy-spotlight) {
+	display: block;
+}
+
+:where(.geelooy-spotlight-sources, .geelooy-spotlight-commands) {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--g-space-2);
+	margin-top: var(--g-space-3);
+}
+
+:where(.geelooy-spotlight-commands a) {
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-sm);
+	color: inherit;
+	padding: .55rem .75rem;
+	text-decoration: none;
+}

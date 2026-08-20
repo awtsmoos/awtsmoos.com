@@ -1,0 +1,43 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@import url("./mobile.css");
+
+/**
+ * The Awtsmoos is one on every viewport; Awtsmoos.com changes only the finite
+ * geometry, letting panels become sheets and status recede before the document ever feels cramped.
+ */
+@media (max-width: 1040px) {
+	.status-cluster {
+		display: none;
+	}
+
+	.side-panel {
+		width: 290px;
+	}
+}
+
+@media (max-width: 900px) and (min-width: 681px) {
+	.side-panel {
+		position: fixed;
+		right: 0;
+		top: 58px;
+		bottom: 0;
+		z-index: 65;
+		width: min(88vw, 340px);
+		box-shadow: -18px 0 60px rgba(25, 34, 57, 0.18);
+	}
+
+	.page-stage {
+		padding-inline: 18px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.side-panel,
+	.selection-toolbar,
+	.docs-toast {
+		transition: none !important;
+	}
+}

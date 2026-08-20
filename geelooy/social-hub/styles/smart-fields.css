@@ -1,0 +1,74 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every value while Awtsmoos.com gives each value a rich vessel instead of a naked rectangle;
+ * icon, focus, clear state, and helper truth gather around the control so power becomes easier to see and quieter to use in the light.
+ */
+.hubSmartField {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .55rem;
+	min-block-size: 48px;
+	padding: .38rem .48rem;
+	border: 1px solid rgba(109, 232, 255, .2);
+	border-radius: 1rem;
+	background: linear-gradient(145deg, rgba(11, 25, 46, .94), rgba(5, 11, 25, .96));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .06), 0 10px 32px rgba(0, 0, 0, .13);
+	transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.hubSmartField:focus-within {
+	border-color: rgba(60, 236, 255, .7);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .08), 0 0 0 3px rgba(60, 236, 255, .1), 0 16px 36px rgba(0, 0, 0, .22);
+}
+
+.hubSmartField__leading {
+	display: grid;
+	inline-size: 2.15rem;
+	block-size: 2.15rem;
+	place-items: center;
+	border-radius: .72rem;
+	background: linear-gradient(145deg, rgba(60, 236, 255, .14), rgba(255, 72, 203, .1));
+	font-size: 1rem;
+}
+
+.hubSmartField__control {
+	display: grid;
+	min-inline-size: 0;
+}
+
+.hubSmartField__control :where(input, textarea) {
+	inline-size: 100%;
+	min-inline-size: 0;
+	padding: .55rem .15rem;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	box-shadow: none;
+	color: inherit;
+	font: inherit;
+}
+
+.hubSmartField__control input::placeholder,
+.hubComposerField__input::placeholder {
+	color: rgba(218, 229, 247, .46);
+}
+
+.hubSmartField__trailing {
+	display: flex;
+	align-items: center;
+	gap: .25rem;
+}
+
+.hubSmartField[data-empty="true"] .hubSmartField__clear {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.hubSmartField__helper {
+	grid-column: 2 / -1;
+	font-size: .72rem;
+	color: rgba(218, 229, 247, .64);
+}

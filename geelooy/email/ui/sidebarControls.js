@@ -1,16 +1,26 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 /**
- * @module MailSidebarControls
- * @description
- * The Awtsmoos gives identity, search, and composition a measured order;
- * Awtsmoos.com lets people scan first, find quickly, and write without clutter.
+ * @fileoverview Mail sidebar identity and compose controls.
+ * RESPONSIBILITY: render the mailbox identity header and primary compose command.
+ * NON-RESPONSIBILITY: search rendering now lives in `sidebarSearch.js`; folders and sender categories live elsewhere.
+ * ARCHITECTURE: Malchus manifests the controls while preserving existing Mail state and modal contracts.
+ * OROS / KEILIM: identity and composition are lights; these focused controls are their bounded vessels.
+ *
+ * The Awtsmoos, Atzmus in Kabbalah beyond all form, renews sender, receiver, and every instant between;
+ * Awtsmoos.com lets many modules remain one purpose, each clear enough that the hidden flow may be seen.
  */
-import { setMailSearch, state } from '../store.js';
 import { mountMailIdentitySummary } from './identitySummary.js';
 import { openModal } from './modalFields.js';
+export { renderSidebarSearch } from './sidebarSearch.js';
 
+/**
+ * Renders the compact identity summary at the head of the sidebar.
+ * @param {object} ui Mail UI adapter.
+ * @param {HTMLElement} parent Sidebar container.
+ * @returns {void} The adapter renders into the supplied parent.
+ */
 export function renderSidebarIdentity(ui, parent) {
 	ui.html({
 		parent,
@@ -20,8 +30,16 @@ export function renderSidebarIdentity(ui, parent) {
 			tag: 'div',
 			classList: ['mail-sidebar-identity'],
 			children: [
-				{ tag: 'p', classList: ['mail-sidebar-kicker'], textContent: 'Your correspondence' },
-				{ tag: 'div', classList: ['brand-title'], textContent: 'Conversations' },
+				{
+					tag: 'p',
+					classList: ['mail-sidebar-kicker'],
+					textContent: 'Your correspondence'
+				},
+				{
+					tag: 'div',
+					classList: ['brand-title'],
+					textContent: 'Conversations'
+				},
 				{
 					tag: 'div',
 					shaym: 'sidebarIdentitySummary',
@@ -33,12 +51,18 @@ export function renderSidebarIdentity(ui, parent) {
 	});
 }
 
+/**
+ * Renders the primary compose command while preserving the existing modal contract.
+ * @param {object} ui Mail UI adapter.
+ * @param {HTMLElement} parent Sidebar container.
+ * @returns {void} The adapter renders into the supplied parent.
+ */
 export function renderSidebarCompose(ui, parent) {
 	ui.html({
 		parent,
 		tag: 'button',
 		shaym: 'composeButton',
-		classList: ['fab-compose'],
+		classList: ['fab-compose', 'mail-primary-command'],
 		attributes: {
 			type: 'button',
 			'aria-label': 'Compose a new message',
@@ -46,69 +70,25 @@ export function renderSidebarCompose(ui, parent) {
 			title: 'Compose a new message (C)'
 		},
 		children: [
-			{ tag: 'span', classList: ['compose-plus'], textContent: '+' },
-			{ tag: 'span', classList: ['compose-label'], textContent: 'New message' },
-			{ tag: 'kbd', classList: ['compose-shortcut'], textContent: 'C' }
-		],
-		events: { click: () => openModal(ui, 'composeModal') }
-	});
-}
-
-export function renderSidebarSearch(ui, parent) {
-	ui.html({
-		parent,
-		tag: 'section',
-		classList: ['mail-search-panel'],
-		attributes: { 'aria-label': 'Search conversations' },
-		children: [
 			{
-				tag: 'label',
-				attributes: { for: 'mailSearchInput' },
-				children: [
-					{ tag: 'span', textContent: 'Find a conversation' },
-					{ tag: 'kbd', textContent: '/' }
-				]
+				tag: 'span',
+				classList: ['compose-plus'],
+				attributes: { 'aria-hidden': 'true' },
+				textContent: '+'
 			},
 			{
-				tag: 'div',
-				classList: ['mail-search-control'],
-				children: [searchInput(), clearSearchButton(ui)]
+				tag: 'span',
+				classList: ['compose-label'],
+				textContent: 'New message'
+			},
+			{
+				tag: 'kbd',
+				classList: ['compose-shortcut'],
+				textContent: 'C'
 			}
-		]
-	});
-}
-
-function searchInput() {
-	return {
-		tag: 'input',
-		shaym: 'mailSearchInput',
-		attributes: {
-			id: 'mailSearchInput',
-			type: 'search',
-			placeholder: 'Person, subject, or message…',
-			autocomplete: 'off',
-			'aria-keyshortcuts': '/',
-			value: state.searchQuery
-		},
-		events: { input: event => setMailSearch(event.currentTarget.value) }
-	};
-}
-
-function clearSearchButton(ui) {
-	return {
-		tag: 'button',
-		classList: ['mail-search-clear'],
-		textContent: 'Clear',
-		attributes: { type: 'button', 'aria-label': 'Clear conversation search' },
+		],
 		events: {
-			click: () => {
-				setMailSearch('');
-				const input = ui.getHtml?.('mailSearchInput');
-				if (input) {
-					input.value = '';
-					input.focus();
-				}
-			}
+			click: () => openModal(ui, 'composeModal')
 		}
-	};
+	});
 }

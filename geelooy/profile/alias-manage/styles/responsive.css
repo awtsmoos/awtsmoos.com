@@ -2,51 +2,83 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos lets the alias vessel contract without becoming cramped. On
- * Awtsmoos.com every narrow screen keeps full-width actions, safe spacing, and
- * motion that yields immediately to the traveler's accessibility preference.
+ * The Awtsmoos lets the identity studio contract by task, not by shrinking the
+ * same desktop pile. Awtsmoos.com folds preview, unsticks actions, and keeps touch clear.
  */
-
-@media (max-width: 32rem) {
-	.container {
-		inline-size: calc(100% - 1rem);
-		margin-block: .6rem;
-		padding: 1rem;
-		border-radius: 1rem;
+@media (max-width: 46rem) {
+	.alias-studio {
+		padding-inline: .75rem;
 	}
 
-	.container h1 {
-		font-size: clamp(1.45rem, 8vw, 2rem);
+	.alias-studio-header {
+		grid-template-columns: 1fr;
 	}
 
-	.optional-id {
-		grid-template-columns: minmax(0, 1fr) 48px;
+	.alias-back {
+		width: fit-content;
 	}
 
-	.form-btns {
+	.alias-studio-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.alias-preview-panel {
+		position: static;
+		order: -1;
+	}
+
+	.alias-preview-disclosure > summary {
+		border-bottom: 0;
+	}
+
+	.alias-preview-disclosure[open] > summary {
+		border-bottom: 1px solid var(--g-line, rgba(255, 255, 255, .14));
+	}
+
+	.alias-command-bar {
+		position: static;
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.form-btns,
+	.alias-delete-actions {
 		display: grid;
 		grid-template-columns: 1fr;
 	}
 
-	.form-btns button {
-		inline-size: 100%;
+	.form-btns button,
+	.alias-delete-actions button {
+		width: 100%;
+	}
+}
+
+@media (max-width: 30rem) {
+	.alias-editor-card,
+	.alias-preview-panel {
+		border-radius: 14px;
+	}
+
+	.alias-editor-card {
+		padding: 12px;
+	}
+
+	.alias-field-meta {
+		align-items: flex-start;
+		flex-direction: column;
 	}
 }
 
 @media (max-height: 34rem) and (orientation: landscape) {
-	.container {
-		margin-block: .5rem;
-	}
-
-	#alias-form textarea {
-		min-block-size: 6rem;
+	.alias-field-shell textarea {
+		min-height: 5.5rem;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.container *,
-	.container *::before,
-	.container *::after {
+	.alias-studio *,
+	.alias-studio *::before,
+	.alias-studio *::after {
 		scroll-behavior: auto !important;
 		animation-duration: .01ms !important;
 		animation-iteration-count: 1 !important;

@@ -1,0 +1,41 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews each color and measure before the eye can name the beam;
+Awtsmoos.com holds these tokens inside OCR alone, a locally bounded dream.
+*/
+body.ocr-document {
+	margin: 0;
+	min-height: 100dvh;
+	background: #050b14;
+	color: #edf7ff;
+	color-scheme: dark;
+}
+
+.ocr-app {
+	--ocr-bg: #050b14;
+	--ocr-surface: rgba(12, 25, 43, .86);
+	--ocr-surface-strong: #0d1d31;
+	--ocr-surface-soft: rgba(255, 255, 255, .055);
+	--ocr-border: rgba(145, 214, 255, .18);
+	--ocr-border-strong: rgba(116, 221, 255, .42);
+	--ocr-text: #edf7ff;
+	--ocr-muted: #91a8bc;
+	--ocr-accent: #72e5ff;
+	--ocr-accent-strong: #49b7ff;
+	--ocr-success: #6af2b2;
+	--ocr-danger: #ff7d96;
+	--ocr-focus: 0 0 0 3px rgba(114, 229, 255, .24);
+	--ocr-shadow: 0 24px 70px rgba(0, 0, 0, .34);
+	--ocr-radius-lg: 1.4rem;
+	--ocr-radius-md: 1rem;
+	--ocr-radius-sm: .75rem;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: var(--ocr-text);
+}
+
+.ocr-app,
+.ocr-app * {
+	box-sizing: border-box;
+}

@@ -1,109 +1,130 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos reveals every Heichel as a clear, readable vessel rather than a
- * pale ornament. Awtsmoos.com cards preserve the existing discovery structure
- * while metadata, provenance, and actions remain legible and touchable.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * Each Heichel is a vessel in the living map; the Awtsmoos gives identity without excess weight.
+ * Awtsmoos.com keeps title, provenance, and action near enough to scan while every doorway remains touchable.
  */
 
+.social-spaces-shell .social-space-card,
 .heichel-discovery-document .social-space-card {
-	display: grid;
-	grid-template-rows: auto 1fr auto;
-	gap: var(--space-4);
-	min-block-size: 15rem;
-	padding: clamp(1rem, 2.2vw, 1.4rem);
-	border: 1px solid var(--g-border);
-	border-radius: var(--radius-xl);
 	background: var(--awt-surface);
+	border: 1px solid var(--g-border);
+	border-radius: var(--radius-l);
 	box-shadow: var(--shadow-paper);
 	color: var(--g-text);
-	text-decoration: none;
-	transition: transform var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
+	display: grid;
+	gap: .7rem;
+	min-block-size: 0;
+	padding: .85rem;
+	transition: border-color var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out);
 }
 
+.social-spaces-shell .social-space-card:is(:hover, :focus-within),
 .heichel-discovery-document .social-space-card:is(:hover, :focus-within) {
 	border-color: var(--g-border-strong);
 	box-shadow: var(--shadow-panel);
 	transform: translateY(-2px);
 }
 
-.heichel-discovery-document .space-card-topline {
+:where(.social-spaces-shell, .heichel-discovery-document) .space-body {
 	display: flex;
-	align-items: flex-start;
+	gap: .75rem;
+	min-width: 0;
+}
+
+:where(.social-spaces-shell, .heichel-discovery-document) .space-seal {
+	background: linear-gradient(135deg, rgba(64, 216, 239, .18), rgba(213, 154, 53, .24));
+	border-radius: .85rem;
+	display: grid;
+	flex: 0 0 2.65rem;
+	font-size: .78rem;
+	font-weight: 950;
+	height: 2.65rem;
+	place-items: center;
+}
+
+:where(.social-spaces-shell, .heichel-discovery-document) .space-copy {
+	display: grid;
+	gap: .38rem;
+	min-width: 0;
+}
+
+:where(.social-spaces-shell, .heichel-discovery-document) .space-title-row {
+	align-items: start;
+	display: flex;
+	gap: .55rem;
 	justify-content: space-between;
-	gap: var(--space-3);
 }
 
-.heichel-discovery-document .space-card-title {
-	margin: 0;
-	color: var(--g-text);
-	font-size: clamp(1.08rem, 2vw, 1.35rem);
+:where(.social-spaces-shell, .heichel-discovery-document) .space-title-row h2 {
+	font-size: clamp(1rem, 1.8vw, 1.22rem);
 	line-height: 1.15;
-	letter-spacing: -.02em;
+	margin: 0;
+	overflow-wrap: anywhere;
 }
 
-.heichel-discovery-document .space-card-description {
+:where(.social-spaces-shell, .heichel-discovery-document) .space-copy > p {
+	color: var(--g-text-2);
 	display: -webkit-box;
-	margin: .65rem 0 0;
+	font-size: .88rem;
+	line-height: 1.45;
+	margin: 0;
 	overflow: hidden;
-	color: var(--g-text-2);
-	font-size: .96rem;
-	line-height: 1.55;
 	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 3;
+	-webkit-line-clamp: 2;
 }
 
-.heichel-discovery-document .space-card-meta {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: .45rem .7rem;
-	min-block-size: 44px;
+:where(.social-spaces-shell, .heichel-discovery-document) .space-meta-line {
 	color: var(--g-text-2);
-	font-size: var(--type-small);
+	display: flex;
+	flex-wrap: wrap;
+	font-size: var(--type-caption);
+	gap: .3rem .65rem;
+	overflow-wrap: anywhere;
 }
 
-.heichel-discovery-document .space-card-meta :where(a, button) {
-	display: inline-flex;
-	align-items: center;
-	min-inline-size: 44px;
-	min-block-size: 44px;
+:where(.social-spaces-shell, .heichel-discovery-document) .space-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .45rem;
 }
 
+:where(.social-spaces-shell, .heichel-discovery-document) .space-actions :where(a, button) {
+	min-block-size: 40px;
+}
+
+:where(.social-spaces-shell, .heichel-discovery-document) .p-badge,
 .heichel-discovery-document .space-card-badge {
-	display: inline-flex;
 	align-items: center;
-	min-block-size: 2rem;
-	padding: .32rem .58rem;
+	background: var(--awt-surface-soft);
 	border: 1px solid var(--g-border);
 	border-radius: var(--radius-pill);
-	background: var(--awt-surface-soft);
 	color: var(--g-text-2);
+	display: inline-flex;
 	font-size: var(--type-caption);
 	font-weight: 800;
+	min-block-size: 1.8rem;
+	padding: .24rem .5rem;
 }
 
-.heichel-discovery-document .space-card-action {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-inline-size: 44px;
-	min-block-size: 44px;
-	padding: .55rem .8rem;
-	border-radius: .7rem;
-	color: var(--g-accent);
-	font-weight: 850;
-	text-decoration: none;
+@media (max-width: 30rem) {
+	:where(.social-spaces-shell, .heichel-discovery-document) .space-title-row {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	:where(.social-spaces-shell, .heichel-discovery-document) .space-actions :where(a, button) {
+		flex: 1 1 auto;
+	}
 }
 
-.heichel-discovery-document .space-card-action:is(:hover, :focus-visible) {
-	background: color-mix(in srgb, var(--g-accent) 9%, var(--awt-surface));
-}
+@media (prefers-reduced-motion: reduce) {
+	:where(.social-spaces-shell, .heichel-discovery-document) .social-space-card {
+		transition: none;
+	}
 
-@media (max-width: 40rem) {
-	.heichel-discovery-document .social-space-card {
-		min-block-size: 0;
-		border-radius: var(--radius-l);
+	:where(.social-spaces-shell, .heichel-discovery-document) .social-space-card:is(:hover, :focus-within) {
+		transform: none;
 	}
 }

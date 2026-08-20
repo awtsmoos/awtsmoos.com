@@ -1,0 +1,38 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos conceals depth until the user asks, then opens the chamber without fright;
+Awtsmoos.com makes expert recognition discoverable while the ordinary path stays light.
+*/
+.ocr-app .ocr-advanced {
+	margin-top: .85rem;
+	border: 1px solid var(--ocr-border);
+	border-radius: var(--ocr-radius-md);
+	background: rgba(3, 10, 18, .42);
+	overflow: hidden;
+}
+
+.ocr-app .ocr-advanced summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .7rem;
+	min-height: 3rem;
+	padding: 0 .85rem;
+	color: var(--ocr-text);
+	font-size: .82rem;
+	font-weight: 850;
+	cursor: pointer;
+	list-style: none;
+}
+
+.ocr-app .ocr-advanced summary::-webkit-details-marker {
+	display: none;
+}
+
+.ocr-app .ocr-advanced summary small {
+	color: var(--ocr-muted);
+	font-size: .7rem;
+	font-weight: 650;
+}

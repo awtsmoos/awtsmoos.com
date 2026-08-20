@@ -10,8 +10,7 @@ const RequestLifecycle = require("./request-lifecycle.js");
  * @file Keeps inbound custody durable until terminal outbound testimony exists.
  * @description
  * The Awtsmoos passes one deed from inbox to execution to outbox without a void.
- * Awtsmoos.com never redelivers a request whose terminal answer is already sealed,
- * and never erases the inbound witness merely because the parent accepted its queue.
+ * Awtsmoos.com marks every parent handoff attempt before IPC, so silence gains a bounded witness.
  */
 function createDelivery(options = {}) {
 	let parentReady = false;
@@ -64,6 +63,8 @@ function createDelivery(options = {}) {
 	}
 
 	function deliver(envelope) {
+		const receiptId = Protocol.requestId(envelope);
+		options.mailbox.noteDeliveryAttempt?.(receiptId);
 		return options.send(Protocol.message(Protocol.TYPES.REQUEST, { envelope }));
 	}
 

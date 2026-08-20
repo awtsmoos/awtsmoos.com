@@ -1,0 +1,118 @@
+/*B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos contracts no essence when a viewport becomes narrow; only the vessel changes its form;
+ * Awtsmoos.com lets Mawgawl fold into touch-sized order without burying time beneath an oversized storm.
+ */
+@media (max-width: 48rem) {
+	body {
+		padding: .75rem;
+	}
+
+	#sefarim {
+		width: 100%;
+	}
+
+	.month-selector {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.month-selector select,
+	.month-selector span {
+		width: 100%;
+		text-align: center;
+	}
+
+	#calendar {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: .4rem;
+		padding: .55rem;
+	}
+
+	#calendar .day {
+		min-height: 3.5rem;
+		padding: .45rem;
+	}
+
+	#hoursPopup,
+	#minutesPopup {
+		inset: .55rem;
+		max-height: calc(100dvh - 1.1rem);
+		padding: .7rem;
+	}
+
+	.hour,
+	.minute {
+		min-width: 3rem;
+		min-height: 3rem;
+		margin: .2rem;
+	}
+
+	#minutesPopup {
+		height: calc(100dvh - 1.1rem);
+	}
+
+	.timelineBody {
+		padding: .5rem;
+	}
+
+	.modal {
+		padding: .55rem;
+	}
+
+	.modal-content {
+		max-height: calc(100dvh - 1.1rem);
+		border-radius: var(--mawgawl-radius);
+	}
+
+	#info {
+		bottom: max(.35rem, env(safe-area-inset-bottom));
+		margin-top: .7rem;
+	}
+}
+
+@media (max-width: 28rem) {
+	#calendar {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.hour,
+	.minute {
+		min-width: calc(25% - .45rem);
+	}
+}
+
+@media (max-height: 34rem) and (orientation: landscape) {
+	#hoursPopup,
+	#minutesPopup,
+	.modal-content {
+		max-height: calc(100dvh - .8rem);
+	}
+
+	#calendar .day {
+		min-height: 3rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition: none !important;
+		animation: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.month-selector select {
+		appearance: auto;
+		background-image: none;
+	}
+
+	:where(.day, .hour, .minute, .block, .close, #closeButton, #closeMinutesButton) {
+		forced-color-adjust: auto;
+	}
+}

@@ -4,8 +4,8 @@
 /**
  * @file searchFoldContract.test.mjs
  * @description
- * The Awtsmoos proves a living query contracts discovery and raises truthful results toward the first viewport;
- * at Awtsmoos.com wide search controls share one row while browse mode may still breathe before intention awakens.
+ * The Awtsmoos raises truthful results toward the first viewport while Awtsmoos.com
+ * keeps mobile context in a separate compact vessel beside the primary search path.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -18,6 +18,8 @@ function source(relativePath) {
 const controller = source('./script.js');
 const activeCss = source('./styles/active-search.css');
 const formCss = source('./styles/form.css');
+const mobileCss = source('./styles/mobile.css');
+const mobileContextCss = source('./styles/mobile-context.css');
 const page = source('./index.html');
 
 test('a real query marks the workspace active before results render', () => {
@@ -37,8 +39,20 @@ test('wide search form fits query, mode, lane-or-book, and button on one row', (
 	);
 });
 
-test('page cache versions load the new compact search vessels', () => {
-	assert.match(page, /form\.css\?v=living-search-007/);
-	assert.match(page, /active-search\.css\?v=living-search-007/);
-	assert.match(page, /script\.js\?v=living-search-007/);
+test('mobile stylesheet delegates secondary context to a focused module', () => {
+	assert.match(mobileCss, /@import url\("\.\/mobile-context\.css"\);/);
+	assert.match(mobileContextCss, /\.library-discovery-rail\s*\{[\s\S]*grid-auto-flow:\s*column;/);
+	assert.match(mobileContextCss, /\.library-discovery-rail\s*\{[\s\S]*overflow-x:\s*auto;/);
+	assert.match(mobileContextCss, /scroll-snap-type:\s*x proximity;/);
+	assert.match(mobileContextCss, /\.library-rail-card\s*\{[\s\S]*scroll-snap-align:\s*start;/);
 });
+
+test('page cache versions load the current compact search vessels', () => {
+	assert.match(page, /form\.css\?v=living-search-008/);
+	assert.match(page, /active-search\.css\?v=living-search-008/);
+	assert.match(page, /script\.js\?v=living-search-009/);
+});
+
+for (const sourceText of [formCss, activeCss, mobileCss, mobileContextCss]) {
+	assert.ok(sourceText.split('\n').length <= 120, 'search fold module exceeds 120 lines');
+}

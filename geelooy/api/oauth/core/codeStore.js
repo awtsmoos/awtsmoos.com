@@ -1,80 +1,54 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file One-time OAuth authorization code memory for Awtsmoos.com.
+ * @description
+ * The Awtsmoos renews every instant, yet a code is permitted only one brief
+ * lifetime; PKCE challenge and redirect travel with it so no later hand can
+ * detach the authority from the agent that first opened the gate.
+ */
 
 const crypto = require("crypto");
 
 const CODE_TTL_MS = 5 * 60 * 1000;
-
-const store =
-  global.__AWTSMOOS_OAUTH_CODE_STORE__ ||
-  (global.__AWTSMOOS_OAUTH_CODE_STORE__ = new Map());
-
-function now() {
-  return Date.now();
-}
-
-function cleanExpiredCodes() {
-  const t = now();
-
-  for (const [code, record] of store.entries()) {
-    if (!record || record.expiresAt <= t) {
-      store.delete(code);
-    }
-  }
-}
+const codeStore = globalThis.__awtsmoosOAuthCodes || new Map();
+globalThis.__awtsmoosOAuthCodes = codeStore;
 
 function makeCode() {
-  return "awt_code_" + crypto.randomBytes(32).toString("base64url");
+	return `awt_code_${crypto.randomBytes(32).toString("base64url")}`;
 }
 
-async function createCode(record) {
-  cleanExpiredCodes();
-
-  const code = makeCode();
-
-  store.set(code, {
-    code,
-    kind: "oauth_authorization_code",
-    userId: record.userId,
-    user: record.user || null,
-    clientId: record.clientId,
-    redirectUri: record.redirectUri,
-    scope: record.scope,
-    state: record.state || "",
-    createdAt: now(),
-    expiresAt: now() + CODE_TTL_MS
-  });
-
-  return code;
+async function saveCode(details) {
+	const code = makeCode();
+	const now = Date.now();
+	codeStore.set(code, {
+		userId: details.userId,
+		clientId: details.clientId,
+		redirectUri: details.redirectUri,
+		scope: details.scope,
+		state: details.state || "",
+		codeChallenge: details.codeChallenge || "",
+		codeChallengeMethod: details.codeChallengeMethod || "",
+		createdAt: now,
+		expiresAt: now + CODE_TTL_MS
+	});
+	return code;
 }
 
-async function saveCode(record) {
-  return await createCode(record);
-}
-
-function takeCode(code) {
-  cleanExpiredCodes();
-
-  const record = store.get(code);
-
-  if (!record) return null;
-
-  store.delete(code);
-
-  if (record.expiresAt <= now()) return null;
-
-  return record;
-}
-
-function peekCode(code) {
-  cleanExpiredCodes();
-  return store.get(code) || null;
+async function takeCode(code) {
+	const key = String(code || "");
+	const record = codeStore.get(key) || null;
+	codeStore.delete(key);
+	if (!record || record.expiresAt <= Date.now()) {
+		return null;
+	}
+	return record;
 }
 
 module.exports = {
-  createCode,
-  saveCode,
-  takeCode,
-  peekCode,
-  cleanExpiredCodes
+	CODE_TTL_MS,
+	saveCode,
+	takeCode
 };

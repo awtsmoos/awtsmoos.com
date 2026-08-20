@@ -1,0 +1,138 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets every branch conceal depth without concealing truth;
+ * Awtsmoos.com opens archive trees with calm rhythm, context, and living youth.
+ */
+.profile-app .profile-archive-groups,
+.profile-app .profile-card-list,
+.profile-app .profile-activity-list,
+.profile-app .profile-history-stack {
+	display: grid;
+	gap: .65rem;
+}
+
+.profile-app .profile-archive-group {
+	border: 1px solid var(--profile-line);
+	border-radius: var(--profile-r-m);
+	background: rgba(255, 255, 255, .76);
+	overflow: clip;
+}
+
+.profile-app .profile-archive-group.depth-1,
+.profile-app .profile-archive-group.depth-2 {
+	margin-left: clamp(.35rem, 2vw, 1rem);
+	background: color-mix(in srgb, var(--profile-surface) 86%, var(--profile-accent-soft));
+}
+
+.profile-app .profile-archive-group summary {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: .65rem;
+	align-items: center;
+	min-height: 3.2rem;
+	padding: .65rem .85rem;
+	cursor: pointer;
+	list-style: none;
+	user-select: none;
+}
+
+.profile-app .profile-archive-group summary::-webkit-details-marker {
+	display: none;
+}
+
+.profile-app .profile-archive-chevron {
+	display: grid;
+	place-items: center;
+	width: 1.8rem;
+	height: 1.8rem;
+	border-radius: .65rem;
+	background: var(--profile-accent-soft);
+	font-size: 1.4rem;
+	transition: transform var(--profile-fast) ease;
+}
+
+.profile-app .profile-archive-group[open] > summary .profile-archive-chevron {
+	transform: rotate(90deg);
+}
+
+.profile-app .profile-archive-group-copy {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	align-items: baseline;
+	min-width: 0;
+}
+
+.profile-app .profile-archive-group-copy strong {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.profile-app .profile-archive-group-copy small {
+	color: var(--profile-muted);
+	white-space: nowrap;
+}
+
+.profile-app .profile-archive-group-body {
+	display: grid;
+	gap: .6rem;
+	padding: 0 .7rem .7rem;
+}
+
+.profile-app .profile-contribution-card,
+.profile-app .profile-context-card,
+.profile-app .profile-activity-item,
+.profile-app .profile-rich-link {
+	display: grid;
+	gap: .65rem;
+	padding: .9rem;
+	border: 1px solid var(--profile-line);
+	border-radius: var(--profile-r-m);
+	background: var(--profile-surface-strong);
+	color: var(--profile-ink);
+	text-decoration: none;
+	box-shadow: 0 8px 26px rgba(15, 23, 42, .055);
+}
+
+.profile-app .profile-contribution-card-top,
+.profile-app .profile-context-path,
+.profile-app .profile-context-footer,
+.profile-app .profile-contribution-card footer,
+.profile-app .profile-activity-meta {
+	display: flex;
+	gap: .5rem;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	color: var(--profile-muted);
+	font-size: .78rem;
+}
+
+.profile-app .profile-context-token,
+.profile-app .profile-contribution-kind {
+	display: inline-flex;
+	gap: .35rem;
+	align-items: center;
+	padding: .28rem .48rem;
+	border-radius: 999px;
+	background: var(--profile-accent-soft);
+	color: var(--profile-accent);
+	font-weight: 800;
+}
+
+.profile-app .profile-contribution-card h3,
+.profile-app .profile-context-body h3,
+.profile-app .profile-activity-item h3 {
+	margin: 0;
+	font-size: 1.06rem;
+}
+
+.profile-app .profile-contribution-card p,
+.profile-app .profile-context-body p,
+.profile-app .profile-activity-item p {
+	margin: 0;
+	line-height: 1.55;
+	color: var(--profile-muted);
+}

@@ -1,0 +1,100 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos folds abundance without hiding a single road from sight;
+ * Awtsmoos.com lets old pages breathe through compact grids and a measured More light.
+ */
+.legacy-nav-heading {
+	color: rgba(255, 250, 241, .68);
+	font-size: .72rem;
+	font-weight: 850;
+	letter-spacing: .08em;
+	margin: 0 2px;
+	text-transform: uppercase;
+}
+
+.legacy-nav-core,
+.legacy-nav-utilities {
+	display: grid;
+	gap: 8px;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sidebarMitzvah .legacy-nav-core a,
+.sidebarMitzvah .legacy-nav-utilities a {
+	min-height: 48px;
+	padding: 9px 10px;
+}
+
+.sidebarMitzvah a[aria-current="page"] {
+	background: rgba(40, 243, 215, .11) !important;
+	border-color: rgba(40, 243, 215, .48);
+	box-shadow: inset 3px 0 0 #28f3d7;
+}
+
+.sidebarMitzvah a[href*="social-hub"]::before {
+	content: "💬";
+}
+
+.sidebarMitzvah a[href*="mawgawl/sefarim"]::before {
+	content: "🔍";
+}
+
+.sidebarMitzvah a[href*="notifications"]::before {
+	content: "🔔";
+}
+
+.sidebarMitzvah a[href*="universal-chat"]::before {
+	content: "📖";
+}
+
+.sidebarMitzvah a[href="/os"]::before {
+	content: "🛸";
+}
+
+.legacy-nav-more {
+	background: rgba(255, 255, 255, .025);
+	border: 1px solid rgba(255, 255, 255, .09);
+	border-radius: 17px;
+	overflow: hidden;
+}
+
+.legacy-nav-more > summary {
+	align-items: center;
+	color: #fffaf1;
+	cursor: pointer;
+	display: flex;
+	font-weight: 900;
+	justify-content: space-between;
+	min-height: 48px;
+	padding: 10px 13px;
+}
+
+.legacy-nav-more > summary::after {
+	color: #8ff5d2;
+	content: "+";
+	font-size: 1.2rem;
+}
+
+.legacy-nav-more[open] > summary::after {
+	content: "−";
+}
+
+.legacy-nav-more > summary:focus-visible {
+	outline: 2px solid rgba(91, 216, 232, .72);
+	outline-offset: -2px;
+}
+
+.legacy-nav-more-list {
+	display: grid;
+	gap: 8px;
+	padding: 0 8px 8px;
+}
+
+@media (max-width: 26rem) {
+	.legacy-nav-core,
+	.legacy-nav-utilities {
+		grid-template-columns: 1fr;
+	}
+}

@@ -1,0 +1,29 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets confidence and structure inform without pretending a metric is the whole page;
+Awtsmoos.com keeps diagnostic truth in small chips that scroll sideways instead of growing a vertical cage.
+*/
+.ocr-result-meta {
+	display: flex;
+	gap: .4rem;
+	margin-bottom: .65rem;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.ocr-result-meta[hidden] {
+	display: none;
+}
+
+.ocr-result-meta span {
+	flex: 0 0 auto;
+	padding: .4rem .62rem;
+	border: 1px solid var(--ocr-border);
+	border-radius: 999px;
+	background: var(--ocr-surface-soft);
+	color: var(--ocr-muted);
+	font-size: .67rem;
+	font-weight: 800;
+}

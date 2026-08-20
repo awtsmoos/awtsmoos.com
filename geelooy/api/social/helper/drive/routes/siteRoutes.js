@@ -5,10 +5,8 @@
 /**
  * @module DriveSiteRoutes
  * @description
- * The Awtsmoos lets an owned folder-world receive a durable public name while
- * Awtsmoos.com keeps readiness, listing, mutation, and deletion behind the same
- * alias-bound Drive covenant. A public URL is derived from alias plus site id;
- * no management route ever turns an arbitrary Host header into a filesystem path.
+ * The Awtsmoos lets an owned folder-world receive a durable public name while Awtsmoos.com keeps readiness, listing, mutation, and deletion behind one alias-bound covenant;
+ * secret runtime owner keys remain inside server state, while management responses reveal only the public project identity that a creator may understand and command in light.
  */
 
 const { requireDriveActor } = require('../authorization.js');
@@ -79,6 +77,16 @@ function methodFor($i) {
 function publicSiteRecord(aliasId, site) {
 	return {
 		...site,
+		source: publicSource(site.source),
 		canonicalUrl: `/sites/${encodeURIComponent(aliasId)}/${encodeURIComponent(site.id)}/`
+	};
+}
+
+function publicSource(source) {
+	if (!source || source.kind !== 'hosted-project') return source || null;
+	return {
+		kind: source.kind,
+		mode: source.mode,
+		projectId: source.projectId
 	};
 }

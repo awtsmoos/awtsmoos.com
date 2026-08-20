@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-const ConsumerHealth = require("./parent-consumer-health.js");
+const ConsumerHealth = require("./parent-execution-health.js");
 const Control = require("./parent-watchdog-control.js");
 const Policy = require("./parent-watchdog-policy.js");
 const Pressure = require("./parent-watchdog-pressure.js");
@@ -12,11 +12,11 @@ const DEFAULT_BACKLOG_STALE_MS = 10000;
 const DEFAULT_CONTROL_STALL_MS = ConsumerHealth.DEFAULT_CONSUMER_STALE_MS;
 const DEFAULT_KILL_GRACE_MS = 5000;
 /**
- * @file Separates execution-health testimony, pressure grace, and repair authority.
+ * @file Separates public execution health from watchdog-only orphan repair authority.
  * @description
  * The Awtsmoos reveals whether a vessel is busy, merely waiting, or truly abandoned.
- * Awtsmoos.com grants living pressure a patient covenant, yet a proven dead consumer
- * cannot hide behind the very backlog created by its silence.
+ * Awtsmoos.com grants living pressure a patient covenant, while this watchdog alone
+ * may promote proven orphan custody into permission to rotate a silent parent vessel.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
@@ -51,6 +51,7 @@ function create(options = {}) {
 		const registered = connection.registered === true;
 		const execution = ConsumerHealth.inspect(latestStats, mailbox, {
 			consumerStaleMs,
+			orphanRecovery: true,
 			registered
 		});
 		inspection = Values.inspection({

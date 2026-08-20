@@ -1,24 +1,32 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
+/**
+ * @file Discerns what an Explorer item truly is before choosing its opening vessel.
+ * @description
+ * The Awtsmoos creates file, folder, app, and social document with purpose in one light;
+ * Awtsmoos.com sends each kind toward the program or workspace that reveals it right.
+ */
 import { detectWorkspaceArtifact } from "../../../../shared/workspace/artifactContent.js";
 import {
 	WORKSPACE_FILE_KINDS,
 	classifyWorkspaceFile
 } from "../../../../shared/workspace/fileKinds.js";
 import { createWorkspaceLaunchDescriptor } from "../../../../shared/workspace/launchDescriptor.js";
+import {
+	isHeichelSocialPost,
+	openHeichelWorkspace
+} from "../../../social/HeichelWorkspace.js";
 import { openApplicationBundle } from "./appBundle.js";
 import { extractExplorerContent } from "./content.js";
 import { parentExplorerPath } from "./path.js";
 
 /**
- * Opening is discernment rather than suffix dispatch. The Awtsmoos creates name,
- * bytes, and destination together; Awtsmoos.com measures binary identity before
- * sending source to Code, applications to loaders, or mystery to inspection.
+ * Opens a folder, application bundle, social document, preview, or normal file.
+ * @param {object} options Explorer opening context.
+ * @returns {Promise<*>} The result of the selected opening path.
  */
-
-/** Opens a folder, application bundle, remote preview, or workspace file. */
 export async function openExplorerItem({ os, state, navigate, item }) {
 	if (!item) {
 		return null;
@@ -30,13 +38,19 @@ export async function openExplorerItem({ os, state, navigate, item }) {
 	if (kind === WORKSPACE_FILE_KINDS.DIRECTORY) {
 		return await navigate(item.path);
 	}
+	if (isHeichelSocialPost(item)) {
+		return openHeichelWorkspace(os, item);
+	}
 	if (item.raw?.action === "openPreview" && item.raw.url) {
 		return window.open(item.raw.url, "_blank", "noopener");
 	}
 	return await openFile({ os, state, item });
 }
 
-/** Reads one VFS item, detects binary identity, and opens its selected program. */
+/**
+ * Reads one VFS item, detects binary identity, and opens its selected program.
+ * @param {object} options File opening context.
+ */
 export async function openFile({ os, item, programName }) {
 	const response = await os.vfs.read(item.path);
 	const content = extractExplorerContent(response);
@@ -56,12 +70,12 @@ export async function openFile({ os, item, programName }) {
 	return Object.freeze({ item, content, descriptor, artifactIdentity });
 }
 
-/** Explicitly opens any item in Apps Code instead of its default program. */
+/** @param {object} options Explorer open-in-code context. */
 export function openInCode({ os, item }) {
 	return openFile({ os, item, programName: "advancedCodeEditor" });
 }
 
-/** Explicitly opens C or C++ source in the dedicated compiler application. */
+/** @param {object} options Explorer compiler context. */
 export function openInCompiler({ os, item }) {
 	return openFile({ os, item, programName: "awtsmoosCompiler" });
 }

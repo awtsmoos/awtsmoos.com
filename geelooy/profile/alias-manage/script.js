@@ -1,158 +1,113 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
 /**
- * B"H
+ * @module AliasStudio
+ * @description
+ * The Awtsmoos lets identity creation unfold through preview, validation, and
+ * deliberate action; Awtsmoos.com keeps this controller thin while modules serve.
  */
-var params = new URLSearchParams(location.search);
-var ac = params.get("action");
-var alias = params.get("alias")
-var retu = params.get("returnURL") || "/profile"
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById("alias-form");
-    const idValidation = document.getElementById("id-validation");
-    var aliasIdInp = document.getElementById("alias-id");
-    var del = document.getElementById("delete");
-    if(alias) {
-        aliasIdInp.value = alias;
-        aliasIdInp.disabled = true;
-    }
-    // Function to check if custom alias ID is available
-    async function checkAliasId({aliasId, aliasName}) {
-        var params  = new URLSearchParams()
-        if(aliasId) {
-            params.set("inputId", aliasId)
-        }
-        if(aliasName) {
-            params.set("aliasName", aliasName)
-        }
-        const response = await fetch("/api/social/aliases/checkOrGenerateId", {
-            method: "POST",
-            
-            body:params
-        });
-        const data = await response.json();
-        return data;
-    }
+import {
+	getAliasStudioConfig,
+	getAliasStudioRefs
+} from './modules/config.js';
+import { bindAliasDeletion } from './modules/deleteFlow.js';
+import {
+	createValidationScheduler,
+	renderAliasValidation,
+	validateAliasIdentity
+} from './modules/validation.js';
+import {
+	applyPreviewDisclosure,
+	connectAliasPreview,
+	hydrateAliasFields
+} from './modules/preview.js';
+import {
+	readAliasValues,
+	saveAlias,
+	setAliasStudioBusy,
+	setAliasStudioStatus
+} from './modules/actions.js';
 
-    // Function to validate custom alias ID as user types
-    function validateAliasId({aliasId, aliasName}) {
-        checkAliasId({aliasId, aliasName}).then(data => {
-            if (data.error) {
-                if(data.error.code == "INV_NAME_LNGTH") {
-                    idValidation.innerText = "Alias NAME is too long. Max: 50 characters.";
-                } else if(data.error.code == "ALREADY_EXISTS")
-                    idValidation.innerText = "Alias ID already taken. Please choose another.";
-                else if(data.error.code == "NO_PARAMS") {
-                    idValidation.innerText = "You need to enter an alias name and proper alias ID"
-                }
-                else {
-                    console.log("Error:",data)
-                    idValidation.innerText = data.error.message
-                }
-                idValidation.style.color = "red";
-            } else {
-                idValidation.innerText = "Alias ID available!";
-                idValidation.style.color = "green";
-                
-            }
-            if(!aliasId && data.aliasId)
-                aliasIdInp.value = data.aliasId
-        });
-    }
+document.addEventListener('DOMContentLoaded', bootAliasStudio);
 
-    // Event listener for alias name input
-    document.getElementById("alias-name").addEventListener("input", function(e) {
-        validateAliasId({
-            aliasName: e.target.value
-        });
-    });
-    
-    aliasIdInp.addEventListener("input", (e) => {
-        validateAliasId({
-            aliasId: e.target.value
-        });
-    })
-
-    var endpoint = location.origin+"/api/social/aliases" + (alias ? "/"+alias:"");
-    console.log(window.en = endpoint)
-    if(del) {
-        del.onclick = async () => {
-            try {
-                var r = await fetch(endpoint, {
-                    method: "DELETE"
-                });
-                var j = await r.json()
-                console.log(j)
-                alert("Deleted Successfully")
-            } catch(e){
-                alert("PRobelm deleting");
-                console.log(e);
-            }
-        }
-    }
-    // Event listener for form submission
-    form.addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        const aliasName = document.getElementById("alias-name").value;
-        const aliasDescription = document.getElementById("alias-description").value;
-        const aliasId = document.getElementById("alias-id").value;
-
-        // Submit the form data
-        fetch(endpoint, {
-            method: 
-                ac == "update" ? 
-                "PUT" : "POST",
-            
-            body: new URLSearchParams({
-                ...(aliasName? {
-                    aliasName
-                } : {}), 
-                ...(aliasDescription ? {
-                    description:aliasDescription
-                } : {}), 
-                inputId: aliasId,
-                aliasId
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.log(data)
-                alert("Error: " + JSON.stringify(data.error));
-            } else {
-                alert("Alias " + ac == "update" ? "Updated" : "Created" + " successfully!");
-                backToProfile()
-                // Optionally redirect to another page or display a success message
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred. Please try again.");
-            
-        });
-    });
-
-    document.querySelector(".tooltip").addEventListener("mouseenter", showTooltip);
-    
-    // Event listener for hiding tooltip
-    document.querySelector(".tooltip").addEventListener("mouseleave", hideTooltip);
-
-});
-
-// Function to show tooltip at mouse cursor
-function showTooltip(event) {
-    const tooltip = document.querySelector(".tooltiptext");
-    tooltip.style.display = "block";
-    tooltip.style.top = (event.clientY + 10) + "px"; // Add 10px offset to avoid overlapping cursor
-    tooltip.style.left = (event.clientX + 10) + "px"; // Add 10px offset to avoid overlapping cursor
+function bootAliasStudio() {
+	const config = getAliasStudioConfig();
+	const refs = getAliasStudioRefs();
+	if (!config.studio || !refs.form) {
+		return;
+	}
+	hydrateAliasFields(refs, config);
+	applyPreviewDisclosure(refs);
+	const preview = connectAliasPreview(refs, config);
+	const validate = createValidationScheduler(function runValidation() {
+		validateCurrentIdentity(refs, config, preview);
+	});
+	refs.name?.addEventListener('input', validate);
+	refs.aliasId?.addEventListener('input', validate);
+	refs.form.addEventListener('submit', function saveIdentity(event) {
+		submitAlias(event, refs, config);
+	});
+	bindAliasDeletion(refs, config, function returnAfterDelete() {
+		returnToProfile(config.returnURL);
+	});
+	const openingMessage = config.isUpdate
+		? 'Editing an existing identity.'
+		: 'Ready to shape a new identity.';
+	setAliasStudioStatus(refs.status, 'neutral', openingMessage);
 }
 
-// Function to hide tooltip
-function hideTooltip() {
-    const tooltip = document.querySelector(".tooltiptext");
-    tooltip.style.display = "none";
+async function validateCurrentIdentity(refs, config, preview) {
+	if (config.isUpdate && refs.aliasId?.disabled) {
+		renderAliasValidation(refs.validation, {
+			tone: 'neutral',
+			message: `Identity address stays @${config.alias} in update mode.`
+		});
+		return;
+	}
+	try {
+		const result = await validateAliasIdentity({
+			aliasName: refs.name?.value || '',
+			aliasId: refs.aliasId?.value || ''
+		});
+		renderAliasValidation(refs.validation, result);
+		preview.setSuggestedId(result.suggestedId);
+	} catch (error) {
+		renderAliasValidation(refs.validation, {
+			tone: 'error',
+			message: error.message || 'Identity validation is temporarily unavailable.'
+		});
+	}
 }
 
+async function submitAlias(event, refs, config) {
+	event.preventDefault();
+	const values = readAliasValues(refs);
+	if (!values.aliasName) {
+		setAliasStudioStatus(refs.status, 'error', 'Add an alias name before saving.');
+		refs.name?.focus();
+		return;
+	}
+	setAliasStudioBusy(refs, true);
+	setAliasStudioStatus(refs.status, 'busy', 'Saving identity…');
+	try {
+		await saveAlias(config, values);
+		const savedMessage = config.isUpdate ? 'Identity updated.' : 'Identity created.';
+		setAliasStudioStatus(refs.status, 'success', savedMessage);
+		returnToProfile(config.returnURL);
+	} catch (error) {
+		setAliasStudioStatus(
+			refs.status,
+			'error',
+			error.message || 'Identity could not be saved.'
+		);
+	} finally {
+		setAliasStudioBusy(refs, false);
+	}
+}
 
-function backToProfile() {
-    location.href = retu
+function returnToProfile(returnURL) {
+	setTimeout(function navigateToProfile() {
+		location.href = returnURL;
+	}, 420);
 }

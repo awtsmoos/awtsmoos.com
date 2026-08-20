@@ -1,0 +1,109 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives many categories one calm field without endless descent;
+ * Awtsmoos.com keeps the mailbox dense, retractable, mobile-first, and intent.
+ */
+
+.mail-civilization-shell {
+	min-height: calc(100dvh - var(--g-header-height, 4rem));
+	padding: clamp(.6rem, 1.5vw, 1rem);
+}
+
+.mail-workspace-frame {
+	display: grid;
+	grid-template-columns: minmax(17rem, 22rem) minmax(0, 1fr);
+	gap: .8rem;
+	min-height: min(48rem, calc(100dvh - 7.5rem));
+	max-height: calc(100dvh - 7.5rem);
+}
+
+.mail-workspace-frame > :is(aside, main) {
+	min-width: 0;
+	border-radius: var(--g-panel-radius, 1.15rem);
+	overflow: hidden;
+}
+
+.mail-sidebar {
+	display: flex;
+	flex-direction: column;
+	gap: .6rem;
+	min-height: 0;
+	padding: .7rem;
+	background: linear-gradient(180deg, rgb(17 23 35 / 92%), rgb(9 14 22 / 92%));
+}
+
+.mail-sender-category-grid,
+.mail-folder-list {
+	display: flex;
+	gap: .4rem;
+	overflow-x: auto;
+	padding: .1rem .05rem .35rem;
+	scrollbar-width: thin;
+	overscroll-behavior-inline: contain;
+}
+
+.mail-sender-category,
+.mail-folder-tab {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .45rem;
+	min-height: 2.2rem;
+	padding: .38rem .62rem;
+	border: 1px solid rgb(255 255 255 / 7%);
+	border-radius: .75rem;
+	background: rgb(255 255 255 / 2.5%);
+	white-space: nowrap;
+}
+
+.thread-list {
+	min-height: 0;
+	overflow: auto;
+	padding-bottom: max(.5rem, env(safe-area-inset-bottom));
+	overscroll-behavior: contain;
+}
+
+.mail-chat,
+.chat-panel,
+.mail-chat-panel {
+	min-height: 0;
+	overflow: hidden;
+	background: linear-gradient(180deg, rgb(13 18 28 / 94%), rgb(7 11 18 / 96%));
+}
+
+@media (max-width: 820px) {
+	.mail-civilization-shell {
+		padding: .45rem;
+	}
+
+	.mail-workspace-frame {
+		grid-template-columns: 1fr;
+		gap: .5rem;
+		min-height: auto;
+		max-height: none;
+	}
+
+	.mail-sidebar {
+		position: relative;
+		max-height: min(48dvh, 30rem);
+		border-radius: 1rem;
+	}
+
+	.thread-list {
+		max-height: 17rem;
+	}
+
+	.mail-workspace-frame > main {
+		min-height: min(50dvh, 38rem);
+	}
+}
+
+@media (min-width: 821px) {
+	.mail-sidebar {
+		position: sticky;
+		top: calc(var(--g-header-height, 4rem) + .6rem);
+		height: calc(100dvh - 7.5rem);
+	}
+}

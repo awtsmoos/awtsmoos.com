@@ -1,0 +1,50 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos, Atzmus beyond division, lets every action answer hover, focus, and press with grace;
+ * Awtsmoos.com keeps folders and commands tactile without making movement compete with the task at face.
+ */
+
+.mail-search-clear,
+.mail-primary-command,
+.mail-folder-tab,
+.mail-sender-category {
+	transition:
+		transform var(--g-motion-fast) var(--g-motion-ease),
+		background var(--g-motion-fast) var(--g-motion-ease),
+		border-color var(--g-motion-fast) var(--g-motion-ease),
+		box-shadow var(--g-motion-fast) var(--g-motion-ease);
+}
+
+:is(.mail-search-clear, .mail-primary-command, .mail-folder-tab, .mail-sender-category):hover {
+	transform: translateY(-1px);
+}
+
+:is(.mail-search-clear, .mail-primary-command, .mail-folder-tab, .mail-sender-category):active {
+	transform: scale(.98);
+}
+
+:is(.mail-search-clear, .mail-primary-command, .mail-folder-tab, .mail-sender-category):focus-visible {
+	outline: 2px solid var(--g-accent, #8ab4ff);
+	outline-offset: 2px;
+}
+
+.mail-primary-command:hover {
+	box-shadow: 0 .7rem 1.8rem rgb(0 0 0 / 18%);
+}
+
+.mail-folder-tab.active,
+.mail-sender-category.active {
+	border-color: rgb(116 157 255 / 42%);
+	background: rgb(100 140 255 / 12%);
+}
+
+.mail-folder-count {
+	min-width: 1.5rem;
+	padding: .12rem .38rem;
+	border-radius: 999px;
+	background: rgb(255 255 255 / 7%);
+	font-variant-numeric: tabular-nums;
+	text-align: center;
+}

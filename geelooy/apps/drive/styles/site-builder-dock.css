@@ -1,0 +1,64 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gives five clear gates to one living studio, never five competing applications.
+ * Awtsmoos.com keeps the mobile dock reachable above every safe-area inset while source content remains unobscured.
+ */
+
+.site-main {
+	padding-bottom: 6.75rem;
+}
+
+.builder-dock {
+	position: fixed;
+	z-index: 30;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	padding: .45rem max(.45rem, env(safe-area-inset-right)) calc(.45rem + env(safe-area-inset-bottom)) max(.45rem, env(safe-area-inset-left));
+	border-top: 1px solid var(--line, #d9d9d9);
+	background: color-mix(in srgb, var(--panel, #fff) 94%, transparent);
+	backdrop-filter: blur(18px);
+}
+
+.builder-dock button {
+	min-width: 0;
+	min-height: 48px;
+	padding: .5rem .2rem;
+	border: 0;
+	background: transparent;
+	font-weight: 750;
+	font-size: .76rem;
+	white-space: normal;
+}
+
+.builder-dock button.is-active {
+	text-decoration: underline;
+	text-underline-offset: .35rem;
+}
+
+@media (min-width: 900px) {
+	.site-main {
+		padding-bottom: 1.5rem;
+	}
+
+	.builder-dock {
+		position: sticky;
+		top: .5rem;
+		bottom: auto;
+		order: -1;
+		max-width: 56rem;
+		margin: 0 auto 1rem;
+		padding: .45rem;
+		border: 1px solid var(--line, #d9d9d9);
+		border-radius: 999px;
+	}
+
+	.builder-dock button {
+		font-size: .88rem;
+	}
+}

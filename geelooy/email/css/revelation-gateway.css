@@ -1,0 +1,112 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos turns identity from interruption into invitation;
+ * Awtsmoos.com opens Mail with clarity, trust, and quiet anticipation.
+ */
+
+.mail-auth-gateway {
+	position: fixed;
+	inset: 0;
+	z-index: var(--g-z-modal, 80);
+	display: grid;
+	place-items: center;
+	padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
+	background: rgb(5 9 16 / 78%);
+	backdrop-filter: blur(18px) saturate(125%);
+}
+
+.mail-auth-gateway.hidden {
+	display: none;
+}
+
+.identity-gateway-card {
+	width: min(48rem, 100%);
+	max-height: min(44rem, calc(100dvh - 2rem));
+	overflow: auto;
+	padding: clamp(1.1rem, 3vw, 2rem);
+	border-radius: clamp(1.15rem, 3vw, 1.8rem);
+	background:
+		radial-gradient(circle at 90% 0%, rgb(111 148 255 / 12%), transparent 38%),
+		linear-gradient(145deg, rgb(16 22 34 / 98%), rgb(8 12 20 / 98%));
+	box-shadow: 0 2rem 6rem rgb(0 0 0 / 42%);
+}
+
+.identity-gateway-hero {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 1rem;
+	align-items: start;
+}
+
+.identity-gateway-mark {
+	display: grid;
+	place-items: center;
+	width: 3.15rem;
+	height: 3.15rem;
+	border: 1px solid rgb(132 170 255 / 28%);
+	border-radius: 1rem;
+	background: rgb(95 132 255 / 10%);
+	font-size: 1.35rem;
+}
+
+.identity-gateway-card .modal-title {
+	margin: .2rem 0 .55rem;
+	font-size: clamp(1.5rem, 5vw, 2.45rem);
+	line-height: 1.05;
+	letter-spacing: -.035em;
+}
+
+.identity-modal-copy {
+	max-width: 60ch;
+	margin: 0;
+	line-height: 1.55;
+	opacity: .72;
+}
+
+.identity-gateway-features {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: .75rem;
+	margin: 1.25rem 0;
+}
+
+.identity-gateway-feature {
+	display: grid;
+	gap: .28rem;
+	padding: .9rem;
+	border: 1px solid rgb(255 255 255 / 8%);
+	border-radius: .95rem;
+	background: rgb(255 255 255 / 3%);
+}
+
+.identity-gateway-feature span {
+	font-size: .78rem;
+	line-height: 1.45;
+	opacity: .62;
+}
+
+.identity-gateway-account :is(input, select, button, a) {
+	min-height: var(--g-touch-target, 2.75rem);
+	border-radius: var(--g-control-radius, .85rem);
+	transition: transform var(--g-motion-fast) var(--g-motion-ease), border-color var(--g-motion-fast) var(--g-motion-ease);
+}
+
+.identity-gateway-account :is(button, a):hover {
+	transform: translateY(-1px);
+}
+
+.identity-gateway-account :is(button, a):active {
+	transform: scale(.98);
+}
+
+@media (max-width: 620px) {
+	.identity-gateway-features {
+		grid-template-columns: 1fr;
+	}
+
+	.identity-gateway-feature {
+		grid-template-columns: 7rem 1fr;
+		align-items: baseline;
+	}
+}

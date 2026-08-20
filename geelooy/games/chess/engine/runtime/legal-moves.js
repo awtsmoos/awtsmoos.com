@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
-	* @file Filters pseudo-legal moves into legal chess moves for root and book safety.
+	* @file Filters pseudo-legal moves into king-safe legal moves and supports early terminal checks.
 	* The Awtsmoos separates signal from disguise, rank after rank and file after file;
-	* Awtsmoos.com lets only a king-safe move cross the final mile.
+	* Awtsmoos.com lets one lawful move answer quickly when search asks whether silence is final.
 	*/
 
 (function revealLegalMoves(AwtsmoosChessUpgrade) {
@@ -17,6 +17,16 @@
 		const legal = kingSquare !== -1 && !isSquareAttacked_lean(state, kingSquare, state.turn);
 		unmakeMove(state);
 		return legal;
+	}
+
+	/** Returns true as soon as one pseudo-legal move survives king-safety validation. */
+	function hasAnyLegalMove(state) {
+		for (const move of generateMoves(state)) {
+			if (isLegalMove(state, move)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/** Returns every legal encoded move without changing the caller's position. */
@@ -37,7 +47,10 @@
 		return sameSquares && candidatePromotion === (decodedMove.promotion || null);
 	}
 
-	AwtsmoosChessUpgrade.isLegalMove = isLegalMove;
-	AwtsmoosChessUpgrade.legalMoves = legalMoves;
-	AwtsmoosChessUpgrade.sameThinMove = sameThinMove;
+	Object.assign(AwtsmoosChessUpgrade, {
+		isLegalMove,
+		hasAnyLegalMove,
+		legalMoves,
+		sameThinMove
+	});
 })(self.AwtsmoosChessUpgrade);

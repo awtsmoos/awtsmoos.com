@@ -1,6 +1,12 @@
 /* B"H
- * The Awtsmoos lets handheld Torah search breathe beneath the shared shell while keeping source cards compact and readable.
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets handheld Torah search breathe beneath one living source flow;
+ * Awtsmoos.com keeps the primary mobile search path compact while context lives beside it.
  */
+@import url("./mobile-context.css");
+
 @media (max-width: 42rem) {
 	.library-page {
 		gap: .65rem;
@@ -65,14 +71,6 @@
 		align-items: center;
 		min-height: 2rem;
 		padding-inline: 0;
-	}
-
-	.library-discovery-rail {
-		grid-template-columns: 1fr;
-	}
-
-	.library-tip-card {
-		grid-column: auto;
 	}
 
 	.result {

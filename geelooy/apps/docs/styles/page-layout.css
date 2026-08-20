@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond inch and edge; Awtsmoos.com lets one semantic document
+ * wear measured paper or a flowing pageless garment without confusing either form for its essence.
+ */
+.docs-app {
+	--docs-paper-width: 8.5in;
+	--docs-paper-height: 11in;
+	--docs-margin-top: 1in;
+	--docs-margin-right: 1in;
+	--docs-margin-bottom: 1in;
+	--docs-margin-left: 1in;
+}
+
+.docs-app[data-page-mode="page"] .document-canvas {
+	box-sizing: border-box;
+	width: min(100%, var(--docs-paper-width));
+	min-height: var(--docs-paper-height);
+	padding:
+		var(--docs-margin-top)
+		var(--docs-margin-right)
+		var(--docs-margin-bottom)
+		var(--docs-margin-left);
+}
+
+.docs-app[data-page-mode="pageless"] .page-stage {
+	background: var(--docs-surface);
+}
+
+.docs-app[data-page-mode="pageless"] .document-canvas {
+	width: min(100%, 860px);
+	min-height: calc(100vh - 180px);
+	padding: 48px 54px 120px;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.docs-app[data-page-mode="pageless"][data-pageless-width="narrow"] .document-canvas {
+	max-width: 680px;
+}
+
+.docs-app[data-page-mode="pageless"][data-pageless-width="wide"] .document-canvas {
+	max-width: 1120px;
+}
+
+.docs-app[data-page-mode="pageless"][data-pageless-width="full"] .document-canvas {
+	max-width: none;
+}
+
+.document-canvas[data-header-enabled="true"]::before {
+	content: attr(data-header-text);
+	display: block;
+	margin: calc(var(--docs-margin-top) * -0.62) 0 36px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid var(--docs-border);
+	color: var(--docs-muted);
+	font: 12px/1.4 var(--docs-font-ui);
+}
+
+.document-canvas[data-footer-enabled="true"]::after {
+	content: attr(data-footer-text);
+	display: block;
+	margin: 44px 0 calc(var(--docs-margin-bottom) * -0.62);
+	padding-top: 8px;
+	border-top: 1px solid var(--docs-border);
+	color: var(--docs-muted);
+	font: 12px/1.4 var(--docs-font-ui);
+}
+
+.docs-app[data-page-mode="pageless"] .document-canvas::before,
+.docs-app[data-page-mode="pageless"] .document-canvas::after {
+	display: none;
+}

@@ -1,0 +1,55 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets a chosen hue appear inside a crafted frame and glow;
+ * Awtsmoos.com keeps color selection tactile, focused, and clear wherever palettes flow.
+ */
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="color"] {
+	appearance: none;
+	width: 4.4rem;
+	height: 3.2rem;
+	padding: .3rem;
+	border: 1px solid rgba(117, 211, 255, .5);
+	border-radius: var(--g-radius-sm);
+	background: var(--g-control-field);
+	box-shadow: var(--g-control-shadow);
+	cursor: pointer;
+	transition: border-color var(--g-motion-fast) var(--g-ease), box-shadow var(--g-motion-standard) var(--g-ease), transform var(--g-motion-fast) var(--g-ease-pressure);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="color"]::-webkit-color-swatch {
+	border: 0;
+	border-radius: .55rem;
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="color"]:focus-visible {
+	outline: 2px solid var(--g-cyan);
+	outline-offset: 3px;
+	border-color: var(--g-cyan);
+	box-shadow: var(--g-glow);
+}
+
+:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="color"]:disabled {
+	cursor: not-allowed;
+	filter: grayscale(.7);
+	opacity: .48;
+}
+
+@media (hover: hover) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="color"]:hover:not(:disabled) {
+		border-color: var(--g-magenta);
+		box-shadow: var(--g-control-hover);
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(.g-page, .awtsmoosDrop, .geelooy-app-shell, .g-ui-scope) input[type="color"] {
+		transition: none;
+	}
+}

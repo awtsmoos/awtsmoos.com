@@ -1,0 +1,50 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos, Atzmus beyond success and failure, lets feedback remain a servant of the human rather than a wall;
+ * Awtsmoos.com gives server messages a quiet status vessel whose words remain legible, bounded, and accessible to all.
+ */
+
+.server-message,
+#serverMessage {
+	position: relative;
+	margin-top: .85rem;
+	padding: .8rem .9rem .8rem 2.75rem;
+	border: 1px solid var(--auth-line);
+	border-radius: var(--auth-control-radius);
+	background: rgba(255, 255, 255, .035);
+	color: var(--auth-muted);
+	font-size: .84rem;
+	line-height: 1.5;
+	overflow-wrap: anywhere;
+}
+
+.server-message::before,
+#serverMessage::before {
+	position: absolute;
+	top: .72rem;
+	left: .72rem;
+	display: grid;
+	place-items: center;
+	width: 1.45rem;
+	height: 1.45rem;
+	border-radius: .48rem;
+	background: rgba(75, 213, 255, .09);
+	color: var(--auth-cyan);
+	content: "i";
+	font-weight: 900;
+}
+
+.server-message:empty,
+#serverMessage:empty {
+	display: none;
+}
+
+.login-form[aria-busy="true"] button,
+.login-form button:disabled {
+	cursor: progress;
+	filter: saturate(.62);
+	opacity: .72;
+	transform: none;
+}

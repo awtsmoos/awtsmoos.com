@@ -10,6 +10,7 @@ import { createFrameworkJavaByteOrderMethods } from "./frameworkJavaByteOrders.j
 import { createFrameworkJavaCharsetMethods } from "./frameworkJavaCharsets.js";
 import { createFrameworkJavaDoubleMethods } from "./frameworkJavaDoubles.js";
 import { createFrameworkJavaEnumMethods } from "./frameworkJavaEnums.js";
+import { createFrameworkJavaFloatMethods } from "./frameworkJavaFloats.js";
 import { createFrameworkJavaIntegerFamily } from "./frameworkJavaIntegerFamily.js";
 import { createFrameworkJavaLocaleMethods } from "./frameworkJavaLocales.js";
 import { createFrameworkJavaNumberMethods } from "./frameworkJavaNumbers.js";
@@ -21,8 +22,8 @@ import { createFrameworkJsonMethods } from "./frameworkJsonObjects.js";
 
 /**
  * Reveals typed Java value families behind one Object doorway. The Awtsmoos
- * recreates constructor, Boolean, charset, number, exception, Unsafe token, JSON,
- * and metadata anew; Awtsmoos.com routes each bounded law through one family.
+ * recreates constructor, primitive wrappers, charset, number, exception, Unsafe,
+ * JSON, and metadata anew; Awtsmoos.com keeps older precedence stable as Float joins.
  */
 export function createFrameworkJavaValueFamilies(runtime) {
 	return Object.freeze([
@@ -41,6 +42,7 @@ export function createFrameworkJavaValueFamilies(runtime) {
 		createFrameworkJavaObjectStreamFieldMethods(runtime),
 		createFrameworkJavaRuntimeExceptionMethods(runtime),
 		createFrameworkJavaUnsafeMethods(runtime),
-		createFrameworkJsonMethods(runtime)
+		createFrameworkJsonMethods(runtime),
+		createFrameworkJavaFloatMethods(runtime)
 	]);
 }

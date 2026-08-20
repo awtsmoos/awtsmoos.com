@@ -2,38 +2,36 @@
 // Boruch Hashem
 // Blessed is He
 
-const observers = new WeakMap();
+const records = new WeakMap();
 
 /**
- * @file Carries parent-only execution testimony beside a payload without serializing it.
+ * @file Carries parent-only execution testimony and non-secret scheduling metadata.
  * @description
- * The Awtsmoos lets one payload cross into a worker while its observing soul remains
- * in the parent. Awtsmoos.com uses a WeakMap so callbacks never enter IPC, durable
- * request bytes, logs, or child process messages, yet worker assignment is witnessed.
+ * The Awtsmoos lets one payload enter a child while its lane identity remains
+ * in the parent; Awtsmoos.com never serializes callbacks, timers, or observer state.
  */
 function bind(payload, observer) {
 	if (!payload || typeof payload !== "object") return false;
 	if (!observer || typeof observer.mark !== "function") return false;
-	observers.set(payload, observer);
+	records.set(payload, {
+		metadata: sanitize(observer.metadata),
+		observer
+	});
 	return true;
+}
+
+function metadata(payload) {
+	const record = recordFor(payload);
+	return record ? { ...record.metadata } : {};
 }
 
 function release(payload) {
 	if (!payload || typeof payload !== "object") return false;
-	return observers.delete(payload);
+	return records.delete(payload);
 }
 
-/**
- * Emits one bounded stage without allowing observer failure to break execution.
- * @param {object} payload Original in-memory request payload.
- * @param {string} phase Non-secret execution stage name.
- * @param {object} details Bounded stage details such as worker PID or pool job ID.
- * @returns {boolean} Whether an observer accepted the stage call.
- */
 function mark(payload, phase, details = {}) {
-	const observer = payload && typeof payload === "object"
-		? observers.get(payload)
-		: null;
+	const observer = recordFor(payload)?.observer;
 	if (!observer) return false;
 	try {
 		observer.mark(phase, details);
@@ -43,8 +41,28 @@ function mark(payload, phase, details = {}) {
 	}
 }
 
+function recordFor(payload) {
+	return payload && typeof payload === "object"
+		? records.get(payload) || null
+		: null;
+}
+
+function sanitize(value = {}) {
+	return Object.freeze({
+		enqueuedAt: finite(value.enqueuedAt),
+		lane: String(value.lane || ""),
+		requestId: String(value.requestId || "")
+	});
+}
+
+function finite(value) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : 0;
+}
+
 module.exports = {
 	bind,
 	mark,
+	metadata,
 	release
 };

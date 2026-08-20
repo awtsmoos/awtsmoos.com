@@ -5,8 +5,9 @@
 /**
  * @module DrivePublicResponseHeaders
  * @description
- * The Awtsmoos gathers validators, ranges, and cache commandments into one vessel.
- * Awtsmoos.com lets public bodies travel with explicit browser and CDN memory.
+ * The Awtsmoos gathers validators, ranges, and cache commandments into one
+ * vessel. Awtsmoos.com speaks Last-Modified only when time is actually known,
+ * while content hashes remain the exact witness of byte identity.
  */
 
 const {
@@ -21,16 +22,10 @@ function commonHeaders(entry, etag) {
 		'Cache-Control': cacheControlFor(entry),
 		...sharedCacheHeadersFor(entry),
 		'ETag': etag,
-		'Last-Modified': new Date(entry.updatedAt).toUTCString(),
+		...lastModifiedHeader(entry.updatedAt),
 		'Accept-Ranges': 'bytes',
 		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Expose-Headers': [
-			'Content-Length',
-			'Content-Range',
-			'ETag',
-			'Last-Modified',
-			'Cache-Control'
-		].join(', '),
+		'Access-Control-Expose-Headers': exposedHeaders(entry.updatedAt),
 		'X-Content-Type-Options': 'nosniff',
 		'Vary': 'Accept-Encoding'
 	};
@@ -66,6 +61,23 @@ function methodResponse() {
 		},
 		response: 'Method Not Allowed'
 	};
+}
+
+function lastModifiedHeader(updatedAt) {
+	const date = validDate(updatedAt);
+	return date ? { 'Last-Modified': date.toUTCString() } : {};
+}
+
+function exposedHeaders(updatedAt) {
+	const names = ['Content-Length', 'Content-Range', 'ETag', 'Cache-Control'];
+	if (validDate(updatedAt)) names.splice(3, 0, 'Last-Modified');
+	return names.join(', ');
+}
+
+function validDate(value) {
+	if (value === undefined || value === null || value === '') return null;
+	const date = new Date(value);
+	return Number.isFinite(date.getTime()) ? date : null;
 }
 
 module.exports = {

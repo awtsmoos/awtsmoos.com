@@ -1,0 +1,128 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos arranges rail beside stream with measured space; Awtsmoos.com keeps signals near without turning the whole page into an endless race.
+*/
+.notifications-workspace {
+	display: grid;
+	gap: 14px;
+	max-width: 82rem;
+}
+
+.notifications-hero {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 18px;
+	padding: clamp(18px, 3vw, 30px);
+	background: linear-gradient(135deg, color-mix(in srgb, var(--g-cyan) 8%, var(--g-surface)), color-mix(in srgb, var(--g-violet) 9%, var(--g-surface)));
+}
+
+.notifications-hero-copy {
+	max-width: 48rem;
+}
+
+.notifications-hero-copy h1,
+.notifications-stream-heading h2,
+.notifications-rail-heading h2 {
+	margin: 3px 0 0;
+}
+
+.notifications-hero-copy p,
+.notifications-rail-heading p {
+	margin: 7px 0 0;
+	color: var(--g-muted);
+	line-height: 1.55;
+}
+
+.notifications-kicker {
+	color: var(--g-cyan);
+	font-size: .69rem;
+	font-weight: 850;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+}
+
+.notifications-hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.notifications-layout {
+	display: grid;
+	grid-template-columns: minmax(15rem, 19rem) minmax(0, 1fr);
+	gap: 14px;
+	align-items: start;
+}
+
+.notifications-control-rail,
+.notifications-stream {
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-lg);
+	background: color-mix(in srgb, var(--g-surface) 94%, transparent);
+	box-shadow: var(--g-shadow-float);
+}
+
+.notifications-control-rail {
+	position: sticky;
+	top: calc(var(--g-header-h) + 1.7rem);
+	display: grid;
+	gap: 14px;
+	padding: 16px;
+}
+
+.notifications-stream {
+	min-width: 0;
+	overflow: hidden;
+	padding: 14px;
+}
+
+.notifications-stream-heading {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 2px 2px 12px;
+}
+
+.notifications-stream-hint {
+	color: var(--g-muted);
+	font-size: .74rem;
+}
+
+.notifications-list {
+	max-block-size: min(62dvh, 48rem);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+}
+
+.notifications-more {
+	display: flex;
+	width: fit-content;
+	margin: 12px auto 2px;
+}
+
+@media (max-width: 760px) {
+	.notifications-hero {
+		align-items: start;
+		flex-direction: column;
+	}
+
+	.notifications-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.notifications-control-rail {
+		position: static;
+	}
+
+	.notifications-list {
+		max-block-size: min(58dvh, 40rem);
+	}
+
+	.notifications-stream-hint {
+		display: none;
+	}
+}

@@ -4,12 +4,18 @@
 
 /**
  * @file BootstrapPlayerRuntime.js
- * @description Mounts immediate canonical Chossid play while preserving deferred rich-frame actor contracts from first play.
- * The Awtsmoos reveals one traveler before the crowd without making later absence dangerous; Awtsmoos.com binds
- * the real Chossid now and the canonical no-op actor vessels beside him until streamed actors replace them in their hour.
+ * @description Mounts immediate Chossid play and promotes the real grounded GLB just beyond first control.
+ * The Awtsmoos lets a humble local form answer the hand before the authored garment is revealed;
+ * Awtsmoos.com keeps state, collision, camera height, and movement alive while canonical humanity is sealed.
  */
 
 import { createBootstrapVisiblePlayer } from './BootstrapVisiblePlayer.js';
+import { scheduleBootstrapCanonicalPlayerHydration } from './BootstrapCanonicalPlayerHydration.js';
+import {
+	createBootstrapAnimationHandle,
+	isFallbackPlayer,
+	prepareBootstrapPlayerMeshes
+} from './BootstrapPlayerPresentation.js';
 import { createDeferredActorSystems } from './EretzDeferredActorPlaceholders.js';
 import { installCanonicalChossidAnimation } from './MinimalMeadowCanonicalAnimation.js';
 import { hydrateReadablePlayerMaterials } from './MinimalMeadowPlayerMaterialHydrator.js';
@@ -21,18 +27,24 @@ import {
 	createBootstrapPlayerState,
 	createBootstrapPlayerStats
 } from './EretzPlayerStateFactory.js';
-import { hydrateMinimalMeadowPlayer } from './MinimalMeadowPlayerHydration.js';
 
 const CANONICAL_PLAYER_SCALE = 1.52;
 
 export function createBootstrapPlayerRuntime(foundation) {
 	const model = foundation.playerGltf.scene;
+	const fallback = isFallbackPlayer(foundation.playerGltf);
 	model.name ||= 'Awtsmoos_minimal_meadow_player';
 	model.position.set(0, 0, 0);
-	model.scale?.set?.(CANONICAL_PLAYER_SCALE, CANONICAL_PLAYER_SCALE, CANONICAL_PLAYER_SCALE);
+	model.scale?.set?.(
+		CANONICAL_PLAYER_SCALE,
+		CANONICAL_PLAYER_SCALE,
+		CANONICAL_PLAYER_SCALE
+	);
 	model.visible = true;
 	model.setBaseTransform?.();
-	let meshCount = prepareCanonicalPlayerMeshes(model);
+	let meshCount = fallback
+		? prepareBootstrapPlayerMeshes(model)
+		: prepareCanonicalPlayerMeshes(model);
 	let visiblePlayer = model;
 	if (meshCount === 0) {
 		visiblePlayer = createBootstrapVisiblePlayer();
@@ -42,9 +54,11 @@ export function createBootstrapPlayerRuntime(foundation) {
 	if (!model.parent) foundation.scene.add(model);
 	const state = createBootstrapPlayerState();
 	const deferredActors = createDeferredActorSystems();
-	let runtime = null;
-	const player = bootstrapAnimationHandle(foundation.playerGltf.animations || [], state);
-	runtime = {
+	const player = createBootstrapAnimationHandle(
+		foundation.playerGltf.animations || [],
+		state
+	);
+	const runtime = {
 		...foundation,
 		...createBootstrapPlayerVessels(foundation),
 		...deferredActors,
@@ -57,16 +71,21 @@ export function createBootstrapPlayerRuntime(foundation) {
 		visiblePlayer,
 		worldActorsReady: false
 	};
-	startCanonicalPlayer(runtime, foundation, visiblePlayer === model, meshCount);
+	startCanonicalPlayer(
+		runtime,
+		foundation,
+		!fallback && visiblePlayer === model,
+		meshCount
+	);
 	return runtime;
 }
 
 function startCanonicalPlayer(runtime, foundation, alreadyCanonical, meshCount) {
 	if (!alreadyCanonical) {
-		runtime.canonicalPlayerPromise = hydrateMinimalMeadowPlayer(
+		scheduleBootstrapCanonicalPlayerHydration(
 			runtime,
-			foundation.environment || globalThis,
-			foundation.playerHydrationDependencies || {}
+			foundation,
+			foundation.environment || globalThis
 		);
 		return;
 	}
@@ -84,19 +103,6 @@ function startCanonicalPlayer(runtime, foundation, alreadyCanonical, meshCount) 
 		scale: CANONICAL_PLAYER_SCALE,
 		status: 'ready'
 	});
+	runtime.canonicalPlayerHydrationStage = 'ready';
 	runtime.canonicalPlayerPromise = Promise.resolve(runtime.canonicalPlayer);
-}
-
-function bootstrapAnimationHandle(animations, state) {
-	return {
-		diagnostics: () => ({
-			action: state.action,
-			animations: animations.length,
-			bootstrap: true,
-			lifecycle: state.lifecycle
-		}),
-		names: animations.map(clip => clip.name || ''),
-		play() {},
-		update() {}
-	};
 }

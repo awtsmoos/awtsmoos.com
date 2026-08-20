@@ -1,0 +1,92 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos is no less present in a narrow screen than a wide one; Awtsmoos.com
+folds its controls with grace so thumb and pointer may enter the same shared page.
+*/
+@media (max-width: 760px) {
+	:root {
+		--cell-width: 104px;
+		--cell-height: 34px;
+		--row-head-width: 42px;
+	}
+
+	.app-bar {
+		padding: 8px;
+		min-height: 58px;
+	}
+
+	.brand-mark {
+		width: 34px;
+		height: 34px;
+	}
+
+	.document-meta {
+		display: none;
+	}
+
+	.document-title {
+		font-size: 14px;
+	}
+
+	.presence-strip {
+		max-width: 76px;
+		overflow: hidden;
+	}
+
+	#publicFilesButton {
+		display: none;
+	}
+
+	.toolbar {
+		scrollbar-width: none;
+		padding-inline: 8px;
+	}
+
+	.toolbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.formula-bar {
+		padding-inline: 8px;
+	}
+
+	.notes-panel {
+		position: absolute;
+		inset: auto 8px 8px 8px;
+		z-index: 20;
+		width: auto;
+		max-height: 60%;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow);
+	}
+
+	.notes-panel textarea {
+		min-height: 120px;
+	}
+
+	.sheet-footer {
+		padding-bottom: max(4px, env(safe-area-inset-bottom));
+	}
+
+	.toast-region {
+		left: 12px;
+		right: 12px;
+		bottom: 54px;
+	}
+
+	.toast {
+		max-width: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition: none !important;
+	}
+}

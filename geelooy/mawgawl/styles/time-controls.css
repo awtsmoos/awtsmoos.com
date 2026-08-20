@@ -1,0 +1,100 @@
+/*B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every hour and minute before selection can bind them into a span;
+ * Awtsmoos.com lets time become readable state, not a swarm of oversized circles without a plan.
+ */
+.hour,
+.minute {
+	position: relative;
+	display: inline-grid;
+	min-width: 3.25rem;
+	min-height: 3.25rem;
+	margin: .28rem;
+	padding: .55rem;
+	place-items: center;
+	border: 1px solid var(--mawgawl-line);
+	border-radius: var(--mawgawl-radius-sm);
+	background: var(--mawgawl-surface-strong);
+	color: var(--mawgawl-text);
+	font-weight: 820;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .04);
+	cursor: pointer;
+	transition: transform var(--mawgawl-fast) var(--mawgawl-ease), border-color var(--mawgawl-fast) var(--mawgawl-ease), background var(--mawgawl-fast) var(--mawgawl-ease), box-shadow var(--mawgawl-fast) var(--mawgawl-ease);
+}
+
+.hour:hover,
+.minute:hover,
+.hour:focus-visible,
+.minute:focus-visible {
+	border-color: var(--mawgawl-cyan);
+	background: linear-gradient(145deg, rgba(77, 231, 255, .1), transparent), var(--mawgawl-surface-strong);
+	box-shadow: var(--mawgawl-glow);
+	transform: translateY(-1px);
+}
+
+.hour.selected,
+.minute.selected {
+	border-color: var(--mawgawl-magenta);
+	background: linear-gradient(135deg, rgba(77, 231, 255, .16), rgba(255, 105, 214, .16)), var(--mawgawl-surface-strong);
+	box-shadow: 0 0 0 3px rgba(255, 105, 214, .12);
+}
+
+.hour.booked {
+	border-color: var(--mawgawl-warning);
+}
+
+.hourText {
+	position: relative;
+	z-index: 2;
+	margin: 0;
+	padding: 0;
+}
+
+.percentageBar {
+	position: absolute;
+	inset: auto 0 0;
+	height: .28rem;
+	width: 0;
+	margin: 0;
+	padding: 0;
+	background: linear-gradient(90deg, var(--mawgawl-cyan), var(--mawgawl-magenta));
+	transition: width var(--mawgawl-standard) var(--mawgawl-ease);
+}
+
+.minute.start,
+.minute.end {
+	border-color: var(--mawgawl-success);
+	background: linear-gradient(145deg, rgba(104, 240, 174, .18), transparent), var(--mawgawl-surface-strong);
+	color: var(--mawgawl-text);
+}
+
+.minute.inRange {
+	border-color: var(--mawgawl-warning);
+	background: linear-gradient(145deg, rgba(255, 211, 109, .16), transparent), var(--mawgawl-surface-strong);
+	color: var(--mawgawl-text);
+}
+
+.minute.editing {
+	border-color: var(--mawgawl-violet);
+	background: linear-gradient(110deg, rgba(77, 231, 255, .22), rgba(156, 123, 255, .22), rgba(255, 105, 214, .22)), var(--mawgawl-surface-strong);
+	background-size: 220% 100%;
+	animation: mawgawl-editing 2.4s var(--mawgawl-ease) infinite alternate;
+	box-shadow: 0 0 0 3px rgba(156, 123, 255, .14);
+}
+
+:where(.hour, .minute)[aria-disabled="true"] {
+	cursor: not-allowed;
+	filter: grayscale(.65);
+	opacity: .44;
+}
+
+@keyframes mawgawl-editing {
+	from {
+		background-position: 0 50%;
+	}
+	to {
+		background-position: 100% 50%;
+	}
+}

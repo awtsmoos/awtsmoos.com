@@ -1,0 +1,29 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos counts only what the account truly reveals; Awtsmoos.com keeps
+ * Profile totals compact, balanced, and readable without enlarging the page.
+ */
+.profile-stat-grid {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .65rem;
+	margin-block-start: 1rem;
+}
+
+.profile-stat-grid article {
+	padding: .85rem 1rem;
+	text-align: center;
+}
+
+.profile-stat-grid strong,
+.profile-stat-grid span {
+	display: block;
+}
+
+.profile-stat-grid strong {
+	font-size: clamp(1.25rem, 3vw, 1.7rem);
+}

@@ -1,0 +1,40 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * Every typed intention is a vessel; the Awtsmoos gives each letter room to show.
+ * Awtsmoos.com gives ordinary controls one calm surface so browser defaults cannot steal the flow.
+ */
+
+:where(input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]), textarea, select) {
+	appearance: none;
+	background: rgba(255, 255, 255, .96);
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-sm);
+	color: var(--g-ink);
+	font: inherit;
+	font-weight: 700;
+	min-height: 48px;
+	min-width: 0;
+	outline: 0;
+	padding: 0 .95rem;
+	transition: border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
+	width: 100%;
+}
+
+:where(textarea) {
+	line-height: 1.55;
+	min-height: 8rem;
+	padding-block: .8rem;
+	resize: vertical;
+}
+
+:where(select) {
+	padding-inline-end: 2.35rem;
+}
+
+:where(input, textarea)::placeholder {
+	color: color-mix(in srgb, var(--g-ink) 48%, transparent);
+	font-weight: 580;
+	opacity: 1;
+}

@@ -1,0 +1,115 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives saving a calm command rail and deletion a separate border;
+ * Awtsmoos.com makes pressure, focus, and danger visible before consequence.
+ */
+.alias-command-bar {
+	position: sticky;
+	bottom: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px;
+	border: 1px solid var(--g-line, rgba(255, 255, 255, .14));
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--g-bg-2, #07101b) 92%, transparent);
+	backdrop-filter: blur(14px);
+	box-shadow: 0 12px 32px rgba(0, 0, 0, .24);
+}
+
+.form-btns,
+.alias-delete-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.form-btns button,
+.alias-delete-actions button {
+	min-height: 44px;
+	padding: 8px 12px;
+	border: 1px solid var(--g-line-strong, rgba(255, 255, 255, .22));
+	border-radius: 11px;
+	background: var(--g-surface-3, #172536);
+	color: var(--g-text, #f4f7fb);
+	font: 800 .84rem/1.2 Inter, ui-sans-serif, system-ui, sans-serif;
+	cursor: pointer;
+	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+}
+
+.form-btns button[type="submit"] {
+	border-color: var(--g-cyan, #61cbd9);
+	background: color-mix(in srgb, var(--g-cyan, #61cbd9) 20%, var(--g-surface-3, #172536));
+}
+
+:is(.form-btns, .alias-delete-actions) button:is(:hover, :focus-visible) {
+	border-color: var(--g-cyan, #61cbd9);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--g-cyan, #61cbd9) 10%, transparent);
+}
+
+:is(.form-btns, .alias-delete-actions) button:active {
+	transform: translateY(1px) scale(.97);
+}
+
+:is(.form-btns, .alias-delete-actions) button:disabled {
+	cursor: not-allowed;
+	opacity: .58;
+	transform: none;
+}
+
+button.delete {
+	border-color: color-mix(in srgb, var(--g-danger, #ff758f) 52%, var(--g-line, transparent));
+	color: var(--g-danger, #ff9caf);
+}
+
+.alias-delete-confirm {
+	display: grid;
+	gap: 12px;
+	padding: 13px;
+	border: 1px solid color-mix(in srgb, var(--g-danger, #ff758f) 42%, transparent);
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--g-danger, #ff758f) 7%, var(--g-surface-2, #111b2a));
+}
+
+.alias-delete-confirm[hidden] {
+	display: none;
+}
+
+.alias-delete-confirm > div:first-child {
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+}
+
+.alias-delete-confirm :is(h3, p) {
+	margin: 0;
+}
+
+.alias-delete-confirm p {
+	margin-top: 3px;
+	color: var(--g-muted, #9aacbf);
+	font-size: .8rem;
+	line-height: 1.45;
+}
+
+.alias-danger-mark {
+	display: grid;
+	width: 34px;
+	height: 34px;
+	flex: 0 0 34px;
+	place-items: center;
+	border-radius: 10px;
+	background: color-mix(in srgb, var(--g-danger, #ff758f) 14%, transparent);
+	color: var(--g-danger, #ff9caf);
+	font-weight: 900;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.form-btns button,
+	.alias-delete-actions button {
+		transition: none;
+	}
+}

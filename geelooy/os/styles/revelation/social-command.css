@@ -1,0 +1,147 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every signal while the interface keeps each layer clear;
+ * Awtsmoos.com turns the social command chamber into a focused, retractable sphere.
+ */
+.geelooy-os-social-panel {
+	--social-panel-line: rgba(255, 255, 255, .13);
+	--social-panel-soft: rgba(255, 255, 255, .055);
+	--social-panel-accent: #79e8ff;
+	--social-panel-violet: #bca9ff;
+	box-sizing: border-box;
+	display: grid;
+	gap: 1rem;
+	inline-size: min(64rem, 100%);
+	padding: clamp(.8rem, 2vw, 1.2rem);
+	color: #f7fbff;
+}
+
+.geelooy-os-social-panel *,
+.geelooy-os-social-panel *::before,
+.geelooy-os-social-panel *::after {
+	box-sizing: border-box;
+}
+
+.geelooy-os-social-panel__hero,
+.geelooy-os-social-panel__surface,
+.geelooy-os-social-panel__card {
+	border: 1px solid var(--social-panel-line);
+	border-radius: 1.1rem;
+	background: linear-gradient(145deg, rgba(13, 25, 48, .95), rgba(5, 11, 24, .97));
+	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .22);
+}
+
+.geelooy-os-social-panel__hero,
+.geelooy-os-social-panel__surface {
+	padding: 1rem;
+}
+
+.geelooy-os-social-panel__hero {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 1rem;
+	align-items: end;
+}
+
+.geelooy-os-social-panel__eyebrow {
+	color: var(--social-panel-accent);
+	font-size: .72rem;
+	font-weight: 900;
+	letter-spacing: .13em;
+}
+
+.geelooy-os-social-panel h2,
+.geelooy-os-social-panel h3,
+.geelooy-os-social-panel p {
+	margin: 0;
+}
+
+.geelooy-os-social-panel__hero p,
+.geelooy-os-social-panel__card p,
+.g-social-status {
+	color: rgba(232, 240, 255, .7);
+	line-height: 1.5;
+}
+
+.geelooy-os-social-panel__links,
+.geelooy-os-social-panel__grid,
+.geelooy-os-social-panel__preview-list,
+.geelooy-os-social-panel__actions {
+	display: grid;
+	gap: .65rem;
+}
+
+.geelooy-os-social-panel__links,
+.geelooy-os-social-panel__grid {
+	grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+}
+
+.geelooy-os-social-panel__card,
+.geelooy-os-social-panel__action {
+	display: grid;
+	gap: .45rem;
+	min-block-size: 3.2rem;
+	padding: .8rem;
+	color: #f7fbff;
+	text-decoration: none;
+}
+
+.geelooy-os-social-panel__card small,
+.geelooy-os-social-panel__action small {
+	color: rgba(232, 240, 255, .62);
+}
+
+.geelooy-os-social-panel__action {
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	border: 1px solid var(--social-panel-line);
+	border-radius: .9rem;
+	background: var(--social-panel-soft);
+}
+
+.geelooy-os-social-panel button,
+.geelooy-os-social-panel input,
+.geelooy-os-social-panel textarea,
+.geelooy-os-social-panel select {
+	min-block-size: 2.9rem;
+	border-radius: .8rem;
+	font: inherit;
+}
+
+.geelooy-os-social-panel input,
+.geelooy-os-social-panel textarea,
+.geelooy-os-social-panel select {
+	inline-size: 100%;
+	padding: .65rem .75rem;
+	border: 1px solid var(--social-panel-line);
+	background: rgba(255, 255, 255, .06);
+	color: #fff;
+}
+
+.geelooy-os-social-panel :is(a, button):is(:hover, :focus-visible) {
+	border-color: var(--social-panel-accent);
+	transform: translateY(-2px);
+}
+
+.geelooy-os-social-panel :focus-visible {
+	outline: 3px solid rgba(121, 232, 255, .35);
+	outline-offset: 2px;
+}
+
+@media (max-width: 620px) {
+	.geelooy-os-social-panel__hero {
+		grid-template-columns: 1fr;
+	}
+	.geelooy-os-social-panel__links,
+	.geelooy-os-social-panel__grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-os-social-panel * {
+		transition: none !important;
+		scroll-behavior: auto !important;
+	}
+}

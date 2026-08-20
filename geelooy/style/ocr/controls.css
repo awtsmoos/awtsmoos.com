@@ -1,0 +1,72 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives every control a purpose the hand can understand;
+Awtsmoos.com leaves no native vessel naked, every focus ring a guiding strand.
+*/
+.ocr-app .ocr-field {
+	display: grid;
+	gap: .5rem;
+	margin-bottom: .85rem;
+	color: var(--ocr-muted);
+	font-size: .8rem;
+	font-weight: 760;
+}
+
+.ocr-app .ocr-field select {
+	width: 100%;
+	min-height: 3rem;
+	padding: 0 2.7rem 0 .9rem;
+	border: 1px solid var(--ocr-border);
+	border-radius: var(--ocr-radius-sm);
+	appearance: none;
+	background: var(--ocr-surface-strong) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2372e5ff' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") calc(100% - .9rem) 50% / .9rem no-repeat;
+	color: var(--ocr-text);
+	font: inherit;
+}
+
+.ocr-app textarea {
+	display: block;
+	width: 100%;
+	min-height: 14rem;
+	max-height: 46dvh;
+	padding: .95rem;
+	resize: vertical;
+	border: 1px solid var(--ocr-border);
+	border-radius: var(--ocr-radius-md);
+	outline: none;
+	background: rgba(3, 10, 18, .72);
+	color: var(--ocr-text);
+	font: 500 .9rem/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	unicode-bidi: plaintext;
+}
+
+.ocr-actions {
+	display: flex;
+	gap: .45rem;
+	margin-left: auto;
+}
+
+.ocr-app .ocr-actions button {
+	min-height: 2.55rem;
+	padding: 0 .78rem;
+	border: 1px solid var(--ocr-border);
+	border-radius: .72rem;
+	background: var(--ocr-surface-soft);
+	color: var(--ocr-text);
+	font: inherit;
+	font-size: .76rem;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.ocr-app .ocr-actions button:disabled {
+	opacity: .38;
+	cursor: not-allowed;
+}
+
+.ocr-app :is(a, select, textarea, button, .ocr-file-field):focus-visible {
+	outline: none;
+	box-shadow: var(--ocr-focus);
+}

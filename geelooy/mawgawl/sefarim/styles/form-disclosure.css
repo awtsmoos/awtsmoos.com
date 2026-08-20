@@ -1,0 +1,69 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps every search lane present while granting the eye a quieter shore;
+ * Awtsmoos.com folds strategy and scope into one clear summary, then reveals more.
+ */
+.library-search-options {
+	align-self: stretch;
+	background: #060c15;
+	border: 1px solid rgba(151, 178, 205, .2);
+	border-radius: .72rem;
+	min-width: 0;
+}
+
+.library-search-options-summary {
+	align-items: center;
+	cursor: pointer;
+	display: grid;
+	gap: .22rem;
+	min-height: 3.25rem;
+	padding: .58rem .85rem;
+}
+
+.library-search-options-summary::marker {
+	color: #55d0e7;
+}
+
+.library-search-options-summary strong {
+	color: #f4f1e8;
+	font-size: .8rem;
+}
+
+.library-search-options-summary span {
+	color: #91a2b5;
+	font-size: .72rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.library-search-options[open] {
+	grid-column: 1 / -1;
+}
+
+.library-search-options[open] .library-search-options-summary {
+	border-bottom: 1px solid rgba(151, 178, 205, .16);
+}
+
+.library-search-options-grid {
+	display: grid;
+	gap: .7rem;
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+	padding: .8rem;
+}
+
+.library-search-options:focus-within {
+	border-color: rgba(85, 208, 231, .72);
+}
+
+@media (max-width: 42rem) {
+	.library-search-options-summary span {
+		max-width: 70vw;
+	}
+
+	.library-search-options-grid {
+		grid-template-columns: 1fr;
+	}
+}

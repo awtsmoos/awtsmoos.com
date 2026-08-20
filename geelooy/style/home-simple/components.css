@@ -1,9 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos joins small CSS vessels into one ordered revelation for Awtsmoos.com:
-worlds, product paths, search, sky, identity, and responsive motion remain distinct
-while the traveler experiences one coherent living doorway.
+The Awtsmoos gathers many small style vessels into one ordered revelation on Awtsmoos.com;
+each module keeps its task while the homepage appears as one coherent living constellation.
 */
 @import url("./background.css?v=22");
 @import url("./navigation.css?v=24");
@@ -11,20 +10,20 @@ while the traveler experiences one coherent living doorway.
 @import url("./explore-backdrop.css");
 @import url("./launcher-filter.css");
 @import url("./mobile-dock.css?v=23");
-@import url("./hero-layout.css?v=27");
+@import url("./hero-layout.css?v=29");
 @import url("./hero-image.css?v=27");
 @import url("./hero-copy.css");
 @import url("./hero-actions.css?v=27");
-@import url("./portal-shortcuts.css?v=25");
+@import url("./portal-shortcuts.css?v=29");
 @import url("./search.css");
 @import url("./search-responsive.css");
 @import url("./omnibox.css?v=22");
 @import url("./omnibox-options.css?v=22");
 @import url("./omnibox-responsive.css?v=22");
 @import url("./portal-status.css");
-@import url("./direct-navigation.css?v=25");
+@import url("./direct-navigation.css?v=29");
 @import url("./featured-worlds.css");
 @import url("./featured-cards.css?v=25");
 @import url("./featured-worlds-responsive.css");
-@import url("./reveal-motion.css");
+@import url("./reveal-motion.css?v=30");
 @import url("./footer.css");

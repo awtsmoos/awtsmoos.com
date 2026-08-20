@@ -4,9 +4,9 @@
 
 /**
  * @file EretzCanonicalWorldHandoff.js
- * @description Promotes one complete canonical valley while retiring every independent bootstrap visual and collision vessel.
- * The Awtsmoos does not leave yesterday's provisional streets beneath today's mountain; Awtsmoos.com mounts the true
- * world first, closes the bootstrap district stream, releases its old collision, then renews mover, jump, ground, and scene.
+ * @description Promotes one complete canonical valley, its collision, and its matched friendly-village seed.
+ * The Awtsmoos does not leave provisional streets or nameless silence beneath today's mountain;
+ * Awtsmoos.com renews terrain, ground, people, mover, and scene together from one canonical fountain.
  */
 
 import { canonicalizeSceneMaterials } from '../assets/SceneMaterialCanonicalizer.js';
@@ -32,6 +32,7 @@ export function applyCanonicalWorldPromotion(context, promotion) {
 		bootstrapDistrictsReleased: retirement.districtsReleased,
 		bootstrapTrianglesRemoved: retirement.trianglesRemoved,
 		colliders: promotion.terrain.colliders.length,
+		friendlyProfiles: promotion.npcProfiles?.length || 0,
 		quality: promotion.terrain.stats.quality,
 		status: 'ready',
 		villageDefinitions: promotion.terrain.village?.definitions?.length || 0
@@ -51,27 +52,27 @@ function retireBootstrapWorld(runtime, scene, bootstrapGroup) {
 }
 
 function assignRuntimeWorld(runtime, promotion) {
-	runtime.assets = { ...runtime.assets, ...promotion.assets };
-	runtime.chunkRegistry = promotion.chunkRegistry;
-	runtime.chunkRuntime = promotion.chunkRuntime;
-	runtime.collisionQuery = promotion.collisionQuery;
-	runtime.ground = promotion.ground;
-	runtime.groundSampler = promotion.groundSampler;
-	runtime.mainOctree = promotion.mainOctree;
-	runtime.obstacles = promotion.obstacles;
-	runtime.terrain = promotion.terrain;
+	Object.assign(runtime, worldAssignments(runtime, promotion));
 }
 
 function assignFoundationWorld(foundation, promotion) {
-	foundation.assets = { ...foundation.assets, ...promotion.assets };
-	foundation.chunkRegistry = promotion.chunkRegistry;
-	foundation.chunkRuntime = promotion.chunkRuntime;
-	foundation.collisionQuery = promotion.collisionQuery;
-	foundation.ground = promotion.ground;
-	foundation.groundSampler = promotion.groundSampler;
-	foundation.mainOctree = promotion.mainOctree;
-	foundation.obstacles = promotion.obstacles;
-	foundation.terrain = promotion.terrain;
+	Object.assign(foundation, worldAssignments(foundation, promotion));
+}
+
+function worldAssignments(target, promotion) {
+	return {
+		assets: { ...target.assets, ...promotion.assets },
+		chunkRegistry: promotion.chunkRegistry,
+		chunkRuntime: promotion.chunkRuntime,
+		collisionQuery: promotion.collisionQuery,
+		ground: promotion.ground,
+		groundSampler: promotion.groundSampler,
+		mainOctree: promotion.mainOctree,
+		npcGltfs: promotion.npcGltfs,
+		npcProfiles: promotion.npcProfiles,
+		obstacles: promotion.obstacles,
+		terrain: promotion.terrain
+	};
 }
 
 function refreshPlayerWorldAuthorities(runtime) {

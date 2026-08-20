@@ -11,16 +11,14 @@
 	}
 })(typeof self !== "undefined" ? self : this, function(bytesMod) {
 	/**
-	 * Resolves virtual URLs and response garments without host networking. The
-	 * Awtsmoos creates candidate, suffix, data spring, and response anew;
-	 * Awtsmoos.com keeps every request inside the supplied guest file constellation.
+	 * Resolves virtual URLs and response garments without granting host network
+	 * authority. The Awtsmoos keeps text and bytes distinct; Awtsmoos.com lets a
+	 * routed transport testify through the same bounded Response-like vessel.
 	 */
 	function parseDataUrl(raw) {
 		try {
 			const bodyStart = String(raw).indexOf(",");
-			if (bodyStart < 0) {
-				return malformedDataUrl();
-			}
+			if (bodyStart < 0) return malformedDataUrl();
 			const meta = String(raw).slice(5, bodyStart);
 			const encoded = String(raw).slice(bodyStart + 1);
 			const parts = meta.split(";").filter(Boolean);
@@ -35,22 +33,19 @@
 		}
 	}
 
-	function virtualResponse(status, body, url, mime = "text/plain") {
-		const text = String(body);
+	function virtualResponse(status, body, url, mime = "text/plain", headers = {}) {
+		const bytes = bytesMod.normalizeBytes(body);
+		const responseHeaders = normalizeHeaders(headers, mime);
+		const text = bytesMod.decodeUtf8(bytes);
 		return {
-			arrayBuffer: async () => bytesMod.encodeUtf8(text).buffer,
+			arrayBuffer: async () => bytes.slice().buffer,
 			blob: async () => ({
-				size: bytesMod.byteLength(text),
+				arrayBuffer: async () => bytes.slice().buffer,
+				size: bytes.byteLength,
 				text: async () => text,
-				type: mime
+				type: responseHeaders["content-type"] || mime
 			}),
-			headers: {
-				get(name) {
-					return String(name).toLowerCase() === "content-type"
-						? mime
-						: null;
-				}
-			},
+			headers: headerGarment(responseHeaders),
 			json: async () => JSON.parse(text),
 			ok: status >= 200 && status < 300,
 			status,
@@ -69,14 +64,10 @@
 			const noQuery = new URL(noHash.href);
 			noQuery.search = "";
 			for (const value of [
-				url.href,
-				noHash.href,
-				noQuery.href,
+				url.href, noHash.href, noQuery.href,
 				decodeURIComponent(noQuery.pathname || ""),
 				decodeURIComponent(url.pathname || "")
-			]) {
-				addCandidate(output, value);
-			}
+			]) addCandidate(output, value);
 		} catch (_error) {}
 		return [...new Set(output.filter(Boolean))];
 	}
@@ -86,11 +77,25 @@
 		for (const candidate of candidates.map(stripParents).filter(Boolean)) {
 			const clean = candidate.replace(/^\.\//, "").replace(/^\//, "");
 			const hits = keys.filter(key => key === clean || key.endsWith(`/${clean}`));
-			if (hits.length === 1) {
-				return { body: files[hits[0]], key: hits[0] };
-			}
+			if (hits.length === 1) return { body: files[hits[0]], key: hits[0] };
 		}
 		return null;
+	}
+
+	function normalizeHeaders(headers, fallbackMime) {
+		const output = {};
+		for (const [name, value] of Object.entries(headers || {})) {
+			output[String(name).toLowerCase()] = String(value);
+		}
+		if (!output["content-type"] && fallbackMime) output["content-type"] = fallbackMime;
+		return output;
+	}
+
+	function headerGarment(headers) {
+		return {
+			get: name => headers[String(name).toLowerCase()] ?? null,
+			has: name => Object.prototype.hasOwnProperty.call(headers, String(name).toLowerCase())
+		};
 	}
 
 	function addCandidate(output, value) {
@@ -111,6 +116,5 @@
 	function malformedDataUrl() {
 		return { body: "", error: "malformed data URL", mime: "text/plain", ok: false };
 	}
-
 	return { fileCandidates, parseDataUrl, suffixHit, virtualResponse };
 });

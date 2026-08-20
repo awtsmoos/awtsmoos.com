@@ -1,0 +1,70 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos touches each finite panel with light yet leaves every Awtsmoos.com function true;
+future surfaces clarify hierarchy, while icons become quiet signs that guide the user through.
+*/
+[data-future-surface],
+body[data-future-page="games"] .gameCard,
+body[data-future-page="apps"] .g-app-card,
+.social-hub-document :where(.hubHeader, .heroRift, .pulseGrid article, .quickActionGrid > *) {
+	border-color: var(--future-border);
+	box-shadow: var(--future-glow);
+}
+
+[data-future-aura] {
+	position: relative;
+	isolation: isolate;
+}
+
+[data-future-aura] > .future-aura-layer {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	border-radius: inherit;
+	background: radial-gradient(
+		360px circle at var(--future-pointer-x, 50%) var(--future-pointer-y, 50%),
+		rgba(var(--future-accent), .16),
+		transparent 60%
+	);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .28s ease;
+}
+
+[data-future-aura]:hover > .future-aura-layer,
+[data-future-aura]:focus-within > .future-aura-layer {
+	opacity: 1;
+}
+
+[data-future-aura] > :not(.future-aura-layer) {
+	position: relative;
+	z-index: 1;
+}
+
+[data-future-action] {
+	display: inline-flex;
+	align-items: center;
+	gap: .48rem;
+}
+
+[data-future-icon] {
+	display: inline-grid;
+	flex: 0 0 auto;
+	place-items: center;
+	width: var(--future-icon-size);
+	height: var(--future-icon-size);
+	color: currentColor;
+}
+
+[data-future-icon] svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+	filter: drop-shadow(0 0 8px rgba(var(--future-accent), .22));
+}
+
+:where([data-future-action], [data-future-surface]):focus-visible {
+	outline: 3px solid rgba(var(--future-accent), .66);
+	outline-offset: 3px;
+}

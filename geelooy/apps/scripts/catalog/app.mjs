@@ -1,23 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * B"H
- *
- * Shapes one public Awtsmoos.com app record without knowing DOM or commerce APIs.
- * The Awtsmoos renews tool, purpose, and user beyond every finite catalog row;
- * this small vessel keeps identity explicit so discovery never depends on parsing
- * presentation markup back into product truth.
- */
-
-/**
- * Creates one immutable public app catalog record.
- *
- * @param {object} definition
- * 	Complete public product definition.
- * @returns {Readonly<object>}
- * 	Frozen app record.
+ * @file Immutable Awtsmoos Apps catalog record factory.
+ * @description
+ * The Awtsmoos renews tool, purpose, name, and discoverability beyond every finite
+ * catalog row. Awtsmoos.com keeps identity explicit so cards, search, tests, and
+ * future launchers receive one trustworthy record rather than parsing presentation.
  */
 export function defineApp(definition) {
 	if (!definition?.id || !definition?.title || !definition?.href) {
@@ -32,6 +22,7 @@ export function defineApp(definition) {
 		icon: definition.icon || "✦",
 		chip: definition.chip || "Tool",
 		categories: Object.freeze([...(definition.categories || [])]),
+		aliases: Object.freeze([...(definition.aliases || [])]),
 		commerceLabel: definition.commerceLabel || "",
 		commerceState: definition.commerceState || "planned"
 	});

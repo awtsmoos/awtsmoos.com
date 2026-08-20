@@ -2,7 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file OAuth authorization-code and refresh-token grant vessels.
+ * @description
+ * The Awtsmoos allows a code to descend only once; Awtsmoos.com now awaits the
+ * real stored record, binds Grok's hidden PKCE verifier, and refuses any client
+ * or redirect that does not match the authorization moment that created it.
+ */
+
 const { takeCode } = require("../core/codeStore.js");
+const Pkce = require("../core/pkce.js");
 const {
 	createRefreshRecord,
 	readRefreshRecord,
@@ -15,7 +24,7 @@ async function authorizationCodeGrant(context) {
 	if (!request.code) {
 		return missingCode($i, request);
 	}
-	const record = takeCode(request.code);
+	const record = await takeCode(request.code);
 	if (!record) {
 		return json($i, {
 			BH: "B\"H",
@@ -26,14 +35,17 @@ async function authorizationCodeGrant(context) {
 	if (record.clientId && record.clientId !== client.id) {
 		return json($i, { BH: "B\"H", error: "code_client_mismatch" }, 400);
 	}
-	if (record.redirectUri && request.redirect_uri &&
-		record.redirectUri !== request.redirect_uri) {
+	if (record.redirectUri && request.redirect_uri && record.redirectUri !== request.redirect_uri) {
 		return json($i, {
 			BH: "B\"H",
 			error: "redirect_uri_mismatch",
 			expected: record.redirectUri,
 			got: request.redirect_uri
 		}, 400);
+	}
+	const pkce = Pkce.verifyCode(record, request.code_verifier);
+	if (!pkce.ok) {
+		return json($i, { BH: "B\"H", error: pkce.error }, 400);
 	}
 	const entry = Entry.authorizationCodeEntry(record, client);
 	const refreshToken = client.refreshTokens === false

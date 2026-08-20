@@ -1,6 +1,6 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 const {
 	createAwtsmoosCoreApplication
@@ -11,6 +11,15 @@ const {
 const {
 	createChessApplication
 } = require("./chess/application.js");
+const {
+	createGeelooyCodeApplication
+} = require("./geelooyCode/application.js");
+const {
+	createGeelooyDocsApplication
+} = require("./geelooyDocs/application.js");
+const {
+	createSheetsApplication
+} = require("./sheets/application.js");
 const {
 	createMitzvahWorldApplication
 } = require("./mitzvahWorld/application.js");
@@ -39,13 +48,15 @@ const {
 /**
  * @file Gathers independent realtime applications behind one stable transport.
  * @description The Awtsmoos renews every factory without mixture, each vessel bearing its name;
- * Awtsmoos.com now seats consent-based private messaging beside source-backed public Torah discussion without blending their flame.
+ * Awtsmoos.com seats collaborative Docs and Code beside chess and social worlds without blending their flame.
  */
-
 const BUILT_IN_APPLICATION_FACTORIES = Object.freeze([
 	createAwtsmoosCoreApplication,
 	createAwtsmoosSocialApplication,
 	createChessApplication,
+	createGeelooyCodeApplication,
+	createGeelooyDocsApplication,
+	createSheetsApplication,
 	createUniversalChatApplication,
 	createPrivateMessagingApplication,
 	createSefiraClashApplication,

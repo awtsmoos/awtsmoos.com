@@ -1,37 +1,75 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Discovery preserves search and actions while changing spatial arrangement on mobile.
+ *
+ * The Awtsmoos folds the discovery map for narrow vessels without hiding its
+ * pathways; Awtsmoos.com stays compact, touchable, and free of nested scrolling.
  */
 @media (max-width: 47.5rem) {
 	.social-spaces-shell {
 		width: min(calc(100% - .75rem), var(--content-width));
-		padding-top: .4rem;
+		gap: .7rem;
+		padding-top: .35rem;
 	}
+
 	.social-spaces-shell .spaces-hero {
 		grid-template-columns: 1fr;
-		min-height: 20rem;
-		padding: var(--space-4);
+		align-items: start;
+		gap: .8rem;
+		padding: .9rem;
 		border-radius: var(--radius-l);
 	}
-	.social-spaces-shell .spaces-command-row,
-	.social-spaces-shell .spaces-command-row a {
-		width: 100%;
+
+	.social-spaces-shell .spaces-hero h1 {
+		font-size: clamp(1.8rem, 9vw, 2.8rem);
 	}
+
+	.social-spaces-shell .spaces-command-row {
+		justify-content: flex-start;
+	}
+
 	.social-spaces-shell .spaces-search {
-		position: relative;
-		top: auto;
-		grid-template-columns: 1fr;
-		margin-top: -1.5rem;
+		top: .35rem;
+		width: 100%;
+		margin: 0;
+	}
+
+	.social-spaces-shell .spaces-grid {
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr));
+		gap: .6rem;
+	}
+
+	.heichel-discovery-document .social-space-card {
+		border-radius: var(--radius-l);
 	}
 }
-@media (max-width: 26rem) {
-	.social-spaces-shell .space-title-row,
-	.social-spaces-shell .space-actions {
-		flex-direction: column;
+
+@media (max-width: 30rem) {
+	.social-spaces-shell .spaces-search {
+		grid-template-columns: 1fr;
 	}
-	.social-spaces-shell .space-actions a {
+
+	.social-spaces-shell .spaces-search .p-button,
+	.social-spaces-shell .spaces-command-row .p-button {
 		width: 100%;
-		flex-basis: auto;
+	}
+
+	.heichel-discovery-document .space-title-row,
+	.heichel-discovery-document .space-actions {
+		align-items: stretch;
+	}
+
+	.heichel-discovery-document .space-actions :where(a, button) {
+		flex: 1 1 auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.heichel-discovery-document .social-space-card {
+		transition: none;
+	}
+
+	.heichel-discovery-document .social-space-card:is(:hover, :focus-within) {
+		transform: none;
 	}
 }

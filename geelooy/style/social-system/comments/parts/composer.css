@@ -1,5 +1,106 @@
-.comment-composer { padding: 1rem; display: grid; gap: .75rem; border: 1px solid #dfe6ee; border-radius: 1rem; background: #fff; color: #1f2937; box-shadow: 0 2px 10px rgba(15,23,42,.06); }
-.comment-composer textarea, .comment-composer input { width: 100%; border: 1px solid #dfe6ee; border-radius: .9rem; padding: .82rem; font: inherit; background: #fff; color: #0f172a; outline: 0; }
-.comment-composer textarea:focus, .comment-composer input:focus { border-color: #0f766e; box-shadow: 0 0 0 .22rem rgba(15,118,110,.18); }
-.comment-coordinate { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; }
-.comment-composer button, .gold-btn { border: 1px solid #0f172a; border-radius: .9rem; padding: .85rem 1rem; background: #0f172a; font-weight: 700; color: #fff; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps the human sentence nearest the hand; Awtsmoos.com folds
+ * coordinates and manifests into a luminous secondary gate instead of a wall.
+ */
+.comment-composer {
+	display: grid;
+	gap: .75rem;
+	padding: 1rem;
+	border: 1px solid #dfe6ee;
+	border-radius: 1rem;
+	background: #fff;
+	box-shadow: 0 2px 10px rgba(15, 23, 42, .06);
+	color: #1f2937;
+}
+.comment-composer label {
+	display: grid;
+	gap: .35rem;
+	font-weight: 700;
+}
+.comment-composer label > span {
+	color: #334155;
+	font-size: .8rem;
+}
+.comment-composer textarea,
+.comment-composer input {
+	width: 100%;
+	border: 1px solid #dfe6ee;
+	border-radius: .9rem;
+	padding: .82rem;
+	background: #fff;
+	color: #0f172a;
+	font: inherit;
+	outline: 0;
+}
+.comment-composer textarea:focus,
+.comment-composer input:focus {
+	border-color: #0f766e;
+	box-shadow: 0 0 0 .22rem rgba(15, 118, 110, .18);
+}
+.comment-coordinate {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: .55rem;
+}
+.comment-composer-advanced {
+	overflow: clip;
+	border: 1px solid rgba(15, 118, 110, .18);
+	border-radius: .95rem;
+	background: linear-gradient(145deg, rgba(240, 253, 250, .9), rgba(248, 250, 252, .96));
+}
+.comment-composer-advanced-summary {
+	display: flex;
+	align-items: center;
+	gap: .7rem;
+	min-height: 44px;
+	padding: .62rem .75rem;
+	cursor: pointer;
+	list-style: none;
+}
+.comment-composer-advanced-summary::-webkit-details-marker {
+	display: none;
+}
+.comment-composer-advanced-copy {
+	display: grid;
+	gap: .08rem;
+}
+.comment-composer-advanced-copy small {
+	color: #64748b;
+	font-size: .72rem;
+}
+.comment-composer-advanced-glyph {
+	margin-left: auto;
+	color: #0f766e;
+	font-weight: 900;
+	transition: transform .2s ease;
+}
+.comment-composer-advanced[open] .comment-composer-advanced-glyph {
+	transform: rotate(45deg);
+}
+.comment-composer-advanced-body {
+	display: grid;
+	gap: .65rem;
+	padding: 0 .75rem .75rem;
+	animation: comment-advanced-reveal .18s ease-out both;
+}
+.comment-composer button,
+.gold-btn {
+	min-height: 44px;
+	border: 1px solid #0f172a;
+	border-radius: .9rem;
+	padding: .75rem 1rem;
+	background: #0f172a;
+	color: #fff;
+	font-weight: 700;
+}
+@keyframes comment-advanced-reveal {
+	from { opacity: 0; transform: translateY(-.2rem); }
+	to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.comment-composer-advanced-glyph { transition: none; }
+	.comment-composer-advanced-body { animation: none; }
+}

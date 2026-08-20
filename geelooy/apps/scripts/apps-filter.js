@@ -1,24 +1,23 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import { PUBLIC_APPS } from "./catalog/index.mjs";
 import { renderAppCatalog } from "./catalog/render.mjs";
 
 /**
- * B"H
- *
- * Boots and filters the twelve intentional Awtsmoos.com public products from one
- * explicit catalog. Hidden experimental directories do not become products merely
- * because they exist on disk. The Awtsmoos renews query, category, and card each
- * instant; this controller keeps discovery local, deterministic, and inspectable.
+ * @file Search and category controller for the complete Awtsmoos.com browser-app portfolio.
+ * @description
+ * The Awtsmoos renews query, category, card, and result count each instant. This
+ * controller keeps discovery immediate and local while every actual browser doorway
+ * remains visible through one truthful catalog rather than a stale marketing subset.
  */
-
 const filterForm = document.querySelector("[data-app-filter]");
 const searchInput = filterForm?.querySelector('input[name="q"]');
 const categorySelect = filterForm?.querySelector('select[name="category"]');
 const grid = document.querySelector("[data-app-grid]");
 const emptyState = document.querySelector("[data-app-empty]");
+const resultStatus = document.querySelector("[data-app-result-status]");
 
 if (grid) {
 	renderAppCatalog(grid, PUBLIC_APPS);
@@ -26,28 +25,7 @@ if (grid) {
 
 const cards = Array.from(document.querySelectorAll("[data-app-card]"));
 
-/**
- * Produces searchable lowercase text from one rendered public app card.
- *
- * @param {HTMLElement} card
- * 	App card element.
- * @returns {string}
- * 	Normalized searchable text.
- */
-function cardSearchText(card) {
-	return `${card.textContent || ""} ${card.dataset.category || ""}`.toLowerCase();
-}
-
-/**
- * Tests whether one app belongs to the selected category token.
- *
- * @param {HTMLElement} card
- * 	App card element.
- * @param {string} category
- * 	Selected category or an empty string for all.
- * @returns {boolean}
- * 	Whether the card satisfies the category constraint.
- */
+/** @param {HTMLElement} card App card. @param {string} category Category token. @returns {boolean} Match state. */
 function categoryMatches(card, category) {
 	if (!category) {
 		return true;
@@ -59,17 +37,24 @@ function categoryMatches(card, category) {
 		.includes(category);
 }
 
-/**
- * Applies current search/category state without changing portfolio order.
- */
+/** @param {number} visibleCount Number of visible cards. @returns {void} */
+function announceResults(visibleCount) {
+	if (!resultStatus) {
+		return;
+	}
+
+	resultStatus.textContent = `${visibleCount} of ${cards.length} apps shown`;
+}
+
+/** Applies current search and category state without changing catalog order. */
 function applyFilters() {
 	const query = String(searchInput?.value || "").trim().toLowerCase();
 	const category = String(categorySelect?.value || "");
 	let visibleCount = 0;
 
 	for (const card of cards) {
-		const visible = categoryMatches(card, category)
-			&& (!query || cardSearchText(card).includes(query));
+		const searchMatches = !query || String(card.dataset.search || "").includes(query);
+		const visible = categoryMatches(card, category) && searchMatches;
 		card.hidden = !visible;
 		visibleCount += visible ? 1 : 0;
 	}
@@ -77,6 +62,8 @@ function applyFilters() {
 	if (emptyState) {
 		emptyState.hidden = visibleCount > 0;
 	}
+
+	announceResults(visibleCount);
 }
 
 filterForm?.addEventListener("submit", event => {

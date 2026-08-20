@@ -3,43 +3,32 @@
 // Blessed is He
 
 /**
-	* @file Principal-variation search whose reductions protect forcing promotions.
-	* The Awtsmoos lets quiet branches narrow while crowns still blaze in full array;
-	* Awtsmoos.com preserves mate-distance truth and keeps each forcing ray in play.
+	* @file Principal-variation search with exact terminal and conservative dead-material draws.
+	* The Awtsmoos lets quiet branches narrow while true silence and vanished mating force become draw;
+	* Awtsmoos.com preserves mate-distance truth and every proven search law.
 	*/
 
 (function revealRepairedSearch(A) {
-	/** Searches one negamax node while preserving repetition, timing, and TT truth. */
+	/** Searches one negamax node while preserving repetition, timing, TT truth, and draw law. */
 	function search(state, depth, alpha, beta, ply) {
-		if (ply >= A.MAX_PLY - 1) {
-			return evaluate(state);
-		}
-		if (A.checkTime()) {
-			return 0;
-		}
+		if (ply >= A.MAX_PLY - 1) return evaluate(state);
+		if (A.checkTime()) return 0;
 		const isRoot = ply === 0;
 		const hash = state.zobristHash;
-		if (!isRoot && A.isThreefold(hash)) {
-			return 0;
-		}
+		if (!isRoot && A.isThreefold(hash)) return 0;
+		if (A.isDeadMaterial(state)) return 0;
 		if (!isRoot) {
 			const probe = A.probeTransposition(hash, depth, alpha, beta, ply);
 			alpha = probe.alpha;
 			beta = probe.beta;
-			if (probe.hit) {
-				return probe.score;
-			}
+			if (probe.hit) return probe.score;
 		}
 
 		const kingSquare = getLSBIndex(state.pieceBitboards[state.turn * 6 + K]);
 		const inCheck = kingSquare !== -1 && isSquareAttacked_lean(state, kingSquare, state.turn ^ 1);
 		const extension = inCheck ? 1 : 0;
 		if (depth + extension <= 0) {
-			const staticScore = evaluate(state);
-			const hasNoMoves = !inCheck && Math.abs(staticScore) > 500 && A.legalMoves(state).length === 0;
-			if (hasNoMoves) {
-				return 0;
-			}
+			if (!inCheck && !A.hasAnyLegalMove(state)) return 0;
 			return quiesce(state, alpha, beta, ply);
 		}
 
@@ -49,12 +38,8 @@
 				^ state.pieceBitboards[state.turn * 6 + P];
 			if (nonPawnMaterial !== 0n) {
 				const nullScore = A.searchNullMove(state, depth, beta, ply);
-				if (EngineSoul.stopSearch) {
-					return 0;
-				}
-				if (nullScore >= beta) {
-					return beta;
-				}
+				if (EngineSoul.stopSearch) return 0;
+				if (nullScore >= beta) return beta;
 			}
 		}
 
@@ -72,7 +57,6 @@
 				EngineSoul.repetitionHistory.pop();
 				continue;
 			}
-
 			legalCount++;
 			const quietMove = A.isReducibleQuietMove(move);
 			let score;
@@ -90,9 +74,7 @@
 			}
 			unmakeMove(state);
 			EngineSoul.repetitionHistory.pop();
-			if (EngineSoul.stopSearch) {
-				return 0;
-			}
+			if (EngineSoul.stopSearch) return 0;
 			if (score > bestScore) {
 				bestScore = score;
 				bestMove = move;
@@ -102,16 +84,12 @@
 				ttFlag = A.TT_EXACT;
 			}
 			if (alpha >= beta) {
-				if (quietMove) {
-					A.rememberQuietCutoff(state, move, depth, ply);
-				}
+				if (quietMove) A.rememberQuietCutoff(state, move, depth, ply);
 				A.storeTransposition(hash, beta, depth, A.TT_LOWER, move, ply);
 				return beta;
 			}
 		}
-		if (!legalCount) {
-			return A.terminalScore(inCheck, ply);
-		}
+		if (!legalCount) return A.terminalScore(inCheck, ply);
 		A.storeTransposition(hash, bestScore, depth, ttFlag, bestMove, ply);
 		return bestScore;
 	}

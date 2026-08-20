@@ -2,26 +2,32 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file Consent-aware Apps Code browser-tunnel facade.
+ * @description
+ * The Awtsmoos lets one Code tab expose a temporary browser vessel while a separate
+ * remembered invitation may permit future Code openings to reconnect. Awtsmoos.com
+ * keeps transport, consent, logical agents, and browser authority named separately
+ * so no remembered preference can masquerade as a live or native tunnel.
+ */
+
 import { State } from "../state.js";
 import { BrowserTargetRegistry } from "../browser/target-registry.js";
 import { nodeCapabilityReport } from "../node/capabilities.js";
 import { CodeTunnelActions } from "./action-ledger.js";
 import {
-	sendPacket,
-	startBrowserTunnel,
-	stopBrowserTunnel
-} from "./browser-agent-connection.js";
-import { handleBrowserTunnelRegistrationAck } from "./browser-agent-registration.js";
+	forgetRememberedBrowserTunnel,
+	startBrowserTunnelSession,
+	startRememberedBrowserTunnel,
+	startRememberedBrowserTunnelOnBoot,
+	stopCurrentBrowserTunnel
+} from "./browser-agent-consent.js";
+import { handleBrowserTunnelMessage } from "./browser-agent-messages.js";
 import { initializeBrowserTunnelState } from "./browser-agent-state.js";
 import { handleBrowserTunnelRequest } from "./browser-agent-request.js";
 import { CodeTunnelSessions } from "./session-registry.js";
 import { buildTunnelStatusModel } from "./tunnel-status-model.js";
 
-/**
- * B"H
- * The browser facade holds one current socket and many logical agents. The
- * Awtsmoos renews each vessel; Awtsmoos.com rejects messages from stale sockets.
- */
 export const BrowserTunnelAgent = {
 	ws: null,
 	reconnectTimer: null,
@@ -37,45 +43,32 @@ export const BrowserTunnelAgent = {
 		initializeBrowserTunnelState();
 		globalThis.BrowserTunnelAgent = this;
 		this.emitUpdate();
-		if (State.browserTunnel.autoStart) void this.start();
+		if (State.browserTunnel.remembered) {
+			void startRememberedBrowserTunnelOnBoot(this);
+		}
 		return this.getStatus();
 	},
 
 	start() {
 		if (!this.initialized) this.init();
-		return startBrowserTunnel(this);
+		return startBrowserTunnelSession(this);
+	},
+
+	startRemembered() {
+		if (!this.initialized) this.init();
+		return startRememberedBrowserTunnel(this);
 	},
 
 	stop() {
-		return stopBrowserTunnel(this);
+		return stopCurrentBrowserTunnel(this);
 	},
 
-	async onMessage(raw, sourceWs = this.ws) {
-		if (sourceWs && this.ws !== sourceWs) return;
-		let data;
-		try {
-			data = JSON.parse(raw);
-		} catch {
-			return;
-		}
-		if (data.type === "TUNNEL_ACK") {
-			handleBrowserTunnelRegistrationAck(this, data);
-			return;
-		}
-		if (data.type === "TUNNEL_REPLACED") {
-			this.log("replaced", "This browser tunnel was replaced by another tab.");
-			return;
-		}
-		if (data.type !== "TUNNEL_REQUEST") return;
-		const result = await handleBrowserTunnelRequest(data.payload || {});
-		sendPacket(this, {
-			type: "TUNNEL_RESPONSE",
-			id: data.id,
-			...result,
-			vessel: "browser-tab",
-			tunnelName: State.browserTunnel.tunnelName
-		});
-		this.log("response", result.ok === false ? result.error || "failed" : "ok");
+	forgetRemembered() {
+		return forgetRememberedBrowserTunnel(this);
+	},
+
+	onMessage(raw, sourceWs = this.ws) {
+		return handleBrowserTunnelMessage(this, raw, sourceWs);
 	},
 
 	handleRequest(payload) {

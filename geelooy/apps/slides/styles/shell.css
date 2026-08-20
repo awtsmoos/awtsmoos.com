@@ -1,0 +1,107 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews center and boundary at once; Awtsmoos.com lets panels appear when needed and retreat without stretching the finite viewport beyond its true shore.
+*/
+.slides-app {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-rows: var(--topbar-height) minmax(0, 1fr);
+	min-width: 0;
+	height: 100dvh;
+	overflow: hidden;
+	background: radial-gradient(circle at 50% 0%, #1b1930 0, var(--bg) 42%);
+}
+
+.topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-width: 0;
+	padding: 8px max(10px, env(safe-area-inset-right)) 8px max(10px, env(safe-area-inset-left));
+	border-bottom: 1px solid var(--line);
+	background: rgba(9, 10, 15, 0.82);
+	backdrop-filter: blur(18px);
+	z-index: 30;
+}
+
+.brand-lockup, .topbar-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+
+.brand-mark {
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border-radius: 12px;
+	background: linear-gradient(145deg, #9f93ff, #6250ff);
+	box-shadow: 0 8px 26px rgba(109, 93, 252, 0.35);
+	font-weight: 800;
+}
+
+.deck-title {
+	min-width: 0;
+	width: clamp(110px, 28vw, 310px);
+	border: 0;
+	background: transparent;
+	color: var(--text);
+	font-weight: 650;
+	outline: 0;
+}
+
+.topbar-actions {
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.workspace {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.slide-rail, .inspector {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: 25;
+	display: flex;
+	flex-direction: column;
+	width: min(86vw, 310px);
+	background: var(--surface);
+	backdrop-filter: blur(24px);
+	box-shadow: var(--shadow);
+	transition: transform 180ms ease;
+}
+
+.slide-rail {
+	left: 0;
+	transform: translateX(-104%);
+	border-right: 1px solid var(--line);
+}
+
+.inspector {
+	right: 0;
+	transform: translateX(104%);
+	border-left: 1px solid var(--line);
+}
+
+.slides-app.is-left-open .slide-rail,
+.slides-app.is-right-open .inspector {
+	transform: translateX(0);
+}
+
+.stage-area {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	min-width: 0;
+	min-height: 0;
+}

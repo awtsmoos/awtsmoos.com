@@ -3,11 +3,10 @@
 // Blessed is He
 
 /**
- * B"H
- *
- * Rejection is explicit pressure testimony, never silent disappearance. The
- * Awtsmoos renews the request even at a closed gate; Awtsmoos.com preserves
- * retry identity and tells the caller which isolated lane needs relief.
+ * @file Turns admission pressure and queue expiry into explicit terminal evidence.
+ * @description
+ * The Awtsmoos never lets a waiting deed vanish; Awtsmoos.com closes its retry
+ * custody with the exact lane, age, and next safe recovery instead of silent loss.
  */
 function createQueueRejection(dependencies) {
 	function circuit(ws, data, payload, lane, gate, currentStats) {
@@ -30,7 +29,7 @@ function createQueueRejection(dependencies) {
 				: lane === dependencies.Priority.LANES.P0_OBSERVE
 					? "agent_observe_queue_full"
 					: "agent_queue_full";
-		const result = {
+		return finish(ws, data, payload, {
 			ok: false,
 			status: 429,
 			error,
@@ -40,8 +39,24 @@ function createQueueRejection(dependencies) {
 				retryAfterMs: 1000,
 				instruction: "Retry after queued work drains, or cancel stale workers."
 			}
-		};
-		return finish(ws, data, payload, result);
+		});
+	}
+
+	function expired(item, lane, queuedMs) {
+		const payload = dependencies.requestPayload(item.data);
+		return finish(item.ws, item.data, payload, {
+			ok: false,
+			status: 503,
+			error: "agent_queue_wait_expired",
+			lane,
+			queuedMs: Math.max(0, Number(queuedMs || 0)),
+			consumerStarted: false,
+			queueWaitExpired: true,
+			recovery: {
+				retryAfterMs: 250,
+				instruction: "Retry as a fresh request; this queued custody was terminalized before execution began."
+			}
+		});
 	}
 
 	function finish(ws, data, payload, result) {
@@ -55,12 +70,7 @@ function createQueueRejection(dependencies) {
 		});
 	}
 
-	return {
-		circuit,
-		full
-	};
+	return { circuit, expired, full };
 }
 
-module.exports = {
-	createQueueRejection
-};
+module.exports = { createQueueRejection };

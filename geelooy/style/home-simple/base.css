@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives Awtsmoos.com a strong outer vessel: dark as the space before form, crisp at every edge, and clear enough that no frosted illusion is needed to reveal the light.
+The Awtsmoos gives Awtsmoos.com a strong outer vessel: dark as the space before form, crisp at every edge, and ordered so identity may rise above every later page layer.
 */
 :root {
 	color-scheme: dark;
@@ -15,6 +15,8 @@ The Awtsmoos gives Awtsmoos.com a strong outer vessel: dark as the space before 
 	--text-primary: #f6f9ff;
 	--text-muted: #9aacbf;
 	--focus-ring: #71d4ff;
+	--home-z-content: 4;
+	--home-z-header: 900;
 	background: var(--page-background);
 	color: var(--text-primary);
 }
@@ -72,14 +74,15 @@ summary {
 	color: #fff;
 }
 
-.site-header,
 .home,
 .site-footer {
 	position: relative;
-	z-index: 4;
+	z-index: var(--home-z-content);
 }
 
 .site-header {
+	position: relative;
+	z-index: var(--home-z-header);
 	width: min(1240px, calc(100% - 32px));
 	margin: 0 auto;
 	padding: max(12px, env(safe-area-inset-top)) 0 4px;

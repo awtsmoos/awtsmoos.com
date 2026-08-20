@@ -3,8 +3,16 @@
 // Blessed is He
 
 const crypto = require("node:crypto");
+const Affinity = require("./pool-affinity.js");
+const Priority = require("./pool-priority.js");
 const Requester = require("./requester.js");
 
+/**
+ * @file Owns filesystem pool state while delegating affinity and scheduling policy.
+ * @description
+ * The Awtsmoos keeps state as state; Awtsmoos.com lets priority and ownership
+ * live in smaller vessels so one map cannot become the hidden law of every lane.
+ */
 function create() {
 	return {
 		active: new Map(),
@@ -12,88 +20,32 @@ function create() {
 		consecutiveBootFailures: 0,
 		idleTimer: null,
 		queue: [],
+		resourceOwners: new Map(),
 		scaleTimer: null,
 		spawnTimer: null,
 		stopped: false,
-		resourceOwners: new Map(),
 		taskOwners: new Map(),
 		workers: []
 	};
 }
 
-function createJob(payload, resolve, reject) {
-	return {
+function createJob(payload, resolve, reject, metadata = {}) {
+	return Priority.decorate({
 		id: crypto.randomUUID(),
 		payload,
+		queueExpired: false,
+		queueTimer: null,
 		reject,
 		requester: Requester.key(payload),
 		resolve
-	};
+	}, metadata);
 }
 
 function eligibleIndex(state, maximum, worker = null) {
-	return state.queue.findIndex(job => {
-		if (Number(state.active.get(job.requester) || 0) >= maximum) return false;
-		const owner = ownerForPayload(state, job.payload);
-		return !owner || !worker || owner === worker;
-	});
-}
-
-function asyncTaskId(payload = {}) {
-	if (!/^asyncTask(?:Status|Wait|OutputPage|Cancel)$/i.test(String(payload.action || ""))) {
-		return "";
-	}
-	return String(payload.taskId || payload.id || "");
-}
-
-function resourceId(payload = {}) {
-	if (!/^staticServer(?:Stop|Logs)$/i.test(String(payload.action || ""))) return "";
-	return String(payload.serverId || "");
-}
-
-function ownerForPayload(state, payload = {}) {
-	const taskId = asyncTaskId(payload);
-	if (taskId) return state.taskOwners.get(taskId) || null;
-	const id = resourceId(payload);
-	return id ? state.resourceOwners.get(id) || null : null;
-}
-
-function trackOwners(state, worker, payload = {}, result = {}) {
-	const taskId = String(result.taskId || "");
-	if (taskId) state.taskOwners.set(taskId, worker);
-	if (
-		String(result.action || payload.action || "") === "staticServerStart"
-		&& result.ok !== false
-		&& result.serverId
-	) {
-		state.resourceOwners.set(String(result.serverId), worker);
-	}
-	if (
-		String(payload.action || "") === "staticServerStop"
-		&& result.ok !== false
-		&& (result.stopped || result.alreadyStopped)
-	) {
-		state.resourceOwners.delete(String(payload.serverId || ""));
-	}
-}
-
-function removeWorkerOwners(state, worker) {
-	for (const [taskId, owner] of state.taskOwners) {
-		if (owner === worker) state.taskOwners.delete(taskId);
-	}
-	for (const [resourceId, owner] of state.resourceOwners) {
-		if (owner === worker) state.resourceOwners.delete(resourceId);
-	}
-}
-
-function workerOwnsState(state, worker) {
-	for (const owner of state.taskOwners.values()) {
-		if (owner === worker) return true;
-	}
-	for (const owner of state.resourceOwners.values()) {
-		if (owner === worker) return true;
-	}
-	return false;
+	return Priority.eligibleIndex(state, {
+		MAX_PER_REQUESTER: maximum,
+		RESERVED_INTERACTIVE_WORKERS: 0
+	}, worker);
 }
 
 function increment(active, key) {
@@ -115,7 +67,7 @@ function failure(code, message, stack) {
 
 function stats(state, policy) {
 	return {
-		activeRequesters: state.active.size,
+		activeRequesters: requesterCount(state.active),
 		bootFailures: state.bootFailures,
 		busy: state.workers.filter(worker => worker.busy).length,
 		consecutiveBootFailures: state.consecutiveBootFailures,
@@ -124,6 +76,7 @@ function stats(state, policy) {
 		minimumWorkers: policy.MIN_WORKERS,
 		queued: state.queue.length,
 		ready: state.workers.filter(worker => worker.ready).length,
+		reservedInteractiveWorkers: policy.RESERVED_INTERACTIVE_WORKERS,
 		resourceAffinities: state.resourceOwners.size,
 		starting: state.workers.filter(worker => !worker.ready).length,
 		taskAffinities: state.taskOwners.size,
@@ -132,18 +85,22 @@ function stats(state, policy) {
 	};
 }
 
+function requesterCount(active) {
+	return new Set([...active.keys()].map(key => String(key).split("|")[0])).size;
+}
+
 module.exports = {
+	asyncTaskId: Affinity.asyncTaskId,
 	create,
 	createJob,
 	decrement,
 	eligibleIndex,
 	failure,
 	increment,
-	asyncTaskId,
-	ownerForPayload,
-	removeWorkerOwners,
-	resourceId,
+	ownerForPayload: Affinity.ownerForPayload,
+	removeWorkerOwners: Affinity.removeWorkerOwners,
+	resourceId: Affinity.resourceId,
 	stats,
-	trackOwners,
-	workerOwnsState
+	trackOwners: Affinity.trackOwners,
+	workerOwnsState: Affinity.workerOwnsState
 };

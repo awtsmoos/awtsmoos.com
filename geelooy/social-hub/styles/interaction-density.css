@@ -1,0 +1,115 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos contains infinite detail without forcing every detail into one glance.
+ * Awtsmoos.com lets advanced social vessels fold, while the present deed remains near the hand.
+ */
+
+.interactionPanel,
+.activityPanel,
+.profilePanel,
+.referencesPanel,
+.privacyPanel {
+	min-height: 0;
+}
+
+.interactionPanel .panelIntro {
+	margin-bottom: .7rem;
+}
+
+.commentComposer,
+.referenceComposer {
+	margin-block: .7rem;
+	padding: clamp(.8rem, 1.8vw, 1.1rem);
+}
+
+.commentComposer > label:first-child textarea {
+	min-height: 8rem;
+}
+
+.hub-disclosure {
+	background: rgb(2 5 15 / 38%);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	margin-block: .75rem;
+	overflow: clip;
+}
+
+.hub-disclosure > summary {
+	align-items: center;
+	cursor: pointer;
+	display: flex;
+	font-weight: 800;
+	gap: .65rem;
+	justify-content: space-between;
+	list-style: none;
+	min-height: 44px;
+	padding: .72rem .9rem;
+}
+
+.hub-disclosure > summary::-webkit-details-marker {
+	display: none;
+}
+
+.hub-disclosure > summary::after {
+	color: var(--muted);
+	content: "＋";
+	font-weight: 900;
+}
+
+.hub-disclosure[open] > summary {
+	border-bottom: 1px solid var(--line);
+	color: var(--cyan);
+}
+
+.hub-disclosure[open] > summary::after {
+	content: "−";
+}
+
+.hub-disclosure > :not(summary) {
+	margin: 0;
+}
+
+.hub-disclosure--promotion .promotionPanel {
+	border: 0;
+	box-shadow: none;
+	margin: 0;
+}
+
+.hub-disclosure--results > :not(summary),
+.hub-disclosure--privacy > :not(summary) {
+	padding: .75rem;
+}
+
+.activityTimeline,
+.referenceMap {
+	max-height: min(62dvh, 44rem);
+	min-height: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+}
+
+.profilePanel .cardGrid {
+	max-height: min(38dvh, 20rem);
+	min-height: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+}
+
+.privacyGrid,
+.categoryGrid {
+	gap: .55rem;
+}
+
+@media (max-width: 640px) {
+	.commentComposer > label:first-child textarea {
+		min-height: 6.5rem;
+	}
+
+	.profilePanel .cardGrid {
+		max-height: 18rem;
+	}
+}

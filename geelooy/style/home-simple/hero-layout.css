@@ -1,8 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos places image and searching hand in one immediate rhythm across Awtsmoos.com;
-wonder remains first, yet Torah search now follows before shortcut furniture can delay the traveler.
+The Awtsmoos orders the homepage of Awtsmoos.com like light entering vessels in sequence:
+wonder first, search next, then practical doors revealed as the traveler scrolls into deeper space.
 */
 .home {
 	display: grid;
@@ -62,7 +62,7 @@ wonder remains first, yet Torah search now follows before shortcut furniture can
 	color: #75859e;
 	font-size: .68rem;
 	font-weight: 760;
-	transition: border-color .18s ease, color .18s ease, background .18s ease;
+	transition: border-color .18s ease, color .18s ease, background .18s ease, transform .18s ease;
 }
 
 .search-paths a:hover,
@@ -72,6 +72,7 @@ wonder remains first, yet Torah search now follows before shortcut furniture can
 	color: #e9f5ff;
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
+	transform: translateY(-1px);
 }
 
 @media (max-width: 800px) {

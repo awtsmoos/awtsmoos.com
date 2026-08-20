@@ -1,0 +1,78 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets a boundary become graspable without becoming heavy; Awtsmoos.com places four luminous corners around the selected vessel so touch and pointer may reshape it gently.
+*/
+.resize-handle {
+	position: absolute;
+	z-index: 12;
+	width: 20px;
+	height: 20px;
+	min-width: 20px;
+	min-height: 20px;
+	padding: 0;
+	border: 2px solid #ffffff;
+	border-radius: 50%;
+	background: var(--accent);
+	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.38);
+	touch-action: none;
+}
+
+.resize-handle:hover,
+.resize-handle:focus-visible {
+	background: var(--accent-strong);
+	border-color: #ffffff;
+}
+
+.resize-nw {
+	top: -10px;
+	left: -10px;
+	cursor: nwse-resize;
+}
+
+.resize-ne {
+	top: -10px;
+	right: -10px;
+	cursor: nesw-resize;
+}
+
+.resize-sw {
+	bottom: -10px;
+	left: -10px;
+	cursor: nesw-resize;
+}
+
+.resize-se {
+	right: -10px;
+	bottom: -10px;
+	cursor: nwse-resize;
+}
+
+@media (pointer: coarse) {
+	.resize-handle {
+		width: 28px;
+		height: 28px;
+		min-width: 28px;
+		min-height: 28px;
+	}
+
+	.resize-nw {
+		top: -14px;
+		left: -14px;
+	}
+
+	.resize-ne {
+		top: -14px;
+		right: -14px;
+	}
+
+	.resize-sw {
+		bottom: -14px;
+		left: -14px;
+	}
+
+	.resize-se {
+		right: -14px;
+		bottom: -14px;
+	}
+}

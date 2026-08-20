@@ -1,0 +1,110 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos, Atzmus beyond every boundary, makes each shared portal a small truthful horizon;
+ * Awtsmoos.com lets Mail and Signals announce purpose, current state, hover, focus, and press without visual burden.
+ */
+
+.g-header-portal {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: .55rem;
+	min-height: var(--g-touch-target, 2.75rem);
+	padding: .38rem .65rem;
+	border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+	border-radius: .9rem;
+	background: color-mix(in srgb, var(--g-surface, #111722) 88%, transparent);
+	transition:
+		transform var(--g-motion-fast) var(--g-motion-ease),
+		border-color var(--g-motion-fast) var(--g-motion-ease),
+		background var(--g-motion-fast) var(--g-motion-ease),
+		box-shadow var(--g-motion-fast) var(--g-motion-ease);
+}
+
+.g-header-portal:hover {
+	transform: translateY(-1px);
+	border-color: color-mix(in srgb, currentColor 24%, transparent);
+	background: color-mix(in srgb, var(--g-surface, #111722) 96%, white 4%);
+	box-shadow: 0 .55rem 1.5rem rgb(0 0 0 / 18%);
+}
+
+.g-header-portal:active {
+	transform: translateY(0) scale(.97);
+	box-shadow: none;
+}
+
+.g-header-portal:focus-visible {
+	outline: 2px solid var(--g-accent, #8ab4ff);
+	outline-offset: 3px;
+}
+
+.g-header-portal[aria-current="page"] {
+	border-color: color-mix(in srgb, var(--g-accent, #8ab4ff) 48%, transparent);
+	background: color-mix(in srgb, var(--g-accent, #8ab4ff) 13%, var(--g-surface, #111722));
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--g-accent, #8ab4ff) 12%, transparent);
+}
+
+.g-header-portal-glyph {
+	display: grid;
+	place-items: center;
+	width: 1.7rem;
+	height: 1.7rem;
+	border-radius: .55rem;
+	background: color-mix(in srgb, currentColor 7%, transparent);
+}
+
+.g-header-portal-copy {
+	display: grid;
+	gap: .08rem;
+	min-width: 0;
+	line-height: 1;
+}
+
+.g-header-portal-label {
+	font-size: .78rem;
+	font-weight: 720;
+	letter-spacing: .01em;
+}
+
+.g-header-portal-caption {
+	font-size: .6rem;
+	font-weight: 580;
+	letter-spacing: .055em;
+	text-transform: uppercase;
+	opacity: .58;
+}
+
+.g-mail-portal .g-header-portal-glyph {
+	background: color-mix(in srgb, #6ea8ff 15%, transparent);
+}
+
+.g-notification-portal .g-header-portal-glyph {
+	background: color-mix(in srgb, #bc8cff 14%, transparent);
+}
+
+.g-header-portal-badge {
+	position: absolute;
+	top: .2rem;
+	right: .22rem;
+	min-width: 1rem;
+	padding: .08rem .25rem;
+	border: 2px solid var(--g-surface, #111722);
+	border-radius: 999px;
+	font-size: .58rem;
+	font-weight: 800;
+	line-height: 1;
+	text-align: center;
+}
+
+@media (max-width: 760px) {
+	.g-header-portal {
+		gap: 0;
+		padding-inline: .52rem;
+	}
+
+	.g-header-portal-copy {
+		display: none;
+	}
+}

@@ -1,0 +1,138 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives governance a luminous workspace instead of a stack of undecided boxes;
+ * Awtsmoos.com lets identity, publishing, and content each inhabit compact purposeful docks.
+ */
+body {
+	margin: 0;
+	min-height: 100dvh;
+	background: radial-gradient(circle at 15% 0, rgba(60, 236, 255, .08), transparent 34%), var(--g-bg);
+	color: var(--g-text);
+}
+
+.heichel-community-settings {
+	display: grid;
+	gap: .85rem;
+	width: min(100%, 76rem);
+	margin-inline: auto;
+	padding-block: clamp(1rem, 3vw, 2rem) 5rem;
+}
+
+.community-hero,
+.community-panel,
+.community-technical {
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-panel-radius);
+	background: color-mix(in srgb, var(--g-surface) 96%, transparent);
+	box-shadow: var(--g-shadow-soft);
+}
+
+.community-hero {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.community-hero-copy {
+	display: grid;
+	gap: .4rem;
+	max-width: 49rem;
+}
+
+.community-hero-copy :where(h1, p) {
+	margin: 0;
+}
+
+.community-hero-copy h1 {
+	font-size: clamp(2rem, 6vw, 3.6rem);
+	line-height: .98;
+	letter-spacing: -.055em;
+}
+
+.community-hero-copy p,
+.community-section-heading p {
+	color: var(--g-muted);
+	line-height: 1.5;
+}
+
+.community-kicker {
+	color: var(--g-cyan);
+	font-size: .7rem;
+	font-weight: 900;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.community-hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.community-loaded-badge {
+	display: inline-flex;
+	min-height: 2.25rem;
+	align-items: center;
+	padding: .45rem .7rem;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-pill);
+	color: var(--g-muted);
+	font-size: .75rem;
+	font-weight: 800;
+}
+
+.community-loaded-badge[data-loaded="true"] {
+	border-color: color-mix(in srgb, var(--g-success) 48%, var(--g-line));
+	color: var(--g-success);
+}
+
+.community-workspace {
+	display: grid;
+	grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+	gap: .85rem;
+	align-items: start;
+}
+
+.community-panel {
+	display: grid;
+	gap: .8rem;
+	padding: clamp(.85rem, 2vw, 1.1rem);
+}
+
+.community-content,
+.community-command-bar {
+	grid-column: 1 / -1;
+}
+
+.community-section-heading {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: .7rem;
+	align-items: start;
+}
+
+.community-section-heading > span {
+	display: grid;
+	width: 2rem;
+	height: 2rem;
+	place-items: center;
+	border-radius: .65rem;
+	background: rgba(60, 236, 255, .08);
+	color: var(--g-cyan);
+	font-size: .72rem;
+	font-weight: 900;
+}
+
+.community-section-heading :where(h2, p) {
+	margin: 0;
+}
+
+.community-section-heading h2 {
+	font-size: 1rem;
+}

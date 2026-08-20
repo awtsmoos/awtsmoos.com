@@ -1,0 +1,58 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos turns the hidden file input into a touchable gate of light;
+Awtsmoos.com keeps its semantic soul while giving the hand a clearer sight.
+*/
+.ocr-file-field {
+	display: flex;
+	align-items: center;
+	gap: .8rem;
+	min-height: 5.3rem;
+	padding: .85rem;
+	border: 1px dashed var(--ocr-border-strong);
+	border-radius: var(--ocr-radius-md);
+	background: var(--ocr-surface-soft);
+	cursor: pointer;
+	transition: border-color .18s ease, transform .18s ease, background .18s ease;
+}
+
+.ocr-file-field input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.ocr-file-icon {
+	display: grid;
+	place-items: center;
+	flex: 0 0 2.7rem;
+	height: 2.7rem;
+	border-radius: .85rem;
+	background: rgba(114, 229, 255, .12);
+	color: var(--ocr-accent);
+	font-size: 1.25rem;
+}
+
+.ocr-file-copy {
+	display: grid;
+	gap: .22rem;
+	min-width: 0;
+}
+
+.ocr-file-copy strong {
+	font-size: .92rem;
+}
+
+.ocr-file-copy small {
+	overflow: hidden;
+	color: var(--ocr-muted);
+	font-size: .75rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

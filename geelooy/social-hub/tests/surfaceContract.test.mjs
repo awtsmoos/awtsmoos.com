@@ -36,6 +36,8 @@ assert.match(links, /\.social-hub-document/);
 assert.match(actions, /\.social-hub-document/);
 assert.doesNotMatch(fields, /^:where\(input/m);
 assert.doesNotMatch(actions, /^:where\(button/m);
+assert.match(fields, /flex:\s*0 0 auto;/);
+assert.doesNotMatch(fields, /flex:\s*0 0 aut;/);
 
 for (const source of [contract, forms, fields, links, actions]) {
 	assert.ok(source.split('\n').length <= 120, 'surface module exceeds 120 lines');

@@ -1,12 +1,9 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
- * B"H
- * Keeps extension associations, defaults, and icons outside the program registry.
- * The Awtsmoos renews file suffix, project publication, hosted data, connected compute,
- * Wallet treasury, Peruta usage, and icon; Awtsmoos.com keeps programs stable identities.
+ * @module BasicProgramMappings
+ * @description The Awtsmoos renews suffix, default, and icon as coordinated signs; Awtsmoos.com lets files find the right vessel while keeping program identity stable and explicit.
  */
 
 export const programsByExtension = Object.freeze({
@@ -14,6 +11,10 @@ export const programsByExtension = Object.freeze({
 	".html": ["workspacePreview", "awtsmoosBrowser", "advancedCodeEditor"],
 	".htm": ["workspacePreview", "awtsmoosBrowser", "advancedCodeEditor"],
 	".merkava": ["awtsmoosBrowser", "advancedCodeEditor"],
+	".awtslides": ["awtsmoosPresenter", "advancedCodeEditor", "awtsmoosTextEdit"],
+	".awtsheet": ["awtsmoosSheets", "advancedCodeEditor", "awtsmoosTextEdit"],
+	".csv": ["awtsmoosSheets", "awtsmoosTextEdit", "advancedCodeEditor"],
+	".tsv": ["awtsmoosSheets", "awtsmoosTextEdit", "advancedCodeEditor"],
 	".c": ["advancedCodeEditor", "awtsmoosCompiler", "awtsmoosTextEdit"],
 	".cc": ["advancedCodeEditor", "awtsmoosCompiler"],
 	".cpp": ["advancedCodeEditor", "awtsmoosCompiler"],
@@ -42,6 +43,10 @@ export const initialDefaultPrograms = Object.freeze({
 	".html": "workspacePreview",
 	".htm": "workspacePreview",
 	".merkava": "awtsmoosBrowser",
+	".awtslides": "awtsmoosPresenter",
+	".awtsheet": "awtsmoosSheets",
+	".csv": "awtsmoosSheets",
+	".tsv": "awtsmoosSheets",
 	".c": "advancedCodeEditor",
 	".cc": "advancedCodeEditor",
 	".cpp": "advancedCodeEditor",
@@ -76,6 +81,8 @@ export function programIcon(name) {
 		awtsmoosDiagnostics: "🩺",
 		awtsmoosExecutable: "⚙️",
 		awtsmoosFileExplorer: "🗂️",
+		awtsmoosPresenter: "▣",
+		awtsmoosSheets: "▦",
 		awtsmoosTaskManager: "📊",
 		awtsmoosTextEdit: "📝",
 		connectedNodeServer: "🖥️",

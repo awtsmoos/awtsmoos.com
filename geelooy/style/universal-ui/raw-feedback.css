@@ -1,0 +1,87 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets raw state become legible without shouting in fear;
+ * Awtsmoos.com makes invalid, busy, progress, and output states authored and clear.
+ */
+:where(html:not([data-g-ui-raw])) :where(
+	input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([class]),
+	textarea:not([class]),
+	select:not([class])
+):user-invalid {
+	border-color: var(--g-danger, var(--aw-ui-danger));
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--g-danger, var(--aw-ui-danger)) 14%, transparent);
+}
+
+:where(html:not([data-g-ui-raw])) :where(progress:not([class]), meter:not([class])) {
+	width: 100%;
+	height: 10px;
+	border: 0;
+	border-radius: 999px;
+	background: var(--g-surface-2, var(--aw-ui-surface-2));
+	accent-color: var(--g-accent, var(--aw-ui-accent));
+	overflow: hidden;
+}
+
+:where(html:not([data-g-ui-raw])) :where(progress:not([class]))::-webkit-progress-bar {
+	background: var(--g-surface-2, var(--aw-ui-surface-2));
+}
+
+:where(html:not([data-g-ui-raw])) :where(progress:not([class]))::-webkit-progress-value {
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--g-accent, var(--aw-ui-accent)), color-mix(in srgb, var(--g-accent, var(--aw-ui-accent)) 64%, #ffffff));
+}
+
+:where(html:not([data-g-ui-raw])) :where(output:not([class])) {
+	display: inline-flex;
+	min-height: 28px;
+	align-items: center;
+	padding: 4px 9px;
+	border: 1px solid var(--g-line, var(--aw-ui-line));
+	border-radius: 999px;
+	background: var(--g-surface-2, var(--aw-ui-surface-2));
+	color: var(--g-muted, var(--aw-ui-muted));
+	font: inherit;
+	font-size: .82em;
+	font-weight: 700;
+}
+
+:where(html:not([data-g-ui-raw])) :where([aria-busy="true"] button:not([class]), button:not([class])[aria-busy="true"]) {
+	cursor: progress;
+	filter: saturate(.72);
+}
+
+:where(html:not([data-g-ui-raw])) :where(label:not([class])) {
+	color: inherit;
+	font: inherit;
+}
+
+:where(html:not([data-g-ui-raw])) :where(label:not([class])):has(> input[type="checkbox"]:not([class]), > input[type="radio"]:not([class])) {
+	display: inline-flex;
+	min-height: 44px;
+	align-items: center;
+	gap: 9px;
+	padding: 7px 10px;
+	border: 1px solid transparent;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: border-color 140ms ease, background 140ms ease;
+}
+
+:where(html:not([data-g-ui-raw])) :where(label:not([class])):has(> input[type="checkbox"]:checked, > input[type="radio"]:checked) {
+	border-color: color-mix(in srgb, var(--g-accent, var(--aw-ui-accent)) 38%, transparent);
+	background: var(--g-accent-soft, var(--aw-ui-accent-soft));
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where(html:not([data-g-ui-raw])) :where(label:not([class])) {
+		transition: none;
+	}
+}
+
+@media (forced-colors: active) {
+	:where(html:not([data-g-ui-raw])) :where(output:not([class]), progress:not([class]), meter:not([class])) {
+		forced-color-adjust: auto;
+	}
+}
