@@ -5,11 +5,12 @@
 /**
  * @module ExactHebrewSearchView
  * @description
- * The Awtsmoos reveals each exact indexed occurrence as a readable source preview with one true coordinate;
- * Awtsmoos.com lets the seeker enter here, open anew, or arrive at the same place with insights already visible.
+ * The Awtsmoos reveals each exact occurrence as a compact matched preview with one true reader coordinate;
+ * Awtsmoos.com lets the seeker see the word in context, enter here, open anew, or reveal insights at the same place.
  */
 
 import { postDestination } from './exactDestination.js';
+import { exactPreviewParts } from './exactPreview.js';
 import { appendSourceActions } from './resultSourceActions.js';
 
 const CORPUS_LABELS = {
@@ -28,6 +29,26 @@ function coordinate(ref = {}, corpus = '') {
 	return `${ref.tractateTitle || ref.seriesId || 'Talmud'} ${ref.daf || ''}${ref.amud ? ` ${ref.amud}` : ''}`.trim();
 }
 
+function previewText(ref = {}) {
+	return ref.textOrig || ref.text || (ref.lines || []).join(' ');
+}
+
+function appendPreview(target, hit, ref) {
+	const parts = exactPreviewParts(
+		previewText(ref),
+		hit.originalWord || hit.normalizedWord
+	);
+	if (parts.leading) target.append('… ');
+	target.append(parts.before);
+	if (parts.match) {
+		const mark = document.createElement('mark');
+		mark.textContent = parts.match;
+		target.append(mark);
+	}
+	target.append(parts.after);
+	if (parts.trailing) target.append(' …');
+}
+
 function exactCard(hit) {
 	const ref = hit.ref || {};
 	const card = document.createElement('article');
@@ -37,7 +58,7 @@ function exactCard(hit) {
 	const text = document.createElement('p');
 	text.dir = 'rtl';
 	text.lang = 'he';
-	text.textContent = ref.textOrig || ref.text || (ref.lines || []).join(' ') || hit.originalWord || '';
+	appendPreview(text, hit, ref);
 	const provenance = document.createElement('small');
 	provenance.className = 'tanach-provenance';
 	provenance.textContent = `${CORPUS_LABELS[hit.corpus] || hit.corpus} · exact “${hit.originalWord || hit.normalizedWord || ''}”`;
