@@ -5,8 +5,8 @@
 /**
  * @file searchResponseStatus.test.js
  * @description
- * The Awtsmoos tests that HTTP and JSON speak with one mouth at every search gate;
- * Awtsmoos.com returns client, not-found, unavailable, and internal failures with an honest status state.
+ * The Awtsmoos tests the same dynamic envelope that finally reaches the HTTP wire;
+ * Awtsmoos.com proves body and status together, so a green unit test cannot conceal a 200 liar.
  */
 
 const assert = require('node:assert/strict');
@@ -16,6 +16,9 @@ const {
 	applySearchStatus,
 	statusForSearchError
 } = require('../routes/responseStatus.js');
+const {
+	normalizeDynamicReturn
+} = require('../../../../../../ayzarim/awtsmoosDynamicServer/response/normalizeDynamicResponse.js');
 
 function requestVessel(get = {}) {
 	return {
@@ -23,9 +26,15 @@ function requestVessel(get = {}) {
 		$_POST: {},
 		db: {},
 		request: {},
-		response: {
-			statusCode: 200
-		}
+		response: {}
+	};
+}
+
+function normalizeRouteResult(result) {
+	const normalized = normalizeDynamicReturn(result);
+	return {
+		...normalized,
+		json: JSON.parse(normalized.body)
 	};
 }
 
@@ -37,28 +46,29 @@ test('search error codes map to truthful HTTP classes', () => {
 	assert.equal(statusForSearchError({ code: 'UNEXPECTED_FAILURE' }), 500);
 });
 
-test('status application leaves successful results untouched', () => {
-	const $i = requestVessel();
+test('successful results remain ordinary HTTP 200 JSON', () => {
 	const result = { success: { total: 0 } };
+	const normalized = normalizeRouteResult(applySearchStatus(result));
 
-	assert.equal(applySearchStatus({ $i }, result), result);
-	assert.equal($i.response.statusCode, 200);
+	assert.equal(normalized.statusCode, 200);
+	assert.deepEqual(normalized.json, result);
 });
 
-test('missing comment context returns HTTP 400 through lazy route wrapper', async () => {
-	const $i = requestVessel();
-	const routes = createRoutes({ $i });
+test('missing comment context normalizes to HTTP 400 with same JSON body', async () => {
+	const routes = createRoutes({ $i: requestVessel() });
 	const result = await routes['/search/rag/post-comments']();
+	const normalized = normalizeRouteResult(result);
 
-	assert.equal(result.error.code, 'MISSING_CONTEXT');
-	assert.equal($i.response.statusCode, 400);
+	assert.equal(normalized.statusCode, 400);
+	assert.equal(normalized.json.error.code, 'MISSING_CONTEXT');
+	assert.equal(normalized.json.error.message, 'Pass seriesId and postId.');
 });
 
-test('unwarmed search readiness reports HTTP 503', async () => {
-	const $i = requestVessel();
-	const routes = createRoutes({ $i });
+test('unwarmed readiness normalizes to HTTP 503', async () => {
+	const routes = createRoutes({ $i: requestVessel() });
 	const result = await routes['/search/readiness']();
+	const normalized = normalizeRouteResult(result);
 
-	assert.equal(result.success.ok, false);
-	assert.equal($i.response.statusCode, 503);
+	assert.equal(normalized.statusCode, 503);
+	assert.equal(normalized.json.success.ok, false);
 });

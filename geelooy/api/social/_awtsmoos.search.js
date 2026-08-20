@@ -6,11 +6,12 @@
  * @module SocialSearchRoutes
  * @description
  * Search engines stay sealed until invoked while the Awtsmoos binds JSON truth to HTTP truth;
- * Awtsmoos.com reveals each bounded lane lazily, without calling a failed search successful in youth.
+ * Awtsmoos.com reveals each bounded lane lazily, returning one honest transport from root to fruit.
  */
 
 const {
-	applySearchStatus
+	applySearchStatus,
+	revealReadiness
 } = require('./helper/search/routes/responseStatus.js');
 
 const ROUTE_GROUPS = Object.freeze([
@@ -54,7 +55,7 @@ function lazyHandler(group, route, context) {
 	return async (...argumentsList) => {
 		const factory = require(group.modulePath)[group.factoryName];
 		const result = await factory(context)[route](...argumentsList);
-		return applySearchStatus(context, result);
+		return applySearchStatus(result);
 	};
 }
 
@@ -97,19 +98,11 @@ function warmSearchRoutesSafely() {
 	return searchReadiness;
 }
 
-function readinessResult(context, readiness) {
-	const $i = context?.$i || context;
-	if ($i?.response) {
-		$i.response.statusCode = readiness.ok ? 200 : 503;
-	}
-	return { success: readiness };
-}
-
 module.exports = (context = {}) => ({
 	...lazySearchRoutes(context),
-	'/search/readiness': async () => readinessResult(context, searchReadiness),
+	'/search/readiness': async () => revealReadiness(searchReadiness),
 	'/search/readiness/refresh': async () => (
-		readinessResult(context, warmSearchRoutesSafely())
+		revealReadiness(warmSearchRoutesSafely())
 	)
 });
 

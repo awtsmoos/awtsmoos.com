@@ -5,11 +5,9 @@
 /**
  * @module SearchResponseStatus
  * @description
- * The Awtsmoos joins the truth of the JSON body to the truth of the HTTP vessel;
- * Awtsmoos.com no longer calls an error "200 OK" when the search itself did not settle.
+ * The Awtsmoos binds the truth of the JSON body to the truth of the HTTP envelope;
+ * Awtsmoos.com returns one measured vessel, so failure can never masquerade as successful.
  */
-
-const { requestInterface } = require('./requestSnapshot.js');
 
 const BAD_REQUEST_CODES = new Set([
 	'MISSING_CONTEXT',
@@ -47,20 +45,44 @@ function statusForSearchError(error) {
 }
 
 /**
- * @param {unknown} context Search route context.
- * @param {unknown} result Route result.
- * @returns {unknown} The original result, unchanged.
+ * @param {unknown} payload JSON-compatible public response.
+ * @param {number} statusCode HTTP status code.
+ * @returns {object} Framework-native dynamic response envelope.
  */
-function applySearchStatus(context, result) {
+function revealJsonEnvelope(payload, statusCode) {
+	return {
+		statusCode,
+		headers: {
+			'Cache-Control': 'no-store'
+		},
+		mimeType: 'application/json; charset=utf-8',
+		response: JSON.stringify(payload, null, 2)
+	};
+}
+
+/**
+ * @param {unknown} result Search route result.
+ * @returns {unknown} Plain success result or wrapped error response.
+ */
+function applySearchStatus(result) {
 	if (!result?.error) return result;
-	const $i = requestInterface(context);
-	if ($i?.response) {
-		$i.response.statusCode = statusForSearchError(result.error);
-	}
-	return result;
+	return revealJsonEnvelope(result, statusForSearchError(result.error));
+}
+
+/**
+ * @param {object} readiness Search readiness record.
+ * @returns {object} Plain ready result or HTTP 503 dynamic envelope.
+ */
+function revealReadiness(readiness) {
+	const payload = { success: readiness };
+	return readiness?.ok
+		? payload
+		: revealJsonEnvelope(payload, 503);
 }
 
 module.exports = {
 	applySearchStatus,
+	revealJsonEnvelope,
+	revealReadiness,
 	statusForSearchError
 };
