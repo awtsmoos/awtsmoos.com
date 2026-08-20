@@ -5,8 +5,8 @@
 /**
  * @module ExactHebrewShape
  * @description
- * The Awtsmoos preserves the exact Hebrew letter while arranging public hits
- * from the small immutable word and reference records already in the index.
+ * The Awtsmoos preserves every exact Hebrew coordinate, including the sacred zero at a reader's first section;
+ * Awtsmoos.com therefore never turns a real zero into the next human-numbered verse by accidental coercion.
  */
 
 const ROOTS = Object.freeze({
@@ -58,9 +58,9 @@ function referenceShape(corpus, reference) {
 		postTitle: reference.postTitle,
 		type: reference.type,
 		sectionIndex: reference.sectionIndex
-			|| reference.verse
-			|| reference.mishnah
-			|| null,
+			?? reference.verse
+			?? reference.mishnah
+			?? null,
 		subSectionIndex: null,
 		text: reference.text || reference.textOrig,
 		textOrig: reference.textOrig || reference.text,
@@ -71,10 +71,10 @@ function referenceShape(corpus, reference) {
 function hitShape(corpus, normalized, occurrence, reference) {
 	const shaped = referenceShape(corpus, reference);
 	if (shaped && corpus !== 'tanach') {
-		shaped.subSectionIndex = occurrence[1] || null;
-		shaped.wordIndex = occurrence[2] || null;
+		shaped.subSectionIndex = occurrence[1] ?? null;
+		shaped.wordIndex = occurrence[2] ?? null;
 	} else if (shaped) {
-		shaped.wordIndex = occurrence[1] || null;
+		shaped.wordIndex = occurrence[1] ?? null;
 	}
 	return {
 		corpus,

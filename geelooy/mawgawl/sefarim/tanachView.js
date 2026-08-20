@@ -4,15 +4,16 @@
 /**
  * @module TanachSearchView
  * @description
- * Exact verses shine with coordinates as the Awtsmoos reveals their source;
- * at Awtsmoos.com every returned verse offers one safe new-tab doorway to its reader course.
+ * Exact verses shine as readable previews while the Awtsmoos preserves their reader coordinate;
+ * at Awtsmoos.com every verse may open here, in a new tab, or with insights already revealed.
  */
+
+import { appendSourceActions } from './resultSourceActions.js';
+
 function highlightedText(result) {
 	const text = String(result.text || '');
 	const offset = result.matchOffsets?.[0];
-	if (!offset) {
-		return document.createTextNode(text);
-	}
+	if (!offset) return document.createTextNode(text);
 	const fragment = document.createDocumentFragment();
 	fragment.append(text.slice(0, offset.start));
 	const mark = document.createElement('mark');
@@ -33,14 +34,14 @@ function resultCard(result) {
 	const provenance = document.createElement('small');
 	provenance.className = 'tanach-provenance';
 	provenance.textContent = result.sourcePath || 'Persisted Tanach index';
-	const link = document.createElement('a');
-	link.className = 'resultOpenLink';
-	link.href = result.readerUrl;
-	link.target = '_blank';
-	link.rel = 'noopener noreferrer';
-	link.textContent = 'Open exact verse ↗';
-	link.setAttribute('aria-label', `Open ${heading.textContent} in a new tab`);
-	card.append(heading, text, provenance, link);
+	const actions = document.createElement('div');
+	actions.className = 'resultActions';
+	actions.hidden = true;
+	appendSourceActions(actions, {
+		destination: result.readerUrl,
+		label: heading.textContent
+	});
+	card.append(heading, text, provenance, actions);
 	return card;
 }
 

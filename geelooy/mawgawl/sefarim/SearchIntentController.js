@@ -6,13 +6,15 @@
  * @module SearchIntentController
  * @description
  * The Awtsmoos lets automatic Hebrew insight serve the reader without overruling deliberate choice;
- * at Awtsmoos.com URL hydration waits for its lane vessel, so a shared search keeps one truthful voice.
+ * at Awtsmoos.com URL and history hydration restore lane, book, or exact corpus before the search has voice.
  */
 
 import { readSearchLocation } from './searchLocation.js';
 import {
 	book,
 	bookField,
+	corpus,
+	corpusField,
 	input,
 	laneField,
 	mode,
@@ -26,6 +28,10 @@ import {
 	modeFromUrl
 } from './searchMode.js';
 
+function configureCurrentMode() {
+	configureMode(mode, laneField, bookField, corpusField);
+}
+
 export class SearchIntentController {
 	constructor({ runSearch, loadLanes }) {
 		this.runSearch = runSearch;
@@ -34,46 +40,39 @@ export class SearchIntentController {
 	}
 
 	prepareMode(query) {
-		if (this.modeLocked) {
-			return;
-		}
+		if (this.modeLocked) return;
 		mode.value = automaticMode(query);
-		configureMode(mode, laneField, bookField);
+		configureCurrentMode();
 	}
 
 	chooseLane(lane) {
 		this.modeLocked = true;
 		mode.value = LIBRARY_MODE;
 		series.value = lane;
-		configureMode(mode, laneField, bookField);
+		configureCurrentMode();
 		input.focus();
-		if (input.value.trim()) {
-			this.runSearch(input.value);
-		}
+		if (input.value.trim()) this.runSearch(input.value);
 	}
 
 	chooseHistory(entry) {
 		this.modeLocked = true;
-		mode.value = LIBRARY_MODE;
 		input.value = entry.query;
-		series.value = entry.lane;
-		configureMode(mode, laneField, bookField);
+		mode.value = entry.mode || LIBRARY_MODE;
+		series.value = entry.lane || '';
+		book.value = entry.book || '';
+		corpus.value = entry.corpus || 'tanach';
+		configureCurrentMode();
 		this.runSearch(entry.query);
 	}
 
 	handleModeChange() {
 		this.modeLocked = true;
-		configureMode(mode, laneField, bookField);
-		if (input.value.trim()) {
-			this.runSearch(input.value);
-		}
+		configureCurrentMode();
+		if (input.value.trim()) this.runSearch(input.value);
 	}
 
 	/**
 	 * @returns {Promise<void>} Resolves after URL state is fully restored.
-	 * @description
-	 * The Awtsmoos lets the requested lane arrive before the first query can run;
-	 * Awtsmoos.com therefore preserves deep-link intent instead of racing toward every corpus at once.
 	 */
 	async hydrate() {
 		const state = readSearchLocation();
@@ -81,10 +80,9 @@ export class SearchIntentController {
 		this.modeLocked = hasExplicitMode(state.values);
 		mode.value = modeFromUrl(state.values);
 		book.value = state.book;
-		configureMode(mode, laneField, bookField);
+		corpus.value = state.corpus;
+		configureCurrentMode();
 		await this.loadLanes(state.lane);
-		if (input.value) {
-			await this.runSearch(input.value);
-		}
+		if (input.value) await this.runSearch(input.value);
 	}
 }

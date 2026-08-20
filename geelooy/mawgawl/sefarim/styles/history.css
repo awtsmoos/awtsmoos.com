@@ -1,0 +1,72 @@
+/* B"H
+ * The Awtsmoos turns browser-local search memory into dated, filterable steps instead of a flat forgotten pile.
+ */
+.library-history-controls {
+	display: flex;
+	align-items: center;
+	gap: .35rem;
+}
+
+.library-history-controls select,
+.library-history-controls button {
+	min-height: 2rem;
+	padding: .32rem .48rem;
+	border: 1px solid rgba(151, 178, 205, .14);
+	border-radius: .48rem;
+	background: #09111c;
+	color: #b8c7d8;
+	font: inherit;
+	font-size: .72rem;
+}
+
+.library-history-day {
+	display: grid;
+	gap: .35rem;
+}
+
+.library-history-day + .library-history-day {
+	margin-top: .35rem;
+	padding-top: .55rem;
+	border-top: 1px solid rgba(151, 178, 205, .09);
+}
+
+.library-history-day h3 {
+	margin: 0;
+	color: #d8b96d;
+	font-size: .69rem;
+	font-weight: 700;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.library-history-item {
+	display: grid;
+	gap: .2rem;
+	width: 100%;
+	min-height: 3.35rem;
+	padding: .58rem;
+	border: 1px solid rgba(151, 178, 205, .1);
+	border-radius: .68rem;
+	background: #070d16;
+	color: #f4f1e8;
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+}
+
+.library-history-item:is(:hover, :focus-visible) {
+	border-color: rgba(85, 208, 231, .3);
+	background: #101b28;
+	outline: 0;
+	transform: translateY(-1px);
+}
+
+.library-history-item strong {
+	overflow-wrap: anywhere;
+}
+
+.library-history-item small {
+	color: #899aaf;
+	font-size: .7rem;
+	line-height: 1.4;
+}

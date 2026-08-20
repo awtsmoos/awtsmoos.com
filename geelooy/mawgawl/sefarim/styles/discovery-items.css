@@ -1,10 +1,10 @@
 /* B"H
- * The Awtsmoos gives lane cards, recent searches, and tips their own focused discovery vessel.
+ * The Awtsmoos gives lane cards, legacy recent-search shapes, and tips their own focused discovery vessel.
  */
 .library-lane-directory,
 .library-recent-searches {
 	display: grid;
-	gap: .36rem;
+	gap: .45rem;
 }
 
 .library-lane-card,
@@ -30,9 +30,10 @@
 
 .library-lane-card:is(:hover, :focus-visible),
 .library-recent-search:is(:hover, :focus-visible) {
-	border-color: rgba(85, 208, 231, .24);
+	border-color: rgba(85, 208, 231, .3);
 	background: #101b28;
 	outline: 0;
+	transform: translateY(-1px);
 }
 
 .library-lane-index {
@@ -58,6 +59,7 @@
 	margin-top: .12rem;
 	color: #899aaf;
 	font-size: .7rem;
+	line-height: 1.4;
 }
 
 .library-lane-arrow {

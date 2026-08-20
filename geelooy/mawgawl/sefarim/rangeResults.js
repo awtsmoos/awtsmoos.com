@@ -4,14 +4,13 @@
 /**
  * @module LivingLibraryRangeCard
  * @description
- * The Awtsmoos lets every truthful search hit point back to its living source;
- * at Awtsmoos.com relevance is useful only when a reader can follow its course.
- * Each card keeps provenance, readable text, comments, and an explicit post gate,
- * so search becomes a doorway into the real Heichelos location instead of a dead state.
+ * The Awtsmoos lets every truthful library preview point back to its exact reader coordinate;
+ * Awtsmoos.com keeps relevance, comments, and direct source doors together instead of ending search at a dead card.
  */
 import { clean, safeFragment } from './safeMarkup.js';
 import { appendComments } from './rangeComments.js';
 import { postDestination } from './exactDestination.js';
+import { appendSourceActions } from './resultSourceActions.js';
 
 function percent(hit) {
 	const number = Number(hit.percent ?? Number(hit.score || 0) * 100);
@@ -36,26 +35,17 @@ function cardTemplate() {
 	return '<header class="resultTop"><span class="rank"></span><div><p class="eyebrow"></p><h2></h2></div><strong class="score"></strong></header><div class="meter"><i></i></div><p class="rangePreview"></p><div class="rangeMeta"></div><div class="resultActions" hidden></div><details class="commentMenu"><summary><span class="openLabel"></span><span class="closeLabel">Hide comments ↑</span></summary><div class="commentList"></div></details>';
 }
 
-function appendPostAction(card, row) {
-	const destination = postDestination(row);
+function appendPostActions(card, row) {
 	const actions = card.querySelector('.resultActions');
-	if (!destination || !actions) {
-		return;
-	}
-	const link = document.createElement('a');
-	link.className = 'resultOpenLink';
-	link.href = destination;
-	link.target = '_blank';
-	link.rel = 'noopener noreferrer';
-	link.textContent = 'Open real post ↗';
-	link.setAttribute('aria-label', `Open ${clean(row.title || row.postId || 'source post')} in a new tab`);
-	actions.hidden = false;
-	actions.append(link);
+	appendSourceActions(actions, {
+		destination: postDestination(row),
+		idx: row.verseStart ?? row.verseSection,
+		sub: row.subSection ?? row.subsection,
+		label: clean(row.title || row.postId || 'source post')
+	});
 }
 
 /**
- * Creates one search-result card whose source and comments remain directly reachable.
- *
  * @param {object} hit Normalized search hit.
  * @param {number} index Zero-based visible rank.
  * @param {boolean} openComments Whether comments begin expanded.
@@ -77,7 +67,7 @@ export function rangeCard(hit, index, openComments = false) {
 	card.querySelector('.score').textContent = `${relevance.toFixed(1)}% relevant`;
 	card.querySelector('.rangePreview').append(safeFragment(row.displayText || row.text || 'Matching source text'));
 	card.querySelector('.rangeMeta').textContent = segmentMeta(row, comments.length);
-	appendPostAction(card, row);
+	appendPostActions(card, row);
 
 	const commentMenu = card.querySelector('.commentMenu');
 	commentMenu.open = openComments && comments.length > 0;
