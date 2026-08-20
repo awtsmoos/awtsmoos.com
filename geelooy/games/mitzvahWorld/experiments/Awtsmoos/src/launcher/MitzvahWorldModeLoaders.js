@@ -4,13 +4,14 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Loads staged worlds and creative tools while attaching one lightweight direct-world experience.
- * The Awtsmoos opens the playable valley before ornament, then lets useful sound and passage arrive in rhyme;
- * Awtsmoos.com preserves staged realism, explicit Movie routes, and transport intent without duplicate worlds in time.
+ * @description Returns playable worlds before optional presentation and audio finish hydrating.
+ * The Awtsmoos opens movement before ornament; Awtsmoos.com keeps route loading small,
+ * readable, and truthful while post-play presentation enters only beyond first control.
  */
 
 const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260802-game-studio-bridge-02';
 const DIRECT_EXPERIENCE_URL = './MitzvahWorldDirectExperience.js?v=20260814-direct-audio-02';
+const POST_PLAY_EXPERIENCE_URL = './MitzvahWorldPostPlayExperience.js';
 const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?v=20260804-map-01';
 
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
@@ -40,7 +41,10 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 		import(SINGLE_PLAYER_RUNTIME_URL),
 		import('../network/MultiplayerStatusBadge.js')
 	]);
-	const diagnostics = await runtimeModule.createEretzRuntime(hosts, runtimeOptions(options, environment));
+	const diagnostics = await runtimeModule.createEretzRuntime(
+		hosts,
+		runtimeOptions(options, environment)
+	);
 	diagnostics.connectionBadge = badgeModule.installSinglePlayerStatusBadge();
 	diagnostics.sessionMode = 'singleplayer';
 	diagnostics.sessionDiagnostics = () => ({
@@ -49,7 +53,7 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 		state: 'singleplayer',
 		transport: 'none'
 	});
-	diagnostics.directExperience = await startDirectExperience(diagnostics, environment);
+	launchPostPlayExperience(diagnostics, environment);
 	return diagnostics;
 }
 
@@ -66,7 +70,7 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 		url: options.realtimeUrl,
 		worldId: options.worldId
 	});
-	diagnostics.directExperience = await startDirectExperience(diagnostics, environment);
+	launchPostPlayExperience(diagnostics, environment);
 	return diagnostics;
 }
 
@@ -82,9 +86,23 @@ async function openCreative(method, hosts, search, environment) {
 	return module[method](hosts, search);
 }
 
-async function startDirectExperience(diagnostics, environment) {
-	const module = await import(DIRECT_EXPERIENCE_URL);
-	return module.startMitzvahWorldDirectExperience(diagnostics, environment);
+function launchPostPlayExperience(diagnostics, environment) {
+	const promise = import(POST_PLAY_EXPERIENCE_URL)
+		.then(module => module.startMitzvahWorldPostPlayExperience(diagnostics, environment))
+		.catch(error => {
+			diagnostics.directExperienceBootstrapError = errorReceipt(error);
+			console.warn('[MitzvahWorld] post-play helper degraded.', error);
+			return null;
+		});
+	diagnostics.directExperienceBootstrapPromise = promise;
+	return promise;
+}
+
+function errorReceipt(error) {
+	return Object.freeze({
+		message: error?.message || String(error),
+		name: error?.name || 'Error'
+	});
 }
 
 function runtimeOptions(options, environment) {
