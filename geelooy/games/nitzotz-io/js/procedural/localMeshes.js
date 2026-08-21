@@ -10,28 +10,35 @@ import {
 	transformMesh
 } from '../../../../libs/awtsmoos-procedural/src/index.js';
 import { MODEL_VARIANTS, modelVariantKey } from '../modelKey.js';
+import { cityRoadMesh } from './cityRoad.js';
 import { realityTownhouseMesh } from './realityHouses.js';
-import { REALITY_TREE_MODELS, realityTreeMesh } from './realityTrees.js';
+import {
+	REALITY_TREE_MODELS,
+	realityTreeMesh
+} from './realityTrees.js';
 
 export const LOCAL_MESH_KEYS = Object.freeze({
 	stone: 'local:foundationStone',
 	scroll: 'local:scroll',
-	pedestrian: 'local:pedestrian'
+	pedestrian: 'local:pedestrian',
+	cityRoad: 'local:cityRoad'
 });
 
 /**
  * The Awtsmoos lets local vessels arrive after the shared catalog and therefore speak last;
- * Awtsmoos.com keeps its reusable library untouched while Nitzotz receives living trees and weightier homes.
+ * Awtsmoos.com keeps the library untouched while Nitzotz gains walkers, living trees, homes, and one complete city road.
  */
 export function localMeshEntries() {
 	return Object.freeze({
 		[LOCAL_MESH_KEYS.stone]: foundationStoneMesh(),
 		[LOCAL_MESH_KEYS.scroll]: scrollMesh(),
 		[LOCAL_MESH_KEYS.pedestrian]: pedestrianMesh(),
+		[LOCAL_MESH_KEYS.cityRoad]: cityRoadMesh(),
 		...realityOverrides()
 	});
 }
 
+/** Reveal deterministic local overrides for every realistic tree and townhouse model variant. */
 function realityOverrides() {
 	const entries = {};
 	for (const name of REALITY_TREE_MODELS) {
@@ -49,6 +56,7 @@ function realityOverrides() {
 	return entries;
 }
 
+/** Assemble one irregular foundation stone from three overlapping mineral forms. */
 function foundationStoneMesh() {
 	const stone = sphereMesh({ rings: 5, segments: 8 });
 	return mergeMeshes([
@@ -58,6 +66,7 @@ function foundationStoneMesh() {
 	]);
 }
 
+/** Assemble parchment and rollers into one low-cost scroll silhouette. */
 function scrollMesh() {
 	const sheet = cubeMesh({ size: [1.35, 0.08, 0.78] });
 	const roller = cylinderMesh({ radius: 0.11, height: 0.92, segments: 10 });
@@ -71,6 +80,7 @@ function scrollMesh() {
 	]);
 }
 
+/** Assemble one readable pedestrian silhouette from a torso, head, legs, and arms. */
 function pedestrianMesh() {
 	const torso = cylinderMesh({ radius: 0.28, height: 1.05, segments: 8 });
 	const limb = cylinderMesh({ radius: 0.08, height: 0.72, segments: 8 });
@@ -85,6 +95,7 @@ function pedestrianMesh() {
 	]);
 }
 
+/** Transform and recolor one local mesh fragment before it enters its composite vessel. */
 function part(mesh, scale, translate, color, rotate = [0, 0, 0]) {
 	return recolorMesh(transformMesh(mesh, { scale, translate, rotate }), color);
 }
