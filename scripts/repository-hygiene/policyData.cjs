@@ -49,7 +49,8 @@ const APPROVED_MEDIA_PREFIXES = [
 const APPROVED_FILES = new Set([
 	"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js",
 	"geelooy/games/seven-mitzvos/favicon.svg",
-	"geelooy/resources/home/restored-awtsmoos-hero.jpg"
+	"geelooy/resources/home/restored-awtsmoos-hero.jpg",
+	"geelooy/zmanim/favicon.svg"
 ]);
 const SOURCE_PREFIXES = [
 	"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/logs/"

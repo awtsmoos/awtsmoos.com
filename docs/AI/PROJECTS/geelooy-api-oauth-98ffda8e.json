@@ -23,42 +23,47 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-oauth-98ffda8e.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 30,
-		"tests": 3,
+		"source": 47,
+		"tests": 10,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 34,
+	"totalFiles": 58,
 	"symbolSummary": {
-		"files": 30,
+		"files": 47,
 		"classes": 0,
-		"functions": 110,
-		"exports": 82,
+		"functions": 168,
+		"exports": 155,
 		"samples": [
 			"dynamicRoutes",
-			"POST",
 			"cleanRouteName",
+			"missingRoute",
 			"callRoute",
+			"applyOAuthHeaders",
 			"buildTokenBody",
 			"makeAccessToken",
 			"base64Url",
 			"sign",
 			"getClient",
 			"listClients",
-			"ruleAllows",
-			"wildcardToRegex"
+			"publicClient"
 		]
 	},
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/api/tunnel",
-			"count": 1,
-			"examples": "geelooy/api/oauth/data/clients.js"
+			"count": 2,
+			"examples": "geelooy/api/oauth/data/clients.js; geelooy/api/oauth/data/publicAgentPolicy.js"
 		}
 	],
 	"incomingDependencies": [
+		{
+			"project": "geelooy/.well-known",
+			"count": 1,
+			"examples": "geelooy/.well-known/_awtsmoos.derech.js"
+		},
 		{
 			"project": "geelooy/api/tunnel",
 			"count": 1,

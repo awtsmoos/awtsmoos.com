@@ -1,0 +1,96 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets one calm shell hold creator and respondent while a still glow receives the quieter motion of shared WebGL light.
+Awtsmoos.com keeps geometry and navigation near the user, leaving atmosphere behind the work so beauty never steals sight.
+*/
+.forms-ambient {
+	position: fixed;
+	inset: -30%;
+	z-index: 0;
+	pointer-events: none;
+	opacity: .58;
+	background:
+		radial-gradient(circle at 24% 18%, rgb(139 156 255 / 10%), transparent 28rem),
+		radial-gradient(circle at 78% 24%, rgb(14 165 233 / 7%), transparent 26rem);
+	filter: blur(64px);
+}
+
+.forms-topbar {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 14px clamp(16px, 4vw, 36px);
+	border-bottom: 1px solid var(--border);
+	background: rgb(5 8 22 / 72%);
+	backdrop-filter: blur(22px) saturate(140%);
+}
+
+.forms-brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	color: inherit;
+	font-weight: 760;
+	text-decoration: none;
+}
+
+.brand-mark {
+	display: grid;
+	width: 34px;
+	height: 34px;
+	place-items: center;
+	border: 1px solid rgb(139 156 255 / 34%);
+	border-radius: 11px;
+	background: linear-gradient(145deg, rgb(139 156 255 / 22%), rgb(255 255 255 / 4%));
+	box-shadow: 0 10px 30px rgb(79 70 229 / 16%);
+}
+
+.connection-status {
+	padding: 6px 10px;
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	color: var(--muted);
+	font-size: .75rem;
+	background: var(--surface-soft);
+}
+
+.connection-status[data-state="online"] {
+	color: #a7f3d0;
+	border-color: rgb(52 211 153 / 28%);
+}
+
+.forms-root {
+	position: relative;
+	z-index: 1;
+	width: min(960px, calc(100% - 28px));
+	margin: 0 auto;
+	padding: clamp(28px, 6vw, 72px) 0 80px;
+}
+
+.form-empty-state {
+	display: grid;
+	gap: 12px;
+	max-width: 640px;
+	margin: 8vh auto 0;
+	padding: clamp(24px, 5vw, 48px);
+	border: 1px solid var(--border);
+	border-radius: 28px;
+	background: var(--surface);
+	box-shadow: var(--shadow);
+	backdrop-filter: blur(22px);
+}
+
+.form-empty-state h1,
+.form-empty-state p {
+	margin: 0;
+}
+
+.form-empty-state p {
+	color: var(--muted);
+	line-height: 1.65;
+}

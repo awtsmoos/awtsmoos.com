@@ -1,0 +1,47 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos glimmers behind creation; Awtsmoos.com keeps this GPU light beneath text, touch, contrast, and human attention. */
+.awtsmoosSocialAmbient {
+	position: fixed;
+	inset: 0;
+	z-index: 0;
+	width: 100vw;
+	height: 100vh;
+	pointer-events: none;
+	user-select: none;
+	touch-action: none;
+	opacity: .11;
+	filter: saturate(.82) brightness(.86);
+}
+.awtsmoosSocialExperience :where(
+	.publicDiscovery,
+	#commentThreadRoot,
+	.comment-thread-root,
+	.profileHub,
+	.notificationsShell,
+	.heichel-page
+) {
+	position: relative;
+	z-index: 1;
+}
+.awtsmoosSocialAmbientFallback body::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(circle at 18% 16%, color-mix(in srgb, #7c5cff 9%, transparent), transparent 34%),
+		radial-gradient(circle at 78% 72%, color-mix(in srgb, #2fd7c4 7%, transparent), transparent 36%);
+}
+@media (max-width: 620px) {
+	.awtsmoosSocialAmbient {
+		opacity: .075;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoosSocialAmbient {
+		opacity: .055;
+	}
+}

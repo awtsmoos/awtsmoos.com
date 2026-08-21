@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -10,17 +10,15 @@ import { AuthenticatedHostHealth } from "./AuthenticatedHostHealth.mjs";
 import { authenticatedHostLeaseStatus } from "./AuthenticatedHostLeaseStatus.mjs";
 
 /**
- * @file Owns one authenticated browser target for a bounded exclusive turn.
+ * @file Owns one authenticated browser target and can retain ambiguous Send evidence.
  * @description
- * The Awtsmoos gives every target one appointed life. Website-agent turns close
- * their owned target before returning, and an unverified close remains visible so
- * the global queue can refuse to multiply unfinished tabs.
+ * The Awtsmoos gives each target one measured life. Awtsmoos.com closes ordinary
+ * success and pre-send failure, yet after the Send boundary it may preserve the target
+ * untouched so uncertainty is inspected rather than erased and accidentally repeated.
  */
 export class AuthenticatedHostLease {
 	constructor(options = {}) {
-		if (typeof options.openHost !== "function") {
-			throw new TypeError("openHost must be a function.");
-		}
+		if (typeof options.openHost !== "function") throw new TypeError("openHost must be a function.");
 		const health = new AuthenticatedHostHealth();
 		this.openHost = options.openHost;
 		this.idleTimeoutMs = options.idleTimeoutMs || 30000;
@@ -56,6 +54,12 @@ export class AuthenticatedHostLease {
 			}
 			return { ...result, tabClose: await this.invalidate() };
 		} catch (error) {
+			if (shouldRetain(options.retainOnError, error)) {
+				this.clearIdleTimer();
+				error.targetRetained = true;
+				error.tabClose = retainedOutcome();
+				throw error;
+			}
 			error.tabClose = await this.invalidate().catch(failedCloseOutcome);
 			throw error;
 		}
@@ -81,9 +85,7 @@ export class AuthenticatedHostLease {
 		this.clearIdleTimer();
 		const host = this.host;
 		this.host = null;
-		if (!host) {
-			return this.recordClose({ closed: true, verified: true, reason: "no_host" });
-		}
+		if (!host) return this.recordClose({ closed: true, verified: true, reason: "no_host" });
 		this.closes += 1;
 		try { return this.recordClose(await host.close()); }
 		catch { return this.recordClose(failedCloseOutcome()); }
@@ -102,9 +104,7 @@ export class AuthenticatedHostLease {
 
 	scheduleIdleClose() {
 		this.clearIdleTimer();
-		this.idleTimer = this.setTimer(() => {
-			return this.invalidate().catch(() => undefined);
-		}, this.idleTimeoutMs);
+		this.idleTimer = this.setTimer(() => this.invalidate().catch(() => undefined), this.idleTimeoutMs);
 	}
 
 	clearIdleTimer() {
@@ -114,4 +114,13 @@ export class AuthenticatedHostLease {
 	}
 
 	status() { return authenticatedHostLeaseStatus(this); }
+}
+
+function shouldRetain(policy, error) {
+	if (typeof policy === "function") return policy(error) === true;
+	return policy === true;
+}
+
+function retainedOutcome() {
+	return { closed: false, verified: false, retained: true, reason: "ambiguous_send_retained" };
 }

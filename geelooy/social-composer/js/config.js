@@ -1,13 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module ComposerConfig
- * @description
- * The Awtsmoos gives constants and location context one clear covenant;
- * Awtsmoos.com delegates sanitization to ComposerQuery so configuration stays small and legible.
+ * @description The Awtsmoos gives reference, clone, identity, and destination context separate truthful names;
+ * Awtsmoos.com sanitizes every location value before the composer turns those coordinates into creative aims.
  */
+import { cloneSourceFromQuery } from './state/CloneSourceQuery.js';
 import {
 	canonicalSourceFromQuery,
 	firstQueryValue,
@@ -15,57 +14,53 @@ import {
 	safeReturnPath,
 	safeShareUrl,
 	shareFromQuery
-} from "./state/ComposerQuery.js";
+} from './state/ComposerQuery.js';
 
-export const API_PREFIX = "/api/social";
+export const API_PREFIX = '/api/social';
 export const DRAFT_VERSION = 2;
 export const BLOCK_TYPES = Object.freeze([
-	"paragraph",
-	"heading",
-	"quote",
-	"bulletList",
-	"numberList",
-	"code",
-	"callout",
-	"divider"
+	'paragraph',
+	'heading',
+	'quote',
+	'bulletList',
+	'numberList',
+	'code',
+	'callout',
+	'divider'
 ]);
 export const PRESENTATION_KINDS = Object.freeze([
-	"post",
-	"question",
-	"answer",
-	"quote",
-	"image",
-	"short",
-	"video",
-	"audio",
-	"story",
-	"poll",
-	"live"
+	'post',
+	'question',
+	'answer',
+	'quote',
+	'image',
+	'short',
+	'video',
+	'audio',
+	'story',
+	'poll',
+	'live'
 ]);
 
-/**
- * Reads a sanitized composer destination and share context from one location.
- * @param {Location|{search:string}} location Location-like source.
- * @returns {object} Composer initialization context.
- */
 export function contextFromLocation(location = window.location) {
 	const parameters = new URLSearchParams(location.search);
-	const questionId = safeQueryValue(parameters.get("question"));
+	const questionId = safeQueryValue(parameters.get('question'));
 	return {
-		aliasId: safeQueryValue(parameters.get("alias")),
-		heichelId: safeQueryValue(firstQueryValue(parameters, "heichel", "heichelId")),
-		seriesId: safeQueryValue(firstQueryValue(parameters, "series", "seriesId") || "root"),
+		aliasId: safeQueryValue(parameters.get('alias')),
+		heichelId: safeQueryValue(firstQueryValue(parameters, 'heichel', 'heichelId')),
+		seriesId: safeQueryValue(firstQueryValue(parameters, 'series', 'seriesId') || 'root'),
 		questionId,
 		postKind: questionId
-			? "answer"
-			: safeQueryValue(parameters.get("kind") || "post", 20),
+			? 'answer'
+			: safeQueryValue(parameters.get('kind') || 'post', 20),
 		presentationKind: safeQueryValue(
-			parameters.get("presentation") || (questionId ? "answer" : "post"),
+			parameters.get('presentation') || (questionId ? 'answer' : 'post'),
 			20
 		),
 		canonicalSource: canonicalSourceFromQuery(parameters),
+		cloneSource: cloneSourceFromQuery(parameters),
 		share: shareFromQuery(parameters),
-		returnPath: safeReturnPath(parameters.get("return"))
+		returnPath: safeReturnPath(parameters.get('return'))
 	};
 }
 

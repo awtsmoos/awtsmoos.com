@@ -1,0 +1,72 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews every visible measure; Awtsmoos.com lets HUD and touch keilim recede so the living gate remains the treasure. */
+.game-hud {
+	grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+	transition:
+		padding 220ms ease,
+		background-color 220ms ease,
+		border-color 220ms ease,
+		max-width 220ms ease;
+}
+.game-hud[data-compact="true"] {
+	grid-template-columns: auto auto auto;
+	max-width: 220px;
+	padding: 0.35rem 0.42rem;
+	background: rgba(4, 12, 25, 0.38);
+	border-color: rgba(255, 255, 255, 0.07);
+}
+.game-hud[data-compact="true"] [data-hud-title],
+.game-hud[data-compact="true"] [data-hud-time] {
+	display: none;
+}
+.game-hud[data-compact="true"] [data-hud-sparks] {
+	font-size: 0.76rem;
+}
+.game-hint {
+	position: absolute;
+	z-index: 9;
+	top: calc(max(0.65rem, env(safe-area-inset-top)) + 3.5rem);
+	left: 50%;
+	margin: 0;
+	transform: translateX(-50%);
+	color: rgba(225, 239, 255, 0.66);
+	font-size: 0.72rem;
+	letter-spacing: 0.06em;
+	pointer-events: none;
+	white-space: nowrap;
+}
+html[data-hints="false"] .game-hint {
+	display: none;
+}
+.joystick {
+	box-shadow:
+		inset 0 0 0 1px rgba(110, 231, 200, 0.035),
+		0 12px 40px rgba(0, 0, 0, 0.18);
+}
+.joystick-knob {
+	background: radial-gradient(
+		circle at 36% 28%,
+		#ffffff,
+		#bdf9ec 42%,
+		#79dcc6 100%
+	);
+	box-shadow:
+		0 8px 30px rgba(0, 0, 0, 0.42),
+		0 0 20px rgba(110, 231, 200, 0.12);
+}
+.touch-actions button[data-active="true"] {
+	box-shadow: 0 0 30px rgba(110, 231, 200, 0.18);
+}
+@media (max-width: 560px) {
+	.game-hud {
+		grid-template-columns: auto minmax(0, 1fr) auto auto;
+	}
+	.game-hud [data-hud-time] {
+		display: none;
+	}
+	.game-hud[data-compact="true"] {
+		grid-template-columns: auto auto auto;
+	}
+}

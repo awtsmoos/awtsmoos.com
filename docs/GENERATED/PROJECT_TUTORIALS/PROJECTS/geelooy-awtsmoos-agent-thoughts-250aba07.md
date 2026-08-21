@@ -21,15 +21,15 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 68 | 6 | 28 | 0 | 0 | 309 | 411 |
+| 21 | 0 | 0 | 0 | 0 | 179 | 200 |
 
 ## Public entry points
 
-None observed.
+- `/.awtsmoos-agent-thoughts/2026-08-14_1212_chess-engine-careful-upgrade/baseline/ui` → `geelooy/.awtsmoos-agent-thoughts/2026-08-14_1212_chess-engine-careful-upgrade/baseline/ui/index.html` — Ultimate Chess AI
 
 ## Symbol evidence
 
-Source files: 51; classes: 10; functions: 85; exports: 60; samples: createTarget, captureMobile, captureViewport, captureRenders, wait, async, CdpClient, waitForDebugger, createPageTarget, auditViewport, runAudit, createLayoutExpression.
+Source files: 20; classes: 1; functions: 48; exports: 0; samples: revealRepairedSearch, search, revealMoveCommand, historyHashes, legalBookChoice, handleCalculateMove, revealRootSearch, prepareHeuristics, searchRoot, revealSearchSupport, checkTime, isThreefold.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **6**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.

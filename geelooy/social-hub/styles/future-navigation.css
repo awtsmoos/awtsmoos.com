@@ -1,65 +1,65 @@
-/* B"H
-Boruch Hashem
-Blessed is He
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
 
-The Awtsmoos lets every social chamber remain distinct while Awtsmoos.com turns navigation into a calm constellation with visible gravity.
-*/
+/**
+ * The Awtsmoos is beyond movement and stillness, while Awtsmoos.com lets route state become visible through edge, contrast, and focus without making navigation physically wander;
+ * this Netzach-like garment owns quiet route feedback only, leaving geometry fixed so orientation remains trustworthy in light.
+ */
+
 .routeNavigation .routeButton {
 	position: relative;
 	transition:
-		transform var(--future-fast) var(--future-spring),
-		background-color var(--future-normal) var(--future-ease),
-		border-color var(--future-normal) var(--future-ease),
-		opacity var(--future-normal) var(--future-ease);
-}
-
-.routeNavigation .routeButton::before {
-	position: absolute;
-	inset-block: 18%;
-	inset-inline-start: -1px;
-	width: 2px;
-	border-radius: 999px;
-	background: linear-gradient(180deg, #7eefff, #b68cff, #ff88df);
-	box-shadow: 0 0 16px rgb(126 239 255 / 55%);
-	content: "";
-	opacity: 0;
-	transform: scaleY(.3);
-	transition: opacity var(--future-fast) ease, transform var(--future-normal) var(--future-spring);
-}
-
-.routeNavigation .routeButton[data-active="true"]::before {
-	opacity: 1;
-	transform: scaleY(1);
-}
-
-.routeNavigation .routeButton:is(:hover, :focus-visible) {
-	transform: translateX(2px) scale(1.025);
+		background-color 140ms ease,
+		border-color 140ms ease,
+		opacity 140ms ease;
 }
 
 .routeNavigation .routeButton[data-active="true"] {
-	background: linear-gradient(135deg, rgb(73 188 255 / 11%), rgb(147 97 255 / 10%));
+	background: rgba(126, 239, 255, .07);
 }
 
 .routeNavigation .routeIcon {
 	transition:
-		transform var(--future-normal) var(--future-spring),
-		box-shadow var(--future-normal) var(--future-ease),
-		border-color var(--future-normal) var(--future-ease);
+		background-color 140ms ease,
+		border-color 140ms ease,
+		box-shadow 140ms ease;
 }
 
-.routeNavigation .routeButton:is(:hover, :focus-visible, [data-active="true"]) .routeIcon {
-	border-color: var(--future-edge-hot);
-	box-shadow: 0 0 22px rgb(72 202 255 / 18%);
-	transform: scale(1.06);
+.routeNavigation .routeButton:is(:focus-visible, [data-active="true"]) .routeIcon {
+	border-color: var(--yesod-edge-hot);
+	box-shadow: 0 0 0 2px rgb(72 202 255 / 8%);
 }
 
-@media (max-width: 62.4375rem) {
-	.mobileDock {
-		background: rgb(5 12 26 / 84%);
-		backdrop-filter: blur(22px) saturate(140%);
+.desktopRail .routeButton::before {
+	position: absolute;
+	inset-block: 22%;
+	inset-inline-start: -1px;
+	inline-size: 2px;
+	border-radius: 999px;
+	background: linear-gradient(180deg, #7eefff, #a98cff);
+	content: "";
+	opacity: 0;
+	transform: scaleY(.5);
+	transition: opacity 120ms ease, transform 140ms ease;
+}
+
+.desktopRail .routeButton[data-active="true"]::before {
+	opacity: 1;
+	transform: scaleY(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.routeNavigation .routeButton:hover .routeIcon {
+		border-color: rgba(126, 239, 255, .34);
+		background: rgba(126, 239, 255, .07);
 	}
+}
 
-	.routeNavigation .routeButton:is(:hover, :focus-visible) {
-		transform: translateY(-2px) scale(1.02);
+@media (prefers-reduced-motion: reduce) {
+	.routeNavigation .routeButton,
+	.routeNavigation .routeIcon,
+	.desktopRail .routeButton::before {
+		transition: none;
 	}
 }

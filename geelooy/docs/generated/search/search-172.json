@@ -1,344 +1,87 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-tunnel-6deaa3a1-m-9ce4ada7e0",
-		"title": "Project Tutorial: Awtsmoos Tunnel Console",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-6deaa3a1.md",
-		"category": "Tunnel",
+		"id": "docs-generated-human-documentation-human-docs-002-md-23e3bfb207",
+		"title": "Generated Human Documentation Index 71–140",
+		"sourcePath": "docs/GENERATED/HUMAN_DOCUMENTATION/human-docs-002.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos Tunnel Console",
-				"anchor": "project-tutorial-awtsmoos-tunnel-console"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Human Documentation Index 71–140",
+				"anchor": "generated-human-documentation-index-71-140"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Tunnel Console Path: geelooy/apps/tunnel · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health g",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos tunnel console path: geelooy/apps/tunnel · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md, readme.md, readme.md local documentation: geelooy/apps/tunnel/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1173 651 0 0 10 26 1860 public entry points /apps/tunnel → geelooy/apps/tunnel/index.html — awtsmoos tunnel console /apps/tunnel/agent/tools/fs/testing/.tmp all actions source stress → geelooy/apps/tunnel/agent/tools/fs/testing/.tmp all actions source stress/index.html /apps/tunnel/agent/tools/fs/testing/.tmp connected bulk runtime actors → geelooy/apps/tunnel/agent/tools/fs/testing/.tmp connected bulk runtime actors/index.html /apps/tunnel/agent/tools/fs/testing/.tmp connected files pagination stress → geelooy/apps/tunnel/agent/tools/fs/testing/.tmp connected files pagination stress/index.html /apps/tunnel/agent/tools/fs/testing/.tmp connected pagination → geelooy/apps/tunnel/agent/tools/fs/testing/.tmp connected pagination/index.html /apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real → geelooy/apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real/index.html symbol evidence source files: 1117; classes: 31; functions: 5223; exports: 4034; samples: buildidentity, canonicalstring, samerequest, sha256, sortvalue, required, clean, failure, terminal, transitions, isterminal, transition. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/apps/tunnel/agent/tools/fs/jswriteverifier.js geelooy/shared — 1 lexical reference; examples: geelooy/apps/tunnel/js/browserpagetunnel.js scripts — 1 lexical reference; examples: geelooy/apps/tunnel/agent/rebuild manifest.cjs used by geelooy/api/tunnel — 7 lexical references; examples: geelooy/api/tunnel/control/routes/osfs/virtualaiagents.js; geelooy/api/tunnel/install/tools/zipsources.js geelooy/scripts — 5 lexical references; examples: geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel directory entry env.cjs; geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel simulate runtime helpers.cjs; geelooy/scripts/awtsmoos/merkavaexecutor/.test tunnel simulate runtime url puppeteer.cjs external packages yaml — 2 lexical references verification clue observed test classified files: 651 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-tunnel-6deaa3a1-m-9ce4ada7e0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Human Documentation Index 71–140 Manual Markdown pages outside the generated tree, with title, line count, and relative link count. Document Title Lines Links docs/README.md Awtsmoos.com Documentation 47 16 docs/ROUTES/DYNAMIC PATHS.md Dynamic Paths and Dollar Variables 61 1 do",
+		"searchText": "b\"h boruch hashem blessed is he generated human documentation index 71–140 manual markdown pages outside the generated tree, with title, line count, and relative link count. document title lines links docs/readme.md awtsmoos.com documentation 47 16 docs/routes/dynamic paths.md dynamic paths and dollar variables 61 1 docs/routes/public routes.md major public routes 51 1 docs/routes/readme.md routes 45 6 docs/routes/url to source.md url to source 48 2 docs/security/readme.md security and trust 32 4 docs/security/realtime security.md realtime security 54 0 docs/security/secrets and config.md secrets and security sensitive configuration 46 0 docs/security/trust boundaries.md trust boundaries 61 0 docs/source to doc.md source to documentation map 37 0 docs/start here.md start here 45 2 docs/systems/ai.md ai systems 41 0 docs/systems/auth and identity.md authentication and identity system 50 0 docs/systems/database and storage.md database and storage 48 0 docs/systems/geelooy os.md geelooy os and virtual runtime 36 0 docs/systems/nested awtsmoos com.md nested awtsmoos.com/ shell 37 0 docs/systems/readme.md cross cutting systems 34 18 docs/systems/service worker.md service worker 30 0 docs/systems/shared libraries.md shared libraries and browser foundations 39 0 docs/systems/social and heichel.md social and heichel system 56 1 docs/systems/testing.md testing and verification 49 0 docs/systems/tunnel.md tunnel system 43 1 docs/test index.md test and verification chooser 64 1 docs/tutorials/api/admin.md admin api tutorial 34 3 docs/tutorials/api/compiler.md compiler api tutorial 34 3 docs/tutorials/api/contact.md contact api tutorial 34 3 docs/tutorials/api/email.md email api tutorial 34 3 docs/tutorials/api/fetch.md fetch proxy api tutorial 34 3 docs/tutorials/api/gpt.md gpt api tutorial 34 3 docs/tutorials/api/oauth.md oauth api tutorial 34 3 docs/tutorials/api/ohr hagnuz.md ohr hagnuz api tutorial 34 3 docs/tutorials/api/public.md public api tutorial 34 3 docs/tutorials/api/readme.md api tutorials 38 0 docs/tutorials/api/root api.md root api api tutorial 34 3 docs/tutorials/api/runtime.md native runtime api tutorial 34 3 docs/tutorials/api/sefarim.md sefarim api tutorial 34 3 docs/tutorials/api/social.md social api tutorial 34 3 docs/tutorials/api/ssh.md ssh api tutorial 34 3 docs/tutorials/api/streaming.md streaming api tutorial 34 3 docs/tutorials/api/text.md text jobs api tutorial 34 3 docs/tutorials/api/tunnel.md tunnel relay api tutorial 34 3 docs/tutorials/api/tunnel control.md tunnel control api tutorial 34 3 docs/tutorials/api/tunnel install.md tunnel install api tutorial 34 3 docs/tutorials/api/wallet.md wallet api tutorial 34 3 docs/tutorials/api/youtube.md youtube api tutorial 34 3 docs/tutorials/content/aliases and api keys.md aliases and api keys 22 0 docs/tutorials/content/comments.md comments and replies 27 0 docs/tutorials/content/content migrations.md content migrations 24 0 docs/tutorials/content/heichelos.md heichelos 27 0 docs/tutorials/content/mail notifications drive.md mail, notifications, and drive 24 0 docs/tutorials/content/moderation and governance.md moderation and governance 20 0 docs/tutorials/content/posts and series.md posts and series 24 0 docs/tutorials/content/search graph and discovery.md search, graph, and discovery 20 0 docs/tutorials/content/social content model.md social content model 26 1 docs/tutorials/projects/apis.md api projects 22 0 docs/tutorials/projects/apps.md applications 25 0 docs/tutorials/projects/games.md games and worlds 20 0 docs/tutorials/projects/libraries and tooling.md libraries and tooling 20 0 docs/tutorials/projects/public surfaces.md public and other boundaries 19 0 docs/tutorials/projects/readme.md project and system tutorials 25 7 docs/tutorials/projects/runtime and infrastructure.md runtime and infrastructure 20 0 docs/tutorials/readme.md awtsmoos.com tutorials 30 6 docs/tutorials/systems/documentation runtime.md tutorial: documentation runtime 26 0 docs/tutorials/systems/dosdb runtime.md tutorial: dosdb runtime 22 0 docs/tutorials/systems/dynamic routing.md tutorial: dynamic routing 26 0 docs/tutorials/systems/identity and auth.md tutorial: identity and authorization 26 0 docs/tutorials/systems/readme.md data, security, and realtime system tutorials 29 7 docs/tutorials/systems/realtime runtime.md tutorial: realtime runtime 22 0 docs/tutorials/systems/request pipeline.md tutorial: http request pipeline 24 0 docs/tutorials/systems/server boot.md tutorial: server boot 25 0",
+		"page": "pages/docs-generated-human-documentation-human-docs-002-md-23e3bfb207.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-tunnel-control-86-ffc3c13d78",
-		"title": "Project Tutorial: Awtsmoos Tunnel Control",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-control-86d0949a.md",
-		"category": "Tunnel",
+		"id": "docs-generated-human-documentation-human-docs-003-md-3ceaa83380",
+		"title": "Generated Human Documentation Index 141–172",
+		"sourcePath": "docs/GENERATED/HUMAN_DOCUMENTATION/human-docs-003.md",
+		"category": "General",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos Tunnel Control",
-				"anchor": "project-tutorial-awtsmoos-tunnel-control"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Human Documentation Index 141–172",
+				"anchor": "generated-human-documentation-index-141-172"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Tunnel Control Path: geelooy/apps/tunnel control · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or ",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos tunnel control path: geelooy/apps/tunnel control · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md, readme.md, readme.md local documentation: geelooy/apps/tunnel control/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 409 49 0 0 2 5 465 public entry points /apps/tunnel control → geelooy/apps/tunnel control/index.html — awtsmoos tunnel control /apps/tunnel control/tests/activity preview → geelooy/apps/tunnel control/tests/activity preview/index.html — tunnel activity visual proof /apps/tunnel control/tests/device security preview → geelooy/apps/tunnel control/tests/device security preview/index.html — verified device security preview symbol evidence source files: 320; classes: 11; functions: 1375; exports: 675; samples: targets, regeneratedocument, regeneratetarget, renderscopetail, run, async, detectlogin, me, device, mydevice, devices, activedevice. depends on geelooy/shared — 2 lexical references; examples: geelooy/apps/tunnel control/js/runtime/mesh/runtimeadapters.js; geelooy/apps/tunnel control/js/runtime/mesh/virtualfilesystem.js geelooy/api/tunnel — 1 lexical reference; examples: geelooy/apps/tunnel control/gpt/generate oauth scopes.cjs used by geelooy/os — 3 lexical references; examples: geelooy/os/programs/connected node server/tunnelclient.js; geelooy/os/programs/peruta usage/api.js external packages none observed. verification clue observed test classified files: 49 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-tunnel-control-86-ffc3c13d78.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Human Documentation Index 141–172 Manual Markdown pages outside the generated tree, with title, line count, and relative link count. Document Title Lines Links docs/TUTORIALS/SYSTEMS/TRACE DATABASE CHANGE.md Trace a Database Change Safely 29 0 docs/TUTORIALS/SYSTEMS/TRACE REALT",
+		"searchText": "b\"h boruch hashem blessed is he generated human documentation index 141–172 manual markdown pages outside the generated tree, with title, line count, and relative link count. document title lines links docs/tutorials/systems/trace database change.md trace a database change safely 29 0 docs/tutorials/systems/trace realtime admission.md trace realtime admission 22 0 docs/tutorials/systems/trace trusted identity.md trace trusted identity 22 0 docs/websites/custom domains.md connect a custom domain to an awtsmoos website 36 2 docs/websites/dnssec migration.md dnssec during a dns provider migration 49 0 docs/websites/dns cutover checklist.md dns cutover checklist 65 0 docs/websites/dns migration.md move dns without breaking the website or email 40 0 docs/websites/dns provider playbooks.md dns provider playbooks for awtsmoos websites 113 0 docs/websites/dns provider references.md official dns provider references 51 0 docs/websites/email dns.md preserve email dns during a website move 43 0 docs/websites/publish from tunnel.md publish a website from an awtsmoos tunnel 40 0 docs/websites/readme.md websites on awtsmoos 57 11 docs/websites/troubleshooting.md website maker troubleshooting 38 0 docs/websites/tunnel agent website workflow.md tunnel agent website workflow 55 0 docs/websites/tutorial index.md website maker tutorial index 74 0 docs/websites/website maker agent api.md website maker agent api 92 0 docs/websockets/applications.md realtime applications and events 43 1 docs/websockets/mission rooms.md mission room websocket admission 40 1 docs/websockets/readme.md websockets and realtime 25 5 docs/websockets/tunnel relay.md tunnel relay websocket system 47 1 docs/drive/readme.md awtsmoos drive and self hosted public hosting 45 4 docs/drive/api examples.md api examples 92 0 docs/drive/architecture.md architecture and security 49 0 docs/drive/operations.md operations, migration, rollback, and recovery 47 0 docs/operations/readme.md awtsmoos production operations 62 5 docs/operations/dayuh agent checklist.md dayuh sync checklist for ai agents 92 0 docs/operations/dayuh code deploy and git.md dayuh code deployment and git boundary 107 0 docs/operations/dayuh database sync runbook.md dayuh chadash database sync runbook 103 0 docs/operations/dayuh recovery and conflicts.md dayuh sync recovery and conflict handling 115 0 docs/tunnel/extreme feature finalization brainstorm.md extreme feature finalization brainstorm 95 1 docs/tunnel/extreme feature finalization continuation.md extreme feature finalization — continuation 65 0 docs/tunnel/root search brainstorm.md root search brainstorm and refinement roadmap 81 0",
+		"page": "pages/docs-generated-human-documentation-human-docs-003-md-3ceaa83380.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-video-editor-0791-e8cd2877a8",
-		"title": "Project Tutorial: Awtsmoos Video Editor - Chapter 7 Revised",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-video-editor-0791e3fc.md",
+		"id": "docs-generated-missing-documentation-md-32732176d4",
+		"title": "Generated Missing Documentation",
+		"sourcePath": "docs/GENERATED/MISSING_DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Generated Missing Documentation",
+				"anchor": "generated-missing-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Missing Documentation Project Type Files Title Entries",
+		"searchText": "b\"h boruch hashem blessed is he generated missing documentation project type files title entries",
+		"page": "pages/docs-generated-missing-documentation-md-32732176d4.json"
+	},
+	{
+		"id": "docs-generated-project-atlas-md-7cba914a76",
+		"title": "Generated Project Atlas",
+		"sourcePath": "docs/GENERATED/PROJECT_ATLAS.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos Video Editor - Chapter 7 Revised",
-				"anchor": "project-tutorial-awtsmoos-video-editor-chapter-7-revised"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Project Atlas",
+				"anchor": "generated-project-atlas"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Video Editor Chapter 7 Revised Path: geelooy/apps/video editor · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos video editor chapter 7 revised path: geelooy/apps/video editor · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 2 0 0 0 0 0 2 public entry points /apps/video editor → geelooy/apps/video editor/index.html — awtsmoos video editor chapter 7 revised symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-video-editor-0791-e8cd2877a8.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas Observed project/directory boundaries with classified file counts and local documentation status. 179 rows. Chunk Rows Count projects 001.md 1–45 45 projects 002.md 46–90 45 projects 003.md 91–135 45 projects 004.md 136–179 44",
+		"searchText": "b\"h boruch hashem blessed is he generated project atlas observed project/directory boundaries with classified file counts and local documentation status. 179 rows. chunk rows count projects 001.md 1–45 45 projects 002.md 46–90 45 projects 003.md 91–135 45 projects 004.md 136–179 44",
+		"page": "pages/docs-generated-project-atlas-md-7cba914a76.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-virtual-os-stress-6ccc826084",
-		"title": "Project Tutorial: Light Counter",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-virtual-os-stress-light-counter-1f69ac90.md",
+		"id": "docs-generated-project-atlas-projects-001-md-43a23e060d",
+		"title": "Generated Project Atlas 1–45",
+		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-001.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Light Counter",
-				"anchor": "project-tutorial-light-counter"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Project Atlas 1–45",
+				"anchor": "generated-project-atlas-1-45"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Light Counter Path: geelooy/apps/virtual os stress light counter · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime owners",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: light counter path: geelooy/apps/virtual os stress light counter · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /apps/virtual os stress light counter → geelooy/apps/virtual os stress light counter/index.html — light counter symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-virtual-os-stress-6ccc826084.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-wallet-fe2266bf-m-225fcde5a9",
-		"title": "Project Tutorial: Awtsmoos Wallet — Send, Buy & Own",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-wallet-fe2266bf.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Awtsmoos Wallet — Send, Buy & Own",
-				"anchor": "project-tutorial-awtsmoos-wallet-send-buy-own"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Wallet — Send, Buy & Own Path: geelooy/apps/wallet · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership o",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos wallet — send, buy & own path: geelooy/apps/wallet · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js, documentation.md local documentation: geelooy/apps/wallet/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 33 1 0 0 1 0 35 public entry points /apps/wallet → geelooy/apps/wallet/index.html — awtsmoos wallet — send, buy & own symbol evidence source files: 18; classes: 1; functions: 62; exports: 31; samples: refreshwallet, begincheckout, bootwallet, async, clearcheckoutquery, processcheckoutreturn, startpaypalcheckout, decodewalletresponse, getwalletjson, postwalletjson, networkfailure, rendercoins. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-wallet-fe2266bf-m-225fcde5a9.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-apps-watermark-remover-abdec39add",
-		"title": "Project Tutorial: SVG Mask Alpha Brute-Force",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-watermark-remover-f9935a2b.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: SVG Mask Alpha Brute-Force",
-				"anchor": "project-tutorial-svg-mask-alpha-brute-force"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: SVG Mask Alpha Brute Force Path: geelooy/apps/watermark remover · Type: app · Family: Applications Read the human Applications guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownersh",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: svg mask alpha brute force path: geelooy/apps/watermark remover · type: app · family: applications read the human applications guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /apps/watermark remover → geelooy/apps/watermark remover/index.html — svg mask alpha brute force symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-apps-watermark-remover-abdec39add.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 1–45 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title ai thoughts evidence 75 0 0 0 0 — — — ai thoughts alias 8663 5733 100 0 0 — — — awtsmoos.c",
+		"searchText": "b\"h boruch hashem blessed is he generated project atlas 1–45 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title ai thoughts evidence 75 0 0 0 0 — — — ai thoughts alias 8663 5733 100 0 0 — — — awtsmoos.com project 8 1 0 0 0 awtsmoos.com/documentation.md documentation.md — ayzarim runtime root 2105 1712 367 0 0 ayzarim/documentation.md documentation.md — ayzarim/dosdb data 1008 827 160 0 0 ayzarim/dosdb/documentation.md index.js, documentation.md — ayzarim/awtsmoosdynamicserver runtime 1035 826 207 0 0 ayzarim/awtsmoosdynamicserver/documentation.md index.js, documentation.md — ayzarim/email infrastructure 5 5 0 0 0 — — — ayzarim/maintence infrastructure 1 1 0 0 0 — — — ayzarim/math infrastructure 1 1 0 0 0 — — — ayzarim/ssh infrastructure 48 47 0 0 0 ayzarim/ssh/documentation.md documentation.md — ayzarim/tools infrastructure 4 4 0 0 0 — — — geelooy public root 34697 25402 4699 13 77 geelooy/documentation.md index.html, documentation.md awtsmoos — torah, creation & living worlds geelooy/.awtsmoos project 6 6 0 0 0 — — — geelooy/.awtsmoos agent thoughts evidence 200 21 0 0 0 — — — geelooy/.awtsmoos agent transfer project 139 79 14 0 0 geelooy/.awtsmoos agent transfer/documentation.md documentation.md — geelooy/.awtsmoos smoke project 4 4 0 0 0 — — — geelooy/.awtsmoos transfer project 8 0 0 0 0 — — — geelooy/.data project 1 1 0 0 0 — — — geelooy/.well known project 1 1 0 0 0 — awtsmoos.derech.js — geelooy/@ project 3 3 0 0 0 — awtsmoos.derech.js — geelooy/about public 1 1 0 0 0 — index.html about — geelooy geelooy/ai public 884 671 165 0 0 geelooy/ai/documentation.md index.html, index.js, documentation.md awtsmoos ai geelooy/api project 2242 1797 399 0 0 geelooy/api/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/admin api 2 1 0 0 0 geelooy/api/admin/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/compiler api 10 8 1 0 0 geelooy/api/compiler/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/contact api 2 1 0 0 0 geelooy/api/contact/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/email api 2 1 0 0 0 geelooy/api/email/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/fetch api 2 1 0 0 0 geelooy/api/fetch/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/gpt api 14 10 3 0 0 geelooy/api/gpt/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/nav api 1 1 0 0 0 — — — geelooy/api/oauth api 58 47 10 0 0 geelooy/api/oauth/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/ohr hagnuz api 8 6 1 0 0 geelooy/api/ohr hagnuz/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/perutas api 33 32 0 0 0 geelooy/api/perutas/documentation.md index.js, documentation.md — geelooy/api/projecthosting api 8 6 2 0 0 — awtsmoos.derech.js — geelooy/api/public api 2 1 0 0 0 geelooy/api/public/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/runtime api 6 5 0 0 0 geelooy/api/runtime/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/sefarim api 3 1 1 0 0 geelooy/api/sefarim/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/social api 1516 1260 250 0 0 geelooy/api/social/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/ssh api 34 33 0 0 0 geelooy/api/ssh/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/streaming api 17 14 0 0 0 geelooy/api/streaming/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/text api 2 1 0 0 0 geelooy/api/text/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/tunnel api 381 260 106 0 0 geelooy/api/tunnel/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/wallet api 85 65 19 0 0 geelooy/api/wallet/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/youtube api 22 19 1 0 0 geelooy/api/youtube/documentation.md awtsmoos.derech.js, documentation.md — geelooy/api/zmanim api 30 22 5 0 0 geelooy/api/zmanim/documentation.md awtsmoos.derech.js, documentation.md, readme.md, readme.md —",
+		"page": "pages/docs-generated-project-atlas-projects-001-md-43a23e060d.json"
 	}
 ]

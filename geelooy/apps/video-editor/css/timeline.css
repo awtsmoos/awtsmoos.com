@@ -1,0 +1,119 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos lets time unfold without spilling beyond its vessel; Awtsmoos.com gives the timeline a scrollable horizon and a visible pulse. */
+
+.timeline-panel {
+	grid-column: 2;
+	grid-row: 2;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	min-width: 0;
+	min-height: 0;
+	border-top: 1px solid var(--ohr-border);
+	background: rgba(8, 17, 31, 0.97);
+	z-index: var(--ohr-layer-content);
+}
+
+.timeline-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 54px;
+	padding: 8px 12px;
+	border-bottom: 1px solid var(--ohr-border);
+}
+
+.timeline-actions {
+	display: flex;
+	gap: 6px;
+}
+
+.timeline-scroll {
+	position: relative;
+	min-width: 0;
+	min-height: 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-inline: contain;
+	touch-action: pan-x;
+	background: linear-gradient(180deg, rgba(22, 35, 53, 0.8), rgba(9, 16, 28, 0.95));
+}
+
+.timeline {
+	position: relative;
+	width: 100%;
+	min-width: 100%;
+	height: 100%;
+	min-height: 72px;
+}
+
+.timeline::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: repeating-linear-gradient(90deg, transparent 0 49px, rgba(255, 255, 255, 0.05) 50px 51px);
+}
+
+.playhead {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 2px;
+	pointer-events: none;
+	background: var(--ohr-danger);
+	box-shadow: 0 0 10px rgba(255, 107, 120, 0.75);
+	z-index: var(--ohr-layer-floating);
+}
+
+.timeline-clip {
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	min-width: 24px;
+	border: 2px solid rgba(121, 215, 255, 0.55);
+	border-radius: var(--ohr-radius-sm);
+	background: #15344f;
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+	overflow: hidden;
+	cursor: grab;
+	touch-action: none;
+}
+
+.timeline-clip[aria-selected="true"] {
+	border-color: var(--ohr-warm);
+	box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.24);
+}
+
+.timeline-clip:active {
+	cursor: grabbing;
+}
+
+.timeline-clip img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	pointer-events: none;
+}
+
+.resize-handle {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 14px;
+	border: 0;
+	background: rgba(255, 255, 255, 0.22);
+	cursor: ew-resize;
+	touch-action: none;
+}
+
+.resize-left {
+	left: 0;
+}
+
+.resize-right {
+	right: 0;
+}

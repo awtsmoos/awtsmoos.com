@@ -1,0 +1,85 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond difference while measured opinions may diverge within a created day;
+ * Awtsmoos.com makes each comparison row compact and luminous so distinctions can be understood at a glance without visual fray.
+ */
+
+.zman-values {
+	display: grid;
+	justify-items: end;
+	gap: 0.16rem;
+	min-width: 7rem;
+}
+
+.zman-values > small {
+	max-width: 18ch;
+	text-align: end;
+	color: var(--ink-muted);
+	font-size: 0.62rem;
+	line-height: 1.25;
+}
+
+.zman-values-unavailable {
+	color: var(--unavailable);
+	font-size: 0.78rem;
+	font-weight: 720;
+}
+
+.zman-comparison-list {
+	justify-items: stretch;
+	gap: 0.28rem;
+	width: min(100%, 17rem);
+}
+
+.comparison-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: baseline;
+	gap: 0.65rem;
+	padding: 0.28rem 0.42rem;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	background: rgba(255, 255, 255, 0.018);
+}
+
+.comparison-row span {
+	overflow: hidden;
+	color: var(--ink-soft);
+	font-size: 0.64rem;
+	font-weight: 720;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.comparison-row strong {
+	color: var(--accent-strong);
+	font-size: 0.82rem;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.comparison-row[data-primary="true"] {
+	border-color: rgba(255, 213, 138, 0.2);
+	background: rgba(255, 213, 138, 0.055);
+}
+
+.comparison-row[data-primary="true"] span::after {
+	margin-left: 0.32rem;
+	color: var(--solar);
+	content: "Primary";
+	font-size: 0.54rem;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+@media (max-width: 520px) {
+	.zman-primary {
+		align-items: start;
+	}
+
+	.zman-comparison-list {
+		width: min(100%, 14rem);
+	}
+}

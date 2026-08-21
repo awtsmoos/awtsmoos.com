@@ -1,9 +1,9 @@
 [
 	{
-		"id": "geelooy-heichel-review-readme-md-7354660661",
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tests-gameplay-directory-561340a4fb",
 		"title": "B\"H",
-		"sourcePath": "geelooy/heichel-review/README.md",
-		"category": "General",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tests/gameplay/DIRECTORY_GUIDE.md",
+		"category": "Games",
 		"provenance": "project",
 		"headings": [
 			{
@@ -13,258 +13,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 1,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Heichel Review and Governance Center",
-				"anchor": "heichel-review-and-governance-center"
-			},
-			{
-				"level": 2,
-				"text": "Entry point",
-				"anchor": "entry-point"
-			},
-			{
-				"level": 2,
-				"text": "Review center",
-				"anchor": "review-center"
-			},
-			{
-				"level": 2,
-				"text": "Member governance",
-				"anchor": "member-governance"
-			},
-			{
-				"level": 2,
-				"text": "Invitations",
-				"anchor": "invitations"
-			},
-			{
-				"level": 2,
-				"text": "Series policy",
-				"anchor": "series-policy"
-			},
-			{
-				"level": 2,
-				"text": "Security",
-				"anchor": "security"
-			},
-			{
-				"level": 2,
-				"text": "Tests",
-				"anchor": "tests"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Heichel Review and Governance Center This application combines private submission review with verified institutional governance for one Heichel. Entry point The acting alias is public identity context only. Every private read and write revalidates ownership through the authenticated Awts",
-		"searchText": "b\"h boruch hashem blessed is he heichel review and governance center this application combines private submission review with verified institutional governance for one heichel. entry point the acting alias is public identity context only. every private read and write revalidates ownership through the authenticated awtsmoos user session before capabilities are compiled. review center the queue supports: state, series, and submitter filters; new canonical posts; questions and answers; reference and repost placements; quotes and excerpts; edit and series proposals; stable deep links; source provenance and structured payload inspection; assignment and chronological history; triage, changes requested, approval, scheduling, publication, rejection, withdrawal, and resubmission. illegal state transitions are rejected by the backend. every accepted transition records actor, previous state, next state, note, and time. member governance the governance panel shows compiled evidence from both current member records and legacy role indexes. assignable roles: admin; moderator; editor; contributor; member; follower; guest, which removes ordinary membership. owner transfer is intentionally excluded. an acting role may grant only a lower role and must possess managemembers. role mutations rewrite both governance generations, append a governance audit record, and notify the affected alias through native notifications when possible. invitations seven day expiration. no authority before acceptance. indexed from both heichel and invited alias. accept or reject under the invited alias's verified session. acceptance revalidates that the original inviter still possesses managemembers and may still grant the role. expiration, acceptance, rejection, and resulting role grant are audited separately. series policy owners and administrators may write a bounded series policy for: content submissions; content approval; reference submissions; reference approval; comments; formal answers. a child series cannot weaken restrictions imposed by the parent heichel policy. security the ui never treats an alias id as authority. server routes require: 1. a live awtsmoos user session; 2. native ownership verification for the acting alias; 3. compiled heichel and series capabilities; 4. legal state transition or hierarchy rules. tests the shared real chrome journey exercises moderation and governance through visible controls against a hermetic same origin api fixture. static tests cover review actions, governance transport, role options, and bounded policy values. the awtsmoos holds judgment, mercy, membership, and consent in one indivisible present. awtsmoos.com reveals that unity through evidence, explicit boundaries, and an audit trail that no hidden moderator can silently rewrite.",
-		"page": "pages/geelooy-heichel-review-readme-md-7354660661.json"
-	},
-	{
-		"id": "geelooy-heichelos-documentation-md-2903622a38",
-		"title": "Heichelos Documentation",
-		"sourcePath": "geelooy/heichelos/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Heichelos Documentation",
-				"anchor": "heichelos-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Heichelos Documentation The Awtsmoos gives content a chamber where posts, series, editors, review, comments, and discovery meet; Awtsmoos.com documents the Heichel system across this UI tree and the Social API beneath its feet. Read ../../docs/SYSTEMS/SOCIAL AND HEICHEL.md. Related UIs: ",
-		"searchText": "b\"h boruch hashem blessed is he heichelos documentation the awtsmoos gives content a chamber where posts, series, editors, review, comments, and discovery meet; awtsmoos.com documents the heichel system across this ui tree and the social api beneath its feet. read ../../docs/systems/social and heichel.md. related uis: ../heichel editor/, ../heichel review/, ../post editor/, ../comment thread/. backend: ../api/social/.",
-		"page": "pages/geelooy-heichelos-documentation-md-2903622a38.json"
-	},
-	{
-		"id": "geelooy-heichelos-post-styles-style-ownership-map-md-215cb6ea0d",
-		"title": "Reader Style Ownership Map",
-		"sourcePath": "geelooy/heichelos/post/styles/STYLE_OWNERSHIP_MAP.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Reader Style Ownership Map",
-				"anchor": "reader-style-ownership-map"
-			},
-			{
-				"level": 2,
-				"text": "Active entry",
-				"anchor": "active-entry"
-			},
-			{
-				"level": 2,
-				"text": "Active modern reader vessels",
-				"anchor": "active-modern-reader-vessels"
-			},
-			{
-				"level": 2,
-				"text": "Legacy compatibility still loaded",
-				"anchor": "legacy-compatibility-still-loaded"
-			},
-			{
-				"level": 2,
-				"text": "High-risk historical areas",
-				"anchor": "high-risk-historical-areas"
-			},
-			{
-				"level": 2,
-				"text": "Rules for future edits",
-				"anchor": "rules-for-future-edits"
-			}
-		],
-		"excerpt": "B\"H Reader Style Ownership Map The Awtsmoos creates every layer every instant, but maintainers need earthly borders. This file marks the current reader CSS reality after the first design system implementation pass. Active entry geelooy/heichelos/post/styles/main.css This is the only reader CSS entry currently trusted f",
-		"searchText": "b\"h reader style ownership map the awtsmoos creates every layer every instant, but maintainers need earthly borders. this file marks the current reader css reality after the first design system implementation pass. active entry geelooy/heichelos/post/styles/main.css this is the only reader css entry currently trusted for the route level reader bundle. active modern reader vessels these are the preferred places for new reader work: reader foundation/ — scroll root, localized shell, reader tokens, top header. reader content/ — scroll chunks, title crown, typography, section cards, content width. reader controls/ — floating reader controls and labels. reader settings/ — settings sheet, inputs, color grid, grouped controls. reader sidebar/ — sidebar shell, comments, composer, resizer. reader overlays/ — command palette, context menu, verse menu. reader responsive/ — desktop, tablet, mobile, reduced motion. reader beauty/ — optional visual enhancement; must not own scroll. reader legend/ — optional visual state; must not own scroll. legacy compatibility still loaded these still load from main.css before the modern stack and must be treated as compatibility until replaced by tests: ideal/reborn/tokens.css ideal/reborn/comments.css ideal/reborn/comment composer.css ideal/reborn/inline comments.css ideal/reborn/inline action menu.css ideal/reborn/context menu.css ideal/reborn/button hover.css do not delete these in the same pass as a replacement. first create focused modern modules, then add selector contract tests, then turn the old files into wrappers or remove their imports. high risk historical areas the following folders contain older or parallel designs. they may still be referenced by old templates or tests, so they require grep and route verification before edits: comments/ content/ layout/ modules/ ideal/ outside ideal/reborn/ root files such as settings.css, sidebar.css, tabs.css, new style.css rules for future edits 1. entry files should import only. 2. no css module should exceed 120 lines without a written exception. 3. beauty and legend layers are optional; they may enhance but not repair core layout. 4. js state must have a css contract test. 5. css state selectors must have a js or template source. 6. scroll belongs to the browser. 7. android touch and reduced motion are first class. 8. hebrew and rtl must be explicit, not accidental.",
-		"page": "pages/geelooy-heichelos-post-styles-style-ownership-map-md-215cb6ea0d.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-animal-mesh-api-md-d399a3366a",
-		"title": "B\"H — Awtsmoos Animal Mesh API",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/ANIMAL_MESH_API.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H — Awtsmoos Animal Mesh API",
-				"anchor": "b-h-awtsmoos-animal-mesh-api"
-			},
-			{
-				"level": 2,
-				"text": "Core Decision",
-				"anchor": "core-decision"
-			},
-			{
-				"level": 2,
-				"text": "Public Imports",
-				"anchor": "public-imports"
-			},
-			{
-				"level": 2,
-				"text": "Recipe Lifecycle",
-				"anchor": "recipe-lifecycle"
-			},
-			{
-				"level": 2,
-				"text": "Implemented Geometry Operations",
-				"anchor": "implemented-geometry-operations"
-			},
-			{
-				"level": 2,
-				"text": "Rigging",
-				"anchor": "rigging"
-			},
-			{
-				"level": 2,
-				"text": "Patches",
-				"anchor": "patches"
-			},
-			{
-				"level": 2,
-				"text": "Validation Report",
-				"anchor": "validation-report"
-			},
-			{
-				"level": 2,
-				"text": "Production Boundary",
-				"anchor": "production-boundary"
-			}
-		],
-		"excerpt": "B\"H — Awtsmoos Animal Mesh API Core Decision A vision model returns a validated awtsmoos.animal mesh recipe JSON document. The procedural core compiles that intent deterministically. It never executes model generated JavaScript, Python, shell commands, file paths, or network URLs. Public Imports Three.js presentation h",
-		"searchText": "b\"h — awtsmoos animal mesh api core decision a vision model returns a validated awtsmoos.animal mesh recipe json document. the procedural core compiles that intent deterministically. it never executes model generated javascript, python, shell commands, file paths, or network urls. public imports three.js presentation helpers are available from @awtsmoos/procedural core/three. safe blender execution plans are available from @awtsmoos/procedural core/blender. json schemas are available from @awtsmoos/procedural core/schema. recipe lifecycle 1. normalize and label two to six reference images. 2. ask a vision model for recipe json only. 3. validate schema, coordinates, references, landmarks, guides, commands, materials, rig data, dependencies, limits, and unsafe content. 4. compile supported operations into deterministic render artifacts. 5. hand deferred trusted operations to a renderer specific executor. 6. build a three.js preview or a blender execution plan. 7. apply immutable recipe patches and regenerate only affected commands. implemented geometry operations the core directly implements elliptical and profile lofts, ellipsoids, tubes, capsule like profiles, mirroring, boundary bridges, mesh joins, welding, normal recalculation, scheduling, dependency resolution, and validation. the full recipe whitelist is accepted as a stable language contract. operations that require a renderer specific topology engine are reported as deferred; they are never silently approximated or executed as arbitrary code. rigging recipes may declare bones, parent relationships, heads, tails, and influence limits. the compiler builds an inspectable rig artifact and deterministic nearest bone weights constrained to the recipe's maximum influences. patches use createanimalmeshpatch() or animalmeshsession. patches use json pointer paths, old value guards, immutable contract fields, stable patch identities, and dependency aware regeneration. validation report compilation reports triangle and vertex counts, open boundaries, non manifold edges, degenerate faces, bounding dimensions, ground penetration, required parts, unweighted vertices, influence violations, deferred operations, and export status. production boundary this expansion supplies the safe anatomical language, deterministic core, incremental editor contract, and adapter boundaries. a production blender worker must still implement the deferred trusted operations, sandboxed process limits, glb export, uv tooling, retopology, texture generation, and final deformation quality review.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-animal-mesh-api-md-d399a3366a.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-docs-api-introspection-md-5ab53d98f0",
-		"title": "B\"H",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/API_INTROSPECTION.md",
-		"category": "API",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 2,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 2,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "API Introspection",
-				"anchor": "api-introspection"
-			},
-			{
-				"level": 2,
-				"text": "Methods",
-				"anchor": "methods"
-			},
-			{
-				"level": 2,
-				"text": "Definition fields",
-				"anchor": "definition-fields"
-			},
-			{
-				"level": 2,
-				"text": "Extension",
-				"anchor": "extension"
-			},
-			{
-				"level": 2,
-				"text": "UI parity",
-				"anchor": "ui-parity"
-			},
-			{
-				"level": 2,
-				"text": "Stability",
-				"anchor": "stability"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. API Introspection Methods api.describe, api.namespaces, api.methods, api.schema, api.capabilities, and api.examples are generated from MethodRegistry. Definition fields Each definit",
-		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. api introspection methods api.describe, api.namespaces, api.methods, api.schema, api.capabilities, and api.examples are generated from methodregistry. definition fields each definition exposes identity, namespace, runtime name, label, description, stability, parameter/result schemas, permissions, transaction mode, undo support, side effects, cost, ui metadata, and examples. extension register a method definition when creating the api, or register it on methodregistry before runtime aliases are generated. duplicate ids fail deterministically. ui parity createapiexplorermodel(registry) uses the same public definitions. no second handwritten control contract exists. stability registry and introspection envelopes are stable; individual experimental method stability is reported explicitly.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-api-introspection-md-5ab53d98f0.json"
-	},
-	{
-		"id": "geelooy-libs-awtsmoos-procedural-core-docs-command-protocol-md-4fabb3e7b1",
-		"title": "B\"H",
-		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/docs/COMMAND_PROTOCOL.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 2,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 2,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Command Protocol",
-				"anchor": "command-protocol"
+				"text": "Directory Guide: experiments/Awtsmoos/tests/gameplay",
+				"anchor": "directory-guide-experiments-awtsmoos-tests-gameplay"
 			},
 			{
 				"level": 2,
@@ -273,37 +23,191 @@
 			},
 			{
 				"level": 2,
-				"text": "JSON",
-				"anchor": "json"
+				"text": "Find things here",
+				"anchor": "find-things-here"
 			},
 			{
 				"level": 2,
-				"text": "Runtime parity",
-				"anchor": "runtime-parity"
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Result",
-				"anchor": "result"
+				"text": "Representative files",
+				"anchor": "representative-files"
 			},
 			{
 				"level": 2,
-				"text": "Side effects",
-				"anchor": "side-effects"
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
 			},
 			{
 				"level": 2,
-				"text": "UI",
-				"anchor": "ui"
+				"text": "Test themes",
+				"anchor": "test-themes"
 			},
 			{
 				"level": 2,
-				"text": "Stability",
-				"anchor": "stability"
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Awtsmoos renews every contract in ordered light; Awtsmoos.com keeps exact creation editable and right. Command Protocol Purpose Every caller submits the same envelope: api, id, method, params, and optional options. There is no prompt endpoint and no model provider. JSON Runtime parit",
-		"searchText": "b\"h boruch hashem blessed is he the awtsmoos renews every contract in ordered light; awtsmoos.com keeps exact creation editable and right. command protocol purpose every caller submits the same envelope: api, id, method, params, and optional options. there is no prompt endpoint and no model provider. json runtime parity awtsmoos.houses.create(params, options) constructs that envelope and dispatches it through commandexecutor. result successful results expose revisions, transaction identity, created/updated/deleted resources, validation, warnings, undo availability, and method result. errors expose stable codes and details. side effects validation and document execution happen before runtime adapter commit. runtime failure preserves the prior document. ui schema forms and raw json both call api.execute(command). stability the awtsmoos.core.v1 envelope is stable.",
-		"page": "pages/geelooy-libs-awtsmoos-procedural-core-docs-command-protocol-md-4fabb3e7b1.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tests/gameplay Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Integration tests focused on the gameplay area. The Awtsmoos renews every path and every",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tests/gameplay role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose integration tests focused on the gameplay area. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: guards, torah, action, bar, gevurah, light, timeline, ability, charge, remembers, shlichus, tiferes file mix: .js: 4 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence guards the one action bar vessel from layout drift and duplicated activation. chesed fills the slot, gevurah keeps its border bright; yesod remembers every place, while malchus turns one edge to light. b\"h a focused witness that one shlichus survives reload and pays its reward once. the awtsmoos renews the world without duplicating yesterday's earned light; this test guards the persistence vessel that carries that truth in awtsmoos.com. guards the single torah cast river from start through interruption and completion. netzach bears the casting light, gevurah may close its gate; hod counts three channel beats, while tiferes joins their fate. representative files actionbarstore.test.js — guards the one action bar vessel from layout drift and duplicated activation. chesed fills the slot, gevurah keeps its border bright; yesod remembers every place, while malchus turns one edge to light. covers: “store and drag share one bounded layout owner”, “yesod persistence restores one compact two row layout”, “one fresh keyboard edge produces exactly one activation”. shlichusruntimecoordinator.test.js — a focused witness that one shlichus survives reload and pays its reward once. the awtsmoos renews the world without duplicating yesterday's earned light; this test guards the persistence vessel that carries that truth in awtsmoos.com. covers: “shlichus restores progress and never duplicates a completed reward”. torahabilitytimelinelifecycle.test.js — guards the single torah cast river from start through interruption and completion. netzach bears the casting light, gevurah may close its gate; hod counts three channel beats, while tiferes joins their fate. covers: “cast executes once only at its canonical completion deadline”, “interrupt clears the sole cast without executing it”, “channel commits once, emits three bounded ticks, and completes once”. torahabilitytimelinepreflight.test.js — guards the one torah timeline where target, focus, cooldown, and charge become one law. chochmah sees the foe, gevurah measures where shadows are; yesod remembers every charge, while tiferes keeps one action bar. covers: “preflight rejects missing target, range, and focus through one path”, “accepted instant ability creates global and personal cooldown”, “charged ability consumes two charges and lazily restores one”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:test node:assert/strict ../../src/gameplay/actionbar/actionbarbindingrules.js ../../src/gameplay/actionbar/actionbardragcontroller.js ../../src/gameplay/actionbar/actionbarpersistence.js ../../src/gameplay/actionbar/actionbarstore.js ../../src/gameplay/adventurestore.js ../../src/gameplay/shliachprofilestore.js ../../src/gameplay/shlichuspersistence.js ../../src/gameplay/shlichusruntimecoordinator.js ../../src/gameplay/combat/torahabilitycatalog.js ../../src/gameplay/combat/torahabilitytimeline.js test themes store and drag share one bounded layout owner yesod persistence restores one compact two row layout one fresh keyboard edge produces exactly one activation shlichus restores progress and never duplicates a completed reward cast executes once only at its canonical completion deadline interrupt clears the sole cast without executing it channel commits once, emits three bounded ticks, and completes once preflight rejects missing target, range, and focus through one path accepted instant ability creates global and personal cooldown charged ability consumes two charges and lazily restores one directory map parent: experiments/awtsmoos/tests children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tests-gameplay-directory-561340a4fb.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tests-world-directory-gu-3d92e8882e",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tests/world/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/tests/world",
+				"anchor": "directory-guide-experiments-awtsmoos-tests-world"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Test themes",
+				"anchor": "test-themes"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tests/world Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 6 files, 0 structural child directories Purpose Integration tests focused on the world area. The Awtsmoos renews every path and every artif",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tests/world role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 6 files, 0 structural child directories purpose integration tests focused on the world area. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: proves, village, collision, through, vessel, bounded, com, doorway, room, without, bright, chunk file mix: .js: 5 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves the public primitive graph builds a translated doorway and remains import safe. the awtsmoos measures an opening through three bounded stones; awtsmoos.com verifies that geometry, transformation, and material assembly meet without a broken export. a focused witness that a village room remains stable while its use evolves. the awtsmoos renews existence each instant; this test proves the room vessel is deterministic, bounded, restorable, and silent while idle. proves one connected, local, and uniquely owned village water composition. the awtsmoos carries one current through every vessel without multiplying its source; awtsmoos.com guards the code graph so lake, river, waterfall, foam, and mist remain one story. representative files doorwayframegeometry.test.js — proves the public primitive graph builds a translated doorway and remains import safe. the awtsmoos measures an opening through three bounded stones; awtsmoos.com verifies that geometry, transformation, and material assembly meet without a broken export. covers: “doorway geometry resolves through the public primitive factory”, “primitive material factory imports after the doorway graph repair”. roomsystem.test.js — a focused witness that a village room remains stable while its use evolves. the awtsmoos renews existence each instant; this test proves the room vessel is deterministic, bounded, restorable, and silent while idle. covers: “roomsystem creates stable purposeful rooms and detached copies”, “roomsystem updates purpose, snapshots, restores, and emits safe events”, “roomsystem removes rooms, cleans listeners, and has no update loop”. villagewatersystem.test.js — proves one connected, local, and uniquely owned village water composition. the awtsmoos carries one current through every vessel without multiplying its source; awtsmoos.com guards the code graph so lake, river, waterfall, foam, and mist remain one story. covers: “village water composes one connected source to outlet definition set”, “all playable water textures use truthful same origin metadata”, “only villagewatersystem composes water bodies and waterfalls together”. worldchunkcollisionlayer.test.js — proves that later village stone enters one collision authority without replacing the ground. yesod holds the valley firm while richer walls descend in light; tiferes joins each active vessel through one query, bounded and bright. covers: “post movement collision layer joins the existing query facade”. worldchunkruntimecollisionlayer.test.js — proves the public world runtime reveals later collision through its one canonical vessel. yesod receives the village wall while malchus keeps the traveler's query bright; awtsmoos.com exposes one doorway inward, never private reach or parallel night. covers: “public runtime registers one post movement collision layer”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:test node:assert/strict ../../src/world/primitives/primitivegeometryfactory.js ../../src/world/primitives/primitivematerialfactory.js ./../../src/world/roomsystem.js node:fs node:url ../../src/assets/productionmaterialurlpolicy.js ../../src/world/village/villagewatersystem.js ../../src/collision/awtsmoosoctree.js ../../src/math/aabb.js ../../src/world/streaming/worldchunkbootstrap.js test themes doorway geometry resolves through the public primitive factory primitive material factory imports after the doorway graph repair roomsystem creates stable purposeful rooms and detached copies roomsystem updates purpose, snapshots, restores, and emits safe events roomsystem removes rooms, cleans listeners, and has no update loop village water composes one connected source to outlet definition set all playable water textures use truthful same origin metadata only villagewatersystem composes water bodies and waterfalls together water production files contain no stale firebase ownership flag post movement collision layer joins the existing query facade public runtime registers one post movement collision layer directory map parent: experiments/awtsmoos/tests children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tests-world-directory-gu-3d92e8882e.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tools-diagnostics-direct-bd366d7583",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tools/diagnostics/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/tools/diagnostics",
+				"anchor": "directory-guide-experiments-awtsmoos-tools-diagnostics"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tools/diagnostics Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Structural area named diagnostics. Its immediate files and children below are the evi",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tools/diagnostics role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose structural area named diagnostics. its immediate files and children below are the evidence for its current responsibilities. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: diagnostics, through, village, alone, appearance, awtsmoos, browser, canonical, com, command, contracts, counts file mix: .md: 1 · .mjs: 1 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence b\"h emits deterministic textual or jsonl evidence without opening a browser. the awtsmoos is revealed through truth rather than appearance; awtsmoos.com lets a shell command expose the village's contracts, failures, warnings, and counts through plain logs alone. representative files runcanonicalvillagediagnostics.mjs — emits deterministic textual or jsonl evidence without opening a browser. the awtsmoos is revealed through truth rather than appearance; awtsmoos.com lets a shell command expose the village's contracts, failures, warnings, and counts through plain logs alone. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../src/diagnostics/logs/diagnostictextformatter.js ../../src/diagnostics/logs/villagediagnosticsrunner.js directory map parent: experiments/awtsmoos/tools children: none. related and overlapping systems diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tools-diagnostics-direct-bd366d7583.json"
 	}
 ]

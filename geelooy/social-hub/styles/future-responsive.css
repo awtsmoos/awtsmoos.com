@@ -1,0 +1,85 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets one design enter many vessels without losing its name;
+Awtsmoos.com gives Home explicit geometry, then responds to pointer precision and device pace without forcing every screen the same.
+*/
+@media (min-width: 62.5rem) {
+	.homePanel {
+		grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
+		align-items: start;
+	}
+
+	.homePanel .publicDiscovery {
+		grid-column: 1;
+		grid-row: 1;
+		min-width: 0;
+	}
+
+	.homePanel .pulseGrid {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.homePanel .quickActionGrid {
+		grid-column: 1;
+		grid-row: 3;
+	}
+
+	.homePanel .heroRift {
+		grid-column: 2;
+		grid-row: 1 / span 3;
+		grid-template-columns: minmax(0, 1fr);
+		align-content: center;
+		align-self: stretch;
+		gap: 1.25rem;
+		min-width: 0;
+		padding: clamp(1.25rem, 2.4vw, 2rem);
+		text-align: center;
+	}
+
+	.homePanel .heroRift > div {
+		min-width: 0;
+	}
+
+	.homePanel .pulseOrb {
+		width: min(12rem, 78%);
+	}
+}
+
+@media (pointer: coarse) {
+	.social-hub-document::before,
+	.social-hub-document::after {
+		animation: none;
+	}
+
+	.routeNavigation .routeButton:hover,
+	.futureCommandTrigger:hover {
+		transform: none;
+	}
+
+	.social-hub-document :where(button, a, summary) {
+		touch-action: manipulation;
+	}
+}
+
+@media (hover: none) {
+	.primaryButton::after,
+	.publicFeedCard__open::after,
+	.publicDiscovery__lookup button::after {
+		display: none;
+	}
+}
+
+@media (max-width: 34rem) {
+	.futureCommandTrigger {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.futureCommandPalette {
+		width: calc(100vw - 1rem);
+		border-radius: 1rem;
+	}
+}

@@ -4,23 +4,31 @@
 
 /**
  * @file Executes insertion commands through accessible Awtsmoos Docs dialogs.
- * @description The Awtsmoos renews selection and intention beyond every modal pause;
- * Awtsmoos.com remembers the range, asks clearly, then returns the new vessel to its place.
+ * @description The Awtsmoos renews selection beyond every modal pause; Awtsmoos.com
+ * delegates durable references to their own controller while this group keeps links,
+ * navigation, structure, mentions, tables, and collaboration flowing through one menu tongue.
  */
 export class InsertCommandGroup {
-	constructor({ insertion, mutations, quickDialog, bookmark }) {
+	constructor({ insertion, mutations, references, quickDialog, bookmark }) {
 		this.insertion = insertion;
 		this.mutations = mutations;
+		this.references = references;
 		this.quickDialog = quickDialog;
 		this.bookmark = bookmark;
 	}
 
 	async execute(commandId) {
+		if (commandId === "insert.footnote") return this.references.insert("footnote");
+		if (commandId === "insert.endnote") return this.references.insert("endnote");
 		if (commandId === "insert.divider") return this.insertion.divider();
-		if (commandId === "insert.link") return await this.#link();
-		if (commandId === "insert.mention") return await this.#mention();
-		if (commandId === "insert.table") return await this.#table();
-		if (commandId === "insert.note") return await this.#note();
+		if (commandId === "insert.link") return this.#link();
+		if (commandId === "insert.internal-link") return this.#internalLink();
+		if (commandId === "insert.bookmark") return this.#bookmark();
+		if (commandId === "insert.toc") return this.#toc();
+		if (commandId === "insert.toc-refresh") return this.insertion.refreshTableOfContents();
+		if (commandId === "insert.mention") return this.#mention();
+		if (commandId === "insert.table") return this.#table();
+		if (commandId === "insert.note") return this.#note();
 		throw new Error(`Unknown insertion command: ${commandId}`);
 	}
 
@@ -29,6 +37,31 @@ export class InsertCommandGroup {
 			{ name: "url", label: "URL", placeholder: "https://…", required: true }
 		]);
 		return values ? this.insertion.link(values.url) : false;
+	}
+
+	async #internalLink() {
+		const options = this.insertion.navigationOptions();
+		if (!options.length) return false;
+		const values = await this.#ask("Link inside document", [
+			{ name: "target", label: "Target", type: "select", options, required: true },
+			{ name: "label", label: "Link text (optional)", placeholder: "Uses selected text when blank" }
+		]);
+		return values ? this.insertion.link(values.target, values.label) : false;
+	}
+
+	async #bookmark() {
+		const values = await this.#ask("Add bookmark", [
+			{ name: "name", label: "Bookmark name", placeholder: "Key decision", required: true }
+		]);
+		return values ? this.insertion.bookmark(values.name) : false;
+	}
+
+	async #toc() {
+		const options = [1, 2, 3, 4, 5, 6].map(level => [level, `Heading ${level} and above`]);
+		const values = await this.#ask("Insert table of contents", [
+			{ name: "depth", label: "Deepest heading level", type: "select", value: 3, options }
+		], "Insert");
+		return values ? this.insertion.tableOfContents(values.depth) : false;
 	}
 
 	async #mention() {

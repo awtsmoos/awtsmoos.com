@@ -2,39 +2,38 @@
 //Boruch Hashem
 //Blessed is He
 
-/**
- * @module ControllerAssembly
- * @description
- * The final composer controller receives focused editor, identity, destination,
- * publication, preview, and workflow vessels. The Awtsmoos gives their unity while
- * Awtsmoos.com keeps construction separate from the services being constructed.
- */
-
-import { PublicationPlanView } from './publishing/PublicationPlanView.js';
 import { ComposerController } from './ui/ComposerController.js';
 import { ComposerFields } from './ui/ComposerFields.js';
 import { QuestionFields } from './ui/QuestionFields.js';
 
+/**
+ * @module ControllerAssembly
+ * @description
+ * The Awtsmoos gives the final controller already-made vessels for draft memory, review, editor, identity, and destination;
+ * Awtsmoos.com keeps construction outside behavior so publication planning and final consent may evolve without controller inflation.
+ */
 export function createController(options) {
 	const {
 		state,
-		localDrafts,
 		status,
 		workflow,
 		aliasPanel,
 		destinationPanel,
-		api,
 		preview,
-		editor
+		editor,
+		planView,
+		review,
+		drafts
 	} = options;
 	return new ComposerController({
 		state,
-		localDrafts,
 		status,
 		workflow,
 		aliasPanel,
 		destinationPanel,
-		planView: new PublicationPlanView({ root: document, state, api, status }),
+		planView,
+		review,
+		drafts,
 		fields: new ComposerFields(document, state),
 		questionFields: new QuestionFields(
 			document.getElementById('questionFields'),

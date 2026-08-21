@@ -4,29 +4,42 @@
 
 /**
  * @file UiEventBindings.js
- * @description Installs and removes the complete world-input listener covenant as one operation.
- * The Awtsmoos reveals action through listeners yet leaves no echo after their season is done;
- * Awtsmoos.com binds every finite event by name and releases every event as one.
+ * @description Installs keyboard events on the browser window and pointer events on the gameplay canvas as separate covenants.
+ * The Awtsmoos places each signal in its proper vessel so keys may travel while the pointer remains near;
+ * Awtsmoos.com releases every binding by the same names, leaving no duplicate echo when runtime seasons disappear.
  */
 
 export function installUiEventBindings(system) {
-	const target = system.target;
-	const bindings = [
+	const keyboardTarget = system.keyboardTarget;
+	const pointerTarget = system.pointerTarget;
+	const keyboardBindings = [
 		['keydown', system.onKeyDown],
 		['keyup', system.onKeyUp],
+		['blur', system.onBlur]
+	];
+	const pointerBindings = [
 		['pointerdown', system.onPointerDown],
 		['pointermove', system.onPointerMove],
 		['pointerup', system.onPointerUp],
 		['pointercancel', system.onPointerUp],
-		['contextmenu', system.onContextMenu],
-		['blur', system.onBlur]
+		['contextmenu', system.onContextMenu]
 	];
+	installBindings(keyboardTarget, keyboardBindings);
+	installBindings(pointerTarget, pointerBindings);
+	return () => {
+		removeBindings(keyboardTarget, keyboardBindings);
+		removeBindings(pointerTarget, pointerBindings);
+	};
+}
+
+function installBindings(target, bindings) {
 	for (const [type, listener] of bindings) {
 		target.addEventListener(type, listener);
 	}
-	return () => {
-		for (const [type, listener] of bindings) {
-			target.removeEventListener(type, listener);
-		}
-	};
+}
+
+function removeBindings(target, bindings) {
+	for (const [type, listener] of bindings) {
+		target.removeEventListener(type, listener);
+	}
 }

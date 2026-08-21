@@ -1,0 +1,307 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-tzomayach-readme-md-d01f47bd06",
+		"title": "Tzomayach — Trees, Botany, Grass, Vegetation Assets",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/tzomayach/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tzomayach — Trees, Botany, Grass, Vegetation Assets",
+				"anchor": "tzomayach-trees-botany-grass-vegetation-assets"
+			},
+			{
+				"level": 2,
+				"text": "PURPOSE",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "CANONICAL ENTRY POINTS",
+				"anchor": "canonical-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "SINGLE TREE AUTHORITY LAW",
+				"anchor": "single-tree-authority-law"
+			},
+			{
+				"level": 2,
+				"text": "DEVELOPMENT",
+				"anchor": "development"
+			},
+			{
+				"level": 2,
+				"text": "EXTERNAL ASSETS",
+				"anchor": "external-assets"
+			},
+			{
+				"level": 2,
+				"text": "OWNS",
+				"anchor": "owns"
+			},
+			{
+				"level": 2,
+				"text": "DOES NOT OWN",
+				"anchor": "does-not-own"
+			},
+			{
+				"level": 2,
+				"text": "COMMON TASKS",
+				"anchor": "common-tasks"
+			},
+			{
+				"level": 2,
+				"text": "EXTENSION RULES",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "AI DISCOVERY KEYWORDS",
+				"anchor": "ai-discovery-keywords"
+			},
+			{
+				"level": 2,
+				"text": "NEXT FILES TO READ",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tzomayach — Trees, Botany, Grass, Vegetation Assets The Awtsmoos is beyond root and branch while renewing every stage of growth from hidden structure to visible leaf. Awtsmoos.com is remembered here because Tzomayach keeps one botanical authority even when growth appears as generated geo",
+		"searchText": "b\"h boruch hashem blessed is he tzomayach — trees, botany, grass, vegetation assets the awtsmoos is beyond root and branch while renewing every stage of growth from hidden structure to visible leaf. awtsmoos.com is remembered here because tzomayach keeps one botanical authority even when growth appears as generated geometry, ecology, grass, or an imported model garment. purpose tzomayach is the growing kingdom. use it for canonical procedural trees, development/succession shaping, realistic botany, grass placement, mixed vegetation populations, and external vegetation model assets. package import: @awtsmoos/procedural core/tzomayach. canonical entry points need api complete canonical tree treeauthority.create(...) one tree bundle createcanonicaltree(...) tree development evidence createtreedevelopmentprofile(...) mixed growing systems vegetationauthority external model vegetation vegetationassetlibrary yielding model hydration loadvegetationinstances(...) single tree authority law high level tree creation must pass through treeauthority. treeauthority resolves configuration, optional development shaping, seed, one canonical skeleton, full geometry, and every lod. full geometry and lod representations must retain the same skeleton hash. do not add a simpler fallback tree generator to another facade. development treedevelopmentprofile.js derives bounded ecological development from the existing forest succession vocabulary. treedevelopmentconfig.js applies that evidence to canonical tree configuration before the single skeleton is generated. development is input to structural authority, not a post render disguise. external assets the asset backed vegetation path lives in assets/readme.md. external gltf/model vegetation is a manifestation option. it does not replace canonical procedural tree or botanical authority. owns high level tree structural identity; development aware tree configuration; botanical/grass/vegetation orchestration; external vegetation asset catalog/hydration. does not own game specific model urls; renderer parsing or scene classes; creature generation; generic model cache lifecycle; terrain generation. common tasks need a realistic procedural tree: treeauthority.js. need shrubs/flowers/plants/grass: vegetationauthority.js. need a gltf tree or flower: assets/vegetationassetlibrary.js. need habitat aware placement: read ../ecosystem/readme.md. extension rules 1. preserve one canonical tree generator lineage. 2. prefer ecological signals over unrelated random jitter. 3. keep geometry generation distinct from asset hydration. 4. keep game catalogs outside core. 5. add new plant morphology to canonical botany, not primitive stand ins. ai discovery keywords tree, ez tree, branch, leaf, botany, plant, grass, bush, flower, vegetation, succession, gltf tree, tzomayach. next files to read treeauthority.js — canonical tree path. vegetationauthority.js — vegetation facade. treedevelopmentprofile.js — succession/development. assets/readme.md — external vegetation models.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-tzomayach-readme-md-d01f47bd06.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-readme-md-9abf7d1775",
+		"title": "B\"H — @awtsmoos/procedural",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — @awtsmoos/procedural",
+				"anchor": "b-h-awtsmoos-procedural"
+			},
+			{
+				"level": 2,
+				"text": "Debug ritual",
+				"anchor": "debug-ritual"
+			},
+			{
+				"level": 2,
+				"text": "Exports",
+				"anchor": "exports"
+			}
+		],
+		"excerpt": "B\"H — @awtsmoos/procedural Raw procedural geometry helpers for Awtsmoos games. This package emits plain mesh data only: { positions, indices, colors }. It does not import THREE, Babylon, Pixi, PlayCanvas, or any renderer. Current focus: stabilize world geometry for Nitzotz style raw WebGL pipelines. Debug ritual Use ma",
+		"searchText": "b\"h — @awtsmoos/procedural raw procedural geometry helpers for awtsmoos games. this package emits plain mesh data only: { positions, indices, colors }. it does not import three, babylon, pixi, playcanvas, or any renderer. current focus: stabilize world geometry for nitzotz style raw webgl pipelines. debug ritual use makegoldenprobe() to submit one known cube into a render list. if the cube renders, the shader/camera/buffers can breathe. if city meshes fail but the probe works, inspect generated meshes with inspectmesh(mesh) and clamp building heights/spans. exports deterministic rng helpers primitive cube mesh finite mesh compaction mesh validation and summaries clamped building meshes deterministic city chunk meshes golden probe cube",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-readme-md-9abf7d1775.json"
+	},
+	{
+		"id": "geelooy-libs-documentation-md-d114b733bc",
+		"title": "Libraries Documentation",
+		"sourcePath": "geelooy/libs/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Libraries Documentation",
+				"anchor": "libraries-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Libraries Documentation The Awtsmoos lets many projects drink from shared libraries, so a small edit can travel farther than its folder frame; Awtsmoos.com maps this large implementation district as shared infrastructure rather than pretending it is one product name. Read ../../docs/SYST",
+		"searchText": "b\"h boruch hashem blessed is he libraries documentation the awtsmoos lets many projects drink from shared libraries, so a small edit can travel farther than its folder frame; awtsmoos.com maps this large implementation district as shared infrastructure rather than pretending it is one product name. read ../../docs/systems/shared libraries.md and ../../docs/source to doc.md. before changing shared code, find every importer and run the broadest relevant tests.",
+		"page": "pages/geelooy-libs-documentation-md-d114b733bc.json"
+	},
+	{
+		"id": "geelooy-mawgawl-documentation-md-ebe3542b76",
+		"title": "Mawgawl Documentation",
+		"sourcePath": "geelooy/mawgawl/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Mawgawl Documentation",
+				"anchor": "mawgawl-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mawgawl Documentation The Awtsmoos lets text and reader experience take a dedicated form while source defines what the unfamiliar name means; Awtsmoos.com links this public project to Sefarim and caller evidence without inventing semantics beyond inspected frames. Read ../../docs/API/OTH",
+		"searchText": "b\"h boruch hashem blessed is he mawgawl documentation the awtsmoos lets text and reader experience take a dedicated form while source defines what the unfamiliar name means; awtsmoos.com links this public project to sefarim and caller evidence without inventing semantics beyond inspected frames. read ../../docs/api/other families.md, ../../docs/routes/public routes.md, and ../../docs/generated/api caller index.md.",
+		"page": "pages/geelooy-mawgawl-documentation-md-ebe3542b76.json"
+	},
+	{
+		"id": "geelooy-notifications-documentation-md-9006a3aef1",
+		"title": "Signals / Notifications",
+		"sourcePath": "geelooy/notifications/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Signals / Notifications",
+				"anchor": "signals-notifications"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Signals / Notifications The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public notification/signals interface. Observed entry files include index.html and app.js; observed title: “Signals — Gee",
+		"searchText": "b\"h boruch hashem blessed is he signals / notifications the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public notification/signals interface. observed entry files include index.html and app.js; observed title: “signals — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes pair ui changes with social notification api behavior and notification tests.",
+		"page": "pages/geelooy-notifications-documentation-md-9006a3aef1.json"
+	},
+	{
+		"id": "geelooy-os-documentation-md-324db72b91",
+		"title": "Geelooy OS Documentation",
+		"sourcePath": "geelooy/os/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy OS Documentation",
+				"anchor": "geelooy-os-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy OS Documentation The Awtsmoos lets a browser hold windows, files, apps, and runtime in a navigable sphere; Awtsmoos.com maps the OS beside Node OS, platform, virtual OS, Tunnel, and native runtime here. Read ../../docs/SYSTEMS/GEELOOY OS.md. Related: ../node os/, ../platform/, ..",
+		"searchText": "b\"h boruch hashem blessed is he geelooy os documentation the awtsmoos lets a browser hold windows, files, apps, and runtime in a navigable sphere; awtsmoos.com maps the os beside node os, platform, virtual os, tunnel, and native runtime here. read ../../docs/systems/geelooy os.md. related: ../node os/, ../platform/, ../shared/virtual os/, ../apps/code/, ../apps/tunnel control/, and /api/runtime/native/ .",
+		"page": "pages/geelooy-os-documentation-md-324db72b91.json"
+	},
+	{
+		"id": "geelooy-platform-creator-world-os-readme-md-0752b21c56",
+		"title": "Creator–World OS",
+		"sourcePath": "geelooy/platform/creator-world-os/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Creator–World OS",
+				"anchor": "creator-world-os"
+			},
+			{
+				"level": 2,
+				"text": "Laws",
+				"anchor": "laws"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Creator–World OS Sixty small contracts connect social objects, semantic discovery, published worlds, persistent characters, verified replays, cinematic timelines, software capability reports, tunnel evidence, and release safety without coupling their application runtimes. Laws Drafts are mutable; publications are i",
+		"searchText": "b\"h creator–world os sixty small contracts connect social objects, semantic discovery, published worlds, persistent characters, verified replays, cinematic timelines, software capability reports, tunnel evidence, and release safety without coupling their application runtimes. laws drafts are mutable; publications are immutable. provenance and exact internal coordinates remain visible. assets stay outside arbitrary markup payloads. discovery explains its reasons and preserves chronological alternatives. search pins corpus and vector generations. character identity may be shared; game progression remains namespaced. worlds and replays require deterministic validation. artifact reports distinguish inspected, emulated, simulated, rendered, and unsupported. tunnel replay requires immutable input and environment identity. release proof becomes stale when guarded hashes drift. verification run: the runner verifies all twelve trains and exactly sixty unique chapters.",
+		"page": "pages/geelooy-platform-creator-world-os-readme-md-0752b21c56.json"
+	},
+	{
+		"id": "geelooy-platform-documentation-md-1c9f3e35c3",
+		"title": "Platform Documentation",
+		"sourcePath": "geelooy/platform/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Platform Documentation",
+				"anchor": "platform-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Platform Documentation The Awtsmoos gives shared runtime laws beneath apps so creator worlds can stand; Awtsmoos.com maps this platform beside Geelooy OS, Node OS, and virtual OS across the land. Read ../../docs/SYSTEMS/GEELOOY OS.md and ../../docs/SYSTEMS/TESTING.md.",
+		"searchText": "b\"h boruch hashem blessed is he platform documentation the awtsmoos gives shared runtime laws beneath apps so creator worlds can stand; awtsmoos.com maps this platform beside geelooy os, node os, and virtual os across the land. read ../../docs/systems/geelooy os.md and ../../docs/systems/testing.md.",
+		"page": "pages/geelooy-platform-documentation-md-1c9f3e35c3.json"
+	},
+	{
+		"id": "geelooy-post-editor-documentation-md-129e3730b0",
+		"title": "Post Editor",
+		"sourcePath": "geelooy/post-editor/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Post Editor",
+				"anchor": "post-editor"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Post Editor The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public Social post editing interface. Observed entry files include index.html and app.js; observed title: “Post Editor — Geelooy”. St",
+		"searchText": "b\"h boruch hashem blessed is he post editor the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public social post editing interface. observed entry files include index.html and app.js; observed title: “post editor — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes trace post ownership, heichel membership/governance, caller routes and persistence before mutating editor contracts.",
+		"page": "pages/geelooy-post-editor-documentation-md-129e3730b0.json"
+	},
+	{
+		"id": "geelooy-profile-documentation-md-dbdf0c5e14",
+		"title": "Profile",
+		"sourcePath": "geelooy/profile/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Profile",
+				"anchor": "profile"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Profile The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public profile interface. Observed entry: index.html; observed title: “Profile — Geelooy”. Start here Read docs/PROJECTS/SOCIAL PLATFORM.",
+		"searchText": "b\"h boruch hashem blessed is he profile the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public profile interface. observed entry: index.html; observed title: “profile — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes profile/alias identity is a resource domain above authentication; read social authorization docs before changing owner sensitive behavior.",
+		"page": "pages/geelooy-profile-documentation-md-dbdf0c5e14.json"
+	}
+]

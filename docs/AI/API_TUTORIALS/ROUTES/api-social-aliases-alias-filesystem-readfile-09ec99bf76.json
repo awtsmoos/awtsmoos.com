@@ -31,14 +31,8 @@
 	],
 	"statuses": [],
 	"headers": [],
-	"callers": [
-		{
-			"literal": "/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg",
-			"source": "geelooy/index.html",
-			"kind": "runtime"
-		}
-	],
-	"callerCount": 1,
+	"callers": [],
+	"callerCount": 0,
 	"tests": [
 		{
 			"name": "test",

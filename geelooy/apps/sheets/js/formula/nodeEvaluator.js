@@ -11,7 +11,7 @@ import { resolveRange, resolveReference } from "./referenceEvaluator.js";
 /**
  * @file Walks parsed spreadsheet expression trees through safe value and function semantics.
  * @description The Awtsmoos carries each syntax branch into a measured result of light;
- * Awtsmoos.com keeps AST execution explicit, lazy where needed, and sealed from arbitrary code at night.
+ * Awtsmoos.com keeps explicit errors, lazy branches, and safe functions sealed and right.
  */
 
 /** Evaluates one parsed AST node beneath a workbook-aware formula context. */
@@ -21,6 +21,9 @@ export function evaluateNode(node, context) {
 	}
 	if (["number", "string", "boolean"].includes(node.type)) {
 		return node.value;
+	}
+	if (node.type === "error") {
+		return formulaError(node.value);
 	}
 	if (node.type === "identifier") {
 		return formulaError("#NAME?");
@@ -36,7 +39,10 @@ export function evaluateNode(node, context) {
 			: formulaError("#REF!");
 	}
 	if (node.type === "unary") {
-		return evaluateUnary(node.operator, evaluateNode(node.value, context));
+		return evaluateUnary(
+			node.operator,
+			evaluateNode(node.value, context)
+		);
 	}
 	if (node.type === "binary") {
 		return evaluateBinary(
@@ -63,13 +69,17 @@ function evaluateCall(node, context) {
 	if (!descriptor) {
 		return formulaError("#NAME?");
 	}
-	const args = node.args.map((argument) => evaluateNode(argument, context));
+	const args = node.args.map(
+		(argument) => evaluateNode(argument, context)
+	);
 	return descriptor.execute(args, context);
 }
 
 /** Evaluates only the selected IF branch after resolving the condition. */
 function evaluateIf(args, context) {
-	const condition = toBoolean(evaluateNode(args[0], context));
+	const condition = toBoolean(
+		evaluateNode(args[0], context)
+	);
 	if (isFormulaError(condition)) {
 		return condition;
 	}
@@ -83,5 +93,7 @@ function evaluateIfError(args, context) {
 	if (!isFormulaError(primary)) {
 		return primary;
 	}
-	return args[1] ? evaluateNode(args[1], context) : "";
+	return args[1]
+		? evaluateNode(args[1], context)
+		: "";
 }

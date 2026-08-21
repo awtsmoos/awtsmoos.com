@@ -2,19 +2,25 @@
 // Boruch Hashem
 // Blessed is He
 
+import { createRuntimeSettingsFields, readRuntimeSettingsFields } from './projectRuntimeSettingsDom.js';
+
 /**
- * @file Small DOM vessels for Drive Project Settings.
+ * @module DriveProjectSettingsDom
  * @description
- * The Awtsmoos lets labels, inputs, actions, and status remain reusable vessels while project persistence stays in its own controller;
- * Awtsmoos.com keeps presentation construction separate so each source file remains narrow enough to inspect in one human glance.
+ * The Awtsmoos lets project identity, providers, bindings, and runtime recipe appear as separate readable vessels;
+ * Awtsmoos.com keeps general settings narrow while native-compute controls live in their own module, so the form can grow without becoming a tangled sea.
  */
 
 export function createSettingsFields(plan, projectIdFrom, providerValue) {
 	return {
 		id: field('Project ID', plan.identity.projectId || projectIdFrom(plan.identity.name)),
 		name: field('Name', plan.identity.name),
-		runtime: selectField('Runtime preference', plan.intent?.runtimePreference || 'static'),
-		bindings: field('Binding names', (plan.bindings || []).map(item => item.name).join(', '), 'DB_URL, GITHUB_TOKEN'),
+		...createRuntimeSettingsFields(plan),
+		bindings: field(
+			'Binding names',
+			(plan.bindings || []).map(item => item.name).join(', '),
+			'DB_URL, GITHUB_TOKEN'
+		),
 		git: field('GitHub repository intent', providerValue(plan, 'git'), 'owner/repository'),
 		social: field('Social Garden intent', providerValue(plan, 'social'), 'alias-or-series')
 	};
@@ -32,7 +38,7 @@ export function createSettingsLayout(fields, registered, remove) {
 export function readSettingsFields(fields) {
 	return {
 		name: fields.name.value,
-		runtimePreference: fields.runtime.value,
+		...readRuntimeSettingsFields(fields),
 		bindings: fields.bindings.value,
 		git: fields.git.value,
 		social: fields.social.value
@@ -63,39 +69,37 @@ function grid(...labels) {
 function actions(registered, remove) {
 	const box = node('div', 'project-settings__actions');
 	box.append(button('Save project', 'submit'));
-	if (registered) box.append(button('Delete configuration', 'button', remove));
+	if (registered) {
+		box.append(button('Delete configuration', 'button', remove));
+	}
 	return box;
 }
 
-function field(label, value = '', placeholder = '') {
+function field(labelText, value = '', placeholder = '') {
 	const input = node('input');
 	input.value = value || '';
 	input.placeholder = placeholder;
-	return { label: labeled(label, input), get value() { return input.value.trim(); } };
+	const label = labeled(labelText, input);
+	return {
+		label,
+		get value() {
+			return input.value.trim();
+		}
+	};
 }
 
-function selectField(label, value) {
-	const input = node('select');
-	for (const [key, title] of [['static', 'Static'], ['trusted-node', 'Trusted Node on my machine'], ['tenant-node', 'Isolated tenant Node (blocked until proven)']]) {
-		const option = node('option');
-		option.value = key;
-		option.textContent = title;
-		option.selected = key === value;
-		input.append(option);
-	}
-	return { label: labeled(label, input), get value() { return input.value; } };
-}
-
-function labeled(label, input) {
+function labeled(labelText, input) {
 	const wrapper = node('label', 'project-settings__field');
-	wrapper.append(text('span', '', label), input);
+	wrapper.append(text('span', '', labelText), input);
 	return wrapper;
 }
 
 function button(label, type, handler = null) {
 	const item = text('button', '', label);
 	item.type = type;
-	if (handler) item.addEventListener('click', handler);
+	if (handler) {
+		item.addEventListener('click', handler);
+	}
 	return item;
 }
 

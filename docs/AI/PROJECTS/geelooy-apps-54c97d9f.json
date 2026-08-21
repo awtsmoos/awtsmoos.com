@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "Awtsmoos Apps — Create, Compute & Build",
+	"title": "Awtsmoos Apps — Every Browser Tool & Game",
 	"entries": [
 		"index.html",
 		"app.js",
@@ -23,14 +23,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-54c97d9f.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 7420,
-		"tests": 1535,
-		"assets": 45,
+		"source": 8210,
+		"tests": 1790,
+		"assets": 0,
 		"generated": 19,
-		"docs": 34,
-		"other": 151
+		"docs": 232,
+		"other": 74
 	},
-	"totalFiles": 9204,
+	"totalFiles": 10325,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
@@ -39,9 +39,9 @@
 		{
 			"url": "/apps",
 			"file": "geelooy/apps/index.html",
-			"title": "Awtsmoos Apps — Create, Compute & Build",
-			"scripts": 2,
-			"styles": 3
+			"title": "Awtsmoos Apps — Every Browser Tool & Game",
+			"scripts": 3,
+			"styles": 4
 		}
 	],
 	"requiresLocalDocumentation": true,

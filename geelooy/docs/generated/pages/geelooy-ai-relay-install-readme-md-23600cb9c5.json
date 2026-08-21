@@ -2,15 +2,15 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "geelooy-ai-relay-install-readme-md-23600cb9c5",
-	"title": "Awtsmoos ChatGPT Transport Installation",
+	"title": "Awtsmoos Relay Install Guide",
 	"sourcePath": "geelooy/ai/relay/install/README.md",
 	"category": "AI",
 	"provenance": "project",
 	"headings": [
 		{
 			"level": 1,
-			"text": "Awtsmoos ChatGPT Transport Installation",
-			"anchor": "awtsmoos-chatgpt-transport-installation"
+			"text": "Awtsmoos Relay Install Guide",
+			"anchor": "awtsmoos-relay-install-guide"
 		},
 		{
 			"level": 2,
@@ -19,23 +19,18 @@
 		},
 		{
 			"level": 2,
-			"text": "Optional local-relay install order",
-			"anchor": "optional-local-relay-install-order"
-		},
-		{
-			"level": 3,
-			"text": "macOS or Linux",
-			"anchor": "macos-or-linux"
-		},
-		{
-			"level": 3,
-			"text": "Windows PowerShell",
-			"anchor": "windows-powershell"
+			"text": "Rebuild from repository source",
+			"anchor": "rebuild-from-repository-source"
 		},
 		{
 			"level": 2,
-			"text": "Rebuilding the extension archive",
-			"anchor": "rebuilding-the-extension-archive"
+			"text": "Production publication",
+			"anchor": "production-publication"
+		},
+		{
+			"level": 2,
+			"text": "Optional local-relay install order",
+			"anchor": "optional-local-relay-install-order"
 		}
 	],
 	"markdownParts": [

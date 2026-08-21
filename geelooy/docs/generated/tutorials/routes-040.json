@@ -1,8 +1,8 @@
 [
 	{
-		"id": "api-social-heichelos-heichel-comments-search-vector-70dc1f4ba3",
-		"route": "/api/social/heichelos/:heichel/comments/search/vector",
-		"source": "geelooy/api/social/helper/comments/routes/search.js",
+		"id": "api-social-events-e5e882cf1d",
+		"route": "/api/social/events",
+		"source": "geelooy/api/social/_awtsmoos.profile.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -15,17 +15,11 @@
 			"issue": "—",
 			"mount": "/api/social"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "heichel",
-				"catchAll": false
-			}
-		],
+		"dynamic": false,
+		"pathParameters": [],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [
-			"$_GET",
 			"$_POST",
 			"route-vars"
 		],
@@ -68,7 +62,7 @@
 			}
 		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-search-vector-70dc1f4ba3.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-events-e5e882cf1d.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
@@ -106,9 +100,9 @@
 		]
 	},
 	{
-		"id": "api-social-heichelos-heichel-deletecontentfromseries-1343d08abe",
-		"route": "/api/social/heichelos/:heichel/deleteContentFromSeries",
-		"source": "geelooy/api/social/_awtsmoos.series.js",
+		"id": "api-social-federation-import-4479318d65",
+		"route": "/api/social/federation/import",
+		"source": "geelooy/api/social/_awtsmoos.platform.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -121,27 +115,25 @@
 			"issue": "—",
 			"mount": "/api/social"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "heichel",
-				"catchAll": false
-			}
-		],
-		"methods": [
-			"GET"
-		],
-		"methodEvidence": "GET",
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
 		"vessels": [
 			"$_GET",
 			"$_POST",
-			"$_DELETE",
 			"route-vars"
 		],
 		"statuses": [],
 		"headers": [],
-		"callers": [],
-		"callerCount": 0,
+		"callers": [
+			{
+				"literal": "/api/social/federation/import",
+				"source": "geelooy/heichelos/heichel/modules/test/platformOpsApi.test.mjs",
+				"kind": "test"
+			}
+		],
+		"callerCount": 1,
 		"tests": [
 			{
 				"name": "test",
@@ -176,16 +168,9 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/heichelos/{heichel}/deleteContentFromSeries'",
-				"fetch": "const response = await fetch(\"/api/social/heichelos/{heichel}/deleteContentFromSeries\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-deletecontentfromseries-1343d08abe.md",
-		"confidence": "source-lexical",
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-federation-import-4479318d65.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",
@@ -222,9 +207,9 @@
 		]
 	},
 	{
-		"id": "api-social-heichelos-heichel-deletecontentfromseries-aeb413f738",
-		"route": "/api/social/heichelos/:heichel/deleteContentFromSeries",
-		"source": "geelooy/api/social/old/_awtsmoos.series.js",
+		"id": "api-social-feed-1ff365814f",
+		"route": "/api/social/feed",
+		"source": "geelooy/api/social/_awtsmoos.profile.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -237,26 +222,29 @@
 			"issue": "—",
 			"mount": "/api/social"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "heichel",
-				"catchAll": false
-			}
-		],
-		"methods": [
-			"GET",
-			"POST"
-		],
-		"methodEvidence": "GET, POST",
+		"dynamic": false,
+		"pathParameters": [],
+		"methods": [],
+		"methodEvidence": "unknown",
 		"vessels": [
-			"$_GET",
-			"$_POST"
+			"$_POST",
+			"route-vars"
 		],
 		"statuses": [],
 		"headers": [],
-		"callers": [],
-		"callerCount": 0,
+		"callers": [
+			{
+				"literal": "/api/social/feed?limit=12",
+				"source": "geelooy/social-hub/tests/socialApiV2.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/social/feed?page=2",
+				"source": "geelooy/heichelos/social/test/socialApiContract.test.mjs",
+				"kind": "test"
+			}
+		],
+		"callerCount": 2,
 		"tests": [
 			{
 				"name": "test",
@@ -291,16 +279,9 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/heichelos/{heichel}/deleteContentFromSeries'",
-				"fetch": "const response = await fetch(\"/api/social/heichelos/{heichel}/deleteContentFromSeries\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-deletecontentfromseries-aeb413f738.md",
-		"confidence": "source-lexical",
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-feed-1ff365814f.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",
@@ -337,9 +318,9 @@
 		]
 	},
 	{
-		"id": "api-social-heichelos-heichel-deleteseries-seriesid-331fe5c8cb",
-		"route": "/api/social/heichelos/:heichel/deleteSeries/:seriesId",
-		"source": "geelooy/api/social/_awtsmoos.series.base.js",
+		"id": "api-social-feed-101d69db85",
+		"route": "/api/social/feed",
+		"source": "geelooy/api/social/_awtsmoos.publicDiscovery.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -352,30 +333,28 @@
 			"issue": "—",
 			"mount": "/api/social"
 		},
-		"dynamic": true,
-		"pathParameters": [
-			{
-				"name": "heichel",
-				"catchAll": false
-			},
-			{
-				"name": "seriesId",
-				"catchAll": false
-			}
-		],
+		"dynamic": false,
+		"pathParameters": [],
 		"methods": [
 			"GET"
 		],
 		"methodEvidence": "GET",
-		"vessels": [
-			"$_GET",
-			"$_POST",
-			"$_DELETE"
-		],
+		"vessels": [],
 		"statuses": [],
 		"headers": [],
-		"callers": [],
-		"callerCount": 0,
+		"callers": [
+			{
+				"literal": "/api/social/feed?limit=12",
+				"source": "geelooy/social-hub/tests/socialApiV2.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/social/feed?page=2",
+				"source": "geelooy/heichelos/social/test/socialApiContract.test.mjs",
+				"kind": "test"
+			}
+		],
+		"callerCount": 2,
 		"tests": [
 			{
 				"name": "test",
@@ -414,11 +393,11 @@
 			{
 				"method": "GET",
 				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/heichelos/{heichel}/deleteSeries/{seriesId}'",
-				"fetch": "const response = await fetch(\"/api/social/heichelos/{heichel}/deleteSeries/{seriesId}\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
+				"curl": "curl -X GET 'https://awtsmoos.com/api/social/feed'",
+				"fetch": "const response = await fetch(\"/api/social/feed\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
 			}
 		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-deleteseries-seriesid-331fe5c8cb.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-feed-101d69db85.md",
 		"confidence": "source-lexical",
 		"related": [
 			{

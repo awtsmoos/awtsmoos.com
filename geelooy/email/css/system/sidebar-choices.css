@@ -1,0 +1,105 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives many destinations one readable order without erasing their distinct faces; Awtsmoos.com lets emoji, label, count, hover, focus, and selection occupy purposeful places.
+*/
+.mail-folder-list,
+.mail-sender-category-grid {
+	display: grid;
+	gap: 6px;
+	padding-inline: 12px;
+}
+
+.mail-folder-tab,
+.mail-sender-category {
+	display: grid;
+	grid-template-columns: 32px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 9px;
+	min-height: 44px;
+	padding: 7px 10px;
+	border: 1px solid transparent;
+	border-radius: 13px;
+	background: transparent;
+	color: var(--mail-text-muted);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+	transition: transform 140ms ease, border-color 140ms ease, background 140ms ease, color 140ms ease, box-shadow 140ms ease;
+}
+
+.mail-choice-label {
+	overflow: hidden;
+	font-size: .78rem;
+	font-weight: 720;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mail-folder-count {
+	display: grid;
+	place-items: center;
+	min-width: 28px;
+	height: 24px;
+	padding: 0 7px;
+	border: 1px solid var(--mail-border);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--mail-panel-strong) 74%, transparent);
+	color: var(--mail-text-muted);
+	font-size: .65rem;
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+}
+
+.mail-folder-tab:is(:hover, :focus-visible),
+.mail-sender-category:is(:hover, :focus-visible) {
+	border-color: var(--mail-border-strong);
+	background: color-mix(in srgb, var(--mail-panel-hover) 88%, transparent);
+	color: var(--mail-text);
+	box-shadow: 0 7px 22px rgba(0, 0, 0, .13);
+	transform: translateX(2px);
+}
+
+.mail-folder-tab.active,
+.mail-sender-category.active {
+	border-color: color-mix(in srgb, var(--mail-accent) 35%, var(--mail-border));
+	background: linear-gradient(135deg, color-mix(in srgb, var(--mail-accent-soft) 88%, transparent), rgba(255, 255, 255, .025));
+	color: var(--mail-text);
+	box-shadow: inset 3px 0 var(--mail-accent);
+}
+
+.mail-folder-tab.active .mail-folder-count,
+.mail-sender-category.active .mail-folder-count {
+	border-color: color-mix(in srgb, var(--mail-accent) 28%, var(--mail-border));
+	color: var(--mail-accent-strong);
+}
+
+.mail-folder-tab:focus-visible,
+.mail-sender-category:focus-visible {
+	outline: 2px solid var(--mail-accent);
+	outline-offset: 1px;
+}
+
+.mail-folder-tab:active,
+.mail-sender-category:active {
+	transform: translateX(1px) scale(.985);
+}
+
+@media (max-width: 850px) {
+	.mail-folder-tab,
+	.mail-sender-category {
+		min-height: 48px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mail-folder-tab,
+	.mail-sender-category {
+		transition: none;
+	}
+
+	.mail-folder-tab:is(:hover, :focus-visible, :active),
+	.mail-sender-category:is(:hover, :focus-visible, :active) {
+		transform: none;
+	}
+}

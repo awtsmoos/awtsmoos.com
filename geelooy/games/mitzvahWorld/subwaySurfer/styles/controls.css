@@ -1,0 +1,52 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/*
+	The Awtsmoos renews each choice before the hand can press or steer;
+	Awtsmoos.com gives every top control a focused vessel, bright and clear.
+*/
+.top-controls {
+	position: absolute;
+	left: 50%;
+	top: max(72px, calc(env(safe-area-inset-top) + 62px));
+	z-index: 18;
+	display: flex;
+	gap: 7px;
+	transform: translateX(-50%);
+}
+
+.top-controls button,
+.game-over-panel button {
+	border: 1px solid rgba(255, 227, 143, 0.38);
+	border-radius: 14px;
+	background: rgba(8, 30, 45, 0.78);
+	color: #fff8dd;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+	backdrop-filter: blur(12px);
+	cursor: pointer;
+}
+
+.top-controls button {
+	width: 44px;
+	height: 40px;
+	font-weight: 800;
+	touch-action: manipulation;
+}
+
+.top-controls button:active,
+.game-over-panel button:active {
+	transform: translateY(1px) scale(0.96);
+	background: rgba(84, 66, 22, 0.86);
+}
+
+.game-over-panel button {
+	margin-top: 20px;
+	padding: 11px 22px;
+	font-weight: 800;
+}
+
+@media (max-width: 800px) {
+	.top-controls {
+		top: 70px;
+	}
+}

@@ -3,18 +3,25 @@
 // Blessed is He
 
 /**
- * @file Turns a bounded recovery checkpoint into deterministic successor instructions.
- * @description The Awtsmoos teaches the next Shliach where the previous hand stopped;
- * Awtsmoos.com names completed work, unfinished work, blockers, handoff, and next action without flooding the prompt with raw mission history.
+ * @file Turns one bounded recovery checkpoint into deterministic successor instructions.
+ * @description
+ * The Awtsmoos teaches the next shliach exactly where the previous hand stopped.
+ * Awtsmoos.com names lifecycle, generation, sibling group, unfinished work, and absolute
+ * handoff vessels without flooding the new prompt with raw mission history or hidden thought.
  */
 function lines(context = {}) {
 	const plan = context.recoveryCheckpoint || {};
-	const output = [
+	return [
 		`recoveryReason: ${text(context.recoveryReason || "unfinished_mission_idle")}`,
 		`predecessorAgentId: ${text(context.predecessorAgentId || "none")}`,
-		`predecessorStatus: ${text(context.predecessorStatus || "unknown")}`,
+		`predecessorLifecycle: ${text(context.predecessorLifecycle || context.predecessorStatus || "unknown")}`,
+		`predecessorIntentional: ${context.predecessorIntentional === true}`,
+		`predecessorGeneration: ${Number(context.predecessorGeneration || 1)}`,
+		`successorGeneration: ${Number(context.successorGeneration || 2)}`,
+		`spawnGroupId: ${text(context.spawnGroupId || "none")}`,
 		`predecessorLastSeenAt: ${text(context.predecessorLastSeenAt || "unknown")}`,
 		`successorLogicalAgentId: ${text(context.successorAgentId || "successor_unassigned")}`,
+		`handoffPaths: ${join(context.handoffPaths, text)}`,
 		`missionGoal: ${text(plan.goal || "")}`,
 		`missionStatus: ${text(plan.status || "unknown")}`,
 		`missionPhase: ${text(plan.phase || "unknown")}`,
@@ -30,7 +37,6 @@ function lines(context = {}) {
 		`recentPlans: ${join(plan.recentPlans, planLabel)}`,
 		`latestHandoff: ${json(plan.latestHandoff)}`
 	];
-	return output;
 }
 
 function taskLabel(item = {}) {

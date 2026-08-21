@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-sites-documentation-md-d1a863c76b",
+	"title": "Public Site Gateway",
+	"sourcePath": "geelooy/sites/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Public Site Gateway",
+			"anchor": "public-site-gateway"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Security boundary",
+			"anchor": "security-boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-sites-documentation-md-d1a863c76b-001.json"
+	]
+}

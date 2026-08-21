@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichelos-d9fbb499.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 858,
-		"tests": 119,
+		"source": 917,
+		"tests": 131,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 2
 	},
-	"totalFiles": 980,
+	"totalFiles": 1051,
 	"symbolSummary": {
-		"files": 510,
-		"classes": 75,
-		"functions": 1976,
-		"exports": 920,
+		"files": 563,
+		"classes": 83,
+		"functions": 2150,
+		"exports": 1032,
 		"samples": [
 			"queryMap",
 			"heichelFields",
@@ -53,8 +53,18 @@
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/shared",
-			"count": 7,
-			"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/logic/legend/centerSectionObserver.js"
+			"count": 8,
+			"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/functions/ui/context/relatedSearchPanel.js"
+		},
+		{
+			"project": "geelooy/social-actions",
+			"count": 3,
+			"examples": "geelooy/heichelos/heichel/modules/ui/render/HeichelReactionAction.js; geelooy/heichelos/heichel/modules/ui/render/secondary-social-actions.js; geelooy/heichelos/heichel/modules/ui/render/social-action-urls.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js"
 		}
 	],
 	"incomingDependencies": [],
@@ -70,9 +80,9 @@
 		{
 			"url": "/heichelos/settings/community",
 			"file": "geelooy/heichelos/settings/community/index.html",
-			"title": "Community Settings",
+			"title": "Community Governance — Awtsmoos",
 			"scripts": 1,
-			"styles": 1
+			"styles": 2
 		},
 		{
 			"url": "/heichelos/settings/community/moderation",

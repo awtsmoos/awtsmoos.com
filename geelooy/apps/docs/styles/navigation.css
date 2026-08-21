@@ -1,0 +1,108 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond path and destination; Awtsmoos.com lets headings,
+ * bookmarks, and generated contents reveal gentle navigation without turning
+ * semantic metadata into visual clutter or shrinking touch dignity on mobile.
+ */
+.document-canvas [id^="heading-"],
+.document-canvas [id^="bookmark-"] {
+	scroll-margin-top: 132px;
+}
+
+.document-canvas [data-chip-kind="heading-target"],
+.document-canvas [data-chip-kind="toc"] {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	vertical-align: baseline;
+}
+
+.document-canvas [data-bookmark-id] {
+	position: relative;
+	display: inline-block;
+	width: 0;
+	height: 1em;
+	vertical-align: text-bottom;
+}
+
+.document-canvas:not(.is-readonly) [data-bookmark-id]::before {
+	content: "◆";
+	position: absolute;
+	right: 4px;
+	bottom: 0.1em;
+	color: color-mix(in srgb, var(--docs-accent) 58%, var(--docs-muted));
+	font: 700 9px/1 var(--docs-font-ui);
+	opacity: 0.7;
+	pointer-events: none;
+}
+
+.document-canvas a[href^="#"] {
+	text-decoration-style: dotted;
+	text-underline-offset: 3px;
+}
+
+.document-canvas ul:has([data-chip-kind="toc"]) {
+	margin-block: 1.2em 1.7em;
+	padding: 14px 16px 14px 34px;
+	border: 1px solid var(--docs-border);
+	border-radius: 12px;
+	background: color-mix(in srgb, var(--docs-accent-soft) 42%, var(--docs-surface));
+	font-family: var(--docs-font-ui);
+	font-size: 0.92em;
+}
+
+.document-canvas ul:has([data-chip-kind="toc"]) > li:first-child {
+	margin-bottom: 7px;
+	list-style: none;
+}
+
+.outline-h4 {
+	padding-left: 42px;
+}
+
+.outline-h5 {
+	padding-left: 54px;
+}
+
+.outline-h6 {
+	padding-left: 66px;
+}
+
+.quick-field select {
+	appearance: auto;
+	min-width: 0;
+	cursor: pointer;
+}
+
+@media (max-width: 680px) {
+	.document-canvas [id^="heading-"],
+	.document-canvas [id^="bookmark-"] {
+		scroll-margin-top: 154px;
+	}
+
+	.document-canvas ul:has([data-chip-kind="toc"]) {
+		margin-inline: -6px;
+		padding: 12px 12px 12px 30px;
+	}
+
+	.quick-field select,
+	.quick-field input {
+		min-height: 44px;
+	}
+
+	.outline-h4 {
+		padding-left: 38px;
+	}
+
+	.outline-h5 {
+		padding-left: 46px;
+	}
+
+	.outline-h6 {
+		padding-left: 54px;
+	}
+}

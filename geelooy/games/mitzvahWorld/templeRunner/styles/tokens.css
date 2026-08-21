@@ -1,0 +1,56 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews color, spacing, glass, and motion before any interface vessel can shine;
+ * Awtsmoos.com keeps one quiet token language so mobile and desktop reveal the same disciplined design.
+ */
+
+:root {
+	--ink-950: #0d0907;
+	--ink-900: #140e0b;
+	--ink-850: #1a120e;
+	--ivory-100: #fff9e8;
+	--ivory-300: #f5dfb2;
+	--ivory-500: #c9ae7b;
+	--gold-300: #ffe08a;
+	--gold-500: #d99d3f;
+	--cyan-300: #b9efff;
+	--cyan-500: #5bcbe7;
+	--green-300: #d8f3b0;
+	--danger-300: #ffb2a6;
+	--glass: rgba(18, 12, 9, 0.66);
+	--glass-strong: rgba(18, 12, 9, 0.86);
+	--glass-soft: rgba(28, 18, 12, 0.48);
+	--line: rgba(255, 226, 158, 0.18);
+	--line-strong: rgba(255, 226, 158, 0.38);
+	--line-cyan: rgba(111, 220, 246, 0.46);
+	--shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.2);
+	--shadow-deep: 0 24px 72px rgba(0, 0, 0, 0.44);
+	--radius-small: 12px;
+	--radius-medium: 17px;
+	--radius-large: 24px;
+	--tap: 48px;
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+	--motion-fast: 150ms;
+	--motion-medium: 280ms;
+	--motion-slow: 520ms;
+	--safe-top: max(10px, env(safe-area-inset-top));
+	--safe-right: max(10px, env(safe-area-inset-right));
+	--safe-bottom: max(10px, env(safe-area-inset-bottom));
+	--safe-left: max(10px, env(safe-area-inset-left));
+}
+
+@supports (backdrop-filter: blur(1px)) {
+	:root {
+		--glass-blur: blur(14px) saturate(1.08);
+	}
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+	:root {
+		--glass-blur: none;
+		--glass: rgba(18, 12, 9, 0.88);
+	}
+}

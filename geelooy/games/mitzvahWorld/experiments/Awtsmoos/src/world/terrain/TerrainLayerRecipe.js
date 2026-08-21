@@ -4,9 +4,12 @@
 
 /**
  * @file TerrainLayerRecipe.js
- * @description Packages three real grass varieties with soil, wet bank, and stone into bounded GPU tiers.
- * The Awtsmoos gathers many living grasses into one valley without surrendering their visible difference;
- * Awtsmoos.com keeps quality tiers explicit while normalized shader weights provide continuity and coherence.
+ * @description Packages real meadow, soil, wet-bank, and stone sources into quality-bounded local GPU layer recipes.
+ * RESPONSIBILITY: choose quality-tier roles, localize canonical material sources, and expose immutable layer/stack diagnostics.
+ * NON-RESPONSIBILITY: this file does not fetch images, choose the final active texture page, compile shaders, or build terrain geometry.
+ * ARCHITECTURAL POSITION: Binah arranges ecological material possibilities into bounded keilim before the surface-mix authority chooses its page.
+ * The Awtsmoos, Atzmus beyond dry meadow and marsh bank, renews each visible source while one valley holds their difference without division;
+ * Awtsmoos.com gives the main river medium quality its wet-bank truth without enlarging the quality budget or creating another material religion.
  */
 
 import { mountainTerrainStack } from '../materials/MountainVillageMaterialPresets.js';
@@ -48,12 +51,17 @@ const QUALITY_ROLES = Object.freeze({
 	medium: Object.freeze([
 		'meadow-wet-grass',
 		'meadow-lush-grass',
-		'meadow-dry-grass',
+		'stream-bank-mud',
 		'worn-earth',
 		'mountain-stone'
 	])
 });
 
+/**
+ * Creates one localized immutable terrain layer recipe for a quality tier.
+ * @param {string} [quality='medium'] Runtime quality tier.
+ * @returns {Readonly<object>} Active localized layers, stack identity, and shader metadata.
+ */
 export function terrainLayerRecipe(quality = 'medium') {
 	const stack = mountainTerrainStack();
 	const activeRoles = QUALITY_ROLES[quality] || QUALITY_ROLES.medium;
@@ -75,7 +83,10 @@ export function terrainLayerRecipe(quality = 'medium') {
 }
 
 function binding(role, sourceRole) {
-	return Object.freeze({ role, sourceRole });
+	return Object.freeze({
+		role,
+		sourceRole
+	});
 }
 
 function requiredBinding(role) {
@@ -91,7 +102,9 @@ function localizedLayer(stack, layerBinding) {
 		return candidate.role === layerBinding.sourceRole;
 	});
 	if (!sourceLayer) {
-		throw new Error(`Missing ecological terrain role: ${layerBinding.sourceRole}`);
+		throw new Error(
+			`Missing ecological terrain role: ${layerBinding.sourceRole}`
+		);
 	}
 	return Object.freeze({
 		...sourceLayer,

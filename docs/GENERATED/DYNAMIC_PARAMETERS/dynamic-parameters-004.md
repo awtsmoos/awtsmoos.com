@@ -2,12 +2,37 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Generated Dynamic Parameter Inventory 256–332
+# Generated Dynamic Parameter Inventory 256–340
 
 Colon-prefixed URL parameters are path grammar; dollar-prefixed request vessels are not.
 
 | URL pattern | Source | Discovery |
 | --- | --- | --- |
+| /api/social/living/heichelos/:heichel/posts/:post | geelooy/api/social/_awtsmoos.living.js | static-literal |
+| /api/social/living/heichelos/:heichel/series/:series/posts/:post | geelooy/api/social/_awtsmoos.living.js | static-literal |
+| /api/social/mail/approve/:senderId | geelooy/api/social/_awtsmoos.mail.js | static-literal |
+| /api/social/mail/delete/:messageId | geelooy/api/social/_awtsmoos.mail.js | static-literal |
+| /api/social/mail/get/:mailId | geelooy/api/social/_awtsmoos.mail.js | static-literal |
+| /api/social/mail/get/:mailId/read | geelooy/api/social/_awtsmoos.mail.js | static-literal |
+| /api/social/mail/sendTo/:toAlias/from/:fromAlias | geelooy/api/social/_awtsmoos.mail.js | static-literal |
+| /api/social/mail/thread/delete/:threadId | geelooy/api/social/_awtsmoos.mail.js | static-literal |
+| /api/social/mail/universe/:thread/link | geelooy/api/social/_awtsmoos.mail.js | static-literal |
+| /api/social/node-os/mount/assets/:alias | geelooy/api/social/_awtsmoos.nodeOs.js | static-literal |
+| /api/social/node-os/mount/entity/:type/:id | geelooy/api/social/_awtsmoos.nodeOs.js | static-literal |
+| /api/social/node-os/nodes/:node | geelooy/api/social/_awtsmoos.nodeOs.js | static-literal |
+| /api/social/node-os/nodes/:node/children | geelooy/api/social/_awtsmoos.nodeOs.js | static-literal |
+| /api/social/notifications/:alias | geelooy/api/social/_awtsmoos.notifications.js | static-literal |
+| /api/social/notifications/:alias/:notification | geelooy/api/social/_awtsmoos.notifications.js | static-literal |
+| /api/social/notifications/:alias/:notification/archive | geelooy/api/social/_awtsmoos.notifications.js | static-literal |
+| /api/social/notifications/:alias/:notification/read | geelooy/api/social/_awtsmoos.notifications.js | static-literal |
+| /api/social/notifications/:alias/poll | geelooy/api/social/_awtsmoos.notifications.js | static-literal |
+| /api/social/notifications/:alias/preferences | geelooy/api/social/_awtsmoos.notifications.js | static-literal |
+| /api/social/notifications/:alias/read/all | geelooy/api/social/_awtsmoos.notifications.js | static-literal |
+| /api/social/notifications/:alias/unread/count | geelooy/api/social/_awtsmoos.notifications.js | static-literal |
+| /api/social/notifications/digest/:alias | geelooy/api/social/_awtsmoos.platform.js | static-literal |
+| /api/social/objects/:type/:id | geelooy/api/social/_awtsmoos.objects.js | static-literal |
+| /api/social/objects/:type/:id/card | geelooy/api/social/_awtsmoos.objects.js | static-literal |
+| /api/social/objects/:type/:id/inspect | geelooy/api/social/_awtsmoos.objects.js | static-literal |
 | /api/social/objects/:type/:id/relationships | geelooy/api/social/_awtsmoos.objects.js | static-literal |
 | /api/social/objects/:type/:id/timeline | geelooy/api/social/_awtsmoos.objects.js | static-literal |
 | /api/social/objects/adapt/:adapter | geelooy/api/social/_awtsmoos.objects.js | static-literal |
@@ -24,6 +49,7 @@ Colon-prefixed URL parameters are path grammar; dollar-prefixed request vessels 
 | /api/social/profiles/:alias/graph | geelooy/api/social/_awtsmoos.profile.js | static-literal |
 | /api/social/profiles/:alias/history | geelooy/api/social/_awtsmoos.profile.js | static-literal |
 | /api/social/profiles/:alias/living-card | geelooy/api/social/_awtsmoos.profile.js | static-literal |
+| /api/social/reactions/:type/:id | geelooy/api/social/_awtsmoos.reactions.js | static-literal |
 | /api/social/recommendations/:alias | geelooy/api/social/_awtsmoos.profile.js | static-literal |
 | /api/social/relationships/:alias | geelooy/api/social/_awtsmoos.platform.js | static-literal |
 | /api/social/relationships/:alias/:type/:target | geelooy/api/social/_awtsmoos.platform.js | static-literal |
@@ -67,21 +93,3 @@ Colon-prefixed URL parameters are path grammar; dollar-prefixed request vessels 
 | /api/tunnel/control/blob/:blobId | geelooy/api/tunnel/control/routes/table.js | route-table |
 | /api/tunnel/control/blob/:blobId/manifest | geelooy/api/tunnel/control/routes/table.js | route-table |
 | /api/tunnel/control/blob/:blobId/view | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/ephemeral/:resultId | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/ephemeral/:resultId/delete | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/ephemeral/:resultId/page | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/ephemeral/:resultId/search | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/fs/:tunnelName | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/handoff/:tunnelName | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/preview/:tunnelName | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/view/:previewId | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/view/:previewId/proxy | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/view/:previewId/raw | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/control/view/:previewId/ws | geelooy/api/tunnel/control/routes/table.js | route-table |
-| /api/tunnel/fs/:tunnelName | geelooy/api/tunnel/_awtsmoos.derech.js | static-literal |
-| /api/tunnel/request/:tunnelName | geelooy/api/tunnel/_awtsmoos.derech.js | static-literal |
-| /api/what/:are/you/:doing | geelooy/api/_awtsmoos.derech.js | static-literal |
-| /api/wow/:asd/asd/:rt/k | geelooy/api/_awtsmoos.derech.js | static-literal |
-| /api/youtube/:a | geelooy/api/youtube/_awtsmoos.derech.js | static-literal |
-| /api/youtube/:a/:b | geelooy/api/youtube/_awtsmoos.derech.js | static-literal |
-| /api/youtube/:a/:b/:c | geelooy/api/youtube/_awtsmoos.derech.js | static-literal |

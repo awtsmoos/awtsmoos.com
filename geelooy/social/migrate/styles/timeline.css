@@ -1,0 +1,60 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets thousands of memories pass through a small visible gate;
+Awtsmoos.com keeps repeated cards opaque, contained, and fast while preserving every selectable state.
+*/
+.filters {
+	display: grid;
+	grid-template-columns: 2fr repeat(5, minmax(110px, 1fr));
+	gap: .65rem;
+	padding: .75rem;
+}
+.timeline {
+	display: grid;
+	gap: .65rem;
+}
+.memoryCard {
+	display: grid;
+	grid-template-columns: 28px minmax(0, 1fr);
+	gap: .75rem;
+	min-width: 0;
+	padding: 1rem;
+	border: 1px solid #22343e;
+	border-radius: 16px;
+	background: #0e1921;
+	content-visibility: auto;
+	contain-intrinsic-size: 180px;
+}
+.memoryCard > input {
+	width: 22px;
+	min-height: 22px;
+	margin-top: .15rem;
+	accent-color: var(--migrate-accent);
+}
+.memoryBody {
+	min-width: 0;
+}
+.memoryBody h3 {
+	margin: .25rem 0;
+	font-size: 1.02rem;
+}
+.memoryBody p {
+	margin-bottom: .75rem;
+	color: #c1ced5;
+	overflow-wrap: anywhere;
+}
+.memoryMeta {
+	color: var(--migrate-muted);
+	font-size: .74rem;
+	text-transform: capitalize;
+}
+.memoryCard[data-provider="facebook"] {
+	border-inline-start: 3px solid #78a8ff;
+}
+.memoryCard[data-provider="instagram"] {
+	border-inline-start: 3px solid #b892f2;
+}
+.loadMore {
+	justify-self: center;
+}

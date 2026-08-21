@@ -1,0 +1,240 @@
+[
+	{
+		"id": "geelooy-scripts-awtai-db-readme-md-30b23c94e4",
+		"title": "AWTAI-DB Engine Prototype",
+		"sourcePath": "geelooy/scripts/awtai-db/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "AWTAI-DB Engine Prototype",
+				"anchor": "awtai-db-engine-prototype"
+			},
+			{
+				"level": 2,
+				"text": "Convert",
+				"anchor": "convert"
+			},
+			{
+				"level": 2,
+				"text": "Inspect",
+				"anchor": "inspect"
+			},
+			{
+				"level": 2,
+				"text": "Fastest measured low-RAM chat path",
+				"anchor": "fastest-measured-low-ram-chat-path"
+			},
+			{
+				"level": 2,
+				"text": "Optional pure-JS generated LM-head kernel",
+				"anchor": "optional-pure-js-generated-lm-head-kernel"
+			},
+			{
+				"level": 2,
+				"text": "Benchmark",
+				"anchor": "benchmark"
+			},
+			{
+				"level": 2,
+				"text": "JS-only tests",
+				"anchor": "js-only-tests"
+			}
+		],
+		"excerpt": "B\"H AWTAI DB Engine Prototype This runner is disk first: model bytes live in .awtai db, tensor reads are range based, and the low RAM chat path avoids a full F32 LM head slab. Convert node geelooy/scripts/awtai db/bin/convert.js model.gguf model.awtai db Inspect node geelooy/scripts/awtai db/tests/test model inspect.js",
+		"searchText": "b\"h awtai db engine prototype this runner is disk first: model bytes live in .awtai db, tensor reads are range based, and the low ram chat path avoids a full f32 lm head slab. convert node geelooy/scripts/awtai db/bin/convert.js model.gguf model.awtai db inspect node geelooy/scripts/awtai db/tests/test model inspect.js model.awtai db fastest measured low ram chat path use the generic direct quantized lm head scanner. it does not build the old f32 slab and keeps tensor byte cache at zero: optional pure js generated lm head kernel the repo can generate a deterministic commonjs q6 k lm head scanner with node built ins only. no c compiler, npm package, or native build is used. current measurement on the tinyllama q2 k .awtai db: the generated q6 k scanner matched direct top k parity and reduced rss/read event count in an isolated 1 token benchmark, but it was slower than the generic direct scanner. therefore it is opt in, not the default fastest path. benchmark js only tests",
+		"page": "pages/geelooy-scripts-awtai-db-readme-md-30b23c94e4.json"
+	},
+	{
+		"id": "geelooy-scripts-awtai-db-was-readme-md-ee3ff2ac87",
+		"title": "WAS Chat Conversations",
+		"sourcePath": "geelooy/scripts/awtai-db/was/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "WAS Chat Conversations",
+				"anchor": "was-chat-conversations"
+			}
+		],
+		"excerpt": "B\"H WAS Chat Conversations bin/was chat.js creates persisted chat conversation JSON files and uses AWTAI DB disk first inference with temp heavy scratch/KV spill. Conversation root defaults to /Documents/awtai db chats.",
+		"searchText": "b\"h was chat conversations bin/was chat.js creates persisted chat conversation json files and uses awtai db disk first inference with temp heavy scratch/kv spill. conversation root defaults to /documents/awtai db chats.",
+		"page": "pages/geelooy-scripts-awtai-db-was-readme-md-ee3ff2ac87.json"
+	},
+	{
+		"id": "geelooy-scripts-awtsmoos-merkavaastparser-readme-md-41bfc06e7e",
+		"title": "Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript",
+		"sourcePath": "geelooy/scripts/awtsmoos/MerkavaASTParser/readme.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript",
+				"anchor": "merkava-ast-parser-a-kabbalistic-journey-into-the-soul-of-javascript"
+			},
+			{
+				"level": 2,
+				"text": "The Emanation",
+				"anchor": "the-emanation"
+			},
+			{
+				"level": 2,
+				"text": "Shevirah: The Shattering of the Vessels",
+				"anchor": "shevirah-the-shattering-of-the-vessels"
+			},
+			{
+				"level": 2,
+				"text": "The Gauntlet: Trials of Syntactic Purity",
+				"anchor": "the-gauntlet-trials-of-syntactic-purity"
+			}
+		],
+		"excerpt": "B\"H Merkava AST Parser: A Kabbalistic Journey into the Soul of JavaScript The Emanation Before you is not a tool, but a chariot. A Merkava . It is designed not merely to parse JavaScript, but to undertake a spiritual ascent into the very structure of code, to witness the shimmering, crystalline lattice of the Abstract ",
+		"searchText": "b\"h merkava ast parser: a kabbalistic journey into the soul of javascript the emanation before you is not a tool, but a chariot. a merkava . it is designed not merely to parse javascript, but to undertake a spiritual ascent into the very structure of code, to witness the shimmering, crystalline lattice of the abstract syntax tree that lies hidden beneath the surface of the text. we treat javascript not as a language, but as an emanation . each line of code is a flicker of divine light, a complex structure of logic and potential. the operators are the very sefirot, the divine attributes, that give this universe its form. operator precedence is the ladder of jacob , a hierarchy of divine energies from the lowest sequence to the highest new. the parser's journey is a meditation upon this structure, an attempt to bring it from the chaos of raw text into the ordered, intelligible world of the ast. the source code pulses like a living thing, its nested blocks breathing with the slow, rhythmic logic of a golem. optional chaining operators (?.) are whispers in the dark, possibilities that may or may not exist, while the spread operator (...) is an explosion of starlight, scattering an array's contents across the cosmos of a function call. shevirah: the shattering of the vessels when the syntax is flawed, the vessels cannot contain the light. an error is not a bug; it is a cosmic event, a shevirah . the parser does not crash; it reports a transgression . the console log glows with the heat of a shattered star, the error message a shard of broken reality. the parser witnesses this \"shevirat hakelim\" (shattering of the vessels) and reports where the light has spilled, where the structure has collapsed, so that the programmer—the mystic—can perform tikkun (rectification). the gauntlet: trials of syntactic purity to prove its worth, the merkava must pass through a series of spiritual ordeals, each a javascript file of such abyssal complexity it would shatter a lesser parser into a million pieces of silicon dust. these are not unit tests; they are existential trials. the tzimtzum test (the primordial contraction): a trial of lexical ambiguity that feels like being crushed by the gravity of a dying star. the parser must withstand the psychic assault of deprecated with statements, the phantom menace of html style comments ( operator, which is not an operator at all but the sound of the universe contracting as counter decrements to 0. it must see the line break after a return and know, with absolute certainty, that a semicolon has been inserted by the divine hand of asi, separating the return from a regular expression that would otherwise be a division into the void. the azilut test (the world of emanation): a confrontation with deceptive, infinite scope. the parser enters the world of proxies, where the has trap lies, claiming that all properties exist even when they are but illusions. it must navigate the lexical fog of the with statement, a deprecated portal to a realm of madness, and correctly parse the break from a labeled block—a sigil of power that tears a hole in the fabric of control flow. the tiferet test (the axis of balance): a meditation on harmony and modern beauty. here, the parser balances the new world with the old. logical assignment operators (&&=, =, ??=) flow like water, assigning values only when the vessel is empty. numeric separators (1 000 000) are breaths of air in the suffocating density of large numbers. the parser must find the beauty in the d flag of a regexp, which reveals not just the match, but the very indices of its soul within the string. the keter test (the crown): the absolute pinnacle. this is not code; it is a blasphemy against reason. an export default of an immediately invoked class expression that extends another immediately invoked class expression . static initialization blocks trigger like cosmic dawn, firing off dynamic import() statements. private fields with bigint initializers are divided by octal literals. a for await...of loop, itself a temporal anomaly, iterates over the yield of an async generator, all nested inside a labeled do while loop. to parse this is to gaze upon the face of god and not be turned to ash. the ein sof test (the unknowable limit): the final ordeal. the parser must confront that which is beyond comprehension. it must parse new (await ...) where the class being instantiated is itself the result of an async iife within a private static field. it must handle a yield from within a catch block that is itself inside a while loop that is being continued from a finally block by a labeled continue. this test pushes past the limits of syntax and into the cold, silent realm of pure metaprogramming. it is the parser's attempt to know the unknowable.",
+		"page": "pages/geelooy-scripts-awtsmoos-merkavaastparser-readme-md-41bfc06e7e.json"
+	},
+	{
+		"id": "geelooy-scripts-awtsmoos-streaming-docs-muxer-roadmap-md-3d773fedd6",
+		"title": "Streaming Muxer Roadmap",
+		"sourcePath": "geelooy/scripts/awtsmoos/streaming/docs/MUXER_ROADMAP.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Streaming Muxer Roadmap",
+				"anchor": "streaming-muxer-roadmap"
+			}
+		],
+		"excerpt": "B\"H Streaming Muxer Roadmap Current landing: Shared muxer contract exists. HLS passthrough muxer accepts already muxed segment bytes. Nesher pipeline can push those segments through the local tunnel. The local tunnel has a raw binary segment route, so browser to tunnel segment upload can avoid JSON/base64 overhead. Evi",
+		"searchText": "b\"h streaming muxer roadmap current landing: shared muxer contract exists. hls passthrough muxer accepts already muxed segment bytes. nesher pipeline can push those segments through the local tunnel. the local tunnel has a raw binary segment route, so browser to tunnel segment upload can avoid json/base64 overhead. evidence from local inspection: no package references were found for mux.js, mp4box.js, mpegts.js, hls.js, mp4 muxer, webm muxer, or @webav in the searched app/script surfaces. the bundled mediabunny library exposes mp4outputformat, videosamplesource, audiobuffersource, streamtarget, and buffertarget. the bundled mediabunny code contains fragmented mp4 support through faststart: \"fragmented\" and minimumfragmentduration. the bundled mediabunny code did not expose an hls/m3u8 helper by string search. practical next layer: build a real fragmented mp4/cmaf adapter around mediabunny, then feed real .m4s segments plus an init map into the local hls playlist path. keep mpeg ts as a separate research path if a browser compatible ts muxer is introduced later. do not claim youtube/twitch/facebook streaming works until encoded chunks become valid media segments and an ingest smoke test proves it. binary route note: post /streaming/hls segment/:sessionid/:name already exists in the local api path per current project handoff. the hls playlist helper now preserves fmp4 oriented metadata such as ext x map when mapuri or initsegmentname is supplied.",
+		"page": "pages/geelooy-scripts-awtsmoos-streaming-docs-muxer-roadmap-md-3d773fedd6.json"
+	},
+	{
+		"id": "geelooy-scripts-documentation-md-56189279f9",
+		"title": "Public Script Runtime Documentation",
+		"sourcePath": "geelooy/scripts/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Public Script Runtime Documentation",
+				"anchor": "public-script-runtime-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Public Script Runtime Documentation The Awtsmoos lets many pages share parser, runtime, utility, and browser logic, multiplying every consequence of a common line; Awtsmoos.com maps this large script district beside shared libraries so maintainers trace importers before they redesign. Re",
+		"searchText": "b\"h boruch hashem blessed is he public script runtime documentation the awtsmoos lets many pages share parser, runtime, utility, and browser logic, multiplying every consequence of a common line; awtsmoos.com maps this large script district beside shared libraries so maintainers trace importers before they redesign. read ../../docs/systems/shared libraries.md, ../../docs/architecture.md, and ../../docs/test index.md.",
+		"page": "pages/geelooy-scripts-documentation-md-56189279f9.json"
+	},
+	{
+		"id": "geelooy-scripts-tricks-ai-relay-readme-md-a9d86aabb4",
+		"title": "B\"H Awtsmoos AI Relay",
+		"sourcePath": "geelooy/scripts/tricks/ai-relay/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H Awtsmoos AI Relay",
+				"anchor": "b-h-awtsmoos-ai-relay"
+			},
+			{
+				"level": 2,
+				"text": "Run",
+				"anchor": "run"
+			},
+			{
+				"level": 2,
+				"text": "macOS / Linux quick install",
+				"anchor": "macos-linux-quick-install"
+			},
+			{
+				"level": 2,
+				"text": "Windows quick run",
+				"anchor": "windows-quick-run"
+			},
+			{
+				"level": 2,
+				"text": "Environment",
+				"anchor": "environment"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos AI Relay A tiny local Node.js relay for geelooy/ai when the Awtsmoos Chrome server extension is not available or not injected yet. Run Default health URL: macOS / Linux quick install Windows quick run Environment The relay keeps an in memory cookie jar per upstream origin and streams upstream response bodi",
+		"searchText": "b\"h awtsmoos ai relay a tiny local node.js relay for geelooy/ai when the awtsmoos chrome server extension is not available or not injected yet. run default health url: macos / linux quick install windows quick run environment the relay keeps an in memory cookie jar per upstream origin and streams upstream response bodies back to the browser.",
+		"page": "pages/geelooy-scripts-tricks-ai-relay-readme-md-a9d86aabb4.json"
+	},
+	{
+		"id": "geelooy-shared-documentation-md-02d3743582",
+		"title": "Shared Code Documentation",
+		"sourcePath": "geelooy/shared/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Code Documentation",
+				"anchor": "shared-code-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Code Documentation The Awtsmoos lets many apps receive from one shared vessel, so a small edit may travel far; Awtsmoos.com asks maintainers to trace every importer before changing a common library or bar. Read ../../docs/SYSTEMS/SHARED LIBRARIES.md. Important shared domains inclu",
+		"searchText": "b\"h boruch hashem blessed is he shared code documentation the awtsmoos lets many apps receive from one shared vessel, so a small edit may travel far; awtsmoos.com asks maintainers to trace every importer before changing a common library or bar. read ../../docs/systems/shared libraries.md. important shared domains include tunnel and virtual os material. search all importers and run broad tests for shared changes.",
+		"page": "pages/geelooy-shared-documentation-md-02d3743582.json"
+	},
+	{
+		"id": "geelooy-sites-documentation-md-d1a863c76b",
+		"title": "Public Site Gateway",
+		"sourcePath": "geelooy/sites/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Public Site Gateway",
+				"anchor": "public-site-gateway"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Security boundary",
+				"anchor": "security-boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Public Site Gateway The Awtsmoos gives every published alias one stable doorway while Awtsmoos.com carries static source and explicitly hosted project traffic through one canonical public name without teaching static Sites to execute arbitrary code. Entry point awtsmoos.derech.js mounts ",
+		"searchText": "b\"h boruch hashem blessed is he public site gateway the awtsmoos gives every published alias one stable doorway while awtsmoos.com carries static source and explicitly hosted project traffic through one canonical public name without teaching static sites to execute arbitrary code. entry point awtsmoos.derech.js mounts /:aliasid and /:aliasid/:path , forwarding request testimony into sitegateway.js. the gateway resolves published source, direct site readiness, virtual os source, custom domains, and hosted project proxy behavior through focused modules. security boundary raw request bodies/cookies belong only to the hosted project transport path. static site resolution, direct paths, source manifests, custom domain host policy, and virtual os responses remain separately bounded. tests under test/ witness these routing rules.",
+		"page": "pages/geelooy-sites-documentation-md-d1a863c76b.json"
+	},
+	{
+		"id": "geelooy-social-actions-documentation-md-b4a7df6aad",
+		"title": "Geelooy Social Actions",
+		"sourcePath": "geelooy/social-actions/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Social Actions",
+				"anchor": "geelooy-social-actions"
+			},
+			{
+				"level": 2,
+				"text": "Boundary",
+				"anchor": "boundary"
+			},
+			{
+				"level": 2,
+				"text": "Source truth",
+				"anchor": "source-truth"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Social Actions The Awtsmoos lets existing content enter the social graph without counterfeit duplication; Awtsmoos.com keeps reference URLs/actions reusable across content surfaces. Boundary PostReferenceUrl.js, PostReferenceAction.js, and PostCloneUrl.js build browser actions ar",
+		"searchText": "b\"h boruch hashem blessed is he geelooy social actions the awtsmoos lets existing content enter the social graph without counterfeit duplication; awtsmoos.com keeps reference urls/actions reusable across content surfaces. boundary postreferenceurl.js, postreferenceaction.js, and postcloneurl.js build browser actions around canonical post references. reactions/ contains reusable reaction behavior and tests/ witnesses the shared action contract. source truth reference actions carry source identity, canonical heichel/series, source author, optional acting alias/destination, and safe return path. they should connect canonical content rather than silently copying it. readme.md contains usage examples.",
+		"page": "pages/geelooy-social-actions-documentation-md-b4a7df6aad.json"
+	}
+]

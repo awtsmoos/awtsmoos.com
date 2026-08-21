@@ -2,26 +2,32 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos lends every visible surface its tone while remaining beyond color and form;
- * Awtsmoos.com keeps light, line, focus, and depth consistent so the measured day feels calm and warm.
+ * The Awtsmoos is beyond color while every visible vessel borrows enough light to be read;
+ * Awtsmoos.com gives night, mint, solar warmth, focus, and depth a coherent thread.
  */
 
 :root {
-	--paper: #f5f4ed;
-	--paper-raised: #fffdf8;
-	--paper-raised-strong: #ffffff;
-	--surface-soft: #edf1eb;
-	--mist: #e4eee8;
-	--forest: #12382f;
-	--forest-bright: #2d6a59;
-	--ink: #173029;
-	--ink-soft: #60706a;
-	--line: #d6ddd7;
-	--line-strong: #c5d0c8;
-	--warm: #eadfc9;
-	--warning: #805c24;
-	--unavailable: #8b6d67;
-	--focus-ring: rgba(45, 106, 89, 0.3);
+	color-scheme: dark;
+	--paper: #06100d;
+	--paper-raised: #0c1814;
+	--paper-raised-strong: #12231d;
+	--surface-soft: #10201b;
+	--surface-glass: rgba(14, 31, 25, 0.76);
+	--mist: #17352b;
+	--forest: #0f3b30;
+	--forest-bright: #6fdbb9;
+	--accent: #7ce7c5;
+	--accent-strong: #b0f5df;
+	--solar: #ffd58a;
+	--ink: #f3fbf8;
+	--ink-soft: #bfd0ca;
+	--ink-muted: #98afa7;
+	--line: rgba(181, 225, 210, 0.16);
+	--line-strong: rgba(181, 225, 210, 0.3);
+	--warm: #f4d59b;
+	--warning: #ffd38a;
+	--unavailable: #d4aaa3;
+	--focus-ring: rgba(124, 231, 197, 0.48);
 	--radius-small: 10px;
 	--radius-medium: 16px;
 	--radius-large: 22px;
@@ -33,12 +39,13 @@
 	--space-6: 3.2rem;
 	--content-width: 1120px;
 	--page-inline: clamp(1rem, 4vw, 2rem);
-	--shadow-soft: 0 10px 28px rgba(18, 56, 47, 0.06);
-	--shadow-raised: 0 18px 44px rgba(18, 56, 47, 0.1);
-	--ease-out: 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+	--shadow-soft: 0 12px 34px rgba(0, 0, 0, 0.24);
+	--shadow-raised: 0 22px 62px rgba(0, 0, 0, 0.34);
+	--glow-soft: 0 0 36px rgba(76, 207, 165, 0.08);
+	--ease-out: 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	color: var(--ink);
 	background: var(--paper);
+	color: var(--ink);
 }
 
 *,
@@ -56,15 +63,15 @@ body {
 	min-width: 320px;
 	margin: 0;
 	background:
-		radial-gradient(circle at 10% -6rem, rgba(234, 223, 201, 0.58), transparent 27rem),
-		radial-gradient(circle at 96% 22rem, rgba(228, 238, 232, 0.72), transparent 24rem),
-		var(--paper);
+		radial-gradient(circle at 12% -8rem, rgba(55, 165, 132, 0.18), transparent 30rem),
+		radial-gradient(circle at 100% 28rem, rgba(255, 213, 138, 0.07), transparent 26rem),
+		linear-gradient(180deg, #07120f 0%, var(--paper) 46%, #050b09 100%);
 	color: var(--ink);
 	line-height: 1.5;
 }
 
 a {
-	color: var(--forest-bright);
+	color: var(--accent);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 0.16em;
 }
@@ -83,7 +90,7 @@ a {
 
 ::selection {
 	background: var(--mist);
-	color: var(--forest);
+	color: var(--accent-strong);
 }
 
 :focus-visible {

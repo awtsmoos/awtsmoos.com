@@ -4,7 +4,7 @@
 /**
  * @class HubApp
  * @description
- * The Awtsmoos lets durable panels, public Torah Chat, private Messages, and one realtime witness awaken without letting ephemera seize the archive;
+ * The Awtsmoos lets durable panels, public Torah Chat, private Messages, creator doors, and one realtime witness awaken without letting ephemera seize the archive;
  * Awtsmoos.com keeps lifecycle small while route loading and live room truth flow through separate Yesod coordinators.
  */
 import { HubRouteCoordinator } from './navigation/HubRouteCoordinator.js';
@@ -18,7 +18,7 @@ export class HubApp {
 	}
 
 	async initialize() {
-		this.status.show('Awakening the Social Hub…', 'working', true);
+		this.status.show('Awakening the Social Hub...', 'working', true);
 		this.state.addEventListener('change', event => {
 			this.render(event.detail.snapshot, event.detail.reason);
 		});
@@ -42,13 +42,12 @@ export class HubApp {
 			this.tracker,
 			this.activity,
 			this.privacy,
+			this.creatorLaunch,
 			this.commentStudio,
 			this.transformations,
 			this.quickActions
 		];
-		for (const panel of panels) {
-			panel.initialize();
-		}
+		for (const panel of panels) panel.initialize();
 	}
 
 	async identityChanged(aliasId) {
@@ -65,7 +64,10 @@ export class HubApp {
 		await this.refreshActiveIdentityRoute(aliasId);
 		this.live.sync();
 		this.privacy.render(this.state.snapshot().preferences);
-		this.status.show('Social graph, Inbox, Chat, Messages, Spaces, live presence, profile, and private ledger are ready.', 'success');
+		this.status.show(
+			'Social graph, Inbox, Chat, Messages, Spaces, live presence, profile, and private ledger are ready.',
+			'success'
+		);
 	}
 
 	async refreshActiveIdentityRoute(aliasId) {
@@ -80,6 +82,7 @@ export class HubApp {
 		this.discovery.render(snapshot);
 		this.home.render(snapshot);
 		this.quickActions.render(snapshot);
+		this.creatorLaunch.render(snapshot);
 		this.privacy.render(snapshot.preferences);
 		this.renderContext(snapshot);
 		if (reason === 'activity:loaded') this.activity.render(snapshot.activity);

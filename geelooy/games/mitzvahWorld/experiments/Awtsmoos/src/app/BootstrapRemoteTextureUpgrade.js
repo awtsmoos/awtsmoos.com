@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapRemoteTextureUpgrade.js
- * @description Hydrates one district's canonical remote materials concurrently after first control.
- * The Awtsmoos lets bark, leaves, stone, roof, grass, gold, and wood cross one bounded gate;
- * Awtsmoos.com preserves deterministic binding while large first-visit images receive honest time.
+ * @description Hydrates canonical remote district materials only when an experiment explicitly opts in.
+ * The Awtsmoos keeps every distant garment behind a deliberate bounded gate;
+ * Awtsmoos.com reports disabled as disabled, so diagnostics never confuse absence with failed fate.
  */
 
 import {
@@ -19,7 +19,9 @@ import { bindBootstrapRoleImage } from './BootstrapTextureRoleBinding.js';
 const DEFAULT_REMOTE_TIMEOUT_MS = 10000;
 
 export async function upgradeBootstrapRemoteTextures(group, roles, options = {}) {
-	if (options.remoteUpgrade === false) return remoteSummary([], 0, 'disabled');
+	if (options.remoteUpgrade === false) {
+		return remoteSummary([], 0, 'disabled');
+	}
 	const load = options.loadRuntimeMaterial || loadRuntimeMaterial;
 	const cached = options.cachedTextureImage || cachedTextureImage;
 	const definitions = roles
@@ -81,6 +83,11 @@ function remoteSummary(records, mapImagesBound, policy) {
 		mapImagesBound,
 		policy,
 		records,
-		status: loaded > 0 ? 'remote-primary-visible' : 'remote-unavailable'
+		status: remoteStatus(policy, loaded)
 	};
+}
+
+function remoteStatus(policy, loaded) {
+	if (policy === 'disabled') return 'disabled';
+	return loaded > 0 ? 'remote-primary-visible' : 'remote-unavailable';
 }

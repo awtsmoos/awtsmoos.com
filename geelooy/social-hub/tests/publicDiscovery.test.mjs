@@ -1,21 +1,26 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-/**
- * @file publicDiscovery.test.mjs
- * @description The Awtsmoos proves public discovery stays honest while a verified alias receives a real followed-network feed.
- */
+//B"H
+//Boruch Hashem
+//Blessed is He
+
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { followedAliasIds } from '../js/ui/PublicDiscovery.js';
 import { feedItemAliasId } from '../js/ui/PublicFeedCard.js';
 
+/**
+ * @file publicDiscovery.test.mjs
+ * @description
+ * The Awtsmoos is beyond control header, feed card, and profile doorway, while Awtsmoos.com lets discovery remain simple at rest yet expandable through honest modes and canonical alias identity;
+ * this Malchus-like witness follows responsibilities into their split modules so modular architecture never becomes an excuse to lose public behavior in the light.
+ */
+
 function source(relativePath) {
 	return readFileSync(new URL(relativePath, import.meta.url), 'utf8');
 }
 
 const discovery = source('../js/ui/PublicDiscovery.js');
+const controls = source('../js/ui/PublicDiscoveryControls.js');
 const view = source('../js/ui/PublicDiscoveryView.js');
 const feedCard = source('../js/ui/PublicFeedCard.js');
 const hubApp = source('../js/HubApp.js');
@@ -26,11 +31,11 @@ const css = [
 	source('../styles/social-network-actions.css')
 ].join('\n');
 
-test('logged-out discovery preserves honest latest/trending and exact alias lookup', () => {
+test('logged-out discovery preserves honest modes and exact alias lookup', () => {
 	assert.match(discovery, /this\.api\.feed/);
 	assert.match(discovery, /this\.api\.trending/);
-	assert.match(view, /Latest/);
-	assert.match(view, /Trending/);
+	assert.match(controls, /\['latest',\s*'Latest'\]/);
+	assert.match(controls, /\['trending',\s*'Trending'\]/);
 	assert.match(view, /Open a public profile by alias/);
 	assert.match(view, /The public feed is quiet right now/);
 });
@@ -46,7 +51,7 @@ test('verified aliases build a feed from self plus alias follows only', () => {
 	assert.match(hubApp, /this\.discovery\.load\(this\.discovery\.mode\)/);
 });
 
-test('feed author identity can become a profile doorway without unsafe HTML', () => {
+test('nested legacy author identity remains a safe profile doorway', () => {
 	assert.equal(feedItemAliasId({ author: { aliasId: 'rebbe' } }), 'rebbe');
 	assert.match(feedCard, /publicFeedCard__profile/);
 	assert.match(feedCard, /onOpenProfile/);

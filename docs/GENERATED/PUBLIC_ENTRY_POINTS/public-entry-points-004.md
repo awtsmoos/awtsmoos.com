@@ -2,14 +2,27 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Generated Public Entry Point Atlas 136–140
+# Generated Public Entry Point Atlas 136–153
 
 Every discovered `index.html` beneath the Geelooy public root, with title and linked script/style evidence.
 
 | URL | Entry file | Title | Scripts | Script sample | Styles | Style sample |
 | --- | --- | --- | --- | --- | --- | --- |
-| /social-composer | geelooy/social-composer/index.html | Create New Post — Geelooy | 2 | ./js/main.js?v=civilization-003; ./js/civilizationEnhancements.js?v=civilization-003 | 11 | ./style.css?v=civilization-003; /style/civilization/core-tokens.css?v=civilization-003; /style/civilization/core-base.css?v=civilization-003; /style/civilization/core-components.css?v=civilization-003 |
+| /register | geelooy/register/index.html | Create Awtsmoos Account | 1 | /scripts/awtsmoos/bh.js | 2 | /style/bh.css; /style/forms.css |
+| /scripts/awtsmoos/compiling/pe | geelooy/scripts/awtsmoos/compiling/pe/index.html | Awtsmoos EXE Compiler | 1 | script.js | 1 | style.css |
+| /scripts/awtsmoos/MerkavaASTParser | geelooy/scripts/awtsmoos/MerkavaASTParser/index.html | Kabbalistic ES6 AST Parser | 1 | parser-core.js | 0 | — |
+| /scripts/awtsmoos/MerkavaBeautifier | geelooy/scripts/awtsmoos/MerkavaBeautifier/index.html | Merkava Beautifier | 1 | main.js | 1 | style.css |
+| /scripts/awtsmoos/MerkavaExecutor | geelooy/scripts/awtsmoos/MerkavaExecutor/index.html | Merkava Executor — Runtime ID AST ECT | 7 | /scripts/awtsmoos/MerkavaExecutor/app/browser/state.js?v=51; /scripts/awtsmoos/MerkavaExecutor/app/browser/examples.js?v=51; /scripts/awtsmoos/MerkavaExecutor/app/browser/files.js?v=51; /scripts/awtsmoos/MerkavaExecutor/app/browser/renderers.js?v=51 | 1 | /scripts/awtsmoos/MerkavaExecutor/app/styles.css?v=51 |
+| /scripts/awtsmoos/MerkavaExecutor/.mode2-path-app | geelooy/scripts/awtsmoos/MerkavaExecutor/.mode2-path-app/index.html | — | 1 | /js/main.js | 1 | /css/style.css |
+| /scripts/awtsmoos/tts | geelooy/scripts/awtsmoos/tts/index.html | Kokoro Forge - B"H | 1 | ./main.js | 2 | https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap; ./index.css |
+| /scripts/awtsmoos/zip | geelooy/scripts/awtsmoos/zip/index.html | Awtsmoos Native Zip | 1 | main.js | 1 | style.css |
+| /scripts/tricks | geelooy/scripts/tricks/index.html | — | 0 | — | 0 | — |
+| /scripts/tricks/jem | geelooy/scripts/tricks/jem/index.html | Awtsmoos Jemizier | 1 | script.js | 2 | style.css; https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css |
+| /social | geelooy/social/index.html | Awtsmoos Social Observatory | 1 | /scripts/awtsmoos/social/hub/index.js?v=social-hub-003 | 4 | /style/social/hub/index.css?v=social-hub-003; /style/social/live/presence.css?v=social-hub-003; /scripts/awtsmoos/social/hub/render.js; /scripts/awtsmoos/social/hub/requestPlan.js |
+| /social-composer | geelooy/social-composer/index.html | Create New Post — Geelooy | 2 | ./js/main.js?v=civilization-005; ./js/civilizationEnhancements.js?v=civilization-005 | 1 | ./style.css?v=civilization-005 |
 | /social-composer/reel-studio | geelooy/social-composer/reel-studio/index.html | MitzvahWorld Movie Studio | 1 | ./boot.js?v=social-nle-004 | 1 | ./style.css?v=social-nle-004 |
 | /social-hub | geelooy/social-hub/index.html | Social Hub — Geelooy | 2 | /scripts/awtsmoos/social/shell/boot.js?v=interface-dark-011; ./js/main.js?v=hub-nebula-004 | 3 | /style/geelooy-app/index.css?v=interface-dark-011; ./style.css?v=hub-nebula-004; /scripts/awtsmoos/social/shell/boot.js |
+| /social/migrate | geelooy/social/migrate/index.html | Social Migration Studio · Awtsmoos | 1 | ./js/main.js?v=social-migrate-001 | 2 | ../../style/future-system/index.css?v=future-004; ./style.css?v=social-migrate-001 |
 | /sod | geelooy/sod/index.html | Endpoint Interaction | 0 | — | 0 | — |
 | /youtube | geelooy/youtube/index.html | Awtsmoos YouTube Manager | 1 | youtube.js | 1 | youtube.css |
+| /zmanim | geelooy/zmanim/index.html | Halachic Zmanim · Awtsmoos | 1 | /zmanim/js/app.js?v=presentation-005 | 37 | /zmanim/favicon.svg; /zmanim/styles/tokens.css; /zmanim/styles/presentation-theme-light.css?v=presentation-005; /zmanim/styles/presentation-theme-system.css?v=presentation-005 |

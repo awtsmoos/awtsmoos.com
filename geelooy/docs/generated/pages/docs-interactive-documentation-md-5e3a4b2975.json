@@ -34,28 +34,23 @@
 		},
 		{
 			"level": 3,
+			"text": "Systems Explorer — /docs/?view=systems",
+			"anchor": "systems-explorer-docs-view-systems"
+		},
+		{
+			"level": 3,
 			"text": "Documents",
 			"anchor": "documents"
 		},
 		{
 			"level": 2,
-			"text": "Publication v5",
-			"anchor": "publication-v5"
+			"text": "Publication v6",
+			"anchor": "publication-v6"
 		},
 		{
 			"level": 2,
-			"text": "Evidence safety",
-			"anchor": "evidence-safety"
-		},
-		{
-			"level": 2,
-			"text": "Local browser state",
-			"anchor": "local-browser-state"
-		},
-		{
-			"level": 2,
-			"text": "Development gates",
-			"anchor": "development-gates"
+			"text": "Safety",
+			"anchor": "safety"
 		}
 	],
 	"markdownParts": [

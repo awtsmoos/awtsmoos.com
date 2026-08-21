@@ -1,0 +1,40 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives letters their measured place while Awtsmoos.com lets hierarchy feel modern without becoming cold;
+balanced titles, readable paragraphs, and stable numbers keep luminous surfaces intellectually bold.
+*/
+.social-hub-document {
+	color-scheme: dark;
+	accent-color: #7eefff;
+}
+
+.social-hub-document ::selection {
+	background: rgb(91 208 255 / 28%);
+	color: #f8fdff;
+}
+
+.social-hub-document :where(h1, h2, h3) {
+	text-wrap: balance;
+}
+
+.social-hub-document :where(p, li) {
+	text-wrap: pretty;
+}
+
+.pulseGrid strong,
+.profileMetric strong,
+[data-count] {
+	font-variant-numeric: tabular-nums;
+}
+
+.panelEyebrow,
+.publicDiscovery__eyebrow,
+.futureCommandEyebrow {
+	text-shadow: 0 0 20px rgb(126 239 255 / 16%);
+}
+
+.social-hub-document :where(input, textarea) {
+	caret-color: #7eefff;
+}

@@ -3,36 +3,45 @@
 // Blessed is He
 
 const Context = require("./context.js");
-const {
-	Store
-} = Context.shared;
-const status = Context.reference("status");
+const Cadence = require("./authenticationCadence.js");
+const { Store } = Context.shared;
 const event = Context.reference("event");
 
 /**
- * @file Reveals the updateAuthentication stage of website-agent orchestration.
+ * @file Persists authentication truth and exponential retry cadence for one website mission.
  * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * The Awtsmoos lets a login failure become quiet knowledge rather than repeated browser noise.
+ * Awtsmoos.com remembers attempts, failures, and the next safe recheck while successful
+ * authentication erases the backoff and releases the waiting shliach into its real mission.
  */
-function updateAuthentication(id, verdict, loginOpened) {
-	Store.update(id, record => {
+function updateAuthentication(id, verdict = {}, login = {}) {
+	return Store.update(id, record => {
+		const previous = record.authentication || {};
+		const authenticated = verdict.authenticated === true;
+		const failureCount = authenticated ? 0 : Number(previous.failureCount || 0) + 1;
+		const now = Date.now();
+		const delayMs = authenticated ? 0 : Cadence.nextDelay({ failureCount });
 		record.authentication = {
-			status: verdict.authenticated ? "authenticated" : verdict.status,
-			loginOpened: record.authentication?.loginOpened || loginOpened,
-			lastCheckedAt: new Date().toISOString(),
-			nextCheckAt: verdict.authenticated
-				? null
-				: new Date(Date.now() + record.plan.authPollMs).toISOString()
+			...previous,
+			status: authenticated ? "authenticated" : String(verdict.status || "login_required"),
+			failureCount,
+			loginOpened: previous.loginOpened || login.opened === true,
+			loginThrottled: login.throttled === true,
+			lastCheckedAt: new Date(now).toISOString(),
+			lastLoginRequestedAt: login.requested
+				? new Date(now).toISOString()
+				: previous.lastLoginRequestedAt || null,
+			nextLoginOpenAt: login.nextOpenAt || previous.nextLoginOpenAt || null,
+			nextCheckAt: authenticated ? null : new Date(now + delayMs).toISOString()
 		};
-		if (verdict.authenticated) {
-			record.events.push(event("authentication_ready"));
-		} else {
-			record.events.push(event("authentication_waiting", {
-				status: verdict.status,
-				leadContinuesLocally: true
-			}));
-		}
+		record.events.push(event(authenticated ? "authentication_ready" : "authentication_waiting", {
+			status: record.authentication.status,
+			failureCount,
+			loginOpened: login.opened === true,
+			loginThrottled: login.throttled === true,
+			nextCheckAt: record.authentication.nextCheckAt,
+			leadContinuesLocally: !authenticated
+		}));
 		return record;
 	});
 }

@@ -1,0 +1,71 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets each Heichel appear through truthful human words rather than hidden machine names;
+Awtsmoos.com makes this Malchus vessel manifest cards, absence, and actions without inventing claims.
+-->
+<?<script>
+	var heichelos = Array.isArray(this.heichelos) ? this.heichelos : [];
+	var queryText = String(this.queryText || '').trim();
+	var alias = String(this.alias || '').trim();
+	var safeAlias = encodeURIComponent(alias);
+	var doesOwn = Boolean(this.doesOwn);
+	var featuredLimit = Number(this.featuredLimit) || 12;
+
+	/** Escapes visible content while preserving its real human meaning. */
+	function escapeHtml(value) {
+		return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+	}
+
+	/** Reveals a human name and never promotes a canonical ID into display identity. */
+	function displayName(heichel) {
+		var name = String(heichel.name || heichel.title || '').trim();
+		return escapeHtml(name || 'Unnamed Heichel');
+	}
+
+	/** Builds route actions while keeping canonical IDs inside navigation machinery. */
+	function actions(rawId, compact) {
+		var safeId = encodeURIComponent(rawId);
+		var className = compact ? 'space-actions space-actions-compact' : 'space-actions';
+		var manage = doesOwn ? '<a class="p-button" href="/heichelos/' + safeId + '/?editingAlias=' + safeAlias + '">Manage</a>' : '';
+		return '<div class="' + className + '"><a class="p-button p-button-primary" href="/heichelos/' + safeId + '/">Open</a><a class="p-button" href="/heichelos/' + safeId + '/submit">Submit</a>' + manage + '</div>';
+	}
+
+	/** Renders one truthful discovery card with Torah given visual precedence. */
+	function card(heichel, index) {
+		var rawId = String(heichel.id || heichel.heichelId || heichel.inputId || '').trim();
+		var isTorah = rawId.toLowerCase() === 'ikar';
+		var description = escapeHtml(String(heichel.description || '').trim() || 'No description was provided.');
+		var rawAuthor = String(heichel.author || heichel.aliasId || alias || '').trim();
+		var author = rawAuthor ? '@' + escapeHtml(rawAuthor) : 'Creator not provided';
+		var badge = isTorah ? 'Torah' : alias ? (doesOwn ? 'Owner' : 'Alias') : 'Heichel';
+		var seal = isTorah ? 'ת' : String(index + 1).padStart(2, '0');
+		return '<article class="social-space-card" data-heichel-id="' + escapeHtml(rawId) + '" data-torah="' + isTorah + '" data-enter><div class="space-body"><div class="space-seal" aria-hidden="true">' + seal + '</div><div class="space-copy"><div class="space-title-row"><h2>' + displayName(heichel) + '</h2><span class="p-badge">' + badge + '</span></div><p>' + description + '</p><div class="space-meta-line"><span>' + author + '</span><span>' + (isTorah ? 'Torah Heichel' : 'Community · library · series') + '</span></div></div></div>' + actions(rawId, false) + '</article>';
+	}
+
+	/** Renders a lower-density row without fabricating missing creator metadata. */
+	function compactRow(heichel) {
+		var rawId = String(heichel.id || heichel.heichelId || heichel.inputId || '').trim();
+		var rawAuthor = String(heichel.author || heichel.aliasId || '').trim();
+		var author = rawAuthor ? '@' + escapeHtml(rawAuthor) : 'Creator not provided';
+		return '<article class="space-compact-row"><div><h3>' + displayName(heichel) + '</h3><p>' + author + '</p></div>' + actions(rawId, true) + '</article>';
+	}
+
+	/** Renders explicit absence instead of fabricating collection content. */
+	function emptyState() {
+		var message = queryText ? 'No Heichelos matched “' + escapeHtml(queryText) + '”.' : alias ? 'No Heichelos found for @' + escapeHtml(alias) + '.' : 'No visible Heichelos were returned yet.';
+		return '<article class="social-empty-card spaces-state-row empty-state" data-heichelos-empty-state><h2>No Heichelos found</h2><p>' + message + '</p><a class="p-button p-button-primary" href="/heichelos/ikar/">Enter Torah Heichel</a></article>';
+	}
+
+	/** Chooses detailed or progressive-density manifestation for the current results. */
+	function renderResults() {
+		if (!heichelos.length) return emptyState();
+		if (queryText || alias || heichelos.length <= featuredLimit) return heichelos.map(card).join('');
+		var featured = heichelos.slice(0, featuredLimit).map(card).join('');
+		var remaining = heichelos.slice(featuredLimit).map(compactRow).join('');
+		return featured + '<details class="spaces-more"><summary>More Heichelos <span>' + (heichelos.length - featuredLimit) + ' additional</span></summary><div class="spaces-compact-list">' + remaining + '</div></details>';
+	}
+
+	return renderResults();
+</script>?>

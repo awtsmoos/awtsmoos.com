@@ -4,38 +4,43 @@
 
 /**
  * @file DeferredTerrainEnrichment.js
- * @description Owns exactly-once scheduling, lifecycle, teardown, and snapshots for optional text and deep-core forest enrichment.
- * The Awtsmoos reveals collision before optional visible solidity; Awtsmoos.com keeps generation tokens and cleanup
- * in one bounded owner while feature installation lives elsewhere, preventing this lifecycle vessel from becoming a thicket.
+ * @description Owns exactly-once scheduling, generation currency, teardown, and snapshots for optional fauna, text, and deep forest enrichment.
+ * RESPONSIBILITY: lifecycle ownership only; feature order/install details live in focused collaborators so this owner remains bounded and readable.
+ * NON-RESPONSIBILITY: this class does not build fauna, forest, text, or scene geometry and does not own feature-specific collision rules.
+ * ARCHITECTURAL POSITION: Keter keeps one continuation covenant while Tiferes orders features and Malchus hydrates their finished packages.
+ * The Awtsmoos renews collision, creature, branch, and letter beyond all time; Awtsmoos.com keeps one generation token guarding their finite arrival,
+ * so stale promises cannot resurrect a destroyed world and optional realism never steals the traveler's first movement trial.
  */
 
 import { DeferredTerrainCollisionLedger } from './DeferredTerrainCollisionLedger.js';
 import { DeferredTerrainFeatureHydrator } from './DeferredTerrainFeatureHydrator.js';
-import {
-	installDeferredForestFeature,
-	installDeferredTextFeature
-} from './DeferredTerrainFeatureInstaller.js';
+import { runDeferredTerrainEnrichment } from './DeferredTerrainEnrichmentRun.js';
 import {
 	cancelTerrainIdle,
+	loadDeferredFaunaModule,
 	loadDeferredForestModule,
 	loadDeferredTextLandmarkModule,
-	scheduleTerrainIdle
+	scheduleTerrainIdle,
+	yieldTerrainWork
 } from './DeferredTerrainModuleLoaders.js';
 
 export class DeferredTerrainEnrichment {
 	constructor(options = {}) {
 		this.context = options.context;
+		this.loadFauna = options.loadFauna || loadDeferredFaunaModule;
 		this.loadText = options.loadText || loadDeferredTextLandmarkModule;
 		this.loadForest = options.loadForest || loadDeferredForestModule;
 		this.schedule = options.schedule || scheduleTerrainIdle;
 		this.cancel = options.cancel || cancelTerrainIdle;
+		this.yieldWork = options.yieldWork || yieldTerrainWork;
 		this.ledger = options.ledger || new DeferredTerrainCollisionLedger(
 			options.octree,
 			this.context?.colliderStore
 		);
 		this.hydrator = options.hydrator || new DeferredTerrainFeatureHydrator(
 			this.context?.forest,
-			this.context?.textLandmark
+			this.context?.textLandmark,
+			options.rootGroup
 		);
 		this.state = 'cold';
 		this.generation = 0;
@@ -46,36 +51,28 @@ export class DeferredTerrainEnrichment {
 	}
 
 	start() {
-		if (this.promise) return this.promise;
-		if (this.state === 'destroyed') return Promise.resolve(this.snapshot());
+		if (this.promise) {
+			return this.promise;
+		}
+		if (this.state === 'destroyed') {
+			return Promise.resolve(this.snapshot());
+		}
 		const generation = ++this.generation;
 		this.state = 'scheduled';
 		this.promise = new Promise(resolve => {
 			this.handle = this.schedule(() => {
 				this.handle = null;
-				this.run(generation).then(resolve);
+				runDeferredTerrainEnrichment(this, generation).then(resolve);
 			});
 		});
 		return this.promise;
 	}
 
-	async run(generation) {
-		try {
-			await installDeferredTextFeature(this, generation);
-			await installDeferredForestFeature(this, generation);
-			if (this.isCurrent(generation)) this.state = 'complete';
-		} catch (error) {
-			if (this.isCurrent(generation)) {
-				this.state = 'failed';
-				this.error = error?.message || String(error);
-			}
-		}
-		return this.snapshot();
-	}
-
 	destroy() {
 		this.generation += 1;
-		if (this.handle !== null) this.cancel(this.handle);
+		if (this.handle !== null) {
+			this.cancel(this.handle);
+		}
 		this.handle = null;
 		this.hydrator.destroy();
 		this.ledger.removeAll();
@@ -106,7 +103,9 @@ export function createDeferredTerrainEnrichment(options) {
 
 function removeExact(items, value) {
 	const index = items?.indexOf(value) ?? -1;
-	if (index >= 0) items.splice(index, 1);
+	if (index >= 0) {
+		items.splice(index, 1);
+	}
 }
 
 export default createDeferredTerrainEnrichment;

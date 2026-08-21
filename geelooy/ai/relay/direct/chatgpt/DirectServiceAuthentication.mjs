@@ -2,57 +2,52 @@
 // Boruch Hashem
 // Blessed is He
 
-import { codedError } from "./DirectServiceRequest.mjs";
-
 /**
- * @file Retries website operations only after explicit authenticated recovery.
- * @description The Awtsmoos distinguishes a login gate from a failed agent turn.
- * Awtsmoos.com opens authentication deliberately, resets stale browser bindings,
- * and then repeats the same queued operation without leaking broader authority.
+ * @file Wraps website calls with explicit shared-login behavior and no rapid reopen loop.
+ * @description
+ * The Awtsmoos reveals authentication as a human covenant, not an automation storm.
+ * Awtsmoos.com may request one visible login surface, then every waiting caller receives
+ * the same paused truth until the profile is genuinely authenticated or the long lease expires.
  */
 export class DirectServiceAuthentication {
-	constructor(service) { this.service = service; }
-
-	send(request, options) {
-		return this.execute("send", request, options);
+	constructor(websiteService, loginCoordinator) {
+		this.websiteService = websiteService;
+		this.loginCoordinator = loginCoordinator;
 	}
 
-	recover(request, options) {
-		return this.execute("recover", request, options);
-	}
-
-	async execute(method, request, options) {
+	async execute(method, request, options = {}) {
 		try {
-			return await this.service.websiteService[method](request);
+			return await this.websiteService[method](request);
 		} catch (error) {
-			if (!this.service.loginCoordinator.shouldAuthenticate(error)) throw error;
+			if (!this.loginCoordinator.shouldAuthenticate(error)) throw error;
 			if (options.loginPolicy === "defer") {
-				await this.requestLogin();
-				throw codedError("chatgpt_login_pending");
+				const login = await this.requestLogin();
+				throw pendingError(login);
 			}
-			await this.authenticate(options);
-			await this.resetBrowserBinding();
-			return this.service.websiteService[method](request);
+			await this.loginCoordinator.authenticate({ waitMs: options.loginWaitMs });
+			return this.websiteService[method](request);
 		}
 	}
 
-	authenticate(options = {}) {
-		return this.service.loginCoordinator.authenticate({
-			timeoutMs: options.loginTimeoutMs,
-			pollMs: options.loginPollMs
-		});
-	}
-
 	async requestLogin() {
-		const opened = await this.service.loginCoordinator.openForLogin();
-		this.service.capabilityService.invalidate?.();
-		this.service.portResolver.invalidate();
+		const opened = await this.loginCoordinator.openForLogin();
+		if (!opened.ok) throw codedError("chatgpt_login_open_failed");
 		return opened;
 	}
 
-	async resetBrowserBinding() {
-		this.service.capabilityService.invalidate?.();
-		this.service.portResolver.invalidate();
-		await this.service.websiteService.close();
+	async authenticationStatus() {
+		return this.loginCoordinator.status();
 	}
+}
+
+function pendingError(login = {}) {
+	const error = codedError(login.throttled ? "chatgpt_login_paused" : "chatgpt_login_pending");
+	error.login = login;
+	return error;
+}
+
+function codedError(code) {
+	const error = new Error(code);
+	error.code = code;
+	return error;
 }

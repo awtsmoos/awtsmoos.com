@@ -1,43 +1,40 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * The Awtsmoos turns anatomy into explicit machine operations. Every command
- * remains typed by the existing animal recipe schema, deterministic in order,
- * and executable by the established compiler without hidden scene mutation.
+ * @file phenotypeCommandFactory.js
+ * @description Converts mixed loft and membrane anatomy guides into deterministic validated compiler commands with explicit material identity.
+ * RESPONSIBILITY: choose the correct operation per guide, preserve dependency order, mirror bilateral geometry, and finish with mesh validation.
+ * NON-RESPONSIBILITY: this file does not build vertices or choose species anatomy.
+ * The Awtsmoos turns many anatomical intentions into ordered action; Awtsmoos.com keeps every membrane, loft, and mirror traceable from guide to finite mesh.
  */
 
 function command(index, id, op, target, dependsOn, args) {
 	return {
-		index,
-		id,
-		op,
-		target,
-		depends_on: dependsOn,
 		args,
 		confidence: 1,
-		source_basis: ["procedural_genome"]
+		depends_on: dependsOn,
+		id,
+		index,
+		op,
+		source_basis: ['procedural_genome'],
+		target
 	};
 }
 
-export function createPhenotypeCommands(guides, symmetryPairs, materialId) {
+/** Creates executable commands for mixed anatomical guides and mirror pairs. */
+export function createPhenotypeCommands(guides, symmetryPairs, fallbackMaterialId) {
 	const commands = [];
 	const commandByPart = new Map();
-	for (const partId of Object.keys(guides)) {
+	for (const [partId, guide] of Object.entries(guides)) {
 		const commandId = `${partId}_mesh`;
-		const dependsOn = partId === "body" ? [] : ["body_mesh"];
-		commands.push(command(
+		commands.push(createGuideCommand(
 			commands.length + 1,
 			commandId,
-			"loft_elliptical_sections",
 			partId,
-			dependsOn,
-			{
-				guide: partId,
-				cap_start: true,
-				cap_end: true,
-				material_id: materialId
-			}
+			guide,
+			fallbackMaterialId
 		));
 		commandByPart.set(partId, commandId);
 	}
@@ -46,25 +43,42 @@ export function createPhenotypeCommands(guides, symmetryPairs, materialId) {
 		commands.push(command(
 			commands.length + 1,
 			commandId,
-			"mirror_geometry",
+			'mirror_geometry',
 			pair.right,
 			[commandByPart.get(pair.left)],
 			{
-				source: pair.left,
-				plane: pair.plane,
+				material_id: guides[pair.left]?.material_id || fallbackMaterialId,
 				offset: 0,
-				material_id: materialId
+				plane: pair.plane,
+				source: pair.left
 			}
 		));
 		commandByPart.set(pair.right, commandId);
 	}
 	commands.push(command(
 		commands.length + 1,
-		"validate_phenotype",
-		"validate_mesh",
-		"animal",
+		'validate_phenotype',
+		'validate_mesh',
+		'animal',
 		[...commandByPart.values()],
 		{}
 	));
 	return commands;
+}
+
+function createGuideCommand(index, commandId, partId, guide, fallbackMaterialId) {
+	const membrane = guide.type === 'membrane';
+	return command(
+		index,
+		commandId,
+		membrane ? 'create_membrane' : 'loft_elliptical_sections',
+		partId,
+		partId === 'body' ? [] : ['body_mesh'],
+		{
+			cap_end: !membrane,
+			cap_start: !membrane,
+			guide: partId,
+			material_id: guide.material_id || fallbackMaterialId
+		}
+	);
 }

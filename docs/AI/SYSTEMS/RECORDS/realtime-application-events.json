@@ -63,7 +63,7 @@
 			"name": "AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS",
 			"classification": "tuning",
 			"sources": 1,
-			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAckHandler.js"
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestConsumerWatchdog.js"
 		},
 		{
 			"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
@@ -105,7 +105,7 @@
 			"name": "AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS",
 			"classification": "tuning",
 			"sources": 1,
-			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js"
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatchWatchdog.js"
 		},
 		{
 			"name": "MW_LOAD_CLIENTS",
@@ -131,12 +131,27 @@
 			"factory": "createChessApplication"
 		},
 		{
-			"id": "universalChat",
+			"id": "geelooy-code",
+			"versions": "1",
+			"factory": "createGeelooyCodeApplication"
+		},
+		{
+			"id": "geelooy-docs",
+			"versions": "1",
+			"factory": "createGeelooyDocsApplication"
+		},
+		{
+			"id": "sheets",
+			"versions": "1",
+			"factory": "createSheetsApplication"
+		},
+		{
+			"id": "universal-chat",
 			"versions": "1",
 			"factory": "createUniversalChatApplication"
 		},
 		{
-			"id": "privateMessaging",
+			"id": "private-messaging",
 			"versions": "1",
 			"factory": "createPrivateMessagingApplication"
 		},
@@ -175,6 +190,10 @@
 		{
 			"event": "ACK",
 			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js"
+		},
+		{
+			"event": "audio",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/messageAttachmentPolicy.js"
 		},
 		{
 			"event": "awtsmoosMyDevice",
@@ -253,6 +272,42 @@
 			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js"
 		},
 		{
+			"event": "code.access.invited",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/accessHandlers.js"
+		},
+		{
+			"event": "code.access.updated",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/accessHandlers.js"
+		},
+		{
+			"event": "code.file.patched",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/editHandlers.js"
+		},
+		{
+			"event": "code.file.synced",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/editHandlers.js"
+		},
+		{
+			"event": "code.presence.updated",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/presenceHandlers.js"
+		},
+		{
+			"event": "code.project.created",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/lifecycleHandlers.js"
+		},
+		{
+			"event": "code.project.joined",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/lifecycleHandlers.js"
+		},
+		{
+			"event": "code.project.left",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/lifecycleHandlers.js"
+		},
+		{
+			"event": "code.project.structured",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/structureEvents.js"
+		},
+		{
 			"event": "contact-blocked",
 			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
 		},
@@ -265,72 +320,16 @@
 			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatDefeatRewards.js"
 		},
 		{
-			"event": "enrage",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/EnemyActionSupportRules.js"
+			"event": "docs.access.invited",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/accessHandlers.js"
 		},
 		{
-			"event": "friendship-accepted",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+			"event": "docs.access.updated",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/accessHandlers.js"
 		},
 		{
-			"event": "game.click",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js"
-		},
-		{
-			"event": "game.finished",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js"
-		},
-		{
-			"event": "game.finished",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHistoryRecorder.js"
-		},
-		{
-			"event": "game.started",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/standaloneHistoryRecorder.js"
-		},
-		{
-			"event": "group-created",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
-		},
-		{
-			"event": "group-joined",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
-		},
-		{
-			"event": "group-left",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
-		},
-		{
-			"event": "group-role-changed",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
-		},
-		{
-			"event": "guard",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/EnemyActionSupportRules.js"
-		},
-		{
-			"event": "harvest",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/AnimalHarvestService.js"
-		},
-		{
-			"event": "heal",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/EnemyActionSupportRules.js"
-		},
-		{
-			"event": "health.pong",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/awtsmoosCoreApplication.js"
-		},
-		{
-			"event": "library",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/sourceNormalizer.js"
-		},
-		{
-			"event": "LIVE_PREVIEW",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/livePreview.js"
-		},
-		{
-			"event": "loot",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CorpseLootService.js"
+			"event": "docs.capabilities",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/capabilityHandlers.js"
 		}
 	],
 	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-application-events.md",

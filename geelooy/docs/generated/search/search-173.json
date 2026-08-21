@@ -1,401 +1,70 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-awtai-db-0b65315b-md-e22821febf",
-		"title": "Project Tutorial: AWTAI-DB GGUF Converter",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtai-db-0b65315b.md",
+		"id": "docs-generated-project-atlas-projects-002-md-9cb1b33e4d",
+		"title": "Generated Project Atlas 46–90",
+		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-002.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: AWTAI-DB GGUF Converter",
-				"anchor": "project-tutorial-awtai-db-gguf-converter"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Project Atlas 46–90",
+				"anchor": "generated-project-atlas-46-90"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: AWTAI DB GGUF Converter Path: geelooy/awtai db · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtai db gguf converter path: geelooy/awtai db · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, app.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 0 3 public entry points /awtai db → geelooy/awtai db/index.html — awtai db gguf converter symbol evidence source files: 1; classes: 0; functions: 1; exports: 0; samples: write. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-awtai-db-0b65315b-md-e22821febf.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 46–90 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title geelooy/api/zmanimms api 1 1 0 0 0 — awtsmoos.derech.js — geelooy/apps public 10325 8210 ",
+		"searchText": "b\"h boruch hashem blessed is he generated project atlas 46–90 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title geelooy/api/zmanimms api 1 1 0 0 0 — awtsmoos.derech.js — geelooy/apps public 10325 8210 1790 0 19 geelooy/apps/documentation.md index.html, app.js, documentation.md awtsmoos apps — every browser tool & game geelooy/apps/android emulator app 1495 926 566 0 0 geelooy/apps/android emulator/documentation.md documentation.md — geelooy/apps/animator app 2488 2458 0 0 0 geelooy/apps/animator/documentation.md index.html, package.json, documentation.md awtsmoos park engine — b\"h geelooy/apps/archive uploader app 3 3 0 0 0 — index.html, app.js ia//hyper uploader geelooy/apps/audio editor app 4 4 0 0 0 — index.html, main.js pro audio editor geelooy/apps/awtsmoos gguf app 88 87 0 0 0 geelooy/apps/awtsmoos gguf/documentation.md index.html, index.js, app.js, documentation.md gguf chat & metadata b\"h geelooy/apps/bookcovermaker app 1 1 0 0 0 — index.html book cover generator geelooy/apps/broadcaster app 3 3 0 0 0 — index.html — geelooy/apps/byteviewer app 4 3 0 0 0 — index.html hex viewer of the awtsmoos geelooy/apps/captions app 68 64 0 0 0 geelooy/apps/captions/documentation.md index.html, documentation.md ein sof engine [quantum core v2.5] geelooy/apps/code app 1125 1078 44 0 0 geelooy/apps/code/documentation.md index.html, documentation.md awtsmoos code geelooy/apps/compiler app 79 77 1 0 0 geelooy/apps/compiler/documentation.md index.html, documentation.md awtsmoos compiler geelooy/apps/csv app 5 5 0 0 0 — index.html awtsmoos native grid geelooy/apps/docs app 194 0 0 0 0 geelooy/apps/docs/documentation.md index.html, documentation.md awtsmoos docs geelooy/apps/drive app 105 95 9 0 0 geelooy/apps/drive/documentation.md index.html, documentation.md awtsmoos drive · website maker geelooy/apps/editor app 40 39 0 0 0 geelooy/apps/editor/documentation.md index.html, documentation.md mitzvah world animator geelooy/apps/exe emulator app 416 271 133 0 9 geelooy/apps/exe emulator/documentation.md index.html, documentation.md awtsmoos exe emulator geelooy/apps/forms app 0 0 0 0 0 — — — geelooy/apps/gpt api pulse garden app 1 1 0 0 0 — index.html awtsmoos pulse garden geelooy/apps/lyric sync app 4 4 0 0 0 — index.html lyric sync engine geelooy/apps/merkava native browser app 79 60 0 0 10 geelooy/apps/merkava native browser/documentation.md package.json, documentation.md — geelooy/apps/mitzvah pushkuh app 150 140 7 0 0 geelooy/apps/mitzvah pushkuh/documentation.md index.html, documentation.md mitzvah pushkuh · garden of sparks geelooy/apps/nesher studio app 542 416 117 0 0 geelooy/apps/nesher studio/documentation.md index.html, main.js, documentation.md 🦅 nesher studio geelooy/apps/pdf to img app 1 1 0 0 0 — index.html high res pdf to image converter geelooy/apps/piano app 60 59 0 0 0 geelooy/apps/piano/documentation.md index.html, main.js, documentation.md awtsmoos web synthesizer ultimate geelooy/apps/rebbe app 126 125 0 0 0 geelooy/apps/rebbe/documentation.md index.html, main.js, documentation.md awtsmoos archive // omega geelooy/apps/scripts app 16 15 0 0 0 geelooy/apps/scripts/documentation.md documentation.md — geelooy/apps/sheets app 130 127 2 0 0 geelooy/apps/sheets/documentation.md index.html, documentation.md awtsmoos sheets geelooy/apps/slides app 82 70 10 0 0 geelooy/apps/slides/documentation.md index.html, package.json, documentation.md awtsmoos slides geelooy/apps/styles app 6 6 0 0 0 — — — geelooy/apps/tests app 1 0 1 0 0 — — — geelooy/apps/transcribe app 2 2 0 0 0 — index.html assemblyai transcription geelooy/apps/tunnel app 2295 1449 820 0 0 geelooy/apps/tunnel/documentation.md index.html, documentation.md, readme.md, readme.md awtsmoos tunnel console geelooy/apps/tunnel control app 490 426 57 0 0 geelooy/apps/tunnel control/documentation.md index.html, documentation.md, readme.md, readme.md awtsmoos tunnel control geelooy/apps/universal chat app 173 150 22 0 0 geelooy/apps/universal chat/documentation.md index.html, app.js, documentation.md messages & torah chat \\ awtsmoos.com geelooy/apps/video editor app 2 2 0 0 0 — index.html awtsmoos video editor chapter 7 revised geelooy/apps/virtual os stress light counter app 1 1 0 0 0 — index.html light counter geelooy/apps/wallet app 40 38 1 0 0 geelooy/apps/wallet/documentation.md index.html, main.js, documentation.md awtsmoos wallet — send, buy & own geelooy/apps/watermark remover app 1 1 0 0 0 — index.html svg mask alpha brute force geelooy/awtai db public 9 9 0 0 0 — index.html, app.js awtai db model foundry geelooy/ayin public 1 1 0 0 0 — index.html real awtsmoos recorder geelooy/browser test project 2 1 1 0 0 — — — geelooy/comment thread public 23 20 2 0 0 geelooy/comment thread/documentation.md index.html, app.js, documentation.md comment thread — geelooy geelooy/contact public 3 3 0 0 0 — index.html contact — awtsmoos",
+		"page": "pages/docs-generated-project-atlas-projects-002-md-9cb1b33e4d.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-awtsmoos-agent-thought-55eb75c8a5",
-		"title": "Project Tutorial: geelooy/.awtsmoos-agent-thoughts",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-agent-thoughts-250aba07.md",
+		"id": "docs-generated-project-atlas-projects-003-md-51bf083cfd",
+		"title": "Generated Project Atlas 91–135",
+		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-003.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/.awtsmoos-agent-thoughts",
-				"anchor": "project-tutorial-geelooy-awtsmoos-agent-thoughts"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Project Atlas 91–135",
+				"anchor": "generated-project-atlas-91-135"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/.awtsmoos agent thoughts Path: geelooy/.awtsmoos agent thoughts · Type: evidence · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries ar",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/.awtsmoos agent thoughts path: geelooy/.awtsmoos agent thoughts · type: evidence · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 68 6 28 0 0 309 411 public entry points none observed. symbol evidence source files: 51; classes: 10; functions: 85; exports: 60; samples: createtarget, capturemobile, captureviewport, capturerenders, wait, async, cdpclient, waitfordebugger, createpagetarget, auditviewport, runaudit, createlayoutexpression. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 6 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-awtsmoos-agent-thought-55eb75c8a5.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 91–135 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title geelooy/control public 3 3 0 0 0 — index.html, app.js Code Control Panel geelooy/css pro",
+		"searchText": "b\"h boruch hashem blessed is he generated project atlas 91–135 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title geelooy/control public 3 3 0 0 0 — index.html, app.js code control panel geelooy/css project 1 1 0 0 0 — — — geelooy/db public 9 7 0 0 0 geelooy/db/documentation.md index.html, documentation.md — geelooy/docs public 3555 0 0 0 0 geelooy/docs/documentation.md index.html, documentation.md awtsmoos documentation geelooy/donate public 1 1 0 0 0 — index.html — geelooy/drive public 213 159 52 0 0 geelooy/drive/documentation.md index.html, app.js, documentation.md, readme.md, readme.md geelooy sites · awtsmoos geelooy/editor public 1 1 0 0 0 — index.html — geelooy/email public 167 151 4 10 0 geelooy/email/documentation.md index.html, index.js, documentation.md awtsmoos quantum mail geelooy/entity view public 2 2 0 0 0 — index.html, app.js entity universe geelooy/fetch public 1 1 0 0 0 — index.html — geelooy/game public 1 1 0 0 0 — index.html opening mitzvah world… geelooy/games public 8519 6819 1469 0 58 geelooy/games/documentation.md index.html, documentation.md awtsmoos games — 25 playable worlds geelooy/games/kavanah game 16 15 0 0 0 geelooy/games/kavanah/documentation.md index.html, documentation.md kavanah geelooy/games/merkava game 128 93 32 0 0 geelooy/games/merkava/documentation.md index.html, package.json, documentation.md, readme.md, readme.md merkava — war of the sparks geelooy/games/nachash game 5 5 0 0 0 — index.html, main.js tikkun hanachash geelooy/games/adventure game 1 1 0 0 0 — index.html adventure game geelooy/games/brick blast game 80 79 0 0 0 geelooy/games/brick blast/documentation.md index.html, index.js, documentation.md brick blast geelooy/games/cards game 11 10 0 0 0 geelooy/games/cards/documentation.md index.html, documentation.md the utterances — blackjack on awtsmoos geelooy/games/chess game 97 74 22 0 0 geelooy/games/chess/documentation.md index.html, main.js, documentation.md ultimate chess ai geelooy/games/city of light game 80 67 11 0 0 geelooy/games/city of light/documentation.md index.html, package.json, documentation.md, readme.md, readme.md city of light · the complete pilgrimage geelooy/games/connect4 game 6 6 0 0 0 — index.html, main.js connect 4 geelooy/games/dove game 8 8 0 0 0 — index.html noah's dove's 🕊️ quest ❓ for shalom geelooy/games/emojis game 37 36 0 0 0 geelooy/games/emojis/documentation.md index.html, documentation.md emoji war — neon caption arcade geelooy/games/kabbalah shooter game 39 38 0 0 0 geelooy/games/kabbalah shooter/documentation.md index.html, main.js, package.json, documentation.md kabbalah infinite — the breaking of vessels geelooy/games/migdol game 12 11 0 0 0 geelooy/games/migdol/documentation.md index.html, documentation.md migdol kabbalah tower defense geelooy/games/mitzvahworld game 3920 2717 1015 0 54 geelooy/games/mitzvahworld/documentation.md index.html, documentation.md b&quot;h mitzvah world — restored river valley geelooy/games/neshama quest game 7 7 0 0 0 — index.html neshama quest geelooy/games/nitzotz io game 250 220 29 0 0 geelooy/games/nitzotz io/documentation.md index.html, package.json, documentation.md nitzotz.io — shlichus adventure metropolis geelooy/games/ohr hagnuz game 793 700 89 0 0 geelooy/games/ohr hagnuz/documentation.md index.html, package.json, documentation.md b&quot;h — ohr hagnuz: the concealed frontier geelooy/games/oros ha kelim game 76 59 14 0 0 geelooy/games/oros ha kelim/documentation.md index.html, package.json, documentation.md, readme.md, readme.md oros hakelim · awtsmoos.com geelooy/games/party game 16 15 0 0 0 geelooy/games/party/documentation.md index.html, documentation.md party challenge — awtsmoos games geelooy/games/pong game 12 11 0 0 0 geelooy/games/pong/documentation.md index.html, documentation.md pong · awtsmoos games geelooy/games/rambam game 1 1 0 0 0 — — — geelooy/games/rebbe runner game 4 4 0 0 0 — index.html the rebbe's runner geelooy/games/scribe journey game 476 375 99 0 0 geelooy/games/scribe journey/documentation.md index.html, documentation.md the scribe's journey: echoes of ein sof geelooy/games/scripts game 81 74 0 0 4 geelooy/games/scripts/documentation.md documentation.md — geelooy/games/sefira clash game 1381 1337 41 0 0 geelooy/games/sefira clash/documentation.md index.html, package.json, documentation.md sefira clash · open world, expedition, co op, adventure &amp; vs geelooy/games/seven mitzvos game 597 530 66 0 0 geelooy/games/seven mitzvos/documentation.md index.html, package.json, documentation.md seven mitzvos · living material worlds geelooy/games/shema strike game 173 149 21 0 0 geelooy/games/shema strike/documentation.md index.html, package.json, documentation.md shema strike: gates of light geelooy/games/soul jump game 2 2 0 0 0 — index.html, main.js ein sof ascent geelooy/games/styles game 14 13 0 0 0 geelooy/games/styles/documentation.md documentation.md — geelooy/games/sulam ha sod game 167 152 14 0 0 geelooy/games/sulam ha sod/documentation.md index.html, documentation.md sulam hasod geelooy/games/tests game 17 0 16 0 0 geelooy/games/tests/documentation.md documentation.md — geelooy/games/tetris game 8 8 0 0 0 — index.html, main.js tikkun haolam the final rectification geelooy/geelooy project 5 1 3 0 0 — — —",
+		"page": "pages/docs-generated-project-atlas-projects-003-md-51bf083cfd.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-awtsmoos-smoke-3fb6bf7-f3dddefc69",
-		"title": "Project Tutorial: geelooy/.awtsmoos-smoke",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-smoke-3fb6bf7b.md",
+		"id": "docs-generated-project-atlas-projects-004-md-55e934ed19",
+		"title": "Generated Project Atlas 136–179",
+		"sourcePath": "docs/GENERATED/PROJECT_ATLAS/projects-004.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/.awtsmoos-smoke",
-				"anchor": "project-tutorial-geelooy-awtsmoos-smoke"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Project Atlas 136–179",
+				"anchor": "generated-project-atlas-136-179"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/.awtsmoos smoke Path: geelooy/.awtsmoos smoke · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observati",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/.awtsmoos smoke path: geelooy/.awtsmoos smoke · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 4 0 0 0 0 0 4 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-awtsmoos-smoke-3fb6bf7-f3dddefc69.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Atlas 136–179 Observed project/directory boundaries with classified file counts and local documentation status. Path Type Files Source Tests Assets Generated Local docs Entries Title geelooy/git project 1 1 0 0 0 — awtsmoos.derech.js — geelooy/heichel project 1 1 0 0 0 ",
+		"searchText": "b\"h boruch hashem blessed is he generated project atlas 136–179 observed project/directory boundaries with classified file counts and local documentation status. path type files source tests assets generated local docs entries title geelooy/git project 1 1 0 0 0 — awtsmoos.derech.js — geelooy/heichel project 1 1 0 0 0 — — — geelooy/heichel editor public 19 16 2 0 0 geelooy/heichel editor/documentation.md index.html, app.js, documentation.md heichel editor — geelooy geelooy/heichel review public 40 34 4 0 0 geelooy/heichel review/documentation.md index.html, documentation.md, readme.md, readme.md heichel review and governance center geelooy/heichelos project 1051 917 131 0 0 geelooy/heichelos/documentation.md awtsmoos.derech.js, documentation.md — geelooy/legal project 6 6 0 0 0 — — — geelooy/libs library 2268 2098 138 0 0 geelooy/libs/documentation.md documentation.md — geelooy/login public 1 1 0 0 0 — index.html login with awtsmoos geelooy/logout public 1 1 0 0 0 — index.html — geelooy/mawgawl public 80 65 14 0 0 geelooy/mawgawl/documentation.md index.html, documentation.md — geelooy/node os public 2 2 0 0 0 — index.html, app.js awtsmoos node os geelooy/notifications public 34 31 2 0 0 geelooy/notifications/documentation.md index.html, app.js, documentation.md signals — geelooy geelooy/ocr public 1 1 0 0 0 — index.html ocr studio — awtsmoos geelooy/os public 729 648 79 0 0 geelooy/os/documentation.md index.html, documentation.md geelooy os — files, awtsmoosdb, runtime & control geelooy/parsers project 1 1 0 0 0 — — — geelooy/platform project 110 89 19 0 0 geelooy/platform/documentation.md documentation.md — geelooy/post editor public 15 12 2 0 0 geelooy/post editor/documentation.md index.html, app.js, documentation.md post editor — geelooy geelooy/profile public 39 33 4 0 0 geelooy/profile/documentation.md index.html, documentation.md profile — geelooy geelooy/public project 17 8 0 0 0 geelooy/public/documentation.md documentation.md — geelooy/record public 7 7 0 0 0 — index.html camera preview — geelooy geelooy/recorder public 13 11 0 0 0 geelooy/recorder/documentation.md index.html, documentation.md local recorder — geelooy geelooy/reeyuh public 1 1 0 0 0 — index.html shulchan aruch viewer geelooy/register public 1 1 0 0 0 — index.html create awtsmoos account geelooy/resources project 2 2 0 0 0 — — — geelooy/scripts library 1587 1431 113 0 0 geelooy/scripts/documentation.md documentation.md — geelooy/shared library 154 124 28 0 0 geelooy/shared/documentation.md package.json, documentation.md — geelooy/sites project 35 23 11 0 0 geelooy/sites/documentation.md awtsmoos.derech.js, documentation.md — geelooy/social public 62 52 7 0 0 geelooy/social/documentation.md index.html, documentation.md awtsmoos social observatory geelooy/social actions project 11 8 1 0 0 geelooy/social actions/documentation.md documentation.md, readme.md, readme.md — geelooy/social composer public 354 317 28 0 0 geelooy/social composer/documentation.md index.html, package.json, documentation.md, readme.md, readme.md create new post — geelooy geelooy/social hub public 265 217 46 0 0 geelooy/social hub/documentation.md index.html, package.json, documentation.md, readme.md, readme.md social hub — geelooy geelooy/sod public 1 1 0 0 0 — index.html endpoint interaction geelooy/style library 1184 1132 48 0 0 geelooy/style/documentation.md documentation.md — geelooy/tests test 109 0 107 0 0 geelooy/tests/documentation.md documentation.md — geelooy/tmp project 9 3 0 0 0 — — — geelooy/view project 1 1 0 0 0 — awtsmoos.derech.js — geelooy/webscrapers project 5 5 0 0 0 — — — geelooy/youtube public 10 9 0 0 0 geelooy/youtube/documentation.md index.html, documentation.md awtsmoos youtube manager geelooy/zmanim public 128 109 16 1 0 geelooy/zmanim/documentation.md index.html, package.json, documentation.md, readme.md, readme.md halachic zmanim · awtsmoos ops operations 5 0 0 0 0 ops/documentation.md documentation.md — scripts tooling 398 290 30 0 0 scripts/documentation.md documentation.md — templates tooling 17 15 1 0 0 templates/documentation.md documentation.md — tests test 93 0 92 0 0 tests/documentation.md documentation.md — tools tooling 201 113 29 0 0 tools/documentation.md documentation.md —",
+		"page": "pages/docs-generated-project-atlas-projects-004-md-55e934ed19.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-ayin-5c356134-md-1538bb0616",
-		"title": "Project Tutorial: Real Awtsmoos Recorder",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-ayin-5c356134.md",
+		"id": "docs-generated-project-dependencies-md-6af5d749d6",
+		"title": "Generated Cross-Project Dependency Evidence",
+		"sourcePath": "docs/GENERATED/PROJECT_DEPENDENCIES.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Real Awtsmoos Recorder",
-				"anchor": "project-tutorial-real-awtsmoos-recorder"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Generated Cross-Project Dependency Evidence",
+				"anchor": "generated-cross-project-dependency-evidence"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Real Awtsmoos Recorder Path: geelooy/ayin · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runt",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: real awtsmoos recorder path: geelooy/ayin · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /ayin → geelooy/ayin/index.html — real awtsmoos recorder symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-ayin-5c356134-md-1538bb0616.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-browser-test-1d0e410e--01574c7413",
-		"title": "Project Tutorial: geelooy/browser-test",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-browser-test-1d0e410e.md",
-		"category": "Testing",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: geelooy/browser-test",
-				"anchor": "project-tutorial-geelooy-browser-test"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/browser test Path: geelooy/browser test · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, n",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/browser test path: geelooy/browser test · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 1 0 0 0 0 2 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 0; exports: 3; samples: mobileroutes, mobileviewport, mobileassertions. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-browser-test-1d0e410e--01574c7413.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-comment-thread-6cb3458-399de4632f",
-		"title": "Project Tutorial: Comment Thread — Geelooy",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-comment-thread-6cb34586.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Comment Thread — Geelooy",
-				"anchor": "project-tutorial-comment-thread-geelooy"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Comment Thread — Geelooy Path: geelooy/comment thread · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observatio",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: comment thread — geelooy path: geelooy/comment thread · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, app.js, documentation.md local documentation: geelooy/comment thread/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 10 1 0 0 1 0 12 public entry points /comment thread → geelooy/comment thread/index.html — comment thread — geelooy symbol evidence source files: 9; classes: 1; functions: 21; exports: 9; samples: async, loadcommenttree, submitcomment, parseresponse, errormessage, createcomposer, field, readcommentthreadconfig, clean, createelement, createmedia, createpreview. depends on geelooy/scripts — 1 lexical reference; examples: geelooy/comment thread/app.js used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-comment-thread-6cb3458-399de4632f.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-contact-fe32cc9f-md-8423880345",
-		"title": "Project Tutorial: Contact — Awtsmoos",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-contact-fe32cc9f.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: Contact — Awtsmoos",
-				"anchor": "project-tutorial-contact-awtsmoos"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Contact — Awtsmoos Path: geelooy/contact · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: contact — awtsmoos path: geelooy/contact · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 0 3 public entry points /contact → geelooy/contact/index.html — contact — awtsmoos symbol evidence source files: 1; classes: 0; functions: 1; exports: 0; samples: submitcontact. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-contact-fe32cc9f-md-8423880345.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Cross Project Dependency Evidence Relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. 105 rows. Chunk Rows Count dependencies 001.md 1–65 65 dependencies 002.md 66–105 40",
+		"searchText": "b\"h boruch hashem blessed is he generated cross project dependency evidence relative import edges between observed project boundaries; counts are lexical references, not runtime reachability. 105 rows. chunk rows count dependencies 001.md 1–65 65 dependencies 002.md 66–105 40",
+		"page": "pages/docs-generated-project-dependencies-md-6af5d749d6.json"
 	}
 ]

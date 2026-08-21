@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-api-zmanim-readme-md-8fc5245197",
+	"title": "Awtsmoos Zmanim Public API",
+	"sourcePath": "geelooy/api/zmanim/README.md",
+	"category": "API",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Zmanim Public API",
+			"anchor": "awtsmoos-zmanim-public-api"
+		},
+		{
+			"level": 2,
+			"text": "Base paths",
+			"anchor": "base-paths"
+		},
+		{
+			"level": 2,
+			"text": "Daily zmanim",
+			"anchor": "daily-zmanim"
+		},
+		{
+			"level": 2,
+			"text": "Multi-opinion comparison",
+			"anchor": "multi-opinion-comparison"
+		},
+		{
+			"level": 2,
+			"text": "Range and location",
+			"anchor": "range-and-location"
+		},
+		{
+			"level": 2,
+			"text": "Presentation and embeds",
+			"anchor": "presentation-and-embeds"
+		},
+		{
+			"level": 2,
+			"text": "Calculation metadata",
+			"anchor": "calculation-metadata"
+		},
+		{
+			"level": 2,
+			"text": "Independent comparison and health",
+			"anchor": "independent-comparison-and-health"
+		},
+		{
+			"level": 2,
+			"text": "Errors and verification",
+			"anchor": "errors-and-verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-api-zmanim-readme-md-8fc5245197-001.json"
+	]
+}

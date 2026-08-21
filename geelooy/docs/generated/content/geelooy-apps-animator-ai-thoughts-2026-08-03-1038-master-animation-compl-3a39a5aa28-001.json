@@ -1,5 +1,0 @@
-{
-	"BH": "B\"H / Boruch Hashem / Blessed is He",
-	"schema": "awtsmoos-doc-content-v1",
-	"content": "B\"H\n\n# FEATURE_MATRIX\n\nRows pending evidence: neutral identity, emotion, speech activity, viseme selection, mouth geometry, blink, gaze, convergence, head turn, torso acting, locomotion, gesture phases, crossed arms, pocket hand, open palm, point, wave, hand articulation, shoes, garments, hair, secondary motion, views, customizer, serialization, restoration, preview, browser rendering, text boxes, camera shots, and final media export.\n\nColumns required for every row: source state, normalization, composition, render bridge, geometry consumer, persistence, import, preview, export, test, pixel proof, and status.\n"
-}

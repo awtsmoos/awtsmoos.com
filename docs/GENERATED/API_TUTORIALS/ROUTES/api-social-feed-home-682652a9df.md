@@ -36,7 +36,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | `/api/social/feed/home` | `geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs` | test |
 | `/api/social/feed/home` | `geelooy/tests/home-search-repair/ApiFixture.mjs` | test |
 | `/api/social/feed/home` | `geelooy/tests/premium-visual/HomeApiFixture.mjs` | test |
-| `/api/social/feed/home?limit=5` | `geelooy/os/social/socialPanel.js` | runtime |
+| `/api/social/feed/home?limit=6` | `geelooy/os/social/socialPanel.js` | runtime |
 
 ## Related tests
 

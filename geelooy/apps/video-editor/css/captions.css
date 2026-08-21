@@ -1,0 +1,42 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos reveals each spoken spark in measured time; Awtsmoos.com keeps captions luminous, wrapped, and never wider than their vessel. */
+
+.caption-container {
+	position: absolute;
+	left: 50%;
+	bottom: clamp(18px, 6%, 54px);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 6px;
+	max-width: calc(100% - 28px);
+	padding: 10px 14px;
+	transform: translateX(-50%);
+	border: 1px solid rgba(255, 209, 102, 0.42);
+	border-radius: var(--ohr-radius);
+	background: rgba(4, 10, 18, 0.8);
+	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
+	pointer-events: none;
+	z-index: var(--ohr-layer-floating);
+}
+
+.caption-container:empty {
+	display: none;
+}
+
+.caption-word {
+	padding: 2px 4px;
+	font-size: clamp(1rem, 2.6vw, 1.65rem);
+	font-weight: 800;
+	line-height: 1.2;
+	color: var(--ohr-text);
+	text-shadow: 0 2px 7px rgba(0, 0, 0, 0.72);
+	transition: color 140ms ease, transform 140ms ease;
+}
+
+.caption-word.is-active {
+	color: var(--ohr-warm);
+	transform: scale(1.08);
+}

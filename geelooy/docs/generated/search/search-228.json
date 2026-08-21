@@ -1,253 +1,340 @@
 [
 	{
-		"id": "geelooy-db-documentation-md-94231c30f4",
-		"title": "Database Tool Documentation",
-		"sourcePath": "geelooy/db/DOCUMENTATION.md",
+		"id": "docs-tutorials-api-tunnel-control-md-54216e7b5f",
+		"title": "Tunnel Control API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Control API Tutorial",
+				"anchor": "tunnel-control-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Control API Tutorial What this family owns Mount: /api/tunnel/control Derech: geelooy/api/tunnel/control/ awtsmoos.derech.js Seventy nine extracted routes span bootstrap/identity, keys/pairing/grants, remote FS, previews/blobs/ephemeral results, missions/live calls, compute/accoun",
+		"searchText": "b\"h boruch hashem blessed is he tunnel control api tutorial what this family owns mount: /api/tunnel/control derech: geelooy/api/tunnel/control/ awtsmoos.derech.js seventy nine extracted routes span bootstrap/identity, keys/pairing/grants, remote fs, previews/blobs/ephemeral results, missions/live calls, compute/accounting, treasury/economy, and administration. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel/control. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/control/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation use the generated route tutorials to drill down. core auth trusts oauth bearer, verified api key, or signed session—not browser owner fields. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-tunnel-control-md-54216e7b5f.json"
+	},
+	{
+		"id": "docs-tutorials-api-tunnel-install-md-851ae40f00",
+		"title": "Tunnel Install API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/TUNNEL_INSTALL.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Install API Tutorial",
+				"anchor": "tunnel-install-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Install API Tutorial What this family owns Mount: /api/tunnel/install Derech: geelooy/api/tunnel/install/ awtsmoos.derech.js The current literal route extractor reports zero child route rows for this mount even though installer artifacts are documented elsewhere. How to explore it",
+		"searchText": "b\"h boruch hashem blessed is he tunnel install api tutorial what this family owns mount: /api/tunnel/install derech: geelooy/api/tunnel/install/ awtsmoos.derech.js the current literal route extractor reports zero child route rows for this mount even though installer artifacts are documented elsewhere. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel/install. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/install/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation follow the current derech/download implementation for exact artifact names instead of treating historical docs as live route proof. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-tunnel-install-md-851ae40f00.json"
+	},
+	{
+		"id": "docs-tutorials-api-tunnel-md-8ddad49b2f",
+		"title": "Tunnel Relay API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/TUNNEL.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tunnel Relay API Tutorial",
+				"anchor": "tunnel-relay-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Relay API Tutorial What this family owns Mount: /api/tunnel Derech: geelooy/api/tunnel/ awtsmoos.derech.js Base extracted routes relay requests/filesystem actions to a named connected tunnel. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter",
+		"searchText": "b\"h boruch hashem blessed is he tunnel relay api tutorial what this family owns mount: /api/tunnel derech: geelooy/api/tunnel/ awtsmoos.derech.js base extracted routes relay requests/filesystem actions to a named connected tunnel. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/tunnel. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/tunnel/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation trusted account/tunnel identity and action specific filesystem permissions must be checked before forwarding. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-tunnel-md-8ddad49b2f.json"
+	},
+	{
+		"id": "docs-tutorials-api-wallet-md-4dfd493b82",
+		"title": "Wallet API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/WALLET.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Wallet API Tutorial",
+				"anchor": "wallet-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet API Tutorial What this family owns Mount: /api/wallet Derech: geelooy/api/wallet/ awtsmoos.derech.js Balance/me, catalog, entitlements, purchase, mock buy, and PayPal create/capture form the current eight route family. How to explore it 1. Open API Family Tutorials for current rou",
+		"searchText": "b\"h boruch hashem blessed is he wallet api tutorial what this family owns mount: /api/wallet derech: geelooy/api/wallet/ awtsmoos.derech.js balance/me, catalog, entitlements, purchase, mock buy, and paypal create/capture form the current eight route family. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/wallet. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/wallet/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation never infer currency units, settlement/idempotency/refund guarantees, or production vs mock behavior from names; inspect handlers/provider config. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-wallet-md-4dfd493b82.json"
+	},
+	{
+		"id": "docs-tutorials-api-youtube-md-cd6427dc8a",
+		"title": "YouTube API Tutorial",
+		"sourcePath": "docs/TUTORIALS/API/YOUTUBE.md",
+		"category": "API",
+		"provenance": "manual",
+		"headings": [
+			{
+				"level": 1,
+				"text": "YouTube API Tutorial",
+				"anchor": "youtube-api-tutorial"
+			},
+			{
+				"level": 2,
+				"text": "What this family owns",
+				"anchor": "what-this-family-owns"
+			},
+			{
+				"level": 2,
+				"text": "How to explore it",
+				"anchor": "how-to-explore-it"
+			},
+			{
+				"level": 2,
+				"text": "Safety / interpretation",
+				"anchor": "safety-interpretation"
+			},
+			{
+				"level": 2,
+				"text": "Evidence rule",
+				"anchor": "evidence-rule"
+			},
+			{
+				"level": 2,
+				"text": "Next",
+				"anchor": "next"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube API Tutorial What this family owns Mount: /api/youtube Derech: geelooy/api/youtube/ awtsmoos.derech.js Auth/oauth start/callback/status/logout, channel, videos, uploads, and live stream operations coexist with broad dynamic fallback patterns. How to explore it 1. Open API Family ",
+		"searchText": "b\"h boruch hashem blessed is he youtube api tutorial what this family owns mount: /api/youtube derech: geelooy/api/youtube/ awtsmoos.derech.js auth/oauth start/callback/status/logout, channel, videos, uploads, and live stream operations coexist with broad dynamic fallback patterns. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/youtube. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/youtube/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation prefer explicit named routes. provider oauth state, credentials, upload payloads, ownership, and live transitions are implementation sensitive. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
+		"page": "pages/docs-tutorials-api-youtube-md-cd6427dc8a.json"
+	},
+	{
+		"id": "docs-tutorials-content-aliases-and-api-keys-md-176c87c552",
+		"title": "Aliases and API Keys",
+		"sourcePath": "docs/TUTORIALS/CONTENT/ALIASES_AND_API_KEYS.md",
 		"category": "General",
-		"provenance": "breadcrumb",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Database Tool Documentation",
-				"anchor": "database-tool-documentation"
+				"text": "Aliases and API Keys",
+				"anchor": "aliases-and-api-keys"
+			},
+			{
+				"level": 2,
+				"text": "Alias role",
+				"anchor": "alias-role"
+			},
+			{
+				"level": 2,
+				"text": "API keys",
+				"anchor": "api-keys"
+			},
+			{
+				"level": 2,
+				"text": "Inputs",
+				"anchor": "inputs"
+			},
+			{
+				"level": 2,
+				"text": "Security rule",
+				"anchor": "security-rule"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Database Tool Documentation The Awtsmoos gives stored state a vessel and gives the human a window to inspect; Awtsmoos.com separates this browser DB tooling from the server DosDB root that runtime must protect. Read ../../docs/SYSTEMS/DATABASE AND STORAGE.md. Server initialization lives ",
-		"searchText": "b\"h boruch hashem blessed is he database tool documentation the awtsmoos gives stored state a vessel and gives the human a window to inspect; awtsmoos.com separates this browser db tooling from the server dosdb root that runtime must protect. read ../../docs/systems/database and storage.md. server initialization lives in ../../ayzarim/awtsmoosdynamicserver/server/initdb.js; changing persisted path contracts may require migration.",
-		"page": "pages/geelooy-db-documentation-md-94231c30f4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Aliases and API Keys Alias role Aliases are Social facing identities owned through user/account state and reused across Heichel/content/profile/follow/drive/mail behavior. API keys Social keys can be created, listed, revoked, and verified. Raw key material is shown at creation; SHA 256 h",
+		"searchText": "b\"h boruch hashem blessed is he aliases and api keys alias role aliases are social facing identities owned through user/account state and reused across heichel/content/profile/follow/drive/mail behavior. api keys social keys can be created, listed, revoked, and verified. raw key material is shown at creation; sha 256 hash and metadata persist rather than plaintext secret storage. inputs supported key evidence includes named input/header/bearer forms. inspect helper/apikeys.js for current precedence and validation. security rule an alias name in a body/path is not proof the authenticated principal owns that alias. ownership checks remain required for privileged actions.",
+		"page": "pages/docs-tutorials-content-aliases-and-api-keys-md-176c87c552.json"
 	},
 	{
-		"id": "geelooy-docs-documentation-md-c958ffbba2",
-		"title": "Interactive Documentation Frontend",
-		"sourcePath": "geelooy/docs/DOCUMENTATION.md",
+		"id": "docs-tutorials-content-comments-md-2d9f464383",
+		"title": "Comments and Replies",
+		"sourcePath": "docs/TUTORIALS/CONTENT/COMMENTS.md",
 		"category": "General",
-		"provenance": "breadcrumb",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Interactive Documentation Frontend",
-				"anchor": "interactive-documentation-frontend"
+				"text": "Comments and Replies",
+				"anchor": "comments-and-replies"
 			},
 			{
 				"level": 2,
-				"text": "What this directory owns",
-				"anchor": "what-this-directory-owns"
+				"text": "Surfaces",
+				"anchor": "surfaces"
 			},
 			{
 				"level": 2,
-				"text": "Canonical content",
-				"anchor": "canonical-content"
+				"text": "Compatibility",
+				"anchor": "compatibility"
 			},
 			{
 				"level": 2,
-				"text": "Bounded publication",
-				"anchor": "bounded-publication"
-			},
-			{
-				"level": 2,
-				"text": "Search and Ask",
-				"anchor": "search-and-ask"
-			},
-			{
-				"level": 2,
-				"text": "Safety covenant",
-				"anchor": "safety-covenant"
-			},
-			{
-				"level": 2,
-				"text": "Human manuals",
-				"anchor": "human-manuals"
-			},
-			{
-				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
+				"text": "Moderation",
+				"anchor": "moderation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Interactive Documentation Frontend The Awtsmoos lets the repository's written map become a living public doorway; geelooy/docs/ is the browser facing documentation application for Awtsmoos.com. What this directory owns index.html — semantic application shell for /docs/. styles/ — respons",
-		"searchText": "b\"h boruch hashem blessed is he interactive documentation frontend the awtsmoos lets the repository's written map become a living public doorway; geelooy/docs/ is the browser facing documentation application for awtsmoos.com. what this directory owns index.html — semantic application shell for /docs/. styles/ — responsive visual system, document typography, rails, dialogs, and print behavior. modules/ — dependency free es modules for state, search, navigation, markdown rendering, ask retrieval, optional gpt synthesis, and browser local preferences. generated/ — machine generated transport bounded publication data. never edit this directory manually. canonical content the frontend is not the source of truth for documentation prose. canonical human documentation remains in repository markdown. node scripts/docs/generate docs.js publishes an intentional searchable reflection into geelooy/docs/generated/. bounded publication generated/manifest.json declares search shards, project shards, categories, compact page metadata, and markdown content shards. this design was proven necessary by real browser testing: the existing awtsmoos server returned http 413 for larger json files. content is split losslessly rather than truncated or served by changing unrelated server limits. search and ask global search runs locally in the browser. it supports ordinary terms plus category:, kind:, and path: filters. ask retrieves local documentation passages first. the existing /api/gpt/chat relay may optionally synthesize only bounded retrieved context; if unavailable, cited local passages remain usable. safety covenant markdown is rendered through explicit dom construction. raw markdown html is not executed and frontend source does not assign innerhtml. hidden agent thought, generic thought, dependency, build, and vendor trees are excluded from publication. human manuals read docs/interactive documentation.md for architecture and user workflow, docs/maintaining the docs.md for regeneration, and docs/development/documentation workflow.md before changing the publication pipeline. verification browser verification covers desktop/mobile layout, search, deep links, document rendering, local ask retrieval, graceful gpt unavailability, and console/network errors.",
-		"page": "pages/geelooy-docs-documentation-md-c958ffbba2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Comments and Replies Comments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain. Surfaces post comment collections; aliases contributing comments; singular comment routes; nested replies; reactions; subsection/verse comments; submi",
+		"searchText": "b\"h boruch hashem blessed is he comments and replies comments attach to posts and richer substructures; replies/reactions/comment trees form their own navigation domain. surfaces post comment collections; aliases contributing comments; singular comment routes; nested replies; reactions; subsection/verse comments; submitted comment moderation; comment search/ranking/vector/rag evidence. compatibility some comment routes appear more than once in generated extraction because multiple route objects/factories expose compatible paths. use source ownership to distinguish implementations. moderation approval/denial/submitted comment flows are separate from ordinary comment read/write behavior.",
+		"page": "pages/docs-tutorials-content-comments-md-2d9f464383.json"
 	},
 	{
-		"id": "geelooy-documentation-md-6e23cc3842",
-		"title": "Geelooy Documentation Map",
-		"sourcePath": "geelooy/DOCUMENTATION.md",
+		"id": "docs-tutorials-content-content-migrations-md-a5d67ef7d5",
+		"title": "Content Migrations",
+		"sourcePath": "docs/TUTORIALS/CONTENT/CONTENT_MIGRATIONS.md",
 		"category": "General",
-		"provenance": "breadcrumb",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Geelooy Documentation Map",
-				"anchor": "geelooy-documentation-map"
+				"text": "Content Migrations",
+				"anchor": "content-migrations"
+			},
+			{
+				"level": 2,
+				"text": "Observed migration surfaces",
+				"anchor": "observed-migration-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Safe migration workflow",
+				"anchor": "safe-migration-workflow"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Documentation Map The Awtsmoos makes this public root a city of pages, APIs, apps, games, and shared light; Awtsmoos.com keeps the full human map in ../docs/ so a traveler can choose the right site. Start with ../docs/START HERE.md. Directory map: ../docs/DIRECTORY ATLAS.md Publi",
-		"searchText": "b\"h boruch hashem blessed is he geelooy documentation map the awtsmoos makes this public root a city of pages, apis, apps, games, and shared light; awtsmoos.com keeps the full human map in ../docs/ so a traveler can choose the right site. start with ../docs/start here.md. directory map: ../docs/directory atlas.md public urls: ../docs/routes/public routes.md apis: ../docs/api/readme.md apps: ../docs/apps/readme.md cross cutting systems: ../docs/systems/readme.md geelooy is the server's default public root (config.public \"geelooy\").",
-		"page": "pages/geelooy-documentation-md-6e23cc3842.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Content Migrations Social carries several storage/model generations, so migrations are first class operational behavior. Observed migration surfaces Post v2 dry run/run routes, packed content migrations/repair, node OS migrations, compatibility post/series paths, and newer rich/unified o",
+		"searchText": "b\"h boruch hashem blessed is he content migrations social carries several storage/model generations, so migrations are first class operational behavior. observed migration surfaces post v2 dry run/run routes, packed content migrations/repair, node os migrations, compatibility post/series paths, and newer rich/unified object models. safe migration workflow 1. identify source/target path contracts. 2. run dry run/read only reporting first. 3. snapshot/backup affected data. 4. verify idempotency/re run behavior in source/tests. 5. execute narrowly. 6. reconcile indexes/manifests/references. 7. validate old/new read paths as required by compatibility promises. generated route presence alone is never authorization to run a migration.",
+		"page": "pages/docs-tutorials-content-content-migrations-md-a5d67ef7d5.json"
 	},
 	{
-		"id": "geelooy-email-documentation-md-ba2042cc9d",
-		"title": "Email Project Documentation",
-		"sourcePath": "geelooy/email/DOCUMENTATION.md",
+		"id": "docs-tutorials-content-heichelos-md-b073481c09",
+		"title": "Heichelos",
+		"sourcePath": "docs/TUTORIALS/CONTENT/HEICHELOS.md",
 		"category": "General",
-		"provenance": "breadcrumb",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Email Project Documentation",
-				"anchor": "email-project-documentation"
+				"text": "Heichelos",
+				"anchor": "heichelos"
+			},
+			{
+				"level": 2,
+				"text": "Observed capabilities",
+				"anchor": "observed-capabilities"
+			},
+			{
+				"level": 2,
+				"text": "Authority",
+				"anchor": "authority"
+			},
+			{
+				"level": 2,
+				"text": "Investigation",
+				"anchor": "investigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Email Project Documentation The Awtsmoos lets mail meet identity, Social messaging, and server delivery through distinct vessels in view; Awtsmoos.com maps this browser project to its API and configuration so frontend changes can trace backend consequences too. Read ../../docs/API/OTHER ",
-		"searchText": "b\"h boruch hashem blessed is he email project documentation the awtsmoos lets mail meet identity, social messaging, and server delivery through distinct vessels in view; awtsmoos.com maps this browser project to its api and configuration so frontend changes can trace backend consequences too. read ../../docs/api/other families.md, ../../docs/systems/social and heichel.md, and ../../docs/configuration.md.",
-		"page": "pages/geelooy-email-documentation-md-ba2042cc9d.json"
-	},
-	{
-		"id": "geelooy-games-brick-blast-documentation-md-e8cf94ec9b",
-		"title": "Brick Blast",
-		"sourcePath": "geelooy/games/brick-blast/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Brick Blast",
-				"anchor": "brick-blast"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Brick Blast The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the central ex",
-		"searchText": "b\"h boruch hashem blessed is he brick blast the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “brick blast”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-brick-blast-documentation-md-e8cf94ec9b.json"
-	},
-	{
-		"id": "geelooy-games-cards-documentation-md-1b0e742765",
-		"title": "The Utterances — Blackjack on Awtsmoos",
-		"sourcePath": "geelooy/games/cards/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "The Utterances — Blackjack on Awtsmoos",
-				"anchor": "the-utterances-blackjack-on-awtsmoos"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He The Utterances — Blackjack on Awtsmoos The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLA",
-		"searchText": "b\"h boruch hashem blessed is he the utterances — blackjack on awtsmoos the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “the utterances — blackjack on awtsmoos”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-cards-documentation-md-1b0e742765.json"
-	},
-	{
-		"id": "geelooy-games-chess-documentation-md-10b4da5210",
-		"title": "Ultimate Chess AI",
-		"sourcePath": "geelooy/games/chess/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Ultimate Chess AI",
-				"anchor": "ultimate-chess-ai"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Ultimate Chess AI The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the cent",
-		"searchText": "b\"h boruch hashem blessed is he ultimate chess ai the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “ultimate chess ai”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-chess-documentation-md-10b4da5210.json"
-	},
-	{
-		"id": "geelooy-games-city-of-light-documentation-md-9350b949bc",
-		"title": "City of Light · The Complete Pilgrimage",
-		"sourcePath": "geelooy/games/city-of-light/DOCUMENTATION.md",
-		"category": "Games",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "City of Light · The Complete Pilgrimage",
-				"anchor": "city-of-light-the-complete-pilgrimage"
-			},
-			{
-				"level": 2,
-				"text": "Role",
-				"anchor": "role"
-			},
-			{
-				"level": 2,
-				"text": "Start here",
-				"anchor": "start-here"
-			},
-			{
-				"level": 2,
-				"text": "Change rule",
-				"anchor": "change-rule"
-			},
-			{
-				"level": 2,
-				"text": "Project-specific notes",
-				"anchor": "project-specific-notes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He City of Light · The Complete Pilgrimage The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PL",
-		"searchText": "b\"h boruch hashem blessed is he city of light · the complete pilgrimage the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “city of light · the complete pilgrimage”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
-		"page": "pages/geelooy-games-city-of-light-documentation-md-9350b949bc.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Heichelos A Heichel is a governed Social content/community space, not merely a folder. Observed capabilities create/read/update/delete Heichel behavior; ownership checks; editor/member/role management; submission settings; invites/review/moderation; post/question/content organization; se",
+		"searchText": "b\"h boruch hashem blessed is he heichelos a heichel is a governed social content/community space, not merely a folder. observed capabilities create/read/update/delete heichel behavior; ownership checks; editor/member/role management; submission settings; invites/review/moderation; post/question/content organization; series/subseries relationships; community/full settings and discovery. authority login/api key identity does not automatically grant heichel mutation. read owner/editor/member/moderation checks in the exact handler. investigation start at /api/social/heichelos/:heichel, then follow its route factory imports and generated related route links.",
+		"page": "pages/docs-tutorials-content-heichelos-md-b073481c09.json"
 	}
 ]

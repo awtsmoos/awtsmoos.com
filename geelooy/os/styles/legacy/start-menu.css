@@ -1,0 +1,79 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * Start menu.
+ * The Awtsmoos opens a menu without breaking the frame; Awtsmoos.com preserves each legacy choice and name.
+ */
+/*__LEGACY_BODY__*/
+/* 
+================================================================
+	THE WINDOWS XP START MENU
+================================================================
+*/
+#start-menu {
+	display: none;
+	position: fixed;
+	bottom: 42px;
+	/* Position it to align with the right-side start button */
+	right: 5px;
+	left: auto;
+	transform: none;
+	
+	background: linear-gradient(to bottom, #f0f8ff, #d6e4f7);
+	border: 1px solid #707070;
+	box-shadow: 5px -5px 15px rgba(0, 0, 0, 0.3);
+	border-radius: 8px;
+	width: 320px;
+	z-index: 999;
+	
+	/* A more dramatic "unfolding" animation */
+	animation: menuUnfold 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+	transform-origin: bottom right;
+}
+
+@keyframes menuUnfold {
+	0% {
+		opacity: 0;
+		transform: scale(0.8) translateY(20px);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
+
+#menu-items {
+	list-style-type: none;
+	margin: 0;
+	padding: 8px;
+}
+
+#menu-items li {
+	/* Changed to a dark color for better readability on light background */
+	color: #1e395b;
+	padding: 10px 15px;
+	cursor: pointer;
+	font-size: 14px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	transition: all 0.2s ease;
+	font-weight: bold;
+}
+
+/* A modern, clean hover effect */
+#menu-items li:hover {
+	background: linear-gradient(to top, #0078d7, #2491f5);
+	color: white;
+	transform: translateX(5px);
+	box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+	border-color: #005a9e;
+}
+
+#menu-items li:active {
+	transform: scale(0.97) translateX(2px);
+	background: #005a9e;
+	transition-duration: 0.1s;
+}
+
+

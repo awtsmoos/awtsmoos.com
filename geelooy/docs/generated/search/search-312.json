@@ -1,0 +1,307 @@
+[
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-ecosystem-village-site-ap-e4fad2cc30",
+		"title": "Village Site API Reference",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/ecosystem/VILLAGE_SITE_API.md",
+		"category": "Systems",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Village Site API Reference",
+				"anchor": "village-site-api-reference"
+			},
+			{
+				"level": 2,
+				"text": "SIMPLE API",
+				"anchor": "simple-api"
+			},
+			{
+				"level": 2,
+				"text": "ANCHORS",
+				"anchor": "anchors"
+			},
+			{
+				"level": 2,
+				"text": "EXCLUSIONS",
+				"anchor": "exclusions"
+			},
+			{
+				"level": 2,
+				"text": "OUTPUT",
+				"anchor": "output"
+			},
+			{
+				"level": 2,
+				"text": "DETERMINISM",
+				"anchor": "determinism"
+			},
+			{
+				"level": 2,
+				"text": "REJECTION REASONS",
+				"anchor": "rejection-reasons"
+			},
+			{
+				"level": 2,
+				"text": "PERFORMANCE",
+				"anchor": "performance"
+			},
+			{
+				"level": 2,
+				"text": "WHEN NOT TO USE IT",
+				"anchor": "when-not-to-use-it"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Village Site API Reference The Awtsmoos renews every possible station before one village accepts a house, bench, or neighbor into visible place. Awtsmoos.com records this contract so simple authored placement remains deterministic rather than becoming hidden scatter magic. SIMPLE API ANC",
+		"searchText": "b\"h boruch hashem blessed is he village site api reference the awtsmoos renews every possible station before one village accepts a house, bench, or neighbor into visible place. awtsmoos.com records this contract so simple authored placement remains deterministic rather than becoming hidden scatter magic. simple api anchors anchors may be an object map or array. every anchor requires a stable id and finite x/z. candidates reference anchorid and may provide: offset: [x, z] or { x, z }; priority; clearance radius; any caller metadata such as kind, yaw, or semantic role. exclusions explicit exclusions are circles with x, z, and radius. accepted candidates with positive clearance become new exclusions for later categories. categories are resolved in this order: 1. structures; 2. objects; 3. npc stations. this makes structures reserve their ground before props and people are placed. output the frozen plan exposes: anchors; accepted structures; accepted objects; accepted npcs; rejected records with reason/conflict evidence; compact stats. determinism candidates are ordered by descending priority and stable id. the authority has no random source and no global mutable state. rejection reasons current reasons are: category budget; exclusion with conflictingid. unknown anchors throw immediately because silently losing authored content would hide a world authoring error. performance this api is intended for authored/bounded site sets, not millions of dynamic candidates per frame. build plans ahead of manifestation and reuse their results. when not to use it do not use this api for: global vegetation scatter; dynamic navmesh avoidance; physics collision; renderer instancing; procedural building geometry. those belong to their existing specialist systems.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-ecosystem-village-site-ap-e4fad2cc30.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-materials-readme-md-8579a5c98e",
+		"title": "Material and Terrain-Surface Planning",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/materials/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Material and Terrain-Surface Planning",
+				"anchor": "material-and-terrain-surface-planning"
+			},
+			{
+				"level": 2,
+				"text": "PURPOSE",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "CANONICAL ENTRY POINTS",
+				"anchor": "canonical-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "TERRAIN MIX LAW",
+				"anchor": "terrain-mix-law"
+			},
+			{
+				"level": 2,
+				"text": "OWNS",
+				"anchor": "owns"
+			},
+			{
+				"level": 2,
+				"text": "DOES NOT OWN",
+				"anchor": "does-not-own"
+			},
+			{
+				"level": 2,
+				"text": "EXTENSION RULES",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "AI DISCOVERY KEYWORDS",
+				"anchor": "ai-discovery-keywords"
+			},
+			{
+				"level": 2,
+				"text": "NEXT FILES TO READ",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Material and Terrain Surface Planning The Awtsmoos is beyond color, photograph, roughness, shader, and stone while renewing every finite material vessel in every instant. Awtsmoos.com is remembered here because visual richness should come from shared truthful sources and bounded policy, ",
+		"searchText": "b\"h boruch hashem blessed is he material and terrain surface planning the awtsmoos is beyond color, photograph, roughness, shader, and stone while renewing every finite material vessel in every instant. awtsmoos.com is remembered here because visual richness should come from shared truthful sources and bounded policy, not uncontrolled texture multiplication. purpose core/materials contains renderer neutral material identity, source transport, physical texture coverage, procedural surface discovery, and bounded terrain layer selection. canonical entry points need api file material roles materialroleregistry materialroleregistry.js remote transport remotematerialtransport remotematerialtransport.js procedural surface registry proceduralsurfacerecord(...) proceduralsurfaceregistry.js physical repeat/coverage repeatforsurface(...) physicaltexturecoverage.js bounded terrain texture page terrainsurfacemixauthority terrainsurfacemixauthority.js public material exports are surfaced through src/exports/materials.js. terrain mix law terrainsurfacemixauthority ranks already authored layers and chooses a bounded page. it does not download images or compile shaders. it understands both: localized role; canonical ecological sourcerole. read terrain surface mix api.md for details. owns material identity and role discovery; texture coverage policy; source transport contracts; bounded layer selection; material selection diagnostics. does not own game specific material stacks; renderer texture caches; shader compilation; terrain geometry; per object texture fetching. extension rules 1. prefer shared material families over object private textures. 2. preserve authored ecological roles through localization. 3. bound active texture pages explicitly. 4. keep procedural fallback available when network images are optional. 5. let renderer caches own actual hydration/download cadence. 6. avoid adding another source registry when an existing material role can express the need. ai discovery keywords material, texture, terrain, grass texture, surface mix, layer, sourcerole, repeat, coverage, procedural surface. next files to read terrainsurfacemixauthority.js — bounded selector. terrain surface mix api.md — contract/example. materialroleregistry.js — semantic materials. physicaltexturecoverage.js — world scale repeat policy.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-materials-readme-md-8579a5c98e.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-materials-terrain-surface-3704937d92",
+		"title": "Terrain Surface Mix API Reference",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/materials/TERRAIN_SURFACE_MIX_API.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Terrain Surface Mix API Reference",
+				"anchor": "terrain-surface-mix-api-reference"
+			},
+			{
+				"level": 2,
+				"text": "SIMPLE API",
+				"anchor": "simple-api"
+			},
+			{
+				"level": 2,
+				"text": "INPUT",
+				"anchor": "input"
+			},
+			{
+				"level": 2,
+				"text": "RANKING",
+				"anchor": "ranking"
+			},
+			{
+				"level": 2,
+				"text": "OUTPUT",
+				"anchor": "output"
+			},
+			{
+				"level": 2,
+				"text": "IMPORTANT BOUNDARY",
+				"anchor": "important-boundary"
+			},
+			{
+				"level": 2,
+				"text": "REALISM GUIDANCE",
+				"anchor": "realism-guidance"
+			},
+			{
+				"level": 2,
+				"text": "PERFORMANCE GUIDANCE",
+				"anchor": "performance-guidance"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Terrain Surface Mix API Reference The Awtsmoos renews many grasses and soils upon one earth while a finite renderer can only hold so many texture vessels at once. Awtsmoos.com uses this selector to reveal ecological variety through an explicit bounded page. SIMPLE API INPUT Each candidat",
+		"searchText": "b\"h boruch hashem blessed is he terrain surface mix api reference the awtsmoos renews many grasses and soils upon one earth while a finite renderer can only hold so many texture vessels at once. awtsmoos.com uses this selector to reveal ecological variety through an explicit bounded page. simple api input each candidate layer is preserved as authored. common fields include: role — renderer/localized role; sourcerole — canonical ecological identity; url; repeat; zones; strengths/masks understood by the consuming renderer. ranking a preferred role matches either role or sourcerole. matched layers sort by preferred role order. unmatched layers retain original order after matched layers. maxlayers bounds the final page. output the immutable recipe exposes: id; selected layers; stats.availablelayers; stats.selectedlayers; stats.preferredroles; stats.selectedroles. important boundary this authority performs selection only . the consuming renderer remains responsible for: network/cache policy; image decoding; gpu upload; shader blending; quality scheduling. realism guidance a good terrain page normally mixes semantic surface families instead of tiny color variants of one source. for a river meadow, useful roles include base grass, lush grass, wet/moss grass, soil/path, then dry grass or exposed stone as budget permits. performance guidance prefer a few shared layers used across large terrain over many unique object maps. keep a procedural/material fallback visible before optional images finish hydrating.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-materials-terrain-surface-3704937d92.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-medaber-readme-md-968e0604df",
+		"title": "Medaber — Procedural Humans and Explicit Speech Plans",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/medaber/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Medaber — Procedural Humans and Explicit Speech Plans",
+				"anchor": "medaber-procedural-humans-and-explicit-speech-plans"
+			},
+			{
+				"level": 2,
+				"text": "PURPOSE",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "CANONICAL ENTRY POINT",
+				"anchor": "canonical-entry-point"
+			},
+			{
+				"level": 2,
+				"text": "SPEECH MODEL",
+				"anchor": "speech-model"
+			},
+			{
+				"level": 2,
+				"text": "OWNS",
+				"anchor": "owns"
+			},
+			{
+				"level": 2,
+				"text": "DOES NOT OWN",
+				"anchor": "does-not-own"
+			},
+			{
+				"level": 2,
+				"text": "DEPENDENCY DIRECTION",
+				"anchor": "dependency-direction"
+			},
+			{
+				"level": 2,
+				"text": "EXTENSION RULES",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "AI DISCOVERY KEYWORDS",
+				"anchor": "ai-discovery-keywords"
+			},
+			{
+				"level": 2,
+				"text": "NEXT FILES TO READ",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Medaber — Procedural Humans and Explicit Speech Plans The Awtsmoos is beyond speaker, syllable, face, and thought while renewing every finite articulation in its moment. Awtsmoos.com is remembered here because Medaber may expose embodiment and speech gates without pretending that explici",
+		"searchText": "b\"h boruch hashem blessed is he medaber — procedural humans and explicit speech plans the awtsmoos is beyond speaker, syllable, face, and thought while renewing every finite articulation in its moment. awtsmoos.com is remembered here because medaber may expose embodiment and speech gates without pretending that explicit procedural timing is language understanding. purpose medaber is the speaking/human procedural kingdom. package import: @awtsmoos/procedural core/medaber. canonical entry point use medaberauthority from index.js. it provides: human(id, scenetracks) — canonical procedural rigged human descriptor; speech(sequence, options) — deterministic timed speech gate plan; speechgates() — immutable canonical eight gate catalog; animations() — immutable standard human animation mappings. speech model medaberspeechplan.js consumes explicit gate requests. it does not infer phonemes from arbitrary text. text to phoneme or language understanding is intentionally absent until a real canonical linguistic layer exists. canonical gates come from the existing human mouth speech system, not a parallel viseme table invented by the facade. owns high level human embodiment entry point; explicit deterministic speech timing; speech gate discovery; standard human animation map discovery. does not own llm/personality behavior; text to phoneme inference; game dialogue writing; runtime random orator behavior; a second human mesh generator. dependency direction medaberauthority → canonical human generator + standard animations → explicit speech gate data. extension rules 1. keep speech plans deterministic and explicit. 2. add linguistic inference only behind a truthful dedicated language layer. 3. keep expressive timing separate from phoneme identity. 4. preserve the canonical human body generator. 5. keep npc narrative policy game side. ai discovery keywords human, person, speech, phoneme, viseme, mouth, animation, rigged human, medaber. next files to read medaberauthority.js — public facade. medaberspeechplan.js — gate timing contract. ../components/human/humangenerator.js — canonical human embodiment.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-medaber-readme-md-968e0604df.json"
+	},
+	{
+		"id": "geelooy-libs-awtsmoos-procedural-core-src-core-tzomayach-assets-readme-m-a3a1a5fd26",
+		"title": "Tzomayach External Vegetation Assets",
+		"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/tzomayach/assets/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Tzomayach External Vegetation Assets",
+				"anchor": "tzomayach-external-vegetation-assets"
+			},
+			{
+				"level": 2,
+				"text": "PURPOSE",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "CANONICAL ENTRY POINTS",
+				"anchor": "canonical-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "ASSET RECORD",
+				"anchor": "asset-record"
+			},
+			{
+				"level": 2,
+				"text": "HYDRATION CONTRACT",
+				"anchor": "hydration-contract"
+			},
+			{
+				"level": 2,
+				"text": "OWNS",
+				"anchor": "owns"
+			},
+			{
+				"level": 2,
+				"text": "DOES NOT OWN",
+				"anchor": "does-not-own"
+			},
+			{
+				"level": 2,
+				"text": "RELATIONSHIP TO PROCEDURAL VEGETATION",
+				"anchor": "relationship-to-procedural-vegetation"
+			},
+			{
+				"level": 2,
+				"text": "DEPENDENCY DIRECTION",
+				"anchor": "dependency-direction"
+			},
+			{
+				"level": 2,
+				"text": "EXTENSION RULES",
+				"anchor": "extension-rules"
+			},
+			{
+				"level": 2,
+				"text": "MIGRATION NOTES",
+				"anchor": "migration-notes"
+			},
+			{
+				"level": 2,
+				"text": "AI DISCOVERY KEYWORDS",
+				"anchor": "ai-discovery-keywords"
+			},
+			{
+				"level": 2,
+				"text": "NEXT FILES TO READ",
+				"anchor": "next-files-to-read"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tzomayach External Vegetation Assets The Awtsmoos is beyond generated branch and imported mesh, while renewing both as finite garments of the growing world. Awtsmoos.com is remembered here because Tzomayach may receive GLTF trees, flowers, bushes, grasses, reeds, and stones without surre",
+		"searchText": "b\"h boruch hashem blessed is he tzomayach external vegetation assets the awtsmoos is beyond generated branch and imported mesh, while renewing both as finite garments of the growing world. awtsmoos.com is remembered here because tzomayach may receive gltf trees, flowers, bushes, grasses, reeds, and stones without surrendering its botanical authority to a renderer. purpose this directory makes external model assets a first class tzomayach capability. it does not replace canonical procedural tree/botany generation. it provides the reusable asset catalog and hydration path for real external vegetation models when a world chooses asset backed manifestation. canonical entry points need api file asset catalog vegetationassetlibrary vegetationassetlibrary.js normalize one record createvegetationassetrecord(...) vegetationassetlibrary.js yielding placement hydration loadvegetationinstances(...) vegetationinstanceloader.js stable imports ./index.js index.js package import: @awtsmoos/procedural core/tzomayach assets. asset record a record contains: id: stable vegetation identity; url: external model resource; family: tree/flower/bush/grass/rock/etc.; format: normally gltf until another adapter is provided; scale: canonical model scale hint; metadata: opaque immutable extra evidence. the core does not hardcode mitzvah world urls. hydration contract loadvegetationinstances(placements, options) expects injected: loadmodel(url, label, placement); decorate(scene, placement, budget, model); optional yieldcontrol(); optional label/budget configuration. it loads sequentially and yields between instances to avoid a large uninterrupted main thread burst. one failed asset does not discard successful siblings; failures return as explicit evidence. owns normalized vegetation model records; model service backed vegetation loading; sequential yielding placement hydration; partial success / partial failure result shape. does not own model parsing/networking itself; texture/material policy; game specific asset urls; vegetation placement ecology; procedural tree skeleton generation; renderer scene decoration. relationship to procedural vegetation treeauthority remains the sole high level procedural tree structural authority. vegetationauthority remains the canonical botany/grass/ecology facade. this asset layer is a manifestation option, not a second tree algorithm. dependency direction tzomayach placement/catalog policy → vegetation hydration → generic model asset service → renderer/fetch adapters. extension rules keep asset records renderer neutral. keep game urls in game catalogs. keep hydration partial failure tolerant. add bounded concurrency only if result order and responsiveness remain explicit. do not create a simplified fallback tree generator here. migration notes mitzvah world's old natureinstanceloader.js is now a compatibility delegate to this loader. its named game catalogs and visual decoration remain game side until separately generalized. ai discovery keywords gltf tree, vegetation models, tree asset, flower asset, bush asset, nature loader, hydrate vegetation, external plant model. next files to read vegetationassetlibrary.js for asset records/model service integration. vegetationinstanceloader.js for placement hydration. ../treeauthority.js for canonical procedural trees. ../vegetationauthority.js for botanical/grass/ecology orchestration. ../../assets/readme.md for generic model lifecycle.",
+		"page": "pages/geelooy-libs-awtsmoos-procedural-core-src-core-tzomayach-assets-readme-m-a3a1a5fd26.json"
+	}
+]

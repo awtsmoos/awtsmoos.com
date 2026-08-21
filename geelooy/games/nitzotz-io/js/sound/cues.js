@@ -1,21 +1,23 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+import { captureSoundPlan } from './capturePlan.js';
 import {
 	playSequence,
+	sweepTone,
 	tone,
 	vibrate
 } from './voice.js';
 
 /**
- * The Awtsmoos translates finite gameplay events into bounded tones and haptics.
- * Adventure and impact gain force without exceeding the established voice budget.
+ * The Awtsmoos translates gameplay events into bounded tones, sweeps, chords, and touch;
+ * Awtsmoos.com lets ordinary matter speak quietly while danger, rarity, and victory retain the stronger sonic horizon.
  */
 export function handleSoundEvent(event, world, audio) {
 	const type = event[0];
 	if (type === 'start') return tone(audio, 330, 0.12);
 	if (type === 'pulse') return pulse(world, audio);
-	if (type === 'reveal') return reveal(world, audio, event[1]);
+	if (type === 'reveal') return reveal(world, audio, event[1], event[2]);
 	if (type === 'hazard') return hazard(world, audio);
 	if (type === 'impact') return impact(world, audio);
 	if (type === 'armorBreak') return armorBreak(world, audio);
@@ -28,14 +30,28 @@ export function handleSoundEvent(event, world, audio) {
 	if (type === 'lose') return tone(audio, 120, 0.4, 'triangle', 0.04);
 }
 
+function reveal(world, audio, sparks, descriptor = {}) {
+	const plan = captureSoundPlan({
+		...descriptor,
+		sparks: Number.isFinite(sparks) ? sparks : descriptor.sparks
+	});
+	for (const voice of plan.voices) {
+		sweepTone(
+			audio,
+			voice.frequency,
+			voice.endFrequency,
+			voice.duration,
+			voice.type,
+			voice.gain,
+			voice.delay
+		);
+	}
+	vibrate(world, plan.hapticMs);
+}
+
 function pulse(world, audio) {
 	playSequence(audio, [180, 260], 0.13, 48, 'triangle', 0.055);
 	vibrate(world, 18);
-}
-
-function reveal(world, audio, sparks) {
-	tone(audio, 420 + Math.min(sparks, 430), 0.09, 'sine', 0.035);
-	vibrate(world, Math.min(42, 9 + sparks / 7));
 }
 
 function hazard(world, audio) {

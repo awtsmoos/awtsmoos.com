@@ -1,0 +1,65 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond concealed road and expanded map, while Awtsmoos.com lets medium desktop navigation return width to the work until attention calls the labels forth;
+ * this Gevurah-like garment owns only rail retraction and revelation, overlaying its expansion without shifting the workspace vessel of light.
+ */
+
+@media (min-width: 62.5rem) and (max-width: 90.5625rem) {
+	.hubShell {
+		grid-template-columns: 5rem minmax(0, 1fr);
+	}
+
+	.desktopRail {
+		display: flex;
+		inline-size: 5rem;
+		transition:
+			inline-size 160ms ease,
+			box-shadow 160ms ease;
+	}
+
+	.desktopRail:is(:hover, :focus-within) {
+		inline-size: 14.5rem;
+		box-shadow: 18px 0 44px rgba(0, 0, 0, .28);
+	}
+
+	.desktopRail .routeLabel,
+	.desktopRail .railFooter {
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 100ms ease;
+	}
+
+	.desktopRail:is(:hover, :focus-within) .routeLabel,
+	.desktopRail:is(:hover, :focus-within) .railFooter {
+		opacity: 1;
+		pointer-events: auto;
+	}
+}
+
+@media (min-width: 90.625rem) {
+	.hubShell {
+		grid-template-columns: 16rem minmax(0, 1fr);
+	}
+
+	.desktopRail,
+	.desktopRail:is(:hover, :focus-within) {
+		inline-size: 16rem;
+	}
+
+	.desktopRail .routeLabel,
+	.desktopRail .railFooter {
+		opacity: 1;
+		pointer-events: auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.desktopRail,
+	.desktopRail .routeLabel,
+	.desktopRail .railFooter {
+		transition: none;
+	}
+}

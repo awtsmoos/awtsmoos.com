@@ -2,88 +2,91 @@
  * Boruch Hashem
  * Blessed is He
  *
- * One control language binds topbar, panels, timeline, and transport with clear
- * default, hover, active, focus, disabled, secondary, and primary states.
+ * The Awtsmoos gathers brand, title, and topbar structure into one quiet vessel; Awtsmoos.com keeps the editor frame clear so creation begins before chrome becomes noise.
  */
+
+.nle-topbar {
+	position: relative;
+	z-index: 60;
+	display: grid;
+	grid-template-columns: auto minmax(10rem, 1fr) auto;
+	align-items: center;
+	gap: .7rem;
+	min-block-size: 3.8rem;
+	padding: .55rem .75rem;
+	border-block-end: 1px solid var(--nle-border);
+	background: color-mix(in srgb, var(--nle-surface-0) 88%, transparent);
+	backdrop-filter: blur(18px) saturate(1.15);
+}
+
+.nle-brand {
+	display: flex;
+	align-items: center;
+	gap: .55rem;
+	min-inline-size: 0;
+}
+
+.nle-brand > span {
+	display: grid;
+	place-items: center;
+	inline-size: 2.35rem;
+	block-size: 2.35rem;
+	border: 1px solid rgba(89, 189, 210, .32);
+	border-radius: .72rem;
+	background: linear-gradient(
+		145deg,
+		rgba(89, 189, 210, .18),
+		rgba(185, 120, 239, .12)
+	);
+	color: var(--nle-cyan);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .06);
+}
+
+.nle-brand div {
+	display: grid;
+	gap: .05rem;
+}
+
+.nle-brand small,
+.nle-title-field span {
+	color: var(--nle-text-faint);
+	font-size: .56rem;
+	font-weight: 800;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+
+.nle-brand strong {
+	font-size: .82rem;
+	white-space: nowrap;
+}
+
+.nle-title-field {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: .48rem;
+	inline-size: min(100%, 28rem);
+	justify-self: center;
+}
 
 .nle-title-field input {
 	min-inline-size: 0;
-	min-block-size: var(--nle-control);
-	padding: .5rem .7rem;
+	min-block-size: 2.25rem;
+	padding-inline: .65rem;
 	border: 1px solid transparent;
-	border-radius: var(--nle-radius-sm);
-	background: rgba(255, 255, 255, .035);
+	border-radius: .62rem;
+	background: rgba(255, 255, 255, .025);
 	color: var(--nle-text);
 	font: inherit;
-	font-size: .84rem;
-	font-weight: 720;
-	transition: border-color var(--nle-transition), background var(--nle-transition);
-}
-
-.nle-title-field input:hover {
-	border-color: var(--nle-border);
-	background: rgba(255, 255, 255, .05);
-}
-
-.nle-top-actions {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	gap: .38rem;
-}
-
-.nle-topbar button,
-.nle-panel button,
-.nle-timeline-toolbar button,
-.nle-transport button {
-	min-block-size: var(--nle-control);
-	padding: .48rem .72rem;
-	border: 1px solid var(--nle-border);
-	border-radius: var(--nle-radius-sm);
-	background: var(--nle-surface-2);
-	box-shadow: inset 0 1px rgba(255, 255, 255, .025);
-	color: var(--nle-text-soft);
-	font: inherit;
 	font-size: .72rem;
-	font-weight: 780;
-	line-height: 1;
-	cursor: pointer;
-	transition: background var(--nle-transition), border-color var(--nle-transition), color var(--nle-transition), transform var(--nle-transition);
+	transition:
+		border-color var(--nle-transition),
+		background var(--nle-transition);
 }
 
-.nle-topbar button:active,
-.nle-panel button:active,
-.nle-timeline-toolbar button:active,
-.nle-transport button:active {
-	transform: translateY(1px);
-}
-
-.nle-topbar .nle-render-action {
-	border-color: rgba(242, 201, 109, .7);
-	background: linear-gradient(180deg, #f6d886, var(--nle-amber));
-	box-shadow: 0 .35rem .9rem rgba(217, 168, 60, .18);
-	color: #211706;
-}
-
-.nle-topbar [data-nle-world] {
-	border-color: rgba(185, 120, 239, .38);
-	background: var(--nle-violet-soft);
-	color: #e8cff8;
-}
-
-@media (hover: hover) {
-	.nle-topbar button:hover,
-	.nle-panel button:hover,
-	.nle-timeline-toolbar button:hover,
-	.nle-transport button:hover {
-		border-color: var(--nle-border-strong);
-		background: var(--nle-surface-raised);
-		color: var(--nle-text);
-	}
-
-	.nle-topbar .nle-render-action:hover {
-		border-color: #ffe2a0;
-		background: linear-gradient(180deg, #ffe2a0, #edc15b);
-		color: #1b1204;
-	}
+.nle-title-field input:hover,
+.nle-title-field input:focus {
+	border-color: var(--nle-border);
+	background: rgba(255, 255, 255, .045);
 }

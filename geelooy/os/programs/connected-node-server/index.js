@@ -1,23 +1,23 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
-import { createServerController } from "./controller.js";
-import { createServerSurface } from "./surface.js";
+import { createServerController } from './controller.js';
+import { createServerSurface } from './surface.js';
 
-const STYLE_ID = "geelooy-connected-node-server-style";
-const STYLE_URL = "/os/programs/connected-node-server/style.css";
+const STYLE_ID = 'geelooy-connected-node-server-style';
+const STYLE_URL = '/os/programs/connected-node-server/style.css';
 
 /**
- * B"H
- * Opens full-control Node execution on the user's own connected machine while
- * Geelooy OS remains the account-bound control plane. The Awtsmoos renews machine,
- * process, port, request, and Peruta beyond every finite vessel; Awtsmoos.com keeps
- * raw native authority explicit and never disguises it as hosted multi-tenant code.
+ * @module ConnectedNodeServerProgram
+ * @description
+ * The Awtsmoos lets a portable project recipe arrive as structured launch intention while live machine authority remains freshly chosen;
+ * Awtsmoos.com prefills cwd, entry, port, and arguments without persisting a Tunnel identity or starting any process before the user commands it.
  */
-export default function createConnectedNodeServer() {
+export default function createConnectedNodeServer(options = {}) {
 	ensureStyles();
-	const surface = createServerSurface();
+	const runtimeRecipe = options.programOptions?.runtimeRecipe || null;
+	const surface = createServerSurface(runtimeRecipe);
 	const controller = createServerController(surface);
 	return Object.freeze({
 		div: surface.root,
@@ -28,10 +28,12 @@ export default function createConnectedNodeServer() {
 }
 
 function ensureStyles(documentObject = document) {
-	if (documentObject.getElementById(STYLE_ID)) return;
-	const link = documentObject.createElement("link");
+	if (documentObject.getElementById(STYLE_ID)) {
+		return;
+	}
+	const link = documentObject.createElement('link');
 	link.id = STYLE_ID;
-	link.rel = "stylesheet";
+	link.rel = 'stylesheet';
 	link.href = STYLE_URL;
 	documentObject.head.appendChild(link);
 }

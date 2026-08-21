@@ -1,0 +1,117 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews creation without fatigue while human screens must move with restraint;
+ * Awtsmoos.com uses only soft composited light and transform so futuristic depth never becomes a battery complaint.
+ */
+
+.zmanim-shell {
+	position: relative;
+}
+
+.zmanim-shell::before,
+.zmanim-shell::after {
+	position: fixed;
+	z-index: -1;
+	border-radius: 50%;
+	filter: blur(70px);
+	pointer-events: none;
+	content: "";
+}
+
+.zmanim-shell::before {
+	top: 8vh;
+	left: -14rem;
+	width: 28rem;
+	height: 28rem;
+	background: rgba(77, 211, 170, 0.07);
+	animation: chesedAurora 18s ease-in-out infinite alternate;
+}
+
+.zmanim-shell::after {
+	right: -12rem;
+	bottom: 12vh;
+	width: 24rem;
+	height: 24rem;
+	background: rgba(255, 207, 122, 0.045);
+	animation: gevurahAurora 22s ease-in-out infinite alternate;
+}
+
+.control-deck,
+.next-zman-panel,
+.key-times-panel,
+.zman-card,
+.methodology-panel {
+	transition: transform var(--ease-out), border-color var(--ease-out), box-shadow var(--ease-out), background var(--ease-out);
+}
+
+.zman-card {
+	animation: malchusReveal 360ms both;
+}
+
+.zman-card:hover,
+.opinion-choice:hover {
+	transform: translateY(-1px);
+	border-color: rgba(124, 231, 197, 0.34);
+}
+
+.next-zman-panel::before {
+	position: absolute;
+	top: 0;
+	left: -45%;
+	width: 40%;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--solar), transparent);
+	content: "";
+	animation: keterSolarLine 8s ease-in-out infinite;
+}
+
+@keyframes chesedAurora {
+	to {
+		transform: translate3d(5rem, 3rem, 0) scale(1.08);
+	}
+}
+
+@keyframes gevurahAurora {
+	to {
+		transform: translate3d(-4rem, -2rem, 0) scale(1.12);
+	}
+}
+
+@keyframes malchusReveal {
+	from {
+		opacity: 0;
+		transform: translateY(5px);
+	}
+}
+
+@keyframes keterSolarLine {
+	0%, 20% {
+		transform: translateX(0);
+		opacity: 0;
+	}
+
+	45%, 60% {
+		opacity: 0.65;
+	}
+
+	100% {
+		transform: translateX(360%);
+		opacity: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.zmanim-shell::before,
+	.zmanim-shell::after,
+	.next-zman-panel::before,
+	.zman-card {
+		animation: none;
+	}
+
+	.zman-card:hover,
+	.opinion-choice:hover {
+		transform: none;
+	}
+}

@@ -12,82 +12,19 @@
 	<link rel="stylesheet" href="./styles/shell.css">
 	<link rel="stylesheet" href="./styles/toolbar.css">
 	<link rel="stylesheet" href="./styles/editor.css">
+	<link rel="stylesheet" href="./styles/navigation.css">
+	<link rel="stylesheet" href="./styles/references.css">
+	<link rel="stylesheet" href="./styles/page-layout.css">
 	<link rel="stylesheet" href="./styles/panels.css">
+	<link rel="stylesheet" href="./styles/command-palette.css">
 	<link rel="stylesheet" href="./styles/responsive.css">
+	<link rel="stylesheet" href="./styles/motion.css">
+	<link rel="stylesheet" href="./styles/mobile-touch.css">
+	<link rel="stylesheet" href="./styles/print.css" media="print">
 </head>
 <body>
-	<!-- The Awtsmoos renews every word and every hand; Awtsmoos.com gives the shared page a calm, truthful vessel. -->
-	<a class="skip-link" href="#documentCanvas">Skip to document</a>
-	<div class="docs-app" id="docsApp">
-		<header class="app-bar">
-			<a class="brand" href="/apps/" aria-label="Back to Awtsmoos Apps"><span class="brand-mark">א</span><span>Docs</span></a>
-			<input id="documentTitle" class="document-title" value="Untitled document" maxlength="160" aria-label="Document title">
-			<div class="status-cluster" aria-live="polite">
-				<span id="liveStatus" class="status-pill">Offline draft</span>
-				<span id="driveStatus" class="status-pill">Not saved</span>
-			</div>
-			<div id="presence" class="presence" aria-label="People in this document"></div>
-			<button type="button" class="icon-action" data-doc-command="view.outline" title="Outline" aria-label="Outline">☰</button>
-			<button type="button" class="icon-action" data-doc-command="view.notes" title="Notes" aria-label="Notes">◌</button>
-			<button id="shareButton" class="primary-action" type="button">Share</button>
-		</header>
-		<div id="docsCommandRoot" class="command-shell">
-			<nav class="menu-bar" aria-label="Document menus">
-				<button type="button" data-menu-trigger="file" aria-expanded="false">File</button>
-				<button type="button" data-menu-trigger="insert" aria-expanded="false">Insert</button>
-				<button type="button" data-menu-trigger="view" aria-expanded="false">View</button>
-				<div class="docs-menu" data-menu="file">
-					<button data-doc-command="file.open">Open / Import…</button>
-					<button data-doc-command="file.save">Save</button>
-					<button data-doc-command="file.code">Open source in Code</button>
-					<hr>
-					<button data-doc-command="file.export.awtdoc">Export AWTDOC</button>
-					<button data-doc-command="file.export.markdown">Export Markdown</button>
-					<button data-doc-command="file.export.html">Export HTML</button>
-					<button data-doc-command="file.export.pdf">Export PDF</button>
-				</div>
-				<div class="docs-menu" data-menu="insert">
-					<button data-doc-command="insert.link" data-requires-edit>Link…</button>
-					<button data-doc-command="insert.mention" data-requires-edit>Mention…</button>
-					<button data-doc-command="insert.table" data-requires-edit>Table…</button>
-					<button data-doc-command="insert.divider" data-requires-edit>Divider</button>
-					<button data-doc-command="insert.note" data-requires-edit>Add note…</button>
-				</div>
-				<div class="docs-menu" data-menu="view">
-					<button data-doc-command="view.outline">Outline</button>
-					<button data-doc-command="view.notes">Notes</button>
-					<button data-doc-command="view.stats">Document stats</button>
-					<button data-doc-command="view.focus">Focus mode</button>
-				</div>
-			</nav>
-			<nav id="formattingToolbar" class="formatting-toolbar" data-editable="true" aria-label="Formatting">
-				<button data-doc-command="format.undo" data-requires-edit title="Undo">↶</button>
-				<button data-doc-command="format.redo" data-requires-edit title="Redo">↷</button>
-				<select data-doc-command="format.block" data-requires-edit aria-label="Paragraph style">
-					<option value="p">Normal</option><option value="h1">Title</option><option value="h2">Heading 1</option>
-					<option value="h3">Heading 2</option><option value="quote">Quote</option><option value="code">Code</option>
-				</select>
-				<span class="tool-separator"></span>
-				<button data-doc-command="format.bold" data-requires-edit title="Bold"><strong>B</strong></button>
-				<button data-doc-command="format.italic" data-requires-edit title="Italic"><em>I</em></button>
-				<button data-doc-command="format.underline" data-requires-edit title="Underline"><u>U</u></button>
-				<span class="tool-separator"></span>
-				<button data-doc-command="format.bullets" data-requires-edit title="Bullets">• List</button>
-				<button data-doc-command="format.numbers" data-requires-edit title="Numbered list">1. List</button>
-				<button data-doc-command="format.checklist" data-requires-edit title="Checklist">☑</button>
-				<select data-doc-command="format.align" data-requires-edit aria-label="Alignment"><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select>
-				<div class="more-format"><button type="button" data-menu-trigger="format" aria-expanded="false">More</button><div class="docs-menu" data-menu="format"><button data-doc-command="format.strike" data-requires-edit>Strikethrough</button><label>Text color<input type="color" value="#172033" data-doc-command="format.color" data-requires-edit></label><label>Highlight<input type="color" value="#fff0a6" data-doc-command="format.highlight" data-requires-edit></label></div></div>
-			</nav>
-			<div id="selectionToolbar" class="selection-toolbar" hidden aria-label="Selection actions"><button data-doc-command="format.bold" data-requires-edit><strong>B</strong></button><button data-doc-command="format.italic" data-requires-edit><em>I</em></button><button data-doc-command="insert.link" data-requires-edit>Link</button><button data-doc-command="insert.note" data-requires-edit>+ Note</button></div>
-		</div>
-		<main class="workspace">
-			<section class="page-stage" aria-label="Document page"><article id="documentCanvas" class="document-canvas" contenteditable="true" spellcheck="true" aria-label="Document editor"></article><div id="documentStats" class="document-stats" hidden></div></section>
-			<aside id="sidePanel" class="side-panel" hidden aria-label="Document side panel"><div class="panel-header"><div class="panel-tabs"><button type="button" data-panel-target="outline" data-doc-command="view.outline">Outline</button><button type="button" data-panel-target="notes" data-doc-command="view.notes">Notes</button></div><button type="button" data-doc-command="view.close" class="panel-close" aria-label="Close panel">×</button></div><section id="outlineSection"><div id="outlineList" class="outline-list is-empty"></div></section><section id="notesSection" hidden><div id="commentsPanel" class="comment-list is-empty"></div></section></aside>
-		</main>
-	</div>
-	<div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
-	<dialog id="quickDialog" class="quick-dialog"><form method="dialog" class="dialog-card"><div class="dialog-heading"><h2 data-quick-title>Action</h2><button type="submit" value="cancel" aria-label="Close">×</button></div><div data-quick-fields></div><div class="dialog-actions"><button type="submit" value="cancel">Cancel</button><button class="primary-action" type="submit" value="apply" data-quick-submit>Apply</button></div></form></dialog>
-	<dialog id="shareDialog" class="share-dialog" aria-labelledby="shareTitle"><form method="dialog" class="dialog-card"><div class="dialog-heading"><h2 id="shareTitle">Share document</h2><button type="button" data-share-action="close" aria-label="Close">×</button></div><label>Access<select name="share-mode"></select></label><p class="share-help">Public allows anonymous live viewing. Link edit grants editing only to people holding that private link.</p><div class="share-link-row"><input data-share-link readonly aria-label="Share link"><button type="button" data-share-action="copy">Copy</button></div><div class="invite-row"><input name="invite-account" placeholder="Account ID to invite" autocomplete="off"><button type="button" data-share-action="invite">Invite editor</button></div><button class="primary-action wide" type="button" data-share-action="apply">Apply access</button></form></dialog>
+	<!-- The Awtsmoos renews each visible vessel; Awtsmoos.com composes the editor shell from readable focused modules before runtime begins. -->
+	<div id="docsRoot"></div>
 	<script type="module" src="./src/app.js"></script>
 </body>
 </html>

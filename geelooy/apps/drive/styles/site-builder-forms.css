@@ -1,0 +1,108 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets creative intention descend into fields, buttons, source lists, and public result cards without making the form itself the king.
+ * Awtsmoos.com keeps primary acts obvious and source forms readable, with every primary touch action large enough for the hand that reveals the site.
+ */
+
+.builder-surface-card,
+.builder-result-card {
+	display: grid;
+	gap: .75rem;
+	padding: 1rem;
+	border: 1px solid color-mix(in srgb, currentColor 11%, transparent);
+	border-radius: 1rem;
+}
+
+.builder-surface-card--primary {
+	background: color-mix(in srgb, currentColor 4%, transparent);
+}
+
+.builder-surface-card h3,
+.builder-result-card h3,
+.builder-help,
+.builder-status-line {
+	margin: 0;
+}
+
+.builder-help,
+.builder-muted {
+	font-size: .82rem;
+	line-height: 1.5;
+	opacity: .72;
+}
+
+.builder-grid,
+.builder-actions,
+.builder-source-list {
+	display: grid;
+	gap: .75rem;
+}
+
+.builder-field {
+	display: grid;
+	gap: .35rem;
+	min-width: 0;
+}
+
+.builder-field > span {
+	font-size: .8rem;
+	font-weight: 750;
+}
+
+.builder-field input,
+.builder-field textarea,
+.builder-field select,
+.builder-code-shell input,
+.builder-code-shell select {
+	width: 100%;
+	max-width: 100%;
+	min-height: 44px;
+	padding: .65rem .75rem;
+	border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+	border-radius: .7rem;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+}
+
+.builder-field textarea {
+	min-height: 6.5rem;
+	resize: vertical;
+}
+
+.builder-check {
+	display: flex;
+	align-items: center;
+	gap: .6rem;
+}
+
+.builder-check input {
+	width: 1.1rem;
+	min-height: 1.1rem;
+}
+
+.builder-actions button,
+.builder-surface-card button,
+.builder-result-card button,
+.builder-action-link,
+.builder-button-primary {
+	min-height: 44px;
+}
+
+.builder-button-primary {
+	font-weight: 850;
+}
+
+.builder-button-secondary {
+	justify-self: start;
+}
+
+.builder-source-item {
+	min-height: 44px;
+	padding: .65rem .8rem;
+	text-align: left;
+	overflow-wrap: anywhere;
+}

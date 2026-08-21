@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Awtsmoos Apps — Create, Compute & Build
+# Project Tutorial: Awtsmoos Apps — Every Browser Tool & Game
 
 **Path:** `geelooy/apps` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -21,11 +21,11 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 7420 | 1535 | 45 | 19 | 34 | 151 | 9204 |
+| 8210 | 1790 | 0 | 19 | 232 | 74 | 10325 |
 
 ## Public entry points
 
-- `/apps` → `geelooy/apps/index.html` — Awtsmoos Apps — Create, Compute & Build
+- `/apps` → `geelooy/apps/index.html` — Awtsmoos Apps — Every Browser Tool & Game
 
 ## Symbol evidence
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **1535**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **1790**. Treat this as file evidence, not proof of behavioral coverage.

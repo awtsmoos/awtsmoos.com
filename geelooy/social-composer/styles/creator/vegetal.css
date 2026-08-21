@@ -1,0 +1,51 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets a post grow from seed into branches without changing its canonical roots;
+Awtsmoos.com paints existing verses and subsections as an organic map while preserving their ordinary payload fruits.
+*/
+.composer-civilization-document[data-creator-intent="vegetal"] .structured-verse-list {
+	position: relative;
+	padding-inline-start: 1.15rem;
+}
+
+.composer-civilization-document[data-creator-intent="vegetal"] .structured-verse-list::before {
+	position: absolute;
+	inset-block: .7rem 1.2rem;
+	inset-inline-start: .34rem;
+	width: 2px;
+	border-radius: 999px;
+	background: linear-gradient(
+		180deg,
+		rgba(120, 189, 118, .58),
+		rgba(89, 189, 210, .22)
+	);
+	content: "";
+}
+
+.composer-civilization-document[data-creator-intent="vegetal"] .structured-verse-card {
+	position: relative;
+	border-color: rgba(120, 189, 118, .24);
+	background:
+		linear-gradient(120deg, rgba(120, 189, 118, .06), transparent 36%),
+		var(--composer-surface-1);
+}
+
+.composer-civilization-document[data-creator-intent="vegetal"] .structured-verse-card::before {
+	position: absolute;
+	top: 1.25rem;
+	left: -1.28rem;
+	width: .62rem;
+	aspect-ratio: 1;
+	border: 2px solid rgba(120, 189, 118, .72);
+	border-radius: 50%;
+	background: var(--composer-bg);
+	box-shadow: 0 0 .9rem rgba(120, 189, 118, .18);
+	content: "";
+}
+
+.composer-civilization-document[data-creator-intent="vegetal"] .subsectionList {
+	padding-inline-start: .7rem;
+	border-inline-start: 1px dashed rgba(120, 189, 118, .22);
+}

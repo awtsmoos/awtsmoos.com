@@ -1,0 +1,97 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the primary migration chamber carry the light while optional tools remain near but quiet;
+Awtsmoos.com uses subtle edge, focus, and depth changes so expandable power feels immediate without becoming a permanent riot.
+*/
+.primaryMigrationCard {
+	grid-row: span 2;
+	border-color: rgb(116 201 255 / 24%);
+	background:
+		linear-gradient(145deg, rgb(16 25 39 / 98%), rgb(10 14 22 / 98%));
+	box-shadow: 0 24px 64px rgb(0 0 0 / 20%);
+}
+.primaryMigrationCard h2 {
+	max-width: 620px;
+	font-size: clamp(1.45rem, 3vw, 2.15rem);
+	letter-spacing: -.03em;
+}
+details.migrationCard > summary {
+	min-height: 58px;
+	padding: 14px 16px;
+}
+details.migrationCard > summary small {
+	display: block;
+	margin-bottom: 3px;
+	color: #8192af;
+	font-size: .7rem;
+	font-weight: 750;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+details.migrationCard > summary strong {
+	font-size: .98rem;
+}
+details.migrationCard[open] {
+	border-color: rgb(151 177 220 / 22%);
+}
+details.migrationCard .futureDisclosureBody {
+	border-top: 1px solid rgb(151 177 220 / 10%);
+	padding-top: 14px;
+}
+.summaryMeta {
+	color: #7f91ad;
+	font-size: .76rem;
+	font-weight: 650;
+	white-space: nowrap;
+}
+.statusLine {
+	min-height: 1.5em;
+	margin-bottom: 0;
+}
+.reviewCard {
+	grid-column: 1 / -1;
+	border-color: rgb(119 238 184 / 24%);
+	background: #0d1717;
+}
+.reviewCard h2 {
+	font-size: clamp(1.35rem, 3vw, 2rem);
+}
+.commandOutput:empty {
+	display: none;
+}
+.commandOutput:not(:empty) {
+	animation: commandReveal 180ms ease both;
+}
+@keyframes commandReveal {
+	from {
+		opacity: 0;
+		transform: translateY(-3px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@media (max-width: 880px) {
+	.primaryMigrationCard {
+		grid-row: auto;
+	}
+}
+@media (max-width: 760px) {
+	.primaryMigrationCard {
+		box-shadow: none;
+	}
+	.primaryMigrationCard h2 {
+		font-size: 1.55rem;
+	}
+	details.migrationCard > summary {
+		min-height: 54px;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.commandOutput:not(:empty) {
+		animation: none;
+	}
+}

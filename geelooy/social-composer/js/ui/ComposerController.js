@@ -2,16 +2,14 @@
 //Boruch Hashem
 //Blessed is He
 
+import { renderMetrics } from './ComposerMetrics.js';
+
 /**
  * @class ComposerController
  * @description
- * Identity, destination, editor, media, preview, publication plan, drafts, and
- * execution gather without becoming one monolith. The Awtsmoos gives their unity;
- * Awtsmoos.com redraws only the vessels affected by each transparent state change.
+ * Identity, destination, editor, media, preview, drafts, and final review gather without becoming one monolith;
+ * the Awtsmoos gives their unity while Awtsmoos.com redraws only changed vessels and never blocks a keystroke with storage writes.
  */
-
-import { renderMetrics } from './ComposerMetrics.js';
-
 export class ComposerController {
 	constructor(options) {
 		Object.assign(this, options);
@@ -30,7 +28,6 @@ export class ComposerController {
 	}
 
 	changed({ reason, snapshot }) {
-		this.workflow.saveLocal(false);
 		this.fields.render(snapshot);
 		this.questionFields.render(snapshot);
 		this.destinationPanel.render(snapshot);
@@ -78,14 +75,14 @@ export class ComposerController {
 			void this.workflow.saveServer();
 		});
 		document.getElementById('publishButton').addEventListener('click', () => {
-			void this.workflow.publish();
+			this.review.open();
 		});
 		document.getElementById('previewButton').addEventListener('click', () => {
 			document.body.classList.toggle('previewFocused');
 		});
 		document.getElementById('clearDraftButton').addEventListener('click', () => {
-			this.localDrafts.clear(this.state.snapshot());
-			this.status.show('Saved local draft cleared. Current text remains open.', 'success');
+			this.drafts.clear();
+			this.status.show('Saved local draft and version history cleared. Current text remains open.', 'success');
 		});
 	}
 
@@ -98,7 +95,7 @@ export class ComposerController {
 			}
 			if (event.key === 'Enter') {
 				event.preventDefault();
-				void this.workflow.publish();
+				this.review.open();
 			}
 		});
 	}

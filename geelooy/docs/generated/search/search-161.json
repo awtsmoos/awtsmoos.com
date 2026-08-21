@@ -1,70 +1,331 @@
 [
 	{
-		"id": "docs-generated-project-symbols-symbols-002-md-6aad63b32a",
-		"title": "Generated Project Symbol Summary 56–110",
-		"sourcePath": "docs/GENERATED/PROJECT_SYMBOLS/symbols-002.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-what-are-you-doing-43227e74be-md-16ddd2338a",
+		"title": "API Tutorial: /api/what/:are/you/:doing",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-what-are-you-doing-43227e74be.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Project Symbol Summary 56–110",
-				"anchor": "generated-project-symbol-summary-56-110"
+				"text": "API Tutorial: /api/what/:are/you/:doing",
+				"anchor": "api-tutorial-api-what-are-you-doing"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Symbol Summary 56–110 Lexical JavaScript family symbol evidence grouped by project; sample names aid discovery without replacing source inspection. Project Source files Classes Named functions Exports Sample names geelooy/apps/tunnel control 320 11 1375 675 TARGETS, reg",
-		"searchText": "b\"h boruch hashem blessed is he generated project symbol summary 56–110 lexical javascript family symbol evidence grouped by project; sample names aid discovery without replacing source inspection. project source files classes named functions exports sample names geelooy/apps/tunnel control 320 11 1375 675 targets, regeneratedocument, regeneratetarget, renderscopetail, run, async, detectlogin, me, device, mydevice, devices, activedevice geelooy/apps/wallet 7 1 19 9 refreshwallet, begincheckout, bootwallet, async, clearcheckoutquery, processcheckoutreturn, startpaypalcheckout, decodewalletresponse, getwalletjson, postwalletjson, networkfailure, rendercoins geelooy/awtai db 1 0 1 0 write geelooy/browser test 1 0 0 3 mobileroutes, mobileviewport, mobileassertions geelooy/comment thread 9 1 21 9 async, loadcommenttree, submitcomment, parseresponse, errormessage, createcomposer, field, readcommentthreadconfig, clean, createelement, createmedia, createpreview geelooy/contact 1 0 1 0 submitcontact geelooy/control 1 0 7 0 loadscripts, displayscripts, opendb, savescript, createnewscript, loadscript, sendcode geelooy/db 2 0 20 0 checkauth, ext, handlelistfolder, handlereadfile, handlewritefile, handlecreateitem, handledeleteitem, main, showloading, hideloading, showmessage, updatebreadcrumbs geelooy/email 39 3 174 108 smartparse, markdowntohtml, htmltomarkdown, formattime, bootmail, renderfailure, async, connectsocket, broadcasttyping, publishsocialmailevent, threadkey, firsttext geelooy/entity view 1 0 12 0 el, getjson, nodeview, entitycard, rowcard, listcard, dnacard, hero, snapshot, fork, load, render geelooy/games/brick blast 75 17 93 86 providers, async, fetchmodels, generatelevel, handlefetcherror, initaudio, playnote, playnextnote, playvictoryfanfare, playstarping, getfrequency, playfrequency geelooy/games/cards 5 4 4 5 blackjackai, createdeck, shuffledeck, renderer, blackjackgame, orchestrates, initializemenu, beginexperience geelooy/games/chess 11 1 67 1 evaluate, ordermoves, quiesce, search, searchroot, decodemove, processrawbook, initializeengine, forgeuniverseindices, getlsbindex, popbit, popcount geelooy/games/city of light 54 28 76 96 abilities, abilitybyid, abilitylist, ability, campaign chapters, chapterbynumber, chapterbyid, chapterpresentation, chaptersunlockedthrough, campaignprogress, clampchapter, nonnegative geelooy/games/connect4 4 5 28 0 getgolemmove, minimax, scoreposition, evaluatewindow, getvalidlocations, ai isterminalnode, getnextopenrow, ai droppiece, ai checkwin, resize, init, resetgame geelooy/games/dove 6 0 22 32 init, update, draw, drawwaveline, canvas width, canvas height, updatedimensions, dove start x, dove start y, dove width, dove height, dove radius geelooy/games/emojis 30 16 103 88 setupaudio, playsound, configuresound, configuresweep, rebuildstars, drawbackground, drawwebcambackground, loadcaptiondraft, preparecaptiondata, updatefilecount, revokecaptionurls, bindcaptiondragging geelooy/games/kabbalah shooter 35 32 16 61 config, hebrew letters, colors, sprites, audiosynth, settings, weapons, sounds, scales, sefirot, traits, spells geelooy/games/kavanah 9 6 24 46 otiot, tzomeach, chai, and, entity, particle, hebrew letters, plant emojis, animal emojis, getpointerstate, setupcontrols, handlepointerdown geelooy/games/merkava 76 39 154 129 appdiagnostics, creatediagnosticcontrols, checkpoint, setlane, chargeability, advancelevel, setworld, setlevel, grantprutahs, defeatboss, completeworldrotation, clampindex geelooy/games/migdol 9 7 9 12 tile size, maps, tower types, enemy types, groundeffect, letterparticle, enemy, projectile, game, initializemainmenu, startgame, returntomainmenu geelooy/games/mitzvahworld 2428 489 7660 4759 send, evaluate, waitfor, waitfordevtools, findtarget, waitforready, delay, publishstate, publishverificationfailure, createbootsnapshot, boundedbootcount, bootdebugenabled geelooy/games/nachash 3 8 31 0 onpointerdown, onpointermove, onpointerup, updatekeyboarddirection, handlekeydown, handlekeyup, handleresize, startgame, endgame, createandshowgameoverscreen, handleworkermessage, init geelooy/games/neshama quest 5 5 4 0 entity, neshama, klipah, game, inputhandler, generatefullmaze, createperfectmaze, addloopstomaze, addsidetunnels geelooy/games/nitzotz io 186 0 571 371 selectshlichus, shlichustemplates, resolvetemplate, descriptionfor, template, hash, mix, adventuremetric, adventureprogress, settleadventurereward, emptysettlement, updateadventure geelooy/games/ohr hagnuz 668 189 186 1120 collisionmatrix, validates, encountervalidator, interactionvalidator, overworldlogic, portalvalidator, worldmapassembler, takes, encountergenerator, movementlogic, pathlogic, divinewill geelooy/games/party 8 1 22 21 startchallenge, reloadcurrentturn, recordcurrentturn, activesession, begincurrentturn, finishchallenge, dom, setframegame, loadfreshturn, framegame, partygames, resolvepartygame geelooy/games/pong 5 0 15 0 createball, getrandomemoji, resizecanvas, handlepaddlecollision, update, draw, gameloop, createpaddle, createparticleexplosion, updateanddrawparticles, drawnet, drawscore geelooy/games/rebbe runner 2 3 9 0 player, obstacle, collectible, resizecanvas, drawroadlines, createbackground, init, drawbackground, animate, detectcollision, endgame, handlestart geelooy/games/scribe journey 362 12 551 536 amalekbeasts, binahbeasts, campaignbeasts, campaignchesedbinahbeasts, campaignchokhmahketerbeasts, createcampaignmusag, createcampaignroster, campaignhodnetzachbeasts, campaignmalkuthfinalebeasts, campaignmalkuthyesodbeasts, campaignpostgamebeasts, campaigntiferetgevurahbeasts geelooy/games/scripts 70 113 3372 50 ui, stands, motion adventure games, mystic adventure games, adventure games, enrichgame, enrichgames, multiplayercapability, native multiplayer game ids, visualcapability, webgl games, commerceplanfor geelooy/games/sefira clash 1226 55 2709 1808 neutralinput, botreport, finitefighter, summarizespectacle, round, assert, snap, sumdamage, alivecount, summarize, length, checkcase geelooy/games/seven mitzvos 375 238 474 522 accessibilityprofileservice, accessiblestateprojector, population, describealert, inputbindingservice, setpersonaction, updatepersonaction, personactionname, createstate, applypose, required, apptemplate geelooy/games/shema strike 140 66 13 192 accessibilityprofile, copy, objectivecopy, checkpointmanager, entitystate, restoreentities, componentsnapshots, createcomponent, component kinds, cyclecomponent, escortcomponent, guardiancomponent geelooy/games/soul jump 1 6 11 0 player, backgroundparticle, platform, enemy, powerup, particle, geteventx, startdrag, ondrag, enddrag, startgame, generateplatforms geelooy/games/sulam ha sod 144 28 157 243 camerarig, game, inputvessel, renderer, lightningrenderer, physicsworld, canvasviewport, hardencampaign, hardenlevel, choosecruelx, rotate, fakecoin geelooy/games/tetris 6 10 9 0 aiengine, effect, shard, characterparticle, lightningbolt, effectsengine, starfield, seededrandom, gameinstance, backgroundfx, startgame, initcanvasesandworker geelooy/heichel editor 13 0 17 12 async, posteditorrequest, readeditorconfig, clean, el, field, formshell, submitform, inviteform, settingsform, submissionform, rendereditor geelooy/heichel review 13 8 14 12 governanceapi, renderinvitations, invitationcard, rendermembers, membercard, governancemutations, governancepanel, reviewapi, reviewcontroller, async, decidesubmission, reviewdetail geelooy/heichelos 510 75 1976 920 querymap, heichelfields, postfields, escapeattribute, rendercanonicalpostredirect, getheichel, renderheichelshell, renderglobalsubmit, renderdelete, rendersubmit, renderpost, renderseriespost geelooy/libs 1900 398 2390 2481 makegoldenprobe, inspectmesh, hashseed, createrng, range, rng, v3, sub, cross, length, normalize, isfinitevec3 geelooy/mawgawl 18 2 87 47 from, showmessage, showdivinmodal, updatedivinmodal, closemodal, createcalendar, resetminutes, createcalendarwithmonth, addbooking, displayhours, minuteclickhandler, displayminutes geelooy/node os 1 0 16 0 el, json, pathparts, openpath, breadcrumbs, childcard, detail, preview, nodecard, sourcelabel, sidecard, hero geelooy/notifications 8 0 32 14 async, marknotificationread, markallnotificationsread, notificationapi, getdefaultaliasid, getnotifications, bootnotifications, bindnotificationevents, loadpage, handlemarkone, handlemarkall, finishloading geelooy/os 385 29 1143 696 for, awtsmoosdb, awtsmoosos, joinvfspath, extraosstyles, hasparentwithproperty, programsbyextension, initialdefaultprograms, programicon, programs, defaultprograms, getdefaultprogram geelooy/oyvededom.js 1 0 0 0 — geelooy/platform 89 1 145 115 createandroidroundtripadapter, requirefunction, createbundleartifactadapter, createcharacterauthorityadapter, createmoviecompileradapter, tomoviesource, createradianceadapter, normalizetime, reasonstosignals, createrichsocialadapter, adapttunnelreceipt, createquarantineifneeded geelooy/post editor 9 1 21 8 async, savepostdraft, publishpostdraft, request, errormessage, readposteditorconfig, clean, createelement, createfield, renderposteditor, hero, missingcontext geelooy/profile 11 0 52 21 checkaliasid, validatealiasid, showtooltip, hidetooltip, backtoprofile, async, renderprofiledropdown, refreshprofiledropdown, renderaliases, savedefaultalias, withtimeout, messagefrom geelooy/record 1 0 7 0 setstatus, stopstream, requestcamera, startcamera, stopstreamsilently, switchcamera, cameraerrormessage geelooy/recorder 4 0 18 9 async, beginrecording, stoprecording, stopstream, acquirecamerastream, acquiredesktopstream, selectmimetype, downloadrecording, createrecordercontroller, setstate, start, stop geelooy/register.js 1 0 7 0 retirelegacyofflinestate, unregisterworkers, clearcaches, clearmetadatadatabases, deletedatabase, readstorage, writestorage geelooy/scripts 1264 357 4504 1729 awtsmoosapi, for, processtext, causallength, attend, applyropepair, rotatehead, softmaxinplace, convertggufbytes, convertgguffile, copytensors, finalmanifestbytes geelooy/service worker.js 1 0 1 0 retirelegacyworker geelooy/shared 70 11 231 177 activitybeacon, startactivitybeacon, publicaliasfrommemory, queryalias, verifiedalias, eventpayload, safe actions, all runtime actions, virtual actions, iswriteaction, normalizeactionname, actioncapability",
-		"page": "pages/docs-generated-project-symbols-symbols-002-md-6aad63b32a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/what/:are/you/:doing Family: API Root · Mount: /api · Derech health: OK Source: geelooy/api/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human API Root tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/what/:are/you/:doing family: api root · mount: /api · derech health: ok source: geelooy/api/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human api root tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars observed status literals: — observed headers: access control allow origin path parameters name shape are single segment doing single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover test:routes — node geelooy/api/social/test/routecoverage.test.js related routes /api/even/:asd/more/:rt/k /api/wow/:asd/asd/:rt/k",
+		"page": "pages/docs-generated-api-tutorials-routes-api-what-are-you-doing-43227e74be-md-16ddd2338a.json"
 	},
 	{
-		"id": "docs-generated-project-symbols-symbols-003-md-647ed32b88",
-		"title": "Generated Project Symbol Summary 111–117",
-		"sourcePath": "docs/GENERATED/PROJECT_SYMBOLS/symbols-003.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-wow-asd-asd-rt-k-3fe992d4a2-md-c77989ab67",
+		"title": "API Tutorial: /api/wow/:asd/asd/:rt/k",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wow-asd-asd-rt-k-3fe992d4a2.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Generated Project Symbol Summary 111–117",
-				"anchor": "generated-project-symbol-summary-111-117"
+				"text": "API Tutorial: /api/wow/:asd/asd/:rt/k",
+				"anchor": "api-tutorial-api-wow-asd-asd-rt-k"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Project Symbol Summary 111–117 Lexical JavaScript family symbol evidence grouped by project; sample names aid discovery without replacing source inspection. Project Source files Classes Named functions Exports Sample names geelooy/sites 3 0 13 7 buildSiteResponse, publicIndexPa",
-		"searchText": "b\"h boruch hashem blessed is he generated project symbol summary 111–117 lexical javascript family symbol evidence grouped by project; sample names aid discovery without replacing source inspection. project source files classes named functions exports sample names geelooy/sites 3 0 13 7 buildsiteresponse, publicindexpath, requesthastrailingslash, publicresponse, customnotfound, redirectresponse, withsiteheaders, ispublicfile, methodresponse, resolvesiterequest, joindrivepaths, namedsitepath geelooy/social actions 2 0 9 8 createpostreferencebutton, mountpostreferenceaction, contextfromdataset, mountdatasetreferenceactions, normalizereferencecontext, validatereferencecontext, buildpostreferenceurl, safereturnpath, clean geelooy/social composer 147 46 371 241 createcomposer, createworkflow, createcontroller, createdestinationassembly, createeditorassembly, createreelassembly, installcomposeraccessibility, hasaccessiblename, namefield, namecomposerfields, apitransport, socialcomposerapi geelooy/social hub 34 22 37 44 createsocialhub, hubapp, activitycard, durationlabel, timestamp, activitypanel, activitytracker, privacyactions, prepared, privacypanel, categories, preferencesfromfields geelooy/view 1 0 0 1 dynamicroutes geelooy/webscrapers 5 0 30 0 processgemarajson, processchabadonetext, doall, getfilesindirectory, formatpage, getdafdata, getpage, getentirechabadlibrarybooksequential, processitemsequential, getentirechabadlibrarybook, downloadj, getdata geelooy/youtube 4 0 14 7 boot, loadchannel, loadvideos, uploadmetadata, updatechanges, showupdateerror, youtubeapi, request, uploadtogoogle, byid, showconnection, showchannel",
-		"page": "pages/docs-generated-project-symbols-symbols-003-md-647ed32b88.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/wow/:asd/asd/:rt/k Family: API Root · Mount: /api · Derech health: OK Source: geelooy/api/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human API Root tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI c",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/wow/:asd/asd/:rt/k family: api root · mount: /api · derech health: ok source: geelooy/api/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human api root tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: route vars observed status literals: — observed headers: access control allow origin path parameters name shape asd single segment rt single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests heuristic family matches: test — npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported style ownership && npm run test:css quality && npm run test:heichelos quality && npm run test:profile menu && npm run test:heichel governance && npm run test:post submissions && npm run test:comments && npm run test:api keys && npm run test:graph && npm run test:social content && npm run test:notifications && npm run test:social packed && npm run test:packed engine && npm run test:platform ops && npm run test:platform execution && npm run test:node client && npm run test:dayuh cutover test:dayuh release — npm run test:routes && npm run test:comments && npm run test:social content && npm run test:social packed && npm run test:packed engine && node test tools/dayuhchadashmaintenance/test/ .test.js && npm run test:dayuh cutover test:routes — node geelooy/api/social/test/routecoverage.test.js related routes /api/even/:asd/more/:rt/k /api/what/:are/you/:doing",
+		"page": "pages/docs-generated-api-tutorials-routes-api-wow-asd-asd-rt-k-3fe992d4a2-md-c77989ab67.json"
 	},
 	{
-		"id": "docs-generated-project-tutorial-index-md-c4217c3e84",
-		"title": "Project Tutorial Index",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-44e720e9a3-md-ff34f3c20b",
+		"title": "API Tutorial: /api/youtube",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-44e720e9a3.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial Index",
-				"anchor": "project-tutorial-index"
+				"text": "API Tutorial: /api/youtube",
+				"anchor": "api-tutorial-api-youtube"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index Generated project teaching for every current boundary. Chunk Rows Count projects 001.md 1–45 45 projects 002.md 46–90 45 projects 003.md 91–135 45 projects 004.md 136–163 28",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial index generated project teaching for every current boundary. chunk rows count projects 001.md 1–45 45 projects 002.md 46–90 45 projects 003.md 91–135 45 projects 004.md 136–163 28",
-		"page": "pages/docs-generated-project-tutorial-index-md-c4217c3e84.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an OpenAPI contr",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status /api/youtube/channel",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-44e720e9a3-md-ff34f3c20b.json"
 	},
 	{
-		"id": "docs-generated-project-tutorial-index-projects-001-md-0fa25b4558",
-		"title": "Project Tutorial Index 1–45",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIAL_INDEX/projects-001.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-a-8c1cdc043d-md-30a36b4b7a",
+		"title": "API Tutorial: /api/youtube/:a",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-8c1cdc043d.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial Index 1–45",
-				"anchor": "project-tutorial-index-1-45"
+				"text": "API Tutorial: /api/youtube/:a",
+				"anchor": "api-tutorial-api-youtube-a"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial Index 1–45 Every discovered project boundary linked to generated evidence teaching. Project Type Files Tests Public entries Tutorial ai thoughts evidence 6118 0 0 tutorial ai thoughts evidence 1666 79 0 tutorial awtsmoos.com project 4 0 0 tutorial ayzarim runtime root 17",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial index 1–45 every discovered project boundary linked to generated evidence teaching. project type files tests public entries tutorial ai thoughts evidence 6118 0 0 tutorial ai thoughts evidence 1666 79 0 tutorial awtsmoos.com project 4 0 0 tutorial ayzarim runtime root 1799 318 0 tutorial ayzarim/dosdb data 1008 160 0 tutorial ayzarim/awtsmoosdynamicserver runtime 765 158 0 tutorial ayzarim/email infrastructure 5 0 0 tutorial ayzarim/maintence infrastructure 1 0 0 tutorial ayzarim/math infrastructure 1 0 0 tutorial ayzarim/ssh infrastructure 12 0 0 tutorial ayzarim/tools infrastructure 4 0 0 tutorial geelooy public root 30755 3928 1 tutorial geelooy/.awtsmoos agent thoughts evidence 411 6 0 tutorial geelooy/.awtsmoos smoke project 4 0 0 tutorial geelooy/.data project 1 0 0 tutorial geelooy/@ project 3 0 0 tutorial geelooy/about public 1 0 1 tutorial geelooy/ai public 1111 152 2 tutorial geelooy/api project 1761 261 0 tutorial geelooy/api/admin api 2 0 0 tutorial geelooy/api/compiler api 10 1 0 tutorial geelooy/api/contact api 2 0 0 tutorial geelooy/api/email api 2 0 0 tutorial geelooy/api/fetch api 2 0 0 tutorial geelooy/api/gpt api 14 3 0 tutorial geelooy/api/nav api 1 0 0 tutorial geelooy/api/oauth api 34 3 0 tutorial geelooy/api/ohr hagnuz api 8 1 0 tutorial geelooy/api/perutas api 33 0 0 tutorial geelooy/api/public api 2 0 0 tutorial geelooy/api/runtime api 6 0 0 tutorial geelooy/api/sefarim api 2 0 0 tutorial geelooy/api/social api 1192 148 0 tutorial geelooy/api/ssh api 10 0 0 tutorial geelooy/api/streaming api 17 0 0 tutorial geelooy/api/text api 2 0 0 tutorial geelooy/api/tunnel api 329 91 0 tutorial geelooy/api/wallet api 68 13 0 tutorial geelooy/api/youtube api 22 1 0 tutorial geelooy/apps public 9204 1535 1 tutorial geelooy/apps/android emulator app 1420 535 0 tutorial geelooy/apps/animator app 2601 0 1 tutorial geelooy/apps/archive uploader app 3 0 1 tutorial geelooy/apps/audio editor app 4 0 1 tutorial geelooy/apps/awtsmoos gguf app 88 0 1 tutorial",
-		"page": "pages/docs-generated-project-tutorial-index-projects-001-md-0fa25b4558.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/:a Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an Ope",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/:a family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: cache control, referrer policy, x content type options path parameters name shape a single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/youtube/${path} geelooy/youtube/youtubeapi.js runtime related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status /api/youtube/channel",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-a-8c1cdc043d-md-30a36b4b7a.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-a-b-0f1bfdc710-md-38eb695a74",
+		"title": "API Tutorial: /api/youtube/:a/:b",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-b-0f1bfdc710.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/:a/:b",
+				"anchor": "api-tutorial-api-youtube-a-b"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/:a/:b Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/:a/:b family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: cache control, referrer policy, x content type options path parameters name shape a single segment b single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status /api/youtube/channel",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-a-b-0f1bfdc710-md-38eb695a74.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-a-b-c-02c6f58285-md-b02b6b7614",
+		"title": "API Tutorial: /api/youtube/:a/:b/:c",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-b-c-02c6f58285.md",
+		"category": "Routes",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/:a/:b/:c",
+				"anchor": "api-tutorial-api-youtube-a-b-c"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/:a/:b/:c Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/:a/:b/:c family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: cache control, referrer policy, x content type options path parameters name shape a single segment b single segment c single segment starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status /api/youtube/channel",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-a-b-c-02c6f58285-md-b02b6b7614.json"
+	},
+	{
+		"id": "docs-generated-api-tutorials-routes-api-youtube-auth-callback-9c2556106d-d54c6e8b65",
+		"title": "API Tutorial: /api/youtube/auth/callback",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-callback-9c2556106d.md",
+		"category": "Security",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Tutorial: /api/youtube/auth/callback",
+				"anchor": "api-tutorial-api-youtube-auth-callback"
+			},
+			{
+				"level": 2,
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Path parameters",
+				"anchor": "path-parameters"
+			},
+			{
+				"level": 2,
+				"text": "Starter call",
+				"anchor": "starter-call"
+			},
+			{
+				"level": 2,
+				"text": "Observed callers",
+				"anchor": "observed-callers"
+			},
+			{
+				"level": 2,
+				"text": "Related tests",
+				"anchor": "related-tests"
+			},
+			{
+				"level": 2,
+				"text": "Related routes",
+				"anchor": "related-routes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/auth/callback Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/auth/callback family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status /api/youtube/channel",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-auth-callback-9c2556106d-d54c6e8b65.json"
 	}
 ]

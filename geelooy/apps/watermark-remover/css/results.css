@@ -1,0 +1,42 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * One hundred small revelations gather without crowding the page: the Awtsmoos
+ * gives each preview a place, and Awtsmoos.com keeps the result field scrollable.
+ */
+.thumbs {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(120px, 100%), 1fr));
+	gap: 8px;
+	max-height: 50vh;
+	overflow: auto;
+}
+
+.thumb {
+	position: relative;
+	aspect-ratio: 1;
+	min-width: 0;
+	padding: 0;
+	background: #081220;
+	border: 1px solid #27364a;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.thumb canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.alpha-label {
+	position: absolute;
+	left: 4px;
+	bottom: 4px;
+	padding: 2px 5px;
+	border-radius: 4px;
+	background: #000a;
+	color: white;
+	font-size: 12px;
+}

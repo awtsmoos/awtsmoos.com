@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond dock and destination, while Awtsmoos.com lets four immediate social roads and one More doorway remain a physically stable thumb anchor;
+ * this Malchus-like garment owns fixed mobile geometry, using a quiet energy line rather than vertical motion to reveal the active road of light.
+ */
+
+@media (max-width: 62.4375rem) {
+	.mobileDock {
+		position: fixed;
+		z-index: var(--z-dock);
+		right: max(.55rem, env(safe-area-inset-right));
+		bottom: max(.55rem, var(--safe-bottom));
+		left: max(.55rem, env(safe-area-inset-left));
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		gap: .2rem;
+		padding: .32rem;
+		overflow: visible;
+		border: 1px solid rgba(126, 239, 255, .2);
+		border-radius: var(--radius-dock);
+		background: rgb(5 12 26 / 92%);
+		box-shadow: 0 14px 38px rgba(0, 0, 0, .34);
+		backdrop-filter: blur(18px) saturate(120%);
+	}
+
+	.mobileDock .routeButton {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: .08rem;
+		justify-items: center;
+		min-inline-size: 0;
+		min-block-size: 3.45rem;
+		padding: .32rem .1rem;
+		border-radius: .72rem;
+		text-align: center;
+	}
+
+	.mobileDock .routeIcon {
+		inline-size: 2rem;
+		block-size: 2rem;
+		border: 0;
+		background: transparent;
+	}
+
+	.mobileDock .routeLabel {
+		overflow: hidden;
+		max-inline-size: 100%;
+		font-size: .62rem;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.mobileDock .routeButton::before {
+		position: absolute;
+		inset-block-end: -1px;
+		inset-inline: 22%;
+		block-size: 2px;
+		border-radius: 999px;
+		background: linear-gradient(90deg, #7eefff, #a98cff);
+		content: "";
+		opacity: 0;
+		transform: scaleX(.45);
+		transition: opacity 120ms ease, transform 140ms ease;
+	}
+
+	.mobileDock .routeButton[data-active="true"]::before {
+		opacity: 1;
+		transform: scaleX(1);
+	}
+
+	.mobileDock .routeButton:is(:focus-visible, [data-active="true"]) {
+		background: rgba(126, 239, 255, .08);
+	}
+}
+
+@media (max-width: 23rem) {
+	.mobileDock {
+		right: .35rem;
+		left: .35rem;
+		gap: .12rem;
+	}
+
+	.mobileDock .routeLabel {
+		font-size: .56rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mobileDock .routeButton::before {
+		transition: none;
+	}
+}

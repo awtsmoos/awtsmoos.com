@@ -8,17 +8,17 @@ Manual Markdown pages outside the generated tree, with title, line count, and re
 
 | Document | Title | Lines | Links |
 | --- | --- | --- | --- |
-| docs/README.md | Awtsmoos.com Documentation | 58 | 17 |
+| docs/README.md | Awtsmoos.com Documentation | 47 | 16 |
 | docs/ROUTES/DYNAMIC_PATHS.md | Dynamic Paths and Dollar Variables | 61 | 1 |
 | docs/ROUTES/PUBLIC_ROUTES.md | Major Public Routes | 51 | 1 |
 | docs/ROUTES/README.md | Routes | 45 | 6 |
 | docs/ROUTES/URL_TO_SOURCE.md | URL to Source | 48 | 2 |
-| docs/SECURITY/README.md | Security and Trust Boundaries | 42 | 3 |
+| docs/SECURITY/README.md | Security and Trust | 32 | 4 |
 | docs/SECURITY/REALTIME_SECURITY.md | Realtime Security | 54 | 0 |
 | docs/SECURITY/SECRETS_AND_CONFIG.md | Secrets and Security-Sensitive Configuration | 46 | 0 |
 | docs/SECURITY/TRUST_BOUNDARIES.md | Trust Boundaries | 61 | 0 |
 | docs/SOURCE_TO_DOC.md | Source to Documentation Map | 37 | 0 |
-| docs/START_HERE.md | Start Here | 72 | 19 |
+| docs/START_HERE.md | Start Here | 45 | 2 |
 | docs/SYSTEMS/AI.md | AI Systems | 41 | 0 |
 | docs/SYSTEMS/AUTH_AND_IDENTITY.md | Authentication and Identity System | 50 | 0 |
 | docs/SYSTEMS/DATABASE_AND_STORAGE.md | Database and Storage | 48 | 0 |
@@ -40,6 +40,7 @@ Manual Markdown pages outside the generated tree, with title, line count, and re
 | docs/TUTORIALS/API/OAUTH.md | OAuth API Tutorial | 34 | 3 |
 | docs/TUTORIALS/API/OHR_HAGNUZ.md | Ohr HaGnuz API Tutorial | 34 | 3 |
 | docs/TUTORIALS/API/PUBLIC.md | Public API Tutorial | 34 | 3 |
+| docs/TUTORIALS/API/README.md | API Tutorials | 38 | 0 |
 | docs/TUTORIALS/API/ROOT_API.md | Root API API Tutorial | 34 | 3 |
 | docs/TUTORIALS/API/RUNTIME.md | Native Runtime API Tutorial | 34 | 3 |
 | docs/TUTORIALS/API/SEFARIM.md | Sefarim API Tutorial | 34 | 3 |
@@ -61,20 +62,19 @@ Manual Markdown pages outside the generated tree, with title, line count, and re
 | docs/TUTORIALS/CONTENT/POSTS_AND_SERIES.md | Posts and Series | 24 | 0 |
 | docs/TUTORIALS/CONTENT/SEARCH_GRAPH_AND_DISCOVERY.md | Search, Graph, and Discovery | 20 | 0 |
 | docs/TUTORIALS/CONTENT/SOCIAL_CONTENT_MODEL.md | Social Content Model | 26 | 1 |
+| docs/TUTORIALS/PROJECTS/APIS.md | API Projects | 22 | 0 |
+| docs/TUTORIALS/PROJECTS/APPS.md | Applications | 25 | 0 |
+| docs/TUTORIALS/PROJECTS/GAMES.md | Games and Worlds | 20 | 0 |
+| docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md | Libraries and Tooling | 20 | 0 |
+| docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md | Public and Other Boundaries | 19 | 0 |
+| docs/TUTORIALS/PROJECTS/README.md | Project and System Tutorials | 25 | 7 |
+| docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md | Runtime and Infrastructure | 20 | 0 |
 | docs/TUTORIALS/README.md | Awtsmoos.com Tutorials | 30 | 6 |
 | docs/TUTORIALS/SYSTEMS/DOCUMENTATION_RUNTIME.md | Tutorial: Documentation Runtime | 26 | 0 |
 | docs/TUTORIALS/SYSTEMS/DOSDB_RUNTIME.md | Tutorial: DosDB Runtime | 22 | 0 |
 | docs/TUTORIALS/SYSTEMS/DYNAMIC_ROUTING.md | Tutorial: Dynamic Routing | 26 | 0 |
 | docs/TUTORIALS/SYSTEMS/IDENTITY_AND_AUTH.md | Tutorial: Identity and Authorization | 26 | 0 |
+| docs/TUTORIALS/SYSTEMS/README.md | Data, Security, and Realtime System Tutorials | 29 | 7 |
 | docs/TUTORIALS/SYSTEMS/REALTIME_RUNTIME.md | Tutorial: Realtime Runtime | 22 | 0 |
 | docs/TUTORIALS/SYSTEMS/REQUEST_PIPELINE.md | Tutorial: HTTP Request Pipeline | 24 | 0 |
 | docs/TUTORIALS/SYSTEMS/SERVER_BOOT.md | Tutorial: Server Boot | 25 | 0 |
-| docs/WEBSOCKETS/APPLICATIONS.md | Realtime Applications and Events | 43 | 1 |
-| docs/WEBSOCKETS/MISSION_ROOMS.md | Mission Room WebSocket Admission | 40 | 1 |
-| docs/WEBSOCKETS/README.md | WebSocket and Realtime Platform | 48 | 5 |
-| docs/WEBSOCKETS/TUNNEL_RELAY.md | Tunnel Relay WebSocket System | 47 | 1 |
-| docs/drive/README.md | Awtsmoos Drive and self-hosted public hosting | 45 | 4 |
-| docs/drive/api-examples.md | API examples | 92 | 0 |
-| docs/drive/architecture.md | Architecture and security | 49 | 0 |
-| docs/drive/operations.md | Operations, migration, rollback, and recovery | 47 | 0 |
-| docs/operations/README.md | Awtsmoos production operations | 62 | 5 |

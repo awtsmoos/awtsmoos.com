@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-code-e6aec26f.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1055,
-		"tests": 40,
-		"assets": 1,
+		"source": 1078,
+		"tests": 44,
+		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 1
 	},
-	"totalFiles": 1099,
+	"totalFiles": 1125,
 	"symbolSummary": {
-		"files": 953,
-		"classes": 125,
-		"functions": 1012,
-		"exports": 1154,
+		"files": 976,
+		"classes": 133,
+		"functions": 1048,
+		"exports": 1195,
 		"samples": [
 			"htmlContentSecurityPolicy",
 			"serveVirtualAsset",
@@ -54,7 +54,7 @@
 	"outgoingDependencies": [
 		{
 			"project": "geelooy/shared",
-			"count": 16,
+			"count": 19,
 			"examples": "geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js"
 		},
 		{

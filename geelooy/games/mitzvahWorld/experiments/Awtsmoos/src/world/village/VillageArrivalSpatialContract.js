@@ -4,9 +4,9 @@
 
 /**
  * @file VillageArrivalSpatialContract.js
- * @description Holds pure arrival geometry and framing data without scheduling runtime nature or touching the DOM.
- * The Awtsmoos creates entrance, player, camera, sign, and clearing before any runtime awakens;
- * Awtsmoos.com keeps this vessel side-effect free so spatial truth can load instantly in game, diagnostics, tests, and Studio.
+ * @description Holds pure village arrival geometry with human-scale third-person framing and no runtime side effects.
+ * The Awtsmoos places the traveler inside the world rather than shrinking the soul beneath a distant eye;
+ * Awtsmoos.com keeps the Chossid at authored scale while camera distance and field of view let human presence fill the sky.
  */
 
 export const VILLAGE_ARRIVAL_PLAYER = Object.freeze({
@@ -16,14 +16,14 @@ export const VILLAGE_ARRIVAL_PLAYER = Object.freeze({
 });
 
 export const VILLAGE_ARRIVAL_CAMERA = Object.freeze({
-	clearingRadius: 20,
+	clearingRadius: 15,
 	clearingX: 0,
-	clearingZ: 122,
-	distance: 18,
-	fov: 62,
-	maxDistance: 52,
+	clearingZ: 113,
+	distance: 8.5,
+	fov: 56,
+	maxDistance: 24,
 	minDistance: 2.2,
-	pitch: 0.24,
+	pitch: 0.26,
 	yaw: 2.86
 });
 

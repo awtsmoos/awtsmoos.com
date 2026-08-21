@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-domem-architecture-readme-d41e9cfcef",
+	"title": "Domem Architecture API",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/domem/architecture/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Domem Architecture API",
+			"anchor": "domem-architecture-api"
+		},
+		{
+			"level": 2,
+			"text": "PURPOSE",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "CANONICAL ENTRY POINTS",
+			"anchor": "canonical-entry-points"
+		},
+		{
+			"level": 2,
+			"text": "OWNS",
+			"anchor": "owns"
+		},
+		{
+			"level": 2,
+			"text": "DOES NOT OWN",
+			"anchor": "does-not-own"
+		},
+		{
+			"level": 2,
+			"text": "DEPENDENCY DIRECTION",
+			"anchor": "dependency-direction"
+		},
+		{
+			"level": 2,
+			"text": "EXTENSION RULES",
+			"anchor": "extension-rules"
+		},
+		{
+			"level": 2,
+			"text": "MIGRATION NOTES",
+			"anchor": "migration-notes"
+		},
+		{
+			"level": 2,
+			"text": "AI DISCOVERY KEYWORDS",
+			"anchor": "ai-discovery-keywords"
+		},
+		{
+			"level": 2,
+			"text": "NEXT FILES TO READ",
+			"anchor": "next-files-to-read"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-domem-architecture-readme-d41e9cfcef-001.json"
+	]
+}

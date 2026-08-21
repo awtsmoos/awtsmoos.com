@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: geelooy/ocr
+# Project Tutorial: OCR Studio — Awtsmoos
 
 **Path:** `geelooy/ocr` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -25,7 +25,7 @@ Blessed is He
 
 ## Public entry points
 
-- `/ocr` → `geelooy/ocr/index.html`
+- `/ocr` → `geelooy/ocr/index.html` — OCR Studio — Awtsmoos
 
 ## Symbol evidence
 

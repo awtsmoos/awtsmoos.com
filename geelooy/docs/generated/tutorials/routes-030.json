@@ -1,8 +1,8 @@
 [
 	{
-		"id": "api-social-entities-universe-type-id-fork-b274afe17d",
-		"route": "/api/social/entities/universe/:type/:id/fork",
-		"source": "geelooy/api/social/_awtsmoos.entities.js",
+		"id": "api-social-drive-aliasid-projects-projectid-hosting-c388ea85c4",
+		"route": "/api/social/drive/:aliasId/projects/:projectId/hosting",
+		"source": "geelooy/api/social/helper/drive/routes/projectHostingRoutes.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -18,11 +18,11 @@
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "type",
+				"name": "aliasId",
 				"catchAll": false
 			},
 			{
-				"name": "id",
+				"name": "projectId",
 				"catchAll": false
 			}
 		],
@@ -32,20 +32,14 @@
 		],
 		"methodEvidence": "GET, POST",
 		"vessels": [
-			"$_GET",
-			"$_POST",
-			"route-vars"
+			"$_GET"
 		],
 		"statuses": [],
-		"headers": [],
-		"callers": [
-			{
-				"literal": "/api/social/entities/universe/${state.type}/${state.id}/fork",
-				"source": "geelooy/entity-view/app.js",
-				"kind": "runtime"
-			}
+		"headers": [
+			"x-request-id"
 		],
-		"callerCount": 1,
+		"callers": [],
+		"callerCount": 0,
 		"tests": [
 			{
 				"name": "test",
@@ -84,11 +78,11 @@
 			{
 				"method": "GET",
 				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/entities/universe/{type}/{id}/fork'",
-				"fetch": "const response = await fetch(\"/api/social/entities/universe/{type}/{id}/fork\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
+				"curl": "curl -X GET 'https://awtsmoos.com/api/social/drive/{aliasId}/projects/{projectId}/hosting'",
+				"fetch": "const response = await fetch(\"/api/social/drive/{aliasId}/projects/{projectId}/hosting\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
 			}
 		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-fork-b274afe17d.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-projects-projectid-hosting-c388ea85c4.md",
 		"confidence": "source-lexical",
 		"related": [
 			{
@@ -126,9 +120,9 @@
 		]
 	},
 	{
-		"id": "api-social-entities-universe-type-id-range-reference-attach-d7fa4e6dc0",
-		"route": "/api/social/entities/universe/:type/:id/range-reference/attach",
-		"source": "geelooy/api/social/_awtsmoos.entities.js",
+		"id": "api-social-drive-aliasid-reconciliation-c059090ce4",
+		"route": "/api/social/drive/:aliasId/reconciliation",
+		"source": "geelooy/api/social/helper/drive/routes/reconciliationRoutes.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -144,23 +138,17 @@
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "type",
-				"catchAll": false
-			},
-			{
-				"name": "id",
+				"name": "aliasId",
 				"catchAll": false
 			}
 		],
 		"methods": [
-			"GET",
-			"POST"
+			"GET"
 		],
-		"methodEvidence": "GET, POST",
+		"methodEvidence": "GET",
 		"vessels": [
 			"$_GET",
-			"$_POST",
-			"route-vars"
+			"headers"
 		],
 		"statuses": [],
 		"headers": [],
@@ -204,11 +192,11 @@
 			{
 				"method": "GET",
 				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/entities/universe/{type}/{id}/range-reference/attach'",
-				"fetch": "const response = await fetch(\"/api/social/entities/universe/{type}/{id}/range-reference/attach\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
+				"curl": "curl -X GET 'https://awtsmoos.com/api/social/drive/{aliasId}/reconciliation'",
+				"fetch": "const response = await fetch(\"/api/social/drive/{aliasId}/reconciliation\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
 			}
 		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-range-reference-attach-d7fa4e6dc0.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-reconciliation-c059090ce4.md",
 		"confidence": "source-lexical",
 		"related": [
 			{
@@ -246,9 +234,9 @@
 		]
 	},
 	{
-		"id": "api-social-entities-universe-type-id-range-reference-preview-e4a0e0bf4c",
-		"route": "/api/social/entities/universe/:type/:id/range-reference/preview",
-		"source": "geelooy/api/social/_awtsmoos.entities.js",
+		"id": "api-social-drive-aliasid-site-0cdc139da7",
+		"route": "/api/social/drive/:aliasId/site",
+		"source": "geelooy/api/social/helper/drive/routes/siteRoutes.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -264,26 +252,17 @@
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "type",
-				"catchAll": false
-			},
-			{
-				"name": "id",
+				"name": "aliasId",
 				"catchAll": false
 			}
 		],
-		"methods": [
-			"GET",
-			"POST"
-		],
-		"methodEvidence": "GET, POST",
-		"vessels": [
-			"$_GET",
-			"$_POST",
-			"route-vars"
-		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
 		"statuses": [],
-		"headers": [],
+		"headers": [
+			"x-request-id"
+		],
 		"callers": [],
 		"callerCount": 0,
 		"tests": [
@@ -320,16 +299,9 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/entities/universe/{type}/{id}/range-reference/preview'",
-				"fetch": "const response = await fetch(\"/api/social/entities/universe/{type}/{id}/range-reference/preview\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-range-reference-preview-e4a0e0bf4c.md",
-		"confidence": "source-lexical",
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-site-0cdc139da7.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",
@@ -366,9 +338,9 @@
 		]
 	},
 	{
-		"id": "api-social-entities-universe-type-id-snapshot-3ad129827f",
-		"route": "/api/social/entities/universe/:type/:id/snapshot",
-		"source": "geelooy/api/social/_awtsmoos.entities.js",
+		"id": "api-social-drive-aliasid-sites-47244205c9",
+		"route": "/api/social/drive/:aliasId/sites",
+		"source": "geelooy/api/social/helper/drive/routes/siteRoutes.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -384,31 +356,22 @@
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "type",
-				"catchAll": false
-			},
-			{
-				"name": "id",
+				"name": "aliasId",
 				"catchAll": false
 			}
 		],
-		"methods": [
-			"GET",
-			"POST"
-		],
-		"methodEvidence": "GET, POST",
-		"vessels": [
-			"$_GET",
-			"$_POST",
-			"route-vars"
-		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
 		"statuses": [],
-		"headers": [],
+		"headers": [
+			"x-request-id"
+		],
 		"callers": [
 			{
-				"literal": "/api/social/entities/universe/${state.type}/${state.id}/snapshot",
-				"source": "geelooy/entity-view/app.js",
-				"kind": "runtime"
+				"literal": "/api/social/drive/my%20alias/sites",
+				"source": "geelooy/drive/test/siteMappingClient.test.mjs",
+				"kind": "test"
 			}
 		],
 		"callerCount": 1,
@@ -446,16 +409,9 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/entities/universe/{type}/{id}/snapshot'",
-				"fetch": "const response = await fetch(\"/api/social/entities/universe/{type}/{id}/snapshot\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-snapshot-3ad129827f.md",
-		"confidence": "source-lexical",
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-sites-47244205c9.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",

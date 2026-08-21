@@ -1,8 +1,8 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-light-three-gltf-test-directory-g-75aa421554",
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-lighting-direc-c7b48cd162",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/light-three-gltf/test/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/lighting/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -13,8 +13,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments/light-three-gltf/test",
-				"anchor": "directory-guide-experiments-light-three-gltf-test"
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/lighting",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-lighting"
 			},
 			{
 				"level": 2,
@@ -48,8 +48,75 @@
 			},
 			{
 				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/lighting Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose World lighting, sun, ambient, or environment light coordination. The Awtsmoo",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/lighting role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose world lighting, sun, ambient, or environment light coordination. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: reference, bounded, cloud, com, create, lighting, renews, sky, sun, air, atmospheric, budgets file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h defines the reference sunset, atmospheric, lamp, and quality budgets. the awtsmoos renews one sun through many finite reflections; awtsmoos.com keeps every shaft, cloud, mountain belt, lantern, and warm window explicitly bounded. builds layered warm clouds and cool atmospheric haze for the valley. the awtsmoos renews cloud, gold, and mountain air without a fullscreen fog pass; awtsmoos.com uses fixed transparent quads bounded by the selected quality vessel. builds bounded crepuscular rays from the reference sunset direction. the awtsmoos renews visible beams within air and leaf; awtsmoos.com uses tapered transparent sky meshes so radiance appears without an unbounded post process pass. representative files referencegoldenhourpreset.js — defines the reference sunset, atmospheric, lamp, and quality budgets. the awtsmoos renews one sun through many finite reflections; awtsmoos.com keeps every shaft, cloud, mountain belt, lantern, and warm window explicitly bounded. exports: reference golden hour, reference lighting budgets, referencelightingbudget. referenceskycloudsystem.js — builds layered warm clouds and cool atmospheric haze for the valley. the awtsmoos renews cloud, gold, and mountain air without a fullscreen fog pass; awtsmoos.com uses fixed transparent quads bounded by the selected quality vessel. exports: createreferenceskyclouds, createreferencehazelayers. volumetricsunshaftsystem.js — builds bounded crepuscular rays from the reference sunset direction. the awtsmoos renews visible beams within air and leaf; awtsmoos.com uses tapered transparent sky meshes so radiance appears without an unbounded post process pass. exports: createvolumetricsunshafts. exported symbols worth searching reference golden hour · reference lighting budgets · referencelightingbudget · createreferenceskyclouds · createreferencehazelayers · createvolumetricsunshafts import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../sky/skymeshfactory.js ../sky/proceduralatmospheretexture.js ./referencegoldenhourpreset.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems see the system overlap map before creating a similarly named subsystem elsewhere. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-lighting-direc-c7b48cd162.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-materials-dire-2e60839ded",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/materials/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/materials",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-materials"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
 			},
 			{
 				"level": 2,
@@ -72,75 +139,8 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/light three gltf/test Role: Rendering library Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 27 files, 0 structural child directories Purpose Tests for the lightweight scene graph, GLTF, math, and renderer primitives. T",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/light three gltf/test role: rendering library snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 27 files, 0 structural child directories purpose tests for the lightweight scene graph, gltf, math, and renderer primitives. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: rendering library search terms: mjs, tiny, state, render, texture, cache, com, proves, layered, material, native, static file mix: .mjs: 26 good first question: “does the behavior or asset i need belong to rendering library, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves first clip activation, exact looping, crossfade, and bind restoration. the awtsmoos gives motion to clip zero before any clock has passed; awtsmoos.com verifies that idle begins alive, continues without reset, and yields cleanly to every later gesture. creates a fake webgl context whose native call ledger remains observable. proves exact skips, selective vao invalidation, restore, and identity. the awtsmoos remembers without confusion; awtsmoos.com erases only the declarations a hidden vertex array change can alter while preserving every unrelated witnessed state. representative files tiny animation player.test.mjs — proves first clip activation, exact looping, crossfade, and bind restoration. the awtsmoos gives motion to clip zero before any clock has passed; awtsmoos.com verifies that idle begins alive, continues without reset, and yields cleanly to every later gesture. tiny gl state cache fixture.mjs — creates a fake webgl context whose native call ledger remains observable. exports: createfakegl, nativecallcount. tiny gl state cache.test.mjs — proves exact skips, selective vao invalidation, restore, and identity. the awtsmoos remembers without confusion; awtsmoos.com erases only the declarations a hidden vertex array change can alter while preserving every unrelated witnessed state. tiny gltf instance.test.mjs — proves resource sharing and mutable skeleton isolation between actors. the awtsmoos renews each body through one shared form; awtsmoos.com verifies that geometry and palette vessels are reused while bones and transforms remain independent. covers: “instances share geometry and default material but not bones”, “palette resolvers can share one variant across many instances”. tiny gpu texture binding.test.mjs — proves an already bound unit needs neither activation nor another texture bind. the awtsmoos joins memory and garment without empty motion; awtsmoos.com verifies that returning to a resident unit changes only the sampler uniform, not global webgl texture state. covers: “resident texture units skip redundant activetexture and bindtexture calls”. tiny layered terrain shader.test.mjs — proves six active samplers, ecological controls, and smaller gpu compilation. the awtsmoos is one beneath every stacked garment; awtsmoos.com verifies distinct earth without assuming every finite gpu should evaluate ten overlapping textures per pixel. covers: “default fragment shader contains six terrain samplers and seven mixes”, “a smaller shader contains only its measured layer capacity”, “ecological zone weights travel from vertex input to fragment shader”. tiny layered texture binder.test.mjs — proves zero ordinary material tax and hardware aware terrain layer capacity. the awtsmoos fills six vessels on broad hardware and five on a smaller vessel; awtsmoos.com never makes cottages or chassidim walk through empty terrain binding declarations. covers: “ordinary materials perform no terrain texture operations”, “verified hardware binds all six layers to units three through eight”, “eight unit hardware disables only the sixth excess terrain layer”. tiny layered texture state.test.mjs — proves ordinary materials stay empty while six active layers compare exactly. the awtsmoos joins only truly equal garments; awtsmoos.com detects image, readiness, repeat, ecology, height, slope, rotation, strength, and wetness without blank ordinary state. covers: “ordinary materials expose no layered state”, “six complete layers compare by exact shader visible state”, “missing logical layers become disabled default shader records”. tiny material signature.test.mjs — prevents batching across sidedness or incompatible native pixel density contracts. the awtsmoos unites forms without confusing their boundaries or scale; awtsmoos.com keeps distinct culling covenants and original pixel measurements in separate renderer vessels. covers: “material signatures distinguish every renderer visible sidedness contract”, “pre hydration signatures preserve distinct native density policies”, “hydrated source dimensions become part of the effective repeat signature”. tiny native texture density.test.mjs — proves original pixels produce fractional world scale repeats without resampling. the awtsmoos preserves the finite dimensions of every image vessel; awtsmoos.com verifies that world uvs reveal more or less of that source rather than enlarging or shrinking the source. covers: “world uv density uses exact source width, height, and uv scale”, “normalized surfaces calculate fractional cycles from measured surface size”, “unresolved and opted out sources preserve authored fallback repetition”. tiny render allocation cache.test.mjs — proves frame, transform, world map, and bounds storage reuse without math drift. the awtsmoos renews every coordinate; awtsmoos.com verifies the same finite vessels may receive those exact values again instead of becoming short lived frame garbage. covers: “world traversal reuses map, snapshots, hierarchy matrices, and sphere storage”, “render frames reuse camera matrices, camera position, and world map exactly”. tiny render culling.test.mjs — proves conservative bounds, camera culling, and invisible matrix skipping. the awtsmoos renews seen and unseen forms alike; awtsmoos.com verifies that the renderer conceals only what evidence places outside the present camera vessel. covers: “local and world spheres are cached and transformed”, “camera collection preserves front meshes and rejects side and distant meshes”, “explicit mountains remain visible and missing bounds fail open”. tiny render gl state stats.test.mjs — proves exact aggregation of cache and vertex array invalidation evidence. the awtsmoos contains every call and lawful omission; awtsmoos.com records their measure so an optimization remains a tested vessel rather than a flattering boast. exported symbols worth searching createfakegl · nativecallcount · createscene · collect · material · triangle · readyimage import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict ../tiny runtime.js ../tiny animation.js ../tiny gl state cache.js ./tiny gl state cache fixture.mjs node:test ../tiny gltf instance.js ../tiny gpu texture cache.js ../tiny fragment shader.js ../tiny unified shaders.js ../tiny render webgl utils.js ../tiny layered texture binder.js test themes instances share geometry and default material but not bones palette resolvers can share one variant across many instances resident texture units skip redundant activetexture and bindtexture calls default fragment shader contains six terrain samplers and seven mixes a smaller shader contains only its measured layer capacity ecological zone weights travel from vertex input to fragment shader only explicit layered terrain enters material mode five ordinary materials perform no terrain texture operations verified hardware binds all six layers to units three through eight eight unit hardware disables only the sixth excess terrain layer ordinary materials expose no layered state six complete layers compare by exact shader visible state directory map parent: experiments/light three gltf children: none. related and overlapping systems rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-light-three-gltf-test-directory-g-75aa421554.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-movie-maker-audit-md-555789cc24",
-		"title": "B\"H — Mitzvah World Movie Maker Audit",
-		"sourcePath": "geelooy/games/mitzvahWorld/MOVIE_MAKER_AUDIT.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H — Mitzvah World Movie Maker Audit",
-				"anchor": "b-h-mitzvah-world-movie-maker-audit"
-			},
-			{
-				"level": 2,
-				"text": "Recovered systems",
-				"anchor": "recovered-systems"
-			},
-			{
-				"level": 2,
-				"text": "Launcher",
-				"anchor": "launcher"
-			},
-			{
-				"level": 2,
-				"text": "Runtime architecture",
-				"anchor": "runtime-architecture"
-			},
-			{
-				"level": 2,
-				"text": "AI project contract",
-				"anchor": "ai-project-contract"
-			},
-			{
-				"level": 2,
-				"text": "NLE",
-				"anchor": "nle"
-			},
-			{
-				"level": 2,
-				"text": "Thirty-second film",
-				"anchor": "thirty-second-film"
-			},
-			{
-				"level": 2,
-				"text": "Floor correction",
-				"anchor": "floor-correction"
-			},
-			{
-				"level": 2,
-				"text": "Final media",
-				"anchor": "final-media"
-			},
-			{
-				"level": 2,
-				"text": "Regression proof",
-				"anchor": "regression-proof"
-			},
-			{
-				"level": 2,
-				"text": "Honest limitations",
-				"anchor": "honest-limitations"
-			}
-		],
-		"excerpt": "B\"H — Mitzvah World Movie Maker Audit Recovered systems The repository did not contain an older Mitzvah World movie maker, but it did contain the two required foundations. geelooy/apps/animator supplied NLE track, camera shot, scene, performance, and export architecture. geelooy/apps/piano supplied ordered browser reco",
-		"searchText": "b\"h — mitzvah world movie maker audit recovered systems the repository did not contain an older mitzvah world movie maker, but it did contain the two required foundations. geelooy/apps/animator supplied nle track, camera shot, scene, performance, and export architecture. geelooy/apps/piano supplied ordered browser recording, audio stream, worker, finalization, and download patterns. the new system adapts those ideas to the real mitzvah world runtime rather than creating a disconnected renderer. launcher the game no longer boots invisibly underneath its opening screen. the short main menu offers: enter world movie maker mode=world bypasses the menu for normal gameplay. movie get parameters bypass the menu and open the studio. runtime architecture ai project contract projects may arrive through encoded get json, raw get json, fetched json, pasted editor json, or the included sample. tracks support scene changes and visibility, actor motion and animation, door motion, eased cinematic cameras, dialogue, and audio. the complete machine readable contract is movies/movie project.schema.json. nle the visible studio provides track lanes, colored clips, ruler, scrub playhead, live preview, json editor, apply json, get url generation, play/stop, render progress, and browser download. the source webgl canvas remains active but hidden. the output canvas composites real world frames with scene grades, transitions, titles, camera shot names, and dialogue subtitles. thirty second film project: movies/projects/chossid journey 30s.json. the film uses seven tracks and thirty three clips. the chossid walks, runs, speaks with another character, approaches the real main house door, passes through it after it opens, runs inside, jumps, and completes the journey. eight camera shots include establishing, side tracking, two shot, low angle hero, doorway follow, interior tracking, jump low angle, and crane ending. floor correction the first rendered candidate was rejected after evidence showed the general collision ground sampler was striking the house roof overhang. movie actors now use terrain height outdoors and explicit rotated house floor metadata indoors. verified heights: outdoor approach: approximately 0.52 m interior floor: approximately 0.77 m interior jump apex: approximately 3.02 m grounded interior ending: approximately 0.77 m the rejected evidence was deleted and the entire movie was rerendered. final media accepted final: movies/chossid journey 30s.mp4. browser master: movies/chossid journey 30s browser master.webm. poster: movies/chossid journey 30s poster.jpg. final format: h.264 video 960 × 540 24 fps 720 frames 30.000 seconds aac stereo 48 khz 13,794,089 bytes sha 256 0eb45182641022bfc51d17030aafc341dd8c55be1d7c36e867671ebaab2e9c8a full video and audio decode completed without errors. audio measures approximately −23.0 db mean and −2.1 db peak. regression proof movie project and floor resolver tests pass. the original forest still contains fifty four trees and all thirty six presets. the prior geometry suite still reports five houses, fourteen doors and mezuzahs, four staircases, zero stair penetrations, and zero road gaps or intersections. honest limitations browser live webaudio depends on trusted playback permissions. the accepted render obtained a running live audio context, and the finalizer always adds timed spoken dialogue from the same json before mp4 verification. the nle is json first: clips can be scrubbed and projects rebuilt, but drag resize editing is not yet implemented.",
-		"page": "pages/geelooy-games-mitzvahworld-movie-maker-audit-md-555789cc24.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/materials Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 12 files, 0 structural child directories Purpose World material definitions and material assignment policy. The Awtsmoos re",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/materials role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 12 files, 0 structural child directories purpose world material definitions and material assignment policy. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: material, stack, mountain, village, layer, texture, com, preset, terrain, physical, recipe, bounded file mix: .js: 11 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds explicit reusable layers for village material family recipes. the awtsmoos reveals one surface through many bounded influences; awtsmoos.com keeps rotation, repeat, ecology, slope, height, strength, priority, and wetness authored together. attaches a logical recipe, active page, and cached images to render definitions. the awtsmoos reveals many canonical surfaces after geometry exists; awtsmoos.com keeps the fallback color visible while each layer independently enters the existing hydration cadence. creates one immutable surface layer with explicit ecological weighting. the awtsmoos reveals one world through many finite garments; awtsmoos.com gives every texture a named role, bounded influence, and deterministic place before the shader mixes it. representative files materialpresetlayer.js — builds explicit reusable layers for village material family recipes. the awtsmoos reveals one surface through many bounded influences; awtsmoos.com keeps rotation, repeat, ecology, slope, height, strength, priority, and wetness authored together. exports: presetlayer. materialstackbinding.js — attaches a logical recipe, active page, and cached images to render definitions. the awtsmoos reveals many canonical surfaces after geometry exists; awtsmoos.com keeps the fallback color visible while each layer independently enters the existing hydration cadence. exports: bindmaterialstack, bindmaterialpair. materialstacklayer.js — creates one immutable surface layer with explicit ecological weighting. the awtsmoos reveals one world through many finite garments; awtsmoos.com gives every texture a named role, bounded influence, and deterministic place before the shader mixes it. exports: materialstacklayer. materialstackrecipe.js — holds up to sixteen logical textures and pages them into gpu sampler vessels. the awtsmoos is not reduced when hardware sees only one page; awtsmoos.com preserves the complete recipe while distance, priority, and sampler capacity choose the visible revelation. exports: material stack logical limit, material stack target active, materialstackrecipe, materialstackpage, materialstackdiagnostics. mountainvillagematerialpresets.js — preserves one stable doorway into split terrain, road, mountain, and cottage recipes. the awtsmoos is one while each material family receives its own bounded vessel; awtsmoos.com keeps historic imports stable as richer full source texture mixing grows in focused modules. exports: villageroadstack, mountainterrainstack, cottagesurfacestack, mountainrockstack. mountainvillagematerialsources.js — exposes canonical source urls and deduplicated multi variant village families. the awtsmoos renews meadow, earth, stone, timber, roof, and water through truthful garments; awtsmoos.com keeps eight distinct grasses without binding authored terrain order to array indexes. exports: mountain village families, mountain village sources. mountainvillageterrainsources.js — names every terrain and structural source independently of family deduplication. the awtsmoos remains one when aliases reveal one url; awtsmoos.com prevents a shortened array from turning granite into nothing or moving bluestone, cobble, soil, and strata into false roles. exports: mountain village sources, mountain village terrain variants. physicaltexturecoverage.js — defines physical source coverage and exact fractional surface repetition. the awtsmoos grants image and wall their own finite measure; awtsmoos.com repeats native pixels according to world size so no stone, slate, timber, road, or cloth is stretched to fit. exports: physical texture coverage, physicaltexturerepeat, physicaltexturepolicy. roadmaterialstackpreset.js — builds ten active road garments from stone, cobble, soil, moss, grass, mud, and dust. the awtsmoos renews every traveled center and softened edge; awtsmoos.com mixes multiple full source cobbles and transitions without splitting one continuous collision road into objects. exports: villageroadstack. structurematerialstackpreset.js — builds mountain and cottage recipes with deliberate ecological masks. the awtsmoos reveals cliff and home through stone, scree, soil, moss, timber, and metal; awtsmoos.com lets each layer answer terrain evidence instead of painting every slope alike. exports: mountainrockstack, cottagesurfacestack. terrainmaterialstackpreset.js — builds sixteen named alpine layers without relying on deduplicated array indices. the awtsmoos reveals meadow as grasses, transitions, earth, mud, rock, forest, and shore; awtsmoos.com keeps every url explicit so aliasing one source can never break world startup. exports: mountainterrainstack. exported symbols worth searching presetlayer · bindmaterialstack · bindmaterialpair · materialstacklayer · material stack logical limit · material stack target active · materialstackrecipe · materialstackpage · materialstackdiagnostics · villageroadstack · mountainterrainstack · cottagesurfacestack · mountainrockstack · mountain village families · mountain village sources · mountain village terrain variants import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./materialstacklayer.js ../../assets/publicmaterialcache.js ./materialstackrecipe.js ../../assets/productionmaterialurlpolicy.js ./roadmaterialstackpreset.js ./terrainmaterialstackpreset.js ./structurematerialstackpreset.js ../../assets/surfacetexturefamilies.js ./mountainvillageterrainsources.js ../../assets/highestresolutionsurfacecatalog.js ../../assets/runtimematerialmanifest.js ./materialpresetlayer.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-materials-dire-2e60839ded.json"
 	}
 ]

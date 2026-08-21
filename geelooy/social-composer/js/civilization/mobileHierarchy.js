@@ -1,45 +1,41 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @module ComposerMobileHierarchy
  * @description
- * The Awtsmoos places identity and common creative acts beside the writing
- * canvas while Awtsmoos.com routes each action into an existing truthful vessel.
+ * The Awtsmoos places identity and common creative acts beside the writing canvas while Awtsmoos.com
+ * routes each action into an existing truthful vessel; the publication door says Public because that is its real law.
  */
-
 import { installMobileIdentity } from './mobileIdentity.js';
 
-const tools = [
+export const MOBILE_TOOLS = Object.freeze([
 	['reel', '▶', 'Reel'],
 	['media', '▧', 'Media'],
 	['section', '§', 'Section'],
 	['destination', '◇', 'Destination'],
-	['audience', '◎', 'Audience'],
+	['audience', '◎', 'Public'],
 	['preview', '◫', 'Preview']
-];
+]);
 
 /** Installs writing-first tools without changing publication contracts. */
 export function installMobileHierarchy() {
 	const contentBody = document.querySelector('.contentPanel .majorPanelBody');
-	if (!contentBody || contentBody.querySelector('.composer-social-tools')) {
-		return;
-	}
+	if (!contentBody || contentBody.querySelector('.composer-social-tools')) return;
 	const title = document.getElementById('title');
 	if (title) title.placeholder = "What's on your mind?";
 	const identity = installMobileIdentity(contentBody);
 	const navigation = document.createElement('nav');
 	navigation.className = 'composer-social-tools';
 	navigation.setAttribute('aria-label', 'Post creation tools');
-	navigation.innerHTML = tools.map(toolMarkup).join('');
+	navigation.innerHTML = MOBILE_TOOLS.map(toolMarkup).join('');
 	navigation.addEventListener('click', handleToolClick);
 	identity.insertAdjacentElement('afterend', navigation);
 }
 
 function toolMarkup([name, icon, label]) {
 	return /*html*/`
-		<button type="button" data-composer-tool="${name}">
+		<button type="button" data-composer-tool="${name}" aria-label="${label}">
 			<span aria-hidden="true">${icon}</span>
 			${label}
 		</button>
@@ -79,3 +75,5 @@ function openPanel(selector) {
 	panel.open = true;
 	panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+export { handleToolClick, toolMarkup };

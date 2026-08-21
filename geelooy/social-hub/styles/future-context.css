@@ -1,0 +1,48 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets identity, destination, privacy, and pulse remain many names around one present act;
+Awtsmoos.com gives the context ribbon hierarchy and mobile continuity so orientation stays exact.
+*/
+.contextRibbon {
+	scroll-snap-type: x proximity;
+	scrollbar-width: none;
+}
+
+.contextRibbon::-webkit-scrollbar {
+	display: none;
+}
+
+.contextRibbon > * {
+	flex: 0 0 auto;
+	scroll-snap-align: start;
+	transition:
+		border-color var(--keter-fast) ease,
+		background-color var(--keter-fast) ease,
+		box-shadow var(--keter-normal) ease;
+}
+
+.contextRibbon > strong,
+.contextRibbon > [aria-current="true"],
+.contextRibbon > [data-active="true"] {
+	border-color: var(--yesod-edge-hot);
+	background: linear-gradient(
+		120deg,
+		rgb(76 202 255 / 10%),
+		rgb(152 105 255 / 9%)
+	);
+	box-shadow:
+		0 0 20px rgb(85 213 255 / 8%),
+		var(--yesod-inset);
+	color: #e8fbff;
+}
+
+@media (max-width: 48rem) {
+	.contextRibbon {
+		justify-content: flex-start;
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+		padding-inline: .65rem;
+	}
+}

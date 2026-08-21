@@ -21,19 +21,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-scripts-1d55a5b0.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1314,
-		"tests": 96,
-		"assets": 1,
+		"source": 1431,
+		"tests": 113,
+		"assets": 0,
 		"generated": 0,
 		"docs": 6,
 		"other": 37
 	},
-	"totalFiles": 1454,
+	"totalFiles": 1587,
 	"symbolSummary": {
-		"files": 1264,
-		"classes": 357,
-		"functions": 4504,
-		"exports": 1729,
+		"files": 1375,
+		"classes": 389,
+		"functions": 4857,
+		"exports": 1925,
 		"samples": [
 			"AwtsmoosAPI",
 			"for",
@@ -76,6 +76,11 @@
 			"examples": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs"
 		},
 		{
+			"project": "geelooy/api/social",
+			"count": 1,
+			"examples": "geelooy/scripts/release-assets/seed-drive.js"
+		},
+		{
 			"project": "geelooy/api/tunnel",
 			"count": 1,
 			"examples": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs"
@@ -113,14 +118,29 @@
 			"examples": "geelooy/apps/rebbe/android/build.js"
 		},
 		{
+			"project": "geelooy/apps/slides",
+			"count": 1,
+			"examples": "geelooy/apps/slides/src/collab/PresenceSlidesTransport.js"
+		},
+		{
 			"project": "geelooy/apps/tunnel",
 			"count": 1,
 			"examples": "geelooy/apps/tunnel/agent/tools/fs/jsWriteVerifier.js"
 		},
 		{
-			"project": "geelooy/comment-thread",
+			"project": "geelooy/apps/universal-chat",
 			"count": 1,
-			"examples": "geelooy/comment-thread/app.js"
+			"examples": "geelooy/apps/universal-chat/MessagingConversationActions.js"
+		},
+		{
+			"project": "geelooy/awtai-db",
+			"count": 1,
+			"examples": "geelooy/awtai-db/app.js"
+		},
+		{
+			"project": "geelooy/email",
+			"count": 1,
+			"examples": "geelooy/email/index.js"
 		},
 		{
 			"project": "geelooy/heichel-editor",
@@ -128,14 +148,9 @@
 			"examples": "geelooy/heichel-editor/app.js"
 		},
 		{
-			"project": "geelooy/post-editor",
+			"project": "geelooy/heichelos",
 			"count": 1,
-			"examples": "geelooy/post-editor/app.js"
-		},
-		{
-			"project": "geelooy/profile",
-			"count": 1,
-			"examples": "geelooy/profile/auth.js"
+			"examples": "geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js"
 		}
 	],
 	"externalDependencies": [

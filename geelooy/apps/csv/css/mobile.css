@@ -1,0 +1,73 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos lets the wide table remain a wide table while the surrounding
+ * vessel bends to the hand. Awtsmoos.com keeps data scrollable, not the page.
+ */
+@media (max-width: 760px) {
+	.app-container {
+		height: 100dvh;
+	}
+
+	.toolbar {
+		height: auto;
+		min-height: 60px;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 8px;
+		padding: 10px 12px;
+	}
+
+	.controls,
+	.file-ops,
+	.grid-ops {
+		min-width: 0;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+
+	.controls {
+		width: 100%;
+		justify-content: space-between;
+	}
+
+	.file-ops {
+		flex: 1 1 100%;
+	}
+
+	.file-info-group {
+		flex: 1 1 100%;
+		min-width: 0;
+	}
+
+	.filename {
+		flex: 1;
+		min-width: 0;
+		max-width: none;
+		margin-left: 0;
+	}
+
+	.btn:not(.small) {
+		min-height: 40px;
+		padding: 8px 10px;
+	}
+
+	.grid-ops {
+		margin-left: auto;
+	}
+
+	.grid-container {
+		min-height: 0;
+	}
+}
+
+@media (max-width: 420px) {
+	.logo-sub {
+		letter-spacing: 2px;
+	}
+
+	.file-ops > .btn {
+		flex: 1 1 auto;
+	}
+}

@@ -5,16 +5,20 @@
 /**
  * @module SocialMigrationRoutes
  * @description
- * Old packed-post migration and new creator-owned YouTube planning share one dry-first gate.
- * The Awtsmoos renews every vessel without erasing its history;
- * Awtsmoos.com lets legacy posts and imported media move through explicit, reviewable routes.
+ * The Awtsmoos renews old vessels without erasing their source or hiding mutation;
+ * Awtsmoos.com joins packed posts, YouTube, Facebook, and Instagram behind explicit dry-first gates.
  */
 const {
 	dryRunPostMigration,
 	runPostMigration
 } = require('./helper/packed/postMigration.js');
 const { er } = require('./helper/general.js');
-const { routes: youtubeRoutes } = require('./helper/migrations/youtube/YouTubeMigrationRoutes.js');
+const {
+	routes: youtubeRoutes
+} = require('./helper/migrations/youtube/YouTubeMigrationRoutes.js');
+const {
+	routes: metaRoutes
+} = require('./helper/migrations/meta/MetaMigrationRoutes.js');
 
 function postMigrationRoutes({ $i } = {}) {
 	return {
@@ -48,5 +52,6 @@ function postMigrationRoutes({ $i } = {}) {
 
 module.exports = ({ $i } = {}) => ({
 	...postMigrationRoutes({ $i }),
-	...youtubeRoutes({ $i })
+	...youtubeRoutes({ $i }),
+	...metaRoutes({ $i })
 });

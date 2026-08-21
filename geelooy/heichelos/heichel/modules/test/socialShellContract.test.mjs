@@ -1,12 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
- * @fileoverview Guards the split social-shell covenant of Awtsmoos.com.
- * The Awtsmoos creates roof, identity, navigation, content, and dock as one;
- * this test follows their real module graph instead of an obsolete monolith.
+ * @module SocialShellContractTest
+ * @description The Awtsmoos creates roof, identity, navigation, content, living path, and overlay as one social vessel;
+ * Awtsmoos.com follows the real split blueprint and CSS graph rather than demanding a former monolith or obsolete final import.
  */
-
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
@@ -17,7 +16,12 @@ const blueprintNames = [
 	'layout-shell.js',
 	'layout-content.js',
 	'layout-navigation.js',
-	'layout-primitives.js'
+	'layout-primitives.js',
+	'living-path/profile.js',
+	'living-path/path.js',
+	'living-path/discovery.js',
+	'living-path/filters.js',
+	'living-path/filter-sheet.js'
 ];
 const blueprints = blueprintNames
 	.map(name => read(`geelooy/heichelos/heichel/modules/ui/blueprints/${name}`))
@@ -50,9 +54,13 @@ for (const token of [
 }
 assert.match(shell, /overflow-y:\s*auto/);
 assert.match(shell, /min-height:\s*100dvh/);
-assert.match(cosmicEntry, /@import "\.\/mobile-series\/index\.css";\s*$/);
+const mobileImport = '@import "./mobile-series/index.css";';
+const overlayImport = '@import "./overlay-layer.css?v=heichel-ui-006";';
+assert.ok(cosmicEntry.includes(mobileImport), 'cosmic profile must include mobile geometry');
+assert.ok(cosmicEntry.includes(overlayImport), 'cosmic profile must include overlay layer');
+assert.ok(cosmicEntry.indexOf(mobileImport) < cosmicEntry.indexOf(overlayImport), 'overlays must follow mobile geometry');
+assert.match(cosmicEntry, /@import "\.\/overlay-layer\.css\?v=heichel-ui-006";\s*$/, 'overlay layer must own final cascade');
 assert.ok(mobileShell.includes('shell-profile.css'));
 assert.match(mobileProfile, /\.heichel-profile-cover\s*\{[^}]*block-size:\s*4\.75rem/s);
 assert.match(mobileProfile, /\.heichel-profile-action\s*\{[^}]*min-block-size:\s*44px/s);
-
 console.log('B"H socialShellContract.test passed');

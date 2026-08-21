@@ -45,7 +45,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | Literal | Source | Kind |
 | --- | --- | --- |
 | `/api/social/aliases/checkOrGenerateId` | `geelooy/heichelos/manage-alias-heichelos/script.js` | runtime |
-| `/api/social/aliases/checkOrGenerateId` | `geelooy/profile/alias-manage/script.js` | runtime |
+| `/api/social/aliases/checkOrGenerateId` | `geelooy/profile/alias-manage/modules/validation.js` | runtime |
 | `/api/social/aliases/checkOrGenerateId` | `geelooy/scripts/awtsmoos/social/home/inline-actions/api.js` | runtime |
 
 ## Related tests

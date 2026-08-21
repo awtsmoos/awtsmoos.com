@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-oros-ha-kelim-docs-runtime-api-md-5e01ab45d3",
+	"title": "Oros HaKelim Runtime API v2",
+	"sourcePath": "geelooy/games/oros-ha-kelim/docs/RUNTIME_API.md",
+	"category": "Games",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Oros HaKelim Runtime API v2",
+			"anchor": "oros-hakelim-runtime-api-v2"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Observations",
+			"anchor": "observations"
+		},
+		{
+			"level": 2,
+			"text": "Lifecycle",
+			"anchor": "lifecycle"
+		},
+		{
+			"level": 2,
+			"text": "Direct controls",
+			"anchor": "direct-controls"
+		},
+		{
+			"level": 2,
+			"text": "Generic commands",
+			"anchor": "generic-commands"
+		},
+		{
+			"level": 2,
+			"text": "Events",
+			"anchor": "events"
+		},
+		{
+			"level": 2,
+			"text": "Runtime errors",
+			"anchor": "runtime-errors"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-oros-ha-kelim-docs-runtime-api-md-5e01ab45d3-001.json"
+	]
+}

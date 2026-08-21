@@ -5,17 +5,21 @@
  * @module NotificationRender
  * @description
  * The Awtsmoos gathers many signals without making noise their master; Awtsmoos.com
- * lets this small renderer arrange truthful cards, empty states, and stream status.
+ * groups truthful cards by real context while empty states and pagination stay clear faster.
  */
+import { revealBinahNotificationContext } from './NotificationContext.js';
+import { appendNotificationCard, findOrCreateNotificationGroup } from './NotificationGroup.js';
+import { ensureMalchusNotificationStyles } from './NotificationStyles.js';
 import { createNotificationCard } from './notificationCard.js';
 
 export function renderNotificationPage(root, page, { append = false, search = '' } = {}) {
+	ensureMalchusNotificationStyles();
 	const items = Array.isArray(page?.items) ? page.items : [];
-	const cards = items.map(createNotificationCard);
-	if (append) {
-		root.append(...cards);
-	} else {
-		root.replaceChildren(...cards);
+	if (!append) root.replaceChildren();
+	for (const notification of items) {
+		const context = revealBinahNotificationContext(notification);
+		const group = findOrCreateNotificationGroup(root, context);
+		appendNotificationCard(group, createNotificationCard(notification));
 	}
 	if (!items.length && !append) {
 		const message = search
@@ -27,10 +31,10 @@ export function renderNotificationPage(root, page, { append = false, search = ''
 
 export function renderNotificationState(root, title, message) {
 	const card = document.createElement('article');
-	card.className = 'notification state';
 	const heading = document.createElement('h2');
-	heading.textContent = title;
 	const body = document.createElement('p');
+	card.className = 'notification state';
+	heading.textContent = title;
 	body.textContent = message;
 	card.append(heading, body);
 	root.replaceChildren(card);

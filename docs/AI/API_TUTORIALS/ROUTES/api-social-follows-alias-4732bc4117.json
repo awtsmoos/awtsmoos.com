@@ -35,9 +35,14 @@
 			"literal": "/api/social/follows/alice?limit=12",
 			"source": "geelooy/social-hub/tests/socialRelationshipsApi.test.mjs",
 			"kind": "test"
+		},
+		{
+			"literal": "/api/social/follows/viewer",
+			"source": "geelooy/social-hub/tests/socialRelationshipsApi.test.mjs",
+			"kind": "test"
 		}
 	],
-	"callerCount": 1,
+	"callerCount": 2,
 	"tests": [
 		{
 			"name": "test",

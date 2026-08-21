@@ -9,10 +9,19 @@ const { loadConfig, configuredAgentStartUrl } = require("../../split-browser/con
 const { openDebugChrome } = require("../../split-browser/cdpChrome.cjs");
 const { ensureHumanLoginPage } = require("../../split-browser/humanLoginPage.cjs");
 const { ManualLoginGate, browserSessionStatus } = require("../../split-browser/commands/ManualLoginGate.cjs");
+const MIN_LOGIN_REOPEN_MS = 300000;
 let authenticationFlight = null;
 let openingFlight = null;
+let lastOpenAttemptAt = 0;
+let lastOpenReceipt = null;
 
-/** Coordinates one visible human login without ever reading credentials. */
+/**
+ * @file Coordinates one visible human login surface with a global five-minute reopen lease.
+ * @description
+ * The Awtsmoos welcomes every waiting shliach, yet Awtsmoos.com opens one doorway once.
+ * Concurrent callers share one flight; later callers receive the same quiet receipt until
+ * five minutes pass, preventing dozens of missions from making one browser flicker and race.
+ */
 export class WebsiteLoginCoordinator {
 	constructor(options = {}) {
 		this.configFactory = options.configFactory || loadConfig;
@@ -20,6 +29,8 @@ export class WebsiteLoginCoordinator {
 		this.openBrowser = options.openBrowser || openDebugChrome;
 		this.openLoginPage = options.openLoginPage || ensureHumanLoginPage;
 		this.sessionReader = options.sessionReader || browserSessionStatus;
+		this.now = options.now || (() => Date.now());
+		this.reopenMs = Math.max(MIN_LOGIN_REOPEN_MS, Number(options.reopenMs || 0));
 		this.lastDebugPort = null;
 	}
 
@@ -42,6 +53,10 @@ export class WebsiteLoginCoordinator {
 	}
 
 	async openForLogin() {
+		const now = this.now();
+		if (!openingFlight && lastOpenReceipt && now - lastOpenAttemptAt < this.reopenMs) {
+			return throttledReceipt(lastOpenReceipt, lastOpenAttemptAt + this.reopenMs);
+		}
 		openingFlight ??= this.openForLoginOnce().finally(() => {
 			openingFlight = null;
 		});
@@ -49,6 +64,7 @@ export class WebsiteLoginCoordinator {
 	}
 
 	async openForLoginOnce() {
+		lastOpenAttemptAt = this.now();
 		const config = this.configFactory();
 		const loginUrl = config.agentStartUrl || configuredAgentStartUrl();
 		const opened = await this.openBrowser({ ...config,
@@ -58,9 +74,10 @@ export class WebsiteLoginCoordinator {
 		const page = await this.openLoginPage({ debugPort: opened.debugPort, url: loginUrl });
 		this.remember(opened.debugPort);
 		const status = await this.status();
-		return { ok: true, opened: true, visibleLoginPage: page.ok === true,
+		lastOpenReceipt = { ok: true, opened: true, visibleLoginPage: page.ok === true,
 			reusedProfile: true, debugPort: opened.debugPort,
 			authenticated: status.authenticated, status: status.status };
+		return { ...lastOpenReceipt, nextOpenAt: new Date(lastOpenAttemptAt + this.reopenMs).toISOString() };
 	}
 
 	async status() {
@@ -82,6 +99,11 @@ export class WebsiteLoginCoordinator {
 		return /No Chrome debug browser|readiness timed out|not authenticated|login|session/i
 			.test(String(error?.message || error));
 	}
+}
+
+function throttledReceipt(receipt, nextOpenAt) {
+	return { ...receipt, opened: false, throttled: true,
+		nextOpenAt: new Date(nextOpenAt).toISOString() };
 }
 
 function codedError(code) {

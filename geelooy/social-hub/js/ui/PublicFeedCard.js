@@ -3,70 +3,114 @@
 //Blessed is He
 /**
  * @module PublicFeedCard
- * @description
- * The Awtsmoos lets a public post reveal both its authored doorway and the public identity that carried it.
- * Awtsmoos.com keeps profile traversal explicit, safe, and absent when the feed supplies no real alias.
+ * @description The Awtsmoos lets one authored spark reveal identity, context, measured consequence, reaction, and universal action;
+ * Awtsmoos.com now treats the Feed as one projection of the shared social entity model instead of a separate interaction kingdom, with its renewed compatibility model carried on the same clean-future release current.
  */
+import { revealOrotFeedPostModel } from './feed/FeedPostModel.js?v=clean-future-001';
+import { createKliContentKindBadge } from './feed/ContentKindBadge.js';
+import { createFeedReactionRail } from './feed/FeedReaction.js';
+import { createFeedUniversalActions } from './feed/FeedUniversalActions.js';
+import { ensureOrotFeedStyles } from './feed/FeedStyleSheet.js';
 
-function firstValue(...values) {
-	return values.find(value => typeof value === 'string' && value.trim())?.trim() || '';
-}
-
-function feedItemAliasId(item = {}) {
-	return firstValue(item.aliasId, item.authorAliasId, item.author?.aliasId, item.alias?.id, item.alias?.aliasId);
-}
-
-function feedItemDestination(item = {}) {
-	const explicit = firstValue(item.url, item.href, item.path);
-	if (explicit) return explicit;
-	const heichel = firstValue(item.heichelId, item.context?.heichelId);
-	const series = firstValue(item.seriesId, item.context?.seriesId, 'root');
-	const post = firstValue(item.postId, item.entityId, item.id);
-	if (!heichel || !series || !post) return '';
-	return `/heichelos/${encodeURIComponent(heichel)}/series/${encodeURIComponent(series)}/post/${encodeURIComponent(post)}`;
-}
-
-function textElement(document, tagName, text, className = '') {
-	const element = document.createElement(tagName);
-	if (className) element.className = className;
-	element.textContent = text;
-	return element;
-}
-
-function identityElement(document, item, onOpenProfile) {
-	const aliasId = feedItemAliasId(item);
-	const label = firstValue(item.authorName, item.aliasName, item.author?.name, item.alias?.name, aliasId);
-	if (!aliasId || !onOpenProfile) {
-		return textElement(document, 'p', label ? `@${label}` : 'Public author', 'publicFeedCard__identity');
+function createNeshamaIdentity(document, model, onOpenProfile) {
+	const label = model.authorLabel || 'Public author';
+	if (!model.aliasId || !onOpenProfile) {
+		const identity = document.createElement('p');
+		identity.className = 'publicFeedCard__identity awtsmoosFeedIdentity';
+		identity.textContent = model.aliasId ? `@${label}` : label;
+		return identity;
 	}
 	const button = document.createElement('button');
 	button.type = 'button';
-	button.className = 'publicFeedCard__profile';
-	button.textContent = `@${label || aliasId}`;
-	button.addEventListener('click', () => onOpenProfile(aliasId));
+	button.className = 'publicFeedCard__profile awtsmoosFeedIdentity';
+	button.textContent = `@${label}`;
+	button.addEventListener('click', () => onOpenProfile(model.aliasId));
 	return button;
 }
 
-export function renderPublicFeedCard(document, item = {}, options = {}) {
-	const card = document.createElement('article');
-	card.className = 'publicFeedCard';
-	const title = firstValue(item.title, item.postTitle, item.name) || 'Public post';
-	const excerpt = firstValue(item.excerpt, item.description, item.summary, item.contentPreview);
-	card.append(identityElement(document, item, options.onOpenProfile));
-	card.append(textElement(document, 'h3', title));
-	if (excerpt) card.append(textElement(document, 'p', excerpt, 'publicFeedCard__excerpt'));
-	const destination = feedItemDestination(item);
-	if (destination) {
-		const link = document.createElement('a');
-		link.className = 'publicFeedCard__open';
-		link.href = destination;
-		link.textContent = 'Open post →';
-		card.append(link);
+function createTiferesTitle(document, model) {
+	const heading = document.createElement('h3');
+	heading.className = 'publicFeedTitle awtsmoosFeedTitle';
+	if (!model.destination) {
+		heading.textContent = model.title;
+		return heading;
 	}
+	const link = document.createElement('a');
+	link.href = model.destination;
+	link.textContent = model.title;
+	heading.append(link);
+	return heading;
+}
+
+function validDate(value) {
+	if (!value) return null;
+	const date = new Date(value);
+	return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function createYesodContext(document, model) {
+	const context = document.createElement('div');
+	context.className = 'awtsmoosFeedContext';
+	if (model.seriesId && model.seriesId !== 'root') {
+		const series = document.createElement('span');
+		series.textContent = `Series ${model.seriesId}`;
+		context.append(series);
+	}
+	if (model.sectionCount > 1) {
+		const sections = document.createElement('span');
+		sections.textContent = `${model.sectionCount} sections`;
+		context.append(sections);
+	}
+	const date = validDate(model.createdAt);
+	if (date) {
+		const time = document.createElement('time');
+		time.dateTime = date.toISOString();
+		time.textContent = new Intl.DateTimeFormat(undefined, {
+			month: 'short',
+			day: 'numeric'
+		}).format(date);
+		context.append(time);
+	}
+	return context;
+}
+
+export function renderPublicFeedCard(document, item = {}, options = {}) {
+	ensureOrotFeedStyles(document);
+	const viewerAliasId = options.viewerAliasId || '';
+	const model = revealOrotFeedPostModel(item, { viewerAliasId });
+	const card = document.createElement('article');
+	const meta = document.createElement('div');
+	card.className = 'publicFeedCard awtsmoosFeedCard';
+	card.dataset.kind = model.kind;
+	card.dataset.socialEntityKey = model.key;
+	meta.className = 'awtsmoosFeedMeta';
+	meta.append(createKliContentKindBadge({
+		document,
+		kind: model.kind,
+		label: model.kindLabel
+	}));
+	meta.append(createNeshamaIdentity(document, model, options.onOpenProfile));
+	card.append(meta, createTiferesTitle(document, model));
+	if (model.excerpt) {
+		const excerpt = document.createElement('p');
+		excerpt.className = 'publicFeedCard__excerpt awtsmoosFeedExcerpt';
+		excerpt.textContent = model.excerpt;
+		card.append(excerpt);
+	}
+	const context = createYesodContext(document, model);
+	if (context.childElementCount) card.append(context);
+	const reactions = createFeedReactionRail(document, model, viewerAliasId);
+	if (reactions) card.append(reactions);
+	card.append(createFeedUniversalActions({ document, model, viewerAliasId }));
 	return card;
 }
 
-export {
-	feedItemAliasId,
-	feedItemDestination
-};
+export function feedItemAliasId(item = {}) {
+	return revealOrotFeedPostModel(item).aliasId;
+}
+
+export function feedItemDestination(item = {}) {
+	return revealOrotFeedPostModel(item).destination;
+}
+
+export { createYesodContext, validDate };

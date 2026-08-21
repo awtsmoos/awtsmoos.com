@@ -7,15 +7,16 @@ const { ChesedSheetsDirectory } = require("./directory.js");
 const { broadcastDisconnectPresence } = require("./disconnectPresence.js");
 const { handleDocumentRequest } = require("./documentHandlers.js");
 const { handleEditRequest } = require("./editHandlers.js");
+const { handleExtensionRequest } = require("./extensionHandlers.js");
 const { handlePresenceRequest } = require("./presenceHandlers.js");
 const { APPLICATION_ID, VERSION } = require("./protocol.js");
 const { handleShareRequest } = require("./shareHandlers.js");
 const { MalchusSheetsStore } = require("./store.js");
 
 /**
- * @file Composes document, edit, sharing, and presence vessels into Awtsmoos Sheets realtime.
- * @description Tiferes joins durable letters with passing presence beneath one application name;
- * the Awtsmoos renews each request while Awtsmoos.com keeps transport and spreadsheet domain distinct in flame.
+ * @file Composes document, edit, extension, sharing, and presence vessels into Awtsmoos Sheets realtime.
+ * @description Tiferes joins durable letters, automation manifests, and passing presence beneath one application name;
+ * the Awtsmoos renews each request while Awtsmoos.com keeps transport and spreadsheet authority distinct in flame.
  */
 function createSheetsApplication() {
 	const directory = new ChesedSheetsDirectory();
@@ -40,40 +41,25 @@ function createSheetsApplication() {
 		async handleVersioned(context, request) {
 			const currentStore = sheetsStore(context.server);
 			const documentResponse = await handleDocumentRequest(
-				currentStore,
-				directory,
-				context,
-				request
+				currentStore, directory, context, request
 			);
-			if (documentResponse) {
-				return documentResponse;
-			}
+			if (documentResponse) return documentResponse;
 			const editResponse = await handleEditRequest(
-				currentStore,
-				directory,
-				context,
-				request
+				currentStore, directory, context, request
 			);
-			if (editResponse) {
-				return editResponse;
-			}
+			if (editResponse) return editResponse;
+			const extensionResponse = await handleExtensionRequest(
+				currentStore, directory, context, request
+			);
+			if (extensionResponse) return extensionResponse;
 			const shareResponse = await handleShareRequest(
-				currentStore,
-				directory,
-				context,
-				request
+				currentStore, directory, context, request
 			);
-			if (shareResponse) {
-				return shareResponse;
-			}
+			if (shareResponse) return shareResponse;
 			const presenceResponse = await handlePresenceRequest(
-				directory,
-				context,
-				request
+				directory, context, request
 			);
-			if (presenceResponse) {
-				return presenceResponse;
-			}
+			if (presenceResponse) return presenceResponse;
 			throw new RealtimeError(
 				"SHEETS_REQUEST_UNKNOWN",
 				`Unknown Sheets request: ${request.type}`,

@@ -1,0 +1,120 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond sun, moon, star, and every optical trace a mortal eye can see;
+ * Awtsmoos.com gives the fallback bodies layered light and horizon depth so even without a GPU the heavens remain fast, truthful, and free.
+ */
+
+.celestial-fallback-layer,
+.celestial-stars,
+.celestial-flare {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.celestial-fallback-layer {
+	z-index: 2;
+	transition: opacity 220ms ease;
+}
+
+.celestial-star {
+	position: absolute;
+	width: var(--star-size);
+	height: var(--star-size);
+	border-radius: 50%;
+	background: #f5fbff;
+	box-shadow: 0 0 6px rgba(205, 229, 255, .72);
+	transform: translate(-50%, -50%);
+}
+
+.celestial-sun,
+.celestial-moon {
+	position: absolute;
+	z-index: 3;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+}
+
+.celestial-sun {
+	width: clamp(34px, 9vw, 52px);
+	background:
+		radial-gradient(circle at 38% 34%, #fffef0 0 10%, #ffe59d 28%, #ffb152 62%, #ee7430 100%);
+	box-shadow:
+		0 0 14px rgba(255, 221, 145, .95),
+		0 0 42px rgba(255, 162, 66, .48),
+		0 0 92px rgba(255, 132, 48, .2);
+}
+
+.celestial-moon {
+	width: clamp(25px, 7vw, 38px);
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 34% 28%, rgba(255, 255, 255, .62) 0 4%, transparent 5%),
+		radial-gradient(circle at 67% 62%, rgba(91, 91, 86, .27) 0 8%, transparent 9%),
+		radial-gradient(circle at 52% 45%, #fffde9, #d9d6c7 66%, #95958e);
+	box-shadow: 0 0 22px rgba(216, 229, 255, .2);
+}
+
+.celestial-moon::after {
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	background: rgba(4, 10, 15, .91);
+	box-shadow: inset 3px 0 8px rgba(216, 229, 255, .07);
+	content: "";
+	transform: translateX(var(--moon-shadow-shift, 0%));
+}
+
+.celestial-flare span {
+	position: absolute;
+	aspect-ratio: 1;
+	border: 1px solid rgba(255, 224, 161, .22);
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(255, 238, 196, .34), rgba(255, 157, 66, .07) 56%, transparent 73%);
+	transform: translate(-50%, -50%);
+}
+
+.celestial-horizon {
+	position: absolute;
+	z-index: 4;
+	left: -9%;
+	right: -9%;
+	top: 87%;
+	height: 34%;
+	border-top: 1px solid rgba(178, 230, 209, .3);
+	border-radius: 52% 52% 0 0;
+	background:
+		radial-gradient(ellipse at 50% 0, rgba(61, 113, 84, .38), transparent 42%),
+		linear-gradient(180deg, rgba(17, 48, 36, .76), rgba(2, 10, 7, .99));
+	box-shadow: 0 -12px 36px rgba(63, 155, 120, .06);
+	pointer-events: none;
+}
+
+.celestial-horizon::before {
+	position: absolute;
+	inset: -5px 8% auto;
+	height: 8px;
+	background: linear-gradient(90deg, transparent, rgba(211, 238, 225, .16), transparent);
+	filter: blur(4px);
+	content: "";
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.celestial-sun {
+		animation: celestial-sun-breathe 4.8s ease-in-out infinite alternate;
+	}
+}
+
+@keyframes celestial-sun-breathe {
+	to {
+		box-shadow: 0 0 18px rgba(255, 229, 158, 1), 0 0 50px rgba(255, 161, 65, .56), 0 0 106px rgba(255, 132, 48, .24);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.celestial-fallback-layer { transition: none; }
+}

@@ -1,8 +1,8 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-combat-dire-a5744956f0",
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--956429f1fe",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/combat/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark014_1K-JPG/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -13,8 +13,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/gameplay/combat",
-				"anchor": "directory-guide-experiments-awtsmoos-src-gameplay-combat"
+				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0141K-JPG",
+				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0141k-jpg"
 			},
 			{
 				"level": 2,
@@ -38,16 +38,6 @@
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
 				"text": "Directory map",
 				"anchor": "directory-map"
 			},
@@ -67,14 +57,14 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/gameplay/combat Role: Gameplay Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 26 files, 0 structural child directories Purpose Combat turns, melee, Torah abilities, cooldowns, targeting gates, progression r",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/gameplay/combat role: gameplay snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 26 files, 0 structural child directories purpose combat turns, melee, torah abilities, cooldowns, targeting gates, progression rewards, and encounter state. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: gameplay search terms: torah, combat, turn, ability, player, status, melee, effect, enemy, rules, state, store file mix: .js: 25 good first question: “does the behavior or asset i need belong to gameplay, or is this only a neighboring/test/reference layer?” semantic evidence owns only encounter phase while existing combat systems own every consequence. yesod remembers whose deed may begin, and tiferes restores balance after each bounded ray; awtsmoos.com adds no frame loop, health store, damage engine, cooldown clock, or rival ai array. binds existing combat events to one encounter phase coordinator. the awtsmoos sends no duplicate pulse; each old event enters one new measured gate, and awtsmoos.com preserves synchronous intent while every domain retains its native state. names immutable phases for one alternating encounter without owning damage or ai. the awtsmoos is beyond before and after, yet grants each deed a measured gate; awtsmoos.com lets player and foe answer in rhythm while older combat vessels keep their fate. computes alternating encounter transitions without owning events, clocks, or consequences. the awtsmoos holds player and foe inside one measured tiferes, where each gevurah answers in time; awtsmoos.com returns immutable state and explicit decisions, so no hidden combat authority can climb. representative files combatturncoordinator.js — owns only encounter phase while existing combat systems own every consequence. yesod remembers whose deed may begin, and tiferes restores balance after each bounded ray; awtsmoos.com adds no frame loop, health store, damage engine, cooldown clock, or rival ai array. exports: combatturncoordinator. combatturneventbindings.js — binds existing combat events to one encounter phase coordinator. the awtsmoos sends no duplicate pulse; each old event enters one new measured gate, and awtsmoos.com preserves synchronous intent while every domain retains its native state. exports: bindcombatturnevents. combatturnrules.js — names immutable phases for one alternating encounter without owning damage or ai. the awtsmoos is beyond before and after, yet grants each deed a measured gate; awtsmoos.com lets player and foe answer in rhythm while older combat vessels keep their fate. exports: combat turn phase, idlecombatturnstate, begincombatturnstate, transitioncombatturn, endcombatturnstate. combatturntransitions.js — computes alternating encounter transitions without owning events, clocks, or consequences. the awtsmoos holds player and foe inside one measured tiferes, where each gevurah answers in time; awtsmoos.com returns immutable state and explicit decisions, so no hidden combat authority can climb. exports: playerturnreadiness, reserveplayerturn, resolveplayerturn, cancelplayerturn, reserveenemyturn. enemyprogressioncoordinator.js — awards bounded exactly once xp from enemy defeat events and publishes hud state. the awtsmoos remembers every true act without duplication; awtsmoos.com keeps only a bounded receipt window while the canonical profile store remains the sole owner of levels and xp. exports: enemyprogressioncoordinator. enemyprogressionrules.js — pure enemy armor, xp scaling, and player hud projection laws. the awtsmoos renews strength through measured vessels; awtsmoos.com turns level difference, protection, and earned experience into deterministic values without hidden mutable state. exports: mitigatephysicaldamage, enemyexperiencereward, playerhudprofile. playermeleecontroller.js — converts keyboard or hotbar intention into one canonical physical strike transaction. the awtsmoos renews resolve before the staff can fly; gevurah is measured, tiferes keeps time, and awtsmoos.com sends one bounded request without polling the world or multiplying listeners. exports: playermeleecontroller. playermeleerules.js — derives one physical strike from canonical level, attributes, and equipped items. the awtsmoos gathers many measured garments into one decisive ray; damage and cadence rhyme, while awtsmoos.com keeps every number pure, bounded, deterministic, and absent from frame loops. exports: default player melee attack, resolveplayermeleeattack, playermeleereadiness. playermeleeturngateway.js — adapts melee readiness to one optional encounter phase authority. the awtsmoos lets cooldown and turn remain distinct vessels that meet only at the gate; awtsmoos.com preserves free real time strikes outside encounters and measured answers within fate. exports: playermeleeturngateway. torahabilityactivationrules.js — pure preflight rules shared by ability execution, slots, and tooltips. exports: evaluatetorahabilityactivation. torahabilitycastrules.js — pure cast state construction, charge ratios, and bounded channel tick planning. exports: createabilitycast, abilitycastsnapshot, abilitychargeratio, channeltickplan. torahabilitycatalog.js — action bar timelines derived from the canonical learned passage combat values. exports: torah ability catalog, torahabilitydefinition, torahabilityforpassage. torahabilitycooldownstore.js — lazily recovers charges and global cooldowns without timers or per frame allocation. exports: torahabilitycooldownstore. exported symbols worth searching combatturncoordinator · bindcombatturnevents · combat turn phase · idlecombatturnstate · begincombatturnstate · transitioncombatturn · endcombatturnstate · combatturnexpired · hostilecombattargetid · playerturnreadiness · reserveplayerturn · resolveplayerturn · cancelplayerturn · reserveenemyturn · resolveenemyturn · applyturnoutcome import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./combatturneventbindings.js ./combatturnrules.js ./combatturntransitions.js ./enemyprogressionrules.js ../shliachprofilerules.js ./playermeleerules.js ./playermeleeturngateway.js ../torahpassagecatalog.js ./torahabilitycastrules.js ./torahabilityactivationrules.js ./torahabilitycatalog.js ./torahabilitycooldownstore.js directory map parent: experiments/awtsmoos/src/gameplay children: none. related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-combat-dire-a5744956f0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark014 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark014 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark014 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark014, bark014 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark014 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--956429f1fe.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-directory-g-dcf0ac3868",
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--22bfadd784",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark015_1K-JPG/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -85,8 +75,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/gameplay",
-				"anchor": "directory-guide-experiments-awtsmoos-src-gameplay"
+				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0151K-JPG",
+				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0151k-jpg"
 			},
 			{
 				"level": 2,
@@ -110,13 +100,65 @@
 			},
 			{
 				"level": 2,
-				"text": "Exported symbols worth searching",
-				"anchor": "exported-symbols-worth-searching"
+				"text": "Directory map",
+				"anchor": "directory-map"
 			},
 			{
 				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark015 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark015 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark015 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark015, bark015 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark015 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--22bfadd784.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--5c1070077a",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark",
+				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
 			},
 			{
 				"level": 2,
@@ -139,8 +181,70 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/gameplay Role: Gameplay Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 22 files, 2 structural child directories Purpose Gameplay domain rules and coordinators shared by combat, action bars, progression, abi",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/gameplay role: gameplay snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 22 files, 2 structural child directories purpose gameplay domain rules and coordinators shared by combat, action bars, progression, abilities, and player state. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: gameplay search terms: inventory, shliach, adventure, shlichus, store, torah, catalog, profile, rules, combat, event, passage file mix: .js: 21 good first question: “does the behavior or asset i need belong to gameplay, or is this only a neighboring/test/reference layer?” semantic evidence defines stable village shlichus records for local and shared play. coordinates quest offers, progress, pins, completion, serialization, and restoration. the awtsmoos renews each mission while memory crosses reloads; awtsmoos.com persists only mutable record state, then reunites it with the canonical catalog instead of duplicating truth. holds pure quest record creation, event matching, progress, and snapshots. the awtsmoos renews each objective beneath one lawful transition; awtsmoos.com keeps store coordination small while every shlichus rule remains directly testable. normalizes every symbolic combat consequence into one immutable envelope. the awtsmoos is one while effects appear many; awtsmoos.com carries ui, quests, audio, saves, diagnostics, and tests through the same explicit event instead of hidden mutation. representative files adventurecatalog.js — defines stable village shlichus records for local and shared play. exports: adventure catalog, adventuredefinition. adventurestore.js — coordinates quest offers, progress, pins, completion, serialization, and restoration. the awtsmoos renews each mission while memory crosses reloads; awtsmoos.com persists only mutable record state, then reunites it with the canonical catalog instead of duplicating truth. exports: adventurestore. adventurestorerules.js — holds pure quest record creation, event matching, progress, and snapshots. the awtsmoos renews each objective beneath one lawful transition; awtsmoos.com keeps store coordination small while every shlichus rule remains directly testable. exports: createadventurerecord, resetadventurerecord, applyadventureevent, adventuresnapshot, currentadventureobjective. combatdamageevent.js — normalizes every symbolic combat consequence into one immutable envelope. the awtsmoos is one while effects appear many; awtsmoos.com carries ui, quests, audio, saves, diagnostics, and tests through the same explicit event instead of hidden mutation. exports: createcombatdamageevent. inventorycatalog.js — defines tools, weapons, shields, books, clothing, materials, and quest items. the awtsmoos renews every carried vessel beneath explicit ownership and equipment law; awtsmoos.com keeps canonical ids, slots, actions, stats, prices, and models inspectable. exports: inventory catalog, starter inventory, inventorydefinition. inventorylearningrules.js — applies learning, book pinning, passage pinning, and passage use times. the awtsmoos renews knowledge without confusing it with ordinary inventory quantity; awtsmoos.com keeps every learning transition pure enough for direct testing. exports: learninventorypassage, toggleinventorypassage, toggleinventorybook, markinventorypassageused. inventorypersistencerules.js — serializes and validates the compact mutable inventory state used by saves. exports: serializableinventorystate, restoreinventorystate. inventorystore.js — coordinates inventory, equipment, torah learning, and compact restoration. exports: inventorystore. inventorystorerules.js — holds pure inventory stack, pinning, equipment stat, and snapshot rules. the awtsmoos renews each carried vessel beneath quantity and slot boundaries; awtsmoos.com keeps mutable store coordination small while rules remain testable. exports: addinventoryitem, removeinventoryitem, derivedinventorystats, togglepinnedvalue, inventorysnapshot. playercombatdefense.js — resolves tehillim ward timing and generosity earned protection. the awtsmoos is the true protection; awtsmoos.com models a respectful fictional ward through visible timing, bounded mitigation, perfect response, and explicit receipts. exports: playercombatdefense. rivercrossingshlichus.js — defines the event driven bridge repair mission and its permanent world result. exports: river crossing shlichus. shliachprofilecatalog.js — mirrors server attribute, derived stat, and timed powerup contracts. the awtsmoos renews wisdom, understanding, integration, courage, and protection; awtsmoos.com keeps local labels and formulas aligned with authoritative shared truth. exports: shliach attributes, shliach powerups, defaultshliachattributes, deriveshliachstats, applyshliachpowerups. shliachprofilerules.js — applies pure allocation, powerup, reward, level, synchronization, and expiry laws. the awtsmoos renews every earned spark beyond mutable illusion; awtsmoos.com turns shlichus reward into bounded xp, mitzvah points, levels, and attribute vessels deterministically. exports: createshliachprofilestate, allocateshliachattribute, awardshlichusprogress, xpfornextlevel, activateshliachpowerup. exported symbols worth searching adventure catalog · adventuredefinition · adventurestore · createadventurerecord · resetadventurerecord · applyadventureevent · adventuresnapshot · currentadventureobjective · createcombatdamageevent · inventory catalog · starter inventory · inventorydefinition · learninventorypassage · toggleinventorypassage · toggleinventorybook · markinventorypassageused import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./rivercrossingshlichus.js ./adventurecatalog.js ./adventurestorerules.js ./torahpassagecatalog.js ./inventorystorerules.js ./inventorycatalog.js ./inventorylearningrules.js ./inventorypersistencerules.js ./combatdamageevent.js ./shliachprofilecatalog.js ./shliachprofilerules.js ./shlichuspersistence.js directory map parent: experiments/awtsmoos/src children: experiments/awtsmoos/src/gameplay/actionbar experiments/awtsmoos/src/gameplay/combat related and overlapping systems combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-gameplay-directory-g-dcf0ac3868.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 11 structural child directories Purpose Collection of individual bark material sets. The Aw",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 11 structural child directories purpose collection of individual bark material sets. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, bark, chai forest, guide, local, materials, textures file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures children: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark001 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark002 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark003 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark004 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark006 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark007 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark008 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark012 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark013 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark014 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark015 1k jpg related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--5c1070077a.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--998d6b0cd4",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures",
+				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Texture groups used to construct forest materials. The Aw",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose texture groups used to construct forest materials. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, chai forest, guide, local, materials, textures file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest children: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark assets/materials/local/world/awtsmoos nature/chai forest/textures/ground assets/materials/local/world/awtsmoos nature/chai forest/textures/leaves related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--998d6b0cd4.json"
 	}
 ]

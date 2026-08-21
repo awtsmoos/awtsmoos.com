@@ -1,0 +1,61 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos hides great depth behind a few clear deeds; Awtsmoos.com gives Create, Shots, Inspect, Render, and More a restrained hierarchy without turning the top bar into a cockpit.
+ */
+
+.nle-top-actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: .34rem;
+}
+
+.nle-top-actions button,
+.nle-more-surface button {
+	min-block-size: 2.25rem;
+	padding-inline: .68rem;
+	border: 1px solid var(--nle-border-soft);
+	border-radius: .62rem;
+	background: rgba(255, 255, 255, .025);
+	color: var(--nle-text-muted);
+	font: inherit;
+	font-size: .64rem;
+	font-weight: 800;
+	cursor: pointer;
+	transition:
+		transform var(--nle-transition),
+		border-color var(--nle-transition),
+		background var(--nle-transition),
+		color var(--nle-transition);
+}
+
+.nle-top-actions button:hover,
+.nle-more-surface button:hover,
+.nle-top-actions button[aria-expanded="true"] {
+	border-color: rgba(89, 189, 210, .35);
+	background: rgba(89, 189, 210, .08);
+	color: var(--nle-text-soft);
+}
+
+.nle-top-actions .nle-create-action,
+.nle-top-actions .nle-render-action {
+	border-color: rgba(89, 189, 210, .36);
+	background: linear-gradient(
+		145deg,
+		rgba(89, 189, 210, .18),
+		rgba(185, 120, 239, .11)
+	);
+	color: #e8fbff;
+}
+
+.nle-top-actions .nle-render-action {
+	border-color: rgba(242, 201, 109, .38);
+	background: linear-gradient(
+		145deg,
+		rgba(242, 201, 109, .16),
+		rgba(185, 120, 239, .08)
+	);
+	color: #fff2c9;
+}

@@ -3,8 +3,7 @@
 // Blessed is He
 
 const crypto = require("node:crypto");
-const fs = require("node:fs");
-const path = require("node:path");
+const HandoffPaths = require("./handoffPaths.js");
 const Plan = require("./promptPlan.js");
 const ProjectRoot = require("./projectRoot.js");
 
@@ -17,9 +16,11 @@ const VOLATILE_CHECKPOINT_KEYS = new Set([
 ]);
 
 /**
- * @file Builds one stable continuation identity and a bounded successor mission prompt.
- * @description The Awtsmoos remembers the deed rather than scheduler shadows; Awtsmoos.com carries one root,
- * one checkpoint, one predecessor, and one successor so recovery continues the same mission instead of birthing a duplicate world.
+ * @file Builds one stable continuation identity and one absolute-path successor prompt.
+ * @description
+ * The Awtsmoos remembers the deed rather than scheduler shadows. Awtsmoos.com carries
+ * one root, one predecessor, one generation, and exact handoff vessels so the next
+ * Awts Shliach resumes the same mission instead of searching broadly or birthing a duplicate world.
  */
 function fingerprint(config, mission = {}, lock = {}) {
 	const stable = JSON.stringify({
@@ -39,26 +40,31 @@ function build(config, mission = {}, lock = {}, fingerprintValue = fingerprint(c
 	const projectRoot = ProjectRoot.resolve(config, mission, lock);
 	const missionId = mission.id || mission.missionId || lock.missionId || "";
 	const roomId = mission.room?.id || mission.roomId || "";
-	const plans = recentPlans(projectRoot);
+	const plans = context.handoffPaths?.length
+		? context.handoffPaths
+		: HandoffPaths.collect(config, mission, { ...context, projectRoot });
 	const next = JSON.stringify(lock.lastMustCallNext || lock.mustCallNext || null);
 	return [
 		'B"H',
-		"Continue the SAME unfinished Awtsmoos mission. Do not create a duplicate mission.",
+		"Continue the SAME unfinished Awtsmoos mission through the Awtsmoos Shliach custom GPT. Do not create a duplicate mission.",
 		`Absolute projectRoot: ${projectRoot}`,
 		`missionId: ${missionId}`,
 		roomId ? `roomId: ${roomId}` : "roomId: use the existing mission room",
 		`continuationFingerprint: ${fingerprintValue}`,
 		`requiredNextCheckpoint: ${next}`,
-		`recentPlanningFiles: ${plans.length ? plans.join(" | ") : "none discovered"}`,
-		...Plan.lines(context),
-		"Read the latest checkpoint and existing planning/source files before writing anything. Do not repeat completed work.",
+		`absoluteHandoffAndThoughtFiles: ${plans.length ? plans.join(" | ") : "none discovered"}`,
+		...Plan.lines({ ...context, handoffPaths: plans }),
+		"BEFORE modifying anything, read every listed handoff/thought file that still exists, then inspect current Git/filesystem reality because predecessor notes may be stale.",
+		"Do not recursively scan AI-thought history when exact paths were supplied. Do not repeat completed work.",
 		"Inspect existing claims and delegations, then claim only unfinished work after synchronizing with the existing mission room.",
 		context.successorAgentId ? `Use logicalAgentId ${context.successorAgentId} for mission-room and mission-agent actions when supported.` : "Use the existing mission's agent identity system.",
-		"Treat predecessor claims as recovery context, not proof that their unfinished work was completed.",
-		"Publish PLAN, PROGRESS, HANDOFF, and COMPLETION messages in the existing mission room as the work advances.",
-		"Never change the project root, physical device identity, tunnel identity, or browser ownership without explicit necessity.",
+		context.spawnGroupId ? `Rejoin sibling spawnGroupId ${context.spawnGroupId}; use group-addressed room messages for sibling-only coordination.` : "Join the existing mission room before working.",
+		`Your successor generation is ${Number(context.successorGeneration || 2)}; predecessor is ${context.predecessorAgentId || "unknown"}.`,
+		"Treat predecessor claims as recovery context, not proof that unfinished work was completed. Revalidate before taking ownership.",
+		"Publish PLAN, PROGRESS, HANDOFF, and COMPLETION messages in the existing mission room as work advances.",
+		"Never change project root, physical device identity, tunnel identity, or browser ownership without explicit necessity.",
 		"You may spawn bounded sub-agents only through the existing verified-close paced Awtsmoos Shliach system with stable request keys.",
-		"Honor any user stop/cancel/pause or blocking user-message gate immediately. Do not claim completion until the actual completion gate passes."
+		"Honor user stop/cancel/pause or blocking user-message gates immediately. Do not claim mission completion until the actual completion gate passes."
 	].join("\n");
 }
 
@@ -72,30 +78,11 @@ function stableCheckpoint(value) {
 }
 
 function recentPlans(projectRoot) {
-	const root = path.join(projectRoot, "geelooy", "ai", "thoughts");
-	const files = [];
-	walk(root, files, 0);
-	return files
-		.sort((left, right) => right.mtimeMs - left.mtimeMs)
-		.slice(0, 8)
-		.map(item => path.relative(projectRoot, item.path));
-}
-
-function walk(root, files, depth) {
-	if (depth > 3) return;
-	let entries = [];
-	try {
-		entries = fs.readdirSync(root, { withFileTypes: true });
-	} catch {
-		return;
-	}
-	for (const entry of entries) {
-		const target = path.join(root, entry.name);
-		if (entry.isDirectory()) walk(target, files, depth + 1);
-		else if (entry.isFile() && entry.name.endsWith(".md")) {
-			files.push({ path: target, mtimeMs: fs.statSync(target).mtimeMs });
-		}
-	}
+	return HandoffPaths.collect(
+		{ root: process.env.AWTSMOOS_PROJECT_ROOT || projectRoot },
+		{ projectRoot },
+		{ projectRoot }
+	);
 }
 
 module.exports = { build, fingerprint, recentPlans, stableCheckpoint, websiteMissionId };

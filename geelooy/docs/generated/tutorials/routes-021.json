@@ -1,8 +1,8 @@
 [
 	{
-		"id": "api-social-counters-counter-increasecount-61fa7ddf67",
-		"route": "/api/social/counters/:counter/increaseCount",
-		"source": "geelooy/api/social/_awtsmoos.counter.js",
+		"id": "api-social-drive-aliasid-actions-bootstrap-site-project-01fab55fcd",
+		"route": "/api/social/drive/:aliasId/actions/bootstrap-site-project",
+		"source": "geelooy/api/social/helper/drive/routes/actionRoutes.js",
 		"discoveryKind": "static-literal",
 		"family": {
 			"mount": "/api/social",
@@ -18,19 +18,19 @@
 		"dynamic": true,
 		"pathParameters": [
 			{
-				"name": "counter",
+				"name": "aliasId",
 				"catchAll": false
 			}
 		],
-		"methods": [
-			"GET",
-			"POST",
-			"DELETE"
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [
+			"headers"
 		],
-		"methodEvidence": "GET, POST, DELETE",
-		"vessels": [],
 		"statuses": [],
-		"headers": [],
+		"headers": [
+			"x-request-id"
+		],
 		"callers": [],
 		"callerCount": 0,
 		"tests": [
@@ -67,16 +67,9 @@
 				"command": "node geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs"
 			}
 		],
-		"examples": [
-			{
-				"method": "GET",
-				"warning": "Starter only: method evidence is lexical at the source-file level; inspect the handler before relying on payload or response shape.",
-				"curl": "curl -X GET 'https://awtsmoos.com/api/social/counters/{counter}/increaseCount'",
-				"fetch": "const response = await fetch(\"/api/social/counters/{counter}/increaseCount\", {\n\tmethod: \"GET\"\n});\nconst result = await response.json();"
-			}
-		],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-counters-counter-increasecount-61fa7ddf67.md",
-		"confidence": "source-lexical",
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-drive-aliasid-actions-bootstrap-site-project-01fab55fcd.md",
+		"confidence": "unknown-method",
 		"related": [
 			{
 				"id": "api-social-9fa4891e88",

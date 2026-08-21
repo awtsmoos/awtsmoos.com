@@ -1,15 +1,13 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @module AssetPolicy
  * @description
- * Images, voice notes, and moving reports enter the alias vault through bounded
- * MIME and size laws. The Awtsmoos gives every medium its inward meaning while
- * Awtsmoos.com refuses unbounded files or invented client-side publication.
+ * The Awtsmoos keeps images and voices within the alias vault while creator video takes an external sea;
+ * Awtsmoos.com recognizes video truthfully yet refuses its bytes, requiring direct local-key Archive.org custody.
  */
-
 const IMAGE_MIME = new Set([
 	'image/png',
 	'image/jpeg',
@@ -38,7 +36,7 @@ const VIDEO_MIME = new Set([
 const DEFAULT_POLICY = Object.freeze({
 	maxImageBytes: 8 * 1024 * 1024,
 	maxAudioBytes: 64 * 1024 * 1024,
-	maxVideoBytes: 160 * 1024 * 1024,
+	maxVideoBytes: 0,
 	maxFilesPerRequest: 4,
 	maxUploadsPerMinute: 18
 });
@@ -57,7 +55,7 @@ function assetKind(mime) {
 
 function limitFor(kind, policy = DEFAULT_POLICY) {
 	if (kind === 'audio') return policy.maxAudioBytes;
-	if (kind === 'video') return policy.maxVideoBytes;
+	if (kind === 'video') return 0;
 	return policy.maxImageBytes;
 }
 
@@ -68,6 +66,15 @@ function validateAsset({ mime, size, policy = DEFAULT_POLICY }) {
 			error: true,
 			code: 'UNSUPPORTED_MIME',
 			message: `Unsupported MIME: ${mime}`
+		};
+	}
+	if (kind === 'video') {
+		return {
+			error: true,
+			code: 'VIDEO_EXTERNAL_STORAGE_REQUIRED',
+			message: 'Video must upload directly to Archive.org with credentials kept locally on the creator device.',
+			provider: 'archive.org',
+			serverReceivesCredentials: false
 		};
 	}
 	const numericSize = Number(size || 0);

@@ -1,0 +1,91 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews the foundry through narrow glass and wide display with equal care;
+Awtsmoos.com lets touch, motion preference, and forced color each find an accessible share.
+*/
+@media (max-width: 760px) {
+	.awtai-shell {
+		width: min(100% - 18px, 960px);
+		gap: 12px;
+		padding-top: max(18px, env(safe-area-inset-top));
+	}
+
+	.awtai-hero {
+		padding-inline: 6px;
+	}
+
+	.awtai-dropzone {
+		grid-template-columns: 1fr;
+		justify-items: start;
+		gap: 14px;
+		padding: 18px;
+	}
+
+	.awtai-drop-emoji {
+		width: 56px;
+		height: 56px;
+		font-size: 1.7rem;
+	}
+
+	.awtai-drop-actions {
+		grid-template-columns: 1fr 1fr;
+		width: 100%;
+	}
+
+	.awtai-status-card {
+		grid-template-columns: auto minmax(0, 1fr);
+		padding: 14px;
+	}
+
+	.awtai-download {
+		grid-column: 1 / -1;
+		width: 100%;
+	}
+}
+
+@media (max-width: 460px) {
+	.awtai-hero h1 {
+		font-size: clamp(2rem, 12vw, 3.2rem);
+	}
+
+	.awtai-drop-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.awtai-btn {
+		width: 100%;
+	}
+
+	.awtai-status-emoji {
+		width: 52px;
+		height: 52px;
+		font-size: 1.6rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.awtai-page::before,
+	.awtai-btn[aria-busy="true"] > span:first-child {
+		animation: none;
+	}
+
+	.awtai-dropzone,
+	.awtai-btn {
+		transition: none;
+	}
+
+	.awtai-btn:is(:hover, :focus-visible, :active),
+	.awtai-dropzone.is-dragging {
+		transform: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.awtai-dropzone,
+	.awtai-status-card,
+	.awtai-details,
+	.awtai-btn {
+		border: 1px solid CanvasText;
+	}
+}

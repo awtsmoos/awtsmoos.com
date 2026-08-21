@@ -5,8 +5,8 @@
 /**
  * @module PreviewPanel
  * @description
- * The Awtsmoos lets source become visible without pretending the vision is publication.
- * Awtsmoos.com keeps one sandboxed iframe alive through collapse, while canonical URLs remain a separate covenant.
+ * The Awtsmoos lets source become visible without pretending the vision is publication;
+ * Awtsmoos.com keeps one sandboxed iframe alive while preview readiness becomes a real transient witness and canonical URLs remain a separate covenant.
  */
 
 import { markPreviewed, setPreviewMode } from './builderState.js';
@@ -27,8 +27,9 @@ export function installPreviewPanel(service, code, actions = {}) {
 		frame.srcdoc = previewDocument(source.content, shell.dataset.canonicalUrl);
 		markPreviewed();
 		status.textContent = current.path === 'index.html' && current.dirty
-			? 'Source preview · unsaved index.html draft'
-			: 'Source preview · saved Drive index.html';
+			? 'Local preview · unsaved index.html draft'
+			: 'Local preview · saved Drive index.html';
+		actions.previewed?.();
 		return previewStatus();
 	}
 
@@ -43,8 +44,8 @@ export function installPreviewPanel(service, code, actions = {}) {
 	function update(snapshot) {
 		shell.dataset.canonicalUrl = snapshot?.canonicalUrl || '';
 		document.querySelector('#builder-preview-canonical').textContent = snapshot?.canonicalUrl
-			? `Saved assets resolve against ${snapshot.canonicalUrl}`
-			: 'No canonical site mapping yet; this preview remains local source only.';
+			? `Published assets resolve against ${snapshot.canonicalUrl}`
+			: 'No canonical URL yet. This preview remains local source only.';
 	}
 
 	function previewStatus() {
@@ -68,8 +69,12 @@ export function installPreviewPanel(service, code, actions = {}) {
 export function previewDocument(content, canonicalUrl = '') {
 	const base = canonicalUrl ? `<base href="${attributeText(canonicalUrl)}">` : '';
 	const source = String(content || '');
-	if (!base) return source;
-	if (/<head[\s>]/i.test(source)) return source.replace(/<head([^>]*)>/i, `<head$1>${base}`);
+	if (!base) {
+		return source;
+	}
+	if (/<head[\s>]/i.test(source)) {
+		return source.replace(/<head([^>]*)>/i, `<head$1>${base}`);
+	}
 	return `${base}${source}`;
 }
 

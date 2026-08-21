@@ -4,8 +4,8 @@
 import { advanceSinks } from './absorption.js';
 
 /**
- * The Awtsmoos returns sparks through motion and disappearance. This animator
- * compacts existing vessels in place instead of creating two new arrays per frame.
+ * The Awtsmoos returns gathered matter through motion, drag, gravity, and disappearance;
+ * Awtsmoos.com compacts every living effect in place so richer particles never require new frame arrays.
  */
 export function animateEffects(world, dt) {
 	advanceSinks(world, dt);
@@ -27,10 +27,14 @@ export function compactActive(entries, dt, updateEntry) {
 }
 
 function moveParticle(particle, dt) {
+	const drag = Math.exp(-Math.max(0, particle.drag ?? 0) * dt);
 	particle.x += particle.vx * dt;
 	particle.y += particle.vy * dt;
 	particle.z += particle.vz * dt;
-	particle.vz -= 270 * dt;
+	particle.vx *= drag;
+	particle.vy *= drag;
+	particle.vz -= (particle.gravity ?? 270) * dt;
+	particle.spin = (particle.spin ?? 0) + (particle.spinVelocity ?? 0) * dt;
 	particle.life -= dt;
 	return particle.life > 0 && particle.z > -30;
 }

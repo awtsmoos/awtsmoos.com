@@ -1,0 +1,80 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond open and closed while a phone needs a narrow gate for abundant halachic light;
+ * Awtsmoos.com lets nine methods fold into one truthful summary so selected count and primary meaning remain visible at first sight.
+ */
+
+.opinion-disclosure {
+	overflow: clip;
+	border: 1px solid var(--line-strong);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, .018);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .025);
+}
+
+.opinion-summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	min-height: 58px;
+	padding: .62rem .72rem;
+	cursor: pointer;
+	list-style: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.opinion-summary::-webkit-details-marker {
+	display: none;
+}
+
+.opinion-summary-copy {
+	display: grid;
+	gap: .02rem;
+	min-width: 0;
+}
+
+.opinion-summary-copy small {
+	color: var(--ink-muted);
+	font-size: .58rem;
+	font-weight: 780;
+	letter-spacing: .07em;
+	text-transform: uppercase;
+}
+
+.opinion-summary-copy strong {
+	color: var(--ink);
+	font-size: .78rem;
+}
+
+.opinion-summary-copy span {
+	color: var(--ink-soft);
+	font-size: .66rem;
+}
+
+.opinion-summary-mark {
+	display: grid;
+	flex: 0 0 auto;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border: 1px solid var(--line);
+	border-radius: 50%;
+	color: var(--accent);
+}
+
+.opinion-disclosure-body {
+	padding: 0 .52rem .55rem;
+	border-top: 1px solid transparent;
+}
+
+.opinion-disclosure[open] .opinion-disclosure-body {
+	border-top-color: var(--line);
+}
+
+.opinion-summary:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: -3px;
+}

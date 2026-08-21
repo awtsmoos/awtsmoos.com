@@ -1,893 +1,115 @@
-<!--
-
-B"H
-ב"ה
-
--->
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos conceals infinite visual power behind a quiet vessel; Awtsmoos.com lets each advanced light unfold only when the artist calls. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ein Sof Engine [Quantum Core v2.5]</title>
-    <style>
-        :root {
-            --bg-color: #0c0c10;
-            --widget-bg: #1a1a22;
-            --text-color: #e8e8f0;
-            --primary-color: #ff3c78;
-            --secondary-color: #00f2ea;
-            --border-color: #2a2a33;
-            --font-display: 'Teko', sans-serif;
-            --font-mono: 'Fira Code', monospace;
-        }
-        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&family=Fira+Code&display=swap');
-        
-        * { box-sizing: border-box; }
-
-        body {
-            font-family: var(--font-mono);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 30px;
-            background-color: var(--bg-color);
-            padding: 20px;
-            margin: 0;
-            color: var(--text-color);
-            overflow-x: hidden;
-        }
-
-        #controls {
-            width: 500px;
-            padding: 20px;
-            background-color: var(--widget-bg);
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 70px rgba(0,0,0,0.9);
-            overflow-y: auto;
-            max-height: 95vh;
-        }
-        
-        #controls::-webkit-scrollbar { width: 8px; }
-        #controls::-webkit-scrollbar-track { background: var(--bg-color); }
-        #controls::-webkit-scrollbar-thumb { background-color: var(--secondary-color); border-radius: 4px; border: 2px solid var(--bg-color); }
-
-        h2 {
-            font-family: var(--font-display);
-            font-size: 3em;
-            color: var(--text-color);
-            text-align: center;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin: 10px 0 30px 0;
-            text-shadow: 0 0 15px var(--secondary-color), 0 0 5px #fff;
-        }
-
-        fieldset {
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        legend {
-            font-family: var(--font-display);
-            color: var(--secondary-color);
-            letter-spacing: 3px;
-            font-size: 2em;
-            text-transform: uppercase;
-            padding: 0 15px;
-            text-shadow: 0 0 10px var(--secondary-color);
-        }
-
-        .control-group { margin-bottom: 20px; position: relative; }
-        
-        label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 10px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #ccc;
-        }
-        
-        .value-display { font-weight: bold; color: var(--secondary-color); float: right; }
-        
-        input[type="range"] { width: 100%; margin-top: 5px; -webkit-appearance: none; background: transparent; }
-        input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: var(--border-color); border-radius: 2px;}
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; background: var(--secondary-color); border-radius: 50%; border: 2px solid var(--bg-color); margin-top: -8px; box-shadow: 0 0 10px var(--secondary-color); cursor: pointer; }
-        
-        input[type="color"] { height: 40px; padding: 2px; width: 100%; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color);}
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: #0c0c10;
-            color: var(--text-color);
-            font-size: 16px;
-            font-family: var(--font-mono);
-        }
-        
-        textarea { height: 150px; resize: vertical; line-height: 1.6; }
-        
-        .randomize-toggle {
-            position: absolute;
-            top: 5px;
-            right: 0;
-            cursor: pointer;
-            font-size: 20px;
-            opacity: 0.6;
-            transition: all 0.2s ease;
-        }
-        .randomize-toggle:hover { opacity: 1; transform: scale(1.2); }
-        .randomize-toggle.active { opacity: 1; color: var(--secondary-color); text-shadow: 0 0 10px var(--secondary-color); }
-        .randomize-controls { display: none; margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px; }
-        .control-group.randomize-active .randomize-controls { display: flex; gap: 10px; align-items: center; }
-        .randomize-controls label { margin: 0; font-size: 12px; }
-        .randomize-controls input { width: 100%; padding: 8px; }
-
-        #generateBtn {
-            width: 100%; padding: 20px; font-size: 28px; font-weight: 700; color: #000;
-            background: linear-gradient(45deg, var(--secondary-color), #f9c80e); border: none;
-            border-radius: 10px; cursor: pointer; transition: all 0.3s ease-in-out;
-            letter-spacing: 4px; font-family: var(--font-display); margin-top: 10px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); animation: pulse-glow 2.5s infinite ease-in-out;
-        }
-        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(0, 242, 234, 0.4); } 50% { box-shadow: 0 0 35px rgba(0, 242, 234, 0.8); } }
-        #generateBtn:hover:not(:disabled) { transform: translateY(-5px) scale(1.05); }
-        #generateBtn:disabled { background: #444; color: #888; cursor: not-allowed; transform: none; box-shadow: none; animation: none;}
-        
-        #processingStatus { display: none; text-align: center; margin-top: 20px; font-size: 20px; font-family: var(--font-display); letter-spacing: 2px; color: var(--primary-color); animation: status-flicker 1.2s infinite; }
-        @keyframes status-flicker { 0%, 100% { opacity: 1; text-shadow: 0 0 8px var(--primary-color); } 50% { opacity: 0.7; text-shadow: none; } }
-        
-        #directoryPickerContainer { display: none; margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; }
-        #directoryPickerContainer label { display: flex; align-items: center; cursor: pointer; }
-        #directoryPickerContainer input { width: 20px; height: 20px; margin-right: 10px; }
-
-        #preview-container {
-            width: 540px; height: 960px; position: relative; box-shadow: 0 10px 60px rgba(0,0,0,0.9);
-            background-color: #000; border-radius: 16px; overflow: hidden;
-            border: 2px solid var(--border-color); flex-shrink: 0;
-        }
-        #previewCanvas { width: 100%; height: 100%; display: block; }
-
-        @media (max-width: 1100px) {
-            body { flex-direction: column; align-items: center; padding: 10px; }
-            #controls { width: 95vw; max-height: none; padding: 15px; }
-            #preview-container { width: 95vw; height: calc(95vw * 1.7777); }
-            h2 { font-size: 2.5em; } legend { font-size: 1.8em; }
-        }
-    </style>
+	<meta charset="utf-8">
+	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1, viewport-fit=cover"
+	>
+	<meta name="theme-color" content="#07101d">
+	<title>Ein Sof Caption Engine</title>
+	<link rel="stylesheet" href="./css/tokens.css">
+	<link rel="stylesheet" href="./css/base.css">
+	<link rel="stylesheet" href="./css/shell.css">
+	<link rel="stylesheet" href="./css/panels.css">
+	<link rel="stylesheet" href="./css/controls.css">
+	<link rel="stylesheet" href="./css/actions.css">
+	<link rel="stylesheet" href="./css/preview.css">
+	<link rel="stylesheet" href="./css/responsive.css">
+	<link rel="stylesheet" href="./css/motion.css">
 </head>
 <body>
+	<div id="einSofShell" class="ein-sof-shell">
+		<header class="topbar">
+			<div class="brand-lockup">
+				<span class="brand-mark" aria-hidden="true">∞</span>
+				<div>
+					<strong>Ein Sof</strong>
+					<small>Caption Engine · Quantum Core 2.5</small>
+				</div>
+			</div>
+			<button
+				id="studioToggle"
+				class="ghost-button"
+				type="button"
+				aria-controls="studioPanel"
+				aria-expanded="true"
+			>
+				Controls
+			</button>
+		</header>
 
-    <div id="controls">
-        <h2>Ein Sof Engine</h2>
-        
-        <fieldset>
-            <legend>Gevulot (Boundaries)</legend>
-            <div class="control-group">
-                <label for="batchInput">Input (Single or Batch)</label>
-                <textarea id="batchInput" placeholder="Enter text here. Separate paragraphs with a blank line for batch generation."></textarea>
-            </div>
-            <div class="control-group">
-                <label for="headerInput">Header Text</label>
-                <input type="text" id="headerInput" placeholder="Optional: Appears above caption">
-            </div>
-        </fieldset>
-        
-        <fieldset>
-            <legend>Tzimtzum (Contraction)</legend>
-            <div class="control-group" data-control-name="boxColor">
-                 <label for="boxColor">Box Color</label><span class="randomize-toggle">🌱</span>
-                 <input type="color" id="boxColor" value="#101018">
-                 <div class="randomize-controls"></div>
-            </div>
-            <div class="control-group" data-control-name="boxOpacity">
-                <label for="boxOpacity">Box Opacity <span class="value-display" id="boxOpacityValue">0.75</span></label><span class="randomize-toggle">🌱</span>
-                <input type="range" id="boxOpacity" min="0" max="1" step="0.05" value="0.75">
-                <div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" min="0" max="1" step="0.05" value="0.6"><label>Max</label><input type="number" class="rand-max" min="0" max="1" step="0.05" value="0.9"></div>
-            </div>
-            <div class="control-group" data-control-name="boxPadding">
-                <label for="boxPadding">Padding <span class="value-display" id="boxPaddingValue">50</span></label><span class="randomize-toggle">🌱</span>
-                <input type="range" id="boxPadding" min="0" max="200" value="50">
-                <div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" min="0" max="200" value="30"><label>Max</label><input type="number" class="rand-max" min="0" max="200" value="80"></div>
-            </div>
-            <div class="control-group" data-control-name="boxRadius">
-                <label for="boxRadius">Border Radius <span class="value-display" id="boxRadiusValue">20</span></label><span class="randomize-toggle">🌱</span>
-                <input type="range" id="boxRadius" min="0" max="300" value="20">
-                <div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" min="0" max="300" value="0"><label>Max</label><input type="number" class="rand-max" min="0" max="300" value="60"></div>
-            </div>
-        </fieldset>
+		<main
+			id="previewStage"
+			class="preview-stage"
+			aria-label="Generated caption preview"
+		>
+			<div class="preview-frame">
+				<canvas
+					id="previewCanvas"
+					width="1080"
+					height="1920"
+					aria-label="Ein Sof generated visual"
+				></canvas>
+				<div
+					id="processingStatus"
+					class="status-chip"
+					role="status"
+					aria-live="polite"
+					hidden
+				>
+					Ready
+				</div>
+			</div>
+		</main>
 
-        <fieldset>
-            <legend>Olam Yetzirah (Formation)</legend>
-            <div class="control-group" data-control-name="particleDensity">
-                <label for="particleDensity">Density <span class="value-display" id="particleDensityValue">1800</span></label><span class="randomize-toggle">🌱</span>
-                <input type="range" id="particleDensity" min="100" max="5000" value="1800">
-                <div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" min="100" max="5000" value="1000"><label>Max</label><input type="number" class="rand-max" min="100" max="5000" value="3000"></div>
-            </div>
-             <div class="control-group" data-control-name="minParticleSize">
-                <label for="minParticleSize">Min Particle Size <span class="value-display" id="minParticleSizeValue">10</span></label><span class="randomize-toggle">🌱</span>
-                <input type="range" id="minParticleSize" min="1" max="50" value="10">
-                 <div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" min="1" max="50" value="5"><label>Max</label><input type="number" class="rand-max" min="1" max="50" value="15"></div>
-            </div>
-            <div class="control-group" data-control-name="maxParticleSize">
-                <label for="maxParticleSize">Max Particle Size <span class="value-display" id="maxParticleSizeValue">90</span></label><span class="randomize-toggle">🌱</span>
-                <input type="range" id="maxParticleSize" min="10" max="150" value="90">
-                <div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" min="10" max="150" value="70"><label>Max</label><input type="number" class="rand-max" min="10" max="150" value="120"></div>
-            </div>
-            <div class="control-group">
-                <label for="particleStyle">Particle Style</label>
-                <select id="particleStyle">
-                    <option value="fragmented">Fragmented</option>
-                    <option value="full">Full</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="particleChars">Particle Characters</label>
-                <textarea id="particleChars" style="height: 100px;">אבגדהוזחטיכלמנסעפצקרשת</textarea>
-            </div>
-        </fieldset>
-        
-        <fieldset>
-            <legend>Kavim v'Sefirot (Connections)</legend>
-            <div class="control-group">
-                <label for="networkType">Algorithm</label>
-                <select id="networkType">
-                    <option value="web">Fine Web</option>
-                    <option value="arcs">Energy Arcs</option>
-                    <option value="synapse">Neural Synapse</option>
-                    <option value="none">None</option>
-                </select>
-            </div>
-            <div class="control-group" data-control-name="connectionDensity">
-                <label for="connectionDensity">Connection Density <span class="value-display" id="connectionDensityValue">4</span></label><span class="randomize-toggle">🌱</span>
-                <input type="range" id="connectionDensity" min="0" max="10" value="4">
-                <div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" min="0" max="10" value="2"><label>Max</label><input type="number" class="rand-max" min="0" max="10" value="6"></div>
-            </div>
-        </fieldset>
+		<button
+			id="studioBackdrop"
+			class="studio-backdrop"
+			type="button"
+			aria-label="Close controls"
+			hidden
+		></button>
 
-        <fieldset>
-            <legend>Marot Elokim (Visions)</legend>
-            <div class="control-group" data-control-name="baseBgColor">
-                <label for="baseBgColor">Base Background Color</label><span class="randomize-toggle">🌱</span>
-                <input type="color" id="baseBgColor" value="#0A0814">
-                <div class="randomize-controls"></div>
-            </div>
-            <div class="control-group" data-control-name="filmGrain">
-                <label for="filmGrain">Film Grain Intensity <span class="value-display" id="filmGrainValue">25</span></label><span class="randomize-toggle">🌱</span>
-                <input type="range" id="filmGrain" min="0" max="50" value="25">
-                <div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" min="0" max="50" value="15"><label>Max</label><input type="number" class="rand-max" min="0" max="50" value="35"></div>
-            </div>
-             <div class="control-group" data-control-name="bloomIntensity">
-                <label for="bloomIntensity">Bloom Intensity <span class="value-display" id="bloomIntensityValue">10</span></label><span class="randomize-toggle">🌱</span>
-                <input type="range" id="bloomIntensity" min="0" max="30" value="10">
-                <div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" min="0" max="30" value="5"><label>Max</label><input type="number" class="rand-max" min="0" max="30" value="15"></div>
-            </div>
-        </fieldset>
+		<aside
+			id="studioPanel"
+			class="studio-panel"
+			aria-label="Caption engine controls"
+		>
+			<div class="studio-heading">
+				<div>
+					<span class="eyebrow">Studio</span>
+					<h1>Shape the vision</h1>
+				</div>
+				<button
+					id="studioClose"
+					class="icon-button"
+					type="button"
+					aria-label="Close controls"
+				>
+					×
+				</button>
+			</div>
 
-        <div id="directoryPickerContainer">
-            <label>
-                <input type="checkbox" id="useDirectoryPicker">
-                Save to a specific folder
-            </label>
-        </div>
-
-        <button id="generateBtn">A S C E N D</button>
-        <div id="processingStatus">AWAITING COMMAND</div>
-    </div>
-
-    <div id="preview-container">
-        <canvas id="previewCanvas"></canvas>
-    </div>
-
-
-    <!-- DEDICATED WEB WORKER SCRIPT -->
-    <script type="javascript/worker" id="einSofWorker">
-        /**
-         * Main rendering function orchestrating the creation of a single image.
-         */
-        function BorehOlam(ctx, caption, header, settings, resolution) {
-            // Generate a unique, cohesive color palette for this specific generation.
-            const palette = generateCohesivePalette(6);
-            
-            // Prepare offscreen canvases for layered rendering and effects.
-            const baseLayer = new OffscreenCanvas(resolution.width, resolution.height);
-            const baseCtx = baseLayer.getContext('2d');
-            const glowLayer = new OffscreenCanvas(resolution.width, resolution.height);
-            const glowCtx = glowLayer.getContext('2d');
-            
-            // Generate the positions, sizes, and characters for all particles.
-            const universe = generateUniqueUniverse(settings, resolution, palette);
-            
-            // --- Render Pipeline ---
-            // Each step builds upon the previous one.
-            renderBackground(baseCtx, settings, resolution, palette);
-            renderParticles(baseCtx, glowCtx, universe.particles, settings);
-            renderNetwork(baseCtx, glowCtx, universe.particles, settings, resolution);
-            applyBloom(baseCtx, glowLayer, settings);
-            renderText(baseCtx, caption, header, settings, resolution, palette);
-            applyPostProcessing(baseCtx, settings, resolution);
-            
-            // CRITICAL FIX: The corner text is rendered *after* all post-processing effects.
-            // This ensures it is always visible and not obscured by vignette or grain.
-            renderCornerText(baseCtx, resolution);
-            
-            // Draw the final, completed image to the main canvas context.
-            ctx.drawImage(baseLayer, 0, 0);
-        }
-
-        /**
-         * Generates the entire starfield and nebula background with multiple layers of depth.
-         */
-        function renderBackground(ctx, settings, resolution, palette) {
-            // Base dark gradient
-            const bgGrad = ctx.createLinearGradient(0, 0, 0, resolution.height);
-            bgGrad.addColorStop(0, settings.baseBgColor);
-            bgGrad.addColorStop(1, '#000000');
-            ctx.fillStyle = bgGrad;
-            ctx.fillRect(0, 0, resolution.width, resolution.height);
-            
-            ctx.globalCompositeOperation = 'lighter';
-
-            // --- NEW BACKGROUND ENHANCEMENT 1: Galactic Core Glow ---
-            // A large, soft, distant light source to give the scene direction.
-            const coreX = resolution.width * (Math.random() < 0.5 ? -0.2 : 1.2);
-            const coreY = resolution.height * Math.random();
-            const coreGrad = ctx.createRadialGradient(coreX, coreY, 0, coreX, coreY, resolution.width * 1.5);
-            coreGrad.addColorStop(0, hexToRgba(palette[0], 0.1));
-            coreGrad.addColorStop(1, hexToRgba(palette[0], 0));
-            ctx.fillStyle = coreGrad;
-            ctx.fillRect(0, 0, resolution.width, resolution.height);
-
-            ctx.globalCompositeOperation = 'source-over';
-            
-            // --- NEW BACKGROUND ENHANCEMENT 2: Cosmic Dust Clouds ---
-            // Fills the "empty" space with subtle, dark texture.
-            for (let i = 0; i < 4; i++) {
-                const dustX = resolution.width * Math.random();
-                const dustY = resolution.height * Math.random();
-                const dustRadius = resolution.width * random(0.4, 0.8);
-                const dustGrad = ctx.createRadialGradient(dustX, dustY, 0, dustX, dustY, dustRadius);
-                dustGrad.addColorStop(0, 'rgba(0, 0, 0, 0.0)');
-                dustGrad.addColorStop(1, 'rgba(0, 0, 0, 0.2)');
-                ctx.fillStyle = dustGrad;
-                ctx.fillRect(0, 0, resolution.width, resolution.height);
-            }
-            
-            // --- Layered Starfield ---
-            // Distant, tiny stars
-            for (let i = 0; i < 1500; i++) {
-                ctx.fillStyle = 'rgba(255, 255, 255, ' + (0.1 + Math.random() * 0.3) + ')';
-                ctx.fillRect(Math.random() * resolution.width, Math.random() * resolution.height, 1, 1);
-            }
-            // Mid-ground stars
-            for (let i = 0; i < 200; i++) {
-                ctx.fillStyle = 'rgba(255, 255, 255, ' + (0.3 + Math.random() * 0.4) + ')';
-                ctx.fillRect(Math.random() * resolution.width, Math.random() * resolution.height, 2, 2);
-            }
-             // --- NEW BACKGROUND ENHANCEMENT 3: "Hero" Stars ---
-             // A few very bright, glowing stars to act as focal points.
-            for (let i = 0; i < 15; i++) {
-                const x = Math.random() * resolution.width;
-                const y = Math.random() * resolution.height;
-                const bright = 0.6 + Math.random() * 0.4;
-                ctx.fillStyle = 'rgba(255, 255, 255, ' + (bright * 0.2) + ')';
-                ctx.beginPath();
-                ctx.arc(x, y, 4, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillStyle = 'rgba(255, 255, 255, ' + bright + ')';
-                ctx.fillRect(x - 1, y - 1, 3, 3);
-            }
-
-            // --- Main Nebula Clouds ---
-            const createNebula = (x, y, radius, color) => {
-                const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-                gradient.addColorStop(0, hexToRgba(color, 0.4));
-                gradient.addColorStop(0.5, hexToRgba(color, 0.1));
-                gradient.addColorStop(1, 'rgba(0,0,0,0)');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, resolution.width, resolution.height);
-            };
-
-            ctx.globalCompositeOperation = 'lighter';
-            createNebula(resolution.width * random(0.1, 0.9), resolution.height * random(0.1, 0.9), resolution.width * random(0.5, 0.9), palette[0]);
-            createNebula(resolution.width * random(0.1, 0.9), resolution.height * random(0.1, 0.9), resolution.width * random(0.6, 1.0), palette[1]);
-            createNebula(resolution.width * random(0.1, 0.9), resolution.height * random(0.1, 0.9), resolution.width * random(0.7, 1.1), palette[2]);
-            createNebula(resolution.width * random(0.1, 0.9), resolution.height * random(0.1, 0.9), resolution.width * random(0.4, 0.8), palette[3]);
-            ctx.globalCompositeOperation = 'source-over';
-            
-            // --- NEW BACKGROUND ENHANCEMENT 4: Shooting Stars ---
-            // Adds a dynamic element to the scene.
-            for (let i = 0; i < randomInt(2, 4); i++) {
-                const startX = Math.random() * resolution.width;
-                const startY = Math.random() * resolution.height;
-                const length = Math.random() * 200 + 100;
-                const angle = Math.random() * Math.PI * 2;
-                const endX = startX + Math.cos(angle) * length;
-                const endY = startY + Math.sin(angle) * length;
-
-                const meteorGrad = ctx.createLinearGradient(startX, startY, endX, endY);
-                meteorGrad.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
-                meteorGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                
-                ctx.strokeStyle = meteorGrad;
-                ctx.lineWidth = 1.5;
-                ctx.beginPath();
-                ctx.moveTo(startX, startY);
-                ctx.lineTo(endX, endY);
-                ctx.stroke();
-            }
-        }
-        
-        /**
-         * Renders all the Hebrew character particles onto the main canvas and a glow map.
-         */
-        function renderParticles(ctx, glowCtx, particles, settings) {
-            particles.forEach(p => {
-                const opacity = 0.2 + p.z * 0.8;
-                const isBright = p.color === '#ffffff' || p.z > 0.8;
-                if (isBright) {
-                    glowCtx.font = p.size + 'px sans-serif';
-                    glowCtx.fillStyle = p.color;
-                    glowCtx.textAlign = 'center';
-                    glowCtx.textBaseline = 'middle';
-                    glowCtx.globalAlpha = opacity * 0.9;
-                    glowCtx.fillText(p.char, p.x, p.y);
-                }
-                ctx.globalAlpha = opacity;
-                ctx.font = p.size + 'px sans-serif';
-                ctx.fillStyle = p.color;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                if (settings.particleStyle === 'fragmented') {
-                    ctx.save();
-                    ctx.translate(p.x, p.y);
-                    ctx.rotate((Math.random() - 0.5) * 0.2);
-                    ctx.beginPath();
-                    const angle = Math.random() * Math.PI * 2;
-                    ctx.rect(-p.size / 2 + Math.cos(angle) * p.size / 4, -p.size / 2 + Math.sin(angle) * p.size / 4, p.size, p.size);
-                    ctx.clip();
-                    ctx.fillText(p.char, 0, 0);
-                    ctx.restore();
-                } else {
-                    ctx.fillText(p.char, p.x, p.y);
-                }
-            });
-            ctx.globalAlpha = 1.0;
-        }
-
-        /**
-         * Renders the text box with blur effect, border, and the main caption.
-         */
-        function renderText(ctx, caption, header, settings, resolution, palette) {
-            const targetBox = { width: resolution.width * 0.9, height: resolution.height * 0.4 };
-            const fullCaption = header ? header + '\n\n' + caption : caption;
-            const textLayout = calculateOptimalFontSize(ctx, fullCaption, header, targetBox.width - settings.boxPadding * 2, targetBox.height - settings.boxPadding * 2);
-            const lines = textLayout.lines;
-            if (lines.length === 0) return;
-            
-            let maxLineWidth = 0;
-            lines.forEach(line => {
-                ctx.font = '700 ' + line.fontSize + "px 'Teko', sans-serif";
-                maxLineWidth = Math.max(maxLineWidth, ctx.measureText(line.text).width);
-            });
-            
-            const totalTextHeight = lines.reduce((acc, line) => acc + line.height, 0);
-            const boxWidth = maxLineWidth + settings.boxPadding * 2;
-            const boxHeight = totalTextHeight + settings.boxPadding * 2;
-            const boxX = (resolution.width - boxWidth) / 2;
-            const boxY = (resolution.height - boxHeight) / 2;
-            
-            // Background blur effect
-            const snap = ctx.getImageData(boxX, boxY, boxWidth, boxHeight);
-            const blurCanvas = new OffscreenCanvas(boxWidth, boxHeight);
-            // PERFORMANCE FIX: Add willReadFrequently hint for the blur operation.
-            const blurCtx = blurCanvas.getContext('2d', { willReadFrequently: true });
-            blurCtx.putImageData(snap, 0, 0);
-            blurCtx.filter = 'blur(15px) brightness(0.8)';
-            blurCtx.drawImage(blurCanvas, 0, 0);
-            
-            ctx.save();
-            ctx.beginPath();
-            ctx.roundRect(boxX, boxY, boxWidth, boxHeight, settings.boxRadius);
-            ctx.clip();
-            ctx.drawImage(blurCanvas, boxX, boxY);
-            ctx.fillStyle = hexToRgba(settings.boxColor, settings.boxOpacity);
-            ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
-            ctx.restore();
-            
-            // Use a gradient for the border stroke for more visual depth
-            const borderGrad = ctx.createLinearGradient(boxX, boxY, boxX + boxWidth, boxY + boxHeight);
-            borderGrad.addColorStop(0, palette[1]);
-            borderGrad.addColorStop(0.5, palette[3]);
-            borderGrad.addColorStop(1, palette[0]);
-            
-            ctx.strokeStyle = borderGrad;
-            ctx.lineWidth = 2.5;
-            ctx.shadowColor = palette[2];
-            ctx.shadowBlur = 15;
-            ctx.beginPath();
-            ctx.roundRect(boxX, boxY, boxWidth, boxHeight, settings.boxRadius);
-            ctx.stroke();
-            ctx.shadowColor = 'transparent';
-
-            // Draw the actual text lines
-            let currentY = boxY + settings.boxPadding;
-            lines.forEach(line => {
-                const y = currentY + line.height / 2;
-                drawTextWithBorder(ctx, line.text, resolution.width/2, y, line.fontSize, line.isHeader ? 'rgba(220,220,255,0.9)' : '#FFFFFF', line.fontSize * 0.1);
-                currentY += line.height;
-            });
-        }
-        
-        /**
-         * Renders the final corner text (B"H / ב"ה).
-         */
-        function renderCornerText(ctx, resolution) {
-            ctx.save();
-            ctx.font = "700 40px 'Teko', sans-serif";
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'top';
-            ctx.fillText('B"H', 35, 35);
-            ctx.textAlign = 'right';
-            ctx.fillText('ב"ה', resolution.width - 35, 35);
-            ctx.restore();
-        }
-
-        /**
-         * Applies post-processing effects like film grain, vignette, and chromatic aberration.
-         */
-        function applyPostProcessing(ctx, settings, resolution) {
-            const imageData = ctx.getImageData(0, 0, resolution.width, resolution.height);
-            const pixels = imageData.data;
-            const srcPixels = new Uint8ClampedArray(pixels);
-            const centerX = resolution.width / 2;
-            const centerY = resolution.height / 2;
-            const maxDist = Math.hypot(centerX, centerY);
-            for (let i = 0; i < pixels.length; i += 4) {
-                const x = (i / 4) % resolution.width;
-                const y = Math.floor((i / 4) / resolution.width);
-                const dist = Math.hypot(x - centerX, y - centerY);
-                const vAmount = Math.pow(dist / maxDist, 2.0) * 0.98;
-                const scanLine = (y % 3 === 0) ? 0.95 : 1.0;
-                const grain = (Math.random() - 0.5) * settings.filmGrain;
-                const caOffset = Math.pow(dist / maxDist, 2.5) * 12;
-                const rIndex = ((y * resolution.width + (x - Math.floor(caOffset))) * 4);
-                const bIndex = ((y * resolution.width + (x + Math.floor(caOffset))) * 4);
-                const r = srcPixels[rIndex] || srcPixels[i];
-                const g = srcPixels[i + 1];
-                const b = srcPixels[bIndex + 2] || srcPixels[i + 2];
-                pixels[i]   = Math.max(0, r * (1 - vAmount) * scanLine + grain);
-                pixels[i+1] = Math.max(0, g * (1 - vAmount) * scanLine + grain);
-                pixels[i+2] = Math.max(0, b * (1 - vAmount) * scanLine + grain);
-            }
-            ctx.putImageData(imageData, 0, 0);
-        }
-
-        // --- All other functions (unchanged logic, just clean) ---
-        function generateUniqueUniverse(settings, resolution, palette) { const particles = []; const chars = Array.from(settings.particleChars); if (chars.length === 0) chars.push('•'); const fullPalette = [...palette, '#ffffff', '#999999']; for (let i = 0; i < settings.particleDensity; i++) { const z = Math.random(); particles.push({ x: Math.random() * resolution.width, y: Math.random() * resolution.height, z: z, size: (settings.minParticleSize + (settings.maxParticleSize - settings.minParticleSize) * z * z), char: chars[Math.floor(Math.random() * chars.length)], color: fullPalette[Math.floor(Math.random() * fullPalette.length)], }); } particles.sort((a, b) => a.z - b.z); return { particles: particles }; }
-        function renderNetwork(ctx, glowCtx, particles, settings, resolution) { if (settings.networkType === 'none') return; const connectable = particles.filter(p => p.z > 0.4); connectable.forEach(p1 => { let neighbors = connectable.filter(p2 => p1 !== p2).sort((a, b) => Math.hypot(p1.x - a.x, p1.y - a.y) - Math.hypot(p1.x - b.x, p1.y - b.y)).slice(0, Math.floor(settings.connectionDensity)); neighbors.forEach(p2 => { if (Math.hypot(p1.x - p2.x, p1.y - p2.y) > 400) return; const opacity = Math.min(p1.z, p2.z) * 0.8; const color = p1.color; const drawFunc = targetCtx => { switch(settings.networkType) { case 'web': drawWeb(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break; case 'arcs': drawLightning(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break; case 'synapse': drawSynapse(targetCtx, p1.x, p1.y, p2.x, p2.y, color, opacity); break; } }; drawFunc(glowCtx); drawFunc(ctx); }); }); }
-        function applyBloom(ctx, glowLayer, settings) { ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.filter = 'blur(' + (settings.bloomIntensity * 2) + 'px)'; ctx.globalAlpha = 0.6; ctx.drawImage(glowLayer, 0, 0); ctx.filter = 'blur(' + (settings.bloomIntensity * 0.5) + 'px)'; ctx.globalAlpha = 1.0; ctx.drawImage(glowLayer, 0, 0); ctx.restore(); }
-        function generateCohesivePalette(numColors = 5) { const palette = []; const baseHue = Math.random() * 360; for (let i = 0; i < numColors; i++) { const hue = (baseHue + i * (360 / numColors) + (Math.random() - 0.5) * 40) % 360; const saturation = 80 + Math.random() * 20; const lightness = 65 + Math.random() * 15; palette.push(hslToHex(hue, saturation, lightness)); } return palette; }
-        function hslToHex(h, s, l) { l /= 100; const a = s * Math.min(l, 1 - l) / 100; const f = n => { const k = (n + h / 30) % 12; const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1); return Math.round(255 * color).toString(16).padStart(2, '0'); }; return `#${f(0)}${f(8)}${f(4)}`; }
-        function calculateOptimalFontSize(ctx, fullText, header, maxWidth, maxHeight) { for (let fs = 250; fs > 10; fs-=2) { const headerSize = fs * 0.55; let currentY = 0; let lines = []; const blocks = fullText.split('\n\n'); for(let blockIndex = 0; blockIndex < blocks.length; blockIndex++) { const block = blocks[blockIndex]; const isHeaderBlock = header && lines.length === 0 && block.startsWith(header); const fontSize = isHeaderBlock ? headerSize : fs; const lineHeight = fontSize * 1.1; ctx.font = '700 ' + fontSize + "px 'Teko', sans-serif"; const words = block.split(' '); let currentLine = ''; for (let wordIndex = 0; wordIndex < words.length; wordIndex++) { const word = words[wordIndex]; const testLine = currentLine ? currentLine + ' ' + word : word; if (ctx.measureText(testLine).width > maxWidth && currentLine) { lines.push({ text: currentLine, height: lineHeight, fontSize: fontSize, isHeader: isHeaderBlock }); currentY += lineHeight; currentLine = word; } else { currentLine = testLine; } } lines.push({ text: currentLine, height: lineHeight, fontSize: fontSize, isHeader: isHeaderBlock }); currentY += lineHeight; } if (currentY <= maxHeight) return { optimalFontSize: fs, lines: lines }; } return { optimalFontSize: 0, lines: [] }; }
-        function drawTextWithBorder(ctx, text, x, y, size, color, borderWidth) { ctx.font = '700 ' + size + "px 'Teko', sans-serif"; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round'; ctx.strokeStyle = 'rgba(0,0,0,0.7)'; ctx.lineWidth = borderWidth; ctx.strokeText(text, x, y); ctx.fillStyle = color; ctx.fillText(text, x, y); }
-        function drawWeb(ctx, x1, y1, x2, y2, color, opacity) { ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.strokeStyle = hexToRgba(color, opacity * 0.6); ctx.lineWidth = 0.5 + opacity; ctx.stroke(); }
-        function drawLightning(ctx, x1, y1, x2, y2, color, opacity) { let p=[[x1,y1]],d=Math.hypot(x1-x2,y1-y2); for(let i=0;i<d/15;i++){let r=Math.random();p.push([x1+(x2-x1)*r,y1+(y2-y1)*r])} p.push([x2,y2]);p.sort((a,b)=>Math.hypot(a[0]-x1,a[1]-y1)-Math.hypot(b[0]-x1,b[1]-y1)); for(let i=1;i<p.length-1;i++){p[i][0]+=(Math.random()-0.5)*20;p[i][1]+=(Math.random()-0.5)*20} ctx.beginPath();ctx.moveTo(p[0][0],p[0][1]);p.forEach(pt => ctx.lineTo(pt[0],pt[1]));ctx.strokeStyle=hexToRgba(color,opacity);ctx.lineWidth=1+opacity*3;ctx.stroke();}
-        function drawSynapse(ctx, x1, y1, x2, y2, color, opacity) { const grad=ctx.createLinearGradient(x1,y1,x2,y2); grad.addColorStop(0,hexToRgba(color,opacity*0.2)); grad.addColorStop(0.5,hexToRgba(color,opacity)); grad.addColorStop(1,hexToRgba(color,opacity*0.2)); ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=grad;ctx.lineWidth=1+opacity;ctx.stroke();const s=3+opacity*6;ctx.fillStyle=hexToRgba(color,opacity);ctx.globalAlpha=opacity;ctx.beginPath();ctx.arc(x1,y1,s,0,2*Math.PI);ctx.fill();ctx.beginPath();ctx.arc(x2,y2,s,0,2*Math.PI);ctx.fill();ctx.globalAlpha=1;}
-        function hexToRgba(hex, alpha) { const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16); return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')'; }
-        function random(min, max) { return min + Math.random() * (max - min); }
-        function randomInt(min, max) { return Math.floor(random(min, max + 1)); }
-        function randomHexColor() { return '#' + ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6); }
-        function resolveSettings(settings) { const resolved = {}; for (const key in settings) { const setting = settings[key]; if (setting && setting.randomize) { if (setting.type === 'color') { resolved[key] = randomHexColor(); } else { const min = Math.min(setting.min, setting.max); const max = Math.max(setting.min, setting.max); resolved[key] = setting.isFloat ? random(min, max) : randomInt(min, max); } } else { resolved[key] = setting.value; } } return resolved; }
-        
-        self.onmessage = async e => {
-            const { settings, captions, resolution } = e.data;
-            // PERFORMANCE FIX: Add willReadFrequently hint for the main composition canvas.
-            const offscreenCanvas = new OffscreenCanvas(resolution.width, resolution.height);
-            const offscreenCtx = offscreenCanvas.getContext('2d', { willReadFrequently: true });
-            
-            for (let i = 0; i < captions.length; i++) {
-                postMessage({ type: 'progress', message: 'INITIATING VISION ' + (i + 1) + '/' + captions.length });
-                const currentSettings = resolveSettings(settings);
-                await new Promise(r => setTimeout(r, 20));
-                BorehOlam(offscreenCtx, captions[i], currentSettings.headerInput, currentSettings, resolution);
-                
-                postMessage({ type: 'progress', message: 'TRANSMITTING VISION ' + (i + 1) + '/' + captions.length });
-                const imageBitmap = offscreenCanvas.transferToImageBitmap();
-                postMessage({ type: 'result', imageBitmap: imageBitmap, index: i + 1 }, [imageBitmap]);
-            }
-            postMessage({ type: 'complete', message: 'ASCENSION COMPLETE' });
-        };
-    </script>
-
-
-    <!-- MAIN PAGE SCRIPT -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const previewCanvas = document.getElementById('previewCanvas');
-        const pCtx = previewCanvas.getContext('2d');
-        const resolution = { width: 1080, height: 1920 };
-        previewCanvas.width = resolution.width;
-        previewCanvas.height = resolution.height;
-        let directoryHandle = null;
-        let db;
-
-        const DB_NAME = 'EinSofEngineDB';
-        const STORE_NAME = 'settingsStore';
-        const DB_VERSION = 2; // Versioning is key to managing DB schema changes.
-
-        /**
-         * Initializes the IndexedDB database.
-         * Handles creation and version upgrades robustly.
-         */
-        function initDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open(DB_NAME, DB_VERSION);
-                
-                request.onupgradeneeded = event => {
-                    let dbHandle = event.target.result;
-                    if (!dbHandle.objectStoreNames.contains(STORE_NAME)) {
-                        dbHandle.createObjectStore(STORE_NAME, { keyPath: 'id' });
-                    }
-                };
-                
-                request.onsuccess = event => {
-                    db = event.target.result;
-                    console.log('IndexedDB connection successful.');
-                    resolve();
-                };
-                
-                request.onerror = event => {
-                    // This will catch the "Internal error opening backing store"
-                    console.error('IndexedDB error:', event.target.error);
-                    reject(event.target.error);
-                };
-            });
-        }
-
-        /**
-         * Saves all control values to IndexedDB.
-         */
-        function saveSettings() {
-            if (!db) return; // Don't try to save if DB initialization failed.
-            
-            const settingsToSave = {};
-            document.querySelectorAll('[id]').forEach(el => {
-                if (el.type === 'checkbox') {
-                    settingsToSave[el.id] = el.checked;
-                } else if (el.value !== undefined) {
-                    settingsToSave[el.id] = el.value;
-                }
-            });
-            document.querySelectorAll('.control-group[data-control-name]').forEach(group => {
-                const name = group.dataset.controlName;
-                settingsToSave[name + '_randomize_active'] = group.classList.contains('randomize-active');
-            });
-
-            try {
-                const transaction = db.transaction(STORE_NAME, 'readwrite');
-                const store = transaction.objectStore(STORE_NAME);
-                store.put({ id: 'userSettings', ...settingsToSave });
-            } catch (err) {
-                console.error("Failed to execute save transaction.", err);
-            }
-        }
-
-        /**
-         * Loads settings from IndexedDB and applies them to the controls.
-         */
-        async function loadSettings() {
-            if (!db) return; // Don't try to load if DB is not available.
-            
-            const transaction = db.transaction(STORE_NAME, 'readonly');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.get('userSettings');
-            
-            request.onsuccess = event => {
-                const settings = event.target.result;
-                if (settings) {
-                    console.log('Loading settings from IndexedDB.');
-                    for (const key in settings) {
-                        const el = document.getElementById(key);
-                        if (el) {
-                            if (el.type === 'checkbox') {
-                                el.checked = settings[key];
-                            } else {
-                                el.value = settings[key];
-                            }
-                            // Trigger input event to update UI elements like range sliders
-                            el.dispatchEvent(new Event('input', { bubbles: true }));
-                        }
-                    }
-                    document.querySelectorAll('.control-group[data-control-name]').forEach(group => {
-                        const name = group.dataset.controlName;
-                        if (settings[name + '_randomize_active']) {
-                            group.classList.add('randomize-active');
-                            group.querySelector('.randomize-toggle').classList.add('active');
-                        }
-                    });
-                } else {
-                    console.log('No settings found in IndexedDB, using defaults.');
-                }
-            };
-        }
-
-        let worker;
-        function initializeWorker() {
-            const workerCode = document.getElementById('einSofWorker').textContent;
-            const blob = new Blob([workerCode], { type: 'application/javascript' });
-            worker = new Worker(URL.createObjectURL(blob));
-            worker.onmessage = handleWorkerMessage;
-        }
-        
-        async function handleWorkerMessage(e) {
-            const { type, message, imageBitmap, index } = e.data;
-            switch(type) {
-                case 'progress':
-                    document.getElementById('processingStatus').textContent = message;
-                    break;
-                case 'result':
-                    pCtx.drawImage(imageBitmap, 0, 0);
-                    await downloadCanvas(previewCanvas, index);
-                    break;
-                case 'complete':
-                    document.getElementById('processingStatus').textContent = message;
-                    setTimeout(() => {
-                        document.getElementById('processingStatus').style.display = 'none';
-                        document.getElementById('generateBtn').disabled = false;
-                    }, 2000);
-                    break;
-            }
-        }
-
-        async function handleBatchGenerate() {
-            document.getElementById('generateBtn').disabled = true;
-            document.getElementById('processingStatus').style.display = 'block';
-
-            // FILE SYSTEM API FIX: Reset the handle at the beginning of a *new* batch,
-            // not at the end of the old one.
-            directoryHandle = null;
-
-            if (document.getElementById('useDirectoryPicker').checked) {
-                try {
-                    // This will prompt the user to select a directory.
-                    directoryHandle = await window.showDirectoryPicker();
-                } catch (err) {
-                    console.log('User cancelled directory picker or an error occurred:', err);
-                    document.getElementById('processingStatus').textContent = 'DIRECTORY SELECTION CANCELLED';
-                    setTimeout(() => {
-                        document.getElementById('processingStatus').style.display = 'none';
-                        document.getElementById('generateBtn').disabled = false;
-                    }, 2000);
-                    return;
-                }
-            }
-
-            // Gather all settings
-            const settings = {};
-            document.querySelectorAll('.control-group[data-control-name]').forEach(group => {
-                const name = group.dataset.controlName;
-                const mainInput = group.querySelector('input, select, textarea');
-                const isRandom = group.classList.contains('randomize-active');
-                settings[name] = { randomize: isRandom };
-                if (isRandom) {
-                    if (mainInput.type === 'color') {
-                        settings[name].type = 'color';
-                    } else {
-                        const minInput = group.querySelector('.rand-min');
-                        const maxInput = group.querySelector('.rand-max');
-                        settings[name].min = parseFloat(minInput.value);
-                        settings[name].max = parseFloat(maxInput.value);
-                        settings[name].isFloat = mainInput.step && parseFloat(mainInput.step) < 1;
-                    }
-                } else {
-                     settings[name].value = mainInput.type === 'range' ? parseFloat(mainInput.value) : mainInput.value;
-                }
-            });
-            ['batchInput', 'headerInput', 'particleStyle', 'networkType', 'particleChars'].forEach(id => {
-                settings[id] = { randomize: false, value: document.getElementById(id).value };
-            });
-
-            const captions = parseInput(document.getElementById('batchInput').value);
-            worker.postMessage({ settings: settings, captions: captions, resolution: resolution });
-        }
-        
-        function setupEventListeners() {
-            document.getElementById('generateBtn').addEventListener('click', handleBatchGenerate);
-            document.querySelectorAll('input[type="range"]').forEach(slider => {
-                const display = document.getElementById(slider.id + 'Value');
-                if (display) { slider.addEventListener('input', () => { display.textContent = slider.value; }); }
-            });
-            document.querySelectorAll('.randomize-toggle').forEach(toggle => {
-                toggle.addEventListener('click', function() {
-                    this.closest('.control-group').classList.toggle('randomize-active');
-                    this.classList.toggle('active');
-                    saveSettings();
-                });
-            });
-            document.getElementById('controls').addEventListener('input', saveSettings);
-            
-            if ('showDirectoryPicker' in window) {
-                document.getElementById('directoryPickerContainer').style.display = 'block';
-            }
-        }
-        
-        function parseInput(text) { if (!text.trim()) return [" "]; return text.split(/\n\s*\n/).map(block => block.trim()).filter(block => block.length > 0); }
-        
-        async function downloadCanvas(canvas, index) {
-            const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.92));
-            const sanitizedCaption = (parseInput(document.getElementById('batchInput').value)[index-1] || 'vision').substring(0, 20).replace(/[^a-z0-9]/gi, '_').toLowerCase();
-            const filename = `BH_${Date.now()}_EinSof_${sanitizedCaption}_${index}.jpg`;
-
-            // If a directory handle exists from the user selection, use it.
-            if (directoryHandle) {
-                try {
-                    const fileHandle = await directoryHandle.getFileHandle(filename, { create: true });
-                    const writable = await fileHandle.createWritable();
-                    await writable.write(blob);
-                    await writable.close();
-                } catch (err) {
-                    console.error('Error saving with File System API, falling back to download:', err);
-                    directoryHandle = null; // Invalidate handle on error
-                    downloadLink(blob, filename);
-                }
-            } else {
-                // Otherwise, use the standard download link method.
-                downloadLink(blob, filename);
-            }
-        }
-        
-        function downloadLink(blob, filename) {
-             const link = document.createElement('a');
-             link.download = filename;
-             link.href = URL.createObjectURL(blob);
-             link.click();
-             URL.revokeObjectURL(link.href);
-        }
-
-        function drawInitialState() {
-            const grad = pCtx.createLinearGradient(0,0,0,resolution.height);
-            grad.addColorStop(0, '#1a1a22'); grad.addColorStop(1, '#0c0c10');
-            pCtx.fillStyle = grad; pCtx.fillRect(0,0,resolution.width, resolution.height);
-            pCtx.font = "700 150px 'Teko', sans-serif";
-            pCtx.textAlign = 'center'; pCtx.textBaseline = 'middle';
-            pCtx.fillStyle = 'rgba(0, 242, 234, 0.8)';
-            pCtx.shadowColor = 'rgba(0, 242, 234, 1)'; pCtx.shadowBlur = 25;
-            pCtx.fillText("EIN SOF ENGINE", resolution.width/2, resolution.height/2 - 50);
-            pCtx.shadowBlur = 0;
-            pCtx.font = "40px 'Teko', sans-serif";
-            pCtx.fillStyle='rgba(255,255,255,0.7)';
-            pCtx.fillText("QUANTUM CORE v2.5. AWAITING COMMAND.", resolution.width/2, resolution.height/2 + 100);
-        }
-
-        /**
-         * The main entry point for the application.
-         */
-        async function main() {
-            initializeWorker();
-            setupEventListeners();
-            drawInitialState();
-            
-            // ROBUST DB INITIALIZATION: Wrap in a try/catch block.
-            try {
-                await initDB();
-                await loadSettings();
-            } catch (err) {
-                console.warn("Could not initialize database. Settings will not be saved. This can happen in private browsing mode or if storage is corrupted.", err);
-            }
-        }
-
-        main();
-    });
-    </script>
+			<form id="controls" class="controls-form">
+				<div id="controlPanels"></div>
+				<div class="action-shelf">
+					<button
+						id="generateBtn"
+						class="generate-button"
+						type="button"
+					>
+						<span>Generate</span>
+						<small>Render & download visions</small>
+					</button>
+				</div>
+			</form>
+		</aside>
+	</div>
+	<script type="module" src="./js/app.js"></script>
 </body>
 </html>

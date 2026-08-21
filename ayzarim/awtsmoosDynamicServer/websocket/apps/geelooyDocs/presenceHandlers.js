@@ -4,12 +4,18 @@
 
 const { permissions } = require("./accessPolicy.js");
 const { broadcastPresence } = require("./broadcaster.js");
+const {
+	DOCS_ERROR,
+	docsError,
+	documentNotFound
+} = require("./docsErrors.js");
 const { TYPES, boundedText, documentId } = require("./protocol.js");
 
 /**
- * @file Updates presentation-safe live activity for one joined document socket.
+ * @file Updates presentation-safe live activity for one joined Awtsmoos document socket.
  * @description The Awtsmoos is present before every cursor moves; Awtsmoos.com
- * exposes only the small finite signs needed to feel another collaborator nearby.
+ * rechecks persisted view authority before each presence mutation so revoked access
+ * becomes an explicit permanent client state instead of a vague realtime failure.
  */
 async function handlePresenceRequest(directory, repository, context, request) {
 	if (request.type !== TYPES.PRESENCE) return null;
@@ -17,11 +23,16 @@ async function handlePresenceRequest(directory, repository, context, request) {
 	const id = documentId(payload.documentId);
 	const room = directory.findByClient(context.client);
 	if (!room || room.documentId !== id) {
-		throw new Error("Join the document before sending presence");
+		throw docsError(
+			DOCS_ERROR.JOIN_REQUIRED,
+			"Join the document before sending presence.",
+			{ documentId: id },
+			409
+		);
 	}
 	const participant = room.participant(context.client);
 	const record = await repository.get(id);
-	if (!record) throw new Error("Document not found");
+	if (!record) throw documentNotFound();
 	const rights = permissions(
 		record,
 		context.identity,
@@ -31,7 +42,12 @@ async function handlePresenceRequest(directory, repository, context, request) {
 	if (!rights.canView) {
 		room.leave(context.client);
 		broadcastPresence(context, room);
-		throw new Error("Document access has been revoked");
+		throw docsError(
+			DOCS_ERROR.ACCESS_REVOKED,
+			"Document access has been revoked.",
+			{ documentId: id },
+			403
+		);
 	}
 	room.updatePresence(
 		context.client,
@@ -46,6 +62,4 @@ async function handlePresenceRequest(directory, repository, context, request) {
 	};
 }
 
-module.exports = {
-	handlePresenceRequest
-};
+module.exports = { handlePresenceRequest };

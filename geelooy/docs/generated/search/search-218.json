@@ -1,223 +1,230 @@
 [
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-d404dbb085",
-		"title": "Critique and Improvements",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/03_CRITIQUE_AND_IMPROVEMENTS.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-operations-and-tooling-md-2db2e00465",
+		"title": "Operations, Scripts, Tools and Tests",
+		"sourcePath": "docs/OPERATIONS_AND_TOOLING.md",
+		"category": "Operations",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Critique and Improvements",
-				"anchor": "critique-and-improvements"
+				"text": "Operations, Scripts, Tools and Tests",
+				"anchor": "operations-scripts-tools-and-tests"
+			},
+			{
+				"level": 2,
+				"text": "ops/",
+				"anchor": "ops"
+			},
+			{
+				"level": 2,
+				"text": "Root scripts/",
+				"anchor": "root-scripts"
+			},
+			{
+				"level": 2,
+				"text": "Root tools/",
+				"anchor": "root-tools"
+			},
+			{
+				"level": 2,
+				"text": "Root tests/",
+				"anchor": "root-tests"
+			},
+			{
+				"level": 2,
+				"text": "templates/",
+				"anchor": "templates"
+			},
+			{
+				"level": 2,
+				"text": "ayzarim/",
+				"anchor": "ayzarim"
+			},
+			{
+				"level": 2,
+				"text": "Evidence/thought roots",
+				"anchor": "evidence-thought-roots"
+			},
+			{
+				"level": 2,
+				"text": "Safe command rule",
+				"anchor": "safe-command-rule"
 			}
 		],
-		"excerpt": "B\"H Critique and Improvements The Awtsmoos reveals defects where confidence once stood; each critique becomes a clearer vessel. 1. Do not assume the existing two minute pipeline fits a one minute short. 2. Verify exact scene duration from authored timing. 3. Confirm spoken lines visibly change mouth geometry. 4. Confir",
-		"searchText": "b\"h critique and improvements the awtsmoos reveals defects where confidence once stood; each critique becomes a clearer vessel. 1. do not assume the existing two minute pipeline fits a one minute short. 2. verify exact scene duration from authored timing. 3. confirm spoken lines visibly change mouth geometry. 4. confirm gaze is view space and target driven. 5. confirm deterministic blink in preview and export. 6. confirm neutral identity survives expression changes. 7. confirm crossed arms remain locked through body and secondary motion. 8. confirm pocket hand remains planted. 9. confirm open palm, point, wave, and presenting silhouettes. 10. confirm fingers read at 180×300. 11. confirm toe, heel, and sole direction. 12. confirm garments do not merge into limbs. 13. confirm hair and garment sway use the evaluated clock. 14. confirm camera cuts do not crop faces or captions. 15. confirm title cards fit safe bounds. 16. confirm serialization excludes caches and functions. 17. confirm import restores authored identity and performance. 18. confirm startup restoration uses the same project data. 19. confirm preview and export share performance evaluation. 20. confirm exported media is nontrivial and visually inspected. 21. record dimensions and sha 256 hashes. 22. run git diff check. 23. audit touched headers, tabs, syntax, and line counts. 24. re read every touched file. 25. compare plan against actual. 26. challenge loading shells and blank renders. 27. challenge legacy clocks. 28. challenge unused state fields. 29. challenge missing tests. 30. close only with empty remaining work and next action none.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-d404dbb085.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Operations, Scripts, Tools and Tests The Awtsmoos lets the running product be surrounded by maintenance, release, repair, generation and verification vessels; Awtsmoos.com keeps those support systems distinct from public application code. ops/ Small intentional operations root. Existing ",
+		"searchText": "b\"h boruch hashem blessed is he operations, scripts, tools and tests the awtsmoos lets the running product be surrounded by maintenance, release, repair, generation and verification vessels; awtsmoos.com keeps those support systems distinct from public application code. ops/ small intentional operations root. existing specialist material also lives under docs/operations/. start there before deployment/database synchronization or production repair work. root scripts/ repository automation and maintenance. the documentation generator lives under scripts/docs/; this is separate from browser/public geelooy/scripts/. root tools/ a large developer/maintenance utility district. a tool is not part of the public server merely because it lives in the repository. inspect its source, inputs, write behavior and environment assumptions before execution. root tests/ repository level verification. additional suites live under projects, apis, the dynamic server and geelooy/tests. docs/test index.md and generated test ownership.md provide task and project views. templates/ shared template/session html source. treat template changes as potentially cross surface behavior changes and trace their import/render callers. ayzarim/ primary runtime/infrastructure district, not merely tooling. dynamic server, dosdb and ssh infrastructure live here among other server side systems. evidence/thought roots large ai thought, audit and repair evidence directories are durable planning/evidence layers. size alone does not make them public products, and coverage tooling should classify them rather than forcing fake product manuals. safe command rule before running an operations/tool command, determine whether it writes data, contacts a live server/provider, performs release/deployment, uses secrets, runs stress work or assumes machine local paths. prefer the smallest evidence producing command that proves the intended behavior.",
+		"page": "pages/docs-operations-and-tooling-md-2db2e00465.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-0068fd6825",
-		"title": "Final Execution Plan",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/04_FINAL_EXECUTION_PLAN.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-operations-dayuh-agent-checklist-md-41aeccaf84",
+		"title": "Dayuh sync checklist for AI agents",
+		"sourcePath": "docs/operations/dayuh-agent-checklist.md",
+		"category": "Operations",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Final Execution Plan",
-				"anchor": "final-execution-plan"
+				"text": "Dayuh sync checklist for AI agents",
+				"anchor": "dayuh-sync-checklist-for-ai-agents"
 			},
 			{
 				"level": 2,
-				"text": "Files to inspect before choosing changes",
-				"anchor": "files-to-inspect-before-choosing-changes"
+				"text": "Preflight",
+				"anchor": "preflight"
 			},
 			{
 				"level": 2,
-				"text": "Files that may be rewritten",
-				"anchor": "files-that-may-be-rewritten"
+				"text": "Direction decision",
+				"anchor": "direction-decision"
 			},
 			{
 				"level": 2,
-				"text": "Ordered execution",
-				"anchor": "ordered-execution"
+				"text": "Dry-run gate",
+				"anchor": "dry-run-gate"
+			},
+			{
+				"level": 2,
+				"text": "Write gate",
+				"anchor": "write-gate"
+			},
+			{
+				"level": 2,
+				"text": "Post-write verification",
+				"anchor": "post-write-verification"
+			},
+			{
+				"level": 2,
+				"text": "Git and code boundary",
+				"anchor": "git-and-code-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Required final report",
+				"anchor": "required-final-report"
 			}
 		],
-		"excerpt": "B\"H Final Execution Plan Files to inspect before choosing changes package.json and all verification/render scripts relevant to scene, character, persistence, browser, package, and export. src scene/project schemas, performance composition, render bridges, character geometry, customizer, serialization, restoration, prev",
-		"searchText": "b\"h final execution plan files to inspect before choosing changes package.json and all verification/render scripts relevant to scene, character, persistence, browser, package, and export. src scene/project schemas, performance composition, render bridges, character geometry, customizer, serialization, restoration, preview, camera, text, and export. existing demo data and proof generators. files that may be rewritten only files demonstrated incomplete by evidence. every rewritten source file will retain the required three line header, tabs, descriptive jsdoc, and fewer than 120 lines. new responsibilities will be split into small modules. ordered execution 1. build dependency and feature matrix. 2. run focused baseline tests. 3. create the one minute project through the native contract. 4. add tests for timing, performance channels, persistence, preview, and export. 5. render production browser courts and representative frames. 6. export packaged media and verify artifacts. 7. run complete verification and compliance audits. 8. re read all changed files and close ledgers with direct evidence.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-0068fd6825.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dayuh sync checklist for AI agents This checklist is mandatory for production database work. Do not skip directly to a write command. Preflight [ ] Read scripts/DAYUH SYNC.md and the database sync runbook. [ ] cd /Users/awtsmoos/work/awtsmoos.com. [ ] Run git status short and note unrela",
+		"searchText": "b\"h boruch hashem blessed is he dayuh sync checklist for ai agents this checklist is mandatory for production database work. do not skip directly to a write command. preflight [ ] read scripts/dayuh sync.md and the database sync runbook. [ ] cd /users/awtsmoos/work/awtsmoos.com. [ ] run git status short and note unrelated worktree changes. [ ] confirm the local database path exists. [ ] confirm the remote path is exactly /mnt/hc volume 102267213/dayuhchadash. [ ] run npm run bh:ssh:info; do not reveal the secret value. [ ] confirm no other seed or sync process is active. [ ] run a read only status with explicit local, remote, and state paths. [ ] save the exact upload, download, and removal lists in the operation report. direction decision choose one operation only: push: the current local database is authoritative for selected changes. pull: production contains authoritative changes that local needs. sync: both sides legitimately changed since a known common base. seed: the remote database must be created or fully replaced from a verified immutable snapshot. do not infer authority from timestamps alone. inspect the actual changed paths and, when needed, compare api behavior or file hashes. dry run gate [ ] run the matching operation with dry run. [ ] review every changed path. [ ] treat remote only email, queue, session, and runtime records as potentially valid. [ ] do not add delete unless the owner approved the exact removal list. [ ] do not add force unless a lock was proven stale. [ ] for sync, confirm base.json came from a successful prior push or pull. [ ] for seed, confirm the source snapshot is immutable and complete. write gate [ ] run the canonical node command, not a substitute transfer tool. [ ] keep the explicit production remote path in the command. [ ] do not use openssh, scp, or remote rsync for production transfer. [ ] do not print or pass the password on the command line. [ ] do not manually edit the remote database while the operation is active. [ ] do not start a duplicate operation because a tunnel status request timed out. [ ] follow the existing durable job until it exits. post write verification [ ] run status again. [ ] require zero pending push.upload entries after a push. [ ] require zero unapproved push.removeremote entries. [ ] verify downloaded files by the tool's sha 256 checks after a pull. [ ] confirm the remote lock is gone. [ ] confirm no .part, .incoming seed, or .previous seed artifact remains. [ ] verify awtsmoos.service is active through npm run bh:ssh. [ ] verify the service working directory is the production repository. [ ] run the rag catalog api smoke. [ ] run a representative content endpoint for the data that changed. [ ] when frontend structure changed, run a fresh browser test with cache disabled. git and code boundary [ ] do not place dayuh chadash database files in git. [ ] do not run npm run bh or npm run ship in a dirty shared worktree. [ ] remember that scripts/ship.mjs stages all files with git add .. [ ] commit only when explicitly requested by the owner. [ ] stage exact files, inspect the cached list, then commit and push. [ ] database synchronization does not prove code deployment, and code deployment does not prove database synchronization. required final report record: 1. direction and exact roots; 2. dry run counts and reviewed paths; 3. transferred and preserved files; 4. post operation status counts; 5. remote service pid and working directory; 6. public api and browser results; 7. backup, conflict, or rollback locations; 8. relevant git status and whether anything was committed.",
+		"page": "pages/docs-operations-dayuh-agent-checklist-md-41aeccaf84.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-1f598e2e65",
-		"title": "AGENTASSIGNMENTS",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/AGENT_ASSIGNMENTS.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-operations-dayuh-code-deploy-and-git-md-af06e202f1",
+		"title": "Dayuh code deployment and Git boundary",
+		"sourcePath": "docs/operations/dayuh-code-deploy-and-git.md",
+		"category": "Operations",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "AGENTASSIGNMENTS",
-				"anchor": "agentassignments"
+				"text": "Dayuh code deployment and Git boundary",
+				"anchor": "dayuh-code-deployment-and-git-boundary"
 			},
 			{
 				"level": 2,
-				"text": "Completed scopes",
-				"anchor": "completed-scopes"
+				"text": "Database versus code",
+				"anchor": "database-versus-code"
 			},
 			{
 				"level": 2,
-				"text": "Orchestration note",
-				"anchor": "orchestration-note"
+				"text": "Shared-worktree rule",
+				"anchor": "shared-worktree-rule"
+			},
+			{
+				"level": 2,
+				"text": "Dangerous convenience commands",
+				"anchor": "dangerous-convenience-commands"
+			},
+			{
+				"level": 2,
+				"text": "Safe exact-file Git workflow",
+				"anchor": "safe-exact-file-git-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Remote code verification",
+				"anchor": "remote-code-verification"
+			},
+			{
+				"level": 2,
+				"text": "Service restart",
+				"anchor": "service-restart"
+			},
+			{
+				"level": 2,
+				"text": "Static-file deployment",
+				"anchor": "static-file-deployment"
+			},
+			{
+				"level": 2,
+				"text": "Documentation status",
+				"anchor": "documentation-status"
 			}
 		],
-		"excerpt": "B\"H AGENT ASSIGNMENTS Completed scopes Architecture and repository archaeology: completed by direct filesystem and command workers. Character/performance bridge: completed and verified. Face/lip sync/blink/gaze: completed and verified. Body/gesture/locked contact: completed and verified. Hands/shoes/garments/secondary ",
-		"searchText": "b\"h agent assignments completed scopes architecture and repository archaeology: completed by direct filesystem and command workers. character/performance bridge: completed and verified. face/lip sync/blink/gaze: completed and verified. body/gesture/locked contact: completed and verified. hands/shoes/garments/secondary motion: completed and verified. persistence/package restoration: completed and verified. camera/title/text/preview/export: completed and verified. browser/pixel courts: completed and verified. full suite/compliance/readback/handoff: completed and verified. orchestration note the mission room subagent endpoint rejected coordinator creation because of an oauth scope mismatch. the work was instead parallelized through isolated command/filesystem workers, and every claim was reverified against the repository. no subagent output remains unmerged.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-1f598e2e65.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dayuh code deployment and Git boundary Database synchronization, Git publication, and remote code activation are three separate operations. Verify each one independently. Database versus code scripts/dayuh sync.mjs moves Dayuh Chadash database files. scripts/dayuh seed.mjs replaces a rem",
+		"searchText": "b\"h boruch hashem blessed is he dayuh code deployment and git boundary database synchronization, git publication, and remote code activation are three separate operations. verify each one independently. database versus code scripts/dayuh sync.mjs moves dayuh chadash database files. scripts/dayuh seed.mjs replaces a remote database from an immutable snapshot. git records source and documentation, not the production database. restarting awtsmoos.service activates code already present remotely; it does not synchronize the database. a database push does not prove the remote server runs new code. shared worktree rule before git work: the repository can contain changes from other agents. do not reset, delete, stash, stage, commit, or deploy files you do not own. dangerous convenience commands npm run ship, npm run bh, and npm run ship:bh invoke scripts/ship.mjs. that script runs git add ., commits all staged work, and pushes. npm run bh then opens the custom ssh session. do not run these commands in a dirty shared worktree unless the owner approved every changed and untracked file. use this for ssh inspection without git shipping: safe exact file git workflow only after explicit owner approval: require the cached file list to contain only approved paths. never use git add . as a substitute for review. remote code verification inspect production through the custom ssh client: verify the process working directory: expected repository: a git push alone does not prove files reached that directory. compare remote hashes or inspect the remote commit when publication uses git. service restart restart only when deployed code requires it and a rollback path exists: after restart, verify: 1. a new live pid; 2. the expected working directory; 3. no deployment staging artifact; 4. the public rag catalog; 5. a representative content api; 6. a browser test when frontend code changed. static file deployment when files move outside git, require: an explicit exact file list; local syntax and tests before transfer; a remote backup of every overwritten file; transfer through the custom ssh client; local/remote sha 256 equality; atomic replacement; a rollback trap when restarting the service; public api and browser verification; retained backups until the owner accepts the release. documentation status these guides change the local git worktree only. they are not published to git or copied to production until the owner explicitly requests that action. report their uncommitted status clearly.",
+		"page": "pages/docs-operations-dayuh-code-deploy-and-git-md-af06e202f1.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-c7e34707f4",
-		"title": "COMPLETEDWORK",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/COMPLETED_WORK.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-operations-dayuh-database-sync-runbook-md-d7dbcc2529",
+		"title": "Dayuh Chadash database sync runbook",
+		"sourcePath": "docs/operations/dayuh-database-sync-runbook.md",
+		"category": "Operations",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "COMPLETEDWORK",
-				"anchor": "completedwork"
+				"text": "Dayuh Chadash database sync runbook",
+				"anchor": "dayuh-chadash-database-sync-runbook"
 			},
 			{
 				"level": 2,
-				"text": "Production short",
-				"anchor": "production-short"
+				"text": "Production variables",
+				"anchor": "production-variables"
 			},
 			{
 				"level": 2,
-				"text": "Character and renderer completion",
-				"anchor": "character-and-renderer-completion"
+				"text": "Credential preflight",
+				"anchor": "credential-preflight"
 			},
 			{
 				"level": 2,
-				"text": "Persistence and export",
-				"anchor": "persistence-and-export"
+				"text": "Read-only status",
+				"anchor": "read-only-status"
 			},
 			{
 				"level": 2,
-				"text": "Verification",
-				"anchor": "verification"
+				"text": "Local to remote",
+				"anchor": "local-to-remote"
+			},
+			{
+				"level": 2,
+				"text": "Remote to local",
+				"anchor": "remote-to-local"
+			},
+			{
+				"level": 2,
+				"text": "Bidirectional sync",
+				"anchor": "bidirectional-sync"
+			},
+			{
+				"level": 2,
+				"text": "Deletion policy",
+				"anchor": "deletion-policy"
+			},
+			{
+				"level": 2,
+				"text": "Initial or recovery seed",
+				"anchor": "initial-or-recovery-seed"
+			},
+			{
+				"level": 2,
+				"text": "Completion gates",
+				"anchor": "completion-gates"
 			}
 		],
-		"excerpt": "B\"H COMPLETED WORK Production short Created The Emergency Backup Spoon, an original exact sixty second office sitcom. Authored three acts, three reusable neutral identities, nine spoken lines, ten camera shots, two title cards, two text boxes, deterministic phoneme/viseme cues, gaze, blink, emotion, lean, locked crosse",
-		"searchText": "b\"h completed work production short created the emergency backup spoon, an original exact sixty second office sitcom. authored three acts, three reusable neutral identities, nine spoken lines, ten camera shots, two title cards, two text boxes, deterministic phoneme/viseme cues, gaze, blink, emotion, lean, locked crossed arms, locked pocket contact, open palm, point, present, and all five gesture phases. compiled the source plan into the native nle timeline and title track. character and renderer completion added a render only adapter that preserves neutral reference identity separately from performance state. added readable palms, thumbs, fingers, points, fists, grips, and pocket contact. added heel, toe, sole, and view direction shoe geometry. added coat/skirt weight and restrained secondary motion. added locked contact gesture geometry independent of locomotion phase. added title card and timed text box production consumers. unified preview and final export through cinematicframerenderer. added canonical 640×360 stage to viewport mapping so production characters remain visible at all proof dimensions. persistence and export added exact short form schema validation. proved json restoration of identities, dialogue cues, overlays, timeline, and custom authored state. proved project package sanitation excludes runtime caches, canvas/context state, functions, blob urls, and stablepose. replaced the fake block based one minute exporter with a real three character h.264/aac exporter. generated synthesized dialogue, 720 production frames, final mp4, 15 second preview, source plan, edl, dialogue data, title/text data, audio manifest, ffprobe report, proof frames, scale courts, and hashes. verification added focused plan, performance, persistence, metadata, and scale court tests. added the focused short gate to the official npm run verify chain. ran the complete repository verification successfully. audited all 32 touched javascript files for headers, tabs, line count, jsdoc, syntax, and whitespace.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-c7e34707f4.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-46657548a7",
-		"title": "DEFECTLEDGER",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/DEFECT_LEDGER.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "DEFECTLEDGER",
-				"anchor": "defectledger"
-			}
-		],
-		"excerpt": "B\"H DEFECT LEDGER Defect Evidence Resolution Status One minute exporter produced abstract blocks, not the production cast Full file inspection of former exportOneMinuteMovie.js Replaced with native production renderer, voices, H.264/AAC, proof frames, manifests, and hashes Closed Existing cinematic schema required 1200",
-		"searchText": "b\"h defect ledger defect evidence resolution status one minute exporter produced abstract blocks, not the production cast full file inspection of former exportoneminutemovie.js replaced with native production renderer, voices, h.264/aac, proof frames, manifests, and hashes closed existing cinematic schema required 120000ms cinematicmovieschema inspection added exact shortformcinematicmovieschema for 60000ms closed reference catalog shape did not match cinematic painter contract first focused performance test failure added oneminutesitcomrenderadapter while preserving source identity closed authored locked/contact gestures fell through neutral arm targets gesture resolver inspection and invariance test added crossed arms, pocket hand, palms, points, waves, fists, holds, and phase independent locked contact closed hands and shoes collapsed into symbolic geometry body painter inspection added readable hand anatomy and directional heel/toe/sole geometry closed garment secondary motion absent from production body path body painter inspection added coat/skirt hem and sway painter closed title cards and timed text boxes lacked production consumers frame renderer inspection added shared overlay consumers closed characters disappeared in 180×300 scale court first scale court failure added canonical stage viewport mapping in cinematiccastpainter closed persistence test used incorrect store and manifest keys exact focused test failures aligned test to real nlestore.get() and productionplan contract closed no open defect remains.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-46657548a7.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-43958bc3d8",
-		"title": "DELTA",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/DELTA.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "DELTA",
-				"anchor": "delta"
-			},
-			{
-				"level": 2,
-				"text": "Planned versus actual",
-				"anchor": "planned-versus-actual"
-			}
-		],
-		"excerpt": "B\"H DELTA Planned versus actual The initial plan expected a native one minute scene, performance bridge, persistence proof, export, and visual courts. Actual archaeology revealed four additional defects that became completed work: 1. The former one minute exporter rendered abstract blocks rather than production charact",
-		"searchText": "b\"h delta planned versus actual the initial plan expected a native one minute scene, performance bridge, persistence proof, export, and visual courts. actual archaeology revealed four additional defects that became completed work: 1. the former one minute exporter rendered abstract blocks rather than production characters. 2. the cinematic schema was hard coded to two minutes. 3. crossed arms, pocket hands, open palms, hands, shoes, and garment motion did not reach sufficiently readable production geometry. 4. canonical blocking coordinates did not scale into the 180×300 production court. all four deltas were implemented, tested, read back, and verified. no unresolved delta remains.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-43958bc3d8.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-6a85fa5b33",
-		"title": "EVIDENCE",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/EVIDENCE.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "EVIDENCE",
-				"anchor": "evidence"
-			},
-			{
-				"level": 2,
-				"text": "Full verification",
-				"anchor": "full-verification"
-			},
-			{
-				"level": 2,
-				"text": "Browser production proof",
-				"anchor": "browser-production-proof"
-			},
-			{
-				"level": 2,
-				"text": "Final short",
-				"anchor": "final-short"
-			},
-			{
-				"level": 2,
-				"text": "Compliance",
-				"anchor": "compliance"
-			}
-		],
-		"excerpt": "B\"H EVIDENCE Full verification Command: npm run verify Job: cmdjob mscs8t8d 78436b7cc049 Receipt: receipt mscs8t8d 8607e323f5 Result: exit code 0 Wall time: 45.895 seconds Included timeline, dialogue recording/playback, panel binding, export orchestrator, API export record, project export, runtime proof, browser runtim",
-		"searchText": "b\"h evidence full verification command: npm run verify job: cmdjob mscs8t8d 78436b7cc049 receipt: receipt mscs8t8d 8607e323f5 result: exit code 0 wall time: 45.895 seconds included timeline, dialogue recording/playback, panel binding, export orchestrator, api export record, project export, runtime proof, browser runtime proof, browser animator export proof, package/export/image tests, and the focused one minute gates. browser production proof browser scene frame: 64,322 bytes browser scene sha 256: 33173646b538865be0eaac222af550fddc006f98c2a155b56475b201e84b7ff3 browser movie: 413,297 bytes browser movie sha 256: b748e44765c730e89f57361e72b08e3cf7d7022ecd3fc9219f9fff63848adb61 final short export command: node tools/render/exportoneminutemovie.js job: cmdjob mscs07ph dadbcfad6dc2 result: exit code 0 runtime: 60.000000 seconds frames: 720 video: h.264, 640×360, 12 fps audio: aac bytes: 1,359,549 final sha 256: 71ac4b66bdba31b760e3774ae3ae1c05486311f61ed170d4fcb317e32871af1b preview sha 256: dfe98dff7076c6e9fee78d14a996dfecfaf4a8ec34e5ef8308600f6bec563772 production plan sha 256: a47478c319224bfdbd7fc47fa465221682fc0734e23f662cb043934fd34d3971 compliance audit job: cmdjob mscsjzyh c6e1d14c8e47 audited javascript files: 32 failures: 0 every file: required header, tabs, awtsmoos/awtsmoos.com jsdoc, syntax pass, and 20–95 lines. git diff check: clean.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-6a85fa5b33.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-949237c6c9",
-		"title": "EXPORTAUDIT",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/EXPORT_AUDIT.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "EXPORTAUDIT",
-				"anchor": "exportaudit"
-			},
-			{
-				"level": 2,
-				"text": "Production path",
-				"anchor": "production-path"
-			},
-			{
-				"level": 2,
-				"text": "FFprobe evidence",
-				"anchor": "ffprobe-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Artifacts",
-				"anchor": "artifacts"
-			}
-		],
-		"excerpt": "B\"H EXPORT AUDIT Production path OneMinuteSitcomMovie → CinematicFrameRenderer → 720 RGB production frames → FFmpeg H.264 video + nine delayed synthesized voice tracks + AAC audio → final MP4. Preview is derived from the final movie. Proof frames are drawn by the same renderer. There is no parallel visual implementatio",
-		"searchText": "b\"h export audit production path oneminutesitcommovie → cinematicframerenderer → 720 rgb production frames → ffmpeg h.264 video + nine delayed synthesized voice tracks + aac audio → final mp4. preview is derived from the final movie. proof frames are drawn by the same renderer. there is no parallel visual implementation for preview versus export. ffprobe evidence duration: 60.000000 seconds video codec: h.264 audio codec: aac dimensions: 640×360 frame rate: 12/1 file bytes: 1,359,549 fast start metadata enabled artifacts final: proofs/one minute sitcom/the emergency backup spoon.mp4 preview: proofs/one minute sitcom/the emergency backup spoon preview.mp4 source plan: proofs/one minute sitcom/production plan.json edl: proofs/one minute sitcom/edit decision list.json dialogue: proofs/one minute sitcom/dialogue data.json titles/text: proofs/one minute sitcom/text and title data.json audio manifest: proofs/one minute sitcom/audio manifest.json probe: proofs/one minute sitcom/ffprobe.json export result/hashes: proofs/one minute sitcom/export result.json result: pass.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-949237c6c9.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dayuh Chadash database sync runbook Use scripts/dayuh sync.mjs for incremental transfer and scripts/dayuh seed.mjs only for a full snapshot replacement. Production variables Always pass remote root. The code default /root/dayuhChadash is not the current production database. Credential pr",
+		"searchText": "b\"h boruch hashem blessed is he dayuh chadash database sync runbook use scripts/dayuh sync.mjs for incremental transfer and scripts/dayuh seed.mjs only for a full snapshot replacement. production variables always pass remote root. the code default /root/dayuhchadash is not the current production database. credential preflight the password comes from the os credential store or awtsmoos ssh password. never echo it or place it in commands, logs, git files, docs, or chat. read only status the report means: push.upload: local files different from or absent on remote; pull.download: remote files different from or absent locally; removal lists appear only for delete planning. remote only files may be valid runtime data. production has previously contained email thread records that were intentionally preserved. local to remote the push uploads four files concurrently, writes temporary names, verifies size and sha 256, then atomically renames. without delete, remote only files stay. remote to local downloaded files are sha 256 verified. without delete, local only files stay. bidirectional sync use only after a successful push or pull created the common base.json: one sided changes move to the unchanged side. two sided changes are preserved under ../.dayuh conflicts/ /..., and sync stops. deletion policy never use delete routinely. it is allowed only when: 1. the owner approved the exact removal list; 2. a dry run exposed every path; 3. a backup or verified reverse path exists; 4. the service can tolerate the removal. initial or recovery seed seed from an immutable, verified snapshot only: the seed streams through custom ssh, verifies archive sha 256, extracts to an incoming directory, and atomically swaps the target with rollback. never seed from a database changing during archive creation. completion gates 1. repeat status; require zero push.upload entries after a push. 2. require zero unapproved removals. 3. confirm the remote lock and staging artifacts are gone. 4. verify the service through the custom ssh cli: 5. verify the public rag catalog and a representative changed content endpoint: use the agent checklist for the mandatory execution sequence and final report.",
+		"page": "pages/docs-operations-dayuh-database-sync-runbook-md-d7dbcc2529.json"
 	}
 ]

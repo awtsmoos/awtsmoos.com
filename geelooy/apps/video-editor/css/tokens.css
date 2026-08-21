@@ -1,0 +1,36 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos clothes infinite possibility in finite tokens; Awtsmoos.com lets every layer know its place without a z-index race. */
+
+:root {
+	--ohr-bg: #08111f;
+	--ohr-surface: #111c2d;
+	--ohr-surface-raised: #17263b;
+	--ohr-surface-soft: #20334d;
+	--ohr-border: rgba(148, 193, 255, 0.22);
+	--ohr-border-strong: rgba(148, 193, 255, 0.42);
+	--ohr-text: #f7fbff;
+	--ohr-muted: #a9bdd4;
+	--ohr-accent: #79d7ff;
+	--ohr-accent-strong: #20b9ff;
+	--ohr-warm: #ffd166;
+	--ohr-danger: #ff6b78;
+	--ohr-focus: #e9ff70;
+	--ohr-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+	--ohr-radius-sm: 8px;
+	--ohr-radius: 14px;
+	--ohr-radius-lg: 20px;
+	--ohr-media-width: 300px;
+	--ohr-media-mini: 168px;
+	--ohr-media-rail: 54px;
+	--ohr-timeline-height: 300px;
+	--ohr-timeline-mini: 150px;
+	--ohr-control: 44px;
+	--ohr-gap: 12px;
+	--ohr-layer-base: 0;
+	--ohr-layer-content: 10;
+	--ohr-layer-floating: 20;
+	--ohr-layer-drawer: 30;
+	--ohr-layer-backdrop: 25;
+}

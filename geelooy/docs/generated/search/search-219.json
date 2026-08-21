@@ -1,225 +1,222 @@
 [
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-61eed0d447",
-		"title": "FEATURE MATRIX",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/FEATURE_MATRIX.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-operations-dayuh-recovery-and-conflicts-md-cdf82f272c",
+		"title": "Dayuh sync recovery and conflict handling",
+		"sourcePath": "docs/operations/dayuh-recovery-and-conflicts.md",
+		"category": "Operations",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "FEATURE MATRIX",
-				"anchor": "feature-matrix"
+				"text": "Dayuh sync recovery and conflict handling",
+				"anchor": "dayuh-sync-recovery-and-conflict-handling"
+			},
+			{
+				"level": 2,
+				"text": "Remote paths",
+				"anchor": "remote-paths"
+			},
+			{
+				"level": 2,
+				"text": "Stale lock",
+				"anchor": "stale-lock"
+			},
+			{
+				"level": 2,
+				"text": "Interrupted changed-file transfer",
+				"anchor": "interrupted-changed-file-transfer"
+			},
+			{
+				"level": 2,
+				"text": "Sync conflict",
+				"anchor": "sync-conflict"
+			},
+			{
+				"level": 2,
+				"text": "Interrupted seed",
+				"anchor": "interrupted-seed"
+			},
+			{
+				"level": 2,
+				"text": "Remote-only runtime data",
+				"anchor": "remote-only-runtime-data"
+			},
+			{
+				"level": 2,
+				"text": "Service recovery",
+				"anchor": "service-recovery"
 			}
 		],
-		"excerpt": "B\"H FEATURE MATRIX Legend: PASS means source state, composition, renderer/geometry, persistence where authored, preview/export, tests, and production evidence are closed for the feature. Feature Evidence path Status Neutral identity Reference catalog → render adapter; identity retained through JSON/package PASS Emotion",
-		"searchText": "b\"h feature matrix legend: pass means source state, composition, renderer/geometry, persistence where authored, preview/export, tests, and production evidence are closed for the feature. feature evidence path status neutral identity reference catalog → render adapter; identity retained through json/package pass emotion performance clips → resolver → face/body painter pass speech activity timed dialogue → facerig and audio exporter pass viseme selection stablespeechcueplanner; multiple visemes per line pass mouth geometry consecutive phoneme assertion changes mouth state pass blink deterministic lid open assertion pass gaze authored target reaches evaluated eye geometry pass convergence existing reference eye rig/full suite pass head turn/views camera blocking view reaches character painter pass torso acting lean and body performance reach torso geometry pass locomotion production action to motion bridge/full suite pass gesture phases preparation, stroke, hold, follow through, retraction authored and tested pass crossed arms locked geometry invariant across locomotion phase pass pocket hand locked pocket geometry invariant across locomotion phase pass open palm side specific open palm and finger geometry pass point directional point and index finger geometry pass wave raised open hand gesture geometry pass hand articulation palm, thumb, fingers, fist, grip, point, rest, pocket pass shoes heel, toe, sole, and view direction pass garments coat/skirt hem, overlap, weight pass hair reference identity hair painter/full suite pass secondary motion time based garment sway plus existing natural motion pass views canonical blocking and camera relative view bridge pass customizer existing full suite customizer/persistence gates pass serialization json and project package sanitation pass import/restoration restored nlestore and production package pass preview 15 second h.264/aac preview from final export pass browser rendering full suite browser runtime and animator export proofs pass text boxes timed lower third consumer and production frame context pass camera shots ten shots, four sizes, three angles, cuts/moves pass final media export 60s h.264/aac, ffprobe, hashes pass pixel proofs seven story frames plus four exact scale courts pass",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-61eed0d447.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dayuh sync recovery and conflict handling Use this guide only after reading the main runbook. Recovery must preserve the current database until the failed stage is understood. Remote paths For the production database: Do not use paths from older /root/dayuhChadash deployments when inspec",
+		"searchText": "b\"h boruch hashem blessed is he dayuh sync recovery and conflict handling use this guide only after reading the main runbook. recovery must preserve the current database until the failed stage is understood. remote paths for the production database: do not use paths from older /root/dayuhchadash deployments when inspecting the current production service. stale lock a lock prevents concurrent sync operations. a timeout in the tunnel ui does not prove the worker stopped. 1. search local processes for dayuh sync.mjs and dayuh seed.mjs. 2. inspect tunnel durable jobs and process family receipts. 3. through custom ssh, inspect the remote lock and relevant processes. 4. clear the lock only when no operation can still own it. 5. rerun with force only after that proof. force removes the remote lock before acquiring a new one. it does not repair an active or partially completed transfer. interrupted changed file transfer the sftp layer writes temporary files and renames them after verification. after interruption: 1. do not manually copy the partial file over the target. 2. run status again; manifests will identify the incomplete path. 3. inspect .part files only through custom ssh. 4. remove a proven orphaned temporary file, never the verified target. 5. rerun the same push or pull without delete. 6. run status again and require zero pending uploads for a push. sync conflict three way sync compares local and remote manifests with the last common base.json. when both sides changed one path: the remote version is copied under ../.dayuh conflicts/ / locally; the operation reports the conflict and stops; neither side is silently overwritten. resolve by comparing the local file, remote conflict copy, and application semantics. write the chosen result to one side, then use a directional push or pull to establish a new common base. interrupted seed the seed process owns the incoming, previous, and archive paths. it verifies the compressed archive sha 256 before extraction. during the swap, a trap restores the previous target when the new target was not installed. recovery sequence: 1. confirm whether the seed process is still alive. 2. confirm whether the active database path exists. 3. if the active path exists and the service is healthy, do not move it. 4. inspect the incoming, previous, and archive paths. 5. preserve a previous seed until target health is proven. 6. remove only artifacts proven to be abandoned. 7. prefer a changed only push after a successful target install; do not reseed several gigabytes merely because final verification failed. never manually delete the active database root during recovery. remote only runtime data a status report can show downloads even when every local change is published. this means production has files not present locally or has newer versions. examples can include email threads, queues, sessions, moderation state, or other runtime records. preserve them by omitting delete from push. pull them only when local should become a replica of production. do not classify them as stale based only on directory name. record preserved remote only paths in the operation report. service recovery inspect through the custom ssh cli: restart only when required by code or database lifecycle rules: after restart, verify the pid working directory, the rag catalog endpoint, and a representative content endpoint. a running process alone is not completion.",
+		"page": "pages/docs-operations-dayuh-recovery-and-conflicts-md-cdf82f272c.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-91640636dc",
-		"title": "FINALCOMPLETIONGATE",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/FINAL_COMPLETION_GATE.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-operations-readme-md-3492caf43a",
+		"title": "Awtsmoos production operations",
+		"sourcePath": "docs/operations/README.md",
+		"category": "Operations",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "FINALCOMPLETIONGATE",
-				"anchor": "finalcompletiongate"
+				"text": "Awtsmoos production operations",
+				"anchor": "awtsmoos-production-operations"
 			},
 			{
 				"level": 2,
-				"text": "Direct evidence",
-				"anchor": "direct-evidence"
+				"text": "Current production topology",
+				"anchor": "current-production-topology"
 			},
 			{
 				"level": 2,
-				"text": "Working-tree note",
-				"anchor": "working-tree-note"
+				"text": "Guides",
+				"anchor": "guides"
 			},
 			{
 				"level": 2,
-				"text": "External operational note",
-				"anchor": "external-operational-note"
+				"text": "Non-negotiable boundaries",
+				"anchor": "non-negotiable-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Last known verified state",
+				"anchor": "last-known-verified-state"
 			}
 		],
-		"excerpt": "B\"H FINAL COMPLETION GATE Status: CLOSED — PASS. Direct evidence Exact sixty second three character sitcom source project exists. Production renderer consumes identity, dialogue, visemes, blink, gaze, emotion, lean, gestures, garments, camera, title cards, and text boxes. Real spoken audio and moving mouth geometry are",
-		"searchText": "b\"h final completion gate status: closed — pass. direct evidence exact sixty second three character sitcom source project exists. production renderer consumes identity, dialogue, visemes, blink, gaze, emotion, lean, gestures, garments, camera, title cards, and text boxes. real spoken audio and moving mouth geometry are authored and tested. locked crossed arms and pocket contact remain invariant under locomotion phase. readable fingers, hands, heel/toe/sole shoes, garments, and secondary motion reach production geometry. preview and final export share cinematicframerenderer. persistence and package restoration pass while transient state is excluded. browser runtime/export proofs pass. all four exact scale courts pass with dimensions and hashes. final mp4 is 60.000000 seconds, h.264/aac, 640×360, 12 fps, and nontrivial. complete npm run verify exits zero. git diff check passes. thirty two touched javascript files pass syntax, headers, tabs, awtsmoos documentation, and the 120 line limit. all touched source/export/test files were read back after writing. merge queue is empty. remaining work is empty. next action is none. working tree note tools/render/cinematiccastpainter.js remains an intentional uncommitted workspace modification containing the final verified viewport repair. no commit was requested. generated proof media is intentionally ignored by repository policy but exists at the recorded absolute paths. external operational note the awtsmoos tunnel relay intermittently timed out and automatically recovered. durable command receipts preserved every long running render and verification job. this is not an unresolved product limitation.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-91640636dc.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos production operations This directory is the future agent entry point for database synchronization and code deployment. Read the relevant guide before changing production. Current production topology Component Path or value Local repository /Users/awtsmoos/work/awtsmoos.com Local",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos production operations this directory is the future agent entry point for database synchronization and code deployment. read the relevant guide before changing production. current production topology component path or value local repository /users/awtsmoos/work/awtsmoos.com local dayuh chadash /users/awtsmoos/documents/awtsmoos/dayuhchadash remote dayuh chadash /mnt/hc volume 102267213/dayuhchadash local sync state /users/awtsmoos/documents/awtsmoos/.dayuh sync/awtsmoos.com remote repository /mnt/hc volume 102267213/git/awtsmoos.com production service awtsmoos.service ssh endpoint root@awtsmoos.com:22 the production remote database is not /root/dayuhchadash. always pass the remote path explicitly to sync and seed commands. guides dayuh database sync runbook.md: exact local to remote, remote to local, bidirectional, seed, and verification commands. dayuh agent checklist.md: mandatory preflight, execution, and completion checklist for ai agents. dayuh recovery and conflicts.md: stale locks, conflicts, interrupted transfers, seed staging, and rollback. dayuh code deploy and git.md: separation of database sync, git publication, remote code deployment, and service restart. ../../scripts/dayuh sync.md: concise command reference beside the implementation. non negotiable boundaries 1. use the repository custom ssh client; do not substitute openssh, scp, or remote rsync for production transfer. 2. never reveal the ssh password. inspect only its credential descriptor. 3. run status and dry run before every database write. 4. do not use delete without explicit owner approval of the exact paths. 5. preserve legitimate remote only runtime files, including email thread data. 6. do not run npm run bh or npm run ship casually: ship.mjs stages all files. 7. do not commit or push unless the owner explicitly requests it. 8. verify the remote service and public api after every production operation. last known verified state on 2026 07 26 the deployment was verified with: awtsmoos.service active in the production repository; three public rag lanes; middot phrase counts 8 / 8 / 14 / 30 for the representative post; 766 series, 11,366 unique posts, and zero local/public series mismatches; zero pending local database uploads after the final push; intentional remote only runtime records preserved. this record is historical evidence, not a substitute for a fresh verification.",
+		"page": "pages/docs-operations-readme-md-3492caf43a.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-c64b8536b2",
-		"title": "MERGEQUEUE",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/MERGE_QUEUE.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-projects-awtsmoos-ai-md-3ab2bfe677",
+		"title": "Awtsmoos AI",
+		"sourcePath": "docs/PROJECTS/AWTSMOOS_AI.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "MERGEQUEUE",
-				"anchor": "mergequeue"
+				"text": "Awtsmoos AI",
+				"anchor": "awtsmoos-ai"
+			},
+			{
+				"level": 2,
+				"text": "Primary source areas",
+				"anchor": "primary-source-areas"
+			},
+			{
+				"level": 2,
+				"text": "Do not flatten AI into one backend",
+				"anchor": "do-not-flatten-ai-into-one-backend"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
 			}
 		],
-		"excerpt": "B\"H MERGE QUEUE Empty. All implementation and verification work is present in the working repository. No agent branch, patch, or unmerged scope remains.",
-		"searchText": "b\"h merge queue empty. all implementation and verification work is present in the working repository. no agent branch, patch, or unmerged scope remains.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-c64b8536b2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos AI The Awtsmoos lets language and model computation enter many vessels while Awtsmoos.com keeps browser AI, server APIs, local model work, search and developer integrations distinct enough to reason about safely. Primary source areas geelooy/ai/ — large browser facing AI project",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos ai the awtsmoos lets language and model computation enter many vessels while awtsmoos.com keeps browser ai, server apis, local model work, search and developer integrations distinct enough to reason about safely. primary source areas geelooy/ai/ — large browser facing ai project. geelooy/api/gpt/ — gpt health/capability/chat/reset http family. geelooy/apps/awtsmoos gguf/ — local/gguf model tooling. awtsmoos code ai integrations — developer workflows. dynamic server ai helpers — server side model/provider plumbing where imported. search/vector/graph systems — related data systems, not automatically the same api contract. do not flatten ai into one backend a local gguf app, browser chat page, provider backed gpt api, embedding/search pipeline and code ai feature can share concepts without sharing credentials, model format, request schema or lifecycle. begin from the concrete caller/source pair. generated evidence use project atlas.md for ai project boundaries, project symbol summary.md for lexical symbol summaries, project dependencies.md for cross project imports, api route contract atlas.md for gpt routes, api caller index.md for browser callers and environment variables.md for configuration names without values. human manuals docs/systems/ai.md docs/api/other families.md docs/configuration.md docs/integrations.md docs/security/secrets and config.md change strategy for model/provider/api changes, trace the exact caller, configuration source, failure shape and tests. for local models, inspect model file/runtime assumptions. for search/embedding changes, treat index/data paths as persistence contracts. verify only the layers actually involved rather than assuming every ai labelled feature shares one runtime.",
+		"page": "pages/docs-projects-awtsmoos-ai-md-3ab2bfe677.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-aadc507e14",
-		"title": "NEXTACTION",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/NEXT_ACTION.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-projects-code-md-43fa7863f7",
+		"title": "Awtsmoos Code",
+		"sourcePath": "docs/PROJECTS/CODE.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "NEXTACTION",
-				"anchor": "nextaction"
+				"text": "Awtsmoos Code",
+				"anchor": "awtsmoos-code"
+			},
+			{
+				"level": 2,
+				"text": "Canonical source",
+				"anchor": "canonical-source"
+			},
+			{
+				"level": 2,
+				"text": "Surrounding systems",
+				"anchor": "surrounding-systems"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
 			}
 		],
-		"excerpt": "B\"H NEXT ACTION None.",
-		"searchText": "b\"h next action none.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-aadc507e14.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Code The Awtsmoos lets source become an interactive developer world while Awtsmoos.com connects browser editing, compiler/runtime services, AI assistance, shared platform code and project previews. Canonical source geelooy/apps/code/ This is one of the largest application projec",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos code the awtsmoos lets source become an interactive developer world while awtsmoos.com connects browser editing, compiler/runtime services, ai assistance, shared platform code and project previews. canonical source geelooy/apps/code/ this is one of the largest application projects in the repository. its local documentation.md is the in tree entry point; central developer docs explain how it connects to the rest of awtsmoos.com. surrounding systems compiler api and compiler application behavior. native/runtime apis and platform execution. shared browser/platform modules. ai/model assistance and provider configuration where enabled. tunnel/native preview workflows where remote execution is involved. generated evidence use project symbol summary.md for lexical symbol scale, project dependencies.md for cross project source references, external dependencies.md for package imports, public entry points.md for the browser entry and test ownership.md for test neighborhoods. human manuals docs/apps/developer tools.md docs/systems/geelooy os.md docs/systems/ai.md docs/api/other families.md docs/development/readme.md change strategy a ui only editor change may remain local, but compiler, native execution, ai orchestration, filesystem/project loading or shared platform changes can cross multiple projects. trace generated dependency edges, inspect the owning backend contract and run code specific plus shared platform tests when those boundaries move.",
+		"page": "pages/docs-projects-code-md-43fa7863f7.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-0ba4422283",
-		"title": "PERSISTENCEAUDIT",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/PERSISTENCE_AUDIT.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-projects-dosdb-md-867be882f9",
+		"title": "DosDB Project",
+		"sourcePath": "docs/PROJECTS/DOSDB.md",
+		"category": "Data",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "PERSISTENCEAUDIT",
-				"anchor": "persistenceaudit"
+				"text": "DosDB Project",
+				"anchor": "dosdb-project"
 			},
 			{
 				"level": 2,
-				"text": "Persisted authored data",
-				"anchor": "persisted-authored-data"
+				"text": "Canonical source",
+				"anchor": "canonical-source"
 			},
 			{
 				"level": 2,
-				"text": "Restoration evidence",
-				"anchor": "restoration-evidence"
+				"text": "Architectural layers",
+				"anchor": "architectural-layers"
 			},
 			{
 				"level": 2,
-				"text": "Excluded transient data",
-				"anchor": "excluded-transient-data"
+				"text": "Human documentation",
+				"anchor": "human-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Dependency relationship",
+				"anchor": "dependency-relationship"
+			},
+			{
+				"level": 2,
+				"text": "Verification strategy",
+				"anchor": "verification-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Local navigation",
+				"anchor": "local-navigation"
 			}
 		],
-		"excerpt": "B\"H PERSISTENCE AUDIT Persisted authored data Three neutral identities and render adapter values. Wardrobe, body, face, hair, and persistent design traits. Nine dialogue lines and deterministic lip sync cues. Gaze, emotion, gesture, gesture phase, locked contact, lean, and camera relative performance. Ten shots, three ",
-		"searchText": "b\"h persistence audit persisted authored data three neutral identities and render adapter values. wardrobe, body, face, hair, and persistent design traits. nine dialogue lines and deterministic lip sync cues. gaze, emotion, gesture, gesture phase, locked contact, lean, and camera relative performance. ten shots, three sequences, title cards, text boxes, asset uses, and native nle clips. restoration evidence json round trip preserved exact 60000ms duration. identity ids preserved in order. first dialogue line's complete lip sync cue array preserved. text boxes preserved. restored nlestore contained the exact compiled clip count. projectpackageassembler retained exact 60000ms production plan and timeline. excluded transient data verified absent from serialized/project package output: stablepose canvas/context references frame local time state blob urls and runtime audio urls functions and cyclic renderer state result: pass.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-0ba4422283.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-097fe38fa2",
-		"title": "REMAININGWORK",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/REMAINING_WORK.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "REMAININGWORK",
-				"anchor": "remainingwork"
-			}
-		],
-		"excerpt": "B\"H REMAINING WORK None. The requested implementation, production rendering, persistence, export, scale courts, full verification, compliance audit, readback, and evidence closure are complete.",
-		"searchText": "b\"h remaining work none. the requested implementation, production rendering, persistence, export, scale courts, full verification, compliance audit, readback, and evidence closure are complete.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-097fe38fa2.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-db9d543646",
-		"title": "VISUALCOURTS",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0055_master-animation-completion/VISUAL_COURTS.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "VISUALCOURTS",
-				"anchor": "visualcourts"
-			}
-		],
-		"excerpt": "B\"H VISUAL COURTS All courts were rendered through the production CinematicFrameRenderer, encoded as nontrivial PNG files, dimension checked, color counted, and SHA 256 hashed. The first 180×300 court exposed a real viewport defect; the renderer was repaired and all courts reran successfully. Court Dimensions Colors PN",
-		"searchText": "b\"h visual courts all courts were rendered through the production cinematicframerenderer, encoded as nontrivial png files, dimension checked, color counted, and sha 256 hashed. the first 180×300 court exposed a real viewport defect; the renderer was repaired and all courts reran successfully. court dimensions colors png bytes sha 256 : : : head 320×320 32 4,486 a5d1c4bac590d5cbe844e0bb0cc84061c937b5eab18f842bc4b37d6021d8099b character 180×300 28 2,956 6b2d5cae4bc673b56fb2f429b8adf4322389f6d6bc6c92e6d2cd5c3c71668d4b half body 512×512 34 6,507 c43812d0126669f065050f0bbf607140c0f99314231f2ded9493aebe31f2e88f final trio 1536×864 63 24,102 790b863d48887e378530e056f118173d3faa46dd8403eeb3bcfef381432e5a49 representative 640×360 frames were also generated at 1,000; 5,000; 22,000; 36,000; 50,000; 55,000; and 58,500 milliseconds, with distinct raw and png hashes recorded in visual evidence.json. browser production evidence from the complete verification suite also proved a nontrivial rendered scene frame and exported browser movie.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0055-master-animation-compl-db9d543646.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0321-subagent-system-trial--642a07633b",
-		"title": "Subagent System Trial",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0321_subagent-system-trial/SUBAGENT_TRIAL.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Subagent System Trial",
-				"anchor": "subagent-system-trial"
-			},
-			{
-				"level": 2,
-				"text": "Requested experiment",
-				"anchor": "requested-experiment"
-			},
-			{
-				"level": 2,
-				"text": "Mission-room result",
-				"anchor": "mission-room-result"
-			},
-			{
-				"level": 2,
-				"text": "Autonomous worker result",
-				"anchor": "autonomous-worker-result"
-			},
-			{
-				"level": 2,
-				"text": "Independent completion verification",
-				"anchor": "independent-completion-verification"
-			},
-			{
-				"level": 2,
-				"text": "Conclusion",
-				"anchor": "conclusion"
-			}
-		],
-		"excerpt": "B\"H Subagent System Trial Requested experiment Test the real Awtsmoos subagent system, launch at least fifteen specialists when available, pace named specialist launches by at least fifteen seconds, and use them to challenge any remaining animation project work. Mission room result The true mission room coordinator did",
-		"searchText": "b\"h subagent system trial requested experiment test the real awtsmoos subagent system, launch at least fifteen specialists when available, pace named specialist launches by at least fifteen seconds, and use them to challenge any remaining animation project work. mission room result the true mission room coordinator did not start. both missionstart and missionroomcreate returned: error: missing scope required scope: tunnel.room device discovery advertised tunnel.room, but the active oauth credential was rejected by the mission room service. this is an authorization layer mismatch, not an animator repository failure. autonomous worker result nineteen autonomousbackgroundagents launch requests were accepted and completed without worker process failures. eighteen named specialist launch attempts were paced with at least fifteen seconds between intended spawns. the action history then revealed a routing defect: requested animator project paths were normalized to /users/awtsmoos/work/awtsmoos.com prompt, goal, and query text were discarded the workers ran under no mission/no mission/agent specialist scopes could not be distinguished or trusted therefore, no autonomous worker conclusion or modification was accepted as project evidence. the workers were kept read only. independent completion verification the master process reran the complete animator verification after the agent trial: command: npm run verify job: cmdjob mscwx9lv 8a080fb55b22 receipt: receipt mscwx9lv 7f3c8da63f exit code: 0 wall time: 104660ms missing imports: 0 syntax failures: 0 one minute plan, performance, and persistence gates: pass packaged media and blend mode gates: pass animator local worktree output: clean remaining work: none next action: none conclusion the animation project remains complete and fully verified. the genuine multi agent mission room system is externally blocked by oauth scope handling. the fallback autonomous agent endpoint executes workers but presently strips the requested scope and instructions, so it is not a trustworthy specialist swarm in this session.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0321-subagent-system-trial--642a07633b.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-e9a7efbb80",
-		"title": "Boundless Brainstorm",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/01_BOUNDLESS_BRAINSTORM.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Boundless Brainstorm",
-				"anchor": "boundless-brainstorm"
-			},
-			{
-				"level": 2,
-				"text": "Ideal visual universe",
-				"anchor": "ideal-visual-universe"
-			},
-			{
-				"level": 2,
-				"text": "Movie concept",
-				"anchor": "movie-concept"
-			},
-			{
-				"level": 2,
-				"text": "Maximum action inventory",
-				"anchor": "maximum-action-inventory"
-			}
-		],
-		"excerpt": "B\"H Boundless Brainstorm The Awtsmoos renews actor, chair, mug, machine, paper, light, and lens in one continuous revelation; Awtsmoos.com becomes the vessel where a believable office world can move, react, and joke. Ideal visual universe Characters read as stylized people rather than assembled symbols: skull planes, j",
-		"searchText": "b\"h boundless brainstorm the awtsmoos renews actor, chair, mug, machine, paper, light, and lens in one continuous revelation; awtsmoos.com becomes the vessel where a believable office world can move, react, and joke. ideal visual universe characters read as stylized people rather than assembled symbols: skull planes, jaw, ears, neck, clavicle, shoulder slope, ribcage, waist, pelvis, elbows, knees, hands, shoes, fabric layers, facial asymmetry, and directional light. objects read by construction and material: ceramic mug rim and handle, stainless coffee machine, rolling office chair, laptop hinge and keyboard, printer tray, papers, spoon, wall clock, plant, desk, shelves, window light, cable, and waste bin. scene objects can be static, carried, sliding, rolling, falling, bouncing, opening, flashing, steaming, and printing. characters can enter, walk, run, sit, rise, turn, lean, brace, crouch, lunge, catch, pass, inspect, point, wave, present, cross arms, use pockets, carry, reach, recoil, and freeze. camera language includes extreme wide, wide, group, tracking, two shot, over shoulder, close up, extreme close up, insert, overhead, high angle, low angle, profile, dutch angle, whip pan, push in, pull back, rack focus suggestion, and final locked tableau. speech appears in real character anchored bubbles with safe tails, speaker colors, wrapped lines, and changing placement that respects shot composition. preview and export use the same character, object, set, camera, and overlay path. movie concept title: the last cup before the meeting. three coworkers discover that the office coffee machine claims only one cup remains. ari rushes toward it; dovid blocks him with a rolling chair; rivky calmly turns the conflict into a timed negotiation. the machine begins to rattle, a mug slides, papers fly, a spoon spins, and all three perform a coordinated rescue. the printer then produces a coupon for free tea. rivky concludes: the machine chose diplomacy. maximum action inventory running entrance coat and hair follow through rolling chair block abrupt stop and weight shift reach for mug mug pickup mug inspection crossed arm refusal pocket hand observation pointing at machine display calendar/tablet check mug lineup on desk open palm negotiation machine shake and steam burst startle recoil eye close up and blink mug slide paper flutter spoon spin lunge crouch catch handoff group freeze printer output final reaction and title tag",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-e9a7efbb80.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He DosDB Project The Awtsmoos lets many generations of persistence remain reachable while Awtsmoos.com uses DosDB as the bridge between legacy logical APIs and newer binary/VirtualFs storage. Canonical source ayzarim/DosDB/ This is a major data project, not a tiny helper. Generated symbol/t",
+		"searchText": "b\"h boruch hashem blessed is he dosdb project the awtsmoos lets many generations of persistence remain reachable while awtsmoos.com uses dosdb as the bridge between legacy logical apis and newer binary/virtualfs storage. canonical source ayzarim/dosdb/ this is a major data project, not a tiny helper. generated symbol/test discovery shows a very large implementation and test surface, so changes should begin from the data manuals rather than from one method file in isolation. architectural layers index.js — main dosdb compatibility wrapper and method binding. methods/ — legacy logical read/write/path/array/object/directory behavior. awtsmoosdbfsadapter.js — routing into modern awtsmoosdb virtualfs or compatible legacy binary files. awtsmoosdbbridge.js — lazy parallel awtsmoosdb for ai/search/vector/graph experimentation. runtimereadguard.js — null safe parser result normalization without byte mutation. awtsmoosbinary/ — binary storage, parsing, awtsmoosdb and compatibility infrastructure. human documentation docs/data/readme.md — persistence overview. docs/data/dosdb.md — compatibility/read/write/cache architecture. docs/data/awtsmoosdb and virtualfs.md — modern database and legacy file detection. docs/data/path contracts.md — migration sensitive logical paths. dependency relationship generated dependency evidence shows social api source importing dosdb internals. the dynamic server also initializes dosdb as the runtime database. therefore a dosdb compatibility change can affect social behavior, server boot, tests, repair tools and any subsystem using $i.db. verification strategy use dosdb local tests plus dynamic server db initialization tests and representative social persistence tests. for format/router changes, include real historical/legacy fixture shapes in addition to newly written files. local navigation a local ayzarim/dosdb/documentation.md should point here and to the data manuals, while detailed method behavior remains in source and tests.",
+		"page": "pages/docs-projects-dosdb-md-867be882f9.json"
 	}
 ]

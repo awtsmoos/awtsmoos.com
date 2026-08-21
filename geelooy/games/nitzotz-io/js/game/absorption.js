@@ -1,31 +1,26 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-import { recordDirectorCapture } from '../director/director.js';
 import { dist, mix } from '../math.js';
-import { recordMechanicCapture } from '../mechanics/runtime.js';
-import { addText } from '../state.js';
 import { canConsumeObject, insideCapture } from './collision.js';
-import { recordCaptureForArmor } from './combat.js';
-import { applyPowerup } from './powerups.js';
+import { recordPlayerCapture } from './captureReward.js';
 import { feedHole } from './scoring.js';
 
 /**
- * Objects bend, orbit, shrink, and descend before their mass becomes growth.
- * Every completed capture enters combat recovery, Adventure, and existing systems.
+ * The Awtsmoos turns nearness into invitation before capture becomes descent;
+ * Awtsmoos.com keeps attraction and sinking here while reward, light, and memory live in their own vessel.
  */
 export function captureForHole(world, hole, dt, attract = false) {
 	if (hole.respawn > 0) return;
 	for (const object of world.level.objects) {
 		if (!canConsumeObject(hole, object)) continue;
 		const distance = dist(hole, object);
-		if (attract && distance < hole.r * 4.1 * world.rules.attractionScale) {
-			pull(world, object, hole, dt);
-		}
+		if (!object.sinkOwner) influence(world, object, hole, distance, dt, attract);
 		if (insideCapture(hole, object)) beginSink(object, hole);
 	}
 }
 
+/** Advance every active descent toward its owning hole and settle completed captures. */
 export function advanceSinks(world, dt) {
 	for (const object of world.level.objects) {
 		if (!object.sinkOwner || object.taken) continue;
@@ -34,63 +29,56 @@ export function advanceSinks(world, dt) {
 			release(object);
 			continue;
 		}
-		object.sink = Math.min(1, object.sink + dt * (1.65 + hole.r * 0.005));
-		object.x = mix(object.x, hole.x, dt * (4 + object.sink * 8));
-		object.y = mix(object.y, hole.y, dt * (4 + object.sink * 8));
+		object.sink = Math.min(1, object.sink + dt * (1.7 + hole.r * 0.005));
+		const sinkBlend = Math.min(1, dt * (4.4 + object.sink * 8.4));
+		object.x = mix(object.x, hole.x, sinkBlend);
+		object.y = mix(object.y, hole.y, sinkBlend);
+		object.rot = finiteRotation(object) + dt * (2.8 + object.sink * 7.2);
 		if (object.sink >= 1) finish(world, hole, object);
 	}
 }
 
-function pull(world, object, hole, dt) {
+/** Draw only already-edible objects inward; magnet power expands the same law rather than replacing steering. */
+function influence(world, object, hole, distance, dt, magnetActive) {
+	const configuredScale = world.rules?.attractionScale;
+	const magnetScale = Number.isFinite(configuredScale) ? configuredScale : 1;
+	const reach = magnetActive ? hole.r * 4.3 * magnetScale : hole.r * 1.82;
+	if (distance >= reach) return;
+	const normalized = 1 - Math.min(1, distance / reach);
+	const strength = magnetActive ? 3.15 : 0.86;
+	const mass = Number.isFinite(object.mass) ? Math.max(1, object.mass) : 1;
+	const massDrag = 1 / Math.max(1, Math.sqrt(mass) * 0.08);
+	pull(object, hole, dt, normalized * hole.r * strength * massDrag);
+}
+
+/** Move an eligible vessel along its existing line to the hole without introducing angular drift. */
+function pull(object, hole, dt, force) {
 	const dx = hole.x - object.x;
 	const dy = hole.y - object.y;
 	const distance = Math.hypot(dx, dy) || 1;
-	const reach = hole.r * 4.1 * world.rules.attractionScale;
-	const force = (1 - Math.min(1, distance / reach)) * hole.r * 2.9;
 	object.x += dx / distance * force * dt;
 	object.y += dy / distance * force * dt;
-	object.rot += dt * 4.5;
+	object.rot = finiteRotation(object) + dt * Math.min(5.5, 1.4 + force * 0.04);
 }
 
+/** Mark a collision as a descent while preserving any valid existing sink progress. */
 function beginSink(object, hole) {
 	object.sinkOwner = hole.id;
-	object.sink = Math.max(object.sink, 0.01);
+	object.sink = Math.max(Number.isFinite(object.sink) ? object.sink : 0, 0.01);
 }
 
+/** Complete the physical capture first, then reveal player rewards through the dedicated reward vessel. */
 function finish(world, hole, object) {
 	object.taken = true;
 	object.sinkOwner = null;
 	const massScale = hole.id === 'player' ? world.rules.captureMass : 1;
-	feedHole(hole, object.mass * massScale, object.sparks);
+	const mass = Number.isFinite(object.mass) ? object.mass : 1;
+	feedHole(hole, mass * massScale, object.sparks);
 	if (hole.id === 'player') recordPlayerCapture(world, object);
 }
 
-function recordPlayerCapture(world, object) {
-	world.score += Math.round(object.sparks * world.player.combo * world.rules.scoreScale);
-	world.player.combo = Math.min(10, world.player.combo + 0.16);
-	world.player.comboT = 3.6 + (world.talentEffects?.comboGraceSeconds || 0);
-	world.player.glow = 1;
-	world.camera.shake = Math.min(0.32, 0.08 + object.mass * 0.0018);
-	world.consumed[object.category] = (world.consumed[object.category] || 0) + 1;
-	updateDistrictChain(world, object);
-	if (object.power) applyPowerup(world, object.power);
-	else world.message = `${object.name} descended. Mass ${Math.round(world.player.mass)}.`;
-	addText(world, world.player.x, world.player.y, world.player.z + 30, `+${object.sparks}`);
-	world.events.push(['reveal', object.sparks]);
-	recordDirectorCapture(world, object);
-	recordMechanicCapture(world, object);
-	recordCaptureForArmor(world);
-}
-
-function updateDistrictChain(world, object) {
-	world.districtChain = world.lastDistrict === object.district ? world.districtChain + 1 : 1;
-	world.lastDistrict = object.district;
-	if (world.districtChain % 10 !== 0) return;
-	world.score += 750 * (world.districtChain / 10);
-	if (Number.isFinite(world.timeLeft)) {
-		world.timeLeft = Math.min(world.level.time + 24, world.timeLeft + 2);
-	}
-	world.message = `${object.district} district chain ${world.districtChain}: time and sparks multiplied.`;
+function finiteRotation(object) {
+	return Number.isFinite(object.rot) ? object.rot : 0;
 }
 
 function release(object) {

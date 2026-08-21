@@ -4,7 +4,7 @@ Blessed is He
 
 # Generated API File Inventory
 
-Complete index for **1730** API source files.
+Complete index for **2219** API source files.
 
 | Chunk | Rows | Count |
 | --- | --- | --- |
@@ -27,4 +27,9 @@ Complete index for **1730** API source files.
 | [api-files-017.md](API_FILES/api-files-017.md) | 1441–1530 | 90 |
 | [api-files-018.md](API_FILES/api-files-018.md) | 1531–1620 | 90 |
 | [api-files-019.md](API_FILES/api-files-019.md) | 1621–1710 | 90 |
-| [api-files-020.md](API_FILES/api-files-020.md) | 1711–1730 | 20 |
+| [api-files-020.md](API_FILES/api-files-020.md) | 1711–1800 | 90 |
+| [api-files-021.md](API_FILES/api-files-021.md) | 1801–1890 | 90 |
+| [api-files-022.md](API_FILES/api-files-022.md) | 1891–1980 | 90 |
+| [api-files-023.md](API_FILES/api-files-023.md) | 1981–2070 | 90 |
+| [api-files-024.md](API_FILES/api-files-024.md) | 2071–2160 | 90 |
+| [api-files-025.md](API_FILES/api-files-025.md) | 2161–2219 | 59 |

@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-import { publishFileIntent } from "/geelooy/shared/file-intent/schema.js";
+import { publishFileIntent } from "/shared/file-intent/schema.js";
 import { State } from "../../state.js";
 import { UI } from "../../ui.js";
 
@@ -42,6 +42,7 @@ export default async function openInDocs() {
 	return href;
 }
 
+/** Resolves only source formats that the rich Docs importer can faithfully consume. */
 function formatForFileName(fileName) {
 	const lower = fileName.toLowerCase();
 	if (/\.awtdoc$/.test(lower)) return "awtdoc";
@@ -51,6 +52,7 @@ function formatForFileName(fileName) {
 	return "";
 }
 
+/** Maps the accepted document-source formats onto explicit handoff MIME identities. */
 function mimeForFormat(format) {
 	return {
 		awtdoc: "application/vnd.awtsmoos.document+json",

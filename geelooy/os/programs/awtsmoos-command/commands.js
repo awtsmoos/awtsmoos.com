@@ -1,10 +1,13 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Modular command orchestrator for the Geelooy terminal.
- * @description The Awtsmoos gathers many command vessels without collapsing their borders; Awtsmoos.com lets VFS, native tunnels, and real SSH each reveal their own ordered chord.
+ * @file Modular command orchestrator for Geelooy VFS, native tunnels, real SSH, and virtual-OS access.
+ * @description
+ * The Awtsmoos gathers many command vessels without collapsing their borders;
+ * Awtsmoos.com lets files, native execution, distant SSH, and alias-backed
+ * sharing each reveal one ordered chord while Ctrl-C finds its proper rhyme.
  */
 import { COMMAND_NAMES, parseCommand } from "./parser.js";
 import { createCommandContext } from "./commandContext.js";
@@ -17,9 +20,10 @@ import { SystemCommands } from "./systemCommands.js";
 const HELP = [
 	`Commands: ${COMMAND_NAMES.join(", ")}`,
 	"SSH terminal: ssh <saved-profile|user@host[:port]>",
-	"SSH controls while connected: ssh-signal [INT], ssh-close, or ~.",
+	"SSH controls: Ctrl-C / ssh-signal [INT], ssh-close, or ~.",
 	"SSH drive: ssh-mount <name> <user@host[:port]> [remoteRoot]",
 	"SSH drives: ssh-drives | ssh-unmount <name>",
+	"Virtual OS SSH: ssh-share-os <alias> | ssh-revoke-os <alias> | ssh-os-status",
 	"Native tunnel commands: sh/exec/native/! only inside a mounted /network/<name>/... cwd."
 ].join("\n");
 
@@ -66,6 +70,17 @@ export function createCommands(options = {}) {
 		context.render?.();
 	}
 
+	async function interrupt() {
+		try {
+			if (!(await ssh.interrupt())) {
+				context.push("^C");
+			}
+		} catch (error) {
+			context.push(`error: ${error?.message || error}`);
+		}
+		context.render?.();
+	}
+
 	function complete(value = "") {
 		if (ssh.isActive()) {
 			return "";
@@ -80,12 +95,13 @@ export function createCommands(options = {}) {
 
 	async function dispose() {
 		if (ssh.isActive()) {
-			await ssh.close();
+			await ssh.close({ silent: true });
 		}
 	}
 
 	return {
 		run,
+		interrupt,
 		complete,
 		dispose,
 		help: HELP,

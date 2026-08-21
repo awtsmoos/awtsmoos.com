@@ -1,52 +1,57 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module CommentThreadShellContext
- * @description
- * The Awtsmoos keeps conversation attached to its real post at Awtsmoos.com and
- * distinguishes readable truth from writable identity without inventing either.
+ * @description The Awtsmoos keeps conversation attached to its true birthplace while Awtsmoos.com
+ * lets human context lead and machine coordinates remain available without taking over the place.
  */
 
-/** Maps observed comment coordinates into shared shell context. */
 export function createCommentThreadShellContext(config) {
 	const blocked = config.missingRead.length > 0;
 	const state = blocked ? 'blocked' : config.canWrite ? 'writable' : 'read-only';
-	const details = blocked ? [`Missing ${config.missingRead.join(' and ')}`] : conversationDetails(config);
 	return {
-		title: config.postId || 'Comment thread',
-		type: 'Conversation thread',
+		title: config.title || 'Conversation',
+		type: config.kind ? `${label(config.kind)} discussion` : 'Conversation thread',
 		state,
 		stateLabel: stateLabel(state),
 		parent: { label: 'Spaces', href: '/heichelos' },
-		breadcrumbs: config.heichelId
-			? [{ label: config.heichelId, href: heichelHref(config.heichelId) }]
-			: [],
-		details,
-		actions: contextActions(config, blocked)
+		breadcrumbs: breadcrumbs(config),
+		details: blocked ? [`Missing ${config.missingRead.join(' and ')}`] : details(config),
+		actions: actions(config, blocked)
 	};
 }
 
-function conversationDetails(config) {
+function breadcrumbs(config) {
+	if (!config.heichelId) return [];
+	return [{ label: config.heichelId, href: heichelHref(config.heichelId) }];
+}
+
+function details(config) {
 	return [
-		`Heichel ${config.heichelId}`,
-		config.aliasId ? `Alias @${config.aliasId}` : 'No writing alias',
+		config.postId ? `Post ${config.postId}` : '',
+		config.seriesId ? `Series ${config.seriesId}` : '',
+		config.aliasId ? `Writing as @${config.aliasId}` : 'No writing alias',
 		config.verseSection ? `Verse ${config.verseSection}` : '',
-		config.subsectionId ? `Subsection ${config.subsectionId}` : ''
+		config.subsectionId ? `Part ${config.subsectionId}` : ''
 	].filter(Boolean);
 }
 
-function contextActions(config, blocked) {
+function actions(config, blocked) {
 	if (blocked) return [{ label: 'Browse spaces', href: '/heichelos' }];
-	const actions = [{ label: 'Open Heichel', href: heichelHref(config.heichelId) }];
-	if (!config.canWrite) actions.push({ label: 'Choose alias', href: '/profile' });
-	return actions;
+	const output = [{ label: 'Open Heichel', href: heichelHref(config.heichelId) }];
+	if (!config.canWrite) output.push({ label: 'Choose alias', href: '/profile' });
+	return output;
 }
 
 function stateLabel(state) {
 	if (state === 'blocked') return 'Post context required';
 	if (state === 'writable') return 'Replies available';
 	return 'Reading only';
+}
+
+function label(value) {
+	return String(value || '').replace(/^./, letter => letter.toUpperCase());
 }
 
 function heichelHref(heichelId) {

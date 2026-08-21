@@ -2,7 +2,7 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Project Tutorial: Mail — Geelooy
+# Project Tutorial: Awtsmoos Quantum Mail
 
 **Path:** `geelooy/email` · **Type:** public · **Family:** Public and Other Boundaries
 
@@ -21,19 +21,19 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 109 | 2 | 0 | 0 | 1 | 1 | 113 |
+| 151 | 4 | 10 | 0 | 1 | 1 | 167 |
 
 ## Public entry points
 
-- `/email` → `geelooy/email/index.html` — Mail — Geelooy
+- `/email` → `geelooy/email/index.html` — Awtsmoos Quantum Mail
 
 ## Symbol evidence
 
-Source files: 39; classes: 3; functions: 174; exports: 108; samples: smartParse, markdownToHtml, htmlToMarkdown, formatTime, bootMail, renderFailure, async, connectSocket, broadcastTyping, publishSocialMailEvent, threadKey, firstText.
+Source files: 54; classes: 5; functions: 228; exports: 131; samples: smartParse, markdownToHtml, htmlToMarkdown, formatTime, bootMail, renderBootFailure, async, connectSocket, broadcastTyping, publishSocialMailEvent, threadKey, firstText.
 
 ## Depends on
 
-None observed.
+- `geelooy/scripts` — 1 lexical reference; examples: geelooy/email/index.js
 
 ## Used by
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **2**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **4**. Treat this as file evidence, not proof of behavioral coverage.

@@ -1,0 +1,52 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond motion and stillness, while Awtsmoos.com lets shared Social controls remain physically trustworthy and reveal state through edge, contrast, and focus instead of floating away;
+ * this Keter-like foundation owns motion tokens and accessibility truth only, leaving component-specific choreography to smaller vessels of light.
+ */
+
+.awtsmoosSocialExperience {
+	--social-motion-fast: 140ms;
+	--social-motion-base: 180ms;
+	--social-motion-slow: 240ms;
+	--social-ease: cubic-bezier(.2,.8,.2,1);
+	--social-radius-sm: 10px;
+	--social-radius-md: 16px;
+	--social-radius-lg: 22px;
+	--social-line: color-mix(in srgb, CanvasText 13%, transparent);
+	--social-soft: color-mix(in srgb, CanvasText 6%, Canvas);
+	--social-strong: color-mix(in srgb, CanvasText 11%, Canvas);
+}
+
+.awtsmoosSocialExperience :where(button, a, summary, input, select, textarea):focus-visible {
+	outline: 2px solid color-mix(in srgb, currentColor 76%, transparent);
+	outline-offset: 3px;
+}
+
+.awtsmoosSocialExperience :where(button, a, summary) {
+	-webkit-tap-highlight-color: transparent;
+	transition:
+		background-color var(--social-motion-base) var(--social-ease),
+		border-color var(--social-motion-base) var(--social-ease),
+		opacity var(--social-motion-fast) linear,
+		box-shadow var(--social-motion-base) var(--social-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoosSocialExperience *,
+	.awtsmoosSocialExperience *::before,
+	.awtsmoosSocialExperience *::after {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}
+
+@media (prefers-contrast: more) {
+	.awtsmoosSocialExperience {
+		--social-line: color-mix(in srgb, CanvasText 34%, transparent);
+	}
+}

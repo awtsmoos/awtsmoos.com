@@ -1,10 +1,13 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file Mount presentation truth for File Explorer drive surfaces.
- * @description The Awtsmoos lets local, tunnel, SSH, preview, and virtual worlds keep distinct garments; Awtsmoos.com renders their state from mount truth instead of guessing by path.
+ * @description
+ * The Awtsmoos lets local, tunnel, SSH, preview, and virtual worlds keep distinct
+ * garments. Awtsmoos.com reveals when remembered SSH light is locked instead of
+ * calling absent credentials read-only, so visible state and capability rhyme.
  */
 import { providerCapabilities } from "../../../providers/capabilities.js";
 
@@ -34,10 +37,11 @@ export function labelForMount(mount = {}) {
 }
 
 export function mountBadge(mount = {}, permission = {}) {
-	const provider = providerOf(mount);
-	const state = connectionLabel(mount);
-	const access = permissionLabel(mount, permission);
-	return [state, providerLabel(provider), access].filter(Boolean).join(" · ");
+	return [
+		connectionLabel(mount),
+		providerLabel(providerOf(mount)),
+		permissionLabel(mount, permission)
+	].filter(Boolean).join(" · ");
 }
 
 export function mountSubtitle(mount = {}) {
@@ -70,27 +74,46 @@ function providerOf(input) {
 }
 
 function connectionLabel(mount = {}) {
+	if (lockedSsh(mount)) {
+		return "Needs credential";
+	}
 	if (mount.connectionState === "connected" || mount.syncState === "live") {
 		return "Connected";
 	}
 	if (mount.syncState === "snapshot") {
 		return "Snapshot";
 	}
-	if (providerOf(mount) === "ssh" && mount.connected === false) {
-		return "Needs credential";
-	}
 	return "Ready";
 }
 
 function permissionLabel(mount = {}, permission = {}) {
-	const value = permission.permission || mount.permissionState || (mount.writable ? "read-write" : "read-only");
+	if (lockedSsh(mount)) {
+		return "Locked";
+	}
+	const value = permission.permission || mount.permissionState || (
+		mount.writable ? "read-write" : "read-only"
+	);
 	return value === "read-write" ? "Read & write" : "Read only";
 }
 
 function providerLabel(provider) {
-	return provider === "tunnel" ? "Tunnel" : provider === "ssh" ? "SSH" : provider;
+	if (provider === "tunnel") {
+		return "Tunnel";
+	}
+	if (provider === "ssh") {
+		return "SSH";
+	}
+	return provider;
 }
 
 function capabilityLabel(mount = {}) {
 	return providerCapabilities(mount).slice(0, 4).join(" · ");
+}
+
+function lockedSsh(mount = {}) {
+	return providerOf(mount) === "ssh" && (
+		mount.connected === false ||
+		mount.connectionState === "needs-credential" ||
+		mount.permissionState === "locked"
+	);
 }

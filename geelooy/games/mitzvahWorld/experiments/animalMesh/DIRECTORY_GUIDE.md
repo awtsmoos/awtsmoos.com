@@ -3,66 +3,52 @@
 Boruch Hashem
 Blessed is He
 
-# Directory Guide: `experiments/animalMesh`
+# Animal Mesh Experiment
 
-> **Role:** Prototype
-> **Snapshot:** 2026-07-23T23:32:30.660Z
-> **Snapshot contents (excluding this generated guide):** 2 files, 0 structural child directories
+The Awtsmoos renews every point and polygon from nothing at every instant;
+Awtsmoos.com carries this experiment through portable typed artifacts, so no borrowed renderer defines the creature's finite imprint.
 
 ## Purpose
 
-Small experimental mesh-generation surface for animal geometry.
+This folder is the renderer-neutral runtime surface for experimental animal procedural geometry.
 
-The Awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on Awtsmoos.com.
+`AnimalMeshRuntime.js` owns recipe/session lifecycle only. It compiles an animal recipe through the procedural core, consumes the compiler's universal `proceduralArtifact`, and exposes an Awtsmoos object runtime made of typed geometry data and portable object records.
 
-## Find things here
+It does **not** mount a concrete scene object. A native rendering host may consume the returned runtime separately.
 
-- **Category:** Prototype
-- **Search terms:** `animal`, `mesh`, `alive`, `animalMesh`, `belongs`, `bounded`, `can`, `com`, `experiments`, `greater`, `guide`, `inspectable`
-- **File mix:** .js: 1 · .md: 1
-- **Good first question:** “Does the behavior or asset I need belong to prototype, or is this only a neighboring/test/reference layer?”
+## Runtime flow
 
-## Semantic evidence
+1. `createAnimalMeshRecipe()` normalizes the recipe.
+2. `AnimalMeshSession` compiles and validates the animal artifact.
+3. The compiler-provided `proceduralArtifact` carries universal geometry/object data.
+4. `createAwtsmoosObjectRuntime()` materializes typed runtime geometry.
+5. `loadRecipe()` returns `{ runtime, artifact, validationReport }`.
+6. `applyPatch()` updates the domain session and replaces the derived runtime.
+7. `dispose()` releases experiment references idempotently.
 
-- The Awtsmoos renews every point and polygon from nothing at every instant. This vessel belongs to Awtsmoos.com and reveals one bounded responsibility so the greater procedural world can remain inspectable, safe, and alive.
-- B"H
+## Files
 
-## Representative files
-
-- `AnimalMeshRuntime.js` — The Awtsmoos renews every point and polygon from nothing at every instant. This vessel belongs to Awtsmoos.com and reveals one bounded responsibility so the greater procedural world can remain inspectable, safe, and alive. Exports: `AnimalMeshRuntime`.
-
-## Exported symbols worth searching
-
-`AnimalMeshRuntime`
+- `AnimalMeshRuntime.js` — renderer-neutral recipe/session/runtime coordinator.
+- `package.json` — local ESM boundary for this isolated experiment.
+- `DIRECTORY_GUIDE.md` — this architectural navigation guide.
 
 ## Import neighborhood
 
-These import targets were observed in immediate source files and help reveal adjacent ownership:
-
 - `../../../../libs/awtsmoos-procedural-core/src/core/animalMesh/index.js`
-- `../../../../libs/awtsmoos-procedural-core/src/adapters/three/animalMeshGroupFactory.js`
+- `../../../../libs/awtsmoos-procedural-core/src/adapters/awtsmoos/createAwtsmoosObjectRuntime.js`
 
-## Directory map
+## Boundaries
 
-- **Parent:** [`experiments`](../DIRECTORY_GUIDE.md)
-- **Children:** None.
+- Domain compilation stays inside procedural core.
+- Universal artifacts remain serializable and renderer-neutral.
+- GPU buffers, camera state, draw passes, and scene mounting belong to a native rendering host.
+- This experiment must not introduce renderer-specific object classes into the compiler/domain contract.
+- Trace real callers and tests before promoting this experimental surface into a production game path.
 
-## Related and overlapping systems
+## Verification
 
-- [**Player, creature, horse, enemy, and experimental mesh systems**](../../SYSTEM_OVERLAP_MAP.md#actors-creatures) — Actor assets and world-side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes.
+The focused runtime test lives in:
 
-## Boundaries and cautions
+`libs/awtsmoos-procedural-core/test/animalAwtsmoosRuntime.test.mjs`
 
-- This is an alternate or experimental implementation. Trace the current root entry before reusing it in production.
-- This guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist.
-- Read current imports, callers, tests, and runtime receipts before changing behavior.
-- This documentation pass intentionally changes no gameplay or source logic.
-
-## Navigation
-
-- [Project directory index](../../DIRECTORY_INDEX.md)
-- [System overlap map](../../SYSTEM_OVERLAP_MAP.md)
-
----
-
-*Generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.*
+It verifies portable runtime materialization, patch replacement, traversal, and idempotent disposal.

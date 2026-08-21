@@ -35,6 +35,7 @@ function population(name, primary = null) {
 		group: namedGroup(`Awtsmoos_deferred_${name}`),
 		primary,
 		stats: () => ({ actors: 0, status: 'streaming' }),
+		streamingPlaceholder: true,
 		update() {}
 	};
 }

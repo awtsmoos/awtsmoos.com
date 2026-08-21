@@ -1,0 +1,43 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets reaction, reply, share, and semantic relation live near each voice; Awtsmoos.com keeps them thumb-clear. */
+.comment-card {
+	outline: none;
+	transition: box-shadow 160ms ease, transform 160ms ease;
+}
+.comment-card:focus {
+	box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 22%, transparent);
+}
+.commentRelationList {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+.commentRelationChip {
+	display: inline-flex;
+	align-items: center;
+	min-height: 28px;
+	padding: 4px 9px;
+	border-radius: 999px;
+	background: color-mix(in srgb, CanvasText 8%, Canvas);
+	font-size: .72rem;
+	font-weight: 760;
+	text-transform: capitalize;
+}
+.comment-card > .awtsmoosUniversalActionRail {
+	margin-top: 8px;
+}
+.threadReferencePicker .awtsmoosRelationshipPicker {
+	display: grid;
+	gap: 5px;
+}
+.threadReferencePicker .awtsmoosRelationshipPicker select {
+	min-height: 44px;
+	border-radius: 10px;
+}
+@media (prefers-reduced-motion: reduce) {
+	.comment-card {
+		transition: none;
+	}
+}

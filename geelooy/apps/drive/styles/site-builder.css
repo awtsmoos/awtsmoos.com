@@ -2,31 +2,38 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
+@import url('./site-builder-readiness.css');
+@import url('./site-builder-forms.css');
+@import url('./site-builder-preview.css');
+@import url('./site-builder-advanced.css');
+
 /**
- * The Awtsmoos clothes real source in one readable studio without hiding the source beneath the garment.
- * Awtsmoos.com keeps every builder surface flexible, touchable, and truthful from the narrowest screen upward.
+ * The Awtsmoos clothes real editable source in one calm studio while every pane remains a distinct truthful vessel.
+ * Awtsmoos.com now gives the builder a quiet architectural frame so readiness and creative action can shine without dashboard noise.
  */
 
 .builder-studio,
 .builder-pane,
 .builder-pane > *,
-.builder-grid > *,
-.builder-code-shell {
+.builder-code-shell,
+.builder-preview-shell {
 	min-width: 0;
 }
 
 .builder-studio {
 	display: grid;
 	gap: 1rem;
+	width: min(100%, 72rem);
+	margin: 0 auto;
 }
 
 .builder-intro {
 	display: grid;
-	gap: .75rem;
-	padding: 1.25rem;
-	border: 1px solid var(--line, #d9d9d9);
-	border-radius: 1.25rem;
-	background: var(--panel, #fff);
+	gap: .55rem;
+	padding: clamp(1.1rem, 3vw, 1.65rem);
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 1.35rem;
+	background: color-mix(in srgb, var(--panel, #fff) 94%, currentColor 6%);
 }
 
 .builder-intro h1,
@@ -34,98 +41,67 @@
 	margin: 0;
 }
 
+.builder-intro h1 {
+	font-size: clamp(1.55rem, 4vw, 2.35rem);
+	line-height: 1.08;
+}
+
+.builder-intro-copy {
+	max-width: 62ch;
+	line-height: 1.6;
+	opacity: .8;
+}
+
 .builder-kicker {
-	font-size: .78rem;
+	font-size: .75rem;
 	font-weight: 800;
-	letter-spacing: .14em;
+	letter-spacing: .13em;
 	text-transform: uppercase;
 }
 
 .builder-pane {
-	border: 1px solid var(--line, #d9d9d9);
-	border-radius: 1.1rem;
+	border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
+	border-radius: 1.15rem;
 	background: var(--panel, #fff);
 	overflow: clip;
+	scroll-margin-top: 5rem;
 }
 
 .builder-pane > summary {
 	display: flex;
 	align-items: center;
-	min-height: 48px;
-	padding: .8rem 1rem;
-	font-weight: 800;
+	min-height: 54px;
+	padding: .85rem 1rem;
+	font-weight: 850;
 	cursor: pointer;
 }
 
-.builder-pane-body,
-.builder-grid,
-.builder-actions,
-.builder-publish-stages {
-	display: grid;
-	gap: .75rem;
+.builder-pane[open] > summary {
+	border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);
 }
 
 .builder-pane-body {
-	padding: 0 1rem 1rem;
-}
-
-.builder-grid label,
-.builder-field {
 	display: grid;
-	gap: .35rem;
+	gap: 1rem;
+	padding: 1rem;
 }
 
-.builder-grid input,
-.builder-grid textarea,
-.builder-grid select,
-.builder-code-shell input,
-.builder-code-shell select,
+.builder-preview-shell,
+.builder-code-shell {
+	width: 100%;
+}
+
+.builder-preview-frame {
+	display: block;
+	width: 100%;
+	min-height: 28rem;
+	border: 0;
+	background: #fff;
+}
+
 .builder-code-editor {
 	width: 100%;
-	max-width: 100%;
-}
-
-.builder-grid input,
-.builder-grid select,
-.builder-actions button,
-.builder-code-shell input,
-.builder-code-shell select,
-.builder-code-shell button {
-	min-height: 44px;
-}
-
-.builder-code-editor {
-	min-height: 18rem;
-	padding: .9rem;
+	min-height: 22rem;
 	resize: vertical;
 	font: .9rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-	white-space: pre;
-	overflow: auto;
-}
-
-.builder-source-list {
-	display: grid;
-	gap: .45rem;
-}
-
-.builder-source-item {
-	min-height: 44px;
-	padding: .65rem .8rem;
-	text-align: left;
-	overflow-wrap: anywhere;
-}
-
-.builder-publish-stage {
-	padding: .85rem;
-	border: 1px solid var(--line, #d9d9d9);
-	border-radius: .85rem;
-	overflow-wrap: anywhere;
-}
-
-.builder-path,
-.builder-url,
-.domain-panel,
-.domain-panel * {
-	min-width: 0;
-	overflow-wrap: anywhere;
 }

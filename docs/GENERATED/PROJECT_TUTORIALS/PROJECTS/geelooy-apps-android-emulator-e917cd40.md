@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 884 | 535 | 0 | 0 | 1 | 0 | 1420 |
+| 926 | 566 | 0 | 0 | 1 | 2 | 1495 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 884; classes: 64; functions: 3700; exports: 1977; samples: async, launchInitialActivity, dispatchActivityLifecycleCallbacks, callbackError, resolveLauncherMethods, lifecycleArguments, findInheritedMethod, findDirectMethod, activityError, registerActivityLifecycleCallback, unregisterActivityLifecycleCallback, snapshotActivityLifecycleCallbacks.
+Source files: 922; classes: 64; functions: 3825; exports: 2047; samples: async, launchInitialActivity, dispatchActivityLifecycleCallbacks, callbackError, resolveLauncherMethods, lifecycleArguments, findInheritedMethod, findDirectMethod, activityError, registerActivityLifecycleCallback, unregisterActivityLifecycleCallback, snapshotActivityLifecycleCallbacks.
 
 ## Depends on
 
@@ -49,4 +49,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **535**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **566**. Treat this as file evidence, not proof of behavioral coverage.

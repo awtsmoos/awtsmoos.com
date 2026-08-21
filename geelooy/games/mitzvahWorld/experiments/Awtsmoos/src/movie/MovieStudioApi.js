@@ -4,9 +4,10 @@
 
 /**
  * @file MovieStudioApi.js
- * @description Creates one stable facade over cinema, locations, reproduction, Shorts, project, agents, media, performance, jobs, and UI.
- * The Awtsmoos renews every project, place, and recreation while identity remains beyond replacement;
- * Awtsmoos.com gives old callers familiar doors and authors one discoverable contract for the complete Studio and living village.
+ * @description Creates one stable Studio facade over simple creation, cinema, locations, reproduction, Shorts, expert 3D authoring, project, agents, media, performance, jobs, and UI.
+ * RESPONSIBILITY: assemble public domains without absorbing their implementation, preserving one discoverable beginner-to-expert API surface.
+ * NON-RESPONSIBILITY: this file does not mutate projects, render frames, or duplicate the focused domain services it publishes.
+ * The Awtsmoos renews every project, place, shape, word, spark, and recreation while identity stays beyond replacement; Awtsmoos.com lets one simple door open into the same deep Studio covenant.
  */
 
 import {
@@ -18,7 +19,10 @@ import {
 import { createMovieStudioAgentDomain } from './MovieStudioApiAgent.js';
 import { createMovieStudioAuthoring3dDomain } from './MovieStudioApiAuthoring3d.js';
 import { createMovieStudioCinemaDomain } from './MovieStudioApiCinema.js';
-import { addMovieStudioCompatibilityApi, createUnsafeMovieStudioApi } from './MovieStudioApiCompatibility.js';
+import {
+	addMovieStudioCompatibilityApi,
+	createUnsafeMovieStudioApi
+} from './MovieStudioApiCompatibility.js';
 import { createMovieStudioCommandsDomain } from './MovieStudioApiCommands.js';
 import { createMovieStudioCompositionsDomain } from './MovieStudioApiCompositions.js';
 import { createMovieStudioCreativeCapabilitiesDomain } from './MovieStudioApiCreativeCapabilities.js';
@@ -41,6 +45,7 @@ import { createMovieStudioScene3dDomain } from './MovieStudioApiScene3d.js';
 import { createMovieStudioSchemaDomain } from './MovieStudioApiSchema.js';
 import { createMovieStudioSelectionDomain } from './MovieStudioApiSelection.js';
 import { createMovieStudioShortsDomain } from './MovieStudioApiShorts.js';
+import { createMovieStudioSimpleDomain } from './MovieStudioApiSimple.js';
 import { createMovieStudioTextDomain } from './MovieStudioApiText.js';
 import { createMovieStudioTimelineDomain } from './MovieStudioApiTimeline.js';
 import { createMovieStudioUiDomain } from './MovieStudioApiUi.js';
@@ -78,9 +83,12 @@ export function createMovieStudioApi(session) {
 		schema: createMovieStudioSchemaDomain(session),
 		selection: createMovieStudioSelectionDomain(session),
 		shorts: createMovieStudioShortsDomain(session),
+		simple: createMovieStudioSimpleDomain(session),
 		text: createMovieStudioTextDomain(session, commands),
 		timeline: createMovieStudioTimelineDomain(session, commands),
-		transactions: Object.freeze({ execute: (batch, options) => commands.executeBatch(batch, options) }),
+		transactions: Object.freeze({
+			execute: (batch, options) => commands.executeBatch(batch, options)
+		}),
 		ui: createMovieStudioUiDomain(session),
 		unsafe: createUnsafeMovieStudioApi(session)
 	};
@@ -91,7 +99,9 @@ export function createMovieStudioApi(session) {
 export const MovieStudioApi = createMovieStudioApi;
 
 export function publishMovieStudioApi(session) {
-	if (session.instanceRegistry) return session.instanceRegistry.publish(session);
+	if (session.instanceRegistry) {
+		return session.instanceRegistry.publish(session);
+	}
 	globalThis.AwtsmoosMovie = session.publicApi;
 	return session.publicApi;
 }

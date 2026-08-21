@@ -25,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-6deaa3a1.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1173,
-		"tests": 651,
+		"source": 1449,
+		"tests": 820,
 		"assets": 0,
 		"generated": 0,
 		"docs": 10,
-		"other": 26
+		"other": 16
 	},
-	"totalFiles": 1860,
+	"totalFiles": 2295,
 	"symbolSummary": {
-		"files": 1117,
-		"classes": 31,
-		"functions": 5223,
-		"exports": 4034,
+		"files": 1371,
+		"classes": 33,
+		"functions": 6299,
+		"exports": 4910,
 		"samples": [
 			"buildIdentity",
 			"canonicalString",
@@ -54,6 +54,11 @@
 		]
 	},
 	"outgoingDependencies": [
+		{
+			"project": "ayzarim/ssh",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/agent/lib/fakeSsh/wireServer.js"
+		},
 		{
 			"project": "geelooy/scripts",
 			"count": 1,
@@ -73,13 +78,18 @@
 	"incomingDependencies": [
 		{
 			"project": "geelooy/api/tunnel",
-			"count": 7,
-			"examples": "geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js"
+			"count": 8,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js; geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js"
 		},
 		{
 			"project": "geelooy/scripts",
 			"count": 5,
 			"examples": "geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-directory-entry-env.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-helpers.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-url-puppeteer.cjs"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 2,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js"
 		}
 	],
 	"externalDependencies": [

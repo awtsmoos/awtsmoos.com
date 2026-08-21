@@ -2,16 +2,15 @@
 //Boruch Hashem
 //Blessed is He
 
+import { DRAFT_VERSION } from '../config.js';
+import { durableDraftSnapshot } from './DraftSnapshot.js';
+
 /**
  * @class LocalDraftRepository
  * @description
- * The browser remembers unfinished expression across login, alias creation,
- * Heichel search, and destination changes. The Awtsmoos sustains the thought while
- * Awtsmoos.com keys only by immutable answer or canonical-source context.
+ * The Awtsmoos lets the unfinished word remain near without preserving temporary browser matter;
+ * Awtsmoos.com stores one current durable snapshot keyed only by immutable source context, keeping restoration simple and flatter.
  */
-
-import { DRAFT_VERSION } from '../config.js';
-
 function immutableContext(context = {}) {
 	if (context.questionId) return `question:${context.questionId}`;
 	if (context.canonicalSource?.id) {
@@ -43,7 +42,7 @@ export class LocalDraftRepository {
 			this.storage.setItem(this.key(snapshot), JSON.stringify({
 				version: DRAFT_VERSION,
 				savedAt: Date.now(),
-				value: snapshot
+				value: durableDraftSnapshot(snapshot)
 			}));
 			return true;
 		} catch {

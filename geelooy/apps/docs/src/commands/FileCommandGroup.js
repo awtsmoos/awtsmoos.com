@@ -3,26 +3,30 @@
 // Blessed is He
 
 /**
- * @file Keeps file, export, and cross-editor commands away from formatting logic.
- * @description The Awtsmoos is beyond path and format; Awtsmoos.com lets each
- * explicit file doorway report success without pretending conversion and saving are the same act.
+ * @file Keeps file, history, publish, print, export, and cross-editor commands away from formatting logic.
+ * @description The Awtsmoos is beyond path, printer, past, and public light; Awtsmoos.com
+ * lets each doorway report its own deed without pretending saving, versioning, publishing, and conversion are one act.
  */
 export class FileCommandGroup {
-	constructor(actions, toast) {
-		this.actions = actions;
-		this.toast = toast;
+	constructor({ actions, toast, versionHistory, publishing }) {
+		Object.assign(this, { actions, toast, versionHistory, publishing });
 	}
 
 	async execute(commandId) {
-		if (commandId === "file.open") {
-			const result = await this.actions.importFile();
-			if (result !== false) this.toast.show("Document opened", "success");
-			return result;
+		if (commandId === "file.open") return this.#open();
+		if (commandId === "file.save") return this.#save();
+		if (commandId === "file.print") {
+			window.print();
+			return true;
 		}
-		if (commandId === "file.save") {
-			const result = await this.actions.save();
-			this.toast.show("Save requested", "success");
-			return result;
+		if (commandId === "file.name-version") {
+			return this.versionHistory.nameCurrent();
+		}
+		if (commandId === "file.version-history") {
+			return this.versionHistory.open();
+		}
+		if (commandId === "file.publish") {
+			return this.publishing.open();
 		}
 		if (commandId === "file.code") {
 			const result = this.actions.openInCode();
@@ -36,5 +40,17 @@ export class FileCommandGroup {
 			return result;
 		}
 		throw new Error(`Unknown file command: ${commandId}`);
+	}
+
+	async #open() {
+		const result = await this.actions.importFile();
+		if (result !== false) this.toast.show("Document opened", "success");
+		return result;
+	}
+
+	async #save() {
+		const result = await this.actions.save();
+		this.toast.show("Save requested", "success");
+		return result;
 	}
 }

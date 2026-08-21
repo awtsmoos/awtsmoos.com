@@ -1,0 +1,71 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * @file gameplay.js
+ * @description Canonical geometry, speed, motion, collision, and turn laws for Temple Runner.
+ * The Awtsmoos renews each measured lane and leap before the runner can choose a way;
+ * Awtsmoos.com keeps movement laws in one vessel so fairness survives every district of play.
+ */
+
+export const OROS_LANES = Object.freeze([-3.1, 0, 3.1]);
+
+export const OLAM_CONFIG = Object.freeze({
+	chunkLength: 20,
+	chunkCount: 8,
+	firstChunkZ: -10,
+	recycleZ: 13,
+	runnerZ: 1.5,
+	roadWidth: 10.8,
+	sideX: 6.4,
+	turnSpawnZ: -92,
+	turnWindowNear: -8,
+	turnWindowFar: 4,
+	recoveryChunks: 2,
+	perutaPoolPerChunk: 12,
+	powerUpPoolPerChunk: 1
+});
+
+export const RUNNER_CONFIG = Object.freeze({
+	startSpeed: 10,
+	maxSpeed: 24,
+	acceleration: 0.22,
+	jumpVelocity: 8.7,
+	gravity: 21,
+	laneEase: 13,
+	duckSeconds: 0.72,
+	actionBufferSeconds: 0.16,
+	landingSeconds: 0.18,
+	maxLean: 0.2,
+	slidePitch: 0.34,
+	maxDelta: 0.05,
+	modelScale: 0.78,
+	stumbleSeconds: 0.62
+});
+
+export const COLLISION_CONFIG = Object.freeze({
+	obstacleZ: 0.88,
+	obstacleX: 0.96,
+	collectZ: 0.78,
+	collectX: 0.9,
+	magnetZ: 4.8,
+	magnetX: 4.5,
+	jumpClearY: 1.08,
+	duckClearSeconds: 0.08,
+	grazeX: 1.52,
+	nearMissX: 1.9,
+	nearMissZ: 1.15
+});
+
+export const TURN_CONFIG = Object.freeze({
+	intervalChunks: 8,
+	decisionLeadZ: -10,
+	branchLength: 18,
+	branchWidth: 10.8,
+	sweepSeconds: 0.52,
+	promptDistance: 42
+});
+
+export const ASSET_PATHS = Object.freeze({
+	chossid: "../assets/models/player/d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48/chossid.glb"
+});

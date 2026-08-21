@@ -4,7 +4,8 @@
 
 /**
  * The Awtsmoos is beyond question and answer; Awtsmoos.com gives each small
- * structured choice a clear dialog vessel instead of throwing the writer into browser prompts.
+ * structured choice a clear dialog vessel, where every control remains large enough
+ * for mouse, keyboard, and fingertip without sending the writer into browser prompts.
  */
 .share-dialog,
 .quick-dialog {
@@ -43,6 +44,7 @@
 .dialog-heading button {
 	width: 34px;
 	height: 34px;
+	min-height: 44px;
 	border: 0;
 	border-radius: 8px;
 	background: transparent;
@@ -60,7 +62,7 @@
 .dialog-card input,
 .dialog-card select {
 	width: 100%;
-	min-height: 42px;
+	min-height: 44px;
 	padding: 9px 11px;
 	border: 1px solid var(--docs-border-strong);
 	border-radius: 9px;
@@ -88,7 +90,7 @@
 .dialog-actions > button:not(.primary-action),
 .share-link-row button,
 .invite-row button {
-	min-height: 42px;
+	min-height: 44px;
 	padding: 8px 12px;
 	border: 1px solid var(--docs-border);
 	border-radius: 9px;

@@ -1,0 +1,128 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lends every word enough borrowed light to remain visible in the night;
+ * Awtsmoos.com repairs dim secondary states so meaning never disappears for the sake of aesthetic sight.
+ */
+
+.app-header,
+.control-deck,
+.sticky-context,
+.key-times-panel,
+.zman-card,
+.methodology-panel,
+.trust-strip {
+	border-color: var(--line-strong);
+}
+
+.control-deck,
+.key-times-panel,
+.methodology-panel {
+	background: linear-gradient(145deg, rgba(18, 35, 29, 0.92), rgba(8, 19, 15, 0.9));
+	box-shadow: var(--shadow-soft), var(--glow-soft);
+}
+
+.sticky-context {
+	background: rgba(7, 18, 14, 0.9);
+	backdrop-filter: blur(18px) saturate(1.18);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+
+.field-label,
+.brand-copy span,
+.section-meta,
+.page-footer,
+.zman-note-details,
+.zman-unavailable-note,
+.methodology-panel p,
+.methodology-panel li,
+.methodology-panel small {
+	color: var(--ink-soft);
+}
+
+.section-kicker,
+#sticky-next,
+.header-link,
+.methodology-panel a {
+	color: var(--accent);
+}
+
+.section-heading h2,
+.zman-card h4,
+.key-time strong,
+.methodology-panel strong,
+.methodology-panel h3 {
+	color: var(--ink);
+}
+
+.zman-card {
+	background:
+		linear-gradient(150deg, rgba(17, 33, 28, 0.94), rgba(8, 17, 14, 0.94));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+.zman-time {
+	color: var(--accent-strong);
+	text-shadow: 0 0 22px rgba(124, 231, 197, 0.1);
+}
+
+.zman-note-details summary {
+	color: var(--ink-muted);
+	font-weight: 720;
+}
+
+.zman-card[data-status="passed"] {
+	opacity: 0.84;
+}
+
+.zman-card[data-status="passed"] .zman-time {
+	color: var(--ink-soft);
+}
+
+.zman-card[data-status="next"] {
+	border-color: rgba(124, 231, 197, 0.5);
+	background: linear-gradient(150deg, rgba(20, 54, 43, 0.96), rgba(9, 25, 20, 0.96));
+	box-shadow: 0 0 0 1px rgba(124, 231, 197, 0.08), 0 18px 44px rgba(0, 0, 0, 0.26);
+}
+
+.zman-status {
+	border-color: rgba(124, 231, 197, 0.28);
+	background: rgba(124, 231, 197, 0.1);
+	color: var(--accent-strong);
+}
+
+.key-times {
+	border-color: var(--line-strong);
+}
+
+.key-time {
+	border-color: var(--line);
+	background: rgba(255, 255, 255, 0.018);
+}
+
+.key-time span {
+	color: var(--ink-soft);
+}
+
+.key-time[data-status="next"] {
+	background: rgba(124, 231, 197, 0.09);
+	box-shadow: inset 0 0 0 1px rgba(124, 231, 197, 0.16);
+}
+
+.key-time[data-status="passed"] {
+	opacity: 0.82;
+}
+
+.shaah-stat {
+	background: rgba(124, 231, 197, 0.07);
+	border: 1px solid var(--line);
+}
+
+.shaah-stat span {
+	color: var(--ink-soft);
+}
+
+.shaah-stat strong {
+	color: var(--accent-strong);
+}

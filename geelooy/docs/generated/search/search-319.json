@@ -1,0 +1,316 @@
+[
+	{
+		"id": "geelooy-zmanim-readme-md-a2fd86370c",
+		"title": "Awtsmoos Zmanim",
+		"sourcePath": "geelooy/zmanim/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Zmanim",
+				"anchor": "awtsmoos-zmanim"
+			},
+			{
+				"level": 2,
+				"text": "Daily experience",
+				"anchor": "daily-experience"
+			},
+			{
+				"level": 2,
+				"text": "Alter Rebbe / Chabad method",
+				"anchor": "alter-rebbe-chabad-method"
+			},
+			{
+				"level": 2,
+				"text": "Calculation architecture",
+				"anchor": "calculation-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Public API",
+				"anchor": "public-api"
+			},
+			{
+				"level": 2,
+				"text": "Practical use",
+				"anchor": "practical-use"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Zmanim The Awtsmoos renews every instant beneath the turning sky; Awtsmoos.com reveals the measured day while the Source remains infinitely high. Daily experience /zmanim is a dependency free, mobile first halachic times application with a daily dashboard UX rather than only a t",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos zmanim the awtsmoos renews every instant beneath the turning sky; awtsmoos.com reveals the measured day while the source remains infinitely high. daily experience /zmanim is a dependency free, mobile first halachic times application with a daily dashboard ux rather than only a table of timestamps. the page includes: worldwide city and postal/zip search. a custom owned gregorian calendar web component. previous, today, and next day navigation. civil and hebrew date display. alter rebbe / chabad as the primary calculation profile. gra sunrise to sunset and fixed 72 minute magen avraham alternatives. descriptive shita cards plus an accessible native select fallback. a next zman hero with a live countdown when viewing today in the selected timezone. automatic advancement when the currently displayed next zman passes. a visual five anchor day timeline from alos through tzeis. passed, next, upcoming, selected date, and unavailable card states. 18 detailed zmanim cards. copy link and copy all zmanim actions. fully restorable share urls containing date, opinion, coordinates, timezone, and a bounded location label. u.s. naval observatory rise/set validation when reachable. explicit high latitude unavailable states and practical use cautions. alter rebbe / chabad method the default profile uses the published chabad calculation anchors: alos hashachar: 16.9° solar depression. misheyakir: 10.2°. practical sunrise/sunset: standard 0.833° horizon correction. internal hanetz amiti / shkiah amitis seasonal hour anchors: 1.583°. tzeis: 6°. shabbos / yom tov end: 8.5°. the internal true rise/true set anchors are calculation vessels and are intentionally distinct from the practical sunrise/sunset displayed to users. calculation architecture the browser calculation modules under js/domain/ and js/config/ are the canonical source of astronomical and halachic math. the public /api/zmanim api dynamically imports those exact modules from the commonjs server tree. browser and api therefore share one calculation engine instead of maintaining duplicate formulas. worldwide place lookup uses the open meteo geocoder. solar angle calculations are local and based on noaa published solar position equations. usno is a separate government cross check and never a dependency of core daily/range calculations. public api canonical api: /api/zmanim compatibility alias: /api/zmanimms available api resources include daily zmanim, bounded ranges, worldwide location lookup, opinions, methodology, usno comparison, and health. see geelooy/api/zmanim/readme.md for the complete contract. practical use calculated zmanim contain unavoidable astronomical and methodological uncertainty. the interface explicitly encourages a safety margin rather than relying on the final minute. local custom and practical questions require a competent rav, especially at unusual latitudes. verification from the repository root: the feature is also verified through the real awtsmoos dynamic server and a real chrome session, including responsive widths, url hydration, interactions, network responses, and console state.",
+		"page": "pages/geelooy-zmanim-readme-md-a2fd86370c.json"
+	},
+	{
+		"id": "ops-documentation-md-ffd7ef6004",
+		"title": "Operations",
+		"sourcePath": "ops/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Operations",
+				"anchor": "operations"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Operations The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Operations/deployment/repair support root. Start here Read docs/OPERATIONS AND TOOLING.md for the central explanation. Use docs/GENERA",
+		"searchText": "b\"h boruch hashem blessed is he operations the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role operations/deployment/repair support root. start here read docs/operations and tooling.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes existing specialist operations material under docs/operations/ remains canonical for detailed operational workflows.",
+		"page": "pages/ops-documentation-md-ffd7ef6004.json"
+	},
+	{
+		"id": "scripts-dayuh-sync-md-27ff27b4e1",
+		"title": "Dayuh Chadash synchronization",
+		"sourcePath": "scripts/DAYUH_SYNC.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Dayuh Chadash synchronization",
+				"anchor": "dayuh-chadash-synchronization"
+			},
+			{
+				"level": 2,
+				"text": "Production topology",
+				"anchor": "production-topology"
+			},
+			{
+				"level": 2,
+				"text": "Safety rules",
+				"anchor": "safety-rules"
+			},
+			{
+				"level": 2,
+				"text": "Shell variables",
+				"anchor": "shell-variables"
+			},
+			{
+				"level": 2,
+				"text": "Inspect credentials without exposing them",
+				"anchor": "inspect-credentials-without-exposing-them"
+			},
+			{
+				"level": 2,
+				"text": "Status and dry runs",
+				"anchor": "status-and-dry-runs"
+			},
+			{
+				"level": 2,
+				"text": "Local to remote",
+				"anchor": "local-to-remote"
+			},
+			{
+				"level": 2,
+				"text": "Remote to local",
+				"anchor": "remote-to-local"
+			},
+			{
+				"level": 2,
+				"text": "Bidirectional sync",
+				"anchor": "bidirectional-sync"
+			},
+			{
+				"level": 2,
+				"text": "Initial or disaster-recovery seed",
+				"anchor": "initial-or-disaster-recovery-seed"
+			},
+			{
+				"level": 2,
+				"text": "Required completion gates",
+				"anchor": "required-completion-gates"
+			}
+		],
+		"excerpt": "Dayuh Chadash synchronization This is the canonical quick reference for the implemented custom SSH database synchronizer. The detailed runbooks live in docs/operations/. Production topology Always pass the production remote path explicitly. The code default is /root/dayuhChadash, which is not the current production dat",
+		"searchText": "dayuh chadash synchronization this is the canonical quick reference for the implemented custom ssh database synchronizer. the detailed runbooks live in docs/operations/. production topology always pass the production remote path explicitly. the code default is /root/dayuhchadash, which is not the current production database. safety rules use scripts/dayuh sync.mjs and scripts/dayuh seed.mjs as the canonical tools. they use the repository keter ssh/sftp client, not openssh, scp, or remote rsync. the password comes from safesshpasswordstore.mjs; never print or copy it. run status and a dry run before every write. do not use delete unless the owner approved the exact removal list. production may contain valid server only runtime records, including email data. database sync and git/code deployment are separate operations. shell variables inspect credentials without exposing them set the password only when the store is empty: status and dry runs local to remote this uploads changed or missing local files. it does not remove remote only files unless delete is explicitly supplied. remote to local this downloads changed or missing remote files. it does not remove local only files unless delete is explicitly supplied. bidirectional sync use only after a successful push or pull has established base.json: one sided changes move toward the unchanged side. two sided changes are saved under .dayuh conflicts locally and the operation stops. initial or disaster recovery seed seed only from an immutable, verified snapshot: the seed streams a compressed archive through custom ssh, verifies sha 256, extracts to an incoming directory, and atomically swaps the target with rollback. required completion gates 1. a second status reports zero push.upload entries. 2. push.removeremote is empty unless removals were explicitly approved. 3. npm run bh:ssh command \"systemctl is active awtsmoos.service\" reports active. 4. public api smoke tests pass. 5. no seed or .part staging artifact remains. see docs/operations/readme.md for agent checklists, recovery, and git guidance.",
+		"page": "pages/scripts-dayuh-sync-md-27ff27b4e1.json"
+	},
+	{
+		"id": "scripts-dayuh-sync-readme-md-09a800a649",
+		"title": "B\"H — dayuhChadash incremental SSH sync",
+		"sourcePath": "scripts/dayuh_sync/README.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — dayuhChadash incremental SSH sync",
+				"anchor": "b-h-dayuhchadash-incremental-ssh-sync"
+			},
+			{
+				"level": 2,
+				"text": "Safety",
+				"anchor": "safety"
+			},
+			{
+				"level": 2,
+				"text": "Configure",
+				"anchor": "configure"
+			},
+			{
+				"level": 2,
+				"text": "Commands",
+				"anchor": "commands"
+			},
+			{
+				"level": 2,
+				"text": "Isolated verification",
+				"anchor": "isolated-verification"
+			}
+		],
+		"excerpt": "B\"H — dayuhChadash incremental SSH sync This tool uses ayzarim/ssh/Keter Client.js and its SFTP implementation. It does not invoke system ssh, scp, or rsync. Safety SHA 256 decides whether a file changed. Uploads are written to .awtsmoos part and renamed atomically. Remote deletion is off unless delete is given. WAL, r",
+		"searchText": "b\"h — dayuhchadash incremental ssh sync this tool uses ayzarim/ssh/keter client.js and its sftp implementation. it does not invoke system ssh, scp, or rsync. safety sha 256 decides whether a file changed. uploads are written to .awtsmoos part and renamed atomically. remote deletion is off unless delete is given. wal, reader lock, and transient lock files are excluded. a real sync refuses active database readers. stop the local server before pushing database files, or prepare a stable snapshot and point localroot at that snapshot. credentials belong in environment variables, not the json config. configure copy dayuh sync.example.json to a private file such as dayuh sync.json, then set: private key authentication can use awtsmoos sync private key and optionally awtsmoos sync passphrase. commands watch checks repeatedly and sends only files whose hashes changed. it never deletes remote files. isolated verification the test uses temporary local directories as both ends and verifies initial push, no op repeat, one file update, and pull restoration.",
+		"page": "pages/scripts-dayuh-sync-readme-md-09a800a649.json"
+	},
+	{
+		"id": "scripts-documentation-md-952eed8356",
+		"title": "Repository Scripts",
+		"sourcePath": "scripts/DOCUMENTATION.md",
+		"category": "Operations",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Repository Scripts",
+				"anchor": "repository-scripts"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Repository Scripts The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Repository automation/maintenance root. This is distinct from browser side geelooy/scripts/. Start here Read docs/OPERATIONS A",
+		"searchText": "b\"h boruch hashem blessed is he repository scripts the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role repository automation/maintenance root. this is distinct from browser side geelooy/scripts/. start here read docs/operations and tooling.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes the documentation generator lives under scripts/docs/; do not run mutation/release scripts without inspecting their side effects and environment assumptions.",
+		"page": "pages/scripts-documentation-md-952eed8356.json"
+	},
+	{
+		"id": "scripts-ikar-hebrew-index-super-packed-spec-md-392d43be63",
+		"title": "Ikar Hebrew Super-Packed Index v1",
+		"sourcePath": "scripts/ikar_hebrew_index/super_packed_spec.md",
+		"category": "Operations",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ikar Hebrew Super-Packed Index v1",
+				"anchor": "ikar-hebrew-super-packed-index-v1"
+			},
+			{
+				"level": 2,
+				"text": "Problem with the old temp shards",
+				"anchor": "problem-with-the-old-temp-shards"
+			},
+			{
+				"level": 2,
+				"text": "New shape",
+				"anchor": "new-shape"
+			},
+			{
+				"level": 2,
+				"text": "Dictionaries",
+				"anchor": "dictionaries"
+			},
+			{
+				"level": 2,
+				"text": "Segment rows",
+				"anchor": "segment-rows"
+			},
+			{
+				"level": 2,
+				"text": "Postings",
+				"anchor": "postings"
+			},
+			{
+				"level": 2,
+				"text": "Retrieval",
+				"anchor": "retrieval"
+			},
+			{
+				"level": 2,
+				"text": "Why this is smaller",
+				"anchor": "why-this-is-smaller"
+			}
+		],
+		"excerpt": "B\"H Ikar Hebrew Super Packed Index v1 This is a new experimental format. It does not replace the existing builder. Problem with the old temp shards Old token shards repeated objects like: That repeats post/title/path/preview thousands or millions of times. New shape Output directory: Files: Dictionaries Strings are sto",
+		"searchText": "b\"h ikar hebrew super packed index v1 this is a new experimental format. it does not replace the existing builder. problem with the old temp shards old token shards repeated objects like: that repeats post/title/path/preview thousands or millions of times. new shape output directory: files: dictionaries strings are stored once: series.dict.json: index seriesid posts.dict.json: index postid paths.dict.json: index segmentpath tokens.dict.json: index token segment rows segments.rows.bin is a varint stream of fixed width rows: no hebrew text. no token arrays. no previews. postings postings.index.json maps tokenindex to byte offset/length/count inside postings.bin. each posting list is sorted segment ids encoded as delta varints. example concept: retrieval 1. find token in tokens.dict.json. 2. read byte slice from postings.bin using postings.index.json. 3. delta decode segment ids. 4. look up segment rows. 5. resolve series/post/path via dictionaries. 6. fetch actual post content from source db only when displaying result. why this is smaller it stores references, not content. actual hebrew content remains in the original post db/files. the index only knows where a match lives.",
+		"page": "pages/scripts-ikar-hebrew-index-super-packed-spec-md-392d43be63.json"
+	},
+	{
+		"id": "templates-documentation-md-03f898b3fd",
+		"title": "Shared Templates",
+		"sourcePath": "templates/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Templates",
+				"anchor": "shared-templates"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Templates The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Shared template/session source used by repository runtime or tooling. Start here Read docs/OPERATIONS AND TOOLING.md for the cen",
+		"searchText": "b\"h boruch hashem blessed is he shared templates the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role shared template/session source used by repository runtime or tooling. start here read docs/operations and tooling.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes template edits can affect multiple surfaces; trace callers/importers before changing shared markup or session structure.",
+		"page": "pages/templates-documentation-md-03f898b3fd.json"
+	}
+]

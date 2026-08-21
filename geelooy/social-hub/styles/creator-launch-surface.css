@@ -1,0 +1,91 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets new creation shine beside conversation without confusing their covenants;
+Awtsmoos.com begins with the hand-sized gateway, then lets larger screens breathe without losing one clear invitation.
+*/
+.creatorLaunch {
+	position: relative;
+	display: grid;
+	gap: .68rem;
+	margin: .8rem 0;
+	padding: .82rem;
+	border: 1px solid rgb(126 239 255 / 22%);
+	border-radius: 1rem;
+	background:
+		linear-gradient(145deg, rgb(43 180 255 / 7%), transparent 42%),
+		linear-gradient(315deg, rgb(166 104 255 / 6%), transparent 46%),
+		rgb(8 17 34 / 78%);
+	box-shadow:
+		0 16px 42px rgb(0 0 0 / 22%),
+		inset 0 1px rgb(255 255 255 / 6%);
+	overflow: clip;
+	isolation: isolate;
+	animation: creator-launch-arrive 320ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.creatorLaunch::before {
+	position: absolute;
+	z-index: -1;
+	inset: -45% 38% 50% -20%;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgb(75 220 255 / 11%), transparent 70%);
+	content: "";
+	pointer-events: none;
+}
+
+.creatorLaunchHeading {
+	display: grid;
+	gap: .24rem;
+}
+
+.creatorLaunchHeading h3,
+.creatorLaunchHeading p {
+	margin: 0;
+}
+
+.creatorLaunchHeading h3 {
+	font-size: clamp(1rem, 4.8vw, 1.28rem);
+	letter-spacing: -.018em;
+}
+
+.creatorLaunchHeading p {
+	max-width: 54rem;
+	color: var(--muted);
+	line-height: 1.45;
+}
+
+.creatorLaunchEyebrow {
+	color: var(--cyan);
+	font-size: .68rem;
+	font-weight: 850;
+	letter-spacing: .11em;
+	text-transform: uppercase;
+}
+
+.creatorLaunchContext {
+	margin: 0;
+	color: var(--muted);
+	font-size: .74rem;
+	overflow-wrap: anywhere;
+}
+
+@media (min-width: 40.01rem) {
+	.creatorLaunch {
+		margin: 1rem 0;
+		padding: clamp(.95rem, 2.2vw, 1.25rem);
+		border-radius: 1.15rem;
+	}
+}
+
+@keyframes creator-launch-arrive {
+	from {
+		opacity: 0;
+		transform: translate3d(0, 6px, 0) scale(.993);
+	}
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+}

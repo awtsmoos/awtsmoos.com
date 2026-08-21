@@ -1,294 +1,401 @@
 [
 	{
-		"id": "docs-learn-server-lifecycle-101-md-7b0c76e066",
-		"title": "Server Lifecycle 101",
-		"sourcePath": "docs/LEARN/SERVER_LIFECYCLE_101.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-styles-f4b1fa78--4372ed3e74",
+		"title": "Project Tutorial: geelooy/games/styles",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-styles-f4b1fa78.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Server Lifecycle 101",
-				"anchor": "server-lifecycle-101"
+				"text": "Project Tutorial: geelooy/games/styles",
+				"anchor": "project-tutorial-geelooy-games-styles"
 			},
 			{
 				"level": 2,
-				"text": "What you will learn",
-				"anchor": "what-you-will-learn"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Boot sequence",
-				"anchor": "boot-sequence"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Inside a normal HTTP request",
-				"anchor": "inside-a-normal-http-request"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Source trail",
-				"anchor": "source-trail"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Do not infer",
-				"anchor": "do-not-infer"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Server Lifecycle 101 What you will learn How root startup joins HTTP, direct handlers, dynamic routing, WebSockets, database initialization, and optional mail. Boot sequence 1. Root index.js loads AwtsMail, AwtsServer, and AwtsSocket infrastructure. 2. The dynamic server initializes shar",
-		"searchText": "b\"h boruch hashem blessed is he server lifecycle 101 what you will learn how root startup joins http, direct handlers, dynamic routing, websockets, database initialization, and optional mail. boot sequence 1. root index.js loads awtsmail, awtsserver, and awtssocket infrastructure. 2. the dynamic server initializes shared server state and dosdb. 3. http requests first pass the root direct mitzvah world report handler where applicable. 4. ordinary requests enter dynamicserver.onrequest. 5. websocket upgrades are delegated to the websocket server. 6. smtp can start unless disabled by runtime configuration such as awtsmoos disable mail. inside a normal http request the static server request bootstrap establishes base/cors headers, rejects unsafe path traversal, parses url/query/cookies, handles options, constructs path/body/auth helpers, and tries dynamic derech routing before static file fallback. source trail index.js ayzarim/awtsmoosdynamicserver/requesthandler.js ayzarim/awtsmoosdynamicserver/server/awtsmoosstaticserver.js ayzarim/awtsmoosdynamicserver/server/requestbootstrap.js ayzarim/awtsmoosdynamicserver/server/initdb.js do not infer a public file path is not automatically a dynamic endpoint; an api path is not automatically authenticated; websocket admission is not ordinary http authorization. next http routing 101 and authentication 101.",
-		"page": "pages/docs-learn-server-lifecycle-101-md-7b0c76e066.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/games/styles Path: geelooy/games/styles · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or h",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/games/styles path: geelooy/games/styles · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/games/styles/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 13 0 0 0 1 0 14 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-styles-f4b1fa78--4372ed3e74.json"
 	},
 	{
-		"id": "docs-learn-trace-a-request-md-786d4a95f0",
-		"title": "Trace a Request",
-		"sourcePath": "docs/LEARN/TRACE_A_REQUEST.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-sulam-ha-sod-626-f1c11f9ed6",
+		"title": "Project Tutorial: Sulam HaSod",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sulam-ha-sod-6268c2f3.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Trace a Request",
-				"anchor": "trace-a-request"
+				"text": "Project Tutorial: Sulam HaSod",
+				"anchor": "project-tutorial-sulam-hasod"
 			},
 			{
 				"level": 2,
-				"text": "Goal",
-				"anchor": "goal"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Procedure",
-				"anchor": "procedure"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Useful generated maps",
-				"anchor": "useful-generated-maps"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Example",
-				"anchor": "example"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Trace a Request Goal Move from a URL to the exact implementation, data/trust boundary, callers, tests, and documentation. Procedure 1. Search /docs/ or docs/GENERATED/API TUTORIAL INDEX.md for the URL pattern. 2. Open the generated route tutorial. 3. Record its route, source file, derech",
-		"searchText": "b\"h boruch hashem blessed is he trace a request goal move from a url to the exact implementation, data/trust boundary, callers, tests, and documentation. procedure 1. search /docs/ or docs/generated/api tutorial index.md for the url pattern. 2. open the generated route tutorial. 3. record its route, source file, derech mount/health, path parameters, and method evidence. 4. read the owning awtsmoos.derech.js or route table. 5. follow imported handler functions rather than stopping at the façade. 6. identify identity/authorization/origin gates. 7. trace database/filesystem/provider calls. 8. review generated callers; treat them as evidence, not dispatch proof. 9. run the closest package/project tests. 10. exercise the live route only when its auth/data side effects are understood. useful generated maps docs/generated/api route contract atlas.md docs/generated/api caller index.md docs/generated/derech health.md docs/generated/test ownership.md example for /api/social/heichelos/:heichel, the route tutorial points toward social/heichel source. then inspect method/resource role logic in the heichel route factory rather than treating source file method evidence as the whole contract.",
-		"page": "pages/docs-learn-trace-a-request-md-786d4a95f0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Sulam HaSod Path: geelooy/games/sulam ha sod · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or heal",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: sulam hasod path: geelooy/games/sulam ha sod · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/sulam ha sod/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 152 14 0 0 1 0 167 public entry points /games/sulam ha sod → geelooy/games/sulam ha sod/index.html — sulam hasod symbol evidence source files: 144; classes: 28; functions: 157; exports: 243; samples: camerarig, game, inputvessel, renderer, lightningrenderer, physicsworld, canvasviewport, hardencampaign, hardenlevel, choosecruelx, rotate, fakecoin. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 14 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-sulam-ha-sod-626-f1c11f9ed6.json"
 	},
 	{
-		"id": "docs-learn-troubleshooting-api-md-fdd5759f0d",
-		"title": "Troubleshooting APIs",
-		"sourcePath": "docs/LEARN/TROUBLESHOOTING_API.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-tests-0a8f1d42-m-43b854c6bb",
+		"title": "Project Tutorial: geelooy/games/tests",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-tests-0a8f1d42.md",
+		"category": "Testing",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Troubleshooting APIs",
-				"anchor": "troubleshooting-apis"
+				"text": "Project Tutorial: geelooy/games/tests",
+				"anchor": "project-tutorial-geelooy-games-tests"
 			},
 			{
 				"level": 2,
-				"text": "Start with classification",
-				"anchor": "start-with-classification"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Routing failures",
-				"anchor": "routing-failures"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Syntax failures",
-				"anchor": "syntax-failures"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "401 / 403",
-				"anchor": "401-403"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "404",
-				"anchor": "404"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "413 / transport size",
-				"anchor": "413-transport-size"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Bad client parsing",
-				"anchor": "bad-client-parsing"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Stale documentation",
-				"anchor": "stale-documentation"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Troubleshooting APIs Start with classification Is the failure routing, syntax health, authentication, authorization, input shape, persistence/provider behavior, response handling, or transport size? Routing failures Check generated route pattern, owning derech, ancestor discovery, dynami",
-		"searchText": "b\"h boruch hashem blessed is he troubleshooting apis start with classification is the failure routing, syntax health, authentication, authorization, input shape, persistence/provider behavior, response handling, or transport size? routing failures check generated route pattern, owning derech, ancestor discovery, dynamic parameters, and exact slash/path form. syntax failures use docs/generated/derech health.md. the text api currently has the known syntax failure and should not be treated as live merely because route text can be extracted. 401 / 403 separate missing identity from insufficient resource authority. check session/api key/oauth/origin/scope first, then owner/editor/member/moderation checks. 404 distinguish route mismatch from missing resource/path/data. trace the route before changing persistence. 413 / transport size the documentation frontend itself encountered static json 413 limits; its publication generator solves this through bounded shards. for another subsystem, measure the actual server/provider limit before changing global configuration. bad client parsing inspect response status/headers/body before assuming json. stale documentation run regeneration and validation. never hand edit generated output to hide drift.",
-		"page": "pages/docs-learn-troubleshooting-api-md-fdd5759f0d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/games/tests Path: geelooy/games/tests · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or hea",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/games/tests path: geelooy/games/tests · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/games/tests/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 0 16 0 0 1 0 17 public entry points /games/tests/1 → geelooy/games/tests/1/index.html /games/tests/2 → geelooy/games/tests/2/index.html — three.js webgpu compute particles rain /games/tests/3 → geelooy/games/tests/3/index.html /games/tests/tree → geelooy/games/tests/tree/index.html — three.js tree swaying symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 16 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-tests-0a8f1d42-m-43b854c6bb.json"
 	},
 	{
-		"id": "docs-learn-websockets-101-md-76521ba101",
-		"title": "WebSockets 101",
-		"sourcePath": "docs/LEARN/WEBSOCKETS_101.md",
-		"category": "Realtime",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-tetris-9e141667--72919d9370",
+		"title": "Project Tutorial: Tikkun HaOlam - The Final Rectification",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-tetris-9e141667.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "WebSockets 101",
-				"anchor": "websockets-101"
+				"text": "Project Tutorial: Tikkun HaOlam - The Final Rectification",
+				"anchor": "project-tutorial-tikkun-haolam-the-final-rectification"
 			},
 			{
 				"level": 2,
-				"text": "What you will learn",
-				"anchor": "what-you-will-learn"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Platform",
-				"anchor": "platform"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Major examples",
-				"anchor": "major-examples"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Trust boundary",
-				"anchor": "trust-boundary"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Evidence warning",
-				"anchor": "evidence-warning"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He WebSockets 101 What you will learn How Awtsmoos realtime behavior differs from HTTP route tutorials. Platform The dynamic server owns a realtime platform with an application registry and application router. Current generated evidence records eight versioned realtime applications plus pro",
-		"searchText": "b\"h boruch hashem blessed is he websockets 101 what you will learn how awtsmoos realtime behavior differs from http route tutorials. platform the dynamic server owns a realtime platform with an application registry and application router. current generated evidence records eight versioned realtime applications plus production event/message literals. major examples awtsmoos core/social; sefira clash; mitzvah world; ohr hagnuz; scribe journey; tunnel activity; shema strike. mission rooms and tunnel relay also have specialized admission/transport logic. trust boundary realtime code trusts server derived client identity, not identity claims inside an arbitrary message payload. mission room admission additionally verifies websocket key, trusted account identity, canonical origin, one time ticket, current mission authorization, matching authority, and protocol version before accepting the handshake. evidence warning docs/generated/websocket event index.md is lexical production evidence, not a formal asyncapi contract. next read websockets, mission rooms, and tunnel relay.",
-		"page": "pages/docs-learn-websockets-101-md-76521ba101.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Tikkun HaOlam The Final Rectification Path: geelooy/games/tetris · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runti",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: tikkun haolam the final rectification path: geelooy/games/tetris · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 8 0 0 0 0 0 8 public entry points /games/tetris → geelooy/games/tetris/index.html — tikkun haolam the final rectification symbol evidence source files: 6; classes: 10; functions: 9; exports: 0; samples: aiengine, effect, shard, characterparticle, lightningbolt, effectsengine, starfield, seededrandom, gameinstance, backgroundfx, startgame, initcanvasesandworker. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-tetris-9e141667--72919d9370.json"
 	},
 	{
-		"id": "docs-maintaining-the-docs-md-71b6d1be56",
-		"title": "Maintaining the Documentation",
-		"sourcePath": "docs/MAINTAINING_THE_DOCS.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-geelooy-53e795fd-md-39fa04ba1d",
+		"title": "Project Tutorial: geelooy/geelooy",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-geelooy-53e795fd.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Maintaining the Documentation",
-				"anchor": "maintaining-the-documentation"
+				"text": "Project Tutorial: geelooy/geelooy",
+				"anchor": "project-tutorial-geelooy-geelooy"
 			},
 			{
 				"level": 2,
-				"text": "One authoritative generation",
-				"anchor": "one-authoritative-generation"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Focused tests",
-				"anchor": "focused-tests"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Unified validator",
-				"anchor": "unified-validator"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Manual versus generated",
-				"anchor": "manual-versus-generated"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Project documentation workflow",
-				"anchor": "project-documentation-workflow"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Frontend/publication workflow",
-				"anchor": "frontend-publication-workflow"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Maintaining the Documentation Manual meaning, exhaustive route/project evidence, AI discovery, and browser publication should move together rather than becoming independent stale products. One authoritative generation This regenerates route/contract/caller/config/test/realtime evidence, ",
-		"searchText": "b\"h boruch hashem blessed is he maintaining the documentation manual meaning, exhaustive route/project evidence, ai discovery, and browser publication should move together rather than becoming independent stale products. one authoritative generation this regenerates route/contract/caller/config/test/realtime evidence, project/symbol/dependency/public entry/coverage evidence, one route tutorial per current api route, one project tutorial per current boundary, enriched ai records, and bounded public data. never hand edit generated artifacts. focused tests the project test validates representative owner/dependency/public entry joins. the route test protects route identity/unknown method behavior. the search test exercises the real publication corpus. unified validator the gate checks human markdown/links/coverage, generator syntax/line limits, derech health evidence, route tutorials, project tutorials, ai records, public shard counts/identities/size ceilings, lossless markdown reconstruction, and frontend safety/line/syntax contracts. manual versus generated write manuals for purpose, architecture, trust, workflow, migration, caveats and failure modes. generate volatile counts, routes, project boundaries, imports, callers, tests, symbols, dependencies and entries. avoid freezing changing counts into prose. project documentation workflow 1. inspect exact project path/type and local documentation. 2. inspect generated project tutorial, public entries and dependency evidence. 3. follow source entries/symbols into exact implementation. 4. use api/realtime/data/security docs for specialized behavior. 5. change implementation/tests. 6. update human project/system manuals when meaning changes. 7. regenerate and run project/search/frontend/public gates. frontend/publication workflow keep browser modules/styles split below 120 lines. maintain safe dom rendering and local only convenience state. preserve manifest driven bounded sharding as project packets gain evidence rather than allowing a few giant json responses.",
-		"page": "pages/docs-maintaining-the-docs-md-71b6d1be56.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/geelooy Path: geelooy/geelooy · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/geelooy path: geelooy/geelooy · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 3 0 0 0 1 5 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 3 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-geelooy-53e795fd-md-39fa04ba1d.json"
 	},
 	{
-		"id": "docs-operations-and-tooling-md-2db2e00465",
-		"title": "Operations, Scripts, Tools and Tests",
-		"sourcePath": "docs/OPERATIONS_AND_TOOLING.md",
-		"category": "Operations",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-git-8c62b485-md-037e141f62",
+		"title": "Project Tutorial: geelooy/git",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-git-8c62b485.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Operations, Scripts, Tools and Tests",
-				"anchor": "operations-scripts-tools-and-tests"
+				"text": "Project Tutorial: geelooy/git",
+				"anchor": "project-tutorial-geelooy-git"
 			},
 			{
 				"level": 2,
-				"text": "ops/",
-				"anchor": "ops"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Root scripts/",
-				"anchor": "root-scripts"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Root tools/",
-				"anchor": "root-tools"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Root tests/",
-				"anchor": "root-tests"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "templates/",
-				"anchor": "templates"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "ayzarim/",
-				"anchor": "ayzarim"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Evidence/thought roots",
-				"anchor": "evidence-thought-roots"
+				"text": "External packages",
+				"anchor": "external-packages"
 			},
 			{
 				"level": 2,
-				"text": "Safe command rule",
-				"anchor": "safe-command-rule"
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Operations, Scripts, Tools and Tests The Awtsmoos lets the running product be surrounded by maintenance, release, repair, generation and verification vessels; Awtsmoos.com keeps those support systems distinct from public application code. ops/ Small intentional operations root. Existing ",
-		"searchText": "b\"h boruch hashem blessed is he operations, scripts, tools and tests the awtsmoos lets the running product be surrounded by maintenance, release, repair, generation and verification vessels; awtsmoos.com keeps those support systems distinct from public application code. ops/ small intentional operations root. existing specialist material also lives under docs/operations/. start there before deployment/database synchronization or production repair work. root scripts/ repository automation and maintenance. the documentation generator lives under scripts/docs/; this is separate from browser/public geelooy/scripts/. root tools/ a large developer/maintenance utility district. a tool is not part of the public server merely because it lives in the repository. inspect its source, inputs, write behavior and environment assumptions before execution. root tests/ repository level verification. additional suites live under projects, apis, the dynamic server and geelooy/tests. docs/test index.md and generated test ownership.md provide task and project views. templates/ shared template/session html source. treat template changes as potentially cross surface behavior changes and trace their import/render callers. ayzarim/ primary runtime/infrastructure district, not merely tooling. dynamic server, dosdb and ssh infrastructure live here among other server side systems. evidence/thought roots large ai thought, audit and repair evidence directories are durable planning/evidence layers. size alone does not make them public products, and coverage tooling should classify them rather than forcing fake product manuals. safe command rule before running an operations/tool command, determine whether it writes data, contacts a live server/provider, performs release/deployment, uses secrets, runs stress work or assumes machine local paths. prefer the smallest evidence producing command that proves the intended behavior.",
-		"page": "pages/docs-operations-and-tooling-md-2db2e00465.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/git Path: geelooy/git · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownersh",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/git path: geelooy/git · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 3; exports: 0; samples: handlegit, querystringof, giterrorresponse. depends on geelooy/api/social — 1 lexical reference; examples: geelooy/git/ awtsmoos.derech.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-git-8c62b485-md-037e141f62.json"
+	},
+	{
+		"id": "docs-generated-project-tutorials-projects-geelooy-heichel-bad58b8e-md-44ec6a5c8b",
+		"title": "Project Tutorial: geelooy/heichel",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-bad58b8e.md",
+		"category": "Projects",
+		"provenance": "generated",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Project Tutorial: geelooy/heichel",
+				"anchor": "project-tutorial-geelooy-heichel"
+			},
+			{
+				"level": 2,
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/heichel Path: geelooy/heichel · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/heichel path: geelooy/heichel · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-heichel-bad58b8e-md-44ec6a5c8b.json"
 	}
 ]

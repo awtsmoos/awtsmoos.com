@@ -3,10 +3,10 @@
 // Blessed is He
 /**
  * @module HeichelApp
- * @description
- * The Awtsmoos opens the real Heichel through one idempotent boot promise.
- * A first microtask begins creation while one event gate protects late modules.
+ * @description The Awtsmoos opens one living Space through an idempotent boot promise while Awtsmoos.com gives the page
+ * one shared social experience: restrained motion and one ambient field behind every Series, question, post, and conversation.
  */
+import { installSocialExperience } from '../../shared/social/SocialExperienceInstaller.js';
 import { HeichelNavigator } from './modules/navigator.js';
 import { initializeEventListeners } from './modules/events.js';
 import { manifestWorld } from './modules/ui.js';
@@ -24,26 +24,32 @@ function readHeichelId() {
 function renderFatalState(error) {
 	console.error('B"H - Fatal failure in the Great Manifestation:', error);
 	const root = document.querySelector('[data-heichel-render-root]') || document.body;
-	root.innerHTML = `
-		<section class="heichel-runtime-state heichel-runtime-state--error" role="alert">
-			<p class="civilization-kicker">Heichel unavailable</p>
-			<h1>The institution could not open.</h1>
-			<p>${escapeText(error?.message || 'An unknown Heichel error occurred.')}</p>
-			<div class="heichel-runtime-state__actions">
-				<button type="button" data-heichel-retry>Try again</button>
-				<a href="/heichelos">Browse Heichelos</a>
-			</div>
-		</section>`;
-	root.querySelector('[data-heichel-retry]')?.addEventListener('click', () => location.reload());
+	root.replaceChildren(fatalStateCard(error));
 }
 
-function escapeText(value) {
-	return String(value)
-		.replaceAll('&', '&amp;')
-		.replaceAll('<', '&lt;')
-		.replaceAll('>', '&gt;')
-		.replaceAll('"', '&quot;')
-		.replaceAll("'", '&#039;');
+function fatalStateCard(error) {
+	const section = document.createElement('section');
+	section.className = 'heichel-runtime-state heichel-runtime-state--error';
+	section.setAttribute('role', 'alert');
+	const kicker = document.createElement('p');
+	kicker.className = 'civilization-kicker';
+	kicker.textContent = 'Heichel unavailable';
+	const title = document.createElement('h1');
+	title.textContent = 'The institution could not open.';
+	const message = document.createElement('p');
+	message.textContent = error?.message || 'An unknown Heichel error occurred.';
+	const actions = document.createElement('div');
+	actions.className = 'heichel-runtime-state__actions';
+	const retry = document.createElement('button');
+	retry.type = 'button';
+	retry.textContent = 'Try again';
+	retry.addEventListener('click', () => location.reload());
+	const browse = document.createElement('a');
+	browse.href = '/heichelos';
+	browse.textContent = 'Browse Heichelos';
+	actions.append(retry, browse);
+	section.append(kicker, title, message, actions);
+	return section;
 }
 
 function runSafe(label, callback) {
@@ -62,17 +68,14 @@ function refreshVesselHealth() {
 }
 
 async function boot() {
-	if (window[BOOT_KEY]?.started) {
-		return window[BOOT_KEY].promise;
-	}
+	if (window[BOOT_KEY]?.started) return window[BOOT_KEY].promise;
 	const state = { started: true, ready: false, error: null, promise: null };
 	window[BOOT_KEY] = state;
 	state.promise = (async () => {
 		try {
 			const heichelId = readHeichelId();
-			if (!heichelId) {
-				throw new Error('Heichel ID missing from the URL.');
-			}
+			if (!heichelId) throw new Error('Heichel ID missing from the URL.');
+			installSocialExperience(document, { ambient: true });
 			const navigator = new HeichelNavigator(heichelId);
 			window.__awtsmoosHeichelNavigator = navigator;
 			manifestWorld(navigator, document.body);
@@ -93,3 +96,5 @@ if (document.readyState === 'loading') {
 	document.addEventListener('DOMContentLoaded', boot, { once: true });
 }
 queueMicrotask(() => void boot());
+
+export { boot, fatalStateCard, readHeichelId, refreshVesselHealth, renderFatalState, runSafe };

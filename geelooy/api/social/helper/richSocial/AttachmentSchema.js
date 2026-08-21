@@ -2,18 +2,32 @@
 //Boruch Hashem
 //Blessed is He
 
+const { cleanText, cleanUrl } = require('./TextSanitizer.js');
+
 /**
  * @module AttachmentSchema
  * @description
- * Images, audio, video, and documents become bounded references to native asset
- * manifests. Awtsmoos.com receives expressive Chesed only through a Gevurah vessel
- * that refuses executable URLs, unbounded lists, and ambiguous attachment kinds.
+ * The Awtsmoos lets images, audio, video, captions, transcripts, thumbnails, and documents enter native asset references;
+ * Awtsmoos.com bounds kinds, roles, dimensions, duration, and paths so uploaded media stays expressive without ambiguity.
  */
-
-const { cleanText, cleanUrl } = require('./TextSanitizer.js');
-
-const ATTACHMENT_TYPES = Object.freeze(['image', 'audio', 'video', 'gif', 'document']);
-const ATTACHMENT_ROLES = Object.freeze(['cover', 'inline', 'gallery', 'audio-note', 'video', 'download']);
+const ATTACHMENT_TYPES = Object.freeze([
+	'image',
+	'audio',
+	'video',
+	'gif',
+	'document'
+]);
+const ATTACHMENT_ROLES = Object.freeze([
+	'cover',
+	'thumbnail',
+	'inline',
+	'gallery',
+	'audio-note',
+	'video',
+	'caption',
+	'transcript',
+	'download'
+]);
 
 function parseArray(value) {
 	if (Array.isArray(value)) return value;
@@ -55,7 +69,9 @@ function normalizeAttachment(value, index = 0) {
 			? 'audio-note'
 			: type === 'video'
 				? 'video'
-				: 'inline';
+				: type === 'document'
+					? 'download'
+					: 'inline';
 	return {
 		id: id || `external_${index + 1}`,
 		type,

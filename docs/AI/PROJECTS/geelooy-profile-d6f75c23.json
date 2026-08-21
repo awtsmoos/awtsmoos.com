@@ -22,32 +22,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-profile-d6f75c23.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 18,
-		"tests": 2,
+		"source": 33,
+		"tests": 4,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 1
 	},
-	"totalFiles": 22,
+	"totalFiles": 39,
 	"symbolSummary": {
-		"files": 11,
-		"classes": 0,
-		"functions": 52,
-		"exports": 21,
+		"files": 22,
+		"classes": 1,
+		"functions": 99,
+		"exports": 44,
 		"samples": [
-			"checkAliasId",
-			"validateAliasId",
-			"showTooltip",
-			"hideTooltip",
-			"backToProfile",
 			"async",
-			"renderProfileDropdown",
-			"refreshProfileDropdown",
-			"renderAliases",
-			"saveDefaultAlias",
-			"withTimeout",
-			"messageFrom"
+			"readAliasValues",
+			"setAliasStudioStatus",
+			"setAliasStudioBusy",
+			"saveAlias",
+			"deleteAlias",
+			"createAliasBody",
+			"readApiResult",
+			"getAliasStudioConfig",
+			"getAliasStudioRefs",
+			"readBootstrap",
+			"bindAliasDeletion"
 		]
 	},
 	"outgoingDependencies": [
@@ -72,7 +72,7 @@
 			"file": "geelooy/profile/alias-manage/index.html",
 			"title": "",
 			"scripts": 1,
-			"styles": 1
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": true,

@@ -1,0 +1,68 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos gathers related signals into one readable orbit without trapping attention in noise;
+ * Awtsmoos.com makes context glanceable, actions reachable, and repeated conversation feel like a human choice.
+ */
+
+.notification-group {
+	display: grid;
+	gap: 10px;
+	padding: 12px;
+	border: 1px solid rgba(148, 163, 184, .14);
+	border-radius: 22px;
+	background: rgba(15, 23, 42, .035);
+}
+
+.notification-group__heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 2px 4px;
+}
+
+.notification-group__heading h3 {
+	margin: 0;
+	font-size: .92rem;
+}
+
+.notification-group__count {
+	font-size: .72rem;
+	font-weight: 760;
+	opacity: .58;
+}
+
+.notification-group__items {
+	display: grid;
+	gap: 9px;
+}
+
+.notification-context-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.notification-context-chips span {
+	padding: 4px 8px;
+	border-radius: 999px;
+	border: 1px solid rgba(129, 140, 248, .18);
+	background: rgba(99, 102, 241, .07);
+	font-size: .72rem;
+	font-weight: 720;
+	opacity: .82;
+}
+
+.notification-row-actions .g-button,
+.notification-row-actions button {
+	min-height: 44px;
+}
+
+@media (max-width: 560px) {
+	.notification-group {
+		padding: 9px;
+		border-radius: 18px;
+	}
+}

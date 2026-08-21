@@ -1,0 +1,62 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is One while two small actions let a reader reveal or fold the complete halachic day;
+ * Awtsmoos.com keeps these controls separate from group geometry so toolbar meaning remains simple, tactile, and clear along the way.
+ */
+
+.zman-group-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .65rem;
+	margin: .65rem 0 .45rem;
+	color: var(--ink-muted);
+	font-size: .62rem;
+	font-weight: 800;
+	letter-spacing: .07em;
+	text-transform: uppercase;
+}
+
+.zman-group-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: end;
+	gap: .32rem;
+}
+
+.zman-group-actions button {
+	min-height: 34px;
+	padding: .32rem .58rem;
+	border: 1px solid var(--line-strong);
+	border-radius: 999px;
+	background: rgba(124, 231, 197, .05);
+	color: var(--accent-strong);
+	font: inherit;
+	font-size: .58rem;
+	letter-spacing: .02em;
+	text-transform: none;
+	cursor: pointer;
+	touch-action: manipulation;
+}
+
+.zman-group-actions button:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.zman-group-actions button:active {
+	transform: scale(.97);
+}
+
+@media (max-width: 520px) {
+	.zman-group-toolbar {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.zman-group-actions {
+		justify-content: flex-start;
+	}
+}

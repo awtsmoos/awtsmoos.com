@@ -35,14 +35,8 @@
 	],
 	"statuses": [],
 	"headers": [],
-	"callers": [
-		{
-			"literal": "/api/social/heichelos/${config.heichelId}/settings/full",
-			"source": "geelooy/heichel-editor/modules/forms/settingsForm.js",
-			"kind": "runtime"
-		}
-	],
-	"callerCount": 1,
+	"callers": [],
+	"callerCount": 0,
 	"tests": [
 		{
 			"name": "test",

@@ -8,9 +8,11 @@ const RecoveryContext = require("./recoveryContext.js");
 const TerminalDispatch = require("./terminalDispatch.js");
 
 /**
- * @file Coordinates one root-correct, mission-wide-idempotent continuation turn.
- * @description The Awtsmoos lets the checkpoint advance without overlapping messengers;
- * Awtsmoos.com binds root, mission, predecessor, successor, admission, and verified-close dispatch into one durable witness.
+ * @file Coordinates one root-correct, mission-wide-idempotent continuation generation.
+ * @description
+ * The Awtsmoos lets a checkpoint advance without overlapping messengers. Awtsmoos.com
+ * binds root, lifecycle, predecessor, generation, sibling group, handoff vessels,
+ * lease, and verified-close dispatch into one durable successor witness.
  */
 async function run(config, options = {}) {
 	if (Helpers.disabled(options)) return Helpers.suppressed("auto_continuation_disabled");
@@ -24,24 +26,14 @@ async function run(config, options = {}) {
 	const scopedConfig = deps.ProjectRoot.scope(config, projectRoot);
 	const fingerprint = Prompt.fingerprint(scopedConfig, mission, lock);
 	const recovery = RecoveryContext.build(mission, fingerprint, {
+		config: scopedConfig,
+		projectRoot,
 		lock,
 		now: options.now,
 		inactivityMs: options.inactivityMs,
 		planningFiles: Prompt.recentPlans(projectRoot)
 	});
-	const identity = {
-		missionId: mission.id,
-		fingerprint,
-		websiteMissionId: Prompt.websiteMissionId(mission.id, fingerprint),
-		projectRoot,
-		recoveryReason: recovery.recoveryReason,
-		predecessorAgentId: recovery.predecessorAgentId,
-		predecessorLastSeenAt: recovery.predecessorLastSeenAt,
-		predecessorStatus: recovery.predecessorStatus,
-		successorAgentId: recovery.successorAgentId,
-		staleDetected: recovery.staleDetected,
-		recoveryCheckpoint: recovery.recoveryCheckpoint
-	};
+	const identity = identityFor(mission, fingerprint, projectRoot, recovery);
 	const blocked = reconcileActive(scopedConfig, identity, deps);
 	if (blocked) return blocked;
 	const current = deps.State.read(scopedConfig, mission.id, fingerprint);
@@ -70,6 +62,28 @@ async function run(config, options = {}) {
 	return dispatchContinuation(scopedConfig, options, deps, mission, lock, identity, lease.record);
 }
 
+function identityFor(mission, fingerprint, projectRoot, recovery) {
+	return {
+		missionId: mission.id,
+		fingerprint,
+		websiteMissionId: Prompt.websiteMissionId(mission.id, fingerprint),
+		projectRoot,
+		recoveryReason: recovery.recoveryReason,
+		predecessorAgentId: recovery.predecessorAgentId,
+		predecessorLastSeenAt: recovery.predecessorLastSeenAt,
+		predecessorStatus: recovery.predecessorStatus,
+		predecessorLifecycle: recovery.predecessorLifecycle,
+		predecessorIntentional: recovery.predecessorIntentional,
+		predecessorGeneration: recovery.predecessorGeneration,
+		successorGeneration: recovery.successorGeneration,
+		spawnGroupId: recovery.spawnGroupId,
+		successorAgentId: recovery.successorAgentId,
+		handoffPaths: recovery.handoffPaths,
+		staleDetected: recovery.staleDetected,
+		recoveryCheckpoint: recovery.recoveryCheckpoint
+	};
+}
+
 function reconcileActive(config, identity, deps) {
 	if (typeof deps.State.readActive !== "function" || typeof deps.State.blocking !== "function") return null;
 	const active = deps.State.readActive(config, identity.missionId);
@@ -84,7 +98,8 @@ function reconcileActive(config, identity, deps) {
 }
 
 async function dispatchContinuation(config, options, deps, mission, lock, identity, leasedRecord) {
-	const prompt = Prompt.build(config, mission, lock, identity.fingerprint, leasedRecord || identity);
+	const context = { ...identity, ...(leasedRecord || {}) };
+	const prompt = Prompt.build(config, mission, lock, identity.fingerprint, context);
 	try {
 		const dispatched = await deps.Dispatch.dispatch(config, {
 			...identity,
@@ -110,4 +125,4 @@ function failedReceipt(config, deps, identity, record, error, reason = error) {
 	return Helpers.receipt(identity, reason, false, failed);
 }
 
-module.exports = { dispatchContinuation, reconcileActive, run };
+module.exports = { dispatchContinuation, identityFor, reconcileActive, run };

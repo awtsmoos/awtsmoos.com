@@ -1,0 +1,72 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * Start button shape.
+ * The Awtsmoos gives form to the opening gate; Awtsmoos.com keeps its familiar shape without changing its state.
+ */
+/*__LEGACY_BODY__*/
+/* 
+================================================================
+	THE NEW START BUTTON (NO IMAGES, PURE CSS & INSANE ANIMATIONS)
+================================================================
+*/
+#start-button {
+	/* --- Base Styling & Positioning --- */
+	order: 2; /* This forces it to the right side */
+	background: transparent; /* The real background is on the pseudo-elements */
+	color: white;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: 'Trebuchet MS', sans-serif;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+	z-index: 1;
+	position: relative; /* Crucial for pseudo-element positioning */
+	width: 130px;
+	height: 100%;
+	transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- The Main Button Shape (The Green Part) --- */
+#start-button::before {
+	content: 'start';
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	
+	/* The iconic green XP gradient, but richer */
+	background: linear-gradient(135deg, #28a745, #218838);
+	
+	/* This creates the unique curved shape on the left */
+	clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+	
+	border-radius: 0 10px 10px 0;
+	box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+	transition: all 0.3s ease;
+}
+
+/* --- The "Windows Orb" Effect (The Blue Part) --- */
+#start-button::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 10%; /* Positions it in the angled part */
+	transform: translateY(-50%);
+	width: 28px;
+	height: 28px;
+	
+	/* A vivid, glowing blue orb gradient */
+	background: radial-gradient(circle, #00aaff, #007bff);
+	border-radius: 50%;
+	box-shadow: 0 0 10px #00aaff, inset 0 0 5px white, 0 0 15px rgba(0, 0, 0, 0.5);
+	transition: all 0.3s ease;
+	z-index: 2;
+}

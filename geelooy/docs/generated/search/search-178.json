@@ -1,15 +1,15 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-neshama-quest-3f-b903a11a63",
-		"title": "Project Tutorial: Neshama Quest",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-neshama-quest-3f0cdf7b.md",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-awtsmoosdynamicserver--a8b3930e7c",
+		"title": "Project Tutorial: ayzarim/awtsmoosDynamicServer",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Neshama Quest",
-				"anchor": "project-tutorial-neshama-quest"
+				"text": "Project Tutorial: ayzarim/awtsmoosDynamicServer",
+				"anchor": "project-tutorial-ayzarim-awtsmoosdynamicserver"
 			},
 			{
 				"level": 2,
@@ -52,21 +52,21 @@
 				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Neshama Quest Path: geelooy/games/neshama quest · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or h",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: neshama quest path: geelooy/games/neshama quest · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 7 0 0 0 0 0 7 public entry points /games/neshama quest → geelooy/games/neshama quest/index.html — neshama quest symbol evidence source files: 5; classes: 5; functions: 4; exports: 0; samples: entity, neshama, klipah, game, inputhandler, generatefullmaze, createperfectmaze, addloopstomaze, addsidetunnels. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-neshama-quest-3f-b903a11a63.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/awtsmoosDynamicServer Path: ayzarim/awtsmoosDynamicServer · Type: runtime · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/awtsmoosdynamicserver path: ayzarim/awtsmoosdynamicserver · type: runtime · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.js, documentation.md local documentation: ayzarim/awtsmoosdynamicserver/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 826 207 0 0 1 1 1035 public entry points none observed. symbol evidence source files: 826; classes: 227; functions: 2248; exports: 2002; samples: dependencyinjector, greet, templateobjectgenerator, fetchawtsmoos, gettemplateobject, fetchit, checkratelimit, recordusage, estimatetokens, callgemini, result, data. depends on geelooy/api/tunnel — 11 lexical references; examples: ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/channel.js; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/channelsnapshot.js; ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/missionroomupgradefakes.cjs geelooy/api/social — 6 lexical references; examples: ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/integrationgateway.js; ayzarim/awtsmoosdynamicserver/websocket/apps/privatemessaging/meaningfulactivity.js; ayzarim/awtsmoosdynamicserver/websocket/apps/universalchat/activityadapter.js ayzarim/tools — 3 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/deps.js ayzarim/email — 2 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/deps.js geelooy/api/ohr hagnuz — 2 lexical references; examples: ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz/authenticatedworldtestharness.cjs; ayzarim/awtsmoosdynamicserver/websocket/apps/ohrhagnuz/auth/gameticketconsumer.js geelooy/apps/tunnel — 2 lexical references; examples: ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/actionaliases.js; ayzarim/awtsmoosdynamicserver/zipbundles/sourceresolver.js ayzarim/awtsmoos.config.json — 1 lexical reference; examples: ayzarim/awtsmoosdynamicserver/server/deps.js ayzarim/dosdb — 1 lexical reference; examples: ayzarim/awtsmoosdynamicserver/server/deps.js used by geelooy/api/social — 5 lexical references; examples: geelooy/api/social/helper/drive/projectdatabaseservice.js; geelooy/api/social/helper/drive/projectruntimematerializer.js; geelooy/api/social/helper/drive/routes/projecthostingroutes.js geelooy/api/projecthosting — 2 lexical references; examples: geelooy/api/projecthosting/planroute.js; geelooy/api/projecthosting/runtimeroutes.js geelooy/api/tunnel — 1 lexical reference; examples: geelooy/api/tunnel/control/routes/fsvessel/tunnelclient.js geelooy/sites — 1 lexical reference; examples: geelooy/sites/hostedprojectproxy.js external packages ws — 3 lexical references verification clue observed test classified files: 207 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-awtsmoosdynamicserver--a8b3930e7c.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-nitzotz-io-7c8b9-e9591eb07d",
-		"title": "Project Tutorial: Nitzotz.io — Shlichus Adventure Metropolis",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nitzotz-io-7c8b94b0.md",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-c859d21f-md-ffc1103fcc",
+		"title": "Project Tutorial: ayzarim",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-c859d21f.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Nitzotz.io — Shlichus Adventure Metropolis",
-				"anchor": "project-tutorial-nitzotz-io-shlichus-adventure-metropolis"
+				"text": "Project Tutorial: ayzarim",
+				"anchor": "project-tutorial-ayzarim"
 			},
 			{
 				"level": 2,
@@ -109,21 +109,21 @@
 				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Nitzotz.io — Shlichus Adventure Metropolis Path: geelooy/games/nitzotz io · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, ",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: nitzotz.io — shlichus adventure metropolis path: geelooy/games/nitzotz io · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/nitzotz io/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 220 29 0 0 1 0 250 public entry points /games/nitzotz io → geelooy/games/nitzotz io/index.html — nitzotz.io — shlichus adventure metropolis symbol evidence source files: 187; classes: 0; functions: 574; exports: 372; samples: selectshlichus, shlichustemplates, resolvetemplate, descriptionfor, template, hash, mix, adventuremetric, adventureprogress, settleadventurereward, emptysettlement, updateadventure. depends on geelooy/libs — 2 lexical references; examples: geelooy/games/nitzotz io/js/procedural/localmeshes.js; geelooy/games/nitzotz io/js/webgl/meshupload.js used by none observed. external packages none observed. verification clue observed test classified files: 29 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-nitzotz-io-7c8b9-e9591eb07d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim Path: ayzarim · Type: runtime root · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim path: ayzarim · type: runtime root · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: ayzarim/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1712 367 0 0 24 2 2105 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 367 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-c859d21f-md-ffc1103fcc.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-ohr-hagnuz-e946b-5315f7a5b6",
-		"title": "Project Tutorial: B&quot;H — Ohr HaGnuz: The Concealed Frontier",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohr-hagnuz-e946b787.md",
-		"category": "Projects",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-dosdb-eaaa802e-md-a04b09e772",
+		"title": "Project Tutorial: ayzarim/DosDB",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md",
+		"category": "Data",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: B&quot;H — Ohr HaGnuz: The Concealed Frontier",
-				"anchor": "project-tutorial-b-quot-h-ohr-hagnuz-the-concealed-frontier"
+				"text": "Project Tutorial: ayzarim/DosDB",
+				"anchor": "project-tutorial-ayzarim-dosdb"
 			},
 			{
 				"level": 2,
@@ -166,21 +166,21 @@
 				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: B&quot;H — Ohr HaGnuz: The Concealed Frontier Path: geelooy/games/ohr hagnuz · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observation",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: b&quot;h — ohr hagnuz: the concealed frontier path: geelooy/games/ohr hagnuz · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/ohr hagnuz/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 700 89 0 0 1 3 793 public entry points /games/ohr hagnuz → geelooy/games/ohr hagnuz/index.html — b&quot;h — ohr hagnuz: the concealed frontier symbol evidence source files: 671; classes: 189; functions: 195; exports: 1124; samples: collisionmatrix, validates, encountervalidator, interactionvalidator, overworldlogic, portalvalidator, worldmapassembler, takes, encountergenerator, movementlogic, pathlogic, divinewill. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 89 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-ohr-hagnuz-e946b-5315f7a5b6.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/DosDB Path: ayzarim/DosDB · Type: data · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownershi",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/dosdb path: ayzarim/dosdb · type: data · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.js, documentation.md local documentation: ayzarim/dosdb/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 827 160 0 0 21 0 1008 public entry points none observed. symbol evidence source files: 813; classes: 383; functions: 1117; exports: 731; samples: awtsmoosdbembedderconfig, defaultembeddingdimensions, embedtextfallback, attachdefaultembedding, awtsmoos db ai config path, loadembedderconfig, getdefaultembedderconfig, resolveembeddermodelpath, providershape, detectggufrunner, assertggufembedderready, embedtextwithconfiguredgguf. depends on none observed. used by geelooy/api/social — 33 lexical references; examples: geelooy/api/social/helper/comments/aliasindex/packedindexstore.js; geelooy/api/social/helper/comments/canonicalcommentsource.js; geelooy/api/social/helper/comments/commentawtsmoosdbbridge.js ayzarim/maintence — 2 lexical references; examples: ayzarim/maintence/transferolddbtoawtsmoosdb.js ayzarim/awtsmoosdynamicserver — 1 lexical reference; examples: ayzarim/awtsmoosdynamicserver/server/deps.js geelooy/scripts — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax virtual os game/seed users.cjs external packages entries — 1 lexical reference verification clue observed test classified files: 160 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-dosdb-eaaa802e-md-a04b09e772.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-party-7fcd4a78-m-f418a466b2",
-		"title": "Project Tutorial: Party Challenge — Awtsmoos Games",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-party-7fcd4a78.md",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-email-b0bdabd0-md-8dbce8fc60",
+		"title": "Project Tutorial: ayzarim/email",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-email-b0bdabd0.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Party Challenge — Awtsmoos Games",
-				"anchor": "project-tutorial-party-challenge-awtsmoos-games"
+				"text": "Project Tutorial: ayzarim/email",
+				"anchor": "project-tutorial-ayzarim-email"
 			},
 			{
 				"level": 2,
@@ -223,21 +223,21 @@
 				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Party Challenge — Awtsmoos Games Path: geelooy/games/party · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime own",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: party challenge — awtsmoos games path: geelooy/games/party · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/party/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 15 0 0 0 1 0 16 public entry points /games/party → geelooy/games/party/index.html — party challenge — awtsmoos games symbol evidence source files: 8; classes: 1; functions: 22; exports: 21; samples: startchallenge, reloadcurrentturn, recordcurrentturn, activesession, begincurrentturn, finishchallenge, dom, setframegame, loadfreshturn, framegame, partygames, resolvepartygame. depends on geelooy/games/scripts — 1 lexical reference; examples: geelooy/games/party/js/game catalog.mjs used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-party-7fcd4a78-m-f418a466b2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/email Path: ayzarim/email · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtim",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/email path: ayzarim/email · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 5 0 0 0 0 0 5 public entry points none observed. symbol evidence source files: 5; classes: 2; functions: 18; exports: 2; samples: awtsmoosemailclient, processcapsules, sendsystemreply, isautogenerated, parsemime, embedinlineimages, parseheaders, parsefromheader, decodebody, decodequotedprintable, decodemimeheader, escapehtml. depends on geelooy/api/social — 1 lexical reference; examples: ayzarim/email/awtsmoosemailingress.js used by ayzarim/awtsmoosdynamicserver — 2 lexical references; examples: ayzarim/awtsmoosdynamicserver/server/deps.js external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-email-b0bdabd0-md-8dbce8fc60.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-pong-d3953f2b-md-e368efa524",
-		"title": "Project Tutorial: Pong Game",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-pong-d3953f2b.md",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-maintence-c5395902-md-1f085c468b",
+		"title": "Project Tutorial: ayzarim/maintence",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-maintence-c5395902.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Pong Game",
-				"anchor": "project-tutorial-pong-game"
+				"text": "Project Tutorial: ayzarim/maintence",
+				"anchor": "project-tutorial-ayzarim-maintence"
 			},
 			{
 				"level": 2,
@@ -280,21 +280,21 @@
 				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Pong Game Path: geelooy/games/pong · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarant",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: pong game path: geelooy/games/pong · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 7 0 0 0 0 0 7 public entry points /games/pong → geelooy/games/pong/index.html — pong game symbol evidence source files: 5; classes: 0; functions: 15; exports: 0; samples: createball, getrandomemoji, resizecanvas, handlepaddlecollision, update, draw, gameloop, createpaddle, createparticleexplosion, updateanddrawparticles, drawnet, drawscore. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-pong-d3953f2b-md-e368efa524.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/maintence Path: ayzarim/maintence · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, no",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/maintence path: ayzarim/maintence · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 1; exports: 0; samples: convertnodetoobj. depends on ayzarim/dosdb — 2 lexical references; examples: ayzarim/maintence/transferolddbtoawtsmoosdb.js used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-maintence-c5395902-md-1f085c468b.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-rambam-9b03ea55--b02fbdd7f5",
-		"title": "Project Tutorial: geelooy/games/rambam",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rambam-9b03ea55.md",
+		"id": "docs-generated-project-tutorials-projects-ayzarim-math-f7d5fed1-md-25496ac99d",
+		"title": "Project Tutorial: ayzarim/math",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-math-f7d5fed1.md",
 		"category": "Projects",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/games/rambam",
-				"anchor": "project-tutorial-geelooy-games-rambam"
+				"text": "Project Tutorial: ayzarim/math",
+				"anchor": "project-tutorial-ayzarim-math"
 			},
 			{
 				"level": 2,
@@ -337,65 +337,8 @@
 				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/games/rambam Path: geelooy/games/rambam · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or h",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/games/rambam path: geelooy/games/rambam · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /games/rambam/kiddushhachodesh/12 → geelooy/games/rambam/kiddushhachodesh/12/index.html — sun movement visualization symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-rambam-9b03ea55--b02fbdd7f5.json"
-	},
-	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-games-rebbe-runner-775-69c34745fa",
-		"title": "Project Tutorial: The Rebbe's Runner",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rebbe-runner-775c456f.md",
-		"category": "Projects",
-		"provenance": "generated",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Project Tutorial: The Rebbe's Runner",
-				"anchor": "project-tutorial-the-rebbe-s-runner"
-			},
-			{
-				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
-			},
-			{
-				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
-			},
-			{
-				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
-			},
-			{
-				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
-			},
-			{
-				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: The Rebbe's Runner Path: geelooy/games/rebbe runner · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership ",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: the rebbe's runner path: geelooy/games/rebbe runner · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 4 0 0 0 0 0 4 public entry points /games/rebbe runner → geelooy/games/rebbe runner/index.html — the rebbe's runner symbol evidence source files: 2; classes: 3; functions: 9; exports: 0; samples: player, obstacle, collectible, resizecanvas, drawroadlines, createbackground, init, drawbackground, animate, detectcollision, endgame, handlestart. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-rebbe-runner-775-69c34745fa.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: ayzarim/math Path: ayzarim/math · Type: infrastructure · Family: Runtime and Infrastructure Read the human Runtime and Infrastructure guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ayzarim/math path: ayzarim/math · type: infrastructure · family: runtime and infrastructure read the human runtime and infrastructure guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: — local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points none observed. symbol evidence source files: 1; classes: 2; functions: 0; exports: 0; samples: node, btree. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-ayzarim-math-f7d5fed1-md-25496ac99d.json"
 	}
 ]

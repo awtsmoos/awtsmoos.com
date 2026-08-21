@@ -1,71 +1,26 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--956429f1fe",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark014_1K-JPG/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-apps-merkava-native-browser-documentation-md-f75934aa08",
+		"title": "Merkava Native Browser Documentation",
+		"sourcePath": "geelooy/apps/merkava-native-browser/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0141K-JPG",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0141k-jpg"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Merkava Native Browser Documentation",
+				"anchor": "merkava-native-browser-documentation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark014 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark014 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark014 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark014, bark014 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark014 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--956429f1fe.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Merkava Native Browser Documentation The Awtsmoos lets browser and native capability meet through a developer runtime vessel whose boundaries must remain known; Awtsmoos.com maps this project beside native runtime, Code, Compiler, and OS documentation before changing how execution is sho",
+		"searchText": "b\"h boruch hashem blessed is he merkava native browser documentation the awtsmoos lets browser and native capability meet through a developer runtime vessel whose boundaries must remain known; awtsmoos.com maps this project beside native runtime, code, compiler, and os documentation before changing how execution is shown. read ../../../docs/apps/developer tools.md and ../../../docs/systems/geelooy os.md.",
+		"page": "pages/geelooy-apps-merkava-native-browser-documentation-md-f75934aa08.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--22bfadd784",
+		"id": "geelooy-apps-merkava-native-browser-roadmap-native-runtime-md-f3c979e055",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark015_1K-JPG/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"sourcePath": "geelooy/apps/merkava-native-browser/ROADMAP_NATIVE_RUNTIME.md",
+		"category": "Apps",
 		"provenance": "project",
 		"headings": [
 			{
@@ -75,176 +30,133 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/Bark0151K-JPG",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark-bark0151k-jpg"
+				"text": "Merkava Native Browser Reality Map",
+				"anchor": "merkava-native-browser-reality-map"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Proven now",
+				"anchor": "proven-now"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "Architectural correction",
+				"anchor": "architectural-correction"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Startup target",
+				"anchor": "startup-target"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "Forbidden architecture",
+				"anchor": "forbidden-architecture"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "Immediate pressure points",
+				"anchor": "immediate-pressure-points"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Rule",
+				"anchor": "rule"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/Bark015 1K JPG Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose A single bark material set named Bark",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark015 1k jpg role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose a single bark material set named bark015 1k jpg, kept as a leaf so its texture maps remain grouped. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, bark, bark015, bark015 1k jpg, chai forest, color, guide, local, materials, textures file mix: .jpg: 1 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files bark015 1k jpg color.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--22bfadd784.json"
+		"excerpt": "B\"H Merkava Native Browser Reality Map This file is intentionally blunt. It prevents the native browser from becoming a fake C browser. The correct vessel is smaller, sharper, and more truthful: Proven now merkavaapp.exe is a real Windows executable. It loads .merkava bytecode headers. It creates a real Win32 OpenGL co",
+		"searchText": "b\"h merkava native browser reality map this file is intentionally blunt. it prevents the native browser from becoming a fake c browser. the correct vessel is smaller, sharper, and more truthful: proven now merkavaapp.exe is a real windows executable. it loads .merkava bytecode headers. it creates a real win32 opengl context. it decodes md2 node/program records partially. it maps the verified op.js kind=2 smoke path into native render ops. it accepts basic cli / smoke / navigation test surfaces. it compiles sample html/js through the existing merkava bytecode path. architectural correction c must not become a traditional browser engine. c owns only host responsibilities: bytecode vm/interpreter dispatch value/object/function/module machinery required by the bytecode opengl backend operations requested by bytecode win32/window/input/filesystem/network/timer/thread primitives font loading, glyph measurement/rasterization, and atlas uploads host binding tables exposed to merkavaexecutor bytecode merkavaexecutor bytecode owns browser intelligence: html parsing css parsing and selector matching javascript parsing and compilation dom/cssom/event/layout/render tree behavior module graph resolution webgl api lowering into bytecode host operations browser lifecycle orchestration startup target forbidden architecture do not add long term c implementations for: html scanning css rule evaluation dom behavior browser layout policy event propagation policy javascript source scanning for webgl json render model execution as a production path temporary diagnostics may exist only when named as diagnostics and covered by a migration note back to raw .merkava bytecode. immediate pressure points 1. replace build time js/webgl regex render model extraction with bytecode ops. 2. add a small embedded executor build target beside sample app bytecode. 3. grow the c vm around dispatch, values, frames, scopes, host bindings, and modules. 4. move browser rules into merkavaexecutor modules, not c native files. 5. keep every new claim paired with an executable smoke/check command. rule every new native feature must answer this question: is this c becoming a browser, or is c merely obeying merkavaexecutor bytecode? only the second answer belongs here.",
+		"page": "pages/geelooy-apps-merkava-native-browser-roadmap-native-runtime-md-f3c979e055.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--5c1070077a",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616",
+		"title": "Mitzvah Pushkuh Documentation",
+		"sourcePath": "geelooy/apps/mitzvah-pushkuh/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/bark",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-bark"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Mitzvah Pushkuh Documentation",
+				"anchor": "mitzvah-pushkuh-documentation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 11 structural child directories Purpose Collection of individual bark material sets. The Aw",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 11 structural child directories purpose collection of individual bark material sets. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, bark, chai forest, guide, local, materials, textures file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures children: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark001 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark002 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark003 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark004 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark006 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark007 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark008 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark012 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark013 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark014 1k jpg assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark015 1k jpg related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--5c1070077a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah Pushkuh Documentation The Awtsmoos gives this substantial named project its own local doorway while human meaning stays grounded in its actual source; Awtsmoos.com links the app inventory and project chooser rather than inventing a narrower business story by force. Start with ../",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah pushkuh documentation the awtsmoos gives this substantial named project its own local doorway while human meaning stays grounded in its actual source; awtsmoos.com links the app inventory and project chooser rather than inventing a narrower business story by force. start with ../../../docs/apps/readme.md, ../../../docs/how to choose a project.md, and this app's own entry/readme source.",
+		"page": "pages/geelooy-apps-mitzvah-pushkuh-documentation-md-a17a27d616.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--998d6b0cd4",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-apps-mitzvah-pushkuh-reinvention-blueprint-full-md-b91f8193ab",
+		"title": "Mitzvah Pushkuh Reinvention Blueprint",
+		"sourcePath": "geelooy/apps/mitzvah-pushkuh/REINVENTION_BLUEPRINT_FULL.md",
+		"category": "Apps",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures"
+				"text": "Mitzvah Pushkuh Reinvention Blueprint",
+				"anchor": "mitzvah-pushkuh-reinvention-blueprint"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "Current-state analysis",
+				"anchor": "current-state-analysis"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "200 deposit rituals",
+				"anchor": "200-deposit-rituals"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "100 lifecycle systems",
+				"anchor": "100-lifecycle-systems"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
+				"text": "100 archive systems",
+				"anchor": "100-archive-systems"
 			},
 			{
 				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
+				"text": "100 profile/community/interaction/animation/visual systems",
+				"anchor": "100-profile-community-interaction-animation-visual-systems"
 			},
 			{
 				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
+				"text": "20 product visions",
+				"anchor": "20-product-visions"
 			},
 			{
 				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
+				"text": "Selected vision",
+				"anchor": "selected-vision"
 			},
 			{
 				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Final test",
+				"anchor": "final-test"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Texture groups used to construct forest materials. The Aw",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose texture groups used to construct forest materials. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, chai forest, guide, local, materials, textures file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest children: assets/materials/local/world/awtsmoos nature/chai forest/textures/bark assets/materials/local/world/awtsmoos nature/chai forest/textures/ground assets/materials/local/world/awtsmoos nature/chai forest/textures/leaves related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--998d6b0cd4.json"
+		"excerpt": "B\"H Mitzvah Pushkuh Reinvention Blueprint Current state analysis The prior app had sacred language, canvas particles, IndexedDB persistence, missions, archive cards, profile inspiration, and constellations. It still resolved emotionally into form, save, list, open card. The rewrite changes the model to world, ritual, l",
+		"searchText": "b\"h mitzvah pushkuh reinvention blueprint current state analysis the prior app had sacred language, canvas particles, indexeddb persistence, missions, archive cards, profile inspiration, and constellations. it still resolved emotionally into form, save, list, open card. the rewrite changes the model to world, ritual, living spark, stewardship, memory, and invitation. ux: deposit is now selected ritual plus planting. visual: garden/sky/sanctuary instead of dashboard. interaction: canvas responds to pointer blessing and ritual selection. accessibility: semantic form, buttons, focus styles, reduced motion support, dialog actions. architecture: split into concepts, state, render, world, app, db. emotional journey: choose ritual, plant spark, watch it live, revisit memory forest, let it bear fruit. 200 deposit rituals 1 plant seed, 2 release lantern, 3 repair star, 4 ignite flame, 5 drop pebble, 6 open gate, 7 carve crystal, 8 light window, 9 graft branch, 10 tune bell, 11 pour river drop, 12 weave thread, 13 bury ember, 14 polish mirror, 15 raise banner, 16 fold prayer, 17 tie knot, 18 build bridge, 19 open shell, 20 wake stone, 21 draw circle, 22 fill cup, 23 cast bread on water, 24 place crown, 25 seal scroll, 26 sow constellation, 27 mend wing, 28 ring chime, 29 pour oil, 30 shape clay, 31 feed root, 32 send dove, 33 turn key, 34 paint door, 35 lay stepping stone, 36 stitch cloak, 37 gather dew, 38 name star, 39 lift veil, 40 plant orchard, 41 kindle menorah, 42 set table, 43 sweep path, 44 bless threshold, 45 carry coal, 46 build nest, 47 release seedpod, 48 water sapling, 49 open book, 50 draw map, 51 place feather, 52 gather sparks, 53 repair bridge, 54 raise sail, 55 anchor boat, 56 send echo, 57 open well, 58 spin wheel, 59 catch rain, 60 make candle, 61 wake garden, 62 place bead, 63 thread needle, 64 fold wing, 65 build altar, 66 lift lamp, 67 plant vineyard, 68 release firefly, 69 lay brick, 70 write name, 71 melt frost, 72 call bird, 73 open hive, 74 feed flame, 75 salt path, 76 wrap gift, 77 seal promise, 78 bend bow, 79 paint sunrise, 80 open compass, 81 repair clock, 82 place seed in orbit, 83 open ark, 84 pour honey, 85 find spring, 86 blow shofar, 87 build ladder, 88 touch mezuzah, 89 mend net, 90 cast light, 91 open cave, 92 plant flag, 93 shape key, 94 wake dragonfly, 95 fill lamp, 96 send cloud, 97 build well, 98 strike harp, 99 read wind, 100 carry water, 101 plant moonseed, 102 release silver fish, 103 open pomegranate, 104 make pathway glow, 105 carve doorway, 106 warm frozen star, 107 raise hidden city, 108 place quiet coin, 109 polish crown, 110 mend vessel, 111 pour blue fire, 112 wake mountain, 113 stitch sky, 114 feed dove, 115 unfold tent, 116 plant secret, 117 catch falling star, 118 bless footprint, 119 open garden gate, 120 turn soil, 121 light city window, 122 send paper boat, 123 build rain altar, 124 tune crystal, 125 draw spiral, 126 pour living ink, 127 open shell temple, 128 shape flame creature, 129 plant courage, 130 harvest silence, 131 lift fallen leaf, 132 place river stone, 133 whisper to seed, 134 make constellation bridge, 135 open dawn, 136 paint spark, 137 repair moon, 138 raise lighthouse, 139 plant blessing, 140 send lantern fleet, 141 open memory door, 142 fill empty bowl, 143 clean hidden room, 144 touch heartstone, 145 plant prayer flag, 146 open root chamber, 147 ring golden bell, 148 restore broken harp, 149 pour kindness rain, 150 build compassion nest, 151 light shabbos window, 152 place torah spark, 153 open chesed well, 154 send tefillah bird, 155 feed ahavas root, 156 guard speech gate, 157 forgive stone, 158 lift another's lamp, 159 build family tree, 160 repair shul star, 161 school garden seed, 162 anonymous candle, 163 hidden coin river, 164 gratitude flower, 165 courage bridge, 166 patience pearl, 167 joy kite, 168 hope lantern, 169 teshuvah path, 170 humility cup, 171 awe mountain, 172 wonder pond, 173 responsibility stone, 174 momentum wheel, 175 meaning scroll, 176 growth vine, 177 stewardship flame, 178 guardianship gate, 179 discovery shell, 180 mystery cave, 181 restoration hammer, 182 creation brush, 183 exploration boat, 184 memory orchard, 185 light archive, 186 city repair, 187 global vessel, 188 family hearth, 189 school starfield, 190 shul constellation, 191 personal sanctuary, 192 river covenant, 193 galaxy seed, 194 cloud prayer, 195 dream lake, 196 living garden, 197 sacred archive, 198 vessel network, 199 world tree, 200 garden of sparks. 100 lifecycle systems 1 seed to fruit, 2 flame to beacon, 3 star to constellation, 4 pebble to ripple, 5 crystal to prism, 6 lantern to sky, 7 root to tree, 8 drop to river, 9 thread to tapestry, 10 bell to song, 11 spark creature, 12 flower seasons, 13 dormant stone, 14 memory fruit, 15 weathered vow, 16 candle wax, 17 moon phases, 18 river migration, 19 orchard growth, 20 city window, 21 cave mineral, 22 book page, 23 island rising, 24 mountain trail, 25 garden biome, 26 shul lamp, 27 family hearth, 28 school grove, 29 hidden nest, 30 spirit animal, 31 prayer cloud, 32 torah scroll, 33 tzedakah coin river, 34 chesed bridge, 35 speech gate, 36 forgiveness thaw, 37 joy bloom, 38 hope comet, 39 awe aurora, 40 courage shield, 41 humility bowl, 42 patience vine, 43 gratitude fountain, 44 teshuvah door, 45 mitzvah seedling, 46 invitation star, 47 communal root, 48 personal sanctuary, 49 guardian flame, 50 stewardship tree, 51 sleep/wake cycle, 52 calling glow, 53 tenderness pulse, 54 forgotten moss, 55 rekindled ember, 56 fulfilled fruit, 57 shared perfume, 58 archive fossil, 59 blessing bird, 60 memory echo, 61 tension crystal, 62 repair scar, 63 inner orbit, 64 soil depth, 65 dew renewal, 66 rain blessing, 67 wind testing, 68 winter dormancy, 69 spring return, 70 summer radiance, 71 autumn harvest, 72 night watch, 73 dawn reveal, 74 pilgrim path, 75 star repair, 76 gate opening, 77 vessel filling, 78 vessel overflow, 79 humble concealment, 80 anonymous glow, 81 public invitation, 82 private root, 83 family branch, 84 school grove, 85 shul canopy, 86 city light, 87 world constellation, 88 river delta, 89 orchard seed bank, 90 book of sparks, 91 memory lantern, 92 quiet crown, 93 hidden gem, 94 returning dove, 95 strengthened bridge, 96 refined flame, 97 living promise, 98 soul map, 99 gan expansion, 100 awtsmoos breath. 100 archive systems memory forest, star archive, river of days, cave of light, book of sparks, floating islands, celestial map, commitment garden, orchard rings, lake ripples, lantern sky, city windows, mountain cairns, shul wall, family hearth, school grove, crystal cave, prayer clouds, hidden library, constellation repair, time river, vessel shelf, dream lake, feather path, bridge museum, gate hallway, root network, moon calendar, kindness chain map, anonymous glow field, gratitude well, teshuvah doorways, chesed streets, torah shelves, tzedakah riverbed, speech garden, patience vineyard, courage cliffs, humility bowls, joy kites, hope observatory, awe aurora, sanctuary rooms, old seeds vault, fruit cellar, dormant stone field, relit ember shelf, fulfilled orchard, unfulfilled moss, invitation gallery, no trophy profile wall, communal canopy, global vessel, school constellation, shul constellation, family constellation, city garden, world tree, spark fossils, sacred weather log, sound archive, bell tower, scroll drawers, cloud atlas, river stones, gate registry, lantern fleet, mountain echo, cave minerals, star nursery, root archive, blessing birds, hidden nest, crystal prism room, mirror hall, quiet ocean, dawn field, twilight forest, golden bridge, living tapestry, remembered footprints, repaired moon, pearl archive, kindness aquarium, prayer aviary, mitzvah hive, orchard path, lake of tears, meadow of courage, forest of return, sky of promises, earth of responsibility, chamber of hope, chamber of meaning, chamber of mercy, chamber of joy, chamber of wonder, chamber of silence, chamber of light, awtsmoos archive. 100 profile/community/interaction/animation/visual systems profiles: invitation garden, anonymous courage, shared growth notes, no counts, no ranks, family hearth, school grove, shul canopy, city light, personal sanctuary. community: shared constellations, collective restoration, kindness chains, communal gardens, global vessel, anonymous inspiration, family worlds, school worlds, shul worlds, city worlds. interaction: hold to warm, drag to plant, circle to bless, pinch to open memory, two finger covenant, pressure ignite, magnetic sparks, tactile ripples, living particles, keyboard planting. animation: seed pulse, bloom, fruit fall, lantern lift, star mend, gate open, fog part, aurora breathe, root grow, river ripple. visual: volumetric light, atmospheric depth, spiritual weather, auroras, fog, reflections, refractions, glowing roots, living sky, impossible browser garden. each category expands by combining 10 verbs × 10 spiritual objects, yielding 100 distinct implementations per category. 20 product visions 1 garden of sparks. 2 galaxy of hachlatos. 3 city of light. 4 river of days. 5 memory palace. 6 vessel network. 7 sanctuary world. 8 floating islands. 9 world tree. 10 cave of candles. 11 book of sparks. 12 constellation repair. 13 desert journey. 14 mountain ascent. 15 hidden village. 16 shul of light. 17 family orchard. 18 school garden. 19 dream lake. 20 flame forge. selected vision garden of sparks + galaxy: grounded enough for a child to remember planting, infinite enough for adults to return. improvement passes: remove vanity, remove xp, replace streaks with stewardship, replace feed with constellations, replace form with ritual, replace card list with memory forest, replace status with lifecycle, replace community with shared restoration, replace rewards with meaning, replace dashboard with sanctuary; then deepen: weather, seasons, dormant mercy, relighting, family worlds, shul worlds, schools, anonymous inspiration, accessible keyboard rituals, reduced motion sanctity; then polish: microcopy, sound ready hooks, particle restraint, performance caps, graceful old data migration, mobile first touch, long note memory, history as magic, visual depth, awe without dopamine sludge. final test a child can remember it. an adult can love it. a person can return daily. a friend can be told. someone may feel changed. the category has begun to move from crud to sacred game world.",
+		"page": "pages/geelooy-apps-mitzvah-pushkuh-reinvention-blueprint-full-md-b91f8193ab.json"
+	},
+	{
+		"id": "geelooy-apps-nesher-studio-core-000-engine-md-c975460564",
+		"title": "Nesher Engine Map",
+		"sourcePath": "geelooy/apps/nesher-studio/core/000_ENGINE.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nesher Engine Map",
+				"anchor": "nesher-engine-map"
+			}
+		],
+		"excerpt": "B\"H Nesher Engine Map Nesher is an OBS class live studio and Premiere class NLE built from browser native vessels. Graphs: Scene Graph: live OBS source composition. Render Graph: deterministic canvas/video frame production. Audio Graph: buses, meters, filters, monitoring, export mix, stream mix. Timeline Graph: sequenc",
+		"searchText": "b\"h nesher engine map nesher is an obs class live studio and premiere class nle built from browser native vessels. graphs: scene graph: live obs source composition. render graph: deterministic canvas/video frame production. audio graph: buses, meters, filters, monitoring, export mix, stream mix. timeline graph: sequences, tracks, clips, trims, markers, nesting, multicam. export graph: webcodecs encoding, muxing, validation, queueing. streaming graph: hls sessions, provider adapters, health, tunnel relay. rule: no provider ingest is considered proven until codec/container/network validation proves it.",
+		"page": "pages/geelooy-apps-nesher-studio-core-000-engine-md-c975460564.json"
 	}
 ]

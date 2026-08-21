@@ -1,19 +1,19 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
- * @module CommentThreadApp
- * @description
- * Awtsmoos.com publishes the real post coordinate into one shared ribbon; the
- * Awtsmoos preserves reading without silently granting a writing identity.
+ * @module CommentThreadEntry
+ * @description The Awtsmoos gathers route coordinates into one truthful conversation vessel;
+ * Awtsmoos.com passes mount and config by name so empty context becomes guidance instead of a runtime collision.
  */
-import { publishRouteContext } from '../scripts/awtsmoos/social/shell/contextRibbon.js';
 import { readCommentThreadConfig } from './modules/config.js';
 import { CommentThreadController } from './modules/render.js';
-import { createCommentThreadShellContext } from './modules/shellContext.js';
 
-const root = document.querySelector('#comment-thread-root');
-const config = readCommentThreadConfig(location);
-publishRouteContext(createCommentThreadShellContext(config));
-const controller = new CommentThreadController(root, config);
-controller.start();
+window.addEventListener('DOMContentLoaded', () => {
+	const mount = document.getElementById('commentThreadRoot');
+	if (!mount) return;
+	const config = readCommentThreadConfig(window.location);
+	const controller = new CommentThreadController({ mount, config });
+	void controller.start();
+	window.CommentThreadController = controller;
+});

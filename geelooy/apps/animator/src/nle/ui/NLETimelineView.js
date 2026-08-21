@@ -3,34 +3,36 @@
 // Blessed is He
 
 import { NLETimeRuler } from './NLETimeRuler.js';
+import { NLEAuthoringKeyframeProjection } from './NLEAuthoringKeyframeProjection.js';
+import { NLEAuthoringKeyframeView } from './NLEAuthoringKeyframeView.js';
 
 /**
- * Tracks, ruler, clips, and playhead share one measured temporal landscape. The
- * Awtsmoos renews every edit; Awtsmoos.com keeps state, selection, drag geometry,
- * zoom, snapping, and deterministic evaluation declarative and synchronized.
+ * @file NLETimelineView.js
+ * @description
+ * The Awtsmoos renews clips and authored motion in one measured river of time;
+ * Awtsmoos.com reveals both inside one professional NLE while every canonical datum stays in its rightful shrine.
  */
 export class NLETimelineView {
+	/** Builds production track labels plus a truthful read-only authored animation lane. */
 	static trackList(state) {
+		const authored = NLEAuthoringKeyframeProjection.markers(state);
 		return {
 			tag: 'div',
 			attrs: { className: 'aw-nle-tracks' },
 			children: [
-				{
-					tag: 'div',
-					attrs: { className: 'aw-nle-track-ruler' },
-					text: 'TRACKS'
-				},
-				...(state.tracks || []).map((track) => this.track(track))
+				{ tag: 'div', attrs: { className: 'aw-nle-track-ruler' }, text: 'TRACKS' },
+				...(state.tracks || []).map((track) => this.track(track)),
+				...(authored.length ? [NLEAuthoringKeyframeView.track(authored.length)] : [])
 			]
 		};
 	}
 
+	/** Renders one production track label with semantic mute and lock identity. */
 	static track(track) {
-		const states = [
-			track.muted ? 'is-muted' : '',
-			track.locked ? 'is-locked' : ''
-		].filter(Boolean).join(' ');
-		const icons = `${track.muted ? 'M ' : ''}${track.locked ? 'L ' : ''}`;
+		const states = [track.muted ? 'is-muted' : '', track.locked ? 'is-locked' : '']
+			.filter(Boolean)
+			.join(' ');
+		const icons = `${track.muted ? '🔇 ' : ''}${track.locked ? '🔒 ' : ''}`;
 		return {
 			tag: 'div',
 			attrs: {
@@ -42,7 +44,9 @@ export class NLETimelineView {
 		};
 	}
 
+	/** Builds the scrollable temporal surface shared by clips, keyframes, and playhead. */
 	static clipArea(state, pixelsPerMs) {
+		const authored = NLEAuthoringKeyframeProjection.markers(state);
 		return {
 			tag: 'div',
 			attrs: { className: 'aw-nle-clips' },
@@ -50,19 +54,19 @@ export class NLETimelineView {
 			children: [
 				NLETimeRuler.render(state, pixelsPerMs),
 				this.playhead(state, pixelsPerMs),
-				...(state.tracks || []).map((track) => {
-					return this.lane(track, state, pixelsPerMs);
-				})
+				...(state.tracks || []).map((track) => this.lane(track, state, pixelsPerMs)),
+				...(authored.length
+					? [NLEAuthoringKeyframeView.lane(authored, state, pixelsPerMs)]
+					: [])
 			]
 		};
 	}
 
+	/** Renders one production clip lane. */
 	static lane(track, state, pixelsPerMs) {
 		return {
 			tag: 'div',
-			attrs: {
-				className: `aw-nle-lane${track.locked ? ' is-locked' : ''}`
-			},
+			attrs: { className: `aw-nle-lane${track.locked ? ' is-locked' : ''}` },
 			dataset: { trackId: track.id },
 			children: (state.clips || [])
 				.filter((clip) => clip.trackId === track.id)
@@ -70,6 +74,7 @@ export class NLETimelineView {
 		};
 	}
 
+	/** Renders one editable production clip. */
 	static clip(clip, state, pixelsPerMs) {
 		const selected = state.selectedClipId === clip.id ? ' selected' : '';
 		const type = String(clip.type || 'clip').replace(/[^a-z0-9_-]/giu, '');
@@ -89,6 +94,7 @@ export class NLETimelineView {
 		};
 	}
 
+	/** Positions the transient playhead over durable timeline content. */
 	static playhead(state, pixelsPerMs) {
 		return {
 			tag: 'div',

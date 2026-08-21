@@ -12,16 +12,16 @@ Blessed is He
 
 ## Entry and documentation evidence
 
-- Entry files: `_awtsmoos.derech.js`
-- Local documentation: No local `DOCUMENTATION.md` observed.
-- Local-doc requirement: no; covered: no
+- Entry files: `_awtsmoos.derech.js`, `DOCUMENTATION.md`
+- Local documentation: `geelooy/sites/DOCUMENTATION.md`
+- Local-doc requirement: yes; covered: yes
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 3 | 1 | 0 | 0 | 0 | 0 | 4 |
+| 23 | 11 | 0 | 0 | 1 | 0 | 35 |
 
 ## Public entry points
 
@@ -29,15 +29,18 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 3; classes: 0; functions: 13; exports: 7; samples: buildSiteResponse, publicIndexPath, requestHasTrailingSlash, publicResponse, customNotFound, redirectResponse, withSiteHeaders, isPublicFile, methodResponse, resolveSiteRequest, joinDrivePaths, namedSitePath.
+Source files: 23; classes: 0; functions: 90; exports: 56; samples: buildCustomDomainResponse, createCustomDomainHttpIngress, driveContext, rawRequestPath, writeGatewayResponse, customDomainHttpIngress, closeExternalHost, badPathResponse, RESERVED_SEGMENTS, assertDirectPublicPath, privatePathError, assertPublicSegment.
 
 ## Depends on
 
-- `geelooy/api/social` — 5 lexical references; examples: geelooy/sites/siteGateway.js; geelooy/sites/siteResolution.js
+- `geelooy/api/social` — 27 lexical references; examples: geelooy/sites/customDomainGateway.js; geelooy/sites/directSiteReadiness.js; geelooy/sites/directSiteResponse.js
+- `geelooy/api/tunnel` — 5 lexical references; examples: geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/siteFolderPublication.js
+- `ayzarim/awtsmoosDynamicServer` — 1 lexical reference; examples: geelooy/sites/hostedProjectProxy.js
 
 ## Used by
 
-None observed.
+- `geelooy/api/social` — 1 lexical reference; examples: geelooy/api/social/helper/drive/siteStatusService.js
+- `geelooy/api/tunnel` — 1 lexical reference; examples: geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js
 
 ## External packages
 
@@ -45,4 +48,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **11**. Treat this as file evidence, not proof of behavioral coverage.

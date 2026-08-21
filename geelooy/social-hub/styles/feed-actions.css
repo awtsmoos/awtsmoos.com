@@ -1,0 +1,80 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond one deed and many choices, while Awtsmoos.com lets the primary social action remain obvious and lets secondary capability rest without noise;
+ * this Chesed-like garment owns direct feed actions only, leaving retractable overflow geometry to its Gevurah vessel of light.
+ */
+
+.awtsmoosSocialActionRail {
+	display: flex;
+	align-items: stretch;
+	gap: .5rem;
+	min-inline-size: 0;
+	padding-block-start: .1rem;
+}
+
+.publicFeedAction,
+.awtsmoosSocialActionRail .publicFeedCard__open {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .4rem;
+	min-block-size: 46px;
+	padding: .62rem .8rem;
+	border: 1px solid rgba(148, 163, 184, .2);
+	border-radius: .78rem;
+	background: rgba(15, 23, 42, .58);
+	color: #f8fafc;
+	font: inherit;
+	font-weight: 760;
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		background-color 140ms ease,
+		border-color 140ms ease,
+		box-shadow 140ms ease;
+}
+
+.publicFeedAction:is(:hover, :focus-visible),
+.awtsmoosSocialActionRail .publicFeedCard__open:is(:hover, :focus-visible) {
+	border-color: rgba(126, 239, 255, .44);
+	background: rgba(31, 44, 65, .84);
+	box-shadow: 0 0 0 1px rgba(126, 239, 255, .08);
+}
+
+.publicFeedAction--primary {
+	border-color: rgba(126, 239, 255, .42);
+	background: linear-gradient(135deg, rgba(32, 118, 156, .78), rgba(75, 68, 148, .7));
+}
+
+.publicFeedAction--add,
+.publicFeedAction--clone {
+	background: rgba(14, 30, 45, .72);
+}
+
+.publicFeedAction:disabled {
+	opacity: .42;
+	cursor: default;
+	box-shadow: none;
+}
+
+.awtsmoosFeedCard :focus-visible {
+	outline: 2px solid rgba(126, 239, 255, .94);
+	outline-offset: 3px;
+}
+
+@media (max-width: 30rem) {
+	.publicFeedAction,
+	.awtsmoosSocialActionRail .publicFeedCard__open {
+		min-block-size: 48px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.publicFeedAction,
+	.awtsmoosSocialActionRail .publicFeedCard__open {
+		transition: none;
+	}
+}

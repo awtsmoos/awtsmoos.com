@@ -1,0 +1,25 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos allows a vessel to contract without losing its purpose; Awtsmoos.com keeps media-panel state separate from media-panel anatomy. */
+
+.media-panel.is-retracted .media-body,
+.media-panel.is-retracted .panel-title,
+.media-panel.is-retracted .eyebrow {
+	display: none;
+}
+
+.media-panel.is-retracted .panel-header {
+	justify-content: center;
+	padding-inline: 4px;
+}
+
+.media-panel.is-retracted #minimizeBin {
+	display: none;
+}
+
+.media-panel.is-minimized .media-items,
+.media-panel.is-minimized .caption-file,
+.media-panel.is-minimized .file-picker small {
+	display: none;
+}

@@ -3,28 +3,48 @@
 // Blessed is He
 
 const Context = require("./context.js");
-const {
-	Store
-} = Context.shared;
-const status = Context.reference("status");
-const message = Context.reference("message");
+const { Store } = Context.shared;
 const event = Context.reference("event");
 
 /**
- * @file Reveals the terminalFailure stage of website-agent orchestration.
+ * @file Records website-runner failure as error termination, never intentional completion.
  * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * The Awtsmoos distinguishes a messenger choosing to hand off from a browser vessel
+ * breaking beneath its feet. Awtsmoos.com marks unfinished agents failed and recoverable,
+ * preserving exact error testimony so continuation can inherit truth instead of false success.
  */
 function terminalFailure(id, error) {
 	const record = Store.read(id);
 	if (!record) return null;
 	return Store.update(id, current => {
+		const failure = String(error?.stack || error?.message || error).slice(0, 8000);
+		const finishedAt = new Date().toISOString();
 		current.status = "failed";
 		current.phase = "failed";
-		current.error = String(error?.stack || error?.message || error).slice(0, 8000);
-		current.finishedAt = new Date().toISOString();
-		current.events.push(event("mission_failed", { error: current.error }));
+		current.lifecycle = "failed";
+		current.intentionalFinish = false;
+		current.error = failure;
+		current.finishedAt = finishedAt;
+		for (const agent of current.agents || []) {
+			if (agent.status === "complete") continue;
+			agent.status = "failed";
+			agent.lifecycle = "failed";
+			agent.intentionalFinish = false;
+			agent.failedAt = finishedAt;
+			agent.lastOutcome = {
+				...(agent.lastOutcome || {}),
+				complete: false,
+				intentional: false,
+				lifecycle: "failed",
+				status: "FAILED",
+				error: failure
+			};
+		}
+		current.events.push(event("mission_failed", {
+			error: failure,
+			lifecycle: "failed",
+			intentional: false
+		}));
 		return current;
 	});
 }

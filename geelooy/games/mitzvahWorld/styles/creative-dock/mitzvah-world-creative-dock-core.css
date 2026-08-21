@@ -1,0 +1,113 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos hides a treasury behind one quiet star, and Awtsmoos.com lets that star unfold into ordered light;
+advanced controls remain a chosen revelation, while the road, the trees, and the story retain the greater sight.
+*/
+
+html[data-awtsmoos-gameplay="true"] .Awtsmoos-creative-dock {
+	position: fixed;
+	top: max(14px, calc(env(safe-area-inset-top) + 8px));
+	right: max(14px, calc(env(safe-area-inset-right) + 8px));
+	z-index: 860;
+	font: 600 13px/1.25 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: rgba(244, 255, 249, .98);
+	pointer-events: none;
+}
+
+.Awtsmoos-creative-dock__trigger {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	min-height: 46px;
+	padding: 0 14px;
+	border: 1px solid rgba(180, 255, 211, .32);
+	border-radius: 999px;
+	background: linear-gradient(145deg, rgba(9, 25, 17, .7), rgba(5, 15, 11, .52));
+	box-shadow: 0 10px 30px rgba(0, 0, 0, .16), inset 0 1px 0 rgba(255, 255, 255, .07);
+	backdrop-filter: blur(12px) saturate(1.12);
+	color: rgba(245, 255, 249, .94);
+	font: inherit;
+	font-weight: 720;
+	pointer-events: auto;
+	cursor: pointer;
+	transition: transform 130ms ease, border-color 130ms ease, box-shadow 130ms ease, background 130ms ease;
+}
+
+.Awtsmoos-creative-dock__trigger > span:first-child {
+	font-size: 15px;
+	color: rgba(179, 255, 206, .9);
+	transition: transform 170ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.Awtsmoos-creative-dock[data-open="true"] .Awtsmoos-creative-dock__trigger > span:first-child {
+	transform: rotate(45deg) scale(1.08);
+}
+
+.Awtsmoos-creative-dock__trigger:active,
+.Awtsmoos-creative-dock__actions button:active,
+.Awtsmoos-creative-dock__close:active {
+	transform: translateY(1px) scale(.98);
+}
+
+.Awtsmoos-creative-dock :is(button, summary):focus-visible {
+	outline: 2px solid rgba(188, 255, 211, .94);
+	outline-offset: 3px;
+}
+
+.Awtsmoos-creative-dock__sheet {
+	position: absolute;
+	top: calc(100% + 10px);
+	right: 0;
+	display: grid;
+	gap: 12px;
+	width: min(334px, calc(100vw - 28px));
+	max-height: min(70vh, 560px);
+	padding: 14px;
+	border: 1px solid rgba(185, 255, 211, .24);
+	border-radius: 20px;
+	background: linear-gradient(155deg, rgba(7, 22, 14, .92), rgba(4, 13, 9, .82));
+	box-shadow: 0 24px 70px rgba(0, 0, 0, .34), inset 0 1px 0 rgba(255, 255, 255, .06);
+	backdrop-filter: blur(18px) saturate(1.14);
+	overflow: auto;
+	overscroll-behavior: contain;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transform: translateY(-8px) scale(.965);
+	transform-origin: top right;
+	transition: opacity 150ms ease, transform 170ms cubic-bezier(.2, .8, .2, 1), visibility 0s linear 170ms;
+}
+
+.Awtsmoos-creative-dock[data-open="true"] .Awtsmoos-creative-dock__sheet {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+	transform: translateY(0) scale(1);
+	transition-delay: 0s;
+}
+
+.Awtsmoos-creative-dock__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.Awtsmoos-creative-dock__header > div {
+	display: grid;
+	gap: 2px;
+}
+
+.Awtsmoos-creative-dock__header small,
+.Awtsmoos-creative-dock__status {
+	color: rgba(188, 215, 198, .68);
+	font-size: 10px;
+	letter-spacing: .04em;
+}
+
+.Awtsmoos-creative-dock__header strong {
+	font-size: 15px;
+	letter-spacing: -.01em;
+}

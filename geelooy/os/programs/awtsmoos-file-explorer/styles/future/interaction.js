@@ -1,5 +1,88 @@
-// B"H
-export default `
-.awtsmoos-breadcrumb{display:flex;align-items:center;gap:6px;margin:8px 10px;padding:8px;border-radius:16px;background:rgba(2,12,25,.55);border:1px solid rgba(125,211,252,.22);overflow-x:auto;white-space:nowrap}.breadcrumb-segment{min-width:auto;padding:7px 12px;border-radius:999px}.breadcrumb-segment:disabled{opacity:1;background:linear-gradient(135deg,rgba(34,211,238,.35),rgba(20,184,166,.2));color:#fff}.breadcrumb-separator{color:#9bdcff;font-weight:900}.toolbar-busy{position:relative;overflow:hidden;filter:brightness(1.25)}.toolbar-busy::after,.file-explorer[data-loading="yes"] .file-explorer-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);animation:awtsmoos-loading-sweep 1.05s linear infinite;pointer-events:none}.file-explorer[data-loading="yes"] .file-explorer-frame{box-shadow:0 0 0 2px rgba(34,211,238,.4),0 0 40px rgba(34,211,238,.25)}@keyframes awtsmoos-loading-sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file Touch, focus, loading, and breadcrumb interaction rules for File Explorer.
+ * @description
+ * The Awtsmoos lets every tap and keypress reveal state without visual noise;
+ * Awtsmoos.com keeps focus visible, touch highlights quiet, breadcrumbs scrollable,
+ * and loading light delegated to the shared motion vessel so interaction may rhyme.
+ */
+export default /*css*/ `
+.file-explorer button,
+.file-explorer [role="button"],
+.contextMenu .menuItem {
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}
+
+.file-explorer button:focus-visible,
+.file-explorer [role="button"]:focus-visible,
+.file-explorer input:focus-visible,
+.contextMenu .menuItem:focus-visible {
+	outline: 2px solid var(--awt-cyan);
+	outline-offset: 2px;
+}
+
+.awtsmoos-breadcrumb {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	margin: 5px 0;
+	padding: 6px;
+	overflow-x: auto;
+	white-space: nowrap;
+	scrollbar-width: none;
+	overscroll-behavior-inline: contain;
+	background: rgba(2, 12, 25, .55);
+	border: 1px solid var(--awt-line);
+	border-radius: var(--awt-radius);
+}
+
+.awtsmoos-breadcrumb::-webkit-scrollbar {
+	display: none;
+}
+
+.breadcrumb-segment {
+	flex: 0 0 auto;
+	min-height: 38px;
+	padding: 7px 11px;
+	border-radius: 999px;
+}
+
+.breadcrumb-segment:disabled {
+	opacity: 1;
+	background: linear-gradient(135deg, rgba(92, 246, 255, .24), rgba(82, 255, 184, .12));
+	color: white;
+}
+
+.breadcrumb-separator {
+	color: var(--awt-cyan);
+	font-weight: 900;
+}
+
+.toolbar-busy,
+.file-explorer[data-loading="yes"] .file-explorer-frame {
+	position: relative;
+	overflow: hidden;
+}
+
+.toolbar-busy::after,
+.file-explorer[data-loading="yes"] .file-explorer-frame::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: linear-gradient(90deg, transparent, rgba(92, 246, 255, .16), transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.toolbar-action:hover,
+	.nav-btn:hover,
+	.sidebar-toggle-btn:hover,
+	.breadcrumb-segment:hover:not(:disabled) {
+		transform: translateY(-1px);
+	}
+}
 `;
-/** B"H: loading becomes visible motion and breadcrumb becomes a road. */

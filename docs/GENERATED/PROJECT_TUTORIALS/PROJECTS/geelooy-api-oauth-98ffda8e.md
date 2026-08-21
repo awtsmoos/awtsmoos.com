@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 30 | 3 | 0 | 0 | 1 | 0 | 34 |
+| 47 | 10 | 0 | 0 | 1 | 0 | 58 |
 
 ## Public entry points
 
@@ -29,14 +29,15 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 30; classes: 0; functions: 110; exports: 82; samples: dynamicRoutes, POST, cleanRouteName, callRoute, buildTokenBody, makeAccessToken, base64Url, sign, getClient, listClients, ruleAllows, wildcardToRegex.
+Source files: 47; classes: 0; functions: 168; exports: 155; samples: dynamicRoutes, cleanRouteName, missingRoute, callRoute, applyOAuthHeaders, buildTokenBody, makeAccessToken, base64Url, sign, getClient, listClients, publicClient.
 
 ## Depends on
 
-- `geelooy/api/tunnel` — 1 lexical reference; examples: geelooy/api/oauth/data/clients.js
+- `geelooy/api/tunnel` — 2 lexical references; examples: geelooy/api/oauth/data/clients.js; geelooy/api/oauth/data/publicAgentPolicy.js
 
 ## Used by
 
+- `geelooy/.well-known` — 1 lexical reference; examples: geelooy/.well-known/_awtsmoos.derech.js
 - `geelooy/api/tunnel` — 1 lexical reference; examples: geelooy/api/tunnel/control/core/auth.js
 - `geelooy/api/youtube` — 1 lexical reference; examples: geelooy/api/youtube/routes/auth.js
 
@@ -46,4 +47,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **3**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **10**. Treat this as file evidence, not proof of behavioral coverage.

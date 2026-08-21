@@ -1,0 +1,32 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets advanced testimony remain close without crowding the ordinary creative road.
+ * Awtsmoos.com places publication switches, API help, and expert controls behind native disclosure so power stays available while simplicity remains the visible mode.
+ */
+
+.builder-advanced {
+	grid-column: 1 / -1;
+	padding: .7rem .8rem;
+	border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+	border-radius: .8rem;
+}
+
+.builder-advanced > summary {
+	min-height: 44px;
+	display: flex;
+	align-items: center;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+.builder-advanced[open] > summary {
+	margin-bottom: .75rem;
+}
+
+.builder-advanced:focus-within {
+	outline: 2px solid color-mix(in srgb, currentColor 35%, transparent);
+	outline-offset: 2px;
+}

@@ -5,19 +5,14 @@
 const { requireEdit } = require("./accessPolicy.js");
 const { broadcastRoom } = require("./broadcaster.js");
 const { requireJoinedRoom } = require("./editHandlers.js");
-const {
-	EVENTS,
-	TYPES,
-	documentId,
-	documentLayout
-} = require("./protocol.js");
+const { EVENTS, TYPES, documentId, documentLayout } = require("./protocol.js");
 
 /**
- * @file Applies document-level layout mutations without disturbing block conflict rules.
- * @description The Awtsmoos is beyond body and boundary; Awtsmoos.com lets rare
- * page changes flow as their own shared covenant while each text block keeps its independent revision truth.
+ * @file Applies page-layout mutations, then checkpoints history and refreshes live publications.
+ * @description The Awtsmoos is beyond body and boundary; Awtsmoos.com lets a page
+ * garment change once in truth and then appear for collaborators and every live published viewer.
  */
-async function handleLayoutRequest(directory, repository, context, request) {
+async function handleLayoutRequest(directory, repository, context, request, services) {
 	if (request.type !== TYPES.LAYOUT) return null;
 	const payload = request.payload || {};
 	const id = documentId(payload.documentId);
@@ -25,18 +20,10 @@ async function handleLayoutRequest(directory, repository, context, request) {
 	const participant = room.participant(context.client);
 	const layout = documentLayout(payload.layout);
 	const result = await repository.update(id, record => {
-		requireEdit(
-			record,
-			context.identity,
-			participant.capabilityDigest
-		);
+		requireEdit(record, context.identity, participant.capabilityDigest);
 		record.document.layout = layout;
 		record.document.revision += 1;
-		record.document.updatedAt = new Date().toISOString();
-		return {
-			revision: record.document.revision,
-			layout
-		};
+		return { revision: record.document.revision, layout };
 	});
 	broadcastRoom(
 		context,
@@ -45,12 +32,8 @@ async function handleLayoutRequest(directory, repository, context, request) {
 		{ documentId: id, ...result },
 		context.client
 	);
-	return {
-		type: "docs.document.layout-updated",
-		payload: result
-	};
+	await services.changes.afterMutation(context, id, participant.displayName || "");
+	return { type: "docs.document.layout-updated", payload: result };
 }
 
-module.exports = {
-	handleLayoutRequest
-};
+module.exports = { handleLayoutRequest };

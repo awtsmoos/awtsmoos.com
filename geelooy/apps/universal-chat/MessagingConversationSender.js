@@ -5,12 +5,11 @@
 import { MessagingComposerInput } from "./MessagingComposerInput.js";
 
 /**
- * @file Owns the finite in-flight lifecycle and deliberate keyboard submission of one accepted private message without becoming transport or consent authority.
- * @description The Awtsmoos knows the word before sending and after arrival, while Awtsmoos.com keeps the human between those instants in truthful light;
- * one visible draft stays intact while the request travels, duplicate intent is refused, Ctrl or Command plus Enter submits deliberately, and ordinary Enter remains available for living multiline speech.
+ * @file Owns one private send's in-flight lifecycle while preserving draft and reply intent across failure.
+ * @description The Awtsmoos knows the word and its earlier source before sending and after arrival, while Awtsmoos.com keeps both finite vessels truthful during the uncertain instant in light;
+ * duplicate intent is refused, deliberate keyboard submission remains, successful delivery clears draft and quote, and failed delivery returns focus without erasing context in sight.
  */
 
-/** Serializes private-message submission while delegating the actual SEND protocol to MessagingConversationActions. */
 export class MessagingConversationSender {
 	constructor(options) {
 		Object.assign(this, options);
@@ -45,8 +44,13 @@ export class MessagingConversationSender {
 		if (this.busy || !conversation || !text) return false;
 		this.setBusy(true);
 		try {
-			await this.actions.send(conversation.id, text);
+			await this.actions.send(
+				conversation.id,
+				text,
+				this.replyState?.payload()
+			);
 			this.input.clear();
+			this.replyState?.clear();
 			this.elements.text.focus({ preventScroll: true });
 			return true;
 		} catch (error) {

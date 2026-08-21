@@ -1,242 +1,232 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-1287dab9ee",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/03_PHASE_THREE_FINAL_CRITIQUE.md",
-		"category": "Games",
+		"id": "geelooy-ai-relay-install-readme-md-23600cb9c5",
+		"title": "Awtsmoos Relay Install Guide",
+		"sourcePath": "geelooy/ai/relay/install/README.md",
+		"category": "AI",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Phase Three: Final Critique Before Execution",
-				"anchor": "phase-three-final-critique-before-execution"
+				"text": "Awtsmoos Relay Install Guide",
+				"anchor": "awtsmoos-relay-install-guide"
 			},
 			{
 				"level": 2,
-				"text": "Final Questions",
-				"anchor": "final-questions"
+				"text": "Browser-extension install order",
+				"anchor": "browser-extension-install-order"
 			},
 			{
 				"level": 2,
-				"text": "Final Decision",
-				"anchor": "final-decision"
+				"text": "Rebuild from repository source",
+				"anchor": "rebuild-from-repository-source"
+			},
+			{
+				"level": 2,
+				"text": "Production publication",
+				"anchor": "production-publication"
+			},
+			{
+				"level": 2,
+				"text": "Optional local-relay install order",
+				"anchor": "optional-local-relay-install-order"
 			}
 		],
-		"excerpt": "B\"H Phase Three: Final Critique Before Execution The Awtsmoos gives each candidate one honest trial while production remains the guarded shore; Awtsmoos.com compares timing, truth, and movement before allowing any further door. Final Questions 1. Does the local generated bundle actually contain the deferred scheduler b",
-		"searchText": "b\"h phase three: final critique before execution the awtsmoos gives each candidate one honest trial while production remains the guarded shore; awtsmoos.com compares timing, truth, and movement before allowing any further door. final questions 1. does the local generated bundle actually contain the deferred scheduler boundary described by its tests? 2. does that scheduler import resolve when served from the repository proof server? 3. does essential readiness settle before the twenty second timeout? 4. does full readiness return without blocking the launcher promise? 5. does the bootstrap minimap mount once and transfer ownership once? 6. does rich ui preserve inventory and equipment state instead of replacing it destructively? 7. does local tab multiplayer show both players in both pages? 8. does optional chat mount without timer throttling in local tab mode? 9. does server style transport defer chat without harming readiness or movement? 10. does the candidate reduce cold start time relative to the 11.138 second production proof? 11. are request counts and javascript bytes lower without new 404s? 12. does the candidate preserve the exact drive model urls? 13. does it avoid altering the route shell hardening? 14. are all current source files below 120 lines? 15. does every changed file have a corresponding behavioral proof? 16. is the local compact artifact reproducible from current source? 17. are any changes owned by another active process? 18. can the candidate be validated without writing or regenerating anything? 19. can failures be reported without touching the candidate? 20. is there any reason to disturb the proven production release before all answers are green? final decision the next execution pass is read only. it will run source tests, inspect exact diffs, launch the current working tree through the existing browser proof harness, record timing and runtime receipts, and compare results with production. any red gate becomes a written audit finding, not an automatic code rewrite.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-1287dab9ee.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Relay Install Guide The Awtsmoos renews source and vessel in their proper place; Awtsmoos.com publishes the ZIP from exact Git light without storing the archive in Git's embrace. This folder is the public install surface for the Awtsmoos Server browser extension and optional loc",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos relay install guide the awtsmoos renews source and vessel in their proper place; awtsmoos.com publishes the zip from exact git light without storing the archive in git's embrace. this folder is the public install surface for the awtsmoos server browser extension and optional local relay. the extension archive is published outside git . repository hygiene intentionally ignores and forbids tracked .zip files. the durable source of truth is geelooy/scripts/tricks/extensions/server, and geelooy/ai/scripts/buildserverextensionzip.cjs generates the public archive from that source. canonical public url: https://awtsmoos.com/ai/relay/install/awtsmoos server extension.zip browser extension install order 1. download the zip from the canonical public url. 2. extract the zip into a permanent folder. 3. confirm the extracted folder directly contains manifest.json. 4. open your chromium compatible browser's extensions page. 5. enable developer mode if the browser requires it for unpacked extensions. 6. choose load unpacked and select the folder that directly contains manifest.json. 7. refresh chatgpt first so the awtsmoos server content scripts and background worker attach to a fresh page. 8. refresh the awtsmoos ai page after chatgpt is ready. if the browser reports a service worker registration error, install a freshly downloaded package rather than reusing an older extracted directory. the production release path rebuilds the zip from the exact deployed git revision so background.js and every importscripts(...) dependency ship together. rebuild from repository source from the repository root: the generated archive appears at: geelooy/ai/relay/install/awtsmoos server extension.zip that file is a generated publication artifact. do not force add it to git. the package test proves its entries and bytes match the canonical extension source and verifies the background worker's local dependency closure. production publication canonical production activation runs buildserverextensionzip.cjs after exact sha and clean repository checks, before restarting the service. this recreates the ignored public zip from the same source revision that production is about to serve. a release is not verified merely because github accepted a push. confirm the public url returns the generated package and that its contents match the deployed source. optional local relay install order 1. install the browser extension first. 2. start the local awtsmoos relay using the platform installer exposed by the ui. 3. confirm the relay reports healthy connectivity. 4. refresh chatgpt. 5. refresh the awtsmoos ai page. the browser extension can provide the transport directly; the local relay is an additional transport path rather than a substitute for a correctly packaged extension.",
+		"page": "pages/geelooy-ai-relay-install-readme-md-23600cb9c5.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-43f0352b9b",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/04_FINAL_EXECUTION_PLAN.md",
-		"category": "Games",
+		"id": "geelooy-ai-relay-split-browser-commands-readme-md-e58b419ca4",
+		"title": "ChatGPT Website Commands",
+		"sourcePath": "geelooy/ai/relay/split-browser/commands/README.md",
+		"category": "AI",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Final Execution Plan",
-				"anchor": "final-execution-plan"
+				"text": "ChatGPT Website Commands",
+				"anchor": "chatgpt-website-commands"
 			},
 			{
 				"level": 2,
-				"text": "Read-Only Actions",
-				"anchor": "read-only-actions"
+				"text": "Manual login",
+				"anchor": "manual-login"
 			},
 			{
 				"level": 2,
-				"text": "Forbidden Actions",
-				"anchor": "forbidden-actions"
+				"text": "Website capability",
+				"anchor": "website-capability"
 			},
 			{
 				"level": 2,
-				"text": "Promotion Gate",
-				"anchor": "promotion-gate"
+				"text": "Website stress",
+				"anchor": "website-stress"
+			},
+			{
+				"level": 2,
+				"text": "Optional environment variables",
+				"anchor": "optional-environment-variables"
 			}
 		],
-		"excerpt": "B\"H Final Execution Plan The Awtsmoos permits one measured trial while the deployed meadow remains untouched; Awtsmoos.com records every candidate receipt before any future source may be adjusted. Read Only Actions 1. Capture git diff stat, exact changed paths, timestamps, and hashes. 2. Verify the local compact artifa",
-		"searchText": "b\"h final execution plan the awtsmoos permits one measured trial while the deployed meadow remains untouched; awtsmoos.com records every candidate receipt before any future source may be adjusted. read only actions 1. capture git diff stat, exact changed paths, timestamps, and hashes. 2. verify the local compact artifact contains the deferred scheduler boundary expected by the native boot contract. 3. run: route shell tests; native boot contract; readiness settlement tests; feature scheduler tests; compactjs real runtime test; any bootstrap minimap tests found in the repository. 4. launch the current working tree through browserproofprocess.mjs and a fresh isolated cdp target. 5. record: time to diagnostics publication; time to essential receipt; time to playable; six system readiness; minimap count and bootstrap ownership; console exceptions; failed requests; movement distance. 6. run optionalmultiplayersurfacediagnostic.mjs against two local pages and preserve its snapshots. 7. compare candidate bytes, timing, requests, and errors with production release d77341824. 8. write an audit verdict: green candidate, candidate with blockers, or rejected candidate. forbidden actions no source rewrite. no compact regeneration. no staging. no commit. no push. no deployment. no deletion or reset of local changes. no contact with android emulator files. promotion gate a later source or deployment phase may begin only after every read only gate is green and the candidate demonstrably improves or preserves production startup, gameplay, network, minimap, chat, and movement behavior.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-43f0352b9b.json"
+		"excerpt": "B\"H ChatGPT Website Commands The relay uses only the authenticated ChatGPT website. There is no local model, local inference server, API key, or alternate provider. Manual login A normal visible ChatGPT window opens. Sign in manually. The command detects the redacted authenticated status, saves the browser profile, and",
+		"searchText": "b\"h chatgpt website commands the relay uses only the authenticated chatgpt website. there is no local model, local inference server, api key, or alternate provider. manual login a normal visible chatgpt window opens. sign in manually. the command detects the redacted authenticated status, saves the browser profile, and closes the login window. it never types credentials or clicks login controls. website capability this checks whether the dedicated profile is authenticated. it does not send a conversation message. website stress the stress runner creates and continues chatgpt website conversations sequentially, with one global minimum ten second interval between turn starts. every real prompt enters the ordinary chatgpt composer and uses the site's own send control. optional environment variables awtsmoos stress conversations awtsmoos stress messages awtsmoos direct interval ms — values below 10000 are raised to 10000. awtsmoos chrome debug port awtsmoos login timeout ms awtsmoos login poll ms",
+		"page": "pages/geelooy-ai-relay-split-browser-commands-readme-md-e58b419ca4.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-3767acb4e5",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/05_CANDIDATE_BROWSER_FAILURE_EVIDENCE.md",
-		"category": "Games",
+		"id": "geelooy-ai-streaming-automation-limits-md-3fcdc7ed55",
+		"title": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees",
+		"sourcePath": "geelooy/ai/STREAMING_AUTOMATION_LIMITS.md",
+		"category": "AI",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Candidate Browser Failure Evidence",
-				"anchor": "candidate-browser-failure-evidence"
+				"text": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees",
+				"anchor": "b-h-awtsmoos-ai-streaming-relay-and-automation-guarantees"
 			},
 			{
 				"level": 2,
-				"text": "Candidate Identity",
-				"anchor": "candidate-identity"
+				"text": "Verified by harness",
+				"anchor": "verified-by-harness"
 			},
 			{
 				"level": 2,
-				"text": "Green Source Evidence",
-				"anchor": "green-source-evidence"
+				"text": "Survival matrix",
+				"anchor": "survival-matrix"
 			},
 			{
 				"level": 2,
-				"text": "Red Promotion Evidence",
-				"anchor": "red-promotion-evidence"
-			},
-			{
-				"level": 3,
-				"text": "CompactJS architecture proof",
-				"anchor": "compactjs-architecture-proof"
-			},
-			{
-				"level": 3,
-				"text": "Isolated browser proof",
-				"anchor": "isolated-browser-proof"
+				"text": "Remaining non-faked upgrades",
+				"anchor": "remaining-non-faked-upgrades"
 			},
 			{
 				"level": 2,
-				"text": "Comparison With Proven Production",
-				"anchor": "comparison-with-proven-production"
-			},
-			{
-				"level": 2,
-				"text": "Safety Result",
-				"anchor": "safety-result"
+				"text": "Safety notes",
+				"anchor": "safety-notes"
 			}
 		],
-		"excerpt": "B\"H Candidate Browser Failure Evidence The Awtsmoos distinguishes a promising source experiment from a browser proven release; Awtsmoos.com preserves every local vessel while refusing promotion without living peace. Candidate Identity The audited working tree contains a coherent uncommitted Mitzvah World experiment who",
-		"searchText": "b\"h candidate browser failure evidence the awtsmoos distinguishes a promising source experiment from a browser proven release; awtsmoos.com preserves every local vessel while refusing promotion without living peace. candidate identity the audited working tree contains a coherent uncommitted mitzvah world experiment whose local compact artifact is: bytes: 5,169,833. sha 256: 0bb7ad67af0964e5426492beb082f54ecb2fb5dd9aaee28bc1c304a1538f43c4. production was not changed during this audit. green source evidence syntax checks passed for the changed runtime, ui, readiness, minimap, multiplayer, diagnostic, and compact files. twenty seven focused tests passed. passing areas included frame scheduling, feature scheduling, readiness identity, terrain readiness, friendly npc scheduling, route shell, minimap, and native boot contracts. red promotion evidence compactjs architecture proof compactjs.mitzvahworldruntime.test.js rejected the compiled candidate because the generated graph does not contain the folded scheduleminimalmeadowfeatures implementation. the emitted candidate compact artifact contains: the essential scheduler is therefore outside the compact execution graph. isolated browser proof a fresh local python server and isolated headless chrome profile served the current working tree directly with cache disabled. the audit allowed the candidate a full two minute observation window and used a thirty second cdp evaluation budget. the renderer did not answer runtime.evaluate within thirty seconds. the terminal error was: this prevented proof of diagnostics publication, essential readiness, playable state, six system availability, minimap ownership, chat mounting, or movement. comparison with proven production the active production release d77341824c15c8ef696d8b5b59ed5da0049bc78d previously reached playable state in approximately 11.138 seconds with all six systems, zero relevant browser/network errors, and verified movement. the candidate did not reach a measurable playable milestone within the audit window. safety result candidate source files were not rewritten. the compact artifact was not regenerated. no files were staged. no commit, push, or deployment occurred. unrelated android, tanach search, movie studio, browser harness, and deployment snapshot work remained untouched.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-3767acb4e5.json"
+		"excerpt": "B\"H — Awtsmoos AI Streaming, Relay, and Automation Guarantees Run npm run test:ai or npm run test:ai:stress from the repo root. Direct harness: Verified by harness CSS import structure and mobile last cascade. No raw sidebar .hidden toggles. Exactly one extension fetch, fetch body, and resume stream handler. Extension ",
+		"searchText": "b\"h — awtsmoos ai streaming, relay, and automation guarantees run npm run test:ai or npm run test:ai:stress from the repo root. direct harness: verified by harness css import structure and mobile last cascade. no raw sidebar .hidden toggles. exactly one extension fetch, fetch body, and resume stream handler. extension stream ledger with many concurrent streams. durable stream resume state in localstorage. multi tab stream identity and claim metadata. per conversation automation state. hidden chat automation continuation path. node relay post body preservation. node relay redirect mapping. node relay multiple concurrent stream ids and bodies. browser url rewriting for target, localhost, and login/auth origins. puppeteer style debug queue endpoints: session, goto, evaluate, click, type, screenshot placeholder, commands, result. auto login click injector compiles and is included in javascript responses. debug browser command poller compiles and is included in javascript responses. normal relay request logging is quiet by default; errors still log. auto login click injector compiles and is included in javascript responses. debug browser command poller compiles and is included in javascript responses. normal relay request logging is quiet by default; errors still log. browser url rewriting for target, localhost, and login/auth origins. puppeteer style debug queue endpoints: session, goto, evaluate, click, type, screenshot placeholder, commands, result. survival matrix situation expected behavior reload same page resume from stored cursor while extension/relay stream exists. close tab then reopen stream ids/cursors are rediscovered from localstorage if the extension worker or node relay still has the stream. multiple tabs open tabs get session ids; visible resume uses a short claim lease. switch chats while streaming hidden stream stays tracked; visible renderer only paints active conversation. node relay still running multiple in memory streams stay readable. node relay restarted in memory stream bodies are gone; old ids become not found. chrome mv3 worker stays alive extension ledger can keep pumping and resume chunks. chrome kills mv3 worker extension held streams can die. browser fully closed page ledger persists; extension worker state is not guaranteed. remaining non faked upgrades 1. persistent extension/node job queue with safe request metadata. 2. disk persistence for node relay stream bodies or replayable upstream requests. 3. real chrome/playwright mobile and desktop viewport tests. 4. ui controls for cancel, pause, retry, inspect per stream/job. 5. rate limit and auth error classification badges. 6. mv3 keepalive strategy using ports, alarms, or offscreen document where appropriate. safety notes do not persist bearer tokens, cookies, or sensitive headers in page visible storage. current durable stream ledger stores stream ids, cursors, and conversation metadata, not auth tokens. fully page closed autonomous automation requires a safer background job queue design.",
+		"page": "pages/geelooy-ai-streaming-automation-limits-md-3fcdc7ed55.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-91bfbe3b77",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/06_CANDIDATE_PROMOTION_VERDICT.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-api-admin-documentation-md-9fd7e84668",
+		"title": "Admin API Documentation",
+		"sourcePath": "geelooy/api/admin/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Candidate Promotion Verdict",
-				"anchor": "candidate-promotion-verdict"
-			},
-			{
-				"level": 2,
-				"text": "Verdict",
-				"anchor": "verdict"
-			},
-			{
-				"level": 2,
-				"text": "Why Promotion Is Rejected",
-				"anchor": "why-promotion-is-rejected"
-			},
-			{
-				"level": 2,
-				"text": "Candidate Strengths Worth Preserving",
-				"anchor": "candidate-strengths-worth-preserving"
-			},
-			{
-				"level": 2,
-				"text": "Minimal Future Repair Direction",
-				"anchor": "minimal-future-repair-direction"
-			},
-			{
-				"level": 2,
-				"text": "Safety and Scope",
-				"anchor": "safety-and-scope"
-			},
-			{
-				"level": 2,
-				"text": "Next Safe Action",
-				"anchor": "next-safe-action"
+				"text": "Admin API Documentation",
+				"anchor": "admin-api-documentation"
 			}
 		],
-		"excerpt": "B\"H Candidate Promotion Verdict The Awtsmoos preserves every promising local branch while production remains the proven shore; Awtsmoos.com promotes no compact vessel until source, compiler, browser, and movement agree once more. Verdict CANDIDATE PROMOTION = rejected CANDIDATE FILES MODIFIED BY AUDIT = none PRODUCTION",
-		"searchText": "b\"h candidate promotion verdict the awtsmoos preserves every promising local branch while production remains the proven shore; awtsmoos.com promotes no compact vessel until source, compiler, browser, and movement agree once more. verdict candidate promotion = rejected candidate files modified by audit = none production release changed = no why promotion is rejected 1. the candidate passes twenty seven focused source tests and all examined syntax checks. 2. the production compactjs runtime proof rejects the candidate because the essential scheduler is not folded into the compiled graph. 3. the candidate compact artifact explicitly performs: 4. the imported scheduler then defers the rich bundle separately. deferring the rich bundle is valid; deferring the first essential scheduler reopens the previously failed production boundary. 5. a fresh isolated browser serving the current working tree did not answer runtime.evaluate within a thirty second command budget after the full audit window. 6. consequently the audit could not prove diagnostics publication, essential readiness, playable state, six system presence, minimap transfer, chat mounting, or movement. 7. the active production release already has complete evidence for playable state, all six systems, zero relevant browser/network failures, and movement. candidate strengths worth preserving bootstrap minimap ownership is explicitly modeled. rich ui releases bootstrap minimap ownership before installing its replacement. readiness separates essential play from full rich readiness. local tab chat avoids the quiet window delay. server style optional chat waits for a quiet window. new diagnostics cover roster, bridge, chat, minimap, and peer marker surfaces. focused tests are broad and currently green. minimal future repair direction a future explicitly authorized repair should retain the candidate's minimap, readiness, multiplayer, and diagnostics improvements while restoring this boundary: scheduleminimalmeadowfeatures and bootstrap installation remain statically folded into compactjs. minimalmeadowfeaturebundle.js remains source aware and dynamically deferred. browser proof must reach playable state, all six systems, and movement before promotion. the compactjs real runtime proof must be updated only after the implementation again satisfies the proven production invariant, never weakened to accept the failing boundary. safety and scope no candidate source was rewritten. no compact artifact was regenerated. no files were staged. no commit, push, or deployment occurred. movie studio, android emulator, tanach search, browser harness, and deployment snapshot work remained untouched. next safe action await explicit ownership or authorization before repairing the candidate. until then, production commit d77341824c15c8ef696d8b5b59ed5da0049bc78d remains the trusted release.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-91bfbe3b77.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Admin API Documentation The Awtsmoos reveals privileged power only through an explicit gate; Awtsmoos.com maps this administrative source so dangerous capability is never mistaken for ordinary state. Read ../../../docs/API/OTHER FAMILIES.md, ../../../docs/API/AUTHENTICATION.md, and ../..",
+		"searchText": "b\"h boruch hashem blessed is he admin api documentation the awtsmoos reveals privileged power only through an explicit gate; awtsmoos.com maps this administrative source so dangerous capability is never mistaken for ordinary state. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/health.md. generated evidence: ../../../docs/generated/api route atlas.md.",
+		"page": "pages/geelooy-api-admin-documentation-md-9fd7e84668.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-4896c79a29",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-08-02-1215-local-candidate-audit/07_AUDIT_GATE_CLOSED.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-api-compiler-documentation-md-a537b816c5",
+		"title": "Compiler API Documentation",
+		"sourcePath": "geelooy/api/compiler/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Candidate Audit Gate Closed",
-				"anchor": "candidate-audit-gate-closed"
-			},
-			{
-				"level": 2,
-				"text": "Original Audit Plan",
-				"anchor": "original-audit-plan"
-			},
-			{
-				"level": 2,
-				"text": "Work Actually Performed",
-				"anchor": "work-actually-performed"
-			},
-			{
-				"level": 2,
-				"text": "Evidence Reconciliation",
-				"anchor": "evidence-reconciliation"
-			},
-			{
-				"level": 3,
-				"text": "What passed",
-				"anchor": "what-passed"
-			},
-			{
-				"level": 3,
-				"text": "What failed",
-				"anchor": "what-failed"
-			},
-			{
-				"level": 3,
-				"text": "What remains unproven",
-				"anchor": "what-remains-unproven"
-			},
-			{
-				"level": 2,
-				"text": "Audit Integrity",
-				"anchor": "audit-integrity"
-			},
-			{
-				"level": 2,
-				"text": "Final State",
-				"anchor": "final-state"
+				"text": "Compiler API Documentation",
+				"anchor": "compiler-api-documentation"
 			}
 		],
-		"excerpt": "B\"H Candidate Audit Gate Closed The Awtsmoos preserves the experiment, the proven release, and the evidence between; Awtsmoos.com closes the audit without pretending a red browser gate was green. Original Audit Plan 1. Map every candidate file and generated artifact. 2. Run syntax and focused source contracts. 3. Run t",
-		"searchText": "b\"h candidate audit gate closed the awtsmoos preserves the experiment, the proven release, and the evidence between; awtsmoos.com closes the audit without pretending a red browser gate was green. original audit plan 1. map every candidate file and generated artifact. 2. run syntax and focused source contracts. 3. run the production compactjs graph proof. 4. serve the current working tree without rewriting it. 5. measure diagnostics, readiness, systems, minimap, chat, network, and movement. 6. compare the candidate with the proven production release. 7. preserve every unrelated workstream. 8. promote only if all gates were green. work actually performed 1. recorded candidate paths, timestamps, sizes, and sha 256 values. 2. read the changed bootstrap ui, rich ui, runtime factory, readiness flow, multiplayer ui, minimap, diagnostics, and boot contract. 3. ran syntax checks across the changed candidate modules and compact artifact. 4. ran twenty seven focused tests; all passed. 5. ran the real compactjs runtime proof; it rejected the missing folded scheduler. 6. inspected the generated compact artifact and confirmed the dynamic scheduler bridge. 7. ran the repository browser test; its chrome launcher failed before page navigation and was not counted against the candidate. 8. ran an independent isolated python server plus headless chrome audit against the current working tree. 9. the independent browser renderer stopped answering cdp evaluation beyond the allowed command window. 10. cancelled only the temporary browser/server process family after preserving the failure. 11. confirmed git has no staged paths. 12. confirmed production was not deployed or modified. evidence reconciliation what passed candidate syntax. candidate focused behavior contracts. bootstrap minimap source contracts. readiness source contracts. multiplayer scheduling source contracts. route shell and native boot source contracts. what failed compactjs promotion invariant: essential scheduler must remain folded. independent browser responsiveness and measurable readiness. browser proof of six systems, minimap transfer, chat, and movement. what remains unproven candidate cold start timing. candidate playable timing. candidate full ready timing. candidate movement. candidate two tab multiplayer surfaces. candidate rich minimap ownership transfer in a living browser. audit integrity source rewrites: none. generated artifact rewrites: none. staged files: none. commits: none. pushes: none. deployments: none. candidate deletions or resets: none. unrelated workstreams touched: none. final state audit complete = true candidate promotable = false production trusted = d77341824c15c8ef696d8b5b59ed5da0049bc78d next safe action = repair only after explicit ownership or authorization",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-08-02-1215-local-candidate-a-4896c79a29.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Compiler API Documentation The Awtsmoos lets source become artifact through build and backend vessels aligned; Awtsmoos.com maps this API to the Compiler app so calling code and implementation can both be found in time. Read ../../../docs/API/OTHER FAMILIES.md and ../../../docs/APPS/DEVE",
+		"searchText": "b\"h boruch hashem blessed is he compiler api documentation the awtsmoos lets source become artifact through build and backend vessels aligned; awtsmoos.com maps this api to the compiler app so calling code and implementation can both be found in time. read ../../../docs/api/other families.md and ../../../docs/apps/developer tools.md. contracts: ../../../docs/generated/api source contracts.md.",
+		"page": "pages/geelooy-api-compiler-documentation-md-a537b816c5.json"
+	},
+	{
+		"id": "geelooy-api-contact-documentation-md-c303dc04a4",
+		"title": "Contact API Documentation",
+		"sourcePath": "geelooy/api/contact/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Contact API Documentation",
+				"anchor": "contact-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Contact API Documentation The Awtsmoos lets a message enter while mail and persisted signal remain traceable behind the door; Awtsmoos.com maps Contact to its public UI, request contract, and stored reference path for the maintainer. Read ../../../docs/API/OTHER FAMILIES.md and ../../../",
+		"searchText": "b\"h boruch hashem blessed is he contact api documentation the awtsmoos lets a message enter while mail and persisted signal remain traceable behind the door; awtsmoos.com maps contact to its public ui, request contract, and stored reference path for the maintainer. read ../../../docs/api/other families.md and ../../../docs/api/response patterns.md.",
+		"page": "pages/geelooy-api-contact-documentation-md-c303dc04a4.json"
+	},
+	{
+		"id": "geelooy-api-documentation-md-c96dc4d930",
+		"title": "API Directory Documentation",
+		"sourcePath": "geelooy/api/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "API Directory Documentation",
+				"anchor": "api-directory-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Directory Documentation The Awtsmoos gives each derech a route while the generator remembers every source bearing trace; Awtsmoos.com documents this entire API tree centrally so a human can find endpoint, mount, and place. Start with ../../docs/API/README.md. Human family index: ../.",
+		"searchText": "b\"h boruch hashem blessed is he api directory documentation the awtsmoos gives each derech a route while the generator remembers every source bearing trace; awtsmoos.com documents this entire api tree centrally so a human can find endpoint, mount, and place. start with ../../docs/api/readme.md. human family index: ../../docs/api/endpoint index.md exhaustive route atlas: ../../docs/generated/api route atlas.md every api file: ../../docs/generated/api file inventory.md dynamic parameters / dollar variables: ../../docs/routes/dynamic paths.md auth rules: ../../docs/api/authentication.md current generated snapshot: 1,195 api files, 21 derech mounts, 567 route reference rows.",
+		"page": "pages/geelooy-api-documentation-md-c96dc4d930.json"
+	},
+	{
+		"id": "geelooy-api-email-documentation-md-638f6e649b",
+		"title": "Email API Documentation",
+		"sourcePath": "geelooy/api/email/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Email API Documentation",
+				"anchor": "email-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Email API Documentation The Awtsmoos lets mail cross social and server vessels while identity and provider state remain known; Awtsmoos.com maps this family to the Email UI, Social mail behavior, and configuration names shown. Read ../../../docs/API/OTHER FAMILIES.md, ../../../docs/CONFI",
+		"searchText": "b\"h boruch hashem blessed is he email api documentation the awtsmoos lets mail cross social and server vessels while identity and provider state remain known; awtsmoos.com maps this family to the email ui, social mail behavior, and configuration names shown. read ../../../docs/api/other families.md, ../../../docs/configuration.md, and ../../../docs/systems/social and heichel.md.",
+		"page": "pages/geelooy-api-email-documentation-md-638f6e649b.json"
+	},
+	{
+		"id": "geelooy-api-fetch-documentation-md-e23bac59b3",
+		"title": "Fetch API Documentation",
+		"sourcePath": "geelooy/api/fetch/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Fetch API Documentation",
+				"anchor": "fetch-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Fetch API Documentation The Awtsmoos lets remote bytes pass through a guarded server vessel rather than an unbounded proxy sea; Awtsmoos.com maps auth, origin, limits, binary handling, and caller evidence so this surface stays deliberate and free. Read ../../../docs/API/OTHER FAMILIES.md",
+		"searchText": "b\"h boruch hashem blessed is he fetch api documentation the awtsmoos lets remote bytes pass through a guarded server vessel rather than an unbounded proxy sea; awtsmoos.com maps auth, origin, limits, binary handling, and caller evidence so this surface stays deliberate and free. read ../../../docs/api/other families.md, ../../../docs/api/authentication.md, and ../../../docs/api/response patterns.md.",
+		"page": "pages/geelooy-api-fetch-documentation-md-e23bac59b3.json"
+	},
+	{
+		"id": "geelooy-api-gpt-documentation-md-c61289d41a",
+		"title": "GPT API Documentation",
+		"sourcePath": "geelooy/api/gpt/DOCUMENTATION.md",
+		"category": "API",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "GPT API Documentation",
+				"anchor": "gpt-api-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He GPT API Documentation The Awtsmoos lets language computation answer through health, capability, chat, and reset gates; Awtsmoos.com maps this API to browser AI and developer clients without hiding model/configuration states. Read ../../../docs/SYSTEMS/AI.md, ../../../docs/API/OTHER FAMIL",
+		"searchText": "b\"h boruch hashem blessed is he gpt api documentation the awtsmoos lets language computation answer through health, capability, chat, and reset gates; awtsmoos.com maps this api to browser ai and developer clients without hiding model/configuration states. read ../../../docs/systems/ai.md, ../../../docs/api/other families.md, and ../../../docs/configuration.md.",
+		"page": "pages/geelooy-api-gpt-documentation-md-c61289d41a.json"
 	}
 ]

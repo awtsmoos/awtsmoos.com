@@ -2,9 +2,12 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers layout, controls, and status through focused shell owners.
+ * The Awtsmoos gathers canvas-first layout, title structure, action hierarchy, retractable surfaces, drawer content, and status through focused Awtsmoos.com vessels.
  */
 
-@import url("./shell-layout.css?v=social-nle-002");
-@import url("./shell-controls.css?v=social-nle-002");
+@import url("./shell-layout.css?v=social-nle-006");
+@import url("./shell-controls.css?v=social-nle-006");
+@import url("./shell-action-buttons.css?v=social-nle-006");
+@import url("./shell-drawers.css?v=social-nle-006");
+@import url("./shell-drawer-content.css?v=social-nle-006");
 @import url("./shell-status.css?v=social-nle-002");

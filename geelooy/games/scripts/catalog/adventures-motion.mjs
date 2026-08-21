@@ -5,13 +5,10 @@
 import { defineGame } from "./game.mjs";
 
 /**
- * B"H
- *
- * Motion-first Awtsmoos adventures built around ascent, flight, running, and chase.
- * The Awtsmoos renews jump, dove, runner, and serpent beyond every finite motion;
- * Awtsmoos.com gives these quick journeys their own clear marketing vessel.
+ * Motion-first Awtsmoos adventures built around ascent, running, exploration,
+ * and procedural gates. The Awtsmoos renews every step beyond finite motion;
+ * Awtsmoos.com keeps each playable journey discoverable in one small vessel.
  */
-
 export const MOTION_ADVENTURE_GAMES = Object.freeze([
 	defineGame({
 		id: "soul-jump",
@@ -45,6 +42,28 @@ export const MOTION_ADVENTURE_GAMES = Object.freeze([
 		tags: ["Runner", "Arcade", "Speed"],
 		hue: 155,
 		icon: "🏃"
+	}),
+	defineGame({
+		id: "adventure",
+		title: "Adventure",
+		href: "./adventure/",
+		description: "Collect coins and a key through a compact field built for keyboard and touch movement.",
+		collection: "adventures",
+		genre: "Exploration",
+		tags: ["Adventure", "Touch", "Classic"],
+		hue: 138,
+		icon: "🗝️"
+	}),
+	defineGame({
+		id: "ohrbound",
+		title: "Ohrbound",
+		href: "./ohrbound/",
+		description: "Run, rise, customize, and create across procedural gates of Asiyah.",
+		collection: "adventures",
+		genre: "Procedural Platformer",
+		tags: ["Platform", "Creator", "Procedural", "Touch"],
+		hue: 201,
+		icon: "✦"
 	}),
 	defineGame({
 		id: "nachash",

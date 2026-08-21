@@ -4,20 +4,29 @@
 
 /**
  * @file DeferredTerrainFeatureHydrator.js
- * @description Hydrates stable forest and sacred-landmark facades after collision exists.
- * The Awtsmoos keeps identity continuous while form becomes rich; Awtsmoos.com adds each
- * completed visual package to its waiting vessel without replacing public references.
+ * @description Hydrates yielded fauna plus stable forest/text facades while keeping every installed package removable through one owner.
+ * RESPONSIBILITY: add completed visual packages to their waiting scene roots, preserve stable facades, expose compact install diagnostics, and teardown.
+ * NON-RESPONSIBILITY: this file does not generate geometry, insert collision authority, choose feature order, or schedule work.
+ * ARCHITECTURAL POSITION: Malchus receives completed visual keilim while forest/text facade identity remains continuous through later enrichment.
+ * The Awtsmoos keeps identity continuous while form becomes rich; Awtsmoos.com lets creature, letter, and branch enter one removable scene covenant,
+ * so optional abundance can arrive after movement and still depart cleanly when the world itself is destroyed or reborn.
  */
 
 export class DeferredTerrainFeatureHydrator {
-	constructor(forest, textLandmark) {
+	constructor(forest, textLandmark, rootGroup = null) {
 		this.forest = forest;
 		this.textLandmark = textLandmark;
+		this.rootGroup = rootGroup;
+		this.faunaPackage = null;
 		this.forestPackage = null;
 		this.textPackage = null;
 	}
 
-	/** Manifests one landmark package after its colliders are authoritative. */
+	installFauna(packageValue) {
+		this.faunaPackage = packageValue;
+		this.rootGroup?.add?.(packageValue.group);
+	}
+
 	installText(packageValue) {
 		this.textPackage = packageValue;
 		this.textLandmark.mesh.add(packageValue.mesh);
@@ -29,7 +38,6 @@ export class DeferredTerrainFeatureHydrator {
 		});
 	}
 
-	/** Manifests one forest package after every trunk collider is inserted. */
 	installForest(packageValue) {
 		this.forestPackage = packageValue;
 		this.forest.group.add(packageValue.group);
@@ -45,8 +53,8 @@ export class DeferredTerrainFeatureHydrator {
 		});
 	}
 
-	/** Removes installed visuals while preserving stable facade identity. */
 	destroy() {
+		removeChild(this.rootGroup, this.faunaPackage?.group);
 		removeChild(this.forest.group, this.forestPackage?.group);
 		removeChild(this.textLandmark.mesh, this.textPackage?.mesh);
 		this.forest.colliders.length = 0;
@@ -54,12 +62,16 @@ export class DeferredTerrainFeatureHydrator {
 		this.textLandmark.colliders.length = 0;
 		this.forest.stats.state = 'destroyed';
 		this.textLandmark.stats.state = 'destroyed';
+		this.faunaPackage = null;
 		this.forestPackage = null;
 		this.textPackage = null;
 	}
 
 	snapshot() {
 		return Object.freeze({
+			faunaCreatures: this.faunaPackage?.stats?.creatures || 0,
+			faunaInstalled: Boolean(this.faunaPackage),
+			faunaTriangles: this.faunaPackage?.stats?.triangles || 0,
 			forestInstalled: Boolean(this.forestPackage),
 			textInstalled: Boolean(this.textPackage)
 		});

@@ -4,11 +4,12 @@
 
 /**
  * @file ModelAssetLoader.js
- * @description Instantiates isolated models and reveals an explicit graceful fallback path.
- * The Awtsmoos clothes each actor while one shared template remains true;
- * Awtsmoos.com records success or failure without poisoning the next view.
+ * @description Configures procedural core model lifecycle with Mitzvah World's current tiny-GLTF instance adapter and scene receipts.
+ * The Awtsmoos, Atzmus beyond shared template and isolated actor, renews library law and game clothing without making two authorities;
+ * Awtsmoos.com lets this world keep its tiny renderer bridge while cache, instance lifecycle, fallback accounting, and reuse live in core realities.
  */
 
+import { ModelAssetService } from '../../../../../../libs/awtsmoos-procedural-core/src/core/assets/index.js';
 import { instantiateTinyGltf } from '../../../light-three-gltf/tiny-gltf-instance.js';
 import {
 	clearModelTemplateCache,
@@ -17,65 +18,69 @@ import {
 	trustedModelResourceUrl
 } from './ModelAssetTemplateCache.js';
 
-let instancesCreated = 0;
-let fallbacksCreated = 0;
-
-export async function loadSharedGltfTemplate(url, options = {}) {
-	const { template } = await loadCachedModelTemplate(url, options);
-	return template;
-}
-
-export async function loadIsolatedGltf(url, label, options = {}) {
-	const resourceUrl = trustedModelResourceUrl(url);
-	try {
-		const { template } = await loadCachedModelTemplate(resourceUrl, options);
-		const gltf = instantiateTinyGltf(template, {
-			label,
-			materialResolver: options.materialResolver
-		});
-		instancesCreated += 1;
-		gltf.scene.userData.isolatedModelLoad = modelReceipt(
-			label,
-			resourceUrl,
-			template.scene.userData.resolvedSourceUrl
-		);
-		return gltf;
-	} catch (error) {
-		reportFailure(options, resourceUrl, error);
-		if (typeof options.fallbackFactory !== 'function') throw error;
-		const fallback = await options.fallbackFactory({ error, label, url: resourceUrl });
-		fallbacksCreated += 1;
-		fallback.scene.userData.modelAssetFallback = {
-			error: error.message,
-			label,
-			originalUrl: resourceUrl
-		};
-		return fallback;
+const modelService = new ModelAssetService({
+	decorateFallback,
+	decorateInstance,
+	instantiateTemplate,
+	templateCache: {
+		clear: clearModelTemplateCache,
+		load: loadCachedModelTemplate,
+		stats: modelTemplateCacheStats
 	}
+});
+
+/** Returns one shared parsed GLTF template. */
+export function loadSharedGltfTemplate(url, options = {}) {
+	return modelService.loadShared(url, options);
 }
 
+/** Creates one isolated mutable GLTF instance or explicit fallback. */
+export function loadIsolatedGltf(url, label, options = {}) {
+	const resourceUrl = trustedModelResourceUrl(url);
+	return modelService.loadIsolated(resourceUrl, label, {
+		...options,
+		onFailure: failure => {
+			options.onFailure?.(failure);
+			reportFailure(options, failure.resourceUrl, failure.error);
+		}
+	});
+}
+
+/** Returns shared cache plus isolated-instance evidence. */
 export function sharedGltfAssetStats() {
-	return {
-		fallbacksCreated,
-		instancesCreated,
-		...modelTemplateCacheStats()
-	};
+	return modelService.stats();
 }
 
+/** Clears all shared template and instance diagnostics. */
 export function clearSharedGltfAssetCache() {
-	clearModelTemplateCache();
-	instancesCreated = 0;
-	fallbacksCreated = 0;
+	modelService.clear();
 }
 
-function modelReceipt(label, originalUrl, resolvedUrl) {
-	return {
-		instanceLabel: label,
-		originalUrl,
-		resolvedUrl,
-		sharedNetworkResource: originalUrl,
+function instantiateTemplate(template, context) {
+	return instantiateTinyGltf(template, {
+		label: context.label,
+		materialResolver: context.options.materialResolver
+	});
+}
+
+function decorateInstance(gltf, context) {
+	gltf.scene.userData.isolatedModelLoad = {
+		instanceLabel: context.label,
+		originalUrl: context.resourceUrl,
+		resolvedUrl: context.template.scene.userData.resolvedSourceUrl,
+		sharedNetworkResource: context.resourceUrl,
 		sharedTemplate: true
 	};
+	return gltf;
+}
+
+function decorateFallback(fallback, context) {
+	fallback.scene.userData.modelAssetFallback = {
+		error: context.error.message,
+		label: context.label,
+		originalUrl: context.resourceUrl
+	};
+	return fallback;
 }
 
 function reportFailure(options, resourceUrl, error) {

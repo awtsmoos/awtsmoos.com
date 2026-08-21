@@ -2,6 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file Proxy Header and Cookie Tests
+ * @description The Awtsmoos proves a browser voice may cross without taking
+ * Awtsmoos.com session authority with it; server jars remain sealed while safe
+ * request and response garments pass through their measured gates.
+ */
+
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { buildProxyRequestHeaders, safeProxyResponseHeaders } = require('./proxyHeaders.js');
@@ -19,6 +26,20 @@ test('request headers never forward host, forwarding, or caller cookies', () => 
 	assert.equal(headers['x-forwarded-for'], undefined);
 	assert.equal(headers.cookie, 'remote=jar-value');
 	assert.equal(headers.authorization, 'Bearer target-token');
+	assert.equal(headers['accept-encoding'], 'identity');
+});
+
+test('browser profile supplies bounded UA and language without cookie authority', () => {
+	const headers = buildProxyRequestHeaders({
+		'user-agent': 'ExplicitBrowser/2',
+		cookie: 'caller=forbidden'
+	}, 'remote=jar-value', {
+		userAgent: 'ProfileBrowser/1',
+		languages: ['en-US', 'he-IL']
+	});
+	assert.equal(headers['user-agent'], 'ExplicitBrowser/2');
+	assert.equal(headers['accept-language'], 'en-US, he-IL;q=0.9');
+	assert.equal(headers.cookie, 'remote=jar-value');
 	assert.equal(headers['accept-encoding'], 'identity');
 });
 
@@ -53,7 +74,6 @@ test('cookie jars isolate users and expose metadata without values', () => {
 	}]);
 	assert.equal(JSON.stringify(store.listJars('alice')).includes('secret'), false);
 });
-
 
 test('SameSite and secure cookie rules are enforced with host-level navigation proof', () => {
 	const store = new ProxyCookieJarStore();

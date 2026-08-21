@@ -5,7 +5,7 @@
  * @file listeners.js
  * @description
  * The Awtsmoos awakens one bounded reader nerve system while deliberate selection may reveal related sources and insights;
- * Awtsmoos.com renews transient selection listeners cleanly so reinitialization never doubles one reader gesture into two searches.
+ * Awtsmoos.com renews transient listeners cleanly so corrected module contracts reach every reader without doubled gestures.
  */
 import { startActiveCoordinateTracker } from './listeners/ActiveCoordinateTracker.js';
 import { ensureAutoScrollButton } from './listeners/AutoScrollButton.js';
@@ -21,10 +21,11 @@ import { setupGlobalClicks } from './listeners/PopoverGate.js';
 import { sidebarShouldOpen } from './listeners/SearchSidebarIntent.js';
 import { setupSidebarResizeHandle } from './listeners/SidebarResizeHandle.js';
 import { toggleSidebar } from './listeners/SidebarGate.js';
-import { setupNativeSelectionSearch } from '../functions/ui/context/NativeSelectionSearch.js';
+import { setupNativeSelectionSearch } from '../functions/ui/context/NativeSelectionSearch.js?v=reader-contract-006';
 
 export { renderBookmarksPanel, toggleSidebar };
 
+/** Installs the reader's interactive controls exactly once per initialization cycle. */
 export function setupUIListeners() {
 	const storedState = localStorage.getItem('awtsmoos-sidebar-visible');
 	toggleSidebar(sidebarShouldOpen(storedState, location.search));
@@ -40,6 +41,7 @@ export function setupUIListeners() {
 	window.awtsmoosNativeSelectionCleanup = setupNativeSelectionSearch();
 }
 
+/** Replaces any older coordinate tracker before awakening the current one. */
 export function setupActiveCoordinateTracking() {
 	window.awtsmoosActiveCoordinateCleanup?.();
 	window.awtsmoosActiveCoordinateCleanup = startActiveCoordinateTracker();

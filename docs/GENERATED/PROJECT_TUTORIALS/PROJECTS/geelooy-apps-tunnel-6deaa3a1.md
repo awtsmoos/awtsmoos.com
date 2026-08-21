@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1173 | 651 | 0 | 0 | 10 | 26 | 1860 |
+| 1449 | 820 | 0 | 0 | 10 | 16 | 2295 |
 
 ## Public entry points
 
@@ -34,18 +34,20 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 1117; classes: 31; functions: 5223; exports: 4034; samples: buildIdentity, canonicalString, sameRequest, sha256, sortValue, required, clean, failure, TERMINAL, TRANSITIONS, isTerminal, transition.
+Source files: 1371; classes: 33; functions: 6299; exports: 4910; samples: buildIdentity, canonicalString, sameRequest, sha256, sortValue, required, clean, failure, TERMINAL, TRANSITIONS, isTerminal, transition.
 
 ## Depends on
 
+- `ayzarim/ssh` — 1 lexical reference; examples: geelooy/apps/tunnel/agent/lib/fakeSsh/wireServer.js
 - `geelooy/scripts` — 1 lexical reference; examples: geelooy/apps/tunnel/agent/tools/fs/jsWriteVerifier.js
 - `geelooy/shared` — 1 lexical reference; examples: geelooy/apps/tunnel/js/browserPageTunnel.js
 - `scripts` — 1 lexical reference; examples: geelooy/apps/tunnel/agent/rebuild-manifest.cjs
 
 ## Used by
 
-- `geelooy/api/tunnel` — 7 lexical references; examples: geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js
+- `geelooy/api/tunnel` — 8 lexical references; examples: geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js; geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js
 - `geelooy/scripts` — 5 lexical references; examples: geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-directory-entry-env.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-helpers.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-url-puppeteer.cjs
+- `ayzarim/awtsmoosDynamicServer` — 2 lexical references; examples: ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js
 
 ## External packages
 
@@ -53,4 +55,4 @@ Source files: 1117; classes: 31; functions: 5223; exports: 4034; samples: buildI
 
 ## Verification clue
 
-Observed test-classified files: **651**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **820**. Treat this as file evidence, not proof of behavioral coverage.

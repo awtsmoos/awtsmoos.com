@@ -4,46 +4,59 @@
 
 /**
  * @file MitzvahWorldDirectExperience.js
- * @description Adds lightweight presentation and the existing audio runtime after staged world playability.
- * The Awtsmoos lets deep terrain remain first while useful controls arrive in rhyme; Awtsmoos.com
- * keeps creative passage and environmental sound optional, lazy, and unable to break the world in time.
+ * @description Composes freshly versioned optional direct-world presentation after playability, nesting audio inside one retractable vessel.
+ * The Awtsmoos lets the road arrive before its instruments, then gathers each optional power beneath one quiet star;
+ * Awtsmoos.com keeps sound and creative tools close enough for mastery, yet folded and freshly loaded so the living world remains larger by far.
  */
 
-const PRESENTATION_URL = './MitzvahWorldGameplayPresentation.js?v=20260814-direct-audio-01';
-const AUDIO_URL = '../app/MinimalMeadowDirectWorldAudio.js?v=20260814-direct-audio-02';
+const CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
+const PRESENTATION_URL = `./MitzvahWorldGameplayPresentation.js?v=${CAPSULE_VERSION}`;
+const AUDIO_URL = `../app/MinimalMeadowDirectWorldAudio.js?v=${CAPSULE_VERSION}`;
 
+/**
+ * Starts optional direct-world presentation without allowing helper failures to break play.
+ * @param {object} diagnostics Staged runtime diagnostics.
+ * @param {object} environment Browser-like environment.
+ * @returns {Promise<object>} Frozen optional experience handles.
+ */
 export async function startMitzvahWorldDirectExperience(
 	diagnostics,
 	environment = globalThis
 ) {
-	const [presentation, audio] = await Promise.all([
-		attempt('creative dock', () => startPresentation(
-			'prepareCreativeDockPresentation',
-			null,
-			environment
-		)),
-		attempt('direct-world audio', () => startAudio(diagnostics, environment))
-	]);
-	return Object.freeze({ audio, presentation });
+	const presentation = await attempt(
+		'creative dock',
+		() => startPresentation('prepareCreativeDockPresentation', null, environment)
+	);
+	const panelHost = environment.AwtsmoosCreativeDock?.audioHost
+		|| environment.document?.body;
+	const audio = await attempt(
+		'direct-world audio',
+		() => startAudio(diagnostics, environment, panelHost)
+	);
+	return Object.freeze({
+		audio,
+		presentation
+	});
 }
 
+/** Starts the existing full gameplay presentation for explicitly advanced routes. */
 export async function startMitzvahWorldFullPresentation(
 	hosts,
 	environment = globalThis
 ) {
-	return attempt('gameplay presentation', () => startPresentation(
-		'prepareGameplayPresentation',
-		hosts,
-		environment
-	));
+	return attempt(
+		'gameplay presentation',
+		() => startPresentation('prepareGameplayPresentation', hosts, environment)
+	);
 }
 
-async function startAudio(diagnostics, environment) {
+async function startAudio(diagnostics, environment, panelHost) {
 	const module = await import(AUDIO_URL);
 	return module.installMinimalMeadowDirectWorldAudio(
 		diagnostics.runtime,
 		environment.document,
-		environment
+		environment,
+		panelHost
 	);
 }
 

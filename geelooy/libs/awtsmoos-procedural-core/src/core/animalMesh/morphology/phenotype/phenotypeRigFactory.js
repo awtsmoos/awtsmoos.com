@@ -1,88 +1,111 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * The Awtsmoos translates anatomical paths into stable chains without hiding a
- * solver. This Awtsmoos.com rig remains a plain recipe contract for the
- * established rig builder, weighting system, and external animation adapters.
+ * @file phenotypeRigFactory.js
+ * @description Orchestrates a stable mixed-guide rig while focused chain helpers own line validation, bone creation, mirroring, and parent choice.
+ * RESPONSIBILITY: create root/body/axial/component chains and emit the recipe-compatible rig envelope.
+ * NON-RESPONSIBILITY: this file does not invent membrane bones, compile geometry, skin vertices, or simulate motion.
+ * The Awtsmoos gives motion to every truthful line without confusing surface for skeleton; Awtsmoos.com gathers those chains into one rig while each helper carries only its rightful light.
  */
 
-function mirrorPoint(point) {
-	return [-point[0], point[1], point[2]];
-}
+import {
+	axialRigParents,
+	componentRigParent,
+	createRigChain,
+	hasRigCenterline,
+	mirrorRigChain
+} from './PhenotypeRigChains.js';
 
-function chainBones(partId, guide, parentId) {
-	const bones = [];
-	for (let index = 0; index < guide.centerline.length - 1; index += 1) {
-		const id = `${partId}_bone_${String(index + 1).padStart(2, "0")}`;
-		bones.push({
-			id,
-			parent: index === 0 ? parentId : bones[index - 1].id,
-			head: [...guide.centerline[index]],
-			tail: [...guide.centerline[index + 1]]
-		});
-	}
-	return bones;
-}
-
-function mirroredBones(sourceBones, pair) {
-	const idMap = new Map(sourceBones.map((bone) => [
-		bone.id,
-		bone.id.replace(pair.left, pair.right)
-	]));
-	return sourceBones.map((bone) => ({
-		id: idMap.get(bone.id),
-		parent: idMap.get(bone.parent) || bone.parent,
-		head: mirrorPoint(bone.head),
-		tail: mirrorPoint(bone.tail)
-	}));
-}
-
-function axialParents(guides) {
-	const bodyCount = Math.max(1, guides.body.centerline.length - 1);
-	return {
-		body: "root",
-		head: `body_bone_${String(bodyCount).padStart(2, "0")}`,
-		tail: `body_bone_${String(bodyCount).padStart(2, "0")}`
-	};
-}
-
-function appendageParent(partId, bodyBones) {
-	const front = /(front|arm|wing|pectoral)/i.test(partId);
-	const index = front ? Math.max(0, bodyBones.length - 1) : Math.floor(bodyBones.length * 0.35);
-	return bodyBones[index]?.id || "root";
-}
-
+/**
+ * Creates one mixed-guide-safe rig for a phenotype recipe.
+ * @param {object} profile Canonical morphology profile.
+ * @param {object} guides Mixed loft and membrane anatomical guides.
+ * @param {Array<object>} [symmetryPairs=[]] Explicit bilateral relationships.
+ * @returns {object} Recipe-compatible skeletal rig contract.
+ */
 export function createPhenotypeRig(profile, guides, symmetryPairs = []) {
-	const roots = axialParents(guides);
+	const roots = axialRigParents(guides);
 	const rootTail = guides.body.centerline[0];
-	const bones = [{
-		id: "root",
-		parent: null,
-		head: [0, 0, 0],
-		tail: [rootTail[0], rootTail[1], Math.max(0.1, rootTail[2] * 0.35)]
-	}];
-	const bodyBones = chainBones("body", guides.body, roots.body);
+	const bones = [rootBone(rootTail)];
+	const bodyBones = createRigChain(
+		'body',
+		guides.body,
+		roots.body
+	);
 	bones.push(...bodyBones);
-	for (const partId of ["head", "tail"]) {
-		if (guides[partId]) bones.push(...chainBones(partId, guides[partId], roots[partId]));
-	}
-	for (const [partId, guide] of Object.entries(guides)) {
-		if (["body", "head", "tail"].includes(partId)) continue;
-		const chain = chainBones(partId, guide, appendageParent(partId, bodyBones));
-		bones.push(...chain);
-		const pair = symmetryPairs.find((entry) => entry.left === partId);
-		if (pair) bones.push(...mirroredBones(chain, pair));
-	}
+	appendAxialBones(bones, guides, roots);
+	appendComponentBones(
+		bones,
+		guides,
+		symmetryPairs,
+		bodyBones
+	);
 	return {
+		bones,
 		enabled: true,
 		type: profile.archetype_id,
-		bones,
 		weighting: {
-			method: "automatic_then_constrained_cleanup",
+			genome_id: profile.genome.id,
 			maximum_influences_per_vertex: 4,
-			preserve_symmetry: true,
-			genome_id: profile.genome.id
+			method: 'automatic_then_constrained_cleanup',
+			preserve_symmetry: true
 		}
 	};
+}
+
+function rootBone(rootTail) {
+	return {
+		id: 'root',
+		parent: null,
+		head: [0, 0, 0],
+		tail: [
+			rootTail[0],
+			rootTail[1],
+			Math.max(0.1, rootTail[2] * 0.35)
+		]
+	};
+}
+
+function appendAxialBones(bones, guides, roots) {
+	for (const partId of ['head', 'tail']) {
+		if (!guides[partId]) {
+			continue;
+		}
+		bones.push(...createRigChain(
+			partId,
+			guides[partId],
+			roots[partId]
+		));
+	}
+}
+
+function appendComponentBones(
+	bones,
+	guides,
+	symmetryPairs,
+	bodyBones
+) {
+	for (const [partId, guide] of Object.entries(guides)) {
+		if (isAxial(partId) || !hasRigCenterline(guide)) {
+			continue;
+		}
+		const chain = createRigChain(
+			partId,
+			guide,
+			componentRigParent(partId, bodyBones)
+		);
+		bones.push(...chain);
+		const pair = symmetryPairs.find(entry => {
+			return entry.left === partId;
+		});
+		if (pair) {
+			bones.push(...mirrorRigChain(chain, pair));
+		}
+	}
+}
+
+function isAxial(partId) {
+	return ['body', 'head', 'tail'].includes(partId);
 }

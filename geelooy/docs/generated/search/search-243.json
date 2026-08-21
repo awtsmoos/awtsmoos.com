@@ -1,250 +1,264 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--6c88afff93",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/ground/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-apps-nesher-studio-docs-long-recording-design-md-c255980439",
+		"title": "Long Recording Design",
+		"sourcePath": "geelooy/apps/nesher-studio/docs/LONG_RECORDING_DESIGN.md",
+		"category": "Apps",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/ground",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-ground"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Long Recording Design",
+				"anchor": "long-recording-design"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/ground Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 0 structural child directories Purpose Ground cover texture sources for forest terrain. T",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/ground role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 0 structural child directories purpose ground cover texture sources for forest terrain. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: jpg, assets, awtsmoos nature, chai forest, color, dirt, grass, ground, guide, local, materials, textures file mix: .jpg: 2 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files dirt color.jpg — a .jpg artifact in this directory. grass.jpg — a .jpg artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--6c88afff93.json"
+		"excerpt": "B\"H Long Recording Design Current Nesher behavior: Video frames are sent one at a time to the existing MediaBunnyBase worker. MediaBunnyBase keeps only a small frame queue. Final MP4 bytes are written through an IndexedDB range target in the shared video library. Captured tab audio is stored as PCM packets in IndexedDB",
+		"searchText": "b\"h long recording design current nesher behavior: video frames are sent one at a time to the existing mediabunnybase worker. mediabunnybase keeps only a small frame queue. final mp4 bytes are written through an indexeddb range target in the shared video library. captured tab audio is stored as pcm packets in indexeddb while recording. this avoids the main ram traps during recording. remaining limitation: the current shared finalize api expects one audiobuffer like shim, so final muxing materializes audio once at the end. future true segment mode: finalize a fragment every 30 120 seconds. store fragments in indexeddb. stitch using a same codec fragmented mp4 concat action, not by decoding/re encoding. this belongs in /scripts/awtsmoos/video, so all apps benefit.",
+		"page": "pages/geelooy-apps-nesher-studio-docs-long-recording-design-md-c255980439.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--b31f1bfb9b",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/chai-forest/textures/leaves/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-apps-nesher-studio-docs-monitor-sources-md-a25532b5cd",
+		"title": "Monitor Sources",
+		"sourcePath": "geelooy/apps/nesher-studio/docs/MONITOR_SOURCES.md",
+		"category": "Apps",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/chai-forest/textures/leaves",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-chai-forest-textures-leaves"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Monitor Sources",
+				"anchor": "monitor-sources"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/leaves Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Leaf texture sources for foliage rendering. The Aw",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/chai forest/textures/leaves role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose leaf texture sources for foliage rendering. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: png, ash, aspen, assets, awtsmoos nature, chai forest, guide, leaves, local, materials, oak, pine file mix: .png: 4 · .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files ash.png — a .png artifact in this directory. aspen.png — a .png artifact in this directory. oak.png — a .png artifact in this directory. pine.png — a .png artifact in this directory. directory map parent: assets/materials/local/world/awtsmoos nature/chai forest/textures children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--b31f1bfb9b.json"
+		"excerpt": "B\"H Monitor Sources Nesher now exposes monitor capture as a first class source. Implementation details: Add Monitor calls getDisplayMedia() with monitor oriented hints. Browser permission still controls the final picker choice. The chosen display surface is read from track.getSettings().displaySurface. The monitor sour",
+		"searchText": "b\"h monitor sources nesher now exposes monitor capture as a first class source. implementation details: add monitor calls getdisplaymedia() with monitor oriented hints. browser permission still controls the final picker choice. the chosen display surface is read from track.getsettings().displaysurface. the monitor source is a normal video source, so scenes, dragging, resizing, audio capture, and recording use the same stable path. important browser fact: a web page cannot silently select a monitor. the user must choose the screen/window/tab in the picker. the app can request and label monitor capture, but chrome owns permission and selection.",
+		"page": "pages/geelooy-apps-nesher-studio-docs-monitor-sources-md-a25532b5cd.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--6ca1b50296",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-apps-nesher-studio-docs-tab-capture-roadmap-md-169ad3a82d",
+		"title": "Nesher Studio Tab Capture Roadmap",
+		"sourcePath": "geelooy/apps/nesher-studio/docs/TAB_CAPTURE_ROADMAP.md",
+		"category": "Apps",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature"
+				"text": "Nesher Studio Tab Capture Roadmap",
+				"anchor": "nesher-studio-tab-capture-roadmap"
 			},
 			{
 				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
+				"text": "What works inside a normal page",
+				"anchor": "what-works-inside-a-normal-page"
 			},
 			{
 				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
+				"text": "What cannot be done by a normal page",
+				"anchor": "what-cannot-be-done-by-a-normal-page"
 			},
 			{
 				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
+				"text": "Best extension route",
+				"anchor": "best-extension-route"
 			},
 			{
 				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Best tunnel route",
+				"anchor": "best-tunnel-route"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 2 structural child directories Purpose Nature oriented source assets, especially forest vegetation and tree libraries",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 2 structural child directories purpose nature oriented source assets, especially forest vegetation and tree libraries. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, guide, local, materials file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world children: assets/materials/local/world/awtsmoos nature/chai forest assets/materials/local/world/awtsmoos nature/ilanos related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--6ca1b50296.json"
+		"excerpt": "B\"H Nesher Studio Tab Capture Roadmap What works inside a normal page Use navigator.mediaDevices.getDisplayMedia({ video: true }). The user chooses a tab, window, or screen. The returned MediaStream can be drawn as a video source into the Nesher canvas and encoded like webcam. This is now represented as a display sourc",
+		"searchText": "b\"h nesher studio tab capture roadmap what works inside a normal page use navigator.mediadevices.getdisplaymedia({ video: true }). the user chooses a tab, window, or screen. the returned mediastream can be drawn as a video source into the nesher canvas and encoded like webcam. this is now represented as a display source route in modules/tabcaptureideas.js and makedisplaysource(). what cannot be done by a normal page a web page cannot silently pick and record an arbitrary chrome tab. browser security requires user permission. an iframe source also cannot be pixel captured if cross origin; nesher records a safe iframe plate unless capture is done through display media or an extension. best extension route build a chrome extension with: tabcapture permission activetab permission offscreen document permission if needed a content/control page that calls chrome.tabcapture.capture stream handoff to nesher through a controlled extension page or webrtc/messagechannel bridge best tunnel route do not bypass browser consent. instead, add tunnel actions: chrometabslist chrometabfocus chromeextensioninstalldev chromecaptureworkflowstart chromecaptureworkflowstatus chromeprofilelaunchwithextension these make the agent able to prepare and test the capture workflow while the extension/browser still owns real capture permission.",
+		"page": "pages/geelooy-apps-nesher-studio-docs-tab-capture-roadmap-md-169ad3a82d.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--2979cc3952",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/assets/materials/local/world/awtsmoos-nature/ilanos/DIRECTORY_GUIDE.md",
-		"category": "Games",
+		"id": "geelooy-apps-nesher-studio-documentation-md-7f2998fccb",
+		"title": "Nesher Studio Documentation",
+		"sourcePath": "geelooy/apps/nesher-studio/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nesher Studio Documentation",
+				"anchor": "nesher-studio-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Nesher Studio Documentation The Awtsmoos lets a large studio project reveal creative structure through hundreds of files without being flattened into a generic editor name; Awtsmoos.com maps this app beside creative tools and asks maintainers to begin from its own entry/README before cha",
+		"searchText": "b\"h boruch hashem blessed is he nesher studio documentation the awtsmoos lets a large studio project reveal creative structure through hundreds of files without being flattened into a generic editor name; awtsmoos.com maps this app beside creative tools and asks maintainers to begin from its own entry/readme before changing the frame. read ../../../docs/apps/creative tools.md and ../../../docs/generated/app inventory.md.",
+		"page": "pages/geelooy-apps-nesher-studio-documentation-md-7f2998fccb.json"
+	},
+	{
+		"id": "geelooy-apps-nesher-studio-modules-streaming-local-tunnel-streaming-md-9eca256443",
+		"title": "Nesher Local Tunnel Streaming",
+		"sourcePath": "geelooy/apps/nesher-studio/modules/streaming/LOCAL_TUNNEL_STREAMING.md",
+		"category": "Tunnel",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: assets/materials/local/world/awtsmoos-nature/ilanos",
-				"anchor": "directory-guide-assets-materials-local-world-awtsmoos-nature-ilanos"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
+				"text": "Nesher Local Tunnel Streaming",
+				"anchor": "nesher-local-tunnel-streaming"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: assets/materials/local/world/awtsmoos nature/ilanos Role: Assets Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 1 structural child directories Purpose Tree oriented source collection; “ilanos” groups arboreal assets. The A",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: assets/materials/local/world/awtsmoos nature/ilanos role: assets snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 1 structural child directories purpose tree oriented source collection; “ilanos” groups arboreal assets. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: assets search terms: assets, awtsmoos nature, guide, ilanos, local, materials file mix: .md: 1 good first question: “does the behavior or asset i need belong to assets, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: assets/materials/local/world/awtsmoos nature children: assets/materials/local/world/awtsmoos nature/ilanos/trees related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions this directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-assets-materials-local-world-awtsmoos-nature--2979cc3952.json"
+		"excerpt": "B\"H Nesher Local Tunnel Streaming localTunnelStreaming.js talks to the local tunnel API. hlsTunnelSession.js wraps start enqueue segment flush stop. segmentQueue.js prevents unbounded browser side memory growth while muxers emit media segments. Current implemented browser mux path: mediabunnyFmp4Stream.js imports Media",
+		"searchText": "b\"h nesher local tunnel streaming localtunnelstreaming.js talks to the local tunnel api. hlstunnelsession.js wraps start enqueue segment flush stop. segmentqueue.js prevents unbounded browser side memory growth while muxers emit media segments. current implemented browser mux path: mediabunnyfmp4stream.js imports mediabunny 1.46 from https://esm.sh/mediabunny@1.46.0?bundle. it uses mp4outputformat({ faststart:'fragmented' }) with onftyp, onmoov, onmoof, and onmdat callbacks. it captures the composed nesher canvas through canvassource and pushes init.mp4 plus real moof+mdat .m4s fragments into the local tunnel session. media path: nesher scene canvas mediabunny canvassource h.264 fragmented mp4 local tunnel platform ingest or relay. control path: /api/streaming creates or configures connector metadata. it does not receive video bytes unless the user chooses the awtsmoos hosted connector. activation warning: the repository contains the streaming local api route, but the currently running installed tunnel may be older. if /streaming/start returns a filesystem list response, restart/reinstall the awtsmoos tunnel agent so the installed local api exposes the streaming routes.",
+		"page": "pages/geelooy-apps-nesher-studio-modules-streaming-local-tunnel-streaming-md-9eca256443.json"
+	},
+	{
+		"id": "geelooy-apps-nesher-studio-modules-streaming-readme-md-a90377763f",
+		"title": "Nesher YouTube Streaming Modules",
+		"sourcePath": "geelooy/apps/nesher-studio/modules/streaming/README.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Nesher YouTube Streaming Modules",
+				"anchor": "nesher-youtube-streaming-modules"
+			}
+		],
+		"excerpt": "B\"H Nesher YouTube Streaming Modules youtubeControl.js talks to /api/youtube for OAuth/control metadata. hlsUploader.js is the direct to YouTube byte path. Still needed for actual live streaming: WebCodecs H.264/AAC encoder settings finalized. Browser JS muxer that emits YouTube compatible HLS media segments and playli",
+		"searchText": "b\"h nesher youtube streaming modules youtubecontrol.js talks to /api/youtube for oauth/control metadata. hlsuploader.js is the direct to youtube byte path. still needed for actual live streaming: webcodecs h.264/aac encoder settings finalized. browser js muxer that emits youtube compatible hls media segments and playlists. a segment scheduler that sends those bytes through hlsuploader. this intentionally avoids ffmpeg and avoids sending video bytes through awtsmoos.com.",
+		"page": "pages/geelooy-apps-nesher-studio-modules-streaming-readme-md-a90377763f.json"
+	},
+	{
+		"id": "geelooy-apps-piano-documentation-md-c6f560e2e1",
+		"title": "Piano App Documentation",
+		"sourcePath": "geelooy/apps/piano/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Piano App Documentation",
+				"anchor": "piano-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Piano App Documentation The Awtsmoos lets sound become interactive through keys, timing, browser input, and musical state; Awtsmoos.com maps this app within creative tools while its own source remains authority for implementation fate. Read ../../../docs/APPS/CREATIVE TOOLS.md and ../../",
+		"searchText": "b\"h boruch hashem blessed is he piano app documentation the awtsmoos lets sound become interactive through keys, timing, browser input, and musical state; awtsmoos.com maps this app within creative tools while its own source remains authority for implementation fate. read ../../../docs/apps/creative tools.md and ../../../docs/apps/media tools.md.",
+		"page": "pages/geelooy-apps-piano-documentation-md-c6f560e2e1.json"
+	},
+	{
+		"id": "geelooy-apps-rebbe-documentation-md-e77410fce1",
+		"title": "Rebbe App Documentation",
+		"sourcePath": "geelooy/apps/rebbe/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Rebbe App Documentation",
+				"anchor": "rebbe-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Rebbe App Documentation The Awtsmoos gives this substantial named app a local map while compiler evidence shows backend relationships that must be traced; Awtsmoos.com links developer and creative documentation without inventing contracts not actually written in source. Read ../../../doc",
+		"searchText": "b\"h boruch hashem blessed is he rebbe app documentation the awtsmoos gives this substantial named app a local map while compiler evidence shows backend relationships that must be traced; awtsmoos.com links developer and creative documentation without inventing contracts not actually written in source. read ../../../docs/apps/creative tools.md, ../../../docs/apps/developer tools.md, and ../../../docs/api/other families.md.",
+		"page": "pages/geelooy-apps-rebbe-documentation-md-e77410fce1.json"
+	},
+	{
+		"id": "geelooy-apps-scripts-documentation-md-598e560db6",
+		"title": "App Script Catalog Helpers",
+		"sourcePath": "geelooy/apps/scripts/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "App Script Catalog Helpers",
+				"anchor": "app-script-catalog-helpers"
+			},
+			{
+				"level": 2,
+				"text": "Boundary",
+				"anchor": "boundary"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He App Script Catalog Helpers The Awtsmoos lets application discovery become a small reusable browser vessel; Awtsmoos.com keeps catalog filtering separate from individual app implementations. Boundary geelooy/apps/scripts/ contains apps filter.js and the catalog/ modules used by applicatio",
+		"searchText": "b\"h boruch hashem blessed is he app script catalog helpers the awtsmoos lets application discovery become a small reusable browser vessel; awtsmoos.com keeps catalog filtering separate from individual app implementations. boundary geelooy/apps/scripts/ contains apps filter.js and the catalog/ modules used by application discovery/catalog surfaces. it is shared app listing support, not a standalone product runtime. change rule trace consumers before changing filtering or catalog semantics because multiple application surfaces may depend on the same shared discovery behavior.",
+		"page": "pages/geelooy-apps-scripts-documentation-md-598e560db6.json"
+	},
+	{
+		"id": "geelooy-apps-sheets-documentation-md-376db4ec7e",
+		"title": "Awtsmoos Sheets",
+		"sourcePath": "geelooy/apps/sheets/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Sheets",
+				"anchor": "awtsmoos-sheets"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Boundary",
+				"anchor": "boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Sheets The Awtsmoos lets formulas, commands, collaborators, and cells move through one precise grid while Awtsmoos.com keeps their roles explicit and inspectable. Entry point index.html is the browser shell. js/ contains workbook/grid/application behavior and css/ contains focus",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos sheets the awtsmoos lets formulas, commands, collaborators, and cells move through one precise grid while awtsmoos.com keeps their roles explicit and inspectable. entry point index.html is the browser shell. js/ contains workbook/grid/application behavior and css/ contains focused tokens, shell, controls, menus, dialogs, panels, grid, presence, tabs, responsive, motion, and futuristic presentation modules. boundary this directory owns the sheets client experience. realtime authority and persistence must be traced to the corresponding server/websocket application before changing protocol or storage semantics.",
+		"page": "pages/geelooy-apps-sheets-documentation-md-376db4ec7e.json"
+	},
+	{
+		"id": "geelooy-apps-slides-agents-md-d6e5531731",
+		"title": "Awtsmoos Slides — AI and Agent Instructions",
+		"sourcePath": "geelooy/apps/slides/AGENTS.md",
+		"category": "Apps",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Slides — AI and Agent Instructions",
+				"anchor": "awtsmoos-slides-ai-and-agent-instructions"
+			},
+			{
+				"level": 2,
+				"text": "Canonical file format",
+				"anchor": "canonical-file-format"
+			},
+			{
+				"level": 2,
+				"text": "Root document",
+				"anchor": "root-document"
+			},
+			{
+				"level": 2,
+				"text": "Supported elements",
+				"anchor": "supported-elements"
+			},
+			{
+				"level": 2,
+				"text": "Generation rules",
+				"anchor": "generation-rules"
+			},
+			{
+				"level": 2,
+				"text": "Minimal generated slide",
+				"anchor": "minimal-generated-slide"
+			},
+			{
+				"level": 2,
+				"text": "Direct opening in Geelooy OS",
+				"anchor": "direct-opening-in-geelooy-os"
+			},
+			{
+				"level": 2,
+				"text": "Export surfaces",
+				"anchor": "export-surfaces"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Slides — AI and Agent Instructions The Awtsmoos lets thought become a portable presentation vessel. Awtsmoos Slides deliberately uses a human readable JSON file format so an AI agent, script, Geelooy OS program, or person can generate an entire presentation without reverse engin",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos slides — ai and agent instructions the awtsmoos lets thought become a portable presentation vessel. awtsmoos slides deliberately uses a human readable json file format so an ai agent, script, geelooy os program, or person can generate an entire presentation without reverse engineering the editor. canonical file format use the .awtslides extension. the file contents are one json object. the editor normalizes imported data through the same presentation model used for local persistence and collaboration. public discovery files: /apps/slides/ai/manifest.json — machine readable capabilities and schema summary. /apps/slides/ai/example.awtslides — directly openable generated example. /apps/slides/agents.md — this guide. root document supported themes: midnight, dawn, forest, paper, neon. each slide supports name, background, notes, and elements. ids and revision are optional for generated documents because the editor can normalize missing values. supported elements text and headings support percentage geometry plus text, fontsize, fontweight, fontfamily, color, align, rotation, and opacity. shapes use type: \"shape\", shape: \"rect\" \"circle\", percentage geometry, fill, bordercolor, borderwidth, radius, rotation, and opacity. images use type: \"image\", percentage geometry, src, alt, fit, rotation, and opacity. prefer safe https urls or data:image/... urls when generating portable decks. generation rules 1. output one valid json object, not markdown. 2. keep visible text concise and put extra narration in slide notes. 3. compose for a 16:9 stage using x/y/width/height percentages. 4. leave visual margins; do not place every element at the edges. 5. use css hex colors such as f7f7fb. 6. keep slides visually hierarchical: one dominant idea, supporting text, and purposeful shapes/media. 7. do not invent unsupported element types when direct opening is required. 8. save generated json as something.awtslides, paste it into the ai studio, or deliver it to the geelooy os opener. minimal generated slide direct opening in geelooy os .awtslides is registered with awtsmoos slides. a geelooy file opener can pass the file contents to the presenter program as options.content; the presenter host transfers that content to the embedded slides application through the same origin deck bridge. export surfaces awtsmoos slides supports its native .awtslides json, standalone playable html, embeddable iframe markup, and dependency free .pptx powerpoint export for the supported presentation subset. the awtsmoos gives the agent a clear covenant: generate one normalized deck, and let every other surface—editor, os, embed, html, collaboration, powerpoint—flow from that same truth.",
+		"page": "pages/geelooy-apps-slides-agents-md-d6e5531731.json"
 	}
 ]

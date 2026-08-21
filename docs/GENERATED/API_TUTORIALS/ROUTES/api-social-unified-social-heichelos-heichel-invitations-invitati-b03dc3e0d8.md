@@ -32,7 +32,11 @@ No executable starter is generated because method evidence is unknown. Inspect t
 
 ## Observed callers
 
-No matching literal caller evidence was found.
+Pattern-compatible evidence only; it does not prove runtime dispatch.
+
+| Literal | Source | Kind |
+| --- | --- | --- |
+| `/api/social/unified-social/heichelos/beit/invitations/invite%20one/respond` | `geelooy/social-hub/js/api/GovernanceApi.test.mjs` | test |
 
 ## Related tests
 

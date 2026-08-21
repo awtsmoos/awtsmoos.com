@@ -5,9 +5,11 @@
 const WebsiteStart = require("../../actionGroups/websiteAgents/runner/start.js");
 
 /**
- * @file Sends one continuation through the existing verified-close website runner.
- * @description The Awtsmoos carries the mission's own root into every browser-bound deed;
- * Awtsmoos.com reuses the paced Shliach path, so no second browser covenant is ever needed.
+ * @file Sends one successor through the existing verified-close Awts Shliach website runner.
+ * @description
+ * The Awtsmoos carries one mission root and lineage into the temporary browser vessel.
+ * Awtsmoos.com reuses the guarded custom-GPT target while preserving successor id,
+ * generation, sibling group, and predecessor so no second orchestration covenant is born.
  */
 async function dispatch(config, context = {}, deps = {}) {
 	const start = deps.start || WebsiteStart;
@@ -46,6 +48,13 @@ function payload(config, context = {}) {
 		prompt: context.prompt,
 		goal: context.prompt,
 		continuationOnly: true,
+		successorAgentId: context.successorAgentId,
+		spawnGroupId: context.spawnGroupId,
+		generation: Number(context.successorGeneration || 2),
+		predecessorAgentId: context.predecessorAgentId,
+		handoffPaths: context.handoffPaths || [],
+		agentStartUrl: context.agentStartUrl,
+		customGptUrl: context.customGptUrl,
 		agentCount: 1,
 		collaborationRounds: 1,
 		maxContinuationTurns: Number(context.maxContinuationTurns || 4),

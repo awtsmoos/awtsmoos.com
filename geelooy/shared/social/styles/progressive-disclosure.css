@@ -1,0 +1,92 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos contains endless depth without forcing every chamber into view; Awtsmoos.com lets native disclosure reveal advanced power with one calm, semantic gesture.
+ * This Binah-like garment keeps state readable through edge, spacing, and a brief chevron turn while content itself remains the light.
+ */
+
+.awtsmoosDisclosure {
+	border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+	border-radius: .88rem;
+	background: color-mix(in srgb, Canvas 96%, currentColor 4%);
+	overflow: clip;
+}
+
+.awtsmoosDisclosure__summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	align-items: center;
+	gap: .45rem;
+	min-block-size: 44px;
+	padding: .55rem .7rem;
+	cursor: pointer;
+	list-style: none;
+	font-weight: 760;
+}
+
+.awtsmoosDisclosure__summary::-webkit-details-marker {
+	display: none;
+}
+
+.awtsmoosDisclosure__summary:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+.awtsmoosDisclosure__detail {
+	font-size: .72rem;
+	font-weight: 650;
+	opacity: .58;
+}
+
+.awtsmoosDisclosure__chevron {
+	display: inline-grid;
+	inline-size: 1.4rem;
+	block-size: 1.4rem;
+	place-items: center;
+	font-size: .9rem;
+	transition: transform 140ms ease;
+}
+
+.awtsmoosDisclosure[open] .awtsmoosDisclosure__chevron {
+	transform: rotate(180deg);
+}
+
+.awtsmoosDisclosure__body {
+	display: grid;
+	gap: .65rem;
+	padding: .1rem .7rem .75rem;
+	animation: awtsmoos-disclosure-reveal 140ms ease-out both;
+}
+
+.awtsmoosDisclosure--compact {
+	border-radius: .78rem;
+}
+
+.awtsmoosDisclosure--compact > .awtsmoosDisclosure__body {
+	min-inline-size: min(20rem, calc(100vw - 2rem));
+}
+
+@keyframes awtsmoos-disclosure-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(3px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoosDisclosure__body {
+		animation: none;
+	}
+
+	.awtsmoosDisclosure__chevron {
+		transition: none;
+	}
+}

@@ -3,36 +3,47 @@
 // Blessed is He
 
 const Context = require("./context.js");
-const {
-	Authentication
-} = Context.shared;
+const Cadence = require("./authenticationCadence.js");
+const { Authentication } = Context.shared;
 const updateAuthentication = Context.reference("updateAuthentication");
 const pauseForLogin = Context.reference("pauseForLogin");
-const status = Context.reference("status");
-const message = Context.reference("message");
 
 /**
- * @file Reveals the ensureAuthentication stage of website-agent orchestration.
+ * @file Checks authentication cheaply and opens the shared login surface only on a long lease.
  * @description
- * The Awtsmoos gives this stage one bounded responsibility while sibling stages are
- * resolved lazily through durable shared context after the browser vessel closes.
+ * The Awtsmoos lets every mission know whether the doorway is open, but Awtsmoos.com
+ * permits only a rare visible knock. Session inspection may recur; login-page creation
+ * is throttled, coalesced by the direct service, and never becomes one tab per waiting agent.
  */
 async function ensureAuthentication(config, record, service) {
-	let verdict = await Authentication.inspect(service).catch(() => ({
+	let verdict = await inspect(service);
+	let current = updateAuthentication(record.id, verdict, {});
+	if (verdict.authenticated) return true;
+	if (Cadence.shouldRequestLogin(current.authentication)) {
+		const opened = await Authentication.open(service).catch(error => ({
+			ok: false,
+			opened: false,
+			status: String(error?.code || error?.message || error)
+		}));
+		const login = {
+			requested: true,
+			opened: opened?.opened === true,
+			throttled: opened?.throttled === true,
+			nextOpenAt: opened?.nextOpenAt || null
+		};
+		verdict = await inspect(service, verdict);
+		current = updateAuthentication(record.id, verdict, login);
+	}
+	if (verdict.authenticated) return true;
+	pauseForLogin(config, current.id);
+	return false;
+}
+
+function inspect(service, fallback = null) {
+	return Authentication.inspect(service).catch(() => fallback || ({
 		authenticated: false,
 		status: "authentication_check_failed"
 	}));
-	updateAuthentication(record.id, verdict, false);
-	if (verdict.authenticated) return true;
-	const opened = await Authentication.open(service).catch(error => ({
-		ok: false,
-		status: String(error?.code || error?.message || error)
-	}));
-	verdict = await Authentication.inspect(service).catch(() => verdict);
-	updateAuthentication(record.id, verdict, Boolean(opened?.opened || opened?.ok));
-	if (verdict.authenticated) return true;
-	pauseForLogin(config, record.id);
-	return false;
 }
 
 Context.register("ensureAuthentication", ensureAuthentication);

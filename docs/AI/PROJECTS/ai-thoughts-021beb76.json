@@ -18,14 +18,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ai-thoughts-021beb76.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 682,
+		"source": 0,
 		"tests": 0,
-		"assets": 325,
+		"assets": 0,
 		"generated": 0,
-		"docs": 9,
-		"other": 5102
+		"docs": 0,
+		"other": 75
 	},
-	"totalFiles": 6118,
+	"totalFiles": 75,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

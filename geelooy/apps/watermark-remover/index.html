@@ -1,228 +1,44 @@
 <!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!--The Awtsmoos reveals image beneath image; Awtsmoos.com keeps the tool wide in power, not wide on the page.-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SVG Mask Alpha Brute-Force</title>
-<style>
-body { font-family:sans-serif; margin:12px; background:#0f1720; color:#e6eef6; }
-h1 { font-size:20px; margin:0 0 10px; }
-.row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
-label { display:inline-block; }
-input[type=file] { color:#111; }
-button { background:#1f6feb; color:white; border:none; padding:6px 10px; border-radius:6px; cursor:pointer; }
-button[disabled]{ opacity:0.5; cursor:not-allowed; }
-#canvasContainer { position:relative; display:inline-block; border:1px solid #333; touch-action: none; }
-#mainCanvas { display:block; }
-#thumbs { display:grid; grid-template-columns: repeat(auto-fill, 120px); gap:8px; max-height:50vh; overflow:auto; margin-top:12px; }
-.thumb { width:120px; height:120px; display:flex; align-items:center; justify-content:center; background:#081220; border-radius:6px; cursor:pointer; overflow:hidden; position:relative; }
-.thumb canvas { max-width:100%; max-height:100%; }
-.alphaLabel { position:absolute; left:4px; bottom:4px; background: rgba(0,0,0,0.5); padding:2px 4px; border-radius:4px; font-size:12px; color:#fff; }
-</style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<title>SVG Mask Alpha Brute-Force</title>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/results.css">
 </head>
 <body>
-<h1>SVG Mask Alpha Brute-Force</h1>
-<div class="row">
-  <label>Original Image: <input id="origFile" type="file" accept="image/*"></label>
-  <label>SVG Mask: <input id="svgFile" type="file" accept=".svg"></label>
-  <button id="generateBtn" disabled>Generate 100 Frames</button>
-</div>
-
-<div id="canvasContainer">
-  <canvas id="mainCanvas" width="500" height="500"></canvas>
-</div>
-
-<div id="thumbs"></div>
-<div id="status"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js"></script>
-<script>
-let origImage=null;
-let svgText=null;
-
-const mainCanvas = document.getElementById('mainCanvas');
-const ctx = mainCanvas.getContext('2d');
-const origFileEl = document.getElementById('origFile');
-const svgFileEl = document.getElementById('svgFile');
-const generateBtn = document.getElementById('generateBtn');
-const thumbsDiv = document.getElementById('thumbs');
-const statusEl = document.getElementById('status');
-
-let svgPos = { x:50, y:50, scale:1 };
-let dragging=false;
-let dragStart={x:0,y:0};
-
-origFileEl.addEventListener('change', loadOrig);
-svgFileEl.addEventListener('change', loadSVG);
-
-function loadOrig(){
-  const file = origFileEl.files[0];
-  if(!file) return;
-  const img=new Image();
-  img.onload=()=>{
-    origImage=img;
-    mainCanvas.width=img.width;
-    mainCanvas.height=img.height;
-    drawCanvas();
-    enableGenerateIfReady();
-  };
-  img.src=URL.createObjectURL(file);
-}
-
-function loadSVG(){
-  const file=svgFileEl.files[0];
-  if(!file) return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    svgText=e.target.result;
-    drawCanvas();
-    enableGenerateIfReady();
-  };
-  reader.readAsText(file);
-}
-
-function enableGenerateIfReady(){
-  generateBtn.disabled=!(origImage && svgText);
-}
-
-function drawCanvas(){
-  if(!origImage) return;
-  ctx.clearRect(0,0,mainCanvas.width,mainCanvas.height);
-  ctx.drawImage(origImage,0,0);
-  if(svgText){
-    const tempCanvas=document.createElement('canvas');
-    tempCanvas.width=mainCanvas.width;
-    tempCanvas.height=mainCanvas.height;
-    canvg.Canvg.fromString(tempCanvas.getContext('2d'), svgText, {ignoreMouse:true, ignoreAnimation:true}).render().then(()=>{
-      ctx.save();
-      ctx.translate(svgPos.x, svgPos.y);
-      ctx.scale(svgPos.scale, svgPos.scale);
-      ctx.drawImage(tempCanvas,0,0);
-      ctx.restore();
-    });
-  }
-}
-
-// --- drag events
-mainCanvas.addEventListener('mousedown', e=>{
-  dragging=true;
-  dragStart.x = e.offsetX - svgPos.x;
-  dragStart.y = e.offsetY - svgPos.y;
-});
-mainCanvas.addEventListener('mousemove', e=>{
-  if(dragging){
-    svgPos.x = e.offsetX - dragStart.x;
-    svgPos.y = e.offsetY - dragStart.y;
-    drawCanvas();
-  }
-});
-mainCanvas.addEventListener('mouseup', e=>dragging=false);
-mainCanvas.addEventListener('mouseleave', e=>dragging=false);
-mainCanvas.addEventListener('wheel', e=>{
-  if(svgText){
-    e.preventDefault();
-    const delta=e.deltaY<0?1.05:0.95;
-    svgPos.scale*=delta;
-    drawCanvas();
-  }
-});
-
-// touch
-mainCanvas.addEventListener('touchstart', e=>{
-  if(e.touches.length===1){
-    dragging=true;
-    const t=e.touches[0];
-    const rect=mainCanvas.getBoundingClientRect();
-    dragStart.x = t.clientX-rect.left-svgPos.x;
-    dragStart.y = t.clientY-rect.top-svgPos.y;
-  }
-});
-mainCanvas.addEventListener('touchmove', e=>{
-  if(dragging && e.touches.length===1){
-    e.preventDefault();
-    const t=e.touches[0];
-    const rect=mainCanvas.getBoundingClientRect();
-    svgPos.x = t.clientX - rect.left - dragStart.x;
-    svgPos.y = t.clientY - rect.top - dragStart.y;
-    drawCanvas();
-  }
-});
-mainCanvas.addEventListener('touchend', e=>dragging=false);
-
-// --- generate 100 frames
-generateBtn.addEventListener('click', async ()=>{
-  if(!origImage || !svgText) return;
-  thumbsDiv.innerHTML='';
-  statusEl.textContent='Generating thumbnails...';
-  const w=origImage.width,h=origImage.height;
-
-  // prepare mask canvas
-  const maskCanvas=document.createElement('canvas');
-  maskCanvas.width=w; maskCanvas.height=h;
-  const mctx=maskCanvas.getContext('2d');
-  mctx.fillStyle='black';
-  mctx.fillRect(0,0,w,h);
-
-  // draw SVG overlay onto mask
-  const tmpCanvas=document.createElement('canvas');
-  tmpCanvas.width=w; tmpCanvas.height=h;
-  await canvg.Canvg.fromString(tmpCanvas.getContext('2d'), svgText).render();
-  mctx.save();
-  mctx.translate(svgPos.x,svgPos.y);
-  mctx.scale(svgPos.scale, svgPos.scale);
-  mctx.drawImage(tmpCanvas,0,0);
-  mctx.restore();
-
-  const maskData=mctx.getImageData(0,0,w,h).data;
-  const origCtx=document.createElement('canvas').getContext('2d');
-  origCtx.canvas.width=w; origCtx.canvas.height=h;
-  origCtx.drawImage(origImage,0,0);
-  const origData=origCtx.getImageData(0,0,w,h).data;
-
-  const steps=100;
-  for(let s=0;s<steps;s++){
-    const a=(s+1)/(steps+1);
-    const outCanvas=document.createElement('canvas');
-    outCanvas.width=120; outCanvas.height=120;
-    const outCtx=outCanvas.getContext('2d');
-    const outImgData=outCtx.createImageData(w,h);
-    for(let i=0;i<w*h;i++){
-      const maskVal=maskData[i*4+3]>128?1:0;
-      for(let c=0;c<3;c++){
-        const P=origData[i*4+c]/255;
-        let val=P;
-        if(maskVal){
-          val=(P-a)/Math.max(1e-6,1-a);
-          val=Math.min(Math.max(val,0),1);
-        }
-        outImgData.data[i*4+c]=Math.round(val*255);
-      }
-      outImgData.data[i*4+3]=255;
-    }
-    outCtx.putImageData(outImgData,0,0);
-    // thumbnail
-    const thumbCanvas=document.createElement('canvas');
-    thumbCanvas.width=120; thumbCanvas.height=120;
-    thumbCanvas.getContext('2d').drawImage(outCanvas,0,0,w,h,0,0,120,120);
-    const wrapper=document.createElement('div'); wrapper.className='thumb';
-    wrapper.appendChild(thumbCanvas);
-    const lbl=document.createElement('div'); lbl.className='alphaLabel';
-    lbl.textContent=`α ${a.toFixed(2)}`;
-    wrapper.appendChild(lbl);
-    wrapper.addEventListener('click',()=>{
-      const fullCanvas=document.createElement('canvas');
-      fullCanvas.width=w; fullCanvas.height=h;
-      fullCanvas.getContext('2d').putImageData(outImgData,0,0);
-      const link=document.createElement('a');
-      link.href=fullCanvas.toDataURL();
-      link.download=`reconstruction_alpha_${a.toFixed(2)}.png`;
-      link.click();
-    });
-    thumbsDiv.appendChild(wrapper);
-  }
-  statusEl.textContent='Done!';
-});
-</script>
+	<main class="workspace">
+		<header class="intro">
+			<p class="bh-mark">B"H</p>
+			<h1>SVG Mask Alpha Brute-Force</h1>
+			<p>Load an original image and SVG mask, position the mask, then preview reconstruction strengths.</p>
+		</header>
+		<section class="controls" aria-label="Input controls">
+			<label class="file-control">
+				<span>Original image</span>
+				<input id="origFile" type="file" accept="image/*">
+			</label>
+			<label class="file-control">
+				<span>SVG mask</span>
+				<input id="svgFile" type="file" accept=".svg,image/svg+xml">
+			</label>
+			<button id="generateBtn" type="button" disabled>Generate 100 Frames</button>
+		</section>
+		<p class="hint">Drag the mask on the image. Use the mouse wheel or trackpad to scale it.</p>
+		<section class="canvas-panel" aria-label="Image and mask preview">
+			<div id="canvasContainer" class="canvas-container">
+				<canvas id="mainCanvas" width="500" height="500"></canvas>
+			</div>
+		</section>
+		<output id="status" class="status" aria-live="polite"></output>
+		<section id="thumbs" class="thumbs" aria-label="Reconstruction previews"></section>
+	</main>
+	<script src="https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js"></script>
+	<script type="module" src="js/app.js"></script>
 </body>
 </html>

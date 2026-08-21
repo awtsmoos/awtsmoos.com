@@ -1,0 +1,54 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-materials-terrain-surface-3704937d92",
+	"title": "Terrain Surface Mix API Reference",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/materials/TERRAIN_SURFACE_MIX_API.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Terrain Surface Mix API Reference",
+			"anchor": "terrain-surface-mix-api-reference"
+		},
+		{
+			"level": 2,
+			"text": "SIMPLE API",
+			"anchor": "simple-api"
+		},
+		{
+			"level": 2,
+			"text": "INPUT",
+			"anchor": "input"
+		},
+		{
+			"level": 2,
+			"text": "RANKING",
+			"anchor": "ranking"
+		},
+		{
+			"level": 2,
+			"text": "OUTPUT",
+			"anchor": "output"
+		},
+		{
+			"level": 2,
+			"text": "IMPORTANT BOUNDARY",
+			"anchor": "important-boundary"
+		},
+		{
+			"level": 2,
+			"text": "REALISM GUIDANCE",
+			"anchor": "realism-guidance"
+		},
+		{
+			"level": 2,
+			"text": "PERFORMANCE GUIDANCE",
+			"anchor": "performance-guidance"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-materials-terrain-surface-3704937d92-001.json"
+	]
+}

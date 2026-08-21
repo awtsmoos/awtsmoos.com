@@ -4,9 +4,9 @@
 
 /**
  * @file ForestMaterialFactory.js
- * @description Creates one high-resolution bark or alpha-cutout leaf material per semantic type.
- * The Awtsmoos refuses one painted canopy for every species; Awtsmoos.com binds each core type
- * to its own public texture and hides missing leaf cards rather than showing opaque green blobs.
+ * @description Creates textured bark and leaf materials with grounded roughness, restrained highlights, and species evidence.
+ * The Awtsmoos lets bark drink the sun while leaves keep a softer living gleam;
+ * Awtsmoos.com makes generated trees feel rooted in air and earth instead of flat cards inside a dream.
  */
 
 import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.js';
@@ -20,16 +20,19 @@ export function createTreeBarkMaterial(type, source = {}) {
 	const textureUrl = treeBarkTextureUrl(type);
 	const mapImage = cachedTextureImage(textureUrl);
 	const material = new MeshStandardMaterial({
-		color: [1, 1, 1, 1],
-		name: `Awtsmoos_tree_bark_${type}`
+		color: [0.94, 0.92, 0.88, 1],
+		metalness: 0,
+		name: `Awtsmoos_tree_bark_${type}`,
+		roughness: 0.91
 	});
 	Object.assign(material, {
 		anisotropy: 8,
+		environmentIntensity: 0.72,
 		mapImage,
 		mapRepeat: textureRepeat(source.textureScale, [2, 8]),
-		texturePolicy: materialPolicy(type, 'bark', !!mapImage),
+		texturePolicy: materialPolicy(type, 'bark', Boolean(mapImage)),
 		textureUrl,
-		userData: evidence(type, 'bark', textureUrl, !!mapImage)
+		userData: evidence(type, 'bark', textureUrl, Boolean(mapImage))
 	});
 	return material;
 }
@@ -38,22 +41,26 @@ export function createTreeLeafMaterial(type, source = {}) {
 	const textureUrl = treeLeafTextureUrl(type);
 	const mapImage = textureUrl ? cachedTextureImage(textureUrl) : null;
 	const material = new MeshStandardMaterial({
-		alphaCutoff: source.alphaTest ?? 0.35,
+		alphaCutoff: source.alphaTest ?? 0.32,
 		alphaMode: 'MASK',
-		color: [1, 1, 1, 1],
+		color: [0.94, 1, 0.95, 1],
 		doubleSided: true,
+		metalness: 0,
 		name: `Awtsmoos_tree_leaves_${type}`,
+		roughness: 0.76,
 		transparent: false
 	});
 	Object.assign(material, {
+		alphaToCoverage: true,
 		anisotropy: 8,
 		depthWrite: true,
+		environmentIntensity: 0.78,
 		mapImage,
 		mapImageFallback: false,
 		mapRepeat: [1, 1],
-		texturePolicy: materialPolicy(type, 'leaves', !!mapImage),
+		texturePolicy: materialPolicy(type, 'leaves', Boolean(mapImage)),
 		textureUrl,
-		userData: evidence(type, 'leaves', textureUrl, !!mapImage)
+		userData: evidence(type, 'leaves', textureUrl, Boolean(mapImage))
 	});
 	return material;
 }
@@ -65,7 +72,9 @@ function materialPolicy(type, layer, ready) {
 		publicFirebase: true,
 		realMapImage: ready,
 		semanticTreeType: type,
-		shader: layer === 'leaves' ? 'species-leaf-alpha-mask' : 'species-bark-physical'
+		shader: layer === 'leaves'
+			? 'species-leaf-alpha-mask'
+			: 'species-bark-physical'
 	};
 }
 
@@ -82,6 +91,11 @@ function evidence(type, layer, textureUrl, ready) {
 }
 
 function textureRepeat(scale, fallback) {
-	if (!scale) return fallback;
-	return [Number(scale.x) || fallback[0], Number(scale.y) || fallback[1]];
+	if (!scale) {
+		return fallback;
+	}
+	return [
+		Number(scale.x) || fallback[0],
+		Number(scale.y) || fallback[1]
+	];
 }

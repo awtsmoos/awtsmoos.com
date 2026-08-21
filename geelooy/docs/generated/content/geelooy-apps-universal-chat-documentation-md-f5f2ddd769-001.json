@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# Messages & Torah Chat\n\nThe Awtsmoos renews public Torah conversation and private consent messaging through one identity while Awtsmoos.com keeps discovery, private transport, presentation, and conversation state in focused modules.\n\n## Entry point\n\n`index.html` mounts `#messagingAppRoot` and loads `app.js`. The bootstrap mounts the shared private-messaging bridge and universal-chat client, then `MessagingAppController` coordinates the `MessagingAppShell`.\n\n## Module boundary\n\nThe many `Messaging*` modules divide discovery, conversation actions, composer behavior, disclosure, details, presence/status, assets, ranking, and presentation. Shared realtime/public/private clients under `/scripts/awtsmoos/social/` remain protocol authority.\n"
+}

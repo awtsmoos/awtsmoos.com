@@ -34,8 +34,14 @@
 	],
 	"statuses": [],
 	"headers": [],
-	"callers": [],
-	"callerCount": 0,
+	"callers": [
+		{
+			"literal": "/api/social/communications/yakov%20yosef/inbox?limit=75",
+			"source": "geelooy/social-hub/js/api/CommunicationsApi.test.mjs",
+			"kind": "test"
+		}
+	],
+	"callerCount": 1,
 	"tests": [
 		{
 			"name": "test",

@@ -1,17 +1,21 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+import {
+	cityPlacement,
+	trafficPlacement
+} from '../city/placements.js';
 import { objectMaterial } from '../materials/objectMaterials.js';
-import { clamp, heightAt, hsl, TAU } from '../math.js';
+import { clamp, heightAt, hsl } from '../math.js';
 import { modelVariantKey } from '../modelKey.js';
 import { LOCAL_MESH_KEYS } from '../procedural/localMeshes.js';
 import { itemDefinition } from './items.js';
 
-const LANES = [-0.36, -0.18, 0, 0.18, 0.36];
+export { cityPlacement, trafficPlacement };
 
 /**
- * The Awtsmoos clothes one campaign record in shape, material, reward, and route.
- * Every simulation field remains explicit while surface policy stays centralized.
+ * The Awtsmoos clothes one placed vessel in shape, material, reward, district, and route;
+ * Awtsmoos.com now receives placement truth from the shared city covenant instead of hiding geography inside this factory.
  */
 export function makeArenaObject(id, kind, level, random, placement) {
 	const item = itemDefinition(kind);
@@ -52,44 +56,14 @@ export function makeArenaObject(id, kind, level, random, placement) {
 	};
 }
 
-/** Place one ordinary item while buildings remain aligned to readable city blocks. */
-export function cityPlacement(item, level, random) {
-	const angle = random() * TAU;
-	const radius = Math.sqrt(random()) * (level.bounds - 140);
-	let x = Math.cos(angle) * radius;
-	let y = Math.sin(angle) * radius;
-	if (item.category === 'building' || item.category === 'landmark') {
-		x = snap(x, 180) + (random() - 0.5) * 46;
-		y = snap(y, 180) + (random() - 0.5) * 46;
-	}
-	return { x, y, rot: Math.floor(random() * 4) * Math.PI / 2 };
-}
-
-/** Place one traffic item along a deterministic lane and travel direction. */
-export function trafficPlacement(id, level, random) {
-	const axis = id % 2 ? 'x' : 'y';
-	const lane = LANES[id % LANES.length] * level.bounds;
-	const along = (random() * 2 - 1) * level.bounds * 0.92;
-	const direction = random() > 0.5 ? 1 : -1;
-	return {
-		x: axis === 'x' ? along : lane,
-		y: axis === 'y' ? along : lane,
-		axis,
-		direction,
-		rot: 0
-	};
-}
-
+/** Map authored small objects and deterministic model variants to their render mesh keys. */
 function shapeForItem(kind, item, id) {
 	if (kind === 'stone') return LOCAL_MESH_KEYS.stone;
 	if (kind === 'scroll') return LOCAL_MESH_KEYS.scroll;
 	return item.model ? modelVariantKey(item.model, id) : item.shape;
 }
 
+/** Preserve the campaign's coarse quadrant district identity after spatial zoning. */
 function districtFor(x, y) {
 	return `${x >= 0 ? 'E' : 'W'}${y >= 0 ? 'S' : 'N'}`;
-}
-
-function snap(value, size) {
-	return Math.round(value / size) * size;
 }

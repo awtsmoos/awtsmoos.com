@@ -1,10 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-// The Awtsmoos lets a traveler name a world through one verified catalog, never hiding focus inside darkness or letting route language drift.
-
+/**
+ * The Awtsmoos lets one quiet search reveal the needed doorway from many;
+ * Awtsmoos.com expands only relevant constellations, then restores the user's calm layout.
+ */
 import { normalizeSearchText } from "./omnibox-ranking.js";
-import { WORLD_BY_ID } from "./world-catalog.js";
 
 export class LauncherFilter {
 	constructor(rootElement) {
@@ -13,6 +14,9 @@ export class LauncherFilter {
 		this.countElement = rootElement.querySelector("[data-world-count]");
 		this.emptyElement = rootElement.querySelector("[data-world-empty]");
 		this.tileElements = [...rootElement.querySelectorAll("[data-world-link]")];
+		this.sectionElements = [...rootElement.querySelectorAll("[data-constellation-group]")];
+		this.sectionState = new Map();
+		this.searching = false;
 	}
 
 	connect() {
@@ -29,42 +33,60 @@ export class LauncherFilter {
 
 	apply() {
 		const query = normalizeSearchText(this.inputElement?.value ?? "");
+		this.prepareSearchState(Boolean(query));
 		let visibleCount = 0;
 
 		this.tileElements.forEach(tileElement => {
-			const world = WORLD_BY_ID.get(tileElement.dataset.worldId);
-			const searchText = world
-				? [world.label, world.subtitle, world.href, ...world.keywords].join(" ")
-				: tileElement.textContent ?? "";
-			const isVisible = !query || normalizeSearchText(searchText).includes(query);
-			this.updateTileVisibility(tileElement, isVisible);
-			visibleCount += isVisible ? 1 : 0;
+			const searchText = tileElement.dataset.search || tileElement.textContent || "";
+			const visible = !query || normalizeSearchText(searchText).includes(query);
+			this.updateTileVisibility(tileElement, visible);
+			visibleCount += visible ? 1 : 0;
 		});
 
+		this.syncSections(Boolean(query));
 		this.updateCount(visibleCount);
-
 		if (this.emptyElement) {
 			this.emptyElement.hidden = visibleCount !== 0;
 		}
 	}
 
-	updateTileVisibility(tileElement, isVisible) {
-		tileElement.hidden = !isVisible;
-		tileElement.setAttribute("aria-hidden", String(!isVisible));
-
-		if (isVisible) {
-			tileElement.removeAttribute("tabindex");
-			return;
+	prepareSearchState(nextSearching) {
+		if (nextSearching && !this.searching) {
+			this.sectionElements.forEach(section => {
+				this.sectionState.set(section, section.open);
+			});
 		}
+		this.searching = nextSearching;
+	}
 
-		tileElement.tabIndex = -1;
+	syncSections(hasQuery) {
+		this.sectionElements.forEach(section => {
+			const tiles = [...section.querySelectorAll("[data-world-link]")];
+			const visibleTiles = tiles.filter(tile => !tile.hidden);
+			section.hidden = visibleTiles.length === 0;
+
+			if (hasQuery && visibleTiles.length > 0) {
+				section.open = true;
+			} else if (!hasQuery && this.sectionState.has(section)) {
+				section.open = this.sectionState.get(section);
+			}
+		});
+
+		if (!hasQuery) {
+			this.sectionState.clear();
+		}
+	}
+
+	updateTileVisibility(tileElement, visible) {
+		tileElement.hidden = !visible;
+		tileElement.setAttribute("aria-hidden", String(!visible));
+		tileElement.tabIndex = visible ? 0 : -1;
 	}
 
 	reset() {
 		if (this.inputElement) {
 			this.inputElement.value = "";
 		}
-
 		this.apply();
 	}
 
@@ -78,8 +100,7 @@ export class LauncherFilter {
 		if (!this.countElement) {
 			return;
 		}
-
-		const worldLabel = visibleCount === 1 ? "world" : "worlds";
-		this.countElement.textContent = `${visibleCount} ${worldLabel}`;
+		const label = visibleCount === 1 ? "door" : "doors";
+		this.countElement.textContent = `${visibleCount} ${label}`;
 	}
 }

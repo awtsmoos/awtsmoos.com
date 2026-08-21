@@ -3,11 +3,14 @@
 //Blessed is He
 
 import { Requests } from "../realtime/protocol.js";
+import { syncLocalCell } from "./localSyncCell.js";
+import { syncWorkbookExtensions } from "./localSyncExtensions.js";
+import { syncSheetGeometry } from "./localSyncGeometry.js";
 
 /**
- * @file Materializes an existing browser-local workbook into a newly created shared workbook.
- * @description The Awtsmoos loses no letter when a private draft enters a wider shared domain;
- * Awtsmoos.com carries tabs, values, notes, and styles forward so collaboration begins from home.
+ * @file Materializes a browser-local workbook into shared Awtsmoos truth without downgrading its modern state.
+ * @description The Awtsmoos lets private letters, dimensions, garments, tabs, and safe automations cross together in light;
+ * Awtsmoos.com composes small preservation vessels so one-click sharing never trades convenience for lost workbook sight.
  */
 export async function materializeLocalWorkbook(session, workbook) {
 	if (workbook.data.id) {
@@ -15,32 +18,58 @@ export async function materializeLocalWorkbook(session, workbook) {
 	}
 	const localSnapshot = structuredClone(workbook.data);
 	await session.create(localSnapshot.title || "Untitled workbook");
-	const firstRemoteSheet = workbook.data.sheets[0];
-	await syncSheet(
+	await syncFirstSheet(
 		session,
-		localSnapshot.sheets[0],
-		firstRemoteSheet.id,
-		firstRemoteSheet.name
+		workbook,
+		localSnapshot.sheets?.[0]
 	);
-	for (const localSheet of localSnapshot.sheets.slice(1)) {
-		const response = await session.mutate(Requests.sheetAdd, {
-			name: localSheet.name || "Sheet"
-		});
-		await syncSheet(
-			session,
-			localSheet,
-			response.operation.sheet.id,
-			response.operation.sheet.name
-		);
+	for (const localSheet of (localSnapshot.sheets || []).slice(1)) {
+		await createAndSyncSheet(session, localSheet);
 	}
+	await syncWorkbookExtensions(
+		session,
+		localSnapshot.extensions
+	);
 	return workbook.data;
 }
 
-/** Copies one local worksheet into a known server-side worksheet identifier. */
-async function syncSheet(session, localSheet, remoteSheetId, remoteName) {
+/** Maps the original first local tab onto the server-created first tab. */
+async function syncFirstSheet(session, workbook, localSheet) {
 	if (!localSheet) {
 		return;
 	}
+	const remoteSheet = workbook.data.sheets?.[0];
+	if (!remoteSheet?.id) {
+		throw new Error("Shared workbook did not provide its first sheet.");
+	}
+	await syncSheet(
+		session,
+		localSheet,
+		remoteSheet.id,
+		remoteSheet.name
+	);
+}
+
+/** Creates one additional remote tab and fills it from its local predecessor. */
+async function createAndSyncSheet(session, localSheet) {
+	const response = await session.mutate(
+		Requests.sheetAdd,
+		{ name: localSheet.name || "Sheet" }
+	);
+	const remoteSheet = response.operation?.sheet;
+	if (!remoteSheet?.id) {
+		throw new Error("Shared workbook did not return the new sheet.");
+	}
+	await syncSheet(
+		session,
+		localSheet,
+		remoteSheet.id,
+		remoteSheet.name
+	);
+}
+
+/** Replays one tab's name, sparse cells, notes, full style vocabulary, and custom dimensions. */
+async function syncSheet(session, localSheet, remoteSheetId, remoteName) {
 	if (localSheet.name && localSheet.name !== remoteName) {
 		await session.mutate(Requests.sheetRename, {
 			name: localSheet.name,
@@ -48,44 +77,16 @@ async function syncSheet(session, localSheet, remoteSheetId, remoteName) {
 		});
 	}
 	for (const [address, cell] of Object.entries(localSheet.cells || {})) {
-		await syncCell(session, remoteSheetId, address, cell || {});
-	}
-}
-
-/** Copies raw value, note, and supported style metadata through normal server permission gates. */
-async function syncCell(session, sheetId, address, cell) {
-	if (String(cell.value ?? "") !== "") {
-		await session.mutate(Requests.cellUpdate, {
+		await syncLocalCell(
+			session,
+			remoteSheetId,
 			address,
-			sheetId,
-			value: String(cell.value ?? "")
-		});
+			cell || {}
+		);
 	}
-	if (String(cell.note ?? "")) {
-		await session.mutate(Requests.noteSet, {
-			address,
-			note: String(cell.note),
-			sheetId
-		});
-	}
-	const style = supportedStyle(cell.style);
-	if (Object.keys(style).length) {
-		await session.mutate(Requests.rangeStyle, {
-			addresses: [address],
-			sheetId,
-			style
-		});
-	}
-}
-
-/** Keeps draft synchronization inside the same first-release style vocabulary as the server. */
-function supportedStyle(style = {}) {
-	const result = {};
-	if (typeof style.bold === "boolean") {
-		result.bold = style.bold;
-	}
-	if (/^#[0-9a-f]{6}$/i.test(String(style.highlight || ""))) {
-		result.highlight = style.highlight;
-	}
-	return result;
+	await syncSheetGeometry(
+		session,
+		localSheet,
+		remoteSheetId
+	);
 }

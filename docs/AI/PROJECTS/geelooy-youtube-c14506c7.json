@@ -22,20 +22,23 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-youtube-c14506c7.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 6,
+		"source": 9,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 7,
+	"totalFiles": 10,
 	"symbolSummary": {
-		"files": 4,
-		"classes": 0,
+		"files": 7,
+		"classes": 3,
 		"functions": 14,
-		"exports": 7,
+		"exports": 10,
 		"samples": [
+			"HodCommandQuoter",
+			"YesodLocalSecretVault",
+			"ChesedYtDlpCommandBuilder",
 			"boot",
 			"loadChannel",
 			"loadVideos",
@@ -44,10 +47,7 @@
 			"showUpdateError",
 			"youtubeApi",
 			"request",
-			"uploadToGoogle",
-			"byId",
-			"showConnection",
-			"showChannel"
+			"uploadToGoogle"
 		]
 	},
 	"outgoingDependencies": [],
@@ -62,7 +62,7 @@
 			"styles": 1
 		}
 	],
-	"requiresLocalDocumentation": false,
+	"requiresLocalDocumentation": true,
 	"documentationCovered": true,
 	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
 }

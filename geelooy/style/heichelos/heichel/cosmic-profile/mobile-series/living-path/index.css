@@ -3,8 +3,8 @@
  * Blessed is He
  *
  * @fileoverview Orders the complete Living Path experience on Awtsmoos.com.
- * The Awtsmoos is one before every visible module; this manifest lets compact
- * identity, orientation, discovery, browsing, states, and guardrails unfold last.
+ * The Awtsmoos is one before every visible module; compact identity, discovery,
+ * card motion, and final viewport law unfold in sequence without fighting the mobile vessel.
  */
 
 @import "./profile.css";
@@ -25,3 +25,4 @@
 @import "./rtl.css";
 @import "./motion.css";
 @import "./guardrails.css";
+@import "./viewport-guardrails.css?v=heichel-ui-006";

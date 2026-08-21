@@ -1,0 +1,73 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets advanced chambers close without becoming hidden knowledge or decorative clutter;
+Awtsmoos.com gives native summaries generous touch, visible focus, and quiet motion so power unfolds only when summoned.
+*/
+
+details[data-future-disclosure] {
+	border: 1px solid color-mix(in srgb, var(--future-line) 72%, transparent);
+	border-radius: var(--future-radius-lg);
+	background: color-mix(in srgb, var(--future-panel) 94%, transparent);
+	overflow: clip;
+}
+
+details[data-future-disclosure] > summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 48px;
+	padding: 12px 14px;
+	cursor: pointer;
+	list-style: none;
+	user-select: none;
+}
+
+details[data-future-disclosure] > summary::-webkit-details-marker {
+	display: none;
+}
+
+details[data-future-disclosure] > summary::after {
+	content: "⌄";
+	font-size: 18px;
+	line-height: 1;
+	opacity: 0.62;
+	transform: rotate(0deg);
+	transition: transform 180ms ease, opacity 180ms ease;
+}
+
+details[data-future-disclosure][open] > summary::after {
+	opacity: 0.92;
+	transform: rotate(180deg);
+}
+
+details[data-future-disclosure] > summary:focus-visible {
+	outline: 2px solid var(--future-accent);
+	outline-offset: -3px;
+}
+
+.futureDisclosureBody {
+	padding: 0 14px 14px;
+	animation: futureDisclosureReveal 180ms ease both;
+}
+
+@keyframes futureDisclosureReveal {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	details[data-future-disclosure] > summary::after,
+	.futureDisclosureBody {
+		animation: none;
+		transition: none;
+	}
+}

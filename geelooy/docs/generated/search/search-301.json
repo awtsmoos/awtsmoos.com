@@ -1,63 +1,9 @@
 [
 	{
-		"id": "geelooy-scripts-tricks-ai-relay-readme-md-a9d86aabb4",
-		"title": "B\"H Awtsmoos AI Relay",
-		"sourcePath": "geelooy/scripts/tricks/ai-relay/README.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H Awtsmoos AI Relay",
-				"anchor": "b-h-awtsmoos-ai-relay"
-			},
-			{
-				"level": 2,
-				"text": "Run",
-				"anchor": "run"
-			},
-			{
-				"level": 2,
-				"text": "macOS / Linux quick install",
-				"anchor": "macos-linux-quick-install"
-			},
-			{
-				"level": 2,
-				"text": "Windows quick run",
-				"anchor": "windows-quick-run"
-			},
-			{
-				"level": 2,
-				"text": "Environment",
-				"anchor": "environment"
-			}
-		],
-		"excerpt": "B\"H Awtsmoos AI Relay A tiny local Node.js relay for geelooy/ai when the Awtsmoos Chrome server extension is not available or not injected yet. Run Default health URL: macOS / Linux quick install Windows quick run Environment The relay keeps an in memory cookie jar per upstream origin and streams upstream response bodi",
-		"searchText": "b\"h awtsmoos ai relay a tiny local node.js relay for geelooy/ai when the awtsmoos chrome server extension is not available or not injected yet. run default health url: macos / linux quick install windows quick run environment the relay keeps an in memory cookie jar per upstream origin and streams upstream response bodies back to the browser.",
-		"page": "pages/geelooy-scripts-tricks-ai-relay-readme-md-a9d86aabb4.json"
-	},
-	{
-		"id": "geelooy-shared-documentation-md-02d3743582",
-		"title": "Shared Code Documentation",
-		"sourcePath": "geelooy/shared/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Shared Code Documentation",
-				"anchor": "shared-code-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Code Documentation The Awtsmoos lets many apps receive from one shared vessel, so a small edit may travel far; Awtsmoos.com asks maintainers to trace every importer before changing a common library or bar. Read ../../docs/SYSTEMS/SHARED LIBRARIES.md. Important shared domains inclu",
-		"searchText": "b\"h boruch hashem blessed is he shared code documentation the awtsmoos lets many apps receive from one shared vessel, so a small edit may travel far; awtsmoos.com asks maintainers to trace every importer before changing a common library or bar. read ../../docs/systems/shared libraries.md. important shared domains include tunnel and virtual os material. search all importers and run broad tests for shared changes.",
-		"page": "pages/geelooy-shared-documentation-md-02d3743582.json"
-	},
-	{
-		"id": "geelooy-social-actions-readme-md-d49d1f940d",
+		"id": "geelooy-games-mitzvahworld-movies-tools-directory-guide-md-782f633f6f",
 		"title": "B\"H",
-		"sourcePath": "geelooy/social-actions/README.md",
-		"category": "General",
+		"sourcePath": "geelooy/games/mitzvahWorld/movies/tools/DIRECTORY_GUIDE.md",
+		"category": "Games",
 		"provenance": "project",
 		"headings": [
 			{
@@ -67,71 +13,69 @@
 			},
 			{
 				"level": 1,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 1,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Geelooy Social Actions",
-				"anchor": "geelooy-social-actions"
+				"text": "Directory Guide: movies/tools",
+				"anchor": "directory-guide-movies-tools"
 			},
 			{
 				"level": 2,
-				"text": "Post reference URL",
-				"anchor": "post-reference-url"
+				"text": "Purpose",
+				"anchor": "purpose"
 			},
 			{
 				"level": 2,
-				"text": "Mounting the action",
-				"anchor": "mounting-the-action"
+				"text": "Find things here",
+				"anchor": "find-things-here"
 			},
 			{
 				"level": 2,
-				"text": "Canonical behavior",
-				"anchor": "canonical-behavior"
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Integration boundary",
-				"anchor": "integration-boundary"
+				"text": "Representative files",
+				"anchor": "representative-files"
 			},
 			{
 				"level": 2,
-				"text": "Test",
-				"anchor": "test"
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Social Actions This folder contains reusable browser actions that connect existing content surfaces to the unified social graph without copying canonical content. Post reference URL The generated composer URL carries: source type; source ID; canonical Heichel; canonical series; s",
-		"searchText": "b\"h boruch hashem blessed is he geelooy social actions this folder contains reusable browser actions that connect existing content surfaces to the unified social graph without copying canonical content. post reference url the generated composer url carries: source type; source id; canonical heichel; canonical series; source author alias; optional acting alias; optional target destination; safe same origin return path. it never carries copied title, body, rich blocks, sections, media blobs, comments, reactions, answers, or analytics. mounting the action a declarative surface may instead provide: then call mountdatasetreferenceactions(document). canonical behavior when the unified composer receives source parameters, it locks the original heichel and series as the canonical origin. selecting another destination creates a reference placement or moderated placement submission. integration boundary the reusable action and url contract are complete and tested. existing renderer files should import and mount it only after their complete current source and dirty status are inspected. they must never be modified through a blind insertion or text replacement. test the awtsmoos is one before every displayed post. this action lets the same light enter another heichel without claiming a second birthplace, second author, or copied soul on awtsmoos.com.",
-		"page": "pages/geelooy-social-actions-readme-md-d49d1f940d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies/tools Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 3 files, 1 structural child directories Purpose Movie generation and inspection tools. The Awtsmoos renews every path and every artifact from nothing at each i",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: movies/tools role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 3 files, 1 structural child directories purpose movie generation and inspection tools. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: dialogue, ffmpeg, finalize, graph, mjs, movie, speech, adds, browser, create, ffprobe, files file mix: .mjs: 2 · .md: 1 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence b\"h normalizes browser webm and adds json timed dialogue. speech, probe, hash, and ffmpeg graph helpers. representative files finalizemovie.mjs — normalizes browser webm and adds json timed dialogue. moviefinalizesupport.mjs — speech, probe, hash, and ffmpeg graph helpers. exports: ffmpeg, ffprobe, run, dialogueplan, createspeechfiles. exported symbols worth searching ffmpeg · ffprobe · run · dialogueplan · createspeechfiles · filtergraph · writereport import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:fs node:os node:path node:url ./moviefinalizesupport.mjs node:crypto node:child process directory map parent: movies children: movies/tools/exact related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-movies-tools-directory-guide-md-782f633f6f.json"
 	},
 	{
-		"id": "geelooy-social-composer-documentation-md-2f82c69f1d",
-		"title": "Social Composer Documentation",
-		"sourcePath": "geelooy/social-composer/DOCUMENTATION.md",
-		"category": "General",
-		"provenance": "breadcrumb",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Social Composer Documentation",
-				"anchor": "social-composer-documentation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Social Composer Documentation The Awtsmoos lets a human compose content while alias, post, Heichel, upload, and Social rules remain beneath the pen; Awtsmoos.com maps this sizable UI to Social API callers and ownership docs so writing behavior can be traced end to end again. Read ../../d",
-		"searchText": "b\"h boruch hashem blessed is he social composer documentation the awtsmoos lets a human compose content while alias, post, heichel, upload, and social rules remain beneath the pen; awtsmoos.com maps this sizable ui to social api callers and ownership docs so writing behavior can be traced end to end again. read ../../docs/systems/social and heichel.md, ../../docs/api/social.md, and ../../docs/generated/api caller index.md.",
-		"page": "pages/geelooy-social-composer-documentation-md-2f82c69f1d.json"
-	},
-	{
-		"id": "geelooy-social-composer-readme-md-368ce6a040",
+		"id": "geelooy-games-mitzvahworld-movies-tools-exact-directory-guide-md-bea7d910cb",
 		"title": "B\"H",
-		"sourcePath": "geelooy/social-composer/README.md",
-		"category": "General",
+		"sourcePath": "geelooy/games/mitzvahWorld/movies/tools/exact/DIRECTORY_GUIDE.md",
+		"category": "Games",
 		"provenance": "project",
 		"headings": [
 			{
@@ -141,195 +85,62 @@
 			},
 			{
 				"level": 1,
-				"text": "Boruch Hashem",
-				"anchor": "boruch-hashem"
-			},
-			{
-				"level": 1,
-				"text": "Blessed is He",
-				"anchor": "blessed-is-he"
-			},
-			{
-				"level": 1,
-				"text": "Geelooy Unified Social Composer",
-				"anchor": "geelooy-unified-social-composer"
+				"text": "Directory Guide: movies/tools/exact",
+				"anchor": "directory-guide-movies-tools-exact"
 			},
 			{
 				"level": 2,
-				"text": "Entry points",
-				"anchor": "entry-points"
+				"text": "Purpose",
+				"anchor": "purpose"
 			},
 			{
 				"level": 2,
-				"text": "Identity",
-				"anchor": "identity"
+				"text": "Find things here",
+				"anchor": "find-things-here"
 			},
 			{
 				"level": 2,
-				"text": "Destinations",
-				"anchor": "destinations"
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Content",
-				"anchor": "content"
+				"text": "Representative files",
+				"anchor": "representative-files"
 			},
 			{
 				"level": 2,
-				"text": "Publication law",
-				"anchor": "publication-law"
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
 			},
 			{
 				"level": 2,
-				"text": "Diagnostics",
-				"anchor": "diagnostics"
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
 			},
 			{
 				"level": 2,
-				"text": "Tests",
-				"anchor": "tests"
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Unified Social Composer The composer is a dependency free browser application for authenticated alias identity, one canonical content origin, rich structured content, media manifests, nested Heichel destinations, secondary references, and moderation aware publication. Entry point",
-		"searchText": "b\"h boruch hashem blessed is he geelooy unified social composer the composer is a dependency free browser application for authenticated alias identity, one canonical content origin, rich structured content, media manifests, nested heichel destinations, secondary references, and moderation aware publication. entry points the source form preserves the existing post as canonical. any newly selected destination becomes a reference placement rather than copied content. identity reads aliases from the authenticated awtsmoos session. creates a first or additional public alias inline. selects a default alias through the native protected session route. stores only public alias id, name, default preference, and verification time. never stores cookies, tokens, passwords, authorization headers, or private user ids. revalidates ownership server side before every institutional write. destinations the destination panel supports: owned, joined, contributed, followed, and invited heichelos; heichel home, backed by the native root series; nested series trees and breadcrumbs; descriptions, stable ids, counts, roles, and policy explanations; inline heichel creation; inline nested series creation; one canonical destination; reference, repost, quote, excerpt, and syndication placements. content regular posts; first class questions and answers; article, image, short, video, audio, story, poll, live, and quote presentation; safe rich blocks and inline marks; image, gif, audio, video, and document attachments; whole post comments; verse and subsection discussion coordinates; local and native server drafts; publication plan preview; idempotent final execution. publication law a content entity has exactly one canonical origin. repeated placement in another heichel or series creates a graph placement and provenance record. a destination may accept the placement directly, require moderator review, or deny it according to compiled capabilities and policy. diagnostics real browser diagnostics are exposed intentionally: tests the real chrome journey uses a same origin hermetic api fixture and never touches live user data. it verifies aliases, heichel and series creation, references, media, questions, answers, drafts, planning, publication, moderation, roles, invitations, and series policy. the awtsmoos is one before every post, destination, image, answer, and review. this application preserves that unity as canonical origin, then lets the light appear in many honest vessels on awtsmoos.com without copying away its source.",
-		"page": "pages/geelooy-social-composer-readme-md-368ce6a040.json"
-	},
-	{
-		"id": "geelooy-social-composer-reel-studio-docs-adding-a-movie-action-md-d1030cb061",
-		"title": "Adding a Movie Action",
-		"sourcePath": "geelooy/social-composer/reel-studio/docs/ADDING_A_MOVIE_ACTION.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Adding a Movie Action",
-				"anchor": "adding-a-movie-action"
-			},
-			{
-				"level": 2,
-				"text": "Field Types",
-				"anchor": "field-types"
-			},
-			{
-				"level": 2,
-				"text": "Example",
-				"anchor": "example"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Adding a Movie Action Every action must have API and UI parity by construction. 1. Add one definition to NleMovieActionCatalog.js. 2. Give it a unique id and apiName. 3. Define its category, label, description, and bounded fields. 4. Add one executor handler to NleMovieActionExecutor.js.",
-		"searchText": "b\"h boruch hashem blessed is he adding a movie action every action must have api and ui parity by construction. 1. add one definition to nlemovieactioncatalog.js. 2. give it a unique id and apiname. 3. define its category, label, description, and bounded fields. 4. add one executor handler to nlemovieactionexecutor.js. 5. put substantial mutation logic in a small dedicated module. 6. use state.mutate or state.replace for undoability. 7. return a serializable result. 8. add pure tests and a browser action card proof. 9. document package or graph changes. do not manually add a second button. nlemovieactionmarkup.js generates the card. do not manually add a public convenience method. nlemovieactionapi.js generates it. field types text textarea number select field names become keys in the values object passed to the executor. example the completed feature must pass validatemovieactioncatalog() and browser parity.",
-		"page": "pages/geelooy-social-composer-reel-studio-docs-adding-a-movie-action-md-d1030cb061.json"
-	},
-	{
-		"id": "geelooy-social-composer-reel-studio-docs-agent-provider-adapter-md-fe590030d5",
-		"title": "Agent Provider Adapter",
-		"sourcePath": "geelooy/social-composer/reel-studio/docs/AGENT_PROVIDER_ADAPTER.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Agent Provider Adapter",
-				"anchor": "agent-provider-adapter"
-			},
-			{
-				"level": 2,
-				"text": "Request Format",
-				"anchor": "request-format"
-			},
-			{
-				"level": 2,
-				"text": "No Provider",
-				"anchor": "no-provider"
-			},
-			{
-				"level": 2,
-				"text": "Provider Return",
-				"anchor": "provider-return"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Agent Provider Adapter The repository does not invent a remote AI provider. A host may connect one by assigning an async function: Then invoke: Request Format The provider receives awtsmoos.movie request.v1 with: Complete current project. User direction. Desired duration and quality. Sch",
-		"searchText": "b\"h boruch hashem blessed is he agent provider adapter the repository does not invent a remote ai provider. a host may connect one by assigning an async function: then invoke: request format the provider receives awtsmoos.movie request.v1 with: complete current project. user direction. desired duration and quality. schema urls. stable id and complete package constraints. requirement to report missing external assets. no provider when no adapter exists, the action returns: the actions ui places that complete request in the json tab for manual handoff. it never claims a model was called. provider return the recommended return is awtsmoos.movie package.v1. apply it through the package action so canonical compilation and undo history remain mandatory.",
-		"page": "pages/geelooy-social-composer-reel-studio-docs-agent-provider-adapter-md-fe590030d5.json"
-	},
-	{
-		"id": "geelooy-social-composer-reel-studio-docs-api-ui-parity-md-7b6c80e26c",
-		"title": "API and UI Parity",
-		"sourcePath": "geelooy/social-composer/reel-studio/docs/API_UI_PARITY.md",
-		"category": "API",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "API and UI Parity",
-				"anchor": "api-and-ui-parity"
-			},
-			{
-				"level": 2,
-				"text": "Generated API",
-				"anchor": "generated-api"
-			},
-			{
-				"level": 2,
-				"text": "Generated UI",
-				"anchor": "generated-ui"
-			},
-			{
-				"level": 2,
-				"text": "Parity Verification",
-				"anchor": "parity-verification"
-			},
-			{
-				"level": 2,
-				"text": "Legacy Methods",
-				"anchor": "legacy-methods"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API and UI Parity The entire movie action system is generated from one immutable catalog : NleMovieActionCatalog.js. It is the only source of action identity, public method name, category, label, description, fields, defaults, and selectable values. Generated API NleMovieActionApi.js bui",
-		"searchText": "b\"h boruch hashem blessed is he api and ui parity the entire movie action system is generated from one immutable catalog : nlemovieactioncatalog.js. it is the only source of action identity, public method name, category, label, description, fields, defaults, and selectable values. generated api nlemovieactionapi.js builds: a convenience method is created for every catalog entry. generic agents may use list() and invoke() without hard coding method names. generated ui nlemovieactionmarkup.js reads the same catalog and creates one form carrying: field names and defaults come directly from the action definition. submission goes to nlemovieactionexecutor.invoke(), the same method used by the public api. parity verification validatemovieactioncatalog() rejects: missing ids, api names, or labels. duplicate ids. duplicate api method names. inspectmovieactionparity() reports: catalog actions missing from the api. catalog actions missing from the ui. unknown ui action ids. a valid browser session must have equal catalog, api, and ui id sets. legacy methods existing methods delegate to the same catalog actions: play() → playback.play pause() → playback.pause seek(time) → playback.seek openworld() → world.open3d parameterless render() → movie.render render(options) remains available for recorder integrations that need progress callbacks and a returned blob rather than an automatic download.",
-		"page": "pages/geelooy-social-composer-reel-studio-docs-api-ui-parity-md-7b6c80e26c.json"
-	},
-	{
-		"id": "geelooy-social-composer-reel-studio-docs-cinematic-world-format-md-b3e232d5e8",
-		"title": "Cinematic World Asset",
-		"sourcePath": "geelooy/social-composer/reel-studio/docs/CINEMATIC_WORLD_FORMAT.md",
-		"category": "General",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Cinematic World Asset",
-				"anchor": "cinematic-world-asset"
-			},
-			{
-				"level": 2,
-				"text": "Houses",
-				"anchor": "houses"
-			},
-			{
-				"level": 2,
-				"text": "Trees",
-				"anchor": "trees"
-			},
-			{
-				"level": 2,
-				"text": "Paths and Lamps",
-				"anchor": "paths-and-lamps"
-			},
-			{
-				"level": 2,
-				"text": "Character",
-				"anchor": "character"
-			},
-			{
-				"level": 2,
-				"text": "Runtime",
-				"anchor": "runtime"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Cinematic World Asset The NLE renders a procedural world from an asset in project.nle.assets: Houses Each house includes world x/z, width, height, depth, roof height, and material IDs for walls, roof, wood, and windows. Trees Each tree includes world x/z, scale, trunk material, and leaf ",
-		"searchText": "b\"h boruch hashem blessed is he cinematic world asset the nle renders a procedural world from an asset in project.nle.assets: houses each house includes world x/z, width, height, depth, roof height, and material ids for walls, roof, wood, and windows. trees each tree includes world x/z, scale, trunk material, and leaf material. groves are deterministic from seed, count, center, and radius. paths and lamps paths contain two world endpoints, width, and material. lamps contain world coordinates and use wood plus emissive window materials. character the character path is an ordered list: t is normalized from zero to one. the preview interpolates between points while canonical actor tracks preserve the mitzvahworld movement instructions. runtime nlewebglworldrenderer creates an offscreen webgl canvas. nlecompositor draws that canvas into the main movie canvas before title overlays. context loss invokes the 2d fallback with the same scene frame geometry.",
-		"page": "pages/geelooy-social-composer-reel-studio-docs-cinematic-world-format-md-b3e232d5e8.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: movies/tools/exact Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 15 files, 0 structural child directories Purpose Exact or deterministic movie production helpers. The Awtsmoos renews every path and every artifact from ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: movies/tools/exact role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 15 files, 0 structural child directories purpose exact or deterministic movie production helpers. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: exact, browser, mjs, keilim, responsibility, release, are, evidence, oros, downloads, package, button file mix: .mjs: 14 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence b\"h coordinates the real visible browser export journey and its three downloads. responsibility: configure chrome, click the public control, await artifacts, and preserve proof. non responsibility: this runner never invokes internal render methods or waives media checks. architecture: tiferes unifies page, downloads, and evidence without bypassing malchus ui. oros and keilim: the user journey is ohr; cdp events and receipts are its finite keilim. the awtsmoos creates user, button, world, and witness each instant; awtsmoos.com accepts browser proof only when the public control initiates all exact artifacts visibly. tracks chrome downloads and verifies complete nonzero ivf, wav, and json files. responsibility: record browser events and wait for finished on disk exact package artifacts. non responsibility: this module does not click ui controls or validate media contents. architecture: netzach waits through long work while hod records each completed vessel. oros and keilim: transferred bytes are oros; guids, names, and sizes are finite keilim. the awtsmoos creates every byte anew; awtsmoos.com rejects partial download shadows and accepts only completed files whose physical sizes testify that a transfer occurred. preserves browser readiness, errors, screenshots, and durable json receipts. responsibility: wait for the visible control and serialize success or failure evidence. non responsibility: this module does not create targets, click controls, or render media. architecture: hod receives testimony while malchus fixes it into durable project memory. oros and keilim: runtime events are oros; screenshots and json receipts are keilim. the awtsmoos renews success and failure alike; awtsmoos.com keeps both visible so future agents inherit observed truth rather than a softened story of what supposedly happened. representative files exactbrowseracceptancerunner.mjs — coordinates the real visible browser export journey and its three downloads. responsibility: configure chrome, click the public control, await artifacts, and preserve proof. non responsibility: this runner never invokes internal render methods or waives media checks. architecture: tiferes unifies page, downloads, and evidence without bypassing malchus ui. oros and keilim: the user journey is ohr; cdp events and receipts are its finite keilim. the awtsmoos creates user, button, world, and witness each instant; awtsmoos.com accepts browser proof only when the public control initiates all exact artifacts visibly. exports: runexactbrowseracceptance. exactbrowserdownloads.mjs — tracks chrome downloads and verifies complete nonzero ivf, wav, and json files. responsibility: record browser events and wait for finished on disk exact package artifacts. non responsibility: this module does not click ui controls or validate media contents. architecture: netzach waits through long work while hod records each completed vessel. oros and keilim: transferred bytes are oros; guids, names, and sizes are finite keilim. the awtsmoos creates every byte anew; awtsmoos.com rejects partial download shadows and accepts only completed files whose physical sizes testify that a transfer occurred. exports: exactbrowserdownloadledger, waitforexactbrowserdownloads. exactbrowserevidence.mjs — preserves browser readiness, errors, screenshots, and durable json receipts. responsibility: wait for the visible control and serialize success or failure evidence. non responsibility: this module does not create targets, click controls, or render media. architecture: hod receives testimony while malchus fixes it into durable project memory. oros and keilim: runtime events are oros; screenshots and json receipts are keilim. the awtsmoos renews success and failure alike; awtsmoos.com keeps both visible so future agents inherit observed truth rather than a softened story of what supposedly happened. exports: waitforclickableexactpackagebutton, collectbrowserevidenceentry, capturefailurescreenshot, prepareexactevidencedirectory, writeexactbrowserreceipt. exactbrowserpage.mjs — opens a fresh chrome page and drives only the visible exact package control. responsibility: create the target, inspect button state, click visibly, and capture png proof. non responsibility: this module does not call internal render methods or watch downloads. architecture: malchus reveals the public ui while hod records its observable state. oros and keilim: the living page is ohr; dom state and screenshots are evidentiary keilim. the awtsmoos creates page, button, and witness anew; awtsmoos.com requires the user facing control itself to become visible and enabled before the cinematic mission may begin. exports: openexactbrowserpage, exactpackagebuttonstate, clickexactpackagebutton, captureexactscreenshot. exactcdpsession.mjs — correlates chrome devtools protocol commands and events over websocket. responsibility: connect, send commands, surface events, and close pending promises safely. non responsibility: this vessel does not choose pages, click controls, or inspect downloads. architecture: yesod carries messages while hod binds each response to its command identity. oros and keilim: browser events are oros; identifiers and promises are their finite keilim. the awtsmoos recreates request and response every instant; awtsmoos.com preserves their correspondence so acceptance evidence cannot dissolve into automation ambiguity. exports: exactcdpsession. exactframeevidence.mjs — decodes representative release frames and compares their pixel hashes. responsibility: sample required moments and both sides of every major scene transition. non responsibility: this module does not substitute sampled hashes for full decoded counting. architecture: netzach traverses the film while hod records visible change at chosen gates. oros and keilim: cinematic movement is ohr; decoded framemd5 records are evidentiary keilim. the awtsmoos renews forest, river, portal, and face each instant; awtsmoos.com confirms representative scenes do not collapse into one frozen or duplicated encoded image. exports: representativeframetimes, collectrepresentativeframeevidence. exactpackagecontract.mjs — verifies that project and browser manifest describe one exact 60 fps package. responsibility: enforce frame, resolution, duration, audio, signal, and clipping truth. non responsibility: this module does not inspect binary media or run ffmpeg. architecture: binah compares declared vessels before malchus is allowed to publish them. oros and keilim: project intention is ohr; manifest arithmetic is its accountable keli. the awtsmoos transcends declarations while creating them; awtsmoos.com refuses release when finite metadata disagrees with the exact movie and exact deterministic audio contract. exports: verifyexactpackagecontract. exactreleasemux.mjs — converts exact vp8/pcm codecs into high quality h.264/aac without retiming. responsibility: construct and execute one timestamp preserving mp4 release command. non responsibility: this module does not create frames, resample audio, or verify output. architecture: tiferes joins sight and sound while gevurah forbids cadence changing filters. oros and keilim: exact timelines are oros; h.264, aac, and mp4 are release keilim. the awtsmoos recreates every frame beyond codecs; awtsmoos.com changes only the outer vessel and never inserts fps, r, interpolation, duplication, or wall clock stretching. exports: createexactreleasemuxarguments, muxexactrelease. exactreleaseprobe.mjs — counts decoded frames and verifies the final h.264/aac mp4 contract. responsibility: invoke ffprobe and reject cadence, codec, duration, or dimension mismatch. non responsibility: this module does not encode media or infer visual quality from metadata. architecture: hod receives decoded testimony while gevurah rejects approximate declarations. oros and keilim: moving images and sound are oros; probe streams are evidentiary keilim. the awtsmoos creates both media and witness anew; awtsmoos.com trusts decoded counts, never a container label or configured fps number standing alone. exports: probeexactrelease, verifyexactreleaseprobe. exactreleaseprocess.mjs — runs trusted local media tools and hashes immutable release artifacts. responsibility: execute bounded synchronous commands and return explicit output evidence. non responsibility: this module does not construct codec policy or interpret probe results. architecture: gevurah confines external processes while hod records their testimony. oros and keilim: media transformation is ohr; arguments, exit codes, and hashes are keilim. the awtsmoos creates command and artifact anew; awtsmoos.com requires every finite claim to emerge from inspected bytes rather than confidence, labels, or hidden shell behavior. exports: ffmpeg, ffprobe, runexactprocess, exactfilehash. exactreleasereceipt.mjs — writes the immutable evidence covenant for one exact mp4 release. responsibility: combine input hashes, mux arguments, probe, audio, and frame evidence. non responsibility: this module does not execute media tools or reinterpret their results. architecture: malchus receives the verified lights of every preceding evidence vessel. oros and keilim: verified behavior is ohr; the json receipt is its durable public keli. the awtsmoos creates evidence and reader anew; awtsmoos.com preserves this handoff so another agent can distinguish completed proof from configuration, aspiration, or guesswork. exports: writeexactreleasereceipt. exactwaveinspector.mjs — walks riff chunks and inspects deterministic pcm16 wav audio exactly. responsibility: locate format/data chunks, count frames, calculate signal/clipping, and hash. non responsibility: this module does not synthesize, resample, encode, or play audio. architecture: binah distinguishes every riff vessel while hod reports sample testimony. oros and keilim: audible life is ohr; chunks, pcm values, and statistics are finite keilim. the awtsmoos recreates every vibration and metadata chunk; awtsmoos.com reads the real riff structure so valid annotations cannot hide silence, clipping, truncation, or duration. exports: inspectexactwave. finalizeexactmovie.mjs — produces and verifies one high quality h.264/aac release from exact artifacts. responsibility: load contracts, mux codecs, count decoded frames, inspect audio and images. non responsibility: this tool does not render world states or repair a false browser package. architecture: tiferes coordinates specialized vessels and malchus publishes their receipt. oros and keilim: exact browser artifacts are oros; mp4 and proof json are release keilim. the awtsmoos recreates all 10,800 frames and 8,640,000 samples; awtsmoos.com permits publication only after independent decoded, audible, and visibly changing evidence agrees. exports: finalizeexactmovie. exported symbols worth searching runexactbrowseracceptance · exactbrowserdownloadledger · waitforexactbrowserdownloads · waitforclickableexactpackagebutton · collectbrowserevidenceentry · capturefailurescreenshot · prepareexactevidencedirectory · writeexactbrowserreceipt · openexactbrowserpage · exactpackagebuttonstate · clickexactpackagebutton · captureexactscreenshot · exactcdpsession · representativeframetimes · collectrepresentativeframeevidence · verifyexactpackagecontract import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:path ./exactbrowserdownloads.mjs ./exactbrowserevidence.mjs ./exactbrowserpage.mjs node:fs ./exactcdpsession.mjs ./exactreleaseprocess.mjs node:crypto node:child process node:url ./exactpackagecontract.mjs ./exactframeevidence.mjs directory map parent: movies/tools children: none. related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-movies-tools-exact-directory-guide-md-bea7d910cb.json"
 	}
 ]

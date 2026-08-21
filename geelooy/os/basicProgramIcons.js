@@ -17,6 +17,7 @@ const PROGRAM_ICONS = Object.freeze({
 	awtsmoosCompiler: "🧬",
 	awtsmoosDbExplorer: "🗄️",
 	awtsmoosDiagnostics: "🩺",
+	awtsmoosDocs: "📄",
 	awtsmoosExecutable: "⚙️",
 	awtsmoosFileExplorer: "🗂️",
 	awtsmoosPresenter: "🖥️",

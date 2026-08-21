@@ -1,9 +1,9 @@
 {
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-public-docs-v6",
-	"version": "f687327b5f1d32dc",
-	"documentCount": 1480,
-	"projectCount": 163,
+	"version": "29fc1a057f966e18",
+	"documentCount": 1522,
+	"projectCount": 179,
 	"systemCount": 18,
 	"categoryCount": 15,
 	"curatedDocumentIds": [
@@ -325,7 +325,23 @@
 		"search/search-302.json",
 		"search/search-303.json",
 		"search/search-304.json",
-		"search/search-305.json"
+		"search/search-305.json",
+		"search/search-306.json",
+		"search/search-307.json",
+		"search/search-308.json",
+		"search/search-309.json",
+		"search/search-310.json",
+		"search/search-311.json",
+		"search/search-312.json",
+		"search/search-313.json",
+		"search/search-314.json",
+		"search/search-315.json",
+		"search/search-316.json",
+		"search/search-317.json",
+		"search/search-318.json",
+		"search/search-319.json",
+		"search/search-320.json",
+		"search/search-321.json"
 	],
 	"projectIndexes": [
 		"projects/projects-001.json",
@@ -343,15 +359,15 @@
 		"projects/projects-013.json",
 		"projects/projects-014.json",
 		"projects/projects-015.json",
-		"projects/projects-016.json"
+		"projects/projects-016.json",
+		"projects/projects-017.json",
+		"projects/projects-018.json"
 	],
 	"systemIndexes": [
 		"systems/systems-001.json",
 		"systems/systems-002.json",
 		"systems/systems-003.json",
-		"systems/systems-004.json",
-		"systems/systems-005.json",
-		"systems/systems-006.json"
+		"systems/systems-004.json"
 	],
 	"categories": "categories.json",
 	"pagesRoot": "pages/",
@@ -360,7 +376,7 @@
 	"projectHumanGuide": "docs/TUTORIALS/PROJECTS/README.md",
 	"systemTutorialIndex": "docs/GENERATED/SYSTEM_TUTORIAL_INDEX.md",
 	"systemHumanGuide": "docs/TUTORIALS/SYSTEMS/README.md",
-	"tutorialCount": 577,
+	"tutorialCount": 634,
 	"tutorialIndexes": [
 		"tutorials/routes-001.json",
 		"tutorials/routes-002.json",
@@ -483,7 +499,19 @@
 		"tutorials/routes-119.json",
 		"tutorials/routes-120.json",
 		"tutorials/routes-121.json",
-		"tutorials/routes-122.json"
+		"tutorials/routes-122.json",
+		"tutorials/routes-123.json",
+		"tutorials/routes-124.json",
+		"tutorials/routes-125.json",
+		"tutorials/routes-126.json",
+		"tutorials/routes-127.json",
+		"tutorials/routes-128.json",
+		"tutorials/routes-129.json",
+		"tutorials/routes-130.json",
+		"tutorials/routes-131.json",
+		"tutorials/routes-132.json",
+		"tutorials/routes-133.json",
+		"tutorials/routes-134.json"
 	],
 	"tutorialFamilies": "tutorial-families.json",
 	"tutorialFamilyCount": 21,

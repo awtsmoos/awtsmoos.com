@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-tutorial-index-md-1afbf05641",
+	"title": "Website Maker Tutorial Index",
+	"sourcePath": "docs/WEBSITES/TUTORIAL_INDEX.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Website Maker Tutorial Index",
+			"anchor": "website-maker-tutorial-index"
+		},
+		{
+			"level": 2,
+			"text": "I want to make a website from nothing",
+			"anchor": "i-want-to-make-a-website-from-nothing"
+		},
+		{
+			"level": 2,
+			"text": "I want an Awtsmoos Tunnel agent to make and publish it",
+			"anchor": "i-want-an-awtsmoos-tunnel-agent-to-make-and-publish-it"
+		},
+		{
+			"level": 2,
+			"text": "I want software inside Drive to control Website Maker",
+			"anchor": "i-want-software-inside-drive-to-control-website-maker"
+		},
+		{
+			"level": 2,
+			"text": "I want to connect my own domain",
+			"anchor": "i-want-to-connect-my-own-domain"
+		},
+		{
+			"level": 2,
+			"text": "I want to move only the website and keep my existing email",
+			"anchor": "i-want-to-move-only-the-website-and-keep-my-existing-email"
+		},
+		{
+			"level": 2,
+			"text": "I want provider-specific DNS instructions",
+			"anchor": "i-want-provider-specific-dns-instructions"
+		},
+		{
+			"level": 2,
+			"text": "I want to change nameservers or move the whole DNS provider",
+			"anchor": "i-want-to-change-nameservers-or-move-the-whole-dns-provider"
+		},
+		{
+			"level": 2,
+			"text": "I use DNSSEC",
+			"anchor": "i-use-dnssec"
+		},
+		{
+			"level": 2,
+			"text": "I want a Node website running on my connected machine",
+			"anchor": "i-want-a-node-website-running-on-my-connected-machine"
+		},
+		{
+			"level": 2,
+			"text": "Something does not load",
+			"anchor": "something-does-not-load"
+		},
+		{
+			"level": 2,
+			"text": "I am not sure whether it is finished",
+			"anchor": "i-am-not-sure-whether-it-is-finished"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-tutorial-index-md-1afbf05641-001.json"
+	]
+}

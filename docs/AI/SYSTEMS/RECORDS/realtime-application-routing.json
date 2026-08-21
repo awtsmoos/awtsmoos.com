@@ -62,7 +62,7 @@
 			"name": "AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS",
 			"classification": "tuning",
 			"sources": 1,
-			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAckHandler.js"
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestConsumerWatchdog.js"
 		},
 		{
 			"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
@@ -104,7 +104,7 @@
 			"name": "AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS",
 			"classification": "tuning",
 			"sources": 1,
-			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js"
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatchWatchdog.js"
 		},
 		{
 			"name": "MW_LOAD_CLIENTS",
@@ -130,12 +130,27 @@
 			"factory": "createChessApplication"
 		},
 		{
-			"id": "universalChat",
+			"id": "geelooy-code",
+			"versions": "1",
+			"factory": "createGeelooyCodeApplication"
+		},
+		{
+			"id": "geelooy-docs",
+			"versions": "1",
+			"factory": "createGeelooyDocsApplication"
+		},
+		{
+			"id": "sheets",
+			"versions": "1",
+			"factory": "createSheetsApplication"
+		},
+		{
+			"id": "universal-chat",
 			"versions": "1",
 			"factory": "createUniversalChatApplication"
 		},
 		{
-			"id": "privateMessaging",
+			"id": "private-messaging",
 			"versions": "1",
 			"factory": "createPrivateMessagingApplication"
 		},

@@ -25,32 +25,32 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-composer-5d72af7c.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 242,
-		"tests": 17,
+		"source": 317,
+		"tests": 28,
 		"assets": 0,
 		"generated": 0,
 		"docs": 9,
 		"other": 0
 	},
-	"totalFiles": 268,
+	"totalFiles": 354,
 	"symbolSummary": {
-		"files": 147,
-		"classes": 46,
-		"functions": 371,
-		"exports": 241,
+		"files": 200,
+		"classes": 81,
+		"functions": 452,
+		"exports": 323,
 		"samples": [
 			"createComposer",
 			"createWorkflow",
 			"createController",
+			"createCreatorAssembly",
 			"createDestinationAssembly",
+			"DraftAssembly",
+			"createDraftAssembly",
 			"createEditorAssembly",
 			"createReelAssembly",
+			"createReviewAssembly",
 			"installComposerAccessibility",
-			"hasAccessibleName",
-			"nameField",
-			"nameComposerFields",
-			"ApiTransport",
-			"SocialComposerApi"
+			"hasAccessibleName"
 		]
 	},
 	"outgoingDependencies": [
@@ -61,8 +61,8 @@
 		},
 		{
 			"project": "geelooy/shared",
-			"count": 1,
-			"examples": "geelooy/social-composer/js/main.js"
+			"count": 4,
+			"examples": "geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js"
 		}
 	],
 	"incomingDependencies": [],
@@ -73,7 +73,7 @@
 			"file": "geelooy/social-composer/index.html",
 			"title": "Create New Post — Geelooy",
 			"scripts": 2,
-			"styles": 11
+			"styles": 1
 		},
 		{
 			"url": "/social-composer/reel-studio",

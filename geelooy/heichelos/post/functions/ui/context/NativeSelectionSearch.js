@@ -6,10 +6,10 @@
  * @module NativeSelectionSearch
  * @description
  * The Awtsmoos lets ordinary browser highlighting become a doorway into the whole indexed library;
- * Awtsmoos.com hears mouse, touch, and keyboard selections while letting a cleared selection renew the same phrase later.
+ * Awtsmoos.com hears mouse, touch, and keyboard selections while one active word gesture keeps its own boundary clear.
  */
 
-import { isWordSelectionActive } from '../selection/selectionState.js';
+import { isWordSelectionActive } from '../selection/selectionMode.js';
 import { showRelatedSearch } from './relatedSearchPanel.js';
 import { selectedReaderText } from './selectedText.js';
 
@@ -17,10 +17,12 @@ const SETTLE_MS = 140;
 let timer = null;
 let lastSignature = '';
 
-function signature(info) {
+/** Returns a stable identity for one native selection search. */
+function selectionSignature(info) {
 	return `${info.origin}|${info.language}|${info.text}`;
 }
 
+/** Reveals one related-search request after browser selection has settled. */
 function runSelectionSearch() {
 	timer = null;
 	if (isWordSelectionActive()) return;
@@ -29,31 +31,33 @@ function runSelectionSearch() {
 		lastSignature = '';
 		return;
 	}
-	const nextSignature = signature(info);
+	const nextSignature = selectionSignature(info);
 	if (nextSignature === lastSignature) return;
 	lastSignature = nextSignature;
 	showRelatedSearch(info);
 }
 
-function schedule() {
+/** Debounces selection events so touch and pointer completion share one path. */
+function scheduleSelectionSearch() {
 	clearTimeout(timer);
 	timer = setTimeout(runSelectionSearch, SETTLE_MS);
 }
 
+/** Responds only to keyboard gestures that can extend a browser text selection. */
 function keyboardSelection(event) {
 	if (!event.shiftKey) return;
-	if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
-		return;
-	}
-	schedule();
+	const selectionKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+	if (!selectionKeys.includes(event.key)) return;
+	scheduleSelectionSearch();
 }
 
+/** Installs native-selection discovery and returns one complete cleanup function. */
 export function setupNativeSelectionSearch() {
-	document.addEventListener('pointerup', schedule);
+	document.addEventListener('pointerup', scheduleSelectionSearch);
 	document.addEventListener('keyup', keyboardSelection);
 	return () => {
 		clearTimeout(timer);
-		document.removeEventListener('pointerup', schedule);
+		document.removeEventListener('pointerup', scheduleSelectionSearch);
 		document.removeEventListener('keyup', keyboardSelection);
 	};
 }

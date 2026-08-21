@@ -2,6 +2,429 @@
 	"BH": "B\"H",
 	"routes": [
 		{
+			"id": "api-tunnel-control-pairing-request-6a2bdf47f1",
+			"route": "/api/tunnel/control/pairing/request",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-pairing-request-6a2bdf47f1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-pairing-request-6a2bdf47f1.md"
+		},
+		{
+			"id": "api-tunnel-control-pairing-status-434005a0c0",
+			"route": "/api/tunnel/control/pairing/status",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-pairing-status-434005a0c0.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-pairing-status-434005a0c0.md"
+		},
+		{
+			"id": "api-tunnel-control-preview-tunnelname-d8027eb563",
+			"route": "/api/tunnel/control/preview/:tunnelName",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-preview-tunnelname-d8027eb563.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-tunnelname-d8027eb563.md"
+		},
+		{
+			"id": "api-tunnel-control-preview-access-revoke-4971246ad8",
+			"route": "/api/tunnel/control/preview/access/revoke",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-preview-access-revoke-4971246ad8.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-access-revoke-4971246ad8.md"
+		},
+		{
+			"id": "api-tunnel-control-preview-create-e51606bb4a",
+			"route": "/api/tunnel/control/preview/create",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-preview-create-e51606bb4a.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-create-e51606bb4a.md"
+		},
+		{
+			"id": "api-tunnel-control-preview-grant-d4c4ec0d16",
+			"route": "/api/tunnel/control/preview/grant",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-preview-grant-d4c4ec0d16.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-grant-d4c4ec0d16.md"
+		},
+		{
+			"id": "api-tunnel-control-preview-list-fe7b7f34c1",
+			"route": "/api/tunnel/control/preview/list",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-preview-list-fe7b7f34c1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-list-fe7b7f34c1.md"
+		},
+		{
+			"id": "api-tunnel-control-preview-revoke-57eba464a0",
+			"route": "/api/tunnel/control/preview/revoke",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-preview-revoke-57eba464a0.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-revoke-57eba464a0.md"
+		},
+		{
+			"id": "api-tunnel-control-preview-settings-410566c895",
+			"route": "/api/tunnel/control/preview/settings",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-preview-settings-410566c895.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-settings-410566c895.md"
+		},
+		{
+			"id": "api-tunnel-control-preview-settings-set-7182d3e2e0",
+			"route": "/api/tunnel/control/preview/settings/set",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-preview-settings-set-7182d3e2e0.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-settings-set-7182d3e2e0.md"
+		},
+		{
+			"id": "api-tunnel-control-preview-update-9eb26c251c",
+			"route": "/api/tunnel/control/preview/update",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-preview-update-9eb26c251c.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-preview-update-9eb26c251c.md"
+		},
+		{
+			"id": "api-tunnel-control-provider-5f5733e9a9",
+			"route": "/api/tunnel/control/provider",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-provider-5f5733e9a9.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-provider-5f5733e9a9.md"
+		},
+		{
+			"id": "api-tunnel-control-receipt-certificate-8274fa9ea3",
+			"route": "/api/tunnel/control/receipt/certificate",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-receipt-certificate-8274fa9ea3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-receipt-certificate-8274fa9ea3.md"
+		},
+		{
+			"id": "api-tunnel-control-refund-546623be57",
+			"route": "/api/tunnel/control/refund",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-refund-546623be57.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-refund-546623be57.md"
+		},
+		{
+			"id": "api-tunnel-control-reputation-e7251c1ca6",
+			"route": "/api/tunnel/control/reputation",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-reputation-e7251c1ca6.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-reputation-e7251c1ca6.md"
+		},
+		{
+			"id": "api-tunnel-control-resource-accounting-20ecb853a2",
+			"route": "/api/tunnel/control/resource-accounting",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-resource-accounting-20ecb853a2.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-resource-accounting-20ecb853a2.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-299ed66944",
+			"route": "/api/tunnel/control/treasury",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-299ed66944.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-299ed66944.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-test-80cae2cc47",
+			"route": "/api/tunnel/control/treasury-test",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-test-80cae2cc47.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-test-80cae2cc47.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-advisor-2f230cd486",
+			"route": "/api/tunnel/control/treasury/advisor",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-advisor-2f230cd486.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-advisor-2f230cd486.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-agents-746ce1cb98",
+			"route": "/api/tunnel/control/treasury/agents",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-agents-746ce1cb98.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-agents-746ce1cb98.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-budgets-01defa19d4",
+			"route": "/api/tunnel/control/treasury/budgets",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-budgets-01defa19d4.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-budgets-01defa19d4.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-forecast-22667450d7",
+			"route": "/api/tunnel/control/treasury/forecast",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-forecast-22667450d7.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-forecast-22667450d7.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-graph-9b57e2028a",
+			"route": "/api/tunnel/control/treasury/graph",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-graph-9b57e2028a.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-graph-9b57e2028a.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-home-8289714128",
+			"route": "/api/tunnel/control/treasury/home",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-home-8289714128.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-home-8289714128.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-marketplace-84bf5bf122",
+			"route": "/api/tunnel/control/treasury/marketplace",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-marketplace-84bf5bf122.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-marketplace-84bf5bf122.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-providers-fb2bc159cf",
+			"route": "/api/tunnel/control/treasury/providers",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-providers-fb2bc159cf.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-providers-fb2bc159cf.md"
+		},
+		{
+			"id": "api-tunnel-control-treasury-reputation-9e3b6cdcac",
+			"route": "/api/tunnel/control/treasury/reputation",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-treasury-reputation-9e3b6cdcac.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-treasury-reputation-9e3b6cdcac.md"
+		},
+		{
+			"id": "api-tunnel-control-tunnels-access-2083ce96ea",
+			"route": "/api/tunnel/control/tunnels/access",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-tunnels-access-2083ce96ea.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-tunnels-access-2083ce96ea.md"
+		},
+		{
+			"id": "api-tunnel-control-tunnels-devices-revoke-e59afd1834",
+			"route": "/api/tunnel/control/tunnels/devices/revoke",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-tunnels-devices-revoke-e59afd1834.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-tunnels-devices-revoke-e59afd1834.md"
+		},
+		{
+			"id": "api-tunnel-control-tunnels-grants-create-717555beac",
+			"route": "/api/tunnel/control/tunnels/grants/create",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-tunnels-grants-create-717555beac.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-tunnels-grants-create-717555beac.md"
+		},
+		{
+			"id": "api-tunnel-control-tunnels-grants-revoke-3e2b676743",
+			"route": "/api/tunnel/control/tunnels/grants/revoke",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-tunnels-grants-revoke-3e2b676743.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-tunnels-grants-revoke-3e2b676743.md"
+		},
+		{
+			"id": "api-tunnel-control-usage-c5ce956ee8",
+			"route": "/api/tunnel/control/usage",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-usage-c5ce956ee8.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-usage-c5ce956ee8.md"
+		},
+		{
+			"id": "api-tunnel-control-view-previewid-1b7633d943",
+			"route": "/api/tunnel/control/view/:previewId",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-view-previewid-1b7633d943.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-1b7633d943.md"
+		},
+		{
+			"id": "api-tunnel-control-view-previewid-proxy-995aea3db1",
+			"route": "/api/tunnel/control/view/:previewId/proxy",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-view-previewid-proxy-995aea3db1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-proxy-995aea3db1.md"
+		},
+		{
+			"id": "api-tunnel-control-view-previewid-raw-0e6f4f3539",
+			"route": "/api/tunnel/control/view/:previewId/raw",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-view-previewid-raw-0e6f4f3539.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-raw-0e6f4f3539.md"
+		},
+		{
+			"id": "api-tunnel-control-view-previewid-ws-4eda571118",
+			"route": "/api/tunnel/control/view/:previewId/ws",
+			"family": "/api/tunnel/control",
+			"source": "geelooy/api/tunnel/control/routes/table.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
+			"record": "ROUTES/api-tunnel-control-view-previewid-ws-4eda571118.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-view-previewid-ws-4eda571118.md"
+		},
+		{
+			"id": "api-tunnel-fs-tunnelname-48e2aaea39",
+			"route": "/api/tunnel/fs/:tunnelName",
+			"family": "/api/tunnel",
+			"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md",
+			"record": "ROUTES/api-tunnel-fs-tunnelname-48e2aaea39.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-fs-tunnelname-48e2aaea39.md"
+		},
+		{
+			"id": "api-tunnel-request-tunnelname-4e57b0d0cc",
+			"route": "/api/tunnel/request/:tunnelName",
+			"family": "/api/tunnel",
+			"source": "geelooy/api/tunnel/_awtsmoos.derech.js",
+			"manual": "docs/TUTORIALS/API/TUNNEL.md",
+			"record": "ROUTES/api-tunnel-request-tunnelname-4e57b0d0cc.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-request-tunnelname-4e57b0d0cc.md"
+		},
+		{
+			"id": "api-wallet-balance-59097f364b",
+			"route": "/api/wallet/balance",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-balance-59097f364b.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-balance-59097f364b.md"
+		},
+		{
+			"id": "api-wallet-buy-mock-45ef52f2b5",
+			"route": "/api/wallet/buy/mock",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-buy-mock-45ef52f2b5.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-buy-mock-45ef52f2b5.md"
+		},
+		{
+			"id": "api-wallet-commerce-catalog-f9d5b627eb",
+			"route": "/api/wallet/commerce/catalog",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-catalog-f9d5b627eb.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-catalog-f9d5b627eb.md"
+		},
+		{
+			"id": "api-wallet-commerce-entitlements-31c234acf1",
+			"route": "/api/wallet/commerce/entitlements",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-entitlements-31c234acf1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-entitlements-31c234acf1.md"
+		},
+		{
+			"id": "api-wallet-commerce-purchase-762f54f3a2",
+			"route": "/api/wallet/commerce/purchase",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-commerce-purchase-762f54f3a2.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-purchase-762f54f3a2.md"
+		},
+		{
+			"id": "api-wallet-currency-8de1c94e4f",
+			"route": "/api/wallet/currency",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-currency-8de1c94e4f.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-currency-8de1c94e4f.md"
+		},
+		{
+			"id": "api-wallet-game-rewards-claim-abc370c4e1",
+			"route": "/api/wallet/game-rewards/claim",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-game-rewards-claim-abc370c4e1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-game-rewards-claim-abc370c4e1.md"
+		},
+		{
+			"id": "api-wallet-me-c462e10539",
+			"route": "/api/wallet/me",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-me-c462e10539.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-me-c462e10539.md"
+		},
+		{
+			"id": "api-wallet-paypal-capture-df2c3232c6",
+			"route": "/api/wallet/paypal/capture",
+			"family": "/api/wallet",
+			"source": "geelooy/api/wallet/routes/table.js",
+			"manual": "docs/TUTORIALS/API/WALLET.md",
+			"record": "ROUTES/api-wallet-paypal-capture-df2c3232c6.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-paypal-capture-df2c3232c6.md"
+		},
+		{
 			"id": "api-wallet-paypal-create-b8a88e1af7",
 			"route": "/api/wallet/paypal/create",
 			"family": "/api/wallet",
@@ -72,168 +495,6 @@
 			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
 			"record": "ROUTES/api-youtube-a-b-c-02c6f58285.json",
 			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-a-b-c-02c6f58285.md"
-		},
-		{
-			"id": "api-youtube-auth-callback-9c2556106d",
-			"route": "/api/youtube/auth/callback",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-auth-callback-9c2556106d.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-callback-9c2556106d.md"
-		},
-		{
-			"id": "api-youtube-auth-logout-e16d771492",
-			"route": "/api/youtube/auth/logout",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-auth-logout-e16d771492.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-logout-e16d771492.md"
-		},
-		{
-			"id": "api-youtube-auth-start-c2f5a58fbd",
-			"route": "/api/youtube/auth/start",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-auth-start-c2f5a58fbd.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-start-c2f5a58fbd.md"
-		},
-		{
-			"id": "api-youtube-auth-status-10475f963f",
-			"route": "/api/youtube/auth/status",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-auth-status-10475f963f.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-auth-status-10475f963f.md"
-		},
-		{
-			"id": "api-youtube-channel-8bfe604f4c",
-			"route": "/api/youtube/channel",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-channel-8bfe604f4c.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-channel-8bfe604f4c.md"
-		},
-		{
-			"id": "api-youtube-channel-mine-662381827e",
-			"route": "/api/youtube/channel/mine",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-channel-mine-662381827e.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-channel-mine-662381827e.md"
-		},
-		{
-			"id": "api-youtube-live-3810f27141",
-			"route": "/api/youtube/live",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-live-3810f27141.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-3810f27141.md"
-		},
-		{
-			"id": "api-youtube-live-create-ed8850fb7e",
-			"route": "/api/youtube/live/create",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-live-create-ed8850fb7e.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-create-ed8850fb7e.md"
-		},
-		{
-			"id": "api-youtube-live-list-ead6bdc367",
-			"route": "/api/youtube/live/list",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-live-list-ead6bdc367.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-list-ead6bdc367.md"
-		},
-		{
-			"id": "api-youtube-live-transition-ae1a4cbf7f",
-			"route": "/api/youtube/live/transition",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-live-transition-ae1a4cbf7f.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-live-transition-ae1a4cbf7f.md"
-		},
-		{
-			"id": "api-youtube-oauth-callback-77ef36bff2",
-			"route": "/api/youtube/oauth/callback",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-oauth-callback-77ef36bff2.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-callback-77ef36bff2.md"
-		},
-		{
-			"id": "api-youtube-oauth-logout-b12d002f1f",
-			"route": "/api/youtube/oauth/logout",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-oauth-logout-b12d002f1f.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-logout-b12d002f1f.md"
-		},
-		{
-			"id": "api-youtube-oauth-start-0855498762",
-			"route": "/api/youtube/oauth/start",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-oauth-start-0855498762.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-start-0855498762.md"
-		},
-		{
-			"id": "api-youtube-oauth-status-529fa78f69",
-			"route": "/api/youtube/oauth/status",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-oauth-status-529fa78f69.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-status-529fa78f69.md"
-		},
-		{
-			"id": "api-youtube-uploads-start-9d5f4138cd",
-			"route": "/api/youtube/uploads/start",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-uploads-start-9d5f4138cd.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-uploads-start-9d5f4138cd.md"
-		},
-		{
-			"id": "api-youtube-videos-53702b8520",
-			"route": "/api/youtube/videos",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-videos-53702b8520.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-53702b8520.md"
-		},
-		{
-			"id": "api-youtube-videos-list-0c5f0e2ea2",
-			"route": "/api/youtube/videos/list",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-videos-list-0c5f0e2ea2.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-list-0c5f0e2ea2.md"
-		},
-		{
-			"id": "api-youtube-videos-update-d8820be806",
-			"route": "/api/youtube/videos/update",
-			"family": "/api/youtube",
-			"source": "geelooy/api/youtube/routes/table.js",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md",
-			"record": "ROUTES/api-youtube-videos-update-d8820be806.json",
-			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-update-d8820be806.md"
 		}
 	]
 }

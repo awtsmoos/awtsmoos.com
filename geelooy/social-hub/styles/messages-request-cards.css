@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond consent, waiting, friendship, and block, while Awtsmoos.com lets each relationship state remain explicit without letting raw protocol jargon lead the eye;
+ * this Gevurah-like garment owns request decisions, mutation feedback, and relationship chips only, leaving accepted conversations to their own vessel of light.
+ */
+
+.hubRequestCard {
+	display: grid;
+	gap: .6rem;
+	padding: .78rem;
+	border: 1px solid var(--line);
+	border-radius: .95rem;
+	background: var(--surface-strong);
+}
+
+.hubRequestCard[data-direction="incoming"] {
+	border-color: var(--line-hot);
+}
+
+.hubRequestCard__title {
+	font-size: 1rem;
+	line-height: 1.3;
+}
+
+.hubRequestCard__meaning,
+.hubRequestCard__state,
+.hubRequestActionStatus {
+	margin: 0;
+	color: var(--muted);
+}
+
+.hubRequestActionStatus {
+	font-size: .78rem;
+}
+
+.hubRequestActionRegion {
+	display: grid;
+	gap: .4rem;
+}
+
+.hubRequestActions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .5rem;
+}
+
+.hubRequestActions button {
+	min-height: 44px;
+	border: 1px solid var(--line-hot);
+	border-radius: .78rem;
+	background: var(--surface);
+	color: var(--ink);
+	font: inherit;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+.hubRequestActions button:disabled {
+	cursor: wait;
+	opacity: .62;
+}
+
+#hubMessagesRelationships {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: .45rem;
+}
+
+#hubMessagesRelationships .hubMessagesSectionHeading,
+#hubMessagesRelationships .hubMessagesEmpty {
+	flex-basis: 100%;
+}
+
+.hubRelationshipChip {
+	padding: .38rem .62rem;
+	border: 1px solid var(--line-hot);
+	border-radius: 999px;
+	font-size: .8rem;
+}
+
+.hubRelationshipChip.is-blocked {
+	opacity: .68;
+}
+
+@media (max-width: 42rem) {
+	.hubRequestActions button {
+		min-height: 48px;
+	}
+}

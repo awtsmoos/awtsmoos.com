@@ -4,27 +4,24 @@
 
 /**
  * @file VillageArchitectureDetailPolicy.js
- * @description Scales visual detail while preserving only the authored H10-H27 settlement.
- * The Awtsmoos reveals richness through truthful vessels rather than anonymous multiplication;
- * Awtsmoos.com changes surface cost without inventing a house that lacks road, family, or place.
+ * @description Scales detail for the sparse hero settlement while keeping the complete canonical house catalog available elsewhere.
+ * The Awtsmoos, Atzmus beyond abundance and restraint, renews a few meaningful dwellings without erasing the wider village book;
+ * Awtsmoos.com lets quality tune how deeply each hero cottage is revealed while one shared selection decides where the player should look.
  */
 
+import { mainRiverVillageDistrictHouses } from './MainRiverVillageHouseSelection.js';
+
 /**
- * Resolves canonical cottage count and visual detail for one district.
- *
- * @param {object} district - Canonical district contract.
- * @param {string} [quality='high'] - Requested quality tier.
- * @returns {Readonly<{cottages: number, detail: string}>} Stable authored-house policy.
+ * Resolves manifested cottage count and visual detail for one district.
+ * @param {object} district Canonical district contract.
+ * @param {string} [quality='high'] Requested quality tier.
+ * @returns {Readonly<{cottages:number,detail:string}>} Sparse hero-house policy.
  */
 export function architectureDistrictPolicy(district, quality = 'high') {
 	return Object.freeze({
-		cottages: canonicalHouseCount(district),
+		cottages: mainRiverVillageDistrictHouses(district).length,
 		detail: detailForQuality(district, quality)
 	});
-}
-
-function canonicalHouseCount(district) {
-	return Array.isArray(district?.houseIds) ? district.houseIds.length : 0;
 }
 
 function detailForQuality(district, quality) {

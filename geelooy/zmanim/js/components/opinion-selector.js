@@ -2,92 +2,118 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos is one while shitos give the measured day distinct lawful vessels;
- * Awtsmoos.com keeps switching compact, keyboard-complete, and free of repeated explanatory levels.
+ * The Awtsmoos is One while a user may compare many lawful vessels without surrendering the first screen to controls;
+ * Awtsmoos.com keeps selection native, primary meaning explicit, and the full method universe one disclosure away beneath compact mobile rules.
  */
 
-import { ZMANIM_OPINIONS } from "../config/opinions.js";
+import {
+	allSupportedOpinionIds,
+	normalizeOpinionIds,
+	normalizePrimaryOpinion
+} from "../config/opinion-selection.js";
+import {
+	renderOpinionChoice,
+	renderOpinionSummary,
+	renderOpinionToolbar
+} from "./opinion-selector-renderer.js";
 
-const SHORT_LABELS = Object.freeze({
-	chabad: "Chabad",
-	gra: "Gra",
-	magenAvraham72: "M.A. 72"
-});
-
-/** Compact accessible shita radiogroup synchronized with the native fallback select. */
+/** Accessible multi-opinion selector with a responsive disclosure and one primary calculation. */
 export class AwtsmoosOpinionSelector extends HTMLElement {
-	set value(opinionId) {
-		this.opinionId = opinionId;
-		if (this.isConnected) this.render();
+	constructor() {
+		super();
+		this.opinionIds = ["chabad"];
+		this.primaryOpinionId = "chabad";
+		this.detailsOpen = null;
+		this.boundChange = event => this.handleChange(event);
+		this.boundClick = event => this.handleClick(event);
 	}
 
-	get value() {
-		return this.opinionId || "chabad";
+	set data(value) {
+		const opinionIds = normalizeOpinionIds(value?.opinionIds || value?.opinionId);
+		this.opinionIds = opinionIds;
+		this.primaryOpinionId = normalizePrimaryOpinion(
+			value?.primaryOpinionId || value?.opinionId,
+			opinionIds
+		);
+		if (this.isConnected) {
+			this.render();
+		}
 	}
 
 	connectedCallback() {
-		this.opinionId = this.opinionId || "chabad";
+		this.addEventListener("change", this.boundChange);
+		this.addEventListener("click", this.boundClick);
 		this.render();
-		this.addEventListener("click", event => {
-			const button = event.target.closest("button[data-opinion]");
-			if (button) this.selectOpinion(button.dataset.opinion, false);
-		});
-		this.addEventListener("keydown", event => {
-			this.handleKeydown(event);
-		});
 	}
 
-	handleKeydown(event) {
-		const button = event.target.closest("button[data-opinion]");
-		const keys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"];
-		if (!button || !keys.includes(event.key)) return;
-		event.preventDefault();
-		const buttons = Array.from(this.querySelectorAll("button[data-opinion]"));
-		const currentIndex = buttons.indexOf(button);
-		let nextIndex = currentIndex;
-		if (event.key === "Home") nextIndex = 0;
-		else if (event.key === "End") nextIndex = buttons.length - 1;
-		else {
-			const forward = event.key === "ArrowRight" || event.key === "ArrowDown";
-			nextIndex = (currentIndex + (forward ? 1 : -1) + buttons.length) % buttons.length;
+	disconnectedCallback() {
+		this.removeEventListener("change", this.boundChange);
+		this.removeEventListener("click", this.boundClick);
+	}
+
+	/** Handle one native checkbox change without allowing the selection to become empty. */
+	handleChange(event) {
+		const checkbox = event.target.closest("input[data-opinion-check]");
+		if (checkbox) {
+			this.toggleOpinion(checkbox.dataset.opinionCheck, checkbox.checked);
 		}
-		this.selectOpinion(buttons[nextIndex].dataset.opinion, true);
 	}
 
-	selectOpinion(opinionId, restoreFocus) {
-		this.opinionId = opinionId;
+	/** Handle bulk-selection and primary-method buttons outside checkbox-label semantics. */
+	handleClick(event) {
+		const action = event.target.closest("button[data-opinion-action]")?.dataset.opinionAction;
+		const primary = event.target.closest("button[data-primary-opinion]")?.dataset.primaryOpinion;
+		if (action === "all") {
+			this.commit(allSupportedOpinionIds(), this.primaryOpinionId);
+		} else if (action === "chabad") {
+			this.commit(["chabad"], "chabad");
+		} else if (primary) {
+			this.commit(this.opinionIds, primary);
+		}
+	}
+
+	/** Add or remove one opinion while guaranteeing at least one remains selected. */
+	toggleOpinion(opinionId, selected) {
+		const nextIds = selected
+			? [...this.opinionIds, opinionId]
+			: this.opinionIds.filter(id => id !== opinionId);
+		this.commit(nextIds.length ? nextIds : this.opinionIds, this.primaryOpinionId);
+	}
+
+	/** Normalize, rerender, and announce one complete comparison-selection transaction. */
+	commit(opinionIds, primaryOpinionId) {
+		this.opinionIds = normalizeOpinionIds(opinionIds);
+		this.primaryOpinionId = normalizePrimaryOpinion(primaryOpinionId, this.opinionIds);
 		this.render();
-		this.dispatchEvent(new CustomEvent("opinion-change", {
+		this.dispatchEvent(new CustomEvent("opinion-selection-change", {
 			bubbles: true,
-			detail: { opinionId }
+			detail: {
+				opinionIds: [...this.opinionIds],
+				primaryOpinionId: this.primaryOpinionId
+			}
 		}));
-		if (restoreFocus) this.querySelector(`[data-opinion="${opinionId}"]`)?.focus();
 	}
 
+	/** Rebuild the disclosure while preserving the user's explicit open or closed state. */
 	render() {
-		this.replaceChildren();
-		const group = document.createElement("div");
-		group.className = "opinion-segments";
-		group.setAttribute("role", "radiogroup");
-		group.setAttribute("aria-label", "Calculation method");
-		for (const opinion of Object.values(ZMANIM_OPINIONS)) {
-			group.append(this.createButton(opinion));
+		const details = document.createElement("details");
+		details.className = "opinion-disclosure";
+		details.open = this.detailsOpen ?? matchMedia("(min-width: 720px)").matches;
+		details.append(renderOpinionSummary(this.opinionIds, this.primaryOpinionId));
+		const choices = document.createElement("div");
+		choices.className = "opinion-choices";
+		choices.setAttribute("aria-label", "Supported calculation methods");
+		for (const opinionId of allSupportedOpinionIds()) {
+			choices.append(renderOpinionChoice(opinionId, this.opinionIds, this.primaryOpinionId));
 		}
-		this.append(group);
-	}
-
-	createButton(opinion) {
-		const selected = opinion.id === this.value;
-		const button = document.createElement("button");
-		button.type = "button";
-		button.dataset.opinion = opinion.id;
-		button.setAttribute("role", "radio");
-		button.setAttribute("aria-checked", String(selected));
-		button.setAttribute("aria-label", opinion.label);
-		button.tabIndex = selected ? 0 : -1;
-		button.textContent = SHORT_LABELS[opinion.id] || opinion.label;
-		if (selected) button.dataset.selected = "";
-		return button;
+		const body = document.createElement("div");
+		body.className = "opinion-disclosure-body";
+		body.append(choices);
+		details.append(body);
+		details.addEventListener("toggle", () => {
+			this.detailsOpen = details.open;
+		});
+		this.replaceChildren(details, renderOpinionToolbar());
 	}
 }
 

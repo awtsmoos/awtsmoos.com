@@ -2,35 +2,45 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "geelooy-apps-tunnel-control-agents-md-f12beaa35d",
-	"title": "Awtsmoos Tunnel Control — AI Agent Instructions",
+	"title": "Awtsmoos Tunnel Control — Universal AI Agent Instructions",
 	"sourcePath": "geelooy/apps/tunnel-control/agents.md",
 	"category": "Tunnel",
 	"provenance": "project",
 	"headings": [
 		{
 			"level": 1,
-			"text": "Awtsmoos Tunnel Control — AI Agent Instructions",
-			"anchor": "awtsmoos-tunnel-control-ai-agent-instructions"
+			"text": "Awtsmoos Tunnel Control — Universal AI Agent Instructions",
+			"anchor": "awtsmoos-tunnel-control-universal-ai-agent-instructions"
 		},
 		{
 			"level": 2,
-			"text": "Canonical references",
-			"anchor": "canonical-references"
+			"text": "Canonical discovery",
+			"anchor": "canonical-discovery"
 		},
 		{
 			"level": 2,
-			"text": "Device discovery",
-			"anchor": "device-discovery"
+			"text": "Mode A — PKCE callback authorization",
+			"anchor": "mode-a-pkce-callback-authorization"
 		},
 		{
 			"level": 2,
-			"text": "Start, refresh, and restart",
-			"anchor": "start-refresh-and-restart"
+			"text": "Mode B — Headless Device Authorization",
+			"anchor": "mode-b-headless-device-authorization"
 		},
 		{
 			"level": 2,
-			"text": "Capability check",
-			"anchor": "capability-check"
+			"text": "Compatibility clients",
+			"anchor": "compatibility-clients"
+		},
+		{
+			"level": 2,
+			"text": "After either OAuth mode",
+			"anchor": "after-either-oauth-mode"
+		},
+		{
+			"level": 2,
+			"text": "Start or refresh the local tunnel",
+			"anchor": "start-or-refresh-the-local-tunnel"
 		},
 		{
 			"level": 2,
@@ -39,18 +49,8 @@
 		},
 		{
 			"level": 2,
-			"text": "Durable commands and pending responses",
-			"anchor": "durable-commands-and-pending-responses"
-		},
-		{
-			"level": 2,
-			"text": "Recovery-enabled concurrency",
-			"anchor": "recovery-enabled-concurrency"
-		},
-		{
-			"level": 2,
-			"text": "Offline restoration",
-			"anchor": "offline-restoration"
+			"text": "Security boundary",
+			"anchor": "security-boundary"
 		}
 	],
 	"markdownParts": [

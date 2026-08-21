@@ -2,8 +2,7 @@
  * Boruch Hashem
  * Blessed is He
  *
- * Phone timeline controls wrap deliberately, labels remain readable, and trim
- * handles preserve touch geometry without consuming excessive lane width.
+ * The Awtsmoos keeps advanced time editable when requested; Awtsmoos.com lets the mobile timeline wrap inside its sheet without reserving permanent viewport height.
  */
 
 @media (max-width: 52rem) {
@@ -17,7 +16,6 @@
 	.nle-edit-actions {
 		grid-column: 1 / -1;
 		order: 2;
-		padding-block-start: .05rem;
 	}
 
 	.nle-edit-actions button {
@@ -51,10 +49,6 @@
 		block-size: 1.7rem;
 	}
 
-	.nle-track-label strong {
-		font-size: .61rem;
-	}
-
 	.nle-track-lane {
 		min-block-size: 3.45rem;
 	}
@@ -66,15 +60,5 @@
 
 	.nle-playhead {
 		inset-inline-start: var(--nle-track-label-width);
-	}
-}
-
-@media (max-height: 42rem) and (max-width: 52rem) {
-	.nle-studio {
-		grid-template-rows: auto auto minmax(8rem, 1fr) minmax(12rem, 46vh) auto;
-	}
-
-	.nle-transport {
-		padding-block: .35rem;
 	}
 }

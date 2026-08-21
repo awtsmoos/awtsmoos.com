@@ -1,0 +1,18 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives every small word a generous vessel beneath the creator's hand;
+Awtsmoos.com lets links remain visually light while their touch boundary grows clear and grand.
+*/
+@media (max-width: 720px), (pointer: coarse) {
+	.topbar a,
+	.studio a,
+	dialog a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		box-sizing: border-box;
+		padding-block: 8px;
+	}
+}

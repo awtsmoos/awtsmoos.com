@@ -1,15 +1,26 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Lifecycle manager for SSH profiles mounted as Geelooy drives.
- * @description The Awtsmoos gives each distant host a named doorway; Awtsmoos.com mounts its path without storing the key, then releases the vessel cleanly away.
+ * @file Lifecycle manager for connected and remembered SSH remote drives.
+ * @description
+ * The Awtsmoos lets a distant doorway remain visible after its temporary key
+ * disappears. Awtsmoos.com marks that remembered world locked until new secret
+ * light is verified, so capability and presentation speak one truth in rhyme.
  */
 import { parseSshTarget } from "./profileVault.js";
 import { sshMountPrefix } from "./remotePath.js";
 
-const CAPABILITIES = ["children", "read", "write", "delete", "move", "copy", "terminal"];
+const CAPABILITIES = [
+	"children",
+	"read",
+	"write",
+	"delete",
+	"move",
+	"copy",
+	"terminal"
+];
 
 export class SshDriveManager {
 	constructor({ os, vault } = {}) {
@@ -27,6 +38,9 @@ export class SshDriveManager {
 
 	mountProfile(profile) {
 		const prefix = sshMountPrefix(profile.name);
+		const connected = Boolean(this.vault.secret(profile.name));
+		const state = connected ? "connected" : "needs-credential";
+		const permissions = accessPermissions(connected);
 		this.os.vfs.mount({
 			id: `mount:ssh:${profile.name}`,
 			prefix,
@@ -35,8 +49,14 @@ export class SshDriveManager {
 			title: `${profile.username}@${profile.host}`,
 			icon: "🔐",
 			capabilities: CAPABILITIES,
-			permissions: { read: true, write: true, delete: true, list: true },
-			data: { profileName: profile.name, remoteRoot: profile.root }
+			permissions,
+			connected,
+			connectionState: state,
+			permissionState: connected ? "read-write" : "locked",
+			data: {
+				profileName: profile.name,
+				remoteRoot: profile.root
+			}
 		});
 		this.os.drives.mount({
 			id: `ssh:${profile.name}`,
@@ -46,9 +66,12 @@ export class SshDriveManager {
 			title: `${profile.username}@${profile.host}`,
 			icon: "🔐",
 			capabilities: CAPABILITIES,
+			connected,
+			connectionState: state,
+			permissionState: connected ? "read-write" : "locked",
 			sshProfile: profile.name
 		});
-		return { profile, prefix };
+		return { profile, prefix, connected };
 	}
 
 	restore() {
@@ -73,4 +96,13 @@ export class SshDriveManager {
 			connected: Boolean(this.vault.secret(profile.name))
 		}));
 	}
+}
+
+function accessPermissions(connected) {
+	return {
+		read: connected,
+		write: connected,
+		delete: connected,
+		list: connected
+	};
 }

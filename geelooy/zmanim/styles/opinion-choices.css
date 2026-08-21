@@ -1,0 +1,85 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is One while each shita receives its own checkbox vessel within the revealed method field;
+ * Awtsmoos.com keeps labels, selected states, and responsive rows readable so abundance can unfold without breaking the mobile shield.
+ */
+
+.opinion-choices {
+	display: grid;
+	gap: .42rem;
+}
+
+.opinion-choice {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .5rem;
+	min-height: 56px;
+	padding: .5rem .58rem;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, .018);
+	transition: border-color var(--ease-out), background var(--ease-out), transform var(--ease-out);
+}
+
+.opinion-choice-label {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: .55rem;
+	min-width: 0;
+	cursor: pointer;
+}
+
+.opinion-copy {
+	display: grid;
+	gap: .1rem;
+	min-width: 0;
+}
+
+.opinion-copy strong {
+	color: var(--ink);
+}
+
+.opinion-copy small {
+	overflow: hidden;
+	color: var(--ink-soft);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.opinion-choice[data-selected="true"] {
+	border-color: rgba(124, 231, 197, .38);
+	background: rgba(124, 231, 197, .065);
+}
+
+.opinion-choice[data-primary="true"] {
+	box-shadow: inset 3px 0 0 var(--accent), 0 0 24px rgba(124, 231, 197, .045);
+}
+
+.opinion-choice input {
+	width: 1.15rem;
+	height: 1.15rem;
+	margin: 0;
+	accent-color: var(--accent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.opinion-choice:hover {
+		border-color: rgba(124, 231, 197, .24);
+	}
+}
+
+@media (min-width: 721px) {
+	.opinion-choices {
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.opinion-choice {
+		transition: none;
+	}
+}

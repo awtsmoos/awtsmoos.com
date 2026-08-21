@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-troubleshooting-md-5c12a853d1",
+	"title": "Website Maker Troubleshooting",
+	"sourcePath": "docs/WEBSITES/TROUBLESHOOTING.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Website Maker Troubleshooting",
+			"anchor": "website-maker-troubleshooting"
+		},
+		{
+			"level": 2,
+			"text": "Canonical site does not open",
+			"anchor": "canonical-site-does-not-open"
+		},
+		{
+			"level": 2,
+			"text": "CSS or JavaScript is missing",
+			"anchor": "css-or-javascript-is-missing"
+		},
+		{
+			"level": 2,
+			"text": "Custom domain fails but canonical URL works",
+			"anchor": "custom-domain-fails-but-canonical-url-works"
+		},
+		{
+			"level": 2,
+			"text": "Email broke after a domain change",
+			"anchor": "email-broke-after-a-domain-change"
+		},
+		{
+			"level": 2,
+			"text": "Connected Node server fails",
+			"anchor": "connected-node-server-fails"
+		},
+		{
+			"level": 2,
+			"text": "For agents",
+			"anchor": "for-agents"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-troubleshooting-md-5c12a853d1-001.json"
+	]
+}

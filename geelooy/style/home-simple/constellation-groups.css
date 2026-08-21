@@ -1,0 +1,118 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos hides infinite breadth behind a quiet threshold; Awtsmoos.com lets each constellation unfold with light, then return to stillness. */
+
+.constellation-root {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: .55rem;
+	max-height: min(63vh, 640px);
+	overflow: auto;
+	padding-right: .16rem;
+	scrollbar-width: thin;
+}
+
+.constellation-section {
+	border: 1px solid rgba(137, 193, 236, .1);
+	border-radius: 1rem;
+	background: linear-gradient(155deg, rgba(14, 28, 47, .74), rgba(7, 16, 29, .55));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035);
+	overflow: clip;
+}
+
+.constellation-section[hidden] {
+	display: none;
+}
+
+.constellation-summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	min-height: 48px;
+	padding: .62rem .74rem;
+	cursor: pointer;
+	list-style: none;
+	user-select: none;
+}
+
+.constellation-summary::-webkit-details-marker {
+	display: none;
+}
+
+.constellation-summary::after {
+	content: "+";
+	display: grid;
+	place-items: center;
+	width: 1.7rem;
+	height: 1.7rem;
+	border: 1px solid rgba(126, 198, 255, .17);
+	border-radius: 50%;
+	color: #8fcfff;
+	font-size: 1rem;
+	transition: transform .16s ease, background .16s ease;
+}
+
+.constellation-section[open] > .constellation-summary::after {
+	transform: rotate(45deg);
+	background: rgba(100, 192, 255, .08);
+}
+
+.constellation-summary:focus-visible {
+	outline: 2px solid rgba(127, 216, 255, .7);
+	outline-offset: -2px;
+}
+
+.constellation-identity {
+	display: flex;
+	align-items: center;
+	gap: .55rem;
+	min-width: 0;
+}
+
+.constellation-identity i {
+	display: grid;
+	place-items: center;
+	width: 1.8rem;
+	height: 1.8rem;
+	border-radius: .58rem;
+	background: rgba(103, 193, 255, .08);
+	color: #8fd6ff;
+	font-style: normal;
+}
+
+.constellation-identity b {
+	font-size: .79rem;
+	letter-spacing: .02em;
+}
+
+.constellation-count {
+	margin-left: auto;
+	color: #7288a2;
+	font-size: .64rem;
+	font-weight: 800;
+}
+
+.constellation-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: .55rem;
+	padding: 0 .55rem .55rem;
+	animation: constellationReveal .16s ease both;
+}
+
+.constellation-tile {
+	min-height: 64px;
+}
+
+@keyframes constellationReveal {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

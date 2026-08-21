@@ -2,11 +2,11 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos remains One while place, date, and shita move through human state;
- * Awtsmoos.com restores shared URLs first, then local memory, so a sent link opens at the intended gate.
+ * The Awtsmoos remains One while place, date, primary shita, and selected vessels move through human state;
+ * Awtsmoos.com restores shared URLs before local memory so an intentional link always opens at its intended gate.
  */
 
-import { getZmanimOpinion } from "../config/opinions.js";
+import { normalizeOpinionIds, normalizePrimaryOpinion } from "../config/opinion-selection.js";
 import { addIsoDays } from "../domain/solar-events.js";
 import { MalchusTimeFormatter } from "../domain/timezone.js";
 import { readZmanimUrl } from "./url-state.js";
@@ -24,6 +24,20 @@ const DEFAULT_LOCATION = Object.freeze({
 	label: "Brooklyn, New York, United States"
 });
 
+/** Choose comparison state with URL values taking precedence over remembered local preferences. */
+function initialOpinionSelection(shared, saved) {
+	if (shared.opinionIds?.length) {
+		return shared.opinionIds;
+	}
+	if (shared.opinionId) {
+		return [shared.opinionId];
+	}
+	if (saved.opinionIds?.length) {
+		return saved.opinionIds;
+	}
+	return [saved.opinionId];
+}
+
 /** Observable application state with URL-first hydration and local persistence. */
 export class YesodZmanimStore extends EventTarget {
 	constructor() {
@@ -31,9 +45,12 @@ export class YesodZmanimStore extends EventTarget {
 		const saved = this.readPreferences();
 		const shared = readZmanimUrl();
 		const location = shared.location || saved.location || DEFAULT_LOCATION;
+		const opinionIds = normalizeOpinionIds(initialOpinionSelection(shared, saved));
+		const primaryCandidate = shared.opinionId || saved.opinionId;
 		this.state = {
 			location,
-			opinionId: getZmanimOpinion(shared.opinionId || saved.opinionId).id,
+			opinionIds,
+			opinionId: normalizePrimaryOpinion(primaryCandidate, opinionIds),
 			date: shared.date || saved.date || MalchusTimeFormatter.todayInZone(location.timezone)
 		};
 	}
@@ -42,6 +59,7 @@ export class YesodZmanimStore extends EventTarget {
 		return {
 			location: { ...this.state.location },
 			opinionId: this.state.opinionId,
+			opinionIds: [...this.state.opinionIds],
 			date: this.state.date
 		};
 	}
@@ -67,7 +85,13 @@ export class YesodZmanimStore extends EventTarget {
 	}
 
 	setOpinion(opinionId) {
-		this.state.opinionId = getZmanimOpinion(opinionId).id;
+		this.setOpinionSelection([opinionId], opinionId);
+	}
+
+	setOpinionSelection(opinionIds, primaryOpinionId) {
+		const normalized = normalizeOpinionIds(opinionIds);
+		this.state.opinionIds = normalized;
+		this.state.opinionId = normalizePrimaryOpinion(primaryOpinionId, normalized);
 		this.persistAndNotify();
 	}
 
@@ -91,7 +115,7 @@ export class YesodZmanimStore extends EventTarget {
 		try {
 			globalThis.localStorage?.setItem(STORAGE_KEY, JSON.stringify(this.state));
 		} catch (error) {
-			// Persistence is optional; the calculator remains fully usable without storage.
+			// Persistence is optional; calculation remains usable without storage.
 		}
 		this.dispatchEvent(new CustomEvent("state-change", {
 			detail: this.getSnapshot()

@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-zmanim-documentation-md-f3dd7909d8",
+	"title": "Awtsmoos Zmanim",
+	"sourcePath": "geelooy/zmanim/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Zmanim",
+			"anchor": "awtsmoos-zmanim"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Experience",
+			"anchor": "experience"
+		},
+		{
+			"level": 2,
+			"text": "Shared truth",
+			"anchor": "shared-truth"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-zmanim-documentation-md-f3dd7909d8-001.json"
+	]
+}

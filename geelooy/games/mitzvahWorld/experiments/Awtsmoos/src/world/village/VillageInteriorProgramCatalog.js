@@ -4,12 +4,12 @@
 
 /**
  * @file VillageInteriorProgramCatalog.js
- * @description Derives coherent room programs from every authored canonical household.
- * The Awtsmoos fills an outer dwelling with inward purpose; Awtsmoos.com binds kitchen,
- * study, workshop, bedroom, cellar, and hearth to the life visibly surrounding each home.
+ * @description Derives coherent room programs for manifested hero cottages while retaining generic programs for any canonical household.
+ * The Awtsmoos, Atzmus beyond outer shell and inward purpose, renews every room where a household identity gives it reason to be;
+ * Awtsmoos.com avoids loading interiors for invisible homes while preserving a reusable program function for the wider canonical village tree.
  */
 
-import { CANONICAL_VILLAGE_HOUSES } from './CanonicalVillageHouses.js';
+import { mainRiverVillageHouses } from './MainRiverVillageHouseSelection.js';
 import { villageDistrictIdentity } from './VillageDistrictIdentity.js';
 
 const BASE_ROOMS = Object.freeze(['entry', 'kitchen', 'common-room', 'bedroom']);
@@ -26,31 +26,31 @@ const SPECIAL_ROOMS = Object.freeze({
 	sacred: ['study', 'hospitality-room']
 });
 
-/** Returns deterministic room programs for the selected quality tier. */
+/** Returns room programs only for currently manifested hero cottages. */
 export function villageInteriorPrograms(quality = 'high') {
-	return selectedHouses(quality).map((house, index) => programForHouse(house, index));
+	return mainRiverVillageHouses().map((house, index) => {
+		return programForHouse(house, index, quality);
+	});
 }
 
-/** Returns one room program for a canonical house. */
+/** Returns one room program for any canonical house. */
 export function villageInteriorProgramForHouse(house) {
-	return programForHouse(house, 0);
+	return programForHouse(house, 0, 'direct');
 }
 
-function programForHouse(house, index) {
+function programForHouse(house, index, quality) {
 	const identity = villageDistrictIdentity(house.districtId);
 	const special = SPECIAL_ROOMS[identity.character] || SPECIAL_ROOMS.residential;
 	const rooms = [...BASE_ROOMS, ...special];
-	if (index % 3 === 0 && !rooms.includes('cellar')) rooms.push('cellar');
+	if (index % 3 === 0 && !rooms.includes('cellar')) {
+		rooms.push('cellar');
+	}
 	return Object.freeze({
 		districtId: house.districtId,
 		hasHearth: true,
 		houseId: house.id,
+		quality,
 		rooms: Object.freeze(rooms),
 		workRoom: special[0]
 	});
-}
-
-function selectedHouses(quality) {
-	const count = quality === 'low' ? 8 : quality === 'medium' ? 13 : 18;
-	return CANONICAL_VILLAGE_HOUSES.slice(0, count);
 }

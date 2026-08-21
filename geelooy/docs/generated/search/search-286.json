@@ -1,8 +1,8 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-tools-materials-director-a143cc5e92",
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-enemy-director-9615f17733",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/tools/materials/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/enemy/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -13,8 +13,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/tools/materials",
-				"anchor": "directory-guide-experiments-awtsmoos-tools-materials"
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/enemy",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-enemy"
 			},
 			{
 				"level": 2,
@@ -67,14 +67,14 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/tools/materials Role: Tools Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 7 files, 0 structural child directories Purpose Structural area named materials. Its immediate files and children below are the evidenc",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/tools/materials role: tools snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 7 files, 0 structural child directories purpose structural area named materials. its immediate files and children below are the evidence for its current responsibilities. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tools search terms: material, marks, mjs, com, procedural, canonical, local, materials, photographic, source, svg, alpha file mix: .mjs: 6 good first question: “does the behavior or asset i need belong to tools, or is this only a neighboring/test/reference layer?” semantic evidence copies user owned material originals into deterministic local vessels. the awtsmoos turns no image into an anonymous shadow: awtsmoos.com preserves the canonical path, selected tier, byte count, and hash in one durable provenance ledger. b\"h rebuilds every declared local material and searchable metadata file. the awtsmoos renews the library from one immutable covenant; awtsmoos.com writes complete files so deployment never depends on a vanished host or manual copying. selects the lightest truthful local source for each canonical identity. the awtsmoos clothes one essence in many resolutions; awtsmoos.com chooses a nearby vessel without changing the canonical name that the playable world understands. representative files copyphotographicmaterials.mjs — copies user owned material originals into deterministic local vessels. the awtsmoos turns no image into an anonymous shadow: awtsmoos.com preserves the canonical path, selected tier, byte count, and hash in one durable provenance ledger. generatelocalmaterials.mjs — rebuilds every declared local material and searchable metadata file. the awtsmoos renews the library from one immutable covenant; awtsmoos.com writes complete files so deployment never depends on a vanished host or manual copying. photographicmaterialsourceselector.mjs — selects the lightest truthful local source for each canonical identity. the awtsmoos clothes one essence in many resolutions; awtsmoos.com chooses a nearby vessel without changing the canonical name that the playable world understands. exports: selectphotographicmaterialsource, candidatepaths. proceduralmaterialorganicmarks.mjs — draws grass, soil, fibers, metals, leaves, and petals as small svg marks. the awtsmoos reveals living variation through ordered repetition; awtsmoos.com keeps alpha silhouettes, blade rhythm, weave, and mineral scratches deterministic. exports: grassmarks, earthmarks, metalmarks, fibermarks, foliagemarks. proceduralmaterialprofile.mjs — classifies canonical names into compact visual material profiles. the awtsmoos reveals stone as stone and leaf as leaf; awtsmoos.com therefore derives palette, grain, alpha, and structure from semantic truth rather than chance. exports: proceduralmaterialprofile, materialseed. proceduralmaterialsvg.mjs — builds seamless role aware svg textures without external dependencies. the awtsmoos bends noise, grain, mortar, water, and leaf light into finite tiles; awtsmoos.com keeps every generated garment deterministic, compact, and local. exports: proceduralmaterialsvg. exported symbols worth searching selectphotographicmaterialsource · candidatepaths · grassmarks · earthmarks · metalmarks · fibermarks · foliagemarks · proceduralmaterialprofile · materialseed · proceduralmaterialsvg import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:crypto node:fs/promises node:path ../../src/assets/localmaterialsourcepaths.js ../../src/assets/photographicmaterialassetpolicy.js ./photographicmaterialsourceselector.mjs node:url ../../src/assets/localmaterialassetpolicy.js ./proceduralmaterialsvg.mjs ./proceduralmaterialorganicmarks.mjs ./proceduralmaterialprofile.mjs directory map parent: experiments/awtsmoos/tools children: none. related and overlapping systems terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. boundaries and cautions tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-tools-materials-director-a143cc5e92.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/enemy Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 33 files, 0 structural child directories Purpose Enemy actors, populations, state, combat bridges, spawning, and hostile world ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/enemy role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 33 files, 0 structural child directories purpose enemy actors, populations, state, combat bridges, spawning, and hostile world behavior. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: shadow, enemy, demon, attack, anatomy, hostile, state, actor, update, com, combat, policy file mix: .js: 32 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h normalizes hostile defeat evidence for the existing adventure store. the awtsmoos joins action and purpose in one instant; awtsmoos.com translates one dispersed shade into the stable event vocabulary already used by every shlichus. defines three original enemy archetypes and their readable attack rhythms. the awtsmoos is beyond concealment and revelation; awtsmoos.com keeps each fictional shadow attack bounded by anticipation, active truth, recovery, range, and cooldown. advances telegraph, active hit window, recovery, and cooldown deterministically. the awtsmoos renews time itself; awtsmoos.com refuses hidden instant damage by giving intention, danger, consequence, and rest their own measurable boundaries. representative files enemyadventureevent.js — normalizes hostile defeat evidence for the existing adventure store. the awtsmoos joins action and purpose in one instant; awtsmoos.com translates one dispersed shade into the stable event vocabulary already used by every shlichus. exports: enemydefeatadventureevent. enemyattackcatalog.js — defines three original enemy archetypes and their readable attack rhythms. the awtsmoos is beyond concealment and revelation; awtsmoos.com keeps each fictional shadow attack bounded by anticipation, active truth, recovery, range, and cooldown. exports: enemy attacks, chooseenemyattack. enemyattacktimeline.js — advances telegraph, active hit window, recovery, and cooldown deterministically. the awtsmoos renews time itself; awtsmoos.com refuses hidden instant damage by giving intention, danger, consequence, and rest their own measurable boundaries. exports: beginenemyattack, advanceenemyattack, markenemyattackdamage, cancelenemyattack, enemyattackcooldownends. enemycombattimeline.js — owns hostile state clocks and readable warning events. the awtsmoos renews every instant before the next; awtsmoos.com therefore records notice, telegraph, impact, recovery, stagger, and return as measured phases rather than hidden harm. exports: advanceenemytimeline, enterenemystate, resetenemytimeline. enemysanctuarypolicy.js — keeps hostile pursuit outside inhabited village districts. the awtsmoos renews peace and challenge without confusion; awtsmoos.com treats homes, prayer terraces, markets, and the arrival meadow as protected vessels while the remote portal wilderness remains a bounded place for fictional shadow encounters. exports: isvillagesanctuary, enemyreturnreason. enemystatepolicy.js — resolves one canonical hostile state from health, clocks, range, and sanctuary. the awtsmoos gives every apparent transition a finite vessel; awtsmoos.com makes peace, warning, impact, recovery, return, and defeat speak one shared language throughout the game. exports: resolveenemystate, enemystateisurgent. enemystates.js — names the complete hostile lifecycle without coupling policy to rendering. the awtsmoos renews every apparent transition; awtsmoos.com gives each finite state a clear vessel so movement, combat, animation, and diagnostics speak one language. exports: enemy state, enemystateisurgent. enemytargetcontract.js — publishes hostile health, level, armor, reward, and spatial target truth. the awtsmoos sees every inward point; awtsmoos.com gives camera, hud, combat, quests, and progression one stable description without scanning or copying actor behavior. exports: enemytargetcontract. enemyterrainpolicy.js — rejects water, cliffs, and protected village sanctuaries before movement. the awtsmoos renews mountain and path together; awtsmoos.com keeps hostile wandering outside shul, beis chabad, arrival, plaza, lake, and the canonical river except the bridge. exports: enemyterrainallows, resolveenemygroundstep, insideprotectedzone. enemyterritorypolicy.js — judges hostile movement against leash, sanctuary, and alpine slope boundaries. the awtsmoos surrounds every finite shadow with a measured place and return; awtsmoos.com prevents pursuit from crossing holy gathering space while always permitting honest retreat. exports: evaluateenemymovement, enemyplanardistance. enemyturngateway.js — requests enemy action permission through the existing synchronous gameplay bus. the awtsmoos grants no creature a second clock; one mutable request crosses yesod's gate, and awtsmoos.com preserves old real time behavior whenever no turn coordinator participates. exports: requestenemycombatturn. enemyupdatecadence.js — accumulates deterministic nearby, mid distance, and distant simulation cadence. the awtsmoos renews every distant creature even when presentation sleeps; awtsmoos.com preserves logical continuity while spending full cadence only on urgent or targeted actors. exports: enemyupdatecadence, enemyupdateinterval. enemywanderpath.js — compiles deterministic hostile waypoints before frame simulation begins. the awtsmoos grants each finite path its measured boundary; awtsmoos.com prevents random per frame searching from consuming the living village's performance budget. exports: compileenemywanderpath. exported symbols worth searching enemydefeatadventureevent · enemy attacks · chooseenemyattack · beginenemyattack · advanceenemyattack · markenemyattackdamage · cancelenemyattack · enemyattackcooldownends · advanceenemytimeline · enterenemystate · resetenemytimeline · isvillagesanctuary · enemyreturnreason · resolveenemystate · enemystateisurgent · enemy state import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ./enemystates.js ../village/villagedistrictcatalog.js ../village/canonicalvillageplan.js ./villagesanctuarypolicy.js ../../../../light three gltf/tiny runtime.js ./enemyadventureevent.js ./hostiletorahabilitysystem.js?v=20260721 spatial targeting 01 ./shadowdemonactor.js ./shadowdemonprofiles.js ../../gameplay/playercombatdefense.js ../../gameplay/torahabilityrules.js ../../gameplay/torahpassagecatalog.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-enemy-director-9615f17733.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-directory-guide-md-c601eeb481",
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-forest-directo-14c965f9b9",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/forest/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -85,8 +85,8 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments",
-				"anchor": "directory-guide-experiments"
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/forest",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-forest"
 			},
 			{
 				"level": 2,
@@ -110,6 +110,16 @@
 			},
 			{
 				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
 				"text": "Directory map",
 				"anchor": "directory-map"
 			},
@@ -129,8 +139,80 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments Role: Experiments Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 1 files, 3 structural child directories Purpose Experimental implementations and supporting libraries used to develop Mitzvah World. The Awtsmoos renews e",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments role: experiments snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 1 files, 3 structural child directories purpose experimental implementations and supporting libraries used to develop mitzvah world. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: experiments search terms: experiments, guide file mix: .md: 1 good first question: “does the behavior or asset i need belong to experiments, or is this only a neighboring/test/reference layer?” semantic evidence b\"h representative files no immediate files. this directory is an organizational parent; follow the child guides below. directory map parent: . children: experiments/awtsmoos experiments/animalmesh experiments/light three gltf related and overlapping systems meadow and fallback runtimes — the former basic and emergency meadow systems were consolidated into the live app stack. the app runtime and launcher now form the single meadow ownership path. rendering stacks — the project contains a lightweight scene/gltf library, the canonical app level progressive renderer, and focused render helpers. emergency fallback visuals were absorbed into the app renderer. terrain, materials, and asset preparation — terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees. procedural world and village generation — village, road, house, primitive, text driven, and public api systems collaborate but are maintained in separate directories. vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. combat domain, action bars, targeting, and hud — domain rules live under gameplay while browser widgets and target presentation live under ui and styles. colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. diagnostics, logs, tools, and root audits — live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability. player, creature, horse, enemy, and experimental mesh systems — actor assets and world side populations span player hydration, creature generators, enemies, horses, and experimental animal meshes. streaming, lod, visibility, and performance policy — large world loading and frame budget concerns are separated into streaming, lod, visibility, and performance modules. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-directory-guide-md-c601eeb481.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/forest Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Forest level composition and coordination. The Awtsmoos renews every path and ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/forest role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose forest level composition and coordination. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: forest, beneath, edge, moss, alpine, awtsmoos, bark, builds, com, cool, create, deep file mix: .md: 1 · .js: 1 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h builds a readable dense side forest with floor, fern, moss, and fallen wood layers. the awtsmoos renews hidden life beneath bark and leaf; awtsmoos.com keeps deep forest shadow while original resolution litter and moss remain legible beneath the cool alpine return light. representative files forestedgesystem.js — builds a readable dense side forest with floor, fern, moss, and fallen wood layers. the awtsmoos renews hidden life beneath bark and leaf; awtsmoos.com keeps deep forest shadow while original resolution litter and moss remain legible beneath the cool alpine return light. exports: createforestedgedefinitions. exported symbols worth searching createforestedgedefinitions import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../../assets/forestmaterialcatalog.js ../village/villageboxbatch.js ../village/villagegroundsampling.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-forest-directo-14c965f9b9.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-grass-director-2e0998bdd4",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/grass/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/world/grass",
+				"anchor": "directory-guide-experiments-awtsmoos-src-world-grass"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Find things here",
+				"anchor": "find-things-here"
+			},
+			{
+				"level": 2,
+				"text": "Semantic evidence",
+				"anchor": "semantic-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Representative files",
+				"anchor": "representative-files"
+			},
+			{
+				"level": 2,
+				"text": "Exported symbols worth searching",
+				"anchor": "exported-symbols-worth-searching"
+			},
+			{
+				"level": 2,
+				"text": "Import neighborhood",
+				"anchor": "import-neighborhood"
+			},
+			{
+				"level": 2,
+				"text": "Directory map",
+				"anchor": "directory-map"
+			},
+			{
+				"level": 2,
+				"text": "Related and overlapping systems",
+				"anchor": "related-and-overlapping-systems"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries and cautions",
+				"anchor": "boundaries-and-cautions"
+			},
+			{
+				"level": 2,
+				"text": "Navigation",
+				"anchor": "navigation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/world/grass Role: World systems Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 2 files, 0 structural child directories Purpose Grass generation or rendering. The Awtsmoos renews every path and every artifac",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/world/grass role: world systems snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 2 files, 0 structural child directories purpose grass generation or rendering. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: world systems search terms: grass, yard, awtsmoos, blades, chorus, create, crossed, curved, definition, denser, experiments, flowers file mix: .md: 1 · .js: 1 good first question: “does the behavior or asset i need belong to world systems, or is this only a neighboring/test/reference layer?” semantic evidence b\"h reveals a denser living yard from one merged manual mesh. each tuft is a small chorus: crossed blades, curved tips, seed wisps, and rare flowers. representative files yardgrassgeometry.js — reveals a denser living yard from one merged manual mesh. each tuft is a small chorus: crossed blades, curved tips, seed wisps, and rare flowers. exports: createyardgrassdefinition. exported symbols worth searching createyardgrassdefinition import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../house/housespec.js directory map parent: experiments/awtsmoos/src/world children: none. related and overlapping systems vegetation, trees, and forest systems — botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-world-grass-director-2e0998bdd4.json"
 	}
 ]

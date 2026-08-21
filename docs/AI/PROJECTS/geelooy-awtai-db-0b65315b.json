@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "AWTAI-DB GGUF Converter",
+	"title": "AWTAI-DB Model Foundry",
 	"entries": [
 		"index.html",
 		"app.js"
@@ -21,33 +21,48 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtai-db-0b65315b.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 3,
+		"source": 9,
 		"tests": 0,
 		"assets": 0,
 		"generated": 0,
 		"docs": 0,
 		"other": 0
 	},
-	"totalFiles": 3,
+	"totalFiles": 9,
 	"symbolSummary": {
-		"files": 1,
+		"files": 2,
 		"classes": 0,
-		"functions": 1,
-		"exports": 0,
+		"functions": 10,
+		"exports": 5,
 		"samples": [
-			"write"
+			"wireDropzone",
+			"selectFile",
+			"convertSelection",
+			"prepareDownload",
+			"revokeDownload",
+			"collectView",
+			"showSelectedFile",
+			"setStatus",
+			"showResult",
+			"formatBytes"
 		]
 	},
-	"outgoingDependencies": [],
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/awtai-db/app.js"
+		}
+	],
 	"incomingDependencies": [],
 	"externalDependencies": [],
 	"publicEntries": [
 		{
 			"url": "/awtai-db",
 			"file": "geelooy/awtai-db/index.html",
-			"title": "AWTAI-DB GGUF Converter",
-			"scripts": 2,
-			"styles": 1
+			"title": "AWTAI-DB Model Foundry",
+			"scripts": 1,
+			"styles": 2
 		}
 	],
 	"requiresLocalDocumentation": false,

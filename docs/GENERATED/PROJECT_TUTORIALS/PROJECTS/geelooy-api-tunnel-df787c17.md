@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 231 | 91 | 0 | 0 | 7 | 0 | 329 |
+| 260 | 106 | 0 | 0 | 15 | 0 | 381 |
 
 ## Public entry points
 
@@ -29,21 +29,24 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 231; classes: 5; functions: 1019; exports: 751; samples: dynamicRoutes, response, ws, from64, jsonFrom64, getUrl, sendJson, buildFsPayload, authorizeRelay, POST, Authorization, BASE_PRICE.
+Source files: 260; classes: 5; functions: 1095; exports: 854; samples: dynamicRoutes, response, ws, from64, jsonFrom64, getUrl, sendJson, buildFsPayload, authorizeRelay, POST, Authorization, BASE_PRICE.
 
 ## Depends on
 
 - `geelooy/api/perutas` — 16 lexical references; examples: geelooy/api/tunnel/control/core/usageStore.js; geelooy/api/tunnel/control/routes/adminPerutas.js; geelooy/api/tunnel/control/routes/adminVault.js
-- `geelooy/apps/tunnel` — 7 lexical references; examples: geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js
-- `geelooy/api/social` — 2 lexical references; examples: geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js
+- `geelooy/apps/tunnel` — 8 lexical references; examples: geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js; geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js
+- `geelooy/api/social` — 4 lexical references; examples: geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js; geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js
 - `ayzarim/awtsmoosDynamicServer` — 1 lexical reference; examples: geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js
 - `geelooy/api/oauth` — 1 lexical reference; examples: geelooy/api/tunnel/control/core/auth.js
+- `geelooy/sites` — 1 lexical reference; examples: geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js
 
 ## Used by
 
 - `ayzarim/awtsmoosDynamicServer` — 11 lexical references; examples: ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs
+- `geelooy/sites` — 5 lexical references; examples: geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/siteFolderPublication.js
+- `geelooy/api/oauth` — 2 lexical references; examples: geelooy/api/oauth/data/clients.js; geelooy/api/oauth/data/publicAgentPolicy.js
 - `geelooy/api/ohr-hagnuz` — 2 lexical references; examples: geelooy/api/ohr-hagnuz/routes/realtimeTicket.js
-- `geelooy/api/oauth` — 1 lexical reference; examples: geelooy/api/oauth/data/clients.js
+- `geelooy/api/social` — 1 lexical reference; examples: geelooy/api/social/helper/repositories/gitCloneService.js
 - `geelooy/apps/tunnel-control` — 1 lexical reference; examples: geelooy/apps/tunnel-control/gpt/generate-oauth-scopes.cjs
 - `geelooy/scripts` — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs
 - `geelooy/view` — 1 lexical reference; examples: geelooy/view/_awtsmoos.derech.js
@@ -54,4 +57,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **91**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **106**. Treat this as file evidence, not proof of behavioral coverage.

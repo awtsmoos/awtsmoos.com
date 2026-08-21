@@ -1,0 +1,254 @@
+[
+	{
+		"id": "geelooy-games-oros-ha-kelim-documentation-md-f639c33529",
+		"title": "Oros HaKelim Architecture",
+		"sourcePath": "geelooy/games/oros-ha-kelim/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Oros HaKelim Architecture",
+				"anchor": "oros-hakelim-architecture"
+			},
+			{
+				"level": 2,
+				"text": "Architectural covenant",
+				"anchor": "architectural-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Runtime graph",
+				"anchor": "runtime-graph"
+			},
+			{
+				"level": 2,
+				"text": "Native render boundary",
+				"anchor": "native-render-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Fixed rules, fluid movement",
+				"anchor": "fixed-rules-fluid-movement"
+			},
+			{
+				"level": 2,
+				"text": "Territory and trails",
+				"anchor": "territory-and-trails"
+			},
+			{
+				"level": 2,
+				"text": "Performance boundaries",
+				"anchor": "performance-boundaries"
+			},
+			{
+				"level": 2,
+				"text": "Runtime API",
+				"anchor": "runtime-api"
+			},
+			{
+				"level": 2,
+				"text": "Next completion layers",
+				"anchor": "next-completion-layers"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Oros HaKelim Architecture The Awtsmoos renews hidden law, native geometry and every connecting gate; Awtsmoos.com lets Oros, Keilim and GPU vessels remain distinct while composing one state. Architectural covenant Oros HaKelim separates four responsibilities: 1. Keilim — rules. Grid posi",
+		"searchText": "b\"h boruch hashem blessed is he oros hakelim architecture the awtsmoos renews hidden law, native geometry and every connecting gate; awtsmoos.com lets oros, keilim and gpu vessels remain distinct while composing one state. architectural covenant oros hakelim separates four responsibilities: 1. keilim — rules. grid position, territory, active trails, collision, gates, energy, score and tick. 2. oros — presentation. waypoints, interpolation, bank, wheel motion, atmosphere and shatter effects. 3. yesod — runtime api. validated commands, detached snapshots, events and diagnostics. 4. native gpu vessel. procedural core geometry, matrices, camera, buffers, shader compilation and drawing. the visual layer never decides collision or ownership. the api never returns live matchstate references. runtime graph main → orosgame → matchstate + simulationengine + inputintent + frameclock + eventbus orosgame → rendercoordinator + hudview + roundoverlayview simulationengine → movementsystem + trailsystem + gatesystem + collisionsystem + energysystem + botmind botmind → pathprobe rendercoordinator → arenaview + riderview + territoryview + trailview + atmosphereview + shatterview + chasecamera semantic views → coremeshfactory → coremesh → procedural core webgl coregpuvessel → procedural core context + camera + shader compiler + buffer creator + drawstandardobject coretransform → procedural core mat4 native render boundary coregpuvessel creates the browser webgl context through procedural core, owns a core camera, compiles the core standard shader and exposes a small render registry. coregeometryfactory memoizes renderer neutral procedural geometry. coremesh uploads it using the core buffer creator and draws it using the core standard drawing function. coretransform composes position, rotation and scale using core matrix operations. the game owns semantic collections only: arena floors/grid, rider assemblies, territory cells, trail segments, atmosphere sparks and pooled shatter fragments. fixed rules, fluid movement simulation stays on tick ms. frameclock accumulates display time, executes bounded fixed pulses and yields interpolation alpha. ridermotion records every successful authoritative sub move. riderpose interpolates those waypoints. respawn and yesod transfer snap motion endpoints so disconnected worlds never smear together. territory and trails territoryledger remains the single source of ownership and live hazard truth. territoryview changes native meshes only when ownership changes. trailview changes native segment meshes only when the authoritative trail signature changes. performance boundaries procedural cube geometry is memoized and reused. gpu buffers are explicitly owned and disposable. trail meshes are persistent until the path changes. territory meshes change only with ownership. atmosphere and shatter object counts are bounded. the registry exposes registered mesh and draw call metrics. runtime api the browser exposes window. oros hakelim . full api usage and validation rules live in docs/runtime api.md. next completion layers the native core migration is the rendering foundation for quality tiers, native procedural core post processing, audio/haptics, gamepad input, strategic bot memory, in memory restart, replay journaling, storefront registration and final e2e/performance proof.",
+		"page": "pages/geelooy-games-oros-ha-kelim-documentation-md-f639c33529.json"
+	},
+	{
+		"id": "geelooy-games-oros-ha-kelim-readme-md-8d3e839584",
+		"title": "Oros HaKelim",
+		"sourcePath": "geelooy/games/oros-ha-kelim/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Oros HaKelim",
+				"anchor": "oros-hakelim"
+			},
+			{
+				"level": 2,
+				"text": "Native Awtsmoos rendering",
+				"anchor": "native-awtsmoos-rendering"
+			},
+			{
+				"level": 2,
+				"text": "Runtime API v2 realism",
+				"anchor": "runtime-api-v2-realism"
+			},
+			{
+				"level": 2,
+				"text": "Play",
+				"anchor": "play"
+			},
+			{
+				"level": 3,
+				"text": "Desktop",
+				"anchor": "desktop"
+			},
+			{
+				"level": 3,
+				"text": "Mobile",
+				"anchor": "mobile"
+			},
+			{
+				"level": 2,
+				"text": "Rules",
+				"anchor": "rules"
+			},
+			{
+				"level": 2,
+				"text": "Runtime API",
+				"anchor": "runtime-api"
+			},
+			{
+				"level": 2,
+				"text": "Verify",
+				"anchor": "verify"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Oros HaKelim The Awtsmoos renews rider, reserve, trail, world and ray; Awtsmoos.com gives this original light rider game a native procedural vessel in which to play. Oros HaKelim is a third person territory game in geelooy/games. You ride a procedural Merkavah like light vessel through s",
+		"searchText": "b\"h boruch hashem blessed is he oros hakelim the awtsmoos renews rider, reserve, trail, world and ray; awtsmoos.com gives this original light rider game a native procedural vessel in which to play. oros hakelim is a third person territory game in geelooy/games. you ride a procedural merkavah like light vessel through stacked olamot, expose a dangerous ohr trail outside sheltered territory, close circuits into settled kelim, and compete with autonomous sefirah styled riders. native awtsmoos rendering the game renders directly through geelooy/libs/awtsmoos procedural core: procedural core generates reusable geometry artifacts. its webgl context module owns browser gpu context creation and resize handling. its buffer creator uploads geometry with hardware aware index support. its camera and matrix modules provide projection, view and model transforms. its shader compiler and standard shader sources own the primary draw program. the game keeps only semantic render objects, transforms, pools and lifecycle policy. there is no compatibility renderer adapter in the oros hakelim render path. runtime api v2 realism authoritative rules remain deterministic while visible motion flows continuously through recorded waypoints. a boosted pulse can cross two collision checked cells and still reveal each sub step rather than jumping from start to finish. the upgraded game includes: continuous interpolation across fixed simulation pulses. banked turns, wheel motion and energy reactive rider color. finite ohr boost reserve with deterministic drain and recharge. procedural core chase camera matrices with look ahead and impact recoil. pooled native core shatter fragments and bounded atmosphere sparks. predictive bots that inspect future cells without mutating game state. runtime api commands, events, metrics, pause and resume. play open /geelooy/games/oros ha kelim/ and press enter asiyah . desktop a / left arrow — turn left. d / right arrow — turn right. w / up arrow / shift / space — spend ohr reserve to boost while held. r — restart the round. mobile ↶ — turn left. ↷ — turn right. ohr — boost while held. desktop and touch both feed the same inputintent. rules every rider begins inside a sheltered sanctuary of owned kelim. leaving owned territory creates a lethal active ohr trail. touching any active trail shatters the current vessel. re entering your own territory closes the loop and claims enclosed cells. shatter clears exposed trail but preserves settled territory. yesod gates connect the olamot and snap interpolation at transfer. boost costs ohr reserve; shelter recharges reserve faster than exposure. the largest settled territory leads when the round ends. runtime api window. oros hakelim exposes runtime api v2. see docs/runtime api.md for commands, events, immutability and diagnostics. verify the final browser gate also verifies that the network never requests a forbidden compatibility renderer and that runtime/console errors remain empty.",
+		"page": "pages/geelooy-games-oros-ha-kelim-readme-md-8d3e839584.json"
+	},
+	{
+		"id": "geelooy-games-party-documentation-md-88dde20566",
+		"title": "Party Challenge — Awtsmoos Games",
+		"sourcePath": "geelooy/games/party/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Party Challenge — Awtsmoos Games",
+				"anchor": "party-challenge-awtsmoos-games"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Party Challenge — Awtsmoos Games The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.",
+		"searchText": "b\"h boruch hashem blessed is he party challenge — awtsmoos games the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “party challenge — awtsmoos games”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-party-documentation-md-88dde20566.json"
+	},
+	{
+		"id": "geelooy-games-pong-documentation-md-c5a129b7c9",
+		"title": "Pong",
+		"sourcePath": "geelooy/games/pong/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Pong",
+				"anchor": "pong"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Boundary",
+				"anchor": "boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Pong The Awtsmoos renews player, ball, victory, and gift beyond every finite rally; Awtsmoos.com keeps Pong itself simple while optional reward logic stays separate from the human match result. Entry point index.html mounts pongCanvas, loads style.css, then composes focused scripts under",
+		"searchText": "b\"h boruch hashem blessed is he pong the awtsmoos renews player, ball, victory, and gift beyond every finite rally; awtsmoos.com keeps pong itself simple while optional reward logic stays separate from the human match result. entry point index.html mounts pongcanvas, loads style.css, then composes focused scripts under js/: particles, ball, paddle, ui, controls, match updates, result, and main game flow. wallet reward.mjs is a separate optional module loaded after the core game scripts. boundary core pong play must remain usable independently of promotional/reward integrations. treat the match result as primary and any wallet reward as a secondary explicit effect.",
+		"page": "pages/geelooy-games-pong-documentation-md-c5a129b7c9.json"
+	},
+	{
+		"id": "geelooy-games-scribe-journey-documentation-md-5e17fccc8e",
+		"title": "The Scribe's Journey: Echoes of Ein Sof",
+		"sourcePath": "geelooy/games/scribe-journey/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "The Scribe's Journey: Echoes of Ein Sof",
+				"anchor": "the-scribe-s-journey-echoes-of-ein-sof"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Scribe's Journey: Echoes of Ein Sof The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PL",
+		"searchText": "b\"h boruch hashem blessed is he the scribe's journey: echoes of ein sof the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “the scribe's journey: echoes of ein sof”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-scribe-journey-documentation-md-5e17fccc8e.json"
+	},
+	{
+		"id": "geelooy-games-scripts-documentation-md-c1bcde5503",
+		"title": "Shared Game Scripts",
+		"sourcePath": "geelooy/games/scripts/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Game Scripts",
+				"anchor": "shared-game-scripts"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Game Scripts The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Shared game runtime/browser scripts used across multiple game projects; this is support infrastructure, not a standalone game",
+		"searchText": "b\"h boruch hashem blessed is he shared game scripts the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role shared game runtime/browser scripts used across multiple game projects; this is support infrastructure, not a standalone game. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes use generated cross project dependency evidence to identify every game that imports shared script code before making breaking changes.",
+		"page": "pages/geelooy-games-scripts-documentation-md-c1bcde5503.json"
+	}
+]

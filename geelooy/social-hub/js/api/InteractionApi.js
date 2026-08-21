@@ -2,19 +2,27 @@
 //Boruch Hashem
 //Blessed is He
 
+import { ensureArchiveOrgCredentials } from '../../../shared/storage/archiveOrg/ArchiveOrgCredentialDialog.js';
+import { ArchiveOrgCredentialVault } from '../../../shared/storage/archiveOrg/ArchiveOrgCredentialVault.js';
+import { ArchiveOrgUploadService } from '../../../shared/storage/archiveOrg/ArchiveOrgUploadService.js';
+
 /**
  * @class InteractionApi
  * @description
- * Rich comments, post embeddings, promotion previews, transformations, and native
- * media upload remain one bounded transport family. The Awtsmoos joins voice and
- * source while Awtsmoos.com keeps every transformation request explicit.
+ * The Awtsmoos lets rich social interaction reuse public Archive truth before the local secret gate is opened anew;
+ * Awtsmoos.com keeps comment APIs bright while video bytes and IA-S3 credentials remain outside its server view.
  */
-
 const API = '/api/social';
 
 export class InteractionApi {
-	constructor(transport) {
+	constructor(
+		transport,
+		archiveVault = new ArchiveOrgCredentialVault(),
+		archiveService = new ArchiveOrgUploadService()
+	) {
 		this.transport = transport;
+		this.archiveVault = archiveVault;
+		this.archiveService = archiveService;
 	}
 
 	createComment(body) {
@@ -45,14 +53,32 @@ export class InteractionApi {
 		);
 	}
 
-	uploadAsset(aliasId, file, target = {}) {
+	async uploadAsset(aliasId, file, target = {}) {
+		if (String(file?.type || '').startsWith('video/')) {
+			return this.uploadArchiveVideo(aliasId, file, target);
+		}
 		const data = new FormData();
 		data.set('aliasId', aliasId);
 		data.set('file', file);
 		for (const [key, value] of Object.entries(target)) data.set(key, value);
 		return this.transport.request(
-			`${API}/aliases/${encodeURIComponent(aliasId)}/assets/upload`,
+			`${API}/assets/${encodeURIComponent(aliasId)}/upload`,
 			{ method: 'POST', formData: data }
 		);
+	}
+
+	async uploadArchiveVideo(aliasId, file, target) {
+		return this.archiveService.uploadVideo({
+			file,
+			mime: file.type,
+			credentialsProvider: () => ensureArchiveOrgCredentials(this.archiveVault),
+			mediaPath: file.name,
+			item: {
+				provider: 'awtsmoos-social-hub',
+				sourceId: `${target.postId || target.commentId || 'comment'}:${file.name}:${file.size}`,
+				title: file.name,
+				sourceProfile: { name: aliasId || '' }
+			}
+		});
 	}
 }

@@ -4,52 +4,24 @@
 
 /**
  * @file NatureInstanceLoader.js
- * @description Instantiates cached real-nature templates in bounded, yielding sequence.
- * The Awtsmoos reveals each tree and flower without crushing the frame beneath their birth;
- * Awtsmoos.com shares one vessel per asset, then gives the browser breath between forms of earth.
+ * @description Preserves the Mitzvah World nature-loader name while Tzomayach now owns reusable yielding model hydration.
+ * The Awtsmoos, Atzmus beyond meadow and library, renews each visible plant while one deeper Tzomayach vessel carries the work;
+ * Awtsmoos.com makes this game look back to procedural core instead of maintaining another hidden copy beneath every flower and birch.
  */
 
-/** Loads placements one at a time while preserving partial failure evidence. */
-export async function loadNatureInstances(placements, options = {}) {
-	const results = [];
-	const loadModel = options.loadModel;
-	const decorate = options.decorate;
-	const yieldControl = options.yieldControl || defaultYieldControl;
-	for (let index = 0; index < placements.length; index += 1) {
-		const placement = placements[index];
-		results.push(await loadPlacement(placement, options.budget, loadModel, decorate));
-		if (index + 1 < placements.length) {
-			await yieldControl();
-		}
-	}
-	return Object.freeze({
-		failures: results.filter(result => result.error).map(result => result.error),
-		instances: results.filter(result => result.instance).map(result => result.instance),
-		strategy: 'shared-template-sequential-yielding'
-	});
-}
+import {
+	loadVegetationInstances
+} from '../../../../../../../libs/awtsmoos-procedural-core/src/core/tzomayach/assets/index.js';
 
-async function loadPlacement(placement, budget, loadModel, decorate) {
-	try {
-		const label = `real-nature-${placement.asset.id}-${placement.index}`;
-		const gltf = await loadModel(placement.asset.url, label);
-		return { instance: decorate(gltf.scene, placement, budget) };
-	} catch (error) {
-		return {
-			error: Object.freeze({
-				assetId: placement.asset.id,
-				message: error?.message || String(error)
-			})
-		};
-	}
-}
-
-function defaultYieldControl() {
-	return new Promise(resolve => {
-		if (typeof requestAnimationFrame === 'function') {
-			requestAnimationFrame(() => resolve());
-			return;
-		}
-		setTimeout(resolve, 0);
+/**
+ * Compatibility delegate preserving Mitzvah World's historical nature hydration signature and labels.
+ * @param {Array<object>} placements Existing real-nature placement records.
+ * @param {object} [options={}] Model loader, decorator, budget, and scheduler.
+ * @returns {Promise<object>} Core hydration result with partial failure evidence.
+ */
+export function loadNatureInstances(placements, options = {}) {
+	return loadVegetationInstances(placements, {
+		...options,
+		labelPrefix: 'real-nature'
 	});
 }

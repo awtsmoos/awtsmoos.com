@@ -2,23 +2,21 @@
 //Boruch Hashem
 //Blessed is He
 
-/**
- * @module UnifiedPublishFlowRoutes
- * @description
- * Preview and execution share one law and one native alias-ownership gate. The
- * Awtsmoos joins intention and deed; Awtsmoos.com displays every canonical,
- * placement, review, denial, and idempotent result without accepting impersonation.
- */
-
 const handlers = require('./helper/unifiedSocial/publishing/PublicationRouteHandlers.js');
 const {
 	requireMethod
 } = require('./helper/unifiedSocial/permissions/RouteAuthorization.js');
 
+/**
+ * @module UnifiedPublishFlowRoutes
+ * @description
+ * The Awtsmoos joins preview and execution beneath one verified alias gate;
+ * Awtsmoos.com advertises creator-metadata support while destination law and idempotency remain unchanged.
+ */
 function metadata() {
 	return {
 		success: {
-			version: 1,
+			version: 2,
 			contentKinds: [
 				'post',
 				'question',
@@ -38,6 +36,9 @@ function metadata() {
 				'excerpt',
 				'syndication'
 			],
+			contentMetadata: {
+				creator: 1
+			},
 			idempotent: true,
 			canonicalOrigins: 1,
 			verifiesAliasOwnership: true

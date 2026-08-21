@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 70 | 0 | 0 | 4 | 1 | 2 | 77 |
+| 74 | 0 | 0 | 4 | 1 | 2 | 81 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 70; classes: 113; functions: 3371; exports: 50; samples: UI, stands, MOTION_ADVENTURE_GAMES, MYSTIC_ADVENTURE_GAMES, ADVENTURE_GAMES, enrichGame, enrichGames, multiplayerCapability, NATIVE_MULTIPLAYER_GAME_IDS, visualCapability, WEBGL_GAMES, commercePlanFor.
+Source files: 73; classes: 113; functions: 3381; exports: 55; samples: UI, stands, MOTION_ADVENTURE_GAMES, MYSTIC_ADVENTURE_GAMES, ADVENTURE_GAMES, enrichGame, enrichGames, multiplayerCapability, NATIVE_MULTIPLAYER_GAME_IDS, visualCapability, WEBGL_GAMES, commercePlanFor.
 
 ## Depends on
 
@@ -37,8 +37,10 @@ None observed.
 
 ## Used by
 
-- `geelooy/games/seven-mitzvos` — 12 lexical references; examples: geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js
+- `geelooy/games/seven-mitzvos` — 16 lexical references; examples: geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js
+- `geelooy/apps/scripts` — 1 lexical reference; examples: geelooy/apps/scripts/catalog/games.mjs
 - `geelooy/games/party` — 1 lexical reference; examples: geelooy/games/party/js/game-catalog.mjs
+- `geelooy/games/pong` — 1 lexical reference; examples: geelooy/games/pong/js/wallet-reward.mjs
 
 ## External packages
 

@@ -21,23 +21,26 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2536 | 956 | 0 | 53 | 9 | 282 | 3836 |
+| 2717 | 1015 | 0 | 54 | 9 | 125 | 3920 |
 
 ## Public entry points
 
 - `/games/mitzvahWorld` → `geelooy/games/mitzvahWorld/index.html` — B&quot;H Mitzvah World — Restored River Valley
+- `/games/mitzvahWorld/subwaySurfer` → `geelooy/games/mitzvahWorld/subwaySurfer/index.html` — Peruta Run — Mitzvah World
+- `/games/mitzvahWorld/templeRunner` → `geelooy/games/mitzvahWorld/templeRunner/index.html` — Temple Run — Mitzvah World
 
 ## Symbol evidence
 
-Source files: 2448; classes: 489; functions: 7734; exports: 4785; samples: send, evaluate, waitFor, waitForDevTools, findTarget, waitForReady, delay, publishState, publishVerificationFailure, createBootSnapshot, boundedBootCount, bootDebugEnabled.
+Source files: 2647; classes: 587; functions: 8019; exports: 5110; samples: publishState, publishVerificationFailure, createBootSnapshot, boundedBootCount, bootDebugEnabled, copyRecords, BootPhaseTracker, scheduleBootProgress, renderBootProgress, flushBootProgress, bootMessage, scheduleBootstrapCanonicalPlayerHydration.
 
 ## Depends on
 
-- `geelooy/libs` — 17 lexical references; examples: geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralCreature.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralSeed.js
+- `geelooy/libs` — 47 lexical references; examples: geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js
 - `libs` — 1 lexical reference; examples: geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js
 
 ## Used by
 
+- `geelooy/libs` — 5 lexical references; examples: geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/modelAssets.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/nativeRuntime.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/renderer.js
 - `geelooy/social-composer` — 4 lexical references; examples: geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js
 
 ## External packages
@@ -46,4 +49,4 @@ Source files: 2448; classes: 489; functions: 7734; exports: 4785; samples: send,
 
 ## Verification clue
 
-Observed test-classified files: **956**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **1015**. Treat this as file evidence, not proof of behavioral coverage.

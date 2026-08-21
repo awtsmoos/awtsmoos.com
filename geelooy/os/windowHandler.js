@@ -1,34 +1,35 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
-import System from "./system.js";
-import ResizableWindow from "./windows.js";
-import { defaultPrograms, getDefaultProgram, programs } from "./basicPrograms.js";
-import { applyWindowIdentity } from "./windowIdentity.js";
-import { WindowTaskGroups } from "./windowTaskGroups.js";
+import System from './system.js';
+import ResizableWindow from './windows.js';
+import { defaultPrograms, getDefaultProgram, programs } from './basicPrograms.js';
+import { applyWindowIdentity } from './windowIdentity.js';
+import { WindowTaskGroups } from './windowTaskGroups.js';
 
 /**
- * Launches program vessels and binds every visible surface to its supervised PID.
- * The Awtsmoos creates program, window, and process identity anew; Awtsmoos.com
- * passes that identity into launchers so runtime telemetry reaches Task Manager.
+ * @module GeelooyWindowHandler
+ * @description
+ * The Awtsmoos creates program, window, process, and launch intention anew at every opening;
+ * Awtsmoos.com now carries one explicit programOptions vessel into launchers, so project-aware tools receive structured defaults without globals or hidden URL state.
  */
 export default class WindowHandler {
 	constructor() {
 		this.windows = [];
-		this.taskArea = document.getElementById("task-area");
+		this.taskArea = document.getElementById('task-area');
 		this.taskGroups = new WindowTaskGroups(this.taskArea);
 		this.minimizedGroups = this.taskGroups.groups;
 	}
 
 	getExtension(title) {
-		const value = String(title || "");
-		const index = value.lastIndexOf(".");
-		return index > -1 ? value.substring(index).toLowerCase() : ".js";
+		const value = String(title || '');
+		const index = value.lastIndexOf('.');
+		return index > -1 ? value.substring(index).toLowerCase() : '.js';
 	}
 
 	addWindow(options = {}) {
-		const extension = options.extension || this.getExtension(options.title || "");
+		const extension = options.extension || this.getExtension(options.title || '');
 		const launcher = this.launcher(options.programName, extension);
 		const system = new System({ path: options.path, os: options.os });
 		const programInstance = launcher?.({
@@ -38,6 +39,7 @@ export default class WindowHandler {
 			os: system.os,
 			path: options.path,
 			processId: options.processId || null,
+			programOptions: options.programOptions || null,
 			system,
 			title: options.title
 		});
@@ -46,7 +48,7 @@ export default class WindowHandler {
 			handler: this,
 			hideTitleBar: options.hideTitleBar,
 			isFullscreen: options.isFullscreen,
-			programId: options.programName || defaultPrograms[extension] || "advancedCodeEditor",
+			programId: options.programName || defaultPrograms[extension] || 'advancedCodeEditor',
 			title: options.title
 		});
 		windowRecord.programInstance = programInstance;

@@ -44,7 +44,6 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 
 | Literal | Source | Kind |
 | --- | --- | --- |
-| `/api/social/aliases` | `geelooy/profile/alias-manage/script.js` | runtime |
 | `/api/social/aliases` | `geelooy/scripts/awtsmoos/social/aliasIdentity.js` | runtime |
 | `/api/social/aliases` | `geelooy/scripts/awtsmoos/social/profileDropdown/aliasIdentityPersistence.test.mjs` | test |
 | `/api/social/aliases/` | `geelooy/profile/alias-manage/index.html` | runtime |

@@ -1,338 +1,36 @@
 [
 	{
-		"id": "docs-tutorials-api-compiler-md-74c4cc55d6",
-		"title": "Compiler API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/COMPILER.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-public-entry-points-public-entry-points-002-md-8f25830101",
+		"title": "Generated Public Entry Point Atlas 46–90",
+		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-002.md",
+		"category": "General",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Compiler API Tutorial",
-				"anchor": "compiler-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Generated Public Entry Point Atlas 46–90",
+				"anchor": "generated-public-entry-point-atlas-46-90"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Compiler API Tutorial What this family owns Mount: /api/compiler Derech: geelooy/api/compiler/ awtsmoos.derech.js Routes cover Android/Rebbe work, backend discovery, and builds. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter API Tutorial Index t",
-		"searchText": "b\"h boruch hashem blessed is he compiler api tutorial what this family owns mount: /api/compiler derech: geelooy/api/compiler/ awtsmoos.derech.js routes cover android/rebbe work, backend discovery, and builds. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/compiler. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/compiler/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation these are authenticated development operations; inspect build inputs/output paths and native execution boundaries. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-compiler-md-74c4cc55d6.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 46–90 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real geelooy/apps/tun",
+		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 46–90 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real geelooy/apps/tunnel/agent/tools/fs/testing/.tmp runtime actions real/index.html — 1 ./app.js 0 — /apps/universal chat geelooy/apps/universal chat/index.html messages & torah chat \\ awtsmoos.com 2 app.js; /register.js 1 style.css /apps/video editor geelooy/apps/video editor/index.html awtsmoos video editor chapter 7 revised 0 — 0 — /apps/virtual os stress light counter geelooy/apps/virtual os stress light counter/index.html light counter 0 — 0 — /apps/wallet geelooy/apps/wallet/index.html awtsmoos wallet — send, buy & own 2 ./main.js?v=wallet currency 010; /scripts/future system/index.js?v=future 002 2 ./style.css?v=wallet currency 010; /style/future system/index.css?v=future 004 /apps/watermark remover geelooy/apps/watermark remover/index.html svg mask alpha brute force 1 https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js 0 — /awtai db geelooy/awtai db/index.html awtai db model foundry 1 ./app.js?v=awtai revelation 001 2 ../style/geelooy app/index.css?v=awtai revelation 001; ./style.css?v=awtai revelation 001 /ayin geelooy/ayin/index.html real awtsmoos recorder 0 — 0 — /comment thread geelooy/comment thread/index.html comment thread — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=extreme 005; /comment thread/app.js?v=comments 004 2 /style/geelooy app/index.css?v=extreme 005; /style/social system/comments.css?v=comments 003 /contact geelooy/contact/index.html contact — awtsmoos 1 /contact/contact.js?v=1 1 /contact/contact.css?v=1 /control geelooy/control/index.html code control panel 1 app.js 1 styles.css /db geelooy/db/index.html — 0 — 0 — /db/console geelooy/db/console/index.html simple dosdb gui 0 — 0 — /db/explorer geelooy/db/explorer/index.html awtsmoos db interface hyperdrive edition 1 script.js 2 styles.css; https://fonts.googleapis.com/css2?family=orbitron:wght@400;700&family=press+start+2p&family=turret+road:wght@300;500;800&display=swap /docs geelooy/docs/index.html awtsmoos documentation 1 ./modules/app.mjs 19 data:,; ./styles/tokens.css; ./styles/shell.css; ./styles/rails.css /donate geelooy/donate/index.html — 0 — 0 — /drive geelooy/drive/index.html geelooy sites · awtsmoos 1 ./app.js 25 ./styles/tokens.css; ./styles/controls.css; ./styles/topbar.css; ./styles/topbar menu.css /editor geelooy/editor/index.html — 2 /scripts/awtsmoos/awtsmoosgptify.js; /scripts/awtsmoostamper.js 0 — /email geelooy/email/index.html awtsmoos quantum mail 2 /scripts/awtsmoos/social/shell/boot.js?v=mail revelation 013; ./index.js?v=mail revelation 013 6 /style/geelooy app/index.css?v=mail revelation 013; ./css/core.css?v=mail revelation 013; ./css/sidebar.css?v=mail revelation 013; ./css/chat.css?v=mail revelation 013 /entity view geelooy/entity view/index.html entity universe 1 /entity view/app.js 2 /style/social system/entity/base.css; /style/social system/entity/cards.css /fetch geelooy/fetch/index.html — 0 — 0 — /game geelooy/game/index.html opening mitzvah world… 0 — 0 — /games geelooy/games/index.html awtsmoos games — 25 playable worlds 3 /scripts/awtsmoos/social/shell/boot.js?v=games shell 001; ./scripts/games index.js?v=games storefront 004; /scripts/future system/index.js?v=future 002 2 ./style.css?v=games storefront 004; /style/future system/index.css?v=future 004 /games/adventure geelooy/games/adventure/index.html adventure game 0 — 0 — /games/brick blast geelooy/games/brick blast/index.html brick blast 1 index.js 4 https://fonts.googleapis.com; https://fonts.gstatic.com; https://fonts.googleapis.com/css2?family=inter:wght@400;700;900&display=swap; /index.css /games/cards geelooy/games/cards/index.html the utterances — blackjack on awtsmoos 1 ./js/main.js 1 ./style.css?v=cards solid 002 /games/chess geelooy/games/chess/index.html ultimate chess ai 6 ui/engine worker route.js; ui/canvas stability.js; social/legacy observer.js; main.js 7 style.css; ui/chess polish.css; ui/chess mobile.css; ui/chess accessibility.css /games/chess/debug geelooy/games/chess/debug/index.html awtsmoos engine debugging harness 1 debug tool.js 0 — /games/city of light geelooy/games/city of light/index.html city of light · the complete pilgrimage 2 ./js/main.js; /register.js 1 ./style.css /games/connect4 geelooy/games/connect4/index.html connect 4 2 main.js; /register.js 1 style.css /games/dove geelooy/games/dove/index.html noah's dove's 🕊️ quest ❓ for shalom 1 ./game.js 1 style.css /games/emojis geelooy/games/emojis/index.html emoji war — neon caption arcade 1 ./js/main.js?v=emoji war solid 004 1 ./style.css?v=emoji war solid 004 /games/kabbalah shooter geelooy/games/kabbalah shooter/index.html kabbalah infinite — the breaking of vessels 1 ./main.js 2 ./style.css?v=kabbalah solid 002; /index.css /games/kavanah geelooy/games/kavanah/index.html kavanah 1 js/main.js 2 data:,; style.css /games/merkava geelooy/games/merkava/index.html merkava — war of the sparks 1 ./src/main.js?version=20260713 8 2 data:,; ./styles/game.css?version=20260713 8 /games/migdol geelooy/games/migdol/index.html migdol kabbalah tower defense 1 js/script.js 1 style.css /games/mitzvahworld geelooy/games/mitzvahworld/index.html b&quot;h mitzvah world — restored river valley 1 ./experiments/awtsmoos/src/mitzvah world.compact.js 2 data:image/svg+xml,%3csvg%20xmlns=%22http%3a%2f%2fwww.w3.org/2000/svg%22%20viewbox=%220%200%2064%2064%22%3e%3ctitle%3emitzvah%20world%3c/title%3e%3crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%2307140b%22/%3e%3ccircle%20cx=%2246%22%20cy=%2217%22%20r=%227%22%20fill=%22%23f4c95d%22/%3e%3cpath%20d=%22m6%2043l22%2027l34%2039l44%2029l58%2043v58h6z%22%20fill=%22%232f8a59%22/%3e%3cpath%20d=%22m30%2035c38%2040%2024%2045%2033%2050c39%2054%2032%2058%2028%2062%22%20fill=%22none%22%20stroke=%22%2367c5e8%22%20stroke width=%223%22%20stroke linecap=%22round%22/%3e%3c/svg%3e; ./styles/generated/mitzvah world.production.css /games/mitzvahworld/subwaysurfer geelooy/games/mitzvahworld/subwaysurfer/index.html peruta run — mitzvah world 1 ./src/main.js 4 ./styles/base.css; ./styles/hud.css; ./styles/controls.css; ./styles/mobile.css /games/mitzvahworld/templerunner geelooy/games/mitzvahworld/templerunner/index.html temple run — mitzvah world 1 ./src/main.js 1 ./styles/game.css /games/nachash geelooy/games/nachash/index.html tikkun hanachash 2 main.js; /register.js 2 style.css; https://fonts.googleapis.com/css2?family=cormorant+garamond:wght@400;700&display=swap /games/neshama quest geelooy/games/neshama quest/index.html neshama quest 5 config.js; maze.js; entities.js; input.js 1 style.css /games/nitzotz io geelooy/games/nitzotz io/index.html nitzotz.io — shlichus adventure metropolis 1 ./js/main.js?v=20260714 shlichus 1 2 data:image/svg+xml,%3csvg xmlns=; ./style.css?v=20260714 shlichus 1 /games/ohr hagnuz geelooy/games/ohr hagnuz/index.html b&quot;h — ohr hagnuz: the concealed frontier 1 ./src/index.js 7 data:image/svg+xml,%3csvg xmlns=; ./src/design/revelation/tokens.css; ./src/design/revelation/shell.css; ./src/design/revelation/hud.css /games/oros ha kelim geelooy/games/oros ha kelim/index.html oros hakelim · awtsmoos.com 1 ./src/main.js 3 ./styles/game.css; ./styles/overlays.css; ./styles/controls.css /games/party geelooy/games/party/index.html party challenge — awtsmoos games 1 ./js/main.js?v=party 001 1 ./style.css?v=party 001",
+		"page": "pages/docs-generated-public-entry-points-public-entry-points-002-md-8f25830101.json"
 	},
 	{
-		"id": "docs-tutorials-api-contact-md-74eb8de288",
-		"title": "Contact API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/CONTACT.md",
-		"category": "API",
-		"provenance": "manual",
+		"id": "docs-generated-public-entry-points-public-entry-points-003-md-47f5d0e8a9",
+		"title": "Generated Public Entry Point Atlas 91–135",
+		"sourcePath": "docs/GENERATED/PUBLIC_ENTRY_POINTS/public-entry-points-003.md",
+		"category": "General",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Contact API Tutorial",
-				"anchor": "contact-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Generated Public Entry Point Atlas 91–135",
+				"anchor": "generated-public-entry-point-atlas-91-135"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Contact API Tutorial What this family owns Mount: /api/contact Derech: geelooy/api/contact/ awtsmoos.derech.js Root submission/status behavior validates contact input, can deliver SMTP mail, and may persist /contactSignals/ . How to explore it 1. Open API Family Tutorials for current rou",
-		"searchText": "b\"h boruch hashem blessed is he contact api tutorial what this family owns mount: /api/contact derech: geelooy/api/contact/ awtsmoos.derech.js root submission/status behavior validates contact input, can deliver smtp mail, and may persist /contactsignals/ . how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/contact. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/contact/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation treat validation, mail delivery, and persistence as three failure domains. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-contact-md-74eb8de288.json"
-	},
-	{
-		"id": "docs-tutorials-api-email-md-bb58504aad",
-		"title": "Email API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/EMAIL.md",
-		"category": "API",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Email API Tutorial",
-				"anchor": "email-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Email API Tutorial What this family owns Mount: /api/email Derech: geelooy/api/email/ awtsmoos.derech.js The Email family is a small façade/adaptation over Social mail behavior. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter API Tutorial Index t",
-		"searchText": "b\"h boruch hashem blessed is he email api tutorial what this family owns mount: /api/email derech: geelooy/api/email/ awtsmoos.derech.js the email family is a small façade/adaptation over social mail behavior. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/email. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/email/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation for message semantics and alias authority, follow into social mail source rather than assuming the façade defines everything. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-email-md-bb58504aad.json"
-	},
-	{
-		"id": "docs-tutorials-api-fetch-md-f316128efe",
-		"title": "Fetch Proxy API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/FETCH.md",
-		"category": "API",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Fetch Proxy API Tutorial",
-				"anchor": "fetch-proxy-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Fetch Proxy API Tutorial What this family owns Mount: /api/fetch Derech: geelooy/api/fetch/ awtsmoos.derech.js Authenticated server side remote fetching is origin gated and rate/byte limited. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter API Tu",
-		"searchText": "b\"h boruch hashem blessed is he fetch proxy api tutorial what this family owns mount: /api/fetch derech: geelooy/api/fetch/ awtsmoos.derech.js authenticated server side remote fetching is origin gated and rate/byte limited. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/fetch. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/fetch/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation inspect allowed origin/auth/options and binary encoding before using it as a generic proxy. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-fetch-md-f316128efe.json"
-	},
-	{
-		"id": "docs-tutorials-api-gpt-md-989be3c404",
-		"title": "GPT API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/GPT.md",
-		"category": "API",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "GPT API Tutorial",
-				"anchor": "gpt-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He GPT API Tutorial What this family owns Mount: /api/gpt Derech: geelooy/api/gpt/ awtsmoos.derech.js Routes expose root legacy prompting, health, capability, chat, and reset around focused handlers. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter A",
-		"searchText": "b\"h boruch hashem blessed is he gpt api tutorial what this family owns mount: /api/gpt derech: geelooy/api/gpt/ awtsmoos.derech.js routes expose root legacy prompting, health, capability, chat, and reset around focused handlers. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/gpt. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/gpt/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation browser callers should use the verified relay contract and tolerate unavailable capability/chat states. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-gpt-md-989be3c404.json"
-	},
-	{
-		"id": "docs-tutorials-api-oauth-md-44711909fc",
-		"title": "OAuth API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/OAUTH.md",
-		"category": "Security",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "OAuth API Tutorial",
-				"anchor": "oauth-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He OAuth API Tutorial What this family owns Mount: /api/oauth Derech: geelooy/api/oauth/ awtsmoos.derech.js Authorization, clients, logout, me, start, token, and a dynamic dispatch form sit behind the OAuth table. How to explore it 1. Open API Family Tutorials for current route counts/healt",
-		"searchText": "b\"h boruch hashem blessed is he oauth api tutorial what this family owns mount: /api/oauth derech: geelooy/api/oauth/ awtsmoos.derech.js authorization, clients, logout, me, start, token, and a dynamic dispatch form sit behind the oauth table. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/oauth. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/oauth/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation route names do not prove redirect/scope/token semantics. read registered client and token handlers; never document live secrets. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-oauth-md-44711909fc.json"
-	},
-	{
-		"id": "docs-tutorials-api-ohr-hagnuz-md-719a187d9e",
-		"title": "Ohr HaGnuz API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/OHR_HAGNUZ.md",
-		"category": "API",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Ohr HaGnuz API Tutorial",
-				"anchor": "ohr-hagnuz-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Ohr HaGnuz API Tutorial What this family owns Mount: /api/ohr hagnuz Derech: geelooy/api/ohr hagnuz/ awtsmoos.derech.js The extracted HTTP route issues a realtime ticket. How to explore it 1. Open API Family Tutorials for current route counts/health. 2. Filter API Tutorial Index to /api/",
-		"searchText": "b\"h boruch hashem blessed is he ohr hagnuz api tutorial what this family owns mount: /api/ohr hagnuz derech: geelooy/api/ohr hagnuz/ awtsmoos.derech.js the extracted http route issues a realtime ticket. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/ohr hagnuz. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/ohr hagnuz/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation pair this http entry with the server side ohr hagnuz websocket application/admission source. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-ohr-hagnuz-md-719a187d9e.json"
-	},
-	{
-		"id": "docs-tutorials-api-public-md-4581bd2003",
-		"title": "Public API Tutorial",
-		"sourcePath": "docs/TUTORIALS/API/PUBLIC.md",
-		"category": "API",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Public API Tutorial",
-				"anchor": "public-api-tutorial"
-			},
-			{
-				"level": 2,
-				"text": "What this family owns",
-				"anchor": "what-this-family-owns"
-			},
-			{
-				"level": 2,
-				"text": "How to explore it",
-				"anchor": "how-to-explore-it"
-			},
-			{
-				"level": 2,
-				"text": "Safety / interpretation",
-				"anchor": "safety-interpretation"
-			},
-			{
-				"level": 2,
-				"text": "Evidence rule",
-				"anchor": "evidence-rule"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Public API Tutorial What this family owns Mount: /api/public Derech: geelooy/api/public/ awtsmoos.derech.js The public DB family combines public oriented reads with privileged mutation behavior in the derech. How to explore it 1. Open API Family Tutorials for current route counts/health.",
-		"searchText": "b\"h boruch hashem blessed is he public api tutorial what this family owns mount: /api/public derech: geelooy/api/public/ awtsmoos.derech.js the public db family combines public oriented reads with privileged mutation behavior in the derech. how to explore it 1. open api family tutorials for current route counts/health. 2. filter api tutorial index to /api/public. 3. open the generated route tutorial for source level method/vessel/status/header evidence. 4. read geelooy/api/public/ awtsmoos.derech.js and the imported handler behind the route. 5. check identity/resource/provider/data side effects before making a write. 6. use caller/test evidence as navigation, not runtime proof. safety / interpretation do not infer that a /public prefix makes every method anonymous. evidence rule generated tutorials are conservative: unknown method remains unknown; executable starter calls appear only when source level method evidence exists. derech health is shown beside every generated route. next return to learn awtsmoos.com or open the exact generated route tutorial before coding.",
-		"page": "pages/docs-tutorials-api-public-md-4581bd2003.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Generated Public Entry Point Atlas 91–135 Every discovered index.html beneath the Geelooy public root, with title and linked script/style evidence. URL Entry file Title Scripts Script sample Styles Style sample /games/pong geelooy/games/pong/index.html Pong · Awtsmoos Games 9 ./js/partic",
+		"searchText": "b\"h boruch hashem blessed is he generated public entry point atlas 91–135 every discovered index.html beneath the geelooy public root, with title and linked script/style evidence. url entry file title scripts script sample styles style sample /games/pong geelooy/games/pong/index.html pong · awtsmoos games 9 ./js/particles.js; ./js/ball.js; ./js/paddle.js; ./js/ui.js 1 ./style.css?v=pong reward 001 /games/rambam/kiddushhachodesh/12 geelooy/games/rambam/kiddushhachodesh/12/index.html sun movement visualization 0 — 0 — /games/rebbe runner geelooy/games/rebbe runner/index.html the rebbe's runner 2 assets.js; game.js 1 style.css /games/scribe journey geelooy/games/scribe journey/index.html the scribe's journey: echoes of ein sof 1 js/main.js 2 data:,; style.css /games/sefira clash geelooy/games/sefira clash/index.html sefira clash · open world, expedition, co op, adventure &amp; vs 2 ./js/main.js; ./js/commerce/bootarenatheme.js 9 ./style.css; ./css/expedition.css; ./css/expedition components.css; ./css/expedition services.css /games/seven mitzvos geelooy/games/seven mitzvos/index.html seven mitzvos · living material worlds 1 ./js/main.js?v=startup 002 8 https://awtsmoos.com/sites/awtsmoos release assets/icons/mark.svg; https://awtsmoos.com/sites/firebase drive migration/various/stone%20retaining%20wall%20masonry.png; https://awtsmoos.com/sites/firebase drive migration/various/rough%20weathered%20oak%20wood%20planks.png; https://awtsmoos.com/sites/firebase drive migration/various/slate%20roof%20shingles.png /games/shema strike geelooy/games/shema strike/index.html shema strike: gates of light 1 js/main.js 1 style.css /games/soul jump geelooy/games/soul jump/index.html ein sof ascent 1 main.js 0 — /games/sulam ha sod geelooy/games/sulam ha sod/index.html sulam hasod 1 ./js/main.js 1 ./css/game.css /games/tests/1 geelooy/games/tests/1/index.html — 1 ./ikar.js 0 — /games/tests/2 geelooy/games/tests/2/index.html three.js webgpu compute particles rain 0 — 0 — /games/tests/3 geelooy/games/tests/3/index.html — 4 //cdn.jsdelivr.net/gh/mrdoob/three.js@r151/build/three.js; //cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/controls/orbitcontrols.js; //cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/loaders/gltfloader.js; //cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/loaders/rgbeloader.js 1 https://fonts.googleapis.com/css2?family=baloo+tamma+2&display=swap /games/tests/tree geelooy/games/tests/tree/index.html three.js tree swaying 0 — 0 — /games/tetris geelooy/games/tetris/index.html tikkun haolam the final rectification 1 main.js 1 style.css /heichel editor geelooy/heichel editor/index.html heichel editor — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=extreme 005; /heichel editor/app.js?v=editor 004 2 /style/geelooy app/index.css?v=extreme 005; /style/social system/editor.css?v=editor 003 /heichel review geelooy/heichel review/index.html heichel review and governance center 1 ./js/main.js?v=review dark 002 1 ./style.css?v=review dark 002 /heichelos/manage alias heichelos geelooy/heichelos/manage alias heichelos/index.html — 1 script.js 1 /style/social/heichelos/manage alias heichelos.css?v=social os 002 /heichelos/settings/community geelooy/heichelos/settings/community/index.html community governance — awtsmoos 1 /heichelos/settings/community/app.js?v=community governance 001 2 /style/geelooy app/index.css?v=community governance 001; /style/heichelos/community settings.css?v=community governance 001 /heichelos/settings/community/moderation geelooy/heichelos/settings/community/moderation/index.html community moderation 1 /heichelos/settings/community/moderation/app.js 1 /style/heichelos/community settings.css?v=clean 002 /heichelos/social/demo geelooy/heichelos/social/demo/index.html awtsmoos social revamp demo 0 — 1 ../styles/index.css /legal/privacy geelooy/legal/privacy/index.html awtsmoos.com privacy policy 0 — 1 ../shared.css /legal/terms geelooy/legal/terms/index.html awtsmoos.com terms of use 0 — 1 ../shared.css /login geelooy/login/index.html login with awtsmoos 1 /scripts/awtsmoos/bh.js 2 /style/bh.css; /style/forms.css /logout geelooy/logout/index.html — 0 — 0 — /mawgawl geelooy/mawgawl/index.html — 1 ./script.js 1 ./styles.css /mawgawl/sefarim geelooy/mawgawl/sefarim/index.html search the living library — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=living search shell 001; ./script.js?v=living search 009 18 /style/civilization/core tokens.css?v=living search 006; /style/civilization/core base.css?v=living search 006; /style/civilization/core components.css?v=living search 006; ./styles/shell.css?v=living search 006 /node os geelooy/node os/index.html awtsmoos node os 1 /node os/app.js 2 /style/social system/node os/base.css; /style/social system/node os/cards.css /notifications geelooy/notifications/index.html signals — geelooy 3 /scripts/awtsmoos/social/shell/boot.js?v=signals revelation 007; ./app.js?v=app 001; ./modules/categorytabs.js?v=signals revelation 007 3 /style/geelooy app/index.css?v=signals revelation 007; /style/social system/index.css?v=social core 005; ./style.css?v=signals revelation 007 /ocr geelooy/ocr/index.html ocr studio — awtsmoos 1 /scripts/awtsmoos/ocr/index.js?v=tesseract api 003 1 /style/ocr/index.css?v=tesseract api 003 /os geelooy/os/index.html geelooy os — files, awtsmoosdb, runtime & control 1 ./script.js?v=revelation 8 19 data:image/svg+xml,%3csvg xmlns=; ./styles.css?v=revelation 8; ./civilization/styles.css?v=revelation 8; ./native executable accessibility.css?v=revelation 8 /parsers/whatsapp geelooy/parsers/whatsapp/index.html whatsapp message maker 0 — 0 — /post editor geelooy/post editor/index.html post editor — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=extreme 005; /post editor/app.js?v=editor 004 2 /style/geelooy app/index.css?v=extreme 005; /style/social system/editor.css?v=editor 003 /profile geelooy/profile/index.html profile — geelooy 2 /scripts/awtsmoos/social/shell/boot.js?v=; ./script.js?v=app 001 6 /style/civilization/core tokens.css?v=; /style/civilization/core base.css?v=; /style/civilization/core components.css?v=; /style/civilization/profile identity.css?v= /profile/alias manage geelooy/profile/alias manage/index.html — 1 ./script.js?v=alias studio 002 2 /style/geelooy app/index.css?v=alias studio 002; ./style.css?v=alias studio 002 /public/virtual os games/crystal 1780372754759 geelooy/public/virtual os games/crystal 1780372754759/index.html crystal critters 0 — 0 — /public/virtual os games/crystal 1780372758361 geelooy/public/virtual os games/crystal 1780372758361/index.html crystal critters 0 — 0 — /public/virtual os games/crystal 1780373501785 improved geelooy/public/virtual os games/crystal 1780373501785 improved/index.html crystal critters: awakened cave 0 — 0 — /public/virtual os games/crystal 1780373505136 improved geelooy/public/virtual os games/crystal 1780373505136 improved/index.html crystal critters: awakened cave 0 — 0 — /public/virtual os games/crystal 1780373765713 swarm v2 geelooy/public/virtual os games/crystal 1780373765713 swarm v2/index.html crystal critters: thumb safe swarm 0 — 0 — /public/virtual os games/crystal 1780373769185 swarm v2 geelooy/public/virtual os games/crystal 1780373769185 swarm v2/index.html crystal critters: thumb safe swarm 0 — 0 — /public/virtual os games/crystal 1780374109835 clean mobile geelooy/public/virtual os games/crystal 1780374109835 clean mobile/index.html crystal critters: clean mobile 0 — 0 — /public/virtual os games/crystal 1780374112967 clean mobile geelooy/public/virtual os games/crystal 1780374112967 clean mobile/index.html crystal critters: clean mobile 0 — 0 — /record geelooy/record/index.html camera preview — geelooy 1 script.js?v=media capture 001 1 style.css?v=media capture 001 /recorder geelooy/recorder/index.html local recorder — geelooy 1 recorder.js?v=media capture 001 1 style.css?v=media capture 001 /reeyuh geelooy/reeyuh/index.html shulchan aruch viewer 0 — 2 ../style/bh.css; ../style/toyr.css",
+		"page": "pages/docs-generated-public-entry-points-public-entry-points-003-md-47f5d0e8a9.json"
 	}
 ]

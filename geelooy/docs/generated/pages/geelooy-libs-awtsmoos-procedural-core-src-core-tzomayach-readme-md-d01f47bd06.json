@@ -1,0 +1,74 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-tzomayach-readme-md-d01f47bd06",
+	"title": "Tzomayach — Trees, Botany, Grass, Vegetation Assets",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/tzomayach/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Tzomayach — Trees, Botany, Grass, Vegetation Assets",
+			"anchor": "tzomayach-trees-botany-grass-vegetation-assets"
+		},
+		{
+			"level": 2,
+			"text": "PURPOSE",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "CANONICAL ENTRY POINTS",
+			"anchor": "canonical-entry-points"
+		},
+		{
+			"level": 2,
+			"text": "SINGLE TREE AUTHORITY LAW",
+			"anchor": "single-tree-authority-law"
+		},
+		{
+			"level": 2,
+			"text": "DEVELOPMENT",
+			"anchor": "development"
+		},
+		{
+			"level": 2,
+			"text": "EXTERNAL ASSETS",
+			"anchor": "external-assets"
+		},
+		{
+			"level": 2,
+			"text": "OWNS",
+			"anchor": "owns"
+		},
+		{
+			"level": 2,
+			"text": "DOES NOT OWN",
+			"anchor": "does-not-own"
+		},
+		{
+			"level": 2,
+			"text": "COMMON TASKS",
+			"anchor": "common-tasks"
+		},
+		{
+			"level": 2,
+			"text": "EXTENSION RULES",
+			"anchor": "extension-rules"
+		},
+		{
+			"level": 2,
+			"text": "AI DISCOVERY KEYWORDS",
+			"anchor": "ai-discovery-keywords"
+		},
+		{
+			"level": 2,
+			"text": "NEXT FILES TO READ",
+			"anchor": "next-files-to-read"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-tzomayach-readme-md-d01f47bd06-001.json"
+	]
+}

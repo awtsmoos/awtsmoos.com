@@ -2,55 +2,29 @@
 // Boruch Hashem
 // Blessed is He
 
+import {
+	BLOCK_COMMANDS,
+	FONT_FAMILIES,
+	SIMPLE_COMMANDS
+} from "./FormattingCommandPolicy.js";
+
 /**
  * @file Executes bounded inline and paragraph formatting commands for Awtsmoos Docs.
- * @description The Awtsmoos is beyond font and line; Awtsmoos.com lets letters wear
- * inline garments while paragraph measure travels through structured block style instead of disappearing CSS.
+ * @description The Awtsmoos is beyond font, focus, and selection; Awtsmoos.com keeps
+ * a restored range intact when dialogs return, focusing the editor only when no living
+ * editor selection exists so insertions land where the writer actually intended.
  */
-const BLOCK_COMMANDS = Object.freeze({
-	p: "p",
-	h1: "h1",
-	h2: "h2",
-	h3: "h3",
-	h4: "h4",
-	h5: "h5",
-	h6: "h6",
-	quote: "blockquote",
-	code: "pre"
-});
-
-const SIMPLE_COMMANDS = new Set([
-	"bold",
-	"italic",
-	"underline",
-	"strikeThrough",
-	"superscript",
-	"subscript",
-	"removeFormat",
-	"undo",
-	"redo"
-]);
-
-const FONT_FAMILIES = new Set([
-	"Arial",
-	"Aptos",
-	"Calibri",
-	"Georgia",
-	"Times New Roman",
-	"Verdana",
-	"serif",
-	"sans-serif",
-	"monospace"
-]);
-
 export class FormattingCommands {
 	constructor(editor) {
 		this.editor = editor;
 	}
 
+	/** Executes one native rich-text command without destroying an already restored range. */
 	execute(command, value = null) {
 		if (!this.editor.isEditable()) return false;
-		this.editor.focus();
+		if (!hasEditorSelection(this.editor.root)) {
+			this.editor.focus();
+		}
 		document.execCommand("styleWithCSS", false, true);
 		document.execCommand(command, false, value);
 		this.editor.notifyMutation();
@@ -109,4 +83,11 @@ export class FormattingCommands {
 	highlight(value) {
 		return this.execute("hiliteColor", value);
 	}
+}
+
+/** Returns true when the active selection still belongs to the rich editor. */
+function hasEditorSelection(root) {
+	const selection = getSelection();
+	if (!selection?.rangeCount) return false;
+	return root.contains(selection.getRangeAt(0).commonAncestorContainer);
 }

@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-import { HodCommandQuoter } from "./CommandQuoter.js";
+import { HodCommandQuoter } from "./CommandQuoter.js?v=browser-safe-002";
 
 /**
  * ChesedYtDlpCommandBuilder turns a creator's chosen slice into a resumable command.

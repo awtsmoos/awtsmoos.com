@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-dnssec-migration-md-743ddd21ca",
+	"title": "DNSSEC During a DNS Provider Migration",
+	"sourcePath": "docs/WEBSITES/DNSSEC_MIGRATION.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "DNSSEC During a DNS Provider Migration",
+			"anchor": "dnssec-during-a-dns-provider-migration"
+		},
+		{
+			"level": 2,
+			"text": "Why DNSSEC can break an otherwise correct migration",
+			"anchor": "why-dnssec-can-break-an-otherwise-correct-migration"
+		},
+		{
+			"level": 2,
+			"text": "Website-only move while keeping the current DNS provider",
+			"anchor": "website-only-move-while-keeping-the-current-dns-provider"
+		},
+		{
+			"level": 2,
+			"text": "Full nameserver/provider migration",
+			"anchor": "full-nameserver-provider-migration"
+		},
+		{
+			"level": 2,
+			"text": "Route 53 pattern",
+			"anchor": "route-53-pattern"
+		},
+		{
+			"level": 2,
+			"text": "Squarespace Domains pattern",
+			"anchor": "squarespace-domains-pattern"
+		},
+		{
+			"level": 2,
+			"text": "Awtsmoos Website Maker rule",
+			"anchor": "awtsmoos-website-maker-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-dnssec-migration-md-743ddd21ca-001.json"
+	]
+}

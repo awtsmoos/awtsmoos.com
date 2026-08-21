@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapDistrictTextureHydration.js
- * @description Keeps immediate procedural color visible while canonical remote textures hydrate asynchronously.
- * The Awtsmoos grants each house, tree, stone, and field a truthful hue before distant pixels arrive;
- * Awtsmoos.com stores no texture garment in Git and records every remote binding or finite failure alive.
+ * @description Keeps provisional districts procedural unless an experiment explicitly requests remote pixels.
+ * The Awtsmoos gives visible form before any distant garment can delay the road;
+ * Awtsmoos.com makes bitmap hydration opt-in, so first play carries no hidden network load.
  */
 
 import { upgradeBootstrapRemoteTextures } from './BootstrapRemoteTextureUpgrade.js';
@@ -18,14 +18,12 @@ export async function hydrateBootstrapDistrictTextures(group, options = {}) {
 		...(group.userData || {}),
 		textureHydration: receipt
 	};
+	const remoteEnabled = options.remoteUpgrade === true;
 	group.userData.remoteTextureHydrationPromise = upgradeBootstrapRemoteTextures(
 		group,
 		roles,
-		{
-			...options,
-			remoteUpgrade: options.remoteUpgrade !== false
-		}
-	).then(remote => publishRemoteReceipt(receipt, remote));
+		{ ...options, remoteUpgrade: remoteEnabled }
+	).then(remote => publishRemoteReceipt(receipt, remote, remoteEnabled));
 	return receipt;
 }
 
@@ -50,17 +48,19 @@ function proceduralReceipt(roles) {
 		remote: {
 			loaded: 0,
 			mapImagesBound: 0,
+			policy: 'disabled',
 			records: [],
-			status: 'pending'
+			status: 'disabled'
 		},
 		roles,
 		status: 'procedural-color-visible'
 	};
 }
 
-function publishRemoteReceipt(receipt, remote) {
+function publishRemoteReceipt(receipt, remote, remoteEnabled) {
 	receipt.remote = remote;
-	if (remote.loaded > 0) receipt.status = 'remote-primary-visible';
-	else receipt.status = 'procedural-color-visible';
+	receipt.status = remoteEnabled && remote.loaded > 0
+		? 'remote-primary-visible'
+		: 'procedural-color-visible';
 	return remote;
 }

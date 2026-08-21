@@ -8,68 +8,68 @@ Lexical source evidence; methods marked unknown are not assumed GET.
 
 | Source | Methods | Vessels | Statuses | Headers |
 | --- | --- | --- | --- | --- |
+| geelooy/api/social/helper/drive/domainHostnamePolicy.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/drive/managerAssetPolicy.js | unknown | — | 404 | — |
+| geelooy/api/social/helper/drive/nativeAliasContract.js | unknown | — | 409 | — |
+| geelooy/api/social/helper/drive/nativeAliasGateway.js | unknown | $_POST, db | 409 | — |
+| geelooy/api/social/helper/drive/privateResponse.js | HEAD | — | 200, 206, 304, 404, 405 | — |
+| geelooy/api/social/helper/drive/projectConfigPolicy.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/drive/projectDatabaseService.js | unknown | db | — | — |
+| geelooy/api/social/helper/drive/projectDnsContentPolicy.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/drive/projectDnsPolicy.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/drive/projectNativeComputePolicy.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/drive/projectPlanService.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/drive/projectProviderBindingPolicy.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/drive/projectProviderIntentPolicy.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/drive/projectSecretPolicy.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/drive/publicResponse.js | HEAD | — | 304 | — |
+| geelooy/api/social/helper/drive/publicResponseHeaders.js | unknown | — | 200, 206, 404, 405 | — |
+| geelooy/api/social/helper/drive/reconciliationService.js | unknown | — | 409 | — |
+| geelooy/api/social/helper/drive/routes/actionRoutes.js | unknown | headers | — | x-request-id |
+| geelooy/api/social/helper/drive/routes/browserRouteActor.js | unknown | headers | — | x-request-id |
+| geelooy/api/social/helper/drive/routes/browserRoutes.js | unknown | cookies | — | — |
+| geelooy/api/social/helper/drive/routes/credentialRoutes.js | GET | headers | — | — |
+| geelooy/api/social/helper/drive/routes/domainPlanRoutes.js | unknown | headers | — | x-request-id |
+| geelooy/api/social/helper/drive/routes/domainRoutes.js | GET, DELETE | — | — | — |
+| geelooy/api/social/helper/drive/routes/entryRoutes.js | GET, POST, PUT, DELETE, HEAD | $_GET, headers | — | x-request-id |
+| geelooy/api/social/helper/drive/routes/interactiveBrowserRoutes.js | DELETE | $_GET, cookies | — | — |
+| geelooy/api/social/helper/drive/routes/managerRoutes.js | HEAD | — | 200, 302, 404 | — |
+| geelooy/api/social/helper/drive/routes/projectHostingRoutes.js | GET, POST | $_GET | — | x-request-id |
+| geelooy/api/social/helper/drive/routes/projectPlanRoutes.js | unknown | $_GET | — | x-request-id |
+| geelooy/api/social/helper/drive/routes/projectRegistryRoutes.js | GET, PUT | — | — | x-request-id |
+| geelooy/api/social/helper/drive/routes/publicRoutes.js | OPTIONS | headers | 204 | — |
+| geelooy/api/social/helper/drive/routes/quotaRoutes.js | unknown | headers | — | — |
+| geelooy/api/social/helper/drive/routes/reconciliationRoutes.js | GET | $_GET, headers | — | — |
+| geelooy/api/social/helper/drive/routes/routeSupport.js | PUT, DELETE | $_POST, $_DELETE | 405 | — |
+| geelooy/api/social/helper/drive/routes/serviceAliasRoutes.js | unknown | headers | — | — |
+| geelooy/api/social/helper/drive/routes/serviceProvisioningRoutes.js | unknown | headers | — | — |
+| geelooy/api/social/helper/drive/routes/siteRoutes.js | unknown | — | — | x-request-id |
+| geelooy/api/social/helper/drive/routes/siteRuntimeRoutes.js | GET, DELETE | — | — | x-request-id |
+| geelooy/api/social/helper/drive/serviceAliasPolicy.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/drive/siteConfigPolicy.js | unknown | cookies | — | — |
+| geelooy/api/social/helper/drive/streamingObjectWriter.js | unknown | — | 400 | — |
+| geelooy/api/social/helper/editor/postDrafts.js | unknown | $_POST, db | — | — |
+| geelooy/api/social/helper/editor/postStructureDeletion.js | unknown | $_GET, $_POST, db | — | — |
+| geelooy/api/social/helper/entityUniverse/universeStore.js | unknown | db | — | — |
+| geelooy/api/social/helper/fileSystem.js | unknown | $_GET, $_POST, $_DELETE, identity, db | — | content-type |
+| geelooy/api/social/helper/general.js | unknown | $_GET, $_POST, identity, db | — | — |
+| geelooy/api/social/helper/governance/heichelSettings.js | unknown | $_POST, db | — | — |
+| geelooy/api/social/helper/governance/invites.js | unknown | $_POST, db | — | — |
+| geelooy/api/social/helper/governance/roles.js | unknown | db | — | — |
+| geelooy/api/social/helper/governance/submissions.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/heichel.js | unknown | $_GET, $_POST, $_DELETE, route-vars, identity, db | — | — |
 | geelooy/api/social/helper/heichelRoles.js | unknown | $_POST, $_DELETE, db | — | — |
 | geelooy/api/social/helper/heichelRoutes/routeTools.js | unknown | $_POST | — | — |
 | geelooy/api/social/helper/index.js | unknown | identity | — | — |
 | geelooy/api/social/helper/livingEntityView/read.js | unknown | db | — | — |
 | geelooy/api/social/helper/livingEntityView/test.js | unknown | $_GET, db | — | — |
 | geelooy/api/social/helper/mail.js | unknown | $_GET, $_POST, cookies, identity, db | — | — |
+| geelooy/api/social/helper/migrations/meta/MetaManifestGuard.js | unknown | $_POST | — | — |
+| geelooy/api/social/helper/migrations/youtube/ManifestGuard.js | unknown | cookies | — | — |
+| geelooy/api/social/helper/migrations/youtube/YouTubeMigrationRoutes.js | unknown | $_POST | — | — |
 | geelooy/api/social/helper/nodeOs/migration.js | unknown | db | — | — |
 | geelooy/api/social/helper/nodeOs/nodeOsStore.js | unknown | db | — | — |
 | geelooy/api/social/helper/notifications.js | unknown | $_GET | — | — |
 | geelooy/api/social/helper/notifications/NotificationMutations.js | unknown | db | — | — |
 | geelooy/api/social/helper/notifications/NotificationPreferences.js | unknown | db | — | — |
 | geelooy/api/social/helper/notifications/NotificationQueries.js | unknown | db | — | — |
-| geelooy/api/social/helper/old/comments-old/commentCreation.js | unknown | $_POST, identity, db | — | — |
-| geelooy/api/social/helper/old/comments-old/commentDeletion.js | unknown | $_POST, $_DELETE, db | — | — |
-| geelooy/api/social/helper/old/comments-old/commentModeration.js | unknown | $_GET, $_POST, db | — | — |
-| geelooy/api/social/helper/old/comments-old/commentModification.js | unknown | $_POST, db | — | Connection, Transfer-Encoding |
-| geelooy/api/social/helper/old/comments-old/commentPaths.js | unknown | db | — | — |
-| geelooy/api/social/helper/old/comments-old/commentRetrieval.js | unknown | $_GET, db | — | — |
-| geelooy/api/social/helper/old/comments-old/post/index.js | GET, PUT, DELETE | $_GET, $_POST, $_DELETE, identity, db | — | — |
-| geelooy/api/social/helper/old/comments-old/series.js | unknown | $_POST, $_DELETE, db | — | — |
-| geelooy/api/social/helper/packed/allPostsIndex.js | unknown | db | — | — |
-| geelooy/api/social/helper/packed/postMigration.js | unknown | db | — | — |
-| geelooy/api/social/helper/packed/socialPacked.js | unknown | db | — | — |
-| geelooy/api/social/helper/platform/commentThreads.js | unknown | db | — | — |
-| geelooy/api/social/helper/post/index.js | unknown | $_POST, $_DELETE, identity, db | — | — |
-| geelooy/api/social/helper/post/seriesReadCompatibility.js | unknown | db | — | — |
-| geelooy/api/social/helper/post/submissions.js | unknown | $_POST, db | — | — |
-| geelooy/api/social/helper/postCanonicalRoute.js | GET, PUT | db | — | — |
-| geelooy/api/social/helper/postCompatibilitySupport.js | unknown | $_GET, $_POST, $_DELETE | — | — |
-| geelooy/api/social/helper/profile/apiTools.js | unknown | $_GET | — | — |
-| geelooy/api/social/helper/profile/follows.js | unknown | db | — | — |
-| geelooy/api/social/helper/profile/history.js | unknown | db | — | — |
-| geelooy/api/social/helper/profile/paths.js | unknown | db | — | — |
-| geelooy/api/social/helper/profile/writeProfile.js | unknown | $_POST, db | — | — |
-| geelooy/api/social/helper/response/routeResponses.js | unknown | — | 400, 405 | — |
-| geelooy/api/social/helper/richSocial/RichPostService.js | unknown | $_GET, $_POST | — | — |
-| geelooy/api/social/helper/search/rag/authoritativeCommentRows.js | unknown | db | — | — |
-| geelooy/api/social/helper/search/rag/richCommentRows.js | unknown | db | — | — |
-| geelooy/api/social/helper/search/routes/requestSnapshot.js | unknown | $_GET, $_POST | — | — |
-| geelooy/api/social/helper/series.js | unknown | $_POST, identity, db | — | — |
-| geelooy/api/social/helper/series/directSeriesPrateem.js | unknown | $_GET | — | — |
-| geelooy/api/social/helper/series/virtualSeriesMeta.js | unknown | db | — | — |
-| geelooy/api/social/helper/series/virtualSeriesPosts.js | unknown | db | — | — |
-| geelooy/api/social/helper/socialContent.js | unknown | $_POST, db | — | — |
-| geelooy/api/social/helper/socialGraph.js | unknown | db | — | — |
-| geelooy/api/social/helper/thoughtStreams/query.js | unknown | db | — | — |
-| geelooy/api/social/helper/thoughtStreams/reactions.js | unknown | db | — | — |
-| geelooy/api/social/helper/thoughtStreams/read.js | unknown | db | — | — |
-| geelooy/api/social/helper/thoughtStreams/write.js | unknown | db | — | — |
-| geelooy/api/social/helper/unifiedActivity/ActivityDeletionStore.js | unknown | db | — | — |
-| geelooy/api/social/helper/unifiedActivity/ActivityEventStore.js | unknown | db | — | — |
-| geelooy/api/social/helper/unifiedActivity/ActivityPreferenceStore.js | unknown | db | — | — |
-| geelooy/api/social/helper/unifiedActivity/ActivityRoutes.js | POST | $_GET, $_POST | — | — |
-| geelooy/api/social/helper/unifiedInteraction/CommentInteractionService.js | unknown | $_POST | — | — |
-| geelooy/api/social/helper/unifiedInteraction/CommentPromotionService.js | unknown | $_POST | — | — |
-| geelooy/api/social/helper/unifiedInteraction/InteractionMedia.js | unknown | db | — | — |
-| geelooy/api/social/helper/unifiedInteraction/InteractionRoutes.js | unknown | $_GET, $_POST | — | — |
-| geelooy/api/social/helper/unifiedInteraction/TransformationStore.js | unknown | db | — | — |
-| geelooy/api/social/helper/unifiedSocial/destinations/DestinationRouteHandlers.js | unknown | $_GET | — | — |
-| geelooy/api/social/helper/unifiedSocial/destinations/InlineCreationService.js | unknown | $_POST, db | — | — |
-| geelooy/api/social/helper/unifiedSocial/destinations/ManagementRoutes.js | unknown | $_POST | — | — |
-| geelooy/api/social/helper/unifiedSocial/destinations/SeriesTree.js | unknown | db | — | — |
-| geelooy/api/social/helper/unifiedSocial/identity/AliasBootstrapService.js | unknown | $_POST, identity | — | — |
-| geelooy/api/social/helper/unifiedSocial/permissions/GovernanceAudit.js | unknown | db | — | — |
-| geelooy/api/social/helper/unifiedSocial/permissions/LegacyRoleReader.js | unknown | db | — | — |

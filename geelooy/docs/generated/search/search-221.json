@@ -1,225 +1,239 @@
 [
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-82229ed6a0",
-		"title": "EVIDENCE",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/EVIDENCE.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-readme-md-0b5ca119d2",
+		"title": "Awtsmoos.com Documentation",
+		"sourcePath": "docs/README.md",
+		"category": "General",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "EVIDENCE",
-				"anchor": "evidence"
+				"text": "Awtsmoos.com Documentation",
+				"anchor": "awtsmoos-com-documentation"
 			},
 			{
 				"level": 2,
-				"text": "Full repository verification",
-				"anchor": "full-repository-verification"
+				"text": "Fastest doorway — /docs/",
+				"anchor": "fastest-doorway-docs"
 			},
 			{
 				"level": 2,
-				"text": "Final focused audit",
-				"anchor": "final-focused-audit"
+				"text": "Human learning",
+				"anchor": "human-learning"
 			},
 			{
 				"level": 2,
-				"text": "Final media",
-				"anchor": "final-media"
+				"text": "Generated teaching",
+				"anchor": "generated-teaching"
 			},
 			{
 				"level": 2,
-				"text": "Compliance",
-				"anchor": "compliance"
+				"text": "Enter by task",
+				"anchor": "enter-by-task"
+			},
+			{
+				"level": 2,
+				"text": "Authority order",
+				"anchor": "authority-order"
 			}
 		],
-		"excerpt": "B\"H EVIDENCE Full repository verification Command: npm run verify Restart proof exit file: full verify.exit Exit: 0 Finished: 2026 08 03T08:11:02Z Log: full verify.log Covered legacy and current import, syntax, camera, scene, face, character, object, browser runtime, browser export, package, media, two minute, four min",
-		"searchText": "b\"h evidence full repository verification command: npm run verify restart proof exit file: full verify.exit exit: 0 finished: 2026 08 03t08:11:02z log: full verify.log covered legacy and current import, syntax, camera, scene, face, character, object, browser runtime, browser export, package, media, two minute, four minute, reference trio, original one minute, and realistic action minute gates. final focused audit job: cmdjob mscydalg 9a07aa0e7f42 receipt: receipt mscydalg ab0d4a9e59 exit: 0 result marker: final audit=pass persistence: pass four scale courts: pass final/preview/plan hashes agree with export result.json git diff check: pass touched file readback manifest: 43 files final media title: the last cup before the meeting duration: 60.000000 seconds frames: 720 video: h.264, 640x360, 12 fps audio: aac bytes: 3340073 final sha 256: d2d38daa90bd8c83421e98d84cf7bdeaad1f844e8da989e65438562863c249ca preview sha 256: 897aebcd7bf9374cadaad0669d364a452a9b825bbb9c8b8c6270b1a38cb5b77d production plan sha 256: 3195beb2c5954878e21f0052a18208cdfa8a9fced9a4763010871924346e991c compliance animator javascript files audited: 43 failures: 0 file lengths: 20 86 lines required headers: pass tab indentation: pass awtsmoos/awtsmoos.com documentation: pass syntax: pass package json: pass complete file readback hashes: touched js readback.sha256",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-82229ed6a0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos.com Documentation The Awtsmoos lets one repository be understood through human meaning, exhaustive route/project evidence, stable system contracts, current source, and verification. Fastest doorway — /docs/ The public documentation application has five primary modes: Learn — fiv",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos.com documentation the awtsmoos lets one repository be understood through human meaning, exhaustive route/project evidence, stable system contracts, current source, and verification. fastest doorway — /docs/ the public documentation application has five primary modes: learn — five source backed curricula with browser local progress. api explorer — every discovered api route with method/source/caller/test evidence. project explorer — every current project boundary with entries, dependencies, symbols, tests, docs, and public surfaces. systems explorer — curated data, security, and realtime contracts joined to bounded project/source/environment/application/event evidence. documents — global search, safe markdown reading, provenance, favorites/recents, deep links, and retrieval first ask. open /docs/?view=learn, /docs/?view=api, /docs/?view=projects, or /docs/?view=systems directly. human learning start at learn/readme.md. deeper tutorials live under tutorials/readme.md, including api families, projects, content, and data/security/realtime system workflows. generated teaching api tutorial index — one generated tutorial per current route. project tutorial index — one generated tutorial per current project boundary. system tutorial index — one generated tutorial per curated stable system concept. system district summary — current data/security/realtime evidence summary. generated evidence stays conservative. unknown http methods stay unknown. project imports/events are lexical clues, environment evidence contains names only , and system packets are not security audits or persistence/protocol guarantees. enter by task url/api → api/readme.md → route tutorial → source/tests/runtime. directory/project → projects/readme.md → project tutorial → dependencies/entries → source. persistence/trust/realtime contract → tutorials/systems/readme.md → system tutorial → source/project/tests/runtime. data → data/readme.md. security → security/readme.md. websockets → websockets/readme.md. ai discovery → ai/readme.md, ai/manifest.json, ai/systems/manifest.json, and root llms.txt. authority order human manuals explain meaning and risk. generated route/project/system packets enumerate changing evidence. ai packets provide bounded machine navigation. public publication mirrors intentional documentation safely. current source/tests/runtime remain final authority.",
+		"page": "pages/docs-readme-md-0b5ca119d2.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-c86be2a029",
-		"title": "EXPORTAUDIT",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/EXPORT_AUDIT.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-routes-dynamic-paths-md-dbebabb93e",
+		"title": "Dynamic Paths and Dollar Variables",
+		"sourcePath": "docs/ROUTES/DYNAMIC_PATHS.md",
+		"category": "Routes",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "EXPORTAUDIT",
-				"anchor": "exportaudit"
+				"text": "Dynamic Paths and Dollar Variables",
+				"anchor": "dynamic-paths-and-dollar-variables"
 			},
 			{
 				"level": 2,
-				"text": "Shared production path",
-				"anchor": "shared-production-path"
+				"text": "The actual URL parameter grammar",
+				"anchor": "the-actual-url-parameter-grammar"
+			},
+			{
+				"level": 3,
+				"text": "Single segment",
+				"anchor": "single-segment"
+			},
+			{
+				"level": 3,
+				"text": "Catch-all",
+				"anchor": "catch-all"
 			},
 			{
 				"level": 2,
-				"text": "FFprobe evidence",
-				"anchor": "ffprobe-evidence"
+				"text": "The dollar-sign question",
+				"anchor": "the-dollar-sign-question"
 			},
 			{
 				"level": 2,
-				"text": "Artifacts",
-				"anchor": "artifacts"
+				"text": "Leading and trailing slashes",
+				"anchor": "leading-and-trailing-slashes"
+			},
+			{
+				"level": 2,
+				"text": "Derech mounting",
+				"anchor": "derech-mounting"
+			},
+			{
+				"level": 2,
+				"text": "Generated parameter list",
+				"anchor": "generated-parameter-list"
+			},
+			{
+				"level": 2,
+				"text": "Caveat",
+				"anchor": "caveat"
 			}
 		],
-		"excerpt": "B\"H EXPORT AUDIT Shared production path RealisticActionMinuteMovie CinematicFrameRenderer realistic set background objects jointed cast foreground objects anchored bubbles/titles 720 RGB frames FFmpeg H.264 video plus twelve delayed synthesized voice tracks and AAC audio. Preview derives from the finalized movie. Proof",
-		"searchText": "b\"h export audit shared production path realisticactionminutemovie cinematicframerenderer realistic set background objects jointed cast foreground objects anchored bubbles/titles 720 rgb frames ffmpeg h.264 video plus twelve delayed synthesized voice tracks and aac audio. preview derives from the finalized movie. proof frames and scale courts use the same production renderer. no separate preview only visual implementation exists. ffprobe evidence duration: 60.000000 seconds video codec: h.264 audio codec: aac dimensions: 640x360 frame rate: 12/1 file bytes: 3340073 fast start output enabled artifacts final: proofs/realistic action minute/the last cup before the meeting.mp4 preview: proofs/realistic action minute/the last cup before the meeting preview.mp4 source plan: proofs/realistic action minute/production plan.json edl: proofs/realistic action minute/edit decision list.json dialogue: proofs/realistic action minute/dialogue data.json performance: proofs/realistic action minute/performance data.json objects: proofs/realistic action minute/object data.json text/title: proofs/realistic action minute/text and title data.json audio manifest: proofs/realistic action minute/audio manifest.json probe: proofs/realistic action minute/ffprobe.json visual evidence: proofs/realistic action minute/visual evidence.json export result: proofs/realistic action minute/export result.json result: pass.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-c86be2a029.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Dynamic Paths and Dollar Variables The Awtsmoos separates the path from the vessel so symbols do not deceive the eye; Awtsmoos.com uses colons for the road, while dollar names carry request data nearby. The actual URL parameter grammar ayzarim/awtsmoosDynamicServer/routing/dynamicRouteMa",
+		"searchText": "b\"h boruch hashem blessed is he dynamic paths and dollar variables the awtsmoos separates the path from the vessel so symbols do not deceive the eye; awtsmoos.com uses colons for the road, while dollar names carry request data nearby. the actual url parameter grammar ayzarim/awtsmoosdynamicserver/routing/dynamicroutematcher.js defines the route grammar observed in this checkout. single segment a route part beginning with : captures one url segment. examples from the api surface: /api/sefarim/:sefer /api/tunnel/control/blob/:blobid /api/ssh/connect/:username/:host social routes containing :alias, :heichelid, :postid, :seriesid, or :commentid the captured values are published as route variables. catch all a terminal part of the form :name captures the remaining path. the matcher requires a catch all to be last. the dollar sign question a filesystem search found no route files whose names require a $ path convention. in the inspected derech code, dollar prefixed names serve a different purpose: $i — request/server context vessel. $ get — parsed query/input data. $ post — parsed submitted body data. $ delete — parsed delete oriented input where used. $u — commonly a user/identity object in some modules. therefore do not translate a route like :alias into $alias . they are different layers. leading and trailing slashes routing/routeforms.js normalizes route aliases with common leading/trailing slash forms. this is why route tables may store keys such as balance while the mounted public route is documented as /api/wallet/balance. derech mounting the derech file is not itself a visible url filename. its directory determines the mount context. for example: geelooy/api/gpt/ awtsmoos.derech.js → /api/gpt/... geelooy/api/tunnel/control/ awtsmoos.derech.js → /api/tunnel/control/... generated parameter list see ../generated/dynamic parameter inventory.md for every parameterized route row discovered by the current generator. caveat a textually discoverable route is not necessarily healthy. geelooy/api/text/ awtsmoos.derech.js currently has a syntax error, so its patterns must be treated as source evidence, not verified runtime availability.",
+		"page": "pages/docs-routes-dynamic-paths-md-dbebabb93e.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-6fd131a2ee",
-		"title": "FEATURE MATRIX",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/FEATURE_MATRIX.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-routes-public-routes-md-cad4e6c9b9",
+		"title": "Major Public Routes",
+		"sourcePath": "docs/ROUTES/PUBLIC_ROUTES.md",
+		"category": "Routes",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "FEATURE MATRIX",
-				"anchor": "feature-matrix"
+				"text": "Major Public Routes",
+				"anchor": "major-public-routes"
 			}
 		],
-		"excerpt": "B\"H FEATURE MATRIX Feature Production evidence Status Neutral identity Reference identity retained beneath emotion/action PASS Facial structure Ears, jaw, chin, philtrum, neck, brows, nose, cheeks PASS Speech/visemes Twelve lines, multi viseme cues, mouth geometry PASS Blink/gaze Existing face rig plus complete reposit",
-		"searchText": "b\"h feature matrix feature production evidence status neutral identity reference identity retained beneath emotion/action pass facial structure ears, jaw, chin, philtrum, neck, brows, nose, cheeks pass speech/visemes twelve lines, multi viseme cues, mouth geometry pass blink/gaze existing face rig plus complete repository suite pass jointed arms shoulder elbow wrist geometry and elbow bias pass jointed legs hip knee ankle geometry, crouch, seat, plant pass locked contact crossed arms and held props invariant under motion phase pass hand articulation open, point, fist, grip, pocket, catch, hold pass directional shoes heel, toe, sole, and view direction pass garments sleeves, lapels, folds, seams, panels, hems, sway pass realistic office set windows, lights, walls, stations, counters, perspective floor pass furniture desk, rolling chair, cabinet, shelf, plant pass devices coffee machine, printer, laptop, clock pass small objects mug, spoon, papers, tablet, coupon, phone pass object motion static, slide, roll, bounce, spin, flash, steam, print, flutter pass layered depth background, midground, foreground, camera parallax pass anchored bubbles speaker aware position, wrapping, tail, safe margins pass camera language eighteen shots and broad supported move/angle vocabulary pass text/title cards two title cards and three lower thirds pass persistence json and sanitized project package pass preview/export parity shared cinematicframerenderer pass scale readability 320x320, 180x300, 512x512, 1536x864 pass final media 60s h.264/aac, 720 frames, hashes pass full regression suite restart proof full verify.exit equals zero pass file compliance 43 files, 0 failures, 20 86 lines pass",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-6fd131a2ee.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Major Public Routes The Awtsmoos clothes one light in many pages, each doorway shaped for a different need; Awtsmoos.com gives a human the route first, then the source where that doorway is made to lead. Because geelooy is the default public root, these directory to URL mappings are the ",
+		"searchText": "b\"h boruch hashem blessed is he major public routes the awtsmoos clothes one light in many pages, each doorway shaped for a different need; awtsmoos.com gives a human the route first, then the source where that doorway is made to lead. because geelooy is the default public root, these directory to url mappings are the natural first lookup. dynamic behavior may still modify a request. url family source human purpose / geelooy/index.html main public entry /about geelooy/about/ about geelooy /contact geelooy/contact/ contact ui /login geelooy/login/ login /logout geelooy/logout/ logout /register geelooy/register/ account creation /profile geelooy/profile/ profile /social geelooy/social/ social hub launcher/surface /social hub geelooy/social hub/ rich social hub /social composer geelooy/social composer/ post creation /comment thread geelooy/comment thread/ comment thread ui /notifications geelooy/notifications/ signals/notifications /heichelos geelooy/heichelos/ heichel browsing/apps /heichel editor geelooy/heichel editor/ heichel editor /heichel review geelooy/heichel review/ review/governance center /post editor geelooy/post editor/ post editor /os geelooy/os/ geelooy os /node os geelooy/node os/ awtsmoos node os /apps geelooy/apps/ application catalog /games geelooy/games/ game/world catalog /game geelooy/game/ game launch/redirect surface /ai geelooy/ai/ awtsmoos ai /youtube geelooy/youtube/ youtube manager /record geelooy/record/ camera preview/recording /recorder geelooy/recorder/ local recorder /ayin geelooy/ayin/ real awtsmoos recorder /email geelooy/email/ mail ui /db geelooy/db/ db console/explorer /editor geelooy/editor/ editor surface /control geelooy/control/ code control panel /ocr geelooy/ocr/ ocr related ui /reeyuh geelooy/reeyuh/ shulchan aruch viewer /mawgawl geelooy/mawgawl/ sefarim oriented surface /legal geelooy/legal/ legal/privacy/terms /donate geelooy/donate/ donation surface for every immediate directory, file count, title, and index.html presence, use ../generated/public route inventory.md.",
+		"page": "pages/docs-routes-public-routes-md-cad4e6c9b9.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-8452bd055e",
-		"title": "FINALCOMPLETIONGATE",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/FINAL_COMPLETION_GATE.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-routes-readme-md-8ea0afd4f4",
+		"title": "Routes",
+		"sourcePath": "docs/ROUTES/README.md",
+		"category": "Routes",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "FINALCOMPLETIONGATE",
-				"anchor": "finalcompletiongate"
+				"text": "Routes",
+				"anchor": "routes"
 			},
 			{
 				"level": 2,
-				"text": "Direct evidence",
-				"anchor": "direct-evidence"
+				"text": "Public filesystem routes",
+				"anchor": "public-filesystem-routes"
 			},
 			{
 				"level": 2,
-				"text": "External operational note",
-				"anchor": "external-operational-note"
+				"text": "Dynamic/API routes",
+				"anchor": "dynamic-api-routes"
+			},
+			{
+				"level": 2,
+				"text": "Dynamic parameters",
+				"anchor": "dynamic-parameters"
+			},
+			{
+				"level": 2,
+				"text": "URL lookup workflow",
+				"anchor": "url-lookup-workflow"
+			},
+			{
+				"level": 2,
+				"text": "Do not confuse these three things",
+				"anchor": "do-not-confuse-these-three-things"
 			}
 		],
-		"excerpt": "B\"H FINAL COMPLETION GATE Status: CLOSED PASS. Direct evidence Reusable realistic face, body, garment, object, set, layered scene, and anchored bubble systems exist in the shared renderer. Neutral identity remains distinct from transient performance. The exact sixty second movie The Last Cup Before the Meeting exists a",
-		"searchText": "b\"h final completion gate status: closed pass. direct evidence reusable realistic face, body, garment, object, set, layered scene, and anchored bubble systems exist in the shared renderer. neutral identity remains distinct from transient performance. the exact sixty second movie the last cup before the meeting exists as source project data and final media. it contains three characters, four sequences, eighteen shots, twelve spoken lines, thirty three performance clips, twenty two scene object clips, two title cards, and three text boxes. jointed arms and legs, catches, crouches, running, blocking, handoffs, locked poses, garments, moving objects, camera cuts, and anchored text bubbles reach production pixels. preview and final export share cinematicframerenderer. persistence and package restoration pass while transient state is excluded. all four exact scale courts pass. final media is 60.000000 seconds, h.264/aac, 640x360, 12 fps, 720 frames, and 3340073 bytes. complete repository verification exits zero through restart proof full verify.exit. final focused audit ends with final audit=pass. git diff check passes. forty three touched javascript files pass complete readback, required headers, tabs, awtsmoos/awtsmoos.com documentation, syntax, and the 120 line limit. remaining work is empty. next action is none. external operational note the real mission room system still rejected the oauth credential with missing scope: tunnel.room. browser and tunnel routes intermittently restarted. repository side logs, process isolated jobs, final artifacts, hashes, png courts, and full browser regression tests preserved direct product evidence. these are external orchestration limitations, not unresolved animation project defects.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-8452bd055e.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Routes The Awtsmoos sends a path through filesystem and derech, both visible and concealed; Awtsmoos.com becomes navigable when URL, parameter, and source are all revealed. This section explains how to travel from a browser URL to the source that serves it. Public filesystem routes The d",
+		"searchText": "b\"h boruch hashem blessed is he routes the awtsmoos sends a path through filesystem and derech, both visible and concealed; awtsmoos.com becomes navigable when url, parameter, and source are all revealed. this section explains how to travel from a browser url to the source that serves it. public filesystem routes the dynamic server's default public root is geelooy. therefore a public url such as /login, /os, /apps/code, or /games/... normally begins by resolving inside the corresponding geelooy/... path. directory index.html files are common entry points, but dynamic derech behavior can intercept or augment a request. use public routes.md for major human facing areas and ../generated/public route inventory.md for the immediate directory inventory. dynamic/api routes derech files named awtsmoos.derech.js are discovered by walking upward from the request's physical path. a derech can return route definitions with exact path strings or colon parameters. api mounts are inventoried in ../generated/derech mounts.md. dynamic parameters :name matches exactly one segment. a terminal :name captures the remainder. catch all parameters must be the final route part. dollar prefixed request variables are not url syntax. read dynamic paths.md for the exact distinction. url lookup workflow 1. if the url starts with /api/, search ../generated/api route atlas.md. 2. otherwise map its first segment to geelooy/ /. 3. look for index.html, client scripts, and nested directories. 4. search ancestors for awtsmoos.derech.js if behavior is dynamic. 5. if the feature uses websockets, also inspect ayzarim/awtsmoosdynamicserver/websocket/. 6. use url to source.md for common examples. do not confuse these three things filesystem url path — source location under public geelooy/. derech route pattern — an exact or colon parameterized dynamic handler. request data vessel — $i, $ get, $ post, $ delete, headers, cookies, body, or auth state.",
+		"page": "pages/docs-routes-readme-md-8ea0afd4f4.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-f18eb3ce87",
-		"title": "NEXTACTION",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/NEXT_ACTION.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-routes-url-to-source-md-a765505c6a",
+		"title": "URL to Source",
+		"sourcePath": "docs/ROUTES/URL_TO_SOURCE.md",
+		"category": "Routes",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "NEXTACTION",
-				"anchor": "nextaction"
+				"text": "URL to Source",
+				"anchor": "url-to-source"
+			},
+			{
+				"level": 2,
+				"text": "General rule",
+				"anchor": "general-rule"
+			},
+			{
+				"level": 2,
+				"text": "API URL lookup",
+				"anchor": "api-url-lookup"
+			},
+			{
+				"level": 2,
+				"text": "Root-direct exception",
+				"anchor": "root-direct-exception"
+			},
+			{
+				"level": 2,
+				"text": "WebSocket exception",
+				"anchor": "websocket-exception"
 			}
 		],
-		"excerpt": "B\"H NEXT ACTION None.",
-		"searchText": "b\"h next action none.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-f18eb3ce87.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He URL to Source The Awtsmoos lets the visible address point back toward the hidden file; Awtsmoos.com gives this lookup so a maintainer can cross the distance in a little while. General rule The server's default public root is geelooy. For a non API URL, begin by joining the URL path benea",
+		"searchText": "b\"h boruch hashem blessed is he url to source the awtsmoos lets the visible address point back toward the hidden file; awtsmoos.com gives this lookup so a maintainer can cross the distance in a little while. general rule the server's default public root is geelooy. for a non api url, begin by joining the url path beneath geelooy/. then inspect index.html, scripts, nested files, and any ancestor awtsmoos.derech.js. url first source location additional system /os geelooy/os/ geelooy/shared/virtual os, platform modules /apps/code geelooy/apps/code/ compiler/runtime/tunnel apis as used /apps/tunnel control geelooy/apps/tunnel control/ /api/tunnel/control/ , shared tunnel /apps/tunnel geelooy/apps/tunnel/ /api/tunnel/ /apps/wallet geelooy/apps/wallet/ /api/wallet/ /youtube geelooy/youtube/ /api/youtube/ /profile geelooy/profile/ /api/social/ /heichelos/... geelooy/heichelos/ /api/social/ /social hub geelooy/social hub/ /api/social/ /games/... geelooy/games/... possible websocket server apps /db geelooy/db/ dosdb runtime /ai geelooy/ai/ /api/gpt/ api url lookup search ../generated/api route atlas.md. each row includes the url pattern, source file, and discovery method. examples: /api/gpt/health → gpt derech. /api/wallet/balance → wallet route table. /api/tunnel/control/my device → tunnel control route table. /api/tunnel/install/windows → tunnel installer derech. /api/ssh/connect/:username/:host → ssh derech. root direct exception /mitzvahworld/autoplay ping, /mitzvahworld/autoplay report, and /api/mitzvahworld/autoplay report are handled directly in root index.js before generic dynamic server dispatch. see ../api/direct root handlers.md. websocket exception a url or ticket flow that upgrades to websocket may continue in ayzarim/awtsmoosdynamicserver/websocket/ rather than an ordinary derech response. mission rooms and some game systems are examples of this second runtime plane.",
+		"page": "pages/docs-routes-url-to-source-md-a765505c6a.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-1cfa96d311",
-		"title": "PERSISTENCEAUDIT",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/PERSISTENCE_AUDIT.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-security-readme-md-19893eb549",
+		"title": "Security and Trust",
+		"sourcePath": "docs/SECURITY/README.md",
+		"category": "Security",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "PERSISTENCEAUDIT",
-				"anchor": "persistenceaudit"
+				"text": "Security and Trust",
+				"anchor": "security-and-trust"
 			},
 			{
 				"level": 2,
-				"text": "Persisted authored state",
-				"anchor": "persisted-authored-state"
+				"text": "Interactive system map",
+				"anchor": "interactive-system-map"
 			},
 			{
 				"level": 2,
-				"text": "Restoration evidence",
-				"anchor": "restoration-evidence"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Excluded transient state",
-				"anchor": "excluded-transient-state"
+				"text": "Identity sources",
+				"anchor": "identity-sources"
+			},
+			{
+				"level": 2,
+				"text": "Secrets/config evidence",
+				"anchor": "secrets-config-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Security-evidence boundary",
+				"anchor": "security-evidence-boundary"
 			}
 		],
-		"excerpt": "B\"H PERSISTENCE AUDIT Persisted authored state Three neutral identities and motion personality values. Facial, body, wardrobe, hair, and render style identity traits. Twelve dialogue lines and deterministic phoneme/viseme cues. Thirty three layered emotion/action/gesture clips. Twenty two scene object clips with kind, ",
-		"searchText": "b\"h persistence audit persisted authored state three neutral identities and motion personality values. facial, body, wardrobe, hair, and render style identity traits. twelve dialogue lines and deterministic phoneme/viseme cues. thirty three layered emotion/action/gesture clips. twenty two scene object clips with kind, layer, timing, depth, transform, motion, and material state. eighteen camera shots, four sequences, two title cards, three text boxes, and native nle clips. restoration evidence json round trip preserved exact 60000ms duration. character identity ids remained unchanged. complete object array remained unchanged. dialogue lip sync cue arrays remained unchanged. restored nlestore retained the exact clip count. projectpackageassembler retained all objects and timeline clips. excluded transient state verified absent from serialized/project package data: stablepose canvas/context references frame local time state blob urls and runtime audio urls functions and cyclic renderer links result: pass.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-1cfa96d311.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-1b2edbf7a6",
-		"title": "REMAININGWORK",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/REMAINING_WORK.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "REMAININGWORK",
-				"anchor": "remainingwork"
-			}
-		],
-		"excerpt": "B\"H REMAINING WORK None. The reusable realism layer, realistic office objects, dense one minute production, persistence, scale courts, final export, complete repository verification, compliance, readback, and completion challenge are closed by direct evidence.",
-		"searchText": "b\"h remaining work none. the reusable realism layer, realistic office objects, dense one minute production, persistence, scale courts, final export, complete repository verification, compliance, readback, and completion challenge are closed by direct evidence.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-1b2edbf7a6.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-44004d09d9",
-		"title": "VISUALCOURTS",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/VISUAL_COURTS.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "VISUALCOURTS",
-				"anchor": "visualcourts"
-			}
-		],
-		"excerpt": "B\"H VISUAL COURTS All courts were rendered through the shared production CinematicFrameRenderer, encoded as PNG, dimension checked, color counted, file size checked, and SHA 256 hashed. Court Dimensions Time Colors PNG bytes SHA 256 : : : : Head reaction 320x320 57500ms 81 8547 97c39e1aa574f6aaf1e68919641ae403822202237",
-		"searchText": "b\"h visual courts all courts were rendered through the shared production cinematicframerenderer, encoded as png, dimension checked, color counted, file size checked, and sha 256 hashed. court dimensions time colors png bytes sha 256 : : : : head reaction 320x320 57500ms 81 8547 97c39e1aa574f6aaf1e68919641ae4038222022378c74d22a0417cd59dfaa80d character 180x300 12500ms 91 6554 69cbc8ba9246c4029c19cb14ac132b9919dec1159c3562d04d019f4d328bb489 half body 512x512 42000ms 91 15711 d8ad7d68982303e0df8baf76f277c24fe459325dad5092834cea32c1e5878f15 action trio 1536x864 39000ms 121 33210 378d7c9b581b2485c651a2bef755dae207f46b80eba0cff59222240f7424bf81 eleven representative 640x360 story frames also exist at 1000, 4000, 7600, 19000, 27000, 30500, 37000, 42000, 49500, 55000, and 58500 milliseconds. non title action frames contain 90 132 unique colors and 13,544 21,558 png bytes. the 37000ms rescue frame contains 110 colors and hashes to 0186908c6b716a74991db94f3bd772193d7158a8c4b2e67d6c89a8e947f1915d. the 55000ms coupon reaction contains 112 colors and hashes to 96cc6d82de0989ba3e413a756890ec3232091750491f499af5f651ca9c76bf72. browser control navigation was intermittently interrupted by the tunnel relay. direct png bytes, generated image evidence, scale courts, and the repository's browser runtime/export tests independently prove nonblank production rendering.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-44004d09d9.json"
-	},
-	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-cfbcafcd4d",
-		"title": "Phase One — Unbounded Brainstorm",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_1038_master-animation-completion-orchestrator/01_PHASE_ONE_UNBOUNDED_BRAINSTORM.md",
-		"category": "Apps",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Phase One — Unbounded Brainstorm",
-				"anchor": "phase-one-unbounded-brainstorm"
-			},
-			{
-				"level": 2,
-				"text": "Possible completion fronts",
-				"anchor": "possible-completion-fronts"
-			},
-			{
-				"level": 2,
-				"text": "Work graph principle",
-				"anchor": "work-graph-principle"
-			}
-		],
-		"excerpt": "B\"H Phase One — Unbounded Brainstorm The Awtsmoos renews every frame and every test; this plan seeks every vessel where motion, story, persistence, and pixels may still conceal unfinished work. Possible completion fronts Repository archaeology: source graph, imports, scripts, generated proofs, ignored media, worktree s",
-		"searchText": "b\"h phase one — unbounded brainstorm the awtsmoos renews every frame and every test; this plan seeks every vessel where motion, story, persistence, and pixels may still conceal unfinished work. possible completion fronts repository archaeology: source graph, imports, scripts, generated proofs, ignored media, worktree state, stale checkpoints, and hidden regressions. character identity: neutral facial landmarks, head shape, body mass, posture, hair, wardrobe, reusable saved identity, and separation from performance state. face performance: deterministic blink, gaze, convergence, eye targets, head turn, eyebrow regions, eyelids, phoneme timing, visemes, and mouth geometry. body performance: breathing, lean, weight shift, locomotion, gesture preparation/stroke/hold/follow through/retraction, and contact locks. geometry readability: hands, fingers, crossed arms, pocket hands, palms, point, wave, shoes, heel/toe/sole direction, garments, hair, sleeve drag, hem lift, and secondary motion. cinematic systems: multiple views, shot vocabulary, automatic framing, camera continuity, title cards, text boxes, captions, dialogue timing, and scene timing. persistence: customizer data, save/load, import/export, startup restoration, transient exclusion, project packaging, and media durability. rendering: preview/export parity, production canvas, browser state, exact dimensions, nonblank pngs, hashes, frame sampling, and final video/audio metadata. quality: small scale legibility, visual courts, accessibility, performance, blank shell detection, cropping, text safety, and narrative clarity. orchestration: sequential agent spawning, isolated scopes, evidence contracts, merge queue, conflict control, reassignment, and master verification. future possibilities: deterministic replay, golden frame comparisons, automated perceptual metrics, export manifest signing, and richer demo variations. work graph principle every feature must trace through source state → normalization → composition → render bridge → geometry → production pixels → persistence → preview → export → test → proof. no module name, prior report, or passing smoke alone closes a node.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-1038-master-animation-compl-cfbcafcd4d.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Security and Trust Security questions must preserve distinct layers: authentication, authorization, resource ownership, scopes/grants, origin policy, and realtime admission are not interchangeable . Interactive system map Open /docs/?view=systems&systemDistrict=security for curated trust",
+		"searchText": "b\"h boruch hashem blessed is he security and trust security questions must preserve distinct layers: authentication, authorization, resource ownership, scopes/grants, origin policy, and realtime admission are not interchangeable . interactive system map open /docs/?view=systems&systemdistrict=security for curated trust systems joined to bounded source/project/environment name evidence. human manuals trust boundaries realtime security secrets and config identity sources current inspected source includes signed sessions, oauth bearer records, verified api keys, and server attached websocket identity. identity shaped request fields are not authority unless server verification explicitly establishes them. use trace trusted identity to follow verifier → authoritative identity → authorization → ownership/grants → negative cases. secrets/config evidence generated documentation records environment variable names, classifications, source reference counts, and example source paths only . it does not read .env files or publish values. security evidence boundary system/route/project packets help locate trust boundaries. they do not constitute a security audit, vulnerability assessment, or proof that authorization is complete.",
+		"page": "pages/docs-security-readme-md-19893eb549.json"
 	}
 ]

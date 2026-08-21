@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-ae43b914a0",
+	"title": "B\"H",
+	"sourcePath": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/API.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "B\"H",
+			"anchor": "b-h"
+		},
+		{
+			"level": 1,
+			"text": "Social Migration API",
+			"anchor": "social-migration-api"
+		},
+		{
+			"level": 2,
+			"text": "Capability discovery",
+			"anchor": "capability-discovery"
+		},
+		{
+			"level": 2,
+			"text": "Preflight",
+			"anchor": "preflight"
+		},
+		{
+			"level": 2,
+			"text": "Dry plan",
+			"anchor": "dry-plan"
+		},
+		{
+			"level": 2,
+			"text": "Native asset shape",
+			"anchor": "native-asset-shape"
+		},
+		{
+			"level": 2,
+			"text": "Publication",
+			"anchor": "publication"
+		},
+		{
+			"level": 2,
+			"text": "Idempotency and retries",
+			"anchor": "idempotency-and-retries"
+		},
+		{
+			"level": 2,
+			"text": "Rate pacing",
+			"anchor": "rate-pacing"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-verified-stage-ae43b914a0-001.json"
+	]
+}

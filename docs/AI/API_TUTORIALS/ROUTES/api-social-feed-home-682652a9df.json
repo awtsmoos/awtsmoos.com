@@ -43,7 +43,7 @@
 			"kind": "test"
 		},
 		{
-			"literal": "/api/social/feed/home?limit=5",
+			"literal": "/api/social/feed/home?limit=6",
 			"source": "geelooy/os/social/socialPanel.js",
 			"kind": "runtime"
 		}

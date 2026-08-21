@@ -14,14 +14,14 @@ Blessed is He
 
 - Entry files: `index.html`, `DOCUMENTATION.md`
 - Local documentation: `geelooy/youtube/DOCUMENTATION.md`
-- Local-doc requirement: no; covered: yes
+- Local-doc requirement: yes; covered: yes
 - Symlink target: —
 
 ## File shape
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 6 | 0 | 0 | 0 | 1 | 0 | 7 |
+| 9 | 0 | 0 | 0 | 1 | 0 | 10 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 4; classes: 0; functions: 14; exports: 7; samples: boot, loadChannel, loadVideos, uploadMetadata, updateChanges, showUpdateError, youtubeApi, request, uploadToGoogle, byId, showConnection, showChannel.
+Source files: 7; classes: 3; functions: 14; exports: 10; samples: HodCommandQuoter, YesodLocalSecretVault, ChesedYtDlpCommandBuilder, boot, loadChannel, loadVideos, uploadMetadata, updateChanges, showUpdateError, youtubeApi, request, uploadToGoogle.
 
 ## Depends on
 

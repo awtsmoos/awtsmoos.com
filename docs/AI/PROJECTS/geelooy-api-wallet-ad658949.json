@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-wallet-ad658949.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 54,
-		"tests": 13,
+		"source": 65,
+		"tests": 19,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 68,
+	"totalFiles": 85,
 	"symbolSummary": {
-		"files": 54,
+		"files": 65,
 		"classes": 0,
-		"functions": 99,
-		"exports": 120,
+		"functions": 122,
+		"exports": 157,
 		"samples": [
 			"dynamicRoutes",
 			"POST",

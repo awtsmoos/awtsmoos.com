@@ -1,20 +1,136 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-directory-index-md-fe0fb36cd8",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/DIRECTORY_INDEX.md",
-		"category": "Games",
+		"id": "geelooy-apps-tunnel-readme-md-7218b2b697",
+		"title": "Awtsmoos Tunnel — Human Operations Guide",
+		"sourcePath": "geelooy/apps/tunnel/README.md",
+		"category": "Tunnel",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
+				"text": "Awtsmoos Tunnel — Human Operations Guide",
+				"anchor": "awtsmoos-tunnel-human-operations-guide"
 			},
 			{
+				"level": 2,
+				"text": "Emergency recovery — use the shortest safe command first",
+				"anchor": "emergency-recovery-use-the-shortest-safe-command-first"
+			},
+			{
+				"level": 3,
+				"text": "macOS or Linux",
+				"anchor": "macos-or-linux"
+			},
+			{
+				"level": 3,
+				"text": "Windows",
+				"anchor": "windows"
+			},
+			{
+				"level": 2,
+				"text": "Know which layer is broken",
+				"anchor": "know-which-layer-is-broken"
+			},
+			{
+				"level": 2,
+				"text": "Install, refresh, or start",
+				"anchor": "install-refresh-or-start"
+			},
+			{
+				"level": 3,
+				"text": "macOS or Linux",
+				"anchor": "macos-or-linux-2"
+			},
+			{
+				"level": 3,
+				"text": "Windows PowerShell",
+				"anchor": "windows-powershell"
+			},
+			{
+				"level": 2,
+				"text": "Recovery levels",
+				"anchor": "recovery-levels"
+			},
+			{
+				"level": 2,
+				"text": "Deep recovery tools",
+				"anchor": "deep-recovery-tools"
+			},
+			{
+				"level": 2,
+				"text": "Control surfaces",
+				"anchor": "control-surfaces"
+			},
+			{
+				"level": 2,
+				"text": "Important runtime files",
+				"anchor": "important-runtime-files"
+			}
+		],
+		"excerpt": "B\"H Awtsmoos Tunnel — Human Operations Guide The Awtsmoos Tunnel connects this computer to Awtsmoos.com so authorized humans and agents can inspect files, run permitted commands, use browser automation, and operate project tools through the saved tunnel identity. Emergency recovery — use the shortest safe command first",
+		"searchText": "b\"h awtsmoos tunnel — human operations guide the awtsmoos tunnel connects this computer to awtsmoos.com so authorized humans and agents can inspect files, run permitted commands, use browser automation, and operate project tools through the saved tunnel identity. emergency recovery — use the shortest safe command first recovery enabled installs now ship one guarded command. it verifies the supervised process relationship before signaling a child. macos or linux rescue is the safe emergency path: verify supervisor + child ownership, set level 0, terminate only the verified supervised child, and wait for its replacement. normal returns to level 5 and restarts only that verified child. use dry run to preview either operation without changing tier or signaling a process. offline restore is intentionally stronger and requires confirmation: a typo such as resuce returns a suggested command and performs no recovery action. windows know which layer is broken symptom first action chatgpt/oauth control fails but awtsmoos.com is reachable reauthorize the control session; do not restart the mac agent merely for an oauth failure. native tunnel child is wedged but supervisor is alive awt rescue tunnel is healthy but intentionally left in emergency level 0 awt normal awt check reports executable/manifest corruption inspect recovery evidence, then use confirmed offline restore. supervisor itself is absent/unverified refresh with the signed installer rather than blindly killing a pid. awtsmoos server/api is down repair the server independently; a mac child restart does not repair the server. the browser tab tunnel in awtsmoos code can be used as a separate fallback vessel when the native tunnel or its authenticated control session is unavailable. install, refresh, or start the installer is also the normal refresh/start entry point. it preserves an existing config.json, saved tunnel name, project root, and recovery history. macos or linux windows powershell a refresh verifies the manifest and candidate before activation. it should be preferred over deleting configuration or inventing a replacement identity. recovery levels logical command admission is separate from physical subprocess concurrency. level mode physical workers : 0 emergency 1 1 single 1 2 dual 2 3 four 4 4 eight 8 5 production adaptive to machine capacity three rapid nonzero crashes can lower the active level automatically. after emergency verification, return to level 5 with awt normal. deep recovery tools the short command wraps the existing recovery machinery rather than replacing it. low level scripts remain available for diagnosis and automation: offline restoration stages and validates a known good archive and preserves config.json. do not edit immutable recovery archives in place. control surfaces control panel: human docs: machine docs: openapi: browser/code fallback: important runtime files do not publish config.json, private logs, credentials, oauth material, or secret like environment data.",
+		"page": "pages/geelooy-apps-tunnel-readme-md-7218b2b697.json"
+	},
+	{
+		"id": "geelooy-apps-universal-chat-documentation-md-f5f2ddd769",
+		"title": "Messages & Torah Chat",
+		"sourcePath": "geelooy/apps/universal-chat/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
 				"level": 1,
-				"text": "Mitzvah World Directory Index",
-				"anchor": "mitzvah-world-directory-index"
+				"text": "Messages & Torah Chat",
+				"anchor": "messages-torah-chat"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Module boundary",
+				"anchor": "module-boundary"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Messages & Torah Chat The Awtsmoos renews public Torah conversation and private consent messaging through one identity while Awtsmoos.com keeps discovery, private transport, presentation, and conversation state in focused modules. Entry point index.html mounts messagingAppRoot and loads ",
+		"searchText": "b\"h boruch hashem blessed is he messages & torah chat the awtsmoos renews public torah conversation and private consent messaging through one identity while awtsmoos.com keeps discovery, private transport, presentation, and conversation state in focused modules. entry point index.html mounts messagingapproot and loads app.js. the bootstrap mounts the shared private messaging bridge and universal chat client, then messagingappcontroller coordinates the messagingappshell. module boundary the many messaging modules divide discovery, conversation actions, composer behavior, disclosure, details, presence/status, assets, ranking, and presentation. shared realtime/public/private clients under /scripts/awtsmoos/social/ remain protocol authority.",
+		"page": "pages/geelooy-apps-universal-chat-documentation-md-f5f2ddd769.json"
+	},
+	{
+		"id": "geelooy-apps-wallet-documentation-md-b9615d5703",
+		"title": "Wallet App Documentation",
+		"sourcePath": "geelooy/apps/wallet/DOCUMENTATION.md",
+		"category": "Apps",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Wallet App Documentation",
+				"anchor": "wallet-app-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Wallet App Documentation The Awtsmoos gives value a vessel while every accounting promise must remain tied to code; Awtsmoos.com maps this UI to Wallet, commerce, PayPal, Perutas, and adjacent treasury roads. Read ../../../docs/APPS/COMMERCE AND WALLET.md and ../../../docs/API/WALLET.md.",
+		"searchText": "b\"h boruch hashem blessed is he wallet app documentation the awtsmoos gives value a vessel while every accounting promise must remain tied to code; awtsmoos.com maps this ui to wallet, commerce, paypal, perutas, and adjacent treasury roads. read ../../../docs/apps/commerce and wallet.md and ../../../docs/api/wallet.md.",
+		"page": "pages/geelooy-apps-wallet-documentation-md-b9615d5703.json"
+	},
+	{
+		"id": "geelooy-comment-thread-documentation-md-246a3c0178",
+		"title": "Comment Thread",
+		"sourcePath": "geelooy/comment-thread/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Comment Thread",
+				"anchor": "comment-thread"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
 			},
 			{
 				"level": 2,
@@ -23,102 +139,135 @@
 			},
 			{
 				"level": 2,
-				"text": "Categories",
-				"anchor": "categories"
-			},
-			{
-				"level": 3,
-				"text": "Application runtime",
-				"anchor": "application-runtime"
-			},
-			{
-				"level": 3,
-				"text": "Assets",
-				"anchor": "assets"
-			},
-			{
-				"level": 3,
-				"text": "Experiments",
-				"anchor": "experiments"
-			},
-			{
-				"level": 3,
-				"text": "Gameplay",
-				"anchor": "gameplay"
-			},
-			{
-				"level": 3,
-				"text": "Movie runtime",
-				"anchor": "movie-runtime"
-			},
-			{
-				"level": 3,
-				"text": "Movies",
-				"anchor": "movies"
-			},
-			{
-				"level": 3,
-				"text": "Networking",
-				"anchor": "networking"
-			},
-			{
-				"level": 3,
-				"text": "Project root",
-				"anchor": "project-root"
-			},
-			{
-				"level": 3,
-				"text": "Prototype",
-				"anchor": "prototype"
-			},
-			{
-				"level": 3,
-				"text": "References",
-				"anchor": "references"
-			},
-			{
-				"level": 3,
-				"text": "Rendering library",
-				"anchor": "rendering-library"
-			},
-			{
-				"level": 3,
-				"text": "Runtime subsystem",
-				"anchor": "runtime-subsystem"
-			},
-			{
-				"level": 3,
-				"text": "Styles",
-				"anchor": "styles"
-			},
-			{
-				"level": 3,
-				"text": "Tests",
-				"anchor": "tests"
-			},
-			{
-				"level": 3,
-				"text": "Tools",
-				"anchor": "tools"
-			},
-			{
-				"level": 3,
-				"text": "UI",
-				"anchor": "ui"
-			},
-			{
-				"level": 3,
-				"text": "World systems",
-				"anchor": "world-systems"
+				"text": "Change rule",
+				"anchor": "change-rule"
 			},
 			{
 				"level": 2,
-				"text": "Coverage policy",
-				"anchor": "coverage-policy"
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World Directory Index Generated from the live repository structure at 2026 07 23T23:32:30.660Z . This index covers 129 structural directories and excludes AI planning history, dependency folders, build products, coverage, caches, and Git internals. The Awtsmoos renews the whole p",
-		"searchText": "b\"h boruch hashem blessed is he mitzvah world directory index generated from the live repository structure at 2026 07 23t23:32:30.660z . this index covers 129 structural directories and excludes ai planning history, dependency folders, build products, coverage, caches, and git internals. the awtsmoos renews the whole project every instant; this index is a finite map for humans and retrieval agents seeking the current vessels through which mitzvah world is expressed on awtsmoos.com. start here for the live page and handoff context, begin with the project root guide. for overlapping or disconnected implementations, use the system overlap map. for programmatic lookup, use directory catalog.json. for the current direct meadow path, inspect index.html, experiments/awtsmoos/src/launcher, and experiments/awtsmoos/src/app. categories application runtime experiments/awtsmoos/src/app — application assembly, boot phases, meadow runtime, render fallbacks, player hydration, and high level runtime coordination. assets assets — runtime consumable models, textures, and material libraries. assets/materials — material and surface asset collections used to dress terrain, vegetation, and world geometry. assets/materials/generated — generated material derivatives and machine produced visual assets. treat these as outputs unless the generating workflow says otherwise. assets/materials/generated/catalog — generated material catalog metadata for programmatic lookup. assets/materials/local — locally curated material assets that can be consumed without an external asset service. assets/materials/local/terrain — terrain focused material files and textures. assets/materials/local/world — world scale material collections, catalogs, processed derivatives, and full resolution sources. assets/materials/local/world/awtsmoos nature — nature oriented source assets, especially forest vegetation and tree libraries. assets/materials/local/world/awtsmoos nature/chai forest — forest material sources organized around bark, ground, and leaf textures. assets/materials/local/world/awtsmoos nature/chai forest/textures — texture groups used to construct forest materials. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark — collection of individual bark material sets. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark001 1k jpg — a single bark material set named bark001 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark002 1k jpg — a single bark material set named bark002 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark003 1k jpg — a single bark material set named bark003 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark004 1k jpg — a single bark material set named bark004 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark006 1k jpg — a single bark material set named bark006 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark007 1k jpg — a single bark material set named bark007 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark008 1k jpg — a single bark material set named bark008 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark012 1k jpg — a single bark material set named bark012 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark013 1k jpg — a single bark material set named bark013 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark014 1k jpg — a single bark material set named bark014 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/bark/bark015 1k jpg — a single bark material set named bark015 1k jpg, kept as a leaf so its texture maps remain grouped. assets/materials/local/world/awtsmoos nature/chai forest/textures/ground — ground cover texture sources for forest terrain. assets/materials/local/world/awtsmoos nature/chai forest/textures/leaves — leaf texture sources for foliage rendering. assets/materials/local/world/awtsmoos nature/ilanos — tree oriented source collection; “ilanos” groups arboreal assets. assets/materials/local/world/awtsmoos nature/ilanos/trees — individual tree texture or material assets. assets/materials/local/world/catalog — curated world material catalog metadata. assets/materials/local/world/full resolution — high resolution source material images retained before processing or downscaling. assets/materials/local/world/processed — processed material derivatives organized by semantic subject. assets/materials/local/world/processed/botany — processed botany material outputs. assets/materials/local/world/various — loose world material assets that do not yet belong to a narrower collection. assets/models — 3d model assets for players and reference worlds. assets/models/player — canonical player model assets, including the chossid glb used by the meadow runtime. assets/models/reference world — reference world model files used as visual or geometry evidence. assets/textures — loose top level textures that are not part of the structured material library. experiments experiments — experimental implementations and supporting libraries used to develop mitzvah world. experiments/awtsmoos — the primary modular mitzvah world experiment, including runtime source, tests, and tools. experiments/awtsmoos/src — subsystem root for the modular game runtime. gameplay experiments/awtsmoos/src/gameplay — gameplay domain rules and coordinators shared by combat, action bars, progression, abilities, and player state. experiments/awtsmoos/src/gameplay/actionbar — action bar slot models, commands, activation rules, and presentation neutral action selection. experiments/awtsmoos/src/gameplay/combat — combat turns, melee, torah abilities, cooldowns, targeting gates, progression rewards, and encounter state. movie runtime experiments/awtsmoos/src/movie — movie runtime, timeline sampling, actor direction, camera direction, recording, export, and project execution. experiments/awtsmoos/src/movie/audio — movie audio scheduling, synthesis, pcm handling, and capture support. experiments/awtsmoos/src/movie/package — movie package metadata and packaging helpers. movies movies — movie projects, generated evidence, manifests, and tool entry points. movies/evidence — rendered or captured evidence grouped by movie run. movies/evidence/chossid journey 30s corrected — evidence artifacts for the corrected 30 second chossid journey movie. movies/projects — authored movie project definitions and timelines. networking experiments/awtsmoos/src/network — realtime transport, multiplayer session state, player snapshots, remote avatars, and connection status. project root . — project entry, top level audits, handoff notes, and navigation for the mitzvah world game. prototype experiments/animalmesh — small experimental mesh generation surface for animal geometry. references references — reference snapshots retained for comparison and reconstruction. references/canonical procedural village — canonical procedural village reference files and manifest evidence. rendering library experiments/light three gltf — custom lightweight three like scene graph, math, webgl helpers, and gltf loading stack. experiments/light three gltf/test — tests for the lightweight scene graph, gltf, math, and renderer primitives. runtime subsystem experiments/awtsmoos/src/assets — asset loading, catalogs, caches, material resolution, gltf handling, and progressive fetch behavior. experiments/awtsmoos/src/bundles — narrow bundle entry definitions for selected runtime surfaces. experiments/awtsmoos/src/camera — camera profiles, orbit/follow behavior, framing, and camera state coordination. experiments/awtsmoos/src/collision — octree storage, triangle geometry, capsule collision, raycasts, and step resolution. experiments/awtsmoos/src/diagnostics — runtime observability, boot evidence, health receipts, and diagnostics serialization. experiments/awtsmoos/src/diagnostics/logs — captured diagnostic logs and runtime evidence. these are historical observations, not active logic. experiments/awtsmoos/src/input — keyboard, joystick, jump, and ui input adapters. experiments/awtsmoos/src/launcher — page boot, route selection, menu loading, mode dispatch, and the direct shared meadow entry. experiments/awtsmoos/src/lod — level of detail selection, distance policies, and scene lod coordination. experiments/awtsmoos/src/math — low level geometry and spatial mathematics used by collision and world systems. experiments/awtsmoos/src/motion — focused motion primitives or helpers that do not own a full gameplay domain. experiments/awtsmoos/src/performance — quality profiles, budgets, timing, capability probes, and performance policy. experiments/awtsmoos/src/render — focused rendering helpers outside the larger app renderer stack. styles styles — css for loading, meadow hud, menus, mobile controls, combat, game rails, and shell visibility. tests experiments/awtsmoos/src/test — colocated subsystem tests and test harnesses for the source tree. experiments/awtsmoos/src/test/app — tests for app boot, runtime assembly, meadow behavior, renderer fallbacks, and application contracts. experiments/awtsmoos/src/test/assets — tests for asset loading, catalogs, material handling, and progressive fetch behavior. experiments/awtsmoos/src/test/botany — tests for botanical generation and vegetation behavior. experiments/awtsmoos/src/test/camera — tests for camera rules and camera coordination. experiments/awtsmoos/src/test/collision — tests for octrees, capsules, raycasts, steps, and collision geometry. experiments/awtsmoos/src/test/diagnostics — tests for diagnostic receipts, logging, and boot evidence. experiments/awtsmoos/src/test/gameplay — tests for gameplay rules, progression, targeting, action bars, and combat integration. experiments/awtsmoos/src/test/gameplay/combat — structural area named combat. its immediate files and children below are the evidence for its current responsibilities. experiments/awtsmoos/src/test/geometry — tests for procedural and low level geometry generation. experiments/awtsmoos/src/test/ground — tests for ground or terrain contact behavior. experiments/awtsmoos/src/test/input — tests for keyboard, joystick, jump, or input adapters. experiments/awtsmoos/src/test/launcher — tests for page boot, route dispatch, and launcher contracts. experiments/awtsmoos/src/test/lod — tests for level of detail policies and selection. experiments/awtsmoos/src/test/movie — tests for movie timelines, actors, cameras, audio, recording, and export. experiments/awtsmoos/src/test/network — tests for multiplayer sessions, snapshots, transports, and remote state. experiments/awtsmoos/src/test/performance — tests for quality profiles, budgets, timing, and capability policy. experiments/awtsmoos/src/test/platform — tests for platform world generation and behavior. experiments/awtsmoos/src/test/render — tests for rendering helpers. experiments/awtsmoos/src/test/renderer — tests for renderer implementations and frame behavior. experiments/awtsmoos/src/test/shadows — tests for shadow related world or render behavior. experiments/awtsmoos/src/test/streaming — tests for chunk, district, asset, collision, and visibility streaming. experiments/awtsmoos/src/test/support — shared test support helpers and fixtures. experiments/awtsmoos/src/test/ui — tests for ui coordinators and browser presentation contracts. experiments/awtsmoos/src/test/visibility — tests for visibility policy and reveal/hide behavior. experiments/awtsmoos/src/test/world — tests for world generation, village systems, terrain, creatures, enemies, and environmental integration. experiments/awtsmoos/tests — higher level integration tests kept outside the source tree. experiments/awtsmoos/tests/assets — integration tests focused on the assets area. experiments/awtsmoos/tests/gameplay — integration tests focused on the gameplay area. experiments/awtsmoos/tests/world — integration tests focused on the world area. tools experiments/awtsmoos/tools — offline or developer facing utilities for diagnostics and material preparation. experiments/awtsmoos/tools/diagnostics — structural area named diagnostics. its immediate files and children below are the evidence for its current responsibilities. experiments/awtsmoos/tools/materials — structural area named materials. its immediate files and children below are the evidence for its current responsibilities. movies/tools — movie generation and inspection tools. movies/tools/exact — exact or deterministic movie production helpers. ui experiments/awtsmoos/src/ui — hud, menus, targeting presentation, action/combat widgets, dialogue, inventory, and browser dom coordination. world systems experiments/awtsmoos/src/world — world construction, terrain, streaming, village generation, vegetation, structures, creatures, npcs, and environmental systems. experiments/awtsmoos/src/world/botany — botanical generation, flower or plant geometry, and botany specific world rules. experiments/awtsmoos/src/world/creatures — creature runtime models and world side creature behavior. experiments/awtsmoos/src/world/enemy — enemy actors, populations, state, combat bridges, spawning, and hostile world behavior. experiments/awtsmoos/src/world/forest — forest level composition and coordination. experiments/awtsmoos/src/world/grass — grass generation or rendering. experiments/awtsmoos/src/world/horses — horse models, movement, population, or world integration. experiments/awtsmoos/src/world/house — house generation, geometry, interiors, and structure assembly. experiments/awtsmoos/src/world/lighting — world lighting, sun, ambient, or environment light coordination. experiments/awtsmoos/src/world/materials — world material definitions and material assignment policy. experiments/awtsmoos/src/world/npc — npc actors, behavior, dialogue, population, and world integration. experiments/awtsmoos/src/world/platform — platform world geometry and platform gameplay support. experiments/awtsmoos/src/world/primitives — reusable procedural geometry primitives for world construction. experiments/awtsmoos/src/world/proceduralapi — public procedural world api and request/response adapters. experiments/awtsmoos/src/world/proceduraltext — text driven procedural world interpretation and generation. experiments/awtsmoos/src/world/road — road layout, splines, meshes, intersections, and roadside composition. experiments/awtsmoos/src/world/room — room or interior space generation. experiments/awtsmoos/src/world/sky — sky, atmosphere, backdrop, and celestial presentation. experiments/awtsmoos/src/world/streaming — chunk, district, visibility, collision, and asset streaming for large worlds. experiments/awtsmoos/src/world/terrain — terrain data, geometry, collision, and terrain runtime helpers. experiments/awtsmoos/src/world/trees — tree generation, placement, geometry, and world integration. experiments/awtsmoos/src/world/village — large procedural village system: layout, buildings, roads, populations, materials, districts, and runtime composition. experiments/awtsmoos/src/world/visibility — world visibility policy, culling, and reveal/hide coordination. coverage policy every listed directory contains directory guide.md after this pass. existing readme files are preserved and referenced by their local guide. similar implementations are documented together but not merged in code. re run the catalog generator after adding a new structural directory.",
-		"page": "pages/geelooy-games-mitzvahworld-directory-index-md-fe0fb36cd8.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Comment Thread The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public Social interface. Observed entry: index.html; observed title: “Comment Thread — Geelooy”. Start here Read docs/PROJECTS/SOC",
+		"searchText": "b\"h boruch hashem blessed is he comment thread the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public social interface. observed entry: index.html; observed title: “comment thread — geelooy”. start here read docs/projects/social platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes trace comment api callers, alias/heichel authorization and persisted comment paths before changing behavior.",
+		"page": "pages/geelooy-comment-thread-documentation-md-246a3c0178.json"
+	},
+	{
+		"id": "geelooy-db-documentation-md-94231c30f4",
+		"title": "Database Tool Documentation",
+		"sourcePath": "geelooy/db/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Database Tool Documentation",
+				"anchor": "database-tool-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Database Tool Documentation The Awtsmoos gives stored state a vessel and gives the human a window to inspect; Awtsmoos.com separates this browser DB tooling from the server DosDB root that runtime must protect. Read ../../docs/SYSTEMS/DATABASE AND STORAGE.md. Server initialization lives ",
+		"searchText": "b\"h boruch hashem blessed is he database tool documentation the awtsmoos gives stored state a vessel and gives the human a window to inspect; awtsmoos.com separates this browser db tooling from the server dosdb root that runtime must protect. read ../../docs/systems/database and storage.md. server initialization lives in ../../ayzarim/awtsmoosdynamicserver/server/initdb.js; changing persisted path contracts may require migration.",
+		"page": "pages/geelooy-db-documentation-md-94231c30f4.json"
+	},
+	{
+		"id": "geelooy-docs-documentation-md-c958ffbba2",
+		"title": "Interactive Documentation Frontend",
+		"sourcePath": "geelooy/docs/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Interactive Documentation Frontend",
+				"anchor": "interactive-documentation-frontend"
+			},
+			{
+				"level": 2,
+				"text": "What this directory owns",
+				"anchor": "what-this-directory-owns"
+			},
+			{
+				"level": 2,
+				"text": "Canonical content",
+				"anchor": "canonical-content"
+			},
+			{
+				"level": 2,
+				"text": "Bounded publication",
+				"anchor": "bounded-publication"
+			},
+			{
+				"level": 2,
+				"text": "Search and Ask",
+				"anchor": "search-and-ask"
+			},
+			{
+				"level": 2,
+				"text": "Safety covenant",
+				"anchor": "safety-covenant"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Interactive Documentation Frontend The Awtsmoos lets the repository's written map become a living public doorway; geelooy/docs/ is the browser facing documentation application for Awtsmoos.com. What this directory owns index.html — semantic application shell for /docs/. styles/ — respons",
+		"searchText": "b\"h boruch hashem blessed is he interactive documentation frontend the awtsmoos lets the repository's written map become a living public doorway; geelooy/docs/ is the browser facing documentation application for awtsmoos.com. what this directory owns index.html — semantic application shell for /docs/. styles/ — responsive visual system, document typography, rails, dialogs, and print behavior. modules/ — dependency free es modules for state, search, navigation, markdown rendering, ask retrieval, optional gpt synthesis, and browser local preferences. generated/ — machine generated transport bounded publication data. never edit this directory manually. canonical content the frontend is not the source of truth for documentation prose. canonical human documentation remains in repository markdown. node scripts/docs/generate docs.js publishes an intentional searchable reflection into geelooy/docs/generated/. bounded publication generated/manifest.json declares search shards, project shards, categories, compact page metadata, and markdown content shards. this design was proven necessary by real browser testing: the existing awtsmoos server returned http 413 for larger json files. content is split losslessly rather than truncated or served by changing unrelated server limits. search and ask global search runs locally in the browser. it supports ordinary terms plus category:, kind:, and path: filters. ask retrieves local documentation passages first. the existing /api/gpt/chat relay may optionally synthesize only bounded retrieved context; if unavailable, cited local passages remain usable. safety covenant markdown is rendered through explicit dom construction. raw markdown html is not executed and frontend source does not assign innerhtml. hidden agent thought, generic thought, dependency, build, and vendor trees are excluded from publication. human manuals read docs/interactive documentation.md for architecture and user workflow, docs/maintaining the docs.md for regeneration, and docs/development/documentation workflow.md before changing the publication pipeline. verification browser verification covers desktop/mobile layout, search, deep links, document rendering, local ask retrieval, graceful gpt unavailability, and console/network errors.",
+		"page": "pages/geelooy-docs-documentation-md-c958ffbba2.json"
+	},
+	{
+		"id": "geelooy-documentation-md-6e23cc3842",
+		"title": "Geelooy Documentation Map",
+		"sourcePath": "geelooy/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Documentation Map",
+				"anchor": "geelooy-documentation-map"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Documentation Map The Awtsmoos makes this public root a city of pages, APIs, apps, games, and shared light; Awtsmoos.com keeps the full human map in ../docs/ so a traveler can choose the right site. Start with ../docs/START HERE.md. Directory map: ../docs/DIRECTORY ATLAS.md Publi",
+		"searchText": "b\"h boruch hashem blessed is he geelooy documentation map the awtsmoos makes this public root a city of pages, apis, apps, games, and shared light; awtsmoos.com keeps the full human map in ../docs/ so a traveler can choose the right site. start with ../docs/start here.md. directory map: ../docs/directory atlas.md public urls: ../docs/routes/public routes.md apis: ../docs/api/readme.md apps: ../docs/apps/readme.md cross cutting systems: ../docs/systems/readme.md geelooy is the server's default public root (config.public \"geelooy\").",
+		"page": "pages/geelooy-documentation-md-6e23cc3842.json"
+	},
+	{
+		"id": "geelooy-drive-documentation-md-27fd60aedc",
+		"title": "Geelooy Sites",
+		"sourcePath": "geelooy/drive/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Sites",
+				"anchor": "geelooy-sites"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Primary journey",
+				"anchor": "primary-journey"
+			},
+			{
+				"level": 2,
+				"text": "Authority",
+				"anchor": "authority"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Sites The Awtsmoos renews idea and source together; Awtsmoos.com keeps every visual act grounded in a real file and every public doorway grounded in explicit publication authority. Entry point index.html boots app.js. The app composes workspace transport, canonical site and domai",
+		"searchText": "b\"h boruch hashem blessed is he geelooy sites the awtsmoos renews idea and source together; awtsmoos.com keeps every visual act grounded in a real file and every public doorway grounded in explicit publication authority. entry point index.html boots app.js. the app composes workspace transport, canonical site and domain services, project deployment/runtime services, ui shell/dialogs, and the human/agent website builder apis. primary journey the mobile first real source builder follows build → preview → code → publish → domain. html, css, javascript, json, markdown, svg, and ordinary assets remain the project. preview and code operate on the same source. window.geelooysitebuilder exposes bounded machine parity without arbitrary shell access or credential leakage. authority builder/, services/, transport/, ui/, core/, and test/ divide the browser boundary. canonical publication, domains, tunnel devices, and hosted runtime must be reconciled through their owning server apis rather than inferred from local ui state.",
+		"page": "pages/geelooy-drive-documentation-md-27fd60aedc.json"
 	}
 ]

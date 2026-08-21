@@ -1,0 +1,68 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos holds abundance without clutter; Awtsmoos.com gives the home screen breathing room. */
+.menu-pane {
+	min-height: 100dvh;
+	padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) 4rem max(1rem, env(safe-area-inset-left));
+}
+.topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	max-width: 1160px;
+	margin: 0 auto;
+}
+.brand-mark {
+	color: var(--ink);
+	font-size: 0.72rem;
+	font-weight: 900;
+	letter-spacing: 0.22em;
+	text-decoration: none;
+}
+.identity-strip {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	color: var(--muted);
+	font-size: 0.82rem;
+}
+.menu-content {
+	max-width: 1160px;
+	margin: 0 auto;
+}
+.hero {
+	max-width: 760px;
+	padding: clamp(4rem, 11vw, 8.5rem) 0 clamp(3.5rem, 7vw, 6rem);
+}
+.eyebrow {
+	color: var(--glow);
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+.hero h1 {
+	margin: 0.1em 0;
+	font-size: clamp(4rem, 12vw, 9rem);
+	line-height: 0.86;
+	letter-spacing: -0.07em;
+}
+.hero-copy {
+	max-width: 650px;
+	color: #bbc8da;
+	font-size: clamp(1rem, 2.1vw, 1.35rem);
+	line-height: 1.6;
+}
+.hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65rem;
+	margin-top: 1.6rem;
+}
+@media (max-width: 460px) {
+	.identity-strip span {
+		display: none;
+	}
+}

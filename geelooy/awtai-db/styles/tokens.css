@@ -1,0 +1,26 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every shade and measure before any finite token can be known;
+Awtsmoos.com gathers the foundry palette into one quiet covenant where clarity is shown.
+*/
+:root {
+	--awtai-bg: #06101f;
+	--awtai-bg-soft: #0a1730;
+	--awtai-panel: rgba(12, 28, 54, .82);
+	--awtai-panel-strong: rgba(15, 35, 67, .96);
+	--awtai-border: rgba(143, 174, 255, .18);
+	--awtai-border-strong: rgba(143, 174, 255, .38);
+	--awtai-text: #f4f7ff;
+	--awtai-muted: #aebcda;
+	--awtai-accent: #8fb0ff;
+	--awtai-accent-soft: rgba(95, 140, 255, .16);
+	--awtai-success: #82e6b8;
+	--awtai-danger: #ff9ca8;
+	--awtai-radius-lg: 24px;
+	--awtai-radius-md: 16px;
+	--awtai-radius-sm: 12px;
+	--awtai-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+	--awtai-z-content: 1;
+	--awtai-z-action: 4;
+}

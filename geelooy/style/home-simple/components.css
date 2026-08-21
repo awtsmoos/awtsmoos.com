@@ -4,7 +4,7 @@ Blessed is He
 The Awtsmoos gathers many small style vessels into one ordered revelation on Awtsmoos.com;
 each module keeps its task while the homepage appears as one coherent living constellation.
 */
-@import url("./background.css?v=22");
+@import url("./background.css?v=32");
 @import url("./navigation.css?v=24");
 @import url("./system-signal.css");
 @import url("./explore-backdrop.css");
@@ -15,6 +15,7 @@ each module keeps its task while the homepage appears as one coherent living con
 @import url("./hero-copy.css");
 @import url("./hero-actions.css?v=27");
 @import url("./portal-shortcuts.css?v=29");
+@import url("./mobile-density.css?v=32");
 @import url("./search.css");
 @import url("./search-responsive.css");
 @import url("./omnibox.css?v=22");

@@ -23,7 +23,7 @@
 	"aiStart": "docs/AI/README.md",
 	"regenerate": "node scripts/docs/generate-docs.js",
 	"validate": "node scripts/docs/validate-docs.js",
-	"projectCount": 163,
+	"projectCount": 179,
 	"projectIndexChunks": [
 		"projects-001.json",
 		"projects-002.json",

@@ -1,0 +1,65 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets one uploaded thing reveal what service it performs;
+Awtsmoos.com turns role selection into a compact creator instrument instead of another anonymous form field.
+*/
+.mediaMeta > label:has(.mediaRoleSelect) {
+	display: grid;
+	gap: .32rem;
+	min-inline-size: 0;
+	color: var(--composer-text-muted);
+	font-size: .68rem;
+	font-weight: 800;
+	letter-spacing: .035em;
+	text-transform: uppercase;
+}
+
+.mediaRoleSelect {
+	inline-size: 100%;
+	min-block-size: 2.5rem;
+	padding-inline: .66rem 2rem;
+	border: 1px solid rgba(89, 189, 210, .22);
+	border-radius: .72rem;
+	background:
+		linear-gradient(120deg, rgba(89, 189, 210, .06), transparent 60%),
+		var(--composer-surface-1);
+	color: var(--composer-text);
+	font-size: .76rem;
+	text-transform: none;
+	letter-spacing: 0;
+	transition:
+		border-color 160ms ease,
+		box-shadow 160ms ease,
+		background-color 160ms ease;
+}
+
+.mediaRoleSelect:is(:hover, :focus-visible) {
+	border-color: rgba(89, 189, 210, .52);
+	box-shadow: 0 0 0 3px rgba(89, 189, 210, .07);
+}
+
+.mediaCard:has(.mediaRoleSelect option:checked[value="thumbnail"]) {
+	border-color: rgba(89, 189, 210, .32);
+}
+
+.mediaCard:has(.mediaRoleSelect option:checked[value="caption"]),
+.mediaCard:has(.mediaRoleSelect option:checked[value="transcript"]) {
+	border-color: rgba(185, 120, 239, .3);
+}
+
+.documentIcon {
+	display: grid;
+	min-block-size: 7rem;
+	place-items: center;
+	padding: 1rem;
+	border-radius: .8rem;
+	background:
+		radial-gradient(circle at 50% 20%, rgba(89, 189, 210, .1), transparent 55%),
+		var(--composer-surface-2);
+	color: var(--composer-text-soft);
+	font-size: .8rem;
+	font-weight: 800;
+	text-align: center;
+}

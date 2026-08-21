@@ -1,0 +1,45 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets hidden work reveal a measured sign without stealing attention;
+Awtsmoos.com gives busy states one small orbit, clear disabling, and honest completion.
+*/
+.hubStatus[data-kind="working"]::before,
+[aria-busy="true"] > .futureBusyOrb {
+	display: inline-block;
+	width: .78rem;
+	aspect-ratio: 1;
+	margin-inline-end: .48rem;
+	border: 2px solid rgb(188 243 255 / 24%);
+	border-top-color: #bdf7ff;
+	border-radius: 50%;
+	content: "";
+	vertical-align: -.08em;
+	animation: yesod-working-orbit .8s linear infinite;
+}
+
+.social-hub-document [aria-busy="true"] {
+	cursor: progress;
+}
+
+.social-hub-document :where(button, [role="button"]):active:not(:disabled) {
+	transform: scale(.985);
+}
+
+.social-hub-document :where(button, input, select, textarea):disabled,
+.social-hub-document [aria-disabled="true"] {
+	opacity: .54;
+	cursor: not-allowed;
+	filter: saturate(.7);
+}
+
+.social-hub-document button[aria-busy="true"] {
+	pointer-events: none;
+}
+
+@keyframes yesod-working-orbit {
+	to {
+		transform: rotate(1turn);
+	}
+}

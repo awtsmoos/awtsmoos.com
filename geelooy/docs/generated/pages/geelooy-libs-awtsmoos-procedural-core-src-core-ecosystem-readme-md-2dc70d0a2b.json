@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-ecosystem-readme-md-2dc70d0a2b",
+	"title": "Ecosystem, River, and Village-Site APIs",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/ecosystem/README.md",
+	"category": "Systems",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Ecosystem, River, and Village-Site APIs",
+			"anchor": "ecosystem-river-and-village-site-apis"
+		},
+		{
+			"level": 2,
+			"text": "PURPOSE",
+			"anchor": "purpose"
+		},
+		{
+			"level": 2,
+			"text": "CANONICAL ENTRY POINTS",
+			"anchor": "canonical-entry-points"
+		},
+		{
+			"level": 2,
+			"text": "VILLAGE SITE LAW",
+			"anchor": "village-site-law"
+		},
+		{
+			"level": 2,
+			"text": "RIVER REALISM LAW",
+			"anchor": "river-realism-law"
+		},
+		{
+			"level": 2,
+			"text": "OWNS",
+			"anchor": "owns"
+		},
+		{
+			"level": 2,
+			"text": "DOES NOT OWN",
+			"anchor": "does-not-own"
+		},
+		{
+			"level": 2,
+			"text": "EXTENSION RULES",
+			"anchor": "extension-rules"
+		},
+		{
+			"level": 2,
+			"text": "AI DISCOVERY KEYWORDS",
+			"anchor": "ai-discovery-keywords"
+		},
+		{
+			"level": 2,
+			"text": "NEXT FILES TO READ",
+			"anchor": "next-files-to-read"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-ecosystem-readme-md-2dc70d0a2b-001.json"
+	]
+}

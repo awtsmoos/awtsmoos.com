@@ -1,5 +1,0 @@
-{
-	"BH": "B\"H / Boruch Hashem / Blessed is He",
-	"schema": "awtsmoos-doc-content-v1",
-	"content": "B\"H\n\n# AGENT_ASSIGNMENTS\n\n## Mission service\n\nMission: `mission_msdcptng_fa702cf844`\nProject root preserved: `/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator`\n\n## Architecture and Import Graph Auditor\n\nRequested agent ID: `architecture-import-auditor-01`\nRequested mode: read-only\nStatus: BLOCKED EXTERNALLY\n\nThe mission service accepted the exact agent ID and absolute project root, but reported `active: false`, `why: explicit_block`; the worker registry remained at zero active processes and produced no structured receipt. No specialist claim was accepted as evidence.\n\n## Safe fallback\n\nThe master process will execute the same isolated audit scopes sequentially and record direct file, command, browser, export, and pixel evidence.\n"
-}

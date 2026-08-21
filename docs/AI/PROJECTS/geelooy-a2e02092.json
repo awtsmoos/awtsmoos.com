@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "Awtsmoos — Play, Create, Send & Build",
+	"title": "Awtsmoos — Torah, Creation & Living Worlds",
 	"entries": [
 		"index.html",
 		"DOCUMENTATION.md"
@@ -22,14 +22,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-a2e02092.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 22357,
-		"tests": 3928,
-		"assets": 78,
-		"generated": 76,
-		"docs": 3182,
-		"other": 1134
+		"source": 25402,
+		"tests": 4699,
+		"assets": 13,
+		"generated": 77,
+		"docs": 3950,
+		"other": 556
 	},
-	"totalFiles": 30755,
+	"totalFiles": 34697,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],
@@ -38,7 +38,7 @@
 		{
 			"url": "/",
 			"file": "geelooy/index.html",
-			"title": "Awtsmoos — Play, Create, Send & Build",
+			"title": "Awtsmoos — Torah, Creation & Living Worlds",
 			"scripts": 1,
 			"styles": 4
 		}

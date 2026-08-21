@@ -1,0 +1,34 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-awtsmoos-agent-transfer-documentation-md-6a6a9c041e",
+	"title": "Awtsmoos Agent Transfer Archive",
+	"sourcePath": "geelooy/.awtsmoos-agent-transfer/DOCUMENTATION.md",
+	"category": "General",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Agent Transfer Archive",
+			"anchor": "awtsmoos-agent-transfer-archive"
+		},
+		{
+			"level": 2,
+			"text": "Boundary",
+			"anchor": "boundary"
+		},
+		{
+			"level": 2,
+			"text": "Authority",
+			"anchor": "authority"
+		},
+		{
+			"level": 2,
+			"text": "Safe use",
+			"anchor": "safe-use"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-awtsmoos-agent-transfer-documentation-md-6a6a9c041e-001.json"
+	]
+}

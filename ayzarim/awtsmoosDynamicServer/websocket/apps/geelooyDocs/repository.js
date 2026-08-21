@@ -3,12 +3,14 @@
 // Blessed is He
 
 const crypto = require("crypto");
-const { documentBlock } = require("./protocol.js");
+const { documentNotFound, storageUnavailable } = require("./docsErrors.js");
+const { normalizeDocument } = require("./documentNormalizer.js");
 
 /**
  * @file Persists collaborative document truth through serialized per-document writes.
  * @description The Awtsmoos recreates all at once; finite storage cannot, so Awtsmoos.com
- * queues each document's mutations to prevent two accepted edits from racing into oblivion.
+ * queues each document mutation while stable 404/503 errors distinguish missing truth
+ * from temporarily unavailable persistence for realistic client recovery.
  */
 class DocsRepository {
 	constructor(database) {
@@ -23,7 +25,9 @@ class DocsRepository {
 			ownerDigest,
 			editorDigests: [],
 			linkTokenDigest: "",
-			blockRevisions: Object.fromEntries(document.blocks.map(block => [block.id, 0])),
+			blockRevisions: Object.fromEntries(
+				document.blocks.map(block => [block.id, 0])
+			),
 			document
 		};
 		await this.#write(id, record);
@@ -38,7 +42,7 @@ class DocsRepository {
 	async update(id, mutation) {
 		return this.#enqueue(id, async () => {
 			const record = await this.get(id);
-			if (!record) throw new Error("Document not found");
+			if (!record) throw documentNotFound();
 			const result = await mutation(record);
 			record.document.updatedAt = new Date().toISOString();
 			await this.#write(id, record);
@@ -51,7 +55,7 @@ class DocsRepository {
 	}
 
 	async #write(id, record) {
-		if (!this.database?.write) throw new Error("Document storage is unavailable");
+		if (!this.database?.write) throw storageUnavailable();
 		await this.database.write(this.#path(id), record);
 	}
 
@@ -69,23 +73,4 @@ class DocsRepository {
 	}
 }
 
-function normalizeDocument(snapshot = {}, id) {
-	const title = String(snapshot.title || "Untitled document").trim().slice(0, 160);
-	const rawBlocks = Array.isArray(snapshot.blocks) ? snapshot.blocks.slice(0, 800) : [];
-	const blocks = rawBlocks.map(documentBlock);
-	if (!blocks.length) blocks.push({ id: crypto.randomUUID(), tag: "p", html: "Start writing…" });
-	return {
-		id,
-		title: title || "Untitled document",
-		revision: 0,
-		blocks,
-		comments: [],
-		access: { mode: "private" },
-		drive: {},
-		updatedAt: new Date().toISOString()
-	};
-}
-
-module.exports = {
-	DocsRepository
-};
+module.exports = { DocsRepository };

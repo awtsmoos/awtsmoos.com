@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1314 | 96 | 1 | 0 | 6 | 37 | 1454 |
+| 1431 | 113 | 0 | 0 | 6 | 37 | 1587 |
 
 ## Public entry points
 
@@ -36,7 +36,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 1264; classes: 357; functions: 4504; exports: 1729; samples: AwtsmoosAPI, for, processText, causalLength, attend, applyRopePair, rotateHead, softmaxInPlace, convertGgufBytes, convertGgufFile, copyTensors, finalManifestBytes.
+Source files: 1375; classes: 389; functions: 4857; exports: 1925; samples: AwtsmoosAPI, for, processText, causalLength, attend, applyRopePair, rotateHead, softmaxInPlace, convertGgufBytes, convertGgufFile, copyTensors, finalManifestBytes.
 
 ## Depends on
 
@@ -45,6 +45,7 @@ Source files: 1264; classes: 357; functions: 4504; exports: 1729; samples: Awtsm
 - `geelooy/apps/android-emulator` — 3 lexical references; examples: geelooy/scripts/awtsmoos/compiling/android/apk/zipWriter.js; geelooy/scripts/awtsmoos/extracting/webview-apk/extract.js
 - `geelooy/apps/compiler` — 3 lexical references; examples: geelooy/scripts/awtsmoos/compiling/cpp/compiler.js
 - `ayzarim/DosDB` — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs
+- `geelooy/api/social` — 1 lexical reference; examples: geelooy/scripts/release-assets/seed-drive.js
 - `geelooy/api/tunnel` — 1 lexical reference; examples: geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs
 - `geelooy/apps/app.js` — 1 lexical reference; examples: geelooy/scripts/awtsmoos/social/navigation/adapters/appsRoute.js
 
@@ -55,9 +56,9 @@ Source files: 1264; classes: 357; functions: 4504; exports: 1729; samples: Awtsm
 - `geelooy/apps/compiler` — 3 lexical references; examples: geelooy/apps/compiler/compiler.js; geelooy/apps/compiler/compiler_c.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js
 - `geelooy/ai` — 1 lexical reference; examples: geelooy/ai/js/render/event-ui/codeHighlight.js
 - `geelooy/apps/rebbe` — 1 lexical reference; examples: geelooy/apps/rebbe/android/build.js
+- `geelooy/apps/slides` — 1 lexical reference; examples: geelooy/apps/slides/src/collab/PresenceSlidesTransport.js
 - `geelooy/apps/tunnel` — 1 lexical reference; examples: geelooy/apps/tunnel/agent/tools/fs/jsWriteVerifier.js
-- `geelooy/comment-thread` — 1 lexical reference; examples: geelooy/comment-thread/app.js
-- `geelooy/heichel-editor` — 1 lexical reference; examples: geelooy/heichel-editor/app.js
+- `geelooy/apps/universal-chat` — 1 lexical reference; examples: geelooy/apps/universal-chat/MessagingConversationActions.js
 
 ## External packages
 
@@ -66,4 +67,4 @@ Source files: 1264; classes: 357; functions: 4504; exports: 1729; samples: Awtsm
 
 ## Verification clue
 
-Observed test-classified files: **96**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **113**. Treat this as file evidence, not proof of behavioral coverage.

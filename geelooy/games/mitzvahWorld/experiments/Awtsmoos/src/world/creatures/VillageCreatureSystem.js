@@ -4,61 +4,69 @@
 
 /**
  * @file VillageCreatureSystem.js
- * @description Budgets static wildlife around the existing quality-bounded live hostile roster.
- * The Awtsmoos renews peace and challenge within one world budget; Awtsmoos.com derives
- * every reserved hostile slot from the authoritative profiles so diagnostics never drift.
+ * @description Builds only the tiny hero-fauna cast on the startup path while exposing the bounded deferred remainder as explicit evidence.
+ * RESPONSIBILITY: resolve live-hostile pressure, enforce the actor/triangle budget, plan hero fauna, compile immediate definitions, and report state.
+ * NON-RESPONSIBILITY: this module does not compile the global habitat population, schedule enrichment, or create full-mesh fauna collision.
+ * ARCHITECTURAL POSITION: Chesed reveals immediate village life while Gevurah protects first play and leaves distant Chai to deferred Malchus.
+ * The Awtsmoos, Atzmus beyond first frame and later field, renews each creature only in the instant its vessel is needed;
+ * Awtsmoos.com lets two meaningful animals greet the traveler while the distant herd waits beyond movement instead of blocking it unheeded.
  */
 
 import { shadowDemonProfiles } from '../enemy/ShadowDemonProfiles.js';
-import { villageGroundHeight } from '../village/VillageGroundSampling.js';
-import { villageWorldBudget } from '../village/VillageWorldBudget.js';
-import { createProceduralCreatureDefinitions } from './ProceduralCreatureBuilder.js';
+import { createVillageFaunaDefinitions } from './VillageCreatureDefinitionFactory.js';
+import { villageFaunaBudget } from './VillageFaunaBudget.js';
+import { villageHeroFaunaPlan } from './VillageHeroFaunaPlan.js';
 
-const STATIC_PLACEMENTS = Object.freeze([
-	placement('sheep-1', 'sheep', 108, 38),
-	placement('sheep-2', 'sheep', 121, 47),
-	placement('goat-1', 'goat', 128, 32),
-	placement('cow-1', 'cow', 96, 52),
-	placement('deer-1', 'deer', 76, -72),
-	placement('chicken-1', 'chicken', -49, 19),
-	placement('fox-1', 'fox', 88, -94),
-	placement('wolf-1', 'wolf', 30, -124)
-]);
-
-export function createVillageCreatureDefinitions(groundSampler, quality = 'high') {
-	const budget = villageWorldBudget(quality);
+/**
+ * Creates movement-ready hero fauna while preserving exact deferred population budgets in diagnostics.
+ * @param {object} groundSampler Canonical terrain sampler.
+ * @param {string} [quality='high'] Runtime quality tier.
+ * @returns {Array<object>} Immediate visual definitions with attached immutable-style stats.
+ */
+export function createVillageCreatureDefinitions(
+	groundSampler,
+	quality = 'high'
+) {
 	const liveHostiles = shadowDemonProfiles(quality).length;
-	const staticLimit = Math.max(0, budget.creatures - liveHostiles);
-	const placements = STATIC_PLACEMENTS.slice(0, staticLimit);
-	const geometryQuality = creatureGeometryQuality(quality);
-	const definitions = placements.flatMap(item => createProceduralCreatureDefinitions({
-		id: item.id,
-		position: {
-			x: item.x,
-			y: villageGroundHeight(groundSampler, item.x, item.z),
-			z: item.z
-		},
-		quality: geometryQuality,
-		speciesId: item.speciesId
-	}));
-	definitions.stats = {
-		creatures: placements.length,
-		definitions: definitions.length,
-		liveHostiles,
-		quality,
-		species: new Set(placements.map(item => item.speciesId)).size,
-		totalActors: placements.length + liveHostiles,
-		triangles: definitions.reduce((sum, item) => sum + item.indices.length / 3, 0)
-	};
+	const budget = villageFaunaBudget(quality, liveHostiles);
+	const placements = villageHeroFaunaPlan(
+		groundSampler,
+		budget.immediateCount
+	);
+	const definitions = placements.flatMap(placement => {
+		return createVillageFaunaDefinitions(placement, quality);
+	});
+	definitions.stats = createStats(
+		definitions,
+		placements,
+		budget
+	);
 	return definitions;
 }
 
-function creatureGeometryQuality(quality) {
-	if (quality === 'cinematic') return 'high';
-	if (quality === 'low') return 'low';
-	return 'medium';
+function createStats(definitions, placements, budget) {
+	const triangles = definitions.reduce((sum, definition) => {
+		return sum + (definition.faces?.length || 0);
+	}, 0);
+	const species = new Set(
+		placements.map(placement => placement.speciesId)
+	);
+	return {
+		collisionPolicy: 'visual-fauna-non-solid',
+		creatures: placements.length,
+		deferredCreatures: budget.deferredCount,
+		definitions: definitions.length,
+		estimatedFinalTriangles: budget.estimatedTriangles,
+		groups: species.size,
+		immediateCreatures: placements.length,
+		liveHostiles: budget.liveHostiles,
+		plannedStaticCreatures: budget.totalStaticLimit,
+		quality: budget.quality,
+		species: species.size,
+		totalActors: budget.totalStaticLimit + budget.liveHostiles,
+		triangleBudget: budget.triangleLimit,
+		triangles
+	};
 }
 
-function placement(id, speciesId, x, z) {
-	return Object.freeze({ id, speciesId, x, z });
-}
+export default createVillageCreatureDefinitions;

@@ -1,0 +1,5 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-content-v1",
+	"content": "B\"H\nBoruch Hashem\nBlessed is He\n\n# YouTube Manager Documentation · Predeploy Backup\n\nThe Awtsmoos lets channel, video, upload, and live state pass through a guarded provider key; Awtsmoos.com keeps this predeploy copy as historical transfer evidence rather than current runtime authority.\n\nCurrent manuals:\n- [YouTube API](/docs/API/YOUTUBE.md)\n- [Media Tools](/docs/APPS/MEDIA_TOOLS.md)\n\nUse the live `geelooy/youtube/DOCUMENTATION.md` for current migration behavior.\n"
+}

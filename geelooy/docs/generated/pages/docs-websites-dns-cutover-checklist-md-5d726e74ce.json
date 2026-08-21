@@ -1,0 +1,44 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-dns-cutover-checklist-md-5d726e74ce",
+	"title": "DNS Cutover Checklist",
+	"sourcePath": "docs/WEBSITES/DNS_CUTOVER_CHECKLIST.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "DNS Cutover Checklist",
+			"anchor": "dns-cutover-checklist"
+		},
+		{
+			"level": 2,
+			"text": "Before changing web records",
+			"anchor": "before-changing-web-records"
+		},
+		{
+			"level": 2,
+			"text": "Website-only cutover at the existing DNS provider",
+			"anchor": "website-only-cutover-at-the-existing-dns-provider"
+		},
+		{
+			"level": 2,
+			"text": "Full authoritative nameserver cutover",
+			"anchor": "full-authoritative-nameserver-cutover"
+		},
+		{
+			"level": 2,
+			"text": "Rollback triggers",
+			"anchor": "rollback-triggers"
+		},
+		{
+			"level": 2,
+			"text": "Awtsmoos truth rule",
+			"anchor": "awtsmoos-truth-rule"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-dns-cutover-checklist-md-5d726e74ce-001.json"
+	]
+}

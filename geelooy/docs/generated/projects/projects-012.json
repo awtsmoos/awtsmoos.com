@@ -1,24 +1,208 @@
 [
 	{
-		"projectId": "geelooy-games-shema-strike-fd59d11a",
-		"path": "geelooy/games/shema-strike",
+		"projectId": "geelooy-games-mitzvahworld-e62d44db",
+		"path": "geelooy/games/mitzvahWorld",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "Shema Strike: Gates of Light",
+		"title": "B&quot;H Mitzvah World — Restored River Valley",
+		"entries": [
+			"index.html",
+			"DOCUMENTATION.md"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-mitzvahworld-e62d44db.md",
+		"documentation": [
+			{
+				"sourcePath": "geelooy/games/mitzvahWorld/DOCUMENTATION.md",
+				"documentId": "geelooy-games-mitzvahworld-documentation-md-ca33cdf71a"
+			},
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 2717,
+			"tests": 1015,
+			"assets": 0,
+			"generated": 54,
+			"docs": 9,
+			"other": 125
+		},
+		"totalFiles": 3920,
+		"symbolSummary": {
+			"files": 2647,
+			"classes": 587,
+			"functions": 8019,
+			"exports": 5110,
+			"samples": [
+				"publishState",
+				"publishVerificationFailure",
+				"createBootSnapshot",
+				"boundedBootCount",
+				"bootDebugEnabled",
+				"copyRecords",
+				"BootPhaseTracker",
+				"scheduleBootProgress",
+				"renderBootProgress",
+				"flushBootProgress",
+				"bootMessage",
+				"scheduleBootstrapCanonicalPlayerHydration"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 47,
+				"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js"
+			},
+			{
+				"project": "libs",
+				"count": 1,
+				"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js"
+			}
+		],
+		"incoming": [
+			{
+				"project": "geelooy/libs",
+				"count": 5,
+				"examples": "geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/modelAssets.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/nativeRuntime.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/renderer.js"
+			},
+			{
+				"project": "geelooy/social-composer",
+				"count": 4,
+				"examples": "geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js"
+			}
+		],
+		"externalDependencies": [
+			{
+				"dependency": "ws",
+				"count": 1,
+				"examples": "geelooy/games/mitzvahWorld/proof/BrowserProofCdpSupport.mjs"
+			}
+		],
+		"publicEntries": [
+			{
+				"url": "/games/mitzvahWorld",
+				"file": "geelooy/games/mitzvahWorld/index.html",
+				"title": "B&quot;H Mitzvah World — Restored River Valley",
+				"scripts": 1,
+				"styles": 2
+			},
+			{
+				"url": "/games/mitzvahWorld/subwaySurfer",
+				"file": "geelooy/games/mitzvahWorld/subwaySurfer/index.html",
+				"title": "Peruta Run — Mitzvah World",
+				"scripts": 1,
+				"styles": 4
+			},
+			{
+				"url": "/games/mitzvahWorld/templeRunner",
+				"file": "geelooy/games/mitzvahWorld/templeRunner/index.html",
+				"title": "Temple Run — Mitzvah World",
+				"scripts": 1,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-neshama-quest-3f0cdf7b",
+		"path": "geelooy/games/neshama-quest",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Neshama Quest",
+		"entries": [
+			"index.html"
+		],
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-neshama-quest-3f0cdf7b.md",
+		"documentation": [
+			{
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
+			{
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
+			}
+		],
+		"symlinkTarget": null,
+		"counts": {
+			"source": 7,
+			"tests": 0,
+			"assets": 0,
+			"generated": 0,
+			"docs": 0,
+			"other": 0
+		},
+		"totalFiles": 7,
+		"symbolSummary": {
+			"files": 5,
+			"classes": 5,
+			"functions": 4,
+			"exports": 0,
+			"samples": [
+				"Entity",
+				"Neshama",
+				"Klipah",
+				"Game",
+				"InputHandler",
+				"generateFullMaze",
+				"createPerfectMaze",
+				"addLoopsToMaze",
+				"addSideTunnels"
+			]
+		},
+		"outgoing": [],
+		"incoming": [],
+		"externalDependencies": [],
+		"publicEntries": [
+			{
+				"url": "/games/neshama-quest",
+				"file": "geelooy/games/neshama-quest/index.html",
+				"title": "Neshama Quest",
+				"scripts": 5,
+				"styles": 1
+			}
+		],
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
+		"provenance": "generated-from-local-source"
+	},
+	{
+		"projectId": "geelooy-games-nitzotz-io-7c8b94b0",
+		"path": "geelooy/games/nitzotz-io",
+		"type": "game",
+		"family": {
+			"id": "games",
+			"title": "Games and Worlds"
+		},
+		"title": "Nitzotz.io — Shlichus Adventure Metropolis",
 		"entries": [
 			"index.html",
 			"package.json",
 			"DOCUMENTATION.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-shema-strike-fd59d11a.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-nitzotz-io-7c8b94b0.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/shema-strike/DOCUMENTATION.md",
-				"documentId": "geelooy-games-shema-strike-documentation-md-60aed49aaf"
+				"sourcePath": "geelooy/games/nitzotz-io/DOCUMENTATION.md",
+				"documentId": "geelooy-games-nitzotz-io-documentation-md-cffefeee32"
 			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -31,44 +215,50 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 149,
-			"tests": 21,
+			"source": 220,
+			"tests": 29,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
-			"other": 2
+			"other": 0
 		},
-		"totalFiles": 173,
+		"totalFiles": 250,
 		"symbolSummary": {
-			"files": 140,
-			"classes": 66,
-			"functions": 13,
-			"exports": 192,
+			"files": 187,
+			"classes": 0,
+			"functions": 574,
+			"exports": 372,
 			"samples": [
-				"AccessibilityProfile",
-				"copy",
-				"objectiveCopy",
-				"CheckpointManager",
-				"entityState",
-				"restoreEntities",
-				"componentSnapshots",
-				"createComponent",
-				"COMPONENT_KINDS",
-				"CycleComponent",
-				"EscortComponent",
-				"GuardianComponent"
+				"selectShlichus",
+				"shlichusTemplates",
+				"resolveTemplate",
+				"descriptionFor",
+				"template",
+				"hash",
+				"mix",
+				"adventureMetric",
+				"adventureProgress",
+				"settleAdventureReward",
+				"emptySettlement",
+				"updateAdventure"
 			]
 		},
-		"outgoing": [],
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 2,
+				"examples": "geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js"
+			}
+		],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/shema-strike",
-				"file": "geelooy/games/shema-strike/index.html",
-				"title": "Shema Strike: Gates of Light",
+				"url": "/games/nitzotz-io",
+				"file": "geelooy/games/nitzotz-io/index.html",
+				"title": "Nitzotz.io — Shlichus Adventure Metropolis",
 				"scripts": 1,
-				"styles": 1
+				"styles": 2
 			}
 		],
 		"requiresLocalDoc": true,
@@ -76,21 +266,26 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-soul-jump-0c3378cb",
-		"path": "geelooy/games/soul-jump",
+		"projectId": "geelooy-games-ohr-hagnuz-e946b787",
+		"path": "geelooy/games/ohr-hagnuz",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "Ein Sof Ascent",
+		"title": "B&quot;H — Ohr HaGnuz: The Concealed Frontier",
 		"entries": [
 			"index.html",
-			"main.js"
+			"package.json",
+			"DOCUMENTATION.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-soul-jump-0c3378cb.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-ohr-hagnuz-e946b787.md",
 		"documentation": [
+			{
+				"sourcePath": "geelooy/games/ohr-hagnuz/DOCUMENTATION.md",
+				"documentId": "geelooy-games-ohr-hagnuz-documentation-md-8146254f6a"
+			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
 				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
@@ -102,32 +297,32 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 2,
-			"tests": 0,
+			"source": 700,
+			"tests": 89,
 			"assets": 0,
 			"generated": 0,
-			"docs": 0,
-			"other": 0
+			"docs": 1,
+			"other": 3
 		},
-		"totalFiles": 2,
+		"totalFiles": 793,
 		"symbolSummary": {
-			"files": 1,
-			"classes": 6,
-			"functions": 11,
-			"exports": 0,
+			"files": 671,
+			"classes": 189,
+			"functions": 195,
+			"exports": 1124,
 			"samples": [
-				"Player",
-				"BackgroundParticle",
-				"Platform",
-				"Enemy",
-				"Powerup",
-				"Particle",
-				"getEventX",
-				"startDrag",
-				"onDrag",
-				"endDrag",
-				"startGame",
-				"generatePlatforms"
+				"CollisionMatrix",
+				"validates",
+				"EncounterValidator",
+				"InteractionValidator",
+				"OverworldLogic",
+				"PortalValidator",
+				"WorldMapAssembler",
+				"takes",
+				"EncounterGenerator",
+				"MovementLogic",
+				"PathLogic",
+				"DivineWill"
 			]
 		},
 		"outgoing": [],
@@ -135,83 +330,39 @@
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/soul-jump",
-				"file": "geelooy/games/soul-jump/index.html",
-				"title": "Ein Sof Ascent",
+				"url": "/games/ohr-hagnuz",
+				"file": "geelooy/games/ohr-hagnuz/index.html",
+				"title": "B&quot;H — Ohr HaGnuz: The Concealed Frontier",
 				"scripts": 1,
-				"styles": 0
+				"styles": 7
 			}
 		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-games-styles-f4b1fa78",
-		"path": "geelooy/games/styles",
-		"type": "game",
-		"family": {
-			"id": "games",
-			"title": "Games and Worlds"
-		},
-		"title": "geelooy/games/styles",
-		"entries": [
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-styles-f4b1fa78.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/games/styles/DOCUMENTATION.md",
-				"documentId": "geelooy-games-styles-documentation-md-40a8a9768b"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
-				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
-			},
-			{
-				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
-				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 12,
-			"tests": 0,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 0
-		},
-		"totalFiles": 13,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [],
 		"requiresLocalDoc": true,
 		"documentationCovered": true,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-sulam-ha-sod-6268c2f3",
-		"path": "geelooy/games/sulam-ha-sod",
+		"projectId": "geelooy-games-oros-ha-kelim-070ea630",
+		"path": "geelooy/games/oros-ha-kelim",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "Sulam HaSod",
+		"title": "Oros HaKelim · Awtsmoos.com",
 		"entries": [
 			"index.html",
-			"DOCUMENTATION.md"
+			"package.json",
+			"DOCUMENTATION.md",
+			"README.md",
+			"readme.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sulam-ha-sod-6268c2f3.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-oros-ha-kelim-070ea630.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/sulam-ha-sod/DOCUMENTATION.md",
-				"documentId": "geelooy-games-sulam-ha-sod-documentation-md-f49e7e918c"
+				"sourcePath": "geelooy/games/oros-ha-kelim/DOCUMENTATION.md",
+				"documentId": "geelooy-games-oros-ha-kelim-documentation-md-f639c33529"
 			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -224,44 +375,50 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 152,
+			"source": 59,
 			"tests": 14,
 			"assets": 0,
 			"generated": 0,
-			"docs": 1,
+			"docs": 3,
 			"other": 0
 		},
-		"totalFiles": 167,
+		"totalFiles": 76,
 		"symbolSummary": {
-			"files": 144,
-			"classes": 28,
-			"functions": 157,
-			"exports": 243,
+			"files": 54,
+			"classes": 49,
+			"functions": 3,
+			"exports": 68,
 			"samples": [
-				"CameraRig",
-				"Game",
-				"InputVessel",
-				"Renderer",
-				"LightningRenderer",
-				"PhysicsWorld",
-				"CanvasViewport",
-				"hardenCampaign",
-				"hardenLevel",
-				"chooseCruelX",
-				"rotate",
-				"fakeCoin"
+				"installDebugBridge",
+				"collectRuntimeErrors",
+				"FrameConductor",
+				"createGameFrameAssembly",
+				"MatchSession",
+				"OrosGame",
+				"RenderCoordinator",
+				"GRID_SIZE",
+				"CELL_SIZE",
+				"TICK_MS",
+				"ROUND_SECONDS",
+				"RESPAWN_TICKS"
 			]
 		},
-		"outgoing": [],
+		"outgoing": [
+			{
+				"project": "geelooy/libs",
+				"count": 11,
+				"examples": "geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js; geelooy/games/oros-ha-kelim/src/render/core/CoreMesh.js"
+			}
+		],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/sulam-ha-sod",
-				"file": "geelooy/games/sulam-ha-sod/index.html",
-				"title": "Sulam HaSod",
+				"url": "/games/oros-ha-kelim",
+				"file": "geelooy/games/oros-ha-kelim/index.html",
+				"title": "Oros HaKelim · Awtsmoos.com",
 				"scripts": 1,
-				"styles": 1
+				"styles": 3
 			}
 		],
 		"requiresLocalDoc": true,
@@ -269,23 +426,24 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-tests-0a8f1d42",
-		"path": "geelooy/games/tests",
+		"projectId": "geelooy-games-party-7fcd4a78",
+		"path": "geelooy/games/party",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "geelooy/games/tests",
+		"title": "Party Challenge — Awtsmoos Games",
 		"entries": [
+			"index.html",
 			"DOCUMENTATION.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-tests-0a8f1d42.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-party-7fcd4a78.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/games/tests/DOCUMENTATION.md",
-				"documentId": "geelooy-games-tests-documentation-md-91ade4943e"
+				"sourcePath": "geelooy/games/party/DOCUMENTATION.md",
+				"documentId": "geelooy-games-party-documentation-md-88dde20566"
 			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
@@ -298,46 +456,50 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 0,
-			"tests": 14,
+			"source": 15,
+			"tests": 0,
 			"assets": 0,
 			"generated": 0,
 			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 15,
-		"symbolSummary": null,
-		"outgoing": [],
+		"totalFiles": 16,
+		"symbolSummary": {
+			"files": 8,
+			"classes": 1,
+			"functions": 22,
+			"exports": 21,
+			"samples": [
+				"startChallenge",
+				"reloadCurrentTurn",
+				"recordCurrentTurn",
+				"activeSession",
+				"beginCurrentTurn",
+				"finishChallenge",
+				"dom",
+				"setFrameGame",
+				"loadFreshTurn",
+				"frameGame",
+				"partyGames",
+				"resolvePartyGame"
+			]
+		},
+		"outgoing": [
+			{
+				"project": "geelooy/games/scripts",
+				"count": 1,
+				"examples": "geelooy/games/party/js/game-catalog.mjs"
+			}
+		],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/tests/1",
-				"file": "geelooy/games/tests/1/index.html",
-				"title": "",
+				"url": "/games/party",
+				"file": "geelooy/games/party/index.html",
+				"title": "Party Challenge — Awtsmoos Games",
 				"scripts": 1,
-				"styles": 0
-			},
-			{
-				"url": "/games/tests/2",
-				"file": "geelooy/games/tests/2/index.html",
-				"title": "three.js - WebGPU - Compute Particles Rain",
-				"scripts": 0,
-				"styles": 0
-			},
-			{
-				"url": "/games/tests/3",
-				"file": "geelooy/games/tests/3/index.html",
-				"title": "",
-				"scripts": 4,
 				"styles": 1
-			},
-			{
-				"url": "/games/tests/tree",
-				"file": "geelooy/games/tests/tree/index.html",
-				"title": "Three.js Tree Swaying",
-				"scripts": 0,
-				"styles": 0
 			}
 		],
 		"requiresLocalDoc": true,
@@ -345,21 +507,25 @@
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-games-tetris-9e141667",
-		"path": "geelooy/games/tetris",
+		"projectId": "geelooy-games-pong-d3953f2b",
+		"path": "geelooy/games/pong",
 		"type": "game",
 		"family": {
 			"id": "games",
 			"title": "Games and Worlds"
 		},
-		"title": "Tikkun HaOlam - The Final Rectification",
+		"title": "Pong · Awtsmoos Games",
 		"entries": [
 			"index.html",
-			"main.js"
+			"DOCUMENTATION.md"
 		],
 		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-tetris-9e141667.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-pong-d3953f2b.md",
 		"documentation": [
+			{
+				"sourcePath": "geelooy/games/pong/DOCUMENTATION.md",
+				"documentId": "geelooy-games-pong-documentation-md-c5a129b7c9"
+			},
 			{
 				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
 				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
@@ -371,103 +537,76 @@
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 8,
+			"source": 11,
 			"tests": 0,
 			"assets": 0,
 			"generated": 0,
-			"docs": 0,
+			"docs": 1,
 			"other": 0
 		},
-		"totalFiles": 8,
+		"totalFiles": 12,
 		"symbolSummary": {
-			"files": 6,
-			"classes": 10,
-			"functions": 9,
+			"files": 9,
+			"classes": 0,
+			"functions": 22,
 			"exports": 0,
 			"samples": [
-				"AIEngine",
-				"Effect",
-				"Shard",
-				"CharacterParticle",
-				"LightningBolt",
-				"EffectsEngine",
-				"Starfield",
-				"SeededRandom",
-				"GameInstance",
-				"BackgroundFX",
-				"startGame",
-				"initCanvasesAndWorker"
+				"createBall",
+				"bindPongControls",
+				"clampedPaddleY",
+				"getRandomEmoji",
+				"resizeCanvas",
+				"draw",
+				"formattedElapsedTime",
+				"gameLoop",
+				"createPongUpdater",
+				"update",
+				"increaseSpeedWithTime",
+				"handlePossiblePaddleCollision"
 			]
 		},
-		"outgoing": [],
+		"outgoing": [
+			{
+				"project": "geelooy/games/scripts",
+				"count": 1,
+				"examples": "geelooy/games/pong/js/wallet-reward.mjs"
+			}
+		],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/games/tetris",
-				"file": "geelooy/games/tetris/index.html",
-				"title": "Tikkun HaOlam - The Final Rectification",
-				"scripts": 1,
+				"url": "/games/pong",
+				"file": "geelooy/games/pong/index.html",
+				"title": "Pong · Awtsmoos Games",
+				"scripts": 9,
 				"styles": 1
 			}
 		],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
+		"requiresLocalDoc": true,
+		"documentationCovered": true,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-geelooy-53e795fd",
-		"path": "geelooy/geelooy",
-		"type": "project",
+		"projectId": "geelooy-games-rambam-9b03ea55",
+		"path": "geelooy/games/rambam",
+		"type": "game",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "games",
+			"title": "Games and Worlds"
 		},
-		"title": "geelooy/geelooy",
+		"title": "geelooy/games/rambam",
 		"entries": [],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-geelooy-53e795fd.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rambam-9b03ea55.md",
 		"documentation": [
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 1,
-			"tests": 3,
-			"assets": 0,
-			"generated": 0,
-			"docs": 0,
-			"other": 1
-		},
-		"totalFiles": 5,
-		"symbolSummary": null,
-		"outgoing": [],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [],
-		"requiresLocalDoc": false,
-		"documentationCovered": false,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-heichel-bad58b8e",
-		"path": "geelooy/heichel",
-		"type": "project",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "geelooy/heichel",
-		"entries": [],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-bad58b8e.md",
-		"documentation": [
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
+			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
 			}
 		],
 		"symlinkTarget": null,
@@ -484,264 +623,87 @@
 		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
-		"publicEntries": [],
+		"publicEntries": [
+			{
+				"url": "/games/rambam/kiddushHachodesh/12",
+				"file": "geelooy/games/rambam/kiddushHachodesh/12/index.html",
+				"title": "Sun Movement Visualization",
+				"scripts": 0,
+				"styles": 0
+			}
+		],
 		"requiresLocalDoc": false,
 		"documentationCovered": false,
 		"provenance": "generated-from-local-source"
 	},
 	{
-		"projectId": "geelooy-heichel-editor-7b657ffd",
-		"path": "geelooy/heichel-editor",
-		"type": "public",
+		"projectId": "geelooy-games-rebbe-runner-775c456f",
+		"path": "geelooy/games/rebbe-runner",
+		"type": "game",
 		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
+			"id": "games",
+			"title": "Games and Worlds"
 		},
-		"title": "Heichel Editor — Geelooy",
+		"title": "The Rebbe's Runner",
 		"entries": [
-			"index.html",
-			"app.js",
-			"DOCUMENTATION.md"
+			"index.html"
 		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-editor-7b657ffd.md",
+		"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rebbe-runner-775c456f.md",
 		"documentation": [
 			{
-				"sourcePath": "geelooy/heichel-editor/DOCUMENTATION.md",
-				"documentId": "geelooy-heichel-editor-documentation-md-b6d0acb02a"
+				"sourcePath": "docs/TUTORIALS/PROJECTS/GAMES.md",
+				"documentId": "docs-tutorials-projects-games-md-5a9ff5ac78"
 			},
 			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
+				"sourcePath": "docs/APPS/GAMES_AND_SIMULATION.md",
+				"documentId": "docs-apps-games-and-simulation-md-538ae8cf40"
 			}
 		],
 		"symlinkTarget": null,
 		"counts": {
-			"source": 14,
-			"tests": 1,
+			"source": 4,
+			"tests": 0,
 			"assets": 0,
 			"generated": 0,
-			"docs": 1,
+			"docs": 0,
 			"other": 0
 		},
-		"totalFiles": 16,
+		"totalFiles": 4,
 		"symbolSummary": {
-			"files": 13,
-			"classes": 0,
-			"functions": 17,
-			"exports": 12,
+			"files": 2,
+			"classes": 3,
+			"functions": 9,
+			"exports": 0,
 			"samples": [
-				"async",
-				"postEditorRequest",
-				"readEditorConfig",
-				"clean",
-				"el",
-				"field",
-				"formShell",
-				"submitForm",
-				"inviteForm",
-				"settingsForm",
-				"submissionForm",
-				"renderEditor"
+				"Player",
+				"Obstacle",
+				"Collectible",
+				"resizeCanvas",
+				"drawRoadLines",
+				"createBackground",
+				"init",
+				"drawBackground",
+				"animate",
+				"detectCollision",
+				"endGame",
+				"handleStart"
 			]
 		},
-		"outgoing": [
-			{
-				"project": "geelooy/scripts",
-				"count": 1,
-				"examples": "geelooy/heichel-editor/app.js"
-			}
-		],
+		"outgoing": [],
 		"incoming": [],
 		"externalDependencies": [],
 		"publicEntries": [
 			{
-				"url": "/heichel-editor",
-				"file": "geelooy/heichel-editor/index.html",
-				"title": "Heichel Editor — Geelooy",
+				"url": "/games/rebbe-runner",
+				"file": "geelooy/games/rebbe-runner/index.html",
+				"title": "The Rebbe's Runner",
 				"scripts": 2,
-				"styles": 2
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-heichel-review-b8b78ec5",
-		"path": "geelooy/heichel-review",
-		"type": "public",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "Heichel Review and Governance Center",
-		"entries": [
-			"index.html",
-			"DOCUMENTATION.md",
-			"README.md",
-			"readme.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-review-b8b78ec5.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/heichel-review/DOCUMENTATION.md",
-				"documentId": "geelooy-heichel-review-documentation-md-6b72949f89"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 26,
-			"tests": 2,
-			"assets": 0,
-			"generated": 0,
-			"docs": 2,
-			"other": 0
-		},
-		"totalFiles": 30,
-		"symbolSummary": {
-			"files": 13,
-			"classes": 8,
-			"functions": 14,
-			"exports": 12,
-			"samples": [
-				"GovernanceApi",
-				"renderInvitations",
-				"invitationCard",
-				"renderMembers",
-				"memberCard",
-				"GovernanceMutations",
-				"GovernancePanel",
-				"ReviewApi",
-				"ReviewController",
-				"async",
-				"decideSubmission",
-				"ReviewDetail"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/shared",
-				"count": 1,
-				"examples": "geelooy/heichel-review/js/main.js"
-			}
-		],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/heichel-review",
-				"file": "geelooy/heichel-review/index.html",
-				"title": "Heichel Review and Governance Center",
-				"scripts": 1,
 				"styles": 1
 			}
 		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
-		"provenance": "generated-from-local-source"
-	},
-	{
-		"projectId": "geelooy-heichelos-d9fbb499",
-		"path": "geelooy/heichelos",
-		"type": "project",
-		"family": {
-			"id": "public",
-			"title": "Public and Other Boundaries"
-		},
-		"title": "geelooy/heichelos",
-		"entries": [
-			"_awtsmoos.derech.js",
-			"DOCUMENTATION.md"
-		],
-		"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-		"tutorialFile": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichelos-d9fbb499.md",
-		"documentation": [
-			{
-				"sourcePath": "geelooy/heichelos/DOCUMENTATION.md",
-				"documentId": "geelooy-heichelos-documentation-md-2903622a38"
-			},
-			{
-				"sourcePath": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
-				"documentId": "docs-tutorials-projects-public-surfaces-md-56c7282e61"
-			}
-		],
-		"symlinkTarget": null,
-		"counts": {
-			"source": 858,
-			"tests": 119,
-			"assets": 0,
-			"generated": 0,
-			"docs": 1,
-			"other": 2
-		},
-		"totalFiles": 980,
-		"symbolSummary": {
-			"files": 510,
-			"classes": 75,
-			"functions": 1976,
-			"exports": 920,
-			"samples": [
-				"queryMap",
-				"heichelFields",
-				"postFields",
-				"escapeAttribute",
-				"renderCanonicalPostRedirect",
-				"getHeichel",
-				"renderHeichelShell",
-				"renderGlobalSubmit",
-				"renderDelete",
-				"renderSubmit",
-				"renderPost",
-				"renderSeriesPost"
-			]
-		},
-		"outgoing": [
-			{
-				"project": "geelooy/shared",
-				"count": 7,
-				"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/logic/legend/centerSectionObserver.js"
-			}
-		],
-		"incoming": [],
-		"externalDependencies": [],
-		"publicEntries": [
-			{
-				"url": "/heichelos/manage-alias-heichelos",
-				"file": "geelooy/heichelos/manage-alias-heichelos/index.html",
-				"title": "",
-				"scripts": 1,
-				"styles": 1
-			},
-			{
-				"url": "/heichelos/settings/community",
-				"file": "geelooy/heichelos/settings/community/index.html",
-				"title": "Community Settings",
-				"scripts": 1,
-				"styles": 1
-			},
-			{
-				"url": "/heichelos/settings/community/moderation",
-				"file": "geelooy/heichelos/settings/community/moderation/index.html",
-				"title": "Community Moderation",
-				"scripts": 1,
-				"styles": 1
-			},
-			{
-				"url": "/heichelos/social/demo",
-				"file": "geelooy/heichelos/social/demo/index.html",
-				"title": "Awtsmoos Social Revamp Demo",
-				"scripts": 0,
-				"styles": 1
-			}
-		],
-		"requiresLocalDoc": true,
-		"documentationCovered": true,
+		"requiresLocalDoc": false,
+		"documentationCovered": false,
 		"provenance": "generated-from-local-source"
 	}
 ]

@@ -4,22 +4,18 @@
 
 /**
  * @file CanonicalTerrainBase.js
- * @description Shapes the ungraded alpine valley from terraces, ridges, noise, and hydrology.
- * The Awtsmoos raises mountain and lowers river within one speech; Awtsmoos.com keeps the
- * natural field isolated so roads may refine it without weakening source, channel, or banks.
+ * @description Shapes alpine terrain from natural ridges, gentle district character, and a broad river valley shoulder.
+ * The Awtsmoos lets the mountain remain mountain while village character whispers rather than forcing a shelf;
+ * Awtsmoos.com gives roads and exact foundations the structural work, preserving living terrain around each self.
  */
 
-import { canonicalHydrologyTerrainHeightAt } from './CanonicalHydrologyTerrain.js';
+import { canonicalRiverValleyHeightAt } from './CanonicalRiverValleyField.js';
 import { canonicalRiverTerrainSample } from './CanonicalTerrainHydrology.js';
 import { canonicalTerraceSample } from './CanonicalTerrainTerraces.js';
 
-/**
- * Returns canonical terrain before road-corridor grading.
- *
- * @param {number} x World x coordinate.
- * @param {number} z World z coordinate.
- * @returns {number} Natural, terraced, and hydrology-constrained elevation.
- */
+const TERRACE_CHARACTER_STRENGTH = 0.2;
+
+/** Returns canonical terrain before road grading, exact foundation support, and final hydrology. */
 export function canonicalTerrainBaseHeightAt(x, z) {
 	const river = canonicalRiverTerrainSample(x, z);
 	const terrace = canonicalTerraceSample(x, z);
@@ -27,9 +23,13 @@ export function canonicalTerrainBaseHeightAt(x, z) {
 	const terraced = mix(
 		natural,
 		terrace.targetHeight,
-		terrace.influence * 0.82
+		terrace.influence * TERRACE_CHARACTER_STRENGTH
 	);
-	return canonicalHydrologyTerrainHeightAt(x, z, terraced);
+	return canonicalRiverValleyHeightAt(terraced, river);
+}
+
+export function canonicalTerraceCharacterStrength() {
+	return TERRACE_CHARACTER_STRENGTH;
 }
 
 function naturalValleyHeight(x, z, riverX) {

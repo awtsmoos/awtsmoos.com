@@ -1,12 +1,11 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file mitzvahWorldDefinitions.js
- * @description Defines semantic Mitzvah World resources without owning deployment URLs.
- * The Awtsmoos names each garment by enduring identity while another vessel finds its stream;
- * Awtsmoos.com keeps universal documents portable beyond one host, route, or deployment dream.
+ * @description Defines semantic Mitzvah World resource identities without owning game routes, deployment URLs, or assets.
+ * The Awtsmoos renews each enduring identity before a renderer may choose the garment it will wear;
+ * Awtsmoos.com keeps universal documents free of game paths, so procedural vessels may answer everywhere.
  */
 
 import { IDENTIFIED_OBJECT_SCHEMA } from "./commonSchemas.js";
@@ -14,6 +13,14 @@ import { createResource } from "../resourceOperations.js";
 
 export const CHOSSID_MODEL_ID = "player/chossid.glb";
 
+/**
+ * Creates one universal resource-definition factory.
+ * @param {string} id Stable API operation id.
+ * @param {string} bucket Document bucket.
+ * @param {string} type Resource type.
+ * @param {object} defaults Default resource values.
+ * @returns {object} Universal API definition.
+ */
 function creator(id, bucket, type, defaults = {}) {
 	return {
 		id,
@@ -40,11 +47,7 @@ function creator(id, bucket, type, defaults = {}) {
 	};
 }
 
-/**
- * Creates portable domain definitions whose model fields contain identities, never transport URLs.
- *
- * @returns {Array<object>} Universal API method definitions for Mitzvah World resources.
- */
+/** @returns {Array<object>} Portable universal API definitions. */
 export function createMitzvahWorldDefinitions() {
 	const human = creator("humans.create", "humans", "human", {
 		model: chossidModel(),
@@ -66,46 +69,65 @@ export function createMitzvahWorldDefinitions() {
 	});
 	return [
 		human,
-		creator("trees.create", "trees", "tree", { seed: 613, species: "oak" }),
+		creator("trees.create", "trees", "tree", {
+			seed: 613,
+			species: "oak"
+		}),
 		creator("houses.create", "houses", "house", { floors: 1 }),
 		creator("water.create", "waters", "water", waterDefaults("lake")),
-		creator("water.createRiver", "waters", "water", waterDefaults("river"))
+		creator(
+			"water.createRiver",
+			"waters",
+			"water",
+			waterDefaults("river")
+		)
 	];
 }
 
+/**
+ * Portable material seeds intentionally contain no game filesystem paths.
+ * Runtime adapters may realize these identities procedurally.
+ */
 export const MITZVAH_WORLD_TEXTURE_SEED = Object.freeze([
 	{
 		id: "mitzvah-brick-wall",
-		type: "texture2d",
-		source: { kind: "repository", path: "/games/mitzvahWorld/assets/textures/brick-wall.svg" },
+		type: "procedural-material",
+		source: { kind: "procedural", generator: "brick-wall" },
 		channels: ["baseColor"],
 		colorSpace: "srgb",
-		tags: ["building", "brick", "existing", "game"]
+		tags: ["building", "brick", "procedural"]
 	},
 	{
 		id: "mitzvah-gold-coin",
-		type: "texture2d",
-		source: { kind: "repository", path: "/games/mitzvahWorld/assets/textures/gold-coin.svg" },
+		type: "procedural-material",
+		source: { kind: "procedural", generator: "gold-metal" },
 		channels: ["baseColor"],
 		colorSpace: "srgb",
-		tags: ["coin", "gold", "existing", "game"]
+		tags: ["coin", "gold", "procedural"]
 	}
 ]);
 
+/** @returns {object} Stable Chossid asset identity. */
 function chossidModel() {
 	return { assetId: CHOSSID_MODEL_ID };
 }
 
+/** @returns {object} Neutral transform. */
 function defaultTransform() {
-	return { position: [0, 0, 0], rotation: [0, 0, 0], scale: [1, 1, 1] };
+	return {
+		position: [0, 0, 0],
+		rotation: [0, 0, 0],
+		scale: [1, 1, 1]
+	};
 }
 
+/** @param {string} waterType Semantic water kind. @returns {object} */
 function waterDefaults(waterType) {
 	return {
 		waterType,
 		material: {
 			source: "procedural-fallback",
-			reason: "No repository water normal was available in the audited in-root registry."
+			reason: "Portable universal definitions do not own repository texture paths."
 		}
 	};
 }

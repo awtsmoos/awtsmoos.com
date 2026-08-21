@@ -45,14 +45,14 @@ Changing application IDs/versions or event semantics can break clients even when
 | `AWTSMOOS_RELAY_STRESS_COUNT` | test/tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs` |
 | `AWTSMOOS_SEFIRA_PROFILE_PATH` | path/storage | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js` |
 | `AWTSMOOS_TUNNEL_COMPLETED_LIMIT` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
-| `AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAckHandler.js` |
+| `AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestConsumerWatchdog.js` |
 | `AWTSMOOS_TUNNEL_CONTROL_STORE` | path/storage | 9 | `ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs` |
 | `AWTSMOOS_TUNNEL_PENDING_TTL_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_QUARANTINE_LIMIT` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js` |
 | `AWTSMOOS_TUNNEL_RELAY_STATE_ROOT` | path/storage | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durablePaths.js` |
-| `AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js` |
+| `AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS` | tuning | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatchWatchdog.js` |
 | `MW_LOAD_CLIENTS` | runtime-config | 1 | `ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionLoadProbe.cjs` |
 
 ## Realtime application registration evidence
@@ -62,8 +62,11 @@ Changing application IDs/versions or event semantics can break clients even when
 | `awtsmoos-core` | 1 | `createAwtsmoosCoreApplication` |
 | `awtsmoos-social` | 1 | `createAwtsmoosSocialApplication` |
 | `chess` | 1 | `createChessApplication` |
-| `universalChat` | 1 | `createUniversalChatApplication` |
-| `privateMessaging` | 1 | `createPrivateMessagingApplication` |
+| `geelooy-code` | 1 | `createGeelooyCodeApplication` |
+| `geelooy-docs` | 1 | `createGeelooyDocsApplication` |
+| `sheets` | 1 | `createSheetsApplication` |
+| `universal-chat` | 1 | `createUniversalChatApplication` |
+| `private-messaging` | 1 | `createPrivateMessagingApplication` |
 | `sefira-clash` | 1 | `createSefiraClashApplication` |
 | `mitzvah-world` | 1 | `createMitzvahWorldApplication` |
 | `ohr-hagnuz` | 1 | `createOhrHagnuzApplication` |
@@ -74,6 +77,7 @@ Changing application IDs/versions or event semantics can break clients even when
 ## Lexical event/message evidence
 
 - `ACK` — `ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js`
+- `audio` — `ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/messageAttachmentPolicy.js`
 - `awtsmoosMyDevice` — `ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js`
 - `bossTelegraph` — `ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js`
 - `bridge:lanterns` — `ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/RiverCrossingService.js`
@@ -93,26 +97,21 @@ Changing application IDs/versions or event semantics can break clients even when
 - `chess.room.joined` — `ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js`
 - `chess.room.listed` — `ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js`
 - `chess.room.watched` — `ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js`
+- `code.access.invited` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/accessHandlers.js`
+- `code.access.updated` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/accessHandlers.js`
+- `code.file.patched` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/editHandlers.js`
+- `code.file.synced` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/editHandlers.js`
+- `code.presence.updated` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/presenceHandlers.js`
+- `code.project.created` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/lifecycleHandlers.js`
+- `code.project.joined` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/lifecycleHandlers.js`
+- `code.project.left` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/lifecycleHandlers.js`
+- `code.project.structured` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyCode/structureEvents.js`
 - `contact-blocked` — `ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js`
 - `data` — `ayzarim/awtsmoosDynamicServer/websocket/apps/scribeJourney/rawWebSocketTestClient.cjs`
 - `defeat` — `ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatDefeatRewards.js`
-- `enrage` — `ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/EnemyActionSupportRules.js`
-- `friendship-accepted` — `ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js`
-- `game.click` — `ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js`
-- `game.finished` — `ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js`
-- `game.finished` — `ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHistoryRecorder.js`
-- `game.started` — `ayzarim/awtsmoosDynamicServer/websocket/apps/chess/standaloneHistoryRecorder.js`
-- `group-created` — `ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js`
-- `group-joined` — `ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js`
-- `group-left` — `ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js`
-- `group-role-changed` — `ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js`
-- `guard` — `ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/EnemyActionSupportRules.js`
-- `harvest` — `ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/AnimalHarvestService.js`
-- `heal` — `ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/EnemyActionSupportRules.js`
-- `health.pong` — `ayzarim/awtsmoosDynamicServer/websocket/apps/awtsmoosCoreApplication.js`
-- `library` — `ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/sourceNormalizer.js`
-- `LIVE_PREVIEW` — `ayzarim/awtsmoosDynamicServer/websocket/apps/livePreview.js`
-- `loot` — `ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CorpseLootService.js`
+- `docs.access.invited` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/accessHandlers.js`
+- `docs.access.updated` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/accessHandlers.js`
+- `docs.capabilities` — `ayzarim/awtsmoosDynamicServer/websocket/apps/geelooyDocs/capabilityHandlers.js`
 
 ## Tags
 

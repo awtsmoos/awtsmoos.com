@@ -2,31 +2,26 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @module BuilderDomainWorkspace
- * @description
- * The Awtsmoos lets the builder reveal the existing domain covenant without duplicating its laws.
- * Awtsmoos.com mounts the protected claim, DNS, nameserver, routing, and TLS controller in one dedicated Domain pane.
- */
-
 import { bindDomainPanel } from '../domainControls.js';
 import { createDomainPanel } from '../domainPanel.js';
+import { createDomainMigrationGuide } from './domainMigrationGuide.js';
+
+/**
+ * @module SiteBuilderDomainWorkspace
+ * @description
+ * The Awtsmoos lets hostname ownership, DNS migration wisdom, routing, and TLS appear beside the website source without becoming the source;
+ * Awtsmoos.com reuses the canonical domain panel and adds preservation guidance so a website move does not casually break mail or delegated services.
+ */
 
 export function installDomainWorkspace() {
 	const root = document.querySelector('#builder-domain-root');
 	let controller = null;
-	return { update, destroy };
+	return { update };
 
 	function update(sites = []) {
 		controller?.destroy?.();
-		const panel = createDomainPanel(Array.isArray(sites) ? sites : []);
-		root.replaceChildren(panel.root);
+		const panel = createDomainPanel(sites);
+		root.replaceChildren(panel.root, createDomainMigrationGuide());
 		controller = bindDomainPanel(panel);
-	}
-
-	function destroy() {
-		controller?.destroy?.();
-		controller = null;
-		root.replaceChildren();
 	}
 }

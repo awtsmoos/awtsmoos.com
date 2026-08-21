@@ -8,68 +8,68 @@ Relative-import edges between observed project boundaries; counts are lexical re
 
 | Source project | Target project | References | Example sources |
 | --- | --- | --- | --- |
+| geelooy/os | geelooy/shared | 54 | geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js |
+| geelooy/games/mitzvahWorld | geelooy/libs | 47 | geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js |
 | geelooy/apps/merkava-native-browser | geelooy/scripts | 44 | geelooy/apps/merkava-native-browser/.inspect-md2.cjs; geelooy/apps/merkava-native-browser/.test-compile-webgl.cjs; geelooy/apps/merkava-native-browser/build-seed.mjs |
 | geelooy/scripts | geelooy/shared | 38 | geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js |
-| geelooy/api/social | ayzarim/DosDB | 31 | geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js |
-| geelooy/os | geelooy/shared | 25 | geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js |
-| geelooy/games/mitzvahWorld | geelooy/libs | 17 | geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowProceduralCreature.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/MovieProceduralSeed.js |
+| geelooy/api/social | ayzarim/DosDB | 33 | geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js |
+| geelooy/sites | geelooy/api/social | 27 | geelooy/sites/customDomainGateway.js; geelooy/sites/directSiteReadiness.js; geelooy/sites/directSiteResponse.js |
+| geelooy/apps/code | geelooy/shared | 19 | geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js |
 | geelooy/api/tunnel | geelooy/api/perutas | 16 | geelooy/api/tunnel/control/core/usageStore.js; geelooy/api/tunnel/control/routes/adminPerutas.js; geelooy/api/tunnel/control/routes/adminVault.js |
-| geelooy/apps/code | geelooy/shared | 16 | geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js |
-| geelooy/games/seven-mitzvos | geelooy/games/scripts | 12 | geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js |
+| geelooy/games/seven-mitzvos | geelooy/games/scripts | 16 | geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js |
+| geelooy/games/seven-mitzvos | geelooy/libs | 12 | geelooy/games/seven-mitzvos/js/materials/firebase-material-manifest.js; geelooy/games/seven-mitzvos/js/materials/seven-material-runtime.js; geelooy/games/seven-mitzvos/js/materials/stage-material-runtime.js |
 | ayzarim/awtsmoosDynamicServer | geelooy/api/tunnel | 11 | ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs |
+| geelooy/games/oros-ha-kelim | geelooy/libs | 11 | geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js; geelooy/games/oros-ha-kelim/src/render/core/CoreMesh.js |
 | geelooy/apps/compiler | geelooy/shared | 9 | geelooy/apps/compiler/embed/osCompilerChannel.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js; geelooy/apps/compiler/ui/nativeBuildClient.js |
 | geelooy/os | geelooy/apps/exe-emulator | 9 | geelooy/os/programs/awtsmoos-executable/browserRuntime.js; geelooy/os/programs/awtsmoos-executable/index.js; geelooy/os/programs/awtsmoos-executable/nativeLifecycle.js |
-| geelooy/apps/exe-emulator | geelooy/shared | 8 | geelooy/apps/exe-emulator/core/awtexeRuntime.js; geelooy/apps/exe-emulator/core/executableHost.js; geelooy/apps/exe-emulator/core/wasmGuiImports.js |
+| geelooy/api/tunnel | geelooy/apps/tunnel | 8 | geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js; geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js |
 | geelooy/apps/exe-emulator | geelooy/scripts | 8 | geelooy/apps/exe-emulator/examples/progressive/generatedArtifacts.mjs; geelooy/apps/exe-emulator/source/compileSourceArtifact.js; geelooy/apps/exe-emulator/source/nativeContainers.js |
-| geelooy/api/tunnel | geelooy/apps/tunnel | 7 | geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js |
-| geelooy/heichelos | geelooy/shared | 7 | geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/logic/legend/centerSectionObserver.js |
+| geelooy/apps/exe-emulator | geelooy/shared | 8 | geelooy/apps/exe-emulator/core/awtexeRuntime.js; geelooy/apps/exe-emulator/core/executableHost.js; geelooy/apps/exe-emulator/core/wasmGuiImports.js |
+| geelooy/heichelos | geelooy/shared | 8 | geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/functions/ui/context/relatedSearchPanel.js |
+| ayzarim/awtsmoosDynamicServer | geelooy/api/social | 6 | ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js; ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js; ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/activityAdapter.js |
+| geelooy/api/social | ayzarim/awtsmoosDynamicServer | 5 | geelooy/api/social/helper/drive/projectDatabaseService.js; geelooy/api/social/helper/drive/projectRuntimeMaterializer.js; geelooy/api/social/helper/drive/routes/projectHostingRoutes.js |
+| geelooy/libs | geelooy/games/mitzvahWorld | 5 | geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/modelAssets.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/nativeRuntime.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/renderer.js |
 | geelooy/scripts | geelooy/apps/tunnel | 5 | geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-directory-entry-env.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-helpers.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-url-puppeteer.cjs |
-| geelooy/sites | geelooy/api/social | 5 | geelooy/sites/siteGateway.js; geelooy/sites/siteResolution.js |
+| geelooy/sites | geelooy/api/tunnel | 5 | geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/siteFolderPublication.js |
+| geelooy/social-hub | geelooy/shared | 5 | geelooy/social-hub/js/interactions/CreatorLaunchModel.js; geelooy/social-hub/js/ui/feed/FeedPostModel.js; geelooy/social-hub/js/ui/feed/FeedUniversalActions.js |
+| geelooy/api/tunnel | geelooy/api/social | 4 | geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js; geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js |
 | geelooy/apps/code | geelooy/apps/android-emulator | 4 | geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/actions/commands/build-rebbe-apk.js |
+| geelooy/apps/drive | geelooy/shared | 4 | geelooy/apps/drive/js/osBridge.js; geelooy/apps/drive/js/projectPlatform.js |
+| geelooy/drive | geelooy/os | 4 | geelooy/drive/transport/credentialedFs.js; geelooy/drive/transport/tunnelDiscovery.js; geelooy/drive/transport/tunnelPublishing.js |
 | geelooy/social-composer | geelooy/games/mitzvahWorld | 4 | geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js |
+| geelooy/social-composer | geelooy/shared | 4 | geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js |
+| geelooy/social-hub | geelooy/social-actions | 4 | geelooy/social-hub/js/ui/feed/FeedReaction.js; geelooy/social-hub/js/ui/feed/SocialActionRail.js |
 | ayzarim/awtsmoosDynamicServer | ayzarim/tools | 3 | ayzarim/awtsmoosDynamicServer/server/deps.js |
-| geelooy/apps/code | scripts | 3 | geelooy/apps/code/js/android/android-source-builder.js |
 | geelooy/apps/code | geelooy/ai | 3 | geelooy/apps/code/js/code-chat/oracle.js; geelooy/apps/code/js/vibe/api/multimodal-adapter.js |
+| geelooy/apps/code | scripts | 3 | geelooy/apps/code/js/android/android-source-builder.js |
 | geelooy/apps/compiler | geelooy/scripts | 3 | geelooy/apps/compiler/compiler.js; geelooy/apps/compiler/compiler_c.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js |
+| geelooy/drive | geelooy/shared | 3 | geelooy/drive/core/platformCapabilityBridge.js; geelooy/drive/transport/osWorkspace.js; geelooy/drive/ui/platformJourney.js |
+| geelooy/heichelos | geelooy/social-actions | 3 | geelooy/heichelos/heichel/modules/ui/render/HeichelReactionAction.js; geelooy/heichelos/heichel/modules/ui/render/secondary-social-actions.js; geelooy/heichelos/heichel/modules/ui/render/social-action-urls.js |
+| geelooy/os | geelooy/apps/tunnel-control | 3 | geelooy/os/programs/connected-node-server/tunnelClient.js; geelooy/os/programs/peruta-usage/api.js |
 | geelooy/scripts | geelooy/apps/android-emulator | 3 | geelooy/scripts/awtsmoos/compiling/android/apk/zipWriter.js; geelooy/scripts/awtsmoos/extracting/webview-apk/extract.js |
 | geelooy/scripts | geelooy/apps/compiler | 3 | geelooy/scripts/awtsmoos/compiling/cpp/compiler.js |
 | ayzarim/awtsmoosDynamicServer | ayzarim/email | 2 | ayzarim/awtsmoosDynamicServer/server/deps.js |
 | ayzarim/awtsmoosDynamicServer | geelooy/api/ohr-hagnuz | 2 | ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/AuthenticatedWorldTestHarness.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/auth/GameTicketConsumer.js |
+| ayzarim/awtsmoosDynamicServer | geelooy/apps/tunnel | 2 | ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js |
 | ayzarim/maintence | ayzarim/DosDB | 2 | ayzarim/maintence/transferOldDBToAwtsmoosDB.js |
 | geelooy/ai | geelooy/shared | 2 | geelooy/ai/central/index.js; geelooy/ai/central/streamClient.js |
+| geelooy/api/oauth | geelooy/api/tunnel | 2 | geelooy/api/oauth/data/clients.js; geelooy/api/oauth/data/publicAgentPolicy.js |
 | geelooy/api/ohr-hagnuz | geelooy/api/tunnel | 2 | geelooy/api/ohr-hagnuz/routes/realtimeTicket.js |
-| geelooy/api/tunnel | geelooy/api/social | 2 | geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js |
+| geelooy/api/projectHosting | ayzarim/awtsmoosDynamicServer | 2 | geelooy/api/projectHosting/planRoute.js; geelooy/api/projectHosting/runtimeRoutes.js |
+| geelooy/api/projectHosting | geelooy/api/social | 2 | geelooy/api/projectHosting/requestIdentity.js |
+| geelooy/api/social | geelooy/ai | 2 | geelooy/api/social/helper/drive/browser/interactiveBrowserTargetCatalog.js; geelooy/api/social/helper/drive/browser/interactiveTargetController.js |
+| geelooy/api/ssh | ayzarim/ssh | 2 | geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/service.js |
+| geelooy/api/ssh | geelooy/api/social | 2 | geelooy/api/ssh/virtual/accessGuard.js |
 | geelooy/apps/code | geelooy/apps/compiler | 2 | geelooy/apps/code/js/actions/commands/build-native-project.js |
 | geelooy/apps/tunnel-control | geelooy/shared | 2 | geelooy/apps/tunnel-control/js/runtime/mesh/runtimeAdapters.js; geelooy/apps/tunnel-control/js/runtime/mesh/virtualFilesystem.js |
 | geelooy/games/Merkava | geelooy/libs | 2 | geelooy/games/Merkava/src/render/createCoreMeshes.js; geelooy/games/Merkava/src/render/createEnemyMeshes.js |
 | geelooy/games/nitzotz-io | geelooy/libs | 2 | geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js |
 | geelooy/os | geelooy/apps/android-emulator | 2 | geelooy/os/programs/awtsmoos-executable/android-web/apkWebDocument.js; geelooy/os/programs/awtsmoos-executable/browserRuntime.js |
-| geelooy/os | geelooy/apps/tunnel-control | 2 | geelooy/os/programs/connected-node-server/tunnelClient.js |
 | geelooy/shared | geelooy/ai | 2 | geelooy/shared/awtsmoos-runtime/actions.js; geelooy/shared/awtsmoos-runtime/agent-core.js |
+| geelooy/shared | geelooy/social-actions | 2 | geelooy/shared/social/composer/ComposerLaunch.js |
+| geelooy/zmanim | geelooy/libs | 2 | geelooy/zmanim/js/components/celestial-webgl.js; geelooy/zmanim/js/domain/celestial-zmanim.js |
 | ayzarim/awtsmoosDynamicServer | ayzarim/awtsmoos.config.json | 1 | ayzarim/awtsmoosDynamicServer/server/deps.js |
 | ayzarim/awtsmoosDynamicServer | ayzarim/DosDB | 1 | ayzarim/awtsmoosDynamicServer/server/deps.js |
 | ayzarim/email | geelooy/api/social | 1 | ayzarim/email/awtsmoosEmailIngress.js |
+| geelooy/.well-known | geelooy/api/oauth | 1 | geelooy/.well-known/_awtsmoos.derech.js |
 | geelooy/ai | geelooy/scripts | 1 | geelooy/ai/js/render/event-ui/codeHighlight.js |
-| geelooy/api/compiler | geelooy/apps/rebbe | 1 | geelooy/api/compiler/core/rebbeApkHandler.js |
-| geelooy/api/email | geelooy/api/social | 1 | geelooy/api/email/_awtsmoos.derech.js |
-| geelooy/api/oauth | geelooy/api/tunnel | 1 | geelooy/api/oauth/data/clients.js |
-| geelooy/api/ssh | ayzarim/ssh | 1 | geelooy/api/ssh/lib/client.js |
-| geelooy/api/tunnel | geelooy/api/oauth | 1 | geelooy/api/tunnel/control/core/auth.js |
-| geelooy/api/tunnel | ayzarim/awtsmoosDynamicServer | 1 | geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js |
-| geelooy/api/youtube | geelooy/api/oauth | 1 | geelooy/api/youtube/routes/auth.js |
-| geelooy/apps/exe-emulator | geelooy/apps/android-emulator | 1 | geelooy/apps/exe-emulator/source/runSourceArtifact.js |
-| geelooy/apps/rebbe | geelooy/scripts | 1 | geelooy/apps/rebbe/android/build.js |
-| geelooy/apps/tunnel | scripts | 1 | geelooy/apps/tunnel/agent/rebuild-manifest.cjs |
-| geelooy/apps/tunnel | geelooy/scripts | 1 | geelooy/apps/tunnel/agent/tools/fs/jsWriteVerifier.js |
-| geelooy/apps/tunnel | geelooy/shared | 1 | geelooy/apps/tunnel/js/browserPageTunnel.js |
-| geelooy/apps/tunnel-control | geelooy/api/tunnel | 1 | geelooy/apps/tunnel-control/gpt/generate-oauth-scopes.cjs |
-| geelooy/comment-thread | geelooy/scripts | 1 | geelooy/comment-thread/app.js |
-| geelooy/games/mitzvahWorld | libs | 1 | geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js |
-| geelooy/games/party | geelooy/games/scripts | 1 | geelooy/games/party/js/game-catalog.mjs |
-| geelooy/games/seven-mitzvos | geelooy/libs | 1 | geelooy/games/seven-mitzvos/js/procedural/core-part-factory.js |
-| geelooy/heichel-editor | geelooy/scripts | 1 | geelooy/heichel-editor/app.js |
-| geelooy/heichel-review | geelooy/shared | 1 | geelooy/heichel-review/js/main.js |
-| geelooy/post-editor | geelooy/scripts | 1 | geelooy/post-editor/app.js |
-| geelooy/profile | geelooy/scripts | 1 | geelooy/profile/auth.js |
-| geelooy/scripts | ayzarim/DosDB | 1 | geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs |
-| geelooy/scripts | geelooy/api/tunnel | 1 | geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs |

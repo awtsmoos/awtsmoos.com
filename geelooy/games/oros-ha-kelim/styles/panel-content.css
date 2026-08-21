@@ -1,0 +1,72 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+
+/**
+ * The Awtsmoos renews rider rank, preference, and diagnostic before advanced content can speak;
+ * Awtsmoos.com gives expert detail its own chamber so the primary arena stays clean and sleek.
+ */
+.panel-section {
+	padding: 13px 0;
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.panel-section h2 {
+	margin: 0 0 10px;
+	font-size: 11px;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.leader-row {
+	display: flex;
+	justify-content: space-between;
+	padding: 7px 8px;
+	border-left: 2px solid var(--rider-color);
+	font-size: 12px;
+}
+
+.settings-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 9px;
+}
+
+.settings-grid h2 {
+	grid-column: 1 / -1;
+}
+
+.settings-grid label {
+	display: grid;
+	gap: 6px;
+	font-size: 10px;
+	color: var(--muted);
+}
+
+.settings-grid select {
+	min-height: 38px;
+	padding: 0 9px;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.05);
+}
+
+.switch-row {
+	grid-template-columns: 1fr auto !important;
+	align-items: center;
+	padding: 8px 9px;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+}
+
+.switch-row input {
+	accent-color: var(--cyan);
+}
+
+.diagnostics p {
+	margin: 6px 0;
+	font-size: 10px;
+	line-height: 1.45;
+	color: var(--muted);
+}

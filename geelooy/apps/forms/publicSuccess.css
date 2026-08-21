@@ -1,0 +1,45 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets a completed response settle into one quiet sign of receipt, gratitude, and renewed light.
+Awtsmoos.com keeps success presentation separate from questions so acceptance can evolve without tangling public sight.
+*/
+.form-success {
+	display: grid;
+	gap: 12px;
+	max-width: 620px;
+	margin: 10vh auto 0;
+	padding: clamp(26px, 6vw, 52px);
+	border: 1px solid rgb(52 211 153 / 24%);
+	border-radius: 28px;
+	background: linear-gradient(
+		145deg,
+		rgb(52 211 153 / 8%),
+		rgb(255 255 255 / 3%)
+	);
+	box-shadow: var(--shadow);
+	text-align: center;
+}
+
+.form-success h1,
+.form-success p {
+	margin: 0;
+}
+
+.form-success p {
+	color: var(--muted);
+	line-height: 1.6;
+}
+
+.success-mark {
+	display: grid;
+	width: 54px;
+	height: 54px;
+	margin: 0 auto 4px;
+	place-items: center;
+	border: 1px solid rgb(52 211 153 / 34%);
+	border-radius: 18px;
+	color: #a7f3d0;
+	font-size: 1.55rem;
+	background: rgb(52 211 153 / 9%);
+}

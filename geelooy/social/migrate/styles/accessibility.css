@@ -1,0 +1,52 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every vessel a visible border when sight, motion, or contrast asks;
+Awtsmoos.com makes accessibility part of creation itself, never a cleanup mask.
+*/
+:focus-visible {
+	outline: 3px solid #f3dc8a;
+	outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: .001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .001ms !important;
+	}
+	body {
+		background: var(--migrate-bg);
+	}
+}
+@media (prefers-reduced-transparency: reduce) {
+	.topbar,
+	dialog::backdrop {
+		background: var(--migrate-bg);
+	}
+}
+@media (prefers-contrast: more) {
+	:root {
+		--migrate-line: #80939f;
+		--migrate-muted: #c8d4da;
+	}
+}
+@media (forced-colors: active) {
+	* {
+		box-shadow: none !important;
+	}
+	.selectionRing,
+	.yearDensity span {
+		background: Canvas;
+		border: 2px solid Highlight;
+	}
+	button,
+	.buttonLike,
+	input,
+	select,
+	.panel {
+		border: 1px solid ButtonText;
+	}
+}

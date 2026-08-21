@@ -1,0 +1,65 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-zmanim-health-3637c50b08",
+	"route": "/api/zmanim/health",
+	"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/zmanim",
+		"title": "/api/zmanim",
+		"manual": "docs/API/README.md"
+	},
+	"derech": {
+		"source": "geelooy/api/zmanim/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/zmanim"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-health-3637c50b08.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-zmanim-86d9bd4874",
+			"route": "/api/zmanim"
+		},
+		{
+			"id": "api-zmanim-compare-c5bb565fcb",
+			"route": "/api/zmanim/compare"
+		},
+		{
+			"id": "api-zmanim-day-6b37237ce4",
+			"route": "/api/zmanim/day"
+		},
+		{
+			"id": "api-zmanim-embed-7a9e392500",
+			"route": "/api/zmanim/embed"
+		},
+		{
+			"id": "api-zmanim-location-d9b647041e",
+			"route": "/api/zmanim/location"
+		},
+		{
+			"id": "api-zmanim-methodology-2cd7bce9af",
+			"route": "/api/zmanim/methodology"
+		},
+		{
+			"id": "api-zmanim-opinions-c99cc9fdf7",
+			"route": "/api/zmanim/opinions"
+		},
+		{
+			"id": "api-zmanim-options-4bf5e888df",
+			"route": "/api/zmanim/options"
+		}
+	]
+}

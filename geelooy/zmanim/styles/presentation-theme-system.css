@@ -1,0 +1,40 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond operating-system preference while system mode receives the user's chosen visual rhythm;
+ * Awtsmoos.com mirrors light preference through explicit tokens so “System” is a real responsive covenant rather than an empty synonym.
+ */
+
+@media (prefers-color-scheme: light) {
+	html[data-zmanim-theme="system"] {
+		color-scheme: light;
+		--paper: #edf6f1;
+		--paper-raised: #f8fcfa;
+		--paper-raised-strong: #ffffff;
+		--surface-soft: #e4f1eb;
+		--surface-glass: rgba(250, 255, 252, .88);
+		--mist: #d3e9df;
+		--forest: #c2dfd2;
+		--forest-bright: #176d56;
+		--accent: #096b53;
+		--accent-strong: #064f3f;
+		--solar: #965800;
+		--ink: #10241e;
+		--ink-soft: #385a4f;
+		--ink-muted: #617d73;
+		--line: rgba(27, 91, 72, .15);
+		--line-strong: rgba(27, 91, 72, .28);
+		--warm: #87550a;
+		--focus-ring: rgba(9, 107, 83, .38);
+		--shadow-soft: 0 12px 34px rgba(26, 61, 48, .11);
+		--shadow-raised: 0 22px 62px rgba(26, 61, 48, .14);
+	}
+
+	html[data-zmanim-theme="system"] body {
+		background:
+			radial-gradient(circle at 12% -8rem, rgba(84, 175, 146, .18), transparent 30rem),
+			radial-gradient(circle at 100% 28rem, rgba(194, 135, 35, .09), transparent 26rem),
+			linear-gradient(180deg, #f6fbf8 0%, var(--paper) 52%, #e7f1ec 100%);
+	}
+}

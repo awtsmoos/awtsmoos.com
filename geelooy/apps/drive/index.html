@@ -1,7 +1,7 @@
 <!--B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos makes each guarded alias a vessel for files, projects, and living websites.
+The Awtsmoos makes each guarded alias a vessel for files, projects, living websites, and portable DNS testimony; Awtsmoos.com reveals one readable workshop instead of a compressed maze of hidden powers.
 -->
 <!doctype html>
 <html lang="en">
@@ -9,7 +9,7 @@ The Awtsmoos makes each guarded alias a vessel for files, projects, and living w
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="color-scheme" content="dark light">
-	<title>Awtsmoos Drive</title>
+	<title>Awtsmoos Drive · Website Maker</title>
 	<link rel="stylesheet" href="./styles/tokens.css">
 	<link rel="stylesheet" href="./styles/base.css">
 	<link rel="stylesheet" href="./styles/layout.css">
@@ -18,13 +18,22 @@ The Awtsmoos makes each guarded alias a vessel for files, projects, and living w
 	<link rel="stylesheet" href="./styles/project-platform.css">
 	<link rel="stylesheet" href="./styles/project-platform-responsive.css">
 	<link rel="stylesheet" href="./styles/project-settings.css">
+	<link rel="stylesheet" href="./styles/project-dns-settings.css">
+	<link rel="stylesheet" href="./styles/site-builder.css">
+	<link rel="stylesheet" href="./styles/site-builder-dock.css">
+	<link rel="stylesheet" href="./styles/site-builder-preview.css">
+	<link rel="stylesheet" href="./styles/site-builder-responsive.css">
 	<link rel="stylesheet" href="./styles/responsive.css">
 	<link rel="stylesheet" href="./styles/accessibility.css">
 </head>
 <body>
 	<a class="skip-link" href="#drive-table">Skip to files</a>
 	<header class="site-header">
-		<div class="brand-block"><p class="eyebrow">B&quot;H · Awtsmoos Drive</p><h1>Files become worlds.</h1><p>Build in folders, publish named sites, and see which platform powers are truly attached.</p></div>
+		<div class="brand-block">
+			<p class="eyebrow">B&quot;H · Awtsmoos Drive</p>
+			<h1>Files become worlds.</h1>
+			<p>Build in folders, publish named sites, preserve DNS, and launch connected Node projects with visible evidence.</p>
+		</div>
 		<form id="connection-form" class="connection-card" autocomplete="off">
 			<label>Alias ID<input id="alias-id" name="aliasId" required placeholder="your-alias"></label>
 			<label>Identity<select id="credential-type" name="credentialType"><option value="session">Current Awtsmoos session</option><option value="user">User API key</option><option value="drive">Drive bearer token</option></select></label>
@@ -32,18 +41,12 @@ The Awtsmoos makes each guarded alias a vessel for files, projects, and living w
 			<button type="submit" class="primary-button">Open Drive</button>
 		</form>
 	</header>
-	<main class="app-shell">
+	<main class="app-shell site-main">
 		<section class="overview-grid" aria-label="Drive overview">
 			<article class="panel usage-panel"><div class="panel-heading"><p class="kicker">Storage</p><h2>Usage</h2></div><div id="usage" class="usage-grid">Connect to load quota usage.</div></article>
-			<article class="panel site-panel">
-				<div class="panel-heading"><p class="kicker">Primary publication</p><h2>Your project world</h2><span id="site-status-badge" class="badge">Not connected</span></div>
-				<label class="site-url-label">Website URL<input id="site-url" readonly value="Connect an alias to reveal its URL"></label>
-				<p id="site-summary">A public <code>index.html</code> activates the primary site.</p>
-				<div class="button-row"><button id="open-site" type="button">Open site</button><button id="copy-site" type="button">Copy URL</button><button id="website-mode" type="button">Website upload mode</button></div>
-				<small>Use relative links such as <code>assets/app.js</code>; each named site may point at a different folder.</small>
-				<div id="project-workspace" class="project-workspace" aria-live="polite"></div>
-			</article>
+			<article class="panel site-panel"><div class="panel-heading"><p class="kicker">Primary publication</p><h2>Your project world</h2><span id="site-status-badge" class="badge">Not connected</span></div><label class="site-url-label">Website URL<input id="site-url" readonly value="Connect an alias to reveal its URL"></label><p id="site-summary">A public <code>index.html</code> activates the primary site.</p><div class="button-row"><button id="open-site" type="button">Open site</button><button id="copy-site" type="button">Copy URL</button><button id="website-mode" type="button">Website upload mode</button></div><small>Use relative links such as <code>assets/app.js</code>; each named site may point at a different folder.</small><div id="project-workspace" class="project-workspace" aria-live="polite"></div></article>
 		</section>
+		<section id="site-builder-root" class="panel site-builder-root" aria-label="Website Maker" aria-live="polite"></section>
 		<section id="project-platform" class="panel project-platform" aria-label="Project control plane" aria-live="polite"></section>
 		<section class="panel toolbar" aria-label="Drive controls">
 			<div class="panel-heading"><p class="kicker">Workspace</p><h2>Browse and upload</h2></div>

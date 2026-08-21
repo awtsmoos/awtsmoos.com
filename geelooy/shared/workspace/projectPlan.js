@@ -13,8 +13,8 @@ import { runtimeQuotaProfile } from "./runtimeQuotaPolicy.js";
 /**
  * @file Portable Project Testimony v3 shared across Geelooy surfaces.
  * @description
- * The Awtsmoos separates what the creator intends from what providers presently prove;
- * Awtsmoos.com gathers identity, publication, runtime trust, quota, observation, intent, attachment evidence, and binding names without mixing wish and authority.
+ * The Awtsmoos separates creator intent from provider evidence while every finite record receives an honest vessel;
+ * Awtsmoos.com carries portable DNS records as configuration testimony, so Drive may preserve a zone without pretending DNS already changed in the world.
  */
 
 export function buildProjectPlan(input = {}) {
@@ -36,18 +36,30 @@ export function buildProjectPlan(input = {}) {
 	});
 }
 
-function identity(input, config, rootPath) {
-	const aliasId = String(input.aliasId || "").trim();
-	const name = String(config.name || input.name || input.site?.name || rootPath.split("/").filter(Boolean).at(-1) || aliasId || "Awtsmoos project");
-	return Object.freeze({ aliasId, projectId: config.id || null, rootPath, name });
-}
-
 function configuration(config) {
 	return Object.freeze({
 		registered: Boolean(config.id),
 		createdAt: config.createdAt || null,
-		updatedAt: config.updatedAt || null
+		updatedAt: config.updatedAt || null,
+		dnsRecords: freezeDnsRecords(config.dnsRecords)
 	});
+}
+
+function freezeDnsRecords(values) {
+	return Object.freeze(Array.from(values || []).map(record => Object.freeze({
+		type: String(record.type || ""),
+		name: String(record.name || "@"),
+		content: String(record.content || ""),
+		ttl: Number(record.ttl || 300)
+	})));
+}
+
+function identity(input, config, rootPath) {
+	const aliasId = String(input.aliasId || "").trim();
+	const name = String(
+		config.name || input.name || input.site?.name || rootPath.split("/").filter(Boolean).at(-1) || aliasId || "Awtsmoos project"
+	);
+	return Object.freeze({ aliasId, projectId: config.id || null, rootPath, name });
 }
 
 function publication(input) {
@@ -58,12 +70,19 @@ function publication(input) {
 function runtimeTestimony(isolation) {
 	return Object.freeze({
 		trusted: Object.freeze({ trust: "trusted-node", publicActivation: false, quota: runtimeQuotaProfile("trusted") }),
-		tenant: Object.freeze({ trust: "isolated-tenant", publicActivation: isolation.publicTenantActivation, quota: runtimeQuotaProfile("tenant"), isolation })
+		tenant: Object.freeze({
+			trust: "isolated-tenant",
+			publicActivation: isolation.publicTenantActivation,
+			quota: runtimeQuotaProfile("tenant"),
+			isolation
+		})
 	});
 }
 
 function nextCapabilities() {
-	return Object.freeze(PROJECT_CAPABILITIES.filter(item => ["attach", "blocked", "planned"].includes(item.readiness)).map(item => item.id));
+	return Object.freeze(PROJECT_CAPABILITIES
+		.filter(item => ["attach", "blocked", "planned"].includes(item.readiness))
+		.map(item => item.id));
 }
 
 function siteSummary(site) {

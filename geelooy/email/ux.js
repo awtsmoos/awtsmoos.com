@@ -1,81 +1,70 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
- * @file Owns Mail workspace keyboard shortcuts and truthful network-state presentation.
- * @description
- * The Awtsmoos, Atzmus beyond every event and listener, renews each keystroke and
- * connection instant. Awtsmoos.com keeps this lifecycle bounded: one connection
- * creates one set of listeners, and disconnection removes exactly those listeners.
+ * @class MailWorkspaceUx
+ * @description The Awtsmoos hears intent before the key is pressed; Awtsmoos.com lets keyboard, connection, and transient panels answer in the right order so power never becomes confusion.
  */
 export class MailWorkspaceUx {
-	constructor() {
-		this.connected = false;
-		this.boundKeyHandler = event => this.handleKey(event);
-		this.boundOnlineHandler = () => this.updateConnection(true);
-		this.boundOfflineHandler = () => this.updateConnection(false);
+	constructor(panels = null) {
+		this.panels = panels;
+		this.boundKeyDown = event => this.onKeyDown(event);
+		this.boundOnline = () => this.updateConnection(true);
+		this.boundOffline = () => this.updateConnection(false);
 	}
 
-	/** @returns {void} Installs global UX listeners once and synchronizes network truth immediately. */
+	/** Connects global Mail affordances and paints the initial network state. */
 	connect() {
-		if (this.connected) {
-			return;
-		}
-
-		this.connected = true;
-		document.addEventListener("keydown", this.boundKeyHandler);
-		window.addEventListener("online", this.boundOnlineHandler);
-		window.addEventListener("offline", this.boundOfflineHandler);
+		document.addEventListener('keydown', this.boundKeyDown);
+		window.addEventListener('online', this.boundOnline);
+		window.addEventListener('offline', this.boundOffline);
 		this.updateConnection(navigator.onLine);
+		return this;
 	}
 
-	/** @returns {void} Removes exactly the listeners installed by connect. */
+	/** Removes every global listener owned by this controller. */
 	disconnect() {
-		if (!this.connected) {
-			return;
-		}
-
-		document.removeEventListener("keydown", this.boundKeyHandler);
-		window.removeEventListener("online", this.boundOnlineHandler);
-		window.removeEventListener("offline", this.boundOfflineHandler);
-		this.connected = false;
+		document.removeEventListener('keydown', this.boundKeyDown);
+		window.removeEventListener('online', this.boundOnline);
+		window.removeEventListener('offline', this.boundOffline);
 	}
 
-	/** @param {KeyboardEvent} event Global key event. @returns {void} */
-	handleKey(event) {
-		const target = event.target;
-		const isTyping = target instanceof HTMLInputElement
-			|| target instanceof HTMLTextAreaElement
-			|| target?.isContentEditable;
-
-		if (event.key === "/" && !isTyping) {
-			event.preventDefault();
-			document.getElementById("mailSearchInput")?.focus();
-		}
-
-		if (event.key.toLowerCase() === "c" && !isTyping) {
-			event.preventDefault();
-			document.querySelector(".fab-compose")?.click();
-		}
-
-		if (event.key === "Escape") {
+	/** Routes power shortcuts without stealing keystrokes from editable surfaces. */
+	onKeyDown(event) {
+		if (event.key === 'Escape') {
+			if (this.panels?.closeTransient?.()) {
+				event.preventDefault();
+				return;
+			}
 			document.activeElement?.blur?.();
-		}
-	}
-
-	/** @param {boolean} isOnline Current browser connectivity. @returns {void} */
-	updateConnection(isOnline) {
-		const state = document.querySelector(".mail-connection-state");
-
-		if (!state) {
 			return;
 		}
-
-		state.textContent = isOnline ? "Online" : "Offline";
-		state.dataset.state = isOnline ? "online" : "offline";
-		state.setAttribute("aria-label", isOnline
-			? "Mail connection online"
-			: "Mail connection offline; local workspace remains available");
+		if (isEditableTarget(event.target)) return;
+		if (event.key === '/') {
+			event.preventDefault();
+			document.querySelector('.search-input')?.focus();
+			return;
+		}
+		if (event.key.toLowerCase() === 'c' && !event.metaKey && !event.ctrlKey && !event.altKey) {
+			event.preventDefault();
+			document.querySelector('.fab-compose')?.click();
+		}
 	}
+
+	/** Mirrors connectivity into both semantic status and the existing offline skin. */
+	updateConnection(isOnline) {
+		const status = document.querySelector('[data-mail-connection]');
+		document.body.classList.toggle('offline', !isOnline);
+		if (!status) return;
+		status.dataset.state = isOnline ? 'online' : 'offline';
+		status.textContent = isOnline ? 'Online' : 'Offline';
+		status.setAttribute('aria-label', isOnline
+			? 'Mail is online'
+			: 'Mail is offline');
+	}
+}
+
+function isEditableTarget(target) {
+	if (!(target instanceof Element)) return false;
+	return Boolean(target.closest('input, textarea, select, [contenteditable="true"]'));
 }

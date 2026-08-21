@@ -1,20 +1,20 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @module InteractionSchema
- * @description
- * Rich comment creation and transformations receive one bounded contract. The
- * Awtsmoos gives speech its living depth while Awtsmoos.com preserves text, media,
- * references, reply lineage, and destination intent without arbitrary stored HTML.
+ * @description The Awtsmoos lets a reply carry text, media, URL, canonical source, and semantic relation in one bounded vessel;
+ * Awtsmoos.com preserves human meaning without arbitrary HTML while legacy references remain valid when no relation was named.
  */
-
 const {
 	clean,
 	normalizeTarget,
 	validateTarget
 } = require('./InteractionTarget.js');
+const {
+	REFERENCE_RELATIONS,
+	normalizeRelation
+} = require('./ReferenceRelations.js');
 
 function array(value) {
 	if (Array.isArray(value)) return value;
@@ -43,12 +43,19 @@ function normalizeReference(value = {}) {
 	return {
 		kind: clean(value.kind || 'post', 40),
 		type: clean(value.type || value.entityType || 'post', 40),
-		id: clean(value.id || value.entityId || value.postId, 180),
+		id: clean(value.id || value.entityId || value.postId || value.commentId, 180),
+		url: clean(value.url, 700),
 		heichelId: clean(value.heichelId, 120),
 		seriesId: clean(value.seriesId || 'root', 120),
 		sectionId: clean(value.sectionId, 120),
-		label: clean(value.label || value.title, 240)
+		label: clean(value.label || value.title, 240),
+		relation: normalizeRelation(value.relation)
 	};
+}
+
+function usableReference(item) {
+	if (item.kind === 'url') return Boolean(item.url);
+	return Boolean(item.id && item.heichelId);
 }
 
 function normalizeCommentInput(value = {}) {
@@ -59,7 +66,7 @@ function normalizeCommentInput(value = {}) {
 		.slice(0, 12);
 	const references = array(value.references || value.links)
 		.map(normalizeReference)
-		.filter(item => item.id && item.heichelId)
+		.filter(usableReference)
 		.slice(0, 12);
 	return {
 		aliasId: clean(value.aliasId, 120),
@@ -90,18 +97,19 @@ function normalizePromotion(value = {}) {
 		summary: clean(value.summary, 1600),
 		heichelId: clean(value.heichelId, 120),
 		seriesId: clean(value.seriesId || 'root', 120),
-		visibility: ['public', 'unlisted', 'private'].includes(value.visibility)
-			? value.visibility
-			: 'public',
+		visibility: ['public', 'unlisted', 'private'].includes(value.visibility) ? value.visibility : 'public',
 		idempotencyKey: clean(value.idempotencyKey, 160)
 	};
 }
 
 module.exports = {
+	REFERENCE_RELATIONS,
 	array,
 	normalizeAsset,
-	normalizeReference,
 	normalizeCommentInput,
-	validateCommentInput,
-	normalizePromotion
+	normalizePromotion,
+	normalizeReference,
+	normalizeRelation,
+	usableReference,
+	validateCommentInput
 };

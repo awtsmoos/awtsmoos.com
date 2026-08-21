@@ -1,0 +1,32 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos holds every branch while Awtsmoos.com gives the reader a measured map, not a machine-generated verdict or score. */
+.threadSummary {
+	display: grid;
+	gap: 10px;
+	padding: 14px 16px;
+	border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
+	border-radius: 18px;
+	background: color-mix(in srgb, Canvas 95%, currentColor 5%);
+}
+.threadSummary__metrics,
+.threadSummary__relations {
+	display: flex;
+	gap: 7px;
+	flex-wrap: wrap;
+}
+.threadSummary__chip {
+	display: inline-flex;
+	align-items: center;
+	min-height: 30px;
+	padding: 5px 9px;
+	border-radius: 999px;
+	background: color-mix(in srgb, CanvasText 8%, Canvas);
+	font-size: .76rem;
+	font-weight: 720;
+}
+.threadSummary__relations {
+	padding-top: 2px;
+	border-top: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+}

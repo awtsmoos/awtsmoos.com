@@ -1,8 +1,12 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets many social chambers remain reachable from one thumb; Awtsmoos.com keeps the mobile dock fluid instead of crushing every route into a numb grid.
-*/
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond wide and narrow, while Awtsmoos.com lets every Social chamber breathe when the viewport becomes a phone;
+ * this Chesed-like garment owns page and content responsiveness only, leaving the fixed mobile navigation covenant to its dedicated vessel of light.
+ */
+
 @media (max-width: 62.4375rem) {
 	body {
 		padding-bottom: calc(5.4rem + var(--safe-bottom));
@@ -18,57 +22,6 @@ The Awtsmoos lets many social chambers remain reachable from one thumb; Awtsmoos
 
 	.workspace {
 		padding: .75rem;
-	}
-
-	.mobileDock {
-		position: fixed;
-		z-index: var(--z-dock);
-		right: max(.55rem, env(safe-area-inset-right));
-		bottom: max(.55rem, var(--safe-bottom));
-		left: max(.55rem, env(safe-area-inset-left));
-		display: grid;
-		grid-auto-flow: column;
-		grid-auto-columns: minmax(4.3rem, 1fr);
-		gap: .25rem;
-		padding: .35rem;
-		overflow-x: auto;
-		overscroll-behavior-inline: contain;
-		border: 1px solid var(--line-hot);
-		border-radius: var(--radius-dock);
-		background: var(--surface);
-		box-shadow: var(--shadow-dock);
-		scroll-snap-type: inline proximity;
-		scrollbar-width: none;
-	}
-
-	.mobileDock::-webkit-scrollbar {
-		display: none;
-	}
-
-	.mobileDock button {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: .1rem;
-		justify-items: center;
-		min-width: 0;
-		min-height: 3.25rem;
-		padding: .3rem .15rem;
-		scroll-snap-align: center;
-	}
-
-	.mobileDock .routeIcon {
-		width: 2rem;
-		height: 2rem;
-		border: 0;
-		background: transparent;
-	}
-
-	.mobileDock .routeLabel {
-		overflow: hidden;
-		max-width: 100%;
-		font-size: .62rem;
-		text-overflow: ellipsis;
-		white-space: nowrap;
 	}
 
 	.heroRift {

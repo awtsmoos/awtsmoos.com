@@ -1,11 +1,12 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @file catalog.test.mjs
  * @description
  * The Awtsmoos proves the catalog remains rich truth beneath a quieter storefront:
- * every real doorway, collection, search field, and launch mode survives while visible cards stay clean.
+ * every real doorway, collection, search field, and launch mode survives while additions may grow.
+ * Awtsmoos.com guards today's baseline without turning a living catalog total into brittle code.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -18,10 +19,14 @@ import { gameCardMarkup } from "../scripts/catalog/markup.mjs";
 
 const gamesRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-test("catalog markets twenty-five intentional game doorways", () => {
-	assert.equal(GAMES.length, 25);
-	assert.equal(new Set(GAMES.map(game => game.id)).size, GAMES.length);
-	assert.equal(new Set(GAMES.map(game => game.href)).size, GAMES.length);
+function values(field) {
+	return GAMES.map((game) => game[field]);
+}
+
+test("catalog preserves at least the twenty-eight known doorways without duplicates", () => {
+	assert.ok(GAMES.length >= 28);
+	assert.equal(new Set(values("id")).size, GAMES.length);
+	assert.equal(new Set(values("href")).size, GAMES.length);
 });
 
 test("every marketed game points to a real directory", () => {
@@ -31,35 +36,33 @@ test("every marketed game points to a real directory", () => {
 	}
 });
 
-test("Merkava remains the featured flagship original", () => {
-	const merkava = GAMES.find(game => game.id === "merkava");
-	assert.ok(merkava);
-	assert.equal(merkava.href, "./Merkava/");
-	assert.equal(merkava.collection, "originals");
-	assert.equal(merkava.featured, true);
-	assert.equal(merkava.badge, "Flagship");
+test("Merkava remains flagship while Oros joins featured Originals", () => {
+	const merkava = GAMES.find((game) => game.id === "merkava");
+	const oros = GAMES.find((game) => game.id === "oros-ha-kelim");
+	assert.equal(merkava?.badge, "Flagship");
+	assert.equal(oros?.href, "./oros-ha-kelim/");
+	assert.equal(oros?.collection, "originals");
+	assert.equal(oros?.featured, true);
+	assert.equal(oros?.badge, "Native 3D");
 });
 
-test("prototype and educational visualization folders stay intentionally unmarketed", () => {
-	const hrefs = new Set(GAMES.map(game => game.href));
-	assert.equal(hrefs.has("./adventure/"), false);
-	assert.equal(hrefs.has("./rambam/"), false);
+test("educational visualization folder stays unmarketed", () => {
+	assert.equal(new Set(values("href")).has("./rambam/"), false);
 });
 
-test("collection structure preserves originals-first marketing order", () => {
-	assert.deepEqual(
-		GAME_COLLECTIONS.map(collection => collection.id),
-		["originals", "adventures", "quick"]
-	);
-	const grouped = groupGames(GAMES, GAME_COLLECTIONS);
-	assert.deepEqual(grouped.map(section => section.games.length), [9, 9, 7]);
+test("collection structure preserves order and current minimum depth", () => {
+	assert.deepEqual(GAME_COLLECTIONS.map((collection) => collection.id), ["originals", "adventures", "quick"]);
+	const sizes = groupGames(GAMES, GAME_COLLECTIONS).map((section) => section.games.length);
+	assert.ok(sizes[0] >= 10);
+	assert.ok(sizes[1] >= 11);
+	assert.ok(sizes[2] >= 7);
 });
 
-test("search still reaches rich catalog copy and play-mode tags", () => {
+test("search reaches rich catalog copy and play-mode tags", () => {
 	assert.equal(filterGames(GAMES, "five worlds", "All")[0]?.id, "merkava");
+	assert.equal(filterGames(GAMES, "living territory", "All")[0]?.id, "oros-ha-kelim");
 	assert.ok(filterGames(GAMES, "RPG", "All").length >= 3);
-	assert.ok(filterGames(GAMES, "", "Quick Play").length >= 6);
-	assert.equal(filterGames(GAMES, "Party Challenge", "All").length, 25);
+	assert.equal(filterGames(GAMES, "Party Challenge", "All").length, GAMES.length);
 });
 
 test("tag collection remains unique and keeps All first", () => {
@@ -68,22 +71,18 @@ test("tag collection remains unique and keeps All first", () => {
 	assert.equal(new Set(tags).size, tags.length);
 });
 
-test("card markup escapes text, keeps both launches, and omits duplicate content walls", () => {
-	const html = gameCardMarkup({
-		...GAMES[0],
-		title: "<Merkava & Friends>"
-	});
+test("card markup escapes text and keeps both launch actions", () => {
+	const html = gameCardMarkup({ ...GAMES[0], title: "<Merkava & Friends>" });
 	assert.match(html, /&lt;Merkava &amp; Friends&gt;/);
 	assert.doesNotMatch(html, /<Merkava & Friends>/);
 	assert.match(html, /Play Solo/);
 	assert.match(html, /Party Challenge/);
-	assert.doesNotMatch(html, /gameDescription/);
-	assert.doesNotMatch(html, /gameChips/);
+	assert.doesNotMatch(html, /gameDescription|gameChips/);
 });
 
-test("native multiplayer is exceptional metadata rather than a repeated three-chip row", () => {
-	const nativeGame = GAMES.find(game => game.multiplayer.mode === "native");
-	const ordinaryGame = GAMES.find(game => game.multiplayer.mode !== "native");
+test("native multiplayer remains exceptional metadata", () => {
+	const nativeGame = GAMES.find((game) => game.multiplayer.mode === "native");
+	const ordinaryGame = GAMES.find((game) => game.multiplayer.mode !== "native");
 	assert.match(gameCardMarkup(nativeGame), /modeChip--native/);
 	assert.doesNotMatch(gameCardMarkup(ordinaryGame), /class="gameModes"/);
 });

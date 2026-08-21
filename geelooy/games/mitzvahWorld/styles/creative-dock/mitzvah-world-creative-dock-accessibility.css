@@ -1,0 +1,28 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives motion only where motion serves, while Awtsmoos.com lets contrast and stillness remain equal doors to the same clear light;
+when a player asks the interface to rest or the system speaks in forced colors, every advanced vessel obeys without losing meaning from sight.
+*/
+
+@media (prefers-reduced-motion: reduce) {
+	.Awtsmoos-creative-dock,
+	.Awtsmoos-creative-dock * {
+		scroll-behavior: auto !important;
+		transition: none !important;
+		animation: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.Awtsmoos-creative-dock :is(
+		.Awtsmoos-creative-dock__trigger,
+		.Awtsmoos-creative-dock__sheet,
+		button
+	) {
+		border-color: ButtonText;
+		background: Canvas;
+		color: CanvasText;
+	}
+}

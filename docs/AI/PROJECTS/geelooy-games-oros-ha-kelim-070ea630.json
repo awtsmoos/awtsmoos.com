@@ -1,0 +1,78 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-oros-ha-kelim-070ea630",
+	"path": "geelooy/games/oros-ha-kelim",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Oros HaKelim · Awtsmoos.com",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/oros-ha-kelim/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-oros-ha-kelim-070ea630.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 59,
+		"tests": 14,
+		"assets": 0,
+		"generated": 0,
+		"docs": 3,
+		"other": 0
+	},
+	"totalFiles": 76,
+	"symbolSummary": {
+		"files": 54,
+		"classes": 49,
+		"functions": 3,
+		"exports": 68,
+		"samples": [
+			"installDebugBridge",
+			"collectRuntimeErrors",
+			"FrameConductor",
+			"createGameFrameAssembly",
+			"MatchSession",
+			"OrosGame",
+			"RenderCoordinator",
+			"GRID_SIZE",
+			"CELL_SIZE",
+			"TICK_MS",
+			"ROUND_SECONDS",
+			"RESPAWN_TICKS"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 11,
+			"examples": "geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js; geelooy/games/oros-ha-kelim/src/render/core/CoreMesh.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/oros-ha-kelim",
+			"file": "geelooy/games/oros-ha-kelim/index.html",
+			"title": "Oros HaKelim · Awtsmoos.com",
+			"scripts": 1,
+			"styles": 3
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

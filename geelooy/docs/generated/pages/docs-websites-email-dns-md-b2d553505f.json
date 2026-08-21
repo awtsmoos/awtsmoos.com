@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-email-dns-md-b2d553505f",
+	"title": "Preserve Email DNS During a Website Move",
+	"sourcePath": "docs/WEBSITES/EMAIL_DNS.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Preserve Email DNS During a Website Move",
+			"anchor": "preserve-email-dns-during-a-website-move"
+		},
+		{
+			"level": 2,
+			"text": "MX records",
+			"anchor": "mx-records"
+		},
+		{
+			"level": 2,
+			"text": "SPF",
+			"anchor": "spf"
+		},
+		{
+			"level": 2,
+			"text": "DKIM",
+			"anchor": "dkim"
+		},
+		{
+			"level": 2,
+			"text": "DMARC",
+			"anchor": "dmarc"
+		},
+		{
+			"level": 2,
+			"text": "Other mail-related records",
+			"anchor": "other-mail-related-records"
+		},
+		{
+			"level": 2,
+			"text": "Safe website-only migration",
+			"anchor": "safe-website-only-migration"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-email-dns-md-b2d553505f-001.json"
+	]
+}

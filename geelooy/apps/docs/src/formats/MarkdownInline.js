@@ -2,6 +2,12 @@
 // Boruch Hashem
 // Blessed is He
 
+import { isSafeDocumentUrl } from "../model/HtmlLinkPolicy.js";
+import {
+	protectMarkdownBookmarks,
+	restoreMarkdownBookmarks,
+	semanticMarkerMarkdown
+} from "./MarkdownBookmarkSyntax.js";
 import {
 	decodeHtml,
 	escapeAttribute,
@@ -10,9 +16,10 @@ import {
 } from "./FormatEscapes.js";
 
 /**
- * @file Converts the inline garments shared by Markdown and rich document HTML.
- * @description The Awtsmoos renews meaning before syntax gives it a shape;
- * Awtsmoos.com lets emphasis, links, code, and mentions cross editors without script.
+ * @file Converts inline garments shared by Markdown and rich Awtsmoos document HTML.
+ * @description The Awtsmoos renews meaning before syntax takes a shape; Awtsmoos.com
+ * carries emphasis, fragment links, code, mentions, bookmarks, and stable heading
+ * markers between source and rich view without granting arbitrary raw HTML passage.
  */
 export class MarkdownInline {
 	static toMarkdown(html = "") {
@@ -24,9 +31,10 @@ export class MarkdownInline {
 	}
 
 	static toHtml(markdown = "") {
-		const tokens = [];
-		let value = escapeHtml(String(markdown));
-		value = protectCode(value, tokens);
+		const semantic = protectMarkdownBookmarks(markdown);
+		const codeTokens = [];
+		let value = escapeHtml(semantic.value);
+		value = protectCode(value, codeTokens);
 		value = value.replace(
 			/\[([^\]]+)\]\(([^)\s]+)\)/g,
 			(match, label, href) => safeLink(label, href)
@@ -43,7 +51,8 @@ export class MarkdownInline {
 			) => `${prefix}<span data-mention="${alias}">@${alias}</span>`)
 			.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")
 			.replace(/(^|[^_])_([^_\n]+)_/g, "$1<em>$2</em>");
-		return restoreTokens(value, tokens);
+		value = restoreTokens(value, codeTokens);
+		return restoreMarkdownBookmarks(value, semantic.tokens);
 	}
 }
 
@@ -52,6 +61,8 @@ function renderMarkdownNode(node) {
 		return escapeMarkdownText(node.textContent || "");
 	}
 	if (node.nodeType !== Node.ELEMENT_NODE) return "";
+	const semantic = semanticMarkerMarkdown(node);
+	if (semantic) return semantic;
 	const inner = Array.from(node.childNodes)
 		.map(child => renderMarkdownNode(child))
 		.join("");
@@ -93,11 +104,10 @@ function restoreTokens(value, tokens) {
 }
 
 function safeLink(label, href) {
-	try {
-		const url = new URL(decodeHtml(href), location.origin);
-		if (!["http:", "https:", "mailto:"].includes(url.protocol)) return label;
-		return `<a href="${escapeAttribute(url.href)}">${label}</a>`;
-	} catch {
-		return label;
+	const decoded = decodeHtml(href);
+	if (!isSafeDocumentUrl(decoded)) return label;
+	if (decoded.startsWith("#") || decoded.startsWith("/")) {
+		return `<a href="${escapeAttribute(decoded)}">${label}</a>`;
 	}
+	return `<a href="${escapeAttribute(new URL(decoded, location.origin).href)}">${label}</a>`;
 }

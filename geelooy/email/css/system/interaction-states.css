@@ -1,0 +1,69 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews every gesture before hover or pressure can be named;
+ * Awtsmoos.com gives each actionable vessel a tactile answer while lean devices keep only the cheapest useful motion framed.
+ */
+
+#root :is(button, [role="button"], .thread-item, a[href]) {
+	-webkit-tap-highlight-color: transparent;
+}
+
+#root :is(button, [role="button"], .thread-item) {
+	transform-origin: center;
+	transition:
+		transform 120ms ease-out,
+		border-color 170ms ease,
+		background-color 170ms ease,
+		box-shadow 190ms ease,
+		color 170ms ease;
+}
+
+#root :is(button, [role="button"], .thread-item):focus-visible,
+#root a[href]:focus-visible {
+	outline: 2px solid var(--mail-accent);
+	outline-offset: 3px;
+}
+
+#root :is(button, [role="button"], .thread-item):active:not(:disabled) {
+	transform: scale(.975);
+}
+
+#root button:disabled,
+#root [aria-disabled="true"] {
+	cursor: not-allowed;
+	filter: saturate(.6);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	#root :is(button, [role="button"], .thread-item):hover:not(:disabled) {
+		border-color: var(--mail-border-strong);
+		box-shadow: 0 10px 26px rgba(0, 0, 0, .16), 0 0 0 1px rgba(184, 210, 251, .045);
+		transform: translateY(-1px);
+	}
+
+	#root a[href]:hover {
+		color: var(--mail-accent-strong);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+	html[data-g-performance="lean"] #root :is(button, [role="button"], .thread-item) {
+		transition:
+			transform 90ms ease-out,
+			border-color 120ms ease,
+			background-color 120ms ease,
+			color 120ms ease !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#root :is(button, [role="button"], .thread-item) {
+		transition: none !important;
+	}
+
+	#root :is(button, [role="button"], .thread-item):is(:hover, :active) {
+		transform: none;
+	}
+}

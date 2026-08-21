@@ -12,6 +12,9 @@ const path = require("path");
 const Discovery = require("./discovery.js");
 const Runtime = require("./runtime-discovery.js");
 
+const MAX_ENVIRONMENT_EVIDENCE = 24;
+const MAX_EVENT_EVIDENCE = 36;
+
 function readProjectPackets() {
 	const directory = path.join(Discovery.root, "docs", "AI", "PROJECTS");
 	return fs.readdirSync(directory).filter(name => name.endsWith(".json")).sort().map(name => {
@@ -32,7 +35,7 @@ function environmentEvidence(system, rows) {
 	return rows.filter(row => {
 		const sourcePaths = String(row[3] || "").split(/;\s*/).filter(Boolean);
 		return sourcePaths.some(source => pathMatches(source, prefixes));
-	}).slice(0, 24).map(([name, classification, sources, exampleSources]) => ({
+	}).slice(0, MAX_ENVIRONMENT_EVIDENCE).map(([name, classification, sources, exampleSources]) => ({
 		name,
 		classification,
 		sources,
@@ -50,7 +53,7 @@ function applicationEvidence(system, rows) {
 function eventEvidence(system, rows) {
 	const prefixes = system.eventSourcePrefixes || [];
 	if (!prefixes.length) return [];
-	return rows.filter(([, source]) => pathMatches(source, prefixes)).slice(0, 40).map(([event, source]) => ({ event, source }));
+	return rows.filter(([, source]) => pathMatches(source, prefixes)).slice(0, MAX_EVENT_EVIDENCE).map(([event, source]) => ({ event, source }));
 }
 
 function projectEvidence(system, projectByPath) {

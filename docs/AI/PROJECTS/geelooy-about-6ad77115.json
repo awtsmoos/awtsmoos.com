@@ -37,8 +37,8 @@
 			"url": "/about",
 			"file": "geelooy/about/index.html",
 			"title": "About — Geelooy",
-			"scripts": 1,
-			"styles": 2
+			"scripts": 2,
+			"styles": 3
 		}
 	],
 	"requiresLocalDocumentation": false,

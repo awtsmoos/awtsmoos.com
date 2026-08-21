@@ -17,6 +17,7 @@ const PATHS = Object.freeze({
 	super: "M6 16 12 8M6 8l6 8M15 7h4l-4 4h4",
 	sub: "M6 8l6 8M6 16l6-8M15 14h4l-4 4h4",
 	clear: "m6 6 12 12M18 6 6 18M4 20h16",
+	search: "M11 5a6 6 0 1 0 0 12 6 6 0 0 0 0-12m5 11 4 4",
 	link: "M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1",
 	comment: "M5 5h14v11H9l-4 4V5",
 	list: "M9 6h10M9 12h10M9 18h10M5 6h.01M5 12h.01M5 18h.01",

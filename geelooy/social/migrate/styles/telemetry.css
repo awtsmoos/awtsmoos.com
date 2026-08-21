@@ -1,0 +1,73 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos turns evidence into instruments whose numbers never pretend;
+Awtsmoos.com shows selection, density, recovery, and history from beginning to end.
+*/
+.telemetryPanel {
+	display: grid;
+	gap: 1rem;
+	padding: 1rem;
+}
+.telemetryHeading {
+	display: flex;
+	align-items: center;
+	gap: .8rem;
+}
+.selectionRing {
+	--selection-progress: 0deg;
+	display: grid;
+	place-items: center;
+	width: 62px;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: conic-gradient(var(--migrate-accent) var(--selection-progress), #26353e 0);
+	box-shadow: inset 0 0 0 7px var(--migrate-panel);
+	font-variant-numeric: tabular-nums;
+	font-weight: 800;
+}
+.statGrid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .45rem;
+}
+.statGrid div {
+	min-width: 0;
+	padding: .6rem;
+	border: 1px solid #22343e;
+	border-radius: 12px;
+	background: #0b151c;
+}
+.statGrid span {
+	display: block;
+	overflow: hidden;
+	font-variant-numeric: tabular-nums;
+	font-weight: 750;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.statGrid small {
+	display: block;
+	margin-top: .1rem;
+	color: var(--migrate-muted);
+	font-size: .7rem;
+}
+.yearDensity {
+	display: flex;
+	align-items: end;
+	gap: 3px;
+	height: 44px;
+	border-bottom: 1px solid var(--migrate-line);
+}
+.yearDensity span {
+	flex: 1;
+	height: calc(8% + 92% * var(--year-density, 0));
+	min-width: 2px;
+	border-radius: 2px 2px 0 0;
+	background: linear-gradient(to top, #4e7f89, var(--migrate-violet));
+}
+.recoveryLine {
+	color: var(--migrate-muted);
+	font-size: .77rem;
+	font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,53 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every command before emoji and label can share one compact professional rail;
+ * Awtsmoos.com keeps the stage dominant by letting the bar scroll gently instead of widening the creative veil.
+ */
+.aw-studio-toolbar {
+	grid-template-columns: minmax(120px, .7fr) auto minmax(0, 2fr);
+}
+
+.aw-studio-toolbar-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 5px;
+	min-width: 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-inline: contain;
+	scrollbar-width: none;
+}
+
+.aw-studio-toolbar-actions::-webkit-scrollbar {
+	display: none;
+}
+
+.aw-studio-command {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	min-width: 38px;
+}
+
+.aw-studio-command-emoji {
+	font-size: 15px;
+	line-height: 1;
+}
+
+.aw-studio-command-label {
+	font-size: 10px;
+}
+
+.aw-studio-command[aria-busy='true'] .aw-studio-command-emoji {
+	animation: aw-studio-busy-pulse .9s ease-in-out infinite alternate;
+}
+
+@keyframes aw-studio-busy-pulse {
+	to {
+		opacity: .5;
+		transform: scale(.9);
+	}
+}

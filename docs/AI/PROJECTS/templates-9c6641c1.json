@@ -21,14 +21,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/templates-9c6641c1.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 13,
+		"source": 15,
 		"tests": 1,
 		"assets": 0,
 		"generated": 0,
 		"docs": 1,
 		"other": 0
 	},
-	"totalFiles": 15,
+	"totalFiles": 17,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

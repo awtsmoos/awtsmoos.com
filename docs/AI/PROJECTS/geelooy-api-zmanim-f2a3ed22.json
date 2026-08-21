@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-zmanim-f2a3ed22",
+	"path": "geelooy/api/zmanim",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/zmanim",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/zmanim/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-zmanim-f2a3ed22.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 22,
+		"tests": 5,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 1
+	},
+	"totalFiles": 30,
+	"symbolSummary": {
+		"files": 22,
+		"classes": 0,
+		"functions": 58,
+		"exports": 36,
+		"samples": [
+			"dynamicRoutes",
+			"calculateComparison",
+			"comparisonEnvelope",
+			"comparisonQuery",
+			"requestedOpinions",
+			"calculateDay",
+			"opinionIds",
+			"loadCore",
+			"loadEmbedPresets",
+			"loadNetworkServices",
+			"loadPresentation",
+			"zmanimModule"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/zmanimms",
+			"count": 1,
+			"examples": "geelooy/api/zmanimms/_awtsmoos.derech.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

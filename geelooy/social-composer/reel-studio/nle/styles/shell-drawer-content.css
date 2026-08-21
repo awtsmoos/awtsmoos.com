@@ -1,0 +1,76 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets simple creative speech flow before asset detail; Awtsmoos.com keeps drawer contents vertically calm, readable, and progressively disclosed.
+ */
+
+.nle-create-scroll,
+.nle-drawer-scroll {
+	min-block-size: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.nle-create-scroll {
+	display: grid;
+	align-content: start;
+	gap: .85rem;
+	padding: .8rem;
+}
+
+.nle-create-actions {
+	display: grid;
+	gap: .7rem;
+}
+
+.nle-create-actions .nle-action-group {
+	grid-template-columns: 1fr;
+}
+
+.nle-create-actions .nle-action-card {
+	background: linear-gradient(145deg, rgba(24, 34, 43, .94), rgba(10, 15, 22, .96));
+}
+
+.nle-drawer-assets {
+	border-block-start: 1px solid var(--nle-border-soft);
+	padding-block-start: .65rem;
+}
+
+.nle-drawer-assets summary {
+	min-block-size: 2.45rem;
+	padding: .55rem .65rem;
+	border-radius: .65rem;
+	color: var(--nle-text-muted);
+	font-size: .66rem;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.nle-drawer-assets[open] summary {
+	background: rgba(89, 189, 210, .06);
+	color: var(--nle-text-soft);
+}
+
+.nle-drawer-assets > div,
+.nle-drawer-scroll {
+	padding: .7rem;
+}
+
+.nle-more-surface {
+	inset-block-start: 4.15rem;
+	inset-inline-end: .7rem;
+	display: grid;
+	gap: .28rem;
+	inline-size: min(13rem, calc(100vw - 1rem));
+	padding: .42rem;
+	border-radius: .8rem;
+	transform: translateY(-.5rem) scale(.98);
+	transform-origin: top right;
+}
+
+.nle-more-surface button {
+	justify-content: flex-start;
+	inline-size: 100%;
+	text-align: start;
+}

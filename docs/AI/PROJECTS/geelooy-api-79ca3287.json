@@ -22,14 +22,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-79ca3287.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1465,
-		"tests": 261,
+		"source": 1797,
+		"tests": 399,
 		"assets": 0,
 		"generated": 0,
-		"docs": 33,
-		"other": 2
+		"docs": 43,
+		"other": 3
 	},
-	"totalFiles": 1761,
+	"totalFiles": 2242,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

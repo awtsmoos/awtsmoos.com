@@ -2,14 +2,17 @@
 // Boruch Hashem
 // Blessed is He
 
+const Agents = require("./plannerAgents.js");
 const Policy = require("./plannerPolicy.js");
 const Scopes = require("./plannerScopes.js");
 const Target = require("./plannerTarget.js");
 
 /**
- * @file Composes one durable congestion-safe flat website-agent mission plan.
- * @description The Awtsmoos may call hundreds of peer shluchim while Awtsmoos.com
- * keeps every logical agent at depth zero and opens only one verified-close tab.
+ * @file Composes one congestion-safe Awts Shliach website mission with durable lineage.
+ * @description
+ * The Awtsmoos may call hundreds of logical peers while Awtsmoos.com opens only one
+ * verified-close browser tab at a time. Ordinary missions keep flat peer identities;
+ * takeover missions reuse the exact successor name, group, and generation they were given.
  */
 function plan(config = {}, input = {}) {
 	const projectRoot = Scopes.canonicalProjectRoot(input.projectRoot || config.root || process.cwd());
@@ -38,67 +41,54 @@ function plan(config = {}, input = {}) {
 		agentCount: count,
 		minimumAgentCount: Policy.minimumAgentCount(input),
 		continuationOnly: Policy.continuationOnly(input),
+		continuationFingerprint: String(input.continuationFingerprint || ""),
+		spawnGroupId: Agents.groupId(input),
+		generation: positive(input.generation, 1),
+		predecessorAgentId: Agents.clean(input.predecessorAgentId, 120),
 		fanOutTier: scale,
 		physicalTabPolicy: {
 			maxActiveTabs: 1,
 			intervalAnchor: "verified-tab-close",
 			postCloseCooldownMs: Policy.POST_CLOSE_COOLDOWN_MS
 		},
-		subagentPolicy: {
-			mode: "bounded-flat-peers",
-			topology: "flatland",
-			priority: ["large", "enormous"].includes(scale)
-				? "required-when-available"
-				: "preferred",
-			allowRecursiveSubagents: input.allowRecursiveSubagents !== false &&
-				input.allowRecursiveSubagents !== "false",
-			maxSubagentDepth: 1,
-			maxSubagentsPerAgent,
-			maxHelpersPerAgent: maxSubagentsPerAgent,
-			maxTotalWebsiteAgents,
-			subagentStartSpacingMs: Policy.spacing(input.subagentStartSpacingMs, startSpacingMs),
-			pressureAwareActivation: input.pressureAwareActivation !== false &&
-				input.pressureAwareActivation !== "false",
-			spawnDrainQuantum: Policy.bounded(input.spawnDrainQuantum, 4, 1, 16),
-			spawnDrainMaxQuanta: Policy.bounded(input.spawnDrainMaxQuanta, 2, 1, 8),
-			softPressureQuantum: Policy.bounded(input.softPressureQuantum, 1, 1, 2),
-			spawnDrainWakeMs: Policy.bounded(input.spawnDrainWakeMs, 1000, 250, 60000),
-			softPressureWakeMs: Policy.bounded(input.softPressureWakeMs, 1500, 1500, 60000),
-			hardPressureWakeMs: Policy.bounded(input.hardPressureWakeMs, 3000, 3000, 60000),
-			panicPressureWakeMs: Policy.bounded(input.panicPressureWakeMs, 5000, 5000, 60000),
-			recursiveFanOut: "flat-peer-fan-out-with-stable-sponsor-keys",
-			handoffRequired: true,
-			roomUpdates: ["plan", "progress", "handoff", "completion"]
-		},
+		subagentPolicy: subagentPolicy(input, scale, count, maxTotalWebsiteAgents, maxSubagentsPerAgent, startSpacingMs),
 		startSpacingMs,
 		collaborationRounds: Policy.bounded(input.collaborationRounds, 2, 1, 8),
 		maxContinuationTurns: Policy.bounded(input.maxContinuationTurns, 6, 1, 12),
 		authPollMs: Policy.bounded(input.authPollMs, 3000, 1000, 30000),
-		agents: createAgents(count, scopes, projectRoot)
+		agents: Agents.create(count, scopes, projectRoot, input)
 	};
 }
 
-function createAgents(count, scopes, projectRoot) {
-	const width = Math.max(2, String(count).length);
-	return Array.from({ length: count }, (_, index) => {
-		const [role, focus, claimMode] = Policy.ROLES[index % Policy.ROLES.length];
-		const ordinal = String(index + 1).padStart(width, "0");
-		const scope = scopes[index % scopes.length];
-		return {
-			id: `website_${ordinal}_${role}`,
-			name: `Website ${capitalize(role)} ${ordinal}`,
-			role,
-			focus,
-			claimMode,
-			scope,
-			absoluteScope: Scopes.absoluteScope(projectRoot, scope),
-			ordinal: index + 1
-		};
-	});
+function subagentPolicy(input, scale, count, maxTotal, maxPerAgent, startSpacingMs) {
+	return {
+		mode: "bounded-flat-peers",
+		topology: "flatland",
+		priority: ["large", "enormous"].includes(scale) ? "required-when-available" : "preferred",
+		allowRecursiveSubagents: input.allowRecursiveSubagents !== false && input.allowRecursiveSubagents !== "false",
+		maxSubagentDepth: 1,
+		maxSubagentsPerAgent: maxPerAgent,
+		maxHelpersPerAgent: maxPerAgent,
+		maxTotalWebsiteAgents: maxTotal,
+		subagentStartSpacingMs: Policy.spacing(input.subagentStartSpacingMs, startSpacingMs),
+		pressureAwareActivation: input.pressureAwareActivation !== false && input.pressureAwareActivation !== "false",
+		spawnDrainQuantum: Policy.bounded(input.spawnDrainQuantum, 4, 1, 16),
+		spawnDrainMaxQuanta: Policy.bounded(input.spawnDrainMaxQuanta, 2, 1, 8),
+		softPressureQuantum: Policy.bounded(input.softPressureQuantum, 1, 1, 2),
+		spawnDrainWakeMs: Policy.bounded(input.spawnDrainWakeMs, 1000, 250, 60000),
+		softPressureWakeMs: Policy.bounded(input.softPressureWakeMs, 1500, 1500, 60000),
+		hardPressureWakeMs: Policy.bounded(input.hardPressureWakeMs, 3000, 3000, 60000),
+		panicPressureWakeMs: Policy.bounded(input.panicPressureWakeMs, 5000, 5000, 60000),
+		recursiveFanOut: "flat-peer-fan-out-with-stable-sponsor-keys",
+		handoffRequired: true,
+		roomUpdates: ["plan", "progress", "handoff", "completion"],
+		logicalAgentCount: count
+	};
 }
 
-function capitalize(value) {
-	return value.charAt(0).toUpperCase() + value.slice(1);
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? Math.floor(number) : fallback;
 }
 
 module.exports = {

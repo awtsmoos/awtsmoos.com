@@ -9,7 +9,7 @@
 		"id": "public",
 		"title": "Public and Other Boundaries"
 	},
-	"title": "geelooy/ocr",
+	"title": "OCR Studio — Awtsmoos",
 	"entries": [
 		"index.html"
 	],
@@ -36,9 +36,9 @@
 		{
 			"url": "/ocr",
 			"file": "geelooy/ocr/index.html",
-			"title": "",
-			"scripts": 0,
-			"styles": 0
+			"title": "OCR Studio — Awtsmoos",
+			"scripts": 1,
+			"styles": 1
 		}
 	],
 	"requiresLocalDocumentation": false,

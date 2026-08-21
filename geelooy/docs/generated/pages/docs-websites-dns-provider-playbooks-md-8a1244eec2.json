@@ -1,0 +1,104 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "docs-websites-dns-provider-playbooks-md-8a1244eec2",
+	"title": "DNS Provider Playbooks for Awtsmoos Websites",
+	"sourcePath": "docs/WEBSITES/DNS_PROVIDER_PLAYBOOKS.md",
+	"category": "General",
+	"provenance": "manual",
+	"headings": [
+		{
+			"level": 1,
+			"text": "DNS Provider Playbooks for Awtsmoos Websites",
+			"anchor": "dns-provider-playbooks-for-awtsmoos-websites"
+		},
+		{
+			"level": 2,
+			"text": "Universal rule before touching anything",
+			"anchor": "universal-rule-before-touching-anything"
+		},
+		{
+			"level": 2,
+			"text": "Cloudflare",
+			"anchor": "cloudflare"
+		},
+		{
+			"level": 3,
+			"text": "Website-only move to Awtsmoos",
+			"anchor": "website-only-move-to-awtsmoos"
+		},
+		{
+			"level": 3,
+			"text": "Full authoritative migration away from Cloudflare",
+			"anchor": "full-authoritative-migration-away-from-cloudflare"
+		},
+		{
+			"level": 2,
+			"text": "GoDaddy",
+			"anchor": "godaddy"
+		},
+		{
+			"level": 3,
+			"text": "Website-only move to Awtsmoos",
+			"anchor": "website-only-move-to-awtsmoos-2"
+		},
+		{
+			"level": 3,
+			"text": "Full DNS-provider move",
+			"anchor": "full-dns-provider-move"
+		},
+		{
+			"level": 2,
+			"text": "Namecheap",
+			"anchor": "namecheap"
+		},
+		{
+			"level": 3,
+			"text": "Website-only move to Awtsmoos",
+			"anchor": "website-only-move-to-awtsmoos-3"
+		},
+		{
+			"level": 3,
+			"text": "Nameserver warning",
+			"anchor": "nameserver-warning"
+		},
+		{
+			"level": 2,
+			"text": "Squarespace Domains",
+			"anchor": "squarespace-domains"
+		},
+		{
+			"level": 3,
+			"text": "Website-only move to Awtsmoos",
+			"anchor": "website-only-move-to-awtsmoos-4"
+		},
+		{
+			"level": 3,
+			"text": "Full authoritative move",
+			"anchor": "full-authoritative-move"
+		},
+		{
+			"level": 2,
+			"text": "Amazon Route 53",
+			"anchor": "amazon-route-53"
+		},
+		{
+			"level": 3,
+			"text": "Website-only move to Awtsmoos while keeping Route 53",
+			"anchor": "website-only-move-to-awtsmoos-while-keeping-route-53"
+		},
+		{
+			"level": 3,
+			"text": "Moving authoritative DNS into Route 53",
+			"anchor": "moving-authoritative-dns-into-route-53"
+		},
+		{
+			"level": 2,
+			"text": "What Awtsmoos should show beside every provider guide",
+			"anchor": "what-awtsmoos-should-show-beside-every-provider-guide"
+		}
+	],
+	"markdownParts": [
+		"content/docs-websites-dns-provider-playbooks-md-8a1244eec2-001.json"
+	]
+}

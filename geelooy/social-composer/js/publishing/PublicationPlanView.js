@@ -1,20 +1,14 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @class PublicationPlanView
  * @description
- * Canonical birth, every secondary mirror, policy mode, visibility, scheduling,
- * and server preview become visible before publication. The Awtsmoos knows the
- * entire deed at once; Awtsmoos.com shows the writer what each destination will do.
+ * The Awtsmoos knows every destination in one timeless unity; Awtsmoos.com reveals canonical birth,
+ * secondary mirrors, public audience truth, timing, moderation, and server verification before the deed appears.
  */
-
-import {
-	buildPublicationPlan,
-	publicationIssues
-} from './PublicationPlan.js';
 import { buildPostPayload } from '../model/PostPayload.js';
+import { buildPublicationPlan, publicationIssues } from './PublicationPlan.js';
 
 function destinationLine(destination, label) {
 	return `${label}: ${destination.heichelId || 'unset'} › ${destination.seriesId || 'root'}${destination.kind ? ` · ${destination.kind}` : ''}`;
@@ -33,29 +27,31 @@ export class PublicationPlanView {
 	}
 
 	bind() {
-		this.element('previewPlanButton').addEventListener('click', () => this.preview());
-		this.element('visibility').addEventListener('change', event => {
-			this.state.setPublication('visibility', event.target.value);
-		});
-		this.element('scheduledAt').addEventListener('change', event => {
+		this.element('previewPlanButton')?.addEventListener('click', () => this.preview());
+		this.element('scheduledAt')?.addEventListener('change', event => {
 			this.state.setPublication('scheduledAt', event.target.value ? Date.parse(event.target.value) : 0);
 		});
+		const visibility = this.element('visibility');
+		if (visibility) {
+			visibility.value = 'public';
+			visibility.disabled = true;
+		}
 	}
 
 	render(snapshot) {
 		const plan = buildPublicationPlan(snapshot);
 		const lines = [
 			destinationLine(plan.primary, 'Canonical origin'),
-			...plan.secondary.map((item, index) => destinationLine(item, `Secondary ${index + 1}`)),
+			...plan.secondary.map((destination, index) => destinationLine(destination, `Secondary ${index + 1}`)),
 			`Content kind: ${plan.contentKind}`,
-			`Visibility: ${plan.visibility}`,
+			'Audience: Public social post',
 			plan.scheduledAt ? `Scheduled: ${new Date(plan.scheduledAt).toLocaleString()}` : 'Publish timing: immediate',
 			`Idempotency key: ${plan.idempotencyKey}`
 		];
 		const issues = publicationIssues(snapshot);
 		if (issues.length) lines.push(`Needs attention: ${issues.join(' ')}`);
-		this.element('publicationPlanView').textContent = lines.join('\n');
-		this.element('visibility').value = plan.visibility;
+		const view = this.element('publicationPlanView');
+		if (view) view.textContent = lines.join('\n');
 	}
 
 	async preview() {
@@ -67,31 +63,29 @@ export class PublicationPlanView {
 		}
 		this.status.show('Checking every destination and moderation gate…', 'working');
 		try {
-			const preview = await this.api.previewPublication(
-				buildPostPayload(snapshot),
-				buildPublicationPlan(snapshot)
-			);
+			const preview = await this.api.previewPublication(buildPostPayload(snapshot), buildPublicationPlan(snapshot));
 			this.state.setPublication('lastPreview', preview);
-			this.element('publicationPlanResult').textContent = [
-				actionLine(preview.primary),
-				...preview.secondary.map(actionLine),
-				preview.requiresReview ? 'Result: moderator review required.' : 'Result: direct publication available.'
-			].join('\n');
+			const result = this.element('publicationPlanResult');
+			if (result) {
+				result.textContent = [
+					actionLine(preview.primary),
+					...preview.secondary.map(actionLine),
+					preview.requiresReview ? 'Result: moderator review required.' : 'Result: direct publication available.'
+				].join('\n');
+			}
 			this.status.show('Publication plan verified by the server.', 'success');
 			return preview;
 		} catch (error) {
-			this.element('publicationPlanResult').textContent = error.message;
+			const result = this.element('publicationPlanResult');
+			if (result) result.textContent = error.message;
 			this.status.show(error.message, 'error');
 			return null;
 		}
 	}
 
 	element(id) {
-		return this.root.getElementById(id);
+		return this.root?.getElementById?.(id) || null;
 	}
 }
 
-export {
-	destinationLine,
-	actionLine
-};
+export { actionLine, destinationLine };

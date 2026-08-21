@@ -5,23 +5,27 @@
 const Heartbeat = require("./roomHeartbeat.js");
 
 /**
- * @file Commits sequenced peer messages and delegates truthful liveness to the heartbeat vessel.
+ * @file Commits one sequenced message body with direct, global, or spawn-group routing.
  * @description
- * The Awtsmoos lets intention cross from one agent to another without confusing speech
- * with mere observation. Awtsmoos.com preserves every message as Hod while heartbeat
- * remains its own witnessed pulse, so communication and liveness cannot counterfeit each other.
+ * The Awtsmoos lets one word reach many shluchim without copying the word into many
+ * worlds. Awtsmoos.com stores one Hod-like witness and lets recipient cursors decide
+ * who may hear it, so sibling conversation remains cheap even when hundreds gather.
  */
 function add(mission, input, env) {
 	const room = env.RoomState.ensure(mission, input);
 	const fromAgent = input.fromAgent || env.RoomState.agentId(input);
 	const kind = env.RoomState.text(input.kind || "chat");
-	const sequence = nextSequence(room);
+	const toSpawnGroup = env.RoomState.text(input.toSpawnGroup || input.spawnGroupTarget || "");
+	const toAgent = env.RoomState.text(
+		input.toAgent || input.to || (toSpawnGroup ? "spawn_group" : "all")
+	);
 	const message = {
 		id: input.messageId || env.RoomState.id("room_msg"),
-		sequence,
+		sequence: nextSequence(room),
 		at: env.RoomState.now(),
 		fromAgent,
-		toAgent: env.RoomState.text(input.toAgent || input.to || "all"),
+		toAgent,
+		toSpawnGroup,
 		kind,
 		subject: env.RoomState.text(input.subject || input.title),
 		body: env.RoomState.text(input.body || input.message || input.text),
@@ -37,8 +41,9 @@ function add(mission, input, env) {
 		message: message.body,
 		payload: {
 			messageId: message.id,
-			sequence,
-			toAgent: message.toAgent,
+			sequence: message.sequence,
+			toAgent,
+			toSpawnGroup,
 			kind
 		}
 	});
@@ -46,15 +51,18 @@ function add(mission, input, env) {
 	env.event(mission, "mission_room_message", message.subject || message.body.slice(0, 120), {
 		roomId: room.id,
 		messageId: message.id,
-		sequence,
+		sequence: message.sequence,
 		fromAgent,
+		toAgent,
+		toSpawnGroup: toSpawnGroup || undefined,
 		interrupts: message.interrupts
 	});
 	return { message, interrupt };
 }
 
 /**
- * Creates a blocking room interrupt only when the message contract requires it.
+ * Creates one blocking interrupt carrying the same direct/group routing metadata.
+ *
  * @param {object} message Durable room message.
  * @param {object} mission Owning mission.
  * @param {object} input Original action payload.
@@ -66,6 +74,8 @@ function createInterrupt(message, mission, input, env) {
 	return env.RoomInterrupts.create(mission, {
 		...input,
 		fromAgent: message.fromAgent,
+		toAgent: message.toAgent,
+		toSpawnGroup: message.toSpawnGroup,
 		messageId: message.id,
 		currentWork: input.currentWork || mission.room?.currentWork,
 		reason: message.kind === "user" ? "user_message_interrupt" : "agent_message_interrupt"
@@ -81,10 +91,8 @@ function shouldInterrupt(input, kind) {
 	if (input.interrupt === false || input.interrupt === "false") return false;
 	if (boolean(input.requiresResponse)) return true;
 	if (["user", "question", "blocker", "urgent"].includes(kind)) return true;
-	if (["presence", "plan", "progress", "handoff", "completion", "answer"].includes(kind)) {
-		return false;
-	}
-	return Boolean(input.currentWork || input.currentAction);
+	return !["presence", "plan", "progress", "handoff", "completion", "answer"].includes(kind)
+		&& Boolean(input.currentWork || input.currentAction);
 }
 
 function nextSequence(room) {
@@ -108,10 +116,4 @@ function meta(env, input, mission, kind, data) {
 	}, mission, kind, data);
 }
 
-module.exports = {
-	add,
-	brainstorm,
-	heartbeat,
-	nextSequence,
-	shouldInterrupt
-};
+module.exports = { add, brainstorm, heartbeat, nextSequence, shouldInterrupt };

@@ -4,59 +4,80 @@
 
 /**
  * @file MinimalMeadowHouseAssembly.js
- * @description Assembles visible homes with entry, story-floor, stair, landing, and collider truth.
- * The Awtsmoos gathers meadow, threshold, room, and upper story into one measured dwelling;
- * Awtsmoos.com returns each horizontal support separately so no immense room opens beneath the player.
+ * @description Manifests one canonical Domem BuildingPlan inside Mitzvah World's tiny runtime, octree, doors, and mezuzah lifecycle.
+ * The Awtsmoos, Atzmus beyond reusable plan and particular world, renews one dwelling while each layer keeps its rightful shore;
+ * Awtsmoos.com now lets Mitzvah World receive architecture instead of secretly owning it, while Malchus-like manifestation remains here evermore.
+ * This file deliberately does not calculate foundations, walls, rooms, stairs, or support geometry; procedural core owns those laws.
  */
 
+import { createBuildingPlan } from '../../../../../../libs/awtsmoos-procedural-core/src/core/domem/architecture/index.js';
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import {
-	installMinimalMeadowHouseDefinitions, installMinimalMeadowHouseDoors,
+	installMinimalMeadowHouseDefinitions,
+	installMinimalMeadowHouseDoors,
 	installMinimalMeadowHouseMezuzahs
 } from './MinimalMeadowHouseAssemblyInstallers.js';
 import { houseDimensionEvidence } from './MinimalMeadowHouseDimensionPolicy.js';
-import { createMinimalMeadowHouseFloorSupport } from './MinimalMeadowHouseFloorSupport.js';
-import { createMinimalMeadowHouseFoundation } from './MinimalMeadowHouseFoundation.js';
-import { createMinimalMeadowHouseRooms } from './MinimalMeadowHouseRooms.js';
-import { createMinimalMeadowHouseShell } from './MinimalMeadowHouseShell.js';
-import { createMinimalMeadowHouseStairs } from './MinimalMeadowHouseStairs.js';
 
-export function createMinimalMeadowHouseAssembly(profile, materials, runtime) {
-	const foundation = createMinimalMeadowHouseFoundation(profile, materials, runtime.terrain.heightAt);
-	const groundY = foundation.groundY;
-	const group = new Group();
-	group.name = `Awtsmoos_house_${profile.id}`;
-	const rooms = createMinimalMeadowHouseRooms(profile, materials, groundY);
-	const stairs = createMinimalMeadowHouseStairs(profile, materials, groundY);
-	const floorSupport = createMinimalMeadowHouseFloorSupport(profile, groundY);
-	const shell = createMinimalMeadowHouseShell(profile, materials, groundY);
-	const doorSpecifications = [exteriorDoor(profile, groundY), ...rooms.doors];
-	const definitions = [
-		...foundation.definitions, ...shell, ...rooms.definitions, ...stairs.definitions
-	];
+/**
+ * Creates one live Mitzvah house from a renderer-neutral Domem architecture plan.
+ * @param {object} profile Canonical Mitzvah-compatible building profile.
+ * @param {object} materials Game-owned material descriptors including dynamic door and mezuzah materials.
+ * @param {object} runtime Mitzvah runtime exposing terrain, main octree, and event bus.
+ * @returns {object} Historical house runtime envelope with group, colliders, doors, supports, rooms, and diagnostics.
+ */
+export function createMinimalMeadowHouseAssembly(
+	profile,
+	materials,
+	runtime
+) {
+	const plan = createBuildingPlan(
+		profile,
+		materials,
+		runtime.terrain.heightAt
+	);
+	const group = createHouseGroup(profile);
 	const staticColliders = installMinimalMeadowHouseDefinitions(
-		group, definitions, runtime.mainOctree
+		group,
+		plan.definitions,
+		runtime.mainOctree
 	);
 	const doors = installMinimalMeadowHouseDoors(
-		group, doorSpecifications, profile, materials, runtime
+		group,
+		plan.doors,
+		profile,
+		materials,
+		runtime
 	);
 	const mezuzahs = installMinimalMeadowHouseMezuzahs(
-		group, doorSpecifications, profile, materials
+		group,
+		plan.doors,
+		profile,
+		materials
 	);
-	const groundSupports = [foundation.support, floorSupport, stairs.support].filter(Boolean);
-	group.userData.AwtsmoosHouseDimensions = houseDimensionEvidence(profile);
+	const dimensions = houseDimensionEvidence(profile);
+	group.userData.AwtsmoosHouseDimensions = dimensions;
 	return {
-		definitions, dimensions: houseDimensionEvidence(profile), doors, floorSupport,
-		foundation: foundation.evidence, groundSupports, groundY, group, mezuzahs, profile,
-		roomCount: rooms.roomCount, roomIds: rooms.roomIds, stairSupport: stairs.support,
-		stairs: stairs.stats, staticColliders
+		definitions: plan.definitions,
+		dimensions,
+		doors,
+		floorSupport: plan.floorSupport,
+		foundation: plan.foundation,
+		groundSupports: plan.groundSupports,
+		groundY: plan.groundY,
+		group,
+		mezuzahs,
+		profile,
+		roomCount: plan.roomCount,
+		roomIds: plan.roomIds,
+		stairs: plan.stairs,
+		stairSupport: plan.stairSupport,
+		staticColliders
 	};
 }
 
-function exteriorDoor(profile, groundY) {
-	return {
-		id: `${profile.id}-front-door`, level: 0, localX: 0, localZ: profile.depth / 2,
-		sourceRoomId: 'outside', targetRoomId: `${profile.id}-story-1-hall`,
-		y: groundY + profile.floorThickness, yaw: profile.yaw
-	};
+function createHouseGroup(profile) {
+	const group = new Group();
+	group.name = `Awtsmoos_house_${profile.id}`;
+	return group;
 }

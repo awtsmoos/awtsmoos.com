@@ -14,43 +14,23 @@
 		},
 		{
 			"level": 2,
-			"text": "If you are new",
-			"anchor": "if-you-are-new"
+			"text": "New to the repository",
+			"anchor": "new-to-the-repository"
 		},
 		{
 			"level": 2,
-			"text": "If you already have a URL",
-			"anchor": "if-you-already-have-a-url"
+			"text": "You have a URL",
+			"anchor": "you-have-a-url"
 		},
 		{
 			"level": 2,
-			"text": "If you already have a directory/system name",
-			"anchor": "if-you-already-have-a-directory-system-name"
+			"text": "You have a directory or product name",
+			"anchor": "you-have-a-directory-or-product-name"
 		},
 		{
 			"level": 2,
-			"text": "Repository layers",
-			"anchor": "repository-layers"
-		},
-		{
-			"level": 3,
-			"text": "Public surface — geelooy/",
-			"anchor": "public-surface-geelooy"
-		},
-		{
-			"level": 3,
-			"text": "Runtime — ayzarim/",
-			"anchor": "runtime-ayzarim"
-		},
-		{
-			"level": 3,
-			"text": "Documentation/discovery",
-			"anchor": "documentation-discovery"
-		},
-		{
-			"level": 2,
-			"text": "Task shortcuts",
-			"anchor": "task-shortcuts"
+			"text": "You are changing persistence, identity, authorization, or realtime behavior",
+			"anchor": "you-are-changing-persistence-identity-authorization-or-realtime-behavior"
 		},
 		{
 			"level": 2,

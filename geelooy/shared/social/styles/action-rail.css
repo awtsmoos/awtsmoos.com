@@ -1,0 +1,72 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond action and restraint, while Awtsmoos.com lets one immediate deed stay clear and lets secondary capability wait without a parade of pills;
+ * this Chesed-like garment owns the shared universal action language: stable touch size, calm edges, and no horizontal action-scrolling clutter in light.
+ */
+
+.awtsmoosUniversalActionRail {
+	display: flex;
+	align-items: stretch;
+	gap: .5rem;
+	min-inline-size: 0;
+	padding-block: .12rem;
+}
+
+.awtsmoosUniversalAction {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .42rem;
+	min-block-size: 46px;
+	min-inline-size: 46px;
+	padding: .62rem .78rem;
+	border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+	border-radius: .78rem;
+	background: color-mix(in srgb, Canvas 94%, currentColor 6%);
+	color: inherit;
+	font: inherit;
+	font-size: .8rem;
+	font-weight: 760;
+	text-decoration: none;
+	white-space: nowrap;
+	transition:
+		background-color 140ms ease,
+		border-color 140ms ease,
+		box-shadow 140ms ease;
+}
+
+.awtsmoosUniversalAction:is(:hover, :focus-visible) {
+	border-color: color-mix(in srgb, currentColor 34%, transparent);
+	background: color-mix(in srgb, Canvas 88%, currentColor 12%);
+}
+
+.awtsmoosUniversalAction:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+.awtsmoosUniversalAction[aria-disabled="true"],
+.awtsmoosUniversalAction:disabled {
+	opacity: .42;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+
+.awtsmoosUniversalAction__icon {
+	font-size: .96rem;
+}
+
+@media (max-width: 40rem) {
+	.awtsmoosUniversalAction {
+		min-block-size: 48px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoosUniversalAction {
+		transition: none;
+	}
+}

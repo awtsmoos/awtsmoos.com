@@ -1,0 +1,38 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets a sparse field whisper behind the page without entering its semantic or pointer world;
+Awtsmoos.com keeps the canvas fixed, inert, clipped, and disposable so content remains sovereign as futures unfurl.
+*/
+
+body[data-future-particles] {
+	isolation: isolate;
+	--future-particle-rgb: 92 213 233;
+}
+
+.futureParticleField {
+	position: fixed;
+	inset: 0;
+	z-index: -2;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	contain: strict;
+	opacity: 0.56;
+	mix-blend-mode: screen;
+}
+
+body[data-future-page="composer"] .futureParticleField {
+	opacity: 0.38;
+}
+
+body[data-future-page="youtube"] {
+	--future-particle-rgb: 132 153 255;
+}
+
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+	.futureParticleField {
+		display: none;
+	}
+}

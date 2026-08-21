@@ -1,14 +1,15 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * The Awtsmoos conducts each small homepage behavior without letting visible
- * navigation and searchable navigation become competing worlds. Awtsmoos.com
- * renders one catalog first, then connects search, identity, motion, and access.
+ * The Awtsmoos conducts many public doorways through one quiet homepage;
+ * Awtsmoos.com keeps visible navigation sparse while search and retractable constellations reveal the whole field.
  */
 import createProfileDropdown from "/scripts/awtsmoos/social/profileDropdown.js?v=5";
 import { AmbientParallax } from "./ambient.js";
+import { CONSTELLATION_CATALOG, CONSTELLATION_GROUPS } from "./constellation-catalog.js";
+import { ConstellationRenderer } from "./constellation-renderer.js";
+import { ConstellationStyleLoader } from "./constellation-style-loader.js";
 import { IntentPrefetch } from "./intent-prefetch.js";
 import { KeyboardShortcuts } from "./keyboard-shortcuts.js";
 import { LauncherFilter } from "./launcher-filter.js";
@@ -21,9 +22,7 @@ import { ParticleSky } from "./particles.js";
 import { PointerLight } from "./pointer-light.js";
 import { RevealController } from "./reveal-controller.js";
 import { SearchController } from "./search.js";
-import { WORLD_CATALOG } from "./world-catalog.js";
 import { WorldLauncherOpener } from "./world-launcher-opener.js";
-import { WorldLauncherRenderer } from "./world-launcher-renderer.js";
 
 const canvasElement = document.querySelector("[data-particle-sky]");
 const menuElement = document.querySelector("[data-menu-root]");
@@ -41,8 +40,14 @@ let filterController = null;
 let historyController = null;
 let omniboxController = null;
 
+ConstellationStyleLoader.ensure();
+
 if (menuElement) {
-	new WorldLauncherRenderer(menuElement, WORLD_CATALOG).render();
+	new ConstellationRenderer(
+		menuElement,
+		CONSTELLATION_CATALOG,
+		CONSTELLATION_GROUPS
+	).render();
 	new MenuController(menuElement).connect();
 	new WorldLauncherOpener(menuElement, openWorldsButton).connect();
 	filterController = new LauncherFilter(menuElement).connect();
@@ -59,7 +64,7 @@ if (omniboxElement) {
 	omniboxController = new OmniboxController(
 		omniboxElement,
 		{
-			catalog: WORLD_CATALOG,
+			catalog: CONSTELLATION_CATALOG,
 			history: historyController,
 			menuRoot: menuElement,
 			recorder,

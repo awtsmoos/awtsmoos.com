@@ -1,15 +1,50 @@
 <!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!--The Awtsmoos carries voice through one clear river; Awtsmoos.com keeps the first choice simple and the deeper controls folded.-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>Awtsmoos Broadcaster</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<main class="broadcast-shell">
+		<header class="broadcast-header">
+			<p class="bh-mark">B"H</p>
+			<p class="eyebrow">Live media vessel</p>
+			<h1>Broadcaster</h1>
+			<p class="lede">Choose a source. Your browser will ask permission before anything begins.</p>
+		</header>
 
-<script type="module">
-    import {
-        createBroadcastControls
-    } from "./broadcast.js"
-// HTML Setup Example
-document.body.innerHTML = `
-    <style>
-        body { margin: 0; overflow: hidden; background: #111; }
-        button { margin: 5px; padding: 10px; font-size: 16px; cursor: pointer; }
-    </style>
-`;
-createBroadcastControls();
-</script>
+		<section class="broadcast-controls" aria-label="Broadcast controls">
+			<button id="start-mic" class="action primary" type="button">Microphone</button>
+			<button id="start-camera" class="action" type="button">Mic + Camera</button>
+			<button id="stop-broadcast" class="action danger" type="button" hidden>Stop</button>
+		</section>
+
+		<div class="status-row">
+			<span id="broadcast-state" class="state-dot" data-state="idle" aria-hidden="true"></span>
+			<p id="broadcast-status" role="status" aria-live="polite">Ready</p>
+		</div>
+
+		<section id="broadcast-stage" class="broadcast-stage" aria-label="Broadcast stage">
+			<p class="stage-empty">Your camera and sound river appear here. Drag either surface to compose the stage.</p>
+		</section>
+
+		<details class="advanced-panel">
+			<summary>Advanced</summary>
+			<label class="toggle-row">
+				<input id="mirror-camera" type="checkbox" disabled>
+				<span>Mirror camera preview <kbd>R</kbd></span>
+			</label>
+		</details>
+	</main>
+	<script type="module">
+		import { createBroadcastControls } from "./broadcast.js";
+		createBroadcastControls(document);
+	</script>
+</body>
+</html>

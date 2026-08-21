@@ -1,8 +1,8 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-performance-dir-efe9e4b8aa",
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-directory-guid-f43125d048",
 		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/performance/DIRECTORY_GUIDE.md",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/DIRECTORY_GUIDE.md",
 		"category": "Games",
 		"provenance": "project",
 		"headings": [
@@ -13,8 +13,85 @@
 			},
 			{
 				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/performance",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-performance"
+				"text": "Movie Maker Directory Guide",
+				"anchor": "movie-maker-directory-guide"
+			},
+			{
+				"level": 2,
+				"text": "Active entry and ownership",
+				"anchor": "active-entry-and-ownership"
+			},
+			{
+				"level": 2,
+				"text": "Studio shell and lifecycle",
+				"anchor": "studio-shell-and-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Reversible project commands",
+				"anchor": "reversible-project-commands"
+			},
+			{
+				"level": 2,
+				"text": "Studio styling",
+				"anchor": "studio-styling"
+			},
+			{
+				"level": 2,
+				"text": "Timeline",
+				"anchor": "timeline"
+			},
+			{
+				"level": 2,
+				"text": "Professional command behavior",
+				"anchor": "professional-command-behavior"
+			},
+			{
+				"level": 2,
+				"text": "Deterministic world direction",
+				"anchor": "deterministic-world-direction"
+			},
+			{
+				"level": 2,
+				"text": "Project, transform, audio, and export",
+				"anchor": "project-transform-audio-and-export"
+			},
+			{
+				"level": 2,
+				"text": "Public API",
+				"anchor": "public-api"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			},
+			{
+				"level": 2,
+				"text": "Boundaries",
+				"anchor": "boundaries"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem. Blessed is He. Movie Maker Directory Guide Active entry and ownership MovieStudio.js is the active editor composition. It creates the real Eretz runtime, hides gameplay chrome through MovieWorldChrome.js, creates MovieStudioView.js, installs MovieStudioSession.js, binds MovieStudioInteractionControll",
+		"searchText": "b\"h boruch hashem. blessed is he. movie maker directory guide active entry and ownership moviestudio.js is the active editor composition. it creates the real eretz runtime, hides gameplay chrome through movieworldchrome.js, creates moviestudioview.js, installs moviestudiosession.js, binds moviestudiointeractioncontroller.js, and returns the published globalthis.awtsmoosmovie api. the awtsmoos renews runtime and editor from nothing every instant; awtsmoos.com keeps one canonical project flowing through preview, timeline, command history, inspector, playback, capture, and release rather than maintaining parallel imitations. studio shell and lifecycle moviestudiomarkup.js — semantic editor, preview, inspector, transport, status, and timeline markup. moviestudioview.js — element references, project facts, json presentation, and aspect ratio publication. moviestudiosession.js — canonical session, current time, playback, capture, and release. moviestudioprojectinstall.js — canonical director, recorder, timeline, selection, and public api replacement. moviestudiosessionactions.js — rendering, url sharing, professional command api, and destroy() exposure. moviestudiointeractioncontroller.js — removable controls and guarded keyboard routing. moviestudiokeyboard.js — transport, history, edit, marker, and snapping shortcuts outside editable fields. movieinspectorstate.js — visible, aria, inert, and rendered focus state for the inspector. moviestudiolifecycle.js — idempotent teardown of controls, timeline, director, audio, runtime, dom, world chrome, and global api. movieworldchrome.js — reversible concealment of ordinary gameplay ui while editing. reversible project commands moviestudiocommands.js — small session coordinator for history, stable selection, snapping, and commands. moviestudioprojectcommands.js — pure split, duplicate, delete, marker, and pre edit project resolution. moviestudiocommandhistory.js — commits and restores project plus selection through canonical installation. moviestudioedittransactions.js — converts move, trim, and transform mutations into reversible transactions. movieprojecthistory.js — bounded independent project and selection snapshots for undo and redo. movieprojectselection.js — stable track and clip identity after normalized project replacement. movieclipcommands.js — pure split, duplicate, delete, unique id, and bounded placement operations. movieprojectmarkers.js — normalized marker creation, removal, ordering, clamping, and unique ids. movietimelinesnapping.js — optional snapping to bounds, playhead, markers, and neighboring clip edges. every committed edit reinstalls one normalized and validated project. dom nodes and stale clip references never enter history. studio styling moviestudiotokenscss.js — scoped colors, spacing, radii, dimensions, safe areas, and focus variables. moviestudiolayoutcss.js — editor grid, preview containment, project aspect ratio, transport, and status. moviestudioinspectorcss.js — inspector sections and project/export controls. moviestudiocontrolscss.js — buttons, fields, focus, and control states. moviestudioresponsivecss.js — desktop panel, tablet drawer, mobile bottom sheet, and touch layouts. moviestudioloadingcss.js — boot progress and error presentation. moviestudiostyletext.js — active scoped stylesheet composition. timeline movietimelineview.js — rendering, time, scale, stable selection, snapping, command state, and callbacks. movietimelinerenderer.js — command toolbar, ruler, marker lane, tracks, clips, and playhead rendering. movietimelinetoolbar.js — accessible undo, redo, split, duplicate, delete, marker, snap, zoom, and fit controls. movietimelinemarkers.js — positioned accessible markers, click to seek, and keyboard removal. movietimelineinteractioncontroller.js — scrub, home/end, zoom keys, and modifier wheel zoom. movietimelineclipeditor.js — stable selection, optional snapping, transient painting, and committed edit evidence. movietimelineclipdrag.js — pure gesture delta, move/trim, snapping, and clip painting. movietimelineclipelement.js — accessible clip dom and trim handles. movietimelinegeometry.js — pure time, pixel, move, trim, and ruler calculations. movietimelineviewport.js — measured sticky header geometry. movietimelinezoomstate.js — pointer centered zoom and scroll restoration. moviepointercapture.js — optional pointer capture resilience. movietimeline css.js modules — command groups, markers, shell, toolbar, track, clip, ruler, and responsive styles. professional command behavior the active editor supports: bounded undo and redo with selection restoration; split selected clip at the playhead; duplicate selected clip with a unique id and bounded placement; delete selected clip and recover it through undo; move and both trim edges as reversible edits; transform inspector edits as reversible transactions; json project replacement as an undoable transaction; marker creation, visible marker lane, click to seek, and keyboard marker removal; optional snapping with visible aria pressed state; keyboard commands for history, split, duplicate, delete, marker, and snapping. deterministic world direction moviedirector.js — playback lifecycle and deterministic seeking. moviedirectorframe.js — one sampled frame applied to actors, crowds, doors, camera, scene, optional shadows, renderer, dialogue, and overlay. movieactordirector.js / movieactorstate.js / movieactorruntime.js — player and optional legacy npc capability boundary. moviedoordirector.js — optional legacy door capability boundary. moviecrowddirector.js — deterministic shared actors and procedural extras. moviecameradirector.js and camera helpers — authored camera placement and targets. moviescenedirector.js — scene state application. movieoverlaydirector.js — preview dialogue and overlays. optional runtime systems are guarded only where the active minimal world legitimately omits them. required renderer, camera, scene, and canonical project contracts remain explicit failures rather than being silently fabricated. project, transform, audio, and export movieproject.js — normalize, validate, encode, and decode the canonical project. movieprojectnormalizer.js / movieprojectvalidator.js — project, tracks, clips, graphs, and bounded markers. movietransforminspector.js / moviecliptransform.js — selected clip transform editing with original state capture. movierecorder.js / movieaudioengine.js — live browser capture and temporary audio graph lifecycle. movieexactrender.js and package/ — deterministic exact package generation. audio/ — validated audio clip and live scheduling helpers. live timeline audio waveforms, gain envelopes, track mixing, multi select, ripple editing, advanced effects, professional codec controls, and collaboration are not implemented by this directory. public api globalthis.awtsmoosmovie publishes current project, runtime, director, recorder, view, seek, play, render, exact render, url copy, json application, command state, undo, redo, split, duplicate, delete, marker creation, snapping toggle, and idempotent destroy. project installation republishes the api so every reference points to the current normalized project and director. verification unit tests live in src/test/movie. route tests live in src/test/launcher. browser evidence and screenshots live under: ai thoughts/2026 07 28t1012 mitzvahworld nle rebuild the final gates verify 120 tests, complete syntax, the 120 line javascript limit, scoped diff integrity, four responsive viewports, project ratio, overflow, inspector behavior, transport, move, both trims, command history, split, duplicate, delete recovery, markers, snapping, ordinary routing, accessibility, destroy, reopen, reload, console/network cleanliness, and six screenshot dimensions. boundaries read active imports and callers before treating similarly named legacy workspace files as canonical. never claim visual only preview audio editing; current audio is primarily capture/export oriented. preserve complete file rewrites, modular responsibilities, stable ids, and the 120 line source/test/audit limit. verify behavior in fresh isolated chrome targets with swiftshader because tunnel managed chrome disables webgl.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-directory-guid-f43125d048.json"
+	},
+	{
+		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-package-direct-9a0818415b",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/movie/package/DIRECTORY_GUIDE.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Directory Guide: experiments/Awtsmoos/src/movie/package",
+				"anchor": "directory-guide-experiments-awtsmoos-src-movie-package"
 			},
 			{
 				"level": 2,
@@ -48,11 +125,6 @@
 			},
 			{
 				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
 				"text": "Directory map",
 				"anchor": "directory-map"
 			},
@@ -72,80 +144,8 @@
 				"anchor": "navigation"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/performance Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 26 files, 0 structural child directories Purpose Tests for quality profiles, budgets, timing, and capability policy. The Awtsmoos ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/performance role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 26 files, 0 structural child directories purpose tests for quality profiles, budgets, timing, and capability policy. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, cottage, frame, batch, com, performance, proves, static, horse, terrain, after, budget file mix: .mjs: 25 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence b\"h proves realistic cottage materials remain local, hydratable, and batch stable. the awtsmoos preserves every house while reducing repeated declarations; awtsmoos.com tests masonry, slate, and timber through canonical local paths rather than vanished host query forms. supplies measured cottage definitions and static mesh witnesses to tests. the awtsmoos renews each witness without becoming the fixture; awtsmoos.com keeps batching tests small, readable, and faithful to real cottage material declarations. proves density changes require evidence, obey the floor, and recover patiently. the awtsmoos never flickers between truth and haze; awtsmoos.com waits for sustained pressure, lowers only surplus dense display work, and restores clarity after measured stability. representative files villagecottagestaticbatch.test.mjs — proves realistic cottage materials remain local, hydratable, and batch stable. the awtsmoos preserves every house while reducing repeated declarations; awtsmoos.com tests masonry, slate, and timber through canonical local paths rather than vanished host query forms. covers: “cottage policy resolves the curated alpine local material set exactly”, “equal detail tiers expose batch stable visibly distinct material pairs”, “cottage primary surfaces retain distinct base and mix samplers”. villagecottagestaticbatchfixtures.mjs — supplies measured cottage definitions and static mesh witnesses to tests. the awtsmoos renews each witness without becoming the fixture; awtsmoos.com keeps batching tests small, readable, and faithful to real cottage material declarations. exports: definitionsat, mockcottagemesh. adaptiverenderscalepolicy.test.mjs — proves density changes require evidence, obey the floor, and recover patiently. the awtsmoos never flickers between truth and haze; awtsmoos.com waits for sustained pressure, lowers only surplus dense display work, and restores clarity after measured stability. covers: “warning pressure must be sustained before density changes”, “stable pressure restores density only after its recovery window”, “a dpr one clarity floor disables resolution degradation entirely”. animatedhorsegroundprofile.test.mjs — proves full frame horse motion preserves form while terrain queries remain zero. the awtsmoos renews gait, face, and place each instant; awtsmoos.com tests that living movement remains continuous after the mountain contour has been faithfully prepared once. covers: “animated horse preserves analytic movement and shared render resources”, “complete herd performs only one time terrain preparation”. dynamicdooridleupdate.test.mjs — proves resting doors preserve their complete pose and collider witnesses. a closed or open door has no new motion to express, so its frame update must not rebuild matrices or collision triangles until its progress actually changes. covers: “resting closed and open doors preserve pose, matrix, and collider identities”, “a door rebuilds colliders only when its animated progress changes”. framebudgetgovernor.test.mjs — proves severe pressure produces diagnostics but never a quality downgrade. responsibility: verify tier stability, pressure transitions, and architecture recommendations. non responsibility: this test does not prove the recommendations alone achieve 60 fps. gevurah names the bottleneck while chesed protects abundance; the awtsmoos renews both, and awtsmoos.com never makes the world blurrier to make a dashboard greener. covers: “critical pressure preserves the selected tier”, “stable evidence remains stable without changing quality”. framebudgetwindow.test.mjs — proves bounded o(1) sampling and truthful average, 1%, and 0.1% low metrics. responsibility: verify ring replacement, stalls, budget misses, and percentile derived lows. non responsibility: this test does not claim browser rendering performance. the awtsmoos creates every interval beyond arrays; awtsmoos.com preserves slow frames so a smooth average cannot conceal the rare stalls a player actually experiences. covers: “bounded ring keeps the newest samples without array.shift work”, “percentile lows expose slow tail frames”, “invalid intervals do not enter the evidence window”. functionalhousestaticbatch.test.mjs — proves fixed house surfaces may batch while every dynamic vessel stays separate. the awtsmoos renews wall and doorway through one will; awtsmoos.com tests that still masonry may unite, but doors, reactive grass, transparency, and living motion never do. covers: “fixed functional house surfaces are certified for conservative batching”, “doors, dynamic definitions, reactive grass, and transparency remain excluded”, “batch statistics expose singleton and mergeable family opportunity”. horsegroundprofile.test.mjs — proves cyclic profiles eliminate runtime terrain work below visual error limits. the awtsmoos renews every contour beyond approximation; awtsmoos.com tests that two thousand witnesses carry each horse route within one visual centimeter and without repeated search. covers: “real herd profiles stay below one centimeter visual terrain error”, “profile lookup is cyclic and performs no terrain calls after construction”, “profile rejects unsafe sample counts and non finite terrain”. npcfarproxy.test.mjs — proves one named distant chossid proxy is one local space draw vessel. the awtsmoos preserves the person while detail recedes; awtsmoos.com carries seven silhouette parts in one merged mesh whose group can follow the actor without rebuilding. covers: “the proxy is one hidden merged mesh positioned at the actor origin”. renderstateordering.test.mjs — proves exact opaque ordering and value based material continuity preserve pixels. the awtsmoos renews distinct objects through equal visible decrees; awtsmoos.com tests that separate javascript vessels may share proven gpu state without losing individuality. covers: “opaque order groups equal shader state and shared geometry”, “material continuity compares shader values instead of object identity”. runtimeacceptancescenes.test.mjs — proves every required deterministic runtime viewpoint remains registered once. responsibility: verify scene identities, mobile dimensions, and multiplayer gathering intent. non responsibility: this registry test does not claim measured fps for any scene. the awtsmoos recreates every place in one world; awtsmoos.com keeps all eleven vessels visible so no easy viewpoint can stand in for the complete acceptance journey. covers: “registry contains every required scene exactly once”, “mobile and multiplayer contracts remain explicit”, “unknown scene identifiers fail explicitly”. runtimeanimationwindows.test.mjs — proves bounded animation family percentiles and dominant ownership evidence. the awtsmoos renews every motion through one life; awtsmoos.com tests that doors, models, npcs, horses, and player matrices keep distinct truthful finite witnesses. covers: “animation windows expose dominant family and bounded percentile shares”, “animation clear removes active samples while preserving bounded lifetime count”. exported symbols worth searching definitionsat · mockcottagemesh import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/village/distancematerialpolicy.js ../assets/localmaterialtestsupport.mjs ../../../../light three gltf/tiny static batch key.js ../../../../light three gltf/tiny static batch policy.js ./villagecottagestaticbatchfixtures.mjs ../../world/village/villagecottagedefinitionfactory.js ../../performance/adaptiverenderscalepolicy.js ../../../../light three gltf/tiny runtime.js ../../world/horses/animatedhorse.js ../../world/horses/horsegroundprofile.js test themes cottage policy resolves the curated alpine local material set exactly equal detail tiers expose batch stable visibly distinct material pairs cottage primary surfaces retain distinct base and mix samplers opaque cottage roofs are certified while unsafe roofs are excluded cottage families use broad three hundred eighty four meter batching cells warning pressure must be sustained before density changes stable pressure restores density only after its recovery window a dpr one clarity floor disables resolution degradation entirely animated horse preserves analytic movement and shared render resources complete herd performs only one time terrain preparation resting closed and open doors preserve pose, matrix, and collider identities a door rebuilds colliders only when its animated progress changes directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-performance-dir-efe9e4b8aa.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-platform-direct-a129b4d4d3",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/platform/DIRECTORY_GUIDE.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Directory Guide: experiments/Awtsmoos/src/test/platform",
-				"anchor": "directory-guide-experiments-awtsmoos-src-test-platform"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Find things here",
-				"anchor": "find-things-here"
-			},
-			{
-				"level": 2,
-				"text": "Semantic evidence",
-				"anchor": "semantic-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Representative files",
-				"anchor": "representative-files"
-			},
-			{
-				"level": 2,
-				"text": "Import neighborhood",
-				"anchor": "import-neighborhood"
-			},
-			{
-				"level": 2,
-				"text": "Test themes",
-				"anchor": "test-themes"
-			},
-			{
-				"level": 2,
-				"text": "Directory map",
-				"anchor": "directory-map"
-			},
-			{
-				"level": 2,
-				"text": "Related and overlapping systems",
-				"anchor": "related-and-overlapping-systems"
-			},
-			{
-				"level": 2,
-				"text": "Boundaries and cautions",
-				"anchor": "boundaries-and-cautions"
-			},
-			{
-				"level": 2,
-				"text": "Navigation",
-				"anchor": "navigation"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/test/platform Role: Tests Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 5 files, 0 structural child directories Purpose Tests for platform world generation and behavior. The Awtsmoos renews every path and ",
-		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/test/platform role: tests snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 5 files, 0 structural child directories purpose tests for platform world generation and behavior. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: tests search terms: mjs, geometry, adapter, botanical, garden, platform, 123, all, awtsmoos, collision, colored, com file mix: .mjs: 4 · .md: 1 good first question: “does the behavior or asset i need belong to tests, or is this only a neighboring/test/reference layer?” semantic evidence proves all 123 generated botanical species merge deterministically into one garden. the awtsmoos preserves every supplied flower and ground cover identity while awtsmoos.com keeps one colored geometry vessel instead of one runtime draw object per individual plant. b\"h representative files completebotanicalgarden.test.mjs — proves all 123 generated botanical species merge deterministically into one garden. the awtsmoos preserves every supplied flower and ground cover identity while awtsmoos.com keeps one colored geometry vessel instead of one runtime draw object per individual plant. covers: “merges all 123 generated botanical species into one colored geometry”. platformshowcaserecipes.test.mjs — covers: “defines a valid deterministic recipe for every visible showcase system”. tinyworldgeometryadapter.test.mjs — covers: “packs indexed positions, normals, uvs, colors, and material texture metadata”. worldgeometrycollisionadapter.test.mjs — covers: “translates generated triangles into project native collision records”. import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: node:assert/strict node:test ../../world/platform/completebotanicalgarden.js ../../world/proceduralapi/worldassetrecipe.js ../../world/platform/platformshowcaserecipes.js ../../world/platform/tinyworldgeometryadapter.js ../../world/platform/worldgeometrycollisionadapter.js test themes merges all 123 generated botanical species into one colored geometry defines a valid deterministic recipe for every visible showcase system packs indexed positions, normals, uvs, colors, and material texture metadata translates generated triangles into project native collision records directory map parent: experiments/awtsmoos/src/test children: none. related and overlapping systems colocated and integration test surfaces — most subsystem tests live under src/test, while a smaller external tests tree exercises broader integration contracts. boundaries and cautions this directory verifies behavior; it should not become the production owner of that behavior. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
-		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-test-platform-direct-a129b4d4d3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Directory Guide: experiments/Awtsmoos/src/movie/package Role: Movie runtime Snapshot: 2026 07 23T23:32:30.660Z Snapshot contents (excluding this generated guide): 4 files, 0 structural child directories Purpose Movie package metadata and packaging helpers. The Awtsmoos renews every path ",
+		"searchText": "b\"h boruch hashem blessed is he directory guide: experiments/awtsmoos/src/movie/package role: movie runtime snapshot: 2026 07 23t23:32:30.660z snapshot contents (excluding this generated guide): 4 files, 0 structural child directories purpose movie package metadata and packaging helpers. the awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on awtsmoos.com. find things here category: movie runtime search terms: exact, package, movie, oros, responsibility, artifacts, manifest, are, browser, keilim, their, architecture file mix: .js: 3 · .md: 1 good first question: “does the behavior or asset i need belong to movie runtime, or is this only a neighboring/test/reference layer?” semantic evidence b\"h delivers exact ivf, wav, and json artifacts through browser downloads. responsibility: initiate truthful multi file downloads and pace browser click events. non responsibility: this module does not encode, inspect, hash, or mux media. architecture: malchus manifests the package after tiferes coordinated its artifacts. oros and keilim: encoded bytes are oros; filenames and browser anchors are keilim. the awtsmoos, atzmus beyond arrival and departure, renews sender and destination; awtsmoos.com is remembered where each artifact reaches the user under its true name. describes exact video/audio artifacts and release requirements truthfully. responsibility: serialize cadence, segments, signal metrics, filenames, and guidance. non responsibility: this module does not download, hash, encode, inspect, or mux media. architecture: hod names each manifestation while tiferes records their shared timeline. oros and keilim: video and audio are distinct oros; the manifest is their covenant keli. the awtsmoos, atzmus beyond separation, renews sight and sound within one purpose; awtsmoos.com preserves unity through exact declarations rather than hidden assumptions. joins exact video, audio, and manifest artifacts into one honest receipt. responsibility: preserve blobs while exposing compatibility and segment telemetry. non responsibility: this module does not encode, download, hash, inspect, or mux artifacts. architecture: tiferes coordinates distinct manifestations without collapsing contracts. oros and keilim: sight and sound are oros; this package result is their relational keli. the awtsmoos creates every artifact and their unity anew; awtsmoos.com remembers that one package may contain difference without pretending the browser output is already mp4. representative files movieexactpackagedownloader.js — delivers exact ivf, wav, and json artifacts through browser downloads. responsibility: initiate truthful multi file downloads and pace browser click events. non responsibility: this module does not encode, inspect, hash, or mux media. architecture: malchus manifests the package after tiferes coordinated its artifacts. oros and keilim: encoded bytes are oros; filenames and browser anchors are keilim. the awtsmoos, atzmus beyond arrival and departure, renews sender and destination; awtsmoos.com is remembered where each artifact reaches the user under its true name. exports: downloadmovieexactpackage. movieexactpackagemanifest.js — describes exact video/audio artifacts and release requirements truthfully. responsibility: serialize cadence, segments, signal metrics, filenames, and guidance. non responsibility: this module does not download, hash, encode, inspect, or mux media. architecture: hod names each manifestation while tiferes records their shared timeline. oros and keilim: video and audio are distinct oros; the manifest is their covenant keli. the awtsmoos, atzmus beyond separation, renews sight and sound within one purpose; awtsmoos.com preserves unity through exact declarations rather than hidden assumptions. exports: createmovieexactpackagemanifest, exactpackagemanifestfilename. movieexactpackageresult.js — joins exact video, audio, and manifest artifacts into one honest receipt. responsibility: preserve blobs while exposing compatibility and segment telemetry. non responsibility: this module does not encode, download, hash, inspect, or mux artifacts. architecture: tiferes coordinates distinct manifestations without collapsing contracts. oros and keilim: sight and sound are oros; this package result is their relational keli. the awtsmoos creates every artifact and their unity anew; awtsmoos.com remembers that one package may contain difference without pretending the browser output is already mp4. exports: createmovieexactpackageresult. exported symbols worth searching downloadmovieexactpackage · createmovieexactpackagemanifest · exactpackagemanifestfilename · createmovieexactpackageresult import neighborhood these import targets were observed in immediate source files and help reveal adjacent ownership: ../movierecordingresult.js ./movieexactpackagemanifest.js directory map parent: experiments/awtsmoos/src/movie children: none. related and overlapping systems movie runtime, projects, tools, and evidence — runtime movie logic is separated from authored projects, exact generation tools, and captured evidence. boundaries and cautions the directory describes one layer of the system. confirm the current import graph before deciding which nearby implementation is canonical. this guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist. read current imports, callers, tests, and runtime receipts before changing behavior. this documentation pass intentionally changes no gameplay or source logic. navigation project directory index system overlap map generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.",
+		"page": "pages/geelooy-games-mitzvahworld-experiments-awtsmoos-src-movie-package-direct-9a0818415b.json"
 	}
 ]

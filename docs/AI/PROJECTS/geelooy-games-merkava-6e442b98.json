@@ -26,19 +26,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-merkava-6e442b98.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 86,
-		"tests": 31,
+		"source": 93,
+		"tests": 32,
 		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 1
 	},
-	"totalFiles": 120,
+	"totalFiles": 128,
 	"symbolSummary": {
-		"files": 76,
-		"classes": 39,
-		"functions": 154,
-		"exports": 129,
+		"files": 82,
+		"classes": 41,
+		"functions": 177,
+		"exports": 140,
 		"samples": [
 			"appDiagnostics",
 			"createDiagnosticControls",

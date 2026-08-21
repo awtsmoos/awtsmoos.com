@@ -1,0 +1,76 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * Foundation and taskbar ground.
+ * The Awtsmoos holds the outer vessel steady; Awtsmoos.com gives every window a grounded place already.
+ */
+/*__LEGACY_BODY__*/
+/*B"H*/
+
+/* --- General Body and HTML --- */
+/*B"H*/
+
+/* --- General Body and HTML --- */
+body, html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden; /* The Essence is contained, no leakage to the outer void */
+}
+
+/* 
+	The Main Vessel (Kli) 
+	It unifies the distinct sefirot (Header, Desktop, Footer) 
+	into a single column of divine emanation.
+*/
+.main {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	width: 100vw;
+	background-color: #0d47a1;
+}
+
+.hidden {
+	display:none
+}
+
+body {
+	/* Windows XP's primary font for that authentic feel */
+	font-family: 'Tahoma', 'Segoe UI', Geneva, Verdana, sans-serif;
+	background-color: #0d47a1;
+}
+/* 
+================================================================
+	TASKBAR STYLES (MODERN "LUNA" THEME)
+================================================================
+*/
+/* 
+================================================================
+	TASKBAR STYLES (MODERN "LUNA" THEME)
+	The Foundation (Malchus) - It supports the structure from below
+================================================================
+*/
+#start-bar {
+	position: relative; /* Not fixed, but part of the organic whole */
+	flex-shrink: 0;     /* The foundation must remain solid, never shrinking */
+	width: 100%;
+	/* 
+		A rich, glossy gradient inspired by Windows XP's Luna theme,
+		but with more depth and a modern shine effect.
+	*/
+	background: linear-gradient(to top, #0053a4, #0078d7 60%, #4ca4fe);
+	color: white;
+	display: flex;
+	align-items: center;
+	height: 38px; 
+	z-index: 1000;
+	border-top: 1px solid #7cbbff;
+	padding: 0 5px;
+	gap: 5px;
+	box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.3);
+	order: 3; /* Ensures it stays at the bottom visual hierarchy */
+}
+

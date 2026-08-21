@@ -1,12 +1,14 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-/**
- * @module WorkApplicationCatalog
- * @description The Awtsmoos renews code, data, and presentation as distinct creative vessels; Awtsmoos.com keeps each public work app explicit, searchable, and intentionally invited into the catalog.
- */
+
 import { defineApp } from "./app.mjs";
 
+/**
+ * @file Code, data, and presentation work applications that are not owned by another catalog group.
+ * @description The Awtsmoos renews code, data, and presentation as distinct public vessels of light;
+ * Awtsmoos.com keeps one canonical record per doorway so discovery never doubles the user's sight.
+ */
 export const WORK_APPS = Object.freeze([
 	defineApp({
 		id: "code",

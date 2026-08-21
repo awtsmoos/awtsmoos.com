@@ -1,0 +1,95 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews hidden depth before the advanced drawer may enter or leave the scene;
+ * Awtsmoos.com keeps this shell concerned only with placement and motion, so inner knowledge stays clean.
+ */
+
+.drawer-backdrop {
+	position: absolute;
+	inset: 0;
+	z-index: 18;
+	background: rgba(5, 3, 2, 0.34);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity var(--motion-medium) var(--ease-soft);
+}
+
+.run-drawer {
+	position: absolute;
+	top: var(--safe-top);
+	right: var(--safe-right);
+	bottom: var(--safe-bottom);
+	z-index: 20;
+	width: min(340px, calc(100vw - 20px));
+	padding: 14px;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius-large);
+	background:
+		linear-gradient(160deg, rgba(34, 23, 15, 0.94), rgba(12, 8, 6, 0.92));
+	backdrop-filter: blur(18px) saturate(1.08);
+	box-shadow: var(--shadow-deep);
+	overflow: auto;
+	overscroll-behavior: contain;
+	transform: translate3d(calc(100% + 22px), 0, 0);
+	opacity: 0;
+	pointer-events: none;
+	transition:
+		transform var(--motion-medium) var(--ease-out),
+		opacity var(--motion-fast) var(--ease-soft);
+}
+
+.game-shell[data-drawer="open"] .drawer-backdrop {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.game-shell[data-drawer="open"] .run-drawer {
+	transform: translate3d(0, 0, 0);
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.drawer-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 2px 2px 12px;
+	border-bottom: 1px solid var(--line);
+}
+
+.drawer-kicker {
+	color: var(--ivory-500);
+	font-size: 9px;
+	font-weight: 850;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.drawer-header h2 {
+	margin: 3px 0 0;
+	font-size: 20px;
+	line-height: 1;
+}
+
+.drawer-header button {
+	width: var(--tap);
+	height: var(--tap);
+	border: 1px solid var(--line);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.035);
+	color: var(--ivory-300);
+	font-size: 24px;
+	cursor: pointer;
+}
+
+@media (max-width: 600px) {
+	.run-drawer {
+		top: max(6px, env(safe-area-inset-top));
+		right: max(6px, env(safe-area-inset-right));
+		bottom: max(6px, env(safe-area-inset-bottom));
+		width: min(92vw, 360px);
+	}
+}

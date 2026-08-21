@@ -2,6 +2,11 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
+/**
+ * The Awtsmoos is beyond narrow glass and expanded chamber, while Awtsmoos.com lets dense Social content unfold into one readable mobile column;
+ * this Gevurah garment owns narrow content compression only, leaving navigation geometry to the dedicated mobile dock vessel in light.
+ */
+
 @media (max-width: 560px) {
 	.targetGrid,
 	.twoColumnFields,
@@ -22,11 +27,6 @@
 		flex-direction: column;
 	}
 
-	.mobileDock {
-		right: 0.35rem;
-		left: 0.35rem;
-	}
-
 	.brandCluster h1 {
 		font-size: 1.55rem;
 	}
@@ -37,7 +37,7 @@
 	}
 
 	.workspace {
-		padding-inline: 0.55rem;
+		padding-inline: .55rem;
 	}
 
 	.workspacePanel,
@@ -54,13 +54,5 @@
 
 	.commentMediaQueue {
 		grid-template-columns: 1fr;
-	}
-
-	.mobileDock .routeLabel {
-		display: none;
-	}
-
-	.mobileDock button {
-		min-height: 3.7rem;
 	}
 }

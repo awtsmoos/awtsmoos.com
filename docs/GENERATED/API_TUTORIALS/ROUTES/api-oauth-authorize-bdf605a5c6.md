@@ -41,10 +41,10 @@ No package-script heuristic match was found.
 
 ## Related routes
 
-- [`/api/oauth`](./api-oauth-fc9dd9335e.md)
 - [`/api/oauth/:route`](./api-oauth-route-99d253c847.md)
-- [`/api/oauth/clients`](./api-oauth-clients-16fe905ae5.md)
-- [`/api/oauth/logout`](./api-oauth-logout-fc5a0d5108.md)
-- [`/api/oauth/me`](./api-oauth-me-c9c68a0fb0.md)
+- [`/api/oauth/agent-callback`](./api-oauth-agent-callback-b4e6bf1061.md)
+- [`/api/oauth/device`](./api-oauth-device-ff7c9e5d87.md)
+- [`/api/oauth/device-authorization`](./api-oauth-device-authorization-c8c90e0df0.md)
+- [`/api/oauth/metadata`](./api-oauth-metadata-323cb59001.md)
 - [`/api/oauth/start`](./api-oauth-start-7c94ba48c1.md)
 - [`/api/oauth/token`](./api-oauth-token-037d29e842.md)

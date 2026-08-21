@@ -1,22 +1,27 @@
 [
 	{
-		"id": "api-youtube-oauth-status-529fa78f69",
-		"route": "/api/youtube/oauth/status",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-tunnel-control-ephemeral-resultid-page-94504f72ed",
+		"route": "/api/tunnel/control/ephemeral/:resultId/page",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
+			"mount": "/api/tunnel/control"
 		},
-		"dynamic": false,
-		"pathParameters": [],
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "resultId",
+				"catchAll": false
+			}
+		],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [],
@@ -24,63 +29,85 @@
 		"headers": [],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [],
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-status-529fa78f69.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-ephemeral-resultid-page-94504f72ed.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
 			},
 			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
 			},
 			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
 			},
 			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
 			},
 			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
 			},
 			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
 			},
 			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
 			},
 			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
 			}
 		]
 	},
 	{
-		"id": "api-youtube-uploads-start-9d5f4138cd",
-		"route": "/api/youtube/uploads/start",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-tunnel-control-ephemeral-resultid-search-72bcc91b53",
+		"route": "/api/tunnel/control/ephemeral/:resultId/search",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
+			"mount": "/api/tunnel/control"
 		},
-		"dynamic": false,
-		"pathParameters": [],
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "resultId",
+				"catchAll": false
+			}
+		],
 		"methods": [],
 		"methodEvidence": "unknown",
 		"vessels": [],
@@ -88,60 +115,77 @@
 		"headers": [],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [],
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-uploads-start-9d5f4138cd.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-ephemeral-resultid-search-72bcc91b53.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
 			},
 			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
 			},
 			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
 			},
 			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
 			},
 			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
 			},
 			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
 			},
 			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
 			},
 			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
 			}
 		]
 	},
 	{
-		"id": "api-youtube-videos-53702b8520",
-		"route": "/api/youtube/videos",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-tunnel-control-ephemeral-list-8498838bee",
+		"route": "/api/tunnel/control/ephemeral/list",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
+			"mount": "/api/tunnel/control"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -152,60 +196,77 @@
 		"headers": [],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [],
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-53702b8520.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-ephemeral-list-8498838bee.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
 			},
 			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
 			},
 			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
 			},
 			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
 			},
 			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
 			},
 			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
 			},
 			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
 			},
 			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
 			}
 		]
 	},
 	{
-		"id": "api-youtube-videos-list-0c5f0e2ea2",
-		"route": "/api/youtube/videos/list",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-tunnel-control-flow-5f776e6679",
+		"route": "/api/tunnel/control/flow",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
+			"mount": "/api/tunnel/control"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -216,60 +277,224 @@
 		"headers": [],
 		"callers": [],
 		"callerCount": 0,
-		"tests": [],
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-list-0c5f0e2ea2.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-flow-5f776e6679.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
 			},
 			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
 			},
 			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
 			},
 			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
 			},
 			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
 			},
 			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
 			},
 			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
 			},
 			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
 			}
 		]
 	},
 	{
-		"id": "api-youtube-videos-update-d8820be806",
-		"route": "/api/youtube/videos/update",
-		"source": "geelooy/api/youtube/routes/table.js",
+		"id": "api-tunnel-control-fs-tunnelname-e76135a52e",
+		"route": "/api/tunnel/control/fs/:tunnelName",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
 		"discoveryKind": "route-table",
 		"family": {
-			"mount": "/api/youtube",
-			"title": "YouTube",
-			"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
 		},
 		"derech": {
-			"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
 			"status": "OK",
 			"issue": "—",
-			"mount": "/api/youtube"
+			"mount": "/api/tunnel/control"
+		},
+		"dynamic": true,
+		"pathParameters": [
+			{
+				"name": "tunnelName",
+				"catchAll": false
+			}
+		],
+		"methods": [],
+		"methodEvidence": "unknown",
+		"vessels": [],
+		"statuses": [],
+		"headers": [],
+		"callers": [
+			{
+				"literal": "/api/tunnel/control/fs/auto",
+				"source": "geelooy/apps/tunnel-control/js/api/test/targetVesselRouting.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/auto",
+				"source": "geelooy/tests/unified-tunnel/tunnelFullActionRouteStress.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/awt-test",
+				"source": "geelooy/apps/tunnel-control/js/api/test/buildFsUrl.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/awtsmoos-virtual-os",
+				"source": "geelooy/apps/tunnel-control/js/api/test/buildFsUrl.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/awtsmoos-virtual-os",
+				"source": "geelooy/apps/tunnel-control/js/api/test/targetVesselRouting.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/awtsmoos-virtual-os",
+				"source": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/api-client.cjs",
+				"kind": "runtime"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/awtsmoos-virtual-os",
+				"source": "geelooy/tests/unified-tunnel/tunnelFullActionRouteStress.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/native-one",
+				"source": "geelooy/apps/tunnel-control/js/api/test/targetVesselRouting.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/tun_route",
+				"source": "geelooy/os/tunnel/test/remoteWorkspace.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/tun%20one",
+				"source": "geelooy/drive/test/credentialedFs.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/tun%20one",
+				"source": "geelooy/os/remote/test/tunnelPayloadClient.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/TUNNEL_NAME",
+				"source": "geelooy/apps/tunnel-control/js/features/missionRooms/inspector.js",
+				"kind": "runtime"
+			}
+		],
+		"callerCount": 12,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
+		"examples": [],
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-fs-tunnelname-e76135a52e.md",
+		"confidence": "unknown-method",
+		"related": [
+			{
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
+			},
+			{
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
+			},
+			{
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
+			},
+			{
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
+			},
+			{
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
+			},
+			{
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
+			}
+		]
+	},
+	{
+		"id": "api-tunnel-control-fs-awtsmoos-os-09e76eda1b",
+		"route": "/api/tunnel/control/fs/awtsmoos-os",
+		"source": "geelooy/api/tunnel/control/routes/table.js",
+		"discoveryKind": "route-table",
+		"family": {
+			"mount": "/api/tunnel/control",
+			"title": "Tunnel Control",
+			"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+		},
+		"derech": {
+			"source": "geelooy/api/tunnel/control/_awtsmoos.derech.js",
+			"status": "OK",
+			"issue": "—",
+			"mount": "/api/tunnel/control"
 		},
 		"dynamic": false,
 		"pathParameters": [],
@@ -278,44 +503,72 @@
 		"vessels": [],
 		"statuses": [],
 		"headers": [],
-		"callers": [],
-		"callerCount": 0,
-		"tests": [],
+		"callers": [
+			{
+				"literal": "/api/tunnel/control/fs/awtsmoos-os",
+				"source": "geelooy/apps/code/js/fs/test/awtsmoosOsProviderAdapter.test.mjs",
+				"kind": "test"
+			},
+			{
+				"literal": "/api/tunnel/control/fs/awtsmoos-os",
+				"source": "geelooy/shared/virtual-os/fs/test/hostedAwtsmoosAdapter.test.mjs",
+				"kind": "test"
+			}
+		],
+		"callerCount": 2,
+		"tests": [
+			{
+				"name": "test:mission-continuity-actions",
+				"command": "node geelooy/apps/tunnel/agent/tools/fs/actionGroups/test/missionContinuityActions.test.mjs"
+			},
+			{
+				"name": "test:treasury",
+				"command": "node geelooy/api/tunnel/control/test/runTreasuryTests.cjs"
+			},
+			{
+				"name": "test:treasury:full",
+				"command": "node geelooy/api/tunnel/control/test/treasury/runAll.cjs"
+			},
+			{
+				"name": "test:tunnel-release",
+				"command": "node --test scripts/tunnel/testing/*.test.cjs scripts/repository-hygiene/testing/*.test.cjs"
+			}
+		],
 		"examples": [],
-		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-update-d8820be806.md",
+		"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-tunnel-control-fs-awtsmoos-os-09e76eda1b.md",
 		"confidence": "unknown-method",
 		"related": [
 			{
-				"id": "api-youtube-44e720e9a3",
-				"route": "/api/youtube"
+				"id": "api-tunnel-control-admin-vault-0c79867071",
+				"route": "/api/tunnel/control/admin-vault"
 			},
 			{
-				"id": "api-youtube-a-8c1cdc043d",
-				"route": "/api/youtube/:a"
+				"id": "api-tunnel-control-admin-perutas-5d22edeedf",
+				"route": "/api/tunnel/control/admin/perutas"
 			},
 			{
-				"id": "api-youtube-a-b-0f1bfdc710",
-				"route": "/api/youtube/:a/:b"
+				"id": "api-tunnel-control-agent-economy-55b9aaa475",
+				"route": "/api/tunnel/control/agent-economy"
 			},
 			{
-				"id": "api-youtube-a-b-c-02c6f58285",
-				"route": "/api/youtube/:a/:b/:c"
+				"id": "api-tunnel-control-agent-manifest-3d95678bf3",
+				"route": "/api/tunnel/control/agent-manifest"
 			},
 			{
-				"id": "api-youtube-auth-callback-9c2556106d",
-				"route": "/api/youtube/auth/callback"
+				"id": "api-tunnel-control-api-keys-db993bf8af",
+				"route": "/api/tunnel/control/api-keys"
 			},
 			{
-				"id": "api-youtube-auth-logout-e16d771492",
-				"route": "/api/youtube/auth/logout"
+				"id": "api-tunnel-control-api-keys-create-91bd090e21",
+				"route": "/api/tunnel/control/api-keys/create"
 			},
 			{
-				"id": "api-youtube-auth-start-c2f5a58fbd",
-				"route": "/api/youtube/auth/start"
+				"id": "api-tunnel-control-api-keys-revoke-4d16d58e2e",
+				"route": "/api/tunnel/control/api-keys/revoke"
 			},
 			{
-				"id": "api-youtube-auth-status-10475f963f",
-				"route": "/api/youtube/auth/status"
+				"id": "api-tunnel-control-bank-0febb5b433",
+				"route": "/api/tunnel/control/bank"
 			}
 		]
 	}

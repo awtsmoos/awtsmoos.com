@@ -1,13 +1,11 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @module RichSocialRoutesTest
  * @description
- * Route discovery, metadata, and method gates are tested without touching live
- * storage. Awtsmoos.com may expose expressive new doorways while every unwanted
- * method remains outside the protected chamber of the Awtsmoos-given API.
+ * The Awtsmoos lets a public contract evolve without stale tests pulling it backward;
+ * Awtsmoos.com verifies version-two creator metadata, route discovery, and method gates on the guarded track.
  */
 
 const assert = require('assert');
@@ -21,10 +19,13 @@ async function testMetadata() {
 	};
 	const routes = createRoutes({ $i });
 	const response = await routes['/rich-social/meta']();
-	assert.equal(response.success.version, 1);
+	assert.equal(response.success.version, 2);
 	assert.ok(response.success.postKinds.includes('question'));
 	assert.ok(response.success.attachmentTypes.includes('video'));
 	assert.ok(response.success.discussionScopes.includes('subsection'));
+	assert.ok(response.success.creatorMetadataFields.length > 0);
+	assert.ok(response.success.creatorSocialFields.length > 0);
+	assert.ok(response.success.creatorDistributionFields.length > 0);
 }
 
 async function testRouteSurfaceAndMethodGate() {

@@ -2,80 +2,118 @@
 //Boruch Hashem
 //Blessed is He
 
-import { createIconButton } from '../ui/fields/IconButton.js';
-import {
-	composerAction,
-	createSmartTextArea
-} from '../ui/fields/SmartTextArea.js';
+import { buildConversationComposer } from './ConversationComposerTemplate.js';
+import { ConversationComposerStatus } from './ConversationComposerStatus.js';
+import { ConversationReplyState } from './ConversationReplyState.js';
+import { ConversationTextComposer } from './ConversationTextComposer.js';
+import { ConversationVoiceComposer } from './ConversationVoiceComposer.js';
+import { ConversationVoiceView } from './ConversationVoiceView.js';
 
 /**
  * @class ConversationComposer
  * @description
- * The Awtsmoos renews private speech before it crosses the proven message covenant, while Awtsmoos.com surrounds that speech with a living composer instead of a naked textarea;
- * autosize, emoji insertion, count, keyboard intent, and icon send enrich the vessel without inventing attachment semantics or changing the existing text payload in flight.
+ * The Awtsmoos renews written word, chosen quote, visible Send, and recorded breath before either crosses the private covenant;
+ * Awtsmoos.com lets this Tiferes-like coordinator join focused text and voice vessels while keyboard and button submission enter one truthful doorway of light.
  */
 export class ConversationComposer {
-	constructor(root, onSend) {
-		this.root = root;
-		this.onSend = onSend;
+	/** Creates one room-scoped composer around canonical text/voice send callbacks. */
+	constructor(root, { onSend, onSendVoice, actorAlias }) {
+		Object.assign(this, {
+			root,
+			onSend,
+			onSendVoice,
+			actorAlias
+		});
+		this.replyState = new ConversationReplyState(root);
+		this.status = new ConversationComposerStatus(root);
 	}
 
-	/** Builds the rich visual composer while preserving the existing SEND contract. */
+	/** Builds DOM first, then composes independent text and voice lifecycle controllers around it. */
 	create() {
-		this.form = this.root.createElement('form');
-		this.form.className = 'hubConversationComposer hubConversationComposer--rich';
-		this.smart = createSmartTextArea(this.root, {
-			label: 'Private message',
-			maxLength: 4000,
-			placeholder: 'Message…',
-			onSubmit: () => this.submit(),
-			actions: [
-				composerAction('emoji', 'Insert emoji', event => this.insertEmoji(event))
-			]
+		this.elements = buildConversationComposer(this.root, {
+			onSubmit: () => this.text?.submit(),
+			onEmoji: event => this.text?.insertEmoji(event),
+			onRecord: () => this.startVoice(),
+			onStopVoice: () => this.stopVoice(),
+			onCancelVoice: () => this.cancelVoice(),
+			onSendVoice: () => this.sendVoice(),
+			onCancelReply: () => this.replyState.clear()
 		});
-		this.input = this.smart.textarea;
-		this.button = createIconButton(this.root, {
-			action: 'send',
-			label: 'Send message',
-			type: 'submit',
-			className: 'hubConversationComposer__send'
+		this.replyState.bind(this.elements.reply.region);
+		this.elements.form.append(this.status.element);
+		this.text = new ConversationTextComposer({
+			elements: this.elements,
+			replyState: this.replyState,
+			status: this.status,
+			onSend: this.onSend
 		});
-		const hint = this.root.createElement('span');
-		hint.className = 'hubConversationComposer__hint';
-		hint.textContent = '↵ send · ⇧↵ line';
-		this.form.append(this.smart.element, this.button, hint);
-		this.form.addEventListener('submit', event => void this.submit(event));
-		return this.form;
+		this.voice = new ConversationVoiceComposer({
+			view: new ConversationVoiceView(this.elements.voice),
+			actorAlias: this.actorAlias,
+			onSend: attachment => this.deliverVoice(attachment)
+		});
+		this.bindFormSubmit();
+		return this.elements.form;
 	}
 
-	async submit(event) {
-		event?.preventDefault();
-		const text = this.smart.value();
-		if (!text || this.busy) return;
-		this.setBusy(true);
-		try {
-			await this.onSend(text);
-			this.smart.clear();
-			this.smart.focus();
-		} finally {
-			this.setBusy(false);
+	/** Owns native form submission so the visible Send button cannot navigate the document. */
+	bindFormSubmit() {
+		this.elements.form.addEventListener('submit', event => {
+			event.preventDefault();
+			void this.text.submit();
+		});
+	}
+
+	/** Selects one canonical source without modifying the written draft. */
+	selectReply(message) {
+		const selected = this.replyState.select(message, this.actorAlias?.());
+		if (selected) this.elements.smart.focus();
+		return selected;
+	}
+
+	async startVoice() {
+		if (this.text.busy) return false;
+		this.status.clear();
+		const started = await this.voice.start();
+		if (started) this.elements.textRow.hidden = true;
+		return started;
+	}
+
+	async stopVoice() {
+		const stopped = await this.voice.stop();
+		if (!stopped) this.cancelVoice();
+		return stopped;
+	}
+
+	cancelVoice() {
+		this.voice.cancel();
+		this.elements.textRow.hidden = false;
+		this.elements.smart.focus();
+	}
+
+	async sendVoice() {
+		if (this.text.busy || !this.voice.hasPreview()) return false;
+		this.text.setBusy(true);
+		const sent = await this.voice.send();
+		if (sent) {
+			this.replyState.clear();
+			this.elements.textRow.hidden = false;
+			this.elements.smart.focus();
 		}
+		this.text.setBusy(false);
+		return sent;
 	}
 
-	insertEmoji(event) {
-		event?.preventDefault();
-		const start = this.input.selectionStart ?? this.input.value.length;
-		const end = this.input.selectionEnd ?? start;
-		this.input.setRangeText('😊', start, end, 'end');
-		this.input.dispatchEvent(new Event('input', { bubbles: true }));
-		this.input.focus();
+	deliverVoice(attachment) {
+		return this.onSendVoice(attachment, this.replyState.payload());
 	}
 
-	setBusy(busy) {
-		this.busy = busy;
-		this.smart.setBusy(busy);
-		this.button.disabled = busy;
-		this.button.dataset.busy = String(Boolean(busy));
-		this.button.setAttribute('aria-label', busy ? 'Sending message' : 'Send message');
+	/** Releases microphone/object URLs and clears room-scoped draft/reply intent on room exit. */
+	reset() {
+		this.voice?.cancel();
+		this.replyState.clear();
+		this.status.clear();
+		this.text?.reset();
+		if (this.elements) this.elements.textRow.hidden = false;
 	}
 }

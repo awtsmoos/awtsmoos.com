@@ -1,0 +1,92 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets a finite action become a doorway without pretending the doorway is the palace; Awtsmoos.com gives server, channel, and creation controls clear direction, touch, and focus in balance.
+*/
+.spaceOpen,
+.spaceChannel,
+.spaceCreateLink {
+	position: relative;
+	min-height: 3rem;
+	border: 1px solid var(--line);
+	border-radius: .82rem;
+	font: inherit;
+	font-weight: 700;
+	transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.spaceOpen,
+.spaceChannel {
+	background: color-mix(in srgb, var(--surface) 92%, transparent);
+	color: var(--ink);
+	text-align: start;
+	cursor: pointer;
+}
+
+.spaceOpen {
+	padding-block: .78rem;
+	padding-inline: .88rem 2.5rem;
+	font-size: 1rem;
+}
+
+.spaceOpen::after {
+	content: "›";
+	position: absolute;
+	inset-inline-end: .9rem;
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--cyan);
+	font-size: 1.2rem;
+}
+
+.spaceChannel {
+	padding: .72rem .82rem;
+	border-inline-start: 3px solid color-mix(in srgb, var(--cyan) 44%, var(--line));
+}
+
+.spaceCreateLink {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .45rem;
+	padding: .72rem .95rem;
+	border-color: color-mix(in srgb, var(--cyan) 48%, var(--line));
+	background: color-mix(in srgb, var(--cyan) 9%, var(--surface-strong));
+	color: var(--cyan);
+	text-decoration: none;
+}
+
+.spaceOpen:focus-visible,
+.spaceChannel:focus-visible,
+.spaceCreateLink:focus-visible {
+	border-color: var(--cyan);
+	outline: 3px solid color-mix(in srgb, var(--cyan) 18%, transparent);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 1px color-mix(in srgb, var(--cyan) 18%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.spaceOpen:hover,
+	.spaceChannel:hover,
+	.spaceCreateLink:hover {
+		transform: translateY(-1px);
+		border-color: var(--line-hot);
+		background: color-mix(in srgb, var(--cyan) 8%, var(--surface-strong));
+	}
+}
+
+@media (pointer: coarse) {
+	.spaceOpen,
+	.spaceChannel,
+	.spaceCreateLink {
+		min-height: 3.1rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.spaceOpen,
+	.spaceChannel,
+	.spaceCreateLink {
+		transition: none;
+	}
+}

@@ -3,17 +3,16 @@
 //Blessed is He
 /**
  * @module MailWorkspaceLayout
- * @description
- * The Awtsmoos joins list and letter inside one measured workspace; Awtsmoos.com
- * gives each Mail region explicit scroll ownership so messages move without making
- * the whole document descend forever beneath the shared navigation horizon.
+ * @description The Awtsmoos joins list and letter inside one measured workspace; Awtsmoos.com gives each region clear scroll ownership while small modules reveal the frame without becoming a monolith.
  */
 import { renderSidebar } from './sidebar.js';
 import { renderChat } from './chat.js';
 import { renderComposeModal, renderLoginOverlay } from './modals.js';
 import { connectMalchusNavigation } from './malchusNavigation.js';
+import { connectWorkspacePanels } from './workspacePanels.js';
+import { workspaceHeader } from './layoutHeader.js';
 
-/** Renders the complete Mail workspace without duplicating shared navigation. */
+/** Renders Mail and returns its transient-panel controller for lifecycle wiring. */
 export function renderAppLayout(ui, root) {
 	renderLoginOverlay(ui, root);
 	renderComposeModal(ui, root);
@@ -29,6 +28,7 @@ export function renderAppLayout(ui, root) {
 		children: [workspaceHeader(), workspaceFrame(ui)]
 	});
 	connectMalchusNavigation(ui);
+	return connectWorkspacePanels(ui);
 }
 
 function workspaceFrame(ui) {
@@ -46,6 +46,7 @@ function sidebarVessel(ui) {
 		classList: ['sidebar', 'mail-civilization-sidebar', 'mail-sidebar'],
 		shaym: 'sidebarPanel',
 		attributes: {
+			id: 'mail-conversation-list',
 			'aria-label': 'Conversation list',
 			'data-scroll-region': 'conversations'
 		},
@@ -63,51 +64,5 @@ function chatVessel(ui) {
 			'data-scroll-region': 'conversation'
 		},
 		ready: element => renderChat(ui, element)
-	};
-}
-
-function workspaceHeader() {
-	return {
-		tag: 'header',
-		classList: ['mail-civilization-status'],
-		children: [brandDescriptor(), shortcutDescriptor(), connectionDescriptor()]
-	};
-}
-
-function brandDescriptor() {
-	return {
-		tag: 'a',
-		classList: ['mail-civilization-brand'],
-		attributes: { href: '/', 'aria-label': 'Return to Awtsmoos home' },
-		children: [
-			{ tag: 'span', classList: ['mail-brand-mark'], textContent: 'א' },
-			{ tag: 'span', children: [
-				{ tag: 'strong', textContent: 'Quantum Mail' },
-				{ tag: 'small', textContent: 'Conversations that stay clear' }
-			] }
-		]
-	};
-}
-
-function shortcutDescriptor() {
-	return {
-		tag: 'p',
-		classList: ['mail-header-shortcuts'],
-		children: [
-			{ tag: 'span', textContent: 'Search' },
-			{ tag: 'kbd', textContent: '/' },
-			{ tag: 'span', textContent: 'Compose' },
-			{ tag: 'kbd', textContent: 'C' }
-		]
-	};
-}
-
-function connectionDescriptor() {
-	return {
-		tag: 'span',
-		classList: ['mail-connection-state'],
-		shaym: 'mailConnectionState',
-		attributes: { role: 'status', 'aria-live': 'polite' },
-		textContent: navigator.onLine ? 'Online' : 'Offline'
 	};
 }

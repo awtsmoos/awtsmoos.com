@@ -4,9 +4,9 @@
 
 /**
  * @file VillageWorldSystem.js
- * @description Builds the complete movement-ready village while procedural botany streams later.
- * The Awtsmoos descends from ridge to water, bridge, home, road, and rooted soil first;
- * Awtsmoos.com lets petals multiply after the shliach already walks through a coherent valley.
+ * @description Builds the movement-ready village and preserves bounded living world services beside render definitions.
+ * The Awtsmoos descends from ridge to river, home, road, creature, and rooted soil in one world;
+ * Awtsmoos.com keeps mutable river current alive after construction while static geometry remains separately unfurled.
  */
 
 import { createVillageCreatureDefinitions } from '../creatures/VillageCreatureSystem.js';
@@ -23,6 +23,7 @@ import { createVillageLifeContracts } from './VillageLifeSystem.js';
 import { createVillagePracticalLightDefinitions } from './VillagePracticalLightSystem.js';
 import { createVillagePropDefinitions } from './VillagePropSystem.js?v=20260720-canonical-valley-pass-04';
 import { createVillageWaterDefinitions } from './VillageWaterSystem.js?v=20260720-canonical-valley-pass-04';
+import { createVillageWorldServices } from './VillageWorldServices.js';
 import { villageWorldBudget } from './VillageWorldBudget.js';
 import { VILLAGE_WORLD_LAYERS } from './VillageWorldLayers.js';
 
@@ -31,6 +32,7 @@ export function createVillageWorldDefinitions(groundSampler, quality = 'high') {
 	const definitions = flattenSystems(systems);
 	return {
 		definitions,
+		services: createVillageWorldServices(systems),
 		stats: createStats(systems, definitions, quality)
 	};
 }

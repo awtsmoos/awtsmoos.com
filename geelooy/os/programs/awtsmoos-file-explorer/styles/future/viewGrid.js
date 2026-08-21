@@ -1,5 +1,132 @@
-// B"H
-export default /*css*/`
-.icons-view{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:14px;align-content:start;padding:2px}.icons-view .file-item{min-height:136px;border:1px solid rgba(154,216,255,.16);border-radius:22px;background:linear-gradient(180deg,rgba(31,92,164,.24),rgba(7,23,41,.42));padding:13px 9px;color:var(--awt-text);box-shadow:0 12px 28px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.08);overflow:hidden;transition:transform .16s,border-color .16s,background .16s,box-shadow .16s}.icons-view .file-item:hover{transform:translateY(-2px);background:linear-gradient(180deg,rgba(92,246,255,.18),rgba(58,167,255,.13));border-color:var(--awt-line2);box-shadow:var(--awt-glow),0 14px 30px rgba(0,0,0,.22)}.file-item.selected,.file-explorer [aria-selected="true"]{background:linear-gradient(135deg,rgba(58,167,255,.62),rgba(82,255,184,.28))!important;border-color:var(--awt-cyan)!important;color:white!important;box-shadow:var(--awt-glow)!important}.file-item:focus-visible{outline:2px solid var(--awt-gold);outline-offset:-4px}.file-item .icon-img{width:58px!important;height:58px!important;margin-inline:auto;filter:drop-shadow(0 10px 14px rgba(0,0,0,.35))}.file-name{font-size:14px;line-height:1.18;color:inherit;text-shadow:0 1px 8px rgba(0,0,0,.5);font-weight:800;overflow-wrap:anywhere}.item-meta{display:inline-flex;align-items:center;justify-content:center;max-width:100%;border:1px solid rgba(154,216,255,.25);border-radius:999px;padding:3px 8px;color:var(--awt-muted);font-size:10px;line-height:1;text-transform:uppercase;background:rgba(4,17,31,.36)}.mount-badge{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-color:var(--awt-line2)!important;background:rgba(4,17,31,.55)!important;color:var(--awt-cyan)!important}@media(max-width:720px),(pointer:coarse) and (max-width:900px){.icons-view .file-item.icon{display:grid!important;grid-template-columns:54px minmax(0,1fr)!important;grid-template-rows:auto auto!important;align-items:center!important;column-gap:10px!important;min-height:84px!important;padding:10px!important;border-radius:18px!important}.file-item .icon-img{grid-row:1/3;width:46px!important;height:46px!important}.file-name{text-align:left!important;font-size:15px!important;line-height:1.14!important;-webkit-line-clamp:2!important}.item-meta{justify-self:start;font-size:9px!important;margin-top:2px!important}.mount-badge{position:absolute!important;right:8px!important;bottom:8px!important;max-width:46%!important;font-size:9px!important;padding:2px 6px!important}}
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file Mobile-first file-card grid for the futuristic Awtsmoos Explorer.
+ * @description
+ * The Awtsmoos lets every file become a compact spark on a phone and a broader
+ * card on larger worlds. Awtsmoos.com keeps selection luminous but motion light,
+ * with touch geometry first and fine-pointer lift appearing only where it may rhyme.
+ */
+export default /*css*/ `
+.icons-view {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 8px;
+	align-content: start;
+	padding: 7px;
+}
+
+.icons-view .file-item {
+	position: relative;
+	min-height: 84px;
+	display: grid;
+	grid-template-columns: 54px minmax(0, 1fr);
+	grid-template-rows: auto auto;
+	align-items: center;
+	column-gap: 10px;
+	padding: 10px;
+	border: 1px solid rgba(154, 216, 255, .16);
+	border-radius: var(--awt-radius-lg);
+	background: linear-gradient(145deg, rgba(31, 92, 164, .20), rgba(7, 23, 41, .50));
+	color: var(--awt-text);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .07);
+	overflow: hidden;
+	contain: layout paint style;
+}
+
+.file-item .icon-img {
+	grid-row: 1 / 3;
+	width: 46px !important;
+	height: 46px !important;
+	margin-inline: auto;
+	filter: drop-shadow(0 8px 12px rgba(0, 0, 0, .30));
+}
+
+.file-name {
+	min-width: 0;
+	font-size: 15px;
+	line-height: 1.16;
+	color: inherit;
+	font-weight: 800;
+	overflow-wrap: anywhere;
+	text-align: left;
+}
+
+.item-meta {
+	justify-self: start;
+	max-width: 100%;
+	display: inline-flex;
+	align-items: center;
+	border: 1px solid rgba(154, 216, 255, .22);
+	border-radius: 999px;
+	padding: 3px 7px;
+	color: var(--awt-muted);
+	font-size: 9px;
+	line-height: 1;
+	text-transform: uppercase;
+	background: rgba(4, 17, 31, .36);
+}
+
+.mount-badge {
+	max-width: 48%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	border-color: var(--awt-line2) !important;
+	background: rgba(4, 17, 31, .55) !important;
+	color: var(--awt-cyan) !important;
+}
+
+.file-item.selected,
+.file-explorer [aria-selected="true"] {
+	background: linear-gradient(135deg, rgba(58, 167, 255, .55), rgba(82, 255, 184, .22)) !important;
+	border-color: var(--awt-cyan) !important;
+	color: white !important;
+}
+
+.file-item:focus-visible {
+	outline: 2px solid var(--awt-gold);
+	outline-offset: -3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.icons-view .file-item:hover {
+		transform: translateY(-2px);
+		border-color: var(--awt-line2);
+		background: linear-gradient(180deg, rgba(92, 246, 255, .15), rgba(58, 167, 255, .11));
+	}
+}
+
+@media (min-width: 721px) {
+	.icons-view {
+		grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+		gap: 12px;
+		padding: 10px;
+	}
+
+	.icons-view .file-item {
+		min-height: 136px;
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto auto;
+		justify-items: center;
+		padding: 13px 9px;
+	}
+
+	.file-item .icon-img {
+		grid-row: auto;
+		width: 58px !important;
+		height: 58px !important;
+	}
+
+	.file-name {
+		font-size: 14px;
+		text-align: center;
+	}
+
+	.item-meta {
+		justify-self: center;
+	}
+}
 `;
-/** B"H: file cards lift like sparks; selection shines with revealed purpose. */

@@ -3,7 +3,7 @@
 // Blessed is He
 /**
  * The Awtsmoos renews each state before a URL can preserve its human trace;
- * Awtsmoos.com makes a shared link restore date, shita, timezone, coordinates, and place.
+ * Awtsmoos.com restores date, place, primary shita, and every selected comparison in one shareable space.
  */
 
 const MAX_LABEL_LENGTH = 160;
@@ -21,10 +21,9 @@ function safeTimezone(value) {
 /** Parse finite coordinates inside physical latitude/longitude bounds. */
 function coordinate(value, minimum, maximum) {
 	const parsed = Number(value);
-	if (!Number.isFinite(parsed) || parsed < minimum || parsed > maximum) {
-		return null;
-	}
-	return parsed;
+	return Number.isFinite(parsed) && parsed >= minimum && parsed <= maximum
+		? parsed
+		: null;
 }
 
 /** Accept only real Gregorian YYYY-MM-DD dates. */
@@ -37,6 +36,14 @@ function safeDate(value) {
 	return parsed.toISOString().slice(0, 10) === value ? value : null;
 }
 
+/** Parse an optional comma-separated comparison set without deciding which IDs are supported. */
+function opinionIds(value) {
+	return String(value || "")
+		.split(",")
+		.map(item => item.trim())
+		.filter(Boolean);
+}
+
 /** Read shareable state from the current URL without requiring every field. */
 export function readZmanimUrl(url = new URL(globalThis.location?.href || "https://awtsmoos.com/zmanim")) {
 	const latitude = coordinate(url.searchParams.get("lat"), -90, 90);
@@ -47,18 +54,9 @@ export function readZmanimUrl(url = new URL(globalThis.location?.href || "https:
 	return {
 		date: safeDate(url.searchParams.get("date")),
 		opinionId: url.searchParams.get("opinion") || null,
+		opinionIds: opinionIds(url.searchParams.get("opinions")),
 		location: hasLocation
-			? {
-				id: `url-${latitude},${longitude}`,
-				name: label,
-				admin1: "",
-				country: "",
-				latitude,
-				longitude,
-				elevation: null,
-				timezone,
-				label
-			}
+			? { id: `url-${latitude},${longitude}`, name: label, admin1: "", country: "", latitude, longitude, elevation: null, timezone, label }
 			: null
 	};
 }
@@ -67,6 +65,11 @@ export function readZmanimUrl(url = new URL(globalThis.location?.href || "https:
 export function writeZmanimUrl(state, url = new URL(globalThis.location?.href || "https://awtsmoos.com/zmanim")) {
 	url.searchParams.set("date", state.date);
 	url.searchParams.set("opinion", state.opinionId);
+	if (state.opinionIds?.length > 1) {
+		url.searchParams.set("opinions", state.opinionIds.join(","));
+	} else {
+		url.searchParams.delete("opinions");
+	}
 	url.searchParams.set("lat", String(state.location.latitude));
 	url.searchParams.set("lng", String(state.location.longitude));
 	url.searchParams.set("tz", state.location.timezone);

@@ -2,24 +2,25 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos renews every instant while Awtsmoos.com gives motion a measured vessel;
-light may travel, depth may breathe, yet the reader remains sovereign and level.
+The Awtsmoos renews every instant; Awtsmoos.com gives every shimmer a measured vessel,
+so Keter may glow, Tiferes may flow, and the reader remains calm and level.
 */
 :root {
-	--future-fast: 140ms;
-	--future-normal: 220ms;
-	--future-slow: 520ms;
-	--future-drift: 16s;
-	--future-ease: cubic-bezier(.2, .8, .2, 1);
-	--future-spring: cubic-bezier(.2, 1.1, .3, 1);
-	--future-glass: rgb(7 15 30 / 72%);
-	--future-glass-strong: rgb(8 17 34 / 90%);
-	--future-edge: rgb(126 235 255 / 24%);
-	--future-edge-hot: rgb(139 209 255 / 52%);
-	--future-violet: rgb(160 126 255 / 34%);
-	--future-pink: rgb(255 96 211 / 28%);
-	--future-glow: 0 18px 60px rgb(0 0 0 / 38%);
-	--future-glow-hot: 0 18px 54px rgb(42 172 255 / 14%);
-	--future-inset: inset 0 1px rgb(255 255 255 / 8%);
-	--future-radius: 1.25rem;
+	--keter-fast: 140ms;
+	--keter-normal: 220ms;
+	--keter-slow: 520ms;
+	--tiferes-drift: 18s;
+	--tiferes-ease: cubic-bezier(.2, .8, .2, 1);
+	--tiferes-spring: cubic-bezier(.18, 1.08, .3, 1);
+	--yesod-glass: rgb(7 15 30 / 74%);
+	--yesod-glass-strong: rgb(8 17 34 / 91%);
+	--yesod-edge: rgb(126 235 255 / 24%);
+	--yesod-edge-hot: rgb(139 209 255 / 54%);
+	--chesed-cyan: rgb(83 213 255 / 28%);
+	--gevurah-violet: rgb(163 117 255 / 28%);
+	--malchus-pink: rgb(255 104 213 / 24%);
+	--malchus-shadow: 0 20px 64px rgb(0 0 0 / 38%);
+	--malchus-shadow-hot: 0 20px 54px rgb(42 172 255 / 15%);
+	--yesod-inset: inset 0 1px rgb(255 255 255 / 8%);
+	--binah-radius: 1.25rem;
 }

@@ -4,6 +4,7 @@
 
 import { createFrameworkAndroidAccessibilityMethods } from "./frameworkAndroidAccessibility.js";
 import { createFrameworkAndroidActivityManagerMethods } from "./frameworkAndroidActivityManager.js";
+import { createFrameworkAndroidDateFormatMethods } from "./frameworkAndroidDateFormats.js";
 import { createFrameworkAndroidDirectoryMethods } from "./frameworkAndroidDirectories.js";
 import { createFrameworkAndroidDisplayMethods } from "./frameworkAndroidDisplays.js";
 import { createFrameworkAndroidGraphicsMethods } from "./frameworkAndroidGraphics.js";
@@ -80,6 +81,7 @@ export function createFrameworkAndroidCoreFamilies(runtime) {
 		createFrameworkNetworkMethods(runtime),
 		createFrameworkConstructors(runtime),
 		createFrameworkAndroidSettingsMethods(runtime),
+		createFrameworkAndroidDateFormatMethods(runtime),
 		createFrameworkAndroidInputMethodMethods(runtime)
 	]);
 }

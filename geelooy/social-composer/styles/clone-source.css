@@ -1,0 +1,82 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos lets provenance and ownership shine as context rather than clutter;
+ * Awtsmoos.com keeps owned-copy boundaries calm, readable, recoverable, and reachable before publication can flutter.
+ */
+
+.composerCloneBanner {
+	display: grid;
+	gap: 8px;
+	margin: -6px 0 18px;
+	padding: 14px 16px;
+	border: 1px solid rgba(45, 212, 191, .32);
+	border-radius: 18px;
+	background: linear-gradient(145deg, rgba(20, 184, 166, .1), rgba(99, 102, 241, .06));
+}
+
+.composerCloneBanner[hidden] {
+	display: none;
+}
+
+.composerCloneBanner strong {
+	font-size: .92rem;
+}
+
+.composerCloneBanner p {
+	margin: 0;
+	line-height: 1.5;
+	opacity: .78;
+}
+
+.composerCloneBanner__media {
+	display: block;
+	padding: 8px 10px;
+	border-radius: 12px;
+	background: rgba(15, 23, 42, .08);
+	font-size: .78rem;
+	font-weight: 720;
+	line-height: 1.45;
+}
+
+.composerCloneBanner__actions {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	flex-wrap: wrap;
+}
+
+.composerCloneBanner a,
+.composerCloneBanner__retry {
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	padding: 8px 11px;
+	border-radius: 12px;
+	font-size: .82rem;
+	font-weight: 780;
+}
+
+.composerCloneBanner a {
+	color: inherit;
+	text-underline-offset: 3px;
+}
+
+.composerCloneBanner__retry {
+	border: 1px solid rgba(45, 212, 191, .34);
+	background: rgba(20, 184, 166, .1);
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.composerCloneBanner__retry:disabled {
+	opacity: .55;
+	cursor: progress;
+}
+
+.composerCloneBanner :focus-visible {
+	outline: 3px solid rgba(45, 212, 191, .62);
+	outline-offset: 3px;
+}

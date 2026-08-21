@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 11 | 0 | 0 | 0 | 1 | 0 | 12 |
+| 47 | 0 | 0 | 0 | 1 | 0 | 48 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 11; classes: 19; functions: 16; exports: 51; samples: IGNORE, UNIMPLEMENTED, DEBUG, SERVICE_REQUEST, SERVICE_ACCEPT, KEXINIT, NEWKEYS, KEXDH_INIT, KEXDH_REPLY, USERAUTH_REQUEST, USERAUTH_FAILURE, USERAUTH_SUCCESS.
+Source files: 47; classes: 31; functions: 112; exports: 133; samples: IGNORE, UNIMPLEMENTED, DEBUG, SERVICE_REQUEST, SERVICE_ACCEPT, KEXINIT, NEWKEYS, KEXDH_INIT, KEXDH_REPLY, USERAUTH_REQUEST, USERAUTH_FAILURE, USERAUTH_SUCCESS.
 
 ## Depends on
 
@@ -37,7 +37,8 @@ None observed.
 
 ## Used by
 
-- `geelooy/api/ssh` — 1 lexical reference; examples: geelooy/api/ssh/lib/client.js
+- `geelooy/api/ssh` — 2 lexical references; examples: geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/service.js
+- `geelooy/apps/tunnel` — 1 lexical reference; examples: geelooy/apps/tunnel/agent/lib/fakeSsh/wireServer.js
 
 ## External packages
 

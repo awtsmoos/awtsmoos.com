@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 11 | 0 | 0 | 0 | 1 | 0 | 12 |
+| 15 | 0 | 0 | 0 | 1 | 0 | 16 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 9; classes: 6; functions: 24; exports: 46; samples: Otiot, Tzomeach, Chai, and, Entity, Particle, HEBREW_LETTERS, PLANT_EMOJIS, ANIMAL_EMOJIS, getPointerState, setupControls, handlePointerDown.
+Source files: 13; classes: 8; functions: 47; exports: 51; samples: Otiot, Tzomeach, Chai, and, Entity, Particle, HEBREW_LETTERS, PLANT_EMOJIS, ANIMAL_EMOJIS, getPointerState, setupControls, clearPointer.
 
 ## Depends on
 

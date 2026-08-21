@@ -1,0 +1,109 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets many intentions pass beneath one finger without crowding the writing field;
+Awtsmoos.com gives the active road a moving spark while every rail remains cheap to paint and easy to swipe.
+*/
+.creatorIntentRail,
+.creatorQuickRail {
+	position: relative;
+	display: flex;
+	gap: .42rem;
+	max-inline-size: 100%;
+	padding-block: .08rem .24rem;
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+	scroll-snap-type: x proximity;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+}
+
+.creatorIntentRail::-webkit-scrollbar,
+.creatorQuickRail::-webkit-scrollbar {
+	display: none;
+}
+
+.creatorRailButton {
+	position: relative;
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	gap: .42rem;
+	min-block-size: 2.7rem;
+	padding-inline: .76rem;
+	border-radius: 999px;
+	scroll-snap-align: start;
+	white-space: nowrap;
+	contain: layout paint;
+	transition:
+		transform 180ms cubic-bezier(.2, .8, .2, 1),
+		border-color 180ms ease,
+		background-color 180ms ease,
+		box-shadow 180ms ease;
+}
+
+.creatorRailButton > span {
+	display: grid;
+	width: 1.35rem;
+	aspect-ratio: 1;
+	place-items: center;
+	color: var(--composer-cyan);
+	font-size: .94rem;
+	transition: transform 180ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.creatorRailButton strong {
+	font-size: .7rem;
+}
+
+.creatorIntentRail .creatorRailButton[data-active="true"] {
+	border-color: rgba(89, 189, 210, .55);
+	background:
+		linear-gradient(120deg, rgba(89, 189, 210, .17), rgba(185, 120, 239, .105)),
+		var(--composer-surface-2);
+	box-shadow:
+		inset 0 1px rgba(255, 255, 255, .045),
+		0 0 1.15rem rgba(89, 189, 210, .09);
+	color: var(--composer-text);
+}
+
+.creatorIntentRail .creatorRailButton[data-active="true"]::after {
+	position: absolute;
+	inset-inline: .9rem;
+	inset-block-end: .18rem;
+	height: 2px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, transparent, var(--composer-cyan), transparent);
+	content: "";
+	animation: creator-rail-spark 420ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.creatorQuickRail {
+	padding-block-start: .18rem;
+	border-block-start: 1px solid var(--composer-border-soft);
+}
+
+.creatorQuickRail .creatorRailButton {
+	min-block-size: 2.45rem;
+	background: rgba(255, 255, 255, .018);
+}
+
+.creatorRailButton:active {
+	transform: scale(.975);
+}
+
+.creatorRailButton:active > span {
+	transform: scale(.92);
+}
+
+@keyframes creator-rail-spark {
+	from {
+		opacity: 0;
+		transform: scaleX(.25);
+	}
+	to {
+		opacity: 1;
+		transform: scaleX(1);
+	}
+}

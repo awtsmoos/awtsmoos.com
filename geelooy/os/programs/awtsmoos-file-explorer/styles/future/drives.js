@@ -1,5 +1,75 @@
-// B"H
-export default /*css*/`
-.drive-shelf{margin:6px;display:flex;gap:8px;padding:7px;overflow-x:auto;overflow-y:hidden;max-width:100%;scrollbar-width:none}.drive-shelf::-webkit-scrollbar{display:none}.drive-chip{flex:0 0 172px;min-width:0;border:1px solid var(--awt-line);border-radius:16px;background:var(--awt-card);color:var(--awt-text);box-shadow:none;padding:8px 11px;overflow:hidden}.drive-chip-label{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.drive-chip-meta{color:var(--awt-muted);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mount-badge,.xp-badge{border:1px solid var(--awt-line);border-radius:999px;background:rgba(7,23,41,.72);color:var(--awt-cyan);font-size:11px;padding:3px 8px}@media(max-width:720px),(pointer:coarse) and (max-width:900px){.drive-shelf{display:none!important}.drive-chip{flex-basis:112px;max-width:112px;min-height:42px;padding:6px 8px;border-radius:13px}.drive-chip-label{font-size:11px}.drive-chip-meta{font-size:9px}}
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file Mobile-first connected-world rail and live-state capsule.
+ * @description
+ * The Awtsmoos keeps distant worlds visible even on the narrowest screen;
+ * Awtsmoos.com gives the rail touch-native snap motion while status stays compact,
+ * readable, and separate from individual drive garments in rhyme.
+ */
+export default /*css*/ `
+.drive-shelf {
+	display: flex;
+	align-items: stretch;
+	gap: 7px;
+	margin: 4px 0 6px;
+	padding: 7px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	max-width: 100%;
+	scroll-snap-type: x proximity;
+	scroll-padding-inline: 7px;
+	scrollbar-width: none;
+	overscroll-behavior-inline: contain;
+	-webkit-overflow-scrolling: touch;
+}
+
+.drive-shelf::-webkit-scrollbar {
+	display: none;
+}
+
+.drive-shelf-status {
+	flex: 0 0 auto;
+	align-self: center;
+	min-height: 34px;
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding: 7px 10px;
+	border-radius: 999px;
+	background: rgba(2, 14, 27, .66);
+	border: 1px solid var(--awt-line);
+	color: var(--awt-muted);
+	font-size: 10px;
+	font-weight: 760;
+	white-space: nowrap;
+}
+
+.drive-shelf-status::before {
+	content: "";
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--awt-green);
+	box-shadow: 0 0 10px rgba(82, 255, 184, .55);
+}
+
+.drive-shelf-status[data-status="loading"]::before {
+	background: var(--awt-cyan);
+}
+
+.drive-shelf-status[data-status="error"]::before {
+	background: var(--awt-danger);
+	box-shadow: 0 0 10px rgba(255, 102, 133, .45);
+}
+
+@media (min-width: 721px) {
+	.drive-shelf {
+		margin: 6px;
+		gap: 9px;
+		padding: 8px;
+	}
+}
 `;
-/** B"H: phone windows hide drive ribbons so file contents are not exiled below the fold. */

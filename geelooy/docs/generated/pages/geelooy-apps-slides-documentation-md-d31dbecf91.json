@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-slides-documentation-md-d31dbecf91",
+	"title": "Awtsmoos Slides",
+	"sourcePath": "geelooy/apps/slides/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Slides",
+			"anchor": "awtsmoos-slides"
+		},
+		{
+			"level": 2,
+			"text": "Authoring",
+			"anchor": "authoring"
+		},
+		{
+			"level": 2,
+			"text": "Mobile command system",
+			"anchor": "mobile-command-system"
+		},
+		{
+			"level": 2,
+			"text": "Direct interaction integrity",
+			"anchor": "direct-interaction-integrity"
+		},
+		{
+			"level": 2,
+			"text": "Presentation mode",
+			"anchor": "presentation-mode"
+		},
+		{
+			"level": 2,
+			"text": "Speaker notes",
+			"anchor": "speaker-notes"
+		},
+		{
+			"level": 2,
+			"text": "Persistence and portability",
+			"anchor": "persistence-and-portability"
+		},
+		{
+			"level": 2,
+			"text": "Collaboration",
+			"anchor": "collaboration"
+		},
+		{
+			"level": 2,
+			"text": "Architecture",
+			"anchor": "architecture"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		},
+		{
+			"level": 2,
+			"text": "Deliberate boundaries",
+			"anchor": "deliberate-boundaries"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-slides-documentation-md-d31dbecf91-001.json"
+	]
+}

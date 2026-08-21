@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-games-pong-documentation-md-c5a129b7c9",
+	"title": "Pong",
+	"sourcePath": "geelooy/games/pong/DOCUMENTATION.md",
+	"category": "Games",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Pong",
+			"anchor": "pong"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Boundary",
+			"anchor": "boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-games-pong-documentation-md-c5a129b7c9-001.json"
+	]
+}

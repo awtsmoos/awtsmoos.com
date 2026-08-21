@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1273 | 40 | 0 | 0 | 1 | 2 | 1316 |
+| 1337 | 41 | 0 | 0 | 1 | 2 | 1381 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 1226; classes: 55; functions: 2709; exports: 1808; samples: neutralInput, botReport, finiteFighter, summarizeSpectacle, round, assert, snap, sumDamage, aliveCount, summarize, length, checkCase.
+Source files: 1289; classes: 59; functions: 2762; exports: 1932; samples: neutralInput, botReport, finiteFighter, summarizeSpectacle, round, assert, snap, sumDamage, aliveCount, summarize, length, checkCase.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **40**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **41**. Treat this as file evidence, not proof of behavioral coverage.

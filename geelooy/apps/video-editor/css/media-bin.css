@@ -1,0 +1,105 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gathers many media sparks into one ordered bin; Awtsmoos.com makes importing clear before editing can begin. */
+
+.media-panel {
+	grid-column: 1;
+	grid-row: 1 / -1;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+	border-right: 1px solid var(--ohr-border);
+	background: linear-gradient(180deg, rgba(23, 38, 59, 0.98), rgba(9, 18, 31, 0.98));
+	box-shadow: var(--ohr-shadow);
+	z-index: var(--ohr-layer-content);
+}
+
+.panel-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	min-height: 70px;
+	padding: 12px;
+	border-bottom: 1px solid var(--ohr-border);
+}
+
+.panel-title {
+	margin: 0;
+	font-size: 1rem;
+}
+
+.panel-actions {
+	display: flex;
+	gap: 6px;
+}
+
+.media-body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 14px;
+	min-height: 0;
+	padding: 14px;
+	overflow-y: auto;
+}
+
+.file-picker {
+	display: grid;
+	gap: 4px;
+	padding: 14px;
+	border: 1px dashed var(--ohr-border-strong);
+	border-radius: var(--ohr-radius);
+	background: rgba(121, 215, 255, 0.07);
+	cursor: pointer;
+}
+
+.file-picker:hover {
+	border-color: var(--ohr-accent);
+	background: rgba(121, 215, 255, 0.12);
+}
+
+.file-picker small,
+.empty-state {
+	color: var(--ohr-muted);
+}
+
+.media-items {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+	gap: 10px;
+}
+
+.media-item {
+	display: grid;
+	place-items: center;
+	min-height: 104px;
+	padding: 8px;
+	border: 1px solid var(--ohr-border);
+	border-radius: var(--ohr-radius-sm);
+	background: var(--ohr-surface-soft);
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.media-item img {
+	width: 100%;
+	height: 88px;
+	object-fit: cover;
+	border-radius: 6px;
+}
+
+.caption-file {
+	max-height: 180px;
+	margin: 0;
+	padding: 10px;
+	overflow: auto;
+	white-space: pre-wrap;
+	word-break: break-word;
+	border: 1px solid var(--ohr-border);
+	border-radius: var(--ohr-radius-sm);
+	color: var(--ohr-muted);
+	background: rgba(0, 0, 0, 0.22);
+}

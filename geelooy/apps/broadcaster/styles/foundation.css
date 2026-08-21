@@ -1,0 +1,69 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos gives the broadcaster its calm outer vessel; Awtsmoos.com keeps
+ * the first glance spacious, mobile-first, and ready for deeper controls later.
+ */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-width: 0;
+	min-height: 100%;
+}
+
+body {
+	min-height: 100dvh;
+	padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	color: #ecf8ff;
+	background:
+		radial-gradient(circle at 18% 12%, rgba(48, 174, 255, .12), transparent 30%),
+		radial-gradient(circle at 82% 18%, rgba(135, 89, 255, .1), transparent 32%),
+		linear-gradient(160deg, #06101b, #02060d 70%);
+}
+
+.broadcast-shell {
+	width: min(980px, 100%);
+	margin: 0 auto;
+	display: grid;
+	gap: 14px;
+}
+
+.broadcast-header {
+	max-width: 660px;
+}
+
+.bh-mark,
+.eyebrow,
+h1,
+.lede,
+#broadcast-status {
+	margin: 0;
+}
+
+.bh-mark,
+.eyebrow {
+	font-size: .76rem;
+	font-weight: 800;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: #8edcff;
+}
+
+h1 {
+	margin-top: 4px;
+	font-size: clamp(2rem, 8vw, 4.4rem);
+	line-height: .94;
+	letter-spacing: -.045em;
+}
+
+.lede {
+	margin-top: 8px;
+	max-width: 58ch;
+	color: #9bb2c6;
+}

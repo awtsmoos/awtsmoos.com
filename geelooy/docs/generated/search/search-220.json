@@ -1,194 +1,274 @@
 [
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-14eb44295a",
-		"title": "Realistic Architecture Pass",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/02_REALISTIC_ARCHITECTURE_PASS.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-projects-games-platform-md-95e7f4354e",
+		"title": "Games and Simulation Platform",
+		"sourcePath": "docs/PROJECTS/GAMES_PLATFORM.md",
+		"category": "Games",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Realistic Architecture Pass",
-				"anchor": "realistic-architecture-pass"
+				"text": "Games and Simulation Platform",
+				"anchor": "games-and-simulation-platform"
 			},
 			{
 				"level": 2,
-				"text": "Production-path changes",
-				"anchor": "production-path-changes"
+				"text": "Canonical area",
+				"anchor": "canonical-area"
 			},
 			{
 				"level": 2,
-				"text": "Authored movie modules",
-				"anchor": "authored-movie-modules"
+				"text": "Shared versus game-specific roots",
+				"anchor": "shared-versus-game-specific-roots"
 			},
 			{
 				"level": 2,
-				"text": "Renderer modules",
-				"anchor": "renderer-modules"
+				"text": "Realtime applications",
+				"anchor": "realtime-applications"
 			},
 			{
 				"level": 2,
-				"text": "Exact quality requirements",
-				"anchor": "exact-quality-requirements"
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Human guidance",
+				"anchor": "human-guidance"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
 			}
 		],
-		"excerpt": "B\"H Realistic Architecture Pass Production path changes 1. Add a face structure painter for ears, jaw, chin, philtrum, neck shadow, and asymmetry. 2. Add an anatomical torso painter for shoulder slope, ribcage, waist, pelvis, lapels, and fabric light. 3. Rewrite arm rendering around shoulder elbow wrist geometry. 4. Re",
-		"searchText": "b\"h realistic architecture pass production path changes 1. add a face structure painter for ears, jaw, chin, philtrum, neck shadow, and asymmetry. 2. add an anatomical torso painter for shoulder slope, ribcage, waist, pelvis, lapels, and fabric light. 3. rewrite arm rendering around shoulder elbow wrist geometry. 4. rewrite leg rendering around hip knee ankle geometry and planted feet. 5. enrich garment rendering with sleeves, folds, hems, coat opening, and skirt/trouser separation. 6. add a realistic office object painter with material specific construction. 7. add a scene object evaluator supporting static, slide, roll, fall, bounce, flash, steam, print, and spin actions. 8. add a realistic office set with depth layers, window light, desk, shelves, clock, machine station, printer, plant, and floor perspective. 9. add character anchored speech bubbles with safe wrapping and tails. 10. keep all additions inside the shared cinematicframerenderer path. authored movie modules src/scenes/realisticactionminutemovie.js src/scenes/realisticminute/realisticminutecast.js realisticminutesequences.js realisticminutedialogue.js realisticminuteshots.js realisticminuteperformances.js realisticminuteobjects.js realisticminutetitles.js renderer modules tools/render/face/facestructurepainter.js tools/render/body/anatomicaltorsopainter.js tools/render/body/jointedarmpainter.js tools/render/body/jointedlegpainter.js tools/render/objects/realisticofficeobjectpainter.js tools/render/objects/sceneobjectmotionresolver.js tools/render/cinematicsceneobjectpainter.js tools/render/sets/realisticofficesetpainter.js tools/render/overlay/characterspeechbubblepainter.js tools/render/overlay/speechbubblelayoutresolver.js exact quality requirements at least 16 camera shots and 10 camera size/angle combinations. at least 12 spoken lines with visible mouth movement. at least 20 distinct performance/action clips. at least 12 scene objects and 8 animated object actions. at least 8 character anchored text bubbles plus title cards and lower third text. four scale courts and at least nine representative story frames. final sixty second h.264/aac export and hashes.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-14eb44295a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Games and Simulation Platform The Awtsmoos lets many worlds appear beneath geelooy/games/ while Awtsmoos.com shares libraries, styles, tests and realtime infrastructure across projects of very different size. Canonical area geelooy/games/ The generated project atlas enumerates each game,",
+		"searchText": "b\"h boruch hashem blessed is he games and simulation platform the awtsmoos lets many worlds appear beneath geelooy/games/ while awtsmoos.com shares libraries, styles, tests and realtime infrastructure across projects of very different size. canonical area geelooy/games/ the generated project atlas enumerates each game, file categories, entry files and local documentation status. the public entry atlas maps game urls to index.html, titles, scripts and styles. shared versus game specific roots geelooy/games/scripts/, styles/ and tests/ are shared game infrastructure rather than independent games. individual game directories such as mitzvah world, ohr hagnuz, sefira clash, scribe journey and shema strike can also have realtime/server relationships. realtime applications the dynamic server currently registers versioned realtime applications for mitzvah world, ohr hagnuz, sefira clash, scribe journey and shema strike. not every game is realtime; use websocket applications.md rather than assuming a socket layer from the presence of a game directory. generated evidence project atlas.md — game boundaries and file categories. public entry points.md — browser entry points. project symbol summary.md — lexical source summaries. project dependencies.md — shared library relationships. test ownership.md — test neighborhoods. human guidance docs/apps/games and simulation.md is the broad chooser. docs/projects/mitzvah world.md gives a deeper example of a large project with its own internal documentation universe. change strategy for a game local change read its local documentation.md or readme first. for shared scripts/styles/libraries or realtime transport, identify every dependent game and run representative cross game tests rather than validating only one title.",
+		"page": "pages/docs-projects-games-platform-md-95e7f4354e.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-cf1245f2c3",
-		"title": "Critique and Thirty Improvements",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/03_CRITIQUE_30_IMPROVEMENTS.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-projects-mitzvah-world-md-4fe811a7ae",
+		"title": "Mitzvah World",
+		"sourcePath": "docs/PROJECTS/MITZVAH_WORLD.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Critique and Thirty Improvements",
-				"anchor": "critique-and-thirty-improvements"
+				"text": "Mitzvah World",
+				"anchor": "mitzvah-world"
 			},
 			{
 				"level": 2,
-				"text": "Revised insight",
-				"anchor": "revised-insight"
+				"text": "Canonical source",
+				"anchor": "canonical-source"
+			},
+			{
+				"level": 2,
+				"text": "Existing in-project documentation",
+				"anchor": "existing-in-project-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Surrounding runtime systems",
+				"anchor": "surrounding-runtime-systems"
+			},
+			{
+				"level": 2,
+				"text": "Human documentation",
+				"anchor": "human-documentation"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
+			},
+			{
+				"level": 2,
+				"text": "Documentation boundary",
+				"anchor": "documentation-boundary"
 			}
 		],
-		"excerpt": "B\"H Critique and Thirty Improvements 1. Do not mistake more outlines for realism; add planes, joints, overlap, and material cues. 2. Keep neutral identity separate from acting. 3. Prevent facial detail from becoming noise at 180×300. 4. Give ears and jaw different visibility by view. 5. Preserve eye readability during ",
-		"searchText": "b\"h critique and thirty improvements 1. do not mistake more outlines for realism; add planes, joints, overlap, and material cues. 2. keep neutral identity separate from acting. 3. prevent facial detail from becoming noise at 180×300. 4. give ears and jaw different visibility by view. 5. preserve eye readability during extreme close ups and profiles. 6. make lips change clearly across visemes. 7. use elbows so gestures do not resemble rubber lines. 8. use knees so running and crouching have believable weight. 9. plant feet during stops and catches. 10. keep crossed arms and pocket contact locked. 11. attach carried props to the correct wrist side. 12. separate world objects from hand props. 13. use object materials: ceramic, metal, paper, glass, plastic, fabric, wood. 14. add object shadows and highlights. 15. give the office three depth layers. 16. let camera parallax affect world objects consistently. 17. make text bubbles point toward the speaker. 18. move bubbles away from faces and title safe regions. 19. wrap dialogue instead of shrinking it into illegibility. 20. keep every dialogue line within its authored timing. 21. use insert shots for mug, machine display, spoon, and printer output. 22. use an overhead shot to make the mug negotiation spatially clear. 23. use a dutch angle only at the machine malfunction. 24. use slow push and whip pan motion for escalation. 25. use a stable final group tableau for the punchline. 26. ensure objects persist in the source project and package. 27. ensure preview and final export use identical evaluated object state. 28. add tests that compare object hashes across action phases. 29. add tests for jointed limb geometry and anchored bubble placement. 30. reject completion if any proof frame is blank, clipped, symbolically crude, or visually repetitive. revised insight the prior short proved completeness, but this pass must prove cinematic density. the central improvement is not merely a different script; it is a reusable production layer where believable bodies and constructed objects share one camera, one timeline, one persistence contract, and one export path.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-cf1245f2c3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mitzvah World The Awtsmoos lets a browser project become a world of assets, scenes, movies, experiments, shared systems and realtime behavior; Awtsmoos.com treats Mitzvah World as a major project rather than a single game page. Canonical source geelooy/games/mitzvahWorld/ The observed ro",
+		"searchText": "b\"h boruch hashem blessed is he mitzvah world the awtsmoos lets a browser project become a world of assets, scenes, movies, experiments, shared systems and realtime behavior; awtsmoos.com treats mitzvah world as a major project rather than a single game page. canonical source geelooy/games/mitzvahworld/ the observed root contains assets/, docs/, experiments/, movies/, proof/, references/, shared/, styles/, ai/evidence directories, an index.html, and multiple project audit/index documents. it also carries an external assets link. existing in project documentation before changing a major subsystem, inspect project local documents such as: directory guide.md directory index.md directory catalog.json system overlap map.md next ai readme.md remaining work.md focused audit documents for movie/procedural systems these are project specific evidence and should be preserved rather than replaced by central generic docs. surrounding runtime systems mitzvah world is not isolated to static game files: root index.js contains direct autoplay ping/report handlers associated with mitzvah world; report material is written beneath the mitzvah world tree; the dynamic server has a registered realtime application with id mitzvah world version 1; generated dependency evidence shows the project importing shared libraries heavily; generated test ownership identifies this as one of the largest test neighborhoods in the repository. human documentation docs/apps/games and simulation.md docs/api/direct root handlers.md docs/websockets/applications.md generated project atlas, project symbol summary, project dependencies, test ownership change strategy a scene/asset/editor change may be browser only, but engine/shared/realtime/report changes can cross project boundaries. begin from the local directory maps, trace imports/callers, identify whether websocket or root direct server behavior participates, then run the nearest focused tests plus relevant game/runtime regression tests. documentation boundary central docs explain how mitzvah world relates to the repository. the project's own directory guides remain the detailed internal map. do not duplicate their entire subsystem catalog centrally.",
+		"page": "pages/docs-projects-mitzvah-world-md-4fe811a7ae.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-e93c33b798",
-		"title": "Final Implementation Plan",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/04_FINAL_IMPLEMENTATION_PLAN.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-projects-readme-md-13c3e5100d",
+		"title": "Awtsmoos.com Project Guide",
+		"sourcePath": "docs/PROJECTS/README.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Final Implementation Plan",
-				"anchor": "final-implementation-plan"
+				"text": "Awtsmoos.com Project Guide",
+				"anchor": "awtsmoos-com-project-guide"
 			},
 			{
 				"level": 2,
-				"text": "Phase I — Character realism",
-				"anchor": "phase-i-character-realism"
+				"text": "Interactive Project Explorer",
+				"anchor": "interactive-project-explorer"
 			},
 			{
 				"level": 2,
-				"text": "Phase II — Object and set realism",
-				"anchor": "phase-ii-object-and-set-realism"
+				"text": "Generated project teaching",
+				"anchor": "generated-project-teaching"
 			},
 			{
 				"level": 2,
-				"text": "Phase III — Text and camera language",
-				"anchor": "phase-iii-text-and-camera-language"
+				"text": "Human project-family manuals",
+				"anchor": "human-project-family-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Phase IV — One-minute movie",
-				"anchor": "phase-iv-one-minute-movie"
+				"text": "Deeper named manuals",
+				"anchor": "deeper-named-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Phase V — Export and proof",
-				"anchor": "phase-v-export-and-proof"
-			},
-			{
-				"level": 2,
-				"text": "Phase VI — Verification and challenge",
-				"anchor": "phase-vi-verification-and-challenge"
+				"text": "Investigation order",
+				"anchor": "investigation-order"
 			}
 		],
-		"excerpt": "B\"H Final Implementation Plan Phase I — Character realism Rewrite the complete character production files that must change, after reading all consumers. Split new responsibilities into small modules. Add face structure, anatomical torso, jointed arms, jointed legs, richer garment layers, and prop side placement. Phase ",
-		"searchText": "b\"h final implementation plan phase i — character realism rewrite the complete character production files that must change, after reading all consumers. split new responsibilities into small modules. add face structure, anatomical torso, jointed arms, jointed legs, richer garment layers, and prop side placement. phase ii — object and set realism create a reusable office object painter and motion resolver. add a realistic office set. extend the shared frame renderer to paint background, midground, carried, and foreground objects in deterministic layer order. phase iii — text and camera language create character anchored speech bubbles and safe layout. keep title cards and text boxes. author at least sixteen shots using wide, tracking, over shoulder, insert, overhead, high, low, profile, dutch, close up, extreme close up, two shot, group, and final locked views. phase iv — one minute movie create the last cup before the meeting with three characters, twelve or more spoken lines, many actions, object interactions, camera cuts, text bubbles, title cards, and a clear setup/escalation/rescue/punchline structure. compile it into the native nle. phase v — export and proof add a dedicated exporter output directory, source artifacts, representative frames, exact scale courts, final sixty second h.264/aac movie, preview, ffprobe metadata, and sha 256 hashes. phase vi — verification and challenge run focused realism/movie tests, syntax, imports, package/persistence, browser/runtime, scale courts, final export metadata, complete npm run verify, full touched file compliance, readback, delta comparison, and final completion challenge.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-e93c33b798.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos.com Project Guide A project boundary is a practical unit for navigation, documentation, dependency evidence, and testing—not a promise that the runtime is isolated at that directory. Interactive Project Explorer Open /docs/?view=projects to browse every current project boundary.",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos.com project guide a project boundary is a practical unit for navigation, documentation, dependency evidence, and testing—not a promise that the runtime is isolated at that directory. interactive project explorer open /docs/?view=projects to browse every current project boundary. the explorer can filter by exact generated type, public entry evidence, test file evidence, documentation coverage, and text across paths, entries, public urls, and dependency names. selecting a project reveals: exact path/type/family; file category shape; source entry files; public html entry evidence; lexical symbol summary; incoming/outgoing project dependency evidence; external package evidence; test file evidence; local/central human documentation; generated project tutorial; project aware ask and copyable project path. generated project teaching project tutorial index gives one generated tutorial for every current project boundary. project type summary summarizes the current type census without freezing counts into this manual. each generated tutorial is evidence, not architecture law: imports are lexical, public entries are discovered index.html files, symbols are lexical summaries, and test file counts are not behavioral coverage scores. human project family manuals start with project and system tutorials, then choose: applications api projects games and worlds runtime and infrastructure libraries and tooling public and other boundaries deeper named manuals major systems such as runtime server, dosdb, mitzvah world, awtsmoos ai, code, social platform, tunnel platform, and games platform also have focused manuals in this directory. those interpret important systems in more depth than the generated per project evidence can. investigation order human family/system manual → generated project tutorial → dependency/public entry/symbol evidence → exact source/tests → runtime verification.",
+		"page": "pages/docs-projects-readme-md-13c3e5100d.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-5642788795",
-		"title": "COMPLETEDWORK",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/COMPLETED_WORK.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-projects-runtime-server-md-2ba142f313",
+		"title": "Awtsmoos Dynamic Server",
+		"sourcePath": "docs/PROJECTS/RUNTIME_SERVER.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "COMPLETEDWORK",
-				"anchor": "completedwork"
+				"text": "Awtsmoos Dynamic Server",
+				"anchor": "awtsmoos-dynamic-server"
 			},
 			{
 				"level": 2,
-				"text": "Realistic 2D character system",
-				"anchor": "realistic-2d-character-system"
+				"text": "Canonical source",
+				"anchor": "canonical-source"
 			},
 			{
 				"level": 2,
-				"text": "Realistic 2D object and environment system",
-				"anchor": "realistic-2d-object-and-environment-system"
+				"text": "Main responsibilities",
+				"anchor": "main-responsibilities"
 			},
 			{
 				"level": 2,
-				"text": "Dialogue and camera system",
-				"anchor": "dialogue-and-camera-system"
+				"text": "Entry docs",
+				"anchor": "entry-docs"
 			},
 			{
 				"level": 2,
-				"text": "One-minute production",
-				"anchor": "one-minute-production"
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Export and verification",
-				"anchor": "export-and-verification"
+				"text": "High-risk change areas",
+				"anchor": "high-risk-change-areas"
+			},
+			{
+				"level": 2,
+				"text": "Local breadcrumb",
+				"anchor": "local-breadcrumb"
 			}
 		],
-		"excerpt": "B\"H COMPLETED WORK Realistic 2D character system Added explicit ears, jaw, chin, philtrum, neck integration, brow muscles, nose form, cheek pressure, and view aware facial structure. Preserved neutral reference identity separately from transient emotion, gaze, speech, and action. Added anatomical torso structure: neck,",
-		"searchText": "b\"h completed work realistic 2d character system added explicit ears, jaw, chin, philtrum, neck integration, brow muscles, nose form, cheek pressure, and view aware facial structure. preserved neutral reference identity separately from transient emotion, gaze, speech, and action. added anatomical torso structure: neck, shoulder slope, ribcage, waist, pelvis, lapels, fabric planes, highlights, and shadows. replaced symbolic straight limbs with shoulder elbow wrist arms and hip knee ankle legs. added planted stops, crouches, seated bends, catches, handoffs, and phase independent locked contact. expanded garments with sleeves, coat openings, trouser seams, skirt panels, folds, hems, sway, and material shadow. realistic 2d object and environment system added constructed ceramic, steel, paper, glass, plastic, wood, and fabric objects. added coffee machine, printer, laptop, wall clock, desk, rolling chair, cabinet, shelf, plant, mug, spoon, papers, tablet, coupon, and phone painters. added deterministic static, slide, roll, fall, bounce, spin, flash, steam, print, and flutter motion states. added background, midground, and foreground object layers with camera space parallax. added a realistic office set with ceiling panels, lights, windows, glass, wall panels, machine station, printer counter, cables, floor perspective, and depth. dialogue and camera system added speaker anchored speech bubbles with tails, speaker bands, wrapping, safe margins, and shot aware placement. preserved title cards and timed lower third text boxes. authored eighteen shots using wide, tracking, insert, over shoulder, close up, extreme close up, two shot, group, reaction, profile, top down, bird eye, high angle, low angle, dutch angle, pursuit, crane, slow push, crash zoom, handheld, whip pan, and pull back staging. one minute production created the last cup before the meeting. exact duration: 60000ms. three persistent characters, four story sequences, eighteen shots, twelve spoken lines, thirty three performance clips, twenty two scene object clips, two title cards, and three text boxes. physical actions include running, reaching, rolling chair blocking, rising, pocket observation, open palm negotiation, crossed arm refusal, pointing, tablet inspection, presenting, recoiling, bracing, covering from steam, sprinting, crouching, lunging, high and low catches, balance freeze, handoff, receiving, and final presentation. object actions include machine flashing and steaming, chair rolling, papers fluttering, mug sliding and bouncing, spoon spinning, printer output, coupon sliding, and phone alerts. export and verification generated twelve synthesized voice tracks and 720 production frames. exported exact sixty second h.264/aac media, preview, source plan, edl, dialogue, performance, object, title/text, audio, probe, frame, scale, and hash evidence. promoted realistic movie plan/render/persistence tests into the official repository verification chain. complete repository verification exits zero. forty three touched javascript files pass headers, tabs, documentation, syntax, complete readback, and the 120 line limit.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-5642788795.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Dynamic Server The Awtsmoos lets Awtsmoos.com become a running world through HTTP, filesystem serving, derech routing, authentication, DosDB, WebSocket upgrades, realtime applications and server utilities. Canonical source ayzarim/awtsmoosDynamicServer/ The root process imports ",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos dynamic server the awtsmoos lets awtsmoos.com become a running world through http, filesystem serving, derech routing, authentication, dosdb, websocket upgrades, realtime applications and server utilities. canonical source ayzarim/awtsmoosdynamicserver/ the root process imports the server from this runtime layer. awtsmoosstaticserver uses geelooy as the default public root unless configuration supplies another public directory. main responsibilities http request bootstrap and parsing. static/public filesystem serving. upward discovery of awtsmoos.derech.js dynamic route modules. exact and parameterized route matching. authentication installation for http and sockets. dosdb initialization and runtime sharing. websocket upgrade/session handling. versioned realtime application registry/router. mission room and tunnel related realtime subsystems. runtime/body/compact js/server utilities. entry docs docs/architecture.md — whole request/runtime architecture. docs/routes/dynamic paths.md — derech discovery and :name grammar. docs/websockets/readme.md — realtime platform. docs/data/readme.md — persistence startup and storage layers. docs/security/readme.md — auth and trust boundaries. generated evidence the generated project atlas and symbol summary expose the size/symbol surface of the runtime. project dependencies.md shows lexical cross project imports, including the server's relationships with apis and dosdb. this is discovery evidence, not a runtime call graph. high risk change areas changes to request path resolution, derech discovery, auth installation, db initialization, websocket upgrade policy or shared response behavior can affect many otherwise unrelated applications. treat them as platform changes: search dependents, run dynamic server tests, representative api tests, socket tests and browser smoke checks. local breadcrumb ayzarim/awtsmoosdynamicserver/documentation.md should remain the in tree entry point and link back to the central manuals rather than duplicate this entire chapter.",
+		"page": "pages/docs-projects-runtime-server-md-2ba142f313.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-060d0231a2",
-		"title": "DEFECTLEDGER",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/DEFECT_LEDGER.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-projects-social-platform-md-807c541919",
+		"title": "Social and Heichel Platform",
+		"sourcePath": "docs/PROJECTS/SOCIAL_PLATFORM.md",
+		"category": "Projects",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "DEFECTLEDGER",
-				"anchor": "defectledger"
+				"text": "Social and Heichel Platform",
+				"anchor": "social-and-heichel-platform"
+			},
+			{
+				"level": 2,
+				"text": "Core source families",
+				"anchor": "core-source-families"
+			},
+			{
+				"level": 2,
+				"text": "Domain concepts",
+				"anchor": "domain-concepts"
+			},
+			{
+				"level": 2,
+				"text": "Trust boundary",
+				"anchor": "trust-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Generated evidence",
+				"anchor": "generated-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
 			}
 		],
-		"excerpt": "B\"H DEFECT LEDGER Defect Resolution Status Face lacked explicit ears, jaw, chin, philtrum, and neck structure Added view aware face structure and expression detail painters Closed Torso read as a single oval Added neck, shoulder, ribcage, waist, pelvis, lapel, light, and shadow planes Closed Arms lacked elbows Added sh",
-		"searchText": "b\"h defect ledger defect resolution status face lacked explicit ears, jaw, chin, philtrum, and neck structure added view aware face structure and expression detail painters closed torso read as a single oval added neck, shoulder, ribcage, waist, pelvis, lapel, light, and shadow planes closed arms lacked elbows added shoulder elbow wrist geometry and gesture specific elbow bias closed legs lacked knees and planted weight added hip knee ankle chains, crouch, seat, stop, and planted shoe behavior closed garments lacked material construction added sleeves, panels, folds, seams, openings, hems, weight, and sway closed office environment was generic added realistic layered office set closed props were symbolic added material specific furniture, device, and small object painters closed scene objects lacked production motion added deterministic object motion resolver and layered object renderer closed dialogue bubbles were full width banners added character anchored wrapped speech bubbles with tails closed initial tracking labels were unsupported rewrote shot plan using real camera motion library methods closed first head court sampled title pixels rewrote court timing to 57500ms reaction frame closed tunnel restarts erased volatile receipts added repository side full verify log/exit/finished evidence closed early artifact hashes were stale during finalization remeasured and compared current media against export manifest closed no open defect remains.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-060d0231a2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social and Heichel Platform The Awtsmoos lets identity become relationship, content, discussion, governance, discovery and notification while Awtsmoos.com spreads that one domain across APIs and many focused public interfaces. Core source families geelooy/api/social/ — backend domain and",
+		"searchText": "b\"h boruch hashem blessed is he social and heichel platform the awtsmoos lets identity become relationship, content, discussion, governance, discovery and notification while awtsmoos.com spreads that one domain across apis and many focused public interfaces. core source families geelooy/api/social/ — backend domain and route composition. geelooy/social hub/ and related social public pages. geelooy/profile/, comment thread/, post editor/, heichel editor/, heichel review/, notifications/ and composer surfaces. dosdb/social packed storage for persisted content and comments. realtime social presence/typing/event compatibility. domain concepts aliases, profiles, follows, posts, heichelos, series, editors/governance, comments, submissions/review, notifications/signals, drive/search/graph/mail and discovery live in one broad domain but have separate authorization rules and ui surfaces. trust boundary signed sessions and verified social api keys establish authenticated identity; alias/heichel/resource rules still decide authorization. client provided alias or owner fields do not replace trusted server identity. generated evidence use api route contract atlas.md, api caller index.md, project dependencies.md, public entry points.md, test ownership.md and environment variables.md to locate exhaustive source relationships. human manuals docs/api/social.md docs/systems/social and heichel.md docs/api/authentication.md docs/data/readme.md docs/security/trust boundaries.md change strategy trace api route, caller, alias/heichel authorization, persistent path family, notification/search side effects and realtime events. shared social helper changes deserve broader route/content/governance/comment/notification tests than a single ui page change.",
+		"page": "pages/docs-projects-social-platform-md-807c541919.json"
 	},
 	{
-		"id": "geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-19284416f1",
-		"title": "DELTA",
-		"sourcePath": "geelooy/apps/animator/.ai-thoughts/2026-08-03_0340_realistic-objects-action-movie/DELTA.md",
-		"category": "Apps",
-		"provenance": "project",
+		"id": "docs-projects-tunnel-platform-md-ee86c191df",
+		"title": "Tunnel Platform",
+		"sourcePath": "docs/PROJECTS/TUNNEL_PLATFORM.md",
+		"category": "Tunnel",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "DELTA",
-				"anchor": "delta"
+				"text": "Tunnel Platform",
+				"anchor": "tunnel-platform"
 			},
 			{
 				"level": 2,
-				"text": "Planned versus actual",
-				"anchor": "planned-versus-actual"
+				"text": "Primary source areas",
+				"anchor": "primary-source-areas"
 			},
 			{
 				"level": 2,
-				"text": "Additional defects discovered and closed",
-				"anchor": "additional-defects-discovered-and-closed"
+				"text": "Separate planes",
+				"anchor": "separate-planes"
+			},
+			{
+				"level": 2,
+				"text": "Trust boundary",
+				"anchor": "trust-boundary"
+			},
+			{
+				"level": 2,
+				"text": "Human manuals",
+				"anchor": "human-manuals"
+			},
+			{
+				"level": 2,
+				"text": "Change strategy",
+				"anchor": "change-strategy"
 			}
 		],
-		"excerpt": "B\"H DELTA Planned versus actual The plan called for a much more realistic character renderer, realistic office objects, anchored bubbles, dense action, broad camera language, and a new one minute film. All planned systems were implemented. Additional defects discovered and closed 1. The original arm path connected shou",
-		"searchText": "b\"h delta planned versus actual the plan called for a much more realistic character renderer, realistic office objects, anchored bubbles, dense action, broad camera language, and a new one minute film. all planned systems were implemented. additional defects discovered and closed 1. the original arm path connected shoulder directly to wrist. jointed elbow geometry was added. 2. the original leg path connected hip directly to foot. jointed knee geometry and planted/crouched poses were added. 3. the office environment was a generic interior. a constructed three layer office set was added. 4. props were largely symbolic. material specific object painters and deterministic motion were added. 5. dialogue used full width banners. speaker anchored bubbles with tails and safe layout were added. 6. two authored camera move labels were not supported by the real motion library. the shot file was completely rewritten to use pursuit, crane, crash zoom, handheld, whip pan, slow push, pull back, and locked vocabulary. 7. the first head scale court sampled the closing title card. the court was rewritten to inspect rivky's actual 57.5 second reaction frame. 8. tunnel job receipts repeatedly vanished after transport restarts. restart proof repository side verification logs and exit files were created. 9. early exporter hashes were captured before artifact finalization. current media, preview, plan, and exporter manifest hashes were remeasured and proven identical. no unresolved delta remains.",
-		"page": "pages/geelooy-apps-animator-ai-thoughts-2026-08-03-0340-realistic-objects-acti-19284416f1.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Platform The Awtsmoos lets Awtsmoos.com reach a trusted remote vessel while the platform separates installers, agent identity, HTTP control, relay transport, previews, missions, realtime rooms, compute and economic/accounting layers. Primary source areas geelooy/api/tunnel/ — base",
+		"searchText": "b\"h boruch hashem blessed is he tunnel platform the awtsmoos lets awtsmoos.com reach a trusted remote vessel while the platform separates installers, agent identity, http control, relay transport, previews, missions, realtime rooms, compute and economic/accounting layers. primary source areas geelooy/api/tunnel/ — base tunnel http family. geelooy/api/tunnel/control/ — large account bound control plane. geelooy/api/tunnel/install/ — installer/bundle artifacts. geelooy/apps/tunnel/ and geelooy/apps/tunnel control/ — browser interfaces. dynamic server websocket/apps/tunnelrelay/ — live agent transport. mission room upgrade/application source — realtime collaboration/admission. separate planes installer download, http control apis, websocket relay transport and mission room realtime admission are related but not interchangeable contracts. a route that creates work is not the same thing as the relay message that executes it on an agent. trust boundary tunnel control derives current identity from trusted session, oauth or verified tunnel api key evidence. device/tunnel/grant/scope checks sit above that identity. mission room sockets additionally bind trusted account identity, canonical origin, one time ticket, current tunnel.mission authority and protocol version before handshake. human manuals docs/api/tunnel control.md docs/systems/tunnel.md docs/websockets/tunnel relay.md docs/websockets/mission rooms.md docs/security/realtime security.md change strategy for control routes trace auth/scope, remote action alias, relay dispatch and agent compatibility. for relay changes test registration/replacement/acknowledgement/pending recovery. for mission rooms test wrong identity, stale ticket, wrong origin, revoked authority and wrong protocol version in addition to success.",
+		"page": "pages/docs-projects-tunnel-platform-md-ee86c191df.json"
 	}
 ]

@@ -4,9 +4,8 @@
 /**
  * @module LivingPathCardMenu
  * @description
- * The Awtsmoos creates each action with the card itself. Awtsmoos.com hides the
- * command list until requested, then exposes one keyboard-safe surface assembled
- * from focused action plans and the existing post social-action contract.
+ * The Awtsmoos creates each hidden command with the card yet lifts it beyond the card when called;
+ * Awtsmoos.com portals the living panel above clipping ancestors, then returns it when the command veil has fallen.
  */
 
 import { socialActionBlueprints } from '../social-actions.js';
@@ -18,11 +17,16 @@ import {
 	openAction,
 	shareAction
 } from './card-menu-actions.js';
+import { installCardMenuLifecycle } from './card-menu-lifecycle.js';
+import {
+	closeCardMenuPortal,
+	isCardMenuPortalTarget,
+	openCardMenuPortal
+} from './card-menu-portal.js';
 
-let closersInstalled = false;
-
+/** Builds one compact action trigger while keeping the heavy panel dormant. */
 export function cardMenuBlueprint(data, sourceItem, navigator, appState) {
-	installMenuClosers();
+	installCardMenuLifecycle(closeCardMenus, isCardMenuPortalTarget);
 	const panelId = `living-card-menu-${safeId(data.id)}`;
 	const close = () => closeCardMenus();
 	const actions = [
@@ -38,63 +42,58 @@ export function cardMenuBlueprint(data, sourceItem, navigator, appState) {
 		tag: 'div',
 		attr: { class: 'card-menu-spark', 'data-card-menu': data.id },
 		events: { click: stop },
-		children: [
-			{
-				tag: 'button',
-				attr: {
-					type: 'button',
-					class: 'card-menu-trigger',
-					'aria-label': `More actions for ${data.title}`,
-					'aria-expanded': 'false',
-					'aria-controls': panelId
-				},
-				children: ['⋮'],
-				events: { click: toggleMenu }
-			},
-			{
-				tag: 'div',
-				attr: { id: panelId, class: 'card-menu-panel', role: 'menu' },
-				children: actions
-			}
-		]
+		children: [triggerBlueprint(data, panelId), panelBlueprint(panelId, actions)]
 	};
 }
 
+/** Closes every open card action panel except an explicitly preserved menu. */
 export function closeCardMenus(except = null) {
 	document.querySelectorAll('.card-menu-spark.open').forEach(menu => {
 		if (menu === except) return;
 		menu.classList.remove('open');
 		menu.querySelector('.card-menu-trigger')?.setAttribute('aria-expanded', 'false');
+		closeCardMenuPortal(menu);
 	});
+}
+
+function triggerBlueprint(data, panelId) {
+	return {
+		tag: 'button',
+		attr: {
+			type: 'button',
+			class: 'card-menu-trigger',
+			'aria-label': `More actions for ${data.title}`,
+			'aria-expanded': 'false',
+			'aria-controls': panelId
+		},
+		children: ['⋮'],
+		events: { click: toggleMenu }
+	};
+}
+
+function panelBlueprint(panelId, actions) {
+	return {
+		tag: 'div',
+		attr: { id: panelId, class: 'card-menu-panel', role: 'menu' },
+		children: actions
+	};
 }
 
 function postSocialActions(data, sourceItem, appState) {
 	if (data.type !== 'post') return [];
-	return socialActionBlueprints({
-		...sourceItem,
-		id: data.id,
-		title: data.title
-	}, appState);
+	return socialActionBlueprints({ ...sourceItem, id: data.id, title: data.title }, appState);
 }
 
 function toggleMenu(event) {
 	stop(event);
-	const menu = event.currentTarget.closest('.card-menu-spark');
-	const open = !menu.classList.contains('open');
+	const trigger = event.currentTarget;
+	const menu = trigger.closest('.card-menu-spark');
+	const shouldOpen = !menu.classList.contains('open');
 	closeCardMenus(menu);
-	menu.classList.toggle('open', open);
-	event.currentTarget.setAttribute('aria-expanded', String(open));
-}
-
-function installMenuClosers() {
-	if (closersInstalled || typeof document === 'undefined') return;
-	closersInstalled = true;
-	document.addEventListener('pointerdown', event => {
-		if (!event.target.closest('.card-menu-spark')) closeCardMenus();
-	}, true);
-	document.addEventListener('keydown', event => {
-		if (event.key === 'Escape') closeCardMenus();
-	}, true);
+	menu.classList.toggle('open', shouldOpen);
+	trigger.setAttribute('aria-expanded', String(shouldOpen));
+	if (shouldOpen) openCardMenuPortal(menu, trigger);
+	else closeCardMenuPortal(menu);
 }
 
 function stop(event) {

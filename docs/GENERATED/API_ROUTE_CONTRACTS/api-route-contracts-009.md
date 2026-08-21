@@ -8,6 +8,53 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 
 | URL pattern | Source | Methods | Vessels | Statuses | Headers |
 | --- | --- | --- | --- | --- | --- |
+| /api/social/search/query | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
+| /api/social/search/rag/comments/:comment | geelooy/api/social/helper/search/routes/comments.js | unknown | — | — | — |
+| /api/social/search/rag/llama/status | geelooy/api/social/helper/search/routes/library.js | unknown | — | — | — |
+| /api/social/search/rag/post-comments | geelooy/api/social/helper/search/routes/comments.js | unknown | — | — | — |
+| /api/social/search/readiness | geelooy/api/social/_awtsmoos.search.js | unknown | — | — | — |
+| /api/social/search/readiness/refresh | geelooy/api/social/_awtsmoos.search.js | unknown | — | — | — |
+| /api/social/search/tanach/hebrew | geelooy/api/social/helper/search/routes/tanach.js | unknown | — | — | — |
+| /api/social/social-summary | geelooy/api/social/_awtsmoos.socialSummary.js | POST | $_GET, $_POST | — | — |
+| /api/social/social-summary/batch | geelooy/api/social/_awtsmoos.socialSummary.js | POST | $_GET, $_POST | — | — |
+| /api/social/sync/op | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
+| /api/social/sync/pull/:alias | geelooy/api/social/_awtsmoos.platform.js | unknown | $_GET, $_POST, route-vars | — | — |
+| /api/social/thoughts/:entityType/:entityId | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
+| /api/social/thoughts/:entityType/:entityId/stats | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
+| /api/social/thoughts/:thoughtId | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
+| /api/social/thoughts/:thoughtId/reactions | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
+| /api/social/thoughts/:thoughtId/replies | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
+| /api/social/thoughts/feed | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
+| /api/social/thoughts/thread/:thoughtId | geelooy/api/social/_awtsmoos.thoughts.js | GET, POST, PUT, DELETE | $_GET, $_POST, route-vars | — | — |
+| /api/social/trending | geelooy/api/social/_awtsmoos.profile.js | unknown | $_POST, route-vars | — | — |
+| /api/social/trending | geelooy/api/social/_awtsmoos.publicDiscovery.js | GET | — | — | — |
+| /api/social/unified-social/activity/:alias | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
+| /api/social/unified-social/activity/:alias/events/:event | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
+| /api/social/unified-social/activity/:alias/export | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
+| /api/social/unified-social/activity/:alias/preferences | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
+| /api/social/unified-social/activity/:alias/shared | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
+| /api/social/unified-social/activity/meta | geelooy/api/social/_awtsmoos.activityLedger.js | GET, POST | — | — | — |
+| /api/social/unified-social/destinations | geelooy/api/social/_awtsmoos.destinations.js | unknown | — | — | — |
+| /api/social/unified-social/destinations/:heichel/:series | geelooy/api/social/_awtsmoos.destinations.js | unknown | — | — | — |
+| /api/social/unified-social/destinations/meta | geelooy/api/social/_awtsmoos.destinations.js | unknown | — | — | — |
+| /api/social/unified-social/governance/meta | geelooy/api/social/_awtsmoos.memberGovernance.js | unknown | — | — | — |
+| /api/social/unified-social/heichelos | geelooy/api/social/_awtsmoos.destinations.js | unknown | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/access | geelooy/api/social/_awtsmoos.destinations.js | unknown | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/governance | geelooy/api/social/_awtsmoos.memberGovernance.js | unknown | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/invitations | geelooy/api/social/_awtsmoos.memberGovernance.js | unknown | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/invitations/:invitation/respond | geelooy/api/social/_awtsmoos.memberGovernance.js | unknown | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/members | geelooy/api/social/_awtsmoos.destinations.js | unknown | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/members/:member | geelooy/api/social/_awtsmoos.memberGovernance.js | unknown | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/review | geelooy/api/social/_awtsmoos.reviewCenter.js | GET | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/review/:submission | geelooy/api/social/_awtsmoos.reviewCenter.js | GET | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/series | geelooy/api/social/_awtsmoos.destinations.js | unknown | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/series/:series/placements | geelooy/api/social/_awtsmoos.publishFlow.js | unknown | — | — | — |
+| /api/social/unified-social/heichelos/:heichel/series/:series/policy | geelooy/api/social/_awtsmoos.destinations.js | unknown | — | — | — |
+| /api/social/unified-social/identity | geelooy/api/social/_awtsmoos.identityBootstrap.js | GET, POST | $_GET | — | — |
+| /api/social/unified-social/identity/default | geelooy/api/social/_awtsmoos.identityBootstrap.js | GET, POST | $_GET | — | — |
+| /api/social/unified-social/identity/meta | geelooy/api/social/_awtsmoos.identityBootstrap.js | GET, POST | $_GET | — | — |
+| /api/social/unified-social/interactions/comments | geelooy/api/social/_awtsmoos.interactionFlow.js | unknown | — | — | — |
+| /api/social/unified-social/interactions/comments/:comment/promote | geelooy/api/social/_awtsmoos.interactionFlow.js | unknown | — | — | — |
 | /api/social/unified-social/interactions/comments/:comment/promote-preview | geelooy/api/social/_awtsmoos.interactionFlow.js | unknown | — | — | — |
 | /api/social/unified-social/interactions/meta | geelooy/api/social/_awtsmoos.interactionFlow.js | unknown | — | — | — |
 | /api/social/unified-social/interactions/posts/:post/embed-comment | geelooy/api/social/_awtsmoos.interactionFlow.js | unknown | — | — | — |
@@ -16,50 +63,3 @@ Every discovered path joined to its source-file contract evidence; unknown remai
 | /api/social/unified-social/publish | geelooy/api/social/_awtsmoos.publishFlow.js | unknown | — | — | — |
 | /api/social/unified-social/publish/meta | geelooy/api/social/_awtsmoos.publishFlow.js | unknown | — | — | — |
 | /api/social/unified-social/publish/preview | geelooy/api/social/_awtsmoos.publishFlow.js | unknown | — | — | — |
-| /api/social/unified-social/review/meta | geelooy/api/social/_awtsmoos.reviewCenter.js | GET | — | — | — |
-| /api/social/user/:user/aliases | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
-| /api/social/user/:user/aliases/:alias | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
-| /api/social/user/:user/aliases/:alias/details | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
-| /api/social/user/:user/aliases/details | geelooy/api/social/_awtsmoos.alias.js | GET, POST, PUT, DELETE | route-vars, identity | — | — |
-| /api/streaming | geelooy/api/streaming/routes/table.js | unknown | — | — | — |
-| /api/streaming/:connector | geelooy/api/streaming/_awtsmoos.derech.js | unknown | route-vars | — | Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Cache-Control |
-| /api/streaming/:connector/:action | geelooy/api/streaming/_awtsmoos.derech.js | unknown | route-vars | — | Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Cache-Control |
-| /api/streaming/connector | geelooy/api/streaming/routes/table.js | unknown | — | — | — |
-| /api/text/timestamp/:jobId | geelooy/api/text/_awtsmoos.derech.js | unknown | $_POST | — | — |
-| /api/text/timestamp/:jobId/result | geelooy/api/text/_awtsmoos.derech.js | unknown | $_POST | — | — |
-| /api/tunnel/control/admin-vault | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/admin/perutas | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/agent-economy | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/api-keys | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/api-keys/create | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/api-keys/revoke | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/bank | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/blob/:blobId | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/blob/:blobId/manifest | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/blob/:blobId/view | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/bootstrap | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/budgets | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/compute | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/compute/capture | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/compute/history | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/compute/receipt | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/compute/subscription | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/conversations/get | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/conversations/list | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/conversations/register | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/device | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/devices | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/docs | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/docs.json | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/ephemeral/:resultId | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/ephemeral/:resultId/delete | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/ephemeral/:resultId/page | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/ephemeral/:resultId/search | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/ephemeral/list | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/flow | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/fs/:tunnelName | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/fs/awtsmoos-os | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/handoff/:tunnelName | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/live-calls | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/live-calls/stream | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |
-| /api/tunnel/control/marketplace | geelooy/api/tunnel/control/routes/table.js | unknown | — | — | — |

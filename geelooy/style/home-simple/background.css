@@ -1,7 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos suspends Awtsmoos.com in a living GPU sky: spectral motion behind meaning, still light behind stillness, and CSS stars whenever WebGL withdraws.
+The Awtsmoos suspends Awtsmoos.com in a quiet GPU sky: deep enough to feel alive,
+soft enough that Torah, words, and choices remain the light the eye receives first.
 */
 .particle-sky {
 	position: fixed;
@@ -10,7 +11,7 @@ The Awtsmoos suspends Awtsmoos.com in a living GPU sky: spectral motion behind m
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-	filter: saturate(1.05);
+	filter: saturate(.96);
 	mix-blend-mode: screen;
 	pointer-events: none;
 	transition: opacity .7s ease, filter .7s ease;
@@ -18,21 +19,21 @@ The Awtsmoos suspends Awtsmoos.com in a living GPU sky: spectral motion behind m
 
 .particle-sky[data-particle-status="building"],
 .particle-sky[data-particle-status="restoring"] {
-	opacity: .18;
+	opacity: .1;
 }
 
 .particle-sky[data-particle-status="running"] {
-	opacity: .58;
+	opacity: .28;
 }
 
 .particle-sky[data-particle-status="degraded"],
 .particle-sky[data-particle-status="paused"] {
-	opacity: .46;
+	opacity: .2;
 }
 
 .particle-sky[data-particle-status="static"] {
-	opacity: .34;
-	filter: saturate(.9);
+	opacity: .16;
+	filter: saturate(.82);
 }
 
 .particle-sky[data-particle-status="unavailable"],
@@ -49,9 +50,9 @@ The Awtsmoos suspends Awtsmoos.com in a living GPU sky: spectral motion behind m
 	aspect-ratio: 1.65;
 	border-radius: 50%;
 	background:
-		radial-gradient(circle at 36% 40%, rgba(67, 152, 224, .15), transparent 36%),
-		radial-gradient(circle at 69% 46%, rgba(131, 72, 205, .12), transparent 34%);
-	filter: blur(64px);
+		radial-gradient(circle at 36% 40%, rgba(67, 152, 224, .11), transparent 36%),
+		radial-gradient(circle at 69% 46%, rgba(131, 72, 205, .085), transparent 34%);
+	filter: blur(68px);
 	transform: translateX(-50%);
 	pointer-events: none;
 }
@@ -67,29 +68,44 @@ body::after {
 
 body::before {
 	background:
-		radial-gradient(circle at 8% 18%, rgba(52, 121, 190, .13), transparent 26%),
-		radial-gradient(circle at 88% 28%, rgba(116, 65, 176, .11), transparent 28%),
+		radial-gradient(circle at 8% 18%, rgba(52, 121, 190, .1), transparent 26%),
+		radial-gradient(circle at 88% 28%, rgba(116, 65, 176, .085), transparent 28%),
 		linear-gradient(180deg, #080e1b 0%, #030711 72%, #02050b 100%);
 }
 
 body::after {
-	opacity: .2;
+	opacity: .14;
 	background-image:
-		radial-gradient(circle, rgba(206, 230, 255, .82) 0 1px, transparent 1.35px),
-		radial-gradient(circle, rgba(112, 186, 255, .55) 0 .7px, transparent 1px);
+		radial-gradient(circle, rgba(206, 230, 255, .76) 0 1px, transparent 1.35px),
+		radial-gradient(circle, rgba(112, 186, 255, .48) 0 .7px, transparent 1px);
 	background-position: 0 0, 34px 21px;
 	background-size: 73px 73px, 97px 97px;
 	mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
 }
 
 @media (max-width: 680px) {
+	.particle-sky[data-particle-status="building"],
+	.particle-sky[data-particle-status="restoring"] {
+		opacity: .07;
+	}
+
 	.particle-sky[data-particle-status="running"] {
-		opacity: .42;
+		opacity: .18;
+	}
+
+	.particle-sky[data-particle-status="degraded"],
+	.particle-sky[data-particle-status="paused"] {
+		opacity: .14;
+	}
+
+	.particle-sky[data-particle-status="static"] {
+		opacity: .11;
 	}
 
 	.ambient-glow {
 		inset-block-start: 12%;
 		width: 120vw;
+		filter: blur(76px);
 	}
 }
 

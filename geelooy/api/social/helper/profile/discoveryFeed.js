@@ -3,12 +3,22 @@
 // Blessed is He
 /**
  * @module DiscoveryFeed
- * @description
- * The Awtsmoos gathers explicitly scoped public profiles into feed and trending vessels while Awtsmoos.com keeps
- * anonymous public-universe selection in its dedicated discovery route instead of duplicating source authority.
+ * @description The Awtsmoos gathers public activity while Awtsmoos.com distinguishes event kind from content kind;
+ * questions and answers can therefore become real feed modes without pretending an activity verb is the content's identity.
  */
 const { aggregateProfile } = require('./index.js');
 const { csv, filterKinds } = require('./apiTools.js');
+
+function contentKind(item = {}) {
+	const source = item.source || {};
+	return String(source.contentType || source.postKind || source.kind || '').toLowerCase();
+}
+
+function filterContentKinds(items = [], kinds = []) {
+	if (!kinds.length) return items;
+	const wanted = new Set(kinds.map(kind => String(kind).toLowerCase()));
+	return items.filter(item => wanted.has(contentKind(item)));
+}
 
 async function batchProfiles({ $i, aliases = [], query = {} }) {
 	const output = [];
@@ -36,19 +46,15 @@ async function profileFeed({ $i, aliases = [], query = {} }) {
 	const events = profiles.flatMap(profile => {
 		return (profile.activity || []).map(item => ({ ...item, aliasId: profile.alias.id }));
 	});
-	return filterKinds(events, csv(query.kind || query.kinds)).sort((left, right) => {
+	const byActivity = filterKinds(events, csv(query.kind || query.kinds));
+	const byContent = filterContentKinds(byActivity, csv(query.contentKind || query.contentKinds));
+	return byContent.sort((left, right) => {
 		return (right.createdAt || right.time || 0) - (left.createdAt || left.time || 0);
 	});
 }
 
 async function trending({ $i, query = {} }) {
-	const feed = await profileFeed({ $i, aliases: csv(query.aliases), query });
-	return feed.map((item, index) => ({
-		...item,
-		trendingScore: 1000 - index
-			+ Number(item.source?.commentsCount || 0)
-			+ Number(item.source?.sectionsCount || 0)
-	}));
+	return profileFeed({ $i, aliases: csv(query.aliases), query });
 }
 
-module.exports = { batchProfiles, profileFeed, trending };
+module.exports = { batchProfiles, contentKind, filterContentKinds, profileFeed, trending };

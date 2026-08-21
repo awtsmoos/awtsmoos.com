@@ -1,0 +1,87 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives creation to every nervous system, every contrast need, and every input path;
+Awtsmoos.com removes spectacle when requested while keeping intent, recovery, review, recording, focus, and meaning visible in the craft.
+*/
+.creatorRailButton:focus-visible,
+.creatorContextAction:focus-visible,
+.creatorDockButton:focus-visible,
+.draftVersionsButton:focus-visible,
+.draftRecoveryDialog button:focus-visible,
+.publicationReviewDialog button:focus-visible,
+.creatorMetadata > summary:focus-visible,
+.creatorPlatform > summary:focus-visible {
+	outline: 3px solid var(--composer-focus);
+	outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.creatorSurface,
+	.creatorContextAction,
+	.draftRecoveryDialog,
+	.publicationReviewDialog,
+	.creatorIntentRail .creatorRailButton[data-active="true"]::after,
+	.creatorDockButton[data-recording="true"] .creatorDockIcon {
+		animation: none;
+	}
+
+	.creatorDockIcon,
+	.creatorRailButton,
+	.creatorContextAction,
+	.creatorDockButton,
+	.creatorMetadata > summary::after,
+	.creatorPlatform > summary::after {
+		transition-duration: .01ms;
+	}
+
+	.creatorDockButton:is(:hover, :focus-visible) .creatorDockIcon,
+	.creatorContextAction:is(:hover, :focus-visible),
+	.creatorContextAction:active,
+	.creatorRailButton:active,
+	.creatorRailButton:active > span {
+		transform: none;
+	}
+
+	:where(.draftRecoveryDialog, .publicationReviewDialog) {
+		scroll-behavior: auto;
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.creatorDock,
+	.draftRecoveryDialog,
+	.publicationReviewDialog,
+	.publicationReviewActions {
+		background: var(--composer-bg);
+		backdrop-filter: none;
+	}
+
+	.draftRecoveryDialog::backdrop,
+	.publicationReviewDialog::backdrop {
+		backdrop-filter: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.creatorSurface,
+	.creatorContextAction,
+	.creatorRailButton[data-active="true"],
+	.creatorDockButton[data-recording="true"],
+	.creatorMetadata,
+	.creatorPlatform,
+	.draftRecoveryDialog,
+	.draftRecoveryCard,
+	.publicationReviewDialog,
+	.publicationReviewCard,
+	.publicationReviewIssues {
+		border-color: currentColor;
+		background: Canvas;
+		color: CanvasText;
+	}
+
+	.creatorContextRail {
+		mask-image: none;
+	}
+}

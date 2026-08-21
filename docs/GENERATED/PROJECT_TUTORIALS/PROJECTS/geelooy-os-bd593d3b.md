@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 453 | 28 | 0 | 0 | 1 | 1 | 483 |
+| 648 | 79 | 0 | 0 | 1 | 1 | 729 |
 
 ## Public entry points
 
@@ -29,18 +29,18 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 406; classes: 29; functions: 1233; exports: 736; samples: for, AwtsmoosDB, AwtsmoosOS, joinVfsPath, extraOsStyles, hasParentWithProperty, programsByExtension, initialDefaultPrograms, programIcon, programs, defaultPrograms, getDefaultProgram.
+Source files: 595; classes: 60; functions: 1887; exports: 1112; samples: for, AwtsmoosDB, AwtsmoosOS, programIcon, programsByExtension, initialDefaultPrograms, programs, program, defaultPrograms, getDefaultProgram, Object, CivilizationOSClient.
 
 ## Depends on
 
-- `geelooy/shared` — 25 lexical references; examples: geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js
+- `geelooy/shared` — 54 lexical references; examples: geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js
 - `geelooy/apps/exe-emulator` — 9 lexical references; examples: geelooy/os/programs/awtsmoos-executable/browserRuntime.js; geelooy/os/programs/awtsmoos-executable/index.js; geelooy/os/programs/awtsmoos-executable/nativeLifecycle.js
 - `geelooy/apps/tunnel-control` — 3 lexical references; examples: geelooy/os/programs/connected-node-server/tunnelClient.js; geelooy/os/programs/peruta-usage/api.js
 - `geelooy/apps/android-emulator` — 2 lexical references; examples: geelooy/os/programs/awtsmoos-executable/android-web/apkWebDocument.js; geelooy/os/programs/awtsmoos-executable/browserRuntime.js
 
 ## Used by
 
-None observed.
+- `geelooy/drive` — 4 lexical references; examples: geelooy/drive/transport/credentialedFs.js; geelooy/drive/transport/tunnelDiscovery.js; geelooy/drive/transport/tunnelPublishing.js
 
 ## External packages
 
@@ -48,4 +48,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **28**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **79**. Treat this as file evidence, not proof of behavioral coverage.

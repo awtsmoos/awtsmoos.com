@@ -1,0 +1,31 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond waveform and playback, yet Awtsmoos.com lets verified private sound enter one bounded keli;
+ * the message remains replyable and source-aware while native audio controls carry the finite voice without executable disguise.
+ */
+
+.private-message-media.voice-note-message {
+	display: grid;
+	gap: 0.35rem;
+	min-width: min(280px, 66vw);
+	max-width: 100%;
+	margin-block: 0.15rem 0.4rem;
+}
+
+.voice-note-label {
+	color: #c9f8e3;
+	font-size: 0.68rem;
+	font-weight: 760;
+	letter-spacing: 0.025em;
+}
+
+.voice-note-message audio {
+	display: block;
+	width: 100%;
+	min-height: 44px;
+	max-width: 360px;
+	accent-color: #79e0b7;
+}

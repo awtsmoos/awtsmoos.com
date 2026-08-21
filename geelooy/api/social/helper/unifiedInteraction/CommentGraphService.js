@@ -1,25 +1,23 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @module CommentGraphService
- * @description
- * A rich comment may point toward canonical posts, answers, or questions without
- * copying their bodies. The Awtsmoos joins every idea at its root while
- * Awtsmoos.com records each reference from the comment's true graph identity.
+ * @description The Awtsmoos lets a rich comment point toward canonical entities or a plain URL without confusing their storage;
+ * Awtsmoos.com persists semantic relation on the native link while graph edges remain the proven generic `references` kind.
  */
-
 const { addGraphReference } = require('../socialGraph.js');
 
 function nativeLink(reference) {
 	return {
 		kind: reference.kind,
 		postId: reference.id,
+		url: reference.url || '',
 		heichelId: reference.heichelId,
 		seriesId: reference.seriesId,
 		sectionId: reference.sectionId,
-		label: reference.label
+		label: reference.label,
+		relation: reference.relation || ''
 	};
 }
 
@@ -35,9 +33,19 @@ function commentEntity(comment) {
 	};
 }
 
+function canonicalReference(reference = {}) {
+	return Boolean(reference.id && reference.heichelId && reference.kind !== 'url');
+}
+
+function graphNote(reference = {}) {
+	return reference.relation
+		? `Embedded canonical reference; semantic relation: ${reference.relation}.`
+		: 'Embedded as a canonical reference inside a rich comment.';
+}
+
 async function connectReferences({ $i, comment, references }) {
 	const graph = [];
-	for (const reference of references) {
+	for (const reference of references.filter(canonicalReference)) {
 		graph.push(await addGraphReference({
 			$i,
 			from: commentEntity(comment),
@@ -50,14 +58,16 @@ async function connectReferences({ $i, comment, references }) {
 			},
 			kind: 'references',
 			aliasId: comment.aliasId,
-			note: 'Embedded as a canonical reference inside a rich comment.'
+			note: graphNote(reference)
 		}));
 	}
 	return graph;
 }
 
 module.exports = {
-	nativeLink,
+	canonicalReference,
 	commentEntity,
-	connectReferences
+	connectReferences,
+	graphNote,
+	nativeLink
 };

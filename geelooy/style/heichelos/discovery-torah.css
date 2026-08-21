@@ -1,0 +1,113 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview Gives Heichel discovery a Torah-first, human-scale final surface.
+ * The Awtsmoos hides canonical machinery beneath a name a person can meet;
+ * Awtsmoos.com lets Ikar glow first without forcing every other Heichel to retreat.
+ */
+
+.heichelos-discovery-page .social-spaces-shell {
+	inline-size: min(100% - 2rem, 78rem);
+	margin-inline: auto;
+	padding-block-end: calc(7rem + env(safe-area-inset-bottom));
+}
+
+.heichelos-discovery-page .spaces-hero {
+	position: relative;
+	overflow: hidden;
+	border-color: rgba(91, 221, 255, .3);
+	border-radius: 1.25rem;
+	background: radial-gradient(circle at 10% 0%, rgba(91, 221, 255, .13), transparent 40%), linear-gradient(145deg, rgba(9, 22, 42, .98), rgba(4, 10, 24, .98));
+	box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, .25);
+}
+
+.heichelos-discovery-page .spaces-hero h1 {
+	max-inline-size: 16ch;
+	font-size: clamp(2.6rem, 8vw, 5.5rem);
+	line-height: .92;
+	letter-spacing: -.04em;
+}
+
+.heichelos-discovery-page .spaces-command-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .65rem;
+	align-items: center;
+}
+
+.heichelos-discovery-page .spaces-command-row .p-button {
+	min-block-size: 3rem;
+	padding-inline: 1rem;
+}
+
+.heichelos-discovery-page .spaces-search {
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: .65rem;
+	padding: 1rem;
+	border-radius: 1rem;
+}
+
+.heichelos-discovery-page .spaces-search .field-label {
+	grid-column: 1 / -1;
+}
+
+.heichelos-discovery-page .spaces-search input {
+	min-inline-size: 0;
+	min-block-size: 3.25rem;
+}
+
+.heichelos-discovery-page .social-space-card {
+	min-inline-size: 0;
+	border-radius: 1rem;
+}
+
+.heichelos-discovery-page .social-space-card[data-torah="true"] {
+	border-color: rgba(91, 221, 255, .58);
+	background: radial-gradient(circle at 0 0, rgba(91, 221, 255, .15), transparent 42%), linear-gradient(145deg, rgba(10, 27, 49, .98), rgba(7, 12, 28, .98));
+	box-shadow: 0 1rem 2.6rem rgba(0, 0, 0, .3), 0 0 0 1px rgba(91, 221, 255, .08);
+}
+
+.heichelos-discovery-page .social-space-card[data-torah="true"] .space-seal {
+	font-size: 1.45rem;
+	color: #d7fbff;
+}
+
+.heichelos-discovery-page .space-copy,
+.heichelos-discovery-page .space-title-row,
+.heichelos-discovery-page .space-compact-row > div {
+	min-inline-size: 0;
+}
+
+.heichelos-discovery-page .space-copy h2,
+.heichelos-discovery-page .space-compact-row h3,
+.heichelos-discovery-page .space-copy p {
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 42rem) {
+	.heichelos-discovery-page .social-spaces-shell {
+		inline-size: min(100% - 1rem, 78rem);
+	}
+
+	.heichelos-discovery-page .spaces-hero {
+		padding: 1.15rem;
+	}
+
+	.heichelos-discovery-page .spaces-search {
+		grid-template-columns: 1fr;
+	}
+
+	.heichelos-discovery-page .spaces-search .field-label {
+		grid-column: 1;
+	}
+
+	.heichelos-discovery-page .spaces-search .p-button {
+		inline-size: 100%;
+	}
+
+	.heichelos-discovery-page .space-meta-line {
+		flex-wrap: wrap;
+		gap: .35rem .75rem;
+	}
+}

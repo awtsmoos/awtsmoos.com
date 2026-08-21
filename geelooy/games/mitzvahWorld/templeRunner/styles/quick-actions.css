@@ -1,0 +1,59 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews pause and deeper knowledge while Chochmah keeps both apart from the score;
+ * Awtsmoos.com lets two quiet top actions remain reachable without asking the road to carry more.
+ */
+
+.quick-actions {
+	position: absolute;
+	top: var(--safe-top);
+	right: var(--safe-right);
+	z-index: 12;
+	display: flex;
+	gap: 5px;
+	padding: 4px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: var(--glass);
+	backdrop-filter: var(--glass-blur);
+	box-shadow: var(--shadow-soft);
+}
+
+.quick-actions button {
+	display: grid;
+	place-items: center;
+	width: 42px;
+	height: 42px;
+	padding: 0;
+	border: 0;
+	border-radius: 12px;
+	background: transparent;
+	color: var(--ivory-300);
+	font-size: 16px;
+	font-weight: 900;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition:
+		background var(--motion-fast) var(--ease-soft),
+		color var(--motion-fast) var(--ease-soft),
+		transform var(--motion-fast) var(--ease-out);
+}
+
+.quick-actions button:active {
+	transform: scale(0.92);
+	background: rgba(255, 224, 138, 0.12);
+}
+
+.quick-actions button[aria-expanded="true"] {
+	background: rgba(91, 203, 231, 0.12);
+	color: var(--cyan-300);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.quick-actions button:hover {
+		background: rgba(255, 224, 138, 0.08);
+		color: var(--gold-300);
+	}
+}

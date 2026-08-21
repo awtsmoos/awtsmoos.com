@@ -2,11 +2,12 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos lets change announce itself without alarm; Awtsmoos.com makes status, focus, and waiting visible through restrained luminous feedback.
+The Awtsmoos lets change announce itself without alarm;
+Awtsmoos.com makes status, focus, validity, and waiting visible through restrained luminous calm.
 */
 .hubStatus:not([hidden]) {
-	animation: future-toast-arrive var(--future-normal) var(--future-spring) both;
-	backdrop-filter: blur(18px) saturate(130%);
+	animation: malchus-toast-arrive var(--keter-normal) var(--tiferes-spring) both;
+	backdrop-filter: blur(18px) saturate(132%);
 }
 
 .hubStatus[data-kind="working"] {
@@ -23,14 +24,29 @@ The Awtsmoos lets change announce itself without alarm; Awtsmoos.com makes statu
 
 .social-hub-document :where(input, select, textarea) {
 	transition:
-		border-color var(--future-fast) ease,
-		box-shadow var(--future-normal) var(--future-ease),
-		background-color var(--future-normal) var(--future-ease);
+		border-color var(--keter-fast) ease,
+		box-shadow var(--keter-normal) var(--tiferes-ease),
+		background-color var(--keter-normal) var(--tiferes-ease);
 }
 
 .social-hub-document :where(input, select, textarea):focus {
-	border-color: var(--future-edge-hot);
-	box-shadow: 0 0 0 3px rgb(94 208 255 / 10%), 0 10px 30px rgb(0 0 0 / 16%);
+	border-color: var(--yesod-edge-hot);
+	box-shadow:
+		0 0 0 3px rgb(94 208 255 / 10%),
+		0 10px 30px rgb(0 0 0 / 16%);
+}
+
+.social-hub-document :where(input, textarea)::placeholder {
+	color: color-mix(in srgb, var(--muted) 70%, transparent);
+}
+
+.social-hub-document label:has(:is(input, select, textarea):focus) {
+	color: #dffaff;
+}
+
+.social-hub-document :where(input, select, textarea):user-invalid {
+	border-color: rgb(255 109 139 / 66%);
+	box-shadow: 0 0 0 3px rgb(255 87 128 / 8%);
 }
 
 .publicDiscovery__status:not(:empty)::before {
@@ -45,15 +61,28 @@ The Awtsmoos lets change announce itself without alarm; Awtsmoos.com makes statu
 }
 
 .publicFeedCard {
-	background-image: linear-gradient(110deg, transparent 0 42%, rgb(255 255 255 / 2.5%) 50%, transparent 58%);
+	background-image: linear-gradient(
+		110deg,
+		transparent 0 42%,
+		rgb(255 255 255 / 2.5%) 50%,
+		transparent 58%
+	);
+	background-position: 0 0;
 	background-size: 230% 100%;
+	transition:
+		background-position 720ms var(--tiferes-ease),
+		transform var(--keter-normal) var(--tiferes-spring),
+		border-color var(--keter-normal) var(--tiferes-ease),
+		box-shadow var(--keter-normal) var(--tiferes-ease);
 }
 
-.publicFeedCard:hover {
-	background-position: 100% 0;
+@media (hover: hover) and (pointer: fine) {
+	.publicFeedCard:hover {
+		background-position: 100% 0;
+	}
 }
 
-@keyframes future-toast-arrive {
+@keyframes malchus-toast-arrive {
 	from {
 		opacity: 0;
 		transform: translateY(8px) scale(.98);

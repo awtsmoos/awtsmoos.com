@@ -1,0 +1,85 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gives every adjustment a quiet measurable vessel; Awtsmoos.com keeps fields and ranges precise without mixing them with action chrome. */
+
+.field {
+	display: grid;
+	gap: 7px;
+	min-width: 0;
+}
+
+.field > span,
+.field > label {
+	color: var(--ein-muted);
+	font-size: .72rem;
+	font-weight: 760;
+	letter-spacing: .02em;
+}
+
+.field output {
+	float: right;
+	color: var(--ein-cyan);
+	font-variant-numeric: tabular-nums;
+}
+
+input,
+textarea,
+select {
+	width: 100%;
+	min-width: 0;
+	border: 1px solid var(--ein-line);
+	border-radius: var(--ein-radius-sm);
+	color: var(--ein-text);
+	background: rgba(3, 9, 17, .72);
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+	min-height: var(--ein-control);
+	padding: 10px 11px;
+}
+
+textarea {
+	resize: vertical;
+	line-height: 1.45;
+}
+
+input[type="color"] {
+	height: var(--ein-control);
+	padding: 4px;
+}
+
+input[type="range"] {
+	height: 30px;
+	accent-color: var(--ein-cyan);
+}
+
+.randomized {
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+}
+
+.randomized > input,
+.randomized > .random-range {
+	grid-column: 1 / -1;
+}
+
+.random-range {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+	padding: 8px;
+	border: 1px solid var(--ein-line);
+	border-radius: 10px;
+	background: rgba(255, 255, 255, .018);
+}
+
+.random-range label {
+	display: grid;
+	gap: 4px;
+	color: var(--ein-muted);
+	font-size: .65rem;
+}

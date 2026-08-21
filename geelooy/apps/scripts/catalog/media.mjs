@@ -5,14 +5,10 @@
 import { defineApp } from "./app.mjs";
 
 /**
- * B"H
- *
- * Public media-creation vessels for Awtsmoos.com. Local creation remains useful
- * before payment; each planned commerce label names only a future server-heavy
- * workload or durable pack. The Awtsmoos renews image and sound beyond every tool,
- * while finite catalog rows keep the promise honest and discoverable.
+ * Public media-creation vessels for Awtsmoos.com. The Awtsmoos renews image,
+ * sound, caption, and motion beyond every finite tool; these compact catalog
+ * rows keep each real doorway honest, distinct, and discoverable without clutter.
  */
-
 export const MEDIA_APPS = Object.freeze([
 	defineApp({
 		id: "nesher-studio",
@@ -49,7 +45,7 @@ export const MEDIA_APPS = Object.freeze([
 		id: "video-editor",
 		title: "Video Editor",
 		href: "./video-editor",
-		description: "Assemble visual media locally, with future metering aimed at encoding, storage, and compute-heavy effects.",
+		description: "Assemble visual media locally with a responsive preview, timeline, captions, and touch-ready controls.",
 		icon: "▶",
 		chip: "Editor",
 		categories: ["editor", "media"],
@@ -74,5 +70,16 @@ export const MEDIA_APPS = Object.freeze([
 		chip: "Accessibility",
 		categories: ["editor", "media"],
 		commerceLabel: "AI/render service planned"
+	}),
+	defineApp({
+		id: "ein-sof-caption-engine",
+		title: "Ein Sof Caption Engine",
+		href: "./captions/",
+		description: "Design cinematic caption graphics and animated visual treatments from one advanced local canvas engine.",
+		icon: "∞",
+		chip: "Visual Lab",
+		categories: ["editor", "media", "studio"],
+		commerceLabel: "Local creation",
+		commerceState: "free"
 	})
 ]);

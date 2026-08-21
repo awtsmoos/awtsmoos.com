@@ -1,0 +1,53 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every finite action a vessel while remaining beyond action and rest; Awtsmoos.com centralizes shared button mechanics so each specific choice can reveal its own best.
+*/
+.compose-vector-control,
+.compose-action {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 9px;
+	min-height: 42px;
+	border: 1px solid var(--mail-border);
+	border-radius: 13px;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 780;
+	transition: transform 140ms ease, border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+}
+
+.compose-vector-control::before,
+.compose-action::before {
+	content: "";
+	width: 18px;
+	height: 18px;
+	flex: 0 0 18px;
+	background: currentColor;
+	mask-position: center;
+	mask-repeat: no-repeat;
+	mask-size: contain;
+	-webkit-mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-size: contain;
+}
+
+.compose-vector-control:is(:hover, :focus-visible),
+.compose-action:is(:hover, :focus-visible) {
+	border-color: color-mix(in srgb, var(--mail-accent) 70%, var(--mail-border));
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--mail-accent) 12%, transparent);
+	transform: translateY(-1px);
+}
+
+.compose-vector-control:active,
+.compose-action:active {
+	transform: translateY(0) scale(.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.compose-vector-control,
+	.compose-action {
+		transition: none;
+	}
+}

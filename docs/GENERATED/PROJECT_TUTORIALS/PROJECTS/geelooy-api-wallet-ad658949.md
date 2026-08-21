@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 54 | 13 | 0 | 0 | 1 | 0 | 68 |
+| 65 | 19 | 0 | 0 | 1 | 0 | 85 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-Source files: 54; classes: 0; functions: 99; exports: 120; samples: dynamicRoutes, POST, normalizeAmount, normalizeWalletBuckets, syncWalletBalance, creditWalletBucket, debitWalletBuckets, getCommerceAccount, APP_CREATOR_SERVICE_SKUS, APP_SERVICE_SKUS, APP_SYSTEM_SERVICE_SKUS, APP_UTILITY_SERVICE_SKUS.
+Source files: 65; classes: 0; functions: 122; exports: 157; samples: dynamicRoutes, POST, normalizeAmount, normalizeWalletBuckets, syncWalletBalance, creditWalletBucket, debitWalletBuckets, getCommerceAccount, APP_CREATOR_SERVICE_SKUS, APP_SERVICE_SKUS, APP_SYSTEM_SERVICE_SKUS, APP_UTILITY_SERVICE_SKUS.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **13**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **19**. Treat this as file evidence, not proof of behavioral coverage.

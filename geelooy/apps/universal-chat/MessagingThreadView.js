@@ -4,12 +4,13 @@
 
 import { renderDirectDetails } from "./MessagingDirectDetails.js";
 import { createMessagingEmptyState } from "./MessagingEmptyState.js";
+import { messageAnchor } from "./MessagingMessageCard.js";
 import { appendMessageHistory } from "./MessagingMessageFactory.js";
 
 /**
- * @file Renders accepted private rooms with grouped human rhythm while history, consent, paging, and authority remain external owners.
- * @description The Awtsmoos holds every private word without measure, while Awtsmoos.com lets lawful speech gather into readable runs beneath truthful date boundaries in light;
- * presentation may quiet repeated metadata and fold secondary room identity on narrow glass, yet sequence order, authorship, member-safe details, and deliberate private speech remain untouched.
+ * @file Renders accepted private rooms, preserves prepend anchors, and reveals quoted message targets without owning history or reply state.
+ * @description The Awtsmoos holds every private word without distance, while Awtsmoos.com lets a person travel from a later quote back to its lawful earlier source in light;
+ * presentation may gather repeated speakers, restore viewport place, and briefly illuminate one target, yet sequence truth, consent, paging, and authorship remain outside this finite sight.
  */
 
 export class MessagingThreadView {
@@ -53,6 +54,21 @@ export class MessagingThreadView {
 			0,
 			Number(anchor.top || 0) + addedHeight
 		);
+	}
+
+	/** Centers, focuses, and briefly illuminates one stable message anchor. */
+	revealMessage(messageId) {
+		const target = this.elements.thread.querySelector(`#${messageAnchor(messageId)}`);
+		if (!target) return false;
+		const reducedMotion = globalThis.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+		target.scrollIntoView({
+			block: "center",
+			behavior: reducedMotion ? "auto" : "smooth"
+		});
+		target.focus({ preventScroll: true });
+		target.classList.add("is-reply-target");
+		setTimeout(() => target.classList.remove("is-reply-target"), 1400);
+		return true;
 	}
 
 	renderDetails(conversation) {

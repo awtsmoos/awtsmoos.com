@@ -24,8 +24,18 @@
 	"headers": [],
 	"callers": [
 		{
+			"literal": "/api/social/search/tanach/hebrew",
+			"source": "geelooy/heichelos/post/functions/ui/context/relatedSearchApi.test.mjs",
+			"kind": "test"
+		},
+		{
 			"literal": "/api/social/search/tanach/hebrew?${parameters}",
 			"source": "geelooy/mawgawl/sefarim/tanachApi.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/social/search/tanach/hebrew?${values}",
+			"source": "geelooy/heichelos/post/functions/ui/context/relatedSearchApi.js",
 			"kind": "runtime"
 		},
 		{
@@ -34,7 +44,7 @@
 			"kind": "runtime"
 		}
 	],
-	"callerCount": 2,
+	"callerCount": 4,
 	"tests": [
 		{
 			"name": "test",

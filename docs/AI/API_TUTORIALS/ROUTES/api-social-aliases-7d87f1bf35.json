@@ -33,11 +33,6 @@
 	"callers": [
 		{
 			"literal": "/api/social/aliases",
-			"source": "geelooy/profile/alias-manage/script.js",
-			"kind": "runtime"
-		},
-		{
-			"literal": "/api/social/aliases",
 			"source": "geelooy/scripts/awtsmoos/social/aliasIdentity.js",
 			"kind": "runtime"
 		},
@@ -52,7 +47,7 @@
 			"kind": "runtime"
 		}
 	],
-	"callerCount": 4,
+	"callerCount": 3,
 	"tests": [
 		{
 			"name": "test",

@@ -40,12 +40,13 @@ export class ChochmahSolarEvents {
 		return this.dateFromUtcMinutes(isoDate, refinedMinutes);
 	}
 
-	/** Calculate all solar anchors required by the halachic layer. */
+	/** Calculate all solar anchors required by the supported halachic profiles. */
 	static forDate(isoDate, location) {
 		const { latitude, longitude } = location;
 		const nextDate = addIsoDays(isoDate, 1);
 		return {
 			alos: this.eventAt(isoDate, latitude, longitude, -16.9, "morning"),
+			alos16_1: this.eventAt(isoDate, latitude, longitude, -16.1, "morning"),
 			misheyakir: this.eventAt(isoDate, latitude, longitude, -10.2, "morning"),
 			sunrise: this.eventAt(isoDate, latitude, longitude, -0.833, "morning"),
 			trueSunrise: this.eventAt(isoDate, latitude, longitude, -1.583, "morning"),
@@ -54,6 +55,7 @@ export class ChochmahSolarEvents {
 			sunset: this.eventAt(isoDate, latitude, longitude, -0.833, "evening"),
 			tzeis: this.eventAt(isoDate, latitude, longitude, -6, "evening"),
 			shabbosEnd: this.eventAt(isoDate, latitude, longitude, -8.5, "evening"),
+			tzeis16_1: this.eventAt(isoDate, latitude, longitude, -16.1, "evening"),
 			nextTrueSunrise: this.eventAt(nextDate, latitude, longitude, -1.583, "morning")
 		};
 	}

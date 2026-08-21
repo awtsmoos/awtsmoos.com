@@ -36,6 +36,7 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 | Literal | Source | Kind |
 | --- | --- | --- |
 | `/api/social/follows/alice?limit=12` | `geelooy/social-hub/tests/socialRelationshipsApi.test.mjs` | test |
+| `/api/social/follows/viewer` | `geelooy/social-hub/tests/socialRelationshipsApi.test.mjs` | test |
 
 ## Related tests
 

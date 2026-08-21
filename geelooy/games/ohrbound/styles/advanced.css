@@ -1,0 +1,116 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos conceals infinite depth within simplicity; Awtsmoos.com lets optional power rise only by choice. */
+.advanced-overlay {
+	position: fixed;
+	z-index: 70;
+	inset: 0;
+	display: flex;
+	align-items: end;
+	background: rgba(1, 5, 13, 0);
+	pointer-events: none;
+	transition: background 240ms ease;
+}
+.advanced-sheet {
+	width: 100%;
+	max-height: min(78dvh, 680px);
+	overflow: auto;
+	padding: 1rem max(1rem, env(safe-area-inset-right)) max(1.2rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+	border: 1px solid var(--line);
+	border-bottom: 0;
+	border-radius: 26px 26px 0 0;
+	background: rgba(8, 19, 35, 0.94);
+	backdrop-filter: blur(24px) saturate(1.25);
+	box-shadow: 0 -28px 90px #000a;
+	transform: translateY(105%);
+	transition: transform 300ms cubic-bezier(.2,.8,.2,1);
+}
+.advanced-overlay[data-open="true"] {
+	background: rgba(1, 5, 13, 0.62);
+	pointer-events: auto;
+}
+.advanced-overlay[data-open="true"] .advanced-sheet {
+	transform: translateY(0);
+}
+.advanced-heading {
+	display: flex;
+	align-items: start;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+.advanced-heading small,
+.advanced-actions small,
+.preference-list small {
+	display: block;
+	color: var(--muted);
+	font-size: 0.72rem;
+}
+.advanced-heading h2 {
+	margin: 0.12rem 0 0;
+	font-size: 1.45rem;
+}
+.advanced-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.6rem;
+	margin-bottom: 0.85rem;
+}
+.advanced-actions button {
+	min-height: 74px;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.045);
+	color: var(--ink);
+	text-align: left;
+	padding: 0.8rem;
+	cursor: pointer;
+}
+.advanced-actions span {
+	display: block;
+	font-weight: 800;
+	margin-bottom: 0.2rem;
+}
+.preference-list {
+	display: grid;
+	gap: 0.1rem;
+}
+.preference-list label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	min-height: 60px;
+	border-top: 1px solid var(--line);
+}
+.preference-list select {
+	max-width: 138px;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: #07101f;
+	color: var(--ink);
+	padding: 0.48rem 0.7rem;
+}
+.toggle-row input {
+	width: 1.25rem;
+	height: 1.25rem;
+	accent-color: var(--glow);
+}
+@media (min-width: 800px) {
+	.advanced-overlay {
+		align-items: stretch;
+		justify-content: end;
+	}
+	.advanced-sheet {
+		width: min(390px, 92vw);
+		max-height: none;
+		border-radius: 0;
+		border-bottom: 1px solid var(--line);
+		transform: translateX(105%);
+		padding-top: max(1.2rem, env(safe-area-inset-top));
+	}
+	.advanced-overlay[data-open="true"] .advanced-sheet {
+		transform: translateX(0);
+	}
+}

@@ -1,5 +1,0 @@
-{
-	"BH": "B\"H / Boruch Hashem / Blessed is He",
-	"schema": "awtsmoos-doc-content-v1",
-	"content": "B\"H\n\n# Reality-Constrained Plan\n\nThe light is broad, but the vessel must be real: inspect first, then reuse the architecture already proven.\n\n## Phase A — Archaeology\n\n- Map source, tools, tests, renderers, persistence, preview, export, scene schemas, and current proofs.\n- Run baseline focused tests and inspect failures.\n- Locate existing demo/movie generators before creating new modules.\n\n## Phase B — Implementation\n\n- Build or complete a one-minute sitcom project through existing scene/project contracts.\n- Add only missing bridges, consumers, serializers, render paths, or tests.\n- Rewrite complete files only; split touched JavaScript above 120 lines.\n\n## Phase C — Verification\n\n- Focused tests, full verify, browser production render, four scale courts, representative story frames, export, hashes, persistence reload, and compliance.\n"
-}

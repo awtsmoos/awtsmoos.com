@@ -23,19 +23,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 231,
-		"tests": 91,
+		"source": 260,
+		"tests": 106,
 		"assets": 0,
 		"generated": 0,
-		"docs": 7,
+		"docs": 15,
 		"other": 0
 	},
-	"totalFiles": 329,
+	"totalFiles": 381,
 	"symbolSummary": {
-		"files": 231,
+		"files": 260,
 		"classes": 5,
-		"functions": 1019,
-		"exports": 751,
+		"functions": 1095,
+		"exports": 854,
 		"samples": [
 			"dynamicRoutes",
 			"response",
@@ -59,13 +59,13 @@
 		},
 		{
 			"project": "geelooy/apps/tunnel",
-			"count": 7,
-			"examples": "geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js"
+			"count": 8,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js; geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js"
 		},
 		{
 			"project": "geelooy/api/social",
-			"count": 2,
-			"examples": "geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js"
+			"count": 4,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js; geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js"
 		},
 		{
 			"project": "ayzarim/awtsmoosDynamicServer",
@@ -76,6 +76,11 @@
 			"project": "geelooy/api/oauth",
 			"count": 1,
 			"examples": "geelooy/api/tunnel/control/core/auth.js"
+		},
+		{
+			"project": "geelooy/sites",
+			"count": 1,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js"
 		}
 	],
 	"incomingDependencies": [
@@ -85,14 +90,24 @@
 			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs"
 		},
 		{
+			"project": "geelooy/sites",
+			"count": 5,
+			"examples": "geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/siteFolderPublication.js"
+		},
+		{
+			"project": "geelooy/api/oauth",
+			"count": 2,
+			"examples": "geelooy/api/oauth/data/clients.js; geelooy/api/oauth/data/publicAgentPolicy.js"
+		},
+		{
 			"project": "geelooy/api/ohr-hagnuz",
 			"count": 2,
 			"examples": "geelooy/api/ohr-hagnuz/routes/realtimeTicket.js"
 		},
 		{
-			"project": "geelooy/api/oauth",
+			"project": "geelooy/api/social",
 			"count": 1,
-			"examples": "geelooy/api/oauth/data/clients.js"
+			"examples": "geelooy/api/social/helper/repositories/gitCloneService.js"
 		},
 		{
 			"project": "geelooy/apps/tunnel-control",

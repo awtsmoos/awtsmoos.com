@@ -3,12 +3,19 @@
 //Blessed is He
 
 import { addressFrom, columnLabel } from "../model/coordinates.js";
-import { displayedValue } from "../model/formula.js";
+import { presentCell } from "./cellPresentation.js";
+import { applyGridGeometry } from "./gridGeometry.js";
+import {
+	createColumnHeader,
+	createGridCorner,
+	createRowHeader
+} from "./gridHeaders.js";
+import { paintStructuralHeaders } from "./gridSelectionPaint.js";
 
 /**
- * @file Paints the visible spreadsheet without owning user input.
- * @description The Awtsmoos clothes sparse letters in measured squares of sight;
- * Awtsmoos.com keeps rendering a vessel, while interaction carries separate light.
+ * @file Paints the visible spreadsheet while preserving the long-lived renderer class contract.
+ * @description The Awtsmoos joins measured geometry, rich garments, and sparse cells in ordered light;
+ * Awtsmoos.com keeps rendering a vessel while selection and interaction carry their separate rite.
  */
 export class YesodGridRenderer {
 	constructor(root, workbook, selection) {
@@ -16,82 +23,89 @@ export class YesodGridRenderer {
 		this.workbook = workbook;
 		this.selection = selection;
 		this.remoteSelections = [];
+		this.rowCount = 80;
+		this.columnCount = 26;
 	}
 
-	/** Materializes one practical first viewport over sparse workbook state. */
+	/** Materializes one practical viewport using persisted row and column geometry. */
 	render(rowCount = 80, columnCount = 26) {
+		this.rowCount = rowCount;
+		this.columnCount = columnCount;
 		const grid = document.createElement("div");
 		grid.className = "sheet-grid";
 		grid.setAttribute("role", "grid");
-		grid.append(this.header("", "grid-corner"));
-		for (let column = 0; column < columnCount; column += 1) {
-			grid.append(this.header(columnLabel(column), "column-header"));
-		}
-		for (let row = 0; row < rowCount; row += 1) {
-			grid.append(this.header(String(row + 1), "row-header"));
-			for (let column = 0; column < columnCount; column += 1) {
-				grid.append(this.cellElement(addressFrom(row, column)));
-			}
-		}
+		grid.dataset.rows = String(rowCount);
+		grid.dataset.columns = String(columnCount);
+		applyGridGeometry(grid, this.workbook.activeSheet, rowCount, columnCount);
+		grid.append(createGridCorner());
+		this.appendColumnHeaders(grid, columnCount);
+		this.appendRows(grid, rowCount, columnCount);
 		this.root.replaceChildren(grid);
 		this.refreshSelection();
 	}
 
-	/** Creates one sticky row or column heading. */
-	header(text, className) {
-		const element = document.createElement("div");
-		element.className = className;
-		element.textContent = text;
-		return element;
+	/** Appends resize-aware column headers without changing cell interaction semantics. */
+	appendColumnHeaders(grid, columnCount) {
+		for (let column = 0; column < columnCount; column += 1) {
+			grid.append(createColumnHeader(columnLabel(column), column));
+		}
 	}
 
-	/** Creates one addressable grid cell from sparse workbook state. */
+	/** Appends each row header followed by its addressable cells. */
+	appendRows(grid, rowCount, columnCount) {
+		for (let row = 0; row < rowCount; row += 1) {
+			grid.append(createRowHeader(row + 1, row));
+			for (let column = 0; column < columnCount; column += 1) {
+				grid.append(this.cellElement(addressFrom(row, column)));
+			}
+		}
+	}
+
+	/** Creates one addressable grid cell with legacy and futuristic class contracts together. */
 	cellElement(address) {
 		const element = document.createElement("div");
-		element.className = "grid-cell";
+		element.className = "grid-cell sheet-cell";
 		element.dataset.address = address;
+		element.setAttribute("role", "gridcell");
 		element.tabIndex = -1;
 		this.paintCell(element, address);
 		return element;
 	}
 
-	/** Repaints value and metadata without replacing the cell node or focus. */
+	/** Repaints calculated value, note, and collaborative presentation without replacing the node. */
 	paintCell(element, address) {
 		const cell = this.workbook.cell(address);
-		element.textContent = displayedValue(
-			this.workbook,
-			address,
-			this.workbook.activeSheetId
-		);
-		element.classList.toggle("has-note", Boolean(cell.note));
-		element.style.setProperty(
-			"--cell-highlight",
-			cell.style?.highlight || "var(--surface)"
-		);
-		element.style.fontWeight = cell.style?.bold ? "700" : "400";
+		presentCell(element, this.workbook, address, cell);
 		element.title = cell.note || "";
 	}
 
-	/** Repaints all materialized cells after sheet or formula changes. */
+	/** Repaints all materialized cells after workbook, formula, style, or structural changes. */
 	refreshCells() {
 		for (const element of this.root.querySelectorAll(".grid-cell")) {
 			this.paintCell(element, element.dataset.address);
 		}
+		const grid = this.root.querySelector(".sheet-grid");
+		if (grid) {
+			applyGridGeometry(grid, this.workbook.activeSheet, this.rowCount, this.columnCount);
+		}
 		this.refreshSelection();
 	}
 
-	/** Applies active, local-range, and remote-range decoration. */
+	/** Applies active, local, remote, and structural-selection decoration. */
 	refreshSelection() {
 		const selected = new Set(this.selection.addresses());
-		const remote = new Set(
-			this.remoteSelections.flatMap((item) => item.addresses || [])
-		);
+		const remote = new Set(this.remoteSelections.flatMap((item) => item.addresses || []));
 		for (const element of this.root.querySelectorAll(".grid-cell")) {
 			const address = element.dataset.address;
-			element.classList.toggle("selected", selected.has(address));
-			element.classList.toggle("active", address === this.selection.focus);
+			const isSelected = selected.has(address);
+			const isActive = address === this.selection.focus;
+			element.classList.toggle("selected", isSelected);
+			element.classList.toggle("is-selected", isSelected);
+			element.classList.toggle("active", isActive);
+			element.classList.toggle("is-active", isActive);
 			element.classList.toggle("remote-selected", remote.has(address));
 		}
+		paintStructuralHeaders(this.root, this.selection);
 	}
 
 	/** Applies collaborator ranges prepared by the presence controller. */

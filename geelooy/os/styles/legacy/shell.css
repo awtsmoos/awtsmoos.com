@@ -1,0 +1,87 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * Desktop shell and system crown.
+ * The Awtsmoos orders crown, desktop, and sign; Awtsmoos.com now keeps every finite layer in line.
+ */
+/*__LEGACY_BODY__*/
+#desktop {
+	position: relative;
+	width: 100%;
+	/* 
+		The Tiferet (Beauty) - The central space.
+		It expands to fill the void left by Keter and Malchus.
+	*/
+	flex-grow: 1; 
+	height: auto; /* Let the container dictate the limit */
+	overflow: hidden; /* Scrollbars belong to windows, not the void itself */
+	transition: background-color 0.3s ease;
+	order: 2; /* Sits between Header and Footer */
+}
+
+#BH {
+	position: fixed;
+	left:0px;top:0px;
+	z-index:1003;
+}
+/* 
+================================================================
+	THE TOP CROWN (KETER) - SYSTEM HEADER
+================================================================
+*/
+.awtsmoos-top-header {
+	height: 36px; /* A thin, subtle emanation from above */
+	background: linear-gradient(90deg, #1c2630, #2c3e50);
+	border-bottom: 1px solid #455a64;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 10px;
+	color: #cfd8dc;
+	font-size: 12px;
+	flex-shrink: 0; /* It remains constant */
+	order: 1; /* The highest point in the flex column */
+	z-index: 1002;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		flex-direction: row-reverse;
+}
+
+.login-area-container {
+	display: flex;
+	align-items: center;
+}
+
+/* 
+	The Eye of Providence (Fullscreen Toggle) 
+	Expands the perception to encompass the whole (Screen).
+*/
+.fullscreen-toggle-btn {
+	background: transparent;
+	border: 1px solid rgba(255,255,255,0.2);
+	color: #fff;
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.fullscreen-toggle-btn:hover {
+	background: rgba(255,255,255,0.1);
+	transform: scale(1.1) rotate(90deg); /* A spark of movement */
+	border-color: #4fc3f7;
+	box-shadow: 0 0 8px rgba(79, 195, 247, 0.6);
+}
+
+.fullscreen-toggle-btn svg {
+	fill: currentColor;
+	width: 14px;
+	height: 14px;
+	pointer-events: none;
+}
+
+

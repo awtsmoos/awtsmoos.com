@@ -4,14 +4,15 @@
 
 /**
  * @file MitzvahWorldGameplayPresentation.js
- * @description Opens full gameplay presentation or the lightweight creative dock after selection.
- * The Awtsmoos clothes each chosen doorway according to its need; Awtsmoos.com keeps direct worlds
- * light while menu gameplay receives panels, minimization, and the same explicit studio passage.
+ * @description Opens full gameplay presentation or the freshly versioned retractable creative capsule after selection.
+ * The Awtsmoos clothes each chosen doorway according to its need; Awtsmoos.com keeps direct worlds light while deeper controls fold away;
+ * full gameplay may receive richer panels, yet optional instruments still arrive through one deliberate and freshly versioned gateway.
  */
 
 const STYLE_ATTRIBUTE = 'data-awtsmoos-gameplay-style';
+const FUTURE_CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
 export const CREATIVE_DOCK_STYLESHEET =
-	'./styles/mitzvah-world-creative-dock.css?v=20260802-game-studio-bridge-02';
+	`./styles/mitzvah-world-creative-dock.css?v=${FUTURE_CAPSULE_VERSION}`;
 
 export const GAMEPLAY_STYLESHEETS = Object.freeze([
 	'./styles/mitzvah-world-shell.css?v=20260722-menu-stream-01',
@@ -26,12 +27,15 @@ let creativeDockPromise = null;
 let hudControllerPromise = null;
 let stylesheetReadiness = null;
 
+/** Prepares the full gameplay presentation for explicitly advanced routes. */
 export function prepareGameplayPresentation(
 	hosts,
 	documentValue = globalThis.document,
 	environment = globalThis
 ) {
-	if (!documentValue) return emptyPresentation(GAMEPLAY_STYLESHEETS);
+	if (!documentValue) {
+		return emptyPresentation(GAMEPLAY_STYLESHEETS);
+	}
 	markGameplay(documentValue, hosts);
 	stylesheetReadiness ||= Promise.allSettled(
 		GAMEPLAY_STYLESHEETS.map((href, index) => loadStylesheet(documentValue, href, index))
@@ -48,18 +52,23 @@ export function prepareGameplayPresentation(
 	};
 }
 
+/** Prepares only the retractable optional-control capsule for direct worlds. */
 export function prepareCreativeDockPresentation(
 	documentValue = globalThis.document,
 	environment = globalThis
 ) {
-	if (!documentValue) return emptyPresentation([CREATIVE_DOCK_STYLESHEET]);
+	if (!documentValue) {
+		return emptyPresentation([CREATIVE_DOCK_STYLESHEET]);
+	}
 	markGameplay(documentValue);
 	creativeDockPromise ||= loadStylesheet(
 		documentValue,
 		CREATIVE_DOCK_STYLESHEET,
 		'creative-dock'
 	).then(() => schedule(environment, async () => {
-		const { installMitzvahWorldCreativeDock } = await import('./MitzvahWorldCreativeDock.js');
+		const { installMitzvahWorldCreativeDock } = await import(
+			`./MitzvahWorldCreativeDock.js?v=${FUTURE_CAPSULE_VERSION}`
+		);
 		environment.AwtsmoosCreativeDock ||= installMitzvahWorldCreativeDock(
 			documentValue,
 			environment
@@ -74,7 +83,9 @@ export function prepareCreativeDockPresentation(
 
 function loadStylesheet(documentValue, href, id) {
 	const existing = documentValue.querySelector(`link[${STYLE_ATTRIBUTE}="${id}"]`);
-	if (existing) return Promise.resolve(existing);
+	if (existing) {
+		return Promise.resolve(existing);
+	}
 	return new Promise((resolve, reject) => {
 		const link = documentValue.createElement('link');
 		link.rel = 'stylesheet';
@@ -88,7 +99,9 @@ function loadStylesheet(documentValue, href, id) {
 
 function markGameplay(documentValue, hosts = null) {
 	documentValue.documentElement.dataset.awtsmoosGameplay = 'true';
-	for (const host of Object.values(hosts || {})) host?.style?.removeProperty('visibility');
+	for (const host of Object.values(hosts || {})) {
+		host?.style?.removeProperty('visibility');
+	}
 }
 
 function schedule(environment, operation) {

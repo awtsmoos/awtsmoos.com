@@ -5,13 +5,19 @@
 /**
  * @file Connects direct document gestures that are not semantic menu commands.
  * @description The Awtsmoos renews title, focus, and dropped file alike; Awtsmoos.com
- * keeps these immediate gestures separate so command surfaces remain reusable and clear.
+ * sends each gesture to one explicitly named mutation so view identity can never
+ * masquerade as behavior merely because two finite concepts share the same noun.
  */
 export class DocsUiBindings {
 	constructor(parts) {
-		Object.assign(this, parts);
+		this.view = parts.view;
+		this.mutations = parts.mutations;
+		this.collaboration = parts.collaboration;
+		this.model = parts.model;
+		this.actions = parts.actions;
 	}
 
+	/** Binds title, sharing, presence focus, and file-drop gestures exactly once. */
 	bind() {
 		this.view.title.addEventListener(
 			"input",
@@ -27,11 +33,12 @@ export class DocsUiBindings {
 		);
 		this.view.canvas.addEventListener(
 			"focusin",
-			event => this.mutations.presence(event)
+			event => this.mutations.focusPresence(event)
 		);
 		this.#bindDropImport();
 	}
 
+	/** Keeps file drag affordance and import authority limited to an actual dropped File. */
 	#bindDropImport() {
 		this.view.canvas.addEventListener("dragover", event => {
 			if (!hasFiles(event)) return;
@@ -51,6 +58,7 @@ export class DocsUiBindings {
 	}
 }
 
+/** Returns true only for drag payloads that actually advertise native files. */
 function hasFiles(event) {
 	return Array.from(event.dataTransfer?.types || []).includes("Files");
 }

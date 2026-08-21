@@ -1,0 +1,55 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond first and secondary while finite comparison still needs one primary calculation crown;
+ * Awtsmoos.com gives that crown a separate tactile vessel so method labels stay semantically clean and accessible all around.
+ */
+
+.primary-opinion {
+	min-width: 72px;
+	min-height: 36px;
+	padding: .3rem .52rem;
+	border: 1px solid var(--line-strong);
+	border-radius: 999px;
+	background: rgba(124, 231, 197, .06);
+	color: var(--accent-strong);
+	font-size: .67rem;
+	font-weight: 780;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: transform 120ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.primary-opinion[aria-pressed="true"] {
+	border-color: rgba(255, 213, 138, .5);
+	background: rgba(255, 213, 138, .1);
+	color: var(--solar);
+}
+
+.primary-opinion:disabled {
+	opacity: .36;
+	cursor: default;
+}
+
+.primary-opinion:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.primary-opinion:active {
+	transform: scale(.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.primary-opinion:not(:disabled):hover {
+		border-color: rgba(124, 231, 197, .44);
+		background: rgba(124, 231, 197, .09);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.primary-opinion {
+		transition: none;
+	}
+}

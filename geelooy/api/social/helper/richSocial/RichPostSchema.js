@@ -2,42 +2,27 @@
 //Boruch Hashem
 //Blessed is He
 
+const { normalizeAttachments } = require('./AttachmentSchema.js');
+const {
+	ANSWER_POLICIES,
+	cleanBoolean,
+	normalizeQuestionOptions,
+	richOptions
+} = require('./RichPostOptions.js');
+const { normalizeSections } = require('./SectionSchema.js');
+const {
+	cleanText,
+	normalizeDocument,
+	documentToText
+} = require('./TextSanitizer.js');
+
 /**
  * @module RichPostSchema
  * @description
- * Regular posts, questions, answers, and imported history share one expressive contract.
- * The Awtsmoos gives every thought a keli and every origin a truthful name;
- * Awtsmoos.com keeps rich documents and source provenance without confusing source with fame.
+ * The Awtsmoos gives posts, questions, answers, creator metadata, and imported history one expressive covenant;
+ * Awtsmoos.com normalizes the canonical post while smaller option vessels preserve provenance and creator detail.
  */
-const { cleanText, normalizeDocument, documentToText } = require('./TextSanitizer.js');
-const { normalizeAttachments, attachmentSummary } = require('./AttachmentSchema.js');
-const { normalizeSections } = require('./SectionSchema.js');
-const { normalizeSourceProvenance } = require('./SourceProvenanceSchema.js');
-
 const POST_KINDS = Object.freeze(['post', 'question', 'answer']);
-const ANSWER_POLICIES = Object.freeze(['open', 'onePerAlias', 'moderated']);
-
-function cleanBoolean(value, fallback = true) {
-	if (value === undefined || value === null || value === '') return fallback;
-	return value !== false && value !== 'false' && value !== 0 && value !== '0';
-}
-
-function normalizeQuestionOptions(value = {}) {
-	let item = value;
-	if (typeof value === 'string') {
-		try {
-			item = JSON.parse(value);
-		} catch {
-			item = {};
-		}
-	}
-	return {
-		answersEnabled: cleanBoolean(item.answersEnabled, true),
-		answerPolicy: ANSWER_POLICIES.includes(item.answerPolicy) ? item.answerPolicy : 'open',
-		answerGuidance: cleanText(item.answerGuidance || item.guidance, 1200),
-		acceptedAnswerId: cleanText(item.acceptedAnswerId, 160)
-	};
-}
 
 function normalizeKind(value, fallback = 'post') {
 	const kind = cleanText(value, 20).toLowerCase();
@@ -46,15 +31,13 @@ function normalizeKind(value, fallback = 'post') {
 
 function normalizeRichPost(body = {}, forcedKind = '') {
 	const kind = normalizeKind(forcedKind || body.postKind || body.type, 'post');
-	const rootDocument = normalizeDocument(body.rootDocument || body.richDocument || body.document || body.content);
+	const rootDocument = normalizeDocument(
+		body.rootDocument || body.richDocument || body.document || body.content
+	);
 	const rootContent = documentToText(rootDocument);
 	const summary = cleanText(body.summary || body.description, 1800);
 	const sections = normalizeSections(body.sections || body.verses);
 	const rootAssets = normalizeAttachments(body.rootAssets || body.assets, 20);
-	const question = kind === 'question'
-		? normalizeQuestionOptions(body.questionOptions || body.question)
-		: null;
-	const sourceProvenance = normalizeSourceProvenance(body.sourceProvenance || body.options?.sourceProvenance);
 	return {
 		postId: cleanText(body.postId || body.id, 160),
 		aliasId: cleanText(body.aliasId || body.author, 120),
@@ -70,14 +53,7 @@ function normalizeRichPost(body = {}, forcedKind = '') {
 		parentQuestionId: cleanText(body.parentQuestionId || body.questionId, 160),
 		commentsEnabled: cleanBoolean(body.commentsEnabled, true),
 		mode: 'structured',
-		options: {
-			richSocialVersion: 1,
-			rootDocument,
-			summary,
-			question,
-			sourceProvenance,
-			attachmentSummary: attachmentSummary(rootAssets)
-		}
+		options: richOptions(body, kind, rootDocument, rootAssets, summary)
 	};
 }
 
@@ -86,8 +62,12 @@ function validateRichPost(post) {
 	if (!post.aliasId) errors.push('aliasId is required');
 	if (!post.heichelId) errors.push('heichelId is required');
 	if (!post.title) errors.push('title is required');
-	if (!post.content && !post.rootAssets.length && !post.sections.length) errors.push('content, attachments, or sections are required');
-	if (post.type === 'answer' && !post.parentQuestionId) errors.push('answers require parentQuestionId');
+	if (!post.content && !post.rootAssets.length && !post.sections.length) {
+		errors.push('content, attachments, or sections are required');
+	}
+	if (post.type === 'answer' && !post.parentQuestionId) {
+		errors.push('answers require parentQuestionId');
+	}
 	return { valid: errors.length === 0, errors };
 }
 

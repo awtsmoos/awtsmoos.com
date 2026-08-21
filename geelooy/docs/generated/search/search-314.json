@@ -1,0 +1,222 @@
+[
+	{
+		"id": "geelooy-public-documentation-md-33b4dbc3a5",
+		"title": "Public Shared Project",
+		"sourcePath": "geelooy/public/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Public Shared Project",
+				"anchor": "public-shared-project"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Public Shared Project The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Shared public facing source area discovered as a distinct project boundary without its own HTML title. Start here Read docs",
+		"searchText": "b\"h boruch hashem blessed is he public shared project the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role shared public facing source area discovered as a distinct project boundary without its own html title. start here read docs/routes/public routes.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes inspect import/caller evidence before assuming this directory is one standalone application.",
+		"page": "pages/geelooy-public-documentation-md-33b4dbc3a5.json"
+	},
+	{
+		"id": "geelooy-public-virtual-os-games-crystal-1780372754759-readme-md-2431e9069f",
+		"title": "Crystal Critters",
+		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780372754759/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Crystal Critters",
+				"anchor": "crystal-critters"
+			},
+			{
+				"level": 2,
+				"text": "Agent Results",
+				"anchor": "agent-results"
+			}
+		],
+		"excerpt": "B'H Crystal Critters Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780372754759/ Agent Results engine: ok via deterministic fallback renderer: ok via deterministic fallback levels: ok via deterministic fallback polish: ok via deterministic fallback",
+		"searchText": "b'h crystal critters public url: https://awtsmoos.com/public/virtual os games/crystal 1780372754759/ agent results engine: ok via deterministic fallback renderer: ok via deterministic fallback levels: ok via deterministic fallback polish: ok via deterministic fallback",
+		"page": "pages/geelooy-public-virtual-os-games-crystal-1780372754759-readme-md-2431e9069f.json"
+	},
+	{
+		"id": "geelooy-public-virtual-os-games-crystal-1780372758361-readme-md-3f6714f8d8",
+		"title": "Crystal Critters",
+		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780372758361/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Crystal Critters",
+				"anchor": "crystal-critters"
+			},
+			{
+				"level": 2,
+				"text": "Agent Results",
+				"anchor": "agent-results"
+			}
+		],
+		"excerpt": "B'H Crystal Critters Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780372758361/ Agent Results engine: ok via deterministic fallback renderer: ok via deterministic fallback levels: ok via deterministic fallback polish: ok via deterministic fallback",
+		"searchText": "b'h crystal critters public url: https://awtsmoos.com/public/virtual os games/crystal 1780372758361/ agent results engine: ok via deterministic fallback renderer: ok via deterministic fallback levels: ok via deterministic fallback polish: ok via deterministic fallback",
+		"page": "pages/geelooy-public-virtual-os-games-crystal-1780372758361-readme-md-3f6714f8d8.json"
+	},
+	{
+		"id": "geelooy-public-virtual-os-games-crystal-1780373501785-improved-readme-md-463510bd02",
+		"title": "Crystal Critters: Awakened Cave",
+		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780373501785-improved/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Crystal Critters: Awakened Cave",
+				"anchor": "crystal-critters-awakened-cave"
+			}
+		],
+		"excerpt": "B'H Crystal Critters: Awakened Cave Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780373501785 improved/ Recursive agent loop: 8 rounds per lead, 2 spawned children per round. engine: 8 rounds, 0 MiniMax calls used renderer: 8 rounds, 0 MiniMax calls used levels: 8 rounds, 0 MiniMax calls used polis",
+		"searchText": "b'h crystal critters: awakened cave public url: https://awtsmoos.com/public/virtual os games/crystal 1780373501785 improved/ recursive agent loop: 8 rounds per lead, 2 spawned children per round. engine: 8 rounds, 0 minimax calls used renderer: 8 rounds, 0 minimax calls used levels: 8 rounds, 0 minimax calls used polish: 8 rounds, 0 minimax calls used",
+		"page": "pages/geelooy-public-virtual-os-games-crystal-1780373501785-improved-readme-md-463510bd02.json"
+	},
+	{
+		"id": "geelooy-public-virtual-os-games-crystal-1780373505136-improved-readme-md-05af0f7168",
+		"title": "Crystal Critters: Awakened Cave",
+		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780373505136-improved/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Crystal Critters: Awakened Cave",
+				"anchor": "crystal-critters-awakened-cave"
+			}
+		],
+		"excerpt": "B'H Crystal Critters: Awakened Cave Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780373505136 improved/ Recursive agent loop: 8 rounds per lead, 2 spawned children per round. engine: 8 rounds, 0 MiniMax calls used renderer: 8 rounds, 0 MiniMax calls used levels: 8 rounds, 0 MiniMax calls used polis",
+		"searchText": "b'h crystal critters: awakened cave public url: https://awtsmoos.com/public/virtual os games/crystal 1780373505136 improved/ recursive agent loop: 8 rounds per lead, 2 spawned children per round. engine: 8 rounds, 0 minimax calls used renderer: 8 rounds, 0 minimax calls used levels: 8 rounds, 0 minimax calls used polish: 8 rounds, 0 minimax calls used",
+		"page": "pages/geelooy-public-virtual-os-games-crystal-1780373505136-improved-readme-md-05af0f7168.json"
+	},
+	{
+		"id": "geelooy-public-virtual-os-games-crystal-1780373765713-swarm-v2-readme-md-55b43c5a6d",
+		"title": "Crystal Critters Thumb-Safe Swarm V2",
+		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780373765713-swarm-v2/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Crystal Critters Thumb-Safe Swarm V2",
+				"anchor": "crystal-critters-thumb-safe-swarm-v2"
+			}
+		],
+		"excerpt": "B'H Crystal Critters Thumb Safe Swarm V2 Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780373765713 swarm v2/ Fixes: fixed D pad above mobile browser chrome canvas tap zones and swipe controls pop up instructions collapsible notes ten levels walking animation and particles swarm notes with 8 rounds ",
+		"searchText": "b'h crystal critters thumb safe swarm v2 public url: https://awtsmoos.com/public/virtual os games/crystal 1780373765713 swarm v2/ fixes: fixed d pad above mobile browser chrome canvas tap zones and swipe controls pop up instructions collapsible notes ten levels walking animation and particles swarm notes with 8 rounds per branch",
+		"page": "pages/geelooy-public-virtual-os-games-crystal-1780373765713-swarm-v2-readme-md-55b43c5a6d.json"
+	},
+	{
+		"id": "geelooy-public-virtual-os-games-crystal-1780373769185-swarm-v2-readme-md-189db2c874",
+		"title": "Crystal Critters Thumb-Safe Swarm V2",
+		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780373769185-swarm-v2/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Crystal Critters Thumb-Safe Swarm V2",
+				"anchor": "crystal-critters-thumb-safe-swarm-v2"
+			}
+		],
+		"excerpt": "B'H Crystal Critters Thumb Safe Swarm V2 Public URL: https://awtsmoos.com/public/virtual os games/crystal 1780373769185 swarm v2/ Fixes: fixed D pad above mobile browser chrome canvas tap zones and swipe controls pop up instructions collapsible notes ten levels walking animation and particles swarm notes with 8 rounds ",
+		"searchText": "b'h crystal critters thumb safe swarm v2 public url: https://awtsmoos.com/public/virtual os games/crystal 1780373769185 swarm v2/ fixes: fixed d pad above mobile browser chrome canvas tap zones and swipe controls pop up instructions collapsible notes ten levels walking animation and particles swarm notes with 8 rounds per branch",
+		"page": "pages/geelooy-public-virtual-os-games-crystal-1780373769185-swarm-v2-readme-md-189db2c874.json"
+	},
+	{
+		"id": "geelooy-public-virtual-os-games-crystal-1780374109835-clean-mobile-readm-999658f1f0",
+		"title": "Crystal Critters Clean Mobile",
+		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780374109835-clean-mobile/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Crystal Critters Clean Mobile",
+				"anchor": "crystal-critters-clean-mobile"
+			}
+		],
+		"excerpt": "B'H Crystal Critters Clean Mobile Local: http://localhost:8080/public/virtual os games/crystal 1780374109835 clean mobile/ Public: https://awtsmoos.com/public/virtual os games/crystal 1780374109835 clean mobile/ Agent: gameAgent 1780374067939 oe41vx ui: done round 8 ui round 4: Shrink controls, restore readable cave, u",
+		"searchText": "b'h crystal critters clean mobile local: http://localhost:8080/public/virtual os games/crystal 1780374109835 clean mobile/ public: https://awtsmoos.com/public/virtual os games/crystal 1780374109835 clean mobile/ agent: gameagent 1780374067939 oe41vx ui: done round 8 ui round 4: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 5: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 7: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 8: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. controls: failed round 7 controls round 4: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 5: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 6: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 7: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. levels: done round 8 levels round 5: add lots of varied levels while keeping early levels readable on mobile. levels round 6: add lots of varied levels while keeping early levels readable on mobile. levels round 7: add lots of varied levels while keeping early levels readable on mobile. levels round 8: add lots of varied levels while keeping early levels readable on mobile. animation: done round 8 animation round 5: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 6: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 7: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 8: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. help: done round 8 help round 5: move instructions into a compact pop up and keep notes collapsed by default. help round 6: move instructions into a compact pop up and keep notes collapsed by default. help round 7: move instructions into a compact pop up and keep notes collapsed by default. help round 8: move instructions into a compact pop up and keep notes collapsed by default. api: done round 8 api round 5: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 6: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 7: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 8: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done.",
+		"page": "pages/geelooy-public-virtual-os-games-crystal-1780374109835-clean-mobile-readm-999658f1f0.json"
+	},
+	{
+		"id": "geelooy-public-virtual-os-games-crystal-1780374112967-clean-mobile-readm-347a74946a",
+		"title": "Crystal Critters Clean Mobile",
+		"sourcePath": "geelooy/public/virtual-os-games/crystal-1780374112967-clean-mobile/README.md",
+		"category": "General",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Crystal Critters Clean Mobile",
+				"anchor": "crystal-critters-clean-mobile"
+			}
+		],
+		"excerpt": "B'H Crystal Critters Clean Mobile Local: http://localhost:8080/public/virtual os games/crystal 1780374112967 clean mobile/ Public: https://awtsmoos.com/public/virtual os games/crystal 1780374112967 clean mobile/ Agent: gameAgent 1780374067939 oe41vx ui: done round 8 ui round 4: Shrink controls, restore readable cave, u",
+		"searchText": "b'h crystal critters clean mobile local: http://localhost:8080/public/virtual os games/crystal 1780374112967 clean mobile/ public: https://awtsmoos.com/public/virtual os games/crystal 1780374112967 clean mobile/ agent: gameagent 1780374067939 oe41vx ui: done round 8 ui round 4: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 5: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 7: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. ui round 8: shrink controls, restore readable cave, use compact floating controls, keep browser chrome clear. controls: failed round 7 controls round 4: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 5: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 6: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. controls round 7: prefer swipe/tap canvas first, make buttons small backup only, no huge dock covering playfield. levels: done round 8 levels round 5: add lots of varied levels while keeping early levels readable on mobile. levels round 6: add lots of varied levels while keeping early levels readable on mobile. levels round 7: add lots of varied levels while keeping early levels readable on mobile. levels round 8: add lots of varied levels while keeping early levels readable on mobile. animation: done round 8 animation round 5: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 6: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 7: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. animation round 8: add walking frames, easing, hit flash, crystal pickup bursts, and critter idle pulses. help: done round 8 help round 5: move instructions into a compact pop up and keep notes collapsed by default. help round 6: move instructions into a compact pop up and keep notes collapsed by default. help round 7: move instructions into a compact pop up and keep notes collapsed by default. help round 8: move instructions into a compact pop up and keep notes collapsed by default. api: done round 8 api round 5: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 6: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 7: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done. api round 8: design spawn/status/watch commands: spawn returns agentid immediately; parent polls until done.",
+		"page": "pages/geelooy-public-virtual-os-games-crystal-1780374112967-clean-mobile-readm-347a74946a.json"
+	},
+	{
+		"id": "geelooy-recorder-documentation-md-f7f6cc416c",
+		"title": "Local Recorder",
+		"sourcePath": "geelooy/recorder/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Local Recorder",
+				"anchor": "local-recorder"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Local Recorder The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Public media utility. Observed entry: index.html; observed title: “Local Recorder — Geelooy”. Start here Read docs/APPS/MEDIA TOOL",
+		"searchText": "b\"h boruch hashem blessed is he local recorder the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role public media utility. observed entry: index.html; observed title: “local recorder — geelooy”. start here read docs/apps/media tools.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes recorder changes can involve browser media permissions, local blobs/files and shared media utilities; verify the actual source surface involved.",
+		"page": "pages/geelooy-recorder-documentation-md-f7f6cc416c.json"
+	}
+]

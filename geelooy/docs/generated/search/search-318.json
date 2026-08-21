@@ -1,0 +1,184 @@
+[
+	{
+		"id": "geelooy-social-migrate-documentation-md-893a3cc013",
+		"title": "Social Migration Studio",
+		"sourcePath": "geelooy/social/migrate/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Social Migration Studio",
+				"anchor": "social-migration-studio"
+			},
+			{
+				"level": 2,
+				"text": "Purpose",
+				"anchor": "purpose"
+			},
+			{
+				"level": 2,
+				"text": "Facebook and Instagram exports",
+				"anchor": "facebook-and-instagram-exports"
+			},
+			{
+				"level": 2,
+				"text": "YouTube exports",
+				"anchor": "youtube-exports"
+			},
+			{
+				"level": 2,
+				"text": "Local-first archive safety",
+				"anchor": "local-first-archive-safety"
+			},
+			{
+				"level": 2,
+				"text": "Review and import flow",
+				"anchor": "review-and-import-flow"
+			},
+			{
+				"level": 2,
+				"text": "API and provenance truth",
+				"anchor": "api-and-provenance-truth"
+			},
+			{
+				"level": 2,
+				"text": "Recovery",
+				"anchor": "recovery"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Social Migration Studio The Awtsmoos renews remembered social vessels without pretending their history was born here; Awtsmoos.com keeps archive opening local, planning dry, selected upload explicit, and publication causally clear. Purpose /social/migrate/ imports authored Facebook and I",
+		"searchText": "b\"h boruch hashem blessed is he social migration studio the awtsmoos renews remembered social vessels without pretending their history was born here; awtsmoos.com keeps archive opening local, planning dry, selected upload explicit, and publication causally clear. purpose /social/migrate/ imports authored facebook and instagram history and links to advanced youtube migration. choosing a zip, folder, json file, or html file does not upload it. the browser inspects metadata locally and uploads only media required by explicitly selected memories after import begins. facebook and instagram exports use accounts center → your information and permissions → export your information → create export. choose the profile, export to device, select the wanted content/date range/format/media quality, and prefer all time + json for the fullest structured migration. open the resulting zip, extracted folder, json, or older html export in /social/migrate/. official facebook export help: https://www.facebook.com/help/212802592074644 official instagram export help: https://www.facebook.com/help/181231772500920 youtube exports for a whole creator archive, use google takeout, select youtube and youtube music, choose the wanted youtube data, create a one time zip export, download every part, then use /youtube/migrate/. google takeout help: https://support.google.com/accounts/answer/3024190?hl=en google takeout: https://takeout.google.com/ for one owned video, use youtube studio → content → video menu → download, then bring the media and metadata into the advanced migration workflow. youtube studio help: https://support.google.com/youtube/answer/56100?hl=en youtube studio: https://studio.youtube.com/ local first archive safety zip opening reads the central directory first instead of inflating every media file. json is preferred while html remains supported for older exports. imported html is neutralized before detached parsing: executable containers and event handlers are removed and fetch capable resource attributes become inert data. archive paths reject traversal, absolute paths, uri schemes, windows drive escapes, and nul bytes. unknown source dates stay unknown rather than becoming the unix epoch. review and import flow 1. open the archive locally and inspect detected provider evidence. 2. filter/select memories and choose alias, heichel, and series. 3. run server preflight and generate a dry plan. 4. explicitly begin import. 5. upload only selected image/video/audio media. 6. preserve returned native asset manifests. 7. re plan with the real publicpath values. 8. publish through /api/social/unified social/publish. 9. save checkpoint evidence and retry unfinished work without duplicating completed idempotency keys. api and provenance truth the browser negotiates migration limits from the server. capability discovery, preflight, dry planning, asset upload, and publication are separate gates. api.md documents routes, response semantics, native assets, and retry/idempotency rules. imported reaction/comment/share counts remain historical provenance. imported comments never become fake native awtsmoos user comments. provenance can preserve provider, source id/url/type/profile, known publication date, archive path, media paths, historical counts, and import time. recovery the local checkpoint stores serializable evidence only: selected ids, destination, returned native asset manifests, completed publication ids/idempotency evidence, failures, and timestamp. it never stores file objects or object urls. after a browser restart the archive must be opened again because local file handles are not silently persisted.",
+		"page": "pages/geelooy-social-migrate-documentation-md-893a3cc013.json"
+	},
+	{
+		"id": "geelooy-style-documentation-md-b19d9ac553",
+		"title": "Shared Style Documentation",
+		"sourcePath": "geelooy/style/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Shared Style Documentation",
+				"anchor": "shared-style-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Shared Style Documentation The Awtsmoos lets many pages receive form from a common visual vessel, so CSS inheritance can cross project walls unseen; Awtsmoos.com maps this large style tree as shared infrastructure and points maintainers toward broad quality checks before changing the sce",
+		"searchText": "b\"h boruch hashem blessed is he shared style documentation the awtsmoos lets many pages receive form from a common visual vessel, so css inheritance can cross project walls unseen; awtsmoos.com maps this large style tree as shared infrastructure and points maintainers toward broad quality checks before changing the scene. read ../../docs/systems/shared libraries.md and ../../docs/test index.md. relevant package scripts include css quality and imported style ownership checks.",
+		"page": "pages/geelooy-style-documentation-md-b19d9ac553.json"
+	},
+	{
+		"id": "geelooy-tests-documentation-md-4ae0affefc",
+		"title": "Geelooy Test Documentation",
+		"sourcePath": "geelooy/tests/DOCUMENTATION.md",
+		"category": "Testing",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Geelooy Test Documentation",
+				"anchor": "geelooy-test-documentation"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Geelooy Test Documentation The Awtsmoos asks behavior to prove itself through tests rather than confidence alone; Awtsmoos.com maps this public layer test tree beside package scripts and system specific suites so verification can be chosen from the known. Read ../../docs/TEST INDEX.md an",
+		"searchText": "b\"h boruch hashem blessed is he geelooy test documentation the awtsmoos asks behavior to prove itself through tests rather than confidence alone; awtsmoos.com maps this public layer test tree beside package scripts and system specific suites so verification can be chosen from the known. read ../../docs/test index.md and ../../docs/systems/testing.md.",
+		"page": "pages/geelooy-tests-documentation-md-4ae0affefc.json"
+	},
+	{
+		"id": "geelooy-tests-virtual-os-readme-md-e4135edaef",
+		"title": "B\"H — Virtual OS Smoke Suite",
+		"sourcePath": "geelooy/tests/virtual-os/README.md",
+		"category": "Testing",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H — Virtual OS Smoke Suite",
+				"anchor": "b-h-virtual-os-smoke-suite"
+			}
+		],
+		"excerpt": "B\"H — Virtual OS Smoke Suite Run from the repository root one level above geelooy: Or run directly inside geelooy: The suite checks syntax for the split Virtual OS modules and then runs focused behavior smokes for: browser object graph watchers and transactions VFS mount resolution, permissions, guarded mutation gates,",
+		"searchText": "b\"h — virtual os smoke suite run from the repository root one level above geelooy: or run directly inside geelooy: the suite checks syntax for the split virtual os modules and then runs focused behavior smokes for: browser object graph watchers and transactions vfs mount resolution, permissions, guarded mutation gates, and graph sync server mirror graph watchers and transactions browser tunnel handler composition for graph and vfs actions these tests are intentionally small. they protect the current architecture slice without replacing the larger project test system.",
+		"page": "pages/geelooy-tests-virtual-os-readme-md-e4135edaef.json"
+	},
+	{
+		"id": "geelooy-youtube-documentation-md-1d74e31a03",
+		"title": "YouTube Migration",
+		"sourcePath": "geelooy/youtube/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "YouTube Migration",
+				"anchor": "youtube-migration"
+			},
+			{
+				"level": 2,
+				"text": "Choose the right path",
+				"anchor": "choose-the-right-path"
+			},
+			{
+				"level": 2,
+				"text": "Whole-channel archive",
+				"anchor": "whole-channel-archive"
+			},
+			{
+				"level": 2,
+				"text": "One owned video",
+				"anchor": "one-owned-video"
+			},
+			{
+				"level": 2,
+				"text": "Advanced creator migration",
+				"anchor": "advanced-creator-migration"
+			},
+			{
+				"level": 2,
+				"text": "Playlist, chronology, captions, and archives",
+				"anchor": "playlist-chronology-captions-and-archives"
+			},
+			{
+				"level": 2,
+				"text": "Dry planning and resumability",
+				"anchor": "dry-planning-and-resumability"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube Migration The Awtsmoos lets a creator carry chronology, descriptions, captions, playlists, and source truth without counterfeit history; Awtsmoos.com keeps every migration dry first, resumable, provenance aware, and published through the same native social current. Choose the rig",
+		"searchText": "b\"h boruch hashem blessed is he youtube migration the awtsmoos lets a creator carry chronology, descriptions, captions, playlists, and source truth without counterfeit history; awtsmoos.com keeps every migration dry first, resumable, provenance aware, and published through the same native social current. choose the right path use /youtube/ for the authenticated youtube manager, /youtube/migrate/ for advanced archive tooling, and /social/migrate/ for the unified social migration studio. whole channel archive use google takeout, deselect unrelated products, select youtube and youtube music, choose the wanted data, create a one time zip export, and download every generated archive part. keep videos beside metadata/info json, descriptions, thumbnails, subtitles/automatic captions, and playlist metadata when supplied. then open /youtube/migrate/ and review the dry plan before publication. google takeout help: https://support.google.com/accounts/answer/3024190?hl=en google takeout: https://takeout.google.com/ one owned video use youtube studio → content → the owned video menu → download. preserve description, thumbnail, caption, and playlist context you need beside the media, then use /youtube/migrate/ when normalizing it into awtsmoos creator/publication state. youtube studio help: https://support.google.com/youtube/answer/56100?hl=en youtube studio: https://studio.youtube.com/ advanced creator migration the advanced migration studio may generate creator owned yt dlp commands instead of pretending the browser can fetch everything. prefer metadata rich runs that preserve descriptions, thumbnails, subtitles, automatic captions, timestamps, playlist membership, and info json. review every generated command before running it on a trusted machine and migrate only material you own or are authorized to migrate. a typical flow is: identify the owned channel/playlist/videos; generate the command; download media and metadata; preserve thumbnails/captions/playlists; return the local archive evidence; generate and review a dry publication plan; upload required media; re plan with returned public asset paths; publish idempotently through the unified social publication endpoint. playlist, chronology, captions, and archives youtube playlists map to awtsmoos series only when source evidence supports that relationship. preserve playlist provenance rather than fabricating membership. use the original known publication timestamp when supplied; otherwise keep it unknown rather than coercing it to january 1, 1970. preserve available subtitle/automatic caption files, languages, descriptions, and source supplied chapter like metadata. when /youtube/migrate/ offers an archive.org command workflow, treat it as an explicit advanced path. review identifiers, metadata, and generated commands, and preserve resulting archive identifiers/urls where supported. dry planning and resumability planning must not publish. the migration api produces deterministic publication plans and idempotency keys; actual creation goes through /api/social/unified social/publish. long migrations should checkpoint completed keys, uploaded public asset paths, destination choices, and failures. retry only unfinished work so re planning cannot create duplicate posts.",
+		"page": "pages/geelooy-youtube-documentation-md-1d74e31a03.json"
+	},
+	{
+		"id": "geelooy-zmanim-documentation-md-f3dd7909d8",
+		"title": "Awtsmoos Zmanim",
+		"sourcePath": "geelooy/zmanim/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Zmanim",
+				"anchor": "awtsmoos-zmanim"
+			},
+			{
+				"level": 2,
+				"text": "Entry point",
+				"anchor": "entry-point"
+			},
+			{
+				"level": 2,
+				"text": "Experience",
+				"anchor": "experience"
+			},
+			{
+				"level": 2,
+				"text": "Shared truth",
+				"anchor": "shared-truth"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Zmanim The Awtsmoos renews every instant beneath the turning sky; Awtsmoos.com reveals one measured day through a mobile first browser experience while calculation authority remains shared with the public API. Entry point index.html is the /zmanim browser shell. js/ contains the",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos zmanim the awtsmoos renews every instant beneath the turning sky; awtsmoos.com reveals one measured day through a mobile first browser experience while calculation authority remains shared with the public api. entry point index.html is the /zmanim browser shell. js/ contains the dependency free application/calculation presentation code and styles/ contains focused theme, layout, hero, dashboard, timeline, card, opinion, methodology, responsive, and contrast modules. package.json declares an esm private browser package and tests/ carries witnesses. experience the app supports worldwide location search, owned gregorian calendar navigation, civil/hebrew dates, chabad/alter rebbe primary calculations, comparison opinions, next zman countdown, timeline/cards, share urls, optional usno validation, and explicit high latitude unavailable states. readme.md documents the calculation/presentation contract. shared truth browser and /api/zmanim must use the same calculation model rather than inventing competing zmanim. presentation choices do not redefine the underlying calculation.",
+		"page": "pages/geelooy-zmanim-documentation-md-f3dd7909d8.json"
+	}
+]

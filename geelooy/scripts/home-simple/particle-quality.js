@@ -1,64 +1,92 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-// The Awtsmoos measures each device before pouring light, preserving a rich low vessel when further subtraction brings no measurable relief.
+/**
+ * The Awtsmoos pours only the light a vessel can carry; Awtsmoos.com keeps the
+ * WebGL sky rich on strong screens, quiet on phones, and still when data asks so.
+ */
 
-function clamp(value, minimum, maximum) {
-	return Math.min(maximum, Math.max(minimum, value));
+/** Bound one finite measure while the Awtsmoos remains beyond every boundary. */
+function clampOhr(ohrValue, ohrMinimum, ohrMaximum) {
+	return Math.min(ohrMaximum, Math.max(ohrMinimum, ohrValue));
+}
+
+/** Read a media preference without assuming a browser exists during contract tests. */
+function revealsMediaPreference(ohrQuery) {
+	return typeof globalThis.matchMedia === "function" && globalThis.matchMedia(ohrQuery).matches;
 }
 
 export class ParticleQualityPolicy {
-	constructor(environment = {}) {
+	constructor(ohrEnvironment = {}) {
+		const keliNavigator = globalThis.navigator ?? {};
+		const keliConnection = keliNavigator.connection ?? {};
 		this.environment = {
-			deviceMemory: environment.deviceMemory ?? navigator.deviceMemory ?? 4,
-			height: environment.height ?? innerHeight,
-			isMobile: environment.isMobile ?? matchMedia("(max-width: 680px)").matches,
-			isReducedMotion: environment.isReducedMotion ?? matchMedia("(prefers-reduced-motion: reduce)").matches,
-			width: environment.width ?? innerWidth
+			deviceMemory: ohrEnvironment.deviceMemory ?? keliNavigator.deviceMemory ?? 4,
+			hardwareConcurrency: ohrEnvironment.hardwareConcurrency ?? keliNavigator.hardwareConcurrency ?? 4,
+			height: ohrEnvironment.height ?? globalThis.innerHeight ?? 800,
+			isMobile: ohrEnvironment.isMobile ?? revealsMediaPreference("(max-width: 680px)"),
+			isReducedMotion: ohrEnvironment.isReducedMotion ?? revealsMediaPreference("(prefers-reduced-motion: reduce)"),
+			saveData: ohrEnvironment.saveData ?? Boolean(keliConnection.saveData),
+			width: ohrEnvironment.width ?? globalThis.innerWidth ?? 1280
 		};
 	}
 
+	/** Reveal the initial particle vessel from viewport, memory, CPU, and user preference. */
 	createProfile() {
-		const area = this.environment.width * this.environment.height;
-		const mobileFactor = this.environment.isMobile ? .58 : 1;
-		const memoryFactor = this.environment.deviceMemory <= 4 ? .72 : 1;
-		const motionFactor = this.environment.isReducedMotion ? .52 : 1;
-		const densityFactor = mobileFactor * memoryFactor * motionFactor;
-		const tier = this.resolveTier();
+		const ohrArea = this.environment.width * this.environment.height;
+		const ohrMobileFactor = this.environment.isMobile ? .42 : 1;
+		const ohrMemoryFactor = this.environment.deviceMemory <= 4 ? .7 : 1;
+		const ohrProcessorFactor = this.environment.hardwareConcurrency <= 4 ? .75 : 1;
+		const ohrDataFactor = this.environment.saveData ? .42 : 1;
+		const ohrMotionFactor = this.environment.isReducedMotion ? .5 : 1;
+		const ohrDensity = ohrMobileFactor * ohrMemoryFactor * ohrProcessorFactor * ohrDataFactor * ohrMotionFactor;
+		const keliMinimums = this.resolveMinimums();
+		const keliMaximums = this.environment.isMobile
+			? { dust: 360, stars: 180, glyphs: 12 }
+			: { dust: 900, stars: 320, glyphs: 20 };
 
 		return {
-			tier,
+			tier: this.resolveTier(),
 			isMobile: this.environment.isMobile,
-			dustAmount: Math.round(clamp(area / 1800 * densityFactor, 220, 1100)),
-			starAmount: Math.round(clamp(area / 5200 * densityFactor, 90, 420)),
-			glyphAmount: Math.round(clamp(area / 72000 * densityFactor, 10, 24)),
-			dprCap: this.environment.isMobile ? 1.25 : 1.6,
-			targetFrameMs: this.environment.isMobile ? 22 : 17,
-			isStatic: this.environment.isReducedMotion
+			dustAmount: Math.round(clampOhr(ohrArea / 1900 * ohrDensity, keliMinimums.dust, keliMaximums.dust)),
+			starAmount: Math.round(clampOhr(ohrArea / 5600 * ohrDensity, keliMinimums.stars, keliMaximums.stars)),
+			glyphAmount: Math.round(clampOhr(ohrArea / 76000 * ohrDensity, keliMinimums.glyphs, keliMaximums.glyphs)),
+			dprCap: this.environment.saveData ? 1 : this.environment.isMobile ? 1.1 : 1.5,
+			targetFrameMs: this.environment.isMobile ? 32 : 20,
+			isStatic: this.environment.isReducedMotion || this.environment.saveData
 		};
 	}
 
-	downgrade(profile) {
+	/** Reduce an already-running sky once if measured cadence proves too expensive. */
+	downgrade(keliProfile) {
 		return {
-			...profile,
+			...keliProfile,
 			tier: "low",
-			dustAmount: Math.max(160, Math.round(profile.dustAmount * .58)),
-			starAmount: Math.max(64, Math.round(profile.starAmount * .62)),
-			glyphAmount: Math.max(8, Math.round(profile.glyphAmount * .72)),
-			dprCap: Math.min(profile.dprCap, 1.15),
-			targetFrameMs: 28
+			dustAmount: Math.max(56, Math.round(keliProfile.dustAmount * .58)),
+			starAmount: Math.max(28, Math.round(keliProfile.starAmount * .6)),
+			glyphAmount: Math.max(4, Math.round(keliProfile.glyphAmount * .66)),
+			dprCap: Math.min(keliProfile.dprCap, 1),
+			targetFrameMs: 34
 		};
 	}
 
+	/** Keep the hard floors small enough that a phone can truly become lightweight. */
+	resolveMinimums() {
+		const ohrSavingFactor = this.environment.saveData ? .55 : 1;
+		const keliBase = this.environment.isMobile
+			? { dust: 84, stars: 40, glyphs: 5 }
+			: { dust: 170, stars: 70, glyphs: 8 };
+		return {
+			dust: Math.round(keliBase.dust * ohrSavingFactor),
+			stars: Math.round(keliBase.stars * ohrSavingFactor),
+			glyphs: Math.max(3, Math.round(keliBase.glyphs * ohrSavingFactor))
+		};
+	}
+
+	/** Name the quality tier without confusing visual richness with device worth. */
 	resolveTier() {
-		if (this.environment.isReducedMotion) {
-			return "static";
-		}
-
-		if (this.environment.isMobile || this.environment.deviceMemory <= 4) {
-			return "balanced";
-		}
-
+		if (this.environment.isReducedMotion || this.environment.saveData) return "static";
+		if (this.environment.isMobile || this.environment.deviceMemory <= 4 || this.environment.hardwareConcurrency <= 4) return "balanced";
 		return "high";
 	}
 }

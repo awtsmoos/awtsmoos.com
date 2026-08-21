@@ -2,12 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+const { quickstart } = require('./sitePublicationQuickstart.js');
+const { publicationProtocol } = require('./sitePublicationProtocol.js');
+
 /**
  * @module TunnelSitePublicationCatalog
  * @description
- * The Awtsmoos lets each publication action reveal its scope, vessel, input,
- * result, and replay law from one machine-readable covenant. Awtsmoos.com no
- * longer needs a human renderer to guess what “no params” was meant to hide.
+ * The Awtsmoos lets each publication deed reveal authority, replay law, reconciliation, and evidence while Awtsmoos.com preserves every historical result object untouched;
+ * agents may move quickly, yet they can now distinguish a mutation receipt from server status and from a canonical page actually verified live.
  */
 
 const commonResult = Object.freeze({
@@ -22,46 +24,32 @@ const commonResult = Object.freeze({
 });
 
 const actionCatalog = Object.freeze({
-	sitePublishBootstrap: {
-		summary: 'Publish an explicit bounded source manifest through Drive.',
-		scope: 'tunnel.write',
-		mutation: true,
-		vessels: ['virtual-os', 'native-tunnel'],
+	sitePublishBootstrap: action({
+		summary: 'Publish a bounded source manifest through Drive.',
 		params: ['aliasId', 'projectId', 'siteId', 'rootPath', 'files'],
-		result: commonResult,
-		replay: 'reconcile-before-replay'
-	},
-	sitePublishFolder: {
+		evidenceScope: 'workspace-and-publication'
+	}),
+	sitePublishFolder: action({
 		summary: 'Publish any owned hosted folder directly or as a snapshot.',
-		scope: 'tunnel.write',
-		mutation: true,
-		vessels: ['virtual-os', 'native-tunnel'],
 		params: ['path', 'siteId', 'mode=direct|snapshot'],
-		result: commonResult,
-		replay: 'reconcile-before-replay',
+		evidenceScope: 'canonical-publication',
 		examples: [
 			{ path: 'asdf/projects/orbit-run', siteId: 'orbit-run', mode: 'direct' },
 			{ path: 'asdf/projects/orbit-run', siteId: 'orbit-run', mode: 'snapshot' }
 		]
-	},
-	sitePublicationStatus: {
+	}),
+	sitePublicationStatus: action({
 		summary: 'Read authoritative canonical publication and source readiness.',
-		scope: 'tunnel.read',
-		mutation: false,
-		vessels: ['virtual-os', 'native-tunnel'],
 		params: ['aliasId', 'siteId'],
-		result: commonResult,
-		replay: 'safe-read'
-	},
-	siteUnpublish: {
+		evidenceScope: 'canonical-publication-status',
+		mutation: false
+	}),
+	siteUnpublish: action({
 		summary: 'Remove the canonical site mapping without deleting source bytes.',
-		scope: 'tunnel.write',
-		mutation: true,
-		vessels: ['virtual-os', 'native-tunnel'],
 		params: ['aliasId', 'siteId'],
-		result: { fields: ['publication.mapped=false'] },
-		replay: 'reconcile-before-replay'
-	}
+		evidenceScope: 'canonical-unpublication',
+		result: Object.freeze({ fields: ['publication.mapped=false'] })
+	})
 });
 
 const setup = Object.freeze({
@@ -75,10 +63,27 @@ const setup = Object.freeze({
 		availableWithoutAgent: true,
 		routeReference: 'awtsmoos-virtual-os'
 	},
-	publicUrlRule: 'Never derive a website URL from /geelooy/os; use publication.canonicalUrl.'
+	publicationProtocol: publicationProtocol(),
+	publicUrlRule: 'Never derive a website URL from /geelooy/os; use publication.canonicalUrl.',
+	quickstart
 });
 
-module.exports = {
-	actionCatalog,
-	setup
-};
+function action(options) {
+	const mutation = options.mutation !== false;
+	return Object.freeze({
+		summary: options.summary,
+		scope: mutation ? 'tunnel.write' : 'tunnel.read',
+		mutation,
+		vessels: ['virtual-os', 'native-tunnel'],
+		params: options.params,
+		result: options.result || commonResult,
+		evidenceScope: options.evidenceScope,
+		replay: mutation ? 'reconcile-before-replay' : 'safe-read',
+		reconcileAction: mutation ? 'sitePublicationStatus' : null,
+		idempotency: mutation ? 'not-provided' : 'not-applicable',
+		externalVerification: 'result-derived-only',
+		examples: options.examples || undefined
+	});
+}
+
+module.exports = { actionCatalog, setup };

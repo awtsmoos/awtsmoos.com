@@ -33,7 +33,9 @@ Pattern-compatible evidence only; it does not prove runtime dispatch.
 
 | Literal | Source | Kind |
 | --- | --- | --- |
+| `/api/social/search/tanach/hebrew` | `geelooy/heichelos/post/functions/ui/context/relatedSearchApi.test.mjs` | test |
 | `/api/social/search/tanach/hebrew?${parameters}` | `geelooy/mawgawl/sefarim/tanachApi.js` | runtime |
+| `/api/social/search/tanach/hebrew?${values}` | `geelooy/heichelos/post/functions/ui/context/relatedSearchApi.js` | runtime |
 | `/api/social/search/tanach/hebrew?${values}` | `geelooy/heichelos/post/functions/ui/context/tanachPanel.js` | runtime |
 
 ## Related tests

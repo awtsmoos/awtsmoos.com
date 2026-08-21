@@ -1,0 +1,48 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets many entity garments share one rhythm; Awtsmoos.com keeps context readable, measured, and calm. */
+.awtsmoosEntityPreview {
+	display: grid;
+	gap: 12px;
+	padding: 16px;
+	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+	border-radius: 18px;
+	background: color-mix(in srgb, Canvas 94%, currentColor 6%);
+	container-type: inline-size;
+}
+.awtsmoosEntityPreview header {
+	display: grid;
+	gap: 5px;
+}
+.awtsmoosEntityPreview h3,
+.awtsmoosEntityPreview p {
+	margin: 0;
+}
+.awtsmoosEntityPreview__kind {
+	font-size: .72rem;
+	font-weight: 800;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+	opacity: .68;
+}
+.awtsmoosEntityPreview__excerpt {
+	line-height: 1.55;
+	opacity: .84;
+}
+.awtsmoosEntityPreview__metrics {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	font-size: .8rem;
+	font-weight: 700;
+	opacity: .78;
+}
+.awtsmoosEntityPreview--compact {
+	padding: 11px;
+	gap: 8px;
+}
+.awtsmoosEntityPreview--immersive {
+	padding: clamp(18px, 4vw, 32px);
+	border-radius: 26px;
+}

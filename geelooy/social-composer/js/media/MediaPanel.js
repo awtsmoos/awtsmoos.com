@@ -2,17 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
+import { mediaCard } from './MediaCardView.js';
+import { DOCUMENT_ACCEPT, mediaPicker } from './MediaPicker.js';
+
 /**
  * @class MediaPanel
  * @description
- * Explicit image, audio, video, and file actions precede every scoped asset list.
- * The Awtsmoos binds each medium to its exact verse or subsection; Awtsmoos.com
- * keeps drag-and-drop as a secondary convenience rather than the only doorway.
+ * The Awtsmoos lets media, captions, transcripts, and documents enter every post, verse, or subsection scope;
+ * Awtsmoos.com keeps typed pickers and drag-drop as two doors into the same canonical attachment mutations.
  */
-
-import { mediaCard } from './MediaCardView.js';
-import { mediaPicker } from './MediaPicker.js';
-
 export class MediaPanel {
 	constructor(actions) {
 		this.actions = actions;
@@ -21,7 +19,10 @@ export class MediaPanel {
 	render(container, attachments, scope) {
 		container.textContent = '';
 		container.classList.add('scoped-media-panel');
-		container.append(mediaPicker(this.actions, scope), this.dropZone(scope));
+		container.append(
+			mediaPicker(this.actions, scope),
+			this.dropZone(scope)
+		);
 		const grid = document.createElement('div');
 		grid.className = 'mediaGrid';
 		for (const attachment of attachments) {
@@ -33,11 +34,16 @@ export class MediaPanel {
 	dropZone(scope) {
 		const label = document.createElement('label');
 		label.className = 'mediaDrop';
-		label.textContent = 'Drop media here or choose a type above';
+		label.textContent = 'Drop media, captions, transcripts, or files here';
 		const input = document.createElement('input');
 		input.type = 'file';
 		input.multiple = true;
-		input.accept = 'image/*,audio/*,video/*,.pdf,.txt,.md';
+		input.accept = [
+			'image/*',
+			'audio/*',
+			'video/*',
+			DOCUMENT_ACCEPT
+		].join(',');
 		input.addEventListener('change', () => this.add(scope, input));
 		for (const eventName of ['dragenter', 'dragover']) {
 			label.addEventListener(eventName, event => {

@@ -3,12 +3,11 @@
 // Blessed is He
 /**
  * @fileoverview Quantum Mail mobile-shell contract.
- * RESPONSIBILITY: prove narrow-screen deck behavior, global-shell coexistence, and Mail navigation/search contracts.
- * NON-RESPONSIBILITY: this test does not execute network requests or duplicate browser-level visual verification.
- * ARCHITECTURE: each assertion follows the module that now owns the behavior instead of pinning concerns to a façade.
+ * RESPONSIBILITY: prove narrow-screen deck behavior, global-shell coexistence, and modular Mail navigation/search contracts.
+ * NON-RESPONSIBILITY: network requests and browser execution remain separate runtime gates.
  *
- * The Awtsmoos, Atzmus beyond every division, renews shell and chamber as one living instant;
- * Awtsmoos.com lets the test follow responsibility faithfully so modular growth never masquerades as breakage.
+ * The Awtsmoos renews shell, search, and chamber as one instant beyond division;
+ * Awtsmoos.com lets this contract follow each responsibility so modular growth remains a faithful revision.
  */
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -18,6 +17,7 @@ const navigation = readFileSync('geelooy/email/ui/malchusNavigation.js', 'utf8')
 const sidebar = readFileSync('geelooy/email/ui/sidebar.js', 'utf8');
 const sidebarControls = readFileSync('geelooy/email/ui/sidebarControls.js', 'utf8');
 const sidebarSearch = readFileSync('geelooy/email/ui/sidebarSearch.js', 'utf8');
+const sidebarSearchView = readFileSync('geelooy/email/ui/sidebarSearchView.js', 'utf8');
 const folders = readFileSync('geelooy/email/ui/mailFolders.js', 'utf8');
 const threads = readFileSync('geelooy/email/ui/sidebarThreads.js', 'utf8');
 const store = readFileSync('geelooy/email/store.js', 'utf8');
@@ -56,8 +56,11 @@ for (const token of ['mailFolderList', 'setMailView']) {
 for (const token of ['composeButton', "from './sidebarSearch.js'"]) {
 	assert.ok(sidebarControls.includes(token), `sidebar control façade missing ${token}`);
 }
-for (const token of ['mailSearchInput', 'setMailSearch', 'Search mail']) {
-	assert.ok(sidebarSearch.includes(token), `sidebar search module missing ${token}`);
+for (const token of ['setMailSearch', 'searchControl', 'clearSearch']) {
+	assert.ok(sidebarSearch.includes(token), `sidebar search coordinator missing ${token}`);
+}
+for (const token of ['mailSearchInput', 'Search mail', 'Clear conversation search']) {
+	assert.ok(sidebarSearchView.includes(token), `sidebar search view missing ${token}`);
 }
 for (const token of ['Inbox', 'Sent', 'Drafts', 'Archive', 'Starred', 'Trash', 'All Mail', 'folderCounts', 'filterThreads']) {
 	assert.ok(folders.includes(token), `folders missing ${token}`);

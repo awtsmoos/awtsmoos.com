@@ -1,242 +1,287 @@
 [
 	{
-		"id": "docs-security-realtime-security-md-1133b9c294",
-		"title": "Realtime Security",
-		"sourcePath": "docs/SECURITY/REALTIME_SECURITY.md",
-		"category": "Realtime",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-shared-cc435059-md-cbf4c2a74c",
+		"title": "Project Tutorial: geelooy/shared",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-shared-cc435059.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Realtime Security",
-				"anchor": "realtime-security"
+				"text": "Project Tutorial: geelooy/shared",
+				"anchor": "project-tutorial-geelooy-shared"
 			},
 			{
 				"level": 2,
-				"text": "Shared authentication, separate transport boundary",
-				"anchor": "shared-authentication-separate-transport-boundary"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Mission Room admission happens before handshake",
-				"anchor": "mission-room-admission-happens-before-handshake"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "One-time tickets are not permanent authority",
-				"anchor": "one-time-tickets-are-not-permanent-authority"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Versioned realtime applications",
-				"anchor": "versioned-realtime-applications"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Tunnel Relay",
-				"anchor": "tunnel-relay"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Origin and browser context",
-				"anchor": "origin-and-browser-context"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Realtime change checklist",
-				"anchor": "realtime-change-checklist"
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Realtime Security The Awtsmoos gives every socket a living instant while Awtsmoos.com binds long lived communication to trusted identity, admission policy, protocol version and current authority. Shared authentication, separate transport boundary The dynamic server installs the same Auth",
-		"searchText": "b\"h boruch hashem blessed is he realtime security the awtsmoos gives every socket a living instant while awtsmoos.com binds long lived communication to trusted identity, admission policy, protocol version and current authority. shared authentication, separate transport boundary the dynamic server installs the same auth verifier into http and websocket infrastructure, but websocket upgrades parse their own cookies/headers and produce a trusted socket identity for the connection. application messages must not recreate identity from message payload. mission room admission happens before handshake for /api/tunnel/control/mission room/ws, inspected source requires: 1. the correct path; 2. sec websocket key; 3. trusted identity with accountid; 4. canonical/accepted origin; 5. a one time ticket from query parameter ticket; 6. current tunnel.mission authorization for the ticket's tunnel; 7. matching current/ticket authority; 8. the current room protocol version. missing or changed authority is rejected before a successful websocket session is established. one time tickets are not permanent authority the mission room ticket is consumed during admission and then checked against current authorization. a previously issued ticket cannot safely replace a fresh server side permission check when grants may have been revoked or changed. versioned realtime applications the realtimeplatform routes versioned applications through a registry/router. trusted account identity belongs to the server side client session. message types, application ids and versions are domain protocol fields, not identity credentials. tunnel relay tunnel relay has its own registration authority and account bound transport lifecycle. registration, replacement and acknowledgement behavior must preserve trusted account association. do not merge relay device identity with arbitrary message accountid or tunnel name fields. origin and browser context origin checking is an admission control where source explicitly requires it. do not assume cookie authentication alone is sufficient for every browser websocket. likewise, do not add permissive origin behavior to a sensitive socket merely because an http api uses broad cors. realtime change checklist where does trusted client identity originate? is admission checked before or after handshake? does the connection require origin, ticket, grant or scope? can permission change while the connection exists? which protocol versions are accepted? what disconnect cleanup removes presence/subscriptions/state? are errors machine readable without leaking secrets? are wrong account, stale ticket, wrong origin and wrong version cases tested?",
-		"page": "pages/docs-security-realtime-security-md-1133b9c294.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/shared Path: geelooy/shared · Type: library · Family: Libraries and Tooling Read the human Libraries and Tooling guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/shared path: geelooy/shared · type: library · family: libraries and tooling read the human libraries and tooling guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: package.json, documentation.md local documentation: geelooy/shared/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 124 28 0 0 1 1 154 public entry points none observed. symbol evidence source files: 117; classes: 23; functions: 377; exports: 280; samples: activitybeacon, startactivitybeacon, publicaliasfrommemory, queryalias, verifiedalias, eventpayload, recordsearchactivity, recordpostview, async, recordmeaningfulactivity, postkey, seenpost. depends on geelooy/ai — 2 lexical references; examples: geelooy/shared/awtsmoos runtime/actions.js; geelooy/shared/awtsmoos runtime/agent core.js geelooy/social actions — 2 lexical references; examples: geelooy/shared/social/composer/composerlaunch.js geelooy/apps/android emulator — 1 lexical reference; examples: geelooy/shared/compiling/native/apkidentity.js used by geelooy/os — 54 lexical references; examples: geelooy/os/programs/advanced code editor/compilerbridge.js; geelooy/os/programs/advanced code editor/embedconfiguration.js; geelooy/os/programs/advanced code editor/vfsbridge.js geelooy/scripts — 38 lexical references; examples: geelooy/scripts/awtsmoos/compiling/native/asmimage.js; geelooy/scripts/awtsmoos/compiling/native/asmobjectdata.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js geelooy/apps/code — 19 lexical references; examples: geelooy/apps/code/js/actions/commands/compileprojectmanifest.js; geelooy/apps/code/js/ai studio/oracle.js; geelooy/apps/code/js/ai studio/panel.js geelooy/apps/compiler — 9 lexical references; examples: geelooy/apps/compiler/embed/oscompilerchannel.js; geelooy/apps/compiler/ui/browserartifactbuilders.js; geelooy/apps/compiler/ui/nativebuildclient.js geelooy/apps/exe emulator — 8 lexical references; examples: geelooy/apps/exe emulator/core/awtexeruntime.js; geelooy/apps/exe emulator/core/executablehost.js; geelooy/apps/exe emulator/core/wasmguiimports.js geelooy/heichelos — 8 lexical references; examples: geelooy/heichelos/heichel/modules/legend/carddepthobserver.js; geelooy/heichelos/heichel/modules/legend/heroscrolldepth.js; geelooy/heichelos/post/functions/ui/context/relatedsearchpanel.js geelooy/social hub — 5 lexical references; examples: geelooy/social hub/js/interactions/creatorlaunchmodel.js; geelooy/social hub/js/ui/feed/feedpostmodel.js; geelooy/social hub/js/ui/feed/feeduniversalactions.js geelooy/apps/drive — 4 lexical references; examples: geelooy/apps/drive/js/osbridge.js; geelooy/apps/drive/js/projectplatform.js external packages none observed. verification clue observed test classified files: 28 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-shared-cc435059-md-cbf4c2a74c.json"
 	},
 	{
-		"id": "docs-security-secrets-and-config-md-0f6557495f",
-		"title": "Secrets and Security-Sensitive Configuration",
-		"sourcePath": "docs/SECURITY/SECRETS_AND_CONFIG.md",
-		"category": "Security",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-sites-fdcaa928-md-bc357fd040",
+		"title": "Project Tutorial: geelooy/sites",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-sites-fdcaa928.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Secrets and Security-Sensitive Configuration",
-				"anchor": "secrets-and-security-sensitive-configuration"
+				"text": "Project Tutorial: geelooy/sites",
+				"anchor": "project-tutorial-geelooy-sites"
 			},
 			{
 				"level": 2,
-				"text": "Documentation rule",
-				"anchor": "documentation-rule"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Canonical authentication secret",
-				"anchor": "canonical-authentication-secret"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "API keys",
-				"anchor": "api-keys"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "OAuth and provider secrets",
-				"anchor": "oauth-and-provider-secrets"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Local configuration",
-				"anchor": "local-configuration"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Debug and smoke flags",
-				"anchor": "debug-and-smoke-flags"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Review checklist",
-				"anchor": "review-checklist"
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Secrets and Security Sensitive Configuration The Awtsmoos gives configuration a vessel while Awtsmoos.com must distinguish a variable name that may be documented from a secret value that must remain concealed. Documentation rule Generated environment documentation records variable names,",
-		"searchText": "b\"h boruch hashem blessed is he secrets and security sensitive configuration the awtsmoos gives configuration a vessel while awtsmoos.com must distinguish a variable name that may be documented from a secret value that must remain concealed. documentation rule generated environment documentation records variable names, coarse classes and source ownership only. never copy live values, token files, oauth secrets, api keys, session cookies, provider credentials, ssh credentials or private machine paths into documentation merely to make setup look complete. canonical authentication secret the dynamic server's inspected authsetup.js reads deps.config.secret as a module path, requires that configured module, stringifies the resulting value and constructs the shared auth verifier used by http sessions and websockets. if the configured secret cannot be required, the inspected fallback object contains nokey: \"no security\". that fallback means deployment configuration for authentication deserves explicit review; documentation must not present a missing secret as an ordinary harmless default. api keys social api keys are created from cryptographically random bytes. the raw key is returned at creation; storage retains its sha 256 hash and metadata. documentation may describe the prefix/format conceptually, but must never include a real generated key. tunnel control maintains a separate verified api key system with its own scopes/account identity. do not assume social api keys and tunnel control keys share stores, scopes or header schemes. oauth and provider secrets oauth, youtube/google, paypal, streaming, email/smtp and ai integrations can use provider specific secret names. the generated environment inventory is a locator. the owning source determines required/optional status, defaults, redirect uris, encryption, token persistence and lifecycle. local configuration .awtsmoos.config.local.json is an ignored machine local configuration vessel used by database root resolution. documentation may name supported keys, but should not copy the actual local file or absolute private paths unless a troubleshooting task explicitly requires them. debug and smoke flags debug/test environment flags can cause sensitive diagnostic material to appear. social api key verification, for example, has an inspected smoke debug branch that can expose supplied key prefixes, hashes, index paths and db root information in errors. treat debug flags as security relevant and disable them outside intended controlled testing. review checklist is the value secret or merely configuration? where is it loaded? does absence disable security or change trust behavior? is it logged or included in errors? is it persisted encrypted, hashed, plaintext or not persisted? what rotates/revokes it? which tests exercise missing/invalid/expired credentials?",
-		"page": "pages/docs-security-secrets-and-config-md-0f6557495f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/sites Path: geelooy/sites · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime own",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/sites path: geelooy/sites · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/sites/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 23 11 0 0 1 0 35 public entry points none observed. symbol evidence source files: 23; classes: 0; functions: 90; exports: 56; samples: buildcustomdomainresponse, createcustomdomainhttpingress, drivecontext, rawrequestpath, writegatewayresponse, customdomainhttpingress, closeexternalhost, badpathresponse, reserved segments, assertdirectpublicpath, privatepatherror, assertpublicsegment. depends on geelooy/api/social — 27 lexical references; examples: geelooy/sites/customdomaingateway.js; geelooy/sites/directsitereadiness.js; geelooy/sites/directsiteresponse.js geelooy/api/tunnel — 5 lexical references; examples: geelooy/sites/directsitereadiness.js; geelooy/sites/hostedfoldermanifest.js; geelooy/sites/sitefolderpublication.js ayzarim/awtsmoosdynamicserver — 1 lexical reference; examples: geelooy/sites/hostedprojectproxy.js used by geelooy/api/social — 1 lexical reference; examples: geelooy/api/social/helper/drive/sitestatusservice.js geelooy/api/tunnel — 1 lexical reference; examples: geelooy/api/tunnel/control/routes/fsvessel/hostedvirtualos/sitepublicationdispatcher.js external packages none observed. verification clue observed test classified files: 11 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-sites-fdcaa928-md-bc357fd040.json"
 	},
 	{
-		"id": "docs-security-trust-boundaries-md-4062c7cf1c",
-		"title": "Trust Boundaries",
-		"sourcePath": "docs/SECURITY/TRUST_BOUNDARIES.md",
-		"category": "Security",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-social-actions-2ff7e00-f69766a959",
+		"title": "Project Tutorial: geelooy/social-actions",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-actions-2ff7e001.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Trust Boundaries",
-				"anchor": "trust-boundaries"
+				"text": "Project Tutorial: geelooy/social-actions",
+				"anchor": "project-tutorial-geelooy-social-actions"
 			},
 			{
 				"level": 2,
-				"text": "Layer 1 — transport/session authentication",
-				"anchor": "layer-1-transport-session-authentication"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Layer 2 — alternate authenticated credentials",
-				"anchor": "layer-2-alternate-authenticated-credentials"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Layer 3 — resource authorization",
-				"anchor": "layer-3-resource-authorization"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Client input is not authority",
-				"anchor": "client-input-is-not-authority"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Social API keys",
-				"anchor": "social-api-keys"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Re-check mutable authority",
-				"anchor": "re-check-mutable-authority"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Review checklist",
-				"anchor": "review-checklist"
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Trust Boundaries The Awtsmoos gives every identity its true source while Awtsmoos.com refuses to turn user shaped input into server authority merely because the names resemble one another. Layer 1 — transport/session authentication The dynamic server installs one Auth instance as HTTP se",
-		"searchText": "b\"h boruch hashem blessed is he trust boundaries the awtsmoos gives every identity its true source while awtsmoos.com refuses to turn user shaped input into server authority merely because the names resemble one another. layer 1 — transport/session authentication the dynamic server installs one auth instance as http session middleware and also exposes it to the websocket server. this establishes trusted request/socket identity from the configured authentication covenant rather than application body fields. layer 2 — alternate authenticated credentials some api families accept additional credentials: social can verify revocable api keys. tunnel control can resolve oauth bearer records. tunnel control can verify its own api keys. provider apis can require external provider credentials in addition to awtsmoos identity. each mechanism has its own storage, lifecycle and scope semantics. do not substitute one credential family for another without source support. layer 3 — resource authorization after authentication, the application must still authorize the target action. examples include: alias ownership or permission; heichel editor/owner/governance roles; post/comment moderation or ownership; tunnel device/grant/scope checks; mission room tunnel.mission permission; privileged administrative special user checks; provider/channel/order ownership. client input is not authority query/body/route values such as userid, accountid, owner, alias, heichelid, tunnelname, deviceid or roomid locate or describe a resource. they do not become authoritative identity until matched against trusted server state and permission rules. tunnel control's inspected auth source is explicit: current identity comes from oauth, verified api key or signed session. browser submitted ownership fields are not an authority source. social api keys the social helper creates a random raw key, stores a sha 256 hash plus metadata, and returns the raw secret on creation. verification hashes the supplied key and uses both an index and the owning key record. revocation timestamps are checked in both places. re check mutable authority long lived flows should not assume permissions never change. mission room upgrade policy consumes a one time ticket and then re checks current tunnel mission authority before the handshake. the ticket's authority must still match current authorization. review checklist for every protected operation, identify: 1. trusted identity source; 2. resource identifier source; 3. authorization function/check; 4. scope/role/ownership requirement; 5. revocation/expiry behavior; 6. negative tests; 7. data or provider side effects.",
-		"page": "pages/docs-security-trust-boundaries-md-4062c7cf1c.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/social actions Path: geelooy/social actions · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observation",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/social actions path: geelooy/social actions · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md, readme.md, readme.md local documentation: geelooy/social actions/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 8 1 0 0 2 0 11 public entry points none observed. symbol evidence source files: 7; classes: 1; functions: 15; exports: 13; samples: buildownedcloneurl, put, createpostreferencebutton, mountpostreferenceaction, contextfromdataset, mountdatasetreferenceactions, normalizereferencecontext, validatereferencecontext, buildpostreferenceurl, safereturnpath, clean, yesodreactionapi. depends on none observed. used by geelooy/social hub — 4 lexical references; examples: geelooy/social hub/js/ui/feed/feedreaction.js; geelooy/social hub/js/ui/feed/socialactionrail.js geelooy/heichelos — 3 lexical references; examples: geelooy/heichelos/heichel/modules/ui/render/heichelreactionaction.js; geelooy/heichelos/heichel/modules/ui/render/secondary social actions.js; geelooy/heichelos/heichel/modules/ui/render/social action urls.js geelooy/shared — 2 lexical references; examples: geelooy/shared/social/composer/composerlaunch.js geelooy/comment thread — 1 lexical reference; examples: geelooy/comment thread/modules/commentreaction.js external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-social-actions-2ff7e00-f69766a959.json"
 	},
 	{
-		"id": "docs-source-to-doc-md-6428a99a75",
-		"title": "Source to Documentation Map",
-		"sourcePath": "docs/SOURCE_TO_DOC.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-social-composer-5d72af-ba90ddda09",
+		"title": "Project Tutorial: Create New Post — Geelooy",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-composer-5d72af7c.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Source to Documentation Map",
-				"anchor": "source-to-documentation-map"
+				"text": "Project Tutorial: Create New Post — Geelooy",
+				"anchor": "project-tutorial-create-new-post-geelooy"
 			},
 			{
 				"level": 2,
-				"text": "Generated cross-reference",
-				"anchor": "generated-cross-reference"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
+			},
+			{
+				"level": 2,
+				"text": "File shape",
+				"anchor": "file-shape"
+			},
+			{
+				"level": 2,
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Source to Documentation Map The Awtsmoos joins source to explanation so a changed file can reveal the human chapter, generated evidence, and verification neighborhood that belong with it. Source subtree Primary human documentation index.js ARCHITECTURE.md, API/DIRECT ROOT HANDLERS.md, CO",
-		"searchText": "b\"h boruch hashem blessed is he source to documentation map the awtsmoos joins source to explanation so a changed file can reveal the human chapter, generated evidence, and verification neighborhood that belong with it. source subtree primary human documentation index.js architecture.md, api/direct root handlers.md, configuration.md ayzarim/awtsmoosdynamicserver/ projects/runtime server.md, websockets/, security/, data/ ayzarim/dosdb/ projects/dosdb.md, data/readme.md, data/path contracts.md ayzarim/ssh/, geelooy/api/ssh/ integrations.md, security/readme.md, api/other families.md geelooy/api/ api/readme.md, generated route/contract/caller/health indexes geelooy/api/social/ projects/social platform.md, api/social.md, security/trust boundaries.md geelooy/api/tunnel/ projects/tunnel platform.md, api/tunnel control.md, websockets/ geelooy/api/oauth/ api/oauth.md, systems/auth and identity.md, security/ geelooy/api/youtube/, wallet/, streaming/ family api docs plus integrations.md and configuration.md geelooy/apps/code/, compiler/runtime surfaces projects/code.md, apps/developer tools.md geelooy/ai/, gpt/gguf/search areas projects/awtsmoos ai.md, systems/ai.md, data/, integrations.md geelooy/games/ projects/games platform.md, apps/games and simulation.md geelooy/games/mitzvahworld/ projects/mitzvah world.md plus project local directory/audit docs social public/profile/editor/notification surfaces projects/social platform.md and local documentation.md geelooy/os/, node os/, platform/, shared/virtual os/ systems/geelooy os.md geelooy/shared/, libs/, public scripts/styles systems/shared libraries.md tests/, geelooy/tests, project tests test index.md, systems/testing.md, generated test ownership.md root scripts/, tools/, ops/, templates/ operations and tooling.md scripts/docs/ maintaining the docs.md, development/documentation workflow.md nested awtsmoos.com/ systems/nested awtsmoos com.md generated cross reference use generated/project atlas.md for project ownership, project dependencies.md for cross project imports, public entry points.md for browser entry paths, api route contract atlas.md for http paths, and human documentation index.md for the complete manual doc inventory. when source spans multiple rows, update every affected human contract and run the relevant broader tests before regeneration/validation.",
-		"page": "pages/docs-source-to-doc-md-6428a99a75.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Create New Post — Geelooy Path: geelooy/social composer · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observat",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: create new post — geelooy path: geelooy/social composer · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md, readme.md, readme.md local documentation: geelooy/social composer/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 317 28 0 0 9 0 354 public entry points /social composer → geelooy/social composer/index.html — create new post — geelooy /social composer/reel studio → geelooy/social composer/reel studio/index.html — mitzvahworld movie studio symbol evidence source files: 200; classes: 81; functions: 452; exports: 323; samples: createcomposer, createworkflow, createcontroller, createcreatorassembly, createdestinationassembly, draftassembly, createdraftassembly, createeditorassembly, createreelassembly, createreviewassembly, installcomposeraccessibility, hasaccessiblename. depends on geelooy/games/mitzvahworld — 4 lexical references; examples: geelooy/social composer/reel studio/nle/nleaiprojectcodec.js; geelooy/social composer/reel studio/nle/nlemovieactionexecutor.js; geelooy/social composer/reel studio/nle/nlemoviepackage.js geelooy/shared — 4 lexical references; examples: geelooy/social composer/js/creator/creatorcommandcatalog.js; geelooy/social composer/js/creator/creatorcommandpalette.js; geelooy/social composer/js/creator/creatorintentmodel.js used by none observed. external packages none observed. verification clue observed test classified files: 28 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-social-composer-5d72af-ba90ddda09.json"
 	},
 	{
-		"id": "docs-start-here-md-3ff203f7e3",
-		"title": "Start Here",
-		"sourcePath": "docs/START_HERE.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-social-eb0c5134-md-a34943f5e9",
+		"title": "Project Tutorial: Awtsmoos Social Observatory",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-eb0c5134.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Start Here",
-				"anchor": "start-here"
+				"text": "Project Tutorial: Awtsmoos Social Observatory",
+				"anchor": "project-tutorial-awtsmoos-social-observatory"
 			},
 			{
 				"level": 2,
-				"text": "If you are new",
-				"anchor": "if-you-are-new"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "If you already have a URL",
-				"anchor": "if-you-already-have-a-url"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "If you already have a directory/system name",
-				"anchor": "if-you-already-have-a-directory-system-name"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Repository layers",
-				"anchor": "repository-layers"
-			},
-			{
-				"level": 3,
-				"text": "Public surface — geelooy/",
-				"anchor": "public-surface-geelooy"
-			},
-			{
-				"level": 3,
-				"text": "Runtime — ayzarim/",
-				"anchor": "runtime-ayzarim"
-			},
-			{
-				"level": 3,
-				"text": "Documentation/discovery",
-				"anchor": "documentation-discovery"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Task shortcuts",
-				"anchor": "task-shortcuts"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Before changing behavior",
-				"anchor": "before-changing-behavior"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Start Here The Awtsmoos gives the traveler a curriculum, a route map, a project map, and the source itself; use each for what it can actually prove. If you are new Open /docs/?view=learn or read LEARN/README.md. The Foundation track explains repository ownership, server startup, dynamic ",
-		"searchText": "b\"h boruch hashem blessed is he start here the awtsmoos gives the traveler a curriculum, a route map, a project map, and the source itself; use each for what it can actually prove. if you are new open /docs/?view=learn or read learn/readme.md. the foundation track explains repository ownership, server startup, dynamic routing, and request vessels before individual systems. if you already have a url open /docs/?view=api or generated/api tutorial index.md, then follow: route tutorial → human api family guide → derech/handler source → callers/tests → runtime verification . if you already have a directory/system name open /docs/?view=projects or generated/project tutorial index.md, then follow: project tutorial → human project/system guide → entries/dependencies/symbols/tests → current source → runtime verification . project packets explain repository shape. they do not replace route tutorials for http semantics or realtime/security/data manuals for their specialized contracts. repository layers public surface — geelooy/ apps, games, social ui, os/runtime ui, shared browser assets, apis, and /docs/ live here. runtime — ayzarim/ dynamic server, dosdb, ssh and other server infrastructure live here. root index.js coordinates principal processes. documentation/discovery docs/learn/ — curriculum; docs/tutorials/ — deeper human teaching; docs/generated/ — exhaustive route/project/source evidence; docs/ai/ — machine readable project/route navigation; geelooy/docs/generated/ — public transport bounded reflection. task shortcuts social/posts/comments/heichelos → tutorials/api/social.md. tunnel control → tutorials/api/tunnel control.md. project boundary selection → how to choose a project.md. apps/apis/games/runtime/libraries → tutorials/projects/readme.md. dosdb/storage → learn/database 101.md. websockets/mission rooms → learn/websockets 101.md. new endpoint → learn/add an api route.md. api failure → learn/troubleshooting api.md. before changing behavior read the local breadcrumb and human tutorial, inspect generated route/project evidence, read the exact implementation and tests, then change source. if meaning/contracts changed, update the human manual. regenerate and validate afterward.",
-		"page": "pages/docs-start-here-md-3ff203f7e3.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos Social Observatory Path: geelooy/social · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, n",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos social observatory path: geelooy/social · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/social/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 52 7 0 0 2 1 62 public entry points /social → geelooy/social/index.html — awtsmoos social observatory /social/migrate → geelooy/social/migrate/index.html — social migration studio · awtsmoos symbol evidence source files: 41; classes: 23; functions: 50; exports: 56; samples: migrationcontroller, migrationrecoverycontroller, migrationrendercoordinator, archivekind, archivemime, ismetadatapath, archivesource, safearchivepath, safearchivepathornull, zipcentraldirectory, zipentryreader, matchesmigrationfilters. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 7 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-social-eb0c5134-md-a34943f5e9.json"
 	}
 ]

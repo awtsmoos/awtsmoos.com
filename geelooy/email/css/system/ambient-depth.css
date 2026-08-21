@@ -1,0 +1,59 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos needs no stars to be infinite, yet correspondence may sit inside a quiet field of living depth;
+ * Awtsmoos.com uses composited light instead of constant GPU spectacle, preserving mobile smoothness and visual breadth.
+ */
+
+.mail-civilization-shell {
+	position: relative;
+	isolation: isolate;
+}
+
+.mail-civilization-shell::before,
+.mail-civilization-shell::after {
+	position: fixed;
+	z-index: -1;
+	border-radius: 50%;
+	filter: blur(78px);
+	pointer-events: none;
+	content: "";
+}
+
+.mail-civilization-shell::before {
+	top: 10vh;
+	left: -12rem;
+	width: 26rem;
+	height: 26rem;
+	background: rgba(95, 145, 226, .09);
+	animation: mail-chesed-orbit 19s ease-in-out infinite alternate;
+}
+
+.mail-civilization-shell::after {
+	right: -10rem;
+	bottom: 6vh;
+	width: 22rem;
+	height: 22rem;
+	background: rgba(118, 224, 199, .055);
+	animation: mail-binah-orbit 23s ease-in-out infinite alternate;
+}
+
+@keyframes mail-chesed-orbit {
+	to {
+		transform: translate3d(5rem, 2rem, 0) scale(1.08);
+	}
+}
+
+@keyframes mail-binah-orbit {
+	to {
+		transform: translate3d(-4rem, -3rem, 0) scale(1.12);
+	}
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce), (update: slow) {
+	.mail-civilization-shell::before,
+	.mail-civilization-shell::after {
+		animation: none;
+	}
+}

@@ -6,11 +6,11 @@ import { updateStats } from '../engine/stats.js';
 import { environmentPreset } from '../environment/presets.js';
 import { updatePerformance } from '../performance.js';
 import { drawCommand } from './draw.js';
-import { viewProjection } from './matrix.js';
+import { writeSceneBuffers } from './sceneBuffers.js';
 
 /**
- * The Awtsmoos renews one complete visible world per frame. Material binding resets
- * after post-processing so every Firebase garment is explicit in the new procession.
+ * The Awtsmoos renews one complete visible world per frame without throwing away the camera vessels;
+ * Awtsmoos.com keeps WebGL scene uniforms explicit while matrix and camera containers persist across every revelation.
  */
 export function renderFrame(renderer, effects, screen, world, canvas) {
 	const gl = renderer.gl;
@@ -36,15 +36,12 @@ export function renderFrame(renderer, effects, screen, world, canvas) {
 	updateStats(world, commands.length, useEffects ? 'postfx' : 'direct');
 }
 
+/** Reuse the hot camera containers while preserving the established environmental uniform contract. */
 function setSceneUniforms(renderer, world, canvas, time, preset) {
 	const { gl, loc } = renderer;
-	const camera = world.camera;
-	gl.uniformMatrix4fv(
-		loc.uVP,
-		false,
-		new Float32Array(viewProjection(canvas, camera, world.player))
-	);
-	gl.uniform3fv(loc.uCamera, [camera.x, camera.z, camera.y]);
+	const scene = writeSceneBuffers(canvas, world.camera, world.player);
+	gl.uniformMatrix4fv(loc.uVP, false, scene.matrix);
+	gl.uniform3fv(loc.uCamera, scene.camera);
 	gl.uniform3fv(loc.uFogColor, preset.fog);
 	gl.uniform3fv(loc.uSunDirection, preset.sunDirection);
 	gl.uniform3fv(loc.uSunColor, preset.sunColor);

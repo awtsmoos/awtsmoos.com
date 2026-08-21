@@ -1,213 +1,94 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-docs-custom-player-actions-md-e74c44eab2",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/docs/CUSTOM_PLAYER_ACTIONS.md",
-		"category": "Games",
+		"id": "geelooy-drive-readme-md-0b446fdf63",
+		"title": "Geelooy Sites",
+		"sourcePath": "geelooy/drive/README.md",
+		"category": "General",
 		"provenance": "project",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Custom Player Action Architecture",
-				"anchor": "custom-player-action-architecture"
+				"text": "Geelooy Sites",
+				"anchor": "geelooy-sites"
 			},
 			{
 				"level": 2,
-				"text": "Canonical rule",
-				"anchor": "canonical-rule"
+				"text": "Source truth",
+				"anchor": "source-truth"
 			},
 			{
 				"level": 2,
-				"text": "Distinct messages",
-				"anchor": "distinct-messages"
+				"text": "Human and machine parity",
+				"anchor": "human-and-machine-parity"
 			},
 			{
 				"level": 2,
-				"text": "Extension contract",
-				"anchor": "extension-contract"
+				"text": "Storage modes",
+				"anchor": "storage-modes"
+			},
+			{
+				"level": 3,
+				"text": "Standalone Tunnel",
+				"anchor": "standalone-tunnel"
+			},
+			{
+				"level": 3,
+				"text": "Embedded Geelooy OS",
+				"anchor": "embedded-geelooy-os"
 			},
 			{
 				"level": 2,
-				"text": "Actor neutrality",
-				"anchor": "actor-neutrality"
+				"text": "Publication stages",
+				"anchor": "publication-stages"
 			},
 			{
 				"level": 2,
-				"text": "Acceptance evidence",
-				"anchor": "acceptance-evidence"
+				"text": "Domains and nameservers",
+				"anchor": "domains-and-nameservers"
+			},
+			{
+				"level": 2,
+				"text": "Managed runtime",
+				"anchor": "managed-runtime"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
 			}
 		],
-		"excerpt": "B\"H Custom Player Action Architecture Canonical rule The Chossid GLB remains authoritative for every imported clip it actually contains: standing, walking, running, jumping, falling, punch, and stab. Custom actions are created only for missing behavior and are applied additively after imported clip sampling. Distinct m",
-		"searchText": "b\"h custom player action architecture canonical rule the chossid glb remains authoritative for every imported clip it actually contains: standing, walking, running, jumping, falling, punch, and stab. custom actions are created only for missing behavior and are applied additively after imported clip sampling. distinct messages staff and sword are separate public contracts: player.action.staff.cast player.action.sword.cast they are never aliases of one generic weapon cast. their definitions have separate keyframes, timing, equipment requirements, release events, and priorities. every message uses one phase: start progress release cancel the combat bridge locks the weapon specific message at cast start, so changing equipment during a cast cannot silently change its animation identity. extension contract a future ai authored action is declarative data registered through runtime.registerplayeraction(definition). definitions name semantic bone roles rather than exporter specific bone names. validation rejects unknown roles, duplicate ids, duplicate message types, invalid timing, missing equipment rules, and malformed keyframes. the runtime exposes: runtime.playeractionregistry runtime.playeractions runtime.registerplayeraction(definition) runtime.dispatchplayeraction(message) gameplay consequences must listen to a finite release event. they do not belong inside pose data. actor neutrality playeractionactor accepts a model, equipment authority, event bus, and actor id. the player and friendly chossid npcs use the same contract. each actor owns isolated mutable bones; sharing the canonical glb source never means sharing one skeleton instance. acceptance evidence do not use screenshots as proof. inspect: imported clip name before custom layering registered action id and message type bound semantic bone roles action phase, weight, elapsed time, and release count equipped item and attachment state garment visibility locomotion state before and after recovery console and event errors",
-		"page": "pages/geelooy-games-mitzvahworld-docs-custom-player-actions-md-e74c44eab2.json"
+		"excerpt": "Geelooy Sites Geelooy Sites is a mobile first real source website builder over Geelooy Drive. Its primary journey is Build → Preview → Code → Publish → Domain . Files, Platform, Devices, Access, and Runtime remain available as retractable engineering power. Source truth HTML, CSS, JavaScript, JSON, Markdown, SVG, and o",
+		"searchText": "geelooy sites geelooy sites is a mobile first real source website builder over geelooy drive. its primary journey is build → preview → code → publish → domain . files, platform, devices, access, and runtime remain available as retractable engineering power. source truth html, css, javascript, json, markdown, svg, and ordinary assets remain the project. the builder brief is bounded local state, not an opaque page schema. blank, landing, portfolio, and documentation starters create readable index.html, styles.css, and site.js only when those names are free. preview and code open the same source document. closing a semantic panel does not destroy the editor textarea or preview iframe. human and machine parity window.geelooysitebuilder exposes a cataloged machine api. every action states mutation, capability, scope, availability, description, and affected resource. source writes, starter creation, and preview publication use the same workspace services as human controls. project collection returns bounded metadata, never source bodies, credentials, cookies, ssh material, or dns secrets. explicit code inspection may return only the currently opened document. there is no arbitrary shell api. storage modes standalone tunnel signed in sessions discover authorized devices and read files. save/create require a transient scoped key with tunnel.write. the key remains only in the current transport instance and request header. managed static runtime requires tunnel.command and uses dedicated lifecycle actions. embedded geelooy os drive uses a same origin random channel vfs bridge. only list, read, write, and mkdir cross the confined root. no tunnel key or command authority enters the iframe. tunnel preview publication and runtime remain unavailable. publication stages 1. source preview — sandboxed local reflection. 2. owned folder preview — existing tunnel preview with visibility and ttl. 3. canonical awtsmoos site — existing drive mapping at /sites/:aliasid/:siteid/; builder linking remains gated until an owned mapping endpoint is proven. 4. custom domain + https — requires server claim, dns verification, host routing, and tls orchestration. domains and nameservers the browser can normalize and plan public hostnames. it can plan either the current dns provider or custom external nameservers. it cannot generate proof tokens, mutate dns, activate routing, issue certificates, or claim an awtsmoos owned hostname. awtsmoos authoritative nameservers are visibly unavailable because production has nginx, certbot, and the node server but no authoritative dns service/provider. a future server side dnsprovider and domain claim repository must precede that mode. managed runtime the purpose built static lifecycle supports start, rediscovery, logs, public exposure, and stop for the recorded tunnel route. it is not a dynamic node hosting shell. dynamic runtimes, git, databases, project auth, apis, forms, and social bindings remain separate capability slices. verification run the drive suite with: also run os drive/vfs tests, shared tunnel client tests, the site gateway test, syntax checks, the 120 line audit, and the four required browser viewports before release.",
+		"page": "pages/geelooy-drive-readme-md-0b446fdf63.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-docs-glb-wardrobe-and-tailor-md-ea7130d937",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/docs/GLB_WARDROBE_AND_TAILOR.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "geelooy-email-documentation-md-ba2042cc9d",
+		"title": "Email Project Documentation",
+		"sourcePath": "geelooy/email/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Canonical GLB Wardrobe and Tailor",
-				"anchor": "canonical-glb-wardrobe-and-tailor"
-			},
-			{
-				"level": 2,
-				"text": "Meaningful garment groups",
-				"anchor": "meaningful-garment-groups"
-			},
-			{
-				"level": 2,
-				"text": "Required garments",
-				"anchor": "required-garments"
-			},
-			{
-				"level": 2,
-				"text": "Appearance",
-				"anchor": "appearance"
-			},
-			{
-				"level": 2,
-				"text": "Attributes",
-				"anchor": "attributes"
-			},
-			{
-				"level": 2,
-				"text": "Tailor",
-				"anchor": "tailor"
+				"text": "Email Project Documentation",
+				"anchor": "email-project-documentation"
 			}
 		],
-		"excerpt": "B\"H Canonical GLB Wardrobe and Tailor The wardrobe is derived from assets/models/player/chossid.glb, not from screenshots. The GLB preserves garment metadata in node extras and separates shirt, trousers, and shoes through body primitive material names. Meaningful garment groups Internal tefillin exporter pieces are gro",
-		"searchText": "b\"h canonical glb wardrobe and tailor the wardrobe is derived from assets/models/player/chossid.glb, not from screenshots. the glb preserves garment metadata in node extras and separates shirt, trousers, and shoes through body primitive material names. meaningful garment groups internal tefillin exporter pieces are grouped as two items: tefillin shel rosh: head box, batim, shin components, and head straps. tefillin shel yad: arm box, bayis, and arm straps. other independent visuals are glasses, top hat, yarmulke, jacket, tefillin compatible jacket, and outer shirt. inner shirt, trousers, and shoes are body material garments. required garments inner shirt, trousers, and shoes appear in equipped and may change color or fabric. they cannot be unequipped or dropped because the glb does not provide a separate bare replacement mesh. appearance color and fabric selections are validated by the item definition and persisted in inventory state. garment materials are cloned once for the actor before mutation. fabric canvases are generated once per preset and cached; no appearance texture is allocated per frame. tefillin remain restricted to black leather. attributes every garment has legacy damage, defense, and focus compatibility plus ten gameplay attributes: chochmah, binah, daas, chesed, gevurah, tiferes, netzach, hod, yesod, and malchus. equipped totals are derived by the authoritative inventory store. tailor reb shlomo the tailor is a second isolated canonical chossid glb actor. selecting him opens a dedicated clothing panel. purchases use perutas from the same inventory store that receives real loot rewards. the existing general market remains separate.",
-		"page": "pages/geelooy-games-mitzvahworld-docs-glb-wardrobe-and-tailor-md-ea7130d937.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Email Project Documentation The Awtsmoos lets mail meet identity, Social messaging, and server delivery through distinct vessels in view; Awtsmoos.com maps this browser project to its API and configuration so frontend changes can trace backend consequences too. Read ../../docs/API/OTHER ",
+		"searchText": "b\"h boruch hashem blessed is he email project documentation the awtsmoos lets mail meet identity, social messaging, and server delivery through distinct vessels in view; awtsmoos.com maps this browser project to its api and configuration so frontend changes can trace backend consequences too. read ../../docs/api/other families.md, ../../docs/systems/social and heichel.md, and ../../docs/configuration.md.",
+		"page": "pages/geelooy-email-documentation-md-ba2042cc9d.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-docs-headless-gameplay-simulation-md-a025893134",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/docs/HEADLESS_GAMEPLAY_SIMULATION.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Renderer-Free Gameplay Simulation",
-				"anchor": "renderer-free-gameplay-simulation"
-			},
-			{
-				"level": 2,
-				"text": "Purpose",
-				"anchor": "purpose"
-			},
-			{
-				"level": 2,
-				"text": "Real model loading",
-				"anchor": "real-model-loading"
-			},
-			{
-				"level": 2,
-				"text": "Real mechanics reused",
-				"anchor": "real-mechanics-reused"
-			},
-			{
-				"level": 2,
-				"text": "Deterministic time",
-				"anchor": "deterministic-time"
-			},
-			{
-				"level": 2,
-				"text": "Inspection",
-				"anchor": "inspection"
-			},
-			{
-				"level": 2,
-				"text": "CLI",
-				"anchor": "cli"
-			}
-		],
-		"excerpt": "B\"H Renderer Free Gameplay Simulation Purpose The Node.js simulation advances Mitzvah World mechanics without opening a browser, creating a canvas, rendering WebGL, or taking screenshots. It is designed for automated agents, long scenarios, collision investigation, gameplay balancing, deterministic regression checks, a",
-		"searchText": "b\"h renderer free gameplay simulation purpose the node.js simulation advances mitzvah world mechanics without opening a browser, creating a canvas, rendering webgl, or taking screenshots. it is designed for automated agents, long scenarios, collision investigation, gameplay balancing, deterministic regression checks, and faster than realtime inspection. real model loading glbmanifestloader reads the shipped assets/models/player/chossid.glb binary directly. it validates the glb v2 header, extracts the json chunk, and reports real nodes, scene roots, skin joints, mesh count, and imported animation names. simulatedmodelfactory creates isolated scene and skeleton vessels from that real hierarchy. the player and friendly npcs therefore share one glb source but never mutable bones. real mechanics reused the simulator instantiates the actual: movement controller jump state movement/collision bridge octree capsule mover triangle colliders inventory store equipment runtime combat coordinator cooldown and cast lifecycle custom action registry and message bridge only presentation is replaced. simulationcombateffects performs projectile travel, impact, damage, and xp as inspectable data rather than meshes and particles. deterministic time simulationclock uses fixed steps and never sleeps. runfor(3600) may process one simulated hour as quickly as the cpu permits. its receipt contains simulated seconds, steps, wall seconds, and the measured faster than realtime ratio. inspection a snapshot includes: glb source and manifest counts imported clip list and selected clip player transforms and jump state collision triangles, contacts, and normals action id, phase, weight, release count, and bound bones inventory and equipment combat cast, cooldowns, projectiles, and enemy health friendly npc model and action state player xp bounded event history this runtime evidence is the acceptance authority. screenshots are not involved. cli from the game root: use model=/absolute/path/to/chossid.glb to inspect another canonical build while retaining the same mechanics.",
-		"page": "pages/geelooy-games-mitzvahworld-docs-headless-gameplay-simulation-md-a025893134.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-docs-live-mobile-visual-rescue-md-60cf309753",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/docs/LIVE_MOBILE_VISUAL_RESCUE.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Live Mobile Visual Rescue",
-				"anchor": "live-mobile-visual-rescue"
-			},
-			{
-				"level": 2,
-				"text": "Runtime publication",
-				"anchor": "runtime-publication"
-			},
-			{
-				"level": 2,
-				"text": "Right rail",
-				"anchor": "right-rail"
-			},
-			{
-				"level": 2,
-				"text": "Terrain and road density",
-				"anchor": "terrain-and-road-density"
-			},
-			{
-				"level": 2,
-				"text": "Friendly quest NPC",
-				"anchor": "friendly-quest-npc"
-			},
-			{
-				"level": 2,
-				"text": "Houses, demons, equipment, and casting",
-				"anchor": "houses-demons-equipment-and-casting"
-			},
-			{
-				"level": 2,
-				"text": "Acceptance authority",
-				"anchor": "acceptance-authority"
-			}
-		],
-		"excerpt": "B\"H Live Mobile Visual Rescue Runtime publication MinimalMeadowFeatureReceipts uses featureNow(environment) for duration measurement. The former undefined now reference aborted deferred features and prevented stable publication of UI, rich world, and diagnostics. Right rail The right rail now starts expanded on every v",
-		"searchText": "b\"h live mobile visual rescue runtime publication minimalmeadowfeaturereceipts uses featurenow(environment) for duration measurement. the former undefined now reference aborted deferred features and prevented stable publication of ui, rich world, and diagnostics. right rail the right rail now starts expanded on every viewport. touch users retain a 44 pixel collapse control, but bag, map, quests, controls, hud, and menu are no longer hidden by default. terrain and road density terrain uv coordinates are derived from world x/z positions and a measured tileworld value. this means repetition exists in geometry rather than depending only on a renderer side repeat uniform. one composite is not stretched across the valley. the ground blends separate lush, dry, soil, mud, and marsh composites. each composite preserves its own density by storing a ratio to the shared world uv basis. the road uses a six source stone/dirt/grass composite plus shoulder and soil layers. its uv v coordinate follows measured bézier distance, its u coordinate follows road width, and its surface is raised 0.12 world units to avoid z fighting while collision remains authoritative in the underlying terrain. friendly quest npc the primitive box watchman is no longer mounted. the quest actor loads the same canonical chossid.glb source as the player, but receives an isolated skeleton, imported animation player, staff equipment runtime, custom action runtime, and quest marker. houses, demons, equipment, and casting a post mount visual stability pass disables incorrect frustum and backface disappearance on house meshes without changing their dimensions or colliders. demon meshes retain their procedural map materials, opt out of dark vertex color multiplication in the bootstrap renderer, and remain uncullable. every procedural staff and sword child is marked visible to bootstrap and rich render paths. starting a cast draws either equipped weapon, not only the wooden staff. custom action rotations begin from captured bind quaternions instead of accumulating previous frame offsets. acceptance authority screenshots are not proof. inspect feature receipts, rail dom state, glb source identity, world uv ranges, road source count, house culling and sidedness, demon mapped material count, weapon attachment state, action quaternions, console errors, and deterministic simulation receipts.",
-		"page": "pages/geelooy-games-mitzvahworld-docs-live-mobile-visual-rescue-md-60cf309753.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-documentation-md-ca33cdf71a",
-		"title": "B\"H Mitzvah World — Restored River Valley",
-		"sourcePath": "geelooy/games/mitzvahWorld/DOCUMENTATION.md",
+		"id": "geelooy-games-brick-blast-documentation-md-e8cf94ec9b",
+		"title": "Brick Blast",
+		"sourcePath": "geelooy/games/brick-blast/DOCUMENTATION.md",
 		"category": "Games",
 		"provenance": "breadcrumb",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H Mitzvah World — Restored River Valley",
-				"anchor": "b-h-mitzvah-world-restored-river-valley"
+				"text": "Brick Blast",
+				"anchor": "brick-blast"
 			},
 			{
 				"level": 2,
@@ -230,8 +111,176 @@
 				"anchor": "project-specific-notes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He B\"H Mitzvah World — Restored River Valley The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES ",
-		"searchText": "b\"h boruch hashem blessed is he b\"h mitzvah world — restored river valley the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “b\"h mitzvah world — restored river valley”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform. mitzvah world has extensive project local directory/audit documentation; use docs/projects/mitzvah world.md as the central bridge rather than duplicating those files.",
-		"page": "pages/geelooy-games-mitzvahworld-documentation-md-ca33cdf71a.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Brick Blast The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the central ex",
+		"searchText": "b\"h boruch hashem blessed is he brick blast the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “brick blast”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-brick-blast-documentation-md-e8cf94ec9b.json"
+	},
+	{
+		"id": "geelooy-games-cards-documentation-md-1b0e742765",
+		"title": "The Utterances — Blackjack on Awtsmoos",
+		"sourcePath": "geelooy/games/cards/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "The Utterances — Blackjack on Awtsmoos",
+				"anchor": "the-utterances-blackjack-on-awtsmoos"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He The Utterances — Blackjack on Awtsmoos The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLA",
+		"searchText": "b\"h boruch hashem blessed is he the utterances — blackjack on awtsmoos the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “the utterances — blackjack on awtsmoos”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-cards-documentation-md-1b0e742765.json"
+	},
+	{
+		"id": "geelooy-games-chess-documentation-md-10b4da5210",
+		"title": "Ultimate Chess AI",
+		"sourcePath": "geelooy/games/chess/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Ultimate Chess AI",
+				"anchor": "ultimate-chess-ai"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Ultimate Chess AI The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PLATFORM.md for the cent",
+		"searchText": "b\"h boruch hashem blessed is he ultimate chess ai the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “ultimate chess ai”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-chess-documentation-md-10b4da5210.json"
+	},
+	{
+		"id": "geelooy-games-city-of-light-documentation-md-9350b949bc",
+		"title": "City of Light · The Complete Pilgrimage",
+		"sourcePath": "geelooy/games/city-of-light/DOCUMENTATION.md",
+		"category": "Games",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "City of Light · The Complete Pilgrimage",
+				"anchor": "city-of-light-the-complete-pilgrimage"
+			},
+			{
+				"level": 2,
+				"text": "Role",
+				"anchor": "role"
+			},
+			{
+				"level": 2,
+				"text": "Start here",
+				"anchor": "start-here"
+			},
+			{
+				"level": 2,
+				"text": "Change rule",
+				"anchor": "change-rule"
+			},
+			{
+				"level": 2,
+				"text": "Project-specific notes",
+				"anchor": "project-specific-notes"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He City of Light · The Complete Pilgrimage The Awtsmoos renews this source vessel within Awtsmoos.com; this local page is the doorway from code into the human documentation system. Role Game/simulation project beneath the canonical geelooy/games/ tree. Start here Read docs/PROJECTS/GAMES PL",
+		"searchText": "b\"h boruch hashem blessed is he city of light · the complete pilgrimage the awtsmoos renews this source vessel within awtsmoos.com; this local page is the doorway from code into the human documentation system. role game/simulation project beneath the canonical geelooy/games/ tree. start here read docs/projects/games platform.md for the central explanation. use docs/generated/project atlas.md for file category counts, project symbol summary.md for lexical symbol discovery, project dependencies.md for cross project import evidence, and test ownership.md for the nearest test neighborhood. change rule read the actual entry files and local readme/project docs before changing behavior. regenerate documentation after changing project boundaries, entry points, imports, tests or public/api/realtime relationships. generated evidence is a locator; source and tests remain authoritative. project specific notes observed public title: “city of light · the complete pilgrimage”. start from this project’s index.html and any readme/package metadata present. check docs/generated/websocket applications.md before assuming whether this game uses the realtime platform.",
+		"page": "pages/geelooy-games-city-of-light-documentation-md-9350b949bc.json"
+	},
+	{
+		"id": "geelooy-games-city-of-light-readme-md-2f4aebe2c9",
+		"title": "B\"H",
+		"sourcePath": "geelooy/games/city-of-light/README.md",
+		"category": "Games",
+		"provenance": "project",
+		"headings": [
+			{
+				"level": 1,
+				"text": "B\"H",
+				"anchor": "b-h"
+			},
+			{
+				"level": 1,
+				"text": "Boruch Hashem",
+				"anchor": "boruch-hashem"
+			},
+			{
+				"level": 1,
+				"text": "Blessed is He",
+				"anchor": "blessed-is-he"
+			},
+			{
+				"level": 1,
+				"text": "City of Light: The Complete Pilgrimage",
+				"anchor": "city-of-light-the-complete-pilgrimage"
+			},
+			{
+				"level": 2,
+				"text": "Campaign",
+				"anchor": "campaign"
+			},
+			{
+				"level": 2,
+				"text": "Production guarantees",
+				"anchor": "production-guarantees"
+			},
+			{
+				"level": 2,
+				"text": "Living systems",
+				"anchor": "living-systems"
+			},
+			{
+				"level": 2,
+				"text": "Progress and accessibility",
+				"anchor": "progress-and-accessibility"
+			},
+			{
+				"level": 2,
+				"text": "Verification",
+				"anchor": "verification"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He City of Light: The Complete Pilgrimage City of Light is a dependency free 24 chapter campaign for Awtsmoos.com. Every district is generated from a reproducible seed, but each chapter has an authored mission, region, wildlife population, environmental identity, and progression purpose. Ca",
+		"searchText": "b\"h boruch hashem blessed is he city of light: the complete pilgrimage city of light is a dependency free 24 chapter campaign for awtsmoos.com. every district is generated from a reproducible seed, but each chapter has an authored mission, region, wildlife population, environmental identity, and progression purpose. campaign the pilgrimage crosses six four chapter regions: 1. courtyards of dawn — sparks, shrines, checkpoints, and the swift light dash. 2. garden paths — deer, doves, foxes, sanctuaries, and the call of kindness. 3. river of mirrors — paired bridge stones, lanterns, mist, and the bridge song. 4. archive of echoes — owl guided sequences, memory paths, and echo sight. 5. heights of gold — raised courts, honest ramps, wind, and the wind step. 6. heart of the city — four long chapters combining every learned system. production guarantees generation does not finish merely because a maze exists. every chapter is rejected unless: every walkable tile belongs to the spawn connected component; every raised platform cell is reachable; every platform has at least two reachable ramps; every spark, landmark, checkpoint, sanctuary, and beacon is reachable; every animal begins on a valid tile; every animal patrol consists of contiguous walkable steps; every mission stage has enough real bound targets; the complete mission sequence can be satisfied in order; identical seeds reproduce identical worlds. living systems five procedural species: dove, deer, fox, owl, and firefly. path aware patrol, following, listening, flocking, sanctuary, and perch like behavior. procedural wings, gait, antlers, ears, tails, eyes, glows, and following rings. player breathing, gait lean, landing pulse, dash stretch, crown, and orbit motion. seeded rain, mist, leaves, dustlight, aurora, and crownlight particles. camera easing, mission pulses, a truthful minimap, distinct landmarks, and raised terrain. generated webaudio cues with a working mute setting. progress and accessibility the campaign stores chapter completion, unlocks, abilities, best times, total light, settings, and seed through a versioned save repository that recovers safely from malformed data. controls include keyboard, wasd, touch movement, interact/call, dash, mission reveal, pause, checkpoint restart, chapter restart, chapter selection, reduced motion, high contrast, and mute. verification npm test verifies campaign data, saves, wildlife, and 288 complete generated chapters. npm run test:stress validates 2,400 complete generated chapters across 100 seeds. npm run test:browser enters the real campaign in chrome, watches wildlife animation, moves, dashes, pauses, changes settings, selects a chapter, reloads persistent progress, captures a screenshot, and verifies the arcade doorway. the awtsmoos is not revealed through random rooms called content. the city becomes worthy of its name when every road can be walked, every creature has a path, every mission can finish, and the tests return from thousands of worlds carrying proof.",
+		"page": "pages/geelooy-games-city-of-light-readme-md-2f4aebe2c9.json"
 	}
 ]

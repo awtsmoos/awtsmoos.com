@@ -1,0 +1,99 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews create, layer, preview, and transform vessels before the artist sees a panel;
+ * Awtsmoos.com keeps professional authoring dense but breathable so stage space remains the central channel.
+ */
+.aw-studio-tabs {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.aw-studio-create,
+.aw-studio-ai {
+	display: grid;
+	align-content: start;
+	gap: 12px;
+}
+
+.aw-studio-create-section {
+	display: grid;
+	gap: 7px;
+}
+
+.aw-studio-create-section h3,
+.aw-studio-layer-actions h3 {
+	margin: 0;
+	font-size: 10px;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.aw-studio-create-grid,
+.aw-studio-layer-action-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 7px;
+}
+
+.aw-studio-create-button,
+.aw-studio-layer-action-grid button {
+	min-height: 44px;
+	white-space: normal;
+	text-align: left;
+}
+
+.aw-studio-ai-preview {
+	display: grid;
+	gap: 7px;
+	padding: 10px;
+	border: 1px solid rgba(123, 151, 255, .34);
+	border-radius: var(--aw-radius-md);
+	background: rgba(76, 94, 184, .16);
+}
+
+.aw-studio-ai-preview p {
+	margin: 0;
+	color: var(--aw-muted);
+	font-size: 10px;
+}
+
+.aw-studio-ai-preview-actions {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 7px;
+}
+
+.aw-studio-tree-row {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto auto;
+	gap: 7px;
+	align-items: center;
+}
+
+.aw-studio-tree-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.aw-studio-tree-state {
+	font-size: 13px;
+}
+
+.aw-studio-inspector-header {
+	grid-template-columns: auto minmax(0, 1fr);
+}
+
+.aw-studio-inspector-emoji {
+	font-size: 24px;
+}
+
+.aw-studio-layer-actions {
+	display: grid;
+	gap: 8px;
+}
+
+.aw-studio-danger {
+	border-color: rgba(255, 111, 135, .48) !important;
+	color: #ffb1be !important;
+}

@@ -3,9 +3,9 @@
 // Blessed is He
 
 /**
- * @file Applies server-originated document, layout, note, access, and presence events.
+ * @file Applies server-originated document, replacement, note, access, and presence events.
  * @description The Awtsmoos renews sender and receiver in one truth; Awtsmoos.com
- * keeps remote effects together while layout enters without echo and revocation remains impossible to miss.
+ * keeps remote effects explicit so ordinary patches stay small while version restore may replace the whole visible vessel.
  */
 export class CollaborationRemoteEvents {
 	constructor(parts) {
@@ -22,6 +22,10 @@ export class CollaborationRemoteEvents {
 			event => this.#document(event.detail)
 		);
 		this.realtime.addEventListener(
+			"docs.document.replaced",
+			event => this.#replacement(event.detail)
+		);
+		this.realtime.addEventListener(
 			"docs.comments.changed",
 			event => this.#comments(event.detail)
 		);
@@ -31,9 +35,7 @@ export class CollaborationRemoteEvents {
 		);
 		this.realtime.addEventListener(
 			"docs.presence.changed",
-			event => this.presence.render(
-				event.detail.participants || []
-			)
+			event => this.presence.render(event.detail.participants || [])
 		);
 	}
 
@@ -42,14 +44,20 @@ export class CollaborationRemoteEvents {
 			this.model.patchBlocks(payload.blocks, payload.revision);
 			this.editor.applyRemoteBlocks(payload.blocks);
 		}
-		if (payload.title !== undefined) {
-			this.model.title = payload.title;
-		}
-		if (payload.layout) {
-			this.layout?.applyRemote(payload.layout);
-		}
+		if (payload.title !== undefined) this.model.title = payload.title;
+		if (payload.layout) this.layout?.applyRemote(payload.layout);
 		this.model.revision = payload.revision ?? this.model.revision;
 		this.emit("remote-document", payload);
+	}
+
+	#replacement(payload) {
+		const document = payload.document;
+		if (!document) return;
+		this.model.replace(document);
+		this.editor.render(this.model.blocks);
+		this.layout?.applyRemote(this.model.layout);
+		this.comments.setComments(this.model.comments);
+		this.emit("remote-replacement", { document: this.model.toSnapshot() });
 	}
 
 	#comments(payload) {

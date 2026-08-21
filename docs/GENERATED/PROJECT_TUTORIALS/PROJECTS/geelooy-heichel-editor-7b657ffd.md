@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 14 | 1 | 0 | 0 | 1 | 0 | 16 |
+| 16 | 2 | 0 | 0 | 1 | 0 | 19 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 13; classes: 0; functions: 17; exports: 12; samples: async, postEditorRequest, readEditorConfig, clean, el, field, formShell, submitForm, inviteForm, settingsForm, submissionForm, renderEditor.
+Source files: 15; classes: 0; functions: 24; exports: 14; samples: async, postEditorRequest, readEditorConfig, clean, el, field, formShell, submitForm, inviteForm, settingsFields, settingsForm, advancedSettings.
 
 ## Depends on
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **2**. Treat this as file evidence, not proof of behavioral coverage.

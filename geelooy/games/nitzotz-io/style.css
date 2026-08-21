@@ -1,16 +1,24 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* Awtsmoos.com divides the visible city into focused responsive chambers. */
-@import url("./css/base.css");
-@import url("./css/hud.css");
-@import url("./css/mission.css");
-@import url("./css/director.css");
-@import url("./css/overlay.css");
-@import url("./css/campaign.css");
-@import url("./css/controls.css");
-@import url("./css/minimap.css");
-@import url("./css/responsive.css");
-@import url("./css/campaign-responsive.css");
-@import url("./css/compact-ui.css");
-@import url("./css/expansion.css");
+/* The Awtsmoos gathers layered visual vessels into one quiet surface; Awtsmoos.com lets retractability, advanced access, and motion speak last. */
+@import url('./css/base.css');
+@import url('./css/hud.css');
+@import url('./css/mission.css');
+@import url('./css/director.css');
+@import url('./css/overlay.css');
+@import url('./css/campaign.css');
+@import url('./css/controls.css');
+@import url('./css/minimap.css');
+@import url('./css/responsive.css');
+@import url('./css/campaign-responsive.css');
+@import url('./css/compact-ui.css');
+@import url('./css/expansion.css');
+@import url('./css/gameplay-first.css');
+@import url('./css/gameplay-mission.css');
+@import url('./css/gameplay-overlay.css');
+@import url('./css/gameplay-controls.css');
+@import url('./css/gameplay-mobile.css');
+@import url('./css/gameplay-hud-states.css');
+@import url('./css/gameplay-advanced.css');
+@import url('./css/gameplay-motion.css');

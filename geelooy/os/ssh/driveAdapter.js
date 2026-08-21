@@ -1,38 +1,48 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file VFS adapter that reveals a real SSH machine as an ordinary Geelooy drive.
- * @description The Awtsmoos clothes distance in one filesystem garment; Awtsmoos.com lets list, read, write, copy, move, and remove return from afar in rhyme.
+ * @file Binary-safe VFS adapter revealing a real SSH machine as an ordinary Geelooy drive.
+ * @description
+ * The Awtsmoos clothes distance in one filesystem garment while Awtsmoos.com
+ * preserves readable letters, untouched bytes, and bounded folder recursion.
+ * Browse, save, copy, move, and remove return from afar faithfully in rhyme.
  */
 import { vfsNode } from "../vfs/node.js";
-import { remotePath, splitSshPath, virtualChild } from "./remotePath.js";
+import { SshDriveContext } from "./driveContext.js";
+import { SshDriveCopier } from "./driveCopy.js";
+import { base64FromContent, contentFromBase64 } from "./remoteContentCodec.js";
+import { virtualChild } from "./remotePath.js";
 
 export class SshDriveAdapter {
 	constructor({ api, vault } = {}) {
 		this.id = "ssh";
 		this.api = api;
-		this.vault = vault;
+		this.contexts = new SshDriveContext(vault);
+		this.copier = new SshDriveCopier(api);
 	}
 
 	async list(path) {
-		const context = this.context(path);
+		const context = this.contexts.resolve(path);
 		const result = await this.api.list(context.profile, context.secret, context.remote);
 		return (result.files || []).map(item => {
 			const type = item.kind === "directory" ? "folder" : "file";
-			return vfsNode(virtualChild(path, item.name), type, { ...item, provider: "ssh" });
+			return vfsNode(virtualChild(path, item.name), type, {
+				...item,
+				provider: "ssh"
+			});
 		});
 	}
 
 	async read(path) {
-		const context = this.context(path);
-		const result = await this.api.read(context.profile, context.secret, context.remote);
-		return result.content ?? "";
+		const context = this.contexts.resolve(path);
+		const result = await this.api.readRaw(context.profile, context.secret, context.remote);
+		return contentFromBase64(result.content64 || "");
 	}
 
 	async stat(path) {
-		const context = this.context(path);
+		const context = this.contexts.resolve(path);
 		const result = await this.api.stat(context.profile, context.secret, context.remote);
 		const attrs = result.attrs || {};
 		return {
@@ -42,62 +52,45 @@ export class SshDriveAdapter {
 	}
 
 	async write(path, payload = {}) {
-		const context = this.context(path);
+		const context = this.contexts.resolve(path);
 		const content = payload?.content ?? payload ?? "";
-		return this.api.write(context.profile, context.secret, context.remote, content);
+		const content64 = await base64FromContent(content);
+		return this.api.writeRaw(context.profile, context.secret, context.remote, content64);
 	}
 
 	async mkdir(path) {
-		const context = this.context(path);
+		const context = this.contexts.resolve(path);
 		return this.api.mkdir(context.profile, context.secret, context.remote);
 	}
 
 	async remove(path) {
-		const context = this.context(path);
+		const context = this.contexts.resolve(path);
 		return this.api.remove(context.profile, context.secret, context.remote);
 	}
 
 	async move(destination, payload = {}) {
-		const sourcePath = payload?.from;
-		if (!sourcePath) {
-			throw new Error("SSH move source is required.");
-		}
-		const source = this.context(sourcePath);
-		const target = this.context(destination);
-		assertSameProfile(source, target, "move");
-		return this.api.rename(source.profile, source.secret, source.remote, target.remote);
+		const sourcePath = requireSource(payload, "move");
+		const pair = this.contexts.pair(sourcePath, destination, "move");
+		return this.api.rename(
+			pair.source.profile,
+			pair.source.secret,
+			pair.source.remote,
+			pair.destination.remote
+		);
 	}
 
 	async copy(destination, payload = {}) {
-		const sourcePath = payload?.from;
-		if (!sourcePath) {
-			throw new Error("SSH copy source is required.");
-		}
-		const source = this.context(sourcePath);
-		const target = this.context(destination);
-		assertSameProfile(source, target, "copy");
-		const result = await this.api.read(source.profile, source.secret, source.remote);
-		return this.api.write(target.profile, target.secret, target.remote, result.content ?? "");
-	}
-
-	context(path) {
-		const parsed = splitSshPath(path);
-		const profile = this.vault.get(parsed.name);
-		if (!profile) {
-			throw new Error(`SSH profile not found: ${parsed.name}`);
-		}
-		const secret = this.vault.secret(profile.name);
-		if (!secret?.password && !secret?.privateKey) {
-			throw new Error(`SSH credentials are required for ${profile.name}. Reconnect or remount it.`);
-		}
-		return { profile, secret, remote: remotePath(profile, parsed.relative) };
+		const sourcePath = requireSource(payload, "copy");
+		return this.copier.copy(this.contexts.pair(sourcePath, destination, "copy"));
 	}
 }
 
-function assertSameProfile(source, target, operation) {
-	if (source.profile.name !== target.profile.name) {
-		throw new Error(`SSH ${operation} cannot cross remote profiles.`);
+function requireSource(payload, operation) {
+	const sourcePath = payload?.from;
+	if (!sourcePath) {
+		throw new Error(`SSH ${operation} source is required.`);
 	}
+	return sourcePath;
 }
 
 function kindOf(attrs = {}) {

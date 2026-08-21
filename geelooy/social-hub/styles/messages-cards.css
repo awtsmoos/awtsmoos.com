@@ -1,78 +1,71 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets accepted rooms, pending consent, friends, and blocks remain distinct and touchable inside the private communications chamber.
-*/
-.hubMessageCard,
-.hubRequestCard {
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond accepted room, unread count, and participant preview, while Awtsmoos.com lets one conversation card reveal identity before protocol detail;
+ * this Hod-like garment owns accepted-room cards only, leaving consent requests and relationship chips to a separate Gevurah vessel of light.
+ */
+
+.hubMessageCard {
 	display: grid;
-	gap: .55rem;
-	padding: .8rem;
+	gap: .6rem;
+	padding: .78rem;
 	border: 1px solid var(--line);
-	border-radius: var(--radius);
+	border-radius: .95rem;
 	background: var(--surface-strong);
+}
+
+.hubMessageCard[data-unread="true"] {
+	border-color: var(--cyan);
+	box-shadow: inset 3px 0 0 var(--cyan);
+	background: color-mix(in srgb, var(--cyan) 6%, var(--surface-strong));
 }
 
 .hubMessageOpen {
 	display: grid;
-	gap: .28rem;
+	gap: .35rem;
 	width: 100%;
-	padding: 0;
+	min-height: 4.5rem;
+	padding: .15rem;
 	border: 0;
 	background: transparent;
 	color: var(--ink);
 	font: inherit;
-	text-align: left;
+	text-align: start;
 	cursor: pointer;
 }
 
-.hubMessageOpen span {
+.hubMessageCard__title {
+	font-size: 1rem;
+	line-height: 1.3;
+}
+
+.hubMessageCard__preview {
 	overflow: hidden;
+	color: var(--muted);
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.hubRequestActions {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: .5rem;
-}
-
-.hubRequestActions button {
-	min-height: 2.75rem;
-	border: 1px solid var(--line-hot);
-	border-radius: .75rem;
-	background: var(--surface-strong);
-	color: var(--ink);
-	font: inherit;
-	font-weight: 700;
-	cursor: pointer;
-}
-
-#hubMessagesRelationships {
+.hubMessageCard__meta {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	gap: .4rem;
+	color: var(--muted);
 }
 
-#hubMessagesRelationships h3 {
-	flex-basis: 100%;
-}
-
-.hubRelationshipChip {
-	padding: .35rem .6rem;
-	border: 1px solid var(--line-hot);
+.hubMessageUnread {
+	padding: .16rem .4rem;
+	border: 1px solid var(--cyan);
 	border-radius: 999px;
-	font-size: .8rem;
-}
-
-.hubRelationshipChip.is-blocked {
-	opacity: .68;
+	color: var(--ink);
+	font-size: .72rem;
 }
 
 @media (max-width: 42rem) {
-	.hubMessageOpen,
-	.hubRequestActions button {
-		min-height: 3rem;
+	.hubMessageOpen {
+		min-height: 48px;
 	}
 }

@@ -4,21 +4,18 @@
 
 /**
  * @file CanonicalRoadCorridor.js
- * @description Measures and blends the nearest graph-consistent canonical road segment.
- * The Awtsmoos carries one height through each shared junction; Awtsmoos.com exposes both
- * elevation and influence so traversable road centers remain authoritative near foundations.
+ * @description Grades canonical roads into steep terrain with a slope-limited cut-and-fill shoulder.
+ * The Awtsmoos lets the road hold its measured grade without becoming a narrow trench or earthen blade;
+ * Awtsmoos.com gives every cut and fill enough horizontal breath for the surrounding hillside to fade.
  */
 
 import { canonicalRoadProfiles } from './CanonicalRoadProfiles.js';
 
+const MAXIMUM_CROSS_SLOPE = 0.32;
+
 /**
- * Returns the complete road-corridor sample at one world coordinate.
- *
- * @param {number} x World x coordinate.
- * @param {number} z World z coordinate.
- * @param {number} baseHeight Unmodified terrain height.
- * @param {Function} baseHeightAt Unmodified terrain callback.
- * @returns {Readonly<{height: number, influence: number}>} Corridor sample.
+ * Returns the nearest road's grade-safe terrain sample.
+ * The solved road elevation is exact inside the road edge; outside it, terrain returns at bounded cross-slope.
  */
 export function canonicalRoadCorridorSampleAt(x, z, baseHeight, baseHeightAt) {
 	const nearest = nearestRoadSample(
@@ -26,32 +23,23 @@ export function canonicalRoadCorridorSampleAt(x, z, baseHeight, baseHeightAt) {
 		x,
 		z
 	);
-	if (!nearest) {
-		return Object.freeze({
-			height: baseHeight,
-			influence: 0
-		});
-	}
-	const influence = 1 - smooth(
-		nearest.profile.fullRadius,
-		nearest.profile.softRadius,
-		nearest.distance
+	if (!nearest) return unchangedSample(baseHeight);
+	const shoulderRun = Math.max(
+		0,
+		nearest.distance - nearest.profile.fullRadius
+	);
+	const height = slopeLimitedHeight(
+		baseHeight,
+		nearest.targetHeight,
+		shoulderRun
 	);
 	return Object.freeze({
-		height: mix(baseHeight, nearest.targetHeight, influence),
-		influence
+		height,
+		influence: correctionInfluence(baseHeight, nearest.targetHeight, height)
 	});
 }
 
-/**
- * Returns only the adjusted corridor elevation for legacy callers.
- *
- * @param {number} x World x coordinate.
- * @param {number} z World z coordinate.
- * @param {number} baseHeight Unmodified terrain height.
- * @param {Function} baseHeightAt Unmodified terrain callback.
- * @returns {number} Road-corridor elevation.
- */
+/** Returns only the adjusted road-corridor elevation for legacy callers. */
 export function canonicalRoadCorridorHeightAt(x, z, baseHeight, baseHeightAt) {
 	return canonicalRoadCorridorSampleAt(
 		x,
@@ -59,6 +47,31 @@ export function canonicalRoadCorridorHeightAt(x, z, baseHeight, baseHeightAt) {
 		baseHeight,
 		baseHeightAt
 	).height;
+}
+
+export function canonicalRoadShoulderPolicy() {
+	return Object.freeze({ maximumCrossSlope: MAXIMUM_CROSS_SLOPE });
+}
+
+function slopeLimitedHeight(baseHeight, targetHeight, shoulderRun) {
+	const allowance = shoulderRun * MAXIMUM_CROSS_SLOPE;
+	if (baseHeight > targetHeight) {
+		return Math.min(baseHeight, targetHeight + allowance);
+	}
+	if (baseHeight < targetHeight) {
+		return Math.max(baseHeight, targetHeight - allowance);
+	}
+	return targetHeight;
+}
+
+function correctionInfluence(baseHeight, targetHeight, height) {
+	const fullCorrection = targetHeight - baseHeight;
+	if (Math.abs(fullCorrection) < 0.000001) return 0;
+	return clamp((height - baseHeight) / fullCorrection);
+}
+
+function unchangedSample(baseHeight) {
+	return Object.freeze({ height: baseHeight, influence: 0 });
 }
 
 function nearestRoadSample(profiles, x, z) {
@@ -72,10 +85,7 @@ function nearestRoadSample(profiles, x, z) {
 				z
 			);
 			if (!nearest || sample.distance < nearest.distance) {
-				nearest = {
-					...sample,
-					profile
-				};
+				nearest = { ...sample, profile };
 			}
 		}
 	}
@@ -93,17 +103,8 @@ function segmentSample(first, second, x, z) {
 	const projectedZ = first.z + dz * amount;
 	return {
 		distance: Math.hypot(x - projectedX, z - projectedZ),
-		targetHeight: mix(
-			first.targetHeight,
-			second.targetHeight,
-			amount
-		)
+		targetHeight: mix(first.targetHeight, second.targetHeight, amount)
 	};
-}
-
-function smooth(edge0, edge1, value) {
-	const amount = clamp((value - edge0) / (edge1 - edge0 || 1));
-	return amount * amount * (3 - 2 * amount);
 }
 
 function mix(first, second, amount) {
@@ -111,5 +112,5 @@ function mix(first, second, amount) {
 }
 
 function clamp(value) {
-	return Math.max(0, Math.min(1, value));
+	return Math.max(0, Math.min(1, Number(value) || 0));
 }

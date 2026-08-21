@@ -124,9 +124,9 @@
 		"title": "Social",
 		"manual": "docs/TUTORIALS/API/SOCIAL.md",
 		"summary": "Identity, aliases, Heichelos, content, series, comments, governance, search, mail, drive, and more.",
-		"routeCount": 423,
-		"dynamicCount": 305,
-		"unknownMethodCount": 227,
+		"routeCount": 459,
+		"dynamicCount": 328,
+		"unknownMethodCount": 237,
 		"health": "OK"
 	},
 	{
@@ -174,9 +174,9 @@
 		"title": "Tunnel Control",
 		"manual": "docs/TUTORIALS/API/TUNNEL_CONTROL.md",
 		"summary": "Large authenticated control plane for agents, missions, rooms, keys, previews, and operations.",
-		"routeCount": 79,
+		"routeCount": 80,
 		"dynamicCount": 14,
-		"unknownMethodCount": 79,
+		"unknownMethodCount": 80,
 		"health": "OK"
 	},
 	{
@@ -194,9 +194,9 @@
 		"title": "Wallet",
 		"manual": "docs/TUTORIALS/API/WALLET.md",
 		"summary": "Balance, commerce catalog, entitlements, purchase, mock buy, and PayPal flows.",
-		"routeCount": 10,
+		"routeCount": 11,
 		"dynamicCount": 0,
-		"unknownMethodCount": 10,
+		"unknownMethodCount": 11,
 		"health": "OK"
 	},
 	{

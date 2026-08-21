@@ -1,25 +1,15 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @class BlockEditor
  * @description
- * Paragraphs, headings, quotations, lists, code, callouts, and dividers become
- * reorderable blocks with explicit inline marks. Awtsmoos.com gives expression
- * many garments without surrendering the plain-text core to arbitrary HTML.
+ * Paragraphs, headings, quotations, lists, code, callouts, and dividers become reorderable vessels;
+ * the Awtsmoos gives their meaning while Awtsmoos.com keeps every mutation explicit and accessible in levels.
  */
-import { BLOCK_TYPES } from '../config.js';
-import { wrapSelection } from '../model/InlineMarkup.js';
 
-const MARKS = Object.freeze([
-	['Bold', '**', '**'],
-	['Italic', '_', '_'],
-	['Underline', '__', '__'],
-	['Strike', '~~', '~~'],
-	['Code', '`', '`'],
-	['Link', '[', '](https://)']
-]);
+import { BLOCK_TYPES } from '../config.js';
+import { createTiferesFormattingBar } from './TouchFormattingBar.js';
 
 export class BlockEditor {
 	constructor(onChange) {
@@ -39,19 +29,21 @@ export class BlockEditor {
 		article.className = 'blockEditor';
 		article.dataset.blockId = block.id;
 		article.append(this.blockHeader(block, index, count, scope));
-		if (block.type !== 'divider') article.append(this.markToolbar(), this.textarea(block, scope));
+		if (block.type === 'divider') return article;
+		const textarea = this.textarea(block, scope);
+		article.append(createTiferesFormattingBar(document, () => textarea), textarea);
 		return article;
 	}
 
 	blockHeader(block, index, count, scope) {
 		const header = document.createElement('div');
-		header.className = 'blockHeader';
 		const select = document.createElement('select');
+		header.className = 'blockHeader';
 		select.setAttribute('aria-label', 'Block type');
 		for (const type of BLOCK_TYPES) {
 			const option = document.createElement('option');
 			option.value = type;
-			option.textContent = label(type);
+			option.textContent = this.label(type);
 			option.selected = type === block.type;
 			select.append(option);
 		}
@@ -69,24 +61,11 @@ export class BlockEditor {
 		return header;
 	}
 
-	markToolbar() {
-		const toolbar = document.createElement('div');
-		toolbar.className = 'markToolbar';
-		toolbar.setAttribute('aria-label', 'Inline formatting');
-		for (const [name, opening, closing] of MARKS) {
-			toolbar.append(this.actionButton(name, name, event => {
-				const textarea = event.currentTarget.closest('.blockEditor').querySelector('textarea');
-				wrapSelection(textarea, opening, closing);
-			}));
-		}
-		return toolbar;
-	}
-
 	textarea(block, scope) {
 		const textarea = document.createElement('textarea');
 		textarea.value = block.text || '';
 		textarea.rows = block.type === 'code' ? 7 : 4;
-		textarea.placeholder = placeholder(block.type);
+		textarea.placeholder = this.placeholder(block.type);
 		textarea.addEventListener('input', () => this.onChange('text', {
 			scope,
 			blockId: block.id,
@@ -108,12 +87,12 @@ export class BlockEditor {
 		button.addEventListener('click', action);
 		return button;
 	}
-}
 
-function label(type) {
-	return type.replace(/([A-Z])/g, ' $1').replace(/^./, value => value.toUpperCase());
-}
+	label(type) {
+		return type.replace(/([A-Z])/g, ' $1').replace(/^./, value => value.toUpperCase());
+	}
 
-function placeholder(type) {
-	return type === 'code' ? 'Paste or write code…' : `Write a ${label(type).toLowerCase()}…`;
+	placeholder(type) {
+		return type === 'code' ? 'Paste or write code…' : `Write a ${this.label(type).toLowerCase()}…`;
+	}
 }

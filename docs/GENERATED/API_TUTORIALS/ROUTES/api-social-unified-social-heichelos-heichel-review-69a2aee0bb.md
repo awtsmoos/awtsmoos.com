@@ -42,7 +42,11 @@ const result = await response.json();
 
 ## Observed callers
 
-No matching literal caller evidence was found.
+Pattern-compatible evidence only; it does not prove runtime dispatch.
+
+| Literal | Source | Kind |
+| --- | --- | --- |
+| `/api/social/unified-social/heichelos/beit%20alpha/review?aliasId=yakov&state=submitted&seriesId=torah%2Fweekly` | `geelooy/social-hub/js/api/CommunityCapabilities.test.mjs` | test |
 
 ## Related tests
 

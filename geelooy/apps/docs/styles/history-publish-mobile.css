@@ -1,0 +1,54 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is equally present where the viewport narrows; Awtsmoos.com lets
+ * history and publication become stacked touch vessels without shrinking control
+ * dignity, hiding the selected version, or turning public actions into tiny targets.
+ */
+@media (max-width: 680px) {
+	.workspace-dialog {
+		width: calc(100vw - 12px);
+		max-height: calc(100vh - 12px);
+		border-radius: 16px;
+	}
+
+	.workspace-dialog header,
+	.workspace-dialog-actions {
+		padding: 12px;
+	}
+
+	.workspace-dialog-actions {
+		align-items: stretch;
+		flex-wrap: wrap;
+	}
+
+	.workspace-split {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(130px, 34vh) minmax(0, 1fr);
+		min-height: 0;
+	}
+
+	.workspace-list {
+		border-right: 0;
+		border-bottom: 1px solid var(--docs-border);
+	}
+
+	.workspace-preview {
+		padding: 14px;
+	}
+
+	.workspace-dialog button,
+	.publish-field textarea {
+		min-height: 44px;
+	}
+
+	.publish-field {
+		grid-template-columns: 1fr;
+	}
+
+	.publish-field button {
+		width: 100%;
+	}
+}

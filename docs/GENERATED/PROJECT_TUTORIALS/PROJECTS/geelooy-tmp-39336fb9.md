@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 0 | 0 | 0 | 0 | 0 | 5 | 5 |
+| 3 | 0 | 0 | 0 | 0 | 6 | 9 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ None observed.
 
 ## Symbol evidence
 
-No lexical symbol summary observed.
+Source files: 1; classes: 0; functions: 3; exports: 0; samples: send, captureBrowserEvent, readPageState.
 
 ## Depends on
 

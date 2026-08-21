@@ -1,388 +1,344 @@
 [
 	{
-		"id": "docs-learn-api-requests-101-md-30ca4256fb",
-		"title": "API Requests 101",
-		"sourcePath": "docs/LEARN/API_REQUESTS_101.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-scribe-journey-e-84815b54d4",
+		"title": "Project Tutorial: The Scribe's Journey: Echoes of Ein Sof",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scribe-journey-e49e326e.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "API Requests 101",
-				"anchor": "api-requests-101"
+				"text": "Project Tutorial: The Scribe's Journey: Echoes of Ein Sof",
+				"anchor": "project-tutorial-the-scribe-s-journey-echoes-of-ein-sof"
 			},
 			{
 				"level": 2,
-				"text": "What you will learn",
-				"anchor": "what-you-will-learn"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Common vessels",
-				"anchor": "common-vessels"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Method warning",
-				"anchor": "method-warning"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Starter workflow",
-				"anchor": "starter-workflow"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Examples",
-				"anchor": "examples"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He API Requests 101 What you will learn How Awtsmoos handlers receive path variables, query/body/delete vessels, headers, cookies, trusted identity, and shared database context. Common vessels route variables are values bound from :name / :path patterns; $ GET is query oriented input eviden",
-		"searchText": "b\"h boruch hashem blessed is he api requests 101 what you will learn how awtsmoos handlers receive path variables, query/body/delete vessels, headers, cookies, trusted identity, and shared database context. common vessels route variables are values bound from :name / :path patterns; $ get is query oriented input evidence; $ post is parsed post/body oriented input evidence; $ delete appears in delete oriented handlers; $i is the broader dynamic request/context vessel; headers/cookies remain separate transport evidence; $i.db and related context can expose the initialized dosdb instance; trusted user/account identity comes from server auth, not browser owner fields. method warning generated route tutorials show source file lexical method evidence. a large route factory may contain several methods, while a particular route delegates to deeper handlers. unknown does not mean get. starter workflow 1. find the route in docs/generated/api tutorial index.md. 2. open its generated tutorial. 3. check derech health and method confidence. 4. read the exact source handler. 5. identify authorization and resource ownership. 6. only then construct body/query data. examples generated curl/fetch skeletons are emitted only when method evidence exists, and they deliberately use empty placeholder payloads rather than inventing schemas. next authentication 101 and responses 101.",
-		"page": "pages/docs-learn-api-requests-101-md-30ca4256fb.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: The Scribe's Journey: Echoes of Ein Sof Path: geelooy/games/scribe journey · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations,",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: the scribe's journey: echoes of ein sof path: geelooy/games/scribe journey · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/games/scribe journey/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 375 99 0 0 1 1 476 public entry points /games/scribe journey → geelooy/games/scribe journey/index.html — the scribe's journey: echoes of ein sof symbol evidence source files: 362; classes: 12; functions: 551; exports: 536; samples: amalekbeasts, binahbeasts, campaignbeasts, campaignchesedbinahbeasts, campaignchokhmahketerbeasts, createcampaignmusag, createcampaignroster, campaignhodnetzachbeasts, campaignmalkuthfinalebeasts, campaignmalkuthyesodbeasts, campaignpostgamebeasts, campaigntiferetgevurahbeasts. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 99 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-scribe-journey-e-84815b54d4.json"
 	},
 	{
-		"id": "docs-learn-authentication-101-md-12645e54df",
-		"title": "Authentication 101",
-		"sourcePath": "docs/LEARN/AUTHENTICATION_101.md",
-		"category": "Security",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-scripts-3467c7e0-e9d757ce98",
+		"title": "Project Tutorial: geelooy/games/scripts",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scripts-3467c7e0.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Authentication 101",
-				"anchor": "authentication-101"
+				"text": "Project Tutorial: geelooy/games/scripts",
+				"anchor": "project-tutorial-geelooy-games-scripts"
 			},
 			{
 				"level": 2,
-				"text": "What you will learn",
-				"anchor": "what-you-will-learn"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Identity sources observed",
-				"anchor": "identity-sources-observed"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Social API keys",
-				"anchor": "social-api-keys"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Tunnel Control",
-				"anchor": "tunnel-control"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Resource authorization",
-				"anchor": "resource-authorization"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Other gates",
-				"anchor": "other-gates"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Safe question sequence",
-				"anchor": "safe-question-sequence"
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Authentication 101 What you will learn Why identity, authorization, ownership, origin policy, scopes, and realtime admission are separate questions. Identity sources observed signed server session state; verified Social API key evidence; OAuth bearer evidence; Tunnel Control API key evid",
-		"searchText": "b\"h boruch hashem blessed is he authentication 101 what you will learn why identity, authorization, ownership, origin policy, scopes, and realtime admission are separate questions. identity sources observed signed server session state; verified social api key evidence; oauth bearer evidence; tunnel control api key evidence; special privileged identity checks on selected administrative routes. social api keys social accepts key material through supported input/header/bearer forms. the raw secret is shown when created; sha 256 hash and metadata are persisted for verification/revocation. tunnel control core/auth.js treats oauth bearer, verified api key, or signed session state as authoritative. browser fields such as owner or userid do not become identity merely because a client sends them. resource authorization login is not enough for many social operations. heichel ownership/editor/member/moderation checks can gate writes after identity is established. other gates fetch checks authenticated state plus an awtsmoos origin condition and limits. /api/admin/code is a privileged execution surface. realtime mission rooms use origin/ticket/current authority/version admission before handshake. safe question sequence who are you? → what scope/role do you hold? → do you own/control this resource? → does transport/origin policy allow this request? → does current handler permit this method? see api authentication and security.",
-		"page": "pages/docs-learn-authentication-101-md-12645e54df.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/games/scripts Path: geelooy/games/scripts · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/games/scripts path: geelooy/games/scripts · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: documentation.md local documentation: geelooy/games/scripts/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 74 0 0 4 1 2 81 public entry points none observed. symbol evidence source files: 73; classes: 113; functions: 3381; exports: 55; samples: ui, stands, motion adventure games, mystic adventure games, adventure games, enrichgame, enrichgames, multiplayercapability, native multiplayer game ids, visualcapability, webgl games, commerceplanfor. depends on none observed. used by geelooy/games/seven mitzvos — 16 lexical references; examples: geelooy/games/seven mitzvos/js/assets/advanced model hydrator.js; geelooy/games/seven mitzvos/js/assets/gltf model library.js; geelooy/games/seven mitzvos/js/city/city district builder.js geelooy/apps/scripts — 1 lexical reference; examples: geelooy/apps/scripts/catalog/games.mjs geelooy/games/party — 1 lexical reference; examples: geelooy/games/party/js/game catalog.mjs geelooy/games/pong — 1 lexical reference; examples: geelooy/games/pong/js/wallet reward.mjs external packages three — 3 lexical references srgb linear — 1 lexical reference verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-scripts-3467c7e0-e9d757ce98.json"
 	},
 	{
-		"id": "docs-learn-content-platform-101-md-13e0c94c11",
-		"title": "Content Platform 101",
-		"sourcePath": "docs/LEARN/CONTENT_PLATFORM_101.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-sefira-clash-94c-54eaa59ef7",
+		"title": "Project Tutorial: Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sefira-clash-94c3f01f.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Content Platform 101",
-				"anchor": "content-platform-101"
+				"text": "Project Tutorial: Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+				"anchor": "project-tutorial-sefira-clash-open-world-expedition-co-op-adventure-amp-vs"
 			},
 			{
 				"level": 2,
-				"text": "What you will learn",
-				"anchor": "what-you-will-learn"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Core hierarchy",
-				"anchor": "core-hierarchy"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Canonical and compatibility layers",
-				"anchor": "canonical-and-compatibility-layers"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Trust",
-				"anchor": "trust"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Beyond CRUD",
-				"anchor": "beyond-crud"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Next",
-				"anchor": "next"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Content Platform 101 What you will learn How Social identity, Heichel spaces, posts/questions/answers, series, comments, governance, search, mail, notifications, and drive fit together. Core hierarchy A user can own aliases. An alias is the Social facing identity. A Heichel is a governed",
-		"searchText": "b\"h boruch hashem blessed is he content platform 101 what you will learn how social identity, heichel spaces, posts/questions/answers, series, comments, governance, search, mail, notifications, and drive fit together. core hierarchy a user can own aliases. an alias is the social facing identity. a heichel is a governed content/community space. heichel content includes posts/questions/answers and can be organized through series. comments/replies attach to content and subsection/verse surfaces. governance decides who can edit, submit, moderate, approve, or publish. canonical and compatibility layers the social api contains both newer /content/... paths and many compatibility routes under /heichelos/.... series/post code intentionally preserves old path shapes while richer entity/content models evolve beside them. trust server session/api key identity is established first. resource authorization—owner/editor/member/moderation roles—is checked separately by content handlers. beyond crud social also contains profiles, follows, feeds, search/rag, graph/object apis, drive, mail, notifications, media, moderation, migrations, unified social adapters, and live/realtime features. next start social content model, then heichel/posts/series/comments/governance tutorials.",
-		"page": "pages/docs-learn-content-platform-101-md-13e0c94c11.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Sefira Clash · Open World, Expedition, Co op, Adventure &amp; VS Path: geelooy/games/sefira clash · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries ar",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: sefira clash · open world, expedition, co op, adventure &amp; vs path: geelooy/games/sefira clash · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/sefira clash/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1337 41 0 0 1 2 1381 public entry points /games/sefira clash → geelooy/games/sefira clash/index.html — sefira clash · open world, expedition, co op, adventure &amp; vs symbol evidence source files: 1289; classes: 59; functions: 2762; exports: 1932; samples: neutralinput, botreport, finitefighter, summarizespectacle, round, assert, snap, sumdamage, alivecount, summarize, length, checkcase. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 41 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-sefira-clash-94c-54eaa59ef7.json"
 	},
 	{
-		"id": "docs-learn-database-101-md-52f95ba46f",
-		"title": "Database 101",
-		"sourcePath": "docs/LEARN/DATABASE_101.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-seven-mitzvos-50-42a4ed3174",
+		"title": "Project Tutorial: Seven Mitzvos · Living Material Worlds",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-seven-mitzvos-50390da0.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Database 101",
-				"anchor": "database-101"
+				"text": "Project Tutorial: Seven Mitzvos · Living Material Worlds",
+				"anchor": "project-tutorial-seven-mitzvos-living-material-worlds"
 			},
 			{
 				"level": 2,
-				"text": "What you will learn",
-				"anchor": "what-you-will-learn"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Main initialization",
-				"anchor": "main-initialization"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Root precedence",
-				"anchor": "root-precedence"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Why paths matter",
-				"anchor": "why-paths-matter"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Safe workflow",
-				"anchor": "safe-workflow"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Evidence",
-				"anchor": "evidence"
+				"text": "Used by",
+				"anchor": "used-by"
 			},
 			{
 				"level": 2,
-				"text": "Never infer",
-				"anchor": "never-infer"
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Database 101 What you will learn How the server establishes DosDB, why persisted paths are compatibility contracts, and how route code receives shared database context. Main initialization ayzarim/awtsmoosDynamicServer/server/initDb.js selects the DB root and stores the initialized DosDB",
-		"searchText": "b\"h boruch hashem blessed is he database 101 what you will learn how the server establishes dosdb, why persisted paths are compatibility contracts, and how route code receives shared database context. main initialization ayzarim/awtsmoosdynamicserver/server/initdb.js selects the db root and stores the initialized dosdb on shared runtime context. root precedence current documented precedence is environment override → machine local ignored config → tracked config → repository fallback. inspect the initializer before relying on exact variable/file names. why paths matter social, sefarim, contact signals, identity/account state, and many older systems encode behavior in path shapes. renaming a path can be a migration, not a refactor. safe workflow 1. find every reader and writer of the path. 2. check legacy/new storage adapters. 3. find migration scripts/tests. 4. decide compatibility/fallback order. 5. back up or snapshot before mutation tooling. 6. update docs when persisted contracts change. evidence use docs/data/, docs/systems/database and storage.md, generated dependency/project indexes, and the exact route source. never infer an environment name mentioning db does not necessarily control the main dosdb instance; generator classification is advisory.",
-		"page": "pages/docs-learn-database-101-md-52f95ba46f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Seven Mitzvos · Living Material Worlds Path: geelooy/games/seven mitzvos · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, n",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: seven mitzvos · living material worlds path: geelooy/games/seven mitzvos · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/seven mitzvos/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 530 66 0 0 1 0 597 public entry points /games/seven mitzvos → geelooy/games/seven mitzvos/index.html — seven mitzvos · living material worlds symbol evidence source files: 454; classes: 281; functions: 597; exports: 659; samples: accessibilityprofileservice, accessiblestateprojector, population, describealert, inputbindingservice, setpersonaction, updatepersonaction, personactionname, createstate, applypose, required, apptemplate. depends on geelooy/games/scripts — 16 lexical references; examples: geelooy/games/seven mitzvos/js/assets/advanced model hydrator.js; geelooy/games/seven mitzvos/js/assets/gltf model library.js; geelooy/games/seven mitzvos/js/city/city district builder.js geelooy/libs — 12 lexical references; examples: geelooy/games/seven mitzvos/js/materials/firebase material manifest.js; geelooy/games/seven mitzvos/js/materials/seven material runtime.js; geelooy/games/seven mitzvos/js/materials/stage material runtime.js used by none observed. external packages none observed. verification clue observed test classified files: 66 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-seven-mitzvos-50-42a4ed3174.json"
 	},
 	{
-		"id": "docs-learn-http-routing-101-md-8c0aeafff5",
-		"title": "HTTP Routing 101",
-		"sourcePath": "docs/LEARN/HTTP_ROUTING_101.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-shema-strike-fd5-bad04a6396",
+		"title": "Project Tutorial: Shema Strike: Gates of Light",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-shema-strike-fd59d11a.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "HTTP Routing 101",
-				"anchor": "http-routing-101"
+				"text": "Project Tutorial: Shema Strike: Gates of Light",
+				"anchor": "project-tutorial-shema-strike-gates-of-light"
 			},
 			{
 				"level": 2,
-				"text": "What you will learn",
-				"anchor": "what-you-will-learn"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Derech discovery",
-				"anchor": "derech-discovery"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Matching grammar",
-				"anchor": "matching-grammar"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
 			},
 			{
 				"level": 2,
-				"text": "Request flow",
-				"anchor": "request-flow"
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Evidence versus runtime",
-				"anchor": "evidence-versus-runtime"
+				"text": "Depends on",
+				"anchor": "depends-on"
 			},
 			{
 				"level": 2,
-				"text": "Try a trace",
-				"anchor": "try-a-trace"
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He HTTP Routing 101 What you will learn How URLs meet awtsmoos.derech.js, how path variables work, and why generated route evidence can differ from runtime availability. Derech discovery The dynamic server walks ancestor directories looking for awtsmoos.derech.js. A derech can therefore own",
-		"searchText": "b\"h boruch hashem blessed is he http routing 101 what you will learn how urls meet awtsmoos.derech.js, how path variables work, and why generated route evidence can differ from runtime availability. derech discovery the dynamic server walks ancestor directories looking for awtsmoos.derech.js. a derech can therefore own nested source paths without each folder having its own mount file. matching grammar exact segment: /api/gpt/health variable: :name terminal catch all: :path dollar prefixed names such as $i, $ get, and $ post are request/context vessels, not url syntax. request flow 1. normalize the path. 2. locate the owning derech by ancestor discovery. 3. match route forms. 4. bind dynamic segment values. 5. invoke the owning route/handler logic. 6. if no dynamic route handles the request, continue toward static behavior. evidence versus runtime docs/generated/api route atlas.md is source derived. docs/generated/derech health.md tells whether each derech currently parses. text routes remain visible even though the text derech currently fails syntax checking. try a trace use trace a request with one route from api tutorial index.",
-		"page": "pages/docs-learn-http-routing-101-md-8c0aeafff5.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Shema Strike: Gates of Light Path: geelooy/games/shema strike · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: shema strike: gates of light path: geelooy/games/shema strike · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, package.json, documentation.md local documentation: geelooy/games/shema strike/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 149 21 0 0 1 2 173 public entry points /games/shema strike → geelooy/games/shema strike/index.html — shema strike: gates of light symbol evidence source files: 140; classes: 66; functions: 13; exports: 192; samples: accessibilityprofile, copy, objectivecopy, checkpointmanager, entitystate, restoreentities, componentsnapshots, createcomponent, component kinds, cyclecomponent, escortcomponent, guardiancomponent. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 21 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-shema-strike-fd5-bad04a6396.json"
 	},
 	{
-		"id": "docs-learn-readme-md-ece31d9925",
-		"title": "Learn Awtsmoos.com",
-		"sourcePath": "docs/LEARN/README.md",
-		"category": "General",
-		"provenance": "manual",
+		"id": "docs-generated-project-tutorials-projects-geelooy-games-soul-jump-0c3378-60e2433b97",
+		"title": "Project Tutorial: Ein Sof Ascent",
+		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-soul-jump-0c3378cb.md",
+		"category": "Projects",
+		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Learn Awtsmoos.com",
-				"anchor": "learn-awtsmoos-com"
+				"text": "Project Tutorial: Ein Sof Ascent",
+				"anchor": "project-tutorial-ein-sof-ascent"
 			},
 			{
 				"level": 2,
-				"text": "Choose a track",
-				"anchor": "choose-a-track"
-			},
-			{
-				"level": 3,
-				"text": "Foundation",
-				"anchor": "foundation"
-			},
-			{
-				"level": 3,
-				"text": "Runtime builder",
-				"anchor": "runtime-builder"
-			},
-			{
-				"level": 3,
-				"text": "Content builder",
-				"anchor": "content-builder"
-			},
-			{
-				"level": 3,
-				"text": "AI investigator",
-				"anchor": "ai-investigator"
+				"text": "Entry and documentation evidence",
+				"anchor": "entry-and-documentation-evidence"
 			},
 			{
 				"level": 2,
-				"text": "Exhaustive reference beneath the lessons",
-				"anchor": "exhaustive-reference-beneath-the-lessons"
+				"text": "File shape",
+				"anchor": "file-shape"
 			},
 			{
 				"level": 2,
-				"text": "Learning rule",
-				"anchor": "learning-rule"
+				"text": "Public entry points",
+				"anchor": "public-entry-points"
+			},
+			{
+				"level": 2,
+				"text": "Symbol evidence",
+				"anchor": "symbol-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Depends on",
+				"anchor": "depends-on"
+			},
+			{
+				"level": 2,
+				"text": "Used by",
+				"anchor": "used-by"
+			},
+			{
+				"level": 2,
+				"text": "External packages",
+				"anchor": "external-packages"
+			},
+			{
+				"level": 2,
+				"text": "Verification clue",
+				"anchor": "verification-clue"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Learn Awtsmoos.com The Awtsmoos lets a vast repository become a curriculum: begin with meaning, descend into generated evidence, and finish at current source and tests. Choose a track Foundation 1. Repository 101 2. Server Lifecycle 101 3. HTTP Routing 101 4. API Requests 101 5. Authenti",
-		"searchText": "b\"h boruch hashem blessed is he learn awtsmoos.com the awtsmoos lets a vast repository become a curriculum: begin with meaning, descend into generated evidence, and finish at current source and tests. choose a track foundation 1. repository 101 2. server lifecycle 101 3. http routing 101 4. api requests 101 5. authentication 101 6. responses 101 runtime builder database 101 websockets 101 trace a request add an api route troubleshoot apis content builder content platform 101 social content tutorials ai investigator ai agent discovery ai tutorial manifest exhaustive reference beneath the lessons generated api tutorial index contains one generated teaching page for every currently discovered api route. generated method/caller/test data is evidence, not an openapi promise. learning rule human tutorial → generated route tutorial → exact source → callers/tests → runtime verification. never reverse that order into guesswork.",
-		"page": "pages/docs-learn-readme-md-ece31d9925.json"
-	},
-	{
-		"id": "docs-learn-repository-101-md-307bb47a2f",
-		"title": "Repository 101",
-		"sourcePath": "docs/LEARN/REPOSITORY_101.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Repository 101",
-				"anchor": "repository-101"
-			},
-			{
-				"level": 2,
-				"text": "What you will learn",
-				"anchor": "what-you-will-learn"
-			},
-			{
-				"level": 2,
-				"text": "Mental model",
-				"anchor": "mental-model"
-			},
-			{
-				"level": 2,
-				"text": "Walk it in this order",
-				"anchor": "walk-it-in-this-order"
-			},
-			{
-				"level": 2,
-				"text": "Important distinctions",
-				"anchor": "important-distinctions"
-			},
-			{
-				"level": 2,
-				"text": "Verify it yourself",
-				"anchor": "verify-it-yourself"
-			},
-			{
-				"level": 2,
-				"text": "Next",
-				"anchor": "next"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Repository 101 What you will learn Where public products, APIs, runtime infrastructure, persistence, automation, tests, and documentation live. Mental model geelooy/ is the default public root. ayzarim/ holds server/runtime infrastructure. Root index.js boots HTTP, WebSocket, SMTP, and d",
-		"searchText": "b\"h boruch hashem blessed is he repository 101 what you will learn where public products, apis, runtime infrastructure, persistence, automation, tests, and documentation live. mental model geelooy/ is the default public root. ayzarim/ holds server/runtime infrastructure. root index.js boots http, websocket, smtp, and direct mitzvah world handlers. support roots such as scripts/, tools/, tests/, ops/, and templates/ surround product code. walk it in this order 1. read docs/architecture.md. 2. use docs/generated/project atlas.md to locate project boundaries. 3. open the nearest local documentation.md. 4. use /docs/ for search and deep links. 5. inspect source/tests before changing behavior. important distinctions directory size does not prove product ownership. root aliases/symlinks are not duplicate implementations. geelooy/api/ is filesystem source; http behavior depends on ancestor derech discovery. generated evidence is intentionally volatile and regenerated. verify it yourself next server lifecycle 101 then http routing 101.",
-		"page": "pages/docs-learn-repository-101-md-307bb47a2f.json"
-	},
-	{
-		"id": "docs-learn-responses-101-md-0ac6af8676",
-		"title": "Responses 101",
-		"sourcePath": "docs/LEARN/RESPONSES_101.md",
-		"category": "General",
-		"provenance": "manual",
-		"headings": [
-			{
-				"level": 1,
-				"text": "Responses 101",
-				"anchor": "responses-101"
-			},
-			{
-				"level": 2,
-				"text": "What you will learn",
-				"anchor": "what-you-will-learn"
-			},
-			{
-				"level": 2,
-				"text": "Observed response families",
-				"anchor": "observed-response-families"
-			},
-			{
-				"level": 2,
-				"text": "Generated evidence",
-				"anchor": "generated-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Calling discipline",
-				"anchor": "calling-discipline"
-			},
-			{
-				"level": 2,
-				"text": "Common mistakes",
-				"anchor": "common-mistakes"
-			}
-		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Responses 101 What you will learn How to reason about Awtsmoos responses without inventing a universal JSON schema. Observed response families JSON like values returned by dynamic handlers; explicit status code changes; response header changes; binary/file/download behavior; streaming re",
-		"searchText": "b\"h boruch hashem blessed is he responses 101 what you will learn how to reason about awtsmoos responses without inventing a universal json schema. observed response families json like values returned by dynamic handlers; explicit status code changes; response header changes; binary/file/download behavior; streaming responses; websocket upgrade handshakes. generated evidence every route tutorial joins source level status and header literals when present. absence means no lexical evidence was found , not “always 200 json.” calling discipline 1. inspect the exact handler return value. 2. inspect any statuscode changes. 3. inspect explicit setheader behavior. 4. determine whether the body is json, text, bytes, stream, redirect, or upgrade. 5. read tests/callers for usage examples. common mistakes parsing every successful response as json; assuming 404 means filesystem absence rather than route/resource logic; treating cors headers as proof of anonymous authorization; assuming a generated status list is exhaustive runtime behavior. see api response patterns.",
-		"page": "pages/docs-learn-responses-101-md-0ac6af8676.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Ein Sof Ascent Path: geelooy/games/soul jump · Type: game · Family: Games and Worlds Read the human Games and Worlds guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or heal",
+		"searchText": "b\"h boruch hashem blessed is he project tutorial: ein sof ascent path: geelooy/games/soul jump · type: game · family: games and worlds read the human games and worlds guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, main.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 2 0 0 0 0 0 2 public entry points /games/soul jump → geelooy/games/soul jump/index.html — ein sof ascent symbol evidence source files: 1; classes: 6; functions: 11; exports: 0; samples: player, backgroundparticle, platform, enemy, powerup, particle, geteventx, startdrag, ondrag, enddrag, startgame, generateplatforms. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
+		"page": "pages/docs-generated-project-tutorials-projects-geelooy-games-soul-jump-0c3378-60e2433b97.json"
 	}
 ]

@@ -1,0 +1,58 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos recreates every appearance before motion can claim a separate life; Awtsmoos.com uses entrance and feedback sparingly so animation serves clarity instead of strife.
+*/
+.compose-modal-card {
+	isolation: isolate;
+	position: relative;
+}
+
+.compose-modal-card::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	inset: -1px;
+	border-radius: inherit;
+	background:
+		radial-gradient(circle at 12% 4%, color-mix(in srgb, var(--mail-accent) 12%, transparent), transparent 34%),
+		radial-gradient(circle at 88% 92%, color-mix(in srgb, var(--mail-accent) 7%, transparent), transparent 36%);
+	pointer-events: none;
+}
+
+.overlay.visible .compose-modal-card {
+	animation: mail-compose-arrive 240ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.overlay.visible .compose-orbit-mark {
+	animation: mail-compose-mark 300ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+@keyframes mail-compose-arrive {
+	from {
+		opacity: .65;
+		transform: translateY(14px) scale(.985);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes mail-compose-mark {
+	from {
+		opacity: 0;
+		transform: scale(.82) rotate(-8deg);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) rotate(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.overlay.visible .compose-modal-card,
+	.overlay.visible .compose-orbit-mark {
+		animation: none;
+	}
+}

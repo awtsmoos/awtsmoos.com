@@ -4,9 +4,9 @@
 
 /**
  * @file wowDesktopControlContract.test.mjs
- * @description Proves non-sticky A/D strafing and WoW left, right, and both-button semantics.
- * The Awtsmoos grants every held key and mouse chord a measured end; Awtsmoos.com keeps sight,
- * facing, and travel distinct until the player's chosen buttons intentionally join them.
+ * @description Proves historical A/D turning, Q/E strafing, focus cleanup, and distinct mouse-chord semantics.
+ * The Awtsmoos grants every held key and mouse chord a measured end; Awtsmoos.com lets sight,
+ * facing, and travel remain distinct until the player's chosen intention joins them again.
  */
 
 import assert from 'node:assert/strict';
@@ -44,29 +44,36 @@ test('B"H right drag synchronizes facing while left drag does not', () => {
 	assert.equal(rig.mouseMovementAxis().forward, 1);
 });
 
-test('B"H A and D strafe and every focus loss clears movement', () => {
+test('B"H A/D turn, Q/E strafe, and focus loss clears movement', () => {
 	const environment = eventEnvironment();
 	const input = new MinimalMeadowInput(environment);
 	input.handleKeyDown(keyEvent('KeyA'));
-	assert.equal(input.axis().strafe, -1);
-	assert.equal(input.axis().turn, 0);
+	assert.equal(input.axis().turn, -1);
+	assert.equal(input.axis().strafe, 0);
 	input.handleKeyUp(keyEvent('KeyA'));
 	input.handleKeyDown(keyEvent('KeyD'));
+	assert.equal(input.axis().turn, 1);
+	input.handleKeyUp(keyEvent('KeyD'));
+	input.handleKeyDown(keyEvent('KeyQ'));
+	assert.equal(input.axis().strafe, -1);
+	input.handleKeyUp(keyEvent('KeyQ'));
+	input.handleKeyDown(keyEvent('KeyE'));
 	assert.equal(input.axis().strafe, 1);
 	input.reset('blur');
+	assert.equal(input.axis().turn, 0);
 	assert.equal(input.axis().strafe, 0);
 	assert.equal(input.resetReason, 'blur');
-	input.handleKeyDown(keyEvent('ArrowRight'));
-	assert.equal(input.axis().turn, 1);
 	input.dispose();
 });
 
 function mouseEvent(buttons) {
 	return { buttons, pointerId: 7, pointerType: 'mouse' };
 }
+
 function keyEvent(code) {
 	return { code, preventDefault() {}, repeat: false, target: null };
 }
+
 function eventEnvironment() {
 	const document = new EventTarget();
 	document.hidden = false;

@@ -15,6 +15,7 @@ Blessed is He
 | /api/gpt | geelooy/api/gpt/_awtsmoos.derech.js |
 | /api/oauth | geelooy/api/oauth/_awtsmoos.derech.js |
 | /api/ohr-hagnuz | geelooy/api/ohr-hagnuz/_awtsmoos.derech.js |
+| /api/projectHosting | geelooy/api/projectHosting/_awtsmoos.derech.js |
 | /api/public | geelooy/api/public/_awtsmoos.derech.js |
 | /api/runtime | geelooy/api/runtime/_awtsmoos.derech.js |
 | /api/sefarim | geelooy/api/sefarim/_awtsmoos.derech.js |
@@ -27,3 +28,5 @@ Blessed is He
 | /api/tunnel/install | geelooy/api/tunnel/install/_awtsmoos.derech.js |
 | /api/wallet | geelooy/api/wallet/_awtsmoos.derech.js |
 | /api/youtube | geelooy/api/youtube/_awtsmoos.derech.js |
+| /api/zmanim | geelooy/api/zmanim/_awtsmoos.derech.js |
+| /api/zmanimms | geelooy/api/zmanimms/_awtsmoos.derech.js |

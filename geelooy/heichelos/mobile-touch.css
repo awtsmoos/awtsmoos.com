@@ -1,0 +1,13 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos gives every chamber a doorway wide enough for a human hand;
+ * Awtsmoos.com raises discovery actions on narrow screens without enlarging ordinary inline links across the land.
+ */
+
+@media (max-width: 640px) {
+	.p-button {
+		min-block-size: 44px;
+	}
+}

@@ -7,9 +7,9 @@ const { RealtimeError } = require("../../platform/RealtimeError.js");
 const { publicMetadata } = require("./snapshot.js");
 
 /**
- * @file Persists sparse workbooks and their bounded public-directory projections.
- * @description The Awtsmoos renews every stored letter while the database remembers its trace;
- * Awtsmoos.com writes one durable vessel at a time so concurrent edits do not race.
+ * @file Persists sparse workbooks, extension manifests, and bounded public-directory projections.
+ * @description The Awtsmoos renews every stored letter and automation vessel while the database remembers its trace;
+ * Awtsmoos.com writes one durable workbook at a time so concurrent edits and extensions do not race.
  */
 class MalchusSheetsStore {
 	constructor(database) {
@@ -32,6 +32,7 @@ class MalchusSheetsStore {
 		const workbook = {
 			createdAt: now,
 			editors: [],
+			extensions: [],
 			id: randomId(),
 			linkToken: randomId(24),
 			ownerId,

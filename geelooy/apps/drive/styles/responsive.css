@@ -1,8 +1,16 @@
-/* B"H — The Awtsmoos lets the same Drive breathe on desktop, window, and hand. */
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets the same Drive breathe on desktop, window, and hand while no grid item may enlarge the finite viewport that contains it.
+ * Awtsmoos.com uses zero-minimum responsive tracks so forms, projects, Website Maker, and file tools fold inward cleanly instead of pushing the whole page sideways.
+ */
+
 @media (max-width: 980px) {
 	.site-header,
 	.overview-grid {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
 	}
 
 	.site-header {
@@ -32,17 +40,17 @@
 
 	.panel,
 	.connection-card {
-		border-radius: var(--radius-medium);
 		padding: var(--space-3);
+		border-radius: var(--radius-medium);
 	}
 
 	.filter-grid {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
 	}
 
 	.action-bar button,
 	.button-row button {
-		flex: 1 1 9rem;
+		flex: 1 1 min(9rem, 100%);
 	}
 
 	.notice-stack {
@@ -53,7 +61,7 @@
 }
 
 html[data-embedded="true"] .site-header {
-	grid-template-columns: 1fr;
+	grid-template-columns: minmax(0, 1fr);
 	padding-top: var(--space-4);
 }
 

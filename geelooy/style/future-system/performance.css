@@ -1,0 +1,31 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every hidden and visible region; Awtsmoos.com therefore need not paint what the eye cannot yet see;
+performance is a vessel of kindness, revealing long catalogs only when their pixels are ready to be.
+*/
+body[data-future-page="games"] .gamesCatalog,
+body[data-future-page="apps"] [data-app-grid] {
+	content-visibility: auto;
+	contain-intrinsic-size: auto 900px;
+}
+
+@media (max-width: 680px) {
+	body[data-future-page="games"] .gamesCatalog,
+	body[data-future-page="apps"] [data-app-grid] {
+		contain-intrinsic-size: auto 1500px;
+	}
+}
+
+@media (hover: none) {
+	[data-future-aura] > .future-aura-layer {
+		display: none;
+	}
+}
+
+@media (update: slow) {
+	[data-future-hero]::before,
+	[data-future-hero]::after {
+		animation: none;
+	}
+}

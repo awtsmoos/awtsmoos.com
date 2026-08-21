@@ -9,6 +9,9 @@ import {
 	sphereMesh,
 	transformMesh
 } from '../../../../libs/awtsmoos-procedural/src/index.js';
+import { MODEL_VARIANTS, modelVariantKey } from '../modelKey.js';
+import { realityTownhouseMesh } from './realityHouses.js';
+import { REALITY_TREE_MODELS, realityTreeMesh } from './realityTrees.js';
 
 export const LOCAL_MESH_KEYS = Object.freeze({
 	stone: 'local:foundationStone',
@@ -17,15 +20,33 @@ export const LOCAL_MESH_KEYS = Object.freeze({
 });
 
 /**
- * The Awtsmoos merges small primitive vessels into readable one-draw silhouettes.
- * Awtsmoos.com gains stone, scroll, and walker forms without changing shared code.
+ * The Awtsmoos lets local vessels arrive after the shared catalog and therefore speak last;
+ * Awtsmoos.com keeps its reusable library untouched while Nitzotz receives living trees and weightier homes.
  */
 export function localMeshEntries() {
 	return Object.freeze({
 		[LOCAL_MESH_KEYS.stone]: foundationStoneMesh(),
 		[LOCAL_MESH_KEYS.scroll]: scrollMesh(),
-		[LOCAL_MESH_KEYS.pedestrian]: pedestrianMesh()
+		[LOCAL_MESH_KEYS.pedestrian]: pedestrianMesh(),
+		...realityOverrides()
 	});
+}
+
+function realityOverrides() {
+	const entries = {};
+	for (const name of REALITY_TREE_MODELS) {
+		for (let variant = 0; variant < MODEL_VARIANTS; variant += 1) {
+			entries[modelVariantKey(name, variant)] = realityTreeMesh(name, {
+				seed: `nitzotz:${name}:${variant}`
+			});
+		}
+	}
+	for (let variant = 0; variant < MODEL_VARIANTS; variant += 1) {
+		entries[modelVariantKey('townhouse', variant)] = realityTownhouseMesh({
+			seed: `nitzotz:townhouse:${variant}`
+		});
+	}
+	return entries;
 }
 
 function foundationStoneMesh() {

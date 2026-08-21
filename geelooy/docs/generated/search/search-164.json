@@ -1,401 +1,331 @@
 [
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-819b4c5b-md-46deeb70b0",
-		"title": "Project Tutorial: geelooy/@",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-819b4c5b.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-videos-list-0c5f0e2ea2-m-2fc9fa04d5",
+		"title": "API Tutorial: /api/youtube/videos/list",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-list-0c5f0e2ea2.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/@",
-				"anchor": "project-tutorial-geelooy"
+				"text": "API Tutorial: /api/youtube/videos/list",
+				"anchor": "api-tutorial-api-youtube-videos-list"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/@ Path: geelooy/@ · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership o",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/@ path: geelooy/@ · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 3 0 0 0 0 0 3 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 2; exports: 2; samples: dynamicroutes, response, safealias, makealiasshell. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-819b4c5b-md-46deeb70b0.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/videos/list Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an O",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/videos/list family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-videos-list-0c5f0e2ea2-m-2fc9fa04d5.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-a2e02092-md-49add91519",
-		"title": "Project Tutorial: Awtsmoos — Play, Create, Send & Build",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-a2e02092.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-youtube-videos-update-d8820be806-e0ae811085",
+		"title": "API Tutorial: /api/youtube/videos/update",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-videos-update-d8820be806.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos — Play, Create, Send & Build",
-				"anchor": "project-tutorial-awtsmoos-play-create-send-build"
+				"text": "API Tutorial: /api/youtube/videos/update",
+				"anchor": "api-tutorial-api-youtube-videos-update"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos — Play, Create, Send & Build Path: geelooy · Type: public root · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observa",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos — play, create, send & build path: geelooy · type: public root · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, documentation.md local documentation: geelooy/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 22357 3928 78 76 3182 1134 30755 public entry points / → geelooy/index.html — awtsmoos — play, create, send & build symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 3928 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-a2e02092-md-49add91519.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/youtube/videos/update Family: YouTube · Mount: /api/youtube · Derech health: OK Source: geelooy/api/youtube/routes/table.js · Discovery: route table · Confidence: unknown method Read the human YouTube tutorial Generated evidence is a navigation and teaching aid, not an",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/youtube/videos/update family: youtube · mount: /api/youtube · derech health: ok source: geelooy/api/youtube/routes/table.js · discovery: route table · confidence: unknown method read the human youtube tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/youtube /api/youtube/:a /api/youtube/:a/:b /api/youtube/:a/:b/:c /api/youtube/auth/callback /api/youtube/auth/logout /api/youtube/auth/start /api/youtube/auth/status",
+		"page": "pages/docs-generated-api-tutorials-routes-api-youtube-videos-update-d8820be806-e0ae811085.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-about-6ad77115-md-a1bcf8e6bd",
-		"title": "Project Tutorial: About — Geelooy",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-about-6ad77115.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-zmanim-86d9bd4874-md-cc13610ff6",
+		"title": "API Tutorial: /api/zmanim",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-86d9bd4874.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: About — Geelooy",
-				"anchor": "project-tutorial-about-geelooy"
+				"text": "API Tutorial: /api/zmanim",
+				"anchor": "api-tutorial-api-zmanim"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: About — Geelooy Path: geelooy/about · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ow",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: about — geelooy path: geelooy/about · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html local documentation: no local documentation.md observed. local doc requirement: no; covered: no symlink target: — file shape source tests assets generated docs other total 1 0 0 0 0 0 1 public entry points /about → geelooy/about/index.html — about — geelooy symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-about-6ad77115-md-a1bcf8e6bd.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, not an O",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/zmanim/compare /api/zmanim/day /api/zmanim/embed /api/zmanim/health /api/zmanim/location /api/zmanim/methodology /api/zmanim/opinions /api/zmanim/options",
+		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-86d9bd4874-md-cc13610ff6.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-ai-372d4e1b-md-866c3502a2",
-		"title": "Project Tutorial: Awtsmoos AI",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-ai-372d4e1b.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-zmanim-compare-c5bb565fcb-md-879882e5c4",
+		"title": "API Tutorial: /api/zmanim/compare",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-compare-c5bb565fcb.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: Awtsmoos AI",
-				"anchor": "project-tutorial-awtsmoos-ai"
+				"text": "API Tutorial: /api/zmanim/compare",
+				"anchor": "api-tutorial-api-zmanim-compare"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: Awtsmoos AI Path: geelooy/ai · Type: public · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: awtsmoos ai path: geelooy/ai · type: public · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: index.html, index.js, documentation.md local documentation: geelooy/ai/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 649 152 2 0 4 304 1111 public entry points /ai → geelooy/ai/index.html — awtsmoos ai /ai/animation → geelooy/ai/animation/index.html — expressive stick figure animator symbol evidence source files: 469; classes: 149; functions: 1703; exports: 840; samples: awtsmoosgptify, indexeddbhandler, withtimeout, fallbackkey, fallbackobject, savefallbackobject, fallbackwrite, fallbackread, fallbackrows, fallbackdelete, fallbackclear, fallbackstorenames. depends on geelooy/shared — 2 lexical references; examples: geelooy/ai/central/index.js; geelooy/ai/central/streamclient.js geelooy/scripts — 1 lexical reference; examples: geelooy/ai/js/render/event ui/codehighlight.js used by geelooy/apps/code — 3 lexical references; examples: geelooy/apps/code/js/code chat/oracle.js; geelooy/apps/code/js/vibe/api/multimodal adapter.js geelooy/shared — 2 lexical references; examples: geelooy/shared/awtsmoos runtime/actions.js; geelooy/shared/awtsmoos runtime/agent core.js external packages namespace — 1 lexical reference verification clue observed test classified files: 152 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-ai-372d4e1b-md-866c3502a2.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim/compare Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim/compare family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/zmanim/compare geelooy/zmanim/js/domain/server embed url.js runtime /api/zmanim/compare geelooy/zmanim/tests/embed comparison links.test.mjs test related tests no package script heuristic match was found. related routes /api/zmanim /api/zmanim/day /api/zmanim/embed /api/zmanim/health /api/zmanim/location /api/zmanim/methodology /api/zmanim/opinions /api/zmanim/options",
+		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-compare-c5bb565fcb-md-879882e5c4.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-79ca3287-md-ef47e7aedc",
-		"title": "Project Tutorial: geelooy/api",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-79ca3287.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-zmanim-day-6b37237ce4-md-02a44175af",
+		"title": "API Tutorial: /api/zmanim/day",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-day-6b37237ce4.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api",
-				"anchor": "project-tutorial-geelooy-api"
+				"text": "API Tutorial: /api/zmanim/day",
+				"anchor": "api-tutorial-api-zmanim-day"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api Path: geelooy/api · Type: project · Family: Public and Other Boundaries Read the human Public and Other Boundaries guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownersh",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api path: geelooy/api · type: project · family: public and other boundaries read the human public and other boundaries guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 1465 261 0 0 33 2 1761 public entry points none observed. symbol evidence no lexical symbol summary observed. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 261 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-79ca3287-md-ef47e7aedc.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim/day Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, not ",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim/day family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/zmanim/day geelooy/zmanim/index.html runtime /api/zmanim/day geelooy/zmanim/js/domain/server embed url.js runtime /api/zmanim/day geelooy/zmanim/tests/embed comparison links.test.mjs test /api/zmanim/day geelooy/zmanim/tests/embed links.test.mjs test related tests no package script heuristic match was found. related routes /api/zmanim /api/zmanim/compare /api/zmanim/embed /api/zmanim/health /api/zmanim/location /api/zmanim/methodology /api/zmanim/opinions /api/zmanim/options",
+		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-day-6b37237ce4-md-02a44175af.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-admin-2ab9bb26-md-73654ef3bd",
-		"title": "Project Tutorial: geelooy/api/admin",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-admin-2ab9bb26.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-zmanim-embed-7a9e392500-md-d54a3463c3",
+		"title": "API Tutorial: /api/zmanim/embed",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-embed-7a9e392500.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/admin",
-				"anchor": "project-tutorial-geelooy-api-admin"
+				"text": "API Tutorial: /api/zmanim/embed",
+				"anchor": "api-tutorial-api-zmanim-embed"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/admin Path: geelooy/api/admin · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantee",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/admin path: geelooy/api/admin · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/admin/documentation.md local doc requirement: no; covered: yes symlink target: — file shape source tests assets generated docs other total 1 0 0 0 1 0 2 public entry points none observed. symbol evidence source files: 1; classes: 0; functions: 1; exports: 1; samples: dynamicroutes, runscript. depends on none observed. used by none observed. external packages none observed. verification clue observed test classified files: 0 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-admin-2ab9bb26-md-73654ef3bd.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim/embed Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, no",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim/embed family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers pattern compatible evidence only; it does not prove runtime dispatch. literal source kind /api/zmanim/embed geelooy/zmanim/js/domain/server embed url.js runtime /api/zmanim/embed geelooy/zmanim/tests/embed comparison links.test.mjs test /api/zmanim/embed geelooy/zmanim/tests/embed links.test.mjs test related tests no package script heuristic match was found. related routes /api/zmanim /api/zmanim/compare /api/zmanim/day /api/zmanim/health /api/zmanim/location /api/zmanim/methodology /api/zmanim/opinions /api/zmanim/options",
+		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-embed-7a9e392500-md-d54a3463c3.json"
 	},
 	{
-		"id": "docs-generated-project-tutorials-projects-geelooy-api-compiler-ec95dc02--b2a44d2a79",
-		"title": "Project Tutorial: geelooy/api/compiler",
-		"sourcePath": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-compiler-ec95dc02.md",
-		"category": "Projects",
+		"id": "docs-generated-api-tutorials-routes-api-zmanim-health-3637c50b08-md-0d0cbba2b9",
+		"title": "API Tutorial: /api/zmanim/health",
+		"sourcePath": "docs/GENERATED/API_TUTORIALS/ROUTES/api-zmanim-health-3637c50b08.md",
+		"category": "Routes",
 		"provenance": "generated",
 		"headings": [
 			{
 				"level": 1,
-				"text": "Project Tutorial: geelooy/api/compiler",
-				"anchor": "project-tutorial-geelooy-api-compiler"
+				"text": "API Tutorial: /api/zmanim/health",
+				"anchor": "api-tutorial-api-zmanim-health"
 			},
 			{
 				"level": 2,
-				"text": "Entry and documentation evidence",
-				"anchor": "entry-and-documentation-evidence"
+				"text": "Contract evidence",
+				"anchor": "contract-evidence"
 			},
 			{
 				"level": 2,
-				"text": "File shape",
-				"anchor": "file-shape"
+				"text": "Path parameters",
+				"anchor": "path-parameters"
 			},
 			{
 				"level": 2,
-				"text": "Public entry points",
-				"anchor": "public-entry-points"
+				"text": "Starter call",
+				"anchor": "starter-call"
 			},
 			{
 				"level": 2,
-				"text": "Symbol evidence",
-				"anchor": "symbol-evidence"
+				"text": "Observed callers",
+				"anchor": "observed-callers"
 			},
 			{
 				"level": 2,
-				"text": "Depends on",
-				"anchor": "depends-on"
+				"text": "Related tests",
+				"anchor": "related-tests"
 			},
 			{
 				"level": 2,
-				"text": "Used by",
-				"anchor": "used-by"
-			},
-			{
-				"level": 2,
-				"text": "External packages",
-				"anchor": "external-packages"
-			},
-			{
-				"level": 2,
-				"text": "Verification clue",
-				"anchor": "verification-clue"
+				"text": "Related routes",
+				"anchor": "related-routes"
 			}
 		],
-		"excerpt": "B\"H Boruch Hashem Blessed is He Project Tutorial: geelooy/api/compiler Path: geelooy/api/compiler · Type: api · Family: API Projects Read the human API Projects guide Generated project evidence is a navigation aid. Imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health gua",
-		"searchText": "b\"h boruch hashem blessed is he project tutorial: geelooy/api/compiler path: geelooy/api/compiler · type: api · family: api projects read the human api projects guide generated project evidence is a navigation aid. imports, symbols, tests, and public entries are lexical observations, not runtime ownership or health guarantees. entry and documentation evidence entry files: awtsmoos.derech.js, documentation.md local documentation: geelooy/api/compiler/documentation.md local doc requirement: yes; covered: yes symlink target: — file shape source tests assets generated docs other total 8 1 0 0 1 0 10 public entry points none observed. symbol evidence source files: 8; classes: 0; functions: 29; exports: 14; samples: authorizecompilerrequest, isallowedorigin, failure, compilerrequestbody, request bytes, bodyerror, compilerbackends, compilerbuild, compilerrebbeapk, requestcancellation, errorresponse, statusfor. depends on geelooy/apps/rebbe — 1 lexical reference; examples: geelooy/api/compiler/core/rebbeapkhandler.js used by none observed. external packages none observed. verification clue observed test classified files: 1 . treat this as file evidence, not proof of behavioral coverage.",
-		"page": "pages/docs-generated-project-tutorials-projects-geelooy-api-compiler-ec95dc02--b2a44d2a79.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He API Tutorial: /api/zmanim/health Family: /api/zmanim · Mount: /api/zmanim · Derech health: OK Source: geelooy/api/zmanim/ awtsmoos.derech.js · Discovery: static literal · Confidence: unknown method Read the human /api/zmanim tutorial Generated evidence is a navigation and teaching aid, n",
+		"searchText": "b\"h boruch hashem blessed is he api tutorial: /api/zmanim/health family: /api/zmanim · mount: /api/zmanim · derech health: ok source: geelooy/api/zmanim/ awtsmoos.derech.js · discovery: static literal · confidence: unknown method read the human /api/zmanim tutorial generated evidence is a navigation and teaching aid, not an openapi contract. unknown evidence stays unknown; inspect current source/tests before production use. contract evidence methods: unknown request vessels: — observed status literals: — observed headers: — path parameters none. starter call no executable starter is generated because method evidence is unknown. inspect the source handler before choosing a method or payload. observed callers no matching literal caller evidence was found. related tests no package script heuristic match was found. related routes /api/zmanim /api/zmanim/compare /api/zmanim/day /api/zmanim/embed /api/zmanim/location /api/zmanim/methodology /api/zmanim/opinions /api/zmanim/options",
+		"page": "pages/docs-generated-api-tutorials-routes-api-zmanim-health-3637c50b08-md-0d0cbba2b9.json"
 	}
 ]

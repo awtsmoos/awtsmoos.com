@@ -1,0 +1,49 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-zmanim-readme-md-a2fd86370c",
+	"title": "Awtsmoos Zmanim",
+	"sourcePath": "geelooy/zmanim/README.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Zmanim",
+			"anchor": "awtsmoos-zmanim"
+		},
+		{
+			"level": 2,
+			"text": "Daily experience",
+			"anchor": "daily-experience"
+		},
+		{
+			"level": 2,
+			"text": "Alter Rebbe / Chabad method",
+			"anchor": "alter-rebbe-chabad-method"
+		},
+		{
+			"level": 2,
+			"text": "Calculation architecture",
+			"anchor": "calculation-architecture"
+		},
+		{
+			"level": 2,
+			"text": "Public API",
+			"anchor": "public-api"
+		},
+		{
+			"level": 2,
+			"text": "Practical use",
+			"anchor": "practical-use"
+		},
+		{
+			"level": 2,
+			"text": "Verification",
+			"anchor": "verification"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-zmanim-readme-md-a2fd86370c-001.json"
+	]
+}

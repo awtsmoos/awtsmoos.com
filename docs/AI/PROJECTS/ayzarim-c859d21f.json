@@ -21,14 +21,14 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-c859d21f.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 1455,
-		"tests": 318,
+		"source": 1712,
+		"tests": 367,
 		"assets": 0,
 		"generated": 0,
 		"docs": 24,
 		"other": 2
 	},
-	"totalFiles": 1799,
+	"totalFiles": 2105,
 	"symbolSummary": null,
 	"outgoingDependencies": [],
 	"incomingDependencies": [],

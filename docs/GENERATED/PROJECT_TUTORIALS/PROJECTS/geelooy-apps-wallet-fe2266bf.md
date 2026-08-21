@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 33 | 1 | 0 | 0 | 1 | 0 | 35 |
+| 38 | 1 | 0 | 0 | 1 | 0 | 40 |
 
 ## Public entry points
 
@@ -29,7 +29,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 18; classes: 1; functions: 62; exports: 31; samples: refreshWallet, beginCheckout, bootWallet, async, clearCheckoutQuery, processCheckoutReturn, startPayPalCheckout, decodeWalletResponse, getWalletJson, postWalletJson, networkFailure, renderCoins.
+Source files: 20; classes: 1; functions: 73; exports: 34; samples: refreshWallet, beginCheckout, bootWallet, async, clearCheckoutQuery, processCheckoutReturn, startPayPalCheckout, decodeWalletResponse, getWalletJson, postWalletJson, networkFailure, createCoinStudySurface.
 
 ## Depends on
 

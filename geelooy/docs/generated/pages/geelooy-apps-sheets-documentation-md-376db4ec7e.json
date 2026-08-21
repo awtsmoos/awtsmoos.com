@@ -1,0 +1,29 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-apps-sheets-documentation-md-376db4ec7e",
+	"title": "Awtsmoos Sheets",
+	"sourcePath": "geelooy/apps/sheets/DOCUMENTATION.md",
+	"category": "Apps",
+	"provenance": "breadcrumb",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Awtsmoos Sheets",
+			"anchor": "awtsmoos-sheets"
+		},
+		{
+			"level": 2,
+			"text": "Entry point",
+			"anchor": "entry-point"
+		},
+		{
+			"level": 2,
+			"text": "Boundary",
+			"anchor": "boundary"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-apps-sheets-documentation-md-376db4ec7e-001.json"
+	]
+}

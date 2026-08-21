@@ -1,9 +1,14 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos gathers Heichel discovery into measured vessels; Awtsmoos.com keeps layout, cards, progressive depth, and responsive law distinct yet joined.
+ *
+ * @fileoverview Orders the Heichelos discovery surface on Awtsmoos.com.
+ * The Awtsmoos reveals structure before ornament; the Torah-first layer arrives last
+ * so human names, touch geometry, and living hierarchy remain the final visible law.
  */
-@import "./discovery-layout.css?v=progressive-map-001";
-@import "./discovery-cards.css?v=progressive-map-001";
-@import "./discovery-progressive.css?v=progressive-map-001";
-@import "./discovery-responsive.css?v=progressive-map-001";
+
+@import "./discovery-layout.css?v=torah-first-006";
+@import "./discovery-cards.css?v=torah-first-006";
+@import "./discovery-progressive.css?v=torah-first-006";
+@import "./discovery-responsive.css?v=torah-first-006";
+@import "./discovery-torah.css?v=torah-first-006";

@@ -1,0 +1,93 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets post, moving image, voice, verse, branch, poll, and live creation pass beneath one finger;
+Awtsmoos.com gives each canonical road a fast snap, a quiet spark, and no expensive per-card blur.
+*/
+.creatorLaunchRail {
+	display: flex;
+	gap: .46rem;
+	max-inline-size: 100%;
+	padding-block: .1rem .28rem;
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+}
+
+.creatorLaunchRail::-webkit-scrollbar {
+	display: none;
+}
+
+.creatorLaunchButton {
+	position: relative;
+	display: grid;
+	flex: 0 0 4.85rem;
+	grid-template-rows: 1.7rem auto;
+	place-items: center;
+	gap: .3rem;
+	min-block-size: 4.2rem;
+	padding: .48rem .36rem;
+	border: 1px solid rgb(158 247 255 / 15%);
+	border-radius: .92rem;
+	background: rgb(255 255 255 / 2.5%);
+	color: var(--ink);
+	text-decoration: none;
+	scroll-snap-align: start;
+	contain: layout paint;
+	transition:
+		transform 170ms cubic-bezier(.2, .8, .2, 1),
+		border-color 170ms ease,
+		background-color 170ms ease,
+		box-shadow 170ms ease;
+}
+
+.creatorLaunchButton span {
+	display: grid;
+	width: 1.65rem;
+	aspect-ratio: 1;
+	place-items: center;
+	color: var(--cyan);
+	font-size: 1rem;
+	transition: transform 170ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.creatorLaunchButton strong {
+	font-size: .7rem;
+}
+
+.creatorLaunchButton:is(:hover, :focus-visible) {
+	border-color: rgb(126 239 255 / 48%);
+	background: rgb(126 239 255 / 7%);
+	box-shadow: 0 0 1.15rem rgb(82 218 255 / 8%);
+	transform: translate3d(0, -2px, 0);
+}
+
+.creatorLaunchButton:is(:hover, :focus-visible) span {
+	transform: scale(1.06);
+}
+
+.creatorLaunchButton:active {
+	transform: scale(.97);
+}
+
+@media (min-width: 40.01rem) {
+	.creatorLaunchButton {
+		flex-basis: 5.2rem;
+		min-block-size: 4.35rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.creatorLaunchButton {
+		transition-duration: .01ms;
+	}
+
+	.creatorLaunchButton:is(:hover, :focus-visible),
+	.creatorLaunchButton:is(:hover, :focus-visible) span,
+	.creatorLaunchButton:active {
+		transform: none;
+	}
+}

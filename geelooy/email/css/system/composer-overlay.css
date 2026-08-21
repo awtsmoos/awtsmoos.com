@@ -1,7 +1,7 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lifts one chosen task above the mail sea; Awtsmoos.com keeps the overlay honest, dismissible, and visually free.
+The Awtsmoos lifts one chosen task above the mail sea without severing it from the whole; Awtsmoos.com gives composition a bounded chamber, clear layering, and a calm visual role.
 */
 .overlay {
 	position: fixed;
@@ -10,8 +10,10 @@ The Awtsmoos lifts one chosen task above the mail sea; Awtsmoos.com keeps the ov
 	display: grid;
 	place-items: center;
 	padding: 20px;
-	background: rgba(2, 5, 10, .74);
-	backdrop-filter: blur(12px);
+	background:
+		radial-gradient(circle at 50% 10%, color-mix(in srgb, var(--mail-accent) 7%, transparent), transparent 36%),
+		rgba(2, 5, 10, .76);
+	backdrop-filter: blur(14px) saturate(1.08);
 	opacity: 0;
 	pointer-events: none;
 	transition: opacity 180ms ease;
@@ -27,14 +29,16 @@ The Awtsmoos lifts one chosen task above the mail sea; Awtsmoos.com keeps the ov
 }
 
 .modal-card {
-	width: min(620px, 100%);
-	max-height: min(90dvh, 760px);
+	width: min(660px, 100%);
+	max-height: min(92dvh, 800px);
 	overflow: auto;
 	padding: 20px;
 	border: 1px solid var(--mail-border-strong);
-	border-radius: 20px;
-	background: var(--mail-panel);
-	box-shadow: 0 24px 70px rgba(0, 0, 0, .42);
+	border-radius: 22px;
+	background: color-mix(in srgb, var(--mail-panel) 96%, transparent);
+	box-shadow:
+		0 28px 90px rgba(0, 0, 0, .48),
+		inset 0 1px 0 color-mix(in srgb, white 6%, transparent);
 	transform: translateY(10px) scale(.985);
 	transition: transform 180ms ease;
 }
@@ -45,7 +49,7 @@ The Awtsmoos lifts one chosen task above the mail sea; Awtsmoos.com keeps the ov
 
 .compose-modal-card {
 	display: grid;
-	gap: 12px;
+	gap: 13px;
 }
 
 .compose-modal-top,
@@ -57,49 +61,17 @@ The Awtsmoos lifts one chosen task above the mail sea; Awtsmoos.com keeps the ov
 
 .compose-modal-top {
 	justify-content: space-between;
-}
-
-.compose-modal-heading {
-	display: grid;
-	gap: 2px;
-}
-
-.compose-kicker {
-	color: var(--mail-accent);
-	font-size: .68rem;
-	font-weight: 850;
-	letter-spacing: .09em;
-	text-transform: uppercase;
-}
-
-.close-modal {
-	width: 42px;
-	height: 42px;
-	border: 1px solid var(--mail-border);
-	border-radius: 12px;
-	background: color-mix(in srgb, var(--mail-panel-strong) 82%, transparent);
-	color: var(--mail-text);
-	font-size: 1.5rem;
-	cursor: pointer;
-	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
-}
-
-.close-modal:is(:hover, :focus-visible) {
-	border-color: var(--mail-accent);
-	background: color-mix(in srgb, var(--mail-accent) 10%, var(--mail-panel));
-}
-
-.close-modal:active {
-	transform: scale(.94);
+	padding-bottom: 3px;
 }
 
 .compose-modal-actions {
 	justify-content: flex-end;
-	padding-top: 2px;
+	padding-top: 4px;
 }
 
-.compose-shortcut {
-	margin-right: auto;
-	color: var(--mail-text-muted);
-	font-size: .74rem;
+@media (prefers-reduced-motion: reduce) {
+	.overlay,
+	.modal-card {
+		transition: none;
+	}
 }

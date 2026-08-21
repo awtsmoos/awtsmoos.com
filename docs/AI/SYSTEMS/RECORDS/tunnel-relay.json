@@ -71,7 +71,7 @@
 			"name": "AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS",
 			"classification": "tuning",
 			"sources": 1,
-			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAckHandler.js"
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestConsumerWatchdog.js"
 		},
 		{
 			"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
@@ -113,7 +113,7 @@
 			"name": "AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS",
 			"classification": "tuning",
 			"sources": 1,
-			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js"
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatchWatchdog.js"
 		},
 		{
 			"name": "MW_LOAD_CLIENTS",
@@ -138,7 +138,11 @@
 		},
 		{
 			"event": "TUNNEL_ACK",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/register.js"
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationProbe.js"
+		},
+		{
+			"event": "TUNNEL_ACK",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/registrationPublication.js"
 		},
 		{
 			"event": "TUNNEL_ACK",
@@ -154,11 +158,19 @@
 		},
 		{
 			"event": "TUNNEL_RESPONSE_ACK",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/responseHandler.js"
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/responseProtocol.js"
+		},
+		{
+			"event": "tunnelRequestAcceptanceTimedOut",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeStalls.js"
 		},
 		{
 			"event": "tunnelRequestConflict",
 			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js"
+		},
+		{
+			"event": "tunnelRequestConsumerStalled",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeStalls.js"
 		},
 		{
 			"event": "tunnelRequestPending",
@@ -178,7 +190,7 @@
 		},
 		{
 			"event": "tunnelRequestTransportStalled",
-			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js"
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeStalls.js"
 		},
 		{
 			"event": "tunnelUnavailable",

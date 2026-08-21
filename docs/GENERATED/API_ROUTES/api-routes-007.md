@@ -2,12 +2,60 @@ B"H
 Boruch Hashem
 Blessed is He
 
-# Generated API Route Atlas 511–573
+# Generated API Route Atlas 511–595
 
 Source-derived route rows. Dynamic parameters use `:name`; terminal catch-alls use `:name*`.
 
 | URL pattern | Source | Discovery |
 | --- | --- | --- |
+| /api/tunnel/control/api-keys | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/api-keys/create | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/api-keys/revoke | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/bank | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/blob/:blobId | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/blob/:blobId/manifest | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/blob/:blobId/view | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/bootstrap | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/budgets | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/compute | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/compute/capture | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/compute/history | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/compute/receipt | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/compute/subscription | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/conversations/get | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/conversations/list | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/conversations/register | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/device | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/devices | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/docs | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/docs.json | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/ephemeral/:resultId | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/ephemeral/:resultId/delete | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/ephemeral/:resultId/page | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/ephemeral/:resultId/search | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/ephemeral/list | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/flow | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/fs/:tunnelName | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/fs/awtsmoos-os | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/handoff/:tunnelName | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/live-calls | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/live-calls/stream | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/marketplace | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/me | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/mission-room/stream | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/my-device | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/openapi | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/openapi-key | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/organization | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/pairing/approve | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/pairing/request | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/pairing/status | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/preview/:tunnelName | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/preview/access/revoke | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/preview/create | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/preview/grant | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/preview/list | geelooy/api/tunnel/control/routes/table.js | route-table |
+| /api/tunnel/control/preview/revoke | geelooy/api/tunnel/control/routes/table.js | route-table |
 | /api/tunnel/control/preview/settings | geelooy/api/tunnel/control/routes/table.js | route-table |
 | /api/tunnel/control/preview/settings/set | geelooy/api/tunnel/control/routes/table.js | route-table |
 | /api/tunnel/control/preview/update | geelooy/api/tunnel/control/routes/table.js | route-table |
@@ -43,31 +91,5 @@ Source-derived route rows. Dynamic parameters use `:name`; terminal catch-alls u
 | /api/wallet/commerce/catalog | geelooy/api/wallet/routes/table.js | route-table |
 | /api/wallet/commerce/entitlements | geelooy/api/wallet/routes/table.js | route-table |
 | /api/wallet/commerce/purchase | geelooy/api/wallet/routes/table.js | route-table |
-| /api/wallet/me | geelooy/api/wallet/routes/table.js | route-table |
-| /api/wallet/paypal/capture | geelooy/api/wallet/routes/table.js | route-table |
-| /api/wallet/paypal/create | geelooy/api/wallet/routes/table.js | route-table |
-| /api/wallet/transfer | geelooy/api/wallet/routes/table.js | route-table |
-| /api/what/:are/you/:doing | geelooy/api/_awtsmoos.derech.js | static-literal |
-| /api/wow/:asd/asd/:rt/k | geelooy/api/_awtsmoos.derech.js | static-literal |
-| /api/youtube | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/:a | geelooy/api/youtube/_awtsmoos.derech.js | static-literal |
-| /api/youtube/:a/:b | geelooy/api/youtube/_awtsmoos.derech.js | static-literal |
-| /api/youtube/:a/:b/:c | geelooy/api/youtube/_awtsmoos.derech.js | static-literal |
-| /api/youtube/auth/callback | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/auth/logout | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/auth/start | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/auth/status | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/channel | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/channel/mine | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/live | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/live/create | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/live/list | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/live/transition | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/oauth/callback | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/oauth/logout | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/oauth/start | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/oauth/status | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/uploads/start | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/videos | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/videos/list | geelooy/api/youtube/routes/table.js | route-table |
-| /api/youtube/videos/update | geelooy/api/youtube/routes/table.js | route-table |
+| /api/wallet/currency | geelooy/api/wallet/routes/table.js | route-table |
+| /api/wallet/game-rewards/claim | geelooy/api/wallet/routes/table.js | route-table |

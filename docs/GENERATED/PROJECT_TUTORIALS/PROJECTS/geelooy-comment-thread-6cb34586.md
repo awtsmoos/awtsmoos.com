@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 10 | 1 | 0 | 0 | 1 | 0 | 12 |
+| 20 | 2 | 0 | 0 | 1 | 0 | 23 |
 
 ## Public entry points
 
@@ -29,11 +29,11 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 9; classes: 1; functions: 21; exports: 9; samples: async, loadCommentTree, submitComment, parseResponse, errorMessage, createComposer, field, readCommentThreadConfig, clean, createElement, createMedia, createPreview.
+Source files: 18; classes: 3; functions: 44; exports: 18; samples: async, uploadMalchusCommentAsset, createCommentReactionRail, createYesodContextPanel, coordinateField, textAreaField, YesodManifestStore, ManifestStore, createChesedMediaPicker, createHodReferencePicker, referenceManifest, textField.
 
 ## Depends on
 
-- `geelooy/scripts` — 1 lexical reference; examples: geelooy/comment-thread/app.js
+- `geelooy/social-actions` — 1 lexical reference; examples: geelooy/comment-thread/modules/CommentReaction.js
 
 ## Used by
 
@@ -45,4 +45,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **1**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **2**. Treat this as file evidence, not proof of behavioral coverage.

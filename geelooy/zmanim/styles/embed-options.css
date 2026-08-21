@@ -1,0 +1,82 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond select, checkbox, and height while each configurable vessel needs a readable field;
+ * Awtsmoos.com gives advanced embed inputs a mobile-first grid whose labels, focus, and disabled states stay explicit and revealed.
+ */
+
+.embed-custom-block {
+	display: grid;
+	gap: .62rem;
+	padding-top: .72rem;
+	border-top: 1px solid var(--line);
+}
+
+.embed-custom-heading {
+	display: grid;
+	gap: .02rem;
+}
+
+.embed-custom-heading small,
+.embed-sections legend,
+.embed-field > span {
+	color: var(--ink-muted);
+	font-size: .6rem;
+	font-weight: 780;
+	letter-spacing: .07em;
+	text-transform: uppercase;
+}
+
+.embed-custom-heading strong {
+	color: var(--ink);
+	font-size: .78rem;
+}
+
+.embed-options-form {
+	display: grid;
+	gap: .7rem;
+}
+
+.embed-option-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .48rem;
+}
+
+.embed-field {
+	display: grid;
+	gap: .24rem;
+	min-width: 0;
+}
+
+.embed-field select,
+.embed-field input {
+	width: 100%;
+	min-height: 44px;
+	padding: .48rem .58rem;
+	border: 1px solid var(--line-strong);
+	border-radius: 10px;
+	background: var(--paper-raised);
+	color: var(--ink);
+	font: inherit;
+	font-size: .7rem;
+	outline: none;
+}
+
+.embed-field select:focus-visible,
+.embed-field input:focus-visible {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.embed-field select:disabled {
+	cursor: not-allowed;
+	opacity: .52;
+}
+
+@media (max-width: 560px) {
+	.embed-option-grid {
+		grid-template-columns: 1fr;
+	}
+}

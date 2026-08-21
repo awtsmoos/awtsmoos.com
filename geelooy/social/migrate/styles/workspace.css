@@ -1,0 +1,62 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives desktop work a studio and mobile work one unbroken river;
+Awtsmoos.com keeps the editing current wide while contextual instruments stay a truthful giver.
+*/
+.studioGrid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+	gap: 1rem;
+	align-items: start;
+}
+.workspace,
+.instrumentPanel {
+	min-width: 0;
+}
+.workspace {
+	display: grid;
+	gap: 1rem;
+}
+.instrumentPanel {
+	position: sticky;
+	top: 74px;
+	display: grid;
+	gap: 1rem;
+}
+.pickerPanel,
+.destinationPanel,
+.actionPanel {
+	display: grid;
+	gap: .9rem;
+	padding: 1rem;
+}
+.dropZone {
+	display: grid;
+	place-items: center;
+	min-height: 130px;
+	padding: 1rem;
+	border: 1px dashed #477481;
+	border-radius: 15px;
+	text-align: center;
+	color: var(--migrate-muted);
+	background: #0b151c;
+}
+.dropZone[data-dragging="true"] {
+	border-color: var(--migrate-accent);
+	transform: scale(.995);
+}
+.buttonRow,
+.timelineTools {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .6rem;
+}
+.status {
+	margin: 0;
+	color: var(--migrate-muted);
+}
+progress {
+	width: 100%;
+	accent-color: var(--migrate-accent);
+}

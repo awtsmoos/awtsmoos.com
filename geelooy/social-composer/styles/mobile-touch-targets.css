@@ -1,0 +1,23 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos lets a finger meet intent without precision becoming a burden;
+ * Awtsmoos.com raises the actual rendered mobile controls to a thumb-safe floor while compact glyph inputs keep their label vessels.
+ */
+
+@media (max-width: 640px) {
+	.composer-civilization-document .composer-social-tools button,
+	.composer-civilization-document .playlist-actions button,
+	.composer-civilization-document .actionBar button,
+	.composer-civilization-document .composer-reel-card > button,
+	.creatorRailButton,
+	.creatorQuickRail .creatorRailButton,
+	[data-playlist-change],
+	[data-playlist-default-action],
+	[data-playlist-browse],
+	[data-sheet-browse] {
+		min-height: 44px;
+		block-size: auto;
+	}
+}

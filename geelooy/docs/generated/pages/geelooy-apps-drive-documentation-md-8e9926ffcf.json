@@ -2,35 +2,55 @@
 	"BH": "B\"H / Boruch Hashem / Blessed is He",
 	"schema": "awtsmoos-doc-page-v2",
 	"id": "geelooy-apps-drive-documentation-md-8e9926ffcf",
-	"title": "Awtsmoos Drive",
+	"title": "Awtsmoos Drive · Website Maker",
 	"sourcePath": "geelooy/apps/drive/DOCUMENTATION.md",
 	"category": "Apps",
 	"provenance": "breadcrumb",
 	"headings": [
 		{
 			"level": 1,
-			"text": "Awtsmoos Drive",
-			"anchor": "awtsmoos-drive"
+			"text": "Awtsmoos Drive · Website Maker",
+			"anchor": "awtsmoos-drive-website-maker"
 		},
 		{
 			"level": 2,
-			"text": "Role",
-			"anchor": "role"
+			"text": "Guided Website Maker",
+			"anchor": "guided-website-maker"
 		},
 		{
 			"level": 2,
-			"text": "Start here",
-			"anchor": "start-here"
+			"text": "Five-step workspace",
+			"anchor": "five-step-workspace"
 		},
 		{
 			"level": 2,
-			"text": "Change rule",
-			"anchor": "change-rule"
+			"text": "Responsive Drive shell",
+			"anchor": "responsive-drive-shell"
 		},
 		{
 			"level": 2,
-			"text": "Project-specific notes",
-			"anchor": "project-specific-notes"
+			"text": "Browser agent API",
+			"anchor": "browser-agent-api"
+		},
+		{
+			"level": 2,
+			"text": "DNS migration worksheet",
+			"anchor": "dns-migration-worksheet"
+		},
+		{
+			"level": 2,
+			"text": "Tunnel agents",
+			"anchor": "tunnel-agents"
+		},
+		{
+			"level": 2,
+			"text": "Connected Node runtime",
+			"anchor": "connected-node-runtime"
+		},
+		{
+			"level": 2,
+			"text": "Verification covenant",
+			"anchor": "verification-covenant"
 		}
 	],
 	"markdownParts": [

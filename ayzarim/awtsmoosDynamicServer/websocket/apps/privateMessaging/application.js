@@ -3,104 +3,75 @@
 // Blessed is He
 
 const { RealtimeError } = require("../../platform/RealtimeError.js");
-const { GevurahConversationLock } = require("./conversationLock.js");
-const { HodConversationIndexRepository } = require("./conversationIndexRepository.js");
-const { TiferesConversationRepository } = require("./conversationRepository.js");
-const { GevurahGroupMembershipRepository } = require("./groupMembershipRepository.js");
 const { handleGroupRequest } = require("./groupHandlers.js");
 const { handleGroupMemberRequest } = require("./groupMemberHandlers.js");
-const { NetzachMessageRepository } = require("./messageRepository.js");
 const { handleMessageRequest } = require("./messageHandlers.js");
-const { NetzachPrivateMessagingPresence } = require("./presence.js");
+const {
+	TiferesPrivateMessagingServices
+} = require("./privateMessagingServices.js");
 const { APPLICATION_ID, VERSION } = require("./protocol.js");
-const { GevurahPrivateMessagingRateLimiter } = require("./rateLimiter.js");
-const { GevurahRelationshipRepository } = require("./relationshipRepository.js");
 const { handleRelationshipRequest } = require("./relationshipHandlers.js");
-const { ChesedRequestRepository } = require("./requestRepository.js");
 const { handleRequest } = require("./requestHandlers.js");
 const { handleSessionRequest } = require("./sessionHandlers.js");
 
 /**
- * @file Composes verified private messaging without sharing writable message paths with public Torah discussion.
- * @description Tiferes joins consent, groups, friendship, and private speech while each repository keeps its own bounded flame;
- * the Awtsmoos renews many conversations, and Awtsmoos.com keeps public Torah and private ordinary text as different names.
+ * @file Routes verified private-messaging requests through one explicit service graph without owning repository construction itself.
+ * @description The Awtsmoos, Atzmus beyond handler and vessel, renews request, database, consent, and speech from nothing in every instant;
+ * Awtsmoos.com lets this Malchus-like application reveal only dispatch while TiferesPrivateMessagingServices carries the deeper repository and storage light.
  */
 
-/** Creates one private-messaging application instance for the shared realtime transport. */
+const REQUEST_HANDLERS = Object.freeze([
+	handleSessionRequest,
+	handleRequest,
+	handleGroupRequest,
+	handleGroupMemberRequest,
+	handleMessageRequest,
+	handleRelationshipRequest
+]);
+
+/**
+ * Creates one versioned private-messaging realtime application around a focused service composition root.
+ * @param {object} [options] Optional application clock and service construction settings.
+ * @returns {object} Versioned realtime application consumed by the shared websocket platform.
+ */
 function createPrivateMessagingApplication(options = {}) {
-	const presence = new NetzachPrivateMessagingPresence();
-	const rate = new GevurahPrivateMessagingRateLimiter(options.clock);
-	const lock = new GevurahConversationLock();
-	let boundDatabase = null;
-	let repositories = null;
-
-	function services(context) {
-		const database = context.server?.db;
-		if (!database) {
-			throw new RealtimeError(
-				"PRIVATE_MESSAGING_DATABASE_REQUIRED",
-				"Private messaging storage is unavailable.",
-			null,
-			503
-			);
-		}
-		if (!repositories || boundDatabase !== database) {
-			boundDatabase = database;
-			repositories = createRepositories(database, lock);
-		}
-		return {
-			presence,
-			rate,
-			...repositories
-		};
-	}
-
+	const services = new TiferesPrivateMessagingServices(options);
 	return {
 		id: APPLICATION_ID,
 		legacyTypes: [],
 		versions: [VERSION],
 		disconnect({ client }) {
-			presence.detach(client);
-			rate.disconnect(client);
+			services.disconnect(client);
 		},
 		async handleVersioned(context, request) {
-			const current = services(context);
-			const handlers = [
-				handleSessionRequest,
-				handleRequest,
-				handleGroupRequest,
-				handleGroupMemberRequest,
-				handleMessageRequest,
-				handleRelationshipRequest
-			];
-			for (const handler of handlers) {
-				const response = await handler(current, context, request);
-				if (response) {
-					return response;
-				}
-			}
-			throw new RealtimeError(
-				"PRIVATE_MESSAGING_REQUEST_UNKNOWN",
-				`Unknown private messaging request: ${request.type}`,
-				null,
-				404
+			return dispatchPrivateRequest(
+				services.forContext(context),
+				context,
+				request
 			);
 		}
 	};
 }
 
-/** Binds canonical repositories to one actual Awtsmoos database interface. */
-function createRepositories(database, lock) {
-	const indexes = new HodConversationIndexRepository(database);
-	const conversations = new TiferesConversationRepository(database, indexes);
-	return {
-		indexes,
-		conversations,
-		groups: new GevurahGroupMembershipRepository(conversations, indexes, database),
-		messages: new NetzachMessageRepository(database, conversations, lock),
-		requests: new ChesedRequestRepository(database),
-		relationships: new GevurahRelationshipRepository(database)
-	};
+/**
+ * Offers one request to each focused handler until its canonical domain accepts it.
+ * @param {object} services Database-bound private-messaging services.
+ * @param {object} context Realtime request context.
+ * @param {object} request Versioned private-messaging request envelope.
+ * @returns {Promise<object>} First canonical handler response.
+ * @throws {RealtimeError} When no registered private-messaging domain owns the request type.
+ */
+async function dispatchPrivateRequest(services, context, request) {
+	for (const handler of REQUEST_HANDLERS) {
+		const response = await handler(services, context, request);
+		if (response) return response;
+	}
+	throw new RealtimeError(
+		"PRIVATE_MESSAGING_REQUEST_UNKNOWN",
+		`Unknown private messaging request: ${request.type}`,
+		null,
+		404
+	);
 }
 
 module.exports = {

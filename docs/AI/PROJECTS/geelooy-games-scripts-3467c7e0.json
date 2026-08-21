@@ -22,19 +22,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scripts-3467c7e0.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 70,
+		"source": 74,
 		"tests": 0,
 		"assets": 0,
 		"generated": 4,
 		"docs": 1,
 		"other": 2
 	},
-	"totalFiles": 77,
+	"totalFiles": 81,
 	"symbolSummary": {
-		"files": 70,
+		"files": 73,
 		"classes": 113,
-		"functions": 3371,
-		"exports": 50,
+		"functions": 3381,
+		"exports": 55,
 		"samples": [
 			"UI",
 			"stands",
@@ -54,13 +54,23 @@
 	"incomingDependencies": [
 		{
 			"project": "geelooy/games/seven-mitzvos",
-			"count": 12,
+			"count": 16,
 			"examples": "geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js"
+		},
+		{
+			"project": "geelooy/apps/scripts",
+			"count": 1,
+			"examples": "geelooy/apps/scripts/catalog/games.mjs"
 		},
 		{
 			"project": "geelooy/games/party",
 			"count": 1,
 			"examples": "geelooy/games/party/js/game-catalog.mjs"
+		},
+		{
+			"project": "geelooy/games/pong",
+			"count": 1,
+			"examples": "geelooy/games/pong/js/wallet-reward.mjs"
 		}
 	],
 	"externalDependencies": [

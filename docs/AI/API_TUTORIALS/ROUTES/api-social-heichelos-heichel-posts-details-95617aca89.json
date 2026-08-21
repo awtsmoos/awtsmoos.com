@@ -35,9 +35,14 @@
 			"literal": "/api/social/heichelos/${heichelID}/posts/details?${params}",
 			"source": "geelooy/heichelos/heichel/logic/HeichelAPI.js",
 			"kind": "runtime"
+		},
+		{
+			"literal": "/api/social/heichelos/beit%20alpha/posts/details?seriesId=torah%2Fweekly",
+			"source": "geelooy/social-hub/js/api/CommunityCapabilities.test.mjs",
+			"kind": "test"
 		}
 	],
-	"callerCount": 1,
+	"callerCount": 2,
 	"tests": [
 		{
 			"name": "test",

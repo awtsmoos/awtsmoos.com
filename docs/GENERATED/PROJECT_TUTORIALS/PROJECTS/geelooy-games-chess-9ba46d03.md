@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 35 | 0 | 0 | 0 | 1 | 0 | 36 |
+| 74 | 22 | 0 | 0 | 1 | 0 | 97 |
 
 ## Public entry points
 
@@ -30,7 +30,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 28; classes: 16; functions: 85; exports: 44; samples: evaluate, orderMoves, quiesce, search, searchRoot, decodeMove, processRawBook, initializeEngine, forgeUniverseIndices, getLSBIndex, popBit, popcount.
+Source files: 62; classes: 23; functions: 162; exports: 51; samples: evaluate, orderMoves, quiesce, search, searchRoot, decodeMove, processRawBook, initializeEngine, forgeUniverseIndices, getLSBIndex, popBit, popcount.
 
 ## Depends on
 
@@ -46,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **0**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **22**. Treat this as file evidence, not proof of behavioral coverage.

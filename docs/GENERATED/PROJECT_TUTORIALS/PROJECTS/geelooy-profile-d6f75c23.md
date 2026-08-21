@@ -21,7 +21,7 @@ Blessed is He
 
 | Source | Tests | Assets | Generated | Docs | Other | Total |
 | --- | --- | --- | --- | --- | --- | --- |
-| 18 | 2 | 0 | 0 | 1 | 1 | 22 |
+| 33 | 4 | 0 | 0 | 1 | 1 | 39 |
 
 ## Public entry points
 
@@ -30,7 +30,7 @@ Blessed is He
 
 ## Symbol evidence
 
-Source files: 11; classes: 0; functions: 52; exports: 21; samples: checkAliasId, validateAliasId, showTooltip, hideTooltip, backToProfile, async, renderProfileDropdown, refreshProfileDropdown, renderAliases, saveDefaultAlias, withTimeout, messageFrom.
+Source files: 22; classes: 1; functions: 99; exports: 44; samples: async, readAliasValues, setAliasStudioStatus, setAliasStudioBusy, saveAlias, deleteAlias, createAliasBody, readApiResult, getAliasStudioConfig, getAliasStudioRefs, readBootstrap, bindAliasDeletion.
 
 ## Depends on
 
@@ -46,4 +46,4 @@ None observed.
 
 ## Verification clue
 
-Observed test-classified files: **2**. Treat this as file evidence, not proof of behavioral coverage.
+Observed test-classified files: **4**. Treat this as file evidence, not proof of behavioral coverage.

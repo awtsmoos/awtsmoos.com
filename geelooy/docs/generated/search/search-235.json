@@ -1,217 +1,229 @@
 [
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-883c081bd7",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/14_FINAL_COMPLETION_EVIDENCE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websockets-applications-md-a79ecc151d",
+		"title": "Realtime Applications and Events",
+		"sourcePath": "docs/WEBSOCKETS/APPLICATIONS.md",
+		"category": "Realtime",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Final Completion Evidence",
-				"anchor": "final-completion-evidence"
+				"text": "Realtime Applications and Events",
+				"anchor": "realtime-applications-and-events"
 			},
 			{
 				"level": 2,
-				"text": "Production Release",
-				"anchor": "production-release"
+				"text": "Application registry model",
+				"anchor": "application-registry-model"
 			},
 			{
 				"level": 2,
-				"text": "CompactJS Artifact",
-				"anchor": "compactjs-artifact"
-			},
-			{
-				"level": 2,
-				"text": "Model Drive Restoration",
-				"anchor": "model-drive-restoration"
-			},
-			{
-				"level": 2,
-				"text": "Fresh Isolated Browser Evidence",
-				"anchor": "fresh-isolated-browser-evidence"
-			},
-			{
-				"level": 2,
-				"text": "Interaction Proof",
-				"anchor": "interaction-proof"
-			},
-			{
-				"level": 2,
-				"text": "Scope Integrity",
-				"anchor": "scope-integrity"
-			}
-		],
-		"excerpt": "B\"H Final Completion Evidence The Awtsmoos renewed each broken road until the meadow answered with motion; Awtsmoos.com now joins compact light, immutable garments, and verified devotion. Production Release Active immutable release: awtsmoos a7aac30dac80b0e0c136cef53fc0c20f29c89b47. Release commit: a7aac30dac80b0e0c136",
-		"searchText": "b\"h final completion evidence the awtsmoos renewed each broken road until the meadow answered with motion; awtsmoos.com now joins compact light, immutable garments, and verified devotion. production release active immutable release: awtsmoos a7aac30dac80b0e0c136cef53fc0c20f29c89b47. release commit: a7aac30dac80b0e0c136cef53fc0c20f29c89b47. production service: active after atomic health checked deployment. compactjs artifact public bundle: experiments/awtsmoos/src/mitzvah world.compact.js. bytes: 5,270,667. sha 256: 8b48043f1342856772d8c96b61d410aa2b86c47a77b17fc3736b939b1cd0b5f3. public bytes and hash exactly match the locally tested generated artifact. essential scheduler remains folded into the compact graph. rich feature installer remains behind a source aware deferred module boundary. focused, ordinary, feature graph, syntax, whitespace, and real entry compactjs tests passed. model drive restoration nineteen canonical glbs were reconstructed from verified historical git objects. total verified bytes: 4,752,884. all nineteen logical public urls and immutable sha urls were independently downloaded and hash verified. chossid public response: http 200, model/gltf binary, 2,027,368 bytes. temporary restoration credentials were revoked after the transaction. the historical migration credential was revoked after full success. fresh isolated browser evidence browser: fresh isolated headless chrome profile with cache disabled. playable state reached in 12,419 ms. document state: complete. runtime state: playable. gameplay marker: true. feature stage: ready. essential feature receipt: ready. inventory: present. equipment: present. combat: present. quest: present. recovery: present. streaming: present. fatal console errors: none. relevant warnings: none. uncaught exceptions: none. relevant http errors: none. failed requests: none. the only observed log error was the unrelated site level /favicon.ico 404. headless chrome correctly selected the recoverable canvas 2d fallback because webgl was unavailable in that environment. interaction proof input: real chrome devtools keyw key down and key up events. position before: { x: 0, y: 0, z: 0 }. position after: { x: 0, y: 0, z: 1.89 }. observed movement distance: 1.89. movement result: passed. scope integrity release commits staged exact intended paths only. unrelated local loot drop work remained outside every repair commit. no generated bundle was hand patched; every artifact was regenerated in full.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-883c081bd7.json"
-	},
-	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-d2f0148fd4",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/15_COMPLETION_GATE_CLOSED.md",
-		"category": "Games",
-		"provenance": "project",
-		"headings": [
-			{
-				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Completion Gate Closed",
-				"anchor": "completion-gate-closed"
-			},
-			{
-				"level": 2,
-				"text": "Planned Versus Actual",
-				"anchor": "planned-versus-actual"
+				"text": "Built-in domains",
+				"anchor": "built-in-domains"
 			},
 			{
 				"level": 3,
-				"text": "Planned",
-				"anchor": "planned"
+				"text": "awtsmoos-core",
+				"anchor": "awtsmoos-core"
 			},
 			{
 				"level": 3,
-				"text": "Actual",
-				"anchor": "actual"
+				"text": "awtsmoos-social",
+				"anchor": "awtsmoos-social"
+			},
+			{
+				"level": 3,
+				"text": "Game/journey applications",
+				"anchor": "game-journey-applications"
+			},
+			{
+				"level": 3,
+				"text": "tunnel-activity",
+				"anchor": "tunnel-activity"
 			},
 			{
 				"level": 2,
-				"text": "Completion Evidence Checklist",
-				"anchor": "completion-evidence-checklist"
+				"text": "Protocol versions",
+				"anchor": "protocol-versions"
 			},
 			{
 				"level": 2,
-				"text": "Residual Non-Blocking Observation",
-				"anchor": "residual-non-blocking-observation"
-			},
-			{
-				"level": 2,
-				"text": "Final State",
-				"anchor": "final-state"
+				"text": "Event inventory limitation",
+				"anchor": "event-inventory-limitation"
 			}
 		],
-		"excerpt": "B\"H Completion Gate Closed The Awtsmoos renewed the code, the artifact, the model stream, and the player's stride; Awtsmoos.com now answers the skeptical browser with every required vessel alive inside. Planned Versus Actual Planned 1. Repair the minimal meadow readiness contradiction. 2. Preserve compact safe optional",
-		"searchText": "b\"h completion gate closed the awtsmoos renewed the code, the artifact, the model stream, and the player's stride; awtsmoos.com now answers the skeptical browser with every required vessel alive inside. planned versus actual planned 1. repair the minimal meadow readiness contradiction. 2. preserve compact safe optional module paths. 3. restore the canonical chossid and recorded world models. 4. verify compactjs generation and regression behavior. 5. deploy exact scoped commits without unrelated local work. 6. prove the public page reaches playable state. 7. prove the six essential systems exist. 8. prove a real movement input changes player position. actual 1. essential gameplay now settles before readiness publication. 2. heavy rich features remain deferred without blocking bootstrap play. 3. all nineteen canonical glbs are public, immutable, and hash verified. 4. the deterministic public compact bundle matches the tested local artifact. 5. compactjs focused, ordinary, feature graph, syntax, whitespace, and real entry suites pass. 6. production is running immutable release a7aac30dac80b0e0c136cef53fc0c20f29c89b47. 7. a fresh isolated browser reached playable with all six systems true and no relevant runtime or network errors. 8. a real keyw input moved the player 1.89 world units. completion evidence checklist implementation complete: yes. source verification complete: yes. generated artifact verification complete: yes. compactjs verification complete: yes. model publication complete: yes. production deployment complete: yes. public artifact parity complete: yes. browser runtime verification complete: yes. essential systems verification complete: yes. interaction verification complete: yes. critical credentials revoked: yes. unrelated working tree changes preserved: yes. known task scoped blockers: none. remaining safe task scoped work: none. residual non blocking observation the site wide /favicon.ico request returns http 404. it is unrelated to mitzvah world gameplay, compactjs, model delivery, readiness, or movement and did not enter the task scope. final state remaining work = [] next action = none within the requested repair scope completion gate = closed with production evidence",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-d2f0148fd4.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Realtime Applications and Events The Awtsmoos gives one realtime doorway many worlds, each application keeping version and domain apart; Awtsmoos.com preserves compatibility while new factories can enter the registry without rewriting transport at its heart. Application registry model ap",
+		"searchText": "b\"h boruch hashem blessed is he realtime applications and events the awtsmoos gives one realtime doorway many worlds, each application keeping version and domain apart; awtsmoos.com preserves compatibility while new factories can enter the registry without rewriting transport at its heart. application registry model applicationdefinitions.js returns built in factories. realtimeplatform registers them into applicationregistry; applicationrouter resolves legacy or versioned messages. future applications can be registered without editing the historic message router signature. built in domains awtsmoos core core realtime behavior and health/compatibility messages. awtsmoos social social live compatibility. inspected sociallive.js emits or handles source visible message types including social subscribed, social event, social presence, social presence ack, social pong, page entered, page left, and page presence. page presence state can describe alias, status, reading target, typing state, entry time, and update time. disconnect cleanup removes clients from remembered social/page channels. livepreview.js emits live preview only after checking the recipient alias's email setting viewtyping === true. game/journey applications versioned applications exist for sefira clash, mitzvah world, ohr hagnuz, scribe journey, and shema strike. their substantial source directories live under websocket/apps/; consult the generated application directory inventory before changing a game protocol. tunnel activity account bound activity/realtime events around tunnel state. socket opening itself publishes connection.opened when an account identity exists. protocol versions most currently inspected applications declare version 1. scribe journey declares versions 1 and 2. never send a guessed version; resolve the application's accepted versions from current source/generated inventory. event inventory limitation ../generated/websocket event index.md extracts lexical event/message literals from production websocket source. some strings are transport events and some domain events; dynamically constructed types can be absent. use it to locate source, not as a formal protocol guarantee.",
+		"page": "pages/docs-websockets-applications-md-a79ecc151d.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-895f227b71",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/16_POST_COMPLETION_PHASE_ONE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websockets-mission-rooms-md-07b0b06bb8",
+		"title": "Mission Room WebSocket Admission",
+		"sourcePath": "docs/WEBSOCKETS/MISSION_ROOMS.md",
+		"category": "Realtime",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Post-Completion Phase One: Residual Surface Brainstorm",
-				"anchor": "post-completion-phase-one-residual-surface-brainstorm"
+				"text": "Mission Room WebSocket Admission",
+				"anchor": "mission-room-websocket-admission"
 			},
 			{
 				"level": 2,
-				"text": "Observed Residuals",
-				"anchor": "observed-residuals"
+				"text": "WebSocket path",
+				"anchor": "websocket-path"
 			},
 			{
 				"level": 2,
-				"text": "Possible Repairs",
-				"anchor": "possible-repairs"
+				"text": "Admission sequence observed in source",
+				"anchor": "admission-sequence-observed-in-source"
 			},
 			{
 				"level": 2,
-				"text": "Phase-One Preference",
-				"anchor": "phase-one-preference"
+				"text": "After successful handshake",
+				"anchor": "after-successful-handshake"
+			},
+			{
+				"level": 2,
+				"text": "Security implications",
+				"anchor": "security-implications"
+			},
+			{
+				"level": 2,
+				"text": "HTTP relationship",
+				"anchor": "http-relationship"
 			}
 		],
-		"excerpt": "B\"H Post Completion Phase One: Residual Surface Brainstorm The Awtsmoos keeps revealing polish after the meadow learns to stride; Awtsmoos.com lets no stale breadcrumb or needless request remain outside. Observed Residuals 1. Fresh browser traces report one unrelated request to /favicon.ico returning HTTP 404. 2. index",
-		"searchText": "b\"h post completion phase one: residual surface brainstorm the awtsmoos keeps revealing polish after the meadow learns to stride; awtsmoos.com lets no stale breadcrumb or needless request remain outside. observed residuals 1. fresh browser traces report one unrelated request to /favicon.ico returning http 404. 2. index.html declares no icon, so chrome falls back to the site root. 3. next ai readme.md names retired entry createeretz3ddemo.js and retired global window.awtsmoos. 4. remaining work.md still claims modules, route verification, and browser checks are incomplete. 5. the tracked runtime media tree is intentionally excluded from git and must not receive the route icon. possible repairs add a global root favicon, but that widens scope across every awtsmoos route. add a route owned svg favicon beside index.html, avoiding global coupling. embed a data url favicon directly in html, but that makes the shell harder to inspect and cache. reuse an unrelated site logo, but that confuses product identity. create a small mitzvah world svg with no external dependencies. add a focused route shell test that verifies icon declaration, entry module, stylesheet, and root markers. rewrite both handoff files from the production evidence already captured. phase one preference use a route owned tracked svg beside index.html, add one explicit , add a small source test, and rewrite the two stale handoff files in full. do not touch compactjs, gameplay source, drive assets, or global site routing.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-895f227b71.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Mission Room WebSocket Admission The Awtsmoos renews ticket, account, origin, permission, protocol, and handshake in one gate; Awtsmoos.com consumes trust before the socket opens, so stale authority cannot simply ride remembered state. WebSocket path /api/tunnel/control/mission room/ws T",
+		"searchText": "b\"h boruch hashem blessed is he mission room websocket admission the awtsmoos renews ticket, account, origin, permission, protocol, and handshake in one gate; awtsmoos.com consumes trust before the socket opens, so stale authority cannot simply ride remembered state. websocket path /api/tunnel/control/mission room/ws this path is handled specially during websocket upgrade by ayzarim/awtsmoosdynamicserver/websocket/apps/missionrooms/upgradepolicy.js. it is not an ordinary json endpoint even though it begins with /api/. admission sequence observed in source 1. parse the requested url. if it is not the mission room path, mission room policy does not own the upgrade. 2. require sec websocket key; otherwise deny with 400 missing websocket key. 3. require trusted socket identity with accountid; otherwise deny with 401 mission room authentication required. 4. canonicalize and require the request origin; otherwise deny with 403 missing websocket origin. 5. build claims from url, origin, and trusted identity. 6. consume the one time ticket from query parameter ticket. 7. re authorize the current account/tunnel against tunnel.mission. 8. require the consumed ticket's authority to match current authority. 9. require the claim protocol version to equal room protocol version; mismatch is denied with 409 mission room protocol version mismatch. 10. only then return an accepted ticket to the socket upgrade layer. after successful handshake socketupgrade.js attaches the client and starts the mission room channel when an accepted ticket exists. connection activity is published with channel mission room, mission id, and room id. security implications a url containing a ticket is not enough by itself. admission also binds to trusted account identity, current mission permission, canonical origin, and protocol version. the ticket is consumed rather than treated as a permanent bearer credential. http relationship tunnel control has http routes for mission room streams/control alongside the websocket path. use ../api/tunnel control.md for the http control plane; keep socket admission/protocol logic separate.",
+		"page": "pages/docs-websockets-mission-rooms-md-07b0b06bb8.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-1e779b2089",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/17_POST_COMPLETION_PHASE_TWO.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websockets-readme-md-fed34d4d65",
+		"title": "WebSockets and Realtime",
+		"sourcePath": "docs/WEBSOCKETS/README.md",
+		"category": "Realtime",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Post-Completion Phase Two: Critique and Improvements",
-				"anchor": "post-completion-phase-two-critique-and-improvements"
+				"text": "WebSockets and Realtime",
+				"anchor": "websockets-and-realtime"
 			},
 			{
 				"level": 2,
-				"text": "Critique of Phase One",
-				"anchor": "critique-of-phase-one"
+				"text": "Interactive system map",
+				"anchor": "interactive-system-map"
 			},
 			{
 				"level": 2,
-				"text": "Improvements",
-				"anchor": "improvements"
+				"text": "Human manuals",
+				"anchor": "human-manuals"
 			},
 			{
 				"level": 2,
-				"text": "Refined Scope",
-				"anchor": "refined-scope"
+				"text": "Evidence rules",
+				"anchor": "evidence-rules"
 			}
 		],
-		"excerpt": "B\"H Post Completion Phase Two: Critique and Improvements The Awtsmoos tests the smallest polish against the widest consequence; Awtsmoos.com keeps one icon, one handoff, and one route in truthful sequence. Critique of Phase One A favicon only patch would silence one request but leave the repository's human guidance dan",
-		"searchText": "b\"h post completion phase two: critique and improvements the awtsmoos tests the smallest polish against the widest consequence; awtsmoos.com keeps one icon, one handoff, and one route in truthful sequence. critique of phase one a favicon only patch would silence one request but leave the repository's human guidance dangerously false. a documentation only patch would preserve the browser 404. a global favicon would solve the request but couple mitzvah world to every unrelated route. the post completion pass must close both browser and handoff drift while preserving the proven runtime artifact unchanged. improvements 1. keep the icon beside the route shell, not beneath ignored runtime media. 2. use svg so no binary generation tool or opaque asset is required. 3. avoid scripts, fonts, external references, and embedded raster data. 4. match the existing dark green and gold page palette. 5. include accessible and metadata inside the svg. 6. declare type=\"image/svg+xml\" explicitly in html. 7. use a route relative icon url so local and production paths agree. 8. preserve the import map, stylesheet, root markup, and compact entry exactly. 9. add a focused source test for the icon file and html declaration. 10. assert the route shell still loads the compact entry. 11. assert the icon has no external url dependency. 12. assert the icon file begins with the required b\"h comment. 13. rewrite next ai readme.md around the current launcher and runtime global. 14. document the deterministic compact build command. 15. document drive backed model ownership instead of local git media. 16. rewrite remaining work.md as a closed evidence ledger. 17. avoid hard coding a release commit that future maintenance will immediately stale. 18. record current verified bundle hash as evidence with an explicit verification date. 19. run the route shell test independently from compactjs tests. 20. verify direct http 200 for the svg after deployment. 21. run a fresh browser trace and require zero favicon request failures. 22. confirm playable state and movement remain unchanged after shell only work. refined scope authorized source files: index.html, mitzvah world icon.svg, one new route shell test, next ai readme.md, and remaining work.md. compactjs and gameplay modules are read only in this pass.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-1e779b2089.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He WebSockets and Realtime Awtsmoos.com realtime behavior has multiple layers: upgrade/session identity, platform application routing, specialized Mission Room admission, Tunnel Relay transport, and application/event handling. Interactive system map Open /docs/?view=systems&systemDistrict=r",
+		"searchText": "b\"h boruch hashem blessed is he websockets and realtime awtsmoos.com realtime behavior has multiple layers: upgrade/session identity, platform application routing, specialized mission room admission, tunnel relay transport, and application/event handling. interactive system map open /docs/?view=systems&systemdistrict=realtime for the curated realtime systems. human manuals applications mission rooms tunnel relay realtime security use trace realtime admission to follow upgrade identity → specialized admission/registry → app/version → message handling. evidence rules generated application rows reflect source registration, not deployment health. event/message strings are lexical search clues, not formal payload schemas. mission room tickets/origin/protocol/snapshot checks and tunnel relay registration/correlation are specialized trust/transport contracts and should not be collapsed into ordinary app routing.",
+		"page": "pages/docs-websockets-readme-md-fed34d4d65.json"
 	},
 	{
-		"id": "geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-468c242f8f",
-		"title": "B\"H",
-		"sourcePath": "geelooy/games/mitzvahWorld/.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/18_POST_COMPLETION_PHASE_THREE.md",
-		"category": "Games",
-		"provenance": "project",
+		"id": "docs-websockets-tunnel-relay-md-0cfdbb9dce",
+		"title": "Tunnel Relay WebSocket System",
+		"sourcePath": "docs/WEBSOCKETS/TUNNEL_RELAY.md",
+		"category": "Realtime",
+		"provenance": "manual",
 		"headings": [
 			{
 				"level": 1,
-				"text": "B\"H",
-				"anchor": "b-h"
-			},
-			{
-				"level": 1,
-				"text": "Post-Completion Phase Three: Final Critique",
-				"anchor": "post-completion-phase-three-final-critique"
+				"text": "Tunnel Relay WebSocket System",
+				"anchor": "tunnel-relay-websocket-system"
 			},
 			{
 				"level": 2,
-				"text": "Final Critique",
-				"anchor": "final-critique"
+				"text": "Source root",
+				"anchor": "source-root"
 			},
 			{
 				"level": 2,
-				"text": "Thirty Final Checks",
-				"anchor": "thirty-final-checks"
+				"text": "Registration flow observed",
+				"anchor": "registration-flow-observed"
 			},
 			{
 				"level": 2,
-				"text": "Final Decision",
-				"anchor": "final-decision"
+				"text": "TUNNELACK evidence",
+				"anchor": "tunnelack-evidence"
+			},
+			{
+				"level": 2,
+				"text": "Replacement activity",
+				"anchor": "replacement-activity"
+			},
+			{
+				"level": 2,
+				"text": "Request lifecycle",
+				"anchor": "request-lifecycle"
+			},
+			{
+				"level": 2,
+				"text": "Relationship to HTTP Tunnel Control",
+				"anchor": "relationship-to-http-tunnel-control"
 			}
 		],
-		"excerpt": "B\"H Post Completion Phase Three: Final Critique The Awtsmoos keeps a quiet icon from disturbing the proven world below; Awtsmoos.com lets documentation mirror production wherever future maintainers go. Final Critique The route shell is only sixty two lines, so a full rewrite is safer than a partial insertion. The SVG m",
-		"searchText": "b\"h post completion phase three: final critique the awtsmoos keeps a quiet icon from disturbing the proven world below; awtsmoos.com lets documentation mirror production wherever future maintainers go. final critique the route shell is only sixty two lines, so a full rewrite is safer than a partial insertion. the svg must remain independent of ignored media and drive backed runtime assets. the test must verify behaviorally important shell contracts without becoming a brittle full html snapshot. documentation must distinguish stable architecture from dated production evidence. thirty final checks 1. preserve b\"h, boruch hashem, and blessed is he at every new file opening. 2. keep every touched file below 120 lines. 3. use tabs where indentation exists. 4. keep svg self contained. 5. avoid script in svg. 6. avoid external image references. 7. avoid external fonts. 8. include a square viewbox. 9. include accessible metadata. 10. use current route palette. 11. reference the icon relatively. 12. preserve import map entries. 13. preserve stylesheet url. 14. preserve compact entry url. 15. preserve root element id. 16. preserve loading and hud structure. 17. preserve viewport and theme color. 18. test the icon declaration exactly once. 19. test the icon file exists. 20. test the icon has no http: or https: dependency. 21. test the compact entry remains present. 22. test the runtime root remains present. 23. update the true global name to awtsmoosmitzvahworld. 24. document the compact build script. 25. document the model drive root. 26. document essential versus rich feature boundaries. 27. close all old unchecked tasks. 28. keep current production evidence dated. 29. deploy only exact intended files. 30. re run a fresh browser trace after deployment. 31. require zero non favicon regressions. 32. require the favicon itself to return http 200. 33. verify movement still changes player position. 34. preserve unrelated local work. final decision proceed with five source artifacts only: route shell, route icon, route shell test, next ai handoff, and closed remaining work ledger. do not regenerate compactjs because no reachable javascript source changes in this pass.",
-		"page": "pages/geelooy-games-mitzvahworld-ai-thoughts-2026-07-31-0018-mitzvah-world-com-468c242f8f.json"
+		"excerpt": "B\"H Boruch Hashem Blessed is He Tunnel Relay WebSocket System The Awtsmoos bridges distant vessel to server while account, generation, request, acknowledgement, and replacement remain known; Awtsmoos.com treats relay authority as a transport covenant, not a message field a contender may declare on its own. Source root ",
+		"searchText": "b\"h boruch hashem blessed is he tunnel relay websocket system the awtsmoos bridges distant vessel to server while account, generation, request, acknowledgement, and replacement remain known; awtsmoos.com treats relay authority as a transport covenant, not a message field a contender may declare on its own. source root ayzarim/awtsmoosdynamicserver/websocket/apps/tunnelrelay/ the continuation inventory found more than fifty files in this subsystem. it contains registration authority, security bridging, request dispatch, acknowledgement tracking, transfer/replacement logic, durable paths, limits, heartbeat/progress behavior, and tests. registration flow observed register.js calls security.authorizeregistration(client, data). if identity fails, registration is rejected. a registration key is derived from trusted identity, then current server state is inspected for an incumbent connection. registration authority decides whether the contender is accepted, replaces an older connection, or is fenced. after successful registration, the server records tunnel/client state, sends an acknowledgement, recovers pending work, monitors accepted work, and publishes connection activity. tunnel ack evidence the acknowledgement emitted by inspected source includes: type: \"tunnel ack\"; ok: true; accountbound: true; tunnel id and tunnel name; whether an older connection was replaced; vessel type; protocol version; registration generation; server time. replacement activity the subsystem publishes connection.registered and can publish connection.replaced when a newer authorized contender replaces an existing connection. request lifecycle separate source files manage dispatch, response acknowledgement, pending recovery, timeout/progress bounds, quarantine/completed retention, and durable relay state. environment names controlling these policies appear in ../generated/environment variables.md. relationship to http tunnel control http routes create/control devices, grants, previews, calls, missions, compute, and other management operations. relay websockets are the live transport plane that can carry remote device work. do not flatten http control routes and relay messages into one api list.",
+		"page": "pages/docs-websockets-tunnel-relay-md-0cfdbb9dce.json"
+	},
+	{
+		"id": "geelooy-awtsmoos-agent-transfer-documentation-md-6a6a9c041e",
+		"title": "Awtsmoos Agent Transfer Archive",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "Awtsmoos Agent Transfer Archive",
+				"anchor": "awtsmoos-agent-transfer-archive"
+			},
+			{
+				"level": 2,
+				"text": "Boundary",
+				"anchor": "boundary"
+			},
+			{
+				"level": 2,
+				"text": "Authority",
+				"anchor": "authority"
+			},
+			{
+				"level": 2,
+				"text": "Safe use",
+				"anchor": "safe-use"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He Awtsmoos Agent Transfer Archive The Awtsmoos preserves transfer evidence without confusing an archived handoff with the live source; Awtsmoos.com keeps this boundary inspectable so deployments can be audited and compared safely. Boundary geelooy/.awtsmoos agent transfer/ contains dated s",
+		"searchText": "b\"h boruch hashem blessed is he awtsmoos agent transfer archive the awtsmoos preserves transfer evidence without confusing an archived handoff with the live source; awtsmoos.com keeps this boundary inspectable so deployments can be audited and compared safely. boundary geelooy/.awtsmoos agent transfer/ contains dated social future transfer trees such as social future 20260821 and social future 20260821 v2. these are staging, verified stage, predeploy backup, and handoff artifacts used to compare or promote social/youtube work. authority runtime authority remains in the corresponding live geelooy/social/, geelooy/youtube/, api, and shared social modules. never route production behavior to this archive merely because a newer looking copy exists here. safe use use the archive for deployment evidence, diff review, recovery context, and provenance. verify current source before promotion and preserve explicit stage/predeploy semantics.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-documentation-md-6a6a9c041e.json"
+	},
+	{
+		"id": "geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-predeploy-back-a866554be5",
+		"title": "YouTube Manager Documentation · Predeploy Backup",
+		"sourcePath": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/predeploy-backup/youtube/DOCUMENTATION.md",
+		"category": "General",
+		"provenance": "breadcrumb",
+		"headings": [
+			{
+				"level": 1,
+				"text": "YouTube Manager Documentation · Predeploy Backup",
+				"anchor": "youtube-manager-documentation-predeploy-backup"
+			}
+		],
+		"excerpt": "B\"H Boruch Hashem Blessed is He YouTube Manager Documentation · Predeploy Backup The Awtsmoos lets channel, video, upload, and live state pass through a guarded provider key; Awtsmoos.com keeps this predeploy copy as historical transfer evidence rather than current runtime authority. Current manuals: YouTube API Media ",
+		"searchText": "b\"h boruch hashem blessed is he youtube manager documentation · predeploy backup the awtsmoos lets channel, video, upload, and live state pass through a guarded provider key; awtsmoos.com keeps this predeploy copy as historical transfer evidence rather than current runtime authority. current manuals: youtube api media tools use the live geelooy/youtube/documentation.md for current migration behavior.",
+		"page": "pages/geelooy-awtsmoos-agent-transfer-social-future-20260821-v2-predeploy-back-a866554be5.json"
 	}
 ]

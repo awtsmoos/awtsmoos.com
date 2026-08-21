@@ -25,19 +25,19 @@
 	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-control-86d0949a.md",
 	"symlinkTarget": null,
 	"counts": {
-		"source": 409,
-		"tests": 49,
+		"source": 426,
+		"tests": 57,
 		"assets": 0,
 		"generated": 0,
 		"docs": 2,
 		"other": 5
 	},
-	"totalFiles": 465,
+	"totalFiles": 490,
 	"symbolSummary": {
-		"files": 320,
+		"files": 335,
 		"classes": 11,
-		"functions": 1375,
-		"exports": 675,
+		"functions": 1444,
+		"exports": 709,
 		"samples": [
 			"TARGETS",
 			"regenerateDocument",

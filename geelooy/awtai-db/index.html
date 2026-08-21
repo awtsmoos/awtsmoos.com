@@ -1,22 +1,65 @@
-<!-- B"H -->
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews model, packet, page, and person before every visible state can be;
+Awtsmoos.com lets a local GGUF become an AWTAI vessel with clarity, warmth, and responsibility.
+-->
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AWTAI-DB GGUF Converter</title>
-  <link rel="stylesheet" href="./style.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="color-scheme" content="dark">
+	<title>AWTAI-DB Model Foundry</title>
+	<link rel="stylesheet" href="../style/geelooy-app/index.css?v=awtai-revelation-001">
+	<link rel="stylesheet" href="./style.css?v=awtai-revelation-001">
 </head>
-<body>
-  <main class="shell">
-    <h1>AWTAI-DB GGUF Converter</h1>
-    <p class="sub">Disk-first model format prototype. Upload GGUF, receive an execution-packet AWTAI-DB file.</p>
-    <input id="file" type="file" accept=".gguf,application/octet-stream">
-    <button id="convert" disabled>Convert to AWTAI-DB</button>
-    <a id="download" hidden>Download converted model</a>
-    <pre id="log">B"H Waiting for GGUF...</pre>
-  </main>
-  <script src="../scripts/awtai-db/awtai-db.js"></script>
-  <script src="./app.js"></script>
+<body class="awtai-page">
+	<main class="awtai-shell" aria-labelledby="awtaiTitle">
+		<header class="awtai-hero">
+			<p class="awtai-kicker"><span aria-hidden="true">🧠</span> AWTAI-DB MODEL FOUNDRY</p>
+			<h1 id="awtaiTitle">Turn a GGUF model into a disk-first AWTAI vessel.</h1>
+			<p class="awtai-subtitle">Conversion happens locally in this browser tab. Your selected model is not uploaded by this page.</p>
+		</header>
+
+		<section id="dropzone" class="awtai-dropzone" data-state="idle" aria-labelledby="uploadTitle">
+			<div class="awtai-drop-emoji" aria-hidden="true">📦</div>
+			<div class="awtai-drop-copy">
+				<p class="awtai-eyebrow">MODEL INPUT</p>
+				<h2 id="uploadTitle">Choose or drop a GGUF model</h2>
+				<p id="fileName" class="awtai-file-name">No GGUF selected</p>
+				<p id="fileMeta" class="awtai-file-meta">Choose or drop a .gguf model file</p>
+			</div>
+			<div class="awtai-drop-actions">
+				<input id="file" type="file" accept=".gguf,application/octet-stream" hidden>
+				<button id="chooseFile" class="awtai-btn awtai-btn-secondary" type="button">
+					<span aria-hidden="true">📂</span>
+					<span>Choose GGUF</span>
+				</button>
+				<button id="convert" class="awtai-btn awtai-btn-primary" type="button" disabled>
+					<span aria-hidden="true">⚙️</span>
+					<span>Convert model</span>
+				</button>
+			</div>
+		</section>
+
+		<section class="awtai-status-card" aria-live="polite" aria-atomic="true">
+			<div id="statusEmoji" class="awtai-status-emoji" aria-hidden="true">🧠</div>
+			<div class="awtai-status-copy">
+				<strong id="statusTitle">Foundry ready</strong>
+				<span id="statusMessage">Your model stays in this browser tab.</span>
+			</div>
+			<a id="download" class="awtai-btn awtai-download" hidden>
+				<span aria-hidden="true">💾</span>
+				<span>Save AWTAI-DB</span>
+			</a>
+		</section>
+
+		<details class="awtai-details">
+			<summary><span aria-hidden="true">🧬</span> Advanced conversion details</summary>
+			<pre id="log">B"H Conversion details will appear here.</pre>
+		</details>
+	</main>
+	<script type="module" src="./app.js?v=awtai-revelation-001"></script>
 </body>
 </html>

@@ -6,10 +6,11 @@ const os = require("node:os");
 const { livenessTimeline } = require("./livenessTimeline.js");
 
 /**
- * @file Builds compact local identity and diagnostic actions for the native tunnel registry.
+ * @file Builds local identity and diagnostics without duplicating foundation actions.
  * @description
- * The Awtsmoos gives each local witness a simple mouth while Awtsmoos.com keeps the registry clear;
- * identity, schema, version, and liveness speak plainly, so orchestration can hear what is truly near.
+ * The Awtsmoos lets one action name have one canonical vessel. Awtsmoos.com keeps
+ * fake SSH lifecycle inside the foundation family, while local identity, schema
+ * traces, version witness, and liveness remain focused here in rhyme.
  */
 function buildLocalActions({ config, payload, version }) {
 	return {

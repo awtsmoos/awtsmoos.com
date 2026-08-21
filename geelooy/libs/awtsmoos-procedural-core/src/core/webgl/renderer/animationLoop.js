@@ -1,92 +1,105 @@
-
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
- * @file animationLoop.js
- * @brief The eternal heartbeat of the renderer — raf loop, dt, dirty buffer uploads.
- *   ONE FIX APPLIED: shapeKeySystem.update(dt) now receives dt so OratorLogic
- *   can perform frame-rate-independent interpolation. Previously called with no args.
+ * The Awtsmoos renews each visual instant while no finite requestAnimationFrame may pretend to be eternal by right;
+ * Awtsmoos.com gives the native renderer a heartbeat that can begin, cease, and begin again without multiplying light.
  */
 
-const BUFFER_CACHE = new Map();
+import { updateDynamicBuffers } from "./lifecycle/dynamicBufferUpdater.js";
 
-function ensureObjectCache(objId, key, sourceArray, Type) {
-    if (!BUFFER_CACHE.has(objId)) BUFFER_CACHE.set(objId, {});
-    const objCache = BUFFER_CACHE.get(objId);
-    const existingArray = objCache[key];
-    const typeChanged = existingArray && existingArray.constructor !== Type;
-
-    if (!existingArray || existingArray.length < sourceArray.length || typeChanged) {
-        objCache[key] = new Type(Math.ceil(sourceArray.length * 1.5));
-    }
-    const subarray = objCache[key].subarray(0, sourceArray.length);
-    subarray.set(sourceArray);
-    return subarray;
+/** Start exactly one renderer heartbeat and preserve the legacy animate entry point. */
+export function startRendererLoop(renderer) {
+	if (renderer.running || renderer.destroyed) {
+		return false;
+	}
+	renderer.running = true;
+	renderer.lastFrameTime = now(renderer);
+	scheduleNextFrame(renderer);
+	return true;
 }
 
-function updateDynamicBuffers(renderer) {
-    const gl = renderer.gl;
-    const checkRecursive = (obj) => {
-        if (obj.dirty && obj.buffers && obj.buffers.isDynamic) {
-            const id = obj.id;
-            const posData = ensureObjectCache(id, 'pos', obj.positions, Float32Array);
-            gl.bindBuffer(gl.ARRAY_BUFFER, obj.buffers.position);
-            gl.bufferData(gl.ARRAY_BUFFER, posData, gl.DYNAMIC_DRAW);
-
-            if (obj.normals) {
-                const normData = ensureObjectCache(id, 'norm', obj.normals, Float32Array);
-                gl.bindBuffer(gl.ARRAY_BUFFER, obj.buffers.normal);
-                gl.bufferData(gl.ARRAY_BUFFER, normData, gl.DYNAMIC_DRAW);
-            }
-            if (obj.colors) {
-                const colData = ensureObjectCache(id, 'col', obj.colors, Float32Array);
-                gl.bindBuffer(gl.ARRAY_BUFFER, obj.buffers.color);
-                gl.bufferData(gl.ARRAY_BUFFER, colData, gl.DYNAMIC_DRAW);
-            }
-
-            const use32Bit = (obj.positions.length / 3) > 65535 || obj.isMetaballSurface;
-            const IndexType = use32Bit ? Uint32Array : Uint16Array;
-            obj.buffers.indexType = use32Bit ? gl.UNSIGNED_INT : gl.UNSIGNED_SHORT;
-
-            if (obj.indices) {
-                const idxData = ensureObjectCache(id, 'idx', obj.indices, IndexType);
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj.buffers.indices);
-                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, idxData, gl.DYNAMIC_DRAW);
-                obj.indicesCount = obj.indices.length;
-            }
-            obj.dirty = false;
-        }
-        if (obj.children) obj.children.forEach(checkRecursive);
-    };
-    renderer.rootAnimatedObjects.forEach(checkRecursive);
+/** Stop the current heartbeat and cancel its outstanding frame request. */
+export function stopRendererLoop(renderer) {
+	if (!renderer.running && renderer.animationFrame == null) {
+		return false;
+	}
+	renderer.running = false;
+	cancelScheduledFrame(renderer);
+	return true;
 }
 
-function animate(renderer) {
-    renderer.frameCount++;
-    renderer.resize();
-
-    const now = performance.now();
-    const dt = Math.min((now - renderer.lastFrameTime) / 1000, 0.033);
-    renderer.lastFrameTime = now;
-
-    // Core physics / player updates
-    renderer.update(dt);
-
-    // B"H — FIX: pass dt so OratorLogic can do frame-rate-independent lerp
-    if (renderer.systemManager && renderer.systemManager.shapeKeySystem) {
-        renderer.systemManager.shapeKeySystem.update(dt);
-    }
-
-    updateDynamicBuffers(renderer);
-
-    if (!renderer.isPlaying && renderer.isCameraAnimationEnabled &&
-        renderer.cameraAnimation && renderer.cameraAnimation.length > 0) {
-        const currentTime = (now - renderer.startTime) / 1000;
-        const camMatrix = renderer.animationManager.getInterpolatedTransform('__camera__', currentTime);
-        renderer.orbitControls.setPosition([camMatrix[12], camMatrix[13], camMatrix[14]]);
-    }
-
-    renderer.drawingManager.renderFrame();
-    requestAnimationFrame(() => animate(renderer));
+function scheduleNextFrame(renderer) {
+	const requestFrame = renderer.options.requestAnimationFrame
+		|| globalThis.requestAnimationFrame;
+	if (typeof requestFrame !== "function") {
+		renderer.running = false;
+		return;
+	}
+	renderer.animationFrame = requestFrame(function rendererFrame() {
+		renderer.animationFrame = null;
+		renderFrame(renderer);
+	});
 }
 
-export const animationLoop = { animate, updateDynamicBuffers };
+function cancelScheduledFrame(renderer) {
+	if (renderer.animationFrame == null) {
+		return;
+	}
+	const cancelFrame = renderer.options.cancelAnimationFrame
+		|| globalThis.cancelAnimationFrame;
+	if (typeof cancelFrame === "function") {
+		cancelFrame(renderer.animationFrame);
+	}
+	renderer.animationFrame = null;
+}
+
+function renderFrame(renderer) {
+	if (!renderer.running || renderer.destroyed) {
+		return;
+	}
+	renderer.frameCount += 1;
+	renderer.resize();
+	const currentTime = now(renderer);
+	const dt = Math.min((currentTime - renderer.lastFrameTime) / 1000, 0.033);
+	renderer.lastFrameTime = currentTime;
+	renderer.update(dt);
+	updateShapeKeys(renderer, dt);
+	updateDynamicBuffers(renderer);
+	updateCameraAnimation(renderer, currentTime);
+	renderer.drawingManager.renderFrame();
+	scheduleNextFrame(renderer);
+}
+
+function updateShapeKeys(renderer, dt) {
+	const shapeKeySystem = renderer.systemManager?.shapeKeySystem;
+	if (shapeKeySystem) {
+		shapeKeySystem.update(dt);
+	}
+}
+
+function updateCameraAnimation(renderer, currentTime) {
+	if (renderer.isPlaying || !renderer.isCameraAnimationEnabled) {
+		return;
+	}
+	if (!renderer.cameraAnimation?.length || !renderer.orbitControls) {
+		return;
+	}
+	const elapsed = (currentTime - renderer.startTime) / 1000;
+	const matrix = renderer.animationManager.getInterpolatedTransform("__camera__", elapsed);
+	renderer.orbitControls.setPosition([matrix[12], matrix[13], matrix[14]]);
+}
+
+function now(renderer) {
+	const clock = renderer.options.performanceNow || globalThis.performance?.now;
+	if (typeof clock === "function") {
+		return clock.call(globalThis.performance);
+	}
+	return Date.now();
+}
+
+export const animationLoop = {
+	animate: startRendererLoop,
+	start: startRendererLoop,
+	stop: stopRendererLoop
+};

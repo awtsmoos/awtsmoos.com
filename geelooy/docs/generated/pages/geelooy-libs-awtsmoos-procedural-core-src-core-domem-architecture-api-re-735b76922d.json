@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-page-v2",
+	"id": "geelooy-libs-awtsmoos-procedural-core-src-core-domem-architecture-api-re-735b76922d",
+	"title": "Domem Architecture API Reference",
+	"sourcePath": "geelooy/libs/awtsmoos-procedural-core/src/core/domem/architecture/API_REFERENCE.md",
+	"category": "General",
+	"provenance": "project",
+	"headings": [
+		{
+			"level": 1,
+			"text": "Domem Architecture API Reference",
+			"anchor": "domem-architecture-api-reference"
+		},
+		{
+			"level": 2,
+			"text": "IMPORT",
+			"anchor": "import"
+		},
+		{
+			"level": 2,
+			"text": "HIGH-LEVEL CALL",
+			"anchor": "high-level-call"
+		},
+		{
+			"level": 2,
+			"text": "PROFILE INPUT",
+			"anchor": "profile-input"
+		},
+		{
+			"level": 2,
+			"text": "MATERIAL INPUT",
+			"anchor": "material-input"
+		},
+		{
+			"level": 2,
+			"text": "TERRAIN INPUT",
+			"anchor": "terrain-input"
+		},
+		{
+			"level": 2,
+			"text": "COMPLETE PLAN OUTPUT",
+			"anchor": "complete-plan-output"
+		},
+		{
+			"level": 2,
+			"text": "PRIMITIVE DEFINITIONS",
+			"anchor": "primitive-definitions"
+		},
+		{
+			"level": 2,
+			"text": "SUPPORT ADAPTERS",
+			"anchor": "support-adapters"
+		},
+		{
+			"level": 2,
+			"text": "MIGRATION COMPATIBILITY",
+			"anchor": "migration-compatibility"
+		}
+	],
+	"markdownParts": [
+		"content/geelooy-libs-awtsmoos-procedural-core-src-core-domem-architecture-api-re-735b76922d-001.json"
+	]
+}
