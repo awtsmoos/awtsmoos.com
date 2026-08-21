@@ -6,11 +6,11 @@ const { startRunProgress } = require("./main-run-progress.js");
 const { completeRun, failRun } = require("./main-run-result.js");
 
 /**
- * @file Holds one fair lane slot while execution evidence follows real consumers.
+ * @file Holds one exact scheduler ownership record through execution and release.
  * @description
- * The Awtsmoos renews one request through lane, handler, worker, and result.
- * Awtsmoos.com passes a parent-only observer beside every internal dispatch so
- * continuation work cannot become an invisible second execution inside one request.
+ * The Awtsmoos renews one request through lane, worker, result, and acknowledgement.
+ * Awtsmoos.com never releases by a vague requester alone: the exact request key
+ * must return the exact inflight vessel that began this execution.
  */
 function createRequestRunner(dependencies) {
 	return async function runRequest(
@@ -18,8 +18,12 @@ function createRequestRunner(dependencies) {
 		webSocket,
 		raw,
 		enqueuedAt,
-		requesterKey = "anonymous"
+		requesterKey,
+		requestKey
 	) {
+		if (!requesterKey || !requestKey) {
+			throw new Error("missing_exact_scheduler_ownership");
+		}
 		const data = dependencies.routedData(raw);
 		const context = {
 			data,
@@ -27,10 +31,13 @@ function createRequestRunner(dependencies) {
 			lane,
 			ws: webSocket,
 			enqueuedAt,
+			requesterKey,
+			requestKey,
 			startedAt: Date.now()
 		};
 		dependencies.streamEvent("action.started", context.payload, {
 			lane,
+			requestKey,
 			queuedMs: Math.max(0, context.startedAt - enqueuedAt)
 		});
 		const progress = startRunProgress(dependencies, context);
@@ -47,7 +54,7 @@ function createRequestRunner(dependencies) {
 			progress.stop();
 			return failRun(dependencies, context, error);
 		} finally {
-			dependencies.release(lane, requesterKey);
+			dependencies.release(lane, requesterKey, requestKey);
 		}
 	};
 }

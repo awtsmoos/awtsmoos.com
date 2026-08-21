@@ -2,83 +2,56 @@
 // Boruch Hashem
 // Blessed is He
 
-const { createMailbox } = require("../../../lib/connection-vessel/mailbox.js");
+const Emergency = require("../../../lib/connection-vessel/mailbox-emergency-registry.js");
 
 /**
- * @file Exposes guarded mailbox observation without erasing live custody evidence.
+ * @file Exposes live parent-mailbox observation and semantic repair through P0.
  * @description
- * The Awtsmoos keeps every receipt a witness while Awtsmoos.com opens a careful pane;
- * we may inspect, export, or quarantine broken parchment, but never discard a truthful chain.
+ * The Awtsmoos lets medicine touch the very vessel that is ill. Awtsmoos.com no longer
+ * creates a second mailbox facade for emergency actions; status, evidence, reconciliation,
+ * and quarantine all reach the exact parent custody map that owns accepted requests.
  */
 function buildConnectionMailboxActions({ config, payload }) {
 	return {
-		connectionMailboxStatus: async () => status(config),
+		connectionMailboxStatus: async () => status(),
 		connectionMailboxExport: async () => evidence(config, payload),
-		connectionMailboxQuarantine: async () => quarantine(config, payload)
+		connectionMailboxReconcile: async () => reconcile(payload),
+		connectionMailboxQuarantine: async () => quarantine(payload)
 	};
 }
 
-/**
- * Reads current mailbox health and metadata without mutation.
- * @param {object} config Native-agent configuration.
- * @returns {object} Stable status response.
- */
-function status(config) {
+function status() {
 	return {
 		BH: "B\"H",
-		ok: true,
 		action: "connectionMailboxStatus",
-		mailbox: createMailbox(config).snapshot()
+		...Emergency.status()
 	};
 }
 
-/**
- * Exports mailbox evidence, revealing payload bodies only to an explicitly secret-capable caller.
- * @param {object} config Native-agent configuration.
- * @param {object} payload Action payload.
- * @returns {object} Bounded evidence response.
- */
 function evidence(config, payload = {}) {
 	const includePayloads = Boolean(payload.includePayloads) && config.allowSecrets === true;
 	return {
 		BH: "B\"H",
-		ok: true,
 		action: "connectionMailboxExport",
 		includePayloads,
-		evidence: createMailbox(config).evidence(includePayloads)
+		...Emergency.evidence(includePayloads)
 	};
 }
 
-/**
- * Quarantines only structurally invalid records and requires an explicit confirmation token.
- * @param {object} config Native-agent configuration.
- * @param {object} payload Action payload.
- * @returns {object} Mutation result or confirmation request.
- */
-function quarantine(config, payload = {}) {
-	if (payload.confirm !== true) {
-		return {
-			BH: "B\"H",
-			ok: false,
-			action: "connectionMailboxQuarantine",
-			error: "confirmation_required",
-			confirmPayload: {
-				action: "connectionMailboxQuarantine",
-				confirm: true
-			}
-		};
-	}
+function reconcile(payload = {}) {
 	return {
 		BH: "B\"H",
-		ok: true,
-		action: "connectionMailboxQuarantine",
-		quarantined: createMailbox(config).quarantineInvalid()
+		action: "connectionMailboxReconcile",
+		...Emergency.reconcile(String(payload.reason || "p0_mailbox_reconcile"))
 	};
 }
 
-module.exports = {
-	buildConnectionMailboxActions,
-	evidence,
-	quarantine,
-	status
-};
+function quarantine(payload = {}) {
+	return {
+		BH: "B\"H",
+		action: "connectionMailboxQuarantine",
+		...Emergency.quarantine(payload)
+	};
+}
+
+module.exports = { buildConnectionMailboxActions, evidence, quarantine, reconcile, status };

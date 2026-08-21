@@ -8,10 +8,11 @@ const Protocol = require("./protocol.js");
 const Store = require("./mailbox-store.js");
 
 /**
- * @file Gives transport testimony durable settlement and generation-aware custody health.
+ * @file Gives durable mailbox records exact custody plus recoverable semantic quarantine.
  * @description
- * The Awtsmoos preserves every durable witness while today's delivery attempt receives its own clock;
- * Awtsmoos.com distinguishes accepted parent custody from a handoff still waiting at the lock.
+ * The Awtsmoos preserves the witness yet renews its living custody each instant.
+ * Awtsmoos.com may quarantine an expired hot-lane receipt without deleting history,
+ * while result testimony remains durable until its acknowledgement can be reconciled.
  */
 function createMailbox(config = {}, options = {}) {
 	const store = Store.createStore(config, options);
@@ -30,20 +31,31 @@ function createMailbox(config = {}, options = {}) {
 		return value;
 	}
 
-	function noteDeliveryAttempt(id) {
-		return custody.noteAttempt(id);
+	function noteDeliveryAttempt(id, metadata = {}) {
+		return custody.noteAttempt(id, metadata);
 	}
 
-	function noteParentCustody(id) {
-		return custody.noteParent(id);
+	function noteParentCustody(id, metadata = {}) {
+		return custody.noteParent(id, metadata);
+	}
+
+	function noteCustodyProgress(id, metadata = {}) {
+		return custody.progress(id, metadata);
+	}
+
+	function settleCustody(id) {
+		return custody.settle(id);
 	}
 
 	function acknowledge(id) {
 		custody.settle(id);
-		return {
-			inbox: store.remove("inbox", id),
-			outbox: store.remove("outbox", id)
-		};
+		return { inbox: store.remove("inbox", id), outbox: store.remove("outbox", id) };
+	}
+
+	function quarantineExact(id, reason = "semantic_stale_custody") {
+		const moved = store.quarantine("inbox", id, reason);
+		custody.settle(id);
+		return { ...moved, safeToRedispatch: false };
 	}
 
 	function inbox() {
@@ -59,56 +71,29 @@ function createMailbox(config = {}, options = {}) {
 	}
 
 	function snapshot() {
-		const inboxState = {
-			...store.snapshot("inbox"),
-			...custody.snapshot()
-		};
+		const inboxState = { ...store.snapshot("inbox"), ...custody.snapshot() };
 		const outboxState = store.snapshot("outbox");
-		return {
-			health: Health.overall(inboxState, outboxState),
-			inbox: inboxState,
-			limits: store.limits,
-			outbox: outboxState
-		};
+		return { health: Health.overall(inboxState, outboxState), inbox: inboxState,
+			limits: store.limits, outbox: outboxState };
 	}
 
 	function evidence(includePayloads = false) {
-		return {
-			snapshot: snapshot(),
-			inbox: records("inbox", includePayloads),
-			outbox: records("outbox", includePayloads)
-		};
+		return { snapshot: snapshot(), custody: custody.records(),
+			inbox: records("inbox", includePayloads), outbox: records("outbox", includePayloads) };
 	}
 
 	function records(lane, includePayloads) {
-		return store.list(lane).map(entry => ({
-			id: entry.id,
-			updatedAt: entry.updatedAt,
-			bytes: entry.bytes,
-			...(includePayloads ? { value: entry.value } : {})
-		}));
+		return store.list(lane).map(entry => ({ id: entry.id, updatedAt: entry.updatedAt,
+			bytes: entry.bytes, ...(includePayloads ? { value: entry.value } : {}) }));
 	}
 
 	function quarantineInvalid() {
-		return {
-			inbox: store.quarantineInvalid("inbox"),
-			outbox: store.quarantineInvalid("outbox")
-		};
+		return { inbox: store.quarantineInvalid("inbox"), outbox: store.quarantineInvalid("outbox") };
 	}
 
-	return {
-		acknowledge,
-		evidence,
-		inbox,
-		noteDeliveryAttempt,
-		noteParentCustody,
-		outbox,
-		outboxOne,
-		putInbox,
-		putOutbox,
-		quarantineInvalid,
-		snapshot
-	};
+	return { acknowledge, evidence, inbox, noteCustodyProgress, noteDeliveryAttempt,
+		noteParentCustody, outbox, outboxOne, putInbox, putOutbox, quarantineExact,
+		quarantineInvalid, settleCustody, snapshot };
 }
 
 module.exports = { createMailbox };

@@ -5,13 +5,16 @@
 const PROBE_MODE = "candidate-probe";
 const CONSUMER_PROGRESS_CAPABILITY = "consumerProgressV2";
 const REQUESTER_QUEUE_CAPABILITY = "requesterQueueIsolationV1";
+const SCHEDULER_RECOVERY_CAPABILITY = "schedulerRecoveryV2";
+const EXACT_CUSTODY_CAPABILITY = "exactCustodyLeasesV1";
+const ACTION_MANIFEST_CAPABILITY = "actionManifestV1";
 
 /**
- * @file Publishes bounded physical capacity and requester-isolated logical admission.
+ * @file Publishes bounded capacity plus exact recovery and provenance negotiation.
  * @description
  * The Awtsmoos lets many shluchim arrive while Awtsmoos.com tells the relay the
- * exact covenant: physical workers are bounded, each requester owns a finite waiting
- * vessel, and health/progress truth is negotiated instead of guessed from a socket.
+ * precise covenant: fair queues, exact custody, independent recovery, and executable
+ * action provenance are negotiated instead of inferred from a socket or display name.
  */
 function createRegistrationRuntime(dependencies) {
 	function registerReady(ws, config) {
@@ -26,7 +29,10 @@ function createRegistrationRuntime(dependencies) {
 		packet.capabilities = {
 			...(packet.capabilities || {}),
 			[CONSUMER_PROGRESS_CAPABILITY]: true,
-			[REQUESTER_QUEUE_CAPABILITY]: true
+			[REQUESTER_QUEUE_CAPABILITY]: true,
+			[SCHEDULER_RECOVERY_CAPABILITY]: true,
+			[EXACT_CUSTODY_CAPABILITY]: true,
+			[ACTION_MANIFEST_CAPABILITY]: true
 		};
 		const mode = registrationMode(process.env.AWTSMOOS_REGISTRATION_MODE);
 		if (mode) packet.registrationMode = mode;
@@ -56,11 +62,6 @@ function registrationMode(value) {
 	return String(value || "") === PROBE_MODE ? PROBE_MODE : "";
 }
 
-module.exports = {
-	CONSUMER_PROGRESS_CAPABILITY,
-	PROBE_MODE,
-	REQUESTER_QUEUE_CAPABILITY,
-	createRegistrationRuntime,
-	registrationLimits,
-	registrationMode
-};
+module.exports = { ACTION_MANIFEST_CAPABILITY, CONSUMER_PROGRESS_CAPABILITY,
+	EXACT_CUSTODY_CAPABILITY, PROBE_MODE, REQUESTER_QUEUE_CAPABILITY,
+	SCHEDULER_RECOVERY_CAPABILITY, createRegistrationRuntime, registrationLimits, registrationMode };

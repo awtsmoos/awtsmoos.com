@@ -6,52 +6,66 @@ const assert = require("node:assert/strict");
 const Priority = require("../lib/runtime/priority.js");
 
 /**
- * B"H
- * The long deed may fill every ordinary vessel, yet its observer must still
- * speak. The Awtsmoos renews both; Awtsmoos.com reserves a control road that
- * crosses global saturation without stealing the occupied bulk worker.
+ * @file Proves P0 observation crosses ordinary saturation with exact requester identity.
+ * @description
+ * The long deed may fill every ordinary vessel, yet its observer must still speak.
+ * The Awtsmoos renews both, and Awtsmoos.com proves the emergency road remains open
+ * without resurrecting identity-less queue entries or ambiguous exact-request releases.
  */
 function main() {
 	const lanes = Priority.makeLaneState();
 	const scheduler = Priority.createSchedulerState();
 	const limits = createLimits();
-	const requester = "agentSessionId:saturation-test";
 
-	Priority.enqueue(lanes, item("asyncTaskStart", requester));
+	Priority.enqueue(lanes, item("asyncTaskStart", 1));
 	const activeBulk = Priority.takeNext(lanes, limits, scheduler);
 	assert.equal(activeBulk.lane, Priority.LANES.P4);
 
-	Priority.enqueue(lanes, item("asyncTaskStart", requester));
-	Priority.enqueue(lanes, item("asyncTaskStatus", requester));
-	Priority.enqueue(lanes, item("asyncTaskOutputPage", requester));
-
+	Priority.enqueue(lanes, item("asyncTaskStart", 2));
+	Priority.enqueue(lanes, item("asyncTaskStatus", 3));
+	Priority.enqueue(lanes, item("asyncTaskOutputPage", 4));
 	assert.equal(Priority.inflightCount(lanes), 1);
 	assert.equal(Priority.nextLane(lanes, limits, scheduler), Priority.LANES.P0);
 
 	const status = Priority.takeNext(lanes, limits, scheduler);
 	assert.equal(Priority.actionOf(status), "asyncTaskStatus");
 	assert.equal(status.lane, Priority.LANES.P0);
-	Priority.release(lanes, status.lane, status.requesterKey);
+	release(lanes, status);
 
 	const output = Priority.takeNext(lanes, limits, scheduler);
 	assert.equal(Priority.actionOf(output), "asyncTaskOutputPage");
 	assert.equal(output.lane, Priority.LANES.P0);
-	Priority.release(lanes, output.lane, output.requesterKey);
+	release(lanes, output);
 
 	assert.equal(Priority.takeNext(lanes, limits, scheduler), null);
-	Priority.release(lanes, activeBulk.lane, activeBulk.requesterKey);
-
+	release(lanes, activeBulk);
 	const nextBulk = Priority.takeNext(lanes, limits, scheduler);
 	assert.equal(Priority.actionOf(nextBulk), "asyncTaskStart");
 	console.log("BHY async control escapes bulk saturation");
 }
 
-function item(action, requesterKey) {
+function item(action, sequence) {
 	return {
 		data: {
-			payload: { action, kind: "fs", requesterKey }
+			payload: {
+				action,
+				kind: "fs",
+				logicalAgentId: "saturation-agent",
+				agentSessionId: "saturation-session",
+				generation: 1,
+				requestId: `saturation-${sequence}`
+			}
 		}
 	};
+}
+
+function release(lanes, itemToRelease) {
+	Priority.release(
+		lanes,
+		itemToRelease.lane,
+		itemToRelease.requesterKey,
+		itemToRelease.requestKey
+	);
 }
 
 function createLimits() {

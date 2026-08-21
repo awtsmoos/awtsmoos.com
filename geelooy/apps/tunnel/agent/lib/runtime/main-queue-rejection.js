@@ -3,45 +3,51 @@
 // Blessed is He
 
 /**
- * @file Turns admission pressure and queue expiry into explicit terminal evidence.
+ * @file Returns explicit admission semantics for pressure, identity, and expiry.
  * @description
- * The Awtsmoos never lets a waiting deed vanish. Awtsmoos.com distinguishes one
- * requester's private saturation from machine pressure, so a crowded agent learns
- * to slow itself without making neighboring shluchim believe the whole tunnel failed.
+ * The Awtsmoos knows each deed by its true name. Awtsmoos.com therefore never
+ * invents an anonymous shliach, never hides whether custody was accepted, and
+ * never turns an observation failure into permission to repeat a mutation.
  */
 function createQueueRejection(dependencies) {
 	function circuit(ws, data, payload, lane, gate, currentStats) {
-		const result = {
+		return finish(ws, data, payload, {
 			ok: false,
 			status: gate.status || 503,
 			error: gate.reason || gate.error || "circuit_rejected",
 			lane,
+			acceptanceState: "NOT_ACCEPTED",
+			safeToRetry: true,
 			...gate,
 			queueStats: currentStats
-		};
-		return finish(ws, data, payload, result);
+		});
+	}
+
+	function identity(ws, data, payload, error) {
+		return finish(ws, data, payload, {
+			ok: false,
+			status: 400,
+			error: "invalid_request_identity",
+			code: error?.code || "INVALID_REQUEST_IDENTITY",
+			missingFields: error?.missingFields || [],
+			acceptanceState: "NOT_ACCEPTED",
+			safeToRetry: true
+		});
 	}
 
 	function full(ws, data, payload, lane, currentStats, gate = {}) {
 		const requesterFull = gate.reason === "requester_queue_full";
-		const error = requesterFull
-			? "requester_queue_full"
-			: laneError(dependencies, lane);
 		return finish(ws, data, payload, {
 			ok: false,
 			status: 429,
-			error,
+			error: requesterFull ? "requester_queue_full" : laneError(dependencies, lane),
 			lane,
 			queueScope: requesterFull ? "requester" : "machine",
 			requesterQueued: gate.requesterQueued,
 			requesterLimit: gate.requesterLimit,
-			queueStats: currentStats,
-			recovery: {
-				retryAfterMs: requesterFull ? 250 : 1000,
-				instruction: requesterFull
-					? "Wait for this requester's queued work to drain or cancel its stale work."
-					: "Retry after machine queue pressure drains; control and cancellation remain reserved."
-			}
+			acceptanceState: "NOT_ACCEPTED",
+			safeToRetry: true,
+			queueStats: currentStats
 		});
 	}
 
@@ -55,10 +61,9 @@ function createQueueRejection(dependencies) {
 			queuedMs: Math.max(0, Number(queuedMs || 0)),
 			consumerStarted: false,
 			queueWaitExpired: true,
-			recovery: {
-				retryAfterMs: 250,
-				instruction: "Retry as a fresh request; this queued custody was terminalized before execution began."
-			}
+			acceptanceState: "ACCEPTED",
+			safeToRetry: false,
+			reconciliationRequired: true
 		});
 	}
 
@@ -73,7 +78,12 @@ function createQueueRejection(dependencies) {
 		});
 	}
 
-	return { circuit, expired, full };
+	return {
+		circuit,
+		expired,
+		full,
+		identity
+	};
 }
 
 function laneError(dependencies, lane) {
