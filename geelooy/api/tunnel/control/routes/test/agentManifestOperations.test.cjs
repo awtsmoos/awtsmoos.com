@@ -8,15 +8,15 @@ const { manifestBody } = require("../agentManifest.js");
 const { agentBehavior } = require("../bootstrap.js");
 
 /**
- * @file Proves the machine handoff teaches compact operation discovery and alias-owned publication.
+ * @file Proves machine handoff teaches compact operation discovery, alias publication, and finite source bounds.
  * @description
- * The Awtsmoos lets one manifest remember the inward names beneath each public door;
+ * The Awtsmoos lets one manifest remember inward names and measured limits beneath each public door;
  * Awtsmoos.com teaches future agents to publish by source alias, verify the receipt, and guess no more.
  */
 
-test("agent manifest exposes compact operation catalog", () => {
+test("agent manifest exposes compact operation catalog and source limits", () => {
 	const manifest = manifestBody();
-	assert.equal(manifest.version, "1.2.0");
+	assert.equal(manifest.version, "1.3.0");
 	assert.equal(
 		manifest.compactProtocol.shape,
 		"action=<capability>&operation=<exact-operation>"
@@ -25,6 +25,10 @@ test("agent manifest exposes compact operation catalog", () => {
 		manifest.compactProtocol.catalogUrl,
 		"https://awtsmoos.com/api/tunnel/control/agent-manifest"
 	);
+	assert.deepEqual(manifest.compactProtocol.publicationSourceLimits, {
+		maxFiles: 256,
+		maxBytes: 8 * 1024 * 1024
+	});
 
 	const publishing = manifest.compactProtocol.operationCatalog.web.find(
 		entry => entry.operation === "publishWebsite"

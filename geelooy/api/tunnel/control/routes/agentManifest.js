@@ -5,12 +5,13 @@
 /**
  * @file Machine-readable Awtsmoos Agent Manifest for interactive and headless AI.
  * @description
- * The Awtsmoos lets OAuth, immutable routing, and compact operation discovery meet without folklore;
- * Awtsmoos.com gives external agents a small public surface whose important inward deeds remain knowable.
+ * The Awtsmoos lets OAuth, immutable routing, compact discovery, and finite source limits meet without folklore;
+ * Awtsmoos.com gives external agents one small public surface whose inward deeds and publication bounds stay knowable.
  */
 
 const { agentLinks, oauth } = require("../docs/catalog.js");
 const { json } = require("../core/respond.js");
+const { publicationSourceLimits } = require("../../../../sites/hostedFolderManifestLimits.js");
 const { externalAgentFlow } = require("./agentFlow.js");
 const { headlessDeviceFlow } = require("./deviceFlow.js");
 const Operations = require("./agentOperationCatalog.js");
@@ -46,7 +47,7 @@ function manifestBody() {
 		BH: "B\"H",
 		ok: true,
 		name: "Awtsmoos External AI Agent Manifest",
-		version: "1.2.0",
+		version: "1.3.0",
 		protocol: "awtsmoos-external-agent-v1",
 		recommendedClientId: oauth.recommendedClientId,
 		requiredClientCapabilities: REQUIRED_CALLBACK_CAPABILITIES,
@@ -58,6 +59,7 @@ function manifestBody() {
 		compactProtocol: {
 			shape: "action=<capability>&operation=<exact-operation>",
 			operationCatalog: Operations.operationCatalog(),
+			publicationSourceLimits: publicationSourceLimits(),
 			catalogUrl: Operations.CATALOG_URL
 		},
 		firstActions: Operations.compactExamples(),
