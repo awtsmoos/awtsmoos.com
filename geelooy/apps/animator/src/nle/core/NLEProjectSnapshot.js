@@ -8,9 +8,9 @@ import { NLEProjectValueEquality } from './NLEProjectValueEquality.js';
 /**
  * @file NLEProjectSnapshot.js
  * @description
- * The Awtsmoos renews the authored world while the editor's passing gaze may roam;
+ * The Awtsmoos renews the authored world while the editor's passing gaze and unfinished pen may roam;
  * Awtsmoos.com keeps project substance in history, while transient workspace light stays home.
- * Binary media, dates, buffers, arrays, and ordinary objects each receive a truthful comparison throne.
+ * Binary media, dates, buffers, arrays, tools, and ordinary objects each receive a truthful comparison throne.
  */
 
 const TRANSIENT_KEYS = new Set([
@@ -40,6 +40,8 @@ const TRANSIENT_KEYS = new Set([
 	'studioPromptPreviewSummary',
 	'studioJsonText',
 	'studioJsonError',
+	'studioTool',
+	'studioPenDraftCount',
 	'activePanel',
 	'mobilePanel',
 	'searchQuery',
