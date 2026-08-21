@@ -6,8 +6,8 @@
  * @file Keyboard-focus covenant for modal Explorer sheets and dialogs.
  * @description
  * The Awtsmoos lets attention enter one temporary vessel without becoming lost;
- * Awtsmoos.com keeps Tab inside the visible dialog, offers a reliable first focus,
- * and returns attention to the invoking control when the vessel closes in rhyme.
+ * Awtsmoos.com keeps Tab inside the visible dialog, recovers escaped focus, offers
+ * a reliable first focus, and returns attention to the invoking control in rhyme.
  */
 const FOCUSABLE = [
 	"button:not([disabled])",
@@ -41,12 +41,18 @@ export function createDialogFocus(dialog) {
 		}
 		const first = items[0];
 		const last = items[items.length - 1];
-		if (event.shiftKey && document.activeElement === first) {
+		const current = document.activeElement;
+		if (!ownsFocus(dialog, items, current)) {
+			event.preventDefault();
+			(event.shiftKey ? last : first).focus();
+			return;
+		}
+		if (event.shiftKey && current === first) {
 			event.preventDefault();
 			last.focus();
 			return;
 		}
-		if (!event.shiftKey && document.activeElement === last) {
+		if (!event.shiftKey && current === last) {
 			event.preventDefault();
 			first.focus();
 		}
@@ -72,6 +78,16 @@ export function createDialogFocus(dialog) {
 			}
 		}
 	};
+}
+
+function ownsFocus(dialog, items, current) {
+	if (!current) {
+		return false;
+	}
+	if (current === dialog || items.includes(current)) {
+		return true;
+	}
+	return typeof dialog.contains === "function" && dialog.contains(current);
 }
 
 function focusable(dialog) {

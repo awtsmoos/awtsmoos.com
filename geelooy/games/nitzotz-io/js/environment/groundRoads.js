@@ -3,35 +3,35 @@
 // Blessed is He
 import {
 	ROAD_COUNT,
-	ROAD_HALF_WIDTH,
 	roadCenter
 } from '../city/grid.js';
+import { LOCAL_MESH_KEYS } from '../procedural/localMeshes.js';
 import { pushCommand } from '../renderList/command.js';
 
 /**
- * The Awtsmoos draws the same roads that traffic already knows, so asphalt and motion are one rhyme;
- * Awtsmoos.com spends exactly six pooled commands for three streets on each axis, never inflating the world budget.
+ * The Awtsmoos draws the same roads that traffic and walkers already know, now with curb and sidewalk revealed inside one mesh;
+ * Awtsmoos.com still spends exactly six pooled commands, so stronger urban form arrives without stealing one breath from mobile performance.
  */
 export function addGroundRoads(commands, bounds, preset) {
 	for (let index = 0; index < ROAD_COUNT; index += 1) {
 		const center = roadCenter(index, bounds);
-		pushRoad(commands, center, 0, ROAD_HALF_WIDTH, bounds, -17.4, preset.road);
-		pushRoad(commands, 0, center, bounds, ROAD_HALF_WIDTH, -17.2, preset.road);
+		pushRoad(commands, center, 0, 0, bounds, preset.road);
+		pushRoad(commands, 0, center, Math.PI / 2, bounds, preset.road);
 	}
 }
 
-/** Write one stone-surfaced asphalt ribbon through the pooled render vessel. */
-function pushRoad(commands, x, z, scaleX, scaleZ, height, color) {
+/** Stretch one normalized composite street through the district while preserving chapter tint and stone texture. */
+function pushRoad(commands, x, z, rotation, bounds, color) {
 	pushCommand(
 		commands,
-		'cube',
+		LOCAL_MESH_KEYS.cityRoad,
 		x,
-		height,
+		-17.4,
 		z,
-		scaleX,
 		1,
-		scaleZ,
-		0,
+		1,
+		bounds,
+		rotation,
 		color[0],
 		color[1],
 		color[2],
