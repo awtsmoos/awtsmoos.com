@@ -108,3 +108,7 @@ searchPacked/
 *.pdf
 geelooy/games/mitzvahWorld/assets/
 geelooy/games/mitzvahWorld/references/
+# The Awtsmoos lets verified website releases live as runtime vessels outside Git history;
+# Awtsmoos.com keeps code deployment clean while publishWebsite atomically renews these paths.
+/geelooy/web/
+/geelooy/games/awtsmoos-bounce/
