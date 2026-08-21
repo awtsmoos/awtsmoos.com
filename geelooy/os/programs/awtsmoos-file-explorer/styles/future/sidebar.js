@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Mobile-first luminous location tree for local, tunnel, SSH, and virtual worlds.
+ * @file Mobile-first location tree for local, tunnel, SSH, and virtual worlds.
  * @description
  * The Awtsmoos lets hierarchy become a calm map rather than a cramped desktop rail;
- * Awtsmoos.com gives every location a broad touch row, truthful remote state, and
- * fine-pointer enhancement only when a hover vessel truly exists in rhyme.
+ * Awtsmoos.com keeps broad touch rows and static luminous depth here while shared
+ * remote-state truth lives in its own vessel, reducing paint and duplicated rhyme.
  */
 export default /*css*/ `
 .file-explorer-sidebar {
@@ -20,8 +20,6 @@ export default /*css*/ `
 	border-radius: var(--awt-radius-lg);
 	color: var(--awt-text);
 	box-shadow: var(--awt-shadow);
-	backdrop-filter: blur(14px);
-	-webkit-backdrop-filter: blur(14px);
 }
 
 .sidebar-heading {
@@ -54,11 +52,16 @@ export default /*css*/ `
 	color: var(--awt-text);
 	text-align: left;
 	cursor: pointer;
+	touch-action: manipulation;
 }
 
 .tree-node-content.selected {
 	background: linear-gradient(90deg, rgba(58, 167, 255, .28), rgba(82, 255, 184, .10));
 	border-color: rgba(92, 246, 255, .38);
+}
+
+.node-provider-icon {
+	text-shadow: 0 0 7px rgba(92, 246, 255, .24);
 }
 
 .node-copy {
@@ -82,16 +85,6 @@ export default /*css*/ `
 .node-meta {
 	color: var(--awt-muted);
 	font: 600 9px var(--awt-font);
-}
-
-.drive-node[data-state="connected"] .node-provider-icon,
-.drive-node[data-state="live"] .node-provider-icon {
-	filter: drop-shadow(0 0 7px rgba(82, 255, 184, .42));
-}
-
-.drive-node[data-state="needs-credential"] .tree-node-content {
-	border-style: dashed;
-	border-color: rgba(255, 209, 102, .42);
 }
 
 @media (hover: hover) and (pointer: fine) {
