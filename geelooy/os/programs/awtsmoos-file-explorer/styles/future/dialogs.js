@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Mobile-first modal and bottom-sheet shell for Explorer dialogs.
+ * @file Keyboard-safe mobile bottom sheet and desktop modal shell for Explorer dialogs.
  * @description
- * The Awtsmoos lets a focused choice rise close to the thumb on narrow screens;
- * Awtsmoos.com centers that same glass vessel on larger worlds, with safe-area
- * breathing room, readable fields, and generous actions that remain fast in rhyme.
+ * The Awtsmoos lets a focused choice rise near the thumb without forcing the GPU
+ * to resample the world behind it. Awtsmoos.com honors safe areas, keyboard space,
+ * readable fields, and generous actions while static luminous depth carries the rhyme.
  */
 export default /*css*/ `
 .input-dialog-overlay {
@@ -16,16 +16,14 @@ export default /*css*/ `
 	z-index: 100000;
 	display: grid;
 	align-items: end;
-	padding: 10px;
+	padding: max(10px, env(safe-area-inset-top, 0px)) 10px;
 	padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-	background: rgba(0, 6, 14, .66);
-	backdrop-filter: blur(8px);
-	-webkit-backdrop-filter: blur(8px);
+	background: rgba(0, 6, 14, .76);
 }
 
 .input-dialog {
 	width: 100%;
-	max-height: calc(100dvh - 20px);
+	max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px));
 	overflow: auto;
 	box-sizing: border-box;
 	padding: 18px;
@@ -33,9 +31,13 @@ export default /*css*/ `
 	gap: 13px;
 	border-radius: 24px 24px 16px 16px;
 	overscroll-behavior: contain;
+	background: linear-gradient(180deg, rgba(17, 53, 88, .98), rgba(5, 20, 37, .99));
+	border: 1px solid var(--awt-line2);
+	box-shadow: var(--awt-shadow), inset 0 1px rgba(255, 255, 255, .12);
 }
 
 .dialog-title {
+	margin: 0;
 	font: 820 18px var(--awt-font);
 	letter-spacing: .01em;
 	color: var(--awt-text);
