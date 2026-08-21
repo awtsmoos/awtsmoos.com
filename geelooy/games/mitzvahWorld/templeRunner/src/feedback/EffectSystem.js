@@ -10,7 +10,7 @@
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 import { FEEDBACK_CONFIG } from "../config.js";
 import { NetzachAmbientParticleSystem } from "./AmbientParticleSystem.js";
 import { HodEffectFactory } from "./EffectFactory.js";

@@ -10,7 +10,7 @@
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 import { TiferesAmbientDistrictProfile } from "./AmbientDistrictProfile.js";
 import { HodAmbientParticleGeometry } from "./AmbientParticleGeometry.js";
 

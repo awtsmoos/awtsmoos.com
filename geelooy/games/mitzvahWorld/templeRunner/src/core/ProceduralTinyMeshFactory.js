@@ -14,7 +14,7 @@ import {
 import {
 	Mesh,
 	MeshStandardMaterial
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 import { YesodNativeEulerRotation } from "./NativeEulerRotation.js";
 import { MalchusProceduralNativeGeometry } from "./ProceduralNativeGeometry.js";
 

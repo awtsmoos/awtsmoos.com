@@ -10,7 +10,7 @@
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 import { ChesedPowerUpVisualFactory } from "./PowerUpVisualFactory.js";
 
 const POWERUP_TYPES = Object.freeze([
