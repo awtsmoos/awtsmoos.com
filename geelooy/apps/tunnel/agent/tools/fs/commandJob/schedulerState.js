@@ -4,19 +4,11 @@
 
 const ConcurrencyProfile = require("./concurrencyProfile.js");
 const FairQueue = require("./fairQueue.js");
+const Owner = require("./owner.js");
 const QueueStartLease = require("./queueStartLease.js");
 
 const DEFAULT_MAX_QUEUED = 8192;
 const DEFAULT_MAX_PER_OWNER = 8;
-const STABLE_OWNER_FIELDS = Object.freeze([
-	"requesterKey",
-	"logicalAgentId",
-	"agentSessionId",
-	"conversationId",
-	"roomId",
-	"missionId",
-	"source"
-]);
 const profile = ConcurrencyProfile.resolve();
 const state = {
 	active: new Map(),
@@ -33,11 +25,11 @@ const state = {
 };
 
 /**
- * @file Exposes command capacity around stable logical-owner identity.
+ * @file Exposes command capacity around stable non-anonymous owner identity.
  * @description
- * The Awtsmoos knows a shliach beyond the number of one transport request.
- * Awtsmoos.com therefore binds many commands to one stable owner, bounds its
- * waiting and running share, and leaves physical capacity visible for neighboring agents.
+ * The Awtsmoos knows a shliach beyond one transport request. Awtsmoos.com prefers
+ * logical identity and falls back only to unique request identity, never a shared
+ * anonymous vessel that lets unrelated command pressure merge invisibly.
  */
 function snapshot() {
 	const activeByOwner = countActiveOwners();
@@ -60,15 +52,11 @@ function snapshot() {
 }
 
 function ownerOf(payload = {}) {
-	for (const field of STABLE_OWNER_FIELDS) {
-		const value = String(payload[field] || "").trim();
-		if (value) return `${field}:${value}`;
-	}
-	return "anonymous";
+	return Owner.ownerOf(payload);
 }
 
 function activeForOwner(ownerId) {
-	return countActiveOwners().get(String(ownerId || "anonymous")) || 0;
+	return countActiveOwners().get(Owner.requireOwner(ownerId)) || 0;
 }
 
 function ownerCanLaunch(ownerId) {
@@ -88,14 +76,5 @@ function positive(value, fallback) {
 	return Number.isFinite(number) && number > 0 ? Math.floor(number) : fallback;
 }
 
-module.exports = {
-	DEFAULT_MAX_PER_OWNER,
-	DEFAULT_MAX_QUEUED,
-	STABLE_OWNER_FIELDS,
-	activeForOwner,
-	ownerCanLaunch,
-	ownerOf,
-	profile,
-	snapshot,
-	state
-};
+module.exports = { DEFAULT_MAX_PER_OWNER, DEFAULT_MAX_QUEUED, STABLE_OWNER_FIELDS: Owner.FIELDS,
+	activeForOwner, ownerCanLaunch, ownerOf, profile, snapshot, state };

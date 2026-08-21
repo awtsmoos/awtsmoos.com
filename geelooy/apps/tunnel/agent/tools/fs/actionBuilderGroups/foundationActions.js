@@ -2,45 +2,50 @@
 // Boruch Hashem
 // Blessed is He
 
-const { buildConfigActions } = require("../actionGroups/configActions.js");
-const { buildReadActions } = require("../actionGroups/readActions.js");
-const { buildProjectActions } = require("../actionGroups/projectActions.js");
-const { buildFileOpsActions } = require("../actionGroups/fileOpsActions.js");
-const { buildHttpActions } = require("../actionGroups/httpActionsGroup.js");
-const { buildCommandActions } = require("../actionGroups/commandActions.js");
-const { buildAsyncTaskActions } = require("../actionGroups/asyncTaskActions.js");
-const { buildConnectionMailboxActions } = require("../actionGroups/connectionMailboxActions.js");
-const { buildScanWorkerActions } = require("../actionGroups/scanWorkerActions.js");
-const { buildStaticServerActions } = require("../actionGroups/staticServerActions.js");
-const { buildIsolatedActions } = require("../actionGroups/isolatedActions.js");
-const { buildWriteActions } = require("../actionGroups/writeActions.js");
-const { buildWorkflowActions } = require("../actionGroups/workflowActions.js");
-const { buildPreviewActions } = require("../actionGroups/previewActions.js");
-const { buildShareActions } = require("../actionGroups/shareActions.js");
-const { buildRemoteDriveActions } = require("../actionGroups/remoteDriveActions.js");
-const { buildPreviewReceiptActions } = require("../actionGroups/previewReceiptActions.js");
-const { buildFakeSshActions } = require("../actionGroups/fakeSshActions.js");
-const { buildRemoteNativeDesktopActions } = require("../actionGroups/remoteNativeDesktopActions.js");
-const { buildVirtualOsGraphActions } = require("../actionGroups/virtualOsGraphActions.js");
-const { buildRuntimeActions } = require("../actionGroups/runtimeActions.js");
-const { buildNodeDomActions } = require("../actionGroups/nodeDomActions.js");
-const { buildOsSurfaceActions } = require("../actionGroups/osSurfaceActions.js");
-const { buildCognitionActions } = require("../actionGroups/cognitionActions.js");
-const { buildPortActions } = require("../actionGroups/portActions.js");
-const { buildQualityActions } = require("../actionGroups/qualityActions.js");
-const { buildBatchAliasActions } = require("../actionGroups/batchAliasActions.js");
 const { buildActionHistoryActions } = require("../actionGroups/actionHistoryActions.js");
 const { buildActionStreamActions } = require("../actionGroups/actionStreamActions.js");
+const { buildAsyncTaskActions } = require("../actionGroups/asyncTaskActions.js");
+const { buildBatchAliasActions } = require("../actionGroups/batchAliasActions.js");
+const { buildCognitionActions } = require("../actionGroups/cognitionActions.js");
+const { buildCommandActions } = require("../actionGroups/commandActions.js");
+const { buildConfigActions } = require("../actionGroups/configActions.js");
+const { buildConnectionMailboxActions } = require("../actionGroups/connectionMailboxActions.js");
+const { buildFakeSshActions } = require("../actionGroups/fakeSshActions.js");
+const { buildFileOpsActions } = require("../actionGroups/fileOpsActions.js");
+const { buildHttpActions } = require("../actionGroups/httpActionsGroup.js");
+const { buildIsolatedActions } = require("../actionGroups/isolatedActions.js");
+const { buildNativeGenerationActions } = require("../actionGroups/nativeGenerationActions.js");
+const { buildNodeDomActions } = require("../actionGroups/nodeDomActions.js");
+const { buildOsSurfaceActions } = require("../actionGroups/osSurfaceActions.js");
+const { buildPortActions } = require("../actionGroups/portActions.js");
+const { buildPreviewActions } = require("../actionGroups/previewActions.js");
+const { buildPreviewReceiptActions } = require("../actionGroups/previewReceiptActions.js");
+const { buildProjectActions } = require("../actionGroups/projectActions.js");
+const { buildQualityActions } = require("../actionGroups/qualityActions.js");
+const { buildReadActions } = require("../actionGroups/readActions.js");
+const { buildRemoteDriveActions } = require("../actionGroups/remoteDriveActions.js");
+const { buildRemoteNativeDesktopActions } = require("../actionGroups/remoteNativeDesktopActions.js");
+const { buildRuntimeActions } = require("../actionGroups/runtimeActions.js");
+const { buildScanWorkerActions } = require("../actionGroups/scanWorkerActions.js");
+const { buildSchedulerEmergencyActions } = require("../actionGroups/schedulerEmergencyActions.js");
+const { buildShareActions } = require("../actionGroups/shareActions.js");
+const { buildStaticServerActions } = require("../actionGroups/staticServerActions.js");
 const { buildTaskRuntimeActions } = require("../actionGroups/taskRuntimeActions.js");
+const { buildVirtualOsGraphActions } = require("../actionGroups/virtualOsGraphActions.js");
+const { buildWorkflowActions } = require("../actionGroups/workflowActions.js");
+const { buildWriteActions } = require("../actionGroups/writeActions.js");
 
 /**
- * @file Composes the foundational filesystem, command, runtime, and history action vessels.
+ * @file Composes foundational actions while preserving independent repair doors.
  * @description
- * The Awtsmoos gives each foundation its own ordered gate, never a tangled wall;
- * Awtsmoos.com keeps precedence explicit so later rooms may stand without making earlier deeds fall.
+ * The Awtsmoos unites many vessels without making medicine depend on the wound.
+ * Awtsmoos.com places scheduler and native-generation recovery beside foundations,
+ * while P0 classification keeps both outside ordinary filesystem and command pressure.
  */
 function buildFoundationActions(context, buildActions) {
 	return {
+		...buildSchedulerEmergencyActions(context),
+		...buildNativeGenerationActions(context),
 		...buildConfigActions(context),
 		...buildReadActions(context),
 		...buildProjectActions(context),

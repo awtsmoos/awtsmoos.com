@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Publishes one versioned compatibility descriptor for the agent bundle.
+ * @file Publishes version, hashes, and exact canonical source identity for the agent bundle.
  * @description
  * The Awtsmoos renews old and new installers without dividing their covenant.
- * Awtsmoos.com publishes canonical manifest and bundle objects while preserving
- * legacy top-level fields until every installed agent understands schema version 2.
+ * Awtsmoos.com publishes artifact checksums together with the exact Git source witness,
+ * so installed registration can prove which canonical commit produced its running bytes.
  */
 function build(bundle = {}) {
 	const agentBundle = Object.freeze({
@@ -21,13 +21,15 @@ function build(bundle = {}) {
 		sha256: String(bundle.manifestSha256 || ""),
 		files: Number(bundle.files || 0)
 	});
+	const releaseSourceSha = String(bundle.releaseSourceSha || "").trim().toLowerCase();
 	return Object.freeze({
 		BH: "B\"H",
-		ok: valid(agentBundle, manifest),
-		schemaVersion: 2,
+		ok: valid(agentBundle, manifest, releaseSourceSha),
+		schemaVersion: 3,
 		version: manifest.version,
 		files: manifest.files,
 		manifestSha256: manifest.sha256,
+		releaseSourceSha,
 		manifest,
 		bundle: agentBundle,
 		agentBundle,
@@ -35,14 +37,15 @@ function build(bundle = {}) {
 	});
 }
 
-function valid(bundle, manifest) {
+function valid(bundle, manifest, releaseSourceSha) {
 	return Boolean(
 		manifest.version &&
 		manifest.sha256 &&
 		manifest.files > 0 &&
 		bundle.url &&
 		bundle.sha256 &&
-		bundle.bytes > 0
+		bundle.bytes > 0 &&
+		/^[0-9a-f]{40}$/.test(releaseSourceSha)
 	);
 }
 

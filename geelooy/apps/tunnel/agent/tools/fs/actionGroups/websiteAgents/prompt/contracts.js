@@ -2,11 +2,18 @@
 // Boruch Hashem
 // Blessed is He
 
-/** Gives submit-only website agents one concrete durable tool covenant. */
+/**
+ * @file Teaches website agents explicit continuity and optional unbounded fan-out.
+ * @description
+ * The Awtsmoos lets a shliach ask for help without making help compulsory. Awtsmoos.com
+ * records continuation before work begins and permits any number of useful descendants,
+ * while the runtime—not prose—enforces durable spacing between physical launches.
+ */
 function rules() {
 	return [
 		"Rules:",
-		"- The browser tab closes immediately after this prompt is accepted. Continue through tunnel and filesystem tools; do not depend on a chat reply.",
+		"- The browser tab closes after this prompt is accepted. Continue through tunnel and filesystem tools; do not depend on a chat reply.",
+		"- Your continuation request was persisted before this first step; a successor may use it only if your assigned work remains unfinished.",
 		"- Inspect actual files and command output before changing or claiming anything.",
 		"- Never repeat a command, write, or website submission whose receipt is uncertain; recover the exact durable request.",
 		"- Stay inside your claimed scope unless a peer explicitly hands off unfinished work.",
@@ -20,34 +27,33 @@ function roomContract(record, agent) {
 		"Mandatory shared-room actions:",
 		`1. Call missionRoomJoin with missionId=${record.missionId}, agentId=${agent.id}, role=${agent.role}.`,
 		`2. Call missionRoomInbox with missionId=${record.missionId}, agentId=${agent.id}; answer every requiresResponse message first.`,
-		"3. Call missionRoomMessage kind=plan before editing, kind=progress after verified milestones, kind=question/blocker for help, and kind=handoff before transfer.",
-		"4. Call missionRoomHeartbeat while working and after long commands; name currentWork and status.",
-		"5. Re-read missionRoomInbox periodically; blocking messages require a response.",
-		"6. Use missionRoomClaimFile before shared edits and missionRoomReleaseFile after verification."
+		"3. Publish plan before edits, progress after verified milestones, blockers for help, and handoff before transfer.",
+		"4. Heartbeat while working and after long commands.",
+		"5. Re-read the room periodically; blocking messages require response.",
+		"6. Claim shared files before edits and release claims after verification."
 	].join("\n");
 }
 
 function spawnContract(record, agent) {
-	const policy = record.plan?.subagentPolicy || {};
-	const maximum = Number(policy.maxSubagentsPerAgent ?? policy.maxHelpersPerAgent ?? 32);
+	const spacing = Math.max(20000, Number(record.plan?.subagentPolicy?.subagentStartSpacingMs || 20000));
 	return [
-		"Durable child-agent fan-out:",
-		`- You may create up to ${maximum} independent non-overlapping children with aiAgentSpawnWebsiteMission.`,
-		`- Put this object in params: {"parentWebsiteMissionId":"${record.id}","parentMissionId":"${record.missionId}","parentAgentId":"${agent.id}","requestKey":"stable-unique-key","role":"specialist role","scope":"relative/path","childPrompt":"exact bounded assignment and evidence"}.`,
-		"- This exact parent contract attaches the child to your current mission and shared room; never start a disconnected root mission for delegated work.",
-		"- Record each launch receipt in missionRoomMessage kind=delegation and returned work in kind=handoff.",
-		"- Use aiAgentWebsiteMissionStatus for the parent website mission. Never resend because acknowledgement is late."
+		"Optional durable child-agent fan-out:",
+		"- You may create zero, one, or any number of useful non-overlapping child agents with aiAgentSpawnWebsiteMission. There is no count-based child ceiling.",
+		`- Physical child launches are serialized by the runtime with at least ${spacing}ms between admissions; do not bypass that spacing.`,
+		`- Params: {"parentWebsiteMissionId":"${record.id}","parentMissionId":"${record.missionId}","parentAgentId":"${agent.id}","requestKey":"stable-unique-key","role":"specialist role","scope":"relative/path","childPrompt":"bounded assignment and evidence"}.`,
+		"- Children remain attached to this mission and room. Record delegation and handoff receipts.",
+		"- Never resend a spawn merely because acknowledgement is late; recover its exact durable request."
 	].join("\n");
 }
 
 function completionContract(record, agent) {
 	return [
 		"Durable completion contract:",
-		`- Your room mission is ${record.missionId}; website mission is ${record.id}; agent is ${agent.id}.`,
-		"- Keep working after the tab closes. The conversational response is ignored.",
-		"- Verify files/tests, publish a room handoff, release claims, and leave exact NEXT work when anything remains.",
-		`- When truly finished, call websiteAgentMissionMessage with websiteMissionId=${record.id}, agentId=${agent.id}, kind=completion, complete=true, reportId=${agent.id}.completion, and evidence in body/references. Reuse that reportId when recovering an uncertain receipt.`,
-		"- Also publish missionRoomMessage kind=completion so every peer and Tunnel Control sees the outcome."
+		`- Room mission=${record.missionId}; website mission=${record.id}; agent=${agent.id}.`,
+		"- Keep working after the tab closes; verify files/tests and publish a handoff.",
+		"- If your assigned work is complete, completion settles the pre-step continuation request without creating a successor.",
+		`- When finished, call websiteAgentMissionMessage with websiteMissionId=${record.id}, agentId=${agent.id}, kind=completion, complete=true, reportId=${agent.id}.completion.`,
+		"- Also publish missionRoomMessage kind=completion so peers can verify the outcome."
 	].join("\n");
 }
 

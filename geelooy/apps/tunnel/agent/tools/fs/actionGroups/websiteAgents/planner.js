@@ -7,9 +7,11 @@ const Scopes = require("./plannerScopes.js");
 const Target = require("./plannerTarget.js");
 
 /**
- * @file Composes one durable congestion-safe flat website-agent mission plan.
- * @description The Awtsmoos may call hundreds of peer shluchim while Awtsmoos.com
- * keeps every logical agent at depth zero and opens only one verified-close tab.
+ * @file Plans optional unbounded logical fan-out above one strictly paced physical browser.
+ * @description
+ * The Awtsmoos may reveal as many helpful shluchim as the work asks for; Awtsmoos.com
+ * imposes no arbitrary descendant count. Pressure may delay activation, while one durable
+ * twenty-second clock and one verified-close browser lane prevent physical stampedes.
  */
 function plan(config = {}, input = {}) {
 	const projectRoot = Scopes.canonicalProjectRoot(input.projectRoot || config.root || process.cwd());
@@ -17,48 +19,25 @@ function plan(config = {}, input = {}) {
 	const count = Policy.agentCount(input, scale);
 	const scopes = Scopes.scopeCandidates(projectRoot, input);
 	const target = Target.customGptTarget(input);
-	const startSpacingMs = Policy.spacing(input.startSpacingMs);
-	const maxTotalWebsiteAgents = Policy.bounded(
-		input.maxTotalWebsiteAgents,
-		Math.max(256, count),
-		count,
-		512
-	);
-	const maxSubagentsPerAgent = Policy.bounded(
-		input.maxSubagentsPerAgent ?? input.maxHelpersPerAgent,
-		32,
-		1,
-		96
-	);
+	const startSpacingMs = Math.max(20000, Policy.spacing(input.startSpacingMs));
+	const subagentStartSpacingMs = Math.max(20000, Policy.spacing(input.subagentStartSpacingMs, startSpacingMs));
 	return {
-		projectRoot,
-		agentStartUrl: target.url,
-		customGptName: target.name,
-		requestedCount: input.agentCount ?? input.count ?? null,
-		agentCount: count,
-		minimumAgentCount: Policy.minimumAgentCount(input),
-		continuationOnly: Policy.continuationOnly(input),
+		projectRoot, agentStartUrl: target.url, customGptName: target.name,
+		requestedCount: input.agentCount ?? input.count ?? null, agentCount: count,
+		minimumAgentCount: Policy.minimumAgentCount(input), continuationOnly: Policy.continuationOnly(input),
 		fanOutTier: scale,
-		physicalTabPolicy: {
-			maxActiveTabs: 1,
-			intervalAnchor: "verified-tab-close",
-			postCloseCooldownMs: Policy.POST_CLOSE_COOLDOWN_MS
-		},
+		physicalTabPolicy: { maxActiveTabs: 1, intervalAnchor: "verified-tab-close",
+			postCloseCooldownMs: Policy.POST_CLOSE_COOLDOWN_MS },
 		subagentPolicy: {
-			mode: "bounded-flat-peers",
-			topology: "flatland",
-			priority: ["large", "enormous"].includes(scale)
-				? "required-when-available"
-				: "preferred",
-			allowRecursiveSubagents: input.allowRecursiveSubagents !== false &&
-				input.allowRecursiveSubagents !== "false",
-			maxSubagentDepth: 1,
-			maxSubagentsPerAgent,
-			maxHelpersPerAgent: maxSubagentsPerAgent,
-			maxTotalWebsiteAgents,
-			subagentStartSpacingMs: Policy.spacing(input.subagentStartSpacingMs, startSpacingMs),
-			pressureAwareActivation: input.pressureAwareActivation !== false &&
-				input.pressureAwareActivation !== "false",
+			mode: "optional-unbounded-spaced",
+			topology: "sponsor-lineage-flat-runtime",
+			priority: "optional",
+			allowRecursiveSubagents: input.allowRecursiveSubagents !== false && input.allowRecursiveSubagents !== "false",
+			unboundedLogicalDescendants: true,
+			logicalAgentLimit: null,
+			maxSubagentDepth: null,
+			subagentStartSpacingMs,
+			pressureAwareActivation: input.pressureAwareActivation !== false && input.pressureAwareActivation !== "false",
 			spawnDrainQuantum: Policy.bounded(input.spawnDrainQuantum, 4, 1, 16),
 			spawnDrainMaxQuanta: Policy.bounded(input.spawnDrainMaxQuanta, 2, 1, 8),
 			softPressureQuantum: Policy.bounded(input.softPressureQuantum, 1, 1, 2),
@@ -66,12 +45,10 @@ function plan(config = {}, input = {}) {
 			softPressureWakeMs: Policy.bounded(input.softPressureWakeMs, 1500, 1500, 60000),
 			hardPressureWakeMs: Policy.bounded(input.hardPressureWakeMs, 3000, 3000, 60000),
 			panicPressureWakeMs: Policy.bounded(input.panicPressureWakeMs, 5000, 5000, 60000),
-			recursiveFanOut: "flat-peer-fan-out-with-stable-sponsor-keys",
-			handoffRequired: true,
-			roomUpdates: ["plan", "progress", "handoff", "completion"]
+			recursiveFanOut: "optional-unbounded-logical-fan-out-with-stable-sponsor-keys",
+			handoffRequired: true, roomUpdates: ["plan", "progress", "handoff", "completion"]
 		},
-		startSpacingMs,
-		collaborationRounds: Policy.bounded(input.collaborationRounds, 2, 1, 8),
+		startSpacingMs, collaborationRounds: Policy.bounded(input.collaborationRounds, 2, 1, 8),
 		maxContinuationTurns: Policy.bounded(input.maxContinuationTurns, 6, 1, 12),
 		authPollMs: Policy.bounded(input.authPollMs, 3000, 1000, 30000),
 		agents: createAgents(count, scopes, projectRoot)
@@ -84,30 +61,14 @@ function createAgents(count, scopes, projectRoot) {
 		const [role, focus, claimMode] = Policy.ROLES[index % Policy.ROLES.length];
 		const ordinal = String(index + 1).padStart(width, "0");
 		const scope = scopes[index % scopes.length];
-		return {
-			id: `website_${ordinal}_${role}`,
-			name: `Website ${capitalize(role)} ${ordinal}`,
-			role,
-			focus,
-			claimMode,
-			scope,
-			absoluteScope: Scopes.absoluteScope(projectRoot, scope),
-			ordinal: index + 1
-		};
+		return { id: `website_${ordinal}_${role}`, name: `Website ${capitalize(role)} ${ordinal}`,
+			role, focus, claimMode, scope, absoluteScope: Scopes.absoluteScope(projectRoot, scope), ordinal: index + 1 };
 	});
 }
 
-function capitalize(value) {
-	return value.charAt(0).toUpperCase() + value.slice(1);
-}
+function capitalize(value) { return value.charAt(0).toUpperCase() + value.slice(1); }
 
-module.exports = {
-	AWTSMOOS_SHLIACH_NAME: Target.AWTSMOOS_SHLIACH_NAME,
-	AWTSMOOS_SHLIACH_URL: Target.AWTSMOOS_SHLIACH_URL,
-	ROLES: Policy.ROLES,
-	agentCount: Policy.agentCount,
-	customGptTarget: Target.customGptTarget,
-	plan,
-	promptScale: Policy.promptScale,
-	scopeCandidates: Scopes.scopeCandidates
-};
+module.exports = { AWTSMOOS_SHLIACH_NAME: Target.AWTSMOOS_SHLIACH_NAME,
+	AWTSMOOS_SHLIACH_URL: Target.AWTSMOOS_SHLIACH_URL, ROLES: Policy.ROLES,
+	agentCount: Policy.agentCount, customGptTarget: Target.customGptTarget, plan,
+	promptScale: Policy.promptScale, scopeCandidates: Scopes.scopeCandidates };

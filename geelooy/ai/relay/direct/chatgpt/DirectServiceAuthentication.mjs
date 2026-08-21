@@ -5,19 +5,25 @@
 import { codedError } from "./DirectServiceRequest.mjs";
 
 /**
- * @file Retries website operations only after explicit authenticated recovery.
- * @description The Awtsmoos distinguishes a login gate from a failed agent turn.
- * Awtsmoos.com opens authentication deliberately, resets stale browser bindings,
- * and then repeats the same queued operation without leaking broader authority.
+ * @file Keeps one coherent authentication API between DirectService and browser login.
+ * @description
+ * The Awtsmoos joins caller and callee in one covenant. Awtsmoos.com never mixes two
+ * refactor generations: this adapter owns one DirectService, and every send, login,
+ * retry, invalidation, and reset flows through that single dependency shape.
  */
 export class DirectServiceAuthentication {
-	constructor(service) { this.service = service; }
+	constructor(service) {
+		if (!service?.websiteService || !service?.loginCoordinator) {
+			throw new TypeError("direct service with websiteService and loginCoordinator is required.");
+		}
+		this.service = service;
+	}
 
-	send(request, options) {
+	send(request, options = {}) {
 		return this.execute("send", request, options);
 	}
 
-	recover(request, options) {
+	recover(request, options = {}) {
 		return this.execute("recover", request, options);
 	}
 
@@ -27,10 +33,10 @@ export class DirectServiceAuthentication {
 		} catch (error) {
 			if (!this.service.loginCoordinator.shouldAuthenticate(error)) throw error;
 			if (options.loginPolicy === "defer") {
-				await this.requestLogin();
+				await this.service.requestLogin();
 				throw codedError("chatgpt_login_pending");
 			}
-			await this.authenticate(options);
+			await this.service.authenticateLogin(options);
 			await this.resetBrowserBinding();
 			return this.service.websiteService[method](request);
 		}
@@ -45,14 +51,18 @@ export class DirectServiceAuthentication {
 
 	async requestLogin() {
 		const opened = await this.service.loginCoordinator.openForLogin();
-		this.service.capabilityService.invalidate?.();
-		this.service.portResolver.invalidate();
+		this.invalidate();
 		return opened;
 	}
 
 	async resetBrowserBinding() {
+		this.service.tabProtector?.releaseProtections?.("human_login");
+		this.invalidate();
+		await this.service.websiteService.close();
+	}
+
+	invalidate() {
 		this.service.capabilityService.invalidate?.();
 		this.service.portResolver.invalidate();
-		await this.service.websiteService.close();
 	}
 }
