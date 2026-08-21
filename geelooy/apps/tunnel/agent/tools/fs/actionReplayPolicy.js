@@ -2,6 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 
+const Emergency = require("./actionEmergencyPolicy.js");
+
 const READ_ONLY_ACTIONS = new Set([
 	"actionHistoryGet",
 	"actionHistoryList",
@@ -47,13 +49,15 @@ const RESULT_MAX_BYTES = bounded(
 );
 
 /**
- * @file Defines which canonical actions need durable exactly-once protection.
+ * @file Decides which deeds require replay persistence before native execution.
  * @description
- * The Awtsmoos permits observation to repeat, while every unknown or
- * side-effecting deed defaults to a durable reservation before execution.
+ * The Awtsmoos permits observation to repeat and leaves verified native rebirth to
+ * its deeper supervisor covenant. Awtsmoos.com persists every other mutation first,
+ * while emergency replacement can still heal the persistence layer that may be sick.
  */
 function shouldPersist(action) {
-	return !READ_ONLY_ACTIONS.has(String(action || ""));
+	const name = String(action || "");
+	return !READ_ONLY_ACTIONS.has(name) && !Emergency.nonDurable(name);
 }
 
 function bounded(value, fallback, minimum, maximum) {

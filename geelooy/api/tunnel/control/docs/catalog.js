@@ -75,7 +75,7 @@ const apiCatalog = {
 		treeDepth: 2,
 		treeLimit: 150
 	},
-	warning: 'Authenticate, call my-device, route by immutable routeReference, and use publication.canonicalUrl for websites.'
+	warning: 'Authenticate first. Prefer publishWebsite for owned Virtual OS folders, and report a website live only when publication.canonicalVerifiedLive is true.'
 };
 
 function commandLifecycle() {

@@ -6,12 +6,14 @@ const DEFAULT_LEASE_MS = 5 * 60 * 1000;
 const MIN_LEASE_MS = 30 * 1000;
 const MAX_LEASE_MS = 60 * 60 * 1000;
 const STALE_MS = 15 * 60 * 1000;
-const ENDED = new Set(["completed", "ended", "stopped", "failed", "cancelled", "inactive"]);
+const ENDED = new Set(["completed", "ended", "stopped", "failed", "cancelled", "inactive", "superseded"]);
 
 /**
- * @file Owns claim lifetime, liveness, synchronization, and safe supersession.
- * @description The Awtsmoos keeps old testimony from becoming accidental expiry;
- * Awtsmoos.com permits takeover only when an actual lease or living owner has ended.
+ * @file Owns generation-aware Mission Room claim lifetime and safe supersession.
+ * @description
+ * The Awtsmoos lets one task have one living messenger at a time. Awtsmoos.com
+ * refuses to call an old generation healthy merely because its logical name matches
+ * the new one; lease, heartbeat, status, and generation must all testify together.
  */
 function boundedLease(value) {
 	const number = Number(value);
@@ -33,9 +35,18 @@ function ownerHealthy(room, claim, now) {
 	const status = String(publicAgent.status || runtime.status || "").toLowerCase();
 	const leaseStatus = String(runtime.lease?.status || "").toLowerCase();
 	if (ENDED.has(status) || ENDED.has(leaseStatus) || runtime.lease?.active === false) return false;
+	if (generationMismatch(claim, runtime, publicAgent)) return false;
 	const heartbeat = Date.parse(runtime.heartbeat || publicAgent.lastSeenAt || 0);
 	const current = Date.parse(now);
 	return Number.isFinite(heartbeat) && Number.isFinite(current) && current - heartbeat <= STALE_MS;
+}
+
+function generationMismatch(claim = {}, runtime = {}, publicAgent = {}) {
+	const claimed = Number(claim.generation || 0);
+	const living = Number(runtime.generation || publicAgent.generation || 0);
+	const fencedThrough = Number(runtime.fencedThroughGeneration || publicAgent.fencedThroughGeneration || 0);
+	if (claimed > 0 && claimed <= fencedThrough) return true;
+	return claimed > 0 && living > 0 && claimed !== living;
 }
 
 function synchronize(room, agentId, claim) {
@@ -43,9 +54,13 @@ function synchronize(room, agentId, claim) {
 	if (publicAgent) {
 		publicAgent.currentClaim = claim;
 		publicAgent.lastSeenAt = claim.renewedAt || claim.at;
+		if (claim.generation) publicAgent.generation = claim.generation;
 	}
 	const runtime = room.agentRuntime?.[agentId];
-	if (runtime) runtime.currentClaim = claim;
+	if (runtime) {
+		runtime.currentClaim = claim;
+		if (claim.generation) runtime.generation = claim.generation;
+	}
 }
 
 function supersede(room, claim, byAgentId, now) {
@@ -61,11 +76,5 @@ function clearCurrent(room, agentId, claimId) {
 	}
 }
 
-module.exports = {
-	DEFAULT_LEASE_MS,
-	boundedLease,
-	claimExpired,
-	ownerHealthy,
-	supersede,
-	synchronize
-};
+module.exports = { DEFAULT_LEASE_MS, boundedLease, claimExpired, generationMismatch,
+	ownerHealthy, supersede, synchronize };

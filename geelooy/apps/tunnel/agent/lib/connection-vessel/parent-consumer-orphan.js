@@ -3,63 +3,59 @@
 // Blessed is He
 
 /**
- * @file Detects stale parent custody that exceeds every living execution vessel.
+ * @file Judges stale parent custody from exact receipt leases, never aggregate work.
  * @description
- * The Awtsmoos renews each deed in its proper instant. Awtsmoos.com therefore
- * protects custody matched by living execution while refusing to let one living
- * worker conceal a field of abandoned receipts. Age supplies patience; excess
- * supplies proof; repair remains the responsibility of the generation watchdog.
+ * The Awtsmoos renews each request without borrowing another request's heartbeat.
+ * Awtsmoos.com therefore lets one custody record live only by its own lease; a busy
+ * worker elsewhere cannot conceal an abandoned receipt or postpone its repair.
  */
-
 const DEFAULT_ORPHAN_MULTIPLIER = 2;
 
 /**
- * Judges generation-local custody without inferring record identity from counts.
- *
- * @param {object} stats Aggregate queue and executor statistics.
- * @param {object} custody Generation-local custody evidence.
- * @param {object} stages Aggregate execution-stage evidence.
- * @param {number} consumerStaleMs Base consumer-staleness threshold.
- * @param {number} [configuredStaleMs] Optional orphan confirmation threshold.
- * @returns {object} Explainable stale-excess custody evidence.
+ * Inspects exact or legacy custody evidence for stale ownership.
+ * @param {object} stats Scheduler statistics retained only for compatibility.
+ * @param {object} custody Exact custody summary.
+ * @param {object} stages Stage statistics retained only for compatibility.
+ * @param {number} consumerStaleMs Base stale threshold.
+ * @param {number} [configuredStaleMs] Optional exact stale threshold.
+ * @returns {object} Exact orphan evidence; unrelated work never reduces it.
  */
 function inspect(stats = {}, custody = {}, stages = {}, consumerStaleMs = 30000, configuredStaleMs) {
+	void stats;
+	void stages;
 	const orphanStaleMs = staleThreshold(consumerStaleMs, configuredStaleMs);
-	const trackedExecution = trackedExecutionCount(stats, stages);
+	const records = Array.isArray(custody.records) ? custody.records : [];
+	const exactExpired = records.filter(record => record.expired === true ||
+		Number(record.leaseExpiresAt || 0) > 0 && Number(record.leaseExpiresAt) <= Date.now());
 	const custodyCount = nonnegative(custody.count);
 	const custodyAgeMs = nonnegative(custody.oldestAgeMs);
-	const orphanedCustodyCount = Math.max(0, custodyCount - trackedExecution);
-	const custodyIsOld = custody.aware === true && custodyAgeMs >= orphanStaleMs;
-	const orphanedCustody = custodyIsOld && orphanedCustodyCount > 0;
+	const legacyStale = records.length === 0 && custody.aware === true &&
+		custodyCount > 0 && custodyAgeMs >= orphanStaleMs;
+	const orphanedCustodyCount = exactExpired.length || (legacyStale ? custodyCount : 0);
 
 	return {
-		orphanedCustody,
+		orphanedCustody: orphanedCustodyCount > 0,
 		orphanedCustodyCount,
 		orphanedCustodyAgeMs: custodyAgeMs,
 		orphanStaleMs,
-		trackedExecution
+		trackedExecution: 0,
+		exactWitnesses: records.length,
+		legacyCustodyFallback: records.length === 0
 	};
 }
 
-/** Counts current execution vessels that may legitimately own accepted work. */
-function trackedExecutionCount(stats = {}, stages = {}) {
-	const executor = stats.filesystemExecutor || {};
-	const laneWork = nonnegative(stats.queued) + nonnegative(stats.inflight);
-	const stageWork = nonnegative(stages.active);
-	const executorWork = nonnegative(executor.busy) + nonnegative(executor.queued);
-
-	return Math.max(laneWork, stageWork, executorWork);
+/**
+ * Preserves the old export while explicitly refusing aggregate masking.
+ * @returns {number} Always zero because unrelated execution proves nothing.
+ */
+function trackedExecutionCount() {
+	return 0;
 }
 
-/** Keeps orphan recovery slower than ordinary consumer-stall detection. */
 function staleThreshold(consumerStaleMs, configuredStaleMs) {
 	const base = Math.max(1000, nonnegative(consumerStaleMs) || 30000);
 	const configured = Number(configuredStaleMs);
-
-	if (Number.isFinite(configured) && configured >= base) {
-		return Math.floor(configured);
-	}
-
+	if (Number.isFinite(configured) && configured >= base) return Math.floor(configured);
 	return base * DEFAULT_ORPHAN_MULTIPLIER;
 }
 
@@ -68,9 +64,4 @@ function nonnegative(value) {
 	return Number.isFinite(number) ? Math.max(0, number) : 0;
 }
 
-module.exports = {
-	DEFAULT_ORPHAN_MULTIPLIER,
-	inspect,
-	staleThreshold,
-	trackedExecutionCount
-};
+module.exports = { DEFAULT_ORPHAN_MULTIPLIER, inspect, staleThreshold, trackedExecutionCount };

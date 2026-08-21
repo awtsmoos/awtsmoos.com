@@ -1,31 +1,66 @@
 // B"H
-const fs = require('fs');
-const path = require('path');
-const root = path.resolve(__dirname, '..');
-const { buildActions } = require(path.join(root, 'geelooy/apps/tunnel/agent/tools/fs/actions.js'));
-const outYaml = path.join(root, 'geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.yaml');
-const outLive = path.join(root, 'geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.generated-live.yaml');
-const outDocs = path.join(root, 'geelooy/api/tunnel/control/docs/actions.js');
-const outAi = path.join(root, 'geelooy/ai/central/generatedTunnelActions.js');
-const CHATGPT_RULE = 'ChatGPT URL workflow: when given a ChatGPT conversation URL, prefer action=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Do not manually recreate wait loops.';
-const AGENT_RULE = 'Website-agent workflow: use aiAgentSpawnWebsiteMission with parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt to create a same-room child. Report progress and evidence through websiteAgentMissionMessage. Mark complete=true only with evidence.';
-const INFO_RULE = `B'H. Read responseFocus. Answer multipleChoiceSelfInterrogation before unrelated actions. ${CHATGPT_RULE} ${AGENT_RULE}`;
-const ACTION_RULE = `B'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first. ${CHATGPT_RULE} ${AGENT_RULE}`;
-function actions() { const config = { root, allowWrite:true, allowCommands:true, tools:{ fsRead:true, fsWrite:true, fsBulk:true, command:true, chrome:true, browser:true } }; return [...new Set([...Object.keys(buildActions(config, { action:'list' }, null)), 'commandWait'])].filter(x => x !== 'findReplace').sort((a, b) => a.localeCompare(b)); }
-function param(name, type = 'string', def) { const tail = def === undefined ? '' : `, default: ${JSON.stringify(def)}`; return `        - { name: ${name}, in: query, schema: { type: ${type}${tail} } }`; }
-function stringParams() { return ['p','path','cwd','root','content','content64','find','find64','replace','replace64','query','query64','command','command64','text','text64','goal','goal64','params','params64','actions','actions64','actionsJson','actionsJson64','writes','writes64','files','files64','paths','paths64','tree','tree64','vars','vars64','url','conversationUrl','chatgptUrl','sessionId','chatgptSessionId','conversationId','selector','targetVessel','vessel','fallback','routeReference','treeId','outputId','jobId','taskId','actionId','processKey','receiptId','workerId','stream','controlRequestId','originalControlRequestId','clientRequestId','requestedAction','requestAction','resumeToken','continuationPrompt','continuationPrompt64','multipleChoiceAnswer','choice','answer','missionId','websiteMissionId','parentWebsiteMissionId','parentMissionId','projectRoot','logicalAgentId','agentSessionId','agentId','parentAgentId','agentName','claimId','delegationId','requestKey','spawnRequestKey','provider','providerId','model','apiKey','apiKey64','message','message64','prompt','prompt64','childPrompt','system','system64','profile','role','scope','kind','evidence','reportId','next','findings','references','reason']; }
-function intParams() { return [['offsetChars',0],['offsetBytes',0],['maxInlineChars',12000],['pageChars',12000],['maxChars',12000],['maxBytes',24000],['totalMaxChars',24000],['maxFiles',5],['depth',2],['limit',150],['timeoutMs',240000],['waitTimeoutMs',25000],['budgetPerutas',0],['ttlSeconds',3600],['page',1],['pageSize',50],['port',9222],['pollIntervalMs',7000],['leaseMs',3600000],['maxTurns',40],['batchTurns',1],['keepTurns',24],['keepTabs',1],['settleMs',2500]]; }
-function boolParams() { return [['allowWrite'],['allowCommands'],['allowSecrets'],['enableLocalHttpProxy'],['regex',false],['replaceAll',true],['dryRun',true],['confirm',false],['optional',false],['continueOnError',false],['asyncCommand',false],['background',false],['inlineOutput',true],['guidanceDebug',false],['debugGuidance',false],['blockOnUserMessage',true],['allowContinue',false],['optimizeDom',true],['closeOldTabs',false],['complete',false]]; }
-function params() { return [...stringParams().map(x => param(x)), ...intParams().map(([n, d]) => param(n, 'integer', d)), ...boolParams().map(([n, d]) => param(n, 'boolean', d))]; }
-function yaml(actionNames) { return [
-	'openapi: 3.1.0', 'info:', '  title: Awtsmoos Tunnel Control GPT Actions', '  version: 7.1.0-generated', `  description: ${INFO_RULE}`, 'servers:', '  - url: https://awtsmoos.com', 'paths:',
-	'  /api/tunnel/control/bootstrap:', '    get:', '      operationId: awtsmoosBootstrap', '      summary: Get setup instructions.', '      security: []', '      responses:', '        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }',
-	'  /api/tunnel/control/my-device:', '    get:', '      operationId: awtsmoosMyDevice', '      summary: Discover active connected tunnel.', '      security: [{ OAuth2: [profile, tunnel.read] }]', '      responses:', '        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }',
-	'  /api/tunnel/control/fs/{tunnelName}:', '    get:', '      operationId: awtsmoosTunnelAction', '      summary: B\'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first.', `      description: ${ACTION_RULE}`, '      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.mission, tunnel.room, tunnel.admin] }]', '      parameters:', '        - { name: tunnelName, in: path, required: true, schema: { type: string } }', '        - name: action', '          in: query', '          required: true', '          schema:', '            type: string', '            enum:', ...actionNames.map(x => `              - ${x}`), ...params(), '      responses:', '        "200": { description: OK. Read responseFocus first., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }',
-	'  /api/tunnel/control/preview/{tunnelName}:', '    get:', '      operationId: awtsmoosPreviewProxy', '      summary: Fetch preview through tunnel.', '      security: [{ OAuth2: [profile, tunnel.read] }]', '      parameters:', '        - { name: tunnelName, in: path, required: true, schema: { type: string } }', '        - { name: url, in: query, schema: { type: string } }', '        - { name: maxChars, in: query, schema: { type: integer, default: 500000 } }', '      responses:', '        "200": { description: Preview response body }',
-	'components:', '  schemas:', '    AnyResponse:', '      type: object', '      additionalProperties: true', '      properties:', '        ok: { type: boolean }', '        error: { type: string }', '        action: { type: string }', '        jobId: { type: string }', '        content: { type: string }', '        responseFocus: { type: object, additionalProperties: true }', '        awtsmoosNext: { type: object, additionalProperties: true }', '        multipleChoiceSelfInterrogation: { type: object, additionalProperties: true }', '        allCapsPrompt: { type: string }', '        acceptedAnswerFormat: { type: string }', '        mustContinue: { type: boolean }', '        mustCallNext: { type: object, additionalProperties: true }', '        finalAnswerAllowed: { type: boolean }', '  securitySchemes:', '    OAuth2:', '      type: oauth2', '      flows:', '        authorizationCode:', '          authorizationUrl: https://awtsmoos.com/api/oauth/start', '          tokenUrl: https://awtsmoos.com/api/oauth/token', '          scopes:', '            profile: Basic identity access.', '            tunnel.read: Read tunnel state.', '            tunnel.write: Modify authorized files.', '            tunnel.command: Execute command diagnostics.', '            tunnel.browser: Browser automation.', '            tunnel.mission: Coordinate mission lifecycle.', '            tunnel.room: Read and publish shared-room messages.', '            tunnel.admin: Administrative tunnel operations.', ''
-].join('\n'); }
-function writeGenerated(list, text) { fs.writeFileSync(outYaml, text, 'utf8'); fs.writeFileSync(outLive, text, 'utf8'); fs.writeFileSync(outDocs, `// B\"H\nconst actions = ${JSON.stringify(list, null, 2)};\nmodule.exports = { actions };\n`, 'utf8'); fs.writeFileSync(outAi, `// B\"H\nexport const GENERATED_TUNNEL_ACTIONS = Object.freeze(${JSON.stringify(list, null, 2)});\nexport default GENERATED_TUNNEL_ACTIONS;\n`, 'utf8'); }
-function hasParams(text, names) { return names.every(name => text.includes(`name: ${name}`)); }
-function main() { const list = actions(); const text = yaml(list); writeGenerated(list, text); console.log(JSON.stringify({ ok:true, actionCount:list.length, yamlBytes:Buffer.byteLength(text), hasChatgptActions:['chatgptSeasonSaveAndContinue','chatgptAutoPilotSession','chatgptSaveCurrentSeason','chatgptSessionContinue'].every(x => text.includes(`              - ${x}`)), hasChatgptParams:hasParams(text, ['conversationUrl','sessionId','maxTurns','batchTurns','optimizeDom','closeOldTabs']), hasAgentSpawnParams:hasParams(text, ['parentWebsiteMissionId','parentAgentId','requestKey','role','scope','childPrompt']), hasAgentCompletionParams:hasParams(text, ['websiteMissionId','agentId','kind','complete','evidence','references']), hasCommandTreeParams:hasParams(text, ['tree','tree64','vars','vars64','budgetPerutas','treeId','ttlSeconds','optional','continueOnError']), hasCommandPagingParams:hasParams(text, ['outputId','jobId','stream','offsetChars','maxInlineChars','pageChars','asyncCommand','background']), hasAsyncContinuationParams:hasParams(text, ['taskId','actionId','processKey','waitTimeoutMs','offsetBytes','maxBytes']), hasRetryParams:hasParams(text, ['controlRequestId','originalControlRequestId','requestedAction','requestAction','resumeToken']), hasChatgptGuidance:text.includes('Do not manually recreate wait loops'), hasAgentGuidance:text.includes('same-room child'), hasAliases:['commandBatch','aiCommandBatch','nodeCheckFiles'].every(x => text.includes(`              - ${x}`)) }, null, 2)); }
+// Boruch Hashem
+// Blessed is He
+
+const fs = require("node:fs");
+const path = require("node:path");
+const Surface = require("../geelooy/apps/tunnel/agent/lib/public-action-surface.js");
+const Renderer = require("./tunnel/openapi/renderControlOpenApi.cjs");
+
+/**
+ * @file Generates compact public tunnel artifacts without rewriting legacy inner catalogs.
+ * @description
+ * The Awtsmoos is One while old hosted vessels may still remember many exact names.
+ * Awtsmoos.com writes fourteen public capabilities to GPT and AI surfaces, yet leaves
+ * the broad Virtual OS compatibility catalog untouched until its inner callers are retired.
+ */
+const root = path.resolve(__dirname, "..");
+const outputs = {
+	yaml: path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.yaml"),
+	live: path.join(root, "geelooy/apps/tunnel-control/gpt/awtsmoos-action-openapi.generated-live.yaml"),
+	ai: path.join(root, "geelooy/ai/central/generatedTunnelActions.js")
+};
+
+function main() {
+	const actions = [...Surface.PUBLIC_ACTIONS];
+	const yaml = Renderer.render(actions);
+	writeText(outputs.yaml, yaml);
+	writeText(outputs.live, yaml);
+	writeText(outputs.ai, esmActions(actions));
+	console.log(JSON.stringify({
+		ok: true,
+		actionCount: actions.length,
+		actions,
+		yamlBytes: Buffer.byteLength(yaml),
+		hasRequiredOperation: yaml.includes("name: operation, in: query, required: true"),
+		leaksInternalDoctorEnum: yaml.includes("              - agentDoctor"),
+		leaksInternalReadEnum: yaml.includes("              - read"),
+		legacyVirtualCatalogPreserved: fs.existsSync(path.join(
+			root,
+			"geelooy/api/tunnel/control/docs/actions.js"
+		))
+	}, null, 2));
+}
+
+function esmActions(actions) {
+	return [
+		"// B\"H",
+		"// Boruch Hashem",
+		"// Blessed is He",
+		"",
+		"/**",
+		" * The Awtsmoos reveals fourteen public tunnel doors while inner operations remain whole.",
+		" * Awtsmoos.com keeps this catalog small so agents choose capabilities instead of registry trivia.",
+		" */",
+		`export const GENERATED_TUNNEL_ACTIONS = Object.freeze(${JSON.stringify(actions, null, "\t")});`,
+		"",
+		"export default GENERATED_TUNNEL_ACTIONS;",
+		""
+	].join("\n");
+}
+
+function writeText(file, content) {
+	fs.writeFileSync(file, content, "utf8");
+}
+
 main();

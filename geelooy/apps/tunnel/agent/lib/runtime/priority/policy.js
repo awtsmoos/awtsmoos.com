@@ -2,18 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 
+const Admission = require("./admissionPolicy.js");
 const Classifier = require("./laneClassifier.js");
 const FairQueue = require("./fairQueue.js");
 const LegacyQueue = require("./legacyQueue.js");
-const Scheduler = require("./laneScheduler.js");
+const QueueTruth = require("./queueTruth.js");
 const Requester = require("./requester.js");
+const Scheduler = require("./laneScheduler.js");
 
 /**
- * @file Joins weighted service lanes with requester-owned waiting vessels.
+ * @file Governs fair admission from authoritative scheduler state.
  * @description
- * The Awtsmoos grants each shliach a turn without granting any shliach the gate.
- * Awtsmoos.com checks local queue pressure before machine pressure, then rotates
- * eligible requesters so one slow or flooding agent can burden only its own path.
+ * The Awtsmoos gives each shliach a bounded road while Awtsmoos.com derives every
+ * pressure decision from living queues and exact ownership, never cached shadows.
  */
 function makeLaneState() {
 	return Object.fromEntries(
@@ -31,94 +32,77 @@ function enqueue(target, item) {
 
 function queuedCount(lanes = {}) {
 	return Classifier.LANE_ORDER.reduce(
-		(total, lane) => total + Number(lanes[lane]?.queued || 0),
-		0
+		(total, lane) => total + QueueTruth.queuedCount(lanes[lane]), 0
 	);
 }
 
 function inflightCount(lanes = {}) {
 	return Classifier.LANE_ORDER.reduce(
-		(total, lane) => total + Number(lanes[lane]?.inflight || 0),
-		0
+		(total, lane) => total + QueueTruth.inflightCount(lanes[lane]), 0
 	);
 }
 
-function canStartLane(lanes = {}, lane = "", limits = {}) {
-	const current = lanes[lane];
-	if (!current || current.queued < 1) return false;
-	if (current.inflight >= Number(limits.LANE_LIMITS?.[lane] || 1)) return false;
-	if (!isControlLane(lane) && inflightCount(lanes) >= Number(limits.MAX_INFLIGHT || 1)) {
+function canStartLane(lanes, lane, limits, mayStart = () => true) {
+	const state = lanes?.[lane];
+	if (!state || !mayStart(lane)) return false;
+	if (QueueTruth.queuedCount(state) < 1) return false;
+	if (QueueTruth.inflightCount(state) >= Number(limits.LANE_LIMITS?.[lane] || 1)) return false;
+	if (!Admission.isControlLane(Classifier, lane) && inflightCount(lanes) >= Number(limits.MAX_INFLIGHT || 1)) {
 		return false;
 	}
-	return Boolean(FairQueue.eligibleRequester(current, lane, limits));
+	return Boolean(FairQueue.eligibleRequester(state, lane, limits));
 }
 
 function queueGate(lanes = {}, lane = "", limits = {}, item = {}) {
-	const current = lanes[lane];
-	const requesterKey = item.requesterKey || Requester.requesterKey(item);
-	const requesterQueued = current?.requesterQueues?.get(requesterKey)?.length || 0;
+	const state = lanes[lane];
+	if (!state) return Admission.gate(false, "unknown_lane", "", 0, 0);
+	const identity = Requester.requestIdentity(item);
+	const requesterKey = `logicalAgentId:${identity.logicalAgentId}`;
+	const requesterQueued = QueueTruth.requesterQueued(state, requesterKey);
 	const requesterLimit = Number(limits.REQUESTER_QUEUE_LIMITS?.[lane] || Infinity);
 	if (requesterQueued >= requesterLimit) {
-		return gate(false, "requester_queue_full", requesterKey, requesterQueued, requesterLimit);
+		return Admission.gate(false, "requester_queue_full", requesterKey, requesterQueued, requesterLimit);
 	}
-	const machineLimit = queueLimit(lanes, lane, limits);
-	const machineQueued = isControlLane(lane)
-		? Number(current?.queued || 0)
+	const machineQueued = Admission.isControlLane(Classifier, lane)
+		? QueueTruth.queuedCount(state)
 		: queuedCount(lanes);
-	if (machineQueued >= machineLimit) {
-		return gate(false, "machine_queue_full", requesterKey, requesterQueued, requesterLimit);
+	if (machineQueued >= Admission.queueLimit(Classifier, lane, limits)) {
+		return Admission.gate(false, "machine_queue_full", requesterKey, requesterQueued, requesterLimit);
 	}
-	return gate(true, "", requesterKey, requesterQueued, requesterLimit);
+	return Admission.gate(true, "", requesterKey, requesterQueued, requesterLimit);
 }
 
-function queueLimit(lanes, lane, limits) {
-	if (lane === Classifier.LANES.P0) return Number(limits.CONTROL_QUEUE_LIMIT || Infinity);
-	if (lane === Classifier.LANES.P0_WAIT) return Number(limits.WAIT_QUEUE_LIMIT || Infinity);
-	if (lane === Classifier.LANES.P0_OBSERVE) return Number(limits.OBSERVE_QUEUE_LIMIT || Infinity);
-	return Number(limits.MAX_QUEUE || Infinity);
+function nextLane(lanes, limits, scheduler, mayStart) {
+	return Scheduler.peekLane(
+		scheduler, lane => canStartLane(lanes, lane, limits, mayStart)
+	);
 }
 
-function gate(ok, reason, requesterKey, requesterQueued, requesterLimit) {
-	return { ok, reason, requesterKey, requesterQueued, requesterLimit };
-}
-
-function canQueue(lanes, lane, limits, item = {}) {
-	return queueGate(lanes, lane, limits, item).ok;
-}
-
-function nextLane(lanes, limits, scheduler) {
-	return Scheduler.peekLane(scheduler, lane => canStartLane(lanes, lane, limits));
-}
-
-function takeNext(lanes, limits, scheduler) {
-	const lane = Scheduler.takeLane(scheduler, candidate => canStartLane(lanes, candidate, limits));
+function takeNext(lanes, limits, scheduler, mayStart) {
+	const lane = Scheduler.takeLane(
+		scheduler, candidate => canStartLane(lanes, candidate, limits, mayStart)
+	);
 	if (!lane) return null;
 	const item = FairQueue.take(lanes[lane], lane, limits);
 	if (item) item.lane = lane;
 	return item;
 }
 
-function release(lanes, lane, requesterKey) {
-	if (lanes[lane]) FairQueue.release(lanes[lane], requesterKey);
+function release(lanes, lane, requesterKey, requestKey) {
+	return lanes[lane] ? FairQueue.release(lanes[lane], requesterKey, requestKey) : false;
 }
 
-function isControlLane(lane) {
-	return lane === Classifier.LANES.P0 ||
-		lane === Classifier.LANES.P0_WAIT ||
-		lane === Classifier.LANES.P0_OBSERVE;
+function reconcile(lanes = {}) {
+	return Object.fromEntries(
+		Classifier.LANE_ORDER.map(lane => [lane, QueueTruth.reconcileTelemetry(lanes[lane])])
+	);
 }
 
 module.exports = {
 	...Classifier,
-	canQueue,
-	canStartLane,
-	createSchedulerState: Scheduler.createSchedulerState,
-	enqueue,
-	inflightCount,
-	makeLaneState,
-	nextLane,
-	queueGate,
-	queuedCount,
-	release,
-	takeNext
+	canQueue: (lanes, lane, limits, item) => queueGate(lanes, lane, limits, item).ok,
+	createSchedulerState: Scheduler.createSchedulerState, enqueue, inflightCount, makeLaneState,
+	nextLane, queueGate, queuedCount, reconcile, release,
+	requestIdentity: Requester.requestIdentity, requestKey: Requester.requestKey,
+	requesterKey: Requester.requesterKey, takeNext
 };

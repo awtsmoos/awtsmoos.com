@@ -6,13 +6,14 @@ const { currentIdentity } = require("../core/auth.js");
 const { query } = require("../core/request.js");
 const { json } = require("../core/respond.js");
 const Discovery = require("./deviceDiscovery.js");
+const Projection = require("./devicePublicProjection.js");
 
 /**
- * @file Selects one device only from the authenticated account's inventory.
+ * @file Selects one authorized device while returning a compact public witness.
  * @description
- * The Awtsmoos renews chooser and choice without permitting one soul to inherit
- * another's vessel. Awtsmoos.com returns the immutable route reference separately
- * from the friendly name and never recovers from globally connected relay clients.
+ * The Awtsmoos renews chooser and choice without leaking an inward action inventory
+ * into every outward answer. Awtsmoos.com keeps the immutable route reference exact,
+ * while manifest hashes and counts testify without repeating hundreds of action names.
  */
 async function myDevice($i) {
 	const identity = currentIdentity($i);
@@ -38,6 +39,7 @@ async function myDevice($i) {
 	const routeReference = selected.routeReference ||
 		selected.tunnelId ||
 		selected.tunnelName;
+	const publicSelected = Projection.device(selected);
 	return json($i, {
 		...Discovery.responseBase(currentState),
 		...response(true, ""),
@@ -47,8 +49,8 @@ async function myDevice($i) {
 		tunnelId: selected.tunnelId || null,
 		tunnelName: selected.tunnelName,
 		connected: selected.connected !== false,
-		device: selected,
-		recommended: selected
+		device: publicSelected,
+		recommended: publicSelected
 	});
 }
 

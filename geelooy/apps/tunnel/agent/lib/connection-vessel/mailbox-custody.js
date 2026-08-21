@@ -2,81 +2,74 @@
 // Boruch Hashem
 // Blessed is He
 
+const Record = require("./mailbox-custody-record.js");
+
 /**
- * @file Tracks generation-local delivery attempts apart from durable mailbox history.
+ * @file Mutates exact request custody while record mechanics remain isolated.
  * @description
- * The Awtsmoos keeps yesterday's witness on disk while today's handoff receives its own clock;
- * Awtsmoos.com repairs only when this living generation knocked and parent custody never unlocked.
+ * The Awtsmoos gives every accepted deed its own phase lease. Awtsmoos.com moves
+ * that exact record from delivery attempt through parent custody and settlement, so
+ * unrelated work can never rejuvenate, decrement, or conceal an abandoned request.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
 	const attempts = new Map();
 	const parent = new Map();
 
-	function noteAttempt(id) {
-		const key = clean(id);
+	function noteAttempt(id, metadata = {}) {
+		const key = Record.clean(id);
 		if (!key || parent.has(key)) return false;
-		if (!attempts.has(key)) attempts.set(key, now());
+		if (!attempts.has(key)) {
+			attempts.set(key, Record.make(key, "delivery_attempt", metadata, now()));
+		}
 		return true;
 	}
 
-	function noteParent(id) {
-		const key = clean(id);
+	function noteParent(id, metadata = {}) {
+		const key = Record.clean(id);
 		if (!key) return false;
 		attempts.delete(key);
-		if (!parent.has(key)) parent.set(key, now());
+		parent.set(key, Record.make(
+			key,
+			"accepted_waiting_for_consumer",
+			metadata,
+			now()
+		));
+		return true;
+	}
+
+	function progress(id, metadata = {}) {
+		const key = Record.clean(id);
+		const existing = parent.get(key);
+		if (!existing) return false;
+		parent.set(key, Record.progress(existing, metadata, now()));
 		return true;
 	}
 
 	function settle(id) {
-		const key = clean(id);
+		const key = Record.clean(id);
 		if (!key) return false;
 		attempts.delete(key);
 		parent.delete(key);
 		return true;
 	}
 
-	function snapshot(at = now()) {
-		const parentOldestAt = oldest(parent);
-		const unownedOldestAt = oldest(attempts);
-		return {
-			parentCustodyCount: parent.size,
-			parentCustodyOldestAt: parentOldestAt,
-			parentCustodyOldestAgeMs: age(parentOldestAt, at),
-			unownedCount: attempts.size,
-			unownedOldestAt,
-			unownedOldestAgeMs: age(unownedOldestAt, at)
-		};
+	function records() {
+		return Array.from(parent.values()).map(record => ({ ...record }));
+	}
+
+	function snapshot(observedAt = now()) {
+		return Record.snapshot(parent, attempts, observedAt);
 	}
 
 	return {
 		noteAttempt,
 		noteParent,
+		progress,
+		records,
 		settle,
 		snapshot
 	};
-}
-
-function oldest(entries) {
-	let value = 0;
-	for (const observedAt of entries.values()) {
-		const candidate = finite(observedAt);
-		if (candidate > 0 && (!value || candidate < value)) value = candidate;
-	}
-	return value || null;
-}
-
-function age(observedAt, at) {
-	return observedAt ? Math.max(0, finite(at) - finite(observedAt)) : 0;
-}
-
-function clean(value) {
-	return String(value || "").trim();
-}
-
-function finite(value) {
-	const number = Number(value);
-	return Number.isFinite(number) ? number : 0;
 }
 
 module.exports = { create };

@@ -5,66 +5,35 @@
 const WebsiteStart = require("../../actionGroups/websiteAgents/runner/start.js");
 
 /**
- * @file Sends one successor through the existing verified-close Awts Shliach website runner.
+ * @file Sends one generation-fenced successor without imposing descendant count ceilings.
  * @description
- * The Awtsmoos carries one mission root and lineage into the temporary browser vessel.
- * Awtsmoos.com reuses the guarded custom-GPT target while preserving successor id,
- * generation, sibling group, and predecessor so no second orchestration covenant is born.
+ * The Awtsmoos may reveal endlessly many logical descendants through one paced doorway.
+ * Awtsmoos.com carries the explicit continuation-request witness into the successor while
+ * physical launch spacing and shared-browser custody regulate rate instead of arbitrary count.
  */
 async function dispatch(config, context = {}, deps = {}) {
 	const start = deps.start || WebsiteStart;
 	const result = await start(config, payload(config, context));
-	if (result?.ok === true) {
-		return {
-			ok: true,
-			recovered: false,
-			websiteMissionId: context.websiteMissionId,
-			result
-		};
+	if (result?.ok === true) return { ok: true, recovered: false, websiteMissionId: context.websiteMissionId, result };
+	if (result?.error === "website_mission_already_exists" || result?.code === "website_mission_already_exists") {
+		return { ok: true, recovered: true, websiteMissionId: context.websiteMissionId, result };
 	}
-	if (result?.error === "website_mission_already_exists" ||
-		result?.code === "website_mission_already_exists") {
-		return {
-			ok: true,
-			recovered: true,
-			websiteMissionId: context.websiteMissionId,
-			result
-		};
-	}
-	return {
-		ok: false,
-		websiteMissionId: context.websiteMissionId,
-		error: result?.error || result?.code || "website_continuation_start_failed",
-		result
-	};
+	return { ok: false, websiteMissionId: context.websiteMissionId,
+		error: result?.error || result?.code || "website_continuation_start_failed", result };
 }
 
 function payload(config, context = {}) {
 	const projectRoot = context.projectRoot || config.root;
 	return {
-		websiteMissionId: context.websiteMissionId,
-		missionId: context.missionId,
-		projectRoot,
-		prompt: context.prompt,
-		goal: context.prompt,
-		continuationOnly: true,
-		successorAgentId: context.successorAgentId,
-		spawnGroupId: context.spawnGroupId,
-		generation: Number(context.successorGeneration || 2),
-		predecessorAgentId: context.predecessorAgentId,
-		handoffPaths: context.handoffPaths || [],
-		agentStartUrl: context.agentStartUrl,
-		customGptUrl: context.customGptUrl,
-		agentCount: 1,
-		collaborationRounds: 1,
-		maxContinuationTurns: Number(context.maxContinuationTurns || 4),
-		allowRecursiveSubagents: true,
-		maxSubagentDepth: Number(context.maxSubagentDepth || 4),
-		maxSubagentsPerAgent: Number(context.maxSubagentsPerAgent || 8),
-		startSpacingMs: 18000,
-		subagentStartSpacingMs: 18000,
-		autoContinuation: true,
-		continuationFingerprint: context.fingerprint
+		websiteMissionId: context.websiteMissionId, missionId: context.missionId, roomId: context.roomId,
+		projectRoot, prompt: context.prompt, goal: context.prompt, continuationOnly: true, agentCount: 1,
+		logicalAgentId: context.logicalAgentId || context.successorAgentId, agentSessionId: context.agentSessionId,
+		generation: context.generation, spawnGroupId: context.spawnGroupId, parentAgentId: context.parentAgentId,
+		predecessorAgentId: context.predecessorAgentId, continuationRequestId: context.taskLease?.continuationRequestId,
+		taskId: context.taskLease?.taskId, claimId: context.taskLease?.kind === "claim" ? context.taskLease.leaseId : undefined,
+		collaborationRounds: 1, maxContinuationTurns: Number(context.maxContinuationTurns || 4),
+		allowRecursiveSubagents: true, startSpacingMs: 20000, subagentStartSpacingMs: 20000,
+		autoContinuation: true, continuationFingerprint: context.fingerprint
 	};
 }
 

@@ -2,38 +2,38 @@
 // Boruch Hashem
 // Blessed is He
 
-const {
-	bootstrapSiteProject
-} = require('../../../../../social/helper/drive/siteProjectBootstrap.js');
+const { bootstrapSiteProject } = require('../../../../../social/helper/drive/siteProjectBootstrap.js');
 const {
 	getOwnedSitePublicationStatus,
 	unpublishOwnedSite
 } = require('../../../../../social/helper/drive/sitePublicationService.js');
+const { publishSiteFolder } = require('../../../../../../sites/siteFolderPublication.js');
+const { publishPublicRootFolder } = require('../../../../../../sites/publicRootPublication.js');
+const { publishWebsite } = require('../../../../../../sites/websitePublication.js');
 const {
-	publishSiteFolder
-} = require('../../../../../../sites/siteFolderPublication.js');
-const {
+	PUBLISH_WEBSITE_ACTION,
+	PUBLIC_ROOT_PUBLISH_FOLDER_ACTION,
 	SITE_PUBLICATION_STATUS_ACTION,
 	SITE_PUBLISH_BOOTSTRAP_ACTION,
 	SITE_PUBLISH_FOLDER_ACTION,
 	SITE_UNPUBLISH_ACTION
 } = require('./sitePublicationActions.js');
-const {
-	normalizeSitePublicationInput
-} = require('./sitePublicationInput.js');
+const { normalizeSitePublicationInput } = require('./sitePublicationInput.js');
 
 /**
  * @module HostedSitePublicationDispatcher
  * @description
- * The Awtsmoos turns one authenticated hosted identity into explicit publish,
- * status, and unpublish deeds. Awtsmoos.com lets payload choose resources and
- * mode while trusted server context alone supplies identity and authority.
+ * The Awtsmoos turns one authenticated hosted identity into simple or advanced
+ * publication deeds. Awtsmoos.com lets payload choose source and name while
+ * trusted server context alone supplies actor identity and production authority.
  */
 
 const DEFAULT_DEPENDENCIES = Object.freeze({
 	bootstrapSiteProject,
 	getOwnedSitePublicationStatus,
+	publishPublicRootFolder,
 	publishSiteFolder,
+	publishWebsite,
 	unpublishOwnedSite
 });
 
@@ -47,6 +47,12 @@ async function dispatchSitePublication(
 	const action = String(payload.action || SITE_PUBLISH_BOOTSTRAP_ACTION);
 	const trusted = { ...input, $i, actorUserId: userId };
 
+	if (action === PUBLISH_WEBSITE_ACTION) {
+		return dependencies.publishWebsite(trusted);
+	}
+	if (action === PUBLIC_ROOT_PUBLISH_FOLDER_ACTION) {
+		return dependencies.publishPublicRootFolder(trusted);
+	}
 	if (action === SITE_PUBLISH_FOLDER_ACTION) {
 		return dependencies.publishSiteFolder(trusted);
 	}

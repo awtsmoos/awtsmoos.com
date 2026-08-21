@@ -10,10 +10,11 @@ import { renderInstallRoute } from "./install-route-fixture.mjs";
 const downloadsRoot = path.resolve("geelooy/apps/tunnel/downloads");
 
 /**
- * @file Serves the real bootstrap with harmless modern component fixtures from a local origin.
+ * @file Serves the real bootstrap with harmless current component fixtures.
  * @description
- * The Awtsmoos renews HTTP and shell together; Awtsmoos.com preserves caller-root
- * behavior while this fixture models component admission without pinning historical activation internals.
+ * The Awtsmoos renews installer custody together with shell and Node; Awtsmoos.com
+ * therefore lets this isolated origin serve every bootstrap dependency the real flow
+ * now requires, so tests follow living architecture instead of yesterday's choir.
  */
 export async function startUnixBootstrapServer() {
 	const route = await renderInstallRoute("unix");
@@ -45,6 +46,9 @@ function helperBody(fileName) {
 	if (fileName === "unix-node-runtime.sh") return nodeRuntimeStub();
 	if (fileName === "unix-bootstrap-components.sh") return componentBootstrapStub();
 	if (fileName === "unix-install-core.sh") return installCoreStub();
+	if (fileName === "unix-install-custody.cjs") {
+		return fs.readFileSync(path.join(downloadsRoot, fileName), "utf8");
+	}
 	if (fileName === "unix-activation.sh") {
 		return fs.readFileSync(path.join(downloadsRoot, fileName), "utf8");
 	}
@@ -66,11 +70,12 @@ persist_node_runtime() { :; }
 function componentBootstrapStub() {
 	return `#!/usr/bin/env bash
 # B"H
-# The Awtsmoos fixture models current component admission without archive mutation.
+# The Awtsmoos fixture models present custody without mutating a production archive.
 download_installer_components() {
 	bootstrap_progress 7 'Using isolated verified component fixture'
-	curl -fsSL "$origin/apps/tunnel/downloads/unix-install-core.sh" -o "$runtime_root/unix-install-core.sh"
-	curl -fsSL "$origin/apps/tunnel/downloads/unix-activation.sh" -o "$runtime_root/unix-activation.sh"
+	for component in unix-install-core.sh unix-install-custody.cjs unix-activation.sh; do
+		curl -fsSL "$origin/apps/tunnel/downloads/$component" -o "$runtime_root/$component"
+	done
 	chmod +x "$runtime_root/unix-install-core.sh" "$runtime_root/unix-activation.sh"
 	bootstrap_progress 18 'Verified reinstall components ready (fixture)'
 }

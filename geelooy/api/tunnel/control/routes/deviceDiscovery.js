@@ -5,14 +5,15 @@
 const { inventory, resolveInventoryDevice } = require("./fsVessel/accountInventory.js");
 const { deviceWarnings, liveDevices } = require("./fsVessel/liveDevices.js");
 const { virtualOsDevice } = require("./fsVessel/virtualNames.js");
+const Projection = require("./devicePublicProjection.js");
 
 /**
-	* @file Builds one authoritative account device view with bounded route history.
-	* @description
-	* The Awtsmoos reveals current vessels without presenting dead reinstall shadows
-	* as peers. Awtsmoos.com preserves historical route IDs separately for audit and
-	* exact-ID resolution while recommendations and warnings describe current truth.
-	*/
+ * @file Builds authoritative device state while exposing only compact public witnesses.
+ * @description
+ * The Awtsmoos keeps inward routing truth complete while the outward response remains
+ * light enough to cross every vessel. Awtsmoos.com retains all supported actions for
+ * admission, yet discovery reveals hashes and counts instead of repeating 928 names.
+ */
 function state($i, identity) {
 	const authorized = inventory($i, identity.accountId);
 	const virtualDevice = virtualOsDevice(true);
@@ -64,18 +65,30 @@ function notSynthetic(device = {}) {
 	return device.synthetic !== true && device.kind !== "virtual-os";
 }
 
+/**
+ * Projects authorized state without exporting the internal action-admission inventory.
+ *
+ * @param {object} currentState Full account-scoped discovery state.
+ * @returns {object} Compact public response preserving route and manifest witnesses.
+ */
 function responseBase(currentState) {
 	return {
 		BH: "B\"H",
 		identity: currentState.identity,
-		nativeDevices: currentState.nativeDevices,
-		historicalNativeDevices: currentState.historicalNativeDevices,
+		nativeDevices: Projection.devices(currentState.nativeDevices),
+		historicalNativeDevices: Projection.devices(currentState.historicalNativeDevices),
 		historySummary: currentState.historySummary,
-		browserDevices: currentState.browserDevices,
-		virtualDevice: currentState.virtualDevice,
-		devices: currentState.devices,
+		browserDevices: Projection.devices(currentState.browserDevices),
+		virtualDevice: Projection.device(currentState.virtualDevice),
+		devices: Projection.devices(currentState.devices),
 		warnings: currentState.warnings
 	};
 }
 
-module.exports = { find, notSynthetic, recommend, responseBase, state };
+module.exports = {
+	find,
+	notSynthetic,
+	recommend,
+	responseBase,
+	state
+};

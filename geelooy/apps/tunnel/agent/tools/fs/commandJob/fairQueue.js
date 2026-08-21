@@ -3,15 +3,16 @@
 // Blessed is He
 
 const Limits = require("./queueLimits.js");
+const Owner = require("./owner.js");
 const Remove = require("./fairQueueRemove.js");
 const Snapshot = require("./fairQueueSnapshot.js");
 
 /**
- * @file Gives command owners isolated pending queues and eligibility-aware turns.
+ * @file Gives exact command owners isolated pending queues and fair turns.
  * @description
  * The Awtsmoos lets every shliach approach without drinking the whole river.
- * Awtsmoos.com rotates owner vessels, skips an owner whose active share is full,
- * and returns to that owner later without blocking a peer whose process slot is free.
+ * Awtsmoos.com rejects unnamed owners rather than pouring all unknown commands into
+ * one anonymous bucket whose pressure could block or impersonate unrelated agents.
  */
 function create(options = {}) {
 	const state = {
@@ -24,14 +25,10 @@ function create(options = {}) {
 	};
 
 	function enqueue(ownerId, item) {
-		const owner = clean(ownerId) || "anonymous";
+		const owner = Owner.requireOwner(ownerId);
 		const queue = state.queues.get(owner) || [];
-		if (reached(state.total, state.maxQueued)) {
-			return reject(state, "command_queue_full", owner);
-		}
-		if (reached(queue.length, state.maxPerOwner)) {
-			return reject(state, "owner_command_queue_full", owner);
-		}
+		if (reached(state.total, state.maxQueued)) return reject(state, "command_queue_full", owner);
+		if (reached(queue.length, state.maxPerOwner)) return reject(state, "owner_command_queue_full", owner);
 		if (!state.queues.has(owner)) {
 			state.queues.set(owner, queue);
 			state.owners.push(owner);
@@ -46,14 +43,8 @@ function create(options = {}) {
 		for (let turn = 0; turn < turns; turn += 1) {
 			const owner = state.owners.shift();
 			const queue = state.queues.get(owner) || [];
-			if (!queue.length) {
-				state.queues.delete(owner);
-				continue;
-			}
-			if (!eligible(owner, queue[0])) {
-				state.owners.push(owner);
-				continue;
-			}
+			if (!queue.length) { state.queues.delete(owner); continue; }
+			if (!eligible(owner, queue[0])) { state.owners.push(owner); continue; }
 			const item = queue.shift();
 			state.total = Math.max(0, state.total - 1);
 			if (queue.length) state.owners.push(owner);
@@ -63,12 +54,8 @@ function create(options = {}) {
 		return null;
 	}
 
-	return {
-		dequeue,
-		enqueue,
-		remove: predicate => Remove.remove(state, predicate),
-		snapshot: () => Snapshot.build(state)
-	};
+	return { dequeue, enqueue, remove: predicate => Remove.remove(state, predicate),
+		snapshot: () => Snapshot.build(state) };
 }
 
 function reached(current, limit) {
@@ -77,22 +64,7 @@ function reached(current, limit) {
 
 function reject(state, error, owner) {
 	state.rejected += 1;
-	return {
-		ok: false,
-		error,
-		status: 429,
-		owner,
-		retryable: true,
-		retryAfterMs: 250
-	};
+	return { ok: false, error, status: 429, owner, retryable: true, retryAfterMs: 250 };
 }
 
-function clean(value) {
-	return String(value || "").trim();
-}
-
-module.exports = {
-	create,
-	reached,
-	reject
-};
+module.exports = { create, reached, reject };

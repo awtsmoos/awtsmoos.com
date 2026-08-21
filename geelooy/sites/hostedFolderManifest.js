@@ -2,69 +2,100 @@
 // Boruch Hashem
 // Blessed is He
 
-const { sp } = require('../api/social/helper/_awtsmoos.constants.js');
 const { normalizeDrivePath } = require('../api/social/helper/drive/pathPolicy.js');
-const { dbPath } = require('../api/tunnel/control/routes/osFs/path.js');
+const {
+	directoryEntries,
+	readDirectoryValue,
+	readVirtualValue
+} = require('../api/tunnel/control/routes/osFs/virtualDirectoryValues.js');
 const { assertDirectPublicPath } = require('./directSitePathPolicy.js');
+const {
+	MAX_BYTES,
+	MAX_FILES,
+	createManifestState,
+	finishManifestState,
+	manifestError,
+	pushManifestFile
+} = require('./hostedFolderManifestState.js');
 const { virtualOsValueToBuffer } = require('./virtualOsSourceValue.js');
 
 /**
  * @module HostedFolderManifest
  * @description
- * The Awtsmoos gathers one hosted folder into a bounded snapshot without
- * making the agent carry every byte across the Tunnel. Awtsmoos.com preserves
- * binary source while private metadata remains outside the publication vessel.
+ * The Awtsmoos reads exact child bytes before asking directories for wider sight;
+ * Awtsmoos.com keeps complete census and faithful content distinct, bounded, and right.
  */
 
-const MAX_FILES = 64;
-const MAX_BYTES = 2 * 1024 * 1024;
-
-async function collectHostedFolderManifest($i, aliasId, sourceRoot = '') {
+async function collectHostedFolderRelease($i, aliasId, sourceRoot = '') {
 	const rootPath = normalizeDrivePath(sourceRoot || '', { allowRoot: true });
-	const tree = await $i.db.read(dbPath(sp, aliasId, rootPath));
-	if (!tree || typeof tree !== 'object' || virtualOsValueToBuffer(tree)) {
+	const rootValue = await readDirectoryValue($i, aliasId, rootPath);
+	if (virtualOsValueToBuffer(rootValue)) {
 		throw manifestError('SITE_SOURCE_ROOT_NOT_FOLDER');
 	}
 
-	const state = { files: [], bytes: 0 };
-	collectTree(tree, '', state);
-	return state.files;
+	const state = createManifestState();
+	await collectDirectory($i, aliasId, rootPath, '', rootValue, state);
+	return finishManifestState(state);
 }
 
-function collectTree(node, relativeRoot, state) {
-	for (const [name, value] of Object.entries(node || {})) {
-		const relativePath = [relativeRoot, name].filter(Boolean).join('/');
-		assertDirectPublicPath(relativePath);
-		const body = virtualOsValueToBuffer(value);
-		if (body) {
-			pushFile(relativePath, body, state);
+async function collectHostedFolderManifest($i, aliasId, sourceRoot = '') {
+	return (await collectHostedFolderRelease($i, aliasId, sourceRoot)).files;
+}
+
+async function collectDirectory($i, aliasId, fullRoot, relativeRoot, node, state) {
+	state.witness.directoriesEnumerated += 1;
+	for (const child of directoryEntries(node)) {
+		state.witness.candidateCount += 1;
+		const relativePath = joinPath(relativeRoot, child.name);
+		if (!isPublishablePath(relativePath)) {
+			state.witness.skippedPrivateCount += 1;
 			continue;
 		}
-		if (value && typeof value === 'object' && !Array.isArray(value)) {
-			collectTree(value, relativePath, state);
+
+		const fullPath = joinPath(fullRoot, child.name);
+		const value = await childValue($i, aliasId, fullPath, child);
+		const body = virtualOsValueToBuffer(value);
+		if (body) {
+			pushManifestFile(relativePath, body, state);
+			continue;
+		}
+		if (value && typeof value === 'object') {
+			await collectDirectory($i, aliasId, fullPath, relativePath, value, state);
 		}
 	}
 }
 
-function pushFile(path, body, state) {
-	state.bytes += body.length;
-	if (state.files.length >= MAX_FILES || state.bytes > MAX_BYTES) {
-		throw manifestError('SITE_SOURCE_LIMIT_EXCEEDED');
+async function childValue($i, aliasId, fullPath, child) {
+	const direct = await readVirtualValue($i, aliasId, fullPath);
+	if (direct !== null && direct !== undefined) {
+		if (virtualOsValueToBuffer(direct)) return direct;
+		const completeDirectory = await readDirectoryValue($i, aliasId, fullPath);
+		return completeDirectory ?? direct;
 	}
-	state.files.push({
-		path,
-		contentBase64: body.toString('base64')
-	});
+
+	if (!child.valueProvided) return direct;
+	if (virtualOsValueToBuffer(child.value)) return child.value;
+	const completeDirectory = await readDirectoryValue($i, aliasId, fullPath);
+	return completeDirectory ?? child.value;
 }
 
-function manifestError(code) {
-	const error = new Error(code);
-	error.code = code;
-	return error;
+function isPublishablePath(path) {
+	try {
+		assertDirectPublicPath(path);
+		return true;
+	} catch (error) {
+		if (error?.code === 'DIRECT_SITE_PATH_PRIVATE') return false;
+		throw error;
+	}
+}
+
+function joinPath(...parts) {
+	return parts.filter(Boolean).join('/');
 }
 
 module.exports = {
 	MAX_BYTES,
 	MAX_FILES,
-	collectHostedFolderManifest
+	collectHostedFolderManifest,
+	collectHostedFolderRelease
 };

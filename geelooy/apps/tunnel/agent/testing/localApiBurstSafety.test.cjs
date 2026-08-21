@@ -1,16 +1,32 @@
 // B"H
-const assert = require("assert");
-const fs = require("fs");
-const path = require("path");
+// Boruch Hashem
+// Blessed is He
 
-const source = fs.readFileSync(path.resolve(__dirname, "../lib/local-api.js"), "utf8");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const Cache = require("../lib/local-api-catalog-cache.js");
+const Routes = require("../lib/local-api-routes.js");
 
-assert(/\bLISTEN_BACKLOG\s*=\s*4096\b/.test(source), "local API backlog must tolerate bursts");
-assert(/\bCATALOG_CACHE_MS\s*=\s*1000\b/.test(source), "catalog cache must protect health/action bursts");
-assert(source.includes("server.requestTimeout = 0"), "local API must not impose tiny request timeouts");
-assert(source.includes("cachedCatalog(config)"), "health must use cached catalog");
-assert(source.includes('"/healthz":healthz'), "compact healthz must exist for burst liveness checks");
-assert(source.includes('searchParams?.get("summary")'), "health summary mode must avoid large catalog payloads");
-assert(source.includes("server.on(\"clientError\""), "client errors must be observed without crashing");
+/**
+ * @file Proves modular local HTTP transport keeps burst and catalog limits explicit.
+ * @description
+ * The Awtsmoos lets many nearby requests arrive without turning discovery into a flood;
+ * Awtsmoos.com keeps backlog, timeout, and one-second catalog caching as measurable good.
+ */
+const source = fs.readFileSync(
+	path.resolve(__dirname, "../lib/local-api.js"),
+	"utf8"
+);
 
-console.log(JSON.stringify({ ok: true, suite: "local-api-burst-safety" }, null, 2));
+assert.match(source, /\bLISTEN_BACKLOG\s*=\s*4096\b/);
+assert.equal(Cache.CATALOG_CACHE_MS, 1000);
+assert.equal(Routes.BODY_LIMIT, 16 * 1024 * 1024);
+assert.equal(Routes.BINARY_LIMIT, 64 * 1024 * 1024);
+assert.ok(source.includes("server.requestTimeout = 0"));
+assert.ok(source.includes('server.on("clientError"'));
+
+console.log(JSON.stringify({
+	ok: true,
+	suite: "local-api-burst-safety"
+}));

@@ -5,13 +5,16 @@
 export const ROAD_COUNT = 3;
 export const ROAD_HALF_WIDTH = 18;
 export const SIDEWALK_OFFSET = 34;
+export const SIDEWALK_HALF_WIDTH = 12;
+export const SIDEWALK_INNER_EDGE = SIDEWALK_OFFSET - SIDEWALK_HALF_WIDTH;
+export const SIDEWALK_OUTER_EDGE = SIDEWALK_OFFSET + SIDEWALK_HALF_WIDTH;
 export const BUILDING_SETBACK_MIN = 66;
 
 const ROAD_FRACTIONS = Object.freeze([-0.18, 0, 0.18]);
 
 /**
- * The Awtsmoos gives road, sidewalk, walker, house, and traffic one covenant of place;
- * Awtsmoos.com lets every subsystem read the same three lines, so the visible city and simulated city rhyme.
+ * The Awtsmoos gives road, curb, sidewalk, walker, house, and traffic one covenant of place;
+ * Awtsmoos.com lets every subsystem read the same dimensions, so visible form and simulated law can rhyme.
  */
 export function roadCenter(index, bounds) {
 	const normalized = ((Math.trunc(index) % ROAD_COUNT) + ROAD_COUNT) % ROAD_COUNT;
@@ -41,7 +44,7 @@ export function roadClearance(value, bounds) {
 	return Math.abs(value - nearestRoadCenter(value, bounds));
 }
 
-/** Push a coordinate outside a protected road corridor while preserving its chosen side. */
+/** Push a coordinate outside one protected road-sidewalk corridor while preserving its chosen side. */
 export function clearRoadCoordinate(value, bounds, clearance, sideHint = 1) {
 	const center = nearestRoadCenter(value, bounds);
 	const delta = value - center;

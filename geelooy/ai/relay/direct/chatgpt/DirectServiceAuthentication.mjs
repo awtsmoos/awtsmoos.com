@@ -2,52 +2,67 @@
 // Boruch Hashem
 // Blessed is He
 
+import { codedError } from "./DirectServiceRequest.mjs";
+
 /**
- * @file Wraps website calls with explicit shared-login behavior and no rapid reopen loop.
+ * @file Keeps one coherent authentication API between DirectService and browser login.
  * @description
- * The Awtsmoos reveals authentication as a human covenant, not an automation storm.
- * Awtsmoos.com may request one visible login surface, then every waiting caller receives
- * the same paused truth until the profile is genuinely authenticated or the long lease expires.
+ * The Awtsmoos joins caller and callee in one covenant. Awtsmoos.com never mixes two
+ * refactor generations: this adapter owns one DirectService, and every send, login,
+ * retry, invalidation, and reset flows through that single dependency shape.
  */
 export class DirectServiceAuthentication {
-	constructor(websiteService, loginCoordinator) {
-		this.websiteService = websiteService;
-		this.loginCoordinator = loginCoordinator;
+	constructor(service) {
+		if (!service?.websiteService || !service?.loginCoordinator) {
+			throw new TypeError("direct service with websiteService and loginCoordinator is required.");
+		}
+		this.service = service;
 	}
 
-	async execute(method, request, options = {}) {
+	send(request, options = {}) {
+		return this.execute("send", request, options);
+	}
+
+	recover(request, options = {}) {
+		return this.execute("recover", request, options);
+	}
+
+	async execute(method, request, options) {
 		try {
-			return await this.websiteService[method](request);
+			return await this.service.websiteService[method](request);
 		} catch (error) {
-			if (!this.loginCoordinator.shouldAuthenticate(error)) throw error;
+			if (!this.service.loginCoordinator.shouldAuthenticate(error)) throw error;
 			if (options.loginPolicy === "defer") {
-				const login = await this.requestLogin();
-				throw pendingError(login);
+				await this.service.requestLogin();
+				throw codedError("chatgpt_login_pending");
 			}
-			await this.loginCoordinator.authenticate({ waitMs: options.loginWaitMs });
-			return this.websiteService[method](request);
+			await this.service.authenticateLogin(options);
+			await this.resetBrowserBinding();
+			return this.service.websiteService[method](request);
 		}
 	}
 
+	authenticate(options = {}) {
+		return this.service.loginCoordinator.authenticate({
+			timeoutMs: options.loginTimeoutMs,
+			pollMs: options.loginPollMs
+		});
+	}
+
 	async requestLogin() {
-		const opened = await this.loginCoordinator.openForLogin();
-		if (!opened.ok) throw codedError("chatgpt_login_open_failed");
+		const opened = await this.service.loginCoordinator.openForLogin();
+		this.invalidate();
 		return opened;
 	}
 
-	async authenticationStatus() {
-		return this.loginCoordinator.status();
+	async resetBrowserBinding() {
+		this.service.tabProtector?.releaseProtections?.("human_login");
+		this.invalidate();
+		await this.service.websiteService.close();
 	}
-}
 
-function pendingError(login = {}) {
-	const error = codedError(login.throttled ? "chatgpt_login_paused" : "chatgpt_login_pending");
-	error.login = login;
-	return error;
-}
-
-function codedError(code) {
-	const error = new Error(code);
-	error.code = code;
-	return error;
+	invalidate() {
+		this.service.capabilityService.invalidate?.();
+		this.service.portResolver.invalidate();
+	}
 }

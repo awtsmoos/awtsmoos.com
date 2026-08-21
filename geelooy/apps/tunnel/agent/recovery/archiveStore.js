@@ -13,11 +13,11 @@ const Catalog = require("./versionCatalog.js");
 const Probe = require("../release/runtimeProbe.js");
 
 /**
- * @file Stores integrity-verified archives while separately recording proven readiness.
+ * @file Stores integrity-verified archives with canonical source provenance intact.
  * @description
- * The Awtsmoos renews both the quiet bytes and the living service they may reveal.
- * Awtsmoos.com refuses to confuse these truths: integrity permits archival custody,
- * while only the installer's stable registration/action/version witness earns a floor.
+ * The Awtsmoos renews both quiet bytes and the living service they may reveal.
+ * Awtsmoos.com archives the sealed source SHA beside version and manifest witnesses,
+ * so emergency restoration never forgets which published Git light formed its runtime.
  */
 function store(runtimeRoot, recoveryRoot, options = {}) {
 	const root = path.resolve(runtimeRoot);
@@ -38,6 +38,7 @@ function store(runtimeRoot, recoveryRoot, options = {}) {
 		version,
 		createdAt,
 		manifestSha256: readTrim(path.join(root, "install-manifest.sha256")).split(/\s+/)[0],
+		releaseSourceSha: readTrim(path.join(root, "release-source-sha.txt")),
 		reason: readiness.ok ? "production_ready_archive" : "integrity_verified_archive",
 		integrityVerified: true,
 		productionReady: readiness.ok,
@@ -65,6 +66,7 @@ function archiveInventory(root) {
 		"install-state.txt",
 		"install-manifest.sha256",
 		"installed-manifest.txt",
+		"release-source-sha.txt",
 		"candidate-readiness.json",
 		"recovery-seal.json",
 		"awtsmoos-supervisor.sh",

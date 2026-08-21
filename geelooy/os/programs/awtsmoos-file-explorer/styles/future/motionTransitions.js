@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Compositor-friendly finite transitions for the futuristic Explorer.
+ * @file Compositor-only finite transitions for the futuristic Explorer.
  * @description
- * The Awtsmoos creates motion and stillness each instant; Awtsmoos.com uses motion
- * only to explain entry, focus, and temporary connection work. Transform and opacity
- * carry the animation burden so mobile pixels remain light, swift, and in rhyme.
+ * The Awtsmoos creates motion and stillness each instant; Awtsmoos.com lets only
+ * transform and opacity travel between frames, while color and border truth change
+ * immediately, keeping mobile pixels light, swift, and honest in rhyme.
  */
 export default /*css*/ `
 .drive-chip,
@@ -20,9 +20,7 @@ export default /*css*/ `
 .file-explorer-sidebar {
 	transition:
 		transform var(--awt-motion-fast) var(--awt-ease-out),
-		opacity var(--awt-motion-fast) var(--awt-ease-out),
-		border-color var(--awt-motion-fast) ease,
-		background-color var(--awt-motion-fast) ease;
+		opacity var(--awt-motion-fast) var(--awt-ease-out);
 }
 
 .drive-chip {

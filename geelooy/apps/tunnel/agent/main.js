@@ -14,9 +14,11 @@ const D = require("./lib/runtime/main-dependencies.js");
 const { createMainComponents } = require("./lib/runtime/main-components.js");
 
 /**
- * @file Starts one leased parent while a child vessel carries independent network breath.
- * @description The Awtsmoos renews workload and connection as separate vessels;
- * Awtsmoos.com keeps one resident owner and durable testimony for every ending.
+ * @file Starts one parent while exact request ownership survives every dispatch.
+ * @description
+ * The Awtsmoos renews every shliach and every deed; Awtsmoos.com carries each
+ * requestKey from queue to worker to release so no neighboring request can inherit
+ * another vessel's debt, slot, cancellation, or generation.
  */
 let components;
 
@@ -41,16 +43,17 @@ function drainQueue() {
 			item.ws,
 			item.data,
 			item.enqueuedAt,
-			item.requesterKey
+			item.requesterKey,
+			item.requestKey
 		).catch(error => components.log("warn", `runRequest failed: ${error.message}`));
 	} else {
-		components.queue.release(item.lane, item.requesterKey);
+		components.queue.release(item.lane, item.requesterKey, item.requestKey);
 	}
 	if (nextLane()) scheduleDrain();
 }
 
-function release(lane, requesterKey) {
-	components.queue.release(lane, requesterKey);
+function release(lane, requesterKey, requestKey) {
+	components.queue.release(lane, requesterKey, requestKey);
 }
 
 components = createMainComponents(D, { release, scheduleDrain });
@@ -96,6 +99,7 @@ module.exports = {
 	lagMonitor: components.runtime.lagMonitor,
 	main,
 	processRuntime,
+	reconcileScheduler: components.queue.reconcileScheduler,
 	requestPayload: components.payload.requestPayload,
 	routedData: components.payload.routedData,
 	runRequest: components.runRequest,
