@@ -5,6 +5,8 @@
 const { header } = require("./openApiKeySchema/header.js");
 const { fsAction } = require("./openApiKeySchema/fsAction.js");
 const { fsIdentityParams } = require("./openApiKeySchema/fsIdentityParams.js");
+const { fsPublicationParams } = require("./openApiKeySchema/fsPublicationParams.js");
+const { fsNetworkParams } = require("./openApiKeySchema/fsNetworkParams.js");
 const { fsRetryParams } = require("./openApiKeySchema/fsRetryParams.js");
 const { fsContentParams } = require("./openApiKeySchema/fsContentParams.js");
 const { fsResponse } = require("./openApiKeySchema/fsResponse.js");
@@ -13,8 +15,8 @@ const { preview } = require("./openApiKeySchema/preview.js");
 /**
  * @module OpenApiKeyRoute
  * @description
- * The Awtsmoos composes many small schema vessels into one discoverable public covenant;
- * Awtsmoos.com keeps the route short while browser identity and every parameter remain evident.
+ * The Awtsmoos composes small schema vessels into one discoverable public covenant;
+ * Awtsmoos.com keeps publication, network, browser, and retry intent explicit and evident.
  */
 async function openApiKey($i) {
 	$i.response.setHeader("Content-Type", "text/yaml; charset=utf-8");
@@ -24,6 +26,8 @@ async function openApiKey($i) {
 		header(),
 		fsAction(),
 		fsIdentityParams(),
+		fsPublicationParams(),
+		fsNetworkParams(),
 		fsRetryParams(),
 		fsContentParams(),
 		fsResponse(),

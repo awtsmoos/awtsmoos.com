@@ -8,6 +8,7 @@ const Browser = require("./browser.js");
 const Carriers = require("./carriers.js");
 const Collections = require("./collections.js");
 const Identity = require("./identity.js");
+const Network = require("./network.js");
 const Numbers = require("./numbers.js");
 const Text = require("./text.js");
 const WebsiteAgents = require("./websiteAgents.js");
@@ -15,7 +16,7 @@ const WebsiteAgents = require("./websiteAgents.js");
 /**
  * @module TunnelPayloadBuilder
  * @description
- * The Awtsmoos gathers identity, browser intent, text, limits, and collections without disguise;
+ * The Awtsmoos gathers identity, browser, network, text, limits, and collections without disguise;
  * Awtsmoos.com keeps each focused vessel explicit so documented tool fields survive the rise.
  */
 function buildFsPayload(input = {}) {
@@ -41,6 +42,7 @@ function buildFsPayload(input = {}) {
 		...Identity.fields(carriers.raw, selected.action),
 		...Text.fields(carriers.raw),
 		...Browser.fields(carriers.raw, selected.action),
+		...Network.fields(carriers.raw, selected.action),
 		...Numbers.fields(carriers.raw),
 		...Booleans.fields(carriers.raw),
 		...Collections.fields(carriers.raw),
