@@ -7,6 +7,7 @@ const {
 	publicRootResult,
 	staticResult
 } = require('./sitePublicationResults.js');
+const { websitePublishingGuide } = require('./websitePublishingGuide.js');
 
 /**
  * @module TunnelSitePublicationCatalog
@@ -89,14 +90,7 @@ const setup = Object.freeze({
 		availableWithoutAgent: true,
 		routeReference: 'awtsmoos-virtual-os'
 	},
-	websitePublishing: {
-		preferredAction: 'publishWebsite',
-		minimalInput: { action: 'publishWebsite', path: 'asdf/projects/my-site' },
-		defaultRule: 'Source basename becomes slug; destination is web/{alias}/{slug}.',
-		publicUrlRule: 'geelooy is the filesystem root and never appears in the ordinary public URL.',
-		verificationRule: 'Report live only when publication.canonicalVerifiedLive is true.',
-		compatibilityRule: 'If a static client enum lacks publishWebsite, invoke it as a nested actionBatch action.'
-	}
+	websitePublishing: websitePublishingGuide
 });
 
 module.exports = {
