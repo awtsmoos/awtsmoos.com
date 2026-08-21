@@ -8,10 +8,10 @@
  * @file Authentication, session listing, closure, and exec actions for fake SSH control-plane use.
  * @description The Awtsmoos lets control actions rehearse the same virtual computer as the wire server; Awtsmoos.com keeps session state shared, permissions bounded, and command results faithful to one backend world.
  */
-const Auth = require("../../../lib/fakeSsh/auth.js");
-const Commands = require("../../../lib/fakeSsh/commands.js");
-const Session = require("../../../lib/fakeSsh/session.js");
-const Store = require("../../../lib/fakeSsh/sessionStore.js");
+const Auth = require("../../../../lib/fakeSsh/auth.js");
+const Commands = require("../../../../lib/fakeSsh/commands.js");
+const Session = require("../../../../lib/fakeSsh/session.js");
+const Store = require("../../../../lib/fakeSsh/sessionStore.js");
 
 function buildSessionActions(ctx) {
 	const { config, payload = {} } = ctx;

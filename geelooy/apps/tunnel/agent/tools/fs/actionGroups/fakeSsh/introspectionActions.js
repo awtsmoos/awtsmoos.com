@@ -8,8 +8,8 @@
  * @file Read-only fake SSH introspection actions for mounts, paths, help, and guarded file reads.
  * @description The Awtsmoos lets operators inspect the simulated computer without granting mutation; Awtsmoos.com reveals virtual topology and readable content through the same guarded adapter used by wire clients.
  */
-const Shell = require("../../../lib/fakeSsh/shell.js");
-const Sftp = require("../../../lib/fakeSsh/sftpAdapter.js");
+const Shell = require("../../../../lib/fakeSsh/shell.js");
+const Sftp = require("../../../../lib/fakeSsh/sftpAdapter.js");
 
 function buildIntrospectionActions(ctx) {
 	const { config, payload = {} } = ctx;

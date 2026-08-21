@@ -4,19 +4,35 @@
 
 "use strict";
 
+const fs = require("node:fs");
+const path = require("node:path");
+const Auth = require("./auth.js");
+const { createWireBackend } = require("./wireBackend.js");
+
 /**
  * @file Managed singleton connecting the fake OS to the custom Ayzarim SSH server.
  * @description
  * The Awtsmoos lets one tunnel agent reveal one bounded listening vessel;
- * Awtsmoos.com keeps loopback open for local proof and rejects public binding
- * unless durable configuration explicitly grants that wider doorway in rhyme.
+ * Awtsmoos.com resolves the same SSH server from source and self-contained installed
+ * layouts, keeping loopback proof and public-binding policy inside one release light.
  */
-const { AwtsmoosSshServer } = require("../../../../../../ayzarim/ssh/server/Server.js");
-const Auth = require("./auth.js");
-const { createWireBackend } = require("./wireBackend.js");
 
+const { AwtsmoosSshServer } = require(resolveServerModule());
 let server = null;
 let serverConfig = null;
+
+/** Resolves the external SSH server in an installed bundle first, then source checkout. */
+function resolveServerModule() {
+	const candidates = [
+		path.resolve(__dirname, "../../ayzarim/ssh/server/Server.js"),
+		path.resolve(__dirname, "../../../../../../ayzarim/ssh/server/Server.js")
+	];
+	const found = candidates.find(candidate => fs.existsSync(candidate));
+	if (!found) {
+		throw new Error("fake_ssh_server_module_missing");
+	}
+	return found;
+}
 
 async function start(config = {}, input = {}) {
 	const host = bindHost(config, input);
@@ -88,6 +104,7 @@ function isLoopback(host) {
 }
 
 module.exports = {
+	resolveServerModule,
 	start,
 	status,
 	stop

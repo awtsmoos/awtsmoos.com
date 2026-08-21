@@ -8,9 +8,9 @@
  * @file Managed wire-server lifecycle actions for the fake Geelooy SSH computer.
  * @description The Awtsmoos lets an authenticated control action open or close the wire doorway deliberately; Awtsmoos.com reports real readiness and mints only short-lived access, never pretending a planned server already stood.
  */
-const Plan = require("../../../lib/fakeSsh/serverPlan.js");
-const Store = require("../../../lib/fakeSsh/sessionStore.js");
-const WireServer = require("../../../lib/fakeSsh/wireServer.js");
+const Plan = require("../../../../lib/fakeSsh/serverPlan.js");
+const Store = require("../../../../lib/fakeSsh/sessionStore.js");
+const WireServer = require("../../../../lib/fakeSsh/wireServer.js");
 
 function buildServerActions(ctx) {
 	const { config, payload = {} } = ctx;

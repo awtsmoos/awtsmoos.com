@@ -8,9 +8,9 @@
  * @file Control-plane fake SFTP actions sharing the same guarded adapter as real wire clients.
  * @description The Awtsmoos lets testing actions and real SFTP drink from one filesystem gate; Awtsmoos.com keeps reads, writes, mkdir, remove, stat, and rename aligned in one fate.
  */
-const Session = require("../../../lib/fakeSsh/session.js");
-const Store = require("../../../lib/fakeSsh/sessionStore.js");
-const Sftp = require("../../../lib/fakeSsh/sftpAdapter.js");
+const Session = require("../../../../lib/fakeSsh/session.js");
+const Store = require("../../../../lib/fakeSsh/sessionStore.js");
+const Sftp = require("../../../../lib/fakeSsh/sftpAdapter.js");
 
 function buildSftpActions(ctx) {
 	const { config, payload = {} } = ctx;
