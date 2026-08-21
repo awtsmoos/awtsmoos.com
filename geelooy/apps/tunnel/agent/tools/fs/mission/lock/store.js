@@ -4,12 +4,15 @@
 
 const { withDb } = require("../../awdb/open.js");
 const Collections = require("../../awdb/collections.js");
+const Recovery = require("../storageRecovery.js");
 const Config = require("./config.js");
 
 /**
- * @file Reads mission locks while separating healthy writer contention from database failure.
- * @description The Awtsmoos permits one writer to hold the vessel without making every other
- * Shliach declare corruption; Awtsmoos.com defers only the known busy-writer condition.
+ * @file Reads mission locks while separating contention from recoverable decoder ruin.
+ * @description
+ * The Awtsmoos permits one writer to hold the vessel without declaring corruption.
+ * When DosDB itself bears the proven LEB128 wound, Awtsmoos.com preserves the broken
+ * bytes in quarantine, records the witness, and lets clean mission truth be born anew.
  */
 function box(database) {
 	return Collections.ensure(database.root, "missionLocks");
@@ -23,7 +26,8 @@ function readResult(config) {
 		return { ok: true, value };
 	} catch (error) {
 		if (isWriterBusy(error)) return { ok: false, deferred: true, error };
-		throw error;
+		const recovery = recoverOrThrow(config, error);
+		return { ok: true, value: null, recovered: true, recovery };
 	}
 }
 
@@ -32,11 +36,21 @@ function get(config) {
 	return result.ok ? result.value : null;
 }
 
-function set(config, lock) {
+function writeLock(config, lock) {
 	return withDb(config, "missions", database => {
 		box(database)[Config.key(config)] = Collections.plain(lock);
 		return Collections.plain(lock);
 	});
+}
+
+function set(config, lock) {
+	try {
+		return writeLock(config, lock);
+	} catch (error) {
+		if (isWriterBusy(error)) throw error;
+		recoverOrThrow(config, error);
+		return writeLock(config, lock);
+	}
 }
 
 function trySet(config, lock) {
@@ -49,10 +63,16 @@ function trySet(config, lock) {
 }
 
 function clear(config) {
-	return withDb(config, "missions", database => {
-		delete box(database)[Config.key(config)];
+	try {
+		return withDb(config, "missions", database => {
+			delete box(database)[Config.key(config)];
+			return true;
+		});
+	} catch (error) {
+		if (isWriterBusy(error)) throw error;
+		recoverOrThrow(config, error);
 		return true;
-	});
+	}
 }
 
 function all(config) {
@@ -60,8 +80,15 @@ function all(config) {
 		return withDb(config, "missions", database => Collections.values(box(database)));
 	} catch (error) {
 		if (isWriterBusy(error)) return [];
-		throw error;
+		recoverOrThrow(config, error);
+		return [];
 	}
+}
+
+function recoverOrThrow(config, error) {
+	const recovery = Recovery.recover(config, error);
+	if (!recovery.recovered) throw error;
+	return recovery;
 }
 
 function isWriterBusy(error) {

@@ -1,5 +1,5 @@
 B"H
-1.0.554
+1.0.555
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1000,11 +1000,22 @@ lib/history/largeResponseRetention.js
 lib/history/mailboxHistoryRetention.js
 lib/history/maintenanceStores.js
 lib/history/retentionPlan.js
+lib/local-api-actions.js
+lib/local-api-catalog-cache.js
+lib/local-api-catalog.js
+lib/local-api-health.js
+lib/local-api-limits.js
+lib/local-api-response.js
+lib/local-api-route-handlers.js
+lib/local-api-routes.js
+lib/local-api-tool-dispatch.js
 lib/local-api.js
 lib/local-browser-relay.js
 lib/log.js
 lib/open.js
 lib/privateStateRoot.js
+lib/public-action-emergency.js
+lib/public-action-surface.js
 lib/registration-browser-compat.js
 lib/registration-capabilities.js
 lib/registration-digest.js
@@ -1469,6 +1480,7 @@ tools/fs/actionBuilderGroups/localActions.js
 tools/fs/actionBuilderGroups/missionActions.js
 tools/fs/actionBuilderGroups/surfaceActions.js
 tools/fs/actionBuilders.js
+tools/fs/actionEmergencyPolicy.js
 tools/fs/actionFinish.js
 tools/fs/actionGroups/actionHistoryActions.js
 tools/fs/actionGroups/actionStreamActions.js
@@ -2071,6 +2083,7 @@ tools/fs/mission/snapshot/store.js
 tools/fs/mission/stepProtocol.js
 tools/fs/mission/stopAudit/index.js
 tools/fs/mission/stopAudit/store.js
+tools/fs/mission/storageRecovery.js
 tools/fs/mission/strictAnswer.js
 tools/fs/mission/stuckness/config.js
 tools/fs/mission/stuckness/detect.js

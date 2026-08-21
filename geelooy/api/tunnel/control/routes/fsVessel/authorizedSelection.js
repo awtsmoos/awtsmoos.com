@@ -7,38 +7,66 @@ const Auto = require("./authorizedAutoSelection.js");
 const Factory = require("./vesselFactory.js");
 const Live = require("./liveDevices.js");
 const Manifest = require("./nativeActionManifest.js");
+const PublicAction = require("./publicActionResolver.js");
+const { findNativeTunnel } = require("./tunnelClient.js");
 const Errors = require("./vesselErrors.js");
 
 /**
- * @file Selects authorized vessels whose transport, executor, and action manifest agree.
+ * @file Resolves compact public capabilities before exact vessel admission and dispatch.
  * @description
- * The Awtsmoos renews authority and executable capability together. Awtsmoos.com
- * refuses to route an action that a manifest-aware native runtime did not advertise,
- * while legacy clients remain on the compatibility bridge until they negotiate v1.
+ * The Awtsmoos lets a small public doorway resolve into one exact inner deed before
+ * it crosses the gate. Awtsmoos.com therefore keeps legacy direct calls, P0 priority,
+ * and complete manifest security while new callers see only fourteen useful vessels.
  */
 function resolveBrowser($i, accountId, device, payload, timeoutMs, devices) {
 	if (!device.isAlive || !device.connected) {
 		return Errors.stale(device, devices.nativeDevices, devices.browserDevices);
 	}
-	return Factory.browserVessel({ $i, accountId, tunnelName: device.tunnelName,
-		payload, timeoutMs, device, reason: "authorized_browser_tunnel" });
+	const resolved = PublicAction.resolve(payload, {});
+	if (!resolved.ok) return Errors.unsupportedAction(device, resolved);
+	return Factory.browserVessel({
+		$i,
+		accountId,
+		tunnelName: device.tunnelName,
+		payload: resolved.payload,
+		timeoutMs,
+		device,
+		reason: "authorized_browser_tunnel"
+	});
 }
 
 function resolveNative($i, accountId, device, payload, permission, timeoutMs, devices) {
 	const authorized = Authorization.authorize(accountId, device.tunnelId, permission);
 	if (!authorized.ok) return Errors.missing(device.tunnelId);
-	const actionGate = Manifest.gate(device, payload);
+	const client = findNativeTunnel($i, authorized.binding);
+	const internalManifest = client?.actionManifest || {};
+	const resolved = PublicAction.resolve(payload, internalManifest);
+	if (!resolved.ok) return Errors.unsupportedAction(device, resolved);
+	const actionGate = Manifest.gate(client || device, resolved.payload);
 	if (!actionGate.ok) return Errors.unsupportedAction(device, actionGate);
-	if (!Live.canRouteDevice(device, payload)) {
+	if (!Live.canRouteDevice(device, resolved.payload)) {
 		return Errors.stale(device, devices.nativeDevices, devices.browserDevices);
 	}
-	return Factory.nativeVessel({ $i, ownerAccountId: authorized.binding.ownerAccountId,
-		tunnelName: authorized.binding.tunnelName, payload, timeoutMs, device,
-		reason: `authorized_${authorized.access}_native_tunnel` });
+	return Factory.nativeVessel({
+		$i,
+		ownerAccountId: authorized.binding.ownerAccountId,
+		tunnelName: authorized.binding.tunnelName,
+		payload: resolved.payload,
+		timeoutMs,
+		device,
+		reason: `authorized_${authorized.access}_native_tunnel`
+	});
 }
 
 function resolveAuto(options = {}) {
-	return Auto.resolveAuto(options, { resolveBrowser, resolveNative });
+	return Auto.resolveAuto(options, {
+		resolveBrowser,
+		resolveNative
+	});
 }
 
-module.exports = { resolveAuto, resolveBrowser, resolveNative };
+module.exports = {
+	resolveAuto,
+	resolveBrowser,
+	resolveNative
+};

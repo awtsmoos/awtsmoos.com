@@ -5,31 +5,36 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const Digest = require("./registration-digest.js");
+const Surface = require("./public-action-surface.js");
 const { schemaFor } = require("./tool-schema/schema-for.js");
 
 /**
- * @file Derives registration truth lazily from the executable action registries.
+ * @file Separates the fourteen public capabilities from complete executable truth.
  * @description
- * The Awtsmoos joins name and deed without making startup depend on a circular shadow.
- * Awtsmoos.com loads each registry only when its family is needed, so a browser-only
- * compatibility query never awakens filesystem root policy or unrelated runtime graphs.
+ * The Awtsmoos is One while every internal deed keeps its exact name below the gate.
+ * Awtsmoos.com advertises a small stable surface, yet hashes every executable action
+ * so routing, provenance, and security remain complete rather than merely ornate.
  */
 function build(config = {}) {
 	const actions = actionInventory(config);
 	const schemas = schemasFor(actions);
+	const supportedActions = [...Surface.PUBLIC_ACTIONS];
 	return {
 		releaseSourceSha: sourceSha(),
 		actionManifestHash: Digest.digest(actions),
 		actionSchemaDigest: Digest.digest(schemas),
+		publicActionDigest: Digest.digest(Surface.descriptor()),
+		publicActionCount: supportedActions.length,
 		actions,
-		supportedActions: uniqueActions(actions)
+		supportedActions
 	};
 }
 
 /**
- * Loads executable action families only when registration needs the complete manifest.
- * @param {object} config Native agent configuration with a sealed project root.
- * @returns {object} Action names grouped by executable runtime family.
+ * Loads every executable family for the internal native manifest.
+ *
+ * @param {object} config Native agent configuration with sealed project authority.
+ * @returns {object} Sorted internal action names grouped by runtime family.
  */
 function actionInventory(config = {}) {
 	const FsActions = require("../tools/fs/actions.js");
@@ -46,8 +51,9 @@ function actionInventory(config = {}) {
 }
 
 /**
- * Reads only the executable Chrome registry for legacy browser capability callers.
- * @returns {string[]} Sorted Chrome action names without initializing filesystem policy.
+ * Reads only the executable Chrome registry for compatibility capability callers.
+ *
+ * @returns {string[]} Sorted Chrome action names.
  */
 function browserActions() {
 	const Chrome = require("../tools/chrome/index.js");
@@ -72,9 +78,7 @@ function schemasFor(actions) {
 
 function sourceSha() {
 	const environment = String(process.env.AWTSMOOS_RELEASE_SOURCE_SHA || "").trim();
-	if (environment) {
-		return environment;
-	}
+	if (environment) return environment;
 	const file = path.resolve(__dirname, "../release-source-sha.txt");
 	try {
 		return String(fs.readFileSync(file, "utf8")).trim() || "unknown";
@@ -93,5 +97,6 @@ module.exports = {
 	build,
 	names,
 	schemasFor,
-	sourceSha
+	sourceSha,
+	uniqueActions
 };

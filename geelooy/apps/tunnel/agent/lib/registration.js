@@ -8,11 +8,11 @@ const Capabilities = require("./registration-capabilities.js");
 const Manifest = require("./registration-manifest.js");
 
 /**
- * @file Publishes native identity, exact action provenance, and compatibility truth.
+ * @file Publishes compact public capability truth beside exact internal provenance.
  * @description
- * The Awtsmoos joins what a vessel says with what it can actually do. Awtsmoos.com
- * derives hashes from executable registries at registration time while preserving the
- * historic exports that existing callers use to compare browser capability surfaces.
+ * The Awtsmoos is One while each executable deed remains known beneath the veil.
+ * Awtsmoos.com sends fourteen public doors, the complete grouped internal manifest,
+ * and separate hashes so compatibility, security, and discovery never confuse scale.
  */
 function nativeRegistrationPacket({ config, agentVersion, identity = {}, limits = {}, runtime = {} }) {
 	const manifest = Manifest.build(config);
@@ -35,6 +35,8 @@ function nativeRegistrationPacket({ config, agentVersion, identity = {}, limits 
 		releaseSourceSha: manifest.releaseSourceSha,
 		actionManifestHash: manifest.actionManifestHash,
 		actionSchemaDigest: manifest.actionSchemaDigest,
+		publicActionDigest: manifest.publicActionDigest,
+		publicActionCount: manifest.publicActionCount,
 		supportedActions: manifest.supportedActions,
 		actionManifest: manifest.actions,
 		tools: config.tools,

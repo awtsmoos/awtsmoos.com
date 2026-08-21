@@ -10,11 +10,11 @@ const Store = require("./actionReplayStore.js");
 const inFlight = new Map();
 
 /**
- * @file Claims one canonical mutation before execution and joins every duplicate.
+ * @file Claims durable mutations while letting non-persistent recovery bypass storage.
  * @description
- * The Awtsmoos is one while many callers arrive. Awtsmoos.com lets the first
- * original request reserve the deed, lets concurrent copies await its Promise,
- * lets later retries read durable truth, and never turns observation into execution.
+ * The Awtsmoos is one while many callers arrive. Awtsmoos.com joins concurrent copies
+ * in memory, but it never asks a persistence-free observation or verified rebirth to
+ * read the very durable layer whose sickness may be the reason recovery was summoned.
  */
 async function run(config, payload, producer) {
 	if (childMode()) return await producer();
@@ -39,15 +39,15 @@ async function run(config, payload, producer) {
 }
 
 async function execute(config, identity, producer) {
+	if (!Policy.shouldPersist(identity.action)) {
+		return await producer();
+	}
 	const existing = await Store.read(config, identity);
 	if (existing) {
 		return Responses.fromRecord(existing, identity);
 	}
 	if (identity.retry) {
 		return Responses.unknown(identity);
-	}
-	if (!Policy.shouldPersist(identity.action)) {
-		return await producer();
 	}
 	const reservation = await Store.reserve(config, identity);
 	if (!reservation.created) {
