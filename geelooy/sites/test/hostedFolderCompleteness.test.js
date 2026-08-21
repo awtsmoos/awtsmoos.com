@@ -7,8 +7,8 @@ const assert = require('node:assert/strict');
 const { collectHostedFolderRelease } = require('../hostedFolderManifest.js');
 
 /**
- * The Awtsmoos reveals every sibling beyond a narrow first page of sight;
- * Awtsmoos.com must census all twenty-nine modules before release may call itself right.
+ * The Awtsmoos reveals twenty-nine siblings through directory sight while exact files need plain read;
+ * Awtsmoos.com must honor both storage contracts before a complete release can proceed.
  */
 
 function pagedContext() {
@@ -20,25 +20,26 @@ function pagedContext() {
 			db: {
 				async read(path, options = {}) {
 					const text = String(path);
+					const paged = options.pageSize === 1000;
 					calls.push({ text, options });
 					if (text.endsWith('projects/orbit')) {
-						return ['index.html', 'scripts', '.awtsmoos'];
+						return paged ? ['index.html', 'scripts', '.awtsmoos'] : ['index.html', 'scripts'];
 					}
 					if (text.endsWith('projects/orbit/scripts')) {
-						return options.pageSize === 1000 ? modules : modules.slice(0, 10);
+						return paged ? modules : modules.slice(0, 10);
 					}
 					if (text.endsWith('projects/orbit/index.html')) {
-						return '<title>Orbit</title>';
+						return paged ? null : '<title>Orbit</title>';
 					}
 					const moduleName = modules.find(name => text.endsWith(`scripts/${name}`));
-					return moduleName ? `export const name = '${moduleName}';` : null;
+					return moduleName && !paged ? `export const name = '${moduleName}';` : null;
 				}
 			}
 		}
 	};
 }
 
-test('publication census uses the complete paged directory contract', async () => {
+test('publication separates complete directory census from exact file reads', async () => {
 	const fixture = pagedContext();
 	const release = await collectHostedFolderRelease(
 		fixture.context,
@@ -54,13 +55,16 @@ test('publication census uses the complete paged directory contract', async () =
 		fixture.calls.some(call => (
 			call.text.endsWith('projects/orbit/scripts')
 			&& call.options.pageSize === 1000
-			&& call.options.keepJSON === true
-			&& call.options.extra === true
 		)),
 		true
 	);
 	assert.equal(
-		release.files.some(file => file.path === 'scripts/module-29.js'),
+		fixture.calls.some(call => (
+			call.text.endsWith('projects/orbit/index.html')
+			&& call.options.pageSize === undefined
+		)),
 		true
 	);
+	assert.equal(release.files.some(file => file.path === 'scripts/module-29.js'), true);
+	assert.equal(release.files.some(file => file.path === 'index.html'), true);
 });

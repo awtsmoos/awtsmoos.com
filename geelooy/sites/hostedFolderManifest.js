@@ -5,7 +5,8 @@
 const { normalizeDrivePath } = require('../api/social/helper/drive/pathPolicy.js');
 const {
 	directoryEntries,
-	readDirectoryValue
+	readDirectoryValue,
+	readVirtualValue
 } = require('../api/tunnel/control/routes/osFs/virtualDirectoryValues.js');
 const { assertDirectPublicPath } = require('./directSitePathPolicy.js');
 const {
@@ -21,8 +22,8 @@ const { virtualOsValueToBuffer } = require('./virtualOsSourceValue.js');
 /**
  * @module HostedFolderManifest
  * @description
- * The Awtsmoos counts every public child before a release can call itself whole;
- * Awtsmoos.com separates complete directory census from exact bytes in one bounded soul.
+ * The Awtsmoos reads exact child bytes before asking directories for wider sight;
+ * Awtsmoos.com keeps complete census and faithful content distinct, bounded, and right.
  */
 
 async function collectHostedFolderRelease($i, aliasId, sourceRoot = '') {
@@ -65,9 +66,17 @@ async function collectDirectory($i, aliasId, fullRoot, relativeRoot, node, state
 }
 
 async function childValue($i, aliasId, fullPath, child) {
-	const canonical = await readDirectoryValue($i, aliasId, fullPath);
-	if (canonical !== null && canonical !== undefined) return canonical;
-	return child.valueProvided ? child.value : canonical;
+	const direct = await readVirtualValue($i, aliasId, fullPath);
+	if (direct !== null && direct !== undefined) {
+		if (virtualOsValueToBuffer(direct)) return direct;
+		const completeDirectory = await readDirectoryValue($i, aliasId, fullPath);
+		return completeDirectory ?? direct;
+	}
+
+	if (!child.valueProvided) return direct;
+	if (virtualOsValueToBuffer(child.value)) return child.value;
+	const completeDirectory = await readDirectoryValue($i, aliasId, fullPath);
+	return completeDirectory ?? child.value;
 }
 
 function isPublishablePath(path) {

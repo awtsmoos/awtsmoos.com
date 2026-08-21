@@ -8,8 +8,8 @@ const { dbPath, stripJsonSuffix } = require('./path.js');
 /**
  * @module VirtualDirectoryValues
  * @description
- * The Awtsmoos reveals every child beyond the first narrow page of sight;
- * Awtsmoos.com shares one directory census so listing and publication agree in light.
+ * The Awtsmoos separates exact child value from complete directory sight;
+ * Awtsmoos.com shares both storage contracts so bytes and census remain right.
  */
 
 const DIRECTORY_READ_OPTIONS = Object.freeze({
@@ -69,6 +69,10 @@ function directoryEntries(raw) {
 	}));
 }
 
+async function readVirtualValue($i, aliasId, innerPath) {
+	return await $i.db.read(dbPath(sp, aliasId, innerPath));
+}
+
 async function readDirectoryValue($i, aliasId, innerPath) {
 	return await $i.db.read(
 		dbPath(sp, aliasId, innerPath),
@@ -82,5 +86,6 @@ module.exports = {
 	directoryEntries,
 	isByteArray,
 	isSerializedBuffer,
-	readDirectoryValue
+	readDirectoryValue,
+	readVirtualValue
 };
