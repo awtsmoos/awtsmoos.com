@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -52,7 +52,7 @@ const apiCatalog = {
 	BH: 'B"H',
 	ok: true,
 	name: 'Awtsmoos Tunnel Control API',
-	version: '3.6.0',
+	version: '3.7.0',
 	base: BASE_URL,
 	controlPanel: agentLinks.tunnelControl,
 	openapi: agentLinks.openapi,
@@ -86,7 +86,7 @@ const apiCatalog = {
 		treeDepth: 2,
 		treeLimit: 150
 	},
-	warning: 'Authenticate, call my-device, route by immutable routeReference, and use publication.canonicalUrl for websites.'
+	warning: 'Authenticate first. Prefer publishWebsite for owned Virtual OS folders, and report a website live only when publication.canonicalVerifiedLive is true.'
 };
 
 module.exports = {

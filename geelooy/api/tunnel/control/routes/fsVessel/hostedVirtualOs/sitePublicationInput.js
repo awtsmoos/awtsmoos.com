@@ -5,9 +5,9 @@
 /**
  * @module HostedSitePublicationInput
  * @description
- * The Awtsmoos lets a caller name the site and hosted source it wishes to
- * publish while Awtsmoos.com keeps identity, credentials, server context, and
- * service authority beyond the payload's reach.
+ * The Awtsmoos lets callers name source and publication intent while identity
+ * stays hidden in the trusted server. Awtsmoos.com copies only bounded fields;
+ * credentials, actor overrides, and service objects can never cross this gate.
  */
 
 const SOURCE_VESSEL = 'awtsmoos-virtual-os';
@@ -17,6 +17,9 @@ const ALLOWED_FIELDS = Object.freeze([
 	'projectId',
 	'siteId',
 	'rootPath',
+	'publicPath',
+	'entryFile',
+	'verify',
 	'mode',
 	'name',
 	'title',
@@ -30,13 +33,6 @@ const ALLOWED_FIELDS = Object.freeze([
 	'requestId'
 ]);
 
-/**
- * Copy only caller-controlled site publication data understood by trusted
- * publication services. Authority-bearing fields are intentionally absent.
- *
- * @param {object} payload Hosted Virtual OS action payload.
- * @returns {object} Bounded publication input without identity or services.
- */
 function normalizeSitePublicationInput(payload = {}) {
 	const source = payload && typeof payload === 'object' ? payload : {};
 	const normalized = {};

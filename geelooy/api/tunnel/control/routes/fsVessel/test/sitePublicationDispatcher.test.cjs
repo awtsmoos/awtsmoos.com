@@ -2,101 +2,82 @@
 // Boruch Hashem
 // Blessed is He
 
-const assert = require("assert");
-const {
-	dispatchSitePublication
-} = require("../hostedVirtualOs/sitePublicationDispatcher.js");
-const {
-	dispatchHostedVirtualOs
-} = require("../hostedVirtualOs/dispatcher.js");
+const assert = require('assert');
+const { dispatchSitePublication } = require('../hostedVirtualOs/sitePublicationDispatcher.js');
+const { dispatchHostedVirtualOs } = require('../hostedVirtualOs/dispatcher.js');
 
 /**
- * The Awtsmoos lets a caller choose source and site while trusted server
- * identity alone carries authority. Awtsmoos.com must never let payload text
- * replace the authenticated user, server context, or publication service.
+ * The Awtsmoos gives source choice to the caller but authority to trusted identity;
+ * Awtsmoos.com must let `publishWebsite` stay simple without opening impersonation entry.
  */
 
-async function testTrustedPublicationContext() {
+async function testTrustedWebsiteContext() {
 	const trustedContext = { db: { trusted: true } };
-	const sentinel = { ok: true, receipt: { canonicalPath: "/sites/asdf/demo/" } };
 	let captured = null;
-	const payload = {
-		aliasId: "asdf",
-		projectId: "demo",
-		siteId: "demo",
-		rootPath: "sites/demo",
-		title: "Demo",
-		files: [{ path: "index.html", content: "<h1>Demo</h1>" }],
-		enabled: false,
-		userId: "attacker",
-		actorUserId: "attacker",
-		credentialId: "attacker-credential",
-		$i: { fake: true },
-		services: { fake: true }
-	};
 	const result = await dispatchSitePublication(
 		trustedContext,
-		"alice",
-		payload,
+		'alice',
 		{
-			bootstrapSiteProject: async options => {
+			action: 'publishWebsite',
+			path: 'asdf/projects/demo',
+			name: 'Bright Demo',
+			verify: true,
+			actorUserId: 'attacker',
+			userId: 'attacker',
+			$i: { fake: true },
+			services: { fake: true }
+		},
+		{
+			publishWebsite: async options => {
 				captured = options;
-				return sentinel;
+				return { ok: true };
 			}
 		}
 	);
-
-	assert.strictEqual(result, sentinel);
+	assert.deepStrictEqual(result, { ok: true });
 	assert.strictEqual(captured.$i, trustedContext);
-	assert.strictEqual(captured.actorUserId, "alice");
-	assert.strictEqual(captured.aliasId, "asdf");
-	assert.strictEqual(captured.projectId, "demo");
-	assert.strictEqual(captured.siteId, "demo");
-	assert.strictEqual(captured.rootPath, "sites/demo");
-	assert.strictEqual(captured.enabled, false);
-	assert.strictEqual(captured.sourceVessel, "awtsmoos-virtual-os");
-	assert.strictEqual(Object.hasOwn(captured, "userId"), false);
-	assert.strictEqual(Object.hasOwn(captured, "credentialId"), false);
-	assert.strictEqual(Object.hasOwn(captured, "services"), false);
+	assert.strictEqual(captured.actorUserId, 'alice');
+	assert.strictEqual(captured.path, 'asdf/projects/demo');
+	assert.strictEqual(captured.name, 'Bright Demo');
+	assert.strictEqual(captured.verify, true);
+	assert.strictEqual(Object.hasOwn(captured, 'userId'), false);
+	assert.strictEqual(Object.hasOwn(captured, 'services'), false);
 }
 
 async function testHostedRouting() {
-	const trustedContext = { request: "trusted" };
+	const trustedContext = { request: 'trusted' };
 	const calls = [];
 	const dependencies = {
 		dispatchSitePublication: async ($i, userId, payload) => {
-			calls.push(["publish", $i, userId, payload.action]);
-			return { routed: "publish" };
+			calls.push(['publish', $i, userId, payload.action]);
+			return { routed: 'publish' };
 		},
 		dispatchOsFs: async ($i, userId, payload) => {
-			calls.push(["os", $i, userId, payload.action]);
-			return { routed: "os" };
+			calls.push(['os', $i, userId, payload.action]);
+			return { routed: 'os' };
 		}
 	};
-
 	const published = await dispatchHostedVirtualOs(
 		trustedContext,
-		"alice",
-		{ action: "sitePublishBootstrap" },
+		'alice',
+		{ action: 'publishWebsite', path: 'asdf/projects/demo' },
 		dependencies
 	);
-	assert.deepStrictEqual(published, { routed: "publish" });
-	assert.deepStrictEqual(calls[0], ["publish", trustedContext, "alice", "sitePublishBootstrap"]);
-
+	assert.deepStrictEqual(published, { routed: 'publish' });
+	assert.deepStrictEqual(calls[0], ['publish', trustedContext, 'alice', 'publishWebsite']);
 	const read = await dispatchHostedVirtualOs(
 		trustedContext,
-		"alice",
-		{ action: "read", path: "asdf/file.txt" },
+		'alice',
+		{ action: 'read', path: 'asdf/file.txt' },
 		dependencies
 	);
-	assert.deepStrictEqual(read, { routed: "os" });
-	assert.deepStrictEqual(calls[1], ["os", trustedContext, "alice", "read"]);
+	assert.deepStrictEqual(read, { routed: 'os' });
 }
 
 (async () => {
-	await testTrustedPublicationContext();
+	await testTrustedWebsiteContext();
 	await testHostedRouting();
-	console.log("BHY hosted site publication dispatcher tests passed");
+	console.log('BHY publishWebsite dispatcher tests passed');
 })().catch(error => {
 	console.error(error);
 	process.exit(1);

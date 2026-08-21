@@ -2,61 +2,68 @@
 // Boruch Hashem
 // Blessed is He
 
+const {
+	driveResult,
+	publicRootResult,
+	staticResult
+} = require('./sitePublicationResults.js');
+
 /**
  * @module TunnelSitePublicationCatalog
  * @description
- * The Awtsmoos lets each publication action reveal its scope, vessel, input,
- * result, and replay law from one machine-readable covenant. Awtsmoos.com no
- * longer needs a human renderer to guess what “no params” was meant to hide.
+ * The Awtsmoos turns one owned folder into one discoverable website covenant;
+ * Awtsmoos.com teaches agents the simple deed first while advanced public-root
+ * and legacy Drive/Sites vessels remain explicit, bounded, and never blurred.
  */
 
-const commonResult = Object.freeze({
-	authoritative: true,
-	fields: [
-		'publication.canonicalUrl',
-		'publication.source',
-		'publication.sourceAvailable',
-		'publication.entryReady',
-		'publication.canonicalVerifiedLive'
-	]
-});
-
 const actionCatalog = Object.freeze({
-	sitePublishBootstrap: {
-		summary: 'Publish an explicit bounded source manifest through Drive.',
+	publishWebsite: {
+		summary: 'Publish any owned Virtual OS folder as a verified static website.',
 		scope: 'tunnel.write',
 		mutation: true,
-		vessels: ['virtual-os', 'native-tunnel'],
-		params: ['aliasId', 'projectId', 'siteId', 'rootPath', 'files'],
-		result: commonResult,
-		replay: 'reconcile-before-replay'
-	},
-	sitePublishFolder: {
-		summary: 'Publish any owned hosted folder directly or as a snapshot.',
-		scope: 'tunnel.write',
-		mutation: true,
-		vessels: ['virtual-os', 'native-tunnel'],
-		params: ['path', 'siteId', 'mode=direct|snapshot'],
-		result: commonResult,
-		replay: 'reconcile-before-replay',
+		plane: 'public-root-static',
+		vessels: ['virtual-os'],
+		params: ['path', 'name?', 'entryFile?', 'verify=true'],
+		result: staticResult,
+		replay: 'atomic-reconcile-before-replay',
 		examples: [
-			{ path: 'asdf/projects/orbit-run', siteId: 'orbit-run', mode: 'direct' },
-			{ path: 'asdf/projects/orbit-run', siteId: 'orbit-run', mode: 'snapshot' }
+			{ path: 'asdf/projects/family-page' },
+			{ path: 'asdf/drafts/landing', name: 'Mitzvah Light' }
 		]
 	},
+	publicRootPublishFolder: {
+		summary: 'Advanced static deploy with an explicit geelooy-relative public path.',
+		scope: 'tunnel.write',
+		mutation: true,
+		plane: 'public-root-static',
+		vessels: ['virtual-os'],
+		params: ['path', 'publicPath', 'entryFile?', 'verify=true'],
+		result: publicRootResult,
+		replay: 'atomic-reconcile-before-replay'
+	},
+	sitePublishBootstrap: driveAction(
+		'Publish an explicit bounded manifest into the legacy Drive/Sites plane.',
+		['aliasId', 'projectId', 'siteId', 'rootPath', 'files']
+	),
+	sitePublishFolder: driveAction(
+		'Publish an owned folder into the separate Drive/Sites dynamic plane.',
+		['path', 'siteId', 'mode=direct|snapshot']
+	),
 	sitePublicationStatus: {
-		summary: 'Read authoritative canonical publication and source readiness.',
+		summary: 'Read Drive/Sites state; this does not describe static geelooy deployment.',
 		scope: 'tunnel.read',
 		mutation: false,
+		plane: 'drive-sites-dynamic',
 		vessels: ['virtual-os', 'native-tunnel'],
 		params: ['aliasId', 'siteId'],
-		result: commonResult,
+		result: driveResult,
 		replay: 'safe-read'
 	},
 	siteUnpublish: {
-		summary: 'Remove the canonical site mapping without deleting source bytes.',
+		summary: 'Remove a Drive/Sites mapping without deleting source bytes.',
 		scope: 'tunnel.write',
 		mutation: true,
+		plane: 'drive-sites-dynamic',
 		vessels: ['virtual-os', 'native-tunnel'],
 		params: ['aliasId', 'siteId'],
 		result: { fields: ['publication.mapped=false'] },
@@ -64,18 +71,32 @@ const actionCatalog = Object.freeze({
 	}
 });
 
+function driveAction(summary, params) {
+	return {
+		summary,
+		scope: 'tunnel.write',
+		mutation: true,
+		plane: 'drive-sites-dynamic',
+		vessels: ['virtual-os', 'native-tunnel'],
+		params,
+		result: driveResult,
+		replay: 'reconcile-before-replay'
+	};
+}
+
 const setup = Object.freeze({
-	oauth: {
-		preferred: true,
-		discovery: '/api/tunnel/control/my-device',
-		routingField: 'routeReference',
-		rule: 'Auto-use one live owned route; ask only when device choice is needed.'
-	},
 	virtualOs: {
 		availableWithoutAgent: true,
 		routeReference: 'awtsmoos-virtual-os'
 	},
-	publicUrlRule: 'Never derive a website URL from /geelooy/os; use publication.canonicalUrl.'
+	websitePublishing: {
+		preferredAction: 'publishWebsite',
+		minimalInput: { action: 'publishWebsite', path: 'asdf/projects/my-site' },
+		defaultRule: 'Source basename becomes slug; destination is web/{alias}/{slug}.',
+		publicUrlRule: 'geelooy is the filesystem root and never appears in the ordinary public URL.',
+		verificationRule: 'Report live only when publication.canonicalVerifiedLive is true.',
+		compatibilityRule: 'If a static client enum lacks publishWebsite, invoke it as a nested actionBatch action.'
+	}
 });
 
 module.exports = {
