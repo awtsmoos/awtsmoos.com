@@ -1,5 +1,5 @@
 B"H
-1.0.555
+1.0.556
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1117,6 +1117,7 @@ lib/runtime/main-retry-control.js
 lib/runtime/main-run-progress.js
 lib/runtime/main-run-request.js
 lib/runtime/main-run-result.js
+lib/runtime/main-scheduler-emergency-dispatch.js
 lib/runtime/main-startup-helpers.js
 lib/runtime/main-startup-history.js
 lib/runtime/main-startup.js

@@ -2,14 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
+const {
+	createSchedulerEmergencyDispatch
+} = require("./main-scheduler-emergency-dispatch.js");
+
 /**
- * @file Dispatches one normalized action while exposing its real consumer boundary.
+ * @file Dispatches one normalized action while keeping scheduler medicine parent-owned.
  * @description
- * The Awtsmoos gives each action a vessel suited to its work. Awtsmoos.com lets
- * filesystem actions prove worker assignment separately, while local handlers mark
- * their true start before execution without granting health timers ownership.
+ * The Awtsmoos gives each action the vessel suited to its work. Awtsmoos.com keeps
+ * scheduler emergency deeds in the parent process that owns queue truth, while filesystem,
+ * command, browser, relay, and streaming work continue through their proper engines.
  */
 function createDispatch(dependencies) {
+	const schedulerEmergency = dependencies.schedulerEmergency
+		|| createSchedulerEmergencyDispatch();
 	return async function dispatch(
 		kind,
 		payload,
@@ -17,6 +23,13 @@ function createDispatch(dependencies) {
 		data,
 		executionObserver = null
 	) {
+		if (schedulerEmergency.handles(payload)) {
+			markLocal(
+				executionObserver,
+				"parent_scheduler_emergency_started"
+			);
+			return await schedulerEmergency.run(payload);
+		}
 		if (payload.kind === "local_http_proxy") {
 			markLocal(executionObserver, "local_http_proxy_started");
 			return dependencies.Proxy.proxyLocalHttp(
@@ -28,7 +41,11 @@ function createDispatch(dependencies) {
 			);
 		}
 		if (kind === "fs") {
-			return dependencies.handleFs(payloadWithKind(payload, kind), webSocket, executionObserver);
+			return dependencies.handleFs(
+				payloadWithKind(payload, kind),
+				webSocket,
+				executionObserver
+			);
 		}
 		markLocal(executionObserver, `${kind || "unknown"}_handler_started`);
 		if (kind === "command") {
@@ -65,7 +82,10 @@ function markLocal(observer, phase) {
 }
 
 function payloadWithKind(payload, kind) {
-	return { ...payload, kind };
+	return {
+		...payload,
+		kind
+	};
 }
 
 module.exports = {
