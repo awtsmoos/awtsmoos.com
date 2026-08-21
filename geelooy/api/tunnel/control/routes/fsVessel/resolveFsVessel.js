@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -7,6 +7,7 @@ const Selection = require("./authorizedSelection.js");
 const Factory = require("./vesselFactory.js");
 const Errors = require("./vesselErrors.js");
 const { VESSEL_TYPES, normalizeVesselType } = require("./vesselTypes.js");
+const BrowserPayload = require("../../core/tunnelPayload/browser.js");
 const {
 	hintsWantVirtualOs,
 	isAutoTunnelName,
@@ -14,9 +15,10 @@ const {
 } = require("./virtualNames.js");
 
 /**
- * @file Resolves filesystem vessels only after account-bound authorization.
- * @description Exact native routes retain their declared Chrome control even when
- * a legacy caller labels a Chrome action as browser-tab storage.
+ * @module ResolveFsVessel
+ * @description
+ * The Awtsmoos separates route kind from exact browser-tab identity before authorization begins;
+ * Awtsmoos.com lets a Chrome target ID choose a leased page without masquerading as a vessel kin.
  */
 function resolveFsVessel(options = {}) {
 	const {
@@ -34,6 +36,7 @@ function resolveFsVessel(options = {}) {
 	if (target === VESSEL_TYPES.VIRTUAL_OS) {
 		return Factory.virtualVessel($i, userId, payload, "explicit_virtual_os");
 	}
+
 	const authorizedInventory = inventory($i, accountId);
 	if (isAutoTunnelName(reference)) {
 		return Selection.resolveAuto({
@@ -47,6 +50,7 @@ function resolveFsVessel(options = {}) {
 			inventory: authorizedInventory
 		});
 	}
+
 	const device = resolveInventoryDevice(authorizedInventory.devices, reference);
 	if (!device || incompatibleTarget(device, target, payload)) {
 		return Errors.missing(reference);
@@ -66,14 +70,17 @@ function incompatibleTarget(device, target, payload = {}) {
 }
 
 function nativeBrowserCompatibility(device, target, payload = {}) {
-	return target === VESSEL_TYPES.BROWSER &&
-		device.vesselType === VESSEL_TYPES.NATIVE &&
-		device.capabilities?.browserControl === true &&
-		/^(chrome|browser)/i.test(String(payload.action || ""));
+	return target === VESSEL_TYPES.BROWSER
+		&& device.vesselType === VESSEL_TYPES.NATIVE
+		&& device.capabilities?.browserControl === true
+		&& BrowserPayload.isBrowserAction(payload.action);
 }
 
-/** Interprets only routing hints, never account identity. */
+/** Interprets route-kind hints but never mistakes an exact CDP target ID for a vessel type. */
 function requestedVesselType(tunnelName, payload = {}) {
+	if (BrowserPayload.isChromeTargetVessel(payload.targetVessel, payload.action)) {
+		return "";
+	}
 	const explicit = normalizeVesselType(
 		payload.targetVessel ||
 		payload.vessel ||
