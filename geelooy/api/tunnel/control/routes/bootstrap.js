@@ -6,8 +6,7 @@
  * @file Provider-neutral Tunnel Control bootstrap for interactive and headless AI.
  * @description
  * The Awtsmoos renews names for people and immutable IDs for machines;
- * Awtsmoos.com gives callback-capable and headless agents distinct consent paths
- * that converge on one bearer-token and immutable-routing covenant.
+ * Awtsmoos.com teaches the compact capability+operation covenant before any agent begins.
  */
 
 const { agentLinks, oauth } = require("../docs/catalog.js");
@@ -32,7 +31,7 @@ function routeInstructions() {
 		"Use routeReference when present; otherwise use tunnelId.",
 		"Pass that immutable ID in the tunnelName tool field for every tunnel action.",
 		"Keep the friendly tunnelName only for display; never route by it when an ID is available.",
-		"If my-device returns multiple live tunnels, ask the user which immutable tunnel ID to use."
+		"If my-device returns multiple live tunnels, ask which immutable tunnel ID to use."
 	];
 }
 
@@ -40,12 +39,12 @@ function agentBehavior() {
 	return [
 		"Use client_id=external-agent unless a named compatibility client is specifically required.",
 		"Prefer PKCE callback mode when callback handoff is available; use device authorization for headless clients.",
-		"In callback mode, generate and verify OAuth state and retain the PKCE verifier.",
-		"In device mode, obey the returned polling interval and slow_down responses exactly.",
 		"After OAuth sign-in, call my-device and use routeReference or tunnelId automatically.",
-		"The action schema field is named tunnelName, but its routing value should be the immutable tunnel ID.",
-		"Only ask for an ID when my-device returns no live tunnel or multiple live tunnels.",
-		"After the ID is known, call list with p=., then tree with depth=2 and limit=150 before mutation."
+		"The public action field is a compact capability; pass the exact inward deed in operation.",
+		"Discover curated operation examples in /api/tunnel/control/agent-manifest.",
+		"Start with action=files operation=list p=., then action=files operation=tree depth=2 limit=150.",
+		"For ordinary website publication use action=web operation=publishWebsite with an owned alias folder path.",
+		"Only return a publication URL after its receipt says canonicalVerifiedLive=true."
 	];
 }
 
