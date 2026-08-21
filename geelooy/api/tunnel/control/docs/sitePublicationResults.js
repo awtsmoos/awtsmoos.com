@@ -6,7 +6,7 @@
  * @module TunnelSitePublicationResults
  * @description
  * The Awtsmoos lets each plane testify with its own fields and faithful scope;
- * Awtsmoos.com keeps static release proof distinct from the legacy Drive hope.
+ * Awtsmoos.com now names census and dependency proof beside public HTTPS hope.
  */
 
 const staticResult = Object.freeze({
@@ -17,9 +17,13 @@ const staticResult = Object.freeze({
 		'website.slug',
 		'website.publicPath',
 		'website.url',
+		'source.completeness.complete',
+		'source.completeness.emittedFileCount',
 		'release.fileCount',
 		'release.bytes',
 		'release.sha256',
+		'release.dependencyClosure.complete',
+		'release.dependencyClosure.dependencyCount',
 		'publication.canonicalVerifiedLive'
 	]
 });
@@ -31,9 +35,13 @@ const publicRootResult = Object.freeze({
 		'deployment.publicPath',
 		'deployment.productionTarget',
 		'publication.canonicalUrl',
+		'source.completeness.complete',
+		'source.completeness.emittedFileCount',
 		'release.fileCount',
 		'release.bytes',
 		'release.sha256',
+		'release.dependencyClosure.complete',
+		'release.dependencyClosure.dependencyCount',
 		'publication.canonicalVerifiedLive'
 	]
 });

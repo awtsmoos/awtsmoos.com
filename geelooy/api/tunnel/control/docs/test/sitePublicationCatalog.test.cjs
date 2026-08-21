@@ -9,11 +9,12 @@ const {
 } = require('../sitePublicationCatalog.js');
 
 /**
- * The Awtsmoos makes simple publication discoverable while identity stays true;
- * Awtsmoos.com must teach alias-owned URLs, explicit moves, and honest DNS too.
+ * The Awtsmoos makes simple publication discoverable while evidence and identity stay true;
+ * Awtsmoos.com must teach alias-owned URLs, complete census, closed graphs, and honest DNS too.
  */
 
 const guide = setup.websitePublishing;
+const resultFields = actionCatalog.publishWebsite.result.fields;
 assert(actionCatalog.publishWebsite);
 assert.strictEqual(actionCatalog.publishWebsite.scope, 'tunnel.write');
 assert.strictEqual(actionCatalog.publishWebsite.plane, 'public-root-static');
@@ -34,5 +35,9 @@ assert(guide.moveRule.includes('another owned alias'));
 assert(guide.dnsRule.includes('separate explicit verified binding'));
 assert(guide.dnsRule.includes('Drive/Sites plane'));
 assert(guide.compatibilityRule.includes('actionBatch'));
+assert(resultFields.includes('source.completeness.complete'));
+assert(resultFields.includes('source.completeness.emittedFileCount'));
+assert(resultFields.includes('release.dependencyClosure.complete'));
+assert(resultFields.includes('release.dependencyClosure.dependencyCount'));
 
-console.log('BHY alias-owned website publication catalog tests passed');
+console.log('BHY alias-owned complete website publication catalog tests passed');

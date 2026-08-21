@@ -12,9 +12,8 @@ const { verifyPublicRootRelease } = require('./publicRootPublicationVerify.js');
 /**
  * @module PublicRootPublication
  * @description
- * The Awtsmoos joins owned source, exact hashes, atomic promotion, and public
- * observation without collapsing their boundaries. Awtsmoos.com calls the URL
- * canonical only after the intended static release has answered through HTTPS.
+ * The Awtsmoos joins ownership, complete source testimony, atomic promotion, and public sight;
+ * Awtsmoos.com calls a URL canonical only when census, graph, hashes, and HTTPS all unite.
  */
 
 const ACTION = 'publicRootPublishFolder';
@@ -34,7 +33,6 @@ async function publishPublicRootFolder(options = {}, dependencies = DEFAULT_DEPE
 		options.actorUserId,
 		input.source.aliasId
 	);
-
 	const manifest = await dependencies.buildPublicRootRelease({
 		$i: options.$i,
 		aliasId: input.source.aliasId,
@@ -72,12 +70,14 @@ function publicationReceipt(input, manifest, verification, cleanup) {
 		plane: 'public-root-static',
 		source: {
 			aliasId: input.source.aliasId,
-			path: input.source.innerPath
+			path: input.source.innerPath,
+			completeness: manifest.sourceCompleteness
 		},
 		release: {
 			fileCount: manifest.fileCount,
 			bytes: manifest.bytes,
-			sha256: manifest.releaseSha256
+			sha256: manifest.releaseSha256,
+			dependencyClosure: manifest.dependencyClosure
 		},
 		deployment: {
 			publicPath: input.publicPath,
@@ -87,9 +87,16 @@ function publicationReceipt(input, manifest, verification, cleanup) {
 		publication: {
 			canonicalUrl: input.publicUrl,
 			canonicalVerifiedLive: verification.verified === true
+				&& manifest.sourceCompleteness?.complete === true
+				&& manifest.dependencyClosure?.complete === true
 		},
 		verification
 	};
 }
 
-module.exports = { ACTION, DEFAULT_DEPENDENCIES, publishPublicRootFolder, publicationReceipt };
+module.exports = {
+	ACTION,
+	DEFAULT_DEPENDENCIES,
+	publicationReceipt,
+	publishPublicRootFolder
+};
