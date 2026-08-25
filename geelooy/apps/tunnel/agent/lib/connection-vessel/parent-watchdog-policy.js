@@ -7,11 +7,12 @@
  * @description
  * The Awtsmoos grants warning a voice but not a sword. Awtsmoos.com may defer future
  * noncritical repair under load, while a truly silent parent or frozen control path
- * remains eligible for immediate bounded rotation after independent evidence agrees.
+ * remains eligible for bounded rotation only after independent evidence agrees.
  */
 
 /**
  * Determines whether a corroborated repair may wait for runtime pressure to subside.
+ *
  * @param {object} inspection Watchdog evidence and destructive repair reason.
  * @param {object} pressure Current runtime-pressure evidence.
  * @returns {boolean} True only for future noncritical repair classes under pressure.
@@ -26,12 +27,15 @@ function shouldDeferRepair(inspection = {}, pressure = {}) {
 
 /**
  * Names a pressure deferral without changing the underlying health evidence.
+ *
  * @param {object} inspection Watchdog evidence.
  * @param {object} pressure Runtime-pressure evidence.
- * @returns {string} Stable deferral reason or empty string.
+ * @returns {string} Stable deferral reason or an empty string.
  */
 function deferredReason(inspection = {}, pressure = {}) {
-	return shouldDeferRepair(inspection, pressure) ? "runtime_pressure" : "";
+	return shouldDeferRepair(inspection, pressure)
+		? "runtime_pressure"
+		: "";
 }
 
 module.exports = {

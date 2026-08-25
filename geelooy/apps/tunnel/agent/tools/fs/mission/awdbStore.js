@@ -2,107 +2,90 @@
 // Boruch Hashem
 // Blessed is He
 
-const fileSystem = require("node:fs");
-const { withDb, dbFile } = require("../awdb/open.js");
-const Collections = require("../awdb/collections.js");
-const Legacy = require("./awdbLegacyMigration.js");
+const Paths = require("../awdb/paths.js");
 
 /**
- * @file Keeps the optional mission AwtsmoosDB store readable across legacy collection shapes.
+ * @file Preserves the historical mission-AWDB contract while removing it from the critical path.
  * @description
- * The Awtsmoos preserves each mission while an old sequence becomes the dictionary it was meant to be;
- * Awtsmoos.com migrates at the adapter boundary, leaving DosDB's stable-anchor covenant strong and free.
+ * The Awtsmoos lets yesterday's binary vessels remain untouched while today's mission
+ * continues through the already-durable JSON ledger. Awtsmoos.com treats this adapter
+ * as an optional mirror only; no mission action may fail because that mirror is sick.
  */
+const DISABLED_CODE = "MISSION_AWDB_OPTIONAL_MIRROR_DISABLED";
+
+/** Returns false while the stability release keeps JSON mission state authoritative. */
 function enabled() {
-	return process.env.AWTSMOOS_MISSION_AWDB === "1";
+	return false;
 }
 
-function readable(config) {
-	return process.env.AWTSMOOS_MISSION_AWDB !== "0" &&
-		fileSystem.existsSync(dbFile(config, "missions"));
+/** Returns false so callers never reopen a broken historical mirror for reads. */
+function readable() {
+	return false;
 }
 
-function failure(config, mission, error) {
+/**
+ * Reports a successful no-op mirror write instead of turning optional indexing into a mission failure.
+ * @param {object} config Tunnel runtime configuration.
+ * @param {object} mission Mission record already persisted by the primary ledger.
+ * @returns {object} Explicit compatibility receipt.
+ */
+function save(config, mission = {}) {
+	return receipt(config, mission.id || "");
+}
+
+/** Returns no mirror record; the primary JSON mission ledger owns reads. */
+function load() {
+	return null;
+}
+
+/** Returns no mirror records; the primary JSON mission ledger owns enumeration. */
+function all() {
+	return [];
+}
+
+/** Keeps the historical skipped contract explicit for diagnostic callers. */
+function disabled(config, id = "") {
+	return receipt(config, id);
+}
+
+/** Returns bounded state explaining why the optional binary mirror is bypassed. */
+function status(config = {}) {
 	return {
-		ok: false,
-		backend: "awtsmoosdb",
-		file: dbFile(config, "missions"),
-		id: mission?.id || "",
-		code: error?.code || "AWTSMOOSDB_WRITE_FAILED",
-		error: String(error?.message || error || "AwtsmoosDB write failed")
+		enabled: false,
+		legacyReadable: false,
+		mode: "disabled-optional-mirror",
+		backend: "json-primary",
+		preservedAwdbFile: Paths.dbFile(config, "missions"),
+		code: DISABLED_CODE
 	};
 }
 
-function indexes(database) {
-	const missions = Collections.ensure(database.root, "missions", {});
-	const byId = Collections.ensure(missions, "byId", {});
-	const order = Collections.ensure(missions, "order", {});
-	const imported = Legacy.migrate(missions, byId, order);
-	return { missions, byId, order, imported };
-}
-
-function save(config, mission) {
-	if (!enabled()) return disabled(config, mission?.id || "");
-	try {
-		return withDb(config, "missions", database => {
-			const { byId, order, imported } = indexes(database);
-			byId[mission.id] = Collections.plain(mission);
-			order[mission.id] = mission.updatedAt || new Date().toISOString();
-			return {
-				ok: true,
-				backend: "awtsmoosdb",
-				file: dbFile(config, "missions"),
-				id: mission.id,
-				legacyImported: imported
-			};
-		});
-	} catch (error) {
-		return failure(config, mission, error);
-	}
-}
-
-function load(config, id) {
-	if ((!enabled() && !readable(config)) || !id) return null;
-	try {
-		return withDb(config, "missions", database => {
-			const { byId } = indexes(database);
-			return Collections.plain(byId[id]);
-		});
-	} catch {
-		return null;
-	}
-}
-
-function all(config) {
-	if (!enabled() && !readable(config)) return [];
-	try {
-		return withDb(config, "missions", database => {
-			const { byId } = indexes(database);
-			return Collections.values(byId);
-		});
-	} catch {
-		return [];
-	}
-}
-
-function disabled(config, id) {
+/** Builds one truthful no-op receipt without opening or mutating AwtsmoosDB. */
+function receipt(config = {}, id = "") {
 	return {
-		ok: false,
-		backend: "awtsmoosdb",
+		ok: true,
+		backend: "json-primary",
 		skipped: true,
-		code: "AWTSMOOSDB_DISABLED",
-		file: dbFile(config, "missions"),
+		optionalMirror: true,
+		code: DISABLED_CODE,
+		preservedAwdbFile: Paths.dbFile(config, "missions"),
 		id
 	};
 }
 
-function status(config) {
+/** Rejects direct internal-index use so no hidden path silently re-enters the disabled mirror. */
+function indexes() {
+	const error = new Error(DISABLED_CODE);
+	error.code = DISABLED_CODE;
+	throw error;
+}
+
+/** Preserves the historical failure helper shape for external diagnostics. */
+function failure(config = {}, mission = {}, error = {}) {
 	return {
-		enabled: enabled(),
-		legacyReadable: readable(config),
-		mode: enabled() ? "explicit-primary" : "legacy-read-only",
-		backend: "awtsmoosdb",
-		file: dbFile(config, "missions")
+		...receipt(config, mission.id || ""),
+		ok: false,
+		error: String(error?.message || error || DISABLED_CODE)
 	};
 }
 

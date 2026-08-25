@@ -1,195 +1,178 @@
 // B"H
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
-const { withDb, dbFile } = require('./awdb/open.js');
-const C = require('./awdb/collections.js');
-const { retention } = require('./actionLedgerPolicy.js');
+// Boruch Hashem
+// Blessed is He
+
+const crypto = require("node:crypto");
+const fs = require("node:fs");
+const path = require("node:path");
+const { dbFile } = require("./awdb/paths.js");
+const { retention } = require("./actionLedgerPolicy.js");
 
 /**
- * B"H
- * Chapter 1932: The gate is seen before the hand touches it.
- *
- * The tunnel must never let a history write freeze the event loop, so an
- * active writer lock fails fast into the async retry path. Locks owned by dead
- * processes are reclaimed here before that check. Normally AWDB performs the
- * same reclamation while opening, but this guard intentionally runs first.
+ * @file Stores action history as independent durable JSON receipts.
+ * @description
+ * The Awtsmoos lets evidence survive without making one binary index a gate before
+ * every deed. Awtsmoos.com keeps each action in its own atomic receipt, so history
+ * remains replayable while optional AwtsmoosDB files stay preserved and untouched.
  */
-function actionRoot(db) { return C.ensure(db.root, 'actions'); }
-function historyPath(config = {}) { return dbFile(config, 'actions'); }
-function lockPath(config = {}) { return `${historyPath(config)}.lock`; }
-function pendingDir(config = {}) { return path.join(path.dirname(historyPath(config)), 'pending'); }
-function safeActionId(actionId) { return String(actionId || '').replace(/[^a-zA-Z0-9_.-]/g, '_').slice(0, 240); }
-function pendingPath(config, actionId) { return path.join(pendingDir(config), `${safeActionId(actionId)}.json`); }
-function lockOwner(file) {
-  try { return JSON.parse(fs.readFileSync(file, 'utf8')); }
-  catch { return null; }
+function historyPath(config = {}) {
+	return dbFile(config, "actions");
 }
-function processAlive(pid) {
-  const value = Number(pid || 0);
-  if (!Number.isSafeInteger(value) || value <= 0) return false;
-  try { process.kill(value, 0); return true; }
-  catch (error) { return error?.code === 'EPERM'; }
+
+/** Returns the authoritative receipt directory beside preserved historical databases. */
+function pendingDir(config = {}) {
+	return path.join(path.dirname(historyPath(config)), "pending");
 }
-function reclaimStaleLock(file) {
-  if (!fs.existsSync(file)) return true;
-  const owner = lockOwner(file);
-  if (owner && processAlive(owner.pid)) return false;
-  try { fs.rmSync(file, { force: true }); }
-  catch {}
-  return !fs.existsSync(file);
+
+/** Returns a filesystem-safe deterministic receipt filename. */
+function pendingPath(config = {}, actionId = "") {
+	const safeId = String(actionId).replace(/[^a-zA-Z0-9_.-]/g, "_").slice(0, 240);
+	return path.join(pendingDir(config), `${safeId}.json`);
 }
-function assertUnlocked(config = {}) {
-  const file = lockPath(config);
-  if (reclaimStaleLock(file)) return;
-  const error = new Error(`ledger_lock_present: ${file}`);
-  error.code = 'LEDGER_BUSY';
-  throw error;
-}
-function applyRow(root, row) {
-  const entry = row.entry;
-  if (!entry?.actionId) return false;
-  const byId = C.ensure(root, 'byId');
-  const order = C.ensure(root, 'order');
-  const timeline = C.ensure(root, 'timeline', []);
-  const existed = Boolean(byId[entry.actionId]);
-  byId[entry.actionId] = { entry:C.plain(entry), output:C.plain(row.output) };
-  order[entry.actionId] = entry.createdAt;
-  if (!existed) timeline.push({
-    actionId:entry.actionId,
-    action:entry.action,
-    ok:entry.ok,
-    createdAt:entry.createdAt
-  });
-  return true;
-}
-function pendingRows(config, limit = 1000) {
-  let names;
-  try { names = fs.readdirSync(pendingDir(config)).filter(name => name.endsWith('.json')).sort(); }
-  catch { return []; }
-  const rows = [];
-  for (const name of names.slice(-Math.max(0, limit))) {
-    const file = path.join(pendingDir(config), name);
-    try {
-      const row = JSON.parse(fs.readFileSync(file, 'utf8'));
-      if (row?.entry?.actionId) rows.push({ file, row });
-    } catch {}
-  }
-  return rows;
-}
-function pendingCount(config) {
-  try { return fs.readdirSync(pendingDir(config)).filter(name => name.endsWith('.json')).length; }
-  catch { return 0; }
-}
+
+/** Persists one exact JSON receipt through fsync, rename, and directory fsync. */
 function savePending(config, entry, output) {
-  const directory = pendingDir(config);
-  fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
-  const destination = pendingPath(config, entry.actionId);
-  const temporary = `${destination}.${process.pid}.${crypto.randomBytes(4).toString('hex')}.tmp`;
-  fs.writeFileSync(temporary, JSON.stringify({
-    entry:C.plain(entry),
-    output:C.plain(output)
-  }), { mode: 0o600 });
-  fs.renameSync(temporary, destination);
-  const policy = retention(config);
-  if (pendingCount(config) > policy.maxEntries) {
-    prunePending(config, policy, Date.now(), Math.max(1, policy.maxEntries - 50));
-  }
-  return true;
+	const destination = pendingPath(config, entry.actionId);
+	fs.mkdirSync(path.dirname(destination), { recursive: true, mode: 0o700 });
+	const body = Buffer.from(JSON.stringify({ entry: plain(entry), output: plain(output) }), "utf8");
+	durableWrite(destination, body);
+	prunePending(config, retention(config), Date.now());
+	return true;
 }
+
+/** Compatibility save now targets the same authoritative JSON receipt. */
 function save(config, entry, output) {
-  assertUnlocked(config);
-  return withDb(config, 'actions', db => {
-    const root = actionRoot(db);
-    applyRow(root, { entry, output });
-    pruneRoot(root, retention(config), Date.now());
-    root.storage = { backend:'awtsmoosdb', dbFile:historyPath(config), jsonl:false, gitRepoStorage:false };
-    return true;
-  });
+	return savePending(config, entry, output);
 }
+
+/** Returns newest durable receipt rows without opening AwtsmoosDB. */
+function pendingRows(config, limit = 1000) {
+	let names = [];
+	try {
+		names = fs.readdirSync(pendingDir(config)).filter(name => name.endsWith(".json")).sort();
+	} catch {
+		return [];
+	}
+	return names.slice(-Math.max(1, limit)).flatMap(name => {
+		const file = path.join(pendingDir(config), name);
+		try {
+			const row = JSON.parse(fs.readFileSync(file, "utf8"));
+			return row?.entry?.actionId ? [{ file, row }] : [];
+		} catch {
+			return [];
+		}
+	});
+}
+
+/** Returns the number of authoritative JSON receipts currently retained. */
+function pendingCount(config) {
+	return pendingRows(config, Number.MAX_SAFE_INTEGER).length;
+}
+
+/** Lists action entries newest-first from durable JSON only. */
 async function list(config, limit = 50) {
-  const boundedLimit = Math.max(1, Math.min(1000, Number(limit) || 50));
-  return awdbList(config, boundedLimit).slice(-boundedLimit).reverse();
+	const bounded = Math.max(1, Math.min(1000, Number(limit) || 50));
+	return pendingRows(config, bounded)
+		.map(item => item.row.entry)
+		.sort((left, right) => String(right.createdAt).localeCompare(String(left.createdAt)))
+		.slice(0, bounded);
 }
+
+/** Retrieves one complete action receipt directly by canonical action ID. */
 async function get(config, actionId) {
-  try {
-    const deferred = JSON.parse(fs.readFileSync(pendingPath(config, actionId), 'utf8'));
-    if (deferred?.entry?.actionId === actionId) return C.plain(deferred);
-  } catch {}
-  return withFallback(
-    () => withDb(config, 'actions', db => C.plain(actionRoot(db).byId?.[actionId]), {
-      readOnly:true,
-      processLockMode:'shared'
-    }),
-    null
-  );
+	try {
+		const row = JSON.parse(fs.readFileSync(pendingPath(config, actionId), "utf8"));
+		return row?.entry?.actionId === actionId ? plain(row) : null;
+	} catch {
+		return null;
+	}
 }
-function awdbList(config, limit = 1000) {
-  const file = historyPath(config);
-  const stored = fs.existsSync(file) ? withFallback(
-    () => {
-      assertUnlocked(config);
-      return withDb(config, 'actions', db => C.values(C.ensure(actionRoot(db), 'byId')).map(x => x.entry).filter(Boolean), {
-        readOnly:true,
-        processLockMode:'shared'
-      });
-    },
-    []
-  ) : [];
-  const merged = new Map(stored.map(entry => [entry.actionId, entry]));
-  for (const item of pendingRows(config, limit)) merged.set(item.row.entry.actionId, item.row.entry);
-  return [...merged.values()].sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
+
+/** Prunes old/excess JSON receipts according to the existing retention policy. */
+function prunePending(config, policy = retention(config), now = Date.now()) {
+	const items = pendingRows(config, Number.MAX_SAFE_INTEGER);
+	const eligible = items
+		.filter(item => now - Date.parse(item.row.entry.createdAt || 0) <= policy.maxAgeMs)
+		.sort((left, right) => String(left.row.entry.createdAt).localeCompare(String(right.row.entry.createdAt)))
+		.slice(-Math.max(1, policy.maxEntries));
+	const keep = new Set(eligible.map(item => item.file));
+	for (const item of items) {
+		if (!keep.has(item.file)) fs.rmSync(item.file, { force: true });
+	}
+	return eligible.length;
 }
-async function legacyList(config) { return awdbList(config); }
-async function durableList(config) { return awdbList(config); }
-async function durableGet(config, actionId) { return get(config, actionId); }
+
+/** Applies retention and reports JSON-only history statistics. */
 async function garbageCollect(config, overrides = {}) {
-  assertUnlocked(config);
-  const policy = retention(config);
-  for (const k of ['maxEntries', 'maxAgeMs', 'maxResultFiles']) if (Number.isFinite(Number(overrides[k]))) policy[k] = Number(overrides[k]);
-  const now = Date.now(); let before = 0, after = 0;
-  const pendingBefore = pendingRows(config).length;
-  withFallback(() => withDb(config, 'actions', db => {
-    const root = actionRoot(db);
-    before = Object.keys(C.ensure(root, 'byId')).length;
-    after = pruneRoot(root, policy, now);
-    root.storage = { backend:'awtsmoosdb', dbFile:historyPath(config), jsonl:false, gitRepoStorage:false };
-  }), null);
-  const pendingAfter = prunePending(config, policy, now);
-  return { ok:true, action:'actionHistoryGarbageCollect', policy, beforeEntries:before + pendingBefore, afterEntries:after + pendingAfter, deletedEntries:Math.max(0, before - after) + Math.max(0, pendingBefore - pendingAfter), deletedResults:0, historyBackend:'awtsmoosdb+durable-receipts', awdbPath:historyPath(config), jsonl:false, gitRepoStorage:false, summary:{ keptEntries:after + pendingAfter, maxEntries:policy.maxEntries, maxAgeMs:policy.maxAgeMs, deletedResults:0 } };
+	const policy = retention(config);
+	for (const key of ["maxEntries", "maxAgeMs", "maxResultFiles"]) {
+		if (Number.isFinite(Number(overrides[key]))) policy[key] = Number(overrides[key]);
+	}
+	const before = pendingCount(config);
+	const after = prunePending(config, policy, Date.now());
+	return {
+		ok: true,
+		action: "actionHistoryGarbageCollect",
+		historyBackend: "durable-json-receipts",
+		beforeEntries: before,
+		afterEntries: after,
+		deletedEntries: Math.max(0, before - after),
+		policy
+	};
 }
-function pruneRoot(root, policy, now = Date.now()) {
-  const byId = C.ensure(root, 'byId');
-  const order = C.ensure(root, 'order');
-  const ids = Object.keys(byId);
-  const keep = ids
-    .filter(id => now - Date.parse(byId[id]?.entry?.createdAt || 0) <= policy.maxAgeMs)
-    .sort((left, right) => String(order[left]).localeCompare(String(order[right])))
-    .slice(-policy.maxEntries);
-  if (keep.length === ids.length) return keep.length;
-  const kept = new Set(keep);
-  ids.forEach(id => {
-    if (!kept.has(id)) {
-      delete byId[id];
-      delete order[id];
-    }
-  });
-  root.timeline = (root.timeline || []).filter(row => kept.has(row.actionId));
-  return keep.length;
+
+/** Writes bytes durably without sharing a global database lock. */
+function durableWrite(destination, body) {
+	const temporary = `${destination}.${process.pid}.${crypto.randomBytes(4).toString("hex")}.tmp`;
+	const descriptor = fs.openSync(temporary, "wx", 0o600);
+	try {
+		fs.writeFileSync(descriptor, body);
+		fs.fsyncSync(descriptor);
+	} finally {
+		fs.closeSync(descriptor);
+	}
+	fs.renameSync(temporary, destination);
+	const directory = fs.openSync(path.dirname(destination), fs.constants.O_RDONLY);
+	try {
+		fs.fsyncSync(directory);
+	} finally {
+		fs.closeSync(directory);
+	}
 }
-function prunePending(config, policy, now = Date.now(), targetEntries = policy.maxEntries) {
-  const items = pendingRows(config);
-  const keep = items
-    .filter(item => now - Date.parse(item.row.entry.createdAt || 0) <= policy.maxAgeMs)
-    .sort((left, right) => String(left.row.entry.createdAt).localeCompare(String(right.row.entry.createdAt)))
-    .slice(-Math.max(1, Math.min(policy.maxEntries, Number(targetEntries) || policy.maxEntries)));
-  if (keep.length === items.length) return keep.length;
-  const kept = new Set(keep.map(item => item.file));
-  for (const item of items) {
-    if (kept.has(item.file)) continue;
-    try { fs.rmSync(item.file, { force:true }); } catch {}
-  }
-  return keep.length;
+
+/** Produces JSON-safe data without retaining proxies or class instances. */
+function plain(value) {
+	return JSON.parse(JSON.stringify(value ?? null));
 }
-function withFallback(fn, fallback) { try { return fn(); } catch { return fallback; } }
-module.exports = { save, savePending, pendingRows, pendingCount, pendingPath, list, get, garbageCollect, legacyList, durableList, durableGet, historyPath, lockPath, assertUnlocked, reclaimStaleLock, processAlive, pruneRoot, prunePending, AWDB_HISTORY:'device-specific-awtsmoosdb+durable-receipts' };
+
+/** Legacy binary-lock helpers remain harmless compatibility shims. */
+function lockPath(config = {}) { return `${historyPath(config)}.lock`; }
+function assertUnlocked() { return true; }
+function reclaimStaleLock() { return true; }
+function processAlive(pid) { try { process.kill(Number(pid), 0); return true; } catch { return false; } }
+function pruneRoot(root = {}) { return Object.keys(root.byId || {}).length; }
+async function legacyList(config) { return list(config, 1000); }
+async function durableList(config) { return list(config, 1000); }
+async function durableGet(config, actionId) { return get(config, actionId); }
+
+module.exports = {
+	AWDB_HISTORY: "durable-json-receipts",
+	assertUnlocked,
+	durableGet,
+	durableList,
+	garbageCollect,
+	get,
+	historyPath,
+	legacyList,
+	list,
+	lockPath,
+	pendingCount,
+	pendingPath,
+	pendingRows,
+	processAlive,
+	prunePending,
+	pruneRoot,
+	reclaimStaleLock,
+	save,
+	savePending
+};

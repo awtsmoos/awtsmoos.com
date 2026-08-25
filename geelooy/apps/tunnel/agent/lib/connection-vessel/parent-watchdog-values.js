@@ -3,19 +3,26 @@
 // Blessed is He
 
 /**
- * @file Derives watchdog judgment without confusing warning with kill authority.
+ * @file Derives parent-watchdog judgment without confusing warning with kill authority.
  * @description
  * The Awtsmoos separates knowing from force: a frozen consumer may deserve warning,
  * but Awtsmoos.com rotates the owning parent only when its pulse or control path is
  * independently proven absent. One stale receipt can no longer execute the vessel.
  */
 function inspection(input = {}) {
-	const backlogOld = input.unresolved > 0 && input.acceptedAgeMs >= input.backlogStaleMs;
-	const parentUnresponsive = input.registered && backlogOld &&
+	const backlogOld = input.unresolved > 0 &&
+		input.acceptedAgeMs >= input.backlogStaleMs;
+	const parentUnresponsive = input.registered &&
+		backlogOld &&
 		input.parentAgeMs >= input.parentStaleMs;
 	const controlStalled = input.registered && backlogOld && input.controlStalled;
-	const repairReason = reasonFor(parentUnresponsive, input.execution, controlStalled);
+	const repairReason = reasonFor(
+		parentUnresponsive,
+		input.execution,
+		controlStalled
+	);
 	const warningReason = warningFor(input.execution, repairReason);
+
 	return {
 		healthy: !warningReason && input.execution.healthy !== false,
 		repairRequired: Boolean(repairReason),
@@ -29,11 +36,12 @@ function inspection(input = {}) {
 }
 
 /**
- * Returns only corroborated reasons that authorize destructive parent rotation.
+ * Returns only independently corroborated reasons that authorize parent rotation.
+ *
  * @param {boolean} parentUnresponsive Proven stale parent pulse behind old custody.
  * @param {object} execution Preserved compatibility argument containing consumer evidence.
  * @param {boolean} controlStalled Proven control-path failure behind old custody.
- * @returns {string} Destructive repair reason or empty string.
+ * @returns {string} Destructive repair reason or an empty string.
  */
 function reasonFor(parentUnresponsive, execution = {}, controlStalled) {
 	void execution;
@@ -44,6 +52,7 @@ function reasonFor(parentUnresponsive, execution = {}, controlStalled) {
 
 /**
  * Preserves non-destructive execution warnings for diagnosis and reconciliation.
+ *
  * @param {object} execution Current consumer execution-health evidence.
  * @param {string} repairReason Corroborated destructive repair reason, if any.
  * @returns {string} Diagnostic warning reason.
@@ -66,7 +75,11 @@ function healthyInspection() {
 		parentAgeMs: 0,
 		parentUnresponsive: false,
 		controlStalled: false,
-		execution: { healthy: true, state: "healthy", consumerStalled: false }
+		execution: {
+			healthy: true,
+			state: "healthy",
+			consumerStalled: false
+		}
 	};
 }
 

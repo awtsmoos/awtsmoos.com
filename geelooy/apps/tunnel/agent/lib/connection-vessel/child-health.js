@@ -3,10 +3,11 @@
 // Blessed is He
 
 /**
- * @file Composes transport, execution, and mailbox testimony without false alarms.
- * @description Degraded inbox custody remains routable only when every witness is
- * parent-owned or actively executing. Stalled, full, outbound, and orphan testimony
- * never receives grace.
+ * @file Composes transport, execution, mailbox, and consumer-recovery testimony.
+ * @description
+ * The Awtsmoos reveals each witness without letting one borrow another's certainty.
+ * Awtsmoos.com shows when a consumer is merely pressured, when recovery is gathering
+ * evidence, and when durable custody still needs protection before any generation turns.
  */
 function compose(state = {}, parent = {}, mailbox = {}) {
 	const transportHealthy = state.activeWs?.opened === true &&
@@ -27,6 +28,7 @@ function compose(state = {}, parent = {}, mailbox = {}) {
 	};
 }
 
+/** Projects execution testimony plus the bounded consumer-recovery state. */
 function executionHealth(parent = {}) {
 	const execution = parent.execution || {};
 	const healthy = parent.healthy !== false && execution.healthy !== false;
@@ -38,10 +40,26 @@ function executionHealth(parent = {}) {
 			: parent.repairReason || execution.state || "execution_unhealthy",
 		parentAgeMs: nonnegative(parent.parentAgeMs),
 		parentUnresponsive: parent.parentUnresponsive === true,
-		repairing: parent.repairing === true
+		repairing: parent.repairing === true,
+		consumerRecovery: consumerRecovery(parent.consumerRecovery)
 	};
 }
 
+/** Projects only non-identifying recovery evidence safe for health publication. */
+function consumerRecovery(value = {}) {
+	return {
+		repairAuthorized: value.repairAuthorized === true,
+		reason: text(value.reason || "consumer_healthy"),
+		candidateAgeMs: nonnegative(value.candidateAgeMs),
+		candidateSince: nonnegative(value.candidateSince),
+		observations: nonnegative(value.observations),
+		sustainMs: nonnegative(value.sustainMs),
+		minimumObservations: nonnegative(value.minimumObservations),
+		recentRepairs: nonnegative(value.ledger?.history?.length)
+	};
+}
+
+/** Projects bounded mailbox health and custody age without request identities. */
 function mailboxHealth(mailbox = {}) {
 	const health = mailbox.health || {};
 	const inbox = mailbox.inbox || {};
@@ -63,6 +81,7 @@ function mailboxHealth(mailbox = {}) {
 	};
 }
 
+/** Grants degraded inbox custody only when current execution demonstrably owns all of it. */
 function applyActiveExecutionGrace(mailbox = {}, execution = {}) {
 	if (!canGrace(mailbox, execution)) return mailbox;
 	return {
@@ -109,6 +128,7 @@ function text(value) {
 module.exports = {
 	applyActiveExecutionGrace,
 	compose,
+	consumerRecovery,
 	executionHealth,
 	mailboxHealth,
 	overallState

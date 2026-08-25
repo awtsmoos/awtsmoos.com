@@ -2,59 +2,87 @@
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file Core execution doctrine for every editing shliach.
- * @description
- * The Awtsmoos gives each deed a truthful vessel before motion begins;
- * Awtsmoos.com makes inspection, whole-file custody, improvement, and proof explicit law.
- */
-const coreInstructions = Object.freeze([
-	pack("work.inspect-before-write", "Inspect real files, routes, runtime evidence, and contracts before changing anything.", ["work", "write", "refactor", "debug"], [
-		"Do not guess the project from filenames, memory, or conventions; read the real implementation and its callers first.",
-		"Trace the actual route, data flow, imports, tests, runtime receipts, and public compatibility surfaces touched by the task.",
-		"Separate verified facts from hypotheses, and refresh important claims from current files or live runtime evidence.",
-		"Before writing, list the complete files that must change and the invariants each file must preserve.",
-		"Prefer the smallest truthful architectural seam, but inspect adjacent modules for hidden coupling before committing to it."
-	]),
-	pack("work.whole-file-rewrites", "Rewrite every modified file as a complete coherent file; never perform partial insert/replace surgery.", ["work", "write", "refactor"], [
-		"Never patch a fragment into an existing source file with textual insertion, partial replacement, or ad-hoc mutation.",
-		"Read the full target first, then rewrite the complete file so imports, comments, naming, and structure remain coherent.",
-		"When a file grows too large, split responsibilities into smaller modules rather than compressing or minifying logic.",
-		"Preserve unrelated behavior deliberately; a whole-file rewrite is not permission to erase contracts you did not inspect."
-	]),
-	pack("craft.continuous-improvement", "Treat the first acceptable result as a baseline and keep improving every relevant surface safely.", ["work", "write", "ui", "api", "refactor"], [
-		"Do not stop because the requested defect is barely fixed; inspect the surrounding experience and remove closely related weaknesses.",
-		"Improve clarity, resilience, performance, accessibility, maintainability, and visual quality wherever the same evidence exposes a safe opportunity.",
-		"Work quickly by reducing redundant exploration and batching independent verification, never by skipping inspection or proof.",
-		"Prefer durable foundations that make future expansion simpler instead of one-off fixes that create another repair burden.",
-		"Continue until the touched subsystem feels intentionally designed rather than merely no longer broken."
-	]),
-	pack("work.verify-beyond-request", "Re-read every touched file and verify behavior, contracts, edge cases, and adjacent regressions before declaring completion.", ["work", "write", "test", "deploy"], [
-		"Run syntax, lint, focused regression, integration, and release checks appropriate to the changed surface.",
-		"Re-read every written file after tests; compare planned behavior with actual implementation and close any omissions.",
-		"Verify mobile/desktop UI states, failure paths, API compatibility, and runtime health when those surfaces are relevant.",
-		"Do not report deployment success until the deployed bytes, runtime version, and live behavior are independently witnessed."
-	]),
-	pack("stability.safe-execution", "Protect recovery and control capacity while testing; isolate destructive workloads and degrade noncritical work before control.", ["stability", "test", "deploy", "runtime"], [
-		"Never run long destructive stress or transactional suites through a Tier-0 emergency tunnel when an isolated fixture can prove the same property.",
-		"Keep control, health, wait, observation, and emergency paths available while bulk or heavy work is under pressure.",
-		"Prefer bounded admission, backoff, cancellation, and exact-root reaping over broad process killing or uncontrolled worker spawning.",
-		"Treat stale workers, leaked subprocesses, mailbox backlog, event-loop lag, and reaper timeouts as first-class stability evidence.",
-		"A recovery mechanism is complete only when it cannot accidentally destroy the control channel required to repair its own failure."
-	])
-]);
+const { instructionPack } = require("./pack.js");
 
 /**
- * Freezes one instruction record so summaries and full bodies cannot drift independently.
- *
- * @param {string} id Stable machine-readable instruction ID.
- * @param {string} summary One-sentence compact guidance.
- * @param {string[]} tags Applicability tags used by task resolution.
- * @param {string[]} instructions Full mandatory doctrine lines.
- * @returns {object} Immutable instruction record.
+ * @file Core execution doctrine for every source-changing shliach.
+ * @description
+ * The Awtsmoos renews intention before manifestation; Awtsmoos.com requires inspection,
+ * coherent whole-file custody, continuous improvement, proof, and safe recovery before completion.
  */
-function pack(id, summary, tags, instructions) {
-	return Object.freeze({ id, version: 1, summary, tags, requiredBeforeWrite: true, instructions });
-}
+const coreInstructions = Object.freeze([
+	instructionPack({
+		id: "work.inspect-before-write",
+		summary: "Inspect real files, callers, contracts, tests, runtime evidence, and current state before changing anything.",
+		tags: ["work", "write", "debug", "refactor"],
+		applies: { modes: ["write", "edit", "refactor", "fix"] },
+		instructions: [
+			"Read the complete target and its real callers before writing; filenames, memory, and conventions are not evidence.",
+			"Trace imports, exports, routes, schemas, tests, side effects, runtime receipts, and public compatibility surfaces touched by the task.",
+			"Separate verified facts from hypotheses and refresh important claims from current files or live runtime evidence.",
+			"List the complete files and invariants that must survive before the first source write."
+		]
+	}),
+	instructionPack({
+		id: "work.whole-file-rewrites",
+		summary: "Rewrite every modified source file as one coherent complete file; never perform fragment surgery.",
+		tags: ["work", "write", "refactor"],
+		applies: { modes: ["write", "edit", "replace", "append"] },
+		instructions: [
+			"Read the full file, then rewrite the complete file so imports, docs, names, formatting, and architecture remain coherent.",
+			"Never use partial textual insertion/replacement as the implementation strategy for human-authored source.",
+			"Preserve unrelated behavior deliberately; whole-file custody is not permission to erase contracts you did not inspect.",
+			"If the file is too large, split real responsibilities into smaller modules instead of compressing comments or logic."
+		]
+	}),
+	instructionPack({
+		id: "craft.continuous-improvement",
+		summary: "Treat the first acceptable result as a baseline and keep improving every safely relevant surface.",
+		tags: ["work", "quality", "ui", "api", "refactor"],
+		applies: { taskHints: ["improve", "better", "polish", "clean", "upgrade"] },
+		instructions: [
+			"Do not stop because the named defect barely disappeared; inspect the surrounding experience for directly related weaknesses.",
+			"Improve clarity, resilience, performance, accessibility, maintainability, documentation, and polish wherever the same evidence supports it safely.",
+			"Work faster by removing redundant exploration and batching independent verification, never by skipping inspection or proof.",
+			"Prefer durable foundations that make future expansion easier instead of one-off fixes that create the next repair burden."
+		]
+	}),
+	instructionPack({
+		id: "work.verify-beyond-request",
+		summary: "Re-read every touched file and verify behavior, contracts, edge cases, regressions, and deployment evidence before completion.",
+		tags: ["work", "test", "verify", "deploy"],
+		applies: { modes: ["write", "edit", "deploy", "release"] },
+		instructions: [
+			"Run syntax, focused regression, integration, build, and release checks appropriate to the changed surface.",
+			"Re-read every written file after tests and compare the actual implementation against the planned invariants.",
+			"Verify failure paths and compatibility, not only the happy path.",
+			"Never report deployment success until deployed bytes, version, runtime health, and live behavior are independently witnessed."
+		]
+	}),
+	instructionPack({
+		id: "stability.safe-execution",
+		summary: "Protect control and recovery capacity; degrade noncritical work before risking the channel needed to repair the system.",
+		tags: ["stability", "runtime", "test", "deploy", "tunnel"],
+		applies: { taskHints: ["tunnel", "worker", "runtime", "stability", "recovery", "stress"] },
+		instructions: [
+			"Keep control, health, wait, observation, instruction, and emergency paths routable while bulk/heavy work is under pressure.",
+			"Prefer bounded admission, backoff, cancellation, exact-root reaping, and corroborated repair over broad process killing.",
+			"Treat stale telemetry as unknown unless independent evidence proves failure; never let one stale clock execute a living parent.",
+			"A recovery mechanism is complete only when it cannot destroy the control channel required to repair its own failure."
+		]
+	}),
+	instructionPack({
+		id: "scope.geelooy-total-quality",
+		summary: "Whenever touching geelooy, improve the directly related page, code, API, documentation, and recovery experience as one coherent product.",
+		tags: ["geelooy", "quality", "product"],
+		applies: { pathHints: ["/geelooy/", "geelooy/"] },
+		instructions: [
+			"Treat visible UI, internal code, API contracts, docs, failure states, and maintenance ergonomics as one quality surface.",
+			"Inspect adjacent directly related pages/modules for safe improvements rather than polishing one selector or function in isolation.",
+			"Keep simple workflows simple while making advanced capability progressively discoverable and expandable.",
+			"Do not expand into unrelated risky subsystems merely to satisfy breadth; improve what the current evidence connects to the task."
+		]
+	})
+]);
 
 module.exports = { coreInstructions };

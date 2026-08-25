@@ -1,22 +1,26 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
+const Assessment = require("./parent-watchdog-assessment.js");
 const ConsumerHealth = require("./parent-execution-health.js");
+const ConsumerRecovery = require("./parent-consumer-recovery.js");
+const ConsumerDecision = require("./parent-watchdog-consumer-decision.js");
 const Control = require("./parent-watchdog-control.js");
-const Policy = require("./parent-watchdog-policy.js");
-const Pressure = require("./parent-watchdog-pressure.js");
 const Repair = require("./parent-watchdog-repair.js");
 const Values = require("./parent-watchdog-values.js");
+
 const DEFAULT_PARENT_STALE_MS = 30000;
 const DEFAULT_BACKLOG_STALE_MS = 10000;
 const DEFAULT_CONTROL_STALL_MS = ConsumerHealth.DEFAULT_CONSUMER_STALE_MS;
 const DEFAULT_KILL_GRACE_MS = 5000;
+
 /**
- * @file Separates public execution health from watchdog-only orphan repair authority.
+ * @file Orchestrates independent parent testimony and exact generation repair.
  * @description
- * The Awtsmoos reveals whether a vessel is busy, merely waiting, or truly abandoned.
- * Awtsmoos.com grants living pressure a patient covenant, while this watchdog alone
- * may promote proven orphan custody into permission to rotate a silent parent vessel.
+ * The Awtsmoos keeps seeing, deciding, and signalling in distinct vessels.
+ * Awtsmoos.com lets factual assessment remain pure, consumer recovery earn its own
+ * durable claim, and only the final orchestration layer touch the exact parent PID.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
@@ -28,6 +32,10 @@ function create(options = {}) {
 	);
 	const startedAt = Values.finiteTime(options.startedAt, now());
 	const control = Control.create({ now, startedAt, controlStallMs: consumerStaleMs });
+	const consumerRecovery = options.consumerRecovery || ConsumerRecovery.create({
+		now,
+		...(options.consumerRecoveryOptions || {})
+	});
 	const repair = Repair.create({
 		parentPid: options.parentPid,
 		signalParent: options.signalParent || options.signal,
@@ -38,54 +46,46 @@ function create(options = {}) {
 	let lastPulseAt = startedAt;
 	let latestStats = {};
 	let inspection = Values.healthyInspection();
-	let pressure = Pressure.evidence();
+	let pressure = {};
+
+	/** Records fresh parent execution telemetry carried across IPC from the main agent. */
 	function pulse(stats = {}) {
 		latestStats = stats && typeof stats === "object" ? stats : {};
 		lastPulseAt = now();
 		control.pulse(latestStats);
 		return snapshot();
 	}
+
+	/** Assesses custody/progress, applies bounded recovery policy, and invokes one exact repair. */
 	function inspect(connection = {}, mailbox = {}) {
 		const observedAt = now();
-		const inbox = mailbox.inbox || {};
 		const registered = connection.registered === true;
-		const execution = ConsumerHealth.inspect(latestStats, mailbox, {
-			consumerStaleMs,
-			orphanRecovery: true,
-			registered
-		});
-		inspection = Values.inspection({
+		const assessed = Assessment.assess({
+			observedAt,
 			registered,
-			unresolved: Values.nonnegative(inbox.count),
-			acceptedAgeMs: Values.nonnegative(inbox.oldestAgeMs),
-			backlogStaleMs,
-			parentAgeMs: Math.max(0, observedAt - lastPulseAt),
-			parentStaleMs,
-			execution,
-			controlStalled: control.inspect(observedAt).stalled
-		});
-		pressure = Pressure.evidence(latestStats, {
-			graceMs: options.pressureGraceMs,
+			mailbox,
+			latestStats,
 			lastPulseAt,
-			now: observedAt
+			consumerStaleMs,
+			backlogStaleMs,
+			parentStaleMs,
+			controlHealth: control.inspect(observedAt),
+			pressureGraceMs: options.pressureGraceMs
 		});
-		applyRepairPolicy();
+		pressure = assessed.pressure;
+		inspection = ConsumerDecision.decide({
+			inspection: assessed.inspection,
+			execution: assessed.execution,
+			pressure,
+			registered,
+			consumerRecovery
+		});
+		if (inspection.repairRequired) repair.request(inspection.repairReason);
+		else repair.clear();
 		return snapshot();
 	}
-	function applyRepairPolicy() {
-		const deferred = Policy.shouldDeferRepair(inspection, pressure);
-		inspection = {
-			...inspection,
-			repairRequired: inspection.repairRequired && !deferred,
-			repairDeferred: deferred,
-			repairDeferredReason: Policy.deferredReason(inspection, pressure)
-		};
-		if (inspection.repairRequired) {
-			repair.request(inspection.repairReason);
-			return;
-		}
-		repair.clear();
-	}
+
+	/** Returns compact watchdog testimony for child publication and diagnostics. */
 	function snapshot() {
 		const controlHealth = control.inspect(now());
 		return {
@@ -93,6 +93,7 @@ function create(options = {}) {
 			...inspection,
 			shouldRepair: inspection.repairRequired,
 			pressure,
+			consumerRecovery: inspection.consumerRecovery || consumerRecovery.snapshot(),
 			backlogAgeMs: inspection.execution?.acceptedAgeMs || 0,
 			lastPulseAt,
 			parentStaleMs,
@@ -105,6 +106,7 @@ function create(options = {}) {
 			lastControlProgressAt: controlHealth.lastProgressAt
 		};
 	}
+
 	return { inspect, pulse, repair: () => repair.request("manual_repair"), snapshot };
 }
 

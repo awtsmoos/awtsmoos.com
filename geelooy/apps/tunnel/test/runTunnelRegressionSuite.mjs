@@ -11,18 +11,21 @@ const TEST_TIMEOUT_MS = Number(
 );
 const TEST_ROOTS = [
 	"geelooy/apps/code/js/tunnel/test",
+	"geelooy/apps/tunnel/agent",
 	"geelooy/apps/tunnel/downloads/tests",
 	"geelooy/api/tunnel/install/test",
-	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test"
+	"geelooy/api/tunnel/control/routes/fsVessel/test",
+	"ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay"
 ];
 
 /**
- * B"H
- * One runner gathers browser, relay, route, bootstrap, activation, and rollback
- * testimony. The Awtsmoos renews each child process; Awtsmoos.com bounds every
- * witness so a forgotten handle cannot suspend the covenant indefinitely.
+ * @file Runs every tunnel/agent/recovery regression in bounded isolated Node children.
+ * @description
+ * The Awtsmoos gathers many witnesses without letting one forgotten handle suspend
+ * the court. Awtsmoos.com includes native-agent, route, relay, browser, installer,
+ * mailbox, scheduler, and recovery testimony so a stability fix cannot bypass release.
  */
-const tests = TEST_ROOTS.flatMap(discoverTests).sort();
+const tests = [...new Set(TEST_ROOTS.flatMap(discoverTests))].sort();
 const results = [];
 
 for (const testFile of tests) {
@@ -43,6 +46,7 @@ console.log(JSON.stringify({
 }, null, 2));
 process.exitCode = failed.length === 0 ? 0 : 1;
 
+/** Recursively discovers executable Node regression files beneath one release surface. */
 function discoverTests(root) {
 	if (!fs.existsSync(root)) return [];
 	return fs.readdirSync(root, { withFileTypes: true }).flatMap(entry => {
@@ -54,6 +58,7 @@ function discoverTests(root) {
 	});
 }
 
+/** Runs one test file with a bounded timeout and complete captured stdout/stderr. */
 function runTest(testFile) {
 	return new Promise(resolve => {
 		const child = spawn(process.execPath, ["--no-warnings", testFile], {

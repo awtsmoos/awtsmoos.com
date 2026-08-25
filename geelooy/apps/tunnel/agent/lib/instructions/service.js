@@ -9,23 +9,24 @@ const resolver = new TaskYesodResolver(instructionKeter);
 const PROTOCOL_SUMMARY = "Before writing or modifying files, resolve applicable instruction IDs and fetch every required pack in full.";
 
 /**
- * @file Public instruction service used by native actions and compatibility bridges.
+ * @file Public instruction service for discovery, task resolution, and full-body retrieval.
  * @description
- * The Awtsmoos keeps the common doorway small: catalog gives summaries, resolve gives
- * obligations, and get opens the full text only for IDs the shliach actually needs.
+ * The Awtsmoos keeps ordinary traffic light: first names, then obligations, then full law.
+ * Awtsmoos.com exposes deep doctrine only when the current deed actually requires it.
  */
 class InstructionDaasService {
-	/** Returns the compact catalog suitable for normal tunnel responses. */
+	/** Returns compact summaries and applicability metadata for every stable instruction ID. */
 	catalog() {
 		return {
 			ok: true,
 			action: "instructionCatalog",
 			protocolSummary: PROTOCOL_SUMMARY,
+			count: instructionKeter.records.length,
 			instructions: instructionKeter.summaries()
 		};
 	}
 
-	/** Resolves required instruction IDs before writing. */
+	/** Resolves required IDs from task, files, extensions, modes, language, and edit position. */
 	resolve(payload = {}) {
 		const requiredInstructionIds = resolver.resolve(payload);
 		return {
@@ -34,15 +35,21 @@ class InstructionDaasService {
 			protocolSummary: PROTOCOL_SUMMARY,
 			mustFetchBeforeWrite: requiredInstructionIds.length > 0,
 			requiredInstructionIds,
-			instructionSummaries: requiredInstructionIds.map(id => instructionKeter.get(id)).map(record => ({ id: record.id, summary: record.summary }))
+			instructionSummaries: requiredInstructionIds.map((id) => {
+				const record = instructionKeter.get(id);
+				return { id: record.id, summary: record.summary, applies: { ...record.applies } };
+			})
 		};
 	}
 
-	/** Fetches complete instruction bodies for one or many IDs. */
+	/** Returns complete versioned instruction bodies for one or many stable IDs. */
 	get(payload = {}) {
 		const ids = normalizeIds(payload);
-		const instructions = ids.map(id => instructionKeter.get(id)).filter(Boolean);
-		const missingInstructionIds = ids.filter(id => !instructionKeter.get(id));
+		const instructions = ids
+			.map((id) => instructionKeter.get(id))
+			.filter(Boolean);
+		const missingInstructionIds = ids.filter((id) => !instructionKeter.get(id));
+
 		return {
 			ok: missingInstructionIds.length === 0,
 			action: "instructionGet",
@@ -53,14 +60,24 @@ class InstructionDaasService {
 	}
 }
 
+/** Normalizes single, comma-separated, whitespace-separated, or array instruction IDs. */
 function normalizeIds(payload = {}) {
-	const value = payload.instructionIds || payload.ids || payload.instructionId || payload.id || [];
-	const items = Array.isArray(value) ? value : String(value).split(/[\s,]+/);
-	return [...new Set(items.map(item => String(item).trim()).filter(Boolean))].sort();
+	const value = payload.instructionIds ||
+		payload.ids ||
+		payload.instructionId ||
+		payload.id ||
+		[];
+	const items = Array.isArray(value)
+		? value
+		: String(value).split(/[\s,]+/);
+	return [...new Set(
+		items.map((item) => String(item).trim()).filter(Boolean)
+	)].sort();
 }
 
 module.exports = {
 	InstructionDaasService,
 	PROTOCOL_SUMMARY,
-	instructionService: new InstructionDaasService()
+	instructionService: new InstructionDaasService(),
+	normalizeIds
 };

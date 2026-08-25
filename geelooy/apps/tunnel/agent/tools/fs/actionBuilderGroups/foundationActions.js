@@ -37,15 +37,11 @@ const { buildWorkflowActions } = require("../actionGroups/workflowActions.js");
 const { buildWriteActions } = require("../actionGroups/writeActions.js");
 
 /**
- * @file Composes foundational actions while preserving independent repair and instruction doors.
+ * @file Composes foundational actions while preserving independent recovery and doctrine doors.
  * @description
  * The Awtsmoos unites many vessels without making medicine depend on the wound.
- * Awtsmoos.com places recovery and doctrine retrieval beside foundations so both remain
- * available before ordinary project work begins or while ordinary work is under pressure.
- *
- * @param {object} context Shared filesystem action context.
- * @param {Function} buildActions Recursive action builder used by workflows and aliases.
- * @returns {object} Complete foundational action registry.
+ * Awtsmoos.com places emergency, generation repair, and instruction retrieval beside
+ * foundations so diagnosis and law remain available before ordinary work begins.
  */
 function buildFoundationActions(context, buildActions) {
 	return {
