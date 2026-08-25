@@ -4,16 +4,17 @@
 
 const Activity = require("./requestActivity.js");
 const Canonical = require("./canonicalEnvelopes.js");
+const Presentation = require("./terminalPresentation.js");
 const State = require("./state.js");
 
 const RETRIES = 3;
 
 /**
- * @file Persists terminal relay truth before releasing any waiting caller.
+ * @file Persists terminal native truth before presenting semantic guidance to waiters.
  * @description
- * The Awtsmoos lets completion arrive only through a verified vessel. Awtsmoos.com
- * keeps duplicates joined during a bounded finalization lease and fails closed
- * without ever authorizing the native deed again.
+ * The Awtsmoos keeps evidence pure and explanation separate. Awtsmoos.com commits
+ * the exact native terminal payload first, then decorates only the caller-facing copy
+ * with receipt type and mutation-request meaning so durability language cannot rewrite history.
  */
 async function finish(context, id, record, data, options = {}) {
 	if (context.pendingTunnelRequests.get(id) !== record) return false;
@@ -25,11 +26,13 @@ async function finish(context, id, record, data, options = {}) {
 	return await record.finalizationPromise;
 }
 
+/** Persists raw terminal data and only then releases a decorated presentation to waiters. */
 async function settle(context, id, record, data, options) {
 	const mode = options.mode || "completed";
 	let delivered = data;
 	try {
 		await persist(context, id, record, data, mode);
+		delivered = Presentation.decorate(record.expected, data);
 	} catch (error) {
 		delivered = Canonical.persistenceFailure(
 			record.expected,
@@ -48,6 +51,7 @@ async function settle(context, id, record, data, options) {
 	return true;
 }
 
+/** Persists exact raw data with bounded retry before any waiter observes completion. */
 async function persist(context, id, record, data, mode) {
 	let lastError;
 	for (let attempt = 0; attempt < RETRIES; attempt += 1) {
