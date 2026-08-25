@@ -1,5 +1,5 @@
 B"H
-1.0.561
+1.0.562
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -990,6 +990,7 @@ lib/connection-vessel/mailbox-store-reader.js
 lib/connection-vessel/mailbox-store.js
 lib/connection-vessel/mailbox-usage.js
 lib/connection-vessel/mailbox.js
+lib/connection-vessel/parent-consumer-evidence.js
 lib/connection-vessel/parent-consumer-health-values.js
 lib/connection-vessel/parent-consumer-health.js
 lib/connection-vessel/parent-consumer-ingress.js
@@ -1065,6 +1066,12 @@ lib/history/largeResponseRetention.js
 lib/history/mailboxHistoryRetention.js
 lib/history/maintenanceStores.js
 lib/history/retentionPlan.js
+lib/instructions/catalog.js
+lib/instructions/catalogCode.js
+lib/instructions/catalogCore.js
+lib/instructions/catalogUi.js
+lib/instructions/resolver.js
+lib/instructions/service.js
 lib/local-api-actions.js
 lib/local-api-catalog-cache.js
 lib/local-api-catalog.js
@@ -1238,8 +1245,10 @@ lib/runtime/request-retry-registry.js
 lib/runtime/request-retry-shapes.js
 lib/runtime/request-retry-store.js
 lib/runtime/request-scope.js
+lib/runtime/response-stability.js
 lib/runtime/response-surface-definitions.js
 lib/runtime/response-surface-helpers.js
+lib/runtime/response-surface-policy.js
 lib/runtime/response-surface.js
 lib/runtime/response-transport-seal.js
 lib/runtime/response-v8.js
@@ -1599,6 +1608,7 @@ tools/fs/actionGroups/fakeSshActions.js
 tools/fs/actionGroups/fileOpsActions.js
 tools/fs/actionGroups/httpActionsGroup.js
 tools/fs/actionGroups/imageActions.js
+tools/fs/actionGroups/instructionActions.js
 tools/fs/actionGroups/isolatedActions.js
 tools/fs/actionGroups/missionActionPayload.js
 tools/fs/actionGroups/missionActions.js

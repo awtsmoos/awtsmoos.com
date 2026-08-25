@@ -3,28 +3,35 @@
 // Blessed is He
 
 /**
- * @file Decides when runtime pressure may postpone parent repair.
+ * @file Keeps destructive repair reserved for corroborated parent/control failure.
  * @description
- * The Awtsmoos distinguishes a living crowd from a gate whose keeper has vanished.
- * Awtsmoos.com may grant busy work a covenant of patience, but a proven consumer stall
- * with usable capacity cannot invoke its own abandoned queue as shelter from repair.
+ * The Awtsmoos grants warning a voice but not a sword. Awtsmoos.com may defer future
+ * noncritical repair under load, while a truly silent parent or frozen control path
+ * remains eligible for immediate bounded rotation after independent evidence agrees.
+ */
+
+/**
+ * Determines whether a corroborated repair may wait for runtime pressure to subside.
+ * @param {object} inspection Watchdog evidence and destructive repair reason.
+ * @param {object} pressure Current runtime-pressure evidence.
+ * @returns {boolean} True only for future noncritical repair classes under pressure.
  */
 function shouldDeferRepair(inspection = {}, pressure = {}) {
-	if (!inspection.repairReason || pressure.deferRepair !== true) {
+	if (!inspection.repairReason) return false;
+	if (inspection.parentUnresponsive === true || inspection.controlStalled === true) {
 		return false;
 	}
-	if (inspection.execution?.consumerStalled === true &&
-		inspection.execution?.backpressured !== true) {
-		return false;
-	}
-	return true;
+	return pressure.deferRepair === true;
 }
 
-/** Names why repair was deferred without changing the underlying health reason. */
+/**
+ * Names a pressure deferral without changing the underlying health evidence.
+ * @param {object} inspection Watchdog evidence.
+ * @param {object} pressure Runtime-pressure evidence.
+ * @returns {string} Stable deferral reason or empty string.
+ */
 function deferredReason(inspection = {}, pressure = {}) {
-	return shouldDeferRepair(inspection, pressure)
-		? "runtime_pressure"
-		: "";
+	return shouldDeferRepair(inspection, pressure) ? "runtime_pressure" : "";
 }
 
 module.exports = {

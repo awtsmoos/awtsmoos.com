@@ -4,18 +4,19 @@
 
 const Definitions = require("./response-surface-definitions.js");
 const Helpers = require("./response-surface-helpers.js");
+const Policy = require("./response-surface-policy.js");
+const Stability = require("./response-stability.js");
+const { PROTOCOL_SUMMARY } = require("../instructions/service.js");
 
 /**
- * B"H
- * The Awtsmoos places the human answer first and the correlation seal beside
- * it. Awtsmoos.com may compact a response, but it may never hide the action,
- * queue state, summary, next step, trust, receipt, or request identity.
+ * @file Builds focused public tunnel envelopes with expandable operational detail.
+ * @description
+ * The Awtsmoos places the human answer, correlation seal, and next action first.
+ * Awtsmoos.com carries one stability witness and one instruction sentence by default;
+ * queue trees and process ledgers return only when the caller explicitly asks for them.
  */
 function publicEnvelope(base = {}, payload = {}, result = {}) {
-	if (wantsDebug(payload, result)) {
-		return base;
-	}
-
+	if (Policy.wantsDebug(payload, result)) return base;
 	return Helpers.clean({
 		ok: base.ok !== false,
 		action: base.action || base.actualAction || base.requestAction,
@@ -23,7 +24,13 @@ function publicEnvelope(base = {}, payload = {}, result = {}) {
 		next: Helpers.next(base),
 		trust: Helpers.trimValue(base.trust),
 		...correlation(base),
-		...essentials(base),
+		...project(base, Policy.keysFor(payload, result)),
+		stability: Stability.project(base),
+		instructionProtocol: base.instructionProtocol || {
+			summary: PROTOCOL_SUMMARY,
+			resolveAction: "instructionResolve",
+			getAction: "instructionGet"
+		},
 		BH: base.BH,
 		status: base.status,
 		pending: base.pending,
@@ -33,76 +40,40 @@ function publicEnvelope(base = {}, payload = {}, result = {}) {
 		error: base.error,
 		receiptId: base.receiptId || base.receipt?.receiptId || base.actionId,
 		workerId: base.workerId || base.receipt?.workerId,
-		missionId: base.missionId || base.mission?.missionId,
-		conversationId: base.conversationId,
 		evidence: Helpers.evidence(base),
-		nextAction: Helpers.actionPayload(
-			base.nextAction || base.statusPayload || base.waitPayload
-		),
-		outputPage: Helpers.pagePayload(
-			base.stdoutPagePayload ||
-			base.outputPagePayload ||
-			base.nextPagePayload
-		),
-		debugRef: base.detailsRef ||
-			base.outputRef ||
-			base.actionId ||
-			base.receipt?.receiptId,
-		responseShape: base.responseShape || "simple-envelope-v10",
+		nextAction: Helpers.actionPayload(base.nextAction || base.statusPayload || base.waitPayload),
+		outputPage: Helpers.pagePayload(base.stdoutPagePayload || base.outputPagePayload || base.nextPagePayload),
+		debugRef: base.detailsRef || base.outputRef || base.actionId || base.receipt?.receiptId,
+		responseShape: base.responseShape || "simple-envelope-v11",
 		previewRequired: false,
-		responseFocus: {
-			...(base.responseFocus || {}),
-			previewRequired: false,
-			reason: base.responseFocus?.reason || "simple_response_default"
-		},
-		previewPolicy: {
-			...(base.previewPolicy || {}),
-			enabled: false,
-			reason: base.previewPolicy?.reason || "simple_response_default"
-		}
+		responseFocus: focus(base.responseFocus),
+		previewPolicy: previewPolicy(base.previewPolicy)
 	});
 }
 
-function wantsDebug(payload = {}, result = {}) {
-	const mode = String(
-		payload.responseMode ||
-		payload.mode ||
-		result.responseMode ||
-		""
-	).toLowerCase();
-
-	return Definitions.DEBUG_MODES.has(mode) ||
-		payload.debug === true ||
-		payload.full === true ||
-		result.debug === true;
-}
-
+/** Copies authoritative request and action identity without pulling in telemetry trees. */
 function correlation(base = {}) {
+	return project(base, Definitions.CORRELATION_KEYS, "TUNNEL_RESPONSE");
+}
+
+/** Projects only keys permitted by the selected response tier. */
+function project(base = {}, keys = [], defaultType = "") {
 	const output = {};
-
-	for (const key of Definitions.CORRELATION_KEYS) {
-		if (base[key] !== undefined) {
-			output[key] = base[key];
-		}
+	for (const key of keys) {
+		if (base[key] !== undefined) output[key] = Helpers.trimValue(base[key]);
 	}
-
-	if (!output.type) {
-		output.type = "TUNNEL_RESPONSE";
-	}
-
+	if (defaultType && !output.type) output.type = defaultType;
 	return output;
 }
 
-function essentials(base = {}) {
-	const output = {};
+/** Keeps preview policy explicit and disabled unless a preview workflow re-enables it. */
+function focus(value = {}) {
+	return { ...value, previewRequired: false, reason: value.reason || "simple_response_default" };
+}
 
-	for (const key of Definitions.ESSENTIAL_KEYS) {
-		if (base[key] !== undefined) {
-			output[key] = Helpers.trimValue(base[key]);
-		}
-	}
-
-	return output;
+/** Keeps preview rendering opt-in for ordinary tunnel control responses. */
+function previewPolicy(value = {}) {
+	return { ...value, enabled: false, reason: value.reason || "simple_response_default" };
 }
 
 module.exports = {
@@ -111,7 +82,6 @@ module.exports = {
 	ESSENTIAL_KEYS: Definitions.ESSENTIAL_KEYS,
 	clean: Helpers.clean,
 	correlation,
-	essentials,
 	publicEnvelope,
-	wantsDebug
+	wantsDebug: Policy.wantsDebug
 };

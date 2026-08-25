@@ -13,6 +13,7 @@ const { buildConnectionMailboxActions } = require("../actionGroups/connectionMai
 const { buildFakeSshActions } = require("../actionGroups/fakeSshActions.js");
 const { buildFileOpsActions } = require("../actionGroups/fileOpsActions.js");
 const { buildHttpActions } = require("../actionGroups/httpActionsGroup.js");
+const { buildInstructionActions } = require("../actionGroups/instructionActions.js");
 const { buildIsolatedActions } = require("../actionGroups/isolatedActions.js");
 const { buildNativeGenerationActions } = require("../actionGroups/nativeGenerationActions.js");
 const { buildNodeDomActions } = require("../actionGroups/nodeDomActions.js");
@@ -36,16 +37,21 @@ const { buildWorkflowActions } = require("../actionGroups/workflowActions.js");
 const { buildWriteActions } = require("../actionGroups/writeActions.js");
 
 /**
- * @file Composes foundational actions while preserving independent repair doors.
+ * @file Composes foundational actions while preserving independent repair and instruction doors.
  * @description
  * The Awtsmoos unites many vessels without making medicine depend on the wound.
- * Awtsmoos.com places scheduler and native-generation recovery beside foundations,
- * while P0 classification keeps both outside ordinary filesystem and command pressure.
+ * Awtsmoos.com places recovery and doctrine retrieval beside foundations so both remain
+ * available before ordinary project work begins or while ordinary work is under pressure.
+ *
+ * @param {object} context Shared filesystem action context.
+ * @param {Function} buildActions Recursive action builder used by workflows and aliases.
+ * @returns {object} Complete foundational action registry.
  */
 function buildFoundationActions(context, buildActions) {
 	return {
 		...buildSchedulerEmergencyActions(context),
 		...buildNativeGenerationActions(context),
+		...buildInstructionActions(context),
 		...buildConfigActions(context),
 		...buildReadActions(context),
 		...buildProjectActions(context),

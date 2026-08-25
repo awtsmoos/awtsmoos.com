@@ -2,48 +2,55 @@
 // Boruch Hashem
 // Blessed is He
 
-const DEBUG_MODES = new Set(["debug", "full", "audit", "raw", "standard"]);
-const CORRELATION_KEYS = [
-	"type", "id", "originRegistrationKey", "tunnelName", "requestedTunnelName",
-	"controlRequestId", "clientRequestId", "agentSessionId", "logicalAgentId", "agentName",
-	"projectRoot", "scopeRoot", "workspaceId", "nonce", "conversationId",
-	"conversationName", "missionId", "roomId", "leaseId", "parentActionId",
-	"traceId", "spanId", "causalParentId", "correlationId", "actionId",
-	"vessel", "routeReason", "requestAction", "requestedAction",
-	"executionAction", "actualAction", "servedByAction", "adapterAction",
-	"canonicalAction", "actionPromoted", "actionMismatch", "jobId",
-	"workerId", "receiptId", "taskId", "stream", "cwd", "command",
-	"path", "paths"
-];
-const ESSENTIAL_KEYS = [
-	"content", "content64", "offsetChars", "returnedChars", "totalChars",
-	"hasNextPage", "nextOffsetChars", "nextPagePayload", "pollPayload",
-	"items", "entries", "detailedItems", "files", "dirs", "order",
-	"count", "returnedCount", "root", "absolutePath", "relativePath",
-	"exists", "isDirectory", "isFile", "size", "mtimeMs", "birthtimeMs",
-	"sha256", "hash", "bytes", "written", "running", "done", "queued",
-	"statusPayload", "waitPayload", "stdoutPagePayload", "stderrPagePayload",
-	"outputPagePayload", "outputPage", "cancelPayload", "results", "result",
-	"errors", "diagnostics", "message", "record", "history", "session",
-	"queue", "queueStats", "queuedMs", "waitedMs", "longLivedConnection",
-	"advisoryOvertime", "retryAfterMs", "retryable", "pollImmediately",
-	"progressSequence", "heartbeatAgeMs", "jobStatus", "outputRevision",
-	"snapshotConsistent", "writeSnapshotSettled", "writesPending",
-	"writeSnapshotWaitedMs", "settleBudgetMs", "receipts", "receipt",
-	"worker", "workers", "mission", "cost", "recovery", "cleanup",
-	"cancelled", "alreadyTerminal", "detachedRecovered", "reaperClaimed",
-	"reaperTimedOut", "processIdentity", "processComparison", "osLinks",
-	"birthToken", "startedAt", "updatedAt", "finishedAt", "phase",
-	"promptCount", "preview", "url", "viewUrl", "proxyUrl", "rawUrl",
-	"wsUrl", "detectedServers", "selectedServer", "agentGuidance",
-	"nextSuggestedAction", "state", "progress", "resume", "plan", "evidence",
-	"chrome", "targets", "pages", "activeTarget", "currentUrl",
-	"currentTarget", "browser", "port", "enabled", "pid", "processGroupId",
-	"version", "webSocketDebuggerUrl", "responseShape", "responseMode",
-	"responseProtocol", "storage", "trust", "warnings", "mode", "syncOptIn",
-	"aiInstructions", "shell", "timeoutMs", "stdout", "stderr", "stdoutBytes",
-	"stderrBytes", "exitCode", "signal", "durationMs", "resourceUsage",
-	"orphanReason", "reconciliationAt", "health", "stats", "lane", "priority"
-];
+const DEBUG_MODES = new Set(["debug", "full", "audit", "raw"]);
+const DIAGNOSTIC_MODES = new Set(["diagnostic", "standard"]);
 
-module.exports = { CORRELATION_KEYS, DEBUG_MODES, ESSENTIAL_KEYS };
+/**
+ * @file Defines focused default responses and explicitly expanded diagnostic responses.
+ * @description
+ * The Awtsmoos does not confuse testimony with every internal detail. Awtsmoos.com
+ * keeps identity, result, timing, continuation, and instruction protocol in the ordinary
+ * vessel while queue trees, process internals, and worker ledgers require explicit intent.
+ */
+const CORRELATION_KEYS = Object.freeze([
+	"type", "id", "originRegistrationKey", "tunnelName", "requestedTunnelName",
+	"controlRequestId", "clientRequestId", "agentSessionId", "logicalAgentId",
+	"conversationId", "missionId", "projectRoot", "nonce", "requestAction",
+	"requestedAction", "executionAction", "actualAction", "servedByAction",
+	"canonicalAction", "actionPromoted", "actionMismatch", "jobId", "workerId",
+	"receiptId", "traceId", "spanId", "transportReceiptId", "vessel",
+	"routeReference", "routeReason"
+]);
+
+const ESSENTIAL_KEYS = Object.freeze([
+	"payload", "schema", "protocol", "protocolSummary", "instructionProtocol",
+	"instructions", "requiredInstructionIds", "instructionSummaries",
+	"missingInstructionIds", "mustFetchBeforeWrite", "result", "record", "items",
+	"detailedItems", "files", "history", "timeline", "count", "returnedCount",
+	"content", "content64", "stdout", "stderr", "stream", "offsetChars",
+	"returnedChars", "totalChars", "hasNextPage", "nextOffsetChars", "pollPayload",
+	"statusPayload", "waitPayload", "stdoutPagePayload", "stderrPagePayload",
+	"outputPage", "retryPayload", "cancelPayload", "retryAfterMs", "lane", "mode",
+	"timeoutMs", "exitCode", "signal", "fullOutputAvailable", "receiptOnly",
+	"resolvedStateRoot", "crossRootResolved", "snapshotConsistent",
+	"writeSnapshotSettled", "writesPending", "writeSnapshotWaitedMs", "settleBudgetMs",
+	"progressSequence", "heartbeatAgeMs", "jobStatus", "outputRevision", "links",
+	"artifacts", "verification", "resultSha256", "beforeHash", "afterHash", "sha256",
+	"queuedMs", "waitedMs", "startedAt", "updatedAt", "finishedAt",
+	"longLivedConnection", "advisoryOvertime", "pollImmediately", "syncOptIn", "shell"
+]);
+
+const DIAGNOSTIC_KEYS = Object.freeze([
+	"queue", "queueStats", "receipt", "worker", "workers", "storage",
+	"processIdentity", "processGroupId", "birthToken", "pid", "cost", "cleanup",
+	"health", "stats", "connection", "resourceUsage", "processComparison",
+	"durableRequestReceipt", "historySummary", "historicalNativeDevices"
+]);
+
+module.exports = {
+	CORRELATION_KEYS,
+	DEBUG_MODES,
+	DIAGNOSTIC_KEYS,
+	DIAGNOSTIC_MODES,
+	ESSENTIAL_KEYS
+};
