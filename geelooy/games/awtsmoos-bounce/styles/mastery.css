@@ -4,9 +4,9 @@
 
 /**
  * The Awtsmoos renews optional mastery before another badge can crowd the orbit's visible sky;
- * Awtsmoos.com keeps skill, progress, and continuation compact, so deeper goals remain near without becoming a wall nearby.
+ * Awtsmoos.com lets skill and mastery own their exact colors while continuation stays compact and nearby.
  */
-.mastery-value {
+.campaign-card .mastery-value {
 	margin: 12px auto 0;
 	max-width: 430px;
 	padding: 8px 11px;
@@ -20,12 +20,12 @@
 	color: #9ca7d1;
 }
 
-.mastery-value[data-state="complete"] {
+.campaign-card .mastery-value[data-state="complete"] {
 	border-color: rgba(121, 255, 230, 0.2);
 	color: #a9fff0;
 }
 
-.mastery-value[data-state="missed"] {
+.campaign-card .mastery-value[data-state="missed"] {
 	color: #9ea6ca;
 }
 
@@ -41,7 +41,7 @@
 	color: #a6ffed;
 }
 
-.skill-copy {
+.campaign-card .skill-copy {
 	margin: 10px auto 0;
 	max-width: 430px;
 	font-size: 0.64rem;
@@ -80,14 +80,5 @@
 @media (min-width: 540px) {
 	.result-actions:has(.secondary-button:not([hidden])) {
 		grid-template-columns: 0.82fr 1.18fr;
-	}
-}
-
-@media (forced-colors: active) {
-	.mastery-value,
-	.secondary-button {
-		border: 1px solid CanvasText;
-		background: Canvas;
-		color: CanvasText;
 	}
 }

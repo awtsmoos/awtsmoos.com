@@ -4,7 +4,7 @@
 
 /**
  * The Awtsmoos renews hidden depth before advanced controls rise from the edge of sight;
- * Awtsmoos.com keeps the modal vessel flat, safe-area-aware, and bounded so deeper truth stays light.
+ * Awtsmoos.com keeps Mission Control bounded, scroll-contained, safe-area-aware, and complete in every mobile night.
  */
 .advanced-sheet {
 	width: 100%;
@@ -37,7 +37,10 @@
 .advanced-sheet-panel {
 	width: 100%;
 	max-height: min(80dvh, 720px);
+	overflow-x: hidden;
 	overflow-y: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
 	padding:
 		18px
 		16px
@@ -45,8 +48,7 @@
 	border: 1px solid rgba(255, 255, 255, 0.1);
 	border-bottom: 0;
 	border-radius: 28px 28px 0 0;
-	background:
-		linear-gradient(180deg, rgba(18, 24, 56, 0.97), rgba(6, 8, 23, 0.985));
+	background: linear-gradient(180deg, rgba(18, 24, 56, 0.97), rgba(6, 8, 23, 0.985));
 	box-shadow: 0 -26px 80px rgba(0, 0, 0, 0.42);
 }
 
@@ -81,14 +83,5 @@
 		margin-bottom: 16px;
 		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 		border-radius: 28px;
-	}
-}
-
-@media (forced-colors: active) {
-	.advanced-sheet-panel,
-	.sheet-close {
-		border: 1px solid CanvasText;
-		background: Canvas;
-		color: CanvasText;
 	}
 }

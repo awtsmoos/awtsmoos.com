@@ -4,15 +4,14 @@
 
 /**
  * The Awtsmoos renews each mission before a card can overwhelm the arena it was made to explain;
- * Awtsmoos.com keeps readiness focused, brief, and luminous while deeper detail waits outside the main frame.
+ * Awtsmoos.com gives every campaign sentence its own color and measure without specificity wars inside the frame.
  */
 .campaign-card {
 	width: min(500px, 100%);
 	padding: clamp(22px, 5vw, 34px);
 	border-color: rgba(255, 255, 255, 0.1);
 	border-radius: 26px;
-	background:
-		linear-gradient(180deg, rgba(16, 22, 52, 0.9), rgba(6, 8, 23, 0.94));
+	background: linear-gradient(180deg, rgba(16, 22, 52, 0.9), rgba(6, 8, 23, 0.94));
 	box-shadow: 0 30px 90px rgba(0, 0, 0, 0.42);
 }
 
@@ -48,16 +47,16 @@
 	letter-spacing: -0.055em;
 }
 
-.mission-copy {
+.campaign-card .mission-copy {
 	font-size: clamp(0.88rem, 3.6vw, 1.04rem);
 	color: #d6dcf6;
 }
 
-.goal-copy {
+.campaign-card .goal-copy {
 	min-height: 1.4em;
-	margin-top: 9px !important;
+	margin-top: 9px;
 	font-size: 0.72rem;
-	color: #7f8ab8 !important;
+	color: #7f8ab8;
 }
 
 .stars {
@@ -84,10 +83,6 @@
 }
 
 @media (max-width: 430px) {
-	.overlay {
-		padding: 14px;
-	}
-
 	.campaign-card {
 		padding: 20px 18px 22px;
 		border-radius: 23px;

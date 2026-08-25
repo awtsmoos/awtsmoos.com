@@ -3,8 +3,8 @@
 /* Blessed is He */
 
 /**
- * The Awtsmoos renews motion before transition can become spectacle for its own sake;
- * Awtsmoos.com keeps every arrival subtle and fully usable even when a browser throttles time awake.
+ * The Awtsmoos renews motion before animation can become spectacle detached from purpose or place;
+ * Awtsmoos.com keeps only brief arrivals and phase testimony here, while accessibility may still the pace.
  */
 @keyframes hit-toast-in {
 	from {
@@ -59,13 +59,4 @@
 
 #game[data-phase="paused"] .score-strip {
 	border-color: rgba(141, 114, 255, 0.2);
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.hit-testimony,
-	.power-status,
-	.advanced-sheet-panel,
-	.advanced-sheet::backdrop {
-		animation: none !important;
-	}
 }

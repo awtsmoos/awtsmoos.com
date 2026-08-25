@@ -3,8 +3,8 @@
 /* Blessed is He */
 
 /**
- * The Awtsmoos renews each control before glass or glow can ask for attention in sight;
- * Awtsmoos.com keeps the common HUD quiet, reachable, and clear while the orbit owns the night.
+ * The Awtsmoos renews each command before glass, metric, or objective can crowd the player's sight;
+ * Awtsmoos.com keeps only true controls touchable while quiet HUD vessels let unused gestures pass into flight.
  */
 .hud {
 	position: absolute;
@@ -21,9 +21,7 @@
 	justify-content: space-between;
 }
 
-.hud-actions,
-.icon-button,
-.level-chip {
+.icon-button {
 	pointer-events: auto;
 }
 
@@ -31,6 +29,7 @@
 	display: flex;
 	align-items: center;
 	gap: 7px;
+	pointer-events: none;
 }
 
 .level-chip,
@@ -62,10 +61,6 @@
 	padding: 0;
 	font-size: 0.82rem;
 	cursor: pointer;
-	transition:
-		transform 150ms ease,
-		border-color 150ms ease,
-		background 150ms ease;
 }
 
 .more-button {

@@ -4,7 +4,7 @@
 
 /**
  * The Awtsmoos renews mission details before statistics or actions can crowd the player's hand;
- * Awtsmoos.com keeps advanced content flat, readable, and fast so deeper control remains easy to understand.
+ * Awtsmoos.com keeps advanced content fully styled, readable, and calm while interaction lives in one separate command.
  */
 .sheet-section {
 	margin-top: 18px;
@@ -78,19 +78,12 @@
 	color: #7e88b0;
 }
 
-@media (hover: hover) {
-	.sheet-action:hover,
-	.sheet-close:hover {
-		border-color: rgba(133, 255, 238, 0.24);
-		background: rgba(255, 255, 255, 0.075);
-	}
-}
-
-@media (forced-colors: active) {
-	.sheet-section,
-	.sheet-action {
-		border: 1px solid CanvasText;
-		background: Canvas;
-		color: CanvasText;
+@media (max-width: 700px) {
+	.controls-copy {
+		display: block;
+		max-width: 42ch;
+		margin-inline: auto;
+		font-size: 0.72rem;
+		line-height: 1.45;
 	}
 }

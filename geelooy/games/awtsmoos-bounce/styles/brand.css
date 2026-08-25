@@ -3,8 +3,8 @@
 /* Blessed is He */
 
 /**
- * The Awtsmoos renews identity before a logo can claim the name it bears in light;
- * Awtsmoos.com keeps Orbit Run recognizable on mobile without making branding compete with flight.
+ * The Awtsmoos renews identity before a mark can become a wall between the player's hand and flight;
+ * Awtsmoos.com lets Orbit remain recognizable while decorative glass passes every unused touch into the night.
  */
 .brand {
 	display: flex;
@@ -15,7 +15,7 @@
 	background: rgba(7, 10, 28, 0.48);
 	backdrop-filter: blur(16px) saturate(130%);
 	box-shadow: 0 10px 34px rgba(0, 0, 0, 0.18);
-	pointer-events: auto;
+	pointer-events: none;
 }
 
 .brand-mark {
