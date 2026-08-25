@@ -4,62 +4,90 @@
 
 const assert = require("node:assert/strict");
 const path = require("node:path");
-const { spawnSync } = require("node:child_process");
 const Paths = require("./paths.cjs");
+const Syntax = require("./installerContractSyntax.cjs");
 
+/**
+ * @file Audits the split installer families as one self-healing covenant.
+ * @description
+ * The Awtsmoos renews every helper behind one command; Awtsmoos.com requires fresh
+ * bootstrap, exact Node, recovery archives, Tier-Zero continuity, and guarded success.
+ */
 const UNIX_FILES = Object.freeze([
-	"unix.sh", "unix-node-runtime.sh", "unix-install-core.sh",
-	"unix-install-lock.sh", "unix-install-lock-owner.cjs",
-	"unix-install-resume.sh", "unix-release-metadata.sh",
-	"unix-install-readiness.sh", "unix-version-policy.sh",
-	"unix-fast-repair.sh", "unix-install-progress.sh",
-	"unix-install-browser.sh", "unix-install-success.sh",
-	"unix-state-migration.sh", "unix-process-census.sh",
-	"unix-process-runtime.sh", "unix-process-control.sh",
-	"unix-project-root-health.sh", "unix-project-root-compat.sh",
-	"unix-service-manager.sh", "unix-supervisor-install.sh",
-	"unix-supervisor.sh", "unix-cleanup.sh"
+	"unix.sh",
+	"unix-node-runtime.sh",
+	"unix-install-core.sh",
+	"unix-install-sources.sh",
+	"unix-install-lock.sh",
+	"unix-install-lock-owner.cjs",
+	"unix-install-resume.sh",
+	"unix-release-metadata.sh",
+	"unix-install-readiness.sh",
+	"unix-late-readiness.sh",
+	"unix-version-policy.sh",
+	"unix-fast-repair-health.sh",
+	"unix-fast-repair.sh",
+	"unix-metadata-fallback.sh",
+	"unix-emergency-continuity.sh",
+	"unix-recovery-validation.sh",
+	"unix-recovery-identity.sh",
+	"unix-recovery-candidates.sh",
+	"unix-recovery-store.sh",
+	"unix-process-control.sh",
+	"unix-project-root-health.sh",
+	"unix-service-manager.sh",
+	"unix-supervisor-start-gate.sh",
+	"unix-supervisor-install.sh",
+	"unix-install-success-values.sh",
+	"unix-install-success.sh",
+	"unix-cleanup.sh"
 ]);
 const WINDOWS_FILES = Object.freeze([
-	"windows.ps1", "windows-progress.ps1", "windows-package.ps1",
-	"windows-bundle.ps1", "windows-health.ps1", "windows-success.ps1",
+	"windows.ps1",
+	"windows-progress.ps1",
+	"windows-package.ps1",
+	"windows-bundle.ps1",
+	"windows-health.ps1",
+	"windows-success.ps1",
 	"windows-core.ps1"
 ]);
 
-/**
- * @file Audits split installer families as one user-facing covenant.
- * @description
- * The Awtsmoos renews every helper behind one command. Awtsmoos.com requires Node
- * discovery, lock ownership, monotonic versions, root proof, and valid syntax.
- */
+/** Verifies user-visible semantics and parses every audited installer helper. */
 function assertInstallerScripts() {
 	const windows = readFamily(WINDOWS_FILES);
 	const unix = readFamily(UNIX_FILES);
 	assertTokens(windows, [
-		"AWTSMOOS_INSTALL_ROOT", "AWTSMOOS_SKIP_START",
-		"Stop-OldAwtsAgent", "Wait-AwtsRegistration",
-		"Complete-AwtsProgress", "Start-Process $ControlUrl"
+		"AWTSMOOS_INSTALL_ROOT",
+		"AWTSMOOS_SKIP_START",
+		"Stop-OldAwtsAgent",
+		"Wait-AwtsRegistration",
+		"Complete-AwtsProgress"
 	], "windows");
 	assertTokens(unix, [
-		"curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash",
-		"activate_node_runtime", "acquire_install_lock",
-		"resume_interrupted_install", "apply_installed_version_policy",
-		"repair_matching_release", "stop_existing_runtime",
-		"exact_root_process_count", "verified_agent_pid",
-		"wait_for_project_root_readiness", "complete_install_experience"
+		"curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | AWTSMOOS_RESTART=1 bash",
+		"activate_node_runtime",
+		"acquire_install_lock",
+		"recover_without_release_metadata",
+		"restore_archive_layers",
+		"ensure_emergency_continuity",
+		"candidate_late_readiness_grace",
+		"start_guardian_with_fallback",
+		"verified_agent_pid",
+		"complete_install_experience"
 	], "unix");
-	assert.equal(unix.includes("falling back to per-file"), false);
 	assert.equal(unix.includes("Run this manual command"), false);
-	UNIX_FILES.forEach(assertUnixSyntax);
-	assertPowerShellSyntax(WINDOWS_FILES);
+	UNIX_FILES.forEach(Syntax.assertUnixSyntax);
+	Syntax.assertPowerShellSyntax(WINDOWS_FILES);
 }
 
+/** Joins one installer family into a searchable contract document. */
 function readFamily(names) {
 	return names.map(name => Paths.read(
 		path.join(Paths.DOWNLOADS_ROOT, name)
 	)).join("\n");
 }
 
+/** Requires every behavioral token to remain discoverable in its family. */
 function assertTokens(source, tokens, label) {
 	for (const token of tokens) {
 		assert.equal(source.includes(token), true,
@@ -67,44 +95,9 @@ function assertTokens(source, tokens, label) {
 	}
 }
 
-function assertUnixSyntax(name) {
-	const file = path.join(Paths.DOWNLOADS_ROOT, name);
-	const isNode = name.endsWith(".cjs");
-	const result = spawnSync(isNode ? process.execPath : "bash",
-		isNode ? ["--check", file] : ["-n", file], { encoding: "utf8" });
-	if (!result.error) assert.equal(result.status, 0, result.stderr);
-}
-
-function assertPowerShellSyntax(names) {
-	const command = powerShellCommand();
-	if (!command) return;
-	for (const name of names) {
-		const file = path.join(Paths.DOWNLOADS_ROOT, name);
-		const script = `$e=$null;$t=$null;[System.Management.Automation.Language.Parser]::ParseFile('${escapePowerShell(file)}',[ref]$t,[ref]$e)>$null;if($e.Count){$e|% Message;exit 1}`;
-		const result = spawnSync(command, ["-NoProfile", "-Command", script], {
-			encoding: "utf8"
-		});
-		assert.equal(result.status, 0,
-			`${name}\n${result.stdout}\n${result.stderr}`);
-	}
-}
-
-function powerShellCommand() {
-	for (const command of ["powershell", "pwsh", "powershell.exe"]) {
-		const result = spawnSync(command, ["-NoProfile", "-Command",
-			"$PSVersionTable.PSVersion.ToString()"], { encoding: "utf8" });
-		if (!result.error && result.status === 0) return command;
-	}
-	return null;
-}
-
-function escapePowerShell(value) {
-	return String(value).replace(/'/g, "''");
-}
-
 module.exports = {
 	UNIX_FILES,
 	WINDOWS_FILES,
 	assertInstallerScripts,
-	powerShellCommand
+	powerShellCommand: Syntax.powerShellCommand
 };

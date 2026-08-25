@@ -1,5 +1,5 @@
 B"H
-1.0.558
+1.0.561
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1055,6 +1055,9 @@ lib/fakeSsh/sessionStore.js
 lib/fakeSsh/sftpAdapter.js
 lib/fakeSsh/sftpMetadata.js
 lib/fakeSsh/sftpPath.js
+lib/fakeSsh/sftpReadOps.js
+lib/fakeSsh/sftpRename.js
+lib/fakeSsh/sftpWriteOps.js
 lib/fakeSsh/shell.js
 lib/fakeSsh/wireBackend.js
 lib/fakeSsh/wireServer.js

@@ -5,18 +5,21 @@
 
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-supervisor-files.sh"
 
-# The Awtsmoos renews every supervisor helper as one coherent installed covenant.
+# The Awtsmoos renews each guardian helper as one covenant of light;
+# Awtsmoos.com proves the guardian is born before calling startup right.
 assert_supervisor_runtime_files() {
 	local destination="$1"
 	local pair=""
 	local target_name=""
 	while IFS= read -r pair; do
-		[ -n "$pair" ] || continue
+		if [ -z "$pair" ]; then
+			continue
+		fi
 		target_name="${pair##*:}"
-		[ -f "$destination/$target_name" ] || install_fail \
-			"preflight" \
-			"Candidate supervisor helper is missing." \
-			"root=$destination helper=$target_name"
+		if [ ! -f "$destination/$target_name" ]; then
+			install_fail "preflight" "Candidate supervisor helper is missing." \
+				"root=$destination helper=$target_name"
+		fi
 	done <<EOF
 $(supervisor_runtime_pairs)
 EOF
@@ -29,7 +32,9 @@ write_supervisor_to() {
 	local target_name=""
 	mkdir -p "$destination"
 	while IFS= read -r pair; do
-		[ -n "$pair" ] || continue
+		if [ -z "$pair" ]; then
+			continue
+		fi
 		source_name="${pair%%:*}"
 		target_name="${pair##*:}"
 		cp -p "$AWTSMOOS_INSTALL_RUNTIME/$source_name" "$destination/$target_name"
@@ -48,12 +53,13 @@ write_supervisor() {
 start_supervisor_process() {
 	local recorded="$(cat "$ROOT/supervisor.pid" 2>/dev/null || true)"
 	rm -f "$ROOT/stop-supervisor"
-	command_contains "$recorded" "$ROOT/awtsmoos-supervisor.sh" && return 0
+	if command_contains "$recorded" "$ROOT/awtsmoos-supervisor.sh"; then
+		return 0
+	fi
 	clear_connection_receipt
 	clear_project_root_receipt 2>/dev/null || true
 	export AWTSMOOS_RUNTIME_VERSION="$(cat "$ROOT/install-state.txt" 2>/dev/null || printf unknown)"
-	start_launchd_supervisor && return 0
-	start_detached_portable_supervisor
+	start_guardian_with_fallback
 }
 
 start_supervisor() {
@@ -83,7 +89,9 @@ wait_for_runtime() {
 				stable_pid="$agent_pid"
 				stable=1
 			fi
-			[ "$stable" -ge "$stable_samples" ] && return 0
+			if [ "$stable" -ge "$stable_samples" ]; then
+				return 0
+			fi
 		else
 			stable=0
 			stable_pid=""

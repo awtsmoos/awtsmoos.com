@@ -3,37 +3,14 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos crowns a verified tunnel with one durable recovery doorway.
-installer_config_value() {
-	local key="$1"
-	node - "$ROOT/config.json" "$key" <<'NODE'
-const fs = require("node:fs");
-const [file, key] = process.argv.slice(2);
-try {
-	const value = JSON.parse(fs.readFileSync(file, "utf8"));
-	process.stdout.write(String(value[key] ?? ""));
-} catch {}
-NODE
-}
-
-connection_receipt_value() {
-	local key="$1"
-	node - "$ROOT/connection-state.json" "$key" <<'NODE'
-const fs = require("node:fs");
-const [file, key] = process.argv.slice(2);
-try {
-	const value = JSON.parse(fs.readFileSync(file, "utf8"));
-	process.stdout.write(String(value[key] ?? ""));
-} catch {}
-NODE
-}
-
+# The Awtsmoos crowns a verified tunnel with one durable recovery doorway;
+# Awtsmoos.com shows only evidence that survived registration, guardian, and workspace law.
 workspace_status_label() {
 	local agent_pid="$1"
 	local activation_id="$(connection_receipt_value activationId)"
 	if project_root_ready "$agent_pid" 600000 "$activation_id"; then
 		printf '%s\n' 'available'
-	elif project_root_receipt_matches_runtime "$agent_pid" "$activation_id" &&
+	elif project_root_receipt_matches_runtime "$agent_pid" "$activation_id" && \
 		local_runtime_action_ready; then
 		printf '%s\n' 'available'
 	else
@@ -60,8 +37,8 @@ print_install_success_card() {
 	printf 'Control     : %s\n\n' "$control_url"
 	printf '%s\n' 'Durable local repair:'
 	printf '%s\n' "$ROOT/awtsmoos-tunnel-service.sh repair"
-	printf '%s\n' 'Full reinstall or upgrade:'
-	printf '%s\n' 'curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash'
+	printf '%s\n' 'Universal self-healing reinstall or upgrade:'
+	printf '%s\n' 'curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | AWTSMOOS_RESTART=1 bash'
 	printf '%s\n' '============================================================'
 }
 
@@ -94,15 +71,21 @@ complete_install_experience() {
 		return 0
 	fi
 	agent_pid="$(verified_agent_pid || true)"
-	[ -n "$agent_pid" ] || install_fail "complete" \
-		"Registration or durable guardian did not converge." \
-		"phase=$phase $(final_readiness_failure_detail)"
+	if [ -z "$agent_pid" ]; then
+		install_fail "complete" \
+			"Registration or durable guardian did not converge." \
+			"phase=$phase $(final_readiness_failure_detail)"
+	fi
 	tunnel_id="$(connection_receipt_value tunnelId)"
-	[ -n "$tunnel_id" ] || install_fail "complete" \
-		"Registration did not provide an authoritative tunnel ID." "pid=$agent_pid"
-	wait_for_service_supervision 5 || install_fail "complete" \
-		"Durable guardian did not remain singular at final display." \
-		"pid=$agent_pid $(service_health_summary)"
+	if [ -z "$tunnel_id" ]; then
+		install_fail "complete" \
+			"Registration did not provide an authoritative tunnel ID." "pid=$agent_pid"
+	fi
+	if ! wait_for_service_supervision 5; then
+		install_fail "complete" \
+			"Durable guardian did not remain singular at final display." \
+			"pid=$agent_pid $(service_health_summary)"
+	fi
 	workspace_status="$(workspace_status_label "$agent_pid")"
 	install_progress 100 "Awtsmoos Tunnel is fully verified and guarded"
 	finish_install_progress_line

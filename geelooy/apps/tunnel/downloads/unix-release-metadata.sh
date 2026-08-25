@@ -11,16 +11,16 @@ BUNDLE_SHA=""
 BUNDLE_BYTES=""
 RELEASE_SOURCE_SHA=""
 
-# The Awtsmoos renews one small release witness before any heavy download begins.
-# Awtsmoos.com fetches descriptor and manifest once, verifies checksum plus Git identity,
-# and permits fast repair only when local metadata and the sealed runtime both agree.
+# The Awtsmoos renews one small release witness before any heavy download begins;
+# Awtsmoos.com verifies manifest, bundle, Git identity, and local seal through exact Node means.
 load_release_metadata() {
-	[ -n "$RELEASE_METADATA_ROOT" ] &&
-		[ -f "$RELEASE_DESCRIPTOR_PATH" ] &&
-		[ -f "$RELEASE_MANIFEST_PATH" ] &&
-		[ -n "$BUNDLE_SHA" ] &&
-		[ -n "$RELEASE_SOURCE_SHA" ] &&
+	if [ -n "$RELEASE_METADATA_ROOT" ] && \
+		[ -f "$RELEASE_DESCRIPTOR_PATH" ] && \
+		[ -f "$RELEASE_MANIFEST_PATH" ] && \
+		[ -n "$BUNDLE_SHA" ] && \
+		[ -n "$RELEASE_SOURCE_SHA" ]; then
 		return 0
+	fi
 	local tab="$(printf '\t')"
 	RELEASE_METADATA_ROOT="$AWTSMOOS_INSTALL_RUNTIME/release-metadata"
 	RELEASE_DESCRIPTOR_PATH="$RELEASE_METADATA_ROOT/bundle-manifest.json"
@@ -28,30 +28,39 @@ load_release_metadata() {
 	rm -rf "$RELEASE_METADATA_ROOT"
 	mkdir -p "$RELEASE_METADATA_ROOT"
 	install_progress 22 "Checking published tunnel release"
-	if ! curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 		--speed-time 30 --speed-limit 1024 		"$origin/api/tunnel/install/bundle-manifest" -o "$RELEASE_DESCRIPTOR_PATH"; then
+	if ! curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
+		--speed-time 30 --speed-limit 1024 \
+		"$origin/api/tunnel/install/bundle-manifest" -o "$RELEASE_DESCRIPTOR_PATH"; then
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
 	fi
-	if ! curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 		--speed-time 30 --speed-limit 1024 		"$origin/apps/tunnel/agent/manifest.txt" -o "$RELEASE_MANIFEST_PATH"; then
+	if ! curl -fsSL --retry 5 --retry-delay 1 --connect-timeout 10 \
+		--speed-time 30 --speed-limit 1024 \
+		"$origin/apps/tunnel/agent/manifest.txt" -o "$RELEASE_MANIFEST_PATH"; then
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
 	fi
-	if ! IFS="$tab" read -r CANDIDATE_VERSION BUNDLE_URL BUNDLE_SHA BUNDLE_BYTES 		MANIFEST_SHA RELEASE_SOURCE_SHA < <(read_release_descriptor "$RELEASE_DESCRIPTOR_PATH"); then
+	if ! IFS="$tab" read -r CANDIDATE_VERSION BUNDLE_URL BUNDLE_SHA BUNDLE_BYTES \
+		MANIFEST_SHA RELEASE_SOURCE_SHA < <(read_release_descriptor "$RELEASE_DESCRIPTOR_PATH"); then
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
 	fi
 	local actual_manifest_sha="$(sha256_file "$RELEASE_MANIFEST_PATH")"
-	[ "$actual_manifest_sha" = "$MANIFEST_SHA" ] || {
+	if [ "$actual_manifest_sha" != "$MANIFEST_SHA" ]; then
 		rm -rf "$RELEASE_METADATA_ROOT"
 		return 1
-	}
+	fi
 	export CANDIDATE_VERSION BUNDLE_URL BUNDLE_SHA BUNDLE_BYTES MANIFEST_SHA RELEASE_SOURCE_SHA
 }
 
 release_bundle_url() {
 	case "$BUNDLE_URL" in
-		http*) printf '%s\n' "$BUNDLE_URL" ;;
-		*) printf '%s%s\n' "$origin" "$BUNDLE_URL" ;;
+		http*)
+			printf '%s\n' "$BUNDLE_URL"
+			;;
+		*)
+			printf '%s%s\n' "$origin" "$BUNDLE_URL"
+			;;
 	esac
 }
 
@@ -63,8 +72,9 @@ installed_manifest_matches_release() {
 installed_runtime_seal_valid() {
 	local controller="$ROOT/scripts/recovery-control.cjs"
 	[ -f "$controller" ] || return 1
-	AWTSMOOS_INSTALL_ROOT="$ROOT" node "$controller" check "$ROOT" |
-		node -e 'let s="";process.stdin.on("data",c=>s+=c);process.stdin.on("end",()=>{try{process.exit(JSON.parse(s).ok===true?0:1)}catch{process.exit(1)}})'
+	AWTSMOOS_INSTALL_ROOT="$ROOT" \
+		"$AWTSMOOS_NODE_BIN" "$controller" check "$ROOT" | \
+		"$AWTSMOOS_NODE_BIN" -e 'let s="";process.stdin.on("data",c=>s+=c);process.stdin.on("end",()=>{try{process.exit(JSON.parse(s).ok===true?0:1)}catch{process.exit(1)}})'
 }
 
 installed_runtime_self_verified() {

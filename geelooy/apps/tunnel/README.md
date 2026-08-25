@@ -1,127 +1,113 @@
 B"H
+Boruch Hashem
+Blessed is He
 
-# Awtsmoos Tunnel — Human Operations Guide
+# Awtsmoos Tunnel — Operations and Emergency Index
 
-The Awtsmoos Tunnel connects this computer to Awtsmoos.com so authorized humans and agents can inspect files, run permitted commands, use browser automation, and operate project tools through the saved tunnel identity.
+The Awtsmoos renews every instant; Awtsmoos.com keeps more than one vessel for repair,
+so a broken supervisor, installer, PATH, or release lookup does not leave a machine nowhere.
 
-## Emergency recovery — use the shortest safe command first
+## AI / operator emergency index — start here
 
-Recovery-enabled installs now ship one guarded command. It verifies the supervised process relationship before signaling a child.
+When native control disappears, do **not** begin by deleting state or repeatedly reinstalling.
+Use the smallest independent lane that can restore authenticated remote custody.
 
-### macOS or Linux
-
-```bash
-~/.awtsmoos-tunnel/awt status
-```
-
-```bash
-~/.awtsmoos-tunnel/awt check
-```
-
-```bash
-~/.awtsmoos-tunnel/awt rescue
-```
-
-```bash
-~/.awtsmoos-tunnel/awt normal
-```
-
-`rescue` is the safe emergency path: verify supervisor + child ownership, set Level 0, terminate only the verified supervised child, and wait for its replacement. `normal` returns to Level 5 and restarts only that verified child. Use `--dry-run` to preview either operation without changing tier or signaling a process.
-
-Offline restore is intentionally stronger and requires confirmation:
-
-```bash
-~/.awtsmoos-tunnel/awt restore 0 --confirm
-```
-
-A typo such as `resuce` returns a suggested command and performs no recovery action.
-
-### Windows
-
-```powershell
-%USERPROFILE%\.awtsmoos-tunnel\awt.cmd status
-```
-
-```powershell
-%USERPROFILE%\.awtsmoos-tunnel\awt.cmd rescue
-```
-
-## Know which layer is broken
-
-| Symptom | First action |
+| Need | One-line remote command |
 |---|---|
-| ChatGPT/OAuth control fails but Awtsmoos.com is reachable | Reauthorize the control session; do not restart the Mac agent merely for an OAuth failure. |
-| Native tunnel child is wedged but supervisor is alive | `awt rescue` |
-| Tunnel is healthy but intentionally left in Emergency Level 0 | `awt normal` |
-| `awt check` reports executable/manifest corruption | Inspect recovery evidence, then use confirmed offline restore. |
-| Supervisor itself is absent/unverified | Refresh with the signed installer rather than blindly killing a PID. |
-| Awtsmoos server/API is down | Repair the server independently; a Mac child restart does not repair the server. |
+| Diagnose without changing state | `curl -fsSL https://awtsmoos.com/api/tunnel/install/emergency-diagnose \| bash` |
+| Start sealed Tier-0 recovery | `curl -fsSL https://awtsmoos.com/api/tunnel/install/emergency-unix \| bash` |
+| Start primary runtime without launchd | `curl -fsSL https://awtsmoos.com/api/tunnel/install/emergency-supervisor \| bash` |
+| Restore a verified known-good generation | `curl -fsSL https://awtsmoos.com/api/tunnel/install/emergency-known-good \| bash` |
+| Preserve Tier-0, then fully repair primary | `curl -fsSL https://awtsmoos.com/api/tunnel/install/emergency-repair \| bash` |
 
-The browser-tab tunnel in Awtsmoos Code can be used as a separate fallback vessel when the native tunnel or its authenticated control session is unavailable.
+The emergency endpoints are plain shell scripts served independently from published release metadata.
+`emergency-unix` uses the durable sealed slot and persisted Node path; it requires fresh TUNNEL_ACK before success.
+`emergency-supervisor` bypasses launchd and requires primary registration before success.
 
-## Install, refresh, or start
+## Durable local rescue commands
 
-The installer is also the normal refresh/start entry point. It preserves an existing `config.json`, saved tunnel name, project root, and recovery history.
+After a successful recovery-aware install, these survive outside the replaceable live runtime:
 
-### macOS or Linux
+```text
+~/.awtsmoos-tunnel-recovery/bin/awtsmoos-emergency-auto
+~/.awtsmoos-tunnel-recovery/bin/awtsmoos-emergency-sealed
+~/.awtsmoos-tunnel-recovery/bin/awtsmoos-emergency-supervisor
+~/.awtsmoos-tunnel-recovery/bin/awtsmoos-emergency-known-good
+~/.awtsmoos-tunnel-recovery/bin/awtsmoos-emergency-diagnose
+~/.awtsmoos-tunnel-recovery/bin/awtsmoos-emergency-repair
+```
+
+These commands resolve Node from `~/.awtsmoos-tunnel-recovery/state/node-bin.path`; interactive `PATH` is not required.
+
+## Decision tree
+
+1. Run `emergency-diagnose` when the failure shape is unknown.
+2. If the live supervisor is absent, launch `emergency-unix` first to regain Tier-0 remote custody.
+3. If the live runtime files are intact but launchd is broken, `emergency-supervisor` can raise the primary guardian portably.
+4. If the live generation is corrupt, use `emergency-known-good` only after reviewing diagnosis evidence.
+5. For a complete refresh, use `emergency-repair`; it proves Tier-0 continuity before invoking the full installer.
+6. Retire emergency only after the primary child has a fresh registered receipt.
+
+See [EMERGENCY_RECOVERY.md](EMERGENCY_RECOVERY.md) for failure semantics and dependencies.
+
+## Normal install and refresh
+
+macOS / Linux:
 
 ```bash
 curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash
 ```
 
-### Windows PowerShell
+Explicit refresh must set the variable on the **installer shell**:
+
+```bash
+curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | AWTSMOOS_RESTART=1 bash
+```
+
+Windows PowerShell:
 
 ```powershell
 irm https://awtsmoos.com/api/tunnel/install/windows | iex
 ```
 
-A refresh verifies the manifest and candidate before activation. It should be preferred over deleting configuration or inventing a replacement identity.
+Do not write `AWTSMOOS_RESTART=1curl ...`; that is a different shell token and fails.
+Do not use `AWTSMOOS_RESTART=1 curl ... | bash`; that assigns the variable to `curl`, not to the receiving `bash`.
 
-## Recovery levels
+## Self-heal invariants
 
-Logical command admission is separate from physical subprocess concurrency.
+- A launchd label is not startup proof; an actual supervisor PID must appear.
+- If launchd loads but no supervisor appears, startup falls back to a detached portable guardian.
+- Candidate readiness gets a bounded late-process grace before cleanup can race a delayed supervisor.
+- Failed primary replacement attempts establish sealed Tier-0 continuity before returning failure.
+- Emergency stays alive while a new primary child is only starting.
+- Emergency is retired automatically only after the primary receipt proves server registration.
+- Emergency Tier-0 uses one active command worker and disables self-update / mission boot resume.
 
-| Level | Mode | Physical workers |
-|---|---|---:|
-| 0 | Emergency | 1 |
-| 1 | Single | 1 |
-| 2 | Dual | 2 |
-| 3 | Four | 4 |
-| 4 | Eight | 8 |
-| 5 | Production | Adaptive to machine capacity |
+## Existing supervised recovery
 
-Three rapid nonzero crashes can lower the active level automatically. After emergency verification, return to Level 5 with `awt normal`.
+If the normal `awt` wrapper exists and its supervisor is already healthy:
 
-## Deep recovery tools
-
-The short command wraps the existing recovery machinery rather than replacing it. Low-level scripts remain available for diagnosis and automation:
-
-```text
-~/.awtsmoos-tunnel/scripts/recovery-control.cjs
-~/.awtsmoos-tunnel/scripts/recovery-restore.cjs
-~/.awtsmoos-tunnel-recovery/tiers/level-0 ... level-5
+```bash
+~/.awtsmoos-tunnel/awt status
+~/.awtsmoos-tunnel/awt check
+~/.awtsmoos-tunnel/awt rescue
+~/.awtsmoos-tunnel/awt normal
 ```
 
-Offline restoration stages and validates a known-good archive and preserves `config.json`. Do not edit immutable recovery archives in place.
+Confirmed offline restore remains stronger:
+
+```bash
+~/.awtsmoos-tunnel/awt restore 0 --confirm
+```
+
+Use the independent emergency lanes above when `awt`, launchd, the supervisor, or shell Node discovery is unavailable.
 
 ## Control surfaces
 
 - Control panel: <https://awtsmoos.com/apps/tunnel-control/>
-- Human docs: <https://awtsmoos.com/api/tunnel/control/docs>
+- Human action docs: <https://awtsmoos.com/api/tunnel/control/docs>
 - Machine docs: <https://awtsmoos.com/api/tunnel/control/docs.json>
 - OpenAPI: <https://awtsmoos.com/api/tunnel/control/openapi>
 - Browser/code fallback: <https://awtsmoos.com/apps/code>
 
-## Important runtime files
-
-```text
-~/.awtsmoos-tunnel/config.json
-~/.awtsmoos-tunnel/install-state.txt
-~/.awtsmoos-tunnel/agent.pid
-~/.awtsmoos-tunnel/supervisor.pid
-~/.awtsmoos-tunnel/recovery-state.json
-~/.awtsmoos-tunnel/agent.log
-~/.awtsmoos-tunnel/agent-supervisor.log
-```
-
-Do not publish `config.json`, private logs, credentials, OAuth material, or secret-like environment data.
+Never publish `config.json`, device binding, credentials, OAuth material, or private logs.
