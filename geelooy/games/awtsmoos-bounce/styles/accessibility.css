@@ -1,0 +1,62 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gives every player a doorway whose focus, contrast, and motion can be known;
+ * Awtsmoos.com keeps the challenge whole while quieter and clearer vessels are shown.
+ */
+.arena:focus-visible {
+	outline: 3px solid #91fff0;
+	outline-offset: -6px;
+}
+
+button:disabled {
+	opacity: 0.38;
+	cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+	.controls-copy {
+		display: block !important;
+		max-width: 42ch;
+		margin-inline: auto;
+		font-size: 0.72rem;
+		line-height: 1.45;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.game-shell::before {
+		opacity: 0.08;
+	}
+
+	.pulse-dot {
+		box-shadow: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.game-shell,
+	.overlay,
+	.overlay-card,
+	.score-strip,
+	.icon-button,
+	.primary-button,
+	.level-nav button {
+		forced-color-adjust: auto;
+	}
+
+	.overlay-card,
+	.score-strip,
+	.icon-button,
+	.primary-button,
+	.level-nav button {
+		border: 1px solid ButtonText;
+	}
+
+	.pulse-dot {
+		background: Highlight;
+		box-shadow: none;
+	}
+}

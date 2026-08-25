@@ -1,0 +1,105 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every counted goal while remaining beyond all number and score;
+ * Awtsmoos.com compresses live truth into one quiet rail so the orbit can visibly become more.
+ */
+.score-strip {
+	position: absolute;
+	z-index: 4;
+	top: max(66px, calc(env(safe-area-inset-top) + 58px));
+	left: 50%;
+	display: grid;
+	grid-template-columns: minmax(116px, 1.65fr) repeat(3, minmax(52px, 0.8fr));
+	width: min(520px, calc(100% - 20px));
+	min-height: 52px;
+	transform: translateX(-50%);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 17px;
+	background: rgba(6, 9, 26, 0.5);
+	backdrop-filter: blur(16px) saturate(125%);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+	pointer-events: none;
+}
+
+.metric {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	justify-content: center;
+	padding: 7px 8px;
+	text-align: center;
+}
+
+.metric + .metric {
+	border-left: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.metric > span {
+	font-size: 0.49rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #7f88af;
+}
+
+.metric strong {
+	margin-top: 2px;
+	font-size: clamp(0.86rem, 3.2vw, 1.06rem);
+	font-weight: 750;
+	font-variant-numeric: tabular-nums;
+}
+
+.metric-score {
+	align-items: flex-start;
+	padding-left: 12px;
+	text-align: left;
+}
+
+.metric-score strong {
+	display: flex;
+	align-items: baseline;
+	gap: 5px;
+	font-size: clamp(1.05rem, 4vw, 1.32rem);
+}
+
+.metric-score b {
+	font: inherit;
+}
+
+.metric-score small {
+	font-size: 0.58em;
+	font-weight: 650;
+	color: #8993bc;
+}
+
+.timer strong,
+#shotValue {
+	color: #91fff0;
+}
+
+#game[data-combo="active"] #comboValue {
+	color: #f8c6ff;
+	text-shadow: 0 0 16px rgba(213, 132, 255, 0.35);
+}
+
+@media (min-width: 701px) {
+	.score-strip {
+		top: max(72px, calc(env(safe-area-inset-top) + 64px));
+	}
+
+	.metric {
+		padding-inline: 10px;
+	}
+}
+
+@media (max-width: 360px) {
+	.score-strip {
+		grid-template-columns: minmax(104px, 1.5fr) repeat(3, minmax(46px, 0.72fr));
+	}
+
+	.metric {
+		padding-inline: 5px;
+	}
+}

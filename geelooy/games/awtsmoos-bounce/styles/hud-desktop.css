@@ -1,0 +1,37 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews wider space before desktop can tempt the interface into needless expansion;
+ * Awtsmoos.com adds only breathing room and hover testimony while preserving the mobile-first contraction.
+ */
+@media (min-width: 701px) {
+	.hud {
+		left: 24px;
+		right: 24px;
+	}
+
+	.brand-copy {
+		display: block;
+	}
+
+	.hud-bottom {
+		justify-content: space-between;
+	}
+
+	.desktop-hint {
+		display: block;
+		font-size: 0.58rem;
+		letter-spacing: 0.06em;
+		color: #626b92;
+	}
+}
+
+@media (hover: hover) {
+	.icon-button:hover:not(:disabled) {
+		transform: translateY(-1px);
+		border-color: rgba(126, 255, 238, 0.28);
+		background: rgba(16, 23, 54, 0.72);
+	}
+}

@@ -1,0 +1,51 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews identity before a logo can claim the name it bears in light;
+ * Awtsmoos.com keeps Orbit Run recognizable on mobile without making branding compete with flight.
+ */
+.brand {
+	display: flex;
+	align-items: center;
+	height: 46px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 16px;
+	background: rgba(7, 10, 28, 0.48);
+	backdrop-filter: blur(16px) saturate(130%);
+	box-shadow: 0 10px 34px rgba(0, 0, 0, 0.18);
+	pointer-events: auto;
+}
+
+.brand-mark {
+	display: grid;
+	width: 46px;
+	height: 46px;
+	place-items: center;
+	font-size: 1.15rem;
+	color: #9fffea;
+}
+
+.brand-copy {
+	display: none;
+	padding-right: 14px;
+	line-height: 0.9;
+}
+
+.brand-copy strong,
+.brand-copy span {
+	display: block;
+}
+
+.brand-copy strong {
+	font-size: 0.72rem;
+	letter-spacing: 0.15em;
+}
+
+.brand-copy span {
+	margin-top: 4px;
+	font-size: 0.53rem;
+	letter-spacing: 0.22em;
+	color: #818bb4;
+}
