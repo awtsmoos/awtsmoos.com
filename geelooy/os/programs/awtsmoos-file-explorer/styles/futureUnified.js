@@ -21,7 +21,9 @@ import details from "./future/details.js";
 import path from "./future/path.js";
 import menus from "./future/menus.js";
 import dialogs from "./future/dialogs.js";
+import dialogDesktop from "./future/dialogDesktop.js";
 import sshDrive from "./future/sshDrive.js";
+import sshDriveAdd from "./future/sshDriveAdd.js";
 import scrollbars from "./future/scrollbars.js";
 import mobile from "./future/mobile.js";
 import interaction from "./future/interaction.js";
@@ -40,7 +42,9 @@ const STYLE_MODULES = [
 	path,
 	menus,
 	dialogs,
+	dialogDesktop,
 	sshDrive,
+	sshDriveAdd,
 	scrollbars,
 	mobile,
 	interaction,

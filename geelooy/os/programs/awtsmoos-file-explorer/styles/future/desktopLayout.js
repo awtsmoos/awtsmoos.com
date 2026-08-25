@@ -3,35 +3,55 @@
 // Blessed is He
 
 /**
- * @file Progressive desktop expansion for the mobile-first Explorer layout.
+ * @file Broad-screen expansion that preserves Explorer's fast single-row command river.
  * @description
- * The Awtsmoos lets added space reveal added structure without changing the
- * underlying world. Awtsmoos.com expands controls, sidebar, path, and detail
- * columns only when room exists, so desktop grows from mobile truth in rhyme.
+ * The Awtsmoos reveals more room without demanding more vertical weight; Awtsmoos.com
+ * keeps the full command constellation on one horizontally reachable rail, then lets
+ * path, sidebar, and detail columns use the added width while the file world may rhyme.
  */
 export default /*css*/ `
 @media (min-width: 721px) {
 	.button-bar {
 		display: flex;
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		align-items: center;
+		gap: 7px;
+		overflow-x: auto;
+		overflow-y: hidden;
+		scroll-snap-type: x proximity;
+		scrollbar-width: thin;
 	}
 
 	.toolbar-group {
+		flex: 0 0 auto;
 		display: flex;
+		align-items: center;
 		gap: 6px;
 	}
 
-	.toolbar-spacer,
-	.toolbar-status,
+	.toolbar-spacer {
+		display: none;
+	}
+
+	.toolbar-status {
+		flex: 0 0 auto;
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		white-space: nowrap;
+	}
+
 	.path-bar-container {
-		display: initial;
+		display: flex;
+		width: 100%;
+		min-width: 0;
 	}
 
 	.toolbar-search {
-		grid-column: auto;
-		width: min(360px, 34vw);
-		font-size: 13px;
+		flex: 0 0 min(320px, 30vw);
+		width: min(320px, 30vw);
+		max-width: none;
+		font-size: 15px;
 	}
 
 	.file-explorer-sidebar {

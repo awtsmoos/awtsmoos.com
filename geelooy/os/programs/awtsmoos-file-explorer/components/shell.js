@@ -16,7 +16,18 @@ import createNavbar from "./navbar.js";
 import { subscribeRemoteDrives } from "./remoteDriveListener.js";
 import createSelectionBar from "./selectionBar.js";
 import createSidebar from "./sidebar.js";
+import {
+	normalizeShellPart,
+	shellDiv,
+	toggleShellSidebar
+} from "./shellDom.js";
 
+/**
+ * Composes the Explorer shell and returns its window-scoped update surface.
+ *
+ * @param {object} options Explorer state, OS, controller, system, and callbacks.
+ * @returns {object} Shell DOM plus render/update/dispose methods.
+ */
 export default function createShell(options = {}) {
 	const {
 		state,
@@ -26,18 +37,18 @@ export default function createShell(options = {}) {
 		onNavigate,
 		onRefresh
 	} = options;
-	const root = div("file-explorer future-explorer xp-explorer");
-	const frame = div("file-explorer-frame");
+	const root = shellDiv("file-explorer future-explorer xp-explorer");
+	const frame = shellDiv("file-explorer-frame");
 	const navbar = createNavbar({
 		state,
 		os,
 		controller,
 		onNavigate,
 		onRefresh,
-		onToggleSidebar: () => toggleSidebar(root)
+		onToggleSidebar: () => toggleShellSidebar(root)
 	});
 	const sidebar = createSidebar({ os, onNavigate });
-	const shelf = normalizePart(createDriveShelf({ os, onNavigate }));
+	const shelf = normalizeShellPart(createDriveShelf({ os, onNavigate }));
 	const crumbs = createBreadcrumb({ state, controller });
 	const selection = createSelectionBar({
 		state,
@@ -54,8 +65,8 @@ export default function createShell(options = {}) {
 		onEnterSelectionMode: enterSelection,
 		onExitSelectionMode: exitSelection
 	});
-	const main = div("file-explorer-main");
-	const content = div("file-explorer-content");
+	const main = shellDiv("file-explorer-main");
+	const content = shellDiv("file-explorer-content");
 	content.append(shelf.dom, crumbs, selection.dom, view.dom);
 	main.append(sidebar.dom, content);
 	frame.append(navbar.dom, main);
@@ -104,18 +115,4 @@ export default function createShell(options = {}) {
 		updatePath,
 		dispose
 	};
-}
-
-function toggleSidebar(root) {
-	root.classList.toggle("sidebar-collapsed");
-}
-
-function normalizePart(part) {
-	return part?.nodeType ? { dom: part } : part;
-}
-
-function div(className) {
-	const node = document.createElement("div");
-	node.className = className;
-	return node;
 }

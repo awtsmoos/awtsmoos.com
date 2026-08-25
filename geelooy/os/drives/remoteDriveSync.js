@@ -1,28 +1,40 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Synchronizes current live tunnel devices into DriveRegistry and VFS.
+ * @file Synchronizes verified live tunnel devices into DriveRegistry and VFS without no-op churn.
  * @description
  * The Awtsmoos renews which vessels are alive every instant. Awtsmoos.com mounts
- * only present verified readable routes and releases stale dynamic shadows while
- * static roots and preview vessels remain untouched in their appointed place.
+ * only present readable routes, releases stale shadows, and now leaves unchanged
+ * VFS vessels untouched so quiet truth does not tear itself down merely to rhyme.
  */
-
 import { deviceDrive } from "./tunnelDriveMapper.js";
 import { isMountableDevice } from "./remoteDriveIdentity.js";
-import { isDynamicTunnelMount, remoteDriveMount } from "./remoteDriveMount.js";
+import { reconcileRemoteMounts } from "./remoteMountReconciler.js";
 
+/**
+ * Applies one current device inventory to DriveRegistry and its VFS mount set.
+ *
+ * @param {object} registry DriveRegistry receiving dynamic tunnel drives.
+ * @param {object} payload Current tunnel-control inventory.
+ * @returns {ReadonlyArray<object>} Current mounted dynamic tunnel drive records.
+ */
 export function syncRemoteDrives(registry, payload = {}) {
 	const devices = currentDevices(payload).filter(isMountableDevice);
 	const drives = devices.map(device => registry.mount(deviceDrive(device)));
 	const liveIds = new Set(drives.map(drive => drive.id));
 	removeStaleDrives(registry, liveIds);
-	syncVfsMounts(registry.os?.vfs, drives);
+	reconcileRemoteMounts(registry.os?.vfs, drives);
 	return Object.freeze(drives);
 }
 
+/**
+ * Extracts physical/browser tunnel devices while excluding synthetic virtual OS entries.
+ *
+ * @param {object} payload Tunnel-control inventory shape.
+ * @returns {Array<object>} Candidate remote devices.
+ */
 export function currentDevices(payload = {}) {
 	if (Array.isArray(payload.nativeDevices) || Array.isArray(payload.browserDevices)) {
 		return [
@@ -41,24 +53,5 @@ function removeStaleDrives(registry, liveIds) {
 		if (drive.dynamicTunnelDrive === true && !liveIds.has(drive.id)) {
 			registry.unmount(drive.id);
 		}
-	}
-}
-
-function syncVfsMounts(vfs, drives) {
-	if (!vfs?.mounts || !vfs?.mount || !vfs?.unmount) {
-		return;
-	}
-	const desired = new Map(drives.map(drive => {
-		const mount = remoteDriveMount(drive);
-		return [mount.id, mount];
-	}));
-	for (const mount of vfs.mounts()) {
-		if (isDynamicTunnelMount(mount) && !desired.has(mount.id)) {
-			vfs.unmount(mount.id);
-		}
-	}
-	for (const mount of desired.values()) {
-		vfs.unmount(mount.id, { silent: true });
-		vfs.mount(mount);
 	}
 }

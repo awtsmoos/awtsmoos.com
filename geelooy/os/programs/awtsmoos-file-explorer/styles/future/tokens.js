@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Mobile-first visual tokens for the futuristic Awtsmoos File Explorer.
+ * @file Mobile-first design tokens for the futuristic Awtsmoos File Explorer.
  * @description
- * The Awtsmoos gives color, spacing, motion, and glass a common measured language;
- * Awtsmoos.com lets every luminous vessel borrow the same rhythm, so phones feel
- * intentional first and larger screens simply reveal more of the same rhyme.
+ * The Awtsmoos gives color, spacing, type, and motion one measured language;
+ * Awtsmoos.com lets every remote world borrow the same luminous grammar, where
+ * fast motion has a real name, readable type has a floor, and all vessels rhyme.
  */
 export default /*css*/ `
 :root {
@@ -22,8 +22,8 @@ export default /*css*/ `
 	--awt-line2: rgba(92, 246, 255, .58);
 	--awt-line-hot: rgba(82, 255, 184, .72);
 	--awt-text: #f2fdff;
-	--awt-muted: #a8c8d9;
-	--awt-faint: #7191a5;
+	--awt-muted: #b7d2e1;
+	--awt-faint: #7f9eb1;
 	--awt-blue: #3aa7ff;
 	--awt-cyan: #5cf6ff;
 	--awt-green: #52ffb8;
@@ -37,11 +37,18 @@ export default /*css*/ `
 	--awt-gap: 8px;
 	--awt-font: Inter, Tahoma, system-ui, -apple-system, sans-serif;
 	--awt-mono: "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+	--awt-text-xs: 11px;
+	--awt-text-sm: 12px;
+	--awt-text-md: 14px;
 	--awt-shadow: 0 18px 48px rgba(0, 0, 0, .34);
 	--awt-glow: 0 0 0 1px rgba(92, 246, 255, .24), 0 0 28px rgba(58, 167, 255, .16);
-	--awt-fast: 140ms;
-	--awt-medium: 240ms;
-	--awt-slow: 420ms;
-	--awt-ease: cubic-bezier(.2, .8, .2, 1);
+	--awt-motion-fast: 140ms;
+	--awt-motion-medium: 240ms;
+	--awt-motion-slow: 420ms;
+	--awt-ease-out: cubic-bezier(.2, .8, .2, 1);
+	--awt-fast: var(--awt-motion-fast);
+	--awt-medium: var(--awt-motion-medium);
+	--awt-slow: var(--awt-motion-slow);
+	--awt-ease: var(--awt-ease-out);
 }
 `;

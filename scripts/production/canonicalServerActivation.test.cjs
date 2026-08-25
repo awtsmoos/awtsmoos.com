@@ -2,111 +2,66 @@
 // Boruch Hashem
 // Blessed is He
 
-const assert = require("node:assert/strict");
-const { spawnSync } = require("node:child_process");
-const fs = require("node:fs");
-const os = require("node:os");
-const path = require("node:path");
-
 /**
- * @file Exercises exact-SHA activation, rollback safety, and generated extension publication.
- * @description The Awtsmoos proves the source before service garments change; Awtsmoos.com receives a fresh ignored ZIP from that same light.
+ * @file Canonical activation contract across source refusal, virtual-SSH witness, and rollback.
+ * @description
+ * The Awtsmoos lets a production release approach only through witnessed source and
+ * runtime garments. Awtsmoos.com proves the virtual-SSH environment before commit,
+ * then proves a missing doorway variable restores the former service vessel in rhyme.
  */
-const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "awtsmoos-activate-"));
-const repo = path.join(temporary, "repo");
-const origin = path.join(temporary, "origin.git");
-const bin = path.join(temporary, "bin");
-const override = path.join(temporary, "override.conf");
-const artifact = path.join(repo, "geelooy", "ai", "relay", "install", "awtsmoos-server-extension.zip");
-const script = path.join(__dirname, "canonical-server-activate.sh");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const {
+	CanonicalActivationFixture,
+	VIRTUAL_SSH_ENVIRONMENT
+} = require("./test/canonicalActivationFixture.cjs");
+
+const fixture = new CanonicalActivationFixture();
 
 try {
-	setupRepo();
-	setupShims();
-	const sha = git(repo, "rev-parse", "HEAD");
-	fs.writeFileSync(override, "OLD\n");
-	fs.writeFileSync(path.join(repo, "dirty.txt"), "dirty\n");
-
-	const refused = run(sha);
-	assert.notEqual(refused.status, 0);
-	assert.equal(fs.readFileSync(override, "utf8"), "OLD\n");
-	assert.equal(fs.existsSync(artifact), false);
-
-	fs.rmSync(path.join(repo, "dirty.txt"));
-	const accepted = run(sha);
-	assert.equal(accepted.status, 0, accepted.stderr);
-	assert.match(fs.readFileSync(override, "utf8"), /WorkingDirectory=/);
-	assert.match(accepted.stdout, /CANONICAL_SERVER_ACTIVE/);
-	assert.match(accepted.stdout, /awtsmoos-server-extension\.zip/);
-	assert.equal(fs.existsSync(artifact), true);
-	assert.equal(git(repo, "status", "--porcelain"), "");
-	console.log(JSON.stringify({ ok: true, suite: "canonical-server-activation" }));
+	fixture.setup();
+	const sha = fixture.git(fixture.repo, "rev-parse", "HEAD");
+	proveDirtySourceRefusal(fixture, sha);
+	proveCompleteEnvironmentActivation(fixture, sha);
+	proveEnvironmentDriftRollback(fixture, sha);
+	console.log(JSON.stringify({
+		ok: true,
+		suite: "canonical-server-activation"
+	}));
 } finally {
-	fs.rmSync(temporary, { recursive: true, force: true });
+	fixture.cleanup();
 }
 
-function setupRepo() {
-	git(temporary, "init", "--bare", origin);
-	git(temporary, "init", "-b", "main", repo);
-	git(repo, "config", "user.email", "test@awtsmoos.com");
-	git(repo, "config", "user.name", "Awtsmoos Test");
-	fs.mkdirSync(path.join(repo, "ops", "systemd"), { recursive: true });
-	fs.mkdirSync(path.join(repo, "users"), { recursive: true });
-	fs.mkdirSync(path.join(repo, "geelooy", ".data"), { recursive: true });
-	fs.mkdirSync(path.join(repo, "geelooy", "ai", "scripts"), { recursive: true });
-	fs.writeFileSync(path.join(repo, ".gitignore"), "*.zip\n");
-	fs.writeFileSync(path.join(repo, "index.js"), "// B\"H\n");
-	fs.writeFileSync(path.join(repo, "ops", "systemd", "awtsmoos-immutable.conf"), "[Service]\nWorkingDirectory=fixture\n");
-	writeFakeExtensionBuilder();
-	git(repo, "add", ".");
-	git(repo, "commit", "-m", "fixture");
-	git(repo, "remote", "add", "origin", origin);
-	git(repo, "push", "-u", "origin", "main");
+function proveDirtySourceRefusal(current, sha) {
+	current.writeOverride("OLD\n");
+	const dirty = `${current.repo}/dirty.txt`;
+	fs.writeFileSync(dirty, "dirty\n");
+	const refused = current.run(sha);
+	assert.notEqual(refused.status, 0);
+	assert.equal(fs.readFileSync(current.override, "utf8"), "OLD\n");
+	assert.equal(fs.existsSync(current.artifact()), false);
+	fs.rmSync(dirty);
 }
 
-function writeFakeExtensionBuilder() {
-	const builder = path.join(repo, "geelooy", "ai", "scripts", "buildServerExtensionZip.cjs");
-	const source = [
-		"//B\"H",
-		"// Boruch Hashem",
-		"// Blessed is He",
-		"const fs = require(\"node:fs\");",
-		"const path = require(\"node:path\");",
-		"const repository = path.resolve(__dirname, \"../../..\");",
-		"const artifact = path.join(repository, \"geelooy\", \"ai\", \"relay\", \"install\", \"awtsmoos-server-extension.zip\");",
-		"fs.mkdirSync(path.dirname(artifact), { recursive: true });",
-		"fs.writeFileSync(artifact, \"PK fixture\\n\");"
-	].join("\n");
-	fs.writeFileSync(builder, `${source}\n`);
+function proveCompleteEnvironmentActivation(current, sha) {
+	const accepted = current.run(sha);
+	assert.equal(accepted.status, 0, accepted.stderr);
+	const installed = fs.readFileSync(current.override, "utf8");
+	assert.match(installed, /VIRTUAL_SSH_HOST=0\.0\.0\.0/);
+	assert.match(installed, /VIRTUAL_SSH_PORT=2223/);
+	assert.match(accepted.stdout, /virtualSsh=verified/);
+	assert.equal(fs.existsSync(current.artifact()), true);
+	assert.equal(current.git(current.repo, "status", "--porcelain"), "");
 }
 
-function setupShims() {
-	fs.mkdirSync(bin, { recursive: true });
-	write("systemctl", `#!/bin/sh\ncase "$1" in\nis-active) exit 0;;\nshow) case "$4" in WorkingDirectory) echo "$TEST_REPO";; ExecStart) echo "/usr/bin/node $TEST_REPO/index.js";; esac;;\n*) exit 0;;\nesac\n`);
-	write("curl", "#!/bin/sh\nexit 0\n");
-	write("install", "#!/bin/sh\nset -eu\nmkdir -p \"$(dirname \"$5\")\"\ncp \"$4\" \"$5\"\n");
-}
-
-function write(name, content) {
-	fs.writeFileSync(path.join(bin, name), content, { mode: 0o755 });
-}
-
-function run(sha) {
-	return spawnSync("bash", [script, sha], {
-		encoding: "utf8",
-		env: {
-			...process.env,
-			PATH: `${bin}:${process.env.PATH}`,
-			TEST_REPO: repo,
-			AWTSMOOS_PRODUCTION_REPO: repo,
-			AWTSMOOS_SYSTEMD_OVERRIDE_PATH: override,
-			TMPDIR: temporary
-		}
+function proveEnvironmentDriftRollback(current, sha) {
+	const sentinel = "ROLLBACK_SENTINEL\n";
+	current.writeOverride(sentinel);
+	const incomplete = VIRTUAL_SSH_ENVIRONMENT.filter(value => {
+		return !value.startsWith("VIRTUAL_SSH_PORT=");
 	});
-}
-
-function git(repository, ...args) {
-	const result = spawnSync("git", ["-C", repository, ...args], { encoding: "utf8" });
-	if (result.status !== 0) throw new Error(result.stderr || result.stdout);
-	return result.stdout.trim();
+	const refused = current.run(sha, incomplete);
+	assert.notEqual(refused.status, 0);
+	assert.match(refused.stderr, /service_environment_missing_VIRTUAL_SSH_PORT/);
+	assert.equal(fs.readFileSync(current.override, "utf8"), sentinel);
 }
