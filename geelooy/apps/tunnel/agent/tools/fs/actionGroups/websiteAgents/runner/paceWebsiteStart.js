@@ -8,11 +8,11 @@ const { Store } = Context.shared;
 const event = Context.reference("event");
 
 /**
- * @file Enforces mandatory child-launch spacing before the global browser queue.
+ * @file Adds settlement-aware defense-in-depth before the host-global browser queue.
  * @description
- * The Awtsmoos allows any number of requested descendants while Awtsmoos.com spaces
- * their physical awakenings. A durable host clock survives process and mission changes;
- * the global verified-close browser queue remains a second independent physical barrier.
+ * The Awtsmoos lets logical descendants awaken without a count ceiling. Awtsmoos.com
+ * waits from the previous settled child turn but never advances the clock merely because
+ * a new child starts; accepted submission plus verified close must reveal the next anchor.
  */
 async function paceWebsiteStart(config, id, agent) {
 	const record = Store.read(id);
@@ -20,26 +20,40 @@ async function paceWebsiteStart(config, id, agent) {
 	const requested = isSubagent
 		? record?.plan?.subagentPolicy?.subagentStartSpacingMs
 		: record?.plan?.startSpacingMs;
-	const spacingMs = Math.max(20000, Number(requested || 20000));
+	const spacingMs = Math.max(
+		SpawnSpacing.MINIMUM_MS,
+		Number(requested || SpawnSpacing.MINIMUM_MS)
+	);
 	const spacing = isSubagent
-		? await SpawnSpacing.wait(spacingMs, { missionId: record?.missionId,
-			logicalAgentId: agent.id, generation: agent.generation })
-		: { waitedMs: 0, acceptedAt: Date.now(), spacingMs };
+		? await SpawnSpacing.wait(spacingMs)
+		: {
+			waitedMs: 0,
+			observedAt: Date.now(),
+			spacingMs,
+			lastSettledAt: 0
+		};
 	Store.update(id, current => {
-		current.lastAgentStartAt = new Date(spacing.acceptedAt).toISOString();
-		if (isSubagent) current.lastSubagentStartAt = current.lastAgentStartAt;
+		current.lastAgentStartAt = new Date(spacing.observedAt).toISOString();
+		if (isSubagent) {
+			current.lastSubagentStartAt = current.lastAgentStartAt;
+		}
 		current.events.push(event("website_queue_admission_recorded", {
 			agentId: agent.id,
 			parentAgentId: agent.parentAgentId || null,
 			spacingMs: spacing.spacingMs,
 			waitedMs: spacing.waitedMs,
+			lastSettledAt: spacing.lastSettledAt || null,
 			mandatorySubagentSpacing: isSubagent,
-			physicalScheduler: "durable-spawn-gate-plus-verified-close-global-relay"
+			intervalAnchor: "previous-verified-subagent-settlement",
+			physicalScheduler: "verified-close-host-global-website-queue"
 		}));
 		return current;
 	});
-	return { admitted: true, ...spacing,
-		physicalScheduler: "durable-spawn-gate-plus-verified-close-global-relay" };
+	return {
+		admitted: true,
+		...spacing,
+		physicalScheduler: "verified-close-host-global-website-queue"
+	};
 }
 
 Context.register("paceWebsiteStart", paceWebsiteStart);

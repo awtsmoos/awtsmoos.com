@@ -3,13 +3,22 @@
 // Blessed is He
 
 import { queueError } from "./GlobalWebsiteQueuePolicy.mjs";
+import {
+	acceptedTurnError,
+	reconciliationError,
+	uncertainTurnError
+} from "./GlobalWebsiteQueueAdmissionErrors.mjs";
+import {
+	cooldownWait,
+	finiteWait
+} from "./GlobalWebsiteQueueAdmissionTiming.mjs";
 
 /**
  * @file Decides idempotent admission and the next physical website launch.
  * @description
- * The Awtsmoos lets one stable turn enter once. Awtsmoos.com refuses accepted or
- * uncertain duplicates, applies durable backpressure, and halts every caller until
- * abandoned browser delivery has been reconciled and its verified close persisted.
+ * The Awtsmoos lets one stable turn enter once. Awtsmoos.com refuses accepted or uncertain
+ * duplicates, applies durable backpressure, and measures every wait from verified closure;
+ * even a low-level direct caller receives finite timing rather than NaN obscuring the border.
  */
 export function admitTicket(state, ticket, options) {
 	assertReconciled(state);
@@ -26,7 +35,7 @@ export function admitTicket(state, ticket, options) {
 			queued: state.queue.length,
 			uncertain: Object.keys(state.uncertain).length,
 			maxQueueItems: options.maxQueueItems,
-			retryAfterMs: options.pollMs
+			retryAfterMs: finiteWait(options.pollMs)
 		});
 	}
 	state.queue.push(ticket);
@@ -35,62 +44,56 @@ export function admitTicket(state, ticket, options) {
 
 export function decideTicket(state, ticket, options) {
 	if (state.reconciliationRequiredAt) {
-		return { lease: null, accepted: null, reconciliationRequired: true, waitMs: 0 };
+		return {
+			lease: null,
+			accepted: null,
+			reconciliationRequired: true,
+			waitMs: 0
+		};
 	}
 	const accepted = state.accepted[ticket.id] || null;
 	const uncertain = state.uncertain[ticket.id] || null;
-	const now = options.now();
-	const waitMs = cooldownWait(state.lastClosedAt, now, options.minimumIntervalMs);
-	if (!accepted && !uncertain && state.queue[0]?.id === ticket.id &&
-		state.active.length === 0 && waitMs === 0) {
-		const lease = createLease(ticket, now);
+	const waitMs = cooldownWait(
+		state.lastClosedAt,
+		options.now(),
+		options.minimumIntervalMs
+	);
+	if (ready(state, ticket, accepted, uncertain, waitMs)) {
+		const lease = createLease(ticket, options.now());
 		state.queue.shift();
 		state.active.push(lease);
-		state.lastLaunchAt = now;
-		return { lease, accepted: null, uncertain: null, waitMs: 0 };
+		state.lastLaunchAt = lease.acquiredAt;
+		return {
+			lease,
+			accepted: null,
+			uncertain: null,
+			waitMs: 0
+		};
 	}
 	return {
 		lease: null,
 		accepted,
 		uncertain,
-		waitMs: Math.max(options.pollMs, waitMs)
+		waitMs: Math.max(finiteWait(options.pollMs), waitMs)
 	};
-}
-
-export function acceptedTurnError(receipt) {
-	return queueError("website_turn_already_accepted", {
-		submissionAccepted: true,
-		acceptedReceipt: receipt
-	});
-}
-
-export function uncertainTurnError(receipt) {
-	return queueError("website_turn_submission_uncertain", {
-		submissionUncertain: true,
-		uncertainReceipt: receipt
-	});
-}
-
-export function reconciliationError() {
-	return queueError("website_turn_reconciliation_required", {
-		reconciliationRequired: true
-	});
 }
 
 function assertReconciled(state) {
 	if (state.reconciliationRequiredAt) throw reconciliationError();
 }
 
+function ready(state, ticket, accepted, uncertain, waitMs) {
+	return !accepted &&
+		!uncertain &&
+		state.queue[0]?.id === ticket.id &&
+		state.active.length === 0 &&
+		waitMs === 0;
+}
+
 function adopt(ticket, now) {
 	ticket.pid = process.pid;
 	ticket.adoptedAt = now;
 	return ticket;
-}
-
-function cooldownWait(lastClosedAt, now, minimumIntervalMs) {
-	return lastClosedAt
-		? Math.max(0, minimumIntervalMs - (now - lastClosedAt))
-		: 0;
 }
 
 function createLease(ticket, now) {
@@ -103,3 +106,9 @@ function createLease(ticket, now) {
 		acquiredAt: now
 	};
 }
+
+export {
+	acceptedTurnError,
+	reconciliationError,
+	uncertainTurnError
+};

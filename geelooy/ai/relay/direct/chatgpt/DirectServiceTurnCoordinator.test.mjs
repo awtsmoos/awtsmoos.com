@@ -5,6 +5,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { DirectServiceTurnCoordinator } from "./DirectServiceTurnCoordinator.mjs";
+import { POST_CLOSE_COOLDOWN_MS } from "../stress/GlobalWebsiteQueueLimits.mjs";
 
 /**
  * @file Proves durable direct-turn ordering and ambiguous cleanup ownership.
@@ -31,7 +32,10 @@ function fixture(after = { withinLimit: true, total: 0 }) {
 		queue: {
 			acquire: async () => lease,
 			reconcile: async options => ({ closedAt: options.closedAt }),
-			status: () => ({ minimumIntervalMs: 18000, maxActiveTabs: 1 })
+			status: () => ({
+				minimumIntervalMs: POST_CLOSE_COOLDOWN_MS,
+				maxActiveTabs: 1
+			})
 		},
 		protector: {
 			beforeTurn: async () => {

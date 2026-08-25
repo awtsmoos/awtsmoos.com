@@ -3,14 +3,15 @@
 // Blessed is He
 
 /**
- * @file Reveals bounded swarm policy without allowing browser congestion.
+ * @file Separates finite initial seed materialization from unbounded logical descendants.
  * @description
- * The Awtsmoos lets hundreds of requested shluchim wait as durable intention,
- * while Awtsmoos.com permits one physical tab, then eighteen seconds of quiet.
- * A continuation checkpoint is the one exception: one messenger, one existing mission.
+ * The Awtsmoos may reveal endlessly many useful shluchim over time, while Awtsmoos.com
+ * materializes a practical first cohort and keeps every physical browser turn behind
+ * a twenty-four-second verified-close gate. Capacity is logical; concurrency is a vessel.
  */
-const POST_CLOSE_COOLDOWN_MS = 18000;
-const MAX_REQUESTED_AGENTS = 512;
+const POST_CLOSE_COOLDOWN_MS = 24000;
+const MAX_INITIAL_SEED_AGENTS = 512;
+const MAX_REQUESTED_AGENTS = MAX_INITIAL_SEED_AGENTS;
 
 const ROLES = [
 	["architect", "Architecture and dependency boundaries", "write"],
@@ -29,27 +30,36 @@ const ROLES = [
 
 function promptScale(input = {}) {
 	const prompt = String(input.prompt || input.goal || input.message || "");
-	const pageMatch = prompt.match(/\b([\d,]{3,})\s*[- ]?\s*pages?\b/i);
+	const pageMatch = prompt.match(/([\d,]{3,})\s*[- ]?\s*pages?/i);
 	const pageCount = Number(String(pageMatch?.[1] || "0").replaceAll(",", ""));
-	if (pageCount >= 1000 || prompt.length >= 4000 ||
-		/\b(thousands? of pages|book[- ]length translation|dozens? of agents|scores? of agents|(?:huge|complex) (?:software|system|application|codebase))\b/i.test(prompt)) {
+	if (pageCount >= 1000 || prompt.length >= 4000 || enormousPrompt(prompt)) {
 		return "enormous";
 	}
-	if (prompt.length >= 900 ||
-		/\b(entire|everything|massive|fully|whole repo|many agents|enterprise software|large monorepo)\b/i.test(prompt)) {
+	if (prompt.length >= 900 || largePrompt(prompt)) {
 		return "large";
 	}
-	if (prompt.length >= 350 || /\b(multiple|several|cross[- ]?cutting|multi[- ]?area)\b/i.test(prompt)) {
+	if (prompt.length >= 350 || /(multiple|several|cross[- ]?cutting|multi[- ]?area)/i.test(prompt)) {
 		return "medium";
 	}
 	return "small";
+}
+
+function enormousPrompt(prompt) {
+	return /(thousands? of pages|book[- ]length translation|dozens? of agents|scores? of agents|(?:huge|complex) (?:software|system|application|codebase))/i.test(prompt);
+}
+
+function largePrompt(prompt) {
+	return /(entire|everything|massive|fully|whole repo|many agents|enterprise software|large monorepo)/i.test(prompt);
 }
 
 function agentCount(input = {}, scale = promptScale(input)) {
 	if (continuationOnly(input)) return 1;
 	const explicit = Number(input.agentCount ?? input.count);
 	if (Number.isFinite(explicit)) {
-		return Math.max(3, Math.min(MAX_REQUESTED_AGENTS, Math.floor(explicit)));
+		return Math.max(
+			3,
+			Math.min(MAX_INITIAL_SEED_AGENTS, Math.floor(explicit))
+		);
 	}
 	return { small: 8, medium: 16, large: 32, enormous: 64 }[scale] || 8;
 }
@@ -74,6 +84,7 @@ function spacing(value, fallback = POST_CLOSE_COOLDOWN_MS) {
 }
 
 module.exports = {
+	MAX_INITIAL_SEED_AGENTS,
 	MAX_REQUESTED_AGENTS,
 	POST_CLOSE_COOLDOWN_MS,
 	ROLES,

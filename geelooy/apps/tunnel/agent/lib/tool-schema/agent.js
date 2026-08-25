@@ -19,10 +19,11 @@ const AGENT_MODE_DESCRIPTION = [
 ].join(" ");
 
 /**
- * @file Declares a congestion-safe website-agent contract to every remote caller.
+ * @file Declares count-unbounded logical delegation over one paced physical website lane.
  * @description
- * The Awtsmoos may queue five hundred and twelve shluchim, while Awtsmoos.com
- * permits one physical tab and eighteen seconds after verified close before another.
+ * The Awtsmoos lets logical shluchim continue multiplying as useful work appears;
+ * Awtsmoos.com bounds only the initial materialized cohort, while one authenticated tab,
+ * accepted submission, verified closure, and twenty-four quiet seconds protect the machine.
  */
 function aiAgentSchema(name) {
 	return objectSchema({
@@ -53,35 +54,35 @@ function aiAgentSchema(name) {
 		parentAgentId: string("Existing website parent agent id."),
 		requestKey: string("Stable child request id for duplicate suppression."),
 		spawnRequestKey: string("Stable child request id alias."),
-		role: string("Bounded child specialist role."),
+		role: string("Child specialist role."),
 		scope: string("Repository-relative child scope."),
-		childPrompt: string("Exact bounded child assignment."),
+		childPrompt: string("Exact child assignment."),
 		title: string("Task or mission title."),
 		kind: string("Task kind."),
 		projectRoot: string("Absolute project root available to the native tunnel."),
 		outputDir: string("Output directory."),
 		fileName: string("Output file name."),
-		agentCount: integer("Requested website-agent count, bounded from 3 through 512."),
-		count: integer("Agent-count alias, bounded from 3 through 512."),
-		allowRecursiveSubagents: bool("Allow bounded child-agent requests."),
-		maxSubagentDepth: integer("Maximum descendant depth, 1 through 8; default 4."),
-		maxSubagentsPerAgent: integer("Maximum children per agent, 1 through 96; default 32."),
-		maxTotalWebsiteAgents: integer("Global initial-plus-child cap, 3 through 512."),
-		subagentStartSpacingMs: integer("Post-close cooldown; values below 18000 are clamped."),
+		agentCount: integer("Initial website-agent seed count, materialized from 3 through 512; descendants are not count-capped."),
+		count: integer("Initial seed-count alias; recursive logical descendants remain count-unbounded."),
+		allowRecursiveSubagents: bool("Allow optional recursive logical child-agent requests without a total count ceiling."),
+		maxSubagentDepth: integer("Deprecated compatibility hint; non-enforcing for website logical descendants."),
+		maxSubagentsPerAgent: integer("Deprecated compatibility hint; non-enforcing for website logical descendants."),
+		maxTotalWebsiteAgents: integer("Deprecated compatibility hint; not a total website logical-agent limit."),
+		subagentStartSpacingMs: integer("Physical subagent cooldown after accepted submission and verified tab close; values below 24000 are clamped."),
 		scopes: array(string("Repository scope assigned to a website sub-agent.")),
 		paths: array(string("Repository path assigned to a website sub-agent.")),
 		directories: array(string("Directory assigned to a website sub-agent.")),
-		startSpacingMs: integer("Post-close cooldown; values below 18000 are clamped."),
+		startSpacingMs: integer("Physical website cooldown after accepted submission and verified tab close; values below 24000 are clamped."),
 		collaborationRounds: integer("Requested shared-room collaboration rounds."),
-		maxDepth: integer("Maximum child depth."),
-		maxChildrenPerTask: integer("Maximum children per task."),
-		maxTotalTasks: integer("Maximum total tasks."),
+		maxDepth: integer("Maximum child depth for generic non-website task runtimes."),
+		maxChildrenPerTask: integer("Maximum children per generic task."),
+		maxTotalTasks: integer("Maximum total generic tasks."),
 		pollIntervalMs: integer("Polling interval in milliseconds."),
 		promotionCycles: integer("Generic task cycles."),
 		agentCycles: integer("Required full agent work cycles."),
 		chapterCycles: integer("Required full chapter-delegate work cycles."),
 		providerTimeoutMs: integer("Provider timeout in milliseconds."),
-		allowRecursiveSpawn: bool("Allow child spawning."),
+		allowRecursiveSpawn: bool("Allow generic child spawning."),
 		reportId: string("Stable lifecycle report id."),
 		complete: bool("Explicit verified-completion signal."),
 		next: string("Exact unfinished next action."),
@@ -96,4 +97,7 @@ function aiAgentSchema(name) {
 	});
 }
 
-module.exports = { AGENT_MODE_DESCRIPTION, aiAgentSchema };
+module.exports = {
+	AGENT_MODE_DESCRIPTION,
+	aiAgentSchema
+};

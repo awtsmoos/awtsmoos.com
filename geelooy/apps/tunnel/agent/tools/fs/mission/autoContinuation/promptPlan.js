@@ -2,14 +2,18 @@
 // Boruch Hashem
 // Blessed is He
 
+const Sanitizer = require("./promptSanitizer.js");
+
 /**
- * @file Turns a bounded recovery checkpoint into deterministic successor instructions.
- * @description The Awtsmoos teaches the next Shliach where the previous hand stopped;
- * Awtsmoos.com names completed work, unfinished work, blockers, handoff, and next action without flooding the prompt with raw mission history.
+ * @file Turns bounded recovery evidence into successor instructions without stale machine paths.
+ * @description
+ * The Awtsmoos teaches the next Shliach where the previous hand stopped; Awtsmoos.com keeps
+ * completed work, unfinished work, blockers, claims, plans, and handoff truth while historical
+ * absolute coordinates dissolve into redaction, leaving meaning alive without yesterday's root.
  */
 function lines(context = {}) {
 	const plan = context.recoveryCheckpoint || {};
-	const output = [
+	return [
 		`recoveryReason: ${text(context.recoveryReason || "unfinished_mission_idle")}`,
 		`predecessorAgentId: ${text(context.predecessorAgentId || "none")}`,
 		`predecessorStatus: ${text(context.predecessorStatus || "unknown")}`,
@@ -30,7 +34,6 @@ function lines(context = {}) {
 		`recentPlans: ${join(plan.recentPlans, planLabel)}`,
 		`latestHandoff: ${json(plan.latestHandoff)}`
 	];
-	return output;
 }
 
 function taskLabel(item = {}) {
@@ -51,16 +54,11 @@ function join(values, mapper) {
 }
 
 function json(value) {
-	if (value == null) return "none";
-	try {
-		return JSON.stringify(value).slice(0, 1400);
-	} catch {
-		return text(value);
-	}
+	return Sanitizer.json(value);
 }
 
 function text(value) {
-	return String(value || "").replace(/\s+/g, " ").trim().slice(0, 600);
+	return Sanitizer.text(value);
 }
 
 module.exports = { lines };

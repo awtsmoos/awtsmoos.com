@@ -10,11 +10,11 @@ const Planner = require("../tools/fs/actionGroups/websiteAgents/planner.js");
 const Fixtures = require("./websiteAgentSubmitOnlyFixtures.cjs");
 
 /**
- * @file Proves three logical agents are durably dispatched through paced turns.
+ * @file Proves three logical agents are durably dispatched through globally paced turns.
  * @description
- * The Awtsmoos delivers prompts without pretending delivery is completion.
- * Awtsmoos.com leaves every agent working through tools and rooms after verified
- * closure, with eighteen seconds between each physical prompt-delivery vessel.
+ * The Awtsmoos delivers prompts without pretending delivery is completion. Awtsmoos.com
+ * leaves every agent working through tools and rooms after verified closure, while the
+ * host-global queue owns the twenty-four-second post-close physical browser covenant.
  */
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-web-mission-"));
 process.env.AWTSMOOS_INSTALL_ROOT = path.join(root, "install");
@@ -50,6 +50,7 @@ const Runner = require("../tools/fs/actionGroups/websiteAgents/runner.js");
 		assert.ok(status.mission.agents.every(agent => agent.status === "dispatched"));
 		assert.equal(calls.length, 3);
 		assert.deepEqual(sleeps, []);
+		assert.equal(status.mission.plan.physicalTabPolicy.postCloseCooldownMs, 24000);
 		assert.ok(calls.every(call => call.agentStartUrl === Planner.AWTSMOOS_SHLIACH_URL));
 		assert.ok(calls.every(call => call.prompt.includes("Canonical project root:")));
 		assert.ok(calls.every(call => call.prompt.includes("Claimed absolute scope:")));

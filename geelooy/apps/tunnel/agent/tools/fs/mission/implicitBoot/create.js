@@ -4,14 +4,15 @@
 
 const Mission = require("../index.js");
 const Lock = require("../lock/index.js");
+const RootAuthority = require("../projectRootAuthority.js");
 const Guidance = require("./guidance.js");
 
 /**
- * @file Creates one durable advisory mission before the first substantive deed continues.
+ * @file Creates advisory mission memory with the precise live repository when it is known.
  * @description
- * The Awtsmoos gives the deed a remembered name before it moves. Awtsmoos.com
- * verifies that mission persistence exists before the project lock points toward it,
- * so continuation can never awaken to a name whose durable vessel was never written.
+ * The Awtsmoos gives the deed a remembered name before it moves; Awtsmoos.com now records
+ * the repository witnessed by cwd/projectRoot instead of freezing a broad tunnel workspace,
+ * so a future continuation chat awakens beside the same files that received the original deed.
  */
 function id(payload = {}) {
 	const suffix = String(payload.action || "work")
@@ -21,6 +22,7 @@ function id(payload = {}) {
 }
 
 async function start(config, payload = {}) {
+	const projectRoot = RootAuthority.fromAction(config, payload) || config.root;
 	const mission = await Mission.create(config, {
 		id: id(payload),
 		goal: Guidance.goal(payload),
@@ -29,22 +31,22 @@ async function start(config, payload = {}) {
 			implicit: true,
 			source: "implicit_tool_action",
 			firstAction: payload.action,
-			projectRoot: config.root
+			projectRoot
 		}
 	});
 	const persistedMission = await Mission.load(config, mission.id);
-	if (!persistedMission?.id) {
-		throw new Error("implicit_mission_persistence_failed");
-	}
+	if (!persistedMission?.id) throw new Error("implicit_mission_persistence_failed");
 	const mustCallNext = Guidance.next(mission.id);
 	const lock = Lock.start(config, {
 		ok: true,
 		action: "missionStart",
 		missionId: mission.id,
 		mission,
-		mustCallNext
+		mustCallNext,
+		projectRoot
 	}, {
 		...payload,
+		projectRoot,
 		owner: "implicit_mission_boot",
 		missionLockMode: "implicit"
 	});
@@ -57,7 +59,4 @@ async function start(config, payload = {}) {
 	};
 }
 
-module.exports = {
-	id,
-	start
-};
+module.exports = { id, start };

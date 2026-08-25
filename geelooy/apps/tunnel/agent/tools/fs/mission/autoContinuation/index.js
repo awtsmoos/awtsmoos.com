@@ -2,19 +2,21 @@
 // Boruch Hashem
 // Blessed is He
 
-const Dispatch = require("./coordinatorDispatch.js");
+const GenerationalAdmission = require("./generationalAdmission.js");
 const Helpers = require("./coordinatorHelpers.js");
 const Identity = require("./coordinatorIdentity.js");
 const Prompt = require("./prompt.js");
 const RecoveryContext = require("./recoveryContext.js");
 const TerminalDispatch = require("./terminalDispatch.js");
+const SuccessorRecovery = require("../successorRecovery.js");
+const Dispatch = require("./coordinatorDispatch.js");
 
 /**
- * @file Coordinates declared, task-leased, generation-fenced Mission Room continuation.
+ * @file Coordinates continuation while giving saved terminal handoff the first right to recover.
  * @description
- * The Awtsmoos lets the checkpoint pass through as many generations as unfinished work
- * requires. Awtsmoos.com performs observation, eligibility, admission, and dispatch in
- * distinct vessels so successor freedom never dissolves exact custody or auditability.
+ * The Awtsmoos lets one unfinished flame pass through generations without splitting in two;
+ * Awtsmoos.com first resumes a successor already durably chosen, then only when that covenant
+ * is absent admits stale-agent recovery through the separately fenced generational doorway.
  */
 async function run(config, options = {}) {
 	if (Helpers.disabled(options)) {
@@ -42,57 +44,64 @@ async function run(config, options = {}) {
 		planningFiles: Prompt.recentPlans(projectRoot)
 	});
 	const identity = Identity.build(mission, fingerprint, projectRoot, recovery);
+	const terminal = await resumeTerminal(scopedConfig, mission, identity, options);
+	if (terminal) {
+		return terminal;
+	}
 	const blocked = Identity.reconcileActive(scopedConfig, identity, deps, Helpers);
 	if (blocked) {
 		return blocked;
 	}
 	const current = deps.State.read(scopedConfig, mission.id, fingerprint);
 	const websiteRecord = deps.WebsiteStore.read(identity.websiteMissionId);
-	const terminal = TerminalDispatch.settle(scopedConfig, identity, current, websiteRecord, deps);
-	if (terminal) {
-		return terminal;
+	const settled = TerminalDispatch.settle(
+		scopedConfig,
+		identity,
+		current,
+		websiteRecord,
+		deps
+	);
+	if (settled) {
+		return settled;
 	}
 	if (websiteRecord) {
 		return Helpers.recoverExisting(scopedConfig, identity, current, websiteRecord, deps);
 	}
-	const decision = deps.Eligibility.decide({
-		mission,
-		lock,
-		taskLease: recovery.taskLease,
-		record: current,
-		websiteRecord,
-		candidateProbe: false,
-		now: options.now,
-		inactivityMs: options.inactivityMs,
-		backoffMs: options.backoffMs,
-		maxAttempts: options.maxAttempts
-	});
-	if (!decision.eligible) {
-		return Helpers.receipt(identity, decision.reason, false, current);
-	}
-	const lease = deps.State.acquire(scopedConfig, identity, {
-		owner: options.owner,
-		leaseMs: options.leaseMs,
-		now: options.now
-	});
-	if (!lease.ok) {
-		return Helpers.receipt(identity, lease.reason, false, lease.record);
-	}
-	return Dispatch.dispatch(
+	return GenerationalAdmission.admit(
 		scopedConfig,
 		options,
 		deps,
 		mission,
 		lock,
+		recovery,
 		identity,
-		lease.record,
+		current,
 		Helpers
 	);
 }
 
+async function resumeTerminal(config, mission, identity, options = {}) {
+	const recovery = options.successorRecovery || SuccessorRecovery;
+	const result = await recovery.resume(
+		config,
+		mission,
+		options.successorRecoveryDeps || {}
+	);
+	if (!result?.handled) {
+		return null;
+	}
+	return {
+		...Helpers.receipt(identity, result.reason, result.scheduled, result.record),
+		terminalSuccessorRecovery: true,
+		recoveryOk: result.ok === true
+	};
+}
+
 module.exports = {
+	admitGenerational: GenerationalAdmission.admit,
 	dispatchContinuation: Dispatch.dispatch,
 	identityFor: Identity.build,
 	reconcileActive: Identity.reconcileActive,
+	resumeTerminal,
 	run
 };

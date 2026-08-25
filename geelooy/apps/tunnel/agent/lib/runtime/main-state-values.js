@@ -2,14 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
+const Context = require("./connection-context-state.js");
 const FailureHistory = require("../ws/transportFailureHistory.js");
 
 /**
- * @file Creates runtime state and preserves separate transport/execution testimony.
+ * @file Creates runtime state with separate transport, runtime, and connection-context truth.
  * @description
- * The Awtsmoos renews route and worker state without confusing their meanings.
- * Awtsmoos.com exposes the child vessel's full health beside registration, so a
- * connected socket can never erase evidence that its execution consumer is sick.
+ * The Awtsmoos renews route and worker without confusing their names; Awtsmoos.com exposes
+ * socket revision beside stable release/action covenant and one runtime incarnation, so a
+ * reconnect can be healed without pretending a healthy process was replaced in the flame.
  */
 function createState(dependencies, lagMonitor) {
 	return {
@@ -30,6 +31,9 @@ function createState(dependencies, lagMonitor) {
 		lastSuccessfulActionAt: 0,
 		lastFailure: null,
 		recentFailures: [],
+		connectionContract: {},
+		connectionContext: {},
+		runtimeGenerationId: Context.runtimeGenerationId(),
 		connectionVessel: null,
 		lanes: dependencies.Priority.makeLaneState(),
 		scheduler: dependencies.Priority.createSchedulerState(),
@@ -42,6 +46,10 @@ function connectionSnapshot(state) {
 	const recentFailures = child.recentFailures || state.recentFailures || [];
 	return {
 		generation: state.generation,
+		transportGeneration: state.generation,
+		transportRevision: state.generation,
+		runtimeGenerationId: state.runtimeGenerationId,
+		connectionContext: state.connectionContext || {},
 		tunnelId: state.tunnelId || "",
 		tunnelName: state.tunnelName || "",
 		registered: state.registrationConfirmed === true,
@@ -52,6 +60,7 @@ function connectionSnapshot(state) {
 		parent: child.parent || null,
 		parentCustody: child.parentCustody || null,
 		reconnectAttempt: state.reconnectAttempt,
+		reconnectStreak: state.reconnectAttempt,
 		lastRegisteredAt: state.lastRegisteredAt || null,
 		replacementRequested: state.replacementRequested === true,
 		childPid: child.childPid || null,

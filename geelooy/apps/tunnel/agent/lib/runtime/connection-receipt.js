@@ -2,68 +2,81 @@
 // Boruch Hashem
 // Blessed is He
 
-const fs = require("node:fs");
-const path = require("node:path");
 const Async = require("./connection-receipt-async.js");
+const Context = require("./connection-context-state.js");
 const Runtime = require("./connection-receipt-runtime.js");
+const Storage = require("./connection-receipt-storage.js");
 const Value = require("./connection-receipt-value.js");
 const { ROOT } = require("../config.js");
 
-const FILE_NAME = "connection-state.json";
-
 /**
- * @file Persists supervised owner and independent connection-process testimony.
+ * @file Persists one connection covenant while distinguishing runtime from transport renewal.
  * @description
- * The Awtsmoos lets liveness testify through the child while installed release
- * identity remains rooted in durable earth. Awtsmoos.com never forgets its version
- * merely because a rescue shell awakened without inherited service variables.
+ * The Awtsmoos keeps testimony rooted while sockets appear and disappear; Awtsmoos.com
+ * enriches every atomic receipt with stable contract identity and runtime incarnation,
+ * allowing reconnect storms to heal without impersonating an install or process generation.
  */
 function receiptPath(root = ROOT) {
-	return path.join(root, FILE_NAME);
+	return Storage.receiptPath(root);
 }
 
 function read(root = ROOT) {
-	try {
-		return Value.normalize(JSON.parse(fs.readFileSync(receiptPath(root), "utf8")));
-	} catch {
-		return null;
-	}
+	const raw = Storage.readRaw(root);
+	return raw ? Value.normalize(raw) : null;
 }
 
 function write(state, details = {}, root = ROOT) {
 	const current = read(root) || {};
 	const now = new Date().toISOString();
 	const ownerPid = Number(
-		details.ownerPid ||
-		process.env.AWTSMOOS_CONNECTION_OWNER_PID ||
-		current.ownerPid ||
-		current.pid ||
-		process.pid
+		details.ownerPid || process.env.AWTSMOOS_CONNECTION_OWNER_PID ||
+		current.ownerPid || current.pid || process.pid
 	);
+	const activationId = String(
+		process.env.AWTSMOOS_ACTIVATION_ID || current.activationId || ""
+	);
+	const runtimeVersion = Runtime.runtimeVersion(root, current);
+	const transportGeneration = Number(
+		details.transportGeneration ?? details.generation ?? current.transportGeneration ?? 0
+	);
+	const context = Context.receiptContext(current, details, {
+		activationId,
+		runtimeVersion,
+		ownerPid
+	});
 	const receipt = Value.normalize({
 		...current,
 		...details,
+		...context,
 		state,
 		pid: ownerPid,
 		ownerPid,
 		connectionPid: process.pid,
-		activationId: process.env.AWTSMOOS_ACTIVATION_ID ||
-			current.activationId || "",
-		runtimeVersion: Runtime.runtimeVersion(root, current),
+		activationId,
+		runtimeVersion,
+		generation: transportGeneration,
+		transportGeneration,
+		transportRevision: transportGeneration,
+		reconnectStreak: Number(details.reconnectAttempt ?? current.reconnectAttempt ?? 0),
+		reconnectStreakStartedAt: streakStart(state, current, now),
 		updatedAt: now
 	});
 	if (state === "registered") {
 		receipt.registeredAt = details.registeredAt || current.registeredAt || now;
 	}
-	atomicWrite(receiptPath(root), receipt);
+	Storage.writeRaw(root, receipt);
 	return receipt;
+}
+
+function streakStart(state, current, now) {
+	if (state === "registered") return null;
+	if (state === "reconnecting") return current.reconnectStreakStartedAt || now;
+	return current.reconnectStreakStartedAt || null;
 }
 
 function markServerSeen(details = {}, root = ROOT) {
 	const current = read(root);
-	if (!current ||
-		!Value.ownedByCurrentConnection(current) ||
-		current.state !== "registered") {
+	if (!current || !Value.ownedByCurrentConnection(current) || current.state !== "registered") {
 		return current;
 	}
 	return write("registered", {
@@ -73,37 +86,13 @@ function markServerSeen(details = {}, root = ROOT) {
 	}, root);
 }
 
-function markServerSeenAsync(details = {}, root = ROOT) {
-	return Async.markServerSeen(root, FILE_NAME, details);
-}
-
-function clear(root = ROOT) {
-	try {
-		fs.unlinkSync(receiptPath(root));
-	} catch (error) {
-		if (error.code !== "ENOENT") {
-			throw error;
-		}
-	}
-}
-
-function atomicWrite(target, value) {
-	const temporary = `${target}.${process.pid}.${Date.now()}.tmp`;
-	fs.mkdirSync(path.dirname(target), { recursive: true });
-	fs.writeFileSync(
-		temporary,
-		`${JSON.stringify(value, null, 2)}\n`,
-		{ mode: 0o600 }
-	);
-	fs.renameSync(temporary, target);
-}
-
 module.exports = {
-	FILE_NAME,
+	FILE_NAME: Storage.FILE_NAME,
 	SCHEMA_VERSION: Value.SCHEMA_VERSION,
-	clear,
+	clear: (root = ROOT) => Storage.clear(root),
 	markServerSeen,
-	markServerSeenAsync,
+	markServerSeenAsync: (details = {}, root = ROOT) =>
+		Async.markServerSeen(root, Storage.FILE_NAME, details),
 	matches: Value.matches,
 	normalize: Value.normalize,
 	ownedByCurrentConnection: Value.ownedByCurrentConnection,

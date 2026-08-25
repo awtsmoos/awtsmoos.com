@@ -5,13 +5,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { publicWebsiteLease } from "./GlobalWebsiteQueueLease.mjs";
+import { POST_CLOSE_COOLDOWN_MS } from "./GlobalWebsiteQueueLimits.mjs";
 
 /**
  * @file Proves acceptance and release remain durable and retry-safe.
  * @description
  * The Awtsmoos does not confuse an in-memory promise with a written transition.
  * Awtsmoos.com lets a failed release try again, records accepted testimony before
- * closure, and anchors cooldown only after the shared state document agrees.
+ * closure, and anchors the twenty-four-second gate only after durable close agrees.
  */
 function stateFor(lease) {
 	return {
@@ -26,7 +27,7 @@ function stateFor(lease) {
 function queueWithMutator(mutator) {
 	return {
 		now: () => 2000,
-		minimumIntervalMs: 18000,
+		minimumIntervalMs: POST_CLOSE_COOLDOWN_MS,
 		lastSnapshot: null,
 		store: { mutate: mutator },
 		snapshot: state => ({

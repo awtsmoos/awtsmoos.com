@@ -13,16 +13,21 @@ const { buildMissionBootActions } = require("../actionGroups/missionBootActions.
 const { buildMissionMetaActions } = require("../actionGroups/missionMetaActions.js");
 const { buildMissionImprovementActions } = require("../actionGroups/missionImprovementActions.js");
 const { buildContinuationActions } = require("../actionGroups/continuationActions.js");
+const { buildMissionAgentLifecycleActions } = require(
+	"../actionGroups/missionAgentLifecycleActions.js"
+);
 
 /**
- * @file Composes mission, room, watchdog, and continuation actions in their historical order.
+ * @file Composes mission actions and places the recoverable lifecycle covenant last.
  * @description
- * The Awtsmoos lets many Shluchim share one mission without confusing hand with crown;
- * Awtsmoos.com keeps every room and continuation layer ordered, so durable memory flows safely down.
+ * The Awtsmoos lets historical vessels remain untouched while Awtsmoos.com reveals one
+ * newer terminal law at the final seam: a completed agent may hand unfinished work onward,
+ * yet every other mission action keeps its established identity, order, and trusted stream.
  */
 function buildMissionActionGroups(context, buildActions) {
+	const historicalMissionActions = buildMissionActions(context);
 	return {
-		...buildMissionActions(context),
+		...historicalMissionActions,
 		...buildMissionLedgerActions(context),
 		...buildMissionOperatingActions(context),
 		...buildMissionAwareActions(context),
@@ -32,8 +37,11 @@ function buildMissionActionGroups(context, buildActions) {
 		...buildMissionBootActions(context, buildActions),
 		...buildMissionMetaActions(context),
 		...buildMissionImprovementActions(context),
-		...buildContinuationActions(context, buildActions)
+		...buildContinuationActions(context, buildActions),
+		...buildMissionAgentLifecycleActions(context, historicalMissionActions)
 	};
 }
 
-module.exports = { buildMissionActionGroups };
+module.exports = {
+	buildMissionActionGroups
+};

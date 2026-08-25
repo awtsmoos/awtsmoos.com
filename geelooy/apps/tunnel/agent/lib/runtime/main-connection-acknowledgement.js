@@ -6,11 +6,11 @@ const Reconnect = require("./main-reconnect-policy.js");
 const Recovery = require("./main-registration-recovery.js");
 
 /**
- * @file Validates relay acknowledgement and replaces poisoned identity state.
+ * @file Validates registration acknowledgement and seals stable context after acceptance.
  * @description
- * The Awtsmoos marks healthy registration immediately. A rejected device credential
- * is quarantined, receipted, and followed by one supervised child-process restart;
- * ordinary transport rejection still closes only the current socket.
+ * The Awtsmoos marks healthy registration only after the relay agrees; Awtsmoos.com then
+ * resets transport pressure while preserving the release/action covenant and runtime identity,
+ * so a healed socket does not erase history or masquerade as a replacement process in flight.
  */
 function handleAcknowledgement(dependencies, data, ws) {
 	const acknowledgedName = String(data.tunnelName || data.name || "");
@@ -31,9 +31,14 @@ function handleAcknowledgement(dependencies, data, ws) {
 			: `Tunnel registration rejected: ${reason}`
 	);
 	if (!accepted) {
-		try { ws.close(true); } catch {}
+		try {
+			ws.close(true);
+		} catch {}
 		if (recovery?.restartRequired) {
-			dependencies.setTimer?.(() => dependencies.exitProcess?.(75), 25)?.unref?.();
+			dependencies.setTimer?.(
+				() => dependencies.exitProcess?.(75),
+				25
+			)?.unref?.();
 		}
 	}
 	return true;
@@ -48,16 +53,24 @@ function markHealthy(dependencies, data) {
 }
 
 function writeReceipt(dependencies, data, tunnelName, reason, accepted) {
-	dependencies.Receipt?.write(accepted ? "registered" : "registration_rejected", {
-		tunnelId: String(data.tunnelId || dependencies.state.tunnelId || ""),
-		tunnelName,
-		generation: dependencies.state.generation,
-		serverTime: data.serverTime || null,
-		lastServerMessageAt: new Date().toISOString(),
-		reason,
-		reconnectAttempt: dependencies.state.reconnectAttempt || 0,
-		lastRegisteredAt: dependencies.state.lastRegisteredAt || null
-	});
+	dependencies.Receipt?.write(
+		accepted ? "registered" : "registration_rejected",
+		{
+			...dependencies.state.connectionContract,
+			...dependencies.state.connectionContext,
+			tunnelId: String(data.tunnelId || dependencies.state.tunnelId || ""),
+			tunnelName,
+			generation: dependencies.state.generation,
+			transportGeneration: dependencies.state.generation,
+			transportRevision: dependencies.state.generation,
+			runtimeGenerationId: dependencies.state.runtimeGenerationId,
+			serverTime: data.serverTime || null,
+			lastServerMessageAt: new Date().toISOString(),
+			reason,
+			reconnectAttempt: dependencies.state.reconnectAttempt || 0,
+			lastRegisteredAt: dependencies.state.lastRegisteredAt || null
+		}
+	);
 }
 
 function rejectionReason(data, accepted) {
@@ -66,4 +79,7 @@ function rejectionReason(data, accepted) {
 	return String(data.error || "registration_rejected");
 }
 
-module.exports = { handleAcknowledgement, rejectionReason };
+module.exports = {
+	handleAcknowledgement,
+	rejectionReason
+};

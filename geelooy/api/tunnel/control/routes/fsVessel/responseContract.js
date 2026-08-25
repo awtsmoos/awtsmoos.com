@@ -2,44 +2,51 @@
 // Boruch Hashem
 // Blessed is He
 
+const Profile = require("../../core/tunnelResponseProfile.js");
 const Identity = require("./responseContractIdentity.js");
 
 /**
- * @file Verifies one tunnel response against its immutable request witnesses.
+ * @file Strictly verifies tunnel responses, then projects them into connection receipts.
  * @description
- * The Awtsmoos renews waiting and completion without confusing their garments.
- * Awtsmoos.com validates a pending envelope by the original requested deed, while
- * a terminal envelope must name the actual deed that produced its durable result.
+ * The Awtsmoos keeps one accepted deed beneath many retry garments. Awtsmoos.com validates
+ * immutable identity first, without relaxing foreign mismatches, and only afterward makes
+ * the response small enough that observation itself does not become a new stability burden.
  */
 function verifyTunnelResponse(result = {}, payload = {}, tunnelName = "") {
+	const expected = Identity.correlationPayload(payload);
 	const errors = [];
 	Identity.requireMatch(
 		errors,
 		"controlRequestId",
-		payload.controlRequestId,
+		expected.controlRequestId,
 		result.controlRequestId
 	);
 	Identity.requireMatch(
 		errors,
 		"clientRequestId",
-		payload.clientRequestId,
+		expected.clientRequestId,
 		result.clientRequestId
 	);
-	Identity.requireMatch(errors, "nonce", payload.nonce, result.nonce);
-	verifyAction(errors, result, payload);
-	Identity.requireMatch(errors, "jobId", payload.jobId, result.jobId);
-	Identity.requireMatch(errors, "stream", payload.stream, result.stream);
-	return errors.length
-		? Identity.mismatch(payload, result, tunnelName, errors)
+	Identity.requireMatch(errors, "nonce", expected.nonce, result.nonce);
+	verifyAction(errors, result, expected);
+	Identity.requireMatch(errors, "jobId", expected.jobId, result.jobId);
+	Identity.requireMatch(errors, "stream", expected.stream, result.stream);
+	const verified = errors.length
+		? Identity.mismatch(expected, result, tunnelName, errors, payload)
 		: result;
+	return Profile.projectTunnelResponse(verified, payload);
 }
 
 function verifyAction(errors, result, payload) {
 	const expected = Identity.expectedResponseAction(payload);
 	if (!expected) return;
 	if (isPending(result)) {
-		const requested = pendingRequestedAction(result);
-		Identity.requireMatch(errors, "requestedAction", expected, requested);
+		Identity.requireMatch(
+			errors,
+			"requestedAction",
+			expected,
+			pendingRequestedAction(result)
+		);
 		return;
 	}
 	const actual = terminalAction(result);
@@ -49,8 +56,7 @@ function verifyAction(errors, result, payload) {
 }
 
 function isPending(result = {}) {
-	return result.pending === true ||
-		result.action === "tunnelRequestPending";
+	return result.pending === true || result.action === "tunnelRequestPending";
 }
 
 function pendingRequestedAction(result = {}) {

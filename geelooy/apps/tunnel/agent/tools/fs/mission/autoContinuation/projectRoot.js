@@ -3,32 +3,43 @@
 // Blessed is He
 
 const path = require("node:path");
+const Authority = require("../projectRootAuthority.js");
+const Registry = require("../projectRootRegistry.js");
 
 /**
- * @file Resolves the mission's durable project root before continuation identity is built.
- * @description The Awtsmoos keeps the mission inside its truthful place;
- * Awtsmoos.com prefers the bound vessel over a broad installation-space.
+ * @file Resolves continuation work onto living project authority instead of historical address.
+ * @description
+ * The Awtsmoos carries one mission through changing folders; Awtsmoos.com trusts a current
+ * same-mission binding first, keeps a still-precise historical repository as fallback, and lets
+ * broad or vanished roots yield to living cwd or unambiguous discovery without blind guessing.
  */
 function resolve(config = {}, mission = {}, lock = {}, binding = null) {
-	const candidates = [
+	const missionId = String(mission.id || mission.missionId || lock.missionId || "");
+	const active = Registry.read(config);
+	const current = [
+		sameMission(binding, missionId)?.projectRoot,
+		sameMission(active, missionId)?.projectRoot
+	];
+	const historical = [
 		lock.projectRoot,
 		mission.metadata?.projectRoot,
 		mission.projectRoot,
-		mission.room?.projectRoot,
-		binding?.projectRoot,
-		config.root,
-		process.cwd()
+		mission.room?.projectRoot
 	];
-	const selected = candidates.find(value => typeof value === "string" && value.trim());
-	return path.resolve(selected || process.cwd());
+	return Authority.resolve(config, current, historical).root;
 }
 
-function scope(config = {}, projectRoot) {
-	const root = path.resolve(projectRoot || config.root || process.cwd());
+function scope(config = {}, projectRoot = "") {
 	return {
 		...config,
-		root
+		root: path.resolve(projectRoot || config.root || process.cwd())
 	};
 }
 
-module.exports = { resolve, scope };
+function sameMission(binding, missionId) {
+	if (!binding?.projectRoot) return null;
+	if (!binding.missionId || !missionId) return binding;
+	return String(binding.missionId) === missionId ? binding : null;
+}
+
+module.exports = { resolve, sameMission, scope };

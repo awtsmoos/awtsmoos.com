@@ -2,118 +2,92 @@
 // Boruch Hashem
 // Blessed is He
 
-const {
-	CORE_KEYS,
-	PREVIEW_KEYS
-} = require("./responsePrunerKeys.js");
+const Connection = require("./connectionReceipt.js");
+const Preview = require("./responsePreviewProjection.js");
+const { DIAGNOSTIC_KEYS } = require("./responseDiagnosticKeys.js");
+const { PREVIEW_KEYS, RECEIPT_KEYS } = require("./responsePrunerKeys.js");
 
 /**
- * @file Compacts tunnel responses without discarding durable evidence.
+ * @file Projects a large tunnel result into one internally consistent connection receipt.
  * @description
- * The Awtsmoos distinguishes noise from testimony. Awtsmoos.com keeps request
- * identity, retry continuity, atomic write hashes, command receipts, and bounded
- * diagnostics while preview links appear only when the caller explicitly seeks them.
+ * The Awtsmoos keeps the whole truth while Awtsmoos.com reveals only testimony needed for
+ * this turn: identity, requested output, durable proof, next work, and a small health pulse.
+ * Gevurah prunes diagnostic oceans, Hod preserves exact mutation testimony, and preview
+ * manifestation is delegated to one focused Yesod vessel so this coordinator stays clear.
  */
 function pruneTunnelResponse(result = {}, payload = {}) {
-	if (!result || typeof result !== "object" || wantsDebug(payload)) {
+	if (!result || typeof result !== "object") {
 		return result;
 	}
 	const output = {};
-	const keepPreview = previewExplicit(payload, result);
+	const keepPreview = Preview.previewExplicit(payload, result);
 	for (const key of Object.keys(result)) {
 		if (mayKeep(key, keepPreview)) {
 			output[key] = result[key];
 		}
 	}
+	output.queueSummary = queueSummary(result);
+	output.connectionContext = Connection.connectionReceipt(result);
+	output.responseShape = "connection-receipt-v1";
+	Preview.normalizePreviewProjection(output, keepPreview);
 	if (result.ok === false && !output.diagnostics) {
 		output.diagnostics = compactDiagnostics(result);
 	}
 	if (keepPreview) {
-		preservePreviewShortcut(result, output);
+		Preview.preservePreviewShortcut(result, output);
 	}
-	applyPreviewFocus(result, output, keepPreview);
-	return output;
+	return removeEmptyHelpers(output);
 }
 
 function mayKeep(key, keepPreview) {
-	return CORE_KEYS.has(key) &&
-		(keepPreview || !PREVIEW_KEYS.has(key));
+	if (DIAGNOSTIC_KEYS.has(key)) {
+		return false;
+	}
+	if (!RECEIPT_KEYS.has(key)) {
+		return false;
+	}
+	return keepPreview || !PREVIEW_KEYS.has(key);
 }
 
-function wantsDebug(payload = {}) {
-	return payload.guidanceDebug === true ||
-		payload.guidanceDebug === "true" ||
-		payload.responseMode === "debug" ||
-		payload.responseMode === "full";
-}
-
-function previewExplicit(payload = {}, result = {}) {
-	const requested = [
-		payload.autoPreview,
-		payload.humanPreview,
-		payload.previewRequired
-	].some(value => value === true || value === "true");
-	if (requested) return true;
-	if (result.previewRequired === true && result.previewPolicy?.enabled !== false) {
-		return true;
-	}
-	return result.responseFocus?.previewRequired === true &&
-		result.previewPolicy?.enabled !== false &&
-		result.previewRequired !== false;
-}
-
-function preservePreviewShortcut(result, output) {
-	const preview = result.createdPreview;
-	if (!preview || typeof preview !== "object") return;
-	const viewUrl = preview.viewUrl || preview.url || output.viewUrl;
-	if (!viewUrl) return;
-	output.viewUrl ||= viewUrl;
-	output.rawUrl ||= preview.rawUrl || result.rawUrl || "";
-	output.wsUrl ||= preview.wsUrl || result.wsUrl || "";
-	output.previewDisplayHint ||= preview.previewDisplayHint ||
-		preview.source?.previewDisplayHint ||
-		"";
-	if (!Array.isArray(output.previewLinks) || !output.previewLinks.length) {
-		output.previewLinks = [{
-			id: preview.id || result.previewId || "",
-			viewUrl
-		}];
-	}
-	output.previewInstruction ||= `Open ${viewUrl}.`;
-}
-
-function applyPreviewFocus(result, output, keepPreview) {
-	const available = output.previewLinks?.length ||
-		output.viewUrl ||
-		output.createdPreview;
-	if (keepPreview && available) {
-		output.responseFocus = {
-			...(output.responseFocus || {}),
-			previewRequired: true
-		};
-		return;
-	}
-	if (output.responseFocus?.previewRequired === true && result.previewRequired === false) {
-		output.responseFocus = {
-			...output.responseFocus,
-			previewRequired: false
-		};
-	}
+function queueSummary(result = {}) {
+	const stats = result.queueStats || {};
+	return {
+		lane: result.lane || null,
+		inflight: numberOrZero(stats.inflight),
+		queued: numberOrZero(stats.queued),
+		retryAfterMs: numberOrZero(result.retryAfterMs),
+		advisoryOvertime: result.advisoryOvertime === true
+	};
 }
 
 function compactDiagnostics(result = {}) {
 	return {
 		routeReason: result.routeReason,
-		tunnelName: result.tunnelName,
 		mismatchProof: result.mismatchProof,
 		expected: result.expected,
 		actual: result.actual
 	};
 }
 
+function removeEmptyHelpers(output) {
+	if (!output.queueSummary.lane && !output.queueSummary.inflight &&
+		!output.queueSummary.queued && !output.queueSummary.retryAfterMs) {
+		delete output.queueSummary;
+	}
+	return output;
+}
+
+function numberOrZero(value) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : 0;
+}
+
 module.exports = {
-	CORE_KEYS,
+	CORE_KEYS: RECEIPT_KEYS,
 	PREVIEW_KEYS,
-	previewExplicit,
-	pruneTunnelResponse
+	RECEIPT_KEYS,
+	normalizePreviewProjection: Preview.normalizePreviewProjection,
+	previewExplicit: Preview.previewExplicit,
+	pruneTunnelResponse,
+	queueSummary
 };

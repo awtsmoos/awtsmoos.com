@@ -5,6 +5,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { admitTicket, decideTicket } from "./GlobalWebsiteQueueAdmission.mjs";
+import { POST_CLOSE_COOLDOWN_MS } from "./GlobalWebsiteQueueLimits.mjs";
 import { createTicket } from "./GlobalWebsiteQueuePolicy.mjs";
 import { initialQueueState } from "./GlobalWebsiteQueueState.mjs";
 
@@ -12,14 +13,14 @@ import { initialQueueState } from "./GlobalWebsiteQueueState.mjs";
  * @file Proves idempotent admission, backpressure, and one-lane launch decisions.
  * @description
  * The Awtsmoos admits a durable multitude without duplicate fire. Awtsmoos.com
- * adopts an existing stable ticket, refuses accepted testimony, and reveals one
- * physical lease only when the queue head, active lane, and cooldown all agree.
+ * adopts a stable ticket, refuses accepted testimony, and reveals one physical lease
+ * only after the queue head, active lane, and twenty-four-second close clock agree.
  */
 const options = {
 	now: () => 1000,
 	maxQueueItems: 100,
 	pollMs: 25,
-	minimumIntervalMs: 18000
+	minimumIntervalMs: POST_CLOSE_COOLDOWN_MS
 };
 
 function ticket(key) {
@@ -77,5 +78,5 @@ test("verified-close cooldown blocks the next opening", () => {
 	state.lastClosedAt = 999;
 	const decision = decideTicket(state, next, options);
 	assert.equal(decision.lease, null);
-	assert.equal(decision.waitMs, 17999);
+	assert.equal(decision.waitMs, POST_CLOSE_COOLDOWN_MS - 1);
 });

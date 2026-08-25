@@ -4,16 +4,17 @@
 
 const Config = require("./config.js");
 const Persistence = require("./persistence.js");
+const RootBinding = require("./rootBinding.js");
 const Stuck = require("../stuckness/index.js");
 const Seed = require("../autoSeed/index.js");
-const ProjectRoots = require("../projectRootRegistry.js");
 const Questions = require("../questionSnapshot.js");
 
 /**
- * @file Creates fresh mission authority and advances only living lock generations.
+ * @file Creates mission authority around the living repository rather than a broad old root.
  * @description
- * The Awtsmoos gives each mission one truthful root while a revoked hand stays closed;
- * Awtsmoos.com preserves complete question gates so no watchdog awakens to choices decomposed.
+ * The Awtsmoos gives each mission one truthful hand upon the present vessel; Awtsmoos.com
+ * refreshes that hand when stronger cwd evidence appears, while preserving gates, receipts,
+ * progress, and verification so continuity moves forward without dragging yesterday's path.
  */
 function windowMs(payload = {}) {
 	return payload.minimumInnovationWindowMs ?? payload.minimumRuntimeMs ?? 3600000;
@@ -30,7 +31,7 @@ function start(config, result = {}, payload = {}) {
 	const seed = Seed.next(missionId, payload);
 	const work = workFrom(result);
 	const lock = {
-		projectRoot: config.root,
+		projectRoot: RootBinding.initial(config, payload, result),
 		missionId,
 		parentMissionId: parent?.missionId || "",
 		mode: payload.missionLockMode || Config.DEFAULT_MODE,
@@ -50,7 +51,7 @@ function start(config, result = {}, payload = {}) {
 		filesTouched: [],
 		testsRun: 0
 	};
-	bindProjectRoot(config, lock);
+	RootBinding.bind(config, lock);
 	persist(config, lock);
 	return lock;
 }
@@ -60,6 +61,7 @@ function update(config, result = {}, payload = {}) {
 	if (!lock || lock.releaseAllowed === true || lock.authorityState === "revoked") return lock || null;
 	lock.updatedAt = Config.now();
 	lock.lastAction = result.action || payload.action || "";
+	RootBinding.refresh(config, lock, payload, result);
 	const next = result.mustCallNext || result.nextRequiredAction || null;
 	if (next) {
 		lock.lastMustCallNext = next;
@@ -81,15 +83,6 @@ function update(config, result = {}, payload = {}) {
 	mark(lock, result);
 	persist(config, lock);
 	return lock;
-}
-
-function bindProjectRoot(config, lock) {
-	try {
-		ProjectRoots.bind(config, lock.missionId, lock.projectRoot);
-		delete lock.projectRootWitnessError;
-	} catch (error) {
-		lock.projectRootWitnessError = error?.message || String(error);
-	}
 }
 
 function persist(config, lock) {
@@ -116,4 +109,4 @@ function gate(result = {}) {
 	};
 }
 
-module.exports = { bindProjectRoot, gate, mark, start, update, windowMs, workFrom };
+module.exports = { gate, mark, start, update, windowMs, workFrom };

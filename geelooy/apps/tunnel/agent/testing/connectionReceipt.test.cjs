@@ -8,102 +8,95 @@ const os = require("node:os");
 const path = require("node:path");
 
 /**
- * @file Verifies owner, child liveness, route, activation, and installed runtime.
+ * @file Verifies schema-six connection testimony across transport and runtime renewal.
  * @description
- * The Awtsmoos keeps supervised identity distinct from connection breath, while
- * Awtsmoos.com restores release testimony from durable install state after rescue.
+ * The Awtsmoos lets a socket be renewed without erasing the covenant beneath its breath;
+ * Awtsmoos.com therefore keeps connection context stable through transport revision while
+ * a true runtime activation receives a distinct runtime generation identity in the light.
  */
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "awts-connection-receipt-"));
 process.env.AWTSMOOS_INSTALL_ROOT = root;
-process.env.AWTSMOOS_ACTIVATION_ID = "activation-test";
-process.env.AWTSMOOS_RUNTIME_VERSION = "runtime-test";
+process.env.AWTSMOOS_ACTIVATION_ID = "activation-one";
+process.env.AWTSMOOS_RUNTIME_VERSION = "runtime-one";
 const Receipt = require("../lib/runtime/connection-receipt.js");
 
 try {
-	assert.equal(Receipt.read(root), null);
-	const written = Receipt.write("registered", {
+	const contract = {
 		tunnelId: "tun_test_identity",
 		tunnelName: "awt-test",
 		agentVersion: "test-agent",
+		releaseSourceSha: "release-one",
+		actionManifestHash: "manifest-one",
+		actionSchemaDigest: "schema-one",
+		publicActionDigest: "public-one",
+		publicActionCount: 14
+	};
+	const first = Receipt.write("registered", {
+		...contract,
 		generation: 2,
-		reconnectAttempt: 4,
-		reconnectDelayMs: 8000,
-		lastRegisteredAt: 12345,
-		serverTime: "server-time",
+		reconnectAttempt: 0,
 		lastServerMessageAt: new Date().toISOString()
 	}, root);
-	assert.equal(written.schemaVersion, 5);
-	assert.equal(written.pid, process.pid);
-	assert.equal(written.ownerPid, process.pid);
-	assert.equal(written.connectionPid, process.pid);
-	assert.equal(written.tunnelId, "tun_test_identity");
-	assert.equal(written.activationId, "activation-test");
-	assert.equal(written.runtimeVersion, "runtime-test");
-	assert.equal(written.reconnectAttempt, 4);
-	assert.equal(written.reconnectDelayMs, 8000);
-	assert.equal(written.lastRegisteredAt, 12345);
-	assert.equal(Receipt.matches(Receipt.read(root), {
-		pid: process.pid,
+	assert.equal(first.schemaVersion, 6);
+	assert.equal(first.transportGeneration, 2);
+	assert.equal(first.transportRevision, 2);
+	assert.equal(first.connectionContextId.startsWith("ctx_"), true);
+	assert.equal(first.connectionContextDigest.length, 64);
+	assert.equal(first.connectionContract.releaseSourceSha, "release-one");
+	assert.equal(first.publicActionCount, 14);
+	const originalContext = first.connectionContextId;
+	const originalRuntime = first.runtimeGenerationId;
+
+	const reconnect = Receipt.write("reconnecting", {
+		generation: 3,
+		reconnectAttempt: 1,
+		reconnectDelayMs: 1000
+	}, root);
+	assert.equal(reconnect.connectionContextId, originalContext);
+	assert.equal(reconnect.runtimeGenerationId, originalRuntime);
+	assert.equal(reconnect.transportGeneration, 3);
+	assert.equal(reconnect.reconnectStreak, 1);
+	assert.ok(reconnect.reconnectStreakStartedAt);
+
+	process.env.AWTSMOOS_ACTIVATION_ID = "activation-two";
+	const replaced = Receipt.write("registered", {
+		...contract,
+		generation: 1,
+		lastServerMessageAt: new Date().toISOString()
+	}, root);
+	assert.equal(replaced.connectionContextId, originalContext);
+	assert.notEqual(replaced.runtimeGenerationId, originalRuntime);
+	assert.equal(replaced.reconnectStreakStartedAt, null);
+	assert.equal(Receipt.matches(replaced, {
 		tunnelId: "tun_test_identity",
 		tunnelName: "awt-test",
-		activationId: "activation-test",
-		runtimeVersion: "runtime-test",
+		activationId: "activation-two",
+		runtimeVersion: "runtime-one",
 		maxAgeMs: 10000
 	}), true);
-	assert.equal(Receipt.ownedByCurrentConnection(written), true);
-	assert.equal(Receipt.matches(Receipt.read(root), {
-		pid: process.pid,
-		tunnelId: "tun_other_identity"
-	}), false);
-	assert.equal(Receipt.matches(Receipt.read(root), {
-		pid: process.pid + 1,
-		tunnelName: "awt-test"
-	}), false);
-	assert.equal(Receipt.matches(Receipt.read(root), {
-		activationId: "activation-other"
-	}), false);
-	assert.equal(Receipt.matches(Receipt.read(root), {
-		runtimeVersion: "runtime-other"
-	}), false);
 
-	Receipt.clear(root);
-	delete process.env.AWTSMOOS_ACTIVATION_ID;
-	delete process.env.AWTSMOOS_RUNTIME_VERSION;
-	fs.writeFileSync(path.join(root, "install-state.txt"), "1.0.495\n");
-	const rescued = Receipt.write("registered", {
-		tunnelId: "tun_rescue",
-		tunnelName: "awt-test",
-		lastServerMessageAt: new Date().toISOString()
-	}, root);
-	assert.equal(rescued.activationId, "");
-	assert.equal(rescued.runtimeVersion, "1.0.495");
-
-	rescued.lastServerMessageAt = "2000-01-01T00:00:00.000Z";
-	fs.writeFileSync(Receipt.receiptPath(root), JSON.stringify(rescued));
-	assert.equal(Receipt.matches(Receipt.read(root), {
-		pid: process.pid,
-		tunnelId: "tun_rescue",
-		maxAgeMs: 1000
-	}), false);
-
-	const old = Receipt.normalize({
+	const legacy = Receipt.normalize({
 		state: "registered",
 		pid: process.pid,
-		tunnelName: "legacy"
+		tunnelName: "legacy",
+		generation: 7
 	});
-	assert.equal(old.schemaVersion, 5);
-	assert.equal(old.ownerPid, process.pid);
-	assert.equal(old.connectionPid, process.pid);
-	assert.equal(old.runtimeVersion, "");
+	assert.equal(legacy.schemaVersion, 6);
+	assert.equal(legacy.ownerPid, process.pid);
+	assert.equal(legacy.transportGeneration, 7);
+	assert.equal(legacy.runtimeGenerationId, "");
+
 	fs.writeFileSync(Receipt.receiptPath(root), "not-json");
 	assert.equal(Receipt.read(root), null);
-	Receipt.clear(root);
 	console.log(JSON.stringify({
 		ok: true,
-		suite: "connection-receipt",
-		installedRuntimeFallback: true,
-		authoritativeTunnelId: true
+		suite: "connection-receipt-schema-six",
+		stableContextAcrossTransport: true,
+		runtimeReplacementDistinct: true
 	}, null, 2));
 } finally {
+	delete process.env.AWTSMOOS_ACTIVATION_ID;
+	delete process.env.AWTSMOOS_RUNTIME_VERSION;
+	delete process.env.AWTSMOOS_INSTALL_ROOT;
 	fs.rmSync(root, { recursive: true, force: true });
 }

@@ -7,6 +7,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const Plan = require("./promptPlan.js");
 const ProjectRoot = require("./projectRoot.js");
+const Sanitizer = require("./promptSanitizer.js");
 
 const VOLATILE_CHECKPOINT_KEYS = new Set([
 	"reason",
@@ -17,14 +18,15 @@ const VOLATILE_CHECKPOINT_KEYS = new Set([
 ]);
 
 /**
- * @file Builds one stable continuation identity and a bounded successor mission prompt.
- * @description The Awtsmoos remembers the deed rather than scheduler shadows; Awtsmoos.com carries one root,
- * one checkpoint, one predecessor, and one successor so recovery continues the same mission instead of birthing a duplicate world.
+ * @file Builds path-independent continuation identity and a current-binding successor prompt.
+ * @description
+ * The Awtsmoos remembers the unfinished deed rather than its temporary machine address;
+ * Awtsmoos.com hashes mission and stable checkpoint, resolves the living root only internally,
+ * and tells the next chat to use present tunnel authority instead of repeating a stale path.
  */
-function fingerprint(config, mission = {}, lock = {}) {
+function fingerprint(_config, mission = {}, lock = {}) {
 	const stable = JSON.stringify({
 		missionId: mission.id || mission.missionId || lock.missionId || "",
-		projectRoot: ProjectRoot.resolve(config, mission, lock),
 		next: stableCheckpoint(lock.lastMustCallNext || lock.mustCallNext || null)
 	});
 	return crypto.createHash("sha256").update(stable).digest("hex").slice(0, 24);
@@ -36,15 +38,15 @@ function websiteMissionId(missionId, fingerprintValue) {
 }
 
 function build(config, mission = {}, lock = {}, fingerprintValue = fingerprint(config, mission, lock), context = {}) {
-	const projectRoot = ProjectRoot.resolve(config, mission, lock);
+	const projectRoot = ProjectRoot.resolve(config, mission, lock, context.binding);
 	const missionId = mission.id || mission.missionId || lock.missionId || "";
 	const roomId = mission.room?.id || mission.roomId || "";
 	const plans = recentPlans(projectRoot);
-	const next = JSON.stringify(lock.lastMustCallNext || lock.mustCallNext || null);
+	const next = Sanitizer.json(stableCheckpoint(lock.lastMustCallNext || lock.mustCallNext || null));
 	return [
 		'B"H',
 		"Continue the SAME unfinished Awtsmoos mission. Do not create a duplicate mission.",
-		`Absolute projectRoot: ${projectRoot}`,
+		"Project binding: use the current tunnel-resolved project root for this mission; never reuse historical absolute paths.",
 		`missionId: ${missionId}`,
 		roomId ? `roomId: ${roomId}` : "roomId: use the existing mission room",
 		`continuationFingerprint: ${fingerprintValue}`,
@@ -56,14 +58,15 @@ function build(config, mission = {}, lock = {}, fingerprintValue = fingerprint(c
 		context.successorAgentId ? `Use logicalAgentId ${context.successorAgentId} for mission-room and mission-agent actions when supported.` : "Use the existing mission's agent identity system.",
 		"Treat predecessor claims as recovery context, not proof that their unfinished work was completed.",
 		"Publish PLAN, PROGRESS, HANDOFF, and COMPLETION messages in the existing mission room as the work advances.",
-		"Never change the project root, physical device identity, tunnel identity, or browser ownership without explicit necessity.",
-		"You may spawn bounded sub-agents only through the existing verified-close paced Awtsmoos Shliach system with stable request keys.",
-		"Honor any user stop/cancel/pause or blocking user-message gate immediately. Do not claim completion until the actual completion gate passes."
+		"Use only the project root supplied by the live tunnel binding; historical filesystem paths are evidence, not authority.",
+		"You may spawn bounded sub-agents only through the verified-close paced Awtsmoos Shliach system with stable request keys.",
+		"Honor user stop/cancel/pause or blocking user-message gates. Do not claim completion until the actual completion gate passes."
 	].join("\n");
 }
 
 function stableCheckpoint(value) {
 	if (Array.isArray(value)) return value.map(stableCheckpoint);
+	if (typeof value === "string") return Sanitizer.scrubText(value);
 	if (!value || typeof value !== "object") return value;
 	return Object.fromEntries(Object.keys(value)
 		.filter(key => !VOLATILE_CHECKPOINT_KEYS.has(key))

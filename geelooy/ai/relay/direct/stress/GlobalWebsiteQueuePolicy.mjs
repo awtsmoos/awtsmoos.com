@@ -13,16 +13,16 @@ import {
 } from "./GlobalWebsiteQueueLimits.mjs";
 
 /**
- * @file Defines the global website-agent queue covenant.
+ * @file Defines the host-global website-agent queue covenant.
  * @description
- * The Awtsmoos renews many waiting sparks through one physical vessel. Awtsmoos.com
- * admits durable work, seals stable turn identities, and never weakens the clock
- * whose eighteen seconds begin only after a verified target has disappeared.
+ * The Awtsmoos renews countless waiting sparks through one physical vessel. Awtsmoos.com
+ * admits durable logical work, seals stable turn identities, and never weakens the clock
+ * whose twenty-four seconds begin only after accepted delivery and verified target closure.
  */
 export function queueConfiguration(options = {}) {
 	const requestedInterval = finite(
-		options.minimumIntervalMs ??
-		process.env.AWTSMOOS_WEBSITE_AGENT_LAUNCH_INTERVAL_MS,
+		options.minimumIntervalMs
+			?? process.env.AWTSMOOS_WEBSITE_AGENT_LAUNCH_INTERVAL_MS,
 		POST_CLOSE_COOLDOWN_MS
 	);
 	return {

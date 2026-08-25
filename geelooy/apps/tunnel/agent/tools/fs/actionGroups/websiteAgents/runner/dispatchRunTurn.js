@@ -3,6 +3,7 @@
 // Blessed is He
 
 const Context = require("./context.js");
+const recordSubagentSettlement = require("./recordSubagentSettlement.js");
 const { C, Dispatch, Store } = Context.shared;
 const progress = Context.reference("progress");
 const heartbeat = Context.reference("heartbeat");
@@ -11,11 +12,11 @@ const emit = Context.reference("emit");
 const withMission = Context.reference("withMission");
 
 /**
- * @file Dispatches one prompt and records the verified-close receipt.
+ * @file Dispatches one prompt and records settlement only after verified browser closure.
  * @description
- * The Awtsmoos enters one final GPT route, verifies accepted delivery, and withdraws
- * the browser vessel at once. Awtsmoos.com records only durable evidence, never an
- * awaited conversational answer or hidden continuation key.
+ * The Awtsmoos enters one authenticated GPT route, witnesses accepted delivery, and closes
+ * the owned vessel before another may arise. Awtsmoos.com records child settlement only
+ * after that lifecycle returns, while durable tools carry the agent forward without waiting.
  */
 async function dispatchRunTurn(
 	config,
@@ -36,13 +37,26 @@ async function dispatchRunTurn(
 		onProgress: progressEvent =>
 			progress(config, id, agentId, round, progressEvent)
 	});
-	const record = Store.update(id, current =>
-		Dispatch.apply(current, agentId, round, continuation, result, event));
+	const settlement = await recordSubagentSettlement(prepared, result);
+	const record = Store.update(id, current => {
+		Dispatch.apply(current, agentId, round, continuation, result, event);
+		if (settlement.required) {
+			current.events.push(event("subagent_submission_settlement", {
+				agentId,
+				recorded: settlement.recorded === true,
+				reason: settlement.reason || null,
+				settledAt: settlement.lastSettledAt || null,
+				spacingMs: settlement.spacingMs || null
+			}));
+		}
+		return current;
+	});
 	const agent = record.agents.find(item => item.id === agentId);
 	emit(config, record, agent, "website-agent.dispatched", {
 		round,
 		status: agent.status,
-		acceptedAt: result.acceptedAt
+		acceptedAt: result.acceptedAt,
+		settlement
 	});
 	await withMission(config, record.missionId, mission => {
 		C.message(mission, {

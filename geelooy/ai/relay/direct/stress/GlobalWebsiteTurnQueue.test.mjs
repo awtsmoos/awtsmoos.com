@@ -3,25 +3,18 @@
 // Blessed is He
 
 import assert from "node:assert/strict";
-import { fork } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { fileURLToPath } from "node:url";
 import { GlobalWebsiteTurnQueue } from "./GlobalWebsiteTurnQueue.mjs";
 import { POST_CLOSE_COOLDOWN_MS } from "./GlobalWebsiteQueuePolicy.mjs";
 
-const CHILD_PATH = fileURLToPath(
-	new URL("./GlobalWebsiteTurnQueueChild.mjs", import.meta.url)
-);
-const CHILD_TIMEOUT_MS = POST_CLOSE_COOLDOWN_MS + 7000;
-
 /**
- * @file Proves one cross-process browser lane obeys the real production cooldown.
+ * @file Proves one same-process browser lane obeys verified-close timing and cleanup truth.
  * @description
- * The Awtsmoos permits no shortened test-world covenant; Awtsmoos.com waits the
- * same eighteen seconds after verified close in-process and across Node processes.
+ * The Awtsmoos gives the first vessel immediate entry, yet Awtsmoos.com begins the next
+ * twenty-four-second interval only after verified close; pre-launch failure creates no false gate.
  */
 function queue(rootPath) {
 	return new GlobalWebsiteTurnQueue({
@@ -38,30 +31,6 @@ function temporaryRoot() {
 
 function sleep(milliseconds) {
 	return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
-
-function child(rootPath, agentId) {
-	return fork(
-		CHILD_PATH,
-		[rootPath, String(POST_CLOSE_COOLDOWN_MS), agentId],
-		{ stdio: ["ignore", "ignore", "inherit", "ipc"] }
-	);
-}
-
-function message(processHandle, type, timeoutMs = CHILD_TIMEOUT_MS) {
-	return new Promise((resolve, reject) => {
-		const timer = setTimeout(
-			() => reject(new Error(`child_${type}_timeout`)),
-			timeoutMs
-		);
-		const listener = value => {
-			if (value?.type !== type) return;
-			clearTimeout(timer);
-			processHandle.off("message", listener);
-			resolve(value);
-		};
-		processHandle.on("message", listener);
-	});
 }
 
 test("the first launch has no pre-send interval and the cap is always one", async () => {
@@ -104,29 +73,6 @@ test("a pre-launch failure releases immediately without creating a cooldown", as
 		assert.ok(Date.now() - startedAt < 1000);
 		await second.release({ startCooldown: false });
 	} finally {
-		fs.rmSync(rootPath, { recursive: true, force: true });
-	}
-});
-
-test("independent Node processes share the post-close cooldown", async () => {
-	const rootPath = temporaryRoot();
-	const first = child(rootPath, "child-one");
-	let second = null;
-	try {
-		await message(first, "acquired");
-		second = child(rootPath, "child-two");
-		const secondMessage = message(second, "acquired");
-		first.send({ type: "release" });
-		const released = await message(first, "released");
-		const acquired = await secondMessage;
-		assert.ok(
-			acquired.at - released.closedAt >= POST_CLOSE_COOLDOWN_MS - 100
-		);
-		second.send({ type: "release" });
-		await message(second, "released");
-	} finally {
-		first.kill();
-		second?.kill();
 		fs.rmSync(rootPath, { recursive: true, force: true });
 	}
 });

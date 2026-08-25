@@ -10,12 +10,14 @@ const Mission = require("../mission/index.js");
 const Oath = require("../mission/oath/index.js");
 const Snapshot = require("../mission/snapshot/index.js");
 const StopAudit = require("../mission/stopAudit/index.js");
-const Takeover = require("../mission/takeover/index.js");
+const TakeoverAction = require("./missionTakeoverAction.js");
 
 /**
- * @file Holds compact mission metadata, recovery, and observation actions.
- * @description The Awtsmoos lets Tunnel Control witness checkpoints and successor state without renewing the mission;
- * Awtsmoos.com keeps observation read-only while oath, snapshot, and takeover remain explicit mutations.
+ * @file Coordinates compact mission metadata, recovery, takeover, and observation actions.
+ * @description
+ * The Awtsmoos lets explicit successors inherit unfinished flame while Awtsmoos.com
+ * separates takeover custody from read-only observation, keeping oath, snapshot, deadman,
+ * continuation, and live-progress vessels small enough that their responsibilities remain plain.
  */
 function buildMissionMetaActions(ctx) {
 	const { config, payload } = ctx;
@@ -23,8 +25,12 @@ function buildMissionMetaActions(ctx) {
 		missionOathAccept: () => oathAccept(config, payload),
 		missionSnapshotTake: () => snapshotTake(config, payload),
 		missionDeadmanStatus: () => deadmanStatus(config, payload),
-		missionTakeoverClaim: () => takeoverClaim(config, payload),
-		missionStopAuditList: () => ({ ok: true, action: "missionStopAuditList", attempts: StopAudit.list(config) }),
+		missionTakeoverClaim: () => TakeoverAction.takeoverClaim(config, payload),
+		missionStopAuditList: () => ({
+			ok: true,
+			action: "missionStopAuditList",
+			attempts: StopAudit.list(config)
+		}),
 		missionLiveProgress: () => liveProgress(config, payload)
 	};
 }
@@ -32,14 +38,22 @@ function buildMissionMetaActions(ctx) {
 function oathAccept(config, payload) {
 	const lock = Lock.active(config);
 	return lock
-		? { ok: true, action: "missionOathAccept", oath: Oath.accept(config, lock, payload) }
+		? {
+			ok: true,
+			action: "missionOathAccept",
+			oath: Oath.accept(config, lock, payload)
+		}
 		: { ok: false, action: "missionOathAccept", error: "no_active_lock" };
 }
 
 function snapshotTake(config, payload) {
 	const lock = Lock.active(config);
 	return lock
-		? { ok: true, action: "missionSnapshotTake", snapshot: Snapshot.take(config, lock, payload.reason || "manual") }
+		? {
+			ok: true,
+			action: "missionSnapshotTake",
+			snapshot: Snapshot.take(config, lock, payload.reason || "manual")
+		}
 		: { ok: false, action: "missionSnapshotTake", error: "no_active_lock" };
 }
 
@@ -54,19 +68,15 @@ function deadmanStatus(config, payload) {
 	};
 }
 
-function takeoverClaim(config, payload) {
-	const lock = Lock.active(config);
-	if (!lock) return { ok: false, action: "missionTakeoverClaim", error: "no_active_lock" };
-	const owner = payload.agentId || "anonymous";
-	Lock.set(config, Takeover.claim(lock, owner));
-	return { ok: true, action: "missionTakeoverClaim", owner };
-}
-
 async function liveProgress(config, payload) {
 	const missionId = payload.missionId || payload.id || "";
-	if (!missionId) return { ok: false, action: "missionLiveProgress", error: "mission_id_required" };
+	if (!missionId) {
+		return { ok: false, action: "missionLiveProgress", error: "mission_id_required" };
+	}
 	const mission = await Mission.load(config, missionId);
-	if (!mission?.id) return { ok: false, action: "missionLiveProgress", error: "mission_not_found", missionId };
+	if (!mission?.id) {
+		return { ok: false, action: "missionLiveProgress", error: "mission_not_found", missionId };
+	}
 	const activeLock = Lock.active(config);
 	const lock = activeLock?.missionId === missionId ? activeLock : null;
 	const continuation = AutoState.readActive(config, missionId);
@@ -77,4 +87,6 @@ async function liveProgress(config, payload) {
 	};
 }
 
-module.exports = { buildMissionMetaActions };
+module.exports = {
+	buildMissionMetaActions
+};

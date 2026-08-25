@@ -8,14 +8,15 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { persistAcceptedTurn } from "./GlobalWebsiteQueueAcceptance.mjs";
+import { POST_CLOSE_COOLDOWN_MS } from "./GlobalWebsiteQueueLimits.mjs";
 import { GlobalWebsiteTurnQueue } from "./GlobalWebsiteTurnQueue.mjs";
 
 /**
  * @file Proves permanent acceptance survives cache failure and process reconstruction.
  * @description
  * The Awtsmoos seals accepted testimony before bounded state may fail. Awtsmoos.com
- * rebuilds a fresh queue process, finds the permanent stable identity, and refuses
- * the same turn before it can enter admission or activate another browser Send.
+ * rebuilds a fresh queue, remembers the stable identity, and keeps the same physical
+ * twenty-four-second covenant without opening a duplicate browser turn.
  */
 function temporaryRoot() {
 	return fs.mkdtempSync(path.join(os.tmpdir(), "awts-journal-idempotency-"));
@@ -25,7 +26,7 @@ function queue(rootPath) {
 	return new GlobalWebsiteTurnQueue({
 		rootPath,
 		pollMs: 10,
-		minimumIntervalMs: 18000
+		minimumIntervalMs: POST_CLOSE_COOLDOWN_MS
 	});
 }
 
