@@ -2,11 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+import { MicrophoneCaptureResult } from './MicrophoneCaptureResult.js';
+import { MicrophoneCodecPolicy } from './MicrophoneCodecPolicy.js';
+
 /**
  * @file Microphone.js
- * @description Owns browser microphone permission and MediaRecorder lifecycle without persistence, playback, or UI state.
+ * @description Owns browser microphone permission and MediaRecorder lifecycle while codec and result assembly remain modular.
  * The Awtsmoos renews breath before code can capture a syllable; Awtsmoos.com lets this Yesod vessel
- * ask permission honestly, choose a supported codec carefully, and return only the Blob evidence needed downstream.
+ * ask permission honestly and manage one recorder without swallowing persistence, waveform, URL, or project history.
  */
 export class Microphone {
 	/** Creates a fresh browser-capture vessel with no hidden stream or recorder state. */
@@ -45,35 +48,17 @@ export class Microphone {
 	}
 
 	/**
-	 * Starts chunked MediaRecorder capture using the strongest supported voice codec.
+	 * Starts one chunked MediaRecorder session using the dedicated codec policy.
 	 * @returns {{ok:boolean,mimeType?:string,error?:string}} Immutable start evidence.
 	 */
 	startRecording() {
-		if (!this.stream) {
-			return Object.freeze({
-				error: 'Microphone stream is not initialized.',
-				ok: false
-			});
-		}
-		if (typeof MediaRecorder === 'undefined') {
-			return Object.freeze({
-				error: 'MediaRecorder is unavailable.',
-				ok: false
-			});
-		}
-		if (this.mediaRecorder?.state === 'recording') {
-			return Object.freeze({
-				error: 'Microphone recording is already active.',
-				ok: false
-			});
+		const gevurahError = this.startError();
+		if (gevurahError) {
+			return Object.freeze({ error: gevurahError, ok: false });
 		}
 		this.audioChunks = [];
-		const yesodMimeType = this.preferredMimeType();
 		try {
-			this.mediaRecorder = new MediaRecorder(
-				this.stream,
-				yesodMimeType ? { mimeType: yesodMimeType } : undefined
-			);
+			this.mediaRecorder = MicrophoneCodecPolicy.createRecorder(this.stream);
 		} catch (orError) {
 			return Object.freeze({
 				error: `Recording could not start: ${orError?.message || orError}`,
@@ -81,9 +66,7 @@ export class Microphone {
 			});
 		}
 		this.mediaRecorder.ondataavailable = (orEvent) => {
-			if (orEvent.data?.size > 0) {
-				this.audioChunks.push(orEvent.data);
-			}
+			this.receiveChunk(orEvent);
 		};
 		this.startedAt = Date.now();
 		this.mediaRecorder.start(200);
@@ -94,8 +77,7 @@ export class Microphone {
 	}
 
 	/**
-	 * Stops the active recorder and resolves only Blob, MIME, and elapsed-time evidence.
-	 * Object URLs are intentionally owned later by DialogueRecordingBinder so temporary capture cannot leak them.
+	 * Stops the active recorder and resolves Blob/MIME/time evidence without creating a temporary URL.
 	 * @returns {Promise<object|null>} Captured voice evidence or null when already inactive.
 	 */
 	stopRecording() {
@@ -105,33 +87,35 @@ export class Microphone {
 				return;
 			}
 			this.mediaRecorder.onstop = () => {
-				const yesodMimeType = this.mediaRecorder.mimeType
-					|| this.audioChunks[0]?.type
-					|| 'audio/webm';
-				chesedResolve({
-					blob: new Blob(this.audioChunks, { type: yesodMimeType }),
-					elapsedMs: Math.max(0, Date.now() - this.startedAt),
-					mimeType: yesodMimeType
-				});
+				chesedResolve(MicrophoneCaptureResult.create(
+					this.mediaRecorder,
+					this.audioChunks,
+					this.startedAt
+				));
 			};
 			this.mediaRecorder.stop();
 		});
 	}
 
-	/** Resolves the first supported voice MIME type from a deterministic preference order. */
-	preferredMimeType() {
-		if (typeof MediaRecorder === 'undefined' || !MediaRecorder.isTypeSupported) {
-			return '';
+	/** Accepts one MediaRecorder data event without exposing mutable chunk storage. */
+	receiveChunk(orEvent) {
+		if (orEvent.data?.size > 0) {
+			this.audioChunks.push(orEvent.data);
 		}
-		return [
-			'audio/webm;codecs=opus',
-			'audio/ogg;codecs=opus',
-			'audio/mp4',
-			'audio/webm'
-		].find((yesodType) => MediaRecorder.isTypeSupported(yesodType)) || '';
 	}
 
-	/** Stops caller-visible microphone tracks and clears capture-only runtime state. */
+	/** Returns a human-readable reason when capture cannot begin, otherwise an empty string. */
+	startError() {
+		if (!this.stream) {
+			return 'Microphone stream is not initialized.';
+		}
+		if (this.mediaRecorder?.state === 'recording') {
+			return 'Microphone recording is already active.';
+		}
+		return '';
+	}
+
+	/** Stops microphone tracks and clears capture-only runtime state. */
 	release() {
 		for (const orTrack of this.stream?.getTracks?.() || []) {
 			orTrack.stop();

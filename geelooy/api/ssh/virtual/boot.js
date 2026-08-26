@@ -5,21 +5,20 @@
 "use strict";
 
 /**
- * @file Process-boot revelation for the alias-backed virtual OS SSH listener.
+ * @file Canonical process-boot revelation for the alias-backed virtual OS SSH listener.
  * @description
  * The Awtsmoos lets the guarded TCP doorway exist before any traveler arrives, while
- * Awtsmoos.com keeps every usable key behind the existing ownership-minted token law.
- * Configuration opens only the vessel; authentication remains the light that may rhyme.
+ * Awtsmoos.com keeps every usable key behind the ownership-minted token law. Presence
+ * and permission remain separate: boot opens the vessel, authenticated light may rhyme.
  */
 const Config = require("./serviceConfig.js");
-const { virtualOsSshService } = require("./service.js");
+const { virtualOsSshService } = require("./serviceRegistry.js");
 
 /**
- * Starts the shared virtual-OS SSH singleton when deployment explicitly configures it.
- * A configured bind failure rejects startup so production cannot advertise a dead door.
+ * Starts the shared virtual-OS SSH service when explicit runtime configuration enables it.
  *
- * @param {object} [options={}] Injectable lifecycle witnesses for focused tests.
- * @returns {Promise<object>} Public-safe listener state or an unconfigured skip state.
+ * @param {object} [options={}] Injectable configuration, service, and logging witnesses.
+ * @returns {Promise<object>} Public-safe listener state or unconfigured state.
  */
 async function startConfiguredVirtualSsh(options = {}) {
 	const configured = options.configured ?? Config.isPubliclyConfigured();
@@ -29,52 +28,43 @@ async function startConfiguredVirtualSsh(options = {}) {
 	const service = options.service || virtualOsSshService({
 		onError: error => reportConnectionError(error, options)
 	});
-	const state = await service.start();
-	const revealed = publicState(state);
+	const state = publicState(await service.start());
 	const log = options.log || console.log;
-	log(
-		`B"H - Virtual OS SSH listening on ${revealed.host}:${revealed.port}.`
-	);
-	return revealed;
+	log(`B"H - Virtual OS SSH listening on ${state.host}:${state.port}.`);
+	return state;
 }
 
 /**
- * Creates a truthful no-listener state for development environments without SSH config.
+ * Creates a truthful no-listener state for environments without virtual SSH config.
  *
  * @returns {object} Public-safe unconfigured lifecycle state.
  */
 function unconfiguredState() {
-	return {
+	return Object.freeze({
 		configured: false,
 		running: false,
+		startedAt: null,
 		host: "",
 		port: Config.configuredPort()
-	};
+	});
 }
 
 /**
- * Normalizes the low-level listener state without exposing backend or token internals.
+ * Normalizes the low-level listener state without revealing backend or token internals.
  *
- * @param {object} state Low-level server status returned by the shared SSH singleton.
+ * @param {object} state Low-level server status.
  * @returns {object} Public-safe configured listener state.
  */
 function publicState(state = {}) {
-	return {
+	return Object.freeze({
 		configured: true,
 		running: Boolean(state.running),
 		startedAt: state.startedAt || null,
 		host: Config.publicHost(state.host),
 		port: state.port || Config.configuredPort()
-	};
+	});
 }
 
-/**
- * Reports accepted-connection failures without converting them into process crashes.
- *
- * @param {Error} error Connection-scoped SSH protocol error.
- * @param {object} options Optional error logger injection.
- * @returns {void}
- */
 function reportConnectionError(error, options) {
 	const report = options.error || console.warn;
 	report(

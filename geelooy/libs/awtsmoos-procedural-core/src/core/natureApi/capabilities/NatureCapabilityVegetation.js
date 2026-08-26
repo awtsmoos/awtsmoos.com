@@ -4,9 +4,9 @@
 
 /**
  * @file NatureCapabilityVegetation.js
- * @description Describes proven plant, grass, tree, forest, and flower-cluster doors above canonical Tzomayach and forest authorities.
- * The Awtsmoos renews root, blade, trunk, blossom, and forest before a catalog can divide their shade; Awtsmoos.com lets
- * progressive discovery reveal the existing botanical pathways while biology, ecology, motion, quality, and realism remain deeply made.
+ * @description Describes canonical plant, population, grass, patch, moss, vine, and motion operations without duplicating Tzomayach generation authority.
+ * The Awtsmoos renews root, blade, moss, vine, and wind-touched stem before metadata can divide their green light;
+ * Awtsmoos.com lets these records reveal the existing botanical doors while ecology and geometry remain beneath one truthful rite.
  */
 
 import { createNatureCapabilityInput } from './NatureCapabilityInput.js';
@@ -20,57 +20,103 @@ const SPECIES_KLI = createNatureCapabilityInput({
 	required: true
 });
 
-const TREE_PRESET_KLI = createNatureCapabilityInput({
-	name: 'preset',
-	label: 'Tree preset',
-	type: 'string',
-	required: true
+const BOTANY_SUPPORT = Object.freeze({
+	seed: true,
+	quality: true,
+	realism: true
 });
 
-const FLOWER_KLI = createNatureCapabilityInput({
-	name: 'species',
-	label: 'Flower species',
-	type: 'string',
-	defaultValue: 'daisy'
-});
-
-const BOTANY_SUPPORT = Object.freeze({ seed: true, quality: true, realism: true });
+/** Creates one nested Tzomayach capability record with shared deterministic support evidence. */
+function nestedVegetationRecord(keliValues) {
+	return createNatureCapabilityRecord({
+		domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
+		scope: 'nested',
+		level: 'advanced',
+		supports: BOTANY_SUPPORT,
+		...keliValues
+	});
+}
 
 export const NATURE_CAPABILITY_VEGETATION_RECORDS = Object.freeze([
 	createNatureCapabilityRecord({
-		id: 'life.plant', label: 'Plant', domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
-		description: 'Create one canonical botanical organism through Tzomayach.', easyMethod: 'plant',
-		advancedPath: 'vegetation.plant', resultKind: 'artifact', catalog: 'plants', tags: ['plant', 'botany'],
-		supports: BOTANY_SUPPORT, simpleInputs: [SPECIES_KLI]
+		id: 'life.plant',
+		label: 'Plant',
+		description: 'Create one canonical botanical organism through Tzomayach.',
+		domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
+		easyMethod: 'plant',
+		path: 'plant',
+		pathAliases: ['vegetation.plant'],
+		advancedPath: 'vegetation.plant',
+		resultKind: 'artifact',
+		catalog: 'plants',
+		tags: ['plant', 'botany', 'tzomayach'],
+		supports: BOTANY_SUPPORT,
+		simpleInputs: [SPECIES_KLI]
 	}),
 	createNatureCapabilityRecord({
-		id: 'life.flora', label: 'Flora population', domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
-		description: 'Plan one deterministic botanical population with ecological patch structure.', easyMethod: 'flora',
-		advancedPath: 'vegetation.population', resultKind: 'plan', catalog: 'plants', tags: ['flora', 'population', 'ecology'],
+		id: 'life.flora',
+		label: 'Flora population',
+		description: 'Plan one deterministic botanical population with ecological patch structure.',
+		domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
+		easyMethod: 'flora',
+		path: 'flora',
+		pathAliases: ['vegetation.population'],
+		advancedPath: 'vegetation.population',
+		resultKind: 'plan',
+		catalog: 'plants',
+		tags: ['flora', 'population', 'ecology'],
 		supports: BOTANY_SUPPORT
 	}),
 	createNatureCapabilityRecord({
-		id: 'life.grass', label: 'Grass field', domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
-		description: 'Plan one ecological grass field through the canonical vegetation facade.', easyMethod: 'grass',
-		advancedPath: 'vegetation.grass', resultKind: 'plan', catalog: 'plants', tags: ['grass', 'field', 'meadow'],
+		id: 'life.grass',
+		label: 'Grass field',
+		description: 'Plan one ecological grass field through the canonical vegetation facade.',
+		domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
+		easyMethod: 'grass',
+		path: 'grass',
+		pathAliases: ['vegetation.grass'],
+		advancedPath: 'vegetation.grass',
+		resultKind: 'plan',
+		catalog: 'plants',
+		tags: ['grass', 'field', 'meadow', 'ecology'],
 		supports: BOTANY_SUPPORT
 	}),
-	createNatureCapabilityRecord({
-		id: 'life.tree', label: 'Tree', domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
-		description: 'Generate one canonical tree through the one-skeleton forest facade.', easyMethod: 'tree',
-		advancedPath: 'forests.tree', resultKind: 'artifact', catalog: 'trees', tags: ['tree', 'forest', 'canopy'],
-		supports: BOTANY_SUPPORT, simpleInputs: [TREE_PRESET_KLI]
+	nestedVegetationRecord({
+		id: 'life.patch',
+		label: 'Plant patch',
+		description: 'Create one deterministic clustered patch of a canonical plant species.',
+		easyMethod: 'patch',
+		path: 'vegetation.patch',
+		advancedPath: 'vegetation.patch',
+		resultKind: 'artifact',
+		simpleInputs: [SPECIES_KLI]
 	}),
-	createNatureCapabilityRecord({
-		id: 'life.forest', label: 'Forest', domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
-		description: 'Plan one habitat-aware forest with deterministic succession evidence.', easyMethod: 'forest',
-		advancedPath: 'forests.plan', resultKind: 'plan', catalog: 'trees', tags: ['forest', 'habitat', 'succession'],
-		supports: BOTANY_SUPPORT
+	nestedVegetationRecord({
+		id: 'life.moss',
+		label: 'Moss patch',
+		description: 'Create ecological moss coverage through the canonical vegetation facade.',
+		easyMethod: 'moss',
+		path: 'vegetation.moss',
+		advancedPath: 'vegetation.moss',
+		resultKind: 'artifact'
 	}),
-	createNatureCapabilityRecord({
-		id: 'life.flowers', label: 'Flower cluster', domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
-		description: 'Create a deterministic realistic flower patch through canonical botanical clustering.', easyMethod: 'flowers',
-		advancedPath: 'vegetation.flowers', resultKind: 'artifact', catalog: 'plants', tags: ['flower', 'flowers', 'cluster'],
-		supports: BOTANY_SUPPORT, simpleInputs: [FLOWER_KLI]
+	nestedVegetationRecord({
+		id: 'life.vine',
+		label: 'Vine',
+		description: 'Create one canonical vine using the existing botanical climbing authority.',
+		easyMethod: 'vine',
+		path: 'vegetation.vine',
+		pathAliases: ['vegetation.vines'],
+		advancedPath: 'vegetation.vine',
+		resultKind: 'artifact'
+	}),
+	nestedVegetationRecord({
+		id: 'life.motion',
+		label: 'Vegetation motion',
+		description: 'Describe wind and plant motion intent without coupling botany to a renderer.',
+		easyMethod: 'motion',
+		path: 'vegetation.motion',
+		advancedPath: 'vegetation.motion',
+		resultKind: 'artifact'
 	})
 ]);

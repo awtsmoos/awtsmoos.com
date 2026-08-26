@@ -1,4 +1,4 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -7,58 +7,77 @@ const test = require("node:test");
 const { verifyTunnelResponse } = require("../responseContract.js");
 
 /**
- * The Awtsmoos lets a fresh retry messenger observe one original deed without changing its name;
- * Awtsmoos.com accepts the canonical operation identity while truly foreign correlation still fails the same.
+ * @file Proves retry transport receipts and original deeds remain separate witnesses.
+ * @description
+ * The Awtsmoos reveals one deed through a new messenger; Awtsmoos.com binds the
+ * messenger to transportReceiptId and binds an original deed only when the caller
+ * explicitly carried that original testimony. Foreign explicit identity still fails.
  */
-
-const payload = {
-	action: "retryAction",
-	controlRequestId: "original-control",
-	requestedAction: "chromeNavigate",
-	params: {
-		controlRequestId: "original-control",
-		requestedAction: "chromeNavigate"
-	}
-};
-
-test("terminal retry accepts the original operation identity", () => {
+test("transport-only retry accepts the original native deed", () => {
+	const payload = transportRetry();
 	const result = {
 		ok: true,
-		action: "chromeNavigate",
-		controlRequestId: "original-control"
+		action: "commandStart",
+		controlRequestId: "original-deed",
+		transportReceiptId: "outer-transport"
 	};
-	assert.equal(
-		verifyTunnelResponse(result, payload, "native-one"),
-		result
-	);
+	assert.equal(verifyTunnelResponse(result, payload, "native-one"), result);
 });
 
-test("pending retry accepts original requested action testimony", () => {
+test("explicit original retry validates both witnesses", () => {
+	const payload = {
+		...transportRetry(),
+		originalControlRequestId: "original-deed"
+	};
 	const result = {
 		ok: true,
-		pending: true,
-		action: "tunnelRequestPending",
-		controlRequestId: "original-control",
-		requestedAction: "chromeNavigate"
+		action: "commandStart",
+		controlRequestId: "original-deed",
+		transportReceiptId: "outer-transport"
 	};
-	assert.equal(
-		verifyTunnelResponse(result, payload, "native-one"),
-		result
-	);
+	assert.equal(verifyTunnelResponse(result, payload, "native-one"), result);
 });
 
-test("foreign retry correlation remains fail-closed", () => {
+test("foreign transport receipt remains fail-closed", () => {
 	const result = {
 		ok: true,
-		action: "chromeNavigate",
-		controlRequestId: "foreign-control"
+		action: "commandStart",
+		controlRequestId: "original-deed",
+		transportReceiptId: "foreign-transport"
+	};
+	const verified = verifyTunnelResponse(result, transportRetry(), "native-one");
+	assertMismatch(verified, "transportReceiptId");
+});
+
+test("foreign explicit original deed remains fail-closed", () => {
+	const payload = {
+		...transportRetry(),
+		originalControlRequestId: "expected-original"
+	};
+	const result = {
+		ok: true,
+		action: "commandStart",
+		controlRequestId: "foreign-original",
+		transportReceiptId: "outer-transport"
 	};
 	const verified = verifyTunnelResponse(result, payload, "native-one");
-	assert.equal(verified.ok, false);
-	assert.equal(verified.status, 409);
-	assert.equal(verified.error, "tunnel_response_correlation_mismatch");
+	assertMismatch(verified, "originalControlRequestId");
+});
+
+function transportRetry() {
+	return {
+		action: "retryAction",
+		controlRequestId: "outer-transport",
+		requestedAction: "commandStart"
+	};
+}
+
+function assertMismatch(result, field) {
+	assert.equal(result.ok, false);
+	assert.equal(result.status, 409);
+	assert.equal(result.error, "tunnel_response_correlation_mismatch");
 	assert.equal(
-		verified.mismatchProof.some(item => item.includes("controlRequestId")),
+		result.mismatchProof.some(item => item.includes(field)),
 		true
 	);
-});
+}

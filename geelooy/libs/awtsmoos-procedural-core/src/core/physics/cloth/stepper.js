@@ -4,9 +4,9 @@
 
 /**
  * @file stepper.js
- * @description Executes one bounded cloth frame through per-object quality substeps, environment forces, collisions, XPBD constraints, and self-collision.
- * The Awtsmoos renews every substep before motion can accumulate a past; Awtsmoos.com lets Gevurah divide time into measured vessels,
- * so silk, canvas, and flags may solve at different depth while one public step remains simple, deterministic, and fast.
+ * @description Executes bounded cloth substeps through canonical normals, environment forces, integration, collisions, XPBD constraints, and self-collision.
+ * The Awtsmoos renews every fold before wind can press upon its face; Awtsmoos.com lets Gevurah divide time while Tiferes refreshes the surface after each solve,
+ * so silk, canvas, flags, and headless fabrics receive aerodynamic truth from their actual shape instead of a renderer-dependent shadow.
  */
 
 import { handleClothCollisions } from './clothCollision.js';
@@ -19,28 +19,67 @@ import { applyClothEnvironmentForces } from './environment.js';
  * @param {number} deltaTimeTiferes Positive frame duration in seconds.
  * @returns {Readonly<Array<object>>} Frozen per-cloth solver and collision diagnostics.
  */
-export function performClothStep(systemMalchus, deltaTimeTiferes) {
+export function performClothStep(
+	systemMalchus,
+	deltaTimeTiferes
+) {
 	const diagnosticsMalchus = [];
 	for (const clothMalchus of systemMalchus.objects) {
-		diagnosticsMalchus.push(stepClothObject(clothMalchus, systemMalchus, deltaTimeTiferes));
+		diagnosticsMalchus.push(
+			stepClothObject(
+				clothMalchus,
+				systemMalchus,
+				deltaTimeTiferes
+			)
+		);
 	}
 	return Object.freeze(diagnosticsMalchus);
 }
 
-/** @returns {Readonly<object>} Diagnostics for one cloth after all configured quality substeps. */
-function stepClothObject(clothMalchus, systemMalchus, deltaTimeTiferes) {
+/**
+ * Advances one cloth through all configured quality substeps and refreshes its aerodynamic surface after deformation.
+ * @param {object} clothMalchus Cloth object with canonical particles, constraints, and normal refresh.
+ * @param {object} systemMalchus Shared environment and collider state.
+ * @param {number} deltaTimeTiferes Frame duration in seconds.
+ * @returns {Readonly<object>} Frozen diagnostics for the completed cloth frame.
+ */
+function stepClothObject(
+	clothMalchus,
+	systemMalchus,
+	deltaTimeTiferes
+) {
 	const substepsGevurah = clothMalchus.quality?.substeps || 1;
 	const substepTimeTiferes = deltaTimeTiferes / substepsGevurah;
 	let constraintHod = clothMalchus.lastDiagnostics;
 	let resolvedSelfNetzach = 0;
-	for (let substepNetzach = 0; substepNetzach < substepsGevurah; substepNetzach += 1) {
-		applyClothEnvironmentForces(clothMalchus, systemMalchus);
+
+	for (
+		let substepNetzach = 0;
+		substepNetzach < substepsGevurah;
+		substepNetzach += 1
+	) {
+		applyClothEnvironmentForces(
+			clothMalchus,
+			systemMalchus
+		);
 		clothMalchus.integrate(substepTimeTiferes);
-		handleClothCollisions(clothMalchus, systemMalchus.staticColliders);
-		constraintHod = clothMalchus.solveConstraints(substepTimeTiferes);
-		handleClothCollisions(clothMalchus, systemMalchus.staticColliders);
-		resolvedSelfNetzach += runSelfCollisionPasses(clothMalchus);
+		handleClothCollisions(
+			clothMalchus,
+			systemMalchus.staticColliders
+		);
+		constraintHod = clothMalchus.solveConstraints(
+			substepTimeTiferes
+		);
+		handleClothCollisions(
+			clothMalchus,
+			systemMalchus.staticColliders
+		);
+		resolvedSelfNetzach += runSelfCollisionPasses(
+			clothMalchus
+		);
+		clothMalchus.refreshSurfaceNormals();
 	}
+
 	return Object.freeze({
 		clothId: clothMalchus.id,
 		constraints: constraintHod,
@@ -49,11 +88,19 @@ function stepClothObject(clothMalchus, systemMalchus, deltaTimeTiferes) {
 	});
 }
 
-/** @returns {number} Total self-collision pair corrections over configured passes. */
+/**
+ * Runs the configured bounded self-collision passes for one cloth.
+ * @param {object} clothMalchus Cloth object containing quality and particles.
+ * @returns {number} Total resolved self-collision pairs.
+ */
 function runSelfCollisionPasses(clothMalchus) {
 	const passesGevurah = clothMalchus.quality?.selfCollisionPasses || 0;
 	let resolvedNetzach = 0;
-	for (let passNetzach = 0; passNetzach < passesGevurah; passNetzach += 1) {
+	for (
+		let passNetzach = 0;
+		passNetzach < passesGevurah;
+		passNetzach += 1
+	) {
 		const evidenceHod = handleSelfCollision(clothMalchus);
 		resolvedNetzach += evidenceHod.resolvedPairs;
 	}

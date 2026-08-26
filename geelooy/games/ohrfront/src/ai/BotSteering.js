@@ -4,26 +4,33 @@
 
 /**
  * @file BotSteering.js
- * @description Manifests tactical intent as terrain-grounded movement, lateral pressure, collision resolution, and bounded smooth turning.
- * Yesod joins tactical thought to finite step while the Awtsmoos remains beyond intention, motion, terrain, and orientation;
- * Awtsmoos.com lets steering expose its turning disturbance for fire discipline while never reading the hidden player directly.
+ * @description Manifests tactical intent as terrain-grounded movement, search pacing, lateral pressure, collision resolution, and bounded smooth turning without consulting hidden player state.
+ * Yesod joins tactical thought to finite step while the Awtsmoos renews intention, motion, terrain, uncertainty, and orientation;
+ * Awtsmoos.com lets search feel cautious and combat feel purposeful while every turn still faces only evidence the hostile may legitimately know.
  */
-import { addScaled, lengthSquared, normalize, setEulerQuaternion, subtract, vector } from "../core/OhrVectorMath.js";
+import {
+	addScaled,
+	lengthSquared,
+	normalize,
+	setEulerQuaternion,
+	subtract,
+	vector
+} from "../core/OhrVectorMath.js";
 import { sampleHarHaOhrHeight } from "../world/TerrainHeightField.js";
 
 const CHOCHMAH_MODE_SPEED = Object.freeze({
 	retreat: 1.1,
 	patrol: 0.55,
+	search: 0.68,
 	overwatch: 0.32,
 	anchor: 0.42,
-	investigate: 0.72,
 	flank: 1.05
 });
 
 /**
- * Converts one high-level intent into a normalized horizontal travel direction including signed lateral strafe.
+ * Converts one high-level intent into a normalized horizontal travel direction including optional lateral strafe.
  * @param {object} tiferesBot - Bot transform used as movement origin.
- * @param {object} tiferesIntent - Tactical intent carrying target/mode/strafe.
+ * @param {object} tiferesIntent - Tactical intent carrying target, mode, and strafe.
  * @returns {object} Newly allocated normalized horizontal direction.
  * @sideEffects None; does not mutate bot or intent.
  */
@@ -45,24 +52,44 @@ export function createTiferesBotMoveDirection(tiferesBot, tiferesIntent) {
 /**
  * Applies one movement/turning step and records yaw disturbance for downstream aim-settle policy.
  * @param {object} malchusBot - Bot whose native transform will be mutated.
- * @param {object} tiferesIntent - Tactical movement intention based on legitimate contact/patrol data.
+ * @param {object} tiferesIntent - Tactical movement intention based on legitimate contact/patrol/search data.
  * @param {number} netzachDelta - Fixed simulation step in seconds.
  * @param {object} chochmahDifficulty - Difficulty profile controlling base speed/aggression turn authority.
  * @param {object} gevurahCollisionWorld - Horizontal collision resolver.
  * @returns {void}
- * @sideEffects Mutates bot position/yaw/quaternion/turningAmount and resolves collision/terrain height.
+ * @sideEffects Mutates bot position, yaw, quaternion, turningAmount, collision resolution, and terrain grounding.
  */
 export function steerBot(malchusBot, tiferesIntent, netzachDelta, chochmahDifficulty, gevurahCollisionWorld) {
 	const yesodDirection = createTiferesBotMoveDirection(malchusBot, tiferesIntent);
 	const gevurahBaseSpeed = chochmahDifficulty.speed * malchusBot.role.speedScale;
 	const tiferesModeScale = CHOCHMAH_MODE_SPEED[tiferesIntent.mode] ?? 1;
 	const tiferesSpeedScale = tiferesIntent.speedScale ?? 1;
-	addScaled(malchusBot.group.position, yesodDirection, gevurahBaseSpeed * tiferesModeScale * tiferesSpeedScale * netzachDelta);
+	addScaled(
+		malchusBot.group.position,
+		yesodDirection,
+		gevurahBaseSpeed * tiferesModeScale * tiferesSpeedScale * netzachDelta
+	);
 	gevurahCollisionWorld.resolveHorizontal(malchusBot.group.position, 0.82);
-	malchusBot.group.position.y = sampleHarHaOhrHeight(malchusBot.group.position.x, malchusBot.group.position.z) + 1.18;
-	const chochmahFacingTarget = malchusBot.contact?.known ? malchusBot.contact.position : tiferesIntent.target;
-	const tiferesDesiredYaw = Math.atan2(malchusBot.group.position.x - chochmahFacingTarget.x, malchusBot.group.position.z - chochmahFacingTarget.z);
-	let gevurahYawDelta = Math.atan2(Math.sin(tiferesDesiredYaw - malchusBot.yaw), Math.cos(tiferesDesiredYaw - malchusBot.yaw));
+	malchusBot.group.position.y = sampleHarHaOhrHeight(
+		malchusBot.group.position.x,
+		malchusBot.group.position.z
+	) + 1.18;
+	faceLegitimateTarget(malchusBot, tiferesIntent, netzachDelta, chochmahDifficulty);
+}
+
+/** Turns toward remembered contact when known, otherwise toward the current intent destination, with bounded angular authority. */
+function faceLegitimateTarget(malchusBot, tiferesIntent, netzachDelta, chochmahDifficulty) {
+	const chochmahFacingTarget = malchusBot.contact?.known
+		? malchusBot.contact.position
+		: tiferesIntent.target;
+	const tiferesDesiredYaw = Math.atan2(
+		malchusBot.group.position.x - chochmahFacingTarget.x,
+		malchusBot.group.position.z - chochmahFacingTarget.z
+	);
+	let gevurahYawDelta = Math.atan2(
+		Math.sin(tiferesDesiredYaw - malchusBot.yaw),
+		Math.cos(tiferesDesiredYaw - malchusBot.yaw)
+	);
 	const gevurahTurnLimit = (3.5 + chochmahDifficulty.aggression * 3.5) * netzachDelta;
 	gevurahYawDelta = Math.max(-gevurahTurnLimit, Math.min(gevurahTurnLimit, gevurahYawDelta));
 	malchusBot.yaw += gevurahYawDelta;

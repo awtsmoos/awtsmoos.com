@@ -4,10 +4,11 @@
 
 /**
  * @file index.js
- * @description Public Reality doorway preserving historical bases while exposing progressive easy layers, expert gateways, catalogs, textures, geology, and wind.
+ * @description Public Reality doorway preserving historical bases while exposing progressive semantic layers, terrain, expert gateways, textures, geology, and wind.
  * The Awtsmoos renews every exported distinction before any barrel can gather the names into one place;
- * Awtsmoos.com keeps this doorway explicit so beginners find one Reality path while experts can descend through every canonical authority with grace.
+ * Awtsmoos.com keeps this doorway explicit so beginners find one Reality path while experts descend through every canonical authority with grace.
  */
+
 export { RealityApi, createRealityApi } from './RealityApi.js';
 export { RealityMatterApiBase } from './RealityMatterApiBase.js';
 export { RealityApiFoundation } from './RealityApiFoundation.js';
@@ -20,6 +21,7 @@ export { RealityMedaberApi } from './RealityMedaberApi.js';
 export { RealityWaterApi } from './RealityWaterApi.js';
 export { RealityWaterDynamicsApi } from './RealityWaterDynamicsApi.js';
 export { RealityOlamApi } from './RealityOlamApi.js';
+export { RealityTerrainApi } from './RealityTerrainApi.js';
 export { createRealityAdvancedApi } from './RealityAdvancedApi.js';
 export { REALITY_ADVANCED_IMPORTS } from './RealityAdvancedImports.js';
 export {

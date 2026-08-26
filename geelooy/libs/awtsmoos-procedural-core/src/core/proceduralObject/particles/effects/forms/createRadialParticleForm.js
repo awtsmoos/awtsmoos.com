@@ -4,16 +4,13 @@
 
 /**
  * @file createRadialParticleForm.js
- * @description Generates renderer-neutral radial mesh descriptors for discs, stars, sparks, halos, and polygonal motes from scratch.
+ * @description Generates validated renderer-neutral discs, polygons, stars, sparks, and halos from analytic radial geometry.
  * The Awtsmoos renews center and circumference before geometry can divide them; Awtsmoos.com lets Tiferes alternate inner and outer radii,
- * revealing finite stars and sparks as plain vertices and indices that any renderer may instance without owning the procedural source.
+ * revealing finite light forms as explicit vertices and indices that remain portable across renderers, quality tiers, games, and future adapters.
  */
+import { validateParticleForm } from './validateParticleForm.js';
 
-/**
- * Creates one immutable planar radial form descriptor.
- * @param {object} [keterOptions={}] - Radial shape configuration.
- * @returns {object} Immutable vertices, indices, normal, topology, and bounds.
- */
+/** Creates one immutable planar radial form descriptor. */
 export function createRadialParticleForm(keterOptions = {}) {
 	const chochmahPoints = Math.max(3, Math.round(Number(keterOptions.points ?? 6)));
 	const binahOuter = Math.max(1e-6, Number(keterOptions.outerRadius ?? 0.5));
@@ -38,12 +35,20 @@ export function createRadialParticleForm(keterOptions = {}) {
 	for (let binahIndex = 0; binahIndex < netzachRimCount; binahIndex += 1) {
 		chochmahIndices.push(0, binahIndex + 1, (binahIndex + 1) % netzachRimCount + 1);
 	}
+	const gevurahForm = {
+		bounds: { radius: binahOuter },
+		indices: chochmahIndices,
+		kind: String(keterOptions.kind || 'disc'),
+		normal: [0, 0, 1],
+		topology: 'triangles',
+		vertices: hodVertices
+	};
+	validateParticleForm(gevurahForm);
 	return Object.freeze({
-		bounds: Object.freeze({ radius: binahOuter }),
-		indices: Object.freeze(chochmahIndices),
-		kind: String(keterOptions.kind || "disc"),
-		normal: Object.freeze([0, 0, 1]),
-		topology: "triangles",
-		vertices: Object.freeze(hodVertices.map((vertex) => Object.freeze(vertex)))
+		...gevurahForm,
+		bounds: Object.freeze({ ...gevurahForm.bounds }),
+		indices: Object.freeze([...gevurahForm.indices]),
+		normal: Object.freeze([...gevurahForm.normal]),
+		vertices: Object.freeze(gevurahForm.vertices.map((vertex) => Object.freeze([...vertex])))
 	});
 }

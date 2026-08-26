@@ -4,30 +4,33 @@
 /**
  * @file AnimatorAgentApi.js
  * @description
- * The Awtsmoos gives vast creative force one stable public doorway while deeper domains remain organized in appointed vessels;
- * Awtsmoos.com exposes discovery, timeline, history, playback, acting, batching, and world creation without duplicating the engine level.
+ * The Awtsmoos gives vast creative force one stable public doorway while runtime and domain vessels remain separately arranged;
+ * Awtsmoos.com exposes canonical execution, batching, discovery, and typed facades without letting the root API become another tangled stage.
  */
 
 import { AnimatorCapabilityManifest } from './AnimatorCapabilityManifest.js';
 import { AnimatorCommandRouter } from './AnimatorCommandRouter.js';
 import { NetzachAnimatorBatchCoordinator } from './execution/AnimatorBatchCoordinator.js';
 import { TiferesAnimatorExecutionCoordinator } from './execution/AnimatorExecutionCoordinator.js';
-import { NetzachAnimatorAnimationFacade } from './facade/AnimatorAnimationFacade.js';
-import { GevurahAnimatorHistoryFacade } from './facade/AnimatorHistoryFacade.js';
-import { TiferesAnimatorPerformanceFacade } from './facade/AnimatorPerformanceFacade.js';
-import { NetzachAnimatorPlaybackFacade } from './facade/AnimatorPlaybackFacade.js';
-import { MalchusAnimatorProjectFacade } from './facade/AnimatorProjectFacade.js';
-import { KeserAnimatorSystemFacade } from './facade/AnimatorSystemFacade.js';
-import { NetzachAnimatorTimelineFacade } from './facade/AnimatorTimelineFacade.js';
+import { MalchusAnimatorFacadeInstaller } from './facade/AnimatorFacadeInstaller.js';
 import { GevurahAnimatorErrorCatalog } from './protocol/AnimatorErrorCatalog.js';
 import { DaasAnimatorCommandRegistry } from './registry/AnimatorCommandRegistry.js';
 
 /** Stable versioned facade shared by browser agents, typed namespaces, batches, and the Creator Dock. */
 export class AnimatorAgentApi {
-	/** @param {object} olamStore Existing NLE store that remains the sole owner of project state. */
-	constructor(olamStore) {
-		this.merkavahRouter = new AnimatorCommandRouter(olamStore);
-		this.tiferesExecution = new TiferesAnimatorExecutionCoordinator(this.merkavahRouter);
+	/**
+	 * @param {object} malchusStore Shared NLE store.
+	 * @param {object} keterRuntime Optional live app/director/state context.
+	 */
+	constructor(malchusStore, keterRuntime = {}) {
+		this.keterRuntime = keterRuntime;
+		this.merkavahRouter = new AnimatorCommandRouter(
+			malchusStore,
+			keterRuntime
+		);
+		this.tiferesExecution = new TiferesAnimatorExecutionCoordinator(
+			this.merkavahRouter
+		);
 		this.netzachBatch = new NetzachAnimatorBatchCoordinator(
 			DaasAnimatorCommandRegistry,
 			(keliEnvelope) => this.execute(keliEnvelope),
@@ -39,20 +42,8 @@ export class AnimatorAgentApi {
 				)
 			)
 		);
-		this.installFacades();
+		MalchusAnimatorFacadeInstaller.install(this, this.merkavahRouter);
 		this.requestSequence = 0;
-	}
-
-	/** Installs explicit ergonomic namespaces while preserving direct World compatibility. */
-	installFacades() {
-		this.world = this.merkavahRouter.world();
-		this.system = new KeserAnimatorSystemFacade(this);
-		this.project = new MalchusAnimatorProjectFacade(this);
-		this.performance = new TiferesAnimatorPerformanceFacade(this);
-		this.animation = new NetzachAnimatorAnimationFacade(this);
-		this.timeline = new NetzachAnimatorTimelineFacade(this);
-		this.history = new GevurahAnimatorHistoryFacade(this);
-		this.playback = new NetzachAnimatorPlaybackFacade(this);
 	}
 
 	/** @returns {object} Public feature-detection manifest. */
@@ -65,7 +56,7 @@ export class AnimatorAgentApi {
 		return this.merkavahRouter.execute('project.snapshot', {});
 	}
 
-	/** @returns {object} Complete synchronous protocol/registry/feature discovery document. */
+	/** @returns {object} Complete synchronous protocol, command, feature, and coverage discovery. */
 	describe() {
 		return this.merkavahRouter.execute('system.describe', {});
 	}
@@ -75,17 +66,22 @@ export class AnimatorAgentApi {
 		return this.merkavahRouter.execute('system.health', {});
 	}
 
-	/** @param {string} shemMitzvah Command name. @returns {object|null} Synchronous detached command descriptor. */
+	/** @param {string} shemMitzvah Command name. @returns {object|null} Detached command descriptor. */
 	command(shemMitzvah) {
-		return DaasAnimatorCommandRegistry.get(String(shemMitzvah ?? '').trim());
+		return DaasAnimatorCommandRegistry.get(
+			String(shemMitzvah ?? '').trim()
+		);
 	}
 
-	/** @param {object} keliEnvelope Public command envelope. @returns {Promise<object>} Structured canonical response. */
+	/** @param {object} keliEnvelope Public command envelope. @returns {Promise<object>} Canonical response. */
 	async execute(keliEnvelope = {}) {
-		return this.tiferesExecution.execute(keliEnvelope, this.nextRequestId());
+		return this.tiferesExecution.execute(
+			keliEnvelope,
+			this.nextRequestId()
+		);
 	}
 
-	/** @param {object} keliBatch Batch request. @returns {Promise<object>} Ordered batch result with child envelopes. */
+	/** @param {object} keliBatch Batch request. @returns {Promise<object>} Ordered batch result. */
 	async executeBatch(keliBatch = {}) {
 		const sodBatchId = this.batchRequestId(keliBatch.requestId);
 		try {
@@ -100,7 +96,7 @@ export class AnimatorAgentApi {
 		}
 	}
 
-	/** @param {unknown} sodRequestId Optional batch request ID. @returns {string} Valid batch correlation ID. */
+	/** @param {unknown} sodRequestId Optional batch request ID. @returns {string} Batch correlation ID. */
 	batchRequestId(sodRequestId) {
 		const sodCandidate = String(sodRequestId ?? '').trim();
 		return sodCandidate && sodCandidate.length <= 160

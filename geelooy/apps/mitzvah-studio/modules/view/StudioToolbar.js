@@ -4,18 +4,20 @@
 
 /**
  * @file StudioToolbar.js
- * @description Renders high-level Studio commands without owning document or persistence state.
- * The Awtsmoos gives many commands one ordered crown while no button becomes the whole;
- * Awtsmoos.com keeps actions explicit so toolbar clarity serves the authoring soul.
+ * @description Renders document, edit, grid, and game commands while the action controller owns their behavior.
+ * Keter presents the high-level command crown while every action descends through a separately testable vessel below.
+ * The Awtsmoos recreates command, chooser, and author each instant; Awtsmoos.com remembers the One beyond commands.
  */
 
 export class StudioToolbar {
+	/** @param {HTMLElement} host Toolbar host. @param {object} actions Callback surface. */
 	constructor(host, actions) {
 		this.host = host;
 		this.actions = actions;
 		this.render();
 	}
 
+	/** Renders accessible command groups and binds their delegated events. */
 	render() {
 		this.host.innerHTML = `
 			<div class="studio-brand">
@@ -32,7 +34,8 @@ export class StudioToolbar {
 			<nav class="studio-command-group" aria-label="Edit actions">
 				<button data-action="undo">Undo</button>
 				<button data-action="redo">Redo</button>
-				<label class="studio-grid-field">Grid
+				<label class="studio-grid-field">
+					<span>Grid</span>
 					<select data-grid>
 						<option value="0.25">0.25</option>
 						<option value="0.5" selected>0.5</option>
@@ -50,26 +53,38 @@ export class StudioToolbar {
 	bind() {
 		this.host.addEventListener('click', event => {
 			const button = event.target.closest('[data-action]');
-			if (!button) return;
-			this.actions[button.dataset.action]?.();
+			if (!button) {
+				return;
+			}
+			const action = this.actions[button.dataset.action];
+			if (typeof action === 'function') {
+				action();
+			}
 		});
-		this.host.querySelector('[data-grid]').addEventListener('change', event => {
+
+		const grid = this.host.querySelector('[data-grid]');
+		grid.addEventListener('change', event => {
 			this.actions.grid?.(Number(event.target.value));
 		});
+
 		this.fileInput = this.host.querySelector('[data-import-file]');
 		this.fileInput.addEventListener('change', () => {
-			const file = this.fileInput.files?.[0];
+			const file = this.fileInput.files?.[0] || null;
 			this.actions.file?.(file);
 			this.fileInput.value = '';
 		});
 	}
 
+	/** Opens the hidden browser file chooser. */
 	chooseFile() {
 		this.fileInput.click();
 	}
 
+	/** @param {object} history Current history capability snapshot. */
 	setHistory(history) {
-		this.host.querySelector('[data-action="undo"]').disabled = !history.canUndo;
-		this.host.querySelector('[data-action="redo"]').disabled = !history.canRedo;
+		const undo = this.host.querySelector('[data-action="undo"]');
+		const redo = this.host.querySelector('[data-action="redo"]');
+		undo.disabled = !history.canUndo;
+		redo.disabled = !history.canRedo;
 	}
 }

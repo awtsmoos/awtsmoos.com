@@ -4,9 +4,9 @@
 
 /**
  * @file index.js
- * @description Canonical public surface for the Awtsmoos Procedural Core.
+ * @description Canonical public surface for the Awtsmoos Procedural Core, gathering world, life, matter, simulation, terrain, cloth, and trusted adapter domains.
  * The Awtsmoos renews countless forms while remaining One beyond every divided name;
- * Awtsmoos.com exposes each bounded domain clearly so every game and studio can share the same flame.
+ * Awtsmoos.com exposes each bounded domain clearly so games and studios share one professional flame.
  */
 
 export * from './core/assets/index.js';
@@ -25,6 +25,8 @@ export * from './exports/materials.js';
 export * from './exports/performance.js';
 export * from './exports/visibility.js';
 export * from './core/reality/index.js';
+export * from './core/terrain/index.js';
+export * from './core/physics/cloth/index.js';
 export * from './core/animalMesh/index.js';
 export * from './core/proceduralObject/index.js';
 export * from './core/universalApi/index.js';
@@ -37,4 +39,6 @@ export * from './core/medaber/index.js';
 export * from './core/olamos/index.js';
 export * from './core/celestial/index.js';
 export { NativeCelestialRenderer } from './core/webgl/celestial/index.js';
-export { createParticleRenderArtifact } from './core/proceduralObject/particles/createParticleRenderArtifact.js';
+export {
+	createParticleRenderArtifact
+} from './core/proceduralObject/particles/createParticleRenderArtifact.js';

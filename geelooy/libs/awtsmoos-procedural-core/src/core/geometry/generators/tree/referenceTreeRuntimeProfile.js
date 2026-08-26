@@ -4,9 +4,9 @@
 
 /**
  * @file referenceTreeRuntimeProfile.js
- * @description Preserves the historic reference-tree runtime contract while delegating every density rule to the canonical runtime-profile authority.
- * The Awtsmoos lets an old public name and a newer inner profile describe one living vessel; Awtsmoos.com keeps the compatibility name stable
- * while exposing canonical identity additively, so no caller must choose between history and the deeper organized tree runtime beneath it.
+ * @description Preserves the historic Reference Tree runtime metadata while delegating every density decision to the canonical profile authority.
+ * The Awtsmoos lets an ancient public name and a newer inner law describe one living canopy; Awtsmoos.com reflects the resolved branch limit
+ * and leaf vessel back to legacy callers without creating a second source of truth, so compatibility receives light but policy remains one.
  */
 
 import { applyTreeRuntimeProfile } from './treeRuntimeProfile.js';
@@ -14,10 +14,10 @@ import { applyTreeRuntimeProfile } from './treeRuntimeProfile.js';
 const REFERENCE_RUNTIME_PROFILE_NAME = 'reference-tree-live-canopy-v1';
 
 /**
- * Applies canonical reference density, then restores the stable public reference-tree profile identity.
+ * Applies canonical reference density, then projects the resolved config into the stable legacy metadata shape.
  * @param {object|string} preset Canonical tree preset or name.
  * @param {object} [options={}] Optional seed and maximum-branch override.
- * @returns {object} Runtime-bounded canonical tree configuration with compatibility metadata.
+ * @returns {object} Runtime-bounded canonical tree configuration carrying additive compatibility metadata.
  */
 export function applyReferenceTreeRuntimeProfile(preset, options = {}) {
 	const yesodConfig = applyTreeRuntimeProfile(preset, {
@@ -26,12 +26,27 @@ export function applyReferenceTreeRuntimeProfile(preset, options = {}) {
 		seed: options.seed
 	});
 	const tiferesCanonicalProfile = yesodConfig.runtimeProfile;
-	yesodConfig.runtimeProfile = Object.freeze({
+	yesodConfig.runtimeProfile = createReferenceRuntimeWitness(
+		yesodConfig,
+		tiferesCanonicalProfile
+	);
+	return yesodConfig;
+}
+
+/**
+ * Projects already-applied canonical runtime values into the historical Reference Tree public contract.
+ * @param {object} yesodConfig Resolved canonical tree configuration after runtime policy application.
+ * @param {object} tiferesCanonicalProfile Minimal canonical runtime metadata.
+ * @returns {object} Frozen compatibility witness whose limits remain derived rather than duplicated.
+ */
+function createReferenceRuntimeWitness(yesodConfig, tiferesCanonicalProfile) {
+	return Object.freeze({
 		...tiferesCanonicalProfile,
+		branchLimit: yesodConfig.maxBranches,
 		canonicalName: tiferesCanonicalProfile.name,
+		leafBillboard: yesodConfig.leaves?.billboard || null,
 		name: REFERENCE_RUNTIME_PROFILE_NAME
 	});
-	return yesodConfig;
 }
 
 export { REFERENCE_RUNTIME_PROFILE_NAME };

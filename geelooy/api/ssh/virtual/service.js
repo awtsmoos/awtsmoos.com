@@ -5,11 +5,11 @@
 "use strict";
 
 /**
- * @file Long-lived alias-backed virtual-OS SSH service with explicit lifecycle data.
+ * @file Alias-backed virtual-OS SSH service class without process-global ownership.
  * @description
- * The Awtsmoos lets one listener stand before many authenticated alias worlds while
- * Awtsmoos.com keeps startup, grants, revocation, status, and shutdown as separate
- * methods over smaller data vessels, so presence never implies permission and all rhyme.
+ * The Awtsmoos lets one service coordinate listener, token light, revocation, and status
+ * while Awtsmoos.com assigns singleton lifetime to a separate registry. Class behavior
+ * stays injectable and testable; process ownership remains explicit, and both may rhyme.
  */
 const { AwtsmoosSshServer } = require("../../../../ayzarim/ssh/server/Server.js");
 const { createVirtualOsBackend } = require("./backend.js");
@@ -19,12 +19,12 @@ const { VirtualSshTokenStore } = require("./tokenStore.js");
 
 class VirtualOsSshService {
 	/**
-	 * Creates one service vessel with an in-memory token store and custom SSH server.
+	 * Creates one independently ownable service around a token store and custom SSH server.
 	 *
-	 * @param {object} [keterOptions={}] Service observers.
-	 * @param {Function} [keterOptions.onError] Listener/protocol error observer.
+	 * @param {object} [options={}] Service observers and injectable implementation details.
+	 * @param {Function} [options.onError] Listener/protocol error observer.
 	 */
-	constructor(keterOptions = {}) {
+	constructor(options = {}) {
 		this.tokens = new VirtualSshTokenStore({
 			ttlMs: Config.tokenTtlMs(),
 			maxRecords: Config.tokenMaxRecords()
@@ -32,13 +32,13 @@ class VirtualOsSshService {
 		this.server = new AwtsmoosSshServer(
 			Config.serverOptions(
 				createVirtualOsBackend(this.tokens),
-				keterOptions.onError
+				options.onError
 			)
 		);
 	}
 
 	/**
-	 * Starts the TCP listener idempotently using the canonical listener policy.
+	 * Starts the TCP listener idempotently using canonical listener policy.
 	 *
 	 * @returns {Promise<object>} Current listener state after startup.
 	 */
@@ -47,58 +47,60 @@ class VirtualOsSshService {
 	}
 
 	/**
-	 * Starts the listener if needed, mints one opaque capability, and returns access data.
+	 * Mints one opaque capability after ensuring the process listener is available.
 	 *
-	 * @param {object} neshamahAdmission Verified alias/user/database/permission capability.
-	 * @returns {Promise<object>} One-time SSH username/password/host/port grant.
+	 * @param {object} admission Verified alias/user/database/permission capability.
+	 * @returns {Promise<object>} SSH access grant carrying one temporary secret.
 	 */
-	async mintAccess(neshamahAdmission = {}) {
-		const yesodListener = await this.start();
-		const keterToken = this.tokens.mint(neshamahAdmission);
+	async mintAccess(admission = {}) {
+		const listener = await this.start();
+		const token = this.tokens.mint(admission);
 		return Grants.revealAccessGrant(
-			yesodListener, neshamahAdmission, keterToken,
-			Config.publicHost(yesodListener.host)
+			listener,
+			admission,
+			token,
+			Config.publicHost(listener.host)
 		);
 	}
 
 	/**
-	 * Revokes every live token belonging to one verified user/alias pair.
+	 * Revokes live capabilities belonging to one verified account/alias pair.
 	 *
-	 * @param {string} userId Verified account identity.
-	 * @param {string} aliasId Verified owned alias identity.
+	 * @param {string} userId Verified user identity.
+	 * @param {string} aliasId Verified alias identity.
 	 * @returns {{aliasId:string,revoked:number}} Revocation result.
 	 */
 	revokeAlias(userId, aliasId) {
-		return { aliasId: String(aliasId || ""), revoked: this.tokens.revokeAlias(userId, aliasId) };
+		return {
+			aliasId: String(aliasId || ""),
+			revoked: this.tokens.revokeAlias(userId, aliasId)
+		};
 	}
 
-	/** @returns {object} Secret-free public service and token-capacity status. */
+	/**
+	 * Reveals secret-free listener and token-capacity state.
+	 *
+	 * @returns {object} Public-safe service status.
+	 */
 	publicStatus() {
-		const yesodState = this.server.status();
-		return Grants.revealPublicStatus(yesodState, this.tokens.stats(), {
-			publicHost: Config.publicHost(yesodState.host),
+		const state = this.server.status();
+		return Grants.revealPublicStatus(state, this.tokens.stats(), {
+			publicHost: Config.publicHost(state.host),
 			port: Config.configuredPort(),
 			configured: Config.isPubliclyConfigured()
 		});
 	}
 
-	/** @returns {Promise<object>} Stopped listener state after all sockets are closed. */
+	/**
+	 * Stops the listener and closes active sockets through the custom SSH server.
+	 *
+	 * @returns {Promise<object>} Stopped listener state.
+	 */
 	stop() {
 		return this.server.stop();
 	}
 }
 
-let malchusSingleton = null;
-
-/**
- * Reveals the process-wide virtual SSH service while preserving one listener/token store.
- *
- * @param {object} [keterOptions={}] Construction options used only on first revelation.
- * @returns {VirtualOsSshService} Process singleton.
- */
-function virtualOsSshService(keterOptions = {}) {
-	if (!malchusSingleton) { malchusSingleton = new VirtualOsSshService(keterOptions); }
-	return malchusSingleton;
-}
-
-module.exports = { VirtualOsSshService, virtualOsSshService };
+module.exports = {
+	VirtualOsSshService
+};

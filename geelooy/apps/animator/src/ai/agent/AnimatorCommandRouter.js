@@ -4,8 +4,8 @@
 /**
  * @file AnimatorCommandRouter.js
  * @description
- * The Awtsmoos joins many product domains through one registry without forcing their responsibilities into one switch;
- * Awtsmoos.com routes by declared command family so project, performance, timeline, history, playback, animation, and world may expand without glitch.
+ * The Awtsmoos joins many product domains through one registry while live runtime context flows only where a handler truly needs;
+ * Awtsmoos.com routes by declared family so project, acting, timeline, history, transport, animation, and world may expand without weeds.
  */
 
 import { NetzachAnimatorAnimationCommands } from './execution/AnimatorAnimationCommands.js';
@@ -18,32 +18,38 @@ import { NetzachAnimatorTimelineCommands } from './execution/AnimatorTimelineCom
 import { YesodAnimatorWorldCommands } from './execution/AnimatorWorldCommands.js';
 import { DaasAnimatorCommandRegistry } from './registry/AnimatorCommandRegistry.js';
 
-/** Delegates validated commands to one explicit domain handler selected from canonical registry metadata. */
+/** Delegates validated commands to explicit domain handlers selected from canonical registry metadata. */
 export class AnimatorCommandRouter {
-	/** @param {object} olamStore Existing NLE store. */
-	constructor(olamStore) {
-		if (!olamStore?.get) {
+	/** @param {object} malchusStore NLE store. @param {object} keterRuntime Optional live runtime context. */
+	constructor(malchusStore, keterRuntime = {}) {
+		if (!malchusStore?.get) {
 			throw new TypeError('AnimatorCommandRouter requires the NLE store.');
 		}
-		this.yesodWorld = new YesodAnimatorWorldCommands(olamStore);
+		this.yesodWorld = new YesodAnimatorWorldCommands(malchusStore);
 		this.handlers = Object.freeze({
-			system: new KeserAnimatorSystemCommands(DaasAnimatorCommandRegistry),
-			project: new MalchusAnimatorProjectCommands(olamStore),
+			system: new KeserAnimatorSystemCommands(
+				DaasAnimatorCommandRegistry,
+				keterRuntime
+			),
+			project: new MalchusAnimatorProjectCommands(malchusStore),
 			performance: new TiferesAnimatorPerformanceCommands(),
 			animation: new NetzachAnimatorAnimationCommands(),
-			timeline: new NetzachAnimatorTimelineCommands(olamStore),
-			history: new GevurahAnimatorHistoryCommands(olamStore),
-			playback: new NetzachAnimatorPlaybackCommands(olamStore),
+			timeline: new NetzachAnimatorTimelineCommands(malchusStore),
+			history: new GevurahAnimatorHistoryCommands(malchusStore),
+			playback: new NetzachAnimatorPlaybackCommands(
+				malchusStore,
+				keterRuntime
+			),
 			world: this.yesodWorld
 		});
 	}
 
-	/** @returns {import('./AnimatorWorldFacade.js').AnimatorWorldFacade} Existing direct World convenience facade. */
+	/** @returns {import('./AnimatorWorldFacade.js').AnimatorWorldFacade} Existing direct World facade. */
 	world() {
 		return this.yesodWorld.facade();
 	}
 
-	/** @param {string} shemMitzvah Validated command. @param {object} keilimPayload Payload. @returns {*} Domain result. */
+	/** @param {string} shemMitzvah Command. @param {object} keilimPayload Payload. @returns {*} Domain result. */
 	execute(shemMitzvah, keilimPayload = {}) {
 		const keliDescriptor = DaasAnimatorCommandRegistry.get(shemMitzvah);
 		if (!keliDescriptor) {
@@ -51,7 +57,9 @@ export class AnimatorCommandRouter {
 		}
 		const merkavahHandler = this.handlers[keliDescriptor.family];
 		if (!merkavahHandler?.execute) {
-			throw this.error(`Missing handler for Animator family: ${keliDescriptor.family}`);
+			throw this.error(
+				`Missing handler for Animator family: ${keliDescriptor.family}`
+			);
 		}
 		return merkavahHandler.execute(shemMitzvah, keilimPayload);
 	}

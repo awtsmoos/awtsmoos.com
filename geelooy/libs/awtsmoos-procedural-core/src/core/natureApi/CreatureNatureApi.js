@@ -4,9 +4,9 @@
 
 /**
  * @file CreatureNatureApi.js
- * @description Keeps Nature creature convenience calls aligned with the one canonical Chai authority.
- * The Awtsmoos, Atzmus beyond hoof and wing, renews every living body before a convenience facade receives its name;
- * Awtsmoos.com lets Nature remain a gentle doorway while Chai alone owns high-level creature orchestration beneath the flame.
+ * @description Keeps Nature creature and fauna-population convenience aligned with the one canonical Chai authority.
+ * The Awtsmoos, Atzmus beyond hoof, wing, herd, and habitat, renews every living body before a facade receives its name;
+ * Awtsmoos.com lets Nature remain a gentle doorway while Chai alone owns phenotype and population orchestration beneath the flame.
  */
 
 import { createCreatureCreator } from '../animalMesh/creature/CreatureCreator.js';
@@ -17,7 +17,10 @@ import { createNatureResult } from './NatureApiResult.js';
 
 /** High-level renderer-neutral creature facade delegating through Chai. */
 export class CreatureNatureApi {
-	/** @param {object} [defaults={}] Shared NatureApi defaults. */
+	/**
+	 * Creates one immutable Nature creature facade over shared defaults.
+	 * @param {object} [defaults={}] Shared NatureApi seed, quality, and realism defaults.
+	 */
 	constructor(defaults = {}) {
 		this.defaults = Object.freeze({ ...defaults });
 		this.authority = new ChaiAuthority();
@@ -27,7 +30,7 @@ export class CreatureNatureApi {
 	 * Creates one species through the canonical Chai creature authority.
 	 * @param {string} speciesId Known creature species identifier.
 	 * @param {object} [options={}] Seed, profile, traits, compiler, and expert overrides.
-	 * @returns {object} Standard nature result containing the canonical compiled creature.
+	 * @returns {object} Standard Nature result containing the canonical compiled creature.
 	 */
 	create(speciesId, options = {}) {
 		const context = createNatureCallContext(
@@ -50,9 +53,30 @@ export class CreatureNatureApi {
 		);
 	}
 
-	/** Creates many independently seeded standard nature creature results. */
+	/**
+	 * Plans a habitat-aware deterministic fauna population through the canonical Chai population authority.
+	 * @param {object} [options={}] Bounds, species, count, habitat, exclusions, grouping, quality, realism, and seed intent.
+	 * @returns {object} Standard Nature result whose value is the native Chai ecological population plan.
+	 */
+	population(options = {}) {
+		const context = createNatureCallContext(
+			this.defaults,
+			options,
+			'fauna',
+			options.id ?? 'population'
+		);
+		const planned = this.authority.population({
+			...options,
+			quality: specialistNatureQuality(context.quality),
+			realism: context.realism,
+			seed: context.seed
+		});
+		return createNatureResult('fauna', context, planned, planned.diagnostics || {});
+	}
+
+	/** Creates many independently seeded standard Nature creature results. */
 	createMany(requests = []) {
-		return Object.freeze(requests.map(request => {
+		return Object.freeze(requests.map((request) => {
 			if (typeof request === 'string') return this.create(request);
 			return this.create(request.speciesId ?? request.species, request);
 		}));

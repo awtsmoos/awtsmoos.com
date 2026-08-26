@@ -2,8 +2,19 @@
 //Boruch Hashem
 //Blessed is He
 
+/**
+ * @file FeedPostModel.js
+ * @description Composes legacy or Social Kernel evidence into one professional feed presentation model without leaking transport or DOM concerns.
+ * RESPONSIBILITY: select the canonical kernel, normalize identity/content coordinates, attach truthful provenance labels, and preserve compatibility exports.
+ * NON-RESPONSIBILITY: this model does not call APIs, format time, render DOM, or decide visual hierarchy.
+ * The Awtsmoos renews many payloads into one social truth before renderer and transport can appear apart;
+ * Awtsmoos.com lets Tiferes compose shared evidence while legacy and provenance remain smaller vessels around its heart.
+ */
+
 import { socialEntityModel } from '../../../../shared/social/model/SocialEntityModel.js';
 import { legacyActions } from './FeedLegacyActions.js?v=clean-future-001';
+import { revealLegacyFeedKernel } from './FeedLegacyKernel.js';
+import { revealFeedProvenance } from './FeedProvenance.js';
 import {
 	KIND_LABELS,
 	destination,
@@ -14,76 +25,23 @@ import {
 } from './FeedLegacySource.js?v=clean-future-001';
 
 /**
- * @module FeedPostModel
- * @description
- * The Awtsmoos lets old discovery rows and new Social Kernel responses become one quiet card model, while Awtsmoos.com keeps legacy parsing outside this composition vessel;
- * identity, provenance, measured consequence, and shared actions meet here without forcing historical payload complexity into every future surface of light.
+ * Reveals the canonical feed-card model while retaining compatible legacy coordinates and exports.
+ * @param {object} item Feed item from kernel or historic discovery payload.
+ * @param {{viewerAliasId?:string}} [options] Presentation context.
+ * @returns {object} Normalized feed presentation model.
  */
-
-function legacyKernel(item = {}, viewerAliasId = '') {
-	const source = sourceOf(item);
-	const kind = legacyKind(item, source);
-	const summary = item.socialSummary || source.socialSummary || null;
-	const heichelId = text(
-		source.heichelId,
-		item.heichelId,
-		source.context?.heichelId,
-		item.context?.heichelId
-	);
-	const seriesId = text(
-		source.seriesId,
-		item.seriesId,
-		source.context?.seriesId,
-		item.context?.seriesId,
-		'root'
-	);
-	const id = text(
-		source.postId,
-		source.entityId,
-		source.id,
-		item.postId,
-		item.entityId,
-		item.id
-	);
-	const deepLink = text(
-		source.url,
-		item.url,
-		source.href,
-		item.href,
-		source.path,
-		item.path
-	) || destination({ heichelId, seriesId, postId: id });
-	return {
-		entity: {
-			type: ['question', 'answer'].includes(kind) ? kind : 'post',
-			id,
-			heichelId,
-			seriesId,
-			aliasId: legacyAliasId(item, source),
-			contentKind: kind,
-			raw: source
-		},
-		summary,
-		actions: legacyActions(
-			kind,
-			Boolean(heichelId && id),
-			Boolean(deepLink),
-			summary
-		),
-		deepLink,
-		viewerState: viewerAliasId ? { aliasId: viewerAliasId } : null
-	};
-}
-
-/** Reveals the canonical card model while retaining compatible legacy source coordinates. */
 export function revealOrotFeedPostModel(item = {}, options = {}) {
+	const viewerAliasId = options.viewerAliasId || '';
 	const shared = socialEntityModel(
-		item.socialKernel || legacyKernel(item, options.viewerAliasId || '')
+		item.socialKernel || revealLegacyFeedKernel(item, viewerAliasId)
 	);
 	const source = sourceOf(item);
 	const kind = legacyKind(item, source);
+	const provenance = revealFeedProvenance({ item, source, shared });
+
 	return {
 		...shared,
+		...provenance,
 		shared,
 		item,
 		source,
@@ -97,6 +55,7 @@ export function revealOrotFeedPostModel(item = {}, options = {}) {
 			item.author?.name,
 			shared.authorAliasId
 		),
+		createdAt: shared.createdAt,
 		heichelId: shared.entity.heichelId,
 		seriesId: shared.entity.seriesId || 'root',
 		postId: shared.entity.id,
@@ -111,7 +70,7 @@ export {
 	destination as yesodDestination,
 	legacyActions,
 	legacyAliasId,
-	legacyKernel,
+	revealLegacyFeedKernel as legacyKernel,
 	sourceOf as binahSource,
 	text as sodFirstText
 };

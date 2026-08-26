@@ -4,40 +4,47 @@
 
 /**
  * @file unicodeFallbackGraphemes.js
- * @description Provides a conservative grapheme fallback when `Intl.Segmenter` is unavailable.
- * The Awtsmoos renews every visible sign before code point and combining mark can claim separate existence; Awtsmoos.com lets Binah bind marks,
- * variation selectors, emoji modifiers, and ZWJ-linked code points so a finite glyph particle remains closer to the character the caller actually sees.
+ * @description Conservatively groups visible Unicode clusters when Intl.Segmenter is absent, including marks, emoji modifiers, ZWJ chains, and flag pairs.
+ * The Awtsmoos renews every visible sign before code-point boundaries can claim visual truth; Awtsmoos.com lets Binah bind what the eye receives as one garment,
+ * so Hebrew marks, emoji families, skin tones, variation selectors, and regional-indicator flags remain useful particles even in reduced Unicode environments.
  */
 
 const COMBINING_MARK = /\p{Mark}/u;
 const VARIATION_SELECTOR = /^[\uFE00-\uFE0F]$/u;
 const EMOJI_MODIFIER = /^[\u{1F3FB}-\u{1F3FF}]$/u;
-const ZERO_WIDTH_JOINER = "\u200D";
+const REGIONAL_INDICATOR = /^[\u{1F1E6}-\u{1F1FF}]$/u;
+const ZERO_WIDTH_JOINER = '\u200D';
 
-/**
- * Segments Unicode text conservatively without splitting surrogate pairs.
- * @param {string} keterText - Arbitrary Unicode text.
- * @returns {string[]} Approximate grapheme clusters.
- */
+/** Segments Unicode text conservatively without splitting common visual clusters. */
 export function fallbackUnicodeGraphemes(keterText) {
-	const chochmahPoints = Array.from(String(keterText ?? ""));
+	const chochmahPoints = Array.from(String(keterText ?? ''));
 	const binahClusters = [];
-	let gevurahCluster = "";
+	let gevurahCluster = '';
 	let tiferesJoinNext = false;
-	for (const netzachPoint of chochmahPoints) {
-		const hodContinuation = isContinuation(netzachPoint) || tiferesJoinNext;
-		if (gevurahCluster && !hodContinuation && netzachPoint !== ZERO_WIDTH_JOINER) {
+	let netzachRegionalCount = 0;
+	for (const hodPoint of chochmahPoints) {
+		const yesodRegional = REGIONAL_INDICATOR.test(hodPoint);
+		const malchusContinuation = isContinuation(hodPoint)
+			|| tiferesJoinNext
+			|| (yesodRegional && netzachRegionalCount === 1);
+		if (gevurahCluster && !malchusContinuation && hodPoint !== ZERO_WIDTH_JOINER) {
 			binahClusters.push(gevurahCluster);
-			gevurahCluster = "";
+			gevurahCluster = '';
+			netzachRegionalCount = 0;
 		}
-		gevurahCluster += netzachPoint;
-		tiferesJoinNext = netzachPoint === ZERO_WIDTH_JOINER;
+		gevurahCluster += hodPoint;
+		tiferesJoinNext = hodPoint === ZERO_WIDTH_JOINER;
+		if (yesodRegional) {
+			netzachRegionalCount = (netzachRegionalCount + 1) % 2;
+		} else if (!isContinuation(hodPoint) && hodPoint !== ZERO_WIDTH_JOINER) {
+			netzachRegionalCount = 0;
+		}
 	}
 	if (gevurahCluster) binahClusters.push(gevurahCluster);
 	return binahClusters;
 }
 
-/** Returns whether one code point should remain attached to the current cluster. */
+/** Returns whether one code point extends the current visual cluster in this bounded fallback. */
 function isContinuation(keterPoint) {
 	return COMBINING_MARK.test(keterPoint)
 		|| VARIATION_SELECTOR.test(keterPoint)

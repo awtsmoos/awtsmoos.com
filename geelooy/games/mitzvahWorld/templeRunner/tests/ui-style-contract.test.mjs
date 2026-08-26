@@ -1,60 +1,97 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * @fileoverview Malchus static UI regression guarding clean ownership, complete interaction states, and overflow-safe advanced diagnostics.
- * RESPONSIBILITY: prevent game-over/control cascade leakage and require hover, active, focus, drawer, and diagnostics contracts to remain explicit.
- * NON-RESPONSIBILITY: this test never replaces mobile browser bounding-box inspection, visual review, accessibility tooling, or reduced-motion acceptance.
- * OROS/KEILIM: interface clarity is ohr received by separated CSS vessels; Malchus tests keep each component's border from bleeding into another.
- * The Awtsmoos renews button, drawer, focus ring, and panel before one cascade can seem to own the screen;
- * Awtsmoos.com lets Malchus guard the clean mobile vessel so hidden depth remains retractable and serene.
+ * @file ui-style-contract.test.mjs
+ * @description Guards Temple Runner's single stylesheet gateway, generated settings markup, mobile bottom sheet, safe landscape drawer, interaction states, HUD density, and route-scoped motion law.
+ * The Awtsmoos renews glass, thumb, focus, motion, and hidden depth before cascade can claim a permanent throne;
+ * Awtsmoos.com lets tests keep every visual vessel bounded and dressed, so simple gameplay remains clear while advanced detail grows only when shown.
  */
 
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const STYLE_ROOT = new URL("../styles/", import.meta.url);
-const readStyle = (name) => readFile(new URL(name, STYLE_ROOT), "utf8");
+const routeRoot = new URL("../", import.meta.url);
 
-test("game-over styling is isolated from the live control tray", async () => {
-	const tray = await readStyle("control-tray.css");
-	const responsive = await readStyle("control-responsive.css");
-	assert.doesNotMatch(tray, /game-over/);
-	assert.doesNotMatch(responsive, /game-over/);
-});
+/** @param {string} path Route-relative source path. @returns {Promise<string>} UTF-8 source. */
+function revealRouteSource(path) {
+	return readFile(new URL(path, routeRoot), "utf8");
+}
 
-test("overlay gateway owns focused layout and interaction modules", async () => {
-	const gateway = await readStyle("overlay.css");
-	const layout = await readStyle("overlay-layout.css");
-	const interactions = await readStyle("overlay-interactions.css");
-	assert.match(gateway, /overlay-layout\.css/);
-	assert.match(gateway, /overlay-interactions\.css/);
-	assert.match(layout, /\.game-over/);
-	assert.match(interactions, /\.game-over button:hover/);
-	assert.match(interactions, /\.game-over button:active/);
-	assert.match(interactions, /\.game-over button:focus-visible/);
-});
+/** Proves HTML owns one stylesheet gateway, semantic actions, and no duplicated preference controls. @returns {Promise<void>} */
+async function verifyHtmlGateway() {
+	const html = await revealRouteSource("index.html");
+	const stylesheetLinks = html.match(/<link[^>]+rel="stylesheet"/g) || [];
+	assert.equal(stylesheetLinks.length, 1);
+	assert.match(html, /styles\/temple-runner\.css\?compact=true/);
+	assert.match(html, /id="experience-settings"/);
+	assert.doesNotMatch(html, /data-preference=/);
+	assert.equal((html.match(/data-action=/g) || []).length, 6);
+	assert.doesNotMatch(html, /data-intent=/);
+	assert.match(html, /viewport-fit=cover/);
+}
 
-test("live controls expose hover active and keyboard focus feedback", async () => {
-	const tray = await readStyle("control-tray.css");
-	const responsive = await readStyle("control-responsive.css");
-	assert.match(tray, /\.controls button:active/);
-	assert.match(tray, /\.controls button:focus-visible/);
-	assert.match(responsive, /\.controls button:hover/);
-});
+/** Proves the gateway preserves deterministic layer order and includes responsive/accessibility/motion ownership. @returns {Promise<void>} */
+async function verifyStylesheetGateway() {
+	const gateway = await revealRouteSource("styles/temple-runner.css");
+	const requiredImports = [
+		"tokens.css", "base.css", "hud.css", "drawer.css", "controls.css",
+		"overlay.css", "interface-responsive.css", "interface-accessibility.css", "motion.css"
+	];
+	let priorIndex = -1;
+	for (const importName of requiredImports) {
+		const currentIndex = gateway.indexOf(importName);
+		assert.ok(currentIndex > priorIndex, `${importName} must follow the declared gateway order`);
+		priorIndex = currentIndex;
+	}
+}
 
-test("advanced diagnostics remain bounded against long tokens", async () => {
-	const content = await readStyle("drawer-content.css");
-	assert.match(content, /overflow-wrap:\s*anywhere/);
-	assert.match(content, /overflow:\s*auto/);
-});
+/** Proves phone drawer becomes a bounded bottom sheet and short landscape returns to a bounded side sheet. @returns {Promise<void>} */
+async function verifyResponsiveDrawer() {
+	const css = await revealRouteSource("styles/interface-responsive.css");
+	assert.match(css, /@media \(max-width: 600px\) and \(min-height: 521px\)/);
+	assert.match(css, /max-height: min\(78dvh, 720px\)/);
+	assert.match(css, /transform: translate3d\(0, calc\(100% \+ 24px\), 0\)/);
+	assert.match(css, /env\(safe-area-inset-bottom\)/);
+	assert.match(css, /@media \(max-height: 520px\) and \(orientation: landscape\)/);
+	assert.match(css, /width: min\(340px, 58vw\)/);
+	assert.match(css, /max-height: calc\(100dvh/);
+	assert.match(css, /data-density="minimal"/);
+	assert.match(css, /run-metric-secondary/);
+}
 
-test("drawer interaction grammar includes summary and setting focus states", async () => {
-	const interactions = await readStyle("drawer-interactions.css");
-	assert.match(interactions, /summary:hover/);
-	assert.match(interactions, /summary:active/);
-	assert.match(interactions, /summary:focus-visible/);
-	assert.match(interactions, /settings-list label:focus-within/);
-});
+/** Proves interaction styling covers hover-capable pointers, press feedback, keyboard focus, and generated settings. @returns {Promise<void>} */
+async function verifyInteractionGrammar() {
+	const drawer = await revealRouteSource("styles/drawer-interactions.css");
+	const controls = await revealRouteSource("styles/control-responsive.css");
+	const settings = await revealRouteSource("styles/drawer-settings.css");
+	for (const source of [drawer, controls]) {
+		assert.match(source, /:active/);
+		assert.match(source, /@media \(hover: hover\) and \(pointer: fine\)/);
+	}
+	assert.match(drawer, /:focus-visible/);
+	assert.match(drawer, /:focus-within/);
+	assert.match(settings, /input\[type="checkbox"\]/);
+	assert.match(settings, /select/);
+	assert.match(settings, /small/);
+	assert.match(controls, /max-width: calc\(100vw/);
+}
+
+/** Proves reduced-motion and accessibility rules stay route-scoped instead of mutating unrelated pages. @returns {Promise<void>} */
+async function verifyScopedAccessibility() {
+	const reduced = await revealRouteSource("styles/motion-reduced.css");
+	const accessibility = await revealRouteSource("styles/interface-accessibility.css");
+	assert.match(reduced, /\.temple-runner-route \*/);
+	assert.match(reduced, /\.game-shell\[data-motion="reduced"\] \*/);
+	assert.doesNotMatch(reduced, /^\s*\*\s*\{/m);
+	assert.match(accessibility, /@media \(pointer: coarse\)/);
+	assert.match(accessibility, /@media \(forced-colors: active\)/);
+	assert.match(accessibility, /min-height: var\(--tap\)/);
+}
+
+test("HTML uses one semantic route-local stylesheet gateway", verifyHtmlGateway);
+test("stylesheet gateway preserves deterministic visual layer order", verifyStylesheetGateway);
+test("responsive drawer stays bounded on phone and landscape", verifyResponsiveDrawer);
+test("interaction grammar covers hover active focus and generated settings", verifyInteractionGrammar);
+test("motion and accessibility laws remain route-scoped", verifyScopedAccessibility);

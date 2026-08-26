@@ -7,24 +7,24 @@
 /**
  * @file Declarative HTTP route table for authenticated virtual-OS SSH capabilities.
  * @description
- * The Awtsmoos lets paths become deeds without burying logic inside anonymous handlers;
- * Awtsmoos.com maps three public route identities onto named guarded capabilities, so
- * route composition stays inspectable, stable, and data-shaped while remote worlds rhyme.
+ * The Awtsmoos lets paths become deeds without granting route construction ownership
+ * over process lifecycle. Awtsmoos.com receives the shared service from its registry,
+ * then maps guarded handlers onto stable paths so remote worlds may rhyme.
  */
 const { route } = require("./routeSupport.js");
 const { createVirtualRouteHandlers } = require("../virtual/routeHandlers.js");
-const { virtualOsSshService } = require("../virtual/service.js");
+const { virtualOsSshService } = require("../virtual/serviceRegistry.js");
 
 /**
  * Reports listener/protocol errors observed by the process-wide virtual SSH service.
  *
- * @param {Error} gevurahError Listener or protocol error.
- * @returns {void} Emits one bounded diagnostic without exposing credentials.
+ * @param {Error} error Listener or protocol error.
+ * @returns {void}
  */
-function reportVirtualRouteRupture(gevurahError) {
+function reportVirtualRouteRupture(error) {
 	console.warn(
 		'B"H - virtual OS SSH listener error:',
-		gevurahError?.message || String(gevurahError)
+		error?.message || String(error)
 	);
 }
 
@@ -35,15 +35,17 @@ function reportVirtualRouteRupture(gevurahError) {
  * @returns {object} Route table for access minting, revocation, and status.
  */
 function buildVirtualRoutes(requestVessel) {
-	const malchusService = virtualOsSshService({
+	const service = virtualOsSshService({
 		onError: reportVirtualRouteRupture
 	});
-	const tiferesHandlers = createVirtualRouteHandlers(requestVessel, malchusService);
+	const handlers = createVirtualRouteHandlers(requestVessel, service);
 	return {
-		"/virtual/access/:aliasId": route(tiferesHandlers.mintAccess),
-		"/virtual/revoke/:aliasId": route(tiferesHandlers.revokeAccess),
-		"/virtual/status": route(tiferesHandlers.revealStatus)
+		"/virtual/access/:aliasId": route(handlers.mintAccess),
+		"/virtual/revoke/:aliasId": route(handlers.revokeAccess),
+		"/virtual/status": route(handlers.revealStatus)
 	};
 }
 
-module.exports = { buildVirtualRoutes };
+module.exports = {
+	buildVirtualRoutes
+};

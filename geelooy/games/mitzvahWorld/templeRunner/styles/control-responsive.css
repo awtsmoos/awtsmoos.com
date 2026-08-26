@@ -2,10 +2,20 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Yesod responsive laws that keep touch controls generous while fine-pointer desktop reveals compact keyboard cues on the same buttons.
- * The Awtsmoos renews thumb and keyboard before either seeks a place beneath the road;
- * Awtsmoos.com lets one tray change garment by device, so no second control surface becomes a load.
+ * @fileoverview Yesod responsive laws keeping the four semantic action buttons generous on touch while revealing canonical keyboard hints on fine-pointer desktop.
+ * The Awtsmoos renews thumb, keyboard, press, and narrow glass before one control can claim a fixed shape;
+ * Awtsmoos.com lets Yesod derive every visual hint from data-action, so the Chochmah catalog and Malchus styling share one path.
  */
+
+.controls button {
+	width: clamp(50px, 16.4vw, 62px);
+}
+
+.controls button:active {
+	transform: translateY(1px) scale(0.94);
+	border-color: var(--line-cyan);
+	background: rgba(91, 203, 231, 0.12);
+}
 
 @media (hover: hover) and (pointer: fine) {
 	.controls button:hover {
@@ -17,24 +27,11 @@
 }
 
 @media (hover: hover) and (pointer: fine) and (min-width: 801px) {
-	.controls {
-		gap: 6px;
-		padding: 4px;
-		border-color: rgba(255, 226, 158, 0.2);
-		background: rgba(16, 11, 9, 0.58);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
-	}
-
 	.controls button {
 		position: relative;
 		width: 66px;
 		height: 54px;
 		padding: 4px 4px 17px;
-	}
-
-	.controls button span {
-		font-size: 7px;
-		letter-spacing: 0.09em;
 	}
 
 	.controls button::after {
@@ -50,23 +47,22 @@
 		color: var(--ivory-500);
 		font-size: 7px;
 		font-weight: 850;
-		letter-spacing: 0.04em;
 		line-height: 1;
 	}
 
-	.controls button[data-intent="left"]::after {
+	.controls button[data-action="left"]::after {
 		content: "A · ←";
 	}
 
-	.controls button[data-intent="jump"]::after {
+	.controls button[data-action="jump"]::after {
 		content: "W · ␣";
 	}
 
-	.controls button[data-intent="duck"]::after {
+	.controls button[data-action="slide"]::after {
 		content: "S · ↓";
 	}
 
-	.controls button[data-intent="right"]::after {
+	.controls button[data-action="right"]::after {
 		content: "D · →";
 	}
 }
@@ -74,11 +70,11 @@
 @media (max-width: 420px) {
 	.controls {
 		gap: 5px;
+		max-width: calc(100vw - var(--safe-left) - var(--safe-right) - 12px);
 		padding: 4px;
 	}
 
 	.controls button {
-		width: 58px;
 		height: 54px;
 		border-radius: 15px;
 	}
@@ -86,12 +82,17 @@
 
 @media (max-width: 340px) {
 	.controls {
-		gap: 4px;
+		gap: 3px;
+		padding: 3px;
 	}
 
 	.controls button {
-		width: 53px;
-		height: 52px;
+		width: clamp(48px, 15.8vw, 53px);
+		height: 50px;
+	}
+
+	.controls button span {
+		font-size: 7px;
 	}
 }
 

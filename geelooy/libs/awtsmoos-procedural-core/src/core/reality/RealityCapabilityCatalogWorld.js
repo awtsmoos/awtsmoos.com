@@ -4,22 +4,24 @@
 
 /**
  * @file RealityCapabilityCatalogWorld.js
- * @description Declares environmental Reality doors and the higher Universal API import path without reversing dependencies.
- * The Awtsmoos renews wind, river, flood, sea, and world before any facade may claim to own their source;
- * Awtsmoos.com keeps Olam simple while advanced Nature and Universal exports remain visibly reachable on their canonical course.
+ * @description Declares environmental Reality doors for wind, water, terrain, biomes, and the higher Universal API without reversing dependencies.
+ * The Awtsmoos renews atmosphere, river, mountain, valley, and world before any facade can claim to own their source;
+ * Awtsmoos.com keeps Olam discoverable through small semantic doors while advanced authorities remain visible along their canonical course.
  */
 
 /** Frozen environment-side progressive-disclosure records. */
 export const REALITY_WORLD_CAPABILITIES = freezeRecords([
-	record('wind', 'olam', 'field', 'advanced.wind.field'),
-	record('windSample', 'olam', 'sample', 'advanced.wind.sample'),
-	record('water', 'olam.water', 'native-result', 'advanced.nature.water.create'),
-	record('river', 'olam.water', 'native-result', 'advanced.nature.water.river', ['stream']),
-	record('pond', 'olam.water', 'runtime', 'advanced.nature.water.pond', ['lake', 'wetland', 'runoff']),
-	record('shallow', 'olam.water', 'runtime', 'advanced.nature.water.shallow', ['flood']),
-	record('fluid', 'olam.water', 'runtime', 'advanced.nature.water.fluid'),
-	record('ocean', 'olam.water', 'field', 'advanced.nature.water.ocean', ['sea']),
-	record('biome', 'olam', 'plan', 'advanced.nature.biome'),
+	createCapabilityRecord('wind', 'olam', 'field', 'advanced.wind.field'),
+	createCapabilityRecord('windSample', 'olam', 'sample', 'advanced.wind.sample'),
+	createCapabilityRecord('water', 'olam.water', 'native-result', 'advanced.nature.water.create'),
+	createCapabilityRecord('river', 'olam.water', 'native-result', 'advanced.nature.water.river', ['stream']),
+	createCapabilityRecord('pond', 'olam.water', 'runtime', 'advanced.nature.water.pond', ['lake', 'wetland', 'runoff']),
+	createCapabilityRecord('shallow', 'olam.water', 'runtime', 'advanced.nature.water.shallow', ['flood']),
+	createCapabilityRecord('fluid', 'olam.water', 'runtime', 'advanced.nature.water.fluid'),
+	createCapabilityRecord('ocean', 'olam.water', 'field', 'advanced.nature.water.ocean', ['sea']),
+	createCapabilityRecord('terrain', 'olam.terrain', 'plan', 'terrainOlam.plan', ['landscape', 'landform', 'worldTerrain']),
+	createCapabilityRecord('terrainCatalog', 'olam.terrain', 'catalog', 'terrainOlam.catalog'),
+	createCapabilityRecord('biome', 'olam', 'plan', 'advanced.nature.biome'),
 	Object.freeze({
 		advancedExports: Object.freeze([
 			'createUniversalAwtsmoosApi',
@@ -34,16 +36,44 @@ export const REALITY_WORLD_CAPABILITIES = freezeRecords([
 	})
 ]);
 
-function record(easyMethod, domain, resultKind, advancedPath, aliases = []) {
-	return { advancedPath, aliases, domain, easyMethod, resultKind };
+/**
+ * Creates one explicit capability descriptor consumed by the unified Reality catalog.
+ * @param {string} easyMethodMalchus Public beginner method exposed by RealityApi.
+ * @param {string} domainBinah Semantic domain used for filtering and documentation.
+ * @param {string} resultKindHod Portable result category returned by the method.
+ * @param {string} advancedPathYesod Specialist authority path for progressive disclosure.
+ * @param {Array<string>} [aliasesNetzach=[]] Alternative discovery words without new public methods.
+ * @returns {object} Mutable descriptor that becomes immutable when the catalog is sealed.
+ */
+function createCapabilityRecord(
+	easyMethodMalchus,
+	domainBinah,
+	resultKindHod,
+	advancedPathYesod,
+	aliasesNetzach = []
+) {
+	return {
+		advancedPath: advancedPathYesod,
+		aliases: aliasesNetzach,
+		domain: domainBinah,
+		easyMethod: easyMethodMalchus,
+		resultKind: resultKindHod
+	};
 }
 
-function freezeRecords(records) {
-	return Object.freeze(records.map((entry) => {
-		if (Object.isFrozen(entry)) return entry;
+/**
+ * Deep-freezes descriptor aliases and records so discovery metadata cannot become hidden runtime state.
+ * @param {Array<object>} recordsOros Capability descriptors to seal.
+ * @returns {Readonly<Array<object>>} Frozen capability descriptor collection.
+ */
+function freezeRecords(recordsOros) {
+	return Object.freeze(recordsOros.map((recordKli) => {
+		if (Object.isFrozen(recordKli)) {
+			return recordKli;
+		}
 		return Object.freeze({
-			...entry,
-			aliases: Object.freeze([...entry.aliases])
+			...recordKli,
+			aliases: Object.freeze([...(recordKli.aliases || [])])
 		});
 	}));
 }

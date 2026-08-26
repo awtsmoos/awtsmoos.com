@@ -5,44 +5,38 @@
 "use strict";
 
 /**
- * @file Process-boot lifecycle for the always-present virtual-OS SSH doorway.
+ * @file Compatibility lifecycle view over the canonical virtual-SSH boot function.
  * @description
- * The Awtsmoos lets a doorway exist before any traveler receives a key; Awtsmoos.com
- * therefore starts the listener from explicit boot configuration while authentication
- * remains token-gated. Presence and permission become separate vessels that rhyme.
+ * The Awtsmoos keeps one startup law even when older tests and callers ask for another
+ * response garment. Awtsmoos.com adapts the canonical boot record here instead of
+ * maintaining a second listener algorithm, so compatibility and truth may rhyme.
  */
 const Config = require("./serviceConfig.js");
-const { virtualOsSshService } = require("./service.js");
+const { startConfiguredVirtualSsh } = require("./boot.js");
 
 /**
- * Starts virtual SSH when production-style public configuration explicitly enables it.
+ * Reveals the historic enabled/running/listener shape while delegating startup behavior.
  *
- * @param {object} [keterOptions={}] Boot observers and dependency overrides.
- * @param {Function} [keterOptions.onError] Error observer passed into the singleton service.
- * @param {object} [keterOptions.service] Optional service override for tests and embedding.
- * @returns {Promise<object>} Plain lifecycle result describing enabled/running listener state.
+ * @param {object} [options={}] Service and observer overrides.
+ * @returns {Promise<object>} Compatibility lifecycle state.
  */
-async function revealVirtualSshAtBoot(keterOptions = {}) {
-	const tiferesPolicy = Config.bootPolicy();
-	if (!tiferesPolicy.enabled) {
-		return Object.freeze({
-			enabled: false,
-			running: false,
-			listener: tiferesPolicy.listener
-		});
-	}
-	const malchusService = keterOptions.service || virtualOsSshService({
-		onError: keterOptions.onError
+async function revealVirtualSshAtBoot(options = {}) {
+	const policy = Config.bootPolicy();
+	const state = await startConfiguredVirtualSsh({
+		...options,
+		configured: policy.enabled,
+		log: options.log || (() => {})
 	});
-	const yesodState = await malchusService.start();
 	return Object.freeze({
-		enabled: true,
-		running: Boolean(yesodState.running),
+		enabled: state.configured,
+		running: state.running,
 		listener: Object.freeze({
-			host: yesodState.host,
-			port: yesodState.port
+			host: state.host || policy.listener.host,
+			port: state.port || policy.listener.port
 		})
 	});
 }
 
-module.exports = { revealVirtualSshAtBoot };
+module.exports = {
+	revealVirtualSshAtBoot
+};

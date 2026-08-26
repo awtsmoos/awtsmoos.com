@@ -16,10 +16,20 @@ import { SearchControlDisclosure } from './SearchControlDisclosure.js';
 import { SearchIntentController } from './SearchIntentController.js';
 import { SearchSession } from './SearchSession.js';
 import { bindSearchControls } from './searchBindings.js';
-import { renderSearchCapabilities, renderCapabilitiesUnavailable } from './searchCapabilitiesView.js';
+import {
+	renderSearchCapabilities,
+	renderCapabilitiesUnavailable
+} from './searchCapabilitiesView.js';
 import { renderSearchError } from './searchErrorView.js';
-import { clearSearchHistory, readSearchHistory, rememberSearch } from './searchHistory.js';
-import { fetchLibraryLanes, fetchSearchCapabilities } from './searchApi.js';
+import {
+	clearSearchHistory,
+	readSearchHistory,
+	rememberSearch
+} from './searchHistory.js';
+import {
+	fetchLibraryLanes,
+	fetchSearchCapabilities
+} from './searchApi.js';
 import * as dom from './searchDom.js';
 import { replaceSearchLocation } from './searchLocation.js';
 import { addLane, setSearching } from './searchView.js';
@@ -32,14 +42,20 @@ export class SearchApp {
 			loadLanes: lane => this.loadDiscovery(lane)
 		});
 		this.disclosure = new SearchControlDisclosure({
-			form: dom.form, mode: dom.mode, strategy: dom.strategy,
-			series: dom.series, book: dom.book, corpus: dom.corpus
+			form: dom.form,
+			mode: dom.mode,
+			strategy: dom.strategy,
+			series: dom.series,
+			book: dom.book,
+			corpus: dom.corpus
 		});
 	}
 
 	renderHistory(entries = readSearchHistory()) {
 		renderSearchHistory({
-			entries, container: dom.recentSearches, filter: dom.historyFilter.value,
+			entries,
+			container: dom.recentSearches,
+			filter: dom.historyFilter.value,
 			onChoose: entry => this.intent.chooseHistory(entry)
 		});
 		dom.clearHistoryButton.disabled = entries.length === 0;
@@ -47,8 +63,12 @@ export class SearchApp {
 
 	state(query) {
 		return {
-			query, mode: dom.mode.value, strategy: dom.strategy.value, lane: dom.series.value,
-			book: dom.book.value.trim(), corpus: dom.corpus.value.trim() || 'tanach'
+			query,
+			mode: dom.mode.value,
+			strategy: dom.strategy.value,
+			lane: dom.series.value,
+			book: dom.book.value.trim(),
+			corpus: dom.corpus.value.trim() || 'tanach'
 		};
 	}
 
@@ -57,8 +77,12 @@ export class SearchApp {
 		try {
 			capabilities = await fetchSearchCapabilities();
 			renderSearchCapabilities({
-				capabilities, panel: dom.capabilityPanel, semanticStatus: dom.semanticCapability,
-				exactStatus: dom.exactCapability, libraryStatus: dom.libraryCapability, exactCorpusList: dom.exactCorpusList
+				capabilities,
+				panel: dom.capabilityPanel,
+				semanticStatus: dom.semanticCapability,
+				exactStatus: dom.exactCapability,
+				libraryStatus: dom.libraryCapability,
+				exactCorpusList: dom.exactCorpusList
 			});
 		} catch {
 			renderCapabilitiesUnavailable(dom.capabilityPanel);
@@ -66,7 +90,12 @@ export class SearchApp {
 		const lanes = capabilities?.lanes || await fetchLibraryLanes();
 		lanes.forEach(lane => addLane(dom.series, lane));
 		if (selectedLane) dom.series.value = selectedLane;
-		renderLaneDirectory({ lanes, container: dom.laneDirectory, count: dom.laneCount, onChoose: lane => this.intent.chooseLane(lane) });
+		renderLaneDirectory({
+			lanes,
+			container: dom.laneDirectory,
+			count: dom.laneCount,
+			onChoose: lane => this.intent.chooseLane(lane)
+		});
 	}
 
 	async runSearch(rawQuery) {
@@ -91,17 +120,35 @@ export class SearchApp {
 		}
 	}
 
-	boot() {
-		this.disclosure.initialize();
+	bind() {
 		bindSearchControls({
-			form: dom.form, input: dom.input, mode: dom.mode, strategy: dom.strategy, clearHistoryButton: dom.clearHistoryButton,
+			form: dom.form,
+			input: dom.input,
+			mode: dom.mode,
+			strategy: dom.strategy,
+			clearHistoryButton: dom.clearHistoryButton,
 			onSearch: query => this.runSearch(query),
-			onModeChange: () => { this.intent.handleModeChange(); this.disclosure.render(); },
-			onStrategyChange: () => { this.intent.handleStrategyChange(); this.disclosure.render(); },
+			onModeChange: () => {
+				this.intent.handleModeChange();
+				this.disclosure.render();
+			},
+			onStrategyChange: () => {
+				this.intent.handleStrategyChange();
+				this.disclosure.render();
+			},
 			onClearHistory: () => this.renderHistory(clearSearchHistory())
 		});
 		dom.historyFilter.addEventListener('change', () => this.renderHistory());
+	}
+
+	async boot() {
+		this.disclosure.initialize();
+		this.bind();
 		this.renderHistory();
-		this.intent.hydrate();
+		try {
+			await this.intent.hydrate();
+		} catch (error) {
+			renderSearchError({ error, results: dom.results, status: dom.status });
+		}
 	}
 }

@@ -4,34 +4,32 @@
 /**
  * @file CreatorDock.js
  * @description
- * The Awtsmoos gathers many small vessels into one simple doorway, where depth appears only when the creator calls;
- * Awtsmoos.com keeps this dock a composition root so API flow, view state, presets, and event handling stay in separate halls.
+ * The Awtsmoos gathers prompt direction, Studio telemetry, presets, and transport into one retractable doorway of light;
+ * Awtsmoos.com keeps this composition root small so every visual and API responsibility remains in its appointed site.
  */
 
-import { CreatorTemplate } from './CreatorTemplate.js';
-import { CreatorEvents } from './CreatorEvents.js';
 import { YesodCreatorApiController } from './CreatorApiController.js';
+import { CreatorEvents } from './CreatorEvents.js';
 import { HodCreatorPresetState } from './CreatorPresetState.js';
+import { NetzachCreatorStudioController } from './CreatorStudioController.js';
+import { HodCreatorSystemView } from './CreatorSystemView.js';
+import { CreatorTemplate } from './CreatorTemplate.js';
 import { MalchusCreatorViewState } from './CreatorViewState.js';
 
-/** Mounts the progressive Creator interface while composing specialized collaborators around one local root. */
+/** Mounts the progressive Creator interface while composing specialized local collaborators. */
 export class CreatorDock {
-	/**
-	 * @param {object} keterApi Installed public Animator Agent API.
-	 */
+	/** @param {object} keterApi Installed public Animator Agent API. */
 	constructor(keterApi) {
 		this.keterApi = keterApi;
 		this.malchusRoot = null;
 		this.malchusView = null;
+		this.netzachStudio = null;
 		this.yesodController = null;
 		this.hodPresetState = null;
 		this.unbindEvents = null;
 	}
 
-	/**
-	 * Mounts exactly one Creator Dock and wires its local collaborators.
-	 * @returns {HTMLElement} Existing or newly mounted Creator root.
-	 */
+	/** @returns {HTMLElement} Existing or newly mounted Creator root. */
 	mount() {
 		const keterExisting = document.querySelector('[data-awtsmoos-creator]');
 		if (keterExisting) return keterExisting;
@@ -39,17 +37,32 @@ export class CreatorDock {
 		yesodVessel.innerHTML = CreatorTemplate.render().trim();
 		this.malchusRoot = yesodVessel.firstElementChild;
 		document.body.append(this.malchusRoot);
-		this.malchusView = new MalchusCreatorViewState(this.malchusRoot);
-		this.hodPresetState = new HodCreatorPresetState(this.malchusRoot);
-		this.yesodController = new YesodCreatorApiController(this.keterApi, this.malchusView);
-		this.unbindEvents = CreatorEvents.bind(this.malchusRoot, this.handlers());
+		this.installCollaborators();
+		this.netzachStudio.refresh();
 		return this.malchusRoot;
 	}
 
-	/**
-	 * Returns delegated event handlers without embedding behavior inside template HTML.
-	 * @returns {Record<string, Function>} Action map keyed by `data-creator-action` values.
-	 */
+	/** Composes view, API, preset, Studio, and delegated-event collaborators around one local root. */
+	installCollaborators() {
+		this.malchusView = new MalchusCreatorViewState(this.malchusRoot);
+		const hodSystemView = new HodCreatorSystemView(this.malchusRoot);
+		this.hodPresetState = new HodCreatorPresetState(this.malchusRoot);
+		this.yesodController = new YesodCreatorApiController(
+			this.keterApi,
+			this.malchusView
+		);
+		this.netzachStudio = new NetzachCreatorStudioController(
+			this.keterApi,
+			hodSystemView,
+			this.malchusView
+		);
+		this.unbindEvents = CreatorEvents.bind(
+			this.malchusRoot,
+			this.handlers()
+		);
+	}
+
+	/** @returns {Record<string, Function>} Action map keyed by `data-creator-action`. */
 	handlers() {
 		return {
 			toggle: () => this.toggle(),
@@ -57,37 +70,39 @@ export class CreatorDock {
 			preview: () => this.yesodController?.preview(this.promptValue()),
 			apply: () => this.yesodController?.apply(),
 			discard: () => this.yesodController?.discard(),
-			fragment: (_olamEvent, keliButton) => this.selectFragment(keliButton)
+			fragment: (_event, button) => this.selectFragment(button),
+			play: () => this.netzachStudio?.play(),
+			pause: () => this.netzachStudio?.pause(),
+			undo: () => this.netzachStudio?.undo(),
+			redo: () => this.netzachStudio?.redo(),
+			refresh: () => this.netzachStudio?.refresh()
 		};
 	}
 
-	/** Toggles progressive disclosure while delegating all DOM-state updates to the view renderer. */
+	/** Toggles progressive disclosure and refreshes Studio telemetry when opening. */
 	toggle() {
 		const yesodExpanded = this.malchusRoot?.dataset.expanded !== 'true';
 		this.malchusView?.setExpanded(yesodExpanded);
+		if (yesodExpanded) this.netzachStudio?.refresh();
 	}
 
-	/**
-	 * Records prompt-composition selection, then appends the trusted preset phrase.
-	 * @param {HTMLElement} keliButton Authored preset button from the static Creator template.
-	 */
+	/** @param {HTMLElement} keliButton Trusted preset button. */
 	selectFragment(keliButton) {
 		this.hodPresetState?.select(keliButton);
 		this.appendFragment(keliButton?.dataset.creatorFragment);
 	}
 
-	/**
-	 * Appends a trusted authored direction fragment and returns focus to the prompt.
-	 * @param {string} orFragment Static preset phrase from trusted template markup.
-	 */
+	/** @param {string} orFragment Trusted prompt fragment. */
 	appendFragment(orFragment = '') {
 		const keliPrompt = this.malchusRoot?.querySelector('textarea');
 		if (!keliPrompt || !orFragment) return;
-		keliPrompt.value = [keliPrompt.value.trim(), orFragment].filter(Boolean).join('. ');
+		keliPrompt.value = [keliPrompt.value.trim(), orFragment]
+			.filter(Boolean)
+			.join('. ');
 		keliPrompt.focus();
 	}
 
-	/** Returns the current creator prompt without exposing the textarea element to API collaborators. */
+	/** @returns {string} Current creator prompt. */
 	promptValue() {
 		return this.malchusRoot?.querySelector('textarea')?.value ?? '';
 	}

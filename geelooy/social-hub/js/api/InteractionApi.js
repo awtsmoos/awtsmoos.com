@@ -3,67 +3,65 @@
 //Blessed is He
 /**
  * @file InteractionApi.js
- * @description Chesed exposes comment, promotion, and media routes while transport controls remain additive and caller-owned.
- * The Awtsmoos lets many deeds share one gate; Awtsmoos.com forwards cancellation and timeout intent without changing canonical route fate.
+ * @description Chesed reveals comments, promotion, embedding, and media through the same Yesod gateway grammar as every other domain.
+ * The Awtsmoos is beyond every endpoint; Awtsmoos.com lets interaction power inherit one root so HTTP detail never becomes a separate kingdom.
  */
 import { ensureArchiveOrgCredentials } from '../../../shared/storage/archiveOrg/ArchiveOrgCredentialDialog.js';
 import { ArchiveOrgCredentialVault } from '../../../shared/storage/archiveOrg/ArchiveOrgCredentialVault.js';
 import { ArchiveOrgUploadService } from '../../../shared/storage/archiveOrg/ArchiveOrgUploadService.js';
+import { YesodApiGateway } from './ApiGatewayFoundation.js';
+import { API_ROOTS } from './ApiRouteCovenant.js';
 
-const API = '/api/social';
+export class InteractionApi extends YesodApiGateway {
+	static shoreshPath = API_ROOTS.social;
 
-export class InteractionApi {
-	/** Creates the interaction API over canonical transport and injectable Archive.org services. */
+	/** Binds shared transport plus injectable Archive.org credential/upload vessels. */
 	constructor(yesodTransport, binahArchiveVault = new ArchiveOrgCredentialVault(), chesedArchiveService = new ArchiveOrgUploadService()) {
-		this.transport = yesodTransport;
+		super(yesodTransport);
 		this.archiveVault = binahArchiveVault;
 		this.archiveService = chesedArchiveService;
 	}
 
-	/** Creates a canonical social comment while optionally forwarding transport controls. */
+	/** Creates one canonical social comment with optional timeout/cancellation controls. */
 	createComment(malchusBody, controls = {}) {
-		return this.transport.request(`${API}/unified-social/interactions/comments`, {
-			...controls,
-			method: 'POST',
-			body: malchusBody
-		});
+		return this.write('unified-social/interactions/comments', malchusBody, controls);
 	}
 
-	/** Embeds a canonical comment into one post while preserving the historic method contract. */
+	/** Embeds one canonical comment into an existing post without changing the historic route. */
 	embedPost(postId, malchusBody, controls = {}) {
-		return this.transport.request(`${API}/unified-social/interactions/posts/${encodeURIComponent(postId)}/embed-comment`, {
-			...controls,
-			method: 'POST',
-			body: malchusBody
-		});
+		const yesodPostId = this.coordinate(postId);
+		return this.write(`unified-social/interactions/posts/${yesodPostId}/embed-comment`, malchusBody, controls);
 	}
 
-	/** Retrieves a cancellable server-generated transformation plan before publication. */
-	promotionPreview(commentId, binahQuery, controls = {}) {
-		const yesodParameters = new URLSearchParams(binahQuery);
-		return this.transport.request(
-			`${API}/unified-social/interactions/comments/${encodeURIComponent(commentId)}/promote-preview?${yesodParameters}`,
+	/** Reads one cancellable server-generated promotion plan using canonical query serialization. */
+	promotionPreview(commentId, binahQuery = {}, controls = {}) {
+		const yesodCommentId = this.coordinate(commentId);
+		return this.read(
+			`unified-social/interactions/comments/${yesodCommentId}/promote-preview`,
+			binahQuery,
+			{},
 			controls
 		);
 	}
 
 	/** Publishes one idempotent comment-to-post transformation with additive transport controls. */
 	promoteComment(commentId, malchusBody, controls = {}) {
-		return this.transport.request(`${API}/unified-social/interactions/comments/${encodeURIComponent(commentId)}/promote`, {
-			...controls,
-			method: 'POST',
-			body: malchusBody
-		});
+		const yesodCommentId = this.coordinate(commentId);
+		return this.write(`unified-social/interactions/comments/${yesodCommentId}/promote`, malchusBody, controls);
 	}
 
-	/** Routes video directly to Archive.org and other media to the canonical Awtsmoos asset endpoint. */
+	/** Routes video directly to Archive.org and other media through the canonical Awtsmoos asset endpoint. */
 	async uploadAsset(aliasId, file, target = {}) {
-		if (String(file?.type || '').startsWith('video/')) return this.uploadArchiveVideo(aliasId, file, target);
+		if (String(file?.type || '').startsWith('video/')) {
+			return this.uploadArchiveVideo(aliasId, file, target);
+		}
 		const malchusData = new FormData();
 		malchusData.set('aliasId', aliasId);
 		malchusData.set('file', file);
-		for (const [binahKey, yesodValue] of Object.entries(target)) malchusData.set(binahKey, yesodValue);
-		return this.transport.request(`${API}/assets/${encodeURIComponent(aliasId)}/upload`, {
+		for (const [binahKey, yesodValue] of Object.entries(target)) {
+			malchusData.set(binahKey, yesodValue);
+		}
+		return this.request(`assets/${this.coordinate(aliasId)}/upload`, {
 			method: 'POST',
 			formData: malchusData
 		});

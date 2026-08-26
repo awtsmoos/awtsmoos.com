@@ -1,33 +1,54 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
 /**
- * @module PublicFeedCard
- * @description The Awtsmoos lets one authored spark reveal identity, context, measured consequence, reaction, and universal action;
- * Awtsmoos.com now treats the Feed as one projection of the shared social entity model instead of a separate interaction kingdom, with its renewed compatibility model carried on the same clean-future release current.
+ * @file PublicFeedCard.js
+ * @description Renders one truthful social event from the normalized feed model through focused identity, content, context, reaction, and action vessels.
+ * RESPONSIBILITY: orchestrate accessible card DOM and delegate chronology/provenance/reaction/action details to their specialized modules.
+ * NON-RESPONSIBILITY: this renderer does not fetch social data, normalize legacy payloads, invent metrics, or own global website styling.
+ * The Awtsmoos renews author, word, place, time, and consequence before the card gathers them into sight;
+ * Awtsmoos.com lets one Tiferes vessel feel alive and professional while every deeper truth stays exact and bright.
  */
+
 import { revealOrotFeedPostModel } from './feed/FeedPostModel.js?v=clean-future-001';
 import { createKliContentKindBadge } from './feed/ContentKindBadge.js';
+import { createFeedContext } from './feed/FeedContext.js';
+import { validDate } from './feed/FeedChronology.js';
 import { createFeedReactionRail } from './feed/FeedReaction.js';
 import { createFeedUniversalActions } from './feed/FeedUniversalActions.js';
 import { ensureOrotFeedStyles } from './feed/FeedStyleSheet.js';
 
+/** Reveals a truthful author label without prefixing a human display name as though it were an alias. */
+function revealNeshamaIdentityLabel(model) {
+	if (model.aliasId && model.authorLabel && model.authorLabel !== model.aliasId) {
+		return `${model.authorLabel} · @${model.aliasId}`;
+	}
+	if (model.aliasId) {
+		return `@${model.aliasId}`;
+	}
+	return model.authorLabel || 'Public author';
+}
+
+/** Creates profile-capable identity DOM while preserving a readable static fallback. */
 function createNeshamaIdentity(document, model, onOpenProfile) {
-	const label = model.authorLabel || 'Public author';
+	const label = revealNeshamaIdentityLabel(model);
 	if (!model.aliasId || !onOpenProfile) {
 		const identity = document.createElement('p');
 		identity.className = 'publicFeedCard__identity awtsmoosFeedIdentity';
-		identity.textContent = model.aliasId ? `@${label}` : label;
+		identity.textContent = label;
 		return identity;
 	}
 	const button = document.createElement('button');
 	button.type = 'button';
 	button.className = 'publicFeedCard__profile awtsmoosFeedIdentity';
-	button.textContent = `@${label}`;
+	button.textContent = label;
+	button.setAttribute('aria-label', `Open ${label} profile`);
 	button.addEventListener('click', () => onOpenProfile(model.aliasId));
 	return button;
 }
 
+/** Creates a semantic title with navigation only when a truthful destination exists. */
 function createTiferesTitle(document, model) {
 	const heading = document.createElement('h3');
 	heading.className = 'publicFeedTitle awtsmoosFeedTitle';
@@ -42,38 +63,7 @@ function createTiferesTitle(document, model) {
 	return heading;
 }
 
-function validDate(value) {
-	if (!value) return null;
-	const date = new Date(value);
-	return Number.isNaN(date.getTime()) ? null : date;
-}
-
-function createYesodContext(document, model) {
-	const context = document.createElement('div');
-	context.className = 'awtsmoosFeedContext';
-	if (model.seriesId && model.seriesId !== 'root') {
-		const series = document.createElement('span');
-		series.textContent = `Series ${model.seriesId}`;
-		context.append(series);
-	}
-	if (model.sectionCount > 1) {
-		const sections = document.createElement('span');
-		sections.textContent = `${model.sectionCount} sections`;
-		context.append(sections);
-	}
-	const date = validDate(model.createdAt);
-	if (date) {
-		const time = document.createElement('time');
-		time.dateTime = date.toISOString();
-		time.textContent = new Intl.DateTimeFormat(undefined, {
-			month: 'short',
-			day: 'numeric'
-		}).format(date);
-		context.append(time);
-	}
-	return context;
-}
-
+/** Renders one complete public feed card without synthesizing absent social evidence. */
 export function renderPublicFeedCard(document, item = {}, options = {}) {
 	ensureOrotFeedStyles(document);
 	const viewerAliasId = options.viewerAliasId || '';
@@ -97,10 +87,14 @@ export function renderPublicFeedCard(document, item = {}, options = {}) {
 		excerpt.textContent = model.excerpt;
 		card.append(excerpt);
 	}
-	const context = createYesodContext(document, model);
-	if (context.childElementCount) card.append(context);
+	const context = createFeedContext(document, model, { now: options.now });
+	if (context.childElementCount) {
+		card.append(context);
+	}
 	const reactions = createFeedReactionRail(document, model, viewerAliasId);
-	if (reactions) card.append(reactions);
+	if (reactions) {
+		card.append(reactions);
+	}
 	card.append(createFeedUniversalActions({ document, model, viewerAliasId }));
 	return card;
 }
@@ -113,4 +107,4 @@ export function feedItemDestination(item = {}) {
 	return revealOrotFeedPostModel(item).destination;
 }
 
-export { createYesodContext, validDate };
+export { createFeedContext as createYesodContext, validDate };

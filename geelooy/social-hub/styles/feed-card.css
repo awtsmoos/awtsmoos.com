@@ -1,57 +1,67 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
 
 /**
- * The Awtsmoos gives form without being limited by form; Awtsmoos.com lets each public post rest as a quiet vessel where content leads and state arrives through a restrained edge of light.
- * This Tiferes-like garment removes floating-card spectacle while preserving readable hierarchy, kind distinction, keyboard truth, and overflow room for contextual action.
+ * @file feed-card.css
+ * @description Owns only Social Hub feed-card structure, identity interaction, and calm material depth beneath the route root.
+ * The Awtsmoos gives finite form without becoming its border; Awtsmoos.com lets each authored event rest in a quiet Tiferes vessel,
+ * fully local to the social world, resilient to long identity, and alive under hover, focus, touch, and reduced-motion accord.
  */
 
-.awtsmoosFeedCard {
+.social-hub-document .awtsmoosFeedCard {
 	position: relative;
 	display: grid;
 	gap: .9rem;
+	min-inline-size: 0;
 	padding: 1rem;
 	overflow: visible;
 	border: 1px solid rgba(148, 163, 184, .2);
 	border-inline-start-width: 2px;
 	border-radius: 1rem;
-	background: rgba(13, 22, 38, .94);
+	background: linear-gradient(155deg, rgba(15, 25, 43, .97), rgba(9, 18, 32, .94));
 	box-shadow: 0 12px 32px rgba(2, 6, 23, .18);
 	color: #f8fafc;
 	transition:
-		border-color 140ms ease,
-		background-color 140ms ease,
-		box-shadow 140ms ease;
+		transform 150ms ease,
+		border-color 150ms ease,
+		background-color 150ms ease,
+		box-shadow 150ms ease;
 }
 
-.awtsmoosFeedCard[data-kind="question"] {
+.social-hub-document .awtsmoosFeedCard[data-kind="question"] {
 	border-inline-start-color: rgba(154, 134, 255, .72);
 }
 
-.awtsmoosFeedCard[data-kind="answer"] {
+.social-hub-document .awtsmoosFeedCard[data-kind="answer"] {
 	border-inline-start-color: rgba(78, 220, 193, .62);
 }
 
-.awtsmoosFeedCard:is(:hover, :focus-within) {
-	border-color: rgba(126, 239, 255, .34);
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .awtsmoosFeedCard:hover {
+		transform: translateY(-1px);
+		border-color: rgba(126, 239, 255, .34);
+		box-shadow: 0 16px 40px rgba(2, 6, 23, .26);
+	}
+}
+
+.social-hub-document .awtsmoosFeedCard:focus-within {
+	border-color: rgba(126, 239, 255, .38);
 	box-shadow: 0 14px 36px rgba(2, 6, 23, .24);
 }
 
-.awtsmoosFeedCard > * {
-	position: relative;
-	z-index: 1;
-}
-
-.awtsmoosFeedMeta {
+.social-hub-document .awtsmoosFeedMeta {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: .6rem;
+	min-inline-size: 0;
 	flex-wrap: wrap;
 }
 
-.awtsmoosFeedIdentity {
+.social-hub-document .awtsmoosFeedIdentity {
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	margin: 0;
 	padding: .42rem .55rem;
 	border: 0;
@@ -60,25 +70,36 @@
 	color: inherit;
 	font: inherit;
 	font-weight: 760;
+	overflow-wrap: anywhere;
+	transition:
+		transform 130ms ease,
+		background-color 130ms ease,
+		box-shadow 130ms ease;
 }
 
-button.awtsmoosFeedIdentity {
+.social-hub-document button.awtsmoosFeedIdentity {
 	cursor: pointer;
 }
 
-button.awtsmoosFeedIdentity:is(:hover, :focus-visible) {
-	background: rgba(148, 163, 184, .08);
+.social-hub-document button.awtsmoosFeedIdentity:is(:hover, :focus-visible) {
+	background: rgba(148, 163, 184, .09);
+	box-shadow: inset 0 0 0 1px rgba(148, 163, 184, .09);
+}
+
+.social-hub-document button.awtsmoosFeedIdentity:active {
+	transform: translateY(1px) scale(.99);
 }
 
 @media (min-width: 40rem) {
-	.awtsmoosFeedCard {
+	.social-hub-document .awtsmoosFeedCard {
 		padding: 1.2rem;
 		gap: 1rem;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.awtsmoosFeedCard {
+	.social-hub-document .awtsmoosFeedCard,
+	.social-hub-document .awtsmoosFeedIdentity {
 		transition: none;
 	}
 }

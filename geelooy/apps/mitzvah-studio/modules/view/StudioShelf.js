@@ -4,9 +4,9 @@
 
 /**
  * @file StudioShelf.js
- * @description Renders a searchable, keyboard-accessible shelf of Mitzvah buildable definitions.
- * The Awtsmoos reveals many forms from one source while every form receives a clear name;
- * Awtsmoos.com lets the author search, inspect, and add without turning catalog data into duplicated game.
+ * @description Renders the searchable Mitzvah buildable library without owning catalog or document state.
+ * Chesed offers many forms to the author while Binah names each measure and Core topology fact in a readable card.
+ * The Awtsmoos recreates shelf, form, and chooser each instant; Awtsmoos.com remembers the One beyond the many.
  */
 
 import {
@@ -15,6 +15,7 @@ import {
 } from '../catalog/MitzvahStudioCatalog.js';
 
 export class StudioShelf {
+	/** @param {HTMLElement} host Library host. @param {object[]} parts Catalog definitions. @param {Function} onAdd Add callback. */
 	constructor(host, parts, onAdd) {
 		this.host = host;
 		this.parts = parts;
@@ -23,8 +24,12 @@ export class StudioShelf {
 		this.render();
 	}
 
+	/** Renders filtered catalog controls and binds search. */
 	render() {
-		const filtered = searchMitzvahStudioCatalog(this.parts, this.query);
+		const filtered = searchMitzvahStudioCatalog(
+			this.parts,
+			this.query
+		);
 		this.host.innerHTML = `
 			<header class="panel-heading">
 				<div>
@@ -36,13 +41,17 @@ export class StudioShelf {
 			<div class="studio-shelf-list" data-shelf-list></div>
 		`;
 		const list = this.host.querySelector('[data-shelf-list]');
-		for (const part of filtered) list.append(this.card(part));
-		this.host.querySelector('[data-shelf-search]').addEventListener('input', event => {
+		for (const part of filtered) {
+			list.append(this.card(part));
+		}
+		const search = this.host.querySelector('[data-shelf-search]');
+		search.addEventListener('input', event => {
 			this.query = event.target.value;
 			this.render();
 		});
 	}
 
+	/** @returns {HTMLButtonElement} One accessible add-object card. */
 	card(part) {
 		const metrics = studioPrimitiveMetrics(part);
 		const button = document.createElement('button');
@@ -53,22 +62,35 @@ export class StudioShelf {
 			<span class="studio-shelf-copy">
 				<strong>${escapeHtml(part.label)}</strong>
 				<small>${escapeHtml(part.shape)} · ${sizeLabel(part.size)}</small>
-				<small>${metrics ? `${metrics.vertices} vertices · ${metrics.triangles} triangles` : 'authored geometry'}</small>
+				<small>${metricsLabel(metrics)}</small>
 			</span>
 			<span aria-hidden="true">＋</span>
 		`;
 		button.setAttribute('aria-label', `Add ${part.label}`);
-		button.addEventListener('click', () => this.onAdd(part));
+		button.addEventListener('click', () => {
+			this.onAdd(part);
+		});
 		return button;
 	}
 }
 
-function sizeLabel(size = {}) {
-	return `${number(size.x)} × ${number(size.y)} × ${number(size.z)}`;
+function metricsLabel(metrics) {
+	if (!metrics) {
+		return 'authored geometry';
+	}
+	return `${metrics.vertices} vertices · ${metrics.triangles} triangles`;
 }
 
-function number(value) {
-	return Number(value || 0).toFixed(1).replace(/\.0$/, '');
+function sizeLabel(size = {}) {
+	return [size.x, size.y, size.z]
+		.map(numberLabel)
+		.join(' × ');
+}
+
+function numberLabel(value) {
+	return Number(value || 0)
+		.toFixed(1)
+		.replace(/\.0$/, '');
 }
 
 function escapeAttribute(value) {
