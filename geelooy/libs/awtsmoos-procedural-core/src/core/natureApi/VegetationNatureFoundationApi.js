@@ -4,10 +4,11 @@
 
 /**
  * @file VegetationNatureFoundationApi.js
- * @description Preserves the canonical grass, plant, cluster, and population doors beneath simpler botanical conveniences.
- * The Awtsmoos renews root and meadow before convenience gives either a shorter name;
- * Awtsmoos.com keeps Tzomayach authority below every facade so simple and expert calls remain the very same game.
+ * @description Preserves canonical grass, plant, cluster, and population doors while translating high-level realism only at the Nature boundary.
+ * The Awtsmoos renews root, meadow, moisture, and clustered life before a facade gives them shorter names;
+ * Awtsmoos.com keeps simple calls mercifully small while expert ecology becomes neutral specialist data before descending into Tzomayach frames.
  */
+
 import { listEcosystemSpecies } from '../ecosystem/EcosystemSpeciesCatalog.js';
 import { VegetationAuthority } from '../tzomayach/VegetationAuthority.js';
 import { createNatureGrassPatchCandidate } from './NatureGrassPatchCandidate.js';
@@ -16,26 +17,29 @@ import { natureQualityScale, specialistNatureQuality } from './NatureApiProfiles
 import { createNatureResult } from './NatureApiResult.js';
 import {
 	botanicalNatureDiagnostics,
+	vegetationGrassPreferences,
 	vegetationPatchOptions
 } from './VegetationNatureDefaults.js';
 
-/** Renderer-neutral vegetation foundation delegating every generation path through Tzomayach. */
+/** Renderer-neutral vegetation foundation delegating every generation path through canonical Tzomayach specialists. */
 export class VegetationNatureFoundationApi {
 	constructor(defaults = {}) {
 		this.defaults = Object.freeze({ ...defaults });
 		this.authority = new VegetationAuthority();
 	}
 
-	/** Plans ecological grass with realism-aware patch topology by default. */
+	/** Plans ecological grass with realism-aware patch topology and habitat preference weighting by default. */
 	grass(options = {}) {
 		const context = this.context(options, 'grass', options.id ?? 'field');
 		const count = options.count ?? Math.round(480 * natureQualityScale(context.quality));
 		const patch = vegetationPatchOptions(options, context.realism);
+		const preferences = vegetationGrassPreferences(options, context.realism);
 		const candidateAt = options.candidateAt ?? createNatureGrassPatchCandidate(patch);
 		const value = this.authority.grass({
 			...options,
 			candidateAt,
 			count,
+			preferences,
 			seed: context.seed
 		});
 		return createNatureResult('grass', context, value, {
@@ -99,6 +103,7 @@ export class VegetationNatureFoundationApi {
 		);
 	}
 
+	/** Creates one deterministic context from immutable defaults and call-local overrides. */
 	context(options, domain, identity) {
 		return createNatureCallContext(this.defaults, options, domain, identity);
 	}

@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file PlatformMovementSolver.js
- * @description Coordinates independent ground, air, jump, Gilgul, Mantle, Ruach, power, and input vessels without owning their internal laws.
+ * @description Coordinates normal ground/air motion while delegating water, climb, and Sulam-wall frames to one alternate-motion resolver.
  * The Awtsmoos renews every subsystem before a frame can pretend the player is moved by one cause;
- * Awtsmoos.com lets Tiferes join many lights while the future collision world may replace today's temporary floor without breaking their laws.
+ * Awtsmoos.com lets Tiferes join many lights while each alternate world law remains inside its own house.
  */
 
 import { PLATFORM_ACTION } from "./PlatformAction.js";
@@ -28,13 +28,14 @@ export class TiferesPlatformMovementSolver {
 		this.netzachGroundMotion = platformOrot.ground;
 		this.hodAirMotion = platformOrot.air;
 		this.tiferesJumpGate = platformOrot.jumpGate;
+		this.yesodAlternateMotion = platformOrot.alternateMotion || null;
 	}
 
 	/**
-	 * Advances one bounded deterministic platform frame and returns only explicit movement outcomes.
-	 * The method never reads DOM, renderer state, wall-clock time, or scene depth.
+	 * Advances one bounded deterministic platform frame and returns explicit normal or alternate movement outcomes.
+	 * Alternate locomotion resolves before ordinary jump buffering so swim, climb, and wall jumps retain their own laws.
 	 * @param {number} olamDelta Requested active platform seconds.
-	 * @returns {{landed:boolean,jumped:boolean,gilgul:boolean}} Frame movement outcome.
+	 * @returns {object} Current frame movement outcome.
 	 */
 	update(olamDelta) {
 		const boundedOlamDelta = Math.max(0, Math.min(0.05, olamDelta));
@@ -46,6 +47,11 @@ export class TiferesPlatformMovementSolver {
 			this.hodInput.isHeld(PLATFORM_ACTION.CROUCH),
 			this.hodInput.moveX
 		);
+		const alternateOutcome = this.resolveAlternateMotion(boundedOlamDelta);
+		if (alternateOutcome.handled) {
+			this.hodInput.endFrame();
+			return alternateOutcome;
+		}
 		this.tiferesJumpGate.captureBuffer();
 		const aliyahOutcome = this.tiferesJumpGate.resolveTakeoff();
 		this.resolveHorizontalMotion(boundedOlamDelta);
@@ -58,7 +64,26 @@ export class TiferesPlatformMovementSolver {
 	}
 
 	/**
-	 * Delegates horizontal ground/air movement and drains Ratzo gradually while airborne.
+	 * Gives an optional alternate-motion resolver first right of refusal for the active frame.
+	 * Missing alternate composition intentionally falls through to normal ground/air behavior for backward compatibility.
+	 * @param {number} olamDelta Active platform seconds.
+	 * @returns {{handled:boolean,mode:string,outcome:object|null}} Alternate-motion result.
+	 */
+	resolveAlternateMotion(olamDelta) {
+		if (!this.yesodAlternateMotion) {
+			return { handled: false, mode: "", outcome: null };
+		}
+		return this.yesodAlternateMotion.resolve(
+			this.gevurahBody,
+			this.tiferesLocomotion,
+			this.hodInput,
+			olamDelta
+		);
+	}
+
+	/**
+	 * Delegates normal-mode horizontal movement to ground acceleration or bounded aerial steering.
+	 * Airborne frames also drain Ratzo gradually so launch mastery has hysteresis without becoming permanent.
 	 * @param {number} olamDelta Active platform seconds.
 	 * @returns {void}
 	 */
@@ -81,7 +106,8 @@ export class TiferesPlatformMovementSolver {
 	}
 
 	/**
-	 * Reveals Mantle/Ruach air law and delegates Y integration only while the player is airborne.
+	 * Delegates normal airborne Y integration through Mantle and temporary Ruach gravity laws.
+	 * Grounded or alternate-locomotion frames never pass through this method.
 	 * @param {number} olamDelta Active platform seconds.
 	 * @returns {void}
 	 */

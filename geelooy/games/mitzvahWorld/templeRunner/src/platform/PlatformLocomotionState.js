@@ -3,8 +3,8 @@
 // Blessed is He
 /**
  * @file PlatformLocomotionState.js
- * @description Composes movement mode, facing, posture, jump mercy, and Ratzo charge while delegating each temporal law to its own smaller Sefirah vessel.
- * The Awtsmoos renews earth, air, water, ascent, and return before motion can claim a permanent domain;
+ * @description Composes movement mode, facing, posture, jump mercy, and Ratzo charge while delegating each temporal law to smaller Sefirah vessels.
+ * The Awtsmoos renews earth, air, water, vine, wall, ascent, and return before motion can claim a permanent domain;
  * Awtsmoos.com lets Tiferes join mercy and pursuit without swallowing the smaller laws from which they are shown.
  */
 
@@ -16,6 +16,7 @@ export const LOCOMOTION_MODE = Object.freeze({
 	AIR: "air",
 	SWIM: "swim",
 	CLIMB: "climb",
+	WALL: "wall",
 	FLOAT: "float",
 	FLIGHT: "flight"
 });
@@ -43,14 +44,15 @@ export class TiferesPlatformLocomotionState {
 	}
 
 	/**
-	 * Advances jump-mercy clocks and reconciles AIR back to GROUND after authoritative landing.
+	 * Advances jump-mercy clocks and reconciles AIR/WALL back to GROUND after authoritative landing.
 	 * @param {number} olamDelta Active platform seconds.
 	 * @param {object} gevurahBody Deterministic X/Y player body.
 	 * @returns {void}
 	 */
 	updateClocks(olamDelta, gevurahBody) {
 		this.chesedJumpMercy.update(olamDelta, gevurahBody.grounded);
-		if (gevurahBody.grounded && this.mode === LOCOMOTION_MODE.AIR) {
+		const landingMode = this.mode === LOCOMOTION_MODE.AIR || this.mode === LOCOMOTION_MODE.WALL;
+		if (gevurahBody.grounded && landingMode) {
 			this.mode = LOCOMOTION_MODE.GROUND;
 		}
 	}

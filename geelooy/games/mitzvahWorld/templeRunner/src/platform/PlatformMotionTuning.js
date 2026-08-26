@@ -3,8 +3,8 @@
 // Blessed is He
 /**
  * @file PlatformMotionTuning.js
- * @description Centralizes deterministic movement law so reachability validation, tests, AI planning, and player motion derive from the same measured covenant.
- * The Awtsmoos renews measure before speed, gravity, mercy, or momentum can appear fixed in stone;
+ * @description Centralizes deterministic movement law so reachability validation, tests, AI planning, and player motion derive from one measured covenant.
+ * The Awtsmoos renews measure before earth, water, ladder, wall, gravity, or momentum can appear fixed in stone;
  * Awtsmoos.com lets Binah gather every number once, so future worlds may reason from one known tone.
  */
 
@@ -31,5 +31,19 @@ export const PLATFORM_MOTION = Object.freeze({
 	gilgulSeconds: 0.72,
 	gilgulReboundVelocity: 9.2,
 	ruachSeconds: 7.5,
-	damageMercySeconds: 1.15
+	damageMercySeconds: 1.15,
+	swimAcceleration: 13.5,
+	swimDrag: 4.6,
+	swimMaxSpeedX: 4.4,
+	swimMaxSpeedY: 5.8,
+	swimStrokeVelocity: 6.4,
+	swimStrokeCooldown: 0.18,
+	climbSpeedX: 2.6,
+	climbSpeedY: 3.5,
+	climbDetachX: 4.8,
+	climbDetachY: 8.4,
+	wallSlideSpeed: 3.4,
+	wallJumpX: 6.8,
+	wallJumpY: 10.4,
+	wallRunSpeed: 5.6
 });
