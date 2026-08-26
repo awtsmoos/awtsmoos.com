@@ -12,7 +12,7 @@
 import { createTextureGenerationRequest } from '../materials/generation/TextureGenerationRequest.js';
 
 /**
- * Creates frozen optional generation intent linked to the same local fallback identity as remote hydration.
+ * Creates frozen generation intent linked to the same local fallback identity as remote hydration.
  * @param {string} role Canonical semantic material role.
  * @param {string} family Material family or coverage identity.
  * @param {string} quality Requested quality tier.
@@ -22,15 +22,7 @@ import { createTextureGenerationRequest } from '../materials/generation/TextureG
  */
 export function createNatureGeneratedSurfaceIntent(role, family, quality, fallbackKey, options = {}) {
 	const chochmahGeneration = normalizeGeneration(options);
-	if (!chochmahGeneration.enabled) {
-		return Object.freeze({
-			available: false,
-			cacheKey: null,
-			fallbackKey,
-			optional: true,
-			request: null
-		});
-	}
+	if (!chochmahGeneration.enabled) return disabledIntent(fallbackKey);
 	const yesodRequest = createTextureGenerationRequest({
 		channels: chochmahGeneration.channels,
 		family,
@@ -45,9 +37,22 @@ export function createNatureGeneratedSurfaceIntent(role, family, quality, fallba
 	return Object.freeze({
 		available: true,
 		cacheKey: yesodRequest.cacheKey,
+		enabled: true,
 		fallbackKey,
 		optional: chochmahGeneration.optional !== false,
 		request: yesodRequest
+	});
+}
+
+/** Returns one explicit disabled descriptor so availability, enablement, and optionality never collapse together. */
+function disabledIntent(fallbackKey) {
+	return Object.freeze({
+		available: false,
+		cacheKey: null,
+		enabled: false,
+		fallbackKey,
+		optional: true,
+		request: null
 	});
 }
 

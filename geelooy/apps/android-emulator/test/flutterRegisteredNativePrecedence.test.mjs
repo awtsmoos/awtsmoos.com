@@ -32,10 +32,7 @@ const NETZACH_OVERLAPS = Object.freeze([
 	["nativeUpdateRefreshRate", "(F)V"]
 ]);
 
-/**
- * Proves registered JNI and bootstrap are the two authentic owners of every
- * measured overlap without chaining truth to absolute family indexes.
- */
+/** Proves registered JNI and bootstrap are the two authentic owners of every measured overlap. */
 function tiferesAuthenticOverlapOwnersTest() {
 	const olamRuntime = tiferesRuntime();
 	const netzachFamilies = createFrameworkAndroidCoreFamilies(olamRuntime);
@@ -49,10 +46,7 @@ function tiferesAuthenticOverlapOwnersTest() {
 	}
 }
 
-/**
- * Proves the composed platform sequence places registered-native handling before
- * bootstrap by identifying the earlier overlap owner with a registered-only road.
- */
+/** Proves composed platform precedence by identifying the earlier overlap owner with a registered-only road. */
 function tiferesRegisteredBeforeBootstrapTest() {
 	const olamRuntime = tiferesRuntime();
 	const netzachFamilies = createFrameworkAndroidCorePlatformFamilies(olamRuntime);
@@ -60,8 +54,8 @@ function tiferesRegisteredBeforeBootstrapTest() {
 	const sodRegisteredOnly = sodRecord("nativeRunBundleAndSnapshotFromLibrary", "()V");
 	const netzachOverlapOwners = netzachOwnerIndexes(netzachFamilies, sodOverlap);
 	const netzachRegisteredOwners = netzachOwnerIndexes(netzachFamilies, sodRegisteredOnly);
-	assert.deepEqual(netzachOverlapOwners.length, 2);
-	assert.deepEqual(netzachRegisteredOwners.length, 1);
+	assert.equal(netzachOverlapOwners.length, 2);
+	assert.equal(netzachRegisteredOwners.length, 1);
 	assert.equal(netzachOverlapOwners[0], netzachRegisteredOwners[0]);
 	assert.ok(netzachOverlapOwners[1] > netzachOverlapOwners[0]);
 	assert.equal(netzachFamilies[netzachOverlapOwners[1]].canHandle(sodRegisteredOnly), false);
@@ -71,7 +65,9 @@ function tiferesRegisteredBeforeBootstrapTest() {
 function netzachOwnerIndexes(netzachFamilies, sodInvocationRecord) {
 	const netzachIndexes = [];
 	for (let yesodIndex = 0; yesodIndex < netzachFamilies.length; yesodIndex += 1) {
-		if (netzachFamilies[yesodIndex].canHandle(sodInvocationRecord)) netzachIndexes.push(yesodIndex);
+		if (netzachFamilies[yesodIndex].canHandle(sodInvocationRecord)) {
+			netzachIndexes.push(yesodIndex);
+		}
 	}
 	return netzachIndexes;
 }
@@ -80,21 +76,44 @@ function netzachOwnerIndexes(netzachFamilies, sodInvocationRecord) {
 function tiferesRuntime() {
 	return {
 		heap: createDalvikObjectHeap(),
-		logcat: Object.freeze({ error() {}, info() {}, warn() {} }),
+		logcat: Object.freeze({
+			error: netzachNoop,
+			info: netzachNoop,
+			warn: netzachNoop
+		}),
 		registry: Object.freeze({
-			classDefinition() { return null; },
+			classDefinition: sodNoClassDefinition,
 			list: Object.freeze([]),
-			superType() { return null; }
+			superType: sodNoSuperType
 		}),
 		staticFields: new Map()
 	};
+}
+
+/** Intentionally performs no host work inside the minimal test runtime. */
+function netzachNoop() {
+	return undefined;
+}
+
+/** Reports that the focused routing fixture has no loaded class definition. */
+function sodNoClassDefinition() {
+	return null;
+}
+
+/** Reports that the focused routing fixture has no superclass metadata. */
+function sodNoSuperType() {
+	return null;
 }
 
 /** Creates one authentic native FlutterJNI method record for routing proof. */
 function sodRecord(sodName, sodDescriptor) {
 	return Object.freeze({
 		encoded: Object.freeze({ accessFlags: 0x0102 }),
-		method: Object.freeze({ classType: MALCHUS_OWNER, descriptor: sodDescriptor, name: sodName }),
+		method: Object.freeze({
+			classType: MALCHUS_OWNER,
+			descriptor: sodDescriptor,
+			name: sodName
+		}),
 		signature: `${MALCHUS_OWNER}->${sodName}${sodDescriptor}`
 	});
 }

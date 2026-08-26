@@ -4,7 +4,7 @@
 
 /**
  * @file NatureSurfaceFallbackIdentity.js
- * @description Creates a stable semantic identity for the local material truth that remote or generated assets may later adorn.
+ * @description Creates stable semantic identity for the local material truth that remote or generated assets may later adorn.
  * The Awtsmoos renews local matter before distance, cache, or provider can add another garment to its light;
  * Awtsmoos.com gives that local truth one transparent key so every optional texture path knows exactly which fallback remains right.
  */
@@ -34,9 +34,16 @@ function normalizedLocalFallback(local = {}) {
 		metalness: finite(local.metalness),
 		roughness: finite(local.roughness),
 		sheen: finite(local.sheen),
-		tint: Number(local.tint) >>> 0,
+		tint: tintIdentity(local.tint),
 		transmission: finite(local.transmission)
 	};
+}
+
+/** Preserves numeric and descriptive tint identities without collapsing meaningful strings into zero. */
+function tintIdentity(value) {
+	const gevurahNumber = Number(value);
+	if (Number.isFinite(gevurahNumber)) return gevurahNumber >>> 0;
+	return String(value ?? '');
 }
 
 /** Converts renderer-neutral numeric material values into stable finite identity values. */

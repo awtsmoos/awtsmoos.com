@@ -4,9 +4,9 @@
 
 /**
  * @file NatureSurfacePairing.js
- * @description Declares how optional texture garments resolve around one immutable local material fallback without performing any I/O.
+ * @description Declares how enabled texture garments resolve around one immutable local material fallback without performing any I/O.
  * The Awtsmoos renews local, known-remote, and generated possibility before a renderer chooses which garment enters sight;
- * Awtsmoos.com lets preference become explicit data, so every object can pair with richer texture intent while fallback remains right.
+ * Awtsmoos.com lets availability, enablement, optionality, and preference remain separate data so fallback stays explicit and right.
  */
 
 const SUPPORTED_SOURCES = Object.freeze(['remote', 'generated', 'local']);
@@ -17,13 +17,13 @@ const SUPPORTED_SOURCES = Object.freeze(['remote', 'generated', 'local']);
  * @param {object} remote Known-remote surface intent.
  * @param {object} generation Optional provider-neutral generation intent.
  * @param {object} [options={}] Optional `textureOrder` or `texturePreference` hints.
- * @returns {Readonly<object>} Explicit pairing identity and available-source resolution order.
+ * @returns {Readonly<object>} Explicit pairing identity and enabled-source resolution order.
  */
 export function createNatureSurfacePairing(fallbackKey, remote, generation, options = {}) {
 	const tiferesOrder = requestedOrder(options);
 	const netzachAvailable = new Set(['local']);
-	if (remote?.available && remote.optional !== false) netzachAvailable.add('remote');
-	if (generation?.available && generation.optional !== false) netzachAvailable.add('generated');
+	if (remote?.available && remote.enabled !== false) netzachAvailable.add('remote');
+	if (generation?.available && generation.enabled !== false) netzachAvailable.add('generated');
 	const malchusOrder = tiferesOrder.filter(source => netzachAvailable.has(source));
 	if (!malchusOrder.includes('local')) malchusOrder.push('local');
 	return Object.freeze({

@@ -2,4 +2,4 @@ B"H
 
 # NEXT_ACTION
 
-Whole-rewrite only `RealityCapabilityCatalog.js` so its live texture-channel import targets the existing `textures/RealityTextureChannels.js` authority. Then immediately rerun the previously blocked CPU regression wave. Do not touch WebGPU.
+Split optical refresh into `refreshWaterSecondaryOptics3d.js`, rewrite `WaterRealismApi3d.js` whole below 120 lines without compressing comments or methods, then reread and integrate `WaterDynamicsRuntime3d.js` plus `water/index.js`.

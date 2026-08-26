@@ -13,7 +13,12 @@ import { createLiquidRealismProfile3d } from '../proceduralObject/liquid3d/creat
 import { freezeWaterValue } from './freezeWaterValue.js';
 import { waterMaterialProfile3d } from './WaterMaterialProfiles3d.js';
 
-const BUDGETS = Object.freeze({ realtime: 96, balanced: 256, cinematic: 768, extreme: 1536 });
+const BUDGETS = Object.freeze({
+	balanced: 256,
+	cinematic: 768,
+	extreme: 1536,
+	realtime: 96
+});
 
 /** Resolves one immutable CPU realism policy for a unified 3D water runtime. */
 export function createWaterRealismPolicy3d(options = {}) {
@@ -34,11 +39,14 @@ export function createWaterRealismPolicy3d(options = {}) {
 	const defaultBudget = BUDGETS[base.name] ?? BUDGETS.balanced;
 	return Object.freeze({
 		budgets: freezeWaterValue({
-			maximumPerRole: defaultBudget,
+			maxPerRole: defaultBudget,
 			...(options.budgets ?? {})
 		}),
 		material,
-		optics: freezeWaterValue({ ...material.optics, ...(options.optics ?? {}) }),
+		optics: freezeWaterValue({
+			...material.optics,
+			...(options.optics ?? {})
+		}),
 		persistentEffects: options.persistentEffects ?? base.name !== 'realtime',
 		secondaryDynamics: freezeWaterValue(options.secondaryDynamics ?? {}),
 		secondaryParticles: freezeWaterValue({

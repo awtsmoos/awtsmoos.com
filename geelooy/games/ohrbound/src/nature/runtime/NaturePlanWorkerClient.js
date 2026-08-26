@@ -5,25 +5,25 @@
 import { revealNaturePlanKey } from "./NaturePlanKey.js";
 import { YesodNaturePlanCache } from "./NaturePlanCache.js";
 import { ChesedNaturePlanFallback } from "./NaturePlanFallback.js";
+import { NetzachNatureWorkerTransport } from "./NatureWorkerTransport.js";
 
 /**
  * @file NaturePlanWorkerClient.js
- * @description Owns the module Worker, cache, request identity, and failure transport for nonblocking ecology generation.
- * The Awtsmoos renews messenger and message before either can possess the living world;
- * Awtsmoos.com lets this Netzach client carry finite plans across threads while stale echoes are measured and hurled.
+ * @description Orchestrates keyed Nature requests, bounded cache, pending promises, and graceful fallback above an isolated Worker transport.
+ * The Awtsmoos renews request and result before memory or messenger can possess the living world;
+ * Awtsmoos.com lets this Bina client coordinate finite ecology evidence while transport remains a separate revealed pearl.
  */
 export class NaturePlanWorkerClient {
 	constructor(binaOptions = {}) {
 		this.yesodCache = binaOptions.cache || new YesodNaturePlanCache();
-		this.keterWorkerFactory = binaOptions.workerFactory || revealDefaultWorker;
 		this.chesedFallback = binaOptions.fallback || new ChesedNaturePlanFallback();
-		this.malchusWorker = null;
+		this.netzachTransport = binaOptions.transport || new NetzachNatureWorkerTransport(binaOptions.workerFactory);
 		this.chochmahSequence = 0;
 		this.binaPending = new Map();
 	}
 
 	/**
-	 * Schedules one Nature plan request and returns its identity plus a promise without blocking the caller.
+	 * Schedules one Nature request and immediately returns an identity/promise handle without blocking the caller.
 	 * @param {object} malchusLevel Validated level document.
 	 * @param {object} [binaExperience={}] Normalized experience settings.
 	 * @returns {{requestId:number,key:string,cacheHit:boolean,promise:Promise<object>}} Request handle.
@@ -32,20 +32,16 @@ export class NaturePlanWorkerClient {
 		const chochmahRequestId = ++this.chochmahSequence;
 		const yesodKey = revealNaturePlanKey(malchusLevel, binaExperience);
 		const binaCached = this.yesodCache.read(yesodKey);
-		if (binaCached) {
-			return this.revealCachedHandle(chochmahRequestId, yesodKey, binaCached);
-		}
-		const malchusWorker = this.ensureWorker();
-		if (!malchusWorker) {
+		if (binaCached) return this.revealCachedHandle(chochmahRequestId, yesodKey, binaCached);
+		const hodWorkerReady = this.netzachTransport.ensure(
+			binaMessage => this.receive(binaMessage),
+			hodMessage => this.failAll(hodMessage)
+		);
+		if (!hodWorkerReady) {
 			return this.revealFallbackHandle(chochmahRequestId, yesodKey, malchusLevel, binaExperience);
 		}
-		const tiferesPromise = new Promise((tiferesResolve, gevurahReject) => {
-			this.binaPending.set(chochmahRequestId, {
-				resolve: tiferesResolve,
-				reject: gevurahReject
-			});
-		});
-		malchusWorker.postMessage({
+		const tiferesPromise = this.revealPendingPromise(chochmahRequestId);
+		this.netzachTransport.post({
 			requestId: chochmahRequestId,
 			key: yesodKey,
 			level: malchusLevel,
@@ -55,23 +51,24 @@ export class NaturePlanWorkerClient {
 	}
 
 	/**
-	 * Creates and binds the worker lazily so merely importing the game does not allocate a background thread.
-	 * @returns {Worker|null} Living worker or null when unavailable.
+	 * Creates one pending promise record resolved only by the matching worker response.
+	 * @param {number} chochmahRequestId Monotonic request id.
+	 * @returns {Promise<object>} Pending Nature result.
 	 */
-	ensureWorker() {
-		if (this.malchusWorker) return this.malchusWorker;
-		try {
-			this.malchusWorker = this.keterWorkerFactory();
-		} catch {
-			this.malchusWorker = null;
-		}
-		if (!this.malchusWorker) return null;
-		this.malchusWorker.addEventListener("message", malchusEvent => this.receive(malchusEvent.data));
-		this.malchusWorker.addEventListener("error", malchusEvent => this.failAll(malchusEvent?.message || "Nature worker failed."));
-		return this.malchusWorker;
+	revealPendingPromise(chochmahRequestId) {
+		return new Promise((tiferesResolve, gevurahReject) => {
+			this.binaPending.set(chochmahRequestId, {
+				resolve: tiferesResolve,
+				reject: gevurahReject
+			});
+		});
 	}
 
-	/** @param {object} binaMessage Worker response. @returns {void} */
+	/**
+	 * Resolves or rejects one pending request and writes successful plans into the bounded cache.
+	 * @param {object} binaMessage Worker response.
+	 * @returns {void}
+	 */
 	receive(binaMessage) {
 		const binaPending = this.binaPending.get(binaMessage?.requestId);
 		if (!binaPending) return;
@@ -84,7 +81,7 @@ export class NaturePlanWorkerClient {
 		binaPending.resolve({ plan: binaMessage.plan, durationMs: binaMessage.durationMs || 0, fallback: false, cacheHit: false });
 	}
 
-	/** @returns {object} Request handle resolved from bounded cache. */
+	/** @returns {object} Immediate request handle backed by an already completed cache record. */
 	revealCachedHandle(chochmahRequestId, yesodKey, binaCached) {
 		return {
 			requestId: chochmahRequestId,
@@ -94,7 +91,7 @@ export class NaturePlanWorkerClient {
 		};
 	}
 
-	/** @returns {object} Request handle resolved by deferred graceful-degradation generation. */
+	/** @returns {object} Deferred fallback handle for runtimes that cannot create the module Worker. */
 	revealFallbackHandle(chochmahRequestId, yesodKey, malchusLevel, binaExperience) {
 		const tiferesPromise = this.chesedFallback.reveal(malchusLevel, binaExperience).then(binaResult => {
 			this.yesodCache.write(yesodKey, binaResult.plan, binaResult.durationMs);
@@ -103,26 +100,16 @@ export class NaturePlanWorkerClient {
 		return { requestId: chochmahRequestId, key: yesodKey, cacheHit: false, promise: tiferesPromise };
 	}
 
-	/** @param {string} hodMessage Failure message. @returns {void} */
+	/** @param {string} hodMessage Transport failure. @returns {void} */
 	failAll(hodMessage) {
 		for (const binaPending of this.binaPending.values()) binaPending.reject(new Error(hodMessage));
 		this.binaPending.clear();
-		this.malchusWorker?.terminate?.();
-		this.malchusWorker = null;
+		this.netzachTransport.dispose();
 	}
 
-	/** @returns {void} Terminates transport and releases pending/cache state. */
+	/** @returns {void} Releases transport, pending requests, and cached heavyweight plans. */
 	dispose() {
 		this.failAll("Nature worker disposed.");
 		this.yesodCache.clear();
 	}
-}
-
-/** @returns {Worker|null} Default optimized module worker for browsers supporting Worker. */
-function revealDefaultWorker() {
-	if (typeof Worker === "undefined") return null;
-	return new Worker(new URL("../worker/NaturePlanWorker.js?compact=true", import.meta.url), {
-		type: "module",
-		name: "ohrbound-nature"
-	});
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file NatureRemoteSurfaceIntent.js
- * @description Builds immutable known-remote texture intent linked to an explicit local fallback identity while leaving all I/O elsewhere.
+ * @description Builds immutable known-remote texture intent linked to explicit local fallback identity while leaving all I/O elsewhere.
  * The Awtsmoos renews distant image and local matter in one indivisible now before transport can succeed or fail;
- * Awtsmoos.com lets provenance name both the optional garment and the fallback key, so remote beauty stays additive rather than frail.
+ * Awtsmoos.com lets enablement, optionality, provenance, and fallback remain separate truths so remote beauty stays additive rather than frail.
  */
 
 import {
@@ -19,13 +19,13 @@ import {
  * @param {string} role Canonical semantic material role.
  * @param {string|null} url Optional HTTPS remote texture URL.
  * @param {string} quality Requested texture quality tier.
- * @param {object} [options={}] Provider, timeout, cache, enablement, and fallback identity hints.
+ * @param {object} [options={}] Provider, timeout, cache, enablement, optionality, and fallback hints.
  * @returns {Readonly<object>} Frozen renderer-neutral remote hydration intent.
  */
 export function createNatureRemoteSurfaceIntent(role, url, quality, options = {}) {
 	const netzachCacheKey = String(options.cacheKey || `nature-surface:${role}`);
 	const yesodFallbackKey = String(options.fallbackKey || `nature-surface-local:${role}`);
-	if (!url) return localOnlyIntent(role, netzachCacheKey, yesodFallbackKey, options);
+	if (!url) return localOnlyIntent(role, netzachCacheKey, yesodFallbackKey);
 	const gevurahPolicy = createRemoteTexturePolicy(url, {
 		cacheKey: netzachCacheKey,
 		provider: options.provider,
@@ -33,15 +33,16 @@ export function createNatureRemoteSurfaceIntent(role, url, quality, options = {}
 		role,
 		timeoutMs: options.timeoutMs
 	});
-	const hodSource = options.remote === false ? 'remote-disabled' : 'remote-intent';
+	const hodEnabled = options.remote !== false;
 	return Object.freeze({
 		available: true,
 		cacheKey: gevurahPolicy.cacheKey,
+		enabled: hodEnabled,
 		fallbackKey: yesodFallbackKey,
-		optional: options.remote !== false,
+		optional: options.remoteOptional !== false,
 		policyVersion: gevurahPolicy.version,
 		provider: gevurahPolicy.provider,
-		provenance: createRemoteTextureProvenance(gevurahPolicy, hodSource, {
+		provenance: createRemoteTextureProvenance(gevurahPolicy, hodEnabled ? 'remote-intent' : 'remote-disabled', {
 			fallback: 'local',
 			fallbackKey: yesodFallbackKey
 		}),
@@ -52,18 +53,14 @@ export function createNatureRemoteSurfaceIntent(role, url, quality, options = {}
 }
 
 /** Creates the same explicit fallback contract when no known remote asset exists. */
-function localOnlyIntent(role, cacheKey, fallbackKey, options) {
+function localOnlyIntent(role, cacheKey, fallbackKey) {
 	return Object.freeze({
 		available: false,
 		cacheKey,
+		enabled: false,
 		fallbackKey,
-		optional: options.remote !== false,
-		provenance: Object.freeze({
-			fallback: 'local',
-			fallbackKey,
-			role,
-			source: 'local-only'
-		}),
+		optional: true,
+		provenance: Object.freeze({ fallback: 'local', fallbackKey, role, source: 'local-only' }),
 		url: null
 	});
 }
