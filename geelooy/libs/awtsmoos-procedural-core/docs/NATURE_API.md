@@ -1,161 +1,161 @@
 B"H
 
-# Nature API — Simple Door, Deep Garden
+# Nature API — One Door Into a Living World
 
 Boruch Hashem. Blessed is He.
 
-> The Awtsmoos renews stone, grass, flower, tree, creature, river, and surface every instant. Awtsmoos.com keeps the public door small while specialist authorities remain available behind it.
+> The Awtsmoos renews stone, leaf, creature, river, texture, and habitat every instant. Awtsmoos.com keeps the public doorway calm while deep specialist authorities remain available behind it.
 
-## Purpose
+`NatureApi` is the recommended renderer-neutral entrance for procedural nature. It does not replace Domem, Tzomayach, Chai, water, material, or ecosystem engines. It composes them through shared deterministic defaults and stable result contracts.
 
-`NatureApi` is the renderer-neutral convenience layer for procedural nature. It does not replace Domem, Tzomayach, Chai, ecosystem, material, or water authorities. It coordinates them with one shared seed/profile contract and returns immutable result envelopes.
+## Install-time import surface
 
 ```js
-import { createNatureApi } from '../src/core/natureApi/index.js';
+import {
+	createNatureApi
+} from '@awtsmoos/procedural-core/nature';
+```
 
+Internal source imports still work inside the repository, but package consumers should prefer the dedicated `./nature` export.
+
+## Create one immutable API
+
+```js
 const nature = createNatureApi({
 	seed: 'mitzvah-world',
-	quality: 'medium',
+	quality: 'high',
 	realism: 'extreme'
 });
 ```
 
-Every result contains `kind`, `seed`, `quality`, `realism`, `value`, and `diagnostics`.
+Most direct calls return the normal Nature result envelope with shared profile evidence such as `kind`, `seed`, `quality`, `realism`, `value`, and `diagnostics`.
 
-## One-line doors
+## The small direct surface
 
 ```js
-const grass = nature.grass({ count: 320 });
-const flowers = nature.flowers('daisy', { count: 28 });
+const rock = nature.rock('granite');
+const field = nature.rockField({ count: 80 });
+const bark = nature.material('bark');
+const flowers = nature.flowers('lavender', { count: 36 });
+const plant = nature.plant('daisy');
+const meadow = nature.grass({ count: 560 });
 const tree = nature.tree('Oak Medium');
-const cow = nature.creature('cow');
+const forest = nature.forest({ count: 120 });
+const deer = nature.creature('deer');
 const river = nature.river('river');
-const world = nature.world({ id: 'district-a' });
+const world = nature.biome({ id: 'western-valley' });
 ```
 
-Existing mature calls remain unchanged: `plant()`, `tree()`, `creature()`, `river()`, and `world()` still delegate to their canonical specialist engines.
+Aliases retained for compatibility:
 
-## Vegetation ecology — simple first
+- `surface(role, options)` → semantic material planning.
+- `generateSurface(role, options)` → generated-texture capability.
+- `world(options)` and `biome(options)` both enter the coupled ecosystem planner.
 
-Grass and mixed vegetation automatically translate the shared realism profile into neutral ecology controls. Lower ecosystem and grass engines never depend on names such as `realistic` or `extreme`; they receive ordinary patch, habitat, spacing, and preference data.
+## Natural rocks versus morphology
 
-```js
-const meadow = nature.grass({
-	count: 560,
-	seed: 'orchard-meadow'
-});
-
-const woodlandEdge = nature.vegetation.population({
-	count: 120,
-	seed: 'woodland-edge'
-});
-```
-
-The shared profile can influence patchiness, clustering, competition, succession, age variance, moisture response, and edge falloff while remaining deterministic for the same seed and options.
-
-### Advanced ecology without a larger public API
-
-Use `ecology` when a scene needs stronger artistic or environmental direction:
+`rock()` is geology-first. Use geological intent for believable natural stone:
 
 ```js
-const wetMeadow = nature.grass({
-	count: 700,
-	ecology: {
-		clustering: 0.78,
-		edgeFalloff: 0.72,
-		moistureResponse: 0.9
-	}
+const cliffStone = nature.rock('basalt', {
+	seed: 'western-cliff',
+	radius: 1.8
 });
 ```
 
-Mixed populations accept the same high-level ecology object. Expert neutral knobs such as `patchClustering`, `patchCompetition`, `patchSuccession`, `patchAgeVariance`, and `patchEdgeFalloff` remain available for precise pipelines.
+Current discoverable rock vocabulary includes the legacy morphology names plus geology-native presets such as `granite`, `basalt`, `sandstone`, `limestone`, `volcanic`, `talus`, and `glacial`.
 
-Explicit expert options always win over profile defaults. Existing `patchiness`, `patchCount`, `patchRadius`, and explicit grass `preferences.moisture` remain sovereign.
-
-## Flowers
-
-`flowers(species, options)` is intentionally a convenience over the canonical botanical cluster engine, not a second flower implementation.
+For direct art-direction of shape without geology orchestration:
 
 ```js
-nature.flowers('lavender', { count: 36, seed: 'gate-path' });
-nature.flowers('forget-me-not', { count: 52, seed: 'water-edge' });
-```
-
-The shared botanical catalog includes daisies, roses, lavender, foxglove, allium, tulips, violets, water-edge flowers, woodland flowers, and many other real identities.
-
-## Rocks
-
-Create one editable Domem stone:
-
-```js
-const stone = nature.rock('riverstone', {
-	radius: 1.4,
-	seed: 'river-bank-7',
-	surfaceRole: 'weatheredRock'
+const shaped = nature.rockMorphology('shard', {
+	angularity: 0.9,
+	stretch: [1, 2.2, 0.7]
 });
 ```
 
-Available morphology presets are `fieldstone`, `boulder`, `riverstone`, and `shard`. Advanced recipes may override `stretch`, `flattening`, `weathering`, `strata`, `angularity`, `subdivisions`, and `surfaceRole`.
-
-Plan a field without eagerly allocating every mesh:
+## Local-first materials
 
 ```js
-const field = nature.rockField({
-	count: 80,
-	radius: 24,
-	minSpacing: 0.9,
-	cluster: 0.62,
-	seed: 'western-slope',
-	rock: 'fieldstone'
+const stone = nature.material('weatheredRock');
+const leaf = nature.surface('leaf');
+```
+
+Material planning does not fetch. It keeps a local physical fallback authoritative while exposing optional remote material metadata when available.
+
+Generated texture work is explicitly asynchronous and capability-injected:
+
+```js
+const generated = await nature.generateTexture('weatheredRock', {
+	channels: ['albedo', 'normal', 'roughness'],
+	physicalSizeMeters: [3, 3],
+	resolution: 4096
 });
 ```
 
-The field planner is finite and bounded. It returns deterministic placements with child seeds, positions, scale, yaw, requested count, placed count, and saturation evidence.
+No generator installed? The API remains usable and the local material path remains valid.
 
-## Semantic surfaces
-
-```js
-const bark = nature.surface('bark');
-const stoneSurface = nature.surface('weatheredRock');
-const glass = nature.surface('glass');
-```
-
-A surface plan never fetches. It contains a local PBR fallback plus optional remote hydration metadata. Remote failure policy is always `keep-local`; geometry creation never depends on network success.
-
-Renderer or game adapters may later hydrate `surface.value.remote.url`, cache by `surface.value.remote.cacheKey`, or ignore remote data entirely.
-
-## Advanced domain access
-
-The simple door never hides expert control:
+## Discover before calling
 
 ```js
-nature.vegetation.plantCluster('daisy', options);
-nature.forests.tree('Oak Medium', options);
-nature.creatures.create('deer', options);
-nature.rocks.field(options);
-nature.surfaces.create('grass', options);
+nature.supports('rock');
+nature.supports('surface-generation');
+
+const report = nature.describe();
 ```
 
-Low-level experts may also import `@awtsmoos/procedural-core/domem` for editable-matter tools directly.
+`describe()` returns immutable operation metadata including operation kind, sync/async mode, input style, description, shared defaults, and whether generated-texture capability is currently installed.
 
-## Profiles and deterministic cloning
+Catalog discovery is also generic:
 
 ```js
-const cinematic = nature.with({ quality: 'cinematic' });
-const stylized = nature.with({ realism: 'stylized', seed: 'alternate-world' });
+nature.catalog.domains();
+nature.catalog.list('plants');
+nature.catalog.search('cedar');
 ```
 
-`with()` returns a separate immutable API. Domain seeds are derived from shared defaults plus call identity so unrelated generators do not silently consume one global random stream.
+Existing convenience calls remain:
+
+```js
+nature.catalog.creatures();
+nature.catalog.plants();
+nature.catalog.trees();
+nature.catalog.ecosystem();
+```
+
+## Clone profiles without shared mutable state
+
+```js
+const cinematic = nature.with({
+	quality: 'cinematic'
+});
+
+const alternate = nature.with({
+	seed: 'alternate-world'
+});
+```
+
+`with()` returns a separate immutable API while preserving optional provider and operation-registry capabilities unless explicitly replaced.
+
+## Progressive disclosure
+
+Use this page for direct creation and discovery.
+
+For declarative saved-world workflows, batches, codecs, custom registries, and async orchestration, read [`NATURE_RECIPES.md`](./NATURE_RECIPES.md).
+
+For geology, vegetation, forests, grass, creatures, water realism, materials, and expert domain façades, read [`NATURE_DOMAINS.md`](./NATURE_DOMAINS.md).
 
 ## Architecture covenant
 
-- Domem owns editable matter and rock geometry.
-- Tzomayach owns grass, botanical organisms, clusters, and trees.
-- Chai owns creatures.
-- Ecosystem specialists own neutral habitat, patch, spacing, maturity, and population equations.
-- Material registries own semantic texture/material records.
-- Nature API coordinates convenience, profiles, seeds, results, diagnostics, and profile-to-neutral-option translation.
-- Renderers own material realization and texture hydration.
-- Network transport never hides inside a geometry constructor.
+- Domem owns editable matter and geological rock construction.
+- Tzomayach owns plants, flower clusters, grass, and canonical trees.
+- Chai owns creature morphology, biology, rigging, motion, and ecology-facing creature contracts.
+- Water authorities own conserved fluid state and natural water regimes.
+- Ecosystem authorities own coupled habitat and population planning.
+- Material authorities own semantic physical material intent and optional generated-texture capability boundaries.
+- `NatureApiBase` owns mature domain façades.
+- `NatureDirectApi` owns immediate ergonomic verbs.
+- `NatureApi` owns declarative orchestration, batches, and capability discovery.
+- Renderers own realization. Network transport never hides inside geometry creation.
 
-This separation keeps the surface simple while allowing each underlying kingdom to expand independently without API collision.
+The outer API stays small because deeper systems remain separate—not because their power was removed.

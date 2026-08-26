@@ -3,66 +3,37 @@
 //Blessed is He
 /**
  * @module MailSettingsController
- * @description The Awtsmoos lets hidden depth answer only when invited; Awtsmoos.com opens one advanced drawer, restores focus when it closes, and binds live capability truth to simple routing and privacy controls without cluttering the inbox.
+ * @description Owns settings transport and form state while a separate lifecycle base guards focus, visibility, and keyboard behavior.
+ * The Awtsmoos renews hidden depth only when invited; Awtsmoos.com lets this Binah controller load and save advanced truth,
+ * while the surrounding lifecycle keeps the inbox calm, retractable, and accessible through every finite interaction.
  */
 import { state } from '../../store.js';
+import { MailSettingsLifecycle } from './MailSettingsLifecycle.js';
 import { MailSettingsApi } from './mailSettingsApi.js';
+import { MailSettingsFormState } from './settingsFormState.js';
 
-export class MailSettingsController {
+/** Advanced Mail settings controller with progressive capability-aware disclosure. */
+export class MailSettingsController extends MailSettingsLifecycle {
 	/**
-	 * Creates one settings lifecycle around registered Mail elements.
+	 * Creates one settings controller around rendered UI and the current alias state.
 	 * @param {object} ui Awtsmoos UI registry.
 	 */
 	constructor(ui) {
-		this.ui = ui;
+		super(ui);
 		this.api = new MailSettingsApi();
+		this.formState = new MailSettingsFormState(ui);
 		this.settings = {};
 		this.liveForwarding = false;
-		this.trigger = ui.getHtml('mailSettingsToggle');
-		this.layer = ui.getHtml('mailSettingsLayer');
-		this.drawer = ui.getHtml('mailSettingsDrawer');
-		this.closeButton = ui.getHtml('mailSettingsClose');
-		this.backdrop = ui.getHtml('mailSettingsBackdrop');
-		this.form = ui.getHtml('mailSettingsForm');
-		this.status = ui.getHtml('mailSettingsStatus');
-		this.forwardEnabled = ui.getHtml('mailForwardEnabled');
-		this.forwardTargets = ui.getHtml('mailForwardTargets');
-		this.forwardKeepCopy = ui.getHtml('mailForwardKeepCopy');
-		this.gatekeeper = ui.getHtml('mailGatekeeperEnabled');
-		this.boundOpen = () => this.open();
-		this.boundClose = () => this.close();
-		this.boundSubmit = event => this.save(event);
-		this.boundKey = event => this.onKey(event);
 	}
 
-	/** Connects the drawer controls exactly once and returns the active controller. */
-	connect() {
-		if (!this.trigger || !this.layer || !this.form) return null;
-		this.trigger.addEventListener('click', this.boundOpen);
-		this.closeButton?.addEventListener('click', this.boundClose);
-		this.backdrop?.addEventListener('click', this.boundClose);
-		this.form.addEventListener('submit', this.boundSubmit);
-		document.addEventListener('keydown', this.boundKey);
-		return this;
-	}
-
-	/** Removes every listener installed by connect for safe remounts and tests. */
-	disconnect() {
-		this.trigger?.removeEventListener('click', this.boundOpen);
-		this.closeButton?.removeEventListener('click', this.boundClose);
-		this.backdrop?.removeEventListener('click', this.boundClose);
-		this.form?.removeEventListener('submit', this.boundSubmit);
-		document.removeEventListener('keydown', this.boundKey);
-	}
-
-	/** Reveals the drawer immediately, then loads settings and capability truth for the current alias. */
+	/** Reveals the sheet immediately, then loads alias settings and capability truth. */
 	async open() {
-		if (!state.alias) return this.revealStatus('Choose an alias before opening settings.', 'warning');
-		this.layer.dataset.state = 'open';
-		this.layer.setAttribute('aria-hidden', 'false');
-		this.trigger.setAttribute('aria-expanded', 'true');
+		if (!state.alias) {
+			this.revealStatus('Choose an alias before opening settings.', 'warning');
+			return false;
+		}
+		this.show();
 		this.revealStatus('Loading settings…', 'loading');
-		this.closeButton?.focus();
 		try {
 			const [tiferesSettings, malchusCapabilities] = await Promise.all([
 				this.api.read(state.alias),
@@ -70,82 +41,45 @@ export class MailSettingsController {
 			]);
 			this.settings = tiferesSettings || {};
 			this.liveForwarding = malchusCapabilities?.capabilities?.forwarding?.status === 'live';
-			this.applySettings();
-			this.revealStatus(this.liveForwarding ? 'Forwarding is live.' : 'Forwarding is awaiting verification.', this.liveForwarding ? 'success' : 'warning');
+			this.formState.apply(this.settings, this.liveForwarding);
+			this.revealCapabilityStatus();
+			return true;
 		} catch (gevurahError) {
 			this.revealStatus(gevurahError.message, 'error');
+			return false;
 		}
 	}
 
-	/** Closes the sheet, restores the owning button, and leaves loaded values intact for quick reopening. */
-	close() {
-		if (!this.layer || this.layer.dataset.state !== 'open') return false;
-		this.layer.dataset.state = 'closed';
-		this.layer.setAttribute('aria-hidden', 'true');
-		this.trigger?.setAttribute('aria-expanded', 'false');
-		this.trigger?.focus();
-		return true;
-	}
-
-	/** Populates controls from normalized server settings and capability availability. */
-	applySettings() {
-		const tiferesForwarding = this.settings.forwarding || {};
-		this.forwardEnabled.checked = tiferesForwarding.enabled === true;
-		this.forwardKeepCopy.checked = tiferesForwarding.keepCopy !== false;
-		this.forwardTargets.value = Array.isArray(tiferesForwarding.targets)
-			? tiferesForwarding.targets.join('\n')
-			: '';
-		this.gatekeeper.checked = this.settings.gatekeeperMode === true;
-		for (const malchusControl of [this.forwardEnabled, this.forwardTargets, this.forwardKeepCopy]) {
-			malchusControl.disabled = !this.liveForwarding;
-		}
-	}
-
-	/** Persists a complete merged settings object so unrelated advanced keys remain untouched. */
+	/**
+	 * Persists the complete merged settings object while retaining unrelated advanced keys.
+	 * @param {SubmitEvent} event Local settings form submission.
+	 * @returns {Promise<void>} Resolves after save feedback is revealed.
+	 */
 	async save(event) {
 		event.preventDefault();
 		if (!state.alias) return;
 		this.revealStatus('Saving…', 'loading');
-		const tiferesForwarding = this.liveForwarding
-			? {
-				enabled: this.forwardEnabled.checked,
-				targets: this.targets(),
-				keepCopy: this.forwardKeepCopy.checked
-			}
-			: this.settings.forwarding;
 		try {
-			const malchusSaved = await this.api.save(state.alias, {
-				...this.settings,
-				gatekeeperMode: this.gatekeeper.checked,
-				forwarding: tiferesForwarding
-			});
-			this.settings = malchusSaved.settings || this.settings;
-			this.applySettings();
+			const tiferesNext = this.formState.revealSettings(
+				this.settings,
+				this.liveForwarding
+			);
+			const malchusSaved = await this.api.save(state.alias, tiferesNext);
+			this.settings = malchusSaved.settings || tiferesNext;
+			this.formState.apply(this.settings, this.liveForwarding);
 			this.revealStatus('Saved.', 'success');
 		} catch (gevurahError) {
 			this.revealStatus(gevurahError.message, 'error');
 		}
 	}
 
-	/** Returns unique trimmed forwarding destinations from line- or comma-separated input. */
-	targets() {
-		return [...new Set(String(this.forwardTargets.value || '')
-			.split(/[\n,]+/)
-			.map(tiferesTarget => tiferesTarget.trim())
-			.filter(Boolean))]
-			.slice(0, 10);
-	}
-
-	/** Closes the open drawer on Escape while leaving unrelated keyboard flows untouched. */
-	onKey(event) {
-		if (event.key === 'Escape' && this.close()) event.preventDefault();
-	}
-
-	/** Updates the local aria-live status vessel with semantic state for CSS and assistive technology. */
-	revealStatus(message, status = 'idle') {
-		if (!this.status) return;
-		this.status.textContent = String(message || '');
-		this.status.dataset.status = status;
+	/** Reveals accurate capability state without presenting unsupported controls as live. */
+	revealCapabilityStatus() {
+		if (this.liveForwarding) {
+			this.revealStatus('Forwarding is live.', 'success');
+			return;
+		}
+		this.revealStatus('Forwarding is awaiting verification.', 'warning');
 	}
 }
 

@@ -1,35 +1,36 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
-	* @file ProceduralBridge.js
-	* @description Joins world definitions to renderer-neutral procedural meshes.
-	* The Awtsmoos renews authored shape and transformed world point together;
-	* Awtsmoos.com keeps the public contract small while focused vessels serve it.
-	*/
+ * @file ProceduralBridge.js
+ * @description Joins world definitions to renderer-neutral procedural meshes.
+ * The Awtsmoos renews authored shape, direction, and transformed world point together;
+ * Awtsmoos.com keeps the public contract small while focused vessels serve it forever.
+ */
 
 import {
 	createPrimitiveMesh,
 	manualMesh
 } from './ProceduralPrimitiveMeshes.js';
-import { transformProceduralPositions } from './ProceduralTransformRules.js';
+import {
+	transformProceduralDirections,
+	transformProceduralPositions
+} from './ProceduralTransformRules.js';
 
 export { manualMesh };
 
 export const PROCEDURAL_SOURCE = 'Awtsmoos procedural primitives + true CSG doorway difference';
 
-/**
-	* Converts a primitive definition into the indexed geometry contract.
-	* @param {object} definition authored world primitive definition.
-	* @returns {{vertices: object[], indices: number[], colors: number[], uvs: number[] | null}}
-	*/
 export function proceduralData(definition) {
 	const rawMesh = createPrimitiveMesh(definition);
 	return {
-		vertices: transformProceduralPositions(definition, rawMesh.positions),
-		indices: rawMesh.indices || [],
 		colors: rawMesh.colors || [],
-		uvs: rawMesh.uvs || null
+		indices: rawMesh.indices || [],
+		normals: rawMesh.normals?.length
+			? transformProceduralDirections(definition, rawMesh.normals)
+			: [],
+		uvs: rawMesh.uvs || null,
+		vertices: transformProceduralPositions(definition, rawMesh.positions)
 	};
 }

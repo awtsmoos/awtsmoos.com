@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowTreeSystem.js
- * @description Mounts an ecology forest with frustum culling and distance-tiered rooted wind.
- * The Awtsmoos reveals trunk, crown, role, and breeze in every tree;
- * Awtsmoos.com keeps shared geometry, visible abundance, and bounded frame work in harmony.
+ * @description Mounts one canonical ecology forest with semantic materials, frustum culling, and distance-tiered rooted wind.
+ * The Awtsmoos reveals trunk, crown, grove, and breeze in every tree;
+ * Awtsmoos.com keeps the procedural-core authority visible in diagnostics while bounded frame work preserves abundance.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
@@ -21,20 +21,20 @@ import { animateMinimalMeadowTree } from './MinimalMeadowTreeWind.js';
 import { minimalMeadowTreeDiagnostics } from './MinimalMeadowWorldPopulationDiagnostics.js';
 import { beginMinimalMeadowTreeHydration } from './MinimalMeadowWorldPopulationHydration.js';
 
+const FOREST_AUTHORITY = 'Awtsmoos_canonical_procedural_ecology_forest';
+
 export class MinimalMeadowTreeSystem {
 	static async create(runtime) {
 		if (runtime.trees?.group) return runtime.trees;
 		const system = new MinimalMeadowTreeSystem(runtime);
-		if (runtime.environment?.disablePublicAssets !== true) {
-			beginMinimalMeadowTreeHydration(system);
-		}
+		if (runtime.environment?.disablePublicAssets !== true) beginMinimalMeadowTreeHydration(system);
 		return system;
 	}
 
 	constructor(runtime) {
 		this.runtime = runtime;
 		this.group = new Group();
-		this.group.name = 'Awtsmoos_canonical_procedural_ecology_forest';
+		this.group.name = FOREST_AUTHORITY;
 		this.mobile = mobileProfile(runtime);
 		this.policy = minimalMeadowTreeUpdatePolicy(this.mobile);
 		this.records = [];
@@ -73,24 +73,18 @@ export class MinimalMeadowTreeSystem {
 		this.frame += 1;
 		for (let index = 0; index < this.trees.length; index += 1) {
 			const tree = this.trees[index];
-			const decision = minimalMeadowTreeUpdateDecision(
-				tree,
-				this.runtime.state,
-				this.frame,
-				index,
-				this.policy
-			);
+			const decision = minimalMeadowTreeUpdateDecision(tree, this.runtime.state, this.frame, index, this.policy);
 			tree.visible = decision.visible;
 			tree.userData.AwtsmoosTree.updateDecision = decision;
-			if (decision.shouldAnimate) {
-				animateMinimalMeadowTree(tree, this.clock, index, this.runtime.state);
-			}
+			if (decision.shouldAnimate) animateMinimalMeadowTree(tree, this.clock, index, this.runtime.state);
 		}
 	}
 
 	diagnostics() {
 		return {
 			...minimalMeadowTreeDiagnostics(this),
+			authority: this.group.name,
+			ecologyTaggedTrees: this.trees.filter(tree => tree.userData?.AwtsmoosTreeEcology).length,
 			visibleTrees: this.trees.filter(tree => tree.visible !== false).length
 		};
 	}

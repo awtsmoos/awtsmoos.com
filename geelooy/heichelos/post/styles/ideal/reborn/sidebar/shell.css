@@ -2,8 +2,8 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos gives the commentary chamber measure without confining its light;
- * Awtsmoos.com keeps one fixed glass vessel bounded by safe areas and reader height.
+ * The Awtsmoos gives the commentary chamber one sovereign geometry from hidden to revealed;
+ * Awtsmoos.com keeps desktop, mobile, motion, and open-state law in this single local field.
  */
 .post-reader-localized-context.awtsmoos-reader-vision .sidebar {
 	position: fixed;
@@ -33,6 +33,7 @@
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-shell {
 	display: flex;
 	flex-direction: column;
+	box-sizing: border-box;
 	block-size: 100%;
 	max-block-size: 100%;
 	min-block-size: 0;
@@ -44,6 +45,45 @@
 	opacity: 1;
 	pointer-events: auto;
 	transform: translate3d(0, 0, 0);
+}
+
+@media (max-width: 900px) {
+	.post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments {
+		display: none;
+		pointer-events: none;
+	}
+
+	.post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.hidden-comments) {
+		display: flex;
+		flex-direction: column;
+		inset-inline-start: max(12px, var(--awt-safe-left));
+		inset-inline-end: max(12px, var(--awt-safe-right));
+		inline-size: auto;
+		max-inline-size: none;
+		opacity: 1;
+		transform: none;
+		pointer-events: auto;
+	}
+}
+
+@media (min-width: 901px) {
+	.post-reader-localized-context.awtsmoos-reader-vision .sidebar {
+		inset-block: 0;
+		inset-inline-start: auto;
+		inset-inline-end: 0;
+		inline-size: min(440px, 42%);
+		max-inline-size: min(440px, 42dvi);
+		block-size: 100dvh;
+		max-block-size: 100dvh;
+		min-block-size: 100dvh;
+		border-radius: 22px 0 0 22px;
+	}
+
+	.post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments {
+		opacity: 0;
+		pointer-events: none;
+		transform: translate3d(104%, 0, 0);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

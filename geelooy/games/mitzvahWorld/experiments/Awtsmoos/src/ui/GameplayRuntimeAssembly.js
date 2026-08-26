@@ -4,33 +4,40 @@
 
 /**
  * @file GameplayRuntimeAssembly.js
- * @description Assembles canonical profile, inventory, mission, combat, and enemy progression authorities.
- * The Awtsmoos gathers coin, garment, sefer, quest, staff, and earned ascent beneath one living root;
- * Awtsmoos.com joins their stores once, so no shadow profile or parallel reward ledger may take fruit.
+ * @description Assembles profile, inventory, mission, combat, merchant, and receipt authorities.
+ * The Awtsmoos gathers coin, garment, quest, staff, and earned ascent beneath one living root;
+ * Awtsmoos.com joins their stores once, so no shadow ledger may steal or duplicate fruit.
  */
 
 import { AdventureStore } from '../gameplay/AdventureStore.js';
 import { ActionBarRuntimeCoordinator } from '../gameplay/actionbar/ActionBarRuntimeCoordinator.js';
+import { EnemyAdventureReceiptBridge } from '../gameplay/EnemyAdventureReceiptBridge.js';
 import { EnemyProgressionCoordinator } from '../gameplay/combat/EnemyProgressionCoordinator.js';
-import { PlayerMeleeController } from '../gameplay/combat/PlayerMeleeController.js';
-import { TorahCombatController } from '../gameplay/combat/TorahCombatController.js';
 import { InventoryStore } from '../gameplay/InventoryStore.js';
+import { MerchantTransactionFacade } from '../gameplay/MerchantTransactionFacade.js';
+import { PlayerMeleeController } from '../gameplay/combat/PlayerMeleeController.js';
 import { ShliachProfileStore } from '../gameplay/ShliachProfileStore.js';
 import { ShlichusRuntimeCoordinator } from '../gameplay/ShlichusRuntimeCoordinator.js';
+import { TorahCombatController } from '../gameplay/combat/TorahCombatController.js';
 import { GameplayActionGateway } from './GameplayActionGateway.js';
 
-/**
- * Creates one interconnected gameplay runtime from injected or canonical stores.
- *
- * @param {object} bus Shared gameplay event bus.
- * @param {object} options Optional injected collaborators and persistence settings.
- * @returns {object} Canonical gameplay runtime collaborators.
- */
+/** Creates one interconnected gameplay runtime from injected or canonical stores. */
 export function assembleGameplayRuntime(bus, options = {}) {
 	const adventures = options.adventures || new AdventureStore();
 	const inventory = options.inventory || new InventoryStore();
 	const profile = options.profile || new ShliachProfileStore({ inventory });
-	const progression = options.progression || new EnemyProgressionCoordinator({ bus, profile });
+	const progression = options.progression || new EnemyProgressionCoordinator({
+		bus,
+		profile
+	});
+	const adventureDefeats = options.adventureDefeats
+		|| new EnemyAdventureReceiptBridge({ adventures, bus });
+	const merchant = options.merchant || new MerchantTransactionFacade({
+		bus,
+		buyAction: options.actions?.buyItem,
+		inventory,
+		sellAction: options.actions?.sellItem
+	});
 	const shlichus = options.shlichus || new ShlichusRuntimeCoordinator({
 		adventures,
 		bus,
@@ -70,11 +77,13 @@ export function assembleGameplayRuntime(bus, options = {}) {
 	});
 	return {
 		actionBar,
+		adventureDefeats,
 		adventures,
 		combat,
 		gateway,
 		inventory,
 		melee,
+		merchant,
 		profile,
 		progression,
 		shlichus

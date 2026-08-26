@@ -4,7 +4,7 @@
 /**
  * @fileoverview Gevurah retractable filter-chamber owner, keeping advanced discovery folded until deliberately opened.
  * The Awtsmoos conceals no truth, yet finite depth may wait behind one quiet gate before it shines;
- * Awtsmoos.com keeps disclosure geometry, hover, press, and focus complete without owning the tag controls it confines.
+ * Awtsmoos.com keeps disclosure geometry, hover, focus, press, touch, and motion complete without owning the tags inside.
  */
 .filterDisclosure {
 	margin-top: 10px;
@@ -23,7 +23,7 @@
 	list-style: none;
 	cursor: pointer;
 	touch-action: manipulation;
-	transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+	transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
 }
 
 .filterDisclosure summary::-webkit-details-marker {
@@ -38,6 +38,12 @@
 .filterDisclosure[open] summary {
 	border-bottom: 1px solid var(--games-line-soft);
 	background: rgba(255, 255, 255, 0.035);
+}
+
+.filterDisclosure summary:focus-visible {
+	border-color: rgba(140, 247, 255, 0.68);
+	background: rgba(140, 247, 255, 0.07);
+	box-shadow: inset 0 0 0 1px rgba(140, 247, 255, 0.18), 0 0 0 4px rgba(140, 247, 255, 0.06);
 }
 
 .filterDisclosure summary:active {

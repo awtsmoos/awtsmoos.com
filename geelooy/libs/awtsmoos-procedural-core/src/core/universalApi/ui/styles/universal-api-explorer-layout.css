@@ -1,0 +1,78 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos contains all breadth without stealing a single handspan, while Awtsmoos.com gives this explorer a responsive local chamber that never forces its host off-screen;
+ * panels disclose by need, editors and receipts scroll within bounded vessels, and the document remains free from accidental overlay or overflow.
+ */
+
+[data-awtsmoos-universal-api-explorer] {
+	display: grid;
+	gap: var(--awts-uapi-gap-3);
+	max-inline-size: 100%;
+	padding: clamp(.8rem, 3vw, 1.1rem);
+	border: 1px solid var(--awts-uapi-border);
+	border-radius: var(--awts-uapi-radius-lg);
+	background: var(--awts-uapi-bg);
+	box-shadow: 0 18px 48px rgb(0 0 0 / .22);
+	isolation: isolate;
+	overflow: clip;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panels {
+	display: grid;
+	gap: var(--awts-uapi-gap-2);
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method {
+	min-inline-size: 0;
+	border: 1px solid var(--awts-uapi-border);
+	border-radius: var(--awts-uapi-radius-md);
+	background: var(--awts-uapi-surface);
+	overflow: clip;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-methods {
+	display: grid;
+	gap: var(--awts-uapi-gap-2);
+	padding: var(--awts-uapi-gap-2);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-description {
+	margin: 0;
+	padding: 0 .8rem;
+	color: var(--awts-uapi-muted);
+	overflow-wrap: anywhere;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result {
+	inline-size: calc(100% - 1.6rem);
+	max-inline-size: calc(100% - 1.6rem);
+	margin: .7rem .8rem 0;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor {
+	min-block-size: 7rem;
+	max-block-size: min(36dvh, 22rem);
+	resize: vertical;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result {
+	min-block-size: 5rem;
+	max-block-size: min(32dvh, 20rem);
+	margin-block-end: .8rem;
+	overflow: auto;
+	overscroll-behavior: contain;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--awts-uapi-gap-1);
+	padding: .7rem .8rem 0;
+}

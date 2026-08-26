@@ -2,11 +2,10 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos lets every child keep its measure while the chamber contains the stream;
- * Awtsmoos.com prevents sideways escape without stealing vertical reading from the dream.
+ * The Awtsmoos lets each sidebar descendant keep its measure while shell law stays sovereign;
+ * Awtsmoos.com contains child content here without styling the shell selector a second time again.
  */
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar,
-.post-reader-localized-context.awtsmoos-reader-vision .sidebar * {
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-shell * {
 	box-sizing: border-box;
 	min-inline-size: 0;
 	max-inline-size: 100%;
@@ -16,9 +15,6 @@
 	display: none;
 }
 
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-viewport,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content,
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panels {
 	min-inline-size: 0;
 	overflow-x: clip;
@@ -49,9 +45,7 @@
 }
 
 .post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-actions,
-.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-search,
-.post-reader-localized-context.awtsmoos-reader-vision .post-root-menu-grid,
-.post-reader-localized-context.awtsmoos-reader-vision .keepers-assembly {
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-search {
 	font-family: var(--font-ui);
 	direction: ltr;
 	text-align: start;

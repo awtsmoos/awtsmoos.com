@@ -5,8 +5,8 @@
 /**
  * @module MultilingualWorkerClient
  * @description
- * The Awtsmoos holds one warmed semantic lamp while questions rise and fall;
- * Awtsmoos.com queues each ray by name, resolving every answer to its call.
+ * The Awtsmoos keeps one semantic flame awake while many questions come and go;
+ * Awtsmoos.com bounds the cold doorway, then lets every warmed vector swiftly flow.
  */
 
 const { spawn } = require('node:child_process');
@@ -21,9 +21,14 @@ let readyPromise = null;
 let readyResolve = null;
 let readyReject = null;
 let sequence = 0;
+let state = { state: 'idle' };
 
 function codedError(code, message) {
 	return Object.assign(new Error(message), { code });
+}
+
+function workerStatus() {
+	return { ...state, pid: child?.pid || null };
 }
 
 function rejectAll(error) {
@@ -36,6 +41,7 @@ function rejectAll(error) {
 
 function handleMessage(message) {
 	if (message.type === 'ready') {
+		state = { state: 'ready', model: message.model, dimension: message.dimension, readyAt: Date.now() };
 		readyResolve?.(message);
 		return;
 	}
@@ -49,6 +55,7 @@ function handleMessage(message) {
 
 function startWorker() {
 	if (child && !child.killed && readyPromise) return readyPromise;
+	state = { state: 'warming', startedAt: Date.now() };
 	readyPromise = new Promise((resolve, reject) => {
 		readyResolve = resolve;
 		readyReject = reject;
@@ -63,6 +70,7 @@ function startWorker() {
 	child.once('error', error => readyReject?.(error));
 	child.once('exit', () => {
 		const error = codedError('MULTILINGUAL_WORKER_EXITED', 'Semantic embedding worker exited.');
+		state = { state: 'failed', failedAt: Date.now(), error: error.message };
 		readyReject?.(error);
 		rejectAll(error);
 		child = null;
@@ -71,12 +79,22 @@ function startWorker() {
 	return readyPromise;
 }
 
-async function warmMultilingualWorker() {
-	return startWorker();
+async function waitForReady(timeoutMs = 5000) {
+	let timer = null;
+	try {
+		return await Promise.race([
+			startWorker(),
+			new Promise((_, reject) => {
+				timer = setTimeout(() => reject(codedError('MULTILINGUAL_WORKER_WARMING', 'Semantic search is warming. Retry shortly.')), timeoutMs);
+			})
+		]);
+	} finally {
+		if (timer) clearTimeout(timer);
+	}
 }
 
-async function requestVector(query, timeoutMs = 45000) {
-	await startWorker();
+async function requestVector(query, timeoutMs = 15000) {
+	await waitForReady();
 	const id = String(++sequence);
 	return new Promise((resolve, reject) => {
 		const timer = setTimeout(() => {
@@ -88,6 +106,14 @@ async function requestVector(query, timeoutMs = 45000) {
 	});
 }
 
+const warmMultilingualWorker = startWorker;
+
 process.once('exit', () => child?.kill());
 
-module.exports = { requestVector, warmMultilingualWorker };
+module.exports = {
+	requestVector,
+	startWorker,
+	waitForReady,
+	warmMultilingualWorker,
+	workerStatus
+};

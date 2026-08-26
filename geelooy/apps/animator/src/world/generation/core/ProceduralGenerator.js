@@ -22,7 +22,6 @@ export class ChaiProceduralGenerator {
 
 	/**
 	 * Normalizes shared recipe fields before a specialized generator receives them.
-	 *
 	 * @param {Object} rawKli Caller-owned recipe.
 	 * @returns {Object} Detached normalized common recipe.
 	 */
@@ -49,9 +48,8 @@ export class ChaiProceduralGenerator {
 
 	/**
 	 * Generates one procedural result through the specialized child implementation.
-	 *
 	 * @param {Object} rawKli Caller recipe.
-	 * @param {Object} [olamContext={}] World/runtime context such as time.
+	 * @param {Object} [olamContext={}] Runtime context such as time and environment.
 	 * @returns {Object} Pure-data procedural result.
 	 */
 	generate(rawKli = {}, olamContext = {}) {

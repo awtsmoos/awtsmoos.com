@@ -1,17 +1,15 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @file treeCapabilities.js
- * @description Reports executable canonical-tree capabilities without confusing structural anatomy with future biological or environmental simulation.
- * The Awtsmoos reveals branch, hidden root, fruit-bearing attachment, and responsive vessel in one tree; Awtsmoos.com tells the truth about
- * what is executable today while leaving wind integration, soil interaction, and full biological growth clearly named as future authorities.
+ * @description Reports executable canonical-tree capabilities while distinguishing derived biological intent from runtime simulation and rendered geometry.
+ * The Awtsmoos renews hidden root, future fruit, responsive branch, and every boundary that keeps one claim honest;
+ * Awtsmoos.com lets capability discovery become Hod: clear speech about what exists, what is metadata, and what still belongs beyond this promise.
  */
-
 import { TREE_LOD_PROFILES } from './treeLodPlanner.js';
 
-const SUPPORTS = Object.freeze([
+const STRUCTURAL_SUPPORT = Object.freeze([
 	'multi-level-branches',
 	'force',
 	'gnarliness',
@@ -26,33 +24,49 @@ const SUPPORTS = Object.freeze([
 	'pipe-model-radius-conservation',
 	'parallel-transport-branch-frames',
 	'closed-branch-components',
-	'tapered-single-or-cross-billboard-leaves',
+	'tapered-single-or-cross-billboard-leaves'
+]);
+
+const BIOLOGY_SUPPORT = Object.freeze([
 	'deterministic-root-architecture',
 	'explicit-reproductive-attachment-plan',
-	'wind-response-profile'
+	'deterministic-deadwood-plan',
+	'seasonal-intent',
+	'wind-response-profile',
+	'distance-lod-intent'
 ]);
 
 const UNSUPPORTED = Object.freeze([
 	'biological-growth-simulation',
 	'wind-physics',
 	'root-soil-simulation',
-	'biome-competition'
+	'biome-competition',
+	'fruit-or-flower-mesh-generation',
+	'deadwood-mesh-removal'
 ]);
 
 /**
- * Returns one immutable backward-compatible capability manifest with explicit simulation boundaries.
- * @returns {Readonly<object>} Current executable canonical-tree capabilities.
+ * Returns immutable executable capability truth for tools, docs, and runtime feature negotiation.
+ * @returns {Readonly<object>} Current canonical-tree capability manifest.
  */
 export function getTreeCapabilities() {
 	return Object.freeze({
-		version: '1.3.0',
+		version: '1.4.0',
 		anatomyArtifact: true,
+		biologyArtifact: Object.freeze({
+			derivedFromCanonicalSkeleton: true,
+			geometryMutating: false,
+			optInOnGeometryOutput: true,
+			supports: BIOLOGY_SUPPORT
+		}),
 		canonicalPlanner: 'stable-tree-skeleton',
 		canonicalSkeletonHash: true,
 		deterministic: true,
 		isolatedRandomStreams: Object.freeze(['structure', 'foliage', 'bark', 'variation']),
 		legacyGrowthAdapter: true,
-		lodProfiles: Object.freeze(TREE_LOD_PROFILES.map(profile => Object.freeze({ ...profile }))),
+		lodProfiles: Object.freeze(
+			TREE_LOD_PROFILES.map(tiferesProfile => Object.freeze({ ...tiferesProfile }))
+		),
 		rendererNeutral: true,
 		reusableGenerator: true,
 		sharedSkeletonLods: true,
@@ -60,13 +74,24 @@ export function getTreeCapabilities() {
 			'branch',
 			'branch-node',
 			'leaf',
-			'attachment-node',
 			'root',
-			'reproductive-attachment'
+			'reproductive-attachment',
+			'deadwood-feature'
 		]),
 		budgets: Object.freeze(['maxVertices', 'maxTriangles']),
-		reports: Object.freeze(['bounds', 'memoryEstimate', 'statistics', 'trellis', 'branchCaps', 'anatomy']),
-		supports: SUPPORTS,
+		reports: Object.freeze([
+			'bounds',
+			'memoryEstimate',
+			'statistics',
+			'trellis',
+			'branchCaps',
+			'anatomy',
+			'biology'
+		]),
+		supports: Object.freeze([
+			...STRUCTURAL_SUPPORT,
+			...BIOLOGY_SUPPORT
+		]),
 		unsupported: UNSUPPORTED
 	});
 }

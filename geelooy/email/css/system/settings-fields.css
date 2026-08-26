@@ -1,0 +1,99 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews each field, section, and switch before advanced Mail may receive a finite choice;
+Awtsmoos.com keeps every form state local, mobile-safe, and readable so deeper power never becomes visual noise.
+*/
+.geelooy-mail-document .mail-settings-section {
+	margin-block: .55rem;
+	border: 1px solid var(--mail-border);
+	border-radius: var(--mail-radius-md);
+	background: var(--mail-panel-soft);
+	overflow: clip;
+}
+.geelooy-mail-document .mail-settings-section summary {
+	cursor: pointer;
+	padding: .9rem 1rem;
+	font-weight: 720;
+	transition:
+		background-color var(--mail-motion-fast) ease,
+		color var(--mail-motion-fast) ease;
+}
+.geelooy-mail-document .mail-settings-section summary:hover {
+	background: var(--mail-panel-hover);
+	color: var(--mail-accent-strong);
+}
+.geelooy-mail-document .mail-settings-section summary:active {
+	background: var(--mail-accent-soft);
+}
+.geelooy-mail-document .mail-settings-section > :not(summary) {
+	margin-inline: 1rem;
+}
+.geelooy-mail-document .mail-settings-help,
+.geelooy-mail-document .mail-settings-field small {
+	color: var(--mail-text-muted);
+}
+.geelooy-mail-document .mail-settings-help {
+	font-size: .86rem;
+	line-height: 1.5;
+}
+.geelooy-mail-document .mail-settings-field {
+	display: grid;
+	gap: .4rem;
+	margin-block: 1rem;
+}
+.geelooy-mail-document .mail-settings-field textarea {
+	inline-size: 100%;
+	max-inline-size: 100%;
+	min-inline-size: 0;
+	resize: vertical;
+	padding: .75rem;
+	border: 1px solid var(--mail-border-strong);
+	border-radius: var(--mail-radius-sm);
+	background: var(--mail-bg-elevated);
+	color: var(--mail-text);
+	transition:
+		border-color var(--mail-motion-fast) ease,
+		background-color var(--mail-motion-fast) ease,
+		box-shadow var(--mail-motion-fast) ease;
+}
+.geelooy-mail-document .mail-settings-field textarea:hover {
+	border-color: var(--mail-border-focus);
+}
+.geelooy-mail-document .mail-settings-field textarea:focus {
+	background: var(--mail-panel-strong);
+	box-shadow: inset 0 0 0 1px var(--mail-border-focus);
+}
+.geelooy-mail-document .mail-settings-field textarea:disabled {
+	opacity: .48;
+	cursor: not-allowed;
+}
+.geelooy-mail-document .mail-settings-toggle {
+	display: flex;
+	align-items: center;
+	gap: .7rem;
+	min-block-size: var(--mail-touch-target);
+	margin-block: .65rem;
+	cursor: pointer;
+	transition:
+		color var(--mail-motion-fast) ease,
+		transform var(--mail-motion-fast) ease;
+}
+.geelooy-mail-document .mail-settings-toggle:hover {
+	color: var(--mail-accent-strong);
+}
+.geelooy-mail-document .mail-settings-toggle:active {
+	transform: translateY(1px);
+}
+.geelooy-mail-document .mail-settings-toggle:focus-within {
+	color: var(--mail-accent-strong);
+}
+.geelooy-mail-document .mail-settings-toggle input {
+	inline-size: 1.1rem;
+	block-size: 1.1rem;
+	accent-color: var(--mail-accent);
+}
+.geelooy-mail-document .mail-settings-toggle input:disabled {
+	opacity: .48;
+	cursor: not-allowed;
+}

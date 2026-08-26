@@ -1,98 +1,96 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
+/**
+ * @file treeOutputReport.js
+ * @description Assembles the stable public tree result from canonical geometry, measured diagnostics, skeleton identity, and optional derived biology.
+ * The Awtsmoos renews branch, leaf, measure, and hidden biological possibility before one output object can appear;
+ * Awtsmoos.com lets Malchus manifest that report while generation, ecology, and rendering remain separate vessels of the same light.
+ */
+import {
+	computeTreeBounds,
+	createTreeBranchArrays,
+	createTreeLeafArrays,
+	estimateTreePackedBytes
+} from './treeOutputMetrics.js';
+import { createTreeTrellisReport } from './treeTrellisField.js';
 
 /**
- * The Awtsmoos reveals measurable limits around each generated tree. This
- * Awtsmoos.com report preserves the two-buffer contract while exposing bounds,
- * packed memory, canonical skeleton identity, caps, and normalized trellis intent.
+ * Creates the backward-compatible public tree output, adding biology metadata only when explicitly requested.
+ * @param {object} keterConfig Resolved canonical tree configuration.
+ * @param {object} yesodBuilder Completed geometry builder containing branch and leaf buffers.
+ * @param {object} tiferesSystem Completed canonical growth system with stable skeleton and statistics.
+ * @param {string} hodDetail Effective detail profile.
+ * @param {object|null} [chochmahBiology=null] Optional derived biology report.
+ * @returns {object} Renderer-neutral tree data preserving historical output fields.
  */
-
-import { createTreeTrellisReport } from "./treeTrellisField.js";
-
-function geometryArrays(builder) {
+export function createTreeOutput(
+	keterConfig,
+	yesodBuilder,
+	tiferesSystem,
+	hodDetail,
+	chochmahBiology = null
+) {
+	const malchusBranches = {
+		...createTreeBranchArrays(yesodBuilder),
+		material: keterConfig.bark
+	};
+	const binahLeaves = {
+		...createTreeLeafArrays(yesodBuilder),
+		material: keterConfig.leaves
+	};
+	const gevurahStats = createTreeStatistics(yesodBuilder, tiferesSystem);
 	return {
-		positions: builder.verts,
-		normals: builder.normals,
-		uvs: builder.uvs,
-		indices: builder.indices
+		preset: keterConfig.name,
+		drawCalls: 2,
+		branches: malchusBranches,
+		leaves: binahLeaves,
+		materials: keterConfig.materials,
+		stats: gevurahStats,
+		detail: hodDetail,
+		bounds: computeTreeBounds([
+			malchusBranches.positions,
+			binahLeaves.positions
+		]),
+		memoryEstimate: estimateTreePackedBytes(yesodBuilder),
+		metadata: createTreeMetadata(keterConfig, tiferesSystem, chochmahBiology)
 	};
 }
 
-function leafArrays(builder) {
+/**
+ * Recreates the historical tree statistics shape without giving the reporter generation responsibility.
+ * @param {object} yesodBuilder Completed geometry builder.
+ * @param {object} tiferesSystem Completed growth system.
+ * @returns {object} Stable statistics object.
+ */
+function createTreeStatistics(yesodBuilder, tiferesSystem) {
 	return {
-		positions: builder.leafVerts,
-		normals: builder.leafNorms,
-		uvs: builder.leafUVs,
-		indices: builder.leafIndices,
-		colors: builder.leafColors
-	};
-}
-
-function computeBounds(positionSets) {
-	const minimum = [Infinity, Infinity, Infinity];
-	const maximum = [-Infinity, -Infinity, -Infinity];
-	for (const positions of positionSets) {
-		for (let index = 0; index < positions.length; index += 3) {
-			for (let axis = 0; axis < 3; axis += 1) {
-				minimum[axis] = Math.min(minimum[axis], positions[index + axis]);
-				maximum[axis] = Math.max(maximum[axis], positions[index + axis]);
-			}
-		}
-	}
-	if (!Number.isFinite(minimum[0])) {
-		return { minimum: [0, 0, 0], maximum: [0, 0, 0], size: [0, 0, 0] };
-	}
-	return {
-		minimum,
-		maximum,
-		size: maximum.map((value, axis) => value - minimum[axis])
-	};
-}
-
-function packedBytes(builder) {
-	const floatCount = builder.verts.length + builder.normals.length + builder.uvs.length
-		+ builder.leafVerts.length + builder.leafNorms.length + builder.leafUVs.length
-		+ builder.leafColors.length;
-	const indexCount = builder.indices.length + builder.leafIndices.length;
-	return {
-		attributeBytes: floatCount * 4,
-		indexBytes: indexCount * 4,
-		totalBytes: (floatCount + indexCount) * 4,
-		encodingAssumption: "Float32 attributes and Uint32 indices"
-	};
-}
-
-export function createTreeOutput(config, builder, system, detail) {
-	const branches = { ...geometryArrays(builder), material: config.bark };
-	const leaves = { ...leafArrays(builder), material: config.leaves };
-	const stats = {
-		...(system.geometryStats || {}),
-		branchVertices: builder.verts.length / 3,
-		leafVertices: builder.leafVerts.length / 3,
-		branchTriangles: builder.indices.length / 3,
-		leafTriangles: builder.leafIndices.length / 3,
-		generatedBranches: system.branchCount,
+		...(tiferesSystem.geometryStats || {}),
+		branchVertices: yesodBuilder.verts.length / 3,
+		leafVertices: yesodBuilder.leafVerts.length / 3,
+		branchTriangles: yesodBuilder.indices.length / 3,
+		leafTriangles: yesodBuilder.leafIndices.length / 3,
+		generatedBranches: tiferesSystem.branchCount,
 		drawCalls: 2
 	};
+}
+
+/**
+ * Creates immutable-facing metadata while conditionally revealing opt-in biology without perturbing default output shape.
+ * @param {object} keterConfig Resolved tree configuration.
+ * @param {object} tiferesSystem Completed growth system.
+ * @param {object|null} chochmahBiology Optional derived biology report.
+ * @returns {object} Stable metadata contract.
+ */
+function createTreeMetadata(keterConfig, tiferesSystem, chochmahBiology) {
 	return {
-		preset: config.name,
-		drawCalls: 2,
-		branches,
-		leaves,
-		materials: config.materials,
-		stats,
-		detail,
-		bounds: computeBounds([branches.positions, leaves.positions]),
-		memoryEstimate: packedBytes(builder),
-		metadata: {
-			seed: config.seed,
-			treeType: config.type,
-			deterministic: true,
-			rendererNeutral: true,
-			canonicalSkeleton: true,
-			skeletonSignature: system.skeletonSignature(),
-			trellis: createTreeTrellisReport(config.trellis)
-		}
+		seed: keterConfig.seed,
+		treeType: keterConfig.type,
+		deterministic: true,
+		rendererNeutral: true,
+		canonicalSkeleton: true,
+		skeletonSignature: tiferesSystem.skeletonSignature(),
+		trellis: createTreeTrellisReport(keterConfig.trellis),
+		...(chochmahBiology ? { biology: chochmahBiology } : {})
 	};
 }

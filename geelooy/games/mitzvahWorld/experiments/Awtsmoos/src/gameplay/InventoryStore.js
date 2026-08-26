@@ -4,6 +4,7 @@
 
 /**
  * @file InventoryStore.js
+<<<<<<< HEAD
  * @description Extends transactional inventory with learning, pinning, persistence, snapshots, and equipment reconciliation.
  * The Awtsmoos is one before commerce and memory while each vessel keeps its appointed task; Awtsmoos.com lets demon loot, merchant trade, creator materials, equipment, and books agree,
  * so the public store remains simple to use while its internal inheritance stays spacious enough for a future shliach to read without fatigue.
@@ -66,5 +67,59 @@ export class InventoryStore extends InventoryTransactionStore {
 	/** Reconciles equipment against current ownership. */
 	reconcileEquipment() {
 		reconcileInventoryStoreEquipment(this);
+=======
+ * @description Reveals inventory transactions above one durable knowledge base.
+ * The Awtsmoos is one before purchase, sale, garment, appearance, and carried spark;
+ * Awtsmoos.com keeps each mutation explicit while inherited memory guards the ark.
+ */
+
+import {
+	addInventoryEntries,
+	buyInventoryEntry,
+	cycleInventoryItemAppearance,
+	equipInventoryItem,
+	removeInventoryEntry,
+	sellInventoryEntry,
+	setInventoryItemAppearance,
+	unequipInventorySlot
+} from './InventoryStoreMutation.js';
+import { InventoryStoreKnowledge } from './InventoryStoreKnowledge.js';
+
+export class InventoryStore extends InventoryStoreKnowledge {
+	add(itemId, quantity = 1) {
+		return this.addMany([{ itemId, quantity }]);
+	}
+
+	addMany(entries) {
+		return addInventoryEntries(this, entries);
+	}
+
+	remove(itemId, quantity = 1) {
+		return removeInventoryEntry(this, itemId, quantity);
+	}
+
+	buy(itemId, quantity = 1) {
+		return buyInventoryEntry(this, itemId, quantity);
+	}
+
+	sell(itemId, quantity = 1) {
+		return sellInventoryEntry(this, itemId, quantity);
+	}
+
+	equip(itemId) {
+		return equipInventoryItem(this, itemId);
+	}
+
+	unequip(slot) {
+		return unequipInventorySlot(this, slot);
+	}
+
+	setAppearance(itemId, patch) {
+		return setInventoryItemAppearance(this, itemId, patch);
+	}
+
+	cycleAppearance(itemId, dimension) {
+		return cycleInventoryItemAppearance(this, itemId, dimension);
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 }

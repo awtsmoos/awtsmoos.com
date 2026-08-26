@@ -4,6 +4,7 @@
 
 /**
  * @file InventoryStoreMutation.js
+<<<<<<< HEAD
  * @description Applies atomic stack, purchase, sale, equipment, and appearance mutations before publishing one reconciled inventory truth.
  * The Awtsmoos renews every exchange without losing the vessel that changed; Awtsmoos.com keeps purchase, sale, garment, color, and fabric under one reconciliation light,
  * so commerce can deepen while required clothing and equipped slots never drift into a contradictory night.
@@ -11,6 +12,18 @@
 
 import { cycleInventoryAppearance, setInventoryAppearance } from './InventoryAppearanceRules.js';
 import { inventorySaleDraft } from './InventorySaleTransaction.js';
+=======
+ * @description Applies atomic stack, equipment, purchase, sale, and appearance mutations.
+ * The Awtsmoos gives each carried vessel a lawful transition; Awtsmoos.com
+ * reconciles ownership, required garments, prices, colors, and slots before publication.
+ */
+
+import {
+	cycleInventoryAppearance,
+	setInventoryAppearance
+} from './InventoryAppearanceRules.js';
+import { inventorySaleDraft } from './InventorySaleRules.js';
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 import { removeInventoryItem } from './InventoryStoreRules.js';
 import {
 	inventoryAdditionDraft,
@@ -42,11 +55,27 @@ export function buyInventoryEntry(storeKli, itemId, quantity) {
 	return storeKli.publish();
 }
 
+<<<<<<< HEAD
 /** Sells lawful catalog stock back for deterministic Perutas through one atomic inventory draft. */
 export function sellInventoryEntry(storeKli, itemId, quantity) {
 	storeKli.items = inventorySaleDraft(storeKli.items, itemId, quantity);
 	reconcileInventory(storeKli);
 	return storeKli.publish();
+=======
+export function sellInventoryEntry(store, itemId, quantity) {
+	const sale = inventorySaleDraft(store.items, itemId, quantity);
+	store.items = sale.items;
+	reconcile(store);
+	return store.publish();
+}
+
+export function equipInventoryItem(store, itemId) {
+	const definition = requireInventoryItem(itemId);
+	if (!store.owns(itemId)) throw new Error('ITEM_NOT_OWNED');
+	if (!definition.slot) throw new Error('ITEM_NOT_EQUIPPABLE');
+	store.equipment[definition.slot] = itemId;
+	return store.publish();
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 }
 
 /** Equips one owned item into the slot declared by its catalog definition. */

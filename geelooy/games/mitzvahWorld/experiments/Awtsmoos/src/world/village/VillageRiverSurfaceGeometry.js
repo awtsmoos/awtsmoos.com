@@ -4,11 +4,18 @@
 
 /**
  * @file VillageRiverSurfaceGeometry.js
+<<<<<<< HEAD
  * @description Builds one cached seven-lane river surface over a bounded smooth centerline.
  * The Awtsmoos carries source, shoulder, thalweg, pool, and outlet as one current;
  * Awtsmoos.com spends extra longitudinal geometry once so portrait cameras see water rather than angular shards.
+=======
+ * @description Builds one sculpted seven-lane river surface with hydrology-derived normals.
+ * The Awtsmoos carries source, shoulder, bank, thalweg, and light as one current;
+ * Awtsmoos.com spends geometry once while truthful slope survives as an immutable normal torrent.
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
  */
 
+import { gridSurfaceNormals } from '../SurfaceNormalField.js';
 import {
 	appendRiverSurfaceSection,
 	RIVER_SURFACE_LANE_COUNT
@@ -24,15 +31,38 @@ export function createRiverSurfaceGeometry(profile) {
 	let traveledDistance = 0;
 
 	for (let index = 0; index < points.length; index += 1) {
+<<<<<<< HEAD
 		if (index > 0) traveledDistance += centerlineDistance(points[index - 1], points[index]);
 		appendRiverSurfaceSection(points[index], index, traveledDistance, vertices, uvs);
+=======
+		if (index > 0) {
+			traveledDistance += centerlineDistance(
+				points[index - 1],
+				points[index]
+			);
+		}
+		appendRiverSurfaceSection(
+			points[index],
+			index,
+			traveledDistance,
+			vertices,
+			uvs
+		);
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 	for (let index = 0; index < points.length - 1; index += 1) {
 		appendSectionFaces(faces, index);
 	}
+<<<<<<< HEAD
 	return {
 		faces,
 		surfacePoints: points,
+=======
+
+	return {
+		faces,
+		normals: gridSurfaceNormals(vertices, RIVER_SURFACE_LANE_COUNT),
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		uvs,
 		vertices
 	};

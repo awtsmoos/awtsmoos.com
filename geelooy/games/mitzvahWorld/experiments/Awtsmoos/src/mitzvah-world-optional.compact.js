@@ -1,4 +1,301 @@
+<<<<<<< HEAD
 //B"H
+=======
+/* B\"H compact live import helpers */
+function __awtsmoosLiveImport(getModule, name) {
+  const read = () => {
+    const module = getModule();
+    return module && module[name];
+  };
+  return new Proxy(function __awtsmoosLiveBinding(...args) {
+    const value = read();
+    if (typeof value !== "function") return value;
+    return value(...args);
+  }, {
+    apply(_target, thisArg, args) {
+      const value = read();
+      if (typeof value !== "function") throw new TypeError(String(name) + " is not a function");
+      return Reflect.apply(value, thisArg, args);
+    },
+    construct(_target, args) {
+      const value = read();
+      if (typeof value !== "function") throw new TypeError(String(name) + " is not a constructor");
+      return Reflect.construct(value, args);
+    },
+    get(_target, prop) {
+      if (prop === Symbol.toPrimitive) return () => read();
+      if (prop === "valueOf") return () => read();
+      if (prop === "toString") return () => String(read());
+      const value = read();
+      return value == null ? undefined : value[prop];
+    },
+    set(_target, prop, newValue) {
+      const targetValue = read();
+      if (targetValue == null) return false;
+      targetValue[prop] = newValue;
+      return true;
+    }
+  });
+}
+function __awtsmoosLiveNamespace(getModule) {
+  return new Proxy({}, { get(_target, prop) {
+    const module = getModule();
+    return module == null ? undefined : module[prop];
+  }});
+}
+var __awtsmoosModule_10;
+var __awtsmoosModule_11;
+var __awtsmoosModule_12;
+var __awtsmoosModule_13;
+var __awtsmoosModule_9;
+var __awtsmoosModule_14;
+var __awtsmoosModule_15;
+var __awtsmoosModule_8;
+var __awtsmoosModule_16;
+var __awtsmoosModule_17;
+var __awtsmoosModule_18;
+var __awtsmoosModule_7;
+var __awtsmoosModule_6;
+var __awtsmoosModule_5;
+var __awtsmoosModule_20;
+var __awtsmoosModule_22;
+var __awtsmoosModule_21;
+var __awtsmoosModule_19;
+var __awtsmoosModule_4;
+var __awtsmoosModule_24;
+var __awtsmoosModule_25;
+var __awtsmoosModule_26;
+var __awtsmoosModule_28;
+var __awtsmoosModule_27;
+var __awtsmoosModule_23;
+var __awtsmoosModule_3;
+var __awtsmoosModule_31;
+var __awtsmoosModule_30;
+var __awtsmoosModule_34;
+var __awtsmoosModule_33;
+var __awtsmoosModule_35;
+var __awtsmoosModule_32;
+var __awtsmoosModule_29;
+var __awtsmoosModule_2;
+var __awtsmoosModule_36;
+var __awtsmoosModule_41;
+var __awtsmoosModule_40;
+var __awtsmoosModule_43;
+var __awtsmoosModule_42;
+var __awtsmoosModule_39;
+var __awtsmoosModule_44;
+var __awtsmoosModule_38;
+var __awtsmoosModule_45;
+var __awtsmoosModule_46;
+var __awtsmoosModule_52;
+var __awtsmoosModule_51;
+var __awtsmoosModule_54;
+var __awtsmoosModule_57;
+var __awtsmoosModule_56;
+var __awtsmoosModule_55;
+var __awtsmoosModule_58;
+var __awtsmoosModule_60;
+var __awtsmoosModule_59;
+var __awtsmoosModule_61;
+var __awtsmoosModule_53;
+var __awtsmoosModule_50;
+var __awtsmoosModule_62;
+var __awtsmoosModule_49;
+var __awtsmoosModule_48;
+var __awtsmoosModule_47;
+var __awtsmoosModule_37;
+var __awtsmoosModule_63;
+var __awtsmoosModule_64;
+var __awtsmoosModule_1;
+var __awtsmoosModule_66;
+var __awtsmoosModule_65;
+var __awtsmoosModule_76;
+var __awtsmoosModule_77;
+var __awtsmoosModule_75;
+var __awtsmoosModule_74;
+var __awtsmoosModule_78;
+var __awtsmoosModule_79;
+var __awtsmoosModule_80;
+var __awtsmoosModule_81;
+var __awtsmoosModule_82;
+var __awtsmoosModule_73;
+var __awtsmoosModule_72;
+var __awtsmoosModule_84;
+var __awtsmoosModule_83;
+var __awtsmoosModule_85;
+var __awtsmoosModule_71;
+var __awtsmoosModule_89;
+var __awtsmoosModule_88;
+var __awtsmoosModule_90;
+var __awtsmoosModule_87;
+var __awtsmoosModule_91;
+var __awtsmoosModule_86;
+var __awtsmoosModule_70;
+var __awtsmoosModule_96;
+var __awtsmoosModule_95;
+var __awtsmoosModule_94;
+var __awtsmoosModule_97;
+var __awtsmoosModule_98;
+var __awtsmoosModule_93;
+var __awtsmoosModule_101;
+var __awtsmoosModule_100;
+var __awtsmoosModule_102;
+var __awtsmoosModule_99;
+var __awtsmoosModule_103;
+var __awtsmoosModule_106;
+var __awtsmoosModule_105;
+var __awtsmoosModule_109;
+var __awtsmoosModule_108;
+var __awtsmoosModule_107;
+var __awtsmoosModule_104;
+var __awtsmoosModule_111;
+var __awtsmoosModule_112;
+var __awtsmoosModule_110;
+var __awtsmoosModule_92;
+var __awtsmoosModule_113;
+var __awtsmoosModule_114;
+var __awtsmoosModule_117;
+var __awtsmoosModule_120;
+var __awtsmoosModule_119;
+var __awtsmoosModule_118;
+var __awtsmoosModule_116;
+var __awtsmoosModule_124;
+var __awtsmoosModule_123;
+var __awtsmoosModule_122;
+var __awtsmoosModule_128;
+var __awtsmoosModule_129;
+var __awtsmoosModule_127;
+var __awtsmoosModule_126;
+var __awtsmoosModule_125;
+var __awtsmoosModule_130;
+var __awtsmoosModule_121;
+var __awtsmoosModule_132;
+var __awtsmoosModule_131;
+var __awtsmoosModule_134;
+var __awtsmoosModule_135;
+var __awtsmoosModule_133;
+var __awtsmoosModule_138;
+var __awtsmoosModule_137;
+var __awtsmoosModule_136;
+var __awtsmoosModule_139;
+var __awtsmoosModule_142;
+var __awtsmoosModule_147;
+var __awtsmoosModule_149;
+var __awtsmoosModule_150;
+var __awtsmoosModule_151;
+var __awtsmoosModule_152;
+var __awtsmoosModule_153;
+var __awtsmoosModule_148;
+var __awtsmoosModule_156;
+var __awtsmoosModule_158;
+var __awtsmoosModule_157;
+var __awtsmoosModule_159;
+var __awtsmoosModule_160;
+var __awtsmoosModule_155;
+var __awtsmoosModule_154;
+var __awtsmoosModule_161;
+var __awtsmoosModule_163;
+var __awtsmoosModule_162;
+var __awtsmoosModule_164;
+var __awtsmoosModule_165;
+var __awtsmoosModule_168;
+var __awtsmoosModule_169;
+var __awtsmoosModule_170;
+var __awtsmoosModule_167;
+var __awtsmoosModule_172;
+var __awtsmoosModule_171;
+var __awtsmoosModule_174;
+var __awtsmoosModule_173;
+var __awtsmoosModule_175;
+var __awtsmoosModule_176;
+var __awtsmoosModule_177;
+var __awtsmoosModule_178;
+var __awtsmoosModule_180;
+var __awtsmoosModule_179;
+var __awtsmoosModule_166;
+var __awtsmoosModule_181;
+var __awtsmoosModule_182;
+var __awtsmoosModule_183;
+var __awtsmoosModule_146;
+var __awtsmoosModule_188;
+var __awtsmoosModule_187;
+var __awtsmoosModule_190;
+var __awtsmoosModule_191;
+var __awtsmoosModule_193;
+var __awtsmoosModule_192;
+var __awtsmoosModule_189;
+var __awtsmoosModule_186;
+var __awtsmoosModule_185;
+var __awtsmoosModule_194;
+var __awtsmoosModule_196;
+var __awtsmoosModule_195;
+var __awtsmoosModule_184;
+var __awtsmoosModule_197;
+var __awtsmoosModule_145;
+var __awtsmoosModule_198;
+var __awtsmoosModule_144;
+var __awtsmoosModule_200;
+var __awtsmoosModule_199;
+var __awtsmoosModule_201;
+var __awtsmoosModule_202;
+var __awtsmoosModule_143;
+var __awtsmoosModule_203;
+var __awtsmoosModule_209;
+var __awtsmoosModule_208;
+var __awtsmoosModule_207;
+var __awtsmoosModule_211;
+var __awtsmoosModule_210;
+var __awtsmoosModule_206;
+var __awtsmoosModule_214;
+var __awtsmoosModule_213;
+var __awtsmoosModule_217;
+var __awtsmoosModule_219;
+var __awtsmoosModule_220;
+var __awtsmoosModule_218;
+var __awtsmoosModule_216;
+var __awtsmoosModule_221;
+var __awtsmoosModule_215;
+var __awtsmoosModule_222;
+var __awtsmoosModule_212;
+var __awtsmoosModule_223;
+var __awtsmoosModule_205;
+var __awtsmoosModule_226;
+var __awtsmoosModule_227;
+var __awtsmoosModule_225;
+var __awtsmoosModule_230;
+var __awtsmoosModule_231;
+var __awtsmoosModule_232;
+var __awtsmoosModule_233;
+var __awtsmoosModule_229;
+var __awtsmoosModule_228;
+var __awtsmoosModule_224;
+var __awtsmoosModule_237;
+var __awtsmoosModule_239;
+var __awtsmoosModule_240;
+var __awtsmoosModule_238;
+var __awtsmoosModule_236;
+var __awtsmoosModule_241;
+var __awtsmoosModule_235;
+var __awtsmoosModule_234;
+var __awtsmoosModule_204;
+var __awtsmoosModule_242;
+var __awtsmoosModule_243;
+var __awtsmoosModule_141;
+var __awtsmoosModule_140;
+var __awtsmoosModule_115;
+var __awtsmoosModule_69;
+var __awtsmoosModule_68;
+var __awtsmoosModule_67;
+var __awtsmoosModule_245;
+var __awtsmoosModule_244;
+var __awtsmoosModule_0;
+/* B\"H compact source: games/mitzvahWorld/experiments/light-three-gltf/tiny-matrix-core.js */
+__awtsmoosModule_10 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 const __awtsmoosLiveImport = (resolve, name) => {
 	const callable = function(...args) {
@@ -13057,6 +13354,41 @@ const __awtsmoosModule_0 = Object.create(null);
 			SPIRITUAL_STAT_KEYS.map(key => [key, finiteStat(values[key])])
 		));
 	}
+<<<<<<< HEAD
+=======
+	return result;
+}
+
+__exports.restoreInventoryAppearance = restoreInventoryAppearance;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreRules.js */
+__awtsmoosModule_84 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file InventoryStoreRules.js
+ * @description Provides pure stack, equipment-stat, appearance, and snapshot rules.
+ * The Awtsmoos renews every quantity and attribute without illusion; Awtsmoos.com
+ * derives combat and ten spiritual measures from the garments actually equipped.
+ */
+
+var INVENTORY_CATALOG = __awtsmoosModule_73.INVENTORY_CATALOG;
+var inventoryAppearanceFor = __awtsmoosModule_72.inventoryAppearanceFor;
+var addSpiritualStats = __awtsmoosModule_77.addSpiritualStats;
+var emptySpiritualStats = __awtsmoosModule_77.emptySpiritualStats;
+
+function normalizeInventoryQuantity(quantity) {
+	const numeric = Number(quantity);
+	if (!Number.isFinite(numeric) || numeric <= 0 || !Number.isInteger(numeric)) {
+		throw new Error('INVALID_ITEM_QUANTITY');
+	}
+	return numeric;
+}
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 
 	__exports.spiritualStats = spiritualStats;
@@ -13199,8 +13531,104 @@ const __awtsmoosModule_0 = Object.create(null);
 	const REQUIRED_GARMENT_EQUIPMENT = Object.freeze({ feet: 'walking-boots', pants: 'black-trousers', shirt: 'base-shirt' });
 	__exports.REQUIRED_GARMENT_EQUIPMENT = REQUIRED_GARMENT_EQUIPMENT;
 
+<<<<<<< HEAD
 	const GARMENT_ITEM_IDS = Object.freeze(Object.keys(GARMENT_CATALOG));
 	__exports.GARMENT_ITEM_IDS = GARMENT_ITEM_IDS;
+=======
+__exports.togglePinnedValue = togglePinnedValue;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventorySaleRules.js */
+__awtsmoosModule_83 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file InventorySaleRules.js
+ * @description Quotes and drafts lawful Bag sales without mutating canonical state.
+ * The Awtsmoos gives every exchange an honest measure and a bounded vessel;
+ * Awtsmoos.com returns carried value to Perutas while sacred and required items remain whole.
+ */
+
+var inventoryDefinition = __awtsmoosModule_73.inventoryDefinition;
+var addInventoryItem = __awtsmoosModule_84.addInventoryItem;
+var normalizeInventoryQuantity = __awtsmoosModule_84.normalizeInventoryQuantity;
+var removeInventoryItem = __awtsmoosModule_84.removeInventoryItem;
+
+function inventoryResaleQuote(itemId, quantity = 1) {
+	const definition = inventoryDefinition(itemId);
+	const count = normalizeInventoryQuantity(quantity);
+	if (!definition) throw new Error(`Unknown inventory item: ${itemId}`);
+	if (definition.required) throw new Error('REQUIRED_GARMENT_CANNOT_SELL');
+	if (definition.category === 'currency') throw new Error('CURRENCY_CANNOT_SELL');
+	if (!Number.isFinite(definition.price)) throw new Error('ITEM_NOT_SELLABLE');
+	const unitPrice = Math.max(1, Math.floor(definition.price / 2));
+	return Object.freeze({
+		itemId: definition.id,
+		quantity: count,
+		total: unitPrice * count,
+		unitPrice
+	});
+}
+
+
+__exports.inventoryResaleQuote = inventoryResaleQuote;
+function inventorySaleDraft(items, itemId, quantity = 1) {
+	const quote = inventoryResaleQuote(itemId, quantity);
+	const draft = removeInventoryItem(items, quote.itemId, quote.quantity);
+	addInventoryItem(
+		draft,
+		'perutas',
+		quote.total,
+		inventoryDefinition('perutas')
+	);
+	return {
+		items: draft,
+		quote
+	};
+}
+
+__exports.inventorySaleDraft = inventorySaleDraft;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreTransactions.js */
+__awtsmoosModule_85 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file InventoryStoreTransactions.js
+ * @description Builds atomic drafts and complete model-backed starting equipment.
+ * The Awtsmoos joins ownership, tefillin, clothing, weapon, cost, and slot without partial truth;
+ * Awtsmoos.com starts every visible canonical garment equipped because the Bag already owns it.
+ */
+
+var REQUIRED_GARMENT_EQUIPMENT = __awtsmoosModule_74.REQUIRED_GARMENT_EQUIPMENT;
+var STARTER_INVENTORY = __awtsmoosModule_73.STARTER_INVENTORY;
+var inventoryDefinition = __awtsmoosModule_73.inventoryDefinition;
+var addInventoryItem = __awtsmoosModule_84.addInventoryItem;
+var inventoryItemQuantity = __awtsmoosModule_84.inventoryItemQuantity;
+var normalizeInventoryQuantity = __awtsmoosModule_84.normalizeInventoryQuantity;
+var removeInventoryItem = __awtsmoosModule_84.removeInventoryItem;
+
+const DEFAULT_EQUIPMENT = Object.freeze({
+	...REQUIRED_GARMENT_EQUIPMENT,
+	coat: 'black-coat',
+	eyes: 'scholar-glasses',
+	hand: 'wooden-staff',
+	hat: 'shabbos-top-hat',
+	kippah: 'wool-kippah',
+	outerShirt: 'white-outer-shirt',
+	tefillinArm: 'tefillin-shel-yad',
+	tefillinHead: 'tefillin-shel-rosh',
+	tool: 'chalaf'
+});
+__exports.DEFAULT_EQUIPMENT = DEFAULT_EQUIPMENT;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 
 	function garment(id, name, icon, slot, visualId, price, legacy, spiritual, colors, fabrics, required = false) {
@@ -13364,6 +13792,7 @@ const __awtsmoosModule_0 = Object.create(null);
 
 	var inventoryItem = __awtsmoosModule_162.inventoryItem;
 
+<<<<<<< HEAD
 	const INVENTORY_CORE_CATALOG = Object.freeze(Object.fromEntries([
 		entry('forest-axe', 'Forest Axe', '🪓', 'tool', 'tool', [5, 0, 2], 45, 'axe-small'),
 		entry('wooden-staff', 'Wooden Staff', '🪄', 'weapon', 'hand', [18, 2, 4], 32, 'wooden-staff'),
@@ -13408,6 +13837,712 @@ const __awtsmoosModule_0 = Object.create(null);
 				damage: legacy[0],
 				defense: legacy[1],
 				focus: legacy[2]
+=======
+/**
+ * @file InventoryStoreMutation.js
+ * @description Applies atomic stack, equipment, purchase, sale, and appearance mutations.
+ * The Awtsmoos gives each carried vessel a lawful transition; Awtsmoos.com
+ * reconciles ownership, required garments, prices, colors, and slots before publication.
+ */
+
+var cycleInventoryAppearance = __awtsmoosModule_72.cycleInventoryAppearance;
+var setInventoryAppearance = __awtsmoosModule_72.setInventoryAppearance;
+var inventorySaleDraft = __awtsmoosModule_83.inventorySaleDraft;
+var removeInventoryItem = __awtsmoosModule_84.removeInventoryItem;
+var inventoryAdditionDraft = __awtsmoosModule_85.inventoryAdditionDraft;
+var inventoryPurchaseDraft = __awtsmoosModule_85.inventoryPurchaseDraft;
+var reconciledInventoryEquipment = __awtsmoosModule_85.reconciledInventoryEquipment;
+var requireInventoryItem = __awtsmoosModule_85.requireInventoryItem;
+
+function addInventoryEntries(store, entries) {
+	store.items = inventoryAdditionDraft(store.items, entries);
+	reconcile(store);
+	return store.publish();
+}
+
+
+__exports.addInventoryEntries = addInventoryEntries;
+function removeInventoryEntry(store, itemId, quantity) {
+	const definition = requireInventoryItem(itemId);
+	if (definition.required) throw new Error('REQUIRED_GARMENT_CANNOT_DROP');
+	store.items = removeInventoryItem(store.items, itemId, quantity);
+	reconcile(store);
+	return store.publish();
+}
+
+
+__exports.removeInventoryEntry = removeInventoryEntry;
+function buyInventoryEntry(store, itemId, quantity) {
+	store.items = inventoryPurchaseDraft(store.items, itemId, quantity);
+	reconcile(store);
+	return store.publish();
+}
+
+
+__exports.buyInventoryEntry = buyInventoryEntry;
+function sellInventoryEntry(store, itemId, quantity) {
+	const sale = inventorySaleDraft(store.items, itemId, quantity);
+	store.items = sale.items;
+	reconcile(store);
+	return store.publish();
+}
+
+
+__exports.sellInventoryEntry = sellInventoryEntry;
+function equipInventoryItem(store, itemId) {
+	const definition = requireInventoryItem(itemId);
+	if (!store.owns(itemId)) throw new Error('ITEM_NOT_OWNED');
+	if (!definition.slot) throw new Error('ITEM_NOT_EQUIPPABLE');
+	store.equipment[definition.slot] = itemId;
+	return store.publish();
+}
+
+
+__exports.equipInventoryItem = equipInventoryItem;
+function unequipInventorySlot(store, slot) {
+	const itemId = store.equipment[slot];
+	if (!itemId) return store.publish();
+	const definition = requireInventoryItem(itemId);
+	if (definition.required) throw new Error('REQUIRED_GARMENT_CANNOT_UNEQUIP');
+	delete store.equipment[slot];
+	return store.publish();
+}
+
+
+__exports.unequipInventorySlot = unequipInventorySlot;
+function setInventoryItemAppearance(store, itemId, patch) {
+	if (!store.owns(itemId)) throw new Error('ITEM_NOT_OWNED');
+	store.appearance = setInventoryAppearance(store.appearance, itemId, patch);
+	return store.publish();
+}
+
+
+__exports.setInventoryItemAppearance = setInventoryItemAppearance;
+function cycleInventoryItemAppearance(store, itemId, dimension) {
+	if (!store.owns(itemId)) throw new Error('ITEM_NOT_OWNED');
+	store.appearance = cycleInventoryAppearance(
+		store.appearance,
+		itemId,
+		dimension
+	);
+	return store.publish();
+}
+
+
+__exports.cycleInventoryItemAppearance = cycleInventoryItemAppearance;
+function reconcile(store) {
+	store.equipment = reconciledInventoryEquipment(
+		store.equipment,
+		store.items
+	);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/TorahPassageCatalog.js */
+__awtsmoosModule_89 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file TorahPassageCatalog.js
+ * @description Defines short learning passages with bounded symbolic combat statistics.
+ * The Awtsmoos renews Torah as wisdom rather than violence; Awtsmoos.com represents
+ * attacks as fictional light against hostile husks while quotes remain brief and respectful.
+ */
+
+const TORAH_BOOKS = Object.freeze([
+	book('siddur', 'Siddur', '📖', [
+		passage('modeh-ani', 'Grateful Awakening', 'Gratitude awakens the soul.', 12, 8, 700, 'gratitude'),
+		passage('shema-unity', 'Unity of the Shema', 'Everything rests within one Source.', 18, 12, 900, 'unity'),
+		passage('peace-prayer', 'Prayer for Peace', 'Peace joins divided sparks.', 10, 16, 650, 'peace')
+	]),
+	book('chumash-light', 'Chumash of Light', '📚', [
+		passage('creation-light', 'Light of Creation', 'Light is called into darkness.', 24, 9, 1100, 'light'),
+		passage('guardian-path', 'The Guarded Path', 'Courage walks beside responsibility.', 20, 14, 1000, 'courage'),
+		passage('living-water', 'Living Water', 'Wisdom flows toward thirsty ground.', 16, 18, 900, 'water')
+	]),
+	book('tanya-pocket', 'Pocket Tanya', '📕', [
+		passage('two-souls', 'Two Souls', 'Choice can redirect inner struggle.', 22, 15, 1050, 'choice'),
+		passage('small-city', 'The Small City', 'Awareness governs the inner city.', 19, 20, 950, 'awareness'),
+		passage('joy-breaks-barriers', 'Joy Breaks Barriers', 'Holy joy opens a blocked road.', 28, 10, 1250, 'joy')
+	])
+]);
+__exports.TORAH_BOOKS = TORAH_BOOKS;
+
+
+function torahBook(bookId) {
+	return TORAH_BOOKS.find(item => item.id === bookId) || null;
+}
+
+
+__exports.torahBook = torahBook;
+function torahPassage(passageId) {
+	for (const bookValue of TORAH_BOOKS) {
+		const found = bookValue.passages.find(item => item.id === passageId);
+		if (found) return { ...found, bookId: bookValue.id, bookName: bookValue.name };
+	}
+	return null;
+}
+
+
+__exports.torahPassage = torahPassage;
+function book(id, name, icon, passages) {
+	return Object.freeze({ icon, id, name, passages: Object.freeze(passages) });
+}
+
+function passage(id, name, text, damage, focusCost, cooldownMs, aspect) {
+	return Object.freeze({
+		aspect,
+		cooldownMs,
+		damage,
+		focusCost,
+		id,
+		name,
+		text
+	});
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryLearningRules.js */
+__awtsmoosModule_88 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file InventoryLearningRules.js
+ * @description Applies learning, book pinning, passage pinning, and passage-use times.
+ * The Awtsmoos renews knowledge without confusing it with ordinary inventory quantity;
+ * Awtsmoos.com keeps every learning transition pure enough for direct testing.
+ */
+
+var torahPassage = __awtsmoosModule_89.torahPassage;
+var togglePinnedValue = __awtsmoosModule_84.togglePinnedValue;
+
+function learnInventoryPassage(store, passageId) {
+	if (!torahPassage(passageId)) throw new Error('UNKNOWN_TORAH_PASSAGE');
+	if (!store.learned.includes(passageId)) store.learned.push(passageId);
+}
+
+
+__exports.learnInventoryPassage = learnInventoryPassage;
+function toggleInventoryPassage(store, passageId) {
+	if (!store.learned.includes(passageId)) throw new Error('PASSAGE_NOT_LEARNED');
+	store.pinnedPassages = togglePinnedValue(
+		store.pinnedPassages,
+		passageId,
+		5,
+		'passages'
+	);
+}
+
+
+__exports.toggleInventoryPassage = toggleInventoryPassage;
+function toggleInventoryBook(store, bookId) {
+	store.pinnedBooks = togglePinnedValue(
+		store.pinnedBooks,
+		bookId,
+		3,
+		'books'
+	);
+}
+
+
+__exports.toggleInventoryBook = toggleInventoryBook;
+function markInventoryPassageUsed(store, passageId, at) {
+	if (!torahPassage(passageId)) throw new Error('UNKNOWN_TORAH_PASSAGE');
+	store.lastUsedAt[passageId] = at;
+}
+
+__exports.markInventoryPassageUsed = markInventoryPassageUsed;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryPersistenceRules.js */
+__awtsmoosModule_90 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file InventoryPersistenceRules.js
+ * @description Restores stacks, required equipment, learning, and garment appearance.
+ * The Awtsmoos renews remembered color and fabric without confusing yesterday with today;
+ * Awtsmoos.com validates every saved item, slot, palette choice, passage, and timestamp.
+ */
+
+var restoreInventoryAppearance = __awtsmoosModule_72.restoreInventoryAppearance;
+var inventoryDefinition = __awtsmoosModule_73.inventoryDefinition;
+var addInventoryItem = __awtsmoosModule_84.addInventoryItem;
+var reconciledInventoryEquipment = __awtsmoosModule_85.reconciledInventoryEquipment;
+var torahBook = __awtsmoosModule_89.torahBook;
+var torahPassage = __awtsmoosModule_89.torahPassage;
+
+function serializableInventoryState(store) {
+	return structuredClone({
+		appearance: store.appearance,
+		equipment: store.equipment,
+		items: store.items,
+		lastUsedAt: store.lastUsedAt,
+		learned: store.learned,
+		pinnedBooks: store.pinnedBooks,
+		pinnedPassages: store.pinnedPassages
+	});
+}
+
+
+__exports.serializableInventoryState = serializableInventoryState;
+function restoreInventoryState(store, saved = {}) {
+	store.items = validStacks(saved.items);
+	store.equipment = reconciledInventoryEquipment(saved.equipment, store.items);
+	store.appearance = restoreInventoryAppearance(saved.appearance);
+	store.learned = uniqueStrings(saved.learned).filter(id => torahPassage(id));
+	store.pinnedBooks = uniqueStrings(saved.pinnedBooks).filter(id => torahBook(id)).slice(0, 3);
+	store.pinnedPassages = uniqueStrings(saved.pinnedPassages).filter(id => store.learned.includes(id)).slice(0, 5);
+	store.lastUsedAt = validUsage(saved.lastUsedAt);
+}
+
+
+__exports.restoreInventoryState = restoreInventoryState;
+function validStacks(stacks) {
+	const result = [];
+	for (const stack of Array.isArray(stacks) ? stacks : []) {
+		const definition = inventoryDefinition(stack?.itemId);
+		const quantity = savedQuantity(stack?.quantity);
+		if (definition && quantity > 0) addInventoryItem(result, definition.id, quantity, definition);
+	}
+	return result;
+}
+
+function validUsage(lastUsedAt) {
+	return Object.fromEntries(Object.entries(lastUsedAt || {}).filter(([id, value]) =>
+		torahPassage(id) && Number.isFinite(Number(value)) && Number(value) >= 0));
+}
+
+function savedQuantity(value) {
+	const numeric = Number(value);
+	return Number.isFinite(numeric) && numeric > 0 ? Math.trunc(numeric) : 0;
+}
+
+function uniqueStrings(values) {
+	return Array.isArray(values) ? [...new Set(values.filter(value => typeof value === 'string'))] : [];
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreLearning.js */
+__awtsmoosModule_87 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file InventoryStoreLearning.js
+ * @description Delegates learning, persistence, ownership, snapshots, and equipment reconciliation.
+ * The Awtsmoos joins remembered Torah and carried vessels without crowding transaction code;
+ * Awtsmoos.com keeps every learned passage, pin, quantity, restore, and equipped slot explicit.
+ */
+
+var learnInventoryPassage = __awtsmoosModule_88.learnInventoryPassage;
+var markInventoryPassageUsed = __awtsmoosModule_88.markInventoryPassageUsed;
+var toggleInventoryBook = __awtsmoosModule_88.toggleInventoryBook;
+var toggleInventoryPassage = __awtsmoosModule_88.toggleInventoryPassage;
+var restoreInventoryState = __awtsmoosModule_90.restoreInventoryState;
+var serializableInventoryState = __awtsmoosModule_90.serializableInventoryState;
+var inventoryItemQuantity = __awtsmoosModule_84.inventoryItemQuantity;
+var inventorySnapshot = __awtsmoosModule_84.inventorySnapshot;
+var reconciledInventoryEquipment = __awtsmoosModule_85.reconciledInventoryEquipment;
+
+function learnInventory(store, passageId) {
+	learnInventoryPassage(store, passageId);
+}
+
+
+__exports.learnInventory = learnInventory;
+function toggleInventoryPassagePin(store, passageId) {
+	toggleInventoryPassage(store, passageId);
+}
+
+
+__exports.toggleInventoryPassagePin = toggleInventoryPassagePin;
+function toggleInventoryBookPin(store, bookId) {
+	toggleInventoryBook(store, bookId);
+}
+
+
+__exports.toggleInventoryBookPin = toggleInventoryBookPin;
+function markInventoryPassage(store, passageId, usedAt) {
+	markInventoryPassageUsed(store, passageId, usedAt);
+}
+
+
+__exports.markInventoryPassage = markInventoryPassage;
+function inventoryStoreQuantity(store, itemId) {
+	return inventoryItemQuantity(store.items, itemId);
+}
+
+
+__exports.inventoryStoreQuantity = inventoryStoreQuantity;
+function inventoryStoreOwns(store, itemId) {
+	return inventoryStoreQuantity(store, itemId) > 0;
+}
+
+
+__exports.inventoryStoreOwns = inventoryStoreOwns;
+function restoreInventoryStore(store, saved) {
+	restoreInventoryState(store, saved);
+}
+
+
+__exports.restoreInventoryStore = restoreInventoryStore;
+function serializableInventoryStore(store) {
+	return serializableInventoryState(store);
+}
+
+
+__exports.serializableInventoryStore = serializableInventoryStore;
+function snapshotInventoryStore(store) {
+	return inventorySnapshot(store);
+}
+
+
+__exports.snapshotInventoryStore = snapshotInventoryStore;
+function reconcileInventoryStoreEquipment(store) {
+	store.equipment = reconciledInventoryEquipment(store.equipment, store.items);
+}
+
+__exports.reconcileInventoryStoreEquipment = reconcileInventoryStoreEquipment;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStorePublication.js */
+__awtsmoosModule_91 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file InventoryStorePublication.js
+ * @description Publishes complete immutable-facing inventory snapshots to bounded listeners.
+ * The Awtsmoos renews every observer from one shared truth; Awtsmoos.com prevents
+ * equipment, appearance, learning, quantity, and derived stats from drifting apart.
+ */
+
+var inventorySnapshot = __awtsmoosModule_84.inventorySnapshot;
+
+function subscribeInventoryStore(store, listener) {
+	if (typeof listener !== 'function') {
+		throw new TypeError('INVENTORY_LISTENER_REQUIRED');
+	}
+	store.listeners.add(listener);
+	return () => {
+		store.listeners.delete(listener);
+	};
+}
+
+
+__exports.subscribeInventoryStore = subscribeInventoryStore;
+function publishInventoryStore(store) {
+	const snapshot = inventorySnapshot(store);
+	for (const listener of store.listeners) {
+		listener(snapshot);
+	}
+	return snapshot;
+}
+
+__exports.publishInventoryStore = publishInventoryStore;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreKnowledge.js */
+__awtsmoosModule_86 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file InventoryStoreKnowledge.js
+ * @description Preserves learning, persistence, ownership, snapshots, and publication.
+ * The Awtsmoos remembers every carried spark while transaction forms arise and depart;
+ * Awtsmoos.com gives the Bag one durable knowledge root beneath each changing market art.
+ */
+
+var inventoryStoreOwns = __awtsmoosModule_87.inventoryStoreOwns;
+var inventoryStoreQuantity = __awtsmoosModule_87.inventoryStoreQuantity;
+var learnInventory = __awtsmoosModule_87.learnInventory;
+var markInventoryPassage = __awtsmoosModule_87.markInventoryPassage;
+var reconcileInventoryStoreEquipment = __awtsmoosModule_87.reconcileInventoryStoreEquipment;
+var restoreInventoryStore = __awtsmoosModule_87.restoreInventoryStore;
+var serializableInventoryStore = __awtsmoosModule_87.serializableInventoryStore;
+var snapshotInventoryStore = __awtsmoosModule_87.snapshotInventoryStore;
+var toggleInventoryBookPin = __awtsmoosModule_87.toggleInventoryBookPin;
+var toggleInventoryPassagePin = __awtsmoosModule_87.toggleInventoryPassagePin;
+var publishInventoryStore = __awtsmoosModule_91.publishInventoryStore;
+var subscribeInventoryStore = __awtsmoosModule_91.subscribeInventoryStore;
+var initialInventoryState = __awtsmoosModule_85.initialInventoryState;
+
+class InventoryStoreKnowledge {
+	constructor(options = {}) {
+		this.listeners = new Set();
+		restoreInventoryStore(this, initialInventoryState(options));
+	}
+
+	onChange(listener) {
+		return subscribeInventoryStore(this, listener);
+	}
+
+	learn(id) {
+		learnInventory(this, id);
+		return this.publish();
+	}
+
+	togglePassagePin(id) {
+		toggleInventoryPassagePin(this, id);
+		return this.publish();
+	}
+
+	toggleBookPin(id) {
+		toggleInventoryBookPin(this, id);
+		return this.publish();
+	}
+
+	markPassageUsed(id, at = Date.now()) {
+		markInventoryPassage(this, id, at);
+		return this.publish();
+	}
+
+	quantity(itemId) {
+		return inventoryStoreQuantity(this, itemId);
+	}
+
+	owns(itemId) {
+		return inventoryStoreOwns(this, itemId);
+	}
+
+	restore(saved) {
+		restoreInventoryStore(this, saved);
+		return this.publish();
+	}
+
+	serializableState() {
+		return serializableInventoryStore(this);
+	}
+
+	snapshot() {
+		return snapshotInventoryStore(this);
+	}
+
+	reconcileEquipment() {
+		reconcileInventoryStoreEquipment(this);
+	}
+
+	publish() {
+		return publishInventoryStore(this);
+	}
+}
+
+__exports.InventoryStoreKnowledge = InventoryStoreKnowledge;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStore.js */
+__awtsmoosModule_70 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file InventoryStore.js
+ * @description Reveals inventory transactions above one durable knowledge base.
+ * The Awtsmoos is one before purchase, sale, garment, appearance, and carried spark;
+ * Awtsmoos.com keeps each mutation explicit while inherited memory guards the ark.
+ */
+
+var addInventoryEntries = __awtsmoosModule_71.addInventoryEntries;
+var buyInventoryEntry = __awtsmoosModule_71.buyInventoryEntry;
+var cycleInventoryItemAppearance = __awtsmoosModule_71.cycleInventoryItemAppearance;
+var equipInventoryItem = __awtsmoosModule_71.equipInventoryItem;
+var removeInventoryEntry = __awtsmoosModule_71.removeInventoryEntry;
+var sellInventoryEntry = __awtsmoosModule_71.sellInventoryEntry;
+var setInventoryItemAppearance = __awtsmoosModule_71.setInventoryItemAppearance;
+var unequipInventorySlot = __awtsmoosModule_71.unequipInventorySlot;
+var InventoryStoreKnowledge = __awtsmoosModule_86.InventoryStoreKnowledge;
+
+class InventoryStore extends InventoryStoreKnowledge {
+	add(itemId, quantity = 1) {
+		return this.addMany([{ itemId, quantity }]);
+	}
+
+	addMany(entries) {
+		return addInventoryEntries(this, entries);
+	}
+
+	remove(itemId, quantity = 1) {
+		return removeInventoryEntry(this, itemId, quantity);
+	}
+
+	buy(itemId, quantity = 1) {
+		return buyInventoryEntry(this, itemId, quantity);
+	}
+
+	sell(itemId, quantity = 1) {
+		return sellInventoryEntry(this, itemId, quantity);
+	}
+
+	equip(itemId) {
+		return equipInventoryItem(this, itemId);
+	}
+
+	unequip(slot) {
+		return unequipInventorySlot(this, slot);
+	}
+
+	setAppearance(itemId, patch) {
+		return setInventoryItemAppearance(this, itemId, patch);
+	}
+
+	cycleAppearance(itemId, dimension) {
+		return cycleInventoryItemAppearance(this, itemId, dimension);
+	}
+}
+
+__exports.InventoryStore = InventoryStore;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionConstants.js */
+__awtsmoosModule_96 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionConstants.js
+ * @description Names the stable phases, layers, and distinct staff and sword messages.
+ * The Awtsmoos precedes every finite deed; Awtsmoos.com gives each intention a separate,
+ * inspectable vessel so future AI-authored actions never dissolve into controller branches.
+ */
+
+const PLAYER_ACTION_PHASES = Object.freeze([
+	'start',
+	'progress',
+	'release',
+	'cancel'
+]);
+__exports.PLAYER_ACTION_PHASES = PLAYER_ACTION_PHASES;
+
+
+const PLAYER_ACTION_LAYERS = Object.freeze([
+	'upper-body',
+	'full-body',
+	'additive'
+]);
+__exports.PLAYER_ACTION_LAYERS = PLAYER_ACTION_LAYERS;
+
+
+const PLAYER_ACTION_MESSAGES = Object.freeze({
+	dispatch: 'player.action.dispatch',
+	staffCast: 'player.action.staff.cast',
+	swordCast: 'player.action.sword.cast'
+});
+__exports.PLAYER_ACTION_MESSAGES = PLAYER_ACTION_MESSAGES;
+
+
+const PLAYER_ACTION_BONE_ROLES = Object.freeze([
+	'hips',
+	'spine',
+	'spine1',
+	'spine2',
+	'neck',
+	'head',
+	'leftShoulder',
+	'leftArm',
+	'leftForeArm',
+	'leftHand',
+	'rightShoulder',
+	'rightArm',
+	'rightForeArm',
+	'rightHand',
+	'leftUpLeg',
+	'leftLeg',
+	'leftFoot',
+	'rightUpLeg',
+	'rightLeg',
+	'rightFoot'
+]);
+__exports.PLAYER_ACTION_BONE_ROLES = PLAYER_ACTION_BONE_ROLES;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionDefinitionValidator.js */
+__awtsmoosModule_95 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionDefinitionValidator.js
+ * @description Rejects malformed or unsafe declarative player-action definitions.
+ * The Awtsmoos grants possibility without chaos; Awtsmoos.com limits each authored gesture
+ * to finite timing, known roles, one message, and data that the runtime can inspect.
+ */
+
+var PLAYER_ACTION_BONE_ROLES = __awtsmoosModule_96.PLAYER_ACTION_BONE_ROLES;
+var PLAYER_ACTION_LAYERS = __awtsmoosModule_96.PLAYER_ACTION_LAYERS;
+
+const ROLE_SET = new Set(PLAYER_ACTION_BONE_ROLES);
+const LAYER_SET = new Set(PLAYER_ACTION_LAYERS);
+
+function validatePlayerActionDefinition(definition) {
+	requireText(definition?.id, 'ACTION_ID_REQUIRED');
+	requireText(definition?.messageType, 'ACTION_MESSAGE_REQUIRED');
+	requireNumber(definition?.version, 'ACTION_VERSION_REQUIRED', 1);
+	requireNumber(definition?.duration, 'ACTION_DURATION_REQUIRED', 0.05);
+	requireNumber(definition?.releaseAt, 'ACTION_RELEASE_AT_REQUIRED', 0, 1);
+	if (!LAYER_SET.has(definition.layer)) {
+		throw new Error('ACTION_LAYER_INVALID');
+	}
+	if (!Array.isArray(definition.keyframes) || definition.keyframes.length < 2) {
+		throw new Error('ACTION_KEYFRAMES_REQUIRED');
+	}
+	validateEquipment(definition.requiredEquipment);
+	validateKeyframes(definition.keyframes);
+	return Object.freeze({
+		...definition,
+		keyframes: Object.freeze(definition.keyframes.map(freezeFrame))
+	});
+}
+
+
+__exports.validatePlayerActionDefinition = validatePlayerActionDefinition;
+function validateEquipment(requirement) {
+	if (!requirement) {
+		return;
+	}
+	requireText(requirement.slot, 'ACTION_EQUIPMENT_SLOT_REQUIRED');
+	if (!Array.isArray(requirement.itemIds) || !requirement.itemIds.length) {
+		throw new Error('ACTION_EQUIPMENT_ITEMS_REQUIRED');
+	}
+	for (const itemId of requirement.itemIds) {
+		requireText(itemId, 'ACTION_EQUIPMENT_ITEM_INVALID');
+	}
+}
+
+function validateKeyframes(keyframes) {
+	let previous = -1;
+	for (const frame of keyframes) {
+		requireNumber(frame?.at, 'ACTION_KEYFRAME_TIME_INVALID', 0, 1);
+		if (frame.at < previous) {
+			throw new Error('ACTION_KEYFRAME_ORDER_INVALID');
+		}
+		previous = frame.at;
+		for (const [role, rotation] of Object.entries(frame.pose || {})) {
+			if (!ROLE_SET.has(role)) {
+				throw new Error(`ACTION_BONE_ROLE_INVALID:${role}`);
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 			}
 		})];
 	}
@@ -13769,6 +14904,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.togglePinnedValue = togglePinnedValue;
 
 }
+<<<<<<< HEAD
+=======
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRegistry.js */
+__awtsmoosModule_94 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStoreTransactions.js ----
 {
@@ -13777,12 +14923,16 @@ const __awtsmoosModule_0 = Object.create(null);
 	// Boruch Hashem
 	// Blessed is He
 
+<<<<<<< HEAD
 	/**
 	 * @file InventoryStoreTransactions.js
 	 * @description Builds atomic drafts and complete model-backed starting equipment.
 	 * The Awtsmoos joins ownership, tefillin, clothing, weapon, cost, and slot without partial truth;
 	 * Awtsmoos.com starts every visible canonical garment equipped because the Bag already owns it.
 	 */
+=======
+var validatePlayerActionDefinition = __awtsmoosModule_95.validatePlayerActionDefinition;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 	var REQUIRED_GARMENT_EQUIPMENT = __awtsmoosModule_161.REQUIRED_GARMENT_EQUIPMENT;
 	var STARTER_INVENTORY = __awtsmoosModule_160.STARTER_INVENTORY;
@@ -13833,6 +14983,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 
+<<<<<<< HEAD
 	__exports.requireInventoryItem = requireInventoryItem;
 	function inventoryAdditionDraft(items, entries) {
 		if (!Array.isArray(entries)) {
@@ -13842,6 +14993,488 @@ const __awtsmoosModule_0 = Object.create(null);
 		for (const entry of entries) {
 			const definition = requireInventoryItem(entry?.itemId);
 			addInventoryItem(draft, definition.id, entry.quantity, definition);
+=======
+	forMessage(messageType) {
+		return this.byMessage.get(messageType) || null;
+	}
+
+	has(actionId) {
+		return this.byId.has(actionId);
+	}
+
+	list() {
+		return [...this.byId.values()].map(definition => ({
+			duration: definition.duration,
+			id: definition.id,
+			layer: definition.layer,
+			messageType: definition.messageType,
+			version: definition.version
+		}));
+	}
+}
+
+__exports.PlayerActionRegistry = PlayerActionRegistry;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/definitions/staff/StaffCastAction.js */
+__awtsmoosModule_97 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file StaffCastAction.js
+ * @description Defines a two-handed staff focus and release absent from the canonical GLB.
+ * The Awtsmoos creates support and direction as one deed; Awtsmoos.com keeps the staff
+ * message, equipment law, timing, and semantic-bone arc wholly separate from sword work.
+ */
+
+var PLAYER_ACTION_MESSAGES = __awtsmoosModule_96.PLAYER_ACTION_MESSAGES;
+
+const STAFF_CAST_ACTION = Object.freeze({
+	autoRelease: false,
+	duration: 1.35,
+	id: 'staff.cast',
+	keyframes: Object.freeze([
+		frame(0, {
+			leftArm: [-0.18, 0.02, -0.12],
+			leftForeArm: [-0.26, 0.02, 0.12],
+			rightArm: [-0.24, -0.04, 0.14],
+			rightForeArm: [-0.34, -0.04, -0.12],
+			spine2: [-0.03, 0.02, 0]
+		}),
+		frame(0.24, {
+			leftArm: [-0.48, 0.08, -0.28],
+			leftForeArm: [-0.72, 0.12, 0.22],
+			leftHand: [-0.12, 0.2, 0.08],
+			rightArm: [-0.56, -0.08, 0.26],
+			rightForeArm: [-0.78, -0.1, -0.18],
+			rightHand: [-0.14, -0.22, -0.08],
+			spine2: [-0.09, 0.08, 0]
+		}),
+		frame(0.58, {
+			head: [0.03, 0.1, 0],
+			leftArm: [-0.68, 0.1, -0.34],
+			leftForeArm: [-0.92, 0.14, 0.3],
+			leftHand: [-0.2, 0.32, 0.12],
+			neck: [0.05, 0.08, 0],
+			rightArm: [-0.74, -0.12, 0.34],
+			rightForeArm: [-0.96, -0.14, -0.26],
+			rightHand: [-0.22, -0.34, -0.1],
+			spine1: [-0.05, 0, 0],
+			spine2: [-0.15, 0.09, 0]
+		}),
+		frame(0.82, {
+			head: [0.02, -0.08, 0],
+			leftArm: [-0.42, 0.16, -0.18],
+			leftForeArm: [-0.66, 0.1, 0.12],
+			rightArm: [-0.98, -0.1, 0.1],
+			rightForeArm: [-0.3, -0.06, -0.04],
+			rightHand: [-0.06, -0.26, 0],
+			spine2: [-0.19, -0.08, 0]
+		}),
+		frame(1, {})
+	]),
+	layer: 'upper-body',
+	messageType: PLAYER_ACTION_MESSAGES.staffCast,
+	priority: 50,
+	recovery: 0.24,
+	releaseAt: 0.82,
+	releaseEvent: 'player.action.staff.release',
+	requiredEquipment: Object.freeze({
+		itemIds: Object.freeze(['wooden-staff']),
+		slot: 'hand'
+	}),
+	version: 1
+});
+__exports.STAFF_CAST_ACTION = STAFF_CAST_ACTION;
+
+
+function frame(at, pose) {
+	return Object.freeze({ at, pose: Object.freeze(pose) });
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/definitions/sword/SwordCastAction.js */
+__awtsmoosModule_98 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file SwordCastAction.js
+ * @description Defines a charged sword guard, arc, and follow-through absent from the GLB.
+ * The Awtsmoos creates restraint and release together; Awtsmoos.com gives the Spark Blade
+ * its own message, equipment law, timing, and semantic-bone language apart from the staff.
+ */
+
+var PLAYER_ACTION_MESSAGES = __awtsmoosModule_96.PLAYER_ACTION_MESSAGES;
+
+const SWORD_CAST_ACTION = Object.freeze({
+	autoRelease: false,
+	duration: 1.05,
+	id: 'sword.cast',
+	keyframes: Object.freeze([
+		frame(0, {
+			rightArm: [-0.1, -0.12, 0.22],
+			rightForeArm: [-0.4, 0.04, -0.14],
+			rightHand: [-0.08, 0.12, 0.04],
+			spine2: [0.03, -0.06, 0]
+		}),
+		frame(0.2, {
+			head: [0, 0.08, 0],
+			leftArm: [-0.18, 0.1, -0.12],
+			rightArm: [0.16, -0.42, 0.56],
+			rightForeArm: [-0.78, 0.08, -0.22],
+			rightHand: [-0.12, 0.2, 0.1],
+			spine2: [0.1, -0.28, 0]
+		}),
+		frame(0.52, {
+			head: [0.02, 0.12, 0],
+			leftArm: [-0.28, 0.14, -0.18],
+			rightArm: [-0.18, -0.58, 0.62],
+			rightForeArm: [-0.92, 0.12, -0.2],
+			rightHand: [-0.16, 0.26, 0.12],
+			spine1: [0.05, -0.12, 0],
+			spine2: [0.12, -0.38, 0]
+		}),
+		frame(0.74, {
+			head: [0, -0.08, 0],
+			leftArm: [-0.12, -0.08, -0.06],
+			rightArm: [-1.08, 0.16, 0.06],
+			rightForeArm: [-0.14, -0.04, -0.02],
+			rightHand: [-0.05, -0.22, -0.06],
+			spine1: [-0.08, 0.12, 0],
+			spine2: [-0.22, 0.24, 0]
+		}),
+		frame(0.9, {
+			rightArm: [-0.62, 0.06, 0.14],
+			rightForeArm: [-0.34, 0, -0.08],
+			spine2: [-0.1, 0.12, 0]
+		}),
+		frame(1, {})
+	]),
+	layer: 'upper-body',
+	messageType: PLAYER_ACTION_MESSAGES.swordCast,
+	priority: 55,
+	recovery: 0.28,
+	releaseAt: 0.74,
+	releaseEvent: 'player.action.sword.release',
+	requiredEquipment: Object.freeze({
+		itemIds: Object.freeze(['spark-blade']),
+		slot: 'hand'
+	}),
+	version: 1
+});
+__exports.SWORD_CAST_ACTION = SWORD_CAST_ACTION;
+
+
+function frame(at, pose) {
+	return Object.freeze({ at, pose: Object.freeze(pose) });
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/BuiltInPlayerActions.js */
+__awtsmoosModule_93 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file BuiltInPlayerActions.js
+ * @description Registers the first custom actions without altering imported GLB clips.
+ * The Awtsmoos creates distinct staff and sword possibility; Awtsmoos.com presents one
+ * registry doorway through which later validated AI-authored actions may also enter.
+ */
+
+var PlayerActionRegistry = __awtsmoosModule_94.PlayerActionRegistry;
+var STAFF_CAST_ACTION = __awtsmoosModule_97.STAFF_CAST_ACTION;
+var SWORD_CAST_ACTION = __awtsmoosModule_98.SWORD_CAST_ACTION;
+
+function createBuiltInPlayerActionRegistry() {
+	return new PlayerActionRegistry([
+		STAFF_CAST_ACTION,
+		SWORD_CAST_ACTION
+	]);
+}
+
+__exports.createBuiltInPlayerActionRegistry = createBuiltInPlayerActionRegistry;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerPoseLibrary.js */
+__awtsmoosModule_101 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowPlayerPoseLibrary.js
+ * @description Declares finite Mixamo roles and deliberate cast, melee, and hit gestures.
+ * The Awtsmoos gives every shoulder and hand a measured turn; Awtsmoos.com keeps static pose data
+ * immutable, shared, inspectable, and separate from the runtime binder that applies it each frame.
+ */
+
+const MINIMAL_MEADOW_BONE_ROLES = Object.freeze({
+	head: 'mixamorighead',
+	leftArm: 'mixamorigleftarm',
+	leftForeArm: 'mixamorigleftforearm',
+	leftHand: 'mixamoriglefthand',
+	leftShoulder: 'mixamorigleftshoulder',
+	neck: 'mixamorigneck',
+	rightArm: 'mixamorigrightarm',
+	rightForeArm: 'mixamorigrightforearm',
+	rightHand: 'mixamorigrighthand',
+	rightShoulder: 'mixamorigrightshoulder',
+	spine: 'mixamorigspine',
+	spine1: 'mixamorigspine1',
+	spine2: 'mixamorigspine2'
+});
+__exports.MINIMAL_MEADOW_BONE_ROLES = MINIMAL_MEADOW_BONE_ROLES;
+
+
+const MINIMAL_MEADOW_PLAYER_POSES = Object.freeze({
+	'cast-windup': Object.freeze([
+		['spine2', -0.08, 0.12, 0], ['leftShoulder', -0.26, 0, -0.34],
+		['leftArm', -0.42, 0.05, -0.2], ['leftForeArm', -0.68, 0.08, 0.2],
+		['leftHand', -0.12, 0.22, 0.08], ['rightShoulder', -0.2, 0, 0.34],
+		['rightArm', -0.52, -0.04, 0.24], ['rightForeArm', -0.72, -0.08, -0.16],
+		['rightHand', -0.16, -0.24, -0.08], ['neck', 0.04, 0.08, 0],
+		['head', 0.02, 0.1, 0]
+	]),
+	'cast-channel': Object.freeze([
+		['spine1', -0.06, 0, 0], ['spine2', -0.14, 0.08, 0],
+		['leftShoulder', -0.32, 0, -0.42], ['leftArm', -0.62, 0.08, -0.28],
+		['leftForeArm', -0.88, 0.12, 0.28], ['leftHand', -0.2, 0.3, 0.12],
+		['rightShoulder', -0.3, 0, 0.42], ['rightArm', -0.66, -0.08, 0.3],
+		['rightForeArm', -0.9, -0.12, -0.24], ['rightHand', -0.22, -0.32, -0.1],
+		['neck', 0.06, 0.1, 0], ['head', 0.04, 0.14, 0]
+	]),
+	'cast-release': Object.freeze([
+		['spine2', -0.18, -0.08, 0], ['leftArm', -0.46, 0.18, -0.2],
+		['leftForeArm', -0.74, 0.12, 0.16], ['rightShoulder', -0.24, 0, 0.28],
+		['rightArm', -0.92, -0.12, 0.12], ['rightForeArm', -0.34, -0.08, -0.06],
+		['rightHand', -0.08, -0.28, 0], ['neck', 0.02, -0.08, 0],
+		['head', 0.02, -0.12, 0]
+	]),
+	'melee-windup': Object.freeze([
+		['spine2', 0.08, -0.24, 0], ['rightShoulder', -0.12, 0, 0.22],
+		['rightArm', 0.12, -0.32, 0.48], ['rightForeArm', -0.72, 0.06, -0.2],
+		['rightHand', -0.1, 0.14, 0.08], ['head', 0, 0.12, 0]
+	]),
+	'melee-impact': Object.freeze([
+		['spine2', -0.18, 0.18, 0], ['rightShoulder', -0.28, 0, 0.12],
+		['rightArm', -0.98, 0.08, 0.08], ['rightForeArm', -0.18, 0, -0.04],
+		['rightHand', -0.08, -0.18, 0], ['head', 0, -0.08, 0]
+	]),
+	'melee-recovery': Object.freeze([
+		['spine2', -0.08, 0.08, 0], ['rightArm', -0.42, 0, 0.16],
+		['rightForeArm', -0.44, 0, -0.08]
+	]),
+	'hit-reaction': Object.freeze([
+		['spine1', 0.18, 0, 0.12], ['spine2', 0.26, -0.12, 0],
+		['head', 0.14, 0.1, 0.08]
+	])
+});
+__exports.MINIMAL_MEADOW_PLAYER_POSES = MINIMAL_MEADOW_PLAYER_POSES;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowPlayerPoseMath.js */
+__awtsmoosModule_100 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowPlayerPoseMath.js
+ * @description Resolves bone roles, phase weights, and allocation-free additive quaternion turns.
+ * The Awtsmoos joins imported pose and deliberate gesture in one normalized vessel; Awtsmoos.com
+ * keeps trigonometry, easing, and naming outside the cached binder's smaller responsibility.
+ */
+
+var ROLES = __awtsmoosModule_101.MINIMAL_MEADOW_BONE_ROLES;
+
+function minimalMeadowBoneRole(name) {
+	const normalized = String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+	return Object.keys(ROLES).find(role => ROLES[role] === normalized) || '';
+}
+
+
+__exports.minimalMeadowBoneRole = minimalMeadowBoneRole;
+function minimalMeadowPoseAmount(controller) {
+	const ratio = controller.duration && Number.isFinite(controller.duration)
+		? Math.min(1, controller.elapsed / controller.duration)
+		: controller.progress;
+	if (controller.state === 'cast-windup') {
+		return smooth(Math.min(1, controller.progress / 0.3));
+	}
+	if (controller.state === 'cast-channel') {
+		return 0.95 + Math.sin(controller.elapsed * 8) * 0.05;
+	}
+	if (controller.state === 'cast-release') return 1 - ratio * 0.3;
+	if (controller.state === 'hit-reaction') return Math.sin(Math.PI * ratio);
+	if (controller.state.endsWith('recovery')) return 1 - smooth(ratio);
+	return smooth(ratio || 1);
+}
+
+
+__exports.minimalMeadowPoseAmount = minimalMeadowPoseAmount;
+function applyMinimalMeadowEuler(node, x, y, z) {
+	if (!node) return;
+	const halfX = x * 0.5;
+	const halfY = y * 0.5;
+	const halfZ = z * 0.5;
+	const sinX = Math.sin(halfX);
+	const cosX = Math.cos(halfX);
+	const sinY = Math.sin(halfY);
+	const cosY = Math.cos(halfY);
+	const sinZ = Math.sin(halfZ);
+	const cosZ = Math.cos(halfZ);
+	const offsetX = sinX * cosY * cosZ + cosX * sinY * sinZ;
+	const offsetY = cosX * sinY * cosZ - sinX * cosY * sinZ;
+	const offsetZ = cosX * cosY * sinZ + sinX * sinY * cosZ;
+	const offsetW = cosX * cosY * cosZ - sinX * sinY * sinZ;
+	const quaternion = node.quaternion;
+	const sourceX = quaternion.x;
+	const sourceY = quaternion.y;
+	const sourceZ = quaternion.z;
+	const sourceW = quaternion.w;
+	quaternion.set(
+		sourceW * offsetX + sourceX * offsetW + sourceY * offsetZ - sourceZ * offsetY,
+		sourceW * offsetY - sourceX * offsetZ + sourceY * offsetW + sourceZ * offsetX,
+		sourceW * offsetZ + sourceX * offsetY - sourceY * offsetX + sourceZ * offsetW,
+		sourceW * offsetW - sourceX * offsetX - sourceY * offsetY - sourceZ * offsetZ
+	);
+}
+
+
+__exports.applyMinimalMeadowEuler = applyMinimalMeadowEuler;
+function smooth(value) {
+	return value * value * (3 - 2 * value);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBoneResolver.js */
+__awtsmoosModule_102 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionBoneResolver.js
+ * @description Resolves semantic roles against one hydrated Mixamo-compatible skeleton.
+ * The Awtsmoos is not divided by bone names; Awtsmoos.com translates finite exporter
+ * spellings once so custom actions remain portable, inspectable, and actor-neutral.
+ */
+
+const ROLE_SUFFIXES = Object.freeze({
+	hips: ['hips'],
+	spine: ['spine'],
+	spine1: ['spine1'],
+	spine2: ['spine2'],
+	neck: ['neck'],
+	head: ['head'],
+	leftShoulder: ['leftshoulder'],
+	leftArm: ['leftarm', 'leftupperarm'],
+	leftForeArm: ['leftforearm', 'leftlowerarm'],
+	leftHand: ['lefthand'],
+	rightShoulder: ['rightshoulder'],
+	rightArm: ['rightarm', 'rightupperarm'],
+	rightForeArm: ['rightforearm', 'rightlowerarm'],
+	rightHand: ['righthand'],
+	leftUpLeg: ['leftupleg', 'leftupperleg'],
+	leftLeg: ['leftleg', 'leftlowerleg'],
+	leftFoot: ['leftfoot'],
+	rightUpLeg: ['rightupleg', 'rightupperleg'],
+	rightLeg: ['rightleg', 'rightlowerleg'],
+	rightFoot: ['rightfoot']
+});
+
+function resolvePlayerActionBones(model) {
+	const records = {};
+	const ambiguities = {};
+	model?.traverse?.(node => {
+		const normalized = normalizeBoneName(node.name);
+		for (const [role, suffixes] of Object.entries(ROLE_SUFFIXES)) {
+			if (!suffixes.some(suffix => normalized.endsWith(suffix))) {
+				continue;
+			}
+			if (records[role]) {
+				ambiguities[role] ||= [records[role].name];
+				ambiguities[role].push(node.name || '');
+				continue;
+			}
+			records[role] = node;
+		}
+	});
+	return {
+		ambiguities,
+		records,
+		roles: Object.keys(records)
+	};
+}
+
+
+__exports.resolvePlayerActionBones = resolvePlayerActionBones;
+function normalizeBoneName(name) {
+	return String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+__exports.normalizeBoneName = normalizeBoneName;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionActor.js */
+__awtsmoosModule_99 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionActor.js
+ * @description Applies custom action rotations from immutable bind-pose quaternions.
+ * The Awtsmoos creates base and gesture without cumulative distortion; Awtsmoos.com keeps
+ * every unsampled arm from multiplying yesterday's offset into a visible T-pose.
+ */
+
+var applyMinimalMeadowEuler = __awtsmoosModule_100.applyMinimalMeadowEuler;
+var resolvePlayerActionBones = __awtsmoosModule_102.resolvePlayerActionBones;
+
+class PlayerActionActor {
+	constructor(options) {
+		this.id = options.id || 'actor';
+		this.bus = options.bus || null;
+		this.equipment = options.equipment || null;
+		this.model = null;
+		this.bones = {};
+		this.bindQuaternions = {};
+		this.ambiguities = {};
+		this.bindModel(options.model);
+	}
+
+	bindModel(model) {
+		this.model = model || null;
+		const result = resolvePlayerActionBones(model);
+		this.bones = result.records;
+		this.ambiguities = result.ambiguities;
+		this.bindQuaternions = Object.fromEntries(
+			Object.entries(this.bones).map(([role, node]) => [
+				role,
+				quaternionRecord(node.quaternion)
+			])
+		);
+		return this.diagnostics();
+	}
+
+	equipped(slot) {
+		if (typeof this.equipment?.equipped === 'function') {
+			return this.equipment.equipped(slot);
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		}
 		return draft;
 	}
@@ -13868,12 +15501,84 @@ const __awtsmoosModule_0 = Object.create(null);
 			...REQUIRED_GARMENT_EQUIPMENT,
 			...(equipment || {})
 		};
+<<<<<<< HEAD
 		for (const [slot, itemId] of Object.entries(supplied)) {
 			const definition = inventoryDefinition(itemId);
 			const owned = inventoryItemQuantity(items, itemId) > 0;
 			if (definition?.slot === slot && owned) {
 				result[slot] = itemId;
 			}
+=======
+	}
+}
+
+
+__exports.PlayerActionActor = PlayerActionActor;
+function quaternionRecord(quaternion = {}) {
+	return Object.freeze({
+		w: Number.isFinite(quaternion.w) ? quaternion.w : 1,
+		x: Number(quaternion.x) || 0,
+		y: Number(quaternion.y) || 0,
+		z: Number(quaternion.z) || 0
+	});
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionMessageBridge.js */
+__awtsmoosModule_103 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionMessageBridge.js
+ * @description Translates real combat lifecycle into distinct staff and sword action messages.
+ * The Awtsmoos is one before weapon and spell; Awtsmoos.com preserves separate public
+ * contracts while letting future AI messages enter the same validated action runtime.
+ */
+
+var PLAYER_ACTION_MESSAGES = __awtsmoosModule_96.PLAYER_ACTION_MESSAGES;
+
+class PlayerActionMessageBridge {
+	constructor(options) {
+		this.bus = options.bus;
+		this.equipment = options.equipment;
+		this.runtime = options.runtime;
+		this.activeMessageType = null;
+		this.unsubscribers = [];
+		this.install();
+	}
+
+	install() {
+		this.listen('combat:cast-start', detail => this.beginCombatAction(detail));
+		this.listen('combat:cast-progress', detail => this.progressCombatAction(detail));
+		this.listen('combat:cast-launch', detail => this.finishCombatAction(detail));
+		this.listen('combat:cast-cancel', detail => this.cancelCombatAction(detail));
+		this.listen(PLAYER_ACTION_MESSAGES.staffCast, detail => {
+			this.runtime.dispatch({ ...detail, type: PLAYER_ACTION_MESSAGES.staffCast });
+		});
+		this.listen(PLAYER_ACTION_MESSAGES.swordCast, detail => {
+			this.runtime.dispatch({ ...detail, type: PLAYER_ACTION_MESSAGES.swordCast });
+		});
+		this.listen(PLAYER_ACTION_MESSAGES.dispatch, detail => {
+			this.runtime.dispatch(detail);
+		});
+	}
+
+	beginCombatAction(detail) {
+		this.activeMessageType = messageForEquipment(this.equipment);
+		this.bus.emit(this.activeMessageType, {
+			...detail,
+			phase: 'start',
+			source: 'combat'
+		});
+	}
+
+	progressCombatAction(detail) {
+		if (!this.activeMessageType) {
+			return;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		}
 		return result;
 	}
@@ -13889,12 +15594,29 @@ const __awtsmoosModule_0 = Object.create(null);
 	// Boruch Hashem
 	// Blessed is He
 
+<<<<<<< HEAD
 	/**
 	 * @file InventoryStoreMutation.js
 	 * @description Applies atomic stack, equipment, purchase, and appearance mutations.
 	 * The Awtsmoos gives each carried vessel a lawful transition; Awtsmoos.com
 	 * reconciles ownership, required garments, slots, prices, colors, and fabrics before publication.
 	 */
+=======
+__exports.PlayerActionMessageBridge = PlayerActionMessageBridge;
+function messageForEquipment(equipment) {
+	return equipment?.weaponItemId === 'spark-blade'
+		? PLAYER_ACTION_MESSAGES.swordCast
+		: PLAYER_ACTION_MESSAGES.staffCast;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeState.js */
+__awtsmoosModule_106 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 	var cycleInventoryAppearance = __awtsmoosModule_159.cycleInventoryAppearance;
 	var setInventoryAppearance = __awtsmoosModule_159.setInventoryAppearance;
@@ -13966,15 +15688,774 @@ const __awtsmoosModule_0 = Object.create(null);
 			itemId,
 			dimension
 		);
+<<<<<<< HEAD
 		return store.publish();
+=======
+	} else {
+		action.elapsed += delta;
+		const timedProgress = bounded(action.elapsed / action.duration);
+		action.progress = Math.max(action.progress, timedProgress, action.externalProgress);
+		action.weight = Math.min(1, action.weight + delta * 10);
+	}
+	return {
+		finished: action.phase === 'recovering' && action.weight <= 0,
+		progress: action.progress,
+		releaseDue: action.definition.autoRelease !== false
+			&& !action.released
+			&& action.progress >= action.definition.releaseAt,
+		timelineComplete: action.progress >= 1 && action.phase === 'playing'
+	};
+}
+
+
+__exports.advancePlayerActionState = advancePlayerActionState;
+function beginPlayerActionRecovery(action, cancelReason = null) {
+	if (!action || action.phase === 'recovering') {
+		return action;
+	}
+	action.phase = 'recovering';
+	action.recoveryElapsed = 0;
+	action.recoveryStartWeight = action.weight;
+	action.cancelReason = cancelReason;
+	return action;
+}
+
+
+__exports.beginPlayerActionRecovery = beginPlayerActionRecovery;
+function playerActionStateSnapshot(action) {
+	return {
+		activeActionId: action?.definition.id || null,
+		cancelReason: action?.cancelReason || null,
+		elapsed: action?.elapsed || 0,
+		phase: action?.phase || 'idle',
+		progress: action?.progress || 0,
+		releaseCount: action?.releaseCount || 0,
+		weight: action?.weight || 0
+	};
+}
+
+
+__exports.playerActionStateSnapshot = playerActionStateSnapshot;
+function boundedPlayerActionProgress(value) {
+	return bounded(value);
+}
+
+
+__exports.boundedPlayerActionProgress = boundedPlayerActionProgress;
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? number : fallback;
+}
+
+function bounded(value) {
+	return Math.max(0, Math.min(1, Number(value) || 0));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskLifecycle.js */
+__awtsmoosModule_105 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionBodyMaskLifecycle.js
+ * @description Emits singular releases and shapes inspectable runtime receipts.
+ * The Awtsmoos is one before event and record; Awtsmoos.com keeps finite lifecycle
+ * bookkeeping outside the quaternion vessel so each module reveals one responsibility.
+ */
+
+var playerActionStateSnapshot = __awtsmoosModule_106.playerActionStateSnapshot;
+
+function emitPlayerActionRelease(runtime, message = {}) {
+	const action = runtime.active;
+	if (!action || action.released) {
+		return false;
+	}
+	action.released = true;
+	action.releaseCount += 1;
+	runtime.bus?.emit?.(action.definition.releaseEvent, {
+		actionId: action.definition.id,
+		actorId: runtime.actor.id,
+		message,
+		sequence: action.sequence
+	});
+	return true;
+}
+
+
+__exports.emitPlayerActionRelease = emitPlayerActionRelease;
+function playerActionResultRecord(actionId, result, reason = null) {
+	return { actionId, reason, result };
+}
+
+
+__exports.playerActionResultRecord = playerActionResultRecord;
+function playerActionRuntimeSnapshot(runtime) {
+	return {
+		...playerActionStateSnapshot(runtime.active),
+		actor: runtime.actor.diagnostics(),
+		composition: runtime.composition.diagnostics(),
+		lastResult: runtime.lastResult,
+		sequence: runtime.sequence
+	};
+}
+
+__exports.playerActionRuntimeSnapshot = playerActionRuntimeSnapshot;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskMath.js */
+__awtsmoosModule_109 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionBodyMaskMath.js
+ * @description Constrains additive turns and composes them from a supplied imported base.
+ * The Awtsmoos is unlimited while a creature's neck is measured; Awtsmoos.com gives each
+ * quaternion a normalized vessel so repeated revelation never becomes accumulated distortion.
+ */
+
+const LIMITS = Object.freeze({
+	head: 0.12,
+	neck: 0.12,
+	spine: 0.35,
+	spine1: 0.45,
+	spine2: 0.45,
+	leftShoulder: 1.2,
+	rightShoulder: 1.2,
+	leftArm: 1.8,
+	rightArm: 1.8,
+	leftForeArm: 2,
+	rightForeArm: 2,
+	leftHand: 1.2,
+	rightHand: 1.2
+});
+
+function constrainedPlayerActionEuler(role, rotation, weight, target) {
+	const limit = LIMITS[role] || 0;
+	const amount = Math.max(0, Math.min(1, Number(weight) || 0));
+	for (let index = 0; index < 3; index += 1) {
+		const value = Number(rotation?.[index]) || 0;
+		target[index] = Math.max(-limit, Math.min(limit, value)) * amount;
+	}
+	return target;
+}
+
+
+__exports.constrainedPlayerActionEuler = constrainedPlayerActionEuler;
+function setPlayerActionQuaternionFromEuler(node, base, rotation) {
+	const halfX = rotation[0] * 0.5;
+	const halfY = rotation[1] * 0.5;
+	const halfZ = rotation[2] * 0.5;
+	const sinX = Math.sin(halfX);
+	const cosX = Math.cos(halfX);
+	const sinY = Math.sin(halfY);
+	const cosY = Math.cos(halfY);
+	const sinZ = Math.sin(halfZ);
+	const cosZ = Math.cos(halfZ);
+	const ox = sinX * cosY * cosZ + cosX * sinY * sinZ;
+	const oy = cosX * sinY * cosZ - sinX * cosY * sinZ;
+	const oz = cosX * cosY * sinZ + sinX * sinY * cosZ;
+	const ow = cosX * cosY * cosZ - sinX * sinY * sinZ;
+	const x = base.w * ox + base.x * ow + base.y * oz - base.z * oy;
+	const y = base.w * oy - base.x * oz + base.y * ow + base.z * ox;
+	const z = base.w * oz + base.x * oy - base.y * ox + base.z * ow;
+	const w = base.w * ow - base.x * ox - base.y * oy - base.z * oz;
+	const length = Math.hypot(x, y, z, w) || 1;
+	node.quaternion.set(x / length, y / length, z / length, w / length);
+}
+
+
+__exports.setPlayerActionQuaternionFromEuler = setPlayerActionQuaternionFromEuler;
+function playerActionQuaternionDistanceSquared(left, right) {
+	const direct = square(left.x - right.x)
+		+ square(left.y - right.y)
+		+ square(left.z - right.z)
+		+ square(left.w - right.w);
+	const negated = square(left.x + right.x)
+		+ square(left.y + right.y)
+		+ square(left.z + right.z)
+		+ square(left.w + right.w);
+	return Math.min(direct, negated);
+}
+
+
+__exports.playerActionQuaternionDistanceSquared = playerActionQuaternionDistanceSquared;
+function square(value) {
+	return value * value;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMask.js */
+__awtsmoosModule_108 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionBodyMask.js
+ * @description Applies custom poses only to a bounded semantic upper-body mask.
+ * The Awtsmoos fills every limb without confusing its purpose; Awtsmoos.com permits the
+ * spine and hands to cast while root, hips, and legs remain faithful to imported locomotion.
+ */
+
+var constrainedPlayerActionEuler = __awtsmoosModule_109.constrainedPlayerActionEuler;
+var playerActionQuaternionDistanceSquared = __awtsmoosModule_109.playerActionQuaternionDistanceSquared;
+var setPlayerActionQuaternionFromEuler = __awtsmoosModule_109.setPlayerActionQuaternionFromEuler;
+
+const PLAYER_ACTION_UPPER_BODY_ROLES = Object.freeze([
+	'spine', 'spine1', 'spine2', 'neck', 'head',
+	'leftShoulder', 'leftArm', 'leftForeArm', 'leftHand',
+	'rightShoulder', 'rightArm', 'rightForeArm', 'rightHand'
+]);
+__exports.PLAYER_ACTION_UPPER_BODY_ROLES = PLAYER_ACTION_UPPER_BODY_ROLES;
+
+
+const ROLE_SET = new Set(PLAYER_ACTION_UPPER_BODY_ROLES);
+const WORK_EULER = [0, 0, 0];
+
+function capturePlayerActionBasePose(actor, target = new Map()) {
+	for (const role of PLAYER_ACTION_UPPER_BODY_ROLES) {
+		const quaternion = actor.bones?.[role]?.quaternion;
+		if (!quaternion) {
+			target.delete(role);
+			continue;
+		}
+		const record = target.get(role) || {};
+		Object.assign(record, quaternionRecord(quaternion));
+		target.set(role, record);
+	}
+	return target;
+}
+
+
+__exports.capturePlayerActionBasePose = capturePlayerActionBasePose;
+function restorePlayerActionBasePose(actor, basePose) {
+	for (const [role, base] of basePose) {
+		actor.bones?.[role]?.quaternion?.set(base.x, base.y, base.z, base.w);
+	}
+}
+
+
+__exports.restorePlayerActionBasePose = restorePlayerActionBasePose;
+function applyPlayerActionBodyMask(actor, basePose, pose, weight) {
+	restorePlayerActionBasePose(actor, basePose);
+	let applied = 0;
+	let filtered = 0;
+	for (const [role, rotation] of pose) {
+		const node = actor.bones?.[role];
+		const base = basePose.get(role);
+		if (!ROLE_SET.has(role) || !node || !base) {
+			filtered += 1;
+			continue;
+		}
+		constrainedPlayerActionEuler(role, rotation, weight, WORK_EULER);
+		setPlayerActionQuaternionFromEuler(node, base, WORK_EULER);
+		applied += 1;
+	}
+	return { applied, filtered };
+}
+
+
+__exports.applyPlayerActionBodyMask = applyPlayerActionBodyMask;
+function recordPlayerActionPose(actor, target = new Map()) {
+	return capturePlayerActionBasePose(actor, target);
+}
+
+
+__exports.recordPlayerActionPose = recordPlayerActionPose;function playerActionPoseMatches(actor, records, tolerance = 1e-12) {
+	if (!records.size) {
+		return false;
+	}
+	for (const [role, record] of records) {
+		const current = actor.bones?.[role]?.quaternion;
+		if (!current || playerActionQuaternionDistanceSquared(current, record) > tolerance) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function quaternionRecord(quaternion) {
+	return {
+		w: Number.isFinite(quaternion.w) ? quaternion.w : 1,
+		x: Number(quaternion.x) || 0,
+		y: Number(quaternion.y) || 0,
+		z: Number(quaternion.z) || 0
+	};
+}
+
+__exports.playerActionPoseMatches = playerActionPoseMatches;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskRuntime.js */
+__awtsmoosModule_107 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionBodyMaskRuntime.js
+ * @description Preserves fresh imported samples and rejects prior-frame overlay accumulation.
+ * The Awtsmoos creates every frame anew; Awtsmoos.com distinguishes the new locomotion base
+ * from the old gesture so recovery returns to moving truth instead of a frozen bind pose.
+ */
+
+var applyPlayerActionBodyMask = __awtsmoosModule_108.applyPlayerActionBodyMask;
+var capturePlayerActionBasePose = __awtsmoosModule_108.capturePlayerActionBasePose;
+var playerActionPoseMatches = __awtsmoosModule_108.playerActionPoseMatches;
+var recordPlayerActionPose = __awtsmoosModule_108.recordPlayerActionPose;
+var restorePlayerActionBasePose = __awtsmoosModule_108.restorePlayerActionBasePose;
+
+class PlayerActionBodyMaskRuntime {
+	constructor(actor) {
+		this.actor = actor;
+		this.basePose = new Map();
+		this.appliedPose = new Map();
+		this.explicitCapture = false;
+		this.lastMask = { applied: 0, filtered: 0 };
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 
+<<<<<<< HEAD
 	__exports.cycleInventoryItemAppearance = cycleInventoryItemAppearance;
 	function reconcile(store) {
 		store.equipment = reconciledInventoryEquipment(
 			store.equipment,
 			store.items
+=======
+	apply(pose, weight) {
+		this.prepareBasePose();
+		this.lastMask = applyPlayerActionBodyMask(
+			this.actor,
+			this.basePose,
+			pose,
+			weight
+		);
+		recordPlayerActionPose(this.actor, this.appliedPose);
+		return this.lastMask;
+	}
+
+	restore() {
+		restorePlayerActionBasePose(this.actor, this.basePose);
+		this.appliedPose.clear();
+	}
+
+	diagnostics() {
+		return {
+			baseBones: this.basePose.size,
+			...this.lastMask
+		};
+	}
+
+	prepareBasePose() {
+		if (this.explicitCapture) {
+			this.explicitCapture = false;
+			return;
+		}
+		if (!this.basePose.size) {
+			this.captureImportedPose();
+			this.explicitCapture = false;
+			return;
+		}
+		if (this.appliedPose.size && !playerActionPoseMatches(this.actor, this.appliedPose)) {
+			capturePlayerActionBasePose(this.actor, this.basePose);
+		}
+	}
+}
+
+__exports.PlayerActionBodyMaskRuntime = PlayerActionBodyMaskRuntime;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionModelBinding.js */
+__awtsmoosModule_104 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionModelBinding.js
+ * @description Rebinds action authority when fallback or remote Chossid models are replaced.
+ * The Awtsmoos creates each actor beyond one temporary garment; Awtsmoos.com restores old bones,
+ * releases interrupted gestures, and lets the hydrated model receive a fresh upper-body vessel.
+ */
+
+var playerActionResultRecord = __awtsmoosModule_105.playerActionResultRecord;
+var PlayerActionBodyMaskRuntime = __awtsmoosModule_107.PlayerActionBodyMaskRuntime;
+
+/** Replaces the actor model without carrying old bone references or overlay state forward. */
+function bindPlayerActionModel(runtime, model) {
+	const interruptedActionId = runtime.active?.definition?.id || null;
+	runtime.composition.restore();
+	runtime.active = null;
+	const diagnostics = runtime.actor.bindModel(model);
+	runtime.composition = new PlayerActionBodyMaskRuntime(runtime.actor);
+	if (interruptedActionId) {
+		runtime.lastResult = playerActionResultRecord(
+			interruptedActionId,
+			'cancelled',
+			'model-rebound'
+		);
+	}
+	runtime.publish();
+	return {
+		...diagnostics,
+		interruptedActionId,
+		rebound: true
+	};
+}
+
+__exports.bindPlayerActionModel = bindPlayerActionModel;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionPoseSampler.js */
+__awtsmoosModule_111 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionPoseSampler.js
+ * @description Interpolates declarative semantic-bone keyframes without per-frame objects.
+ * The Awtsmoos unites beginning and completion; Awtsmoos.com reveals each measured instant
+ * through one reusable pose vessel instead of hidden imperative bone mutations.
+ */
+
+class PlayerActionPoseSampler {
+	constructor() {
+		this.output = new Map();
+	}
+
+	sample(definition, progress) {
+		const frames = definition.keyframes;
+		const value = Math.max(0, Math.min(1, Number(progress) || 0));
+		let rightIndex = 1;
+		while (rightIndex < frames.length - 1 && frames[rightIndex].at < value) {
+			rightIndex += 1;
+		}
+		const left = frames[rightIndex - 1];
+		const right = frames[rightIndex];
+		const span = Math.max(0.000001, right.at - left.at);
+		const amount = smooth((value - left.at) / span);
+		this.output.clear();
+		const roles = new Set([
+			...Object.keys(left.pose),
+			...Object.keys(right.pose)
+		]);
+		for (const role of roles) {
+			const start = left.pose[role] || ZERO;
+			const end = right.pose[role] || ZERO;
+			this.output.set(role, [
+				mix(start[0], end[0], amount),
+				mix(start[1], end[1], amount),
+				mix(start[2], end[2], amount)
+			]);
+		}
+		return this.output;
+	}
+}
+
+
+__exports.PlayerActionPoseSampler = PlayerActionPoseSampler;
+const ZERO = Object.freeze([0, 0, 0]);
+
+function mix(start, end, amount) {
+	return start + (end - start) * amount;
+}
+
+function smooth(value) {
+	const bounded = Math.max(0, Math.min(1, value));
+	return bounded * bounded * (3 - 2 * bounded);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeCommands.js */
+__awtsmoosModule_112 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionRuntimeCommands.js
+ * @description Validates phase routing and starts finite registered action records.
+ * The Awtsmoos is one before command and response; Awtsmoos.com separates message
+ * interpretation from bone application so future actions need no controller edits.
+ */
+
+var PLAYER_ACTION_PHASES = __awtsmoosModule_96.PLAYER_ACTION_PHASES;
+var boundedPlayerActionProgress = __awtsmoosModule_106.boundedPlayerActionProgress;
+var createPlayerActionState = __awtsmoosModule_106.createPlayerActionState;
+
+function dispatchPlayerAction(runtime, message = {}) {
+	if (!PLAYER_ACTION_PHASES.includes(message.phase)) {
+		return runtime.reject('ACTION_PHASE_INVALID', message);
+	}
+	const definition = runtime.registry.forMessage(message.type);
+	if (!definition) {
+		return runtime.reject('ACTION_MESSAGE_UNKNOWN', message);
+	}
+	if (message.phase === 'start') {
+		return startPlayerAction(runtime, definition, message);
+	}
+	if (!runtime.active || runtime.active.definition.id !== definition.id) {
+		return runtime.reject('ACTION_NOT_ACTIVE', message);
+	}
+	if (message.phase === 'progress') {
+		runtime.active.externalProgress = boundedPlayerActionProgress(message.progress);
+		return runtime.snapshot();
+	}
+	if (message.phase === 'release') {
+		return runtime.release(message);
+	}
+	return runtime.cancel(message.reason || 'cancelled');
+}
+
+
+__exports.dispatchPlayerAction = dispatchPlayerAction;
+function startPlayerAction(runtime, definition, message) {
+	const permission = runtime.actor.canPerform(definition);
+	if (!permission.accepted) {
+		return runtime.reject(permission.reason, message);
+	}
+	if (runtime.active && definition.priority < runtime.active.definition.priority) {
+		return runtime.reject('ACTION_PRIORITY_BLOCKED', message);
+	}
+	if (runtime.active) {
+		runtime.cancel('replaced');
+	}
+	runtime.sequence += 1;
+	runtime.active = createPlayerActionState(definition, message, runtime.sequence);
+	runtime.publish();
+	return runtime.snapshot();
+}
+
+__exports.startPlayerAction = startPlayerAction;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntime.js */
+__awtsmoosModule_110 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionRuntime.js
+ * @description Composes registered actions over each fresh imported upper-body sample.
+ * The Awtsmoos renews locomotion and deed without rivalry; Awtsmoos.com keeps hips and legs
+ * untouched, release singular, cancellation smooth, and future registry actions inspectable.
+ */
+
+var PlayerActionBodyMaskRuntime = __awtsmoosModule_107.PlayerActionBodyMaskRuntime;
+var emitPlayerActionRelease = __awtsmoosModule_105.emitPlayerActionRelease;
+var playerActionResultRecord = __awtsmoosModule_105.playerActionResultRecord;
+var playerActionRuntimeSnapshot = __awtsmoosModule_105.playerActionRuntimeSnapshot;
+var PlayerActionPoseSampler = __awtsmoosModule_111.PlayerActionPoseSampler;
+var dispatchPlayerAction = __awtsmoosModule_112.dispatchPlayerAction;
+var advancePlayerActionState = __awtsmoosModule_106.advancePlayerActionState;
+var beginPlayerActionRecovery = __awtsmoosModule_106.beginPlayerActionRecovery;
+
+class PlayerActionRuntime {
+	constructor(options) {
+		this.actor = options.actor;
+		this.registry = options.registry;
+		this.bus = options.bus || null;
+		this.sampler = new PlayerActionPoseSampler();
+		this.composition = new PlayerActionBodyMaskRuntime(this.actor);
+		this.active = null;
+		this.sequence = 0;
+		this.lastResult = null;
+	}
+	dispatch(message = {}) {
+		return dispatchPlayerAction(this, message);
+	}
+	captureImportedPose() {
+		return this.composition.captureImportedPose();
+	}
+	update(deltaSeconds) {
+		const action = this.active;
+		if (!action) {
+			return;
+		}
+		const result = advancePlayerActionState(action, deltaSeconds);
+		const pose = this.sampler.sample(action.definition, result.progress);
+		this.composition.apply(pose, action.weight);
+		if (result.releaseDue) {
+			this.fireRelease({ source: 'timeline-threshold' });
+		}
+		if (result.timelineComplete) {
+			this.release({ source: 'timeline-complete' });
+		}
+		if (result.finished) {
+			this.complete(action.cancelReason ? 'cancelled' : 'completed');
+		}
+	}
+	release(message = {}) {
+		if (!this.active) {
+			return null;
+		}
+		this.fireRelease(message);
+		beginPlayerActionRecovery(this.active);
+		this.publish();
+		return this.snapshot();
+	}
+	cancel(reason) {
+		if (!this.active) {
+			return null;
+		}
+		beginPlayerActionRecovery(this.active, reason || 'cancelled');
+		this.lastResult = playerActionResultRecord(
+			this.active.definition.id,
+			'cancelled',
+			reason
+		);
+		this.publish();
+		return this.snapshot();
+	}
+	fireRelease(message = {}) {
+		return emitPlayerActionRelease(this, message);
+	}
+	complete(result) {
+		const actionId = this.active?.definition.id || null;
+		const reason = this.active?.cancelReason || null;
+		this.composition.restore();
+		this.lastResult = playerActionResultRecord(actionId, result, reason);
+		this.active = null;
+		this.publish();
+	}
+	reject(reason, message) {
+		this.lastResult = {
+			messageType: message?.type || null,
+			reason,
+			result: 'rejected'
+		};
+		this.publish();
+		return this.snapshot();
+	}
+	publish() {
+		this.bus?.emit?.('player:action-state', this.snapshot());
+	}
+	snapshot() {
+		return playerActionRuntimeSnapshot(this);
+	}
+	destroy() {
+		this.composition.restore();
+		this.active = null;
+	}
+}
+
+__exports.PlayerActionRuntime = PlayerActionRuntime;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionSystem.js */
+__awtsmoosModule_92 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PlayerActionSystem.js
+ * @description Installs an actor-neutral registry, runtime, model binding, and message bridge.
+ * The Awtsmoos joins model and deed without replacing either; Awtsmoos.com exposes narrow
+ * APIs for the player, fallback hydration, remote Chossids, and future independent actions.
+ */
+
+var createBuiltInPlayerActionRegistry = __awtsmoosModule_93.createBuiltInPlayerActionRegistry;
+var PlayerActionActor = __awtsmoosModule_99.PlayerActionActor;
+var PlayerActionMessageBridge = __awtsmoosModule_103.PlayerActionMessageBridge;
+var bindPlayerActionModel = __awtsmoosModule_104.bindPlayerActionModel;
+var PlayerActionRuntime = __awtsmoosModule_110.PlayerActionRuntime;
+
+function createPlayerActionSystem(options) {
+	const registry = options.registry || createBuiltInPlayerActionRegistry();
+	const actor = new PlayerActionActor({
+		bus: options.bus,
+		equipment: options.equipment,
+		id: options.actorId,
+		model: options.model
+	});
+	const runtime = new PlayerActionRuntime({
+		actor,
+		bus: options.bus,
+		registry
+	});
+	const bridge = options.bridge === false
+		? null
+		: new PlayerActionMessageBridge({
+			bus: options.bus,
+			equipment: options.equipment,
+			runtime
+		});
+	return {
+		actor,
+		bindModel: model => bindPlayerActionModel(runtime, model),
+		bridge,
+		destroy() {
+			bridge?.destroy();
+			runtime.destroy();
+		},
+		dispatch: message => runtime.dispatch(message),
+		register: definition => registry.register(definition),
+		registry,
+		runtime,
+		snapshot: () => runtime.snapshot(),
+		update: deltaSeconds => runtime.update(deltaSeconds)
+	};
+}
+
+__exports.createPlayerActionSystem = createPlayerActionSystem;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/ui/AwtsmoosEventBus.js */
+__awtsmoosModule_113 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file AwtsmoosEventBus.js
+ * @description Carries small gameplay intentions between buttons, runtime systems, and diagnostics.
+ * RESPONSIBILITY: subscribe, unsubscribe, emit, and retain a bounded recent event history.
+ * NON-RESPONSIBILITY: this bus does not interpret events or own gameplay state.
+ * ARCHITECTURE: Yesod transmits intent while Malchus receives it in concrete runtime systems.
+ * OROS AND KEILIM: intention is ohr; event names, details, and listeners are finite keilim.
+ * The Awtsmoos creates sender, message, and receiver anew; Awtsmoos.com keeps those vessels
+ * readable so camera switches and every other command remain inspectable rather than compressed.
+ */
+
+const HISTORY_LIMIT = 24;
+
+class AwtsmoosEventBus {
+	constructor() {
+		this.listeners = new Map();
+		this.history = [];
+	}
+
+	on(type, listener) {
+		const listeners = this.listeners.get(type) || [];
+		listeners.push(listener);
+		this.listeners.set(type, listeners);
+		return () => this.off(type, listener);
+	}
+
+	off(type, listener) {
+		const listeners = this.listeners.get(type) || [];
+		this.listeners.set(
+			type,
+			listeners.filter(candidate => candidate !== listener)
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		);
 	}
 
@@ -13987,6 +16468,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	// Boruch Hashem
 	// Blessed is He
 
+<<<<<<< HEAD
 	/**
 	 * @file TorahPassageCatalog.js
 	 * @description Defines short learning passages with bounded symbolic combat statistics.
@@ -14012,13 +16494,241 @@ const __awtsmoosModule_0 = Object.create(null);
 		])
 	]);
 	__exports.TORAH_BOOKS = TORAH_BOOKS;
+=======
+__exports.AwtsmoosEventBus = AwtsmoosEventBus;
+function currentTime() {
+	return typeof performance !== 'undefined'
+		? performance.now()
+		: Date.now();
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAnimationClipPolicy.js */
+__awtsmoosModule_114 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowAnimationClipPolicy.js
+ * @description Chooses imported clips while grounding outranks stale airborne labels.
+ * The Awtsmoos gives rise and return their truthful boundaries; Awtsmoos.com preserves
+ * genuine jump and fall in the air, yet never lets yesterday's fall possess grounded feet.
+ */
+
+const POLICIES = Object.freeze({
+	falling: [/^falling_Armature$/i, /fall/i],
+	jumping: [/^jump_Armature$/i, /jump/i],
+	running: [/^run_Armature$/i, /run/i],
+	standing: [/^stand_Armature$/i, /^stand 2_Armature$/i, /neutral/i],
+	walking: [/^walk_Armature$/i, /walk/i]
+});
+
+function minimalMeadowClipForState(names, stateName, options = {}) {
+	const patterns = policyFor(stateName, options.weaponKind);
+	return findFirst(names, patterns)
+		|| findFirst(names, POLICIES.standing)
+		|| names[0]
+		|| '';
+}
 
 
+__exports.minimalMeadowClipForState = minimalMeadowClipForState;
+function minimalMeadowLocomotionState(runtime) {
+	const state = runtime.state || {};
+	if (state.grounded === false) {
+		return risingAirPhase(state) ? 'jumping' : 'falling';
+	}
+	if (!state.moving) {
+		return 'standing';
+	}
+	return state.runMode ? 'running' : 'walking';
+}
+
+
+__exports.minimalMeadowLocomotionState = minimalMeadowLocomotionState;
+function minimalMeadowClipPolicyEvidence(names) {
+	return {
+		castBase: minimalMeadowClipForState(names, 'cast-channel'),
+		castUsesAttack: /punch|stab|attack/i.test(minimalMeadowClipForState(names, 'cast-channel')),
+		meleeBase: minimalMeadowClipForState(names, 'melee-impact'),
+		standingBase: minimalMeadowClipForState(names, 'standing')
+	};
+}
+
+
+__exports.minimalMeadowClipPolicyEvidence = minimalMeadowClipPolicyEvidence;
+function risingAirPhase(state) {
+	const phase = state.airPhase || state.action || '';
+	return phase === 'jump-one'
+		|| phase === 'jump-two'
+		|| Number(state.velY) > 0;
+}
+
+function policyFor(stateName, weaponKind) {
+	if (stateName.startsWith('cast-')) return POLICIES.standing;
+	if (stateName.startsWith('melee-')) {
+		return weaponKind === 'sword'
+			? [/^stab$/i, /^punch$/i]
+			: [/^punch$/i, /^stab$/i];
+	}
+	if (stateName === 'hit-reaction') return [/neutral/i, /^stand 2_Armature$/i];
+	if (stateName === 'death') return POLICIES.falling;
+	return POLICIES[stateName] || POLICIES.standing;
+}
+
+function findFirst(names, patterns) {
+	for (const pattern of patterns) {
+		const match = names.find(name => pattern.test(name));
+		if (match) return match;
+	}
+	return '';
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistrySupport.js */
+__awtsmoosModule_117 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowAttachmentRegistrySupport.js
+ * @description Supplies bounded ancestry and named-anchor evidence for attachment ownership.
+ * The Awtsmoos reveals relation through finite traversal; Awtsmoos.com keeps the registry small
+ * while model generation, descendant truth, and duplicate-anchor count remain directly provable.
+ */
+
+function minimalMeadowAttachmentIsDescendant(object, root) {
+	for (let current = object; current; current = current.parent) {
+		if (current === root) return true;
+	}
+	return false;
+}
+
+
+__exports.minimalMeadowAttachmentIsDescendant = minimalMeadowAttachmentIsDescendant;
+function countMinimalMeadowNamedNodes(root, name) {
+	let count = 0;
+	root?.traverse?.(node => {
+		if (node.name === name) count += 1;
+	});
+	return count;
+}
+
+__exports.countMinimalMeadowNamedNodes = countMinimalMeadowNamedNodes;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponPose.js */
+__awtsmoosModule_120 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowWeaponPose.js
+ * @description Defines calibrated hand and fallback transforms for visible equipped weapons.
+ * The Awtsmoos joins hand, grip, shaft, and blade through one measured pose; Awtsmoos.com keeps
+ * bootstrap and hydrated models truthful while the root fallback remains explicit and secondary.
+ */
+
+const POSES = Object.freeze({
+	hand: Object.freeze({
+		anchorDrawn: pose([0, 0, 0], [1, 1, 1], 0.04),
+		anchorSheathed: pose([0, 0, 0], [1, 1, 1], -0.42),
+		staffDrawn: pose([0, -0.2, 0], [0.56, 0.56, 0.56], 0),
+		staffSheathed: pose([0, -0.16, 0], [0.52, 0.52, 0.52], 0),
+		swordDrawn: pose([0, -0.25, 0], [0.58, 0.58, 0.58], -0.08),
+		swordSheathed: pose([0, -0.18, 0], [0.54, 0.54, 0.54], -0.58)
+	}),
+	root: Object.freeze({
+		anchorDrawn: pose([0.52, 1.06, 0.18], [1, 1, 1], 0.06),
+		anchorSheathed: pose([-0.32, 1.18, -0.2], [1, 1, 1], -0.72),
+		staffDrawn: pose([0, -0.28, 0], [0.62, 0.62, 0.62], 0),
+		staffSheathed: pose([0, -0.2, 0], [0.58, 0.58, 0.58], 0),
+		swordDrawn: pose([0, -0.18, 0], [0.6, 0.6, 0.6], -0.18),
+		swordSheathed: pose([0, -0.12, 0], [0.56, 0.56, 0.56], -0.72)
+	})
+});
+
+function minimalMeadowAnchorPose(domain, drawn) {
+	const family = POSES[domain] || POSES.root;
+	return family[drawn ? 'anchorDrawn' : 'anchorSheathed'];
+}
+
+
+__exports.minimalMeadowAnchorPose = minimalMeadowAnchorPose;
+function minimalMeadowWeaponPose(domain, kind, drawn) {
+	const family = POSES[domain] || POSES.root;
+	const weapon = kind === 'sword' ? 'sword' : 'staff';
+	return family[`${weapon}${drawn ? 'Drawn' : 'Sheathed'}`];
+}
+
+
+__exports.minimalMeadowWeaponPose = minimalMeadowWeaponPose;
+function applyMinimalMeadowPose(object, value) {
+	object.position.set(...value.position);
+	object.scale.set(...value.scale);
+	object.quaternion.set(...value.quaternion);
+	return object;
+}
+
+
+__exports.applyMinimalMeadowPose = applyMinimalMeadowPose;
+function pose(position, scale, roll) {
+	return Object.freeze({
+		position: Object.freeze(position),
+		quaternion: Object.freeze([
+			0,
+			0,
+			Math.sin(roll / 2),
+			Math.cos(roll / 2)
+		]),
+		scale: Object.freeze(scale)
+	});
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAnchor.js */
+__awtsmoosModule_119 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
+
+
+<<<<<<< HEAD
 	function torahBook(bookId) {
 		return TORAH_BOOKS.find(item => item.id === bookId) || null;
+=======
+var Group = __awtsmoosModule_7.Group;
+var applyMinimalMeadowPose = __awtsmoosModule_120.applyMinimalMeadowPose;
+var minimalMeadowAnchorPose = __awtsmoosModule_120.minimalMeadowAnchorPose;
+
+const ANCHOR_NAME = 'Awtsmoos_equipped_weapon_hand_anchor';
+
+function resolveMinimalMeadowWeaponAnchor(
+	nodes,
+	drawn = true,
+	generation = 0
+) {
+	const parent = nodes?.rightHand?.add ? nodes.rightHand : nodes?.modelRoot;
+	if (!parent?.add) return null;
+	const domain = parent === nodes.rightHand ? 'hand' : 'root';
+	let anchor = parent.children?.find?.(child => child.name === ANCHOR_NAME);
+	if (!anchor) {
+		anchor = new Group();
+		anchor.name = ANCHOR_NAME;
+		parent.add(anchor);
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 
+<<<<<<< HEAD
 	__exports.torahBook = torahBook;
 	function torahPassage(passageId) {
 		for (const bookValue of TORAH_BOOKS) {
@@ -14026,6 +16736,155 @@ const __awtsmoosModule_0 = Object.create(null);
 			if (found) return { ...found, bookId: bookValue.id, bookName: bookValue.name };
 		}
 		return null;
+=======
+__exports.resolveMinimalMeadowWeaponAnchor = resolveMinimalMeadowWeaponAnchor;
+function removeDuplicateMinimalMeadowWeaponAnchors(model, keep = null) {
+	const anchors = [];
+	model?.traverse?.(node => {
+		if (node.name === ANCHOR_NAME) anchors.push(node);
+	});
+	let removed = 0;
+	for (const anchor of anchors) {
+		if (anchor === keep) continue;
+		anchor.parent?.remove?.(anchor);
+		anchor.visible = false;
+		removed += 1;
+	}
+	return removed;
+}
+
+
+__exports.removeDuplicateMinimalMeadowWeaponAnchors = removeDuplicateMinimalMeadowWeaponAnchors;
+function applyAnchorTransform(anchor, drawn) {
+	const domain = anchor.userData?.AwtsmoosWeaponAnchor?.attachmentDomain || 'root';
+	applyMinimalMeadowPose(anchor, minimalMeadowAnchorPose(domain, drawn));
+	anchor.visible = true;
+	anchor.userData.AwtsmoosWeaponAnchor.drawn = Boolean(drawn);
+	return anchor;
+}
+
+
+__exports.applyAnchorTransform = applyAnchorTransform;
+const MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = ANCHOR_NAME;
+__exports.MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = MINIMAL_MEADOW_WEAPON_ANCHOR_NAME;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAttachment.js */
+__awtsmoosModule_118 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowWeaponAttachment.js
+ * @description Keeps one generation-owned weapon in one hand slot with calibrated visible pose.
+ * The Awtsmoos grants each tool one truthful bearer; Awtsmoos.com removes competing hand-slot
+ * objects, preserves hydration generation, and keeps staff or sword visible without per-frame churn.
+ */
+
+var resolveMinimalMeadowWeaponAnchor = __awtsmoosModule_119.resolveMinimalMeadowWeaponAnchor;
+var applyMinimalMeadowPose = __awtsmoosModule_120.applyMinimalMeadowPose;
+var minimalMeadowWeaponPose = __awtsmoosModule_120.minimalMeadowWeaponPose;
+
+const ACTIVE_WEAPON_BY_OWNER = new WeakMap();
+const OWNER_BY_WEAPON = new WeakMap();
+const HAND_SLOT = 'hand';
+
+function attachMinimalWeapon(weapon, nodes, drawn, options = {}) {
+	if (!weapon) return false;
+	const owner = nodes?.modelRoot;
+	const generation = Number(options.generation) || 0;
+	const anchor = resolveMinimalMeadowWeaponAnchor(nodes, drawn, generation);
+	if (!owner || !anchor) {
+		detachMinimalWeapon(weapon);
+		return false;
+	}
+	const previous = ACTIVE_WEAPON_BY_OWNER.get(owner);
+	if (previous && previous !== weapon) detachMinimalWeapon(previous);
+	removeCompetingHandObjects(anchor, weapon);
+	const domain = anchor.userData.AwtsmoosWeaponAnchor.attachmentDomain;
+	const kind = weapon.userData.weaponKind === 'sword' ? 'sword' : 'staff';
+	if (weapon.parent !== anchor) anchor.add(weapon);
+	applyMinimalMeadowPose(weapon, minimalMeadowWeaponPose(domain, kind, drawn));
+	weapon.visible = true;
+	weapon.traverse?.(node => {
+		if (node.isMesh || node.isSkinnedMesh) {
+			node.visible = true;
+			node.frustumCulled = false;
+		}
+	});
+	weapon.userData.AwtsmoosEquipmentSlot = HAND_SLOT;
+	weapon.userData.attachment = `${domain}-${drawn ? 'drawn' : 'sheathed'}`;
+	weapon.userData.attachmentGeneration = generation;
+	weapon.userData.attachmentParent = anchor.name;
+	weapon.userData.handBound = domain === 'hand';
+	ACTIVE_WEAPON_BY_OWNER.set(owner, weapon);
+	OWNER_BY_WEAPON.set(weapon, owner);
+	return true;
+}
+
+
+__exports.attachMinimalWeapon = attachMinimalWeapon;
+function detachMinimalWeapon(weapon) {
+	if (!weapon) return;
+	const owner = OWNER_BY_WEAPON.get(weapon);
+	if (owner && ACTIVE_WEAPON_BY_OWNER.get(owner) === weapon) {
+		ACTIVE_WEAPON_BY_OWNER.delete(owner);
+	}
+	OWNER_BY_WEAPON.delete(weapon);
+	weapon.parent?.remove?.(weapon);
+	weapon.visible = false;
+	weapon.userData.attachment = 'detached';
+	weapon.userData.attachmentGeneration = null;
+	weapon.userData.attachmentParent = null;
+	weapon.userData.handBound = false;
+}
+
+
+__exports.detachMinimalWeapon = detachMinimalWeapon;
+function removeCompetingHandObjects(anchor, weapon) {
+	for (const child of [...(anchor.children || [])]) {
+		if (child === weapon || child.userData?.AwtsmoosEquipmentSlot !== HAND_SLOT) continue;
+		anchor.remove?.(child);
+		child.visible = false;
+		child.userData.attachment = 'replaced';
+	}
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowAttachmentRegistry.js */
+__awtsmoosModule_116 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowAttachmentRegistry.js
+ * @description Owns one hand slot across model generations with cheap immediate repair.
+ * The Awtsmoos renews wearer, bone, anchor, and tool in one relation; Awtsmoos.com repairs an
+ * obvious detached staff instantly while deep ancestry and generation proof remain cadence-bound.
+ */
+
+var countMinimalMeadowNamedNodes = __awtsmoosModule_117.countMinimalMeadowNamedNodes;
+var minimalMeadowAttachmentIsDescendant = __awtsmoosModule_117.minimalMeadowAttachmentIsDescendant;
+var attachMinimalWeapon = __awtsmoosModule_118.attachMinimalWeapon;
+var detachMinimalWeapon = __awtsmoosModule_118.detachMinimalWeapon;
+var MINIMAL_MEADOW_WEAPON_ANCHOR_NAME = __awtsmoosModule_119.MINIMAL_MEADOW_WEAPON_ANCHOR_NAME;
+var resolveMinimalMeadowWeaponAnchor = __awtsmoosModule_119.resolveMinimalMeadowWeaponAnchor;
+
+const VALIDATION_INTERVAL = 15;
+
+class MinimalMeadowAttachmentRegistry {
+	constructor() {
+		this.generation = 0;
+		this.nodes = null;
+		this.anchor = null;
+		this.weapon = null;
+		this.validationFrame = 0;
+		this.repairs = 0;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 
@@ -14303,12 +17162,24 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+<<<<<<< HEAD
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/InventoryStore.js ----
 {
 	const __exports = __awtsmoosModule_157;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
+=======
+__exports.MinimalMeadowAttachmentRegistry = MinimalMeadowAttachmentRegistry;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatModifierKeys.js */
+__awtsmoosModule_124 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 	/**
 	 * @file InventoryStore.js
@@ -14317,6 +17188,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com delegates each responsibility without compressed hidden work.
 	 */
 
+<<<<<<< HEAD
 	var addInventoryEntries = __awtsmoosModule_158.addInventoryEntries;
 	var buyInventoryEntry = __awtsmoosModule_158.buyInventoryEntry;
 	var cycleInventoryItemAppearance = __awtsmoosModule_158.cycleInventoryItemAppearance;
@@ -14427,6 +17299,90 @@ const __awtsmoosModule_0 = Object.create(null);
 
 		publish() {
 			return publishInventoryStore(this);
+=======
+const EQUIPMENT_STAT_KEYS = Object.freeze([
+	"baseDamage",
+	"attackSpeed",
+	"reach",
+	"activeWindow",
+	"stagger",
+	"knockback",
+	"staminaCost",
+	"blockStrength",
+	"guardStamina",
+	"maxHealth",
+	"maxStamina",
+	"staminaRegeneration",
+	"maxFocus",
+	"focusRegeneration",
+	"movementSpeed",
+	"recoverySpeed",
+	"staggerResistance",
+	"physicalResistance",
+	"spiritualResistance",
+	"rangedResistance",
+	"areaResistance",
+	"castingStrength",
+	"cooldownReduction",
+	"perfectTiming",
+	"masteryGain",
+	"focusEfficiency",
+	"environmentalResistance",
+	"reputation",
+	"criticalChance"
+]);
+__exports.EQUIPMENT_STAT_KEYS = EQUIPMENT_STAT_KEYS;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/DerivedStatKeys.js */
+__awtsmoosModule_123 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file DerivedStatKeys.js
+ * @description Re-exports the canonical generated stat key order for projection diagnostics.
+ * The Awtsmoos renews every quality through one ordered vessel; Awtsmoos.com prevents
+ * client and server from naming, omitting, or totaling the same stat in divergent ways.
+ */
+
+var EQUIPMENT_STAT_KEYS = __awtsmoosModule_124.EQUIPMENT_STAT_KEYS;
+
+const DERIVED_STAT_KEYS = EQUIPMENT_STAT_KEYS;
+__exports.DERIVED_STAT_KEYS = DERIVED_STAT_KEYS;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/DerivedStatProjector.js */
+__awtsmoosModule_122 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file DerivedStatProjector.js
+ * @description Totals unique stat sources, categories, actions, and duplicate diagnostics.
+ * The Awtsmoos is one beyond addition; Awtsmoos.com nevertheless measures each finite
+ * equipped, learned, passive, and temporary vessel exactly once for truthful inspection.
+ */
+
+var DERIVED_STAT_KEYS = __awtsmoosModule_123.DERIVED_STAT_KEYS;
+
+function projectDerivedStats(sources = []) {
+	const values = emptyTotals();
+	const subtotals = {};
+	const acceptedSources = [];
+	const duplicateSourceIds = [];
+	const unlockedActions = new Set();
+	const seen = new Set();
+	for (const source of sources) {
+		const sourceKey = `${source.category}:${source.id}`;
+		if (seen.has(sourceKey)) {
+			duplicateSourceIds.push(sourceKey);
+			continue;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		}
 	}
 
@@ -14520,6 +17476,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	const ROLE_SET = new Set(PLAYER_ACTION_BONE_ROLES);
 	const LAYER_SET = new Set(PLAYER_ACTION_LAYERS);
 
+<<<<<<< HEAD
 	function validatePlayerActionDefinition(definition) {
 		requireText(definition?.id, 'ACTION_ID_REQUIRED');
 		requireText(definition?.messageType, 'ACTION_MESSAGE_REQUIRED');
@@ -14528,22 +17485,521 @@ const __awtsmoosModule_0 = Object.create(null);
 		requireNumber(definition?.releaseAt, 'ACTION_RELEASE_AT_REQUIRED', 0, 1);
 		if (!LAYER_SET.has(definition.layer)) {
 			throw new Error('ACTION_LAYER_INVALID');
+=======
+function deepFreeze(value) {
+	Object.values(value).forEach(entry => Object.freeze(entry));
+	return Object.freeze(value);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatCombatRecords.js */
+__awtsmoosModule_128 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file COMBAT_EQUIPMENT_STATS.js
+ * @description Generated readable equipment truth. Source SHA-256: e2138cbd55e34f510ac5a39c2f7707d5cbb618e45224249731155c925cb910df.
+ * The Awtsmoos renews one source through client and server; Awtsmoos.com keeps parity whole.
+ */
+
+const COMBAT_EQUIPMENT_STATS = deepFreeze({
+	"chalaf": {
+		"actions": [
+			"chalaf-harvest"
+		],
+		"modifiers": {
+			"activeWindow": 0.01,
+			"perfectTiming": 0.01
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		}
 		if (!Array.isArray(definition.keyframes) || definition.keyframes.length < 2) {
 			throw new Error('ACTION_KEYFRAMES_REQUIRED');
 		}
+<<<<<<< HEAD
 		validateEquipment(definition.requiredEquipment);
 		validateKeyframes(definition.keyframes);
 		return Object.freeze({
 			...definition,
 			keyframes: Object.freeze(definition.keyframes.map(freezeFrame))
 		});
+=======
+	},
+	"spark-blade": {
+		"actions": [
+			"sword-light",
+			"sword-follow",
+			"sword-finish",
+			"sword-heavy",
+			"sword-block",
+			"sword-parry"
+		],
+		"modifiers": {
+			"baseDamage": 26,
+			"attackSpeed": 0.12,
+			"reach": 0.15,
+			"activeWindow": 0.01,
+			"stagger": 6,
+			"knockback": 0.3,
+			"blockStrength": 0.05,
+			"guardStamina": 6,
+			"cooldownReduction": 0.05,
+			"perfectTiming": 0.03,
+			"masteryGain": 0.12,
+			"criticalChance": 0.04
+		}
+	},
+	"village-shield": {
+		"actions": [
+			"shield-block",
+			"shield-parry"
+		],
+		"modifiers": {
+			"blockStrength": 0.25,
+			"guardStamina": 30,
+			"movementSpeed": -0.03,
+			"staggerResistance": 0.12,
+			"rangedResistance": 0.12,
+			"areaResistance": 0.08
+		}
+	}
+});
+__exports.COMBAT_EQUIPMENT_STATS = COMBAT_EQUIPMENT_STATS;
+
+
+function deepFreeze(value) {
+	if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
+	Object.values(value).forEach(deepFreeze);
+	return Object.freeze(value);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatGarmentRecords.js */
+__awtsmoosModule_129 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file GARMENT_EQUIPMENT_STATS.js
+ * @description Generated readable equipment truth. Source SHA-256: e2138cbd55e34f510ac5a39c2f7707d5cbb618e45224249731155c925cb910df.
+ * The Awtsmoos renews one source through client and server; Awtsmoos.com keeps parity whole.
+ */
+
+const GARMENT_EQUIPMENT_STATS = deepFreeze({
+	"travel-pack": {
+		"actions": [],
+		"modifiers": {
+			"maxStamina": 15,
+			"staminaRegeneration": 0.5,
+			"movementSpeed": -0.02,
+			"environmentalResistance": 0.08
+		}
+	},
+	"scholar-glasses": {
+		"actions": [],
+		"modifiers": {
+			"maxFocus": 3,
+			"focusRegeneration": 0.3,
+			"spiritualResistance": 0.024,
+			"perfectTiming": 0.01
+		}
+	},
+	"shabbos-top-hat": {
+		"actions": [],
+		"modifiers": {
+			"maxHealth": 4,
+			"maxFocus": 2,
+			"spiritualResistance": 0.016,
+			"reputation": 0.04
+		}
+	},
+	"black-coat": {
+		"actions": [],
+		"modifiers": {
+			"maxHealth": 12,
+			"guardStamina": 6,
+			"physicalResistance": 0.06,
+			"staggerResistance": 0.09,
+			"environmentalResistance": 0.06
+		}
+	},
+	"white-outer-shirt": {
+		"actions": [],
+		"modifiers": {
+			"maxHealth": 4,
+			"maxFocus": 3,
+			"focusRegeneration": 0.25,
+			"physicalResistance": 0.02,
+			"spiritualResistance": 0.024,
+			"reputation": 0.03
+		}
+	},
+	"base-shirt": {
+		"actions": [],
+		"modifiers": {
+			"maxHealth": 2,
+			"maxFocus": 1,
+			"physicalResistance": 0.01,
+			"spiritualResistance": 0.008
+		}
+	},
+	"black-trousers": {
+		"actions": [],
+		"modifiers": {
+			"maxHealth": 4,
+			"maxStamina": 4,
+			"physicalResistance": 0.02,
+			"movementSpeed": 0.01
+		}
+	},
+	"walking-boots": {
+		"actions": [],
+		"modifiers": {
+			"maxHealth": 4,
+			"maxStamina": 5,
+			"movementSpeed": 0.05,
+			"recoverySpeed": 0.04,
+			"environmentalResistance": 0.03
+		}
+	}
+});
+__exports.GARMENT_EQUIPMENT_STATS = GARMENT_EQUIPMENT_STATS;
+
+
+function deepFreeze(value) {
+	if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
+	Object.values(value).forEach(deepFreeze);
+	return Object.freeze(value);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentStatModifierCatalog.js */
+__awtsmoosModule_127 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file EquipmentStatModifierCatalog.js
+ * @description Generated readable equipment truth. Source SHA-256: e2138cbd55e34f510ac5a39c2f7707d5cbb618e45224249731155c925cb910df.
+ * The Awtsmoos renews one source through client and server; Awtsmoos.com keeps parity whole.
+ */
+
+var COMBAT_EQUIPMENT_STATS = __awtsmoosModule_128.COMBAT_EQUIPMENT_STATS;
+var GARMENT_EQUIPMENT_STATS = __awtsmoosModule_129.GARMENT_EQUIPMENT_STATS;
+__exports.EQUIPMENT_STAT_KEYS = __awtsmoosModule_124.EQUIPMENT_STAT_KEYS;
+
+const EQUIPMENT_STAT_MODIFIERS = Object.freeze({
+	...COMBAT_EQUIPMENT_STATS,
+	...GARMENT_EQUIPMENT_STATS
+});
+__exports.EQUIPMENT_STAT_MODIFIERS = EQUIPMENT_STAT_MODIFIERS;
+
+
+function equipmentStatRecord(itemId) {
+	return EQUIPMENT_STAT_MODIFIERS[itemId] || null;
+}
+
+__exports.equipmentStatRecord = equipmentStatRecord;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/EquipmentDerivedStatSources.js */
+__awtsmoosModule_126 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file EquipmentDerivedStatSources.js
+ * @description Converts only equipped slots into canonical generated modifier sources.
+ * The Awtsmoos is one beyond counting; Awtsmoos.com counts each wielded or worn vessel
+ * once, excludes merely owned inventory, and preserves the exact slot that grants its light.
+ */
+
+var equipmentStatRecord = __awtsmoosModule_127.equipmentStatRecord;
+
+function equipmentDerivedStatSources(snapshot = {}) {
+	return Object.entries(snapshot.equipment || {}).flatMap(([slot, itemId]) => {
+		const record = equipmentStatRecord(itemId);
+		if (!record) return [];
+		return [{
+			actions: record.actions,
+			category: 'equipped',
+			id: `${slot}:${itemId}`,
+			itemId,
+			modifiers: record.modifiers,
+			slot
+		}];
+	});
+}
+
+__exports.equipmentDerivedStatSources = equipmentDerivedStatSources;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/stats/RuntimeDerivedStatSources.js */
+__awtsmoosModule_125 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RuntimeDerivedStatSources.js
+ * @description Joins equipped, learned, passive, and temporary sources without category blur.
+ * The Awtsmoos renews permanent and passing gifts in distinct garments; Awtsmoos.com
+ * preserves their identities so diagnostics can reveal exactly why every total exists.
+ */
+
+var equipmentDerivedStatSources = __awtsmoosModule_126.equipmentDerivedStatSources;
+
+function runtimeDerivedStatSources(runtime, inventorySnapshot) {
+	return [
+		...equipmentDerivedStatSources(inventorySnapshot),
+		...normalized(runtime.learnedStatSources, 'learned'),
+		...normalized(runtime.passiveStatSources, 'passive'),
+		...normalized(runtime.temporaryStatSources, 'temporary')
+	];
+}
+
+
+__exports.runtimeDerivedStatSources = runtimeDerivedStatSources;
+function normalized(sources, category) {
+	return (Array.isArray(sources) ? sources : []).map((source, index) => ({
+		actions: source.actions || [],
+		category,
+		id: source.id || `${category}-${index}`,
+		modifiers: source.modifiers || {}
+	}));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDerivedStatApplication.js */
+__awtsmoosModule_130 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowDerivedStatApplication.js
+ * @description Applies projected totals while preserving current resources and progression.
+ * The Awtsmoos renews measure without erasing history; Awtsmoos.com changes capacities,
+ * resistances, movement, recovery, and actions while keeping current life bounded and true.
+ */
+
+function applyMinimalMeadowDerivedStats(runtime, projection) {
+	const values = projection.values;
+	const stats = runtime.playerStats;
+	stats.maxHealth = Math.max(1, 100 + values.maxHealth);
+	stats.maxStamina = Math.max(1, 100 + values.maxStamina);
+	stats.maxFocus = Math.max(1, 20 + values.maxFocus);
+	stats.health = Math.min(stats.maxHealth, Math.max(0, Number(stats.health) || 0));
+	stats.stamina = Math.min(stats.maxStamina, Math.max(0, Number(stats.stamina) || 0));
+	stats.focus = Math.min(stats.maxFocus, Math.max(0, Number(stats.focus) || stats.maxFocus));
+	stats.guardStamina = Math.max(1, 100 + values.guardStamina);
+	stats.blockStrength = clamp(0.45 + values.blockStrength, 0, 0.9);
+	stats.physicalResistance = clamp(values.physicalResistance, 0, 0.85);
+	stats.spiritualResistance = clamp(values.spiritualResistance, 0, 0.85);
+	stats.rangedResistance = clamp(values.rangedResistance, 0, 0.85);
+	stats.areaResistance = clamp(values.areaResistance, 0, 0.85);
+	stats.staggerResistance = clamp(values.staggerResistance, 0, 0.85);
+	stats.staminaRegeneration = Math.max(0, 14 + values.staminaRegeneration);
+	stats.focusRegeneration = Math.max(0, 2 + values.focusRegeneration);
+	stats.recoverySpeed = Math.max(0.2, 1 + values.recoverySpeed);
+	runtime.state.movementSpeedMultiplier = Math.max(0.4, 1 + values.movementSpeed);
+	runtime.state.environmentalResistance = clamp(values.environmentalResistance, 0, 0.9);
+	runtime.unlockedCombatActions = new Set(projection.unlockedActions);
+	Object.assign(runtime.playerDefense.stats, stats);
+}
+
+
+__exports.applyMinimalMeadowDerivedStats = applyMinimalMeadowDerivedStats;
+function clamp(value, minimum, maximum) {
+	return Math.max(minimum, Math.min(maximum, Number(value) || 0));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowDerivedStatsRuntime.js */
+__awtsmoosModule_121 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowDerivedStatsRuntime.js
+ * @description Projects all allowed source classes and publishes inspectable runtime totals.
+ * The Awtsmoos joins garment, learning, blessing, and passing aid without duplicate shadow;
+ * Awtsmoos.com reveals accepted sources, subtotals, rejected duplicates, actions, and values.
+ */
+
+var projectDerivedStats = __awtsmoosModule_122.projectDerivedStats;
+var runtimeDerivedStatSources = __awtsmoosModule_125.runtimeDerivedStatSources;
+var applyMinimalMeadowDerivedStats = __awtsmoosModule_130.applyMinimalMeadowDerivedStats;
+
+class MinimalMeadowDerivedStatsRuntime {
+	constructor(runtime, inventory) {
+		this.runtime = runtime;
+		this.inventory = inventory;
+		this.projection = projectDerivedStats([]);
+		this.unsubscribe = inventory.onChange(snapshot => this.update(snapshot));
+		this.update(inventory.snapshot());
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 
+<<<<<<< HEAD
 	__exports.validatePlayerActionDefinition = validatePlayerActionDefinition;
 	function validateEquipment(requirement) {
 		if (!requirement) {
+=======
+	snapshot() {
+		return this.projection;
+	}
+
+	destroy() {
+		this.unsubscribe?.();
+	}
+}
+
+__exports.MinimalMeadowDerivedStatsRuntime = MinimalMeadowDerivedStatsRuntime;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponAim.js */
+__awtsmoosModule_132 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowWeaponAim.js
+ * @description Aims the hand-bound weapon toward the selected target during charged casting.
+ * The Awtsmoos carries intention from hand toward its finite address; Awtsmoos.com resolves
+ * both full scene nodes and lightweight groups without corrupting body-facing authority.
+ */
+
+var Vector3 = __awtsmoosModule_7.Vector3;
+var applyAnchorTransform = __awtsmoosModule_119.applyAnchorTransform;
+
+const HAND = new Vector3();
+const TARGET = new Vector3();
+
+function aimMinimalMeadowWeapon(owner, payload = null) {
+	const anchor = owner.weapon?.parent;
+	const target = owner.runtime?.enemies?.selected;
+	if (!anchor || !target?.group) return false;
+	worldPosition(anchor.parent || anchor, HAND);
+	worldPosition(target.group, TARGET);
+	const targetHeight = positive(target.profile?.height, 2.4);
+	const dx = TARGET.x - HAND.x;
+	const dy = TARGET.y + targetHeight * 0.58 - HAND.y;
+	const dz = TARGET.z - HAND.z;
+	const horizontal = Math.max(0.001, Math.hypot(dx, dz));
+	const worldYaw = Math.atan2(dx, dz);
+	const localYaw = normalizeAngle(
+		worldYaw - Number(owner.runtime.state?.facing || 0)
+	);
+	const elevation = Math.atan2(dy, horizontal);
+	const pitch = Math.PI / 2 - elevation;
+	setYawPitch(anchor.quaternion, localYaw, pitch);
+	anchor.userData.AwtsmoosWeaponAim = {
+		actionId: payload?.actionId || null,
+		elevation,
+		localYaw,
+		pitch,
+		targetId: target.profile?.id || null
+	};
+	return true;
+}
+
+
+__exports.aimMinimalMeadowWeapon = aimMinimalMeadowWeapon;
+function restoreMinimalMeadowWeaponAim(owner) {
+	const anchor = owner.weapon?.parent;
+	if (!anchor) return;
+	applyAnchorTransform(anchor, owner.drawn);
+	delete anchor.userData.AwtsmoosWeaponAim;
+}
+
+
+__exports.restoreMinimalMeadowWeaponAim = restoreMinimalMeadowWeaponAim;
+function worldPosition(object, target) {
+	if (typeof object?.getWorldPosition === 'function') {
+		return object.getWorldPosition(target);
+	}
+	target.set(0, 0, 0);
+	for (let current = object; current; current = current.parent) {
+		target.x += Number(current.position?.x) || 0;
+		target.y += Number(current.position?.y) || 0;
+		target.z += Number(current.position?.z) || 0;
+	}
+	return target;
+}
+
+function setYawPitch(quaternion, yaw, pitch) {
+	const halfYaw = yaw / 2;
+	const halfPitch = pitch / 2;
+	const sy = Math.sin(halfYaw);
+	const cy = Math.cos(halfYaw);
+	const sx = Math.sin(halfPitch);
+	const cx = Math.cos(halfPitch);
+	quaternion.set(cy * sx, sy * cx, -sy * sx, cy * cx);
+}
+
+function normalizeAngle(value) {
+	return Math.atan2(Math.sin(value), Math.cos(value));
+}
+
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? number : fallback;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentCasting.js */
+__awtsmoosModule_131 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowEquipmentCasting.js
+ * @description Holds the real hand weapon on target through charge, release, and recovery.
+ * The Awtsmoos carries intention from grip toward its address; Awtsmoos.com updates aim during
+ * every charged frame and restores the exact neutral hand pose after launch or cancellation.
+ */
+
+var aimMinimalMeadowWeapon = __awtsmoosModule_132.aimMinimalMeadowWeapon;
+var restoreMinimalMeadowWeaponAim = __awtsmoosModule_132.restoreMinimalMeadowWeaponAim;
+
+class MinimalMeadowEquipmentCasting {
+	constructor(owner, releaseHoldMilliseconds = 240) {
+		this.owner = owner;
+		this.releaseHoldMilliseconds = releaseHoldMilliseconds;
+		this.active = false;
+		this.drawnBeforeCast = true;
+		this.timer = null;
+		this.cancelScheduledRestore = null;
+	}
+
+	begin(payload = null) {
+		this.clearTimer();
+		if (!this.active) {
+			this.drawnBeforeCast = this.owner.drawn;
+			this.active = true;
+		}
+		if (this.owner.weaponItemId) {
+			this.owner.setDrawn(true, true);
+			aimMinimalMeadowWeapon(this.owner, payload);
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 			return;
 		}
 		requireText(requirement.slot, 'ACTION_EQUIPMENT_SLOT_REQUIRED');
@@ -14555,6 +18011,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		}
 	}
 
+<<<<<<< HEAD
 	function validateKeyframes(keyframes) {
 		let previous = -1;
 		for (const frame of keyframes) {
@@ -14573,6 +18030,202 @@ const __awtsmoosModule_0 = Object.create(null);
 				for (const value of rotation) {
 					requireNumber(value, `ACTION_ROTATION_INVALID:${role}`);
 				}
+=======
+	restore() {
+		this.timer = null;
+		this.cancelScheduledRestore = null;
+		this.active = false;
+		this.owner.setDrawn(this.drawnBeforeCast, true);
+		restoreMinimalMeadowWeaponAim(this.owner);
+	}
+
+	clearTimer() {
+		clearTimeout(this.timer);
+		this.timer = null;
+		this.cancelScheduledRestore?.();
+		this.cancelScheduledRestore = null;
+	}
+
+	destroy() {
+		this.clearTimer();
+		this.active = false;
+		restoreMinimalMeadowWeaponAim(this.owner);
+	}
+}
+
+__exports.MinimalMeadowEquipmentCasting = MinimalMeadowEquipmentCasting;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/gameplay/GarmentAppearanceCatalog.js */
+__awtsmoosModule_134 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file GarmentAppearanceCatalog.js
+ * @description Defines controlled colors and reusable fabric appearances for GLB garments.
+ * The Awtsmoos contains every hue without change; Awtsmoos.com gives clothing bounded
+ * palettes and fabrics while sacred black leather remains intentionally constrained.
+ */
+
+const GARMENT_COLORS = Object.freeze({
+	black: color('Black', [0.025, 0.028, 0.035, 1]),
+	blue: color('Deep Blue', [0.045, 0.12, 0.32, 1]),
+	brown: color('Warm Brown', [0.24, 0.105, 0.045, 1]),
+	burgundy: color('Burgundy', [0.28, 0.035, 0.07, 1]),
+	cream: color('Cream', [0.82, 0.77, 0.66, 1]),
+	gold: color('Antique Gold', [0.62, 0.42, 0.08, 1]),
+	gray: color('Charcoal Gray', [0.18, 0.2, 0.23, 1]),
+	green: color('Forest Green', [0.055, 0.22, 0.12, 1]),
+	white: color('White', [0.9, 0.9, 0.88, 1])
+});
+__exports.GARMENT_COLORS = GARMENT_COLORS;
+
+
+const GARMENT_FABRICS = Object.freeze({
+	linen: fabric('Linen', 0.88, 'crosshatch'),
+	plain: fabric('Plain Cloth', 0.72, 'plain'),
+	satin: fabric('Shabbos Satin', 0.32, 'diagonal'),
+	velvet: fabric('Velvet', 0.58, 'soft-noise'),
+	wool: fabric('Wool Weave', 0.94, 'basket-weave'),
+	leather: fabric('Leather', 0.66, 'pebbled')
+});
+__exports.GARMENT_FABRICS = GARMENT_FABRICS;
+
+
+function garmentColor(id) {
+	return GARMENT_COLORS[id] || GARMENT_COLORS.black;
+}
+
+
+__exports.garmentColor = garmentColor;
+function garmentFabric(id) {
+	return GARMENT_FABRICS[id] || GARMENT_FABRICS.plain;
+}
+
+
+__exports.garmentFabric = garmentFabric;
+function color(label, rgba) {
+	return Object.freeze({ id: label.toLowerCase().replaceAll(' ', '-'), label, rgba: Object.freeze(rgba) });
+}
+
+function fabric(label, roughness, pattern) {
+	return Object.freeze({ label, pattern, roughness });
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentFabricTexture.js */
+__awtsmoosModule_135 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowGarmentFabricTexture.js
+ * @description Generates one cached neutral weave image per controlled fabric preset.
+ * The Awtsmoos contains every thread without repetition; Awtsmoos.com creates linen, wool,
+ * velvet, satin, and leather once, then reuses them without any per-frame allocation.
+ */
+
+const CACHE = new Map();
+
+function garmentFabricTexture(fabricId, documentValue = globalThis.document) {
+	if (CACHE.has(fabricId)) return CACHE.get(fabricId);
+	if (!documentValue?.createElement) return null;
+	const canvas = documentValue.createElement('canvas');
+	canvas.width = 96;
+	canvas.height = 96;
+	canvas.dataset.fabricId = fabricId;
+	paint(canvas.getContext('2d'), fabricId, canvas.width);
+	CACHE.set(fabricId, canvas);
+	return canvas;
+}
+
+
+__exports.garmentFabricTexture = garmentFabricTexture;
+function garmentFabricTextureDiagnostics() {
+	return { cached: CACHE.size, ids: [...CACHE.keys()] };
+}
+
+
+__exports.garmentFabricTextureDiagnostics = garmentFabricTextureDiagnostics;
+function paint(context, fabricId, size) {
+	context.fillStyle = '#d8d8d4';
+	context.fillRect(0, 0, size, size);
+	const painter = PAINTERS[fabricId] || PAINTERS.plain;
+	painter(context, size);
+}
+
+const PAINTERS = Object.freeze({
+	leather(context, size) {
+		context.fillStyle = '#b6b5b0';
+		for (let y = 3; y < size; y += 8) for (let x = 3; x < size; x += 8) context.fillRect(x + (y % 16 ? 2 : 0), y, 2, 2);
+	},
+	linen(context, size) {
+		lines(context, size, 5, 0.18);
+	},
+	plain() {},
+	satin(context, size) {
+		context.strokeStyle = 'rgba(255,255,255,.34)';
+		for (let offset = -size; offset < size * 2; offset += 9) {
+			context.beginPath(); context.moveTo(offset, 0); context.lineTo(offset + size, size); context.stroke();
+		}
+	},
+	velvet(context, size) {
+		context.fillStyle = 'rgba(45,45,45,.12)';
+		for (let index = 0; index < 240; index += 1) context.fillRect((index * 37) % size, (index * 61) % size, 1, 1);
+	},
+	wool(context, size) {
+		lines(context, size, 7, 0.24);
+	}
+});
+
+function lines(context, size, step, alpha) {
+	context.strokeStyle = `rgba(55,55,55,${alpha})`;
+	for (let value = 0; value < size; value += step) {
+		context.beginPath(); context.moveTo(value, 0); context.lineTo(value, size); context.stroke();
+		context.beginPath(); context.moveTo(0, value); context.lineTo(size, value); context.stroke();
+	}
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentAppearance.js */
+__awtsmoosModule_133 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowGarmentAppearance.js
+ * @description Applies equipped item color and fabric choices to isolated garment materials.
+ * The Awtsmoos clothes every finite hue without touching the shared source asset;
+ * Awtsmoos.com preserves lenses and sacred leather while both jacket forms share appearance.
+ */
+
+var garmentColor = __awtsmoosModule_134.garmentColor;
+var garmentFabric = __awtsmoosModule_134.garmentFabric;
+var inventoryAppearanceFor = __awtsmoosModule_72.inventoryAppearanceFor;
+var inventoryDefinition = __awtsmoosModule_73.inventoryDefinition;
+var garmentFabricTexture = __awtsmoosModule_135.garmentFabricTexture;
+
+function applyMinimalGarmentAppearance(wardrobe, equipment, appearance) {
+	const receipt = {};
+	for (const itemId of Object.values(equipment || {})) {
+		const definition = inventoryDefinition(itemId);
+		const visualId = definition?.garment?.visualId;
+		if (!visualId || !definition.appearance) continue;
+		const selected = inventoryAppearanceFor(appearance, itemId);
+		const records = appearanceRecords(wardrobe, visualId);
+		let materialCount = 0;
+		for (const record of records) {
+			for (const material of record.materials) {
+				applyMaterial(material, selected);
+				materialCount += 1;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 			}
 		}
 		if (keyframes[0].at !== 0 || keyframes.at(-1).at !== 1) {
@@ -15077,9 +18730,61 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 
+<<<<<<< HEAD
 	__exports.resolvePlayerActionBones = resolvePlayerActionBones;
 	function normalizeBoneName(name) {
 		return String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+=======
+__exports.applyMinimalGarmentAppearance = applyMinimalGarmentAppearance;
+function appearanceRecords(wardrobe, visualId) {
+	const ids = visualId === 'jacket'
+		? ['jacket', 'jacket-tefillin']
+		: [visualId];
+	return ids.map(id => wardrobe?.visuals?.get(id)).filter(Boolean);
+}
+
+function applyMaterial(material, selected) {
+	if (!selected || material.name === 'glasses-glass') return;
+	const color = garmentColor(selected.colorId);
+	const fabric = garmentFabric(selected.fabricId);
+	const image = garmentFabricTexture(selected.fabricId);
+	material.color = [...color.rgba];
+	material.baseColorFactor = [...color.rgba];
+	material.roughnessFactor = fabric.roughness;
+	material.mapImage = image || material.userData?.originalMapImage || null;
+	material.textureUrl = null;
+	material.userData ||= {};
+	Object.assign(material.userData, {
+		garmentColorId: selected.colorId,
+		garmentFabricId: selected.fabricId
+	});
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentMaterialIsolation.js */
+__awtsmoosModule_138 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowGarmentMaterialIsolation.js
+ * @description Clones actor garment materials once before color or fabric mutation.
+ * The Awtsmoos is one without shared mutation; Awtsmoos.com lets player, quest Chossid,
+ * and tailor wear different appearances without altering the canonical GLB source.
+ */
+
+var MeshStandardMaterial = __awtsmoosModule_7.MeshStandardMaterial;
+
+function isolateMinimalGarmentMaterials(visuals) {
+	const visited = new Set();
+	for (const record of visuals.values()) {
+		for (const root of record.roots) {
+			root.traverse?.(object => isolateMesh(object, visited));
+		}
+		for (const mesh of record.meshes) isolateMesh(mesh, visited);
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 	__exports.normalizeBoneName = normalizeBoneName;
@@ -15293,6 +18998,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 
+<<<<<<< HEAD
 	__exports.PlayerActionMessageBridge = PlayerActionMessageBridge;
 	function messageForEquipment(equipment) {
 		return equipment?.weaponItemId === 'spark-blade'
@@ -15300,6 +19006,166 @@ const __awtsmoosModule_0 = Object.create(null);
 			: PLAYER_ACTION_MESSAGES.staffCast;
 	}
 
+=======
+__exports.collectMinimalGarmentMaterials = collectMinimalGarmentMaterials;
+function isolateMesh(object, visited) {
+	if (!isMesh(object) || visited.has(object)) return;
+	visited.add(object);
+	object.material = Array.isArray(object.material)
+		? object.material.map(cloneMaterial)
+		: cloneMaterial(object.material);
+}
+
+function cloneMaterial(material) {
+	if (!material) return material;
+	const clone = Object.assign(new MeshStandardMaterial(material), material);
+	clone.color = Array.isArray(material.color)
+		? [...material.color]
+		: material.color;
+	clone.baseColorFactor = Array.isArray(material.baseColorFactor)
+		? [...material.baseColorFactor]
+		: material.baseColorFactor;
+	clone.userData = {
+		...(material.userData || {}),
+		originalMapImage: material.mapImage || null
+	};
+	return clone;
+}
+
+function materialsFor(object) {
+	return (Array.isArray(object.material)
+		? object.material
+		: [object.material]).filter(Boolean);
+}
+
+function isMesh(object) {
+	return Boolean(object?.isMesh || object?.isSkinnedMesh);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowGarmentDiscovery.js */
+__awtsmoosModule_137 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowGarmentDiscovery.js
+ * @description Discovers wardrobe roots from GLB extras, canonical aliases, and materials.
+ * The Awtsmoos knew every exporter fragment before metadata survived; Awtsmoos.com prefers
+ * explicit garment truth while Kapote, Bekeshe, robe, and jacket names share one lawful visual.
+ */
+var collectMinimalGarmentMaterials = __awtsmoosModule_138.collectMinimalGarmentMaterials;
+var isolateMinimalGarmentMaterials = __awtsmoosModule_138.isolateMinimalGarmentMaterials;
+const EXTRA_VISUAL = Object.freeze({
+	glasses: 'glasses',
+	'head-teffilin-straps': 'tefillin-head',
+	jacket: 'jacket',
+	'jacket-teffilin': 'jacket-tefillin',
+	'outer-shirt': 'outer-shirt',
+	'teffilin-arm-straps': 'tefillin-arm',
+	'teffilin-head-box': 'tefillin-head',
+	'teffiln-arm-box': 'tefillin-arm',
+	'top-hat': 'top-hat',
+	yarmulka: 'yarmulka'
+});
+const NAME_VISUAL = Object.freeze({
+	bekeshe: 'jacket',
+	bekesherobe: 'jacket',
+	glasses: 'glasses',
+	jacket: 'jacket',
+	jassidglasses: 'glasses',
+	kapote: 'jacket',
+	kapoterobe: 'jacket',
+	outershirt: 'outer-shirt',
+	robe: 'jacket',
+	tophat: 'top-hat',
+	yarmalka: 'yarmulka',
+	yarmulka: 'yarmulka'
+});
+const MATERIAL_VISUAL = Object.freeze({ pants: 'body-pants', shirt: 'body-shirt', shoes: 'body-shoes' });
+function discoverMinimalMeadowGarments(model) {
+	const visuals = new Map();
+	model?.traverse?.(object => discoverObject(visuals, object));
+	isolateMinimalGarmentMaterials(visuals);
+	collectMinimalGarmentMaterials(visuals);
+	return { diagnostics: () => diagnostics(visuals), visuals };
+}
+
+__exports.discoverMinimalMeadowGarments = discoverMinimalMeadowGarments;
+function discoverObject(visuals, object) {
+	const extras = object.userData?.gltfNode?.extras || {};
+	const explicit = EXTRA_VISUAL[extras.garment || extras.garament];
+	const fallback = NAME_VISUAL[normalize(object.name)];
+	const visualId = explicit || fallback;
+	if (visualId) recordFor(visuals, visualId).roots.add(object);
+	if (!isMesh(object)) return;
+	for (const material of materialsFor(object)) {
+		const materialVisual = MATERIAL_VISUAL[normalize(material.name)];
+		if (materialVisual) recordFor(visuals, materialVisual).meshes.add(object);
+	}
+}
+function recordFor(visuals, id) {
+	if (!visuals.has(id)) visuals.set(id, { id, materials: [], meshes: new Set(), roots: new Set() });
+	return visuals.get(id);
+}
+function diagnostics(visuals) {
+	return Object.fromEntries([...visuals].map(([id, record]) => [id, {
+		materials: record.materials.map(value => value.name),
+		meshes: record.meshes.size,
+		roots: record.roots.size
+	}]));
+}
+function materialsFor(object) { return (Array.isArray(object.material) ? object.material : [object.material]).filter(Boolean); }
+function normalize(value) { return String(value || '').toLowerCase().replace(/[^a-z0-9]/g, ''); }
+function isMesh(object) { return Boolean(object?.isMesh || object?.isSkinnedMesh); }
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentNodes.js */
+__awtsmoosModule_136 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowEquipmentNodes.js
+ * @description Resolves hands and the complete model-derived Chossid wardrobe.
+ * The Awtsmoos clothes body and soul through exporter names and preserved extras alike;
+ * Awtsmoos.com keeps glasses, hat, yarmulke, tefillin, jacket, shirts, trousers, and shoes truthful.
+ */
+
+var discoverMinimalMeadowGarments = __awtsmoosModule_137.discoverMinimalMeadowGarments;
+
+const BONE_ALIASES = Object.freeze({
+	leftHand: ['mixamoriglefthand', 'lefthand', 'handl', 'wristl'],
+	rightHand: ['mixamorigrighthand', 'righthand', 'handr', 'wristr'],
+	spine: ['mixamorigspine2', 'mixamorigspine1', 'spine2', 'spine1', 'chest', 'upperback']
+});
+
+const REMOVABLE_VISUALS = Object.freeze([
+	'glasses',
+	'jacket',
+	'outer-shirt',
+	'teffilin-arm',
+	'teffilin-head',
+	'top-hat',
+	'yarmulka'
+]);
+
+function resolveMinimalEquipmentNodes(model) {
+	const index = nodeIndex(model);
+	const wardrobe = discoverMinimalMeadowGarments(model);
+	return {
+		garments: wardrobe.visuals,
+		leftHand: resolve(index, BONE_ALIASES.leftHand),
+		modelRoot: model || null,
+		rightHand: resolve(index, BONE_ALIASES.rightHand),
+		spine: resolve(index, BONE_ALIASES.spine),
+		wardrobe
+	};
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 }
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionRuntimeState.js ----
@@ -15309,6 +19175,140 @@ const __awtsmoosModule_0 = Object.create(null);
 	// Boruch Hashem
 	// Blessed is He
 
+<<<<<<< HEAD
+=======
+__exports.resolveMinimalEquipmentNodes = resolveMinimalEquipmentNodes;
+function applyMinimalGarmentVisibility(nodes, equipment) {
+	const active = new Set();
+	for (const itemId of Object.values(equipment || {})) {
+		const visualId = visualForItem(itemId);
+		if (visualId) active.add(visualId);
+	}
+	for (const visualId of REMOVABLE_VISUALS) setVisual(nodes.wardrobe, visualId, active.has(visualId));
+	const armTefillin = active.has('tefillin-arm');
+	setVisual(nodes.wardrobe, 'jacket', active.has('jacket') && !armTefillin);
+	setVisual(nodes.wardrobe, 'jacket-tefillin', active.has('jacket') && armTefillin);
+	for (const visualId of ['body-shirt', 'body-pants', 'body-shoes']) setVisual(nodes.wardrobe, visualId, true);
+	return {
+		active: [...active],
+		discovered: nodes.wardrobe.diagnostics(),
+		tefillinJacket: active.has('jacket') && armTefillin
+	};
+}
+
+
+__exports.applyMinimalGarmentVisibility = applyMinimalGarmentVisibility;
+function visualForItem(itemId) {
+	const map = {
+		'base-shirt': 'body-shirt', 'black-coat': 'jacket', 'black-trousers': 'body-pants',
+		'blue-scholar-glasses': 'glasses', 'brown-kapote': 'jacket', 'linen-outer-shirt': 'outer-shirt',
+		'scholar-glasses': 'glasses', 'shabbos-top-hat': 'top-hat', 'tefillin-shel-rosh': 'tefillin-head',
+		'tefillin-shel-yad': 'tefillin-arm', 'velvet-top-hat': 'top-hat', 'walking-boots': 'body-shoes',
+		'white-outer-shirt': 'outer-shirt', 'wool-kippah': 'yarmulka'
+	};
+	return map[itemId] || null;
+}
+
+function setVisual(wardrobe, visualId, visible) {
+	const record = wardrobe?.visuals?.get(visualId);
+	for (const root of record?.roots || []) root.visible = visible;
+	for (const mesh of record?.meshes || []) mesh.visible = visible;
+}
+
+function nodeIndex(model) {
+	const values = [];
+	model?.traverse?.(node => values.push({ key: normalize(node.name), node }));
+	return values;
+}
+
+function resolve(index, aliases) {
+	for (const alias of aliases) {
+		const entry = index.find(value => value.key === alias || value.key.includes(alias));
+		if (entry) return entry.node;
+	}
+	return null;
+}
+
+function normalize(value) {
+	return String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntimeState.js */
+__awtsmoosModule_139 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowEquipmentRuntimeState.js
+ * @description Owns equipment listeners and generation-aware attachment diagnostics.
+ * The Awtsmoos joins inventory, hand, draw, cast, hydration, and repair into one receipt;
+ * Awtsmoos.com exposes anchor count and model generation so duplicate ownership cannot hide.
+ */
+
+function installMinimalMeadowEquipmentListeners(owner) {
+	return [
+		owner.inventory.onChange(() => owner.synchronize()),
+		owner.bus.on('equipment:draw', () => owner.setDrawn(true)),
+		owner.bus.on('equipment:sheath', () => owner.setDrawn(false)),
+		owner.bus.on('equipment:toggle-draw', () => owner.setDrawn(!owner.drawn)),
+		owner.bus.on('combat:cast-start', event => owner.casting.begin(event)),
+		owner.bus.on('combat:cast-progress', event => owner.casting.progress(event)),
+		owner.bus.on('combat:cast-launch', event => owner.casting.launch(event)),
+		owner.bus.on('combat:cast-cancel', () => owner.casting.cancel())
+	];
+}
+
+
+__exports.installMinimalMeadowEquipmentListeners = installMinimalMeadowEquipmentListeners;
+function minimalMeadowEquipmentDiagnostics(owner) {
+	const anchor = owner.weapon?.parent;
+	return {
+		appearance: { ...owner.appearance },
+		attachmentRegistry: owner.attachments?.diagnostics?.() || null,
+		casting: owner.casting.active,
+		drawn: owner.drawn,
+		garments: structuredClone(owner.garments),
+		handBone: owner.nodes?.rightHand?.name || owner.nodes?.leftHand?.name || null,
+		handBound: Boolean(owner.weapon?.userData?.handBound),
+		model: owner.model?.name || null,
+		spineBone: owner.nodes?.spine?.name || null,
+		weaponAim: anchor?.userData?.AwtsmoosWeaponAim || null,
+		weaponAttachment: owner.weapon?.userData?.attachment || 'none',
+		weaponGeneration: owner.weapon?.userData?.attachmentGeneration ?? null,
+		weaponItemId: owner.weaponItemId,
+		weaponVisible: Boolean(owner.weapon?.visible)
+	};
+}
+
+
+__exports.minimalMeadowEquipmentDiagnostics = minimalMeadowEquipmentDiagnostics;
+function minimalMeadowEquippedWeaponItemId(itemId) {
+	return ['wooden-staff', 'spark-blade'].includes(itemId) ? itemId : null;
+}
+
+__exports.minimalMeadowEquippedWeaponItemId = minimalMeadowEquippedWeaponItemId;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/collision/TriangleCollider.js */
+__awtsmoosModule_142 = (() => {
+const __exports = {};
+// B"H // Boruch Hashem // Blessed is He
+
+/**
+ * @file TriangleCollider.js
+ * @description Gives one rendered triangle an exact collision body and spatial box.
+ * The Awtsmoos renews every face without division; Awtsmoos.com lets each finite
+ * surface reveal its normal, solidity, floor meaning, and searchable boundary.
+ */
+var Aabb = __awtsmoosModule_40.Aabb;
+var minMax = __awtsmoosModule_43.minMax;
+var triangleNormal = __awtsmoosModule_43.triangleNormal;
+
+class TriangleCollider {
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	/**
 	 * @file PlayerActionRuntimeState.js
 	 * @description Advances finite action playback while recovery preserves its sampled moment.
@@ -15336,6 +19336,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 
+<<<<<<< HEAD
 	__exports.createPlayerActionState = createPlayerActionState;
 	function advancePlayerActionState(action, deltaSeconds) {
 		const delta = Math.max(0, Number(deltaSeconds) || 0);
@@ -15351,6 +19352,657 @@ const __awtsmoosModule_0 = Object.create(null);
 			const timedProgress = bounded(action.elapsed / action.duration);
 			action.progress = Math.max(action.progress, timedProgress, action.externalProgress);
 			action.weight = Math.min(1, action.weight + delta * 10);
+=======
+__exports.TriangleCollider = TriangleCollider;
+/**
+ * Converts indexed vertices into ordered triangle colliders.
+ * @param {Array<object>} vertices Position vectors addressed by the index array.
+ * @param {Array<number>} indices Triangle indices in groups of three.
+ * @param {object} [options] Shared collision semantics.
+ * @returns {Array<TriangleCollider>} Fresh colliders in source order.
+ */
+function trianglesFromIndexed(vertices, indices, options = {}) {
+	const triangles = [];
+	for (let index = 0; index < indices.length; index += 3) {
+		triangles.push(new TriangleCollider(
+			vertices[indices[index]],
+			vertices[indices[index + 1]],
+			vertices[indices[index + 2]],
+			options
+		));
+	}
+	return triangles;
+}
+
+__exports.trianglesFromIndexed = trianglesFromIndexed;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/math/rng.js */
+__awtsmoosModule_147 = (() => {
+const __exports = {};
+/**
+ * B"H
+ * @chapter A tiny seed stood before the Awtsmoos and became a forest of numbers.
+ * No framework enters here; only deterministic breath, renewed each instant.
+ */
+function hashSeed(value = 'awtsmoos') {
+  let hash = 2166136261;
+  for (const char of String(value)) {
+    hash ^= char.charCodeAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+
+__exports.hashSeed = hashSeed;
+function createRng(seed = 'awtsmoos') {
+  let state = hashSeed(seed) || 1;
+  return function rng() {
+    state ^= state << 13;
+    state ^= state >>> 17;
+    state ^= state << 5;
+    return ((state >>> 0) / 4294967296);
+  };
+}
+
+
+__exports.createRng = createRng;
+function range(rng, min, max) {
+  return min + (max - min) * rng();
+}
+
+__exports.range = range;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/primitives/core.js */
+__awtsmoosModule_149 = (() => {
+const __exports = {};
+// B"H
+const WHITE = [1, 1, 1, 1];
+__exports.WHITE = WHITE;
+
+
+/**
+ * B"H
+ * The point enters the vessel only when it is finite; the Awtsmoos gives it room.
+ */
+function mesh(positions = [], indices = [], color = WHITE) {
+  return {
+    positions,
+    indices,
+    colors: Array.from({ length: positions.length / 3 }, () => color).flat()
+  };
+}
+
+
+__exports.mesh = mesh;
+function safeSegments(value, min) {
+  return Math.max(min, Math.floor(value || min));
+}
+
+
+__exports.safeSegments = safeSegments;
+function onPlane(x, z, plane) {
+  if (plane === 'xy') return [x, z, 0];
+  if (plane === 'yz') return [0, x, z];
+  return [x, 0, z];
+}
+
+__exports.onPlane = onPlane;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/primitives/box.js */
+__awtsmoosModule_150 = (() => {
+const __exports = {};
+// B"H
+var WHITE = __awtsmoosModule_149.WHITE;
+var mesh = __awtsmoosModule_149.mesh;
+
+/**
+ * B"H
+ * Six faces stand like six directions, each one admitting it is only a vessel.
+ */
+function cubeMesh({ center = [0, 0, 0], size = [1, 1, 1], color = WHITE } = {}) {
+  const [cx, cy, cz] = center;
+  const [sx, sy, sz] = size.map(value => Math.max(0.001, Math.abs(value)) / 2);
+  const p = [
+    cx - sx, cy - sy, cz - sz, cx + sx, cy - sy, cz - sz,
+    cx + sx, cy + sy, cz - sz, cx - sx, cy + sy, cz - sz,
+    cx - sx, cy - sy, cz + sz, cx + sx, cy - sy, cz + sz,
+    cx + sx, cy + sy, cz + sz, cx - sx, cy + sy, cz + sz
+  ];
+  const i = [
+    0, 1, 2, 0, 2, 3, 4, 6, 5, 4, 7, 6,
+    0, 4, 5, 0, 5, 1, 3, 2, 6, 3, 6, 7,
+    1, 5, 6, 1, 6, 2, 0, 3, 7, 0, 7, 4
+  ];
+  return mesh(p, i, color);
+}
+
+__exports.cubeMesh = cubeMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/primitives/flat.js */
+__awtsmoosModule_151 = (() => {
+const __exports = {};
+// B"H
+var WHITE = __awtsmoosModule_149.WHITE;
+var mesh = __awtsmoosModule_149.mesh;
+var onPlane = __awtsmoosModule_149.onPlane;
+var safeSegments = __awtsmoosModule_149.safeSegments;
+
+/** B"H: Flat things are not dead; they are quiet stages for revelation. */
+function planeMesh({ size = 2, y = 0, color = WHITE } = {}) {
+  const s = Math.max(0.001, Math.abs(size)) / 2;
+  return mesh([-s, y, -s, s, y, -s, s, y, s, -s, y, s], [0, 1, 2, 0, 2, 3], color);
+}
+
+
+__exports.planeMesh = planeMesh;
+function discMesh({ radius = 1, segments = 48, y = 0, color = WHITE } = {}) {
+  const p = [0, y, 0];
+  const i = [];
+  const n = safeSegments(segments, 8);
+  for (let s = 0; s < n; s += 1) {
+    const a = s / n * Math.PI * 2;
+    p.push(Math.cos(a) * radius, y, Math.sin(a) * radius);
+    i.push(0, s + 1, ((s + 1) % n) + 1);
+  }
+  return mesh(p, i, color);
+}
+
+
+__exports.discMesh = discMesh;
+function ringMesh({ outer = 1, inner = 0.68, segments = 48, plane = 'xz', color = WHITE } = {}) {
+  const p = [];
+  const i = [];
+  const n = safeSegments(segments, 8);
+  const a = Math.max(0.001, Math.abs(outer));
+  const b = Math.max(0.001, Math.min(a * 0.95, Math.abs(inner)));
+  for (let s = 0; s < n; s += 1) {
+    const t = s / n * Math.PI * 2;
+    p.push(...onPlane(Math.cos(t) * a, Math.sin(t) * a, plane));
+    p.push(...onPlane(Math.cos(t) * b, Math.sin(t) * b, plane));
+  }
+  for (let s = 0; s < n; s += 1) {
+    const o = s * 2;
+    const next = ((s + 1) % n) * 2;
+    i.push(o, next, next + 1, o, next + 1, o + 1);
+  }
+  return mesh(p, i, color);
+}
+
+__exports.ringMesh = ringMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/primitives/round.js */
+__awtsmoosModule_152 = (() => {
+const __exports = {};
+// B"H
+var WHITE = __awtsmoosModule_149.WHITE;
+var mesh = __awtsmoosModule_149.mesh;
+var safeSegments = __awtsmoosModule_149.safeSegments;
+
+/** B"H: Roundness remembers that the Infinite has no corner. */
+function cylinderMesh({ radius = 1, height = 2, segments = 32, color = WHITE } = {}) {
+  const p = [0, height / 2, 0, 0, -height / 2, 0];
+  const i = [];
+  const n = safeSegments(segments, 8);
+  for (let s = 0; s < n; s += 1) {
+    const a = s / n * Math.PI * 2;
+    p.push(Math.cos(a) * radius, height / 2, Math.sin(a) * radius);
+    p.push(Math.cos(a) * radius, -height / 2, Math.sin(a) * radius);
+  }
+  for (let s = 0; s < n; s += 1) {
+    const top = 2 + s * 2;
+    const bot = top + 1;
+    const nt = 2 + ((s + 1) % n) * 2;
+    const nb = nt + 1;
+    i.push(0, top, nt, 1, nb, bot, top, bot, nb, top, nb, nt);
+  }
+  return mesh(p, i, color);
+}
+
+
+__exports.cylinderMesh = cylinderMesh;
+function sphereMesh({ radius = 1, rings = 8, segments = 16, color = WHITE } = {}) {
+  const p = [];
+  const i = [];
+  const rows = Math.max(3, rings | 0);
+  const cols = safeSegments(segments, 8);
+  for (let y = 0; y <= rows; y += 1) {
+    const ph = y / rows * Math.PI;
+    for (let x = 0; x < cols; x += 1) {
+      const th = x / cols * Math.PI * 2;
+      p.push(Math.sin(ph) * Math.cos(th) * radius, Math.cos(ph) * radius, Math.sin(ph) * Math.sin(th) * radius);
+    }
+  }
+  for (let y = 0; y < rows; y += 1) for (let x = 0; x < cols; x += 1) {
+    const a = y * cols + x;
+    const b = y * cols + ((x + 1) % cols);
+    const c = (y + 1) * cols + ((x + 1) % cols);
+    const d = (y + 1) * cols + x;
+    i.push(a, c, d, a, b, c);
+  }
+  return mesh(p, i, color);
+}
+
+__exports.sphereMesh = sphereMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/primitives/star.js */
+__awtsmoosModule_153 = (() => {
+const __exports = {};
+// B"H
+var WHITE = __awtsmoosModule_149.WHITE;
+var mesh = __awtsmoosModule_149.mesh;
+
+/** B"H: A star is a small argument that darkness never owned the sky. */
+function starMesh({ points = 5, outer = 1, inner = 0.45, height = 0.55, color = WHITE } = {}) {
+  const p = [0, height, 0, 0, -height, 0];
+  const i = [];
+  const n = Math.max(3, points | 0) * 2;
+  for (let s = 0; s < n; s += 1) {
+    const r = s % 2 ? inner : outer;
+    const a = s / n * Math.PI * 2;
+    p.push(Math.cos(a) * r, 0, Math.sin(a) * r);
+  }
+  for (let s = 0; s < n; s += 1) {
+    const a = 2 + s;
+    const b = 2 + ((s + 1) % n);
+    i.push(0, a, b, 1, b, a);
+  }
+  return mesh(p, i, color);
+}
+
+__exports.starMesh = starMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/primitives.js */
+__awtsmoosModule_148 = (() => {
+const __exports = {};
+// B"H
+__exports.WHITE = __awtsmoosModule_149.WHITE;
+__exports.mesh = __awtsmoosModule_149.mesh;
+__exports.onPlane = __awtsmoosModule_149.onPlane;
+__exports.safeSegments = __awtsmoosModule_149.safeSegments;
+__exports.cubeMesh = __awtsmoosModule_150.cubeMesh;
+__exports.discMesh = __awtsmoosModule_151.discMesh;
+__exports.planeMesh = __awtsmoosModule_151.planeMesh;
+__exports.ringMesh = __awtsmoosModule_151.ringMesh;
+__exports.cylinderMesh = __awtsmoosModule_152.cylinderMesh;
+__exports.sphereMesh = __awtsmoosModule_152.sphereMesh;
+__exports.starMesh = __awtsmoosModule_153.starMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/transform.js */
+__awtsmoosModule_156 = (() => {
+const __exports = {};
+// B"H
+
+/**
+ * Chapter 2 — A finite vessel may turn through every axis while its source
+ * remains untouched. Scale, rotation, and translation are applied in that order.
+ */
+function transformMesh(mesh, options = {}) {
+	const scale = axis(options.scale, 1);
+	const rotate = axis(options.rotate, 0);
+	const translate = axis(options.translate, 0);
+	const positions = [];
+	for (let index = 0; index < (mesh.positions || []).length; index += 3) {
+		const point = [
+			mesh.positions[index] * scale[0],
+			mesh.positions[index + 1] * scale[1],
+			mesh.positions[index + 2] * scale[2]
+		];
+		const turned = rotatePoint(point, rotate);
+		positions.push(turned[0] + translate[0], turned[1] + translate[1], turned[2] + translate[2]);
+	}
+	return copyMesh(mesh, positions);
+}
+
+
+__exports.transformMesh = transformMesh;
+function recolorMesh(mesh, color = [1, 1, 1, 1]) {
+	return {
+		...mesh,
+		positions: [...(mesh.positions || [])],
+		indices: [...(mesh.indices || [])],
+		colors: Array.from({ length: (mesh.positions || []).length / 3 }, () => color).flat()
+	};
+}
+
+
+__exports.recolorMesh = recolorMesh;
+function mergeMeshes(meshes = []) {
+	const output = { positions: [], indices: [], colors: [] };
+	for (const current of meshes.flat(Infinity).filter(Boolean)) mergeInto(output, current);
+	return output;
+}
+
+
+__exports.mergeMeshes = mergeMeshes;
+function cloneMesh(mesh) {
+	return copyMesh(mesh, [...(mesh.positions || [])]);
+}
+
+
+__exports.cloneMesh = cloneMesh;
+function rotatePoint([x, y, z], [rx, ry, rz]) {
+	const cx = Math.cos(rx);
+	const sx = Math.sin(rx);
+	const cy = Math.cos(ry);
+	const sy = Math.sin(ry);
+	const cz = Math.cos(rz);
+	const sz = Math.sin(rz);
+	const xTurn = [x, y * cx - z * sx, y * sx + z * cx];
+	const yTurn = [xTurn[0] * cy + xTurn[2] * sy, xTurn[1], -xTurn[0] * sy + xTurn[2] * cy];
+	return [yTurn[0] * cz - yTurn[1] * sz, yTurn[0] * sz + yTurn[1] * cz, yTurn[2]];
+}
+
+function copyMesh(mesh, positions) {
+	return {
+		...mesh,
+		positions,
+		indices: [...(mesh.indices || [])],
+		colors: normalizedColors(mesh)
+	};
+}
+
+function normalizedColors(mesh) {
+	const count = (mesh.positions || []).length / 3;
+	if (mesh.colors?.length === count * 4) return [...mesh.colors];
+	return Array.from({ length: count }, () => [1, 1, 1, 1]).flat();
+}
+
+function mergeInto(output, mesh) {
+	const offset = output.positions.length / 3;
+	output.positions.push(...(mesh.positions || []));
+	output.indices.push(...(mesh.indices || []).map(index => index + offset));
+	output.colors.push(...normalizedColors(mesh));
+}
+
+function axis(value, fallback) {
+	if (Array.isArray(value)) return [0, 1, 2].map(index => finite(value[index], fallback));
+	const scalar = finite(value, fallback);
+	return [scalar, scalar, scalar];
+}
+
+function finite(value, fallback) {
+	return Number.isFinite(value) ? value : fallback;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/catalog/helpers.js */
+__awtsmoosModule_158 = (() => {
+const __exports = {};
+// B"H
+var cubeMesh = __awtsmoosModule_148.cubeMesh;
+var transformMesh = __awtsmoosModule_156.transformMesh;
+
+/** B"H: A bar is a humble beam, waiting to become a gate or a letter. */
+function bar(translate, scale, tilt = 0) {
+  const current = transformMesh(cubeMesh(), { scale, translate });
+  if (!tilt) return current;
+  const positions = current.positions.map((value, i) => (i % 3 === 0 ? value + current.positions[i + 1] * tilt : value));
+  return { ...current, positions };
+}
+
+__exports.bar = bar;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/catalog/glyphs.js */
+__awtsmoosModule_157 = (() => {
+const __exports = {};
+// B"H
+var mergeMeshes = __awtsmoosModule_156.mergeMeshes;
+var bar = __awtsmoosModule_158.bar;
+
+/** B"H: The glyph leans forward like a spark trying to become speech. */
+function letterMesh() {
+  return mergeMeshes([
+    bar([0, 0, 0], [0.22, 1.55, 0.18]),
+    bar([-0.34, 0.34, 0], [0.72, 0.17, 0.18]),
+    bar([0.3, -0.28, 0], [0.66, 0.17, 0.18]),
+    bar([0, 0.02, 0], [0.15, 1.42, 0.15], -0.36)
+  ]);
+}
+
+__exports.letterMesh = letterMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/catalog/nature.js */
+__awtsmoosModule_159 = (() => {
+const __exports = {};
+// B"H
+var cylinderMesh = __awtsmoosModule_148.cylinderMesh;
+var sphereMesh = __awtsmoosModule_148.sphereMesh;
+var mergeMeshes = __awtsmoosModule_156.mergeMeshes;
+var transformMesh = __awtsmoosModule_156.transformMesh;
+
+/** B"H: The tree grows upward but remembers the traveler needs a horizon. */
+function treeMesh() {
+  return mergeMeshes([
+    transformMesh(cylinderMesh({ radius: 0.14, height: 1.0, segments: 14 }), { translate: [0, -0.28, 0] }),
+    transformMesh(sphereMesh({ radius: 0.48, rings: 6, segments: 12 }), { scale: [1, 0.72, 1], translate: [0, 0.45, 0] }),
+    transformMesh(sphereMesh({ radius: 0.29, rings: 5, segments: 10 }), { translate: [0.25, 0.6, 0.03] })
+  ]);
+}
+
+
+__exports.treeMesh = treeMesh;
+/** B"H: The cloud is now a soft marker, not a wall across the sky. */
+function cloudMesh() {
+  return mergeMeshes([
+    puff(-0.3, 0, 0, 0.34),
+    puff(0.1, 0.05, 0, 0.44),
+    puff(0.48, -0.02, 0.02, 0.3),
+    puff(0.08, -0.12, 0.24, 0.28)
+  ]);
+}
+
+
+__exports.cloudMesh = cloudMesh;
+function puff(x, y, z, radius) {
+  return transformMesh(sphereMesh({ radius, rings: 5, segments: 10 }), { translate: [x, y, z] });
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/catalog/structures.js */
+__awtsmoosModule_160 = (() => {
+const __exports = {};
+// B"H
+var ringMesh = __awtsmoosModule_148.ringMesh;
+var mergeMeshes = __awtsmoosModule_156.mergeMeshes;
+var transformMesh = __awtsmoosModule_156.transformMesh;
+var bar = __awtsmoosModule_158.bar;
+
+/** B"H: An arch must frame the road, not devour the camera. */
+function archMesh() {
+  return mergeMeshes([
+    bar([-0.58, -0.28, 0], [0.2, 1.18, 0.24]),
+    bar([0.58, -0.28, 0], [0.2, 1.18, 0.24]),
+    transformMesh(ringMesh({ plane: 'xy', outer: 0.72, inner: 0.52, segments: 36 }), { translate: [0, 0.3, 0] }),
+    bar([0, 0.28, 0], [1.08, 0.16, 0.22])
+  ]);
+}
+
+
+__exports.archMesh = archMesh;
+/** B"H: A gate hints at a higher world while keeping the path visible. */
+function gateMesh() {
+  return mergeMeshes([
+    transformMesh(ringMesh({ plane: 'xy', outer: 0.76, inner: 0.61, segments: 42 }), { scale: [0.9, 1.05, 1], translate: [0, 0.05, 0] }),
+    bar([-0.68, -0.22, 0], [0.14, 1.18, 0.2]),
+    bar([0.68, -0.22, 0], [0.14, 1.18, 0.2]),
+    bar([0, -0.82, 0], [1.42, 0.1, 0.22])
+  ]);
+}
+
+__exports.gateMesh = gateMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/catalog/registry.js */
+__awtsmoosModule_155 = (() => {
+const __exports = {};
+// B"H
+var cubeMesh = __awtsmoosModule_148.cubeMesh;
+var cylinderMesh = __awtsmoosModule_148.cylinderMesh;
+var discMesh = __awtsmoosModule_148.discMesh;
+var planeMesh = __awtsmoosModule_148.planeMesh;
+var ringMesh = __awtsmoosModule_148.ringMesh;
+var sphereMesh = __awtsmoosModule_148.sphereMesh;
+var starMesh = __awtsmoosModule_148.starMesh;
+var transformMesh = __awtsmoosModule_156.transformMesh;
+var letterMesh = __awtsmoosModule_157.letterMesh;
+var cloudMesh = __awtsmoosModule_159.cloudMesh;
+var treeMesh = __awtsmoosModule_159.treeMesh;
+var archMesh = __awtsmoosModule_160.archMesh;
+var gateMesh = __awtsmoosModule_160.gateMesh;
+
+/** B"H: The registry names each vessel, then gets out of the way. */
+const BUILDERS = {
+  cube: () => cubeMesh(),
+  box: () => cubeMesh(),
+  plane: () => planeMesh(),
+  disc: () => discMesh({ segments: 40 }),
+  sphere: () => sphereMesh({ rings: 8, segments: 14 }),
+  cylinder: () => cylinderMesh({ segments: 24 }),
+  ring: () => ringMesh({ plane: 'xz', segments: 42 }),
+  star: () => starMesh({ points: 6 }),
+  shard: () => transformMesh(starMesh({ points: 4, height: 0.9 }), { scale: [0.45, 1.05, 0.45] }),
+  letter: letterMesh,
+  arch: archMesh,
+  gate: gateMesh,
+  tree: treeMesh,
+  cloud: cloudMesh
+};
+
+function catalogNames() {
+  return Object.keys(BUILDERS);
+}
+
+
+__exports.catalogNames = catalogNames;
+function catalogMesh(name = 'cube') {
+  return (BUILDERS[name] || BUILDERS.cube)();
+}
+
+__exports.catalogMesh = catalogMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/catalog.js */
+__awtsmoosModule_154 = (() => {
+const __exports = {};
+// B"H
+__exports.catalogMesh = __awtsmoosModule_155.catalogMesh;
+__exports.catalogNames = __awtsmoosModule_155.catalogNames;
+__exports.letterMesh = __awtsmoosModule_157.letterMesh;
+__exports.cloudMesh = __awtsmoosModule_159.cloudMesh;
+__exports.treeMesh = __awtsmoosModule_159.treeMesh;
+__exports.archMesh = __awtsmoosModule_160.archMesh;
+__exports.gateMesh = __awtsmoosModule_160.gateMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/repair.js */
+__awtsmoosModule_161 = (() => {
+const __exports = {};
+/**
+ * B"H
+ * @chapter Degenerate sparks fell away so the visible vessel could stand.
+ */
+function compactFiniteMesh(mesh) {
+  const positions = mesh.positions || [];
+  const indices = mesh.indices || [];
+  const cleanPositions = [];
+  const map = new Map();
+  for (let i = 0; i < positions.length; i += 3) {
+    const v = [positions[i], positions[i + 1], positions[i + 2]];
+    if (!v.every(Number.isFinite)) continue;
+    map.set(i / 3, cleanPositions.length / 3);
+    cleanPositions.push(...v);
+  }
+  const cleanIndices = [];
+  for (let i = 0; i < indices.length; i += 3) {
+    const tri = [map.get(indices[i]), map.get(indices[i + 1]), map.get(indices[i + 2])];
+    if (tri.some(v => v === undefined)) continue;
+    if (tri[0] === tri[1] || tri[1] === tri[2] || tri[0] === tri[2]) continue;
+    cleanIndices.push(...tri);
+  }
+  return { ...mesh, positions: cleanPositions, indices: cleanIndices };
+}
+
+__exports.compactFiniteMesh = compactFiniteMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/math/vec3.js */
+__awtsmoosModule_163 = (() => {
+const __exports = {};
+/**
+ * B"H
+ * @chapter Three coordinates sang, and the void admitted they were a point.
+ */
+const v3 = (x = 0, y = 0, z = 0) => [x, y, z];
+__exports.v3 = v3;
+
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+__exports.sub = sub;
+
+const cross = (a, b) => [
+  a[1] * b[2] - a[2] * b[1],
+  a[2] * b[0] - a[0] * b[2],
+  a[0] * b[1] - a[1] * b[0]
+];
+__exports.cross = cross;
+
+function length(a) {
+  return Math.hypot(a[0], a[1], a[2]);
+}
+
+__exports.length = length;
+function normalize(a) {
+  const len = length(a) || 1;
+  return [a[0] / len, a[1] / len, a[2] / len];
+}
+
+__exports.normalize = normalize;
+function isFiniteVec3(a) {
+  return Array.isArray(a) && a.length === 3 && a.every(Number.isFinite);
+}
+
+__exports.isFiniteVec3 = isFiniteVec3;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/triangles.js */
+__awtsmoosModule_162 = (() => {
+const __exports = {};
+// B"H
+var cross = __awtsmoosModule_163.cross;
+var normalize = __awtsmoosModule_163.normalize;
+var sub = __awtsmoosModule_163.sub;
+
+const TRIANGLE_STRIDE = 10;
+__exports.TRIANGLE_STRIDE = TRIANGLE_STRIDE;
+
+
+/**
+ * Chapter 3 — Indexed sparks become colored triangle breath for WebGL.
+ * Each vertex is position, flat normal, and procedural RGBA material color.
+ */
+function meshToTriangles(mesh) {
+	const output = [];
+	const positions = mesh?.positions || [];
+	const indices = mesh?.indices || [];
+	const colors = mesh?.colors || [];
+	for (let index = 0; index < indices.length; index += 3) {
+		const vertexIndices = [indices[index], indices[index + 1], indices[index + 2]];
+		const points = vertexIndices.map(vertex => readPoint(positions, vertex));
+		if (points.some(point => !point)) continue;
+		const normal = faceNormal(points[0], points[1], points[2]);
+		for (let corner = 0; corner < 3; corner += 1) {
+			pushVertex(output, points[corner], normal, readColor(colors, vertexIndices[corner]));
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		}
 		return {
 			finished: action.phase === 'recovering' && action.weight <= 0,
@@ -15363,10 +20015,211 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 
+<<<<<<< HEAD
 	__exports.advancePlayerActionState = advancePlayerActionState;
 	function beginPlayerActionRecovery(action, cancelReason = null) {
 		if (!action || action.phase === 'recovering') {
 			return action;
+=======
+__exports.meshToTriangles = meshToTriangles;
+function triangleStats(data) {
+	return {
+		floats: data.length,
+		vertices: data.length / TRIANGLE_STRIDE,
+		triangles: data.length / (TRIANGLE_STRIDE * 3),
+		stride: TRIANGLE_STRIDE,
+		finite: Array.from(data).every(Number.isFinite)
+	};
+}
+
+
+__exports.triangleStats = triangleStats;
+function readPoint(positions, vertex) {
+	const index = vertex * 3;
+	const point = [positions[index], positions[index + 1], positions[index + 2]];
+	return point.every(Number.isFinite) ? point : null;
+}
+
+function readColor(colors, vertex) {
+	const index = vertex * 4;
+	const color = [colors[index], colors[index + 1], colors[index + 2], colors[index + 3]];
+	return color.every(Number.isFinite) ? color : [1, 1, 1, 1];
+}
+
+function faceNormal(a, b, c) {
+	const normal = normalize(cross(sub(b, a), sub(c, a)));
+	return normal.every(Number.isFinite) && Math.hypot(...normal) > 0.0001 ? normal : [0, 1, 0];
+}
+
+function pushVertex(output, point, normal, color) {
+	output.push(...point, ...normal, ...color);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/summary.js */
+__awtsmoosModule_164 = (() => {
+const __exports = {};
+/**
+ * B"H
+ * @chapter The mesh confessed its borders before the King who makes borders.
+ * Some colors arrive as RGB, some as RGBA; the summary judges them honestly.
+ */
+function summarizeMesh(mesh) {
+  const positions = mesh?.positions || [];
+  const indices = mesh?.indices || [];
+  const vertexCount = positions.length / 3;
+  const bounds = makeBounds();
+  for (let i = 0; i < positions.length; i += 3) includePoint(bounds, positions, i);
+  return {
+    vertices: vertexCount,
+    triangles: indices.length / 3,
+    bounds: positions.length ? bounds : null,
+    hasColors: hasVertexColors(mesh?.colors, vertexCount),
+    hasNormals: Array.isArray(mesh?.normals) && mesh.normals.length === positions.length
+  };
+}
+
+
+__exports.summarizeMesh = summarizeMesh;
+function makeBounds() {
+  return { min: [Infinity, Infinity, Infinity], max: [-Infinity, -Infinity, -Infinity] };
+}
+
+function includePoint(bounds, positions, offset) {
+  for (let axis = 0; axis < 3; axis += 1) {
+    const value = positions[offset + axis];
+    bounds.min[axis] = Math.min(bounds.min[axis], value);
+    bounds.max[axis] = Math.max(bounds.max[axis], value);
+  }
+}
+
+function hasVertexColors(colors, vertexCount) {
+  if (!Array.isArray(colors)) return false;
+  return colors.length === vertexCount * 3 || colors.length === vertexCount * 4;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/mesh/validate.js */
+__awtsmoosModule_165 = (() => {
+const __exports = {};
+/**
+ * B"H
+ * @chapter The broken triangles were counted, not shamed, then lifted.
+ */
+function validateMesh(mesh, options = {}) {
+  const maxAbs = options.maxAbs ?? 100000;
+  const issues = [];
+  const positions = mesh?.positions;
+  const indices = mesh?.indices;
+  if (!Array.isArray(positions)) issues.push('positions must be an array');
+  if (!Array.isArray(indices)) issues.push('indices must be an array');
+  if (issues.length) return { ok: false, issues };
+  if (positions.length % 3) issues.push('positions length must be divisible by 3');
+  if (indices.length % 3) issues.push('indices length must be divisible by 3');
+  positions.forEach((value, i) => {
+    if (!Number.isFinite(value)) issues.push(`position ${i} is not finite`);
+    if (Math.abs(value) > maxAbs) issues.push(`position ${i} exceeds maxAbs ${maxAbs}`);
+  });
+  const vertexCount = Math.floor(positions.length / 3);
+  indices.forEach((index, i) => {
+    if (!Number.isInteger(index)) issues.push(`index ${i} is not an integer`);
+    if (index < 0 || index >= vertexCount) issues.push(`index ${i} is out of range`);
+  });
+  return { ok: issues.length === 0, issues };
+}
+
+__exports.validateMesh = validateMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/assembly.js */
+__awtsmoosModule_168 = (() => {
+const __exports = {};
+// B"H
+var cubeMesh = __awtsmoosModule_148.cubeMesh;
+var cylinderMesh = __awtsmoosModule_148.cylinderMesh;
+var ringMesh = __awtsmoosModule_148.ringMesh;
+var sphereMesh = __awtsmoosModule_148.sphereMesh;
+var starMesh = __awtsmoosModule_148.starMesh;
+var mergeMeshes = __awtsmoosModule_156.mergeMeshes;
+var recolorMesh = __awtsmoosModule_156.recolorMesh;
+var transformMesh = __awtsmoosModule_156.transformMesh;
+
+/**
+ * Chapter 4 — Primitive sparks become designed objects through explicit assembly.
+ * Every helper returns raw indexed mesh geometry, never a scene-graph placeholder.
+ */
+function assemble(...parts) {
+	return mergeMeshes(parts);
+}
+
+
+__exports.assemble = assemble;
+function box(size, position, color, rotate = [0, 0, 0]) {
+	return placed(cubeMesh(), { scale: size, translate: position, rotate, color });
+}
+
+
+__exports.box = box;
+function cylinder(radius, height, position, color, rotate = [0, 0, 0], segments = 14) {
+	return placed(cylinderMesh({ radius, height, segments }), { translate: position, rotate, color });
+}
+
+
+__exports.cylinder = cylinder;
+function sphere(radius, position, color, scale = [1, 1, 1]) {
+	return placed(sphereMesh({ radius, rings: 6, segments: 12 }), { scale, translate: position, color });
+}
+
+
+__exports.sphere = sphere;
+function ring(outer, inner, position, color, rotate = [0, 0, 0]) {
+	return placed(ringMesh({ outer, inner, segments: 20 }), { translate: position, rotate, color });
+}
+
+
+__exports.ring = ring;
+function star(radius, depth, position, color, rotate = [0, 0, 0]) {
+	return placed(starMesh({ outer: radius, inner: radius * 0.48, depth }), { translate: position, rotate, color });
+}
+
+
+__exports.star = star;
+function wheel(radius, width, position, colors) {
+	return assemble(
+		cylinder(radius, width, position, colors.tire, [0, 0, Math.PI / 2], 16),
+		cylinder(radius * 0.48, width * 1.04, position, colors.metal, [0, 0, Math.PI / 2], 12)
+	);
+}
+
+
+__exports.wheel = wheel;
+function column(radius, height, position, colors) {
+	return assemble(
+		cylinder(radius, height, position, colors.stone, [0, 0, 0], 14),
+		cylinder(radius * 1.25, height * 0.08, [position[0], position[1] - height * 0.48, position[2]], colors.trim),
+		cylinder(radius * 1.18, height * 0.08, [position[0], position[1] + height * 0.48, position[2]], colors.trim)
+	);
+}
+
+
+__exports.column = column;
+function placed(mesh, options = {}) {
+	const transformed = transformMesh(mesh, options);
+	return options.color ? recolorMesh(transformed, options.color) : transformed;
+}
+
+
+__exports.placed = placed;
+function gridPositions(columns, rows, width, height, yStart = 0) {
+	const positions = [];
+	for (let row = 0; row < rows; row += 1) {
+		for (let column = 0; column < columns; column += 1) {
+			positions.push([
+				(column + 1) / (columns + 1) * width - width / 2,
+				yStart + (row + 1) / (rows + 1) * height,
+				0
+			]);
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		}
 		action.phase = 'recovering';
 		action.recoveryElapsed = 0;
@@ -15374,6 +20227,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		action.cancelReason = cancelReason;
 		return action;
 	}
+<<<<<<< HEAD
 
 
 	__exports.beginPlayerActionRecovery = beginPlayerActionRecovery;
@@ -15387,9 +20241,156 @@ const __awtsmoosModule_0 = Object.create(null);
 			releaseCount: action?.releaseCount || 0,
 			weight: action?.weight || 0
 		};
+=======
+	return positions;
+}
+
+__exports.gridPositions = gridPositions;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/palettes.js */
+__awtsmoosModule_169 = (() => {
+const __exports = {};
+// B"H
+var createRng = __awtsmoosModule_147.createRng;
+
+const BASES = [
+	[[0.68, 0.26, 0.18, 1], [0.96, 0.72, 0.28, 1]],
+	[[0.18, 0.42, 0.62, 1], [0.22, 0.78, 0.82, 1]],
+	[[0.38, 0.22, 0.58, 1], [0.92, 0.42, 0.76, 1]],
+	[[0.22, 0.54, 0.32, 1], [0.72, 0.88, 0.34, 1]],
+	[[0.62, 0.54, 0.42, 1], [0.92, 0.84, 0.62, 1]]
+];
+
+/** Deterministic materials keep every model varied yet replayable. */
+function modelPalette(seed = 'model') {
+	const random = createRng(seed);
+	const base = BASES[Math.floor(random() * BASES.length)];
+	return {
+		body: vary(base[0], random, 0.13),
+		accent: vary(base[1], random, 0.1),
+		trim: [0.92, 0.82, 0.62, 1],
+		stone: [0.56, 0.54, 0.52, 1],
+		glass: [0.12, 0.48, 0.68, 0.88],
+		darkGlass: [0.045, 0.16, 0.24, 0.94],
+		metal: [0.58, 0.64, 0.7, 1],
+		dark: [0.045, 0.04, 0.055, 1],
+		tire: [0.022, 0.024, 0.03, 1],
+		light: [1, 0.9, 0.42, 1],
+		red: [0.92, 0.08, 0.055, 1],
+		green: [0.12, 0.48, 0.22, 1],
+		wood: [0.42, 0.2, 0.08, 1],
+		white: [0.94, 0.94, 0.9, 1]
+	};
+}
+
+
+__exports.modelPalette = modelPalette;
+function vary(color, random, amount) {
+	const shift = (random() - 0.5) * amount * 2;
+	return color.map((channel, index) => index === 3 ? channel : clamp(channel + shift));
+}
+
+function clamp(value) {
+	return Math.max(0.02, Math.min(1, value));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/architecture/helpers.js */
+__awtsmoosModule_170 = (() => {
+const __exports = {};
+// B"H
+var assemble = __awtsmoosModule_168.assemble;
+var box = __awtsmoosModule_168.box;
+var column = __awtsmoosModule_168.column;
+var gridPositions = __awtsmoosModule_168.gridPositions;
+
+/** Build actual façade depth: windows, lintels, mullions, doors, and roof trim. */
+function facadeMesh(options) {
+	const { width, height, depth, stories, columns, colors } = options;
+	const front = depth / 2 + 0.035;
+	const windows = gridPositions(columns, stories, width * 0.88, height * 0.78, height * 0.02);
+	const parts = windows.flatMap(([x, y]) => windowParts(x, y, front, width / columns, height / stories, colors));
+	parts.push(...doorParts(width, height, front, colors));
+	parts.push(box([width * 1.04, height * 0.05, depth * 1.05], [0, height * 0.98, 0], colors.trim));
+	return assemble(parts);
+}
+
+
+__exports.facadeMesh = facadeMesh;
+function columnRow(count, width, height, depth, colors) {
+	return Array.from({ length: count }, (_, index) => {
+		const x = count === 1 ? 0 : -width / 2 + index / (count - 1) * width;
+		return column(width / count * 0.14, height, [x, height / 2, depth], colors);
+	});
+}
+
+
+__exports.columnRow = columnRow;
+function steppedRoof(width, depth, y, colors, tiers = 3) {
+	return Array.from({ length: tiers }, (_, index) => {
+		const scale = 1 - index * 0.15;
+		return box(
+			[width * scale, 0.18, depth * scale],
+			[0, y + index * 0.16, 0],
+			index % 2 ? colors.accent : colors.trim
+		);
+	});
+}
+
+
+__exports.steppedRoof = steppedRoof;
+function windowParts(x, y, front, cellWidth, cellHeight, colors) {
+	const width = cellWidth * 0.44;
+	const height = cellHeight * 0.42;
+	return [
+		box([width, height, 0.08], [x, y, front], colors.darkGlass),
+		box([width * 1.16, 0.07, 0.11], [x, y + height * 0.57, front], colors.trim),
+		box([0.055, height, 0.1], [x, y, front + 0.01], colors.metal)
+	];
+}
+
+function doorParts(width, height, front, colors) {
+	return [
+		box([width * 0.18, height * 0.25, 0.11], [0, height * 0.13, front], colors.wood),
+		box([width * 0.03, height * 0.25, 0.13], [0, height * 0.13, front + 0.01], colors.trim),
+		box([width * 0.24, height * 0.025, 0.18], [0, height * 0.265, front], colors.stone)
+	];
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/architecture/civic.js */
+__awtsmoosModule_167 = (() => {
+const __exports = {};
+// B"H
+var assemble = __awtsmoosModule_168.assemble;
+var box = __awtsmoosModule_168.box;
+var column = __awtsmoosModule_168.column;
+var cylinder = __awtsmoosModule_168.cylinder;
+var placed = __awtsmoosModule_168.placed;
+var sphere = __awtsmoosModule_168.sphere;
+var star = __awtsmoosModule_168.star;
+var modelPalette = __awtsmoosModule_169.modelPalette;
+var facadeMesh = __awtsmoosModule_170.facadeMesh;
+var steppedRoof = __awtsmoosModule_170.steppedRoof;
+
+/** A tower is stacked massing, correctly elevated façades, crown, and beacon. */
+function towerMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'tower');
+	const parts = [];
+	let y = 0;
+	for (let tier = 0; tier < 5; tier += 1) {
+		const width = 5.6 - tier * 0.62;
+		const height = 2.4 + tier * 0.18;
+		const depth = width * 0.86;
+		parts.push(box([width, height, depth], [0, y + height / 2, 0], tier % 2 ? colors.body : colors.stone));
+		parts.push(placed(facadeMesh({ width, height, depth, stories: 1, columns: 3, colors }), { translate: [0, y, 0] }));
+		y += height;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 
+<<<<<<< HEAD
 	__exports.playerActionStateSnapshot = playerActionStateSnapshot;
 	function boundedPlayerActionProgress(value) {
 		return bounded(value);
@@ -15400,6 +20401,275 @@ const __awtsmoosModule_0 = Object.create(null);
 	function positive(value, fallback) {
 		const number = Number(value);
 		return Number.isFinite(number) && number > 0 ? number : fallback;
+=======
+__exports.towerMesh = towerMesh;
+/** A study hall gains a portico, steps, drum, dome, windows, and roof symbol. */
+function studyHallMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'study-hall');
+	const width = 9.6;
+	const depth = 7.2;
+	const height = 5.4;
+	return assemble(
+		box([width, height, depth], [0, height / 2, 0], colors.stone),
+		facadeMesh({ width, height, depth, stories: 2, columns: 4, colors }),
+		portico(width, depth, colors),
+		cylinder(2.2, 1.3, [0, height + 0.65, 0], colors.body),
+		sphere(2.35, [0, height + 1.55, 0], colors.accent, [1, 0.58, 1]),
+		star(0.8, 0.16, [0, height + 3.28, 0], colors.light, [Math.PI / 2, 0, 0])
+	);
+}
+
+
+__exports.studyHallMesh = studyHallMesh;
+/** A palace has a central hall, detailed wings, corner towers, and crown line. */
+function palaceMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'palace');
+	const wingFacade = facadeMesh({ width: 7.2, height: 4.1, depth: 5.3, stories: 2, columns: 3, colors });
+	return assemble(
+		studyHallMesh({ ...options, palette: colors }),
+		box([7.2, 4.1, 5.3], [-7.4, 2.05, 0], colors.body),
+		box([7.2, 4.1, 5.3], [7.4, 2.05, 0], colors.body),
+		placed(wingFacade, { translate: [-7.4, 0, 0] }),
+		placed(wingFacade, { translate: [7.4, 0, 0] }),
+		cornerTower(-10.2, colors),
+		cornerTower(10.2, colors),
+		...[-7.2, -3.6, 0, 3.6, 7.2].map(x => column(0.24, 4.2, [x, 2.1, 3.7], colors)),
+		...[-8, -4, 0, 4, 8].map(x => star(0.42, 0.12, [x, 6.4, 0], colors.light, [Math.PI / 2, 0, 0]))
+	);
+}
+
+
+__exports.palaceMesh = palaceMesh;
+function portico(width, depth, colors) {
+	return assemble(
+		box([width * 0.62, 0.22, 2.4], [0, 4.3, depth / 2 + 0.85], colors.trim),
+		...[-2.2, -0.75, 0.75, 2.2].map(x => column(0.23, 4, [x, 2, depth / 2 + 1.25], colors)),
+		...Array.from({ length: 4 }, (_, index) => box(
+			[width * 0.72 - index * 0.4, 0.18, 0.8],
+			[0, index * 0.16, depth / 2 + 1.9 + index * 0.28],
+			colors.stone
+		))
+	);
+}
+
+function cornerTower(x, colors) {
+	return assemble(
+		cylinder(1.65, 6.2, [x, 3.1, 0], colors.stone, [0, 0, 0], 16),
+		cylinder(1.95, 0.32, [x, 6.24, 0], colors.accent, [0, 0, 0], 16),
+		sphere(1.2, [x, 7.05, 0], colors.body, [1, 0.68, 1])
+	);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/signs.js */
+__awtsmoosModule_172 = (() => {
+const __exports = {};
+// B"H
+var createRng = __awtsmoosModule_147.createRng;
+var assemble = __awtsmoosModule_168.assemble;
+var box = __awtsmoosModule_168.box;
+var modelPalette = __awtsmoosModule_169.modelPalette;
+
+/**
+ * Chapter 5 — A sign is modeled as frame, face, lamps, and generated glyph bars.
+ * No image texture pretends to be geometry.
+ */
+function storefrontSignMesh(options = {}) {
+	const seed = options.seed || 'sign';
+	const colors = options.palette || modelPalette(seed);
+	const width = options.width || 3.4;
+	const height = options.height || 0.78;
+	const depth = options.depth || 0.18;
+	const random = createRng(seed);
+	const parts = [
+		box([width, height, depth], [0, 0, 0], colors.dark),
+		box([width * 0.92, height * 0.78, depth * 1.08], [0, 0, depth * 0.08], colors.accent),
+		...glyphRow(width * 0.76, height * 0.48, depth * 0.7, random, colors.light)
+	];
+	if (options.lamps !== false) parts.push(...signLamps(width, height, depth, colors));
+	return assemble(parts);
+}
+
+
+__exports.storefrontSignMesh = storefrontSignMesh;
+function streetSignMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'street-sign');
+	return assemble(
+		box([0.12, 2.4, 0.12], [0, 1.2, 0], colors.metal),
+		storefrontSignMesh({ ...options, palette: colors, width: 2.2, height: 0.58, depth: 0.14, lamps: false }),
+		box([0.86, 0.16, 0.14], [0, 0.78, 0], colors.accent)
+	);
+}
+
+
+__exports.streetSignMesh = streetSignMesh;
+function glyphRow(width, height, depth, random, color) {
+	const count = 4;
+	const cell = width / count;
+	const parts = [];
+	for (let index = 0; index < count; index += 1) {
+		const x = -width / 2 + cell * (index + 0.5);
+		parts.push(...glyph(x, cell * 0.55, height, depth, random, color));
+	}
+	return parts;
+}
+
+function glyph(x, width, height, depth, random, color) {
+	const lean = (random() - 0.5) * 0.35;
+	return [
+		box([width * 0.18, height, depth], [x, 0, 0.13], color, [0, 0, lean]),
+		box([width, height * 0.18, depth], [x, height * 0.34, 0.13], color),
+		box([width * (0.55 + random() * 0.3), height * 0.16, depth], [x + width * 0.08, -height * 0.2, 0.13], color)
+	];
+}
+
+function signLamps(width, height, depth, colors) {
+	return [-1, 1].map(side => box(
+		[0.18, 0.18, depth * 1.5],
+		[side * width * 0.43, height * 0.57, depth * 0.2],
+		colors.light
+	));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/architecture/residential.js */
+__awtsmoosModule_171 = (() => {
+const __exports = {};
+// B"H
+var createRng = __awtsmoosModule_147.createRng;
+var assemble = __awtsmoosModule_168.assemble;
+var box = __awtsmoosModule_168.box;
+var placed = __awtsmoosModule_168.placed;
+var modelPalette = __awtsmoosModule_169.modelPalette;
+var storefrontSignMesh = __awtsmoosModule_172.storefrontSignMesh;
+var facadeMesh = __awtsmoosModule_170.facadeMesh;
+var steppedRoof = __awtsmoosModule_170.steppedRoof;
+
+/** A townhouse is walls, recessed windows, cornice, roof planes, and chimney. */
+function townhouseMesh(options = {}) {
+	const seed = options.seed || 'townhouse';
+	const random = createRng(seed);
+	const colors = options.palette || modelPalette(seed);
+	const width = 4.4 + random() * 1.4;
+	const depth = 3.8 + random() * 1.3;
+	const stories = 2 + Math.floor(random() * 3);
+	const height = stories * (1.45 + random() * 0.25);
+	return assemble(
+		box([width, height, depth], [0, height / 2, 0], colors.body),
+		facadeMesh({ width, height, depth, stories, columns: 3, colors }),
+		gableRoof(width, depth, height, colors),
+		box([0.45, 1.1, 0.5], [width * 0.27, height + 0.7, 0], colors.stone)
+	);
+}
+
+
+__exports.townhouseMesh = townhouseMesh;
+/** A shop has glass, structural frames, striped awning, roof trim, and wall sign. */
+function shopMesh(options = {}) {
+	const seed = options.seed || 'shop';
+	const colors = options.palette || modelPalette(seed);
+	const width = 6.2;
+	const depth = 4.6;
+	const height = 4.8;
+	const front = depth / 2 + 0.04;
+	const sign = storefrontSignMesh({ seed, palette: colors, width: width * 0.72, height: 0.72 });
+	return assemble(
+		box([width, height, depth], [0, height / 2, 0], colors.body),
+		box([width * 0.82, height * 0.48, 0.1], [0, height * 0.32, front], colors.darkGlass),
+		shopFrames(width, height, front, colors),
+		awning(width, height, front, colors),
+		placed(sign, { translate: [0, height * 0.79, front + 0.15] }),
+		steppedRoof(width, depth, height + 0.08, colors, 2)
+	);
+}
+
+
+__exports.shopMesh = shopMesh;
+function gableRoof(width, depth, height, colors) {
+	return assemble(
+		box([width * 0.62, 0.22, depth * 1.08], [-width * 0.22, height + width * 0.14, 0], colors.accent, [0, 0, -0.42]),
+		box([width * 0.62, 0.22, depth * 1.08], [width * 0.22, height + width * 0.14, 0], colors.accent, [0, 0, 0.42])
+	);
+}
+
+function shopFrames(width, height, front, colors) {
+	return [-0.34, 0, 0.34].map(offset => box(
+		[0.09, height * 0.5, 0.14],
+		[width * offset, height * 0.32, front + 0.02],
+		colors.metal
+	));
+}
+
+function awning(width, height, front, colors) {
+	return assemble(
+		box([width * 0.95, 0.16, 1.1], [0, height * 0.61, front + 0.42], colors.accent, [0.16, 0, 0]),
+		...[-0.38, -0.13, 0.13, 0.38].map(offset => box(
+			[width * 0.04, 0.17, 1.12],
+			[width * offset, height * 0.61, front + 0.43],
+			colors.trim,
+			[0.16, 0, 0]
+		))
+	);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/botany/components.js */
+__awtsmoosModule_174 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+var assemble = __awtsmoosModule_168.assemble;
+var box = __awtsmoosModule_168.box;
+var cylinder = __awtsmoosModule_168.cylinder;
+
+/**
+ * The Awtsmoos reveals leaves and petals through light faceted vessels. Thin boxes
+ * preserve silhouette while avoiding hundreds of triangles per tiny botanical part.
+ */
+function stem(position, height, radius, color, lean = [0, 0, 0]) {
+	return cylinder(radius, height, [position[0], position[1] + height * 0.5, position[2]], color, lean, 8);
+}
+
+
+__exports.stem = stem;
+function blade(position, height, width, color, angle = 0, lean = 0) {
+	return box(
+		[width, height, width * 0.22],
+		[position[0], position[1] + height * 0.5, position[2]],
+		color,
+		[lean, angle, 0]
+	);
+}
+
+
+__exports.blade = blade;
+function broadLeaf(position, length, width, color, angle, rise = 0.2) {
+	const x = position[0] + Math.cos(angle) * length * 0.32;
+	const z = position[2] + Math.sin(angle) * length * 0.32;
+	return box(
+		[length, width, 0.035],
+		[x, position[1] + rise, z],
+		color,
+		[0.16, -angle, 0]
+	);
+}
+
+
+__exports.broadLeaf = broadLeaf;
+function petalRing(center, count, radius, petalLength, color, vertical = false) {
+	const petals = [];
+	for (let index = 0; index < count; index += 1) {
+		const angle = index / count * Math.PI * 2;
+		const x = center[0] + Math.cos(angle) * radius;
+		const z = center[2] + Math.sin(angle) * radius;
+		petals.push(box(
+			vertical ? [0.08, petalLength, 0.18] : [petalLength, 0.06, 0.18],
+			[x, center[1], z],
+			color,
+			vertical ? [0, -angle, 0.22] : [0, -angle, 0]
+		));
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 	function bounded(value) {
@@ -15422,13 +20692,35 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * bookkeeping outside the quaternion vessel so each module reveals one responsibility.
 	 */
 
+<<<<<<< HEAD
 	var playerActionStateSnapshot = __awtsmoosModule_191.playerActionStateSnapshot;
+=======
+__exports.branch = branch;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/botany/flowers.js */
+__awtsmoosModule_173 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+var createRng = __awtsmoosModule_147.createRng;
+var assemble = __awtsmoosModule_168.assemble;
+var sphere = __awtsmoosModule_168.sphere;
+var modelPalette = __awtsmoosModule_169.modelPalette;
+var blade = __awtsmoosModule_174.blade;
+var broadLeaf = __awtsmoosModule_174.broadLeaf;
+var petalRing = __awtsmoosModule_174.petalRing;
+var roundedCluster = __awtsmoosModule_174.roundedCluster;
+var stem = __awtsmoosModule_174.stem;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 	function emitPlayerActionRelease(runtime, message = {}) {
 		const action = runtime.active;
 		if (!action || action.released) {
 			return false;
 		}
+<<<<<<< HEAD
 		action.released = true;
 		action.releaseCount += 1;
 		runtime.bus?.emit?.(action.definition.releaseEvent, {
@@ -15438,6 +20730,1363 @@ const __awtsmoosModule_0 = Object.create(null);
 			sequence: action.sequence
 		});
 		return true;
+=======
+	}
+	parts.push(roundedCluster([0, 1.94, 0], 5, 0.14, colors.accent, [0.7, 1, 0.7]));
+	return assemble(parts);
+}
+
+__exports.flowerSpikeMesh = flowerSpikeMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/botany/foliage.js */
+__awtsmoosModule_175 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+var createRng = __awtsmoosModule_147.createRng;
+var assemble = __awtsmoosModule_168.assemble;
+var sphere = __awtsmoosModule_168.sphere;
+var modelPalette = __awtsmoosModule_169.modelPalette;
+var blade = __awtsmoosModule_174.blade;
+var broadLeaf = __awtsmoosModule_174.broadLeaf;
+var branch = __awtsmoosModule_174.branch;
+var roundedCluster = __awtsmoosModule_174.roundedCluster;
+var stem = __awtsmoosModule_174.stem;
+
+/** Rounded flowering shrubs carry woody volume, broad leaves, and visible panicles. */
+function panicleShrubMesh(options = {}) {
+	const seed = options.seed || 'panicle-shrub';
+	const random = createRng(seed);
+	const colors = modelPalette(seed);
+	const bloom = [0.68 + random() * 0.2, 0.58 + random() * 0.22, 0.84, 1];
+	const parts = [];
+	for (let index = 0; index < 7; index += 1) {
+		const angle = index / 7 * Math.PI * 2;
+		const length = 0.75 + random() * 0.5;
+		const center = [Math.cos(angle) * length * 0.72, 0.72 + random() * 0.55, Math.sin(angle) * length * 0.72];
+		parts.push(branch([0, 0.12, 0], length, 0.045, colors.wood, angle, 0.78));
+		parts.push(broadLeaf([center[0] * 0.55, center[1] * 0.45, center[2] * 0.55], 0.42, 0.28, colors.green, angle));
+		parts.push(roundedCluster(center, 7, 0.24, bloom, [1, 0.82, 1]));
+	}
+	return assemble(parts);
+}
+
+
+__exports.panicleShrubMesh = panicleShrubMesh;
+/** Hosta leaves radiate as broad ribbed blades around a lifted flower raceme. */
+function hostaClumpMesh(options = {}) {
+	const seed = options.seed || 'hosta-clump';
+	const colors = modelPalette(seed);
+	const parts = [];
+	for (let index = 0; index < 12; index += 1) {
+		const angle = index / 12 * Math.PI * 2;
+		const length = 0.72 + index % 3 * 0.1;
+		parts.push(broadLeaf([0, 0.08, 0], length, 0.42, colors.green, angle, 0.18 + index % 2 * 0.08));
+	}
+	parts.push(stem([0, 0, 0], 1.35, 0.03, colors.green));
+	for (let row = 0; row < 5; row += 1) {
+		const angle = row * 2.4;
+		parts.push(sphere(0.11, [Math.cos(angle) * 0.1, 0.86 + row * 0.12, Math.sin(angle) * 0.1], colors.white, [0.65, 1.1, 0.65]));
+	}
+	return assemble(parts);
+}
+
+
+__exports.hostaClumpMesh = hostaClumpMesh;
+/** Fern fronds use a visible spine and repeated leaflets instead of a green cloud. */
+function fernClumpMesh(options = {}) {
+	const seed = options.seed || 'fern-clump';
+	const colors = modelPalette(seed);
+	const parts = [];
+	for (let frond = 0; frond < 7; frond += 1) {
+		const angle = frond / 7 * Math.PI * 2;
+		const height = 0.82 + frond % 3 * 0.12;
+		parts.push(blade([Math.cos(angle) * 0.08, 0, Math.sin(angle) * 0.08], height, 0.035, colors.green, angle, 0.28));
+		for (let row = 1; row < 7; row += 1) {
+			const progress = row / 7;
+			const center = [Math.cos(angle) * progress * 0.52, progress * height * 0.82, Math.sin(angle) * progress * 0.52];
+			parts.push(broadLeaf(center, 0.25 * (1 - progress * 0.45), 0.1, colors.green, angle + Math.PI / 2, 0.03));
+			parts.push(broadLeaf(center, 0.25 * (1 - progress * 0.45), 0.1, colors.green, angle - Math.PI / 2, 0.03));
+		}
+	}
+	return assemble(parts);
+}
+
+
+__exports.fernClumpMesh = fernClumpMesh;
+/** Grass clumps separate fine blades from elevated seed plumes for distance readability. */
+function grassClumpMesh(options = {}) {
+	const seed = options.seed || 'grass-clump';
+	const random = createRng(seed);
+	const colors = modelPalette(seed);
+	const straw = [0.72, 0.58, 0.28, 1];
+	const parts = [];
+	for (let index = 0; index < 22; index += 1) {
+		const angle = index / 22 * Math.PI * 2 + random() * 0.18;
+		const radius = random() * 0.22;
+		parts.push(blade([Math.cos(angle) * radius, 0, Math.sin(angle) * radius], 0.62 + random() * 0.62, 0.025, colors.green, angle, 0.2 + random() * 0.24));
+	}
+	for (let index = 0; index < 6; index += 1) {
+		const angle = index / 6 * Math.PI * 2;
+		parts.push(stem([Math.cos(angle) * 0.16, 0, Math.sin(angle) * 0.16], 1.18 + index % 2 * 0.16, 0.018, straw));
+		parts.push(sphere(0.1, [Math.cos(angle) * 0.16, 1.2 + index % 2 * 0.16, Math.sin(angle) * 0.16], straw, [0.48, 2.4, 0.48]));
+	}
+	return assemble(parts);
+}
+
+__exports.grassClumpMesh = grassClumpMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/botany/trees.js */
+__awtsmoosModule_176 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+var createRng = __awtsmoosModule_147.createRng;
+var assemble = __awtsmoosModule_168.assemble;
+var box = __awtsmoosModule_168.box;
+var cylinder = __awtsmoosModule_168.cylinder;
+var modelPalette = __awtsmoosModule_169.modelPalette;
+var branch = __awtsmoosModule_174.branch;
+var roundedCluster = __awtsmoosModule_174.roundedCluster;
+
+/** Cypress crowns rise as narrow stacked columns rather than generic green balls. */
+function cypressTreeMesh(options = {}) {
+	const seed = options.seed || 'cypress-tree';
+	const colors = modelPalette(seed);
+	const parts = [cylinder(0.26, 3.2, [0, 1.6, 0], colors.wood, [0, 0, 0], 10)];
+	for (let level = 0; level < 6; level += 1) {
+		const progress = level / 5;
+		parts.push(box([0.78 - progress * 0.22, 1.35, 0.78 - progress * 0.22], [0, 1.1 + level * 0.62, 0], colors.green, [0, level * 0.28, 0]));
+	}
+	return assemble(parts);
+}
+
+
+__exports.cypressTreeMesh = cypressTreeMesh;
+/** Broadleaf trees expose trunk, radial limbs, and separated crown pads. */
+function broadleafTreeMesh(options = {}) {
+	const seed = options.seed || 'broadleaf-tree';
+	const random = createRng(seed);
+	const colors = modelPalette(seed);
+	const parts = [cylinder(0.38, 3.4, [0, 1.7, 0], colors.wood, [0, 0, 0], 12)];
+	for (let index = 0; index < 8; index += 1) {
+		const angle = index / 8 * Math.PI * 2;
+		const length = 1.2 + random() * 0.9;
+		parts.push(branch([0, 2.2, 0], length, 0.1, colors.wood, angle, 0.7));
+		parts.push(box([1.8, 1.1, 1.5], [Math.cos(angle) * length * 0.8, 3 + random() * 1.1, Math.sin(angle) * length * 0.8], colors.green, [0.08, angle, 0.12]));
+	}
+	parts.push(box([2.1, 1.5, 1.9], [0, 4, 0], colors.green, [0.08, 0.34, 0]));
+	return assemble(parts);
+}
+
+
+__exports.broadleafTreeMesh = broadleafTreeMesh;
+/** Willow crowns hang in curtains around an open center and water-facing trunk. */
+function willowTreeMesh(options = {}) {
+	const seed = options.seed || 'willow-tree';
+	const colors = modelPalette(seed);
+	const willow = [0.48, 0.68, 0.24, 1];
+	const parts = [cylinder(0.34, 3.8, [0, 1.9, 0], colors.wood, [0, 0, 0], 12)];
+	for (let index = 0; index < 9; index += 1) {
+		const angle = index / 9 * Math.PI * 2;
+		const radius = 1.3 + index % 3 * 0.28;
+		parts.push(branch([0, 2.55, 0], radius, 0.07, colors.wood, angle, 0.62));
+		for (let drop = 0; drop < 4; drop += 1) {
+			const x = Math.cos(angle) * radius * (0.58 + drop * 0.08);
+			const z = Math.sin(angle) * radius * (0.58 + drop * 0.08);
+			parts.push(box([0.38, 1.05, 0.38], [x, 3.4 - drop * 0.55, z], willow, [0, angle, 0.08]));
+		}
+	}
+	return assemble(parts);
+}
+
+
+__exports.willowTreeMesh = willowTreeMesh;
+/** Pine trees use a trunk and distinct tiered conical branch masses. */
+function pineTreeMesh(options = {}) {
+	const seed = options.seed || 'pine-tree';
+	const colors = modelPalette(seed);
+	const pine = [0.12, 0.34, 0.18, 1];
+	const parts = [cylinder(0.3, 4.7, [0, 2.35, 0], colors.wood, [0, 0, 0], 10)];
+	for (let level = 0; level < 5; level += 1) {
+		const radius = 1.7 - level * 0.26;
+		for (let index = 0; index < 6; index += 1) {
+			const angle = index / 6 * Math.PI * 2 + level * 0.34;
+			parts.push(branch([0, 1.45 + level * 0.72, 0], radius, 0.06, colors.wood, angle, 0.48));
+			parts.push(box([1.25, 0.42, 0.7], [Math.cos(angle) * radius * 0.72, 1.72 + level * 0.72, Math.sin(angle) * radius * 0.72], pine, [0, angle, 0.06]));
+		}
+	}
+	return assemble(parts);
+}
+
+
+__exports.pineTreeMesh = pineTreeMesh;
+/** Flowering trees preserve visible branch structure and blossom constellations. */
+function floweringTreeMesh(options = {}) {
+	const seed = options.seed || 'flowering-tree';
+	const random = createRng(seed);
+	const colors = modelPalette(seed);
+	const blossom = [0.98, 0.58 + random() * 0.22, 0.72 + random() * 0.16, 1];
+	const parts = [cylinder(0.3, 3, [0, 1.5, 0], colors.wood, [0, 0, 0], 11)];
+	for (let index = 0; index < 7; index += 1) {
+		const angle = index / 7 * Math.PI * 2;
+		const length = 1.1 + random() * 0.7;
+		const center = [Math.cos(angle) * length * 0.82, 2.7 + random() * 1.2, Math.sin(angle) * length * 0.82];
+		parts.push(branch([0, 1.9, 0], length, 0.08, colors.wood, angle, 0.72));
+		parts.push(box([1.35, 0.85, 1.12], center, colors.green, [0.08, angle, 0.1]));
+		parts.push(roundedCluster([center[0], center[1] + 0.18, center[2]], 5, 0.19, blossom, [1, 0.7, 1]));
+	}
+	return assemble(parts);
+}
+
+
+__exports.floweringTreeMesh = floweringTreeMesh;
+/** Olive trees combine a gnarled multi-stem base with airy silver leaf pads. */
+function oliveTreeMesh(options = {}) {
+	const seed = options.seed || 'olive-tree';
+	const colors = modelPalette(seed);
+	const silver = [0.48, 0.58, 0.38, 1];
+	const parts = [
+		cylinder(0.28, 2.8, [-0.18, 1.35, 0], colors.wood, [0, 0, -0.12], 10),
+		cylinder(0.22, 2.5, [0.2, 1.2, 0.08], colors.wood, [0, 0, 0.16], 9)
+	];
+	for (let index = 0; index < 8; index += 1) {
+		const angle = index / 8 * Math.PI * 2;
+		parts.push(branch([0, 1.9, 0], 1.15, 0.065, colors.wood, angle, 0.66));
+		parts.push(box([1.2, 0.5, 0.75], [Math.cos(angle) * 0.9, 2.6 + index % 3 * 0.28, Math.sin(angle) * 0.9], silver, [0.08, angle, 0.12]));
+	}
+	return assemble(parts);
+}
+
+__exports.oliveTreeMesh = oliveTreeMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/nature.js */
+__awtsmoosModule_177 = (() => {
+const __exports = {};
+// B"H
+var createRng = __awtsmoosModule_147.createRng;
+var assemble = __awtsmoosModule_168.assemble;
+var box = __awtsmoosModule_168.box;
+var cylinder = __awtsmoosModule_168.cylinder;
+var sphere = __awtsmoosModule_168.sphere;
+var star = __awtsmoosModule_168.star;
+var modelPalette = __awtsmoosModule_169.modelPalette;
+
+/** A tree grows as trunk, branch joints, layered crown, and fruit sparks. */
+function treeModelMesh(options = {}) {
+	const seed = options.seed || 'tree-model';
+	const random = createRng(seed);
+	const colors = options.palette || modelPalette(seed);
+	const parts = [cylinder(0.42, 3.8, [0, 1.9, 0], colors.wood, [0, 0, 0], 12)];
+	for (let index = 0; index < 7; index += 1) {
+		const angle = index / 7 * Math.PI * 2;
+		const radius = 0.9 + random() * 0.75;
+		const height = 3.2 + random() * 1.35;
+		parts.push(cylinder(0.12, radius * 1.3, [Math.cos(angle) * radius * 0.38, height - 0.55, Math.sin(angle) * radius * 0.38], colors.wood, [Math.sin(angle) * 0.9, 0, -Math.cos(angle) * 0.9], 9));
+		parts.push(sphere(0.92 + random() * 0.34, [Math.cos(angle) * radius, height, Math.sin(angle) * radius], colors.green, [1, 0.82, 1]));
+	}
+	parts.push(sphere(1.15, [0, 4.45, 0], colors.green, [1, 0.9, 1]));
+	return assemble(parts);
+}
+
+
+__exports.treeModelMesh = treeModelMesh;
+function planterMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'planter');
+	return assemble(
+		box([2.4, 0.72, 1.5], [0, 0.36, 0], colors.stone),
+		box([2.08, 0.48, 1.2], [0, 0.66, 0], colors.dark),
+		...[-0.65, 0, 0.65].map(x => sphere(0.58, [x, 1.12, 0], colors.green, [1, 0.85, 1]))
+	);
+}
+
+
+__exports.planterMesh = planterMesh;
+function hedgeMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'hedge');
+	return assemble(
+		box([4.6, 0.38, 1.15], [0, 0.19, 0], colors.stone),
+		...Array.from({ length: 6 }, (_, index) => sphere(0.72, [-1.9 + index * 0.76, 0.88, 0], colors.green, [1, 0.82, 0.88]))
+	);
+}
+
+
+__exports.hedgeMesh = hedgeMesh;
+function monumentMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'monument');
+	return assemble(
+		box([3.2, 0.5, 3.2], [0, 0.25, 0], colors.stone),
+		box([2.3, 0.42, 2.3], [0, 0.7, 0], colors.trim),
+		cylinder(0.58, 4.2, [0, 2.9, 0], colors.stone, [0, 0, 0], 12),
+		star(1.28, 0.24, [0, 5.35, 0], colors.light, [Math.PI / 2, 0, 0])
+	);
+}
+
+__exports.monumentMesh = monumentMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/street.js */
+__awtsmoosModule_178 = (() => {
+const __exports = {};
+// B"H
+var assemble = __awtsmoosModule_168.assemble;
+var box = __awtsmoosModule_168.box;
+var cylinder = __awtsmoosModule_168.cylinder;
+var placed = __awtsmoosModule_168.placed;
+var ring = __awtsmoosModule_168.ring;
+var sphere = __awtsmoosModule_168.sphere;
+var modelPalette = __awtsmoosModule_169.modelPalette;
+var storefrontSignMesh = __awtsmoosModule_172.storefrontSignMesh;
+var streetSignMesh = __awtsmoosModule_172.streetSignMesh;
+
+function benchMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'bench');
+	return assemble(
+		...[-0.45, 0, 0.45].map(z => box([3.2, 0.12, 0.28], [0, 0.9 + z * 0.6, z], colors.wood, [z > 0 ? -0.18 : 0, 0, 0])),
+		...[-1, 1].flatMap(x => [0, 0.55].map(z => box([0.18, 1, 0.18], [x * 1.2, 0.5, z], colors.metal))),
+		box([3.35, 0.14, 0.2], [0, 1.35, 0.48], colors.wood)
+	);
+}
+
+
+__exports.benchMesh = benchMesh;
+function streetLampMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'lamp');
+	return assemble(
+		cylinder(0.16, 5.2, [0, 2.6, 0], colors.metal, [0, 0, 0], 12),
+		cylinder(0.48, 0.18, [0, 0.09, 0], colors.stone, [0, 0, 0], 12),
+		box([1.1, 0.12, 0.12], [0.48, 5.05, 0], colors.metal, [0, 0, -0.18]),
+		box([0.72, 0.18, 0.62], [0.93, 4.78, 0], colors.dark),
+		sphere(0.31, [0.93, 4.72, 0], colors.light, [1, 0.76, 1])
+	);
+}
+
+
+__exports.streetLampMesh = streetLampMesh;
+function kioskMesh(options = {}) {
+	const seed = options.seed || 'kiosk';
+	const colors = options.palette || modelPalette(seed);
+	const sign = storefrontSignMesh({ seed, palette: colors, width: 3.0, height: 0.62 });
+	return assemble(
+		box([3.8, 3.1, 3.2], [0, 1.55, 0], colors.body),
+		box([2.8, 1.25, 0.12], [0, 1.75, 1.64], colors.darkGlass),
+		box([4.4, 0.24, 3.8], [0, 3.22, 0], colors.accent),
+		...[-1, 1].map(x => box([0.18, 3.0, 0.18], [x * 1.7, 1.5, 1.5], colors.trim)),
+		placed(sign, { translate: [0, 2.75, 1.8] })
+	);
+}
+
+
+__exports.kioskMesh = kioskMesh;
+function fountainMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'fountain');
+	return assemble(
+		cylinder(2.8, 0.55, [0, 0.28, 0], colors.stone, [0, 0, 0], 24),
+		ring(2.5, 1.85, [0, 0.58, 0], colors.glass),
+		cylinder(0.42, 2.4, [0, 1.5, 0], colors.stone, [0, 0, 0], 16),
+		cylinder(1.35, 0.3, [0, 2.42, 0], colors.stone, [0, 0, 0], 20),
+		sphere(0.48, [0, 2.88, 0], colors.light),
+		...Array.from({ length: 8 }, (_, index) => sphere(
+			0.18,
+			[Math.cos(index / 8 * Math.PI * 2) * 1.6, 1.1, Math.sin(index / 8 * Math.PI * 2) * 1.6],
+			colors.glass,
+			[0.72, 1.8, 0.72]
+		))
+	);
+}
+
+
+__exports.fountainMesh = fountainMesh;
+function streetSignModel(options = {}) {
+	return streetSignMesh(options);
+}
+
+
+__exports.streetSignModel = streetSignModel;
+function bollardMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'bollard');
+	return assemble(
+		cylinder(0.25, 1.25, [0, 0.63, 0], colors.metal, [0, 0, 0], 12),
+		cylinder(0.34, 0.12, [0, 1.24, 0], colors.accent, [0, 0, 0], 12),
+		cylinder(0.42, 0.12, [0, 0.06, 0], colors.stone, [0, 0, 0], 12)
+	);
+}
+
+__exports.bollardMesh = bollardMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/vehicles/helpers.js */
+__awtsmoosModule_180 = (() => {
+const __exports = {};
+// B"H
+var assemble = __awtsmoosModule_168.assemble;
+var box = __awtsmoosModule_168.box;
+var wheel = __awtsmoosModule_168.wheel;
+
+/** Assemble a complete road vehicle with body, cabin, glass, lights, and wheels. */
+function vehicleBody(options) {
+	const { width, length, height, colors, cabin = 0.52, hood = 0.28 } = options;
+	const baseY = height * 0.27;
+	return assemble(
+		box([width, height * 0.46, length], [0, baseY, 0], colors.body),
+		box([width * 0.84, height * 0.52, length * cabin], [0, height * 0.7, length * 0.04], colors.body),
+		glassCabin(width, length, height, colors, cabin),
+		box([width * 0.94, height * 0.12, length * hood], [0, height * 0.48, -length * 0.35], colors.accent),
+		wheelSet(width, length, height, colors),
+		lightSet(width, length, height, colors),
+		box([width * 0.96, height * 0.08, 0.12], [0, height * 0.18, -length * 0.51], colors.metal),
+		box([width * 0.96, height * 0.08, 0.12], [0, height * 0.18, length * 0.51], colors.metal)
+	);
+}
+
+
+__exports.vehicleBody = vehicleBody;
+function wheelSet(width, length, height, colors, pairs = 2) {
+	const parts = [];
+	for (let pair = 0; pair < pairs; pair += 1) {
+		const z = pairs === 1 ? 0 : -length * 0.33 + pair / (pairs - 1) * length * 0.66;
+		for (const side of [-1, 1]) parts.push(wheel(height * 0.24, width * 0.12, [side * width * 0.52, height * 0.22, z], colors));
+	}
+	return parts;
+}
+
+
+__exports.wheelSet = wheelSet;
+function windowBand(width, height, length, y, colors, count = 5) {
+	const parts = [];
+	for (let index = 0; index < count; index += 1) {
+		const z = -length * 0.36 + index / Math.max(1, count - 1) * length * 0.72;
+		for (const side of [-1, 1]) parts.push(box([0.08, height, length / count * 0.62], [side * width * 0.505, y, z], colors.darkGlass));
+	}
+	return parts;
+}
+
+
+__exports.windowBand = windowBand;
+function glassCabin(width, length, height, colors, cabin) {
+	return [
+		box([width * 0.68, height * 0.3, 0.07], [0, height * 0.78, -length * cabin * 0.27], colors.glass, [-0.18, 0, 0]),
+		box([width * 0.68, height * 0.3, 0.07], [0, height * 0.78, length * cabin * 0.33], colors.darkGlass, [0.18, 0, 0]),
+		box([0.07, height * 0.3, length * cabin * 0.56], [-width * 0.43, height * 0.78, length * 0.03], colors.glass),
+		box([0.07, height * 0.3, length * cabin * 0.56], [width * 0.43, height * 0.78, length * 0.03], colors.glass)
+	];
+}
+
+function lightSet(width, length, height, colors) {
+	return [
+		...[-1, 1].map(side => box([width * 0.18, height * 0.13, 0.08], [side * width * 0.31, height * 0.34, -length * 0.515], colors.light)),
+		...[-1, 1].map(side => box([width * 0.16, height * 0.12, 0.08], [side * width * 0.32, height * 0.34, length * 0.515], colors.red))
+	];
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/vehicles/road.js */
+__awtsmoosModule_179 = (() => {
+const __exports = {};
+// B"H
+var assemble = __awtsmoosModule_168.assemble;
+var box = __awtsmoosModule_168.box;
+var placed = __awtsmoosModule_168.placed;
+var modelPalette = __awtsmoosModule_169.modelPalette;
+var storefrontSignMesh = __awtsmoosModule_172.storefrontSignMesh;
+var vehicleBody = __awtsmoosModule_180.vehicleBody;
+var wheelSet = __awtsmoosModule_180.wheelSet;
+var windowBand = __awtsmoosModule_180.windowBand;
+
+function carMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'car');
+	return vehicleBody({ width: 2.1, length: 4.5, height: 1.5, colors });
+}
+
+
+__exports.carMesh = carMesh;
+function taxiMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'taxi');
+	colors.body = [0.94, 0.68, 0.08, 1];
+	return assemble(
+		vehicleBody({ width: 2.1, length: 4.6, height: 1.5, colors }),
+		box([0.78, 0.24, 0.38], [0, 1.65, 0.08], colors.light)
+	);
+}
+
+
+__exports.taxiMesh = taxiMesh;
+function vanMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'van');
+	return assemble(
+		vehicleBody({ width: 2.35, length: 5.2, height: 2.2, colors, cabin: 0.7, hood: 0.18 }),
+		...windowBand(2.35, 0.48, 5.2, 1.48, colors, 3)
+	);
+}
+
+
+__exports.vanMesh = vanMesh;
+function busMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'bus');
+	const width = 2.75;
+	const length = 8.4;
+	const height = 3.15;
+	return assemble(
+		box([width, height, length], [0, height / 2, 0], colors.body),
+		...windowBand(width, 0.82, length, height * 0.7, colors, 7),
+		...wheelSet(width, length, 1.6, colors, 3),
+		box([width * 0.78, 0.72, 0.08], [0, height * 0.7, -length * 0.505], colors.glass),
+		box([width * 0.44, height * 0.55, 0.08], [width * 0.18, height * 0.38, -length * 0.51], colors.darkGlass),
+		box([width * 0.76, 0.2, 0.12], [0, 0.32, -length * 0.515], colors.metal)
+	);
+}
+
+
+__exports.busMesh = busMesh;
+function truckMesh(options = {}) {
+	const colors = options.palette || modelPalette(options.seed || 'truck');
+	return assemble(
+		vehicleBody({ width: 2.6, length: 3.6, height: 2.25, colors, cabin: 0.58, hood: 0.12 }),
+		box([2.9, 2.9, 5.2], [0, 1.75, 3.25], colors.accent),
+		box([2.56, 2.35, 0.1], [0, 1.72, 5.87], colors.metal),
+		...wheelSet(2.8, 6.5, 1.8, colors, 3)
+	);
+}
+
+
+__exports.truckMesh = truckMesh;
+function marketCartMesh(options = {}) {
+	const seed = options.seed || 'market-cart';
+	const colors = options.palette || modelPalette(seed);
+	const sign = storefrontSignMesh({ seed, palette: colors, width: 2.2, height: 0.54, lamps: false });
+	return assemble(
+		box([2.6, 1.15, 3.4], [0, 0.92, 0], colors.wood),
+		...wheelSet(2.6, 3.4, 1.6, colors, 2),
+		box([3.1, 0.18, 3.9], [0, 2.45, 0], colors.accent),
+		...[-1, 1].flatMap(x => [-1, 1].map(z => box([0.1, 2.5, 0.1], [x * 1.2, 1.35, z * 1.45], colors.metal))),
+		placed(sign, { translate: [0, 1.72, 1.86] })
+	);
+}
+
+__exports.marketCartMesh = marketCartMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/models/catalog.js */
+__awtsmoosModule_166 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+var palaceMesh = __awtsmoosModule_167.palaceMesh;
+var studyHallMesh = __awtsmoosModule_167.studyHallMesh;
+var towerMesh = __awtsmoosModule_167.towerMesh;
+var shopMesh = __awtsmoosModule_171.shopMesh;
+var townhouseMesh = __awtsmoosModule_171.townhouseMesh;
+var compositeFlowerMesh = __awtsmoosModule_173.compositeFlowerMesh;
+var flowerSpikeMesh = __awtsmoosModule_173.flowerSpikeMesh;
+var irisClumpMesh = __awtsmoosModule_173.irisClumpMesh;
+var roseBushMesh = __awtsmoosModule_173.roseBushMesh;
+var fernClumpMesh = __awtsmoosModule_175.fernClumpMesh;
+var grassClumpMesh = __awtsmoosModule_175.grassClumpMesh;
+var hostaClumpMesh = __awtsmoosModule_175.hostaClumpMesh;
+var panicleShrubMesh = __awtsmoosModule_175.panicleShrubMesh;
+var broadleafTreeMesh = __awtsmoosModule_176.broadleafTreeMesh;
+var cypressTreeMesh = __awtsmoosModule_176.cypressTreeMesh;
+var floweringTreeMesh = __awtsmoosModule_176.floweringTreeMesh;
+var oliveTreeMesh = __awtsmoosModule_176.oliveTreeMesh;
+var pineTreeMesh = __awtsmoosModule_176.pineTreeMesh;
+var willowTreeMesh = __awtsmoosModule_176.willowTreeMesh;
+var hedgeMesh = __awtsmoosModule_177.hedgeMesh;
+var monumentMesh = __awtsmoosModule_177.monumentMesh;
+var planterMesh = __awtsmoosModule_177.planterMesh;
+var treeModelMesh = __awtsmoosModule_177.treeModelMesh;
+var bollardMesh = __awtsmoosModule_178.bollardMesh;
+var benchMesh = __awtsmoosModule_178.benchMesh;
+var fountainMesh = __awtsmoosModule_178.fountainMesh;
+var kioskMesh = __awtsmoosModule_178.kioskMesh;
+var streetLampMesh = __awtsmoosModule_178.streetLampMesh;
+var streetSignModel = __awtsmoosModule_178.streetSignModel;
+var busMesh = __awtsmoosModule_179.busMesh;
+var carMesh = __awtsmoosModule_179.carMesh;
+var marketCartMesh = __awtsmoosModule_179.marketCartMesh;
+var taxiMesh = __awtsmoosModule_179.taxiMesh;
+var truckMesh = __awtsmoosModule_179.truckMesh;
+var vanMesh = __awtsmoosModule_179.vanMesh;
+
+const FACTORIES = Object.freeze({
+	townhouse: townhouseMesh,
+	shop: shopMesh,
+	tower: towerMesh,
+	studyHall: studyHallMesh,
+	palace: palaceMesh,
+	car: carMesh,
+	taxi: taxiMesh,
+	van: vanMesh,
+	bus: busMesh,
+	truck: truckMesh,
+	marketCart: marketCartMesh,
+	bench: benchMesh,
+	streetLamp: streetLampMesh,
+	kiosk: kioskMesh,
+	fountain: fountainMesh,
+	streetSign: streetSignModel,
+	bollard: bollardMesh,
+	treeModel: treeModelMesh,
+	planter: planterMesh,
+	hedge: hedgeMesh,
+	monument: monumentMesh,
+	compositeFlower: compositeFlowerMesh,
+	irisClump: irisClumpMesh,
+	roseBush: roseBushMesh,
+	flowerSpike: flowerSpikeMesh,
+	panicleShrub: panicleShrubMesh,
+	hostaClump: hostaClumpMesh,
+	fernClump: fernClumpMesh,
+	grassClump: grassClumpMesh,
+	cypressTree: cypressTreeMesh,
+	broadleafTree: broadleafTreeMesh,
+	willowTree: willowTreeMesh,
+	pineTree: pineTreeMesh,
+	floweringTree: floweringTreeMesh,
+	oliveTree: oliveTreeMesh
+});
+
+/**
+ * The Awtsmoos gathers reusable procedural forms behind one deterministic catalog.
+ * Unknown names retain the historical townhouse fallback for save compatibility.
+ */
+function modelMesh(name, options = {}) {
+	const factory = FACTORIES[name] || FACTORIES.townhouse;
+	return factory({ ...options, seed: options.seed || `awtsmoos-${name}` });
+}
+
+
+__exports.modelMesh = modelMesh;
+function modelNames() {
+	return Object.keys(FACTORIES);
+}
+
+
+__exports.modelNames = modelNames;
+function hasModel(name) {
+	return Boolean(FACTORIES[name]);
+}
+
+__exports.hasModel = hasModel;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/world/building.js */
+__awtsmoosModule_181 = (() => {
+const __exports = {};
+// B"H
+var modelMesh = __awtsmoosModule_166.modelMesh;
+var transformMesh = __awtsmoosModule_156.transformMesh;
+
+/**
+ * A building is now a generated architectural model, not one stretched cube.
+ * Legacy callers retain one function while gaining real façades and rooflines.
+ */
+function buildingMesh(options = {}) {
+	const width = clamp(options.width ?? 6, 1, 32);
+	const depth = clamp(options.depth ?? 5, 1, 32);
+	const height = clamp(options.height ?? 9, 2, options.maxHeight ?? 80);
+	const style = options.style || styleFor(height);
+	const source = modelMesh(style, { seed: options.seed || `${style}-${width}-${height}-${depth}` });
+	return transformMesh(source, {
+		scale: [width / 6, height / nominalHeight(style), depth / 5],
+		translate: [options.x ?? 0, 0, options.z ?? 0]
+	});
+}
+
+
+__exports.buildingMesh = buildingMesh;
+function clamp(value, min, max) {
+	if (!Number.isFinite(value)) return min;
+	return Math.max(min, Math.min(max, value));
+}
+
+
+__exports.clamp = clamp;
+function styleFor(height) {
+	if (height > 28) return 'tower';
+	if (height > 16) return 'studyHall';
+	return height > 9 ? 'shop' : 'townhouse';
+}
+
+function nominalHeight(style) {
+	return ({ townhouse: 7, shop: 5.5, studyHall: 9, tower: 14 })[style] || 7;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/world/chunk.js */
+__awtsmoosModule_182 = (() => {
+const __exports = {};
+// B"H
+var createRng = __awtsmoosModule_147.createRng;
+var range = __awtsmoosModule_147.range;
+var transformMesh = __awtsmoosModule_156.transformMesh;
+var modelMesh = __awtsmoosModule_166.modelMesh;
+
+const CITY_MODELS = ['townhouse', 'shop', 'studyHall', 'tower', 'kiosk', 'treeModel', 'streetLamp'];
+
+/** Generate a reusable block from actual procedural model families. */
+function cityChunkMeshes({ seed = 'chunk', count = 18, size = 96, maxHeight = 48 } = {}) {
+	const random = createRng(seed);
+	return Array.from({ length: count }, (_, index) => {
+		const name = CITY_MODELS[Math.floor(random() * CITY_MODELS.length)];
+		const mesh = modelMesh(name, { seed: `${seed}-${name}-${index}` });
+		const scale = name === 'tower' ? range(random, 0.7, Math.max(0.8, maxHeight / 18)) : range(random, 0.7, 1.35);
+		return transformMesh(mesh, {
+			scale,
+			rotate: [0, Math.floor(random() * 4) * Math.PI / 2, 0],
+			translate: [range(random, -size / 2, size / 2), 0, range(random, -size / 2, size / 2)]
+		});
+	});
+}
+
+__exports.cityChunkMeshes = cityChunkMeshes;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/debug/probe.js */
+__awtsmoosModule_183 = (() => {
+const __exports = {};
+var cubeMesh = __awtsmoosModule_148.cubeMesh;
+var validateMesh = __awtsmoosModule_165.validateMesh;
+var summarizeMesh = __awtsmoosModule_164.summarizeMesh;
+
+/**
+ * B"H
+ * @chapter One golden cube is the witness: if it appears, the pipeline breathes.
+ */
+function makeGoldenProbe(size = 3) {
+  return cubeMesh({ center: [0, size / 2, 0], size: [size, size, size], color: [1, 0.84, 0.2, 1] });
+}
+
+
+__exports.makeGoldenProbe = makeGoldenProbe;
+function inspectMesh(mesh, options) {
+  return { validation: validateMesh(mesh, options), summary: summarizeMesh(mesh) };
+}
+
+__exports.inspectMesh = inspectMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural/src/index.js */
+__awtsmoosModule_146 = (() => {
+const __exports = {};
+// B"H
+__exports.createRng = __awtsmoosModule_147.createRng;
+__exports.hashSeed = __awtsmoosModule_147.hashSeed;
+__exports.range = __awtsmoosModule_147.range;
+__exports.cubeMesh = __awtsmoosModule_148.cubeMesh;
+__exports.cylinderMesh = __awtsmoosModule_148.cylinderMesh;
+__exports.discMesh = __awtsmoosModule_148.discMesh;
+__exports.mesh = __awtsmoosModule_148.mesh;
+__exports.planeMesh = __awtsmoosModule_148.planeMesh;
+__exports.ringMesh = __awtsmoosModule_148.ringMesh;
+__exports.sphereMesh = __awtsmoosModule_148.sphereMesh;
+__exports.starMesh = __awtsmoosModule_148.starMesh;
+__exports.catalogMesh = __awtsmoosModule_154.catalogMesh;
+__exports.catalogNames = __awtsmoosModule_154.catalogNames;
+__exports.compactFiniteMesh = __awtsmoosModule_161.compactFiniteMesh;
+__exports.cloneMesh = __awtsmoosModule_156.cloneMesh;
+__exports.mergeMeshes = __awtsmoosModule_156.mergeMeshes;
+__exports.recolorMesh = __awtsmoosModule_156.recolorMesh;
+__exports.transformMesh = __awtsmoosModule_156.transformMesh;
+__exports.meshToTriangles = __awtsmoosModule_162.meshToTriangles;
+__exports.TRIANGLE_STRIDE = __awtsmoosModule_162.TRIANGLE_STRIDE;
+__exports.triangleStats = __awtsmoosModule_162.triangleStats;
+__exports.summarizeMesh = __awtsmoosModule_164.summarizeMesh;
+__exports.validateMesh = __awtsmoosModule_165.validateMesh;
+__exports.modelMesh = __awtsmoosModule_166.modelMesh;
+__exports.modelNames = __awtsmoosModule_166.modelNames;
+__exports.hasModel = __awtsmoosModule_166.hasModel;
+__exports.modelPalette = __awtsmoosModule_169.modelPalette;
+__exports.buildingMesh = __awtsmoosModule_181.buildingMesh;
+__exports.clamp = __awtsmoosModule_181.clamp;
+__exports.cityChunkMeshes = __awtsmoosModule_182.cityChunkMeshes;
+__exports.makeGoldenProbe = __awtsmoosModule_183.makeGoldenProbe;
+__exports.inspectMesh = __awtsmoosModule_183.inspectMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/csg/bsp/node.js */
+__awtsmoosModule_188 = (() => {
+const __exports = {};
+// B"H
+/**
+ * @file node.js
+ * @brief A node in the spatial tree of existence.
+ */
+class Node {
+    constructor(polygons) {
+        this.plane = null;
+        this.front = null;
+        this.back = null;
+        this.polygons = [];
+        if (polygons) this.build(polygons);
+    }
+
+    clone() {
+        const node = new Node();
+        node.plane = this.plane && this.plane.clone();
+        node.front = this.front && this.front.clone();
+        node.back = this.back && this.back.clone();
+        node.polygons = this.polygons.map(p => p.clone());
+        return node;
+    }
+
+    build(polygons) {
+        if (!polygons.length) return;
+
+        if (!this.plane) this.plane = polygons[0].plane.clone();
+
+        const front = [], back = [];
+
+        for (let i = 0; i < polygons.length; i++) {
+            this.plane.splitPolygon(polygons[i], this.polygons, this.polygons, front, back);
+        }
+
+        if (front.length) {
+            if (!this.front) this.front = new Node();
+            this.front.build(front);
+        }
+
+        if (back.length) {
+            if (!this.back) this.back = new Node();
+            this.back.build(back);
+        }
+    }
+
+    /**
+     * Clips a single polygon against this node's tree.
+     * @param {Polygon} polygon - The polygon to clip.
+     * @param {boolean} keepInside - True to keep parts inside the volume (Back).
+     * @param {Array} outList - Accumulator for resulting polygons.
+     */
+    clipTo(polygon, keepInside, outList) {
+        const front = [], back = [];
+        // Split: coplanarFront->front, coplanarBack->back, front->front, back->back
+        this.plane.splitPolygon(polygon, front, back, front, back);
+
+        if (this.front) {
+            front.forEach(p => this.front.clipTo(p, keepInside, outList));
+        } else {
+            // Front Leaf: "Outside"
+            if (!keepInside) outList.push(...front);
+        }
+
+        if (this.back) {
+            back.forEach(p => this.back.clipTo(p, keepInside, outList));
+        } else {
+            // Back Leaf: "Inside"
+            if (keepInside) outList.push(...back);
+        }
+    }
+}
+
+__exports.Node = Node;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/csg/bsp/tree.js */
+__awtsmoosModule_187 = (() => {
+const __exports = {};
+// B"H
+/**
+ * @file tree.js
+ * @brief The root of spatial knowledge. A BSP Tree implementation.
+ */
+var Node = __awtsmoosModule_188.Node;
+
+class Tree {
+    constructor(polygons) {
+        this.rootnode = new Node();
+        if (polygons) this.build(polygons);
+    }
+
+    build(polygons) {
+        this.rootnode.build(polygons);
+    }
+
+    /**
+     * B"H - Clips a list of polygons against this tree.
+     * Modifies the input array in-place.
+     * @param {Array} polygons - The polygons to clip.
+     * @param {boolean} keepInside - If true, keep parts inside the tree. If false, keep parts outside.
+     */
+    clipPolygons(polygons, keepInside) {
+        const result = [];
+        for (let i = 0; i < polygons.length; i++) {
+            this.rootnode.clipTo(polygons[i], keepInside, result);
+        }
+        // Replace contents
+        polygons.length = 0;
+        polygons.push(...result);
+    }
+}
+
+__exports.Tree = Tree;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/csg/math/vector3.js */
+__awtsmoosModule_190 = (() => {
+const __exports = {};
+// B"H
+/**
+ * @file vector3.js
+ * @brief 3D Vector math for construction. Reflecting the three dimensions of divine manifestation.
+ */
+
+class Vector3D {
+    constructor(x = 0, y = 0, z = 0) {
+        if (Array.isArray(x)) {
+            this.x = x[0]; this.y = x[1]; this.z = x[2] || 0;
+        } else {
+            this.x = x; this.y = y; this.z = z;
+        }
+    }
+
+    clone() { return new Vector3D(this.x, this.y, this.z); }
+    negated() { return new Vector3D(-this.x, -this.y, -this.z); }
+    plus(a) { return new Vector3D(this.x + a.x, this.y + a.y, this.z + a.z); }
+    minus(a) { return new Vector3D(this.x - a.x, this.y - a.y, this.z - a.z); }
+    times(a) { return new Vector3D(this.x * a, this.y * a, this.z * a); }
+    dividedBy(a) { return new Vector3D(this.x / a, this.y / a, this.z / a); }
+    dot(a) { return this.x * a.x + this.y * a.y + this.z * a.z; }
+    lerp(a, t) { return this.plus(a.minus(this).times(t)); }
+    lengthSquared() { return this.dot(this); }
+    length() { return Math.sqrt(this.lengthSquared()); }
+    unit() { return this.dividedBy(this.length()); }
+    cross(a) {
+        return new Vector3D(
+            this.y * a.z - this.z * a.y,
+            this.z * a.x - this.x * a.z,
+            this.x * a.y - this.y * a.x
+        );
+    }
+    distanceTo(a) { return this.minus(a).length(); }
+    equals(a) { return this.x === a.x && this.y === a.y && this.z === a.z; }
+}
+
+__exports.Vector3D = Vector3D;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/csg/core/vertex.js */
+__awtsmoosModule_191 = (() => {
+const __exports = {};
+// B"H
+/**
+ * @file vertex.js
+ * @brief A singular point in space.
+ */
+var Vector3D = __awtsmoosModule_190.Vector3D;
+
+class Vertex {
+    constructor(pos, col) {
+        this.pos = pos; // Vector3D
+        this.col = col || [1, 1, 1, 1];
+    }
+
+    clone() {
+        return new Vertex(this.pos.clone(), [...this.col]);
+    }
+
+    flip() {
+        // Position stays same, normal (implied) flips.
+        // If we stored explicit normals, negate them here.
+    }
+
+    interpolate(other, t) {
+        const v = new Vertex(this.pos.lerp(other.pos, t));
+        if (this.col && other.col) {
+            v.col = [
+                this.col[0] + (other.col[0] - this.col[0]) * t,
+                this.col[1] + (other.col[1] - this.col[1]) * t,
+                this.col[2] + (other.col[2] - this.col[2]) * t,
+                this.col[3] + (other.col[3] - this.col[3]) * t
+            ];
+        }
+        return v;
+    }
+}
+
+__exports.Vertex = Vertex;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/csg/core/plane.js */
+__awtsmoosModule_193 = (() => {
+const __exports = {};
+// B"H
+/**
+ * @file plane.js
+ * @brief A divine boundary.
+ */
+const EPSILON = 1e-5;
+
+class Plane {
+    constructor(normal, w) {
+        this.normal = normal;
+        this.w = w;
+    }
+
+    static fromVector3Ds(a, b, c) {
+        const n = b.minus(a).cross(c.minus(a)).unit();
+        return new Plane(n, n.dot(a));
+    }
+
+    clone() { return new Plane(this.normal.clone(), this.w); }
+
+    flip() {
+        this.normal = this.normal.negated();
+        this.w = -this.w;
+    }
+
+    /**
+     * Splits a polygon by this plane.
+     * @param {Polygon} polygon
+     * @param {Array} coplanarFront
+     * @param {Array} coplanarBack
+     * @param {Array} front
+     * @param {Array} back
+     */
+    splitPolygon(polygon, coplanarFront, coplanarBack, front, back) {
+        const COPLANAR = 0;
+        const FRONT = 1;
+        const BACK = 2;
+        const SPANNING = 3;
+
+        let polygonType = 0;
+        const types = [];
+
+        for (let i = 0; i < polygon.vertices.length; i++) {
+            const t = this.normal.dot(polygon.vertices[i].pos) - this.w;
+            const type = (t < -EPSILON) ? BACK : (t > EPSILON) ? FRONT : COPLANAR;
+            polygonType |= type;
+            types.push(type);
+        }
+
+        switch (polygonType) {
+            case COPLANAR:
+                (this.normal.dot(polygon.plane.normal) > 0 ? coplanarFront : coplanarBack).push(polygon);
+                break;
+            case FRONT:
+                front.push(polygon);
+                break;
+            case BACK:
+                back.push(polygon);
+                break;
+            case SPANNING:
+                const f = [], b = [];
+                for (let i = 0; i < polygon.vertices.length; i++) {
+                    const j = (i + 1) % polygon.vertices.length;
+                    const ti = types[i], tj = types[j];
+                    const vi = polygon.vertices[i], vj = polygon.vertices[j];
+
+                    if (ti !== BACK) f.push(vi);
+                    if (ti !== FRONT) b.push(ti !== BACK ? vi.clone() : vi);
+
+                    if ((ti | tj) === SPANNING) {
+                        const t = (this.w - this.normal.dot(vi.pos)) / this.normal.dot(vj.pos.minus(vi.pos));
+                        const v = vi.interpolate(vj, t);
+                        f.push(v);
+                        b.push(v.clone());
+                    }
+                }
+                if (f.length >= 3) front.push(new polygon.constructor(f, polygon.shared));
+                if (b.length >= 3) back.push(new polygon.constructor(b, polygon.shared));
+                break;
+        }
+    }
+}
+
+__exports.Plane = Plane;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/csg/core/polygon.js */
+__awtsmoosModule_192 = (() => {
+const __exports = {};
+// B"H
+/**
+ * @file polygon.js
+ * @brief A convex boundary of creation.
+ */
+var Plane = __awtsmoosModule_193.Plane;
+
+class Polygon {
+    constructor(vertices, shared, plane) {
+        this.vertices = vertices;
+        this.shared = shared || null;
+        this.plane = plane || Plane.fromVector3Ds(vertices[0].pos, vertices[1].pos, vertices[2].pos);
+    }
+
+    clone() {
+        return new Polygon(
+            this.vertices.map(v => v.clone()),
+            this.shared ? [...this.shared] : null,
+            this.plane.clone()
+        );
+    }
+
+    flip() {
+        this.vertices.reverse().map(v => v.flip());
+        this.plane.flip();
+    }
+}
+
+__exports.Polygon = Polygon;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/csg/utils/meshUtils.js */
+__awtsmoosModule_189 = (() => {
+const __exports = {};
+// B"H
+/**
+ * @file meshUtils.js
+ * @brief Translates between CSG Polygons and Structured Mesh Faces.
+ *        Infused with Aggressive Quantization and Forced Triangulation to heal the cracks of division.
+ */
+var Vector3D = __awtsmoosModule_190.Vector3D;
+var Vertex = __awtsmoosModule_191.Vertex;
+var Polygon = __awtsmoosModule_192.Polygon;
+
+function meshToPolygons(mesh) {
+    const polygons =[];
+
+    if (mesh.faces) {
+        mesh.faces.forEach(face => {
+            const mkV = (v) => {
+                const vert = new Vertex(new Vector3D(v.pos[0], v.pos[1], v.pos[2]));
+                if (v.col) vert.col =[...v.col];
+                return vert;
+            };
+
+            const v = face.vertices;
+
+            if (v.length === 3) {
+                const poly = new Polygon([mkV(v[0]), mkV(v[1]), mkV(v[2])]);
+                if (face.tags) poly.shared = [...face.tags];
+                polygons.push(poly);
+            } else if (v.length === 4) {
+                const poly1 = new Polygon([mkV(v[0]), mkV(v[1]), mkV(v[2])]);
+                const poly2 = new Polygon([mkV(v[0]), mkV(v[2]), mkV(v[3])]);
+                if (face.tags) {
+                    poly1.shared = [...face.tags];
+                    poly2.shared = [...face.tags];
+                }
+                polygons.push(poly1);
+                polygons.push(poly2);
+            } else if (v.length > 4) {
+                for (let i = 2; i < v.length; i++) {
+                    const poly = new Polygon([mkV(v[0]), mkV(v[i-1]), mkV(v[i])]);
+                    if (face.tags) poly.shared = [...face.tags];
+                    polygons.push(poly);
+                }
+            }
+        });
+        return polygons;
+    }
+
+    const p = mesh.positions;
+    const idx = mesh.indices;
+    const c = mesh.colors;
+    if (!p || !idx) return[];
+
+    for (let i = 0; i < idx.length; i += 3) {
+        const verts =[];
+        for (let j = 0; j < 3; j++) {
+            const id = idx[i + j];
+            const vert = new Vertex(new Vector3D(p[id * 3], p[id * 3 + 1], p[id * 3 + 2]));
+            if (c && c.length >= id * 4 + 3) {
+                vert.col = [c[id * 4], c[id * 4 + 1], c[id * 4 + 2], c[id * 4 + 3] || 1.0];
+            }
+            verts.push(vert);
+        }
+        polygons.push(new Polygon(verts));
+    }
+    return polygons;
+}
+
+
+__exports.meshToPolygons = meshToPolygons;
+function polygonsToMesh(polygons) {
+    const faces =[];
+
+    // B"H - AGGRESSIVE QUANTIZATION (1mm precision)
+    // This forcibly welds vertices that were split by a hair's breadth during CSG.
+    const PRECISION = 1000;
+    const quantize = (val) => Math.round(val * PRECISION) / PRECISION;
+
+    polygons.forEach(poly => {
+        if (!poly.vertices || poly.vertices.length < 3) return;
+
+        const tags = poly.shared ||[];
+
+        const faceVerts = poly.vertices.map(v => ({
+            pos:[quantize(v.pos.x), quantize(v.pos.y), quantize(v.pos.z)],
+            col: v.col ? [...v.col] :[1, 1, 1, 1],
+            norm:[poly.plane.normal.x, poly.plane.normal.y, poly.plane.normal.z]
+        }));
+
+        // B"H - FORCED TRIANGULATION
+        // Quads with T-Junctions will tear during skinning.
+        // By forcing everything into triangles here, the topology remains rigid.
+        for (let j = 2; j < faceVerts.length; j++) {
+            faces.push({
+                vertices: [faceVerts[0], faceVerts[j - 1], faceVerts[j]],
+                tags: [...tags]
+            });
+        }
+    });
+
+    return { faces };
+}
+
+__exports.polygonsToMesh = polygonsToMesh;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/csg/csg.js */
+__awtsmoosModule_186 = (() => {
+const __exports = {};
+// B"H
+/**
+ * @file csg.js
+ * @chapter THE PERSISTENCE OF THE NAME
+ *
+ * THE HYMN OF THE TAGGED VOID:
+ * When the Cutter enters the Stone, the Stone's internal walls are born
+ * from the very skin of the Cutter itself!
+ * We decree that these new walls shall not be anonymous ghosts,
+ * but shall inherit the 'shared' tags (the Name) of the Cutter.
+ * This allows the Golem to remember which part of the void
+ * belongs to the Upper and which to the Lower realms!
+ *
+ * @module CSG
+ */
+
+var Tree = __awtsmoosModule_187.Tree;
+var meshToPolygons = __awtsmoosModule_189.meshToPolygons;
+var polygonsToMesh = __awtsmoosModule_189.polygonsToMesh;
+
+class CSG {
+    constructor() { this.polygons =[]; }
+
+    static fromPolygons(polygons) {
+        const csg = new CSG();
+        csg.polygons = polygons;
+        return csg;
+    }
+
+    static fromMesh(renderData) {
+        if (!renderData) return new CSG();
+        return CSG.fromPolygons(meshToPolygons(renderData));
+    }
+
+    toMesh() { return polygonsToMesh(this.polygons); }
+
+    clone() {
+        const csg = new CSG();
+        csg.polygons = this.polygons.map(p => p.clone());
+        return csg;
+    }
+
+    union(csg) {
+        let polygonsA = this.clone().polygons;
+        let polygonsB = csg.clone().polygons;
+        const treeA = new Tree(this.polygons);
+        const treeB = new Tree(csg.polygons);
+        treeB.clipPolygons(polygonsA, false);
+        treeA.clipPolygons(polygonsB, false);
+        return CSG.fromPolygons(polygonsA.concat(polygonsB));
+    }
+
+    /**
+     * B"H - THE REFINED SUBTRACTION (A - B)
+     * Now preserves the internal tags of the cutter (B).
+     */
+    subtract(csg, insideTag = null) {
+        console.log(`B"H - ✂️ [CSG::Subtract]: Performing binary division...`);
+        let polygonsA = this.clone().polygons;
+        let polygonsB = csg.clone().polygons;
+
+        const treeA = new Tree(this.polygons);
+        const treeB = new Tree(csg.polygons);
+
+        // 1. Clip A by B. Keep parts of A that are OUTSIDE B.
+        treeB.clipPolygons(polygonsA, false);
+
+        // 2. Clip B by A. Keep parts of B that are INSIDE A.
+        treeA.clipPolygons(polygonsB, true);
+
+        // 3. The cutter polygons (B) that are inside A become our new inner walls.
+        polygonsB.forEach(p => {
+            p.flip();
+            // B"H - CRITICAL: We keep the existing tags (Upper/Lower)
+            // and optionally append a global 'insideTag'.
+            if (insideTag) {
+                if (!p.shared) p.shared =[];
+                if (!p.shared.includes(insideTag)) p.shared.push(insideTag);
+            }
+        });
+
+        console.log(`      -> 🏁 Subtraction complete. Resulting in ${polygonsA.length + polygonsB.length} polygons.`);
+        return CSG.fromPolygons(polygonsA.concat(polygonsB));
+    }
+
+    intersect(csg) {
+        let polygonsA = this.clone().polygons;
+        let polygonsB = csg.clone().polygons;
+        const treeA = new Tree(this.polygons);
+        const treeB = new Tree(csg.polygons);
+        treeB.clipPolygons(polygonsA, true);
+        treeA.clipPolygons(polygonsB, true);
+        return CSG.fromPolygons(polygonsA.concat(polygonsB));
+    }
+}
+
+__exports.CSG = CSG;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: libs/awtsmoos-procedural-core/src/core/geometry/csg/index.js */
+__awtsmoosModule_185 = (() => {
+const __exports = {};
+// B"H
+__exports.CSG = __awtsmoosModule_186.CSG;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayGeometryCache.js */
+__awtsmoosModule_194 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file BooleanDoorwayGeometryCache.js
+ * @description Shares identical carved doorway geometry across translated village walls.
+ * The Awtsmoos is not multiplied when many walls reveal the same opening: Awtsmoos.com
+ * lets one exact local CSG result serve every rotated and translated instance without
+ * repeating expensive boolean work during the player's first entrance into the village.
+ */
+
+const MAX_CACHE_ENTRIES = 64;
+const geometryCache = new Map();
+let cacheHits = 0;
+let cacheMisses = 0;
+
+/**
+ * Resolves immutable local doorway geometry for one dimensional signature.
+ * World position and rotation are intentionally absent because they are applied later.
+ *
+ * @param {object} definition Doorway primitive definition.
+ * @param {() => object} createGeometry Expensive CSG factory used on a cache miss.
+ * @returns {object} Frozen indexed geometry shared by equivalent doorway instances.
+ */
+function resolveBooleanDoorwayGeometry(definition, createGeometry) {
+	const cacheKey = createDoorwayCacheKey(definition);
+	const cachedGeometry = geometryCache.get(cacheKey);
+	if (cachedGeometry) {
+		cacheHits += 1;
+		return cachedGeometry;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 
@@ -15461,6 +22110,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.playerActionRuntimeSnapshot = playerActionRuntimeSnapshot;
 
 }
+<<<<<<< HEAD
+=======
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayUvProjection.js */
+__awtsmoosModule_196 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/playerActions/PlayerActionBodyMaskMath.js ----
 {
@@ -20820,12 +27480,24 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+<<<<<<< HEAD
 // ---- games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayMeshData.js ----
 {
 	const __exports = __awtsmoosModule_279;
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
+=======
+__exports.projectBooleanDoorwayUv = projectBooleanDoorwayUv;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayMeshData.js */
+__awtsmoosModule_195 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 	/**
 	 * @file BooleanDoorwayMeshData.js
@@ -20834,7 +27506,11 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * Awtsmoos.com preserves one coherent wall from stone surface to carved threshold.
 	 */
 
+<<<<<<< HEAD
 	var projectBooleanDoorwayUv = __awtsmoosModule_280.projectBooleanDoorwayUv;
+=======
+var projectBooleanDoorwayUv = __awtsmoosModule_196.projectBooleanDoorwayUv;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 	/**
 	 * Creates a closed cuboid in the face-based mesh contract consumed by CSG.
@@ -20919,6 +27595,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	}
 
 
+<<<<<<< HEAD
 	__exports.flattenBooleanMesh = flattenBooleanMesh;
 	function face(...positions) {
 		return {
@@ -20927,6 +27604,183 @@ const __awtsmoosModule_0 = Object.create(null);
 				pos: [...position]
 			}))
 		};
+=======
+__exports.flattenBooleanMesh = flattenBooleanMesh;
+function face(...positions) {
+	return {
+		vertices: positions.map(position => ({
+			col: [1, 1, 1, 1],
+			pos: [...position]
+		}))
+	};
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/BooleanDoorwayGeometry.js */
+__awtsmoosModule_184 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file BooleanDoorwayGeometry.js
+ * @description Carves one canonical local doorway and reuses it across equivalent walls.
+ * The Awtsmoos reveals absence as carefully as stone: one opening is calculated once,
+ * then Awtsmoos.com places that immutable revelation wherever a home requires entrance.
+ */
+
+var CSG = __awtsmoosModule_185.CSG;
+var resolveBooleanDoorwayGeometry = __awtsmoosModule_194.resolveBooleanDoorwayGeometry;
+var createClosedCuboidMesh = __awtsmoosModule_195.createClosedCuboidMesh;
+var flattenBooleanMesh = __awtsmoosModule_195.flattenBooleanMesh;
+
+/**
+ * Carves one doorway from one continuous wall with the shared Awtsmoos CSG core.
+ * Equivalent local dimensions reuse one immutable result; world transforms remain the
+ * responsibility of the procedural bridge so visual and collision instances stay aligned.
+ *
+ * @param {object} definition Doorway primitive definition.
+ * @returns {{positions:number[], indices:number[], uvs:number[]}}
+ */
+function createBooleanDoorwayMesh(definition = {}) {
+	return resolveBooleanDoorwayGeometry(
+		definition,
+		() => carveBooleanDoorway(definition)
+	);
+}
+
+
+__exports.createBooleanDoorwayMesh = createBooleanDoorwayMesh;
+function carveBooleanDoorway(definition) {
+	const wallSize = {
+		x: finiteNumber(definition.size?.x, 7),
+		y: finiteNumber(definition.size?.y, 3),
+		z: finiteNumber(definition.size?.z, 0.7)
+	};
+	const opening = {
+		x: finiteNumber(definition.door?.x, 2.2),
+		y: finiteNumber(definition.door?.y, 2.15)
+	};
+	const wall = createClosedCuboidMesh(wallSize);
+	const cutter = createClosedCuboidMesh({
+		centerY: -wallSize.y / 2 + opening.y / 2,
+		x: opening.x,
+		y: opening.y + 0.04,
+		z: wallSize.z + 0.2
+	});
+	const carved = CSG.fromMesh(wall)
+		.subtract(CSG.fromMesh(cutter), 'door-reveal')
+		.toMesh();
+	return flattenBooleanMesh(
+		carved,
+		positiveNumber(definition.texturePolicy?.tileWorld, 6)
+	);
+}
+
+function finiteNumber(value, fallback) {
+	return Number.isFinite(value) ? value : fallback;
+}
+
+function positiveNumber(value, fallback) {
+	return Number.isFinite(value) && value > 0 ? value : fallback;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralCylinderMesh.js */
+__awtsmoosModule_197 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file ProceduralCylinderMesh.js
+ * @description Builds one indexed cylinder without renderer allocation.
+ * The Awtsmoos turns one measured radius through every bounded side;
+ * Awtsmoos.com joins cap and wall as a clear reusable vessel where finite forms abide.
+ */
+
+function createProceduralCylinderMesh(definition) {
+	const radius = definition.radius || 1;
+	const height = definition.height || 1;
+	const segments = Math.max(12, definition.segments || 32);
+	const mesh = { positions: [], indices: [] };
+	const topCenter = addVertex(mesh, 0, height / 2, 0);
+	const bottomCenter = addVertex(mesh, 0, -height / 2, 0);
+	const top = [];
+	const bottom = [];
+	for (let segment = 0; segment < segments; segment += 1) {
+		const angle = segment / segments * Math.PI * 2;
+		top.push(addVertex(
+			mesh,
+			Math.cos(angle) * radius,
+			height / 2,
+			Math.sin(angle) * radius
+		));
+		bottom.push(addVertex(
+			mesh,
+			Math.cos(angle) * radius,
+			-height / 2,
+			Math.sin(angle) * radius
+		));
+	}
+	for (let segment = 0; segment < segments; segment += 1) {
+		const next = (segment + 1) % segments;
+		addTriangle(mesh, topCenter, top[next], top[segment]);
+		addTriangle(mesh, bottomCenter, bottom[segment], bottom[next]);
+		addTriangle(mesh, top[segment], bottom[next], bottom[segment]);
+		addTriangle(mesh, top[segment], top[next], bottom[next]);
+	}
+	return mesh;
+}
+
+
+__exports.createProceduralCylinderMesh = createProceduralCylinderMesh;
+function addVertex(mesh, x, y, z) {
+	mesh.positions.push(x, y, z);
+	return mesh.positions.length / 3 - 1;
+}
+
+function addTriangle(mesh, first, second, third) {
+	mesh.indices.push(first, second, third);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralPrimitiveMeshes.js */
+__awtsmoosModule_145 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file ProceduralPrimitiveMeshes.js
+ * @description Creates local primitive and authored manual meshes without renderer allocation.
+ * The Awtsmoos gives point, face, UV, color, and normal one measured source;
+ * Awtsmoos.com preserves authored light direction through every bounded procedural course.
+ */
+
+var cubeMesh = __awtsmoosModule_146.cubeMesh;
+var sphereMesh = __awtsmoosModule_146.sphereMesh;
+var createBooleanDoorwayMesh = __awtsmoosModule_184.createBooleanDoorwayMesh;
+var createProceduralCylinderMesh = __awtsmoosModule_197.createProceduralCylinderMesh;
+
+function createPrimitiveMesh(definition) {
+	if (definition.shape === 'manual') return manualMesh(definition);
+	if (definition.shape === 'doorway') return createBooleanDoorwayMesh(definition);
+	if (definition.shape === 'cylinder') {
+		return createProceduralCylinderMesh(definition);
+	}
+	if (definition.shape === 'triPrism') return createTriPrismMesh(definition);
+	if (definition.shape === 'sphere') {
+		return sphereMesh({
+			color: definition.rgba,
+			radius: definition.radius || 1,
+			rings: 10,
+			segments: 20
+		});
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 }
@@ -20938,18 +27792,39 @@ const __awtsmoosModule_0 = Object.create(null);
 	// Boruch Hashem
 	// Blessed is He
 
+<<<<<<< HEAD
 	/**
 	 * @file BooleanDoorwayGeometry.js
 	 * @description Carves one canonical local doorway and reuses it across equivalent walls.
 	 * The Awtsmoos reveals absence as carefully as stone: one opening is calculated once,
 	 * then Awtsmoos.com places that immutable revelation wherever a home requires entrance.
 	 */
+=======
+__exports.createPrimitiveMesh = createPrimitiveMesh;
+function manualMesh({
+	vertices = [],
+	faces = [],
+	indices = [],
+	uvs = [],
+	colors = [],
+	normals = []
+}) {
+	return {
+		colors: normalizeColors(colors, vertices.length),
+		indices: indices.length ? [...indices] : faces.flatMap(triangulateFace),
+		normals: normalizeNormals(normals, vertices.length),
+		positions: vertices.flatMap(toPointArray),
+		uvs: uvs.length === vertices.length * 2 ? [...uvs] : null
+	};
+}
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 	var CSG = __awtsmoosModule_269.CSG;
 	var resolveBooleanDoorwayGeometry = __awtsmoosModule_278.resolveBooleanDoorwayGeometry;
 	var createClosedCuboidMesh = __awtsmoosModule_279.createClosedCuboidMesh;
 	var flattenBooleanMesh = __awtsmoosModule_279.flattenBooleanMesh;
 
+<<<<<<< HEAD
 	/**
 	 * Carves one doorway from one continuous wall with the shared Awtsmoos CSG core.
 	 * Equivalent local dimensions reuse one immutable result; world transforms remain the
@@ -20963,9 +27838,572 @@ const __awtsmoosModule_0 = Object.create(null);
 			definition,
 			() => carveBooleanDoorway(definition)
 		);
+=======
+__exports.manualMesh = manualMesh;
+function createTriPrismMesh(definition) {
+	const size = definition.size || { x: 2, y: 1, z: 0.4 };
+	const halfX = size.x / 2;
+	const halfY = size.y / 2;
+	const halfZ = size.z / 2;
+	return manualMesh({
+		vertices: [
+			[-halfX, -halfY, halfZ],
+			[halfX, -halfY, halfZ],
+			[0, halfY, halfZ],
+			[-halfX, -halfY, -halfZ],
+			[halfX, -halfY, -halfZ],
+			[0, halfY, -halfZ]
+		],
+		faces: [
+			[0, 1, 2],
+			[4, 3, 5],
+			[0, 3, 4, 1],
+			[1, 4, 5, 2],
+			[2, 5, 3, 0]
+		]
+	});
+}
+
+function normalizeColors(colors, vertexCount) {
+	if (!Array.isArray(colors) || !colors.length) return [];
+	const flat = colors.flatMap(value => (
+		Array.isArray(value) ? value : [value]
+	));
+	return flat.length === vertexCount * 4 ? flat : [];
+}
+
+function normalizeNormals(normals, vertexCount) {
+	if (!Array.isArray(normals) || !normals.length) return [];
+	const flat = normals.flatMap(toPointArray);
+	return flat.length === vertexCount * 3 ? flat : [];
+}
+
+function toPointArray(value) {
+	return Array.isArray(value)
+		? [value[0], value[1], value[2]]
+		: [value.x || 0, value.y || 0, value.z || 0];
+}
+
+function triangulateFace(face) {
+	const triangles = [];
+	for (let index = 1; index < face.length - 1; index += 1) {
+		triangles.push(face[0], face[index], face[index + 1]);
+	}
+	return triangles;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralTransformRules.js */
+__awtsmoosModule_198 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file ProceduralTransformRules.js
+ * @description Transforms procedural positions and directions into world coordinates.
+ * The Awtsmoos renews each axis without confusing local form and world place;
+ * Awtsmoos.com rotates light-bearing normals while translation serves position alone in space.
+ */
+
+var v = __awtsmoosModule_43.v;
+
+function transformProceduralPositions(definition, positions) {
+	const vertices = [];
+	for (let index = 0; index < positions.length; index += 3) {
+		const rotated = rotatePoint(
+			v(positions[index], positions[index + 1], positions[index + 2]),
+			definitionRotation(definition)
+		);
+		const center = definition.position || { x: 0, y: 0, z: 0 };
+		vertices.push(v(
+			rotated.x + center.x,
+			rotated.y + center.y,
+			rotated.z + center.z
+		));
+	}
+	return vertices;
+}
+
+
+__exports.transformProceduralPositions = transformProceduralPositions;
+function transformProceduralDirections(definition, directions) {
+	const transformed = [];
+	const rotation = definitionRotation(definition);
+	for (let index = 0; index < directions.length; index += 3) {
+		const rotated = rotatePoint(
+			v(directions[index], directions[index + 1], directions[index + 2]),
+			rotation
+		);
+		const length = Math.hypot(rotated.x, rotated.y, rotated.z) || 1;
+		transformed.push(v(
+			rotated.x / length,
+			rotated.y / length,
+			rotated.z / length
+		));
+	}
+	return transformed;
+}
+
+
+__exports.transformProceduralDirections = transformProceduralDirections;
+function definitionRotation(definition) {
+	return definition.rotation || {
+		x: definition.pitch || 0,
+		y: definition.yaw || 0,
+		z: definition.roll || 0
+	};
+}
+
+function rotatePoint(point, rotation) {
+	let { x, y, z } = point;
+	const cosineX = Math.cos(rotation.x || 0);
+	const sineX = Math.sin(rotation.x || 0);
+	const cosineY = Math.cos(rotation.y || 0);
+	const sineY = Math.sin(rotation.y || 0);
+	const cosineZ = Math.cos(rotation.z || 0);
+	const sineZ = Math.sin(rotation.z || 0);
+	[y, z] = [y * cosineX - z * sineX, y * sineX + z * cosineX];
+	[x, z] = [x * cosineY - z * sineY, x * sineY + z * cosineY];
+	[x, y] = [x * cosineZ - y * sineZ, x * sineZ + y * cosineZ];
+	return v(x, y, z);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/ProceduralBridge.js */
+__awtsmoosModule_144 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file ProceduralBridge.js
+ * @description Joins world definitions to renderer-neutral procedural meshes.
+ * The Awtsmoos renews authored shape, direction, and transformed world point together;
+ * Awtsmoos.com keeps the public contract small while focused vessels serve it forever.
+ */
+
+var createPrimitiveMesh = __awtsmoosModule_145.createPrimitiveMesh;
+var manualMesh = __awtsmoosModule_145.manualMesh;
+var transformProceduralDirections = __awtsmoosModule_198.transformProceduralDirections;
+var transformProceduralPositions = __awtsmoosModule_198.transformProceduralPositions;
+
+__exports.manualMesh = manualMesh;
+
+const PROCEDURAL_SOURCE = 'Awtsmoos procedural primitives + true CSG doorway difference';
+__exports.PROCEDURAL_SOURCE = PROCEDURAL_SOURCE;
+
+
+function proceduralData(definition) {
+	const rawMesh = createPrimitiveMesh(definition);
+	return {
+		colors: rawMesh.colors || [],
+		indices: rawMesh.indices || [],
+		normals: rawMesh.normals?.length
+			? transformProceduralDirections(definition, rawMesh.normals)
+			: [],
+		uvs: rawMesh.uvs || null,
+		vertices: transformProceduralPositions(definition, rawMesh.positions)
+	};
+}
+
+__exports.proceduralData = proceduralData;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveTransform.js */
+__awtsmoosModule_200 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PrimitiveTransform.js
+ * @description Moves local procedural points into their measured world positions.
+ * The Awtsmoos renews place and direction together; Awtsmoos.com keeps geometry,
+ * collision, and texture-density measurements inside the same revealed coordinates.
+ */
+
+var v = __awtsmoosModule_43.v;
+
+function transformPrimitivePoint(point, definition) {
+	const rotated = rotatePrimitivePoint(point, definitionRotation(definition));
+	const center = definition.position || { x: 0, y: 0, z: 0 };
+	return v(
+		rotated.x + center.x,
+		rotated.y + center.y,
+		rotated.z + center.z
+	);
+}
+
+
+__exports.transformPrimitivePoint = transformPrimitivePoint;
+function rotatePrimitivePoint(point, rotation) {
+	let { x, y, z } = point;
+	const cx = Math.cos(rotation.x || 0);
+	const sx = Math.sin(rotation.x || 0);
+	const cy = Math.cos(rotation.y || 0);
+	const sy = Math.sin(rotation.y || 0);
+	const cz = Math.cos(rotation.z || 0);
+	const sz = Math.sin(rotation.z || 0);
+	[y, z] = [y * cx - z * sx, y * sx + z * cx];
+	[x, z] = [x * cy - z * sy, x * sy + z * cy];
+	[x, y] = [x * cz - y * sz, x * sz + y * cz];
+	return v(x, y, z);
+}
+
+
+__exports.rotatePrimitivePoint = rotatePrimitivePoint;
+function definitionRotation(definition) {
+	return definition.rotation || {
+		x: definition.pitch || 0,
+		y: definition.yaw || 0,
+		z: definition.roll || 0
+	};
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveBoxGeometry.js */
+__awtsmoosModule_199 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PrimitiveBoxGeometry.js
+ * @description Builds face-separated boxes whose UV spans preserve world distance.
+ * The Awtsmoos reveals six boundaries around one finite vessel; Awtsmoos.com gives
+ * each face its own normal and measured UV field so stone and timber never smear.
+ */
+
+var v = __awtsmoosModule_43.v;
+var transformPrimitivePoint = __awtsmoosModule_200.transformPrimitivePoint;
+
+function createPrimitiveBoxGeometry(definition) {
+	const size = definition.size;
+	const half = { x: size.x / 2, y: size.y / 2, z: size.z / 2 };
+	const tile = positive(definition.texturePolicy?.tileWorld, 1);
+	const mesh = { indices: [], uvs: [], vertices: [] };
+	appendFace(mesh, definition, [
+		[-half.x, -half.y, half.z], [half.x, -half.y, half.z],
+		[half.x, half.y, half.z], [-half.x, half.y, half.z]
+	], size.x / tile, size.y / tile);
+	appendFace(mesh, definition, [
+		[half.x, -half.y, -half.z], [-half.x, -half.y, -half.z],
+		[-half.x, half.y, -half.z], [half.x, half.y, -half.z]
+	], size.x / tile, size.y / tile);
+	appendFace(mesh, definition, [
+		[-half.x, -half.y, -half.z], [-half.x, -half.y, half.z],
+		[-half.x, half.y, half.z], [-half.x, half.y, -half.z]
+	], size.z / tile, size.y / tile);
+	appendFace(mesh, definition, [
+		[half.x, -half.y, half.z], [half.x, -half.y, -half.z],
+		[half.x, half.y, -half.z], [half.x, half.y, half.z]
+	], size.z / tile, size.y / tile);
+	appendFace(mesh, definition, [
+		[-half.x, half.y, half.z], [half.x, half.y, half.z],
+		[half.x, half.y, -half.z], [-half.x, half.y, -half.z]
+	], size.x / tile, size.z / tile);
+	appendFace(mesh, definition, [
+		[-half.x, -half.y, -half.z], [half.x, -half.y, -half.z],
+		[half.x, -half.y, half.z], [-half.x, -half.y, half.z]
+	], size.x / tile, size.z / tile);
+	return mesh;
+}
+
+
+__exports.createPrimitiveBoxGeometry = createPrimitiveBoxGeometry;
+function appendFace(mesh, definition, corners, uSpan, vSpan) {
+	const first = mesh.vertices.length;
+	const faceUvs = [[0, 0], [uSpan, 0], [uSpan, vSpan], [0, vSpan]];
+	for (let index = 0; index < corners.length; index += 1) {
+		mesh.vertices.push(transformPrimitivePoint(v(...corners[index]), definition));
+		mesh.uvs.push(...faceUvs[index]);
+	}
+	mesh.indices.push(first, first + 1, first + 2, first, first + 2, first + 3);
+}
+
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? number : fallback;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveDiamondGeometry.js */
+__awtsmoosModule_201 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PrimitiveDiamondGeometry.js
+ * @description Builds the legacy six-point diamond while preserving world transforms.
+ * The Awtsmoos encloses one center through opposing points; Awtsmoos.com keeps the
+ * compatibility shape measurable while better village art replaces its old misuse.
+ */
+
+var v = __awtsmoosModule_43.v;
+var transformPrimitivePoint = __awtsmoosModule_200.transformPrimitivePoint;
+
+function createPrimitiveDiamondGeometry(definition) {
+	const size = definition.size;
+	const localVertices = [
+		v(0, size.y / 2, 0),
+		v(size.x / 2, 0, 0),
+		v(0, 0, size.z / 2),
+		v(-size.x / 2, 0, 0),
+		v(0, 0, -size.z / 2),
+		v(0, -size.y / 2, 0)
+	];
+	return {
+		indices: [
+			0, 2, 1, 0, 3, 2, 0, 4, 3, 0, 1, 4,
+			5, 1, 2, 5, 2, 3, 5, 3, 4, 5, 4, 1
+		],
+		uvs: null,
+		vertices: localVertices.map(point => transformPrimitivePoint(point, definition))
+	};
+}
+
+__exports.createPrimitiveDiamondGeometry = createPrimitiveDiamondGeometry;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/DoorwayFrameGeometry.js */
+__awtsmoosModule_202 = (() => {
+const __exports = {};
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * @file DoorwayFrameGeometry.js
+ * @description Builds an exact rectangular doorway from two piers and one lintel.
+ * The Awtsmoos reveals an opening without tearing the whole wall apart; Awtsmoos.com
+ * gives the finite renderer the same silhouette as box subtraction with no boolean cost.
+ */
+
+var v = __awtsmoosModule_43.v;
+var createPrimitiveBoxGeometry = __awtsmoosModule_199.createPrimitiveBoxGeometry;
+var transformPrimitivePoint = __awtsmoosModule_200.transformPrimitivePoint;
+
+const MINIMUM_FRAME_WIDTH = 0.02;
+
+/**
+ * Creates a transformed doorway frame whose opening begins at the wall floor.
+ *
+ * @param {object} definition - Doorway primitive definition.
+ * @returns {{vertices: Array<object>, indices: Array<number>, uvs: Array<number>}} Geometry buffers.
+ */
+function createDoorwayFrameGeometry(definition = {}) {
+	const wall = normalizedSize(definition.size, { x: 10, y: 10, z: 1 });
+	const requestedDoor = normalizedSize(definition.door, {
+		x: 3,
+		y: 4,
+		z: wall.z + 2
+	});
+	const openingWidth = clamp(
+		requestedDoor.x,
+		MINIMUM_FRAME_WIDTH,
+		wall.x - MINIMUM_FRAME_WIDTH * 2
+	);
+	const openingHeight = clamp(
+		requestedDoor.y,
+		MINIMUM_FRAME_WIDTH,
+		wall.y - MINIMUM_FRAME_WIDTH
+	);
+	const pierWidth = (wall.x - openingWidth) / 2;
+	const lintelHeight = wall.y - openingHeight;
+	const parts = [
+		boxPart(definition, {
+			center: v(-(openingWidth + pierWidth) / 2, 0, 0),
+			size: { x: pierWidth, y: wall.y, z: wall.z }
+		}),
+		boxPart(definition, {
+			center: v((openingWidth + pierWidth) / 2, 0, 0),
+			size: { x: pierWidth, y: wall.y, z: wall.z }
+		}),
+		boxPart(definition, {
+			center: v(0, openingHeight / 2, 0),
+			size: { x: openingWidth, y: lintelHeight, z: wall.z }
+		})
+	];
+	return mergeGeometry(parts);
+}
+
+
+__exports.createDoorwayFrameGeometry = createDoorwayFrameGeometry;
+function boxPart(definition, { center, size }) {
+	return createPrimitiveBoxGeometry({
+		...definition,
+		door: undefined,
+		position: transformPrimitivePoint(center, definition),
+		shape: 'box',
+		size
+	});
+}
+
+function clamp(value, minimum, maximum) {
+	return Math.min(Math.max(value, minimum), Math.max(minimum, maximum));
+}
+
+function mergeGeometry(parts) {
+	const merged = { vertices: [], indices: [], uvs: [] };
+	for (const part of parts) {
+		const vertexOffset = merged.vertices.length;
+		merged.vertices.push(...part.vertices);
+		merged.indices.push(...part.indices.map(index => index + vertexOffset));
+		merged.uvs.push(...part.uvs);
+	}
+	return merged;
+}
+
+function normalizedSize(value, fallback) {
+	return {
+		x: positive(value?.x, fallback.x),
+		y: positive(value?.y, fallback.y),
+		z: positive(value?.z, fallback.z)
+	};
+}
+
+function positive(value, fallback) {
+	const numeric = Number(value);
+	return Number.isFinite(numeric) && numeric > 0 ? numeric : fallback;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveGeometryFactory.js */
+__awtsmoosModule_143 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PrimitiveGeometryFactory.js
+ * @description Resolves authored definitions into bounded geometry while preserving ecological masks.
+ * The Awtsmoos reveals each form through its proper vessel; Awtsmoos.com sends exact masonry,
+ * procedural silhouettes, and layered mountain meaning through one verified geometry contract.
+ */
+
+var proceduralData = __awtsmoosModule_144.proceduralData;
+var createPrimitiveBoxGeometry = __awtsmoosModule_199.createPrimitiveBoxGeometry;
+var createPrimitiveDiamondGeometry = __awtsmoosModule_201.createPrimitiveDiamondGeometry;
+var createDoorwayFrameGeometry = __awtsmoosModule_202.createDoorwayFrameGeometry;
+
+const PROCEDURAL_SHAPES = Object.freeze([
+	'manual',
+	'doorway',
+	'cylinder',
+	'sphere',
+	'triPrism'
+]);
+
+function createPrimitiveGeometryData(definition) {
+	if (definition.shape === 'doorway') {
+		return createDoorwayFrameGeometry(definition);
+	}
+	if (isProceduralShape(definition.shape)) {
+		const data = proceduralData({
+			...definition,
+			rgba: colorArray(definition.color)
+		});
+		return { ...data, zones: definition.zones || [] };
+	}
+	if (definition.shape === 'diamond') {
+		return createPrimitiveDiamondGeometry(definition);
+	}
+	return createPrimitiveBoxGeometry(definition);
+}
+
+
+__exports.createPrimitiveGeometryData = createPrimitiveGeometryData;
+function isProceduralShape(shape) {
+	return PROCEDURAL_SHAPES.includes(shape);
+}
+
+
+__exports.isProceduralShape = isProceduralShape;
+function colorArray(hex = '#777777') {
+	const number = parseInt(String(hex).replace('#', ''), 16);
+	return [
+		((number >> 16) & 255) / 255,
+		((number >> 8) & 255) / 255,
+		(number & 255) / 255,
+		1
+	];
+}
+
+__exports.colorArray = colorArray;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveGeometryBuffers.js */
+__awtsmoosModule_203 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PrimitiveGeometryBuffers.js
+ * @description Converts world geometry, indices, colors, and authored or smooth normals into renderer arrays.
+ * The Awtsmoos gathers finite points and light-facing directions into one visible decree;
+ * Awtsmoos.com honors truthful authored normals while every other form keeps its smooth fallback free.
+ */
+
+var triangleNormal = __awtsmoosModule_43.triangleNormal;
+var v = __awtsmoosModule_43.v;
+
+function flattenPrimitiveVertices(vertices) {
+	return vertices.flatMap(point => [point.x, point.y, point.z]);
+}
+
+
+__exports.flattenPrimitiveVertices = flattenPrimitiveVertices;
+function primitiveColorArray(colors, vertexCount) {
+	if (!Array.isArray(colors) || colors.length !== vertexCount * 4) return null;
+	return new Float32Array(colors.map(value => (
+		Math.max(0, Math.min(1, Number(value) || 0))
+	)));
+}
+
+
+__exports.primitiveColorArray = primitiveColorArray;
+function primitiveIndexArray(indices) {
+	return Math.max(0, ...indices) > 65535
+		? new Uint32Array(indices)
+		: new Uint16Array(indices);
+}
+
+
+__exports.primitiveIndexArray = primitiveIndexArray;
+function createPrimitiveVertexNormals(data) {
+	if (authoredNormalsAreValid(data.normals, data.vertices.length)) {
+		return data.normals.flatMap(normalized);
+	}
+	const normals = Array.from({ length: data.vertices.length }, () => v());
+	for (let index = 0; index < data.indices.length; index += 3) {
+		const face = [
+			data.indices[index],
+			data.indices[index + 1],
+			data.indices[index + 2]
+		];
+		const normal = triangleNormal(
+			data.vertices[face[0]],
+			data.vertices[face[1]],
+			data.vertices[face[2]]
+		);
+		for (const vertexIndex of face) {
+			addNormal(normals[vertexIndex], normal);
+		}
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 
+<<<<<<< HEAD
 	__exports.createBooleanDoorwayMesh = createBooleanDoorwayMesh;
 	function carveBooleanDoorway(definition) {
 		const wallSize = {
@@ -20991,6 +28429,62 @@ const __awtsmoosModule_0 = Object.create(null);
 			carved,
 			positiveNumber(definition.texturePolicy?.tileWorld, 6)
 		);
+=======
+__exports.createPrimitiveVertexNormals = createPrimitiveVertexNormals;
+function authoredNormalsAreValid(normals, vertexCount) {
+	return Array.isArray(normals)
+		&& normals.length === vertexCount
+		&& normals.every(normal => (
+			Number.isFinite(normal?.x)
+			&& Number.isFinite(normal?.y)
+			&& Number.isFinite(normal?.z)
+		));
+}
+
+function addNormal(target, source) {
+	target.x += source.x;
+	target.y += source.y;
+	target.z += source.z;
+}
+
+function normalized(normal) {
+	const x = Number(normal?.x ?? normal?.[0]) || 0;
+	const y = Number(normal?.y ?? normal?.[1]) || 0;
+	const z = Number(normal?.z ?? normal?.[2]) || 0;
+	const length = Math.hypot(x, y, z) || 1;
+	return [x / length, y / length, z / length];
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureTransport.js */
+__awtsmoosModule_209 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RemoteTextureTransport.js
+ * @description Owns the single HTTPS origin through which every texture travels.
+ * The Awtsmoos sends each finite color from one documented spring;
+ * Awtsmoos.com rejects inline shadows, model paths, traversal, and foreign hosts.
+ */
+
+const REMOTE_TEXTURE_ROOT = 'https://awtsmoos.com/sites/firebase_drive_migration/';
+__exports.REMOTE_TEXTURE_ROOT = REMOTE_TEXTURE_ROOT;
+
+const REMOTE_ROOT_URL = new URL(REMOTE_TEXTURE_ROOT);
+const REMOTE_ROOT_PATH = REMOTE_ROOT_URL.pathname;
+const FORBIDDEN_SCHEMES = /^(?:blob|data|file|javascript):/i;
+const MODEL_PATH_PREFIX = 'assets/mitzvah-world/models/';
+const MODEL_EXTENSION = /\.(?:glb|gltf)$/i;
+
+/** Builds one encoded remote URL from a canonical migration path. */
+function remoteTexturePathUrl(path) {
+	const clean = cleanRemotePath(path);
+	if (isModelPath(clean)) {
+		throw new Error(`Texture transport rejects model paths: ${path}`);
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
 
 	function finiteNumber(value, fallback) {
@@ -21861,7 +29355,294 @@ const __awtsmoosModule_0 = Object.create(null);
 		if (!holder || Object.isFrozen(holder)) {
 			return false;
 		}
+<<<<<<< HEAD
 		holder[key] = value;
+=======
+		if (!parsed.pathname.startsWith(REMOTE_ROOT_PATH)) return false;
+		const relative = decodeURIComponent(parsed.pathname.slice(REMOTE_ROOT_PATH.length));
+		return isRemoteTexturePath(relative);
+	} catch {
+		return false;
+	}
+}
+
+
+__exports.isTrustedAwtsmoosMaterialUrl = isTrustedAwtsmoosMaterialUrl;
+/** Returns auditable transport policy evidence. */
+function remoteTextureTransportEvidence() {
+	return Object.freeze({
+		cacheLayers: Object.freeze(['cache-storage', 'in-memory-image']),
+		origin: REMOTE_ROOT_URL.origin,
+		originCount: 1,
+		policy: 'remote-https-only-no-inline-local-or-model-textures',
+		root: REMOTE_TEXTURE_ROOT
+	});
+}
+
+
+__exports.remoteTextureTransportEvidence = remoteTextureTransportEvidence;
+function cleanRemotePath(path) {
+	const clean = String(path || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
+	if (!clean || FORBIDDEN_SCHEMES.test(clean) || clean.includes('?') || clean.includes('#')) {
+		throw new Error(`Invalid remote texture path: ${path}`);
+	}
+	if (clean.split('/').some(segment => !segment || segment === '.' || segment === '..')) {
+		throw new Error(`Unsafe remote texture path: ${path}`);
+	}
+	return clean;
+}
+
+function isModelPath(path) {
+	return path.startsWith(MODEL_PATH_PREFIX) || MODEL_EXTENSION.test(path);
+}
+
+function encodePath(path) {
+	return path.split('/').map(encodeURIComponent).join('/');
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialOrigin.js */
+__awtsmoosModule_208 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicMaterialOrigin.js
+ * @description Resolves every material identity through one verified remote origin.
+ * The Awtsmoos lets no copied pixel masquerade as source;
+ * Awtsmoos.com keeps catalogs, textures, and aliases beneath one HTTPS root.
+ */
+
+var REMOTE_TEXTURE_ROOT = __awtsmoosModule_209.REMOTE_TEXTURE_ROOT;
+var remoteTexturePathUrl = __awtsmoosModule_209.remoteTexturePathUrl;
+
+const PUBLIC_MATERIAL_ORIGIN = REMOTE_TEXTURE_ROOT.replace(/\/$/, '');
+__exports.PUBLIC_MATERIAL_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
+
+const PLAYABLE_MATERIAL_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
+__exports.PLAYABLE_MATERIAL_ORIGIN = PLAYABLE_MATERIAL_ORIGIN;
+
+const PUBLIC_MATERIAL_CATALOG_URL = publicMaterialUrl('catalog/materials.json');
+__exports.PUBLIC_MATERIAL_CATALOG_URL = PUBLIC_MATERIAL_CATALOG_URL;
+
+const PUBLIC_ASSET_INVENTORY_URL = publicMaterialUrl('catalog/asset-inventory.json');
+__exports.PUBLIC_ASSET_INVENTORY_URL = PUBLIC_ASSET_INVENTORY_URL;
+
+const PUBLIC_ASSET_ALIASES_URL = publicMaterialUrl('catalog/asset-aliases.json');
+__exports.PUBLIC_ASSET_ALIASES_URL = PUBLIC_ASSET_ALIASES_URL;
+
+const PUBLIC_ASSET_SUMMARY_URL = publicMaterialUrl('catalog/materials-summary.json');
+__exports.PUBLIC_ASSET_SUMMARY_URL = PUBLIC_ASSET_SUMMARY_URL;
+
+
+/** Resolves a canonical migration path without local or inline fallback. */
+function publicMaterialUrl(relativePath) {
+	return remoteTexturePathUrl(normalizeMaterialPath(relativePath));
+}
+
+
+__exports.publicMaterialUrl = publicMaterialUrl;
+function normalizeMaterialPath(path) {
+	return String(path || '').trim().replace(/^\/+/, '').replace(/\\/g, '/');
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialResolver.js */
+__awtsmoosModule_207 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+var remoteModelUrl = __awtsmoosModule_33.remoteModelUrl;
+var publicMaterialUrl = __awtsmoosModule_208.publicMaterialUrl;
+
+const HALF_QUALITY = new Set(['low', 'medium', 'half']);
+const FULL_SOURCE_ALIASES = Object.freeze({
+	'grass 6': 'awtsmoos-nature/chai-forest/textures/ground/grass.jpg',
+	'mud': 'awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg',
+	'oak wood 2': 'full-resolution/oak wood 3.png',
+	'stone floor': 'full-resolution/stone floor 2.png'
+});
+
+/**
+ * @file PublicMaterialResolver.js
+ * @description Resolves textures and the flower model through verified Drive origins.
+ * The Awtsmoos preserves semantic aliases without local copied bytes;
+ * Awtsmoos.com serves every visual vessel through immutable remote identities.
+ */
+
+function resolveMaterialRecord(record, quality = 'high') {
+	if (!record?.path) throw new Error('A catalog material record is required.');
+	const variants = record.variants || {};
+	const preferHalf = HALF_QUALITY.has(String(quality).toLowerCase());
+	const canonicalPath = variants.full || record.path;
+	const resolvedPath = preferHalf
+		? variants.half || variants.source || canonicalPath
+		: variants.full || variants.source || variants.half || record.path;
+	return {
+		...record,
+		canonicalPath,
+		requestedQuality: quality,
+		resolvedPath,
+		resolvedUrl: publicMaterialUrl(canonicalPath),
+		transportUrl: publicMaterialUrl(resolvedPath)
+	};
+}
+
+
+__exports.resolveMaterialRecord = resolveMaterialRecord;
+function fullMaterialUrl(name, extension = 'png') {
+	return publicMaterialUrl(fullMaterialPath(name, extension));
+}
+
+
+__exports.fullMaterialUrl = fullMaterialUrl;
+function halfMaterialUrl(name, extension = 'png') {
+	return publicMaterialUrl(`half-resolution/${name}.${extension}`);
+}
+
+
+__exports.halfMaterialUrl = halfMaterialUrl;
+function exactMaterialUrl(relativePath) {
+	return publicMaterialUrl(relativePath);
+}
+
+
+__exports.exactMaterialUrl = exactMaterialUrl;
+function flowerModelUrl() {
+	return remoteModelUrl('reference-world/Flower_4_Clump.glb');
+}
+
+
+__exports.flowerModelUrl = flowerModelUrl;
+function fullMaterialPath(name, extension = 'png') {
+	return FULL_SOURCE_ALIASES[name] || `full-resolution/${name}.${extension}`;
+}
+
+
+__exports.fullMaterialPath = fullMaterialPath;
+function publicMaterialAliases() {
+	return { ...FULL_SOURCE_ALIASES };
+}
+
+
+__exports.publicMaterialAliases = publicMaterialAliases;
+function surfaceFieldstoneUrl() {
+	return fullMaterialUrl('weathered fieldstone Rock 1');
+}
+
+
+__exports.surfaceFieldstoneUrl = surfaceFieldstoneUrl;
+function surfaceOakPlankUrl() {
+	return fullMaterialUrl('wooden oak planks 1');
+}
+
+__exports.surfaceOakPlankUrl = surfaceOakPlankUrl;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/LocalMaterialPathRules.js */
+__awtsmoosModule_211 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file LocalMaterialPathRules.js
+ * @description Preserves the legacy validator name while enforcing remote-only textures.
+ * The Awtsmoos turns an old local gate toward one distant spring;
+ * Awtsmoos.com admits only trusted HTTPS migration URLs and rejects every inline vessel.
+ */
+
+var isTrustedAwtsmoosMaterialUrl = __awtsmoosModule_209.isTrustedAwtsmoosMaterialUrl;
+
+const FORBIDDEN_MATERIAL_SEGMENTS = Object.freeze([
+	'half-resolution',
+	'quarter-resolution',
+	'chai-forest-half',
+	'staging'
+]);
+__exports.FORBIDDEN_MATERIAL_SEGMENTS = FORBIDDEN_MATERIAL_SEGMENTS;
+
+
+/** Validates one production texture URL against the remote-only covenant. */
+function assertLocalMaterialPath(url, role = 'runtime material') {
+	const value = normalizeUrl(url, role);
+	const parsed = parseUrl(value, role);
+	assertNoForbiddenSegment(parsed, value, role);
+	if (!isTrustedAwtsmoosMaterialUrl(value)) {
+		throw new Error(`Production material ${role} requires the trusted remote HTTPS origin: ${value}`);
+	}
+	return value;
+}
+
+
+__exports.assertLocalMaterialPath = assertLocalMaterialPath;
+/** Clear alias for new callers that no longer speak in local-path terms. */
+const assertRemoteMaterialUrl = assertLocalMaterialPath;
+__exports.assertRemoteMaterialUrl = assertRemoteMaterialUrl;
+
+
+function normalizeUrl(url, role) {
+	if (typeof url !== 'string' || url.trim() === '') {
+		throw new Error(`Production material ${role} requires a non-empty URL.`);
+	}
+	return url.trim();
+}
+
+function parseUrl(url, role) {
+	try {
+		return new URL(url);
+	} catch (error) {
+		throw new Error(`Invalid production material URL for ${role}: ${url}`, { cause: error });
+	}
+}
+
+function assertNoForbiddenSegment(parsed, url, role) {
+	const segments = decodeURIComponent(parsed.pathname).toLowerCase().split('/').filter(Boolean);
+	const forbidden = FORBIDDEN_MATERIAL_SEGMENTS.find(segment => segments.includes(segment));
+	if (forbidden) {
+		throw new Error(`Production material ${role} uses forbidden folder ${forbidden}: ${url}`);
+	}
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/ProductionMaterialUrlPolicy.js */
+__awtsmoosModule_210 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file ProductionMaterialUrlPolicy.js
+ * @description Exposes the remote-only production texture validation contract.
+ * The Awtsmoos gathers every visible garment beneath one trusted sky;
+ * Awtsmoos.com rejects local routes, inline bytes, foreign origins, and previews.
+ */
+
+var assertRemoteMaterialUrl = __awtsmoosModule_211.assertRemoteMaterialUrl;
+var FORBIDDEN_MATERIAL_SEGMENTS = __awtsmoosModule_211.FORBIDDEN_MATERIAL_SEGMENTS;
+
+const PRODUCTION_MATERIAL_FORBIDDEN_SEGMENTS = FORBIDDEN_MATERIAL_SEGMENTS;
+__exports.PRODUCTION_MATERIAL_FORBIDDEN_SEGMENTS = PRODUCTION_MATERIAL_FORBIDDEN_SEGMENTS;
+
+
+/** Validates one runtime texture URL without changing its canonical value. */
+function assertProductionMaterialUrl(url, role = 'runtime material') {
+	return assertRemoteMaterialUrl(url, role);
+}
+
+
+__exports.assertProductionMaterialUrl = assertProductionMaterialUrl;
+/** Legacy name retained for callers; true now means trusted remote material. */
+function isSameOriginMaterialUrl(url) {
+	try {
+		assertProductionMaterialUrl(url, 'runtime material');
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		return true;
 	}
 
@@ -21881,6 +29662,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * alive when browser image events stall while preserving dimensions and bounded failure evidence.
 	 */
 
+<<<<<<< HEAD
 	async function decodePublicImageBitmap(
 		blob,
 		timeoutMs = 30000,
@@ -21911,6 +29693,801 @@ const __awtsmoosModule_0 = Object.create(null);
 			if (!width || !height) {
 				bitmap?.close?.();
 				return failed('zero-dimension-image-bitmap');
+=======
+__exports.productionMaterialFallbacks = productionMaterialFallbacks;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RuntimeMaterialManifest.js */
+__awtsmoosModule_206 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RuntimeMaterialManifest.js
+ * @description Declares canonical production textures and their bounded recovery chains.
+ * RESPONSIBILITY: name semantic roles, truthful URLs, full-source fallbacks, repeat, and boot policy.
+ * NON-RESPONSIBILITY: this manifest never fetches images, binds samplers, or rebuilds geometry.
+ * The Awtsmoos renews every garment without descending into preview folders; Awtsmoos.com
+ * preserves fast first motion through solid materials and hydrates only verified production sources.
+ */
+
+var exactMaterialUrl = __awtsmoosModule_207.exactMaterialUrl;
+var fullMaterialUrl = __awtsmoosModule_207.fullMaterialUrl;
+var assertProductionMaterialUrl = __awtsmoosModule_210.assertProductionMaterialUrl;
+var productionMaterialFallbacks = __awtsmoosModule_210.productionMaterialFallbacks;
+
+function materialRole(role, label, primaryUrl, options = {}) {
+	return Object.freeze({
+		critical: options.critical !== false,
+		fallbackUrls: productionMaterialFallbacks(options.fallbackUrls, role),
+		label,
+		primaryUrl: assertProductionMaterialUrl(primaryUrl, role),
+		repeat: Object.freeze(options.repeat || [1, 1]),
+		role
+	});
+}
+
+function fullRole(role, label, name, options = {}) {
+	return materialRole(role, label, fullMaterialUrl(name), options);
+}
+
+function sourceRole(role, label, path, options = {}) {
+	return materialRole(role, label, exactMaterialUrl(path), options);
+}
+
+const CHAI_FOREST = 'awtsmoos-nature/chai-forest';
+
+const RUNTIME_MATERIALS = Object.freeze([
+	sourceRole('terrain.grass', 'canonical Chai Forest grass', `${CHAI_FOREST}/textures/ground/grass.jpg`, {
+		fallbackUrls: [fullMaterialUrl('grass 1')],
+		repeat: [18, 18]
+	}),
+	sourceRole('terrain.dirtMix', 'canonical Chai Forest dirt', `${CHAI_FOREST}/textures/ground/dirt_color.jpg`, {
+		fallbackUrls: [fullMaterialUrl('dirt grass 3')],
+		repeat: [15, 15]
+	}),
+	fullRole('road.yellowBrick', 'full yellow brick road', 'yellow brick 1'),
+	fullRole('creature.horseFur', 'full horse fur', 'horse fur 1', { repeat: [3, 2] }),
+	fullRole('vegetation.wildGrass', 'wild grass', 'grass 7', { critical: false, repeat: [10, 10] }),
+	fullRole('terrain.marshGrass', 'marsh grass', 'marsh grass', { critical: false, repeat: [12, 12] }),
+	fullRole('terrain.mud', 'mud', 'mud', { critical: false, repeat: [12, 12] }),
+	fullRole('terrain.sandShore', 'sand shore', 'sand 1', { critical: false, repeat: [14, 14] }),
+	fullRole('water.lake', 'lake water color', 'seamless water brighter', { repeat: [8, 8] }),
+	fullRole('water.stream', 'stream water color', 'shallow river water', { repeat: [12, 4] }),
+	fullRole('water.still', 'still water color', 'seamless water', { critical: false, repeat: [8, 8] }),
+	sourceRole('forest.bark', 'canonical Chai Forest bark', `${CHAI_FOREST}/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg`, {
+		fallbackUrls: [fullMaterialUrl('tree bark 1')],
+		repeat: [3, 8]
+	}),
+	fullRole('village.woodPlanks', 'wood planks', 'wooden oak planks 1', { repeat: [4, 4] }),
+	sourceRole('forest.chaiOak', 'canonical Chai oak leaf', `${CHAI_FOREST}/textures/leaves/oak.png`, { critical: false }),
+	sourceRole('forest.chaiAsh', 'canonical Chai ash leaf', `${CHAI_FOREST}/textures/leaves/ash.png`, { critical: false }),
+	sourceRole('forest.chaiAspen', 'canonical Chai aspen leaf', `${CHAI_FOREST}/textures/leaves/aspen.png`, { critical: false }),
+	sourceRole('forest.chaiPine', 'canonical Chai pine leaf', `${CHAI_FOREST}/textures/leaves/pine.png`, { critical: false }),
+	sourceRole('botany.petal', 'sakura petal atlas', 'awtsmoos-nature/ilanos/trees/sakura petal.png', { critical: false }),
+	fullRole('stone.general', 'stone', 'stone 1', { critical: false, repeat: [5, 5] }),
+	fullRole('stone.fieldstone', 'fieldstone', 'weathered fieldstone Rock 1', { repeat: [4, 4] }),
+	fullRole('roof.tile', 'roof tile', 'tiled roof 2', { repeat: [5, 3] }),
+	fullRole('metal.gold', 'gold', 'gold 2', { critical: false }),
+	fullRole('metal.iron', 'iron', 'rusty iron', { critical: false }),
+	fullRole('sign.parchment', 'parchment sign', 'parchment', { critical: false }),
+	fullRole('mezuzah.case', 'mezuzah case', 'gold 2', { critical: false })
+]);
+__exports.RUNTIME_MATERIALS = RUNTIME_MATERIALS;
+
+
+const CRITICAL_RUNTIME_MATERIALS = Object.freeze(
+	RUNTIME_MATERIALS.filter((material) => {
+		return material.critical;
+	})
+);
+__exports.CRITICAL_RUNTIME_MATERIALS = CRITICAL_RUNTIME_MATERIALS;
+
+
+function runtimeMaterialByRole(role) {
+	return RUNTIME_MATERIALS.find((material) => {
+		return material.role === role;
+	}) || null;
+}
+
+__exports.runtimeMaterialByRole = runtimeMaterialByRole;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageBitmapDecode.js */
+__awtsmoosModule_214 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageBitmapDecode.js
+ * @description Decodes fetched image blobs without depending on HTMLImageElement events.
+ * The Awtsmoos reveals fetched bytes through a second truthful eye; Awtsmoos.com keeps terrain
+ * alive when browser image events stall while preserving dimensions and bounded failure evidence.
+ */
+
+async function decodePublicImageBitmap(
+	blob,
+	timeoutMs = 30000,
+	dependencies = {}
+) {
+	const createBitmap = Object.hasOwn(
+		dependencies,
+		'createImageBitmapFunction'
+	)
+		? dependencies.createImageBitmapFunction
+		: globalThis.createImageBitmap;
+	if (typeof createBitmap !== 'function') {
+		return failed('image-bitmap-unavailable');
+	}
+	let timer = null;
+	try {
+		const bitmap = await Promise.race([
+			createBitmap(blob),
+			new Promise((resolve, reject) => {
+				timer = setTimeout(
+					() => reject(new Error('image-bitmap-timeout')),
+					timeoutMs
+				);
+			})
+		]);
+		const width = Number(bitmap?.width) || 0;
+		const height = Number(bitmap?.height) || 0;
+		if (!width || !height) {
+			bitmap?.close?.();
+			return failed('zero-dimension-image-bitmap');
+		}
+		return {
+			error: null,
+			height,
+			image: bitmap,
+			method: 'blob-image-bitmap',
+			ok: true,
+			stage: 'decoded',
+			width
+		};
+	} catch (error) {
+		return failed(error?.message || 'image-bitmap-decode-error');
+	} finally {
+		if (timer !== null) clearTimeout(timer);
+	}
+}
+
+
+__exports.decodePublicImageBitmap = decodePublicImageBitmap;
+function failed(error) {
+	return {
+		error,
+		height: 0,
+		image: null,
+		method: 'blob-image-bitmap',
+		ok: false,
+		stage: 'decode',
+		width: 0
+	};
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageDecode.js */
+__awtsmoosModule_213 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageDecode.js
+ * @description Decodes canonical URLs or fetched blobs into renderer-compatible image sources.
+ * The Awtsmoos reveals unseen bytes as visible pixels; Awtsmoos.com tries bitmap truth before an
+ * object-URL image fallback, then revokes every temporary doorway after finite sight arrives.
+ */
+
+var decodePublicImageBitmap = __awtsmoosModule_214.decodePublicImageBitmap;
+
+async function decodePublicImageBlob(url, blob, timeoutMs = 30000, dependencies = {}) {
+	const bitmap = await decodePublicImageBitmap(
+		blob,
+		timeoutMs,
+		dependencies
+	);
+	if (bitmap.ok) return bitmap;
+	const UrlApi = dependencies.UrlApi || globalThis.URL;
+	if (!UrlApi?.createObjectURL || !UrlApi?.revokeObjectURL) {
+		return failed('object-url-unavailable', 'blob-decode');
+	}
+	const objectUrl = UrlApi.createObjectURL(blob);
+	return decodeImageSource(objectUrl, url, timeoutMs, {
+		...dependencies,
+		method: 'blob-object-url'
+	}).finally(() => UrlApi.revokeObjectURL(objectUrl));
+}
+
+
+__exports.decodePublicImageBlob = decodePublicImageBlob;
+function decodePublicImageUrl(url, timeoutMs = 30000, dependencies = {}) {
+	return decodeImageSource(url, url, timeoutMs, {
+		...dependencies,
+		method: 'direct-image-url'
+	});
+}
+
+
+__exports.decodePublicImageUrl = decodePublicImageUrl;
+function decodeImageSource(sourceUrl, publicUrl, timeoutMs, dependencies) {
+	const ImageClass = dependencies.ImageClass || globalThis.Image;
+	if (typeof ImageClass !== 'function') {
+		return Promise.resolve(failed('image-class-unavailable', 'decode'));
+	}
+	return new Promise(resolve => {
+		const image = new ImageClass();
+		let settled = false;
+		const finish = record => {
+			if (settled) return;
+			settled = true;
+			clearTimeout(timer);
+			image.onload = null;
+			image.onerror = null;
+			resolve(record);
+		};
+		const timer = setTimeout(() => {
+			try {
+				image.src = '';
+			} catch {}
+			finish(failed('timeout', 'decode', dependencies.method));
+		}, timeoutMs);
+		if (sourceUrl === publicUrl) image.crossOrigin = 'anonymous';
+		image.decoding = 'async';
+		image.onload = () => finishSuccessfulImage(
+			image,
+			publicUrl,
+			sourceUrl,
+			dependencies.method,
+			finish
+		);
+		image.onerror = () => finish(failed(
+			'image-decode-error',
+			'decode',
+			dependencies.method
+		));
+		image.src = sourceUrl;
+	});
+}
+
+function finishSuccessfulImage(image, publicUrl, sourceUrl, method, finish) {
+	const width = image.naturalWidth || image.width || 0;
+	const height = image.naturalHeight || image.height || 0;
+	if (!width || !height) {
+		finish(failed('zero-dimension-image', 'decode', method));
+		return;
+	}
+	if (image.dataset) {
+		image.dataset.publicUrl = publicUrl;
+		image.dataset.url = publicUrl;
+		image.dataset.loadedFromPublicUrl = sourceUrl === publicUrl
+			? 'true'
+			: 'blob';
+	}
+	finish({
+		error: null,
+		height,
+		image,
+		method,
+		ok: true,
+		stage: 'decoded',
+		width
+	});
+}
+
+function failed(error, stage, method = 'none') {
+	return {
+		error,
+		height: 0,
+		image: null,
+		method,
+		ok: false,
+		stage,
+		width: 0
+	};
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageFetchDependencies.js */
+__awtsmoosModule_217 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageFetchDependencies.js
+ * @description Normalizes abort, cache, fetch, and clock dependencies for image transport.
+ * The Awtsmoos gives every outer vessel one explicit measured shape;
+ * Awtsmoos.com keeps browser globals replaceable so tests and recovery can escape.
+ */
+
+function createPublicImageAbortController(dependencies = {}) {
+	const Controller = Object.hasOwn(dependencies, 'AbortControllerClass')
+		? dependencies.AbortControllerClass
+		: globalThis.AbortController;
+	return Controller ? new Controller() : null;
+}
+
+
+__exports.createPublicImageAbortController = createPublicImageAbortController;
+function publicImageCacheOptions(controller, attempt, dependencies = {}) {
+	return {
+		bypassCircuit: attempt > 0,
+		cacheName: dependencies.cacheName,
+		cacheStorage: dependencies.cacheStorage,
+		circuitCooldownMs: dependencies.circuitCooldownMs,
+		fetchFunction: dependencies.fetchFunction,
+		now: dependencies.now,
+		signal: controller?.signal
+	};
+}
+
+
+__exports.publicImageCacheOptions = publicImageCacheOptions;
+function publicImageNetworkRequestOptions(options = {}) {
+	return {
+		cache: 'force-cache',
+		credentials: 'omit',
+		mode: 'cors',
+		signal: options.signal
+	};
+}
+
+
+__exports.publicImageNetworkRequestOptions = publicImageNetworkRequestOptions;
+function publicImageCacheStorage(options = {}) {
+	return Object.hasOwn(options, 'cacheStorage')
+		? options.cacheStorage
+		: globalThis.caches;
+}
+
+__exports.publicImageCacheStorage = publicImageCacheStorage;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageResponseClone.js */
+__awtsmoosModule_219 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageResponseClone.js
+ * @description Clones browser Responses while accepting immutable Response-like adapters.
+ * The Awtsmoos gives each consumer its own stream where streams can divide;
+ * Awtsmoos.com also welcomes simple test vessels whose bodies already safely abide.
+ */
+
+function clonePublicImageResponse(response) {
+	if (typeof response?.clone === 'function') return response.clone();
+	return response;
+}
+
+__exports.clonePublicImageResponse = clonePublicImageResponse;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageRetryPolicy.js */
+__awtsmoosModule_220 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageRetryPolicy.js
+ * @description Bounds remote-image retries while honoring server rate-limit guidance.
+ * The Awtsmoos renews each distant color without a frantic repeated plea;
+ * Awtsmoos.com hears Retry-After, pauses with measure, and keeps the visible world free.
+ */
+
+const RETRYABLE_STATUSES = new Set([408, 425, 429, 500, 502, 503, 504]);
+const DEFAULT_BASE_DELAY_MS = 250;
+const DEFAULT_MAX_DELAY_MS = 1500;
+const DEFAULT_CIRCUIT_MS = 5000;
+const MAX_CIRCUIT_MS = 30000;
+
+function isRetryableImageStatus(status) {
+	return RETRYABLE_STATUSES.has(Number(status));
+}
+
+
+__exports.isRetryableImageStatus = isRetryableImageStatus;
+function imageRetryDelayMs(response, attempt = 0, options = {}) {
+	const headerDelay = retryAfterHeaderMs(response, options);
+	const baseDelay = finiteNumber(options.baseDelayMs, DEFAULT_BASE_DELAY_MS);
+	const maximum = finiteNumber(options.maxDelayMs, DEFAULT_MAX_DELAY_MS);
+	const exponential = baseDelay * (2 ** Math.max(0, Number(attempt) || 0));
+	return Math.max(0, Math.min(maximum, headerDelay ?? exponential));
+}
+
+
+__exports.imageRetryDelayMs = imageRetryDelayMs;
+function imageCircuitCooldownMs(response, options = {}) {
+	const headerDelay = retryAfterHeaderMs(response, options);
+	const fallback = finiteNumber(options.circuitCooldownMs, DEFAULT_CIRCUIT_MS);
+	return Math.max(0, Math.min(MAX_CIRCUIT_MS, headerDelay ?? fallback));
+}
+
+
+__exports.imageCircuitCooldownMs = imageCircuitCooldownMs;
+async function waitForImageRetry(delayMs, options = {}) {
+	if (delayMs <= 0) return;
+	if (typeof options.sleep === 'function') {
+		await options.sleep(delayMs);
+		return;
+	}
+	await new Promise(resolve => setTimeout(resolve, delayMs));
+}
+
+
+__exports.waitForImageRetry = waitForImageRetry;
+function retryAfterHeaderMs(response, options = {}) {
+	const value = response?.headers?.get?.('retry-after');
+	if (!value) return null;
+	const seconds = Number(value);
+	if (Number.isFinite(seconds)) return Math.max(0, seconds * 1000);
+	const now = typeof options.now === 'function' ? options.now() : Date.now();
+	const date = Date.parse(value);
+	return Number.isFinite(date) ? Math.max(0, date - now) : null;
+}
+
+
+__exports.retryAfterHeaderMs = retryAfterHeaderMs;
+function publicImageRetryPolicyEvidence() {
+	return Object.freeze({
+		baseDelayMs: DEFAULT_BASE_DELAY_MS,
+		circuitCooldownMs: DEFAULT_CIRCUIT_MS,
+		maxCircuitMs: MAX_CIRCUIT_MS,
+		maxDelayMs: DEFAULT_MAX_DELAY_MS,
+		retryableStatuses: Object.freeze([...RETRYABLE_STATUSES])
+	});
+}
+
+
+__exports.publicImageRetryPolicyEvidence = publicImageRetryPolicyEvidence;
+function finiteNumber(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) ? number : fallback;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageRateLimitCircuit.js */
+__awtsmoosModule_218 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageRateLimitCircuit.js
+ * @description Remembers retryable image responses for a bounded, inspectable cooldown.
+ * The Awtsmoos keeps the guarded gate known while procedural color remains bright;
+ * Awtsmoos.com avoids repeated knocks until the server reopens the light.
+ */
+
+var clonePublicImageResponse = __awtsmoosModule_219.clonePublicImageResponse;
+var imageCircuitCooldownMs = __awtsmoosModule_220.imageCircuitCooldownMs;
+
+const circuitByUrl = new Map();
+
+function activePublicImageCircuit(url, options = {}) {
+	const entry = circuitByUrl.get(url);
+	if (!entry) return null;
+	if (entry.until > currentTime(options)) {
+		return {
+			response: clonePublicImageResponse(entry.response),
+			retryAfterMs: entry.until - currentTime(options)
+		};
+	}
+	circuitByUrl.delete(url);
+	return null;
+}
+
+
+__exports.activePublicImageCircuit = activePublicImageCircuit;
+function publicImageCircuitIsOpen(url, options = {}) {
+	return Boolean(activePublicImageCircuit(url, options));
+}
+
+
+__exports.publicImageCircuitIsOpen = publicImageCircuitIsOpen;
+function rememberPublicImageCircuit(url, response, options = {}) {
+	circuitByUrl.set(url, {
+		response: clonePublicImageResponse(response),
+		until: currentTime(options) + imageCircuitCooldownMs(response, options)
+	});
+}
+
+
+__exports.rememberPublicImageCircuit = rememberPublicImageCircuit;
+function clearPublicImageCircuit(url) {
+	if (url) {
+		circuitByUrl.delete(url);
+		return;
+	}
+	circuitByUrl.clear();
+}
+
+
+__exports.clearPublicImageCircuit = clearPublicImageCircuit;
+function publicImageCircuitStats(options = {}) {
+	const timestamp = currentTime(options);
+	return {
+		open: [...circuitByUrl.values()].filter(entry => entry.until > timestamp).length
+	};
+}
+
+
+__exports.publicImageCircuitStats = publicImageCircuitStats;
+function currentTime(options) {
+	return typeof options.now === 'function' ? options.now() : Date.now();
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageResponseCache.js */
+__awtsmoosModule_216 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageResponseCache.js
+ * @description Deduplicates verified image fetches while Cache Storage preserves good bytes.
+ * The Awtsmoos lets one distant response become enough for every waiting eye;
+ * Awtsmoos.com shares one request and gives each consumer an untouched reply.
+ */
+
+var publicImageCacheStorage = __awtsmoosModule_217.publicImageCacheStorage;
+var publicImageNetworkRequestOptions = __awtsmoosModule_217.publicImageNetworkRequestOptions;
+var activePublicImageCircuit = __awtsmoosModule_218.activePublicImageCircuit;
+var clearPublicImageCircuit = __awtsmoosModule_218.clearPublicImageCircuit;
+var publicImageCircuitStats = __awtsmoosModule_218.publicImageCircuitStats;
+var rememberPublicImageCircuit = __awtsmoosModule_218.rememberPublicImageCircuit;
+var clonePublicImageResponse = __awtsmoosModule_219.clonePublicImageResponse;
+var isRetryableImageStatus = __awtsmoosModule_220.isRetryableImageStatus;
+var retryAfterHeaderMs = __awtsmoosModule_220.retryAfterHeaderMs;
+
+const PUBLIC_IMAGE_CACHE_NAME = 'awtsmoos-mitzvah-world-remote-images-v1';
+__exports.PUBLIC_IMAGE_CACHE_NAME = PUBLIC_IMAGE_CACHE_NAME;
+
+const pendingByUrl = new Map();
+
+async function cachedImageResponse(url, options = {}) {
+	const fetchFunction = options.fetchFunction || globalThis.fetch;
+	if (typeof fetchFunction !== 'function') {
+		throw new Error('Remote image fetch is unavailable.');
+	}
+	const cache = await openCache(publicImageCacheStorage(options), options.cacheName);
+	const cached = await cache?.match?.(url);
+	if (cached) return responseRecord(cached, 'cache-storage');
+	const circuit = activePublicImageCircuit(url, options);
+	if (circuit && options.bypassCircuit !== true) {
+		return responseRecord(circuit.response, 'rate-limit-circuit', {
+			circuitOpen: true,
+			retryAfterMs: circuit.retryAfterMs
+		});
+	}
+	const pending = pendingByUrl.get(url);
+	if (pending) return cloneRecord(await pending, 'network-shared');
+	const request = fetchAndRemember(url, fetchFunction, cache, options);
+	pendingByUrl.set(url, request);
+	try {
+		return cloneRecord(await request);
+	} finally {
+		if (pendingByUrl.get(url) === request) pendingByUrl.delete(url);
+	}
+}
+
+
+__exports.cachedImageResponse = cachedImageResponse;
+function isImageResponse(response) {
+	const contentType = response?.headers?.get?.('content-type') || '';
+	return contentType.toLowerCase().startsWith('image/');
+}
+
+
+__exports.isImageResponse = isImageResponse;
+function clearPublicImageResponseState() {
+	pendingByUrl.clear();
+	clearPublicImageCircuit();
+}
+
+
+__exports.clearPublicImageResponseState = clearPublicImageResponseState;
+function publicImageResponseStats(options = {}) {
+	return {
+		circuits: publicImageCircuitStats(options).open,
+		pending: pendingByUrl.size
+	};
+}
+
+
+__exports.publicImageResponseStats = publicImageResponseStats;
+async function fetchAndRemember(url, fetchFunction, cache, options) {
+	const response = await fetchFunction(url, publicImageNetworkRequestOptions(options));
+	if (response?.ok && isImageResponse(response)) {
+		clearPublicImageCircuit(url);
+		await cache?.put?.(url, clonePublicImageResponse(response));
+	} else if (isRetryableImageStatus(response?.status)) {
+		rememberPublicImageCircuit(url, response, options);
+	}
+	return responseRecord(response, 'network', {
+		retryAfterMs: retryAfterHeaderMs(response, options) || 0
+	});
+}
+
+function responseRecord(response, source, evidence = {}) {
+	return {
+		circuitOpen: Boolean(evidence.circuitOpen),
+		response,
+		retryAfterMs: Math.max(0, evidence.retryAfterMs || 0),
+		source
+	};
+}
+
+function cloneRecord(record, source = record.source) {
+	return {
+		...record,
+		response: clonePublicImageResponse(record.response),
+		source
+	};
+}
+
+async function openCache(cacheStorage, cacheName = PUBLIC_IMAGE_CACHE_NAME) {
+	if (!cacheStorage || typeof cacheStorage.open !== 'function') return null;
+	try {
+		return await cacheStorage.open(cacheName);
+	} catch {
+		return null;
+	}
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageFetchRecords.js */
+__awtsmoosModule_221 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageFetchRecords.js
+ * @description Builds serializable success, failure, and per-attempt image evidence.
+ * The Awtsmoos lets every distant success and fracture speak without disguise;
+ * Awtsmoos.com records retry, rate limit, method, stage, and status before our eyes.
+ */
+
+function publicImageFetchSuccess(record, attempts) {
+	return {
+		...record,
+		attempts,
+		rateLimited: wasRateLimited(attempts),
+		retries: retryCount(attempts)
+	};
+}
+
+
+__exports.publicImageFetchSuccess = publicImageFetchSuccess;
+function publicImageFetchFailure(record, attempts) {
+	return {
+		blob: null,
+		contentType: record.contentType || '',
+		error: record.error || 'network-error',
+		method: record.method || 'remote-cache-fetch',
+		ok: false,
+		attempts,
+		rateLimited: wasRateLimited(attempts),
+		retries: retryCount(attempts),
+		retryAfterMs: record.retryAfterMs || 0,
+		stage: record.stage || 'fetch',
+		status: record.status || 0
+	};
+}
+
+
+__exports.publicImageFetchFailure = publicImageFetchFailure;
+function publicImageAttemptEvidence(record = {}) {
+	return {
+		error: record.error || null,
+		method: record.method || 'none',
+		ok: Boolean(record.ok),
+		retryAfterMs: record.retryAfterMs || 0,
+		stage: record.stage || 'unknown',
+		status: record.status || 0
+	};
+}
+
+
+__exports.publicImageAttemptEvidence = publicImageAttemptEvidence;
+function publicImageNetworkFailure(error, controller) {
+	const aborted = error?.name === 'AbortError' || controller?.signal?.aborted;
+	return {
+		error: aborted ? 'timeout' : error?.message || 'network-error',
+		method: 'network',
+		ok: false,
+		retryAfterMs: 0,
+		retryable: !aborted,
+		stage: 'fetch',
+		status: 0
+	};
+}
+
+
+__exports.publicImageNetworkFailure = publicImageNetworkFailure;
+function publicImageTypedFailure(error, contentType, response, method) {
+	return {
+		contentType,
+		error,
+		method,
+		ok: false,
+		response,
+		retryAfterMs: 0,
+		retryable: false,
+		stage: error === 'empty-image-blob' ? 'blob' : 'content-type',
+		status: response.status
+	};
+}
+
+
+__exports.publicImageTypedFailure = publicImageTypedFailure;
+function retryCount(attempts) {
+	return Math.max(0, attempts.length - 1);
+}
+
+function wasRateLimited(attempts) {
+	return attempts.some(attempt => attempt.status === 429);
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicImageFetch.js */
+__awtsmoosModule_215 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PublicImageFetch.js
+ * @description Fetches one canonical image with cache reuse and one bounded retry doorway.
+ * The Awtsmoos gives every distant byte a truthful and patient way;
+ * Awtsmoos.com retries with measure while cached or procedural light may stay.
+ */
+
+var cachedImageResponse = __awtsmoosModule_216.cachedImageResponse;
+var isImageResponse = __awtsmoosModule_216.isImageResponse;
+var createPublicImageAbortController = __awtsmoosModule_217.createPublicImageAbortController;
+var publicImageCacheOptions = __awtsmoosModule_217.publicImageCacheOptions;
+var publicImageAttemptEvidence = __awtsmoosModule_221.publicImageAttemptEvidence;
+var publicImageFetchFailure = __awtsmoosModule_221.publicImageFetchFailure;
+var publicImageFetchSuccess = __awtsmoosModule_221.publicImageFetchSuccess;
+var publicImageNetworkFailure = __awtsmoosModule_221.publicImageNetworkFailure;
+var publicImageTypedFailure = __awtsmoosModule_221.publicImageTypedFailure;
+var imageRetryDelayMs = __awtsmoosModule_220.imageRetryDelayMs;
+var isRetryableImageStatus = __awtsmoosModule_220.isRetryableImageStatus;
+var waitForImageRetry = __awtsmoosModule_220.waitForImageRetry;
+
+async function fetchPublicImageBlob(url, timeoutMs = 30000, dependencies = {}) {
+	const controller = createPublicImageAbortController(dependencies);
+	const timer = setTimeout(() => controller?.abort(), timeoutMs);
+	const attempts = [];
+	const maximumRetries = Math.max(0, Number(dependencies.maxRetries ?? 1) || 0);
+	try {
+		for (let attempt = 0; attempt <= maximumRetries; attempt += 1) {
+			const record = await requestAttempt(url, controller, attempt, dependencies)
+				.catch(error => publicImageNetworkFailure(error, controller));
+			attempts.push(publicImageAttemptEvidence(record));
+			if (record.ok) return publicImageFetchSuccess(record, attempts);
+			if (!record.retryable || attempt >= maximumRetries) {
+				return publicImageFetchFailure(record, attempts);
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 			}
 			return {
 				error: null,
@@ -21951,18 +30528,182 @@ const __awtsmoosModule_0 = Object.create(null);
 	// Boruch Hashem
 	// Blessed is He
 
+<<<<<<< HEAD
 	/**
 	 * @file PublicImageDecode.js
 	 * @description Decodes canonical URLs or fetched blobs into renderer-compatible image sources.
 	 * The Awtsmoos reveals unseen bytes as visible pixels; Awtsmoos.com tries bitmap truth before an
 	 * object-URL image fallback, then revokes every temporary doorway after finite sight arrives.
 	 */
+=======
+function successAttempt(blob, contentType, response, method) {
+	return {
+		blob,
+		contentType,
+		error: null,
+		method,
+		ok: true,
+		response,
+		retryAfterMs: 0,
+		retryable: false,
+		stage: 'fetched',
+		status: response.status
+	};
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialImageRecords.js */
+__awtsmoosModule_222 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 	var decodePublicImageBitmap = __awtsmoosModule_294.decodePublicImageBitmap;
 
+<<<<<<< HEAD
 	async function decodePublicImageBlob(url, blob, timeoutMs = 30000, dependencies = {}) {
 		const bitmap = await decodePublicImageBitmap(
 			blob,
+=======
+function serializableImageRecord(record) {
+	return {
+		attempts: (record.attempts || []).map(attempt => ({ ...attempt })),
+		contentType: record.contentType || '',
+		durationMs: record.durationMs,
+		error: record.error || null,
+		fromCache: Boolean(record.fromCache),
+		height: record.height,
+		method: record.method || null,
+		ok: record.ok,
+		rateLimited: Boolean(record.rateLimited),
+		retries: record.retries || 0,
+		retryAfterMs: record.retryAfterMs || 0,
+		stage: record.stage || null,
+		status: record.status || 0,
+		url: record.url,
+		width: record.width
+	};
+}
+
+
+__exports.serializableImageRecord = serializableImageRecord;
+function materialImageSuccess(values) {
+	const { attempts, decoded, fetched, startedAt, url } = values;
+	return {
+		attempts,
+		contentType: fetched?.contentType || '',
+		durationMs: Math.round(values.now() - startedAt),
+		error: null,
+		fromCache: fetched?.method === 'cache-storage',
+		height: decoded.height,
+		image: decoded.image,
+		method: decoded.method,
+		ok: true,
+		rateLimited: Boolean(fetched?.rateLimited),
+		retries: fetched?.retries || 0,
+		retryAfterMs: fetched?.retryAfterMs || 0,
+		stage: 'decoded',
+		status: fetched?.status || 200,
+		url,
+		width: decoded.width
+	};
+}
+
+
+__exports.materialImageSuccess = materialImageSuccess;
+function materialImageFailure(values) {
+	const { attempts, direct, fetched, startedAt, url } = values;
+	const final = attempts.at(-1) || {};
+	return {
+		attempts,
+		contentType: fetched?.contentType || '',
+		durationMs: Math.round(values.now() - startedAt),
+		error: final.error || direct.error || fetched?.error || 'image-load-failed',
+		fromCache: false,
+		height: 0,
+		image: null,
+		method: final.method || 'none',
+		ok: false,
+		rateLimited: Boolean(fetched?.rateLimited),
+		retries: fetched?.retries || 0,
+		retryAfterMs: fetched?.retryAfterMs || 0,
+		stage: final.stage || 'unknown',
+		status: fetched?.status || 0,
+		url,
+		width: 0
+	};
+}
+
+
+__exports.materialImageFailure = materialImageFailure;
+function materialImageAttempt(record = {}) {
+	return {
+		contentType: record.contentType || '',
+		error: record.error || null,
+		method: record.method || 'none',
+		ok: Boolean(record.ok),
+		rateLimited: Boolean(record.rateLimited),
+		retries: record.retries || 0,
+		retryAfterMs: record.retryAfterMs || 0,
+		stage: record.stage || 'unknown',
+		status: record.status || 0
+	};
+}
+
+__exports.materialImageAttempt = materialImageAttempt;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialImageLoader.js */
+__awtsmoosModule_212 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+/**
+ * @file PublicMaterialImageLoader.js
+ * @description Decodes canonical material URLs under one absolute end-to-end deadline.
+ * The Awtsmoos lets every pixel doorway answer or close within its appointed measure;
+ * Awtsmoos.com prevents cache, retry, fetch, blob, or decoder silence from freezing the living world.
+ */
+var decodePublicImageBlob = __awtsmoosModule_213.decodePublicImageBlob;
+var decodePublicImageUrl = __awtsmoosModule_213.decodePublicImageUrl;
+var fetchPublicImageBlob = __awtsmoosModule_215.fetchPublicImageBlob;
+var publicImageCircuitIsOpen = __awtsmoosModule_218.publicImageCircuitIsOpen;
+var materialImageAttempt = __awtsmoosModule_222.materialImageAttempt;
+var materialImageFailure = __awtsmoosModule_222.materialImageFailure;
+var materialImageSuccess = __awtsmoosModule_222.materialImageSuccess;
+__exports.serializableImageRecord = __awtsmoosModule_222.serializableImageRecord;
+
+function loadPublicMaterialImage(url, timeoutMs = 30000, dependencies = {}) {
+	const startedAt = currentTime(dependencies);
+	return withMaterialDeadline(
+		loadWithinDeadline(url, timeoutMs, dependencies, startedAt),
+		url,
+		timeoutMs,
+		dependencies,
+		startedAt
+	);
+}
+
+
+__exports.loadPublicMaterialImage = loadPublicMaterialImage;
+async function loadWithinDeadline(url, timeoutMs, dependencies, startedAt) {
+	const attempts = [];
+	const circuitOpen = publicImageCircuitIsOpen(url, dependencies);
+	const direct = circuitOpen
+		? skippedDirectRecord()
+		: await decodePublicImageUrl(url, timeoutMs, dependencies);
+	attempts.push(materialImageAttempt(direct));
+	if (direct.ok) return success(url, direct, null, attempts, startedAt, dependencies);
+	const fetched = await fetchPublicImageBlob(url, timeoutMs, dependencies);
+	attempts.push(materialImageAttempt(fetched));
+	if (fetched.ok) {
+		const decoded = await decodePublicImageBlob(
+			url,
+			fetched.blob,
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 			timeoutMs,
 			dependencies
 		);
@@ -21977,6 +30718,100 @@ const __awtsmoosModule_0 = Object.create(null);
 			method: 'blob-object-url'
 		}).finally(() => UrlApi.revokeObjectURL(objectUrl));
 	}
+<<<<<<< HEAD
+=======
+	return failure(url, direct, fetched, attempts, startedAt, dependencies);
+}
+
+function withMaterialDeadline(operation, url, timeoutMs, dependencies, startedAt) {
+	const setTimer = dependencies.setTimeoutFunction || globalThis.setTimeout;
+	const clearTimer = dependencies.clearTimeoutFunction || globalThis.clearTimeout;
+	if (!setTimer || timeoutMs <= 0) return operation;
+	let timer = null;
+	const deadline = new Promise(resolve => {
+		timer = setTimer(() => resolve(deadlineFailure(
+			url,
+			startedAt,
+			dependencies
+		)), timeoutMs);
+	});
+	return Promise.race([operation, deadline]).finally(() => clearTimer?.(timer));
+}
+
+function deadlineFailure(url, startedAt, dependencies) {
+	const attempt = materialImageAttempt({
+		error: 'material-deadline-exceeded',
+		method: 'material-deadline',
+		stage: 'deadline'
+	});
+	return failure(url, attempt, null, [attempt], startedAt, dependencies);
+}
+
+function success(url, decoded, fetched, attempts, startedAt, dependencies) {
+	return materialImageSuccess({
+		attempts,
+		decoded,
+		fetched,
+		now: () => currentTime(dependencies),
+		startedAt,
+		url
+	});
+}
+
+function failure(url, direct, fetched, attempts, startedAt, dependencies) {
+	return materialImageFailure({
+		attempts,
+		direct,
+		fetched,
+		now: () => currentTime(dependencies),
+		startedAt,
+		url
+	});
+}
+
+function skippedDirectRecord() {
+	return {
+		error: 'rate-limit-circuit-open',
+		method: 'direct-image-url-skipped-circuit',
+		ok: false,
+		rateLimited: true,
+		stage: 'circuit',
+		status: 429
+	};
+}
+
+function currentTime(dependencies) {
+	return dependencies.now?.()
+		?? globalThis.performance?.now?.()
+		?? Date.now();
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/SceneMaterialPriority.js */
+__awtsmoosModule_223 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file SceneMaterialPriority.js
+ * @description Ranks shared visible material URLs by human-visible village value.
+ * The Awtsmoos clothes homes before polishing distant detail; Awtsmoos.com preserves
+ * canonical same-origin keys while bounding hydration to trusted material-pack paths.
+ */
+
+const LOCAL_MATERIAL_URL = /^(?:\.\/|\/)(?:assets\/materials\/(?:local|generated)\/|geelooy\/games\/mitzvahworld\/assets\/materials\/(?:local|generated)\/)/i;
+const NETWORK_MATERIAL_URL = /^https?:\/\//i;
+
+function rankedSceneUrls(root) {
+	const records = new Map();
+	root?.traverse?.(object => collectObject(records, object));
+	return [...records.values()].sort((left, right) => (
+		right.score - left.score || left.url.localeCompare(right.url)
+	));
+}
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 
 	__exports.decodePublicImageBlob = decodePublicImageBlob;
@@ -22029,6 +30864,7 @@ const __awtsmoosModule_0 = Object.create(null);
 		});
 	}
 
+<<<<<<< HEAD
 	function finishSuccessfulImage(image, publicUrl, sourceUrl, method, finish) {
 		const width = image.naturalWidth || image.width || 0;
 		const height = image.naturalHeight || image.height || 0;
@@ -22048,6 +30884,69 @@ const __awtsmoosModule_0 = Object.create(null);
 			height,
 			image,
 			method,
+=======
+function roleScore(role) {
+	if (/cottage|house|roof|wall|stone|timber|wood/.test(role)) return 120;
+	if (/terrain|grass|ground/.test(role)) return 110;
+	if (/road|cobble|path|bridge/.test(role)) return 105;
+	if (/water|lake|stream|river/.test(role)) return 100;
+	if (/forest|tree|bark|leaf/.test(role)) return 55;
+	return 20;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialCache.js */
+__awtsmoosModule_205 = (() => {
+const __exports = {};
+// B"H
+var CRITICAL_RUNTIME_MATERIALS = __awtsmoosModule_206.CRITICAL_RUNTIME_MATERIALS;
+var RUNTIME_MATERIALS = __awtsmoosModule_206.RUNTIME_MATERIALS;
+var loadPublicMaterialImage = __awtsmoosModule_212.loadPublicMaterialImage;
+var serializableImageRecord = __awtsmoosModule_212.serializableImageRecord;
+var isSceneMaterialUrl = __awtsmoosModule_223.isSceneMaterialUrl;
+
+const SCENE_MATERIAL_HYDRATION_URL_LIMIT = 2;
+__exports.SCENE_MATERIAL_HYDRATION_URL_LIMIT = SCENE_MATERIAL_HYDRATION_URL_LIMIT;
+
+
+const imageCache = new Map();
+const urlRecords = new Map();
+const loadingByUrl = new Map();
+const roleRecords = new Map();
+
+/** Returns a complete browser Image or null; aliases permit declared substitutions. */
+function cachedTextureImage(url) {
+	const image = imageCache.get(url);
+	return usableImage(image) ? image : null;
+}
+
+
+__exports.cachedTextureImage = cachedTextureImage;
+/** Preserves compatibility with primitive builders that attach cached images synchronously. */
+function attachCachedTexture(material, url) {
+	const image = cachedTextureImage(url);
+	if (!image) return material;
+	const shouldBind = !usableImage(material.mapImage) || replaceableMapImage(material, material.mapImage);
+	if (!shouldBind) return { ...material, textureUrl: url };
+	const prepared = prepareMapImage(material, image);
+	if (!prepared) return material;
+	return {
+		...material,
+		mapImage: prepared,
+		mapImageFallback: false,
+		textureUrl: url
+	};
+}
+
+
+__exports.attachCachedTexture = attachCachedTexture;
+/** Loads one URL exactly once at a time and records browser-verifiable dimensions and timing. */
+async function loadPublicMaterialUrl(url, timeoutMs = 8000) {
+	const cached = cachedTextureImage(url);
+	if (cached) {
+		return {
+			...(urlRecords.get(url) || imageEvidence(url, cached)),
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 			ok: true,
 			stage: 'decoded',
 			width
@@ -23994,6 +32893,7 @@ const __awtsmoosModule_0 = Object.create(null);
 			layer.image = image;
 			return true;
 		}
+<<<<<<< HEAD
 		const hydratedLayer = createHydratedRuntimeLayer(layer, image);
 		if (writableSceneMaterialProperty(layers, String(index))) {
 			layers[index] = hydratedLayer;
@@ -24005,6 +32905,1623 @@ const __awtsmoosModule_0 = Object.create(null);
 		const replacement = [...layers];
 		replacement[index] = hydratedLayer;
 		material.textureLayers = replacement;
+=======
+		return;
+	}
+	stats.pending += 1;
+	pending.add(slot.url);
+}
+
+function prepareMapImage(material, image) {
+	const transform = material?.texturePolicy?.hydrateMapImage;
+	if (typeof transform !== 'function') return image;
+	try {
+		const prepared = transform(image);
+		return usableImage(prepared) ? prepared : null;
+	} catch {
+		return null;
+	}
+}
+
+function replaceableMapImage(material, image) {
+	return material?.mapImageFallback === true
+		|| material?.texturePolicy?.proceduralFallbackActive === true
+		|| image?.dataset?.replaceableByPublicTexture === 'true';
+}
+
+function markRealMapImage(object, material) {
+	material.mapImageFallback = false;
+	if (material.texturePolicy && !Object.isFrozen(material.texturePolicy)) {
+		material.texturePolicy.realMapImage = true;
+		material.texturePolicy.proceduralFallbackActive = false;
+	}
+	const materialEvidence = material.userData?.AwtsmoosForestMaterial;
+	if (materialEvidence && !Object.isFrozen(materialEvidence)) {
+		materialEvidence.realMapImage = true;
+		materialEvidence.proceduralFallback = false;
+	}
+	const objectEvidence = object.userData?.AwtsmoosForestLayer;
+	if (objectEvidence && !Object.isFrozen(objectEvidence)) {
+		objectEvidence.realMapImage = true;
+		objectEvidence.proceduralFallback = false;
+	}
+}
+
+function emptySceneHydrationStats(options = {}) {
+	const requestedLimit = Number(options.requestLimit);
+	const requestLimit = Number.isFinite(requestedLimit)
+		? Math.max(0, Math.min(SCENE_MATERIAL_HYDRATION_URL_LIMIT, Math.floor(requestedLimit)))
+		: SCENE_MATERIAL_HYDRATION_URL_LIMIT;
+	return {
+		materials: 0,
+		mapImagesBound: 0,
+		mixImagesBound: 0,
+		layerImagesBound: 0,
+		mapTransformsPending: 0,
+		pending: 0,
+		requested: 0,
+		requestedUrls: [],
+		requestLimit,
+		referencedUrls: 0,
+		readyUrls: 0,
+		loadingUrls: 0,
+		failedUrls: 0
+	};
+}
+
+function usableImage(image) {
+	return !!(
+		image
+		&& (image.naturalWidth || image.videoWidth || image.width)
+		&& (image.naturalHeight || image.videoHeight || image.height)
+		&& image.complete !== false
+	);
+}
+
+function roleEvidence(material, result, selectedUrl, attempts) {
+	return {
+		role: material.role,
+		label: material.label,
+		primaryUrl: material.primaryUrl,
+		selectedUrl,
+		usedFallback: !!selectedUrl && selectedUrl !== material.primaryUrl,
+		loaded: !!result?.ok,
+		cacheBound: !!selectedUrl && !!cachedTextureImage(selectedUrl),
+		width: result?.width || 0,
+		height: result?.height || 0,
+		durationMs: attempts.reduce((total, attempt) => total + attempt.durationMs, 0),
+		error: result?.ok ? null : attempts.at(-1)?.error || 'no-candidate-loaded',
+		attempts
+	};
+}
+
+function summarize(records) {
+	const loaded = records.filter(record => record.loaded).length;
+	return {
+		requested: records.length,
+		loaded,
+		failed: records.length - loaded,
+		pending: 0,
+		ok: loaded === records.length,
+		strategy: 'role-manifest-bounded-concurrency-shared-image-cache',
+		records
+	};
+}
+
+function imageEvidence(url, image) {
+	return {
+		url,
+		width: image.naturalWidth || image.width,
+		height: image.naturalHeight || image.height,
+		durationMs: 0,
+		error: null
+	};
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/DetailTextureFamilies.js */
+__awtsmoosModule_226 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file DetailTextureFamilies.js
+ * @description Names only image-decodable detail textures. Models and future
+ * unpublished derivatives stay outside this preload vessel before the Awtsmoos.
+ */
+var exactMaterialUrl = __awtsmoosModule_207.exactMaterialUrl;
+var fullMaterialUrl = __awtsmoosModule_207.fullMaterialUrl;
+
+const freeze = (value) => Object.freeze(value);
+const transparentAspen = exactMaterialUrl(
+	'awtsmoos-nature/chai-forest/textures/leaves/aspen.png'
+);
+
+const DETAIL_TEXTURE_FAMILIES = Object.freeze({
+	leaves: freeze({
+		leaf1: fullMaterialUrl('leaf 1'),
+		oakSpring: fullMaterialUrl('oak leaf spring'),
+		oakFall: fullMaterialUrl('oak leaf fall'),
+		chaiOak: exactMaterialUrl('awtsmoos-nature/chai-forest/textures/leaves/oak.png'),
+		chaiAsh: exactMaterialUrl('awtsmoos-nature/chai-forest/textures/leaves/ash.png'),
+		chaiAspen: transparentAspen,
+		chaiPine: exactMaterialUrl('awtsmoos-nature/chai-forest/textures/leaves/pine.png')
+	}),
+	botany: freeze({
+		petalAtlas: exactMaterialUrl('awtsmoos-nature/ilanos/trees/sakura petal.png')
+	}),
+	metals: freeze({
+		gold2: fullMaterialUrl('gold 2'),
+		silver1: fullMaterialUrl('silver 1'),
+		copper1: fullMaterialUrl('copper 1'),
+		rustyIron: fullMaterialUrl('rusty iron')
+	}),
+	fabric: freeze({
+		parchment: fullMaterialUrl('parchment'),
+		leather: fullMaterialUrl('leather'),
+		tanCloth: fullMaterialUrl('tan cloth'),
+		rope: fullMaterialUrl('raveled rope')
+	}),
+	fur: freeze({
+		cow: fullMaterialUrl('cow fur 1'),
+		deer: fullMaterialUrl('deer fur 1'),
+		fox: fullMaterialUrl('fox fur 1'),
+		horse: fullMaterialUrl('horse fur 1')
+	})
+});
+__exports.DETAIL_TEXTURE_FAMILIES = DETAIL_TEXTURE_FAMILIES;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/SurfaceTextureFamilies.js */
+__awtsmoosModule_227 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file SurfaceTextureFamilies.js
+ * @description Names the large village surfaces that receive stone, earth,
+ * timber, water, and roofs as finite garments for the renewing Awtsmoos.
+ */
+var fullMaterialUrl = __awtsmoosModule_207.fullMaterialUrl;
+
+const freeze = (value) => Object.freeze(value);
+
+const SURFACE_TEXTURE_FAMILIES = Object.freeze({
+	bricks: freeze({
+		white1: fullMaterialUrl('white brick 1'),
+		red1: fullMaterialUrl('red brick 1'),
+		red2: fullMaterialUrl('red brick 2'),
+		red3: fullMaterialUrl('red brick 3'),
+		yellow1: fullMaterialUrl('yellow brick 1'),
+		weatheredRed: fullMaterialUrl('weathered Red bricks 1'),
+		limestone1: fullMaterialUrl('limestone bricks 1'),
+		fieldstone1: fullMaterialUrl('weathered fieldstone Rock 1')
+	}),
+	terrain: freeze({
+		dirt1: fullMaterialUrl('dirt 1'),
+		dirt2: fullMaterialUrl('dirt 2'),
+		dirt5: fullMaterialUrl('dirt 5'),
+		dirt6: fullMaterialUrl('dirt 6'),
+		dirtGrass1: fullMaterialUrl('dirt grass 1'),
+		dirtGrass2: fullMaterialUrl('dirt grass 2'),
+		dirtGrass3: fullMaterialUrl('dirt grass 3'),
+		darkForestFloor: fullMaterialUrl('dark forest floor nonlight'),
+		forestLeaves: fullMaterialUrl('forest floor covered with leaves'),
+		marshGrass: fullMaterialUrl('marsh grass'),
+		mud: fullMaterialUrl('mud'),
+		sand1: fullMaterialUrl('sand 1'),
+		tilledSoil: fullMaterialUrl('tilled soil'),
+		grass1: fullMaterialUrl('grass 1'),
+		grass4: fullMaterialUrl('grass 4'),
+		grass5: fullMaterialUrl('grass 5'),
+		grass6: fullMaterialUrl('grass 6'),
+		grass7: fullMaterialUrl('grass 7'),
+		grass8: fullMaterialUrl('grass 8')
+	}),
+	wood: freeze({
+		bark1: fullMaterialUrl('tree bark 1'),
+		oak1: fullMaterialUrl('oak wood 1'),
+		oak2: fullMaterialUrl('oak wood 2'),
+		oak3: fullMaterialUrl('oak wood 3'),
+		planks1: fullMaterialUrl('wooden oak planks 1'),
+		plankedFloor: fullMaterialUrl('wooden planked floor')
+	}),
+	water: freeze({
+		still: fullMaterialUrl('seamless water'),
+		bright: fullMaterialUrl('seamless water brighter'),
+		shallowRiver: fullMaterialUrl('shallow river water'),
+		raw: fullMaterialUrl('water not seamless')
+	}),
+	stone: freeze({
+		stone1: fullMaterialUrl('stone 1'),
+		bluestone1: fullMaterialUrl('bluestone 1'),
+		cobblestone: fullMaterialUrl('cobblestone'),
+		floor1: fullMaterialUrl('stone floor'),
+		floor2: fullMaterialUrl('stone floor 2'),
+		granite1: fullMaterialUrl('polished granite Rock 1')
+	}),
+	roof: freeze({
+		tile1: fullMaterialUrl('tiled roof 1'),
+		tile2: fullMaterialUrl('tiled roof 2'),
+		tile3: fullMaterialUrl('tiled roof 3 smaller tiles'),
+		tile4: fullMaterialUrl('tiled roof 4')
+	})
+});
+__exports.SURFACE_TEXTURE_FAMILIES = SURFACE_TEXTURE_FAMILIES;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureFamilies.js */
+__awtsmoosModule_225 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file TextureFamilies.js
+ * @description Joins broad surfaces and delicate details into one stable
+ * compatibility map, many material vessels held within the unity of Awtsmoos.
+ */
+var DETAIL_TEXTURE_FAMILIES = __awtsmoosModule_226.DETAIL_TEXTURE_FAMILIES;
+var SURFACE_TEXTURE_FAMILIES = __awtsmoosModule_227.SURFACE_TEXTURE_FAMILIES;
+
+const TEXTURE_URLS = Object.freeze({
+	...SURFACE_TEXTURE_FAMILIES,
+	...DETAIL_TEXTURE_FAMILIES
+});
+__exports.TEXTURE_URLS = TEXTURE_URLS;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureArchitectureNames.js */
+__awtsmoosModule_230 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RemoteTextureArchitectureNames.js
+ * @description Names brick, roof, granite, timber, and constructed floor images without URLs.
+ * The Awtsmoos raises dwelling from dust while Awtsmoos.com keeps every finite wall named;
+ * filenames remain the vessel, and one remote root alone carries each roof, plank, brick, and frame.
+ */
+
+const REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = Object.freeze([
+	'displacement map for tiled roof 4.png',
+	'gray brick 1.png',
+	'limestone bricks 1.png',
+	'limestone bricks 2.png',
+	'marble 1.png',
+	'new bricks 1.png',
+	'new red bricks 2.png',
+	'oak wood 1.png',
+	'oak wood 2.png',
+	'oak wood 3.png',
+	'oak wooden planks 2.png',
+	'polished granite Rock 1.png',
+	'polished granite Rock 2.png',
+	'polished granite Rock 3.png',
+	'polished granite Rock 4.png',
+	'red brick 1.png',
+	'red brick 2.png',
+	'red brick 3.png',
+	'tiled roof 1.png',
+	'tiled roof 2.png',
+	'tiled roof 3 smaller tiles.png',
+	'tiled roof 4.png',
+	'tree bark 1.png',
+	'weathered Red bricks 1.png',
+	'weathered Red bricks 3.png',
+	'weathered Red bricks 5.png',
+	'weathered Red bricks 6.png',
+	'weathered Red bricks with slight yellow touch4.png',
+	'weathered Red bricks2.png',
+	'white brick 1.png',
+	'wooden oak planks 1.png',
+	'wooden planked floor.png',
+	'yellow brick 1.png'
+]);
+__exports.REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = REMOTE_ARCHITECTURE_TEXTURE_FILENAMES;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCraftNames.js */
+__awtsmoosModule_231 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RemoteTextureCraftNames.js
+ * @description Names metal, cloth, hide, glass, parchment, rope, leaf, and water images without URLs.
+ * The Awtsmoos shines through copper and river, leather and light; Awtsmoos.com keeps filenames
+ * free of transport so every crafted garment may travel from one root yet remain truthful and bright.
+ */
+
+const REMOTE_CRAFT_TEXTURE_FILENAMES = Object.freeze([
+	'copper 1.png',
+	'copper 2.png',
+	'cow fur 1.png',
+	'cracked glass.png',
+	'deer fur 1.png',
+	'fox fur 1.png',
+	'gold 2.png',
+	'horse fur 1.png',
+	'leaf 1.png',
+	'leather.png',
+	'oak leaf fall.png',
+	'oak leaf spring.png',
+	'parchment.png',
+	'raveled rope.png',
+	'red ceramic.png',
+	'rusty iron.png',
+	'seamless water brighter.png',
+	'seamless water.png',
+	'shallow river water.png',
+	'silver 1.png',
+	'silver 2.png',
+	'tan cloth.png',
+	'unraveled rope.png',
+	'water not seamless.png'
+]);
+__exports.REMOTE_CRAFT_TEXTURE_FILENAMES = REMOTE_CRAFT_TEXTURE_FILENAMES;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureGroundNames.js */
+__awtsmoosModule_232 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RemoteTextureGroundNames.js
+ * @description Names full-resolution earth, meadow, snow, stone, and floor images without URLs.
+ * The Awtsmoos clothes one ground in many textures that rhyme; Awtsmoos.com preserves each
+ * filename alone, so transport may change while earth keeps identity through space and time.
+ */
+
+const REMOTE_GROUND_TEXTURE_FILENAMES = Object.freeze([
+	'bluestone 1.png',
+	'cave floor.png',
+	'cobblestone.png',
+	'dark forest floor nonlight.png',
+	'dirt 1.png',
+	'dirt 2.png',
+	'dirt 5.png',
+	'dirt 6.png',
+	'dirt grass 1.png',
+	'dirt grass 2.png',
+	'dirt grass 3.png',
+	'dirt grass 4.png',
+	'dirt grass 6.png',
+	'dirt ground 3.png',
+	'forest floor covered with leaves.png',
+	'grass 1.png',
+	'grass 4.png',
+	'grass 5.png',
+	'grass 6.png',
+	'grass 7.png',
+	'grass 8.png',
+	'grass1.png',
+	'marsh grass.png',
+	'mud.png',
+	'sand 1.png',
+	'sand 2.png',
+	'scortced floor.png',
+	'snow 1.png',
+	'snow 2.png',
+	'stone 1.png',
+	'stone floor 2.png',
+	'stone floor.png',
+	'tilled soil.png',
+	'weathered fieldstone Rock 1.png',
+	'weathered fieldstone Rock 2.png'
+]);
+__exports.REMOTE_GROUND_TEXTURE_FILENAMES = REMOTE_GROUND_TEXTURE_FILENAMES;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureTreeNames.js */
+__awtsmoosModule_233 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RemoteTextureTreeNames.js
+ * @description Names every uploaded bark, leaf, needle, frond, spray, and petal without URLs.
+ * The Awtsmoos grows many branches from one hidden root; Awtsmoos.com preserves each tree name
+ * while transport remains elsewhere, so bark and leaf may change their road without changing truth.
+ */
+
+const REMOTE_TREE_TEXTURE_FILENAMES = Object.freeze([
+	'acacia bark.png',
+	'acacia compound leaf.png',
+	'apple leaf.png',
+	'apple tree bark.png',
+	'ash bark.png',
+	'ash leaf.png',
+	'aspen bark.png',
+	'aspen leaf.png',
+	'baobab bark.png',
+	'baobab leaf.png',
+	'Birch bark.png',
+	'birtch leaf.png',
+	'cedar spray.png',
+	'cypress bark.png',
+	'cypress scale leaf.png',
+	'mangrove leaf.png',
+	'mangrove tree bark.png',
+	'maple leaf 2.png',
+	'maple leaf.png',
+	'oak leaf.png',
+	'olive leaf.png',
+	'Olive tree bark.png',
+	'palm bark 2.png',
+	'palm bark.png',
+	'palm frond.png',
+	'pine needles.png',
+	'poplar bark.png',
+	'poplar leaf.png',
+	'redwood bark.png',
+	'redwood needles.png',
+	'sakura petal.png',
+	'willow bark.png',
+	'willow leaf.png'
+]);
+__exports.REMOTE_TREE_TEXTURE_FILENAMES = REMOTE_TREE_TEXTURE_FILENAMES;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js */
+__awtsmoosModule_229 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file RemoteTextureCatalog.js
+ * @description Joins filename-only texture families and resolves them only through transport helpers.
+ * The Awtsmoos unites earth, house, craft, and tree without confusing their names; Awtsmoos.com
+ * keeps one catalog of garments while the remote road remains sealed in its appointed frame.
+ */
+
+var REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = __awtsmoosModule_230.REMOTE_ARCHITECTURE_TEXTURE_FILENAMES;
+var REMOTE_CRAFT_TEXTURE_FILENAMES = __awtsmoosModule_231.REMOTE_CRAFT_TEXTURE_FILENAMES;
+var REMOTE_GROUND_TEXTURE_FILENAMES = __awtsmoosModule_232.REMOTE_GROUND_TEXTURE_FILENAMES;
+var REMOTE_TREE_TEXTURE_FILENAMES = __awtsmoosModule_233.REMOTE_TREE_TEXTURE_FILENAMES;
+var fullResolutionTextureUrl = __awtsmoosModule_209.fullResolutionTextureUrl;
+var treeTextureUrl = __awtsmoosModule_209.treeTextureUrl;
+
+const FULL_RESOLUTION_FILENAMES = Object.freeze([
+	...REMOTE_GROUND_TEXTURE_FILENAMES,
+	...REMOTE_ARCHITECTURE_TEXTURE_FILENAMES,
+	...REMOTE_CRAFT_TEXTURE_FILENAMES
+]);
+
+const REMOTE_TEXTURE_FILENAMES = Object.freeze({
+	architecture: REMOTE_ARCHITECTURE_TEXTURE_FILENAMES,
+	craft: REMOTE_CRAFT_TEXTURE_FILENAMES,
+	ground: REMOTE_GROUND_TEXTURE_FILENAMES,
+	trees: REMOTE_TREE_TEXTURE_FILENAMES
+});
+__exports.REMOTE_TEXTURE_FILENAMES = REMOTE_TEXTURE_FILENAMES;
+
+
+function remoteFullResolutionTextureUrl(filename) {
+	assertFilename(filename, FULL_RESOLUTION_FILENAMES);
+	return fullResolutionTextureUrl(filename);
+}
+
+
+__exports.remoteFullResolutionTextureUrl = remoteFullResolutionTextureUrl;
+function remoteTreeTextureUrl(filename) {
+	assertFilename(filename, REMOTE_TREE_TEXTURE_FILENAMES);
+	return treeTextureUrl(filename);
+}
+
+
+__exports.remoteTreeTextureUrl = remoteTreeTextureUrl;
+function remoteTextureCatalogEvidence() {
+	return Object.freeze({
+		architecture: REMOTE_ARCHITECTURE_TEXTURE_FILENAMES.length,
+		craft: REMOTE_CRAFT_TEXTURE_FILENAMES.length,
+		ground: REMOTE_GROUND_TEXTURE_FILENAMES.length,
+		total: FULL_RESOLUTION_FILENAMES.length + REMOTE_TREE_TEXTURE_FILENAMES.length,
+		trees: REMOTE_TREE_TEXTURE_FILENAMES.length
+	});
+}
+
+
+__exports.remoteTextureCatalogEvidence = remoteTextureCatalogEvidence;
+function assertFilename(filename, names) {
+	if (!names.includes(filename)) {
+		throw new Error(`Unknown remote texture filename: ${filename}`);
+	}
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/WorldMaterialPresets.js */
+__awtsmoosModule_228 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file WorldMaterialPresets.js
+ * @description Composes boot-critical world purposes with the uploaded tree filename library.
+ * The Awtsmoos clothes terrain, house, river, bark, and leaf through one measured catalog;
+ * Awtsmoos.com keeps startup hydration on the new source instead of an obsolete external host.
+ */
+
+var remoteTreeTextureUrl = __awtsmoosModule_229.remoteTreeTextureUrl;
+var TEXTURE_URLS = __awtsmoosModule_225.TEXTURE_URLS;
+
+const freeze = value => Object.freeze(value);
+const tree = remoteTreeTextureUrl;
+
+const WORLD_MATERIAL_PRESETS = Object.freeze({
+	terrainMix: freeze([
+		TEXTURE_URLS.terrain.grass1,
+		TEXTURE_URLS.terrain.grass6,
+		TEXTURE_URLS.terrain.dirtGrass3,
+		TEXTURE_URLS.terrain.darkForestFloor,
+		TEXTURE_URLS.terrain.forestLeaves,
+		TEXTURE_URLS.terrain.marshGrass,
+		TEXTURE_URLS.terrain.mud
+	]),
+	forestLeaves: freeze([
+		tree('oak leaf.png'),
+		tree('ash leaf.png'),
+		tree('aspen leaf.png'),
+		tree('pine needles.png')
+	]),
+	forestBark: freeze([
+		tree('redwood bark.png'),
+		tree('Olive tree bark.png'),
+		tree('cypress bark.png'),
+		tree('apple tree bark.png')
+	]),
+	houseWalls: freeze([
+		TEXTURE_URLS.bricks.white1,
+		TEXTURE_URLS.bricks.weatheredRed,
+		TEXTURE_URLS.bricks.limestone1,
+		TEXTURE_URLS.bricks.fieldstone1
+	]),
+	villageProps: freeze([
+		TEXTURE_URLS.wood.planks1,
+		TEXTURE_URLS.metals.rustyIron,
+		TEXTURE_URLS.fabric.parchment,
+		TEXTURE_URLS.fabric.rope,
+		TEXTURE_URLS.metals.gold2
+	]),
+	water: freeze([
+		TEXTURE_URLS.water.shallowRiver,
+		TEXTURE_URLS.water.bright,
+		TEXTURE_URLS.water.still
+	])
+});
+__exports.WORLD_MATERIAL_PRESETS = WORLD_MATERIAL_PRESETS;
+
+
+const TEXTURE_PURPOSES = Object.freeze({
+	houseWall: TEXTURE_URLS.bricks.white1,
+	lavaPlatform: TEXTURE_URLS.bricks.red3,
+	lavaPlatformAlt: TEXTURE_URLS.bricks.red2,
+	road: TEXTURE_URLS.bricks.yellow1,
+	coin: TEXTURE_URLS.metals.gold2,
+	terrainMix: TEXTURE_URLS.terrain.dirtGrass3,
+	terrainDirtSet: freeze([
+		TEXTURE_URLS.terrain.dirt1,
+		TEXTURE_URLS.terrain.dirt2,
+		TEXTURE_URLS.terrain.dirtGrass1,
+		TEXTURE_URLS.terrain.dirtGrass2,
+		TEXTURE_URLS.terrain.dirtGrass3,
+		TEXTURE_URLS.terrain.darkForestFloor,
+		TEXTURE_URLS.terrain.marshGrass
+	]),
+	houseFloor: TEXTURE_URLS.stone.stone1,
+	houseDoor: TEXTURE_URLS.wood.bark1,
+	houseRoof: TEXTURE_URLS.roof.tile2,
+	forestBark: tree('redwood bark.png'),
+	forestLeaf: tree('oak leaf.png'),
+	botanicalLeaf: tree('aspen leaf.png'),
+	botanicalPetal: tree('sakura petal.png'),
+	lake: TEXTURE_URLS.water.shallowRiver,
+	mezuzaCase: TEXTURE_URLS.metals.gold2,
+	mezuzaScroll: TEXTURE_URLS.fabric.parchment
+});
+__exports.TEXTURE_PURPOSES = TEXTURE_PURPOSES;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureCatalog.js */
+__awtsmoosModule_224 = (() => {
+const __exports = {};
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * @file TextureCatalog.js
+ * @description Preserves the synchronous texture doorway for local world materials.
+ * The Awtsmoos gathers stone, timber, bark, roof, and river into one truthful catalog;
+ * Awtsmoos.com exposes the nearby origin without carrying obsolete host-era language.
+ */
+
+var PUBLIC_MATERIAL_ORIGIN = __awtsmoosModule_208.PUBLIC_MATERIAL_ORIGIN;
+var fullMaterialUrl = __awtsmoosModule_207.fullMaterialUrl;
+var halfMaterialUrl = __awtsmoosModule_207.halfMaterialUrl;
+var TEXTURE_URLS = __awtsmoosModule_225.TEXTURE_URLS;
+var TEXTURE_PURPOSES = __awtsmoosModule_228.TEXTURE_PURPOSES;
+var WORLD_MATERIAL_PRESETS = __awtsmoosModule_228.WORLD_MATERIAL_PRESETS;
+
+const TEXTURE_ORIGIN = PUBLIC_MATERIAL_ORIGIN;
+__exports.TEXTURE_ORIGIN = TEXTURE_ORIGIN;
+
+const fullTextureUrl = fullMaterialUrl;
+__exports.fullTextureUrl = fullTextureUrl;
+
+const halfTextureUrl = halfMaterialUrl;
+__exports.halfTextureUrl = halfTextureUrl;
+
+__exports.TEXTURE_PURPOSES = TEXTURE_PURPOSES;
+__exports.TEXTURE_URLS = TEXTURE_URLS;
+__exports.WORLD_MATERIAL_PRESETS = WORLD_MATERIAL_PRESETS;
+
+/**
+ * Returns a detached snapshot for diagnostics and editor inspection.
+ *
+ * @returns {object} Serializable texture catalog state.
+ */
+function publicTextureUrls() {
+	return JSON.parse(JSON.stringify({
+		origin: TEXTURE_ORIGIN,
+		presets: WORLD_MATERIAL_PRESETS,
+		purposes: TEXTURE_PURPOSES,
+		urls: TEXTURE_URLS
+	}));
+}
+
+__exports.publicTextureUrls = publicTextureUrls;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureDensityMath.js */
+__awtsmoosModule_237 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file TextureDensityMath.js
+ * @description Separates bounded GPU density planning from exact authored repeat coverage.
+ * The Awtsmoos grants each pixel a measured span while the finite renderer receives a guarded load;
+ * Awtsmoos.com keeps exact fractions and bounded integer plans distinct along one truthful road.
+ */
+
+/**
+ * Builds one bounded integer density axis for runtime GPU planning.
+ *
+ * @param {number} worldValue World-space span.
+ * @param {number} pixelsValue Effective source pixels.
+ * @param {number} target Target pixels per world unit.
+ * @param {number} maximum Maximum integer repeats.
+ * @returns {object} Repeat, density, tile span, and source utilization.
+ */
+function boundedTextureAxisPlan(
+	worldValue,
+	pixelsValue,
+	target,
+	maximum
+) {
+	const world = positiveTextureNumber(Math.abs(Number(worldValue)), 1);
+	const pixels = positiveTextureNumber(pixelsValue, target);
+	const ideal = world * target / pixels;
+	const largestAtEightyFivePercent = Math.floor(ideal / 0.85);
+	const repeat = Math.max(
+		1,
+		Math.min(maximum, largestAtEightyFivePercent || Math.ceil(ideal))
+	);
+	const effectiveDensity = pixels * repeat / world;
+
+	return {
+		effectiveDensity,
+		repeat,
+		tileWorld: world / repeat,
+		utilization: Math.min(1, target / effectiveDensity)
+	};
+}
+
+
+__exports.boundedTextureAxisPlan = boundedTextureAxisPlan;
+/**
+ * Computes exact fractional source coverage without integer rounding.
+ *
+ * @param {number} width World width.
+ * @param {number} depth World depth.
+ * @param {number} sourceWidth Source pixel width.
+ * @param {number} sourceHeight Source pixel height.
+ * @param {number} texelsPerWorld Target texels per world unit.
+ * @returns {number[]} Exact two-axis repeats.
+ */
+function exactPixelRepeat(
+	width,
+	depth,
+	sourceWidth,
+	sourceHeight,
+	texelsPerWorld
+) {
+	return [
+		Math.abs(Number(width)) * texelsPerWorld / sourceWidth,
+		Math.abs(Number(depth)) * texelsPerWorld / sourceHeight
+	];
+}
+
+
+__exports.exactPixelRepeat = exactPixelRepeat;
+function positiveTextureNumber(value, fallback) {
+	const number = Number(value);
+
+	return Number.isFinite(number) && number > 0 ? number : fallback;
+}
+
+
+__exports.positiveTextureNumber = positiveTextureNumber;
+function textureQualityScale(quality, mobile) {
+	if (quality === 'low') {
+		return 0.72;
+	}
+
+	if (quality === 'medium' || mobile) {
+		return 0.86;
+	}
+
+	return 1;
+}
+
+__exports.textureQualityScale = textureQualityScale;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureImageMetrics.js */
+__awtsmoosModule_239 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file TextureImageMetrics.js
+ * @description Reads source dimensions and public provenance without choosing repeat policy.
+ * The Awtsmoos reveals each finite image through measured width, height, and truthful address;
+ * Awtsmoos.com keeps source evidence independent while density and material vessels assemble.
+ */
+
+function textureSize(image) {
+	return Object.freeze({
+		h: image?.naturalHeight || image?.videoHeight || image?.height || 0,
+		w: image?.naturalWidth || image?.videoWidth || image?.width || 0
+	});
+}
+
+
+__exports.textureSize = textureSize;
+function publicUrl(image) {
+	return image?.dataset?.url
+		|| image?.dataset?.publicUrl
+		|| image?.src
+		|| null;
+}
+
+__exports.publicUrl = publicUrl;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeatPolicy.js */
+__awtsmoosModule_240 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file TextureRepeatPolicy.js
+ * @description Names shared repeat and texture ceilings without performing density arithmetic.
+ * The Awtsmoos gives every finite renderer a measured vessel and every authored tile its span;
+ * Awtsmoos.com keeps policy constants stable while exact and bounded planners follow their plan.
+ */
+
+const REPEAT_HOOKS = Object.freeze({
+	mobileMaxRepeats: 48,
+	mobileMaxTexture: 2048,
+	roadTileWorld: 2,
+	surfaceTexelsPerWorld: 96,
+	terrainTexelsPerWorld: 56
+});
+__exports.REPEAT_HOOKS = REPEAT_HOOKS;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureDensityPlan.js */
+__awtsmoosModule_238 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file TextureDensityPlan.js
+ * @description Builds bounded integer repeat plans for runtime GPU density and anisotropy.
+ * The Awtsmoos measures source and world while the renderer receives a guarded finite count;
+ * Awtsmoos.com keeps this bounded policy apart from exact authored fractions and their amount.
+ */
+
+var boundedTextureAxisPlan = __awtsmoosModule_237.boundedTextureAxisPlan;
+var positiveTextureNumber = __awtsmoosModule_237.positiveTextureNumber;
+var textureQualityScale = __awtsmoosModule_237.textureQualityScale;
+var textureSize = __awtsmoosModule_239.textureSize;
+var REPEAT_HOOKS = __awtsmoosModule_240.REPEAT_HOOKS;
+
+function textureDensityPlan(options = {}) {
+	const source = textureSize(options.image);
+	const mobile = Boolean(options.mobile);
+	const maxTexture = positiveTextureNumber(
+		options.maxTextureSize,
+		mobile ? 2048 : 4096
+	);
+	const target = positiveTextureNumber(
+		options.texelsPerWorld,
+		REPEAT_HOOKS.surfaceTexelsPerWorld
+	) * textureQualityScale(options.quality, mobile);
+	const effective = {
+		w: Math.min(source.w || maxTexture, maxTexture),
+		h: Math.min(source.h || maxTexture, maxTexture)
+	};
+	const maximum = positiveTextureNumber(
+		options.maximumRepeats,
+		mobile ? REPEAT_HOOKS.mobileMaxRepeats : 128
+	);
+	const x = boundedTextureAxisPlan(
+		options.worldWidth,
+		effective.w,
+		target,
+		maximum
+	);
+	const z = boundedTextureAxisPlan(
+		options.worldDepth,
+		effective.h,
+		target,
+		maximum
+	);
+
+	return Object.freeze({
+		anisotropy: Math.min(
+			positiveTextureNumber(options.maximumAnisotropy, mobile ? 4 : 12),
+			mobile ? 4 : 12
+		),
+		effectivePixelsPerWorld: Object.freeze([x.effectiveDensity, z.effectiveDensity]),
+		effectiveSource: Object.freeze(effective),
+		mobile,
+		repeat: Object.freeze([x.repeat, z.repeat]),
+		source,
+		sourceUtilization: Object.freeze([x.utilization, z.utilization]),
+		targetPixelsPerWorld: target,
+		tileWorld: Object.freeze([x.tileWorld, z.tileWorld])
+	});
+}
+
+__exports.textureDensityPlan = textureDensityPlan;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureExactRepeat.js */
+__awtsmoosModule_236 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file TextureExactRepeat.js
+ * @description Preserves exact fractional source coverage and optional bounded compatibility.
+ * The Awtsmoos does not round away a partial garment when world and source reveal their ratio;
+ * Awtsmoos.com lets explicit bounded callers choose restraint while authored fractions continue to flow.
+ */
+
+var exactPixelRepeat = __awtsmoosModule_237.exactPixelRepeat;
+var positiveTextureNumber = __awtsmoosModule_237.positiveTextureNumber;
+var textureDensityPlan = __awtsmoosModule_238.textureDensityPlan;
+var textureSize = __awtsmoosModule_239.textureSize;
+
+function repeatFromPixels(
+	width,
+	depth,
+	image,
+	texelsPerWorld = 96,
+	fallback = [1, 1],
+	options = {}
+) {
+	const source = textureSize(image);
+
+	if (!source.w || !source.h) {
+		return [...fallback];
+	}
+
+	if (options.bounded === true) {
+		return [...textureDensityPlan({
+			...options,
+			image,
+			texelsPerWorld,
+			worldDepth: depth,
+			worldWidth: width
+		}).repeat];
+	}
+
+	const target = positiveTextureNumber(texelsPerWorld, 96);
+	return exactPixelRepeat(width, depth, source.w, source.h, target);
+}
+
+
+__exports.repeatFromPixels = repeatFromPixels;
+function exactRepeat(width, depth, tileWorld) {
+	const tile = positiveTextureNumber(tileWorld, 1);
+
+	return [
+		Math.abs(Number(width)) / tile,
+		Math.abs(Number(depth)) / tile
+	];
+}
+
+__exports.exactRepeat = exactRepeat;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureMaterialFields.js */
+__awtsmoosModule_241 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file TextureMaterialFields.js
+ * @description Builds material texture fields and familiar repeat aliases from exact coverage helpers.
+ * The Awtsmoos joins color, source, projection, and measured repetition in one readable garment;
+ * Awtsmoos.com keeps material assembly apart from density mathematics so each vessel stays ardent.
+ */
+
+var repeatFromPixels = __awtsmoosModule_236.repeatFromPixels;
+var publicUrl = __awtsmoosModule_239.publicUrl;
+var textureSize = __awtsmoosModule_239.textureSize;
+
+function materialTexture(
+	color,
+	image,
+	repeat = [1, 1],
+	options = {}
+) {
+	const plan = options.densityPlan || null;
+
+	return {
+		anisotropy: plan?.anisotropy ?? options.anisotropy ?? 2,
+		color,
+		doubleSided: Boolean(options.doubleSided),
+		mapImage: image || null,
+		mapRepeat: [...repeat],
+		texturePolicy: {
+			densityPlan: plan,
+			fullResolution: true,
+			nativeTexelDensity: true,
+			originalPixels: textureSize(image),
+			projection: options.projection || 'cube-world',
+			repeat: [...repeat],
+			shaderWrap: 'mirror-pingpong-repeat'
+		},
+		textureUrl: publicUrl(image)
+	};
+}
+
+
+__exports.materialTexture = materialTexture;
+function wallRepeat(width, height, image, options) {
+	return repeatFromPixels(width, height, image, 96, [1, 1], options);
+}
+
+
+__exports.wallRepeat = wallRepeat;
+const floorRepeat = wallRepeat;
+__exports.floorRepeat = floorRepeat;
+
+const roofRepeat = wallRepeat;
+__exports.roofRepeat = roofRepeat;
+
+const roadRepeat = wallRepeat;
+__exports.roadRepeat = roadRepeat;
+
+
+function terrainRepeat(size, image, options) {
+	return repeatFromPixels(size, size, image, 56, [1, 1], options);
+}
+
+
+__exports.terrainRepeat = terrainRepeat;
+const mixRepeat = terrainRepeat;
+__exports.mixRepeat = mixRepeat;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/assets/TextureRepeat.js */
+__awtsmoosModule_235 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file TextureRepeat.js
+ * @description Preserves the historic texture-repeat API through focused exact and bounded modules.
+ * The Awtsmoos reveals one public doorway while many measured vessels labor behind the wall;
+ * Awtsmoos.com keeps every old import stable as exact coverage and GPU planning answer their call.
+ */
+
+__exports.exactRepeat = __awtsmoosModule_236.exactRepeat;
+__exports.repeatFromPixels = __awtsmoosModule_236.repeatFromPixels;
+__exports.publicUrl = __awtsmoosModule_239.publicUrl;
+__exports.textureSize = __awtsmoosModule_239.textureSize;
+__exports.floorRepeat = __awtsmoosModule_241.floorRepeat;
+__exports.materialTexture = __awtsmoosModule_241.materialTexture;
+__exports.mixRepeat = __awtsmoosModule_241.mixRepeat;
+__exports.roadRepeat = __awtsmoosModule_241.roadRepeat;
+__exports.roofRepeat = __awtsmoosModule_241.roofRepeat;
+__exports.terrainRepeat = __awtsmoosModule_241.terrainRepeat;
+__exports.wallRepeat = __awtsmoosModule_241.wallRepeat;
+__exports.textureDensityPlan = __awtsmoosModule_238.textureDensityPlan;
+__exports.REPEAT_HOOKS = __awtsmoosModule_240.REPEAT_HOOKS;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveTexturePolicy.js */
+__awtsmoosModule_234 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PrimitiveTexturePolicy.js
+ * @description Distinguishes physically tiled materials from intentional whole-image cards.
+ * The Awtsmoos grants stone and parchment different purposes; Awtsmoos.com repeats physical
+ * surfaces at one world basis while leaving signs, atlases, leaves, and portraits whole.
+ */
+
+var REPEAT_HOOKS = __awtsmoosModule_235.REPEAT_HOOKS;
+
+const WHOLE_IMAGE_PATTERN = /(?:sign|scroll|mezuza|label|decal|atlas|leaf|blossom|window-card|interior-card|portrait|icon|sky|cloud)/i;
+
+function createPrimitiveTexturePolicy(definition, uvUnitsPerWorld) {
+	const authored = definition.texturePolicy || {};
+	return {
+		fullResolution: true,
+		nativeTexelDensity: primitiveUsesNativeDensity(definition),
+		originalPixelsOnly: true,
+		resampleSource: false,
+		texelsPerWorld: authored.texelsPerWorld || REPEAT_HOOKS.surfaceTexelsPerWorld,
+		uvUnitsPerWorld: authored.uvUnitsPerWorld || uvUnitsPerWorld || null,
+		...authored
+	};
+}
+
+
+__exports.createPrimitiveTexturePolicy = createPrimitiveTexturePolicy;
+function primitiveUsesNativeDensity(definition) {
+	const authored = definition.texturePolicy || {};
+	if (authored.nativeTexelDensity === true) return true;
+	if (authored.nativeTexelDensity === false) return false;
+	return !primitiveUsesWholeImage(definition);
+}
+
+
+__exports.primitiveUsesNativeDensity = primitiveUsesNativeDensity;
+function primitiveUsesWholeImage(definition) {
+	const text = [
+		definition.id,
+		definition.texturePolicy?.role,
+		definition.userData?.family,
+		definition.userData?.part
+	].filter(Boolean).join(' ');
+	return WHOLE_IMAGE_PATTERN.test(text);
+}
+
+__exports.primitiveUsesWholeImage = primitiveUsesWholeImage;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveMaterialFactory.js */
+__awtsmoosModule_204 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PrimitiveMaterialFactory.js
+ * @description Binds local images to primitives and opens one imported live-nature scheduler.
+ * The Awtsmoos clothes each finite surface while one module awakening calls root and bloom;
+ * Awtsmoos.com preserves authored strata, batching, and final GPU truth in the rendered room.
+ */
+
+var MeshStandardMaterial = __awtsmoosModule_7.MeshStandardMaterial;
+var cachedTextureImage = __awtsmoosModule_205.cachedTextureImage;
+var isSameOriginMaterialUrl = __awtsmoosModule_210.isSameOriginMaterialUrl;
+var TEXTURE_PURPOSES = __awtsmoosModule_224.TEXTURE_PURPOSES;
+var TEXTURE_URLS = __awtsmoosModule_224.TEXTURE_URLS;
+var scheduleLiveRealNatureBridge = __awtsmoosModule_49.scheduleLiveRealNatureBridge;
+var colorArray = __awtsmoosModule_143.colorArray;
+var createPrimitiveTexturePolicy = __awtsmoosModule_234.createPrimitiveTexturePolicy;
+
+scheduleImportedNatureBridge();
+
+function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
+	const textureUrl = textureUrlFor(definition);
+	const mapImage = definition.mapImage || cachedTextureImage(textureUrl) || null;
+	const mixImage = definition.mixImage
+		|| cachedTextureImage(definition.mixTextureUrl)
+		|| null;
+	const material = new MeshStandardMaterial({
+		alphaCutoff: definition.alphaCutoff ?? 0.5,
+		alphaMode: definition.alphaMode || (definition.transparent ? 'BLEND' : 'OPAQUE'),
+		color: colorArray(definition.color),
+		doubleSided: Boolean(definition.doubleSided),
+		name: definition.id,
+		opacity: definition.opacity ?? 1,
+		transparent: Boolean(definition.transparent)
+	});
+	Object.assign(material, {
+		alphaCutoff: definition.alphaCutoff ?? 0.5,
+		alphaMode: definition.alphaMode || (definition.transparent ? 'BLEND' : 'OPAQUE'),
+		anisotropy: definition.anisotropy ?? 3,
+		backfaceCull: definition.backfaceCull,
+		emissiveStrength: definition.emissiveStrength ?? 1.8,
+		mapImage,
+		mapRepeat: definition.mapRepeat || [1, 1],
+		mixImage,
+		mixRepeat: definition.mixRepeat || definition.mapRepeat || [1, 1],
+		mixStrength: definition.mixStrength ?? 0,
+		mixTextureUrl: definition.mixTextureUrl || mixImage?.dataset?.publicUrl || null,
+		normalTextureUrl: definition.normalTextureUrl || null,
+		opacity: definition.opacity ?? 1,
+		texturePolicy: materialPolicy(definition, textureUrl, mapImage, uvUnitsPerWorld),
+		textureUrl,
+		transparent: Boolean(definition.transparent)
+	});
+	Object.assign(material, layeredFields(definition));
+	return material;
+}
+
+
+__exports.createPrimitiveMaterial = createPrimitiveMaterial;
+function layeredFields(definition) {
+	if (!Array.isArray(definition.textureLayers) || !definition.textureLayers.length) return {};
+	return {
+		materialStack: definition.materialStack || null,
+		textureLayers: definition.textureLayers.map(layer => ({
+			...layer,
+			image: layer.image || cachedTextureImage(layer.url) || null
+		}))
+	};
+}
+
+function materialPolicy(definition, textureUrl, mapImage, uvUnitsPerWorld) {
+	return {
+		...createPrimitiveTexturePolicy(definition, uvUnitsPerWorld),
+		...(definition.texturePolicy || {}),
+		fallbackApplied: !definition.textureUrl && !definition.mapImage,
+		publicFirebase: definition.texturePolicy?.publicFirebase ?? false,
+		realMapImage: Boolean(mapImage),
+		sameOrigin: isSameOriginMaterialUrl(textureUrl)
+	};
+}
+
+function textureUrlFor(definition) {
+	return definition.textureUrl
+		|| definition.mapImage?.dataset?.publicUrl
+		|| definition.mapImage?.dataset?.url
+		|| definition.mapImage?.src
+		|| fallbackTexture(definition);
+}
+
+function fallbackTexture(definition) {
+	const id = String(definition.id || '').toLowerCase();
+	if (/water|lake|stream/.test(id)) return TEXTURE_URLS.water.shallowRiver;
+	if (/grass|bush|flower|reed/.test(id)) return TEXTURE_URLS.terrain.grass7;
+	if (/stone|well|cobble/.test(id)) return TEXTURE_URLS.stone.cobblestone;
+	if (id.includes('roof')) return TEXTURE_URLS.roof.tile2;
+	if (/gold|coin|lamp/.test(id)) return TEXTURE_URLS.metals.gold2;
+	if (/sign|scroll|mezuza/.test(id)) return TEXTURE_PURPOSES.mezuzaScroll;
+	if (/dirt|soil|garden/.test(id)) return TEXTURE_URLS.terrain.tilledSoil;
+	return TEXTURE_URLS.wood.planks1;
+}
+
+function scheduleImportedNatureBridge() {
+	if (typeof document !== 'undefined') {
+		scheduleLiveRealNatureBridge(globalThis);
+	}
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveZoneWeights.js */
+__awtsmoosModule_242 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PrimitiveZoneWeights.js
+ * @description Normalizes authored ecological masks for layered primitive materials.
+ * The Awtsmoos gives each surface its measured portion without burdening every unrelated form;
+ * Awtsmoos.com emits four channels only where layered texture meaning truly requires them.
+ */
+
+const DEFAULT_LAYERED_ZONE = Object.freeze([1, 1, 1, 1]);
+
+function primitiveZoneWeights(zones, vertexCount, layered = false) {
+	if (!layered) return null;
+	const authored = Array.isArray(zones) && zones.length === vertexCount;
+	const output = [];
+	for (let index = 0; index < vertexCount; index += 1) {
+		const zone = authored ? zones[index] : DEFAULT_LAYERED_ZONE;
+		output.push(...normalizedZone(zone));
+	}
+	return output;
+}
+
+
+__exports.primitiveZoneWeights = primitiveZoneWeights;
+function normalizedZone(zone) {
+	if (!Array.isArray(zone) || zone.length < 4) return [...DEFAULT_LAYERED_ZONE];
+	return [0, 1, 2, 3].map(index => clampUnit(zone[index]));
+}
+
+function clampUnit(value) {
+	if (!Number.isFinite(value)) return 0;
+	return Math.max(0, Math.min(1, value));
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/primitives/PrimitiveUvProjection.js */
+__awtsmoosModule_243 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file PrimitiveUvProjection.js
+ * @description Projects missing UVs, measures their world scale, and bakes one world-unit basis.
+ * The Awtsmoos joins image coordinates to physical place without stretching either vessel;
+ * Awtsmoos.com bakes geometric scale into UVs so identical materials can batch as one revelation.
+ */
+
+function projectPrimitiveUvs(vertices, normals, definition) {
+	const tile = positive(definition.texturePolicy?.tileWorld, 4);
+	return vertices.flatMap((point, index) => {
+		const offset = index * 3;
+		const ax = Math.abs(normals[offset]);
+		const ay = Math.abs(normals[offset + 1]);
+		const az = Math.abs(normals[offset + 2]);
+		if (ay >= ax && ay >= az) return [point.x / tile, point.z / tile];
+		if (ax >= az) return [point.z / tile, point.y / tile];
+		return [point.x / tile, point.y / tile];
+	});
+}
+
+
+__exports.projectPrimitiveUvs = projectPrimitiveUvs;
+function normalizePrimitiveUvsToWorld(uvs, uvUnitsPerWorld) {
+	if (!uvUnitsPerWorld) return [...uvs];
+	const [uUnits, vUnits] = uvUnitsPerWorld;
+	return uvs.map((value, index) => (
+		index % 2 === 0 ? value / uUnits : value / vUnits
+	));
+}
+
+
+__exports.normalizePrimitiveUvsToWorld = normalizePrimitiveUvsToWorld;
+function measureUvUnitsPerWorld(data) {
+	const uWorld = [];
+	const vWorld = [];
+	for (let offset = 0; offset < data.indices.length; offset += 3) {
+		const sample = triangleUvWorldScale(data, offset);
+		if (!sample) continue;
+		uWorld.push(sample.uWorld);
+		vWorld.push(sample.vWorld);
+	}
+	if (!uWorld.length || !vWorld.length) return null;
+	return [1 / robustMedian(uWorld), 1 / robustMedian(vWorld)];
+}
+
+
+__exports.measureUvUnitsPerWorld = measureUvUnitsPerWorld;
+function triangleUvWorldScale(data, offset) {
+	const indices = data.indices.slice(offset, offset + 3);
+	const [p0, p1, p2] = indices.map(index => data.vertices[index]);
+	const [uv0, uv1, uv2] = indices.map(index => uvAt(data.uvs, index));
+	const du1 = uv1[0] - uv0[0];
+	const dv1 = uv1[1] - uv0[1];
+	const du2 = uv2[0] - uv0[0];
+	const dv2 = uv2[1] - uv0[1];
+	const determinant = du1 * dv2 - du2 * dv1;
+	if (Math.abs(determinant) < 1e-10) return null;
+	const first = subtract(p1, p0);
+	const second = subtract(p2, p0);
+	const dPdu = combine(first, dv2, second, -dv1, determinant);
+	const dPdv = combine(first, -du2, second, du1, determinant);
+	const uWorld = length(dPdu);
+	const vWorld = length(dPdv);
+	return uWorld > 1e-8 && vWorld > 1e-8 ? { uWorld, vWorld } : null;
+}
+
+function robustMedian(values) {
+	const logs = values
+		.filter(value => Number.isFinite(value) && value > 1e-8)
+		.map(Math.log)
+		.sort((left, right) => left - right);
+	if (!logs.length) return 1;
+	const middle = Math.floor(logs.length / 2);
+	const value = logs.length % 2
+		? logs[middle]
+		: (logs[middle - 1] + logs[middle]) / 2;
+	return Math.exp(value);
+}
+
+function uvAt(uvs, index) {
+	return [uvs[index * 2], uvs[index * 2 + 1]];
+}
+
+function subtract(left, right) {
+	return { x: left.x - right.x, y: left.y - right.y, z: left.z - right.z };
+}
+
+function combine(first, firstScale, second, secondScale, divisor) {
+	return {
+		x: (first.x * firstScale + second.x * secondScale) / divisor,
+		y: (first.y * firstScale + second.y * secondScale) / divisor,
+		z: (first.z * firstScale + second.z * secondScale) / divisor
+	};
+}
+
+function length(vector) {
+	return Math.hypot(vector.x, vector.y, vector.z);
+}
+
+function positive(value, fallback) {
+	const number = Number(value);
+	return Number.isFinite(number) && number > 0 ? number : fallback;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/world/Box3D.js */
+__awtsmoosModule_141 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file Box3D.js
+ * @description Orchestrates primitive geometry, vertex color, material, collision, UV, and ecology masks.
+ * The Awtsmoos reveals one world through focused vessels; Awtsmoos.com keeps original pixels
+ * and authored botanical hues while measured surfaces carry only the meaning they need.
+ */
+
+var BufferAttribute = __awtsmoosModule_7.BufferAttribute;
+var BufferGeometry = __awtsmoosModule_7.BufferGeometry;
+var Mesh = __awtsmoosModule_7.Mesh;
+var trianglesFromIndexed = __awtsmoosModule_142.trianglesFromIndexed;
+var createPrimitiveGeometryData = __awtsmoosModule_143.createPrimitiveGeometryData;
+var isProceduralShape = __awtsmoosModule_143.isProceduralShape;
+var createPrimitiveVertexNormals = __awtsmoosModule_203.createPrimitiveVertexNormals;
+var flattenPrimitiveVertices = __awtsmoosModule_203.flattenPrimitiveVertices;
+var primitiveColorArray = __awtsmoosModule_203.primitiveColorArray;
+var primitiveIndexArray = __awtsmoosModule_203.primitiveIndexArray;
+var createPrimitiveMaterial = __awtsmoosModule_204.createPrimitiveMaterial;
+var primitiveUsesNativeDensity = __awtsmoosModule_234.primitiveUsesNativeDensity;
+var primitiveZoneWeights = __awtsmoosModule_242.primitiveZoneWeights;
+var measureUvUnitsPerWorld = __awtsmoosModule_243.measureUvUnitsPerWorld;
+var normalizePrimitiveUvsToWorld = __awtsmoosModule_243.normalizePrimitiveUvsToWorld;
+var projectPrimitiveUvs = __awtsmoosModule_243.projectPrimitiveUvs;
+
+const WORLD_UV_BASIS = Object.freeze([1, 1]);
+
+function createPrimitiveMesh(definition) {
+	const sourceData = createPrimitiveGeometryData(definition);
+	const normals = createPrimitiveVertexNormals(sourceData);
+	const authoredUvs = sourceData.uvs || projectPrimitiveUvs(sourceData.vertices, normals, definition);
+	const measuredData = { ...sourceData, uvs: authoredUvs };
+	const measuredUnits = measureUvUnitsPerWorld(measuredData);
+	const physical = Boolean(primitiveUsesNativeDensity(definition) && measuredUnits);
+	const uvs = physical ? normalizePrimitiveUvsToWorld(authoredUvs, measuredUnits) : authoredUvs;
+	const data = { ...sourceData, uvs };
+	const textureBasis = physical ? WORLD_UV_BASIS : measuredUnits;
+	const geometry = createBufferGeometry(data, normals, definition);
+	const material = createPrimitiveMaterial(definition, textureBasis);
+	const mesh = new Mesh(geometry, material);
+	mesh.name = definition.id;
+	mesh.visible = definition.visible !== false;
+	mesh.userData = primitiveUserData(definition, material, measuredUnits, textureBasis, geometry);
+	mesh.setBaseTransform();
+	return mesh;
+}
+
+
+__exports.createPrimitiveMesh = createPrimitiveMesh;
+function primitiveColliders(definition) {
+	if (definition.solid === false) return [];
+	const data = createPrimitiveGeometryData(definition);
+	const floor = definition.walkable === true ? undefined : false;
+	return trianglesFromIndexed(data.vertices, data.indices, { floor, kind: definition.id, solid: true });
+}
+
+
+__exports.primitiveColliders = primitiveColliders;
+function primitiveUserData(definition, material, measuredUnits, textureBasis, geometry) {
+	return {
+		...(definition.userData || {}),
+		AwtsmoosLayeredMaterial: {
+			layerCount: material.textureLayers?.length || 0,
+			shader: material.texturePolicy?.shader || 'standard',
+			vertexColor: Boolean(geometry.attributes.color),
+			zoneAttribute: Boolean(geometry.attributes.zone)
+		},
+		AwtsmoosMaterialEnforcement: material.mapImage ? 'real-mapImage-bound' : 'url-only-not-yet-loaded',
+		AwtsmoosTextureDensity: {
+			bakedWorldUv: material.texturePolicy.nativeTexelDensity,
+			measuredUnits,
+			native: material.texturePolicy.nativeTexelDensity,
+			originalPixelsOnly: true,
+			textureBasis
+		},
+		AwtsmoosTextureUrl: material.textureUrl,
+		procedural: isProceduralShape(definition.shape)
+	};
+}
+
+function createBufferGeometry(data, normals, definition) {
+	const geometry = new BufferGeometry();
+	geometry.setAttribute('position', new BufferAttribute(new Float32Array(flattenPrimitiveVertices(data.vertices)), 3));
+	geometry.setAttribute('normal', new BufferAttribute(new Float32Array(normals), 3));
+	geometry.setAttribute('uv', new BufferAttribute(new Float32Array(data.uvs), 2));
+	const colors = primitiveColorArray(data.colors, data.vertices.length);
+	if (colors) geometry.setAttribute('color', new BufferAttribute(colors, 4));
+	const zones = primitiveZoneWeights(data.zones, data.vertices.length, Boolean(definition.textureLayers?.length));
+	if (zones) geometry.setAttribute('zone', new BufferAttribute(new Float32Array(zones), 4));
+	geometry.setIndex(new BufferAttribute(primitiveIndexArray(data.indices), 1));
+	return geometry;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowWeaponFactory.js */
+__awtsmoosModule_140 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowWeaponFactory.js
+ * @description Builds staff and sword meshes visible in bootstrap and rich render paths.
+ * The Awtsmoos lets the equipped deed inhabit the visible hand; Awtsmoos.com marks every
+ * shaft, gem, blade, guard, grip, and pommel as a finite renderable vessel.
+ */
+
+var Group = __awtsmoosModule_7.Group;
+var createPrimitiveMesh = __awtsmoosModule_141.createPrimitiveMesh;
+
+function createMinimalMeadowWeapon(itemId) {
+	return itemId === 'spark-blade'
+		? createSparkBlade()
+		: createWoodenStaff();
+}
+
+
+__exports.createMinimalMeadowWeapon = createMinimalMeadowWeapon;
+function createWoodenStaff() {
+	const group = weaponGroup('wooden-staff', 'staff');
+	group.add(part('staff-shaft', '#8b5a2b', 0, -0.05, 0, 0.15, 2.15, 0.15));
+	group.add(part('staff-crook', '#9a6330', 0.2, 1.02, 0, 0.54, 0.15, 0.15));
+	group.add(part('staff-gem', '#ffe25a', 0.45, 1.02, 0, 0.22, 0.22, 0.22, 'diamond'));
+	return group;
+}
+
+function createSparkBlade() {
+	const group = weaponGroup('spark-blade', 'sword');
+	group.add(part('sword-blade', '#dff7ff', 0, 0.62, 0, 0.16, 1.34, 0.08));
+	group.add(part('sword-tip', '#ffffff', 0, 1.34, 0, 0.22, 0.28, 0.1, 'diamond'));
+	group.add(part('sword-guard', '#ffd957', 0, -0.1, 0, 0.72, 0.13, 0.16));
+	group.add(part('sword-grip', '#6b3220', 0, -0.43, 0, 0.18, 0.54, 0.18));
+	group.add(part('sword-pommel', '#ffd957', 0, -0.74, 0, 0.24, 0.2, 0.24, 'diamond'));
+	return group;
+}
+
+function weaponGroup(itemId, weaponKind) {
+	const group = new Group();
+	group.name = `Awtsmoos_procedural_${itemId}`;
+	group.visible = true;
+	Object.assign(group.userData, {
+		itemId,
+		proceduralWeapon: true,
+		weaponKind
+	});
+	return group;
+}
+
+function part(id, color, x, y, z, width, height, depth, shape = 'box') {
+	const mesh = createPrimitiveMesh({
+		color,
+		id,
+		position: { x, y, z },
+		shape,
+		size: { x: width, y: height, z: depth },
+		solid: false
+	});
+	mesh.frustumCulled = false;
+	mesh.visible = true;
+	mesh.userData.bootstrapVisual = true;
+	mesh.userData.weaponPart = id;
+	return mesh;
+}
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEquipmentRuntime.js */
+__awtsmoosModule_115 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file MinimalMeadowEquipmentRuntime.js
+ * @description Synchronizes garments, weapons, and player-owned derived projections.
+ * The Awtsmoos distinguishes a player vessel from an actor-only garment vessel;
+ * Awtsmoos.com projects combat stats only where real player state already exists.
+ */
+var MinimalMeadowAttachmentRegistry = __awtsmoosModule_116.MinimalMeadowAttachmentRegistry;
+var MinimalMeadowDerivedStatsRuntime = __awtsmoosModule_121.MinimalMeadowDerivedStatsRuntime;
+var MinimalMeadowEquipmentCasting = __awtsmoosModule_131.MinimalMeadowEquipmentCasting;
+var applyMinimalGarmentAppearance = __awtsmoosModule_133.applyMinimalGarmentAppearance;
+var applyMinimalGarmentVisibility = __awtsmoosModule_136.applyMinimalGarmentVisibility;
+var resolveMinimalEquipmentNodes = __awtsmoosModule_136.resolveMinimalEquipmentNodes;
+var installMinimalMeadowEquipmentListeners = __awtsmoosModule_139.installMinimalMeadowEquipmentListeners;
+var minimalMeadowEquipmentDiagnostics = __awtsmoosModule_139.minimalMeadowEquipmentDiagnostics;
+var minimalMeadowEquippedWeaponItemId = __awtsmoosModule_139.minimalMeadowEquippedWeaponItemId;
+var createMinimalMeadowWeapon = __awtsmoosModule_140.createMinimalMeadowWeapon;
+
+class MinimalMeadowEquipmentRuntime {
+	constructor(runtime) {
+		this.runtime = runtime;
+		this.inventory = runtime.inventory;
+		this.bus = runtime.bus;
+		this.model = null;
+		this.nodes = null;
+		this.drawn = true;
+		this.weapon = null;
+		this.weaponItemId = null;
+		this.garments = {};
+		this.appearance = {};
+		this.attachments = new MinimalMeadowAttachmentRegistry();
+		this.casting = new MinimalMeadowEquipmentCasting(this);
+		this.derivedStats = runtime.playerStats
+			? new MinimalMeadowDerivedStatsRuntime(runtime, this.inventory)
+			: null;
+		this.unsubscribers = installMinimalMeadowEquipmentListeners(this);
+	}
+
+	bindModel(model) {
+		if (!model) return false;
+		this.model = model;
+		this.nodes = resolveMinimalEquipmentNodes(model);
+		this.attachments.bindModel(this.nodes, this.drawn);
+		this.synchronize();
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		return true;
 	}
 
@@ -24358,6 +34875,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	// Boruch Hashem
 	// Blessed is He
 
+<<<<<<< HEAD
 	/**
 	 * @file PublicMaterialDiagnostics.js
 	 * @description Publishes stable material-cache evidence while remaining independent from high-level scene traversal and network orchestration.
@@ -24365,6 +34883,17 @@ const __awtsmoosModule_0 = Object.create(null);
 	 * NON-RESPONSIBILITY: this module does not load, bind, traverse, decode, or mutate material data.
 	 * The Awtsmoos reveals what each vessel has received while remaining beyond the ledger itself; Awtsmoos.com lets Hod report cache truth without pulling diagnostics into the gameplay wealth.
 	 */
+=======
+var TinyAnimationPlayer = __awtsmoosModule_4.TinyAnimationPlayer;
+var loadIsolatedGltf = __awtsmoosModule_2.loadIsolatedGltf;
+var InventoryStore = __awtsmoosModule_70.InventoryStore;
+var createPlayerActionSystem = __awtsmoosModule_92.createPlayerActionSystem;
+var AwtsmoosEventBus = __awtsmoosModule_113.AwtsmoosEventBus;
+var PLAYER_MODEL_URL = __awtsmoosModule_36.PLAYER_MODEL_URL;
+var minimalMeadowClipForState = __awtsmoosModule_114.minimalMeadowClipForState;
+var MinimalMeadowEquipmentRuntime = __awtsmoosModule_115.MinimalMeadowEquipmentRuntime;
+var normalizeMinimalModelMaterials = __awtsmoosModule_63.normalizeMinimalModelMaterials;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 	var publicMaterialStateEvidence = __awtsmoosModule_289.publicMaterialStateEvidence;
 	var SCENE_MATERIAL_HYDRATION_URL_LIMIT = __awtsmoosModule_316.SCENE_MATERIAL_HYDRATION_URL_LIMIT;
@@ -24420,6 +34949,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	// Boruch Hashem
 	// Blessed is He
 
+<<<<<<< HEAD
 	/**
 	 * @file RemoteTextureArchitectureNames.js
 	 * @description Names brick, roof, granite, timber, and constructed floor images without URLs.
@@ -24463,6 +34993,18 @@ const __awtsmoosModule_0 = Object.create(null);
 		'yellow brick 1.png'
 	]);
 	__exports.REMOTE_ARCHITECTURE_TEXTURE_FILENAMES = REMOTE_ARCHITECTURE_TEXTURE_FILENAMES;
+=======
+__exports.installMinimalMeadowFriendlyNpcs = installMinimalMeadowFriendlyNpcs;
+__exports.default = installMinimalMeadowFriendlyNpcs;
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVisualStability.js */
+__awtsmoosModule_245 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 
 }
@@ -24934,6 +35476,7 @@ const __awtsmoosModule_0 = Object.create(null);
 	__exports.exactPixelRepeat = exactPixelRepeat;
 
 }
+<<<<<<< HEAD
 
 // ---- libs/awtsmoos-procedural-core/src/core/materials/texture/TextureImageMetrics.js ----
 {
@@ -24941,6 +35484,19 @@ const __awtsmoosModule_0 = Object.create(null);
 	// B"H
 	// Boruch Hashem
 	// Blessed is He
+=======
+return Object.freeze(__exports);
+})();
+/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowVisualReadiness.js */
+__awtsmoosModule_244 = (() => {
+const __exports = {};
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/** Waits for bounded optional world work, then enforces visible-runtime invariants once. */
+var installMinimalMeadowVisualStability = __awtsmoosModule_245.installMinimalMeadowVisualStability;
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 
 	/**
 	 * @file TextureImageMetrics.js
@@ -26302,6 +36858,16 @@ const __awtsmoosModule_0 = Object.create(null);
 
 }
 
+<<<<<<< HEAD
+=======
+__exports.hydrateMinimalMeadowPlayer = __awtsmoosModule_1.hydrateMinimalMeadowPlayer;
+__exports.enhanceMinimalMeadowRenderer = __awtsmoosModule_65.enhanceMinimalMeadowRenderer;
+__exports.installMinimalMeadowFriendlyNpcs = __awtsmoosModule_67.installMinimalMeadowFriendlyNpcs;
+__exports.awaitMinimalMeadowVisualStability = __awtsmoosModule_244.awaitMinimalMeadowVisualStability;
+return Object.freeze(__exports);
+})();
+/* B\"H compact entry exports */
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 export const hydrateMinimalMeadowPlayer = __awtsmoosModule_0.hydrateMinimalMeadowPlayer;
 export const enhanceMinimalMeadowRenderer = __awtsmoosModule_0.enhanceMinimalMeadowRenderer;
 export const installMinimalMeadowFriendlyNpcs = __awtsmoosModule_0.installMinimalMeadowFriendlyNpcs;

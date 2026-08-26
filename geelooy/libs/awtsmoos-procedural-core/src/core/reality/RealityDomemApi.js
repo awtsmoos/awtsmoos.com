@@ -37,12 +37,20 @@ export class RealityDomemApi extends RealityApiFoundation {
 		return this.primitive(kindChesed, paramsGevurah);
 	}
 
-	/** Creates a canonical human-scale building plan with full BuildingAuthority overrides available. */
+	/**
+	 * Creates a canonical human-scale building plan through the dedicated Reality building facade.
+	 * @param {object} [optionsChesed={}] Width, depth, floors, profile, materials, `heightAt`, and advanced BuildingAuthority planning options.
+	 * @returns {object} Renderer-neutral building plan; no scene insertion, shader creation, or network work occurs.
+	 */
 	building(optionsChesed = {}) {
 		return this.buildingsDomem.create(optionsChesed);
 	}
 
-	/** Creates the same canonical architecture plan through a familiar residential alias. */
+	/**
+	 * Creates the same canonical architecture plan through a familiar residential alias.
+	 * @param {object} [optionsChesed={}] Complete option surface accepted by `building`, including explicit terrain and expert profile overrides.
+	 * @returns {object} Renderer-neutral BuildingAuthority plan.
+	 */
 	house(optionsChesed = {}) {
 		return this.buildingsDomem.house(optionsChesed);
 	}
@@ -60,12 +68,21 @@ export class RealityDomemApi extends RealityApiFoundation {
 		return this.textureSet({ ...optionsGevurah, role: roleChesed });
 	}
 
-	/** Creates one canonical Procedural Object recipe without executing its commands. */
+	/**
+	 * Creates one canonical Procedural Object recipe without executing its commands.
+	 * @param {object} [inputChesed={}] Asset, definitions, materials, objects, commands, outputs, validation, and metadata intent.
+	 * @returns {object} Canonical recipe accepted by the actual Procedural Object compiler.
+	 */
 	objectRecipe(inputChesed = {}) {
 		return this.advanced.objects.createRecipe(inputChesed);
 	}
 
-	/** Compiles a canonical Procedural Object recipe through the actual compiler singleton. */
+	/**
+	 * Compiles a canonical Procedural Object recipe through the actual compiler singleton.
+	 * @param {object} [inputChesed={}] Canonical recipe or partial recipe declaration normalized by `objectRecipe`.
+	 * @param {object} [optionsGevurah={}] Compiler target, filtering, validation, and deferred-adapter options.
+	 * @returns {object} Renderer-neutral Procedural Object artifact with native diagnostics/deferred work.
+	 */
 	object(inputChesed = {}, optionsGevurah = {}) {
 		return this.advanced.objects.compile(inputChesed, optionsGevurah);
 	}

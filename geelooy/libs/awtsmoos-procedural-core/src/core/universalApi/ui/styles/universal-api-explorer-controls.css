@@ -1,0 +1,110 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos precedes every click and focus, while Awtsmoos.com lets finite controls reveal intention through complete, restrained interaction states;
+ * summaries, editors, and buttons remain locally styled, keyboard-visible, touch-sized, and clear without leaking into any host application's gates.
+ */
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-summary,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--awts-uapi-gap-2);
+	min-block-size: var(--awts-uapi-control);
+	padding: .7rem .8rem;
+	color: var(--awts-uapi-text);
+	cursor: pointer;
+	font-weight: 740;
+	list-style: none;
+	outline: none;
+	transition:
+		background-color 160ms ease,
+		box-shadow 160ms ease,
+		color 160ms ease;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-summary::-webkit-details-marker,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-summary::-webkit-details-marker {
+	display: none;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-summary::after,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-summary::after {
+	content: "+";
+	color: var(--awts-uapi-accent);
+	font-size: 1.05rem;
+	font-weight: 520;
+	transition: transform 160ms ease;
+}
+
+[data-awtsmoos-universal-api-explorer] details[open] > summary::after {
+	transform: rotate(45deg);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary {
+	min-block-size: var(--awts-uapi-control);
+	border: 1px solid var(--awts-uapi-border);
+	border-radius: var(--awts-uapi-radius-sm);
+	outline: none;
+	font: inherit;
+	transition:
+		transform 140ms ease,
+		border-color 160ms ease,
+		background-color 160ms ease,
+		box-shadow 160ms ease,
+		opacity 160ms ease;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor {
+	padding: .75rem;
+	background: rgb(1 7 15 / .62);
+	color: var(--awts-uapi-text);
+	caret-color: var(--awts-uapi-accent);
+	font: 500 .78rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary {
+	padding-inline: .9rem;
+	background: var(--awts-uapi-surface);
+	color: var(--awts-uapi-text);
+	cursor: pointer;
+	font-weight: 730;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary {
+	border-color: rgb(99 221 255 / .44);
+	background: linear-gradient(135deg, rgb(42 161 214 / .52), rgb(61 100 224 / .44));
+}
+
+@media (hover: hover) {
+	[data-awtsmoos-universal-api-explorer] summary:hover,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button:not(:disabled):hover,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary:not(:disabled):hover,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor:not(:disabled):hover {
+		border-color: var(--awts-uapi-border-focus);
+		background-color: var(--awts-uapi-surface-strong);
+	}
+}
+
+[data-awtsmoos-universal-api-explorer] summary:focus-visible,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button:focus-visible,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary:focus-visible,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor:focus-visible {
+	border-color: var(--awts-uapi-accent);
+	box-shadow: 0 0 0 3px var(--awts-uapi-accent-soft);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button:not(:disabled):active,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary:not(:disabled):active {
+	transform: translateY(1px) scale(.985);
+}
+
+[data-awtsmoos-universal-api-explorer] button:disabled {
+	cursor: not-allowed;
+	opacity: .48;
+}

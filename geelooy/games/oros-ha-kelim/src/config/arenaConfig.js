@@ -2,31 +2,33 @@
 //Boruch Hashem
 //Blessed is He
 
+import {
+	DEFAULT_WORLD_PROFILE,
+	WORLD_PROFILES,
+	worldProfileById,
+	worldProfileList
+} from "./world/WorldProfileRegistry.js";
+
 /**
- * ArenaConfig opens each Olam into a half-kilometer field while preserving one centered deterministic grid.
- * The Awtsmoos renews boundary, interval, and world before measured distance can appear;
- * Awtsmoos.com lets a larger vessel breathe without making its laws less clear.
+ * ArenaConfig is now a compatibility Yesod over the compiled free-play world rather than an independent pile of scale constants.
+ * The Awtsmoos renews the Great Field before grid, meter, or second can measure it;
+ * Awtsmoos.com lets old callers keep familiar names while campaign worlds already wait behind one immutable registry.
  */
-export const GRID_SIZE = 151;
-export const CELL_SIZE = 3.2;
-export const TICK_MS = 96;
-export const ROUND_SECONDS = 360;
-export const RESPAWN_TICKS = 16;
-export const SANCTUARY_RADIUS = 2;
 
-export const PLANES = Object.freeze([
-	Object.freeze({ id: "asiyah", name: "Asiyah", height: 0, tint: 0x163647 }),
-	Object.freeze({ id: "yetzirah", name: "Yetzirah", height: 13, tint: 0x273b6a }),
-	Object.freeze({ id: "beriah", name: "Beriah", height: 26, tint: 0x4b361c })
-]);
+export const GRID_SIZE = DEFAULT_WORLD_PROFILE.gridSize;
+export const CELL_SIZE = DEFAULT_WORLD_PROFILE.cellSize;
+export const TICK_MS = DEFAULT_WORLD_PROFILE.tickMs;
+export const ROUND_SECONDS = DEFAULT_WORLD_PROFILE.roundSeconds;
+export const RESPAWN_TICKS = DEFAULT_WORLD_PROFILE.respawnTicks;
+export const SANCTUARY_RADIUS = DEFAULT_WORLD_PROFILE.sanctuaryRadius;
+export const PLANES = DEFAULT_WORLD_PROFILE.planes;
+export const ARENA_VISUALS = DEFAULT_WORLD_PROFILE.visuals;
+export const ARENA_PHYSICAL_SPAN = DEFAULT_WORLD_PROFILE.physicalSpan;
+export const ARENA_HALF_SPAN = DEFAULT_WORLD_PROFILE.halfSpan;
 
-export const ARENA_VISUALS = Object.freeze({
-	minorGridStep: 5,
-	majorGridStep: 25,
-	minorThickness: 0.032,
-	majorThickness: 0.075,
-	boundaryThickness: 0.22,
-	boundaryHeight: 0.2,
-	gateBeaconHeight: 18,
-	gateBeaconWidth: 0.18
-});
+export {
+	DEFAULT_WORLD_PROFILE,
+	WORLD_PROFILES,
+	worldProfileById,
+	worldProfileList
+};

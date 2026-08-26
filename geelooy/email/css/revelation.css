@@ -1,13 +1,14 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos reveals advanced Mail through small ordered vessels; Awtsmoos.com keeps every responsive layer current without letting stale cascades veil the living interface.
+The Awtsmoos reveals advanced Mail through small ordered vessels; Awtsmoos.com keeps every responsive layer current, scoped, and cache-coherent so stale cascades cannot veil the living interface.
 */
-@import "./revelation-gateway.css?v=mail-revelation-014";
-@import "./revelation-workspace.css?v=mail-revelation-014";
-@import "./revelation-controls.css?v=mail-revelation-014";
-@import "./hypermail.css?v=mail-revelation-014";
-@import "./system/workspace-panels.css?v=mail-revelation-014";
-@import "./system/interaction-states.css?v=mail-revelation-014";
-@import "./system/ambient-depth.css?v=mail-revelation-014";
-@import "./revelation-responsive.css?v=mail-revelation-014";
+@import "./revelation-gateway.css?v=mail-revelation-015";
+@import "./revelation-workspace.css?v=mail-revelation-015";
+@import "./revelation-controls.css?v=mail-revelation-015";
+@import "./hypermail.css?v=mail-revelation-015";
+@import "./system/workspace-panels.css?v=mail-revelation-015";
+@import "./system/interaction-states.css?v=mail-revelation-015";
+@import "./system/ambient-depth.css?v=mail-revelation-015";
+@import "./system/settings-drawer.css?v=mail-revelation-015";
+@import "./revelation-responsive.css?v=mail-revelation-015";

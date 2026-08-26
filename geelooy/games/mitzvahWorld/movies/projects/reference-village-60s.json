@@ -1,116 +1,73 @@
 {
 	"version": 2,
-	"title": "Golden Valley — One Minute in the Mountain Village",
+	"title": "One Minute in the Living Chassidic River Village",
 	"duration": 60,
 	"fps": 24,
 	"resolution": { "width": 1280, "height": 720 },
-	"seed": 613,
-	"render": { "fileName": "reference-village-60s.webm", "videoBitsPerSecond": 6500000 },
+	"seed": 6132026,
+	"render": { "fileName": "reference-village-60s.webm", "videoBitsPerSecond": 8000000 },
 	"characters": [
-		{ "id": "rivka", "label": "Rivka", "position": { "x": -16, "z": 23 }, "facing": 1.2, "costume": { "garment": "#6f315b", "accent": "#d7b66f", "hat": false } },
-		{ "id": "levi", "label": "Levi", "position": { "x": -10, "z": 19 }, "costume": { "garment": "#294762", "accent": "#1b1712" } },
-		{ "id": "daniel", "label": "Daniel", "position": { "x": 9, "z": 15 }, "costume": { "garment": "#4b3e72", "accent": "#221a18" } },
-		{ "id": "miriam", "label": "Miriam", "position": { "x": 18, "z": 12 }, "costume": { "garment": "#704944", "accent": "#e4c486", "hat": false } },
-		{ "id": "shepherd", "label": "Shepherd", "position": { "x": 104, "z": 39 }, "costume": { "garment": "#6b6544", "accent": "#b18c52" } },
-		{ "id": "merchant", "label": "Merchant", "position": { "x": -43, "z": 14 }, "costume": { "garment": "#315b4a", "accent": "#caa65b" } },
-		{ "id": "baker", "label": "Baker", "position": { "x": -35, "z": 9 }, "costume": { "garment": "#7a5034", "accent": "#ead39c", "hat": false } },
-		{ "id": "elder", "label": "Elder", "position": { "x": 7, "z": -47 }, "costume": { "garment": "#28353f", "accent": "#12100f" } },
-		{ "id": "child-one", "label": "Child One", "scale": 0.78, "position": { "x": 5, "z": 26 }, "costume": { "garment": "#a54f44", "accent": "#e2b96d" } },
-		{ "id": "child-two", "label": "Child Two", "scale": 0.74, "position": { "x": 8, "z": 28 }, "costume": { "garment": "#3e6c8b", "accent": "#d6bd83" } },
-		{ "id": "gardener", "label": "Gardener", "position": { "x": 68, "z": -48 }, "costume": { "garment": "#486b3b", "accent": "#79542d" } },
-		{ "id": "visitor", "label": "Visitor", "position": { "x": -4, "z": 67 }, "costume": { "garment": "#5a456d", "accent": "#202022" } }
+		{ "id": "elder-path", "label": "Elder on the River Path", "source": "friendlyNpc", "friendlyNpcIndex": 0, "model": "assets/models/player/chossid.glb", "costume": { "outfitId": "elder" }, "position": { "x": -11, "z": 20 } },
+		{ "id": "teacher-courtyard", "label": "Teacher in the Courtyard", "source": "friendlyNpc", "friendlyNpcIndex": 1, "model": "assets/models/player/chossid.glb", "costume": { "outfitId": "teacher" }, "position": { "x": 4, "z": -4 } },
+		{ "id": "shepherd-river", "label": "River Walker", "source": "friendlyNpc", "friendlyNpcIndex": 2, "model": "assets/models/player/chossid.glb", "costume": { "outfitId": "shepherd" }, "position": { "x": -7, "z": 18 } },
+		{ "id": "provider-market", "label": "Market Provider", "source": "friendlyNpc", "friendlyNpcIndex": 3, "model": "assets/models/player/chossid.glb", "costume": { "outfitId": "provider" }, "position": { "x": -18, "z": 8 } },
+		{ "id": "gardener-path", "label": "Garden Path Neighbor", "source": "friendlyNpc", "friendlyNpcIndex": 4, "model": "assets/models/player/chossid.glb", "costume": { "outfitId": "gardener" }, "position": { "x": 9, "z": 4 } },
+		{ "id": "watchman-gate", "label": "Village Gate Watchman", "source": "friendlyNpc", "friendlyNpcIndex": 5, "model": "assets/models/player/chossid.glb", "costume": { "outfitId": "watchman" }, "position": { "x": 13, "z": 8 } },
+		{ "id": "scribe-bench", "label": "Courtyard Scribe", "source": "friendlyNpc", "friendlyNpcIndex": 6, "model": "assets/models/player/chossid.glb", "costume": { "outfitId": "scribe" }, "position": { "x": -3, "z": -3 } },
+		{ "id": "ranger-hill", "label": "Hill Path Walker", "source": "friendlyNpc", "friendlyNpcIndex": 7, "model": "assets/models/player/chossid.glb", "costume": { "outfitId": "ranger" }, "position": { "x": 13, "z": -3 } },
+		{ "id": "carpenter-road", "label": "Road Carpenter", "source": "friendlyNpc", "friendlyNpcIndex": 8, "model": "assets/models/player/chossid.glb", "costume": { "outfitId": "carpenter" }, "position": { "x": -13, "z": 3 } },
+		{ "id": "shliach-river", "label": "Shliach by the Water", "source": "friendlyNpc", "friendlyNpcIndex": 9, "model": "assets/models/player/chossid.glb", "costume": { "outfitId": "shliach" }, "position": { "x": 1, "z": 10 } }
 	],
 	"cameraRigs": [
 		{ "id": "waterGlide", "fromOffset": { "x": -22, "y": 5, "z": 15 }, "toOffset": { "x": 18, "y": 4, "z": 12 }, "target": { "x": 0, "y": 2, "z": 0 }, "easing": "smootherstep" },
-		{ "id": "lanternRise", "fromOffset": { "x": -5, "y": 2.4, "z": 9 }, "toOffset": { "x": 8, "y": 18, "z": 24 }, "target": { "x": 0, "y": 3, "z": 0 }, "easing": "easeInOutCubic" }
+		{ "id": "villageRise", "fromOffset": { "x": -7, "y": 3, "z": 10 }, "toOffset": { "x": 9, "y": 17, "z": 26 }, "target": { "x": 0, "y": 3, "z": 0 }, "easing": "easeInOutCubic" }
 	],
 	"materialGraphs": [
-		{ "id": "golden-windows", "nodes": [{ "id": "c", "type": "color", "value": "#ffd276" }, { "id": "t", "type": "texture", "url": "https://awtsmoos-docs-base.web.app/full-resolution/gold%202.png" }, { "id": "o", "type": "output", "value": { "mix": 0.8 } }], "edges": [{ "from": "c", "to": "o", "input": "color" }, { "from": "t", "to": "o", "input": "texture" }] },
-		{ "id": "wet-stone", "nodes": [{ "id": "c", "type": "color", "value": "#76756d" }, { "id": "t", "type": "texture", "url": "https://awtsmoos-docs-base.web.app/full-resolution/weathered%20fieldstone%20Rock%201.png" }, { "id": "r", "type": "repeat", "x": 5, "y": 5 }, { "id": "o", "type": "output", "value": { "mix": 0.64 } }], "edges": [{ "from": "c", "to": "o", "input": "color" }, { "from": "t", "to": "o", "input": "texture" }, { "from": "r", "to": "o", "input": "repeat" }] }
+		{ "id": "golden-windows", "nodes": [{ "id": "c", "type": "color", "value": "#ffd276" }, { "id": "t", "type": "texture", "url": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/gold%202.png" }, { "id": "o", "type": "output", "value": { "mix": 0.8 } }], "edges": [{ "from": "c", "to": "o", "input": "color" }, { "from": "t", "to": "o", "input": "texture" }] },
+		{ "id": "wet-stone", "nodes": [{ "id": "c", "type": "color", "value": "#76756d" }, { "id": "t", "type": "texture", "url": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/weathered%20fieldstone%20Rock%201.png" }, { "id": "r", "type": "repeat", "x": 5, "y": 5 }, { "id": "o", "type": "output", "value": { "mix": 0.64 } }], "edges": [{ "from": "c", "to": "o", "input": "color" }, { "from": "t", "to": "o", "input": "texture" }, { "from": "r", "to": "o", "input": "repeat" }] }
 	],
 	"sequences": [
-		{ "id": "pasture-awakening", "tracks": [
-			{ "id": "shepherd-track", "type": "crowd", "target": "shepherd", "clips": [{ "start": 0, "duration": 12, "action": "walk", "from": { "x": 108, "z": 42 }, "to": { "x": 96, "z": 31 }, "easing": "smoothstep" }] },
-			{ "id": "visitor-track", "type": "crowd", "target": "visitor", "clips": [{ "start": 1, "duration": 11, "action": "walk", "from": { "x": -5, "z": 70 }, "to": { "x": -1, "z": 48 }, "easing": "easeInOutQuad" }] }
+		{ "id": "river-procession", "tracks": [
+			{ "id": "elder-river-walk", "type": "crowd", "target": "elder-path", "clips": [{ "start": 0, "duration": 12, "action": "walk", "from": { "x": -13, "z": 22 }, "to": { "x": -4, "z": 13 }, "easing": "smoothstep" }] },
+			{ "id": "shepherd-river-walk", "type": "crowd", "target": "shepherd-river", "clips": [{ "start": 0, "duration": 12, "action": "walk", "from": { "x": -10, "z": 23 }, "to": { "x": -1, "z": 14 }, "easing": "smoothstep" }] },
+			{ "id": "ranger-hill-descent", "type": "crowd", "target": "ranger-hill", "clips": [{ "start": 1, "duration": 11, "action": "walk", "from": { "x": 14, "z": -2 }, "to": { "x": 9, "z": 4 } }] },
+			{ "id": "shliach-water-greeting", "type": "crowd", "target": "shliach-river", "clips": [{ "start": 0, "duration": 12, "action": "greet", "at": { "x": 1, "z": 10 }, "facing": -1.4 }] }
 		] },
 		{ "id": "market-life", "tracks": [
-			{ "id": "merchant-track", "type": "crowd", "target": "merchant", "clips": [{ "start": 0, "duration": 8, "action": "wave", "at": { "x": -43, "z": 14 } }, { "start": 8, "duration": 8, "action": "walk", "from": { "x": -43, "z": 14 }, "to": { "x": -26, "z": 17 } }] },
-			{ "id": "baker-track", "type": "crowd", "target": "baker", "clips": [{ "start": 0, "duration": 16, "action": "stand", "at": { "x": -35, "z": 9 }, "facing": 1.1 }] },
-			{ "id": "children-one", "type": "crowd", "target": "child-one", "clips": [{ "start": 0, "duration": 16, "action": "walk", "from": { "x": -12, "z": 21 }, "to": { "x": 7, "z": 26 } }] },
-			{ "id": "children-two", "type": "crowd", "target": "child-two", "clips": [{ "start": 0, "duration": 16, "action": "walk", "from": { "x": -9, "z": 24 }, "to": { "x": 10, "z": 28 } }] }
+			{ "id": "provider-market-cross", "type": "crowd", "target": "provider-market", "clips": [{ "start": 0, "duration": 12, "action": "walk", "from": { "x": -22, "z": 10 }, "to": { "x": -10, "z": 7 } }] },
+			{ "id": "carpenter-road-cross", "type": "crowd", "target": "carpenter-road", "clips": [{ "start": 0, "duration": 9, "action": "walk", "from": { "x": -16, "z": 4 }, "to": { "x": -5, "z": 4 } }, { "start": 9, "duration": 3, "action": "greet", "at": { "x": -5, "z": 4 }, "facing": 1.5 }] },
+			{ "id": "gardener-path-cross", "type": "crowd", "target": "gardener-path", "clips": [{ "start": 0, "duration": 12, "action": "walk", "from": { "x": 10, "z": 5 }, "to": { "x": 4, "z": 2 } }] },
+			{ "id": "watchman-gate-stand", "type": "crowd", "target": "watchman-gate", "clips": [{ "start": 0, "duration": 12, "action": "stand", "at": { "x": 12, "z": 8 }, "facing": -2.2 }] }
 		] },
-		{ "id": "bridge-procession", "tracks": [
-			{ "id": "rivka-track", "type": "crowd", "target": "rivka", "clips": [{ "start": 0, "duration": 15, "action": "walk", "from": { "x": -18, "z": 18 }, "to": { "x": 16, "z": 12 }, "easing": "smootherstep" }] },
-			{ "id": "levi-track", "type": "crowd", "target": "levi", "clips": [{ "start": 0, "duration": 15, "action": "walk", "from": { "x": -15, "z": 16 }, "to": { "x": 19, "z": 10 }, "easing": "smootherstep" }] },
-			{ "id": "daniel-track", "type": "crowd", "target": "daniel", "clips": [{ "start": 2, "duration": 13, "action": "walk", "from": { "x": -11, "z": 20 }, "to": { "x": 22, "z": 15 } }] },
-			{ "id": "miriam-track", "type": "crowd", "target": "miriam", "clips": [{ "start": 2, "duration": 13, "action": "walk", "from": { "x": -8, "z": 22 }, "to": { "x": 24, "z": 17 } }] }
+		{ "id": "river-conversation", "tracks": [
+			{ "id": "elder-river-talk", "type": "crowd", "target": "elder-path", "clips": [{ "start": 0, "duration": 12, "action": "talk", "at": { "x": -3, "z": 11 }, "facing": 1.4 }] },
+			{ "id": "shliach-river-nod", "type": "crowd", "target": "shliach-river", "clips": [{ "start": 0, "duration": 12, "action": "nod", "at": { "x": 0, "z": 11 }, "facing": -1.4 }] },
+			{ "id": "provider-background", "type": "crowd", "target": "provider-market", "clips": [{ "start": 1, "duration": 11, "action": "walk", "from": { "x": 5, "z": 8 }, "to": { "x": 1, "z": 5 } }] },
+			{ "id": "shepherd-background", "type": "crowd", "target": "shepherd-river", "clips": [{ "start": 0, "duration": 12, "action": "stand", "at": { "x": -7, "z": 9 }, "facing": 0.7 }] }
 		] },
-		{ "id": "shul-gathering", "tracks": [
-			{ "id": "elder-track", "type": "crowd", "target": "elder", "clips": [{ "start": 0, "duration": 12, "action": "pray", "at": { "x": 7, "z": -47 }, "facing": 3.1 }] },
-			{ "id": "gardener-track", "type": "crowd", "target": "gardener", "clips": [{ "start": 0, "duration": 12, "action": "walk", "from": { "x": 68, "z": -48 }, "to": { "x": 25, "z": -43 } }] },
-			{ "id": "visitor-prayer", "type": "crowd", "target": "visitor", "clips": [{ "start": 0, "duration": 12, "action": "pray", "at": { "x": 4, "z": -42 }, "facing": 3.1 }] }
+		{ "id": "courtyard-community", "tracks": [
+			{ "id": "teacher-courtyard-walk", "type": "crowd", "target": "teacher-courtyard", "clips": [{ "start": 0, "duration": 12, "action": "walk", "from": { "x": 6, "z": -2 }, "to": { "x": 1, "z": -7 } }] },
+			{ "id": "scribe-prayer", "type": "crowd", "target": "scribe-bench", "clips": [{ "start": 0, "duration": 12, "action": "pray", "at": { "x": -3, "z": -4 }, "facing": 0.3 }] },
+			{ "id": "watchman-greeting", "type": "crowd", "target": "watchman-gate", "clips": [{ "start": 0, "duration": 12, "action": "greet", "at": { "x": 6, "z": -1 }, "facing": -1.5 }] },
+			{ "id": "gardener-conversation", "type": "crowd", "target": "gardener-path", "clips": [{ "start": 0, "duration": 12, "action": "talk", "at": { "x": 3, "z": -3 }, "facing": 1.2 }] },
+			{ "id": "carpenter-fast-cross", "type": "crowd", "target": "carpenter-road", "clips": [{ "start": 2, "duration": 8, "action": "run", "from": { "x": -10, "z": 1 }, "to": { "x": -2, "z": -5 } }, { "start": 10, "duration": 2, "action": "stand", "at": { "x": -2, "z": -5 } }] }
 		] },
-		{ "id": "lantern-finale", "tracks": [
-			{ "id": "crowd-wave", "type": "crowd", "target": "rivka", "clips": [{ "start": 0, "duration": 5, "action": "wave", "at": { "x": 16, "z": 12 } }] },
-			{ "id": "crowd-pray", "type": "crowd", "target": "levi", "clips": [{ "start": 0, "duration": 5, "action": "pray", "at": { "x": 19, "z": 10 } }] }
+		{ "id": "mountain-river-finale", "tracks": [
+			{ "id": "elder-final-stand", "type": "crowd", "target": "elder-path", "clips": [{ "start": 0, "duration": 12, "action": "stand", "at": { "x": 1, "z": -8 }, "facing": 0 }] },
+			{ "id": "teacher-final-greet", "type": "crowd", "target": "teacher-courtyard", "clips": [{ "start": 0, "duration": 12, "action": "greet", "at": { "x": -2, "z": -8 }, "facing": 0.6 }] },
+			{ "id": "ranger-final-walk", "type": "crowd", "target": "ranger-hill", "clips": [{ "start": 0, "duration": 12, "action": "walk", "from": { "x": 7, "z": -4 }, "to": { "x": 3, "z": -8 } }] },
+			{ "id": "provider-final-stand", "type": "crowd", "target": "provider-market", "clips": [{ "start": 0, "duration": 12, "action": "stand", "at": { "x": 4, "z": -7 }, "facing": -0.5 }] },
+			{ "id": "shliach-final-pray", "type": "crowd", "target": "shliach-river", "clips": [{ "start": 0, "duration": 12, "action": "pray", "at": { "x": -5, "z": -7 }, "facing": 0.2 }] }
 		] }
 	],
 	"tracks": [
-		{ "id": "scenes", "type": "scene", "clips": [
-			{ "start": 0, "duration": 12, "label": "Pasture at First Light", "grade": "#f4b55c", "transition": "fade" },
-			{ "start": 12, "duration": 16, "label": "Market and Garden", "grade": "#f0c879", "transition": "crossfade" },
-			{ "start": 28, "duration": 15, "label": "Across the Stone Bridge", "grade": "#e8b360", "transition": "dissolve" },
-			{ "start": 43, "duration": 12, "label": "Gathering by the Shul", "grade": "#d99254", "transition": "crossfade" },
-			{ "start": 55, "duration": 5, "label": "Lanterns in the Valley", "grade": "#bc7544", "transition": "fade" }
-		] },
-		{ "id": "nested-stories", "type": "sequence", "clips": [
-			{ "id": "pasture", "start": 0, "duration": 12, "sequenceId": "pasture-awakening" },
-			{ "id": "market", "start": 12, "duration": 16, "sequenceId": "market-life" },
-			{ "id": "bridge", "start": 28, "duration": 15, "sequenceId": "bridge-procession" },
-			{ "id": "shul", "start": 43, "duration": 12, "sequenceId": "shul-gathering" },
-			{ "id": "finale", "start": 55, "duration": 5, "sequenceId": "lantern-finale" }
-		] },
-		{ "id": "principal-player", "type": "actor", "target": "player", "clips": [
-			{ "start": 0, "duration": 12, "action": "move", "animation": "walk", "from": { "x": -5, "z": 69 }, "to": { "x": -4, "z": 39 }, "easing": "smootherstep" },
-			{ "start": 12, "duration": 16, "action": "talk", "animation": "talk", "at": { "x": -31, "z": 14 }, "face": "npc" },
-			{ "start": 28, "duration": 15, "action": "move", "animation": "walk", "from": { "x": -14, "z": 17 }, "to": { "x": 22, "z": 11 } },
-			{ "start": 43, "duration": 17, "action": "pray", "animation": "idle", "at": { "x": 4, "z": -45 }, "face": "npc" }
-		] },
-		{ "id": "principal-npc", "type": "actor", "target": "npc", "clips": [
-			{ "start": 0, "duration": 12, "action": "pose", "animation": "idle", "at": { "x": -2, "z": 37 }, "face": "player" },
-			{ "start": 12, "duration": 16, "action": "talk", "animation": "talk", "at": { "x": -28, "z": 14 }, "face": "player" },
-			{ "start": 28, "duration": 15, "action": "move", "animation": "walk", "from": { "x": -10, "z": 19 }, "to": { "x": 20, "z": 13 } },
-			{ "start": 43, "duration": 17, "action": "talk", "animation": "talk", "at": { "x": 7, "z": -45 }, "face": "player" }
-		] },
-		{ "id": "cinematic-cameras", "type": "camera", "clips": [
-			{ "start": 0, "duration": 8, "rig": "aerialPullback", "anchor": { "x": 0, "y": 4, "z": 30 }, "target": { "x": 0, "y": 2, "z": 5 } },
-			{ "start": 8, "duration": 7, "rig": "dollyIn", "anchor": { "x": -31, "y": 2, "z": 14 }, "targetActor": "player" },
-			{ "start": 15, "duration": 7, "rig": "orbitLeft", "anchor": { "x": -26, "y": 2, "z": 15 }, "targetActor": "npc" },
-			{ "start": 22, "duration": 6, "rig": "sideTrack", "anchor": { "x": -8, "y": 2, "z": 18 }, "target": { "x": 0, "y": 2, "z": 17 } },
-			{ "start": 28, "duration": 8, "rig": "waterGlide", "anchor": { "x": 0, "y": 0, "z": 12 }, "target": { "x": 3, "y": 2, "z": 12 } },
-			{ "start": 36, "duration": 7, "rig": "craneReveal", "anchor": { "x": 20, "y": 2, "z": 11 }, "targetActor": "player" },
-			{ "start": 43, "duration": 12, "rig": "handheldDrift", "anchor": { "x": 5, "y": 2, "z": -45 }, "target": { "x": 5, "y": 2, "z": -47 } },
-			{ "start": 55, "duration": 5, "rig": "lanternRise", "anchor": { "x": 7, "y": 1, "z": -42 }, "target": { "x": 0, "y": 3, "z": 0 } }
-		] },
-		{ "id": "material-story", "type": "material", "clips": [
-			{ "start": 0, "duration": 60, "target": "Awtsmoos_cottage-window-batch", "graphId": "golden-windows" },
-			{ "start": 28, "duration": 32, "target": "Awtsmoos_atmospheric_mountain_belt_0", "graphId": "wet-stone" }
-		] },
-		{ "id": "dialogue", "type": "dialogue", "clips": [
-			{ "start": 5, "duration": 3, "speaker": "Narrator", "text": "Morning enters the valley through cedar, cloud, and stone." },
-			{ "start": 13, "duration": 3.5, "speaker": "Shliach", "text": "Every doorway can become a place of light." },
-			{ "start": 17, "duration": 3.5, "speaker": "Rabbi Dov Ber", "text": "Then carry the light through the market and over the water." },
-			{ "start": 31, "duration": 3.5, "speaker": "Narrator", "text": "Families cross the bridge while the mountains hold the horizon." },
-			{ "start": 45, "duration": 4, "speaker": "Elder", "text": "A shared world becomes holy through shared purpose." },
-			{ "start": 56, "duration": 4, "speaker": "Narrator", "text": "At sunset, every window answers the sun." }
-		] },
-		{ "id": "audio", "type": "audio", "clips": [
-			{ "start": 0, "duration": 60, "kind": "score", "frequency": 110, "volume": 0.035 },
-			{ "start": 0, "duration": 12, "kind": "wind", "frequency": 74, "volume": 0.025 },
-			{ "start": 12, "duration": 16, "kind": "market", "frequency": 166, "volume": 0.04 },
-			{ "start": 28, "duration": 15, "kind": "water", "frequency": 92, "volume": 0.045 },
-			{ "start": 43, "duration": 12, "kind": "prayerTone", "frequency": 146, "volume": 0.04 },
-			{ "start": 55, "duration": 5, "kind": "finale", "frequency": 220, "volume": 0.05 }
-		] }
+		{ "id": "scenes", "type": "scene", "clips": [{ "start": 0, "duration": 12, "label": "River Dawn Procession", "grade": "#a8c7d6", "transition": "fade" }, { "start": 12, "duration": 12, "label": "Living Market Path", "grade": "#789a73", "transition": "crossfade" }, { "start": 24, "duration": 12, "label": "Conversation by the Water", "grade": "#b58a68", "transition": "crossfade" }, { "start": 36, "duration": 12, "label": "Courtyard Community", "grade": "#a7775f", "transition": "crossfade" }, { "start": 48, "duration": 12, "label": "River and Mountain Community", "grade": "#d8845e", "transition": "fade" }] },
+		{ "id": "nested-stories", "type": "sequence", "clips": [{ "id": "river", "start": 0, "duration": 12, "sequenceId": "river-procession" }, { "id": "market", "start": 12, "duration": 12, "sequenceId": "market-life" }, { "id": "conversation", "start": 24, "duration": 12, "sequenceId": "river-conversation" }, { "id": "courtyard", "start": 36, "duration": 12, "sequenceId": "courtyard-community" }, { "id": "finale", "start": 48, "duration": 12, "sequenceId": "mountain-river-finale" }] },
+		{ "id": "principal-player", "type": "actor", "target": "player", "clips": [{ "start": 0, "duration": 24, "action": "move", "animation": "walk", "from": { "x": -8, "z": 25 }, "to": { "x": -1, "z": 10 }, "easing": "smootherstep" }, { "start": 24, "duration": 12, "action": "pose", "animation": "idle", "at": { "x": -1, "z": 10 }, "face": "npc" }, { "start": 36, "duration": 24, "action": "move", "animation": "walk", "from": { "x": -1, "z": 10 }, "to": { "x": 2, "z": -9 } }] },
+		{ "id": "principal-npc", "type": "actor", "target": "npc", "clips": [{ "start": 0, "duration": 24, "action": "move", "animation": "walk", "from": { "x": -5, "z": 24 }, "to": { "x": 1, "z": 11 }, "easing": "smootherstep" }, { "start": 24, "duration": 12, "action": "pose", "animation": "idle", "at": { "x": 1, "z": 11 }, "face": "player" }, { "start": 36, "duration": 24, "action": "move", "animation": "walk", "from": { "x": 1, "z": 11 }, "to": { "x": 4, "z": -8 } }] },
+		{ "id": "cinematic-cameras", "type": "camera", "clips": [{ "start": 0, "duration": 12, "rig": "aerialPullback", "anchor": { "x": 0, "y": 4, "z": 30 }, "target": { "x": 0, "y": 2, "z": 6 } }, { "start": 12, "duration": 12, "rig": "sideTrack", "anchor": { "x": -8, "y": 2, "z": 18 }, "target": { "x": 0, "y": 2, "z": 13 } }, { "start": 24, "duration": 12, "rig": "waterGlide", "anchor": { "x": 0, "y": 0, "z": 12 }, "target": { "x": 0, "y": 2, "z": 11 } }, { "start": 36, "duration": 12, "rig": "dollyIn", "anchor": { "x": 3, "y": 2, "z": -6 }, "targetActor": "player" }, { "start": 48, "duration": 12, "rig": "villageRise", "anchor": { "x": 2, "y": 1, "z": -9 }, "target": { "x": 0, "y": 3, "z": 0 } }] },
+		{ "id": "material-story", "type": "material", "clips": [{ "start": 0, "duration": 60, "target": "Awtsmoos_cottage-window-batch", "graphId": "golden-windows" }, { "start": 24, "duration": 36, "target": "Awtsmoos_atmospheric_mountain_belt_0", "graphId": "wet-stone" }] },
+		{ "id": "dialogue", "type": "dialogue", "clips": [{ "start": 5, "duration": 4, "speaker": "Narrator", "text": "Morning moves through the cedars and across the river." }, { "start": 17, "duration": 4, "speaker": "Market Neighbor", "text": "Good morning. The lower path is busy already." }, { "start": 25, "duration": 4, "speaker": "Elder", "text": "The river is full after the rain." }, { "start": 30, "duration": 4, "speaker": "Shliach", "text": "Boruch Hashem. The village needed that water." }, { "start": 39, "duration": 4, "speaker": "Teacher", "text": "Come walk with us through the courtyard." }, { "start": 52, "duration": 5, "speaker": "Narrator", "text": "The wind crosses the trees as the whole village settles beside the water." }] },
+		{ "id": "audio", "type": "audio", "clips": [{ "start": 0, "duration": 60, "kind": "wind", "frequency": 74, "volume": 0.022 }, { "start": 0, "duration": 60, "kind": "water", "frequency": 92, "volume": 0.028 }] }
 	]
 }

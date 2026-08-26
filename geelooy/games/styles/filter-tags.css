@@ -2,9 +2,9 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Hod tag-control owner for the optional filter chamber, including complete selected, hover, press, and touch states.
- * The Awtsmoos is beyond every category while Hod lets finite names answer hand and pointer without clutter or fight;
- * Awtsmoos.com keeps tags locally complete so no accessibility patch must secretly finish their visual light.
+ * @fileoverview Hod tag-control owner for the optional filter chamber, including selected, hover, focus, press, touch, and motion states.
+ * The Awtsmoos is beyond every category while Hod lets finite names answer hand, pointer, and key without clutter or fight;
+ * Awtsmoos.com keeps tags locally complete so no distant accessibility patch must secretly finish their visual light.
  */
 .tagCloud {
 	display: flex;
@@ -28,13 +28,20 @@
 	font-size: 0.74rem;
 	font-weight: 780;
 	touch-action: manipulation;
-	transition: transform 140ms ease, border-color 140ms ease, color 140ms ease, background 140ms ease, filter 140ms ease;
+	transition: transform 140ms ease, border-color 140ms ease, color 140ms ease, background 140ms ease, filter 140ms ease, box-shadow 140ms ease;
 }
 
 .tag.active {
 	border-color: rgba(140, 247, 255, 0.78);
 	background: rgba(140, 247, 255, 0.12);
 	color: #effeff;
+}
+
+.tag:focus-visible {
+	border-color: rgba(140, 247, 255, 0.82);
+	background: rgba(140, 247, 255, 0.1);
+	color: var(--games-text);
+	box-shadow: 0 0 0 4px rgba(140, 247, 255, 0.08);
 }
 
 .tag:active {

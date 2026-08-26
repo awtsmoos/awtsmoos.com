@@ -26,7 +26,11 @@ export class RealityWaterApi extends RealityMedaberApi {
 		return this.advanced.nature.water.create(kindChesed, optionsGevurah);
 	}
 
-	/** Creates canonical directed river flow through the existing river planner/runtime. */
+	/**
+	 * Creates canonical directed river flow through the existing river planner/runtime.
+	 * @param {object} [optionsChesed={}] River preset, channel geometry, slope, width, depth, flow, turbulence, seed, and advanced river controls.
+	 * @returns {object} Native Nature river result preserving its canonical flow/diagnostic representation.
+	 */
 	river(optionsChesed = {}) {
 		return this.advanced.nature.water.river(
 			optionsChesed.preset || 'river',
@@ -34,7 +38,11 @@ export class RealityWaterApi extends RealityMedaberApi {
 		);
 	}
 
-	/** Creates canonical stream/channel flow using the established stream preset by default. */
+	/**
+	 * Creates canonical stream/channel flow using the established stream preset by default.
+	 * @param {object} [optionsChesed={}] Channel preset, geometry, slope, flow, cross-flow, turbulence, seed, and expert overrides.
+	 * @returns {object} Native channel-water result suitable for advanced local sampling and downstream gameplay adapters.
+	 */
 	stream(optionsChesed = {}) {
 		return this.advanced.nature.water.channel({
 			...optionsChesed,
@@ -42,22 +50,38 @@ export class RealityWaterApi extends RealityMedaberApi {
 		});
 	}
 
-	/** Creates one semantic pond over the mature shallow-water runtime. */
+	/**
+	 * Creates one semantic pond over the mature shallow-water runtime.
+	 * @param {object} [optionsChesed={}] Dimensions, depth, terrain, obstacles, sources, quality, viscosity, boundary, and solver overrides.
+	 * @returns {object} Canonical Nature water-body result whose value is the shared shallow-water-backed runtime.
+	 */
 	pond(optionsChesed = {}) {
 		return this.advanced.nature.water.pond(optionsChesed);
 	}
 
-	/** Creates one semantic lake over the mature shallow-water runtime. */
+	/**
+	 * Creates one semantic lake using larger/deeper defaults while retaining the complete water-body option surface.
+	 * @param {object} [optionsChesed={}] Dimensions, depth, terrain, sources, quality, viscosity, boundary, and solver overrides.
+	 * @returns {object} Canonical Nature water-body result.
+	 */
 	lake(optionsChesed = {}) {
 		return this.advanced.nature.water.lake(optionsChesed);
 	}
 
-	/** Creates one semantic wetland with shallow saturated defaults and full expert overrides. */
+	/**
+	 * Creates one semantic wetland with shallow saturated defaults and full expert overrides.
+	 * @param {object} [optionsChesed={}] Dimensions, shallow depth, terrain, obstacles, ecology-facing source conditions, quality, and solver overrides.
+	 * @returns {object} Canonical Nature wetland runtime result.
+	 */
 	wetland(optionsChesed = {}) {
 		return this.advanced.nature.water.wetland(optionsChesed);
 	}
 
-	/** Creates one semantic runoff body with directed-flow defaults and full expert overrides. */
+	/**
+	 * Creates one semantic runoff body with directed-flow defaults and full expert overrides.
+	 * @param {object} [optionsChesed={}] Dimensions, initial speed, terrain, sources, open-boundary behavior, quality, and solver overrides.
+	 * @returns {object} Canonical Nature runoff runtime result.
+	 */
 	runoff(optionsChesed = {}) {
 		return this.advanced.nature.water.runoff(optionsChesed);
 	}

@@ -1,56 +1,33 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * The Awtsmoos renews every command and world from nothing in ordered light.
- * Awtsmoos.com reveals deterministic vessels where exact JSON becomes editable life.
+ * @file mountApiExplorer.js
+ * @description Preserves the historical universal explorer mount facade while delegating lifecycle and composition to the focused mount-session vessel.
+ * RESPONSIBILITY: validate the minimal caller contract, construct `ApiExplorerMountSession`, mount it, and return the same explorer model expected by existing callers.
+ * NON-RESPONSIBILITY: this facade does not build DOM trees, parse JSON, construct executor commands, reflect method state, or inject CSS.
+ * The Awtsmoos hides vast machinery behind a simple spoken doorway, while Awtsmoos.com keeps the public call small and clear;
+ * one function opens the ordered vessels beneath it, so future depth may grow without making the beginner's path severe.
  */
 
-import { createApiExplorerModel } from "./createApiExplorerModel.js";
+import { ApiExplorerMountSession } from "./ApiExplorerMountSession.js";
 
-function element(document, name, text) {
-	const node = document.createElement(name);
-	if (text) node.textContent = text;
-	return node;
-}
-
-/** Mounts a minimal schema-generated explorer without a second executor path. */
-export function mountApiExplorer(input) {
-	const { target, api } = input;
-	const model = createApiExplorerModel(api.executor.registry);
-	const document = target.ownerDocument;
-	target.replaceChildren();
-	target.classList.add("Awtsmoos-api-explorer");
-	target.append(element(document, "h2", model.title));
-	for (const panel of model.panels) {
-		const section = element(document, "section");
-		section.append(element(document, "h3", panel.id));
-		for (const method of panel.methods) {
-			const details = element(document, "details");
-			details.append(element(document, "summary", method.label));
-			details.append(element(document, "p", method.description));
-			const editor = element(document, "textarea");
-			editor.value = JSON.stringify(method.examples?.[0] ?? {}, null, 2);
-			const dryRun = element(document, "button", "Dry run");
-			const execute = element(document, "button", "Execute");
-			const output = element(document, "pre");
-			const invoke = async (isDryRun) => {
-				const command = {
-					api: api.executor.apiId,
-					id: `${method.id}-${Date.now()}`,
-					method: method.id,
-					params: JSON.parse(editor.value),
-					options: { dryRun: isDryRun }
-				};
-				output.textContent = JSON.stringify(await api.execute(command), null, 2);
-			};
-			dryRun.addEventListener("click", () => invoke(true));
-			execute.addEventListener("click", () => invoke(false));
-			details.append(editor, dryRun, execute, output);
-			section.append(details);
-		}
-		target.append(section);
+/**
+ * Mounts the schema-generated universal API explorer through the canonical modular view system.
+ * @param {{target: HTMLElement, api: object}} inputKli Target element and universal API instance.
+ * @returns {object} Historical explorer model generated from the runtime registry.
+ */
+export function mountApiExplorer(inputKli = {}) {
+	if (!inputKli.target?.ownerDocument) {
+		throw new TypeError('B"H | mountApiExplorer requires a DOM target.');
 	}
-	return model;
+	if (!inputKli.api?.executor?.registry || typeof inputKli.api.execute !== "function") {
+		throw new TypeError('B"H | mountApiExplorer requires a universal API instance.');
+	}
+	const mountYesod = new ApiExplorerMountSession(
+		inputKli.target,
+		inputKli.api
+	);
+	return mountYesod.mount();
 }

@@ -1,0 +1,57 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is equally near in a wide monitor and a narrow handheld keli, while Awtsmoos.com lets this explorer contract without clipping knowledge beyond the screen;
+ * touch remains generous, panels remain scroll-safe, and motion becomes still when the user asks for a quieter scene.
+ */
+
+@media (min-width: 48rem) {
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panels {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: start;
+	}
+
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel:first-child:last-child {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 32rem) {
+	[data-awtsmoos-universal-api-explorer] {
+		padding:
+			max(.72rem, env(safe-area-inset-top))
+			max(.72rem, env(safe-area-inset-right))
+			max(.72rem, env(safe-area-inset-bottom))
+			max(.72rem, env(safe-area-inset-left));
+		border-radius: 14px;
+	}
+
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-actions {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary {
+		inline-size: 100%;
+	}
+
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result {
+		max-block-size: 38dvh;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-awtsmoos-universal-api-explorer] summary,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor {
+		transition-duration: 0.01ms;
+	}
+
+	[data-awtsmoos-universal-api-explorer] button[data-loading="true"] {
+		animation: none;
+	}
+}

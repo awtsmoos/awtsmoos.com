@@ -4,25 +4,26 @@
 
 /**
  * @file MinimalMeadowAmuletExpertLifecycle.js
- * @description Owns authoritative expert commerce, panel, update chain, and exact teardown restoration.
- * The Awtsmoos lends one merchant a place in the living frame; Awtsmoos.com restores the prior
- * world update hand and removes every listener, panel, and actor when the chapter closes.
+ * @description Owns the real expert actor, optional gameplay commerce panel, update chain, and exact teardown restoration.
+ * The Awtsmoos lends healer, amulet, Bag, and frame one measured season;
+ * Awtsmoos.com lets Movie Maker keep the living expert without inventing a reactive gameplay inventory that is not mounted.
  */
 
 import { healingAmuletCommerce } from '../gameplay/HealingAmuletCommerce.js';
 import { AmuletExpertPanel } from '../ui/AmuletExpertPanel.js';
 
 export function installAmuletExpertPanel(population) {
-	if (!population.environment.document) return;
+	const store = population.runtime.inventory;
+	if (!population.environment.document || !isReactiveInventory(store)) {
+		population.panelStatus = 'gameplay-inventory-not-mounted';
+		return;
+	}
 	const commerce = healingAmuletCommerce(population.runtime);
-	population.panel = new AmuletExpertPanel(population.runtime.inventory, {
+	population.panel = new AmuletExpertPanel(store, {
 		document: population.environment.document,
-		onBuy: (itemId, quantity, vendorId) => commerce.buy(
-			itemId,
-			quantity,
-			vendorId
-		)
+		onBuy: (itemId, quantity, vendorId) => commerce.buy(itemId, quantity, vendorId)
 	});
+	population.panelStatus = 'ready';
 	population.unsubscribePanel = population.runtime.bus.on(
 		'amulet-expert:toggle',
 		() => population.panel.toggle()
@@ -45,4 +46,11 @@ export function destroyAmuletExpert(population) {
 	if (population.runtime.updateWorldSystems === population.updateWrapper) {
 		population.runtime.updateWorldSystems = population.previousUpdate;
 	}
+}
+
+function isReactiveInventory(store) {
+	return Boolean(store
+		&& typeof store.onChange === 'function'
+		&& typeof store.snapshot === 'function'
+		&& typeof store.quantity === 'function');
 }

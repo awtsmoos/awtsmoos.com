@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioApiCinemaRender.js
- * @description Adds prepared long-form start, list, get, phase progress, wait, and cancellation over the canonical render queue.
- * The Awtsmoos renews asset readiness and encoded completion beyond scalar measurement;
- * Awtsmoos.com exposes immutable witnesses without leaking mutable executors into the public API.
+ * @description Adds prepared long-form render lifecycle while requiring the complete live cinema world before frame zero.
+ * The Awtsmoos renews home, river, ridge, actor, asset, queue, and encoded completion beyond scalar measurement;
+ * Awtsmoos.com waits for strict mounted-world truth so final cinema never begins inside a gameplay degradation window.
  */
 
 import {
@@ -19,6 +19,7 @@ import {
 	runMovieStudioApiOperation
 } from './MovieStudioApiOperation.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
+import { waitForMovieWorldRealism } from './MovieWorldRealismWait.js';
 
 export function createMovieStudioCinemaRenderDomain(session, prepareFlagship) {
 	return {
@@ -36,7 +37,11 @@ export function createMovieStudioCinemaRenderDomain(session, prepareFlagship) {
 			session,
 			'cinema.renderFlagship',
 			options,
-			async () => startFlagship(session, await prepareFlagship(options), options)
+			async () => {
+				const installed = await prepareFlagship(options);
+				const world = await waitForMovieWorldRealism(session, options);
+				return startFlagship(session, installed, options, world);
+			}
 		),
 		renderProgress: jobId => createMovieCinemaRenderProgress(
 			session.renderQueue.get(jobId).snapshot()
@@ -50,7 +55,7 @@ export function createMovieStudioCinemaRenderDomain(session, prepareFlagship) {
 	};
 }
 
-function startFlagship(session, installed, options) {
+function startFlagship(session, installed, options, world) {
 	const request = {
 		download: options.download === true,
 		metadata: createMovieCinemaRenderMetadata(installed.analysis, installed.project.title),
@@ -64,7 +69,8 @@ function startFlagship(session, installed, options) {
 		analysis: installed.analysis,
 		assets: installed.assets,
 		job: enrichCinemaJob(session.renderQueue.start(request)),
-		projectRevision: session.revision
+		projectRevision: session.revision,
+		world
 	});
 }
 

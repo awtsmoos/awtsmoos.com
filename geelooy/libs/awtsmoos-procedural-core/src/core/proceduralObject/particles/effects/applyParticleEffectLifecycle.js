@@ -4,62 +4,93 @@
 
 /**
  * @file applyParticleEffectLifecycle.js
- * @description Applies visual-age curves and thermal cooling after physics integration while preserving the canonical immutable particle-system shape.
- * The Awtsmoos renews ember, smoke, glyph, petal, and molecule at every finite age; Awtsmoos.com lets Hod reveal color, opacity, size, and cooling,
- * while the motion solver remains untouched and render adapters receive ordinary particle attributes rather than preset-specific hidden state.
+ * @description Derives visual and thermal age state from immutable birth channels after physics integration, preventing cumulative presentation drift.
+ * The Awtsmoos renews ember, glyph, petal, molecule, and smoke at every age without yesterday's transformed garment becoming today's false source;
+ * Awtsmoos.com lets Hod reveal size, color, opacity, and temperature from stable birth evidence while the physics solver remains its own clear vessel.
  */
 import { createParticleSystem } from "../createParticleSystem.js";
 import { sampleEffectCurve } from "./sampleEffectCurve.js";
 
 /**
- * Applies lifecycle curves to every living particle in one effect layer.
+ * Applies age-derived lifecycle presentation to every living particle.
  * @param {object} keterSystem - Integrated canonical particle system.
  * @param {object} chochmahLayer - Canonical effect layer.
- * @param {number} binahDeltaSeconds - Simulation interval used for cooling.
- * @returns {object} New canonical particle system.
+ * @param {number} [_binahDeltaSeconds] - Retained compatibility argument; age drives idempotent lifecycle state.
+ * @returns {object} New canonical particle system with birth-relative presentation.
  */
-export function applyParticleEffectLifecycle(keterSystem, chochmahLayer, binahDeltaSeconds) {
+export function applyParticleEffectLifecycle(keterSystem, chochmahLayer, _binahDeltaSeconds) {
 	const gevurahLifecycle = chochmahLayer.lifecycle || {};
 	const tiferesParticles = keterSystem.particles.map((netzachParticle) => {
-		const hodAge = netzachParticle.lifetime > 0
-			? Math.max(0, Math.min(1, netzachParticle.age / netzachParticle.lifetime))
-			: 1;
-		const yesodBaseColor = netzachParticle.attributes?.baseColor
-			?? chochmahLayer.appearance?.color
-			?? [1, 1, 1, 1];
-		const malchusColor = sampleEffectCurve(gevurahLifecycle.color, hodAge, yesodBaseColor);
-		const keterOpacity = Number(sampleEffectCurve(gevurahLifecycle.opacity, hodAge, 1));
-		const chochmahSizeScale = Number(sampleEffectCurve(gevurahLifecycle.size, hodAge, 1));
-		const binahTemperature = cooledTemperature(
-			netzachParticle.attributes?.temperature,
-			gevurahLifecycle.coolingRate,
-			binahDeltaSeconds
+		const hodAge = normalizedAge(netzachParticle);
+		const yesodAttributes = netzachParticle.attributes || {};
+		const malchusBaseColor = colorArray(
+			yesodAttributes.baseColor ?? chochmahLayer.appearance?.color
+		);
+		const keterBaseSize = finite(yesodAttributes.baseSize, netzachParticle.size);
+		const chochmahBaseTemperature = finite(
+			yesodAttributes.baseTemperature ?? yesodAttributes.temperature,
+			0
+		);
+		const binahColor = sampleEffectCurve(gevurahLifecycle.color, hodAge, malchusBaseColor);
+		const gevurahOpacity = finite(sampleEffectCurve(gevurahLifecycle.opacity, hodAge, 1), 1);
+		const tiferesSizeScale = finite(sampleEffectCurve(gevurahLifecycle.size, hodAge, 1), 1);
+		const netzachTemperature = lifecycleTemperature(
+			gevurahLifecycle,
+			chochmahBaseTemperature,
+			netzachParticle.age,
+			hodAge
 		);
 		return {
 			...netzachParticle,
 			attributes: {
-				...netzachParticle.attributes,
-				color: withOpacity(malchusColor, keterOpacity),
-				opacity: keterOpacity,
-				temperature: binahTemperature
+				...yesodAttributes,
+				baseColor: malchusBaseColor,
+				baseSize: keterBaseSize,
+				baseTemperature: chochmahBaseTemperature,
+				color: withOpacity(binahColor, gevurahOpacity),
+				opacity: gevurahOpacity,
+				temperature: netzachTemperature
 			},
-			size: Math.max(0, netzachParticle.size * chochmahSizeScale)
+			size: Math.max(0, keterBaseSize * tiferesSizeScale)
 		};
 	});
 	return createParticleSystem({ ...keterSystem, particles: tiferesParticles });
 }
 
-/** Applies a non-negative cooling rate while preserving absent thermal channels. */
-function cooledTemperature(keterValue, chochmahCoolingRate, binahDeltaSeconds) {
-	if (!Number.isFinite(Number(keterValue))) return keterValue;
-	const gevurahCooling = Math.max(0, Number(chochmahCoolingRate || 0));
-	return Number(keterValue) - gevurahCooling * Math.max(0, Number(binahDeltaSeconds || 0));
+/** Returns normalized particle age. */
+function normalizedAge(keterParticle) {
+	if (!(keterParticle.lifetime > 0)) return 1;
+	return Math.max(0, Math.min(1, keterParticle.age / keterParticle.lifetime));
 }
 
-/** Multiplies color alpha by lifecycle opacity while preserving RGB channels. */
+/** Derives temperature from either an explicit age curve or birth temperature minus cooling rate times absolute age. */
+function lifecycleTemperature(keterLifecycle, chochmahBase, binahAge, gevurahNormalizedAge) {
+	if (keterLifecycle.temperature != null) {
+		return finite(sampleEffectCurve(keterLifecycle.temperature, gevurahNormalizedAge, chochmahBase), chochmahBase);
+	}
+	const tiferesCooling = Math.max(0, finite(keterLifecycle.coolingRate, 0));
+	const netzachFloor = keterLifecycle.temperatureFloor == null
+		? -Infinity
+		: finite(keterLifecycle.temperatureFloor, -Infinity);
+	return Math.max(netzachFloor, chochmahBase - tiferesCooling * Math.max(0, Number(binahAge || 0)));
+}
+
+/** Returns detached RGBA color data. */
+function colorArray(keterValue) {
+	const chochmahColor = Array.isArray(keterValue) ? [...keterValue] : [1, 1, 1, 1];
+	while (chochmahColor.length < 4) chochmahColor.push(1);
+	return chochmahColor.slice(0, 4).map(Number);
+}
+
+/** Applies lifecycle opacity to a detached RGBA value. */
 function withOpacity(keterColor, chochmahOpacity) {
-	const binahArray = Array.isArray(keterColor) ? [...keterColor] : [1, 1, 1, 1];
-	while (binahArray.length < 4) binahArray.push(1);
-	binahArray[3] = Number(binahArray[3] ?? 1) * chochmahOpacity;
-	return binahArray;
+	const binahColor = colorArray(keterColor);
+	binahColor[3] *= chochmahOpacity;
+	return binahColor;
+}
+
+/** Returns finite numeric input or fallback. */
+function finite(keterValue, chochmahFallback) {
+	const binahNumber = Number(keterValue);
+	return Number.isFinite(binahNumber) ? binahNumber : Number(chochmahFallback);
 }

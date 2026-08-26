@@ -4,6 +4,7 @@
 	"moduleCount": 1,
 	"modules": [],
 	"name": "presentation",
+<<<<<<< HEAD
 	"outputBytes": 1075021,
 	"outputHash": "22389d0086fcabcec0769f3514f108a9e42b604a7ab3e5e61ae9177847c60858",
 	"representations": {
@@ -21,6 +22,25 @@
 			"bytes": 1075021,
 			"encoding": "identity",
 			"sha256": "22389d0086fcabcec0769f3514f108a9e42b604a7ab3e5e61ae9177847c60858"
+=======
+	"outputBytes": 772547,
+	"outputHash": "9dc687b3f808f883d91329b97401723cdf607dd7aaddd06d35a6ee62efeff2d0",
+	"representations": {
+		"brotli": {
+			"bytes": 147190,
+			"encoding": "br",
+			"sha256": "8c37f6463139a4f2b9c2e039735a643b7699387acd90cf5fa4a4d875f89dcf5f"
+		},
+		"gzip": {
+			"bytes": 179443,
+			"encoding": "gzip",
+			"sha256": "9d60b54d0b40680b2e83741af8d8834e6aad8736364f74bc30d39b7e56ba8915"
+		},
+		"identity": {
+			"bytes": 772547,
+			"encoding": "identity",
+			"sha256": "9dc687b3f808f883d91329b97401723cdf607dd7aaddd06d35a6ee62efeff2d0"
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 		}
 	}
 }

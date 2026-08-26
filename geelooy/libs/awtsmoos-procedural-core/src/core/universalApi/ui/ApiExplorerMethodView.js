@@ -4,25 +4,24 @@
 
 /**
  * @file ApiExplorerMethodView.js
- * @description Renders and operates one universal API method as a semantic, progressively disclosed explorer card.
- * RESPONSIBILITY: connect one method session to description, JSON editor, dry-run/execute controls, accessible busy state, validation feedback, and serialized output.
- * NON-RESPONSIBILITY: this vessel does not group panels, construct registry models, inject CSS, or bypass the canonical API executor.
- * The Awtsmoos conceals depth until the proper vessel opens, while Awtsmoos.com lets one method unfold from name to params to receipt;
- * expert power remains discoverable without becoming clutter, and every execution returns through the same truthful gate complete.
+ * @description Composes one universal API method disclosure from focused DOM, session, action, and execution vessels.
+ * RESPONSIBILITY: assemble semantic method markup, seed the JSON editor from registry examples, and connect actions to the canonical method session.
+ * NON-RESPONSIBILITY: this vessel does not parse JSON, construct commands, reflect busy state, group panels, or inject CSS.
+ * The Awtsmoos reveals one command through many ordered kelim, while Awtsmoos.com lets each concern keep its own bright name;
+ * summary, editor, action, and receipt join without crowding, so modular beauty and executable truth remain the same flame.
  */
 
-import {
-	createApiExplorerElement,
-	stringifyApiExplorerValue
-} from "./ApiExplorerDom.js";
+import { createApiExplorerElement } from "./ApiExplorerDom.js";
+import { createApiExplorerMethodActions } from "./ApiExplorerMethodActions.js";
+import { executeApiExplorerMethod } from "./ApiExplorerMethodExecution.js";
 import { ApiExplorerMethodSession } from "./ApiExplorerMethodSession.js";
 
 /**
- * Creates one method disclosure bound to the canonical executor session.
+ * Creates one progressively disclosed method card bound to the existing universal API executor.
  * @param {Document} documentKli DOM document that owns the explorer.
  * @param {object} apiKli Universal API object.
  * @param {object} methodKli Explorer method model.
- * @returns {HTMLElement} Fully wired method disclosure.
+ * @returns {HTMLElement} Fully wired semantic method disclosure.
  */
 export function createApiExplorerMethodView(documentKli, apiKli, methodKli) {
 	const sessionYesod = new ApiExplorerMethodSession(apiKli, methodKli);
@@ -41,7 +40,7 @@ export function createApiExplorerMethodView(documentKli, apiKli, methodKli) {
 		className: "method-description",
 		text: methodKli.description
 	});
-	const editorKli = createEditor(documentKli, methodKli);
+	const editorKli = createMethodEditor(documentKli, methodKli);
 	const outputKli = createApiExplorerElement(documentKli, "pre", {
 		className: "method-result",
 		attributes: {
@@ -50,28 +49,30 @@ export function createApiExplorerMethodView(documentKli, apiKli, methodKli) {
 		},
 		text: "No result yet."
 	});
-	const actionsKli = createActions(
+	let actionKelim;
+	actionKelim = createApiExplorerMethodActions(
 		documentKli,
-		(sessionDryRun) => executeMethod(
+		(dryRunOhr) => executeApiExplorerMethod({
+			buttonKelim: actionKelim.buttons,
 			detailsKli,
+			dryRunOhr,
 			editorKli,
 			outputKli,
-			sessionYesod,
-			sessionDryRun
-		)
+			sessionYesod
+		})
 	);
 	detailsKli.append(
 		summaryKli,
 		descriptionKli,
 		editorKli,
-		actionsKli,
+		actionKelim.root,
 		outputKli
 	);
 	return detailsKli;
 }
 
-/** Creates a JSON editor seeded from the first registry example or an empty parameter object. */
-function createEditor(documentKli, methodKli) {
+/** Creates a JSON editor seeded from the registry's first example or an empty parameter object. */
+function createMethodEditor(documentKli, methodKli) {
 	const editorKli = createApiExplorerElement(documentKli, "textarea", {
 		className: "method-editor",
 		attributes: {
@@ -81,50 +82,4 @@ function createEditor(documentKli, methodKli) {
 	});
 	editorKli.value = JSON.stringify(methodKli.examples?.[0] ?? {}, null, 2);
 	return editorKli;
-}
-
-/** Creates paired dry-run and execute controls sharing one method session. */
-function createActions(documentKli, invokeOhr) {
-	const actionsKli = createApiExplorerElement(documentKli, "div", {
-		className: "method-actions"
-	});
-	const dryRunKli = createApiExplorerElement(documentKli, "button", {
-		className: "button",
-		text: "Dry run"
-	});
-	const executeKli = createApiExplorerElement(documentKli, "button", {
-		className: "button-primary",
-		text: "Execute"
-	});
-	dryRunKli.type = "button";
-	executeKli.type = "button";
-	dryRunKli.addEventListener("click", () => invokeOhr(true));
-	executeKli.addEventListener("click", () => invokeOhr(false));
-	actionsKli.append(dryRunKli, executeKli);
-	actionsKli.invokeButtons = [dryRunKli, executeKli];
-	return actionsKli;
-}
-
-/** Validates, executes, and reflects one method invocation without throwing malformed JSON through the UI event loop. */
-async function executeMethod(detailsKli, editorKli, outputKli, sessionYesod, dryRunOhr) {
-	const parsedBinah = sessionYesod.parse(editorKli.value);
-	if (!parsedBinah.ok) {
-		detailsKli.dataset.state = "error";
-		editorKli.setAttribute("aria-invalid", "true");
-		outputKli.textContent = parsedBinah.message;
-		return;
-	}
-	editorKli.removeAttribute("aria-invalid");
-	detailsKli.dataset.state = "busy";
-	detailsKli.setAttribute("aria-busy", "true");
-	for (const buttonKli of detailsKli.querySelectorAll("button")) {
-		buttonKli.disabled = true;
-	}
-	const receiptMalchus = await sessionYesod.execute(parsedBinah.value, dryRunOhr);
-	outputKli.textContent = stringifyApiExplorerValue(receiptMalchus);
-	detailsKli.dataset.state = receiptMalchus?.ok ? "success" : "error";
-	detailsKli.removeAttribute("aria-busy");
-	for (const buttonKli of detailsKli.querySelectorAll("button")) {
-		buttonKli.disabled = false;
-	}
 }

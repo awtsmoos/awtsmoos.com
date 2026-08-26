@@ -39,12 +39,18 @@ export class RealityMedaberApi extends RealityChaiApi {
 		return this.advanced.medaber.speech(sequenceChesed, optionsGevurah);
 	}
 
-	/** Returns the canonical immutable catalog of semantic speech gates. */
+	/**
+	 * Returns the canonical immutable catalog of semantic speech gates.
+	 * @returns {ReadonlyArray<object>|Readonly<object>} MedaberAuthority gate catalog in its native expert representation.
+	 */
 	speechGates() {
 		return this.advanced.medaber.speechGates();
 	}
 
-	/** Returns the canonical immutable human animation catalog. */
+	/**
+	 * Returns the canonical immutable human animation catalog without creating scene objects or playing animation state.
+	 * @returns {ReadonlyArray<object>|Readonly<object>} Native MedaberAuthority animation definitions for advanced inspection or runtime binding.
+	 */
 	animations() {
 		return this.advanced.medaber.animations();
 	}

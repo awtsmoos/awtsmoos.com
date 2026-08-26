@@ -1,6 +1,7 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file VegetationNatureApi.js
  * @description Adds simple semantic doors for flowers, grass motion, moss, vines, and patches above canonical Tzomayach generation.
@@ -60,7 +61,10 @@ export class VegetationNatureApi extends VegetationNatureFoundationApi {
 		return createFlowerNatureProfile(yesodSpecies);
 	}
 
-	/** Returns every canonical flower profile for tools, procedural selection, and discovery UIs. */
+	/**
+	 * Lists every canonical flower profile for tools, procedural selection, and discovery UIs.
+	 * @returns {ReadonlyArray<object>} Immutable flower-profile catalog without allocating plant geometry.
+	 */
 	listFlowers() {
 		return listFlowerNatureProfiles();
 	}
@@ -74,7 +78,12 @@ export class VegetationNatureApi extends VegetationNatureFoundationApi {
 		return createVegetationMotionIntent(keterOptions);
 	}
 
-	/** Creates a low-growing moss patch with understory placement by default. */
+	/**
+	 * Creates a low-growing moss patch with understory placement by default.
+	 * @param {string} [yesodSpecies='sheet-moss'] Canonical moss species id.
+	 * @param {object} [keterOptions={}] Cluster, environment scoring, realism, quality, seed, and distribution overrides.
+	 * @returns {object} Canonical plant-cluster result using the enhanced moss specialist.
+	 */
 	moss(yesodSpecies = 'sheet-moss', keterOptions = {}) {
 		return this.patch(yesodSpecies, {
 			...keterOptions,
@@ -82,12 +91,22 @@ export class VegetationNatureApi extends VegetationNatureFoundationApi {
 		});
 	}
 
-	/** Creates one guide-aware climbing vine through the canonical plant generator. */
+	/**
+	 * Creates one guide-aware climbing vine through the canonical plant generator.
+	 * @param {string} [yesodSpecies='english-ivy'] Canonical vine species id.
+	 * @param {object} [keterOptions={}] Guide points, position, scale, realism, quality, seed, and expert botanical options.
+	 * @returns {object} Canonical plant result containing connected vine geometry.
+	 */
 	vine(yesodSpecies = 'english-ivy', keterOptions = {}) {
 		return this.plant(yesodSpecies, keterOptions);
 	}
 
-	/** Creates a deterministic vine patch suitable for walls, edges, and bands. */
+	/**
+	 * Creates a deterministic vine patch suitable for walls, edges, and bands.
+	 * @param {string} [yesodSpecies='english-ivy'] Canonical vine species id.
+	 * @param {object} [keterOptions={}] Count, radius, guide-aware options, environment scoring, quality, realism, seed, and distribution overrides.
+	 * @returns {object} Canonical plant-cluster result with edge distribution by default.
+	 */
 	vines(yesodSpecies = 'english-ivy', keterOptions = {}) {
 		return this.patch(yesodSpecies, {
 			...keterOptions,

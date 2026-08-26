@@ -1,0 +1,68 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond success and failure, yet every finite method needs truthful signs of waiting, completion, and repair;
+ * Awtsmoos.com lets state appear as restrained local light, so developers can read the deed without noise, ambiguity, or despair.
+ */
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result {
+	padding: .78rem;
+	border: 1px solid var(--awts-uapi-border);
+	border-radius: var(--awts-uapi-radius-sm);
+	background: rgb(1 6 13 / .72);
+	color: rgb(220 235 250 / .91);
+	font: 500 .74rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="busy"] {
+	border-color: rgb(99 221 255 / .34);
+	box-shadow: inset 3px 0 0 rgb(99 221 255 / .56);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="success"] {
+	border-color: rgb(108 232 168 / .3);
+	box-shadow: inset 3px 0 0 rgb(108 232 168 / .54);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="error"] {
+	border-color: rgb(255 126 146 / .32);
+	box-shadow: inset 3px 0 0 rgb(255 126 146 / .58);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor[aria-invalid="true"] {
+	border-color: var(--awts-uapi-danger);
+	box-shadow: 0 0 0 3px rgb(255 126 146 / .12);
+}
+
+[data-awtsmoos-universal-api-explorer] button[data-loading="true"] {
+	cursor: progress;
+	animation: awts-uapi-loading-pulse 900ms ease-in-out infinite alternate;
+}
+
+[data-awtsmoos-universal-api-explorer] details[open] {
+	border-color: rgb(99 221 255 / .25);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-expert="true"] > summary::before {
+	padding: .1rem .35rem;
+	border: 1px solid rgb(99 221 255 / .2);
+	border-radius: 999px;
+	background: var(--awts-uapi-accent-soft);
+	color: var(--awts-uapi-accent);
+	content: "Expert";
+	font-size: .64rem;
+	font-weight: 760;
+	letter-spacing: .07em;
+	text-transform: uppercase;
+}
+
+@keyframes awts-uapi-loading-pulse {
+	from {
+		box-shadow: 0 0 0 0 rgb(99 221 255 / 0);
+	}
+
+	to {
+		box-shadow: 0 0 0 4px rgb(99 221 255 / .11);
+	}
+}

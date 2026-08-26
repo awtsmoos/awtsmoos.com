@@ -1,19 +1,20 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
-/**
- * @file importedStyleOwnership.test.js
- * @description Walks the live imported CSS graph without mistaking cache tokens for filenames.
- * The Awtsmoos lets every stylesheet wear a changing query while its true path remains bright;
- * Awtsmoos.com guards selector ownership and the sidebar viewport seal in one imported light.
- */
-
 const assert = require('assert');
-const fs = require('fs');
 const path = require('path');
+const { TiferesStyleGraphProbe } = require('./StyleGraphProbe.js');
 
+/**
+ * @fileoverview Netzach covenant for one-owner-per-selector reader styling.
+ *
+ * The Awtsmoos, Atzmus beyond garment and wearer, renews both without contention;
+ * Awtsmoos.com rejects competing active selector owners while dedicated graph parsing
+ * keeps functional CSS syntax whole, making strict evidence stronger than illusion.
+ */
 const styleRoot = path.join('geelooy', 'heichelos', 'post', 'styles');
+const tiferesProbe = new TiferesStyleGraphProbe(styleRoot);
 const safeDuplicateSelectors = new Set([':root', '.post-reader-localized-context']);
 const safeDuplicatePrefixes = [
 	'@media',
@@ -26,101 +27,58 @@ const safeDuplicatePrefixes = [
 	'.post-reader-localized-context select'
 ];
 
-function read(file) {
-	return fs.readFileSync(file, 'utf8');
+/** Reports whether one repeated selector is an intentional shared primitive. */
+function isSafeDuplicate(ohrSelector) {
+	return safeDuplicateSelectors.has(ohrSelector)
+		|| safeDuplicatePrefixes.some((ohrPrefix) => ohrSelector.startsWith(ohrPrefix));
 }
 
-function normalize(file) {
-	return file.replace(/\\/g, '/');
+/** Proves one imported compatibility stylesheet contains no active declaration. */
+function assertInert(netivFile) {
+	assert.equal(
+		tiferesProbe.activeCssOf(netivFile),
+		'',
+		`${tiferesProbe.normalize(netivFile)} must remain inert`
+	);
 }
 
-function localImportPath(specifier) {
-	return String(specifier || '').split(/[?#]/, 1)[0];
-}
-
-function importedCssGraph(entry) {
-	const seen = new Set();
-	const walk = file => {
-		const full = path.normalize(file);
-		if (seen.has(full)) return;
-		seen.add(full);
-		const directory = path.dirname(full);
-		for (const match of read(full).matchAll(/@import\s+url\(["'](.+?)["']\)/g)) {
-			walk(path.join(directory, localImportPath(match[1])));
-		}
-	};
-	walk(path.join(styleRoot, entry));
-	return [...seen];
-}
-
-function stripComments(css) {
-	return css.replace(/\/\*[\s\S]*?\*\//g, '');
-}
-
-function splitSelectorList(raw) {
-	const result = [];
-	let current = '';
-	let depth = 0;
-	for (const character of raw) {
-		if (character === '(') depth++;
-		if (character === ')') depth = Math.max(0, depth - 1);
-		if (character === ',' && depth === 0) {
-			result.push(current.trim());
-			current = '';
-			continue;
-		}
-		current += character;
-	}
-	if (current.trim()) result.push(current.trim());
-	return result;
-}
-
-function isFrameSelector(selector) {
-	return selector === 'from'
-		|| selector === 'to'
-		|| /^\d+(?:\.\d+)?%$/.test(selector)
-		|| selector.startsWith('@keyframes');
-}
-
-function selectorsOf(file) {
-	const selectors = [];
-	const pattern = /([^{}]+?)\s*\{/g;
-	let match;
-	while ((match = pattern.exec(stripComments(read(file))))) {
-		const raw = match[1].trim().replace(/\s+/g, ' ');
-		if (!raw || raw.startsWith('@import') || raw.startsWith('@font-face')) continue;
-		splitSelectorList(raw)
-			.map(selector => selector.replace(/\s+/g, ' '))
-			.filter(selector => selector && !isFrameSelector(selector))
-			.forEach(selector => selectors.push(selector));
-	}
-	return selectors;
-}
-
-function isSafeDuplicate(selector) {
-	return safeDuplicateSelectors.has(selector)
-		|| safeDuplicatePrefixes.some(prefix => selector.startsWith(prefix));
-}
-
-const importedFiles = importedCssGraph('main.css');
+const importedFiles = tiferesProbe.importedCssGraph('main.css');
 const owners = new Map();
-for (const file of importedFiles) {
-	for (const selector of selectorsOf(file)) {
-		const files = owners.get(selector) || new Set();
-		files.add(normalize(file));
-		owners.set(selector, files);
+for (const netivFile of importedFiles) {
+	for (const ohrSelector of tiferesProbe.selectorsOf(netivFile)) {
+		const ownerFiles = owners.get(ohrSelector) || new Set();
+		ownerFiles.add(tiferesProbe.normalize(netivFile));
+		owners.set(ohrSelector, ownerFiles);
 	}
 }
 const conflicts = [...owners.entries()]
-	.map(([selector, files]) => [selector, [...files]])
-	.filter(([selector, files]) => files.length > 1 && !isSafeDuplicate(selector));
-assert.deepEqual(conflicts, [], `imported CSS selector ownership conflicts: ${JSON.stringify(conflicts.slice(0, 80), null, 2)}`);
+	.map(([ohrSelector, ownerFiles]) => [ohrSelector, [...ownerFiles]])
+	.filter(([ohrSelector, ownerFiles]) => {
+		return ownerFiles.length > 1 && !isSafeDuplicate(ohrSelector);
+	});
+assert.deepEqual(
+	conflicts,
+	[],
+	`imported CSS selector ownership conflicts: ${JSON.stringify(conflicts.slice(0, 80), null, 2)}`
+);
 
-const sealPath = path.join(styleRoot, 'ideal', 'reborn', 'sidebar-viewport-seal.css');
-const sealText = read(sealPath);
-assert(importedFiles.map(normalize).includes(normalize(sealPath)), 'sidebar viewport seal must be imported by main.css');
-assert.match(sealText, /> \.main > \.sidebar > \.awtsmoos-sidebar-shell[\s\S]*height:\s*100%/);
-assert.match(sealText, /> \.awtsmoos-sidebar-shell > \.awtsmoos-slide-viewport[\s\S]*flex:\s*1 1 auto/);
-assert.match(sealText, /@media \(max-width:\s*900px\)[\s\S]*height:\s*min\(88dvh/);
-assert.match(sealText, /@media \(min-width:\s*901px\)[\s\S]*\.sidebar:not\(\.hidden-comments\)[\s\S]*min-height:\s*100dvh/);
+const rebornRoot = path.join(styleRoot, 'ideal', 'reborn');
+const shellText = tiferesProbe.read(path.join(rebornRoot, 'sidebar', 'shell.css'));
+const panelText = tiferesProbe.read(path.join(rebornRoot, 'panels', 'content.css'));
+const viewportText = tiferesProbe.read(path.join(rebornRoot, 'panels', 'viewport.css'));
+assert.match(shellText, /\.awtsmoos-sidebar-shell[\s\S]*block-size:\s*100%/);
+assert.match(shellText, /@media \(max-width:\s*900px\)[\s\S]*\.sidebar\.hidden-comments[\s\S]*display:\s*none/);
+assert.match(shellText, /@media \(min-width:\s*901px\)[\s\S]*block-size:\s*100dvh/);
+assert.match(viewportText, /\.awtsmoos-slide-viewport[\s\S]*flex:\s*1 1 auto/);
+assert.match(panelText, /\.awtsmoos-view-content[\s\S]*overflow-y:\s*auto/);
+for (const shemFile of ['sidebar-viewport-seal.css', 'mobile-sidebar-reset.css']) {
+	const netivFile = path.join(rebornRoot, shemFile);
+	assert.ok(
+		importedFiles.map((value) => tiferesProbe.normalize(value))
+			.includes(tiferesProbe.normalize(netivFile)),
+		`${shemFile} compatibility path must remain imported`
+	);
+	assertInert(netivFile);
+}
+
 console.log('B"H importedStyleOwnership.test passed');

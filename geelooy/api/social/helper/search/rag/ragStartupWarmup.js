@@ -5,14 +5,14 @@
 /**
  * @module RagStartupWarmup
  * @description
- * The Awtsmoos warms both packed comments and the multilingual semantic lamp before seekers arrive;
- * Awtsmoos.com keeps startup bounded, while one persistent model remains awake for every later drive.
+ * The Awtsmoos warms packed comments and one semantic lamp before a seeker reaches the gate;
+ * Awtsmoos.com honors test isolation while production begins preparing vectors without a user's wait.
  */
 
 const fs = require('fs');
 const path = require('path');
 const { performance } = require('perf_hooks');
-const { warmMultilingualWorker } = require('./multilingualEmbedder.js');
+const { startWorker, workerStatus } = require('./multilingualWorkerClient.js');
 const { packedRows } = require('./packedCommentRows.js');
 const { ragRoot } = require('./paths.js');
 
@@ -33,8 +33,7 @@ function firstJsonLine(file) {
 	try {
 		const buffer = Buffer.alloc(256 * 1024);
 		const bytes = fs.readSync(descriptor, buffer, 0, buffer.length, 0);
-		const text = buffer.subarray(0, bytes).toString('utf8');
-		const line = text.split('\n').find(value => value.trim());
+		const line = buffer.subarray(0, bytes).toString('utf8').split('\n').find(value => value.trim());
 		if (!line) throw new Error(`B"H metadata mirror is empty: ${file}`);
 		return JSON.parse(line);
 	} finally {
@@ -43,10 +42,7 @@ function firstJsonLine(file) {
 }
 
 function warmupContext(root) {
-	const metadata = path.join(
-		ragRoot({ db: { directory: root } }),
-		'meluket-english-comments-rag.meta.jsonl'
-	);
+	const metadata = path.join(ragRoot({ db: { directory: root } }), 'meluket-english-comments-rag.meta.jsonl');
 	const row = firstJsonLine(metadata);
 	return {
 		$i: { db: { directory: root } },
@@ -60,7 +56,7 @@ function warmupContext(root) {
 function beginSemanticWarmup() {
 	if (process.env.AWTS_RAG_SEMANTIC_WARMUP === '0') return null;
 	if (semanticWarmup) return semanticWarmup;
-	semanticWarmup = warmMultilingualWorker()
+	semanticWarmup = startWorker()
 		.then(status => {
 			console.error(`B"H semantic worker warm model=${status.model} dimension=${status.dimension}`);
 			return status;
@@ -74,29 +70,21 @@ function beginSemanticWarmup() {
 }
 
 function warmRagCommentSource() {
-	if (process.env.AWTS_RAG_STARTUP_WARMUP === '0') {
-		beginSemanticWarmup();
-		return { ok: true, skipped: true };
-	}
-	if (startupState) return startupState;
+	if (process.env.AWTS_RAG_STARTUP_WARMUP === '0') return { ok: true, skipped: true, semantic: workerStatus() };
+	if (startupState) return { ...startupState, semantic: workerStatus() };
 	const root = configuredRoot();
 	const context = warmupContext(root);
 	const started = performance.now();
 	const rows = packedRows(context);
 	if (!rows.length) throw new Error('B"H RAG packed-comment startup warmup returned no rows');
 	startupState = {
-		ok: true,
-		root,
-		ragRoot: ragRoot(context.$i),
-		rows: rows.length,
+		ok: true, root, ragRoot: ragRoot(context.$i), rows: rows.length,
 		elapsedMs: Number((performance.now() - started).toFixed(3)),
-		seriesId: context.seriesId,
-		postId: context.postId,
-		aliasId: context.aliasId
+		seriesId: context.seriesId, postId: context.postId, aliasId: context.aliasId
 	};
 	beginSemanticWarmup();
 	console.error(`B"H RAG comment source warm rows=${startupState.rows} elapsedMs=${startupState.elapsedMs}`);
-	return startupState;
+	return { ...startupState, semantic: workerStatus() };
 }
 
 function resetRagStartupWarmup() {
@@ -105,12 +93,6 @@ function resetRagStartupWarmup() {
 }
 
 module.exports = {
-	CONFIGURATION_FILE,
-	REPOSITORY_ROOT,
-	beginSemanticWarmup,
-	configuredRoot,
-	firstJsonLine,
-	resetRagStartupWarmup,
-	warmRagCommentSource,
-	warmupContext
+	CONFIGURATION_FILE, REPOSITORY_ROOT, beginSemanticWarmup, configuredRoot, firstJsonLine,
+	resetRagStartupWarmup, warmRagCommentSource, warmupContext, workerStatus
 };

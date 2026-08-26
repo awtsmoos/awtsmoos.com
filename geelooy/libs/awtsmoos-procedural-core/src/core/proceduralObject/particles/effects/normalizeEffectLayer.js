@@ -10,6 +10,7 @@
  */
 import { effectValueRange } from "./effectValueRange.js";
 import { freezeEffectData } from "./freezeEffectData.js";
+import { normalizeEffectAppearance } from "./normalizeEffectAppearance.js";
 import { scaleEffectCapacity, scaleEffectCount } from "./particleEffectQuality.js";
 import { semanticEffectSeed } from "./semanticEffectSeed.js";
 
@@ -26,10 +27,13 @@ export function normalizeEffectLayer(keterInput = {}, chochmahIndex = 0, binahEf
 	const netzachSeed = semanticEffectSeed(binahEffectSeed, tiferesId);
 	const hodSchedule = normalizeSchedule(keterInput.schedule, keterInput.rate, gevurahQuality);
 	return freezeEffectData({
-		appearance: keterInput.appearance || { kind: "sprite" },
+		appearance: normalizeEffectAppearance(keterInput.appearance || {}),
 		capacity: scaleEffectCapacity(keterInput.capacity ?? 256, gevurahQuality),
 		emitter: {
-			attributes: keterInput.attributes || {},
+			attributes: {
+				...(keterInput.attributes || {}),
+				...(keterInput.temperature == null ? {} : { temperature: Number(keterInput.temperature) })
+			},
 			direction: keterInput.direction || [0, 1, 0],
 			lifetime: effectValueRange(keterInput.lifetime, [0.8, 1.4]),
 			mass: effectValueRange(keterInput.mass, [1, 1]),
@@ -50,10 +54,7 @@ export function normalizeEffectLayer(keterInput = {}, chochmahIndex = 0, binahEf
 
 /** Scales schedule rates and burst counts through the shared quality budget. */
 function normalizeSchedule(keterSchedule, chochmahRate, binahQuality) {
-	const gevurahSource = keterSchedule || {
-		rate: chochmahRate ?? 0,
-		type: "continuous"
-	};
+	const gevurahSource = keterSchedule || { rate: chochmahRate ?? 0, type: "continuous" };
 	const tiferesBursts = (gevurahSource.bursts || []).map((burst) => ({
 		...burst,
 		count: scaleEffectCount(burst.count ?? 1, binahQuality)

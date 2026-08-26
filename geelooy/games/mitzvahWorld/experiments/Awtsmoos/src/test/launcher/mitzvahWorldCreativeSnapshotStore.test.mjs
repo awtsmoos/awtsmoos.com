@@ -11,27 +11,49 @@ import {
 } from '../../launcher/MitzvahWorldCreativeSnapshotStore.js';
 
 class MemoryStorage {
-	constructor() { this.values = new Map(); }
-	getItem(key) { return this.values.get(key) ?? null; }
-	setItem(key, value) { this.values.set(key, String(value)); }
-	removeItem(key) { this.values.delete(key); }
+	constructor() {
+		this.values = new Map();
+	}
+
+	getItem(key) {
+		return this.values.get(key) ?? null;
+	}
+
+	setItem(key, value) {
+		this.values.set(key, String(value));
+	}
+
+	removeItem(key) {
+		this.values.delete(key);
+	}
 }
 
 const snapshot = {
 	format: 'awtsmoos.mitzvah-world.capture.v1',
 	capturedAt: '2026-08-02T20:00:00.000Z',
 	source: {
-		href: '/games/mitzvahWorld/?session=solo',
-		returnHref: '/games/mitzvahWorld/?session=solo',
+		href: '/games/mitzvahWorld/?session=solo&token=hidden',
+		returnHref: '/games/mitzvahWorld/?session=solo&token=hidden',
 		sessionMode: 'single',
 		title: 'Mitzvah World'
 	}
 };
 
-test('creative snapshot store writes, reads, and clears validated captures', () => {
+const normalizedSource = {
+	href: '/games/mitzvahWorld/?mode=world&session=singleplayer&worldId=main-village',
+	returnHref: '/games/mitzvahWorld/?mode=world&session=singleplayer&worldId=main-village',
+	sessionMode: 'singleplayer',
+	worldId: 'main-village',
+	title: 'Mitzvah World'
+};
+
+test('creative snapshot store writes, normalizes, reads, and clears captures', () => {
 	const storage = new MemoryStorage();
-	assert.equal(writeMitzvahWorldCreativeSnapshot(snapshot, storage).ok, true);
-	assert.deepEqual(readMitzvahWorldCreativeSnapshot(storage).snapshot, snapshot);
+	const written = writeMitzvahWorldCreativeSnapshot(snapshot, storage);
+	assert.equal(written.ok, true);
+	assert.deepEqual(written.snapshot.source, normalizedSource);
+	assert.deepEqual(readMitzvahWorldCreativeSnapshot(storage).snapshot.source, normalizedSource);
+	assert.equal(JSON.stringify(written.snapshot).includes('hidden'), false);
 	assert.equal(clearMitzvahWorldCreativeSnapshot(storage).ok, true);
 	assert.equal(readMitzvahWorldCreativeSnapshot(storage).code, 'CAPTURE_NOT_FOUND');
 });

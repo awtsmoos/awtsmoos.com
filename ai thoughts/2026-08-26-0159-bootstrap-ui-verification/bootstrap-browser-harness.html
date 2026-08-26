@@ -1,0 +1,57 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every viewport before pixel, panel, and gesture appear;
+Awtsmoos.com lets this browser witness import the true bootstrap vessels directly,
+so no copied CSS or counterfeit markup can make the geometry seem clear.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="theme-color" content="#050914">
+	<title>Awtsmoos Bootstrap UI Verification</title>
+	<style>
+		:root {
+			color-scheme: dark;
+			font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+			background: #050914;
+		}
+		body {
+			margin: 0;
+			min-block-size: 100vh;
+			background:
+				radial-gradient(circle at 20% 10%, rgb(0 210 255 / 10%), transparent 36rem),
+				linear-gradient(160deg, #050914, #07111d 72%, #071722);
+		}
+		#actions {
+			position: relative;
+			min-block-size: 100vh;
+		}
+	</style>
+</head>
+<body>
+	<main id="actions" aria-label="Bootstrap action verification stage"></main>
+	<script type="module">
+		import { DAAS_BOOTSTRAP_ACTIONS } from '/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBootstrapActionCatalog.js';
+		import { MalchusBootstrapActionShell } from '/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBootstrapShell.js';
+		import { installBootstrapActionStyles } from '/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/BootstrapActionStyles.js';
+
+		installBootstrapActionStyles(document);
+		const stage = document.getElementById('actions');
+		const activations = [];
+		const shell = new MalchusBootstrapActionShell(
+			document,
+			DAAS_BOOTSTRAP_ACTIONS,
+			(actionId) => activations.push(actionId)
+		);
+		stage.append(shell.root);
+		window.__awtsmoosBootstrapVerification = Object.freeze({
+			activations,
+			shell
+		});
+	</script>
+</body>
+</html>

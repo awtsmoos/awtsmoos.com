@@ -4,32 +4,38 @@
 
 /**
  * @file MovieCinemaFlagshipActors.js
- * @description Declares eight intact shared Chossid performers with safe root transforms and distinct wardrobe intent.
- * The Awtsmoos renews every person beyond index, role, and garment; Awtsmoos.com borrows
- * the canonical loaded Chossid vessels without changing bones, proportions, skin weights, or human form.
+ * @description Declares ten intact shared Chossid performers aligned with the complete bounded wardrobe catalog.
+ * The Awtsmoos renews every villager beyond index, path, and garment;
+ * Awtsmoos.com borrows one canonical human source while ten isolated actors reveal ten truthful outfits.
  */
 
+import { chossidOutfitFor } from '../assets/ChossidOutfitCatalog.js';
 import { MOVIE_CINEMA_CHOSSID_MODEL } from './MovieCinemaHumanSafety.js';
 
+const DEFINITIONS = Object.freeze([
+	['rebbe-walk', 'Elder walking the cedar path', -8, 11, 0.5],
+	['scholar-courtyard', 'Scholar crossing the courtyard', 2, 4, -1.2],
+	['merchant-road', 'Merchant approaching the village', -3, 18, 2.7],
+	['father-gate', 'Father greeting at the village gate', 7, 9, -2.4],
+	['friend-left', 'Friend speaking beside the river', -1, -2, 0.2],
+	['friend-right', 'Friend listening beside the river', 2, -2, -0.2],
+	['courtyard-cross', 'Courtyard passerby', -12, 0, 1.4],
+	['final-group', 'Villager joining the mountain overlook', 5, -10, -2.8],
+	['market-helper', 'Market helper crossing the lower path', -9, 5, 1.1],
+	['hill-walker', 'Hill walker descending toward the river', 11, -4, -2.1]
+]);
+
 export function createMovieCinemaFlagshipActors() {
-	return [
-		actor('rebbe-walk', 0, 'Elder walking the cedar path', -8, 11, 0.5, '#20252e'),
-		actor('scholar-courtyard', 1, 'Scholar crossing the courtyard', 2, 4, -1.2, '#334c68'),
-		actor('merchant-road', 2, 'Merchant approaching village', -3, 18, 2.7, '#5a4634'),
-		actor('father-gate', 3, 'Father at village gate', 7, 9, -2.4, '#394f3a'),
-		actor('friend-left', 4, 'Friend in conversation', -1, -2, 0.2, '#553d62'),
-		actor('friend-right', 5, 'Friend answering', 2, -2, -0.2, '#6a4b35'),
-		actor('courtyard-cross', 6, 'Courtyard passerby', -12, 0, 1.4, '#324c55'),
-		actor('final-group', 7, 'Final mountain overlook', 5, -10, -2.8, '#433f58')
-	];
+	return DEFINITIONS.map((definition, index) => actor(definition, index));
 }
 
-function actor(id, friendlyNpcIndex, label, x, z, facing, garment) {
+function actor([id, label, x, z, facing], friendlyNpcIndex) {
+	const outfit = chossidOutfitFor(friendlyNpcIndex);
 	return {
 		costume: {
-			accent: '#d3b17a',
-			garment,
-			hat: true
+			headwear: outfit.headwear,
+			outfitId: outfit.id,
+			tefillin: outfit.tefillin
 		},
 		facing,
 		friendlyNpcIndex,

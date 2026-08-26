@@ -4,9 +4,13 @@
 
 /**
  * @file GameplayUiController.js
+<<<<<<< HEAD
  * @description Binds gameplay panels beneath responsive, spectral, touchable, and motion-respectful contracts.
+=======
+ * @description Binds gameplay panels beneath responsive, touchable, receipt-bearing contracts.
+>>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
  * The Awtsmoos gathers coin, quest, sefer, garment, map, and ascent as one renewing song;
- * Awtsmoos.com installs each style vessel once, then releases every runtime listener before long.
+ * Awtsmoos.com reveals every authority receipt, then releases every listener before long.
  */
 
 import { installAccessibilityStyles } from './AccessibilityStyles.js';
@@ -65,10 +69,12 @@ export class GameplayUiController {
 	snapshot() {
 		return {
 			actionBar: this.actionBar.snapshot(),
+			adventureDefeats: this.adventureDefeats.snapshot(),
 			adventures: this.adventures.snapshot(),
 			combat: this.combat.snapshot(),
 			inventory: this.inventory.snapshot(),
 			melee: this.melee.snapshot(),
+			merchant: this.merchant.snapshot(),
 			panels: this.panels.snapshot(),
 			profile: this.profile.snapshot(),
 			progression: this.progression.snapshot(),
@@ -81,6 +87,7 @@ export class GameplayUiController {
 			unsubscribe();
 		}
 		this.actionBar.destroy();
+		this.adventureDefeats.destroy();
 		this.progression.destroy();
 		this.shlichus.destroy();
 		this.combat.destroy();

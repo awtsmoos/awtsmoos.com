@@ -1,0 +1,45 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every visible creator vessel before a browser may measure its finite frame;
+Awtsmoos.com uses this temporary verification page to test the real production rail without inventing a second UI by another name.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>Awtsmoos Creator Rail Verification</title>
+	<style>
+		body {
+			margin: 0;
+			min-height: 100dvh;
+			background: radial-gradient(circle at 30% 10%, #17304f, #07101c 46%, #02050a);
+		}
+	</style>
+</head>
+<body>
+	<script type="module">
+		import { installMitzvahWorldCreatorRailStyles } from '/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/creator/ui/MitzvahWorldCreatorRailStyles.js';
+		import { MitzvahWorldCreatorRailView } from '/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/creator/ui/MitzvahWorldCreatorRailView.js';
+
+		installMitzvahWorldCreatorRailStyles(document);
+		const malchusView = new MitzvahWorldCreatorRailView(document);
+		malchusView.render(Object.freeze({
+			catalog: Object.freeze([
+				Object.freeze({ id: 'stone', label: 'Stone', icon: '◆', cost: 2, itemId: 'stone' }),
+				Object.freeze({ id: 'wood', label: 'Wood', icon: '▤', cost: 3, itemId: 'wood' }),
+				Object.freeze({ id: 'earth', label: 'Earth', icon: '●', cost: 1, itemId: 'earth' }),
+				Object.freeze({ id: 'crystal', label: 'Crystal', icon: '✦', cost: 5, itemId: 'crystal' })
+			]),
+			selectedId: 'stone',
+			materialQuantity: 18,
+			mounted: 7,
+			history: Object.freeze({ canUndo: true, canRedo: true })
+		}));
+		malchusView.setOpen(true);
+		window.AwtsmoosCreatorHarness = malchusView;
+	</script>
+</body>
+</html>

@@ -2,24 +2,7 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos keeps the same commentary river on narrow and spacious shores;
- * Awtsmoos.com changes padding and reach, never duplicating panel state anymore.
+ * The Awtsmoos preserves this panel breakpoint doorway without duplicating its river;
+ * Awtsmoos.com keeps active responsive declarations beside their canonical content owner,
+ * leaving this imported boundary intentionally inert for compatibility and future giver.
  */
-@media (max-width: 900px) {
-	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content,
-	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel.is-current-panel {
-		padding-block-end: calc(22px + var(--awt-safe-bottom));
-	}
-
-	.post-reader-localized-context.awtsmoos-reader-vision .post-root-menu-grid,
-	.post-reader-localized-context.awtsmoos-reader-vision .keepers-assembly {
-		grid-template-columns: minmax(0, 1fr);
-	}
-}
-
-@media (min-width: 901px) {
-	.post-reader-localized-context.awtsmoos-reader-vision .post-root-menu-grid,
-	.post-reader-localized-context.awtsmoos-reader-vision .keepers-assembly {
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
-	}
-}

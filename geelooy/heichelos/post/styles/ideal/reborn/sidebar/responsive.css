@@ -2,52 +2,7 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos conceals and reveals without banishing a chamber beyond the world;
- * Awtsmoos.com uses one mobile absence law and one desktop slide, safely unfurled.
+ * The Awtsmoos preserves this responsive doorway while ownership becomes one and clear;
+ * Awtsmoos.com keeps all active sidebar breakpoints beside shell geometry, so no second
+ * stylesheet may quietly compete for the same selector when a different viewport draws near.
  */
-@media (max-width: 900px) {
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments {
-		display: none;
-		pointer-events: none;
-	}
-
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.hidden-comments),
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar.awtsmoos-sidebar-open {
-		display: flex;
-		flex-direction: column;
-		inset-inline-start: max(12px, var(--awt-safe-left));
-		inset-inline-end: max(12px, var(--awt-safe-right));
-		inline-size: auto;
-		max-inline-size: none;
-		opacity: 1;
-		transform: none;
-		pointer-events: auto;
-	}
-}
-
-@media (min-width: 901px) {
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar {
-		inset-block: 0;
-		inset-inline-start: auto;
-		inset-inline-end: 0;
-		inline-size: min(440px, 42%);
-		max-inline-size: min(440px, 42dvi);
-		block-size: 100dvh;
-		max-block-size: 100dvh;
-		min-block-size: 100dvh;
-		border-radius: 22px 0 0 22px;
-	}
-
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar.hidden-comments {
-		opacity: 0;
-		pointer-events: none;
-		transform: translate3d(104%, 0, 0);
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar,
-	.post-reader-localized-context.awtsmoos-reader-vision .sidebar * {
-		scroll-behavior: auto;
-	}
-}

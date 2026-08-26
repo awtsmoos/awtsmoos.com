@@ -4,9 +4,9 @@
 
 /**
  * @file GeologyPolicy.js
- * @description Converts shared Nature quality and realism names into bounded geological detail without stealing caller control.
- * The Awtsmoos is beyond every measured tier, while Awtsmoos.com lets Chesed of detail meet Gevurah of budget in a stable stone;
- * these policies are quiet defaults only, so expert overrides remain sovereign within every geological zone.
+ * @description Translates shared Nature quality and realism into bounded geological defaults while preserving every explicit expert value exactly.
+ * The Awtsmoos renews pressure, erosion, fracture, and hidden strata before any profile can measure their finite trace;
+ * Awtsmoos.com lets realism deepen the preset's own geological truth while a caller's deliberate chiseling remains sovereign in place.
  */
 
 const ROCK_DETAIL = Object.freeze({
@@ -25,27 +25,34 @@ const REALISM_SCALE = Object.freeze({
 });
 
 /**
- * Produces bounded profile overrides from a shared Nature operation context.
- * @param {object} context Nature operation context containing canonical quality and realism names.
- * @param {object} [options={}] Caller rock options whose explicit values always win.
- * @returns {object} Frozen overrides ready for `normalizeRockProfile`.
+ * Produces bounded profile overrides from shared Nature context and one canonical base profile.
+ * @param {object} context Nature context containing canonical quality and realism names.
+ * @param {object} [options={}] Explicit caller options; supplied geological intensities always win unchanged.
+ * @param {object} [baseProfile={}] Canonical preset whose omitted intensities receive realism scaling.
+ * @returns {Readonly<object>} Frozen overrides ready for `normalizeRockProfile`.
  */
-export function geologyProfileOverrides(context, options = {}) {
+export function geologyProfileOverrides(context, options = {}, baseProfile = {}) {
 	const tiferesScale = REALISM_SCALE[context.realism] ?? 1;
 	return Object.freeze({
 		...options,
-		detail: options.detail ?? ROCK_DETAIL[context.quality] ?? 2,
-		erosion: scaledOption(options.erosion, tiferesScale),
-		fracture: scaledOption(options.fracture, tiferesScale),
-		irregularity: scaledOption(options.irregularity, tiferesScale),
-		strata: scaledOption(options.strata, tiferesScale)
+		detail: options.detail ?? ROCK_DETAIL[context.quality] ?? baseProfile.detail ?? 2,
+		erosion: geologicalIntensity(options.erosion, baseProfile.erosion, tiferesScale),
+		fracture: geologicalIntensity(options.fracture, baseProfile.fracture, tiferesScale),
+		irregularity: geologicalIntensity(options.irregularity, baseProfile.irregularity, tiferesScale),
+		strata: geologicalIntensity(options.strata, baseProfile.strata, tiferesScale)
 	});
 }
 
-/** Preserves explicit caller values while allowing defaults to remain preset-owned. */
-function scaledOption(value, scale) {
-	if (value === undefined || value === null) return value;
-	const yesodValue = Number(value);
-	if (!Number.isFinite(yesodValue)) return value;
-	return Math.min(1, Math.max(0, yesodValue * scale));
+/**
+ * Preserves explicit expert intensity or scales a preset default according to shared realism.
+ * @param {unknown} explicitValue Caller-provided value.
+ * @param {unknown} presetValue Canonical preset fallback.
+ * @param {number} realismScale Shared profile multiplier.
+ * @returns {unknown} Explicit value unchanged, otherwise bounded scaled preset intensity.
+ */
+function geologicalIntensity(explicitValue, presetValue, realismScale) {
+	if (explicitValue !== undefined && explicitValue !== null) return explicitValue;
+	const yesodPreset = Number(presetValue);
+	if (!Number.isFinite(yesodPreset)) return presetValue;
+	return Math.min(1, Math.max(0, yesodPreset * realismScale));
 }
