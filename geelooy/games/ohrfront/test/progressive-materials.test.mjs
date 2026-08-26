@@ -4,52 +4,73 @@
 
 /**
  * @file progressive-materials.test.mjs
- * @description Proves optional semantic photographs hydrate already-created native fields and ecological layers.
- * The Awtsmoos renews waiting vessel and arriving image without rebuilding the world in sight;
- * Awtsmoos.com lets this test guard progressive realism so first interaction can precede secondary photographic light.
+ * @description Proves shared writable material law, immutable-layer replacement, Ohrfront delegation, and the unchanged critical/optional role covenant.
+ * The Awtsmoos renews sealed recipe and changing runtime vessel while neither boundary claims the arriving image as its own;
+ * Awtsmoos.com lets this witness test generic material truth in Node while browser-absolute facades remain truthful to their real web road shown.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
-import { RemoteMaterialHydrator } from "../src/render/RemoteMaterialHydrator.js";
+import { readFile } from "node:fs/promises";
+import {
+	bindSceneMaterialField,
+	bindSceneMaterialLayerImage
+} from "../../../libs/awtsmoos-procedural-core/src/core/materials/hydration/MaterialWritableBoundary.js";
 import {
 	ALL_MATERIALS,
 	CRITICAL_MATERIALS,
 	OPTIONAL_MATERIALS
 } from "../src/render/RemoteMaterialPlan.js";
 
-test("critical and optional plans are disjoint and complete", () => {
-	const critical = new Set(CRITICAL_MATERIALS.map(item => item.key));
-	const optional = new Set(OPTIONAL_MATERIALS.map(item => item.key));
-	for (const role of optional) {
-		assert.equal(critical.has(role), false, role);
-	}
-	assert.equal(critical.size, 5);
-	assert.equal(optional.size, 5);
-	assert.equal(ALL_MATERIALS.length, 10);
+const ROOT = new URL("../", import.meta.url);
+
+/** Reads one production source artifact so browser-only import contracts can be verified without pretending Node resolves web-root URLs. */
+async function readHodSource(yesodPath) {
+	return readFile(new URL(yesodPath, ROOT), "utf8");
+}
+
+test("critical and optional role plans remain disjoint complete and priority-stable", () => {
+	assert.deepEqual(
+		CRITICAL_MATERIALS.map(chochmahRole => [chochmahRole.key, chochmahRole.priority]),
+		[["meadowLushGrass", 100], ["dirt", 95], ["weatheredRock", 90], ["masonry", 85], ["metal", 80]]
+	);
+	assert.deepEqual(
+		OPTIONAL_MATERIALS.map(chochmahRole => [chochmahRole.key, chochmahRole.priority]),
+		[["meadowDryGrass", 60], ["darkSoil", 55], ["marshGrass", 50], ["roadStone", 45], ["timber", 40]]
+	);
+	assert.equal(new Set(ALL_MATERIALS.map(chochmahRole => chochmahRole.key)).size, 10);
 });
 
-test("tracked material hydrates fields when optional images arrive", () => {
-	const images = new Map();
-	const hydrator = new RemoteMaterialHydrator(role => images.get(role) || null);
-	const material = {
-		mapImage: null,
-		mixImage: null,
-		remoteTextureBindings: {
-			mapImage: "weatheredRock",
-			mixImage: "darkSoil"
-		},
-		textureLayers: [
-			{ image: null, role: "marshGrass" }
-		]
-	};
-	hydrator.track(material);
-	assert.equal(material.mixImage, null);
-	images.set("weatheredRock", { id: "rock" });
-	images.set("darkSoil", { id: "soil" });
-	images.set("marshGrass", { id: "marsh" });
-	hydrator.hydrateAll();
-	assert.equal(material.mapImage.id, "rock");
-	assert.equal(material.mixImage.id, "soil");
-	assert.equal(material.textureLayers[0].image.id, "marsh");
-	assert.equal(hydrator.trackedCount, 1);
+test("shared writable boundary binds ordinary runtime material fields", () => {
+	const malchusImage = { id: "rock" };
+	const malchusMaterial = { mapImage: null };
+	assert.equal(bindSceneMaterialField(malchusMaterial, "mapImage", malchusImage), true);
+	assert.equal(malchusMaterial.mapImage, malchusImage);
+});
+
+test("shared writable boundary replaces a frozen authoring layer without mutating that frozen record", () => {
+	const chochmahLayer = Object.freeze({ image: null, role: "marshGrass" });
+	const malchusMaterial = { textureLayers: [chochmahLayer] };
+	const malchusImage = { id: "marsh" };
+	assert.equal(bindSceneMaterialLayerImage(malchusMaterial, 0, malchusImage), true);
+	assert.equal(chochmahLayer.image, null);
+	assert.notEqual(malchusMaterial.textureLayers[0], chochmahLayer);
+	assert.equal(malchusMaterial.textureLayers[0].image, malchusImage);
+});
+
+test("shared writable boundary refuses a fully frozen runtime material without throwing", () => {
+	const malchusMaterial = Object.freeze({ mapImage: null });
+	assert.equal(bindSceneMaterialField(malchusMaterial, "mapImage", { id: "stone" }), false);
+	assert.equal(malchusMaterial.mapImage, null);
+});
+
+test("Ohrfront delegates hydration through focused Yesod bindings and keeps canonical browser material routing", async () => {
+	const hodBinder = await readHodSource("src/render/YesodRemoteMaterialBinding.js");
+	const hodHydrator = await readHodSource("src/render/RemoteMaterialHydrator.js");
+	const hodApi = await readHodSource("src/core/api/AwtsmoosMaterialApi.js");
+	assert.match(hodBinder, /bindSceneMaterialField/);
+	assert.match(hodBinder, /bindSceneMaterialLayerImage/);
+	assert.match(hodHydrator, /bindYesodRoleField/);
+	assert.match(hodHydrator, /bindYesodRoleLayer/);
+	assert.doesNotMatch(hodHydrator, /\[[^\]]+\]\s*=\s*malchusImage/);
+	assert.match(hodApi, /\/geelooy\/libs\/awtsmoos-procedural-core\/src\/exports\/materials\.js/);
 });

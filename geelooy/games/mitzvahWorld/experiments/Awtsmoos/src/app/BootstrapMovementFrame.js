@@ -4,26 +4,24 @@
 
 /**
  * @file BootstrapMovementFrame.js
- * @description Advances one immediate-play movement frame with keyboard, floating joystick, camera, collision, and facing.
- * The Awtsmoos gathers separate intentions into one measured step, yet each vessel keeps its name;
- * Awtsmoos.com lets the first touch move the traveler now, before later worlds inherit the same flame.
+ * @description Advances one Mitzvah movement frame through shared intent, basis, acceleration, collision, and presentation.
+ * The Awtsmoos gathers separate intentions into one measured journey without duplicating the law beneath the step;
+ * Awtsmoos.com lets Core carry universal motion while this game keeps animation, camera, collision, and world depth.
  */
 
+import {
+	actorMovementBasis,
+	advanceMovementVelocity,
+	cameraMovementBasis,
+	combineMovementVectors,
+	movementStepFromVelocity,
+	movementVectorFromBasis,
+	normalizeMovementIntent
+} from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
 import { bootstrapInputAxis } from './BootstrapInputAxis.js';
-import {
-	bootstrapMovementSpeed,
-	bootstrapTravelFacingLocked
-} from './BootstrapMovementPace.js';
-import {
-	bootstrapMovementAction,
-	setBootstrapMovementYaw
-} from './BootstrapMovementControllerSupport.js';
-import {
-	combineMeadowSteps,
-	meadowCameraMovementStep,
-	meadowMovementStep,
-	normalizedMeadowIntent
-} from './MinimalMeadowControlMath.js';
+import { bootstrapMovementSpeed, bootstrapTravelFacingLocked } from './BootstrapMovementPace.js';
+import { bootstrapMovementAction, setBootstrapMovementYaw } from './BootstrapMovementControllerSupport.js';
+import { MITZVAH_MOVEMENT_PROFILE } from './MitzvahMovementProfile.js';
 import {
 	applyMovementCollision,
 	finishMovementVertical,
@@ -31,37 +29,33 @@ import {
 	movementModeFor,
 	prepareMovementVertical,
 	updateMovementCamera
-} from './MinimalMeadowMovementRuntime.js';
+} from './MitzvahMovementRuntime.js';
 import {
 	isMinimalMeadowMovementStep,
 	retainedMinimalMeadowTravelFacing
 } from './MinimalMeadowTravelFacingPolicy.js';
 
-const TURN_SPEED = 2.35;
-
-/**
- * Advances one bootstrap movement frame and records diagnostics on the controller.
- * @param {object} controller Bootstrap movement controller instance.
- * @param {number} deltaSeconds Clamped frame duration in seconds.
- * @returns {object} Mutated canonical player state.
- */
 export function advanceBootstrapMovement(controller, deltaSeconds) {
 	const runtime = controller.runtime;
 	const state = runtime.state;
 	runtime.cameraRig?.synchronizeFacing?.(state);
 	const axis = bootstrapInputAxis(runtime);
 	const axes = movementAxes(axis);
-	const keyboard = normalizedMeadowIntent(axes.keyboard);
-	const joystick = normalizedMeadowIntent(axes.joystick);
-	const mouse = normalizedMeadowIntent(runtime.cameraRig?.mouseMovementAxis?.());
+	const keyboard = normalizeMovementIntent(axes.keyboard);
+	const joystick = normalizeMovementIntent(axes.joystick);
+	const mouse = normalizeMovementIntent(runtime.cameraRig?.mouseMovementAxis?.());
 	const movementMode = movementModeFor(runtime);
-	const turnDelta = keyboard.turn * TURN_SPEED * deltaSeconds;
+	const turnDelta = keyboard.turn * MITZVAH_MOVEMENT_PROFILE.turnSpeed * deltaSeconds;
 	state.facing += turnDelta;
 	runtime.cameraRig?.followTurn?.(turnDelta);
 	state.runMode = movementMode.effectiveMode === 'run';
 	const richVertical = prepareMovementVertical(runtime, state, deltaSeconds);
 	const speed = bootstrapMovementSpeed(runtime, movementMode);
-	const step = combinedStep(runtime, state, keyboard, joystick, mouse, speed, deltaSeconds);
+	const targetVelocity = desiredVelocity(runtime, state, keyboard, joystick, mouse, speed);
+	controller.horizontalVelocity = advanceMovementVelocity(
+		controller.horizontalVelocity, targetVelocity, deltaSeconds, velocityOptions(state)
+	);
+	const step = movementStepFromVelocity(controller.horizontalVelocity, deltaSeconds);
 	applyMovementCollision(runtime, state, step);
 	finishMovementVertical(runtime, state, richVertical);
 	settleFacing(runtime, state, keyboard, step);
@@ -74,12 +68,22 @@ export function advanceBootstrapMovement(controller, deltaSeconds) {
 	return state;
 }
 
-function combinedStep(runtime, state, keyboard, joystick, mouse, speed, deltaSeconds) {
-	return combineMeadowSteps(
-		meadowMovementStep(state.facing, keyboard, speed, deltaSeconds),
-		meadowCameraMovementStep(runtime.camera, joystick, speed, deltaSeconds, state.facing),
-		meadowCameraMovementStep(runtime.camera, mouse, speed, deltaSeconds, state.facing)
+function desiredVelocity(runtime, state, keyboard, joystick, mouse, speed) {
+	return combineMovementVectors(
+		movementVectorFromBasis(actorMovementBasis(state.facing), keyboard, speed),
+		movementVectorFromBasis(cameraMovementBasis(runtime.camera, state.facing), joystick, speed),
+		movementVectorFromBasis(cameraMovementBasis(runtime.camera, state.facing), mouse, speed)
 	);
+}
+
+function velocityOptions(state) {
+	return {
+		acceleration: state.runMode ? MITZVAH_MOVEMENT_PROFILE.runAcceleration : MITZVAH_MOVEMENT_PROFILE.walkAcceleration,
+		airControl: MITZVAH_MOVEMENT_PROFILE.airControl,
+		deceleration: MITZVAH_MOVEMENT_PROFILE.deceleration,
+		grounded: state.grounded !== false,
+		maxDeltaSeconds: MITZVAH_MOVEMENT_PROFILE.maxDeltaSeconds
+	};
 }
 
 function settleFacing(runtime, state, keyboard, step) {

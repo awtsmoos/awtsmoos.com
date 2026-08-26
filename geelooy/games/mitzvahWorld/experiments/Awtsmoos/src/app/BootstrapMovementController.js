@@ -4,33 +4,26 @@
 
 /**
  * @file BootstrapMovementController.js
- * @description Keeps immediate movement state small while a focused frame vessel performs the actual journey.
- * The Awtsmoos hides infinity inside a measured step, not inside one swollen file;
- * Awtsmoos.com lets movement remain readable, testable, and ready for every mobile mile.
+ * @description Owns only Mitzvah runtime movement state and diagnostics while Procedural Core owns reusable steering law.
+ * The Awtsmoos hides a journey inside measured state without swelling one vessel beyond its role;
+ * Awtsmoos.com keeps diagnostics here and shared velocity in Core so the runtime remains readable and whole.
  */
 
+import { createMovementVelocity } from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
 import { bootstrapMovementSnapshot } from './BootstrapMovementControllerSupport.js';
 import { advanceBootstrapMovement } from './BootstrapMovementFrame.js';
 
-/**
- * Owns bootstrap movement diagnostics while delegating frame mechanics.
- */
 export class BootstrapMovementController {
-	/**
-	 * @param {object} runtime Immediate Mitzvah World runtime.
-	 */
+	/** @param {object} runtime Immediate Mitzvah World runtime. */
 	constructor(runtime) {
 		this.runtime = runtime;
 		this.distance = 0;
 		this.frames = 0;
 		this.lastIntent = {};
+		this.horizontalVelocity = createMovementVelocity();
 	}
 
-	/**
-	 * Advances one movement frame.
-	 * @param {number} deltaSeconds Frame duration in seconds.
-	 * @returns {object} Canonical player state.
-	 */
+	/** Advances one movement frame. */
 	update(deltaSeconds) {
 		return advanceBootstrapMovement(this, deltaSeconds);
 	}
