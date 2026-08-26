@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file TempleSurfaceLibrary.js
- * @description Shares fallback-first semantic materials while Core-native remote texture hydration obeys live quality budgets for future decode size and scheduling pressure.
- * The Awtsmoos renews color before network while Awtsmoos.com sends Jerusalem stone through a measured gate;
- * beauty deepens in ordered waves, yet quality may widen or narrow finite vessels without blocking the runner's fate.
+ * @description Shares fallback-first semantic materials while base/mix and ecological remote texture hydration reuse one quality-aware trusted Core loader/cache.
+ * The Awtsmoos renews color before network while Awtsmoos.com sends Jerusalem stone through one measured gate;
+ * beauty deepens in progressive layers, yet cache, quality, fallback, and gameplay readability remain a single ordered fate.
  */
 
 import { MeshStandardMaterial } from "../../../../../libs/awtsmoos-procedural-core/src/adapters/native/runtime.js?compact=true";
@@ -13,8 +13,9 @@ import {
 	NativeLayeredMaterialHydrator,
 	NativeRemoteTextureLoader
 } from "../../../../../libs/awtsmoos-procedural-core/src/adapters/native/textures.js?compact=true";
-import { TEMPLE_SURFACE_RECIPES } from "./TempleSurfaceRecipes.js";
+import { NetzachTempleEcologicalMaterialHydrator } from "./TempleEcologicalMaterialHydrator.js";
 import { revealTempleQualityBudget } from "./TempleQualityProfiles.js";
+import { TEMPLE_SURFACE_RECIPES } from "./TempleSurfaceRecipes.js";
 
 const SURFACE_PRIORITY = Object.freeze({
 	roadStone: 100,
@@ -28,10 +29,11 @@ const SURFACE_PRIORITY = Object.freeze({
 });
 
 export class YesodTempleSurfaceLibrary {
-	/** @param {{hydrator?:NativeLayeredMaterialHydrator,qualityBudget?:Readonly<object>}} [options] Core transport and initial quality overrides. */
+	/** @param {{hydrator?:NativeLayeredMaterialHydrator,ecology?:object,qualityBudget?:Readonly<object>}} [options] Transport and quality overrides. */
 	constructor(options = {}) {
 		this.qualityBudget = options.qualityBudget || revealTempleQualityBudget("auto");
 		this.hydrator = options.hydrator || createTempleHydrator(this.qualityBudget);
+		this.ecology = options.ecology || new NetzachTempleEcologicalMaterialHydrator(this.hydrator.loader);
 		this.materials = new Map();
 		this.hydrations = new Map();
 	}
@@ -45,10 +47,12 @@ export class YesodTempleSurfaceLibrary {
 		const material = new MeshStandardMaterial({ color, name: `${name}-${surface}` });
 		material.awtsmoosSurface = surface;
 		this.materials.set(key, material);
-		this.hydrations.set(key, this.hydrator.hydrate(material, {
+		const baseHydration = this.hydrator.hydrate(material, {
 			...recipe,
 			hydrationPriority: SURFACE_PRIORITY[surface] ?? 50
-		}));
+		});
+		const ecologyHydration = this.ecology.hydrate(material, recipe);
+		this.hydrations.set(key, Promise.allSettled([baseHydration, ecologyHydration]));
 		return material;
 	}
 
@@ -65,7 +69,7 @@ export class YesodTempleSurfaceLibrary {
 		loader.queue.scheduleDrain();
 	}
 
-	/** @returns {Readonly<object>} Material, queue, hydration, and active quality truth for advanced diagnostics. */
+	/** @returns {Readonly<object>} Material, Core transport, base/mix, ecology, and active quality truth. */
 	diagnostics() {
 		const counts = { mapReady: 0, mixReady: 0, pending: 0, failed: 0 };
 		for (const material of this.materials.values()) {
@@ -80,6 +84,7 @@ export class YesodTempleSurfaceLibrary {
 			hydrations: this.hydrations.size,
 			quality: this.qualityBudget,
 			transport: this.hydrator.loader.evidence?.() || null,
+			ecology: this.ecology.diagnostics(),
 			...counts
 		});
 	}

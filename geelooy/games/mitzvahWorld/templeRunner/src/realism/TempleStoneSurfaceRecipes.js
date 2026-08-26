@@ -1,16 +1,14 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * @fileoverview Malchus stone recipes blending canonical remote masonry into readable Jerusalem roads, walls, polished work, and roof tile.
- * RESPONSIBILITY: define immutable map/mix/repeat/weathering vessels for every major procedural stone role used by Temple Runner.
- * NON-RESPONSIBILITY: this catalog never creates materials, changes geometry, loads images, or modifies collision and gameplay color law.
- * OROS/KEILIM: stone texture is ohr wearing finite grain; Malchus recipes are kelim giving age and craft a measured visible place.
- * The Awtsmoos renews cobble, limestone, granite, and tile before one wall can seem old beneath the sun;
- * Awtsmoos.com lets Malchus mix weather into stone while the runner still reads every road as one.
+ * @file TempleStoneSurfaceRecipes.js
+ * @description Defines fallback-first Jerusalem stone recipes, selectively enriching road and wall roles with Core-native ecological layers while polished work remains intentionally restrained.
+ * The Awtsmoos renews cobble, limestone, granite, marble, and tile before one old wall can claim the power to endure;
+ * Awtsmoos.com lets Malchus bind trusted remote grain to semantic craft while ecological weathering appears only where material truth is sure.
  */
 
+import { TEMPLE_STONE_ECOLOGY } from "./TempleStoneEcologyRecipes.js";
 import {
 	layeredTempleRecipe,
 	templeTexture
@@ -24,7 +22,8 @@ export const TEMPLE_STONE_SURFACE_RECIPES = Object.freeze({
 		mixRepeat: [5, 14],
 		mixStrength: 0.28,
 		mixPatchScale: 5.2,
-		mixPatchSharpness: 1.7
+		mixPatchSharpness: 1.7,
+		...TEMPLE_STONE_ECOLOGY.roadStone
 	}),
 	roadEdgeStone: layeredTempleRecipe({
 		mapUrl: templeTexture("ground", "stone floor.png"),
@@ -42,7 +41,8 @@ export const TEMPLE_STONE_SURFACE_RECIPES = Object.freeze({
 		mixRepeat: [4.4, 3.3],
 		mixStrength: 0.24,
 		mixPatchScale: 4.1,
-		mixPatchSharpness: 1.8
+		mixPatchSharpness: 1.8,
+		...TEMPLE_STONE_ECOLOGY.jerusalemStone
 	}),
 	jerusalemStoneDark: layeredTempleRecipe({
 		mapUrl: templeTexture("ground", "stone 1.png"),

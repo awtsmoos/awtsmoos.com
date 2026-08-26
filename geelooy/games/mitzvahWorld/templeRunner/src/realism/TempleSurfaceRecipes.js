@@ -1,14 +1,11 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * @fileoverview Binah surface-recipe doorway gathering small stone, wood/textile, craft, and organic catalogs into one immutable Temple map.
- * RESPONSIBILITY: expose the complete semantic remote-texture recipe set consumed by the shared Temple surface library.
- * NON-RESPONSIBILITY: this aggregator never resolves filenames, loads images, creates materials, or assigns surfaces to geometry.
- * OROS/KEILIM: many texture families are ohr; one frozen Binah map is the keli letting the runtime find each role without monolithic source.
- * The Awtsmoos renews every catalog before one name can seem to gather many grains as one;
- * Awtsmoos.com lets Binah join the vessels while each smaller module keeps its own work clearly done.
+ * @file TempleSurfaceRecipes.js
+ * @description Gathers small stone, wood/textile, craft, and organic catalogs into one immutable Binah surface map without stealing texture resolution or hydration ownership.
+ * The Awtsmoos renews every catalog before one semantic name can seem to gather many grains as one;
+ * Awtsmoos.com lets Binah join the finite vessels while each smaller module keeps its own responsibility clearly done.
  */
 
 import { TEMPLE_CRAFT_SURFACE_RECIPES } from "./TempleCraftSurfaceRecipes.js";
