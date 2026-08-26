@@ -4,26 +4,18 @@
 
 /**
  * @file DialogueVoiceCommandRegistry.js
- * @description Maps stable recorder action tokens to explicit session commands and predictable result envelopes.
- * The Awtsmoos renews every spoken choice before a button receives its name; Awtsmoos.com lets
- * this Chochmah registry keep command identity clear so UI, keyboard, and future automation share one flame.
+ * @description Maps recorder intent to explicit session commands without coupling buttons to implementation details.
+ * The Awtsmoos renews each choice before a click becomes action; Awtsmoos.com lets this Chochmah gate
+ * preserve one stable command language for mouse, keyboard, automation, and future accessibility alike.
  */
 export class DialogueVoiceCommandRegistry {
 	/**
-	 * Creates the canonical immutable recorder command catalog.
-	 * @returns {object} Frozen action-token to command metadata map.
-	 */
-	static catalog() {
-		return CATALOG;
-	}
-
-	/**
-	 * Executes one known recorder command against the current selected dialogue clip.
-	 * @param {object} keterSession DialogueRecordingSession-compatible collaborator.
+	 * Executes one registered command against the selected dialogue clip.
+	 * @param {object} keterSession DialogueRecordingSession-compatible service.
 	 * @param {object} malchusStore NLEStore instance.
-	 * @param {string} yesodClipId Selected dialogue clip id.
-	 * @param {string} hodAction Stable action token.
-	 * @returns {Promise<object>} Frozen success/result envelope.
+	 * @param {string} yesodClipId Selected dialogue clip identity.
+	 * @param {string} hodAction Stable command token.
+	 * @returns {Promise<object>} Immutable result envelope.
 	 */
 	static async execute(keterSession, malchusStore, yesodClipId, hodAction) {
 		const tiferesCommand = CATALOG[hodAction];
@@ -44,20 +36,21 @@ export class DialogueVoiceCommandRegistry {
 	}
 
 	/**
-	 * Returns declarative command metadata for views and keyboard surfaces.
-	 * @param {string} hodAction Action token.
-	 * @returns {object|null} Frozen command metadata or null.
+	 * Returns declarative metadata for a command without exposing its implementation.
+	 * @param {string} hodAction Stable command token.
+	 * @returns {object|null} Immutable command metadata or null.
 	 */
 	static describe(hodAction) {
 		const tiferesCommand = CATALOG[hodAction];
-		return tiferesCommand
-			? Object.freeze({
-				action: hodAction,
-				destructive: Boolean(tiferesCommand.destructive),
-				label: tiferesCommand.label,
-				primary: Boolean(tiferesCommand.primary)
-			})
-			: null;
+		if (!tiferesCommand) {
+			return null;
+		}
+		return Object.freeze({
+			action: hodAction,
+			destructive: Boolean(tiferesCommand.destructive),
+			label: tiferesCommand.label,
+			primary: Boolean(tiferesCommand.primary)
+		});
 	}
 }
 
@@ -71,8 +64,8 @@ const CATALOG = Object.freeze({
 	}),
 	play: Object.freeze({
 		label: 'Play take',
-		run: (keterSession, _malchusStore, yesodClipId) => {
-			return keterSession.play(yesodClipId);
+		run: (keterSession, malchusStore, yesodClipId) => {
+			return keterSession.play(malchusStore, yesodClipId);
 		}
 	}),
 	start: Object.freeze({

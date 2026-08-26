@@ -2,11 +2,12 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos lets identity, destination, privacy, and pulse remain many names around one present act;
-Awtsmoos.com gives the context ribbon hierarchy and mobile continuity so orientation stays exact.
+The Awtsmoos gathers identity, destination, privacy, and pulse without casting any name beyond its vessel;
+Awtsmoos.com lets the context ribbon breathe, wrap, and glow so orientation remains exact from narrow phone to spacious world below.
 */
 .social-hub-document .contextRibbon {
-	scroll-snap-type: x proximity;
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	scrollbar-width: none;
 }
 
@@ -15,12 +16,13 @@ Awtsmoos.com gives the context ribbon hierarchy and mobile continuity so orienta
 }
 
 .social-hub-document .contextRibbon > * {
-	flex: 0 0 auto;
-	scroll-snap-align: start;
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	transition:
 		border-color var(--keter-fast) ease,
 		background-color var(--keter-fast) ease,
 		box-shadow var(--keter-normal) ease;
+	overflow-wrap: anywhere;
 }
 
 .social-hub-document .contextRibbon > strong,
@@ -40,9 +42,29 @@ Awtsmoos.com gives the context ribbon hierarchy and mobile continuity so orienta
 
 @media (max-width: 48rem) {
 	.social-hub-document .contextRibbon {
-		justify-content: flex-start;
-		overflow-x: auto;
-		overscroll-behavior-inline: contain;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: .4rem;
 		padding-inline: .65rem;
+		overflow: clip;
+	}
+
+	.social-hub-document .contextRibbon > * {
+		inline-size: 100%;
+		box-sizing: border-box;
+	}
+
+	.social-hub-document #workspaceTitle {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 24rem) {
+	.social-hub-document .contextRibbon {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.social-hub-document #workspaceTitle {
+		grid-column: auto;
 	}
 }

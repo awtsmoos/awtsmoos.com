@@ -6,6 +6,7 @@
 	"name": "presentation",
 	"outputBytes": 1137264,
 	"outputHash": "f2d49a424b814030050f8dfad5d584065fc30544c712db3fcbc7c4b65a27a684",
+	"preserveDynamicImports": false,
 	"representations": {
 		"brotli": {
 			"bytes": 213219,
