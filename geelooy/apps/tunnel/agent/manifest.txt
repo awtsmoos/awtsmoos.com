@@ -1,5 +1,5 @@
 B"H
-1.0.565
+1.0.566
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -961,7 +961,10 @@ lib/connection-vessel/child-delivery.js
 lib/connection-vessel/child-foundation.js
 lib/connection-vessel/child-health-publisher.js
 lib/connection-vessel/child-health.js
+lib/connection-vessel/child-mailbox-recovery.js
 lib/connection-vessel/child-message-router.js
+lib/connection-vessel/child-runtime-custody.js
+lib/connection-vessel/child-runtime-cycle.js
 lib/connection-vessel/child-runtime-ipc.js
 lib/connection-vessel/child-runtime-parent.js
 lib/connection-vessel/child-runtime-view.js
@@ -975,6 +978,7 @@ lib/connection-vessel/controller-process-config.js
 lib/connection-vessel/controller-process.js
 lib/connection-vessel/controller-state.js
 lib/connection-vessel/controller.js
+lib/connection-vessel/mailbox-custody-metadata.js
 lib/connection-vessel/mailbox-custody-record.js
 lib/connection-vessel/mailbox-custody.js
 lib/connection-vessel/mailbox-emergency-registry.js
