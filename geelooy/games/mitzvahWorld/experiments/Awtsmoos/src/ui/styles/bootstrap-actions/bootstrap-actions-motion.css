@@ -4,16 +4,16 @@
 
 /**
  * @file bootstrap-actions-motion.css
- * @description Adds restrained futuristic entrance motion and a strict reduced-motion covenant only within the bootstrap action surface.
+ * @description Adds restrained futuristic motion and reduced-motion behavior only beneath the mounted bootstrap action surface.
  * The Awtsmoos renews motion and stillness from one source while Awtsmoos.com lets animation serve clarity instead of demanding attention;
- * those who ask for less motion receive the same complete interface without a hidden penalty or conflicting global intervention.
+ * those who ask for less motion receive the same complete interface without a hidden penalty or selector wandering beyond its vessel.
  */
 
 .minimal-meadow-bootstrap-actions {
 	animation: mmba-surface-reveal 260ms cubic-bezier(0.2, 0.72, 0.22, 1) both;
 }
 
-.minimal-meadow-bootstrap-status {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-status {
 	transition:
 		color 160ms ease,
 		border-color 160ms ease,
@@ -40,10 +40,10 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.minimal-meadow-bootstrap-actions,
-	.minimal-meadow-bootstrap-actions__panel,
-	.minimal-meadow-bootstrap-actions__toggle,
-	.minimal-meadow-bootstrap-action,
-	.minimal-meadow-bootstrap-status {
+	.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__panel,
+	.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__toggle,
+	.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action,
+	.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-status {
 		animation: none;
 		transition-duration: 0.01ms;
 	}

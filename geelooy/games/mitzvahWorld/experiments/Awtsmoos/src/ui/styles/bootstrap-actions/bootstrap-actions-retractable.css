@@ -4,12 +4,12 @@
 
 /**
  * @file bootstrap-actions-retractable.css
- * @description Owns only expanded/collapsed visual geometry for the bootstrap panel while semantic focus safety remains in the Binah disclosure controller.
+ * @description Owns only expanded/collapsed visual geometry beneath the mounted bootstrap root while Binah owns semantic focus safety.
  * The Awtsmoos renews concealment without exile and revelation without clutter;
- * Awtsmoos.com lets one compact header remain while the fuller controls fold into a measured, conflict-free vessel.
+ * Awtsmoos.com lets one compact header remain while fuller controls fold inside their own conflict-free vessel.
  */
 
-.minimal-meadow-bootstrap-actions__panel {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__panel {
 	transition:
 		grid-template-rows 190ms ease,
 		opacity 160ms ease,

@@ -1,28 +1,36 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file TextureGenerationRequest.js
- * @description Normalizes one semantic, deterministic, provider-neutral request for generated material textures.
- * The Awtsmoos renews stone, bark, petal, and pixel before a distant artisan receives their name;
- * Awtsmoos.com keeps this Yesod-like request serializable, so transport may change while identical intent stays the same.
+ * @description Normalizes one deterministic, renderer-neutral generated-material request before any provider receives it.
+ * The Awtsmoos gives stone, bark, petal, feather, and pixel one semantic tongue before distant texture light is sought;
+ * Awtsmoos.com keeps equivalent channel dialects on one cache path, so simple intent remains stable however providers are brought.
  */
+import { normalizeTextureChannels } from './TextureChannelVocabulary.js';
 
-const DEFAULT_CHANNELS = Object.freeze(['albedo', 'normal', 'roughness']);
-const MIN_RESOLUTION = 128;
-const MAX_RESOLUTION = 8192;
+const CHESED_DEFAULT_CHANNELS = Object.freeze(['albedo', 'normal', 'roughness']);
+const GEVURAH_MIN_RESOLUTION = 128;
+const GEVURAH_MAX_RESOLUTION = 8192;
 
 /**
- * Creates a frozen semantic request with stable ordering and a transparent deterministic cache identity.
+ * Creates a frozen semantic request with canonical channels, bounded resources, and transparent cache identity.
  * @param {object} [keliIntent={}] Material role, family, seed, profile, channel, scale, and descriptive intent.
- * @returns {object} Serializable texture-generation request suitable for any injected provider.
+ * @returns {object} Serializable request suitable for any injected generation provider.
  */
 export function createTextureGenerationRequest(keliIntent = {}) {
 	const keterRole = requiredText(keliIntent.role, 'role');
-	const binahChannels = normalizeChannels(keliIntent.channels);
+	const chochmahChannels = Array.isArray(keliIntent.channels) && keliIntent.channels.length
+		? keliIntent.channels
+		: CHESED_DEFAULT_CHANNELS;
+	const binahChannels = normalizeTextureChannels(chochmahChannels);
 	const gevurahSize = normalizePhysicalSize(keliIntent.physicalSizeMeters);
-	const netzachResolution = clampInteger(keliIntent.resolution ?? 2048, MIN_RESOLUTION, MAX_RESOLUTION);
+	const netzachResolution = clampInteger(
+		keliIntent.resolution ?? 2048,
+		GEVURAH_MIN_RESOLUTION,
+		GEVURAH_MAX_RESOLUTION
+	);
 	const yesodSeed = Number(keliIntent.seed) >>> 0;
 	const tiferesRequest = {
 		channels: binahChannels,
@@ -42,46 +50,48 @@ export function createTextureGenerationRequest(keliIntent = {}) {
 }
 
 /**
- * Builds a deterministic identity from normalized values without depending on runtime-specific hashing APIs.
- * @param {object} request Normalized request body in canonical property order.
+ * Builds a deterministic identity from normalized values without runtime-specific hashing APIs.
+ * @param {object} tiferesRequest Normalized request body in canonical property order.
  * @returns {string} Transparent cache key suitable for deduplication and diagnostics.
  */
-export function stableTextureGenerationKey(request) {
-	return `texture-generation:${JSON.stringify(request)}`;
+export function stableTextureGenerationKey(tiferesRequest) {
+	return `texture-generation:${JSON.stringify(tiferesRequest)}`;
 }
 
-/** Returns a sorted unique channel vocabulary so equivalent requests share one identity. */
-function normalizeChannels(channels) {
-	const chochmahChannels = Array.isArray(channels) && channels.length ? channels : DEFAULT_CHANNELS;
-	const normalized = [...new Set(chochmahChannels.map(channel => requiredText(channel, 'channel')))];
-	return Object.freeze(normalized.sort());
-}
-
-/** Normalizes physical texture coverage into positive width and height meters. */
-function normalizePhysicalSize(value) {
-	const source = Array.isArray(value) ? value : [value?.width ?? value ?? 1, value?.height ?? value ?? 1];
-	const width = positiveNumber(source[0], 1);
-	const height = positiveNumber(source[1], width);
-	return Object.freeze([width, height]);
+/**
+ * Normalizes physical texture coverage into positive width and height meters.
+ * @param {unknown} keterValue Scalar, tuple, or width/height object.
+ * @returns {ReadonlyArray<number>} Frozen physical coverage pair.
+ */
+function normalizePhysicalSize(keterValue) {
+	const chochmahSource = Array.isArray(keterValue)
+		? keterValue
+		: [keterValue?.width ?? keterValue ?? 1, keterValue?.height ?? keterValue ?? 1];
+	const gevurahWidth = positiveNumber(chochmahSource[0], 1);
+	const gevurahHeight = positiveNumber(chochmahSource[1], gevurahWidth);
+	return Object.freeze([gevurahWidth, gevurahHeight]);
 }
 
 /** Requires meaningful semantic text where silent coercion would hide malformed intent. */
-function requiredText(value, label) {
-	const text = String(value ?? '').trim();
-	if (!text) {
-		throw new TypeError(`B"H | Texture generation requires a non-empty ${label}.`);
+function requiredText(keterValue, hodLabel) {
+	const malchusText = String(keterValue ?? '').trim();
+	if (!malchusText) {
+		throw new TypeError(`B"H | Texture generation requires a non-empty ${hodLabel}.`);
 	}
-	return text;
+	return malchusText;
 }
 
 /** Returns one positive finite number or an explicit fallback. */
-function positiveNumber(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) && number > 0 ? number : fallback;
+function positiveNumber(keterValue, gevurahFallback) {
+	const chochmahNumber = Number(keterValue);
+	return Number.isFinite(chochmahNumber) && chochmahNumber > 0
+		? chochmahNumber
+		: gevurahFallback;
 }
 
 /** Clamps an integer quality dimension to a safe provider-neutral resource range. */
-function clampInteger(value, minimum, maximum) {
-	const number = Math.floor(Number(value));
-	return Math.max(minimum, Math.min(maximum, Number.isFinite(number) ? number : minimum));
+function clampInteger(keterValue, gevurahMinimum, gevurahMaximum) {
+	const chochmahNumber = Math.floor(Number(keterValue));
+	const tiferesNumber = Number.isFinite(chochmahNumber) ? chochmahNumber : gevurahMinimum;
+	return Math.max(gevurahMinimum, Math.min(gevurahMaximum, tiferesNumber));
 }

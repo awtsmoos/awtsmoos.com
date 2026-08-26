@@ -4,9 +4,9 @@
 
 /**
  * @file bootstrap-actions-foundation.css
- * @description Owns only the viewport-safe bootstrap action surface, header, panel shell, and status typography beneath one unique root.
+ * @description Owns only the viewport-safe bootstrap action surface, header, panel shell, and status typography beneath one explicit mounted root.
  * The Awtsmoos renews the finite shore around every control while Awtsmoos.com keeps the shore inside its own named vessel;
- * no selector escapes this root, no panel exceeds the viewport, and no borrowed global garment becomes necessary.
+ * no descendant selector escapes this root, no panel exceeds the viewport, and no borrowed global garment becomes necessary.
  */
 
 .minimal-meadow-bootstrap-actions {
@@ -40,7 +40,7 @@
 	contain: layout paint style;
 }
 
-.minimal-meadow-bootstrap-actions__header {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -48,13 +48,13 @@
 	min-inline-size: 0;
 }
 
-.minimal-meadow-bootstrap-actions__heading {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__heading {
 	display: grid;
 	gap: 0.1rem;
 	min-inline-size: 0;
 }
 
-.minimal-meadow-bootstrap-actions__eyebrow {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__eyebrow {
 	font-size: 0.68rem;
 	font-weight: 700;
 	letter-spacing: 0.14em;
@@ -62,7 +62,7 @@
 	color: var(--mmba-accent);
 }
 
-.minimal-meadow-bootstrap-actions__title {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__title {
 	font-size: 0.98rem;
 	font-weight: 760;
 	letter-spacing: 0.01em;
@@ -71,19 +71,19 @@
 	text-overflow: ellipsis;
 }
 
-.minimal-meadow-bootstrap-actions__panel {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__panel {
 	display: grid;
 	grid-template-rows: 1fr;
 	min-inline-size: 0;
 }
 
-.minimal-meadow-bootstrap-actions__panel-content {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__panel-content {
 	min-block-size: 0;
 	min-inline-size: 0;
 	overflow: hidden;
 }
 
-.minimal-meadow-bootstrap-status {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-status {
 	margin: 0.55rem 0 0;
 	padding: 0.5rem 0.65rem;
 	font-size: 0.76rem;

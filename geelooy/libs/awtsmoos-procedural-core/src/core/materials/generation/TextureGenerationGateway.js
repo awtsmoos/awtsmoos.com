@@ -1,103 +1,124 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file TextureGenerationGateway.js
- * @description Runs optional remote generation without making network success a prerequisite for procedural matter.
- * The Awtsmoos renews local fallback and distant result in one present creation beyond success or delay;
- * Awtsmoos.com lets this Chesed-and-Gevurah gateway expose failure honestly while the world may continue its way.
+ * @description Runs optional texture generation while preserving local-first resilience and renderer-neutral channel evidence.
+ * The Awtsmoos joins distant generated light to the local procedural vessel without hiding a missing map or failed ray;
+ * Awtsmoos.com lets partial success remain useful, while requested, provided, missing, and extra channels reveal the way.
  */
-
+import { createTextureChannelManifest } from './TextureChannelManifest.js';
 import { normalizeTextureGenerationProvider } from './TextureGenerationProvider.js';
 
 /** Resilient optional gateway around an injected texture-generation provider. */
 export class TextureGenerationGateway {
-	/** @param {object|Function|null} [provider=null] Optional provider capability. */
-	constructor(provider = null) {
-		this.provider = normalizeTextureGenerationProvider(provider);
+	/**
+	 * @param {object|Function|null} [yesodProvider=null] Optional remote or local generation capability.
+	 */
+	constructor(yesodProvider = null) {
+		this.provider = normalizeTextureGenerationProvider(yesodProvider);
 	}
 
-	/** Returns whether an actual remote-generation capability is currently installed. */
+	/** @returns {boolean} Whether an actual texture-generation capability is installed. */
 	available() {
 		return Boolean(this.provider);
 	}
 
 	/**
-	 * Attempts generation and returns an inspectable serializable status record.
-	 * @param {object} request Normalized semantic request.
-	 * @param {{signal?: AbortSignal, strict?: boolean}} [options={}] Cancellation and failure policy.
-	 * @returns {Promise<object>} Frozen generated, failed, aborted, or unavailable record.
+	 * Attempts generation and returns frozen success/failure evidence without making the provider mandatory.
+	 * @param {object} tiferesRequest Normalized semantic request.
+	 * @param {{signal?: AbortSignal, strict?: boolean}} [gevurahOptions={}] Cancellation and failure policy.
+	 * @returns {Promise<object>} Generated, failed, aborted, or unavailable renderer-neutral record.
 	 */
-	async generate(request, options = {}) {
+	async generate(tiferesRequest, gevurahOptions = {}) {
 		if (!this.provider) {
-			return failureRecord('unavailable', request, 'provider-unavailable', null);
+			return failureRecord('unavailable', tiferesRequest, 'provider-unavailable', null);
 		}
-		if (options.signal?.aborted) {
-			return failureRecord('aborted', request, 'request-aborted', this.provider.name);
+		if (gevurahOptions.signal?.aborted) {
+			return failureRecord('aborted', tiferesRequest, 'request-aborted', this.provider.name);
 		}
-
 		try {
-			const raw = await this.provider.generate(request, { signal: options.signal });
-			return successRecord(request, raw, this.provider.name);
+			const chochmahRaw = await this.provider.generate(tiferesRequest, {
+				signal: gevurahOptions.signal
+			});
+			return successRecord(tiferesRequest, chochmahRaw, this.provider.name);
 		} catch (error) {
-			if (options.strict) {
+			if (gevurahOptions.strict) {
 				throw error;
 			}
-			const state = options.signal?.aborted ? 'aborted' : 'failed';
-			return failureRecord(state, request, error?.message || String(error), this.provider.name);
+			const malchusStatus = gevurahOptions.signal?.aborted ? 'aborted' : 'failed';
+			return failureRecord(
+				malchusStatus,
+				tiferesRequest,
+				error?.message || String(error),
+				this.provider.name
+			);
 		}
 	}
 }
 
-/** Converts provider output into a small serializable asset map and metadata vessel. */
-function successRecord(request, raw, providerName) {
-	const assets = normalizeAssets(raw?.assets ?? raw?.channels ?? raw);
+/**
+ * Converts provider output into canonical assets plus explicit channel-coverage evidence.
+ * @param {object} tiferesRequest Normalized semantic request.
+ * @param {unknown} chochmahRaw Provider result.
+ * @param {string} yesodProviderName Installed provider name.
+ * @returns {Readonly<object>} Frozen generated result.
+ */
+function successRecord(tiferesRequest, chochmahRaw, yesodProviderName) {
+	const binahAssets = chochmahRaw?.assets ?? chochmahRaw?.channels ?? chochmahRaw;
+	const tiferesManifest = createTextureChannelManifest({
+		assets: binahAssets,
+		requested: tiferesRequest.channels
+	});
+	if (!tiferesManifest.provided.length) {
+		throw new TypeError('B"H | Texture provider returned no serializable asset descriptors.');
+	}
 	return Object.freeze({
-		assets,
-		cacheKey: request.cacheKey,
-		metadata: freezeMetadata(raw?.metadata),
-		provider: String(raw?.provider || providerName),
+		assets: tiferesManifest.assets,
+		cacheKey: tiferesRequest.cacheKey,
+		channels: tiferesManifest.coverage(),
+		metadata: freezeMetadata(chochmahRaw?.metadata),
+		provider: String(chochmahRaw?.provider || yesodProviderName),
 		status: 'generated'
 	});
 }
 
-/** Returns nonthrowing failure evidence so the caller can retain its local procedural surface. */
-function failureRecord(status, request, reason, provider) {
+/**
+ * Returns nonthrowing failure evidence while preserving the requested channel vocabulary for fallback composition.
+ * @param {string} malchusStatus Failure state.
+ * @param {object} tiferesRequest Normalized request.
+ * @param {unknown} hodReason Inspectable failure reason.
+ * @param {string|null} yesodProvider Provider identity when known.
+ * @returns {Readonly<object>} Frozen failure result.
+ */
+function failureRecord(malchusStatus, tiferesRequest, hodReason, yesodProvider) {
+	const tiferesManifest = createTextureChannelManifest({
+		assets: {},
+		requested: tiferesRequest.channels
+	});
 	return Object.freeze({
-		assets: Object.freeze({}),
-		cacheKey: request.cacheKey,
+		assets: tiferesManifest.assets,
+		cacheKey: tiferesRequest.cacheKey,
+		channels: tiferesManifest.coverage(),
 		metadata: Object.freeze({}),
-		provider,
-		reason: String(reason || status),
-		status
+		provider: yesodProvider,
+		reason: String(hodReason || malchusStatus),
+		status: malchusStatus
 	});
 }
 
-/** Admits only string asset descriptors so renderer objects and DOM images cannot leak into core. */
-function normalizeAssets(source) {
-	if (!source || typeof source !== 'object' || Array.isArray(source)) {
-		throw new TypeError('B"H | Texture providers must return an asset descriptor object.');
-	}
-	const assets = {};
-	for (const [channel, value] of Object.entries(source)) {
-		if (typeof value === 'string' && value.trim()) {
-			assets[String(channel)] = value.trim();
+/**
+ * Keeps shallow JSON-safe provider metadata so renderer objects can never leak into procedural-core results.
+ * @param {object} [hodSource={}] Provider metadata.
+ * @returns {Readonly<Record<string, unknown>>} Frozen primitive metadata.
+ */
+function freezeMetadata(hodSource = {}) {
+	const malchusMetadata = {};
+	for (const [yesodKey, tiferesValue] of Object.entries(hodSource || {})) {
+		if (['string', 'number', 'boolean'].includes(typeof tiferesValue) || tiferesValue === null) {
+			malchusMetadata[String(yesodKey)] = tiferesValue;
 		}
 	}
-	if (!Object.keys(assets).length) {
-		throw new TypeError('B"H | Texture provider returned no serializable asset descriptors.');
-	}
-	return Object.freeze(assets);
-}
-
-/** Keeps only shallow JSON-safe metadata primitives for inspectable cross-runtime results. */
-function freezeMetadata(source) {
-	const metadata = {};
-	for (const [key, value] of Object.entries(source || {})) {
-		if (['string', 'number', 'boolean'].includes(typeof value) || value === null) {
-			metadata[String(key)] = value;
-		}
-	}
-	return Object.freeze(metadata);
+	return Object.freeze(malchusMetadata);
 }

@@ -4,7 +4,7 @@
 
 /**
  * @file bootstrap-actions-responsive.css
- * @description Enhances the mobile-first bootstrap surface only when wider viewports provide safe room.
+ * @description Enhances the mobile-first bootstrap surface only when wider viewports provide safe room beneath the same mounted root.
  * The Awtsmoos renews narrow phone and wide horizon through one purpose while Awtsmoos.com lets layout respond without wandering off-screen;
  * the smallest vessel is the base truth, and larger garments arrive only where measured space has been seen.
  */
@@ -23,18 +23,18 @@
 		inset-block-end: max(1.1rem, env(safe-area-inset-bottom));
 	}
 
-	.minimal-meadow-bootstrap-actions__grid {
+	.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__grid {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 
-	.minimal-meadow-bootstrap-action {
+	.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action {
 		grid-template-columns: 1fr;
 		justify-items: center;
 		gap: 0.32rem;
 		text-align: center;
 	}
 
-	.minimal-meadow-bootstrap-action__label {
+	.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action__label {
 		max-inline-size: 100%;
 	}
 }
@@ -45,7 +45,7 @@
 		padding: 0.5rem;
 	}
 
-	.minimal-meadow-bootstrap-status {
+	.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-status {
 		display: none;
 	}
 }

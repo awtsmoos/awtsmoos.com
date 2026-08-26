@@ -4,13 +4,13 @@
 
 /**
  * @file bootstrap-actions-controls.css
- * @description Styles only bootstrap action and disclosure controls with complete pointer, keyboard, active, and disabled feedback.
+ * @description Styles only controls contained by the mounted bootstrap root with complete pointer, keyboard, active, and disabled feedback.
  * The Awtsmoos renews every finite press before hover, focus, or action divides the moment;
- * Awtsmoos.com lets each control shine inside its own root, futuristic without clutter and tactile without conflict.
+ * Awtsmoos.com lets each control shine only inside its appointed root, futuristic without clutter and tactile without conflict.
  */
 
-.minimal-meadow-bootstrap-actions__toggle,
-.minimal-meadow-bootstrap-action {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__toggle,
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action {
 	appearance: none;
 	min-block-size: 2.75rem;
 	font: inherit;
@@ -27,7 +27,7 @@
 		opacity 150ms ease;
 }
 
-.minimal-meadow-bootstrap-actions__toggle {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__toggle {
 	display: grid;
 	place-items: center;
 	inline-size: 2.75rem;
@@ -35,7 +35,7 @@
 	flex: 0 0 auto;
 }
 
-.minimal-meadow-bootstrap-actions__toggle::before {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__toggle::before {
 	content: '⌃';
 	font-size: 1.05rem;
 	font-weight: 800;
@@ -44,14 +44,14 @@
 	transition: transform 180ms ease;
 }
 
-.minimal-meadow-bootstrap-actions__grid {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 0.5rem;
 	min-inline-size: 0;
 }
 
-.minimal-meadow-bootstrap-action {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
@@ -61,13 +61,13 @@
 	text-align: start;
 }
 
-.minimal-meadow-bootstrap-action__glyph {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action__glyph {
 	font-size: 1.1rem;
 	line-height: 1;
 	filter: drop-shadow(0 0 0.45rem hsl(190 100% 72% / 0.12));
 }
 
-.minimal-meadow-bootstrap-action__label {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action__label {
 	min-inline-size: 0;
 	font-size: 0.78rem;
 	font-weight: 680;
@@ -77,7 +77,7 @@
 	white-space: nowrap;
 }
 
-.minimal-meadow-bootstrap-action__key {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action__key {
 	min-inline-size: 1.55rem;
 	padding: 0.2rem 0.34rem;
 	font: 700 0.66rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -89,8 +89,8 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.minimal-meadow-bootstrap-actions__toggle:hover,
-	.minimal-meadow-bootstrap-action:hover {
+	.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__toggle:hover,
+	.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action:hover {
 		transform: translateY(-1px);
 		background: hsl(211 36% 20% / 0.9);
 		border-color: hsl(190 90% 72% / 0.42);
@@ -98,20 +98,20 @@
 	}
 }
 
-.minimal-meadow-bootstrap-actions__toggle:active,
-.minimal-meadow-bootstrap-action:active {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__toggle:active,
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action:active {
 	transform: translateY(1px) scale(0.985);
 	background: hsl(198 38% 22% / 0.92);
 }
 
-.minimal-meadow-bootstrap-actions__toggle:focus-visible,
-.minimal-meadow-bootstrap-action:focus-visible {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-actions__toggle:focus-visible,
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action:focus-visible {
 	outline: 2px solid var(--mmba-focus);
 	outline-offset: 2px;
 	box-shadow: 0 0 0 4px hsl(48 100% 72% / 0.12);
 }
 
-.minimal-meadow-bootstrap-action:disabled {
+.minimal-meadow-bootstrap-actions .minimal-meadow-bootstrap-action:disabled {
 	cursor: not-allowed;
 	opacity: 0.42;
 	filter: saturate(0.45);
