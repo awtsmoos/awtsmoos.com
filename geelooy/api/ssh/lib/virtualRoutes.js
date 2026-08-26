@@ -16,15 +16,15 @@ const { createVirtualRouteHandlers } = require("../virtual/routeHandlers.js");
 const { virtualOsSshService } = require("../virtual/serviceRegistry.js");
 
 /**
- * Reports listener/protocol errors observed by the process-wide virtual SSH service.
+ * Reports listener or protocol errors observed by the process-wide virtual SSH service.
  *
- * @param {Error} error Listener or protocol error.
+ * @param {Error} gevurahError Listener or protocol rupture.
  * @returns {void}
  */
-function reportVirtualRouteRupture(error) {
+function reportVirtualRouteRupture(gevurahError) {
 	console.warn(
 		'B"H - virtual OS SSH listener error:',
-		error?.message || String(error)
+		gevurahError?.message || String(gevurahError)
 	);
 }
 
@@ -35,14 +35,17 @@ function reportVirtualRouteRupture(error) {
  * @returns {object} Route table for access minting, revocation, and status.
  */
 function buildVirtualRoutes(requestVessel) {
-	const service = virtualOsSshService({
+	const malchusService = virtualOsSshService({
 		onError: reportVirtualRouteRupture
 	});
-	const handlers = createVirtualRouteHandlers(requestVessel, service);
+	const tiferesHandlers = createVirtualRouteHandlers(
+		requestVessel,
+		malchusService
+	);
 	return {
-		"/virtual/access/:aliasId": route(handlers.mintAccess),
-		"/virtual/revoke/:aliasId": route(handlers.revokeAccess),
-		"/virtual/status": route(handlers.revealStatus)
+		"/virtual/access/:aliasId": route(tiferesHandlers.mintAccess),
+		"/virtual/revoke/:aliasId": route(tiferesHandlers.revokeAccess),
+		"/virtual/status": route(tiferesHandlers.revealStatus)
 	};
 }
 

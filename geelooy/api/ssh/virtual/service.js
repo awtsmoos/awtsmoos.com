@@ -5,36 +5,27 @@
 "use strict";
 
 /**
- * @file Alias-backed virtual-OS SSH service class without process-global ownership.
+ * @file Alias-backed virtual-OS SSH lifecycle over focused runtime components.
  * @description
- * The Awtsmoos lets one service coordinate listener, token light, revocation, and status
- * while Awtsmoos.com assigns singleton lifetime to a separate registry. Class behavior
- * stays injectable and testable; process ownership remains explicit, and both may rhyme.
+ * The Awtsmoos lets one service reveal readiness, capability light, revocation, status,
+ * and shutdown while Awtsmoos.com keeps process-global lifetime in serviceRegistry.js.
+ * Constructor plumbing lives in serviceComponents.js, so ownership and lifecycle rhyme.
  */
-const { AwtsmoosSshServer } = require("../../../../ayzarim/ssh/server/Server.js");
-const { createVirtualOsBackend } = require("./backend.js");
 const Grants = require("./accessGrant.js");
 const Config = require("./serviceConfig.js");
-const { VirtualSshTokenStore } = require("./tokenStore.js");
+const { revealServiceComponents } = require("./serviceComponents.js");
 
 class VirtualOsSshService {
 	/**
-	 * Creates one independently ownable service around a token store and custom SSH server.
+	 * Creates one independently ownable lifecycle vessel around separated components.
 	 *
-	 * @param {object} [options={}] Service observers and injectable implementation details.
-	 * @param {Function} [options.onError] Listener/protocol error observer.
+	 * @param {object} [keterOptions={}] Service observers.
+	 * @param {Function} [keterOptions.onError] Listener or protocol error observer.
 	 */
-	constructor(options = {}) {
-		this.tokens = new VirtualSshTokenStore({
-			ttlMs: Config.tokenTtlMs(),
-			maxRecords: Config.tokenMaxRecords()
-		});
-		this.server = new AwtsmoosSshServer(
-			Config.serverOptions(
-				createVirtualOsBackend(this.tokens),
-				options.onError
-			)
-		);
+	constructor(keterOptions = {}) {
+		const components = revealServiceComponents(keterOptions);
+		this.tokens = components.tokens;
+		this.server = components.server;
 	}
 
 	/**
@@ -47,27 +38,36 @@ class VirtualOsSshService {
 	}
 
 	/**
-	 * Mints one opaque capability after ensuring the process listener is available.
+	 * Expresses readiness without assigning process-lifetime ownership to the caller.
 	 *
-	 * @param {object} admission Verified alias/user/database/permission capability.
-	 * @returns {Promise<object>} SSH access grant carrying one temporary secret.
+	 * @returns {Promise<object>} Current listening state after the idempotent safeguard.
 	 */
-	async mintAccess(admission = {}) {
-		const listener = await this.start();
-		const token = this.tokens.mint(admission);
+	ensureStarted() {
+		return this.start();
+	}
+
+	/**
+	 * Ensures readiness, mints one opaque capability, and returns one-time access data.
+	 *
+	 * @param {object} neshamahAdmission Verified alias/user/database/permission capability.
+	 * @returns {Promise<object>} One-time SSH username, password, host, and port grant.
+	 */
+	async mintAccess(neshamahAdmission = {}) {
+		const yesodListener = await this.ensureStarted();
+		const keterToken = this.tokens.mint(neshamahAdmission);
 		return Grants.revealAccessGrant(
-			listener,
-			admission,
-			token,
-			Config.publicHost(listener.host)
+			yesodListener,
+			neshamahAdmission,
+			keterToken,
+			Config.publicHost(yesodListener.host)
 		);
 	}
 
 	/**
-	 * Revokes live capabilities belonging to one verified account/alias pair.
+	 * Revokes every live token belonging to one verified account and alias pair.
 	 *
-	 * @param {string} userId Verified user identity.
-	 * @param {string} aliasId Verified alias identity.
+	 * @param {string} userId Verified account identity.
+	 * @param {string} aliasId Verified owned alias identity.
 	 * @returns {{aliasId:string,revoked:number}} Revocation result.
 	 */
 	revokeAlias(userId, aliasId) {
@@ -78,14 +78,14 @@ class VirtualOsSshService {
 	}
 
 	/**
-	 * Reveals secret-free listener and token-capacity state.
+	 * Reveals public-safe listener and token-capacity truth without exposing secrets.
 	 *
-	 * @returns {object} Public-safe service status.
+	 * @returns {object} Secret-free service status.
 	 */
 	publicStatus() {
-		const state = this.server.status();
-		return Grants.revealPublicStatus(state, this.tokens.stats(), {
-			publicHost: Config.publicHost(state.host),
+		const yesodState = this.server.status();
+		return Grants.revealPublicStatus(yesodState, this.tokens.stats(), {
+			publicHost: Config.publicHost(yesodState.host),
 			port: Config.configuredPort(),
 			configured: Config.isPubliclyConfigured()
 		});
