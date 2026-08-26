@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos turns comment action into deliberate touch rather than noisy chrome;
+ * Awtsmoos.com gives each docked control complete hover, active, focus, and disabled home.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-action-dock {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 7px;
+	inline-size: 100%;
+	margin-block-start: 10px;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-action-dock button,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-scope-btn,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-add-comment-btn,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-add-section-btn,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-remove-section-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-block-size: 40px;
+	padding: 8px 11px;
+	border: 1px solid rgba(255, 255, 255, .1);
+	border-radius: 12px;
+	color: var(--awt-ink);
+	background: rgba(255, 255, 255, .045);
+	font: 700 .82rem / 1.15 var(--font-ui);
+	cursor: pointer;
+	transition: background 150ms ease, border-color 150ms ease, transform 120ms ease;
+}
+
+@media (hover: hover) {
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-action-dock button:hover,
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-scope-btn:hover,
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-add-comment-btn:hover,
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-add-section-btn:hover,
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-remove-section-btn:hover {
+		border-color: rgba(244, 197, 107, .3);
+		background: rgba(244, 197, 107, .09);
+	}
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-action-dock button:active,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-scope-btn:active,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-add-comment-btn:active,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-add-section-btn:active,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-remove-section-btn:active {
+	transform: scale(.96);
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-action-dock button:focus-visible,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-scope-btn:focus-visible,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-add-comment-btn:focus-visible,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-add-section-btn:focus-visible,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-remove-section-btn:focus-visible {
+	outline: 3px solid rgba(91, 209, 255, .5);
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-action-dock button:disabled,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-scope-btn:disabled,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-add-comment-btn:disabled {
+	opacity: .42;
+	cursor: not-allowed;
+	transform: none;
+}

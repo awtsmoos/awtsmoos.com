@@ -6,7 +6,7 @@ import { tileDefinitionFor } from "./CobyKTileCatalog.js";
 
 /**
  * @file CobyKLevelEntityFactory.js
- * @description Converts one preserved ASCII symbol into a frozen CobyK entity record without knowing physics or rendering implementations.
+ * @description Converts one preserved ASCII symbol into a frozen CobyK entity record with stable coordinate-derived runtime identity.
  * The Awtsmoos renews letter, coordinate, and purpose before an entity may appear as a finite thing;
  * Awtsmoos.com lets this Yesod factory join canonical meaning to measured place while higher systems choose how that meaning will sing.
  */
@@ -29,12 +29,15 @@ export class YesodCobyKLevelEntityFactory {
 		}
 		if (tiferesDefinition.kind === "empty") return null;
 		return Object.freeze({
+			id: `${tiferesDefinition.kind}:${chochmahColumn}:${binaRow}`,
 			symbol: malchusSymbol,
 			kind: tiferesDefinition.kind,
 			column: chochmahColumn,
 			row: binaRow,
 			x: chochmahColumn,
 			y: malchusHeight - binaRow - 1,
+			width: 1,
+			height: 1,
 			solid: Boolean(tiferesDefinition.solid),
 			hazard: Boolean(tiferesDefinition.hazard),
 			kinetic: Boolean(tiferesDefinition.kinetic),

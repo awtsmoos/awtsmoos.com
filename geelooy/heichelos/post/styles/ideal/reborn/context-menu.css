@@ -1,96 +1,100 @@
-/* B"H
- * Chapter 249: The Awtsmoos sets the action ark in order.
- * This sheet is fixed to the living viewport, never crushed into a browser
- * selection bar, never pale against the night, and always touch-sized.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets detached reader actions carry their own scope into body space;
+ * Awtsmoos.com styles only stamped reader portals, never naked global IDs or race.
  */
-
-#custom-context-menu.awtsmoos-reader-action-sheet {
-    position: fixed !important;
-    z-index: 2147483647 !important;
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: .55rem !important;
-    width: min(92vw, 390px) !important;
-    max-height: min(76dvh, 560px) !important;
-    padding: .85rem !important;
-    overflow: auto !important;
-    overscroll-behavior: contain !important;
-    border: 1px solid rgba(248, 214, 130, .46) !important;
-    border-radius: 24px !important;
-    background:
-        radial-gradient(circle at 14% 0%, rgba(34, 211, 238, .22), transparent 12rem),
-        radial-gradient(circle at 100% 100%, rgba(248, 214, 130, .18), transparent 10rem),
-        linear-gradient(180deg, rgba(7, 14, 28, .98), rgba(3, 7, 15, .995)) !important;
-    color: #fffdf5 !important;
-    box-shadow: 0 28px 90px rgba(0,0,0,.78), inset 0 1px 0 rgba(255,255,255,.08) !important;
-    backdrop-filter: blur(18px) saturate(130%) !important;
-    font-family: var(--font-ui, Inter, system-ui, sans-serif) !important;
+.awtsmoos-reader-portal-surface {
+	position: fixed;
+	z-index: var(--awtsmoos-reader-portal-layer, 440);
+	box-sizing: border-box;
+	inline-size: min(92dvi, 390px);
+	max-inline-size: calc(100dvi - 24px);
+	max-block-size: min(78dvh, 34rem);
+	padding: 10px;
+	border: 1px solid rgba(244, 197, 107, .22);
+	border-radius: 18px;
+	color: #f7f1df;
+	background: rgba(7, 11, 24, .97);
+	box-shadow: 0 24px 80px rgba(0, 0, 0, .48);
+	backdrop-filter: blur(20px) saturate(1.15);
+	-webkit-backdrop-filter: blur(20px) saturate(1.15);
+	font-family: var(--awtsmoos-reader-portal-font, system-ui, sans-serif);
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
 }
 
-#custom-context-menu.awtsmoos-mobile-sheet {
-    left: max(.75rem, env(safe-area-inset-left)) !important;
-    right: max(.75rem, env(safe-area-inset-right)) !important;
-    bottom: max(.9rem, env(safe-area-inset-bottom)) !important;
-    top: auto !important;
-    width: auto !important;
+.awtsmoos-reader-portal-surface .awtsmoos-context-crown,
+.awtsmoos-reader-portal-surface .insane-verse-menu-header {
+	padding: 8px 10px 10px;
+	color: #f6c96c;
+	font-weight: 850;
+	letter-spacing: .02em;
 }
 
-#custom-context-menu .awtsmoos-context-crown {
-    padding: .35rem .55rem .65rem !important;
-    color: #f8d682 !important;
-    font: 950 .82rem/1 var(--font-ui, Inter, system-ui, sans-serif) !important;
-    letter-spacing: .18em !important;
-    text-transform: uppercase !important;
-    text-align: center !important;
-    text-shadow: 0 0 18px rgba(248, 214, 130, .24) !important;
+.awtsmoos-reader-portal-surface .awtsmoos-context-menu-item,
+.awtsmoos-reader-portal-surface .insane-verse-menu-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	inline-size: 100%;
+	min-block-size: 44px;
+	padding: 10px 11px;
+	border: 1px solid transparent;
+	border-radius: 12px;
+	color: inherit;
+	background: transparent;
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+	transition: background 150ms ease, border-color 150ms ease, transform 120ms ease;
 }
 
-#custom-context-menu .awtsmoos-context-menu-item {
-    appearance: none !important;
-    width: 100% !important;
-    min-height: 54px !important;
-    display: grid !important;
-    grid-template-columns: 42px minmax(0, 1fr) !important;
-    align-items: center !important;
-    gap: .75rem !important;
-    padding: .8rem .95rem !important;
-    border: 1px solid rgba(148, 163, 184, .18) !important;
-    border-radius: 17px !important;
-    background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.035)) !important;
-    color: #fffdf5 !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 8px 24px rgba(0,0,0,.22) !important;
-    font: 900 15px/1.15 var(--font-ui, Inter, system-ui, sans-serif) !important;
-    text-align: start !important;
-    white-space: normal !important;
-    cursor: pointer !important;
-    touch-action: manipulation !important;
+.awtsmoos-reader-portal-surface .awtsmoos-context-icon {
+	flex: 0 0 auto;
+	inline-size: 1.4em;
+	text-align: center;
 }
 
-#custom-context-menu .awtsmoos-context-menu-item:hover,
-#custom-context-menu .awtsmoos-context-menu-item:focus-visible {
-    outline: 2px solid rgba(34, 211, 238, .42) !important;
-    background: linear-gradient(180deg, rgba(34,211,238,.22), rgba(248,214,130,.09)) !important;
+@media (hover: hover) {
+	.awtsmoos-reader-portal-surface .awtsmoos-context-menu-item:hover,
+	.awtsmoos-reader-portal-surface .insane-verse-menu-item:hover {
+		border-color: rgba(244, 197, 107, .22);
+		background: rgba(244, 197, 107, .09);
+	}
 }
 
-#custom-context-menu .awtsmoos-context-icon {
-    width: 42px !important;
-    height: 42px !important;
-    display: inline-grid !important;
-    place-items: center !important;
-    border-radius: 999px !important;
-    color: #08111f !important;
-    background: linear-gradient(135deg, #f8d682, #22d3ee) !important;
-    font: 950 18px/1 var(--font-ui, Inter, system-ui, sans-serif) !important;
-    box-shadow: 0 10px 26px rgba(34,211,238,.18) !important;
+.awtsmoos-reader-portal-surface .awtsmoos-context-menu-item:active,
+.awtsmoos-reader-portal-surface .insane-verse-menu-item:active {
+	transform: scale(.98);
 }
 
-@media (max-width: 760px) {
-    #custom-context-menu.awtsmoos-reader-action-sheet { border-radius: 28px 28px 22px 22px !important; }
-    #custom-context-menu .awtsmoos-context-menu-item { min-height: 58px !important; font-size: 16px !important; }
+.awtsmoos-reader-portal-surface .awtsmoos-context-menu-item:focus-visible,
+.awtsmoos-reader-portal-surface .insane-verse-menu-item:focus-visible {
+	outline: 3px solid rgba(91, 209, 255, .55);
+	outline-offset: 1px;
 }
-/* B"H
- * Chapter 281: Local polish proof.
- * This file owns one small, concrete smoothness rule so the polish is local,
- * testable, and not duplicated across the import river.
- */
-#custom-context-menu.awtsmoos-reader-action-sheet { scrollbar-gutter: stable; }
+
+.awtsmoos-reader-portal-surface .awtsmoos-context-menu-item:disabled,
+.awtsmoos-reader-portal-surface .insane-verse-menu-item:disabled {
+	opacity: .4;
+	cursor: not-allowed;
+	transform: none;
+}
+
+@media (max-width: 700px) {
+	.awtsmoos-reader-portal-surface {
+		inline-size: min(94dvi, 390px);
+		max-inline-size: calc(100dvi - 20px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-reader-portal-surface,
+	.awtsmoos-reader-portal-surface * {
+		scroll-behavior: auto;
+		transition: none;
+	}
+}

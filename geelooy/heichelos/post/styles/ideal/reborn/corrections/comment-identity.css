@@ -1,0 +1,63 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives each comment an identity without letting metadata dominate Torah;
+ * Awtsmoos.com keeps avatar, author, coordinate, and crown compact in one local aura.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-card-header {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	min-inline-size: 0;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-avatar {
+	flex: 0 0 auto;
+	display: grid;
+	place-items: center;
+	inline-size: 40px;
+	block-size: 40px;
+	border: 1px solid rgba(244, 197, 107, .18);
+	border-radius: 50%;
+	background: rgba(244, 197, 107, .08);
+	object-fit: cover;
+	overflow: hidden;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-heading {
+	flex: 1 1 auto;
+	display: grid;
+	gap: 3px;
+	min-inline-size: 0;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .comment-author-link,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-author-crown {
+	color: var(--awt-ink);
+	font-family: var(--font-ui);
+	font-weight: 800;
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-meta,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-coordinate {
+	color: var(--awt-muted);
+	font-family: var(--font-ui);
+	font-size: .78rem;
+	line-height: 1.3;
+	overflow-wrap: anywhere;
+}
+
+@media (hover: hover) {
+	.post-reader-localized-context.awtsmoos-reader-vision .comment-author-link:hover {
+		color: var(--awt-gold);
+	}
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .comment-author-link:focus-visible {
+	outline: 3px solid rgba(91, 209, 255, .45);
+	outline-offset: 2px;
+	border-radius: 6px;
+}

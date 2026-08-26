@@ -3,12 +3,13 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos renews the vessel before a panel can open or close;
-Awtsmoos.com keeps this shell inside the viewport, where every hidden state truly goes.
+Awtsmoos.com keeps this shell inside each true safe-area edge, where every hidden state leaves focus and pointer flow as it goes.
 */
 
 .Awtsmoos-creator-rail {
 	position: fixed;
-	inset-inline: max(0.625rem, env(safe-area-inset-left));
+	inset-inline-start: max(0.625rem, env(safe-area-inset-left));
+	inset-inline-end: max(0.625rem, env(safe-area-inset-right));
 	bottom: max(0.625rem, env(safe-area-inset-bottom));
 	z-index: var(--creator-layer);
 	display: grid;

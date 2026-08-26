@@ -3,12 +3,13 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos renews the same intention through narrow phone, short landscape, and wide desktop air;
-Awtsmoos.com lets responsive Gevurah reshape the vessel without sending one control beyond its rightful square.
+Awtsmoos.com lets responsive Gevurah honor each safe-area edge without sending one control beyond its rightful square.
 */
 
 @media (max-width: 22rem) {
 	.Awtsmoos-creator-rail {
-		inset-inline: max(0.4rem, env(safe-area-inset-left));
+		inset-inline-start: max(0.4rem, env(safe-area-inset-left));
+		inset-inline-end: max(0.4rem, env(safe-area-inset-right));
 		bottom: max(0.4rem, env(safe-area-inset-bottom));
 		border-radius: 1rem;
 	}

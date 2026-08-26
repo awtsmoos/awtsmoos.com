@@ -12,7 +12,7 @@
  */
 
 /**
- * Reflects whether one API invocation is currently active.
+ * Reflects whether one API invocation is currently active without erasing a terminal receipt state.
  * @param {object} viewKli Explorer view exposing root and execute-button references.
  * @param {boolean} busyOhr True while invocation is in flight.
  * @returns {void}
@@ -24,7 +24,13 @@ export function reflectApiExplorerBusyState(viewKli, busyOhr) {
 	viewKli.executeButton.textContent = isBusyOhr
 		? "Executing…"
 		: "Execute";
-	viewKli.setState(isBusyOhr ? "busy" : "idle");
+	if (isBusyOhr) {
+		viewKli.setState("busy");
+		return;
+	}
+	if (viewKli.root.dataset.state === "busy") {
+		viewKli.setState("idle");
+	}
 }
 
 /**

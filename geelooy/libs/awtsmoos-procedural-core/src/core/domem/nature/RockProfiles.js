@@ -1,13 +1,14 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @file RockProfiles.js
- * @description Defines immutable geological profiles without owning meshes, renderers, or network transport.
- * The Awtsmoos renews cliff, river stone, shard, and boulder from one speech; Awtsmoos.com gives each finite geological vessel
- * measured erosion, fracture, strata, scale, and truthful material intent so realism can deepen without fragmenting the public API.
+ * @description Defines immutable geological profiles enriched with weathering and composition intent while preserving every historic rock field.
+ * The Awtsmoos renews cliff, river stone, crystal, and sediment before one profile receives a name;
+ * Awtsmoos.com lets erosion, mineral memory, scale, and strata deepen together while the old public covenant remains the same.
  */
+import { createRockCompositionIntent } from './RockCompositionIntent.js';
+import { createRockWeatheringIntent } from './RockWeatheringIntent.js';
 
 const ROCK_PROFILES = Object.freeze({
 	fieldstone: profile('fieldstone', [1.08, 0.82, 0.96], 0.24, 0.52, 0.28, 0.08, 'weatheredRock', 'weathered fieldstone Rock'),
@@ -19,38 +20,39 @@ const ROCK_PROFILES = Object.freeze({
 	basalt: profile('basalt', [0.94, 1.06, 0.92], 0.29, 0.12, 0.46, 0.12, 'stone', 'dark stone')
 });
 
-/**
- * Lists canonical geological profile names for UI, schema, validation, and higher-level Nature facades.
- * @returns {ReadonlyArray<string>} Frozen geological profile names.
- */
+/** Lists canonical geological profile names for schema, tools, validation, and Nature facades. */
 export function listRockProfiles() {
 	return Object.freeze(Object.keys(ROCK_PROFILES));
 }
 
 /**
  * Resolves a named profile and merges bounded caller overrides without mutating either input.
- * @param {string} [preset='fieldstone'] Canonical geological profile name.
- * @param {object} [overrides={}] Optional geometry and material overrides.
- * @returns {object} Frozen normalized profile consumed by geological authorities.
+ * @param {string} [yesodPreset='fieldstone'] Canonical geological profile name.
+ * @param {object} [keterOverrides={}] Geometry, material, weathering, and composition overrides.
+ * @returns {Readonly<object>} Frozen normalized geological profile.
  */
-export function normalizeRockProfile(preset = 'fieldstone', overrides = {}) {
-	const sodHaEven = ROCK_PROFILES[String(preset || 'fieldstone').trim().toLowerCase()];
-	if (!sodHaEven) {
-		throw new RangeError(`B"H | Unknown rock profile "${preset}". Expected: ${listRockProfiles().join(', ')}.`);
+export function normalizeRockProfile(yesodPreset = 'fieldstone', keterOverrides = {}) {
+	const tiferesProfile = ROCK_PROFILES[String(yesodPreset || 'fieldstone').trim().toLowerCase()];
+	if (!tiferesProfile) {
+		throw new RangeError(`B"H | Unknown rock profile "${yesodPreset}". Expected: ${listRockProfiles().join(', ')}.`);
 	}
+	const malchusErosion = boundedUnit(keterOverrides.erosion, tiferesProfile.erosion);
+	const hodStrata = boundedUnit(keterOverrides.strata, tiferesProfile.strata);
 	return Object.freeze({
-		...sodHaEven,
-		detail: boundedInteger(overrides.detail, sodHaEven.detail, 0, 4),
-		erosion: boundedUnit(overrides.erosion, sodHaEven.erosion),
-		fracture: boundedUnit(overrides.fracture, sodHaEven.fracture),
-		irregularity: boundedUnit(overrides.irregularity, sodHaEven.irregularity),
-		material: Object.freeze({ ...sodHaEven.material, ...(overrides.material || {}) }),
-		scale: Object.freeze(normalizeScale(overrides.scale, sodHaEven.scale)),
-		strata: boundedUnit(overrides.strata, sodHaEven.strata)
+		...tiferesProfile,
+		composition: createRockCompositionIntent(keterOverrides.composition || keterOverrides, hodStrata),
+		detail: boundedInteger(keterOverrides.detail, tiferesProfile.detail, 0, 4),
+		erosion: malchusErosion,
+		fracture: boundedUnit(keterOverrides.fracture, tiferesProfile.fracture),
+		irregularity: boundedUnit(keterOverrides.irregularity, tiferesProfile.irregularity),
+		material: Object.freeze({ ...tiferesProfile.material, ...(keterOverrides.material || {}) }),
+		scale: Object.freeze(normalizeScale(keterOverrides.scale, tiferesProfile.scale)),
+		strata: hodStrata,
+		weathering: createRockWeatheringIntent(keterOverrides.weathering || keterOverrides, malchusErosion)
 	});
 }
 
-/** Creates one immutable canonical geological profile record. */
+/** Creates one immutable canonical geological profile record using the historic public axes. */
 function profile(id, scale, irregularity, erosion, fracture, strata, role, textureHint) {
 	return Object.freeze({
 		id,
@@ -65,25 +67,25 @@ function profile(id, scale, irregularity, erosion, fracture, strata, role, textu
 }
 
 /** Normalizes a positive three-axis scale without retaining caller arrays. */
-function normalizeScale(value, fallback) {
-	const orosHaMiddah = Array.isArray(value) ? value : fallback;
-	return [0, 1, 2].map(index => positive(orosHaMiddah[index], fallback[index]));
+function normalizeScale(orValue, yesodFallback) {
+	const tiferesAxis = Array.isArray(orValue) ? orValue : yesodFallback;
+	return [0, 1, 2].map(binahIndex => positive(tiferesAxis[binahIndex], yesodFallback[binahIndex]));
 }
 
 /** Clamps finite scalar intensity into the geological 0..1 covenant. */
-function boundedUnit(value, fallback) {
-	const gevurahMeasure = Number(value);
-	return Number.isFinite(gevurahMeasure) ? Math.min(1, Math.max(0, gevurahMeasure)) : fallback;
+function boundedUnit(orValue, yesodFallback) {
+	const malchusValue = Number(orValue);
+	return Number.isFinite(malchusValue) ? Math.min(1, Math.max(0, malchusValue)) : yesodFallback;
 }
 
-/** Clamps integer detail to a safe recursive geometry budget. */
-function boundedInteger(value, fallback, minimum, maximum) {
-	const binahDetail = Math.floor(Number(value));
-	return Number.isFinite(binahDetail) ? Math.min(maximum, Math.max(minimum, binahDetail)) : fallback;
+/** Clamps integer detail to the stable recursive geometry budget. */
+function boundedInteger(orValue, yesodFallback, gevurahMinimum, chesedMaximum) {
+	const malchusValue = Math.floor(Number(orValue));
+	return Number.isFinite(malchusValue) ? Math.min(chesedMaximum, Math.max(gevurahMinimum, malchusValue)) : yesodFallback;
 }
 
 /** Returns a positive finite scalar or a known-safe fallback. */
-function positive(value, fallback) {
-	const yesodMeasure = Number(value);
-	return Number.isFinite(yesodMeasure) && yesodMeasure > 0 ? yesodMeasure : fallback;
+function positive(orValue, yesodFallback) {
+	const malchusValue = Number(orValue);
+	return Number.isFinite(malchusValue) && malchusValue > 0 ? malchusValue : yesodFallback;
 }

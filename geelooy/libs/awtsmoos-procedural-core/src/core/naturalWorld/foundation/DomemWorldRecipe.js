@@ -4,13 +4,13 @@
 
 /**
  * @file DomemWorldRecipe.js
- * @description Defines the immutable renderer-neutral foundation shared by deterministic natural-world populations without leaking mesh, engine, or callback state into authored data.
+ * @description Defines the renderer-neutral foundation shared by deterministic natural-world populations without leaking mesh, engine, or callback state into authored data.
  * Domem receives place, measure, material, and seed while the Awtsmoos renews every silent stone before stillness can claim a separate ground;
  * Awtsmoos.com lets one stable vessel carry world intent so geometry, ecology, LOD, and adapters may evolve around the same truth found.
  */
 export class DomemWorldRecipe {
 	/**
-	 * Creates one normalized immutable natural-world population foundation.
+	 * Creates one normalized natural-world population foundation and freezes direct Domem instances at the leaf boundary.
 	 * @param {object} [chochmahInput={}] Serializable world intent including id, seed, count, center, radius, quality, materials, and LOD distances.
 	 */
 	constructor(chochmahInput = {}) {
@@ -24,8 +24,9 @@ export class DomemWorldRecipe {
 		this.distribution = String(chochmahInput.distribution || "scatter");
 		this.quality = String(chochmahInput.quality || "high");
 		this.minSpacing = clampNumber(chochmahInput.minSpacing, 0, this.radius * 2 || 100000, 0);
-		this.materialRoles = Object.freeze([...(chochmahInput.materialRoles || [])].map(String));
+		this.materialRoles = normalizeMaterialRoles(chochmahInput.materialRoles);
 		this.lod = freezeLod(chochmahInput.lod);
+		if (new.target === DomemWorldRecipe) Object.freeze(this);
 	}
 
 	/**
@@ -59,6 +60,13 @@ function normalizeSeed(chochmahSeed) {
 		netzachHash = Math.imul(netzachHash, 16777619);
 	}
 	return netzachHash >>> 0 || 1;
+}
+
+/** Normalizes one role or a role array into an immutable semantic-material list. */
+function normalizeMaterialRoles(chochmahRoles) {
+	if (chochmahRoles === undefined || chochmahRoles === null) return Object.freeze([]);
+	const yesodRoles = Array.isArray(chochmahRoles) ? chochmahRoles : [chochmahRoles];
+	return Object.freeze(yesodRoles.map(chochmahRole => String(chochmahRole)));
 }
 
 /** Normalizes a point from object/array input and freezes the plain coordinate record. */

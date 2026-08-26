@@ -1,2 +1,27 @@
-/* B"H reader beauty commentary/chamber.css. */
-.sidebar:not(.hidden-comments) { background:rgba(7,11,24,.94) !important; border:1px solid rgba(244,197,107,.16) !important; }
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos adorns commentary only after geometry has found its rightful place;
+ * Awtsmoos.com keeps beauty local and decorative, never stealing layout's governing space.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar:not(.hidden-comments) {
+	background: rgba(7, 11, 24, .94);
+	border-color: rgba(244, 197, 107, .16);
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-scribe-card,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-comment-card,
+.post-reader-localized-context.awtsmoos-reader-vision .comment-section .comment {
+	border-color: rgba(244, 197, 107, .11);
+	background: linear-gradient(145deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .018));
+	box-shadow: 0 12px 34px rgba(0, 0, 0, .14);
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-comment-card.comment-is-focused,
+.post-reader-localized-context.awtsmoos-reader-vision .comment-section .comment:focus-within {
+	border-color: rgba(244, 197, 107, .3);
+	box-shadow:
+		0 14px 38px rgba(0, 0, 0, .18),
+		0 0 0 2px rgba(244, 197, 107, .08);
+}

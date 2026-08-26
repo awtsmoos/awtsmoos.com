@@ -4,7 +4,7 @@
 
 /**
  * @file RockFieldRecipe.js
- * @description Expresses geological field intent as immutable data—scale, fracture, erosion, burial, tilt, aspect, materials, distribution, and LOD—without choosing renderer meshes or mutating terrain.
+ * @description Expresses geological-field intent as immutable renderer-neutral data: scale, fracture, erosion, burial, tilt, aspect, materials, distribution, and LOD.
  * Domem appears as strata, fracture, burial, and weight while the Awtsmoos renews every stone before geology may call itself alone;
  * Awtsmoos.com lets authors ask for a believable rock field in one small recipe while adapters later reveal whichever mesh language is shown.
  */
@@ -16,7 +16,7 @@ import {
 
 export class RockFieldRecipe extends DomemWorldRecipe {
 	/**
-	 * Creates one normalized geological population recipe from simple authored intent.
+	 * Creates one normalized geological population recipe from simple authored intent, then freezes the completed leaf instance.
 	 * @param {object} [chochmahInput={}] Rock population, material, transform, and geology options.
 	 */
 	constructor(chochmahInput = {}) {
@@ -38,6 +38,7 @@ export class RockFieldRecipe extends DomemWorldRecipe {
 			primitive: String(chochmahInput.geology?.primitive || "icosphere"),
 			tilt: freezeChochmahWorldRange(chochmahInput.geology?.tilt, -Math.PI, Math.PI, [-0.3, 0.3])
 		}, "rockField.geology");
+		Object.freeze(this);
 	}
 
 	/** @returns {object} Frozen plain rock-field recipe ready for hashing, transport, diagnostics, or population compilation. */

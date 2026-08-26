@@ -1,2 +1,26 @@
-/* B"H reader beauty commentary/composer.css. */
-.sidebar textarea:focus { box-shadow:0 0 0 2px rgba(244,197,107,.22); }
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets the scribe brighten when thought enters focus and intent;
+ * Awtsmoos.com decorates only reader-owned composer fields, never a global element.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-scribe-card {
+	box-shadow: 0 16px 44px rgba(0, 0, 0, .18);
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-scribe-card:focus-within {
+	border-color: rgba(244, 197, 107, .28);
+	box-shadow:
+		0 18px 50px rgba(0, 0, 0, .2),
+		0 0 0 2px rgba(244, 197, 107, .07);
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar textarea:focus-visible,
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar input:focus-visible {
+	box-shadow: 0 0 0 3px rgba(244, 197, 107, .13);
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .sidebar textarea:focus-visible {
+	min-block-size: 8.6em;
+}

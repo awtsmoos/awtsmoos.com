@@ -1,77 +1,8 @@
-/* B"H
- * Chapter 606 corrected: the sidebar owns a real internal scroll vessel.
- * No fixed panel may cover the scroll details without providing its own river.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos preserves the historic doorway while the seal itself moves inward;
+ * Awtsmoos.com now owns viewport containment in sidebar and panel modules, so this
+ * compatibility vessel intentionally declares nothing and cannot conflict again.
  */
-
-.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar:not(.hidden-comments) {
-    height: min(86dvh, calc(100dvh - var(--awt-header-space) - 24px)) !important;
-    max-height: min(86dvh, calc(100dvh - var(--awt-header-space) - 24px)) !important;
-    min-height: min(30rem, calc(100dvh - var(--awt-header-space) - 24px)) !important;
-}
-
-.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar > .awtsmoos-sidebar-shell {
-    display: flex !important;
-    flex-direction: column !important;
-    height: 100% !important;
-    max-height: 100% !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-}
-
-.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar > .awtsmoos-sidebar-shell > .awtsmoos-slide-viewport {
-    flex: 1 1 auto !important;
-    height: auto !important;
-    max-height: 100% !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-}
-
-.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar > .awtsmoos-sidebar-shell > .awtsmoos-slide-viewport > .awtsmoos-slide-view {
-    min-height: 0 !important;
-}
-
-.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar > .awtsmoos-sidebar-shell > .awtsmoos-slide-viewport > .awtsmoos-slide-view.active-view {
-    display: flex !important;
-    flex-direction: column !important;
-    height: 100% !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-}
-
-.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar .awtsmoos-view-content,
-.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar .awtsmoos-sidebar-panel.is-current-panel {
-    flex: 1 1 auto !important;
-    min-height: 0 !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain !important;
-    -webkit-overflow-scrolling: touch !important;
-}
-
-.all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar .post-root-menu-grid {
-    align-content: start !important;
-}
-
-@media (min-width: 901px) {
-    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar:not(.hidden-comments),
-    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar.awtsmoos-sidebar-open {
-        top: 0 !important;
-        bottom: 0 !important;
-        height: 100dvh !important;
-        max-height: 100dvh !important;
-        min-height: 100dvh !important;
-    }
-}
-
-@media (max-width: 900px) {
-    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar:not(.hidden-comments) {
-        top: calc(var(--awt-header-space) + 8px) !important;
-        height: min(88dvh, calc(100dvh - var(--awt-header-space) - 16px)) !important;
-        max-height: min(88dvh, calc(100dvh - var(--awt-header-space) - 16px)) !important;
-        min-height: min(27rem, calc(100dvh - var(--awt-header-space) - 16px)) !important;
-    }
-
-    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar .awtsmoos-view-content,
-    .all.post-reader-localized-context.awtsmoos-reader-vision > .main > .sidebar .awtsmoos-sidebar-panel.is-current-panel {
-        padding-bottom: calc(22px + var(--awt-safe-bottom)) !important;
-    }
-}

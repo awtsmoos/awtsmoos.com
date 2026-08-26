@@ -1,0 +1,34 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps the reading river inside the handheld world without sideways exile;
+ * Awtsmoos.com corrects only document flow here, leaving sidebar state to its rightful file.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .main,
+.post-reader-localized-context.awtsmoos-reader-vision .content,
+.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
+.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+	box-sizing: border-box;
+	inline-size: 100%;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	overflow-x: clip;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+	max-inline-size: calc(
+		100dvi
+		- max(14px, env(safe-area-inset-left, 0px))
+		- max(14px, env(safe-area-inset-right, 0px))
+	);
+}
+
+@media (max-width: 700px) {
+	.post-reader-localized-context.awtsmoos-reader-vision .main,
+	.post-reader-localized-context.awtsmoos-reader-vision .content,
+	.post-reader-localized-context.awtsmoos-reader-vision .scroll-view-wrapper,
+	.post-reader-localized-context.awtsmoos-reader-vision #realPost {
+		padding-inline: 0;
+	}
+}

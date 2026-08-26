@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals inline commentary without letting its vessel widen the page;
+ * Awtsmoos.com keeps every shelter, title, and trigger local, readable, and sage.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-shell,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-shell * {
+	box-sizing: border-box;
+	max-inline-size: 100%;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-shell {
+	inline-size: 100%;
+	min-inline-size: 0;
+	contain: inline-size;
+	overflow-x: clip;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-card-header,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger-copy {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-inline-size: 0;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-card-heading,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger-copy {
+	flex: 1 1 auto;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-title,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger-title {
+	margin: 0;
+	color: var(--awt-ink);
+	font-family: var(--font-ui);
+	font-weight: 800;
+	line-height: 1.22;
+	overflow-wrap: anywhere;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-meta,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger-meta,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger-subtitle,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-shelter-label {
+	color: var(--awt-muted);
+	font-family: var(--font-ui);
+	line-height: 1.35;
+	overflow-wrap: anywhere;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-avatar {
+	flex: 0 0 auto;
+	inline-size: 38px;
+	block-size: 38px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger {
+	inline-size: 100%;
+	min-block-size: 44px;
+	padding: 10px 12px;
+	border: 1px solid rgba(255, 255, 255, .1);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, .035);
+	transition: background 150ms ease, border-color 150ms ease, transform 130ms ease;
+}
+
+@media (hover: hover) {
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger:hover {
+		background: rgba(91, 209, 255, .07);
+		border-color: rgba(91, 209, 255, .22);
+	}
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger:active {
+	transform: scale(.99);
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-trigger:focus-visible {
+	outline: 3px solid rgba(91, 209, 255, .5);
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-polish-off .awtsmoos-inline-trigger-preview,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-polish-off .profile-chip,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-polish-off .ai-monolith,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-inline-polish-off .ai-draft-bar {
+	display: none;
+}

@@ -4,11 +4,12 @@
 
 /**
  * @file TzomayachWorldRecipe.js
- * @description Extends the silent Domem world-population foundation with serializable ecological growth ranges for vegetation without binding recipes to runtime terrain samplers.
+ * @description Extends the Domem world-population foundation with serializable ecological growth ranges while preserving inheritance-safe immutability at the actual vegetation leaf.
  * Tzomayach rises through moisture, slope, height, and season while the Awtsmoos renews root and field before growth may claim a separate source;
  * Awtsmoos.com lets living-world intent remain stable data while runtime environments decide where that potential may flower along its course.
  */
 import { DomemWorldRecipe } from "./DomemWorldRecipe.js";
+import { freezeChochmahWorldRange } from "./ChochmahWorldRecipeValues.js";
 
 export class TzomayachWorldRecipe extends DomemWorldRecipe {
 	/**
@@ -18,12 +19,13 @@ export class TzomayachWorldRecipe extends DomemWorldRecipe {
 	constructor(chochmahInput = {}) {
 		super(chochmahInput);
 		this.ecology = Object.freeze({
-			height: freezeRange(chochmahInput.ecology?.height, -100000, 100000),
-			moisture: freezeRange(chochmahInput.ecology?.moisture, 0, 1),
-			slope: freezeRange(chochmahInput.ecology?.slope, 0, 1),
+			height: freezeChochmahWorldRange(chochmahInput.ecology?.height, -100000, 100000, [-100000, 100000]),
+			moisture: freezeChochmahWorldRange(chochmahInput.ecology?.moisture, 0, 1, [0, 1]),
+			slope: freezeChochmahWorldRange(chochmahInput.ecology?.slope, 0, 1, [0, 1]),
 			minimumScore: clamp01(chochmahInput.ecology?.minimumScore ?? 0)
 		});
 		this.season = String(chochmahInput.season || "summer");
+		if (new.target === TzomayachWorldRecipe) Object.freeze(this);
 	}
 
 	/**
@@ -39,25 +41,9 @@ export class TzomayachWorldRecipe extends DomemWorldRecipe {
 	}
 }
 
-/** Creates one immutable ordered numeric interval from array/object input. */
-function freezeRange(chochmahRange, gevurahFloor, chesedCeiling) {
-	const tiferesValues = Array.isArray(chochmahRange)
-		? chochmahRange
-		: [chochmahRange?.min, chochmahRange?.max];
-	const gevurahMinimum = finiteOr(tiferesValues[0], gevurahFloor);
-	const chesedMaximum = finiteOr(tiferesValues[1], chesedCeiling);
-	const yesodLow = Math.max(gevurahFloor, Math.min(chesedCeiling, Math.min(gevurahMinimum, chesedMaximum)));
-	const yesodHigh = Math.max(yesodLow, Math.min(chesedCeiling, Math.max(gevurahMinimum, chesedMaximum)));
-	return Object.freeze([yesodLow, yesodHigh]);
-}
-
-/** Converts arbitrary numeric input into a finite fallback-safe number. */
-function finiteOr(chochmahValue, tiferesFallback) {
-	const malchusValue = Number(chochmahValue);
-	return Number.isFinite(malchusValue) ? malchusValue : tiferesFallback;
-}
-
 /** Bounds one ecological score to the shared zero-through-one contract. */
 function clamp01(chochmahValue) {
-	return Math.min(1, Math.max(0, finiteOr(chochmahValue, 0)));
+	const malchusValue = Number(chochmahValue);
+	if (!Number.isFinite(malchusValue)) return 0;
+	return Math.min(1, Math.max(0, malchusValue));
 }

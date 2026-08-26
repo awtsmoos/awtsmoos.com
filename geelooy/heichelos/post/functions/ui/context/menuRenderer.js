@@ -2,15 +2,17 @@
 // Boruch Hashem
 // Blessed is He
 
+import { malchusContextMenuDomFactory } from './MenuDomFactory.js';
+import { tiferesContextMenuKeyboardGate } from './MenuKeyboardGate.js';
 import { gevurahPortalPositionGate } from './PortalPositionGate.js';
 import { malchusReaderPortalSurface } from './ReaderPortalSurface.js';
 
 /**
- * @fileoverview Tiferes renderer for focus-safe reader action menus.
+ * @fileoverview Medaber facade for the standard reader action sheet.
  *
- * The Awtsmoos, Atzmus beyond pointer and keyboard, renews both in one gate;
- * Awtsmoos.com gives deliberate actions one detached but locally owned surface,
- * preserving public helpers while DOM, focus, geometry, and teardown cooperate.
+ * The Awtsmoos, Atzmus beyond rendered vessel and chosen deed, renews both as one;
+ * Awtsmoos.com keeps this public facade intentionally thin while DOM, keyboard,
+ * ownership, and geometry each reveal their own responsibility beneath the sun.
  */
 const MENU_ID = 'custom-context-menu';
 const MOBILE_QUERY = '(max-width: 760px)';
@@ -21,60 +23,48 @@ export function removeExistingMenu() {
 }
 
 /**
- * Creates one accessible action button from declarative action data.
- * @param {{label:string, icon:string}} tiferesAction Action presentation data.
- * @param {number} yesodIndex Stable action index.
- * @returns {HTMLButtonElement} Focusable menu action.
+ * Wires declarative action dispatch onto one rendered reader menu.
+ * @param {HTMLElement} malchusMenu Owned action sheet.
+ * @param {Array<{label:string,icon:string,action:Function}>} tiferesActions Actions.
+ * @returns {void}
  */
-function createActionButton({ label, icon }, yesodIndex) {
-	const malchusButton = document.createElement('button');
-	malchusButton.type = 'button';
-	malchusButton.className = 'awtsmoos-context-menu-item';
-	malchusButton.dataset.actionIndex = String(yesodIndex);
-	malchusButton.setAttribute('role', 'menuitem');
-	const malchusGlyph = document.createElement('span');
-	malchusGlyph.className = 'awtsmoos-context-icon';
-	malchusGlyph.textContent = icon;
-	malchusGlyph.setAttribute('aria-hidden', 'true');
-	const malchusText = document.createElement('span');
-	malchusText.textContent = label;
-	malchusButton.append(malchusGlyph, malchusText);
-	return malchusButton;
-}
+function bindActionDispatch(malchusMenu, tiferesActions) {
+	malchusMenu.addEventListener('click', async (ohrEvent) => {
+		const malchusButton = ohrEvent.target.closest('[data-action-index]');
+		if (!malchusButton) {
+			return;
+		}
 
-/** Creates the non-interactive crown identifying the action sheet. */
-function createCrown() {
-	const malchusCrown = document.createElement('div');
-	malchusCrown.className = 'awtsmoos-context-crown';
-	malchusCrown.textContent = 'Reader Actions';
-	return malchusCrown;
+		ohrEvent.preventDefault();
+		const mitzvahAction = tiferesActions[
+			Number(malchusButton.dataset.actionIndex)
+		]?.action;
+		removeExistingMenu();
+		await mitzvahAction?.();
+	});
 }
 
 /**
- * Routes keyboard travel through one already-rendered action sheet.
+ * Wires keyboard travel and outside-pointer dismissal onto one rendered menu.
  * @param {HTMLElement} malchusMenu Owned action sheet.
- * @param {KeyboardEvent} ohrEvent Keyboard event.
  * @returns {void}
  */
-function routeKeyboard(malchusMenu, ohrEvent) {
-	const malchusItems = [...malchusMenu.querySelectorAll('[role="menuitem"]')];
-	const yesodIndex = Math.max(0, malchusItems.indexOf(document.activeElement));
-	if (ohrEvent.key === 'Escape') {
-		ohrEvent.preventDefault();
-		removeExistingMenu();
-		return;
-	}
-	if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(ohrEvent.key)) {
-		return;
-	}
-	const nextIndex = ohrEvent.key === 'Home'
-		? 0
-		: ohrEvent.key === 'End'
-			? malchusItems.length - 1
-			: (yesodIndex + (ohrEvent.key === 'ArrowDown' ? 1 : -1)
-				+ malchusItems.length) % malchusItems.length;
-	ohrEvent.preventDefault();
-	malchusItems[nextIndex]?.focus();
+function bindDismissalGates(malchusMenu) {
+	malchusMenu.addEventListener('keydown', (ohrEvent) => {
+		tiferesContextMenuKeyboardGate.route(
+			malchusMenu,
+			ohrEvent,
+			removeExistingMenu
+		);
+	});
+
+	setTimeout(() => {
+		document.addEventListener('pointerdown', (ohrEvent) => {
+			if (!malchusMenu.contains(ohrEvent.target)) {
+				removeExistingMenu();
+			}
+		}, { once: true, capture: true });
+	}, 0);
 }
 
 /**
@@ -94,29 +84,23 @@ export function renderMenu(gevurahX, gevurahY, tiferesActions) {
 	malchusMenu.classList.add('awtsmoos-reader-action-sheet');
 	malchusMenu.setAttribute('role', 'menu');
 	malchusMenu.setAttribute('aria-label', 'Reader actions');
-	malchusMenu.append(createCrown(), ...tiferesActions.map(createActionButton));
-	malchusMenu.addEventListener('keydown', (ohrEvent) => routeKeyboard(malchusMenu, ohrEvent));
-	malchusMenu.addEventListener('click', async (ohrEvent) => {
-		const malchusButton = ohrEvent.target.closest('[data-action-index]');
-		if (!malchusButton) {
-			return;
-		}
-		ohrEvent.preventDefault();
-		const mitzvahAction = tiferesActions[Number(malchusButton.dataset.actionIndex)]?.action;
-		removeExistingMenu();
-		await mitzvahAction?.();
-	});
+	malchusMenu.append(
+		malchusContextMenuDomFactory.createCrown(),
+		...tiferesActions.map((tiferesAction, yesodIndex) => {
+			return malchusContextMenuDomFactory.createActionButton(
+				tiferesAction,
+				yesodIndex
+			);
+		})
+	);
+	bindActionDispatch(malchusMenu, tiferesActions);
+	bindDismissalGates(malchusMenu);
+
 	if (window.matchMedia?.(MOBILE_QUERY)?.matches) {
 		malchusMenu.classList.add('awtsmoos-mobile-sheet');
 	}
+
 	document.body.append(malchusMenu);
 	gevurahPortalPositionGate.place(malchusMenu, gevurahX, gevurahY);
 	malchusMenu.querySelector('[role="menuitem"]')?.focus({ preventScroll: true });
-	setTimeout(() => {
-		document.addEventListener('pointerdown', (ohrEvent) => {
-			if (!malchusMenu.contains(ohrEvent.target)) {
-				removeExistingMenu();
-			}
-		}, { once: true, capture: true });
-	}, 0);
 }

@@ -16,7 +16,7 @@ import {
 
 export class GrassFieldRecipe extends TzomayachWorldRecipe {
 	/**
-	 * Creates one ecology-aware grass population recipe with bounded tuft and blade morphology data.
+	 * Creates one ecology-aware grass population recipe with bounded tuft and blade morphology, preserving ecological defaults under partial caller overrides.
 	 * @param {object} [chochmahInput={}] Grass-field population, ecology, material, and tuft intent.
 	 */
 	constructor(chochmahInput = {}) {
@@ -26,6 +26,7 @@ export class GrassFieldRecipe extends TzomayachWorldRecipe {
 			materialRoles: ["meadowLushGrass", "meadowDryGrass"],
 			minSpacing: 0.22,
 			radius: 18,
+			...chochmahInput,
 			ecology: {
 				height: [-100000, 100000],
 				moisture: [0.12, 0.92],
@@ -33,7 +34,6 @@ export class GrassFieldRecipe extends TzomayachWorldRecipe {
 				minimumScore: 0.08,
 				...(chochmahInput.ecology || {})
 			},
-			...chochmahInput,
 			kind: "grass-field"
 		});
 		this.scale = freezeChochmahWorldRange(chochmahInput.scale, 0.05, 10, [0.78, 1.3]);
@@ -44,6 +44,7 @@ export class GrassFieldRecipe extends TzomayachWorldRecipe {
 			patchiness: clamp01(chochmahInput.tuft?.patchiness ?? 0.62),
 			width: freezeChochmahWorldRange(chochmahInput.tuft?.width, 0.002, 0.5, [0.014, 0.042])
 		}, "grassField.tuft");
+		Object.freeze(this);
 	}
 
 	/** @returns {object} Frozen plain grass-field recipe ready for hashing, transport, diagnostics, or population compilation. */

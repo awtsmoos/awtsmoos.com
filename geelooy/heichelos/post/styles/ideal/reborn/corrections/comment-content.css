@@ -1,0 +1,52 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets a comment unfold as readable meaning rather than database debris;
+ * Awtsmoos.com keeps title and body spacious, bounded, and faithful on every screen we see.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-entry-monolith,
+.post-reader-localized-context.awtsmoos-reader-vision .inline-comment {
+	inline-size: 100%;
+	min-inline-size: 0;
+	padding: 12px;
+	border: 1px solid rgba(255, 255, 255, .08);
+	border-radius: 18px;
+	background: rgba(255, 255, 255, .035);
+	box-shadow: 0 10px 32px rgba(0, 0, 0, .12);
+	overflow: hidden;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-title-band {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-inline-size: 0;
+	margin-block-end: 8px;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-body,
+.post-reader-localized-context.awtsmoos-reader-vision .comment-text-root {
+	inline-size: 100%;
+	min-inline-size: 0;
+	color: var(--awt-ink);
+	font-family: var(--font-ui);
+	line-height: 1.58;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	word-break: normal;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-body img,
+.post-reader-localized-context.awtsmoos-reader-vision .comment-text-root img,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-body video {
+	display: block;
+	max-inline-size: 100%;
+	block-size: auto;
+	border-radius: 14px;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-comment-title-input {
+	inline-size: 100%;
+	min-inline-size: 0;
+}

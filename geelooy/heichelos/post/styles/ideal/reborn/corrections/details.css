@@ -1,0 +1,44 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets metadata serve the text without becoming the text itself;
+ * Awtsmoos.com keeps detail cards compact, legible, responsive, and visually felt.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-scroll-details-page {
+	display: grid;
+	gap: 12px;
+	inline-size: 100%;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-detail-hero,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-detail-card-body,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-detail-notice {
+	inline-size: 100%;
+	padding: 12px;
+	border: 1px solid rgba(255, 255, 255, .08);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, .035);
+	overflow: hidden;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-detail-card-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-inline-size: 0;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-detail-svg {
+	flex: 0 0 auto;
+	inline-size: 42px;
+	block-size: 42px;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-detail-description {
+	margin: 0;
+	color: var(--awt-muted);
+	font-family: var(--font-ui);
+	line-height: 1.55;
+	overflow-wrap: anywhere;
+}
