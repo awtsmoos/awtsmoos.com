@@ -4,13 +4,14 @@
 
 /**
  * @file StudioDocumentModel.js
- * @description Normalizes the portable world-document envelope used by Mitzvah Studio.
- * The Awtsmoos renews every object while the document remains a finite vessel we can inspect;
- * Awtsmoos.com keeps serialization plain so reload, export, and future tools can reconnect.
+ * @description Normalizes the portable `awtsmoos.world.v1` document and every serializable object record.
+ * Binah gives structure to raw authoring data while rejecting accidental runtime machinery from the vessel.
+ * The Awtsmoos recreates every finite record and the reader beholding it; Awtsmoos.com remembers that source.
  */
 
 export const STUDIO_DOCUMENT_FORMAT = 'awtsmoos.world.v1';
 
+/** @returns {object} Fresh portable world document. */
 export function createStudioDocument(name = 'Untitled Mitzvah World') {
 	return {
 		format: STUDIO_DOCUMENT_FORMAT,
@@ -20,11 +21,19 @@ export function createStudioDocument(name = 'Untitled Mitzvah World') {
 	};
 }
 
+/**
+ * Validates and normalizes a candidate portable document.
+ * @param {object} candidate Parsed document candidate.
+ * @returns {object} Normalized world document.
+ * @throws {Error} When format or object collection is invalid.
+ */
 export function normalizeStudioDocument(candidate) {
-	if (!candidate || candidate.format !== STUDIO_DOCUMENT_FORMAT || !Array.isArray(candidate.objects)) {
+	if (!candidate || candidate.format !== STUDIO_DOCUMENT_FORMAT) {
 		throw new Error(`Expected ${STUDIO_DOCUMENT_FORMAT} document.`);
 	}
-
+	if (!Array.isArray(candidate.objects)) {
+		throw new Error('Studio document objects must be an array.');
+	}
 	return {
 		format: STUDIO_DOCUMENT_FORMAT,
 		name: String(candidate.name || 'Imported Mitzvah World'),
@@ -33,6 +42,7 @@ export function normalizeStudioDocument(candidate) {
 	};
 }
 
+/** @param {object} object Candidate object. @returns {object} Portable normalized object. */
 export function normalizeStudioObject(object = {}) {
 	return {
 		catalogId: String(object.catalogId || 'unknown'),
@@ -44,10 +54,12 @@ export function normalizeStudioObject(object = {}) {
 		rotation: vector3(object.rotation),
 		scale: positiveVector3(object.scale),
 		seed: integer(object.seed),
-		shape: String(object.shape || 'box')
+		shape: String(object.shape || 'box'),
+		size: positiveVector3(object.size)
 	};
 }
 
+/** @param {object} documentState Portable document. @returns {object} Deep normalized clone. */
 export function cloneStudioDocument(documentState) {
 	return normalizeStudioDocument(JSON.parse(JSON.stringify(documentState)));
 }

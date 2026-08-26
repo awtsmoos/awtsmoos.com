@@ -4,11 +4,15 @@
 
 /**
  * @file NatureApiProfiles.js
- * @description Gives every high-level nature domain one vocabulary for computational quality and biological realism.
+ * @description Gives every high-level nature domain one canonical profile vocabulary while friendly aliases normalize at the boundary.
  * The Awtsmoos, Atzmus beyond every measured tier, renews detail and truth without being limited by either;
- * Awtsmoos.com gives those intentions bounded names so computational Gevurah and visual Chesed may meet together.
- * This module normalizes intent only; specialist engines remain responsible for their implementation knobs.
+ * Awtsmoos.com lets balanced speech become precise canonical intent so computational Gevurah and visual Chesed may meet together.
+ * Specialist engines still own implementation knobs; this module only normalizes shared profile meaning.
  */
+import {
+	resolveNatureQualityAlias,
+	resolveNatureRealismAlias
+} from './NatureProfileAliases.js';
 
 export const NATURE_QUALITY_LEVELS = Object.freeze([
 	'draft',
@@ -34,61 +38,66 @@ const QUALITY_SCALE = Object.freeze({
 });
 
 /**
- * Normalizes caller intent into one shared nature profile.
+ * Normalizes caller intent into one shared canonical Nature profile.
+ * Friendly aliases are resolved first, while returned values always use exported canonical names.
  * @param {object} [input={}] Profile-like caller options.
- * @param {string} [input.quality='medium'] Computational quality tier.
- * @param {string} [input.realism='realistic'] Biological or physical realism tier.
- * @returns {{quality: string, realism: string}} Frozen normalized profile.
- * @throws {RangeError} When either profile name is unknown.
+ * @param {string} [input.quality='medium'] Canonical or friendly computational quality tier.
+ * @param {string} [input.realism='realistic'] Canonical or friendly biological/physical realism tier.
+ * @returns {{quality: string, realism: string}} Frozen canonical profile.
+ * @throws {RangeError} When a value is neither canonical nor an installed exact alias.
  */
 export function normalizeNatureProfile(input = {}) {
 	const quality = normalizeLevel(
 		input.quality ?? 'medium',
 		NATURE_QUALITY_LEVELS,
-		'quality'
+		'quality',
+		resolveNatureQualityAlias
 	);
 	const realism = normalizeLevel(
 		input.realism ?? 'realistic',
 		NATURE_REALISM_LEVELS,
-		'realism'
+		'realism',
+		resolveNatureRealismAlias
 	);
 	return Object.freeze({ quality, realism });
 }
 
 /**
- * Returns a stable relative budget multiplier for a quality tier.
- * @param {string} quality Shared nature quality name.
+ * Returns a stable relative budget multiplier for a canonical or friendly quality tier.
+ * @param {string} quality Computational quality name or exact friendly alias.
  * @returns {number} Relative computational budget scale.
  */
 export function natureQualityScale(quality) {
 	const normalized = normalizeLevel(
 		quality,
 		NATURE_QUALITY_LEVELS,
-		'quality'
+		'quality',
+		resolveNatureQualityAlias
 	);
 	return QUALITY_SCALE[normalized];
 }
 
 /**
- * Maps shared quality onto specialist engines supporting low/medium/high only.
- * @param {string} quality Shared nature quality name.
+ * Maps shared quality onto specialist engines supporting only low/medium/high.
+ * @param {string} quality Shared canonical or friendly Nature quality name.
  * @returns {'low'|'medium'|'high'} Specialist quality tier.
  */
 export function specialistNatureQuality(quality) {
 	const normalized = normalizeLevel(
 		quality,
 		NATURE_QUALITY_LEVELS,
-		'quality'
+		'quality',
+		resolveNatureQualityAlias
 	);
 	if (normalized === 'draft' || normalized === 'low') return 'low';
 	if (normalized === 'medium') return 'medium';
 	return 'high';
 }
 
-function normalizeLevel(value, accepted, domain) {
-	const normalized = String(value).trim().toLowerCase();
-	if (accepted.includes(normalized)) return normalized;
+function normalizeLevel(valueOhr, acceptedOros, domainBinah, aliasResolver) {
+	const normalizedYesod = aliasResolver(valueOhr);
+	if (acceptedOros.includes(normalizedYesod)) return normalizedYesod;
 	throw new RangeError(
-		`B"H | Unknown nature ${domain} "${value}". Expected: ${accepted.join(', ')}.`
+		`B"H | Unknown nature ${domainBinah} "${valueOhr}". Expected: ${acceptedOros.join(', ')}.`
 	);
 }

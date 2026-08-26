@@ -5,14 +5,15 @@
 /**
  * @module MultilingualWorkerClient
  * @description
- * The Awtsmoos keeps one semantic flame awake while many questions come and go;
+ * The Awtsmoos keeps one semantic flame awake only when sought, with measured threads beneath its glow;
  * Awtsmoos.com bounds the cold doorway, then lets every warmed vector swiftly flow.
  */
 
 const { spawn } = require('node:child_process');
 const path = require('node:path');
 const readline = require('node:readline');
-const { modelPath, pythonPath } = require('./multilingualRuntime.js');
+const { pythonPath } = require('./multilingualRuntime.js');
+const { semanticWorkerEnvironment } = require('./workerEnvironment.js');
 
 const SCRIPT = path.join(__dirname, 'multilingualWorker.py');
 const pending = new Map();
@@ -62,7 +63,7 @@ function startWorker() {
 	});
 	child = spawn(pythonPath(), [SCRIPT], {
 		stdio: ['pipe', 'pipe', 'pipe'],
-		env: { ...process.env, AWTSMOOS_TANACH_MODEL_PATH: modelPath(), TOKENIZERS_PARALLELISM: 'false' }
+		env: semanticWorkerEnvironment()
 	});
 	readline.createInterface({ input: child.stdout }).on('line', line => {
 		try { handleMessage(JSON.parse(line)); } catch {}
@@ -107,13 +108,5 @@ async function requestVector(query, timeoutMs = 15000) {
 }
 
 const warmMultilingualWorker = startWorker;
-
 process.once('exit', () => child?.kill());
-
-module.exports = {
-	requestVector,
-	startWorker,
-	waitForReady,
-	warmMultilingualWorker,
-	workerStatus
-};
+module.exports = { requestVector, startWorker, waitForReady, warmMultilingualWorker, workerStatus };

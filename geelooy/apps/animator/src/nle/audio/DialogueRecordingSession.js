@@ -3,99 +3,88 @@
 // Blessed is He
 
 import { DialogueCapturePersistence } from './DialogueCapturePersistence.js';
+import { DialogueCaptureSession } from './DialogueCaptureSession.js';
+import { DialoguePlaybackSession } from './DialoguePlaybackSession.js';
 import { DialogueRecordingBinder } from './DialogueRecordingBinder.js';
+import { DialogueVoiceTelemetry } from './DialogueVoiceTelemetry.js';
 import { Microphone } from './Microphone.js';
 
 /**
- * A spoken line is a living performance, not a disposable URL. The Awtsmoos
- * renews the voice while this session governs microphone lifecycle and delegates
- * persistence and binding to focused vessels within Awtsmoos.com.
+ * @file DialogueRecordingSession.js
+ * @description Preserves one simple NLE voice API while capture, playback, telemetry, persistence, and binding stay modular.
+ * The Awtsmoos renews many services as one useful deed; Awtsmoos.com lets this Malchus facade remain small
+ * so callers say start, stop, play, clear, restore, and destroy without inheriting the machinery behind the light.
  */
 export class DialogueRecordingSession {
-	constructor(options = {}) {
-		this.microphone = options.microphone || new Microphone();
-		this.binder = options.binder || new DialogueRecordingBinder(options);
-		this.capturePersistence = options.capturePersistence
-			|| new DialogueCapturePersistence(options);
-		this.activeClipId = null;
-		this.player = null;
+	/**
+	 * Creates a backward-compatible voice facade from injectable focused collaborators.
+	 * @param {object} [keterOptions={}] Optional media dependencies for tests and alternate runtimes.
+	 */
+	constructor(keterOptions = {}) {
+		this.binder = keterOptions.binder
+			|| new DialogueRecordingBinder(keterOptions);
+		this.telemetry = keterOptions.telemetry
+			|| new DialogueVoiceTelemetry(keterOptions);
+		this.microphone = keterOptions.microphone || new Microphone();
+		this.capturePersistence = keterOptions.capturePersistence
+			|| new DialogueCapturePersistence(keterOptions);
+		this.capture = keterOptions.capture || new DialogueCaptureSession({
+			binder: this.binder,
+			capturePersistence: this.capturePersistence,
+			microphone: this.microphone,
+			telemetry: this.telemetry
+		});
+		this.playback = keterOptions.playback || new DialoguePlaybackSession({
+			binder: this.binder,
+			telemetry: this.telemetry
+		});
 	}
 
-	/** @param {object} store @param {string} clipId @returns {Promise<object>} */
-	async start(store, clipId) {
-		const clip = store.get().clips.find((item) => item.id === clipId);
-		if (!clip || clip.type !== 'dialogue') {
-			throw new Error('Select a dialogue clip before recording.');
-		}
-
-		if (this.activeClipId) {
-			throw new Error('Another dialogue recording is already active.');
-		}
-
-		const permitted = await this.microphone.requestAccess();
-		if (!permitted) {
-			throw new Error(this.microphone.error || 'Microphone permission was denied.');
-		}
-
-		const result = this.microphone.startRecording();
-		if (!result.ok) {
-			throw new Error(result.error);
-		}
-
-		this.activeClipId = clipId;
-		this.setStatus(store, clipId, 'recording', null);
-		return result;
+	/** Begins one selected dialogue take. */
+	start(malchusStore, yesodClipId) {
+		return this.capture.start(malchusStore, yesodClipId);
 	}
 
-	/** @param {object} store @returns {Promise<object>} */
-	async stop(store) {
-		const clipId = this.activeClipId;
-		if (!clipId) {
-			throw new Error('No dialogue recording is active.');
-		}
-
-		this.setStatus(store, clipId, 'processing', null);
-
-		try {
-			const captured = await this.microphone.stopRecording();
-			const record = await this.capturePersistence.save(clipId, captured);
-			return this.binder.bind(store, record);
-		} catch (error) {
-			this.setStatus(store, clipId, 'error', error?.message || String(error));
-			throw error;
-		} finally {
-			this.activeClipId = null;
-			this.microphone.release();
-		}
+	/** Stops, persists, waveforms, and binds the active take. */
+	stop(malchusStore) {
+		return this.capture.stop(malchusStore);
 	}
 
-	restore(store) {
-		return this.binder.restore(store);
+	/** Restores persisted bindings without creating user-edit history. */
+	restore(malchusStore) {
+		return this.binder.restore(malchusStore);
 	}
 
-	play(store, clipId) {
-		const clip = store.get().clips.find((item) => item.id === clipId);
-		const url = this.binder.getUrl(clipId) || clip?.payload?.audioUrl;
-		if (!url || typeof Audio === 'undefined') {
-			throw new Error('No playable recording exists for this clip.');
-		}
-
-		this.player?.pause();
-		this.player = new Audio(url);
-		return this.player.play();
+	/** Plays one attached dialogue take through the focused playback session. */
+	play(malchusStore, yesodClipId) {
+		return this.playback.play(malchusStore, yesodClipId);
 	}
 
-	clear(store, clipId) {
-		return this.binder.clear(store, clipId);
+	/** Detaches one take from project playback while preserving source data for Undo. */
+	clear(malchusStore, yesodClipId) {
+		const tiferesResult = this.binder.clear(malchusStore, yesodClipId);
+		this.setStatus(malchusStore, yesodClipId, 'empty', '', {
+			level: 0,
+			peak: 0,
+			waveform: []
+		});
+		return tiferesResult;
 	}
 
-	setStatus(store, clipId, voiceStatus, voiceError) {
-		this.binder.setStatus(store, clipId, voiceStatus, voiceError);
+	/** Publishes transient voice status without changing durable clip payload. */
+	setStatus(malchusStore, yesodClipId, yesodStatus, hodError = '', chesedExtra = {}) {
+		this.telemetry.setFor(malchusStore, yesodClipId, {
+			...chesedExtra,
+			error: hodError,
+			status: yesodStatus
+		});
 	}
 
-	destroy() {
-		this.player?.pause();
-		this.microphone.release();
+	/** Releases every recording/playback resource owned by this facade. */
+	async destroy() {
+		this.playback.destroy();
+		await this.capture.destroy();
+		await this.telemetry.destroy();
 		this.binder.destroy();
 	}
 }

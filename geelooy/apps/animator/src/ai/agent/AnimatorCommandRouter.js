@@ -4,14 +4,17 @@
 /**
  * @file AnimatorCommandRouter.js
  * @description
- * The Awtsmoos joins many domains through one registry without forcing their inner responsibilities into one switch;
- * Awtsmoos.com routes by declared command family so project, performance, animation, world, and system may expand without architectural glitch.
+ * The Awtsmoos joins many product domains through one registry without forcing their responsibilities into one switch;
+ * Awtsmoos.com routes by declared command family so project, performance, timeline, history, playback, animation, and world may expand without glitch.
  */
 
 import { NetzachAnimatorAnimationCommands } from './execution/AnimatorAnimationCommands.js';
+import { GevurahAnimatorHistoryCommands } from './execution/AnimatorHistoryCommands.js';
 import { TiferesAnimatorPerformanceCommands } from './execution/AnimatorPerformanceCommands.js';
+import { NetzachAnimatorPlaybackCommands } from './execution/AnimatorPlaybackCommands.js';
 import { MalchusAnimatorProjectCommands } from './execution/AnimatorProjectCommands.js';
 import { KeserAnimatorSystemCommands } from './execution/AnimatorSystemCommands.js';
+import { NetzachAnimatorTimelineCommands } from './execution/AnimatorTimelineCommands.js';
 import { YesodAnimatorWorldCommands } from './execution/AnimatorWorldCommands.js';
 import { DaasAnimatorCommandRegistry } from './registry/AnimatorCommandRegistry.js';
 
@@ -19,13 +22,18 @@ import { DaasAnimatorCommandRegistry } from './registry/AnimatorCommandRegistry.
 export class AnimatorCommandRouter {
 	/** @param {object} olamStore Existing NLE store. */
 	constructor(olamStore) {
-		if (!olamStore?.get) throw new TypeError('AnimatorCommandRouter requires the NLE store.');
+		if (!olamStore?.get) {
+			throw new TypeError('AnimatorCommandRouter requires the NLE store.');
+		}
 		this.yesodWorld = new YesodAnimatorWorldCommands(olamStore);
 		this.handlers = Object.freeze({
 			system: new KeserAnimatorSystemCommands(DaasAnimatorCommandRegistry),
 			project: new MalchusAnimatorProjectCommands(olamStore),
 			performance: new TiferesAnimatorPerformanceCommands(),
 			animation: new NetzachAnimatorAnimationCommands(),
+			timeline: new NetzachAnimatorTimelineCommands(olamStore),
+			history: new GevurahAnimatorHistoryCommands(olamStore),
+			playback: new NetzachAnimatorPlaybackCommands(olamStore),
 			world: this.yesodWorld
 		});
 	}
@@ -38,9 +46,13 @@ export class AnimatorCommandRouter {
 	/** @param {string} shemMitzvah Validated command. @param {object} keilimPayload Payload. @returns {*} Domain result. */
 	execute(shemMitzvah, keilimPayload = {}) {
 		const keliDescriptor = DaasAnimatorCommandRegistry.get(shemMitzvah);
-		if (!keliDescriptor) throw this.error(`Unsupported Animator command: ${shemMitzvah}`);
+		if (!keliDescriptor) {
+			throw this.error(`Unsupported Animator command: ${shemMitzvah}`);
+		}
 		const merkavahHandler = this.handlers[keliDescriptor.family];
-		if (!merkavahHandler?.execute) throw this.error(`Missing handler for Animator family: ${keliDescriptor.family}`);
+		if (!merkavahHandler?.execute) {
+			throw this.error(`Missing handler for Animator family: ${keliDescriptor.family}`);
+		}
 		return merkavahHandler.execute(shemMitzvah, keilimPayload);
 	}
 

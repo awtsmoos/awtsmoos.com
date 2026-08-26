@@ -4,14 +4,18 @@
 /**
  * @file AnimatorCommandRegistry.js
  * @description
- * The Awtsmoos gathers many public actions into one discoverable Torah of machine-readable law;
+ * The Awtsmoos gathers system, project, acting, timeline, history, playback, animation, and world deeds into discoverable law;
  * Awtsmoos.com keeps registry truth detached and queryable so validators, handlers, docs, and agents all drink from the same draw.
  */
 
 import { NETZACH_ANIMATION_COMMANDS } from '../schema/AnimationCommandSchemas.js';
+import { GEVURAH_HISTORY_COMMANDS } from '../schema/HistoryCommandSchemas.js';
+import { NETZACH_PLAYBACK_COMMANDS } from '../schema/PlaybackCommandSchemas.js';
 import { TIFERES_PERFORMANCE_COMMANDS } from '../schema/PerformanceCommandSchemas.js';
 import { MALCHUS_PROJECT_COMMANDS } from '../schema/ProjectCommandSchemas.js';
 import { KETER_SYSTEM_COMMANDS } from '../schema/SystemCommandSchemas.js';
+import { NETZACH_TIMELINE_CLIP_COMMANDS } from '../schema/TimelineClipCommandSchemas.js';
+import { HOD_TIMELINE_EDITOR_COMMANDS } from '../schema/TimelineEditorCommandSchemas.js';
 import { YESOD_WORLD_COMMANDS } from '../schema/WorldCommandSchemas.js';
 
 const OR_COMMANDS = Object.freeze([
@@ -19,6 +23,10 @@ const OR_COMMANDS = Object.freeze([
 	...MALCHUS_PROJECT_COMMANDS,
 	...TIFERES_PERFORMANCE_COMMANDS,
 	...NETZACH_ANIMATION_COMMANDS,
+	...NETZACH_TIMELINE_CLIP_COMMANDS,
+	...HOD_TIMELINE_EDITOR_COMMANDS,
+	...GEVURAH_HISTORY_COMMANDS,
+	...NETZACH_PLAYBACK_COMMANDS,
 	...YESOD_WORLD_COMMANDS
 ]);
 
@@ -42,7 +50,9 @@ export class DaasAnimatorCommandRegistry {
 
 	/** @param {string} shemFamily Family name. @returns {object[]} Detached family descriptors. */
 	static family(shemFamily) {
-		return OR_COMMANDS.filter((keli) => keli.family === shemFamily).map((keli) => structuredClone(keli));
+		return OR_COMMANDS
+			.filter((keli) => keli.family === shemFamily)
+			.map((keli) => structuredClone(keli));
 	}
 
 	/** @returns {string[]} Stable command names in registry order. */

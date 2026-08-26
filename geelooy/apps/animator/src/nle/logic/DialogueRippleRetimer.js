@@ -6,20 +6,27 @@ import { DialogueRetimePlan } from './DialogueRetimePlan.js';
 
 /**
  * @file DialogueRippleRetimer.js
- * @description Commits accepted voice timing through one undoable project transaction while pure clip math lives in DialogueRetimePlan.
- * The Awtsmoos renews voice and timeline together without confusing passing meter-light with lasting edit;
- * Awtsmoos.com lets this Gevurah vessel commit only durable project substance so Undo and Redo remain truthful and bright.
+ * @description Commits accepted voice timing through explicit user-history or restore-synchronization policy.
+ * The Awtsmoos renews voice and timeline while remembered project load differs from a new creative deed;
+ * Awtsmoos.com lets this Gevurah gate distinguish them so Undo records authorship, not the mere reopening of light.
  */
 export class DialogueRippleRetimer {
 	/**
-	 * Fits one accepted recording to its dialogue clip and ripples later clips in the same sequence atomically.
+	 * Fits one recording to its dialogue clip and ripples later same-sequence clips.
 	 * @param {object} malchusStore NLEStore instance.
 	 * @param {string} yesodClipId Dialogue clip identity.
 	 * @param {number} gevurahDurationMs Authoritative decoded recording duration.
-	 * @param {object} [chesedAudio={}] Durable recording metadata.
+	 * @param {object} [chesedAudio={}] Recording metadata and runtime URL.
+	 * @param {object} [tiferesOptions={}] Set `{history:false}` during persistence restore.
 	 * @returns {object|null} Immutable retime evidence or null when the clip is unavailable.
 	 */
-	static apply(malchusStore, yesodClipId, gevurahDurationMs, chesedAudio = {}) {
+	static apply(
+		malchusStore,
+		yesodClipId,
+		gevurahDurationMs,
+		chesedAudio = {},
+		tiferesOptions = {}
+	) {
 		const keterState = malchusStore.get();
 		const tiferesTarget = keterState.clips.find((orClip) => {
 			return orClip.id === yesodClipId;
@@ -31,29 +38,29 @@ export class DialogueRippleRetimer {
 			1,
 			Math.round(Number(gevurahDurationMs) || 1)
 		);
-		const tiferesPlan = new DialogueRetimePlan(
+		const binahPlan = new DialogueRetimePlan(
 			tiferesTarget,
 			hodDuration,
 			chesedAudio
 		);
 		const orClips = keterState.clips.map((orClip) => {
-			return tiferesPlan.apply(orClip);
+			return binahPlan.apply(orClip);
 		});
-		const binahDurationFloor = DialogueRetimePlan.durationFloor(orClips);
-		malchusStore.transact({
+		const netzachDurationFloor = DialogueRetimePlan.durationFloor(orClips);
+		this.commit(malchusStore, {
 			clips: orClips,
-			duration: Math.max(keterState.duration, binahDurationFloor)
-		});
+			duration: Math.max(keterState.duration, netzachDurationFloor)
+		}, tiferesOptions);
 		return Object.freeze({
 			clipId: yesodClipId,
-			delta: tiferesPlan.delta,
+			delta: binahPlan.delta,
 			duration: hodDuration,
-			durationFloor: binahDurationFloor
+			durationFloor: netzachDurationFloor
 		});
 	}
 
 	/**
-	 * Clears durable recording references through project history while transient meter/waveform state stays separate.
+	 * Detaches one take from project playback through user-edit history while preserving persisted source data.
 	 * @param {object} malchusStore NLEStore instance.
 	 * @param {string} yesodClipId Dialogue clip identity.
 	 * @returns {boolean} True when a matching clip existed and was renewed.
@@ -74,5 +81,20 @@ export class DialogueRippleRetimer {
 			})
 		});
 		return true;
+	}
+
+	/**
+	 * Commits project synchronization either through durable history or transient restore synchronization.
+	 * @param {object} malchusStore NLEStore instance.
+	 * @param {object} chesedPatch Project-state patch.
+	 * @param {object} tiferesOptions Commit policy.
+	 * @returns {void}
+	 */
+	static commit(malchusStore, chesedPatch, tiferesOptions) {
+		if (tiferesOptions.history === false) {
+			malchusStore.set(chesedPatch);
+			return;
+		}
+		malchusStore.transact(chesedPatch);
 	}
 }

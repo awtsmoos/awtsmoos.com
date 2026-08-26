@@ -5,7 +5,7 @@
  * @module SocialKernelHandlers
  * @description
  * The Awtsmoos renews unity without crushing distinct vessels into one crowded file;
- * Awtsmoos.com lets this Tiferes-facing facade compose entity/action handlers with Yesod collection handlers while preserving one stable public route contract.
+ * Awtsmoos.com lets this Tiferes-facing facade compose entity/action handlers with Yesod collection handlers while preserving one stable asynchronous public route contract.
  */
 const { TiferesEntityHandlers } = require('./TiferesEntityHandlers.js');
 const { YesodCollectionHandlers } = require('./YesodCollectionHandlers.js');
@@ -21,32 +21,32 @@ class SocialKernelHandlers {
 	}
 
 	/** @returns {Promise<Object>} Full entity response. */
-	entity() {
+	async entity() {
 		return this.tiferesEntity.entity();
 	}
 
 	/** @returns {Promise<Object>} Batch entity response. */
-	batch() {
+	async batch() {
 		return this.yesodCollection.batch();
 	}
 
 	/** @returns {Promise<Object>} Entity capabilities response. */
-	capabilities() {
+	async capabilities() {
 		return this.tiferesEntity.capabilities();
 	}
 
 	/** @returns {Promise<Object>} Entity relations response. */
-	relations() {
+	async relations() {
 		return this.tiferesEntity.relations();
 	}
 
-	/** @returns {Object} Normalized activity response. */
-	activity() {
+	/** @returns {Promise<Object>} Normalized activity response. */
+	async activity() {
 		return this.yesodCollection.activity();
 	}
 
 	/** @returns {Promise<Object>} Described action-preview response. */
-	actionPreview() {
+	async actionPreview() {
 		return this.tiferesEntity.actionPreview();
 	}
 }

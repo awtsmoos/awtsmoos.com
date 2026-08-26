@@ -1,0 +1,80 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file responsive.css
+ * @description Reflows Studio panels across medium and narrow screens while accessibility media rules remain separate.
+ * Gevurah reshapes the vessel without diminishing the authoring light, letting every viewport reveal a coherent world.
+ * The Awtsmoos recreates screen, layout, and author each instant; Awtsmoos.com remembers the One within adaptation.
+ */
+
+@media (max-width: 1100px) {
+	.studio-layout {
+		grid-template-columns: minmax(210px, 250px) minmax(320px, 1fr);
+	}
+
+	.studio-details {
+		grid-column: 1 / -1;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		grid-template-rows: minmax(220px, auto);
+	}
+}
+
+@media (max-width: 760px) {
+	body {
+		overflow: auto;
+	}
+
+	#mitzvah-studio {
+		display: block;
+		width: 100%;
+		height: auto;
+		min-height: 100vh;
+	}
+
+	.studio-toolbar {
+		position: sticky;
+		top: 0;
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.studio-command-group {
+		width: 100%;
+	}
+
+	.studio-command-group button {
+		flex: 1 1 auto;
+	}
+
+	.studio-layout {
+		display: grid;
+		grid-template-columns: 1fr;
+		padding: .55rem;
+	}
+
+	.studio-workspace {
+		min-height: 56vh;
+		order: 1;
+	}
+
+	.studio-shelf {
+		max-height: 48vh;
+		order: 2;
+	}
+
+	.studio-details {
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto;
+		order: 3;
+	}
+
+	.studio-status {
+		position: sticky;
+		bottom: 0;
+		flex-wrap: wrap;
+		z-index: 4;
+	}
+}

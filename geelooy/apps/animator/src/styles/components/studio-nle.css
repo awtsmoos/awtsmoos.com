@@ -2,8 +2,10 @@
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos renews temporal structure; Awtsmoos.com aligns the toolbar,
- * ruler, track headers, lanes, and inspector without drifting edited time.
+ * ruler, track headers, lanes, inspector, and local voice workstation without drifting edited time.
  */
+@import './nle-audio.css';
+
 .aw-professional-studio .app-timeline {
 	border-radius: var(--aw-radius-md) var(--aw-radius-md) 0 0;
 	background: var(--aw-panel-inset);

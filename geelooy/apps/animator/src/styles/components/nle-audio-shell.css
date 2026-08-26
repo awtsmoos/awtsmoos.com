@@ -1,0 +1,101 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews the voice before the shell can hold it; Awtsmoos.com keeps this
+ * recorder finite, readable, and contained so no status, dialogue, or error escapes its vessel.
+ */
+.aw-professional-studio .aw-nle-recorder {
+	--aw-audio-accent: var(--aw-accent, #79a8ff);
+	--aw-audio-danger: #ff7d8d;
+	display: grid;
+	gap: 10px;
+	min-width: 0;
+	max-width: 100%;
+	padding: 12px;
+	overflow: hidden;
+	border: 1px solid var(--aw-line-strong);
+	border-radius: var(--aw-radius-md);
+	background: color-mix(in srgb, var(--aw-panel-raised) 90%, transparent);
+	box-shadow: inset 0 1px 0 color-mix(in srgb, white 5%, transparent);
+}
+
+.aw-professional-studio .aw-nle-recorder__header,
+.aw-professional-studio .aw-nle-recorder__status-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	min-width: 0;
+}
+
+.aw-professional-studio .aw-nle-recorder__eyebrow {
+	margin: 0;
+	color: var(--aw-muted);
+	font-size: 9px;
+	font-weight: 750;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.aw-professional-studio .aw-nle-recorder__title,
+.aw-professional-studio .aw-nle-recorder__dialogue,
+.aw-professional-studio .aw-nle-recorder__error {
+	min-width: 0;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.aw-professional-studio .aw-nle-recorder__title {
+	font-size: 13px;
+	font-weight: 760;
+}
+
+.aw-professional-studio .aw-nle-recorder__dialogue {
+	padding: 9px 10px;
+	border: 1px solid color-mix(in srgb, var(--aw-line-strong) 70%, transparent);
+	border-radius: calc(var(--aw-radius-md) - 2px);
+	background: var(--aw-panel-inset);
+	color: var(--aw-text);
+	font-size: 11px;
+	line-height: 1.45;
+}
+
+.aw-professional-studio .aw-nle-recorder__status {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	color: var(--aw-muted);
+	font-size: 10px;
+}
+
+.aw-professional-studio .aw-nle-recorder__status-dot {
+	inline-size: 7px;
+	block-size: 7px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: currentColor;
+	box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.aw-professional-studio .aw-nle-recorder[data-status='recording'] .aw-nle-recorder__status {
+	color: var(--aw-audio-danger);
+}
+
+.aw-professional-studio .aw-nle-recorder__duration {
+	flex: 0 0 auto;
+	font: 10px var(--aw-mono);
+	color: var(--aw-text);
+}
+
+.aw-professional-studio .aw-nle-recorder__error {
+	padding: 8px 9px;
+	border: 1px solid color-mix(in srgb, var(--aw-audio-danger) 38%, transparent);
+	border-radius: calc(var(--aw-radius-md) - 2px);
+	background: color-mix(in srgb, var(--aw-audio-danger) 10%, transparent);
+	color: var(--aw-audio-danger);
+	font-size: 10px;
+	line-height: 1.4;
+}

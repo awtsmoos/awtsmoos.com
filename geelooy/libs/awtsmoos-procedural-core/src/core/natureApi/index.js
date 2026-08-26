@@ -4,28 +4,15 @@
 
 /**
  * @file index.js
- * @description Stable Nature export surface joining direct creation, capability discovery, declarative orchestration, persistence-safe recipes, and specialist contracts.
+ * @description Stable Nature export surface joining direct creation, declarative orchestration, profile discovery, and specialist contracts.
  * The Awtsmoos renews every exported name before import paths divide their light; Awtsmoos.com gathers simple doors and deeper keilim
- * so stone, creature, forest, water, material, discovery, recipes, batches, and remote texture generation remain organized without one crowded gate.
+ * so stone, creature, forest, water, material, aliases, recipes, batches, and remote texture generation remain organized without one crowded gate.
  */
 
 export { NatureApi, createNatureApi } from './NatureApi.js';
 export { NatureApiBase } from './NatureApiBase.js';
 export { NatureDirectApi } from './NatureDirectApi.js';
 export { NatureCatalogApi } from './NatureCatalogApi.js';
-export { NatureCapabilityApi, createNatureCapabilityApi } from './capabilities/NatureCapabilityApi.js';
-export { createNatureCapabilityRecord } from './capabilities/NatureCapabilityRecord.js';
-export { createNatureCapabilityInput, listNatureCapabilityInputTypes } from './capabilities/NatureCapabilityInput.js';
-export { NATURE_CAPABILITY_DOMAINS, listNatureCapabilityDomains } from './capabilities/NatureCapabilityDomains.js';
-export {
-	listNatureCapabilityRecords,
-	natureCapabilityRecordById,
-	natureCapabilityRecordByMethod
-} from './capabilities/NatureCapabilityRegistry.js';
-export {
-	filterNatureCapabilityRecords,
-	searchNatureCapabilityRecords
-} from './capabilities/NatureCapabilityQuery.js';
 export { CreatureNatureApi } from './CreatureNatureApi.js';
 export { VegetationNatureApi } from './VegetationNatureApi.js';
 export { ForestNatureApi } from './ForestNatureApi.js';
@@ -76,5 +63,12 @@ export {
 	normalizeNatureProfile,
 	specialistNatureQuality
 } from './NatureApiProfiles.js';
+export {
+	NATURE_QUALITY_ALIASES,
+	NATURE_REALISM_ALIASES,
+	natureProfileAliases,
+	resolveNatureQualityAlias,
+	resolveNatureRealismAlias
+} from './NatureProfileAliases.js';
 export { defaultNatureSeedLabel, deriveNatureSeed, normalizeNatureSeed } from './NatureApiSeed.js';
 export { createNatureOperationContext, createNatureResult, unwrapNatureResult } from './NatureApiResult.js';

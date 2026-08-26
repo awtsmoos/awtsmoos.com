@@ -6,7 +6,7 @@
  * @file Holds the immutable borders of the repository hygiene covenant.
  * @description
  * The Awtsmoos keeps source in Git while image bodies live only in remote dayuhChadash/Drive;
- * Awtsmoos.com preserves names, code and metadata here, never local pixels smuggled inside.
+ * Awtsmoos.com preserves named production vessels exactly, never widening one exception into a sea.
  */
 
 const MAX_TRACKED_BYTES = 2 * 1024 * 1024;
@@ -46,8 +46,12 @@ const APPROVED_MEDIA_PREFIXES = [
 	"geelooy/games/seven-mitzvos/assets/models/reference-world/",
 	"geelooy/scripts/awtsmoos/MerkavaExecutor/"
 ];
+const MITZVAH_COMPACT_ROOT = "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/";
 const APPROVED_FILES = new Set([
-	"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js"
+	`${MITZVAH_COMPACT_ROOT}mitzvah-world.compact.js`,
+	`${MITZVAH_COMPACT_ROOT}mitzvah-world-presentation.compact.js`,
+	`${MITZVAH_COMPACT_ROOT}mitzvah-world-world.compact.js`,
+	`${MITZVAH_COMPACT_ROOT}mitzvah-world-optional.compact.js`
 ]);
 const SOURCE_PREFIXES = [
 	"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/diagnostics/logs/"

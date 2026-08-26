@@ -5,89 +5,90 @@
 import { DialogueRippleRetimer } from '../logic/DialogueRippleRetimer.js';
 
 /**
- * Recorded blobs are ohr; timeline bindings are their keli. This class restores
- * durable performances, owns temporary URLs, and lets the Awtsmoos rejoin voice
- * with timing whenever Awtsmoos.com opens the project anew.
+ * @file DialogueRecordingBinder.js
+ * @description Binds persisted voice records to timeline clips while URL lifetime and project-history policy stay explicit.
+ * The Awtsmoos renews remembered voice and present timeline as distinct lights; Awtsmoos.com lets this Yesod
+ * bridge join them without deleting the source needed by Undo or manufacturing history while a project merely restores.
  */
 export class DialogueRecordingBinder {
-	constructor(options) {
-		this.repository = options.repository;
-		this.urlRegistry = options.urlRegistry;
+	/**
+	 * Creates a recording binder from explicit persistence and object-URL dependencies.
+	 * @param {object} keterOptions Repository and URL registry dependencies.
+	 */
+	constructor(keterOptions) {
+		this.repository = keterOptions.repository;
+		this.urlRegistry = keterOptions.urlRegistry;
 		this.recordings = new Map();
 	}
 
-	/** @param {object} store @returns {Promise<object[]>} */
-	async restore(store) {
-		const records = await this.repository.findAll();
-		const clips = store.get().clips;
-		records.sort((left, right) => {
-			return this.clipStart(clips, left.clipId)
-				- this.clipStart(clips, right.clipId);
+	/**
+	 * Restores persisted takes in timeline order without adding user-edit history entries.
+	 * @param {object} malchusStore NLEStore instance.
+	 * @returns {Promise<object[]>} Restored persistence records.
+	 */
+	async restore(malchusStore) {
+		const orRecords = await this.repository.findAll();
+		const tiferesClips = malchusStore.get().clips;
+		orRecords.sort((left, right) => {
+			return this.clipStart(tiferesClips, left.clipId)
+				- this.clipStart(tiferesClips, right.clipId);
 		});
-
-		for (const record of records) {
-			const clip = store.get().clips.find((item) => {
-				return item.id === record.clipId;
-			});
-			if (clip?.type === 'dialogue') {
-				this.bind(store, record);
+		for (const netzachRecord of orRecords) {
+			const hodClip = malchusStore.findClip?.(netzachRecord.clipId)
+				|| malchusStore.get().clips.find((orClip) => orClip.id === netzachRecord.clipId);
+			if (hodClip?.type === 'dialogue' && !hodClip.payload?.audioDetached) {
+				this.bind(malchusStore, netzachRecord, { history: false });
 			}
 		}
-
-		return records;
+		return orRecords;
 	}
 
-	/** @param {object} store @param {object} record @returns {object} */
-	bind(store, record) {
-		const key = `recording:${record.clipId}`;
-		const url = this.urlRegistry.bind(key, record.blob);
-		this.recordings.set(record.clipId, { ...record, url });
-
+	/**
+	 * Creates a reusable object URL and joins one persisted record to its timeline clip.
+	 * @param {object} malchusStore NLEStore instance.
+	 * @param {object} netzachRecord Persisted recording record.
+	 * @param {object} [gevurahOptions={}] History policy for restore versus user edits.
+	 * @returns {object|null} Retime evidence.
+	 */
+	bind(malchusStore, netzachRecord, gevurahOptions = {}) {
+		const yesodKey = `recording:${netzachRecord.clipId}`;
+		const orUrl = this.urlRegistry.bind(yesodKey, netzachRecord.blob);
+		this.recordings.set(netzachRecord.clipId, { ...netzachRecord, url: orUrl });
 		return DialogueRippleRetimer.apply(
-			store,
-			record.clipId,
-			record.durationMs,
+			malchusStore,
+			netzachRecord.clipId,
+			netzachRecord.durationMs,
 			{
-				url,
-				mimeType: record.mimeType,
-				recordingId: record.recordingId,
-				recordedAt: record.updatedAt
-			}
+				mimeType: netzachRecord.mimeType,
+				recordedAt: netzachRecord.updatedAt,
+				recordingId: netzachRecord.recordingId,
+				url: orUrl
+			},
+			gevurahOptions
 		);
 	}
 
-	/** @param {object} store @param {string} clipId @returns {Promise<void>} */
-	async clear(store, clipId) {
-		await this.repository.deleteByClipId(clipId);
-		this.urlRegistry.revoke(`recording:${clipId}`);
-		this.recordings.delete(clipId);
-		DialogueRippleRetimer.clear(store, clipId);
+	/**
+	 * Detaches a take from project state while preserving its runtime/persisted source for truthful Undo.
+	 * @param {object} malchusStore NLEStore instance.
+	 * @param {string} yesodClipId Dialogue clip identity.
+	 * @returns {boolean} True when the project binding changed.
+	 */
+	clear(malchusStore, yesodClipId) {
+		return DialogueRippleRetimer.clear(malchusStore, yesodClipId);
 	}
 
-	/** @param {object} store @param {string} clipId @param {string} voiceStatus @param {string|null} voiceError @returns {void} */
-	setStatus(store, clipId, voiceStatus, voiceError) {
-		store.set((state) => ({
-			clips: state.clips.map((clip) => {
-				if (clip.id !== clipId) {
-					return clip;
-				}
-
-				return {
-					...clip,
-					payload: { ...clip.payload, voiceStatus, voiceError }
-				};
-			})
-		}));
+	/** Returns the current runtime URL for a persisted take. */
+	getUrl(yesodClipId) {
+		return this.recordings.get(yesodClipId)?.url || null;
 	}
 
-	getUrl(clipId) {
-		return this.recordings.get(clipId)?.url || null;
+	/** Returns timeline start for deterministic persistence restoration ordering. */
+	clipStart(orClips, yesodClipId) {
+		return orClips.find((orClip) => orClip.id === yesodClipId)?.start ?? Infinity;
 	}
 
-	clipStart(clips, clipId) {
-		return clips.find((clip) => clip.id === clipId)?.start ?? Infinity;
-	}
-
+	/** Revokes session object URLs and releases in-memory record metadata. */
 	destroy() {
 		this.urlRegistry.clear();
 		this.recordings.clear();

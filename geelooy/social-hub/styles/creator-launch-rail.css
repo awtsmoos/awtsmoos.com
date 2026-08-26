@@ -3,39 +3,34 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos lets post, moving image, voice, verse, branch, poll, and live creation pass beneath one finger;
-Awtsmoos.com gives each canonical road a fast snap, a quiet spark, and no expensive per-card blur.
+Awtsmoos.com gives each canonical road a bounded vessel, a quiet spark, and no hidden road beyond the mobile horizon.
 */
 .social-hub-document .creatorLaunchRail {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: .46rem;
+	inline-size: 100%;
+	min-inline-size: 0;
 	max-inline-size: 100%;
 	padding-block: .1rem .28rem;
-	overflow-x: auto;
-	overscroll-behavior-inline: contain;
-	scroll-snap-type: x mandatory;
-	scrollbar-width: none;
-	-webkit-overflow-scrolling: touch;
-}
-
-.social-hub-document .creatorLaunchRail::-webkit-scrollbar {
-	display: none;
 }
 
 .social-hub-document .creatorLaunchButton {
 	position: relative;
 	display: grid;
-	flex: 0 0 4.85rem;
 	grid-template-rows: 1.7rem auto;
 	place-items: center;
 	gap: .3rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	min-block-size: 4.2rem;
 	padding: .48rem .36rem;
 	border: 1px solid rgb(158 247 255 / 15%);
 	border-radius: .92rem;
 	background: rgb(255 255 255 / 2.5%);
 	color: var(--ink);
+	text-align: center;
 	text-decoration: none;
-	scroll-snap-align: start;
 	contain: layout paint;
 	transition:
 		transform 170ms cubic-bezier(.2, .8, .2, 1),
@@ -46,7 +41,7 @@ Awtsmoos.com gives each canonical road a fast snap, a quiet spark, and no expens
 
 .social-hub-document .creatorLaunchButton span {
 	display: grid;
-	width: 1.65rem;
+	inline-size: 1.65rem;
 	aspect-ratio: 1;
 	place-items: center;
 	color: var(--cyan);
@@ -55,18 +50,29 @@ Awtsmoos.com gives each canonical road a fast snap, a quiet spark, and no expens
 }
 
 .social-hub-document .creatorLaunchButton strong {
+	max-inline-size: 100%;
 	font-size: .7rem;
+	overflow-wrap: anywhere;
 }
 
-.social-hub-document .creatorLaunchButton:is(:hover, :focus-visible) {
-	border-color: rgb(126 239 255 / 48%);
-	background: rgb(126 239 255 / 7%);
-	box-shadow: 0 0 1.15rem rgb(82 218 255 / 8%);
-	transform: translate3d(0, -2px, 0);
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .creatorLaunchButton:hover {
+		border-color: rgb(126 239 255 / 48%);
+		background: rgb(126 239 255 / 7%);
+		box-shadow: 0 0 1.15rem rgb(82 218 255 / 8%);
+		transform: translate3d(0, -2px, 0);
+	}
+
+	.social-hub-document .creatorLaunchButton:hover span {
+		transform: scale(1.06);
+	}
 }
 
-.social-hub-document .creatorLaunchButton:is(:hover, :focus-visible) span {
-	transform: scale(1.06);
+.social-hub-document .creatorLaunchButton:focus-visible {
+	border-color: rgb(126 239 255 / 58%);
+	outline: 3px solid rgb(126 239 255 / 72%);
+	outline-offset: 2px;
+	box-shadow: 0 0 1.15rem rgb(82 218 255 / 10%);
 }
 
 .social-hub-document .creatorLaunchButton:active {
@@ -74,20 +80,32 @@ Awtsmoos.com gives each canonical road a fast snap, a quiet spark, and no expens
 }
 
 @media (min-width: 40.01rem) {
+	.social-hub-document .creatorLaunchRail {
+		display: flex;
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+	}
+
+	.social-hub-document .creatorLaunchRail::-webkit-scrollbar {
+		display: none;
+	}
+
 	.social-hub-document .creatorLaunchButton {
-		flex-basis: 5.2rem;
+		flex: 0 0 5.2rem;
 		min-block-size: 4.35rem;
+		scroll-snap-align: start;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.social-hub-document .creatorLaunchButton {
-		transition-duration: .01ms;
+	.social-hub-document .creatorLaunchButton,
+	.social-hub-document .creatorLaunchButton span {
+		transition: none;
 	}
 
-	.social-hub-document .creatorLaunchButton:is(:hover, :focus-visible),
-.social-hub-document .creatorLaunchButton:is(:hover, :focus-visible) span,
-.social-hub-document .creatorLaunchButton:active {
+	.social-hub-document .creatorLaunchButton:is(:hover, :active) {
 		transform: none;
 	}
 }

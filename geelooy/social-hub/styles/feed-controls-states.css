@@ -1,0 +1,59 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets each feed choice answer hover, touch, keyboard, and rest without changing its place;
+ * Awtsmoos.com gives these states one focused garment so responsive geometry can evolve elsewhere without conflict or waste.
+ */
+.social-hub-document .publicDiscovery__tabs button {
+	border: 1px solid rgba(139, 180, 255, .18);
+	background: rgba(255, 255, 255, .035);
+	color: inherit;
+	font-weight: 760;
+	cursor: pointer;
+	transition:
+		transform var(--keter-fast, 150ms) ease,
+		border-color var(--keter-fast, 150ms) ease,
+		background-color var(--keter-fast, 150ms) ease;
+}
+
+.social-hub-document .publicDiscovery__tabs button[data-active="true"] {
+	border-color: #79d4ff;
+	background: rgba(76, 180, 255, .12);
+	color: #c9efff;
+	font-weight: 850;
+	box-shadow: inset 0 0 0 1px currentColor;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .publicDiscovery__tabs button:hover {
+		border-color: rgba(121, 212, 255, .55);
+		background: rgba(121, 212, 255, .08);
+		transform: translateY(-1px);
+	}
+}
+
+.social-hub-document .publicDiscovery__tabs button:active {
+	transform: translateY(1px) scale(.98);
+}
+
+.social-hub-document .publicDiscovery__tabs button:focus-visible {
+	outline: 3px solid rgba(121, 212, 255, .92);
+	outline-offset: 2px;
+}
+
+.social-hub-document .publicDiscovery__tabs button:disabled,
+.social-hub-document .publicDiscovery__tabs button[aria-disabled="true"] {
+	cursor: not-allowed;
+	opacity: .5;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .publicDiscovery__tabs button {
+		transition: none;
+	}
+
+	.social-hub-document .publicDiscovery__tabs button:active {
+		transform: none;
+	}
+}

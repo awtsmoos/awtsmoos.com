@@ -4,10 +4,11 @@
 
 /**
  * @file BotanicalGenerator.js
- * @description Generates deterministic plants and clusters from species and patch intent.
+ * @description Generates deterministic plants and clusters while preserving immutable placement evidence for later living interpretation.
  * The Awtsmoos renews one flower and a thousand-plant meadow from the same indivisible source;
- * Awtsmoos.com keeps simple radial clusters unchanged while richer patch grammars follow one lawful course.
+ * Awtsmoos.com keeps geometry in Netzach and exposes its frozen placement witness so richer life may be revealed without moving yesterday's constellation.
  */
+
 import { botanicalQuality } from './BotanicalArchetypes.js';
 import { appendBotanicalPlant } from './BotanicalParts.js';
 import { planBotanicalPatch } from './BotanicalPatchPlanner.js';
@@ -21,7 +22,11 @@ import {
 import { BotanicalRandom, botanicalSeed } from './BotanicalRandom.js';
 import { getBotanicalSpecies } from './BotanicalSpeciesCatalog.js';
 
-/** Generates one recognizable plant at a requested world position. */
+/**
+ * Generates one recognizable deterministic plant at a requested world position.
+ * @param {object} [options={}] Species, position, seed, scale, quality, and guide-point options.
+ * @returns {object} Renderer-neutral botanical plant payload.
+ */
 export function generateBotanicalPlant(options = {}) {
 	const species = getBotanicalSpecies(options.species || 'daisy');
 	const origin = pointObject(options.position);
@@ -47,7 +52,11 @@ export function planBotanicalCluster(options = {}) {
 	return planBotanicalPatch(options);
 }
 
-/** Generates a deterministic cluster while preserving legacy radial placement by default. */
+/**
+ * Generates a deterministic cluster and preserves the exact immutable placement plan used to build its geometry.
+ * @param {object} [options={}] Patch and botanical generation options.
+ * @returns {object} Cluster payload whose `placements` are authoritative plan evidence, not a second simulation.
+ */
 export function generateBotanicalCluster(options = {}) {
 	const plan = planBotanicalPatch(options);
 	const merged = new Map();
@@ -63,15 +72,17 @@ export function generateBotanicalCluster(options = {}) {
 	const parts = [...merged.values()].map(finalizeBotanicalPart);
 	const instances = plan.placements.length;
 	return {
-		speciesId: getBotanicalSpecies(options.species || 'daisy').id,
-		seed: plan.seed,
-		quality: options.quality || 'high',
 		instances,
 		parts,
+		placements: plan.placements,
+		quality: options.quality || 'high',
+		seed: plan.seed,
+		speciesId: getBotanicalSpecies(options.species || 'daisy').id,
 		stats: summarizeBotanicalParts(parts, instances)
 	};
 }
 
+/** Normalizes array or object input into one plain finite world point. */
 function pointObject(value = {}) {
 	if (Array.isArray(value)) {
 		return {

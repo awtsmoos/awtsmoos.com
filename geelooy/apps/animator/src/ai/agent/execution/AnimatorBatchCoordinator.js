@@ -4,11 +4,11 @@
 /**
  * @file AnimatorBatchCoordinator.js
  * @description
- * The Awtsmoos lets many intentions travel together while Gevurah still guards every mutation gate;
- * Awtsmoos.com batches canonical commands without inventing a second execution path, preserving correlation, policy, and state.
+ * The Awtsmoos lets many intentions travel together while Gevurah guards every document, editor, runtime, media, and filesystem gate;
+ * Awtsmoos.com batches canonical commands without a second execution path, preserving correlation, policy, side-effect truth, and state.
  */
 
-/** Coordinates sequential public command batches with explicit mutation consent and failure policy. */
+/** Coordinates sequential public command batches with explicit side-effect consent and failure policy. */
 export class NetzachAnimatorBatchCoordinator {
 	/**
 	 * @param {object} daasRegistry Canonical registry class.
@@ -22,7 +22,7 @@ export class NetzachAnimatorBatchCoordinator {
 	}
 
 	/**
-	 * Executes one batch in authored order, optionally halting at the first failure.
+	 * Executes one batch in authored order while requiring opt-in for every non-pure command scope.
 	 * @param {object} keliBatch Batch request.
 	 * @param {string} sodBatchId Batch correlation ID.
 	 * @returns {Promise<object>} Batch summary and independent child envelopes.
@@ -35,12 +35,17 @@ export class NetzachAnimatorBatchCoordinator {
 		for (let sodIndex = 0; sodIndex < sederRequests.length; sodIndex += 1) {
 			const keliRequest = sederRequests[sodIndex];
 			const sodChildId = this.childRequestId(keliRequest, sodBatchId, sodIndex);
-			const keliDescriptor = this.daasRegistry.get(String(keliRequest?.command ?? '').trim());
-			const sodResult = keliDescriptor?.mutation && !yesodAllowMutations
-				? await this.mitzvahReject(keliRequest, sodChildId)
+			const keliDescriptor = this.daasRegistry.get(
+				String(keliRequest?.command ?? '').trim()
+			);
+			const yesodSideEffect = this.hasSideEffect(keliDescriptor);
+			const sodResult = yesodSideEffect && !yesodAllowMutations
+				? await this.mitzvahReject(keliRequest, sodChildId, keliDescriptor)
 				: await this.mitzvahExecute({ ...keliRequest, requestId: sodChildId });
 			sederResults.push(sodResult);
-			if (!sodResult.ok && sodPolicy === 'failFast') break;
+			if (!sodResult.ok && sodPolicy === 'failFast') {
+				break;
+			}
 		}
 		return {
 			ok: sederResults.length === sederRequests.length && sederResults.every((keli) => keli.ok),
@@ -54,6 +59,11 @@ export class NetzachAnimatorBatchCoordinator {
 		};
 	}
 
+	/** @param {object|null} keliDescriptor Command metadata. @returns {boolean} True when any public side effect is declared. */
+	hasSideEffect(keliDescriptor) {
+		return Boolean(keliDescriptor) && keliDescriptor.mutationScope !== 'none';
+	}
+
 	/** @param {object} keliBatch Batch. @returns {object[]} Valid command request array. */
 	requests(keliBatch) {
 		if (!keliBatch || typeof keliBatch !== 'object' || !Array.isArray(keliBatch.requests) || !keliBatch.requests.length) {
@@ -65,7 +75,9 @@ export class NetzachAnimatorBatchCoordinator {
 	/** @param {unknown} sodPolicy Requested policy. @returns {'continue'|'failFast'} Normalized policy. */
 	policy(sodPolicy) {
 		const keterPolicy = sodPolicy ?? 'continue';
-		if (!['continue', 'failFast'].includes(keterPolicy)) throw this.error('invalid_batch_policy', `Unsupported batch policy: ${keterPolicy}`);
+		if (!['continue', 'failFast'].includes(keterPolicy)) {
+			throw this.error('invalid_batch_policy', `Unsupported batch policy: ${keterPolicy}`);
+		}
 		return keterPolicy;
 	}
 

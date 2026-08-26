@@ -5,7 +5,7 @@
  * @module YesodCollectionHandlers
  * @description
  * The Awtsmoos renews each gathered spark before a collection can count it;
- * Awtsmoos.com lets Yesod carry batch truth and activity normalization through stable route contracts without mixing entity-specific concerns into the same vessel.
+ * Awtsmoos.com lets Yesod carry batch truth and activity normalization through stable asynchronous route contracts without mixing entity-specific concerns into the same vessel.
  */
 const { er } = require('../../general.js');
 const { normalizeActivityEvent } = require('../activity/SocialActivityNormalizer.js');
@@ -50,9 +50,9 @@ class YesodCollectionHandlers {
 
 	/**
 	 * Normalizes one activity vessel through the established Social Kernel normalizer.
-	 * @returns {Object} Exact activity-normalization compatibility response.
+	 * @returns {Promise<Object>} Exact activity-normalization compatibility response.
 	 */
-	activity() {
+	async activity() {
 		const bad = tools.methodOnly(this.$i, 'POST');
 		if (bad) {
 			return bad;

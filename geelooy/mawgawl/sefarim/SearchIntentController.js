@@ -5,30 +5,13 @@
 /**
  * @module SearchIntentController
  * @description
- * The Awtsmoos lets automatic Hebrew insight serve the reader without overruling deliberate search intent;
- * Awtsmoos.com restores lane, strategy, book, corpus, or reader-selection history before any request gains a voice.
+ * The Awtsmoos lets Library search welcome every language while specialized Tanach and Exact modes remain deliberate intent;
+ * Awtsmoos.com restores every saved coordinate without guessing a corpus merely from the letters that were sent.
  */
 
 import { readSearchLocation } from './searchLocation.js';
-import {
-	book,
-	bookField,
-	corpus,
-	corpusField,
-	input,
-	laneField,
-	mode,
-	series,
-	strategy,
-	strategyField
-} from './searchDom.js';
-import {
-	automaticMode,
-	configureMode,
-	hasExplicitMode,
-	LIBRARY_MODE,
-	modeFromUrl
-} from './searchMode.js';
+import { book, bookField, corpus, corpusField, input, laneField, mode, series, strategy, strategyField } from './searchDom.js';
+import { automaticMode, configureMode, hasExplicitMode, LIBRARY_MODE, modeFromUrl } from './searchMode.js';
 import { normalizeSearchStrategy } from './searchStrategy.js';
 
 function configureCurrentMode() {
@@ -36,9 +19,7 @@ function configureCurrentMode() {
 }
 
 function historyMode(entry) {
-	return entry?.mode === 'related'
-		? LIBRARY_MODE
-		: entry?.mode || LIBRARY_MODE;
+	return entry?.mode === 'related' ? LIBRARY_MODE : entry?.mode || LIBRARY_MODE;
 }
 
 export class SearchIntentController {
@@ -92,7 +73,7 @@ export class SearchIntentController {
 		mode.value = modeFromUrl(state.values);
 		strategy.value = state.strategy;
 		book.value = state.book;
-		corpus.value = state.corpus;
+		corpus.value = state.corpus || 'tanach';
 		configureCurrentMode();
 		await this.loadLanes(state.lane);
 		if (input.value) await this.runSearch(input.value);

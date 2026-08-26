@@ -1,0 +1,91 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews action without noise, so Awtsmoos.com lets busy states glow rather than shout;
+ * every selector stays beneath the Social Hub vessel, with motion that can gracefully bow out.
+ */
+.social-hub-document [data-operation="loading"] {
+	--hub-operation-glow: color-mix(in srgb, var(--future-accent, #5b7cff) 28%, transparent);
+}
+
+.social-hub-document button[data-operation="loading"],
+.social-hub-document button[aria-busy="true"] {
+	position: relative;
+	isolation: isolate;
+	cursor: progress;
+	box-shadow:
+		0 0 0 1px color-mix(in srgb, var(--future-accent, #5b7cff) 34%, transparent),
+		0 8px 28px var(--hub-operation-glow, rgba(91, 124, 255, 0.16));
+	transform: translateY(0);
+}
+
+.social-hub-document button[data-operation="loading"]::after,
+.social-hub-document button[aria-busy="true"]::after {
+	content: "";
+	position: absolute;
+	inset: 4px;
+	border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+	border-radius: inherit;
+	pointer-events: none;
+	animation: hub-operation-breathe 1.4s ease-in-out infinite;
+}
+
+.social-hub-document button[data-operation="loading"]:disabled,
+.social-hub-document button[aria-busy="true"]:disabled {
+	opacity: 0.74;
+	filter: saturate(0.86);
+}
+
+.social-hub-document button[data-operation="loading"]:focus-visible,
+.social-hub-document button[aria-busy="true"]:focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--future-accent, #5b7cff) 42%, transparent);
+	outline-offset: 3px;
+}
+
+.social-hub-document button[data-operation="loading"]:active,
+.social-hub-document button[aria-busy="true"]:active {
+	transform: scale(0.985);
+}
+
+.social-hub-document [aria-busy="true"] .publicDiscovery__status {
+	font-variation-settings: "wght" 620;
+}
+
+.social-hub-document [data-operation="loading"] .publicDiscovery__list {
+	opacity: 0.62;
+	filter: saturate(0.9);
+	transition:
+		opacity 180ms ease,
+		filter 180ms ease;
+}
+
+.social-hub-document [data-operation="success"] .publicDiscovery__list,
+.social-hub-document [data-operation="idle"] .publicDiscovery__list {
+	opacity: 1;
+	filter: none;
+}
+
+@keyframes hub-operation-breathe {
+	0%, 100% {
+		opacity: 0.32;
+		transform: scale(0.985);
+	}
+	50% {
+		opacity: 0.72;
+		transform: scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document button[data-operation="loading"]::after,
+	.social-hub-document button[aria-busy="true"]::after {
+		animation: none;
+		opacity: 0.56;
+		transform: none;
+	}
+
+	.social-hub-document [data-operation="loading"] .publicDiscovery__list {
+		transition: none;
+	}
+}

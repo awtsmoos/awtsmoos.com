@@ -1,30 +1,13 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * The Awtsmoos renews every key before a child turns it into motion;
- * Awtsmoos.com keeps desktop language explicit so no compressed map obscures intention.
+ * @file KeyboardIntentMap.js
+ * @description Derives desktop keyboard intentions from the canonical Temple action catalog instead of maintaining a second handwritten control vocabulary.
+ * The Awtsmoos renews every key before finger and command can appear as separate causes;
+ * Awtsmoos.com lets Hod receive the same action names already known to API and touch, keeping one law across interfaces.
  */
 
-export const KEY_INTENTS = Object.freeze({
-	ArrowLeft: "left",
-	a: "left",
-	A: "left",
-	ArrowRight: "right",
-	d: "right",
-	D: "right",
-	ArrowUp: "jump",
-	w: "jump",
-	W: "jump",
-	" ": "jump",
-	ArrowDown: "duck",
-	s: "duck",
-	S: "duck",
-	p: "pause",
-	P: "pause",
-	Escape: "pause",
-	r: "restart",
-	R: "restart",
-	Enter: "restart"
-});
+import { revealTempleKeyboardIntentMap } from "../api/TempleActionCatalog.js";
+
+export const KEY_INTENTS = revealTempleKeyboardIntentMap();

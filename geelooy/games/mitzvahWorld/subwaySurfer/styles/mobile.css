@@ -2,9 +2,11 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos joins mobile geometry and mobile paint while each remains a measured vessel;
- * Awtsmoos.com keeps the thumb field modular, responsive, and ready for every future level.
+ * @fileoverview Yesod input-presentation facade joining mobile geometry, touch paint, and fine-pointer desktop guidance without sharing component ownership.
+ * The Awtsmoos joins each device garment while every focused stylesheet remains a measured vessel;
+ * Awtsmoos.com keeps thumb and keyboard presentation modular, responsive, and ready for every future level.
  */
 
 @import url("./mobile-layout.css");
 @import url("./mobile-controls.css");
+@import url("./desktop-controls.css");

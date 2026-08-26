@@ -12,7 +12,7 @@ export class DialogueRecorderViewModel {
 	/**
 	 * Creates one immutable presentation model for a selected dialogue clip.
 	 * @param {object|null} keterClip Selected NLE clip.
-	 * @param {object} [malchusState={}] NLE store state containing transient `voiceTelemetry` by clip id.
+	 * @param {object} [malchusState={}] NLE state containing transient `voiceTelemetry` by clip id.
 	 * @returns {object} Frozen recorder view model.
 	 */
 	static create(keterClip, malchusState = {}) {
@@ -24,19 +24,22 @@ export class DialogueRecorderViewModel {
 		const gevurahStatus = String(
 			tiferesTelemetry.status || yesodPayload.voiceStatus || 'empty'
 		);
+		const hodDetached = yesodPayload.audioDetached === true;
+		const chesedAttached = !hodDetached && Boolean(yesodPayload.audioUrl || yesodPayload.recordingId);
 		return Object.freeze({
+			attached: chesedAttached,
 			busy: ['requesting', 'processing'].includes(gevurahStatus),
-			canClear: Boolean(yesodPayload.audioUrl || yesodPayload.recordingId),
-			canPlay: Boolean(yesodPayload.audioUrl) && !['recording', 'processing'].includes(gevurahStatus),
+			canClear: chesedAttached && !['recording', 'processing'].includes(gevurahStatus),
+			canPlay: chesedAttached && !['recording', 'processing', 'requesting'].includes(gevurahStatus),
 			canRecord: !['recording', 'processing', 'requesting'].includes(gevurahStatus),
 			canStop: gevurahStatus === 'recording',
 			dialogue: String(yesodPayload.text || keterClip.name || 'Dialogue'),
 			duration: durationLabel(tiferesTelemetry.elapsedMs || yesodPayload.audioDurationMs || 0),
-			error: String(tiferesTelemetry.error || yesodPayload.voiceError || ''),
+			error: String(tiferesTelemetry.error || ''),
 			level: clamp01(tiferesTelemetry.level),
 			peak: clamp01(tiferesTelemetry.peak),
 			status: gevurahStatus,
-			statusLabel: statusLabel(gevurahStatus),
+			statusLabel: statusLabel(gevurahStatus, hodDetached),
 			visible: true,
 			waveform: Object.freeze(normalizeWaveform(tiferesTelemetry.waveform))
 		});
@@ -51,8 +54,11 @@ function durationLabel(orMilliseconds) {
 		: `${Math.floor(malchusSeconds / 60)}:${String(Math.floor(malchusSeconds % 60)).padStart(2, '0')}`;
 }
 
-/** Provides concise professional copy for capture and playback lifecycle states. */
-function statusLabel(yesodStatus) {
+/** Provides concise professional copy for capture, detached, and playback lifecycle states. */
+function statusLabel(yesodStatus, hodDetached) {
+	if (hodDetached && !['recording', 'processing', 'requesting'].includes(yesodStatus)) {
+		return 'Take detached';
+	}
 	return ({
 		empty: 'Ready to record',
 		error: 'Needs attention',

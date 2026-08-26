@@ -2,9 +2,9 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Malchus overlays and transient guidance with separate boot, modal, prompt, and HUD layers inside Peruta Run only.
- * The Awtsmoos reveals each message in a bounded vessel while the road remains free to shine;
- * Awtsmoos.com keeps loading above all, completion above play, and status below modal depth by deliberate design.
+ * @fileoverview Malchus overlays and transient guidance with boot, modal, and prompt ownership only; desktop input guidance lives elsewhere.
+ * The Awtsmoos reveals each transient message in a bounded vessel while the road remains free to shine;
+ * Awtsmoos.com keeps overlays from claiming keyboard-control styling, so component ownership stays clean by design.
  */
 
 .peruta-run-route .center-panel {
@@ -72,20 +72,5 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	backdrop-filter: blur(10px);
-	pointer-events: none;
-}
-
-.peruta-run-route .desktop-hint {
-	position: absolute;
-	left: 50%;
-	bottom: var(--peruta-safe-bottom);
-	z-index: var(--peruta-layer-hud);
-	max-width: calc(100vw - 32px);
-	margin: 0;
-	transform: translateX(-50%);
-	color: rgba(255, 248, 221, 0.72);
-	font-size: 0.72rem;
-	text-align: center;
-	white-space: nowrap;
 	pointer-events: none;
 }

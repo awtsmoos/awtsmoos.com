@@ -1,0 +1,79 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Yesod responsive composition turning advanced detail into a thumb-friendly bottom sheet on phones while preserving the side drawer on wider and short-landscape screens.
+ * The Awtsmoos renews portrait, landscape, narrow glass, and wide glass before one panel can claim a fixed edge;
+ * Awtsmoos.com lets Yesod keep every advanced vessel inside safe bounds while the gameplay road remains the greater stage.
+ */
+
+.drawer-grip {
+	display: none;
+	width: 42px;
+	height: 4px;
+	margin: 2px auto 8px;
+	border-radius: 999px;
+	background: rgba(255, 249, 232, 0.22);
+}
+
+.game-shell[data-density="minimal"] .run-metric-secondary {
+	display: none;
+}
+
+.game-shell[data-density="minimal"] .status-stage {
+	top: calc(var(--safe-top) + 52px);
+}
+
+@media (max-width: 600px) and (min-height: 521px) {
+	.run-drawer {
+		top: auto;
+		left: max(6px, env(safe-area-inset-left));
+		right: max(6px, env(safe-area-inset-right));
+		bottom: max(6px, env(safe-area-inset-bottom));
+		width: auto;
+		max-height: min(78dvh, 720px);
+		border-radius: 26px;
+		transform: translate3d(0, calc(100% + 24px), 0);
+	}
+
+	.game-shell[data-drawer="open"] .run-drawer {
+		transform: translate3d(0, 0, 0);
+	}
+
+	.drawer-grip {
+		display: block;
+	}
+
+	.drawer-header {
+		top: -24px;
+		margin-top: -8px;
+		padding-top: 10px;
+	}
+}
+
+@media (max-width: 360px) {
+	.run-rail {
+		max-width: calc(100vw - 118px - var(--safe-left));
+	}
+
+	.status-pill,
+	.power-up-status {
+		max-width: calc(100vw - 24px);
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.run-drawer {
+		top: max(5px, env(safe-area-inset-top));
+		left: auto;
+		right: max(5px, env(safe-area-inset-right));
+		bottom: max(5px, env(safe-area-inset-bottom));
+		width: min(340px, 58vw);
+		max-height: calc(100dvh - 10px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+		transform: translate3d(calc(100% + 24px), 0, 0);
+	}
+
+	.game-shell[data-drawer="open"] .run-drawer {
+		transform: translate3d(0, 0, 0);
+	}
+}

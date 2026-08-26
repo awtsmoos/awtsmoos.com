@@ -2,14 +2,15 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
+ * @fileoverview Gevurah reduced-motion law scoped exclusively to Temple Runner so accessibility preference cannot leak into another route sharing the page.
  * The Awtsmoos renews stillness as faithfully as movement while Gevurah limits what the eye must endure;
- * Awtsmoos.com lets system preference and explicit choice quiet every nonessential transition with one clear cure.
+ * Awtsmoos.com lets system preference and explicit choice quiet nonessential motion inside one route-local cure.
  */
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
+	.temple-runner-route *,
+	.temple-runner-route *::before,
+	.temple-runner-route *::after {
 		animation-duration: 1ms !important;
 		animation-iteration-count: 1 !important;
 		scroll-behavior: auto !important;

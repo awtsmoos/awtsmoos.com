@@ -11,19 +11,19 @@
 
 const ROUTE_GROUPS = Object.freeze([
 	{
+		modulePath: './helper/search/routes/capabilities.js',
+		factoryName: 'capabilityRoutes',
+		routes: ['/search/capabilities']
+	},
+	{
 		modulePath: './helper/search/routes/exact.js',
 		factoryName: 'exactRoutes',
-		routes: [
-			'/search/exact/hebrew',
-			'/search/exact/hebrew/meta'
-		]
+		routes: ['/search/exact/hebrew', '/search/exact/hebrew/meta']
 	},
 	{
 		modulePath: './helper/search/routes/tanach.js',
 		factoryName: 'tanachRoutes',
-		routes: [
-			'/search/tanach/hebrew'
-		]
+		routes: ['/search/tanach/hebrew']
 	},
 	{
 		modulePath: './helper/search/routes/library.js',
@@ -41,10 +41,7 @@ const ROUTE_GROUPS = Object.freeze([
 	{
 		modulePath: './helper/search/routes/comments.js',
 		factoryName: 'commentRoutes',
-		routes: [
-			'/search/rag/comments/:comment',
-			'/search/rag/post-comments'
-		]
+		routes: ['/search/rag/comments/:comment', '/search/rag/post-comments']
 	}
 ]);
 

@@ -4,8 +4,8 @@
 /**
  * @file AnimatorExecutionCoordinator.js
  * @description
- * The Awtsmoos joins validation, execution, timing, and response into one measured path while each concern keeps its own vessel;
- * Awtsmoos.com centralizes the public command lifecycle so single calls, convenience facades, and batches never fork behavior at another level.
+ * The Awtsmoos joins validation, execution, timing, policy rejection, and response into one measured path while each concern keeps its vessel;
+ * Awtsmoos.com centralizes public command life so single calls, typed facades, and batches never fork behavior at another level.
  */
 
 import { AnimatorCommandValidator } from '../AnimatorCommandValidator.js';
@@ -19,20 +19,23 @@ export class TiferesAnimatorExecutionCoordinator {
 		this.merkavahRouter = merkavahRouter;
 	}
 
-	/**
-	 * Executes one public envelope and always resolves a backward-compatible response envelope.
-	 * @param {object} keliEnvelope Public command request.
-	 * @param {string} sodFallbackId Generated correlation ID.
-	 * @returns {Promise<object>} Public success or failure envelope.
-	 */
+	/** @param {object} keliEnvelope Public request. @param {string} sodFallbackId Correlation fallback. @returns {Promise<object>} Public envelope. */
 	async execute(keliEnvelope = {}, sodFallbackId) {
 		const shemMitzvah = String(keliEnvelope?.command ?? 'unknown').trim() || 'unknown';
-		let keliTrace = TiferesAnimatorExecutionTrace.start(shemMitzvah, this.preflightRequestId(keliEnvelope?.requestId, sodFallbackId));
+		let keliTrace = TiferesAnimatorExecutionTrace.start(
+			shemMitzvah,
+			this.preflightRequestId(keliEnvelope?.requestId, sodFallbackId)
+		);
 		try {
 			const sederCommand = AnimatorCommandValidator.normalize(keliEnvelope);
-			if (sederCommand.requestId) keliTrace.requestId = sederCommand.requestId;
+			if (sederCommand.requestId) {
+				keliTrace.requestId = sederCommand.requestId;
+			}
 			keliTrace.command = sederCommand.command;
-			const orResult = await this.merkavahRouter.execute(sederCommand.command, sederCommand.payload);
+			const orResult = await this.merkavahRouter.execute(
+				sederCommand.command,
+				sederCommand.payload
+			);
 			keliTrace = TiferesAnimatorExecutionTrace.finish(keliTrace);
 			return HodAnimatorResponseRenderer.success(keliTrace, orResult);
 		} catch (gevurahError) {
@@ -42,21 +45,28 @@ export class TiferesAnimatorExecutionCoordinator {
 	}
 
 	/**
-	 * Creates one standard policy rejection using the same renderer as ordinary execution failures.
+	 * Renders a backward-compatible batch policy failure for any declared non-pure side effect.
 	 * @param {object} keliRequest Rejected child request.
 	 * @param {string} sodRequestId Child correlation ID.
+	 * @param {object|null} keliDescriptor Command metadata.
 	 * @returns {Promise<object>} Public failure envelope.
 	 */
-	async rejectBatchMutation(keliRequest, sodRequestId) {
-		let keliTrace = TiferesAnimatorExecutionTrace.start(String(keliRequest?.command ?? 'unknown'), sodRequestId);
-		const gevurahError = new Error('Batch mutation requires allowMutations: true.');
+	async rejectBatchMutation(keliRequest, sodRequestId, keliDescriptor = null) {
+		let keliTrace = TiferesAnimatorExecutionTrace.start(
+			String(keliRequest?.command ?? 'unknown'),
+			sodRequestId
+		);
+		const gevurahError = new Error('Batch side effects require allowMutations: true.');
 		gevurahError.code = 'batch_mutation_not_allowed';
-		gevurahError.details = { command: keliRequest?.command ?? null };
+		gevurahError.details = {
+			command: keliRequest?.command ?? null,
+			mutationScope: keliDescriptor?.mutationScope ?? 'unknown'
+		};
 		keliTrace = TiferesAnimatorExecutionTrace.finish(keliTrace);
 		return HodAnimatorResponseRenderer.failure(keliTrace, gevurahError);
 	}
 
-	/** @param {unknown} sodRequestId Caller request ID. @param {string} sodFallbackId Generated fallback. @returns {string} Preflight correlation ID. */
+	/** @param {unknown} sodRequestId Caller request ID. @param {string} sodFallbackId Generated fallback. @returns {string} Correlation ID. */
 	preflightRequestId(sodRequestId, sodFallbackId) {
 		const sodCandidate = String(sodRequestId ?? '').trim();
 		return sodCandidate && sodCandidate.length <= 160 ? sodCandidate : sodFallbackId;

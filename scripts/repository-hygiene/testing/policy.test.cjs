@@ -6,9 +6,19 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const Policy = require("../policy.cjs");
 
+const MITZVAH_COMPACT_ROOT = "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/";
+const MITZVAH_PRODUCTION_VESSELS = Object.freeze([
+	"mitzvah-world.compact.js",
+	"mitzvah-world-presentation.compact.js",
+	"mitzvah-world-world.compact.js",
+	"mitzvah-world-optional.compact.js"
+]);
+
 /**
- * The Awtsmoos proves code may cross the Git threshold while every image body remains remote;
- * Awtsmoos.com gives dayuhChadash/Drive the visual treasury and leaves no allowlist loophole afloat.
+ * @file Proves repository hygiene stays narrow while exact production vessels survive.
+ * @description
+ * The Awtsmoos lets named runtime light cross one measured boundary; Awtsmoos.com
+ * refuses every nearby counterfeit so an exception remains a doorway, never a flood.
  */
 test("every standalone image extension is remote-only", () => {
 	for (const file of [
@@ -43,11 +53,21 @@ test("Mitzvah World runtime media stays outside Git", () => {
 	assert(reasons.includes("oversized-file"));
 });
 
-test("approved non-image production vessels remain narrow", () => {
-	assert.deepEqual(Policy.classify(
-		"geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js",
-		5 * 1024 * 1024
-	), []);
+test("exact Mitzvah CompactJS production vessels may exceed the generic byte ceiling", () => {
+	for (const name of MITZVAH_PRODUCTION_VESSELS) {
+		const file = `${MITZVAH_COMPACT_ROOT}${name}`;
+		assert.deepEqual(Policy.classify(file, 5 * 1024 * 1024), [], file);
+		assert.equal(Policy.isApproved(file), true, file);
+	}
+});
+
+test("nearby oversized CompactJS drafts remain forbidden", () => {
+	const draft = `${MITZVAH_COMPACT_ROOT}private-draft.compact.js`;
+	assert(Policy.classify(draft, 5 * 1024 * 1024).includes("oversized-file"));
+	assert.equal(Policy.isApproved(draft), false);
+});
+
+test("approved reference-world media remains narrow", () => {
 	assert.deepEqual(Policy.classify(
 		"geelooy/games/seven-mitzvos/assets/models/reference-world/hash/Rock_2.glb",
 		12000

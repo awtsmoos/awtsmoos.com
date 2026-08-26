@@ -1,0 +1,92 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos measures every feed control before width and rhythm unfold;
+ * Awtsmoos.com lets desktop modes share one rail while mobile modes become a bounded grid, clear to touch and impossible to overscroll.
+ */
+.social-hub-document .publicDiscovery__controls {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	justify-content: space-between;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.social-hub-document .publicDiscovery__tabs {
+	display: flex;
+	flex: 1 1 auto;
+	gap: 6px;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: 2px;
+}
+
+.social-hub-document .publicDiscovery__tabs button {
+	flex: 0 0 auto;
+	box-sizing: border-box;
+	min-block-size: 44px;
+	max-inline-size: 100%;
+	padding: 8px 13px;
+	border-radius: 999px;
+	white-space: nowrap;
+}
+
+.social-hub-document .publicDiscovery__viewOptions {
+	flex: 0 0 auto;
+	align-self: center;
+	inline-size: auto;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.social-hub-document .publicDiscovery__viewOptions > .awtsmoosDisclosure__summary {
+	box-sizing: border-box;
+	grid-template-columns: auto auto;
+	align-items: center;
+	block-size: 44px;
+	min-block-size: 44px;
+	max-inline-size: 100%;
+	padding: 0 .55rem;
+	line-height: 1;
+}
+
+.social-hub-document .publicDiscovery__viewOptions .awtsmoosDisclosure__label {
+	font-size: .78rem;
+}
+
+.social-hub-document .publicDiscovery__viewOptions .awtsmoosDisclosure__detail {
+	display: none;
+}
+
+@media (max-width: 620px) {
+	.social-hub-document .publicDiscovery__controls {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 7px;
+		align-items: stretch;
+	}
+
+	.social-hub-document .publicDiscovery__tabs {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		inline-size: 100%;
+		padding: 0;
+	}
+
+	.social-hub-document .publicDiscovery__tabs button {
+		inline-size: 100%;
+		min-inline-size: 0;
+		padding-inline: 8px;
+		white-space: normal;
+	}
+
+	.social-hub-document .publicDiscovery__viewOptions,
+	.social-hub-document .publicDiscovery__viewOptions > .awtsmoosDisclosure__summary {
+		inline-size: 100%;
+	}
+
+	.social-hub-document .publicDiscovery__viewOptions > .awtsmoosDisclosure__summary {
+		justify-content: space-between;
+	}
+}

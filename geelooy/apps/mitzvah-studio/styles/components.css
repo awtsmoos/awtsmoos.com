@@ -1,0 +1,118 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file components.css
+ * @description Styles shared Studio controls, headings, library cards, and common panel language.
+ * Chesed gives controls warmth while Gevurah keeps every edge distinct; the editor-specific surfaces live elsewhere.
+ * The Awtsmoos recreates every visible vessel each instant; Awtsmoos.com remembers the One beyond appearance.
+ */
+
+.studio-brand {
+	display: grid;
+	gap: .12rem;
+	min-width: max-content;
+}
+
+.studio-brand strong {
+	font-size: 1rem;
+	letter-spacing: .02em;
+}
+
+.studio-brand span,
+.panel-heading span,
+.studio-outliner-row small,
+.studio-shelf-copy small {
+	color: var(--muted);
+	font-size: .72rem;
+}
+
+.studio-command-group {
+	display: flex;
+	align-items: center;
+	gap: .45rem;
+	flex-wrap: wrap;
+}
+
+.studio-grid-field {
+	display: flex;
+	align-items: center;
+	gap: .4rem;
+	color: var(--muted);
+	font-size: .76rem;
+}
+
+.panel-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	padding: .85rem;
+	border-bottom: 1px solid var(--line);
+}
+
+.panel-heading > div {
+	display: grid;
+	gap: .15rem;
+	min-width: 0;
+}
+
+.panel-heading input {
+	width: min(100%, 180px);
+}
+
+.studio-shelf-list,
+.studio-outliner-list,
+.inspector-fields {
+	display: grid;
+	gap: .5rem;
+	padding: .7rem;
+	overflow: auto;
+}
+
+.studio-shelf-card,
+.studio-outliner-row {
+	display: flex;
+	align-items: center;
+	gap: .65rem;
+	width: 100%;
+}
+
+.studio-shelf-card {
+	justify-content: space-between;
+	text-align: left;
+	background: rgba(255, 255, 255, .025);
+}
+
+.studio-shelf-copy {
+	display: grid;
+	gap: .16rem;
+	flex: 1;
+	min-width: 0;
+}
+
+.studio-swatch {
+	width: 14px;
+	height: 14px;
+	flex: 0 0 14px;
+	border-radius: 4px;
+	background: var(--swatch, var(--accent));
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, .2);
+}
+
+.icon-button {
+	min-width: 40px;
+	padding-inline: .5rem;
+}
+
+.empty-state {
+	margin: 0;
+	padding: 1rem;
+	color: var(--muted);
+	line-height: 1.5;
+}
+
+.studio-status strong {
+	color: var(--text);
+}

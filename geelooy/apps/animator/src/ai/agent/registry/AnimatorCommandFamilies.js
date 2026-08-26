@@ -4,8 +4,8 @@
 /**
  * @file AnimatorCommandFamilies.js
  * @description
- * The Awtsmoos reveals many powers without losing the simplicity of one source and name;
- * Awtsmoos.com groups public commands by truthful domain so expansion never collapses back into one tangled flame.
+ * The Awtsmoos reveals many creative powers without losing the simplicity of one protocol name;
+ * Awtsmoos.com groups public commands by truthful product domain so expansion never collapses back into one tangled flame.
  */
 
 export const SEFIROT_COMMAND_FAMILIES = Object.freeze({
@@ -13,10 +13,13 @@ export const SEFIROT_COMMAND_FAMILIES = Object.freeze({
 	project: 'project',
 	performance: 'performance',
 	animation: 'animation',
+	timeline: 'timeline',
+	history: 'history',
+	playback: 'playback',
 	world: 'world'
 });
 
-/** Publishes stable family names for registry filters and family-handler parity checks. */
+/** Publishes stable family names for registry filters and handler-parity checks. */
 export class SefirotAnimatorCommandFamilies {
 	/** @returns {string[]} Every public command-family identity. */
 	static all() {

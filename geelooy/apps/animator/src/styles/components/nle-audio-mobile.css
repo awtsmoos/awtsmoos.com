@@ -1,0 +1,61 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews the same creative power inside a narrow vessel; Awtsmoos.com lets this
+ * mobile covenant retract density, preserve touch clarity, and forbid waveform or control overflow.
+ */
+@media (max-width: 720px) {
+	.aw-professional-studio .aw-nle-recorder {
+		gap: 9px;
+		padding: 10px;
+	}
+
+	.aw-professional-studio .aw-nle-recorder__button {
+		min-block-size: 44px;
+		padding-inline: 8px;
+	}
+
+	.aw-professional-studio .aw-nle-recorder__waveform {
+		block-size: 50px;
+	}
+
+	.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='10'] {
+		block-size: 48px;
+	}
+
+	.aw-professional-studio .aw-nle-recorder__advanced > summary {
+		min-block-size: 40px;
+	}
+}
+
+@media (max-width: 430px) {
+	.aw-professional-studio .aw-nle-recorder__header {
+		align-items: flex-start;
+	}
+
+	.aw-professional-studio .aw-nle-recorder__actions {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+
+	.aw-professional-studio .aw-nle-recorder__button.is-primary,
+	.aw-professional-studio .aw-nle-recorder__button.is-stop {
+		grid-column: 1 / -1;
+	}
+
+	.aw-professional-studio .aw-nle-recorder__dialogue {
+		font-size: 10px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aw-professional-studio .aw-nle-recorder *,
+	.aw-professional-studio .aw-nle-recorder *::before,
+	.aw-professional-studio .aw-nle-recorder *::after {
+		scroll-behavior: auto;
+		transition-duration: 0.001ms !important;
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

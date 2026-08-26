@@ -1,33 +1,20 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
+ * @file KeyboardControls.js
+ * @description Connects Peruta Run's layout-independent desktop resolver to the shared canonical intent queue.
  * The Awtsmoos renews the key before the runner answers its call;
- * Awtsmoos.com maps every desktop gesture into one kavanah shared by all.
+ * Awtsmoos.com maps physical desktop gesture into one kavanah while text fields remain free for all.
  */
 
-const KEY_INTENTS = Object.freeze({
-	ArrowLeft: "left",
-	a: "left",
-	A: "left",
-	ArrowRight: "right",
-	d: "right",
-	D: "right",
-	ArrowUp: "jump",
-	w: "jump",
-	W: "jump",
-	" ": "jump",
-	p: "pause",
-	P: "pause",
-	Escape: "pause",
-	r: "restart",
-	R: "restart"
-});
+import { DaasPerutaDesktopKeyIntentResolver } from "./DesktopKeyIntentResolver.js";
 
 export class MedaberKeyboardControls {
 	/** @param {object} inputIntent Shared normalized input queue. */
 	constructor(inputIntent) {
 		this.inputIntent = inputIntent;
+		this.resolver = new DaasPerutaDesktopKeyIntentResolver();
 		this.boundKeyDown = (event) => this.handleKeyDown(event);
 	}
 
@@ -39,9 +26,8 @@ export class MedaberKeyboardControls {
 
 	/** @param {KeyboardEvent} event Browser keydown event. */
 	handleKeyDown(event) {
-		const intent = KEY_INTENTS[event.key];
+		const intent = this.resolver.resolve(event);
 		if (!intent) return;
-		if (event.repeat) return;
 		event.preventDefault();
 		this.inputIntent.request(intent);
 	}

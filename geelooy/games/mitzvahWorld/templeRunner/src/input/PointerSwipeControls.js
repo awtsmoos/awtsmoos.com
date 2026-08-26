@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
@@ -11,11 +11,7 @@
 import { SwipeInterpreter } from "./SwipeInterpreter.js";
 
 export class YesodPointerSwipeControls {
-	/**
-	 * @param {HTMLCanvasElement} canvas Game canvas.
-	 * @param {Function} send Canonical intent sender.
-	 * @param {Function} awaken User-gesture feedback awakener.
-	 */
+	/** @param {HTMLCanvasElement} canvas Game canvas. @param {Function} send Intent sender. @param {Function} awaken Feedback awakener. */
 	constructor(canvas, send, awaken) {
 		this.canvas = canvas;
 		this.send = send;
@@ -24,7 +20,7 @@ export class YesodPointerSwipeControls {
 		this.swipes = new SwipeInterpreter();
 		this.boundDown = (event) => this.onDown(event);
 		this.boundUp = (event) => this.onUp(event);
-		this.boundCancel = () => this.clear();
+		this.boundCancel = (event) => this.onCancel(event);
 	}
 
 	/** Connects canvas pointer listeners. */
@@ -39,11 +35,12 @@ export class YesodPointerSwipeControls {
 		this.canvas.removeEventListener("pointerdown", this.boundDown);
 		this.canvas.removeEventListener("pointerup", this.boundUp);
 		this.canvas.removeEventListener("pointercancel", this.boundCancel);
-		this.clear();
+		this.releaseActivePointer();
 	}
 
 	/** @param {PointerEvent} event Swipe origin. */
 	onDown(event) {
+		if (this.pointer) return;
 		event.preventDefault();
 		this.awaken();
 		this.pointer = {
@@ -60,15 +57,23 @@ export class YesodPointerSwipeControls {
 		event.preventDefault();
 		if (!this.pointer || event.pointerId !== this.pointer.id) return;
 		const origin = this.pointer;
-		this.clear();
+		this.releaseActivePointer();
 		const intent = this.swipes.interpret(origin, event);
-		if (intent) {
-			this.send(intent);
-		}
+		if (intent) this.send(intent);
 	}
 
-	/** Clears active pointer state without generating intent. */
-	clear() {
+	/** @param {PointerEvent} event Pointer cancellation. */
+	onCancel(event) {
+		if (this.pointer?.id !== event.pointerId) return;
+		this.releaseActivePointer();
+	}
+
+	/** Releases browser pointer capture before clearing the local gesture vessel. */
+	releaseActivePointer() {
+		const pointerId = this.pointer?.id;
+		if (pointerId !== undefined && this.canvas.hasPointerCapture?.(pointerId)) {
+			this.canvas.releasePointerCapture?.(pointerId);
+		}
 		this.pointer = null;
 	}
 }

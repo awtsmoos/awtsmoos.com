@@ -2,63 +2,117 @@
 // Boruch Hashem
 // Blessed is He
 
+import { DialogueRecorderActionsView } from './DialogueRecorderActionsView.js';
+import { DialogueRecorderViewModel } from './DialogueRecorderViewModel.js';
+import { DialogueWaveformView } from './DialogueWaveformView.js';
+
 /**
- * The selected dialogue clip becomes a small recording booth. The human voice
- * may replace guessed timing, while the Awtsmoos renews speaker and timeline in
- * one shared moment.
+ * @file DialogueRecorderPanel.js
+ * @description Composes a mobile-first professional voice workstation from declarative state and focused child views.
+ * The Awtsmoos renews spoken line, visible wave, and artist intention together; Awtsmoos.com lets this Tiferes
+ * panel remain a pure view so recording machinery, persistence, history, and responsive styling never collapse into one clay.
  */
 export class DialogueRecorderPanel {
-	static render(clip) {
-		if (!clip || clip.type !== 'dialogue') return this.message('Select a dialogue clip to record its voice.');
-		const status = clip.payload?.voiceStatus || 'empty';
-		const duration = clip.payload?.audioDurationMs
-			? `${(clip.payload.audioDurationMs / 1000).toFixed(2)}s recorded`
-			: 'No recording yet';
+	/**
+	 * Renders the selected dialogue recorder using durable clip state plus transient voice telemetry.
+	 * @param {object|null} keterClip Selected timeline clip.
+	 * @param {object} [malchusState={}] Current NLE state graph.
+	 * @returns {object} Declarative recorder panel.
+	 */
+	static render(keterClip, malchusState = {}) {
+		const tiferesModel = DialogueRecorderViewModel.create(
+			keterClip,
+			malchusState
+		);
+		if (!tiferesModel.visible) {
+			return this.empty();
+		}
 		return {
 			tag: 'section',
-			attrs: { className: 'aw-nle-recorder' },
-			style: { padding: '10px', borderRadius: '10px', background: 'rgba(15,23,42,.72)' },
+			attrs: {
+				className: 'aw-nle-recorder',
+				'data-status': tiferesModel.status,
+				'aria-label': 'Dialogue voice recorder'
+			},
 			children: [
-				{ tag: 'strong', text: 'Voice for this line' },
-				{ tag: 'div', attrs: { className: 'aw-nle-field' }, text: clip.payload?.text || clip.name },
-				{ tag: 'div', attrs: { className: 'aw-nle-field' }, text: `Status: ${status} • ${duration}` },
-				this.buttons(status),
-				clip.payload?.voiceError
-					? { tag: 'div', attrs: { className: 'aw-nle-field' }, style: { color: '#ffb4b4' }, text: clip.payload.voiceError }
-					: null
+				this.header(tiferesModel),
+				this.status(tiferesModel),
+				{
+					tag: 'p',
+					attrs: { className: 'aw-nle-recorder__dialogue' },
+					text: tiferesModel.dialogue
+				},
+				DialogueWaveformView.render(tiferesModel),
+				DialogueRecorderActionsView.render(tiferesModel),
+				this.advanced(tiferesModel),
+				tiferesModel.error ? this.error(tiferesModel.error) : null
 			].filter(Boolean)
 		};
 	}
 
-	static buttons(status) {
-		const recording = status === 'recording';
-		const ready = status === 'ready';
+	/** Creates the compact title row for the voice workstation. */
+	static header(tiferesModel) {
 		return {
 			tag: 'div',
-			style: { display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' },
+			attrs: { className: 'aw-nle-recorder__header' },
 			children: [
-				this.button(recording ? 'Recording…' : ready ? 'Replace' : 'Record', 'startVoiceRecording', recording),
-				this.button('Stop + Fit Timing', 'stopVoiceRecording', !recording),
-				this.button('Play', 'playVoiceRecording', !ready),
-				this.button('Clear', 'clearVoiceRecording', !ready)
+				{
+					tag: 'div',
+					children: [
+						{ tag: 'p', attrs: { className: 'aw-nle-recorder__eyebrow' }, text: 'Voice workstation' },
+						{ tag: 'h4', attrs: { className: 'aw-nle-recorder__title' }, text: 'Dialogue take' }
+					]
+				},
+				{ tag: 'span', attrs: { className: 'aw-nle-recorder__duration' }, text: tiferesModel.duration }
 			]
 		};
 	}
 
-	static button(text, action, disabled) {
+	/** Renders visible lifecycle state with a semantic status dot. */
+	static status(tiferesModel) {
 		return {
-			tag: 'button',
-			attrs: { className: 'aw-nle-btn', disabled },
-			on: { click: action },
-			text
+			tag: 'div',
+			attrs: { className: 'aw-nle-recorder__status-row' },
+			children: [{
+				tag: 'span',
+				attrs: { className: 'aw-nle-recorder__status' },
+				children: [
+					{ tag: 'span', attrs: { className: 'aw-nle-recorder__status-dot' } },
+					{ tag: 'span', text: tiferesModel.statusLabel }
+				]
+			}]
 		};
 	}
 
-	static message(text) {
+	/** Keeps advanced explanation retractable without presenting unsupported mix controls. */
+	static advanced(tiferesModel) {
+		const malchusCopy = tiferesModel.attached
+			? 'This take is attached to timeline timing. Detach is undoable and keeps the recorded source available this session.'
+			: 'Record a take to reveal its real waveform. Stop & fit updates dialogue timing as one undoable edit.';
 		return {
-			tag: 'div',
-			attrs: { className: 'aw-nle-field' },
-			text
+			tag: 'details',
+			attrs: { className: 'aw-nle-recorder__advanced' },
+			children: [
+				{ tag: 'summary', text: 'Advanced voice details' },
+				{ tag: 'p', text: malchusCopy }
+			]
+		};
+	}
+
+	/** Renders one contained error message without widening or overlaying the inspector. */
+	static error(hodMessage) {
+		return { tag: 'p', attrs: { className: 'aw-nle-recorder__error' }, text: hodMessage };
+	}
+
+	/** Renders a quiet hint when no dialogue clip is selected. */
+	static empty() {
+		return {
+			tag: 'section',
+			attrs: { className: 'aw-nle-recorder aw-nle-recorder--empty' },
+			children: [
+				{ tag: 'p', attrs: { className: 'aw-nle-recorder__eyebrow' }, text: 'Voice workstation' },
+				{ tag: 'p', attrs: { className: 'aw-nle-recorder__dialogue' }, text: 'Select a dialogue clip to record and inspect a take.' }
+			]
 		};
 	}
 }

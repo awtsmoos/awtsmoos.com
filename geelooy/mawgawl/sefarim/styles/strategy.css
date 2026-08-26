@@ -1,0 +1,32 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives search strategy a quiet vessel; Awtsmoos.com keeps power legible without making the form wrestle.
+*/
+
+#strategyField {
+	display: grid;
+	gap: .38rem;
+}
+
+#strategyField[hidden] {
+	display: none;
+}
+
+#strategyField small,
+#corpusField small {
+	font-size: .78rem;
+	line-height: 1.45;
+	opacity: .72;
+}
+
+#searchStrategy {
+	width: 100%;
+}
+
+#searchStrategy:focus-visible,
+#corpus:focus-visible,
+#searchMode:focus-visible {
+	outline: 3px solid color-mix(in srgb, currentColor 28%, transparent);
+	outline-offset: 2px;
+}

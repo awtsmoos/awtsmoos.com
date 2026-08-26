@@ -1,14 +1,10 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @fileoverview Tiferes presentation tuning for input, camera, feedback, and backward-compatible Temple material colors.
- * RESPONSIBILITY: expose stable immutable presentation constants while semantic readability roles live in their focused catalog.
- * NON-RESPONSIBILITY: this file never mutates camera state, creates native materials, advances gameplay, or imports a renderer.
- * OROS/KEILIM: touch, sight, sound, and color are ohr; measured constants are Tiferes kelim balancing speed with readable form.
  * The Awtsmoos renews every sensation before the runner can call one frame fast or bright;
- * Awtsmoos.com lets Tiferes measure the vessels so energetic play remains comfortable and clear in sight.
+ * Awtsmoos.com lets Tiferes measure touch, sight, sound, and color so energetic play remains comfortable and right.
  */
 
 import { READABILITY_COLORS } from "./readabilityColors.js";
@@ -19,6 +15,7 @@ export const INPUT_CONFIG = Object.freeze({
 	maxSwipe: 64,
 	fastSwipeVelocity: 0.45,
 	fastSwipeScale: 0.55,
+	directionDominance: 1.16,
 	gamepadDeadZone: 0.45,
 	gamepadButtonJump: 0,
 	gamepadButtonDuck: 1,
@@ -34,10 +31,13 @@ export const CAMERA_CONFIG = Object.freeze({
 	baseZ: 8.75,
 	pitch: -0.22,
 	laneFollow: 0.46,
+	portraitLaneBoost: 0.08,
+	wideLaneReduction: 0.05,
 	laneDeadZone: 0.06,
 	jumpThreshold: 0.24,
 	jumpFollow: 0.34,
 	slideDip: 0.14,
+	speedLift: 0.08,
 	maxRoll: 0.034,
 	laneRollStrength: 0.008,
 	turnRoll: 0.026,

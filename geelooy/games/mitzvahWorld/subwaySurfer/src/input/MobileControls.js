@@ -1,10 +1,14 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews the fingertip, the pointer, and the lane it reveals;
- * Awtsmoos.com binds joystick and buttons to one kavanah the runner feels.
+ * @file MobileControls.js
+ * @description Owns Peruta Run joystick capture while delegating explicit buttons to a detachable focused binder.
+ * The Awtsmoos renews fingertip, pointer, and lane before the runner feels their call;
+ * Awtsmoos.com keeps joystick release exact and button ownership detachable for all.
  */
+
+import { YesodPerutaMobileButtonBindings } from "./MobileButtonBindings.js";
 
 const JOYSTICK_LIMIT = 40;
 const LANE_THRESHOLD = 22;
@@ -19,26 +23,33 @@ export class MedaberMobileControls {
 		this.knob = this.document.querySelector("#joystick-knob");
 		this.activePointerId = null;
 		this.laneLatched = false;
+		this.buttons = new YesodPerutaMobileButtonBindings(
+			documentRef,
+			(intent) => this.inputIntent.request(intent)
+		);
+		this.boundDown = (event) => this.startJoystick(event);
+		this.boundMove = (event) => this.moveJoystick(event);
+		this.boundStop = (event) => this.stopJoystick(event);
 	}
 
-	/** @returns {MedaberMobileControls} Connected touch and top-control adapter. */
+	/** @returns {MedaberMobileControls} Connected touch adapter. */
 	connect() {
-		this.document.querySelectorAll("[data-intent]").forEach((button) => {
-			button.addEventListener("pointerdown", (event) => this.requestButton(event, button.dataset.intent));
-		});
-		this.document.querySelector("#jump-button").addEventListener("pointerdown", (event) => this.requestButton(event, "jump"));
-		this.document.querySelector("#game-over-restart").addEventListener("pointerdown", (event) => this.requestButton(event, "restart"));
-		this.pad.addEventListener("pointerdown", (event) => this.startJoystick(event));
-		this.pad.addEventListener("pointermove", (event) => this.moveJoystick(event));
-		this.pad.addEventListener("pointerup", (event) => this.stopJoystick(event));
-		this.pad.addEventListener("pointercancel", (event) => this.stopJoystick(event));
+		this.buttons.connect();
+		this.pad.addEventListener("pointerdown", this.boundDown, { passive: false });
+		this.pad.addEventListener("pointermove", this.boundMove, { passive: false });
+		this.pad.addEventListener("pointerup", this.boundStop, { passive: false });
+		this.pad.addEventListener("pointercancel", this.boundStop, { passive: false });
 		return this;
 	}
 
-	/** @param {PointerEvent} event Pointer event. @param {string} intent Canonical requested intent. */
-	requestButton(event, intent) {
-		event.preventDefault();
-		this.inputIntent.request(intent);
+	/** Releases every mobile listener and active capture. */
+	disconnect() {
+		this.buttons.disconnect();
+		this.pad.removeEventListener("pointerdown", this.boundDown);
+		this.pad.removeEventListener("pointermove", this.boundMove);
+		this.pad.removeEventListener("pointerup", this.boundStop);
+		this.pad.removeEventListener("pointercancel", this.boundStop);
+		this.releaseJoystick();
 	}
 
 	/** @param {PointerEvent} event Joystick pointer-down event. */
@@ -46,7 +57,7 @@ export class MedaberMobileControls {
 		event.preventDefault();
 		if (this.activePointerId !== null) return;
 		this.activePointerId = event.pointerId;
-		this.pad.setPointerCapture(event.pointerId);
+		this.pad.setPointerCapture?.(event.pointerId);
 		this.laneLatched = false;
 		this.moveJoystick(event);
 	}
@@ -54,9 +65,9 @@ export class MedaberMobileControls {
 	/** @param {PointerEvent} event Active joystick pointer-move event. */
 	moveJoystick(event) {
 		if (event.pointerId !== this.activePointerId) return;
+		event.preventDefault();
 		const rect = this.pad.getBoundingClientRect();
-		const centerX = rect.left + rect.width / 2;
-		const rawX = event.clientX - centerX;
+		const rawX = event.clientX - (rect.left + rect.width / 2);
 		const x = Math.max(-JOYSTICK_LIMIT, Math.min(JOYSTICK_LIMIT, rawX));
 		this.knob.style.transform = `translate(calc(-50% + ${x}px), -50%)`;
 		if (Math.abs(x) < RESET_THRESHOLD) this.laneLatched = false;
@@ -68,6 +79,15 @@ export class MedaberMobileControls {
 	/** @param {PointerEvent} event Joystick release or cancellation event. */
 	stopJoystick(event) {
 		if (event.pointerId !== this.activePointerId) return;
+		this.releaseJoystick();
+	}
+
+	/** Releases capture and restores the visual joystick origin. */
+	releaseJoystick() {
+		const pointerId = this.activePointerId;
+		if (pointerId !== null && this.pad.hasPointerCapture?.(pointerId)) {
+			this.pad.releasePointerCapture?.(pointerId);
+		}
 		this.activePointerId = null;
 		this.laneLatched = false;
 		this.knob.style.transform = "translate(-50%, -50%)";

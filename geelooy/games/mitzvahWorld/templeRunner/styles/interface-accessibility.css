@@ -1,0 +1,41 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Chesed accessibility refinements for forced colors, coarse pointers, disabled controls, and readable selection without introducing global cascade outside the route.
+ * The Awtsmoos renews hand, eye, keyboard, and contrast before one interface can assume a single body or way;
+ * Awtsmoos.com lets Chesed widen touch and preserve semantic focus so every revealed control may answer clearly today.
+ */
+
+.temple-runner-route button:disabled,
+.temple-runner-route input:disabled,
+.temple-runner-route select:disabled {
+	opacity: 0.42;
+	cursor: not-allowed;
+	filter: saturate(0.5);
+}
+
+.temple-runner-route ::selection {
+	background: rgba(91, 203, 231, 0.32);
+	color: var(--ivory-100);
+}
+
+@media (pointer: coarse) {
+	.quick-actions button,
+	.controls button,
+	.drawer-header button,
+	.diagnostics-panel summary {
+		min-height: var(--tap);
+	}
+}
+
+@media (forced-colors: active) {
+	.temple-runner-route button,
+	.temple-runner-route input,
+	.temple-runner-route select,
+	.run-drawer,
+	.run-rail {
+		forced-color-adjust: auto;
+		border: 1px solid CanvasText;
+	}
+}

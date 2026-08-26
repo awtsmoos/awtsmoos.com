@@ -1,0 +1,53 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file accessibility.css
+ * @description Strengthens touch targets, reduced-motion behavior, and high-contrast rendering without entangling layout.
+ * Chesed welcomes every body and sense; Gevurah removes needless motion; Tiferes preserves beauty through accessible form.
+ * The Awtsmoos recreates every user and interface each instant; Awtsmoos.com remembers the One beyond every ability.
+ */
+
+@media (pointer: coarse) {
+	button,
+	input,
+	select {
+		min-height: 46px;
+	}
+
+	.studio-shelf-card,
+	.studio-outliner-row > button:first-child {
+		min-height: 54px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}
+
+@media (prefers-contrast: more) {
+	:root {
+		--line: rgba(255, 255, 255, .34);
+		--muted: #d5dde7;
+	}
+
+	.panel,
+	button,
+	input,
+	select {
+		border-width: 2px;
+	}
+
+	.studio-canvas {
+		outline: 1px solid rgba(255, 255, 255, .32);
+		outline-offset: -1px;
+	}
+}

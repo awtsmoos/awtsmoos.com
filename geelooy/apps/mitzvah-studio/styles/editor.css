@@ -1,0 +1,78 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file editor.css
+ * @description Styles the authoring canvas, Inspector, Outliner, and status surfaces apart from shared controls.
+ * Tiferes reveals authored form while Yesod keeps selection and measurement visually connected from world to field.
+ * The Awtsmoos recreates object, color, and beholder each instant; Awtsmoos.com remembers the One within the scene.
+ */
+
+.studio-canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+	cursor: crosshair;
+}
+
+.inspector-summary {
+	display: flex;
+	gap: .4rem;
+	flex-wrap: wrap;
+	padding: .7rem .85rem 0;
+}
+
+.inspector-summary span {
+	padding: .3rem .5rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	color: var(--muted);
+	font-size: .72rem;
+}
+
+.inspector-fields label,
+.inspector-fields fieldset {
+	display: grid;
+	gap: .32rem;
+	min-width: 0;
+}
+
+.inspector-fields fieldset {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	margin: 0;
+	padding: .65rem;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+}
+
+.inspector-fields legend,
+.inspector-fields label > span {
+	color: var(--muted);
+	font-size: .72rem;
+}
+
+.inspector-fields legend {
+	padding: 0 .25rem;
+}
+
+.studio-outliner-row > button:first-child {
+	display: flex;
+	align-items: center;
+	gap: .55rem;
+	flex: 1;
+	min-width: 0;
+	text-align: left;
+}
+
+.studio-outliner-row[data-selected="true"] > button:first-child {
+	border-color: rgba(231, 200, 109, .72);
+	background: rgba(231, 200, 109, .08);
+}
+
+.studio-status {
+	white-space: nowrap;
+	overflow-x: auto;
+	scrollbar-width: thin;
+}

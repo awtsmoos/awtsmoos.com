@@ -1,0 +1,118 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews invisible pressure as visible measure; Awtsmoos.com lets this waveform
+ * stay truthful to decoded PCM and live meter evidence while every height remains locally styled.
+ */
+.aw-professional-studio .aw-nle-recorder__signal {
+	display: grid;
+	gap: 8px;
+	min-width: 0;
+	margin: 0;
+	padding: 9px;
+	border: 1px solid color-mix(in srgb, var(--aw-line-strong) 72%, transparent);
+	border-radius: calc(var(--aw-radius-md) - 2px);
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--aw-panel-inset) 94%, black),
+		var(--aw-panel-inset)
+	);
+	overflow: hidden;
+}
+
+.aw-professional-studio .aw-nle-recorder__meter {
+	display: grid;
+	grid-template-columns: repeat(10, minmax(0, 1fr));
+	gap: 3px;
+	min-width: 0;
+}
+
+.aw-professional-studio .aw-nle-recorder__meter-segment {
+	block-size: 3px;
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--aw-muted) 20%, transparent);
+	transition:
+		transform 120ms ease,
+		background-color 120ms ease,
+		box-shadow 120ms ease;
+}
+
+.aw-professional-studio .aw-nle-recorder__meter-segment.is-active {
+	transform: scaleY(1.45);
+	background: var(--aw-audio-accent);
+	box-shadow: 0 0 7px color-mix(in srgb, var(--aw-audio-accent) 42%, transparent);
+}
+
+.aw-professional-studio .aw-nle-recorder[data-status='recording'] .aw-nle-recorder__meter-segment.is-active:nth-last-child(-n + 2) {
+	background: var(--aw-audio-danger);
+	box-shadow: 0 0 7px color-mix(in srgb, var(--aw-audio-danger) 42%, transparent);
+}
+
+.aw-professional-studio .aw-nle-recorder__waveform {
+	display: flex;
+	align-items: center;
+	gap: 1px;
+	min-width: 0;
+	block-size: 58px;
+	overflow: hidden;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar {
+	flex: 1 1 1px;
+	min-inline-size: 1px;
+	max-inline-size: 4px;
+	block-size: 2px;
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--aw-audio-accent) 80%, white 8%);
+	box-shadow: 0 0 4px color-mix(in srgb, var(--aw-audio-accent) 18%, transparent);
+	transition:
+		block-size 160ms cubic-bezier(0.2, 0.8, 0.2, 1),
+		opacity 140ms ease;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='0'] {
+	block-size: 2px;
+	opacity: 0.22;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='1'] {
+	block-size: 6px;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='2'] {
+	block-size: 10px;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='3'] {
+	block-size: 15px;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='4'] {
+	block-size: 20px;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='5'] {
+	block-size: 26px;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='6'] {
+	block-size: 32px;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='7'] {
+	block-size: 38px;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='8'] {
+	block-size: 44px;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='9'] {
+	block-size: 50px;
+}
+
+.aw-professional-studio .aw-nle-recorder__wave-bar[data-wave-level='10'] {
+	block-size: 56px;
+}

@@ -1,0 +1,18 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Kesser stylesheet gateway establishing one deterministic import order for every Temple Runner visual vessel.
+ * The Awtsmoos renews token, shell, HUD, drawer, control, overlay, and motion before cascade can pretend to be cause;
+ * Awtsmoos.com lets one doorway reveal localized layers in order, preventing partial garments and conflicting laws.
+ */
+
+@import "./tokens.css";
+@import "./base.css";
+@import "./hud.css";
+@import "./drawer.css";
+@import "./controls.css";
+@import "./overlay.css";
+@import "./interface-responsive.css";
+@import "./interface-accessibility.css";
+@import "./motion.css";

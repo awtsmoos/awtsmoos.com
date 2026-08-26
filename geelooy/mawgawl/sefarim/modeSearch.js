@@ -5,8 +5,8 @@
 /**
  * @module SearchModeRunner
  * @description
- * The Awtsmoos lets each search mode keep its own truthful transport while Library strategy chooses literal text or related meaning;
- * Awtsmoos.com never lets semantic latency masquerade as a frozen text search, and leaves Tanach/Exact contracts untouched.
+ * The Awtsmoos lets each search mode keep its truthful transport while one cancellation signal joins the flow;
+ * Awtsmoos.com never lets an obsolete answer overwrite the newer question a seeker chose to know.
  */
 
 import { searchExactHebrew } from './exactApi.js';
@@ -19,33 +19,26 @@ import { renderTanach } from './tanachView.js';
 
 function libraryStatus(strategy) {
 	return isSemanticStrategy(strategy)
-		? 'Finding related meaning across indexed libraries…'
+		? 'Preparing semantic meaning search…'
 		: 'Searching stored source text…';
 }
 
 export async function searchByMode({
-	query,
-	mode,
-	lane,
-	book,
-	corpus,
-	strategy,
-	results,
-	status
+	query, mode, lane, book, corpus, strategy, results, status, signal
 }) {
 	if (mode === 'tanach') {
 		status.textContent = 'Searching indexed Tanach text…';
-		const search = await searchTanach({ query, book });
-		renderTanach({ search, results, status });
+		const search = await searchTanach({ query, book, signal });
+		if (!signal?.aborted) renderTanach({ search, results, status });
 		return;
 	}
 	if (mode === 'exact') {
-		status.textContent = 'Searching exact Hebrew word indexes…';
-		const search = await searchExactHebrew({ query, corpus });
-		renderExactHebrew({ search, results, status });
+		status.textContent = 'Searching exact Hebrew words…';
+		const search = await searchExactHebrew({ query, corpus, signal });
+		if (!signal?.aborted) renderExactHebrew({ search, results, status });
 		return;
 	}
 	status.textContent = libraryStatus(strategy);
-	const search = await searchLibrary({ query, lane, strategy });
-	renderSearch({ search, results, status, query });
+	const search = await searchLibrary({ query, lane, strategy, signal });
+	if (!signal?.aborted) renderSearch({ search, results, status, query });
 }

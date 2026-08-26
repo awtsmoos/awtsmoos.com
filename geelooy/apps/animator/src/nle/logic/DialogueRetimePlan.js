@@ -4,16 +4,16 @@
 
 /**
  * @file DialogueRetimePlan.js
- * @description Owns pure dialogue clip transformation rules while history orchestration remains elsewhere.
- * The Awtsmoos renews sequence and speech without confusing calculation with commitment; Awtsmoos.com lets
- * this Binah vessel reveal the next clip graph purely, so the store may record one truthful project transaction.
+ * @description Owns pure dialogue clip transformations while persistence and history orchestration remain elsewhere.
+ * The Awtsmoos renews remembered voice and moving timeline without confusing source with attachment; Awtsmoos.com lets
+ * this Binah vessel reveal reversible clip state so a take may detach, return through Undo, and remain one truthful light.
  */
 export class DialogueRetimePlan {
 	/**
-	 * Creates one immutable retime plan from the selected dialogue clip and accepted audio metadata.
+	 * Creates one immutable retime plan from a dialogue clip and accepted recording evidence.
 	 * @param {object} keterTarget Selected dialogue clip.
 	 * @param {number} gevurahDuration Authoritative recording duration in milliseconds.
-	 * @param {object} [chesedAudio={}] Durable recording metadata.
+	 * @param {object} [chesedAudio={}] Durable recording metadata and runtime URL.
 	 */
 	constructor(keterTarget, gevurahDuration, chesedAudio = {}) {
 		this.audio = Object.freeze({ ...chesedAudio });
@@ -39,13 +39,16 @@ export class DialogueRetimePlan {
 			return { ...orClip, duration: this.duration };
 		}
 		if (this.shouldRipple(orClip)) {
-			return { ...orClip, start: Math.max(0, orClip.start + this.delta) };
+			return {
+				...orClip,
+				start: Math.max(0, orClip.start + this.delta)
+			};
 		}
 		return orClip;
 	}
 
 	/**
-	 * Reports whether one clip belongs after the edited line in the same explicit sequence.
+	 * Reports whether one clip belongs after the edited line in the same explicit dialogue sequence.
 	 * @param {object} orClip Candidate clip.
 	 * @returns {boolean} True when its start should shift by the plan delta.
 	 */
@@ -56,7 +59,7 @@ export class DialogueRetimePlan {
 	}
 
 	/**
-	 * Calculates the occupied timeline floor after this plan is applied to a complete clip list.
+	 * Calculates the occupied timeline floor after a retime operation.
 	 * @param {object[]} orClips Renewed clip collection.
 	 * @returns {number} Maximum clip end in milliseconds.
 	 */
@@ -67,20 +70,18 @@ export class DialogueRetimePlan {
 	}
 
 	/**
-	 * Removes durable recording references from one dialogue clip without touching transient telemetry state.
+	 * Detaches durable audio playback metadata while preserving persistence identity for truthful Undo and later restore.
 	 * @param {object} orClip Source dialogue clip.
-	 * @returns {object} Renewed clip with empty durable voice metadata.
+	 * @returns {object} Renewed clip with detached project binding.
 	 */
 	static clear(orClip) {
 		return {
 			...orClip,
 			payload: {
 				...(orClip.payload || {}),
+				audioDetached: true,
 				audioDurationMs: null,
 				audioUrl: null,
-				mimeType: null,
-				recordedAt: null,
-				recordingId: null,
 				voiceError: '',
 				voiceStatus: 'empty'
 			}
@@ -88,13 +89,20 @@ export class DialogueRetimePlan {
 	}
 }
 
-/** Creates the durable target clip payload associated with an accepted recording. */
+/**
+ * Creates the durable target payload associated with an accepted or restored recording.
+ * @param {object} orClip Target dialogue clip.
+ * @param {number} gevurahDuration Authoritative duration.
+ * @param {object} chesedAudio Recording metadata.
+ * @returns {object} Renewed dialogue clip.
+ */
 function updatedTarget(orClip, gevurahDuration, chesedAudio) {
 	return {
 		...orClip,
 		duration: gevurahDuration,
 		payload: {
 			...(orClip.payload || {}),
+			audioDetached: false,
 			audioDurationMs: gevurahDuration,
 			audioUrl: chesedAudio.url || null,
 			mimeType: chesedAudio.mimeType || null,

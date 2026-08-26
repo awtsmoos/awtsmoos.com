@@ -1,52 +1,41 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file HudElements.js
- * @description Binds every Temple Runner UI element once so the live game loop never searches the DOM.
- * The Awtsmoos renews each visible vessel while one remembered map keeps render work small and clear;
- * Awtsmoos.com lets Malchus update known elements directly, leaving query cost outside the running sphere.
+ * @description Binds stable Temple Runner landmarks once while catalog-rendered settings remain a single container rather than dozens of hard-coded element properties.
+ * The Awtsmoos renews every visible vessel while one remembered map keeps the running loop free from query noise;
+ * Awtsmoos.com lets Malchus bind landmarks only, leaving preference rows to emerge from Binah's living prose.
  */
 
 export class MalchusHudElements {
 	/** @param {Document} documentRef Current game document. */
 	constructor(documentRef) {
 		this.document = documentRef;
-		this.shell = this.find("game-shell");
-		this.loading = this.find("loading-message");
-		this.score = this.find("score-value");
-		this.best = this.find("best-value");
-		this.perutas = this.find("peruta-value");
-		this.multiplier = this.find("multiplier-value");
-		this.speed = this.find("speed-value");
-		this.district = this.find("district-value");
-		this.status = this.find("status-pill");
-		this.powerUp = this.find("power-up-status");
-		this.turnPrompt = this.find("turn-prompt");
-		this.missionList = this.find("mission-list");
-		this.gameOver = this.find("game-over");
-		this.gameOverReason = this.find("game-over-reason");
-		this.gameOverScore = this.find("game-over-score");
-		this.drawer = this.find("run-drawer");
-		this.drawerToggle = this.find("drawer-toggle");
-		this.drawerClose = this.find("drawer-close");
-		this.drawerBackdrop = this.find("drawer-backdrop");
-		this.fxToggle = this.find("fx-toggle");
-		this.motionToggle = this.find("motion-toggle");
-		this.controlsToggle = this.find("controls-toggle");
-		this.diagnostics = this.find("diagnostics-value");
+		const ids = [
+			"game-shell", "loading-message", "score-value", "best-value", "peruta-value",
+			"multiplier-value", "speed-value", "district-value", "status-pill", "power-up-status",
+			"turn-prompt", "mission-list", "game-over", "game-over-reason", "game-over-score",
+			"run-drawer", "drawer-toggle", "drawer-close", "drawer-backdrop", "diagnostics-value",
+			"experience-settings"
+		];
+		const names = [
+			"shell", "loading", "score", "best", "perutas", "multiplier", "speed", "district",
+			"status", "powerUp", "turnPrompt", "missionList", "gameOver", "gameOverReason",
+			"gameOverScore", "drawer", "drawerToggle", "drawerClose", "drawerBackdrop", "diagnostics",
+			"settingsList"
+		];
+		ids.forEach((id, index) => { this[names[index]] = this.find(id); });
 	}
 
 	/**
-	 * Resolves one required interface element.
+	 * Resolves one required interface landmark or fails startup with a precise missing-selector error.
 	 * @param {string} id Element id.
 	 * @returns {HTMLElement} Bound element.
 	 */
 	find(id) {
 		const element = this.document.getElementById(id);
-		if (!element) {
-			throw new Error(`Temple Runner UI missing #${id}`);
-		}
+		if (!element) throw new Error(`Temple Runner UI missing #${id}`);
 		return element;
 	}
 }
