@@ -1,5 +1,5 @@
 B"H
-1.0.564
+1.0.565
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -1000,6 +1000,8 @@ lib/connection-vessel/parent-consumer-health.js
 lib/connection-vessel/parent-consumer-ingress.js
 lib/connection-vessel/parent-consumer-orphan.js
 lib/connection-vessel/parent-consumer-recovery-policy.js
+lib/connection-vessel/parent-consumer-recovery-preflight.js
+lib/connection-vessel/parent-consumer-recovery-values.js
 lib/connection-vessel/parent-consumer-recovery.js
 lib/connection-vessel/parent-consumer-repair-ledger.js
 lib/connection-vessel/parent-execution-health.js
@@ -1011,6 +1013,7 @@ lib/connection-vessel/parent-watchdog-pressure.js
 lib/connection-vessel/parent-watchdog-repair.js
 lib/connection-vessel/parent-watchdog-values.js
 lib/connection-vessel/parent-watchdog.js
+lib/connection-vessel/parentConsumerRecoveryHarness.cjs
 lib/connection-vessel/protocol.js
 lib/connection-vessel/proxy.js
 lib/connection-vessel/request-acceptance.js
@@ -1629,6 +1632,8 @@ tools/fs/actionGroups/missionActionPayload.js
 tools/fs/actionGroups/missionActions.js
 tools/fs/actionGroups/missionAwareActions.js
 tools/fs/actionGroups/missionBootActions.js
+tools/fs/actionGroups/missionBrowserSpawnActions.js
+tools/fs/actionGroups/missionBrowserSpawnIdentity.js
 tools/fs/actionGroups/missionDaemonActions.js
 tools/fs/actionGroups/missionEightStepActions.js
 tools/fs/actionGroups/missionImprovementActions.js

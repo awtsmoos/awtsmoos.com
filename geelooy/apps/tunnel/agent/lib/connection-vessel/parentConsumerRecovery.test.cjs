@@ -4,88 +4,87 @@
 
 const assert = require("node:assert/strict");
 const Recovery = require("./parent-consumer-recovery.js");
+const Harness = require("./parentConsumerRecoveryHarness.cjs");
 
 /**
- * @file Recreates the false-SIGTERM race and proves a true persistent stall still heals.
+ * @file Proves sustained silence, fresh-progress vetoes, and post-maturity preflight.
  * @description
- * The Awtsmoos renews every witness; Awtsmoos.com therefore lets fresh progress cancel
- * a mature stale candidate before Gevurah claims repair, while truly sustained silence
- * survives preflight and earns exactly one bounded recovery deed.
+ * The Awtsmoos lets transient pressure dissolve without force; Awtsmoos.com requires
+ * measured corroboration and a fresh witness before repair, then resets the covenant
+ * so neither success nor cooldown can become a destructive polling loop.
  */
-let now = 10000;
-let claims = 0;
-const ledger = {
-	claim(reason) {
-		claims += 1;
-		return { allowed: true, reason, recentRepairs: claims };
-	},
-	status() {
-		return { history: [] };
+const harness = Harness.createHarness();
+
+proveSustainedCandidate();
+proveFreshWitnessCancelsMatureCandidate();
+provePersistentStallRepairsOnce();
+proveImmediateVetoes();
+console.log("BHY consumer recovery preserves corroboration, preflight, vetoes, and bounded healing");
+
+/** Proves the historical four-observation window still cannot claim repair early. */
+function proveSustainedCandidate() {
+	const recovery = Recovery.create({
+		ledger: harness.ledger,
+		minimumObservations: 4,
+		now: harness.clock,
+		preflightOptions: { minimumObservations: 2, preflightMs: 250 },
+		sustainMs: 4000
+	});
+	for (const instant of [10000, 11000, 12000, 13000, 14000]) {
+		harness.setNow(instant);
+		assert.equal(recovery.observe(harness.stalled).repairAuthorized, false);
 	}
-};
+	assert.equal(recovery.snapshot().preflight.active, true);
+	assert.equal(harness.claims, 0);
+}
 
-const stalled = {
-	registered: true,
-	parentUnresponsive: false,
-	controlStalled: false,
-	pressure: { deferRepair: false },
-	execution: {
-		backpressured: false,
-		consumerStalled: true,
-		ingressStalled: true,
-		recentSuccess: false,
-		repairing: false
-	}
-};
+/** Recreates the false-SIGTERM race: fresh success after maturity must erase force. */
+function proveFreshWitnessCancelsMatureCandidate() {
+	harness.setNow(20000);
+	const recovery = harness.fastRecovery();
+	assert.equal(recovery.observe(harness.stalled).repairAuthorized, false);
+	harness.setNow(21000);
+	assert.equal(recovery.observe(harness.stalled).reason, "repair_preflight");
+	harness.setNow(21250);
+	const fresh = recovery.observe({
+		...harness.stalled,
+		execution: { ...harness.stalled.execution, recentSuccess: true }
+	});
+	assert.equal(fresh.reason, "fresh_execution_progress");
+	assert.equal(fresh.repairAuthorized, false);
+	assert.equal(recovery.snapshot().preflight.active, false);
+	assert.equal(harness.claims, 0);
+}
 
-const raced = Recovery.create({
-	ledger,
-	minimumObservations: 2,
-	now: () => now,
-	preflightOptions: { minimumObservations: 2, preflightMs: 250 },
-	sustainMs: 1000
-});
+/** Proves genuine sustained silence survives preflight and earns exactly one claim. */
+function provePersistentStallRepairsOnce() {
+	harness.setNow(30000);
+	const recovery = harness.fastRecovery();
+	assert.equal(recovery.observe(harness.stalled).repairAuthorized, false);
+	harness.setNow(31000);
+	assert.equal(recovery.observe(harness.stalled).reason, "repair_preflight");
+	harness.setNow(31250);
+	const repaired = recovery.observe(harness.stalled);
+	assert.equal(repaired.repairAuthorized, true);
+	assert.equal(repaired.reason, "execution_ingress_stalled");
+	assert.equal(repaired.claimReason, "execution_ingress_stalled");
+	assert.equal(harness.claims, 1);
+	harness.setNow(31300);
+	assert.equal(recovery.observe(harness.stalled).repairAuthorized, false);
+	assert.equal(harness.claims, 1);
+}
 
-assert.equal(raced.observe(stalled).repairAuthorized, false);
-now = 11000;
-const mature = raced.observe(stalled);
-assert.equal(mature.repairAuthorized, false);
-assert.equal(mature.reason, "repair_preflight");
-assert.equal(claims, 0);
-
-now = 11250;
-const fresh = raced.observe({
-	...stalled,
-	execution: { ...stalled.execution, recentSuccess: true }
-});
-assert.equal(fresh.reason, "fresh_execution_progress");
-assert.equal(fresh.repairAuthorized, false);
-assert.equal(raced.snapshot().preflight.active, false);
-assert.equal(claims, 0);
-
-now = 20000;
-const persistent = Recovery.create({
-	ledger,
-	minimumObservations: 2,
-	now: () => now,
-	preflightOptions: { minimumObservations: 2, preflightMs: 250 },
-	sustainMs: 1000
-});
-assert.equal(persistent.observe(stalled).repairAuthorized, false);
-now = 21000;
-assert.equal(persistent.observe(stalled).reason, "repair_preflight");
-assert.equal(claims, 0);
-now = 21250;
-const repaired = persistent.observe(stalled);
-assert.equal(repaired.repairAuthorized, true);
-assert.equal(repaired.reason, "execution_ingress_stalled");
-assert.equal(repaired.claimReason, "execution_ingress_stalled");
-assert.equal(claims, 1);
-assert.equal(persistent.snapshot().observations, 0);
-assert.equal(persistent.snapshot().preflight.active, false);
-
-now = 21300;
-assert.equal(persistent.observe(stalled).repairAuthorized, false);
-assert.equal(claims, 1);
-
-console.log("BHY consumer recovery preflight cancels stale races and preserves true healing");
+/** Proves fresh execution and runtime pressure remain immediate repair vetoes. */
+function proveImmediateVetoes() {
+	harness.setNow(40000);
+	const recovery = harness.fastRecovery();
+	assert.equal(recovery.observe({
+		...harness.stalled,
+		execution: { ...harness.stalled.execution, recentSuccess: true }
+	}).reason, "fresh_execution_progress");
+	assert.equal(recovery.observe({
+		...harness.stalled,
+		pressure: { deferRepair: true }
+	}).reason, "runtime_pressure");
+	assert.equal(harness.claims, 1);
+}

@@ -5,21 +5,22 @@
 const RepairLedger = require("./parent-consumer-repair-ledger.js");
 const Policy = require("./parent-consumer-recovery-policy.js");
 const Preflight = require("./parent-consumer-recovery-preflight.js");
+const Values = require("./parent-consumer-recovery-values.js");
 
 const DEFAULT_SUSTAIN_MS = 4000;
 const DEFAULT_MIN_OBSERVATIONS = 4;
 
 /**
- * @file Turns sustained consumer silence into repair only after a second fresh witness.
+ * @file Requires sustained silence plus one fresh preflight before consumer repair.
  * @description
- * The Awtsmoos renews every pulse; a mature stale frame is still not eternity.
- * Awtsmoos.com lets candidate time prove duration, preflight prove continued silence,
- * and only then lets the durable ledger grant bounded Gevurah to the exact parent.
+ * The Awtsmoos renews every pulse, so one mature stale frame is never eternity.
+ * Awtsmoos.com first measures corroborated silence, then asks for fresh testimony,
+ * and only afterward lets the durable ledger grant bounded repair to the exact parent.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
-	const sustainMs = bounded(options.sustainMs, DEFAULT_SUSTAIN_MS, 1000);
-	const minimumObservations = boundedCount(
+	const sustainMs = Values.bounded(options.sustainMs, DEFAULT_SUSTAIN_MS, 1000);
+	const minimumObservations = Values.boundedCount(
 		options.minimumObservations,
 		DEFAULT_MIN_OBSERVATIONS
 	);
@@ -30,9 +31,13 @@ function create(options = {}) {
 	});
 	let candidateSince = 0;
 	let observations = 0;
-	let latest = idle("consumer_healthy");
+	let latest = Values.idle("consumer_healthy");
 
-	/** Observes fresh evidence through candidate, preflight, claim, then authorization. */
+	/**
+	 * Observes fresh evidence through candidate, preflight, claim, then reset.
+	 * @param {object} evidence Execution, pressure, parent, registration, and control evidence.
+	 * @returns {object} Current recovery testimony and bounded repair authorization.
+	 */
 	function observe(evidence = {}) {
 		const observedAt = now();
 		const eligibility = Policy.classify(evidence);
@@ -45,21 +50,24 @@ function create(options = {}) {
 		const ageMs = Math.max(0, observedAt - candidateSince);
 		if (ageMs < sustainMs || observations < minimumObservations) {
 			preflight.reset();
-			latest = status(false, eligibility.reason, ageMs, null);
+			latest = Values.status(false, eligibility.reason, ageMs, null);
 			return latest;
 		}
-		const freshWitness = preflight.observe(eligibility.reason);
-		if (!freshWitness.approved) {
-			latest = status(false, "repair_preflight", ageMs, null);
+		const witness = preflight.observe(eligibility.reason);
+		if (!witness.approved) {
+			latest = Values.status(false, "repair_preflight", ageMs, null);
 			return latest;
 		}
 		const claim = ledger.claim(eligibility.reason);
-		latest = status(claim.allowed, eligibility.reason, ageMs, claim);
+		latest = Values.status(claim.allowed, eligibility.reason, ageMs, claim);
 		resetState();
 		return latest;
 	}
 
-	/** Returns memory-backed recovery testimony with candidate and preflight separated. */
+	/**
+	 * Returns recovery evidence without mutating disk or signaling a process.
+	 * @returns {object} Candidate, preflight, thresholds, latest decision, and ledger status.
+	 */
 	function snapshot() {
 		return {
 			...latest,
@@ -72,11 +80,13 @@ function create(options = {}) {
 		};
 	}
 
+	/** Clears candidate/preflight state and records the current veto reason. */
 	function reset(reason) {
 		resetState();
-		latest = idle(reason);
+		latest = Values.idle(reason);
 	}
 
+	/** Clears every transient witness after veto or claim attempt. */
 	function resetState() {
 		candidateSince = 0;
 		observations = 0;
@@ -84,32 +94,6 @@ function create(options = {}) {
 	}
 
 	return { observe, snapshot };
-}
-
-function idle(reason) {
-	return status(false, reason, 0, null);
-}
-
-function status(repairAuthorized, reason, candidateAgeMs, claim) {
-	return {
-		repairAuthorized,
-		reason,
-		claimReason: claim?.reason || "",
-		candidateAgeMs,
-		claim
-	};
-}
-
-function bounded(value, fallback, minimum) {
-	const number = Number(value);
-	return Number.isFinite(number) ? Math.max(minimum, Math.floor(number)) : fallback;
-}
-
-function boundedCount(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number)
-		? Math.max(2, Math.min(20, Math.floor(number)))
-		: fallback;
 }
 
 module.exports = {
