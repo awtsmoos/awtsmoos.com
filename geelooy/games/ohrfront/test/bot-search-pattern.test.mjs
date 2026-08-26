@@ -4,7 +4,7 @@
 
 /**
  * @file bot-search-pattern.test.mjs
- * @description Proves lost-contact search expands deterministic evidence-only uncertainty instead of tracking a hidden live player.
+ * @description Proves lost-contact search expands deterministic evidence-only uncertainty instead of tracking hidden player state, while comparing spatial truth rather than clone-function identity.
  * Netzach carries a remembered trace while the Awtsmoos renews seeker, angle, source, and forgotten place;
  * Awtsmoos.com lets concealment remain real because search spreads from evidence rather than receiving impossible knowledge from empty space.
  */
@@ -39,25 +39,36 @@ function createTiferesSearchBot(id, source = "sight") {
 	};
 }
 
+/** Converts one cloneable point into scalar coordinates so test identity reflects geometry rather than method allocation. */
+function revealMalchusCoordinates(malchusPoint) {
+	return [malchusPoint.x, malchusPoint.y, malchusPoint.z];
+}
+
 test("search target is deterministic and does not mutate remembered contact", () => {
 	const netzachPattern = new NetzachBotSearchPattern();
 	const tiferesBot = createTiferesSearchBot(3);
-	const hodBefore = { ...tiferesBot.contact.position };
+	const hodBefore = revealMalchusCoordinates(tiferesBot.contact.position);
 	const malchusFirst = netzachPattern.targetFor(tiferesBot);
 	const malchusSecond = netzachPattern.targetFor(tiferesBot);
-	assert.deepEqual(malchusFirst, malchusSecond);
 	assert.deepEqual(
-		[tiferesBot.contact.position.x, tiferesBot.contact.position.y, tiferesBot.contact.position.z],
-		[hodBefore.x, hodBefore.y, hodBefore.z]
+		revealMalchusCoordinates(malchusFirst),
+		revealMalchusCoordinates(malchusSecond)
 	);
-	assert.notDeepEqual([malchusFirst.x, malchusFirst.z], [hodBefore.x, hodBefore.z]);
+	assert.deepEqual(revealMalchusCoordinates(tiferesBot.contact.position), hodBefore);
+	assert.notDeepEqual(
+		[malchusFirst.x, malchusFirst.z],
+		[hodBefore[0], hodBefore[2]]
+	);
 });
 
 test("different squad identities fan into different search sectors", () => {
 	const netzachPattern = new NetzachBotSearchPattern();
 	const malchusLeft = netzachPattern.targetFor(createTiferesSearchBot(1));
 	const malchusRight = netzachPattern.targetFor(createTiferesSearchBot(2));
-	assert.notDeepEqual([malchusLeft.x, malchusLeft.z], [malchusRight.x, malchusRight.z]);
+	assert.notDeepEqual(
+		[malchusLeft.x, malchusLeft.z],
+		[malchusRight.x, malchusRight.z]
+	);
 });
 
 test("sound evidence creates broader uncertainty than reports or lost sight", () => {

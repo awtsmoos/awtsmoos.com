@@ -4,50 +4,69 @@
 
 /**
  * @file CobyKQualityProfiles.js
- * @description Defines visual-only Battery, Balanced, and Sharp budgets so CobyK can scale ecological richness without ever changing deterministic gameplay.
- * The Awtsmoos renews abundance and restraint before quality can claim that beauty requires a different game;
- * Awtsmoos.com lets these Tiferes budgets vary finite density while the canonical collision world remains the same.
+ * @description Defines Battery, Balanced, and Sharp as visual ceilings beneath the non-negotiable 60 Hz performance covenant, never as fixed rendering demands.
+ * The Awtsmoos renews beauty and restraint before a preference can claim to outrank the living frame;
+ * Awtsmoos.com lets each Tiferes ceiling invite richer worlds while measured Gevurah may lower ornament without changing the game.
  */
 const tiferesProfiles = Object.freeze({
-	battery: Object.freeze({
+	battery: revealProfile({
 		id: "battery",
-		pixelRatioCap: 1.25,
-		natureDensity: 0.28,
-		creatureBudget: 0,
-		particleBudget: 28,
+		pixelRatioCap: 1.2,
+		natureDensityCap: 0.24,
+		creatureBudgetCap: 0,
+		particleBudgetCap: 22,
 		remoteMaterials: false,
-		shadowLikeDepth: false
+		atmosphericLayerCap: 1
 	}),
-	balanced: Object.freeze({
+	balanced: revealProfile({
 		id: "balanced",
-		pixelRatioCap: 1.75,
-		natureDensity: 0.62,
-		creatureBudget: 2,
-		particleBudget: 72,
+		pixelRatioCap: 1.55,
+		natureDensityCap: 0.62,
+		creatureBudgetCap: 2,
+		particleBudgetCap: 64,
 		remoteMaterials: true,
-		shadowLikeDepth: true
+		atmosphericLayerCap: 2
 	}),
-	sharp: Object.freeze({
+	sharp: revealProfile({
 		id: "sharp",
-		pixelRatioCap: 2,
-		natureDensity: 1,
-		creatureBudget: 4,
-		particleBudget: 140,
+		pixelRatioCap: 1.85,
+		natureDensityCap: 1,
+		creatureBudgetCap: 4,
+		particleBudgetCap: 120,
 		remoteMaterials: true,
-		shadowLikeDepth: true
+		atmosphericLayerCap: 3
 	})
 });
 
 /**
- * Reveals one immutable renderer quality profile, falling back to Balanced for unknown persisted/user values.
- * @param {string} [malchusId="balanced"] Requested profile id.
- * @returns {object} Frozen visual-quality profile.
+ * Creates an immutable visual ceiling whose fields can only constrain presentation, never simulation or gameplay semantics.
+ * @param {object} binaProfile Raw quality ceiling.
+ * @returns {object} Frozen normalized profile.
+ */
+function revealProfile(binaProfile) {
+	return Object.freeze({
+		id: binaProfile.id,
+		pixelRatioCap: binaProfile.pixelRatioCap,
+		natureDensityCap: binaProfile.natureDensityCap,
+		creatureBudgetCap: binaProfile.creatureBudgetCap,
+		particleBudgetCap: binaProfile.particleBudgetCap,
+		remoteMaterials: binaProfile.remoteMaterials,
+		atmosphericLayerCap: binaProfile.atmosphericLayerCap,
+		targetFps: 60,
+		targetFrameMs: 1000 / 60
+	});
+}
+
+/**
+ * Reveals one immutable renderer quality ceiling, falling back to Balanced when persisted or external input names no known profile.
+ * @param {string} [malchusId="balanced"] Requested quality id.
+ * @returns {object} Frozen quality ceiling.
  */
 export function revealCobyKQualityProfile(malchusId = "balanced") {
 	return tiferesProfiles[malchusId] || tiferesProfiles.balanced;
 }
 
-/** @returns {object[]} Frozen ordered profiles for future retractable settings UI. */
+/** @returns {object[]} Frozen ordered profiles for the future retractable performance/settings surface. */
 export function revealCobyKQualityProfiles() {
 	return Object.freeze([
 		tiferesProfiles.battery,

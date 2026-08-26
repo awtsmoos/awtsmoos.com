@@ -4,9 +4,9 @@
 
 /**
  * @file performance-core-policy.test.mjs
- * @description Exercises the real shared-core frame window, pressure governor, and adaptive scale policy with sustained measured stress and recovery evidence.
- * Gevurah names finite pressure while Netzach remembers its trace, yet the Awtsmoos remains beyond sample, threshold, recovery, and frame;
- * Awtsmoos.com lets this witness prove adaptive restraint emerges from the actual procedural core instead of a game-local imitation of the same.
+ * @description Exercises the real shared-core pressure laws together with Ohrfront's local render-scale profile, proving fast degradation, a 0.5 floor, and deliberately slower stable recovery.
+ * Gevurah names finite pressure while Chochmah gives Ohrfront its measured garment, yet the Awtsmoos renews sample, scale, recovery, and frame;
+ * Awtsmoos.com lets this witness prove the game bends visual expenditure without rewriting the reusable core or the gameplay covenant it must never maim.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -15,8 +15,11 @@ import {
 	FrameBudgetGovernor,
 	FrameBudgetWindow
 } from "../../../libs/awtsmoos-procedural-core/src/exports/performance.js";
+import {
+	CHOCHMAH_OHRFRONT_PERFORMANCE_PROFILE
+} from "../src/performance/ChochmahOhrfrontPerformanceProfile.js";
 
-/** Builds a sufficiently mature bounded frame window from one repeated interval so the governor receives real core evidence. */
+/** Builds a mature bounded frame window from one repeated interval so the governor receives real shared-core evidence. */
 function createNetzachWindow(netzachIntervalMs, netzachSamples = 60) {
 	const netzachWindow = new FrameBudgetWindow(180);
 	for (let netzachIndex = 0; netzachIndex < netzachSamples; netzachIndex += 1) {
@@ -25,8 +28,17 @@ function createNetzachWindow(netzachIntervalMs, netzachSamples = 60) {
 	return netzachWindow;
 }
 
-test("shared-core governor distinguishes stable and sustained critical frame evidence", () => {
-	const gevurahGovernor = new FrameBudgetGovernor();
+/** Creates the real shared-core scale policy configured only by the frozen Ohrfront-local visual profile. */
+function createTiferesOhrfrontScalePolicy() {
+	return new AdaptiveRenderScalePolicy(
+		CHOCHMAH_OHRFRONT_PERFORMANCE_PROFILE.quality.renderScale
+	);
+}
+
+test("shared-core governor distinguishes stable and sustained critical 60Hz evidence", () => {
+	const gevurahGovernor = new FrameBudgetGovernor(
+		CHOCHMAH_OHRFRONT_PERFORMANCE_PROFILE.quality.governor
+	);
 	const hodStable = gevurahGovernor.classify(createNetzachWindow(16.2).view());
 	const hodCritical = gevurahGovernor.classify(createNetzachWindow(42).view());
 	assert.equal(hodStable.pressure, "stable");
@@ -34,14 +46,22 @@ test("shared-core governor distinguishes stable and sustained critical frame evi
 	assert.ok(hodCritical.recommendations.length > 0);
 });
 
-test("shared-core adaptive policy eventually reduces scale under sustained pressure", () => {
-	const tiferesPolicy = new AdaptiveRenderScalePolicy();
+test("Ohrfront local policy can descend to 0.5 under sustained critical pressure", () => {
+	const tiferesPolicy = createTiferesOhrfrontScalePolicy();
 	let hodView = tiferesPolicy.view();
-	const chochmahInitialScale = hodView.scale;
-	for (let netzachIndex = 1; netzachIndex <= 120; netzachIndex += 1) {
-		hodView = tiferesPolicy.update("critical", netzachIndex * 1000);
-		if (hodView.scale < chochmahInitialScale) break;
+	for (let netzachIndex = 0; netzachIndex < 7; netzachIndex += 1) {
+		hodView = tiferesPolicy.update("critical", netzachIndex * 600);
 	}
-	assert.ok(hodView.scale < chochmahInitialScale);
-	assert.ok(hodView.scale >= 0.5);
+	assert.equal(hodView.scale, 0.5);
+	assert.equal(hodView.minScale, 0.5);
+});
+
+test("warning degradation needs little evidence while recovery requires sustained stability", () => {
+	const tiferesPolicy = createTiferesOhrfrontScalePolicy();
+	assert.equal(tiferesPolicy.update("warning", 0).scale, 1);
+	assert.equal(tiferesPolicy.update("warning", 600).scale, 0.9);
+	for (let netzachIndex = 1; netzachIndex <= 23; netzachIndex += 1) {
+		assert.equal(tiferesPolicy.update("stable", 600 + netzachIndex * 200).scale, 0.9);
+	}
+	assert.equal(tiferesPolicy.update("stable", 5400).scale, 1);
 });

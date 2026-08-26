@@ -6,9 +6,10 @@
  * @file KeserGameRuntime.js
  * @description Governs lifecycle while shared-core performance and visibility laws observe rendered frames without ever owning deterministic gameplay cadence.
  * Keser crowns timing, simulation, concealment, manifestation, and measured restraint while the Awtsmoos remains beyond every finite frame and throne;
- * Awtsmoos.com lets visual quality and distant decoration bend under evidence as Netzach and Tiferes preserve the gameplay covenant alone.
+ * Awtsmoos.com lets visual quality and distant decoration bend under evidence as Netzach preserves exact gameplay slices and reveals any discarded catch-up debt alone.
  */
 import { getDifficultyProfile } from "../ai/BotDifficultyProfiles.js";
+import { CHOCHMAH_OHRFRONT_PERFORMANCE_PROFILE } from "../performance/ChochmahOhrfrontPerformanceProfile.js";
 import { KeserPerformanceAuthority } from "../performance/KeserPerformanceAuthority.js";
 import { createRuntimeAssembly } from "./RuntimeAssembly.js";
 import { createRuntimeDebugSurface } from "./RuntimeDebugSurface.js";
@@ -40,7 +41,11 @@ export class KeserGameRuntime {
 		this.completed = false;
 		this.elapsed = 0;
 		this.netzachClock = new NetzachFixedStepClock();
-		this.performanceAuthority = new KeserPerformanceAuthority(this.renderScaleAuthority);
+		this.hodFrameTiming = createInitialTimingReceipt();
+		this.performanceAuthority = new KeserPerformanceAuthority(
+			this.renderScaleAuthority,
+			CHOCHMAH_OHRFRONT_PERFORMANCE_PROFILE
+		);
 		this.frame = this.frame.bind(this);
 		bindRuntimeEvents(this);
 	}
@@ -54,28 +59,27 @@ export class KeserGameRuntime {
 		await beginTiferesBattle(this, chochmahDifficultyId);
 	}
 
-	/**
-	 * Publishes debug access and schedules the first browser animation frame.
-	 * @returns {void}
-	 * @sideEffects Assigns `window.__OHRFRONT_DEBUG__` and requests one animation frame.
-	 */
+	/** Publishes debug access and schedules the first browser animation frame. */
 	boot() {
 		window.__OHRFRONT_DEBUG__ = createRuntimeDebugSurface(this);
 		requestAnimationFrame(this.frame);
 	}
 
 	/**
-	 * Measures rendered-frame subsystems, advances fixed simulation, updates event-bounded decoration, renders, then schedules continuation.
+	 * Measures rendered-frame subsystems, advances bounded fixed simulation, renders, evaluates quality on Hod cadence, then schedules continuation.
 	 * @param {number} netzachNowMilliseconds - requestAnimationFrame timestamp.
 	 * @returns {void}
-	 * @sideEffects Advances gameplay/render state, may toggle explicit decorative visibility, may resize only framebuffer, and schedules the next frame.
+	 * @sideEffects Advances gameplay/render state, may resize only framebuffer, records timing debt, and schedules the next frame.
 	 * @invariant Performance/visibility policy never changes fixed-step cadence, collision truth, or the delta supplied to `fixedUpdate`.
 	 */
 	frame(netzachNowMilliseconds) {
 		this.performanceAuthority.beginFrame(netzachNowMilliseconds);
-		this.performanceAuthority.measure("simulation", () => {
-			this.netzachClock.consume(netzachNowMilliseconds / 1000, netzachDelta => this.fixedUpdate(netzachDelta));
-		});
+		this.hodFrameTiming = Object.freeze(this.performanceAuthority.measure("simulation", () => {
+			return this.netzachClock.consume(
+				netzachNowMilliseconds / 1000,
+				netzachDelta => this.fixedUpdate(netzachDelta)
+			);
+		}));
 		this.performanceAuthority.measure("visibility", () => {
 			this.visibilityAuthority?.update?.(this.player.position, this.player.yaw);
 		});
@@ -99,4 +103,15 @@ export class KeserGameRuntime {
 	completeBattle() {
 		manifestMalchusBattleCompletion(this);
 	}
+}
+
+/** Creates immutable zero-debt timing evidence before the first rendered frame is consumed. */
+function createInitialTimingReceipt() {
+	return Object.freeze({
+		frameDelta: 0,
+		steps: 0,
+		accumulator: 0,
+		droppedSeconds: 0,
+		capped: false
+	});
 }

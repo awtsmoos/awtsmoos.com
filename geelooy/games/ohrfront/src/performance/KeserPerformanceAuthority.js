@@ -4,23 +4,25 @@
 
 /**
  * @file KeserPerformanceAuthority.js
- * @description Governs frame evidence, shared-core quality law, and native framebuffer adaptation without ever changing deterministic simulation cadence.
- * Keser joins measurement, restraint, and manifestation while the Awtsmoos remains beyond frame, governor, scale, and rendered light;
- * Awtsmoos.com lets one simple authority expose rich diagnostics while fixed-step gameplay remains entirely outside visual pressure's sight.
+ * @description Governs cheap per-frame evidence, low-frequency percentile evaluation, shared-core quality law, and native framebuffer adaptation without changing deterministic gameplay cadence.
+ * Keser joins measurement, silence, and restraint while the Awtsmoos renews every frame before statistic, pressure, or scale can claim a throne;
+ * Awtsmoos.com lets evidence speak only often enough to guide quality, so the profiler itself never becomes the stutter it was built to prevent.
  */
 import { GevurahQualityPolicy } from "./GevurahQualityPolicy.js";
+import { HodPerformanceCadence } from "./HodPerformanceCadence.js";
 import { NetzachFrameEvidence } from "./NetzachFrameEvidence.js";
 
 export class KeserPerformanceAuthority {
 	/**
-	 * Creates the performance crown around an injected render-scale adapter and optional evidence/policy tuning.
+	 * Creates the performance crown around an injected render-scale adapter and independently tunable evidence, cadence, and quality policies.
 	 * @param {object|null} yesodRenderScale - Renderer adapter exposing `setScale(scale)` and `view()`.
-	 * @param {object} [chochmahOptions] - Evidence and quality policy options.
-	 * @sideEffects Creates isolated evidence/policy state; no renderer mutation occurs until a core scale change is requested.
+	 * @param {object} [chochmahOptions={}] - Evidence, cadence, and quality policy options.
+	 * @sideEffects Creates isolated evidence/policy state; no renderer mutation occurs until a measured scale change is requested.
 	 */
 	constructor(yesodRenderScale, chochmahOptions = {}) {
 		this.yesodRenderScale = yesodRenderScale;
 		this.netzachEvidence = new NetzachFrameEvidence(chochmahOptions.evidence || {});
+		this.hodCadence = new HodPerformanceCadence(chochmahOptions.cadence || {});
 		this.gevurahQuality = new GevurahQualityPolicy(chochmahOptions.quality || {});
 		this.hodLatest = this.initialSnapshot();
 	}
@@ -41,12 +43,13 @@ export class KeserPerformanceAuthority {
 	}
 
 	/**
-	 * Ends one rendered frame, advances shared-core pressure/hysteresis law, and applies framebuffer scale only when policy changes.
+	 * Ends one rendered frame while performing expensive frame-window statistics only when the low-frequency Hod cadence opens.
 	 * @param {number} netzachNowMs - Monotonic RAF timestamp in milliseconds.
-	 * @returns {object} Fresh clone-safe performance snapshot.
-	 * @sideEffects May invoke the renderer-scale adapter when shared-core adaptive policy changes scale.
+	 * @returns {object} Latest immutable performance snapshot, reused between evaluation windows.
+	 * @sideEffects May evaluate shared-core pressure and resize framebuffer only on cadence-approved frames.
 	 */
 	endFrame(netzachNowMs) {
+		if (!this.hodCadence.shouldEvaluate(netzachNowMs)) return this.hodLatest;
 		const hodEvidence = this.netzachEvidence.view();
 		const gevurahQuality = this.gevurahQuality.evaluate(hodEvidence.frame, netzachNowMs);
 		if (gevurahQuality.changed) this.yesodRenderScale?.setScale?.(gevurahQuality.scale);
@@ -60,6 +63,7 @@ export class KeserPerformanceAuthority {
 			samples: hodEvidence.frame.samples,
 			dominantFrameCost: hodEvidence.costs.dominant,
 			measuredCpuMs: hodEvidence.costs.totalMs,
+			evaluationCount: this.hodCadence.view().evaluationCount,
 			recommendations: Object.freeze([...gevurahQuality.recommendations])
 		});
 		return this.hodLatest;
@@ -82,6 +86,7 @@ export class KeserPerformanceAuthority {
 			samples: 0,
 			dominantFrameCost: null,
 			measuredCpuMs: 0,
+			evaluationCount: 0,
 			recommendations: Object.freeze(["preserve-quality"])
 		});
 	}

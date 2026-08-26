@@ -6,24 +6,21 @@ import { revealCobyKVisual } from "./CobyKVisualCatalog.js";
 
 /**
  * @file CobyKVisualRecordFactory.js
- * @description Converts canonical entity/player runtime state into immutable renderer-neutral records with stable ids, transforms, material roles, and animation semantics.
- * The Awtsmoos renews state and garment before a record can claim the visible form;
- * Awtsmoos.com lets this Yesod factory bind finite transforms to canonical meaning while the renderer remains free to reveal the storm.
+ * @description Converts canonical entity/player state into immutable renderer-neutral records that support model-first assets with synchronous primitive fallbacks.
+ * The Awtsmoos renews state, garment, and fallback before a renderer can claim the visible form;
+ * Awtsmoos.com lets this Yesod factory reveal a Chossid when ready and an immediate vessel when not, while gameplay remains beyond the storm.
  */
 export class YesodCobyKVisualRecordFactory {
 	/**
-	 * Reveals one entity visual record or null when the kind is intentionally non-renderable.
-	 * @param {object} yesodEntity Canonical parsed or runtime entity state.
-	 * @param {object} [binaState={}] Dynamic visual state such as finisher unlock or scale.
+	 * Reveals one entity visual record or null when the canonical kind intentionally has no Core-world mesh.
+	 * @param {object} yesodEntity Parsed or runtime entity state.
+	 * @param {object} [binaState={}] Dynamic visual state.
 	 * @returns {object|null} Frozen renderer-neutral record.
 	 */
 	revealEntity(yesodEntity, binaState = {}) {
 		const tiferesVisual = revealCobyKVisual(
 			yesodEntity.kind,
-			{
-				...yesodEntity,
-				...binaState
-			}
+			{ ...yesodEntity, ...binaState }
 		);
 		if (!tiferesVisual) return null;
 		const tiferesScale = Number(binaState.scale) || 1;
@@ -42,7 +39,7 @@ export class YesodCobyKVisualRecordFactory {
 	}
 
 	/**
-	 * Reveals the traveler's visual record from the deterministic player snapshot without changing collider dimensions.
+	 * Reveals the model-first player record while preserving the exact deterministic collider as position source rather than model geometry.
 	 * @param {object} malchusPlayer Immutable player snapshot.
 	 * @returns {object} Frozen player visual record.
 	 */
@@ -66,7 +63,7 @@ export class YesodCobyKVisualRecordFactory {
 	}
 
 	/**
-	 * Normalizes shared primitive/material/transform state into one immutable scene-plan record.
+	 * Normalizes common representation/material/transform state into one immutable record suitable for primitive or model materializers.
 	 * @param {object} binaSource Normalized source values.
 	 * @returns {object} Frozen visual record.
 	 */
@@ -76,8 +73,15 @@ export class YesodCobyKVisualRecordFactory {
 			id: binaSource.id,
 			kind: binaSource.kind,
 			symbol: binaSource.symbol,
+			representation: tiferesVisual.representation,
+			assetRole: tiferesVisual.assetRole,
 			primitive: tiferesVisual.primitive,
 			parameters: tiferesVisual.parameters,
+			fallback: Object.freeze({
+				primitive: tiferesVisual.primitive,
+				parameters: tiferesVisual.parameters,
+				material: tiferesVisual.material
+			}),
 			material: tiferesVisual.material,
 			animation: tiferesVisual.animation,
 			priority: tiferesVisual.priority,
