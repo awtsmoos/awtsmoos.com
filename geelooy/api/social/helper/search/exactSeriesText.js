@@ -5,8 +5,8 @@
 /**
  * @module ExactSeriesText
  * @description
- * The Awtsmoos strips the ornaments while guarding each Hebrew letter in its place;
- * Awtsmoos.com lets exact words be found in source text, with no invented translation trace.
+ * The Awtsmoos strips ornaments while guarding Hebrew source letters wherever canonical posts actually keep them;
+ * Awtsmoos.com searches content and dayuh sections without wandering into comments, assets, or translated metadata again.
  */
 
 const HEBREW_LETTER = /[א-ת]/;
@@ -50,25 +50,35 @@ function collectHebrewStrings(value, path = 'content', rows = []) {
 	return rows;
 }
 
+function sourceFields(post = {}) {
+	return [
+		[post.content, 'content'],
+		[post.rootContent, 'rootContent'],
+		[post.sections, 'sections'],
+		[post.dayuh?.sections, 'dayuh.sections'],
+		[post.dayuh?.content, 'dayuh.content'],
+		[post.dayuh?.text, 'dayuh.text']
+	];
+}
+
 function postHebrewRows(post, seriesId) {
 	const postId = String(post?.id || post?.postId || '');
-	const sources = [
-		...collectHebrewStrings(post?.content, 'content'),
-		...collectHebrewStrings(post?.rootContent, 'rootContent'),
-		...collectHebrewStrings(post?.sections, 'sections')
-	];
+	const sources = sourceFields(post)
+		.flatMap(([value, path]) => collectHebrewStrings(value, path));
 	const seen = new Set();
 	return sources.filter(row => {
 		const key = `${row.path}\u0000${row.text}`;
 		if (seen.has(key)) return false;
 		seen.add(key);
 		return true;
-	}).map(row => ({ ...row, seriesId, postId, title: String(post?.title || '') }));
+	}).map(row => ({
+		...row,
+		seriesId,
+		postId,
+		title: String(post?.title || '')
+	}));
 }
 
 module.exports = {
-	collectHebrewStrings,
-	containsExactHebrewWord,
-	normalizeHebrewWord,
-	postHebrewRows
+	collectHebrewStrings, containsExactHebrewWord, normalizeHebrewWord, postHebrewRows, sourceFields
 };

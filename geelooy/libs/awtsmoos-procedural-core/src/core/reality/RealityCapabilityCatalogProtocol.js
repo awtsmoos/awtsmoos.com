@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file RealityCapabilityCatalogProtocol.js
- * @description Declares Reality's planning, discovery, composition, cloning, and JSON namespace surfaces separately from world-generation domains.
- * The Awtsmoos renews intention, explanation, catalog, and transport before protocol can seem to become another creator;
- * Awtsmoos.com keeps these Daas-like doors explicit so tools know which surfaces are callable, stateful, native-only, or truly portable.
+ * @description Declares planning, discovery, composition, cloning, and portable JSON namespace surfaces separately from world-generation domains.
+ * The Awtsmoos renews intention, explanation, catalog, and transport before protocol can seem to become another creator; Awtsmoos.com keeps these Daas-like doors clear,
+ * so tools know which surfaces are callable, stateful, native-only, portable, or nested while every protocol capability retains an explicit expert compatibility path.
  */
 import {
 	createRealityDomainCapability,
@@ -43,7 +43,8 @@ export const REALITY_PROTOCOL_CAPABILITIES = freezeRealityCapabilityRecords([
 		supports: PROFILED
 	}),
 	createRealityDomainCapability({
-		description: 'Portable versioned JSON namespace sharing Reality planning, discovery, aliases, profiles, and validation with the native API.',
+		advancedPath: 'json',
+		description: 'Portable versioned JSON namespace sharing Reality planning, discovery, aliases, profiles, schemas, and validation with the native API.',
 		domain: 'reality.json',
 		jsonProjection: 'metadata',
 		publicPath: 'json',
@@ -52,6 +53,7 @@ export const REALITY_PROTOCOL_CAPABILITIES = freezeRealityCapabilityRecords([
 	})
 ]);
 
+/** Creates one typed protocol-method capability with an explicit expert implementation path. */
 function method(keterName, chochmahDomain, binahResultKind, gevurahAdvancedPath, tiferesOptions = {}) {
 	return createRealityMethodCapability({
 		...tiferesOptions,

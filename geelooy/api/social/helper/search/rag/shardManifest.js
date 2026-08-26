@@ -1,22 +1,21 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @module RagShardManifest
- * @description The Awtsmoos reveals each corpus with its truthful persisted road;
- * Awtsmoos.com keeps legacy HNSW and Tanach flat matrices in one public abode.
+ * @description
+ * The Awtsmoos reveals each persisted corpus by what its manifest actually proves;
+ * Awtsmoos.com never hides valid vectors behind a family-name assumption that truth disproves.
  */
+
 const {
 	SICHOS_KODESH_EXPECTED_PARTS
 } = require('./canonicalShards.js');
 const { readManifest } = require('./manifestCache.js');
 const { stat } = require('./paths.js');
 const { publishedShardFiles } = require('./shardSources.js');
-const {
-	aliases,
-	label,
-	slug
-} = require('./shardIdentity.js');
+const { aliases, label, slug } = require('./shardIdentity.js');
 
 function manifestPath(file) {
 	return file.replace(/\.awtsdb$/, '.fast-manifest.json');
@@ -30,32 +29,34 @@ function recordCount(manifest = {}) {
 	return Number(manifest.records ?? manifest.listLength ?? 0);
 }
 
+function firstExisting(candidates) {
+	return candidates.find(candidate => candidate && stat(candidate)) || null;
+}
+
 function textFileFor(file, manifest = {}) {
-	const candidates = [
+	return firstExisting([
 		file.replace(/\.awtsdb$/, '.fast-meta.jsonl'),
 		file.replace(/\.awtsdb$/, '.meta.jsonl'),
 		manifest.textFile,
 		manifest.metadataSidecar,
 		manifest.metadata
-	];
-	return candidates.find(candidate => candidate && stat(candidate)) || null;
+	]);
 }
 
 function matrixFileFor(file, manifest = {}) {
-	const candidates = [
+	return firstExisting([
 		file.replace(/\.awtsdb$/, '.f32'),
 		manifest.matrixFile,
 		manifest.matrix
-	];
-	return candidates.find(candidate => candidate && stat(candidate)) || null;
+	]);
 }
 
 function isPublishable(manifest, file = '') {
 	if (!manifest || manifest.disabled === true) return false;
 	if (recordCount(manifest) < 1) return false;
-	if (manifest.textOnly === true) return Boolean(file && textFileFor(file, manifest));
+	if (manifest.textOnly === true) return Boolean(textFileFor(file, manifest));
 	if (manifest.indexType === 'flat-f32') {
-		return Boolean(file && textFileFor(file, manifest) && matrixFileFor(file, manifest));
+		return Boolean(textFileFor(file, manifest) && matrixFileFor(file, manifest));
 	}
 	return Boolean(manifest.listName && Number(manifest.dimensions) > 0);
 }
@@ -74,9 +75,8 @@ function partNumber(manifest = {}) {
 
 function describeFile(file) {
 	const manifest = manifestFor(file) || {};
-	const fileSlug = slug(file);
-	const id = String(manifest.id || fileSlug).toLowerCase();
-	const textOnly = manifest.textOnly === true || id === 'sichos-kodesh';
+	const id = String(manifest.id || slug(file)).toLowerCase();
+	const textOnly = manifest.textOnly === true;
 	return {
 		id,
 		aliases: aliases(id, id, manifest.aliases),
@@ -88,7 +88,7 @@ function describeFile(file) {
 		embeddingModel: manifest.embeddingModel || null,
 		indexType: manifest.indexType || 'hnsw',
 		matrixFile: matrixFileFor(file, manifest),
-		vectorEnabled: textOnly !== true,
+		vectorEnabled: !textOnly && Boolean(manifest.listName && Number(manifest.dimensions) > 0),
 		bytes: stat(file)?.size || 0,
 		textFile: textFileFor(file, manifest),
 		partNumber: partNumber(manifest),
@@ -104,16 +104,6 @@ function shardFiles($i) {
 }
 
 module.exports = {
-	aliases,
-	describeFile,
-	expectedParts,
-	isPublishable,
-	manifestFor,
-	manifestPath,
-	matrixFileFor,
-	partNumber,
-	recordCount,
-	shardFiles,
-	slug,
-	textFileFor
+	aliases, describeFile, expectedParts, isPublishable, manifestFor, manifestPath,
+	matrixFileFor, partNumber, recordCount, shardFiles, slug, textFileFor
 };

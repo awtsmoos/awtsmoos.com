@@ -1,5 +1,5 @@
 B"H
-1.0.568
+1.0.569
 main.js
 ai/relay/direct/browser/AgentTabCatalog.mjs
 ai/relay/direct/browser/AgentTabProtectionState.mjs
@@ -961,6 +961,7 @@ lib/connection-vessel/child-delivery.js
 lib/connection-vessel/child-foundation.js
 lib/connection-vessel/child-health-publisher.js
 lib/connection-vessel/child-health.js
+lib/connection-vessel/child-mailbox-recovery-view.js
 lib/connection-vessel/child-mailbox-recovery.js
 lib/connection-vessel/child-message-router.js
 lib/connection-vessel/child-runtime-custody.js
@@ -975,13 +976,20 @@ lib/connection-vessel/controller-child-repair.js
 lib/connection-vessel/controller-mailbox.js
 lib/connection-vessel/controller-message-router.js
 lib/connection-vessel/controller-process-config.js
+lib/connection-vessel/controller-process-restart.js
+lib/connection-vessel/controller-process-watchdog.js
 lib/connection-vessel/controller-process.js
+lib/connection-vessel/controller-recovery-testimony.js
 lib/connection-vessel/controller-state.js
+lib/connection-vessel/controller-stats-publisher.js
 lib/connection-vessel/controller.js
 lib/connection-vessel/mailbox-custody-metadata.js
 lib/connection-vessel/mailbox-custody-record.js
 lib/connection-vessel/mailbox-custody.js
+lib/connection-vessel/mailbox-emergency-recovery.js
 lib/connection-vessel/mailbox-emergency-registry.js
+lib/connection-vessel/mailbox-emergency-responses.js
+lib/connection-vessel/mailbox-emergency-telemetry.js
 lib/connection-vessel/mailbox-health-policy.js
 lib/connection-vessel/mailbox-health.js
 lib/connection-vessel/mailbox-io.js
@@ -1766,6 +1774,7 @@ tools/fs/actionLedgerRedact.js
 tools/fs/actionLedgerStore.js
 tools/fs/actionMissionRuntime.js
 tools/fs/actionOffload.js
+tools/fs/actionProcessOwnership.js
 tools/fs/actionReplayEnvelope.js
 tools/fs/actionReplayGarbage.js
 tools/fs/actionReplayGuard.js
@@ -1782,6 +1791,7 @@ tools/fs/astOutline.js
 tools/fs/atomic-file-proof.js
 tools/fs/atomic-file-write.js
 tools/fs/autoAsync.js
+tools/fs/autoAsyncActionCatalog.js
 tools/fs/awdb/collections.js
 tools/fs/awdb/open.js
 tools/fs/awdb/paths.js

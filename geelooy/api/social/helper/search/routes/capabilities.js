@@ -6,7 +6,7 @@
  * @module SearchCapabilitiesRoute
  * @description
  * The Awtsmoos reveals what each search vessel can honestly do before a seeker chooses a way;
- * Awtsmoos.com turns hidden runtime knowledge into one stable public contract for every client today.
+ * Awtsmoos.com reports indexed and stored-vector truth from the public shard contract, never from vanished field names today.
  */
 
 const { EXACT_EXCLUSIONS } = require('../corpusSearchPolicy.js');
@@ -29,21 +29,31 @@ function exactCapabilities() {
 	};
 }
 
+function semanticSnapshot(shards) {
+	const indexed = shards.filter(shard => shard.indexed === true);
+	const stored = shards.filter(shard => shard.storedVectors === true);
+	return {
+		worker: workerStatus(),
+		indexedLanes: indexed,
+		storedVectorLanes: stored,
+		indexedCount: indexed.length,
+		storedVectorCount: stored.length
+	};
+}
+
 async function capabilitySnapshot(context) {
 	const $i = requestInterface(context);
 	const shards = (await availableShards({ $i })).map(publicShard);
+	const semantic = semanticSnapshot(shards);
 	return {
-		version: 1,
+		version: 2,
 		defaultMode: 'library',
 		modes: {
-			library: { text: true, semantic: shards.some(shard => shard.hasVectors) },
+			library: { text: true, semantic: semantic.indexedCount > 0 },
 			tanach: { phrase: true },
 			exact: exactCapabilities()
 		},
-		semantic: {
-			worker: workerStatus(),
-			lanes: shards.filter(shard => shard.hasVectors)
-		},
+		semantic,
 		lanes: shards
 	};
 }
@@ -56,8 +66,4 @@ function capabilityRoutes(context) {
 	};
 }
 
-module.exports = {
-	capabilityRoutes,
-	capabilitySnapshot,
-	exactCapabilities
-};
+module.exports = { capabilityRoutes, capabilitySnapshot, exactCapabilities, semanticSnapshot };

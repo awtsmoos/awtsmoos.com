@@ -1,12 +1,12 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file RealityCapabilityCatalog.js
- * @description Composes the canonical Reality capability covenant with live intents, presets, Terrain, species, textures, wind, realism, aliases, and expert import evidence.
- * The Awtsmoos renews every possible doorway before discovery tools can count its finite name;
- * Awtsmoos.com lets one catalog feed humans, JSON, editors, docs, and agents without mistaking method, namespace, export, or native vessel for the same flame.
+ * @description Composes typed public surfaces with live intents, JSON projections, realism, Terrain, species, textures, wind, aliases, protocols, and expert imports.
+ * The Awtsmoos renews every doorway before discovery tools can count a finite name; Awtsmoos.com lets Daas unite native, portable, semantic, and expert evidence,
+ * so humans, editors, docs, tests, and agents distinguish method, namespace, property, export, JSON projection, cost, and support without flattening one truth in flame.
  */
 import { listDomemPrimitives } from '../domem/DomemPrimitives.js';
 import { natureProfileAliases } from '../natureApi/NatureProfileAliases.js';
@@ -21,6 +21,7 @@ import {
 	realityCapabilityPublicNames,
 	summarizeRealityCapabilitySurfaces
 } from './RealityCapabilityFilter.js';
+import { createRealityCapabilityIndex } from './RealityCapabilityIndex.js';
 import { listRealityGeologies } from './RealityGeologyCatalog.js';
 import { createRealityRealismCatalog } from './RealityRealismCatalog.js';
 import { listRealityTextureChannels } from './textures/RealityTextureChannels.js';
@@ -33,14 +34,10 @@ const STATIC_CAPABILITIES = Object.freeze([
 	...REALITY_PROTOCOL_CAPABILITIES
 ]);
 
-/**
- * Builds one immutable discovery artifact from the live Reality instance and the canonical portable covenant.
- * @param {object} realityYesod Fully composed Reality API.
- * @param {string|Function|null} [filterBinah=null] Optional semantic text or record predicate.
- * @returns {Readonly<object>} Progressive-disclosure catalog spanning native, JSON, intent, realism, and expert surfaces.
- */
+/** Builds one immutable discovery artifact from the live Reality instance and canonical portable covenant. */
 export function createRealityCapabilityCatalog(realityYesod, filterBinah = null) {
 	const recordsOros = Object.freeze(filterRealityCapabilityRecords(STATIC_CAPABILITIES, filterBinah));
+	const surfaceDaas = createRealityCapabilityIndex(recordsOros);
 	const intentOros = filterRealityCapabilityNames(realityYesod.intents?.() || [], filterBinah);
 	const presetOros = filterRealityCapabilityNames(realityYesod.presets?.() || [], filterBinah);
 	const natureOros = filterRealityCapabilityNames(
@@ -49,16 +46,23 @@ export function createRealityCapabilityCatalog(realityYesod, filterBinah = null)
 	);
 	return Object.freeze({
 		capabilities: realityCapabilityPublicNames(recordsOros),
+		capabilityAliases: surfaceDaas.aliases,
+		capabilityByName: surfaceDaas.byName,
 		creatures: realityYesod.creaturesChai.species(),
+		domains: surfaceDaas.namespaces,
 		effectPresets: realityYesod.effects.presetNames(),
+		exports: surfaceDaas.exports,
 		geologies: listRealityGeologies(),
 		imports: realityYesod.advanced.imports,
 		intentAliases: realityYesod.intentDaas?.aliases() || Object.freeze({}),
 		intents: Object.freeze(intentOros),
 		jsonCapabilities: Object.freeze(recordsOros.filter((recordKli) => recordKli.jsonEnabled)),
+		methods: surfaceDaas.methods,
+		namespaces: surfaceDaas.namespaces,
 		natureOperations: Object.freeze(natureOros),
 		primitives: Object.freeze(listDomemPrimitives()),
 		profileAliases: natureProfileAliases(),
+		properties: surfaceDaas.properties,
 		realism: createRealityRealismCatalog(recordsOros),
 		records: recordsOros,
 		scenePresets: Object.freeze(presetOros),
