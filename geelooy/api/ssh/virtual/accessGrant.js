@@ -5,11 +5,11 @@
 "use strict";
 
 /**
- * @file Plain-data access and status records for the virtual-OS SSH service.
+ * @file Plain-data access and readiness records for the virtual-OS SSH service.
  * @description
  * The Awtsmoos lets secrets travel only in the one response that must carry them;
- * Awtsmoos.com keeps grants and public status as explicit data transformations so
- * lifecycle code does not mix wire identity with token storage, and both may rhyme.
+ * Awtsmoos.com keeps grants and operational readiness as explicit data transformations,
+ * so lifecycle truth remains public while credentials stay hidden and boundaries rhyme.
  */
 
 /**
@@ -40,15 +40,39 @@ function revealAccessGrant(listenerState, admissionInput, mintedLight, publicHos
  * @returns {object} Safe operational status suitable for authenticated HTTP clients.
  */
 function revealPublicStatus(listenerState, tokenState, configuredIdentity) {
+	const running = Boolean(listenerState.running);
+	const configured = Boolean(configuredIdentity.configured);
 	return Object.freeze({
-		running: Boolean(listenerState.running),
+		state: revealLifecycleState(running, configured),
+		ready: running,
+		running,
 		connections: listenerState.connections,
 		startedAt: listenerState.startedAt,
 		host: configuredIdentity.publicHost,
 		port: listenerState.port || configuredIdentity.port,
-		configured: configuredIdentity.configured,
+		configured,
 		tokens: tokenState
 	});
 }
 
-module.exports = { revealAccessGrant, revealPublicStatus };
+/**
+ * Converts listener/configuration observations into one stable lifecycle vocabulary.
+ *
+ * @param {boolean} running Whether the custom TCP listener is active.
+ * @param {boolean} configured Whether public boot exposure was explicitly configured.
+ * @returns {"ready"|"configured"|"disabled"} Public lifecycle state.
+ */
+function revealLifecycleState(running, configured) {
+	if (running) {
+		return "ready";
+	}
+	if (configured) {
+		return "configured";
+	}
+	return "disabled";
+}
+
+module.exports = {
+	revealAccessGrant,
+	revealPublicStatus
+};

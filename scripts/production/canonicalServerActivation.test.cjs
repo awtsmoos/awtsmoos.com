@@ -2,19 +2,18 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 /**
- * @file Canonical activation contract across source refusal, listener truth, and rollback.
+ * @file Canonical activation contract across source refusal, protocol truth, and rollback.
  * @description
  * The Awtsmoos lets a production release approach only through witnessed source and
- * runtime garments. Awtsmoos.com proves both virtual-SSH environment and living socket,
- * then proves missing variables or doorway presence restore the former vessel in rhyme.
+ * runtime garments. Awtsmoos.com proves a real SSH protocol identity, then proves wrong
+ * protocols or missing environment restore the former vessel instead of false-green rhyme.
  */
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const {
-	CanonicalActivationFixture,
-	VIRTUAL_SSH_ENVIRONMENT
-} = require("./test/canonicalActivationFixture.cjs");
+const { CanonicalActivationFixture } = require("./test/canonicalActivationFixture.cjs");
 
 const fixture = new CanonicalActivationFixture();
 
@@ -22,8 +21,8 @@ try {
 	fixture.setup();
 	const sha = fixture.git(fixture.repo, "rev-parse", "HEAD");
 	proveDirtySourceRefusal(fixture, sha);
-	proveCompleteEnvironmentActivation(fixture, sha);
-	proveListenerAbsenceRollback(fixture, sha);
+	proveProtocolVerifiedActivation(fixture, sha);
+	proveWrongProtocolRollback(fixture, sha);
 	proveEnvironmentDriftRollback(fixture, sha);
 	console.log(JSON.stringify({
 		ok: true,
@@ -44,48 +43,37 @@ function proveDirtySourceRefusal(current, sha) {
 	fs.rmSync(dirty);
 }
 
-function proveCompleteEnvironmentActivation(current, sha) {
+function proveProtocolVerifiedActivation(current, sha) {
+	current.ssh.setBanner("SSH-2.0-Awtsmoos-Activation-Test");
 	const accepted = current.run(sha);
 	assert.equal(accepted.status, 0, accepted.stderr);
 	const installed = fs.readFileSync(current.override, "utf8");
 	assert.match(installed, /VIRTUAL_SSH_HOST=0\.0\.0\.0/);
-	assert.match(installed, /VIRTUAL_SSH_PORT=2223/);
-	assert.match(accepted.stdout, /virtualSsh=verified/);
+	assert.match(installed, new RegExp(`VIRTUAL_SSH_PORT=${current.ssh.port}`));
+	assert.match(accepted.stdout, /virtualSsh=protocol-verified/);
 	assert.equal(fs.existsSync(current.artifact()), true);
 	assert.equal(current.git(current.repo, "status", "--porcelain"), "");
 }
 
-function proveListenerAbsenceRollback(current, sha) {
-	const sentinel = "LISTENER_ROLLBACK_SENTINEL\n";
-	const previous = process.env.TEST_VIRTUAL_SSH_LISTENER_PRESENT;
+function proveWrongProtocolRollback(current, sha) {
+	const sentinel = "PROTOCOL_ROLLBACK_SENTINEL\n";
 	current.writeOverride(sentinel);
-	process.env.TEST_VIRTUAL_SSH_LISTENER_PRESENT = "0";
-	try {
-		const refused = current.run(sha);
-		assert.notEqual(refused.status, 0);
-		assert.match(refused.stderr, /virtual_ssh_listener_missing/);
-		assert.equal(fs.readFileSync(current.override, "utf8"), sentinel);
-	} finally {
-		restoreEnvironment("TEST_VIRTUAL_SSH_LISTENER_PRESENT", previous);
-	}
+	current.ssh.setBanner("HTTP/1.1 200 OK");
+	const refused = current.run(sha);
+	assert.notEqual(refused.status, 0);
+	assert.match(refused.stderr, /virtual_ssh_protocol_probe_failed/);
+	assert.equal(fs.readFileSync(current.override, "utf8"), sentinel);
+	current.ssh.setBanner("SSH-2.0-Awtsmoos-Activation-Test");
 }
 
 function proveEnvironmentDriftRollback(current, sha) {
 	const sentinel = "ROLLBACK_SENTINEL\n";
 	current.writeOverride(sentinel);
-	const incomplete = VIRTUAL_SSH_ENVIRONMENT.filter(value => {
+	const incomplete = current.virtualSshEnvironment().filter(value => {
 		return !value.startsWith("VIRTUAL_SSH_PORT=");
 	});
 	const refused = current.run(sha, incomplete);
 	assert.notEqual(refused.status, 0);
 	assert.match(refused.stderr, /service_environment_missing_VIRTUAL_SSH_PORT/);
 	assert.equal(fs.readFileSync(current.override, "utf8"), sentinel);
-}
-
-function restoreEnvironment(name, previous) {
-	if (previous === undefined) {
-		delete process.env[name];
-		return;
-	}
-	process.env[name] = previous;
 }

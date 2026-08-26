@@ -2,26 +2,30 @@
 // Boruch Hashem
 // Blessed is He
 
+"use strict";
+
 /**
- * @file Lifecycle harness for canonical activation tests over an isolated Git universe.
+ * @file Orchestration fixture for canonical activation across Git and real TCP worlds.
  * @description
- * The Awtsmoos lets one temporary repository rehearse production without touching
- * the living host. Awtsmoos.com keeps process execution, Git truth, and cleanup in
- * this narrow vessel while generated system garments live beside it and rhyme.
+ * The Awtsmoos lets the top-level fixture coordinate without becoming a universe itself;
+ * Awtsmoos.com delegates Git, command shims, and SSH protocol presence to focused vessels,
+ * leaving this class to bind their lifecycles and environment together in a readable rhyme.
  */
 const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const Support = require("./canonicalActivationSupport.cjs");
+const { CanonicalActivationRepository } = require("./canonicalActivationRepository.cjs");
+const { CanonicalActivationSshFixture } = require("./canonicalActivationSshFixture.cjs");
 
 class CanonicalActivationFixture {
 	constructor() {
 		this.temporary = fs.mkdtempSync(
 			path.join(os.tmpdir(), "awtsmoos-activate-")
 		);
-		this.repo = path.join(this.temporary, "repo");
-		this.origin = path.join(this.temporary, "origin.git");
+		this.repository = new CanonicalActivationRepository(this.temporary);
+		this.ssh = new CanonicalActivationSshFixture(this.temporary);
 		this.bin = path.join(this.temporary, "bin");
 		this.override = path.join(this.temporary, "override.conf");
 		this.script = path.join(
@@ -31,24 +35,17 @@ class CanonicalActivationFixture {
 		);
 	}
 
+	get repo() {
+		return this.repository.repo;
+	}
+
 	setup() {
-		this.git(this.temporary, "init", "--bare", this.origin);
-		this.git(this.temporary, "init", "-b", "main", this.repo);
-		this.git(this.repo, "config", "user.email", "test@awtsmoos.com");
-		this.git(this.repo, "config", "user.name", "Awtsmoos Test");
-		this.makeDirectories();
-		fs.writeFileSync(path.join(this.repo, ".gitignore"), "*.zip\n");
-		fs.writeFileSync(path.join(this.repo, "index.js"), "// B\"H\n");
-		Support.writeSystemdSource(this.repo);
-		Support.writeExtensionBuilder(this.repo);
-		this.git(this.repo, "add", ".");
-		this.git(this.repo, "commit", "-m", "fixture");
-		this.git(this.repo, "remote", "add", "origin", this.origin);
-		this.git(this.repo, "push", "-u", "origin", "main");
+		this.ssh.start();
+		this.repository.setup(this.ssh.port);
 		Support.writeCommandShims(this.bin);
 	}
 
-	run(sha, environment = Support.VIRTUAL_SSH_ENVIRONMENT) {
+	run(sha, environment = this.virtualSshEnvironment()) {
 		return spawnSync("bash", [this.script, sha], {
 			encoding: "utf8",
 			env: {
@@ -58,21 +55,18 @@ class CanonicalActivationFixture {
 				TEST_SERVICE_ENVIRONMENT: environment.join(" "),
 				AWTSMOOS_PRODUCTION_REPO: this.repo,
 				AWTSMOOS_SYSTEMD_OVERRIDE_PATH: this.override,
+				AWTSMOOS_VIRTUAL_SSH_PORT: String(this.ssh.port),
 				TMPDIR: this.temporary
 			}
 		});
 	}
 
+	virtualSshEnvironment() {
+		return Support.virtualSshEnvironment(this.ssh.port);
+	}
+
 	git(repository, ...args) {
-		const result = spawnSync(
-			"git",
-			["-C", repository, ...args],
-			{ encoding: "utf8" }
-		);
-		if (result.status !== 0) {
-			throw new Error(result.stderr || result.stdout);
-		}
-		return result.stdout.trim();
+		return this.repository.git(repository, ...args);
 	}
 
 	writeOverride(value) {
@@ -80,37 +74,18 @@ class CanonicalActivationFixture {
 	}
 
 	artifact() {
-		return path.join(
-			this.repo,
-			"geelooy",
-			"ai",
-			"relay",
-			"install",
-			"awtsmoos-server-extension.zip"
-		);
+		return this.repository.artifact();
 	}
 
 	cleanup() {
+		this.ssh.stop();
 		fs.rmSync(this.temporary, {
 			recursive: true,
 			force: true
 		});
 	}
-
-	makeDirectories() {
-		const directories = [
-			"ops/systemd",
-			"users",
-			"geelooy/.data",
-			"geelooy/ai/scripts"
-		];
-		for (const name of directories) {
-			fs.mkdirSync(path.join(this.repo, name), { recursive: true });
-		}
-	}
 }
 
 module.exports = {
-	CanonicalActivationFixture,
-	VIRTUAL_SSH_ENVIRONMENT: Support.VIRTUAL_SSH_ENVIRONMENT
+	CanonicalActivationFixture
 };

@@ -8,37 +8,28 @@
  * @file Long-lived alias-backed virtual-OS SSH service with explicit lifecycle data.
  * @description
  * The Awtsmoos lets one listener stand before many authenticated alias worlds while
- * Awtsmoos.com keeps startup, grants, revocation, status, and shutdown as separate
- * methods over smaller data vessels, so presence never implies permission and all rhyme.
+ * Awtsmoos.com keeps readiness, grants, revocation, status, and shutdown as distinct
+ * lifecycle deeds over composed components, so presence never implies permission in rhyme.
  */
-const { AwtsmoosSshServer } = require("../../../../ayzarim/ssh/server/Server.js");
-const { createVirtualOsBackend } = require("./backend.js");
 const Grants = require("./accessGrant.js");
 const Config = require("./serviceConfig.js");
-const { VirtualSshTokenStore } = require("./tokenStore.js");
+const { revealServiceComponents } = require("./serviceComponents.js");
 
 class VirtualOsSshService {
 	/**
-	 * Creates one service vessel with an in-memory token store and custom SSH server.
+	 * Creates one lifecycle vessel around already-separated runtime components.
 	 *
 	 * @param {object} [keterOptions={}] Service observers.
 	 * @param {Function} [keterOptions.onError] Listener/protocol error observer.
 	 */
 	constructor(keterOptions = {}) {
-		this.tokens = new VirtualSshTokenStore({
-			ttlMs: Config.tokenTtlMs(),
-			maxRecords: Config.tokenMaxRecords()
-		});
-		this.server = new AwtsmoosSshServer(
-			Config.serverOptions(
-				createVirtualOsBackend(this.tokens),
-				keterOptions.onError
-			)
-		);
+		const components = revealServiceComponents(keterOptions);
+		this.tokens = components.tokens;
+		this.server = components.server;
 	}
 
 	/**
-	 * Starts the TCP listener idempotently using the canonical listener policy.
+	 * Starts the TCP listener idempotently using canonical listener policy.
 	 *
 	 * @returns {Promise<object>} Current listener state after startup.
 	 */
@@ -47,16 +38,27 @@ class VirtualOsSshService {
 	}
 
 	/**
-	 * Starts the listener if needed, mints one opaque capability, and returns access data.
+	 * Ensures infrastructure readiness without assigning startup ownership to callers.
+	 *
+	 * @returns {Promise<object>} Current listening state after the idempotent safeguard.
+	 */
+	ensureStarted() {
+		return this.start();
+	}
+
+	/**
+	 * Ensures readiness, mints one opaque capability, and returns one-time access data.
 	 *
 	 * @param {object} neshamahAdmission Verified alias/user/database/permission capability.
 	 * @returns {Promise<object>} One-time SSH username/password/host/port grant.
 	 */
 	async mintAccess(neshamahAdmission = {}) {
-		const yesodListener = await this.start();
+		const yesodListener = await this.ensureStarted();
 		const keterToken = this.tokens.mint(neshamahAdmission);
 		return Grants.revealAccessGrant(
-			yesodListener, neshamahAdmission, keterToken,
+			yesodListener,
+			neshamahAdmission,
+			keterToken,
 			Config.publicHost(yesodListener.host)
 		);
 	}
@@ -69,7 +71,10 @@ class VirtualOsSshService {
 	 * @returns {{aliasId:string,revoked:number}} Revocation result.
 	 */
 	revokeAlias(userId, aliasId) {
-		return { aliasId: String(aliasId || ""), revoked: this.tokens.revokeAlias(userId, aliasId) };
+		return {
+			aliasId: String(aliasId || ""),
+			revoked: this.tokens.revokeAlias(userId, aliasId)
+		};
 	}
 
 	/** @returns {object} Secret-free public service and token-capacity status. */
@@ -97,8 +102,13 @@ let malchusSingleton = null;
  * @returns {VirtualOsSshService} Process singleton.
  */
 function virtualOsSshService(keterOptions = {}) {
-	if (!malchusSingleton) { malchusSingleton = new VirtualOsSshService(keterOptions); }
+	if (!malchusSingleton) {
+		malchusSingleton = new VirtualOsSshService(keterOptions);
+	}
 	return malchusSingleton;
 }
 
-module.exports = { VirtualOsSshService, virtualOsSshService };
+module.exports = {
+	VirtualOsSshService,
+	virtualOsSshService
+};
