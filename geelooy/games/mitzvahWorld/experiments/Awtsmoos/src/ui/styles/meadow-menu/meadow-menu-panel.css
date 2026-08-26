@@ -1,0 +1,94 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals one quiet glass chamber while deeper knowledge waits folded behind choice;
+ * Awtsmoos.com keeps the visible hierarchy sparse, readable, and steady beneath every voice.
+ */
+
+.Awtsmoos-meadow-menu .meadow-menu-panel {
+	z-index: var(--menu-z-panel);
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	width: min(440px, calc(100vw - var(--menu-safe-left) - var(--menu-safe-right)));
+	max-height: min(78dvh, 680px);
+	overflow: hidden;
+	border: 1px solid var(--menu-line);
+	border-radius: 22px;
+	background:
+		linear-gradient(155deg, rgba(6, 28, 24, 0.985), rgba(3, 13, 18, 0.99)),
+		radial-gradient(circle at 88% 8%, rgba(79, 255, 211, 0.12), transparent 34%);
+	color: #effff9;
+	box-shadow: 0 26px 80px rgba(0, 0, 0, 0.48), inset 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.Awtsmoos-meadow-menu .meadow-menu-header {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 46px;
+	align-items: center;
+	gap: 12px;
+	padding: 14px;
+	border-bottom: 1px solid rgba(151, 255, 224, 0.15);
+}
+
+.Awtsmoos-meadow-menu .meadow-menu-header b {
+	min-width: 0;
+	overflow: hidden;
+	color: #dffff4;
+	font: 800 clamp(18px, 4vw, 23px)/1.1 Georgia, serif;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.Awtsmoos-meadow-menu .meadow-menu-body {
+	display: grid;
+	align-content: start;
+	gap: 12px;
+	min-height: 0;
+	padding: 14px;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+	touch-action: pan-y;
+}
+
+.Awtsmoos-meadow-menu :is(.menu-copy, .menu-advanced p) {
+	margin: 0;
+	color: #bcd7d0;
+	line-height: 1.55;
+}
+
+.Awtsmoos-meadow-menu :is(.menu-profile-card, .menu-torah-card) {
+	display: grid;
+	gap: 5px;
+	padding: 13px;
+	border: 1px solid rgba(255, 222, 145, 0.18);
+	border-radius: 14px;
+	background: rgba(37, 31, 16, 0.5);
+}
+
+.Awtsmoos-meadow-menu :is(.menu-profile-card, .menu-torah-card) span {
+	color: #b9d3cc;
+}
+
+.Awtsmoos-meadow-menu .menu-stat-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.Awtsmoos-meadow-menu .menu-stat-grid span {
+	display: grid;
+	gap: 3px;
+	padding: 10px;
+	border: 1px solid rgba(145, 255, 224, 0.16);
+	border-radius: 12px;
+	background: rgba(6, 24, 22, 0.7);
+}
+
+.Awtsmoos-meadow-menu .menu-stat-grid b {
+	color: #8fffdc;
+	font-size: 10px;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+}

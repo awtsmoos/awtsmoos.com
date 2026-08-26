@@ -1,27 +1,28 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * @fileoverview Malchus recyclable Temple road chunk with textured stone road realism and quiet persistent lane guides.
- * RESPONSIBILITY: own one pooled static road segment, lane dividers, decor, and dynamic challenge/reward regeneration lifecycle.
- * NON-RESPONSIBILITY: this chunk never advances stream speed, chooses collision responses, computes camera framing, or imports another renderer.
- * OROS/KEILIM: endless road possibility is ohr; pooled stone, lane light, and generated challenges are Malchus kelim renewed into each stretch.
- * The Awtsmoos renews one road beneath the runner before yesterday's chunk can become today's way;
- * Awtsmoos.com lets remote cobblestone mingle with worn stone while bright lane law stays simple, readable, and clear each day.
+ * @file TempleChunk.js
+ * @description Owns one recyclable Jerusalem road chunk whose slab carries the native Core road ecology channel while bright lane guides remain deliberately plain for gameplay readability.
+ * The Awtsmoos renews one road beneath the runner before yesterday's pooled chunk can become today's way;
+ * Awtsmoos.com lets cached cobble, worn stone, and road-earth answer one semantic zone while bright lane law stays simple through the day.
  */
 
 import {
 	Group
-} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+} from "../../../../../libs/awtsmoos-procedural-core/src/adapters/native/runtime.js?compact=true";
 import {
 	OLAM_CONFIG,
 	READABILITY_COLORS
 } from "../config.js";
+import { TEMPLE_ECOLOGY_ZONES } from "../realism/TempleEcologyZones.js";
 import { ChunkDynamicBuilder } from "./ChunkDynamicBuilder.js";
 
 export class TempleChunk {
-	/** @param {object} dependencies Stable factories, books, and chunk identity. */
+	/**
+	 * Creates one pooled static road vessel plus dynamic challenge/reward ownership.
+	 * @param {object} dependencies Stable factories, books, and chunk identity.
+	 */
 	constructor(dependencies) {
 		this.index = dependencies.index;
 		this.meshFactory = dependencies.meshFactory;
@@ -38,7 +39,10 @@ export class TempleChunk {
 		this.dynamicBuilder.initialize(this);
 	}
 
-	/** @returns {object} Procedural road slab with shared remote stone blending. */
+	/**
+	 * Reveals the procedural road slab with shared remote texture hydration and explicit road ecology affinity.
+	 * @returns {object} Native procedural road slab.
+	 */
 	createRoad() {
 		return this.meshFactory.cube({
 			name: "TempleRoad",
@@ -50,11 +54,15 @@ export class TempleChunk {
 			],
 			color: READABILITY_COLORS.roadBase,
 			surface: "roadStone",
+			zone: TEMPLE_ECOLOGY_ZONES.road,
 			worldModel: { static: true }
 		});
 	}
 
-	/** Draws two restrained bright dividers that remain deliberately untextured for speed readability. */
+	/**
+	 * Draws restrained bright lane dividers without remote texture or ecology layers so steering information remains visually invariant.
+	 * @returns {void}
+	 */
 	addLaneDividers() {
 		for (const x of [-1.55, 1.55]) {
 			this.root.add(this.meshFactory.cube({
@@ -72,10 +80,11 @@ export class TempleChunk {
 	}
 
 	/**
-	 * Reconfigures one finite chunk for its next generation.
+	 * Reconfigures one finite chunk for its next streamed generation while preserving the static road vessel.
 	 * @param {number} worldZ New stream center Z.
 	 * @param {number} generationIndex Monotonic generation index.
 	 * @param {object} options Recovery and safety options.
+	 * @returns {void}
 	 */
 	reset(worldZ, generationIndex, options = {}) {
 		this.root.position.z = worldZ;

@@ -4,15 +4,16 @@
 
 /**
  * @file MinimalMeadowMenu.js
- * @description Renders compact live panels only when their content actually changes.
- * The Awtsmoos holds many journeys inside one quiet chamber; Awtsmoos.com keeps current controls,
- * Shlichus, Torah, profile, and map readable without repeated innerHTML churn or a forgotten command.
+ * @description Coordinates one retractable live menu while content and presentation remain specialized modules.
+ * The Awtsmoos holds many journeys inside one quiet chamber without crowding the meadow sky;
+ * Awtsmoos.com lets Malchus show only the chosen layer, then fold it away when the traveler passes by.
  */
 
-import { minimalMeadowShlichusMenuContent, subscribeMinimalMeadowShlichus } from './MinimalMeadowMenuShlichus.js';
-import { installMinimalMeadowUiRepairStyles } from './MinimalMeadowUiRepairStyles.js';
+import { minimalMeadowMenuContent } from './MinimalMeadowMenuContent.js';
+import { subscribeMinimalMeadowShlichus } from './MinimalMeadowMenuShlichus.js';
+import { installMinimalMeadowMenuStyles } from './MinimalMeadowMenuStyles.js';
 
-const PANEL_EVENTS = Object.freeze({
+const MALCHUS_PANEL_EVENTS = Object.freeze({
 	'map:toggle': 'map',
 	'menu:toggle': 'menu',
 	'profile:toggle': 'profile',
@@ -21,84 +22,111 @@ const PANEL_EVENTS = Object.freeze({
 });
 
 export class MinimalMeadowMenu {
-	constructor(host, bus, runtime) {
-		this.host = host;
-		this.bus = bus;
-		this.runtime = runtime;
+	/**
+	 * @param {HTMLElement} malchusHost Existing menu mount.
+	 * @param {object} yesodBus Event bus.
+	 * @param {object} yesodRuntime Minimal Meadow runtime facade.
+	 */
+	constructor(malchusHost, yesodBus, yesodRuntime) {
+		this.host = malchusHost;
+		this.bus = yesodBus;
+		this.runtime = yesodRuntime;
 		this.mode = null;
 		this.lastTitle = '';
 		this.lastBody = '';
 		this.unsubscribers = [];
-		this.onClick = event => this.handleClick(event);
+		this.boundClick = event => this.handleClick(event);
 		this.build();
 	}
 
+	/** Builds semantic markup, localized styles, and event subscriptions. @returns {void} */
 	build() {
-		installMinimalMeadowUiRepairStyles(this.host.ownerDocument);
+		installMinimalMeadowMenuStyles(this.host.ownerDocument);
 		this.host.classList.add('Awtsmoos-meadow-menu');
 		this.host.dataset.open = 'false';
-		this.host.innerHTML = '<section><header><b data-title></b><button type="button" data-close>×</button></header><div data-body></div></section>';
-		this.host.addEventListener('click', this.onClick);
-		for (const [eventName, mode] of Object.entries(PANEL_EVENTS)) {
+		this.host.innerHTML = `<section class="meadow-menu-panel" role="dialog" aria-modal="true" aria-labelledby="meadow-menu-title">
+			<header class="meadow-menu-header">
+				<b id="meadow-menu-title" data-title></b>
+				<button type="button" class="meadow-menu-close" data-close aria-label="Close menu">×</button>
+			</header>
+			<div class="meadow-menu-body" data-body></div>
+		</section>`;
+		this.host.addEventListener('click', this.boundClick);
+
+		for (const [eventName, mode] of Object.entries(MALCHUS_PANEL_EVENTS)) {
 			this.unsubscribers.push(this.bus.on(eventName, () => this.toggle(mode)));
 		}
+
 		this.unsubscribers.push(
 			subscribeMinimalMeadowShlichus(this.runtime, () => this.refresh())
 		);
 	}
 
+	/** Opens one mode or folds the currently visible mode. @param {string} mode Menu mode. @returns {boolean} New open state. */
 	toggle(mode) {
-		if (this.mode === mode && this.host.dataset.open === 'true') return this.close();
+		if (this.mode === mode && this.isOpen()) {
+			this.close();
+			return false;
+		}
+
 		this.mode = mode;
 		this.host.dataset.open = 'true';
 		this.refresh(true);
-	}
-
-	refresh(force = false) {
-		if (!this.mode || this.host.dataset.open !== 'true') return false;
-		const content = panelContent(this.mode, this.runtime);
-		if (force || content.title !== this.lastTitle) {
-			this.host.querySelector('[data-title]').textContent = content.title;
-			this.lastTitle = content.title;
-		}
-		if (force || content.body !== this.lastBody) {
-			this.host.querySelector('[data-body]').innerHTML = content.body;
-			this.lastBody = content.body;
-		}
+		this.host.querySelector('[data-close]')?.focus?.();
 		return true;
 	}
 
-	handleClick(event) {
-		if (event.target === this.host || event.target.closest('[data-close]')) this.close();
-		if (!event.target.closest('[data-open-bag]')) return;
-		this.close();
-		this.bus.emit('inventory:open', { source: 'menu' });
+	/** Refreshes changed title/body content without unnecessary DOM churn. @param {boolean} [force=false] Force both projections. @returns {boolean} Whether refresh was eligible. */
+	refresh(force = false) {
+		if (!this.mode || !this.isOpen()) {
+			return false;
+		}
+
+		const malchusContent = minimalMeadowMenuContent(this.mode, this.runtime);
+		this.revealChangedContent(malchusContent, force);
+		return true;
 	}
 
+	/** Applies only changed title/body projections. @param {{title:string,body:string}} malchusContent Menu content. @param {boolean} force Force replacement. @returns {void} */
+	revealChangedContent(malchusContent, force) {
+		if (force || malchusContent.title !== this.lastTitle) {
+			this.host.querySelector('[data-title]').textContent = malchusContent.title;
+			this.lastTitle = malchusContent.title;
+		}
+
+		if (force || malchusContent.body !== this.lastBody) {
+			this.host.querySelector('[data-body]').innerHTML = malchusContent.body;
+			this.lastBody = malchusContent.body;
+		}
+	}
+
+	/** Routes backdrop, close, and Open Bag actions. @param {Event} event Native click. @returns {void} */
+	handleClick(event) {
+		if (event.target === this.host || event.target.closest?.('[data-close]')) {
+			this.close();
+		}
+
+		if (event.target.closest?.('[data-open-bag]')) {
+			this.close();
+			this.bus.emit('inventory:open', { source: 'menu' });
+		}
+	}
+
+	/** @returns {boolean} Whether the menu currently owns visible interaction space. */
+	isOpen() {
+		return this.host.dataset.open === 'true';
+	}
+
+	/** Folds the menu without destroying its cached content. @returns {void} */
 	close() {
 		this.host.dataset.open = 'false';
 	}
 
+	/** Releases subscriptions and delegated DOM interaction. @returns {void} */
 	destroy() {
-		for (const unsubscribe of this.unsubscribers) unsubscribe();
-		this.host.removeEventListener('click', this.onClick);
+		for (const unsubscribe of this.unsubscribers) {
+			unsubscribe();
+		}
+		this.host.removeEventListener('click', this.boundClick);
 	}
-}
-
-function panelContent(mode, runtime) {
-	if (mode === 'quests') return minimalMeadowShlichusMenuContent(runtime);
-	const state = runtime.state;
-	const profiles = {
-		map: ['Rolling Meadow', `<p>Left-drag orbits camera · right-drag steers view · A/D turn traveler and camera · Q/E strafe.</p><p>Position: ${state.x.toFixed(1)}, ${state.z.toFixed(1)} · ground ${state.groundY.toFixed(1)}</p>`],
-		menu: ['Mitzvah World', '<p>W/S forward/back · A/D smooth turn · Q/E strafe · arrows mirror travel/turn · right mouse looks · Shift runs · Space jumps.</p><button type="button" data-open-bag>Open bag</button>'],
-		profile: ['Your Chossid', profileMarkup(runtime)],
-		torah: ['Sefarim', '<h3>📖 Daily learning</h3><p>Modeh Ani · Shema · Tehillim · Tanya.</p>']
-	};
-	const [title, body] = profiles[mode] || profiles.menu;
-	return { body, title };
-}
-
-function profileMarkup(runtime) {
-	const profile = runtime.playerStats || {};
-	return `<p><strong>${profile.face || '🎩'} ${profile.name || 'Chossid'}</strong></p><p>Level ${profile.level || 1} · EXP ${profile.xp || 0}/${profile.xpMax || 100}</p><p>${runtime.state.runMode ? 'Running' : runtime.state.moving ? 'Walking' : 'Standing'} · ${runtime.state.clip || 'ready'}</p>`;
 }

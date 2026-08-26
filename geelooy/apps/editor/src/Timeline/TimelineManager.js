@@ -2,29 +2,38 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos gathers time, layers, keyframes, and events beneath one stable public name without forcing them into one tangled file;
- * on Awtsmoos.com the façade stays simple while smaller inner vessels reveal each responsibility, clear in purpose and easy to refine.
+ * The Awtsmoos gathers time, layers, playback, keyframes, and events beneath one stable public TimelineManager without collapsing them into one file;
+ * on Awtsmoos.com the concrete manager becomes Malchus: a visible composition root through which smaller inner vessels reveal one coordinated world.
  */
 import { Animator } from "./Animator.js";
 import { YesodTimelineLayerRegistry } from "./TimelineLayerRegistry.js";
 import { NetzachTimelinePlayback } from "./TimelinePlayback.js";
 import { GevurahTimelineKeyframeActions } from "./TimelineKeyframeActions.js";
 import { KesherTimelineEventBridge } from "./TimelineEventBridge.js";
+import { TimelineManagerKeyframeFacade } from "./TimelineManagerKeyframeFacade.js";
 
-/** Historical TimelineManager API preserved as a thin façade over focused runtime collaborators. */
-export class TimelineManager {
+/** Compose focused Timeline services while preserving the historical TimelineManager class and public contract. */
+export class TimelineManager extends TimelineManagerKeyframeFacade {
 	/**
-	 * Compose timeline services around the Editor's existing event, object, and history managers.
-	 * @param {object} eventEmitter Existing Editor event emitter.
-	 * @param {object} objectManager Existing scene-object service.
-	 * @param {object} historyManager Existing undo/redo service.
+	 * Compose the Editor timeline around explicit object, history, animation, registry, playback, keyframe, and event collaborators.
+	 *
+	 * The public manager remains intentionally thin: callers see one durable API while each changing responsibility lives in a smaller vessel.
+	 * The Awtsmoos continuously renews every dependency and instant; this composition root merely reveals their ordered relationship in code.
+	 *
+	 * @param {object} eventEmitter Existing Editor event emitter carrying historical timeline events.
+	 * @param {object} objectManager Existing scene-object service used by Animator and history commands.
+	 * @param {object} historyManager Existing undo/redo service used by keyframe actions.
 	 */
 	constructor(eventEmitter, objectManager, historyManager) {
+		super();
 		this.eventEmitter = eventEmitter;
 		this.objectManager = objectManager;
 		this.historyManager = historyManager;
 		this.animator = new Animator(objectManager);
-		this.playback = new NetzachTimelinePlayback(eventEmitter, this.animator);
+		this.playback = new NetzachTimelinePlayback(
+			eventEmitter,
+			this.animator
+		);
 		this.layerRegistry = new YesodTimelineLayerRegistry(
 			this.animator,
 			() => this.emitTimelineDataChanged()
@@ -34,63 +43,29 @@ export class TimelineManager {
 			historyManager,
 			() => this.emitTimelineDataChanged()
 		);
-		this.eventBridge = new KesherTimelineEventBridge(eventEmitter, this);
+		this.eventBridge = new KesherTimelineEventBridge(
+			eventEmitter,
+			this
+		);
 		this.eventBridge.connect();
 	}
 
-	/** @returns {Map<string, object>} Historical public layer map. */
-	get layers() { return this.layerRegistry.layers; }
-	/** @returns {number} Current timeline instant. */
-	get currentTime() { return this.playback.currentTime; }
-	set currentTime(value) { this.playback.currentTime = value; }
-	/** @returns {number} Timeline range start. */
-	get startTime() { return this.playback.startTime; }
-	set startTime(value) { this.playback.startTime = value; }
-	/** @returns {number} Timeline range end. */
-	get endTime() { return this.playback.endTime; }
-	set endTime(value) { this.playback.endTime = value; }
-	/** @returns {boolean} Whether automatic playback is active. */
-	get isPlaying() { return this.playback.isPlaying; }
-	set isPlaying(value) { this.playback.isPlaying = Boolean(value); }
-	/** @returns {boolean} Whether the user is actively scrubbing. */
-	get isScrubbing() { return this.playback.isScrubbing; }
-	set isScrubbing(value) { this.playback.isScrubbing = Boolean(value); }
-
-	/** Delegate Properties-panel create/remove keyframe intent to the history-aware action service. */
-	handleCreateKeyframeRequest(request) { this.keyframeActions.handleCreateKeyframeRequest(request); }
-	/** Historical command hook: mutate one keyframe without creating nested history. */
-	_addKeyframeInternal(uuid, path, time, value) { return this.keyframeActions.addInternal(uuid, path, time, value); }
-	/** Historical command hook: remove one keyframe without creating nested history. */
-	_removeKeyframeInternal(uuid, path, time) { return this.keyframeActions.removeInternal(uuid, path, time); }
-	/** @returns {object[]} Ordered snapshot of registered layers. */
-	getLayersArray() { return this.layerRegistry.getLayersArray(); }
-	/** Register selectable objects beneath an added scene subtree. */
-	handleObjectAdded(object) { this.layerRegistry.handleObjectAdded(object); }
-	/** Retire layers beneath a removed scene subtree. */
-	handleObjectRemoved(object) { this.layerRegistry.handleObjectRemoved(object); }
-	/** Register one selectable object. */
-	createLayerForObject(object) { this.layerRegistry.createLayerForObject(object); }
-	/** Remove one object's timeline layer. */
-	removeLayerForObject(object) { this.layerRegistry.removeLayerForObject(object); }
-	/** @returns {object|undefined} Layer for one object UUID. */
-	getLayer(uuid) { return this.layerRegistry.getLayer(uuid); }
-	/** Begin timeline playback. */
-	play() { this.playback.play(); }
-	/** Pause timeline playback. */
-	pause() { this.playback.pause(); }
-	/** Seek to one clamped instant and reveal it through Animator. */
-	seek(time, isScrubbing = false) { return this.playback.seek(time, isScrubbing); }
-	/** Advance the playback state machine from the render loop. */
-	update(appTime, deltaTime) { this.playback.update(appTime, deltaTime); }
-	/** Toggle one layer's disclosure state. */
-	toggleLayerCollapse(uuid) { this.layerRegistry.toggleLayerCollapse(uuid); }
-
-	/** Publish the historical timeline-data payload after structural/keyframe changes. */
+	/**
+	 * Publish the historical timeline-data payload after layer, collapse, or keyframe structure changes.
+	 *
+	 * This method is Hod-like communication: it does not own timeline state; it manifests the current registered layers and time range
+	 * onto the existing event river so UI consumers may update without importing internal services.
+	 */
 	emitTimelineDataChanged() {
-		this.eventEmitter.emit("timelineDataChanged", {
+		const ohrTimelineData = {
 			layers: this.getLayersArray(),
 			startTime: this.startTime,
 			endTime: this.endTime
-		});
+		};
+
+		this.eventEmitter.emit(
+			"timelineDataChanged",
+			ohrTimelineData
+		);
 	}
 }

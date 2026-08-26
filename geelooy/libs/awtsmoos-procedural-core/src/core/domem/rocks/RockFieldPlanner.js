@@ -4,20 +4,28 @@
 
 /**
  * @file RockFieldPlanner.js
- * @description Plans bounded deterministic stone clusters with exact legacy spacing semantics, spatial acceleration, child seeds, and explicit saturation evidence.
- * The Awtsmoos renews pebble and mountain in one indivisible decree; Awtsmoos.com lets Malchus reveal positions while Gevurah indexes nearby vessels,
- * so larger fields remain deterministic and lawful without an ever-growing quadratic scan through every stone already revealed.
+ * @description Orchestrates bounded deterministic stone clusters while delegating candidate identity, spacing, diagnostics, and geology to focused vessels.
+ * The Awtsmoos renews pebble and mountain in one indivisible decree; Awtsmoos.com lets each specialist hold one clear law,
+ * so larger fields gain geological depth without turning the planner into a tangled place where every future feature must draw.
  */
+
+import { createRockFieldCandidate } from './RockFieldCandidateFactory.js';
 import { RockFieldDiagnostics } from './RockFieldDiagnostics.js';
+import { createRockFieldGeologyEvidence } from './RockFieldGeologyEvidence.js';
 import { normalizeRockFieldRecipe } from './RockFieldRecipe.js';
 import { RockFieldSpatialIndex } from './RockFieldSpatialIndex.js';
-import { sampleRockUnit } from './RockNoise.js';
 
 const ATTEMPTS_PER_ROCK = 12;
 
-/** Plans reproducible rock fields without eagerly creating meshes. */
+/**
+ * Plans one reproducible rock field without eagerly creating meshes, mutating renderers, or performing material/network work.
+ */
 export class RockFieldPlanner {
-	/** Creates one bounded placement plan while preserving all historic public fields additively. */
+	/**
+	 * Creates an immutable placement plan while preserving all established public fields and adding geology only after placement identity exists.
+	 * @param {object} [keterOptions={}] Count, radius, center, cluster, spacing, scale, seed, and compatible field controls.
+	 * @returns {Readonly<object>} Bounded deterministic field plan with placements and diagnostics.
+	 */
 	plan(keterOptions = {}) {
 		const chochmahRecipe = normalizeRockFieldRecipe(keterOptions);
 		const binahResult = revealPlacements(chochmahRecipe);
@@ -32,47 +40,58 @@ export class RockFieldPlanner {
 	}
 }
 
-/** Executes the exact deterministic candidate sequence with accelerated local spacing lookup. */
+/**
+ * Executes deterministic candidate acceptance while a spatial index limits spacing checks to nearby previously accepted stones.
+ * @param {object} keterRecipe Normalized rock-field recipe.
+ * @returns {Readonly<object>} Placement array plus finalized diagnostics.
+ */
 function revealPlacements(keterRecipe) {
 	const chochmahPlacements = [];
 	const binahLimit = keterRecipe.gevurahCount * ATTEMPTS_PER_ROCK;
 	const gevurahMaximumScale = keterRecipe.netzachScale[1];
-	const tiferesIndex = new RockFieldSpatialIndex(keterRecipe.hodSpacing * gevurahMaximumScale);
+	const tiferesIndex = new RockFieldSpatialIndex(
+		keterRecipe.hodSpacing * gevurahMaximumScale
+	);
 	const netzachDiagnostics = new RockFieldDiagnostics(binahLimit);
-	for (let hodAttempt = 0; hodAttempt < binahLimit && chochmahPlacements.length < keterRecipe.gevurahCount; hodAttempt += 1) {
+
+	for (
+		let hodAttempt = 0;
+		hodAttempt < binahLimit && chochmahPlacements.length < keterRecipe.gevurahCount;
+		hodAttempt += 1
+	) {
 		netzachDiagnostics.consider();
-		const yesodCandidate = createCandidate(keterRecipe, hodAttempt, chochmahPlacements.length);
+		const yesodCandidate = createRockFieldCandidate(
+			keterRecipe,
+			hodAttempt,
+			chochmahPlacements.length
+		);
 		if (!tiferesIndex.canPlace(yesodCandidate, keterRecipe.hodSpacing)) {
 			netzachDiagnostics.rejectSpacing();
 			continue;
 		}
-		const malchusPlacement = Object.freeze(yesodCandidate);
+
+		const malchusPlacement = manifestPlacement(yesodCandidate);
 		tiferesIndex.insert(malchusPlacement);
 		chochmahPlacements.push(malchusPlacement);
 	}
+
 	return Object.freeze({
-		diagnostics: netzachDiagnostics.finish(keterRecipe.gevurahCount, chochmahPlacements.length),
+		diagnostics: netzachDiagnostics.finish(
+			keterRecipe.gevurahCount,
+			chochmahPlacements.length
+		),
 		placements: chochmahPlacements
 	});
 }
 
-/** Creates one deterministic clustered polar candidate using the unchanged historic seed channels. */
-function createCandidate(keterRecipe, chochmahAttempt, binahAcceptedIndex) {
-	const gevurahAngle = sampleRockUnit(keterRecipe.yesodSeed, chochmahAttempt, 1) * Math.PI * 2;
-	const tiferesUnit = sampleRockUnit(keterRecipe.yesodSeed, chochmahAttempt, 2);
-	const netzachExponent = 1.35 + keterRecipe.chesedCluster * 2.8;
-	const hodDistance = keterRecipe.tiferesRadius * Math.pow(tiferesUnit, netzachExponent);
-	const yesodScale = keterRecipe.netzachScale[0]
-		+ sampleRockUnit(keterRecipe.yesodSeed, chochmahAttempt, 3)
-			* (keterRecipe.netzachScale[1] - keterRecipe.netzachScale[0]);
-	return {
-		position: Object.freeze([
-			keterRecipe.malchusCenter[0] + Math.cos(gevurahAngle) * hodDistance,
-			keterRecipe.malchusCenter[1],
-			keterRecipe.malchusCenter[2] + Math.sin(gevurahAngle) * hodDistance
-		]),
-		scale: yesodScale,
-		seed: (keterRecipe.yesodSeed ^ Math.imul(binahAcceptedIndex + 1, 0x9e3779b1)) >>> 0,
-		yaw: sampleRockUnit(keterRecipe.yesodSeed, chochmahAttempt, 4) * Math.PI * 2
-	};
+/**
+ * Freezes one accepted candidate and attaches geology derived solely from the candidate's existing child seed.
+ * @param {object} yesodCandidate Accepted legacy candidate identity.
+ * @returns {Readonly<object>} Immutable placement with additive geology evidence.
+ */
+function manifestPlacement(yesodCandidate) {
+	return Object.freeze({
+		...yesodCandidate,
+		geology: createRockFieldGeologyEvidence(yesodCandidate.seed)
+	});
 }

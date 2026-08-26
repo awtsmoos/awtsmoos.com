@@ -1,0 +1,101 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets primary deeds stand in the light while advanced knowledge waits one disclosure away;
+ * Awtsmoos.com gives button and summary every rest, hover, press, focus, disabled, and expanded state today.
+ */
+
+.Awtsmoos-meadow-menu :is(button, summary) {
+	min-height: 46px;
+	border: 1px solid rgba(151, 255, 224, 0.28);
+	border-radius: 12px;
+	background: linear-gradient(145deg, rgba(19, 63, 53, 0.96), rgba(6, 31, 28, 0.95));
+	color: #effff9;
+	font: 750 14px/1.2 ui-sans-serif, system-ui, sans-serif;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition:
+		transform 120ms ease,
+		border-color 120ms ease,
+		filter 120ms ease,
+		background 120ms ease;
+}
+
+.Awtsmoos-meadow-menu button {
+	padding: 10px 14px;
+}
+
+.Awtsmoos-meadow-menu .meadow-menu-close {
+	display: grid;
+	place-items: center;
+	width: 46px;
+	height: 46px;
+	padding: 0;
+	font-size: 23px;
+}
+
+.Awtsmoos-meadow-menu .menu-primary-actions {
+	display: grid;
+}
+
+.Awtsmoos-meadow-menu .menu-primary-actions button {
+	width: 100%;
+	min-height: 52px;
+	border-color: rgba(255, 220, 132, 0.42);
+	background: linear-gradient(145deg, rgba(96, 68, 24, 0.92), rgba(47, 34, 13, 0.94));
+	color: #fff0bd;
+}
+
+.Awtsmoos-meadow-menu .menu-advanced {
+	border: 1px solid rgba(145, 255, 224, 0.14);
+	border-radius: 14px;
+	background: rgba(4, 20, 20, 0.55);
+}
+
+.Awtsmoos-meadow-menu .menu-advanced summary {
+	list-style: none;
+	padding: 11px 13px;
+	border: 0;
+	background: transparent;
+}
+
+.Awtsmoos-meadow-menu .menu-advanced summary::-webkit-details-marker {
+	display: none;
+}
+
+.Awtsmoos-meadow-menu .menu-advanced summary::after {
+	float: right;
+	content: '+';
+	transition: transform 120ms ease;
+}
+
+.Awtsmoos-meadow-menu .menu-advanced[open] summary::after {
+	transform: rotate(45deg);
+}
+
+.Awtsmoos-meadow-menu .menu-advanced p {
+	padding: 0 13px 13px;
+}
+
+@media (hover: hover) {
+	.Awtsmoos-meadow-menu :is(button, summary):hover:not(:disabled) {
+		transform: translateY(-2px);
+		border-color: #b9ffe8;
+		filter: brightness(1.12);
+	}
+}
+
+.Awtsmoos-meadow-menu :is(button, summary):active:not(:disabled) {
+	transform: translateY(1px) scale(0.97);
+}
+
+.Awtsmoos-meadow-menu :is(button, summary):focus-visible {
+	outline: 3px solid #c8fff0;
+	outline-offset: 2px;
+}
+
+.Awtsmoos-meadow-menu button:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}

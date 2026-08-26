@@ -1,23 +1,21 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * @fileoverview Netzach turn-road factory giving perpendicular branches real blended road and Jerusalem-wall surfaces through the native core.
- * RESPONSIBILITY: preserve turn geometry while combining semantic fallback colors with shared remote texture recipes on structural surfaces.
- * NON-RESPONSIBILITY: this factory never changes turn timing, runner physics, camera framing, reward-guide color law, or renderer architecture.
- * OROS/KEILIM: turning possibility is ohr; road stone and wall grain are Netzach kelim revealing a believable path without hiding the choice.
+ * @file TurnRoadFactory.js
+ * @description Builds reusable left/right Jerusalem branches whose road slabs carry native Core road ecology while walls retain generic masonry ecology and reward guides remain deliberately untextured.
  * The Awtsmoos renews each corner before forward can become left or right beneath a finite sky;
- * Awtsmoos.com lets remote stone deepen the branch while golden guides remain instantly readable to the eye.
+ * Awtsmoos.com lets worn remote road grain follow the true road zone while Jerusalem wall and golden guide remain instantly clear to the eye.
  */
 
 import {
 	Group
-} from "/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "../../../../../libs/awtsmoos-procedural-core/src/adapters/native/index.js?compact=true";
 import {
 	READABILITY_COLORS,
 	TURN_CONFIG
 } from "../config.js";
+import { TEMPLE_ECOLOGY_ZONES } from "../realism/TempleEcologyZones.js";
 
 export class NetzachTurnRoadFactory {
 	/** @param {object} meshFactory Procedural native mesh materializer. */
@@ -25,7 +23,10 @@ export class NetzachTurnRoadFactory {
 		this.meshFactory = meshFactory;
 	}
 
-	/** @returns {object} Reusable branch root containing left and right corridor variants. */
+	/**
+	 * Creates one reusable turn-road root containing concealed left and right corridor variants.
+	 * @returns {object} Reusable native branch root.
+	 */
 	create() {
 		const root = new Group();
 		root.name = "ProceduralTurnRoad";
@@ -41,7 +42,12 @@ export class NetzachTurnRoadFactory {
 		return root;
 	}
 
-	/** @param {object} root Reusable turn-road root. @param {string} direction Left or right. */
+	/**
+	 * Reveals exactly one branch direction without rebuilding the pooled geometry.
+	 * @param {object} root Reusable turn-road root.
+	 * @param {string} direction Left or right.
+	 * @returns {void}
+	 */
 	configure(root, direction) {
 		const normalized = direction === "right"
 			? "right"
@@ -53,7 +59,11 @@ export class NetzachTurnRoadFactory {
 		root.userData.direction = normalized;
 	}
 
-	/** @param {number} sign Signed branch direction. @returns {object} Perpendicular textured corridor. */
+	/**
+	 * Builds one perpendicular textured corridor whose road ecology is explicit while walls use Core's generic fallback channel.
+	 * @param {number} sign Signed branch direction.
+	 * @returns {object} Perpendicular textured corridor.
+	 */
 	createBranch(sign) {
 		const root = new Group();
 		const centerX = sign * TURN_CONFIG.branchLength / 2;
@@ -63,6 +73,7 @@ export class NetzachTurnRoadFactory {
 			scale: [TURN_CONFIG.branchLength, 0.34, TURN_CONFIG.branchWidth],
 			color: READABILITY_COLORS.roadBase,
 			surface: "roadStone",
+			zone: TEMPLE_ECOLOGY_ZONES.road,
 			worldModel: { static: true }
 		}));
 		for (const z of [-5.6, 5.6]) {
@@ -75,6 +86,17 @@ export class NetzachTurnRoadFactory {
 				worldModel: { static: true }
 			}));
 		}
+		this.addRewardGuides(root, sign);
+		return root;
+	}
+
+	/**
+	 * Adds high-contrast untextured guide marks so reward readability never depends on remote texture state.
+	 * @param {object} root Branch root.
+	 * @param {number} sign Signed branch direction.
+	 * @returns {void}
+	 */
+	addRewardGuides(root, sign) {
 		for (const offset of [4, 8, 12, 16]) {
 			root.add(this.meshFactory.cube({
 				name: "TurnBranchPerutaGuide",
@@ -84,6 +106,5 @@ export class NetzachTurnRoadFactory {
 				worldModel: { static: true }
 			}));
 		}
-		return root;
 	}
 }

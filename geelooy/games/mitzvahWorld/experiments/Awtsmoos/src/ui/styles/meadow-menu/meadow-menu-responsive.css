@@ -1,0 +1,45 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets the same chamber become a bottom sheet when the hand holds a narrow world;
+ * Awtsmoos.com keeps every edge reachable, every scroll bounded, and advanced depth safely furled.
+ */
+
+@media (max-width: 700px), (pointer: coarse) {
+	.Awtsmoos-meadow-menu {
+		place-items: end stretch;
+		padding-right: 0;
+		padding-bottom: 0;
+		padding-left: 0;
+	}
+
+	.Awtsmoos-meadow-menu .meadow-menu-panel {
+		width: 100%;
+		max-height: min(72dvh, 680px);
+		border-radius: 22px 22px 0 0;
+	}
+
+	.Awtsmoos-meadow-menu :is(button, summary) {
+		min-height: 48px;
+	}
+}
+
+@media (max-width: 360px) {
+	.Awtsmoos-meadow-menu .menu-stat-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+	.Awtsmoos-meadow-menu {
+		place-items: stretch end;
+		padding: 6px max(8px, env(safe-area-inset-right, 0px)) 6px max(8px, env(safe-area-inset-left, 0px));
+	}
+
+	.Awtsmoos-meadow-menu .meadow-menu-panel {
+		width: min(430px, 54vw);
+		max-height: calc(100dvh - 12px);
+		border-radius: 18px;
+	}
+}

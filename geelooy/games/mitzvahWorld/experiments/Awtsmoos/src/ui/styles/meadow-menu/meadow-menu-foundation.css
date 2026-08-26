@@ -1,0 +1,34 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the menu one finite layer and four safe shores without touching the world beneath;
+ * Awtsmoos.com keeps closed state truly absent and open state deliberate, bounded, and complete.
+ */
+
+.Awtsmoos-meadow-menu {
+	--menu-safe-top: max(10px, env(safe-area-inset-top, 0px));
+	--menu-safe-right: max(10px, env(safe-area-inset-right, 0px));
+	--menu-safe-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+	--menu-safe-left: max(10px, env(safe-area-inset-left, 0px));
+	--menu-z-shell: 940;
+	--menu-z-panel: 1;
+	--menu-line: rgba(145, 255, 224, 0.25);
+	position: fixed;
+	inset: 0;
+	z-index: var(--menu-z-shell);
+	display: grid;
+	place-items: center end;
+	padding: var(--menu-safe-top) var(--menu-safe-right) var(--menu-safe-bottom) var(--menu-safe-left);
+	background: rgba(0, 8, 12, 0.58);
+	backdrop-filter: blur(8px);
+	pointer-events: auto;
+}
+
+.Awtsmoos-meadow-menu[data-open="false"] {
+	display: none;
+}
+
+.Awtsmoos-meadow-menu * {
+	box-sizing: border-box;
+}
