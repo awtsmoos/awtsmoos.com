@@ -4,34 +4,30 @@
 /**
  * @module CommentTreeFactory
  * @description
- * Binah gives recursive order to many human voices without letting depth become visual
- * exile. The Awtsmoos contains root and branch in one indivisible truth; Awtsmoos.com
- * records depth explicitly so every nested reply remains readable, bounded, and alive.
+ * Binah understands recursion without owning the anatomy of a single voice. The
+ * Awtsmoos contains every branch inside one root; Awtsmoos.com lets this factory
+ * traverse depth, reveal emptiness, and delegate each living card to Chai with clarity.
  *
- * RESPONSIBILITY: Manifest recursive Comment Thread cards and their visible descendants.
- * NON-RESPONSIBILITY: Transport, mutation, and route-level lifecycle belong elsewhere.
+ * RESPONSIBILITY: Own recursive tree traversal and empty-result manifestation.
+ * NON-RESPONSIBILITY: Individual card anatomy lives in ChaiCommentCardFactory.
  */
-import { createCommentReactionRail } from '../CommentReaction.js';
-import { createCommentUniversalActions } from '../CommentUniversalActions.js';
 import { createElement as el } from '../dom.js';
-import { createMedia, createPreview } from '../media.js';
-import { revealRelationChips } from './CommentRelationView.js';
-import {
-	revealArray,
-	revealCommentId,
-	revealCommentMetadata,
-	revealStableUrl
-} from './CommentTreeVocabulary.js';
+import { ChaiCommentCardFactory } from './CommentCardFactory.js';
 
 export class BinahCommentTreeFactory {
 	/**
-	 * Creates a recursive view factory around immutable interaction options.
+	 * Creates a recursive tree factory around immutable interaction options.
 	 * @param {object} tiferesOptions Reply, memory, reaction, and permission callbacks.
 	 * @param {Document} [malchusDocument=document] Document used for action manifestation.
 	 */
 	constructor(tiferesOptions, malchusDocument = document) {
 		this.tiferesOptions = tiferesOptions;
 		this.malchusDocument = malchusDocument;
+		this.chaiCards = new ChaiCommentCardFactory({
+			options: tiferesOptions,
+			document: malchusDocument,
+			createReplies: (replies, depth) => this.createReplies(replies, depth)
+		});
 	}
 
 	/**
@@ -46,93 +42,38 @@ export class BinahCommentTreeFactory {
 		return el('section', {
 			className: 'comment-tree',
 			attrs: { 'aria-label': 'Comment results' }
-		}, chesedComments.map(comment => this.createCard(comment, 0)));
+		}, chesedComments.map(comment => this.chaiCards.create(comment, 0)));
 	}
 
 	/**
-	 * Creates one comment card and recursively manifests its descendants.
-	 * @param {object} [binahComment={}] Server comment model.
-	 * @param {number} [yesodDepth=0] Zero-based visual recursion depth.
-	 * @returns {HTMLElement} Comment article containing content, actions, media, and replies.
+	 * Creates the recursive reply region with explicit depth metadata for responsive UI.
+	 * @param {object[]} chesedReplies Child comment models.
+	 * @param {number} yesodDepth Visual recursion depth.
+	 * @returns {HTMLDivElement} Reply region containing recursively delegated cards.
 	 */
-	createCard(binahComment = {}, yesodDepth = 0) {
-		const yesodCommentId = revealCommentId(binahComment);
-		const malchusReplySlot = el('div', { className: 'comment-reply-slot' });
-		const tiferesUrl = revealStableUrl(binahComment, yesodCommentId);
-		const chesedReplies = revealArray(binahComment.replies);
-		const gevurahDeleted = Boolean(binahComment.deleted);
-		const yesodAttributes = this.revealCardAttributes(yesodCommentId, yesodDepth);
-		const chaiReactionRail = gevurahDeleted
-			? null
-			: createCommentReactionRail(
-				yesodCommentId,
-				this.tiferesOptions.reactionContext
-			);
-		const tiferesActions = gevurahDeleted
-			? null
-			: this.createActions(binahComment, tiferesUrl, malchusReplySlot, yesodCommentId);
-		return el('article', {
-			className: `comment-card${gevurahDeleted ? ' comment-tombstone' : ''}`,
-			attrs: yesodAttributes
-		}, [
-			el('div', { className: 'comment-meta', text: revealCommentMetadata(binahComment) }),
-			el('div', { className: 'comment-content', text: this.revealContent(binahComment) }),
-			el('div', { className: 'commentRelationList' }, revealRelationChips(binahComment)),
-			el('div', { className: 'comment-media' }, revealArray(binahComment.assets).map(createMedia)),
-			el('div', { className: 'comment-preview-grid' }, revealArray(binahComment.previews).map(createPreview)),
-			chaiReactionRail,
-			tiferesActions,
-			malchusReplySlot,
-			this.createReplies(chesedReplies, yesodDepth + 1)
-		].filter(Boolean));
+	createReplies(chesedReplies, yesodDepth) {
+		return el('div', {
+			className: 'comment-replies',
+			attrs: { 'data-thread-depth': String(yesodDepth) }
+		}, chesedReplies.map(reply => this.chaiCards.create(reply, yesodDepth)));
 	}
 
-	/** @returns {HTMLElement} Honest empty-thread state preserving current write capability. */
+	/**
+	 * Creates the honest empty-tree state while respecting current write capability.
+	 * @returns {HTMLElement} Accessible empty result region.
+	 */
 	createEmptyTree() {
 		const tiferesCopy = this.tiferesOptions.canWrite
 			? 'This real thread is empty. You may begin it above.'
 			: 'This real thread is empty.';
-		return el('section', { className: 'comment-tree', attrs: { 'aria-label': 'Comment results' } }, [
+		return el('section', {
+			className: 'comment-tree',
+			attrs: { 'aria-label': 'Comment results' }
+		}, [
 			el('article', { className: 'comment-card state' }, [
 				el('h2', { text: 'No comments yet' }),
 				el('p', { text: tiferesCopy })
 			])
 		]);
-	}
-
-	/** @returns {HTMLElement} Recursive reply region with explicit next-depth state. */
-	createReplies(chesedReplies, yesodDepth) {
-		return el('div', {
-			className: 'comment-replies',
-			attrs: { 'data-thread-depth': String(yesodDepth) }
-		}, chesedReplies.map(reply => this.createCard(reply, yesodDepth)));
-	}
-
-	/** @returns {object} Stable accessibility/data attributes for one comment card. */
-	revealCardAttributes(yesodCommentId, yesodDepth) {
-		return {
-			...(yesodCommentId ? { id: yesodCommentId, 'data-comment-id': yesodCommentId } : {}),
-			tabindex: '-1',
-			'data-thread-depth': String(yesodDepth)
-		};
-	}
-
-	/** @returns {HTMLElement} Canonical universal actions for one non-deleted comment. */
-	createActions(binahComment, tiferesUrl, malchusReplySlot, yesodCommentId) {
-		return createCommentUniversalActions({
-			document: this.malchusDocument,
-			comment: binahComment,
-			url: tiferesUrl,
-			canReply: this.tiferesOptions.canWrite,
-			onRemember: this.tiferesOptions.onRemember,
-			onReply: () => this.tiferesOptions.onReply(malchusReplySlot, yesodCommentId)
-		});
-	}
-
-	/** @returns {string} Visible content or honest tombstone copy. */
-	revealContent(binahComment) {
-		return binahComment.deleted
-			? 'This comment was gathered back into silence.'
-			: String(binahComment.content || binahComment.audioNoteText || '');
 	}
 }

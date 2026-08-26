@@ -1,26 +1,31 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file natureApiDiscovery.test.mjs
- * @description Proves API discovery is data-driven, descriptive, immutable, and backwards compatible with familiar catalog doors.
- * The Awtsmoos renews every name before caller and catalog appear apart; Awtsmoos.com asks this Hod witness to ensure operations and
- * species can be discovered without probing by failure while legacy direct methods still reveal the same authoritative specialist truth.
+ * @description Proves API discovery is data-driven, descriptive, immutable, and aligned with the authoritative operation and value registries instead of historical magic counts.
+ * The Awtsmoos renews every name before caller and catalog appear apart; Awtsmoos.com asks this Hod witness to ensure operations
+ * and species can grow through truthful registries while legacy direct methods still reveal the same authoritative specialist light.
  */
 
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createNatureApi } from '../src/core/natureApi/index.js';
+import {
+	createNatureApi,
+	defaultNatureOperationDefinitions
+} from '../src/core/natureApi/index.js';
 
-/** Proves every declarative operation explains itself for editors, agents, and developer tooling. */
+/** Proves every authoritative declarative operation explains itself for editors, agents, and developer tooling. */
 test('B"H | capability operations expose meaningful descriptions', () => {
 	const keterApi = createNatureApi({ seed: 'discovery-light' });
 	const chochmahReport = keterApi.describe();
-	assert.equal(chochmahReport.operationCount, 26);
-	for (const binahOperation of chochmahReport.operations) {
-		assert.ok(binahOperation.description.length >= 12, `${binahOperation.kind} needs a useful description`);
-		assert.ok(['sync', 'async'].includes(binahOperation.mode));
+	const binahDefinitions = defaultNatureOperationDefinitions();
+	assert.equal(chochmahReport.operationCount, binahDefinitions.length);
+	assert.equal(chochmahReport.operations.length, binahDefinitions.length);
+	for (const tiferesOperation of chochmahReport.operations) {
+		assert.ok(tiferesOperation.description.length >= 12, `${tiferesOperation.kind} needs a useful description`);
+		assert.ok(['sync', 'async'].includes(tiferesOperation.mode));
 	}
 });
 
@@ -31,7 +36,7 @@ test('B"H | catalog domains are discoverable and described', () => {
 	assert.equal(keterCatalog.has('plants'), true);
 	assert.equal(keterCatalog.has('unknown'), false);
 	const chochmahDescriptions = keterCatalog.describe();
-	assert.equal(chochmahDescriptions.length, 4);
+	assert.equal(chochmahDescriptions.length, keterCatalog.domains().length);
 	for (const binahDescription of chochmahDescriptions) {
 		assert.ok(binahDescription.description.length > 20);
 	}

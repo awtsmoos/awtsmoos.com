@@ -4,27 +4,30 @@
 
 /**
  * @file BootRevelation.js
- * @description Manifests application readiness while isolating diagnostic cleanup from committed runtime ownership.
- * The Awtsmoos renews truth beyond the witness that reports what came to light;
- * Awtsmoos.com lets Tiferes warn when instrumentation bends, but never calls a living world failed overnight.
+ * @description Separates interface boot, committed readiness, fatal startup, and non-fatal observer warnings.
+ * The Awtsmoos renews every threshold while no threshold contains His light;
+ * Awtsmoos.com lets Tiferes name each phase precisely, so choosing never masquerades as failure or ready night.
  */
 
 export class BootRevelation {
 	/**
-	 * Marks presentation ready without allowing watchdog cleanup to invalidate a committed journey.
+	 * Declares the journey chooser usable without claiming that a journey runtime is committed.
+	 * @returns {void} Presentation settling is intentionally non-throwing.
+	 */
+	revealChoosing() {
+		this.settleSentinelReady();
+		this.clearBootFailure();
+		this.releaseLoadingChamber();
+	}
+
+	/**
+	 * Declares a committed journey ready without allowing observer cleanup to invalidate it.
 	 * @returns {void} Readiness manifestation is intentionally non-throwing.
 	 */
 	revealReady() {
 		this.settleSentinelReady();
-		globalThis.__OHR_HAGNUZ_BOOT_ERROR__ = null;
-		const loading = document.getElementById('revelation-loading');
-		if (!loading) {
-			return;
-		}
-		loading.dataset.ready = 'true';
-		window.setTimeout(() => {
-			loading.remove();
-		}, 420);
+		this.clearBootFailure();
+		this.releaseLoadingChamber();
 	}
 
 	/**
@@ -42,12 +45,7 @@ export class BootRevelation {
 		}
 	}
 
-	/**
-	 * Publishes a frozen diagnostic API whose capabilities match the committed journey.
-	 * @param {object} application Frozen application state.
-	 * @param {object|null} journey Shared Journey controller when Shared owns the page.
-	 * @param {object} soloRuntime Local runtime boundary when Solo owns the page.
-	 */
+	/** Publishes a frozen diagnostic API whose capabilities match the committed journey. */
 	exposeDiagnostics(application, journey, soloRuntime) {
 		const soloActive = application.mode === 'solo';
 		globalThis.OhrHaGnuz = Object.freeze({
@@ -57,7 +55,7 @@ export class BootRevelation {
 			unmountShell: soloActive ? () => soloRuntime.unmount() : null,
 			retry: () => globalThis.location.reload(),
 			bootWarning: globalThis.__OHR_HAGNUZ_BOOT_WARNING__ ?? null,
-			version: 'revelation-2026.08-single-authority'
+			version: 'revelation-2026.08-lifecycle-004'
 		});
 	}
 
@@ -69,6 +67,23 @@ export class BootRevelation {
 		} catch (error) {
 			this.recordWarning(error, 'ready-cleanup');
 		}
+	}
+
+	/** Clears stale watchdog failure once a usable boot phase has been reached. */
+	clearBootFailure() {
+		globalThis.__OHR_HAGNUZ_BOOT_ERROR__ = null;
+	}
+
+	/** Releases the loader once either chooser or committed runtime can accept user intent. */
+	releaseLoadingChamber() {
+		const loading = document.getElementById('revelation-loading');
+		if (!loading) {
+			return;
+		}
+		loading.dataset.ready = 'true';
+		window.setTimeout(() => {
+			loading.remove();
+		}, 420);
 	}
 
 	/** Records non-fatal boot instrumentation trouble through one narrow observable channel. */

@@ -1,0 +1,73 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos reveals a writing chamber without letting it dominate the page;
+ * Awtsmoos.com gives root composition a compact doorway and reply composition a direct
+ * place in flow, so depth is available immediately yet attention remains human and calm.
+ */
+body[data-comment-thread-page] .comment-composer {
+	display: grid;
+	gap: .75rem;
+	box-sizing: border-box;
+	inline-size: min(100%, var(--thread-reading-max));
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: .85rem;
+	border: 1px solid var(--thread-line);
+	border-radius: var(--thread-radius);
+	background: var(--thread-surface);
+	box-shadow: 0 12px 36px color-mix(in srgb, #111827 12%, transparent);
+}
+
+body[data-comment-thread-page] .comment-composer--root[data-composer-open="false"] {
+	padding: .55rem;
+	background: color-mix(in srgb, var(--thread-surface) 92%, transparent);
+}
+
+body[data-comment-thread-page] .threadComposerToggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	inline-size: 100%;
+	min-block-size: 48px;
+	padding: .7rem .9rem;
+	border: 1px solid color-mix(in srgb, #818cf8 34%, var(--thread-line));
+	border-radius: .9rem;
+	background:
+		linear-gradient(
+			135deg,
+			color-mix(in srgb, #4f46e5 14%, Canvas),
+			color-mix(in srgb, #0891b2 8%, Canvas)
+		);
+	color: inherit;
+	font: inherit;
+	font-weight: 780;
+	text-align: start;
+	cursor: pointer;
+}
+
+body[data-comment-thread-page] .threadComposerToggle::after {
+	content: "+";
+	font-size: 1.15rem;
+	line-height: 1;
+}
+
+body[data-comment-thread-page] .threadComposerToggle[aria-expanded="true"]::after {
+	transform: rotate(45deg);
+}
+
+body[data-comment-thread-page] .threadComposerBody {
+	display: grid;
+	gap: .8rem;
+	min-inline-size: 0;
+}
+
+body[data-comment-thread-page] .threadComposerBody[hidden] {
+	display: none;
+}
+
+body[data-comment-thread-page] .comment-composer--reply {
+	margin-block-start: .45rem;
+	background: color-mix(in srgb, var(--thread-surface-strong) 48%, var(--thread-surface));
+}
