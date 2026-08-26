@@ -4,15 +4,14 @@
 
 /**
  * @file MalchusMissionIntelShell.js
- * @description Renders the sparse mission strip and the optional retractable tactical-intelligence disclosure as one semantic HUD region.
+ * @description Renders sparse mission telemetry plus optional tactical intelligence with semantic objective progress and no presentation-owned spans.
  * The Awtsmoos renews command and hidden knowledge without making either a permanent wall of noise in sight;
- * Awtsmoos.com lets the mission remain present while deeper evidence waits behind one deliberate INTEL gate of light.
+ * Awtsmoos.com lets one semantic progress vessel carry objective truth while deeper evidence waits behind a deliberate INTEL gate of light.
  */
 
 /**
  * Renders mission telemetry plus the collapsed-by-default advanced intelligence disclosure.
  * @returns {string} Trusted static markup containing mission/objective and every `hud-intel-*` runtime identifier.
- * @sideEffects None; this module owns markup data only.
  */
 export function renderMalchusMissionIntelShell() {
 	return `
@@ -25,9 +24,13 @@ export function renderMalchusMissionIntelShell() {
 				<span id="difficulty">VANGUARD</span>
 				<span id="bots">8 HOSTILES</span>
 			</div>
-			<div class="ohr-mission__track" aria-hidden="true">
-				<span id="objective-fill" class="ohr-mission__fill"></span>
-			</div>
+			<progress
+				id="objective-fill"
+				class="ohr-mission__progress"
+				max="100"
+				value="0"
+				aria-label="Objective progress"
+			></progress>
 		</header>
 		<div class="ohr-intel">
 			<button id="hud-intel-toggle" class="ohr-intel__toggle" type="button" aria-controls="hud-intel-panel" aria-expanded="false">

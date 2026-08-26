@@ -25,7 +25,7 @@ export function initialDoorState(definition = {}) {
 		: DOOR_STATES.CLOSED;
 }
 
-/** @param {string} state Canonical state. @returns {boolean} Whether pointer/touch feedback should remain available. */
+/** @returns {boolean} Whether pointer/touch feedback should remain available. */
 export function doorStateIsInteractive(state) {
 	return [
 		DOOR_STATES.BLOCKED,
@@ -35,16 +35,28 @@ export function doorStateIsInteractive(state) {
 	].includes(state);
 }
 
-/** @param {string} state Canonical state. @returns {boolean} Whether an open request may enter motion. */
+/** @returns {boolean} Whether an open command can change or reverse motion. */
 export function doorStateCanOpen(state) {
 	return state === DOOR_STATES.CLOSED
+		|| state === DOOR_STATES.CLOSING;
+}
+
+/** @returns {boolean} Whether a close command can change, retry, or reverse motion. */
+export function doorStateCanClose(state) {
+	return state === DOOR_STATES.OPEN
+		|| state === DOOR_STATES.OPENING
 		|| state === DOOR_STATES.BLOCKED;
 }
 
-/** @param {string} state Canonical state. @returns {boolean} Whether a close request may enter motion/safety evaluation. */
-export function doorStateCanClose(state) {
-	return state === DOOR_STATES.OPEN
-		|| state === DOOR_STATES.BLOCKED;
+/** @returns {'open'|'close'|null} Natural toggle command for a canonical state. */
+export function doorToggleAction(state) {
+	if (state === DOOR_STATES.OPEN || state === DOOR_STATES.OPENING || state === DOOR_STATES.BLOCKED) {
+		return 'close';
+	}
+	if (state === DOOR_STATES.CLOSED || state === DOOR_STATES.CLOSING || state === DOOR_STATES.LOCKED) {
+		return 'open';
+	}
+	return null;
 }
 
 /** @param {object} door Canonical dynamic door. @returns {Readonly<object>} UI/API prompt semantics. */

@@ -4,15 +4,14 @@
 
 /**
  * @file MalchusVitalsWeaponShell.js
- * @description Renders only the lower-edge vitality and active-emitter telemetry so these sparse combat facts stay independent from mission and aiming markup.
+ * @description Renders lower-edge vitality and emitter telemetry with explicit semantic progress and local weapon identity defaults.
  * The Awtsmoos renews body, shield, heat, and letter while Awtsmoos.com gives each finite measure a quiet edge-bound vessel in sight;
- * when advanced INTEL expands on narrow screens these lower signs may recede, preserving one uncluttered hierarchy of light.
+ * initial weapon state is named as data, never painted by inline style, so CSS remains the sole keeper of optical material and color.
  */
 
 /**
  * Renders shield/body progress and active weapon identity/heat telemetry.
  * @returns {string} Trusted static markup containing historical vitality and weapon runtime IDs.
- * @sideEffects None; progress/text mutation remains the responsibility of HUD telemetry projectors.
  */
 export function renderMalchusVitalsWeaponShell() {
 	return `
@@ -27,7 +26,7 @@ export function renderMalchusVitalsWeaponShell() {
 			</div>
 		</div>
 		<div class="ohr-weapon" aria-label="Active emitter">
-			<span id="weapon-glyph" class="ohr-weapon__glyph">א</span>
+			<span id="weapon-glyph" class="ohr-weapon__glyph" data-ohr-weapon="aleph">א</span>
 			<div class="ohr-weapon__copy">
 				<strong id="weapon-name">ALEPH PULSE</strong>
 				<span id="weapon-role">BALANCED AUTOMATIC</span>
