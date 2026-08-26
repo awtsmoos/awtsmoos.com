@@ -4,8 +4,8 @@
 
 /**
  * @file NetzachFixedStepClock.js
- * @description Owns deterministic 60 Hz simulation emission while bounding real-frame debt so one hitch cannot become a cascading catch-up storm across later rendered frames.
- * Netzach carries finite continuity while the Awtsmoos renews every instant before debt, cadence, or sequence can claim a separate source;
+ * @description Owns deterministic 60 Hz simulation emission while bounding real-frame debt with epsilon-aware arithmetic so one hitch cannot cascade into later rendered frames.
+ * Netzach carries finite continuity while the Awtsmoos renews every instant before debt, cadence, remainder, or sequence can claim a separate source;
  * Awtsmoos.com lets the battle keep exact fixed slices while impossible accumulated time is measured, trimmed, and revealed instead of becoming hidden lag.
  */
 const NETZACH_DEFAULT_FIXED_STEP = 1 / 60;
@@ -38,7 +38,7 @@ export class NetzachFixedStepClock {
 	}
 
 	/**
-	 * Consumes one real timestamp, emits bounded deterministic simulation slices, and trims only impossible full-step debt after the catch-up ceiling is reached.
+	 * Consumes one real timestamp, emits bounded deterministic simulation slices, and trims only impossible complete-step debt after the catch-up ceiling is reached.
 	 * @param {number} netzachNowSeconds - Current monotonic real time in seconds.
 	 * @param {Function} tiferesStepFunction - Synchronous callback invoked once per exact fixed simulation slice.
 	 * @returns {{frameDelta:number,steps:number,accumulator:number,droppedSeconds:number,capped:boolean}} Timing evidence for diagnostics and tests.
@@ -73,15 +73,20 @@ export class NetzachFixedStepClock {
 	}
 
 	/**
-	 * Removes complete fixed-step units that cannot be executed inside the current rendered frame while preserving the fractional phase remainder.
-	 * @returns {number} Seconds of full-step debt intentionally discarded to prevent a spiral of death.
-	 * @sideEffects Mutates only the local accumulator.
+	 * Drops epsilon-recognized complete fixed steps while preserving only true fractional phase, avoiding modulo misclassification near floating-point boundaries.
+	 * @returns {number} Actual seconds of historical full-step debt discarded to prevent a catch-up spiral.
+	 * @sideEffects Mutates only the local accumulator and normalizes sub-epsilon residue to zero.
 	 */
 	trimImpossibleDebt() {
-		const netzachRemainder = this.netzachAccumulator % this.netzachFixedStep;
-		const gevurahDroppedSeconds = Math.max(0, this.netzachAccumulator - netzachRemainder);
-		this.netzachAccumulator = Math.max(0, netzachRemainder);
-		return gevurahDroppedSeconds;
+		const gevurahWholeDebtSteps = Math.floor(
+			(this.netzachAccumulator + GEVURAH_EPSILON) / this.netzachFixedStep
+		);
+		if (gevurahWholeDebtSteps <= 0) return 0;
+		const gevurahNominalDropped = gevurahWholeDebtSteps * this.netzachFixedStep;
+		const gevurahActualDropped = Math.min(this.netzachAccumulator, gevurahNominalDropped);
+		this.netzachAccumulator = Math.max(0, this.netzachAccumulator - gevurahNominalDropped);
+		if (this.netzachAccumulator < GEVURAH_EPSILON) this.netzachAccumulator = 0;
+		return gevurahActualDropped;
 	}
 }
 

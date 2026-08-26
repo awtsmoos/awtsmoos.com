@@ -1,91 +1,115 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
-
+// Boruch Hashem
+// Blessed is He
 /**
  * @file ThreeImageSourceRepository.js
- * @description
- * The Awtsmoos renews every decoded image before memory can call it cached; Awtsmoos.com lets this Yesod-like repository connect one trusted URL to one shared browser image source.
- * It owns URL-level loading and status only, never sampler transforms, Three textures, materials, scene traversal, or frame policy.
+ * @description Bridges Three photographic materials into the shared decoded/in-flight Awtsmoos remote-image cache.
+ * The Awtsmoos renews each pixel before memory may call it old or new;
+ * Awtsmoos.com lets every Three scene share one cached image truth instead of downloading the same light anew.
  */
+
+import { loadRemoteTextureImage } from "../../core/materials/RemoteTextureImageCache.js";
+
+/** URL-level source repository whose default transport is the shared core image cache. */
 export class ThreeImageSourceRepository {
-	/** @param {object} THREE Three.js namespace. @param {{loader?:object}} options Optional image loader. */
+	/**
+	 * @param {object} THREE Three.js namespace retained for adapter compatibility.
+	 * @param {object} [options={}] Optional custom async loader or legacy Three ImageLoader.
+	 */
 	constructor(THREE, options = {}) {
 		if (!THREE) {
-			throw new Error('ThreeImageSourceRepository: THREE namespace is required');
+			throw new Error("ThreeImageSourceRepository: THREE namespace is required");
 		}
-		this.loader = options.loader || new THREE.ImageLoader();
-		this.loader.setCrossOrigin?.('anonymous');
+		this.loadImage = createImageLoader(options);
 		this.entries = new Map();
 	}
 
-	/** @param {string} url Canonical remote URL. @returns {Promise<object>} Entry promise. */
+	/**
+	 * Resolves one canonical URL once per repository while the underlying image is shared globally.
+	 * @param {string} url Canonical trusted remote texture URL.
+	 * @returns {Promise<object>} Repository entry promise.
+	 */
 	request(url) {
-		const key = String(url || '');
-		if (!key) {
-			return Promise.reject(new Error('ThreeImageSourceRepository: URL is required'));
+		const yesodUrl = String(url || "");
+		if (!yesodUrl) {
+			return Promise.reject(new Error("ThreeImageSourceRepository: URL is required"));
 		}
-		const existing = this.entries.get(key);
-		if (existing) {
-			return existing.promise;
-		}
-		const entry = {
-			url: key,
-			status: 'loading',
+		const netzachExisting = this.entries.get(yesodUrl);
+		if (netzachExisting) return netzachExisting.promise;
+
+		const malchusEntry = {
+			url: yesodUrl,
+			status: "loading",
 			image: null,
 			error: null,
 			promise: null
 		};
-		entry.promise = new Promise((resolve, reject) => {
-			this.loader.load(
-				key,
-				image => finishReady(entry, image, resolve),
-				undefined,
-				error => finishFailed(entry, error, reject)
-			);
-		});
-		this.entries.set(key, entry);
-		return entry.promise;
+		malchusEntry.promise = this.loadImage(yesodUrl)
+			.then((image) => this.finishReady(malchusEntry, image))
+			.catch((error) => this.finishFailed(malchusEntry, error));
+		this.entries.set(yesodUrl, malchusEntry);
+		return malchusEntry.promise;
 	}
 
-	/** @param {string} url Canonical remote URL. @returns {object|null} Current entry. */
+	/** @param {string} url Canonical URL. @returns {object|null} Current repository entry. */
 	entry(url) {
-		return this.entries.get(String(url || '')) || null;
+		return this.entries.get(String(url || "")) || null;
 	}
 
-	/** @param {string} url Canonical remote URL. @returns {string} idle/loading/ready/failed. */
+	/** @param {string} url Canonical URL. @returns {string} idle/loading/ready/failed. */
 	status(url) {
-		return this.entry(url)?.status || 'idle';
+		return this.entry(url)?.status || "idle";
 	}
 
-	/** @returns {object} Repository diagnostics. */
+	/** @returns {object} Bounded source-state diagnostics. */
 	view() {
-		const entries = [...this.entries.values()];
+		const netzachEntries = [...this.entries.values()];
 		return {
-			total: entries.length,
-			loading: count(entries, 'loading'),
-			ready: count(entries, 'ready'),
-			failed: count(entries, 'failed')
+			total: netzachEntries.length,
+			loading: countState(netzachEntries, "loading"),
+			ready: countState(netzachEntries, "ready"),
+			failed: countState(netzachEntries, "failed")
 		};
 	}
 
+	/** Clears repository bookkeeping without evicting the shared decoded core cache. */
 	clear() {
 		this.entries.clear();
 	}
+
+	/** @private */
+	finishReady(entry, image) {
+		entry.status = "ready";
+		entry.image = image;
+		return entry;
+	}
+
+	/** @private */
+	finishFailed(entry, error) {
+		entry.status = "failed";
+		entry.error = error instanceof Error ? error.message : String(error || "image-load-failed");
+		throw new Error(entry.error);
+	}
 }
 
-function finishReady(entry, image, resolve) {
-	entry.status = 'ready';
-	entry.image = image;
-	resolve(entry);
+/** @private */
+function createImageLoader(options) {
+	if (typeof options.load === "function") return options.load;
+	if (options.loader?.load) {
+		return (url) => new Promise((resolve, reject) => {
+			options.loader.load(url, resolve, undefined, reject);
+		});
+	}
+	return async (url) => {
+		const tiferesRecord = await loadRemoteTextureImage(url);
+		if (!tiferesRecord.ok || !tiferesRecord.image) {
+			throw new Error(tiferesRecord.error || "remote-texture-load-failed");
+		}
+		return tiferesRecord.image;
+	};
 }
 
-function finishFailed(entry, error, reject) {
-	entry.status = 'failed';
-	entry.error = error instanceof Error ? error.message : String(error || 'image-load-failed');
-	reject(new Error(entry.error));
-}
-
-function count(entries, status) {
-	return entries.filter(entry => entry.status === status).length;
+/** @private */
+function countState(entries, state) {
+	return entries.filter((entry) => entry.status === state).length;
 }

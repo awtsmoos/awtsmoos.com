@@ -2,6 +2,8 @@
 //Boruch Hashem
 //Blessed is He
 
+import { ConversationVoicePlayer } from './ConversationVoicePlayer.js';
+
 /**
  * @module ConversationMessageParts
  * @description
@@ -67,18 +69,15 @@ export function conversationReplyPreview(document, message, actorAlias = '') {
 	return preview;
 }
 
-/** Creates native audio only from the server-derived trusted attachment path. */
+/** Creates fully owned custom playback from the server-derived trusted attachment path. */
 export function conversationAudio(document, attachment) {
 	if (attachment?.type !== 'audio' || !attachment?.publicPath) {
 		return document.createDocumentFragment();
 	}
-	const audio = document.createElement('audio');
-	audio.className = 'hubConversationVoiceMessage';
-	audio.controls = true;
-	audio.preload = 'metadata';
-	audio.src = attachment.publicPath;
-	audio.setAttribute('aria-label', 'Voice note');
-	return audio;
+	const player = new ConversationVoicePlayer(document, { label: 'Voice note' });
+	player.element.classList.add('hubConversationVoiceMessage');
+	player.setSource(attachment.publicPath);
+	return player.element;
 }
 
 /** Creates explicit Reply parity for keyboard and touch users. */
@@ -92,6 +91,7 @@ export function conversationReplyAction(document, speaker) {
 	return button;
 }
 
+/** Safely parses canonical timestamps without inventing invalid dates. */
 function parseDate(value) {
 	if (!value) return null;
 	const date = new Date(value);

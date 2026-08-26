@@ -2,6 +2,7 @@
 //Boruch Hashem
 //Blessed is He
 
+import { buildConversationVoiceRegion } from './ConversationComposerVoiceTemplate.js';
 import { createIconButton } from '../ui/fields/IconButton.js';
 import {
 	composerAction,
@@ -48,7 +49,7 @@ export function buildConversationComposer(document, handlers = {}) {
 	const hint = document.createElement('span');
 	hint.className = 'hubConversationComposer__hint';
 	hint.textContent = '↵ send · ⇧↵ line';
-	const voice = buildVoiceRegion(document, handlers);
+	const voice = buildConversationVoiceRegion(document, handlers);
 	form.append(reply.region, textRow, hint, voice.region);
 	return {
 		form,
@@ -62,6 +63,7 @@ export function buildConversationComposer(document, handlers = {}) {
 	};
 }
 
+/** Builds the compact quoted-message strip without owning reply state. */
 function buildReplyStrip(document, onCancel) {
 	const region = document.createElement('aside');
 	region.className = 'hubConversationReplyComposer';
@@ -81,32 +83,4 @@ function buildReplyStrip(document, onCancel) {
 	cancel.addEventListener('click', () => onCancel?.());
 	region.append(copy, cancel);
 	return { region, speaker, preview, cancel };
-}
-
-function buildVoiceRegion(document, handlers) {
-	const region = document.createElement('section');
-	region.className = 'hubConversationVoiceComposer';
-	region.hidden = true;
-	const status = document.createElement('strong');
-	status.textContent = 'Voice note';
-	const clock = document.createElement('span');
-	clock.className = 'hubConversationVoiceClock';
-	clock.textContent = '0:00';
-	const audio = document.createElement('audio');
-	audio.controls = true;
-	audio.preload = 'metadata';
-	audio.hidden = true;
-	const stop = action(document, 'Stop', handlers.onStopVoice);
-	const cancel = action(document, 'Cancel', handlers.onCancelVoice);
-	const send = action(document, 'Send voice', handlers.onSendVoice);
-	region.append(status, clock, audio, stop, cancel, send);
-	return { region, status, clock, audio, stop, cancel, send };
-}
-
-function action(document, label, handler) {
-	const button = document.createElement('button');
-	button.type = 'button';
-	button.textContent = label;
-	button.addEventListener('click', event => handler?.(event));
-	return button;
 }

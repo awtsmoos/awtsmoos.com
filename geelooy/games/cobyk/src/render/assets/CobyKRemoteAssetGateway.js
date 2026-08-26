@@ -13,32 +13,34 @@ import {
 import {
 	resolvePublicMaterial
 } from "/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/assets/PublicMaterialCatalog.js?compact=true";
+import {
+	assertCobyKChossidIdentity,
+	COBYK_CHOSSID_IDENTITY
+} from "./CobyKChossidIdentity.js";
 
 /**
  * @file CobyKRemoteAssetGateway.js
- * @description Reuses MitzvahWorld's canonical remote model and texture registries instead of duplicating transport roots or guessing public filenames.
+ * @description Reuses MitzvahWorld's canonical model/texture registries while a local identity contract guards CobyK against silent upstream player drift.
  * The Awtsmoos renews asset and address before a URL can claim to carry truth alone;
- * Awtsmoos.com lets this Yesod gateway borrow verified registries while CobyK remains a separate, faithful world of its own.
+ * Awtsmoos.com lets this Yesod gateway borrow verified registries while CobyK keeps its own immutable covenant known.
  */
-const CHAI_CHOSSID_PATH = "player/chossid.glb";
-const CHAI_CHOSSID_SHA256 = "d86fd3289c3d12ac566fe8aa7bed37244e352043ee821a0c43b47055ce8ebe48";
-
 export class YesodCobyKRemoteAssetGateway {
 	/**
-	 * Reveals the host-aware canonical Chossid record and verifies its immutable content identity before use.
-	 * @param {object|null} [malchusLocation=globalThis.location] Browser-like location for local/remote source selection.
-	 * @returns {object} Frozen canonical model record.
+	 * Reveals the host-aware canonical Chossid record and verifies path, byte size, and SHA-256 before the renderer may load it.
+	 * @param {object|null} [malchusLocation=globalThis.location] Browser-like location for candidate ordering.
+	 * @returns {object} Verified canonical model record.
 	 */
 	revealChossid(malchusLocation = globalThis.location) {
-		const chaiRecord = remoteModelRecord(CHAI_CHOSSID_PATH, malchusLocation);
-		if (chaiRecord.sha256 !== CHAI_CHOSSID_SHA256) {
-			throw new Error("CobyK Chossid identity drift detected.");
-		}
-		return chaiRecord;
+		return assertCobyKChossidIdentity(
+			remoteModelRecord(
+				COBYK_CHOSSID_IDENTITY.path,
+				malchusLocation
+			)
+		);
 	}
 
 	/**
-	 * Resolves one exact cataloged full-resolution texture filename through MitzvahWorld's trusted transport.
+	 * Resolves one exact canonical full-resolution texture filename; the upstream registry rejects invented or stale names.
 	 * @param {string} malchusFilename Verified registry filename.
 	 * @returns {string} Trusted production texture URL.
 	 */
@@ -47,13 +49,17 @@ export class YesodCobyKRemoteAssetGateway {
 	}
 
 	/**
-	 * Searches the published material catalog for a semantic query and quality tier without blocking local fallback presentation.
-	 * @param {string} chochmahQuery Semantic public-material query.
-	 * @param {string} [tiferesQuality="high"] Catalog quality tier.
-	 * @param {object} [binaOptions={}] Optional fetch/search controls.
-	 * @returns {Promise<object>} Resolved public material record.
+	 * Searches MitzvahWorld's public material catalog for a semantic query without blocking CobyK's synchronous fallback material.
+	 * @param {string} chochmahQuery Semantic material query.
+	 * @param {string} [tiferesQuality="high"] Public catalog quality tier.
+	 * @param {object} [binaOptions={}] Search/fetch controls.
+	 * @returns {Promise<object>} Public material record.
 	 */
-	resolvePublishedMaterial(chochmahQuery, tiferesQuality = "high", binaOptions = {}) {
+	resolvePublishedMaterial(
+		chochmahQuery,
+		tiferesQuality = "high",
+		binaOptions = {}
+	) {
 		return resolvePublicMaterial(
 			chochmahQuery,
 			tiferesQuality,
@@ -61,7 +67,7 @@ export class YesodCobyKRemoteAssetGateway {
 		);
 	}
 
-	/** @returns {object} Frozen diagnostics proving the upstream model and texture catalog identities CobyK depends upon. */
+	/** @returns {object} Frozen evidence for model identity and upstream canonical texture count/root diagnostics. */
 	snapshot() {
 		const chaiRecord = this.revealChossid(null);
 		return Object.freeze({

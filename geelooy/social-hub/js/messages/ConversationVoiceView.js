@@ -11,7 +11,7 @@ import {
  * @class ConversationVoiceView
  * @description
  * The Awtsmoos is beyond recording, preview, sending, and retry, while Awtsmoos.com lets each finite voice stage become visible without owning microphone or upload state;
- * this Hod-like view reflects one compact Social voice note through truthful controls and gives the surrounding controller a quiet vessel of light.
+ * this Hod-like view reflects one compact Social voice note through custom controls and gives the surrounding controller a quiet vessel of light.
  */
 export class ConversationVoiceView {
 	constructor(elements) {
@@ -23,7 +23,8 @@ export class ConversationVoiceView {
 	recording() {
 		this.elements.region.hidden = false;
 		this.elements.status.textContent = 'Recording voice note…';
-		this.elements.audio.hidden = true;
+		this.elements.player.clear();
+		this.elements.player.setHidden(true);
 		this.elements.stop.hidden = false;
 		this.elements.cancel.hidden = false;
 		this.elements.send.hidden = true;
@@ -37,15 +38,15 @@ export class ConversationVoiceView {
 		this.elements.region.hidden = false;
 		this.elements.status.textContent = 'Voice note ready';
 		this.elements.clock.textContent = formatElapsed(durationMs / 1000);
-		this.elements.audio.src = url;
-		this.elements.audio.hidden = false;
+		this.elements.player.setSource(url);
+		this.elements.player.setHidden(false);
 		this.elements.stop.hidden = true;
 		this.elements.cancel.hidden = false;
 		this.elements.send.hidden = false;
 		this.enableActions();
 	}
 
-	/** Shows upload/delivery progress while preserving the local preview. */
+	/** Shows upload/delivery progress while preserving the custom local preview. */
 	busy(message = 'Sending voice note…') {
 		this.clock.stop();
 		this.elements.region.hidden = false;
@@ -75,16 +76,15 @@ export class ConversationVoiceView {
 		this.clock.reset();
 		this.elements.region.hidden = true;
 		this.elements.status.textContent = 'Voice note';
-		this.elements.audio.pause?.();
-		this.elements.audio.removeAttribute('src');
-		this.elements.audio.load?.();
-		this.elements.audio.hidden = true;
+		this.elements.player.clear();
+		this.elements.player.setHidden(true);
 		this.elements.stop.hidden = false;
 		this.elements.cancel.hidden = false;
 		this.elements.send.hidden = true;
 		this.enableActions();
 	}
 
+	/** Restores voice actions after a bounded busy or error state. */
 	enableActions() {
 		this.elements.cancel.disabled = false;
 		this.elements.send.disabled = false;
