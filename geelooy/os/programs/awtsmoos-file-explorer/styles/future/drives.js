@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Mobile-first connected-world rail and readable global remote-state capsule.
+ * @file Mobile-first connected-world rail with a shared global remote-health capsule.
  * @description
- * The Awtsmoos keeps distant worlds visible even on the narrowest screen;
- * Awtsmoos.com gives the rail a protected natural height and touch-native snap motion,
- * so cards never collapse beneath neighboring controls while every remote world may rhyme.
+ * The Awtsmoos keeps distant worlds visible on the narrowest screen; Awtsmoos.com gives
+ * the rail protected height, thumb-native snap motion, and a two-line status signal whose
+ * color follows the same state language as each world card, so the whole horizon may rhyme.
  */
 export default /*css*/ `
 .drive-shelf {
@@ -33,23 +33,27 @@ export default /*css*/ `
 }
 
 .drive-shelf-status {
-	flex: 0 0 auto;
-	align-self: center;
-	min-height: 44px;
-	display: inline-flex;
-	align-items: center;
-	gap: 8px;
-	padding: 8px 12px;
-	border-radius: 999px;
-	background: rgba(2, 14, 27, .72);
+	flex: 0 0 min(220px, 62vw);
+	align-self: stretch;
+	min-height: 92px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 5px;
+	padding: 10px 12px 10px 28px;
+	position: relative;
+	border-radius: var(--awt-radius-lg);
+	background: linear-gradient(145deg, rgba(2, 14, 27, .88), rgba(20, 55, 78, .68));
 	border: 1px solid var(--awt-line);
 	color: var(--awt-muted);
-	font: 760 var(--awt-text-sm)/1.25 var(--awt-font);
-	white-space: nowrap;
+	scroll-snap-align: start;
 }
 
 .drive-shelf-status::before {
 	content: "";
+	position: absolute;
+	left: 12px;
+	top: 16px;
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
@@ -57,18 +61,32 @@ export default /*css*/ `
 	box-shadow: 0 0 10px rgba(82, 255, 184, .5);
 }
 
-.drive-shelf-status[data-status="loading"]::before {
+.drive-shelf-status-label {
+	color: var(--awt-text);
+	font: 820 var(--awt-text-sm)/1.2 var(--awt-font);
+}
+
+.drive-shelf-status-detail {
+	font: 600 var(--awt-text-xs)/1.35 var(--awt-font);
+}
+
+.drive-shelf-status[data-state="connecting"]::before {
 	background: var(--awt-cyan);
+	animation: awt-connection-pulse 1.25s ease-in-out infinite;
 }
 
-.drive-shelf-status[data-status="error"] {
-	border-color: rgba(255, 102, 133, .38);
-	color: #ffd3dd;
+.drive-shelf-status[data-state="error"] {
+	border-color: rgba(255, 102, 133, .42);
 }
 
-.drive-shelf-status[data-status="error"]::before {
+.drive-shelf-status[data-state="error"]::before {
 	background: var(--awt-danger);
-	box-shadow: 0 0 10px rgba(255, 102, 133, .4);
+}
+
+.drive-shelf-status[data-state="needs-credential"]::before,
+.drive-shelf-status[data-state="offline"]::before {
+	background: var(--awt-gold);
+	box-shadow: none;
 }
 
 @media (min-width: 721px) {
@@ -77,6 +95,10 @@ export default /*css*/ `
 		margin: 6px;
 		gap: 10px;
 		padding: 9px;
+	}
+
+	.drive-shelf-status {
+		flex-basis: 240px;
 	}
 }
 `;

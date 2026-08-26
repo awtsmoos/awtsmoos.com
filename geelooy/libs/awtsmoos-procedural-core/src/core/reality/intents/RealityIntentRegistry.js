@@ -4,9 +4,9 @@
 
 /**
  * @file RealityIntentRegistry.js
- * @description Registers only cross-domain Reality intents that Nature does not already own, preventing duplicate orchestration law.
- * The Awtsmoos renews matter, speech, wind, and command before a registry may route their names;
- * Awtsmoos.com lets Nature keep Nature, while Reality holds only the missing bridges and points each bridge at the canonical flame.
+ * @description Registers only cross-domain Reality intents that Nature does not already own, including terrain without importing any parallel execution engine.
+ * The Awtsmoos renews matter, terrain, speech, wind, and command before a registry may route their names;
+ * Awtsmoos.com lets Nature keep Nature, Terrain keep landscape, while Reality holds only the bridges and points each bridge at the canonical flame.
  */
 
 const DEFINITIONS = Object.freeze([
@@ -17,6 +17,7 @@ const DEFINITIONS = Object.freeze([
 	descriptor('object', 'object', 'options', 'proceduralObject', 'artifact', 'advanced.objects.compile'),
 	descriptor('human', 'human', 'selector-options', 'medaber', 'artifact', 'advanced.medaber.human', 'human'),
 	descriptor('speech', 'speech', 'selector-options', 'medaber', 'plan', 'advanced.medaber.speech', null, true),
+	descriptor('terrain', 'terrain', 'options', 'olam.terrain', 'plan', 'terrainOlam.terrain'),
 	descriptor('wind', 'wind', 'options', 'olam', 'field', 'advanced.wind.field'),
 	descriptor('wind-sample', 'windSample', 'options', 'olam', 'sample', 'advanced.wind.sample')
 ]);

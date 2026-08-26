@@ -1,0 +1,159 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos holds every branch inside one root without forcing the deepest voice
+ * outside the page. Awtsmoos.com turns recursion into measured visual ancestry, where
+ * depth remains visible yet progressively quieter as the screen or conversation narrows.
+ */
+body[data-comment-thread-page] .comment-tree {
+	display: grid;
+	gap: .8rem;
+	inline-size: min(100%, var(--thread-reading-max));
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+body[data-comment-thread-page] .comment-card {
+	display: grid;
+	gap: .65rem;
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: clamp(.8rem, 2.5vw, 1rem);
+	border: 1px solid var(--thread-line);
+	border-radius: var(--thread-radius);
+	background: color-mix(in srgb, var(--thread-surface) 96%, transparent);
+	box-shadow: 0 8px 24px color-mix(in srgb, #111827 8%, transparent);
+	outline: none;
+	animation: thread-card-reveal 180ms cubic-bezier(.2, .8, .2, 1);
+	transition:
+		transform 160ms ease,
+		border-color 160ms ease,
+		box-shadow 180ms ease,
+		background-color 180ms ease;
+}
+
+body[data-comment-thread-page] .comment-card:focus-visible,
+body[data-comment-thread-page] .comment-card:focus-within {
+	border-color: color-mix(in srgb, var(--thread-line-focus) 62%, var(--thread-line));
+	box-shadow:
+		0 0 0 3px color-mix(in srgb, var(--thread-line-focus) 14%, transparent),
+		0 12px 32px color-mix(in srgb, #111827 10%, transparent);
+}
+
+body[data-comment-thread-page] .comment-meta {
+	font-size: .76rem;
+	font-weight: 720;
+	opacity: .68;
+}
+
+body[data-comment-thread-page] .comment-content {
+	max-inline-size: 72ch;
+	white-space: pre-wrap;
+	word-break: break-word;
+	line-height: 1.62;
+}
+
+body[data-comment-thread-page] :where(
+	.comment-media,
+	.comment-preview-grid
+) {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: .6rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+body[data-comment-thread-page] :where(
+	.comment-media img,
+	.comment-media video,
+	.comment-preview-grid img,
+	.comment-preview-grid video,
+	.comment-preview-grid iframe
+) {
+	max-inline-size: 100%;
+	border-radius: .8rem;
+}
+
+body[data-comment-thread-page] .comment-reply-slot:empty {
+	display: none;
+}
+
+body[data-comment-thread-page] .comment-replies {
+	display: grid;
+	gap: .65rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	margin-inline-start: clamp(.25rem, 1.8vw, .95rem);
+	padding-inline-start: clamp(.45rem, 1.8vw, .8rem);
+	border-inline-start: 2px solid color-mix(in srgb, #818cf8 22%, transparent);
+}
+
+body[data-comment-thread-page] .comment-replies:empty {
+	display: none;
+}
+
+body[data-comment-thread-page] :where(
+	.comment-card[data-thread-depth="3"],
+	.comment-card[data-thread-depth="4"],
+	.comment-card[data-thread-depth="5"]
+) {
+	background: color-mix(in srgb, var(--thread-surface) 92%, transparent);
+	box-shadow: 0 5px 16px color-mix(in srgb, #111827 6%, transparent);
+}
+
+body[data-comment-thread-page] .comment-tombstone {
+	border-style: dashed;
+	opacity: .78;
+}
+
+body[data-comment-thread-page] .comment-card.state {
+	justify-items: start;
+	padding-block: 1.2rem;
+}
+
+body[data-comment-thread-page] .comment-card.state :where(h2, p) {
+	margin: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-comment-thread-page] .comment-card:not(.comment-tombstone):hover {
+		transform: translateY(-1px);
+		border-color: color-mix(in srgb, #818cf8 30%, var(--thread-line));
+	}
+}
+
+@media (max-width: 35rem) {
+	body[data-comment-thread-page] .comment-replies {
+		margin-inline-start: .1rem;
+		padding-inline-start: .42rem;
+	}
+
+	body[data-comment-thread-page] .comment-replies[data-thread-depth="4"],
+	body[data-comment-thread-page] .comment-replies[data-thread-depth="5"] {
+		margin-inline-start: 0;
+		padding-inline-start: .28rem;
+		border-inline-start-width: 1px;
+	}
+}
+
+@keyframes thread-card-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(.25rem);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-comment-thread-page] .comment-card {
+		animation: none;
+		transition-duration: .01ms;
+	}
+}

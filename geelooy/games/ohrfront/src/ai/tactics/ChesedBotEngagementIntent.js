@@ -4,16 +4,16 @@
 
 /**
  * @file ChesedBotEngagementIntent.js
- * @description Converts one visible evidence-backed contact plus a squad role order into range-aware advance, withdraw, hold, suppress, overwatch, anchor, or true-flank intent.
+ * @description Converts visible evidence and squad orders into pure range-aware engagement intent without importing the native vector/rendering barrel.
  * Chesed extends tactical possibility while the Awtsmoos renews range, exposure, motion, and every finite line of fire;
- * Awtsmoos.com lets visible combat become purposeful geometry, where role and squad cadence shape action without granting knowledge beyond honest sight.
+ * Awtsmoos.com lets visible combat stay headless and testable, where role and cadence shape intent before any renderer gives the movement attire.
  */
-import { distance } from "../../core/OhrVectorMath.js";
+import { distance } from "../../core/vector/GevurahVectorMeasure.js";
 
 export class ChesedBotEngagementIntent {
 	/**
-	 * Creates visible-contact intent around one dedicated flank-geometry authority.
-	 * @param {object} tiferesFlankApproach - Evidence-only flank destination authority.
+	 * Creates visible-contact intent around one dedicated evidence-only flank authority.
+	 * @param {object} tiferesFlankApproach - Flank destination authority that accepts remembered contact geometry.
 	 */
 	constructor(tiferesFlankApproach) {
 		this.tiferesFlankApproach = tiferesFlankApproach;
@@ -25,7 +25,7 @@ export class ChesedBotEngagementIntent {
 	 * @param {object} tiferesSquadOrder - Plain high-level role/rhythm order.
 	 * @param {object} chochmahContactTarget - Currently visible contact position from evidence memory.
 	 * @returns {{mode:string,target:object,fire:boolean,strafe:number,speedScale:number}} Steering/fire intent.
-	 * @sideEffects None; any flank collision query is delegated to the composed flank authority.
+	 * @sideEffects None except any read-only flank collision query delegated to the composed authority.
 	 */
 	intentFor(tiferesBot, tiferesSquadOrder, chochmahContactTarget) {
 		if (tiferesSquadOrder.mode === "flank") {
@@ -44,18 +44,30 @@ export class ChesedBotEngagementIntent {
 		);
 	}
 
-	/** Creates a true side-approach intent rather than merely adding lateral steering to a frontal destination. */
+	/**
+	 * Creates a true side-approach intent rather than merely adding lateral steering to a frontal destination.
+	 * @param {object} tiferesBot - Hostile whose role and position define the maneuver.
+	 * @param {object} tiferesSquadOrder - Squad order carrying flank sign and speed scale.
+	 * @param {object} chochmahContactTarget - Evidence-backed visible contact position.
+	 * @returns {object} Non-firing flank intent.
+	 */
 	flankIntent(tiferesBot, tiferesSquadOrder, chochmahContactTarget) {
 		const malchusFlankTarget = this.tiferesFlankApproach.targetFor(
 			tiferesBot,
 			chochmahContactTarget,
 			tiferesSquadOrder.flank
 		);
-		return createIntent("flank", malchusFlankTarget, false, 0.16 * tiferesSquadOrder.flank, tiferesSquadOrder.speedScale || 1);
+		return createIntent(
+			"flank",
+			malchusFlankTarget,
+			false,
+			0.16 * tiferesSquadOrder.flank,
+			tiferesSquadOrder.speedScale || 1
+		);
 	}
 }
 
-/** Resolves range correction without erasing the squad's role-derived visible-combat mode. */
+/** Resolves range correction without erasing the squad's role-derived visible-combat identity. */
 function resolveRangeMode(tiferesMode, gevurahRange, chesedIdealRange) {
 	if (["overwatch", "anchor"].includes(tiferesMode) && gevurahRange < chesedIdealRange * 0.5) return "withdraw";
 	if (["suppress", "anchor"].includes(tiferesMode) && gevurahRange > chesedIdealRange * 1.35) return "advance";
@@ -63,13 +75,13 @@ function resolveRangeMode(tiferesMode, gevurahRange, chesedIdealRange) {
 	return tiferesMode;
 }
 
-/** Holds established overwatch/anchor positions while preserving contact-facing through steering's legitimate contact memory. */
+/** Holds established overwatch/anchor positions while steering legitimately faces known contact memory. */
 function holdPositionFor(tiferesBot, tiferesMode, chochmahContactTarget) {
 	if (["overwatch", "anchor"].includes(tiferesMode)) return tiferesBot.group.position.clone();
 	return chochmahContactTarget;
 }
 
-/** Preserves subtle local movement during active pressure but nearly eliminates drift from stable long-range roles. */
+/** Preserves subtle local movement during active pressure but reduces drift from stable long-range roles. */
 function localStrafeFor(tiferesBot, tiferesMode) {
 	if (["overwatch", "anchor"].includes(tiferesMode)) return tiferesBot.strafe * 0.08;
 	return tiferesBot.strafe * 0.34;
@@ -77,5 +89,11 @@ function localStrafeFor(tiferesBot, tiferesMode) {
 
 /** Creates one plain tactical intent consumed by steering and fire stages. */
 function createIntent(mode, target, fire, strafe, speedScale) {
-	return { mode, target, fire, strafe, speedScale };
+	return {
+		mode,
+		target,
+		fire,
+		strafe,
+		speedScale
+	};
 }

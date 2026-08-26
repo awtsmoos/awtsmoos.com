@@ -4,30 +4,49 @@
 
 /**
  * @file ChochmahProjectileGeometry.js
- * @description Reveals the pure geometric relationship between a point and one finite projectile travel segment.
- * Chochmah flashes the nearest point into a bounded calculation while the Awtsmoos is beyond near and far;
- * Awtsmoos.com keeps this witness pure so collision policy can trust geometry without inheriting scene or combat side effects.
+ * @description Reveals pure scalar geometry between a point and one finite projectile segment without allocating native vectors or depending on renderer/runtime adapters.
+ * Chochmah flashes the nearest place into measure while the Awtsmoos renews point, line, distance, and every mathematical shore;
+ * Awtsmoos.com keeps this witness headless and exact, so combat pressure, damage, and tests may trust geometry without inheriting a rendering door.
  */
-import { distance, dot, lengthSquared } from "../../core/vector/GevurahVectorMeasure.js";
-import { vector } from "../../core/vector/ChochmahVectorFactory.js";
-import { addScaled, subtract } from "../../core/vector/TiferesVectorTransform.js";
 
 /**
- * Measures the shortest distance from a point to a clamped line segment.
- * @param {{x:number,y:number,z:number}} chochmahPoint - Point being tested for proximity.
- * @param {object} chochmahSegmentStart - Segment start position.
- * @param {object} chochmahSegmentEnd - Segment end position.
- * @returns {number} Shortest Euclidean distance to the finite segment.
- * @invariant Projection time is clamped to [0,1], so endpoints remain valid nearest points.
- * @sideEffects Allocates temporary native vectors; does not mutate caller vectors.
+ * Measures the shortest Euclidean distance from one point to a finite clamped projectile segment using scalar arithmetic only.
+ * @param {{x:number,y:number,z:number}} chochmahPoint - Point whose proximity to the projectile path is being measured.
+ * @param {{x:number,y:number,z:number}} chochmahSegmentStart - Segment start position in world coordinates.
+ * @param {{x:number,y:number,z:number}} chochmahSegmentEnd - Segment end position in world coordinates.
+ * @returns {number} Shortest finite-segment distance in world units.
+ * @sideEffects None. The function allocates no native vector objects and mutates no caller data.
+ * @invariant Projection is clamped to [0,1], preserving both endpoints as valid nearest points.
  */
-export function measureSegmentDistance(chochmahPoint, chochmahSegmentStart, chochmahSegmentEnd) {
-	const chochmahSegmentVector = subtract(chochmahSegmentEnd, chochmahSegmentStart, vector());
-	const gevurahDenominator = Math.max(0.000001, lengthSquared(chochmahSegmentVector));
-	const chochmahFromStart = subtract(chochmahPoint, chochmahSegmentStart, vector());
-	const tiferesProjection = dot(chochmahFromStart, chochmahSegmentVector) / gevurahDenominator;
+export function measureSegmentDistance(
+	chochmahPoint,
+	chochmahSegmentStart,
+	chochmahSegmentEnd
+) {
+	const netzachSegmentX = chochmahSegmentEnd.x - chochmahSegmentStart.x;
+	const netzachSegmentY = chochmahSegmentEnd.y - chochmahSegmentStart.y;
+	const netzachSegmentZ = chochmahSegmentEnd.z - chochmahSegmentStart.z;
+	const gevurahLengthSquared = Math.max(
+		0.000001,
+		netzachSegmentX * netzachSegmentX
+			+ netzachSegmentY * netzachSegmentY
+			+ netzachSegmentZ * netzachSegmentZ
+	);
+	const chochmahFromStartX = chochmahPoint.x - chochmahSegmentStart.x;
+	const chochmahFromStartY = chochmahPoint.y - chochmahSegmentStart.y;
+	const chochmahFromStartZ = chochmahPoint.z - chochmahSegmentStart.z;
+	const tiferesProjection = (
+		chochmahFromStartX * netzachSegmentX
+		+ chochmahFromStartY * netzachSegmentY
+		+ chochmahFromStartZ * netzachSegmentZ
+	) / gevurahLengthSquared;
 	const gevurahClampedProjection = Math.max(0, Math.min(1, tiferesProjection));
-	const malchusNearestPoint = chochmahSegmentStart.clone();
-	addScaled(malchusNearestPoint, chochmahSegmentVector, gevurahClampedProjection);
-	return distance(malchusNearestPoint, chochmahPoint);
+	const malchusNearestX = chochmahSegmentStart.x + netzachSegmentX * gevurahClampedProjection;
+	const malchusNearestY = chochmahSegmentStart.y + netzachSegmentY * gevurahClampedProjection;
+	const malchusNearestZ = chochmahSegmentStart.z + netzachSegmentZ * gevurahClampedProjection;
+	return Math.hypot(
+		chochmahPoint.x - malchusNearestX,
+		chochmahPoint.y - malchusNearestY,
+		chochmahPoint.z - malchusNearestZ
+	);
 }

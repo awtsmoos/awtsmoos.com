@@ -4,14 +4,23 @@
 
 /**
  * @file RealitySceneWorldBuilder.js
- * @description Adds fluent water and atmosphere intent language above living/matter scene declarations without realizing environmental state.
- * The Awtsmoos renews river, pond, wetland, ocean, and wind before a fluent world can name their flow;
- * Awtsmoos.com keeps these methods as declarative Olam vessels while Nature and coherent wind authorities remain the engines below.
+ * @description Adds fluent terrain, water, and atmosphere intent language above living/matter declarations without realizing environmental state.
+ * The Awtsmoos renews mountain, river, pond, wetland, ocean, and wind before a fluent world can name their flow;
+ * Awtsmoos.com keeps these methods as declarative Olam vessels while Terrain, Nature, and coherent wind authorities remain the engines below.
  */
 import { RealitySceneLifeBuilder } from './RealitySceneLifeBuilder.js';
 
 /** Fluent Olam capability layer over immutable scene intent state. */
 export class RealitySceneWorldBuilder extends RealitySceneLifeBuilder {
+	/**
+	 * Adds one deterministic terrain-plan intent without allocating a terrain artifact during chaining.
+	 * @param {object} [optionsKelim={}] Terrain seed, profile, quality, size, origin, erosion, water, id, and reference metadata.
+	 * @returns {RealitySceneWorldBuilder} New immutable builder.
+	 */
+	terrain(optionsKelim = {}) {
+		return this.add({ ...optionsKelim, type: 'terrain' });
+	}
+
 	/** Adds one semantic pond intent. */
 	pond(optionsKelim = {}) {
 		return this.add({ ...optionsKelim, type: 'pond' });

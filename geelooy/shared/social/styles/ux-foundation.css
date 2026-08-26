@@ -1,16 +1,16 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-/**
- * The Awtsmoos is beyond edge, layer, and motion; Awtsmoos.com gives every
- * shared social control one locally rooted system for focus, safe area, motion,
- * and finite z-order so no component wins by accidental escalation.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos is beyond edge, layer, and motion; Awtsmoos.com gives every shared
+ * social control one rooted covenant for focus, safe area, tactile response, motion,
+ * and finite z-order without flattening unrelated descendants through cascade force.
  */
 .awtsmoosSocialExperience {
 	--social-motion-fast: 140ms;
 	--social-motion-base: 190ms;
 	--social-motion-slow: 240ms;
-	--social-ease: cubic-bezier(.2,.8,.2,1);
+	--social-ease: cubic-bezier(.2, .8, .2, 1);
 	--social-radius-sm: 10px;
 	--social-radius-md: 16px;
 	--social-radius-lg: 22px;
@@ -30,10 +30,19 @@
 	--social-z-sheet: 40;
 	--social-z-modal: 50;
 }
-.awtsmoosSocialExperience :where(button, a, summary, input, select, textarea) {
+
+.awtsmoosSocialExperience :where(
+	button,
+	a,
+	summary,
+	input,
+	select,
+	textarea
+) {
 	box-sizing: border-box;
 	max-inline-size: 100%;
 }
+
 .awtsmoosSocialExperience :where(button, a, summary) {
 	-webkit-tap-highlight-color: transparent;
 	transition:
@@ -43,34 +52,67 @@
 		opacity var(--social-motion-fast) linear,
 		box-shadow var(--social-motion-base) var(--social-ease);
 }
-.awtsmoosSocialExperience :where(button, a, summary, input, select, textarea):focus-visible {
+
+.awtsmoosSocialExperience :where(
+	button,
+	a,
+	summary,
+	input,
+	select,
+	textarea
+):focus-visible {
 	outline: 2px solid var(--social-focus);
 	outline-offset: 3px;
 }
-.awtsmoosSocialExperience :where(button, [role='button']):disabled {
+
+.awtsmoosSocialExperience :where(button, [role="button"]):disabled,
+.awtsmoosSocialExperience [aria-disabled="true"] {
 	cursor: not-allowed;
 	opacity: .48;
 	transform: none;
 }
+
 @media (hover: hover) and (pointer: fine) {
-	.awtsmoosSocialExperience :where(button:not(:disabled), a, summary):hover {
+	.awtsmoosSocialExperience :where(
+		button:not(:disabled),
+		a,
+		summary
+	):hover {
 		filter: brightness(1.045);
 	}
 }
-.awtsmoosSocialExperience :where(button:not(:disabled), a, summary):active {
+
+.awtsmoosSocialExperience :where(
+	button:not(:disabled),
+	a,
+	summary
+):active {
 	transform: scale(.985);
 	filter: brightness(.96);
 }
+
 @media (prefers-reduced-motion: reduce) {
-	.awtsmoosSocialExperience *,
-	.awtsmoosSocialExperience *::before,
-	.awtsmoosSocialExperience *::after {
-		scroll-behavior: auto !important;
-		transition-duration: .01ms !important;
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
+	.awtsmoosSocialExperience :where(
+		button,
+		a,
+		summary,
+		input,
+		select,
+		textarea,
+		[data-social-motion],
+		.awtsmoosDisclosure,
+		.awtsmoosUniversalActionRail,
+		.awtsmoosActionOverflow,
+		.awtsmoosRelationshipPicker,
+		.awtsmoosAmbientLayer
+	) {
+		scroll-behavior: auto;
+		transition-duration: .01ms;
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
 	}
 }
+
 @media (forced-colors: active) {
 	.awtsmoosSocialExperience {
 		--social-line: CanvasText;

@@ -1,0 +1,197 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos conceals and reveals without distance; Awtsmoos.com lets the writing
+ * chamber begin as one calm invitation, then unfold into full rich composition only
+ * when a person chooses to enter, preserving mobile space and human attention together.
+ */
+body[data-comment-thread-page] .comment-composer {
+	display: grid;
+	gap: .75rem;
+	box-sizing: border-box;
+	inline-size: min(100%, var(--thread-reading-max));
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: .85rem;
+	border: 1px solid var(--thread-line);
+	border-radius: var(--thread-radius);
+	background: var(--thread-surface);
+	box-shadow: 0 12px 36px color-mix(in srgb, #111827 12%, transparent);
+}
+
+body[data-comment-thread-page] .comment-composer--root[data-composer-open="false"] {
+	padding: .55rem;
+	background: color-mix(in srgb, var(--thread-surface) 92%, transparent);
+}
+
+body[data-comment-thread-page] .threadComposerToggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	inline-size: 100%;
+	min-block-size: 48px;
+	padding: .7rem .9rem;
+	border: 1px solid color-mix(in srgb, #818cf8 34%, var(--thread-line));
+	border-radius: .9rem;
+	background:
+		linear-gradient(
+			135deg,
+			color-mix(in srgb, #4f46e5 14%, Canvas),
+			color-mix(in srgb, #0891b2 8%, Canvas)
+		);
+	color: inherit;
+	font: inherit;
+	font-weight: 780;
+	text-align: start;
+	cursor: pointer;
+	transition:
+		transform 150ms ease,
+		border-color 160ms ease,
+		box-shadow 180ms ease,
+		background-color 180ms ease;
+}
+
+body[data-comment-thread-page] .threadComposerToggle::after {
+	content: "+";
+	font-size: 1.15rem;
+	line-height: 1;
+	transition: transform 180ms ease;
+}
+
+body[data-comment-thread-page] .threadComposerToggle[aria-expanded="true"]::after {
+	transform: rotate(45deg);
+}
+
+body[data-comment-thread-page] .threadComposerBody {
+	display: grid;
+	gap: .8rem;
+	min-inline-size: 0;
+	animation: thread-composer-reveal 180ms cubic-bezier(.2, .8, .2, 1);
+}
+
+body[data-comment-thread-page] .threadComposerBody[hidden] {
+	display: none;
+}
+
+body[data-comment-thread-page] .comment-composer label {
+	display: grid;
+	gap: .4rem;
+	min-inline-size: 0;
+	font-weight: 720;
+}
+
+body[data-comment-thread-page] .comment-composer textarea[name="content"] {
+	box-sizing: border-box;
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 7rem;
+	max-inline-size: 100%;
+	padding: .8rem .85rem;
+	border: 1px solid var(--thread-line);
+	border-radius: .85rem;
+	background: color-mix(in srgb, Canvas 96%, #4f46e5 4%);
+	color: inherit;
+	font: inherit;
+	font-size: max(1rem, 16px);
+	line-height: 1.5;
+	resize: vertical;
+	transition:
+		border-color 160ms ease,
+		box-shadow 160ms ease,
+		background-color 160ms ease;
+}
+
+body[data-comment-thread-page] .threadContextPanel {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+body[data-comment-thread-page] .threadContextBody {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: .75rem;
+	min-inline-size: 0;
+	padding-block-start: .75rem;
+}
+
+body[data-comment-thread-page] .threadContextBody > *,
+body[data-comment-thread-page] :where(
+	.threadReferencePicker,
+	.threadAttachmentPicker,
+	.threadVoiceRecorder
+) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+body[data-comment-thread-page] :where(
+	.threadVoiceButton,
+	.threadSendButton,
+	.threadReferencePicker button
+) {
+	min-block-size: 48px;
+}
+
+body[data-comment-thread-page] :where(
+	.threadComposerToggle,
+	.threadVoiceButton,
+	.threadSendButton,
+	.threadReferencePicker button,
+	.comment-composer textarea[name="content"]
+):focus-visible {
+	outline: 3px solid var(--thread-line-focus);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-comment-thread-page] :where(
+		.threadComposerToggle,
+		.threadVoiceButton,
+		.threadSendButton,
+		.threadReferencePicker button
+	):hover {
+		transform: translateY(-1px);
+		filter: brightness(1.04);
+	}
+}
+
+body[data-comment-thread-page] :where(
+	.threadComposerToggle,
+	.threadVoiceButton,
+	.threadSendButton,
+	.threadReferencePicker button
+):active {
+	transform: scale(.98);
+}
+
+@media (min-width: 42rem) {
+	body[data-comment-thread-page] .threadContextBody {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@keyframes thread-composer-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-.35rem);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-comment-thread-page] :where(
+		.threadComposerBody,
+		.threadComposerToggle,
+		.threadVoiceButton,
+		.threadSendButton,
+		.threadReferencePicker button
+	) {
+		animation: none;
+		transition-duration: .01ms;
+	}
+}

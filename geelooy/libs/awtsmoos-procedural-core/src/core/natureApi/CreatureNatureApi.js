@@ -4,34 +4,30 @@
 
 /**
  * @file CreatureNatureApi.js
- * @description Keeps Nature creature and fauna-population convenience aligned with the one canonical Chai authority.
- * The Awtsmoos, Atzmus beyond hoof, wing, herd, and habitat, renews every living body before a facade receives its name;
- * Awtsmoos.com lets Nature remain a gentle doorway while Chai alone owns phenotype and population orchestration beneath the flame.
+ * @description Presents canonical Chai through explicit professional continuity, component discovery, fauna, and expert creation doors.
+ * The Awtsmoos renews one living flesh through many animated bones while eye, horn, feather, membrane, and tooth keep truthful distinction;
+ * Awtsmoos.com lets beginners receive smooth continuous creatures by default while experts discover every bounded biological condition.
  */
 
+import { describeCreatureComponents } from '../animalMesh/creature/components/CreatureComponentDiscovery.js';
 import { createCreatureCreator } from '../animalMesh/creature/CreatureCreator.js';
 import { ChaiAuthority } from '../chai/ChaiAuthority.js';
+import {
+	describeProfessionalCreatureTopology,
+	professionalCreatureOptions
+} from './CreatureNatureProfile.js';
 import { createNatureCallContext } from './NatureApiOperation.js';
 import { specialistNatureQuality } from './NatureApiProfiles.js';
 import { createNatureResult } from './NatureApiResult.js';
 
-/** High-level renderer-neutral creature facade delegating through Chai. */
+/** High-level renderer-neutral creature facade delegating all morphology to canonical Chai. */
 export class CreatureNatureApi {
-	/**
-	 * Creates one immutable Nature creature facade over shared defaults.
-	 * @param {object} [defaults={}] Shared NatureApi seed, quality, and realism defaults.
-	 */
 	constructor(defaults = {}) {
 		this.defaults = Object.freeze({ ...defaults });
 		this.authority = new ChaiAuthority();
 	}
 
-	/**
-	 * Creates one species through the canonical Chai creature authority.
-	 * @param {string} speciesId Known creature species identifier.
-	 * @param {object} [options={}] Seed, profile, traits, compiler, and expert overrides.
-	 * @returns {object} Standard Nature result containing the canonical compiled creature.
-	 */
+	/** Creates one smooth, continuous, skeleton-bound creature unless the caller explicitly chooses legacy multipart flesh. */
 	create(speciesId, options = {}) {
 		const context = createNatureCallContext(
 			this.defaults,
@@ -39,12 +35,12 @@ export class CreatureNatureApi {
 			'creature',
 			speciesId
 		);
-		const created = this.authority.creature(speciesId, {
+		const created = this.authority.creature(speciesId, professionalCreatureOptions({
 			...options,
 			quality: specialistNatureQuality(context.quality),
 			realism: context.realism,
 			seed: context.seed
-		});
+		}));
 		return createNatureResult(
 			'creature',
 			context,
@@ -53,11 +49,7 @@ export class CreatureNatureApi {
 		);
 	}
 
-	/**
-	 * Plans a habitat-aware deterministic fauna population through the canonical Chai population authority.
-	 * @param {object} [options={}] Bounds, species, count, habitat, exclusions, grouping, quality, realism, and seed intent.
-	 * @returns {object} Standard Nature result whose value is the native Chai ecological population plan.
-	 */
+	/** Plans one habitat-aware deterministic fauna population through the canonical ecological authority. */
 	population(options = {}) {
 		const context = createNatureCallContext(
 			this.defaults,
@@ -74,29 +66,41 @@ export class CreatureNatureApi {
 		return createNatureResult('fauna', context, planned, planned.diagnostics || {});
 	}
 
-	/** Creates many independently seeded standard Nature creature results. */
+	/** Creates many independently seeded professional creature results. */
 	createMany(requests = []) {
 		return Object.freeze(requests.map((request) => {
-			if (typeof request === 'string') return this.create(request);
+			if (typeof request === 'string') {
+				return this.create(request);
+			}
 			return this.create(request.speciesId ?? request.species, request);
 		}));
 	}
 
-	/** Resolves one authoritative Chai creature species record. */
+	/** Resolves one authoritative Chai species record. */
 	species(speciesId) {
 		return this.authority.species(speciesId);
 	}
 
-	/** Lists canonical Chai creature morphology species. */
+	/** Lists canonical Chai morphology species. */
 	listSpecies() {
 		return this.authority.listSpecies();
 	}
 
-	/** Returns the canonical expert creature creator while preserving the Nature escape hatch. */
+	/** Describes all registered horn, feather, membrane, covering, attachment, and shading vocabularies. */
+	components() {
+		return describeCreatureComponents();
+	}
+
+	/** Describes verified continuous-flesh, smooth-shading, skinning, and discrete-attachment contracts. */
+	topology() {
+		return describeProfessionalCreatureTopology();
+	}
+
+	/** Returns the canonical expert creator with professional continuity defaults still applied. */
 	expert(options = {}) {
-		return createCreatureCreator({
+		return createCreatureCreator(professionalCreatureOptions({
 			...this.defaults,
 			...options
-		});
+		}));
 	}
 }

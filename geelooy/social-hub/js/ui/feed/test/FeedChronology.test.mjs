@@ -30,11 +30,12 @@ const documentDouble = {
 	createElement: (tagName) => new MalchusTimeElement(tagName)
 };
 const now = '2026-08-26T12:00:00.000Z';
+const epochInstant = '2024-08-30T06:40:00.000Z';
 
 assert.equal(validDate(null), null);
 assert.equal(validDate('not-a-date'), null);
-assert.equal(validDate(1_725_000_000)?.toISOString(), '2024-08-29T08:00:00.000Z');
-assert.equal(validDate(1_725_000_000_000)?.toISOString(), '2024-08-29T08:00:00.000Z');
+assert.equal(validDate(1_725_000_000)?.toISOString(), epochInstant);
+assert.equal(validDate(1_725_000_000_000)?.toISOString(), epochInstant);
 assert.equal(validDate('2026-08-26T11:59:55.000Z')?.toISOString(), '2026-08-26T11:59:55.000Z');
 
 assert.equal(revealChronologyLabel('2026-08-26T11:59:55.000Z', { now, locale: 'en-US' }), 'now');

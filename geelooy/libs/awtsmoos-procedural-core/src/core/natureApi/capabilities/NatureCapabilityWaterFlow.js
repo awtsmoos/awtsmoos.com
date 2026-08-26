@@ -6,7 +6,7 @@
  * @file NatureCapabilityWaterFlow.js
  * @description Describes river runtime, immutable reach, channel, and flow-preset discovery through the mature WaterFlowNatureApi contract.
  * The Awtsmoos renews current, bank, riffle, pool, and channel before a flow name can divide the stream;
- * Awtsmoos.com lets these records map proven water doors while morphology and solver law remain beneath one conserved gleam.
+ * Awtsmoos.com lets these records map proven Mayim doors while morphology and solver law remain beneath one conserved gleam.
  */
 
 import { createNatureCapabilityInput } from './NatureCapabilityInput.js';
@@ -31,7 +31,7 @@ export const NATURE_CAPABILITY_WATER_FLOW_RECORDS = Object.freeze([
 		id: 'water.river',
 		label: 'River',
 		description: 'Create one physically populated bounded river runtime from a named flow regime.',
-		domain: NATURE_CAPABILITY_DOMAINS.WORLD,
+		domain: NATURE_CAPABILITY_DOMAINS.WATER,
 		easyMethod: 'river',
 		path: 'river',
 		pathAliases: ['water.river'],
@@ -45,7 +45,7 @@ export const NATURE_CAPABILITY_WATER_FLOW_RECORDS = Object.freeze([
 		id: 'water.reach',
 		label: 'River reach',
 		description: 'Create immutable centerline, bank, morphology, and flow evidence without renderer geometry.',
-		domain: NATURE_CAPABILITY_DOMAINS.WORLD,
+		domain: NATURE_CAPABILITY_DOMAINS.WATER,
 		easyMethod: 'reach',
 		path: 'water.reach',
 		scope: 'nested',
@@ -60,7 +60,7 @@ export const NATURE_CAPABILITY_WATER_FLOW_RECORDS = Object.freeze([
 		id: 'water.channel',
 		label: 'Water channel',
 		description: 'Create a generic bounded channel runtime using stream defaults unless another regime is authored.',
-		domain: NATURE_CAPABILITY_DOMAINS.WORLD,
+		domain: NATURE_CAPABILITY_DOMAINS.WATER,
 		easyMethod: 'channel',
 		path: 'water.channel',
 		scope: 'nested',
@@ -74,7 +74,7 @@ export const NATURE_CAPABILITY_WATER_FLOW_RECORDS = Object.freeze([
 		id: 'water.flow-presets',
 		label: 'Flow presets',
 		description: 'List stable named river and stream flow regimes.',
-		domain: NATURE_CAPABILITY_DOMAINS.WORLD,
+		domain: NATURE_CAPABILITY_DOMAINS.WATER,
 		easyMethod: 'presets',
 		path: 'water.presets',
 		scope: 'nested',
@@ -87,7 +87,7 @@ export const NATURE_CAPABILITY_WATER_FLOW_RECORDS = Object.freeze([
 		id: 'water.flow-preset',
 		label: 'Flow preset',
 		description: 'Reveal immutable physical defaults for one named flow regime.',
-		domain: NATURE_CAPABILITY_DOMAINS.WORLD,
+		domain: NATURE_CAPABILITY_DOMAINS.WATER,
 		easyMethod: 'preset',
 		path: 'water.preset',
 		scope: 'nested',

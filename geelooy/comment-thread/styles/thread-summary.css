@@ -1,32 +1,75 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-/** The Awtsmoos holds every branch while Awtsmoos.com gives the reader a measured map, not a machine-generated verdict or score. */
-.threadSummary {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos sees every branch at once while Awtsmoos.com gives the reader only the
+ * orientation useful now. Metrics remain calm, advanced structure stays retractable,
+ * and semantic relation counts support reading instead of competing with the voices.
+ */
+body[data-comment-thread-page] .threadSummary {
 	display: grid;
-	gap: 10px;
-	padding: 14px 16px;
-	border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
-	border-radius: 18px;
-	background: color-mix(in srgb, Canvas 95%, currentColor 5%);
+	gap: .7rem;
+	inline-size: min(100%, var(--thread-reading-max));
+	min-inline-size: 0;
+	padding: .9rem 1rem;
+	border: 1px solid var(--thread-line);
+	border-radius: var(--thread-radius);
+	background: color-mix(in srgb, var(--thread-surface) 94%, transparent);
 }
-.threadSummary__metrics,
-.threadSummary__relations {
+
+body[data-comment-thread-page] .threadSummary > strong {
+	font-size: .9rem;
+	letter-spacing: -.01em;
+}
+
+body[data-comment-thread-page] :where(
+	.threadSummary__metrics,
+	.threadSummary__relations,
+	.threadSummary__advanced
+) {
 	display: flex;
-	gap: 7px;
 	flex-wrap: wrap;
+	gap: .45rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
 }
-.threadSummary__chip {
+
+body[data-comment-thread-page] .threadSummary__advanced {
+	padding-block-start: .15rem;
+}
+
+body[data-comment-thread-page] .threadSummary__chip {
 	display: inline-flex;
 	align-items: center;
-	min-height: 30px;
-	padding: 5px 9px;
+	min-block-size: 32px;
+	max-inline-size: 100%;
+	padding: .34rem .58rem;
+	overflow-wrap: anywhere;
+	border: 1px solid color-mix(in srgb, currentColor 9%, transparent);
 	border-radius: 999px;
-	background: color-mix(in srgb, CanvasText 8%, Canvas);
+	background: color-mix(in srgb, CanvasText 7%, Canvas);
 	font-size: .76rem;
 	font-weight: 720;
+	line-height: 1.2;
 }
-.threadSummary__relations {
-	padding-top: 2px;
-	border-top: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+
+body[data-comment-thread-page] .threadSummary__relations {
+	inline-size: 100%;
+	padding-block-start: .55rem;
+	border-block-start: 1px solid var(--thread-line);
+}
+
+body[data-comment-thread-page] .threadSummary .awtsmoosDisclosure {
+	inline-size: 100%;
+	min-inline-size: 0;
+}
+
+@media (max-width: 35rem) {
+	body[data-comment-thread-page] .threadSummary {
+		padding: .78rem .82rem;
+	}
+
+	body[data-comment-thread-page] .threadSummary__chip {
+		font-size: .74rem;
+	}
 }

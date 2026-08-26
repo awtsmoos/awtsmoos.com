@@ -1,38 +1,118 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-/** The Awtsmoos lets reaction, reply, share, and relation live near each voice; Awtsmoos.com keeps every action rail bounded, tactile, and readable through recursive depth. */
-.comment-card {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every deed its true place beside the voice that can perform it;
+ * Awtsmoos.com keeps reply, reaction, relation, and navigation bounded and tactile,
+ * so action remains discoverable without becoming a floating layer above the discussion.
+ */
+body[data-comment-thread-page] .commentRelationList {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .4rem;
 	min-inline-size: 0;
 	max-inline-size: 100%;
-	outline: none;
-	transition: box-shadow 160ms ease, transform 160ms ease, border-color 160ms ease;
 }
-.comment-card:focus-visible { box-shadow: 0 0 0 3px color-mix(in srgb,currentColor 22%,transparent); }
-.commentRelationList { display: flex; gap: .4rem; flex-wrap: wrap; min-inline-size: 0; }
-.commentRelationChip {
+
+body[data-comment-thread-page] .commentRelationChip {
 	display: inline-flex;
 	align-items: center;
 	min-inline-size: 0;
 	min-block-size: 30px;
 	max-inline-size: 100%;
-	padding: .3rem .58rem;
+	padding: .32rem .58rem;
 	overflow-wrap: anywhere;
+	border: 1px solid color-mix(in srgb, currentColor 8%, transparent);
 	border-radius: 999px;
-	background: color-mix(in srgb,CanvasText 8%,Canvas);
+	background: color-mix(in srgb, CanvasText 7%, Canvas);
 	font-size: .72rem;
 	font-weight: 760;
+	line-height: 1.15;
 	text-transform: capitalize;
 }
-.comment-card > .awtsmoosUniversalActionRail { margin-block-start: .5rem; min-inline-size: 0; max-inline-size: 100%; }
-.threadReferencePicker .awtsmoosRelationshipPicker { display: grid; gap: .35rem; min-inline-size: 0; }
-.threadReferencePicker .awtsmoosRelationshipPicker select { min-inline-size: 0; min-block-size: 44px; max-inline-size: 100%; border-radius: .65rem; }
-.comment-tools { display: flex; flex-wrap: wrap; gap: .35rem; min-inline-size: 0; max-inline-size: 100%; }
-.comment-tools :where(button,a) { min-inline-size: 0; min-block-size: 44px; max-inline-size: 100%; }
-@media (hover:hover) and (pointer:fine) {
-	.comment-tools :where(button,a):hover,
-	.commentRelationChip:hover { transform: translateY(-1px); filter: brightness(1.04); }
+
+body[data-comment-thread-page] .comment-card > .awtsmoosUniversalActionRail {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	margin-block-start: .15rem;
 }
-.comment-tools :where(button,a):active { transform: scale(.97); }
-.comment-tools :where(button,a):focus-visible { outline: 2px solid var(--social-focus,#67e8f9); outline-offset: 2px; }
-@media (prefers-reduced-motion:reduce) { .comment-card, .comment-tools :where(button,a), .commentRelationChip { transition: none; animation: none; } }
+
+body[data-comment-thread-page] .comment-tools {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .4rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+body[data-comment-thread-page] .comment-tools :where(button, a),
+body[data-comment-thread-page] .threadReferencePicker button {
+	min-inline-size: 0;
+	min-block-size: 48px;
+	max-inline-size: 100%;
+	transition:
+		transform 150ms ease,
+		filter 150ms ease,
+		border-color 150ms ease,
+		box-shadow 160ms ease;
+}
+
+body[data-comment-thread-page] .threadReferencePicker .awtsmoosRelationshipPicker {
+	display: grid;
+	gap: .4rem;
+	min-inline-size: 0;
+}
+
+body[data-comment-thread-page] .threadReferencePicker .awtsmoosRelationshipPicker select {
+	box-sizing: border-box;
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 48px;
+	max-inline-size: 100%;
+	padding-inline: .65rem;
+	border: 1px solid var(--thread-line);
+	border-radius: .7rem;
+	background: color-mix(in srgb, Canvas 96%, #4f46e5 4%);
+	color: inherit;
+	font: inherit;
+	font-size: max(1rem, 16px);
+}
+
+body[data-comment-thread-page] :where(
+	.comment-tools button,
+	.comment-tools a,
+	.threadReferencePicker button,
+	.threadReferencePicker select
+):focus-visible {
+	outline: 3px solid var(--thread-line-focus);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-comment-thread-page] :where(
+		.comment-tools button,
+		.comment-tools a,
+		.threadReferencePicker button
+	):hover {
+		transform: translateY(-1px);
+		filter: brightness(1.04);
+	}
+}
+
+body[data-comment-thread-page] :where(
+	.comment-tools button,
+	.comment-tools a,
+	.threadReferencePicker button
+):active {
+	transform: scale(.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-comment-thread-page] :where(
+		.comment-tools button,
+		.comment-tools a,
+		.threadReferencePicker button
+	) {
+		transition-duration: .01ms;
+	}
+}

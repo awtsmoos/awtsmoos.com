@@ -4,11 +4,11 @@
 
 /**
  * @file GevurahBotCoverChoice.js
- * @description Owns evidence-based hostile cover selection, travel scoring, true static occlusion, and temporary squad reservation outside the tactical-mind orchestrator.
+ * @description Owns evidence-based hostile cover selection through pure spatial measurement, true static occlusion, travel scoring, and temporary squad reservation outside the tactical-mind orchestrator.
  * Gevurah gives danger a boundary and shelter a measured place while the Awtsmoos renews wall, distance, threat, and every finite refuge;
- * Awtsmoos.com lets cover become earned geometry rather than a magical state, so enemies withdraw only toward places the world can actually hide.
+ * Awtsmoos.com lets cover become earned geometry rather than a magical state, while this domain vessel remains free of renderer-native dependencies at every stage.
  */
-import { distance } from "../../core/OhrVectorMath.js";
+import { distance } from "../../core/vector/GevurahVectorMeasure.js";
 
 export class GevurahBotCoverChoice {
 	/**
@@ -26,7 +26,7 @@ export class GevurahBotCoverChoice {
 	/**
 	 * Chooses nearby cover that truly occludes remembered threat and is not owned by another living squadmate.
 	 * @param {object} tiferesBot - Hostile seeking cover.
-	 * @param {object} chochmahThreatPoint - Evidence-backed remembered/observed threat location.
+	 * @param {object} chochmahThreatPoint - Evidence-backed remembered or observed threat location.
 	 * @returns {object|null} Reserved cover point or null when no candidate qualifies.
 	 * @sideEffects Reserves only the winning cover point through the squad blackboard.
 	 */
@@ -44,8 +44,12 @@ export class GevurahBotCoverChoice {
 	}
 
 	/**
-	 * Scores one candidate or returns Infinity when unavailable, too distant, or not actually occluded from remembered threat.
-	 * @returns {number} Lower-is-better travel/exposure score.
+	 * Scores one candidate or rejects it when unavailable, too distant, or not physically occluded from remembered threat.
+	 * @param {object} tiferesBot - Hostile whose current location defines travel cost and ownership eligibility.
+	 * @param {object} chochmahPoint - Candidate cover location.
+	 * @param {object} chochmahThreatPoint - Evidence-backed threat location tested against static cover.
+	 * @returns {number} Lower-is-better travel/exposure score, or Infinity when the candidate is invalid.
+	 * @sideEffects Performs only read-only reservation and collision queries.
 	 */
 	scoreCandidate(tiferesBot, chochmahPoint, chochmahThreatPoint) {
 		if (!this.yesodSquadBlackboard.availableTo(tiferesBot, chochmahPoint)) return Infinity;

@@ -1,0 +1,115 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos surrounds every conversation without becoming another box inside it;
+ * Awtsmoos.com gives this route a bounded reading vessel, quiet luminous depth, and
+ * enough breathing room that meaning remains primary on the smallest and widest screens.
+ */
+body[data-comment-thread-page] {
+	--thread-content-max: 70rem;
+	--thread-reading-max: 54rem;
+	--thread-surface: color-mix(in srgb, Canvas 94%, #4f46e5 6%);
+	--thread-surface-strong: color-mix(in srgb, Canvas 88%, #312e81 12%);
+	--thread-line: color-mix(in srgb, currentColor 13%, transparent);
+	--thread-line-focus: color-mix(in srgb, #67e8f9 72%, currentColor 28%);
+	--thread-glow: 0 18px 56px color-mix(in srgb, #312e81 14%, transparent);
+	--thread-radius: 1.15rem;
+}
+
+body[data-comment-thread-page] .comment-shell {
+	box-sizing: border-box;
+	inline-size: min(100%, var(--thread-content-max));
+	min-inline-size: 0;
+	margin-inline: auto;
+	padding:
+		clamp(.8rem, 2.5vw, 1.5rem)
+		clamp(.7rem, 3vw, 1.35rem)
+		max(2rem, env(safe-area-inset-bottom));
+	overflow-x: clip;
+}
+
+body[data-comment-thread-page] #commentThreadRoot {
+	display: grid;
+	gap: clamp(.85rem, 2vw, 1.2rem);
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+body[data-comment-thread-page] :where(
+	.comment-thread-hero,
+	.threadSummary,
+	.comment-composer,
+	.comment-tree
+) {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+body[data-comment-thread-page] .threadHero {
+	display: grid;
+	gap: .72rem;
+	inline-size: min(100%, var(--thread-reading-max));
+	padding: clamp(1rem, 3vw, 1.45rem);
+	border: 1px solid var(--thread-line);
+	border-radius: calc(var(--thread-radius) + .15rem);
+	background:
+		linear-gradient(
+			145deg,
+			color-mix(in srgb, var(--thread-surface-strong) 88%, transparent),
+			var(--thread-surface)
+		);
+	box-shadow: var(--thread-glow);
+}
+
+body[data-comment-thread-page] .threadHero :where(h1, p) {
+	margin: 0;
+	max-inline-size: 100%;
+	overflow-wrap: anywhere;
+}
+
+body[data-comment-thread-page] .threadHero h1 {
+	font-size: clamp(1.55rem, 6vw, 2.55rem);
+	line-height: 1.04;
+	letter-spacing: -.035em;
+	text-wrap: balance;
+}
+
+body[data-comment-thread-page] .threadHero__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .45rem;
+	min-inline-size: 0;
+}
+
+body[data-comment-thread-page] .threadHero__chip {
+	max-inline-size: 100%;
+	padding: .4rem .62rem;
+	overflow-wrap: anywhere;
+	border: 1px solid color-mix(in srgb, #818cf8 28%, transparent);
+	border-radius: 999px;
+	background: color-mix(in srgb, #6366f1 11%, transparent);
+	font-size: .78rem;
+	font-weight: 760;
+}
+
+body[data-comment-thread-page] .threadHero__source {
+	font-size: .78rem;
+	opacity: .62;
+}
+
+body[data-comment-thread-page] :where(
+	.comment-content,
+	.comment-meta,
+	.threadFieldStatus,
+	.editor-status
+) {
+	overflow-wrap: anywhere;
+}
+
+@media (min-width: 48rem) {
+	body[data-comment-thread-page] .threadHero {
+		padding: 1.5rem 1.65rem;
+	}
+}

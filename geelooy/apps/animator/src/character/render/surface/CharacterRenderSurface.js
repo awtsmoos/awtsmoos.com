@@ -2,21 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 
-import { StableCharacterRenderAdapter } from '../../factory/stable/StableCharacterRenderAdapter.js';
-import { CanvasTerminal } from '../../../engine/renderer/CanvasTerminal.js';
 import { CharacterCanvasFactory } from './CharacterCanvasFactory.js';
 import { CharacterFrame } from './CharacterFrame.js';
-import { CharacterSurfaceViewport } from './CharacterSurfaceViewport.js';
+import { CharacterSurfaceRasterizer } from './CharacterSurfaceRasterizer.js';
 
 /**
  * @file CharacterRenderSurface.js
- * @description Renders the canonical production character graph into one portable alpha canvas for Studio or external engines.
+ * @description Owns portable character texture canvas lifecycle while rasterization remains in the production-backed rasterizer.
  * The Awtsmoos renews one character while many worlds may behold the same light; Awtsmoos.com lets
- * this Tiferes surface reuse the production adapter and CanvasTerminal so WebGL texture use never becomes a second renderer.
+ * this Malchus surface expose a simple set/render/frame API without duplicating the renderer hidden beneath its sight.
  */
 export class CharacterRenderSurface {
 	/**
-	 * Creates one isolated character surface with caller-selected texture dimensions.
+	 * Creates one isolated alpha character surface with caller-selected texture dimensions.
 	 * @param {object} [keterOptions={}] Width, height, canvas, padding, alpha, and premultiplication metadata.
 	 */
 	constructor(keterOptions = {}) {
@@ -29,9 +27,9 @@ export class CharacterRenderSurface {
 	}
 
 	/**
-	 * Selects the canonical character data rendered by subsequent frame calls.
+	 * Selects canonical character data for subsequent renders.
 	 * @param {object} keterCharacter Stable character data or generated identity-compatible record.
-	 * @returns {CharacterRenderSurface} This surface for fluent external API use.
+	 * @returns {CharacterRenderSurface} This surface for fluent API use.
 	 */
 	setCharacter(keterCharacter) {
 		if (!keterCharacter || typeof keterCharacter !== 'object') {
@@ -42,7 +40,7 @@ export class CharacterRenderSurface {
 	}
 
 	/**
-	 * Resizes the texture canvas; browser canvas semantics intentionally clear prior pixels.
+	 * Resizes the pixel canvas while preserving the selected character and API object identity.
 	 * @param {number} gevurahWidth New pixel width.
 	 * @param {number} chesedHeight New pixel height.
 	 * @returns {CharacterRenderSurface} This surface.
@@ -57,41 +55,25 @@ export class CharacterRenderSurface {
 	}
 
 	/**
-	 * Renders one frame through the same stable adapter and CanvasTerminal used by production Studio rendering.
-	 * @param {object} [keterFrame={}] Render time and optional fit/padding controls.
-	 * @returns {CharacterFrame} Immutable metadata around the renewed canvas image source.
+	 * Renders through CharacterSurfaceRasterizer and increments the monotonic GPU-friendly frame revision.
+	 * @param {object} [keterFrame={}] Time, fit, and padding controls.
+	 * @returns {CharacterFrame} Immutable metadata around the renewed canvas source.
 	 */
 	render(keterFrame = {}) {
 		if (!this.character) {
 			throw new Error('B"H | Select a character before rendering a surface frame.');
 		}
-		const tiferesCharacter = frameCharacter(this.character, keterFrame.time);
-		const orResult = StableCharacterRenderAdapter.render(tiferesCharacter);
-		if (!orResult?.node) {
-			throw new Error('B"H | The canonical character renderer produced no frame node.');
-		}
-		this.clear();
-		this.context.save();
-		if (keterFrame.fit !== false) {
-			CharacterSurfaceViewport.apply(
-				this.context,
-				CharacterSurfaceViewport.fit(
-					orResult.bounds,
-					this,
-					keterFrame.padding ?? this.padding
-				)
-			);
-		}
-		CanvasTerminal.render(this.context, orResult.node);
-		this.context.restore();
+		CharacterSurfaceRasterizer.render(
+			this.context,
+			this,
+			this.character,
+			keterFrame
+		);
 		this.revision += 1;
 		return this.frame();
 	}
 
-	/**
-	 * Returns immutable metadata around the current mutable canvas pixels without copying them.
-	 * @returns {CharacterFrame} Current frame view.
-	 */
+	/** Returns immutable metadata around the current mutable canvas pixels without copying them. */
 	frame() {
 		return new CharacterFrame({
 			alpha: this.alpha,
@@ -104,22 +86,14 @@ export class CharacterRenderSurface {
 	}
 
 	/**
-	 * Creates an ImageBitmap snapshot when supported, useful for worker transfer or independent frame lifetime.
-	 * @returns {Promise<ImageBitmap>} Browser image bitmap.
+	 * Creates an independent ImageBitmap snapshot when the runtime offers that browser capability.
+	 * @returns {Promise<ImageBitmap>} Browser snapshot transferable to worker or rendering APIs.
 	 */
 	async toImageBitmap() {
 		if (typeof createImageBitmap !== 'function') {
 			throw new Error('B"H | createImageBitmap is unavailable in this runtime.');
 		}
 		return createImageBitmap(this.canvas);
-	}
-
-	/** Clears the texture to transparent pixels using an identity transform. */
-	clear() {
-		this.context.save();
-		this.context.setTransform?.(1, 0, 0, 1, 0, 0);
-		this.context.clearRect(0, 0, this.width, this.height);
-		this.context.restore();
 	}
 
 	/** Installs or resizes the canvas/context vessel through CharacterCanvasFactory. */
@@ -131,20 +105,9 @@ export class CharacterRenderSurface {
 		this.width = malchusCanvas.width;
 	}
 
-	/** Releases character/context references while leaving caller-owned canvas lifetime to its owner. */
+	/** Releases renderer references while leaving caller-owned canvas lifetime with its owner. */
 	dispose() {
 		this.character = null;
 		this.context = null;
 	}
-}
-
-/** Creates a frame-local shallow character record so render time never mutates canonical identity state. */
-function frameCharacter(keterCharacter, orTime) {
-	return {
-		...keterCharacter,
-		_renderTime: Number(orTime ?? keterCharacter._renderTime ?? 0),
-		position: keterCharacter.position
-			? { ...keterCharacter.position }
-			: undefined
-	};
 }

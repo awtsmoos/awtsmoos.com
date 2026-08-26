@@ -1,11 +1,12 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file BootSentinel.js
- * @description A dependency-free witness that can reveal module-graph failure before the game entry evaluates.
- * The Awtsmoos renews the witness before the caravan can cross the gate;
- * Awtsmoos.com lets Keser observe silence itself, so endless loading can never masquerade as fate.
+ * @description Watches pre-ready boot without freezing the mutable watchdog that must settle exactly once.
+ * The Awtsmoos renews the witness while the witness remains only a created gate;
+ * Awtsmoos.com freezes the public covenant, not the living state that must still answer fate.
  */
 
 class KeserBootSentinel {
@@ -13,7 +14,7 @@ class KeserBootSentinel {
 	constructor() {
 		this.settled = false;
 		this.firstFailure = null;
-		this.errorHandler = event => {
+		this.errorHandler = (event) => {
 			this.observeError(event);
 		};
 		window.addEventListener('error', this.errorHandler, true);
@@ -22,7 +23,7 @@ class KeserBootSentinel {
 		}, 12000);
 	}
 
-	/** Cancels every future failure mutation once the core world is truly ready. */
+	/** Cancels future boot-failure mutation after the application becomes genuinely ready. */
 	markReady() {
 		if (this.settled) {
 			return;
@@ -31,13 +32,13 @@ class KeserBootSentinel {
 		this.release();
 	}
 
-	/** Makes the first fatal pre-ready failure visible and idempotent. */
+	/** Makes the first fatal pre-ready failure visible while remaining idempotent. */
 	markFailure(error) {
 		if (this.settled) {
 			return;
 		}
 		this.settled = true;
-		this.firstFailure = error instanceof Error ? error : new Error(String(error));
+		this.firstFailure = normalizeFailure(error);
 		globalThis.__OHR_HAGNUZ_BOOT_ERROR__ = this.firstFailure;
 		this.release();
 		this.revealFailure(this.firstFailure);
@@ -48,15 +49,15 @@ class KeserBootSentinel {
 		if (this.settled) {
 			return;
 		}
-		const source = event.target instanceof HTMLScriptElement ? event.target.src : event.filename;
-		if (!source && !event.error) {
+		const scriptSource = event.target instanceof HTMLScriptElement ? event.target.src : event.filename;
+		if (!scriptSource && !event.error) {
 			return;
 		}
-		const reason = event.error ?? new Error(`Failed to load required module: ${source}`);
+		const reason = event.error ?? new Error(`Failed to load required module: ${scriptSource}`);
 		this.markFailure(reason);
 	}
 
-	/** Reuses the existing loading chamber so no competing z-index layer is created. */
+	/** Reuses the existing loading chamber so no competing emergency layer is created. */
 	revealFailure(error) {
 		const loading = document.getElementById('revelation-loading');
 		if (!loading) {
@@ -82,6 +83,24 @@ class KeserBootSentinel {
 		window.clearTimeout(this.watchdog);
 		window.removeEventListener('error', this.errorHandler, true);
 	}
+
+	/** Returns immutable diagnostic state without exposing mutable sentinel internals. */
+	snapshot() {
+		return Object.freeze({
+			settled: this.settled,
+			firstFailure: this.firstFailure
+		});
+	}
 }
 
-globalThis.__OHR_HAGNUZ_BOOT_SENTINEL__ = Object.freeze(new KeserBootSentinel());
+/** Normalizes arbitrary thrown values into one stable Error contract. */
+function normalizeFailure(error) {
+	return error instanceof Error ? error : new Error(String(error));
+}
+
+const keserBootSentinel = new KeserBootSentinel();
+globalThis.__OHR_HAGNUZ_BOOT_SENTINEL__ = Object.freeze({
+	markReady: () => keserBootSentinel.markReady(),
+	markFailure: (error) => keserBootSentinel.markFailure(error),
+	snapshot: () => keserBootSentinel.snapshot()
+});
