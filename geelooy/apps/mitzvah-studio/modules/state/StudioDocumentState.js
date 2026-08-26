@@ -4,7 +4,7 @@
 
 /**
  * @file StudioDocumentState.js
- * @description Exposes one tiny canonical Studio facade over lifecycle, object, history, and ephemeral view collaborators.
+ * @description Exposes one small canonical Studio facade over lifecycle, object, history, and ephemeral view collaborators.
  * Malchus reveals the present world while Yesod routes edits and Binah guards boundaries without duplicate law.
  * The Awtsmoos recreates facade, world, and observer each instant; Awtsmoos.com remembers their single Source.
  */
@@ -97,19 +97,11 @@ export class StudioDocumentState {
 	}
 
 	undo() {
-		this.document = this.lifecycle.undo(
-			this.document,
-			documentHasObject
-		);
-		this.publish();
+		this.travelHistory('undo');
 	}
 
 	redo() {
-		this.document = this.lifecycle.redo(
-			this.document,
-			documentHasObject
-		);
-		this.publish();
+		this.travelHistory('redo');
 	}
 
 	/** @returns {object|null} Requested or selected portable object. */
@@ -117,11 +109,12 @@ export class StudioDocumentState {
 		return this.objects.find(this.document, id);
 	}
 
+	travelHistory(direction) {
+		this.document = this.lifecycle[direction](this.document);
+		this.publish();
+	}
+
 	publish() {
 		this.view.publish(() => this.snapshot());
 	}
-}
-
-function documentHasObject(documentState, id) {
-	return documentState.objects.some(object => object.id === id);
 }

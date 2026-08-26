@@ -4,113 +4,87 @@
 
 /**
  * @file VegetationNatureApi.js
- * @description Adds simple semantic doors for flowers, grass motion, moss, vines, and patches above canonical Tzomayach generation.
- * The Awtsmoos renews meadow, blossom, and climbing vine before convenience names may divide their source;
- * Awtsmoos.com keeps one merciful surface while biology, ecology, motion, realism, and expert options remain the deeper course.
+ * @description Adds flowers, motion, moss, and vines above named cluster intentions and the canonical Tzomayach foundation.
+ * The Awtsmoos renews meadow, blossom, shrub, fern, moss, reed, and climbing vine before convenience names divide their source;
+ * Awtsmoos.com keeps one professional garden surface while biology, ecology, motion, realism, and expert options remain the deeper course.
  */
-import { VegetationNatureFoundationApi } from './VegetationNatureFoundationApi.js';
+
 import {
 	createFlowerNatureProfile,
 	listFlowerNatureProfiles
 } from './FlowerNatureProfile.js';
+import { VegetationNatureClusterApi } from './VegetationNatureClusterApi.js';
 import { createVegetationMotionIntent } from './VegetationMotionIntent.js';
 
-/** High-level vegetation facade with progressive disclosure rather than a second generator. */
-export class VegetationNatureApi extends VegetationNatureFoundationApi {
-	/**
-	 * Generates a semantic botanical patch while preserving the complete canonical cluster option surface.
-	 * @param {string} [yesodSpecies='daisy'] Canonical botanical species id.
-	 * @param {object} [keterOptions={}] Cluster, realism, ecology, and distribution options.
-	 * @returns {object} Canonical Tzomayach cluster result.
-	 */
-	patch(yesodSpecies = 'daisy', keterOptions = {}) {
-		return this.plantCluster(yesodSpecies, {
-			...keterOptions,
-			distribution: keterOptions.distribution ?? 'meadow'
+/** High-level vegetation facade with named common intentions and full expert escape hatches. */
+export class VegetationNatureApi extends VegetationNatureClusterApi {
+	/** Generates a semantic botanical patch with meadow placement by default. */
+	patch(species = 'daisy', options = {}) {
+		return this.plantCluster(species, {
+			...options,
+			distribution: options.distribution ?? 'meadow'
 		});
 	}
 
-	/**
-	 * Creates one canonical flower organism while preserving all plant-generation options.
-	 * @param {string} [yesodSpecies='daisy'] Canonical flower species id.
-	 * @param {object} [keterOptions={}] Canonical botanical generation options.
-	 * @returns {object} Canonical plant result.
-	 */
-	flower(yesodSpecies = 'daisy', keterOptions = {}) {
-		createFlowerNatureProfile(yesodSpecies);
-		return this.plant(yesodSpecies, keterOptions);
+	/** Creates one canonical flower organism. */
+	flower(species = 'daisy', options = {}) {
+		createFlowerNatureProfile(species);
+		return this.plant(species, options);
 	}
 
-	/**
-	 * Creates a deterministic flower patch; existing callers retain the historical cluster result contract.
-	 * @param {string} [yesodSpecies='daisy'] Canonical flower species id.
-	 * @param {object} [keterOptions={}] Cluster and ecology options.
-	 * @returns {object} Canonical plant-cluster result.
-	 */
-	flowers(yesodSpecies = 'daisy', keterOptions = {}) {
-		createFlowerNatureProfile(yesodSpecies);
-		return this.patch(yesodSpecies, keterOptions);
+	/** Creates a deterministic flower patch while preserving the historic cluster contract. */
+	flowers(species = 'daisy', options = {}) {
+		createFlowerNatureProfile(species);
+		return this.plantCluster(species, {
+			count: 24,
+			distribution: 'bouquet',
+			radius: 3,
+			...options
+		});
 	}
 
-	/**
-	 * Reveals immutable biological metadata for one canonical flower without generating geometry.
-	 * @param {string} [yesodSpecies='daisy'] Canonical flower species id.
-	 * @returns {Readonly<object>} Flower profile from the canonical botany catalog.
-	 */
-	flowerProfile(yesodSpecies = 'daisy') {
-		return createFlowerNatureProfile(yesodSpecies);
+	/** Alias revealing the cluster intent explicitly for discovery-driven callers. */
+	flowerCluster(species = 'daisy', options = {}) {
+		return this.flowers(species, options);
 	}
 
-	/**
-	 * Lists every canonical flower profile for tools, procedural selection, and discovery UIs.
-	 * @returns {ReadonlyArray<object>} Immutable flower-profile catalog without allocating plant geometry.
-	 */
+	/** Reveals immutable biological metadata for one canonical flower. */
+	flowerProfile(species = 'daisy') {
+		return createFlowerNatureProfile(species);
+	}
+
+	/** Lists canonical flower profiles without allocating geometry. */
 	listFlowers() {
 		return listFlowerNatureProfiles();
 	}
 
-	/**
-	 * Creates renderer-neutral motion/LOD intent reusable by grass, flowers, vines, leaves, and habitat systems.
-	 * @param {object} [keterOptions={}] Wind, flexibility, recovery, and LOD options.
-	 * @returns {Readonly<object>} Immutable vegetation motion intent.
-	 */
-	motion(keterOptions = {}) {
-		return createVegetationMotionIntent(keterOptions);
+	/** Creates renderer-neutral wind, flexibility, recovery, and LOD intent. */
+	motion(options = {}) {
+		return createVegetationMotionIntent(options);
 	}
 
-	/**
-	 * Creates a low-growing moss patch with understory placement by default.
-	 * @param {string} [yesodSpecies='sheet-moss'] Canonical moss species id.
-	 * @param {object} [keterOptions={}] Cluster, environment scoring, realism, quality, seed, and distribution overrides.
-	 * @returns {object} Canonical plant-cluster result using the enhanced moss specialist.
-	 */
-	moss(yesodSpecies = 'sheet-moss', keterOptions = {}) {
-		return this.patch(yesodSpecies, {
-			...keterOptions,
-			distribution: keterOptions.distribution ?? 'understory'
+	/** Creates a low-growing moss colony with understory placement by default. */
+	moss(species = 'sheet-moss', options = {}) {
+		return this.plantCluster(species, {
+			count: 48,
+			distribution: 'understory',
+			radius: 3.5,
+			...options
 		});
 	}
 
-	/**
-	 * Creates one guide-aware climbing vine through the canonical plant generator.
-	 * @param {string} [yesodSpecies='english-ivy'] Canonical vine species id.
-	 * @param {object} [keterOptions={}] Guide points, position, scale, realism, quality, seed, and expert botanical options.
-	 * @returns {object} Canonical plant result containing connected vine geometry.
-	 */
-	vine(yesodSpecies = 'english-ivy', keterOptions = {}) {
-		return this.plant(yesodSpecies, keterOptions);
+	/** Creates one guide-aware climbing vine. */
+	vine(species = 'english-ivy', options = {}) {
+		return this.plant(species, options);
 	}
 
-	/**
-	 * Creates a deterministic vine patch suitable for walls, edges, and bands.
-	 * @param {string} [yesodSpecies='english-ivy'] Canonical vine species id.
-	 * @param {object} [keterOptions={}] Count, radius, guide-aware options, environment scoring, quality, realism, seed, and distribution overrides.
-	 * @returns {object} Canonical plant-cluster result with edge distribution by default.
-	 */
-	vines(yesodSpecies = 'english-ivy', keterOptions = {}) {
-		return this.patch(yesodSpecies, {
-			...keterOptions,
-			distribution: keterOptions.distribution ?? 'edge'
+	/** Creates a deterministic vine patch with edge placement by default. */
+	vines(species = 'english-ivy', options = {}) {
+		return this.plantCluster(species, {
+			count: 18,
+			distribution: 'edge',
+			radius: 4,
+			...options
 		});
 	}
 }

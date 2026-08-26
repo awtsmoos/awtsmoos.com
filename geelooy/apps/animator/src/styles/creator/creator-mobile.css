@@ -2,23 +2,37 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos fits an entire world inside the smallest vessel without letting one control fall beyond the shore;
- * Awtsmoos.com bends the Creator Dock around thumbs, safe areas, narrow widths, and short heights while advanced depth remains in store.
+ * The Awtsmoos fits an entire production doorway inside the smallest vessel without letting one control fall beyond its shore;
+ * Awtsmoos.com turns the Creator into a safe-area bottom sheet for thumbs and short screens while advanced depth remains in store.
  */
 
 @media (max-width: 640px) {
 	[data-awtsmoos-creator] {
-		left: max(10px, env(safe-area-inset-left));
-		right: max(10px, env(safe-area-inset-right));
-		bottom: max(10px, env(safe-area-inset-bottom));
+		left: max(8px, env(safe-area-inset-left));
+		right: max(8px, env(safe-area-inset-right));
+		bottom: max(8px, env(safe-area-inset-bottom));
 		width: auto;
+		max-width: none;
 	}
 
 	[data-awtsmoos-creator] .aw-creator__panel {
-		width: 100%;
-		max-height: min(66dvh, 590px);
-		padding: 12px;
-		overflow-x: hidden;
+		position: fixed;
+		left: max(8px, env(safe-area-inset-left));
+		right: max(8px, env(safe-area-inset-right));
+		bottom: calc(max(8px, env(safe-area-inset-bottom)) + var(--aw-creator-touch) + 10px);
+		width: auto;
+		max-height: calc(100dvh - max(8px, env(safe-area-inset-top)) - max(8px, env(safe-area-inset-bottom)) - var(--aw-creator-touch) - 26px);
+		padding: 11px;
+		border-radius: 20px;
+	}
+
+	[data-awtsmoos-creator] .aw-creator__grabber {
+		display: block;
+		width: 38px;
+		height: 4px;
+		margin: 0 auto 9px;
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--aw-creator-muted) 38%, transparent);
 	}
 
 	[data-awtsmoos-creator] .aw-creator__actions {
@@ -30,46 +44,49 @@
 	}
 
 	[data-awtsmoos-creator] textarea {
-		min-height: 108px;
-		max-height: 30dvh;
+		min-height: 104px;
+		max-height: 28dvh;
 	}
 
-	[data-awtsmoos-creator] button,
-	[data-awtsmoos-creator] .aw-creator__advanced summary {
-		min-height: max(46px, var(--aw-touch-height, 44px));
+	[data-awtsmoos-creator] .aw-creator__metrics {
+		grid-template-columns: 1fr;
+	}
+
+	[data-awtsmoos-creator] .aw-creator__metric {
+		text-align: left;
 	}
 }
 
 @media (max-width: 380px) {
-	[data-awtsmoos-creator] .aw-creator__chip-grid {
+	[data-awtsmoos-creator] .aw-creator__chip-grid,
+	[data-awtsmoos-creator] .aw-creator__studio-grid {
 		grid-template-columns: 1fr;
 	}
 
+	[data-awtsmoos-creator] .aw-creator__studio-grid .aw-creator__wide {
+		grid-column: auto;
+	}
+
 	[data-awtsmoos-creator] .aw-creator__header {
-		gap: 8px;
+		gap: 7px;
 	}
 }
 
 @media (max-height: 560px) {
 	[data-awtsmoos-creator] .aw-creator__panel {
-		max-height: calc(100dvh - 82px - env(safe-area-inset-bottom));
-		padding: 10px;
-		overflow-x: hidden;
-		overflow-y: auto;
-	}
-
-	[data-awtsmoos-creator] .aw-creator__header {
-		margin-bottom: 8px;
+		max-height: calc(100dvh - max(6px, env(safe-area-inset-top)) - max(6px, env(safe-area-inset-bottom)) - 58px);
+		padding: 9px;
 	}
 
 	[data-awtsmoos-creator] textarea {
-		min-height: 78px;
-		max-height: 24dvh;
+		min-height: 72px;
+		max-height: 22dvh;
 	}
 
+	[data-awtsmoos-creator] .aw-creator__prompt-label,
 	[data-awtsmoos-creator] .aw-creator__advanced,
 	[data-awtsmoos-creator] .aw-creator__status {
-		margin-top: 8px;
+		margin-top: 7px;
 	}
 }
 

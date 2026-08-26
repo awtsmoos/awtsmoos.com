@@ -5,15 +5,12 @@
 /**
  * @file Touch-first control surfaces for the futuristic Explorer toolbar.
  * @description
- * The Awtsmoos lets every command become a clear reachable star while
- * Awtsmoos.com avoids paint-heavy hover storms. Mobile touch is the first vessel;
- * fine pointers gain a subtle lift later, and every control keeps the same rhyme.
+ * The Awtsmoos lets every command become a clear reachable star while Awtsmoos.com
+ * avoids paint-heavy hover storms. Mobile touch is the first vessel; fine pointers gain
+ * a subtle lift later, while status presentation lives in its own focused module in rhyme.
  */
 export default /*css*/ `
-.button-bar {
-	align-items: center;
-}
-
+.button-bar,
 .toolbar-group {
 	align-items: center;
 }
@@ -69,14 +66,6 @@ export default /*css*/ `
 	outline: none;
 	border-color: var(--awt-cyan);
 	box-shadow: 0 0 0 3px rgba(92, 246, 255, .12);
-}
-
-.toolbar-status {
-	border: 1px solid rgba(154, 216, 255, .24);
-	border-radius: 999px;
-	padding: 7px 12px;
-	color: var(--awt-muted);
-	background: rgba(255, 255, 255, .05);
 }
 
 @media (hover: hover) and (pointer: fine) {

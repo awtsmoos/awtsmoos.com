@@ -2,86 +2,72 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @module CommentTree
- * @description The Awtsmoos gathers many recursive voices into one conversation while Awtsmoos.com gives every visible branch
- * stable identity, persisted relation meaning, canonical reactions, universal actions, media, and honest tombstone silence.
+ * @module CommentTreeCompatibility
+ * @description
+ * The Awtsmoos keeps one public doorway steady while recursive order becomes more
+ * explicit behind it. Awtsmoos.com preserves historic tree helpers here while Binah,
+ * Chochmah, and Hod now own recursion, vocabulary, and relation rendering separately.
  */
-import { createCommentReactionRail } from './CommentReaction.js';
-import { createCommentUniversalActions } from './CommentUniversalActions.js';
-import { createElement as el } from './dom.js';
-import { createMedia, createPreview } from './media.js';
+import { revealRelationChips } from './tree/CommentRelationView.js';
+import { BinahCommentTreeFactory } from './tree/CommentTreeFactory.js';
+import {
+	revealArray,
+	revealCommentMetadata,
+	revealStableUrl
+} from './tree/CommentTreeVocabulary.js';
 
-export function createCommentTree(comments, options) {
-	if (!comments.length) return emptyTree(options);
-	return el('section', { className: 'comment-tree', attrs: { 'aria-label': 'Comment results' } },
-		comments.map(comment => createCommentCard(comment, options))
-	);
+/**
+ * Preserves the canonical recursive tree factory function used by the view controller.
+ * @param {object[]} chesedComments Canonical server comment tree.
+ * @param {object} tiferesOptions Reply, permission, memory, and reaction collaborators.
+ * @returns {HTMLElement} Accessible recursive comment result region.
+ */
+export function createCommentTree(chesedComments, tiferesOptions) {
+	return new BinahCommentTreeFactory(tiferesOptions).createTree(chesedComments);
 }
 
-function emptyTree(options) {
-	return el('section', { className: 'comment-tree', attrs: { 'aria-label': 'Comment results' } }, [
-		el('article', { className: 'comment-card state' }, [
-			el('h2', { text: 'No comments yet' }),
-			el('p', { text: options.canWrite ? 'This real thread is empty. You may begin it above.' : 'This real thread is empty.' })
-		])
-	]);
+/**
+ * Preserves direct comment-card manifestation for tests and specialized callers.
+ * @param {object} [binahComment={}] Server comment model.
+ * @param {object} tiferesOptions Reply, permission, memory, and reaction collaborators.
+ * @returns {HTMLElement} Comment card rendered at root visual depth.
+ */
+export function createCommentCard(binahComment = {}, tiferesOptions) {
+	return new BinahCommentTreeFactory(tiferesOptions).createCard(binahComment, 0);
 }
 
-function stableUrl(comment, commentId) {
-	return String(comment.url || (commentId ? `#${commentId}` : '#comment-thread-title'));
+/**
+ * Preserves the empty-tree helper while delegating capability-aware copy to Binah.
+ * @param {object} tiferesOptions Comment Thread interaction options.
+ * @returns {HTMLElement} Accessible empty-thread region.
+ */
+export function emptyTree(tiferesOptions) {
+	return new BinahCommentTreeFactory(tiferesOptions).createEmptyTree();
 }
 
-function relationChips(comment) {
-	return array(comment.links || comment.references)
-		.filter(reference => reference?.relation)
-		.map(reference => el('span', {
-			className: 'commentRelationChip',
-			text: String(reference.relation).replaceAll('_', ' ')
-		}));
+/** @param {unknown} yesodValue Possible array value. @returns {Array} Normalized array. */
+export function array(yesodValue) {
+	return revealArray(yesodValue);
 }
 
-function createCommentCard(comment = {}, options) {
-	const commentId = String(comment.id || comment.commentId || '');
-	const replySlot = el('div', { className: 'comment-reply-slot' });
-	const url = stableUrl(comment, commentId);
-	const attrs = commentId
-		? { id: commentId, tabindex: '-1', 'data-comment-id': commentId }
-		: { tabindex: '-1' };
-	const replies = array(comment.replies);
-	const reactionRail = !comment.deleted ? createCommentReactionRail(commentId, options.reactionContext) : null;
-	const actions = !comment.deleted ? createCommentUniversalActions({
-		document,
-		comment,
-		url,
-		canReply: options.canWrite,
-		onRemember: options.onRemember,
-		onReply: () => options.onReply(replySlot, commentId)
-	}) : null;
-	return el('article', { className: `comment-card${comment.deleted ? ' comment-tombstone' : ''}`, attrs }, [
-		el('div', { className: 'comment-meta', text: metadata(comment) }),
-		el('div', {
-			className: 'comment-content',
-			text: comment.deleted ? 'This comment was gathered back into silence.' : String(comment.content || comment.audioNoteText || '')
-		}),
-		el('div', { className: 'commentRelationList' }, relationChips(comment)),
-		el('div', { className: 'comment-media' }, array(comment.assets).map(createMedia)),
-		el('div', { className: 'comment-preview-grid' }, array(comment.previews).map(createPreview)),
-		reactionRail,
-		actions,
-		replySlot,
-		el('div', { className: 'comment-replies' }, replies.map(reply => createCommentCard(reply, options)))
-	].filter(Boolean));
+/** @param {object} binahComment Server comment. @returns {string} Human metadata summary. */
+export function metadata(binahComment) {
+	return revealCommentMetadata(binahComment);
 }
 
-function metadata(comment) {
-	const alias = comment.aliasId ? `@${comment.aliasId}` : 'Unknown alias';
-	const verse = comment.verseSection || 'root';
-	const subsection = comment.subsectionId ? ` / ${comment.subsectionId}` : '';
-	return `${alias} · ${verse}${subsection}`;
+/** @param {object} binahComment Server comment. @returns {HTMLElement[]} Semantic relation chips. */
+export function relationChips(binahComment) {
+	return revealRelationChips(binahComment);
 }
 
-function array(value) {
-	return Array.isArray(value) ? value : [];
+/**
+ * Preserves stable comment URL derivation for action/test consumers.
+ * @param {object} binahComment Server comment.
+ * @param {string} yesodCommentId Canonical comment identity.
+ * @returns {string} Explicit server URL or safe in-page fallback.
+ */
+export function stableUrl(binahComment, yesodCommentId) {
+	return revealStableUrl(binahComment, yesodCommentId);
 }
 
-export { array, createCommentCard, emptyTree, metadata, relationChips, stableUrl };
+export { BinahCommentTreeFactory };

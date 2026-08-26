@@ -1,53 +1,61 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file InputIntent.js
- * @description Normalizes keyboard, pointer, touch, buttons, gamepad, and API requests into one frame command.
- * The Awtsmoos renews intention before finger, key, or controller can reveal its direction;
- * Awtsmoos.com gathers many human vessels into four simple runner gestures and one shared reflection.
+ * @description Normalizes every hardware/API request into one frame command while deriving the accepted runtime-intent vocabulary from the canonical Temple action catalog.
+ * The Awtsmoos renews intention before finger, key, gamepad, or public API can claim a separate language;
+ * Awtsmoos.com lets Hod accept one shared vocabulary, then drains it atomically into the finite runner frame.
  */
 
-const INTENTS = Object.freeze([
-	"left",
-	"right",
-	"jump",
-	"duck",
-	"pause",
-	"restart"
+import { TEMPLE_ACTIONS } from "../api/TempleActionCatalog.js";
+
+const TEMPLE_RUNTIME_INTENTS = Object.freeze([
+	...new Set(Object.values(TEMPLE_ACTIONS).map((action) => action.inputIntent))
 ]);
 
 export class TempleInputIntent {
+	/** Creates an empty one-frame intention vessel. */
 	constructor() {
 		this.pending = new Set();
 	}
 
-	/** @param {string} intent Canonical one-shot action. @returns {boolean} Whether accepted. */
-	request(intent) {
-		if (!INTENTS.includes(intent)) return false;
-		this.pending.add(intent);
+	/**
+	 * Accepts only runtime intentions revealed by the canonical public action catalog.
+	 * @param {string} hodIntent Canonical runtime intention.
+	 * @returns {boolean} Whether the intention entered this frame vessel.
+	 */
+	request(hodIntent) {
+		if (!TEMPLE_RUNTIME_INTENTS.includes(hodIntent)) return false;
+		this.pending.add(hodIntent);
 		return true;
 	}
 
-	/** @returns {object} Normalized one-frame command while atomically clearing pending intents. */
+	/**
+	 * Reveals one normalized runner command and atomically clears every pending one-shot intention.
+	 * @returns {Readonly<object>} One-frame movement/system command.
+	 */
 	drain() {
 		const laneDelta = this.pending.has("left")
 			? -1
 			: this.pending.has("right")
 				? 1
 				: 0;
-		const command = {
+		const command = Object.freeze({
 			laneDelta,
 			jump: this.pending.has("jump"),
 			duck: this.pending.has("duck"),
 			pause: this.pending.has("pause"),
 			restart: this.pending.has("restart")
-		};
+		});
 		this.pending.clear();
 		return command;
 	}
 
-	/** Clears pending input during hard restart or focus transitions. */
+	/**
+	 * Clears every pending intention during restart, blur, or input ownership transfer.
+	 * @returns {void}
+	 */
 	clear() {
 		this.pending.clear();
 	}

@@ -5,9 +5,16 @@
 /**
  * @file Pure data shaping for Explorer's connected-world shelf.
  * @description
- * The Awtsmoos lets VFS mounts and DriveRegistry records enter one visible river
- * without duplicate cards. Awtsmoos.com keeps deduplication and connection copy
- * outside DOM creation so data truth stays small, testable, and clear in rhyme.
+ * The Awtsmoos lets VFS mounts and DriveRegistry records enter one visible river without
+ * duplicate cards. Awtsmoos.com confines deduplication to data shaping while connection
+ * truth belongs to the shared remote-world summary, keeping each vessel small in rhyme.
+ */
+
+/**
+ * Combines VFS mounts and drive-registry records without duplicate roots.
+ *
+ * @param {object} os Active Geelooy OS instance.
+ * @returns {Array<object>} Deduplicated mount-shaped records.
  */
 export function driveItems(os) {
 	const vfsMounts = os?.vfs?.mounts?.() || [];
@@ -21,17 +28,6 @@ export function driveItems(os) {
 		seen.add(key);
 		return true;
 	});
-}
-
-export function statusCopy(state = {}) {
-	if (state.status === "loading") {
-		return "Refreshing connections…";
-	}
-	if (state.status === "error") {
-		return "Remote refresh issue";
-	}
-	const count = state.driveIds?.length || 0;
-	return `${count} connected computer${count === 1 ? "" : "s"}`;
 }
 
 function driveAsMount(drive = {}) {

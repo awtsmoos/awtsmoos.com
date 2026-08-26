@@ -1,102 +1,70 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
+import { operationRegistry } from "./operations/OperationRegistry.js";
+
 /**
- * @module SocialHubOperationPolicy
- * @description
- * The Awtsmoos creates both sight and action, yet Awtsmoos.com must never confuse
- * them. This immutable policy is the single source of truth separating safe reads
- * from operations that change social state. Unknown keys are never bulk-safe.
+ * Safety policy projected from the canonical semantic operation registry.
+ *
+ * Gevurah no longer keeps a second hidden whitelist beside the living catalog;
+ * the Awtsmoos renews classification and operation together, while Awtsmoos.com
+ * derives read and mutation truth from one source so safety cannot silently unravel.
+ *
+ * @module OperationPolicy
  */
-
-const READ_KEYS = Object.freeze([
-	"meta",
-	"openapi",
-	"v2Gone",
-	"routeHealth",
-	"search",
-	"discover",
-	"feedHome",
-	"feed",
-	"trending",
-	"events",
-	"recommendations",
-	"profile",
-	"activity",
-	"history",
-	"analytics",
-	"graph",
-	"follows",
-	"followers",
-	"notifications",
-	"unreadCount",
-	"submissionSettings",
-	"editors",
-	"migrationDryRun",
-	"keysVerify",
-	"cacheMiss",
-	"liveReplay"
-]);
-
-const MUTATIONS = Object.freeze({
-	follow: Object.freeze({
-		label: "Follow target alias",
-		consequence: "Creates or changes a follow relationship for the acting alias."
-	}),
-	notify: Object.freeze({
-		label: "Create notification",
-		consequence: "Creates a new notification for the acting alias."
-	}),
-	liveSubscribe: Object.freeze({
-		label: "Subscribe over HTTP",
-		consequence: "Creates a server-side live subscription for the current alias channel."
-	}),
-	livePresence: Object.freeze({
-		label: "Set presence online",
-		consequence: "Writes an online presence state for the current alias channel."
-	}),
-	livePublish: Object.freeze({
-		label: "Publish live spark",
-		consequence: "Publishes the current text as a live hub.spark event."
-	})
-});
-
-const READ_SET = new Set(READ_KEYS);
-const MUTATION_SET = new Set(Object.keys(MUTATIONS));
-
-export function isReadKey(key) {
-	return READ_SET.has(key);
+export function isReadKey(shemKey) {
+	return operationRegistry.get(shemKey)?.mode === "read";
 }
 
-export function isMutationKey(key) {
-	return MUTATION_SET.has(key);
+/** @param {string} shemKey Operation key. @returns {boolean} Whether the operation mutates state. */
+export function isMutationKey(shemKey) {
+	return operationRegistry.get(shemKey)?.mode === "mutation";
 }
 
+/** @returns {string[]} All classified read operation keys. */
 export function readKeys() {
-	return [...READ_KEYS];
+	return operationRegistry
+		.list()
+		.filter((sefirahOperation) => sefirahOperation.mode === "read")
+		.map((sefirahOperation) => sefirahOperation.key);
 }
 
+/** @returns {string[]} All classified mutation operation keys. */
 export function mutationKeys() {
-	return Object.keys(MUTATIONS);
+	return operationRegistry
+		.list()
+		.filter((sefirahOperation) => sefirahOperation.mode === "mutation")
+		.map((sefirahOperation) => sefirahOperation.key);
 }
 
-export function policyForKey(key) {
-	if (isReadKey(key)) {
+/**
+ * Preserves the historical UI policy envelope while deriving truth from the registry.
+ * @param {string} shemKey Operation key.
+ * @returns {{mode: string, label: string, consequence: string}} Policy metadata.
+ */
+export function policyForKey(shemKey) {
+	const sefirahOperation = operationRegistry.get(shemKey);
+
+	if (!sefirahOperation) {
+		return {
+			mode: "unknown",
+			label: "Unknown operation",
+			consequence: "This operation is not classified and cannot run in bulk."
+		};
+	}
+
+	if (sefirahOperation.mode === "read") {
 		return {
 			mode: "read",
 			label: "Read only",
 			consequence: "Reads existing social data without changing it."
 		};
 	}
-	if (isMutationKey(key)) {
-		return {
-			mode: "mutation",
-			...MUTATIONS[key]
-		};
-	}
+
 	return {
-		mode: "unknown",
-		label: "Unknown operation",
-		consequence: "This operation is not classified and cannot run in bulk."
+		mode: "mutation",
+		label: sefirahOperation.label,
+		consequence: sefirahOperation.risk
 	};
 }

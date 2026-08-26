@@ -4,7 +4,7 @@
 
 /**
  * @file StudioDocumentLifecycle.js
- * @description Owns document-boundary transitions and history travel apart from ordinary object mutation.
+ * @description Owns document-boundary transitions, history travel, and selection reconciliation across restored worlds.
  * Binah guards the boundary between worlds while Yesod restores reversible moments without leaking lifecycle into Malchus.
  * The Awtsmoos recreates old world, new world, and traveler each instant; Awtsmoos.com remembers their single Source.
  */
@@ -17,7 +17,7 @@ import {
 export class StudioDocumentLifecycle {
 	/**
 	 * @param {StudioHistoryController} history Reversible-history coordinator.
-	 * @param {StudioDocumentMutations} mutations Mutation/identity coordinator.
+	 * @param {StudioDocumentMutations} mutations Mutation and identity coordinator.
 	 * @param {StudioViewSession} view Ephemeral authoring-view state.
 	 */
 	constructor(history, mutations, view) {
@@ -34,7 +34,7 @@ export class StudioDocumentLifecycle {
 		);
 	}
 
-	/** @returns {object} Valid normalized imported/stored world with clean history. */
+	/** @returns {object} Valid normalized world with a clean history boundary. */
 	load(documentState) {
 		const normalized = normalizeStudioDocument(documentState);
 		return this.replace(
@@ -44,16 +44,16 @@ export class StudioDocumentLifecycle {
 	}
 
 	/** @returns {object} Previous reversible document snapshot. */
-	undo(documentState, exists) {
+	undo(documentState) {
 		const document = this.history.undo(documentState);
-		this.reconcileSelection(exists, document);
+		this.reconcileSelection(document);
 		return document;
 	}
 
 	/** @returns {object} Redone reversible document snapshot. */
-	redo(documentState, exists) {
+	redo(documentState) {
 		const document = this.history.redo(documentState);
-		this.reconcileSelection(exists, document);
+		this.reconcileSelection(document);
 		return document;
 	}
 
@@ -64,9 +64,11 @@ export class StudioDocumentLifecycle {
 		return documentState;
 	}
 
-	reconcileSelection(exists, documentState) {
+	reconcileSelection(documentState) {
 		this.view.reconcileSelection(id => {
-			return exists(documentState, id);
+			return documentState.objects.some(object => {
+				return object.id === id;
+			});
 		});
 	}
 }

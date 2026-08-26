@@ -3,15 +3,16 @@
 // Blessed is He
 
 /**
- * @file Small live Explorer shelf orchestrating connected worlds and the SSH doorway.
+ * @file Live Explorer shelf orchestrating mounted worlds, global health, and SSH addition.
  * @description
- * The Awtsmoos gathers local, tunnel, SSH, preview, and virtual drives without
- * making one component own every visual law. Awtsmoos.com lets one add-card,
- * one status vessel, and many focused chips refresh together in a living rhyme.
+ * The Awtsmoos gathers local, tunnel, SSH, preview, and virtual drives without making
+ * one component invent connection language. Awtsmoos.com renders the shared world summary,
+ * one add-card, and focused chips together so global and local state remain one rhyme.
  */
 import { createElement } from "/scripts/awtsmoos/ui/basic.js";
 import { createDriveChip } from "./driveChip.js";
-import { driveItems, statusCopy } from "./driveShelfData.js";
+import { driveItems } from "./driveShelfData.js";
+import { remoteWorldSummary } from "./remoteWorldSummary.js";
 import createSshDriveControl from "./sshDriveControl.js";
 import { openSshDriveDialog } from "./sshDriveDialog.js";
 
@@ -38,16 +39,16 @@ export default function createDriveShelf({ os, onNavigate }) {
 	});
 
 	function update() {
-		const chips = driveItems(os).map(mount => {
-			return createDriveChip({
-				os,
-				mount,
-				onNavigate,
-				onReconnect: reconnect
-			});
-		});
+		const mounts = driveItems(os);
+		const summary = remoteWorldSummary(os, mounts);
+		const chips = mounts.map(mount => createDriveChip({
+			os,
+			mount,
+			onNavigate,
+			onReconnect: reconnect
+		}));
 		shelf.replaceChildren(
-			createStatusNode(os),
+			createStatusNode(summary),
 			sshControl.dom,
 			...chips
 		);
@@ -60,24 +61,28 @@ export default function createDriveShelf({ os, onNavigate }) {
 	};
 }
 
-function createStatusNode(os) {
-	const state = os?.remoteDriveState || {};
-	const copy = statusCopy(state);
-	return createElement({
+function createStatusNode(summary) {
+	const status = createElement({
 		tag: "div",
 		attributes: {
 			class: "drive-shelf-status",
-			"data-status": state.status || "idle",
-			title: state.lastError || copy
-		},
-		html: escapeHtml(copy)
+			"data-state": summary.state,
+			role: "status",
+			"aria-live": "polite",
+			"aria-label": summary.ariaLabel,
+			title: summary.detail
+		}
 	});
+	status.append(
+		textNode("drive-shelf-status-label", summary.label),
+		textNode("drive-shelf-status-detail", summary.detail)
+	);
+	return status;
 }
 
-function escapeHtml(value) {
-	return String(value || "").replace(/[&<>]/g, character => ({
-		"&": "&amp;",
-		"<": "&lt;",
-		">": "&gt;"
-	}[character]));
+function textNode(className, value) {
+	const span = document.createElement("span");
+	span.className = className;
+	span.textContent = value;
+	return span;
 }

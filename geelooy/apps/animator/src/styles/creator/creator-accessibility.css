@@ -2,16 +2,23 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos lets selected intention glow without confusing suggestion for mutation or focus for decoration;
- * Awtsmoos.com keeps accessibility cues local, high-contrast capable, and quiet until advanced craft invites revelation.
+ * The Awtsmoos lets selected intention, keyboard focus, forced color, and reduced motion remain truthful rather than decorative show;
+ * Awtsmoos.com keeps accessibility cues local and complete so every creator can enter advanced craft through a visible door.
  */
 
+[data-awtsmoos-creator] button:focus-visible,
+[data-awtsmoos-creator] textarea:focus-visible,
+[data-awtsmoos-creator] summary:focus-visible {
+	outline: 2px solid var(--aw-creator-focus);
+	outline-offset: 3px;
+}
+
 [data-awtsmoos-creator] [data-creator-preset][data-selected="true"] {
-	border-color: color-mix(in srgb, var(--aw-focus, #80aaff) 78%, transparent);
-	background: color-mix(in srgb, var(--aw-focus, #80aaff) 18%, var(--aw-surface, #0e1320));
+	border-color: color-mix(in srgb, var(--aw-creator-focus) 78%, transparent);
+	background: color-mix(in srgb, var(--aw-creator-focus) 18%, var(--aw-creator-surface));
 	box-shadow:
-		inset 0 0 0 1px color-mix(in srgb, var(--aw-focus, #80aaff) 22%, transparent),
-		0 7px 22px color-mix(in srgb, var(--aw-focus, #80aaff) 14%, transparent);
+		inset 0 0 0 1px color-mix(in srgb, var(--aw-creator-focus) 22%, transparent),
+		0 7px 22px color-mix(in srgb, var(--aw-creator-focus) 14%, transparent);
 }
 
 [data-awtsmoos-creator] [data-creator-preset][data-selected="true"]::before {
@@ -20,38 +27,31 @@
 	font-weight: 800;
 }
 
-[data-awtsmoos-creator] .aw-creator__hints {
-	margin: 9px 0 0;
-	color: var(--aw-text-muted, #9da9bd);
-	font-size: 11px;
-	line-height: 1.5;
-	overflow-wrap: anywhere;
-}
-
-[data-awtsmoos-creator] .aw-creator__hints kbd {
-	display: inline-block;
-	min-width: 22px;
-	padding: 2px 5px;
-	border: 1px solid color-mix(in srgb, var(--aw-text-muted, #9da9bd) 30%, transparent);
-	border-radius: 6px;
-	background: color-mix(in srgb, var(--aw-bg, #080b12) 78%, transparent);
-	box-shadow: inset 0 -1px rgba(255, 255, 255, .05);
-	font: 700 10px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
-	text-align: center;
-}
-
 [data-awtsmoos-creator][data-busy="true"] .aw-creator__status::before {
 	content: '✦ ';
-	color: var(--aw-focus, #80aaff);
+	color: var(--aw-creator-focus);
 }
 
 @media (forced-colors: active) {
+	[data-awtsmoos-creator] button,
+	[data-awtsmoos-creator] textarea,
+	[data-awtsmoos-creator] summary,
+	[data-awtsmoos-creator] .aw-creator__metric {
+		border-color: ButtonText;
+	}
+
 	[data-awtsmoos-creator] [data-creator-preset][data-selected="true"] {
 		outline: 2px solid Highlight;
 		outline-offset: 2px;
 	}
+}
 
-	[data-awtsmoos-creator] .aw-creator__hints kbd {
-		border-color: ButtonText;
+@media (prefers-reduced-motion: reduce) {
+	[data-awtsmoos-creator],
+	[data-awtsmoos-creator] * {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
 	}
 }

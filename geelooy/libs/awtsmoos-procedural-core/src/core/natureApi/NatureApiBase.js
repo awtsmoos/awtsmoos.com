@@ -4,16 +4,17 @@
 
 /**
  * @file NatureApiBase.js
- * @description Holds mature Nature domains, operation discovery, and the smallest direct doors so capability can grow without a god-object.
- * The Awtsmoos, Atzmus beyond every divided kingdom, renews Chai, Tzomayach, water, forest, and ecosystem as one reality;
- * Awtsmoos.com lets this Keser-like base coordinate their entrances while immutable capability metadata reveals depth without stealing specialist authority.
+ * @description Holds mature Nature domains and obvious professional verbs without becoming a generator god-object.
+ * The Awtsmoos renews Chai, Tzomayach, water, forest, dwelling, and ecosystem before one API names their gates;
+ * Awtsmoos.com lets beginners speak plainly while immutable specialists preserve deep authority, evidence, and expert states.
  */
 
+import { BuildingNatureApi } from './BuildingNatureApi.js';
+import { NatureCapabilityApi } from './capabilities/NatureCapabilityApi.js';
 import { CreatureNatureApi } from './CreatureNatureApi.js';
 import { EcosystemNatureApi } from './EcosystemNatureApi.js';
 import { ForestNatureApi } from './ForestNatureApi.js';
 import { NatureCatalogApi } from './NatureCatalogApi.js';
-import { NatureCapabilityApi } from './capabilities/NatureCapabilityApi.js';
 import { normalizeNatureProfile } from './NatureApiProfiles.js';
 import { normalizeNatureSeed } from './NatureApiSeed.js';
 import { VegetationNatureApi } from './VegetationNatureApi.js';
@@ -21,23 +22,19 @@ import { WaterNatureApi } from './WaterNatureApi.js';
 
 /** Shared immutable domain foundation for the developer-facing Nature API. */
 export class NatureApiBase {
-	/**
-	 * Creates mature specialist facades, direct-operation discovery, and shared deterministic defaults.
-	 * @param {object} [options={}] Shared seed, quality, realism, and optional provider defaults.
-	 */
+	/** Creates mature specialist facades and shared deterministic defaults. */
 	constructor(options = {}) {
-		const tiferesProfile = normalizeNatureProfile(options);
+		const profile = normalizeNatureProfile(options);
 		this.defaults = Object.freeze({
-			quality: tiferesProfile.quality,
-			realism: tiferesProfile.realism,
+			quality: profile.quality,
+			realism: profile.realism,
 			seed: normalizeNatureSeed(options.seed)
 		});
 		this.catalog = Object.freeze(new NatureCatalogApi());
 		this.capabilities = Object.freeze(new NatureCapabilityApi({
-			providers: {
-				textureGenerator: options.textureGenerator ?? null
-			}
+			providers: { textureGenerator: options.textureGenerator ?? null }
 		}));
+		this.buildings = Object.freeze(new BuildingNatureApi(this.defaults));
 		this.creatures = Object.freeze(new CreatureNatureApi(this.defaults));
 		this.ecosystems = Object.freeze(new EcosystemNatureApi(this.defaults));
 		this.forests = Object.freeze(new ForestNatureApi(this.defaults));
@@ -45,7 +42,7 @@ export class NatureApiBase {
 		this.water = Object.freeze(new WaterNatureApi(this.defaults));
 	}
 
-	/** Creates one creature through the canonical Chai facade. */
+	/** Creates one continuous-capable creature through canonical Chai. */
 	creature(speciesId, options = {}) {
 		return this.creatures.create(speciesId, options);
 	}
@@ -55,27 +52,62 @@ export class NatureApiBase {
 		return this.vegetation.plant(species, options);
 	}
 
-	/** Plans one realistic botanical population with deterministic patch structure. */
+	/** Plans one mixed realistic botanical population. */
 	flora(options = {}) {
 		return this.vegetation.population(options);
 	}
 
-	/** Plans one ecological grass field with shared quality and realism defaults. */
+	/** Plans one ecological grass field. */
 	grass(options = {}) {
 		return this.vegetation.grass(options);
 	}
 
-	/** Generates one canonical tree through the one-skeleton forest facade. */
+	/** Creates one visible grass tuft cluster from a canonical grass species. */
+	grassCluster(species = 'maiden-grass', options = {}) {
+		return this.vegetation.grassCluster(species, options);
+	}
+
+	/** Creates one shrub organism. */
+	bush(species = 'rose-bush', options = {}) {
+		return this.vegetation.bush(species, options);
+	}
+
+	/** Creates one deterministic shrub colony. */
+	bushCluster(species = 'rose-bush', options = {}) {
+		return this.vegetation.bushCluster(species, options);
+	}
+
+	/** Creates one deterministic flower colony. */
+	flowerCluster(species = 'daisy', options = {}) {
+		return this.vegetation.flowerCluster(species, options);
+	}
+
+	/** Creates one dense groundcover colony. */
+	groundcover(species = 'creeping-thyme', options = {}) {
+		return this.vegetation.groundcoverCluster(species, options);
+	}
+
+	/** Generates one canonical one-skeleton tree. */
 	tree(preset, options = {}) {
 		return this.forests.tree(preset, options);
 	}
 
-	/** Plans one habitat-aware forest with deterministic succession evidence. */
+	/** Plans one habitat-aware forest with succession evidence. */
 	forest(options = {}) {
 		return this.forests.plan(options);
 	}
 
-	/** Creates one bounded river runtime through the water facade. */
+	/** Creates one structurally planned terrain-aware building. */
+	building(style = 'village', options = {}) {
+		return this.buildings.create(style, options);
+	}
+
+	/** Friendly synonym for a dwelling-focused building plan. */
+	house(style = 'village', options = {}) {
+		return this.buildings.create(style, options);
+	}
+
+	/** Creates one bounded river runtime. */
 	river(preset = 'river', options = {}) {
 		return this.water.river(preset, options);
 	}
@@ -85,7 +117,7 @@ export class NatureApiBase {
 		return this.ecosystems.plan(options);
 	}
 
-	/** Provides a more ecological synonym for `world()` without creating another planner. */
+	/** Ecological synonym for world planning without a second planner. */
 	biome(options = {}) {
 		return this.ecosystems.plan(options);
 	}

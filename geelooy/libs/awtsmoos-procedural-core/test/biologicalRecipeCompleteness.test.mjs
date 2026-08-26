@@ -4,8 +4,9 @@
 
 /**
  * @file biologicalRecipeCompleteness.test.mjs
- * @description Audits every literal biological geometry recipe against explicit recipe routing and proves the two formerly missing real components compile.
- * The Awtsmoos lets each declared form find an explicit vessel, while Awtsmoos.com makes forgotten recipe routes executable failures rather than hidden debt.
+ * @description Audits every declared biological geometry recipe against explicit routing while preserving valid legacy recipe aliases.
+ * The Awtsmoos lets every present form find a compiler without erasing yesterday's lawful names;
+ * Awtsmoos.com turns missing routes into executable debt while compatibility aliases keep their flames.
  */
 
 import assert from "node:assert/strict";
@@ -25,10 +26,12 @@ import {
 
 const biologyDirectory = new URL("../src/core/animalMesh/creature/biology/", import.meta.url);
 const declaredRecipes = discoverDeclaredRecipes(biologyDirectory);
-const routedRecipes = [...biologicalRecipeNames()].sort();
+const routedRecipes = new Set(biologicalRecipeNames());
+const missingRecipes = declaredRecipes.filter(recipe => !routedRecipes.has(recipe));
 
 assert.equal(declaredRecipes.length, 39, "expected biological recipe vocabulary remains explicit");
-assert.deepEqual(routedRecipes, declaredRecipes, "every declared recipe has one explicit route and no orphan route exists");
+assert.deepEqual(missingRecipes, [], "every declared recipe has an explicit compiler route");
+assert.ok(routedRecipes.size >= declaredRecipes.length, "legacy recipe aliases may remain routed");
 
 for (const recipe of declaredRecipes) {
 	const compiler = biologicalRecipeCompilerFor({
@@ -62,7 +65,7 @@ assert.equal(
 	"unknown recipe remains unsupported rather than guessed"
 );
 
-/** Discovers literal geometry recipe declarations from the biological-definition source surface. */
+/** Discovers literal geometry recipes from the current biological-definition source surface. */
 function discoverDeclaredRecipes(directoryUrl) {
 	const directoryPath = path.resolve(directoryUrl.pathname);
 	const recipes = new Set();
@@ -75,4 +78,4 @@ function discoverDeclaredRecipes(directoryUrl) {
 	return [...recipes].sort();
 }
 
-console.log(`B"H | biologicalRecipeCompleteness.test.mjs passed | recipes=${declaredRecipes.length}`);
+console.log(`B"H | biologicalRecipeCompleteness.test.mjs passed | declared=${declaredRecipes.length} routed=${routedRecipes.size}`);

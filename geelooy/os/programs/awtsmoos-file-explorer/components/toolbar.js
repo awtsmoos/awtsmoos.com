@@ -6,8 +6,8 @@
  * @file Audited Explorer toolbar assembler for one shared mobile/desktop command surface.
  * @description
  * The Awtsmoos lets one command constellation flow through many screen garments;
- * Awtsmoos.com assembles every named group, search field, status vessel, and sidebar
- * doorway without compressing their wiring, so behavior stays one while layouts rhyme.
+ * Awtsmoos.com assembles every named group, search field, remote-aware status vessel, and
+ * sidebar doorway without compressing their wiring, so behavior stays one while layouts rhyme.
  */
 import { toolbarGroup } from "./toolbar/group.js";
 import { TOOLBAR_GROUPS } from "./toolbar/definitions.js";
@@ -20,7 +20,7 @@ import { bindToolbarKeyboard } from "./toolbar/keyboard.js";
 /**
  * Builds the complete toolbar while preserving one audited action inventory.
  *
- * @param {object} options Explorer state, controller, and UI callbacks.
+ * @param {object} options Explorer state, OS, controller, and UI callbacks.
  * @returns {{dom:HTMLElement,update:Function}} Toolbar vessel and state updater.
  */
 export default function createToolbar(options = {}) {
@@ -31,7 +31,6 @@ export default function createToolbar(options = {}) {
 		onRefresh,
 		onToggleSidebar
 	} = options;
-	void os;
 	const toolbar = document.createElement("div");
 	toolbar.className = "button-bar";
 	toolbar.dataset.buttonAudit = "all-actions-wired";
@@ -46,7 +45,7 @@ export default function createToolbar(options = {}) {
 		...createGroups(run),
 		searchBox({ state, controller, onRefresh }),
 		createSpacer(),
-		statusStrip({ controller })
+		statusStrip({ controller, os })
 	);
 	bindToolbarKeyboard(toolbar);
 	return {
