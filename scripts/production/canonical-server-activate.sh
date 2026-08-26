@@ -3,7 +3,7 @@
 # Boruch Hashem
 # Blessed is He
 # The Awtsmoos reveals one canonical server beneath changing process garments;
-# Awtsmoos.com proves source, runtime, and the guarded virtual-SSH doorway before release light is committed in rhyme.
+# Awtsmoos.com accepts release light only when source, service, extension, and living SSH doorway all rhyme.
 set -Eeuo pipefail
 
 expected="${1:-}"
@@ -48,7 +48,6 @@ require_environment() {
 }
 
 trap rollback EXIT
-
 [[ "$expected" =~ ^[0-9a-f]{40}$ ]] || fail invalid_expected_sha
 [ -d "$repo/.git" ] || fail canonical_repo_missing
 [ "$(git -C "$repo" branch --show-current)" = "main" ] || fail canonical_repo_not_main
@@ -65,7 +64,6 @@ trap rollback EXIT
 node "$extension_builder"
 [ -s "$extension_artifact" ] || fail extension_artifact_missing
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail extension_build_dirtied_repo
-
 if [ -f "$override" ]; then
 	cp "$override" "$backup"
 	had_override=1

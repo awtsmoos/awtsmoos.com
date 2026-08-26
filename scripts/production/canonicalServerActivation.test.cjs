@@ -3,11 +3,11 @@
 // Blessed is He
 
 /**
- * @file Canonical activation contract across source refusal, listener truth, and rollback.
+ * @file Canonical activation contract across source, environment, socket, and rollback.
  * @description
- * The Awtsmoos lets a production release approach only through witnessed source and
- * runtime garments. Awtsmoos.com proves both virtual-SSH environment and living socket,
- * then proves missing variables or doorway presence restore the former vessel in rhyme.
+ * The Awtsmoos lets production approach only through witnessed source and living
+ * runtime garments. Awtsmoos.com proves dirty source, missing environment, and absent
+ * virtual-SSH listener each restore the former vessel instead of blessing a false dawn.
  */
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -23,8 +23,8 @@ try {
 	const sha = fixture.git(fixture.repo, "rev-parse", "HEAD");
 	proveDirtySourceRefusal(fixture, sha);
 	proveCompleteEnvironmentActivation(fixture, sha);
-	proveListenerAbsenceRollback(fixture, sha);
 	proveEnvironmentDriftRollback(fixture, sha);
+	proveMissingListenerRollback(fixture, sha);
 	console.log(JSON.stringify({
 		ok: true,
 		suite: "canonical-server-activation"
@@ -33,6 +33,12 @@ try {
 	fixture.cleanup();
 }
 
+/**
+ * Proves dirty canonical source cannot mutate the installed service override.
+ * @param {CanonicalActivationFixture} current Isolated production fixture.
+ * @param {string} sha Canonical expected commit SHA.
+ * @returns {void}
+ */
 function proveDirtySourceRefusal(current, sha) {
 	current.writeOverride("OLD\n");
 	const dirty = `${current.repo}/dirty.txt`;
@@ -44,6 +50,12 @@ function proveDirtySourceRefusal(current, sha) {
 	fs.rmSync(dirty);
 }
 
+/**
+ * Proves complete service environment plus a real listener witness commits activation.
+ * @param {CanonicalActivationFixture} current Isolated production fixture.
+ * @param {string} sha Canonical expected commit SHA.
+ * @returns {void}
+ */
 function proveCompleteEnvironmentActivation(current, sha) {
 	const accepted = current.run(sha);
 	assert.equal(accepted.status, 0, accepted.stderr);
@@ -55,23 +67,14 @@ function proveCompleteEnvironmentActivation(current, sha) {
 	assert.equal(current.git(current.repo, "status", "--porcelain"), "");
 }
 
-function proveListenerAbsenceRollback(current, sha) {
-	const sentinel = "LISTENER_ROLLBACK_SENTINEL\n";
-	const previous = process.env.TEST_VIRTUAL_SSH_LISTENER_PRESENT;
-	current.writeOverride(sentinel);
-	process.env.TEST_VIRTUAL_SSH_LISTENER_PRESENT = "0";
-	try {
-		const refused = current.run(sha);
-		assert.notEqual(refused.status, 0);
-		assert.match(refused.stderr, /virtual_ssh_listener_missing/);
-		assert.equal(fs.readFileSync(current.override, "utf8"), sentinel);
-	} finally {
-		restoreEnvironment("TEST_VIRTUAL_SSH_LISTENER_PRESENT", previous);
-	}
-}
-
+/**
+ * Proves one missing required environment promise restores the former override.
+ * @param {CanonicalActivationFixture} current Isolated production fixture.
+ * @param {string} sha Canonical expected commit SHA.
+ * @returns {void}
+ */
 function proveEnvironmentDriftRollback(current, sha) {
-	const sentinel = "ROLLBACK_SENTINEL\n";
+	const sentinel = "ROLLBACK_ENVIRONMENT\n";
 	current.writeOverride(sentinel);
 	const incomplete = VIRTUAL_SSH_ENVIRONMENT.filter(value => {
 		return !value.startsWith("VIRTUAL_SSH_PORT=");
@@ -82,10 +85,19 @@ function proveEnvironmentDriftRollback(current, sha) {
 	assert.equal(fs.readFileSync(current.override, "utf8"), sentinel);
 }
 
-function restoreEnvironment(name, previous) {
-	if (previous === undefined) {
-		delete process.env[name];
-		return;
-	}
-	process.env[name] = previous;
+/**
+ * Proves environment promises cannot replace a living TCP listener witness.
+ * @param {CanonicalActivationFixture} current Isolated production fixture.
+ * @param {string} sha Canonical expected commit SHA.
+ * @returns {void}
+ */
+function proveMissingListenerRollback(current, sha) {
+	const sentinel = "ROLLBACK_LISTENER\n";
+	current.writeOverride(sentinel);
+	const refused = current.run(sha, VIRTUAL_SSH_ENVIRONMENT, {
+		listener: false
+	});
+	assert.notEqual(refused.status, 0);
+	assert.match(refused.stderr, /virtual_ssh_listener_missing/);
+	assert.equal(fs.readFileSync(current.override, "utf8"), sentinel);
 }

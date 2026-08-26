@@ -3,15 +3,17 @@
 // Blessed is He
 
 /**
- * @file Readable fixture assets for canonical production-activation contract tests.
+ * @file Readable repository assets for canonical production-activation contract tests.
  * @description
- * The Awtsmoos lets a simulated release receive truthful systemd, health, listener,
- * install, and extension-builder garments without minified shadows. Awtsmoos.com keeps
- * each generated witness human-readable so even the test world's smallest vessels rhyme.
+ * The Awtsmoos lets a simulated release receive truthful repository and service
+ * garments while Awtsmoos.com delegates executable command doubles to a smaller
+ * sibling vessel. Source, runtime, and network witnesses remain distinct and rhyme.
  */
 const fs = require("node:fs");
 const path = require("node:path");
-const NetworkShim = require("./canonicalActivationNetworkShim.cjs");
+const {
+	writeCommandShims
+} = require("./canonicalActivationShims.cjs");
 
 const VIRTUAL_SSH_ENVIRONMENT = Object.freeze([
 	"VIRTUAL_SSH_HOST=0.0.0.0",
@@ -23,6 +25,27 @@ const VIRTUAL_SSH_ENVIRONMENT = Object.freeze([
 	"VIRTUAL_SSH_TOKEN_TTL_MS=900000"
 ]);
 
+/**
+ * Creates the fixture repository directories required by canonical activation.
+ * @param {string} repo Temporary repository root.
+ * @returns {void}
+ */
+function makeRepositoryDirectories(repo) {
+	for (const name of [
+		"ops/systemd",
+		"users",
+		"geelooy/.data",
+		"geelooy/ai/scripts"
+	]) {
+		fs.mkdirSync(path.join(repo, name), { recursive: true });
+	}
+}
+
+/**
+ * Writes the tracked systemd override source used by the activation transaction.
+ * @param {string} repo Temporary repository root.
+ * @returns {void}
+ */
 function writeSystemdSource(repo) {
 	const file = path.join(repo, "ops", "systemd", "awtsmoos-immutable.conf");
 	const lines = [
@@ -36,6 +59,11 @@ function writeSystemdSource(repo) {
 	fs.writeFileSync(file, `${lines.join("\n")}\n`);
 }
 
+/**
+ * Writes a harmless extension builder used to prove generated-artifact handling.
+ * @param {string} repo Temporary repository root.
+ * @returns {void}
+ */
 function writeExtensionBuilder(repo) {
 	const file = path.join(repo, "geelooy", "ai", "scripts", "buildServerExtensionZip.cjs");
 	const source = [
@@ -50,60 +78,16 @@ function writeExtensionBuilder(repo) {
 		"const fs = require(\"node:fs\");",
 		"const path = require(\"node:path\");",
 		"",
-		"const output = path.join(",
-		"\t__dirname,",
-		"\t\"../relay/install/awtsmoos-server-extension.zip\"",
-		");",
+		"const output = path.join(__dirname, \"../relay/install/awtsmoos-server-extension.zip\");",
 		"fs.mkdirSync(path.dirname(output), { recursive: true });",
 		"fs.writeFileSync(output, \"PK fixture\\n\");"
 	].join("\n");
 	fs.writeFileSync(file, `${source}\n`);
 }
 
-function writeCommandShims(bin) {
-	fs.mkdirSync(bin, { recursive: true });
-	writeShim(bin, "systemctl", systemctlShim());
-	writeShim(bin, "ss", NetworkShim.revealSsShim());
-	writeShim(bin, "curl", [
-		"#!/bin/sh",
-		"# B\"H",
-		"exit 0"
-	].join("\n"));
-	writeShim(bin, "install", [
-		"#!/bin/sh",
-		"# B\"H",
-		"set -eu",
-		"mkdir -p \"$(dirname \"$5\")\"",
-		"cp \"$4\" \"$5\""
-	].join("\n"));
-}
-
-function systemctlShim() {
-	return [
-		"#!/bin/sh",
-		"# B\"H",
-		"case \"$1\" in",
-		"\tis-active)",
-		"\t\texit 0",
-		"\t\t;;",
-		"\tshow)",
-		"\t\tcase \"$4\" in",
-		"\t\t\tWorkingDirectory) echo \"$TEST_REPO\" ;;",
-		"\t\t\tExecStart) echo \"/usr/bin/node $TEST_REPO/index.js\" ;;",
-		"\t\t\tEnvironment) echo \"$TEST_SERVICE_ENVIRONMENT\" ;;",
-		"\t\tesac",
-		"\t\t;;",
-		"\t*) exit 0 ;;",
-		"esac"
-	].join("\n");
-}
-
-function writeShim(bin, name, content) {
-	fs.writeFileSync(path.join(bin, name), `${content}\n`, { mode: 0o755 });
-}
-
 module.exports = {
 	VIRTUAL_SSH_ENVIRONMENT,
+	makeRepositoryDirectories,
 	writeCommandShims,
 	writeExtensionBuilder,
 	writeSystemdSource
