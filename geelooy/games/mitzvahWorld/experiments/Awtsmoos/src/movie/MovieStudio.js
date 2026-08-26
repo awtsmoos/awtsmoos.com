@@ -4,12 +4,13 @@
 
 /**
  * @file MovieStudio.js
- * @description Boots the real world, prepares canonical Chossid cinema assets, then installs one truthful editor session.
- * The Awtsmoos renews world, actor, frame, and editor before any finite image can claim reality;
- * Awtsmoos.com therefore prepares real shared Chossid vessels before the director may reveal frame zero.
+ * @description Boots the real renderer, hydrates the rich living world, prepares canonical Chossid cinema assets, then installs one truthful editor session.
+ * The Awtsmoos renews river, cedar, ridge, actor, garment, frame, and editor before any finite image can claim reality;
+ * Awtsmoos.com keeps Movie Maker responsive through its light route while refusing to publish a cinema session before the real world is mounted.
  */
 
 import { createEretzRuntime } from '../app/createEretzRuntime.js';
+import { installMinimalMeadowRichWorld } from '../app/MinimalMeadowRichWorld.js';
 import { prepareMovieCinemaAssets } from './MovieCinemaAssetPreparation.js';
 import { renderExactMovieStudioSession } from './MovieExactRender.js';
 import { MovieStudioAuthoring3dController } from './MovieStudioAuthoring3dController.js';
@@ -43,7 +44,9 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 			startLoop: false
 		});
 		const runtime = diagnostics.runtime;
-		loading.set('B"H preparing the real shared Chossid cast…');
+		loading.set('B"H hydrating the real river, trees, village, and mountains…');
+		const richWorld = await installMinimalMeadowRichWorld(runtime, options.environment || globalThis);
+		loading.set('B"H preparing the real shared Chossid cast and wardrobe…');
 		const cinemaAssets = await prepareMovieCinemaAssets(initialProject, { runtime });
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
 		loading.set('B"H arranging the live 3D cinema and professional tools…');
@@ -51,6 +54,7 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		session.restoreWorldChrome = restoreWorldChrome;
 		session.initialCinemaAssets = cinemaAssets;
+		session.initialRichWorld = richWorld;
 		installMovieStudioControllers(session, view, options);
 		scheduleAutomaticRender(session, options);
 		return session.publicApi;

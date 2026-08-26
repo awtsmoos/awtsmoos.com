@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowWaterSystem.js
- * @description Mounts immediate water, hydrates mounted materials, and advances four-layer flow.
- * The Awtsmoos carries current before and after finite loading; Awtsmoos.com keeps one scene group,
- * real uploaded color, real normals, in-place hydration, allocation-free motion, and honest evidence.
+ * @description Mounts immediate water, hydrates its real material stack, and reports live river/lake geometry plus flowing shader policy.
+ * The Awtsmoos carries current before and after finite loading; Awtsmoos.com keeps uploaded color, dual normals,
+ * carved surfaces, physical shader law, allocation-free motion, and evidence inside one mounted water authority.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
@@ -27,13 +27,9 @@ import { minimalMeadowMeshMetrics } from './MinimalMeadowWorldPopulationDiagnost
 export class MinimalMeadowWaterSystem {
 	static async create(runtime) {
 		if (runtime.water?.group) return runtime.water;
-		const sources = createMinimalMeadowWaterFallbackSources(
-			runtime.environment || globalThis
-		);
+		const sources = createMinimalMeadowWaterFallbackSources(runtime.environment || globalThis);
 		const system = new MinimalMeadowWaterSystem(runtime, sources);
-		if (runtime.environment?.disablePublicAssets !== true) {
-			system.beginPublicHydration();
-		}
+		if (runtime.environment?.disablePublicAssets !== true) system.beginPublicHydration();
 		return system;
 	}
 
@@ -55,23 +51,23 @@ export class MinimalMeadowWaterSystem {
 
 	beginPublicHydration() {
 		this.hydrationState = 'loading-water-material-pack';
-		this.hydrationPromise = loadMinimalMeadowWaterSources(
-			this.runtime.environment || globalThis
-		).then(sources => {
-			this.sources = sources;
-			this.hydratedMeshes = hydrateMinimalMeadowWaterMaterials(
-				this.meshes,
-				sources
-			);
-			this.hydrationState = sources.hostedColorReady
-				? 'textured-water-ready' : 'procedural-visible';
-			return sources;
-		}).catch(error => {
-			this.errors.push(error.message);
-			this.hydrationState = 'procedural-visible';
-			return this.sources;
-		});
+		this.hydrationPromise = loadMinimalMeadowWaterSources(this.runtime.environment || globalThis)
+			.then(sources => this.finishHydration(sources))
+			.catch(error => this.failHydration(error));
 		return this.hydrationPromise;
+	}
+
+	finishHydration(sources) {
+		this.sources = sources;
+		this.hydratedMeshes = hydrateMinimalMeadowWaterMaterials(this.meshes, sources);
+		this.hydrationState = sources.hostedColorReady ? 'textured-water-ready' : 'procedural-visible';
+		return sources;
+	}
+
+	failHydration(error) {
+		this.errors.push(error.message);
+		this.hydrationState = 'procedural-visible';
+		return this.sources;
 	}
 
 	update(deltaSeconds) {
@@ -81,6 +77,10 @@ export class MinimalMeadowWaterSystem {
 
 	diagnostics() {
 		const metrics = minimalMeadowMeshMetrics(this.meshes);
+		const surfaces = this.meshes.filter(mesh => mesh.userData?.waterVariant);
+		const river = surfaces.find(mesh => mesh.userData.waterVariant === 'river');
+		const lake = surfaces.find(mesh => mesh.userData.waterVariant === 'lake');
+		const policy = surfaces[0]?.material?.texturePolicy || {};
 		return {
 			activeNormalSources: this.sources.activeNormalSources,
 			bankMeshes: 2,
@@ -89,17 +89,22 @@ export class MinimalMeadowWaterSystem {
 			drawCalls: this.meshes.length,
 			elevations: minimalMeadowWaterElevationEvidence(),
 			errors: [...this.errors],
+			flowLayers: Number(policy.flowLayers || 0),
 			hostedColorReady: this.sources.hostedColorReady,
 			hydratedMeshes: this.hydratedMeshes,
 			hydrationState: this.hydrationState,
+			lakeVertices: vertexCount(lake),
 			materials: metrics.materials,
 			mounted: this.group.parent === this.runtime.scene,
 			normalMode: this.sources.normalMode,
+			physicalShader: policy.waterPhysical?.shader || null,
 			riverSegments: MINIMAL_MEADOW_RIVER_SEGMENTS,
+			riverVertices: vertexCount(river),
 			sceneObjects: 1 + this.meshes.length,
+			shader: policy.shader || null,
 			triangles: metrics.triangles,
 			updateAllocations: 0,
-			waterMeshes: 2
+			waterMeshes: surfaces.length
 		};
 	}
 
@@ -107,4 +112,8 @@ export class MinimalMeadowWaterSystem {
 		this.group.parent?.remove(this.group);
 		if (this.runtime.water === this) this.runtime.water = null;
 	}
+}
+
+function vertexCount(mesh) {
+	return Number(mesh?.geometry?.attributes?.position?.array?.length || 0) / 3;
 }

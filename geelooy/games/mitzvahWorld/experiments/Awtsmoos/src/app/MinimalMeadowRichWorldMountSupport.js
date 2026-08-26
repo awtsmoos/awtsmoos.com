@@ -4,16 +4,25 @@
 
 /**
  * @file MinimalMeadowRichWorldMountSupport.js
- * @description Owns named mount status, failure isolation, and ordinary subsystem attachment.
- * The Awtsmoos lets every optional world vessel fail by name without dimming playable core;
- * Awtsmoos.com keeps status letters and scene attachment apart from the coordinator's door.
+ * @description Owns named rich-world status, subsystem attachment, and canonical special-character population mounting.
+ * The Awtsmoos lets river, ridge, tailor, healer, and every optional vessel reveal one living world without confusing their owners;
+ * Awtsmoos.com preserves explicit failure receipts while each character remains governed by its current population class.
  */
+
+import { MinimalMeadowAmuletExpertPopulation } from './MinimalMeadowAmuletExpertPopulation.js';
+import { MinimalMeadowClothingMerchantPopulation } from './MinimalMeadowClothingMerchantPopulation.js';
+
+const CHARACTER_FACTORIES = Object.freeze({
+	amuletExpert: MinimalMeadowAmuletExpertPopulation,
+	tailor: MinimalMeadowClothingMerchantPopulation
+});
 
 export function initializeMinimalMeadowMountStatus(runtime) {
 	runtime.richWorldMountStatus = {
 		amuletExpert: 'waiting',
 		clothingMerchant: 'waiting',
 		houses: 'waiting',
+		mountains: 'waiting',
 		phase: 'loading',
 		quest: 'waiting',
 		trees: 'waiting',
@@ -32,15 +41,23 @@ export async function mountMinimalMeadowSubsystem(runtime, name, factory) {
 	try {
 		const system = await factory();
 		runtime[name] = system;
-		if (system?.group && !system.group.parent) {
-			runtime.scene.add(system.group);
-		}
+		if (system?.group && !system.group.parent) runtime.scene.add(system.group);
 		markMinimalMeadowMount(runtime, name, 'ready');
-		return {
-			diagnostics: system?.diagnostics?.() || null,
-			name,
-			status: 'ready'
-		};
+		return readyReceipt(name, system);
+	} catch (error) {
+		return minimalMeadowSubsystemFailure(runtime, name, error);
+	}
+}
+
+export async function mountMinimalMeadowCharacter(runtime, name, kind) {
+	markMinimalMeadowMount(runtime, name, 'loading');
+	try {
+		const Population = CHARACTER_FACTORIES[kind];
+		if (!Population) throw new Error(`UNKNOWN_MINIMAL_MEADOW_CHARACTER:${kind}`);
+		const system = await Population.create(runtime, runtime.environment || globalThis);
+		runtime[name] = system;
+		markMinimalMeadowMount(runtime, name, 'ready');
+		return readyReceipt(name, system);
 	} catch (error) {
 		return minimalMeadowSubsystemFailure(runtime, name, error);
 	}
@@ -52,13 +69,14 @@ export function minimalMeadowSubsystemFailure(runtime, name, error) {
 	runtime.richWorldFailures ||= {};
 	runtime.richWorldFailures[name] = message;
 	markMinimalMeadowMount(runtime, name, 'failed');
-	runtime.bus.emit('world:subsystem-failed', {
-		error: message,
-		name
-	});
+	runtime.bus.emit('world:subsystem-failed', { error: message, name });
+	return { error: message, name, status: 'failed' };
+}
+
+function readyReceipt(name, system) {
 	return {
-		error: message,
+		diagnostics: system?.diagnostics?.() || null,
 		name,
-		status: 'failed'
+		status: 'ready'
 	};
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file movieStudioApiCinema.test.mjs
- * @description Proves one frozen cinema API owns preparation, safety, quieter flagship authoring, render progress, waiting, and cancellation.
- * The Awtsmoos renews public method and private queue without confusion; Awtsmoos.com verifies
- * canonical Chossid readiness precedes installation while six patient scenes remain exactly one minute.
+ * @description Proves the public cinema contract and ten-person preparation boundary remain stable.
+ * The Awtsmoos renews public method, actor, and project before a finite API can count them;
+ * Awtsmoos.com keeps preparation and authoring explicit while realism and render jobs live in focused companion tests.
  */
 
 import assert from 'node:assert/strict';
@@ -16,59 +16,37 @@ import { MovieApiError } from '../../movie/MovieApiError.js';
 import { createMovieStudioCinemaDomain } from '../../movie/MovieStudioApiCinema.js';
 
 const API_KEYS = [
-	'analyze', 'apply', 'assetStatus', 'cancelRender', 'capabilities', 'codecReport',
-	'compile', 'contract', 'flagship', 'getRender', 'listRenders', 'prepare',
-	'renderFlagship', 'renderPlan', 'renderProgress', 'validate', 'waitForRender'
+	'analyze', 'apply', 'assertWorldReady', 'assetStatus', 'cancelRender', 'capabilities',
+	'codecReport', 'compile', 'contract', 'flagship', 'getRender', 'listRenders',
+	'prepare', 'renderFlagship', 'renderPlan', 'renderProgress', 'validate',
+	'waitForRender', 'worldStatus'
 ];
 
-test('cinema domain publishes immutable preparation, authoring, and render contracts', () => {
+test('cinema domain publishes immutable ten-person preparation and realism methods', () => {
 	const cinema = createMovieStudioCinemaDomain(createSession());
 	assert.equal(Object.isFrozen(cinema), true);
 	assert.deepEqual(Object.keys(cinema).sort(), API_KEYS);
 	const contract = cinema.contract();
 	assert.deepEqual(contract.methods, API_KEYS);
+	assert.equal(contract.apiVersion, '1.1.0');
 	assert.equal(contract.flagship.expectedFrames, 1440);
-	assert.equal(contract.flagship.minimumScenes, 6);
-	assert.equal(contract.capabilities.assetPreparation, true);
-	assert.equal(contract.capabilities.noProceduralFinalHumans, true);
+	assert.equal(contract.flagship.performers, 10);
+	assert.equal(contract.capabilities.worldRealismDiagnostics, true);
 });
 
-test('apply refuses unprepared humans and succeeds after preparation', async () => {
+test('apply refuses unprepared humans and succeeds after ten-person preparation', async () => {
 	const session = createSession();
 	const cinema = createMovieStudioCinemaDomain(session);
 	const manifest = cinema.flagship();
-	assert.equal(manifest.scenes.length, 6);
+	assert.equal(manifest.characters.length, 10);
 	assert.equal(cinema.assetStatus(manifest).ready, false);
 	const rejected = cinema.apply(manifest);
 	assert.equal(rejected.ok, false);
 	assert.equal(rejected.error.code, 'CINEMA_CHOSSID_ASSETS_NOT_READY');
 	const prepared = await cinema.prepare(manifest);
 	assert.equal(prepared.ok, true);
-	assert.equal(prepared.value.requiredChossidActors, 8);
-	assert.equal(cinema.assetStatus(manifest).ready, true);
-	const applied = cinema.apply(manifest);
-	assert.equal(applied.ok, true);
-	assert.equal(applied.value.project.duration, 60);
-});
-
-test('cinema jobs prepare automatically and expose frame-aware phase metadata', async () => {
-	const session = createSession();
-	const cinema = createMovieStudioCinemaDomain(session);
-	const started = await cinema.renderFlagship({ download: true });
-	assert.equal(started.ok, true);
-	assert.equal(started.value.analysis.expectedFrames, 1440);
-	assert.equal(started.value.analysis.sceneCount, 6);
-	assert.equal(started.value.assets.ready, true);
-	assert.equal(started.value.job.request.metadata.sceneCount, 6);
-	assert.equal(started.value.job.cinemaProgress.encodedFrameEstimate, 360);
-	assert.equal(started.value.job.cinemaProgress.videoPercent, 25);
-	assert.equal(started.value.job.cinemaProgress.phase, 'video');
-	assert.equal(cinema.listRenders().length, 1);
-	const waited = await cinema.waitForRender('cinema-1');
-	assert.equal(waited.ok, true);
-	assert.equal(waited.value.cinemaProgress.phase, 'completed');
-	const cancelled = cinema.cancelRender('cinema-1', 'operator request');
-	assert.equal(cancelled.value.cancelled, true);
+	assert.equal(prepared.value.requiredChossidActors, 10);
+	assert.equal(cinema.apply(manifest).value.project.duration, 60);
 });
 
 test('metadata advertises the cinema upgrade', () => {
@@ -79,40 +57,47 @@ test('metadata advertises the cinema upgrade', () => {
 });
 
 function createSession() {
-	const jobs = new Map();
 	let ready = false;
 	const session = {
-		cinemaAssets: {
-			assertReady() {
-				if (!ready) throw new MovieApiError(
-					'CINEMA_CHOSSID_ASSETS_NOT_READY',
-					'Prepared Chossid actors are required.',
-					{ ready: 0, required: 8 }
-				);
-				return { ready: true, requiredChossidActors: 8 };
-			},
-			async prepare() { ready = true; return { ready: true, requiredChossidActors: 8 }; },
-			status() { return { ready, requiredChossidActors: 8 }; }
-		},
+		cinemaAssets: assetDomain(() => ready, value => { ready = value; }),
 		commands: { commitProject: project => { session.project = project; session.revision += 1; } },
+		director: null,
 		events: { emit() {} },
 		project: null,
 		revision: 2,
-		renderQueue: {
-			cancel: id => ({ cancelled: true, job: jobs.get(id) }),
-			get: id => ({ snapshot: () => jobs.get(id) }),
-			list: () => [...jobs.values(), otherJob()],
-			start: request => { const job = cinemaJob(request); jobs.set(job.id, job); return job; },
-			wait: async id => ({ ...jobs.get(id), progress: 1, state: 'completed' })
-		}
+		renderQueue: inertRenderQueue(),
+		runtime: null
 	};
 	return session;
 }
 
-function cinemaJob(request) {
-	return { createdAt: '2026-08-02T00:00:00Z', id: 'cinema-1', progress: 0.235, request, state: 'rendering' };
+function assetDomain(getReady, setReady) {
+	return {
+		assertReady() {
+			if (!getReady()) {
+				throw new MovieApiError('CINEMA_CHOSSID_ASSETS_NOT_READY', 'Prepared Chossid actors are required.', {
+					ready: 0,
+					required: 10
+				});
+			}
+			return { ready: true, requiredChossidActors: 10 };
+		},
+		async prepare() {
+			setReady(true);
+			return { ready: true, requiredChossidActors: 10 };
+		},
+		status() {
+			return { ready: getReady(), requiredChossidActors: 10 };
+		}
+	};
 }
 
-function otherJob() {
-	return { id: 'other-1', progress: 0, request: {}, state: 'queued' };
+function inertRenderQueue() {
+	return {
+		cancel: () => ({ cancelled: false }),
+		get: () => null,
+		list: () => [],
+		start: () => ({ id: 'unused' }),
+		wait: async () => null
+	};
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file MovieStudioApiCinema.js
- * @description Composes preparation, safety, authoring, codec, installation, and render jobs into one frozen cinema domain.
- * The Awtsmoos renews asset, intent, project, queue, and artifact beyond their useful divisions;
- * Awtsmoos.com gives agents one surface while final Chossid readiness and trusted executors remain canonical.
+ * @description Composes preparation, safety, realism, authoring, codec, installation, and render jobs into one frozen cinema domain.
+ * The Awtsmoos renews asset, river, ridge, intent, project, queue, and artifact beyond their useful divisions;
+ * Awtsmoos.com gives agents one surface while final Chossid and living-world readiness remain canonical.
  */
 
 import { compileMovieAgentManifest } from './MovieAgentCompiler.js';
@@ -20,11 +20,13 @@ import {
 } from './MovieCinemaHumanSafety.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
 import { createMovieStudioCinemaAssetDomain } from './MovieStudioApiCinemaAssets.js';
+import { createMovieStudioCinemaRealismDomain } from './MovieStudioApiCinemaRealism.js';
 import { createMovieStudioCinemaRenderDomain } from './MovieStudioApiCinemaRender.js';
 import { runMovieStudioApiOperation } from './MovieStudioApiOperation.js';
 
 export function createMovieStudioCinemaDomain(session) {
 	const assets = createMovieStudioCinemaAssetDomain(session);
+	const realism = createMovieStudioCinemaRealismDomain(session);
 	const render = createMovieStudioCinemaRenderDomain(session, async options => {
 		const manifest = createMovieCinemaFlagship(options);
 		const prepared = await assets.methods.prepare(manifest, options);
@@ -48,6 +50,7 @@ export function createMovieStudioCinemaDomain(session) {
 		prepare: (manifest, options = {}) => assets.methods.prepare(resolveManifest(manifest), options),
 		renderPlan: manifest => renderPlan(resolveManifest(manifest)),
 		validate: manifest => validateCinema(resolveManifest(manifest)),
+		...realism,
 		...render
 	});
 }

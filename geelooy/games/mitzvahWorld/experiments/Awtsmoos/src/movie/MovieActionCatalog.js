@@ -4,33 +4,19 @@
 
 /**
  * @file MovieActionCatalog.js
- * @description Unifies registered player actions and imported GLB animation clips into one searchable catalog.
- * The Awtsmoos renews deed and motion without confusing their vessels; Awtsmoos.com
- * reveals only capabilities present in the living runtime and keeps every result serializable.
+ * @description Unifies registered actions and imported GLB clips into one truthful searchable cinema catalog.
+ * The Awtsmoos renews deed, gesture, and locomotion without confusing their runtime vessels;
+ * Awtsmoos.com groups only capabilities the living Chossid or player can actually reveal.
  */
+
+import { movieActionSemanticCategory } from './MovieCrowdActionSemantics.js';
 
 export function movieActionCatalog(runtime) {
 	const registered = runtime?.playerActionRegistry?.list?.() || [];
 	const imported = Array.isArray(runtime?.player?.names) ? runtime.player.names : [];
 	const records = [
-		...registered.map(record => ({
-			category: 'registered',
-			duration: Number(record.duration || 1),
-			id: record.id,
-			label: label(record.id),
-			layer: record.layer || 'fullBody',
-			messageType: record.messageType,
-			type: 'registered'
-		})),
-		...imported.map(name => ({
-			category: animationCategory(name),
-			duration: null,
-			id: String(name),
-			label: label(name),
-			layer: 'imported',
-			messageType: null,
-			type: 'animation'
-		}))
+		...registered.map(record => registeredRecord(record)),
+		...imported.map(name => importedRecord(name))
 	];
 	return deduplicate(records).sort((left, right) => left.label.localeCompare(right.label));
 }
@@ -38,8 +24,11 @@ export function movieActionCatalog(runtime) {
 export function filterMovieActionCatalog(records, query = '', category = 'all') {
 	const needle = String(query).trim().toLowerCase();
 	return records.filter(record => {
-		const categoryMatches = category === 'all' || record.category === category || record.type === category;
-		const queryMatches = !needle || `${record.id} ${record.label} ${record.layer}`.toLowerCase().includes(needle);
+		const categoryMatches = category === 'all'
+			|| record.category === category
+			|| record.type === category;
+		const queryMatches = !needle
+			|| `${record.id} ${record.label} ${record.layer}`.toLowerCase().includes(needle);
 		return categoryMatches && queryMatches;
 	});
 }
@@ -57,6 +46,30 @@ export function previewMovieAction(runtime, record) {
 	return { ok: false, reason: 'ACTION_PREVIEW_UNAVAILABLE', record };
 }
 
+function registeredRecord(record) {
+	return {
+		category: movieActionSemanticCategory(record.id, 'registered'),
+		duration: Number(record.duration || 1),
+		id: record.id,
+		label: label(record.id),
+		layer: record.layer || 'fullBody',
+		messageType: record.messageType,
+		type: 'registered'
+	};
+}
+
+function importedRecord(name) {
+	return {
+		category: movieActionSemanticCategory(name),
+		duration: null,
+		id: String(name),
+		label: label(name),
+		layer: 'imported',
+		messageType: null,
+		type: 'animation'
+	};
+}
+
 function deduplicate(records) {
 	const output = new Map();
 	for (const record of records) output.set(`${record.type}:${record.id}`, record);
@@ -67,11 +80,4 @@ function label(value) {
 	return String(value || '')
 		.replace(/[._-]+/g, ' ')
 		.replace(/\b\w/g, character => character.toUpperCase());
-}
-
-function animationCategory(name) {
-	const value = String(name).toLowerCase();
-	if (/walk|run|jump|fall|move/.test(value)) return 'locomotion';
-	if (/punch|stab|cast|attack|sword|staff/.test(value)) return 'combat';
-	return 'animation';
 }

@@ -4,9 +4,9 @@
 
 /**
  * @file movieCinemaFlagship.test.mjs
- * @description Proves the flagship is sixty seconds of six patient views using canonical Chossid actors and real-world intent.
- * The Awtsmoos renews speaker, river, tree, and camera before a test may count them;
- * Awtsmoos.com verifies fewer cuts without surrendering water, wind, dialogue, people, or determinism.
+ * @description Proves the flagship is sixty seconds of six patient views using ten wardrobe-indexed Chossid actors and real-world intent.
+ * The Awtsmoos renews speaker, river, tree, garment, and camera before a test may count them;
+ * Awtsmoos.com verifies a living crowd without surrendering water, wind, dialogue, measured lenses, or determinism.
  */
 
 import assert from 'node:assert/strict';
@@ -17,13 +17,15 @@ import { createMovieCinemaFlagship } from '../../movie/MovieCinemaFlagship.js';
 
 const CHOSSID_MODEL = 'assets/models/player/chossid.glb';
 
-test('flagship composes one minute as six rich Chossid village views', () => {
+test('flagship composes one minute as six rich ten-person Chossid village views', () => {
 	const manifest = createMovieCinemaFlagship();
 	const analysis = analyzeMovieCinemaManifest(manifest);
 	assert.equal(manifest.duration, 60);
 	assert.equal(manifest.fps, 24);
 	assert.equal(manifest.scenes.length, 6);
-	assert.equal(manifest.characters.length, 8);
+	assert.equal(manifest.characters.length, 10);
+	assert.equal(new Set(manifest.characters.map(actor => actor.costume?.outfitId)).size, 10);
+	assert.deepEqual(manifest.characters.map(actor => actor.friendlyNpcIndex), Array.from({ length: 10 }, (_, index) => index));
 	assert.equal(analysis.expectedFrames, 1440);
 	assert.equal(analysis.segmentCount, 4);
 	assert.equal(analysis.cameraRigs.length, 6);
@@ -41,21 +43,26 @@ test('flagship composes one minute as six rich Chossid village views', () => {
 	}
 });
 
-test('flagship compiles to six ten-second camera clips without timeline gaps', () => {
+test('flagship compiles to six ten-second camera clips with dense truthful crowd choreography', () => {
 	const project = compileMovieAgentManifest(createMovieCinemaFlagship());
 	const scenes = track(project, 'scene').clips;
 	const cameras = track(project, 'camera').clips;
 	const dialogue = track(project, 'dialogue').clips;
 	const audio = track(project, 'audio').clips;
+	const crowd = tracks(project, 'crowd').flatMap(candidate => candidate.clips);
 	assert.equal(project.duration, 60);
 	assert.equal(scenes.length, 6);
 	assert.equal(cameras.length, 6);
+	assert.ok(crowd.length >= 20);
 	assert.deepEqual(scenes.map(scene => scene.start), [0, 10, 20, 30, 40, 50]);
 	assert.ok(scenes.every(scene => scene.duration === 10));
 	assert.ok(cameras.every(camera => camera.duration === 10));
 	assert.equal(dialogue.length, 3);
 	assert.ok(audio.some(clip => clip.kind === 'wind'));
 	assert.ok(audio.some(clip => clip.kind === 'water'));
+	assert.ok(crowd.some(clip => clip.action === 'greet'));
+	assert.ok(crowd.some(clip => clip.action === 'pray'));
+	assert.ok(crowd.some(clip => clip.action === 'talk'));
 	assert.doesNotThrow(() => JSON.stringify(project));
 });
 
@@ -80,4 +87,8 @@ function track(project, type) {
 	const value = project.tracks.find(candidate => candidate.type === type);
 	assert.ok(value, `${type} track missing`);
 	return value;
+}
+
+function tracks(project, type) {
+	return project.tracks.filter(candidate => candidate.type === type);
 }

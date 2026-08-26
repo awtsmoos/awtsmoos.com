@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowClothingMerchantLifecycle.js
- * @description Prepares, mounts, updates, and releases the receipt-backed tailor population.
- * The Awtsmoos gives actor, Bag, panel, and update loop one measured season;
- * Awtsmoos.com opens every garment vessel and closes it again with an inspectable reason.
+ * @description Prepares the real tailor actor, mounts commerce UI only when the reactive gameplay inventory exists, and restores exact update ownership.
+ * The Awtsmoos renews merchant, garment, Bag, and frame before finite panels can trade;
+ * Awtsmoos.com lets Movie Maker keep the living tailor without fabricating gameplay commerce state that has not been mounted.
  */
 
 import { merchantTransactionFacade } from '../gameplay/MerchantTransactionFacade.js';
@@ -16,9 +16,7 @@ import {
 	CLOTHING_MERCHANT_STOCK
 } from '../ui/ClothingMerchantCatalog.js';
 import { createFriendlyChossidActor } from './MinimalMeadowFriendlyChossidActor.js';
-import {
-	CLOTHING_MERCHANT_EQUIPMENT
-} from './MinimalMeadowClothingMerchantContract.js';
+import { CLOTHING_MERCHANT_EQUIPMENT } from './MinimalMeadowClothingMerchantContract.js';
 
 export async function prepareClothingMerchantActor(population) {
 	population.actor = await createFriendlyChossidActor(population.runtime, {
@@ -27,36 +25,26 @@ export async function prepareClothingMerchantActor(population) {
 		weaponItemId: null
 	});
 	for (const itemId of CLOTHING_MERCHANT_STOCK) {
-		if (!population.actor.inventory.owns(itemId)) {
-			population.actor.inventory.add(itemId, 1);
-		}
+		if (!population.actor.inventory.owns(itemId)) population.actor.inventory.add(itemId, 1);
 	}
-	for (const itemId of CLOTHING_MERCHANT_EQUIPMENT) {
-		population.actor.inventory.equip(itemId);
-	}
+	for (const itemId of CLOTHING_MERCHANT_EQUIPMENT) population.actor.inventory.equip(itemId);
 	population.actor.equipment.synchronize();
 }
 
 export function mountClothingMerchantPanel(population) {
-	if (!population.environment.document) return;
+	const store = population.runtime.inventory;
+	if (!population.environment.document || !isReactiveInventory(store)) {
+		population.panelStatus = 'gameplay-inventory-not-mounted';
+		return;
+	}
 	population.merchant = merchantTransactionFacade(population.runtime);
-	population.panel = new ClothingMerchantPanel(population.runtime.inventory, {
+	population.panel = new ClothingMerchantPanel(store, {
 		document: population.environment.document,
-		onBuy: (itemId, quantity) => population.merchant.buy(
-			itemId,
-			quantity,
-			CLOTHING_MERCHANT_ID
-		),
-		onSell: (itemId, quantity) => population.merchant.sell(
-			itemId,
-			quantity,
-			CLOTHING_MERCHANT_ID
-		)
+		onBuy: (itemId, quantity) => population.merchant.buy(itemId, quantity, CLOTHING_MERCHANT_ID),
+		onSell: (itemId, quantity) => population.merchant.sell(itemId, quantity, CLOTHING_MERCHANT_ID)
 	});
-	population.unsubscribePanel = population.runtime.bus.on(
-		'tailor:toggle',
-		() => population.panel.toggle()
-	);
+	population.panelStatus = 'ready';
+	population.unsubscribePanel = population.runtime.bus.on('tailor:toggle', () => population.panel.toggle());
 }
 
 export function attachClothingMerchantUpdate(population) {
@@ -75,4 +63,11 @@ export function destroyClothingMerchantPopulation(population) {
 	if (population.runtime.updateWorldSystems === population.updateWrapper) {
 		population.runtime.updateWorldSystems = population.previousUpdate;
 	}
+}
+
+function isReactiveInventory(store) {
+	return Boolean(store
+		&& typeof store.onChange === 'function'
+		&& typeof store.snapshot === 'function'
+		&& typeof store.quantity === 'function');
 }
