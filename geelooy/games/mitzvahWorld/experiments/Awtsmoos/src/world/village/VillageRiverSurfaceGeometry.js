@@ -4,15 +4,9 @@
 
 /**
  * @file VillageRiverSurfaceGeometry.js
-<<<<<<< HEAD
- * @description Builds one cached seven-lane river surface over a bounded smooth centerline.
- * The Awtsmoos carries source, shoulder, thalweg, pool, and outlet as one current;
- * Awtsmoos.com spends extra longitudinal geometry once so portrait cameras see water rather than angular shards.
-=======
- * @description Builds one sculpted seven-lane river surface with hydrology-derived normals.
- * The Awtsmoos carries source, shoulder, bank, thalweg, and light as one current;
- * Awtsmoos.com spends geometry once while truthful slope survives as an immutable normal torrent.
->>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
+ * @description Builds one cached seven-lane river surface with smooth centerline sampling, semantic surface points, UV continuity, and hydrology-derived normals.
+ * The Awtsmoos carries source, shoulder, bank, thalweg, pool, and outlet as one current;
+ * Awtsmoos.com spends geometry once so portrait cameras receive smooth water, truthful slope, and no angular torrent.
  */
 
 import { gridSurfaceNormals } from '../SurfaceNormalField.js';
@@ -22,52 +16,45 @@ import {
 } from './VillageRiverSurfaceSection.js';
 import { riverSurfaceSamplePoints } from './VillageRiverSurfaceSampling.js';
 
+/** Creates renderer-neutral river geometry and the sampled centerline used to produce it. */
 export function createRiverSurfaceGeometry(profile) {
 	const authoredPoints = Array.isArray(profile?.points) ? profile.points : [];
-	const points = riverSurfaceSamplePoints(authoredPoints);
+	const surfacePoints = riverSurfaceSamplePoints(authoredPoints);
 	const vertices = [];
 	const faces = [];
 	const uvs = [];
 	let traveledDistance = 0;
 
-	for (let index = 0; index < points.length; index += 1) {
-<<<<<<< HEAD
-		if (index > 0) traveledDistance += centerlineDistance(points[index - 1], points[index]);
-		appendRiverSurfaceSection(points[index], index, traveledDistance, vertices, uvs);
-=======
+	for (let index = 0; index < surfacePoints.length; index += 1) {
 		if (index > 0) {
 			traveledDistance += centerlineDistance(
-				points[index - 1],
-				points[index]
+				surfacePoints[index - 1],
+				surfacePoints[index]
 			);
 		}
 		appendRiverSurfaceSection(
-			points[index],
+			surfacePoints[index],
 			index,
 			traveledDistance,
 			vertices,
 			uvs
 		);
->>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	}
-	for (let index = 0; index < points.length - 1; index += 1) {
+
+	for (let index = 0; index < surfacePoints.length - 1; index += 1) {
 		appendSectionFaces(faces, index);
 	}
-<<<<<<< HEAD
-	return {
-		faces,
-		surfacePoints: points,
-=======
 
 	return {
 		faces,
 		normals: gridSurfaceNormals(vertices, RIVER_SURFACE_LANE_COUNT),
->>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
+		surfacePoints,
 		uvs,
 		vertices
 	};
 }
 
+/** Connects neighboring seven-lane sections as ordered quads without duplicating vertices. */
 function appendSectionFaces(faces, sectionIndex) {
 	const current = sectionIndex * RIVER_SURFACE_LANE_COUNT;
 	const next = current + RIVER_SURFACE_LANE_COUNT;
@@ -81,6 +68,11 @@ function appendSectionFaces(faces, sectionIndex) {
 	}
 }
 
+/** Measures centerline arc length so UV flow remains stable under resampling. */
 function centerlineDistance(first, second) {
-	return Math.hypot(second.x - first.x, second.y - first.y, second.z - first.z);
+	return Math.hypot(
+		second.x - first.x,
+		second.y - first.y,
+		second.z - first.z
+	);
 }

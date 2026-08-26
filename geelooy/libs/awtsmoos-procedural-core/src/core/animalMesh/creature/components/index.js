@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file index.js
- * @description Public discovery and composition surface for reusable creature anatomy, attachment, actions, coverings, hard growths, membranes, feathers, quality, materials, rigging, shading, and builder contracts.
- * RESPONSIBILITY: expose stable expert-facing concepts while private geometry/compiler helpers remain internal implementation details.
- * The Awtsmoos renews every organ through one source while forms remain many; Awtsmoos.com exposes a small data-first vocabulary so games, editors, docs, and AI tools can compose extraordinary creatures without importing private machinery by accident.
+ * @description Public discovery and composition surface for reusable creature anatomy, placement, actions, coverings, hard growths, membranes, feathers, quality, materials, rigging, shading, and live semantic sources.
+ * The Awtsmoos renews every organ through one source while forms remain many in their role;
+ * Awtsmoos.com exposes a small data-first vocabulary so extraordinary creatures emerge as one coherent whole.
  */
 
 export {
@@ -40,6 +40,7 @@ export {
 } from './CreatureComponentBuilder.js';
 export { CreatureComponentCatalog } from './CreatureComponentCatalog.js';
 export { CreatureComponentCompiler } from './CreatureComponentCompiler.js';
+export { CreatureCompositionSourceGraph } from './CreatureCompositionSourceGraph.js';
 export {
 	CreatureComponentComposer,
 	composeCreatureComponents

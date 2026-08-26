@@ -2,15 +2,14 @@
 // Boruch Hashem
 // Blessed is He
 
+import { AGENT_ACTION_DEFINITIONS } from './agentActionDefinitions.js';
+
 /**
  * @module AgentActionCatalog
  * @description
- * The Awtsmoos gives every machine verb a boundary, while Awtsmoos.com also names replay, reconciliation, and evidence scope;
- * Chesed grants automation, Gevurah limits false certainty, and Tiferes lets an agent act without calling a receipt a reality.
+ * The Awtsmoos joins old flat compatibility with new organized discovery while Awtsmoos.com keeps replay, reconciliation, idempotency, and evidence law attached to the same stable action names;
+ * this Tiferes compiler turns pure definitions into the public contracts consumed by both legacy callers and the richer discovery surface.
  */
-
-const READ = 'drive.read';
-const WRITE = 'drive.write';
 
 const RECONCILIATION = Object.freeze({
 	'site.project.setBrief': 'site.project.collect',
@@ -24,54 +23,44 @@ const RECONCILIATION = Object.freeze({
 	'site.domain.remove': 'site.domain.plan'
 });
 
-export const AGENT_ACTIONS = Object.freeze([
-	action('site.project.describe', false, READ, 'site-project', 'Describe the selected website project and real source.'),
-	action('site.project.collect', false, READ, 'site-project', 'Collect bounded project, brief, publication, and source metadata.'),
-	action('site.project.setBrief', true, WRITE, 'builder-brief', 'Save private website purpose, audience, and notes metadata.'),
-	action('site.files.list', false, READ, 'drive-source-inventory', 'List bounded HTML, CSS, JS, and Markdown source.'),
-	action('site.files.read', false, READ, 'drive-file', 'Read one real source file and its metadata.'),
-	action('site.files.write', true, WRITE, 'drive-file', 'Overwrite one existing source file while preserving publication metadata.'),
-	action('site.files.create', true, WRITE, 'drive-file', 'Create one real public source file.'),
-	action('site.code.open', false, READ, 'code-editor', 'Open one real source file in the persistent editor.'),
-	action('site.code.inspect', false, null, 'code-editor', 'Inspect the current editor draft without mutation.'),
-	action('site.code.updateCurrent', true, WRITE, 'drive-file', 'Save content through the current source editor path.'),
-	action('site.preview.open', false, READ, 'source-preview', 'Render current source in the sandboxed iframe.'),
-	action('site.preview.refresh', false, READ, 'source-preview', 'Refresh source preview without publishing.'),
-	action('site.preview.status', false, null, 'source-preview', 'Read source-preview state and publication distinction.'),
-	action('site.publish.plan', false, READ, 'canonical-site', 'Describe canonical publication without mutation.'),
-	action('site.publish.apply', true, WRITE, 'canonical-site', 'Create or update the owned canonical Drive site mapping.'),
-	action('site.publish.status', false, READ, 'canonical-site', 'Read canonical publication status.'),
-	action('site.domain.plan', false, READ, 'domain-claim', 'Read domain ownership, DNS, routing, and TLS plan.'),
-	action('site.domain.claim', true, WRITE, 'domain-claim', 'Create a server-side domain claim bound to an owned site.'),
-	action('site.domain.verify', true, WRITE, 'domain-claim', 'Run server-side DNS ownership and delegation verification.'),
-	action('site.domain.activate', true, WRITE, 'domain-route', 'Activate routing only after server verification allows it.'),
-	action('site.domain.remove', true, WRITE, 'domain-claim', 'Remove an owned domain claim.'),
-	action('site.domain.instructions', false, READ, 'domain-hosting-plan', 'Read exact DNS and TLS hosting instructions.'),
-	action('site.nameservers.plan', false, READ, 'nameserver-plan', 'Plan external delegation; Awtsmoos authoritative mode remains unavailable.')
-]);
+export const AGENT_ACTIONS = Object.freeze(
+	AGENT_ACTION_DEFINITIONS.map(definition => Object.freeze(compileAction(definition)))
+);
 
-/** Returns one immutable machine-readable action contract by exact name. */
+/** Returns one immutable action contract by exact machine name. */
 export function actionMetadata(name) {
 	return AGENT_ACTIONS.find(item => item.name === name) || null;
 }
 
-function action(name, mutates, capability, affected, description) {
-	return Object.freeze({
-		name,
-		mutates,
-		capability,
-		available: true,
-		affected,
-		description,
-		evidenceScope: evidenceScope(name),
-		replay: mutates ? 'reconcile-before-replay' : 'safe-read',
-		reconcileAction: RECONCILIATION[name] || null,
-		idempotency: mutates ? 'not-provided' : 'not-applicable',
-		externalVerification: 'not-implied'
+/** Returns immutable flat actions matching optional group and capability filters. */
+export function filterAgentActions(filter = {}) {
+	const group = String(filter.group || '').trim();
+	const capability = String(filter.capability || '').trim();
+	return AGENT_ACTIONS.filter(item => {
+		if (group && item.group !== group) {
+			return false;
+		}
+		if (capability && item.capability !== capability) {
+			return false;
+		}
+		return true;
 	});
 }
 
-function evidenceScope(name) {
+function compileAction(definition) {
+	const mutates = definition.mutates === true;
+	return {
+		...definition,
+		available: true,
+		evidenceScope: evidenceScope(definition.name, definition.group),
+		replay: mutates ? 'reconcile-before-replay' : 'safe-read',
+		reconcileAction: RECONCILIATION[definition.name] || null,
+		idempotency: mutates ? 'not-provided' : 'not-applicable',
+		externalVerification: 'not-implied'
+	};
+}
+
+function evidenceScope(name, group) {
 	if (name.startsWith('site.publish.')) {
 		return 'canonical-publication';
 	}
@@ -87,7 +76,7 @@ function evidenceScope(name) {
 	if (name.startsWith('site.code.')) {
 		return 'editor-and-source';
 	}
-	if (name.startsWith('site.files.')) {
+	if (group === 'source') {
 		return 'drive-source';
 	}
 	return 'project-testimony';

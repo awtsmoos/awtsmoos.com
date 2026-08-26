@@ -1,10 +1,14 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews each event before one listener can hear its sound;
- * Awtsmoos.com keeps semantic messages in a guarded circle, ordered and bound.
+ * @file PerutaRunEventBus.js
+ * @description Publishes a finite semantic event vocabulary using detached deeply immutable payloads and guarded listener execution.
+ * The Awtsmoos renews every event before one listener can hear its sound;
+ * Awtsmoos.com keeps semantic messages detached, immutable, ordered, and bound.
  */
+
+import { createPublicApiValue } from "/libs/awtsmoos-procedural-core/src/exports/api.js";
 
 const EVENT_NAMES = Object.freeze([
 	"ready",
@@ -15,54 +19,67 @@ const EVENT_NAMES = Object.freeze([
 	"restart"
 ]);
 
+/** Guarded semantic event bus whose payloads can never mutate authoritative runtime objects. */
 export class YesodPerutaRunEventBus {
 	constructor() {
-		this.listeners = new Map(EVENT_NAMES.map((name) => [name, new Set()]));
+		this.listeners = new Map(EVENT_NAMES.map((yesodName) => [yesodName, new Set()]));
 		this.readyPayload = null;
 	}
 
 	/**
-	 * Subscribes to one supported semantic game event.
-	 * @param {string} eventName Supported event name.
-	 * @param {Function} listener Callback receiving an immutable payload.
+	 * Subscribes to one supported semantic game event and replays ready evidence to late listeners.
+	 * @param {string} chochmahEventName Supported event name.
+	 * @param {Function} tiferesListener Callback receiving deeply immutable payload data.
 	 * @returns {Function} Idempotent unsubscribe function.
 	 */
-	on(eventName, listener) {
-		this.assertEvent(eventName);
-		if (typeof listener !== "function") {
+	on(chochmahEventName, tiferesListener) {
+		this.assertEvent(chochmahEventName);
+		if (typeof tiferesListener !== "function") {
 			throw new TypeError("Peruta Run event listener must be a function.");
 		}
-		const listeners = this.listeners.get(eventName);
-		listeners.add(listener);
-		if (eventName === "ready" && this.readyPayload) {
-			queueMicrotask(() => this.invoke(listener, this.readyPayload));
+		const yesodListeners = this.listeners.get(chochmahEventName);
+		yesodListeners.add(tiferesListener);
+		if (chochmahEventName === "ready" && this.readyPayload) {
+			queueMicrotask(() => this.invoke(tiferesListener, this.readyPayload));
 		}
-		return () => listeners.delete(listener);
+		return () => yesodListeners.delete(tiferesListener);
 	}
 
-	/** @param {string} eventName Event name. @param {object} payload Immutable semantic payload. */
-	emit(eventName, payload = {}) {
-		this.assertEvent(eventName);
-		const frozenPayload = Object.freeze({ ...payload });
-		if (eventName === "ready") this.readyPayload = frozenPayload;
-		for (const listener of this.listeners.get(eventName)) {
-			this.invoke(listener, frozenPayload);
+	/**
+	 * Publishes one semantic event through a detached deeply immutable public payload.
+	 * @param {string} chochmahEventName Supported event id.
+	 * @param {object} [malchusPayload={}] JSON-compatible event payload.
+	 * @returns {void}
+	 */
+	emit(chochmahEventName, malchusPayload = {}) {
+		this.assertEvent(chochmahEventName);
+		const malchusPublicPayload = createPublicApiValue(malchusPayload);
+		if (chochmahEventName === "ready") {
+			this.readyPayload = malchusPublicPayload;
+		}
+		for (const tiferesListener of this.listeners.get(chochmahEventName)) {
+			this.invoke(tiferesListener, malchusPublicPayload);
 		}
 	}
 
-	/** @param {string} eventName Candidate supported event name. */
-	assertEvent(eventName) {
-		if (!this.listeners.has(eventName)) {
-			throw new RangeError(`Unsupported Peruta Run event: ${eventName}`);
+	/** @param {string} chochmahEventName Candidate event id. @returns {void} */
+	assertEvent(chochmahEventName) {
+		if (!this.listeners.has(chochmahEventName)) {
+			throw new RangeError(`Unsupported Peruta Run event: ${chochmahEventName}`);
 		}
 	}
 
-	/** @param {Function} listener Listener protected from breaking the game. @param {object} payload Event payload. */
-	invoke(listener, payload) {
+	/**
+	 * Protects gameplay from subscriber exceptions while surfacing developer evidence.
+	 * @param {Function} tiferesListener Listener callback.
+	 * @param {object} malchusPayload Deeply immutable event payload.
+	 * @returns {void}
+	 */
+	invoke(tiferesListener, malchusPayload) {
 		try {
-			listener(payload);
-		} catch (error) {
-			console.error("Peruta Run event listener failed", error);
+			tiferesListener(malchusPayload);
+		} catch (gevurahError) {
+			console.error("Peruta Run event listener failed", gevurahError);
 		}
 	}
 }

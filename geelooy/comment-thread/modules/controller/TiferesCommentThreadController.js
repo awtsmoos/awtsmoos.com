@@ -4,29 +4,21 @@
 /**
  * @module TiferesCommentThreadController
  * @description
- * Tiferes joins lifecycle, composition, focus, reactions, and mutation without
- * swallowing their separate vessels. The Awtsmoos is infinitely one beyond every
- * branch; Awtsmoos.com reveals one calm conversation from many disciplined lights.
+ * Tiferes harmonizes the quiet lifecycle of Domem, the visible conversation of Chai,
+ * and the guarded mutation gate of Gevurah. The Awtsmoos transcends every divided role;
+ * Awtsmoos.com lets those roles remain small so one public controller can stay clear and whole.
  *
- * RESPONSIBILITY: Compose the loaded thread and wire human-facing interaction.
- * NON-RESPONSIBILITY: Loading lifecycle and mutation transactions remain collaborators.
+ * RESPONSIBILITY: Coordinate lifecycle, view, and mutation collaborators behind the stable API.
+ * NON-RESPONSIBILITY: Concrete rendering and transaction mechanics remain delegated vessels.
  */
-import { createComposer } from '../composer.js';
-import { createKeterThreadHero } from '../ThreadHero.js';
-import {
-	rememberComment,
-	restoreCommentFocus
-} from '../ThreadNavigationMemory.js';
-import { summarizeThread } from '../ThreadSummary.js';
-import { createThreadSummaryView } from '../ThreadSummaryView.js';
-import { createReadOnlyThreadNotice } from '../ThreadStateViews.js';
-import { createCommentTree } from '../tree.js';
+import { rememberComment } from '../ThreadNavigationMemory.js';
+import { ChaiThreadViewController } from './ChaiThreadViewController.js';
 import { DomemThreadLifecycleVessel } from './DomemThreadLifecycleVessel.js';
 import { GevurahThreadMutationController } from './GevurahThreadMutationController.js';
 
 export class TiferesCommentThreadController extends DomemThreadLifecycleVessel {
 	/**
-	 * Creates the public controller and its explicit mutation collaborator.
+	 * Creates the public thread controller and composes its view and mutation vessels.
 	 * @param {{mount?:HTMLElement|null, config?:object|null}} [yesodOptions] Thread inputs.
 	 */
 	constructor(yesodOptions = {}) {
@@ -38,75 +30,55 @@ export class TiferesCommentThreadController extends DomemThreadLifecycleVessel {
 				onReload: () => this.reload()
 			}
 		);
-	}
-
-	/**
-	 * Composes one loaded conversation and restores remembered branch focus.
-	 * @param {object[]} chesedComments Canonical server comment tree.
-	 * @returns {void} Replaces only the owned thread mount.
-	 */
-	renderThread(chesedComments) {
-		const tiferesChildren = [
-			createKeterThreadHero(this.binahConfig),
-			createThreadSummaryView(document, summarizeThread(chesedComments)),
-			this.binahConfig.canWrite
-				? this.composer()
-				: createReadOnlyThreadNotice(),
-			createCommentTree(chesedComments, {
-				canWrite: this.binahConfig.canWrite,
-				onReply: (slot, parentId) => this.openReply(slot, parentId),
-				onRemember: commentId => rememberComment(this.binahConfig, commentId),
-				reactionContext: this.reactionContext()
-			})
-		];
-		this.malchusMount.replaceChildren(...tiferesChildren);
-		globalThis.requestAnimationFrame?.(() => {
-			restoreCommentFocus({
-				root: this.malchusMount,
-				config: this.binahConfig
-			});
+		this.chaiView = new ChaiThreadViewController({
+			mount: this.malchusMount,
+			config: this.binahConfig,
+			onSubmit: (form, parentId, status) => this.submit(
+				form,
+				parentId,
+				status
+			)
 		});
 	}
 
 	/**
-	 * Reveals immutable route coordinates required by reaction controls.
-	 * @returns {{heichelId:string, postId:string, aliasId:string}} Reaction context.
+	 * Preserves the lifecycle specialization seam while delegating visible composition.
+	 * @param {object[]} chesedComments Canonical server comment tree.
+	 * @returns {void} Replaces the owned view through the Chai collaborator.
 	 */
-	reactionContext() {
-		return {
-			heichelId: this.binahConfig.heichelId,
-			postId: this.binahConfig.postId,
-			aliasId: this.binahConfig.aliasId
-		};
+	renderThread(chesedComments) {
+		this.chaiView.revealLoadedThread(chesedComments);
 	}
 
 	/**
-	 * Creates one root or reply composer wired to the mutation collaborator.
+	 * Preserves the historical reaction-context API for external or diagnostic callers.
+	 * @returns {{heichelId:string, postId:string, aliasId:string}} Reaction coordinates.
+	 */
+	reactionContext() {
+		return this.chaiView.revealReactionContext();
+	}
+
+	/**
+	 * Preserves the historical composer API while delegating view construction.
 	 * @param {string} [yesodParentId=''] Parent comment identity for replies.
 	 * @returns {HTMLFormElement} Composer element ready for interaction.
 	 */
 	composer(yesodParentId = '') {
-		return createComposer(
-			this.binahConfig,
-			yesodParentId,
-			(form, parentId, status) => this.submit(form, parentId, status)
-		);
+		return this.chaiView.createComposer(yesodParentId);
 	}
 
 	/**
-	 * Reveals an inline reply composer and transfers focus into its writing field.
+	 * Preserves the historical reply API while delegating branch interaction to Chai.
 	 * @param {HTMLElement} malchusSlot Reply mount owned by a comment card.
 	 * @param {string} yesodParentId Parent comment identity.
-	 * @returns {void} Replaces only the branch reply slot.
+	 * @returns {void} Reveals and focuses the delegated reply composer.
 	 */
 	openReply(malchusSlot, yesodParentId) {
-		rememberComment(this.binahConfig, yesodParentId);
-		malchusSlot.replaceChildren(this.composer(yesodParentId));
-		malchusSlot.querySelector('textarea')?.focus();
+		this.chaiView.revealReply(malchusSlot, yesodParentId);
 	}
 
 	/**
-	 * Preserves the historical controller mutation API while delegating transaction state.
+	 * Preserves the historical mutation API while delegating the guarded transaction.
 	 * @param {HTMLFormElement} malchusForm Composer form.
 	 * @param {string} yesodParentId Parent identity for replies.
 	 * @param {HTMLElement} tiferesStatus Live transaction status node.

@@ -5,8 +5,8 @@
 /**
  * @module BuilderAgentProtocol
  * @description
- * The Awtsmoos renews request and result while neither correlation nor receipt creates authority by itself;
- * Awtsmoos.com now carries action law beside result-derived evidence, so server facts may shine without becoming claims that DNS, TLS, or a public page are externally verified.
+ * The Awtsmoos renews request, discovery, and result while neither correlation nor receipt creates authority by itself;
+ * Awtsmoos.com now names discovery as its own additive covenant while response protocol v3 continues separating action law, server facts, lifecycle, and external verification.
  */
 
 import {
@@ -14,10 +14,11 @@ import {
 	actionLifecycle,
 	cleanAgentError
 } from './agentEnvelopeContract.js';
+import { AGENT_DISCOVERY_VERSION } from './agentActionGroups.js';
 import { finishAgentInvocation } from './agentInvocation.js';
 import { agentResultEvidence } from './agentResultEvidence.js';
 
-export const AGENT_API_VERSION = '1.2.0';
+export const AGENT_API_VERSION = '1.3.0';
 export const AGENT_RESPONSE_VERSION = 3;
 
 /** Returns the stable additive protocol testimony exposed to browser agents. */
@@ -26,6 +27,7 @@ export function describeAgentProtocol() {
 		name: 'GeelooySiteBuilder',
 		apiVersion: AGENT_API_VERSION,
 		responseVersion: AGENT_RESPONSE_VERSION,
+		discoveryVersion: AGENT_DISCOVERY_VERSION,
 		correlation: 'client-only',
 		correlationInput: 'invoke-options.requestId',
 		mutationIdempotency: 'not-provided',

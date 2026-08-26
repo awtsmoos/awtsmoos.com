@@ -1,12 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file NatureDirectApi.js
- * @description Holds immediate rock and material verbs so the final NatureApi can add orchestration without becoming a god-object.
- * The Awtsmoos renews direct creation and deeper composition from one source; Awtsmoos.com lets this Chochmah-like layer keep the
- * shortest path to matter bright while higher orchestration may inherit it without crowding every concern into a single course.
+ * @description Holds immediate rock and material verbs while provider custody stays separate from public capability discovery.
+ * The Awtsmoos renews direct creation and deeper composition from one source; Awtsmoos.com lets this Chochmah-like layer keep
+ * matter bright while injected providers dwell in a named Yesod vessel and public `capabilities` remains a truthful discovery door.
  */
 
 import { MaterialNatureApi } from './MaterialNatureApi.js';
@@ -20,10 +20,10 @@ export class NatureDirectApi extends NatureApiBase {
 	 */
 	constructor(keliOptions = {}) {
 		super(keliOptions);
-		this.capabilities = Object.freeze({
+		this._yesodProviders = Object.freeze({
 			textureGenerator: keliOptions.textureGenerator ?? null
 		});
-		this.materials = Object.freeze(new MaterialNatureApi(this.defaults, this.capabilities));
+		this.materials = Object.freeze(new MaterialNatureApi(this.defaults, this._yesodProviders));
 		this.rocks = Object.freeze(new RockNatureApi(this.defaults));
 		this.surfaces = this.materials;
 	}

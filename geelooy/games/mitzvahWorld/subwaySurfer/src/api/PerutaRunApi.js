@@ -1,93 +1,73 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews the hidden runtime while callers receive a guarded face;
- * Awtsmoos.com gives commands and evidence without exposing the mutable inner place.
+ * @file PerutaRunApi.js
+ * @description Exposes a tiny canonical Peruta Run browser API while preserving legacy commands through manifest-generated aliases.
+ * The Awtsmoos renews hidden state and intent while Keser reveals only simple doors;
+ * Awtsmoos.com keeps state, command, inspect, and events clear above deeply guarded stores.
  */
 
-import { API_VERSION } from "../config.js";
-import { PERUTA_RUN_EVENTS } from "./PerutaRunEventBus.js";
-import { qualityProfileNames } from "../realism/QualityProfile.js";
+import { TiferesPublicApiProtocol } from "/libs/awtsmoos-procedural-core/src/exports/api.js";
+import { DaasPerutaReadGate } from "./DaasPerutaReadGate.js";
+import { KesserPerutaCommandGate } from "./KesserPerutaCommandGate.js";
+import {
+	createPerutaRunCapabilities,
+	PERUTA_API_COVENANT,
+	PERUTA_API_MANIFEST
+} from "./PerutaRunApiManifest.js";
+import { revealPerutaApiBindings } from "./YesodPerutaApiBindings.js";
 
+/** Frozen Peruta facade with true private protocol and event-bus ownership. */
 export class KesserPerutaRunApi {
-	#state;
-	#inputIntent;
-	#diagnostics;
+	#protocol;
 	#eventBus;
 
-	/** @param {object} dependencies State, input intent, diagnostics, event bus, and active profile. */
-	constructor(dependencies) {
-		this.#state = dependencies.state;
-		this.#inputIntent = dependencies.inputIntent;
-		this.#diagnostics = dependencies.diagnostics;
-		this.#eventBus = dependencies.eventBus;
-		this.version = API_VERSION;
-		this.capabilities = Object.freeze({
-			commands: Object.freeze(["moveLeft", "moveRight", "jump", "pause", "resume", "restart"]),
-			events: PERUTA_RUN_EVENTS,
-			qualityProfiles: qualityProfileNames(),
-			activeQualityProfile: dependencies.profile.name,
-			proceduralWorld: true,
-			authoredCharacterModel: true
+	/**
+	 * @param {object} yesodDependencies State, input intent, diagnostics, event bus, and active quality profile.
+	 */
+	constructor(yesodDependencies) {
+		const chochmahCommands = new KesserPerutaCommandGate(
+			yesodDependencies.state,
+			yesodDependencies.inputIntent
+		);
+		const daasReads = new DaasPerutaReadGate(
+			yesodDependencies.state,
+			yesodDependencies.diagnostics
+		);
+		this.#protocol = new TiferesPublicApiProtocol(PERUTA_API_COVENANT, {
+			command: (name, payload, definition) => chochmahCommands.dispatch(name, payload, definition),
+			read: (name, definition) => daasReads.read(name, definition)
 		});
+		this.#eventBus = yesodDependencies.eventBus;
+		this.version = PERUTA_API_MANIFEST.version;
+		this.capabilities = createPerutaRunCapabilities(yesodDependencies.profile);
+		revealPerutaApiBindings(this);
 		Object.freeze(this);
 	}
 
-	/** @returns {object} Frozen game-state snapshot. */
-	getState() {
-		return Object.freeze({ ...this.#state.snapshot() });
+	/** @returns {object} Detached deeply immutable current run state. */
+	state() {
+		return this.#protocol.state();
 	}
 
-	/** @returns {object} Frozen renderer and gameplay diagnostics. */
-	getDiagnostics() {
-		return this.#diagnostics.snapshot();
+	/** @param {string} chochmahName Canonical command id. @param {unknown} [binahPayload] Payload. @returns {unknown} */
+	command(chochmahName, binahPayload) {
+		return this.#protocol.command(chochmahName, binahPayload);
 	}
 
-	/** @returns {boolean} Whether a left-lane command was accepted. */
-	moveLeft() {
-		return this.#requestWhileRunning("left");
+	/** @param {string} [chochmahName="manifest"] Read channel. @returns {unknown} Detached immutable evidence. */
+	inspect(chochmahName = "manifest") {
+		return this.#protocol.inspect(chochmahName);
 	}
 
-	/** @returns {boolean} Whether a right-lane command was accepted. */
-	moveRight() {
-		return this.#requestWhileRunning("right");
-	}
-
-	/** @returns {boolean} Whether a jump command was accepted. */
-	jump() {
-		return this.#requestWhileRunning("jump");
-	}
-
-	/** @returns {boolean} Whether a pause command was queued. */
-	pause() {
-		if (this.#state.status !== "running") return false;
-		this.#inputIntent.request("pause");
-		return true;
-	}
-
-	/** @returns {boolean} Whether a resume command was queued. */
-	resume() {
-		if (this.#state.status !== "paused") return false;
-		this.#inputIntent.request("pause");
-		return true;
-	}
-
-	/** Queues a deterministic fresh run. @returns {boolean} Always true. */
-	restart() {
-		this.#inputIntent.request("restart");
-		return true;
-	}
-
-	/** @param {string} eventName Supported semantic event. @param {Function} listener Listener callback. */
-	on(eventName, listener) {
-		return this.#eventBus.on(eventName, listener);
-	}
-
-	/** @param {string} intent Canonical movement intent. @returns {boolean} Whether accepted. */
-	#requestWhileRunning(intent) {
-		if (this.#state.status !== "running") return false;
-		this.#inputIntent.request(intent);
-		return true;
+	/**
+	 * Subscribes to one declared semantic run event without exposing the event-bus object.
+	 * @param {string} chochmahEventName Supported event id.
+	 * @param {Function} tiferesListener Event listener.
+	 * @returns {Function} Idempotent unsubscribe function.
+	 */
+	on(chochmahEventName, tiferesListener) {
+		return this.#eventBus.on(chochmahEventName, tiferesListener);
 	}
 }

@@ -1,63 +1,69 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file TempleApiManifest.js
- * @description Declares the entire supported Temple Runner browser API as frozen serializable covenant data instead of scattering command truth through imperative wrappers.
- * The Awtsmoos renews every callable name before a method can imagine it owns its light;
- * Awtsmoos.com lets Binah write the covenant once, so simple public verbs and advanced discovery remain aligned and bright.
+ * @description Declares Temple Runner's canonical command, configuration, read, feature, and compatibility covenant as immutable data.
+ * The Awtsmoos renews every public word before one alias may borrow its ray;
+ * Awtsmoos.com lets Binah describe one canonical river while familiar names still find their way.
  */
 
-/**
- * Recursively freezes a plain covenant branch so public capability data cannot be rewritten by callers.
- * This function mutates only JavaScript object extensibility; it does not alter any gameplay or browser state.
- * @template {object|Array<unknown>} TCovenant
- * @param {TCovenant} covenantBranch Manifest object or array whose nested object branches must become immutable.
- * @returns {Readonly<TCovenant>} The same deeply frozen covenant branch.
- */
-function sealCovenantBranch(covenantBranch) {
-	for (const innerRevelation of Object.values(covenantBranch)) {
-		if (innerRevelation && typeof innerRevelation === "object" && !Object.isFrozen(innerRevelation)) {
-			sealCovenantBranch(innerRevelation);
-		}
-	}
-	return Object.freeze(covenantBranch);
-}
+import {
+	BinahPublicApiManifest,
+	createPublicApiValue
+} from "/libs/awtsmoos-procedural-core/src/exports/api.js";
 
-const commandCovenants = {
-	left: { intent: "left" },
-	right: { intent: "right" },
-	jump: { intent: "jump" },
-	slide: { intent: "duck" },
-	pause: { intent: "pause", requiredStatus: "running" },
-	resume: { intent: "pause", requiredStatus: "paused" },
-	restart: { intent: "restart" }
+const TEMPLE_COMMANDS = {
+	left: {family: "input", intent: "left"},
+	right: {family: "input", intent: "right"},
+	jump: {family: "input", intent: "jump"},
+	slide: {family: "input", intent: "duck"},
+	pause: {family: "input", intent: "pause", requiredStatus: "running"},
+	resume: {family: "input", intent: "pause", requiredStatus: "paused"},
+	restart: {family: "input", intent: "restart"},
+	"input.request": {family: "inputPayload"},
+	"details.open": {family: "details", action: "open"},
+	"details.close": {family: "details", action: "close"}
 };
 
-const preferenceCovenants = {
-	setFx: { key: "fx", capability: "fx", type: "boolean" },
-	setReducedMotion: { key: "reducedMotion", capability: "reducedMotion", type: "boolean" },
-	setControlsVisible: { key: "controls", capability: "controls", type: "boolean" }
+const TEMPLE_CONFIGURATION = {
+	fx: {type: "boolean"},
+	reducedMotion: {type: "boolean"},
+	controls: {type: "boolean"}
 };
 
-const readCovenants = {
-	getState: { source: "state" },
-	getDiagnostics: { source: "diagnostics" },
-	getPreferences: { source: "preferences" },
-	describe: { source: "manifest" }
+const TEMPLE_READS = {
+	state: {source: "state"},
+	diagnostics: {source: "diagnostics"},
+	preferences: {source: "preferences"}
 };
 
-const detailCovenants = {
-	openDetails: { action: "open" },
-	closeDetails: { action: "close" }
+const TEMPLE_ALIASES = {
+	left: {channel: "command", target: "left"},
+	right: {channel: "command", target: "right"},
+	jump: {channel: "command", target: "jump"},
+	slide: {channel: "command", target: "slide"},
+	pause: {channel: "command", target: "pause"},
+	resume: {channel: "command", target: "resume"},
+	restart: {channel: "command", target: "restart"},
+	request: {channel: "command", target: "input.request", argument: "first"},
+	setFx: {channel: "configure", target: "fx"},
+	setReducedMotion: {channel: "configure", target: "reducedMotion"},
+	setControlsVisible: {channel: "configure", target: "controls"},
+	getState: {channel: "state"},
+	getDiagnostics: {channel: "inspect", target: "diagnostics"},
+	getPreferences: {channel: "inspect", target: "preferences"},
+	describe: {channel: "inspect", target: "manifest"},
+	openDetails: {channel: "command", target: "details.open"},
+	closeDetails: {channel: "command", target: "details.close"}
 };
 
-export const TEMPLE_API_MANIFEST = sealCovenantBranch({
+export const TEMPLE_API_COVENANT = new BinahPublicApiManifest({
 	version: "3.0.0",
-	commands: commandCovenants,
-	preferences: preferenceCovenants,
-	reads: readCovenants,
-	details: detailCovenants,
+	commands: TEMPLE_COMMANDS,
+	configuration: TEMPLE_CONFIGURATION,
+	reads: TEMPLE_READS,
+	aliases: TEMPLE_ALIASES,
 	features: {
 		advancedDrawer: true,
 		ambientPointClouds: true,
@@ -65,10 +71,11 @@ export const TEMPLE_API_MANIFEST = sealCovenantBranch({
 	}
 });
 
-export const TEMPLE_API_CAPABILITIES = sealCovenantBranch({
-	commands: Object.keys(commandCovenants),
-	preferences: Object.values(preferenceCovenants).map(
-		(preferenceCovenant) => preferenceCovenant.capability
-	),
+export const TEMPLE_API_MANIFEST = TEMPLE_API_COVENANT.snapshot();
+
+export const TEMPLE_API_CAPABILITIES = createPublicApiValue({
+	commands: ["left", "right", "jump", "slide", "pause", "resume", "restart"],
+	preferences: ["fx", "reducedMotion", "controls"],
+	protocol: ["state", "command", "configure", "inspect"],
 	...TEMPLE_API_MANIFEST.features
 });

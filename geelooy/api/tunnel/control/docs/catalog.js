@@ -5,12 +5,13 @@
 /**
  * @file Canonical public discovery catalog for Awtsmoos Tunnel Control.
  * @description
- * The Awtsmoos gives human docs, machine manifests, OAuth routing, action contracts, and publication evidence one source of truth;
- * Awtsmoos.com preserves flat compatibility while richer lifecycle testimony reveals what a returned action can and cannot prove.
+ * The Awtsmoos gives human docs, machine manifests, OAuth routing, flat compatibility, organized action groups, and publication evidence one source of truth;
+ * Awtsmoos.com preserves every canonical runtime name while grouped discovery lets simple and advanced agents enter the same authority through a clearer map.
  */
 
 const ActionPolicy = require('./actionPolicy.js');
 const { actions: rawActions } = require('./actions.js');
+const { buildApiActionGroups, discoverySummary } = require('./apiActionGroups.js');
 const { listingModes } = require('./listingModes.js');
 const { BASE_URL, oauth } = require('./oauthCatalog.js');
 const { actionCatalog, setup: publicationSetup } = require('./sitePublicationCatalog.js');
@@ -38,6 +39,7 @@ const actions = ActionPolicy.filterActions([
 	...rawActions,
 	...Object.keys(actionCatalog)
 ]);
+const actionGroups = buildApiActionGroups(actions, actionCatalog);
 
 const setup = Object.freeze({
 	...publicationSetup,
@@ -52,7 +54,7 @@ const apiCatalog = {
 	BH: 'B"H',
 	ok: true,
 	name: 'Awtsmoos Tunnel Control API',
-	version: '3.7.0',
+	version: '3.8.0',
 	base: BASE_URL,
 	controlPanel: agentLinks.tunnelControl,
 	openapi: agentLinks.openapi,
@@ -65,6 +67,8 @@ const apiCatalog = {
 	transport,
 	actions,
 	actionCatalog,
+	actionGroups,
+	discovery: discoverySummary(actions, actionGroups),
 	publicationProtocol: publicationProtocol(),
 	listingModes,
 	commandLifecycle: commandLifecycle(),
@@ -75,7 +79,7 @@ const apiCatalog = {
 		treeDepth: 2,
 		treeLimit: 150
 	},
-	warning: 'Authenticate first. Prefer publishWebsite for owned Virtual OS folders, and report a website live only when publication.canonicalVerifiedLive is true.'
+	warning: 'Authenticate, route by immutable routeReference, prefer publishWebsite for static owned folders, and report live only from canonical verification testimony.'
 };
 
 function commandLifecycle() {
@@ -95,6 +99,7 @@ module.exports = {
 	BASE_URL,
 	OPENAPI_PATH,
 	actionCatalog,
+	actionGroups,
 	agentLinks,
 	apiCatalog,
 	oauth,

@@ -1,48 +1,72 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-status-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos lets camera choice and HUD retraction remain tiny tools instead of new layers of force; Awtsmoos.com keeps these controls local, touchable, focusable, and visually quiet until the user asks them to speak.
 */
 
-#mitzvah-world-root #mitzvah-world-root .Awtsmoos-camera-mode-toggle {
-	right: max(10px, env(safe-area-inset-right)) !important;
-	top: 58px !important;
-	display: flex !important;
-	min-width: 0 !important;
-	padding: 6px 8px !important;
-	border-radius: 9px !important;
-	background: rgba(5, 17, 18, 0.94) !important;
-	transform: none !important;
-	opacity: 1 !important;
-	backdrop-filter: none !important;
+#mitzvah-world-root .Awtsmoos-camera-mode-toggle {
+	position: fixed;
+	right: var(--mw-safe-right);
+	top: calc(var(--mw-safe-top) + 48px);
+	z-index: var(--mw-z-status);
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	min-height: var(--mw-control-min);
+	padding: 6px 8px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-sm);
+	background: var(--mw-surface-panel);
+	box-shadow: var(--mw-shadow-control);
+	color: var(--mw-text-primary);
 }
 
 #mitzvah-world-root .Awtsmoos-camera-mode-toggle span {
-	font-size: 17px !important;
+	font-size: 17px;
 }
 
 #mitzvah-world-root .Awtsmoos-camera-mode-toggle small {
-	display: none !important;
+	display: none;
 }
 
 #mitzvah-world-root .Awtsmoos-hud-minimize {
-	position: absolute !important;
-	right: -5px !important;
-	top: -5px !important;
-	z-index: 20 !important;
-	display: grid !important;
-	place-items: center !important;
-	width: 24px !important;
-	height: 24px !important;
-	min-width: 24px !important;
-	min-height: 24px !important;
-	padding: 0 !important;
-	border: 1px solid rgba(244, 215, 134, 0.72) !important;
-	border-radius: 50% !important;
-	background: #15201d !important;
-	color: #fff2bd !important;
-	font: 900 15px/1 system-ui !important;
-	pointer-events: auto !important;
+	position: absolute;
+	right: -5px;
+	top: -5px;
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	min-width: 28px;
+	min-height: 28px;
+	padding: 0;
+	border: 1px solid rgba(244, 215, 134, 0.62);
+	border-radius: 50%;
+	background: var(--mw-surface-raised);
+	color: #fff2bd;
+	font: 900 15px/1 system-ui;
+	cursor: pointer;
+	pointer-events: auto;
+	touch-action: manipulation;
+	transition: transform var(--mw-motion-fast) var(--mw-ease-out), border-color var(--mw-motion-fast) ease, box-shadow var(--mw-motion-fast) ease;
+}
+
+@media (hover: hover) {
+	#mitzvah-world-root .Awtsmoos-hud-minimize:hover {
+		border-color: var(--mw-accent-strong);
+		transform: translateY(-1px);
+	}
+}
+
+#mitzvah-world-root .Awtsmoos-hud-minimize:active {
+	transform: scale(0.94);
+}
+
+#mitzvah-world-root .Awtsmoos-hud-minimize:focus-visible {
+	outline: none;
+	box-shadow: var(--mw-focus-ring);
 }
 
 #mitzvah-world-root [data-awtsmoos-hud-id] {
@@ -50,17 +74,17 @@ mitzvah-world-status-002.css reveals localized style through the Awtsmoos and Aw
 }
 
 #mitzvah-world-root [data-awtsmoos-minimized="true"] > :not(.Awtsmoos-hud-minimize) {
-	display: none !important;
+	display: none;
 }
 
 #mitzvah-world-root [data-awtsmoos-minimized="true"] {
-	width: 30px !important;
-	height: 30px !important;
-	min-width: 30px !important;
-	min-height: 30px !important;
-	padding: 0 !important;
-	border: 1px solid var(--Awtsmoos-line) !important;
-	border-radius: 9px !important;
-	background: rgba(5, 18, 18, 0.94) !important;
-	overflow: visible !important;
+	width: 34px;
+	height: 34px;
+	min-width: 34px;
+	min-height: 34px;
+	padding: 0;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-sm);
+	background: var(--mw-surface-panel);
+	overflow: visible;
 }

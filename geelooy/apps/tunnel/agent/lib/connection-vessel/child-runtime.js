@@ -5,6 +5,8 @@
 const HealthPublisher = require("./child-health-publisher.js");
 const Ipc = require("./child-runtime-ipc.js");
 const ParentState = require("./child-runtime-parent.js");
+const RuntimeCustody = require("./child-runtime-custody.js");
+const RuntimeCycle = require("./child-runtime-cycle.js");
 const RuntimeView = require("./child-runtime-view.js");
 const { createFoundation } = require("./child-foundation.js");
 const { createDelivery } = require("./child-delivery.js");
@@ -12,21 +14,25 @@ const Protocol = require("./protocol.js");
 const Send = require("../runtime/safe-send.js");
 
 /**
- * @file Coordinates transport, durable custody, parent health, and relay testimony.
- * @description Parent acceptance is recorded beside the durable inbox witness so
- * truthful long work remains routable without erasing evidence before relay settlement.
+ * @file Composes transport, durable custody, parent health, and relay testimony.
+ * @description
+ * The Awtsmoos renews each request with one identity across socket and process vessels.
+ * Awtsmoos.com keeps composition here while smaller custody and cycle vessels guard the
+ * exact deed, so runtime life remains readable and expandable without a monolithic veil.
  */
 function createRuntime() {
 	let foundation;
 	let delivery;
 	let stateTimer = null;
-	let wasRegistered = false;
 	const ipc = Ipc.create();
 	const healthPublisher = HealthPublisher.create();
 	const parent = ParentState.create({
 		parentPid: process.env.AWTSMOOS_CONNECTION_OWNER_PID
 	});
+	let cycle;
+	let custody;
 
+	/** Returns the parent-visible transport and mailbox state without mutation. */
 	function snapshot() {
 		const parentView = parent.snapshot();
 		return RuntimeView.snapshot({
@@ -38,6 +44,7 @@ function createRuntime() {
 		});
 	}
 
+	/** Returns bounded parent scheduler statistics plus current connection testimony. */
 	function stats() {
 		return {
 			...parent.snapshot().stats,
@@ -45,6 +52,7 @@ function createRuntime() {
 		};
 	}
 
+	/** Converts a child-terminal path into the correct supervised process exit reason. */
 	function exitProcess(code) {
 		const reason = foundation?.state?.replacementRequested
 			? "newer_connection_owns_tunnel"
@@ -63,30 +71,31 @@ function createRuntime() {
 		send: ipc.send,
 		state: foundation.state
 	});
+	custody = RuntimeCustody.createCustody({
+		mailbox: foundation.mailbox,
+		parent,
+		state: foundation.state
+	});
+	cycle = RuntimeCycle.createCycle({
+		delivery,
+		healthPublisher,
+		ipc,
+		mailbox: foundation.mailbox,
+		parent,
+		snapshot,
+		state: foundation.state
+	});
 
+	/** Starts the connection transport and periodic healing/publication cycle. */
 	function start() {
-		stateTimer = setInterval(publishState, 500);
+		stateTimer = setInterval(cycle.publish, 500);
 		stateTimer.unref?.();
 		foundation.connection.connect();
 		ipc.send(Protocol.message(Protocol.TYPES.READY, { pid: process.pid }));
 		return foundation.state;
 	}
 
-	function publishState() {
-		const registered = foundation.state.registrationConfirmed === true;
-		if (registered && !wasRegistered) delivery.flush();
-		wasRegistered = registered;
-		parent.inspect(registered, foundation.mailbox.snapshot());
-		const current = snapshot();
-		ipc.send(Protocol.message(Protocol.TYPES.STATE, { state: current }));
-		healthPublisher.publish(current, delivery.transmit);
-	}
-
-	function noteParentCustody(receiptId) {
-		foundation.mailbox.noteParentCustody(receiptId);
-		return parent.noteCustody(receiptId);
-	}
-
+	/** Stops this child timer, reconnect timer, and active transport without touching parent. */
 	function stop() {
 		if (stateTimer) clearInterval(stateTimer);
 		stateTimer = null;
@@ -97,7 +106,7 @@ function createRuntime() {
 	return {
 		flush: delivery.flush,
 		mailbox: foundation.mailbox,
-		noteParentCustody,
+		noteParentCustody: custody.noteParentCustody,
 		parentDidBecomeReady: delivery.parentDidBecomeReady,
 		redeliver: delivery.redeliver,
 		snapshot,

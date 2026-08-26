@@ -1,0 +1,114 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets a small visible quickstart contain the doorway to a much larger automation map without flooding the ordinary publishing path.
+ * Awtsmoos.com gives grouped discovery compact cards, truthful read/mutation badges, and wrapping machine names so advanced power remains legible on both desktop and the hand-held vessel.
+ */
+
+.builder-automation-root,
+.builder-automation-section,
+.builder-automation-groups,
+.builder-automation-actions {
+	display: grid;
+	gap: .7rem;
+	min-width: 0;
+}
+
+.builder-automation-overview {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: .4rem .8rem;
+	padding: .7rem .8rem;
+	border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+	border-radius: .75rem;
+}
+
+.builder-automation-section h4,
+.builder-automation-section p {
+	margin: 0;
+}
+
+.builder-automation-quickstart {
+	display: grid;
+	gap: .45rem;
+	margin: 0;
+	padding-left: 1.4rem;
+}
+
+.builder-automation-quickstart li {
+	display: grid;
+	gap: .15rem;
+}
+
+.builder-automation-quickstart code,
+.builder-automation-action code {
+	overflow-wrap: anywhere;
+	font-size: .78rem;
+}
+
+.builder-automation-group {
+	border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+	border-radius: .8rem;
+	overflow: clip;
+}
+
+.builder-automation-group > summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	min-height: 44px;
+	padding: .65rem .75rem;
+	cursor: pointer;
+}
+
+.builder-automation-count,
+.builder-api-badge {
+	font-size: .68rem;
+	font-weight: 800;
+	white-space: nowrap;
+}
+
+.builder-automation-actions {
+	padding: .75rem;
+	border-top: 1px solid color-mix(in srgb, currentColor 9%, transparent);
+}
+
+.builder-automation-action {
+	display: grid;
+	gap: .3rem;
+	padding: .7rem;
+	border-radius: .7rem;
+	background: color-mix(in srgb, currentColor 3%, transparent);
+}
+
+.builder-automation-action__heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .65rem;
+}
+
+.builder-api-badge {
+	padding: .18rem .4rem;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+}
+
+.builder-api-badge.is-mutation {
+	background: color-mix(in srgb, #f59e0b 9%, transparent);
+}
+
+.builder-api-badge.is-read {
+	background: color-mix(in srgb, #3b82f6 8%, transparent);
+}
+
+@media (max-width: 479px) {
+	.builder-automation-action__heading {
+		align-items: start;
+	}
+}

@@ -1,41 +1,65 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file TempleRunnerApi.js
- * @description Composes small command, knowledge, and presentation gates into one frozen public Temple Runner doorway whose method surface is generated from covenant data.
- * The Awtsmoos renews the many hidden Sefiros while Kesser presents one simple crown;
- * Awtsmoos.com lets beginners call `jump()` in peace while advanced callers may `describe()` the deeper structure beneath the town.
+ * @description Exposes a tiny canonical Temple Runner browser API while manifest-generated aliases preserve every familiar v3 convenience method.
+ * The Awtsmoos renews many hidden systems while Keser presents only a few lucid words;
+ * Awtsmoos.com keeps state, command, configure, and inspect simple above a deeply ordered world.
  */
 
+import { TiferesPublicApiProtocol } from "/libs/awtsmoos-procedural-core/src/exports/api.js";
 import { DaasReadGate } from "./DaasReadGate.js";
 import { KesserCommandGate } from "./KesserCommandGate.js";
 import { MalchusPreferenceGate } from "./MalchusPreferenceGate.js";
 import {
 	TEMPLE_API_CAPABILITIES,
+	TEMPLE_API_COVENANT,
 	TEMPLE_API_MANIFEST
 } from "./TempleApiManifest.js";
 import { revealTempleApiBindings } from "./YesodApiBindings.js";
 
+/** Frozen canonical Temple Runner facade with compatibility aliases generated from one covenant. */
 export class KesserTempleRunnerApi {
+	#protocol;
+
 	/**
-	 * Builds the entire backward-compatible browser API from specialized gates, publishes immutable version/capability data, then freezes the finished doorway.
-	 * Construction stores no mutable runtime graph on the public object: closures inside non-enumerable bound methods retain only the narrow gates they require.
-	 * @param {object} olamRuntime Authoritative Temple Runner runtime graph.
-	 * @param {object} malchusHud Clean HUD controller owning preferences and retractable detail.
+	 * Creates the public facade without exposing runtime, HUD, drawer, or preference store references.
+	 * @param {object} tiferesRuntime Active Temple runtime.
+	 * @param {object} malchusHud HUD controller.
 	 */
-	constructor(olamRuntime, malchusHud) {
-		const kesserCommands = new KesserCommandGate(olamRuntime);
-		const daasReads = new DaasReadGate(olamRuntime, malchusHud);
+	constructor(tiferesRuntime, malchusHud) {
+		const chochmahCommands = new KesserCommandGate(tiferesRuntime, malchusHud);
+		const binahReads = new DaasReadGate(tiferesRuntime, malchusHud);
 		const malchusPreferences = new MalchusPreferenceGate(malchusHud);
+		this.#protocol = new TiferesPublicApiProtocol(TEMPLE_API_COVENANT, {
+			command: (name, payload, definition) => chochmahCommands.dispatch(name, payload, definition),
+			configure: (key, value, definition) => malchusPreferences.configure(key, value, definition),
+			read: (name, definition) => binahReads.read(name, definition)
+		});
 		this.version = TEMPLE_API_MANIFEST.version;
 		this.capabilities = TEMPLE_API_CAPABILITIES;
-		revealTempleApiBindings(
-			this,
-			kesserCommands,
-			daasReads,
-			malchusPreferences
-		);
+		revealTempleApiBindings(this);
 		Object.freeze(this);
+	}
+
+	/** @returns {object} Detached deeply immutable current run snapshot. */
+	state() {
+		return this.#protocol.state();
+	}
+
+	/** @param {string} chochmahName Canonical command id. @param {unknown} [binahPayload] Payload. @returns {unknown} */
+	command(chochmahName, binahPayload) {
+		return this.#protocol.command(chochmahName, binahPayload);
+	}
+
+	/** @param {object} chochmahPatch Configuration patch. @returns {object} Immutable change summary. */
+	configure(chochmahPatch) {
+		return this.#protocol.configure(chochmahPatch);
+	}
+
+	/** @param {string} [chochmahName="manifest"] Evidence channel. @returns {unknown} Immutable evidence. */
+	inspect(chochmahName = "manifest") {
+		return this.#protocol.inspect(chochmahName);
 	}
 }

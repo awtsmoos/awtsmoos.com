@@ -1,0 +1,94 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos hides no truth, yet reveals depth according to the vessel prepared to receive it;
+ * Awtsmoos.com gives advanced social machinery a native disclosure covenant so first paint stays calm, touchable, and clear.
+ */
+.social-hub-document .socialAdvancedVessel {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	margin-block: .7rem;
+	border: 1px solid var(--social-line, rgb(148 163 184 / 18%));
+	border-radius: 1rem;
+	background: color-mix(in srgb, Canvas 97%, currentColor 3%);
+	overflow: clip;
+}
+
+.social-hub-document .socialAdvancedSummary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: .4rem .8rem;
+	align-items: center;
+	min-block-size: 46px;
+	padding: .7rem .8rem;
+	cursor: pointer;
+	list-style-position: inside;
+	transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.social-hub-document .socialAdvancedSummary strong,
+.social-hub-document .socialAdvancedSummary span {
+	min-inline-size: 0;
+	overflow-wrap: anywhere;
+}
+
+.social-hub-document .socialAdvancedSummary span {
+	font-size: .72rem;
+	opacity: .66;
+}
+
+.social-hub-document .socialAdvancedVessel[open] > .socialAdvancedSummary {
+	border-block-end: 1px solid var(--social-line, rgb(148 163 184 / 18%));
+}
+
+.social-hub-document .socialAdvancedVessel[open] > :not(summary) {
+	animation: socialDisclosureReveal 180ms ease both;
+}
+
+.social-hub-document .socialAdvancedVessel > :not(summary) {
+	margin-inline: .75rem;
+}
+
+.social-hub-document .socialAdvancedVessel > :last-child {
+	margin-block-end: .75rem;
+}
+
+.social-hub-document .socialDangerVessel {
+	border-color: color-mix(in srgb, #ef4444 28%, var(--social-line));
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .socialAdvancedSummary:hover {
+		background: color-mix(in srgb, #7c5cff 7%, transparent);
+	}
+}
+
+.social-hub-document .socialAdvancedSummary:active {
+	transform: scale(.992);
+}
+
+.social-hub-document .socialAdvancedSummary:focus-visible {
+	outline: 2px solid var(--social-focus, #67e8f9);
+	outline-offset: -2px;
+}
+
+@keyframes socialDisclosureReveal {
+	from { opacity: 0; transform: translateY(-4px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 30rem) {
+	.social-hub-document .socialAdvancedSummary {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .socialAdvancedSummary,
+	.social-hub-document .socialAdvancedVessel[open] > :not(summary) {
+		animation: none;
+		transition: none;
+	}
+}

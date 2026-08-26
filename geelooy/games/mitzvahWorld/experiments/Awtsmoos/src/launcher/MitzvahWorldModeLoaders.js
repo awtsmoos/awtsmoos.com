@@ -4,15 +4,9 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
-<<<<<<< HEAD
- * @description Opens playable worlds first while raw local module doors request compact server graphs and optional systems remain explicitly secondary.
- * The Awtsmoos reveals movement before ornament and purpose before display;
- * Awtsmoos.com keeps each browser doorway compact and each deeper chamber deferred, so speed grows without making the visible world noisy or wide.
-=======
- * @description Loads direct worlds while letting Movie Studio open before gameplay presentation or world hydration.
- * The Awtsmoos renews cinema and meadow from one source without forcing either doorway through the other;
- * Awtsmoos.com keeps Movie Maker light at first paint while full gameplay presentation remains available to living worlds.
->>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
+ * @description Opens playable worlds first, keeps Movie Studio lightweight, and loads heavier presentation only for advanced creative routes.
+ * The Awtsmoos reveals movement before ornament while every doorway keeps its appointed weight;
+ * Awtsmoos.com lets cinema stay light, worlds become playable first, and deeper creative vessels arrive only when their users open the gate.
  */
 
 import {
@@ -30,13 +24,8 @@ const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?compact=true&v=2
 /** Returns the public route-loader covenant without exposing implementation details. */
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
 	return Object.freeze({
-<<<<<<< HEAD
-		materials: hosts => openCreative('openMaterialsMode', hosts, '', environment),
-		movie: (hosts, options) => openMovie(hosts, options?.search || ''),
-=======
 		materials: hosts => openPresentedCreative('openMaterialsMode', hosts, '', environment),
-		movie: (hosts, options) => openMovieCreative(hosts, options, environment),
->>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
+		movie: (hosts, options) => openMovieCreative(hosts, options),
 		multiplayer: (hosts, options) => openMultiplayer(hosts, options, environment),
 		platform: hosts => openPresentedCreative('openPlatformMode', hosts, '', environment),
 		singlePlayer: (hosts, options) => openSinglePlayer(hosts, options, environment)
@@ -55,11 +44,13 @@ export function hasMovieRequest(search = '') {
 		|| parameters.has('project');
 }
 
-async function openMovieCreative(hosts, options = {}, environment = globalThis) {
-	const module = await import(CREATIVE_URL);
-	return module.openMovieMode(hosts, options.search || '');
+/** Opens Movie Studio without hydrating full gameplay presentation. */
+async function openMovieCreative(hosts, options = {}) {
+	const moduleKli = await import(CREATIVE_URL);
+	return moduleKli.openMovieMode(hosts, options.search || '');
 }
 
+/** Opens one local single-player runtime before optional post-play presentation. */
 async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	reportDirectWorldProgress(options, 'Preparing visible WebGL control and map…');
 	const [runtimeModule, badgeModule] = await Promise.all([
@@ -82,6 +73,7 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	return diagnostics;
 }
 
+/** Opens the shared runtime and defers optional post-play presentation. */
 async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 	reportDirectWorldProgress(options, 'Preparing visible WebGL shared control and map…');
 	const { createMultiplayerEretzRuntime } = await import(
@@ -99,29 +91,21 @@ async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 	return diagnostics;
 }
 
-<<<<<<< HEAD
-async function openMovie(hosts, search) {
-	const module = await import(CREATIVE_URL);
-	return module.openMovieMode(hosts, search);
-}
-
-async function openCreative(method, hosts, search, environment) {
-	const experience = await import(DIRECT_EXPERIENCE_URL);
-	await experience.startMitzvahWorldFullPresentation(hosts, environment);
-=======
+/** Opens an advanced creative mode after explicitly loading its richer presentation. */
 async function openPresentedCreative(method, hosts, search, environment) {
-	await startFullPresentation(hosts, environment);
->>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
-	const module = await import(CREATIVE_URL);
-	return module[method](hosts, search);
+	const experienceKli = await import(DIRECT_EXPERIENCE_URL);
+	await experienceKli.startMitzvahWorldFullPresentation(hosts, environment);
+	const creativeKli = await import(CREATIVE_URL);
+	return creativeKli[method](hosts, search);
 }
 
+/** Starts post-play helpers without letting optional presentation failures stop play. */
 function launchPostPlayExperience(diagnostics, environment) {
 	const promise = import(POST_PLAY_EXPERIENCE_URL)
-		.then(module => module.startMitzvahWorldPostPlayExperience(diagnostics, environment))
-		.catch(error => {
-			diagnostics.directExperienceBootstrapError = directWorldErrorReceipt(error);
-			console.warn('[MitzvahWorld] post-play helper degraded.', error);
+		.then(moduleKli => moduleKli.startMitzvahWorldPostPlayExperience(diagnostics, environment))
+		.catch(errorOhr => {
+			diagnostics.directExperienceBootstrapError = directWorldErrorReceipt(errorOhr);
+			console.warn('[MitzvahWorld] post-play helper degraded.', errorOhr);
 			return null;
 		});
 	diagnostics.directExperienceBootstrapPromise = promise;

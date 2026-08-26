@@ -2,29 +2,22 @@
 // Boruch Hashem
 // Blessed is He
 
+const CustodyMetadata = require("./mailbox-custody-metadata.js");
 const Protocol = require("./protocol.js");
 
 /**
  * @file Transfers one durable request from connection child to parent custody.
  * @description
- * The Awtsmoos joins persistence and execution without confusing their borders.
- * Awtsmoos.com acknowledges only after the parent queue accepts responsibility;
- * a thrown enqueue leaves the exact child receipt alive for faithful redelivery.
+ * The Awtsmoos joins persistence and execution without erasing the deed's true name.
+ * Awtsmoos.com acknowledges only after parent admission and returns the same request,
+ * transport, shliach, and session testimony so child custody remains generation-aware.
  */
 function createMessageRouter(options = {}) {
 	function handle(message) {
-		if (!Protocol.valid(message)) {
-			return false;
-		}
-		if (message.type === Protocol.TYPES.READY) {
-			return handleReady();
-		}
-		if (message.type === Protocol.TYPES.REQUEST) {
-			return handleRequest(message.envelope);
-		}
-		if (message.type === Protocol.TYPES.STATE) {
-			return handleState(message.state);
-		}
+		if (!Protocol.valid(message)) return false;
+		if (message.type === Protocol.TYPES.READY) return handleReady();
+		if (message.type === Protocol.TYPES.REQUEST) return handleRequest(message.envelope);
+		if (message.type === Protocol.TYPES.STATE) return handleState(message.state);
 		if (message.type === Protocol.TYPES.TERMINAL) {
 			options.onTerminal(message);
 			return true;
@@ -42,7 +35,12 @@ function createMessageRouter(options = {}) {
 		return true;
 	}
 
-	function handleRequest(envelope) {
+	/**
+	 * Accepts execution custody and sends an identity-bearing acknowledgement to the child.
+	 * @param {object} envelope Original durable relay request.
+	 * @returns {boolean} True only when parent admission and child notification both occur.
+	 */
+	function handleRequest(envelope = {}) {
 		const receiptId = Protocol.requestId(envelope);
 		if (!receiptId) {
 			options.log("warn", "connection child request omitted a transport receipt id");
@@ -54,27 +52,22 @@ function createMessageRouter(options = {}) {
 			options.log("warn", `parent queue rejected custody: ${error.message}`);
 			return false;
 		}
+		const identity = CustodyMetadata.fromEnvelope(envelope);
 		return options.notify(Protocol.message(Protocol.TYPES.ACK, {
+			...identity,
 			id: receiptId,
-			transportReceiptId: receiptId
+			transportReceiptId: identity.transportReceiptId || receiptId
 		}));
 	}
 
 	function handleState(state = {}) {
-		if (state.registered === true) {
-			options.onRegistered();
-		}
+		if (state.registered === true) options.onRegistered();
 		options.mirror(state);
 		options.publishStats();
 		return true;
 	}
 
-	return {
-		handle,
-		handleRequest
-	};
+	return { handle, handleRequest };
 }
 
-module.exports = {
-	createMessageRouter
-};
+module.exports = { createMessageRouter };

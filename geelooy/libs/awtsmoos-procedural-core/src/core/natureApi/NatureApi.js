@@ -1,12 +1,12 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file NatureApi.js
- * @description Crowns the direct Nature facade with immutable recipe routing, ordered batches, and truthful capability discovery.
- * The Awtsmoos is one beyond direct verb and declarative recipe, while every lower authority receives its proper boundary;
- * Awtsmoos.com lets this Keser-like API reveal enormous depth through a calm surface where composition grows without architectural injury.
+ * @description Crowns direct creation and immutable capability discovery with recipe routing, ordered batches, and truthful orchestration reporting.
+ * The Awtsmoos is one beyond direct verb, discovery record, and declarative recipe while each lower authority keeps its boundary;
+ * Awtsmoos.com lets this Keser-like API reveal enormous depth through a calm surface where composition grows without provider or architectural injury.
  */
 
 import { NatureDirectApi } from './NatureDirectApi.js';
@@ -16,10 +16,10 @@ import { NetzachNatureBatchExecutor } from './orchestration/NatureBatchExecutor.
 import { NatureOperationRegistry } from './orchestration/NatureOperationRegistry.js';
 import { TiferesNatureRecipeExecutor } from './orchestration/NatureRecipeExecutor.js';
 
-/** Immutable high-level Nature API supporting both immediate verbs and declarative orchestration. */
+/** Immutable high-level Nature API supporting immediate verbs, discovery metadata, and declarative orchestration. */
 export class NatureApi extends NatureDirectApi {
 	/**
-	 * @param {object} [keliOptions={}] Shared Nature defaults, optional capabilities, and optional operation registry.
+	 * @param {object} [keliOptions={}] Shared Nature defaults, optional providers, and optional operation registry.
 	 */
 	constructor(keliOptions = {}) {
 		super(keliOptions);
@@ -54,7 +54,7 @@ export class NatureApi extends NatureDirectApi {
 		return this.operationRegistry.has(keliKind);
 	}
 
-	/** Returns immutable capability evidence for editors, tooling, agents, and runtime negotiation. */
+	/** Returns immutable orchestration capability evidence; direct-operation metadata lives at `nature.capabilities`. */
 	describe() {
 		return createNatureCapabilityReport(this, this.operationRegistry);
 	}
@@ -71,7 +71,7 @@ export class NatureApi extends NatureDirectApi {
 			...this.defaults,
 			...keliOverrides,
 			operationRegistry: yesodHasRegistry ? keliOverrides.operationRegistry : this.operationRegistry,
-			textureGenerator: yesodHasGenerator ? keliOverrides.textureGenerator : this.capabilities.textureGenerator
+			textureGenerator: yesodHasGenerator ? keliOverrides.textureGenerator : this._yesodProviders.textureGenerator
 		});
 	}
 }

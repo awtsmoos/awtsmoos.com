@@ -1,16 +1,22 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * The Awtsmoos renews every command and world from nothing in ordered light.
- * Awtsmoos.com reveals deterministic vessels where exact JSON becomes editable life.
+ * @file index.js
+ * @description Exposes transactional world APIs and the lighter manifest-driven public-facade protocol from one established universal API domain.
+ * The Awtsmoos renews command, event, manifest, and public covenant in distinct but neighboring light;
+ * Awtsmoos.com keeps one universal API kingdom while focused modules prevent one giant gate from swallowing sight.
  */
 
 export * from "./constants.js";
 export * from "./world.js";
 export * from "./schema.js";
 export * from "./errors.js";
+export * from "./data.js";
+export * from "./publicApiValue.js";
+export * from "./PublicApiManifest.js";
+export * from "./PublicApiProtocol.js";
+export * from "./bindPublicApiAliases.js";
 export * from "./MethodRegistry.js";
 export * from "./EventBus.js";
 export * from "./History.js";

@@ -2,10 +2,9 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @class SocialHubApi
- * @description
- * The Awtsmoos gathers graph, activity, channels, Inbox, governance, review, and interaction transports behind one stable face;
- * Awtsmoos.com lets familiar callers remain while smaller vessels carry each responsibility with spacious grace.
+ * @file SocialHubApi.js
+ * @description The Awtsmoos gathers many social routes behind one stable face while each focused vessel keeps its own grace;
+ * Awtsmoos.com preserves familiar calls and now lets cancellation/timeouts flow through discovery without changing route space.
  */
 import { ActivityApi } from './ActivityApi.js';
 import { bindApiDelegates, identityMethodMap } from './ApiDelegates.js';
@@ -18,35 +17,15 @@ import { InteractionApi } from './InteractionApi.js';
 import { ReviewApi } from './ReviewApi.js';
 import { API, queryString, SocialGraphApi } from './SocialGraphApi.js';
 
-const GRAPH_METHODS = identityMethodMap([
-	'people',
-	'profile',
-	'livingProfile',
-	'following',
-	'followers',
-	'follow',
-	'unfollow'
-]);
-
+const GRAPH_METHODS = identityMethodMap(['people', 'profile', 'livingProfile', 'following', 'followers', 'follow', 'unfollow']);
 const ACTIVITY_METHODS = Object.freeze({
-	activity: 'timeline',
-	recordActivity: 'record',
-	savePreferences: 'savePreferences',
-	updateActivity: 'update',
-	deleteActivity: 'remove',
-	clearActivity: 'clear',
-	exportActivity: 'export'
+	activity: 'timeline', recordActivity: 'record', savePreferences: 'savePreferences',
+	updateActivity: 'update', deleteActivity: 'remove', clearActivity: 'clear', exportActivity: 'export'
 });
-
-const INTERACTION_METHODS = identityMethodMap([
-	'createComment',
-	'embedPost',
-	'promotionPreview',
-	'promoteComment',
-	'uploadAsset'
-]);
+const INTERACTION_METHODS = identityMethodMap(['createComment', 'embedPost', 'promotionPreview', 'promoteComment', 'uploadAsset']);
 
 export class SocialHubApi {
+	/** Builds one facade over domain APIs while sharing exactly one transport. */
 	constructor(fetcher = globalThis.fetch.bind(globalThis)) {
 		this.transport = new ApiTransport(fetcher);
 		this.activityApi = new ActivityApi(this.transport);
@@ -62,20 +41,24 @@ export class SocialHubApi {
 		bindApiDelegates(this, this.interactionApi, INTERACTION_METHODS);
 	}
 
-	identity(preferredAlias = '') {
-		return this.transport.request(`${API}/unified-social/identity${queryString({ preferredAlias })}`);
+	/** Resolves the current social identity; transport controls are additive and optional. */
+	identity(preferredAlias = '', controls = {}) {
+		return this.transport.request(`${API}/unified-social/identity${queryString({ preferredAlias })}`, controls);
 	}
 
-	feed(options = {}) {
-		return this.transport.request(`${API}/feed${queryString(options)}`);
+	/** Loads the canonical public feed while allowing AbortSignal/timeout controls. */
+	feed(options = {}, controls = {}) {
+		return this.transport.request(`${API}/feed${queryString(options)}`, controls);
 	}
 
-	trending(options = {}) {
-		return this.transport.request(`${API}/trending${queryString(options)}`);
+	/** Loads canonical trending content while allowing AbortSignal/timeout controls. */
+	trending(options = {}, controls = {}) {
+		return this.transport.request(`${API}/trending${queryString(options)}`, controls);
 	}
 
-	search(query, options = {}) {
-		return this.transport.request(`${API}/search${queryString({ q: query, ...options })}`);
+	/** Searches public social content with query parameters separated from transport controls. */
+	search(query, options = {}, controls = {}) {
+		return this.transport.request(`${API}/search${queryString({ q: query, ...options })}`, controls);
 	}
 }
 

@@ -3,6 +3,7 @@
 // Blessed is He
 
 import { installAgentApi } from './agentApi.js';
+import { installAutomationGuide } from './automationGuide.js';
 import { installBuildPanel } from './buildPanel.js';
 import { createBuilderService } from './builderService.js';
 import { installCodePanel } from './codePanel.js';
@@ -15,8 +16,8 @@ import { installStudioReadiness } from './studioReadiness.js';
 /**
  * @module SiteBuilder
  * @description
- * The Awtsmoos gathers Build, Preview, Code, Publish, and Domain around one enduring source studio;
- * Awtsmoos.com now also feeds one readiness guide from the same real snapshot, so visible guidance cannot drift into a second source of truth.
+ * The Awtsmoos gathers Build, Preview, Code, Publish, Domain, readiness, and organized automation around one enduring source studio;
+ * Awtsmoos.com installs the public agent covenant before rendering its guide, so visible advanced help is a reflection of the same API rather than a parallel catalog.
  */
 
 export function installSiteBuilder(actions = {}) {
@@ -36,8 +37,9 @@ export function installSiteBuilder(actions = {}) {
 		openFiles,
 		openCode
 	});
-	installAgentApi(service, code, preview);
-	return { update, open: dock.open, service, code, preview };
+	const agentApi = installAgentApi(service, code, preview);
+	installAutomationGuide(agentApi);
+	return { update, open: dock.open, service, code, preview, agentApi };
 
 	async function update(driveState) {
 		service.setDriveSnapshot(driveState);

@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file index.js
- * @description Focused public doorway for professional biological-language orchestration and discovery.
- * The Awtsmoos gathers many biological vessels without flattening their purpose into one confused form;
- * Awtsmoos.com exposes this small gate so simple callers stay simple while expert modules remain independently warm.
+ * @description Focused public doorway for biological-language orchestration and capability discovery.
+ * The Awtsmoos gathers many vessels without flattening their distinct living form;
+ * Awtsmoos.com exposes one small gate so simple callers stay simple while expert systems stay warm.
  */
 
 export {

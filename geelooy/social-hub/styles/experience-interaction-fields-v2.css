@@ -1,0 +1,98 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every field a bounded vessel, neither wider than its world nor smaller than touch can find;
+ * Awtsmoos.com lets Tiferes align composer, privacy, media, and coordinate grids with mobile-first clarity and expandable depth.
+ */
+.social-hub-document .socialPrimaryComposer,
+.social-hub-document .privacyPrimaryGrid,
+.social-hub-document .targetGrid,
+.social-hub-document .twoColumnFields,
+.social-hub-document .privacyCategoryGrid {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.social-hub-document .socialPrimaryComposer {
+	display: grid;
+	gap: .75rem;
+	margin-block: .8rem;
+}
+
+.social-hub-document .socialPrimaryComposer textarea,
+.social-hub-document .targetGrid :where(input, select, textarea),
+.social-hub-document .twoColumnFields :where(input, select, textarea),
+.social-hub-document .privacyPrimaryGrid :where(input, select) {
+	inline-size: 100%;
+	max-inline-size: 100%;
+	min-inline-size: 0;
+}
+
+.social-hub-document .targetGrid,
+.social-hub-document .twoColumnFields,
+.social-hub-document .privacyPrimaryGrid,
+.social-hub-document .privacyCategoryGrid {
+	display: grid;
+	gap: .65rem;
+}
+
+.social-hub-document .mediaActions,
+.social-hub-document .actionRow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .55rem;
+	min-inline-size: 0;
+}
+
+.social-hub-document .mediaActions > *,
+.social-hub-document .actionRow > * {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.social-hub-document .socialPrimaryCommit {
+	inline-size: 100%;
+	min-block-size: 48px;
+	margin-block: .8rem;
+}
+
+.social-hub-document .toggleField {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: .65rem;
+	align-items: start;
+}
+
+.social-hub-document .toggleField span {
+	display: grid;
+	gap: .12rem;
+	min-inline-size: 0;
+}
+
+.social-hub-document .toggleField small {
+	opacity: .68;
+}
+
+.social-hub-document .privacyCategoryGrid label {
+	display: flex;
+	align-items: center;
+	gap: .45rem;
+	min-block-size: 42px;
+	padding: .45rem .55rem;
+	border-radius: .7rem;
+	background: color-mix(in srgb, CanvasText 4%, Canvas);
+}
+
+@media (min-width: 42rem) {
+	.social-hub-document .targetGrid,
+	.social-hub-document .twoColumnFields,
+	.social-hub-document .privacyPrimaryGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.social-hub-document .privacyCategoryGrid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}

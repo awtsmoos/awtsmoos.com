@@ -1,12 +1,12 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file BiologicalLanguageApi.js
- * @description Professional orchestration facade over canonical creature, biological-definition, assembly, and action-aware component systems.
- * The Awtsmoos is one while vessels differ, so unity must join authorities without erasing their lawful distinctions;
- * Awtsmoos.com gives callers one doorway where creature, eye, mouth, horn, fin, wall-face, and future chimera remain composable convictions.
+ * @description Gives one explicit facade over complete creatures, reusable anatomy, and target-agnostic biological assemblies.
+ * The Awtsmoos is one while vessels differ, so unity must join authorities without erasing their law;
+ * Awtsmoos.com gives games one doorway to creature, eye, mouth, horn, fin, wall-face, and chimera awe.
  */
 
 import { CreatureCreator } from '../CreatureCreator.js';
@@ -16,9 +16,9 @@ import { createDaasOralAssembly } from '../biology/DaasOralAssembly.js';
 import { CreatureComponentCompiler } from '../components/CreatureComponentCompiler.js';
 import { createBiologicalLanguageCapabilities } from './BiologicalLanguageCapabilities.js';
 
-/** Explicit high-level facade preserving the native contracts of each biological subsystem. */
+/** Professional facade preserving the native contracts of each biological subsystem. */
 export class BiologicalLanguageApi {
-	/** @param {object} [options={}] Injectable creators/compilers plus their constructor defaults. */
+	/** @param {object} [options={}] Injectable creature and component authorities. */
 	constructor(options = {}) {
 		this.creatureCreator = options.creatureCreator
 			|| new CreatureCreator(options.creatureDefaults || {});
@@ -31,12 +31,12 @@ export class BiologicalLanguageApi {
 		return this.creatureCreator.create(speciesId, options);
 	}
 
-	/** Creates many complete creatures with deterministic derived identities. */
+	/** Creates many complete creatures through the canonical batch contract. */
 	createCreatures(requests = []) {
 		return this.creatureCreator.createMany(requests);
 	}
 
-	/** Compiles arbitrary ordered action-aware anatomical component recipes. */
+	/** Compiles ordered action-aware anatomy against arbitrary semantic sources. */
 	compileComponents(recipes = [], sources = {}, quality = {}) {
 		return this.componentCompiler.compile(recipes, sources, quality);
 	}
@@ -62,7 +62,7 @@ export class BiologicalLanguageApi {
 	}
 }
 
-/** Creates one reusable biological-language facade. */
+/** Creates a reusable biological-language facade. */
 export function createBiologicalLanguageApi(options = {}) {
 	return new BiologicalLanguageApi(options);
 }

@@ -2,20 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
-<<<<<<< HEAD
-/** Boots the complete textured authored world before exposing Movie Studio. */
-=======
 /**
  * @file MovieStudio.js
- * @description Boots the real renderer, hydrates the rich living world, prepares canonical Chossid cinema assets, then installs one truthful editor session.
- * The Awtsmoos renews river, cedar, ridge, actor, garment, frame, and editor before any finite image can claim reality;
- * Awtsmoos.com keeps Movie Maker responsive through its light route while refusing to publish a cinema session before the real world is mounted.
+ * @description Boots a strict authored runtime, verifies rich world and cinema assets, then composes one truthful authoring session.
+ * The Awtsmoos renews river, cedar, ridge, actor, garment, frame, and editor before finite cinema claims reality;
+ * Awtsmoos.com keeps the route light while the opened studio waits for every mounted world and prepared Chossid in clarity.
  */
 
-import { createEretzRuntime } from '../app/createEretzRuntime.js';
 import { installMinimalMeadowRichWorld } from '../app/MinimalMeadowRichWorld.js';
 import { prepareMovieCinemaAssets } from './MovieCinemaAssetPreparation.js';
->>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 import { renderExactMovieStudioSession } from './MovieExactRender.js';
 import { MovieStudioAuthoring3dController } from './MovieStudioAuthoring3dController.js';
 import { MovieStudioAudioMixerController } from './MovieStudioAudioMixerController.js';
@@ -42,6 +37,7 @@ import { prepareMovieStudioWorld } from './MovieStudioWorldReadiness.js';
 import { MovieStudioWorkspaceModeController } from './MovieStudioWorkspaceModeController.js';
 import { hideMovieWorldChrome } from './MovieWorldChrome.js';
 
+/** Creates one fully prepared Movie Studio session over a real authored runtime. */
 export async function createMovieStudio(hosts, initialProject, options = {}) {
 	const loading = showMovieLoading();
 	const environment = options.environment || globalThis;
@@ -51,20 +47,16 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 		await prepareMovieStudioWorld(diagnostics, environment);
 		const runtime = diagnostics.runtime;
 		loading.set('B"H hydrating the real river, trees, village, and mountains…');
-		const richWorld = await installMinimalMeadowRichWorld(runtime, options.environment || globalThis);
+		const richWorld = await installMinimalMeadowRichWorld(runtime, environment);
 		loading.set('B"H preparing the real shared Chossid cast and wardrobe…');
 		const cinemaAssets = await prepareMovieCinemaAssets(initialProject, { runtime });
 		const restoreWorldChrome = hideMovieWorldChrome(hosts, runtime.renderer.canvas);
 		const view = createMovieStudioView(initialProject);
 		const session = new MovieStudioSession(runtime, diagnostics, view, initialProject);
 		installControllers(session, view, environment);
-		session.restoreWorldChrome = restoreWorldChrome;
-<<<<<<< HEAD
-=======
 		session.initialCinemaAssets = cinemaAssets;
 		session.initialRichWorld = richWorld;
-		installMovieStudioControllers(session, view, options);
->>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
+		session.restoreWorldChrome = restoreWorldChrome;
 		scheduleAutomaticRender(session, options);
 		return session.publicApi;
 	} finally {
@@ -72,13 +64,9 @@ export async function createMovieStudio(hosts, initialProject, options = {}) {
 	}
 }
 
-<<<<<<< HEAD
+/** Installs focused controllers while the session remains the sole lifecycle owner. */
 function installControllers(session, view, environment) {
 	session.uiActionRegistry = new MovieStudioUiActionRegistry(view.root, environment);
-=======
-function installMovieStudioControllers(session, view, options) {
-	session.uiActionRegistry = new MovieStudioUiActionRegistry(view.root, options.environment || globalThis);
->>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	session.previewMirror = new MovieStudioPreviewMirror(session);
 	session.workspaceModeController = new MovieStudioWorkspaceModeController(session, view);
 	session.scene3dController = new MovieStudioScene3dController(session, view.root);
@@ -91,13 +79,7 @@ function installMovieStudioControllers(session, view, options) {
 	session.compositionController = new MovieStudioCompositionController(session, view.root);
 	session.projectBrowserController = new MovieStudioProjectBrowserController(session, view.root);
 	session.utilityController = new MovieStudioUtilityController(session, view);
-<<<<<<< HEAD
 	session.performanceController = new MovieStudioPerformanceController(session, { environment });
-=======
-	session.performanceController = new MovieStudioPerformanceController(session, {
-		environment: options.environment || globalThis
-	});
->>>>>>> 74cd8daa6c7629226a8e5f59b2c824c50f448ff8
 	session.transportController = new MovieStudioTransportController(session, view);
 	session.interactions = new MovieStudioInteractionController(session, view);
 	session.presentationController = new MovieStudioPresentationController(session, view);
@@ -105,9 +87,14 @@ function installMovieStudioControllers(session, view, options) {
 	session.resizeController = new MovieStudioResizeController(session, view);
 }
 
+/** Schedules optional render automation only after all runtime and controller readiness. */
 function scheduleAutomaticRender(session, options) {
-	if (options.autoRender) setTimeout(() => session.render(), 250);
-	if (options.autoRenderExact) setTimeout(() => renderExactMovieStudioSession(session), 250);
+	if (options.autoRender) {
+		setTimeout(() => session.render(), 250);
+	}
+	if (options.autoRenderExact) {
+		setTimeout(() => renderExactMovieStudioSession(session), 250);
+	}
 }
 
 export default createMovieStudio;

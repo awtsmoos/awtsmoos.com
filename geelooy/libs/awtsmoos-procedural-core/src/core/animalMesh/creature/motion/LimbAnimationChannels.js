@@ -4,20 +4,12 @@
 
 /**
  * @file LimbAnimationChannels.js
- * @description Gives every arbitrary semantic limb its own animation channel over the real Yetzirah segment bones.
- * RESPONSIBILITY: expose stable bone groups, gait phase offsets, and independent speed/amplitude/time overrides per limb.
- * NON-RESPONSIBILITY: this vessel does not invent joint rotations, replace IK, alter the skeleton, or assume a fixed leg count.
- * The Awtsmoos lets many legs share one song while each enters on its own measured beat;
- * Awtsmoos.com keeps every limb free to move alone, yet all may answer one body rhythm without confusion at their feet.
+ * @description Gives every semantic limb an independent animation channel over its real Yetzirah bones.
+ * The Awtsmoos lets many limbs share one niggun while every limb enters through its own gate;
+ * Awtsmoos.com keeps clip, set, phase, seconds, speed, and amplitude distinct so one living body can animate.
  */
 
-/**
- * Creates one immutable animation-channel descriptor for every creature limb.
- * @param {object} creature Briah creature with arbitrary semantic limbs.
- * @param {object} rig Yetzirah rig containing bones and contact targets.
- * @param {object} input Optional `limbOverrides` keyed by limb id.
- * @returns {Array<object>} Stable renderer-neutral limb animation channels.
- */
+/** Creates immutable renderer-neutral channels for every arbitrary creature limb. */
 export function createLimbAnimationChannels(creature, rig, input = {}) {
 	const contactTargets = rig.contactTargets || [];
 	return creature.limbs.map((limb, limbIndex) => {
@@ -26,61 +18,70 @@ export function createLimbAnimationChannels(creature, rig, input = {}) {
 			defaultPhase(limb, limbIndex, creature.limbs, contactTargets)
 			+ finite(override.phaseOffset, 0)
 		);
+		const animationSetId = stringValue(
+			override.animationSetId,
+			input.animationSetId || `gait-set:${limb.functionalRole}`
+		);
+		const activeClipId = stringValue(
+			override.activeClipId,
+			override.clipId || input.activeClipId || input.clipId || input.gaitFamily || input.gait || 'idle'
+		);
 		return Object.freeze({
+			activeClipId,
 			amplitudeScale: positive(override.amplitudeScale, 1),
 			animationGroupId: `limb-animation:${limb.id}`,
+			animationSetId,
 			boneIds: Object.freeze(segmentBoneIds(limb, rig)),
 			functionalRole: limb.functionalRole,
 			limbId: limb.id,
 			phaseOffset,
-			side: limb.side || "center",
+			side: limb.side || 'center',
 			speedScale: positive(override.speedScale, 1),
-			timeOffset: phaseOffset,
-			type: "semantic-limb-animation-channel"
+			timeOffset: finite(override.timeOffset, 0),
+			type: 'semantic-limb-animation-channel'
 		});
 	});
 }
 
-/**
- * Evaluates channel-local phases so one shared gait can drive independently timed limbs.
- * @param {Array<object>} channels Limb channels from `createLimbAnimationChannels`.
- * @param {number} time Normalized or continuously increasing gait time.
- * @returns {Array<object>} Per-limb time state preserving each channel's amplitude.
- */
+/** Evaluates channel-local time and cycle phase without collapsing the two concepts together. */
 export function evaluateLimbAnimationChannels(channels, time = 0) {
 	const baseTime = finite(time, 0);
-	return channels.map((channel) => {
+	return channels.map(channel => {
+		const localTime = (baseTime + channel.timeOffset) * channel.speedScale;
 		return Object.freeze({
+			activeClipId: channel.activeClipId,
 			amplitudeScale: channel.amplitudeScale,
+			animationGroupId: channel.animationGroupId,
+			animationSetId: channel.animationSetId,
 			boneIds: channel.boneIds,
 			limbId: channel.limbId,
-			phase: normalizedPhase(
-				baseTime * channel.speedScale + channel.phaseOffset
-			)
+			localTime,
+			phase: normalizedPhase(localTime + channel.phaseOffset),
+			phaseOffset: channel.phaseOffset,
+			speedScale: channel.speedScale,
+			timeOffset: channel.timeOffset
 		});
 	});
 }
 
 /** Finds the true Yetzirah bone ids generated from this limb's semantic segments. */
 function segmentBoneIds(limb, rig) {
-	const segmentIds = new Set(limb.segments.map((segment) => segment.id));
-	return rig.bones.filter((bone) => {
-		return segmentIds.has(bone.sourceAnatomyId);
-	}).map((bone) => bone.id);
+	const segmentIds = new Set(limb.segments.map(segment => segment.id));
+	return rig.bones
+		.filter(bone => segmentIds.has(bone.sourceAnatomyId))
+		.map(bone => bone.id);
 }
 
-/** Uses existing contact-target order when available, otherwise stable limb order. */
+/** Uses contact-target order for support limbs and stable anatomy order otherwise. */
 function defaultPhase(limb, limbIndex, limbs, contactTargets) {
-	const contactIndex = contactTargets.findIndex((target) => {
-		return target.limbId === limb.id;
-	});
+	const contactIndex = contactTargets.findIndex(target => target.limbId === limb.id);
 	if (contactIndex >= 0) {
 		return contactIndex / Math.max(1, contactTargets.length);
 	}
 	return limbIndex / Math.max(1, limbs.length);
 }
 
-/** Wraps arbitrary phase values into the normalized animation cycle. */
+/** Wraps arbitrary cycle values into [0, 1). */
 function normalizedPhase(value) {
 	return ((value % 1) + 1) % 1;
 }
@@ -95,4 +96,9 @@ function finite(value, fallback) {
 function positive(value, fallback) {
 	const number = Number(value);
 	return Number.isFinite(number) && number > 0 ? number : fallback;
+}
+
+/** Returns a non-empty string or fallback. */
+function stringValue(value, fallback) {
+	return typeof value === 'string' && value.trim() ? value.trim() : fallback;
 }

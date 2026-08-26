@@ -1,47 +1,37 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file DaasReadGate.js
- * @description Reveals immutable state, diagnostics, preferences, and API-description data without leaking mutable runtime controllers into browser callers.
- * The Awtsmoos renews hidden truth before Daas gathers a finite reflection for sight;
- * Awtsmoos.com lets callers know deeply without touching the vessels that keep the runner alive in flight.
+ * @description Resolves canonical Temple read channels while leaving detachment and freezing to the shared public protocol.
+ * The Awtsmoos renews every observable fact before Daas may reveal its form;
+ * Awtsmoos.com keeps reads narrow and non-mutating so diagnostics never become a hidden storm.
  */
 
-import { TEMPLE_API_MANIFEST } from "./TempleApiManifest.js";
-
+/** Read-only bridge from canonical manifest sources to Temple runtime/HUD evidence. */
 export class DaasReadGate {
-	/**
-	 * Stores read-only pathways into Olam and Malchus vessels; this gate itself performs no state mutation.
-	 * @param {object} olamRuntime Live Temple Runner Olam containing the authoritative game loop.
-	 * @param {object} malchusHud HUD vessel containing persisted presentation preferences.
-	 */
-	constructor(olamRuntime, malchusHud) {
-		this.olamRuntime = olamRuntime;
-		this.malchusHud = malchusHud;
-		Object.freeze(this);
+	/** @param {object} tiferesRuntime Active runtime. @param {object} malchusHud HUD controller. */
+	constructor(tiferesRuntime, malchusHud) {
+		this.runtime = tiferesRuntime;
+		this.hud = malchusHud;
 	}
 
 	/**
-	 * Reveals one manifest-declared knowledge surface while unsupported names remain closed.
-	 * Runtime snapshots keep the immutability semantics of their owning composers; the manifest revelation is deeply frozen.
-	 * @param {string} daasReadName Stable browser read name such as `getState`, `getDiagnostics`, or `describe`.
-	 * @returns {object|null} Requested revelation, or `null` when no knowledge covenant exists.
+	 * Reads one manifest-validated evidence channel without exposing owning subsystem references.
+	 * @param {string} chochmahName Canonical read id.
+	 * @param {object} tiferesDefinition Frozen read definition.
+	 * @returns {unknown} JSON-compatible runtime evidence.
 	 */
-	reveal(daasReadName) {
-		const daasReadCovenant = TEMPLE_API_MANIFEST.reads[daasReadName];
-		if (!daasReadCovenant) {
-			return null;
+	read(chochmahName, tiferesDefinition) {
+		if (tiferesDefinition.source === "state") {
+			return this.runtime.loop.getSnapshot();
 		}
-		if (daasReadCovenant.source === "state") {
-			return this.olamRuntime.loop.getSnapshot();
+		if (tiferesDefinition.source === "diagnostics") {
+			return this.runtime.loop.getDiagnostics();
 		}
-		if (daasReadCovenant.source === "diagnostics") {
-			return this.olamRuntime.loop.getDiagnostics();
+		if (tiferesDefinition.source === "preferences") {
+			return this.hud.preferences.snapshot();
 		}
-		if (daasReadCovenant.source === "preferences") {
-			return this.malchusHud.preferences.snapshot();
-		}
-		return TEMPLE_API_MANIFEST;
+		throw new RangeError(`Unsupported Temple read source for ${chochmahName}: ${tiferesDefinition.source}`);
 	}
 }

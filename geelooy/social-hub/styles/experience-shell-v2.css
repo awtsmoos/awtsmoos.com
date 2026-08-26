@@ -1,0 +1,114 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers many social worlds into one bounded vessel without letting any panel spill beyond its place;
+ * Awtsmoos.com gives this shell a mobile-first horizon, quiet depth, and local stacking order so clarity arrives before complexity.
+ */
+.social-hub-document .socialHubMount {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	min-block-size: 100dvh;
+	overflow-x: clip;
+	isolation: isolate;
+}
+
+.social-hub-document .hubHeader,
+.social-hub-document .contextRibbon,
+.social-hub-document .hubShell,
+.social-hub-document .workspace,
+.social-hub-document .workspacePanel {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.social-hub-document .workspacePanel {
+	animation: socialHubReveal 220ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.social-hub-document .panelIntro {
+	display: grid;
+	gap: .45rem;
+	margin-block-end: 1rem;
+}
+
+.social-hub-document .panelIntro :where(h2, p, code) {
+	max-inline-size: 100%;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.social-hub-document .panelIntro--split {
+	gap: .8rem;
+}
+
+.social-hub-document .compactTools,
+.social-hub-document .profileLookup {
+	display: grid;
+	gap: .6rem;
+	min-inline-size: 0;
+	margin-block-end: 1rem;
+}
+
+.social-hub-document .profileEvidenceGrid {
+	display: grid;
+	gap: .7rem;
+	min-inline-size: 0;
+}
+
+.social-hub-document .profileEvidenceGrid > section {
+	min-inline-size: 0;
+	padding: .8rem;
+	border: 1px solid var(--social-line, rgb(148 163 184 / 18%));
+	border-radius: 1rem;
+	background: color-mix(in srgb, Canvas 96%, currentColor 4%);
+	overflow: clip;
+}
+
+.social-hub-document .profileEvidenceGrid :where(h3, div) {
+	min-inline-size: 0;
+	overflow-wrap: anywhere;
+}
+
+.social-hub-document .hubStatus {
+	position: fixed;
+	z-index: 40;
+	inset-inline: max(.75rem, env(safe-area-inset-left)) max(.75rem, env(safe-area-inset-right));
+	inset-block-end: calc(4.8rem + env(safe-area-inset-bottom));
+	max-inline-size: 42rem;
+	margin-inline: auto;
+}
+
+@media (min-width: 45rem) {
+	.social-hub-document .panelIntro--split {
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: end;
+	}
+
+	.social-hub-document .compactTools,
+	.social-hub-document .profileLookup {
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: end;
+	}
+
+	.social-hub-document .profileEvidenceGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.social-hub-document .profileEvidenceGrid__wide {
+		grid-column: 1 / -1;
+	}
+}
+
+@keyframes socialHubReveal {
+	from { opacity: 0; transform: translateY(6px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .workspacePanel {
+		animation: none;
+	}
+}

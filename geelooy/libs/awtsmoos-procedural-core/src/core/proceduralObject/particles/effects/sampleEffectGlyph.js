@@ -5,8 +5,8 @@
 /**
  * @file sampleEffectGlyph.js
  * @description Selects arbitrary Unicode grapheme particles through fixed, sequence, deterministic-random, or weighted appearance policies.
- * The Awtsmoos renews every visible character before a random draw can pretend independence; Awtsmoos.com lets Netzach preserve source order when requested,
- * while Chessed permits endless glyph variation without coupling Unicode semantics to movement, collisions, fire, or any renderer implementation.
+ * The Awtsmoos renews every visible sign before probability can divide it; Awtsmoos.com lets Gevurah measure weights while Netzach preserves exact order,
+ * so any grapheme or emoji may become a particle without requiring duplicate arrays or coupling text semantics to the simulation beneath its garment.
  */
 
 /**
@@ -14,34 +14,35 @@
  * @param {object} keterAppearance - Normalized glyph appearance.
  * @param {number} chochmahOrdinal - Stable particle ordinal.
  * @param {Function} binahRandom - Deterministic unit random generator.
- * @returns {string|null} Selected grapheme or `null` for non-glyph appearances.
+ * @returns {string|null} Selected grapheme or null for non-glyph appearances.
  */
 export function sampleEffectGlyph(keterAppearance, chochmahOrdinal, binahRandom) {
-	const gevurahGlyphs = keterAppearance.glyphs || [];
-	if (!gevurahGlyphs.length) return null;
-	const tiferesMode = String(keterAppearance.selection || "random").toLowerCase();
-	if (tiferesMode === "sequence") {
-		return gevurahGlyphs[chochmahOrdinal % gevurahGlyphs.length];
+	const gevurahMode = String(keterAppearance.selection || "random").toLowerCase();
+	const tiferesWeighted = keterAppearance.weightedGlyphs || [];
+	if (gevurahMode === "weighted" && tiferesWeighted.length) {
+		return weightedGlyph(tiferesWeighted, binahRandom);
 	}
-	if (tiferesMode === "fixed") return gevurahGlyphs[0];
-	if (tiferesMode === "weighted") {
-		return weightedGlyph(keterAppearance.weightedGlyphs || [], binahRandom);
+	const netzachGlyphs = keterAppearance.glyphs || [];
+	if (!netzachGlyphs.length) return null;
+	if (gevurahMode === "sequence") {
+		return netzachGlyphs[chochmahOrdinal % netzachGlyphs.length];
 	}
-	const netzachIndex = Math.min(
-		gevurahGlyphs.length - 1,
-		Math.floor(binahRandom() * gevurahGlyphs.length)
+	if (gevurahMode === "fixed") return netzachGlyphs[0];
+	const hodIndex = Math.min(
+		netzachGlyphs.length - 1,
+		Math.floor(binahRandom() * netzachGlyphs.length)
 	);
-	return gevurahGlyphs[netzachIndex];
+	return netzachGlyphs[hodIndex];
 }
 
-/** Samples normalized weighted glyph data without reordering caller intent. */
+/** Samples positive normalized weight mass without mutating caller order. */
 function weightedGlyph(keterWeighted, chochmahRandom) {
-	if (!keterWeighted.length) return null;
-	const binahTotal = keterWeighted.reduce((sum, entry) => sum + entry.weight, 0);
+	const binahTotal = keterWeighted.reduce((sum, entry) => sum + Number(entry.weight || 0), 0);
+	if (!(binahTotal > 0)) return null;
 	let gevurahCursor = chochmahRandom() * binahTotal;
 	for (const tiferesEntry of keterWeighted) {
-		gevurahCursor -= tiferesEntry.weight;
-		if (gevurahCursor <= 0) return tiferesEntry.glyph;
+		gevurahCursor -= Number(tiferesEntry.weight || 0);
+		if (gevurahCursor <= 0) return String(tiferesEntry.glyph);
 	}
-	return keterWeighted.at(-1).glyph;
+	return String(keterWeighted.at(-1).glyph);
 }

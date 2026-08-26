@@ -1,0 +1,58 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos turns intention into response through touch, key, hover, and rest;
+ * Awtsmoos.com lets Netzach and Hod animate each social control without noise, preserving clear focus, honest disabled states, and reduced-motion peace.
+ */
+.social-hub-document :where(.workspacePanel button, .workspacePanel a, .workspacePanel summary) {
+	-webkit-tap-highlight-color: transparent;
+	transition:
+		transform 150ms ease,
+		box-shadow 150ms ease,
+		border-color 150ms ease,
+		background-color 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document :where(.workspacePanel button, .workspacePanel a):hover {
+		transform: translateY(-1px);
+	}
+}
+
+.social-hub-document :where(.workspacePanel button, .workspacePanel a):active {
+	transform: scale(.98);
+}
+
+.social-hub-document :where(.workspacePanel button, .workspacePanel a):focus-visible {
+	outline: 2px solid var(--social-focus, #67e8f9);
+	outline-offset: 2px;
+}
+
+.social-hub-document :where(.workspacePanel button:disabled, .workspacePanel [aria-disabled="true"]) {
+	cursor: not-allowed;
+	opacity: .48;
+	transform: none;
+}
+
+.social-hub-document :where(.workspacePanel input, .workspacePanel select, .workspacePanel textarea):focus-visible {
+	outline: 2px solid var(--social-focus, #67e8f9);
+	outline-offset: 1px;
+	box-shadow: 0 0 0 4px color-mix(in srgb, var(--social-focus, #67e8f9) 13%, transparent);
+}
+
+.social-hub-document .dangerButton {
+	border-color: color-mix(in srgb, #ef4444 46%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .dangerButton:hover {
+		background: color-mix(in srgb, #ef4444 12%, Canvas);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document :where(.workspacePanel button, .workspacePanel a, .workspacePanel summary) {
+		transition: none;
+	}
+}

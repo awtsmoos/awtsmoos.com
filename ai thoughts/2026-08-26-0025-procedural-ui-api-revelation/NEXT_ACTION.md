@@ -2,4 +2,4 @@ B"H
 
 # NEXT_ACTION
 
-Implement the creator UI first slice exactly as described in `03_PHASE_THREE_TIFERES.md`: create the creator-local stylesheet family and installer, then fully rewrite markup/view/installer while preserving every existing data hook and gameplay-input invariant. Reread every touched file before any tests. Then run localization/syntax/creator tests and browser geometry checks.
+After the capability source batch lands, reread every new and rewritten file completely. Compare planned vs actual, verify the provider compatibility migration, resolve all line-count or schema deltas, then add focused capability tests. Only after those tests pass may the creator advanced UI consume capability records.

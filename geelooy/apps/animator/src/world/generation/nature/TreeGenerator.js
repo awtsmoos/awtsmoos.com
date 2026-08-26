@@ -1,33 +1,112 @@
-
 // B"H
-import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
-import { AwtsmoosMath } from '../../../engine/core/AwtsmoosMath.js';
+// Boruch Hashem
+// Blessed is He
 
-export class TreeGenerator {
-  static generate(x, y, size, time, seed) {
-    const leaves = [];
-    let rSeed = seed;
+import { GevulProceduralBounds } from '../core/ProceduralBounds.js';
+import { ChaiProceduralGenerator } from '../core/ProceduralGenerator.js';
+import { EtzTreeGeometry } from './tree/TreeGeometry.js';
+import { EtzTreeProfileCatalog } from './tree/TreeProfileCatalog.js';
 
-    for (let i = 0; i < 20; i++) {
-      rSeed += 0.42;
-      const angle = AwtsmoosMath.seededRandom(rSeed) * Math.PI * 2;
-      const dist = AwtsmoosMath.seededRandom(rSeed + 0.1) * size;
-      const lx = Math.cos(angle) * dist;
-      const ly = -size * 0.8 + Math.sin(angle) * dist;
-      
-      const rot = angle * (180 / Math.PI) + 90;
-      const scale = 0.6 + AwtsmoosMath.seededRandom(rSeed + 0.2) * 0.9;
+/**
+ * @file TreeGenerator.js
+ * @description
+ * The Awtsmoos roots one simple recipe into many species of living silhouette;
+ * Awtsmoos.com preserves the historical tree doorway while revealing a richer,
+ * seeded, quality-aware tree system with semantic anchors and motion metadata.
+ */
+export class TreeGenerator extends ChaiProceduralGenerator {
+	/** Creates the public `tree` procedural generator family. */
+	constructor() {
+		super('tree', 'Species-driven deterministic trees with bounded crowns, branches, fruit, anchors, and wind.');
+	}
 
-      leaves.push(G.path(`leaf_${i}`, [
-        { type: 'move', x: 0, y: 0 },
-        { type: 'bezier', c1x: 8, c1y: -8, c2x: 12, c2y: -22, x: 0, y: -28 },
-        { type: 'bezier', c1x: -12, c1y: -22, c2x: -8, c2y: -8, x: 0, y: 0 }
-      ], { fill: '#2ecc71', stroke: '#145a32', lineWidth: 1, transform: { x: lx, y: ly, rotation: rot, scaleX: scale, scaleY: scale } }));
-    }
+	/**
+	 * Preserves the historical static generator signature and graph-only return.
+	 * @param {number} x World x-position.
+	 * @param {number} y Ground y-position.
+	 * @param {number} size Historical tree scale.
+	 * @param {number} time Animation time in milliseconds.
+	 * @param {number|string} seed Deterministic tree seed.
+	 * @returns {Object} Native VirtualGraph tree, matching the legacy contract.
+	 */
+	static generate(x, y, size, time, seed) {
+		const etz = new TreeGenerator();
+		return etz.generate({
+			x,
+			y,
+			size,
+			seed,
+			species: 'oak',
+			quality: 'balanced'
+		}, { time }).graph;
+	}
 
-    return G.group(`tree_${seed}`, { x, y }, [
-      G.rect('trunk', -size*0.1, -size, size*0.2, size, { fill: '#4a2c10' }),
-      ...leaves
-    ]);
-  }
+	/**
+	 * Normalizes species, wind, and optional bounded morphology overrides.
+	 * @param {Object} rawKli Caller-owned tree recipe.
+	 * @returns {Object} Stable normalized tree recipe.
+	 */
+	normalize(rawKli = {}) {
+		const kliBase = super.normalize(rawKli);
+		return {
+			...kliBase,
+			species: String(rawKli.species || rawKli.profile || 'oak'),
+			wind: Math.max(0, Math.min(2, Number(rawKli.wind) || 0.65)),
+			morphology: rawKli.morphology && typeof rawKli.morphology === 'object'
+				? { ...rawKli.morphology }
+				: {}
+		};
+	}
+
+	/**
+	 * Generates one species-aware tree and its placement/performance metadata.
+	 * @param {Object} kliEtz Normalized tree recipe.
+	 * @param {Object} olamContext Runtime context containing optional time.
+	 * @param {Object} zeraSeed Deterministic seed stream.
+	 * @returns {Object} Serializable tree result.
+	 */
+	build(kliEtz, olamContext, zeraSeed) {
+		const etzProfile = EtzTreeProfileCatalog.resolve(kliEtz.species, kliEtz.morphology);
+		const gevurahHeight = kliEtz.size * etzProfile.height;
+		const gevurahWidth = kliEtz.size * etzProfile.crownWidth * 1.25;
+		const keterY = kliEtz.y - gevurahHeight;
+		return {
+			type: this.type,
+			version: kliEtz.version,
+			seed: kliEtz.seed,
+			quality: kliEtz.quality,
+			species: etzProfile.name,
+			graph: EtzTreeGeometry.build(kliEtz, etzProfile, zeraSeed, Number(olamContext.time) || 0),
+			bounds: GevulProceduralBounds.grounded(
+				kliEtz.x,
+				kliEtz.y,
+				gevurahWidth,
+				gevurahHeight + (kliEtz.size * etzProfile.crownHeight * 0.4)
+			),
+			anchors: {
+				root: { x: kliEtz.x, y: kliEtz.y },
+				crown: { x: kliEtz.x, y: keterY }
+			},
+			motion: {
+				kind: 'wind',
+				strength: kliEtz.wind,
+				secondaryLag: 0.18 + etzProfile.droop * 0.32
+			},
+			morphology: { ...etzProfile },
+			material: {
+				kind: 'tree',
+				palette: { ...kliEtz.palette }
+			}
+		};
+	}
+
+	/** Adds public species and semantic anchors to capability discovery. */
+	describe() {
+		return {
+			...super.describe(),
+			species: EtzTreeProfileCatalog.names(),
+			anchors: ['root', 'crown'],
+			motion: ['wind', 'secondaryLag']
+		};
+	}
 }

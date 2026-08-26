@@ -2,46 +2,42 @@
 //Boruch Hashem
 //Blessed is He
 
+/**
+ * @file main.js
+ * @description Boots the localized Social Hub shell before domain controllers bind, then layers optional futuristic experience modules afterward.
+ * The Awtsmoos reveals vessel before flow, structure before motion, and identity before interaction;
+ * Awtsmoos.com lets this Keter entry remain tiny while deeper assemblies carry the many social worlds below.
+ */
+
 import { createSocialHub } from './AppAssembly.js';
+import { KeterSocialHubShell } from './ui/shell/SocialHubShell.js';
 import { TiferesFutureExperience } from './ui/FutureExperience.js';
 
 /**
- * @module SocialHubEntry
- * @description
- * The Awtsmoos awakens the proven social application first, then Awtsmoos.com clothes it in optional future light;
- * core identity and persistence remain sovereign even if a command crown or disclosure vessel fails in flight.
+ * Mounts first-paint structure, initializes the existing social application, then adds optional progressive UX authorities.
+ * @returns {Promise<object>} Initialized Social Hub application facade.
  */
-async function awaken() {
-	const app = createSocialHub(document);
-	window.AwtsmoosSocialHub = app;
-	await app.initialize();
-	try {
-		const experience = new TiferesFutureExperience(document);
-		experience.mount();
-		app.futureExperience = experience;
-	} catch (error) {
-		app.futureExperienceError = error;
-		console.warn('Future social experience did not mount.', error);
-	}
-	return app;
+async function awakenSocialHub() {
+	const keterShell = new KeterSocialHubShell(document);
+	keterShell.mount();
+	const yesodApp = createSocialHub(document);
+	await yesodApp.initialize();
+	const tiferesExperience = new TiferesFutureExperience(document, yesodApp);
+	tiferesExperience.mount();
+	globalThis.awtsmoosSocialHub = yesodApp;
+	return yesodApp;
 }
 
-function reportFailure(error) {
-	console.error(error);
-	const status = document.getElementById('hubStatus');
-	if (!status) {
+/** Reports bootstrap failure into the localized status vessel without replacing the page. */
+function revealBootstrapFailure(error) {
+	console.error('B"H | Social Hub bootstrap failed.', error);
+	const malchusStatus = document.getElementById('hubStatus');
+	if (!malchusStatus) {
 		return;
 	}
-	status.hidden = false;
-	status.dataset.kind = 'error';
-	status.textContent = error.message;
+	malchusStatus.hidden = false;
+	malchusStatus.dataset.tone = 'error';
+	malchusStatus.textContent = 'The Social Hub could not finish awakening. Refresh or return shortly.';
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-	void awaken().catch(reportFailure);
-});
-
-export {
-	awaken,
-	reportFailure
-};
+awakenSocialHub().catch(revealBootstrapFailure);

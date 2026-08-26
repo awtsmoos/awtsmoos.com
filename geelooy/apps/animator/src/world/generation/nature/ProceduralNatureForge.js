@@ -1,64 +1,102 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 import { VirtualGraph as G } from '../../../engine/graph/VirtualGraph.js';
-import { AwtsmoosNature } from '../AwtsmoosNature.js';
+import { SeferProceduralGeneratorRegistry } from '../core/ProceduralGeneratorRegistry.js';
+import { GrassGenerator } from './GrassGenerator.js';
+import { TreeGenerator } from './TreeGenerator.js';
+import { PerachFlowerGenerator } from './flower/FlowerGenerator.js';
+import { EvenRockGenerator } from './rock/RockGenerator.js';
 
 /**
- * @class ProceduralNatureForge
+ * @file ProceduralNatureForge.js
  * @description
- * THE FORGE OF THE FLORA (Kli HaTzemach).
- * B"H - No hardcoding! Every plant is a unique emanation of parameters.
+ * The Awtsmoos contains forest, field, blossom, and stone without fragmentation;
+ * Awtsmoos.com now gives those forms one registry-driven gate, preserving the old
+ * graph doorway while exposing richer pure-data results for agents and future tools.
  */
+const etzSpecies = new Set(['oak', 'pine', 'willow', 'apple', 'palm', 'bush', 'birch', 'cedar']);
+const seferNature = new SeferProceduralGeneratorRegistry()
+	.register(new TreeGenerator())
+	.register(new GrassGenerator())
+	.register(new PerachFlowerGenerator())
+	.register(new EvenRockGenerator());
+
 export class ProceduralNatureForge {
-  static build(data, transform, time) {
-    const type = data.species || data.type || 'tree';
-    const s = (data.size || 100) * (transform.scaleX || 1.0);
-    const color = data.color || '#2ecc71';
-    
-    // Global Wind Calculation
-    const wind = Math.sin(time * 0.002 + (transform.x || 0)) * (s * 0.05);
+	/**
+	 * Generates a full semantic result from one simple data recipe.
+	 * @param {Object} rawKli Nature recipe supplied by UI, scene JSON, or an AI agent.
+	 * @param {Object} [olamContext={}] Runtime context such as animation time.
+	 * @returns {Object} Generator result containing graph, bounds, anchors, and metadata.
+	 */
+	static generate(rawKli = {}, olamContext = {}) {
+		const resolved = this.resolveRecipe(rawKli);
+		return seferNature.generate(resolved.type, resolved.recipe, olamContext);
+	}
 
-    if (type === 'pine') {
-      return G.group(`pine_${data.id}`, transform, [
-        G.rect('trunk', -s*0.1, -s, s*0.2, s, { fill: '#3e2723' }),
-        ...Array.from({length: 4}).map((_, i) => {
-            const w = s * (1.0 - i * 0.2);
-            const y = -s * 0.3 - (i * s * 0.2);
-            return G.path(`t_${i}`, [
-                { type: 'move', x: 0, y: y - s*0.5 + wind },
-                { type: 'line', x: w/2, y: y },
-                { type: 'line', x: -w/2, y: y },
-                { type: 'close' }
-            ], { fill: '#1b5e20', stroke: '#0d2e10', lineWidth: 2 });
-        })
-      ]);
-    } 
+	/**
+	 * Preserves the historical `build(data, transform, time)` graph-only contract.
+	 * @param {Object} rawKli Legacy nature recipe.
+	 * @param {Object} [malchutTransform={}] World transform applied by the caller.
+	 * @param {number} [zman=0] Animation time.
+	 * @returns {Object} Native VirtualGraph group.
+	 */
+	static build(rawKli = {}, malchutTransform = {}, zman = 0) {
+		const result = this.generate({
+			...rawKli,
+			x: 0,
+			y: 0
+		}, { time: zman });
+		return G.group(
+			`nature_${rawKli.id || rawKli.seed || result.type}`,
+			this.cleanTransform(malchutTransform),
+			[result.graph]
+		);
+	}
 
-    if (type === 'palm') {
-      return G.group(`palm_${data.id}`, transform, [
-        G.path('trunk', [
-            { type: 'move', x: -s*0.1, y: 0 }, { type: 'quad', cx: s*0.3, cy: -s*0.5, x: wind, y: -s },
-            { type: 'line', x: wind + s*0.1, y: -s }, { type: 'quad', cx: s*0.4, cy: -s*0.5, x: s*0.1, y: 0 }
-        ], { fill: '#8d6e63' }),
-        ...Array.from({length: 6}).map((_, i) => {
-            const angle = (i / 6) * Math.PI * 2;
-            const fx = wind + Math.cos(angle) * s * 0.8;
-            const fy = -s + Math.sin(angle) * s * 0.4 + (Math.sin(time*0.005+i)*10);
-            return G.path(`frond_${i}`, [{type:'move', x:wind, y:-s}, {type:'quad', cx:fx, cy:fy-s*0.2, x:fx, y:fy}], { stroke: color, lineWidth: 4, lineCap: 'round' });
-        })
-      ]);
-    }
+	/** Returns all nature generators and their specialized capabilities. */
+	static capabilities() {
+		return seferNature.describe();
+	}
 
-    if (type === 'bush') {
-        return G.group(`bush_${data.id}`, transform, Array.from({length: 5}).map((_, i) => {
-            const ox = Math.sin(i * 1.5) * s * 0.4;
-            const oy = -s * 0.4 + Math.cos(i * 2.2) * s * 0.2 + wind;
-            return G.circle(`leaf_${i}`, ox, oy, s * 0.4, { fill: color, stroke: '#145a32', lineWidth: 3 });
-        }));
-    }
+	/** Returns stable public generator type names. */
+	static types() {
+		return seferNature.types();
+	}
 
-    // Default: Hyper-Recursive Oak via Cache
-    const cachedTree = AwtsmoosNature.drawCachedTree(0, 0, s, time, data.id?.length || 42);
-    return G.group(`oak_${data.id}`, transform, [cachedTree]);
-  }
+	/**
+	 * Converts historical species/type names into one registry type plus explicit recipe.
+	 * @param {Object} rawKli Candidate recipe.
+	 * @returns {{type:string,recipe:Object}} Resolved registry instruction.
+	 */
+	static resolveRecipe(rawKli = {}) {
+		const orShem = String(rawKli.species || rawKli.type || 'tree').toLowerCase();
+		if (etzSpecies.has(orShem)) {
+			return {
+				type: 'tree',
+				recipe: { ...rawKli, species: orShem }
+			};
+		}
+		const yesodType = seferNature.has(orShem) ? orShem : 'tree';
+		return {
+			type: yesodType,
+			recipe: { ...rawKli }
+		};
+	}
+
+	/**
+	 * Copies only renderer-supported transform data, preventing accidental object sharing.
+	 * @param {Object} rawTransform Legacy graph transform.
+	 * @returns {Object} Detached transform vessel.
+	 */
+	static cleanTransform(rawTransform = {}) {
+		return {
+			x: Number(rawTransform.x) || 0,
+			y: Number(rawTransform.y) || 0,
+			rotation: Number(rawTransform.rotation) || 0,
+			scaleX: Number(rawTransform.scaleX) || 1,
+			scaleY: Number(rawTransform.scaleY) || 1
+		};
+	}
 }

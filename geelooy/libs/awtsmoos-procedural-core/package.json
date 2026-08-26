@@ -34,7 +34,14 @@
 		"./blender-schema": "./src/core/proceduralObject/nodeSystem/blender/index.js",
 		"./core/*": "./src/core/*",
 		"./schema": "./src/core/animalMesh/schema/index.js",
-		"./object-schema": "./src/core/proceduralObject/schema/index.js"
+		"./object-schema": "./src/core/proceduralObject/schema/index.js",
+		"./creature": "./src/core/animalMesh/creature/index.js",
+		"./creature/api": "./src/core/animalMesh/creature/api/index.js",
+		"./creature/biology": "./src/core/animalMesh/creature/biology/index.js",
+		"./creature/components": "./src/core/animalMesh/creature/components/index.js",
+		"./reality": "./src/core/reality/index.js",
+		"./materials": "./src/exports/materials.js",
+		"./universal-api": "./src/core/universalApi/index.js"
 	},
 	"sideEffects": false
 }

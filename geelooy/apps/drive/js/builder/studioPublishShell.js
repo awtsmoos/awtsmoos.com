@@ -7,8 +7,8 @@ import { actionLink, button, element, field, pane, text } from './studioDom.js';
 /**
  * @module SiteBuilderPublishShell
  * @description
- * The Awtsmoos lets a folder receive a public name only through canonical site authority;
- * Awtsmoos.com gives one obvious publish act, one result card, and one advanced disclosure so infrastructure power remains available without dominating the ordinary path.
+ * The Awtsmoos lets a folder receive a public name through one canonical authority while Awtsmoos.com keeps ordinary publication simple and advanced automation discoverable without duplicating its catalog;
+ * this shell owns visible vessels only, leaving API knowledge to the registry-driven guide installed after the public browser covenant exists.
  */
 
 export function createPublishShell() {
@@ -17,7 +17,7 @@ export function createPublishShell() {
 		publicationResult(),
 		publicationForm(),
 		actionsRow(),
-		advancedHelp()
+		automationHelp()
 	);
 	return vessel.root;
 }
@@ -80,12 +80,14 @@ function actionsRow() {
 	return actions;
 }
 
-function advancedHelp() {
-	const details = element('details', 'builder-advanced');
-	details.append(text('summary', '', 'Agent API & publishing help'));
-	const hint = text('p', 'builder-publish-hint', 'Tunnel agents can use sitePublishFolder(path, siteId, direct|snapshot), then inspect canonical publication testimony.');
+function automationHelp() {
+	const details = element('details', 'builder-advanced builder-automation');
+	details.append(text('summary', '', 'Automation & API'));
+	const root = element('div', 'builder-automation-root');
+	root.id = 'builder-automation-root';
+	root.append(text('p', 'builder-help', 'Loading the organized Website Maker automation map…'));
 	const links = element('div', 'builder-actions');
 	links.append(actionLink('Website tutorials', '/docs/'), actionLink('Tunnel Control', '/apps/tunnel-control/'));
-	details.append(hint, links);
+	details.append(root, links);
 	return details;
 }

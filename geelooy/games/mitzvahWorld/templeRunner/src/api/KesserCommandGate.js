@@ -1,52 +1,77 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file KesserCommandGate.js
- * @description Guards every externally requested gameplay command through one manifest-backed status covenant before the canonical input buffer receives it.
- * The Awtsmoos renews intention before left, right, rise, rest, or return can become a deed;
- * Awtsmoos.com lets Kesser keep one command gate above the many controllers, so every caller follows the same seed.
+ * @description Routes canonical Temple Runner commands into runtime input or retractable detail behavior after status guards are proven.
+ * The Awtsmoos renews intent in Keser before movement or disclosure can descend;
+ * Awtsmoos.com keeps one guarded command gate so aliases never create another road at the end.
  */
 
-import { TEMPLE_API_MANIFEST } from "./TempleApiManifest.js";
-
+/** Canonical Temple command bridge from protocol definitions to runtime and HUD vessels. */
 export class KesserCommandGate {
 	/**
-	 * Binds the authoritative Olam runtime without exposing its mutable graph through the public API surface.
-	 * @param {object} olamRuntime Live Temple Runner Olam containing canonical `input` and `state` vessels.
+	 * @param {object} tiferesRuntime Active Temple runtime.
+	 * @param {object} malchusHud HUD controller owning the advanced drawer.
 	 */
-	constructor(olamRuntime) {
-		this.olamRuntime = olamRuntime;
-		Object.freeze(this);
+	constructor(tiferesRuntime, malchusHud) {
+		this.runtime = tiferesRuntime;
+		this.hud = malchusHud;
 	}
 
 	/**
-	 * Sends one already-canonical Mitzvah intention into the authoritative input buffer.
-	 * This narrow gate performs no alias lookup because the incoming intention already speaks the runtime's command language.
-	 * @param {string} mitzvahIntent Canonical one-frame input intention understood by the runtime input vessel.
-	 * @returns {boolean} Whether the input vessel accepted the intention.
+	 * Dispatches one manifest-validated canonical command.
+	 * @param {string} chochmahName Canonical command id for diagnostics and errors.
+	 * @param {unknown} binahPayload Optional command payload.
+	 * @param {object} tiferesDefinition Frozen command definition.
+	 * @returns {unknown} Runtime or drawer result.
 	 */
-	requestMitzvahIntent(mitzvahIntent) {
-		return this.olamRuntime.input.request(mitzvahIntent);
+	dispatch(chochmahName, binahPayload, tiferesDefinition) {
+		if (!this.statusAllows(tiferesDefinition.requiredStatus)) {
+			return false;
+		}
+		if (tiferesDefinition.family === "input") {
+			return this.runtime.input.request(tiferesDefinition.intent);
+		}
+		if (tiferesDefinition.family === "inputPayload") {
+			return this.runtime.input.request(this.resolvePayloadIntent(binahPayload));
+		}
+		if (tiferesDefinition.family === "details") {
+			return this.dispatchDetails(tiferesDefinition.action);
+		}
+		throw new RangeError(`Unsupported Temple command family for ${chochmahName}: ${tiferesDefinition.family}`);
 	}
 
 	/**
-	 * Resolves one simple browser command through covenant data, guards its optional run-status requirement, then dispatches the canonical intention.
-	 * Unknown or currently forbidden commands fail closed without mutating the runner.
-	 * @param {string} mitzvahCommandName Stable browser command name such as `jump`, `pause`, or `resume`.
-	 * @returns {boolean} Whether the command covenant was eligible and accepted by the input vessel.
+	 * Checks an optional required run status without mutating state.
+	 * @param {string|undefined} chochmahRequiredStatus Required status from manifest.
+	 * @returns {boolean} Whether command execution may continue.
 	 */
-	dispatchCovenant(mitzvahCommandName) {
-		const mitzvahCommandCovenant = TEMPLE_API_MANIFEST.commands[mitzvahCommandName];
-		if (!mitzvahCommandCovenant) {
-			return false;
+	statusAllows(chochmahRequiredStatus) {
+		if (!chochmahRequiredStatus) return true;
+		return this.runtime.loop.getSnapshot().status === chochmahRequiredStatus;
+	}
+
+	/**
+	 * Extracts the raw input intent accepted by the compatibility `request(intent)` alias.
+	 * @param {unknown} binahPayload Public payload.
+	 * @returns {string} Runtime input intent.
+	 */
+	resolvePayloadIntent(binahPayload) {
+		if (typeof binahPayload === "string") return binahPayload;
+		return String(binahPayload?.intent ?? "");
+	}
+
+	/**
+	 * Invokes the declared retractable detail action without exposing the drawer object publicly.
+	 * @param {string} yesodAction Drawer action id.
+	 * @returns {unknown} Drawer controller result.
+	 */
+	dispatchDetails(yesodAction) {
+		const malchusAction = this.hud.drawer?.[yesodAction];
+		if (typeof malchusAction !== "function") {
+			throw new RangeError(`Unsupported Temple detail action: ${yesodAction}`);
 		}
-		if (
-			mitzvahCommandCovenant.requiredStatus
-			&& this.olamRuntime.state.status !== mitzvahCommandCovenant.requiredStatus
-		) {
-			return false;
-		}
-		return this.requestMitzvahIntent(mitzvahCommandCovenant.intent);
+		return malchusAction.call(this.hud.drawer);
 	}
 }

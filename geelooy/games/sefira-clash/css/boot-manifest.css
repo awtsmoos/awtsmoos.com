@@ -1,9 +1,9 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The Awtsmoos reveals a hidden break as a clean finite signal; Awtsmoos.com keeps this boot layer local, calm, responsive, and never global. */
+/* The Awtsmoos reveals a hidden break as a finite honest sign; Awtsmoos.com keeps this boot vessel locally rooted, responsive, and aligned. */
 
-.sefiraBootManifest {
+#sefira-boot-manifest.sefiraBootManifest {
 	--boot-surface: rgba(7, 13, 25, 0.94);
 	--boot-edge: rgba(140, 205, 255, 0.34);
 	--boot-glow: rgba(100, 218, 255, 0.18);
@@ -19,11 +19,11 @@
 	isolation: isolate;
 }
 
-.sefiraBootManifest[hidden] {
+#sefira-boot-manifest.sefiraBootManifest[hidden] {
 	display: none !important;
 }
 
-.sefiraBootManifest__card {
+#sefira-boot-manifest .sefiraBootManifest__card {
 	width: min(100%, 32rem);
 	padding: clamp(1.2rem, 5vw, 1.9rem);
 	border: 1px solid var(--boot-edge);
@@ -35,7 +35,7 @@
 	animation: sefiraBootReveal 220ms ease both;
 }
 
-.sefiraBootManifest__kicker {
+#sefira-boot-manifest .sefiraBootManifest__kicker {
 	display: block;
 	color: #76e9ff;
 	font-size: 0.68rem;
@@ -44,14 +44,14 @@
 	text-transform: uppercase;
 }
 
-.sefiraBootManifest__title {
+#sefira-boot-manifest .sefiraBootManifest__title {
 	margin: 0.5rem 0 0.7rem;
 	font-size: clamp(1.65rem, 7vw, 2.7rem);
 	line-height: 0.96;
 	letter-spacing: -0.05em;
 }
 
-.sefiraBootManifest__copy {
+#sefira-boot-manifest .sefiraBootManifest__copy {
 	margin: 0;
 	color: rgba(226, 246, 252, 0.72);
 	font-size: 0.88rem;
@@ -59,7 +59,7 @@
 	overflow-wrap: anywhere;
 }
 
-.sefiraBootManifest__retry {
+#sefira-boot-manifest .sefiraBootManifest__retry {
 	margin-top: 1.1rem;
 	min-height: 2.9rem;
 	padding: 0.7rem 1rem;
@@ -73,33 +73,39 @@
 	transition: transform 150ms ease, border-color 150ms ease, filter 150ms ease, box-shadow 150ms ease;
 }
 
-.sefiraBootManifest[data-boot-state='loading'] .sefiraBootManifest__retry {
+#sefira-boot-manifest[data-boot-state='loading'] .sefiraBootManifest__retry {
 	display: none;
 }
 
-.sefiraBootManifest__retry:hover {
+#sefira-boot-manifest .sefiraBootManifest__retry:hover {
 	border-color: #76e9ff;
 	filter: brightness(1.12);
 	box-shadow: 0 12px 34px rgba(72, 216, 244, 0.15);
 }
 
-.sefiraBootManifest__retry:active {
+#sefira-boot-manifest .sefiraBootManifest__retry:active {
 	transform: translateY(1px) scale(0.97);
 }
 
-.sefiraBootManifest__retry:focus-visible {
+#sefira-boot-manifest .sefiraBootManifest__retry:focus-visible {
 	outline: 2px solid #76e9ff;
 	outline-offset: 3px;
 }
 
 @keyframes sefiraBootReveal {
-	from { opacity: 0; transform: translateY(0.55rem) scale(0.98); }
-	to { opacity: 1; transform: translateY(0) scale(1); }
+	from {
+		opacity: 0;
+		transform: translateY(0.55rem) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.sefiraBootManifest__card,
-	.sefiraBootManifest__retry {
+	#sefira-boot-manifest .sefiraBootManifest__card,
+	#sefira-boot-manifest .sefiraBootManifest__retry {
 		animation-duration: 1ms;
 		transition-duration: 1ms;
 	}

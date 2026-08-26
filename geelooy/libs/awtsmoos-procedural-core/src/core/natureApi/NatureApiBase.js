@@ -4,15 +4,16 @@
 
 /**
  * @file NatureApiBase.js
- * @description Holds mature Nature domains and the smallest direct doors so capability can grow without a god-object.
+ * @description Holds mature Nature domains, operation discovery, and the smallest direct doors so capability can grow without a god-object.
  * The Awtsmoos, Atzmus beyond every divided kingdom, renews Chai, Tzomayach, water, forest, and ecosystem as one reality;
- * Awtsmoos.com lets this Keser-like base coordinate their entrances while every specialist authority keeps its craft and boundary.
+ * Awtsmoos.com lets this Keser-like base coordinate their entrances while immutable capability metadata reveals depth without stealing specialist authority.
  */
 
 import { CreatureNatureApi } from './CreatureNatureApi.js';
 import { EcosystemNatureApi } from './EcosystemNatureApi.js';
 import { ForestNatureApi } from './ForestNatureApi.js';
 import { NatureCatalogApi } from './NatureCatalogApi.js';
+import { NatureCapabilityApi } from './capabilities/NatureCapabilityApi.js';
 import { normalizeNatureProfile } from './NatureApiProfiles.js';
 import { normalizeNatureSeed } from './NatureApiSeed.js';
 import { VegetationNatureApi } from './VegetationNatureApi.js';
@@ -21,8 +22,8 @@ import { WaterNatureApi } from './WaterNatureApi.js';
 /** Shared immutable domain foundation for the developer-facing Nature API. */
 export class NatureApiBase {
 	/**
-	 * Creates mature specialist facades and shared deterministic defaults.
-	 * @param {object} [options={}] Shared seed, quality, and realism defaults.
+	 * Creates mature specialist facades, direct-operation discovery, and shared deterministic defaults.
+	 * @param {object} [options={}] Shared seed, quality, realism, and optional provider defaults.
 	 */
 	constructor(options = {}) {
 		const tiferesProfile = normalizeNatureProfile(options);
@@ -32,6 +33,11 @@ export class NatureApiBase {
 			seed: normalizeNatureSeed(options.seed)
 		});
 		this.catalog = Object.freeze(new NatureCatalogApi());
+		this.capabilities = Object.freeze(new NatureCapabilityApi({
+			providers: {
+				textureGenerator: options.textureGenerator ?? null
+			}
+		}));
 		this.creatures = Object.freeze(new CreatureNatureApi(this.defaults));
 		this.ecosystems = Object.freeze(new EcosystemNatureApi(this.defaults));
 		this.forests = Object.freeze(new ForestNatureApi(this.defaults));
