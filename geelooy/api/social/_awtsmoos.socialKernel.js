@@ -1,94 +1,27 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @module SocialKernelRoutes
  * @description
- * The Awtsmoos lets every social surface ask one read-language without one dangerous mutation doorway;
- * Awtsmoos.com exposes bounded entity truth, capabilities, relations, normalized activity, and action previews today.
+ * The Awtsmoos renews every social doorway while remaining beyond every route map;
+ * Awtsmoos.com lets Keser expose six exact public paths and delegates each measured action to one tested handler vessel.
  */
-const { er } = require('./helper/general.js');
-const { normalizeActivityEvent } = require('./helper/socialKernel/activity/SocialActivityNormalizer.js');
-const { socialKernelBatch, MAX_KERNEL_TARGETS } = require('./helper/socialKernel/SocialKernelBatch.js');
-const { socialKernelEntity } = require('./helper/socialKernel/SocialKernel.js');
-const {
-	methodOnly,
-	ok,
-	parseTargets,
-	targetFrom,
-	truthyFlag,
-	viewerAlias
-} = require('./helper/socialKernel/routes/SocialKernelRouteTools.js');
+const { SocialKernelHandlers } = require('./helper/socialKernel/routes/SocialKernelHandlers.js');
 
-function missingEntity() {
-	return er({ code: 'ENTITY_NOT_FOUND', message: 'Social entity not found.' });
-}
-
-module.exports = ({ $i, userid } = {}) => ({
-	'/entity': async () => {
-		const bad = methodOnly($i, 'GET');
-		if (bad) return bad;
-		const result = await socialKernelEntity({
-			$i,
-			input: targetFrom($i.$_GET || {}),
-			viewerAliasId: await viewerAlias({ $i, userid }),
-			includeRelations: truthyFlag($i.$_GET?.relations)
-		});
-		return result ? ok(result) : missingEntity();
-	},
-	'/entities/batch': async () => {
-		const bad = methodOnly($i, 'POST');
-		if (bad) return bad;
-		const targets = parseTargets($i);
-		if (!targets.length) return er({ code: 'BAD_TARGETS', message: 'Provide targets.' });
-		const data = await socialKernelBatch({
-			$i,
-			targets,
-			viewerAliasId: await viewerAlias({ $i, userid }),
-			includeRelations: truthyFlag($i.$_POST?.includeRelations)
-		});
-		return ok(data, {
-			requested: targets.length,
-			returned: data.length,
-			maxTargets: MAX_KERNEL_TARGETS
-		});
-	},
-	'/entity/capabilities': async () => {
-		const bad = methodOnly($i, 'GET');
-		if (bad) return bad;
-		const result = await socialKernelEntity({
-			$i,
-			input: targetFrom($i.$_GET || {}),
-			viewerAliasId: await viewerAlias({ $i, userid })
-		});
-		return result ? ok(result.capabilities) : missingEntity();
-	},
-	'/entity/relations': async () => {
-		const bad = methodOnly($i, 'GET');
-		if (bad) return bad;
-		const result = await socialKernelEntity({
-			$i,
-			input: targetFrom($i.$_GET || {}),
-			viewerAliasId: await viewerAlias({ $i, userid }),
-			includeRelations: true
-		});
-		return result ? ok(result.relations) : missingEntity();
-	},
-	'/entity/activity/normalize': async () => {
-		const bad = methodOnly($i, 'POST');
-		return bad || ok(normalizeActivityEvent($i.$_POST?.activity || $i.$_POST || {}));
-	},
-	'/entity/action/preview': async () => {
-		const bad = methodOnly($i, 'POST');
-		if (bad) return bad;
-		const result = await socialKernelEntity({
-			$i,
-			input: targetFrom($i.$_POST || {}),
-			viewerAliasId: await viewerAlias({ $i, userid })
-		});
-		const action = result?.actions?.find(item => item.id === $i.$_POST?.actionId);
-		return action
-			? ok(action)
-			: er({ code: 'ACTION_NOT_FOUND', message: 'Action is not described for this entity.' });
-	}
-});
+/**
+ * Builds the exact historical Social Kernel route map around one request-bound handler instance.
+ * @param {Object} context Awtsmoos route context containing `$i` and `userid`.
+ * @returns {Object<string, Function>} Exact six Social Kernel route handlers.
+ */
+module.exports = ({ $i, userid } = {}) => {
+	const handlers = new SocialKernelHandlers({ $i, userid });
+	return {
+		'/entity': handlers.entity.bind(handlers),
+		'/entities/batch': handlers.batch.bind(handlers),
+		'/entity/capabilities': handlers.capabilities.bind(handlers),
+		'/entity/relations': handlers.relations.bind(handlers),
+		'/entity/activity/normalize': handlers.activity.bind(handlers),
+		'/entity/action/preview': handlers.actionPreview.bind(handlers)
+	};
+};

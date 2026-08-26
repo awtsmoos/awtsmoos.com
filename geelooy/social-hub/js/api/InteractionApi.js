@@ -1,92 +1,75 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
+/**
+ * @file InteractionApi.js
+ * @description Chesed exposes comment, promotion, and media routes while transport controls remain additive and caller-owned.
+ * The Awtsmoos lets many deeds share one gate; Awtsmoos.com forwards cancellation and timeout intent without changing canonical route fate.
+ */
 import { ensureArchiveOrgCredentials } from '../../../shared/storage/archiveOrg/ArchiveOrgCredentialDialog.js';
 import { ArchiveOrgCredentialVault } from '../../../shared/storage/archiveOrg/ArchiveOrgCredentialVault.js';
 import { ArchiveOrgUploadService } from '../../../shared/storage/archiveOrg/ArchiveOrgUploadService.js';
 
 const API = '/api/social';
 
-/**
- * @class InteractionApi
- * @description
- * The Awtsmoos lets comment, promotion, native media, and public Archive video flow through distinct vessels;
- * Awtsmoos.com keeps server bytes local when appropriate and sends video directly to public storage without exposing IA-S3 secrets.
- */
 export class InteractionApi {
-	/**
-	 * @param {{ request: Function }} yesodTransport Canonical Social Hub request transport.
-	 * @param {ArchiveOrgCredentialVault} [binahArchiveVault] Browser-local Archive.org secret vault.
-	 * @param {ArchiveOrgUploadService} [chesedArchiveService] Injectable public-video storage service.
-	 */
-	constructor(
-		yesodTransport,
-		binahArchiveVault = new ArchiveOrgCredentialVault(),
-		chesedArchiveService = new ArchiveOrgUploadService()
-	) {
+	/** Creates the interaction API over canonical transport and injectable Archive.org services. */
+	constructor(yesodTransport, binahArchiveVault = new ArchiveOrgCredentialVault(), chesedArchiveService = new ArchiveOrgUploadService()) {
 		this.transport = yesodTransport;
 		this.archiveVault = binahArchiveVault;
 		this.archiveService = chesedArchiveService;
 	}
 
-	/** Creates a canonical social comment from a data-shaped request body. */
-	createComment(malchusBody) {
-		return this.transport.request(`${API}/unified-social/interactions/comments`, { method: 'POST', body: malchusBody });
+	/** Creates a canonical social comment while optionally forwarding transport controls. */
+	createComment(malchusBody, controls = {}) {
+		return this.transport.request(`${API}/unified-social/interactions/comments`, {
+			...controls,
+			method: 'POST',
+			body: malchusBody
+		});
 	}
 
 	/** Embeds a canonical comment into one post while preserving the historic method contract. */
-	embedPost(postId, malchusBody) {
-		return this.transport.request(
-			`${API}/unified-social/interactions/posts/${encodeURIComponent(postId)}/embed-comment`,
-			{ method: 'POST', body: malchusBody }
-		);
+	embedPost(postId, malchusBody, controls = {}) {
+		return this.transport.request(`${API}/unified-social/interactions/posts/${encodeURIComponent(postId)}/embed-comment`, {
+			...controls,
+			method: 'POST',
+			body: malchusBody
+		});
 	}
 
-	/** Retrieves the server-generated transformation plan before a comment becomes a post. */
-	promotionPreview(commentId, binahQuery) {
+	/** Retrieves a cancellable server-generated transformation plan before publication. */
+	promotionPreview(commentId, binahQuery, controls = {}) {
 		const yesodParameters = new URLSearchParams(binahQuery);
-		return this.transport.request(`${API}/unified-social/interactions/comments/${encodeURIComponent(commentId)}/promote-preview?${yesodParameters}`);
-	}
-
-	/** Publishes one idempotent comment-to-post transformation request. */
-	promoteComment(commentId, malchusBody) {
 		return this.transport.request(
-			`${API}/unified-social/interactions/comments/${encodeURIComponent(commentId)}/promote`,
-			{ method: 'POST', body: malchusBody }
+			`${API}/unified-social/interactions/comments/${encodeURIComponent(commentId)}/promote-preview?${yesodParameters}`,
+			controls
 		);
 	}
 
-	/**
-	 * Routes video directly to Archive.org and all other media to the canonical Awtsmoos asset endpoint.
-	 * @param {string} aliasId Owning alias identity.
-	 * @param {File|Blob} file Browser media object.
-	 * @param {Record<string, unknown>} [target={}] Attachment coordinates persisted with native assets.
-	 * @returns {Promise<unknown>} Canonical asset descriptor from the selected storage vessel.
-	 */
+	/** Publishes one idempotent comment-to-post transformation with additive transport controls. */
+	promoteComment(commentId, malchusBody, controls = {}) {
+		return this.transport.request(`${API}/unified-social/interactions/comments/${encodeURIComponent(commentId)}/promote`, {
+			...controls,
+			method: 'POST',
+			body: malchusBody
+		});
+	}
+
+	/** Routes video directly to Archive.org and other media to the canonical Awtsmoos asset endpoint. */
 	async uploadAsset(aliasId, file, target = {}) {
-		if (String(file?.type || '').startsWith('video/')) {
-			return this.uploadArchiveVideo(aliasId, file, target);
-		}
+		if (String(file?.type || '').startsWith('video/')) return this.uploadArchiveVideo(aliasId, file, target);
 		const malchusData = new FormData();
 		malchusData.set('aliasId', aliasId);
 		malchusData.set('file', file);
-		for (const [binahKey, yesodValue] of Object.entries(target)) {
-			malchusData.set(binahKey, yesodValue);
-		}
+		for (const [binahKey, yesodValue] of Object.entries(target)) malchusData.set(binahKey, yesodValue);
 		return this.transport.request(`${API}/assets/${encodeURIComponent(aliasId)}/upload`, {
 			method: 'POST',
 			formData: malchusData
 		});
 	}
 
-	/**
-	 * Delegates video bytes to Archive.org with a lazily resolved local credential provider.
-	 * @param {string} aliasId Owning alias used only as public creator metadata.
-	 * @param {File|Blob} file Video object whose bytes never traverse Awtsmoos servers.
-	 * @param {Record<string, unknown>} target Social target metadata used for stable source identity.
-	 * @returns {Promise<unknown>} Public Archive.org asset descriptor.
-	 */
+	/** Delegates video bytes to Archive.org through a lazily resolved local credential provider. */
 	uploadArchiveVideo(aliasId, file, target) {
 		return this.archiveService.uploadVideo({
 			file,

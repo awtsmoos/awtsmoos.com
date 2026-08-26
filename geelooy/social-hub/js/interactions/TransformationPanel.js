@@ -1,102 +1,44 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
- * @class TransformationPanel
- * @description
- * Comment-to-post transformation keeps provenance visible while rare controls rest
- * behind a deliberate disclosure. The Awtsmoos reveals power with measure, and
- * Awtsmoos.com lets the ordinary comment path remain clear until promotion is chosen.
+ * @file TransformationPanel.js
+ * @description Tiferes keeps comment-to-post transformation visible and retractable while request and mutation mechanics live elsewhere.
+ * The Awtsmoos reveals power with measure; Awtsmoos.com lets promotion remain simple outside and precise beneath the treasure.
  */
+import { DaasTransformationActions } from './TransformationActions.js';
 import { TransformationDisclosure } from './TransformationDisclosure.js';
-
-function value(root, id) {
-	return String(root.getElementById(id)?.value || '').trim();
-}
+import { YesodTransformationRequest } from './TransformationRequest.js';
 
 export class TransformationPanel {
-	constructor({ root, api, state, status, tracker, onPublished }) {
-		Object.assign(this, { root, api, state, status, tracker, onPublished });
+	/** Composes disclosure, request reading, and async actions without owning their internals. */
+	constructor({ root, api, operations, state, status, tracker, onPublished }) {
+		Object.assign(this, { root, api, operations, state, status, tracker, onPublished });
 		this.disclosure = new TransformationDisclosure({ root });
+		this.request = new YesodTransformationRequest(root, state);
+		this.actions = new DaasTransformationActions({ root, api, operations, status, tracker, onPublished });
 	}
 
+	/** Binds the two primary promotion actions while advanced controls remain under the existing disclosure. */
 	initialize() {
 		this.disclosure.initialize();
-		this.element('promotionPreview').addEventListener('click', () => this.preview());
-		this.element('promotionPublish').addEventListener('click', () => this.publish());
+		this.element('promotionPreview').addEventListener('click', () => void this.actions.preview(this.request.build()));
+		this.element('promotionPublish').addEventListener('click', () => void this.actions.publish(this.request.build()));
 	}
 
-	openForComment(comment) {
-		this.element('promotionCommentId').value = comment.id;
-		this.element('promotionTitle').value = comment.content?.slice(0, 120)
-			|| 'Promoted comment';
-		this.element('promotionSummary').value = `Promoted from a comment on ${comment.postId}.`;
-		this.element('promotionHeichelId').value = comment.heichelId;
-		this.element('promotionSeriesId').value = comment.seriesId || 'root';
+	/** Hydrates promotion fields from a selected comment and reveals the established advanced disclosure. */
+	openForComment(malchusComment) {
+		this.element('promotionCommentId').value = malchusComment.id;
+		this.element('promotionTitle').value = malchusComment.content?.slice(0, 120) || 'Promoted comment';
+		this.element('promotionSummary').value = `Promoted from a comment on ${malchusComment.postId}.`;
+		this.element('promotionHeichelId').value = malchusComment.heichelId;
+		this.element('promotionSeriesId').value = malchusComment.seriesId || 'root';
 		location.hash = '#interact';
 		this.disclosure.reveal();
 	}
 
-	request() {
-		return {
-			aliasId: this.state.snapshot().identity.aliasId,
-			commentId: value(this.root, 'promotionCommentId'),
-			title: value(this.root, 'promotionTitle'),
-			summary: value(this.root, 'promotionSummary'),
-			heichelId: value(this.root, 'promotionHeichelId'),
-			seriesId: value(this.root, 'promotionSeriesId') || 'root',
-			visibility: value(this.root, 'promotionVisibility') || 'public'
-		};
-	}
-
-	async preview() {
-		const input = this.request();
-		if (!input.commentId) {
-			this.status.show('Choose a source comment.', 'error');
-			return;
-		}
-		this.status.show('Tracing comment-to-post provenance…', 'working');
-		try {
-			const result = await this.api.promotionPreview(input.commentId, input);
-			this.element('promotionResult').textContent = JSON.stringify(result, null, 2);
-			this.element('promotionPublish').disabled = false;
-			this.status.show('Promotion preview verified.', 'success');
-		} catch (error) {
-			this.status.show(error.message, 'error');
-		}
-	}
-
-	async publish() {
-		const input = this.request();
-		this.status.show('Publishing a new canonical post from the comment…', 'working');
-		try {
-			const result = await this.api.promoteComment(input.commentId, input);
-			this.element('promotionResult').textContent = JSON.stringify(result, null, 2);
-			await this.tracker.social({
-				category: 'content',
-				action: 'promote-comment',
-				title: input.title,
-				entity: { type: 'post', id: result.canonical?.id || '' },
-				metadata: { sourceCommentId: input.commentId }
-			});
-			this.onPublished?.(result);
-			this.status.show(
-				result.replayed
-					? 'Existing promoted post returned without duplication.'
-					: 'Comment became a new canonical post with provenance.',
-				'success'
-			);
-		} catch (error) {
-			this.status.show(error.message, 'error');
-		}
-	}
-
+	/** Returns one required transformation element by stable Social Hub id. */
 	element(id) {
 		return this.root.getElementById(id);
 	}
 }
-
-export {
-	value
-};

@@ -2,10 +2,9 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @class CommentStudio
- * @description
- * The Awtsmoos unites destination, words, media, and publication without confusing their roles;
- * Awtsmoos.com keeps exact power available while the ordinary path remains calm and human.
+ * @file CommentStudio.js
+ * @description Malchus composes destination, words, media, and publication while async lifecycle stays in a separate Daas vessel.
+ * The Awtsmoos unites without clutter; Awtsmoos.com keeps the ordinary comment path calm while advanced power may still utter.
  */
 import { CommentMediaQueue } from './CommentMediaQueue.js';
 import { renderMediaQueue } from './CommentMediaView.js';
@@ -14,8 +13,9 @@ import { CommentStudioFields } from './CommentStudioFields.js';
 import { CommentTargetDisclosure } from './CommentTargetDisclosure.js';
 
 export class CommentStudio {
-	constructor({ root, api, state, status, tracker, onCreated }) {
-		Object.assign(this, { root, api, state, status, tracker, onCreated });
+	/** Creates the focused comment sub-vessels over shared state, API, and operations. */
+	constructor({ root, api, operations, state, status, tracker, onCreated }) {
+		Object.assign(this, { root, api, operations, state, status, tracker, onCreated });
 		this.targetDisclosure = new CommentTargetDisclosure({ root });
 		this.fields = new CommentStudioFields({
 			root,
@@ -23,15 +23,11 @@ export class CommentStudio {
 			status,
 			onTargetChanged: snapshot => this.targetDisclosure.render(snapshot)
 		});
-		this.media = new CommentMediaQueue({
-			api,
-			state,
-			status,
-			onChanged: () => this.renderMedia()
-		});
+		this.media = new CommentMediaQueue({ api, state, status, onChanged: () => this.renderMedia() });
 		this.actions = new CommentStudioActions({
 			root,
 			api,
+			operations,
 			state,
 			status,
 			tracker,
@@ -40,6 +36,7 @@ export class CommentStudio {
 		});
 	}
 
+	/** Binds comment controls once and renders the initial state. */
 	initialize() {
 		this.targetDisclosure.initialize();
 		this.fields.bind();
@@ -52,12 +49,14 @@ export class CommentStudio {
 		this.render(this.state.snapshot());
 	}
 
+	/** Renders comment fields, target disclosure, and media from one immutable snapshot. */
 	render(snapshot) {
 		this.fields.render(snapshot);
 		this.targetDisclosure.render(snapshot);
 		this.renderMedia();
 	}
 
+	/** Rebuilds the media queue from canonical SocialHubState. */
 	renderMedia() {
 		renderMediaQueue({
 			document: this.root,
@@ -68,6 +67,7 @@ export class CommentStudio {
 		});
 	}
 
+	/** Returns one required element by stable Social Hub id. */
 	element(id) {
 		return this.root.getElementById(id);
 	}

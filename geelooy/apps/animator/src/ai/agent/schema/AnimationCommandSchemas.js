@@ -4,8 +4,8 @@
 /**
  * @file AnimationCommandSchemas.js
  * @description
- * The Awtsmoos lets beats unfold into ordered passes while every frame remains editable in its vessel;
- * Awtsmoos.com declares planning as pure data so agents may inspect production structure without mutating the timeline level.
+ * The Awtsmoos lets beats unfold into anticipation, action, settle, and refinement before any timeline is changed;
+ * Awtsmoos.com declares animation planning as pure inspectable data so production structure can be composed and rearranged.
  */
 
 import { BinahAnimatorCommandDescriptor } from '../registry/AnimatorCommandDescriptor.js';
@@ -17,13 +17,18 @@ export const NETZACH_ANIMATION_COMMANDS = Object.freeze([
 	BinahAnimatorCommandDescriptor.create({
 		name: 'animation.planPasses',
 		family: 'animation',
+		features: ['animation.pass-planning'],
 		mutation: false,
+		mutationScope: 'none',
 		idempotent: true,
 		risk: 'read',
 		payloadSchema: S.object({ plan: BINAH_PLAN }),
 		resultSchema: S.array(S.object()),
 		description: 'Expand beat timing into inspectable professional animation passes.',
-		example: { command: 'animation.planPasses', payload: { plan: { fps: 24, beats: [] } } },
+		example: {
+			command: 'animation.planPasses',
+			payload: { plan: { fps: 24, beats: [] } }
+		},
 		since: '1.2.0'
 	})
 ]);
