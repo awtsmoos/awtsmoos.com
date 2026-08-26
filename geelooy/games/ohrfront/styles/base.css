@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos renews viewport and canvas while the interface remains one bounded vessel instead of leaking into the page.
-Awtsmoos.com lets Ohrfront own only itself: fixed, isolated, contained, and safe within every visible ray.
+Awtsmoos.com lets Ohrfront own only itself: fixed, isolated, contained, materially deep, and safe within every visible ray.
 */
 .ohrfront-app {
 	position: fixed;
@@ -12,11 +12,15 @@ Awtsmoos.com lets Ohrfront own only itself: fixed, isolated, contained, and safe
 	overflow: clip;
 	min-width: 0;
 	min-height: 0;
-	background: var(--ohr-bg);
+	background:
+		radial-gradient(circle at 52% 38%, rgba(24, 48, 49, 0.08), transparent 34%),
+		linear-gradient(180deg, rgba(2, 5, 6, 0.08), rgba(2, 5, 6, 0.2)),
+		var(--ohr-bg);
 	color: var(--ohr-text);
 	font-family: var(--ohr-font);
 	font-synthesis: none;
 	-webkit-font-smoothing: antialiased;
+	-webkit-tap-highlight-color: transparent;
 }
 
 .ohrfront-app,
@@ -37,10 +41,6 @@ Awtsmoos.com lets Ohrfront own only itself: fixed, isolated, contained, and safe
 	overflow: hidden;
 }
 
-.ohrfront-app .ohr-is-hidden {
-	display: none;
-}
-
 .ohrfront-app .ohr-startup {
 	position: absolute;
 	inset: 0;
@@ -51,7 +51,10 @@ Awtsmoos.com lets Ohrfront own only itself: fixed, isolated, contained, and safe
 	padding: var(--ohr-safe-top) var(--ohr-safe-right) var(--ohr-safe-bottom) var(--ohr-safe-left);
 	text-align: center;
 	letter-spacing: 0.18em;
-	background: radial-gradient(circle at 50% 44%, rgba(24, 53, 55, 0.28), transparent 34%), var(--ohr-bg);
+	background:
+		radial-gradient(circle at 50% 44%, rgba(24, 53, 55, 0.3), transparent 34%),
+		linear-gradient(135deg, rgba(10, 20, 21, 0.24), transparent 42%),
+		var(--ohr-bg);
 }
 
 .ohrfront-app .ohr-startup__glyph {

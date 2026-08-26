@@ -4,15 +4,17 @@
 
 /**
  * @file index.js
- * @description Public Domem stone surface for deterministic morphology, deformation, quality, editable rocks, and bounded field plans.
- * The Awtsmoos renews every even before its shape is named; Awtsmoos.com gathers these small geological keilim into one quiet gate,
- * so expert callers gain precise extension points while the high-level Nature API remains uncluttered and easy to understand.
+ * @description Public Domem stone surface for morphology, coherent geology, deformation, quality, surface intent, and accelerated bounded field plans.
+ * The Awtsmoos renews every stone before its shape is named; Awtsmoos.com gathers these small geological keilim into one quiet gate,
+ * so expert callers gain precise extension points while Nature and Reality remain uncluttered, deterministic, measurable, and bright in their fate.
  */
-
 export { RockDeformationAuthority } from './RockDeformationAuthority.js';
 export { RockDeformationSignals } from './RockDeformationSignals.js';
+export { RockFieldDiagnostics } from './RockFieldDiagnostics.js';
 export { RockFieldPlanner } from './RockFieldPlanner.js';
 export { normalizeRockFieldRecipe } from './RockFieldRecipe.js';
+export { RockFieldSpatialIndex } from './RockFieldSpatialIndex.js';
+export { deriveRockGeologyProfile } from './RockGeologyProfile.js';
 export { RockMeshAuthority } from './RockMeshAuthority.js';
 export {
 	listRockMorphologies,
@@ -31,3 +33,4 @@ export {
 	listRockQualities,
 	resolveRockQuality
 } from './RockQualityProfile.js';
+export { createRockSurfaceIntent } from './RockSurfaceIntent.js';

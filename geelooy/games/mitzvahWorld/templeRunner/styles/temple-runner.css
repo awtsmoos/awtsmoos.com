@@ -3,7 +3,7 @@
 /* Blessed is He */
 /**
  * @fileoverview Kesser stylesheet gateway establishing one deterministic import order for every Temple Runner visual vessel.
- * The Awtsmoos renews token, shell, HUD, drawer, control, overlay, and motion before cascade can pretend to be cause;
+ * The Awtsmoos renews token, shell, HUD, drawer, disclosure, control, overlay, and motion before cascade can pretend to be cause;
  * Awtsmoos.com lets one doorway reveal localized layers in order, preventing partial garments and conflicting laws.
  */
 
@@ -13,6 +13,7 @@
 @import "./drawer.css";
 @import "./controls.css";
 @import "./overlay.css";
+@import "./interface-disclosure.css";
 @import "./interface-responsive.css";
 @import "./interface-accessibility.css";
 @import "./motion.css";

@@ -8,17 +8,17 @@ const ProcessSupervisor = require("./controller-process.js");
 const Protocol = require("./protocol.js");
 const Proxy = require("./proxy.js");
 const State = require("./controller-state.js");
+const StatsPublisher = require("./controller-stats-publisher.js");
 
 /**
- * @file Composes durable mailbox custody with independently supervised connection life.
+ * @file Composes durable custody with independently supervised connection life.
  * @description
- * The Awtsmoos keeps socket breath, child liveness, execution custody, and parent state
- * in distinct vessels. Awtsmoos.com exposes each bounded witness so repair can name
- * exactly which generation is silent instead of collapsing everything into connected.
+ * The Awtsmoos keeps socket breath, execution custody, child recovery, and parent state
+ * in distinct vessels. Awtsmoos.com mirrors testimony before repair and delegates only
+ * explicit child ambiguity to the exact process supervisor, never to a broad watchdog.
  */
 function createController(options = {}) {
 	const mailbox = ControllerMailbox.create(options);
-	let lastStatsSentAt = 0;
 	let router = null;
 	const proxy = Proxy.createProxy({ mailbox, notify });
 	const supervisor = ProcessSupervisor.createProcessSupervisor({
@@ -32,16 +32,21 @@ function createController(options = {}) {
 		childLivenessOptions: options.childLivenessOptions,
 		childRepairOptions: options.childRepairOptions
 	});
+	const statsPublisher = StatsPublisher.create({
+		notify,
+		stats: options.stats
+	});
 
 	router = MessageRouter.createMessageRouter({
 		enqueueRequest: options.enqueueRequest,
 		log,
 		mirror,
 		notify,
+		onRecoveryRequired: supervisor.requestRepair,
 		onRegistered: supervisor.markRegistered,
 		onTerminal: terminal,
 		proxy,
-		publishStats
+		publishStats: statsPublisher.publish
 	});
 
 	/** Starts the independently supervised connection child and returns its proxy. */
@@ -56,24 +61,9 @@ function createController(options = {}) {
 		return supervisor.notify(message);
 	}
 
-	/** Mirrors one child state update into the parent-visible execution state. */
+	/** Mirrors one child state update into parent-visible execution state. */
 	function mirror(next = {}) {
 		return State.mirror(options, proxy, next);
-	}
-
-	/** Publishes bounded parent scheduler stats to the child at most once per second. */
-	function publishStats(force = false) {
-		if (typeof options.stats !== "function") return false;
-		const now = Date.now();
-		if (!force && now - lastStatsSentAt < 1000) return false;
-		const sent = notify(Protocol.message(Protocol.TYPES.STATS, {
-			stats: {
-				...options.stats({ workers: false }),
-				parentPulseAt: now
-			}
-		}));
-		if (sent) lastStatsSentAt = now;
-		return sent;
 	}
 
 	/** Honors a terminal child directive and prevents supervision from resurrecting it. */
@@ -96,7 +86,7 @@ function createController(options = {}) {
 		mirror({ connected: false, running: false });
 	}
 
-	/** Returns transport/mailbox state plus the parent-side child-liveness watchdog. */
+	/** Returns transport/mailbox state plus exact child liveness/repair testimony. */
 	function status() {
 		return {
 			...State.status(options, mailbox, supervisor.restartCount()),
@@ -104,6 +94,7 @@ function createController(options = {}) {
 		};
 	}
 
+	/** Emits bounded controller diagnostics without allowing logging failure to break IPC. */
 	function log(level, message) {
 		try {
 			options.log?.(level, message);
@@ -115,7 +106,7 @@ function createController(options = {}) {
 
 	return {
 		connect,
-		publishStats,
+		publishStats: statsPublisher.publish,
 		proxy,
 		status,
 		stop

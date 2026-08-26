@@ -1,0 +1,58 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews hover, focus, press, disabled state, and motion before one private gesture can become old; Awtsmoos.com lets Universal Chat answer every interaction with precise bounded light.
+ */
+body[data-messaging-page] .messaging-composer textarea:focus-visible {
+	border-color: rgba(121, 224, 183, .58);
+	background: linear-gradient(180deg, rgba(5, 18, 13, .9), rgba(24, 53, 39, .58));
+	box-shadow: 0 0 0 3px rgba(121, 224, 183, .08), inset 0 1px 8px rgba(0, 0, 0, .18);
+}
+
+body[data-messaging-page] .messaging-composer textarea[readonly],
+body[data-messaging-page] .messaging-composer textarea:disabled {
+	cursor: progress;
+	opacity: .62;
+	filter: saturate(.58);
+}
+
+body[data-messaging-page] .messaging-text-send:focus-visible,
+body[data-messaging-page] .messaging-voice-start:focus-visible {
+	outline: 2px solid rgba(151, 245, 207, .96);
+	outline-offset: 3px;
+}
+
+body[data-messaging-page] .messaging-text-send:active,
+body[data-messaging-page] .messaging-voice-start:active {
+	transform: translateY(1px) scale(.97);
+}
+
+body[data-messaging-page] .messaging-text-send:disabled,
+body[data-messaging-page] .messaging-voice-start:disabled {
+	cursor: not-allowed;
+	opacity: .52;
+	filter: saturate(.55);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-messaging-page] .messaging-composer textarea:hover {
+		border-color: rgba(121, 224, 183, .38);
+		background: linear-gradient(180deg, rgba(4, 15, 11, .86), rgba(24, 49, 37, .54));
+	}
+
+	body[data-messaging-page] .messaging-text-send:hover,
+	body[data-messaging-page] .messaging-voice-start:hover {
+		border-color: rgba(145, 239, 204, .54);
+		background: linear-gradient(145deg, rgba(121, 224, 183, .24), rgba(73, 151, 169, .14));
+		box-shadow: 0 8px 20px rgba(54, 183, 137, .08);
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-messaging-page] .messaging-composer textarea,
+	body[data-messaging-page] .messaging-text-send,
+	body[data-messaging-page] .messaging-voice-start {
+		transition-duration: .01ms;
+	}
+}

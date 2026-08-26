@@ -1,50 +1,103 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file fluidPass.js
- * @brief Renders the fluid simulation using a full-screen raymarching approach.
+ * @description Preserves explicit rendering for historic object-per-particle `isFluid` scenes while canonical PIC/FLIP water renders through smooth surface meshes and WaterMaterial.
+ * The Awtsmoos renews every old particle before a fallback pass can claim the sea; Awtsmoos.com lets this narrow bridge remain a tiny draw coordinator,
+ * so compatibility survives without teaching new worlds full-screen metaballs, hidden clocks, repeated scene archaeology, or yesterday's bounded particle decree.
  */
-export function drawFluidPass(renderer, invViewProj, cameraPos, fluidMaterialInstance) {
-    const gl = renderer.gl;
-    if (!fluidMaterialInstance || !renderer.fullScreenQuad) return;
 
-    // 1. Gather all fluid particles
-    const fluidParticles = [];
-    renderer.objectMap.forEach(obj => {
-        if (obj.simulation && obj.simulation.config && obj.simulation.config.isFluid) {
-            fluidParticles.push(obj);
-        }
-    });
+import {
+	collectLegacyFluidPositions,
+	resolveLegacyFluidTime,
+	resolveLegacyParticleRadius
+} from './FluidLegacySceneEvidence.js';
 
-    if (fluidParticles.length === 0) return;
+const LEGACY_QUAD_LOCATION_BY_PROGRAM = new WeakMap();
 
-    // 2. Collect current positions from the physics simulation
-    const currentTime = (performance.now() - renderer.startTime) / 1000;
-    const fluidPositions = fluidParticles.map(p => {
-        const mat = renderer.animationManager.getInterpolatedTransform(p.id, currentTime);
-        return [mat[12], mat[13], mat[14]];
-    });
-    
-    // B"H - Calibrated influence radius for a more solid, less blobby appearance.
-    const particleRadius = fluidParticles[0].simulation.config.radius * 3.0;
+/**
+ * Draws the bounded legacy full-screen particle-fluid fallback when historic `simulation.config.isFluid` objects are present.
+ * @param {object} rendererYesod WebGL renderer containing object map, animation manager, full-screen quad, and shared shader variables.
+ * @param {ArrayLike<number>} inverseViewProjectionMalchus Inverse camera view-projection matrix.
+ * @param {ArrayLike<number>} cameraPositionMalchus Camera XYZ position.
+ * @param {object} fluidMaterialYesod Explicit FluidMaterial compatibility instance.
+ * @returns {Readonly<object>|null} Fallback diagnostics or null when no compatible legacy particles are visible.
+ */
+export function drawFluidPass(
+	rendererYesod,
+	inverseViewProjectionMalchus,
+	cameraPositionMalchus,
+	fluidMaterialYesod
+) {
+	if (
+		!fluidMaterialYesod?.program ||
+		!rendererYesod.fullScreenQuad
+	) {
+		return null;
+	}
+	const timeTiferes = resolveLegacyFluidTime(rendererYesod);
+	const particleOros = collectLegacyFluidPositions(
+		rendererYesod,
+		timeTiferes
+	);
+	if (particleOros.length === 0) {
+		return null;
+	}
+	const gl = rendererYesod.gl;
+	const diagnosticsBinah = fluidMaterialYesod.bind(
+		inverseViewProjectionMalchus,
+		cameraPositionMalchus,
+		[gl.canvas.width, gl.canvas.height],
+		rendererYesod.sceneParser?.globalShaderVars || {},
+		particleOros,
+		resolveLegacyParticleRadius(rendererYesod)
+	);
+	bindLegacyFullScreenQuad(
+		gl,
+		rendererYesod.fullScreenQuad,
+		fluidMaterialYesod.program
+	);
+	gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+	return Object.freeze({
+		...diagnosticsBinah,
+		renderer: 'legacy-fullscreen-metaball',
+		time: timeTiferes
+	});
+}
 
-    // 3. Bind material and uniforms
-    fluidMaterialInstance.bind(
-        invViewProj,
-        cameraPos,
-        [gl.canvas.width, gl.canvas.height],
-        renderer.sceneParser.globalShaderVars,
-        fluidPositions,
-        particleRadius
-    );
-    
-    // 4. Draw the full screen quad
-    const quad = renderer.fullScreenQuad;
-    const prog = fluidMaterialInstance.program;
-    const locPos = gl.getAttribLocation(prog, 'aVertexPosition');
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, quad.buffer);
-    gl.vertexAttribPointer(locPos, 2, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(locPos);
-
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+/**
+ * Binds the shared full-screen quad while caching its position attribute location by compiled program.
+ * @param {WebGLRenderingContext} gl WebGL context.
+ * @param {object} quadMalchus Full-screen quad buffer record.
+ * @param {WebGLProgram} programKli Compiled fallback-fluid program.
+ * @returns {void}
+ */
+function bindLegacyFullScreenQuad(
+	gl,
+	quadMalchus,
+	programKli
+) {
+	let locationNetzach = LEGACY_QUAD_LOCATION_BY_PROGRAM.get(programKli);
+	if (locationNetzach === undefined) {
+		locationNetzach = gl.getAttribLocation(
+			programKli,
+			'aVertexPosition'
+		);
+		LEGACY_QUAD_LOCATION_BY_PROGRAM.set(
+			programKli,
+			locationNetzach
+		);
+	}
+	gl.bindBuffer(gl.ARRAY_BUFFER, quadMalchus.buffer);
+	gl.vertexAttribPointer(
+		locationNetzach,
+		2,
+		gl.FLOAT,
+		false,
+		0,
+		0
+	);
+	gl.enableVertexAttribArray(locationNetzach);
 }

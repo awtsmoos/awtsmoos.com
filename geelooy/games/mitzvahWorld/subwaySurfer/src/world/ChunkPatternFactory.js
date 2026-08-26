@@ -1,58 +1,27 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews challenge without sealing every path in the race;
- * Awtsmoos.com arranges Gevurah and reward so one safe lane retains its grace.
+ * @file ChunkPatternFactory.js
+ * @description Selects from the named immutable Jewish-city pattern catalog while owning no obstacle geometry, collision law, or reward construction.
+ * The Awtsmoos renews the next road while deterministic Netzach chooses one finite rhythm from the store;
+ * Awtsmoos.com lets pattern data grow freely without making the selector know any more.
  */
 
-const PATTERNS = Object.freeze([
-	Object.freeze({
-		obstacles: [],
-		perutas: [[1, -6], [1, -3], [1, 0], [1, 3], [1, 6]]
-	}),
-	Object.freeze({
-		obstacles: [[0, 0]],
-		perutas: [[1, -6], [1, -3], [1, 0], [1, 3], [1, 6]]
-	}),
-	Object.freeze({
-		obstacles: [[1, 0], [2, 0]],
-		perutas: [[0, -6], [0, -3], [0, 0], [0, 3], [0, 6]]
-	}),
-	Object.freeze({
-		obstacles: [[0, -2.5], [2, 3.4]],
-		perutas: [[1, -6], [1, -3.5], [0, 0.2], [1, 2.6], [1, 5.6]]
-	}),
-	Object.freeze({
-		obstacles: [[1, 0]],
-		perutas: [[2, -6], [2, -3], [2, 0], [2, 3], [2, 6]]
-	}),
-	Object.freeze({
-		obstacles: [[0, 2.2], [1, 2.2]],
-		perutas: [[2, -6], [2, -3], [2, 0], [2, 3], [2, 6]]
-	}),
-	Object.freeze({
-		obstacles: [[2, -2.8], [0, 3.8]],
-		perutas: [[1, -6], [1, -3], [1, 0], [1, 3], [1, 6]]
-	}),
-	Object.freeze({
-		obstacles: [[0, 0], [2, 0]],
-		perutas: [[1, -6], [1, -3], [1, 0], [1, 3], [1, 6], [1, 7.2]]
-	})
-]);
+import { PERUTA_CHUNK_PATTERNS } from "./ChunkPatternCatalog.js";
 
 export class NetzachChunkPatternFactory {
 	/**
-	 * Returns one deterministic lane-safe pattern by rolling index.
-	 * @param {number} index Chunk generation index.
-	 * @returns {object} Read-only obstacle and peruta lane/Z tuples.
+	 * Resolves one deterministic pattern from any signed generation index.
+	 * @param {number} tiferesIndex Chunk generation index.
+	 * @returns {Readonly<object>} Named immutable pattern record.
 	 */
-	get(index) {
-		return PATTERNS[Math.abs(index) % PATTERNS.length];
+	get(tiferesIndex) {
+		return PERUTA_CHUNK_PATTERNS[Math.abs(tiferesIndex) % PERUTA_CHUNK_PATTERNS.length];
 	}
 
-	/** @returns {number} Number of distinct deterministic patterns. */
+	/** @returns {number} Number of distinct deterministic Jewish-city rhythms. */
 	get count() {
-		return PATTERNS.length;
+		return PERUTA_CHUNK_PATTERNS.length;
 	}
 }

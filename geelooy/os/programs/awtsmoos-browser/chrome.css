@@ -1,51 +1,122 @@
-/* B"H — chrome compositor: imports focused scoped modules only. */
-@import url("./tabs.css");
-@import url("./navigation.css");
+/* B"H
+ * The Awtsmoos guides the trusted navigation row: address, mode, progress, and focus
+ * remain host-owned lights above every guest page, clear in motion and clear at rest.
+ */
 
-.awtsmoos-browser-host .awtsmoos-browser-toolbar {
-	position: relative;
-	z-index: var(--awtsmoos-browser-layer-chrome);
+.awtsmoos-browser-navigation {
 	display: grid;
-	gap: 6px;
-	padding: 7px 8px 8px;
-	border-block-end: 1px solid var(--awtsmoos-browser-line);
-	background: linear-gradient(180deg, rgba(25, 31, 44, 0.96), rgba(14, 18, 27, 0.94));
-	backdrop-filter: blur(20px) saturate(135%);
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+	grid-template-columns: auto minmax(120px, 1fr) auto;
+	align-items: center;
+	gap: 8px;
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-progress {
+.awtsmoos-browser-omnibox {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 8px;
+	min-height: 38px;
+	padding: 0 10px;
+	border: 1px solid rgba(255, 255, 255, 0.11);
+	border-radius: 13px;
+	background: rgba(255, 255, 255, 0.065);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.05);
+	transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.awtsmoos-browser-omnibox:focus-within {
+	border-color: rgba(124, 236, 255, 0.5);
+	background: rgba(255, 255, 255, 0.085);
+	box-shadow:
+		0 0 0 3px rgba(124, 236, 255, 0.09),
+		inset 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.awtsmoos-browser-address {
+	min-width: 0;
+	border: 0;
+	outline: 0;
+	color: var(--browser-text);
+	background: transparent;
+	font-size: 13px;
+}
+
+.awtsmoos-browser-address::placeholder {
+	color: rgba(208, 216, 232, 0.45);
+}
+
+.awtsmoos-browser-trust {
+	color: var(--browser-accent);
+	font-size: 14px;
+}
+
+.awtsmoos-browser-mode-badge {
+	padding: 4px 7px;
+	border-radius: 999px;
+	color: #d8fbff;
+	background: rgba(124, 236, 255, 0.09);
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+}
+
+.awtsmoos-browser-menu:hover,
+.awtsmoos-browser-menu:focus-visible {
+	background: rgba(255, 255, 255, 0.085);
+	outline: none;
+}
+
+.awtsmoos-browser-progress {
 	position: absolute;
-	inset-inline: 0;
-	inset-block-end: 0;
-	block-size: 2px;
-	pointer-events: none;
+	left: 0;
+	right: 0;
+	bottom: -1px;
+	height: 2px;
 	overflow: hidden;
+	pointer-events: none;
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-progress::after {
+.awtsmoos-browser-progress::before {
 	content: "";
 	display: block;
-	inline-size: 38%;
-	block-size: 100%;
-	background: linear-gradient(90deg, transparent, var(--awtsmoos-browser-accent), transparent);
-	transform: translateX(-130%);
+	width: 36%;
+	height: 100%;
+	transform: translateX(-120%);
+	background: linear-gradient(
+		90deg,
+		transparent,
+		var(--browser-accent-strong),
+		#bea2ff,
+		transparent
+	);
 	opacity: 0;
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-progress.is-loading::after {
+.awtsmoos-browser-progress.is-loading::before {
 	opacity: 1;
-	animation: awtsmoos-browser-progress-flow 1.05s linear infinite;
+	animation: awtsmoos-browser-progress 1s cubic-bezier(.4, 0, .2, 1) infinite;
 }
 
-@keyframes awtsmoos-browser-progress-flow {
+@keyframes awtsmoos-browser-progress {
 	to {
 		transform: translateX(360%);
 	}
 }
 
-@media (min-width: 640px) {
-	.awtsmoos-browser-host .awtsmoos-browser-toolbar {
-		padding-inline: 10px;
+@media (max-width: 620px) {
+	.awtsmoos-browser-mode-badge {
+		max-width: 52px;
+		overflow: hidden;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-browser-host * {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+
+	.awtsmoos-browser-progress.is-loading::before {
+		animation-duration: 2.4s;
 	}
 }

@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos renews shield and body while no permanent card is needed to prove the living vessel in light.
-Awtsmoos.com lets two disciplined traces remain at the edge, legible yet humble before the battlefield in sight.
+Awtsmoos.com lets two disciplined material traces remain at the edge, legible yet humble before the battlefield in sight.
 */
 .ohrfront-app .ohr-vitals {
 	position: absolute;
@@ -13,7 +13,11 @@ Awtsmoos.com lets two disciplined traces remain at the edge, legible yet humble 
 	display: grid;
 	gap: 10px;
 }
-.ohrfront-app .ohr-vital { min-width: 0; }
+
+.ohrfront-app .ohr-vital {
+	min-width: 0;
+}
+
 .ohrfront-app .ohr-vital__label {
 	display: flex;
 	justify-content: space-between;
@@ -23,7 +27,12 @@ Awtsmoos.com lets two disciplined traces remain at the edge, legible yet humble 
 	line-height: 1.4;
 	color: var(--ohr-muted);
 }
-.ohrfront-app .ohr-vital__label b { color: var(--ohr-text); font-weight: 680; }
+
+.ohrfront-app .ohr-vital__label b {
+	color: var(--ohr-text);
+	font-weight: 680;
+}
+
 .ohrfront-app .ohr-progress {
 	display: block;
 	width: 100%;
@@ -35,10 +44,41 @@ Awtsmoos.com lets two disciplined traces remain at the edge, legible yet humble 
 	appearance: none;
 	background: rgba(255, 255, 255, 0.1);
 }
-.ohrfront-app .ohr-progress::-webkit-progress-bar { border-radius: 999px; background: rgba(255, 255, 255, 0.1); }
-.ohrfront-app .ohr-progress::-webkit-progress-value { border-radius: 999px; background: var(--ohr-energy); box-shadow: 0 0 9px rgba(121, 231, 236, 0.32); }
-.ohrfront-app .ohr-progress::-moz-progress-bar { border-radius: 999px; background: var(--ohr-energy); }
-.ohrfront-app .ohr-progress--health::-webkit-progress-value { background: var(--ohr-health); box-shadow: none; }
-.ohrfront-app .ohr-progress--health::-moz-progress-bar { background: var(--ohr-health); }
-.ohrfront-app .ohr-progress--heat::-webkit-progress-value { background: linear-gradient(90deg, var(--ohr-energy), var(--ohr-warm)); }
-.ohrfront-app .ohr-progress--heat::-moz-progress-bar { background: var(--ohr-warm); }
+
+.ohrfront-app .ohr-progress::-webkit-progress-bar {
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.46);
+}
+
+.ohrfront-app .ohr-progress::-webkit-progress-value,
+.ohrfront-app .ohr-progress::-moz-progress-bar {
+	border-radius: 999px;
+	background: var(--ohr-energy);
+}
+
+.ohrfront-app .ohr-progress--shield::-webkit-progress-value {
+	background: linear-gradient(90deg, rgba(115, 247, 255, 0.72), var(--ohr-shield));
+	box-shadow: 0 0 9px rgba(121, 231, 236, 0.34);
+}
+
+.ohrfront-app .ohr-progress--shield::-moz-progress-bar {
+	background: var(--ohr-shield);
+}
+
+.ohrfront-app .ohr-progress--health::-webkit-progress-value {
+	background: var(--ohr-health);
+	box-shadow: none;
+}
+
+.ohrfront-app .ohr-progress--health::-moz-progress-bar {
+	background: var(--ohr-health);
+}
+
+.ohrfront-app .ohr-progress--heat::-webkit-progress-value {
+	background: linear-gradient(90deg, var(--ohr-energy), var(--ohr-warm));
+}
+
+.ohrfront-app .ohr-progress--heat::-moz-progress-bar {
+	background: var(--ohr-warm);
+}

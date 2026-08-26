@@ -1,0 +1,87 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews touch, focus, hover, and motion before one gesture can claim itself; Awtsmoos.com lets the voice player answer every mode with bounded futuristic light.
+ */
+.social-hub-document .hubVoicePlayer[data-state='loading'] {
+	border-color: rgba(255, 207, 91, .46);
+}
+
+.social-hub-document .hubVoicePlayer[data-state='error'] {
+	border-color: rgba(255, 91, 128, .62);
+	box-shadow: 0 0 0 3px rgba(255, 91, 128, .08);
+}
+
+.social-hub-document .hubVoicePlayer__seek::-webkit-slider-runnable-track {
+	block-size: 5px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgba(58, 232, 255, .82), rgba(232, 74, 255, .62));
+}
+
+.social-hub-document .hubVoicePlayer__seek::-webkit-slider-thumb {
+	inline-size: 18px;
+	block-size: 18px;
+	margin-block-start: -6.5px;
+	border: 2px solid rgba(232, 252, 255, .94);
+	border-radius: 50%;
+	appearance: none;
+	background: rgb(42, 210, 239);
+	box-shadow: 0 0 0 4px rgba(42, 210, 239, .14), 0 0 16px rgba(42, 210, 239, .42);
+}
+
+.social-hub-document .hubVoicePlayer__seek::-moz-range-track {
+	block-size: 5px;
+	border: 0;
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgba(58, 232, 255, .82), rgba(232, 74, 255, .62));
+}
+
+.social-hub-document .hubVoicePlayer__seek::-moz-range-thumb {
+	inline-size: 16px;
+	block-size: 16px;
+	border: 2px solid rgba(232, 252, 255, .94);
+	border-radius: 50%;
+	background: rgb(42, 210, 239);
+	box-shadow: 0 0 0 4px rgba(42, 210, 239, .14), 0 0 16px rgba(42, 210, 239, .42);
+}
+
+.social-hub-document .hubVoicePlayer__play:focus-visible,
+.social-hub-document .hubVoicePlayer__mute:focus-visible,
+.social-hub-document .hubVoicePlayer__seek:focus-visible {
+	outline: 2px solid rgba(110, 239, 255, .94);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .hubVoicePlayer:hover {
+		border-color: rgba(78, 235, 255, .54);
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 14px 34px rgba(1, 9, 24, .3);
+	}
+
+	.social-hub-document .hubVoicePlayer__play:hover,
+	.social-hub-document .hubVoicePlayer__mute:hover {
+		border-color: rgba(100, 240, 255, .7);
+		background: linear-gradient(145deg, rgba(43, 214, 244, .3), rgba(173, 67, 198, .22));
+		transform: translateY(-1px);
+	}
+}
+
+.social-hub-document .hubVoicePlayer__play:active,
+.social-hub-document .hubVoicePlayer__mute:active {
+	transform: translateY(1px) scale(.96);
+}
+
+.social-hub-document .hubVoicePlayer__play:disabled,
+.social-hub-document .hubVoicePlayer__mute:disabled,
+.social-hub-document .hubVoicePlayer__seek:disabled {
+	cursor: not-allowed;
+	opacity: .45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .hubVoicePlayer,
+	.social-hub-document .hubVoicePlayer__play,
+	.social-hub-document .hubVoicePlayer__mute {
+		transition-duration: .01ms;
+	}
+}

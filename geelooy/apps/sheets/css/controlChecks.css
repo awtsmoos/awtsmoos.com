@@ -1,0 +1,89 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets every yes, no, and many-choice intention remain semantically native while receiving a polished vessel of light;
+Awtsmoos.com keeps checks accessible, touchable, and unmistakably designed so system-default boxes never fracture the sight.
+*/
+.awtsmoos-sheets-app .aw-check-control {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	min-height: 38px;
+	padding: 7px 10px;
+	border: 1px solid rgba(19, 124, 83, 0.1);
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.58);
+	color: var(--text);
+	font-size: 12px;
+	font-weight: 650;
+	cursor: pointer;
+	transition:
+		background var(--motion-fast) var(--ease-direct),
+		border-color var(--motion-fast) var(--ease-direct),
+		box-shadow var(--motion-fast) var(--ease-direct);
+}
+
+.awtsmoos-sheets-app .aw-check-control:hover {
+	border-color: rgba(19, 124, 83, 0.2);
+	background: rgba(19, 124, 83, 0.055);
+}
+
+.awtsmoos-sheets-app .aw-check-control:focus-within {
+	border-color: rgba(19, 124, 83, 0.34);
+	box-shadow: var(--glow-active, 0 0 0 3px rgba(19, 124, 83, 0.14));
+}
+
+.awtsmoos-sheets-app .aw-check-input {
+	appearance: none;
+	display: grid;
+	place-content: center;
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	border: 1.5px solid rgba(19, 124, 83, 0.38);
+	border-radius: 5px;
+	background: rgba(255, 255, 255, 0.92);
+	cursor: pointer;
+}
+
+.awtsmoos-sheets-app .aw-check-input::before {
+	content: "";
+	width: 8px;
+	height: 8px;
+	border-radius: 2px;
+	background: #137c53;
+	transform: scale(0);
+	transition: transform var(--motion-fast) var(--ease-direct);
+}
+
+.awtsmoos-sheets-app .aw-check-input:checked::before {
+	transform: scale(1);
+}
+
+.awtsmoos-sheets-app .aw-check-input:focus-visible {
+	outline: none;
+}
+
+.awtsmoos-sheets-app .aw-check-input:disabled {
+	cursor: not-allowed;
+	opacity: 0.45;
+}
+
+.awtsmoos-sheets-app .aw-check-control:has(.aw-check-input:disabled) {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+@media (max-width: 760px) {
+	.awtsmoos-sheets-app .aw-check-control {
+		min-height: 44px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-sheets-app .aw-check-control,
+	.awtsmoos-sheets-app .aw-check-input::before {
+		transition: none;
+	}
+}

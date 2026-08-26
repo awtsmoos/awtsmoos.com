@@ -25,7 +25,7 @@ export class RealityIntentApi extends RealityTerrainApi {
 	/**
 	 * Realizes one semantic intent and returns the native result for a single node or a result graph for many.
 	 * @param {unknown} inputOhr String, object, preset request, or nested intent array.
-	 * @param {object} [optionsKeter={}] Root seed, quality, and realism overrides.
+	 * @param {object} [optionsKeter={}] Root seed, quality, realism, environment, material, and other JSON-safe scene defaults.
 	 * @returns {unknown} Native specialist result or immutable multi-node result graph.
 	 */
 	make(inputOhr, optionsKeter = {}) {
@@ -35,44 +35,54 @@ export class RealityIntentApi extends RealityTerrainApi {
 	/**
 	 * Produces an immutable JSON-safe non-heavy plan without creating geometry, runtimes, creatures, terrain, or buildings.
 	 * @param {unknown} inputOhr Any supported Reality intent input.
-	 * @param {object} [optionsKeter={}] Root seed, quality, and realism overrides.
-	 * @returns {Readonly<object>} Deterministic Reality intent plan.
+	 * @param {object} [optionsKeter={}] Root seed, profile, environment, material, and serializable specialist defaults.
+	 * @returns {Readonly<object>} Deterministic Reality intent plan with dependencies, effective options, seeds, and execution order.
 	 */
 	plan(inputOhr, optionsKeter = {}) {
 		return this.intentDaas.plan(inputOhr, optionsKeter);
 	}
 
 	/**
-	 * Explains exactly what an intent would invoke; currently identical to `plan` by design.
+	 * Explains exactly what an intent would invoke without realizing any procedural content.
 	 * @param {unknown} inputOhr Any supported Reality intent input.
-	 * @param {object} [optionsKeter={}] Root profile overrides.
-	 * @returns {Readonly<object>} Deterministic non-realized plan with authority paths and seeds.
+	 * @param {object} [optionsKeter={}] Root serializable scene defaults.
+	 * @returns {Readonly<object>} Same deterministic non-realized plan returned by `plan`.
 	 */
 	explain(inputOhr, optionsKeter = {}) {
 		return this.intentDaas.explain(inputOhr, optionsKeter);
 	}
 
 	/**
-	 * Realizes ordinary intent input or a previously produced canonical plan into an immutable result graph.
+	 * Realizes ordinary intent input or a previously produced canonical plan into an immutable dependency-aware result graph.
 	 * @param {unknown} inputOhr Intent input or canonical Reality intent plan.
-	 * @param {object} [optionsKeter={}] Root options used only when planning is required.
-	 * @returns {Readonly<object>} Result graph preserving native specialist values per node.
+	 * @param {object} [optionsKeter={}] Root options used only when ordinary input first requires planning.
+	 * @returns {Readonly<object>} Result graph preserving native specialist values, authored order, and execution order.
 	 */
 	compile(inputOhr, optionsKeter = {}) {
 		return this.intentDaas.compile(inputOhr, optionsKeter);
 	}
 
-	/** Creates an immutable fluent scene builder over ordinary intent data. */
+	/**
+	 * Creates an immutable fluent scene builder whose chains produce the exact same canonical intent data as direct array/object input.
+	 * @param {object} [defaultsKelim={}] JSON-safe root scene defaults inherited beneath node-local options.
+	 * @returns {import('./intents/RealitySceneBuilder.js').RealitySceneBuilder} Empty immutable scene builder.
+	 */
 	scene(defaultsKelim = {}) {
 		return this.intentDaas.scene(defaultsKelim);
 	}
 
-	/** Lists installed exact scene preset names. */
+	/**
+	 * Lists installed exact scene preset names without expanding or realizing them.
+	 * @returns {ReadonlyArray<string>} Stable frozen preset-name list.
+	 */
 	presets() {
 		return this.intentDaas.presets();
 	}
 
-	/** Lists every executable Nature or Reality intent kind, including Terrain-aware Reality kinds. */
+	/**
+	 * Lists every executable Nature or Reality semantic intent kind, including Terrain-aware Reality kinds.
+	 * @returns {ReadonlyArray<string>} Stable frozen union of canonical Nature operations and Reality-exclusive intent kinds.
+	 */
 	intents() {
 		return this.intentDaas.intents();
 	}

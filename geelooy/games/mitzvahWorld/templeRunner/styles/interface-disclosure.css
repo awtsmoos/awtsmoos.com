@@ -1,0 +1,39 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Binah disclosure-state styling that retracts gameplay chrome while advanced detail is open and quiets secondary HUD information when minimal density is chosen.
+ * The Awtsmoos renews revealed and concealed interface light before one layer can compete with another for the eye;
+ * Awtsmoos.com lets Binah fold ordinary chrome away when depth appears, then return the road when advanced knowledge passes by.
+ */
+
+.run-rail,
+.status-stage,
+.turn-prompt,
+.controls {
+	transition:
+		opacity var(--motion-medium) var(--ease-soft),
+		filter var(--motion-medium) var(--ease-soft);
+}
+
+.game-shell[data-drawer="open"] .run-rail,
+.game-shell[data-drawer="open"] .status-stage,
+.game-shell[data-drawer="open"] .turn-prompt,
+.game-shell[data-drawer="open"] .controls {
+	opacity: 0;
+	filter: blur(3px) saturate(0.7);
+	pointer-events: none;
+}
+
+.game-shell[data-density="minimal"] .run-metric-secondary {
+	display: none;
+}
+
+.game-shell[data-density="minimal"] .status-stage {
+	top: calc(var(--safe-top) + 52px);
+}
+
+.game-shell[data-density="minimal"] .status-pill:not([data-moment]),
+.game-shell[data-density="minimal"] .power-up-status[hidden] {
+	display: none;
+}

@@ -3,9 +3,9 @@
 //Blessed is He
 
 /**
- * @file Builds respondent-safe radio and checkbox groups with native-form-compatible required validation.
- * @description The Awtsmoos lets many visible choices gather beneath one question while obligation remains one measured light;
- * Awtsmoos.com teaches the browser when a required multi-choice vessel is empty so feedback arrives before the network flight.
+ * @file Builds respondent-safe radio and checkbox groups whose native semantics live inside explicit Forms-owned choice vessels.
+ * @description The Awtsmoos lets many visible choices gather beneath one question while every option carries deliberate light;
+ * Awtsmoos.com preserves browser validation truth without allowing raw system controls or anonymous text to fracture the sight.
  */
 
 /** Builds radio or checkbox options and exposes one normalized answer reader. */
@@ -15,8 +15,11 @@ export function publicChoiceField(field) {
 	const inputs = (field.options || []).map((option, index) => {
 		const input = choiceInput(field, option, index);
 		const label = document.createElement("label");
-		label.className = "choice-option";
-		label.append(input, document.createTextNode(option));
+		label.className = "choice-option public-choice-option";
+		const copy = document.createElement("span");
+		copy.className = "public-choice-copy";
+		copy.textContent = option;
+		label.append(input, copy);
 		group.append(label);
 		return input;
 	});
@@ -27,21 +30,30 @@ export function publicChoiceField(field) {
 	};
 }
 
-/** Creates one native option input with radio-required semantics where the platform already understands the group. */
+/** Creates one explicitly owned native choice input with platform-compatible required semantics. */
 function choiceInput(field, option, index) {
 	const input = document.createElement("input");
+	input.className = "public-choice-input";
 	input.type = field.type === "checkboxes" ? "checkbox" : "radio";
 	input.name = `${field.id}-choice`;
 	input.value = option;
-	if (field.required && field.type === "singleChoice" && index === 0) {
+	if (
+		field.required
+		&& field.type === "singleChoice"
+		&& index === 0
+	) {
 		input.required = true;
 	}
 	return input;
 }
 
-/** Makes a required checkbox group participate in reportValidity by assigning one custom-validity witness. */
+/** Makes a required checkbox group participate in reportValidity through one custom-validity witness. */
 function bindCheckboxValidity(field, inputs) {
-	if (!field.required || field.type !== "checkboxes" || !inputs.length) {
+	if (
+		!field.required
+		|| field.type !== "checkboxes"
+		|| !inputs.length
+	) {
 		return;
 	}
 	const witness = inputs[0];

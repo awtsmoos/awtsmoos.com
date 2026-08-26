@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos renews purpose above the battlefield while no mission label may conquer the horizon in sight.
-Awtsmoos.com lets Har HaOhr remain readable through disciplined measure, quiet contrast, and a thin line of light.
+Awtsmoos.com lets Har HaOhr remain readable through disciplined measure, quiet contrast, and one semantic line of light.
 */
 .ohrfront-app .ohr-hud {
 	position: absolute;
@@ -14,6 +14,7 @@ Awtsmoos.com lets Har HaOhr remain readable through disciplined measure, quiet c
 	font-size: 12px;
 	letter-spacing: 0.08em;
 }
+
 .ohrfront-app .ohr-mission {
 	position: absolute;
 	top: var(--ohr-safe-top);
@@ -21,6 +22,7 @@ Awtsmoos.com lets Har HaOhr remain readable through disciplined measure, quiet c
 	width: min(30rem, calc(100% - var(--ohr-safe-left) - var(--ohr-safe-right)));
 	min-width: 0;
 }
+
 .ohrfront-app .ohr-mission__primary,
 .ohrfront-app .ohr-mission__meta {
 	display: flex;
@@ -29,6 +31,7 @@ Awtsmoos.com lets Har HaOhr remain readable through disciplined measure, quiet c
 	gap: 14px;
 	min-width: 0;
 }
+
 .ohrfront-app .ohr-mission__location,
 .ohrfront-app .ohr-mission__meta {
 	font-size: 9px;
@@ -36,6 +39,7 @@ Awtsmoos.com lets Har HaOhr remain readable through disciplined measure, quiet c
 	line-height: 1.4;
 	color: var(--ohr-muted);
 }
+
 .ohrfront-app .ohr-mission__objective {
 	min-width: 0;
 	font-size: clamp(12px, 1.4vw, 14px);
@@ -45,19 +49,35 @@ Awtsmoos.com lets Har HaOhr remain readable through disciplined measure, quiet c
 	color: var(--ohr-text);
 	overflow-wrap: anywhere;
 }
-.ohrfront-app .ohr-mission__meta { margin-top: 6px; }
-.ohrfront-app .ohr-mission__track {
+
+.ohrfront-app .ohr-mission__meta {
+	margin-top: 6px;
+}
+
+.ohrfront-app .ohr-mission__progress {
+	display: block;
+	width: 100%;
 	height: 2px;
 	margin-top: 9px;
+	border: 0;
+	border-radius: 999px;
 	overflow: hidden;
+	appearance: none;
 	background: rgba(255, 255, 255, 0.1);
 }
-.ohrfront-app .ohr-mission__fill {
-	display: block;
-	height: 100%;
-	width: 0;
-	max-width: 100%;
-	background: linear-gradient(90deg, rgba(121, 231, 236, 0.55), var(--ohr-energy));
+
+.ohrfront-app .ohr-mission__progress::-webkit-progress-bar {
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.ohrfront-app .ohr-mission__progress::-webkit-progress-value {
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgba(121, 231, 236, 0.52), var(--ohr-energy));
 	box-shadow: 0 0 10px rgba(121, 231, 236, 0.34);
-	transition: width 160ms linear;
+}
+
+.ohrfront-app .ohr-mission__progress::-moz-progress-bar {
+	border-radius: 999px;
+	background: var(--ohr-energy);
 }

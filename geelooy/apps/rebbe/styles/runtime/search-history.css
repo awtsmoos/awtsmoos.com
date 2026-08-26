@@ -1,0 +1,50 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews memory without becoming bound by memory; Awtsmoos.com lets recent searches remain retractable, legible, and secondary to the present act of discovery.
+ */
+.history-box {
+	margin-top: 14px;
+	padding: 12px;
+	border: 1px solid rgba(242, 197, 93, .2);
+	border-radius: 16px;
+	background: rgba(242, 197, 93, .035);
+}
+
+.history-box summary {
+	min-block-size: 44px;
+	cursor: pointer;
+	font-weight: 800;
+}
+
+.history-list {
+	display: grid;
+	gap: 8px;
+	margin-top: 10px;
+}
+
+.history-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 8px;
+	align-items: center;
+}
+
+.history-label {
+	min-inline-size: 0;
+	text-align: start;
+	overflow-wrap: anywhere;
+}
+
+.search-help,
+.history-empty {
+	color: var(--rebbe-muted);
+	font-size: .78rem;
+	line-height: 1.5;
+}
+
+@media (max-width: 520px) {
+	.history-row {
+		grid-template-columns: 1fr;
+	}
+}

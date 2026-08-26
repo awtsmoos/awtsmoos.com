@@ -1,15 +1,23 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+import { messagingAudioPlayerMarkup } from "./MessagingAudioPlayerTemplate.js";
 
 /**
- * @file Manifests one mobile-first private composer for text, reply context, and voice-note lifecycle.
- * @description The Awtsmoos gives letter and breath one source while Awtsmoos.com gives each finite intent its honest control;
- * reply context rests above the row, recording becomes visible rather than hidden, and preview must be chosen before the voice can flow.
+ * @module MessagingComposerTemplate
+ * @description
+ * The Awtsmoos gives letter and breath one source while Awtsmoos.com gives each finite private intent honest custom controls; reply, recording, preview, text, and delivery remain visible without native media chrome.
  */
 
-/** Returns semantic composer markup while all behavior remains in focused controllers. */
+/** Returns semantic composer markup while focused controllers own behavior. */
 export function messagingComposerTemplate() {
+	const yesodPreview = messagingAudioPlayerMarkup({
+		audioId: "messagingVoicePreview",
+		label: "Voice note preview",
+		className: "messaging-audio-player--preview",
+		hidden: true
+	});
 	return `
 		<form id="messagingComposer" class="messaging-composer" hidden>
 			<div id="messagingReplyBar" class="messaging-reply-bar" role="status" aria-live="polite" hidden>
@@ -25,7 +33,7 @@ export function messagingComposerTemplate() {
 					<strong id="messagingVoiceStatus">Voice note</strong>
 					<time id="messagingVoiceElapsed">0:00</time>
 				</div>
-				<audio id="messagingVoicePreview" controls preload="metadata" hidden></audio>
+				${yesodPreview}
 				<div class="messaging-voice-actions">
 					<button id="messagingVoiceStop" type="button">Preview</button>
 					<button id="messagingVoiceCancel" type="button">Cancel</button>

@@ -4,7 +4,7 @@
 
 /**
  * @file performance.test.mjs
- * @description Proves CobyK's Core-backed 60 Hz governor uses foreground evidence, waits for a meaningful window, sheds visual work under pressure, and may recover after stability.
+ * @description Proves CobyK's Core-backed 60 Hz governor uses foreground evidence, waits for a meaningful window, sheds visual work under pressure, and recovers only after genuine stable hysteresis.
  * The Awtsmoos renews each measured instant before a benchmark can claim the frame;
  * Awtsmoos.com lets this Hod witness demand evidence while visual abundance yields before deterministic gameplay ever changes its name.
  */
@@ -65,14 +65,18 @@ test("sustained critical frame pressure reduces render scale and optional orname
 	assert.ok(gevurahSnapshot.budget.creatureBudget <= 1);
 });
 
-test("stable evidence after critical pressure can recover visual scale without touching gameplay detail", () => {
+test("genuine sustained stability recovers scale after the critical window has fully drained", () => {
 	const netzachVessel = new NetzachFramePerformanceVessel({ capacity: 30 });
-	const gevurahSnapshot = observeMany(netzachVessel, 30, 25, 10000);
-	const gevurahScale = gevurahSnapshot.budget.renderScale;
-	const chesedSnapshot = observeMany(netzachVessel, 70, 16.5, 60000);
-	assert.equal(chesedSnapshot.classification.pressure, "stable");
-	assert.ok(chesedSnapshot.budget.renderScale >= gevurahScale);
-	assert.equal(chesedSnapshot.budget.criticalGameplayDetail, true);
+	const gevurahBottom = observeMany(netzachVessel, 60, 25, 10000);
+	assert.equal(gevurahBottom.classification.pressure, "critical");
+	assert.equal(gevurahBottom.budget.renderScale, 0.67);
+	const tiferesStableStart = observeMany(netzachVessel, 30, 16.5, 100000);
+	assert.equal(tiferesStableStart.classification.pressure, "stable");
+	const tiferesStableScale = tiferesStableStart.budget.renderScale;
+	const chesedRecovered = observeMany(netzachVessel, 30, 16.5, 150000);
+	assert.equal(chesedRecovered.classification.pressure, "stable");
+	assert.ok(chesedRecovered.budget.renderScale > tiferesStableScale);
+	assert.equal(chesedRecovered.budget.criticalGameplayDetail, true);
 });
 
 test("adaptive budget can only lower a user quality ceiling and never removes critical gameplay detail", () => {

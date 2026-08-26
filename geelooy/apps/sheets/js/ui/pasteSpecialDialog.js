@@ -3,9 +3,9 @@
 //Blessed is He
 
 /**
- * @file Presents Paste Special as a compact spreadsheet-native dialog rather than a blocking browser prompt.
- * @description The Awtsmoos lets the copied field choose which beams will enter the target vessel of light;
- * Awtsmoos.com makes value, formula, garment, note, transpose, and blank behavior visible and right.
+ * @file Presents Paste Special with fully owned select, checkbox, caption, and action primitives instead of browser-default chrome.
+ * @description The Awtsmoos lets the copied field choose which beams enter the target vessel through deliberate controls of light;
+ * Awtsmoos.com makes value, formula, garment, note, transpose, and blank behavior polished, accessible, and right.
  */
 export class BinahPasteSpecialDialog {
 	constructor(clipboard, onError) {
@@ -28,7 +28,7 @@ export class BinahPasteSpecialDialog {
 		this.dialog.querySelector("select")?.focus();
 	}
 
-	/** Builds mode and orthogonal paste options with accessible labels. */
+	/** Builds mode and orthogonal paste options with accessible, designed labels. */
 	form() {
 		const form = document.createElement("form");
 		form.method = "dialog";
@@ -38,8 +38,7 @@ export class BinahPasteSpecialDialog {
 		const mode = this.modeSelect();
 		const transpose = this.checkbox("Transpose rows and columns", "transpose");
 		const skipBlanks = this.checkbox("Skip blank source cells", "skipBlanks");
-		form.append(heading, mode.label, transpose.label, skipBlanks.label);
-		form.append(this.actions(form));
+		form.append(heading, mode.label, transpose.label, skipBlanks.label, this.actions());
 		form.addEventListener("submit", (event) => this.submit(
 			event,
 			mode.input,
@@ -49,12 +48,15 @@ export class BinahPasteSpecialDialog {
 		return form;
 	}
 
-	/** Creates the primary paste-mode selector. */
+	/** Creates the primary paste-mode selector with an explicit caption and field primitive. */
 	modeSelect() {
 		const label = document.createElement("label");
 		label.className = "dialog-field";
-		label.append(document.createTextNode("Paste"));
+		const caption = document.createElement("span");
+		caption.className = "aw-caption";
+		caption.textContent = "Paste";
 		const input = document.createElement("select");
+		input.className = "aw-select";
 		input.name = "mode";
 		for (const [value, text] of [
 			["all", "Everything"],
@@ -68,33 +70,36 @@ export class BinahPasteSpecialDialog {
 			option.textContent = text;
 			input.append(option);
 		}
-		label.append(input);
+		label.append(caption, input);
 		return { input, label };
 	}
 
-	/** Creates one accessible checkbox option. */
+	/** Creates one accessible checkbox whose native meaning lives inside a styled touch vessel. */
 	checkbox(text, name) {
 		const label = document.createElement("label");
-		label.className = "checkbox-field";
+		label.className = "checkbox-field aw-check-control";
 		const input = document.createElement("input");
+		input.className = "aw-check-input";
 		input.type = "checkbox";
 		input.name = name;
-		label.append(input, document.createTextNode(text));
+		const copy = document.createElement("span");
+		copy.textContent = text;
+		label.append(input, copy);
 		return { input, label };
 	}
 
-	/** Creates explicit cancel and paste controls. */
+	/** Creates explicit secondary and primary dialog actions through the shared button primitive. */
 	actions() {
 		const row = document.createElement("div");
 		row.className = "dialog-actions";
 		const cancel = document.createElement("button");
 		cancel.type = "button";
-		cancel.className = "quiet-button";
+		cancel.className = "aw-button aw-button--quiet quiet-button";
 		cancel.textContent = "Cancel";
 		cancel.addEventListener("click", () => this.dialog.close());
 		const paste = document.createElement("button");
 		paste.type = "submit";
-		paste.className = "primary-button";
+		paste.className = "aw-button aw-button--primary primary-button";
 		paste.textContent = "Paste";
 		row.append(cancel, paste);
 		return row;

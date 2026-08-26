@@ -4,9 +4,9 @@
 
 /**
  * @file RealityIntentRegistry.js
- * @description Registers only cross-domain Reality intents that Nature does not already own, including terrain without importing any parallel execution engine.
+ * @description Registers only cross-domain Reality intents that Nature does not already own, using deeply immutable lookup data rather than mutable collection state.
  * The Awtsmoos renews matter, terrain, speech, wind, and command before a registry may route their names;
- * Awtsmoos.com lets Nature keep Nature, Terrain keep landscape, while Reality holds only the bridges and points each bridge at the canonical flame.
+ * Awtsmoos.com lets Nature keep Nature, Terrain keep landscape, while Reality holds only the bridges and even its lookup vessel cannot mutate the flame.
  */
 
 const DEFINITIONS = Object.freeze([
@@ -26,16 +26,16 @@ const DEFINITIONS = Object.freeze([
 export class RealityIntentRegistry {
 	constructor(definitionsOros = DEFINITIONS) {
 		this.definitions = Object.freeze([...definitionsOros]);
-		this.byKind = new Map(this.definitions.map((definitionBinah) => {
-			return [definitionBinah.kind, definitionBinah];
-		}));
+		this.byKind = Object.freeze(Object.fromEntries(
+			this.definitions.map((definitionBinah) => [definitionBinah.kind, definitionBinah])
+		));
 		Object.freeze(this);
 	}
 
 	/** Resolves one exact Reality-exclusive intent descriptor. */
 	resolve(kindOhr) {
 		const kindYesod = String(kindOhr).trim().toLowerCase();
-		const definitionBinah = this.byKind.get(kindYesod);
+		const definitionBinah = this.byKind[kindYesod];
 		if (definitionBinah) return definitionBinah;
 		throw new RangeError(
 			`B"H | Unknown Reality-only intent "${kindOhr}". Expected: ${this.kinds().join(', ')}.`
@@ -44,7 +44,7 @@ export class RealityIntentRegistry {
 
 	/** Returns whether one exact kind is owned by this Reality-exclusive registry. */
 	has(kindOhr) {
-		return this.byKind.has(String(kindOhr).trim().toLowerCase());
+		return Boolean(this.byKind[String(kindOhr).trim().toLowerCase()]);
 	}
 
 	/** Lists immutable descriptors in registration order. */

@@ -1,8 +1,7 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos keeps the message river internally scrollable so conversation history never stretches the whole world;
- * Awtsmoos.com reserves a clear lower shore for the mobile composer, letting the newest words rise above its pearl.
+ * The Awtsmoos keeps the message river internally scrollable so conversation history never stretches the whole world; Awtsmoos.com lets the composer remain a neighboring shore instead of covering the newest words with guessed space.
  */
 .social-hub-document .hubConversationMessages {
 	display: grid;
@@ -62,21 +61,20 @@
 	font-size: .82rem;
 }
 
-.social-hub-document .hubConversationMessage audio {
-	inline-size: min(100%, 24rem);
+.social-hub-document .hubConversationVoiceMessage {
 	max-inline-size: 100%;
 }
 
 @media (max-width: 620px) {
 	.social-hub-document .hubConversationMessages {
-		max-block-size: min(46dvh, 24rem);
-		padding-block-end: 7rem;
-		scroll-padding-block-end: 7rem;
+		max-block-size: min(50dvh, 28rem);
+		padding-block-end: .8rem;
+		scroll-padding-block-end: .8rem;
 		-webkit-overflow-scrolling: touch;
 	}
 
 	.social-hub-document .hubConversationMessage {
-		max-inline-size: 92%;
-		padding: .65rem .72rem;
+		max-inline-size: 94%;
+		padding: .68rem .74rem;
 	}
 }

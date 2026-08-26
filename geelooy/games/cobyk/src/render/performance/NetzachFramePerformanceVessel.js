@@ -10,12 +10,13 @@ import {
 import { revealCobyKQualityProfile } from "../plan/CobyKQualityProfiles.js";
 import { revealAdaptiveVisualBudget } from "./CobyKAdaptiveVisualBudget.js";
 import { HodFrameDiagnostics } from "./HodFrameDiagnostics.js";
+import { HodPerformanceSnapshot } from "./HodPerformanceSnapshot.js";
 
 /**
  * @file NetzachFramePerformanceVessel.js
- * @description Composes Core's 60 Hz evidence, governor, and hysteretic scale while delegating reporting/cost ownership to a separate Hod diagnostics vessel.
- * The Awtsmoos renews each foreground instant before statistics can claim the living beat;
- * Awtsmoos.com lets this Netzach vessel defend sixty-pulse motion by yielding ornament while gameplay remains complete.
+ * @description Keeps CobyK's 60 Hz governor on a cheap mutation path while clone-heavy evidence is delegated to an explicitly requested Hod snapshot vessel.
+ * The Awtsmoos renews each foreground pulse before any report can claim the rhythm it sees;
+ * Awtsmoos.com lets Netzach guard the living frame with almost no reporting waste, while Hod reveals evidence only when there is need.
  */
 export class NetzachFramePerformanceVessel {
 	constructor(binaOptions = {}) {
@@ -26,21 +27,23 @@ export class NetzachFramePerformanceVessel {
 		});
 		this.tiferesScale = new AdaptiveRenderScalePolicy(binaOptions.scalePolicy);
 		this.hodDiagnostics = new HodFrameDiagnostics();
+		this.hodSnapshot = binaOptions.snapshot || new HodPerformanceSnapshot();
 		this.malchusProfile = revealCobyKQualityProfile(binaOptions.quality);
 		this.malchusClassification = this.classify();
 		this.malchusBudget = this.revealBudget();
 	}
 
 	/**
-	 * Observes one RAF interval only when visible and active; hidden-tab throttling is rejected as false performance evidence.
+	 * Observes one RAF interval and returns only the already-frozen current visual budget, avoiding diagnostic cloning on the hot frame path.
+	 * Hidden or inactive intervals are counted as ignored evidence and never influence quality.
 	 * @param {number} netzachIntervalMs Foreground RAF interval.
 	 * @param {{visible?:boolean,active?:boolean,nowMs?:number}} [binaContext={}] Measurement context.
-	 * @returns {object} Frozen updated performance snapshot.
+	 * @returns {object} Current immutable renderer-only visual budget.
 	 */
 	observeFrame(netzachIntervalMs, binaContext = {}) {
 		if (binaContext.visible === false || binaContext.active === false) {
 			this.hodDiagnostics.ignoreFrame();
-			return this.snapshot();
+			return this.malchusBudget;
 		}
 		this.netzachWindow.add(netzachIntervalMs);
 		this.hodDiagnostics.acceptFrame();
@@ -53,7 +56,12 @@ export class NetzachFramePerformanceVessel {
 			);
 		}
 		this.malchusBudget = this.revealBudget();
-		return this.snapshot();
+		return this.malchusBudget;
+	}
+
+	/** @returns {object} Current immutable visual budget with no clone/allocation work. */
+	currentBudget() {
+		return this.malchusBudget;
 	}
 
 	/**
@@ -67,14 +75,14 @@ export class NetzachFramePerformanceVessel {
 	}
 
 	/**
-	 * Changes only the user's visual ceiling; frame pressure may continue selecting a cheaper runtime budget beneath it.
+	 * Changes only the user's visual ceiling while pressure may continue selecting a cheaper budget beneath it.
 	 * @param {string} malchusQuality Quality id.
-	 * @returns {object} Frozen updated snapshot.
+	 * @returns {object} Updated immutable visual budget.
 	 */
 	setQuality(malchusQuality) {
 		this.malchusProfile = revealCobyKQualityProfile(malchusQuality);
 		this.malchusBudget = this.revealBudget();
-		return this.snapshot();
+		return this.malchusBudget;
 	}
 
 	/** @returns {object} Current Core frame-pressure classification over the bounded foreground window. */
@@ -91,19 +99,12 @@ export class NetzachFramePerformanceVessel {
 		);
 	}
 
-	/** @returns {object} Frozen clone-safe 60 Hz evidence, pressure, quality, budget, and diagnostic costs. */
+	/** @returns {object} Clone-safe evidence assembled only when diagnostics explicitly request it. */
 	snapshot() {
-		return Object.freeze({
-			targetFps: 60,
-			quality: this.malchusProfile.id,
-			evidence: Object.freeze({ ...this.netzachWindow.view() }),
-			classification: Object.freeze({ ...this.malchusClassification }),
-			budget: this.malchusBudget,
-			diagnostics: this.hodDiagnostics.snapshot()
-		});
+		return this.hodSnapshot.reveal(this);
 	}
 
-	/** @returns {void} Clears frame evidence, adaptive hysteresis, and diagnostics without touching gameplay state. */
+	/** @returns {void} Clears frame evidence and adaptive hysteresis without touching gameplay state. */
 	reset() {
 		this.netzachWindow.clear();
 		this.tiferesScale.reset();

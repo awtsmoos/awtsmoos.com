@@ -4,33 +4,30 @@
 /**
  * @file ExpansionFeatureData.js
  * @description
- * The Awtsmoos reveals unfinished chambers by naming them before their public command doors are built;
- * Awtsmoos.com keeps remaining product powers visible to coverage, so successful domains can never conceal unfinished guilds.
+ * The Awtsmoos reveals only the product chambers that still lack complete canonical command doors;
+ * Awtsmoos.com keeps the unfinished graph honest, shrinking this ledger as real implementations replace future words.
  */
 
 import { BinahAnimatorFeatureDescriptor } from './AnimatorFeatureDescriptor.js';
 
 const BACKLOG = [
-	['character.authoring', 'Character authoring', 'character', ['src/character', 'src/rigging']],
-	['camera.authoring', 'Camera authoring', 'camera', ['src/camera', 'src/cinema']],
-	['dialogue.direction', 'Dialogue and lip-sync direction', 'dialogue', ['src/dialogue']],
-	['audio.creation', 'Speech and foley creation', 'audio', ['src/audio', 'src/nle/audio']],
-	['media.assets', 'Media and asset workflows', 'media', ['src/assets', 'src/nle/media']],
 	['scene.authoring', 'Scene and stage authoring', 'scene', ['src/scene', 'src/stage', 'src/environment']],
 	['document.io', 'Studio document import and export', 'document', ['src/document', 'src/studio']],
 	['export.delivery', 'Render and package delivery', 'export', ['src/export', 'src/nle/project']]
 ];
 
-export const OR_EXPANSION_FEATURES = Object.freeze(BACKLOG.map(([id, label, family, backingModules]) => (
-	BinahAnimatorFeatureDescriptor.create({
-		id,
-		label,
-		description: `${label} is a known product capability awaiting complete canonical Agent API exposure.`,
-		family,
-		exposure: 'public',
-		commands: [],
-		backingModules,
-		relatedFeatureIds: [],
-		since: '1.5.0'
-	})
-)));
+export const OR_EXPANSION_FEATURES = Object.freeze(
+	BACKLOG.map(([id, label, family, backingModules]) => (
+		BinahAnimatorFeatureDescriptor.create({
+			id,
+			label,
+			description: `${label} is a known product capability awaiting complete canonical Agent API exposure.`,
+			family,
+			exposure: 'public',
+			commands: [],
+			backingModules,
+			relatedFeatureIds: [],
+			since: '1.5.0'
+		})
+	))
+);

@@ -4,11 +4,10 @@
 
 /**
  * @file index.js
- * @description Public Reality doorway preserving historical bases while exposing progressive semantic layers, terrain, expert gateways, textures, geology, and wind.
- * The Awtsmoos renews every exported distinction before any barrel can gather the names into one place;
- * Awtsmoos.com keeps this doorway explicit so beginners find one Reality path while experts descend through every canonical authority with grace.
+ * @description Public Reality doorway preserving historical bases while exposing discovery, water, terrain, intents, scenes, expert gateways, textures, geology, and wind.
+ * The Awtsmoos renews every exported distinction before any barrel gathers the names into one place; Awtsmoos.com keeps this doorway explicit,
+ * so beginners find one Reality path while experts descend through discovery covenants, intent graphs, terrain, water, matter, life, and canonical authorities with grace.
  */
-
 export { RealityApi, createRealityApi } from './RealityApi.js';
 export { RealityMatterApiBase } from './RealityMatterApiBase.js';
 export { RealityApiFoundation } from './RealityApiFoundation.js';
@@ -18,10 +17,14 @@ export { RealityBotanyApi } from './RealityBotanyApi.js';
 export { RealityTzomayachApi } from './RealityTzomayachApi.js';
 export { RealityChaiApi } from './RealityChaiApi.js';
 export { RealityMedaberApi } from './RealityMedaberApi.js';
+export { RealityWaterSurfaceApi } from './RealityWaterSurfaceApi.js';
+export { RealityWaterVolumetricSurfaceApi } from './RealityWaterVolumetricSurfaceApi.js';
 export { RealityWaterApi } from './RealityWaterApi.js';
 export { RealityWaterDynamicsApi } from './RealityWaterDynamicsApi.js';
 export { RealityOlamApi } from './RealityOlamApi.js';
 export { RealityTerrainApi } from './RealityTerrainApi.js';
+export { RealityIntentApi } from './RealityIntentApi.js';
+export { RealityDiscoveryApi } from './RealityDiscoveryApi.js';
 export { createRealityAdvancedApi } from './RealityAdvancedApi.js';
 export { REALITY_ADVANCED_IMPORTS } from './RealityAdvancedImports.js';
 export {
@@ -75,4 +78,5 @@ export {
 	realityWeightedChoice
 } from './RealityVariation.js';
 export { RealityWindFacade } from './RealityWindFacade.js';
+export * from './intents/index.js';
 export * from './wind/index.js';

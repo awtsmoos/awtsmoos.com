@@ -2,103 +2,77 @@
 // Boruch Hashem
 // Blessed is He
 
-import { sampleRockUnit } from './RockNoise.js';
-import { normalizeRockFieldRecipe } from './RockFieldRecipe.js';
-
 /**
  * @file RockFieldPlanner.js
- * @description Plans bounded deterministic stone clusters from one canonical normalized field recipe.
- * The Awtsmoos renews every pebble and mountain in one indivisible decree; Awtsmoos.com lets Malchus reveal
- * positions, scales, rotations, and child seeds while validation remains in RockFieldRecipe and geometry remains elsewhere.
+ * @description Plans bounded deterministic stone clusters with exact legacy spacing semantics, spatial acceleration, child seeds, and explicit saturation evidence.
+ * The Awtsmoos renews pebble and mountain in one indivisible decree; Awtsmoos.com lets Malchus reveal positions while Gevurah indexes nearby vessels,
+ * so larger fields remain deterministic and lawful without an ever-growing quadratic scan through every stone already revealed.
  */
+import { RockFieldDiagnostics } from './RockFieldDiagnostics.js';
+import { normalizeRockFieldRecipe } from './RockFieldRecipe.js';
+import { RockFieldSpatialIndex } from './RockFieldSpatialIndex.js';
+import { sampleRockUnit } from './RockNoise.js';
 
 const ATTEMPTS_PER_ROCK = 12;
 
-/** Plans reproducible rock fields without duplicating normalization or creating meshes eagerly. */
+/** Plans reproducible rock fields without eagerly creating meshes. */
 export class RockFieldPlanner {
-	/**
-	 * Creates one bounded placement plan from the shared immutable field recipe.
-	 * @param {object} [keterOptions={}] Count, radius, center, cluster, spacing, scale, and seed options.
-	 * @returns {object} Frozen placement plan preserving requested/placed/saturated compatibility fields.
-	 */
+	/** Creates one bounded placement plan while preserving all historic public fields additively. */
 	plan(keterOptions = {}) {
-		const yesodRecipe = normalizeRockFieldRecipe(keterOptions);
-		const orPlacements = revealPlacements(yesodRecipe);
+		const chochmahRecipe = normalizeRockFieldRecipe(keterOptions);
+		const binahResult = revealPlacements(chochmahRecipe);
 		return Object.freeze({
-			placedCount: orPlacements.length,
-			placements: Object.freeze(orPlacements),
-			requestedCount: yesodRecipe.gevurahCount,
-			saturated: orPlacements.length < yesodRecipe.gevurahCount,
-			seed: yesodRecipe.yesodSeed
+			diagnostics: binahResult.diagnostics,
+			placedCount: binahResult.placements.length,
+			placements: Object.freeze(binahResult.placements),
+			requestedCount: chochmahRecipe.gevurahCount,
+			saturated: binahResult.placements.length < chochmahRecipe.gevurahCount,
+			seed: chochmahRecipe.yesodSeed
 		});
 	}
 }
 
-/**
- * Executes a finite candidate search whose complete mutable state is local to this planning call.
- * @param {object} yesodRecipe Canonical normalized field recipe.
- * @returns {object[]} Accepted frozen placement descriptors.
- */
-function revealPlacements(yesodRecipe) {
-	const orPlacements = [];
-	const binahLimit = yesodRecipe.gevurahCount * ATTEMPTS_PER_ROCK;
-	for (
-		let daasAttempt = 0;
-		daasAttempt < binahLimit && orPlacements.length < yesodRecipe.gevurahCount;
-		daasAttempt += 1
-	) {
-		const malchusPlacement = createCandidate(
-			yesodRecipe,
-			daasAttempt,
-			orPlacements.length
-		);
-		if (hasSpacing(malchusPlacement, orPlacements, yesodRecipe.hodSpacing)) {
-			orPlacements.push(Object.freeze(malchusPlacement));
+/** Executes the exact deterministic candidate sequence with accelerated local spacing lookup. */
+function revealPlacements(keterRecipe) {
+	const chochmahPlacements = [];
+	const binahLimit = keterRecipe.gevurahCount * ATTEMPTS_PER_ROCK;
+	const gevurahMaximumScale = keterRecipe.netzachScale[1];
+	const tiferesIndex = new RockFieldSpatialIndex(keterRecipe.hodSpacing * gevurahMaximumScale);
+	const netzachDiagnostics = new RockFieldDiagnostics(binahLimit);
+	for (let hodAttempt = 0; hodAttempt < binahLimit && chochmahPlacements.length < keterRecipe.gevurahCount; hodAttempt += 1) {
+		netzachDiagnostics.consider();
+		const yesodCandidate = createCandidate(keterRecipe, hodAttempt, chochmahPlacements.length);
+		if (!tiferesIndex.canPlace(yesodCandidate, keterRecipe.hodSpacing)) {
+			netzachDiagnostics.rejectSpacing();
+			continue;
 		}
+		const malchusPlacement = Object.freeze(yesodCandidate);
+		tiferesIndex.insert(malchusPlacement);
+		chochmahPlacements.push(malchusPlacement);
 	}
-	return orPlacements;
+	return Object.freeze({
+		diagnostics: netzachDiagnostics.finish(keterRecipe.gevurahCount, chochmahPlacements.length),
+		placements: chochmahPlacements
+	});
 }
 
-/**
- * Creates one deterministic clustered polar candidate around the configured center.
- * @param {object} yesodRecipe Canonical field recipe.
- * @param {number} daasAttempt Candidate-attempt index.
- * @param {number} netzachIndex Accepted-rock index used for stable child seed derivation.
- * @returns {object} Candidate placement with position, scale, yaw, and child seed.
- */
-function createCandidate(yesodRecipe, daasAttempt, netzachIndex) {
-	const chesedAngle = sampleRockUnit(yesodRecipe.yesodSeed, daasAttempt, 1) * Math.PI * 2;
-	const gevurahUnit = sampleRockUnit(yesodRecipe.yesodSeed, daasAttempt, 2);
-	const tiferesExponent = 1.35 + yesodRecipe.chesedCluster * 2.8;
-	const tiferesDistance = yesodRecipe.tiferesRadius * Math.pow(gevurahUnit, tiferesExponent);
-	const hodScale = yesodRecipe.netzachScale[0]
-		+ sampleRockUnit(yesodRecipe.yesodSeed, daasAttempt, 3)
-			* (yesodRecipe.netzachScale[1] - yesodRecipe.netzachScale[0]);
+/** Creates one deterministic clustered polar candidate using the unchanged historic seed channels. */
+function createCandidate(keterRecipe, chochmahAttempt, binahAcceptedIndex) {
+	const gevurahAngle = sampleRockUnit(keterRecipe.yesodSeed, chochmahAttempt, 1) * Math.PI * 2;
+	const tiferesUnit = sampleRockUnit(keterRecipe.yesodSeed, chochmahAttempt, 2);
+	const netzachExponent = 1.35 + keterRecipe.chesedCluster * 2.8;
+	const hodDistance = keterRecipe.tiferesRadius * Math.pow(tiferesUnit, netzachExponent);
+	const yesodScale = keterRecipe.netzachScale[0]
+		+ sampleRockUnit(keterRecipe.yesodSeed, chochmahAttempt, 3)
+			* (keterRecipe.netzachScale[1] - keterRecipe.netzachScale[0]);
 	return {
 		position: Object.freeze([
-			yesodRecipe.malchusCenter[0] + Math.cos(chesedAngle) * tiferesDistance,
-			yesodRecipe.malchusCenter[1],
-			yesodRecipe.malchusCenter[2] + Math.sin(chesedAngle) * tiferesDistance
+			keterRecipe.malchusCenter[0] + Math.cos(gevurahAngle) * hodDistance,
+			keterRecipe.malchusCenter[1],
+			keterRecipe.malchusCenter[2] + Math.sin(gevurahAngle) * hodDistance
 		]),
-		scale: hodScale,
-		seed: (yesodRecipe.yesodSeed ^ Math.imul(netzachIndex + 1, 0x9e3779b1)) >>> 0,
-		yaw: sampleRockUnit(yesodRecipe.yesodSeed, daasAttempt, 4) * Math.PI * 2
+		scale: yesodScale,
+		seed: (keterRecipe.yesodSeed ^ Math.imul(binahAcceptedIndex + 1, 0x9e3779b1)) >>> 0,
+		yaw: sampleRockUnit(keterRecipe.yesodSeed, chochmahAttempt, 4) * Math.PI * 2
 	};
-}
-
-/**
- * Rejects candidates whose horizontal distance violates local scale-aware spacing.
- * @param {object} malchusCandidate Candidate placement.
- * @param {object[]} orPlacements Already accepted placements.
- * @param {number} hodSpacing Minimum spacing multiplier.
- * @returns {boolean} True when the candidate remains spatially lawful.
- */
-function hasSpacing(malchusCandidate, orPlacements, hodSpacing) {
-	return orPlacements.every((orExisting) => {
-		const netzachX = malchusCandidate.position[0] - orExisting.position[0];
-		const hodZ = malchusCandidate.position[2] - orExisting.position[2];
-		const gevurahMinimum = hodSpacing
-			* Math.min(malchusCandidate.scale, orExisting.scale);
-		return Math.hypot(netzachX, hodZ) >= gevurahMinimum;
-	});
 }

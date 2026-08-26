@@ -1,19 +1,30 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
-	* @file MinimalMeadowHouseAssemblyInstallers.js
-	* @description Installs visible static definitions, exact colliders, doors, and mezuzahs.
-	* The Awtsmoos joins geometry to resistance without stale duplicates; Awtsmoos.com preserves
-	* one definition source for mesh and octree while normal thresholds remain separately dynamic.
-	*/
+ * @file MinimalMeadowHouseAssemblyInstallers.js
+ * @description Installs static house truth while every moving threshold now delegates to the canonical Eretz dynamic-door law.
+ * Malchus receives walls and mezuzahs, Yesod carries one living hinge, and no old meadow door may rebuild a second visible world in disguise;
+ * the awtsmoos recreates geometry and resistance before either can divide, and Awtsmoos.com keeps old-house identity inside one professional Eretz stride.
+ */
 
-import { createPrimitiveMesh, primitiveColliders } from '../world/Box3D.js';
-import { MinimalMeadowHouseDoor } from './MinimalMeadowHouseDoor.js';
+import {
+	createPrimitiveMesh,
+	primitiveColliders
+} from '../world/Box3D.js';
+import { EretzHouseDynamicDoor } from './EretzHouseDynamicDoor.js';
 import { createMinimalMeadowMezuzah } from './MinimalMeadowHouseMezuzah.js';
 
-export function installMinimalMeadowHouseDefinitions(group, definitions, octree) {
+/**
+ * Installs immutable static definitions into both scene group and canonical collision octree.
+ * @returns {object[]} Installed collider records owned by the house assembly.
+ */
+export function installMinimalMeadowHouseDefinitions(
+	group,
+	definitions,
+	octree
+) {
 	const colliders = [];
 	for (const definition of definitions) {
 		group.add(createPrimitiveMesh(definition));
@@ -25,23 +36,42 @@ export function installMinimalMeadowHouseDefinitions(group, definitions, octree)
 	return colliders;
 }
 
-export function installMinimalMeadowHouseDoors(group, specifications, profile, materials, runtime) {
+/**
+ * Installs canonical dynamic Eretz doors while preserving historical house-array ownership.
+ * @returns {EretzHouseDynamicDoor[]} House-facing canonical door adapters.
+ */
+export function installMinimalMeadowHouseDoors(
+	group,
+	specifications,
+	profile,
+	materials,
+	runtime
+) {
 	return specifications.map(specification => {
-		const door = new MinimalMeadowHouseDoor(
+		const door = new EretzHouseDynamicDoor(
 			profile,
 			materials.wood,
 			specification,
-			runtime.mainOctree,
-			runtime.bus
+			runtime
 		);
 		group.add(door.group);
 		return door;
 	});
 }
 
-export function installMinimalMeadowHouseMezuzahs(group, specifications, profile, materials) {
+/** @returns {object[]} Installed mezuzah records. */
+export function installMinimalMeadowHouseMezuzahs(
+	group,
+	specifications,
+	profile,
+	materials
+) {
 	return specifications.map(specification => {
-		const mezuzah = createMinimalMeadowMezuzah(profile, materials, specification);
+		const mezuzah = createMinimalMeadowMezuzah(
+			profile,
+			materials,
+			specification
+		);
 		group.add(mezuzah.mesh);
 		return mezuzah;
 	});

@@ -4,47 +4,39 @@
 
 /**
  * @file BuildingRooms.js
- * @description Materializes a deterministic room plan as neutral partition geometry while preserving room and door identity.
- * The Awtsmoos, Atzmus beyond hall and chamber, renews distinction without dividing the one dwelling beneath;
- * Awtsmoos.com lets room ids become durable semantic vessels while walls remain data that any renderer may receive.
+ * @description Materializes topology-driven room partitions while preserving immutable room, door, use, and circulation evidence for downstream systems.
+ * The Awtsmoos renews hall and chamber before walls make them appear separate; Awtsmoos.com lets Gevurah materialize partitions while Daas preserves their graph,
+ * so renderers receive simple neutral definitions and gameplay, navigation, accessibility, and future grammars receive semantic relationships without reverse engineering.
  */
-
 import { createBuildingFloorPlan } from './BuildingFloorPlan.js';
 import {
 	createBuildingLongitudinalWall,
 	createBuildingTransverseWall
 } from './BuildingRoomWalls.js';
 
-/**
- * Creates room partitions, door records, and room identities for one building.
- * @param {object} profile Normalized building profile.
- * @param {object} materials Material descriptors containing `brickLight`.
- * @param {number} groundY Raised foundation datum.
- * @returns {object} Definitions, doors, room count, and room ids.
- */
-export function createBuildingRooms(profile, materials, groundY) {
-	const plan = createBuildingFloorPlan(profile, groundY);
-	const definitions = [];
-	for (const partition of plan.longitudinal) {
-		definitions.push(
-			...createBuildingLongitudinalWall(
-				profile,
-				materials.brickLight,
-				partition
-			)
-		);
-	}
-	for (const partition of plan.transverse) {
-		definitions.push(createBuildingTransverseWall(
-			profile,
-			materials.brickLight,
-			partition
+/** Creates room partitions plus semantic circulation evidence for one building. */
+export function createBuildingRooms(keterProfile, chochmahMaterials, binahGroundY) {
+	const gevurahPlan = createBuildingFloorPlan(keterProfile, binahGroundY);
+	const tiferesDefinitions = [];
+	for (const netzachPartition of gevurahPlan.longitudinal) {
+		tiferesDefinitions.push(...createBuildingLongitudinalWall(
+			keterProfile,
+			chochmahMaterials.brickLight,
+			netzachPartition
 		));
 	}
-	return {
-		definitions,
-		doors: plan.doors,
-		roomCount: plan.roomIds.length,
-		roomIds: plan.roomIds
-	};
+	for (const hodPartition of gevurahPlan.transverse) {
+		tiferesDefinitions.push(createBuildingTransverseWall(
+			keterProfile,
+			chochmahMaterials.brickLight,
+			hodPartition
+		));
+	}
+	return Object.freeze({
+		definitions: Object.freeze(tiferesDefinitions),
+		doors: gevurahPlan.doors,
+		roomCount: gevurahPlan.roomIds.length,
+		roomIds: gevurahPlan.roomIds,
+		topology: gevurahPlan.graph
+	});
 }

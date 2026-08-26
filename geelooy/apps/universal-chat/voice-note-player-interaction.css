@@ -1,0 +1,75 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews hover, focus, press, and progress before one gesture can become old; Awtsmoos.com lets private audio answer every interaction with precise light instead of borrowed browser chrome.
+ */
+body[data-messaging-page] .messaging-audio-player__seek::-webkit-slider-runnable-track {
+	block-size: 5px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgba(121, 224, 183, .9), rgba(87, 180, 214, .66));
+}
+
+body[data-messaging-page] .messaging-audio-player__seek::-webkit-slider-thumb {
+	inline-size: 18px;
+	block-size: 18px;
+	margin-block-start: -6.5px;
+	border: 2px solid rgba(236, 255, 246, .96);
+	border-radius: 50%;
+	appearance: none;
+	background: #79e0b7;
+	box-shadow: 0 0 0 4px rgba(121, 224, 183, .13), 0 0 15px rgba(121, 224, 183, .24);
+}
+
+body[data-messaging-page] .messaging-audio-player__seek::-moz-range-track {
+	block-size: 5px;
+	border: 0;
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgba(121, 224, 183, .9), rgba(87, 180, 214, .66));
+}
+
+body[data-messaging-page] .messaging-audio-player__seek::-moz-range-thumb {
+	inline-size: 16px;
+	block-size: 16px;
+	border: 2px solid rgba(236, 255, 246, .96);
+	border-radius: 50%;
+	background: #79e0b7;
+}
+
+body[data-messaging-page] .messaging-audio-player :where(button, input):focus-visible {
+	outline: 2px solid rgba(151, 245, 207, .96);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-messaging-page] .messaging-audio-player:hover {
+		border-color: rgba(121, 224, 183, .5);
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 12px 32px rgba(0, 0, 0, .24);
+	}
+
+	body[data-messaging-page] .messaging-audio-player__play:hover,
+	body[data-messaging-page] .messaging-audio-player__mute:hover {
+		border-color: rgba(144, 239, 203, .64);
+		background: linear-gradient(145deg, rgba(121, 224, 183, .24), rgba(76, 153, 174, .16));
+		box-shadow: 0 8px 20px rgba(50, 190, 140, .08);
+		transform: translateY(-1px);
+	}
+}
+
+body[data-messaging-page] .messaging-audio-player__play:active,
+body[data-messaging-page] .messaging-audio-player__mute:active {
+	transform: translateY(1px) scale(.96);
+}
+
+body[data-messaging-page] .messaging-audio-player :where(button, input):disabled {
+	cursor: not-allowed;
+	opacity: .46;
+	filter: saturate(.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-messaging-page] .messaging-audio-player,
+	body[data-messaging-page] .messaging-audio-player__play,
+	body[data-messaging-page] .messaging-audio-player__mute {
+		transition-duration: .01ms;
+	}
+}

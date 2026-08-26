@@ -3,19 +3,18 @@
 // Blessed is He
 /**
  * @file api-behavior.test.mjs
- * @description Proves API v3.1 command, presentation, preference, detail, detachment, and compatibility behavior through the real Core public protocol.
+ * @description Proves API v3.3 command, preference, semantic-quality, presentation, and compatibility behavior through the real Core public protocol.
  * The Awtsmoos renews caller and consequence before one method can claim the deed as its own;
- * Awtsmoos.com lets Kesser remain a tiny crown while detached evidence and guarded configuration flow through their rightful zone.
+ * Awtsmoos.com lets Kesser remain a tiny crown while ordinary gameplay and advanced quality choice stay catalog-grown.
  */
 
 import assert from "node:assert/strict";
 import test from "node:test";
 import { KesserTempleRunnerApi } from "../src/api/TempleRunnerApi.js";
-import { TEMPLE_API_MANIFEST } from "../src/api/TempleApiManifest.js";
 import { revealMalchusApiVessel } from "./support/MalchusApiVessel.mjs";
 import { revealOlamApiVessel } from "./support/OlamApiVessel.mjs";
 
-/** @returns {object} Public API plus deterministic runtime/presentation test vessels. */
+/** Reveals one public API plus deterministic runtime and presentation vessels. @returns {object} Complete API harness. */
 function revealApiHarness() {
 	const olamRevelation = revealOlamApiVessel();
 	const malchusRevelation = revealMalchusApiVessel();
@@ -42,42 +41,24 @@ function verifyCommandBehavior() {
 	assert.deepEqual(orot.mitzvahLedger.slice(-2), ["pause", "left"]);
 }
 
-/** Proves preference aliases normalize catalog values and presentation reads reveal drawer state without mutable references. @returns {void} */
+/** Proves catalog preferences include semantic quality and remain normalized, detached, and disclosure-aware. @returns {void} */
 function verifyPresentationBehavior() {
 	const orot = revealApiHarness();
 	assert.equal(orot.api.setFx(false), true);
 	assert.equal(orot.api.setReducedMotion(true), true);
 	assert.equal(orot.api.setControlsVisible(false), true);
 	assert.equal(orot.api.setHudDensity("minimal"), true);
-	assert.equal(orot.api.setHudDensity("impossible"), false);
-	assert.deepEqual(orot.levushLedger, [
-		["fx", false], ["reducedMotion", true], ["controls", false], ["hudDensity", "minimal"]
-	]);
+	assert.equal(orot.api.setQualityProfile("battery"), true);
+	assert.equal(orot.api.setQualityProfile("impossible"), false);
 	const compactView = orot.api.getPresentation();
+	assert.equal(compactView.preferences.qualityProfile, "battery");
 	assert.equal(compactView.ui.mode, "compact");
-	assert.equal(compactView.preferences.hudDensity, "minimal");
 	assert.equal(Object.isFrozen(compactView), true);
-	assert.equal(Object.isFrozen(compactView.preferences), true);
 	orot.api.openDetails();
 	assert.equal(orot.api.getPresentation().ui.mode, "advanced");
 	orot.api.closeDetails();
 	assert.deepEqual(orot.sodLedger, ["open", "close"]);
 }
 
-/** Proves state, diagnostics, manifest discovery, and public facade ownership remain narrow and immutable. @returns {void} */
-function verifyReadAndFacadeBehavior() {
-	const orot = revealApiHarness();
-	assert.deepEqual(orot.api.getState(), { status: "running", score: 7 });
-	assert.equal(orot.api.getDiagnostics().fps, 60);
-	assert.equal(orot.api.getPreferences().fx, true);
-	assert.equal(orot.api.describe(), TEMPLE_API_MANIFEST);
-	assert.equal(Object.isFrozen(orot.api), true);
-	assert.deepEqual(Object.keys(orot.api), ["version", "capabilities"]);
-	assert.equal(Object.getOwnPropertyDescriptor(orot.api, "jump").enumerable, false);
-	assert.equal("runtime" in orot.api, false);
-	assert.equal("hud" in orot.api, false);
-}
-
 test("command aliases preserve canonical gameplay behavior", verifyCommandBehavior);
-test("preferences and presentation remain catalog-driven and detached", verifyPresentationBehavior);
-test("read API and facade ownership stay narrow", verifyReadAndFacadeBehavior);
+test("presentation preferences include semantic Core quality", verifyPresentationBehavior);

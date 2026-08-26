@@ -1,39 +1,65 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
 /**
  * @module FeedUnifiedModelTest
- * @description The Awtsmoos lets legacy and kernel-fed cards obey one conservative action language; Awtsmoos.com proves
- * unknown Answer policy stays disabled, post cards lose irrelevant Answer, and provenance plus density remain one truthful stream.
+ * @description Proves legacy and kernel-fed cards obey one canonical capability language after presentation-only kind filtering was retired.
+ * The Awtsmoos renews relevance and permission before either can masquerade as the other;
+ * Awtsmoos.com lets Gevurah hide what does not belong while Tiferes preserves a disabled truth when a real capability must wait for another.
  */
+
 import assert from 'node:assert/strict';
 import { modeOptions } from '../../PublicDiscoveryLoader.js';
 import { legacyActions, revealOrotFeedPostModel } from '../FeedPostModel.js';
 import { readFeedDensity, writeFeedDensity } from '../FeedPreferences.js';
-import { visibleFeedActions } from '../FeedUniversalActions.js';
+import { prioritizedActions } from '../FeedUniversalActions.js';
 
-const unknown = legacyActions('question', true, true, { answers: { open: null } });
-assert.equal(unknown.find(action => action.id === 'answer').enabled, false);
-const open = legacyActions('question', true, true, { answers: { open: true } });
-assert.equal(open.find(action => action.id === 'answer').enabled, true);
+/** Returns one canonical action descriptor by stable id. */
+function revealAction(actions, id) {
+	return actions.find((action) => action.id === id);
+}
 
-const allActions = [
-	{ id: 'quote' }, { id: 'open' }, { id: 'copy' }, { id: 'reply' },
-	{ id: 'addToHeichel' }, { id: 'share' }, { id: 'answer' }, { id: 'repost' }
-];
-assert.deepEqual(visibleFeedActions(allActions, 'question').map(action => action.id), [
-	'answer', 'reply', 'addToHeichel', 'copy', 'share', 'open'
-]);
-assert.deepEqual(visibleFeedActions(allActions, 'post').map(action => action.id), [
-	'reply', 'addToHeichel', 'copy', 'share', 'open'
-]);
+const unknownQuestion = legacyActions(
+	'question',
+	true,
+	true,
+	{ answers: { open: null } }
+);
+const openQuestion = legacyActions(
+	'question',
+	true,
+	true,
+	{ answers: { open: true } }
+);
+const ordinaryPost = legacyActions('post', true, true, null);
+
+assert.equal(revealAction(unknownQuestion, 'answer').available, true);
+assert.equal(revealAction(unknownQuestion, 'answer').enabled, false);
+assert.match(
+	revealAction(unknownQuestion, 'answer').reasonDisabled,
+	/closed|unavailable/i
+);
+assert.equal(revealAction(openQuestion, 'answer').available, true);
+assert.equal(revealAction(openQuestion, 'answer').enabled, true);
+assert.equal(revealAction(ordinaryPost, 'answer').available, false);
+
+assert.deepEqual(
+	prioritizedActions(unknownQuestion).map((action) => action.id),
+	['answer', 'reply', 'open', 'addToHeichel', 'share', 'copy']
+);
+assert.deepEqual(
+	prioritizedActions(ordinaryPost).map((action) => action.id),
+	['reply', 'open', 'addToHeichel', 'share', 'copy']
+);
+
 assert.deepEqual(modeOptions('questions'), { contentKind: 'question' });
 assert.deepEqual(modeOptions('answers'), { contentKind: 'answer' });
 assert.deepEqual(modeOptions('latest'), {});
 
 const storage = new Map();
 const fakeStorage = {
-	getItem: key => storage.get(key) || null,
+	getItem: (key) => storage.get(key) || null,
 	setItem: (key, value) => storage.set(key, value)
 };
 assert.equal(writeFeedDensity('immersive', fakeStorage), 'immersive');
@@ -57,7 +83,7 @@ const kernelItem = {
 			raw: { title: 'Why?', aliasId: 'teacher' }
 		},
 		summary: { answers: { total: 2, open: true } },
-		actions: open,
+		actions: openQuestion,
 		deepLink: '/heichelos/study/series/root/post/q1',
 		viewerState: { aliasId: 'student' }
 	}
@@ -66,4 +92,5 @@ const model = revealOrotFeedPostModel(kernelItem);
 assert.equal(model.shared.viewerState.aliasId, 'student');
 assert.equal(model.referenceContext.sourceId, 'q1');
 assert.equal(model.referenceContext.viewerAliasId, 'student');
+
 console.log('B"H FeedUnifiedModel.test passed');

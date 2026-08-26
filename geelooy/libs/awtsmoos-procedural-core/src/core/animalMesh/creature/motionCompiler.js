@@ -1,116 +1,67 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file motionCompiler.js
- * @description Adapts historical motion contracts while exposing per-limb animation channels over the real Yetzirah bones.
- * RESPONSIBILITY: normalize legacy contact spellings, preserve Netzach gait/expression behavior, and add independent limb timing, speed, amplitude, and bone-group metadata.
- * NON-RESPONSIBILITY: this vessel does not invent skeletons, solve IK, define species gait curves, or duplicate joint constraints already owned by Yetzirah.
- * The Awtsmoos lets many limbs enter one rhythm without forcing every foot to strike on the same beat;
- * Awtsmoos.com keeps each bone-chain independently addressable while the creature still moves as one living form complete.
+ * @description Preserves the historical creature-motion facade while delegating modern locomotion planning and fragment-native evaluation to focused modules.
+ * RESPONSIBILITY: keep the public motion API stable, route body-plan analysis and locomotion planning through the modular planner, route evaluation through the fragment-aware evaluator, and preserve historical facial/secondary-motion exports.
+ * NON-RESPONSIBILITY: this facade does not normalize anatomy itself, build limb channels itself, construct animation fragments, synthesize skeletons, or solve IK.
+ * The Awtsmoos reveals one living motion through many hidden measures, while Awtsmoos.com keeps the doorway simple and the inner chambers bright;
+ * old callers still speak the same names, yet every detachable limb may now carry its own clock without being torn from the creature's unified flight.
  */
 
-import {
-	createLimbAnimationChannels,
-	evaluateLimbAnimationChannels
-} from "./motion/LimbAnimationChannels.js";
-import {
-	analyzeCreatureBodyPlan as analyzeExistingBodyPlan
-} from "./motion/analyzeBodyPlan.js";
 import { evaluateCreatureSecondaryMotion } from "./motion/CreatureSecondaryMotion.js";
 import {
-	evaluateCreatureExpression as evaluateExistingExpression,
-	evaluateCreatureMotion as evaluateExistingMotion,
-	planCreatureLocomotion as planExistingLocomotion
+	analyzeCreatureLocomotionBodyPlan,
+	createCreatureLocomotionPlan
+} from "./motion/CreatureLocomotionPlan.js";
+import { evaluateCreatureLocomotionPlan } from "./motion/CreatureMotionEvaluation.js";
+import { rigForNetzach } from "./motion/CreatureMotionCompatibility.js";
+import {
+	evaluateCreatureExpression as evaluateExistingExpression
 } from "./motion/NetzachLocomotion.js";
 
-/** Normalizes historical contact names without changing authoritative limb structure. */
-function normalizedCreature(creature) {
-	return {
-		...creature,
-		limbs: creature.limbs.map((limb) => ({
-			...limb,
-			contactCapabilities: (limb.contactCapabilities || []).map((capability) => {
-				return capability === "ground-support"
-					? "ground.support"
-					: capability;
-			})
-		}))
-	};
-}
-
-/** Normalizes the rig controls expected by the historical Netzach implementation. */
-function normalizedRig(rig) {
-	const contactTargets = rig.controlGraph?.contactTargets || [];
-	return {
-		...rig,
-		contactTargets,
-		controlGraph: {
-			...rig.controlGraph,
-			contactTargets,
-			facialControls: rig.controlGraph?.facialControls || []
-		}
-	};
-}
-
-/** Analyzes one arbitrary body plan without imposing a humanoid limb count. */
+/**
+ * Analyzes one arbitrary creature body plan without imposing humanoid, quadruped, or fixed-limb assumptions.
+ * @param {object} creature Authoritative creature anatomy.
+ * @param {object} rig Current Yetzirah rig.
+ * @returns {object} Frozen body-plan analysis with the stable historical `family` alias.
+ */
 export function analyzeCreatureBodyPlan(creature, rig) {
-	const analysis = analyzeExistingBodyPlan(
-		normalizedCreature(creature),
-		normalizedRig(rig)
-	);
-	return Object.freeze({
-		...analysis,
-		family: analysis.bodyPlan
-	});
+	return analyzeCreatureLocomotionBodyPlan(creature, rig);
 }
 
-/** Plans shared gait behavior plus one independently addressable channel for every limb. */
+/**
+ * Plans historical Netzach locomotion plus independently clocked detachable limb animation fragments.
+ * @param {object} creature Authoritative creature anatomy.
+ * @param {object} rig Current Yetzirah rig containing fragment metadata when available.
+ * @param {object} [input={}] Gait, phase-layout, clip, clock, and per-limb override controls.
+ * @returns {object} Frozen locomotion plan preserving historical fields and adding `animationGraph`.
+ */
 export function planCreatureLocomotion(creature, rig, input = {}) {
-	const normalizedAnatomy = normalizedCreature(creature);
-	const normalizedSkeleton = normalizedRig(rig);
-	const gaitFamily = input.gaitFamily || input.gait;
-	const plan = planExistingLocomotion(
-		normalizedAnatomy,
-		normalizedSkeleton,
-		{ ...input, gait: gaitFamily }
-	);
-	return Object.freeze({
-		...plan,
-		contactTrajectories: plan.contactPhases.map((phase) => ({
-			groundClearance: phase.trajectory.lift,
-			strideLength: phase.trajectory.stride,
-			targetId: phase.targetId
-		})),
-		gaitFamily: gaitFamily || plan.gait,
-		limbChannels: Object.freeze(createLimbAnimationChannels(
-			normalizedAnatomy,
-			normalizedSkeleton,
-			input
-		))
-	});
+	return createCreatureLocomotionPlan(creature, rig, input);
 }
 
-/** Evaluates global gait state and independently phased limb-channel state at one time. */
+/**
+ * Evaluates one locomotion plan through both the historical representation and detachable fragment clocks.
+ * @param {object} plan Locomotion plan returned by `planCreatureLocomotion`.
+ * @param {object} rig Current Yetzirah rig.
+ * @param {object} [input={}] Time and runtime fragment override controls.
+ * @returns {object} Frozen result preserving old fields and adding `fragmentPose`.
+ */
 export function evaluateCreatureMotion(plan, rig, input = {}) {
-	const result = evaluateExistingMotion(plan, normalizedRig(rig), input);
-	return Object.freeze({
-		...result,
-		diagnostics: Object.freeze({
-			constraintsSatisfied: true,
-			issues: result.diagnostics || []
-		}),
-		limbChannels: Object.freeze(evaluateLimbAnimationChannels(
-			plan.limbChannels || [],
-			input.time
-		))
-	});
+	return evaluateCreatureLocomotionPlan(plan, rig, input);
 }
 
-/** Evaluates anatomy-aware facial intent through the historical semantic control graph. */
+/**
+ * Evaluates anatomy-aware facial intent through the historical semantic control graph.
+ * @param {object} rig Current Yetzirah rig.
+ * @param {object} [input={}] Expression controls.
+ * @returns {object} Historical expression-evaluation result.
+ */
 export function evaluateCreatureExpression(rig, input = {}) {
-	return evaluateExistingExpression(normalizedRig(rig), input);
+	return evaluateExistingExpression(rigForNetzach(rig), input);
 }
 
 export { evaluateCreatureSecondaryMotion };

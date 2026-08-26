@@ -1,85 +1,138 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file HabitatSample.js
- * @description Normalizes renderer-neutral environmental evidence for every ecosystem planner.
- * The Awtsmoos clothes one place in moisture, light, shelter, slope, and soil; Awtsmoos.com gathers
- * those garments into one bounded habitat language so roots, wings, hooves, and reeds may share the toil.
+ * @description Normalizes renderer-neutral environmental evidence for ecosystem planners, including live hydrology without coupling species selection to fluid implementation details.
+ * RESPONSIBILITY: preserve historical unit channels, add wetness/inundation/sediment evidence, preserve physical water depth and flow speed, and score arbitrary declared habitat preferences with weighted falloff ranges.
+ * NON-RESPONSIBILITY: this vessel does not sample terrain or water grids, choose species, place populations, evolve ecology, or know renderers.
+ * The Awtsmoos clothes one place in moisture, light, shelter, slope, soil, flood, and flowing stream;
+ * Awtsmoos.com gathers those garments into one bounded habitat language, so reed and rose may answer the same living dream.
  */
 
 const UNIT_CHANNELS = Object.freeze([
-	'canopy',
-	'disturbance',
-	'fertility',
-	'moisture',
-	'riverProximity',
-	'shelter',
-	'sunlight',
-	'temperature'
+	"canopy",
+	"disturbance",
+	"fertility",
+	"inundation",
+	"moisture",
+	"riverProximity",
+	"sediment",
+	"shelter",
+	"sunlight",
+	"temperature",
+	"wetness"
 ]);
 
+/**
+ * Creates one immutable canonical habitat sample from arbitrary environmental evidence.
+ * @param {object} [input={}] Terrain, climate, canopy, disturbance, and hydrology evidence.
+ * @returns {object} Frozen habitat sample consumed by population selectors.
+ */
 export function createHabitatSample(input = {}) {
-	const result = {
+	const resultKli = {
 		elevation: finite(input.elevation, 0),
-		slope: Math.max(0, finite(input.slope, 0))
+		flowSpeed: nonnegative(input.flowSpeed, 0),
+		slope: Math.max(0, finite(input.slope, 0)),
+		waterDepth: nonnegative(input.waterDepth, 0)
 	};
-	for (const channel of UNIT_CHANNELS) {
-		result[channel] = unit(input[channel], defaultChannel(channel));
+	for (const channelOhr of UNIT_CHANNELS) {
+		resultKli[channelOhr] = unit(
+			input[channelOhr],
+			defaultChannel(channelOhr)
+		);
 	}
-	return Object.freeze(result);
+	return Object.freeze(resultKli);
 }
 
+/**
+ * Scores one habitat sample against weighted species preferences.
+ * @param {object} sampleInput Raw or canonical habitat evidence.
+ * @param {object} [preference={}] Desired channel ranges with optional falloff/weight.
+ * @returns {number} Weighted zero-through-one suitability score.
+ */
 export function habitatAffinity(sampleInput, preference = {}) {
-	const sample = createHabitatSample(sampleInput);
-	let total = 0;
-	let weight = 0;
-	for (const [channel, desired] of Object.entries(preference)) {
-		if (!(channel in sample)) continue;
-		const range = desiredRange(desired);
-		const importance = finite(range.weight, 1);
-		total += channelScore(sample[channel], range) * importance;
-		weight += importance;
+	const sampleKli = createHabitatSample(sampleInput);
+	let totalOhr = 0;
+	let weightOhr = 0;
+	for (const [channelOhr, desiredOhr] of Object.entries(preference)) {
+		if (!(channelOhr in sampleKli)) {
+			continue;
+		}
+		const rangeKli = desiredRange(desiredOhr);
+		const importanceOhr = Math.max(0, finite(rangeKli.weight, 1));
+		totalOhr += channelScore(sampleKli[channelOhr], rangeKli) * importanceOhr;
+		weightOhr += importanceOhr;
 	}
-	return weight > 0 ? total / weight : 1;
+	return weightOhr > 0 ? totalOhr / weightOhr : 1;
 }
 
+/** Lists the bounded unit habitat channels in deterministic order. */
 export function habitatChannels() {
 	return [...UNIT_CHANNELS];
 }
 
-function channelScore(value, range) {
-	if (value >= range.minimum && value <= range.maximum) return 1;
-	const distance = value < range.minimum
-		? range.minimum - value
-		: value - range.maximum;
-	return Math.max(0, 1 - distance / Math.max(0.001, range.falloff));
+/** Scores one scalar against a preferred interval and linear falloff envelope. */
+function channelScore(valueOhr, rangeKli) {
+	if (valueOhr >= rangeKli.minimum && valueOhr <= rangeKli.maximum) {
+		return 1;
+	}
+	const distanceOhr = valueOhr < rangeKli.minimum
+		? rangeKli.minimum - valueOhr
+		: valueOhr - rangeKli.maximum;
+	return Math.max(
+		0,
+		1 - distanceOhr / Math.max(0.001, rangeKli.falloff)
+	);
 }
 
-function desiredRange(value) {
-	if (Array.isArray(value)) {
-		return { minimum: finite(value[0], 0), maximum: finite(value[1], 1), falloff: 0.35, weight: 1 };
+/** Converts number, pair, or range object syntax into one normalized preference record. */
+function desiredRange(valueOhr) {
+	if (Array.isArray(valueOhr)) {
+		return {
+			falloff: 0.35,
+			maximum: finite(valueOhr[1], 1),
+			minimum: finite(valueOhr[0], 0),
+			weight: 1
+		};
 	}
-	if (typeof value === 'number') {
-		return { minimum: value, maximum: value, falloff: 0.5, weight: 1 };
+	if (typeof valueOhr === "number") {
+		return {
+			falloff: 0.5,
+			maximum: valueOhr,
+			minimum: valueOhr,
+			weight: 1
+		};
 	}
 	return {
-		minimum: finite(value?.minimum ?? value?.min, 0),
-		maximum: finite(value?.maximum ?? value?.max, 1),
-		falloff: Math.max(0.001, finite(value?.falloff, 0.35)),
-		weight: Math.max(0, finite(value?.weight, 1))
+		falloff: Math.max(0.001, finite(valueOhr?.falloff, 0.35)),
+		maximum: finite(valueOhr?.maximum ?? valueOhr?.max, 1),
+		minimum: finite(valueOhr?.minimum ?? valueOhr?.min, 0),
+		weight: Math.max(0, finite(valueOhr?.weight, 1))
 	};
 }
 
-function defaultChannel(channel) {
-	return channel === 'disturbance' ? 0 : 0.5;
+/** Preserves historical defaults while new hydrology channels default to dry/absent evidence. */
+function defaultChannel(channelOhr) {
+	if (["disturbance", "inundation", "sediment", "wetness"].includes(channelOhr)) {
+		return 0;
+	}
+	return 0.5;
 }
 
-function unit(value, fallback) {
-	return Math.max(0, Math.min(1, finite(value, fallback)));
+/** Clamps one habitat scalar into the unit interval. */
+function unit(valueOhr, fallbackOhr) {
+	return Math.max(0, Math.min(1, finite(valueOhr, fallbackOhr)));
 }
 
-function finite(value, fallback) {
-	return Number.isFinite(Number(value)) ? Number(value) : fallback;
+/** Normalizes one nonnegative physical scalar. */
+function nonnegative(valueOhr, fallbackOhr) {
+	return Math.max(0, finite(valueOhr, fallbackOhr));
+}
+
+/** Returns one finite scalar or fallback. */
+function finite(valueOhr, fallbackOhr) {
+	const numberOhr = Number(valueOhr);
+	return Number.isFinite(numberOhr) ? numberOhr : fallbackOhr;
 }

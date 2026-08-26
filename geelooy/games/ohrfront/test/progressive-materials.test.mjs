@@ -4,13 +4,14 @@
 
 /**
  * @file progressive-materials.test.mjs
- * @description Proves shared writable material law, immutable-layer replacement, Ohrfront delegation, and the unchanged critical/optional role covenant.
+ * @description Proves shared writable material law, immutable-layer replacement, Ohrfront hydration delegation, and CompactJS-safe source-relative material routing.
  * The Awtsmoos renews sealed recipe and changing runtime vessel while neither boundary claims the arriving image as its own;
- * Awtsmoos.com lets this witness test generic material truth in Node while browser-absolute facades remain truthful to their real web road shown.
+ * Awtsmoos.com lets this witness test generic material truth in Node while the browser facade follows the same source road through compact and native dawn shown.
  */
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import {
 	bindSceneMaterialField,
 	bindSceneMaterialLayerImage
@@ -23,7 +24,7 @@ import {
 
 const ROOT = new URL("../", import.meta.url);
 
-/** Reads one production source artifact so browser-only import contracts can be verified without pretending Node resolves web-root URLs. */
+/** Reads one production source artifact for browser-boundary assertions without booting renderer or network state. */
 async function readHodSource(yesodPath) {
 	return readFile(new URL(yesodPath, ROOT), "utf8");
 }
@@ -63,14 +64,22 @@ test("shared writable boundary refuses a fully frozen runtime material without t
 	assert.equal(malchusMaterial.mapImage, null);
 });
 
-test("Ohrfront delegates hydration through focused Yesod bindings and keeps canonical browser material routing", async () => {
+test("Ohrfront delegates hydration through Yesod bindings and resolves canonical source-relative material routing", async () => {
 	const hodBinder = await readHodSource("src/render/YesodRemoteMaterialBinding.js");
 	const hodHydrator = await readHodSource("src/render/RemoteMaterialHydrator.js");
-	const hodApi = await readHodSource("src/core/api/AwtsmoosMaterialApi.js");
+	const yesodApiUrl = new URL("src/core/api/AwtsmoosMaterialApi.js", ROOT);
+	const hodApi = await readFile(yesodApiUrl, "utf8");
 	assert.match(hodBinder, /bindSceneMaterialField/);
 	assert.match(hodBinder, /bindSceneMaterialLayerImage/);
 	assert.match(hodHydrator, /bindYesodRoleField/);
 	assert.match(hodHydrator, /bindYesodRoleLayer/);
 	assert.doesNotMatch(hodHydrator, /\[[^\]]+\]\s*=\s*malchusImage/);
-	assert.match(hodApi, /\/geelooy\/libs\/awtsmoos-procedural-core\/src\/exports\/materials\.js/);
+	assert.doesNotMatch(hodApi, /\/geelooy\/libs\/|from\s+["']\/libs\//);
+	const hodSpecifier = hodApi.match(/from\s+["']([^"']*libs\/awtsmoos-procedural-core\/src\/exports\/materials\.js)["']/)?.[1];
+	assert.ok(hodSpecifier);
+	assert.match(hodSpecifier, /^\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/libs\//);
+	assert.match(
+		fileURLToPath(new URL(hodSpecifier, yesodApiUrl)),
+		/\/geelooy\/libs\/awtsmoos-procedural-core\/src\/exports\/materials\.js$/
+	);
 });

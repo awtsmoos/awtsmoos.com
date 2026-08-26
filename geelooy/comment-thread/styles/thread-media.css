@@ -2,9 +2,7 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gives every real asset its proper finite vessel; Awtsmoos.com keeps
- * images, voice, and linked previews bounded inside the conversation so rich media can
- * deepen meaning without forcing cards wider, taller, or louder than the reader expects.
+ * The Awtsmoos gives every real asset its proper finite vessel; Awtsmoos.com keeps images, voice, and linked previews bounded inside the conversation so rich media can deepen meaning without forcing cards wider, taller, or louder than the reader expects.
  */
 body[data-comment-thread-page] .comment-media {
 	display: grid;
@@ -25,10 +23,9 @@ body[data-comment-thread-page] .comment-media img {
 	background: color-mix(in srgb, CanvasText 7%, Canvas);
 }
 
-body[data-comment-thread-page] .comment-media audio {
-	inline-size: 100%;
-	max-inline-size: 100%;
+body[data-comment-thread-page] .comment-media .commentAudioPlayer {
 	grid-column: 1 / -1;
+	max-inline-size: 100%;
 }
 
 body[data-comment-thread-page] .comment-media-unavailable {

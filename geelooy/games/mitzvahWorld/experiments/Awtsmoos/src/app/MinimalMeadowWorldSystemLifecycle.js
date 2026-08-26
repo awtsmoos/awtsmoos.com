@@ -1,29 +1,33 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MinimalMeadowWorldSystemLifecycle.js
- * @description Advances every immediate world system through one existing frame covenant and tears each vessel down exactly once.
- * The Awtsmoos sustains combat, air, water, forest, and story through one measured rhythm without multiplying clocks;
- * Awtsmoos.com lets subtle motes breathe beside heavier systems, then returns every owned vessel to silence when the world unlocks.
+ * @description Advances gameplay-critical world systems immediately while visual-only atmosphere follows a shared lower-cost cadence.
+ * Netzach keeps combat, enemies, quests, regions, and traveler truth immediate while Hod lets water and motes breathe on a gentler frame;
+ * the Awtsmoos sustains every world-system vessel each instant, and Awtsmoos.com spends finite frame labor according to gameplay need and name.
  */
 
+import {
+	MinimalMeadowPresentationCadence
+} from './MinimalMeadowPresentationCadence.js';
+
 /**
- * Advances immediate and hydrated world systems while hit-stop scales only combat cadence.
- * @param {object} runtime Mitzvah World runtime.
- * @param {number} deltaSeconds Frame duration.
+ * Advances the enriched world while hit-stop scales only combat cadence.
+ * @param {object} runtime MitzvahWorld runtime.
+ * @param {number} deltaSeconds Display-frame duration in seconds.
  */
 export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 	const combatDelta = runtime.combatImpact?.scaleCombatDelta?.(deltaSeconds)
 		?? deltaSeconds;
+
 	runtime.adaptiveQuality?.update?.(deltaSeconds);
-	runtime.ambientMotes?.update?.(deltaSeconds);
+	presentationCadence(runtime).update(runtime, deltaSeconds);
 	runtime.expansion?.update?.();
 	runtime.expansionLandmarks?.update?.();
 	runtime.regions?.update?.();
 	runtime.sky?.update?.();
-	runtime.water?.update?.(deltaSeconds);
 	runtime.trees?.update?.(deltaSeconds);
 	runtime.vegetation?.update?.(deltaSeconds);
 	runtime.houses?.update?.(deltaSeconds);
@@ -34,7 +38,7 @@ export function updateMinimalMeadowWorldSystems(runtime, deltaSeconds) {
 
 /**
  * Destroys every owned world-system vessel and clears retained public handles.
- * @param {object} runtime Mitzvah World runtime.
+ * @param {object} runtime MitzvahWorld runtime.
  */
 export function destroyMinimalMeadowWorldSystems(runtime) {
 	runtime.coreMechanics?.destroy?.();
@@ -46,9 +50,11 @@ export function destroyMinimalMeadowWorldSystems(runtime) {
 	runtime.questHud?.destroy?.();
 	runtime.questStore?.destroy?.();
 	runtime.enemies?.clearAll?.();
+
 	for (const system of enrichmentSystems(runtime)) {
 		system?.destroy?.();
 	}
+
 	runtime.friendlyNpcs?.destroy?.();
 	runtime.questUi?.destroy?.();
 	runtime.quest?.destroy?.();
@@ -60,7 +66,13 @@ export function destroyMinimalMeadowWorldSystems(runtime) {
 	clearWorldHandles(runtime);
 }
 
-/** Returns systems hydrated after first playability, including subtle atmosphere. */
+function presentationCadence(runtime) {
+	if (!runtime.presentationCadence) {
+		runtime.presentationCadence = new MinimalMeadowPresentationCadence();
+	}
+	return runtime.presentationCadence;
+}
+
 function enrichmentSystems(runtime) {
 	return [
 		runtime.ambientMotes,
@@ -71,10 +83,10 @@ function enrichmentSystems(runtime) {
 	];
 }
 
-/** Clears lifecycle-owned handles so diagnostics cannot report destroyed systems as alive. */
 function clearWorldHandles(runtime) {
 	runtime.ambientMotes = null;
 	runtime.localCombatMastery = null;
+	runtime.presentationCadence = null;
 	runtime.questHud = null;
 	runtime.questStore = null;
 	runtime.recovery = null;

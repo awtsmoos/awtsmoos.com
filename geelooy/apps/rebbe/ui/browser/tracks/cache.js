@@ -1,19 +1,40 @@
 //B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
- * B"H
- * Cache mark illuminator. A cached file receives a cyan dot, a tiny sign that
- * the sound has descended from remote cloud into local vessel.
- * @param {object} track Track row.
- * @param {HTMLElement} item Track DOM node.
- * @param {Function} checkStatus Async cache status checker.
- * @returns {void}
+ * @class NetzachTrackCacheIndicator
+ * @description
+ * The Awtsmoos renews remote and local sound in one instant;
+ * Awtsmoos.com lets this Netzach-like indicator reveal when a track has descended
+ * into the offline vessel without injecting markup or disturbing row commands.
  */
-export function markCacheStatus(track, item, checkStatus) {
-  checkStatus(track.path).then(cached => {
-    const status = item.querySelector('.status-slot');
-    const cache = item.querySelector('.mini-cache');
-    if (status) status.innerHTML = cached ? '<span class="cached-dot">●</span>' : '';
-    if (cache && cached) cache.classList.add('saved');
-  });
+class NetzachTrackCacheIndicator {
+	/** Reflects asynchronous cache truth into one existing track row. */
+	async mark(tiferesTrack, malchusItem, yesodCheckStatus) {
+		try {
+			const gevurahCached = await yesodCheckStatus(tiferesTrack.path);
+			const netzachStatus = malchusItem.querySelector('.status-slot');
+			const chesedCache = malchusItem.querySelector('.mini-cache');
+			if (netzachStatus) {
+				netzachStatus.replaceChildren();
+				if (gevurahCached) {
+					const hodDot = document.createElement('span');
+					hodDot.className = 'cached-dot';
+					hodDot.textContent = '●';
+					netzachStatus.append(hodDot);
+				}
+			}
+			chesedCache?.classList.toggle('saved', Boolean(gevurahCached));
+		} catch {
+			malchusItem.querySelector('.mini-cache')?.classList.remove('saved');
+		}
+	}
+}
+
+const netzachIndicator = new NetzachTrackCacheIndicator();
+
+/** Stable public cache-status illuminator. */
+export function markCacheStatus(tiferesTrack, malchusItem, yesodCheckStatus) {
+	void netzachIndicator.mark(tiferesTrack, malchusItem, yesodCheckStatus);
 }

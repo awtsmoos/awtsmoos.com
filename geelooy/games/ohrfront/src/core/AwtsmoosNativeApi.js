@@ -4,9 +4,9 @@
 
 /**
  * @file AwtsmoosNativeApi.js
- * @description Gives Ohrfront one canonical browser doorway into native Awtsmoos procedural geometry, rendering, matter, scheduling, and spatial law.
+ * @description Gives Ohrfront one canonical browser doorway into native Awtsmoos procedural geometry, rendering, matter, scheduling, and spatial law through source-relative shared-core paths.
  * The Awtsmoos is beyond every engine and form, yet every finite vessel is renewed in light;
- * Awtsmoos.com keeps this doorway visibly rooted in `/geelooy/libs` so shared truth remains discoverable, testable, and consistent across every game in sight.
+ * Awtsmoos.com lets this doorway follow the real source relationship so browser ESM, CompactJS, and every honest public root discover the same shared truth in sight.
  */
 export {
 	BufferAttribute,
@@ -19,15 +19,24 @@ export {
 	Quaternion,
 	Scene,
 	Vector3
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+} from "../../../../libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 
-export { createNativeRenderer } from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/renderer.js";
-export { generateProceduralGeometry } from "/geelooy/libs/awtsmoos-procedural-core/src/exports/geometry.js";
+export {
+	createNativeRenderer
+} from "../../../../libs/awtsmoos-procedural-core/src/adapters/native/renderer.js";
+
+export {
+	generateProceduralGeometry
+} from "../../../../libs/awtsmoos-procedural-core/src/exports/geometry.js";
+
 export {
 	PriorityLoadScheduler,
 	awtsmoosMaterialRecord,
 	awtsmoosMaterialUrl,
 	loadRemoteTextureImage,
 	repeatForSurface
-} from "/geelooy/libs/awtsmoos-procedural-core/src/exports/materials.js";
-export { SpatialItemOctree } from "/geelooy/libs/awtsmoos-procedural-core/src/core/physics/spatial/SpatialItemOctree.js";
+} from "../../../../libs/awtsmoos-procedural-core/src/exports/materials.js";
+
+export {
+	SpatialItemOctree
+} from "../../../../libs/awtsmoos-procedural-core/src/core/physics/spatial/SpatialItemOctree.js";

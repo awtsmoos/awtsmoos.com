@@ -2,8 +2,8 @@
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
 <!--
-	The Awtsmoos renews each runner, road, key, and fingertip while every control receives a clear measured place;
-	Awtsmoos.com keeps touch simple, desktop keys discoverable, and permanent chrome away from the moving race.
+	The Awtsmoos renews runner, old-city road, eruv context, market canopy, wagon, key, and fingertip in their measured place;
+	Awtsmoos.com keeps city release one fresh, touch simple, ducking real, and permanent chrome away from the race.
 -->
 <!doctype html>
 <html lang="en">
@@ -12,24 +12,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#091b2b">
 	<meta name="color-scheme" content="dark">
-	<meta name="description" content="Run through Mitzvah World, collect perutas, dodge obstacles, jump the road, and keep moving in Peruta Run.">
+	<meta name="description" content="Run through Mitzvah World: collect perutas, pass eruv maintenance, dodge neighborhood transports, jump street cargo, and duck beneath market canopies.">
 	<title>Peruta Run — Mitzvah World</title>
-	<link rel="stylesheet" href="./styles/base.css?compact=true">
-	<link rel="stylesheet" href="./styles/hud.css?compact=true">
-	<link rel="stylesheet" href="./styles/controls.css?compact=true">
-	<link rel="stylesheet" href="./styles/mobile.css?compact=true">
-	<link rel="stylesheet" href="./styles/motion.css?compact=true">
+	<link rel="stylesheet" href="./styles/base.css?city=20260826-1">
+	<link rel="stylesheet" href="./styles/hud.css?city=20260826-1">
+	<link rel="stylesheet" href="./styles/controls.css?city=20260826-1">
+	<link rel="stylesheet" href="./styles/mobile.css?city=20260826-1">
+	<link rel="stylesheet" href="./styles/motion.css?city=20260826-1">
 </head>
 <body class="peruta-run-route">
 	<main id="game-shell" aria-label="Peruta Run endless runner">
 		<canvas id="game-canvas" aria-label="Jewish endless runner game world"></canvas>
-
 		<section id="loading-panel" class="center-panel" aria-live="polite" aria-atomic="true">
 			<div class="brand-mark">ב״ה</div>
 			<h1>PERUTA RUN</h1>
 			<p id="loading-message">Revealing the road…</p>
 		</section>
-
 		<header id="hud" class="hud" aria-label="Game status">
 			<div class="hud-brand"><span class="hud-bh">ב״ה</span><strong>PERUTA RUN</strong></div>
 			<div class="metric"><span>Score</span><strong id="score-value">0</strong></div>
@@ -37,28 +35,27 @@
 			<div class="metric"><span>Speed</span><strong id="speed-value">0</strong></div>
 			<div class="metric wide-only"><span>Best</span><strong id="best-value">0</strong></div>
 		</header>
-
 		<nav id="top-controls" class="top-controls" aria-label="Quick actions">
 			<button type="button" data-intent="pause" aria-label="Pause or resume">Ⅱ</button>
 			<button type="button" data-intent="restart" aria-label="Restart run">↻</button>
 		</nav>
-
 		<div id="status-pill" class="status-pill" aria-live="polite" aria-atomic="true">Loading Chossid…</div>
-
 		<section id="mobile-controls" class="mobile-controls" aria-label="Touch controls">
 			<div id="joystick" class="joystick" role="group" aria-label="Lane joystick: drag left or right">
 				<div id="joystick-knob" class="joystick-knob"></div>
 			</div>
-			<button id="jump-button" class="jump-button" type="button" aria-label="Jump">JUMP</button>
+			<div class="mobile-actions" role="group" aria-label="Jump and duck actions">
+				<button id="duck-button" class="mobile-action-button duck-button" type="button" data-intent="duck" aria-label="Duck under low obstacles">DUCK</button>
+				<button id="jump-button" class="mobile-action-button jump-button" type="button" aria-label="Jump over low obstacles">JUMP</button>
+			</div>
 		</section>
-
 		<section class="desktop-guide" aria-label="Keyboard controls">
 			<span class="desktop-guide-action"><span class="desktop-key-pair"><kbd>A</kbd><kbd>D</kbd></span><b>Move</b></span>
 			<span class="desktop-guide-action"><span class="desktop-key-pair"><kbd>W</kbd><kbd>Space</kbd></span><b>Jump</b></span>
+			<span class="desktop-guide-action"><span class="desktop-key-pair"><kbd>S</kbd><kbd>↓</kbd></span><b>Duck</b></span>
 			<span class="desktop-guide-action"><kbd>P</kbd><b>Pause</b></span>
 			<span class="desktop-guide-action"><kbd>R</kbd><b>Restart</b></span>
 		</section>
-
 		<section id="game-over-panel" class="center-panel game-over-panel" hidden aria-live="polite" aria-atomic="true">
 			<div class="brand-mark">✦</div>
 			<h2>Run Complete</h2>
@@ -66,6 +63,6 @@
 			<button id="game-over-restart" type="button">Run Again</button>
 		</section>
 	</main>
-	<script type="module" src="./src/main.js?v=peruta-run-20260826-3&compact=true"></script>
+	<script type="module" src="./src/main.js?v=city-20260826-1"></script>
 </body>
 </html>

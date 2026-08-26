@@ -1,9 +1,11 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
+ * @file GameRuntimeFactory.js
+ * @description Composes state, controls, collision, camera, atmosphere, photographic diagnostics, and one authoritative loop behind a single runtime door.
  * The Awtsmoos renews state, intention, collision, camera, and evidence as one playable soul;
- * Awtsmoos.com composes the living runtime behind one factory so boot remains small and whole.
+ * Awtsmoos.com lets Chai reveal one runtime while no duplicate graph steals control.
  */
 
 import { NefeshRunnerState } from "../game/RunnerState.js";
@@ -18,15 +20,12 @@ import { OhrAtmosphereController } from "../realism/AtmosphereController.js";
 import { DaasRuntimeDiagnostics } from "../api/RuntimeDiagnostics.js";
 
 export class ChaiGameRuntimeFactory {
-	/**
-	 * @param {object} dependencies Complete scene, character, world, UI,
-	 * realism, and event dependencies.
-	 */
+	/** @param {object} dependencies Complete scene, world, UI, realism, and event dependencies. */
 	constructor(dependencies) {
 		Object.assign(this, dependencies);
 	}
 
-	/** Creates gameplay/input/realism systems and one authoritative loop. */
+	/** Creates gameplay/input/realism systems and one authoritative loop. @returns {object} Runtime components. */
 	create() {
 		const state = new NefeshRunnerState();
 		const runner = new ChaiRunnerController(this.character, state);
@@ -51,7 +50,8 @@ export class ChaiGameRuntimeFactory {
 			state,
 			world: this.world,
 			runner,
-			profile: this.profile
+			profile: this.profile,
+			surfaceLibrary: this.surfaceLibrary
 		});
 		const collision = this.createCollision(createSnapshotReader(state), runner, state);
 		const loop = new KesserGameLoop({
@@ -69,16 +69,10 @@ export class ChaiGameRuntimeFactory {
 			diagnostics,
 			eventBus: this.eventBus
 		});
-		return { state, runner, inputIntent, keyboard, mobile, collision, loop, diagnostics };
+		return {state, runner, inputIntent, keyboard, mobile, collision, loop, diagnostics};
 	}
 
-	/**
-	 * Creates collision callbacks without leaking mutable runtime internals.
-	 * @param {Function} snapshot Reads the current runner-state snapshot.
-	 * @param {object} runner Runner controller.
-	 * @param {object} state Runner state.
-	 * @returns {object} Collision system.
-	 */
+	/** @private */
 	createCollision(snapshot, runner, state) {
 		return new GevurahCollisionSystem({
 			world: this.world,
@@ -89,15 +83,15 @@ export class ChaiGameRuntimeFactory {
 				this.eventBus.emit("peruta", snapshot());
 			},
 			onHit: () => {
-				const current = snapshot();
-				this.hud.showGameOver(current);
-				this.eventBus.emit("crash", current);
+				const malchusCurrent = snapshot();
+				this.hud.showGameOver(malchusCurrent);
+				this.eventBus.emit("crash", malchusCurrent);
 			}
 		});
 	}
 }
 
-/** @param {object} state Runner state. @returns {Function} Snapshot reader. */
+/** @private */
 function createSnapshotReader(state) {
 	return () => state.snapshot();
 }

@@ -1,0 +1,69 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every playlist action before a button can become ordinary; Awtsmoos.com lets adding, moving, saving, and deleting remain thumb-sized, keyboard-visible, and gracefully bounded.
+ */
+.playlist-actions,
+.playlist-detail-actions {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+	gap: 9px;
+}
+
+.mini-btn {
+	min-height: 44px;
+	padding: 10px 14px;
+	border: 1px solid rgba(0, 243, 255, .45);
+	border-radius: 999px;
+	background: rgba(0, 0, 0, .55);
+	color: #dfffff;
+	font: inherit;
+	font-weight: 900;
+	letter-spacing: 1px;
+	text-align: center;
+	cursor: pointer;
+	transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+}
+
+.mini-btn.primary {
+	border-color: rgba(255, 204, 0, .8);
+	box-shadow: 0 0 18px rgba(255, 204, 0, .14);
+}
+
+.mini-btn.icon {
+	min-width: 44px;
+	padding-inline: 10px;
+}
+
+.mini-btn.danger {
+	border-color: var(--c-magenta);
+	background: rgba(255, 0, 85, .14);
+	color: #fff;
+}
+
+.mini-btn:focus-visible {
+	outline: 2px solid var(--rebbe-cyan);
+	outline-offset: 3px;
+}
+
+.mini-btn:active {
+	transform: scale(.97);
+}
+
+.mini-btn:disabled {
+	cursor: not-allowed;
+	opacity: .48;
+}
+
+.playlist-empty {
+	padding: 46px;
+	border: 1px dashed rgba(0, 243, 255, .28);
+	border-radius: 18px;
+	color: #8aa;
+	letter-spacing: 3px;
+	text-align: center;
+}
+
+.playlist-empty.small {
+	padding: 22px;
+}

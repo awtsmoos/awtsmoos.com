@@ -1,133 +1,110 @@
-
 // B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file fluidMaterial.js
- * @brief A shader that renders a collection of points as a unified fluid surface (Metaballs).
+ * @description Preserves the historic full-screen particle-fluid material as an explicit bounded compatibility fallback, not the canonical advanced-water renderer.
+ * The Awtsmoos renews every old vessel before compatibility can pretend to be completion; Awtsmoos.com keeps this path readable, cached, and honestly finite,
+ * while true liquid realism flows through conserved PIC/FLIP state, cropped marching-cubes geometry, smooth normals, and canonical water optics beyond this ancient line.
  */
 
-export const VS_SOURCE_FLUID = `
-    // B"H - This simple Vertex Shader creates a full-screen triangle/quad.
-    // The real magic happens in the Fragment Shader.
-    attribute vec2 aVertexPosition;
-    varying vec2 vUv;
-    void main() {
-        vUv = aVertexPosition * 0.5 + 0.5;
-        // Output a clip-space vertex position for the full-screen quad.
-        gl_Position = vec4(aVertexPosition, 0.0, 1.0);
-    }
-`;
+import {
+	FS_SOURCE_FLUID_LEGACY,
+	LEGACY_FLUID_PARTICLE_LIMIT
+} from '../shaders/fluidLegacyFragment.js';
+import { VS_SOURCE_FLUID_LEGACY } from '../shaders/fluidLegacyVertex.js';
+import { FluidLegacyUniforms } from './FluidLegacyUniforms.js';
 
-export const FS_SOURCE_FLUID = `
-    precision highp float;
-    varying vec2 vUv;
+/** Historic compatibility aliases retained for direct shader-source importers. */
+export const FS_SOURCE_FLUID = FS_SOURCE_FLUID_LEGACY;
+export const VS_SOURCE_FLUID = VS_SOURCE_FLUID_LEGACY;
 
-    uniform mat4 uInvViewProjMatrix;
-    uniform vec3 uCameraPos;
-    uniform vec2 uResolution;
-
-    #define MAX_PARTICLES 60
-    uniform vec3 uParticlePositions[MAX_PARTICLES];
-    uniform int uParticleCount;
-    uniform float uParticleRadius;
-
-    uniform highp vec3 uLightDirection; // B"H - Ensuring consistent precision
-    uniform highp vec3 uAmbientLightColor; // B"H - Ensuring consistent precision
-    uniform highp vec3 uDirectionalLightColor; // B"H - Ensuring consistent precision
-
-    // Defines the energy field of all particles at a given point
-    float getFieldStrength(vec3 p) {
-        float totalStrength = 0.0;
-        float r2 = uParticleRadius * uParticleRadius;
-        for (int i = 0; i < MAX_PARTICLES; i++) {
-            if (i >= uParticleCount) break;
-            float distSq = dot(p - uParticlePositions[i], p - uParticlePositions[i]);
-            // Polynomial falloff: (1 - (d/r)^2)^2 gives a smooth curve
-            float falloff = 1.0 - distSq / r2;
-            totalStrength += max(0.0, falloff * falloff);
-        }
-        return totalStrength;
-    }
-
-    // Calculates the normal of the implicit surface by checking the gradient of the field
-    vec3 getNormal(vec3 p) {
-        vec2 e = vec2(0.01, 0.0);
-        // Sample the field at slightly offset points to find the direction of greatest change
-        return normalize(vec3(
-            getFieldStrength(p + e.xyy) - getFieldStrength(p - e.xyy),
-            getFieldStrength(p + e.yxy) - getFieldStrength(p - e.yxy),
-            getFieldStrength(p + e.yyx) - getFieldStrength(p - e.yyx)
-        ));
-    }
-
-    void main() {
-        // 1. Set up the camera ray for this pixel
-        vec2 screenPos = vUv * 2.0 - 1.0;
-        vec4 far = uInvViewProjMatrix * vec4(screenPos, 1.0, 1.0);
-        vec3 rayDir = normalize(far.xyz / far.w - uCameraPos);
-        vec3 rayOrigin = uCameraPos;
-
-        // 2. Raymarch through the scene to find the surface
-        float t = 0.0;
-        vec3 hitPos = vec3(0.0);
-        bool hit = false;
-        
-        // B"H - The iso-surface threshold. Higher value = "skinnier" fluid that reveals more of the balls.
-        const float ISO_LEVEL = 0.8;
-
-        for (int i = 0; i < 150; i++) { 
-            vec3 p = rayOrigin + rayDir * t;
-            float field = getFieldStrength(p);
-            
-            if (field > ISO_LEVEL) { 
-                hit = true;
-                hitPos = p;
-                break;
-            }
-            
-            // Adaptive step size - step faster when far from surface
-            t += max(0.1, (ISO_LEVEL - field) * 1.0); 
-            if (t > 100.0) break;
-        }
-
-        if (!hit) {
-            discard; // This pixel does not hit the fluid, so render nothing.
-        }
-
-        // 3. Lighting calculation at the hit position
-        vec3 normal = getNormal(hitPos);
-        vec3 lightDir = normalize(uLightDirection);
-
-        // Simple diffuse lighting
-        float diff = max(dot(normal, lightDir), 0.0);
-        
-        vec3 fluidColor = vec3(0.1, 0.5, 0.9); // The solid blue color
-        vec3 lighting = uAmbientLightColor + uDirectionalLightColor * diff;
-        vec3 finalColor = fluidColor * lighting;
-
-        gl_FragColor = vec4(finalColor, 1.0); // Fully opaque
-    }
-`;
-
+/**
+ * Explicit legacy full-screen particle-fluid material.
+ * Modern callers should prefer `Nature.water.fluid()` followed by `surfaceMesh()` and canonical `WaterMaterial` hydration.
+ */
 export class FluidMaterial {
-    program = null; gl = null;
-    constructor(gl) { this.gl = gl; }
-    setProgram(program) { this.program = program; }
+	/**
+	 * @param {WebGLRenderingContext} gl WebGL context.
+	 * @param {object} [optionsChesed={}] Legacy fallback color and roughness overrides.
+	 */
+	constructor(gl, optionsChesed = {}) {
+		this.gl = gl;
+		this.program = null;
+		this.particleLimit = LEGACY_FLUID_PARTICLE_LIMIT;
+		this.color = Object.freeze(
+			normalizeColor(optionsChesed.color)
+		);
+		this.roughness = unit(
+			optionsChesed.roughness,
+			0.12
+		);
+		this.uniforms = new FluidLegacyUniforms(gl);
+	}
 
-    bind(invViewProj, cameraPos, resolution, lightVars, particlePositions, particleRadius) {
-        const gl = this.gl;
-        gl.useProgram(this.program);
-        
-        gl.uniformMatrix4fv(gl.getUniformLocation(this.program, 'uInvViewProjMatrix'), false, invViewProj);
-        gl.uniform3fv(gl.getUniformLocation(this.program, 'uCameraPos'), cameraPos);
-        gl.uniform2fv(gl.getUniformLocation(this.program, 'uResolution'), resolution);
+	/**
+	 * Associates a compiled compatibility program and caches every fallback uniform location.
+	 * @param {object} programInfoKli Program record containing a compiled `program`.
+	 * @returns {void}
+	 */
+	setProgram(programInfoKli) {
+		this.program = programInfoKli?.program || null;
+		if (this.program) {
+			this.uniforms.setProgram(this.program);
+		}
+	}
 
-        gl.uniform3fv(gl.getUniformLocation(this.program, 'uLightDirection'), lightVars.uLightDirection);
-        gl.uniform3fv(gl.getUniformLocation(this.program, 'uAmbientLightColor'), lightVars.uAmbientLightColor);
-        gl.uniform3fv(gl.getUniformLocation(this.program, 'uDirectionalLightColor'), lightVars.uDirectionalLightColor);
+	/**
+	 * Uploads one bounded legacy particle-fluid state while preserving the historical call signature.
+	 * @param {ArrayLike<number>} inverseViewProjectionMalchus Inverse camera view-projection matrix.
+	 * @param {ArrayLike<number>} cameraPositionMalchus Camera XYZ position.
+	 * @param {ArrayLike<number>} resolutionGevurah Render-target width/height.
+	 * @param {object} [globalShaderVarsBinah={}] Shared light and optional legacy fluid overrides.
+	 * @param {Array<Array<number>>} [particlePositionsOros=[]] World-space particle positions; only the compatibility limit is represented.
+	 * @param {number} [particleRadiusGevurah=0.2] Metaball influence radius.
+	 * @returns {Readonly<object>} Explicit fallback diagnostics including represented/omitted particle counts.
+	 */
+	bind(
+		inverseViewProjectionMalchus,
+		cameraPositionMalchus,
+		resolutionGevurah,
+		globalShaderVarsBinah = {},
+		particlePositionsOros = [],
+		particleRadiusGevurah = 0.2
+	) {
+		if (!this.program) {
+			return Object.freeze({ represented: 0, omitted: particlePositionsOros.length });
+		}
+		this.gl.useProgram(this.program);
+		const representedNetzach = this.uniforms.bind({
+			cameraPosition: cameraPositionMalchus,
+			color: globalShaderVarsBinah.uLegacyFluidColor || this.color,
+			inverseViewProjection: inverseViewProjectionMalchus,
+			lightDirection: globalShaderVarsBinah.uLightDirection || [0, 1, 0],
+			particleRadius: Math.max(0.001, Number(particleRadiusGevurah) || 0.2),
+			particles: particlePositionsOros,
+			resolution: resolutionGevurah,
+			roughness: unit(globalShaderVarsBinah.uLegacyFluidRoughness, this.roughness)
+		});
+		return Object.freeze({
+			omitted: Math.max(0, particlePositionsOros.length - representedNetzach),
+			represented: representedNetzach
+		});
+	}
+}
 
-        const count = Math.min(particlePositions.length, 60);
-        gl.uniform1i(gl.getUniformLocation(this.program, 'uParticleCount'), count);
-        gl.uniform3fv(gl.getUniformLocation(this.program, 'uParticlePositions'), new Float32Array(particlePositions.flat()));
-        gl.uniform1f(gl.getUniformLocation(this.program, 'uParticleRadius'), particleRadius);
-    }
+/** @returns {Array<number>} Finite RGB compatibility color. */
+function normalizeColor(valueOhr) {
+	const sourceOhr = Array.isArray(valueOhr) ? valueOhr : [0.08, 0.36, 0.68];
+	return [0, 1, 2].map((indexNetzach) => {
+		const channelOhr = Number(sourceOhr[indexNetzach]);
+		return Number.isFinite(channelOhr) ? Math.max(0, channelOhr) : 0.2;
+	});
+}
+
+/** @returns {number} Unit-interval scalar or fallback. */
+function unit(valueOhr, fallbackOhr) {
+	const numberOhr = Number(valueOhr);
+	return Math.min(1, Math.max(0, Number.isFinite(numberOhr) ? numberOhr : fallbackOhr));
 }

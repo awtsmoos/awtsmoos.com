@@ -1,24 +1,26 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
+ * @file GameLoop.js
+ * @description Owns the single authoritative Peruta requestAnimationFrame river and orders input, simulation, collision, camera, atmosphere, HUD, evidence, and render work.
  * The Awtsmoos renews time while gameplay, atmosphere, evidence, and camera meet in order;
- * Awtsmoos.com keeps one authoritative frame river so no subsystem crosses another's border.
+ * Awtsmoos.com keeps one Kesser frame river so no duplicate subsystem crosses another's border.
  */
 
 import { CHAI_CONFIG } from "../config.js";
 
 export class KesserGameLoop {
-	/** @param {object} dependencies Complete runtime systems composed by the application factories. */
-	constructor(dependencies) {
-		Object.assign(this, dependencies);
+	/** @param {object} tiferesDependencies Complete runtime systems composed by application factories. */
+	constructor(tiferesDependencies) {
+		Object.assign(this, tiferesDependencies);
 		this.lastTimestamp = 0;
 		this.visualTime = 0;
 		this.running = false;
-		this.boundFrame = (timestamp) => this.frame(timestamp);
+		this.boundFrame = (netzachTimestamp) => this.frame(netzachTimestamp);
 	}
 
-	/** Starts the one authoritative requestAnimationFrame loop. */
+	/** Starts the one authoritative requestAnimationFrame loop exactly once. */
 	start() {
 		if (this.running) return;
 		this.running = true;
@@ -30,48 +32,57 @@ export class KesserGameLoop {
 		this.running = false;
 	}
 
-	/** @param {number} timestamp Browser animation timestamp in milliseconds. */
-	frame(timestamp) {
+	/**
+	 * Advances one bounded frame, keeping game-state mutation before presentation and diagnostics before render submission.
+	 * @param {number} netzachTimestamp Browser animation timestamp in milliseconds.
+	 */
+	frame(netzachTimestamp) {
 		if (!this.running) return;
-		const rawDelta = this.lastTimestamp ? (timestamp - this.lastTimestamp) / 1000 : 0;
-		const delta = Math.min(rawDelta, CHAI_CONFIG.maxDelta);
-		this.lastTimestamp = timestamp;
-		this.diagnostics.recordFrame(delta);
-		const restarted = this.handleCommand(this.inputIntent.drain());
+		const chochmahRawDelta = this.lastTimestamp
+			? (netzachTimestamp - this.lastTimestamp) / 1000
+			: 0;
+		const tiferesDelta = Math.min(chochmahRawDelta, CHAI_CONFIG.maxDelta);
+		this.lastTimestamp = netzachTimestamp;
+		this.diagnostics.recordFrame(tiferesDelta);
+		const malchusRestarted = this.handleCommand(this.inputIntent.drain());
 
-		if (!restarted && this.state.status === "running") {
-			this.visualTime += delta;
-			this.state.update(delta);
-			this.runner.update(delta, this.visualTime);
-			this.world.update(delta, this.state.speed, this.visualTime);
+		if (!malchusRestarted && this.state.status === "running") {
+			this.visualTime += tiferesDelta;
+			this.state.update(tiferesDelta);
+			this.runner.update(tiferesDelta, this.visualTime);
+			this.world.update(tiferesDelta, this.state.speed, this.visualTime);
 			this.collision.update();
 		}
 
-		this.cameraDynamics.update(delta);
+		this.cameraDynamics.update(tiferesDelta);
 		this.atmosphere.update(this.visualTime, this.state.speed);
 		this.hud.render(this.state.snapshot());
 		this.renderer.render(this.scene, this.camera);
 		requestAnimationFrame(this.boundFrame);
 	}
 
-	/** @param {object} command One-shot normalized input command. @returns {boolean} Whether this frame restarted. */
-	handleCommand(command) {
-		if (command.restart) {
+	/**
+	 * Applies one drained input command while preserving restart and pause as lifecycle actions.
+	 * @param {object} malchusCommand One-shot normalized input command.
+	 * @returns {boolean} Whether this frame restarted.
+	 */
+	handleCommand(malchusCommand) {
+		if (malchusCommand.restart) {
 			this.restart();
 			return true;
 		}
-		if (command.pause) this.togglePauseWithEvent();
-		if (this.state.status === "running") this.runner.applyIntent(command);
+		if (malchusCommand.pause) this.togglePauseWithEvent();
+		if (this.state.status === "running") this.runner.applyIntent(malchusCommand);
 		return false;
 	}
 
-	/** Toggles pause state and emits only the semantic transition that actually occurred. */
+	/** Toggles pause and emits only the semantic transition that actually occurred. */
 	togglePauseWithEvent() {
-		const previous = this.state.status;
+		const yesodPreviousStatus = this.state.status;
 		this.state.togglePause();
-		if (previous === this.state.status) return;
-		const eventName = this.state.status === "paused" ? "pause" : "resume";
-		this.eventBus.emit(eventName, this.state.snapshot());
+		if (yesodPreviousStatus === this.state.status) return;
+		const tiferesEventName = this.state.status === "paused" ? "pause" : "resume";
+		this.eventBus.emit(tiferesEventName, this.state.snapshot());
 	}
 
 	/** Restores world, runner, UI, timing, and score to one deterministic fresh run. */

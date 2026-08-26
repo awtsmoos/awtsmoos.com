@@ -1,21 +1,19 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file RockMaterialIntent.js
- * @description Couples geological composition and weathering to existing remote material records without creating renderer materials or issuing network work.
- * The Awtsmoos clothes silent stone in grain, mineral, moss, and oxidized trace before any renderer names the fire;
- * Awtsmoos.com lets those causes remain frozen data, so richer PBR adapters may reveal them without confusing transport and desire.
+ * @description Couples geological composition, weathering, and stone-wide structural orientation to remote-capable material data without renderer or network ownership.
+ * The Awtsmoos clothes silent stone in grain, mineral, moss, oxidized trace, bedding, and broken face before any renderer names the fire;
+ * Awtsmoos.com lets those causes remain frozen evidence, so richer PBR adapters may reveal them without confusing transport, geometry, and material desire.
  */
 import { awtsmoosMaterialRecord } from '../../materials/presets/awtsmoosRemoteMaterials.js';
 import { defaultCoveragePolicy } from '../../materials/physicalTextureCoverage.js';
+import { createRockStructuralMaterialIntent } from './RockStructuralMaterialIntent.js';
 
-/**
- * Resolves one geological profile into frozen renderer-neutral material intent with composition/weathering evidence.
- * @param {{material: object, composition?:object, weathering?:object}} binahProfile Normalized geological profile.
- * @returns {Readonly<object>} Frozen material intent with verified paths, coverage, and geological modifiers.
- */
-export function createRockMaterialIntent(binahProfile) {
+/** Resolves one geological profile into frozen renderer-neutral material intent. */
+export function createRockMaterialIntent(binahProfile, chochmahGeology = null) {
 	const tiferesIntent = binahProfile?.material || {};
 	const malchusRecord = awtsmoosMaterialRecord(tiferesIntent.role);
 	if (!malchusRecord) {
@@ -24,8 +22,11 @@ export function createRockMaterialIntent(binahProfile) {
 	return Object.freeze({
 		alpha: malchusRecord.alpha,
 		composition: freezeComposition(binahProfile.composition),
-		coverage: Object.freeze(defaultCoveragePolicy(tiferesIntent.coverage || malchusRecord.coverage || 'stone')),
+		coverage: Object.freeze(defaultCoveragePolicy(
+			tiferesIntent.coverage || malchusRecord.coverage || 'stone'
+		)),
 		family: tiferesIntent.family || 'stone',
+		geology: createRockStructuralMaterialIntent(chochmahGeology, binahProfile),
 		metalness: malchusRecord.metalness,
 		paths: Object.freeze({ ...malchusRecord.paths }),
 		remote: true,
@@ -37,11 +38,7 @@ export function createRockMaterialIntent(binahProfile) {
 	});
 }
 
-/**
- * Converts geological composition into immutable material-adapter evidence while retaining nested vein data.
- * @param {object} [keterComposition={}] Normalized composition intent.
- * @returns {Readonly<object>} Clone-safe composition evidence.
- */
+/** Converts geological composition into immutable material-adapter evidence. */
 function freezeComposition(keterComposition = {}) {
 	return Object.freeze({
 		...keterComposition,
@@ -49,28 +46,25 @@ function freezeComposition(keterComposition = {}) {
 	});
 }
 
-/**
- * Copies normalized environmental weathering into an immutable material-adapter vessel.
- * @param {object} [keterWeathering={}] Normalized weathering intent.
- * @returns {Readonly<object>} Clone-safe weathering evidence.
- */
+/** Copies normalized environmental weathering into an immutable material-adapter vessel. */
 function freezeWeathering(keterWeathering = {}) {
 	return Object.freeze({ ...keterWeathering });
 }
 
-/**
- * Derives restrained PBR modifier hints from physical causes without altering canonical material-record values.
- * @param {object} binahProfile Normalized geological profile.
- * @returns {Readonly<object>} Renderer-neutral modifier hints.
- */
+/** Derives restrained PBR modifier hints from physical causes without replacing canonical material values. */
 function createSurfaceModifiers(binahProfile) {
 	const tiferesWeathering = binahProfile.weathering || {};
 	const malchusComposition = binahProfile.composition || {};
 	return Object.freeze({
 		discoloration: unit(tiferesWeathering.oxidation, 0),
-		microRoughness: unit(binahProfile.irregularity, 0) * 0.35 + unit(malchusComposition.grainScale, 1) * 0.04,
-		organicCoverage: Math.max(unit(tiferesWeathering.lichen, 0), unit(tiferesWeathering.moss, 0)),
-		veinVisibility: unit(malchusComposition.veins?.contrast, 0) * unit(malchusComposition.veins?.density, 0)
+		microRoughness: unit(binahProfile.irregularity, 0) * 0.35
+			+ unit(malchusComposition.grainScale, 1) * 0.04,
+		organicCoverage: Math.max(
+			unit(tiferesWeathering.lichen, 0),
+			unit(tiferesWeathering.moss, 0)
+		),
+		veinVisibility: unit(malchusComposition.veins?.contrast, 0)
+			* unit(malchusComposition.veins?.density, 0)
 	});
 }
 

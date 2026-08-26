@@ -1,0 +1,71 @@
+<!--B"H-->
+<!--Boruch Hashem-->
+<!--Blessed is He-->
+<!--
+	The Awtsmoos renews every pixel before a page can claim the world it frames;
+	Awtsmoos.com lets this CobyK vessel stay sparse, futuristic, mobile-first, and clean while the original game keeps its names.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="theme-color" content="#07121f">
+	<title>CobyK · Awtsmoos</title>
+	<link rel="stylesheet" href="./styles/cobyk.css">
+</head>
+<body>
+	<main class="cobyk-app" data-cobyk-root>
+		<section class="cobyk-stage-shell" aria-label="CobyK game">
+			<canvas class="cobyk-stage" data-cobyk-canvas aria-label="CobyK world"></canvas>
+			<header class="cobyk-hud" aria-live="polite">
+				<div class="cobyk-hud__identity">
+					<strong class="cobyk-hud__level" data-cobyk-level>CobyK</strong>
+					<span class="cobyk-hud__state" data-cobyk-state data-state="ready">ready</span>
+				</div>
+				<div class="cobyk-hud__metrics">
+					<span><b data-cobyk-coins>0/0</b> light</span>
+					<span><b data-cobyk-attempts>1</b> run</span>
+				</div>
+			</header>
+			<nav class="cobyk-campaign" aria-label="Original CobyK levels">
+				<div class="cobyk-campaign__levels" data-cobyk-levels></div>
+				<button class="cobyk-button cobyk-button--next" data-cobyk-next type="button" disabled>Next</button>
+			</nav>
+			<div class="cobyk-mobile-controls" aria-label="Touch controls">
+				<div class="cobyk-joystick" data-cobyk-joystick role="group" aria-label="Move">
+					<span class="cobyk-joystick__ring"></span>
+					<span class="cobyk-joystick__knob" data-cobyk-knob></span>
+				</div>
+				<div class="cobyk-mobile-actions">
+					<button class="cobyk-action cobyk-action--jump" data-cobyk-jump type="button">Jump</button>
+					<button class="cobyk-action cobyk-action--restart" data-cobyk-touch-restart type="button" aria-label="Restart run">↻</button>
+				</div>
+			</div>
+			<details class="cobyk-advanced" data-cobyk-advanced>
+				<summary class="cobyk-advanced__summary">Systems</summary>
+				<div class="cobyk-advanced__body">
+					<label class="cobyk-field">Quality
+						<select class="cobyk-select" data-cobyk-quality>
+							<option value="battery">Battery</option>
+							<option value="balanced" selected>Balanced</option>
+							<option value="sharp">Sharp</option>
+						</select>
+					</label>
+					<div class="cobyk-system-grid">
+						<span>FPS <b data-cobyk-fps>--</b></span>
+						<span>Scale <b data-cobyk-scale>--</b></span>
+						<span>Draws <b data-cobyk-draws>0</b></span>
+						<span>Tris <b data-cobyk-triangles>0</b></span>
+						<span>Player <b data-cobyk-model>fallback</b></span>
+						<span>Texture <b data-cobyk-textures>color</b></span>
+					</div>
+					<button class="cobyk-button cobyk-button--restart" data-cobyk-restart type="button">Restart run</button>
+				</div>
+			</details>
+			<output class="cobyk-status" data-cobyk-status data-state="loading">Loading CobyK…</output>
+		</section>
+	</main>
+	<script type="module" src="./src/main.js?compact=true"></script>
+</body>
+</html>

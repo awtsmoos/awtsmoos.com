@@ -1,0 +1,95 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gathers scattered selection into one crown without covering the song below; Awtsmoos.com gives the playlist selection bar a named layer and a measured clearance above the mobile player.
+ */
+#playlist-selection-bar {
+	position: fixed;
+	left: 50%;
+	bottom: calc(16px + env(safe-area-inset-bottom));
+	z-index: var(--rebbe-layer-popover);
+	max-width: calc(100vw - 24px);
+	transform: translateX(-50%);
+}
+
+#playlist-selection-bar:empty,
+#playlist-selection-bar.hidden {
+	display: none;
+}
+
+.playlist-selection-inner {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-width: 0;
+	padding: 10px 12px;
+	border: 1px solid var(--c-cyan);
+	border-radius: 999px;
+	background: rgba(0, 10, 12, .96);
+	box-shadow: 0 16px 42px rgba(0, 0, 0, .48), 0 0 24px rgba(0, 243, 255, .12);
+	color: #fff;
+	backdrop-filter: blur(16px);
+}
+
+.playlist-selection-inner span {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.playlist-selection-inner button {
+	min-width: 44px;
+	min-height: 44px;
+	padding: 8px 12px;
+	border: 1px solid rgba(255, 204, 0, .7);
+	border-radius: 999px;
+	background: #050908;
+	color: #fff;
+	font: inherit;
+	font-weight: 900;
+	cursor: pointer;
+	transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+
+.playlist-selection-inner button:focus-visible {
+	outline: 2px solid var(--rebbe-cyan);
+	outline-offset: 3px;
+}
+
+.playlist-selection-inner button:active {
+	transform: scale(.96);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.playlist-selection-inner button:hover {
+		border-color: var(--rebbe-cyan);
+		background: rgba(0, 243, 255, .12);
+		transform: translateY(-1px);
+	}
+}
+
+@media (max-width: 820px) {
+	#playlist-selection-bar {
+		left: 10px;
+		right: 10px;
+		bottom: calc(var(--rebbe-player-mobile-clearance) + var(--rebbe-floating-gap) + env(safe-area-inset-bottom));
+		max-width: none;
+		transform: none;
+	}
+
+	.playlist-selection-inner {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		border-radius: 20px;
+	}
+
+	.playlist-selection-inner span,
+	.playlist-selection-inner b {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.playlist-selection-inner button {
+		transition-duration: .01ms;
+	}
+}

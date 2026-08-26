@@ -3,17 +3,17 @@
 // Blessed is He
 /**
  * @file config.js
- * @description Declares Peruta Run gameplay truth separately from bounded presentation depth, atmosphere, and readability tuning.
- * The Awtsmoos renews every measured lane, hue, and second anew;
- * Awtsmoos.com keeps one covenant of constants so physics stays true while sight grows deeper too.
+ * @description Declares Peruta gameplay truth, a six-chunk stable stream, and a close runner-first camera for the semantic Jewish-city obstacle release.
+ * The Awtsmoos renews lane, body, road, and eye before distance can seem near or far;
+ * Awtsmoos.com keeps the runner large and readable while named city encounters reveal the road beneath each star.
  */
 
-export const API_VERSION = "2.0.0";
+export const API_VERSION = "2.2.0";
 export const OROS_LANES = Object.freeze([-3.1, 0, 3.1]);
 
 export const OLAM_CONFIG = Object.freeze({
 	chunkLength: 18,
-	chunkCount: 8,
+	chunkCount: 6,
 	firstChunkZ: -7,
 	recycleZ: 14,
 	runnerZ: 1.5,
@@ -31,39 +31,45 @@ export const CHAI_CONFIG = Object.freeze({
 	laneEase: 12,
 	maxDelta: 0.05,
 	targetModelHeight: 2.35,
+	standingBodyHeight: 2,
+	duckBodyHeight: 0.98,
+	duckSeconds: 0.72,
+	duckVisualScale: 0.72,
+	duckVisualDrop: 0.34,
+	duckEase: 16,
 	obstacleClearHeight: 1.15
 });
 
 export const CAMERA_CONFIG = Object.freeze({
-	baseFov: 58,
-	maxFov: 64.5,
-	basePosition: Object.freeze([0, 4.9, 8.8]),
-	lookPosition: Object.freeze([0, 1.25, -15]),
-	positionEase: 5.8,
-	fovEase: 4.5,
-	laneFollow: 0.13,
-	portraitLaneBoost: 0.05,
-	jumpFollow: 0.08,
-	speedLift: 0.08,
-	speedDolly: 0.42,
-	portraitPullback: 0.9,
-	lookLaneFollow: 0.18,
-	lookJumpFollow: 0.04,
-	lookSpeedLead: 1.35,
-	rollStrength: 0.004,
-	maxRoll: 0.018,
-	rollEase: 7
+	baseFov: 55.5,
+	maxFov: 60.5,
+	basePosition: Object.freeze([0, 3.72, 7.15]),
+	lookPosition: Object.freeze([0, 1.28, -8.6]),
+	positionEase: 8,
+	fovEase: 5.5,
+	laneFollow: 0.08,
+	portraitLaneBoost: 0.04,
+	jumpFollow: 0.06,
+	speedLift: 0.035,
+	speedDolly: 0.18,
+	portraitPullback: 0.48,
+	lookLaneFollow: 0.12,
+	lookJumpFollow: 0.025,
+	lookSpeedLead: 0.68,
+	rollStrength: 0.0022,
+	maxRoll: 0.009,
+	rollEase: 9
 });
 
 export const ATMOSPHERE_CONFIG = Object.freeze({
-	fogNear: 28,
-	fogFar: 118,
-	baseExposure: 1.08,
+	fogNear: 26,
+	fogFar: 106,
+	baseExposure: 1.06,
 	cycleSeconds: 180,
-	minimumDaylight: 0.74,
-	speedFogFarGain: 12,
-	duskFogCompression: 9,
-	speedExposureGain: 0.018
+	minimumDaylight: 0.76,
+	speedFogFarGain: 8,
+	duskFogCompression: 7,
+	speedExposureGain: 0.012
 });
 
 export const SCORE_CONFIG = Object.freeze({

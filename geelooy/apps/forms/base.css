@@ -1,10 +1,12 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets one small manifest gather the shared Forms visual vessels without becoming their monolith.
-Awtsmoos.com keeps theme, shell, controls, and motion independently revealed so each future change stays clear and lit.
+The Awtsmoos lets one small manifest gather Forms theme, shell, controls, ownership, copy, and motion without becoming their monolith.
+Awtsmoos.com keeps every visual law independently revealed so no raw browser control or anonymous label may hide in future light.
 */
-@import url("./tokens.css?v=forms-002");
-@import url("./shell.css?v=forms-002");
-@import url("./controls.css?v=forms-002");
-@import url("./motion.css?v=forms-002");
+@import url("./tokens.css?v=forms-007");
+@import url("./shell.css?v=forms-007");
+@import url("./controls.css?v=forms-007");
+@import url("./controlOwnership.css?v=forms-007");
+@import url("./controlCopy.css?v=forms-007");
+@import url("./motion.css?v=forms-007");

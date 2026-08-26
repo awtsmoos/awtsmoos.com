@@ -1,83 +1,103 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos, Atzmus beyond every sound and silence, renews breath and interface from nothing at every instant;
- * Awtsmoos.com lets this Malchus garment reveal recording, preview, and retry without owning microphone truth or transport light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews breath, preview, action, and retry before private speech can claim a state; Awtsmoos.com lets the voice composer expose only deliberate custom vessels while microphone and transport truth stay elsewhere.
  */
-
-.messaging-voice-panel {
+body[data-messaging-page] .messaging-voice-panel {
 	display: grid;
-	gap: 0.55rem;
-	padding: 0.65rem;
-	border: 1px solid rgba(121, 224, 183, 0.22);
+	gap: .55rem;
+	min-inline-size: 0;
+	padding: .65rem;
+	border: 1px solid rgba(121, 224, 183, .24);
 	border-radius: 14px;
-	background: linear-gradient(135deg, rgba(121, 224, 183, 0.08), rgba(255, 255, 255, 0.025));
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+	background: linear-gradient(135deg, rgba(121, 224, 183, .09), rgba(60, 111, 131, .04), rgba(255, 255, 255, .02));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04), 0 10px 24px rgba(0, 0, 0, .12);
 }
 
-.messaging-voice-state {
+body[data-messaging-page] .messaging-voice-state {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
-	min-width: 0;
+	gap: .5rem;
+	min-inline-size: 0;
 	color: var(--msg-text);
 }
 
-.messaging-voice-state strong {
-	min-width: 0;
+body[data-messaging-page] .messaging-voice-state strong {
+	min-inline-size: 0;
 	flex: 1 1 auto;
 	overflow: hidden;
-	font-size: 0.78rem;
+	font-size: .78rem;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.messaging-voice-state time {
+body[data-messaging-page] .messaging-voice-state time {
 	color: var(--msg-muted);
+	font-size: .74rem;
 	font-variant-numeric: tabular-nums;
-	font-size: 0.74rem;
 }
 
-.messaging-voice-dot {
+body[data-messaging-page] .messaging-voice-dot {
 	inline-size: 10px;
 	block-size: 10px;
 	border-radius: 50%;
 	background: #79e0b7;
-	box-shadow: 0 0 0 5px rgba(121, 224, 183, 0.09);
+	box-shadow: 0 0 0 5px rgba(121, 224, 183, .09);
 	animation: messagingVoicePulse 1.4s ease-in-out infinite;
 }
 
-.messaging-voice-panel audio {
-	width: 100%;
-	min-height: 44px;
-}
-
-.messaging-voice-actions {
+body[data-messaging-page] .messaging-voice-actions {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.45rem;
+	gap: .45rem;
 }
 
-.messaging-voice-actions button,
-.messaging-voice-start {
-	min-width: 44px;
-	min-height: 44px;
+body[data-messaging-page] .messaging-voice-actions button,
+body[data-messaging-page] .messaging-voice-start {
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	border-color: rgba(121, 224, 183, .24);
+	background: linear-gradient(145deg, rgba(121, 224, 183, .12), rgba(73, 129, 145, .08));
+	transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
 }
 
-.messaging-composer.is-voice-active .messaging-composer-row {
+body[data-messaging-page] .messaging-voice-actions button:focus-visible,
+body[data-messaging-page] .messaging-voice-start:focus-visible {
+	outline: 2px solid rgba(151, 245, 207, .96);
+	outline-offset: 3px;
+}
+
+body[data-messaging-page] .messaging-voice-actions button:active,
+body[data-messaging-page] .messaging-voice-start:active {
+	transform: translateY(1px) scale(.97);
+}
+
+body[data-messaging-page] .messaging-voice-actions button:disabled,
+body[data-messaging-page] .messaging-voice-start:disabled {
+	cursor: not-allowed;
+	opacity: .52;
+}
+
+body[data-messaging-page] .messaging-composer.is-voice-active .messaging-composer-row {
 	display: none;
 }
 
-@keyframes messagingVoicePulse {
-	0%, 100% {
-		opacity: 0.55;
-		transform: scale(0.92);
+@media (hover: hover) and (pointer: fine) {
+	body[data-messaging-page] .messaging-voice-actions button:hover,
+	body[data-messaging-page] .messaging-voice-start:hover {
+		border-color: rgba(145, 239, 204, .5);
+		background: linear-gradient(145deg, rgba(121, 224, 183, .2), rgba(73, 151, 169, .12));
+		transform: translateY(-1px);
 	}
+}
 
-	50% {
-		opacity: 1;
-		transform: scale(1.08);
-	}
+@keyframes messagingVoicePulse {
+	0%, 100% { opacity: .55; transform: scale(.92); }
+	50% { opacity: 1; transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-messaging-page] .messaging-voice-dot { animation: none; }
+	body[data-messaging-page] .messaging-voice-actions button,
+	body[data-messaging-page] .messaging-voice-start { transition-duration: .01ms; }
 }

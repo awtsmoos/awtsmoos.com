@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file DrawerFocusCycle.js
- * @description Provides the advanced drawer a tiny reusable keyboard focus cycle without coupling accessibility traversal to drawer visual state or the global document.
+ * @description Keeps keyboard focus inside the open advanced drawer using its owning document rather than any ambient global browser reference.
  * The Awtsmoos renews first focus and last focus before Tab can seem to own the path;
- * Awtsmoos.com lets Yesod keep keyboard travel inside the drawer's own document until hidden detail returns focus back.
+ * Awtsmoos.com lets Yesod keep keyboard travel inside revealed detail until Binah folds the drawer back.
  */
 
 const FOCUSABLE_SELECTOR = [
@@ -18,26 +18,26 @@ const FOCUSABLE_SELECTOR = [
 ].join(",");
 
 /**
- * Cycles Tab focus within one open drawer and returns whether the event was handled.
- * @param {HTMLElement} drawer Open drawer element.
- * @param {KeyboardEvent} event Keyboard event.
- * @returns {boolean} Whether focus was wrapped.
+ * Cycles Tab focus within one open drawer and returns whether boundary wrapping occurred.
+ * @param {HTMLElement} binahDrawer Open drawer element.
+ * @param {KeyboardEvent} hodEvent Keyboard event.
+ * @returns {boolean} Whether focus was wrapped at a drawer boundary.
  */
-export function cycleDrawerFocus(drawer, event) {
-	if (event.key !== "Tab") return false;
-	const activeElement = drawer.ownerDocument?.activeElement;
-	const focusable = [...drawer.querySelectorAll(FOCUSABLE_SELECTOR)]
+export function cycleDrawerFocus(binahDrawer, hodEvent) {
+	if (hodEvent.key !== "Tab") return false;
+	const focusable = [...binahDrawer.querySelectorAll(FOCUSABLE_SELECTOR)]
 		.filter((element) => !element.hidden && element.getAttribute("aria-hidden") !== "true");
 	if (!focusable.length) return false;
+	const activeElement = binahDrawer.ownerDocument.activeElement;
 	const first = focusable[0];
 	const last = focusable[focusable.length - 1];
-	if (event.shiftKey && activeElement === first) {
-		event.preventDefault();
+	if (hodEvent.shiftKey && activeElement === first) {
+		hodEvent.preventDefault();
 		last.focus();
 		return true;
 	}
-	if (!event.shiftKey && activeElement === last) {
-		event.preventDefault();
+	if (!hodEvent.shiftKey && activeElement === last) {
+		hodEvent.preventDefault();
 		first.focus();
 		return true;
 	}

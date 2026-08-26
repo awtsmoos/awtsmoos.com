@@ -1,0 +1,78 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews hover, focus, press, saved state, and mobile reflow before each gesture appears; Awtsmoos.com lets the track browser answer every relevant interaction without hidden or endless motion.
+ */
+#list-tracks :where(.track-main-button, .command-btn, .track-picker input):focus-visible {
+	outline: 2px solid var(--rebbe-cyan);
+	outline-offset: 3px;
+}
+
+#list-tracks .track-main-button:active,
+#list-tracks .command-btn:active {
+	transform: scale(.97);
+}
+
+#list-tracks .command-btn:disabled {
+	cursor: not-allowed;
+	opacity: .45;
+	transform: none;
+}
+
+#list-tracks .command-btn.saved {
+	box-shadow: 0 0 16px rgba(0, 243, 255, .24);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	#list-tracks .track-main-button:hover {
+		color: var(--rebbe-cyan);
+	}
+
+	#list-tracks .command-btn:hover:not(:disabled) {
+		border-color: var(--rebbe-cyan) !important;
+		box-shadow: 0 8px 24px rgba(0, 243, 255, .08);
+		transform: translateY(-1px);
+	}
+}
+
+@media (max-width: 720px) {
+	#list-tracks .premium-track-item {
+		grid-template-columns: 44px minmax(0, 1fr) !important;
+	}
+
+	#list-tracks .row-command-deck {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		justify-content: stretch;
+	}
+
+	#list-tracks .event-toolbar-actions {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	#list-tracks .command-btn {
+		inline-size: 100%;
+		min-inline-size: 0;
+	}
+
+	#list-tracks .t-dur {
+		grid-column: 1 / -1;
+		inline-size: 100%;
+		text-align: left;
+	}
+}
+
+@media (max-width: 430px) {
+	#list-tracks .row-command-deck,
+	#list-tracks .event-toolbar-actions {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#list-tracks .track-main-button,
+	#list-tracks .command-btn {
+		transition-duration: .01ms !important;
+	}
+}

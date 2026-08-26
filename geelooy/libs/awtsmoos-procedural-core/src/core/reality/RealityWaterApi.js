@@ -4,32 +4,41 @@
 
 /**
  * @file RealityWaterApi.js
- * @description Adds simple river and named-water-body language above Medaber while delegating every calculation to Nature water authorities.
- * The Awtsmoos renews stream, pond, lake, wetland, and runoff before one friendly name may contain the flow;
- * Awtsmoos.com keeps each simple call transparent, so expert channel, body, source, and quality options remain available below.
+ * @description Adds simple rivers and named water bodies above Reality's surface and volumetric-water layers while preserving full specialist access.
+ * The Awtsmoos renews surface, stream, pond, lake, wetland, runoff, and hidden volumetric depth before one friendly name may contain the flow;
+ * Awtsmoos.com keeps each simple call transparent, so beginners see water as one language while advanced callers retain every channel, solver, mesh, source, and quality vessel below.
  */
-import { RealityMedaberApi } from './RealityMedaberApi.js';
+
+import { RealityWaterVolumetricSurfaceApi } from './RealityWaterVolumetricSurfaceApi.js';
 
 /** Semantic Olam-water layer for common flow and water-body intents. */
-export class RealityWaterApi extends RealityMedaberApi {
+export class RealityWaterApi extends RealityWaterVolumetricSurfaceApi {
 	/**
 	 * Creates any discoverable water regime through the canonical WaterNatureApi router.
 	 * @param {string|object} [kindChesed='pond'] Semantic regime name or object containing `kind` plus advanced options.
 	 * @param {object} [optionsGevurah={}] Full WaterNatureApi options when the first argument is a string.
-	 * @returns {object} Native Nature water result whose shape remains specific to the selected specialist engine.
+	 * @returns {Readonly<object>} Native Nature water result whose value remains specific to the selected specialist engine.
 	 */
 	water(kindChesed = 'pond', optionsGevurah = {}) {
 		if (kindChesed && typeof kindChesed === 'object') {
-			const kindBinah = kindChesed.kind || kindChesed.type || 'pond';
-			return this.advanced.nature.water.create(kindBinah, kindChesed);
+			const kindBinah = kindChesed.kind ||
+				kindChesed.type ||
+				'pond';
+			return this.advanced.nature.water.create(
+				kindBinah,
+				kindChesed
+			);
 		}
-		return this.advanced.nature.water.create(kindChesed, optionsGevurah);
+		return this.advanced.nature.water.create(
+			kindChesed,
+			optionsGevurah
+		);
 	}
 
 	/**
 	 * Creates canonical directed river flow through the existing river planner/runtime.
-	 * @param {object} [optionsChesed={}] River preset, channel geometry, slope, width, depth, flow, turbulence, seed, and advanced river controls.
-	 * @returns {object} Native Nature river result preserving its canonical flow/diagnostic representation.
+	 * @param {object} [optionsChesed={}] River preset, channel geometry, slope, width, depth, flow, turbulence, seed, and advanced controls.
+	 * @returns {Readonly<object>} Native Nature river result preserving canonical flow diagnostics.
 	 */
 	river(optionsChesed = {}) {
 		return this.advanced.nature.water.river(
@@ -40,8 +49,8 @@ export class RealityWaterApi extends RealityMedaberApi {
 
 	/**
 	 * Creates canonical stream/channel flow using the established stream preset by default.
-	 * @param {object} [optionsChesed={}] Channel preset, geometry, slope, flow, cross-flow, turbulence, seed, and expert overrides.
-	 * @returns {object} Native channel-water result suitable for advanced local sampling and downstream gameplay adapters.
+	 * @param {object} [optionsChesed={}] Channel geometry, slope, flow, cross-flow, turbulence, seed, and expert overrides.
+	 * @returns {Readonly<object>} Native channel-water result for local sampling and gameplay adapters.
 	 */
 	stream(optionsChesed = {}) {
 		return this.advanced.nature.water.channel({
@@ -53,7 +62,7 @@ export class RealityWaterApi extends RealityMedaberApi {
 	/**
 	 * Creates one semantic pond over the mature shallow-water runtime.
 	 * @param {object} [optionsChesed={}] Dimensions, depth, terrain, obstacles, sources, quality, viscosity, boundary, and solver overrides.
-	 * @returns {object} Canonical Nature water-body result whose value is the shared shallow-water-backed runtime.
+	 * @returns {Readonly<object>} Canonical Nature pond result.
 	 */
 	pond(optionsChesed = {}) {
 		return this.advanced.nature.water.pond(optionsChesed);
@@ -62,7 +71,7 @@ export class RealityWaterApi extends RealityMedaberApi {
 	/**
 	 * Creates one semantic lake using larger/deeper defaults while retaining the complete water-body option surface.
 	 * @param {object} [optionsChesed={}] Dimensions, depth, terrain, sources, quality, viscosity, boundary, and solver overrides.
-	 * @returns {object} Canonical Nature water-body result.
+	 * @returns {Readonly<object>} Canonical Nature lake result.
 	 */
 	lake(optionsChesed = {}) {
 		return this.advanced.nature.water.lake(optionsChesed);
@@ -70,8 +79,8 @@ export class RealityWaterApi extends RealityMedaberApi {
 
 	/**
 	 * Creates one semantic wetland with shallow saturated defaults and full expert overrides.
-	 * @param {object} [optionsChesed={}] Dimensions, shallow depth, terrain, obstacles, ecology-facing source conditions, quality, and solver overrides.
-	 * @returns {object} Canonical Nature wetland runtime result.
+	 * @param {object} [optionsChesed={}] Dimensions, shallow depth, terrain, obstacles, ecology-facing sources, quality, and solver overrides.
+	 * @returns {Readonly<object>} Canonical Nature wetland result.
 	 */
 	wetland(optionsChesed = {}) {
 		return this.advanced.nature.water.wetland(optionsChesed);
@@ -79,8 +88,8 @@ export class RealityWaterApi extends RealityMedaberApi {
 
 	/**
 	 * Creates one semantic runoff body with directed-flow defaults and full expert overrides.
-	 * @param {object} [optionsChesed={}] Dimensions, initial speed, terrain, sources, open-boundary behavior, quality, and solver overrides.
-	 * @returns {object} Canonical Nature runoff runtime result.
+	 * @param {object} [optionsChesed={}] Dimensions, initial speed, terrain, sources, boundary behavior, quality, and solver overrides.
+	 * @returns {Readonly<object>} Canonical Nature runoff result.
 	 */
 	runoff(optionsChesed = {}) {
 		return this.advanced.nature.water.runoff(optionsChesed);

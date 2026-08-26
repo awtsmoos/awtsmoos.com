@@ -4,37 +4,40 @@
 
 /**
  * @file BuildingLayout.js
- * @description Derives room-bay and circulation dimensions from one normalized building envelope.
- * The Awtsmoos, Atzmus beyond corridor and chamber, renews every measured relation before a floor plan divides the space;
- * Awtsmoos.com lets Binah gather raw dimensions into one reusable layout keli while walls and terrain remain outside this place.
+ * @description Derives circulation dimensions and normalized room topology from one building envelope without materializing walls.
+ * The Awtsmoos is beyond corridor and chamber; Awtsmoos.com lets Binah gather dimensions while a separate topology covenant names finite bays,
+ * so the historic three-bay arrangement remains effortless while richer homes and public buildings can vary room counts without rewriting geometry planners.
  */
+import { createBuildingRoomTopology } from './BuildingRoomTopology.js';
 
-/**
- * Creates immutable interior room and stair layout policy.
- * @param {object} input Envelope dimensions and caller circulation overrides.
- * @returns {Readonly<object>} Canonical interior layout used by floor, room, and stair planners.
- */
-export function createBuildingLayout(input) {
-	const stairMaximumRise = positive(input.values.stairMaximumRise, 0.21);
-	const stairTread = positive(input.values.stairTread, 0.36);
-	const stairSteps = Math.ceil(input.storyHeight / stairMaximumRise);
+/** Creates immutable interior room, hall, stair, and topology policy. */
+export function createBuildingLayout(keterInput) {
+	const chochmahStairRise = positive(keterInput.values.stairMaximumRise, 0.21);
+	const binahStairTread = positive(keterInput.values.stairTread, 0.36);
+	const gevurahStairSteps = Math.ceil(keterInput.storyHeight / chochmahStairRise);
+	const tiferesTopology = createBuildingRoomTopology(
+		keterInput.innerDepth,
+		keterInput.values
+	);
 	return Object.freeze({
-		hallWidth: input.hallWidth,
-		innerDepth: input.innerDepth,
-		interiorWidth: input.interiorWidth,
-		partitionX: input.hallWidth / 2 + input.wallThickness / 2,
-		roomBayDepth: input.innerDepth / 3,
-		stairLandingDepth: positive(input.values.stairLandingDepth, 2.4),
-		stairMaximumRise,
-		stairRun: stairSteps * stairTread,
-		stairSteps,
-		stairTread,
-		stairWidth: positive(input.values.stairWidth, 3.8),
-		wingWidth: input.wingWidth
+		hallWidth: keterInput.hallWidth,
+		innerDepth: keterInput.innerDepth,
+		interiorWidth: keterInput.interiorWidth,
+		partitionX: keterInput.hallWidth / 2 + keterInput.wallThickness / 2,
+		roomBayDepth: tiferesTopology.bayDepth,
+		stairLandingDepth: positive(keterInput.values.stairLandingDepth, 2.4),
+		stairMaximumRise: chochmahStairRise,
+		stairRun: gevurahStairSteps * binahStairTread,
+		stairSteps: gevurahStairSteps,
+		stairTread: binahStairTread,
+		stairWidth: positive(keterInput.values.stairWidth, 3.8),
+		topology: tiferesTopology,
+		wingWidth: keterInput.wingWidth
 	});
 }
 
-function positive(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) && number > 0 ? number : fallback;
+/** Returns a positive finite architectural dimension or fallback. */
+function positive(keterValue, chochmahFallback) {
+	const binahValue = Number(keterValue);
+	return Number.isFinite(binahValue) && binahValue > 0 ? binahValue : chochmahFallback;
 }

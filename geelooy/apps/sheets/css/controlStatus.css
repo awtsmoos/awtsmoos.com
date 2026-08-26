@@ -1,0 +1,88 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets saving, connection, address, and mode become calm signs rather than loose words floating without a vessel of light;
+Awtsmoos.com gives every small state one intentional chip or caption so dense information remains ordered, subtle, and right.
+*/
+.awtsmoos-sheets-app .aw-status-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	min-height: 24px;
+	max-width: 100%;
+	padding: 3px 8px;
+	border: 1px solid rgba(19, 124, 83, 0.1);
+	border-radius: 999px;
+	background: rgba(19, 124, 83, 0.055);
+	color: var(--muted);
+	font-size: 10px;
+	font-weight: 720;
+	line-height: 1.2;
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+}
+
+.awtsmoos-sheets-app .aw-status-chip[data-state="connected"],
+.awtsmoos-sheets-app .aw-status-chip[data-state="saved"] {
+	border-color: rgba(19, 124, 83, 0.18);
+	background: rgba(19, 124, 83, 0.08);
+	color: #0c6846;
+}
+
+.awtsmoos-sheets-app .aw-status-chip[data-state="error"],
+.awtsmoos-sheets-app .aw-status-chip[data-state="offline"] {
+	border-color: rgba(190, 60, 60, 0.16);
+	background: rgba(190, 60, 60, 0.06);
+	color: #934040;
+}
+
+.awtsmoos-sheets-app .aw-caption {
+	display: inline-flex;
+	align-items: center;
+	min-width: 0;
+	color: var(--muted);
+	font-size: 10px;
+	font-weight: 760;
+	line-height: 1.2;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+}
+
+.awtsmoos-sheets-app .aw-control-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	color: var(--text);
+	font-size: 11px;
+	font-weight: 700;
+}
+
+.awtsmoos-sheets-app .aw-meta-group {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	flex-wrap: wrap;
+}
+
+.awtsmoos-sheets-app .aw-panel-kicker {
+	display: inline-flex;
+	align-items: center;
+	width: fit-content;
+	min-height: 24px;
+	padding: 3px 8px;
+	border-radius: 999px;
+	background: rgba(19, 124, 83, 0.06);
+	color: #0c6846;
+	font-size: 10px;
+	font-weight: 760;
+	letter-spacing: 0.04em;
+}
+
+@media (max-width: 760px) {
+	.awtsmoos-sheets-app .aw-status-chip,
+	.awtsmoos-sheets-app .aw-panel-kicker {
+		min-height: 28px;
+	}
+}

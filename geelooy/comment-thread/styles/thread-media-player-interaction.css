@@ -1,0 +1,72 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews focus, hover, press, and progress before one gesture can become old; Awtsmoos.com lets Comment Thread audio answer every interaction with precise bounded light instead of browser-owned chrome.
+ */
+body[data-comment-thread-page] .commentAudioPlayer__seek::-webkit-slider-runnable-track {
+	block-size: 5px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, #818cf8, #38bdf8);
+}
+
+body[data-comment-thread-page] .commentAudioPlayer__seek::-webkit-slider-thumb {
+	inline-size: 18px;
+	block-size: 18px;
+	margin-block-start: -6.5px;
+	border: 2px solid Canvas;
+	border-radius: 50%;
+	appearance: none;
+	background: #818cf8;
+	box-shadow: 0 0 0 4px color-mix(in srgb, #818cf8 14%, transparent);
+}
+
+body[data-comment-thread-page] .commentAudioPlayer__seek::-moz-range-track {
+	block-size: 5px;
+	border: 0;
+	border-radius: 999px;
+	background: linear-gradient(90deg, #818cf8, #38bdf8);
+}
+
+body[data-comment-thread-page] .commentAudioPlayer__seek::-moz-range-thumb {
+	inline-size: 16px;
+	block-size: 16px;
+	border: 2px solid Canvas;
+	border-radius: 50%;
+	background: #818cf8;
+}
+
+body[data-comment-thread-page] .commentAudioPlayer :where(button, input):focus-visible {
+	outline: 3px solid var(--thread-line-focus);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-comment-thread-page] .commentAudioPlayer:hover {
+		border-color: color-mix(in srgb, #818cf8 58%, var(--thread-line));
+	}
+
+	body[data-comment-thread-page] .commentAudioPlayer__play:hover,
+	body[data-comment-thread-page] .commentAudioPlayer__mute:hover {
+		border-color: color-mix(in srgb, #38bdf8 58%, var(--thread-line));
+		background: color-mix(in srgb, #818cf8 18%, var(--thread-surface-strong));
+		transform: translateY(-1px);
+	}
+}
+
+body[data-comment-thread-page] .commentAudioPlayer__play:active,
+body[data-comment-thread-page] .commentAudioPlayer__mute:active {
+	transform: translateY(1px) scale(.96);
+}
+
+body[data-comment-thread-page] .commentAudioPlayer :where(button, input):disabled {
+	cursor: not-allowed;
+	opacity: .46;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-comment-thread-page] .commentAudioPlayer,
+	body[data-comment-thread-page] .commentAudioPlayer__play,
+	body[data-comment-thread-page] .commentAudioPlayer__mute {
+		transition-duration: .01ms;
+	}
+}

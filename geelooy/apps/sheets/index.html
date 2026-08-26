@@ -1,8 +1,8 @@
 <!--B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives this spreadsheet one complete visual vessel whose style, motion, depth, and commands remain bounded in light.
-Awtsmoos.com keeps every public controller hook stable while one localized root protects the host document and neighboring apps from styling fight.
+The Awtsmoos gives every spreadsheet action a named vessel so no browser-default fragment interrupts the working light.
+Awtsmoos.com keeps identity, tools, fields, status, context, notes, and tabs explicit while advanced power remains retractable and bright.
 -->
 <!doctype html>
 <html lang="en">
@@ -12,62 +12,78 @@ Awtsmoos.com keeps every public controller hook stable while one localized root 
 	<meta name="theme-color" content="#f8fbfa">
 	<title>Awtsmoos Sheets</title>
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23137c53'/%3E%3Cpath d='M17 17h30v30H17zM27 17v30M37 17v30M17 27h30M17 37h30' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
-	<link rel="stylesheet" href="../shared/visual/ambientParticles.css?v=sheets-009">
-	<link rel="stylesheet" href="./css/app.css?v=sheets-009">
+	<link rel="stylesheet" href="../shared/visual/ambientParticles.css?v=sheets-010">
+	<link rel="stylesheet" href="./css/app.css?v=sheets-010">
 </head>
 <body class="awtsmoos-sheets-app">
 	<div class="app-shell" id="appShell">
 		<header class="app-bar">
 			<div class="brand-mark" aria-hidden="true">A</div>
 			<div class="document-identity">
-				<input id="documentTitle" class="document-title" value="Untitled workbook" aria-label="Workbook title">
-				<div class="document-meta">
-					<span id="saveState">Local draft</span>
-					<span id="connectionState">Connecting…</span>
+				<input id="documentTitle" class="document-title aw-field" value="Untitled workbook" aria-label="Workbook title">
+				<div class="document-meta aw-meta-group">
+					<span id="saveState" class="aw-status-chip" data-state="draft">Local draft</span>
+					<span id="connectionState" class="aw-status-chip" data-state="connecting">Connecting…</span>
 				</div>
 			</div>
 			<div id="presenceStrip" class="presence-strip" aria-label="People here"></div>
-			<button id="commandPaletteButton" class="quiet-button command-palette-trigger" title="Command palette">
+			<button id="commandPaletteButton" class="aw-button aw-button--quiet quiet-button command-palette-trigger" title="Command palette">
 				<span class="command-glyph" aria-hidden="true">⌘</span>
 				<span class="command-label">Actions</span>
 			</button>
-			<button id="chromeModeButton" class="quiet-button chrome-mode-button" type="button">
+			<button id="chromeModeButton" class="aw-button aw-button--quiet quiet-button chrome-mode-button" type="button">
 				<span class="chrome-mode-icon" aria-hidden="true">◫</span>
 				<span class="chrome-mode-label" data-chrome-label>Compact</span>
 			</button>
-			<button id="publicFilesButton" class="quiet-button">Explore</button>
-			<button id="shareButton" class="primary-button">Share</button>
+			<button id="publicFilesButton" class="aw-button aw-button--quiet quiet-button">Explore</button>
+			<button id="shareButton" class="aw-button aw-button--primary primary-button">Share</button>
 		</header>
 		<nav id="menuRail" class="menu-rail" aria-label="Workbook menus"></nav>
 		<nav class="toolbar" aria-label="Spreadsheet tools">
-			<button data-command="new">New</button>
-			<button data-command="import">Import</button>
-			<button data-command="export">Export</button>
+			<button class="aw-button aw-button--tool" data-command="new">New</button>
+			<button class="aw-button aw-button--tool" data-command="import">Import</button>
+			<button class="aw-button aw-button--tool" data-command="export">Export</button>
 			<span class="toolbar-divider"></span>
-			<button data-command="bold" title="Bold" aria-pressed="false"><strong>B</strong></button>
-			<button data-rich-command="format.italic" title="Italic" aria-pressed="false"><em>I</em></button>
-			<button data-rich-command="format.underline" title="Underline" aria-pressed="false"><u>U</u></button>
-			<button data-rich-command="format.strike" title="Strikethrough" aria-pressed="false"><s>S</s></button>
-			<label class="color-tool">Fill <input id="highlightPicker" type="color" value="#fff3a3"></label>
-			<label class="color-tool">Text <input id="textColorPicker" type="color" value="#1f2937"></label>
-			<select id="fontSizeSelect" aria-label="Font size">
-				<option>10</option><option>12</option><option selected>14</option><option>16</option><option>18</option><option>24</option><option>32</option>
+			<button class="aw-button aw-button--tool" data-command="bold" title="Bold" aria-pressed="false"><strong>B</strong></button>
+			<button class="aw-button aw-button--tool" data-rich-command="format.italic" title="Italic" aria-pressed="false"><em>I</em></button>
+			<button class="aw-button aw-button--tool" data-rich-command="format.underline" title="Underline" aria-pressed="false"><u>U</u></button>
+			<button class="aw-button aw-button--tool" data-rich-command="format.strike" title="Strikethrough" aria-pressed="false"><s>S</s></button>
+			<label class="color-tool aw-color-control">
+				<span>Fill</span>
+				<input id="highlightPicker" class="aw-color-swatch" type="color" value="#fff3a3" aria-label="Cell fill color">
+			</label>
+			<label class="color-tool aw-color-control">
+				<span>Text</span>
+				<input id="textColorPicker" class="aw-color-swatch" type="color" value="#1f2937" aria-label="Text color">
+			</label>
+			<select id="fontSizeSelect" class="aw-select" aria-label="Font size">
+				<option>10</option>
+				<option>12</option>
+				<option selected>14</option>
+				<option>16</option>
+				<option>18</option>
+				<option>24</option>
+				<option>32</option>
 			</select>
-			<select id="numberFormatSelect" aria-label="Number format">
-				<option value="plain">Plain</option><option value="number">Number</option><option value="integer">Integer</option>
-				<option value="percent">Percent</option><option value="currency">Currency</option><option value="date">Date</option>
+			<select id="numberFormatSelect" class="aw-select" aria-label="Number format">
+				<option value="plain">Plain</option>
+				<option value="number">Number</option>
+				<option value="integer">Integer</option>
+				<option value="percent">Percent</option>
+				<option value="currency">Currency</option>
+				<option value="date">Date</option>
 			</select>
 			<span class="toolbar-divider"></span>
-			<button data-command="note">Note</button>
-			<button data-command="copy">Copy</button>
-			<button data-command="paste">Paste</button>
-			<button id="pasteSpecialButton">Paste special</button>
-			<button id="formulaLibraryButton">ƒ Library</button>
+			<button class="aw-button aw-button--tool" data-command="note">Note</button>
+			<button class="aw-button aw-button--tool" data-command="copy">Copy</button>
+			<button class="aw-button aw-button--tool" data-command="paste">Paste</button>
+			<button id="pasteSpecialButton" class="aw-button aw-button--tool">Paste special</button>
+			<button id="formulaLibraryButton" class="aw-button aw-button--tool">ƒ Library</button>
 		</nav>
 		<div class="formula-bar">
-			<div id="nameBox" class="name-box">A1</div>
+			<div id="nameBox" class="name-box aw-panel-kicker">A1</div>
 			<div class="fx-mark" aria-hidden="true">fx</div>
-			<input id="formulaInput" autocomplete="off" spellcheck="false" aria-label="Cell value or formula">
+			<input id="formulaInput" class="aw-field" autocomplete="off" spellcheck="false" aria-label="Cell value or formula">
 		</div>
 		<nav id="contextBar" class="context-bar" aria-label="Selection actions" hidden></nav>
 		<main class="workspace">
@@ -75,19 +91,19 @@ Awtsmoos.com keeps every public controller hook stable while one localized root 
 			<aside id="notesPanel" class="notes-panel" hidden>
 				<div class="panel-heading">
 					<strong>Cell note</strong>
-					<button id="closeNotes" class="icon-button" aria-label="Close note">×</button>
+					<button id="closeNotes" class="aw-button aw-button--icon icon-button" aria-label="Close note">×</button>
 				</div>
-				<div id="noteAddress" class="panel-kicker">A1</div>
-				<textarea id="noteInput" maxlength="4000" placeholder="Add context for collaborators…"></textarea>
-				<button id="saveNote" class="primary-button">Save note</button>
+				<div id="noteAddress" class="panel-kicker aw-panel-kicker">A1</div>
+				<textarea id="noteInput" class="aw-textarea" maxlength="4000" placeholder="Add context for collaborators…"></textarea>
+				<button id="saveNote" class="aw-button aw-button--primary primary-button">Save note</button>
 			</aside>
 		</main>
 		<footer class="sheet-footer">
-			<button id="addSheetButton" class="sheet-add" aria-label="Add sheet">＋</button>
+			<button id="addSheetButton" class="aw-button aw-button--icon sheet-add" aria-label="Add sheet">＋</button>
 			<div id="sheetTabs" class="sheet-tabs"></div>
 		</footer>
 	</div>
-	<input id="fileInput" type="file" accept=".csv,.tsv,text/csv,text/tab-separated-values" hidden>
+	<input id="fileInput" class="aw-field" type="file" accept=".csv,.tsv,text/csv,text/tab-separated-values" hidden>
 	<dialog id="shareDialog" class="sheet-dialog"></dialog>
 	<dialog id="publicDialog" class="sheet-dialog wide-dialog"></dialog>
 	<dialog id="commandPaletteDialog" class="sheet-dialog command-dialog"></dialog>
@@ -95,6 +111,6 @@ Awtsmoos.com keeps every public controller hook stable while one localized root 
 	<dialog id="pasteSpecialDialog" class="sheet-dialog"></dialog>
 	<div id="menuPopover" class="menu-popover motion-pop" hidden></div>
 	<div id="toastRegion" class="toast-region" aria-live="polite"></div>
-	<script type="module" src="./js/main.js?v=sheets-009"></script>
+	<script type="module" src="./js/main.js?v=sheets-010"></script>
 </body>
 </html>

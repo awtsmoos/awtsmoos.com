@@ -6,45 +6,54 @@ const { fork } = require("node:child_process");
 const ChildLiveness = require("./controller-child-liveness.js");
 const ChildRepair = require("./controller-child-repair.js");
 const Config = require("./controller-process-config.js");
+const Restart = require("./controller-process-restart.js");
+const Watchdog = require("./controller-process-watchdog.js");
 
 /**
- * @file Owns connection-child birth, message liveness, exact repair, and bounded restart.
+ * @file Owns connection-child birth, exact repair, and generation identity.
  * @description
- * The Awtsmoos recreates the messenger without confusing silence with death.
- * Awtsmoos.com watches every valid IPC breath, grants startup and lag grace, and
- * replaces only the exact owned child when sustained silence survives those gates.
+ * The Awtsmoos recreates the messenger without confusing an old exit with a new life.
+ * Awtsmoos.com binds every exit to its exact child object while restart cadence and
+ * liveness cadence remain in smaller vessels outside this identity-bearing supervisor.
  */
 function createProcessSupervisor(options = {}) {
 	let child = null;
-	let restartTimer = null;
-	let livenessTimer = null;
-	let restartCount = 0;
 	let stopping = false;
-	const maximumRestartDelayMs = Config.maximumRestartDelay(options);
 	const liveness = options.liveness || ChildLiveness.create(options.childLivenessOptions);
 	const repair = options.repair || ChildRepair.create({
 		getChild: () => child,
 		log: options.log,
 		...(options.childRepairOptions || {})
 	});
+	const restart = Restart.create({
+		maximumDelayMs: Config.maximumRestartDelay(options),
+		start
+	});
+	const watchdog = Watchdog.create({
+		getChild: () => child,
+		isStopping: () => stopping,
+		liveness,
+		repair
+	});
 
-	/** Forks one connection child and arms independent IPC-liveness supervision. */
+	/** Forks one exact connection child and arms independent liveness supervision. */
 	function start() {
 		stopping = false;
 		if (child?.connected) return child;
-		child = (options.forkChild || fork)(Config.childPath(options), [], {
+		const spawned = (options.forkChild || fork)(Config.childPath(options), [], {
 			env: Config.childEnvironment(options),
 			stdio: ["ignore", "inherit", "inherit", "ipc"]
 		});
+		child = spawned;
 		liveness.started();
-		child.on("message", handleMessage);
-		child.on("exit", handleExit);
-		child.on("error", error => {
+		spawned.on("message", handleMessage);
+		spawned.on("exit", (code, signal) => handleExit(spawned, code, signal));
+		spawned.on("error", error => {
 			options.log("warn", `connection child error: ${error.message}`);
 		});
-		options.mirror({ childPid: child.pid, running: true });
-		armLivenessTimer();
-		return child;
+		options.mirror({ childPid: spawned.pid, running: true });
+		watchdog.start();
+		return spawned;
 	}
 
 	/** Sends one IPC message only to the exact currently connected child. */
@@ -57,50 +66,32 @@ function createProcessSupervisor(options = {}) {
 		}
 	}
 
-	/** Marks every child IPC message as independent liveness before routing its meaning. */
+	/** Marks every child IPC frame as liveness before routing its semantic meaning. */
 	function handleMessage(message) {
 		liveness.note();
 		return options.handleMessage?.(message);
 	}
 
-	/** Reaps state for the exact exited generation and schedules bounded replacement. */
-	function handleExit(code, signal) {
-		const exitedPid = Number(child?.pid || 0);
-		repair.clear(exitedPid);
+	/** Reaps only the generation that actually emitted this exit event. */
+	function handleExit(exitedChild, code, signal) {
+		if (child !== exitedChild) return;
+		repair.clear(Number(exitedChild?.pid || 0));
 		child = null;
 		options.mirror({ connected: false, exitCode: code, running: false, signal });
-		if (stopping) return;
-		restartCount += 1;
-		const delay = Math.min(
-			maximumRestartDelayMs,
-			250 * 2 ** Math.min(restartCount, 7)
-		);
-		restartTimer = setTimeout(start, delay);
-		restartTimer.unref?.();
+		if (!stopping) restart.schedule();
 	}
 
-	/** Polls only the independent child IPC cadence; actual signalling lives in ChildRepair. */
-	function inspectLiveness() {
-		if (!child || stopping) return;
-		const report = liveness.inspect();
-		if (report.shouldRestart) repair.request(report.reason);
+	/** Delegates bounded semantic ambiguity to the existing exact-child repair covenant. */
+	function requestRepair(reason) {
+		if (stopping) return false;
+		return repair.request(String(reason || "child_repair_requested"));
 	}
 
-	/** Arms one unrefed periodic liveness timer for the parent process lifetime. */
-	function armLivenessTimer() {
-		if (livenessTimer) return;
-		const intervalMs = Number(liveness.status().checkMs || ChildLiveness.DEFAULT_CHECK_MS);
-		livenessTimer = setInterval(inspectLiveness, intervalMs);
-		livenessTimer.unref?.();
-	}
-
-	/** Stops restart/liveness machinery and terminates only the currently owned child. */
+	/** Stops restart machinery and terminates only the currently owned child. */
 	function stop(stopMessage) {
 		stopping = true;
-		if (restartTimer) clearTimeout(restartTimer);
-		if (livenessTimer) clearInterval(livenessTimer);
-		restartTimer = null;
-		livenessTimer = null;
+		restart.stop();
+		watchdog.stop();
 		notify(stopMessage);
 		repair.clear(Number(child?.pid || 0));
 		child?.kill?.("SIGTERM");
@@ -109,14 +100,15 @@ function createProcessSupervisor(options = {}) {
 
 	return {
 		livenessStatus: () => ({ ...liveness.status(), repair: repair.snapshot() }),
-		markRegistered: () => {
-			restartCount = 0;
-		},
+		markRegistered: restart.reset,
 		notify,
 		preventRestart: () => {
 			stopping = true;
+			restart.stop();
+			watchdog.stop();
 		},
-		restartCount: () => restartCount,
+		requestRepair,
+		restartCount: () => restart.status().count,
 		start,
 		stop
 	};

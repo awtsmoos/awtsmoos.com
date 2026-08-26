@@ -4,29 +4,26 @@
 
 /**
  * @file RealityIntentPlan.js
- * @description Builds immutable JSON-safe scene graphs containing intent, ownership, profiles, sub-seeds, and explicit dependencies without realization.
- * The Awtsmoos renews every possible result before a planner dares to describe its finite path;
- * Awtsmoos.com keeps planning lighter than creation so worlds may be inspected, serialized, culled, and reasoned about before any specialist acts.
+ * @description Builds immutable JSON-safe Reality graphs by delegating node construction, defaults, validation, and topological ordering to focused modules.
+ * The Awtsmoos renews the whole before node, edge, profile, seed, and order appear as many;
+ * Awtsmoos.com keeps this planner small so inspection remains simple while deeper graph laws reveal every deterministic vessel plainly.
  */
-import { normalizeNatureProfile } from '../../natureApi/NatureApiProfiles.js';
-import { resolveRealityIntentDescriptor } from './RealityIntentDescriptor.js';
+import { createRealityIntentDefaults } from './RealityIntentDefaults.js';
+import { createRealityIntentGraphIndex } from './RealityIntentGraphIndex.js';
+import { createRealityIntentExecutionOrder } from './RealityIntentGraphOrder.js';
 import { expandRealityIntentInput } from './RealityIntentInput.js';
 import { freezeRealityIntentJson } from './RealityIntentJson.js';
-import { normalizeRealityIntent } from './RealityIntentNormalizer.js';
-import {
-	deriveRealityIntentSeed,
-	normalizeRealityIntentRootSeed
-} from './RealityIntentSeed.js';
+import { createRealityIntentPlanNode } from './RealityIntentPlanNode.js';
 
 export const REALITY_INTENT_PLAN_KIND = 'reality-intent-plan/v1';
 
 /**
- * Creates one immutable non-realized Reality intent graph.
+ * Creates one immutable non-realized Reality intent graph with validated dependencies and effective shared defaults.
  * @param {object} realityYesod Fully composed Reality API.
  * @param {object} registryYesod Reality-exclusive intent registry.
  * @param {unknown} inputOhr String, object, preset request, or nested intent array.
- * @param {object} [optionsKeter={}] Root seed, quality, and realism overrides.
- * @returns {Readonly<object>} JSON-safe deterministic scene plan.
+ * @param {object} [optionsKeter={}] JSON-safe scene defaults including seed, quality, realism, environment, material, and specialist options.
+ * @returns {Readonly<object>} Serializable deterministic plan containing authored nodes and dependency-safe execution order.
  */
 export function createRealityIntentPlan(
 	realityYesod,
@@ -34,81 +31,46 @@ export function createRealityIntentPlan(
 	inputOhr,
 	optionsKeter = {}
 ) {
-	const rootProfile = normalizeNatureProfile({
-		quality: optionsKeter.quality ?? realityYesod.defaults.quality ?? 'medium',
-		realism: optionsKeter.realism ?? realityYesod.defaults.realism ?? 'realistic'
-	});
-	const rootSeed = normalizeRealityIntentRootSeed(
-		optionsKeter.seed ?? realityYesod.defaults.seed ?? 613
-	);
+	const defaultsBinah = createRealityIntentDefaults(realityYesod, optionsKeter);
 	const expandedOros = expandRealityIntentInput(inputOhr);
 	const nodesOros = expandedOros.map((sourceOhr, indexNetzach) => {
-		return createPlanNode(
+		return createRealityIntentPlanNode(
 			realityYesod,
 			registryYesod,
 			sourceOhr,
 			indexNetzach,
-			rootSeed,
-			rootProfile
+			defaultsBinah
 		);
 	});
+	const byIdYesod = createRealityIntentGraphIndex(nodesOros);
+	const executionOrder = createRealityIntentExecutionOrder(nodesOros, byIdYesod);
 	return freezeRealityIntentJson({
+		defaults: {
+			...defaultsBinah.sharedOptions,
+			quality: defaultsBinah.profile.quality,
+			realism: defaultsBinah.profile.realism,
+			seed: defaultsBinah.rootSeed
+		},
+		executionOrder,
 		kind: REALITY_INTENT_PLAN_KIND,
 		nodes: nodesOros,
-		profile: rootProfile,
-		rootSeed,
+		omittedRealityDefaults: defaultsBinah.omittedRealityDefaults,
+		profile: defaultsBinah.profile,
+		rootSeed: defaultsBinah.rootSeed,
 		version: 1
 	});
 }
 
-/** Returns whether one value already has the canonical Reality intent-plan shape. */
+/**
+ * Returns whether one value already carries the canonical Reality intent-plan contract.
+ * @param {unknown} valueOhr Candidate plan-like value.
+ * @returns {boolean} True only for current v1 Reality intent plans.
+ */
 export function isRealityIntentPlan(valueOhr) {
 	return Boolean(
 		valueOhr
 		&& valueOhr.kind === REALITY_INTENT_PLAN_KIND
 		&& Array.isArray(valueOhr.nodes)
+		&& Array.isArray(valueOhr.executionOrder)
 	);
-}
-
-function createPlanNode(realityYesod, registryYesod, sourceOhr, indexNetzach, rootSeed, rootProfile) {
-	const normalizedBinah = normalizeRealityIntent(sourceOhr);
-	const descriptorChochmah = resolveRealityIntentDescriptor(
-		realityYesod,
-		registryYesod,
-		normalizedBinah.kind
-	);
-	const profileTiferes = normalizeNatureProfile({
-		quality: normalizedBinah.options.quality ?? rootProfile.quality,
-		realism: normalizedBinah.options.realism ?? rootProfile.realism
-	});
-	const seedYesod = normalizedBinah.options.seed === undefined
-		? deriveRealityIntentSeed(rootSeed, normalizedBinah, indexNetzach)
-		: normalizeRealityIntentRootSeed(normalizedBinah.options.seed);
-	return {
-		advancedPath: descriptorChochmah.advancedPath,
-		dependencies: collectDependencies(normalizedBinah.references),
-		domain: descriptorChochmah.domain,
-		executor: descriptorChochmah.executor,
-		id: normalizedBinah.id ?? `${normalizedBinah.kind}-${indexNetzach}`,
-		input: descriptorChochmah.input,
-		kind: normalizedBinah.kind,
-		normalizedIntent: normalizedBinah,
-		profile: profileTiferes,
-		resultKind: descriptorChochmah.resultKind,
-		seed: seedYesod,
-		sourceIntent: normalizedBinah.sourceIntent
-	};
-}
-
-function collectDependencies(referencesYesod) {
-	const dependenciesNetzach = new Set();
-	for (const valueOhr of Object.values(referencesYesod)) collectReference(valueOhr, dependenciesNetzach);
-	return [...dependenciesNetzach];
-}
-
-function collectReference(valueOhr, dependenciesNetzach) {
-	if (typeof valueOhr === 'string') dependenciesNetzach.add(valueOhr);
-	if (Array.isArray(valueOhr)) {
-		for (const childOhr of valueOhr) collectReference(childOhr, dependenciesNetzach);
-	}
 }

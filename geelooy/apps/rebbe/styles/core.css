@@ -1,66 +1,111 @@
-/* B"H */
-@import url("./rebbe-premium.css");
-/* CORE STYLES - PERFORMANCE OPTIMIZED */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews the archive before any layer can claim height or any color can claim light; Awtsmoos.com gathers the Rebbe app's finite tokens and runtime garments into one discoverable root of order and delight.
+ */
+@import url("./rebbe-premium.css?v=rebbe-ui-022");
+@import url("./rebbe-premium-responsive.css?v=rebbe-ui-022");
+@import url("./runtime-ui.css?v=rebbe-ui-022");
 
 :root {
-    --c-black: #000000;
-    --c-cyan: #00f3ff;
-    --c-magenta: #ff0055;
-    --c-lime: #00ff66;
-    --c-yellow: #ffcc00;
-    --c-white: #e0e0e0;
-    --font-primary: 'Courier New', monospace;
-    --font-tech: 'Segoe UI', sans-serif;
+	--c-black: #000000;
+	--c-cyan: #00f3ff;
+	--c-magenta: #ff0055;
+	--c-lime: #00ff66;
+	--c-yellow: #ffcc00;
+	--c-white: #e0e0e0;
+	--font-primary: "Courier New", monospace;
+	--font-tech: "Segoe UI", sans-serif;
+	--rebbe-layer-content: 10;
+	--rebbe-layer-sticky: 40;
+	--rebbe-layer-player: 70;
+	--rebbe-layer-terminal: 90;
+	--rebbe-layer-popover: 120;
+	--rebbe-layer-modal: 200;
+	--rebbe-layer-floating: 240;
+	--rebbe-layer-fullscreen: 260;
+	--rebbe-player-mobile-clearance: 132px;
+	--rebbe-selection-clearance: 92px;
+	--rebbe-floating-gap: 14px;
 }
 
 * {
-    box-sizing: border-box;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
 }
 
 body {
-    margin: 0;
-    background: var(--c-black);
-    color: var(--c-white);
-    font-family: var(--font-primary);
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
+	height: 100dvh;
+	margin: 0;
+	overflow: hidden;
+	background: var(--c-black);
+	color: var(--c-white);
+	font-family: var(--font-primary);
 }
 
-.hidden { display: none !important; }
+.hidden {
+	display: none !important;
+}
 
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: #000; }
-::-webkit-scrollbar-thumb { background: #333; }
-::-webkit-scrollbar-thumb:hover { background: var(--c-cyan); }
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+::-webkit-scrollbar-track {
+	background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #333;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--c-cyan);
+}
 
 #app-root {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+	position: relative;
+	z-index: var(--rebbe-layer-content);
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-inline-size: 0;
 }
 
-.glitch { position: relative; color: var(--c-cyan); }
-.btn-tool { cursor: pointer; }
-input:focus, select:focus, textarea:focus { outline: 1px solid var(--c-cyan); }
+.glitch {
+	position: relative;
+	color: var(--c-cyan);
+}
+
+.btn-tool {
+	cursor: pointer;
+}
+
+:where(input, select, textarea):focus-visible {
+	outline: 2px solid var(--c-cyan);
+	outline-offset: 2px;
+}
 
 #terminal-wrap {
-    height: 150px;
-    background: rgba(0,0,0,0.9);
-    border-top: 2px solid var(--c-lime);
-    padding: 10px;
-    z-index: 90;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
+	z-index: var(--rebbe-layer-terminal);
+	display: flex;
+	flex: 0 0 auto;
+	flex-direction: column;
+	height: 150px;
+	padding: 10px;
+	border-top: 2px solid var(--c-lime);
+	background: rgba(0, 0, 0, .9);
 }
-#terminal-wrap.hidden { display: none !important; }
 
-.term-head { color: var(--c-lime); font-weight: bold; margin-bottom: 5px; font-size: 12px; }
-#terminal { flex: 1; overflow-y: auto; color: var(--c-lime); font-size: 12px; display: flex; flex-direction: column; gap: 2px; }
-.log-line { border-bottom: 1px solid rgba(0,255,102,0.1); }
+#terminal {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 2px;
+	overflow-y: auto;
+	color: var(--c-lime);
+	font-size: 12px;
+}

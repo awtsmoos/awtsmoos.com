@@ -1,15 +1,20 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews hidden state and lets its useful signs become seen;
- * Awtsmoos.com gives score, speed, pause, and perutas one readable screen.
+ * @file HudController.js
+ * @description Presents Peruta state with write-on-change metrics and animation without forced synchronous layout in the hot gameplay path.
+ * The Awtsmoos renews hidden state while only changed signs descend into sight;
+ * Awtsmoos.com lets Malchus remain quiet between changes so WebGL keeps the greater frame in flight.
  */
+
+import { YesodHudValueCache } from "./HudValueCache.js";
 
 export class MalchusHudController {
 	/** @param {Document} documentRef Game document whose HUD nodes become this vessel. */
 	constructor(documentRef) {
 		this.document = documentRef;
+		this.values = new YesodHudValueCache();
 		this.loadingPanel = documentRef.querySelector("#loading-panel");
 		this.loadingMessage = documentRef.querySelector("#loading-message");
 		this.statusPill = documentRef.querySelector("#status-pill");
@@ -23,56 +28,63 @@ export class MalchusHudController {
 		this.finalPerutas = documentRef.querySelector("#final-perutas");
 	}
 
-	/** @param {string} message Loading-phase message shown before the model is ready. */
+	/** @param {string} message Loading-phase message. */
 	setLoading(message) {
 		this.loadingPanel.hidden = false;
-		this.loadingMessage.textContent = message;
-		this.statusPill.textContent = message;
+		this.values.write(this.loadingMessage, message);
+		this.values.write(this.statusPill, message);
 	}
 
-	/** Reveals the playable world after all required runtime assets exist. */
+	/** Reveals the playable world after required runtime assets exist. */
 	setReady() {
 		this.loadingPanel.hidden = true;
 		this.gameOverPanel.hidden = true;
-		this.statusPill.textContent = "Run with joy — collect the perutas";
+		this.values.write(this.statusPill, "Run with joy — collect the perutas");
 	}
 
-	/** @param {object} snapshot Runner-state snapshot rendered into visible metrics. */
+	/** @param {object} snapshot Runner-state snapshot rendered without redundant DOM writes. */
 	render(snapshot) {
-		this.scoreValue.textContent = snapshot.score.toLocaleString();
-		this.perutaValue.textContent = snapshot.perutas.toLocaleString();
-		this.speedValue.textContent = snapshot.speed.toFixed(1);
-		this.bestValue.textContent = snapshot.best.toLocaleString();
-		if (snapshot.status === "paused") this.statusPill.textContent = "Paused";
-		if (snapshot.status === "running") this.statusPill.textContent = "Run with joy — collect the perutas";
+		this.values.write(this.scoreValue, snapshot.score.toLocaleString());
+		this.values.write(this.perutaValue, snapshot.perutas.toLocaleString());
+		this.values.write(this.speedValue, snapshot.speed.toFixed(1));
+		this.values.write(this.bestValue, snapshot.best.toLocaleString());
+		this.values.write(
+			this.statusPill,
+			snapshot.status === "paused" ? "Paused" : "Run with joy — collect the perutas"
+		);
 	}
 
-	/** Adds a brief visual pulse when the Chossid gathers a peruta. */
+	/** Animates a peruta reward without forcing layout. */
 	flashPeruta() {
-		this.perutaMetric.classList.remove("pulse");
-		void this.perutaMetric.offsetWidth;
+		if (this.perutaMetric.animate) {
+			this.perutaMetric.animate(
+				[{transform: "scale(1)"}, {transform: "scale(1.08)"}, {transform: "scale(1)"}],
+				{duration: 260, easing: "ease-out"}
+			);
+			return;
+		}
 		this.perutaMetric.classList.add("pulse");
 		window.setTimeout(() => this.perutaMetric.classList.remove("pulse"), 300);
 	}
 
-	/** @param {object} snapshot Final run state rendered into the restart panel. */
+	/** @param {object} snapshot Final run state. */
 	showGameOver(snapshot) {
-		this.finalScore.textContent = snapshot.score.toLocaleString();
-		this.finalPerutas.textContent = snapshot.perutas.toLocaleString();
-		this.statusPill.textContent = "Run complete — ready for another?";
+		this.values.write(this.finalScore, snapshot.score.toLocaleString());
+		this.values.write(this.finalPerutas, snapshot.perutas.toLocaleString());
+		this.values.write(this.statusPill, "Run complete — ready for another?");
 		this.gameOverPanel.hidden = false;
 	}
 
-	/** Hides the final panel when a deterministic restart begins. */
+	/** Hides the final panel when restart begins. */
 	hideGameOver() {
 		this.gameOverPanel.hidden = true;
 	}
 
-	/** @param {Error|string} error Loading/runtime error made visible instead of blanking the game. */
+	/** @param {Error|string} error Loading/runtime error made visible. */
 	showError(error) {
 		const message = error instanceof Error ? error.message : String(error);
 		this.loadingPanel.hidden = false;
-		this.loadingMessage.textContent = `Could not reveal the runner: ${message}`;
-		this.statusPill.textContent = "Runner load error";
+		this.values.write(this.loadingMessage, `Could not reveal the runner: ${message}`);
+		this.values.write(this.statusPill, "Runner load error");
 	}
 }

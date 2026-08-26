@@ -2,7 +2,7 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos renews aim, impact, heat, and danger around one unobstructed center while no combat sign owns the fight.
-Awtsmoos.com lets every transient mark speak sharply, then disappear so terrain and decision remain the greater light.
+Awtsmoos.com lets weapon identity become local optical data: materially distinct, restrained, and immediately readable without inline style leaks.
 */
 .ohrfront-app .ohr-weapon {
 	position: absolute;
@@ -16,22 +16,88 @@ Awtsmoos.com lets every transient mark speak sharply, then disappear so terrain 
 	min-width: 0;
 	text-align: right;
 }
+
 .ohrfront-app .ohr-weapon__glyph {
 	grid-row: 1 / span 2;
 	font: 500 clamp(32px, 4vw, 44px)/0.92 Georgia, serif;
-	color: var(--ohr-energy);
-	text-shadow: 0 0 18px rgba(121, 231, 236, 0.45);
+	color: var(--ohr-weapon-aleph);
+	text-shadow: 0 0 18px rgba(115, 247, 255, 0.38);
+	transition: color var(--ohr-normal) var(--ohr-ease), text-shadow var(--ohr-normal) var(--ohr-ease);
 }
-.ohrfront-app .ohr-weapon__copy { display: grid; gap: 2px; min-width: 0; }
-.ohrfront-app .ohr-weapon__copy strong { font-size: 11px; font-weight: 680; line-height: 1.25; letter-spacing: 0.06em; overflow-wrap: anywhere; }
+
+.ohrfront-app .ohr-weapon__glyph[data-ohr-weapon="shin"] {
+	color: var(--ohr-weapon-shin);
+	text-shadow: 0 0 18px rgba(255, 143, 232, 0.34);
+}
+
+.ohrfront-app .ohr-weapon__glyph[data-ohr-weapon="lamed"] {
+	color: var(--ohr-weapon-lamed);
+	text-shadow: 0 0 18px rgba(255, 228, 139, 0.34);
+}
+
+.ohrfront-app .ohr-crosshair__glyph[data-ohr-weapon="aleph"] { color: var(--ohr-weapon-aleph); }
+.ohrfront-app .ohr-crosshair__glyph[data-ohr-weapon="shin"] { color: var(--ohr-weapon-shin); }
+.ohrfront-app .ohr-crosshair__glyph[data-ohr-weapon="lamed"] { color: var(--ohr-weapon-lamed); }
+
+.ohrfront-app .ohr-weapon__copy {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.ohrfront-app .ohr-weapon__copy strong {
+	font-size: 11px;
+	font-weight: 680;
+	line-height: 1.25;
+	letter-spacing: 0.06em;
+	overflow-wrap: anywhere;
+}
+
 .ohrfront-app .ohr-weapon__copy span,
-.ohrfront-app .ohr-weapon__heat span { font-size: 8px; line-height: 1.4; color: var(--ohr-muted); }
-.ohrfront-app .ohr-weapon__heat { grid-column: 2; display: grid; grid-template-columns: 30px minmax(58px, 88px); gap: 8px; align-items: center; justify-content: end; }
+.ohrfront-app .ohr-weapon__heat span {
+	font-size: 8px;
+	line-height: 1.4;
+	color: var(--ohr-muted);
+}
+
+.ohrfront-app .ohr-weapon__heat {
+	grid-column: 2;
+	display: grid;
+	grid-template-columns: 30px minmax(58px, 88px);
+	gap: 8px;
+	align-items: center;
+	justify-content: end;
+}
+
 .ohrfront-app .ohr-crosshair,
-.ohrfront-app .ohr-hit-marker { position: absolute; left: 50%; top: 50%; transform: translate3d(-50%, -50%, 0); }
-.ohrfront-app .ohr-crosshair { width: 34px; height: 34px; }
-.ohrfront-app .ohr-crosshair__glyph { position: absolute; inset: 0; display: grid; place-items: center; font: 600 13px/1 Georgia, serif; color: var(--ohr-energy); }
-.ohrfront-app .ohr-crosshair__line { position: absolute; background: rgba(237, 244, 240, 0.78); box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); }
+.ohrfront-app .ohr-hit-marker {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate3d(-50%, -50%, 0);
+}
+
+.ohrfront-app .ohr-crosshair {
+	width: 34px;
+	height: 34px;
+}
+
+.ohrfront-app .ohr-crosshair__glyph {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	font: 600 13px/1 Georgia, serif;
+	color: var(--ohr-energy);
+	transition: color var(--ohr-fast) linear;
+}
+
+.ohrfront-app .ohr-crosshair__line {
+	position: absolute;
+	background: rgba(237, 244, 240, 0.78);
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
 .ohrfront-app .ohr-crosshair__line--north,
 .ohrfront-app .ohr-crosshair__line--south { left: 16px; width: 1px; height: 7px; }
 .ohrfront-app .ohr-crosshair__line--north { top: 0; }
@@ -40,7 +106,16 @@ Awtsmoos.com lets every transient mark speak sharply, then disappear so terrain 
 .ohrfront-app .ohr-crosshair__line--west { top: 16px; width: 7px; height: 1px; }
 .ohrfront-app .ohr-crosshair__line--east { right: 0; }
 .ohrfront-app .ohr-crosshair__line--west { left: 0; }
-.ohrfront-app .ohr-hit-marker { z-index: var(--ohr-z-feedback); font-size: 26px; line-height: 1; color: var(--ohr-text); opacity: 0; transition: opacity var(--ohr-fast) linear, transform var(--ohr-fast) var(--ohr-ease); }
+
+.ohrfront-app .ohr-hit-marker {
+	z-index: var(--ohr-z-feedback);
+	font-size: 26px;
+	line-height: 1;
+	color: var(--ohr-text);
+	opacity: 0;
+	transition: opacity var(--ohr-fast) linear, transform var(--ohr-fast) var(--ohr-ease);
+}
+
 .ohrfront-app .ohr-hit-marker.ohr-is-active { opacity: 0.95; transform: translate3d(-50%, -50%, 0) scale(1.08); }
 .ohrfront-app .ohr-damage-vignette { position: absolute; inset: 0; z-index: var(--ohr-z-feedback); pointer-events: none; box-shadow: inset 0 0 90px 12px rgba(195, 65, 51, 0); transition: box-shadow var(--ohr-fast) linear; }
 .ohrfront-app .ohr-damage-vignette.ohr-is-active { box-shadow: inset 0 0 90px 12px rgba(195, 65, 51, 0.4); }

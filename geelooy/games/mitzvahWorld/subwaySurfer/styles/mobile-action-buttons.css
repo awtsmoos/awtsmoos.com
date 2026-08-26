@@ -1,0 +1,52 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Gevurah touch-action paint for the two explicit vertical laws: jump above and duck beneath.
+ * The Awtsmoos renews leap and lowering while each button keeps a separate readable face;
+ * Awtsmoos.com lets thumb actions glow, press, focus, and recover without covering the race.
+ */
+
+.peruta-run-route .mobile-action-button {
+	border: 1px solid rgba(255, 227, 148, 0.38);
+	border-radius: 20px;
+	background: linear-gradient(145deg, rgba(21, 51, 61, 0.86), rgba(8, 27, 39, 0.9));
+	box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+	color: #fff4cf;
+	font: 900 clamp(0.72rem, 3.2vw, 0.9rem)/1 system-ui, sans-serif;
+	letter-spacing: 0.1em;
+	transition: transform 120ms ease, border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+}
+
+.peruta-run-route .jump-button {
+	background: linear-gradient(145deg, rgba(130, 92, 31, 0.9), rgba(45, 46, 36, 0.92));
+}
+
+.peruta-run-route .duck-button {
+	background: linear-gradient(145deg, rgba(39, 89, 91, 0.9), rgba(17, 42, 53, 0.94));
+}
+
+.peruta-run-route .mobile-action-button:active {
+	transform: translateY(2px) scale(0.96);
+	border-color: rgba(255, 235, 180, 0.78);
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.32), inset 0 2px 5px rgba(0, 0, 0, 0.18);
+}
+
+.peruta-run-route .mobile-action-button:focus-visible {
+	outline: 2px solid var(--peruta-gold);
+	outline-offset: 3px;
+}
+
+.peruta-run-route .mobile-action-button:disabled {
+	opacity: 0.45;
+	filter: saturate(0.55);
+	cursor: not-allowed;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.peruta-run-route .mobile-action-button:hover:not(:disabled) {
+		transform: translateY(-2px);
+		border-color: rgba(255, 235, 180, 0.72);
+		box-shadow: 0 15px 38px rgba(0, 0, 0, 0.3), 0 0 24px rgba(255, 212, 102, 0.08);
+	}
+}

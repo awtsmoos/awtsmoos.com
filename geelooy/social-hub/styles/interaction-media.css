@@ -1,51 +1,95 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- *
- * The Awtsmoos lets image, voice, and moving picture accompany a social deed without escaping its vessel;
- * Awtsmoos.com bounds each media card to Social Hub, preserving responsive space while upload states remain visible and calm.
+ * The Awtsmoos lets image, voice, moving picture, caption, and status meet without escaping their vessel; Awtsmoos.com bounds every pending-media card so no raw field or browser-owned surface remains exposed.
  */
-/* Boruch Hashem */
-/* Blessed is He */
-
 .social-hub-document .commentMediaQueue {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-	gap: 0.75rem;
-	margin-top: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+	gap: .75rem;
+	margin-block-start: 1rem;
 }
 
 .social-hub-document .commentMediaCard {
 	display: grid;
-	grid-template-rows: minmax(10rem, 1fr) auto;
-	padding: 0.65rem;
+	grid-template-rows: minmax(8rem, auto) auto;
+	gap: .7rem;
+	min-inline-size: 0;
+	padding: .7rem;
+	overflow: clip;
 }
 
-.social-hub-document .commentMediaCard img,
-.social-hub-document .commentMediaCard video,
-.social-hub-document .commentMediaCard audio {
-	width: 100%;
-	max-height: 18rem;
-	border-radius: 0.9rem;
-	background: #02040c;
+.social-hub-document .commentMediaCard__image,
+.social-hub-document .commentVideoPlayer,
+.social-hub-document .commentMediaCard__audio {
+	inline-size: 100%;
+	max-inline-size: 100%;
+	border-radius: .95rem;
+}
+
+.social-hub-document .commentMediaCard__image {
+	max-block-size: 18rem;
+	background: rgb(2, 4, 12);
 	object-fit: contain;
-}
-
-.social-hub-document .commentMediaCard audio {
-	align-self: center;
-	min-height: 4rem;
 }
 
 .social-hub-document .mediaDetails {
 	display: grid;
-	gap: 0.5rem;
-	padding-top: 0.7rem;
+	gap: .58rem;
+	min-inline-size: 0;
+}
+
+.social-hub-document .mediaDetails > strong {
+	overflow-wrap: anywhere;
+	color: rgba(238, 249, 255, .96);
 }
 
 .social-hub-document .mediaStatus {
 	color: var(--muted);
-	font-size: 0.76rem;
+	font-size: .76rem;
 	text-transform: capitalize;
+}
+
+.social-hub-document .commentMediaField {
+	display: grid;
+	gap: .28rem;
+	min-inline-size: 0;
+	padding: .42rem;
+	border: 1px solid rgba(92, 224, 255, .22);
+	border-radius: .82rem;
+	background: linear-gradient(145deg, rgba(35, 113, 151, .12), rgba(7, 15, 29, .88));
+	transition: border-color .16s ease, background .16s ease, box-shadow .16s ease;
+}
+
+.social-hub-document .commentMediaField__label {
+	color: rgba(188, 220, 238, .68);
+	font-size: .7rem;
+	font-weight: 760;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+}
+
+.social-hub-document .commentMediaField__input {
+	inline-size: 100%;
+	min-block-size: 44px;
+	padding: .56rem .66rem;
+	border: 1px solid rgba(114, 227, 255, .12);
+	border-radius: .62rem;
+	outline: 0;
+	background: rgba(3, 10, 23, .72);
+	color: rgba(238, 249, 255, .96);
+	font: inherit;
+	transition: border-color .16s ease, background .16s ease, box-shadow .16s ease;
+}
+
+.social-hub-document .commentMediaField:focus-within {
+	border-color: rgba(71, 233, 255, .62);
+	box-shadow: 0 0 0 3px rgba(71, 233, 255, .08);
+}
+
+.social-hub-document .commentMediaField__input:focus-visible {
+	border-color: rgba(91, 236, 255, .42);
+	box-shadow: inset 0 0 0 1px rgba(91, 236, 255, .08);
 }
 
 .social-hub-document .commentMediaCard[data-status="uploading"] {
@@ -59,4 +103,18 @@
 
 .social-hub-document .commentMediaCard[data-status="failed"] {
 	border-color: var(--danger);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .commentMediaField:hover {
+		border-color: rgba(92, 229, 255, .42);
+		background: linear-gradient(145deg, rgba(35, 139, 171, .16), rgba(7, 15, 29, .92));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .commentMediaField,
+	.social-hub-document .commentMediaField__input {
+		transition-duration: .01ms;
+	}
 }

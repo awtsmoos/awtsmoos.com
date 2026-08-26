@@ -1,47 +1,39 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos transcends every viewport, while Awtsmoos.com lets the smallest phone remain a spacious vessel for private breath;
- * controls stay thumb-sized, previews stay inside the glass, and safe-area geometry never pushes the voice beyond sight.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos transcends every viewport while Awtsmoos.com lets the smallest phone remain a spacious vessel for private breath; custom controls stay thumb-sized and never escape the messaging glass.
  */
-
 @media (max-width: 760px) {
-	.messaging-voice-panel {
-		gap: 0.48rem;
-		padding: 0.58rem;
+	body[data-messaging-page] .messaging-voice-panel {
+		gap: .48rem;
+		padding: .58rem;
 		border-radius: 13px;
 	}
 
-	.messaging-voice-actions button {
+	body[data-messaging-page] .messaging-voice-actions button {
 		flex: 1 1 92px;
 	}
 
-	.private-message-media.voice-note-message {
-		min-width: min(250px, 72vw);
+	body[data-messaging-page] .private-message-media.voice-note-message {
+		min-inline-size: min(250px, 72vw);
 	}
 }
 
 @media (max-width: 430px) {
-	.messaging-voice-panel {
-		padding: 0.5rem;
+	body[data-messaging-page] .messaging-voice-panel {
+		padding: .5rem;
 	}
 
-	.messaging-voice-actions {
-		gap: 0.35rem;
+	body[data-messaging-page] .messaging-voice-actions {
+		gap: .35rem;
 	}
 
-	.messaging-voice-actions button {
-		min-height: 48px;
+	body[data-messaging-page] .messaging-voice-actions button {
+		min-block-size: 48px;
 	}
 
-	.private-message-media.voice-note-message {
-		min-width: 0;
-		width: min(76vw, 300px);
-	}
-
-	.voice-note-message audio {
-		max-width: 100%;
+	body[data-messaging-page] .private-message-media.voice-note-message {
+		min-inline-size: 0;
+		inline-size: min(76vw, 300px);
 	}
 }

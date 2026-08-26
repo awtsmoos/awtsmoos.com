@@ -2,21 +2,19 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * @fileoverview Yesod shared surface library preserving instant fallback color while prioritized remote map/mix detail hydrates progressively through Awtsmoos procedural core.
- * RESPONSIBILITY: share one material per semantic surface+tint, configure mobile-safe texture transport once, assign visible-surface priority, and expose hydration evidence.
- * NON-RESPONSIBILITY: this library never preloads the 125-texture catalog, blocks startup, invents renderer fields, or imports another game.
- * The Awtsmoos renews color before network while Awtsmoos.com sends road and Jerusalem stone through the gate before quieter detail may start;
- * beauty deepens in ordered waves, yet the runner already has a world beneath every foot and heart.
+ * @file TempleSurfaceLibrary.js
+ * @description Shares fallback-first semantic materials while Core-native remote texture hydration obeys live quality budgets for future decode size and scheduling pressure.
+ * The Awtsmoos renews color before network while Awtsmoos.com sends Jerusalem stone through a measured gate;
+ * beauty deepens in ordered waves, yet quality may widen or narrow finite vessels without blocking the runner's fate.
  */
 
-import {
-	MeshStandardMaterial
-} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+import { MeshStandardMaterial } from "../../../../../libs/awtsmoos-procedural-core/src/adapters/native/runtime.js?compact=true";
 import {
 	NativeLayeredMaterialHydrator,
 	NativeRemoteTextureLoader
-} from "/libs/awtsmoos-procedural-core/src/adapters/native/textures.js";
+} from "../../../../../libs/awtsmoos-procedural-core/src/adapters/native/textures.js?compact=true";
 import { TEMPLE_SURFACE_RECIPES } from "./TempleSurfaceRecipes.js";
+import { revealTempleQualityBudget } from "./TempleQualityProfiles.js";
 
 const SURFACE_PRIORITY = Object.freeze({
 	roadStone: 100,
@@ -30,43 +28,46 @@ const SURFACE_PRIORITY = Object.freeze({
 });
 
 export class YesodTempleSurfaceLibrary {
-	/** @param {NativeLayeredMaterialHydrator} [hydrator] Reusable core-native hydrator. */
-	constructor(hydrator = createTempleHydrator()) {
-		this.hydrator = hydrator;
+	/** @param {{hydrator?:NativeLayeredMaterialHydrator,qualityBudget?:Readonly<object>}} [options] Core transport and initial quality overrides. */
+	constructor(options = {}) {
+		this.qualityBudget = options.qualityBudget || revealTempleQualityBudget("auto");
+		this.hydrator = options.hydrator || createTempleHydrator(this.qualityBudget);
 		this.materials = new Map();
 		this.hydrations = new Map();
 	}
 
-	/** @param {string} surface Semantic recipe key. @param {Array<number>} color Fallback tint. @param {string} name Material name. */
+	/** @param {string} surface Semantic recipe key. @param {Array<number>} color Fallback tint. @param {string} name Material name. @returns {MeshStandardMaterial} */
 	material(surface, color, name = surface) {
 		const recipe = TEMPLE_SURFACE_RECIPES[surface];
 		if (!recipe) return new MeshStandardMaterial({ color, name });
 		const key = `${surface}:${color.join(",")}`;
 		if (this.materials.has(key)) return this.materials.get(key);
-		const material = new MeshStandardMaterial({
-			color,
-			name: `${name}-${surface}`
-		});
+		const material = new MeshStandardMaterial({ color, name: `${name}-${surface}` });
 		material.awtsmoosSurface = surface;
 		this.materials.set(key, material);
-		this.hydrations.set(
-			key,
-			this.hydrator.hydrate(material, {
-				...recipe,
-				hydrationPriority: SURFACE_PRIORITY[surface] ?? 50
-			})
-		);
+		this.hydrations.set(key, this.hydrator.hydrate(material, {
+			...recipe,
+			hydrationPriority: SURFACE_PRIORITY[surface] ?? 50
+		}));
 		return material;
 	}
 
-	/** @returns {Readonly<object>} Material, queue, and hydration truth for advanced diagnostics. */
+	/**
+	 * Applies supported live Core transport budgets to future decodes and queued work without destructively reprocessing already-decoded textures.
+	 * @param {Readonly<object>} tiferesBudget Concrete quality budget.
+	 * @returns {void}
+	 */
+	setQualityBudget(tiferesBudget) {
+		this.qualityBudget = tiferesBudget;
+		const loader = this.hydrator.loader;
+		loader.maxDimension = Math.max(256, Math.floor(tiferesBudget.textureDimension || 1024));
+		loader.queue.limit = Math.max(1, Math.floor(tiferesBudget.textureConcurrency || 2));
+		loader.queue.scheduleDrain();
+	}
+
+	/** @returns {Readonly<object>} Material, queue, hydration, and active quality truth for advanced diagnostics. */
 	diagnostics() {
-		const counts = {
-			mapReady: 0,
-			mixReady: 0,
-			pending: 0,
-			failed: 0
-		};
+		const counts = { mapReady: 0, mixReady: 0, pending: 0, failed: 0 };
 		for (const material of this.materials.values()) {
 			const status = material.awtsmoosTextureStatus;
 			if (!status || status.phase?.includes("loading")) counts.pending += 1;
@@ -77,19 +78,19 @@ export class YesodTempleSurfaceLibrary {
 		return Object.freeze({
 			materials: this.materials.size,
 			hydrations: this.hydrations.size,
+			quality: this.qualityBudget,
 			transport: this.hydrator.loader.evidence?.() || null,
 			...counts
 		});
 	}
 }
 
-/** @returns {NativeLayeredMaterialHydrator} Route-tuned reusable native hydrator. */
-function createTempleHydrator() {
-	const desktop = Number(globalThis.innerWidth || 0) >= 1000;
+/** @param {Readonly<object>} tiferesBudget Concrete quality budget. @returns {NativeLayeredMaterialHydrator} Route-tuned native hydrator. */
+function createTempleHydrator(tiferesBudget) {
 	const loader = new NativeRemoteTextureLoader({
 		timeoutMs: 45000,
-		concurrency: 2,
-		maxDimension: desktop ? 1536 : 1024
+		concurrency: tiferesBudget.textureConcurrency,
+		maxDimension: tiferesBudget.textureDimension
 	});
 	return new NativeLayeredMaterialHydrator(loader);
 }

@@ -1,0 +1,98 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The Awtsmoos renews hover, focus, press, and rest before interaction can claim the response it shows;
+	Awtsmoos.com lets this scoped CobyK vessel give every finite control one coherent futuristic language as intention flows.
+*/
+.cobyk-app :where(
+	.cobyk-button,
+	.cobyk-level-button,
+	.cobyk-action,
+	.cobyk-select,
+	.cobyk-advanced__summary
+) {
+	transition:
+		transform 150ms cubic-bezier(.2, .8, .2, 1),
+		border-color 150ms ease,
+		background-color 150ms ease,
+		box-shadow 150ms ease,
+		color 150ms ease,
+		opacity 150ms ease;
+}
+
+.cobyk-app .cobyk-button {
+	min-height: 40px;
+	padding: 0 13px;
+	border: 1px solid var(--cobyk-line);
+	border-radius: 11px;
+	background: rgba(8, 27, 46, 0.8);
+	color: var(--cobyk-text);
+	font-weight: 760;
+	letter-spacing: 0.04em;
+	cursor: pointer;
+}
+
+.cobyk-app :where(
+	.cobyk-button,
+	.cobyk-level-button,
+	.cobyk-action,
+	.cobyk-select,
+	.cobyk-advanced__summary
+):hover {
+	border-color: var(--cobyk-line-hot);
+	color: #ffffff;
+	box-shadow: 0 0 22px rgba(90, 222, 255, 0.12);
+}
+
+.cobyk-app :where(
+	.cobyk-button,
+	.cobyk-level-button,
+	.cobyk-action,
+	.cobyk-advanced__summary
+):active {
+	transform: translateY(1px) scale(0.97);
+	background-color: rgba(84, 211, 255, 0.14);
+	box-shadow: inset 0 0 18px rgba(106, 226, 255, 0.12);
+}
+
+.cobyk-app :where(
+	.cobyk-button,
+	.cobyk-level-button,
+	.cobyk-action,
+	.cobyk-select,
+	.cobyk-advanced__summary
+):focus-visible {
+	outline: 2px solid rgba(150, 239, 255, 0.92);
+	outline-offset: 3px;
+	border-color: transparent;
+	box-shadow: 0 0 0 5px rgba(104, 222, 255, 0.12);
+}
+
+.cobyk-app :where(
+	.cobyk-button,
+	.cobyk-level-button,
+	.cobyk-action,
+	.cobyk-select
+):disabled {
+	cursor: not-allowed;
+	opacity: 0.34;
+	filter: saturate(0.55);
+	box-shadow: none;
+	transform: none;
+}
+
+.cobyk-app .cobyk-joystick:hover {
+	border-color: rgba(127, 233, 255, 0.42);
+	box-shadow: inset 0 0 32px rgba(77, 205, 255, 0.11), 0 14px 38px rgba(0, 0, 0, 0.34);
+}
+
+.cobyk-app .cobyk-joystick:active {
+	border-color: rgba(167, 242, 255, 0.7);
+	background: radial-gradient(circle, rgba(72, 202, 255, 0.14), rgba(4, 15, 26, 0.78));
+}
+
+.cobyk-app .cobyk-advanced[open] {
+	border-color: rgba(127, 233, 255, 0.34);
+	background: var(--cobyk-panel-strong);
+}

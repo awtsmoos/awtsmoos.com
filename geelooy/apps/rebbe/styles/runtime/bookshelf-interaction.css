@@ -1,0 +1,79 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every opening and removal before a finger can press; Awtsmoos.com lets Bookshelf actions answer hover, active, keyboard focus, disabled truth, narrow phones, and reduced motion without noisy animation.
+ */
+#bookshelf-list .book-action {
+	min-inline-size: 0;
+	min-block-size: 44px;
+	padding: 9px 12px;
+	border: 1px solid rgba(56, 248, 255, .36);
+	border-radius: 999px;
+	background: rgba(56, 248, 255, .07);
+	color: var(--rebbe-text);
+	font: inherit;
+	font-size: .72rem;
+	font-weight: 900;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+
+#bookshelf-list .book-remove {
+	border-color: rgba(255, 79, 122, .42);
+	background: rgba(255, 79, 122, .07);
+	color: #ffdce5;
+}
+
+#bookshelf-list .book-action:focus-visible {
+	outline: 2px solid var(--rebbe-cyan);
+	outline-offset: 3px;
+}
+
+#bookshelf-list .book-action:active {
+	transform: scale(.96);
+}
+
+#bookshelf-list .book-action:disabled {
+	cursor: not-allowed;
+	opacity: .46;
+	transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	#bookshelf-list .book-card:hover {
+		border-color: rgba(56, 248, 255, .5);
+		box-shadow: 0 18px 48px rgba(0, 0, 0, .32), 0 0 26px rgba(56, 248, 255, .07);
+		transform: translateY(-2px);
+	}
+
+	#bookshelf-list .book-folder:hover {
+		border-color: rgba(242, 197, 93, .52);
+	}
+
+	#bookshelf-list .book-action:hover {
+		border-color: var(--rebbe-cyan);
+		background: rgba(56, 248, 255, .14);
+		box-shadow: 0 8px 22px rgba(56, 248, 255, .08);
+		transform: translateY(-1px);
+	}
+
+	#bookshelf-list .book-remove:hover {
+		border-color: var(--rebbe-danger);
+		background: rgba(255, 79, 122, .15);
+	}
+}
+
+@media (max-width: 380px) {
+	#bookshelf-list .book-actions {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#bookshelf-list .book-card,
+	#bookshelf-list .book-action {
+		transition-duration: .01ms;
+	}
+}

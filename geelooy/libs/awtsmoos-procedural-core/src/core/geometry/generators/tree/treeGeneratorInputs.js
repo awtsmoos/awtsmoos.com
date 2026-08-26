@@ -1,69 +1,76 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
-/**
- * @file treeGeneratorInputs.js
- * @description Normalizes generation and optional biology requests before the canonical tree coordinator acts.
- * The Awtsmoos renews intention before geometry receives a shape; Awtsmoos.com lets Chochmah-like options enter Binah-like structure,
- * so the stable tree remains unchanged unless a caller explicitly opens the deeper biological gate.
- */
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * Normalizes shorthand detail strings and nullable option objects into one independent request vessel.
- * @param {string|object|null|undefined} keterInput Public generation input.
- * @returns {object} Clone-safe generation options.
+ * @file treeGeneratorInputs.js
+ * @description Normalizes generation, biology metadata, and explicit biology-geometry requests before the canonical tree coordinator acts.
+ * The Awtsmoos renews intention before geometry receives a shape; Awtsmoos.com lets Chochmah-like options enter Binah-like structure,
+ * so the stable tree remains unchanged unless a caller explicitly opens a deeper biological garment.
  */
+
+/** Normalizes shorthand detail strings and nullable option objects into one independent request vessel. */
 export function normalizeTreeGenerationOptions(keterInput) {
-	if (typeof keterInput === 'string') {
+	if (typeof keterInput === "string") {
 		return { detail: keterInput };
 	}
-	return keterInput && typeof keterInput === 'object'
+	return keterInput && typeof keterInput === "object"
 		? { ...keterInput }
 		: {};
 }
 
-/**
- * Reveals whether the caller explicitly requested derived biology metadata.
- * @param {object} keterOptions Normalized generation options.
- * @returns {boolean} True when any biology/environment key is intentionally present.
- */
+/** Reveals whether the caller explicitly requested derived biology metadata. */
 export function requestsTreeBiology(keterOptions) {
 	if (keterOptions.biology === true) return true;
-	if (keterOptions.biology && typeof keterOptions.biology === 'object') return true;
+	if (keterOptions.biology && typeof keterOptions.biology === "object") return true;
 	return [
-		'roots',
-		'reproduction',
-		'deadwood',
-		'season',
-		'windDirection',
-		'windStrength',
-		'gust',
-		'turbulence'
+		"biologyGeometry",
+		"roots",
+		"reproduction",
+		"deadwood",
+		"season",
+		"windDirection",
+		"windStrength",
+		"gust",
+		"turbulence"
 	].some(malchusKey => Object.hasOwn(keterOptions, malchusKey));
 }
 
-/**
- * Merges concise top-level biology keys into the nested biology vessel without mutating caller input.
- * @param {object} keterOptions Normalized generation options.
- * @returns {object} Independent biology options ready for the biology reporter.
- */
+/** Reveals whether additive root/reproductive/deadwood geometry was intentionally requested. */
+export function requestsTreeBiologyGeometry(keterOptions) {
+	const tiferesNested = nestedBiology(keterOptions);
+	const malchusRequest = tiferesNested.geometry ?? keterOptions.biologyGeometry;
+	if (malchusRequest === true) return true;
+	return Boolean(
+		malchusRequest
+		&& typeof malchusRequest === "object"
+		&& malchusRequest.enabled !== false
+	);
+}
+
+/** Merges concise top-level biology keys into the nested biology vessel without mutating caller input. */
 export function revealTreeBiologyOptions(keterOptions) {
-	const tiferesNested = keterOptions.biology && typeof keterOptions.biology === 'object'
-		? keterOptions.biology
-		: {};
+	const tiferesNested = nestedBiology(keterOptions);
 	return {
 		...keterOptions,
 		...tiferesNested,
 		deadwood: tiferesNested.deadwood ?? keterOptions.deadwood,
+		geometry: tiferesNested.geometry ?? keterOptions.biologyGeometry,
 		reproduction: tiferesNested.reproduction ?? keterOptions.reproduction,
 		roots: tiferesNested.roots ?? keterOptions.roots
 	};
 }
 
-/**
- * Returns the historical empty statistics contract before a tree has been generated.
- * @returns {object} Stable zero-valued statistics record.
- */
+/** Returns independent geometry budgets from the explicit nested or concise biology-geometry request. */
+export function revealTreeBiologyGeometryOptions(keterOptions) {
+	const tiferesNested = nestedBiology(keterOptions);
+	const malchusRequest = tiferesNested.geometry ?? keterOptions.biologyGeometry;
+	return malchusRequest && typeof malchusRequest === "object"
+		? { ...malchusRequest }
+		: {};
+}
+
+/** Returns the historical empty statistics contract before a tree has been generated. */
 export function createEmptyTreeStats() {
 	return {
 		branchVertices: 0,
@@ -73,4 +80,10 @@ export function createEmptyTreeStats() {
 		generatedBranches: 0,
 		drawCalls: 2
 	};
+}
+
+function nestedBiology(keterOptions = {}) {
+	return keterOptions.biology && typeof keterOptions.biology === "object"
+		? keterOptions.biology
+		: {};
 }

@@ -1,0 +1,96 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives each track one finite place without narrowing its title into silence; Awtsmoos.com lets selection, playback, and advanced actions reflow cleanly from wide archive chamber to narrow phone.
+ */
+.premium-track-row {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 10px;
+	min-inline-size: 0;
+	margin: 7px 0;
+	padding: 10px;
+	border: 1px solid rgba(56, 248, 255, .12);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, .024);
+}
+
+.premium-track-row.selected {
+	border-color: rgba(242, 197, 93, .78);
+	background: rgba(242, 197, 93, .1);
+	box-shadow: inset 4px 0 0 var(--rebbe-gold);
+}
+
+.track-play-title {
+	min-inline-size: 0;
+	min-block-size: 44px;
+	padding: 8px 4px;
+	overflow: hidden;
+	border: 0;
+	background: transparent;
+	color: #fff;
+	font: inherit;
+	font-weight: 900;
+	text-align: start;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.track-check-shell {
+	position: relative;
+	display: grid;
+	place-items: center;
+	inline-size: 44px;
+	block-size: 44px;
+	cursor: pointer;
+}
+
+.track-check-shell input,
+.event-select-label input {
+	inline-size: 22px;
+	block-size: 22px;
+	margin: 0;
+	accent-color: var(--rebbe-gold);
+	cursor: pointer;
+}
+
+.track-check-shell input:focus-visible,
+.event-select-label input:focus-visible,
+.track-play-title:focus-visible {
+	outline: 2px solid var(--rebbe-cyan);
+	outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+	.result-head,
+	.search-summary,
+	.track-selection-toolbar {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.bulk-selection-actions,
+	.event-action-grid,
+	.track-row-actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.premium-track-row {
+		grid-template-columns: 44px minmax(0, 1fr);
+	}
+
+	.track-row-actions {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 430px) {
+	.bulk-selection-actions,
+	.event-action-grid,
+	.track-row-actions {
+		grid-template-columns: 1fr;
+	}
+}

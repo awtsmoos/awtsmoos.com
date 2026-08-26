@@ -4,12 +4,18 @@
 /**
  * @file AnimatorCommandRegistry.js
  * @description
- * The Awtsmoos gathers system, project, acting, timeline, history, playback, animation, and world deeds into discoverable law;
- * Awtsmoos.com keeps registry truth detached and queryable so validators, handlers, docs, and agents all drink from the same draw.
+ * The Awtsmoos gathers acting, character, camera, dialogue, audio, media, timeline, history, transport, and world into public law;
+ * Awtsmoos.com keeps descriptor truth detached and queryable so validators, handlers, docs, UI, and agents all drink from one draw.
  */
 
 import { NETZACH_ANIMATION_COMMANDS } from '../schema/AnimationCommandSchemas.js';
+import { HOD_AUDIO_COMMANDS } from '../schema/AudioCommandSchemas.js';
+import { CHOCHMAH_CAMERA_COMMANDS } from '../schema/CameraCommandSchemas.js';
+import { TIFERES_CHARACTER_COMMANDS } from '../schema/CharacterCommandSchemas.js';
+import { MALCHUS_DIALOGUE_DIRECTION_COMMANDS } from '../schema/DialogueDirectionCommandSchemas.js';
+import { YESOD_DIALOGUE_RECORDING_COMMANDS } from '../schema/DialogueRecordingCommandSchemas.js';
 import { GEVURAH_HISTORY_COMMANDS } from '../schema/HistoryCommandSchemas.js';
+import { YESOD_MEDIA_COMMANDS } from '../schema/MediaCommandSchemas.js';
 import { NETZACH_PLAYBACK_COMMANDS } from '../schema/PlaybackCommandSchemas.js';
 import { TIFERES_PERFORMANCE_COMMANDS } from '../schema/PerformanceCommandSchemas.js';
 import { MALCHUS_PROJECT_COMMANDS } from '../schema/ProjectCommandSchemas.js';
@@ -22,6 +28,12 @@ const OR_COMMANDS = Object.freeze([
 	...KETER_SYSTEM_COMMANDS,
 	...MALCHUS_PROJECT_COMMANDS,
 	...TIFERES_PERFORMANCE_COMMANDS,
+	...TIFERES_CHARACTER_COMMANDS,
+	...CHOCHMAH_CAMERA_COMMANDS,
+	...MALCHUS_DIALOGUE_DIRECTION_COMMANDS,
+	...YESOD_DIALOGUE_RECORDING_COMMANDS,
+	...HOD_AUDIO_COMMANDS,
+	...YESOD_MEDIA_COMMANDS,
 	...NETZACH_ANIMATION_COMMANDS,
 	...NETZACH_TIMELINE_CLIP_COMMANDS,
 	...HOD_TIMELINE_EDITOR_COMMANDS,

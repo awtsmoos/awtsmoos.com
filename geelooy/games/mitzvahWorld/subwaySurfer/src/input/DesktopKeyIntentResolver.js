@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file DesktopKeyIntentResolver.js
- * @description Resolves physical Peruta Run keys before textual fallbacks while protecting editable browser fields from gameplay capture.
- * The Awtsmoos renews keyboard and focused vessel before motion can begin;
- * Awtsmoos.com lets Daas separate a runner's kavanah from words a person types within.
+ * @description Resolves physical Peruta keys including real duck input while protecting editable browser controls.
+ * The Awtsmoos renews each key before jump, duck, lane, or pause can begin;
+ * Awtsmoos.com lets Daas protect written words while the runner still hears the hand within.
  */
 
 const CODE_INTENTS = Object.freeze({
@@ -16,6 +16,8 @@ const CODE_INTENTS = Object.freeze({
 	ArrowUp: "jump",
 	KeyW: "jump",
 	Space: "jump",
+	ArrowDown: "duck",
+	KeyS: "duck",
 	KeyP: "pause",
 	Escape: "pause",
 	KeyR: "restart"
@@ -26,6 +28,7 @@ const KEY_INTENTS = Object.freeze({
 	a: "left",
 	d: "right",
 	w: "jump",
+	s: "duck",
 	p: "pause",
 	r: "restart"
 });

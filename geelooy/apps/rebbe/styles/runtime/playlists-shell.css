@@ -1,0 +1,111 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos is beyond playlist, cover, and modal; Awtsmoos.com gives each ordered river of Torah audio a bounded glass chamber that breathes on desktop and folds cleanly on phones.
+ */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+}
+
+body .playlist-modal {
+	width: min(1120px, 96vw) !important;
+	max-height: min(92dvh, calc(100dvh - 20px));
+	overflow: hidden;
+	border: 1px solid rgba(0, 243, 255, .72) !important;
+	border-radius: 24px;
+	background: linear-gradient(135deg, rgba(2, 10, 18, .98), rgba(0, 0, 0, .99)) !important;
+	box-shadow: 0 32px 96px rgba(0, 0, 0, .8), 0 0 80px rgba(0, 243, 255, .16) !important;
+}
+
+body .playlist-modal.compact {
+	width: min(720px, 94vw) !important;
+}
+
+.playlist-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	background: linear-gradient(90deg, rgba(0, 243, 255, .95), rgba(255, 204, 0, .88)) !important;
+	color: #020608 !important;
+	letter-spacing: 3px;
+}
+
+.playlist-body {
+	max-height: calc(92dvh - 70px);
+	overflow: auto;
+	padding: 22px !important;
+	color: #eaffff !important;
+	overscroll-behavior: contain;
+}
+
+.playlist-hero,
+.playlist-detail-hero {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	margin-bottom: 18px;
+	padding: 22px;
+	border: 1px solid rgba(0, 243, 255, .25);
+	border-radius: 22px;
+	background: radial-gradient(circle at top left, rgba(0, 243, 255, .18), transparent 42%), rgba(255, 255, 255, .035);
+}
+
+.playlist-hero {
+	justify-content: space-between;
+}
+
+.playlist-detail-hero {
+	align-items: stretch;
+}
+
+.playlist-mosaic,
+.playlist-art-mosaic,
+.playlist-orb {
+	display: grid;
+	place-items: center;
+	border: 1px solid var(--c-cyan);
+	background: #001114;
+	box-shadow: inset 0 0 24px rgba(0, 243, 255, .18);
+	color: var(--c-yellow);
+}
+
+.playlist-mosaic {
+	width: 92px;
+	height: 92px;
+	border-radius: 28px;
+	font-size: 42px;
+}
+
+.playlist-art-mosaic {
+	grid-template-columns: 1fr 1fr;
+	width: 150px;
+	min-height: 150px;
+	border-radius: 28px;
+	font-size: 38px;
+}
+
+.playlist-orb {
+	flex: 0 0 auto;
+	width: 60px;
+	height: 60px;
+	border-radius: 20px;
+	font-size: 22px;
+}
+
+.playlist-kicker {
+	color: var(--c-yellow);
+	font-size: 11px;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+}
+
+.playlist-hero h2 {
+	margin: 5px 0 0;
+	color: #fff;
+	font-size: clamp(26px, 4vw, 48px);
+}

@@ -1,0 +1,36 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets each playlist card be one finite constellation without becoming a layout prison; Awtsmoos.com keeps artwork, text, and actions bounded so long titles and narrow phones remain luminous instead of overflowing.
+ */
+.playlist-card {
+	display: flex;
+	gap: 16px;
+	margin: 14px 0;
+	padding: 18px;
+	border: 1px solid rgba(0, 243, 255, .25);
+	border-radius: 20px;
+	background: linear-gradient(120deg, rgba(0, 243, 255, .12), rgba(255, 0, 85, .07), rgba(0, 0, 0, .72));
+	box-shadow: 0 14px 40px rgba(0, 0, 0, .35);
+	transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+
+.playlist-card-main {
+	min-width: 0;
+	flex: 1;
+}
+
+.playlist-card h3 {
+	margin: 0;
+	overflow: hidden;
+	color: #fff;
+	font-size: 22px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.playlist-card p {
+	margin: 6px 0 12px;
+	color: #9cc;
+	font-size: 12px;
+}

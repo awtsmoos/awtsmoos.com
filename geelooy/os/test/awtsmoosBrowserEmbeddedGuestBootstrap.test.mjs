@@ -4,9 +4,10 @@
 
 /**
  * @file Embedded Guest Bootstrap Tests
- * @description The Awtsmoos tests behavior instead of accidental whitespace below;
- * Awtsmoos.com proves hidden roads are cut, fetch becomes host testimony, and only
- * nonce-sealed page JavaScript awakens after navigation containment begins to glow.
+ * @description
+ * The Awtsmoos tests host containment as the guest document becomes more browser-like;
+ * Awtsmoos.com proves hidden roads stay cut, real body hydration stays guarded, fetch
+ * remains host testimony, and nonce-sealed page JavaScript wakes only inside measured law.
  */
 
 import assert from "node:assert/strict";
@@ -29,17 +30,21 @@ test("requires Navigation API before page scripts are revealed", () => {
 	assert.match(source, /event\.preventDefault\(\)/);
 });
 
-test("removes active markup roads before HTML reaches the live root", () => {
+test("sanitizes active roads before hydrating the real guest document", () => {
 	const source = bootstrap();
-	assert.match(source, /script,base,iframe,object,embed,link\[rel~='stylesheet'\]/);
-	assert.match(source, /===\s*"refresh"/);
+	assert.match(source, /"script,base,iframe,object,embed,link"/);
+	assert.match(source, /meta\[http-equiv\],meta\[name='referrer'\]/);
 	assert.match(source, /startsWith\("on"\)/);
-	assert.match(source, /root\.innerHTML\s*=\s*cleanMarkup/);
+	assert.match(source, /new DOMParser\(\)/);
+	assert.match(source, /parseFromString\(cleanMarkup\(html\), "text\/html"\)/);
+	assert.match(source, /dataset\.awtsmoosPageHead = "true"/);
+	assert.match(source, /document\.body\.replaceChildren\(\.\.\.nodes\)/);
 });
 
-test("mediates anchor journeys and window.open through the host", () => {
+test("mediates anchor journeys and window.open above changing body markup", () => {
 	const source = bootstrap();
 	assert.match(source, /closest\?\.\("a\[href\]"\)/);
+	assert.match(source, /document\.addEventListener\("click", reportClick, true\)/);
 	assert.match(source, /navigationType:\s*"link"/);
 	assert.match(source, /globalThis\.open\s*=\s*function/);
 	assert.match(source, /parent\.postMessage/);
@@ -50,6 +55,7 @@ test("host-authorized page scripts receive the per-frame nonce", () => {
 	assert.match(source, /const scriptNonce\s*=\s*"nonce_bootstrap_value"/);
 	assert.match(source, /script\.nonce\s*=\s*scriptNonce/);
 	assert.match(source, /script\.textContent\s*=\s*source/);
+	assert.match(source, /document\.body\.append\(script\)/);
 });
 
 test("installs host-mediated Request and fetch before page rendering", () => {

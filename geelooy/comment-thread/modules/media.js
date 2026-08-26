@@ -4,24 +4,29 @@
 /**
  * @module CommentThreadMedia
  * @description
- * The Awtsmoos lets each real asset keep its nature at Awtsmoos.com while an
- * absent path becomes an honest unavailable state instead of a broken illusion.
+ * The Awtsmoos lets each real asset keep its nature at Awtsmoos.com while every visible media vessel stays intentional, bounded, and honest; missing paths remain truthful states instead of broken illusions.
  */
+import { CommentAudioPlayer } from './CommentAudioPlayer.js';
 import { createElement as el } from './dom.js';
 
-/** Creates an image or audio element for a comment asset. */
+/** Creates a fully owned image or custom audio vessel for one comment asset. */
 export function createMedia(asset = {}) {
-	const source = String(asset.publicPath || '');
-	if (!source) {
-		return el('p', { className: 'comment-media-unavailable', text: 'Media path unavailable.' });
+	const yesodSource = String(asset.publicPath || '');
+	if (!yesodSource) {
+		return el('p', {
+			className: 'comment-media-unavailable',
+			text: 'Media path unavailable.'
+		});
 	}
-	const type = String(asset.mime || asset.type || '');
-	if (type.startsWith('audio')) {
-		return el('audio', { attrs: { controls: true, preload: 'metadata', src: source } });
+	const tiferesType = String(asset.mime || asset.type || '');
+	if (tiferesType.startsWith('audio')) {
+		const malchusPlayer = new CommentAudioPlayer(document);
+		malchusPlayer.setSource(yesodSource);
+		return malchusPlayer.element;
 	}
 	return el('img', {
 		attrs: {
-			src: source,
+			src: yesodSource,
 			alt: String(asset.alt || asset.id || 'Comment attachment'),
 			loading: 'lazy'
 		}
@@ -30,8 +35,8 @@ export function createMedia(asset = {}) {
 
 /** Creates a linked preview without interpolating remote HTML. */
 export function createPreview(link = {}) {
-	const href = String(link.href || link.url || '#');
-	return el('a', { className: 'comment-preview', attrs: { href } }, [
+	const yesodHref = String(link.href || link.url || '#');
+	return el('a', { className: 'comment-preview', attrs: { href: yesodHref } }, [
 		el('b', { text: String(link.title || link.href || link.url || 'Linked item') }),
 		el('span', { text: String(link.kind || 'link') })
 	]);

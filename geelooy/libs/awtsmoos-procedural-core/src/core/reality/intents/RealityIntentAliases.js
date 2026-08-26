@@ -4,25 +4,31 @@
 
 /**
  * @file RealityIntentAliases.js
- * @description Defines a finite exact semantic vocabulary for Reality intent without hiding an NLP engine inside procedural core.
+ * @description Defines a finite exact semantic vocabulary for Reality intent and scene-preset phrases without hiding natural-language inference inside procedural core.
  * The Awtsmoos renews every utterance before a finite alias can point toward its vessel;
  * Awtsmoos.com keeps shorthand explicit, deterministic, and discoverable so no silent guess may masquerade as wisdom celestial.
  */
 
 export const REALITY_INTENT_KIND_ALIASES = Object.freeze({
 	'flower-cluster': 'flowers',
+	'flood': 'shallow',
 	'geometry': 'primitive',
 	'grass-field': 'grass',
 	'sea': 'ocean',
-	'vegetation': 'flora',
-	'flood': 'shallow'
+	'vegetation': 'flora'
 });
 
 export const REALITY_INTENT_PHRASE_PRESETS = Object.freeze({
+	'alpine stream': 'alpine-stream',
+	'forest floor': 'forest-floor',
 	'lush pond': 'lush-pond',
+	'lush ruins': 'lush-ruins',
+	'mountain lake': 'mountain-lake',
+	'river valley': 'river-valley',
 	'rocky riverbank': 'rocky-riverbank',
 	'temperate garden': 'temperate-garden',
-	'wetland edge': 'wetland-edge'
+	'wetland edge': 'wetland-edge',
+	'wildflower meadow': 'wildflower-meadow'
 });
 
 /**
@@ -42,7 +48,7 @@ export function resolveRealityIntentToken(tokenOhr) {
 }
 
 /**
- * Returns immutable alias evidence for catalogs and tooling.
+ * Returns immutable alias evidence for catalogs, tooling, generated docs, and semantic-editor autocomplete.
  * @returns {Readonly<object>} Installed kind aliases and exact phrase-to-preset mappings.
  */
 export function realityIntentAliases() {

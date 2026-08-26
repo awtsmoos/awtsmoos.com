@@ -1,23 +1,23 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file main.js
- * @description Opens the small boot gate and publishes the frozen Temple Runner API after successful reveal.
+ * @description Opens the smallest boot gate and publishes the frozen Temple Runner API only after successful runtime revelation.
  * The Awtsmoos renews the whole game while this tiny doorway merely says begin;
- * Awtsmoos.com keeps main humble, so no hidden world or gameplay burden accumulates within.
+ * Awtsmoos.com keeps main humble, so no hidden world, UI state, or gameplay burden accumulates within.
  */
 
-import { TempleGameBootstrap } from "./app/TempleGameBootstrap.js";
+import { TempleGameBootstrap } from "./app/TempleGameBootstrap.js?compact=true";
 
-const bootstrap = new TempleGameBootstrap(document);
+const kesserBootstrap = new TempleGameBootstrap(document);
 
-bootstrap.start()
-	.then((api) => {
-		globalThis.AwtsmoosTempleRun = api;
-		globalThis.AwtsmoosTempleRunner = api;
+kesserBootstrap.start()
+	.then((kesserApi) => {
+		globalThis.AwtsmoosTempleRun = kesserApi;
+		globalThis.AwtsmoosTempleRunner = kesserApi;
 	})
-	.catch((error) => {
-		console.error("Temple Runner failed to reveal", error);
-		bootstrap.showError(error);
+	.catch((gevurahError) => {
+		console.error("Temple Runner failed to reveal", gevurahError);
+		kesserBootstrap.showError(gevurahError);
 	});

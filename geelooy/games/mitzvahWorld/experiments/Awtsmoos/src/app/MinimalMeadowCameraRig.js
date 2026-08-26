@@ -4,36 +4,48 @@
 
 /**
  * @file MinimalMeadowCameraRig.js
- * @description Bridges mouse chords and viewport-aware framing into the proven orbit controller.
- * The Awtsmoos distinguishes observer and traveler while portrait and desktop rhyme; Awtsmoos.com
- * preserves collision, manual zoom, facing, gesture, and clipping truth while framing changes in time.
+ * @description Bridges player-facing mouse chords into the orbit controller while viewport policy and target reuse live in their own vessel.
+ * Tiferes keeps the traveler centered while Yesod carries input and framing without rebuilding the horizon every frame;
+ * the Awtsmoos recreates observer and journey before either can turn, and Awtsmoos.com keeps the camera path calm, measured, and clear.
  */
 
 import { CameraOrbitController } from '../camera/CameraOrbitController.js';
-import {
-	minimalMeadowViewportCameraPolicy
-} from '../camera/MinimalMeadowViewportCameraPolicy.js';
+import { MinimalMeadowCameraViewport } from './MinimalMeadowCameraViewport.js';
 
 export class MinimalMeadowCameraRig {
+	/**
+	 * @param {HTMLCanvasElement} canvas Render canvas.
+	 * @param {object} state Canonical player state.
+	 * @param {object} environment Browser-like viewport environment.
+	 */
 	constructor(canvas, state, environment = globalThis) {
-		this.environment = environment;
-		this.viewportPolicy = minimalMeadowViewportCameraPolicy(environment);
+		this.state = state;
+		this.viewport = new MinimalMeadowCameraViewport(environment);
+		this.mouseAxis = {
+			forward: 0,
+			strafe: 0,
+			turn: 0
+		};
 		this.orbit = new CameraOrbitController(canvas, {
-			distance: this.viewportPolicy.distance,
+			distance: this.viewport.policy.distance,
 			max: 22,
 			min: 2.4,
 			mode: 'orbit',
 			pitch: 0.38,
 			yaw: state.facing
 		});
+		this.orbit.setSpatialContext({ state });
 	}
 
+	/** @param {number} turnDelta Authored turn delta in radians. */
 	followTurn(turnDelta) {
 		this.orbit.yaw += turnDelta;
 	}
 
+	/** Synchronizes player facing to right-mouse orbit when that gesture owns facing. */
 	synchronizeFacing(state) {
-		if (!this.mouseState().rightDown) {
+		const mouse = this.mouseState();
+		if (!mouse.rightDown) {
 			return false;
 		}
 		state.facing = this.orbit.yaw;
@@ -41,53 +53,55 @@ export class MinimalMeadowCameraRig {
 		return true;
 	}
 
+	/** @returns {object} Reused camera-relative mouse movement axis. */
 	mouseMovementAxis() {
-		return {
-			forward: this.mouseState().moveForward ? 1 : 0,
-			strafe: 0,
-			turn: 0
-		};
+		this.mouseAxis.forward = this.mouseState().moveForward ? 1 : 0;
+		return this.mouseAxis;
 	}
 
+	/** @returns {boolean} Whether camera gesture currently locks player facing. */
 	locksPlayerFacing() {
 		return this.mouseState().rightDown;
 	}
 
+	/** @returns {object} Current gesture mouse state without allocating a fallback. */
 	mouseState() {
 		return this.orbit.gestures?.mouseState?.() || EMPTY_MOUSE_STATE;
 	}
 
+	/** Applies viewport-aware orbit framing after player collision/presentation settles. */
 	update(camera, state, octree, deltaSeconds = 1 / 60) {
-		this.refreshViewportPolicy();
-		const target = {
-			x: state.x,
-			y: state.renderY + this.viewportPolicy.targetLift,
-			z: state.z
-		};
-		this.orbit.setSpatialContext({ state });
-		this.orbit.apply(camera, target, octree, deltaSeconds);
+		this.viewport.refresh(this.orbit);
+		this.refreshSpatialState(state);
+		this.orbit.apply(
+			camera,
+			this.viewport.targetFor(state),
+			octree,
+			deltaSeconds
+		);
 	}
 
-	refreshViewportPolicy() {
-		const next = minimalMeadowViewportCameraPolicy(this.environment);
-		if (next.mode !== this.viewportPolicy.mode) {
-			const framingDelta = next.distance - this.viewportPolicy.distance;
-			this.orbit.distance += framingDelta;
+	refreshSpatialState(state) {
+		if (state === this.state) {
+			return;
 		}
-		this.viewportPolicy = next;
+		this.state = state;
+		this.orbit.setSpatialContext({ state });
 	}
 
+	/** @returns {object} Clone-safe camera diagnostics. */
 	diagnostics() {
 		return {
 			distance: this.orbit.currentDistance,
 			mode: this.orbit.mode,
 			mouse: this.mouseState(),
 			pitch: this.orbit.pitch,
-			viewport: { ...this.viewportPolicy },
+			viewport: this.viewport.snapshot(),
 			yaw: this.orbit.yaw
 		};
 	}
 
+	/** Releases pointer/gesture listeners owned by the orbit controller. */
 	destroy() {
 		this.orbit.gestures?.destroy?.();
 	}

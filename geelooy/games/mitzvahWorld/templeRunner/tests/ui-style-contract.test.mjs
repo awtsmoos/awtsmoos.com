@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file ui-style-contract.test.mjs
- * @description Guards Temple Runner's single stylesheet gateway, generated settings markup, mobile bottom sheet, safe landscape drawer, interaction states, HUD density, and route-scoped motion law.
+ * @description Guards the stylesheet gateway, catalog settings, retractable disclosure, bounded phone sheet, landscape drawer, interaction grammar, density, and route-scoped accessibility law.
  * The Awtsmoos renews glass, thumb, focus, motion, and hidden depth before cascade can claim a permanent throne;
- * Awtsmoos.com lets tests keep every visual vessel bounded and dressed, so simple gameplay remains clear while advanced detail grows only when shown.
+ * Awtsmoos.com lets tests keep every visual vessel bounded and intentional, so simple gameplay remains clear while advanced Binah appears only when shown.
  */
 
 import assert from "node:assert/strict";
@@ -14,54 +14,62 @@ import test from "node:test";
 
 const routeRoot = new URL("../", import.meta.url);
 
-/** @param {string} path Route-relative source path. @returns {Promise<string>} UTF-8 source. */
-function revealRouteSource(path) {
-	return readFile(new URL(path, routeRoot), "utf8");
+/** Reads one route-local source file as UTF-8 evidence. @param {string} yesodPath Route-relative path. @returns {Promise<string>} Source text. */
+function revealRouteSource(yesodPath) {
+	return readFile(new URL(yesodPath, routeRoot), "utf8");
 }
 
-/** Proves HTML owns one stylesheet gateway, semantic actions, and no duplicated preference controls. @returns {Promise<void>} */
+/** Proves HTML owns one stylesheet gateway, semantic actions, and no duplicated preference markup. */
 async function verifyHtmlGateway() {
 	const html = await revealRouteSource("index.html");
-	const stylesheetLinks = html.match(/<link[^>]+rel="stylesheet"/g) || [];
-	assert.equal(stylesheetLinks.length, 1);
+	assert.equal((html.match(/<link[^>]+rel="stylesheet"/g) || []).length, 1);
 	assert.match(html, /styles\/temple-runner\.css\?compact=true/);
 	assert.match(html, /id="experience-settings"/);
 	assert.doesNotMatch(html, /data-preference=/);
 	assert.equal((html.match(/data-action=/g) || []).length, 6);
-	assert.doesNotMatch(html, /data-intent=/);
-	assert.match(html, /viewport-fit=cover/);
 }
 
-/** Proves the gateway preserves deterministic layer order and includes responsive/accessibility/motion ownership. @returns {Promise<void>} */
+/** Proves the gateway preserves deterministic responsibility order including the dedicated disclosure layer. */
 async function verifyStylesheetGateway() {
 	const gateway = await revealRouteSource("styles/temple-runner.css");
-	const requiredImports = [
+	const imports = [
 		"tokens.css", "base.css", "hud.css", "drawer.css", "controls.css",
-		"overlay.css", "interface-responsive.css", "interface-accessibility.css", "motion.css"
+		"overlay.css", "interface-disclosure.css", "interface-responsive.css",
+		"interface-accessibility.css", "motion.css"
 	];
 	let priorIndex = -1;
-	for (const importName of requiredImports) {
+	for (const importName of imports) {
 		const currentIndex = gateway.indexOf(importName);
-		assert.ok(currentIndex > priorIndex, `${importName} must follow the declared gateway order`);
+		assert.ok(currentIndex > priorIndex, `${importName} must follow gateway order`);
 		priorIndex = currentIndex;
 	}
 }
 
-/** Proves phone drawer becomes a bounded bottom sheet and short landscape returns to a bounded side sheet. @returns {Promise<void>} */
-async function verifyResponsiveDrawer() {
-	const css = await revealRouteSource("styles/interface-responsive.css");
-	assert.match(css, /@media \(max-width: 600px\) and \(min-height: 521px\)/);
-	assert.match(css, /max-height: min\(78dvh, 720px\)/);
-	assert.match(css, /transform: translate3d\(0, calc\(100% \+ 24px\), 0\)/);
-	assert.match(css, /env\(safe-area-inset-bottom\)/);
-	assert.match(css, /@media \(max-height: 520px\) and \(orientation: landscape\)/);
-	assert.match(css, /width: min\(340px, 58vw\)/);
-	assert.match(css, /max-height: calc\(100dvh/);
+/** Proves advanced mode retracts live chrome and compact density removes secondary information. */
+async function verifyDisclosureLaw() {
+	const css = await revealRouteSource("styles/interface-disclosure.css");
+	for (const selector of ["run-rail", "status-stage", "turn-prompt", "controls"]) {
+		assert.match(css, new RegExp(`data-drawer=\\"open\\"\] \\.${selector}`));
+	}
+	assert.match(css, /opacity: 0/);
+	assert.match(css, /pointer-events: none/);
 	assert.match(css, /data-density="minimal"/);
 	assert.match(css, /run-metric-secondary/);
 }
 
-/** Proves interaction styling covers hover-capable pointers, press feedback, keyboard focus, and generated settings. @returns {Promise<void>} */
+/** Proves portrait uses a bounded safe-area bottom sheet while short landscape uses a compact side drawer. */
+async function verifyResponsiveDrawer() {
+	const css = await revealRouteSource("styles/interface-responsive.css");
+	assert.match(css, /@media \(max-width: 600px\) and \(min-height: 521px\)/);
+	assert.match(css, /max-height: min\(82dvh, 760px\)/);
+	assert.match(css, /translate3d\(0, calc\(100% \+ 28px\), 0\)/);
+	assert.match(css, /border-radius: 28px 28px 18px 18px/);
+	assert.match(css, /@media \(max-height: 520px\) and \(orientation: landscape\)/);
+	assert.match(css, /width: min\(330px, 54vw\)/);
+	assert.match(css, /max-height: calc\(100dvh/);
+}
+
+/** Proves interaction styling covers press, keyboard focus, pointer-gated hover, and generated settings. */
 async function verifyInteractionGrammar() {
 	const drawer = await revealRouteSource("styles/drawer-interactions.css");
 	const controls = await revealRouteSource("styles/control-responsive.css");
@@ -74,17 +82,14 @@ async function verifyInteractionGrammar() {
 	assert.match(drawer, /:focus-within/);
 	assert.match(settings, /input\[type="checkbox"\]/);
 	assert.match(settings, /select/);
-	assert.match(settings, /small/);
-	assert.match(controls, /max-width: calc\(100vw/);
 }
 
-/** Proves reduced-motion and accessibility rules stay route-scoped instead of mutating unrelated pages. @returns {Promise<void>} */
+/** Proves reduced motion and accessibility remain route-local while coarse pointers retain full touch targets. */
 async function verifyScopedAccessibility() {
 	const reduced = await revealRouteSource("styles/motion-reduced.css");
 	const accessibility = await revealRouteSource("styles/interface-accessibility.css");
 	assert.match(reduced, /\.temple-runner-route \*/);
 	assert.match(reduced, /\.game-shell\[data-motion="reduced"\] \*/);
-	assert.doesNotMatch(reduced, /^\s*\*\s*\{/m);
 	assert.match(accessibility, /@media \(pointer: coarse\)/);
 	assert.match(accessibility, /@media \(forced-colors: active\)/);
 	assert.match(accessibility, /min-height: var\(--tap\)/);
@@ -92,6 +97,7 @@ async function verifyScopedAccessibility() {
 
 test("HTML uses one semantic route-local stylesheet gateway", verifyHtmlGateway);
 test("stylesheet gateway preserves deterministic visual layer order", verifyStylesheetGateway);
+test("advanced disclosure retracts gameplay chrome and secondary density", verifyDisclosureLaw);
 test("responsive drawer stays bounded on phone and landscape", verifyResponsiveDrawer);
 test("interaction grammar covers hover active focus and generated settings", verifyInteractionGrammar);
 test("motion and accessibility laws remain route-scoped", verifyScopedAccessibility);

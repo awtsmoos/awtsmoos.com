@@ -1,23 +1,24 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file SurfaceNatureApi.js
- * @description Keeps local semantic material planning synchronous while adding optional provider-neutral generated textures.
- * The Awtsmoos renews inner matter and outer garment before local and remote can appear apart;
- * Awtsmoos.com lets this Hod-like facade keep a faithful fallback while distant artistry may enrich the heart.
+ * @description Keeps local semantic material planning synchronous while optional provider generation shares one canonical request authority with inspection.
+ * The Awtsmoos renews inner matter, distant possibility, and the request that joins them before local and remote can appear apart;
+ * Awtsmoos.com lets this Hod-like facade keep a faithful fallback while every generated garment follows one deterministic Yesod heart.
  */
 
 import { TextureGenerationGateway } from '../materials/generation/TextureGenerationGateway.js';
-import { createTextureGenerationRequest } from '../materials/generation/TextureGenerationRequest.js';
 import { createNatureCallContext } from './NatureApiOperation.js';
 import { createNatureResult } from './NatureApiResult.js';
 import { createNatureSurfacePlan } from './NatureSurfacePlan.js';
+import { createNatureSurfaceGenerationRequest } from './SurfaceGenerationRequest.js';
 
-/** Local-first semantic surface facade with an optional asynchronous generation capability. */
+/** Local-first semantic surface facade with optional explicit asynchronous texture generation. */
 export class SurfaceNatureApi {
 	/**
+	 * Creates one isolated facade around shared immutable defaults and one normalized optional provider gateway.
 	 * @param {object} [defaults={}] Shared NatureApi defaults.
 	 * @param {{textureGenerator?: object|Function|null}} [capabilities={}] Explicit host capabilities.
 	 */
@@ -26,59 +27,67 @@ export class SurfaceNatureApi {
 		this.gateway = new TextureGenerationGateway(capabilities.textureGenerator);
 	}
 
-	/** Creates a renderer-neutral local-first semantic surface plan without network I/O. */
-	create(role, options = {}) {
-		const yesodRole = String(role || '').trim();
-		const tiferesContext = this.context(options, yesodRole);
-		const malchusPlan = createNatureSurfacePlan(yesodRole, options);
-		return createNatureResult('surface', tiferesContext, malchusPlan, {
+	/**
+	 * Creates a renderer-neutral local-first semantic surface plan without network or provider execution.
+	 * @param {string} yesodRole Semantic material role.
+	 * @param {object} [keterOptions={}] Local, remote-intent, quality, realism, and generation-intent hints.
+	 * @returns {Readonly<object>} Standard Nature result wrapping one immutable surface plan.
+	 */
+	create(yesodRole, keterOptions = {}) {
+		const tiferesRole = String(yesodRole || '').trim();
+		const chochmahContext = this.context(keterOptions, tiferesRole);
+		const malchusPlan = createNatureSurfacePlan(tiferesRole, keterOptions);
+		return createNatureResult('surface', chochmahContext, malchusPlan, {
 			remoteAvailable: malchusPlan.remote.available,
 			role: malchusPlan.role
 		});
 	}
 
 	/**
-	 * Generates optional remote texture descriptors while always returning the local surface plan as fallback.
-	 * @param {string} role Semantic material role such as weatheredRock, bark, grass, or leaf.
-	 * @param {object} [options={}] Generation intent, channels, resolution, physical scale, cancellation, and strictness.
-	 * @returns {Promise<object>} Standard Nature result containing local surface, request, and generation evidence.
+	 * Generates optional texture descriptors while always returning the same local surface plan as deterministic fallback.
+	 * @param {string} yesodRole Semantic material role such as weatheredRock, bark, grass, or leaf.
+	 * @param {object} [keterOptions={}] Channels, resolution, physical scale, cancellation, strictness, and generation intent.
+	 * @returns {Promise<Readonly<object>>} Nature result containing local surface, exact request, and generation evidence.
 	 */
-	async generate(role, options = {}) {
-		const local = this.create(role, options);
-		const request = createTextureGenerationRequest({
-			channels: options.channels,
-			family: local.value.family,
-			intent: options.intent,
-			physicalSizeMeters: options.physicalSizeMeters,
-			quality: local.quality,
-			realism: local.realism,
-			resolution: options.resolution,
-			role: local.value.role,
-			seed: local.seed
+	async generate(yesodRole, keterOptions = {}) {
+		const tiferesLocal = this.create(yesodRole, keterOptions);
+		const yesodRequest = createNatureSurfaceGenerationRequest(
+			tiferesLocal,
+			keterOptions
+		);
+		const netzachGeneration = await this.gateway.generate(yesodRequest, {
+			signal: keterOptions.signal,
+			strict: keterOptions.strict === true
 		});
-		const generation = await this.gateway.generate(request, {
-			signal: options.signal,
-			strict: options.strict === true
-		});
-		return createNatureResult('surface-generation', local, Object.freeze({
-			generation,
-			request,
-			surface: local.value
-		}), {
-			generated: generation.status === 'generated',
-			provider: generation.provider,
-			role: local.value.role,
-			status: generation.status
-		});
+		return createNatureResult(
+			'surface-generation',
+			tiferesLocal,
+			Object.freeze({
+				generation: netzachGeneration,
+				request: yesodRequest,
+				surface: tiferesLocal.value
+			}),
+			{
+				generated: netzachGeneration.status === 'generated',
+				provider: netzachGeneration.provider,
+				role: tiferesLocal.value.role,
+				status: netzachGeneration.status
+			}
+		);
 	}
 
-	/** Reports whether this facade currently has an injected generation provider. */
+	/** Reports whether this facade currently owns an explicitly injected generation provider. */
 	canGenerate() {
 		return this.gateway.available();
 	}
 
-	/** Builds the deterministic Nature operation context for one semantic surface. */
-	context(options, role) {
-		return createNatureCallContext(this.defaults, options, 'surface', role);
+	/** Builds deterministic Nature operation context for one semantic surface without performing material work. */
+	context(keterOptions, yesodRole) {
+		return createNatureCallContext(
+			this.defaults,
+			keterOptions,
+			'surface',
+			yesodRole
+		);
 	}
 }

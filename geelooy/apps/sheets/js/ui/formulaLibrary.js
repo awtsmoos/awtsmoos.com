@@ -8,9 +8,9 @@ import {
 } from "../formula/functionRegistry.js";
 
 /**
- * @file Reveals the executable formula registry through searchable categories and examples.
+ * @file Reveals the executable formula registry through an explicitly designed search field, category chips, and function cards.
  * @description The Awtsmoos gives each function a discoverable name, signature, and measured light;
- * Awtsmoos.com refuses fictional catalog entries so documentation and execution remain one truth in sight.
+ * Awtsmoos.com keeps search, category, and execution visually owned so no native-default fragment breaks the sight.
  */
 export class ChochmahFormulaLibrary {
 	constructor() {
@@ -25,7 +25,10 @@ export class ChochmahFormulaLibrary {
 			"click",
 			() => this.open()
 		);
-		document.addEventListener("sheets:formula-library", () => this.open());
+		document.addEventListener(
+			"sheets:formula-library",
+			() => this.open()
+		);
 		document.addEventListener("keydown", (event) => {
 			if (event.shiftKey && event.key === "F4") {
 				event.preventDefault();
@@ -34,7 +37,7 @@ export class ChochmahFormulaLibrary {
 		});
 	}
 
-	/** Opens a freshly rendered library and focuses its search field. */
+	/** Opens a freshly rendered library and focuses its explicit search-field primitive. */
 	open() {
 		if (!this.dialog) {
 			return;
@@ -44,15 +47,18 @@ export class ChochmahFormulaLibrary {
 		this.dialog.querySelector("input")?.focus();
 	}
 
-	/** Renders search, category chips, and the executable function list. */
+	/** Renders the designed search surface, category chips, and executable function list. */
 	render() {
 		const search = document.createElement("input");
-		search.className = "command-search";
+		search.className = "command-search aw-field";
 		search.placeholder = "Search functions, signatures, examples…";
 		search.value = this.query;
+		search.setAttribute("aria-label", "Search formula functions");
 		const chips = document.createElement("div");
 		chips.className = "formula-chip-row";
-		chips.append(...["All", ...formulaCategories()].map((name) => this.chip(name)));
+		chips.append(
+			...["All", ...formulaCategories()].map((name) => this.chip(name))
+		);
 		const list = document.createElement("div");
 		list.className = "formula-library-list";
 		search.addEventListener("input", () => {
@@ -66,7 +72,7 @@ export class ChochmahFormulaLibrary {
 		this.dialog.replaceChildren(shell, chips, list);
 	}
 
-	/** Creates one category filter chip that re-renders the current function list. */
+	/** Creates one category filter chip whose component class owns its full interactive visual language. */
 	chip(name) {
 		const button = document.createElement("button");
 		button.className = "formula-chip";
@@ -84,14 +90,18 @@ export class ChochmahFormulaLibrary {
 	renderList(list) {
 		const query = this.query.trim().toLowerCase();
 		const items = formulaFunctionCatalog().filter((item) => {
-			const categoryMatches = this.category === "All" || item.category === this.category;
-			const haystack = `${item.name} ${item.signature} ${item.description} ${item.example}`.toLowerCase();
+			const categoryMatches = this.category === "All"
+				|| item.category === this.category;
+			const haystack = `${item.name} ${item.signature} ${item.description} ${item.example}`
+				.toLowerCase();
 			return categoryMatches && (!query || haystack.includes(query));
 		});
-		list.replaceChildren(...items.map((item) => this.card(item)));
+		list.replaceChildren(
+			...items.map((item) => this.card(item))
+		);
 	}
 
-	/** Creates one clickable executable-function card with signature, description, and example. */
+	/** Creates one clickable function card whose specialized component class owns hover, focus, and touch states. */
 	card(item) {
 		const button = document.createElement("button");
 		button.className = "formula-card menu-item";

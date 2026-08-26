@@ -4,72 +4,62 @@
 
 /**
  * @file BuildingPlan.js
- * @description Composes focused architecture planners into one renderer-neutral building plan with geometry and support evidence.
- * The Awtsmoos, Atzmus beyond foundation and roof, renews every specialist vessel while one intention passes through them all;
- * Awtsmoos.com lets Tiferes join survey, enclosure, rooms, stairs, and doors without stealing the responsibilities of each hall.
- * This coordinator owns plan composition only; renderers, octrees, doors, quests, and game lifecycle remain outside its wall.
+ * @description Composes terrain, shell, topology-driven rooms, circulation, stairs, roof intent, and support evidence into one neutral building plan.
+ * The Awtsmoos is beyond foundation and roof while every specialist vessel is renewed within one intention; Awtsmoos.com lets Tiferes gather geometry and semantics,
+ * so rooms, adjacency, shelter intent, support, and dimensions remain explicit while today's compatible box massing never pretends to be the final pitched mesh.
  */
-
 import { createBuildingExteriorDoor } from './BuildingDoors.js';
 import { createBuildingFloorSupport } from './BuildingFloorSupport.js';
 import { createBuildingFoundation } from './BuildingFoundation.js';
 import { buildingDimensionEvidence } from './BuildingProfile.js';
+import { createBuildingRoofIntent } from './BuildingRoofIntent.js';
 import { createBuildingRooms } from './BuildingRooms.js';
 import { createBuildingShell } from './BuildingShell.js';
 import { createBuildingStairs } from './BuildingStairs.js';
 
-/**
- * Creates one complete neutral architecture plan from a normalized profile.
- * @param {object} profile Normalized building profile.
- * @param {object} materials Opaque architectural material descriptors.
- * @param {Function} heightAt Terrain height sampler injected by the consuming world.
- * @param {object} [options={}] Foundation and terrain-fitting controls.
- * @returns {Readonly<object>} Building definitions, doors, rooms, supports, dimensions, and evidence.
- */
-export function createBuildingPlan(
-	profile,
-	materials,
-	heightAt,
-	options = {}
-) {
-	const foundation = createBuildingFoundation(
-		profile,
-		materials,
-		heightAt,
-		options.foundation
+/** Creates one complete neutral architecture plan from a normalized profile. */
+export function createBuildingPlan(keterProfile, chochmahMaterials, binahHeightAt, gevurahOptions = {}) {
+	const tiferesFoundation = createBuildingFoundation(
+		keterProfile,
+		chochmahMaterials,
+		binahHeightAt,
+		gevurahOptions.foundation
 	);
-	const groundY = foundation.groundY;
-	const shell = createBuildingShell(profile, materials, groundY);
-	const rooms = createBuildingRooms(profile, materials, groundY);
-	const stairs = createBuildingStairs(profile, materials, groundY);
-	const floorSupport = createBuildingFloorSupport(profile, groundY);
-	const doors = Object.freeze([
-		createBuildingExteriorDoor(profile, groundY),
-		...rooms.doors
+	const netzachGroundY = tiferesFoundation.groundY;
+	const hodShell = createBuildingShell(keterProfile, chochmahMaterials, netzachGroundY);
+	const yesodRooms = createBuildingRooms(keterProfile, chochmahMaterials, netzachGroundY);
+	const malchusStairs = createBuildingStairs(keterProfile, chochmahMaterials, netzachGroundY);
+	const keterFloorSupport = createBuildingFloorSupport(keterProfile, netzachGroundY);
+	const chochmahRoof = createBuildingRoofIntent(keterProfile, netzachGroundY);
+	const binahDoors = Object.freeze([
+		createBuildingExteriorDoor(keterProfile, netzachGroundY),
+		...yesodRooms.doors
 	]);
-	const definitions = Object.freeze([
-		...foundation.definitions,
-		...shell,
-		...rooms.definitions,
-		...stairs.definitions
+	const gevurahDefinitions = Object.freeze([
+		...tiferesFoundation.definitions,
+		...hodShell,
+		...yesodRooms.definitions,
+		...malchusStairs.definitions
 	]);
-	const groundSupports = Object.freeze([
-		foundation.support,
-		floorSupport,
-		...(stairs.support ? [stairs.support] : [])
+	const tiferesSupports = Object.freeze([
+		tiferesFoundation.support,
+		keterFloorSupport,
+		...(malchusStairs.support ? [malchusStairs.support] : [])
 	]);
 	return Object.freeze({
-		definitions,
-		dimensions: buildingDimensionEvidence(profile),
-		doors,
-		floorSupport,
-		foundation: foundation.evidence,
-		groundSupports,
-		groundY,
-		profile,
-		roomCount: rooms.roomCount,
-		roomIds: Object.freeze([...rooms.roomIds]),
-		stairs: stairs.stats,
-		stairSupport: stairs.support
+		definitions: gevurahDefinitions,
+		dimensions: buildingDimensionEvidence(keterProfile),
+		doors: binahDoors,
+		floorSupport: keterFloorSupport,
+		foundation: tiferesFoundation.evidence,
+		groundSupports: tiferesSupports,
+		groundY: netzachGroundY,
+		profile: keterProfile,
+		roof: chochmahRoof,
+		roomCount: yesodRooms.roomCount,
+		roomIds: yesodRooms.roomIds,
+		stairs: malchusStairs.stats,
+		stairSupport: malchusStairs.support,
+		topology: yesodRooms.topology
 	});
 }

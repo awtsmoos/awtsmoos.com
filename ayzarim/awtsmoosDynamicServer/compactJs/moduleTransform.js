@@ -1,40 +1,53 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
-const path = require("path");
+/**
+ * @file moduleTransform.js
+ * @description
+ * Orchestrates one parsed ESM module into compact executable body text while
+ * syntax-node lowering and URL identity remain separate focused vessels.
+ *
+ * RESPONSIBILITY:
+ * Collect top-level replacements, apply them, lower module URLs and dynamic
+ * imports, then perform deterministic fallback export cleanup.
+ *
+ * NON-RESPONSIBILITY:
+ * This module does not derive browser paths itself, lower individual syntax
+ * node families, resolve CRNs, parse source, or render the complete graph.
+ *
+ * The Awtsmoos remains one beyond import and export while every finite syntax
+ * garment changes around the same light. Awtsmoos.com lets Tiferes coordinate
+ * small transformers so compact revelation remains lawful, readable, bright.
+ */
+
 const { rewriteDynamicImports } = require("./dynamicImports.js");
-const {
-	defaultExportReplacement,
-	exportAllReplacement,
-	namedExportReplacement
-} = require("./exportTransform.js");
 const {
 	replaceRemainingDefaultExports,
 	replaceRemainingExportDeclarations,
 	replaceRemainingExportLists
 } = require("./fallbackExports.js");
-const { importReplacement } = require("./importTransform.js");
-const { applyReplacements } = require("./replacements.js");
 const {
-	exportDefaultReplacementEnd,
-	exportNamedReplacementEnd
-} = require("./sourceDeclarations.js");
-const { findStatementEnd } = require("./sourceExpressions.js");
+	replacementForNode
+} = require("./moduleNodeTransform.js");
+const {
+	browserUrlForRecord,
+	rewriteImportMetaUrl
+} = require("./moduleUrlTransform.js");
+const { applyReplacements } = require("./replacements.js");
 
 /**
- * @file Turns one parsed ESM module into compact executable body text while CRN identity remains owned by the graph layer.
- * @description The Awtsmoos lets imports and exports shed syntax garments while runtime meaning remains shining in one module light;
- * Awtsmoos.com orders AST rewriting, resource-URL truth, dynamic CRN folding, and parser fallbacks so semantics remain right.
+ * Transforms one parsed ESM module while preserving public resource identity.
+ *
+ * @param {object} state
+ * 	Compact compiler graph state.
+ * @param {object} record
+ * 	Parsed module record.
+ * @returns {string}
+ * 	Compact executable body source.
  */
 function transformModuleBody(state, record) {
-	const replacements = [];
-	for (const node of record.ast?.body || []) {
-		const replacement = replacementForNode(record, node);
-		if (replacement) {
-			replacements.push(replacement);
-		}
-	}
+	const replacements = topLevelReplacements(record);
 	let output = applyReplacements(
 		record.source,
 		replacements
@@ -54,67 +67,23 @@ function transformModuleBody(state, record) {
 	return output;
 }
 
-/** Builds one replacement descriptor for a supported top-level ESM syntax node. */
-function replacementForNode(record, node) {
-	if (node.type === "ImportDeclaration") {
-		return replacement(
-			node.start,
-			statementEnd(record.source, node),
-			importReplacement(record, node)
-		);
+/**
+ * Collects replacement descriptors for supported top-level syntax nodes.
+ *
+ * @param {object} record
+ * 	Parsed module record.
+ * @returns {object[]}
+ * 	Ordered replacement descriptors consumed by `applyReplacements`.
+ */
+function topLevelReplacements(record) {
+	const replacements = [];
+	for (const node of record.ast?.body || []) {
+		const candidate = replacementForNode(record, node);
+		if (candidate) {
+			replacements.push(candidate);
+		}
 	}
-	if (node.type === "ExportNamedDeclaration") {
-		return replacement(
-			node.start,
-			exportNamedReplacementEnd(record, node),
-			namedExportReplacement(record, node)
-		);
-	}
-	if (node.type === "ExportDefaultDeclaration") {
-		return replacement(
-			node.start,
-			exportDefaultReplacementEnd(record, node),
-			defaultExportReplacement(record, node)
-		);
-	}
-	if (node.type === "ExportAllDeclaration") {
-		return replacement(
-			node.start,
-			statementEnd(record.source, node),
-			exportAllReplacement(record, node)
-		);
-	}
-	return null;
-}
-
-/** Rewrites import.meta.url to the original public resource URL, never its compact representation URL. */
-function rewriteImportMetaUrl(source, browserUrl) {
-	return String(source || "").replace(
-		/\bimport\.meta\.url\b/g,
-		JSON.stringify(browserUrl)
-	);
-}
-
-/** Returns the canonical browser pathname for the module's real resource identity. */
-function browserUrlForRecord(state, record) {
-	const relative = path.relative(
-		state.rootDir,
-		record.filePath
-	);
-	return `/${relative.split(path.sep).join("/")}`;
-}
-
-function statementEnd(source, node) {
-	const end = findStatementEnd(source, node.start);
-	return end > node.start ? end : node.end;
-}
-
-function replacement(start, end, text) {
-	return {
-		end,
-		start,
-		text
-	};
+	return replacements;
 }
 
 module.exports = {

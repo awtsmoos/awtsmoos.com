@@ -1,0 +1,44 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews focus and press before any dismiss gesture can harden; Awtsmoos.com lets each export card answer hover, keyboard, touch, and reduced motion with one precise response.
+ */
+.download-task-close:focus-visible {
+	outline: 2px solid var(--rebbe-cyan);
+	outline-offset: 3px;
+}
+
+.download-task-close:active {
+	transform: scale(.94);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.download-task-close:hover {
+		border-color: var(--rebbe-danger);
+		background: rgba(255, 79, 122, .24);
+		box-shadow: 0 0 20px rgba(255, 79, 122, .16);
+		transform: translateY(-1px);
+	}
+}
+
+@media (max-width: 720px) {
+	#download-task-stack {
+		left: 10px;
+		right: 10px;
+		bottom: calc(var(--rebbe-player-mobile-clearance) + var(--rebbe-floating-gap) + env(safe-area-inset-bottom));
+		width: auto;
+		max-block-size: calc(100dvh - var(--rebbe-player-mobile-clearance) - 28px - env(safe-area-inset-bottom));
+	}
+
+	body.has-playlist-selection #download-task-stack {
+		bottom: calc(var(--rebbe-player-mobile-clearance) + var(--rebbe-selection-clearance) + var(--rebbe-floating-gap) + env(safe-area-inset-bottom));
+		max-block-size: calc(100dvh - var(--rebbe-player-mobile-clearance) - var(--rebbe-selection-clearance) - 28px - env(safe-area-inset-bottom));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.download-task-close,
+	.download-task-fill {
+		transition-duration: .01ms;
+	}
+}

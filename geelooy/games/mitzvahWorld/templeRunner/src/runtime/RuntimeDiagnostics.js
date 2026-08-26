@@ -3,44 +3,53 @@
 // Blessed is He
 /**
  * @file RuntimeDiagnostics.js
- * @description Composes retractable advanced runtime evidence, including renderer, model, world, effects, and persistent texture-cache health without adding visible gameplay chrome.
- * The Awtsmoos renews hidden truth before Daas gathers it into one measured report;
- * Awtsmoos.com keeps diagnostics behind the advanced gate, so evidence may deepen while the runner's visible road stays short.
+ * @description Composes retractable advanced evidence from the actual runtime graph: state, camera, Core-native renderer, Chossid, effects, resolved quality budget, world, and shared remote-texture transport.
+ * The Awtsmoos renews hidden truth before Daas gathers renderer, texture, actor, and atmosphere into one measured report;
+ * Awtsmoos.com keeps evidence behind the advanced gate, so depth may increase while ordinary gameplay remains a quiet road of light.
  */
 
 export class DaasRuntimeDiagnostics {
-	/** @param {object} dependencies Runtime systems whose public snapshots form diagnostics. */
-	constructor(dependencies) {
-		this.snapshots = dependencies.snapshots;
-		this.sceneVessel = dependencies.sceneVessel;
-		this.camera = dependencies.camera;
-		this.effects = dependencies.effects;
-		this.world = dependencies.world;
-		this.model = dependencies.model;
+	/**
+	 * Captures only owners that expose read-only snapshots or evidence and never mutates runtime state from diagnostics.
+	 * @param {object} daasDependencies Complete authoritative runtime systems.
+	 */
+	constructor(daasDependencies) {
+		this.snapshots = daasDependencies.snapshots;
+		this.sceneVessel = daasDependencies.sceneVessel;
+		this.camera = daasDependencies.camera;
+		this.effects = daasDependencies.effects;
+		this.world = daasDependencies.world;
+		this.character = daasDependencies.character;
+		this.quality = daasDependencies.quality;
+		this.surfaces = daasDependencies.surfaceLibrary;
 	}
 
-	/** @returns {object} Current advanced runtime evidence. */
+	/**
+	 * Reveals one detached JSON-compatible diagnostic record for the advanced drawer and public inspect API.
+	 * @returns {object} Current runtime evidence.
+	 */
 	snapshot() {
-		const renderer = this.sceneVessel.renderer;
-		const stats = renderer?.stats || {};
+		const rendererStats = this.sceneVessel.renderer?.stats || {};
 		return {
 			state: this.snapshots.compose(),
 			camera: this.camera.snapshot(),
+			quality: this.quality?.snapshot?.() || null,
 			effects: this.effects.diagnostics(),
+			textures: this.surfaces?.diagnostics?.() || null,
 			world: {
 				proceduralMeshes: this.world.countProceduralMeshes(),
 				turnPrompt: this.world.turnPrompt()
 			},
-			textures: this.world.meshFactory?.surfaces?.diagnostics?.() || null,
 			model: {
-				ready: Boolean(this.model?.root),
-				animations: this.model?.animations?.length || 0
+				ready: Boolean(this.character?.root),
+				animations: this.character?.animations?.length || 0,
+				clips: this.character?.clipNames?.length || 0
 			},
 			renderer: {
-				calls: stats.calls || 0,
-				triangles: stats.triangles || 0,
-				geometries: stats.geometries || 0,
-				textures: stats.textures || 0
+				calls: rendererStats.calls || 0,
+				triangles: rendererStats.triangles || 0,
+				geometries: rendererStats.geometries || 0,
+				textures: rendererStats.textures || 0
 			}
 		};
 	}

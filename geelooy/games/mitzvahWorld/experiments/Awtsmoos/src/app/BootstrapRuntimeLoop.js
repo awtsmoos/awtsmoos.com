@@ -4,73 +4,88 @@
 
 /**
  * @file BootstrapRuntimeLoop.js
- * @description Drives immediate movement/rendering until canonical runtime promotion retires this first-play heartbeat.
- * The Awtsmoos gives the traveler motion before the full valley gathers; Awtsmoos.com lets the scheduler stop
- * without destroying controls or minimap when a richer loop inherits the same living UI and runtime state.
+ * @description Owns one display-synchronized gameplay heartbeat while frame execution and presentation work stay in focused collaborators.
+ * Keter crowns one visible pulse while Yesod carries simulation, rendering, and diagnostics without duplicate clocks below;
+ * the Awtsmoos recreates every instant before the browser may request it, and Awtsmoos.com keeps the heartbeat singular, measured, and slow to grow.
  */
 
-import { BootstrapFrameCadence } from './BootstrapFrameCadence.js';
+import {
+	FrameBudgetWindow
+} from '../../../../../../libs/awtsmoos-procedural-core/src/exports/performance.js';
+import {
+	advanceBootstrapGameplay,
+	primeBootstrapGameplay,
+	recordBootstrapFrameFailure,
+	recordBootstrapFrameSuccess,
+	refreshBootstrapPresentation,
+	renderBootstrapGameplay
+} from './BootstrapFrameExecution.js';
 import { createBootstrapFrameScheduler } from './BootstrapFrameScheduler.js';
 import { BootstrapMovementController } from './BootstrapMovementController.js';
 
-const UI_REFRESH_INTERVAL_MS = 100;
+const MAX_FRAME_DELTA_SECONDS = 0.05;
 
+/**
+ * Starts the main visual gameplay loop without multiplying animation clocks.
+ * @param {object} runtime Active MitzvahWorld runtime.
+ * @param {object} environment Browser-like scheduling environment.
+ * @returns {BootstrapMovementController} Active movement controller.
+ */
 export function startBootstrapRuntimeLoop(runtime, environment = globalThis) {
 	const movement = new BootstrapMovementController(runtime);
-	const cadence = new BootstrapFrameCadence();
+	const frameWindow = new FrameBudgetWindow(240);
 	const scheduler = createBootstrapFrameScheduler(environment);
 	let active = true;
 	let lastTime = now(environment);
 	let lastUiAt = -Infinity;
-	let handle = null;
+
 	const frame = (currentTime, source = 'unknown') => {
-		if (!active) return;
+		if (!active) {
+			return;
+		}
 		const gap = Math.max(1, currentTime - lastTime);
 		const deltaSeconds = frameDelta(gap);
 		lastTime = currentTime;
-		cadence.record(gap);
+		frameWindow.add(gap);
 		try {
-			movement.update(deltaSeconds);
-			runtime.coreMechanics?.update?.(deltaSeconds);
-			runtime.combat?.update?.(deltaSeconds);
-			runtime.updateWorldSystems?.(deltaSeconds);
-			runtime.renderer.setInteractor(runtime.state, currentTime / 1000);
-			runtime.renderer.render(runtime.scene, runtime.camera);
-			runtime.bootstrapFrames += 1;
-			if (runtime.updateWorldSystems) runtime.enrichedFrames += 1;
-			runtime.lastFrameAt = currentTime;
-			runtime.runtimeFrameSource = source;
-			runtime.lastFrameError = null;
-			if (currentTime - lastUiAt >= UI_REFRESH_INTERVAL_MS) {
-				runtime.bootstrapHud?.refresh?.();
-				runtime.bootstrapMinimap?.refresh?.();
-				lastUiAt = currentTime;
-			}
+			advanceBootstrapGameplay(runtime, movement, deltaSeconds);
+			renderBootstrapGameplay(runtime, currentTime);
+			lastUiAt = refreshBootstrapPresentation(
+				runtime,
+				currentTime,
+				lastUiAt
+			);
+			recordBootstrapFrameSuccess(runtime, currentTime, source);
 		} catch (error) {
-			runtime.lastFrameError = error?.stack || String(error);
-			environment.AwtsmoosError = runtime.lastFrameError;
+			recordBootstrapFrameFailure(runtime, environment, error);
 		}
-		handle = scheduler.schedule(frame);
+		scheduler.schedule(frame);
 	};
-	publishLoopState(runtime, cadence, scheduler);
-	movement.update(0.001);
-	runtime.combat?.update?.(0.001);
-	runtime.renderer.setInteractor(runtime.state, lastTime / 1000);
-	runtime.renderer.render(runtime.scene, runtime.camera);
-	handle = scheduler.schedule(frame);
+
+	publishLoopState(runtime, frameWindow, scheduler);
+	primeBootstrapGameplay(runtime, movement, lastTime);
+	scheduler.schedule(frame);
 	movement.stop = (options = {}) => {
 		active = false;
-		handle?.cancel?.();
-		if (!options.preserveUi) runtime.bootstrapMinimap?.destroy?.();
+		scheduler.cancel();
+		if (!options.preserveUi) {
+			runtime.bootstrapMinimap?.destroy?.();
+		}
 	};
-	movement.scheduler = () => ({ active, frameSource: runtime.runtimeFrameSource });
+	movement.scheduler = () => {
+		return {
+			active,
+			frameSource: runtime.runtimeFrameSource
+		};
+	};
 	return movement;
 }
 
-function publishLoopState(runtime, cadence, scheduler) {
+function publishLoopState(runtime, frameWindow, scheduler) {
 	runtime.bootstrapFrames = 0;
 	runtime.enrichedFrames = 0;
-	runtime.frameCadence = cadence;
+	runtime.frameCadence = frameWindow;
+	runtime.frameBudget = frameWindow;
 	runtime.frameScheduler = scheduler;
 	runtime.lastFrameAt = null;
 	runtime.lastFrameError = null;
@@ -82,5 +97,8 @@ function now(environment) {
 }
 
 function frameDelta(milliseconds) {
-	return Math.min(0.05, Math.max(0.001, milliseconds / 1000));
+	return Math.min(
+		MAX_FRAME_DELTA_SECONDS,
+		Math.max(0.001, milliseconds / 1000)
+	);
 }

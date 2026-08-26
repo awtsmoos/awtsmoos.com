@@ -2,81 +2,104 @@
 // Boruch Hashem
 // Blessed is He
 
-const NativeRecovery = require("../runtime/priority/nativeGenerationRecovery.js");
-const SemanticRecovery = require("./mailbox-semantic-recovery.js");
+const Recovery = require("./mailbox-emergency-recovery.js");
+const Responses = require("./mailbox-emergency-responses.js");
+const Telemetry = require("./mailbox-emergency-telemetry.js");
 
 /**
- * @file Holds the parent-owned live mailbox and heals stale exact custody independently.
+ * @file Owns the exact parent-process mailbox, timer, and recovery delegation.
  * @description
- * The Awtsmoos leaves a living repair hand beside the mailbox itself. Awtsmoos.com
- * does not reconstruct a second facade for emergency work; P0 and the periodic healer
- * touch the exact custody map owned by the controller and escalate only when ambiguity remains.
+ * The Awtsmoos keeps one living mailbox beside one living registry. Awtsmoos.com
+ * lets this vessel hold only ownership and cadence, while recovery and presentation
+ * shine through smaller siblings whose boundaries remain readable and independently testable.
  */
 let liveMailbox = null;
 let timer = null;
 let lastRecovery = null;
 const INTERVAL_MS = 2000;
 
+/**
+ * Registers the controller-owned mailbox and starts bounded periodic recovery scans.
+ * @param {object|null} mailbox Parent-owned mailbox contract.
+ * @param {object} options Optional cadence configuration.
+ * @returns {boolean} True when a live mailbox was registered.
+ */
 function register(mailbox, options = {}) {
 	liveMailbox = mailbox || null;
 	stop();
-	if (!liveMailbox) return false;
+	if (!liveMailbox) {
+		Telemetry.registered(false, 0);
+		return false;
+	}
 	const intervalMs = Math.max(500, Number(options.intervalMs || INTERVAL_MS));
-	timer = setInterval(() => autoReconcile(), intervalMs);
+	Telemetry.registered(true, intervalMs);
+	timer = setInterval(autoReconcile, intervalMs);
 	timer.unref?.();
 	return true;
 }
 
+/**
+ * Invokes one periodic semantic scan against the exact registered mailbox.
+ * @returns {object|null} Recovery testimony or null when no stale custody exists.
+ */
 function autoReconcile() {
 	if (!liveMailbox) return null;
-	const snapshot = liveMailbox.snapshot();
-	if (Number(snapshot.inbox?.parentCustodyStaleCount || 0) < 1) return null;
-	return reconcile("periodic_stale_custody");
+	const result = Recovery.scan(liveMailbox);
+	if (result) lastRecovery = result;
+	return result;
 }
 
-function reconcile(reason = "p0_mailbox_reconcile") {
-	if (!liveMailbox) return unavailable();
-	lastRecovery = SemanticRecovery.reconcile(liveMailbox, { reason });
-	if (lastRecovery.replacementRequired) {
-		lastRecovery.replacement = NativeRecovery.schedule(`mailbox:${reason}`);
-	}
+/**
+ * Runs explicit semantic recovery against the exact registered mailbox.
+ * @param {string} reason Recovery trigger testimony.
+ * @param {string} source Recovery source label.
+ * @returns {object} Recovery result or unavailable testimony.
+ */
+function reconcile(reason = "p0_mailbox_reconcile", source = "manual") {
+	if (!liveMailbox) return Responses.unavailable();
+	lastRecovery = Recovery.reconcile(liveMailbox, reason, source);
 	return lastRecovery;
 }
 
+/** Returns live mailbox health plus bounded recovery telemetry. */
 function status() {
-	if (!liveMailbox) return unavailable();
-	return { ok: true, registered: true, mailbox: liveMailbox.snapshot(), lastRecovery };
+	if (!liveMailbox) return Responses.unavailable();
+	return Responses.status(liveMailbox, lastRecovery);
 }
 
+/** Returns redacted or explicitly authorized mailbox evidence. */
 function evidence(includePayloads = false) {
-	if (!liveMailbox) return unavailable();
-	return { ok: true, registered: true, evidence: liveMailbox.evidence(includePayloads) };
+	if (!liveMailbox) return Responses.unavailable();
+	return Responses.evidence(liveMailbox, includePayloads);
 }
 
+/**
+ * Applies deliberate exact or semantic quarantine while preserving terminal-result custody.
+ * @param {object} payload Confirmation and optional exact receipt identifier.
+ * @returns {object} Quarantine, semantic recovery, or confirmation testimony.
+ */
 function quarantine(payload = {}) {
-	if (!liveMailbox) return unavailable();
-	if (payload.confirm !== true) {
-		return { ok: false, error: "confirmation_required",
-			confirmPayload: { action: "connectionMailboxQuarantine", confirm: true } };
-	}
-	if (payload.id) {
-		const record = liveMailbox.evidence(false).custody.find(item => item.id === payload.id);
-		if (record && SemanticRecovery.resultMustSurvive(record)) {
-			return { ok: false, error: "result_waiting_for_ack_preserved", id: payload.id };
-		}
-		return { ok: true, quarantined: liveMailbox.quarantineExact(payload.id, "p0_exact_quarantine") };
-	}
-	return reconcile("p0_confirmed_semantic_quarantine");
+	if (!liveMailbox) return Responses.unavailable();
+	if (payload.confirm !== true) return Responses.confirmationRequired();
+	if (!payload.id) return reconcile("p0_confirmed_semantic_quarantine", "manual");
+	lastRecovery = Recovery.quarantineExact(liveMailbox, payload.id);
+	return lastRecovery;
 }
 
+/** Stops only the periodic timer while preserving the registered mailbox reference. */
 function stop() {
 	if (!timer) return;
 	clearInterval(timer);
 	timer = null;
 }
 
-function unavailable() {
-	return { ok: false, registered: false, error: "live_mailbox_unavailable" };
-}
-
-module.exports = { INTERVAL_MS, evidence, quarantine, reconcile, register, status, stop };
+module.exports = {
+	INTERVAL_MS,
+	autoReconcile,
+	evidence,
+	quarantine,
+	reconcile,
+	register,
+	status,
+	stop
+};

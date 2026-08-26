@@ -4,89 +4,111 @@
 
 /**
  * @file WaterNatureApi.js
- * @description Unifies rivers, semantic water bodies, 3D liquid, shallow floods, and analytic ocean behind one simple facade.
- * The Awtsmoos renews every drop and sea while no numerical vessel contains them all; Awtsmoos.com gives developers
- * one clear water language where a pond is simple and expert conserved state remains available beneath every friendly call.
+ * @description Unifies flow, surface intent, volumetric surface meshes, semantic bodies, shallow water, analytic ocean, and PIC/FLIP liquid behind one progressive facade.
+ * The Awtsmoos renews every reflected ripple and conserved drop before solver names divide the sea; Awtsmoos.com lets one small API rise from surface to depth,
+ * so simple worlds gain beautiful water immediately while advanced callers descend into river, flood, ocean, and volumetric liquid without changing their path.
  */
 
 import { createWaterBodyNatureResult } from './WaterBodyNatureFactory.js';
-import { WaterFlowNatureApi } from './WaterFlowNatureApi.js';
 import {
 	createOceanNatureResult,
 	createShallowWaterNatureResult,
 	createWaterDynamicsNatureResult
 } from './WaterNatureFactories.js';
 import { routeWaterNatureCreate } from './WaterNatureRouting.js';
+import { WaterVolumetricSurfaceNatureApi } from './WaterVolumetricSurfaceNatureApi.js';
 
-/** Unified high-level water facade preserving mature river and reach methods through inheritance. */
-export class WaterNatureApi extends WaterFlowNatureApi {
-	/** Creates a stateful mass-conserving three-dimensional PIC/FLIP water runtime. */
-	fluid(options = {}) {
-		return createWaterDynamicsNatureResult(this.defaults, options);
+/** Unified water facade extending flow/surface semantics with stateful specialist regimes. */
+export class WaterNatureApi extends WaterVolumetricSurfaceNatureApi {
+	/** @returns {Readonly<object>} Stateful mass-conserving three-dimensional PIC/FLIP water result. */
+	fluid(optionsChesed = {}) {
+		return createWaterDynamicsNatureResult(
+			this.defaults,
+			optionsChesed
+		);
 	}
 
-	/** Alias for callers who think in material terms rather than solver terms. */
-	liquid(options = {}) {
-		return this.fluid(options);
+	/** Alias for material-oriented callers. */
+	liquid(optionsChesed = {}) {
+		return this.fluid(optionsChesed);
 	}
 
 	/** Alias emphasizing physical simulation and conserved state. */
-	dynamics(options = {}) {
-		return this.fluid(options);
+	dynamics(optionsChesed = {}) {
+		return this.fluid(optionsChesed);
 	}
 
-	/** Creates a conservative shallow-water runtime for raw sheet/flood simulation. */
-	shallow(options = {}) {
-		return createShallowWaterNatureResult(this.defaults, options);
+	/** @returns {Readonly<object>} Conservative shallow-water runtime result for sheets, floods, and puddles. */
+	shallow(optionsChesed = {}) {
+		return createShallowWaterNatureResult(
+			this.defaults,
+			optionsChesed
+		);
 	}
 
 	/** Alias for broad shallow flood simulation. */
-	flood(options = {}) {
-		return this.shallow(options);
+	flood(optionsChesed = {}) {
+		return this.shallow(optionsChesed);
 	}
 
 	/** Alias for bounded shallow puddle simulation. */
-	puddle(options = {}) {
-		return this.shallow(options);
+	puddle(optionsChesed = {}) {
+		return this.shallow(optionsChesed);
 	}
 
-	/** Creates one semantic shallow-water body over the shared water-body authority. */
-	body(kind = 'pond', options = {}) {
-		return createWaterBodyNatureResult(this.defaults, kind, options);
+	/** @returns {Readonly<object>} Semantic shallow-water body result. */
+	body(kindHod = 'pond', optionsChesed = {}) {
+		return createWaterBodyNatureResult(
+			this.defaults,
+			kindHod,
+			optionsChesed
+		);
 	}
 
 	/** Creates a semantic pond runtime. */
-	pond(options = {}) {
-		return this.body('pond', options);
+	pond(optionsChesed = {}) {
+		return this.body('pond', optionsChesed);
 	}
 
 	/** Creates a semantic lake runtime. */
-	lake(options = {}) {
-		return this.body('lake', options);
+	lake(optionsChesed = {}) {
+		return this.body('lake', optionsChesed);
 	}
 
 	/** Creates a semantic wetland runtime. */
-	wetland(options = {}) {
-		return this.body('wetland', options);
+	wetland(optionsChesed = {}) {
+		return this.body('wetland', optionsChesed);
 	}
 
 	/** Creates a semantic runoff runtime. */
-	runoff(options = {}) {
-		return this.body('runoff', options);
+	runoff(optionsChesed = {}) {
+		return this.body('runoff', optionsChesed);
 	}
 
-	/** Creates an immutable renderer-neutral Gerstner ocean, tide, and current field. */
-	ocean(options = {}) {
-		return createOceanNatureResult(this.defaults, options);
+	/** @returns {Readonly<object>} Immutable renderer-neutral Gerstner ocean field result. */
+	ocean(optionsChesed = {}) {
+		return createOceanNatureResult(
+			this.defaults,
+			optionsChesed
+		);
 	}
 
-	/** Alias using natural world-builder sea terminology. */
-	sea(options = {}) {
-		return this.ocean(options);
+	/** Natural world-builder alias for ocean. */
+	sea(optionsChesed = {}) {
+		return this.ocean(optionsChesed);
 	}
 
-	/** Creates any discoverable water regime through the focused routing specialist. */
-	create(kind = 'fluid', options = {}) {
-		return routeWaterNatureCreate(this, kind, options);
+	/**
+	 * Creates any discoverable water regime through the focused semantic router.
+	 * @param {string} [kindHod='fluid'] Water regime including `surface`, `river`, `pond`, `shallow`, `fluid`, or `ocean`.
+	 * @param {object} [optionsChesed={}] Regime-specific options.
+	 * @returns {Readonly<object>} Native Nature result for the chosen regime.
+	 */
+	create(kindHod = 'fluid', optionsChesed = {}) {
+		return routeWaterNatureCreate(
+			this,
+			kindHod,
+			optionsChesed
+		);
 	}
 }

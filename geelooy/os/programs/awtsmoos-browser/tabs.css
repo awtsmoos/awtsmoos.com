@@ -1,102 +1,106 @@
-/* B"H — trusted tab strip, scoped entirely to Awtsmoos Browser. */
-.awtsmoos-browser-host .awtsmoos-browser-tab-strip {
+/* B"H
+ * The Awtsmoos reveals the active browsing vessel in a quiet strip of trusted light;
+ * tabs remain host-owned testimony above every guest page, measured by day and night.
+ */
+
+.awtsmoos-browser-toolbar {
+	position: relative;
+	z-index: 20;
+	padding: 8px 10px 9px;
+	background: linear-gradient(180deg, rgba(18, 22, 34, 0.98), rgba(11, 14, 23, 0.96));
+	border-bottom: 1px solid var(--browser-border);
+	backdrop-filter: blur(24px) saturate(1.25);
+}
+
+.awtsmoos-browser-tab-strip {
 	display: flex;
 	align-items: center;
 	gap: 6px;
-	min-inline-size: 0;
-	overflow: hidden;
+	min-width: 0;
+	margin-bottom: 7px;
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-tab,
-.awtsmoos-browser-host .awtsmoos-browser-new-tab {
-	min-block-size: 34px;
-	border: 1px solid transparent;
-	border-radius: var(--awtsmoos-browser-radius-sm);
-	color: var(--awtsmoos-browser-muted);
+.awtsmoos-browser-tab,
+.awtsmoos-browser-new-tab,
+.awtsmoos-browser-menu {
+	border: 0;
+	color: var(--browser-text);
 	background: transparent;
-	cursor: pointer;
-	transition:
-		transform var(--awtsmoos-browser-speed-fast) var(--awtsmoos-browser-ease),
-		border-color var(--awtsmoos-browser-speed) ease,
-		background var(--awtsmoos-browser-speed) ease,
-		color var(--awtsmoos-browser-speed) ease;
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-tab {
-	display: flex;
+.awtsmoos-browser-tab {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
 	gap: 8px;
-	min-inline-size: 0;
-	max-inline-size: min(64vw, 270px);
+	width: min(260px, 52vw);
+	min-height: 32px;
 	padding: 6px 10px;
+	border-radius: 11px 11px 8px 8px;
+	background: rgba(255, 255, 255, 0.045);
+	transition: background 160ms ease, transform 160ms ease;
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-tab.is-active {
-	color: var(--awtsmoos-browser-ink);
-	border-color: var(--awtsmoos-browser-line);
-	background: rgba(255, 255, 255, 0.065);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+.awtsmoos-browser-tab.is-active {
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.075));
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-tab-title {
+.awtsmoos-browser-tab-icon,
+.awtsmoos-browser-empty-mark {
+	display: grid;
+	place-items: center;
+	width: 22px;
+	height: 22px;
+	border-radius: 8px;
+	color: #071017;
+	background: linear-gradient(135deg, #c9fbff, #7cecff 58%, #c5a7ff);
+	font-weight: 800;
+}
+
+.awtsmoos-browser-tab-title {
 	overflow: hidden;
+	font-size: 12px;
+	font-weight: 650;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-tab-close {
-	margin-inline-start: auto;
-	opacity: 0.48;
-	transition: opacity var(--awtsmoos-browser-speed-fast) ease;
+.awtsmoos-browser-tab-close {
+	color: var(--browser-muted);
+	font-size: 15px;
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-new-tab {
-	flex: 0 0 36px;
-	inline-size: 36px;
-	padding: 0;
+.awtsmoos-browser-new-tab,
+.awtsmoos-browser-menu {
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
 	font-size: 18px;
+	transition: background 150ms ease, transform 150ms ease;
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-wordmark {
-	margin-inline-start: auto;
-	display: none;
-	color: var(--awtsmoos-browser-muted);
+.awtsmoos-browser-new-tab:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.awtsmoos-browser-wordmark {
+	margin-left: auto;
+	padding-inline: 4px;
+	color: rgba(255, 255, 255, 0.42);
 	font-size: 11px;
-	font-weight: 750;
+	font-weight: 700;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
 }
 
-.awtsmoos-browser-host .awtsmoos-browser-tab:hover,
-.awtsmoos-browser-host .awtsmoos-browser-new-tab:hover {
-	color: var(--awtsmoos-browser-ink);
-	background: rgba(255, 255, 255, 0.08);
-}
+@media (max-width: 620px) {
+	.awtsmoos-browser-wordmark {
+		display: none;
+	}
 
-.awtsmoos-browser-host .awtsmoos-browser-tab:hover .awtsmoos-browser-tab-close {
-	opacity: 0.9;
-}
-
-.awtsmoos-browser-host .awtsmoos-browser-tab:active,
-.awtsmoos-browser-host .awtsmoos-browser-new-tab:active {
-	transform: translateY(1px) scale(0.97);
-}
-
-.awtsmoos-browser-host .awtsmoos-browser-tab:focus-visible,
-.awtsmoos-browser-host .awtsmoos-browser-new-tab:focus-visible {
-	outline: 2px solid var(--awtsmoos-browser-accent);
-	outline-offset: 2px;
-}
-
-.awtsmoos-browser-host .awtsmoos-browser-tab:disabled,
-.awtsmoos-browser-host .awtsmoos-browser-new-tab:disabled {
-	opacity: 0.38;
-	cursor: not-allowed;
-	transform: none;
-}
-
-@media (min-width: 640px) {
-	.awtsmoos-browser-host .awtsmoos-browser-wordmark {
-		display: inline;
+	.awtsmoos-browser-toolbar {
+		padding-inline: 7px;
 	}
 }

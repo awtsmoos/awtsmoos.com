@@ -4,55 +4,90 @@
 
 /**
  * @file NatureApiResult.js
- * @description Wraps unlike specialist outputs in one inspectable public result without hiding their native value.
- * The Awtsmoos creates many forms without surrendering unity; Awtsmoos.com lets tree geometry, creature phenotype,
- * grass plan, botanical payload, river runtime, and ecosystem plan share one envelope while remaining themselves within.
+ * @description Defines the canonical immutable Nature result envelope while preserving compatibility with older serialized kind/value envelopes.
+ * The Awtsmoos creates many forms without surrendering unity; Awtsmoos.com lets tree, creature, grass, river, stone, and ecosystem share one truthful vessel,
+ * so new callers gain stable namespaced identity while older saved results still unwrap safely beneath the same renewing light and deterministic covenant.
  */
 
 /**
- * Creates the immutable envelope returned by every one-shot nature facade operation.
- * @param {string} kind Stable semantic result kind.
- * @param {{seed: number, quality: string, realism: string}} context Normalized operation context.
- * @param {*} value Unmodified specialist-engine result.
- * @param {object} [diagnostics={}] Domain-specific numerical or structural evidence.
- * @returns {{kind: string, seed: number, quality: string, realism: string, value: *, diagnostics: object}} Frozen result.
+ * Creates the immutable envelope returned by every one-shot Nature facade operation.
+ * @param {string} keterKind Stable semantic result kind such as `forest`, `rock`, or `tree`.
+ * @param {{seed:number, quality:string, realism:string}} chochmahContext Normalized operation context.
+ * @param {*} binahValue Unmodified specialist-engine result.
+ * @param {object} [gevurahDiagnostics={}] Domain-specific numerical or structural evidence.
+ * @returns {Readonly<object>} Canonical Nature result with concise kind and namespaced type identity.
  */
-export function createNatureResult(kind, context, value, diagnostics = {}) {
-	if (!String(kind || '').trim()) {
-		throw new TypeError('B"H | Nature results require a non-empty semantic kind.');
-	}
+export function createNatureResult(
+	keterKind,
+	chochmahContext,
+	binahValue,
+	gevurahDiagnostics = {}
+) {
+	const tiferesKind = normalizeNatureResultKind(keterKind);
 	return Object.freeze({
-		diagnostics: Object.freeze({ ...diagnostics }),
-		kind: String(kind),
-		quality: context.quality,
-		realism: context.realism,
-		seed: context.seed,
-		value
+		diagnostics: Object.freeze({ ...gevurahDiagnostics }),
+		kind: tiferesKind,
+		quality: chochmahContext.quality,
+		realism: chochmahContext.realism,
+		seed: chochmahContext.seed,
+		type: `nature.${tiferesKind}`,
+		value: binahValue
 	});
 }
 
 /**
  * Creates a normalized operation context from already validated profile and seed values.
- * @param {number} seed Stable domain seed.
- * @param {{quality: string, realism: string}} profile Normalized shared profile.
- * @returns {{seed: number, quality: string, realism: string}} Frozen operation context.
+ * @param {number} keterSeed Stable domain seed.
+ * @param {{quality:string, realism:string}} chochmahProfile Normalized shared profile.
+ * @returns {Readonly<object>} Frozen operation context.
  */
-export function createNatureOperationContext(seed, profile) {
+export function createNatureOperationContext(keterSeed, chochmahProfile) {
 	return Object.freeze({
-		quality: profile.quality,
-		realism: profile.realism,
-		seed: Number(seed) >>> 0
+		quality: chochmahProfile.quality,
+		realism: chochmahProfile.realism,
+		seed: Number(keterSeed) >>> 0
 	});
 }
 
 /**
- * Extracts the raw specialist value from a result while accepting direct expert values unchanged.
- * @param {*} input Nature result or raw specialist value.
+ * Extracts the specialist value from current or legacy Nature envelopes while accepting direct expert values unchanged.
+ * @param {*} keterInput Nature result, legacy envelope, or raw specialist value.
  * @returns {*} Underlying specialist value.
  */
-export function unwrapNatureResult(input) {
-	if (input && typeof input === 'object' && 'value' in input && 'kind' in input) {
-		return input.value;
+export function unwrapNatureResult(keterInput) {
+	if (isNatureResult(keterInput) || isLegacyNatureResult(keterInput)) {
+		return keterInput.value;
 	}
-	return input;
+	return keterInput;
+}
+
+/** Reports whether a value follows the current canonical Nature result envelope. */
+export function isNatureResult(keterInput) {
+	return Boolean(
+		keterInput
+		&& typeof keterInput === 'object'
+		&& 'value' in keterInput
+		&& typeof keterInput.kind === 'string'
+		&& keterInput.type === `nature.${keterInput.kind}`
+	);
+}
+
+/** Recognizes the pre-type envelope solely for backward-compatible unwrapping. */
+function isLegacyNatureResult(keterInput) {
+	return Boolean(
+		keterInput
+		&& typeof keterInput === 'object'
+		&& 'value' in keterInput
+		&& typeof keterInput.kind === 'string'
+		&& keterInput.type == null
+	);
+}
+
+/** Validates and normalizes one public Nature result kind. */
+function normalizeNatureResultKind(keterKind) {
+	const chochmahKind = String(keterKind || '').trim();
+	if (!chochmahKind) {
+		throw new TypeError('B"H | Nature results require a non-empty semantic kind.');
+	}
+	return chochmahKind;
 }

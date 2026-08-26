@@ -2,38 +2,34 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Yesod responsive composition turning advanced detail into a thumb-friendly bottom sheet on phones while preserving the side drawer on wider and short-landscape screens.
- * The Awtsmoos renews portrait, landscape, narrow glass, and wide glass before one panel can claim a fixed edge;
- * Awtsmoos.com lets Yesod keep every advanced vessel inside safe bounds while the gameplay road remains the greater stage.
+ * @fileoverview Yesod viewport geometry turning advanced detail into a bounded phone sheet while preserving a quiet side drawer on wide or short-landscape glass.
+ * The Awtsmoos renews thumb-zone, portrait, landscape, safe area, and hidden depth before one panel can claim the visible stage;
+ * Awtsmoos.com lets Yesod keep every revealed vessel inside the current viewport while the gameplay road remains uncluttered in every age.
  */
 
 .drawer-grip {
 	display: none;
-	width: 42px;
-	height: 4px;
-	margin: 2px auto 8px;
+	width: 46px;
+	height: 5px;
+	margin: 0 auto 9px;
 	border-radius: 999px;
-	background: rgba(255, 249, 232, 0.22);
-}
-
-.game-shell[data-density="minimal"] .run-metric-secondary {
-	display: none;
-}
-
-.game-shell[data-density="minimal"] .status-stage {
-	top: calc(var(--safe-top) + 52px);
+	background: linear-gradient(90deg, rgba(255, 224, 138, 0.18), rgba(185, 239, 255, 0.5), rgba(255, 224, 138, 0.18));
+	box-shadow: 0 0 16px rgba(91, 203, 231, 0.12);
 }
 
 @media (max-width: 600px) and (min-height: 521px) {
 	.run-drawer {
 		top: auto;
-		left: max(6px, env(safe-area-inset-left));
-		right: max(6px, env(safe-area-inset-right));
-		bottom: max(6px, env(safe-area-inset-bottom));
+		left: max(5px, env(safe-area-inset-left));
+		right: max(5px, env(safe-area-inset-right));
+		bottom: max(5px, env(safe-area-inset-bottom));
 		width: auto;
-		max-height: min(78dvh, 720px);
-		border-radius: 26px;
-		transform: translate3d(0, calc(100% + 24px), 0);
+		max-height: min(82dvh, 760px);
+		padding: 12px clamp(12px, 3.6vw, 16px) max(14px, env(safe-area-inset-bottom));
+		border-radius: 28px 28px 18px 18px;
+		box-shadow: 0 -18px 72px rgba(0, 0, 0, 0.58), 0 0 0 1px rgba(185, 239, 255, 0.04);
+		transform: translate3d(0, calc(100% + 28px), 0);
+		scroll-padding-top: 74px;
 	}
 
 	.game-shell[data-drawer="open"] .run-drawer {
@@ -45,20 +41,35 @@
 	}
 
 	.drawer-header {
-		top: -24px;
-		margin-top: -8px;
-		padding-top: 10px;
+		top: -12px;
+		margin: -12px calc(clamp(12px, 3.6vw, 16px) * -1) 0;
+		padding: 12px clamp(14px, 4vw, 18px) 13px;
+		border-radius: 28px 28px 0 0;
+	}
+
+	.drawer-section {
+		padding-top: 12px;
 	}
 }
 
-@media (max-width: 360px) {
+@media (max-width: 420px) {
 	.run-rail {
-		max-width: calc(100vw - 118px - var(--safe-left));
+		max-width: calc(100vw - 116px - var(--safe-left));
 	}
 
 	.status-pill,
 	.power-up-status {
-		max-width: calc(100vw - 24px);
+		max-width: calc(100vw - 22px);
+	}
+}
+
+@media (max-width: 340px) {
+	.run-rail {
+		max-width: calc(100vw - 108px - var(--safe-left));
+	}
+
+	.status-stage {
+		max-width: calc(100vw - 18px);
 	}
 }
 
@@ -68,12 +79,18 @@
 		left: auto;
 		right: max(5px, env(safe-area-inset-right));
 		bottom: max(5px, env(safe-area-inset-bottom));
-		width: min(340px, 58vw);
+		width: min(330px, 54vw);
 		max-height: calc(100dvh - 10px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+		padding: 10px 12px;
+		border-radius: 20px;
 		transform: translate3d(calc(100% + 24px), 0, 0);
 	}
 
 	.game-shell[data-drawer="open"] .run-drawer {
 		transform: translate3d(0, 0, 0);
+	}
+
+	.drawer-section {
+		padding-top: 9px;
 	}
 }

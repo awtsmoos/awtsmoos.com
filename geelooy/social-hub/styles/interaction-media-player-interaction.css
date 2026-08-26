@@ -1,0 +1,70 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews focus, press, hover, and progress before a gesture can become old; Awtsmoos.com lets the comment video answer every interaction with precise bounded light instead of native browser chrome.
+ */
+.social-hub-document .commentVideoPlayer__seek::-webkit-slider-runnable-track {
+	block-size: 5px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgba(55, 231, 255, .84), rgba(220, 70, 255, .62));
+}
+
+.social-hub-document .commentVideoPlayer__seek::-webkit-slider-thumb {
+	inline-size: 18px;
+	block-size: 18px;
+	margin-block-start: -6.5px;
+	border: 2px solid rgba(235, 253, 255, .95);
+	border-radius: 50%;
+	appearance: none;
+	background: rgb(42, 211, 240);
+	box-shadow: 0 0 0 4px rgba(42, 211, 240, .14);
+}
+
+.social-hub-document .commentVideoPlayer__seek::-moz-range-track {
+	block-size: 5px;
+	border: 0;
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgba(55, 231, 255, .84), rgba(220, 70, 255, .62));
+}
+
+.social-hub-document .commentVideoPlayer__seek::-moz-range-thumb {
+	inline-size: 16px;
+	block-size: 16px;
+	border: 2px solid rgba(235, 253, 255, .95);
+	border-radius: 50%;
+	background: rgb(42, 211, 240);
+}
+
+.social-hub-document .commentVideoPlayer :where(button, input):focus-visible {
+	outline: 2px solid rgba(107, 239, 255, .94);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .commentVideoPlayer__play:hover,
+	.social-hub-document .commentVideoPlayer__mute:hover {
+		border-color: rgba(103, 240, 255, .66);
+		background: linear-gradient(145deg, rgba(43, 214, 244, .3), rgba(173, 67, 198, .22));
+		box-shadow: 0 8px 20px rgba(35, 215, 241, .09);
+		transform: translateY(-1px);
+	}
+}
+
+.social-hub-document .commentVideoPlayer__play:active,
+.social-hub-document .commentVideoPlayer__mute:active {
+	transform: translateY(1px) scale(.96);
+}
+
+.social-hub-document .commentVideoPlayer__play:disabled,
+.social-hub-document .commentVideoPlayer__mute:disabled,
+.social-hub-document .commentVideoPlayer__seek:disabled {
+	cursor: not-allowed;
+	opacity: .46;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .commentVideoPlayer__play,
+	.social-hub-document .commentVideoPlayer__mute {
+		transition-duration: .01ms;
+	}
+}

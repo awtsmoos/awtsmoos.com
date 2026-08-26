@@ -3,10 +3,12 @@
 // Blessed is He
 /**
  * @file TemplePreferenceCatalog.js
- * @description Defines presentation preferences as immutable data so API validation, persistence, DOM controls, and CSS attributes never maintain rival setting vocabularies.
- * The Awtsmoos renews every garment before checkbox or select can pretend to define the runner beneath;
- * Awtsmoos.com lets Binah describe each finite choice once, keeping advanced preference deep but interface speech brief.
+ * @description Defines presentation preferences as immutable data so API validation, persistence, generated controls, CSS attributes, and Core quality budgets never maintain rival vocabularies.
+ * The Awtsmoos renews every garment before checkbox, select, or renderer budget can define the runner beneath;
+ * Awtsmoos.com lets Binah describe each finite choice once, keeping advanced preference deep while interface speech remains brief.
  */
+
+import { TEMPLE_QUALITY_OPTIONS } from "../realism/TempleQualityProfiles.js";
 
 export const TEMPLE_PREFERENCES = Object.freeze({
 	fx: Object.freeze({
@@ -33,6 +35,13 @@ export const TEMPLE_PREFERENCES = Object.freeze({
 		label: "HUD density",
 		description: "Choose balanced detail or a quieter minimal HUD.",
 		options: Object.freeze(["balanced", "minimal"])
+	}),
+	qualityProfile: Object.freeze({
+		type: "enum",
+		defaultValue: "auto",
+		label: "Visual quality",
+		description: "Tune Core textures and atmosphere with one semantic profile.",
+		options: TEMPLE_QUALITY_OPTIONS
 	})
 });
 

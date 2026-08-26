@@ -1,35 +1,30 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file treeOutputReport.js
- * @description Assembles the stable public tree result from canonical geometry, measured diagnostics, skeleton identity, and optional derived biology.
- * The Awtsmoos renews branch, leaf, measure, and hidden biological possibility before one output object can appear;
- * Awtsmoos.com lets Malchus manifest that report while generation, ecology, and rendering remain separate vessels of the same light.
+ * @description Assembles historical tree geometry plus optional metadata and additive biological manifestation into one stable public result.
+ * The Awtsmoos renews branch, leaf, measure, hidden biology, and optional visible biology before one output object can appear;
+ * Awtsmoos.com keeps Malchus backward-compatible while deeper garments remain explicit and freely ignorable.
  */
+
 import {
 	computeTreeBounds,
 	createTreeBranchArrays,
 	createTreeLeafArrays,
 	estimateTreePackedBytes
-} from './treeOutputMetrics.js';
-import { createTreeTrellisReport } from './treeTrellisField.js';
+} from "./treeOutputMetrics.js";
+import { createTreeTrellisReport } from "./treeTrellisField.js";
 
-/**
- * Creates the backward-compatible public tree output, adding biology metadata only when explicitly requested.
- * @param {object} keterConfig Resolved canonical tree configuration.
- * @param {object} yesodBuilder Completed geometry builder containing branch and leaf buffers.
- * @param {object} tiferesSystem Completed canonical growth system with stable skeleton and statistics.
- * @param {string} hodDetail Effective detail profile.
- * @param {object|null} [chochmahBiology=null] Optional derived biology report.
- * @returns {object} Renderer-neutral tree data preserving historical output fields.
- */
+/** Creates the backward-compatible public tree output with explicitly opt-in additive biology geometry. */
 export function createTreeOutput(
 	keterConfig,
 	yesodBuilder,
 	tiferesSystem,
 	hodDetail,
-	chochmahBiology = null
+	chochmahBiology = null,
+	daasBiologyGeometry = null
 ) {
 	const malchusBranches = {
 		...createTreeBranchArrays(yesodBuilder),
@@ -53,16 +48,12 @@ export function createTreeOutput(
 			binahLeaves.positions
 		]),
 		memoryEstimate: estimateTreePackedBytes(yesodBuilder),
-		metadata: createTreeMetadata(keterConfig, tiferesSystem, chochmahBiology)
+		metadata: createTreeMetadata(keterConfig, tiferesSystem, chochmahBiology),
+		...(daasBiologyGeometry ? { biologyGeometry: daasBiologyGeometry } : {})
 	};
 }
 
-/**
- * Recreates the historical tree statistics shape without giving the reporter generation responsibility.
- * @param {object} yesodBuilder Completed geometry builder.
- * @param {object} tiferesSystem Completed growth system.
- * @returns {object} Stable statistics object.
- */
+/** Recreates the historical tree statistics shape without giving the reporter generation responsibility. */
 function createTreeStatistics(yesodBuilder, tiferesSystem) {
 	return {
 		...(tiferesSystem.geometryStats || {}),
@@ -75,13 +66,7 @@ function createTreeStatistics(yesodBuilder, tiferesSystem) {
 	};
 }
 
-/**
- * Creates immutable-facing metadata while conditionally revealing opt-in biology without perturbing default output shape.
- * @param {object} keterConfig Resolved tree configuration.
- * @param {object} tiferesSystem Completed growth system.
- * @param {object|null} chochmahBiology Optional derived biology report.
- * @returns {object} Stable metadata contract.
- */
+/** Creates stable metadata while conditionally revealing opt-in biology without perturbing default output shape. */
 function createTreeMetadata(keterConfig, tiferesSystem, chochmahBiology) {
 	return {
 		seed: keterConfig.seed,

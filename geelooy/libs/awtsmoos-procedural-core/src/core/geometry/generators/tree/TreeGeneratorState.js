@@ -1,34 +1,29 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file TreeGeneratorState.js
  * @description Owns reusable canonical tree state and read-oriented derivations so the geometry coordinator remains small.
  * The Awtsmoos renews root, crown, seed, skeleton, and every possible garment before one generator can remember its last result;
- * Awtsmoos.com lets this Yesod-like base preserve identity, LOD, biology, capability, and statistics contracts while the subclass reveals geometry.
+ * Awtsmoos.com lets this Yesod-like base preserve identity, LOD, biology, manifestation, capability, and statistics contracts while the subclass reveals geometry.
  */
 
-import { createTreeBiologyReport } from './treeBiologyReport.js';
+import { createTreeBiologyReport } from "./treeBiologyReport.js";
 import {
 	createEmptyTreeStats,
 	normalizeTreeGenerationOptions,
 	revealTreeBiologyOptions
-} from './treeGeneratorInputs.js';
-import { createTreeLodSet } from './treeLodPlanner.js';
-import { TreeSkeletonGenerator } from './treeSkeletonGenerator.js';
-import { getTreeCapabilities } from './treeCapabilities.js';
-import { resolveTreeConfig } from './treeConfigResolver.js';
+} from "./treeGeneratorInputs.js";
+import { createTreeLodSet } from "./treeLodPlanner.js";
+import { TreeSkeletonGenerator } from "./treeSkeletonGenerator.js";
+import { getTreeCapabilities } from "./treeCapabilities.js";
+import { resolveTreeConfig } from "./treeConfigResolver.js";
 
-/**
- * Preserves the stable tree configuration and canonical derived-state contracts shared by every concrete generator.
- */
+/** Preserves stable tree configuration and canonical derived-state contracts shared by every concrete generator. */
 export class TreeGeneratorState {
-	/**
-	 * Resolves one reusable tree configuration and initializes every observable generation vessel explicitly.
-	 * @param {string|object} [keterConfig='Oak Medium'] Preset name or compatible tree configuration overrides.
-	 */
-	constructor(keterConfig = 'Oak Medium') {
+	/** Resolves one reusable tree configuration and initializes every observable generation vessel explicitly. */
+	constructor(keterConfig = "Oak Medium") {
 		this.config = resolveTreeConfig(keterConfig);
 		this.rng = null;
 		this.builder = null;
@@ -36,13 +31,10 @@ export class TreeGeneratorState {
 		this.lastOutput = null;
 		this.lastSkeleton = null;
 		this.lastBiology = null;
+		this.lastBiologyGeometry = null;
 	}
 
-	/**
-	 * Replaces the canonical configuration and clears derived state that would otherwise describe the previous tree.
-	 * @param {string|object} keterConfig Preset name or compatible configuration overrides.
-	 * @returns {this} The same reusable state vessel for fluent historical compatibility.
-	 */
+	/** Replaces the canonical configuration and clears every derived vessel from the previous tree. */
 	setConfig(keterConfig) {
 		this.config = resolveTreeConfig(keterConfig);
 		this.rng = null;
@@ -51,23 +43,17 @@ export class TreeGeneratorState {
 		this.lastOutput = null;
 		this.lastSkeleton = null;
 		this.lastBiology = null;
+		this.lastBiologyGeometry = null;
 		return this;
 	}
 
-	/**
-	 * Reveals one deterministic canonical skeleton without allocating historical branch/leaf geometry buffers.
-	 * @returns {object} Stable skeleton whose identity is shared by LOD and biology derivations.
-	 */
+	/** Reveals one deterministic canonical skeleton without allocating historical branch/leaf geometry buffers. */
 	generateSkeleton() {
 		this.lastSkeleton = new TreeSkeletonGenerator(this.config).generate();
 		return this.lastSkeleton;
 	}
 
-	/**
-	 * Derives optional roots, reproduction, deadwood, season, and environment intent from one canonical skeleton.
-	 * @param {object} [keterInput={}] Biology and environment options accepted by the public generator facade.
-	 * @returns {Readonly<object>} Immutable renderer-neutral biology report.
-	 */
+	/** Derives optional roots, reproduction, deadwood, season, and environment intent from one canonical skeleton. */
 	generateBiology(keterInput = {}) {
 		const tiferesOptions = normalizeTreeGenerationOptions(keterInput);
 		const yesodSkeleton = this.generateSkeleton();
@@ -75,14 +61,11 @@ export class TreeGeneratorState {
 			yesodSkeleton,
 			revealTreeBiologyOptions(tiferesOptions)
 		);
+		this.lastBiologyGeometry = null;
 		return this.lastBiology;
 	}
 
-	/**
-	 * Realizes renderer-neutral LOD geometry from one freshly generated canonical skeleton without structural regeneration per level.
-	 * @param {object|string[]} [keterInput={}] LOD profiles or options containing profiles and geometry budget.
-	 * @returns {object} Historical LOD-set envelope preserving preset, seed, skeleton, and lods fields.
-	 */
+	/** Realizes renderer-neutral LOD geometry from one freshly generated canonical skeleton without structural regeneration per level. */
 	generateLODs(keterInput = {}) {
 		const tiferesOptions = Array.isArray(keterInput)
 			? { profiles: keterInput }

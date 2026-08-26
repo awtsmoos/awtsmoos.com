@@ -2,12 +2,10 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos, Atzmus beyond every garment and order, renews one social palace through focused styles in every instant;
- * Awtsmoos.com lets structure precede interaction, reply and voice arrive as bounded vessels, and accessibility remain the final finite authority over motion and sight.
+ * The Awtsmoos renews one social palace before stylesheet order can claim a beginning; Awtsmoos.com lets structure, interaction, custom voice, mobile flow, and accessibility receive focused local garments without cross-page style war.
  */
-
-@import url("./theme.css?v=messaging-revelation-014");
-@import url("./layout.css?v=messaging-revelation-014");
+@import url("./theme.css?v=messaging-revelation-016");
+@import url("./layout.css?v=messaging-revelation-016");
 @import url("./components.css");
 @import url("./interaction-system.css");
 @import url("./status.css");
@@ -29,7 +27,8 @@
 @import url("./thread-identity.css");
 @import url("./message-rhythm.css");
 @import url("./mobile-message-rhythm.css");
-@import url("./composer.css");
+@import url("./composer.css?v=messaging-revelation-016");
+@import url("./composer-interaction.css?v=messaging-revelation-016");
 @import url("./details.css");
 @import url("./group-details.css");
 @import url("./group-details-mobile.css");
@@ -60,6 +59,6 @@
 @import url("./mobile-room-motion.css");
 @import url("./short-height.css");
 @import url("./message-replies.css");
-@import url("./voice-note.css");
+@import url("./voice-note.css?v=messaging-revelation-016");
 @import url("./accessibility-contrast.css");
 @import url("./accessibility-motion.css");

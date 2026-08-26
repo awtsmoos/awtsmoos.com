@@ -1,21 +1,24 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file treeBiologyReport.js
- * @description Coordinates derived root, reproductive, deadwood, season, wind, and LOD intent around the immutable canonical tree skeleton.
+ * @description Coordinates deterministic tree biology and optionally manifests those descriptors as renderer-neutral geometry.
  * The Awtsmoos renews hidden root, visible crown, future fruit, and weathered branch without dividing their source;
- * Awtsmoos.com lets this Tiferes report harmonize those lights while geometry, simulation, and rendering remain in their proper course.
+ * Awtsmoos.com lets one Tiferes report harmonize biology and optional geometry while canonical skeleton law keeps its course.
  */
+
+import { createTreeBiologyGeometryManifest } from './treeBiologyGeometryManifest.js';
 import { createTreeDeadwoodPlan } from './treeDeadwoodPlan.js';
 import { createTreeEnvironmentIntent } from './treeEnvironmentIntent.js';
 import { createTreeReproductivePlan } from './treeReproductivePlan.js';
 import { createTreeRootArchitecture } from './treeRootArchitecture.js';
 
 /**
- * Creates one immutable biology report derived from the canonical skeleton and optional generation biology settings.
+ * Creates one immutable biology report from the canonical skeleton and optional generation settings.
  * @param {object} yesodSkeleton Canonical stable tree skeleton.
- * @param {object} [keterOptions={}] Root, reproductive, deadwood, environment, and enablement options.
+ * @param {object} [keterOptions={}] Root, reproductive, deadwood, environment, geometry, and enablement options.
  * @returns {Readonly<object>} Renderer-neutral biology report that never mutates canonical geometry.
  */
 export function createTreeBiologyReport(yesodSkeleton, keterOptions = {}) {
@@ -23,7 +26,7 @@ export function createTreeBiologyReport(yesodSkeleton, keterOptions = {}) {
 	const malchusReproductionOptions = objectOptions(keterOptions.reproduction);
 	const chochmahDeadwoodOptions = objectOptions(keterOptions.deadwood);
 	const binahEnvironmentOptions = objectOptions(keterOptions.environment);
-	return Object.freeze({
+	const yesodReport = {
 		canonicalSkeletonHash: yesodSkeleton.contentHash,
 		deadwood: createTreeDeadwoodPlan(yesodSkeleton, chochmahDeadwoodOptions),
 		enabled: keterOptions.enabled !== false,
@@ -35,16 +38,24 @@ export function createTreeBiologyReport(yesodSkeleton, keterOptions = {}) {
 		roots: createTreeRootArchitecture(yesodSkeleton, tiferesRootOptions),
 		seed: yesodSkeleton.seed,
 		version: '1.0.0'
+	};
+	const keterGeometryRequest = geometryRequest(keterOptions.geometry);
+	if (!keterGeometryRequest) return Object.freeze(yesodReport);
+	return Object.freeze({
+		...yesodReport,
+		geometry: createTreeBiologyGeometryManifest(yesodSkeleton, yesodReport, keterGeometryRequest)
 	});
 }
 
-/**
- * Returns a shallow clone only for object-like option vessels; booleans remain enablement shortcuts.
- * @param {unknown} orValue Candidate nested options.
- * @returns {object} Safe independent options object.
- */
+/** Returns a shallow clone only for object-like option vessels; booleans remain enablement shortcuts. */
 function objectOptions(orValue) {
 	if (orValue === false) return { enabled: false };
 	if (orValue === true || orValue === undefined || orValue === null) return {};
 	return typeof orValue === 'object' ? { ...orValue } : {};
+}
+
+/** Returns a geometry request only when the caller explicitly opts into manifestation. */
+function geometryRequest(value) {
+	if (value === true) return true;
+	return value && typeof value === 'object' ? { ...value } : null;
 }

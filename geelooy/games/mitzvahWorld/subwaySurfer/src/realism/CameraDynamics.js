@@ -3,15 +3,15 @@
 // Blessed is He
 /**
  * @file CameraDynamics.js
- * @description Adds bounded speed, portrait, lane, jump, look-ahead, and roll cues without touching Peruta Run collision coordinates.
- * The Awtsmoos renews perspective while lane and leap become felt without moving truth;
- * Awtsmoos.com lets camera depth breathe with speed while gameplay remains fixed beneath the youth.
+ * @description Keeps the Chossid visually prominent through close runner-first framing, restrained lane follow, bounded speed depth, and gentle portrait compensation.
+ * The Awtsmoos renews perspective while the runner remains the living center of sight;
+ * Awtsmoos.com lets speed breathe through subtle framing without throwing the player high, far, or light.
  */
 
 import { CAMERA_CONFIG, CHAI_CONFIG } from "../config.js";
 
 export class TiferesCameraDynamics {
-	/** @param {object} THREE Three.js namespace. @param {object} camera Camera. @param {object} runner Runner controller. @param {object} state Runner state. */
+	/** @param {object} THREE Three namespace. @param {object} camera Camera. @param {object} runner Runner. @param {object} state State. */
 	constructor(THREE, camera, runner, state) {
 		this.camera = camera;
 		this.runner = runner;
@@ -21,32 +21,32 @@ export class TiferesCameraDynamics {
 		this.roll = 0;
 	}
 
-	/** @param {number} delta Frame duration in seconds. */
+	/** @param {number} delta Frame duration seconds. */
 	update(delta) {
-		const safeDelta = Math.min(CHAI_CONFIG.maxDelta, Math.max(0, delta));
-		const speedRatio = this.speedRatio();
-		const portrait = Math.max(0, Math.min(1, (1 - this.camera.aspect) / 0.42));
-		this.updateFov(speedRatio, safeDelta);
-		this.updatePosition(speedRatio, portrait, safeDelta);
-		this.updateLook(speedRatio, safeDelta);
+		const yesodDelta = Math.min(CHAI_CONFIG.maxDelta, Math.max(0, delta));
+		const netzachSpeed = this.speedRatio();
+		const malchusPortrait = Math.max(0, Math.min(1, (1 - this.camera.aspect) / 0.5));
+		this.updateFov(netzachSpeed, yesodDelta);
+		this.updatePosition(netzachSpeed, malchusPortrait, yesodDelta);
+		this.updateLook(netzachSpeed, yesodDelta);
 	}
 
-	/** @returns {number} Zero-to-one normalized speed intensity. */
+	/** @returns {number} Zero-to-one current speed intensity. */
 	speedRatio() {
-		const span = CHAI_CONFIG.maxSpeed - CHAI_CONFIG.startSpeed;
-		return Math.max(0, Math.min(1, (this.state.speed - CHAI_CONFIG.startSpeed) / span));
+		const tiferesSpan = CHAI_CONFIG.maxSpeed - CHAI_CONFIG.startSpeed;
+		return Math.max(0, Math.min(1, (this.state.speed - CHAI_CONFIG.startSpeed) / tiferesSpan));
 	}
 
-	/** @param {number} speedRatio Speed intensity. @param {number} delta Frame seconds. */
+	/** @private */
 	updateFov(speedRatio, delta) {
-		const desired = CAMERA_CONFIG.baseFov
+		const tiferesTarget = CAMERA_CONFIG.baseFov
 			+ speedRatio * (CAMERA_CONFIG.maxFov - CAMERA_CONFIG.baseFov);
 		const previous = this.camera.fov;
-		this.camera.fov += (desired - previous) * exponentialBlend(CAMERA_CONFIG.fovEase, delta);
-		if (Math.abs(this.camera.fov - previous) > 0.0005) this.camera.updateProjectionMatrix();
+		this.camera.fov += (tiferesTarget - previous) * blend(CAMERA_CONFIG.fovEase, delta);
+		if (Math.abs(this.camera.fov - previous) > 0.001) this.camera.updateProjectionMatrix();
 	}
 
-	/** @param {number} speedRatio Speed intensity. @param {number} portrait Portrait factor. @param {number} delta Frame seconds. */
+	/** @private */
 	updatePosition(speedRatio, portrait, delta) {
 		const runnerX = this.runner.character.wrapper.position.x;
 		const jumpY = this.runner.verticalY;
@@ -57,30 +57,31 @@ export class TiferesCameraDynamics {
 			base[1] + jumpY * CAMERA_CONFIG.jumpFollow + speedRatio * CAMERA_CONFIG.speedLift,
 			base[2] + speedRatio * CAMERA_CONFIG.speedDolly + portrait * CAMERA_CONFIG.portraitPullback
 		);
-		this.camera.position.lerp(this.targetPosition, exponentialBlend(CAMERA_CONFIG.positionEase, delta));
+		this.camera.position.lerp(this.targetPosition, blend(CAMERA_CONFIG.positionEase, delta));
 	}
 
-	/** @param {number} speedRatio Speed intensity. @param {number} delta Frame seconds. */
+	/** @private */
 	updateLook(speedRatio, delta) {
 		const runnerX = this.runner.character.wrapper.position.x;
-		const jumpY = this.runner.verticalY;
 		const look = CAMERA_CONFIG.lookPosition;
 		this.lookTarget.set(
 			runnerX * CAMERA_CONFIG.lookLaneFollow,
-			look[1] + jumpY * CAMERA_CONFIG.lookJumpFollow,
+			look[1] + this.runner.verticalY * CAMERA_CONFIG.lookJumpFollow,
 			look[2] - speedRatio * CAMERA_CONFIG.lookSpeedLead
 		);
-		const desiredRoll = Math.max(
-			-CAMERA_CONFIG.maxRoll,
-			Math.min(CAMERA_CONFIG.maxRoll, -runnerX * CAMERA_CONFIG.rollStrength)
-		);
-		this.roll += (desiredRoll - this.roll) * exponentialBlend(CAMERA_CONFIG.rollEase, delta);
+		const targetRoll = clamp(-runnerX * CAMERA_CONFIG.rollStrength, -CAMERA_CONFIG.maxRoll, CAMERA_CONFIG.maxRoll);
+		this.roll += (targetRoll - this.roll) * blend(CAMERA_CONFIG.rollEase, delta);
 		this.camera.lookAt(this.lookTarget);
 		this.camera.rotation.z += this.roll;
 	}
 }
 
 /** @private */
-function exponentialBlend(ease, delta) {
+function blend(ease, delta) {
 	return 1 - Math.exp(-ease * delta);
+}
+
+/** @private */
+function clamp(value, minimum, maximum) {
+	return Math.min(maximum, Math.max(minimum, value));
 }

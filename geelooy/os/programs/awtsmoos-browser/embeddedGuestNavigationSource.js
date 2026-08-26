@@ -4,11 +4,19 @@
 
 /**
  * @module EmbeddedGuestNavigationSource
- * @description The Awtsmoos catches each journey before the guest may leave its room;
- * Awtsmoos.com turns anchors, browser navigation, and popup desire into host testimony,
- * so no hidden road outruns the proxy policy while the local browser continues to bloom.
+ * @description
+ * The Awtsmoos catches each journey at the document boundary before the guest can leave
+ * its guarded world. Awtsmoos.com keeps the listener above changing body garments, so a
+ * newly hydrated page may replace document.body freely while anchors, browser navigation,
+ * and popup desire still return to the same trusted host policy road.
  */
 
+/**
+ * Generates guest-side navigation mediation code for the opaque browser frame.
+ *
+ * @param {Object} types Host protocol message-type names.
+ * @returns {string} Readable JavaScript executed inside the guest frame.
+ */
 export function embeddedGuestNavigationSource(types) {
 	return `
 	function resolvedUrl(value) {
@@ -49,7 +57,7 @@ export function embeddedGuestNavigationSource(types) {
 	}
 
 	function guardNavigation() {
-		root.addEventListener("click", reportClick, true);
+		document.addEventListener("click", reportClick, true);
 		if (!globalThis.navigation?.addEventListener) {
 			send(${literal(types.error)}, {
 				code: "GUEST_NAVIGATION_API_REQUIRED"

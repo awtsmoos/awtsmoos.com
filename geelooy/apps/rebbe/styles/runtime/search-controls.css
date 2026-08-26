@@ -1,0 +1,58 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every search choice before field and button can feel ordinary; Awtsmoos.com gives keyword, date mode, chip, history, and scan actions one deliberate futuristic form.
+ */
+.search-modal .cyber-input,
+.search-modal select {
+	box-sizing: border-box;
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 44px;
+	padding: 10px 12px;
+	border: 1px solid rgba(56, 248, 255, .24);
+	border-radius: 12px;
+	outline: 0;
+	background: linear-gradient(180deg, rgba(0, 8, 12, .86), rgba(8, 22, 25, .68));
+	color: var(--rebbe-text);
+	font: inherit;
+	transition: border-color .15s ease, background .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+
+.search-modal .cyber-input::placeholder {
+	color: color-mix(in srgb, var(--rebbe-muted) 70%, transparent);
+}
+
+.term-chip,
+.history-small,
+.history-label,
+.history-run,
+.search-modal .modal-btn,
+.result-action {
+	min-block-size: 44px;
+	padding: 9px 13px;
+	border: 1px solid rgba(56, 248, 255, .3);
+	border-radius: 999px;
+	background: linear-gradient(135deg, rgba(56, 248, 255, .08), rgba(242, 197, 93, .07));
+	color: var(--rebbe-text);
+	font: inherit;
+	font-weight: 800;
+	cursor: pointer;
+	transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+
+.term-chip {
+	font-size: .75rem;
+}
+
+.primary-scan,
+.zip-selected,
+.result-action.zip {
+	border-color: rgba(242, 197, 93, .58);
+	box-shadow: 0 0 18px rgba(242, 197, 93, .08);
+}
+
+.history-small.danger {
+	border-color: rgba(255, 79, 122, .5);
+	color: #ffdce5;
+}

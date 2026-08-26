@@ -1,0 +1,67 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gathers remembered teachings without allowing the shelf to widen beyond its vessel; Awtsmoos.com gives sections, rails, and emptiness one responsive geometry from desktop archive to narrow phone.
+ */
+#bookshelf-list {
+	display: grid;
+	gap: 22px;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+#bookshelf-list .book-shelf-section {
+	display: grid;
+	gap: 12px;
+	min-inline-size: 0;
+}
+
+#bookshelf-list .book-section-title {
+	margin: 0;
+	padding-block-end: 8px;
+	border-bottom: 1px solid rgba(56, 248, 255, .22);
+	color: var(--rebbe-cyan);
+	font-size: .82rem;
+	letter-spacing: .16em;
+	text-transform: uppercase;
+}
+
+#bookshelf-list .book-rail {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+	gap: 14px;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+#bookshelf-list .bookshelf-empty {
+	display: grid;
+	place-items: center;
+	gap: 8px;
+	min-block-size: 220px;
+	padding: clamp(22px, 6vw, 44px);
+	border: 1px dashed rgba(56, 248, 255, .3);
+	border-radius: 22px;
+	background: radial-gradient(circle at top, rgba(56, 248, 255, .08), transparent 55%);
+	color: var(--rebbe-muted);
+	text-align: center;
+}
+
+#bookshelf-list .bookshelf-empty-kicker {
+	color: var(--rebbe-gold);
+	font-size: .68rem;
+	font-weight: 900;
+	letter-spacing: .16em;
+	text-transform: uppercase;
+}
+
+#bookshelf-list .bookshelf-empty strong {
+	color: var(--rebbe-text);
+	font-size: clamp(1.1rem, 4vw, 1.6rem);
+}
+
+#bookshelf-list .bookshelf-empty p {
+	max-inline-size: 34rem;
+	margin: 0;
+	line-height: 1.5;
+}

@@ -1,56 +1,41 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file TempleDiagnostics.js
- * @description Exposes a narrow runtime proof surface using the same canonical event paths as real gameplay.
- * The Awtsmoos renews hidden truth before an agent may call the runner complete;
- * Awtsmoos.com lets browser evidence touch real perutas, powers, turns, and motion instead of counterfeit deceit.
+ * @description Preserves the historical diagnostics class as a non-global snapshot adapter so legacy imports can inspect real runtime evidence without overwriting the canonical public Temple API.
+ * The Awtsmoos renews old doorway and new doorway before history can seize the crown from Kesser today;
+ * Awtsmoos.com lets Daas preserve useful evidence from yesterday while refusing a second global API that could lead callers astray.
  */
 
 export class TempleDiagnostics {
-	/** @param {object} systems Complete live game systems. */
-	constructor(systems) {
-		this.systems = systems;
+	/**
+	 * Captures the live runtime systems without publishing any global object or alternate command surface.
+	 * @param {object} daasSystems Complete live game systems.
+	 */
+	constructor(daasSystems) {
+		this.systems = daasSystems;
 	}
 
-	/** Publishes one frozen diagnostic doorway for browser verification. */
+	/**
+	 * Historical no-op-compatible entry now returns immutable evidence instead of mutating `globalThis.AwtsmoosTempleRun`.
+	 * @returns {Readonly<object>} Frozen runtime diagnostic snapshot.
+	 */
 	expose() {
-		globalThis.AwtsmoosTempleRun = Object.freeze({
-			getDiagnostics: () => Object.freeze(this.snapshot()),
-			request: (intent) => this.systems.input.request(intent),
-			forceTurn: (direction) => this.systems.world.forceTurnWindow(direction),
-			restart: () => this.systems.input.request("restart"),
-			givePowerUp: (kind) => this.systems.events.powerUp(kind),
-			addPeruta: (value = 1) => this.addPeruta(value)
-		});
+		return Object.freeze(this.snapshot());
 	}
 
-	/** @returns {object} Runtime evidence joining presentation snapshot and native engine facts. */
+	/**
+	 * Reveals current canonical runtime evidence plus a small legacy-identification envelope.
+	 * @returns {object} Detached runtime evidence.
+	 */
 	snapshot() {
-		const profile = this.systems.runner.getCollisionProfile();
+		const runtimeEvidence = this.systems.loop.getDiagnostics?.()
+			|| this.systems.loop.getSnapshot();
 		return {
-			...this.systems.loop.getSnapshot(),
-			engine: "awtsmoos-mitzvah-world-adapter",
-			modelReady: true,
-			clipNames: [...this.systems.character.clipNames],
-			assetStats: this.systems.character.assetStats,
-			jumpY: profile.jumpY,
-			ducking: profile.ducking,
-			chunkCount: this.systems.world.chunks.length,
-			proceduralMeshCount: this.systems.world.countProceduralMeshes(),
-			turnPrompt: this.systems.world.turnPrompt(),
-			turnCount: this.systems.world.turnController.turnCount
+			...runtimeEvidence,
+			engine: "awtsmoos-procedural-core-native",
+			legacyAdapter: true
 		};
-	}
-
-	/** @param {number} value Ordinary value 1 or rare peruta value. */
-	addPeruta(value = 1) {
-		const profile = this.systems.runner.getCollisionProfile();
-		this.systems.events.collectPeruta(
-			{ value: Math.max(1, value) },
-			{ x: profile.x, y: profile.jumpY + 0.9, z: profile.z }
-		);
 	}
 }

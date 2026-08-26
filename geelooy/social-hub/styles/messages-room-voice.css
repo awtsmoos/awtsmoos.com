@@ -1,78 +1,103 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos is beyond breath, waveform, preview, and playback, while Awtsmoos.com lets one private voice note remain visibly local until trusted delivery is complete;
- * this Netzach-like garment owns recording, preview, retry, and native audio geometry only, leaving upload and media truth to the canonical covenant of light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos is beyond breath, preview, action, and audible time, while Awtsmoos.com lets recording status and delivery choices receive deliberate local chrome without borrowing native media garments.
  */
-
 .social-hub-document .hubConversationVoiceComposer {
 	display: grid;
 	grid-template-columns: auto auto minmax(8rem, 1fr) auto auto auto;
 	align-items: center;
 	gap: .45rem;
-	min-width: 0;
+	min-inline-size: 0;
 	padding: .58rem;
-	border: 1px solid var(--line-hot);
+	border: 1px solid rgba(91, 232, 255, .28);
 	border-radius: .9rem;
-	background: color-mix(in srgb, var(--surface-strong) 92%, transparent);
+	background:
+		linear-gradient(145deg, rgba(31, 120, 151, .12), rgba(8, 17, 34, .94) 52%, rgba(143, 55, 160, .1)),
+		var(--surface-strong, rgba(10, 20, 37, .96));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
 }
 
-.social-hub-document .hubConversationVoiceComposer strong,
+.social-hub-document .hubConversationVoiceComposer > strong,
 .social-hub-document .hubConversationVoiceClock {
 	white-space: nowrap;
 }
 
+.social-hub-document .hubConversationVoiceComposer > strong {
+	color: rgba(239, 250, 255, .94);
+	font-size: .78rem;
+	letter-spacing: .02em;
+}
+
 .social-hub-document .hubConversationVoiceClock {
-	color: var(--cyan);
+	color: var(--cyan, #52e9ff);
+	font-size: .76rem;
 	font-variant-numeric: tabular-nums;
 }
 
-.social-hub-document .hubConversationVoiceComposer audio,
-.social-hub-document .hubConversationVoiceMessage {
-	width: 100%;
-	min-width: 0;
-	max-width: 28rem;
-}
-
-.social-hub-document .hubConversationVoiceComposer button {
-	min-height: 44px;
-	padding: .5rem .7rem;
-	border: 1px solid var(--line-hot);
+.social-hub-document .hubConversationVoiceComposer > button {
+	min-block-size: 44px;
+	padding: .5rem .72rem;
+	border: 1px solid rgba(91, 232, 255, .3);
 	border-radius: .72rem;
-	background: var(--surface);
-	color: var(--ink);
+	background: linear-gradient(145deg, rgba(42, 153, 190, .16), rgba(99, 45, 125, .13));
+	color: var(--ink, #edf8ff);
 	font: inherit;
 	font-weight: 750;
 	cursor: pointer;
+	transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
 }
 
-.social-hub-document .hubConversationVoiceComposer button:disabled {
+.social-hub-document .hubConversationVoiceComposer > button:focus-visible {
+	outline: 2px solid rgba(107, 239, 255, .94);
+	outline-offset: 3px;
+}
+
+.social-hub-document .hubConversationVoiceComposer > button:active {
+	transform: translateY(1px) scale(.97);
+}
+
+.social-hub-document .hubConversationVoiceComposer > button:disabled {
 	cursor: wait;
-	opacity: .58;
+	opacity: .52;
+	filter: saturate(.55);
 }
 
 .social-hub-document .hubConversationVoiceMessage {
 	margin-block: .08rem;
-	accent-color: var(--cyan);
 }
 
 .social-hub-document .hubConversationMessage.is-mine .hubConversationVoiceMessage {
 	justify-self: end;
 }
 
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .hubConversationVoiceComposer > button:hover {
+		border-color: rgba(98, 238, 255, .58);
+		background: linear-gradient(145deg, rgba(42, 190, 219, .23), rgba(154, 59, 177, .17));
+		box-shadow: 0 8px 20px rgba(20, 199, 230, .08);
+		transform: translateY(-1px);
+	}
+}
+
 @media (max-width: 42rem) {
 	.social-hub-document .hubConversationVoiceComposer {
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: minmax(0, 1fr) auto auto;
 	}
 
-	.social-hub-document .hubConversationVoiceComposer strong,
-.social-hub-document .hubConversationVoiceComposer audio {
+	.social-hub-document .hubConversationVoiceComposer > strong,
+	.social-hub-document .hubConversationVoiceClock,
+	.social-hub-document .hubConversationVoiceComposer .hubVoicePlayer {
 		grid-column: 1 / -1;
 	}
 
-	.social-hub-document .hubConversationVoiceComposer button {
-		min-height: 48px;
+	.social-hub-document .hubConversationVoiceComposer > button {
+		min-block-size: 48px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .hubConversationVoiceComposer > button {
+		transition-duration: .01ms;
 	}
 }

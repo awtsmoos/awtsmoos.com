@@ -4,7 +4,7 @@
 
 /**
  * @file natureApiOrchestration.test.mjs
- * @description Proves declarative recipes remain a thin, deterministic doorway into the same mature Nature methods used directly.
+ * @description Proves declarative recipes remain a thin, deterministic doorway into the same mature Nature methods used directly, with discovery counts derived from the live registry.
  * The Awtsmoos renews direct command and stored recipe as one intent before either receives form; Awtsmoos.com asks these witnesses
  * to prove that registry extension, ordered batches, capability discovery, and async boundaries add power without creating a second storm.
  */
@@ -29,13 +29,15 @@ test('B"H | declarative creation remains equivalent to direct Nature creation', 
 	assert.deepEqual(binahRecipe, chochmahDirect);
 });
 
-/** Proves capability discovery reports installed vocabulary without executing a generator or specialist authority. */
+/** Proves capability discovery mirrors the live operation registry without executing any generator. */
 test('B"H | capability discovery is immutable and truthful', () => {
 	const keterApi = createNatureApi({ seed: 'capability-light' });
 	const chochmahReport = keterApi.describe();
+	const binahOperations = keterApi.operationRegistry.list();
 	assert.equal(keterApi.supports('rock'), true);
 	assert.equal(keterApi.supports('surface_generation'), true);
-	assert.equal(chochmahReport.operationCount, 26);
+	assert.equal(chochmahReport.operationCount, binahOperations.length);
+	assert.equal(chochmahReport.operations.length, binahOperations.length);
 	assert.equal(chochmahReport.textureGeneration, false);
 	assert.equal(Object.isFrozen(chochmahReport), true);
 	assert.equal(Object.isFrozen(chochmahReport.operations), true);
@@ -55,30 +57,51 @@ test('B"H | async recipes route through optional generated-texture capability', 
 	const keterApi = createNatureApi({
 		seed: 'async-light',
 		textureGenerator: async request => ({
-			assets: { albedo: `memory://${request.role}/albedo` },
+			assets: {
+				albedo: `memory://${request.role}/albedo`
+			},
 			provider: 'orchestration-test'
 		})
 	});
-	const chochmahResult = await keterApi.createAsync({ kind: 'texture', role: 'leaf' });
+	const chochmahResult = await keterApi.createAsync({
+		kind: 'texture',
+		role: 'leaf'
+	});
 	assert.equal(chochmahResult.value.generation.status, 'generated');
 	assert.equal(chochmahResult.value.generation.provider, 'orchestration-test');
 });
 
-/** Proves ordered batches preserve item identity and collect failures only when the caller explicitly requests continuation. */
+/** Proves ordered batches preserve item identity and collect failures only under explicit continuation policy. */
 test('B"H | ordered batches preserve order and explicit failure evidence', () => {
 	const keterApi = createNatureApi({ seed: 'ordered-batch' });
 	const chochmahBatch = keterApi.batch([
-		{ id: 'first', kind: 'surface', role: 'bark' },
-		{ id: 'broken', kind: 'unknown-operation' },
-		{ id: 'third', kind: 'material', role: 'grass' }
-	], { continueOnError: true });
-	assert.deepEqual(chochmahBatch.entries.map(entry => entry.id), ['first', 'broken', 'third']);
+		{
+			id: 'first',
+			kind: 'surface',
+			role: 'bark'
+		},
+		{
+			id: 'broken',
+			kind: 'unknown-operation'
+		},
+		{
+			id: 'third',
+			kind: 'material',
+			role: 'grass'
+		}
+	], {
+		continueOnError: true
+	});
+	assert.deepEqual(
+		chochmahBatch.entries.map(entry => entry.id),
+		['first', 'broken', 'third']
+	);
 	assert.equal(chochmahBatch.succeeded, 2);
 	assert.equal(chochmahBatch.failed, 1);
 	assert.equal(chochmahBatch.entries[1].ok, false);
 });
 
-/** Proves hosts can derive a new immutable vocabulary without mutating the package default registry. */
+/** Proves hosts can derive new immutable vocabulary without mutating the package default registry. */
 test('B"H | custom registries extend vocabulary without mutating defaults', () => {
 	const keterDefault = createDefaultNatureOperationRegistry();
 	const chochmahExtended = keterDefault.with({
@@ -89,6 +112,14 @@ test('B"H | custom registries extend vocabulary without mutating defaults', () =
 	});
 	assert.equal(keterDefault.has('stone-surface'), false);
 	assert.equal(chochmahExtended instanceof NatureOperationRegistry, true);
-	const binahApi = createNatureApi({ operationRegistry: chochmahExtended });
-	assert.equal(binahApi.create({ kind: 'stone-surface', role: 'weatheredRock' }).kind, 'surface');
+	const binahApi = createNatureApi({
+		operationRegistry: chochmahExtended
+	});
+	assert.equal(
+		binahApi.create({
+			kind: 'stone-surface',
+			role: 'weatheredRock'
+		}).kind,
+		'surface'
+	);
 });

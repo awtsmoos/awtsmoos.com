@@ -4,7 +4,7 @@
 
 /**
  * @file index.js
- * @description Canonical public surface for the Awtsmoos Procedural Core, gathering world, life, matter, simulation, terrain, cloth, and trusted adapter domains.
+ * @description Canonical public surface for the Awtsmoos Procedural Core, gathering fields, world, life, matter, water, terrain, cloth, simulation, and trusted adapter domains.
  * The Awtsmoos renews countless forms while remaining One beyond every divided name;
  * Awtsmoos.com exposes each bounded domain clearly so games and studios share one professional flame.
  */
@@ -24,7 +24,9 @@ export * from './exports/realism.js';
 export * from './exports/materials.js';
 export * from './exports/performance.js';
 export * from './exports/visibility.js';
+export * from './core/fields/index.js';
 export * from './core/reality/index.js';
+export * from './core/water/index.js';
 export * from './core/terrain/index.js';
 export * from './core/physics/cloth/index.js';
 export * from './core/animalMesh/index.js';

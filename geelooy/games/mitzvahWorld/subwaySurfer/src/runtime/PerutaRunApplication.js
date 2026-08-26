@@ -1,9 +1,11 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews the whole application while each subsystem keeps its rightful place;
- * Awtsmoos.com owns boot and lifecycle here so the public API receives one ordered face.
+ * @file PerutaRunApplication.js
+ * @description Boots the authored Chossid, cached photographic surfaces, budgeted advanced street, authoritative runtime, and frozen API without blocking on texture hydration.
+ * The Awtsmoos renews model, texture, branch, obstacle, and command before one run can start;
+ * Awtsmoos.com lets cached imagery arrive progressively while stable gameplay owns the heart.
  */
 
 import * as THREE from "/games/scripts/build/three.module.js";
@@ -14,6 +16,7 @@ import { YesodProceduralMeshFactory } from "../core/ProceduralMeshFactory.js";
 import { MalchusHudController } from "../ui/HudController.js";
 import { resolveQualityProfile } from "../realism/QualityProfile.js";
 import { OhrLightingRig } from "../realism/LightingRig.js";
+import { YesodPerutaPhotographicSurfaceLibrary } from "../realism/PerutaPhotographicSurfaceLibrary.js";
 import { YesodPerutaRunEventBus } from "../api/PerutaRunEventBus.js";
 import { KesserPerutaRunApi } from "../api/PerutaRunApi.js";
 import { OlamWorldRuntimeFactory } from "./WorldRuntimeFactory.js";
@@ -27,52 +30,57 @@ export class PerutaRunApplication {
 		this.eventBus = new YesodPerutaRunEventBus();
 		this.runtime = null;
 		this.sceneVessel = null;
+		this.surfaceLibrary = null;
 		this.boundVisibility = () => this.handleVisibility();
 	}
 
-	/** Loads the Chossid, creates the procedural world, starts runtime, and returns the frozen API facade. */
+	/** Loads required runtime assets, starts immediately on fallbacks, and returns the frozen public API. */
 	async start() {
 		this.hud.setLoading("Loading the Chossid…");
-		const canvas = this.documentRef.querySelector("#game-canvas");
-		const requestedProfile = new URLSearchParams(window.location.search).get("quality") || "auto";
-		const profile = resolveQualityProfile(requestedProfile);
-		this.sceneVessel = new MalchusSceneVessel(THREE, canvas, profile).create();
-		const lighting = new OhrLightingRig(THREE, this.sceneVessel.scene, profile).create();
-		const character = await new ChaiChossidLoader(THREE, GLTFLoader).load();
-		this.sceneVessel.scene.add(character.wrapper);
-
-		this.hud.setLoading("Revealing the detailed procedural street…");
-		const meshFactory = new YesodProceduralMeshFactory(THREE);
-		const world = new OlamWorldRuntimeFactory({
+		const malchusCanvas = this.documentRef.querySelector("#game-canvas");
+		const chochmahProfileName = new URLSearchParams(window.location.search).get("quality") || "auto";
+		const tiferesProfile = resolveQualityProfile(chochmahProfileName);
+		this.sceneVessel = new MalchusSceneVessel(THREE, malchusCanvas, tiferesProfile).create();
+		const ohrLighting = new OhrLightingRig(THREE, this.sceneVessel.scene, tiferesProfile).create();
+		this.surfaceLibrary = new YesodPerutaPhotographicSurfaceLibrary(
+			THREE,
+			this.sceneVessel.renderer
+		);
+		const chaiCharacter = await new ChaiChossidLoader(THREE, GLTFLoader).load();
+		this.sceneVessel.scene.add(chaiCharacter.wrapper);
+		this.hud.setLoading("Revealing the stable textured old-city road…");
+		const yesodMeshFactory = new YesodProceduralMeshFactory(THREE, this.surfaceLibrary);
+		const olamWorld = new OlamWorldRuntimeFactory({
 			THREE,
 			scene: this.sceneVessel.scene,
-			meshFactory,
-			profile
+			meshFactory: yesodMeshFactory,
+			surfaceLibrary: this.surfaceLibrary,
+			profile: tiferesProfile
 		}).create();
 		this.runtime = new ChaiGameRuntimeFactory({
 			THREE,
 			documentRef: this.documentRef,
-			character,
-			world,
+			character: chaiCharacter,
+			world: olamWorld,
 			sceneVessel: this.sceneVessel,
-			profile,
-			lighting,
+			profile: tiferesProfile,
+			lighting: ohrLighting,
+			surfaceLibrary: this.surfaceLibrary,
 			hud: this.hud,
 			eventBus: this.eventBus
 		}).create();
-		const api = new KesserPerutaRunApi({
+		const malchusApi = new KesserPerutaRunApi({
 			state: this.runtime.state,
 			inputIntent: this.runtime.inputIntent,
 			diagnostics: this.runtime.diagnostics,
 			eventBus: this.eventBus,
-			profile
+			profile: tiferesProfile
 		});
-
 		this.documentRef.addEventListener("visibilitychange", this.boundVisibility);
 		this.hud.setReady();
 		this.runtime.loop.start();
-		requestAnimationFrame(() => this.eventBus.emit("ready", api.getDiagnostics()));
-		return api;
+		requestAnimationFrame(() => this.eventBus.emit("ready", malchusApi.getDiagnostics()));
+		return malchusApi;
 	}
 
 	/** @param {Error|string} error Makes boot failures visible to the player. */
@@ -80,7 +88,7 @@ export class PerutaRunApplication {
 		this.hud.showError(error);
 	}
 
-	/** Pauses the active runtime when the browser hides the tab. */
+	/** Pauses active runtime when the browser hides the tab. */
 	handleVisibility() {
 		if (this.documentRef.hidden) this.runtime?.loop.pauseIfRunning();
 	}

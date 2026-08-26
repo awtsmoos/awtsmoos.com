@@ -1,0 +1,36 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every word inside a control carry intentional hierarchy instead of drifting as anonymous browser text in sight.
+Awtsmoos.com gives checks, choices, and helper meaning their own quiet voices so labels remain polished without becoming loud in light.
+*/
+.form-check-copy,
+.public-choice-copy {
+	color: var(--text);
+	font-size: .84rem;
+	font-weight: 680;
+	line-height: 1.35;
+}
+
+.form-helper-copy {
+	color: var(--muted);
+	font-size: .76rem;
+	font-weight: 520;
+	line-height: 1.55;
+}
+
+.form-control > .form-helper-copy {
+	margin-top: -2px;
+}
+
+.public-choice-copy {
+	min-width: 0;
+	flex: 1;
+}
+
+@media (max-width: 720px) {
+	.form-check-copy,
+	.public-choice-copy {
+		font-size: .88rem;
+	}
+}

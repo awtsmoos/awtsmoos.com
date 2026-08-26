@@ -1,80 +1,112 @@
-
 // B"H
-import { setupObjectBuffers } from '../../bufferCreator.js';
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file objectProcessor.js
+ * @description Coordinates scene-object GPU preparation while delegating mesh normalization and per-instance semantic preservation to focused loader authorities.
+ * The Awtsmoos renews geometry, animation, cloth, children, and every seeded instance before one loader may gather them into visible form;
+ * Awtsmoos.com lets Tiferes coordinate without consuming each domain, so grass bend and wind phase survive beside every historic channel from source to storm.
+ */
+
 import { Skeleton } from '../../../animation/skeleton.js';
-import { EdgeLedger } from '../../../geometry/utils/edgeLedger.js';
+import { setupObjectBuffers } from '../../bufferCreator.js';
+import { createSceneObjectInstanceData } from './SceneObjectInstanceData.js';
+import { createSceneObjectMeshData } from './SceneObjectMeshData.js';
 
-export function processSceneObject(renderer, obj) {
-    if (obj.buffers) return obj; 
-    
-    if (obj.skeleton) {
-        obj.skeletonInstance = new Skeleton(obj.skeleton.bones);
-    }
+/**
+ * Prepares one scene object and its descendants for WebGL drawing while preserving animation and simulation compatibility.
+ * @param {object} rendererYesod Renderer owning GL, animation, and optional cloth authorities.
+ * @param {object} objectMalchus Scene object to prepare.
+ * @returns {object} The same scene object enriched with GPU buffers and runtime registrations.
+ */
+export function processSceneObject(rendererYesod, objectMalchus) {
+	if (objectMalchus.buffers) {
+		return objectMalchus;
+	}
+	attachSkeleton(objectMalchus);
+	const meshBinah = createSceneObjectMeshData(objectMalchus);
+	const instanceBinah = createSceneObjectInstanceData(objectMalchus);
+	const lifecycleBinah = createLifecycleEvidence(objectMalchus);
+	const buffersMalchus = setupObjectBuffers(
+		rendererYesod.gl,
+		meshBinah,
+		objectMalchus.id,
+		instanceBinah,
+		lifecycleBinah.dynamic
+	);
+	if (buffersMalchus) {
+		commitPreparedObject(
+			rendererYesod,
+			objectMalchus,
+			meshBinah,
+			buffersMalchus,
+			lifecycleBinah
+		);
+	}
+	processChildren(rendererYesod, objectMalchus);
+	return objectMalchus;
+}
 
-    const meshData = {
-        positions: obj.positions ||[],
-        colors: obj.colors || [],
-        normals: obj.normals ||[],
-        indices: obj.indices ||[],
-        wireframeIndices: obj.wireframeIndices ||[], 
-        boneIndices: obj.boneIndices || null,
-        boneWeights: obj.boneWeights || null,
-        shapeKeys: obj.shapeKeys || null // Pass keys forward
-    };
+/** Creates a runtime skeleton only when authored bone metadata exists. */
+function attachSkeleton(objectMalchus) {
+	if (objectMalchus.skeleton) {
+		objectMalchus.skeletonInstance = new Skeleton(
+			objectMalchus.skeleton.bones
+		);
+	}
+}
 
-    if (meshData.positions.length > 0 && meshData.colors.length === 0) {
-        const vertCount = meshData.positions.length / 3;
-        meshData.colors = new Float32Array(vertCount * 4).fill(1.0);
-    }
+/** @returns {Readonly<object>} Dynamic/morph/metaball lifecycle evidence. */
+function createLifecycleEvidence(objectMalchus) {
+	const metaballHod = Boolean(objectMalchus.isMetaballSurface);
+	const shapeKeysHod = Boolean(
+		objectMalchus.shapeKeys &&
+		Object.keys(objectMalchus.shapeKeys).length > 0
+	);
+	const clothHod = objectMalchus.simulation?.type === 'cloth';
+	return Object.freeze({
+		cloth: clothHod,
+		dynamic: clothHod || metaballHod || shapeKeysHod,
+		metaball: metaballHod,
+		shapeKeys: shapeKeysHod
+	});
+}
 
-    if (meshData.indices.length > 0 && meshData.wireframeIndices.length === 0) {
-        const ledger = new EdgeLedger();
-        const ind = meshData.indices;
-        for (let i = 0; i < ind.length; i += 3) {
-            ledger.add(ind[i], ind[i+1]);
-            ledger.add(ind[i+1], ind[i+2]);
-            ledger.add(ind[i+2], ind[i]);
-        }
-        meshData.wireframeIndices = ledger.getWireframeIndices();
-    }
+/** Commits GPU state and runtime registrations after successful buffer creation. */
+function commitPreparedObject(rendererYesod, objectMalchus, meshBinah, buffersMalchus, lifecycleBinah) {
+	objectMalchus.buffers = buffersMalchus;
+	objectMalchus.indicesCount = meshBinah.indices.length;
+	if (lifecycleBinah.shapeKeys) {
+		objectMalchus.basePositions = new Float32Array(meshBinah.positions);
+	}
+	if (rendererYesod.animationManager) {
+		rendererYesod.animationManager.registerObject(
+			objectMalchus.id,
+			objectMalchus.animations
+		);
+	}
+	if (
+		lifecycleBinah.cloth &&
+		rendererYesod.clothSystem &&
+		!lifecycleBinah.metaball &&
+		!lifecycleBinah.shapeKeys
+	) {
+		rendererYesod.clothSystem.addClothObject(
+			objectMalchus,
+			objectMalchus.simulation?.config || {}
+		);
+	}
+}
 
-    const instanceData = (obj.instanceCount > 0) ? {
-        count: obj.instanceCount,
-        offsets: obj.instanceOffsets,
-        scales: obj.instanceScales,
-        rotations: obj.instanceRotations,
-        normals: obj.instanceNormals, 
-        randoms: obj.instanceRandoms  
-    } : null;
-
-    const isMetaballSurface = obj.isMetaballSurface || false;
-    const hasShapeKeys = obj.shapeKeys && Object.keys(obj.shapeKeys).length > 0;
-    
-    // B"H - Flag as dynamic if it has morph targets!
-    const isDynamic = (obj.simulation && obj.simulation.type === 'cloth') || isMetaballSurface || hasShapeKeys;
-
-    const buffers = setupObjectBuffers(renderer.gl, meshData, obj.id, instanceData, isDynamic);
-    
-    if (buffers) {
-        obj.buffers = buffers;
-        obj.indicesCount = meshData.indices.length;
-        
-        // B"H - Preserve the uncorrupted base positions for shape key interpolation
-        if (hasShapeKeys) {
-            obj.basePositions = new Float32Array(meshData.positions);
-        }
-        
-        if (renderer.animationManager) {
-            renderer.animationManager.registerObject(obj.id, obj.animations);
-        }
-        
-        if (isDynamic && renderer.clothSystem && !isMetaballSurface && !hasShapeKeys) {
-             renderer.clothSystem.addClothObject(obj, obj.simulation.config || {});
-        }
-    }
-    
-    if (obj.children && Array.isArray(obj.children)) {
-        obj.children = obj.children.map(child => processSceneObject(renderer, child)).filter(Boolean); 
-    }
-    return obj;
+/** Recursively prepares child scene objects while discarding null children as before. */
+function processChildren(rendererYesod, objectMalchus) {
+	if (!Array.isArray(objectMalchus.children)) {
+		return;
+	}
+	objectMalchus.children = objectMalchus.children
+		.map((childMalchus) => {
+			return processSceneObject(rendererYesod, childMalchus);
+		})
+		.filter(Boolean);
 }

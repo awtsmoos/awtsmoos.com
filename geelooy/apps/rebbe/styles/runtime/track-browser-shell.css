@@ -1,0 +1,83 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives event and track a finite spatial order while remaining beyond all rows; Awtsmoos.com keeps the live browser toolbar, titles, and command decks bounded so no long teaching can widen the viewport.
+ */
+#list-tracks {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+#list-tracks .premium-event-toolbar {
+	display: grid;
+	grid-template-columns: minmax(210px, 1fr) auto;
+	align-items: center;
+	gap: 18px;
+	min-inline-size: 0;
+	margin-bottom: 14px;
+	padding: 18px;
+	border: 1px solid rgba(0, 243, 255, .42);
+	border-radius: 24px;
+	background:
+		radial-gradient(circle at top left, rgba(0, 243, 255, .20), transparent 46%),
+		linear-gradient(135deg, rgba(0, 0, 0, .80), rgba(255, 204, 0, .06));
+	box-shadow: 0 16px 45px rgba(0, 0, 0, .32);
+}
+
+#list-tracks .event-toolbar-copy {
+	min-inline-size: 0;
+}
+
+#list-tracks .toolbar-kicker {
+	display: block;
+	color: var(--c-yellow);
+	font-size: 10px;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+}
+
+#list-tracks .premium-event-toolbar strong {
+	display: block;
+	color: #fff;
+	font-size: clamp(19px, 2.5vw, 26px);
+	line-height: 1.08;
+	overflow-wrap: anywhere;
+}
+
+#list-tracks .toolbar-sub {
+	margin-top: 7px;
+	color: #9cc;
+}
+
+#list-tracks .command-deck {
+	display: flex;
+	justify-content: flex-end;
+	gap: 9px;
+	flex-wrap: wrap;
+	min-inline-size: 0;
+}
+
+#list-tracks .premium-track-item {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto !important;
+	align-items: center;
+	gap: 10px;
+	min-inline-size: 0;
+	margin: 9px 0;
+	padding: 12px !important;
+	border: 1px solid rgba(0, 243, 255, .16);
+	border-radius: 16px;
+	background: linear-gradient(90deg, rgba(255, 255, 255, .03), rgba(0, 243, 255, .018));
+}
+
+@media (max-width: 1100px) {
+	#list-tracks .premium-event-toolbar {
+		grid-template-columns: 1fr;
+	}
+
+	#list-tracks .event-toolbar-actions {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		justify-content: stretch;
+	}
+}

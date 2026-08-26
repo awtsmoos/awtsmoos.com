@@ -4,63 +4,99 @@
 
 /**
  * @file RockDirectionalFields.js
- * @description Samples coherent geological fields from one seed-derived orientation profile without owning mesh construction.
- * The Awtsmoos renews fault, layer, ridge, frost, and river-worn face before any coordinate can claim a lonely cause;
- * Awtsmoos.com lets those forces share one hidden orientation, so each stone reads as formed geology rather than unrelated noise.
+ * @description Samples coherent noise, multi-joint fracture, seed-derived bedding, and exposure-aware weathering from one stone-wide geology profile.
+ * The Awtsmoos renews fault, layer, ridge, frost, river, and exposed face before any coordinate can claim a lonely cause; Awtsmoos.com lets these forces share one covenant,
+ * so every vertex reads the same joint families and bedding system instead of painting unrelated procedural disturbance over a supposedly geological stone.
  */
 
 const TAU = Math.PI * 2;
 
-/**
- * Samples deterministic deformation evidence for one normalized source direction.
- * @param {readonly number[]} direction Unit source direction.
- * @param {object} profile Canonical geological profile.
- * @param {object} orientation Seed-derived fracture/strata/ridge orientation.
- * @param {number|string} seed Stable root seed.
- * @returns {{noise:number,fracture:number,strata:number,weathering:number}} Geological field values.
- */
+/** Samples deterministic deformation evidence for one normalized source direction. */
 export function sampleRockDirectionalFields(direction, profile, orientation, seed) {
-	const weathering = profile.weathering || {};
-	const composition = profile.composition || {};
-	return {
-		fracture: fractureField(direction, profile.fracture, weathering.frostFracture, orientation),
+	const keterWeathering = profile.weathering || {};
+	const chochmahComposition = profile.composition || {};
+	return Object.freeze({
+		fracture: fractureField(
+			direction,
+			profile.fracture,
+			keterWeathering.frostFracture,
+			orientation
+		),
 		noise: signedHash(seed, direction),
-		strata: strataField(direction, profile.strata, composition.sediment, orientation),
-		weathering: weatheringField(direction, profile.erosion, weathering.waterWear, orientation, seed)
-	};
+		strata: strataField(
+			direction,
+			profile.strata,
+			chochmahComposition.sediment,
+			orientation
+		),
+		weathering: weatheringField(
+			direction,
+			profile.erosion,
+			keterWeathering.waterWear,
+			orientation,
+			seed
+		)
+	});
 }
 
-/** Reveals narrow fracture valleys along one stable seed-derived fault direction. */
+/** Reveals narrow valleys along every coherent joint family, with legacy fallback for older profiles. */
 function fractureField(direction, fracture, frost, orientation) {
-	const yesodProjection = dot(direction, orientation.fractureAxis);
-	const gevurahPlane = Math.abs(Math.sin((yesodProjection * 3.7 + orientation.fracturePhase) * Math.PI));
-	const tiferesStrength = unit(fracture) * (1 + unit(frost) * 0.42);
-	return Math.pow(1 - gevurahPlane, 5) * 0.32 * tiferesStrength;
+	const keterStrength = unit(fracture) * (1 + unit(frost) * 0.42);
+	const chochmahJoints = orientation.jointSets?.length
+		? orientation.jointSets
+		: [{
+			frequency: 3.7,
+			normal: orientation.fractureAxis,
+			phase: orientation.fracturePhase
+		}];
+	let binahFracture = 0;
+	for (const gevurahJoint of chochmahJoints) {
+		const tiferesProjection = dot(direction, gevurahJoint.normal);
+		const netzachWave = Math.abs(Math.sin(
+			tiferesProjection * Number(gevurahJoint.frequency || 1) * Math.PI
+				+ Number(gevurahJoint.phase || 0)
+		));
+		binahFracture = Math.max(binahFracture, Math.pow(1 - netzachWave, 5));
+	}
+	return binahFracture * 0.32 * keterStrength;
 }
 
-/** Reveals sedimentary banding along one stable strata axis rather than the global Y axis. */
+/** Reveals composition-sensitive banding along the seed-derived bedding plane. */
 function strataField(direction, strata, sediment, orientation) {
-	const hodStrength = Math.max(unit(strata), unit(sediment));
-	if (!hodStrength) return 0;
-	const yesodProjection = dot(direction, orientation.strataAxis);
-	const tiferesPhase = yesodProjection * 5.5 + orientation.ridgePhase / TAU;
-	return Math.sin(tiferesPhase * TAU) * hodStrength * 0.08;
+	const keterStrength = Math.max(unit(strata), unit(sediment));
+	if (!keterStrength) return 0;
+	const chochmahBedding = orientation.bedding || {
+		frequency: 5.5,
+		normal: orientation.strataAxis,
+		phase: orientation.ridgePhase
+	};
+	const binahProjection = dot(direction, chochmahBedding.normal);
+	return Math.sin(
+		binahProjection * Number(chochmahBedding.frequency || 1) * Math.PI
+			+ Number(chochmahBedding.phase || 0)
+	) * keterStrength * 0.08;
 }
 
-/** Reveals erosion with seed-stable microvariation plus ridge-sensitive water wear. */
+/** Combines micro-weathering, directional exposure, and ridge-sensitive water wear. */
 function weatheringField(direction, erosion, waterWear, orientation, seed) {
-	const malchusNoise = Math.abs(signedHash((Number(seed) >>> 0) ^ 0x9e3779b9, direction));
-	const hodRidge = dot(direction, orientation.ridgeAxis);
-	const tiferesWater = Math.abs(Math.sin(hodRidge * 2.8 + orientation.erosionPhase));
-	return malchusNoise * unit(erosion) * 0.11 + tiferesWater * unit(waterWear) * 0.035;
+	const keterNoise = Math.abs(signedHash((Number(seed) >>> 0) ^ 0x9e3779b9, direction));
+	const chochmahExposureAxis = orientation.exposureAxis || orientation.ridgeAxis;
+	const binahExposure = Math.max(0, dot(direction, chochmahExposureAxis));
+	const gevurahRidge = dot(direction, orientation.ridgeAxis);
+	const tiferesWater = Math.abs(Math.sin(gevurahRidge * 2.8 + orientation.erosionPhase));
+	return (keterNoise * 0.07 + binahExposure * 0.06) * unit(erosion)
+		+ tiferesWater * unit(waterWear) * 0.035;
 }
 
 /** Creates deterministic signed microvariation from one normalized direction and seed. */
 function signedHash(seed, direction) {
-	const yesodSeed = (Number(seed) >>> 0) * 0.0000001192092896;
-	const phase = direction[0] * 12.9898 + direction[1] * 78.233 + direction[2] * 37.719 + yesodSeed * 43758.5453;
-	const fraction = Math.sin(phase) * 43758.5453123;
-	return (fraction - Math.floor(fraction)) * 2 - 1;
+	const keterSeed = (Number(seed) >>> 0) * 0.0000001192092896;
+	const chochmahPhase = direction[0] * 12.9898
+		+ direction[1] * 78.233
+		+ direction[2] * 37.719
+		+ keterSeed * 43758.5453;
+	const binahFraction = Math.sin(chochmahPhase) * 43758.5453123;
+	return (binahFraction - Math.floor(binahFraction)) * 2 - 1;
 }
 
 /** Computes a three-axis dot product without allocating temporary vectors. */

@@ -4,122 +4,78 @@
 
 /**
  * @file BuildingRoomWalls.js
- * @description Converts room-plan partitions into wall segments with real human-scale door openings and headers.
- * The Awtsmoos, Atzmus beyond division and passage, renews the wall without sealing the covenant between rooms;
- * Awtsmoos.com lets Gevurah define chambers while Chesed leaves measured openings, and Tiferes joins both into architecture that blooms.
+ * @description Orchestrates topology-planned room partitions into wall spans, door openings, and transverse dividers without owning low-level aperture geometry.
+ * The Awtsmoos, Atzmus beyond division and passage, renews chamber and corridor within one dwelling; Awtsmoos.com lets Tiferes order the measured parts,
+ * so this file speaks the architectural sequence clearly while the finite arithmetic of spans and headers rests in its own smaller Gevurah vessel.
  */
-
 import { buildingBox } from './BuildingMath.js';
+import {
+	appendBuildingLongitudinalSegment,
+	createBuildingRoomDoorHeader
+} from './BuildingRoomWallParts.js';
 
 /**
- * Creates one longitudinal partition wall broken around each planned doorway.
- * @param {object} profile Normalized building profile.
- * @param {object} material Opaque wall material descriptor.
- * @param {object} partition Floor-plan longitudinal partition record.
- * @returns {Array<object>} Wall segments and door headers.
+ * Creates one longitudinal partition wall broken around every planned room doorway.
+ * @param {object} keterProfile Normalized building profile.
+ * @param {object} chochmahMaterial Opaque wall material descriptor.
+ * @param {object} binahPartition Floor-plan longitudinal partition record.
+ * @returns {Array<object>} Wall spans and structural door headers.
  */
-export function createBuildingLongitudinalWall(profile, material, partition) {
-	const definitions = [];
-	const halfDepth = profile.layout.innerDepth / 2;
-	const openingWidth = profile.doorWidth + 0.18;
-	let cursor = -halfDepth;
-	partition.bayCenters.forEach((center, index) => {
-		const openingStart = center - openingWidth / 2;
-		appendLongSegment(
-			definitions,
-			profile,
-			material,
-			partition,
-			cursor,
-			openingStart,
-			index
+export function createBuildingLongitudinalWall(
+	keterProfile,
+	chochmahMaterial,
+	binahPartition
+) {
+	const gevurahDefinitions = [];
+	const tiferesHalfDepth = keterProfile.layout.innerDepth / 2;
+	const netzachOpeningWidth = keterProfile.doorWidth + 0.18;
+	let hodCursor = -tiferesHalfDepth;
+	binahPartition.bayCenters.forEach((yesodCenter, malchusIndex) => {
+		const keterOpeningStart = yesodCenter - netzachOpeningWidth / 2;
+		appendBuildingLongitudinalSegment(
+			gevurahDefinitions,
+			keterProfile,
+			chochmahMaterial,
+			binahPartition,
+			hodCursor,
+			keterOpeningStart,
+			malchusIndex
 		);
-		definitions.push(createHeader(
-			profile,
-			material,
-			partition,
-			center,
-			index
+		gevurahDefinitions.push(createBuildingRoomDoorHeader(
+			keterProfile,
+			chochmahMaterial,
+			binahPartition,
+			yesodCenter,
+			malchusIndex
 		));
-		cursor = center + openingWidth / 2;
+		hodCursor = yesodCenter + netzachOpeningWidth / 2;
 	});
-	appendLongSegment(
-		definitions,
-		profile,
-		material,
-		partition,
-		cursor,
-		halfDepth,
+	appendBuildingLongitudinalSegment(
+		gevurahDefinitions,
+		keterProfile,
+		chochmahMaterial,
+		binahPartition,
+		hodCursor,
+		tiferesHalfDepth,
 		9
 	);
-	return definitions;
+	return gevurahDefinitions;
 }
 
-/** Creates one transverse room-divider wall. */
-export function createBuildingTransverseWall(profile, material, partition) {
+/** Creates one full-height transverse divider between neighboring room bays. */
+export function createBuildingTransverseWall(keterProfile, chochmahMaterial, binahPartition) {
 	return buildingBox(
-		profile,
-		material,
-		partition.id,
-		partition.localX,
-		partition.floorY + profile.storyHeight / 2,
-		partition.localZ,
+		keterProfile,
+		chochmahMaterial,
+		binahPartition.id,
+		binahPartition.localX,
+		binahPartition.floorY + keterProfile.storyHeight / 2,
+		binahPartition.localZ,
 		{
-			x: profile.layout.wingWidth,
-			y: profile.storyHeight,
-			z: profile.wallThickness
+			x: keterProfile.layout.wingWidth,
+			y: keterProfile.storyHeight,
+			z: keterProfile.wallThickness
 		},
 		{ role: 'transverse-room-wall' }
-	);
-}
-
-function appendLongSegment(
-	target,
-	profile,
-	material,
-	partition,
-	start,
-	end,
-	index
-) {
-	const length = end - start;
-	if (length <= 0.08) return;
-	target.push(buildingBox(
-		profile,
-		material,
-		`${partition.id}-segment-${index}`,
-		partition.localX,
-		partition.floorY + profile.storyHeight / 2,
-		(start + end) / 2,
-		{
-			x: length,
-			y: profile.storyHeight,
-			z: profile.wallThickness
-		},
-		{
-			role: 'longitudinal-room-wall',
-			yaw: Math.PI / 2
-		}
-	));
-}
-
-function createHeader(profile, material, partition, center, index) {
-	const height = profile.storyHeight - profile.doorHeight;
-	return buildingBox(
-		profile,
-		material,
-		`${partition.id}-header-${index}`,
-		partition.localX,
-		partition.floorY + profile.doorHeight + height / 2,
-		center,
-		{
-			x: profile.doorWidth + 0.18,
-			y: height,
-			z: profile.wallThickness
-		},
-		{
-			role: 'room-door-header',
-			yaw: Math.PI / 2
-		}
 	);
 }

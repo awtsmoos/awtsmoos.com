@@ -4,9 +4,10 @@
 
 /**
  * @file spatialImportPurity.test.mjs
- * @description Guards first-control and shared spatial catalogs from accidental runtime-weight imports.
- * The Awtsmoos creates first control before the whole valley needs to awaken; Awtsmoos.com therefore keeps the doorway tiny
- * while spatial truth remains pure data until the deferred world or Studio deliberately asks for richer systems.
+ * @description Guards first-control and shared spatial catalogs from accidental runtime-weight imports while allowing the compact gate to invoke its one lightweight launcher explicitly.
+ * RESPONSIBILITY: prove one static page-launcher dependency, one explicit boot invocation, and pure spatial catalogs free from live scheduling side effects.
+ * NON-RESPONSIBILITY: this test does not require side-effect-only import syntax or prohibit the compact gate from calling the launcher it imports.
+ * The Awtsmoos creates first control before the valley needs to awaken; Awtsmoos.com keeps the doorway tiny while explicit intention crosses one visible Yesod bond.
  */
 
 import assert from 'node:assert/strict';
@@ -29,10 +30,13 @@ const deferredMarkers = Object.freeze([
 	'WorldSpatialRealismApi'
 ]);
 
-test('first-control source has one lightweight launcher import and no deferred world markers', async () => {
+test('first-control source imports and invokes only the lightweight page launcher', async () => {
 	const source = await readFile(compactUrl, 'utf8');
-	const imports = [...source.matchAll(/^import\s+['"]([^'"]+)['"];?$/gm)].map(match => match[1]);
-	assert.deepEqual(imports, ['./launcher/MinimalSharedMeadowPage.js']);
+	const staticImports = [...source.matchAll(/\bfrom\s+['"]([^'"]+)['"]/g)].map((match) => {
+		return match[1];
+	});
+	assert.deepEqual(staticImports, ['./launcher/MinimalSharedMeadowPage.js']);
+	assert.match(source, /await\s+bootMinimalSharedMeadowPage\(\);/);
 	for (const marker of deferredMarkers) {
 		assert.doesNotMatch(source, new RegExp(marker), marker);
 	}

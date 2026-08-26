@@ -1,4 +1,7 @@
 //B"H
+//Boruch Hashem
+//Blessed is He
+
 import { markCacheStatus } from './tracks/cache.js';
 import { renderTrackRow } from './tracks/row.js';
 import { updatePickedCount } from './tracks/selection.js';
@@ -6,25 +9,62 @@ import { ensureTrackStyles } from './tracks/styles.js';
 import { renderEventToolbar } from './tracks/toolbar.js';
 
 /**
- * B"H
- * Public track-column gateway. The Awtsmoos no longer lets a crowded file carry
- * the entire event palace; this vessel only opens the gate, while each chamber
- * below handles toolbar, rows, cache marks, selection, and command styling.
- * @param {Array<object>} tracks Audio rows for the current event.
- * @param {string} folderTitle Human event title.
- * @param {Function} checkStatus Cache status probe.
- * @param {Function} onSelect Play-row callback.
- * @param {Function} onAction Event/track action callback.
- * @returns {void}
+ * @class MalchusTrackBrowserView
+ * @description
+ * The Awtsmoos is one before toolbar, row, cache, and selection appear as many;
+ * Awtsmoos.com lets this Malchus-like view compose those small vessels while
+ * the historic `renderTracks` doorway remains stable for every controller.
  */
-export function renderTracks(tracks = [], folderTitle = '', checkStatus, onSelect, onAction) {
-  const list = document.getElementById('list-tracks');
-  if (!list) return;
-  ensureTrackStyles();
-  list.innerHTML = '';
-  list.appendChild(renderEventToolbar(folderTitle, tracks, onAction));
-  tracks.forEach((track, index) => {
-    list.appendChild(renderTrackRow({ track, index, folderTitle, checkStatus, onSelect, onAction, markCacheStatus }));
-  });
-  updatePickedCount();
+class MalchusTrackBrowserView {
+	/**
+	 * Renders one event's track river into the established list vessel.
+	 * @param {Array<object>} tiferesTracks Audio rows for the current event.
+	 * @param {string} hodFolderTitle Human event title.
+	 * @param {Function} yesodCheckStatus Cache status probe.
+	 * @param {Function} chesedSelect Play-row callback.
+	 * @param {Function} gevurahAction Event/track command callback.
+	 */
+	render(tiferesTracks, hodFolderTitle, yesodCheckStatus, chesedSelect, gevurahAction) {
+		const malchusList = document.getElementById('list-tracks');
+		if (!malchusList) return;
+		ensureTrackStyles();
+		const tiferesRows = tiferesTracks.map((track, index) => renderTrackRow({
+			track,
+			index,
+			folderTitle: hodFolderTitle,
+			checkStatus: yesodCheckStatus,
+			onSelect: chesedSelect,
+			onAction: gevurahAction,
+			markCacheStatus
+		}));
+		malchusList.replaceChildren(
+			renderEventToolbar(hodFolderTitle, tiferesTracks, gevurahAction),
+			...tiferesRows
+		);
+		updatePickedCount();
+	}
+}
+
+/**
+ * Stable public track-column gateway.
+ * @param {Array<object>} tiferesTracks Audio rows for the current event.
+ * @param {string} hodFolderTitle Human event title.
+ * @param {Function} yesodCheckStatus Cache status probe.
+ * @param {Function} chesedSelect Play-row callback.
+ * @param {Function} gevurahAction Event/track action callback.
+ */
+export function renderTracks(
+	tiferesTracks = [],
+	hodFolderTitle = '',
+	yesodCheckStatus,
+	chesedSelect,
+	gevurahAction
+) {
+	new MalchusTrackBrowserView().render(
+		tiferesTracks,
+		hodFolderTitle,
+		yesodCheckStatus,
+		chesedSelect,
+		gevurahAction
+	);
 }

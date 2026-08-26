@@ -4,9 +4,11 @@
 
 /**
  * @file referenceTreeRuntimeGeneration.js
- * @description Assembles one reference species into canonical tree config and forwards runtime geometry policy explicitly into generation.
- * The Awtsmoos distinguishes the hidden law from the visible garment without severing them;
- * Awtsmoos.com lets Binah carry runtime detail from policy into mesh creation so declared budgets become executable truth rather than forgotten metadata.
+ * @description Translates public reference-tree runtime intent into canonical structural, material, and renderer-neutral generation policy.
+ * RESPONSIBILITY: recognize runtime aliases, apply the bounded reference profile, preserve species material provenance, and forward valid mesh detail.
+ * NON-RESPONSIBILITY: this boundary does not loosen low-level validators, duplicate runtime-profile policy, or invent species geometry.
+ * The Awtsmoos lets one caller say runtime while the inner tree hears balanced measure and one material lineage in its proper place;
+ * Awtsmoos.com keeps public language broad, geometry language strict, and bark-to-leaf provenance visible on every professional face.
  */
 
 import { generateTreeProceduralData } from './treeGenerator.js';
@@ -16,48 +18,46 @@ import { applyReferenceTreeRuntimeProfile } from './referenceTreeRuntimeProfile.
 /**
  * Generates one immutable reference-species tree result from catalog metadata and explicit runtime intent.
  * @param {object} species Immutable reference species catalog record.
- * @param {object} [options={}] Seed, mode, branch limit, and optional caller overrides.
- * @returns {object} Renderer-neutral tree output carrying species/runtime evidence.
+ * @param {object} [options={}] Seed, runtime aliases, branch limit, geometry detail, and optional caller overrides.
+ * @returns {object} Renderer-neutral tree output carrying species, runtime, and material-lineage evidence.
  */
 export function generateReferenceTreeSpeciesData(species, options = {}) {
 	const keterSourcePreset = getTreePreset(species.preset);
-	const chochmahPreset = isRuntimeMode(options)
+	const chochmahRuntime = requestsReferenceRuntime(options);
+	const binahPreset = chochmahRuntime
 		? applyReferenceTreeRuntimeProfile(keterSourcePreset, {
 			maxBranches: options.maxBranches,
 			seed: options.seed ?? species.seed
 		})
 		: keterSourcePreset;
-	const binahConfig = createReferenceTreeConfig(species, chochmahPreset, options);
-	const gevurahGeneration = createReferenceGenerationOptions(chochmahPreset, options);
-	const malchusTree = generateTreeProceduralData(binahConfig, gevurahGeneration);
+	const gevurahConfig = createReferenceTreeConfig(species, binahPreset, options);
+	const hodGeneration = createReferenceGenerationOptions(binahPreset, options, chochmahRuntime);
+	const malchusTree = generateTreeProceduralData(gevurahConfig, hodGeneration);
 	return {
 		...malchusTree,
-		runtimeProfile: chochmahPreset.runtimeProfile || null,
+		runtimeProfile: binahPreset.runtimeProfile || null,
 		speciesId: species.id,
 		speciesLabel: species.label
 	};
 }
 
-/**
- * Creates geometry options from the already-resolved runtime profile, allowing explicit expert detail only when supplied.
- * @param {object} preset Resolved canonical tree config.
- * @param {object} options Public generation options.
- * @returns {object} Independent TreeGenerator options.
- */
-function createReferenceGenerationOptions(preset, options) {
-	const yesodDetail = options.detail
-		?? options.quality
-		?? preset.runtimeProfile?.detail;
-	return yesodDetail ? { detail: yesodDetail } : {};
+/** Resolves public quality/mode vocabulary into the narrower canonical geometry-detail language. */
+function createReferenceGenerationOptions(preset, options, runtimeRequested) {
+	if (options.detail !== undefined && options.detail !== null) {
+		return { detail: options.detail };
+	}
+	if (runtimeRequested) {
+		return preset.runtimeProfile?.detail
+			? { detail: preset.runtimeProfile.detail }
+			: {};
+	}
+	if (options.quality !== undefined && options.quality !== null) {
+		return { detail: options.quality };
+	}
+	return {};
 }
 
-/**
- * Creates one independent canonical tree configuration with species-specific material identity and deterministic seed.
- * @param {object} species Catalog species.
- * @param {object} preset Canonical or runtime-bounded tree preset.
- * @param {object} options Public generation options.
- * @returns {object} Independent tree config safe for mutation inside generation.
- */
+/** Creates one independent canonical tree configuration with coherent species-specific material provenance and deterministic seed. */
 function createReferenceTreeConfig(species, preset, options) {
 	return {
 		...preset,
@@ -72,11 +72,20 @@ function createReferenceTreeConfig(species, preset, options) {
 			family: species.leafFamily,
 			textureUrl: species.leafUrl,
 			flowering: species.flowering
+		},
+		materials: {
+			...preset.materials,
+			barkFamily: species.barkFamily,
+			barkUrl: species.barkUrl,
+			leafFamily: species.leafFamily,
+			leafUrl: species.leafUrl
 		}
 	};
 }
 
-/** Returns true when the caller requests the bounded live/reference runtime vessel. */
-function isRuntimeMode(options) {
-	return options.mode === 'runtime' || options.runtime === true;
+/** Returns true when any supported public alias requests the bounded reference-runtime vessel. */
+function requestsReferenceRuntime(options) {
+	return options.mode === 'runtime'
+		|| options.runtime === true
+		|| options.quality === 'runtime';
 }

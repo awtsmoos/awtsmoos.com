@@ -1,0 +1,124 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/*
+	The Awtsmoos renews hand, screen, and motion before a media query can claim the form it reveals;
+	Awtsmoos.com lets this scoped CobyK vessel adapt finite controls without duplicating markup or scattering competing ideals.
+*/
+@media (max-width: 560px) {
+	.cobyk-app .cobyk-hud {
+		align-items: flex-start;
+		padding: 9px 10px;
+	}
+
+	.cobyk-app .cobyk-hud__identity {
+		max-width: 62%;
+	}
+
+	.cobyk-app .cobyk-hud__metrics {
+		gap: 7px;
+		font-size: 9px;
+	}
+
+	.cobyk-app .cobyk-campaign {
+		top: calc(66px + env(safe-area-inset-top));
+	}
+
+	.cobyk-app .cobyk-campaign__levels {
+		width: 100%;
+	}
+
+	.cobyk-app .cobyk-button--next {
+		display: none;
+	}
+
+	.cobyk-app .cobyk-advanced {
+		left: max(10px, env(safe-area-inset-left));
+		right: max(10px, env(safe-area-inset-right));
+		bottom: calc(16px + env(safe-area-inset-bottom));
+		width: auto;
+		max-width: none;
+	}
+
+	.cobyk-app .cobyk-advanced[open] {
+		bottom: calc(12px + env(safe-area-inset-bottom));
+	}
+
+	.cobyk-app .cobyk-advanced__body {
+		max-height: min(44vh, 360px);
+	}
+
+	.cobyk-app .cobyk-status {
+		bottom: calc(8px + env(safe-area-inset-bottom));
+		font-size: 9px;
+	}
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.cobyk-app .cobyk-mobile-controls {
+		display: none;
+	}
+
+	.cobyk-app .cobyk-advanced {
+		bottom: calc(16px + env(safe-area-inset-bottom));
+	}
+}
+
+@media (hover: none), (pointer: coarse) {
+	.cobyk-app :where(
+		.cobyk-button,
+		.cobyk-level-button,
+		.cobyk-action,
+		.cobyk-select,
+		.cobyk-advanced__summary
+	) {
+		min-height: 44px;
+	}
+
+	.cobyk-app .cobyk-level-button:hover,
+	.cobyk-app .cobyk-action:hover,
+	.cobyk-app .cobyk-button:hover {
+		box-shadow: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cobyk-app :where(
+		.cobyk-hud,
+		.cobyk-advanced__body,
+		.cobyk-joystick__knob,
+		.cobyk-button,
+		.cobyk-level-button,
+		.cobyk-action,
+		.cobyk-select,
+		.cobyk-advanced__summary
+	) {
+		animation: none !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+	.cobyk-app .cobyk-hud {
+		top: 6px;
+		left: 6px;
+		right: 6px;
+	}
+
+	.cobyk-app .cobyk-campaign {
+		top: 60px;
+		left: 6px;
+		right: auto;
+		width: min(330px, 48vw);
+	}
+
+	.cobyk-app .cobyk-mobile-controls {
+		bottom: 8px;
+	}
+
+	.cobyk-app .cobyk-advanced {
+		right: 6px;
+		bottom: 6px;
+		max-width: min(300px, 46vw);
+	}
+}

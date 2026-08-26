@@ -1,3 +1,127 @@
-/* B"H — advanced UI compositor, no global selectors. */
-@import url("./drawer.css");
-@import url("./developer.css");
+/* B"H
+ * The Awtsmoos keeps deeper instruments available without letting them crowd the path;
+ * this drawer is a quiet side vessel for session testimony and developer exploration.
+ */
+
+.awtsmoos-browser-advanced-panel {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	bottom: 12px;
+	z-index: 30;
+	display: grid;
+	grid-template-rows: auto auto minmax(0, 1fr) auto;
+	gap: 12px;
+	width: min(390px, calc(100% - 24px));
+	padding: 14px;
+	overflow: auto;
+	color: var(--browser-text);
+	background: rgba(10, 14, 23, 0.93);
+	border: 1px solid rgba(255, 255, 255, 0.11);
+	border-radius: 16px;
+	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+	backdrop-filter: blur(26px) saturate(1.2);
+	transform: translateX(10px) scale(0.985);
+	opacity: 0;
+	transition: transform 170ms ease, opacity 170ms ease;
+}
+
+.awtsmoos-browser-advanced-panel.is-open {
+	transform: translateX(0) scale(1);
+	opacity: 1;
+}
+
+.awtsmoos-browser-advanced-header {
+	padding: 2px 2px 4px;
+}
+
+.awtsmoos-browser-advanced-title,
+.awtsmoos-browser-section-title {
+	margin: 0;
+	font-weight: 720;
+}
+
+.awtsmoos-browser-advanced-title {
+	font-size: 16px;
+}
+
+.awtsmoos-browser-advanced-subtitle {
+	margin: 4px 0 0;
+	color: var(--browser-muted);
+	font-size: 11px;
+}
+
+.awtsmoos-browser-advanced-section {
+	display: grid;
+	gap: 8px;
+	padding: 10px;
+	border: 1px solid var(--browser-border);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.035);
+}
+
+.awtsmoos-browser-section-title {
+	color: #dce2ef;
+	font-size: 11px;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.awtsmoos-browser-section-body {
+	display: grid;
+	gap: 8px;
+	min-height: 0;
+}
+
+.awtsmoos-browser-developer-controls {
+	display: grid;
+	grid-template-columns: auto auto minmax(60px, 1fr);
+	gap: 6px;
+}
+
+.awtsmoos-browser-tool-button,
+.awtsmoos-browser-depth {
+	min-height: 32px;
+	border: 1px solid var(--browser-border);
+	border-radius: 9px;
+	color: var(--browser-text);
+	background: rgba(255, 255, 255, 0.055);
+}
+
+.awtsmoos-browser-tool-button {
+	padding: 0 10px;
+	cursor: pointer;
+}
+
+.awtsmoos-browser-depth {
+	padding: 0 8px;
+}
+
+.awtsmoos-browser-editor {
+	width: 100%;
+	min-height: 150px;
+	resize: vertical;
+	border: 1px solid var(--browser-border);
+	border-radius: 10px;
+	outline: none;
+	color: #d9ffe8;
+	background: #060910;
+	padding: 10px;
+	font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.awtsmoos-browser-metrics {
+	margin: 0;
+	max-height: 140px;
+	overflow: auto;
+	color: #b8c3d8;
+	font: 11px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
+	white-space: pre-wrap;
+}
+
+@media (max-width: 560px) {
+	.awtsmoos-browser-advanced-panel {
+		inset: 8px;
+		width: auto;
+	}
+}

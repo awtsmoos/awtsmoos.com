@@ -4,34 +4,58 @@
 
 /**
  * @file WaterNatureRouting.js
- * @description Keeps semantic water regime routing outside the friendly WaterNatureApi class.
- * The Awtsmoos renews river, pond, flood, liquid, and sea without crowding one doorway with every branch;
- * Awtsmoos.com keeps routing law small so the public facade may stay simple while advanced engines freely expand their reach.
+ * @description Keeps discoverable water-regime routing outside the friendly facade, including surface-only water that requires no solver.
+ * The Awtsmoos renews surface, river, pond, flood, liquid, and sea without crowding one doorway with every branch;
+ * Awtsmoos.com lets one semantic word reveal the proper specialist vessel while the public API remains small, readable, and bright.
  */
 
-/** Routes a discoverable semantic kind through the existing unified water facade. */
-export function routeWaterNatureCreate(api, kind = 'fluid', options = {}) {
-	const normalized = String(kind).trim().toLowerCase();
-	if (normalized === 'river') {
-		return api.river(options.preset ?? 'river', options);
+/**
+ * Routes a discoverable semantic water kind through the unified facade.
+ * @param {object} apiYesod WaterNatureApi-compatible facade.
+ * @param {string} [kindHod='fluid'] Semantic water regime.
+ * @param {object} [optionsChesed={}] Regime-specific options.
+ * @returns {Readonly<object>} Nature result from the chosen specialist path.
+ */
+export function routeWaterNatureCreate(
+	apiYesod,
+	kindHod = 'fluid',
+	optionsChesed = {}
+) {
+	const normalizedHod = String(kindHod).trim().toLowerCase();
+	if (['surface', 'visual', 'shader'].includes(normalizedHod)) {
+		return apiYesod.surface(optionsChesed);
 	}
-	if (normalized === 'reach' || normalized === 'river-reach') {
-		return api.reach(options.preset ?? 'river', options);
+	if (normalizedHod === 'river') {
+		return apiYesod.river(
+			optionsChesed.preset ?? 'river',
+			optionsChesed
+		);
 	}
-	if (normalized === 'channel' || normalized === 'stream') {
-		return api.channel({ ...options, preset: options.preset ?? 'stream' });
+	if (normalizedHod === 'reach' || normalizedHod === 'river-reach') {
+		return apiYesod.reach(
+			optionsChesed.preset ?? 'river',
+			optionsChesed
+		);
 	}
-	if (['fluid', 'liquid', 'dynamics'].includes(normalized)) {
-		return api.fluid(options);
+	if (normalizedHod === 'channel' || normalizedHod === 'stream') {
+		return apiYesod.channel({
+			...optionsChesed,
+			preset: optionsChesed.preset ?? 'stream'
+		});
 	}
-	if (['shallow', 'flood', 'puddle'].includes(normalized)) {
-		return api.shallow(options);
+	if (['fluid', 'liquid', 'dynamics'].includes(normalizedHod)) {
+		return apiYesod.fluid(optionsChesed);
 	}
-	if (['ocean', 'sea'].includes(normalized)) {
-		return api.ocean(options);
+	if (['shallow', 'flood', 'puddle'].includes(normalizedHod)) {
+		return apiYesod.shallow(optionsChesed);
 	}
-	if (['pond', 'lake', 'wetland', 'runoff'].includes(normalized)) {
-		return api.body(normalized, options);
+	if (['ocean', 'sea'].includes(normalizedHod)) {
+		return apiYesod.ocean(optionsChesed);
 	}
-	throw new RangeError(`B"H | Unknown water regime "${kind}".`);
+	if (['pond', 'lake', 'wetland', 'runoff'].includes(normalizedHod)) {
+		return apiYesod.body(normalizedHod, optionsChesed);
+	}
+	throw new RangeError(
+		`B"H | Unknown water regime "${kindHod}".`
+	);
 }

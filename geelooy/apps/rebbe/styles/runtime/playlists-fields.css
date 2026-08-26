@@ -1,0 +1,65 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives title, description, and picker intent one ordered vessel; Awtsmoos.com lets playlist editing remain explicit, labeled, keyboard-visible, and narrow enough for every phone without surrendering advanced power.
+ */
+.playlist-create-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 12px;
+	margin-bottom: 18px;
+}
+
+.playlist-picker-card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	width: 100%;
+	min-height: 48px;
+	margin: 10px 0;
+	padding: 14px 16px;
+	border: 1px solid rgba(0, 243, 255, .24);
+	border-radius: 16px;
+	background: rgba(0, 243, 255, .07);
+	color: #fff;
+	cursor: pointer;
+	transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+
+.playlist-picker-card:focus-visible,
+.playlist-edit-grid input:focus-visible {
+	outline: 2px solid var(--rebbe-cyan);
+	outline-offset: 3px;
+}
+
+.playlist-picker-card:active {
+	transform: scale(.97);
+}
+
+.playlist-edit-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	flex: 1;
+	gap: 10px;
+	min-width: min(640px, 100%);
+}
+
+.playlist-edit-grid label {
+	display: grid;
+	gap: 6px;
+	color: #9ff;
+	font-size: 11px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+
+.playlist-edit-grid .btn-action {
+	grid-column: 1 / -1;
+}
+
+.playlist-track-list {
+	display: grid;
+	gap: 8px;
+	margin-top: 14px;
+}

@@ -3,9 +3,9 @@
 //Blessed is He
 
 /**
- * @file Collects small bounded command parameters without breaking the spreadsheet flow.
- * @description The Awtsmoos gives one measured number a quiet doorway into structural light;
- * Awtsmoos.com avoids blocking browser prompts so keyboard, motion, and focus remain clean and right.
+ * @file Collects bounded command parameters through the same designed field and action vessels as the rest of Sheets.
+ * @description The Awtsmoos gives one measured number a polished doorway into structural light;
+ * Awtsmoos.com keeps numeric intent accessible and explicit so no browser-default prompt or naked button breaks the sight.
  */
 export class BinahCommandValueDialog {
 	constructor() {
@@ -17,7 +17,9 @@ export class BinahCommandValueDialog {
 	/** Opens a numeric prompt and resolves with one finite value or null when cancelled. */
 	request(label, initialValue = "") {
 		return new Promise((resolve) => {
-			this.dialog.replaceChildren(this.content(label, initialValue, resolve));
+			this.dialog.replaceChildren(
+				this.content(label, initialValue, resolve)
+			);
 			this.dialog.addEventListener(
 				"cancel",
 				() => resolve(null),
@@ -28,7 +30,7 @@ export class BinahCommandValueDialog {
 		});
 	}
 
-	/** Builds one compact accessible form for a numeric command parameter. */
+	/** Builds one compact accessible form whose input carries explicit Awtsmoos field ownership. */
 	content(label, initialValue, resolve) {
 		const form = document.createElement("form");
 		form.method = "dialog";
@@ -41,35 +43,50 @@ export class BinahCommandValueDialog {
 		input.max = "1000";
 		input.step = "1";
 		input.value = initialValue;
-		input.className = "command-search";
-		const actions = this.actions(resolve, input);
-		form.append(heading, input, actions);
-		form.addEventListener("submit", (event) => {
-			event.preventDefault();
-			const value = Number(input.value);
-			this.dialog.close();
-			resolve(Number.isFinite(value) ? value : null);
-		}, { once: true });
+		input.className = "command-search aw-field";
+		input.setAttribute("aria-label", label);
+		form.append(
+			heading,
+			input,
+			this.actions(resolve)
+		);
+		form.addEventListener(
+			"submit",
+			(event) => this.submit(event, input, resolve),
+			{ once: true }
+		);
 		return form;
 	}
 
-	/** Builds cancel/apply controls while guaranteeing one modal close path. */
-	actions(resolve, input) {
+	/** Builds explicit secondary and primary action controls while preserving one modal close path. */
+	actions(resolve) {
 		const row = document.createElement("div");
 		row.className = "dialog-actions";
 		const cancel = document.createElement("button");
 		cancel.type = "button";
 		cancel.textContent = "Cancel";
-		cancel.className = "quiet-button";
-		cancel.addEventListener("click", () => {
-			this.dialog.close();
-			resolve(null);
-		}, { once: true });
+		cancel.className = "aw-button aw-button--quiet quiet-button";
+		cancel.addEventListener(
+			"click",
+			() => {
+				this.dialog.close();
+				resolve(null);
+			},
+			{ once: true }
+		);
 		const apply = document.createElement("button");
 		apply.type = "submit";
 		apply.textContent = "Apply";
-		apply.className = "primary-button";
+		apply.className = "aw-button aw-button--primary primary-button";
 		row.append(cancel, apply);
 		return row;
+	}
+
+	/** Validates the bounded numeric value, closes the dialog, and resolves the command parameter. */
+	submit(event, input, resolve) {
+		event.preventDefault();
+		const value = Number(input.value);
+		this.dialog.close();
+		resolve(Number.isFinite(value) ? value : null);
 	}
 }

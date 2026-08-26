@@ -4,15 +4,11 @@
 
 /**
  * @file index.js
- * @description Public Domem architecture surface for terrain-aware renderer-neutral building plans and specialist evidence.
- * The Awtsmoos, Atzmus beyond blueprint and stone, renews many architectural vessels beneath one discoverable gate;
- * Awtsmoos.com lets builders enter through one barrel while every focused module keeps the boundary entrusted to its state.
+ * @description Public Domem architecture surface for terrain-aware plans, room topology, circulation, roof intent, support, and focused wall-building evidence.
+ * The Awtsmoos is beyond blueprint and stone while Awtsmoos.com gathers small architectural vessels beneath one discoverable gate,
+ * so simple callers enter through BuildingAuthority and experts inspect topology, circulation, roof truth, terrain support, rooms, and measured apertures without monolithic fate.
  */
-
-export {
-	BuildingAuthority,
-	createBuildingAuthority
-} from './BuildingAuthority.js';
+export { BuildingAuthority, createBuildingAuthority } from './BuildingAuthority.js';
 export { createBuildingPlan } from './BuildingPlan.js';
 export {
 	HUMAN_SCALE_BUILDING_DOOR,
@@ -21,10 +17,12 @@ export {
 } from './BuildingProfile.js';
 export { createBuildingLayout } from './BuildingLayout.js';
 export {
-	buildingPoint,
-	buildingLocalPoint,
-	buildingBox
-} from './BuildingMath.js';
+	buildingRoomUse,
+	createBuildingRoomTopology
+} from './BuildingRoomTopology.js';
+export { createBuildingCirculationGraph } from './BuildingCirculationGraph.js';
+export { createBuildingRoofIntent } from './BuildingRoofIntent.js';
+export { buildingPoint, buildingLocalPoint, buildingBox } from './BuildingMath.js';
 export { createBuildingFloorPlan } from './BuildingFloorPlan.js';
 export { surveyBuildingGround } from './BuildingGroundSurvey.js';
 export { createBuildingFoundation } from './BuildingFoundation.js';
@@ -34,13 +32,14 @@ export { createBuildingEntryHeightSupport } from './BuildingEntryHeightSupport.j
 export { createBuildingShell } from './BuildingShell.js';
 export { createBuildingRooms } from './BuildingRooms.js';
 export {
+	appendBuildingLongitudinalSegment,
+	createBuildingRoomDoorHeader
+} from './BuildingRoomWallParts.js';
+export {
 	buildingStairAperture,
 	buildingStairApertureEvidence
 } from './BuildingStairAperture.js';
 export { createBuildingFloorSupport } from './BuildingFloorSupport.js';
-export {
-	buildingStairHeightAt,
-	createBuildingStairSupport
-} from './BuildingStairSupport.js';
+export { buildingStairHeightAt, createBuildingStairSupport } from './BuildingStairSupport.js';
 export { createBuildingStairs } from './BuildingStairs.js';
 export { createBuildingExteriorDoor } from './BuildingDoors.js';

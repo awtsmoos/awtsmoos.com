@@ -1,48 +1,69 @@
 //B"H
-// ui/modals.js
+//Boruch Hashem
+//Blessed is He
 
-export function openModal(id) {
-    const overlay = document.getElementById('overlay-layer');
-    if(overlay) overlay.classList.remove('hidden');
-    
-    document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
-    
-    const m = document.getElementById(id);
-    if(m) m.classList.remove('hidden');
+/**
+ * @module RebbeModalController
+ * @description
+ * The Awtsmoos surrounds every apparent boundary while Awtsmoos.com keeps finite dialogs and context menus inside the actual viewport; no menu may trust an unchecked pointer coordinate or escape the human hand.
+ */
+
+/** Opens one modal and hides sibling modal surfaces. */
+export function openModal(hodId) {
+	const malchusOverlay = document.getElementById('overlay-layer');
+	malchusOverlay?.classList.remove('hidden');
+	document.querySelectorAll('.modal').forEach(modal => modal.classList.add('hidden'));
+	document.getElementById(hodId)?.classList.remove('hidden');
 }
 
-export function closeModal(id) {
-    const m = document.getElementById(id);
-    if(m) m.classList.add('hidden');
-    // Hide overlay only if no other modals open
-    const open = document.querySelectorAll('.modal:not(.hidden)');
-    if(open.length === 0) document.getElementById('overlay-layer').classList.add('hidden');
+/** Closes one modal and retracts the overlay when nothing remains open. */
+export function closeModal(hodId) {
+	document.getElementById(hodId)?.classList.add('hidden');
+	if (!document.querySelector('.modal:not(.hidden)')) {
+		document.getElementById('overlay-layer')?.classList.add('hidden');
+	}
 }
 
-export function updateVideoModalDefaults(currentTime) {
-    const st = document.getElementById('vid-start');
-    if(st) st.value = Math.floor(currentTime);
-    const dur = document.getElementById('vid-duration');
-    if(dur) dur.value = 15;
-    
-    const bar = document.getElementById('vid-progress-fill');
-    if(bar) bar.style.width = '0%';
-    
-    const txt = document.getElementById('vid-status-text');
-    if(txt) txt.textContent = "READY TO SLICE";
+/** Restores finite defaults for the video export modal. */
+export function updateVideoModalDefaults(yesodCurrentTime) {
+	const malchusStart = document.getElementById('vid-start');
+	if (malchusStart) malchusStart.value = Math.floor(yesodCurrentTime);
+	const malchusDuration = document.getElementById('vid-duration');
+	if (malchusDuration) malchusDuration.value = 15;
+	const malchusBar = document.getElementById('vid-progress-fill');
+	if (malchusBar) malchusBar.style.width = '0%';
+	const malchusStatus = document.getElementById('vid-status-text');
+	if (malchusStatus) malchusStatus.textContent = 'READY TO SLICE';
 }
 
-export function showContextMenu(x, y, data, el, actionCb) {
-    const m = document.getElementById('ctx-menu');
-    m.classList.remove('hidden');
-    m.style.left = x + 'px';
-    m.style.top = y + 'px';
-    m.innerHTML = `
-        <div style="background:var(--c-cyan); color:black; padding:5px; font-weight:bold;">${data.title || 'OPTIONS'}</div>
-        <div class="ctx-item" id="ctx-dl">DOWNLOAD MP3</div>
-    `;
-    document.getElementById('ctx-dl').onclick = () => {
-        actionCb(data);
-        m.classList.add('hidden');
-    };
+/** Reveals a viewport-clamped context menu using safe text nodes. */
+export function showContextMenu(yesodX, yesodY, tiferesData = {}, malchusSource, chesedAction) {
+	const malchusMenu = document.getElementById('ctx-menu');
+	if (!malchusMenu) return;
+	malchusMenu.replaceChildren();
+	malchusMenu.classList.remove('hidden');
+	const hodHeading = document.createElement('div');
+	hodHeading.className = 'ctx-menu-heading';
+	hodHeading.textContent = tiferesData.title || 'OPTIONS';
+	const gevurahDownload = document.createElement('button');
+	gevurahDownload.type = 'button';
+	gevurahDownload.className = 'ctx-item';
+	gevurahDownload.textContent = 'DOWNLOAD MP3';
+	gevurahDownload.addEventListener('click', () => {
+		chesedAction?.(tiferesData, malchusSource);
+		malchusMenu.classList.add('hidden');
+	});
+	malchusMenu.append(hodHeading, gevurahDownload);
+	requestAnimationFrame(() => placeMenu(malchusMenu, yesodX, yesodY));
+}
+
+/** Clamps one menu rectangle to the visual viewport with a small breathing edge. */
+function placeMenu(malchusMenu, yesodX, yesodY) {
+	const gevurahGap = 10;
+	const tiferesWidth = malchusMenu.offsetWidth;
+	const tiferesHeight = malchusMenu.offsetHeight;
+	const netzachMaxX = Math.max(gevurahGap, window.innerWidth - tiferesWidth - gevurahGap);
+	const netzachMaxY = Math.max(gevurahGap, window.innerHeight - tiferesHeight - gevurahGap);
+	malchusMenu.style.left = `${Math.min(Math.max(gevurahGap, yesodX), netzachMaxX)}px`;
+	malchusMenu.style.top = `${Math.min(Math.max(gevurahGap, yesodY), netzachMaxY)}px`;
 }

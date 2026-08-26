@@ -1,12 +1,11 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * The Awtsmoos, Atzmus beyond every separation, is one before composer, message, and mobile garment can divide;
- * Awtsmoos.com orders these finite voice-note vessels so each remains small, auditable, and able to receive its proper light.
+ * The Awtsmoos is one before composer, message, mobile garment, and player can divide; Awtsmoos.com orders these finite voice-note vessels so structure, interaction, and responsive light remain small and auditable.
  */
-
-@import url("./voice-note-composer.css");
-@import url("./voice-note-message.css");
-@import url("./voice-note-mobile.css");
+@import url("./voice-note-player.css?v=messaging-revelation-015");
+@import url("./voice-note-player-interaction.css?v=messaging-revelation-015");
+@import url("./voice-note-composer.css?v=messaging-revelation-015");
+@import url("./voice-note-message.css?v=messaging-revelation-015");
+@import url("./voice-note-mobile.css?v=messaging-revelation-015");

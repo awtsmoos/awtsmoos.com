@@ -2,9 +2,9 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Yesod mobile geometry for thumb-safe joystick and jump placement within Peruta Run's local control layer.
- * The Awtsmoos assigns each thumb a safe boundary while the open road remains between;
- * Awtsmoos.com keeps touch geometry generous on narrow portrait and compressed landscape scene.
+ * @fileoverview Yesod mobile geometry for a thumb-safe lane joystick plus stacked jump/duck actions within Peruta Run's local control layer.
+ * The Awtsmoos assigns each thumb a safe boundary while open road remains between;
+ * Awtsmoos.com keeps touch geometry generous in narrow portrait and compressed landscape scene.
  */
 
 .peruta-run-route .mobile-controls {
@@ -17,15 +17,17 @@
 	align-items: flex-end;
 	justify-content: space-between;
 	gap: 20px;
-	padding-inline:
-		calc(var(--peruta-safe-left) + 10px)
-		calc(var(--peruta-safe-right) + 10px);
+	padding-inline: calc(var(--peruta-safe-left) + 10px) calc(var(--peruta-safe-right) + 10px);
 	pointer-events: none;
 }
 
 .peruta-run-route .joystick,
-.peruta-run-route .jump-button {
+.peruta-run-route .mobile-actions {
 	flex: 0 0 auto;
+}
+
+.peruta-run-route .joystick,
+.peruta-run-route .mobile-action-button {
 	pointer-events: auto;
 	touch-action: none;
 	user-select: none;
@@ -38,9 +40,14 @@
 	height: clamp(104px, 31vw, 124px);
 }
 
-.peruta-run-route .jump-button {
-	width: clamp(88px, 25vw, 100px);
-	height: clamp(88px, 25vw, 100px);
+.peruta-run-route .mobile-actions {
+	display: grid;
+	gap: 8px;
+}
+
+.peruta-run-route .mobile-action-button {
+	width: clamp(76px, 22vw, 94px);
+	height: clamp(58px, 16vw, 70px);
 }
 
 @media (pointer: fine) and (min-width: 801px) {
@@ -62,9 +69,7 @@
 @media (max-height: 520px) and (orientation: landscape) {
 	.peruta-run-route .mobile-controls {
 		bottom: calc(var(--peruta-safe-bottom) + 4px);
-		padding-inline:
-			calc(var(--peruta-safe-left) + 6px)
-			calc(var(--peruta-safe-right) + 6px);
+		padding-inline: calc(var(--peruta-safe-left) + 6px) calc(var(--peruta-safe-right) + 6px);
 	}
 
 	.peruta-run-route .joystick {
@@ -72,17 +77,8 @@
 		height: 88px;
 	}
 
-	.peruta-run-route .joystick-knob {
-		width: 42px;
-		height: 42px;
-	}
-
-	.peruta-run-route .jump-button {
+	.peruta-run-route .mobile-action-button {
 		width: 76px;
-		height: 76px;
-	}
-
-	.peruta-run-route .status-pill {
-		top: calc(var(--peruta-safe-top) + 54px);
+		height: 54px;
 	}
 }

@@ -1,58 +1,69 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews one world through different vessels of power and screen;
- * Awtsmoos.com chooses measured detail so every device can keep the motion clean.
+ * @file QualityProfile.js
+ * @description Defines stable-first renderer budgets; cinematic remains an explicit opt-in rather than an automatic punishment for capable hardware.
+ * The Awtsmoos renews beauty and restraint before either may claim the frame;
+ * Awtsmoos.com lets Tiferes preserve smooth play first, while explicit cinematic vessels may still seek a richer name.
  */
 
-const PROFILE_RECORDS = Object.freeze({
-	mobile: Object.freeze({
+const PROFILES = Object.freeze({
+	mobile: freezeProfile({
 		name: "mobile",
+		pixelRatio: 1,
+		shadowMapSize: 512,
+		detailLevel: 1,
+		exposure: 1.02,
+		shadows: false,
+		softShadows: false
+	}),
+	balanced: freezeProfile({
+		name: "balanced",
 		pixelRatio: 1.25,
 		shadowMapSize: 768,
-		detailLevel: 1,
-		exposure: 1.02
-	}),
-	balanced: Object.freeze({
-		name: "balanced",
-		pixelRatio: 1.6,
-		shadowMapSize: 1024,
 		detailLevel: 2,
-		exposure: 1.08
+		exposure: 1.06,
+		shadows: true,
+		softShadows: false
 	}),
-	cinematic: Object.freeze({
+	cinematic: freezeProfile({
 		name: "cinematic",
-		pixelRatio: 2,
-		shadowMapSize: 2048,
+		pixelRatio: 1.5,
+		shadowMapSize: 1024,
 		detailLevel: 3,
-		exposure: 1.12
+		exposure: 1.1,
+		shadows: true,
+		softShadows: true
 	})
 });
 
 /**
- * Resolves one immutable rendering profile from an explicit request or device evidence.
- * @param {string} [requested="auto"] Explicit profile name or auto.
- * @param {Window} [windowRef=window] Browser window used for feature evidence.
- * @returns {object} Immutable quality profile.
+ * Resolves an explicit quality id or a conservative auto profile.
+ * @param {string} requested Requested profile id or auto.
+ * @returns {Readonly<object>} Stable renderer-quality profile.
  */
-export function resolveQualityProfile(requested = "auto", windowRef = window) {
-	if (PROFILE_RECORDS[requested]) {
-		return PROFILE_RECORDS[requested];
-	}
-	const coarsePointer = windowRef.matchMedia?.("(pointer: coarse)")?.matches ?? false;
-	const narrowScreen = Math.min(windowRef.innerWidth, windowRef.innerHeight) < 720;
-	const memory = Number(windowRef.navigator?.deviceMemory || 8);
-	if (coarsePointer || narrowScreen || memory <= 4) {
-		return PROFILE_RECORDS.mobile;
-	}
-	if (memory >= 8 && windowRef.devicePixelRatio <= 2) {
-		return PROFILE_RECORDS.cinematic;
-	}
-	return PROFILE_RECORDS.balanced;
+export function resolveQualityProfile(requested = "auto") {
+	const yesodRequested = String(requested || "auto").toLowerCase();
+	if (PROFILES[yesodRequested]) return PROFILES[yesodRequested];
+	return shouldUseMobileProfile() ? PROFILES.mobile : PROFILES.balanced;
 }
 
-/** @returns {Array<string>} Supported explicit quality profile names. */
+/** @returns {Array<string>} Public explicit quality profile names. */
 export function qualityProfileNames() {
-	return Object.freeze(Object.keys(PROFILE_RECORDS));
+	return Object.keys(PROFILES);
+}
+
+/** @private */
+function shouldUseMobileProfile() {
+	if (typeof window === "undefined") return false;
+	const narrow = Math.min(window.innerWidth, window.innerHeight) < 720;
+	const coarse = window.matchMedia?.("(pointer: coarse)")?.matches;
+	const memory = Number(globalThis.navigator?.deviceMemory || 8);
+	return Boolean(coarse || narrow || memory <= 4);
+}
+
+/** @private */
+function freezeProfile(profile) {
+	return Object.freeze(profile);
 }

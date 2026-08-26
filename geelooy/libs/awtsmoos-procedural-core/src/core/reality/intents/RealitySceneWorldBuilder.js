@@ -4,64 +4,26 @@
 
 /**
  * @file RealitySceneWorldBuilder.js
- * @description Adds fluent terrain, water, and atmosphere intent language above living/matter declarations without realizing environmental state.
- * The Awtsmoos renews mountain, river, pond, wetland, ocean, and wind before a fluent world can name their flow;
- * Awtsmoos.com keeps these methods as declarative Olam vessels while Terrain, Nature, and coherent wind authorities remain the engines below.
+ * @description Keeps the final fluent Olam layer focused on terrain and atmosphere while Water, Life, Botany, Chai, and Matter remain separate inherited vessels.
+ * The Awtsmoos renews mountain and wind before a world builder may gather landscape and atmosphere in one speech;
+ * Awtsmoos.com leaves hydrology below in its own layer so future weather, erosion, caves, climate, and planetary systems can deepen without overreach.
  */
-import { RealitySceneLifeBuilder } from './RealitySceneLifeBuilder.js';
+import { RealitySceneWaterBuilder } from './RealitySceneWaterBuilder.js';
 
-/** Fluent Olam capability layer over immutable scene intent state. */
-export class RealitySceneWorldBuilder extends RealitySceneLifeBuilder {
+/** Final fluent environmental capability layer above Water. */
+export class RealitySceneWorldBuilder extends RealitySceneWaterBuilder {
 	/**
-	 * Adds one deterministic terrain-plan intent without allocating a terrain artifact during chaining.
-	 * @param {object} [optionsKelim={}] Terrain seed, profile, quality, size, origin, erosion, water, id, and reference metadata.
+	 * Adds one deterministic renderer-neutral terrain-plan intent without allocating terrain during chaining.
+	 * @param {object} [optionsKelim={}] Terrain profile, size, origin, erosion, water coupling, quality, realism, seed, id, and references.
 	 * @returns {RealitySceneWorldBuilder} New immutable builder.
 	 */
 	terrain(optionsKelim = {}) {
 		return this.add({ ...optionsKelim, type: 'terrain' });
 	}
 
-	/** Adds one semantic pond intent. */
-	pond(optionsKelim = {}) {
-		return this.add({ ...optionsKelim, type: 'pond' });
-	}
-
-	/** Adds one semantic lake intent. */
-	lake(optionsKelim = {}) {
-		return this.add({ ...optionsKelim, type: 'lake' });
-	}
-
-	/** Adds one semantic wetland intent. */
-	wetland(optionsKelim = {}) {
-		return this.add({ ...optionsKelim, type: 'wetland' });
-	}
-
-	/** Adds one semantic runoff intent. */
-	runoff(optionsKelim = {}) {
-		return this.add({ ...optionsKelim, type: 'runoff' });
-	}
-
-	/**
-	 * Adds one canonical river intent with the existing river preset by default.
-	 * @param {object} [optionsKelim={}] River/channel geometry, flow, seed, profile, id, and references.
-	 * @returns {RealitySceneWorldBuilder} New immutable builder.
-	 */
-	river(optionsKelim = {}) {
-		return this.add({ preset: 'river', ...optionsKelim, type: 'river' });
-	}
-
-	/**
-	 * Adds one canonical analytic ocean intent.
-	 * @param {object} [optionsKelim={}] Wave, tide, current, profile, seed, id, and scene metadata.
-	 * @returns {RealitySceneWorldBuilder} New immutable builder.
-	 */
-	ocean(optionsKelim = {}) {
-		return this.add({ ...optionsKelim, type: 'ocean' });
-	}
-
 	/**
 	 * Adds one coherent renderer-neutral wind-field intent.
-	 * @param {object} [optionsKelim={}] Direction, speed, turbulence, profile, seed, id, and reference options.
+	 * @param {object} [optionsKelim={}] Direction, speed, gusts, turbulence, vertical flow, profile, seed, id, and reference options.
 	 * @returns {RealitySceneWorldBuilder} New immutable builder.
 	 */
 	wind(optionsKelim = {}) {

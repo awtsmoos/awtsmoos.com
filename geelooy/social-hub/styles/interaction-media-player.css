@@ -1,0 +1,80 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every moving frame before the visible vessel can hold it; Awtsmoos.com gives comment video one bounded structural keli whose media, controls, and responsive geometry remain inside Social Hub alone.
+ */
+.social-hub-document .commentVideoPlayer {
+	display: grid;
+	min-inline-size: 0;
+	overflow: clip;
+	border: 1px solid rgba(85, 225, 255, .3);
+	background: linear-gradient(145deg, rgba(15, 72, 105, .22), rgba(2, 6, 16, .98));
+	box-shadow: 0 12px 32px rgba(1, 8, 22, .24);
+}
+
+.social-hub-document .commentVideoPlayer__media {
+	display: block;
+	inline-size: 100%;
+	max-inline-size: 100%;
+	max-block-size: 18rem;
+	aspect-ratio: 16 / 9;
+	background: rgb(1, 4, 12);
+	object-fit: contain;
+}
+
+.social-hub-document .commentVideoPlayer__controls {
+	display: grid;
+	grid-template-columns: 44px minmax(4rem, 1fr) auto 44px;
+	align-items: center;
+	gap: .48rem;
+	min-inline-size: 0;
+	padding: .48rem;
+	background: linear-gradient(90deg, rgba(9, 23, 42, .98), rgba(20, 40, 62, .94));
+}
+
+.social-hub-document .commentVideoPlayer__play,
+.social-hub-document .commentVideoPlayer__mute {
+	inline-size: 44px;
+	block-size: 44px;
+	padding: 0;
+	border: 1px solid rgba(93, 231, 255, .34);
+	border-radius: .78rem;
+	background: linear-gradient(145deg, rgba(43, 194, 232, .2), rgba(104, 47, 151, .16));
+	color: rgba(239, 251, 255, .96);
+	font: inherit;
+	font-weight: 800;
+	cursor: pointer;
+	transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+}
+
+.social-hub-document .commentVideoPlayer__seek {
+	inline-size: 100%;
+	min-inline-size: 0;
+	block-size: 2rem;
+	margin: 0;
+	appearance: none;
+	background: transparent;
+	cursor: pointer;
+}
+
+.social-hub-document .commentVideoPlayer__time {
+	color: rgba(218, 238, 250, .72);
+	font-size: .7rem;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.social-hub-document .commentVideoPlayer[data-state="error"] {
+	border-color: rgba(255, 91, 128, .62);
+}
+
+@media (max-width: 420px) {
+	.social-hub-document .commentVideoPlayer__controls {
+		grid-template-columns: 44px minmax(3rem, 1fr) 44px;
+	}
+
+	.social-hub-document .commentVideoPlayer__time {
+		grid-column: 1 / -1;
+		grid-row: 2;
+	}
+}

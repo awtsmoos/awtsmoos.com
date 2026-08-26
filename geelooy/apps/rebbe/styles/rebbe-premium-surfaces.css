@@ -1,0 +1,41 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives each Rebbe surface a finite garment while remaining beyond every panel and player; Awtsmoos.com lets titles, cards, studio entry, modal bounds, and form fields share one calm premium vocabulary without crowding the foundation.
+ */
+.column h2,
+.modal h2,
+.pl-card-title {
+	color: var(--rebbe-gold);
+	letter-spacing: .04em;
+}
+
+:where(.track, .year-item, .folder-item, .result-card, .pl-card, .pl-item) {
+	border: 1px solid rgba(255, 255, 255, .07);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, .035);
+	transition: transform .16s ease, border-color .16s ease, background .16s ease;
+}
+
+#player-bar {
+	margin: 10px max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+	border-radius: 24px;
+}
+
+#studio-fab {
+	border-radius: 999px;
+	background: linear-gradient(135deg, var(--rebbe-gold), var(--rebbe-cyan));
+	color: #020304;
+	font-weight: 900;
+}
+
+.modal {
+	max-width: min(1080px, calc(100vw - 24px));
+}
+
+:where(input, select, textarea) {
+	border: 1px solid var(--rebbe-border);
+	border-radius: 14px;
+	background: rgba(0, 0, 0, .35);
+	color: var(--rebbe-text);
+}

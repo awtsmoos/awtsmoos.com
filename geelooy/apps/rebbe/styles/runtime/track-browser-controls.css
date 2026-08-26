@@ -1,0 +1,104 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives command, duration, selection, and title distinct finite garments; Awtsmoos.com makes each one readable and thumb-sized without surrendering the compact rhythm of an archive browser.
+ */
+#list-tracks .track-picker {
+	display: grid;
+	place-items: center;
+	inline-size: 44px;
+	block-size: 44px;
+	cursor: pointer;
+}
+
+#list-tracks .track-picker input {
+	inline-size: 22px;
+	block-size: 22px;
+	margin: 0;
+	accent-color: var(--c-yellow);
+	cursor: pointer;
+}
+
+#list-tracks .track-main-button {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-inline-size: 0;
+	min-block-size: 44px;
+	padding: 6px 4px;
+	border: 0;
+	background: transparent;
+	color: #fff;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+#list-tracks .track-number {
+	color: var(--c-yellow);
+	font-weight: 900;
+}
+
+#list-tracks .t-name {
+	min-inline-size: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#list-tracks .t-dur {
+	align-self: center;
+	min-inline-size: 52px;
+	color: #dff;
+	opacity: .86;
+	text-align: center;
+}
+
+#list-tracks .cached-dot {
+	color: var(--c-cyan);
+	font-weight: 900;
+	text-shadow: 0 0 10px var(--c-cyan);
+}
+
+#list-tracks .command-btn {
+	display: inline-grid !important;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-inline-size: 98px;
+	min-block-size: 44px;
+	padding: 10px 14px !important;
+	border-radius: 999px !important;
+	box-shadow: inset 0 0 14px rgba(0, 243, 255, .06);
+	line-height: 1 !important;
+	text-align: center;
+	white-space: nowrap;
+}
+
+#list-tracks .cmd-icon {
+	color: var(--c-yellow);
+	font-size: 16px;
+}
+
+#list-tracks .cmd-label {
+	overflow: hidden;
+	font-size: 12px;
+	letter-spacing: .9px;
+	text-overflow: ellipsis;
+}
+
+#list-tracks .cmd-primary {
+	border-color: rgba(0, 243, 255, .78) !important;
+	color: #eaffff !important;
+}
+
+#list-tracks .cmd-accent {
+	border-color: rgba(255, 204, 0, .72) !important;
+	color: var(--c-yellow) !important;
+}
+
+#list-tracks .cmd-cache {
+	border-color: rgba(0, 243, 255, .55) !important;
+	background: linear-gradient(90deg, rgba(0, 243, 255, .10), rgba(255, 204, 0, .06)) !important;
+}

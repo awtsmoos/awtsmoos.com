@@ -1,0 +1,98 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos is beyond date and keyword while Awtsmoos.com lets powerful archive search begin as one bounded chamber: simple at first glance, advanced only where requested.
+ */
+.search-modal {
+	inline-size: min(1080px, calc(100vw - 24px));
+	max-block-size: min(92dvh, calc(100dvh - 20px));
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+	padding: clamp(14px, 2vw, 22px);
+}
+
+.search-modal > h2 {
+	margin: 0 0 12px;
+	color: var(--rebbe-gold);
+	font-size: clamp(1.3rem, 4vw, 2.2rem);
+}
+
+.keyword-row {
+	display: grid;
+	gap: 7px;
+	min-inline-size: 0;
+}
+
+.keyword-row > span {
+	color: var(--rebbe-muted);
+	font-size: .72rem;
+	font-weight: 800;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.search-stack {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+	margin-block: 14px;
+}
+
+.zman-filter {
+	display: grid;
+	gap: 10px;
+	min-inline-size: 0;
+	padding: 14px;
+	border: 1px solid rgba(56, 248, 255, .16);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, .025);
+}
+
+.zman-filter-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.zman-range {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+
+.suggest-row,
+.search-actions,
+.history-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.suggest-row {
+	margin-top: 9px;
+}
+
+.sticky-actions {
+	position: sticky;
+	top: 0;
+	z-index: var(--rebbe-layer-sticky);
+	margin: 12px 0;
+	padding: 9px;
+	border: 1px solid rgba(242, 197, 93, .22);
+	border-radius: 16px;
+	background: rgba(3, 8, 11, .94);
+	backdrop-filter: blur(14px);
+}
+
+.lower-actions {
+	margin-top: 14px;
+}
+
+@media (max-width: 720px) {
+	.search-stack,
+	.zman-range {
+		grid-template-columns: 1fr;
+	}
+}

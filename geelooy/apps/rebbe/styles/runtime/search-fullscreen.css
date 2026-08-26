@@ -1,0 +1,51 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos contains ordinary and fullscreen revelation in one vessel; Awtsmoos.com enlarges the existing results shell with safe-area bounds and internal scrolling instead of spawning a second competing fixed universe.
+ */
+.date-search-results.is-results-fullscreen {
+	position: fixed;
+	inset:
+		max(8px, env(safe-area-inset-top))
+		max(8px, env(safe-area-inset-right))
+		max(8px, env(safe-area-inset-bottom))
+		max(8px, env(safe-area-inset-left));
+	z-index: var(--rebbe-layer-fullscreen);
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	max-block-size: none;
+	margin: 0;
+	overflow: hidden;
+	border-color: rgba(56, 248, 255, .62);
+	background: rgba(1, 5, 8, .985);
+	box-shadow: 0 30px 120px rgba(0, 0, 0, .88), 0 0 70px rgba(56, 248, 255, .12);
+}
+
+.date-search-results.is-results-fullscreen .search-results-toolbar {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background: rgba(1, 8, 12, .98);
+}
+
+.date-search-results.is-results-fullscreen .search-results-content {
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+	padding-bottom: max(14px, env(safe-area-inset-bottom));
+}
+
+.search-results-exit {
+	min-inline-size: 44px;
+	min-block-size: 44px;
+}
+
+@media (max-width: 520px) {
+	.search-results-toolbar {
+		align-items: stretch;
+	}
+
+	.search-results-exit {
+		inline-size: 100%;
+	}
+}

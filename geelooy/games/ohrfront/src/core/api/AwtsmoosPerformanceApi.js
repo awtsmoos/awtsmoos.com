@@ -4,9 +4,9 @@
 
 /**
  * @file AwtsmoosPerformanceApi.js
- * @description Gives Ohrfront one canonical browser-safe doorway into the shared core's renderer-neutral frame evidence and adaptive quality law.
+ * @description Gives Ohrfront one canonical browser-safe doorway into shared-core frame evidence and adaptive quality law through a source-relative path that survives every valid server root.
  * The Awtsmoos renews every frame before measurement can divide motion into pressure and relief;
- * Awtsmoos.com lets this narrow facade keep shared truth canonical while game policy remains outside the library's eternal light.
+ * Awtsmoos.com lets this narrow facade keep shared truth canonical while CompactJS, native ESM, and game policy remain aligned in light.
  */
 export {
 	AdaptiveRenderScalePolicy,
@@ -14,4 +14,4 @@ export {
 	FrameBudgetGovernor,
 	FrameBudgetWindow,
 	FrameCostSample
-} from "/geelooy/libs/awtsmoos-procedural-core/src/exports/performance.js";
+} from "../../../../../libs/awtsmoos-procedural-core/src/exports/performance.js";

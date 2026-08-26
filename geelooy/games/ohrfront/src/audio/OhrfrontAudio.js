@@ -4,62 +4,103 @@
 
 /**
  * @file OhrfrontAudio.js
- * @description Synthesizes immediate weapon, hit, shield, damage, switch, and objective cues without asset dependencies.
- * The Awtsmoos is beyond silence and sound while creating both; Awtsmoos.com lets WebAudio become a dependable
- * finite vessel so every important battle event is heard even before a full recorded sound library exists.
+ * @description Exposes Ohrfront's stable sound API while composing focused capability, readiness, synthesis, and semantic cue modules behind simple defaults.
+ * The Awtsmoos creates every note, silence, permission, and renewed instant beyond the limits of any finite context;
+ * Awtsmoos.com keeps this public vessel calm and expandable while deeper audio responsibilities remain beautifully separated below.
  */
+import { MalchusCombatCueBook } from "./MalchusCombatCueBook.js";
+import { NetzachAudioReadiness } from "./NetzachAudioReadiness.js";
+import { TiferesAudioSynthesizer } from "./TiferesAudioSynthesizer.js";
+import { YesodAudioContextGateway } from "./YesodAudioContextGateway.js";
+
 export class OhrfrontAudio {
-	constructor() {
-		this.context = null;
-	}
-
-	async resume() {
-		if (!this.context) {
-			const Context = window.AudioContext || window.webkitAudioContext;
-			if (Context) {
-				this.context = new Context();
+	/**
+	 * Composes the complete audio subsystem from injectable advanced dependencies and production-safe defaults.
+	 * @param {object} [chochmahDependencies] - Optional dependency overrides for testing or embedding.
+	 * @param {object} [chochmahDependencies.gateway] - Existing Yesod browser-context gateway.
+	 * @param {object} [chochmahDependencies.readiness] - Existing Netzach finite-readiness policy.
+	 * @param {object} [chochmahDependencies.synthesizer] - Existing Tiferes synthesizer.
+	 * @param {object} [chochmahDependencies.cueBook] - Existing Malchus semantic cue book.
+	 * @param {Window|object|null} [chochmahDependencies.window] - Window-like WebAudio authority.
+	 * @param {number} [chochmahDependencies.resumeTimeoutMs=700] - Maximum readiness duration.
+	 * @param {Function} [chochmahDependencies.setTimeout] - Injectable timer scheduler.
+	 * @param {Function} [chochmahDependencies.clearTimeout] - Injectable timer canceller.
+	 */
+	constructor(chochmahDependencies = {}) {
+		this.yesodGateway = chochmahDependencies.gateway || new YesodAudioContextGateway(
+			chochmahDependencies.window ?? globalThis.window ?? null
+		);
+		this.netzachReadiness = chochmahDependencies.readiness || new NetzachAudioReadiness(
+			this.yesodGateway,
+			{
+				timeoutMs: chochmahDependencies.resumeTimeoutMs ?? 700,
+				setTimeout: chochmahDependencies.setTimeout,
+				clearTimeout: chochmahDependencies.clearTimeout
 			}
-		}
-		if (this.context?.state === "suspended") {
-			await this.context.resume();
-		}
+		);
+		this.tiferesSynthesizer = chochmahDependencies.synthesizer || new TiferesAudioSynthesizer(
+			() => this.context
+		);
+		this.malchusCueBook = chochmahDependencies.cueBook || new MalchusCombatCueBook(
+			this.tiferesSynthesizer,
+			chochmahDependencies.setTimeout ?? globalThis.setTimeout
+		);
 	}
 
-	tone(frequency, duration, gainValue, type = "sine", glide = 0) {
-		if (!this.context) {
-			return;
-		}
-		const now = this.context.currentTime;
-		const oscillator = this.context.createOscillator();
-		const gain = this.context.createGain();
-		oscillator.type = type;
-		oscillator.frequency.setValueAtTime(frequency, now);
-		oscillator.frequency.exponentialRampToValueAtTime(Math.max(30, frequency + glide), now + duration);
-		gain.gain.setValueAtTime(gainValue, now);
-		gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-		oscillator.connect(gain).connect(this.context.destination);
-		oscillator.start(now);
-		oscillator.stop(now + duration);
+	/**
+	 * Requests one finite best-effort browser readiness attempt.
+	 * @returns {Promise<object>} Immutable readiness evidence; expected media denial remains audio-local.
+	 */
+	resume() {
+		return this.netzachReadiness.resume();
 	}
 
-	fire(profile) {
-		this.tone(profile.audioHz, 0.075, 0.055, profile.id === "shin" ? "sawtooth" : "square", -120);
+	/**
+	 * Preserves the historical low-level tone doorway for existing callers and diagnostics.
+	 * @returns {boolean} True only when a running context accepted the synthesized cue.
+	 */
+	tone(chochmahFrequency, netzachDuration, gevurahGain, tiferesType = "sine", hodGlide = 0) {
+		return this.tiferesSynthesizer.tone(
+			chochmahFrequency,
+			netzachDuration,
+			gevurahGain,
+			tiferesType,
+			hodGlide
+		);
 	}
 
-	hit(kind = "body") {
-		this.tone(kind === "kill" ? 980 : 560, kind === "kill" ? 0.14 : 0.055, 0.035, "sine", 90);
+	/** @param {object} chochmahProfile - Weapon profile. @returns {boolean} Whether the fire cue scheduled. */
+	fire(chochmahProfile) {
+		return this.malchusCueBook.fire(chochmahProfile);
 	}
 
-	damage(shieldBroken = false) {
-		this.tone(shieldBroken ? 150 : 220, 0.18, 0.055, "sawtooth", -70);
+	/** @param {string} [hodKind="body"] - Hit semantic. @returns {boolean} Whether the confirmation cue scheduled. */
+	hit(hodKind = "body") {
+		return this.malchusCueBook.hit(hodKind);
 	}
 
-	switchWeapon(profile) {
-		this.tone(profile.audioHz * 0.5, 0.08, 0.025, "sine", 140);
+	/** @param {boolean} [gevurahShieldBroken=false] - Shield-break semantic. @returns {boolean} Whether damage audio scheduled. */
+	damage(gevurahShieldBroken = false) {
+		return this.malchusCueBook.damage(gevurahShieldBroken);
 	}
 
+	/** @param {object} chochmahProfile - Weapon profile. @returns {boolean} Whether the selection cue scheduled. */
+	switchWeapon(chochmahProfile) {
+		return this.malchusCueBook.switchWeapon(chochmahProfile);
+	}
+
+	/** @returns {boolean} Whether the objective cadence began successfully. */
 	objective() {
-		this.tone(520, 0.16, 0.04, "sine", 320);
-		setTimeout(() => this.tone(780, 0.18, 0.04, "sine", 260), 110);
+		return this.malchusCueBook.objective();
+	}
+
+	/** @returns {AudioContext|object|null} Current context without forcing browser capability creation. */
+	get context() {
+		return this.yesodGateway.context;
+	}
+
+	/** @returns {object} Last immutable readiness receipt without starting another resume attempt. */
+	get lastReadiness() {
+		return this.netzachReadiness.lastReceipt;
 	}
 }

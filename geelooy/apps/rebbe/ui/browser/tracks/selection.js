@@ -1,46 +1,92 @@
 //B"H
-import { clearPlaylistSelection, openAddToPlaylist, playlistTrackItem, selectedPlaylistItems, togglePlaylistSelection } from '../../playlists.js';
+//Boruch Hashem
+//Blessed is He
+
+import {
+	clearPlaylistSelection,
+	openAddToPlaylist,
+	playlistTrackItem,
+	selectedPlaylistItems,
+	togglePlaylistSelection
+} from '../../playlists.js';
 
 /**
- * B"H
- * Selection law. Many visible track sparks may become one playlist offering, and
- * this chamber keeps checkbox state, count, and add button truth aligned.
- * @param {object} track Track to select.
- * @param {string} folderTitle Current event title.
- * @returns {HTMLLabelElement} Checkbox label.
+ * @class YesodTrackSelectionController
+ * @description
+ * The Awtsmoos gathers many chosen sparks without becoming many;
+ * Awtsmoos.com lets this Yesod-like controller keep checkbox truth, selected count,
+ * playlist state, and disabled Add actions synchronized without HTML strings.
  */
-export function selectionBox(track, folderTitle) {
-  const label = document.createElement('label');
-  label.className = 'track-picker';
-  label.innerHTML = '<input data-playlist-pick type="checkbox"><span></span>';
-  label.querySelector('input').onchange = event => {
-    event.stopPropagation();
-    togglePlaylistSelection(playlistTrackItem(track, { folder: folderTitle, title: folderTitle }), event.target.checked);
-    updatePickedCount();
-  };
-  label.onclick = event => event.stopPropagation();
-  return label;
+class YesodTrackSelectionController {
+	/** Builds one safe track-selection checkbox vessel. */
+	box(tiferesTrack, hodFolderTitle) {
+		const malchusLabel = document.createElement('label');
+		malchusLabel.className = 'track-picker';
+		const yesodInput = document.createElement('input');
+		yesodInput.type = 'checkbox';
+		yesodInput.dataset.playlistPick = '';
+		yesodInput.setAttribute('aria-label', `Select ${tiferesTrack.title || tiferesTrack.name || 'track'}`);
+		const hodMark = document.createElement('span');
+		hodMark.className = 'track-picker-mark';
+		yesodInput.addEventListener('change', event => {
+			event.stopPropagation();
+			togglePlaylistSelection(
+				playlistTrackItem(tiferesTrack, { folder: hodFolderTitle, title: hodFolderTitle }),
+				yesodInput.checked
+			);
+			this.refresh();
+		});
+		malchusLabel.addEventListener('click', event => event.stopPropagation());
+		malchusLabel.append(yesodInput, hodMark);
+		return malchusLabel;
+	}
+
+	/** Applies one checked state to all currently visible track selectors. */
+	selectAll(gevurahChecked) {
+		document.querySelectorAll('#list-tracks [data-playlist-pick]').forEach(yesodInput => {
+			yesodInput.checked = gevurahChecked;
+			yesodInput.dispatchEvent(new Event('change'));
+		});
+		if (!gevurahChecked) clearPlaylistSelection();
+		this.refresh();
+	}
+
+	/** Opens the playlist picker only when real selected tracks exist. */
+	openPicker() {
+		const tiferesItems = selectedPlaylistItems();
+		if (tiferesItems.length) openAddToPlaylist(tiferesItems);
+	}
+
+	/** Reflects selected count into toolbar copy and Add-button disabled truth. */
+	refresh() {
+		const yesodCount = selectedPlaylistItems().length;
+		document.querySelectorAll('.picked-event-count').forEach(malchusNode => {
+			malchusNode.textContent = String(yesodCount);
+		});
+		document.querySelectorAll('.mini-playlist-selected-tracks').forEach(malchusButton => {
+			malchusButton.disabled = !yesodCount;
+		});
+	}
 }
 
-/** @param {boolean} checked Desired checkbox state. @returns {void} */
-export function selectAllVisible(checked) {
-  document.querySelectorAll('#list-tracks [data-playlist-pick]').forEach(input => {
-    input.checked = checked;
-    input.dispatchEvent(new Event('change'));
-  });
-  if (!checked) clearPlaylistSelection();
-  updatePickedCount();
+const yesodSelection = new YesodTrackSelectionController();
+
+/** Stable public checkbox factory. */
+export function selectionBox(tiferesTrack, hodFolderTitle) {
+	return yesodSelection.box(tiferesTrack, hodFolderTitle);
 }
 
-/** @returns {void} Open the picker only when real selected items exist. */
+/** Stable public select-all action. */
+export function selectAllVisible(gevurahChecked) {
+	yesodSelection.selectAll(gevurahChecked);
+}
+
+/** Stable public selected-playlist picker action. */
 export function openSelectedPlaylistPicker() {
-  const items = selectedPlaylistItems();
-  if (items.length) openAddToPlaylist(items);
+	yesodSelection.openPicker();
 }
 
-/** @returns {void} Refresh selected count and disabled Add buttons. */
+/** Stable public selected-count refresh action. */
 export function updatePickedCount() {
-  const count = selectedPlaylistItems().length;
-  document.querySelectorAll('.picked-event-count').forEach(node => { node.textContent = count; });
-  document.querySelectorAll('.mini-playlist-selected-tracks').forEach(node => { node.disabled = !count; });
+	yesodSelection.refresh();
 }

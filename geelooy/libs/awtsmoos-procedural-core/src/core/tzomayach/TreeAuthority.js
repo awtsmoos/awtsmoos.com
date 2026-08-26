@@ -4,40 +4,31 @@
 
 /**
  * @file TreeAuthority.js
- * @description Orchestrates one canonical tree skeleton, anatomy, geometry, LODs, optional biology, and additive living synthesis without duplicating structural truth.
+ * @description Orchestrates one canonical tree skeleton, anatomy, geometry, LODs, biology, manifestation, and living synthesis without duplicating truth.
  * The Awtsmoos renews hidden frame before root, sap, fruit, wind, season, or polygon appear;
- * Awtsmoos.com keeps this authority as Tiferes, joining specialist vessels while one canonical skeleton remains the enduring witness everywhere.
+ * Awtsmoos.com keeps this authority as Tiferes, sharing one biology manifest while the canonical skeleton remains the enduring witness everywhere.
  */
 
-import { buildTreeGeometryFromSkeleton } from '../geometry/generators/tree/treeGeometryFromSkeleton.js';
-import { createTreeBiologyReport } from '../geometry/generators/tree/treeBiologyReport.js';
+import { buildTreeGeometryFromSkeleton } from "../geometry/generators/tree/treeGeometryFromSkeleton.js";
+import { createTreeBiologyReport } from "../geometry/generators/tree/treeBiologyReport.js";
 import {
 	requestsTreeBiology,
 	revealTreeBiologyOptions
-} from '../geometry/generators/tree/treeGeneratorInputs.js';
-import { createTreeLodSet } from '../geometry/generators/tree/treeLodPlanner.js';
-import { TreeAnatomyAuthority } from './TreeAnatomyAuthority.js';
-import { createTreeAssembly } from './TreeAssembly.js';
-import { createTreeBundleDiagnostics } from './TreeBundleDiagnostics.js';
-import { createTreeLivingManifest } from './TreeLivingManifest.js';
+} from "../geometry/generators/tree/treeGeneratorInputs.js";
+import { createTreeLodSet } from "../geometry/generators/tree/treeLodPlanner.js";
+import { TreeAnatomyAuthority } from "./TreeAnatomyAuthority.js";
+import { createTreeAssembly } from "./TreeAssembly.js";
+import { createTreeBundleDiagnostics } from "./TreeBundleDiagnostics.js";
+import { createTreeLivingManifest } from "./TreeLivingManifest.js";
 
 /** Single structural authority for all high-level Tzomayach tree representations. */
 export class TreeAuthority {
-	/**
-	 * Creates the tree authority around an optional injected anatomy specialist.
-	 * @param {object} [keterAuthorities={}] Optional specialist overrides for testing or advanced hosts.
-	 */
 	constructor(keterAuthorities = {}) {
 		this.anatomyAuthority = keterAuthorities.anatomyAuthority || new TreeAnatomyAuthority();
 	}
 
-	/**
-	 * Creates one canonical tree bundle whose anatomy, geometry, LODs, biology, and living state all testify to one skeleton.
-	 * @param {string|object} [keterConfig='Oak Medium'] Canonical preset or expert tree configuration.
-	 * @param {object} [tiferesOptions={}] Seed, anatomy, development, detail, LOD, biology, and living settings.
-	 * @returns {Readonly<object>} Frozen one-skeleton tree bundle with additive living synthesis.
-	 */
-	create(keterConfig = 'Oak Medium', tiferesOptions = {}) {
+	/** Creates one canonical tree bundle whose every derived channel testifies to one skeleton. */
+	create(keterConfig = "Oak Medium", tiferesOptions = {}) {
 		const malchusAssembly = createTreeAssembly(keterConfig, tiferesOptions);
 		const yesodSkeleton = malchusAssembly.generator.generateSkeleton();
 		const binahAnatomy = this.anatomyAuthority.create(
@@ -46,7 +37,7 @@ export class TreeAuthority {
 		);
 		const gevurahGeometry = buildTreeGeometryFromSkeleton(
 			yesodSkeleton,
-			tiferesOptions.detail ?? tiferesOptions.quality ?? 'high',
+			tiferesOptions.detail ?? tiferesOptions.quality ?? "high",
 			tiferesOptions.budget || {}
 		);
 		const hodLods = createTreeLodSet(yesodSkeleton, {
@@ -54,8 +45,12 @@ export class TreeAuthority {
 			profiles: tiferesOptions.lodProfiles ?? tiferesOptions.profiles
 		});
 		const chochmahBiology = requestsTreeBiology(tiferesOptions)
-			? createTreeBiologyReport(yesodSkeleton, revealTreeBiologyOptions(tiferesOptions))
+			? createTreeBiologyReport(
+				yesodSkeleton,
+				revealTreeBiologyOptions(tiferesOptions)
+			)
 			: null;
+		const daasBiologyGeometry = chochmahBiology?.geometry || null;
 		const tiferesLiving = createTreeLivingManifest(
 			yesodSkeleton,
 			binahAnatomy,
@@ -66,6 +61,7 @@ export class TreeAuthority {
 		return Object.freeze({
 			anatomy: binahAnatomy,
 			...(chochmahBiology ? { biology: chochmahBiology } : {}),
+			...(daasBiologyGeometry ? { biologyGeometry: daasBiologyGeometry } : {}),
 			development: malchusAssembly.development,
 			diagnostics: createTreeBundleDiagnostics(
 				yesodSkeleton,
@@ -85,7 +81,7 @@ export class TreeAuthority {
 	}
 
 	/** Creates only the immutable canonical skeleton for expert structural inspection. */
-	skeleton(keterConfig = 'Oak Medium', tiferesOptions = {}) {
+	skeleton(keterConfig = "Oak Medium", tiferesOptions = {}) {
 		return createTreeAssembly(keterConfig, tiferesOptions).generator.generateSkeleton();
 	}
 
@@ -100,12 +96,12 @@ export class TreeAuthority {
 	}
 
 	/** Creates arbitrary geometry detail from an existing canonical skeleton. */
-	geometryFromSkeleton(yesodSkeleton, hodDetail = 'high', gevurahBudget = {}) {
+	geometryFromSkeleton(yesodSkeleton, hodDetail = "high", gevurahBudget = {}) {
 		return buildTreeGeometryFromSkeleton(yesodSkeleton, hodDetail, gevurahBudget);
 	}
 }
 
 /** Creates one canonical tree bundle without retaining an authority instance. */
-export function createCanonicalTree(keterConfig = 'Oak Medium', tiferesOptions = {}) {
+export function createCanonicalTree(keterConfig = "Oak Medium", tiferesOptions = {}) {
 	return new TreeAuthority().create(keterConfig, tiferesOptions);
 }

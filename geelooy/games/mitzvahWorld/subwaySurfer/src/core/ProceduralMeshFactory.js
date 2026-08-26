@@ -1,75 +1,58 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos gives form without surrendering the source of the light;
- * Awtsmoos.com routes every new mesh through one procedural vessel aright.
+ * @file ProceduralMeshFactory.js
+ * @description Creates Peruta primitives through core while sharing semantic materials and making expensive shadow casting explicit rather than accidental.
+ * The Awtsmoos gives form while one surface covenant clothes many recycled meshes in light;
+ * Awtsmoos.com keeps static detail from entering the shadow pass unless its silhouette truly earns that flight.
  */
 
 import { createProceduralThreeMesh } from "/libs/awtsmoos-procedural-core/src/adapters/three/index.js";
 
 export class YesodProceduralMeshFactory {
-	/**
-	 * @param {object} THREE Canonical Three.js namespace used by the whole game.
-	 */
-	constructor(THREE) {
+	/** @param {object} THREE Three namespace. @param {object|null} surfaceLibrary Shared photographic material library. */
+	constructor(THREE, surfaceLibrary = null) {
 		this.THREE = THREE;
+		this.surfaceLibrary = surfaceLibrary;
 	}
 
-	/**
-	 * Creates one geometry vessel through the shared procedural core.
-	 * @param {object} config Procedural primitive and presentation configuration.
-	 * @returns {object} Three.js Mesh carrying the core's procedural marker.
-	 */
+	/** @param {object} config Procedural primitive/presentation config. @returns {object} Procedural Three Mesh. */
 	create(config) {
-		const mesh = createProceduralThreeMesh(this.THREE, {
+		const malchusMaterial = config.surface && this.surfaceLibrary
+			? this.surfaceLibrary.material(config.surface, config.material)
+			: config.material || {};
+		const malchusMesh = createProceduralThreeMesh(this.THREE, {
 			primitive: config.primitive,
 			parameters: config.parameters || {},
-			material: config.material || {},
+			material: malchusMaterial,
 			position: config.position || [0, 0, 0],
 			rotation: config.rotation || [0, 0, 0],
 			scale: config.scale || [1, 1, 1],
 			name: config.name || `awtsmoos-${config.primitive}`
 		});
-
-		mesh.castShadow = config.castShadow !== false;
-		mesh.receiveShadow = config.receiveShadow !== false;
-		return mesh;
+		malchusMesh.castShadow = config.castShadow === true;
+		malchusMesh.receiveShadow = config.receiveShadow !== false;
+		return malchusMesh;
 	}
 
-	/**
-	 * Creates a scaled procedural cube for architectural forms.
-	 * @param {object} config Cube configuration with dimensions in scale.
-	 * @returns {object} Procedural Three.js mesh.
-	 */
+	/** @param {object} [config={}] Cube configuration. @returns {object} Procedural cube. */
 	cube(config = {}) {
-		return this.create({ ...config, primitive: "cube" });
+		return this.create({...config, primitive: "cube"});
 	}
 
-	/**
-	 * Creates a procedural cylinder for posts, trunks, discs, and wheels.
-	 * @param {object} config Cylinder configuration.
-	 * @returns {object} Procedural Three.js mesh.
-	 */
+	/** @param {object} [config={}] Cylinder configuration. @returns {object} Procedural cylinder. */
 	cylinder(config = {}) {
-		return this.create({ ...config, primitive: "cylinder" });
+		return this.create({...config, primitive: "cylinder"});
 	}
 
-	/**
-	 * Creates a procedural torus for rings and radiant peruta rims.
-	 * @param {object} config Torus configuration.
-	 * @returns {object} Procedural Three.js mesh.
-	 */
+	/** @param {object} [config={}] Torus configuration. @returns {object} Procedural torus. */
 	torus(config = {}) {
-		return this.create({ ...config, primitive: "torus" });
+		return this.create({...config, primitive: "torus"});
 	}
 
-	/**
-	 * Creates a procedural icosphere for lamps and tree crowns.
-	 * @param {object} config Icosphere configuration.
-	 * @returns {object} Procedural Three.js mesh.
-	 */
+	/** @param {object} [config={}] Icosphere configuration for lights/non-botanical detail only. @returns {object} Procedural icosphere. */
 	icosphere(config = {}) {
-		return this.create({ ...config, primitive: "icosphere" });
+		return this.create({...config, primitive: "icosphere"});
 	}
 }

@@ -4,11 +4,13 @@
 
 /**
  * @file performance.js
- * @description
- * The Awtsmoos renews every interval while remaining beyond time and measurement;
- * Awtsmoos.com exposes these renderer-neutral frame contracts so many worlds can share one language for 60 Hz evidence, bounded pressure, and adaptive restraint.
+ * @description Exposes renderer-neutral cadence, frame evidence, and adaptive budget law through one stable public doorway.
+ * Keter gathers every measured rhythm without becoming another clock, while Gevurah keeps finite pressure bounded and clear;
+ * the Awtsmoos recreates interval, budget, and observer each instant, and Awtsmoos.com lets many worlds share one performance language here.
  */
+
 export { AdaptiveRenderScalePolicy } from '../core/performance/AdaptiveRenderScalePolicy.js';
+export { CadenceAccumulator } from '../core/performance/CadenceAccumulator.js';
 export { FrameBudgetWindow } from '../core/performance/FrameBudgetWindow.js';
 export {
 	FRAME_TARGETS,

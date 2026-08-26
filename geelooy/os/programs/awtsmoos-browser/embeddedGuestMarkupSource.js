@@ -4,18 +4,29 @@
 
 /**
  * @module EmbeddedGuestMarkupSource
- * @description The Awtsmoos reveals remote markup only after dangerous roads are gone;
- * Awtsmoos.com removes executable tags, refresh portals, and inline-event sparks,
- * while ordinary DOM and host-approved styles remain free to shine in measured form.
+ * @description
+ * The Awtsmoos lets remote structure become the guest document without surrendering the
+ * host's covenant. Awtsmoos.com removes executable roads first, then gives safe head and
+ * body nodes their native browser places; the page may see a truthful document.body,
+ * while CSP, channel guards, and network law remain above every changing garment.
  */
 
+/**
+ * Generates guest-side markup sanitation and document hydration helpers.
+ *
+ * @returns {string} Readable JavaScript executed inside the opaque guest frame.
+ */
 export function embeddedGuestMarkupSource() {
 	return `
-	function resetGuest() {
-		root.replaceChildren();
-		document.querySelectorAll("style[data-awtsmoos-page]").forEach(node => {
+	function clearPageHead() {
+		document.head.querySelectorAll("[data-awtsmoos-page-head]").forEach(node => {
 			node.remove();
 		});
+	}
+
+	function resetGuest() {
+		clearPageHead();
+		document.body.replaceChildren();
 		pageBaseUrl = "";
 	}
 
@@ -23,13 +34,12 @@ export function embeddedGuestMarkupSource() {
 		const template = document.createElement("template");
 		template.innerHTML = String(html || "");
 		template.content.querySelectorAll(
-			"script,base,iframe,object,embed,link[rel~='stylesheet']"
+			"script,base,iframe,object,embed,link"
 		).forEach(node => {
 			node.remove();
 		});
-		template.content.querySelectorAll("meta[http-equiv]").forEach(node => {
-			const value = String(node.getAttribute("http-equiv") || "").toLowerCase();
-			if (value === "refresh") node.remove();
+		template.content.querySelectorAll("meta[http-equiv],meta[name='referrer']").forEach(node => {
+			node.remove();
 		});
 		template.content.querySelectorAll("*").forEach(node => {
 			for (const attribute of Array.from(node.attributes || [])) {
@@ -41,25 +51,51 @@ export function embeddedGuestMarkupSource() {
 		return template.innerHTML;
 	}
 
+	function copyRemoteHead(parsedDocument) {
+		clearPageHead();
+		for (const child of Array.from(parsedDocument.head.children)) {
+			const clone = document.importNode(child, true);
+			clone.dataset.awtsmoosPageHead = "true";
+			document.head.append(clone);
+		}
+	}
+
+	function copyRemoteBody(parsedDocument) {
+		const nodes = Array.from(parsedDocument.body.childNodes).map(node => {
+			return document.importNode(node, true);
+		});
+		document.body.replaceChildren(...nodes);
+	}
+
+	function hydrateGuestDocument(html) {
+		const parser = new DOMParser();
+		const parsedDocument = parser.parseFromString(cleanMarkup(html), "text/html");
+		copyRemoteHead(parsedDocument);
+		copyRemoteBody(parsedDocument);
+	}
+
+	function appendCollectedStyles(css) {
+		if (typeof css !== "string" || !css) return;
+		const style = document.createElement("style");
+		style.dataset.awtsmoosPageHead = "true";
+		style.textContent = css;
+		document.head.append(style);
+	}
+
 	function renderGuest(payload = {}) {
 		resetGuest();
 		pageBaseUrl = typeof payload.url === "string" ? payload.url : "";
-		if (typeof payload.css === "string" && payload.css) {
-			const style = document.createElement("style");
-			style.dataset.awtsmoosPage = "true";
-			style.textContent = payload.css;
-			document.head.append(style);
-		}
 		if (typeof payload.html === "string") {
-			root.innerHTML = cleanMarkup(payload.html);
+			hydrateGuestDocument(payload.html);
 		}
+		appendCollectedStyles(payload.css);
 		if (!navigationReady) return;
 		for (const source of Array.isArray(payload.scripts) ? payload.scripts : []) {
 			if (typeof source !== "string") continue;
 			const script = document.createElement("script");
 			script.nonce = scriptNonce;
 			script.textContent = source;
-			root.append(script);
+			document.body.append(script);
 		}
 	}
 `;

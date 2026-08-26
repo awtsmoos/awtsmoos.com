@@ -1,103 +1,110 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews wall and window before a street can seem inhabited and near;
- * Awtsmoos.com layers plaster, glass, roof, door, and shade so procedural depth appears clear.
+ * @file BuildingFacadeFactory.js
+ * @description Builds broad photographic old-city facades whose texture carries most detail while window count obeys the active frame budget.
+ * The Awtsmoos renews limestone wall, oak door, roof, and opening in one street ray;
+ * Awtsmoos.com lets large textured forms stay rich while repeated tiny windows politely fade away.
  */
 
 import { WORLD_COLORS } from "../config.js";
 
 const HEIGHTS = Object.freeze([4.8, 5.8, 6.6, 5.3]);
-const COLORS = Object.freeze([WORLD_COLORS.buildingA, WORLD_COLORS.buildingB, WORLD_COLORS.buildingC, WORLD_COLORS.plaster]);
+const SURFACES = Object.freeze(["facadeWarm", "facadeCool", "limestoneWarm", "limestone"]);
 
 export class BinyanBuildingFacadeFactory {
-	/** @param {object} THREE Three.js namespace. @param {object} meshFactory Procedural mesh factory. @param {object} profile Quality profile. */
+	/** @param {object} THREE Three namespace. @param {object} meshFactory Mesh factory. @param {object} profile Quality profile. */
 	constructor(THREE, meshFactory, profile) {
 		this.THREE = THREE;
 		this.meshFactory = meshFactory;
 		this.profile = profile;
 	}
 
-	/** @param {number} index Deterministic variation index. @param {number} side Left=-1, right=1. @returns {object} Detailed building group. */
+	/** @param {number} index Variation index. @param {number} side Street side. @returns {object} Textured building group. */
 	create(index, side) {
-		const root = new this.THREE.Group();
-		const height = HEIGHTS[Math.abs(index) % HEIGHTS.length];
-		const color = COLORS[Math.abs(index + side) % COLORS.length];
-		root.name = "ProceduralDetailedBuilding";
-		root.position.x = side * 8.15;
-		root.add(this.createShell(height, color));
-		root.add(this.createRoof(height, side));
-		this.addWindows(root, height, side, index);
-		root.add(this.createDoor(side, index));
-		if (this.profile.detailLevel > 1) root.add(this.createAwning(side, index));
-		return root;
+		const malchusRoot = new this.THREE.Group();
+		const tiferesHeight = HEIGHTS[Math.abs(index) % HEIGHTS.length];
+		const yesodSurface = SURFACES[Math.abs(index + side) % SURFACES.length];
+		malchusRoot.name = "PhotographicProceduralBuilding";
+		malchusRoot.position.x = side * 8.15;
+		malchusRoot.add(this.shell(tiferesHeight, yesodSurface));
+		malchusRoot.add(this.roof(tiferesHeight, side));
+		this.addWindows(malchusRoot, tiferesHeight, side, index);
+		malchusRoot.add(this.door(side, index));
+		if (this.profile.detailLevel >= 3) malchusRoot.add(this.awning(side, index));
+		return malchusRoot;
 	}
 
-	/** @param {number} height Building height. @param {number} color Facade color. @returns {object} Main procedural shell. */
-	createShell(height, color) {
+	/** @private */
+	shell(height, surface) {
 		return this.meshFactory.cube({
-			name: "BuildingShell",
+			name: "TexturedBuildingShell",
 			scale: [2.75, height, 15.2],
 			position: [0, height / 2, 0],
-			material: { type: "standard", color, roughness: 0.86 }
+			surface,
+			material: {color: WORLD_COLORS.plaster, roughness: 0.86}
 		});
 	}
 
-	/** @param {number} height Building height. @param {number} side Street side. @returns {object} Roof cap with slight roadside overhang. */
-	createRoof(height, side) {
+	/** @private */
+	roof(height, side) {
 		return this.meshFactory.cube({
-			name: "RoofCap",
-			scale: [3.0, 0.18, 15.45],
+			name: "TexturedRoofCap",
+			scale: [3, 0.18, 15.45],
 			position: [-side * 0.08, height + 0.08, 0],
-			material: { type: "standard", color: WORLD_COLORS.stone, roughness: 0.9 }
+			surface: "roofTile",
+			material: {color: WORLD_COLORS.stone, roughness: 0.9}
 		});
 	}
 
-	/** @param {object} root Building group. @param {number} height Building height. @param {number} side Street side. @param {number} index Variation index. */
-	addWindows(root, height, side, index) {
-		const floors = Math.min(4, 1 + this.profile.detailLevel);
-		const columns = this.profile.detailLevel === 1 ? 2 : 3;
+	/** @private */
+	addWindows(root, height, side, seed) {
+		const rows = this.profile.detailLevel === 1 ? 1 : this.profile.detailLevel === 2 ? 2 : 3;
+		const columns = this.profile.detailLevel >= 3 ? 3 : 2;
 		const faceX = -side * 1.405;
-		for (let floor = 0; floor < floors; floor += 1) {
-			const y = 1.75 + floor * Math.min(1.25, (height - 2.1) / Math.max(1, floors - 1));
+		for (let row = 0; row < rows; row += 1) {
+			const y = 1.8 + row * Math.min(1.35, (height - 2.4) / Math.max(1, rows - 1));
 			for (let column = 0; column < columns; column += 1) {
-				const z = (column - (columns - 1) / 2) * 4.0 + ((index + floor) % 2 ? 0.28 : -0.28);
-				root.add(this.createWindow(faceX, y, z));
+				const z = (column - (columns - 1) / 2) * 4.3 + ((seed + row) % 2 ? 0.25 : -0.25);
+				root.add(this.window(faceX, y, z));
 			}
 		}
 	}
 
-	/** @param {number} x Road-facing X. @param {number} y Height. @param {number} z Longitudinal position. @returns {object} Dark reflective window. */
-	createWindow(x, y, z) {
+	/** @private */
+	window(x, y, z) {
 		return this.meshFactory.cube({
 			name: "FacadeWindow",
-			scale: [0.075, 0.72, 0.92],
+			scale: [0.075, 0.72, 0.95],
 			position: [x, y, z],
-			material: { type: "standard", color: WORLD_COLORS.glass, metalness: 0.18, roughness: 0.24 },
-			castShadow: false
+			material: {color: WORLD_COLORS.glass, metalness: 0.18, roughness: 0.24},
+			castShadow: false,
+			receiveShadow: false
 		});
 	}
 
-	/** @param {number} side Street side. @param {number} index Variation index. @returns {object} Recess-like dark doorway. */
-	createDoor(side, index) {
+	/** @private */
+	door(side, seed) {
 		return this.meshFactory.cube({
-			name: "StreetDoor",
+			name: "OakStreetDoor",
 			scale: [0.09, 1.75, 1.1],
-			position: [-side * 1.41, 0.88, index % 2 ? -4.7 : 4.7],
-			material: { type: "standard", color: WORLD_COLORS.wood, roughness: 0.7 },
+			position: [-side * 1.41, 0.88, seed % 2 ? -4.7 : 4.7],
+			surface: "oakWood",
+			material: {color: WORLD_COLORS.wood, roughness: 0.72},
 			castShadow: false
 		});
 	}
 
-	/** @param {number} side Street side. @param {number} index Variation index. @returns {object} Small procedural shop awning. */
-	createAwning(side, index) {
+	/** @private */
+	awning(side, seed) {
 		return this.meshFactory.cube({
 			name: "StreetAwning",
 			scale: [0.72, 0.1, 1.45],
-			position: [-side * 1.72, 2.05, index % 2 ? -4.7 : 4.7],
-			rotation: [0, 0, side * 0.12],
-			material: { type: "standard", color: index % 2 ? WORLD_COLORS.hazard : WORLD_COLORS.goldLight, roughness: 0.62 }
+			position: [-side * 1.72, 2.05, seed % 2 ? -4.7 : 4.7],
+			surface: "cloth",
+			material: {color: WORLD_COLORS.hazard, roughness: 0.75},
+			castShadow: false
 		});
 	}
 }

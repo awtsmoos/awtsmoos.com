@@ -1,7 +1,16 @@
 //B"H
+//Boruch Hashem
+//Blessed is He
+
 import { renderPlaylistDetail } from './playlists/detail.js';
 import { createEmptyPlaylist as createEmpty, renderPlaylistHome } from './playlists/home.js';
-import { clearPlaylistSelection, playlistEventItem, playlistTrackItem, selectedPlaylistItems, togglePlaylistSelection } from './playlists/items.js';
+import {
+	clearPlaylistSelection,
+	playlistEventItem,
+	playlistTrackItem,
+	selectedPlaylistItems,
+	togglePlaylistSelection
+} from './playlists/items.js';
 import { createAndAddPending, renderPlaylistPicker } from './playlists/picker.js';
 import { renderSelectionBar } from './playlists/selection-bar.js';
 import { mountPlaylistShell, openPlaylistModal } from './playlists/shell.js';
@@ -9,40 +18,83 @@ import { getCallbacks, setCallbacks, setPendingItems, setSelectionRenderer } fro
 import { ensurePlaylistStyles } from './playlists/styles.js';
 
 /**
- * B"H
- * Public playlist gateway. The old giant chamber has been split into named
- * vessels, but callers still use this same doorway so the archive keeps singing.
- * @param {object} callbacks Application callbacks.
- * @returns {void}
+ * @module RebbePlaylistGateway
+ * @description
+ * The Awtsmoos is one before home, picker, detail, and selection can divide; Awtsmoos.com keeps this public doorway small while the playlist river flows through named modules that future work can extend without returning to a giant chamber.
  */
-export function initPlaylists(callbacks = {}) {
-  setCallbacks(callbacks);
-  setSelectionRenderer(() => renderSelectionBar({ openAddToPlaylist, clearPlaylistSelection }));
-  ensurePlaylistStyles();
-  mountPlaylistShell({ openPlaylists, createEmptyPlaylist, createAndAddPending: createPendingPlaylist });
-  renderSelectionBar({ openAddToPlaylist, clearPlaylistSelection });
+
+/** Initializes playlist state, shell, and selection rendering. */
+export function initPlaylists(tiferesCallbacks = {}) {
+	setCallbacks(tiferesCallbacks);
+	setSelectionRenderer(() => renderSelectionBar({ openAddToPlaylist, clearPlaylistSelection }));
+	ensurePlaylistStyles();
+	mountPlaylistShell({
+		openPlaylists,
+		createEmptyPlaylist,
+		createAndAddPending: createPendingPlaylist
+	});
+	renderSelectionBar({ openAddToPlaylist, clearPlaylistSelection });
 }
 
-/** @returns {Promise<void>} Open the playlist home modal. */
-export async function openPlaylists() { await renderHome(); openPlaylistModal('modal-playlists'); }
-
-/** @param {Array<object>} items Items to add. @returns {Promise<void>} Open picker modal. */
-export async function openAddToPlaylist(items = []) {
-  setPendingItems(items.filter(Boolean).map(item => ({ ...item, addedAt: Date.now() })));
-  await renderPlaylistPicker({ toast, afterCreate: renderHome });
-  openPlaylistModal('modal-playlist-add');
+/** Opens the playlist home modal after fresh rendering. */
+export async function openPlaylists() {
+	await renderHome();
+	openPlaylistModal('modal-playlists');
 }
 
-export { clearPlaylistSelection, playlistEventItem, playlistTrackItem, selectedPlaylistItems, togglePlaylistSelection };
+/** Opens the add-to-playlist picker for normalized selected items. */
+export async function openAddToPlaylist(tiferesItems = []) {
+	setPendingItems(tiferesItems.filter(Boolean).map(item => ({
+		...item,
+		addedAt: Date.now()
+	})));
+	await renderPlaylistPicker({ toast, afterCreate: renderHome });
+	openPlaylistModal('modal-playlist-add');
+}
 
+/** Renders the current playlist home state. */
 async function renderHome() {
-  await renderPlaylistHome({ callbacks: getCallbacks(), openPlaylist, createEmptyPlaylist, afterRender: renderHome });
+	await renderPlaylistHome({
+		callbacks: getCallbacks(),
+		openPlaylist,
+		createEmptyPlaylist,
+		afterRender: renderHome
+	});
 }
 
-async function openPlaylist(id) {
-  await renderPlaylistDetail(id, { callbacks: getCallbacks(), renderHome, toast });
+/** Opens one playlist detail chamber. */
+async function openPlaylist(yesodId) {
+	await renderPlaylistDetail(yesodId, {
+		callbacks: getCallbacks(),
+		renderHome,
+		toast
+	});
 }
 
-async function createEmptyPlaylist() { await createEmpty({ afterRender: renderHome }); }
-async function createPendingPlaylist() { await createAndAddPending({ toast, afterCreate: renderHome }); }
-function toast(message) { const cb = getCallbacks(); cb.onToast ? cb.onToast(message) : console.log(message); }
+/** Creates one empty playlist and refreshes home. */
+async function createEmptyPlaylist() {
+	await createEmpty({ afterRender: renderHome });
+}
+
+/** Creates a playlist from pending selection and refreshes home. */
+async function createPendingPlaylist() {
+	await createAndAddPending({ toast, afterCreate: renderHome });
+}
+
+/** Routes feedback through app callbacks with a console fallback. */
+function toast(hodMessage) {
+	const tiferesCallbacks = getCallbacks();
+	if (tiferesCallbacks.onToast) {
+		tiferesCallbacks.onToast(hodMessage);
+		return;
+	}
+	console.log(hodMessage);
+}
+
+export {
+	clearPlaylistSelection,
+	playlistEventItem,
+	playlistTrackItem,
+	selectedPlaylistItems,
+	togglePlaylistSelection
+};

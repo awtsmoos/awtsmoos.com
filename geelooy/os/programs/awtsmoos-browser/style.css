@@ -1,62 +1,51 @@
-/* B"H — Awtsmoos Browser scoped style covenant. */
+/* B"H
+ * The Awtsmoos renews the browser vessel each instant. This is the single Keter style
+ * entry: it orders every smaller garment, then gives the host shell its shared measure.
+ */
+
+@import url("./tabs.css");
 @import url("./chrome.css");
 @import url("./viewport.css");
 @import url("./advanced.css");
 @import url("./remote.css");
+@import url("./interactive.css");
 
 .awtsmoos-browser-host {
-	--awtsmoos-browser-ink: #f6f7fb;
-	--awtsmoos-browser-muted: #9aa4b6;
-	--awtsmoos-browser-shell: #0b0e14;
-	--awtsmoos-browser-panel: rgba(22, 27, 38, 0.86);
-	--awtsmoos-browser-panel-strong: #151a24;
-	--awtsmoos-browser-line: rgba(255, 255, 255, 0.09);
-	--awtsmoos-browser-glow: rgba(145, 166, 255, 0.24);
-	--awtsmoos-browser-accent: #aebeff;
-	--awtsmoos-browser-accent-strong: #d3dcff;
-	--awtsmoos-browser-danger: #ff9f9f;
-	--awtsmoos-browser-radius-sm: 10px;
-	--awtsmoos-browser-radius-md: 15px;
-	--awtsmoos-browser-radius-lg: 22px;
-	--awtsmoos-browser-speed-fast: 120ms;
-	--awtsmoos-browser-speed: 190ms;
-	--awtsmoos-browser-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-	--awtsmoos-browser-layer-base: 0;
-	--awtsmoos-browser-layer-chrome: 2;
-	--awtsmoos-browser-layer-drawer: 3;
-	position: relative;
-	isolation: isolate;
+	--browser-bg: #080b12;
+	--browser-surface: rgba(20, 25, 38, 0.9);
+	--browser-surface-soft: rgba(255, 255, 255, 0.055);
+	--browser-surface-strong: rgba(255, 255, 255, 0.1);
+	--browser-border: rgba(255, 255, 255, 0.1);
+	--browser-text: #f7f8fb;
+	--browser-muted: #9ca5b8;
+	--browser-accent: #b7f7ff;
+	--browser-accent-strong: #7cecff;
+	--browser-danger: #ff8b9b;
+	--browser-radius: 18px;
+	--browser-control-radius: 12px;
+	--browser-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+	box-sizing: border-box;
 	display: grid;
 	grid-template-rows: auto minmax(0, 1fr);
-	inline-size: 100%;
-	block-size: 100%;
-	min-inline-size: 0;
-	min-block-size: 0;
+	width: 100%;
+	height: 100%;
+	min-height: 360px;
 	overflow: hidden;
-	color: var(--awtsmoos-browser-ink);
+	color: var(--browser-text);
 	background:
-		radial-gradient(circle at 20% -20%, rgba(97, 118, 219, 0.18), transparent 45%),
-		var(--awtsmoos-browser-shell);
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	font-size: 14px;
-	line-height: 1.4;
+		radial-gradient(circle at 18% -10%, rgba(70, 174, 255, 0.16), transparent 34%),
+		radial-gradient(circle at 86% 0%, rgba(190, 110, 255, 0.1), transparent 30%),
+		var(--browser-bg);
+	border: 1px solid var(--browser-border);
+	border-radius: var(--browser-radius);
+	box-shadow: var(--browser-shadow);
+	font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-.awtsmoos-browser-host,
-.awtsmoos-browser-host * {
+.awtsmoos-browser-host *,
+.awtsmoos-browser-host *::before,
+.awtsmoos-browser-host *::after {
 	box-sizing: border-box;
-}
-
-.awtsmoos-browser-host [hidden] {
-	display: none !important;
-}
-
-.awtsmoos-browser-host .awtsmoos-browser-body {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr);
-	min-inline-size: 0;
-	min-block-size: 0;
-	overflow: hidden;
 }
 
 .awtsmoos-browser-host button,
@@ -65,18 +54,25 @@
 	font: inherit;
 }
 
-@media (min-width: 880px) {
-	.awtsmoos-browser-host .awtsmoos-browser-body:has(.awtsmoos-browser-advanced-panel.is-open) {
-		grid-template-columns: minmax(0, 1fr) minmax(290px, 360px);
-	}
+.awtsmoos-browser-body {
+	position: relative;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+	background: #f7f8fb;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.awtsmoos-browser-host,
-	.awtsmoos-browser-host * {
-		scroll-behavior: auto !important;
-		animation-duration: 1ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 1ms !important;
-	}
+.awtsmoos-browser-host [hidden] {
+	display: none !important;
+}
+
+.awtsmoos-browser-boundary {
+	margin: 0;
+	padding: 10px 12px;
+	color: var(--browser-muted);
+	font-size: 11px;
+	line-height: 1.5;
+	border: 1px solid var(--browser-border);
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.035);
 }

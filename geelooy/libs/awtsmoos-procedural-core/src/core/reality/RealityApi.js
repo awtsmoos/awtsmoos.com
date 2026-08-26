@@ -4,43 +4,32 @@
 
 /**
  * @file RealityApi.js
- * @description Reveals the tiny final public Reality class above Domem, Tzomayach, Chai, Medaber, Water, Wind, Terrain, and wider Olam capability layers.
- * The Awtsmoos remains utterly simple while stone, root, creature, current, atmosphere, and landscape descend through ordered vessels without becoming another source;
- * Awtsmoos.com lets callers remember one `RealityApi` name, while filtered discovery and specialist authorities reveal every deeper capability on the same course.
+ * @description Reveals the tiny final public Reality class above Matter, Life, Water, Terrain, intent planning, and professional self-discovery layers.
+ * The Awtsmoos remains utterly simple while stone, root, creature, current, atmosphere, landscape, intention, and knowledge descend through ordered vessels;
+ * Awtsmoos.com lets callers remember one `RealityApi` name while `describe`, `supports`, catalogs, plans, scenes, and specialist authorities reveal depth only when desired.
  */
+import { RealityDiscoveryApi } from './RealityDiscoveryApi.js';
 
-import { createRealityCapabilityCatalog } from './RealityCapabilityCatalog.js';
-import { RealityTerrainApi } from './RealityTerrainApi.js';
-
-/** Final progressive-disclosure Reality API preserving historical compatibility above the complete semantic world chain. */
-export class RealityApi extends RealityTerrainApi {
-	/**
-	 * Returns immutable discovery data for API explorers, editors, docs, AI agents, and advanced developers.
-	 * @param {string|Function|null} [filterBinah=null] Optional domain/name text or predicate used to filter capability records.
-	 * @returns {Readonly<object>} Legacy-compatible live catalogs plus easy-to-advanced capability records and expert import families.
-	 */
-	catalog(filterBinah = null) {
-		return createRealityCapabilityCatalog(this, filterBinah);
-	}
-
+/** Final progressive-disclosure Reality API preserving compatibility while delegating discovery to its own focused layer. */
+export class RealityApi extends RealityDiscoveryApi {
 	/**
 	 * Creates a fresh Reality API with shared defaults overridden without mutating this instance or reusing stateful authorities.
-	 * @param {object} [overridesGevurah={}] Seed, quality, realism, environment, material, terrain, water, and specialist defaults merged above current defaults.
-	 * @returns {RealityApi} New fully composed Reality API with a fresh advanced authority graph.
+	 * @param {object} [keterOverrides={}] Seed, quality, realism, environment, material, terrain, water, effect, and specialist defaults merged above current defaults.
+	 * @returns {RealityApi} New fully composed Reality API with fresh authorities, discovery, and intent facades.
 	 */
-	with(overridesGevurah = {}) {
+	with(keterOverrides = {}) {
 		return new RealityApi({
 			...this.defaults,
-			...overridesGevurah
+			...keterOverrides
 		});
 	}
 }
 
 /**
  * Creates one reusable semantic Reality API from shared deterministic and realism defaults.
- * @param {object} [defaultsChesed={}] Shared defaults applied beneath every simple or advanced per-call option.
+ * @param {object} [keterDefaults={}] Shared defaults applied beneath every direct, declarative, fluent, discovery, or advanced per-call option.
  * @returns {RealityApi} Fully composed progressive-disclosure Reality API.
  */
-export function createRealityApi(defaultsChesed = {}) {
-	return new RealityApi(defaultsChesed);
+export function createRealityApi(keterDefaults = {}) {
+	return new RealityApi(keterDefaults);
 }

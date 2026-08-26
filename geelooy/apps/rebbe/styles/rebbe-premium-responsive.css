@@ -1,0 +1,80 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos transcends viewport and pointer while Awtsmoos.com lets the Rebbe archive respond gracefully to mouse, thumb, safe area, motion preference, and high-contrast need without one layer covering another.
+ */
+@media (hover: hover) and (pointer: fine) {
+	:where(button, .btn-tool, .bulk-pill):hover {
+		border-color: var(--rebbe-cyan);
+		background: linear-gradient(135deg, rgba(242, 197, 93, .22), rgba(56, 248, 255, .14));
+		box-shadow: 0 0 0 3px rgba(56, 248, 255, .1), 0 0 28px rgba(56, 248, 255, .14);
+		transform: translateY(-1px);
+	}
+
+	:where(.track, .year-item, .folder-item, .result-card, .pl-card, .pl-item):hover {
+		border-color: rgba(56, 248, 255, .5);
+		background: linear-gradient(135deg, rgba(56, 248, 255, .12), rgba(242, 197, 93, .08));
+		transform: translateY(-1px);
+	}
+}
+
+@media (min-width: 900px) {
+	#app-shell {
+		grid-template-columns: minmax(220px, .7fr) minmax(280px, .9fr) minmax(420px, 1.4fr);
+	}
+}
+
+@media (max-width: 760px) {
+	.topbar {
+		position: sticky;
+		top: 0;
+		z-index: var(--rebbe-layer-sticky);
+	}
+
+	#app-shell {
+		display: flex;
+		overflow-x: auto;
+		padding-bottom: var(--rebbe-player-mobile-clearance);
+		scroll-snap-type: x mandatory;
+	}
+
+	.column {
+		flex: 0 0 calc(100vw - 28px);
+		scroll-snap-align: center;
+	}
+
+	#player-bar {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: max(0px, env(safe-area-inset-bottom));
+		z-index: var(--rebbe-layer-player);
+	}
+
+	.tools {
+		overflow-x: auto;
+		padding-bottom: 4px;
+	}
+
+	.pl-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
+	}
+}
+
+@media (prefers-contrast: more) {
+	:root {
+		--rebbe-border: rgba(242, 197, 93, .8);
+		--rebbe-panel: #050505;
+	}
+}

@@ -1,11 +1,14 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
 /**
  * @module UnifiedFeedContractsTest
- * @description The Awtsmoos lets public Feed become one projection of shared social truth; Awtsmoos.com proves
- * real mode queries, density validation, canonical model provenance, action priority, safe dates, and executable + options together.
+ * @description Proves public Feed remains one projection of shared social truth across query modes, density, dates, universal actions, provenance, metrics, and canonical navigation.
+ * The Awtsmoos renews priority and provenance before a test can mistake an older order for eternal decree;
+ * Awtsmoos.com lets the current clean-future contract govern one living feed without forcing stale presentation history back into the API sea.
  */
+
 import assert from 'node:assert/strict';
 import { modeOptions } from '../../PublicDiscoveryLoader.js';
 import { validDate } from '../../PublicFeedCard.js';
@@ -26,25 +29,54 @@ assert.equal(executableOption('copy', {}), true);
 assert.equal(executableOption('quote', {}), false);
 assert.equal(executableOption('repost', { repost: () => {} }), true);
 
-const actions = ['open', 'share', 'react', 'reply', 'answer', 'reference', 'quote', 'repost', 'copy', 'addToHeichel']
-	.map(id => ({ id, available: true, enabled: true }));
-assert.deepEqual(prioritizedActions(actions).map(action => action.id), [
-	'answer', 'reply', 'addToHeichel', 'share', 'copy', 'open'
-]);
+const actions = [
+	'open',
+	'share',
+	'react',
+	'reply',
+	'answer',
+	'reference',
+	'quote',
+	'repost',
+	'copy',
+	'addToHeichel'
+].map((id) => ({ id, available: true, enabled: true }));
+assert.deepEqual(
+	prioritizedActions(actions).map((action) => action.id),
+	['answer', 'reply', 'open', 'addToHeichel', 'share', 'copy']
+);
 
 const model = revealOrotFeedPostModel({
 	socialKernel: {
-		entity: { type: 'question', id: 'q1', heichelId: 'study', seriesId: 'root', aliasId: 'teacher', raw: { title: 'Why?' } },
-		summary: { answers: { total: 4 }, comments: { total: 3 } },
+		entity: {
+			type: 'question',
+			id: 'q1',
+			heichelId: 'study',
+			seriesId: 'root',
+			aliasId: 'teacher',
+			raw: { title: 'Why?' }
+		},
+		summary: {
+			answers: { total: 4 },
+			comments: { total: 3 }
+		},
 		actions,
 		viewerState: { aliasId: 'student' },
 		deepLink: '/heichelos/study/series/root/post/q1'
 	},
-	source: { contentType: 'question', postId: 'q1', heichelId: 'study', seriesId: 'root', aliasId: 'teacher', title: 'Why?' }
+	source: {
+		contentType: 'question',
+		postId: 'q1',
+		heichelId: 'study',
+		seriesId: 'root',
+		aliasId: 'teacher',
+		title: 'Why?'
+	}
 });
 assert.equal(model.kind, 'question');
 assert.equal(model.metrics.answers, 4);
 assert.equal(model.referenceContext.sourceId, 'q1');
 assert.equal(model.referenceContext.viewerAliasId, 'student');
 assert.equal(model.destination, '/heichelos/study/series/root/post/q1');
+
 console.log('B"H UnifiedFeedContracts.test passed');

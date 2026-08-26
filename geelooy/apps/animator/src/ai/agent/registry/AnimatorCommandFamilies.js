@@ -12,6 +12,11 @@ export const SEFIROT_COMMAND_FAMILIES = Object.freeze({
 	system: 'system',
 	project: 'project',
 	performance: 'performance',
+	character: 'character',
+	camera: 'camera',
+	dialogue: 'dialogue',
+	audio: 'audio',
+	media: 'media',
 	animation: 'animation',
 	timeline: 'timeline',
 	history: 'history',
@@ -21,12 +26,10 @@ export const SEFIROT_COMMAND_FAMILIES = Object.freeze({
 
 /** Publishes stable family names for registry filters and handler-parity checks. */
 export class SefirotAnimatorCommandFamilies {
-	/** @returns {string[]} Every public command-family identity. */
 	static all() {
 		return Object.values(SEFIROT_COMMAND_FAMILIES);
 	}
 
-	/** @param {string} shemFamily Candidate family. @returns {boolean} True when published. */
 	static supports(shemFamily) {
 		return this.all().includes(String(shemFamily));
 	}

@@ -1,16 +1,19 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
+ * @file WorldStream.js
+ * @description Recycles a fixed chunk pool forever while exposing bounded semantic obstacle evidence and never allocating gameplay geometry in the hot stream loop.
  * The Awtsmoos renews the horizon while yesterday's chunk becomes tomorrow's road;
- * Awtsmoos.com keeps the stream finite in memory while wonder stays unbowed.
+ * Awtsmoos.com keeps the stream finite in memory while named Jewish-city encounters remain richly showed.
  */
 
 import { OLAM_CONFIG } from "../config.js";
 import { TiferesWorldChunk } from "./WorldChunk.js";
+import { collectWorldObstacleEvidence } from "./WorldObstacleEvidence.js";
 
 export class YesodWorldStream {
-	/** @param {object} dependencies Scene, Three.js, and all world factories. */
+	/** @param {object} dependencies Scene, Three namespace, and all world factories. */
 	constructor(dependencies) {
 		this.THREE = dependencies.THREE;
 		this.scene = dependencies.scene;
@@ -21,74 +24,87 @@ export class YesodWorldStream {
 		this.nextPatternIndex = 0;
 	}
 
-	/** Creates the bounded chunk pool and attaches it to the scene. @returns {YesodWorldStream} This stream. */
+	/** Creates the bounded chunk pool and attaches it to the scene. @returns {YesodWorldStream} */
 	create() {
 		this.scene.add(this.root);
-		for (let index = 0; index < OLAM_CONFIG.chunkCount; index += 1) {
-			const chunk = new TiferesWorldChunk({ ...this.dependencies, index });
-			this.root.add(chunk.root);
-			this.chunks.push(chunk);
+		for (let malchusIndex = 0; malchusIndex < OLAM_CONFIG.chunkCount; malchusIndex += 1) {
+			const tiferesChunk = new TiferesWorldChunk({
+				...this.dependencies,
+				index: malchusIndex
+			});
+			this.root.add(tiferesChunk.root);
+			this.chunks.push(tiferesChunk);
 		}
 		this.reset();
 		return this;
 	}
 
-	/** Returns all chunks to their initial deterministic arrangement. */
+	/** Returns all pooled chunks to their initial deterministic arrangement. */
 	reset() {
 		this.nextPatternIndex = OLAM_CONFIG.chunkCount;
-		this.chunks.forEach((chunk, index) => {
-			const z = OLAM_CONFIG.firstChunkZ - index * OLAM_CONFIG.chunkLength;
-			chunk.reset(z, index);
+		this.chunks.forEach((tiferesChunk, malchusIndex) => {
+			const yesodZ = OLAM_CONFIG.firstChunkZ - malchusIndex * OLAM_CONFIG.chunkLength;
+			tiferesChunk.reset(yesodZ, malchusIndex);
 		});
 	}
 
-	/** @param {number} delta Frame seconds. @param {number} speed Forward stream speed. @param {number} time Visual time. */
+	/** @param {number} delta Frame seconds. @param {number} speed Stream speed. @param {number} time Visual time. */
 	update(delta, speed, time) {
-		for (const chunk of this.chunks) {
-			chunk.root.position.z += speed * delta;
-			chunk.animate(time);
-			if (chunk.root.position.z > OLAM_CONFIG.recycleZ) {
-				this.recycle(chunk);
+		for (const tiferesChunk of this.chunks) {
+			tiferesChunk.root.position.z += speed * delta;
+			tiferesChunk.animate(time);
+			if (tiferesChunk.root.position.z > OLAM_CONFIG.recycleZ) {
+				this.recycle(tiferesChunk);
 			}
 		}
 	}
 
-	/** @param {TiferesWorldChunk} chunk Chunk that crossed the recycle plane. */
-	recycle(chunk) {
-		let farthestZ = Infinity;
-		for (const candidate of this.chunks) {
-			if (candidate !== chunk) {
-				farthestZ = Math.min(farthestZ, candidate.root.position.z);
+	/** @param {TiferesWorldChunk} tiferesChunk Chunk crossing the recycle plane. */
+	recycle(tiferesChunk) {
+		let yesodFarthestZ = Number.POSITIVE_INFINITY;
+		for (const malchusCandidate of this.chunks) {
+			if (malchusCandidate !== tiferesChunk) {
+				yesodFarthestZ = Math.min(yesodFarthestZ, malchusCandidate.root.position.z);
 			}
 		}
-		chunk.reset(farthestZ - OLAM_CONFIG.chunkLength, this.nextPatternIndex);
+		tiferesChunk.reset(
+			yesodFarthestZ - OLAM_CONFIG.chunkLength,
+			this.nextPatternIndex
+		);
 		this.nextPatternIndex += 1;
 	}
 
-	/** @param {Function} callback Receives collectible slot and owning chunk without per-frame allocations. */
+	/** @param {Function} callback Receives visible collectible slot and owning chunk without allocations. */
 	forEachCollectible(callback) {
-		for (const chunk of this.chunks) {
-			for (const slot of chunk.perutas) {
-				if (slot.node.visible && !slot.collected) callback(slot, chunk);
+		for (const tiferesChunk of this.chunks) {
+			for (const chesedSlot of tiferesChunk.perutas) {
+				if (chesedSlot.node.visible && !chesedSlot.collected) {
+					callback(chesedSlot, tiferesChunk);
+				}
 			}
 		}
 	}
 
-	/** @param {Function} callback Receives obstacle slot and owning chunk without per-frame allocations. */
+	/** @param {Function} callback Receives visible obstacle slot and owning chunk without allocations. */
 	forEachObstacle(callback) {
-		for (const chunk of this.chunks) {
-			for (const slot of chunk.obstacles) {
-				if (slot.node.visible) callback(slot, chunk);
+		for (const tiferesChunk of this.chunks) {
+			for (const gevurahSlot of tiferesChunk.obstacles) {
+				if (gevurahSlot.node.visible) callback(gevurahSlot, tiferesChunk);
 			}
 		}
 	}
 
-	/** @returns {number} Number of meshes proven to come through the procedural core. */
+	/** @param {number} [limit=8] Evidence limit. @returns {ReadonlyArray<object>} Active semantic obstacle evidence. */
+	activeObstacleEvidence(limit = 8) {
+		return collectWorldObstacleEvidence(this.chunks, limit);
+	}
+
+	/** @returns {number} Number of meshes proven to come through procedural core. */
 	countProceduralMeshes() {
-		let count = 0;
-		this.root.traverse((node) => {
-			if (node.userData?.awtsmoosProcedural) count += 1;
+		let malchusCount = 0;
+		this.root.traverse((malchusNode) => {
+			if (malchusNode.userData?.awtsmoosProcedural) malchusCount += 1;
 		});
-		return count;
+		return malchusCount;
 	}
 }

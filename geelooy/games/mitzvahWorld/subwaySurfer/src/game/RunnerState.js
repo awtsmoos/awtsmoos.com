@@ -1,9 +1,11 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos renews the inner state while distance becomes score in the run;
- * Awtsmoos.com gathers speed, perutas, and memory beneath one living sun.
+ * @file RunnerState.js
+ * @description Owns Peruta Run's compact gameplay state: lifecycle, lane, elapsed time, speed, distance, currency, score, and persisted best.
+ * The Awtsmoos renews the inner state while distance becomes score beneath the run;
+ * Awtsmoos.com gathers speed, perutas, and remembered best beneath one living sun.
  */
 
 import { CHAI_CONFIG, SCORE_CONFIG } from "../config.js";
@@ -14,7 +16,7 @@ export class NefeshRunnerState {
 		this.reset();
 	}
 
-	/** Restores a clean playable run while preserving the local best score. */
+	/** Restores a clean playable run while preserving the locally persisted best score. */
 	reset() {
 		this.status = "running";
 		this.laneIndex = 1;
@@ -25,19 +27,25 @@ export class NefeshRunnerState {
 		this.score = 0;
 	}
 
-	/** @param {number} delta Frame seconds while the run is active. */
-	update(delta) {
+	/** @param {number} tiferesDelta Frame seconds while the run is active. */
+	update(tiferesDelta) {
 		if (this.status !== "running") return;
-		this.elapsed += delta;
-		this.distance += this.speed * delta;
-		this.speed = Math.min(CHAI_CONFIG.maxSpeed, CHAI_CONFIG.startSpeed + this.elapsed * CHAI_CONFIG.acceleration);
+		this.elapsed += tiferesDelta;
+		this.distance += this.speed * tiferesDelta;
+		this.speed = Math.min(
+			CHAI_CONFIG.maxSpeed,
+			CHAI_CONFIG.startSpeed + this.elapsed * CHAI_CONFIG.acceleration
+		);
 		this.updateScore();
 	}
 
-	/** @param {number} delta Signed lane change request. */
-	moveLane(delta) {
+	/** @param {number} gevurahDelta Signed lane-change request. */
+	moveLane(gevurahDelta) {
 		if (this.status !== "running") return;
-		this.laneIndex = Math.max(0, Math.min(2, this.laneIndex + Math.sign(delta)));
+		this.laneIndex = Math.max(
+			0,
+			Math.min(2, this.laneIndex + Math.sign(gevurahDelta))
+		);
 	}
 
 	/** Records one collected peruta and immediately updates score. */
@@ -56,19 +64,29 @@ export class NefeshRunnerState {
 
 	/** Toggles running and paused states without reviving a completed run. */
 	togglePause() {
-		if (this.status === "running") this.status = "paused";
-		else if (this.status === "paused") this.status = "running";
+		if (this.status === "running") {
+			this.status = "paused";
+			return;
+		}
+		if (this.status === "paused") this.status = "running";
 	}
 
-	/** Recomputes score from distance and collected perutas. */
+	/** Recomputes score from traveled distance and collected perutas. */
 	updateScore() {
-		this.score = Math.floor(this.distance * SCORE_CONFIG.distanceFactor) + this.perutas * SCORE_CONFIG.perutaValue;
+		const yesodDistanceScore = Math.floor(
+			this.distance * SCORE_CONFIG.distanceFactor
+		);
+		this.score = yesodDistanceScore
+			+ this.perutas * SCORE_CONFIG.perutaValue;
 	}
 
 	/** @returns {number} Persisted best score or zero when storage is unavailable. */
 	readBest() {
 		try {
-			return Number.parseInt(localStorage.getItem(SCORE_CONFIG.bestStorageKey) || "0", 10) || 0;
+			return Number.parseInt(
+				localStorage.getItem(SCORE_CONFIG.bestStorageKey) || "0",
+				10
+			) || 0;
 		} catch {
 			return 0;
 		}
@@ -84,7 +102,7 @@ export class NefeshRunnerState {
 		}
 	}
 
-	/** @returns {object} Read-only-style snapshot suitable for HUD and diagnostics. */
+	/** @returns {object} Detached state snapshot suitable for HUD and diagnostics. */
 	snapshot() {
 		return {
 			status: this.status,

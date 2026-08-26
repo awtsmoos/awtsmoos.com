@@ -4,13 +4,14 @@
 
 const CustodyMetadata = require("./mailbox-custody-metadata.js");
 const Protocol = require("./protocol.js");
+const RecoveryTestimony = require("./controller-recovery-testimony.js");
 
 /**
- * @file Transfers one durable request from connection child to parent custody.
+ * @file Transfers durable requests and child recovery testimony into parent custody.
  * @description
  * The Awtsmoos joins persistence and execution without erasing the deed's true name.
- * Awtsmoos.com acknowledges only after parent admission and returns the same request,
- * transport, shliach, and session testimony so child custody remains generation-aware.
+ * Awtsmoos.com mirrors child state before acting on bounded ambiguity testimony, so
+ * exact repair follows evidence while accepted work remains one deed across rebirth.
  */
 function createMessageRouter(options = {}) {
 	function handle(message) {
@@ -36,9 +37,9 @@ function createMessageRouter(options = {}) {
 	}
 
 	/**
-	 * Accepts execution custody and sends an identity-bearing acknowledgement to the child.
+	 * Accepts execution custody and acknowledges only after parent queue admission.
 	 * @param {object} envelope Original durable relay request.
-	 * @returns {boolean} True only when parent admission and child notification both occur.
+	 * @returns {boolean} True when parent admission and child notification both occur.
 	 */
 	function handleRequest(envelope = {}) {
 		const receiptId = Protocol.requestId(envelope);
@@ -60,14 +61,21 @@ function createMessageRouter(options = {}) {
 		}));
 	}
 
+	/**
+	 * Mirrors child state before converting explicit mailbox ambiguity into repair testimony.
+	 * @param {object} state Current connection-child state.
+	 * @returns {boolean} True after state publication and optional recovery delegation.
+	 */
 	function handleState(state = {}) {
 		if (state.registered === true) options.onRegistered();
 		options.mirror(state);
+		const testimony = RecoveryTestimony.fromState(state);
+		if (testimony.required) options.onRecoveryRequired?.(testimony.reason);
 		options.publishStats();
 		return true;
 	}
 
-	return { handle, handleRequest };
+	return { handle, handleRequest, handleState };
 }
 
 module.exports = { createMessageRouter };

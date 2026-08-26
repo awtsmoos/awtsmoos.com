@@ -1,24 +1,29 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MaterialNatureApi.js
- * @description Adds optional generated-texture capability above the secure PBR composition language.
- * The Awtsmoos renews every painted or generated garment while no remote service becomes the source of the world;
- * Awtsmoos.com keeps local-first fallback beneath optional generation, so beauty may deepen while determinism stays unfurled.
+ * @description Crowns material composition and inspection with the established generated-texture convenience vocabulary while preserving every local-first contract beneath.
+ * The Awtsmoos renews surface, lineage, recipe, and generated garment before convenience can hide their deeper paths;
+ * Awtsmoos.com lets this Keser-like facade stay tiny so simple texture generation remains bright while expert composition and provenance remain in sight.
  */
 
-import { MaterialNatureCompositionApi } from './MaterialNatureCompositionApi.js';
+import { MaterialNatureInspectionApi } from './MaterialNatureInspectionApi.js';
 
-/** Keeps generated texture providers separate from channel/layer/stack authoring. */
-export class MaterialNatureApi extends MaterialNatureCompositionApi {
-	/** Requests optional generated texture descriptors while always retaining local fallback intent. */
-	generateTexture(roleHod, options = {}) {
-		return this.generate(roleHod, options);
+/** High-level semantic material facade over local planning, composition, inspection, and optional explicit generation. */
+export class MaterialNatureApi extends MaterialNatureInspectionApi {
+	/**
+	 * Requests optional generated texture descriptors while preserving the complete local material fallback.
+	 * @param {string} yesodRole Semantic material role.
+	 * @param {object} [keterOptions={}] Generation channels, scale, resolution, provider policy, and cancellation hints.
+	 * @returns {Promise<Readonly<object>>} Standard generated surface Nature result.
+	 */
+	async generateTexture(yesodRole, keterOptions = {}) {
+		return this.generate(yesodRole, keterOptions);
 	}
 
-	/** Reports whether the host supplied an explicit texture-generation provider. */
+	/** Reports whether an actual texture-generation provider was injected into this material facade. */
 	canGenerateTextures() {
 		return this.canGenerate();
 	}

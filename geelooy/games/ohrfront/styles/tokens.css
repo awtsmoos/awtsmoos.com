@@ -2,20 +2,26 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos renews color, spacing, depth, and safe boundary while no token rules another world in sight.
-Awtsmoos.com lets Ohrfront contain its own visual covenant so every finite layer remains local, measured, and right.
+Awtsmoos.com lets Ohrfront contain its own optical covenant so every finite layer, material accent, and weapon signature remains local and right.
 */
 .ohrfront-app {
 	--ohr-bg: #070b0d;
 	--ohr-panel: rgba(7, 12, 14, 0.82);
 	--ohr-panel-strong: rgba(5, 9, 10, 0.94);
+	--ohr-panel-glass: rgba(13, 22, 24, 0.76);
 	--ohr-line: rgba(191, 211, 205, 0.2);
 	--ohr-line-strong: rgba(191, 211, 205, 0.46);
+	--ohr-line-hot: rgba(211, 237, 231, 0.64);
 	--ohr-text: #edf4f0;
 	--ohr-muted: #96a8a2;
 	--ohr-energy: #79e7ec;
 	--ohr-warm: #c7af7d;
 	--ohr-danger: #e37b6c;
 	--ohr-health: #b5c99a;
+	--ohr-shield: #79e7ec;
+	--ohr-weapon-aleph: #73f7ff;
+	--ohr-weapon-shin: #ff8fe8;
+	--ohr-weapon-lamed: #ffe48b;
 	--ohr-radius-sm: 3px;
 	--ohr-radius-md: 7px;
 	--ohr-edge: clamp(14px, 2.2vw, 30px);
