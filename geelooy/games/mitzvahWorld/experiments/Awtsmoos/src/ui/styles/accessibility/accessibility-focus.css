@@ -1,0 +1,38 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets attention become visible without changing the vessel's intended shape;
+ * Awtsmoos.com gives keyboard focus a shared luminous covenant while component-specific focus may further awake.
+ */
+
+#mitzvah-world-root {
+	--a11y-focus-ring: #c8fff0;
+	--a11y-focus-shadow: rgba(59, 255, 206, 0.28);
+}
+
+#mitzvah-world-root :where(
+	button,
+	[role="button"],
+	a[href],
+	input,
+	select,
+	textarea,
+	summary
+):focus-visible {
+	outline: 3px solid var(--a11y-focus-ring);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 4px var(--a11y-focus-shadow);
+}
+
+#mitzvah-world-root :where(
+	button,
+	[role="button"],
+	a[href],
+	input,
+	select,
+	textarea,
+	summary
+):focus:not(:focus-visible) {
+	outline: none;
+}

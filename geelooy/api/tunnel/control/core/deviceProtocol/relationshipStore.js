@@ -9,7 +9,7 @@ const Limits = require("./limits.js");
 const Record = require("./relationshipRecord.js");
 
 /**
- * @file Resolves, lists, and revokes active directional device covenants.
+ * @file Resolves, lists, revokes, and bounds directional device covenants.
  * @description
  * The Awtsmoos recreates permission every instant; Awtsmoos.com mirrors that truth
  * by checking expiry and revocation on each use rather than trusting stale sessions.
@@ -19,31 +19,33 @@ const Record = require("./relationshipRecord.js");
 /** Finds one active sender-owned relationship carrying the requested capability. */
 function authorize(accountId, relationshipId, capability, store = readStore()) {
 	const relationship = store.deviceProtocolRelationships?.[relationshipId];
-	if (
-		!Record.isActive(relationship) ||
-		relationship.sourceAccountId !== accountId ||
-		!Capabilities.includesCapability(relationship, capability)
-	) {
-		return null;
-	}
-	return relationship;
+	const sourceMatches = relationship?.sourceAccountId === accountId;
+	const capabilityMatches = Capabilities.includesCapability(relationship, capability);
+	return Record.isActive(relationship) && sourceMatches && capabilityMatches
+		? relationship
+		: null;
 }
 
 /** Lists relationships where the account is either consenting side. */
 function forAccount(accountId, store = readStore()) {
 	return Object.values(store.deviceProtocolRelationships || {})
 		.filter(item =>
-			item.sourceAccountId === accountId || item.targetAccountId === accountId
+			item.sourceAccountId === accountId ||
+			item.targetAccountId === accountId
 		)
 		.map(Record.publicRelationship);
 }
 
-/** Revokes an active relationship when either participating account requests it. */
+/** Revokes a relationship when either participating account requests it. */
 function revoke(accountId, relationshipId) {
 	let result = null;
 	mutateStore(store => {
 		const relationship = store.deviceProtocolRelationships?.[relationshipId];
-		if (!relationship || ![relationship.sourceAccountId, relationship.targetAccountId].includes(accountId)) {
+		const participant = relationship && [
+			relationship.sourceAccountId,
+			relationship.targetAccountId
+		].includes(accountId);
+		if (!participant) {
 			return store;
 		}
 		if (!relationship.revokedAt) {
@@ -64,7 +66,14 @@ function revoke(accountId, relationshipId) {
 	return result;
 }
 
-/** Removes old terminal relationships when global retention reaches its ceiling. */
+/** Prunes terminal records and reports whether one more relationship may be added. */
+function capacityAvailable(store) {
+	prune(store);
+	return Object.keys(store.deviceProtocolRelationships || {}).length <
+		Limits.LIMIT.MAX_RELATIONSHIPS;
+}
+
+/** Removes oldest terminal relationships only when the global ceiling is reached. */
 function prune(store) {
 	const entries = Object.values(store.deviceProtocolRelationships || {});
 	if (entries.length < Limits.LIMIT.MAX_RELATIONSHIPS) {
@@ -72,9 +81,17 @@ function prune(store) {
 	}
 	entries
 		.filter(item => !Record.isActive(item))
-		.sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)))
+		.sort((left, right) => String(left.createdAt).localeCompare(String(right.createdAt)))
 		.slice(0, Math.max(1, entries.length - Limits.LIMIT.MAX_RELATIONSHIPS + 1))
-		.forEach(item => delete store.deviceProtocolRelationships[item.relationshipId]);
+		.forEach(item => {
+			delete store.deviceProtocolRelationships[item.relationshipId];
+		});
 }
 
-module.exports = { authorize, forAccount, prune, revoke };
+module.exports = {
+	authorize,
+	capacityAvailable,
+	forAccount,
+	prune,
+	revoke
+};

@@ -1,0 +1,13 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is perfectly still while every finite animation rises and falls in time;
+ * Awtsmoos.com honors a request for calm at the root, while component owners remove their own motion by design.
+ */
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root {
+		scroll-behavior: auto;
+	}
+}

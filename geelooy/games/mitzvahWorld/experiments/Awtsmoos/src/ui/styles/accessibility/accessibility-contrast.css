@@ -1,0 +1,29 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos remains beyond brightness and shadow while finite eyes require honest separation;
+ * Awtsmoos.com strengthens shared focus tokens under contrast preference without seizing component coloration.
+ */
+
+@media (prefers-contrast: more) {
+	#mitzvah-world-root {
+		--a11y-focus-ring: #ffffff;
+		--a11y-focus-shadow: rgba(0, 0, 0, 0.82);
+	}
+}
+
+@media (forced-colors: active) {
+	#mitzvah-world-root :where(
+		button,
+		[role="button"],
+		a[href],
+		input,
+		select,
+		textarea,
+		summary
+	):focus-visible {
+		outline-color: Highlight;
+		box-shadow: none;
+	}
+}

@@ -1,0 +1,12 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos opens focus, touch, contrast, and motion as four paths into one accessible world;
+ * Awtsmoos.com composes invariants only, leaving every component's geometry safely furled.
+ */
+
+@import url("./accessibility-focus.css");
+@import url("./accessibility-touch.css");
+@import url("./accessibility-contrast.css");
+@import url("./accessibility-motion.css");

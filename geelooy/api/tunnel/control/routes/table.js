@@ -1,4 +1,4 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
@@ -7,13 +7,14 @@ const { treasuryRoutes } = require("./routeGroups/treasuryRoutes.js");
 const { economyRoutes } = require("./routeGroups/economyRoutes.js");
 const { previewRoutes } = require("./routeGroups/previewRoutes.js");
 const { dataRoutes } = require("./routeGroups/dataRoutes.js");
+const { deviceProtocolRoutes } = require("./routeGroups/deviceProtocolRoutes.js");
 
 /**
- * @file Composes the complete Tunnel Control API from focused route domains.
+ * @file Composes Tunnel Control APIs from explicit security and application domains.
  * @description
- * The Awtsmoos is one beyond every division, while Awtsmoos.com reveals that
- * unity through explicit vessels: identity, treasury, economy, preview, and data.
- * New pairing and sharing paths join the table without erasing any former route.
+ * The Awtsmoos is one beyond every division, while Awtsmoos.com reveals that unity
+ * through identity, treasury, economy, preview, data, and consent-gated device worlds.
+ * No protocol route gains authority merely by joining this visible table in rhyme.
  */
 
 const routeTable = Object.freeze({
@@ -21,7 +22,8 @@ const routeTable = Object.freeze({
 	...treasuryRoutes,
 	...economyRoutes,
 	...previewRoutes,
-	...dataRoutes
+	...dataRoutes,
+	...deviceProtocolRoutes
 });
 
 module.exports = {
