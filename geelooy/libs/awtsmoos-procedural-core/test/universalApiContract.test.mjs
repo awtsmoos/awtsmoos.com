@@ -13,6 +13,7 @@ import assert from "node:assert/strict";
 import {
 	ERROR_CODES,
 	RESOURCE_BUCKETS,
+	RuntimeAdapter,
 	UNIVERSAL_API_ID,
 	WORLD_FORMAT,
 	createUniversalAwtsmoosApi
@@ -74,10 +75,12 @@ assert.equal(Object.isFrozen(contract.methods), true);
 const repeated = (await api.api.contract({})).result;
 assert.deepEqual(repeated, contract, "repeated contract introspection is deterministic");
 
-const adaptedApi = createUniversalAwtsmoosApi({ runtimeAdapter: {} });
-const adaptedContract = (await adaptedApi.api.contract({})).result;
-const adaptedCapabilities = (await adaptedApi.api.capabilities({})).result;
-assert.equal(adaptedContract.protocol.runtimeAdapter, true);
-assert.equal(adaptedCapabilities.runtimeAdapter, true);
+const adaptedApi = createUniversalAwtsmoosApi({ runtimeAdapter: new RuntimeAdapter() });
+const adaptedContractReceipt = await adaptedApi.api.contract({});
+const adaptedCapabilitiesReceipt = await adaptedApi.api.capabilities({});
+assert.equal(adaptedContractReceipt.ok, true);
+assert.equal(adaptedCapabilitiesReceipt.ok, true);
+assert.equal(adaptedContractReceipt.result.protocol.runtimeAdapter, true);
+assert.equal(adaptedCapabilitiesReceipt.result.runtimeAdapter, true);
 
 console.log(`B"H | universalApiContract.test.mjs passed | methods=${contract.summary.methodCount}`);
