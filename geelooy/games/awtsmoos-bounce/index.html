@@ -1,0 +1,111 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!--
+	The Awtsmoos renews every sector before skill, mastery, glass, particle, or control can call itself the game;
+	Awtsmoos.com keeps the orbit simple by default, expands deeper systems on demand, and lets accessibility speak last by name.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#050715">
+	<meta name="description" content="Awtsmoos Bounce: Orbit Run — a mobile-first physics campaign with tactical portal powers, mastery contracts, sectors, medals, and unlocks.">
+	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050715'/%3E%3Ccircle cx='32' cy='32' r='19' fill='none' stroke='%2391fff0' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%2376a9ff'/%3E%3Ccircle cx='48' cy='20' r='4' fill='%23c58cff'/%3E%3C/svg%3E">
+	<title>Awtsmoos Bounce: Orbit Run</title>
+	<link rel="stylesheet" href="styles/base.css">
+	<link rel="stylesheet" href="styles/arena.css">
+	<link rel="stylesheet" href="styles/particles.css">
+	<link rel="stylesheet" href="styles/hud.css">
+	<link rel="stylesheet" href="styles/brand.css">
+	<link rel="stylesheet" href="styles/hud-mobile.css">
+	<link rel="stylesheet" href="styles/hud-desktop.css">
+	<link rel="stylesheet" href="styles/score.css">
+	<link rel="stylesheet" href="styles/campaign.css">
+	<link rel="stylesheet" href="styles/mastery.css">
+	<link rel="stylesheet" href="styles/portal-economy.css">
+	<link rel="stylesheet" href="styles/portal-powers.css">
+	<link rel="stylesheet" href="styles/advanced-sheet.css">
+	<link rel="stylesheet" href="styles/sheet-content.css">
+	<link rel="stylesheet" href="styles/scroll-surfaces.css">
+	<link rel="stylesheet" href="styles/interaction-states.css">
+	<link rel="stylesheet" href="styles/motion-system.css">
+	<link rel="stylesheet" href="styles/accessibility.css">
+</head>
+<body>
+	<main id="game" class="game-shell" aria-label="Awtsmoos Bounce campaign">
+		<canvas id="arena" class="arena" tabindex="0" aria-label="Physics game arena" aria-describedby="objectiveValue controlsValue" aria-keyshortcuts="Space P R">Use Space to launch toward the nearest portal, P to pause, and R to retry.</canvas>
+		<canvas id="ambientField" class="ambient-field" aria-hidden="true"></canvas>
+
+		<header class="hud hud-top">
+			<div class="brand" aria-label="Orbit Run">
+				<span class="brand-mark">◎</span>
+				<div class="brand-copy"><strong>ORBIT</strong><span>RUN</span></div>
+			</div>
+			<div class="hud-actions">
+				<span class="level-chip">SECTOR <strong id="levelValue">1/6</strong></span>
+				<button id="pauseButton" class="icon-button" type="button" aria-label="Pause unavailable" aria-pressed="false" aria-keyshortcuts="P">Ⅱ</button>
+				<button id="moreButton" class="icon-button more-button" type="button" aria-label="Open mission control" aria-expanded="false" aria-controls="advancedSheet" aria-haspopup="dialog">•••</button>
+			</div>
+		</header>
+
+		<section class="score-strip" aria-label="Live mission statistics">
+			<div class="metric metric-score"><span>Score / goal</span><strong><b id="scoreValue">0</b><small>/ <b id="goalValue">0</b></small></strong></div>
+			<div class="metric"><span>Chain</span><strong id="comboValue">0</strong></div>
+			<div class="metric"><span>Launches</span><strong id="shotValue">0</strong></div>
+			<div class="metric timer"><span>Time</span><strong id="timeValue">0.0</strong></div>
+		</section>
+
+		<div id="lastHitValue" class="hit-testimony" role="status" hidden></div>
+		<div id="powerStatusValue" class="power-status" hidden>CHAIN WARD · armed</div>
+
+		<section id="startOverlay" class="overlay is-visible" aria-labelledby="gameTitle">
+			<div class="overlay-card campaign-card">
+				<div class="level-nav">
+					<button id="previousLevelButton" type="button" aria-label="Previous sector">←</button>
+					<span id="gameSubtitle" class="eyebrow">Wake the orbit</span>
+					<button id="nextLevelButton" type="button" aria-label="Next sector">→</button>
+				</div>
+				<h1 id="gameTitle">First Light</h1>
+				<p id="skillValue" class="skill-copy">SKILL · Stabilize wild motion before chasing greed.</p>
+				<p id="missionValue" class="mission-copy">Reach the score, portal, and chain goals.</p>
+				<p id="resultValue" class="goal-copy"></p>
+				<p id="masteryValue" class="mastery-value" data-state="available">MASTERY · Flow Keeper</p>
+				<div id="starsValue" class="stars" aria-label="Sector mastery">☆☆☆</div>
+				<div class="result-actions">
+					<button id="startButton" class="primary-button" type="button">Begin sector</button>
+					<button id="continueButton" class="secondary-button" type="button" hidden>Continue</button>
+				</div>
+			</div>
+		</section>
+
+		<footer class="hud hud-bottom">
+			<div class="objective"><span class="pulse-dot"></span><span id="objectiveValue">Choose a sector to begin</span></div>
+			<span class="desktop-hint">Tap / click to launch · Space targets nearest gate</span>
+		</footer>
+
+		<dialog id="advancedSheet" class="advanced-sheet" aria-labelledby="advancedSheetTitle">
+			<div class="advanced-sheet-panel">
+				<header class="sheet-head">
+					<div><span class="eyebrow">MISSION CONTROL</span><h2 id="advancedSheetTitle">Orbit systems</h2></div>
+					<button id="closeSheetButton" class="sheet-close" type="button" aria-label="Close mission control">×</button>
+				</header>
+				<section class="sheet-section" aria-label="Mission progress">
+					<div class="sheet-stat-grid"><div><span>Portals</span><strong id="hitValue">0/0</strong></div><div><span>Campaign</span><strong id="progressValue">Best 0 · ☆☆☆</strong></div></div>
+					<p id="masteryProgressValue" class="mastery-progress" data-state="active">MASTERY · preparing</p>
+				</section>
+				<section class="sheet-section"><h3>Portal powers</h3><p id="portalLegendValue" class="portal-legend">I Flow 100 · Stabilize | II Chain 135 · Ward | III Crown 170 · Surge</p></section>
+				<section class="sheet-actions" aria-label="Game controls">
+					<button id="muteButton" class="sheet-action" type="button" aria-label="Turn sound off" aria-pressed="false"><span data-mute-icon>♪</span><span data-mute-label>Sound on</span></button>
+					<button id="retryButton" class="sheet-action" type="button"><span>↻</span><span>Retry sector</span></button>
+				</section>
+				<p id="controlsValue" class="controls-copy">Touch / mouse: launch · Space: nearest portal · P: pause · R: retry · Flow stabilizes · Chain wards one live combo break · Crown surges speed.</p>
+			</div>
+		</dialog>
+
+		<p id="liveStatus" class="sr-only" aria-live="polite"></p>
+	</main>
+	<script type="module" src="scripts/main.js"></script>
+</body>
+</html>

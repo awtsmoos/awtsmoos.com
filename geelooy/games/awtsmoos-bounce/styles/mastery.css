@@ -1,0 +1,84 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews optional mastery before another badge can crowd the orbit's visible sky;
+ * Awtsmoos.com lets skill and mastery own their exact colors while continuation stays compact and nearby.
+ */
+.campaign-card .mastery-value {
+	margin: 12px auto 0;
+	max-width: 430px;
+	padding: 8px 11px;
+	border: 1px solid rgba(255, 255, 255, 0.07);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.025);
+	font-size: 0.64rem;
+	font-weight: 750;
+	line-height: 1.45;
+	letter-spacing: 0.025em;
+	color: #9ca7d1;
+}
+
+.campaign-card .mastery-value[data-state="complete"] {
+	border-color: rgba(121, 255, 230, 0.2);
+	color: #a9fff0;
+}
+
+.campaign-card .mastery-value[data-state="missed"] {
+	color: #9ea6ca;
+}
+
+.mastery-progress {
+	margin: 8px 0 0;
+	font-size: 0.68rem;
+	font-weight: 700;
+	line-height: 1.5;
+	color: #aab4db;
+}
+
+.mastery-progress[data-state="complete"] {
+	color: #a6ffed;
+}
+
+.campaign-card .skill-copy {
+	margin: 10px auto 0;
+	max-width: 430px;
+	font-size: 0.64rem;
+	font-weight: 800;
+	line-height: 1.45;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #8b96c4;
+}
+
+.result-actions {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 9px;
+	margin-top: 4px;
+}
+
+.secondary-button {
+	min-height: 48px;
+	padding: 0 18px;
+	border: 1px solid rgba(128, 255, 235, 0.16);
+	border-radius: 16px;
+	background: rgba(119, 255, 235, 0.07);
+	font-size: 0.7rem;
+	font-weight: 800;
+	letter-spacing: 0.055em;
+	text-transform: uppercase;
+	color: #b9fff3;
+	cursor: pointer;
+}
+
+.secondary-button[hidden] {
+	display: none;
+}
+
+@media (min-width: 540px) {
+	.result-actions:has(.secondary-button:not([hidden])) {
+		grid-template-columns: 0.82fr 1.18fr;
+	}
+}

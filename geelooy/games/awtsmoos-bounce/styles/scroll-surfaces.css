@@ -1,0 +1,44 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews depth before extra words can push a complete vessel beyond the edge of sight;
+ * Awtsmoos.com keeps rare overflow inside polished surfaces, so menus stay whole while hidden detail remains reachable in light.
+ */
+.overlay-card {
+	max-height: calc(100dvh - 48px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(145, 255, 240, 0.24) transparent;
+}
+
+.advanced-sheet-panel {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(145, 255, 240, 0.24) transparent;
+}
+
+.overlay-card::-webkit-scrollbar,
+.advanced-sheet-panel::-webkit-scrollbar {
+	width: 6px;
+}
+
+.overlay-card::-webkit-scrollbar-track,
+.advanced-sheet-panel::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.overlay-card::-webkit-scrollbar-thumb,
+.advanced-sheet-panel::-webkit-scrollbar-thumb {
+	border-radius: 999px;
+	background: rgba(145, 255, 240, 0.24);
+}
+
+@media (max-width: 430px) {
+	.overlay-card {
+		max-height: calc(100dvh - 28px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+	}
+}

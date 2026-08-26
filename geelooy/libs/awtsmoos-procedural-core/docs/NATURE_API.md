@@ -35,6 +35,54 @@ const world = nature.world({ id: 'district-a' });
 
 Existing mature calls remain unchanged: `plant()`, `tree()`, `creature()`, `river()`, and `world()` still delegate to their canonical specialist engines.
 
+## Vegetation ecology — simple first
+
+Grass and mixed vegetation automatically translate the shared realism profile into neutral ecology controls. Lower ecosystem and grass engines never depend on names such as `realistic` or `extreme`; they receive ordinary patch, habitat, spacing, and preference data.
+
+```js
+const meadow = nature.grass({
+	count: 560,
+	seed: 'orchard-meadow'
+});
+
+const woodlandEdge = nature.vegetation.population({
+	count: 120,
+	seed: 'woodland-edge'
+});
+```
+
+The shared profile can influence patchiness, clustering, competition, succession, age variance, moisture response, and edge falloff while remaining deterministic for the same seed and options.
+
+### Advanced ecology without a larger public API
+
+Use `ecology` when a scene needs stronger artistic or environmental direction:
+
+```js
+const wetMeadow = nature.grass({
+	count: 700,
+	ecology: {
+		clustering: 0.78,
+		edgeFalloff: 0.72,
+		moistureResponse: 0.9
+	}
+});
+```
+
+Mixed populations accept the same high-level ecology object. Expert neutral knobs such as `patchClustering`, `patchCompetition`, `patchSuccession`, `patchAgeVariance`, and `patchEdgeFalloff` remain available for precise pipelines.
+
+Explicit expert options always win over profile defaults. Existing `patchiness`, `patchCount`, `patchRadius`, and explicit grass `preferences.moisture` remain sovereign.
+
+## Flowers
+
+`flowers(species, options)` is intentionally a convenience over the canonical botanical cluster engine, not a second flower implementation.
+
+```js
+nature.flowers('lavender', { count: 36, seed: 'gate-path' });
+nature.flowers('forget-me-not', { count: 52, seed: 'water-edge' });
+```
+
+The shared botanical catalog includes daisies, roses, lavender, foxglove, allium, tulips, violets, water-edge flowers, woodland flowers, and many other real identities.
+
 ## Rocks
 
 Create one editable Domem stone:
@@ -76,17 +124,6 @@ A surface plan never fetches. It contains a local PBR fallback plus optional rem
 
 Renderer or game adapters may later hydrate `surface.value.remote.url`, cache by `surface.value.remote.cacheKey`, or ignore remote data entirely.
 
-## Flowers and vegetation
-
-`flowers(species, options)` is intentionally a convenience over the canonical botanical cluster engine, not a second flower implementation.
-
-```js
-nature.flowers('lavender', { count: 36, seed: 'gate-path' });
-nature.flowers('forget-me-not', { count: 52, seed: 'water-edge' });
-```
-
-The shared botanical catalog includes daisies, roses, lavender, foxglove, allium, tulips, violets, water-edge flowers, woodland flowers, and many other real identities.
-
 ## Advanced domain access
 
 The simple door never hides expert control:
@@ -99,7 +136,7 @@ nature.rocks.field(options);
 nature.surfaces.create('grass', options);
 ```
 
-Low-level experts may also import `@awtsmoos/procedural-core/domem` to access `RockMeshAuthority`, `RockFieldPlanner`, morphology helpers, strict primitives, topology, booleans, and other editable-matter tools directly.
+Low-level experts may also import `@awtsmoos/procedural-core/domem` for editable-matter tools directly.
 
 ## Profiles and deterministic cloning
 
@@ -115,8 +152,9 @@ const stylized = nature.with({ realism: 'stylized', seed: 'alternate-world' });
 - Domem owns editable matter and rock geometry.
 - Tzomayach owns grass, botanical organisms, clusters, and trees.
 - Chai owns creatures.
+- Ecosystem specialists own neutral habitat, patch, spacing, maturity, and population equations.
 - Material registries own semantic texture/material records.
-- Nature API coordinates convenience, profiles, seeds, results, and diagnostics.
+- Nature API coordinates convenience, profiles, seeds, results, diagnostics, and profile-to-neutral-option translation.
 - Renderers own material realization and texture hydration.
 - Network transport never hides inside a geometry constructor.
 

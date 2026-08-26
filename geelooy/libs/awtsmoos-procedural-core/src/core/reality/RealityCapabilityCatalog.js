@@ -13,7 +13,7 @@ import { listRealityGeologies } from './RealityGeologyCatalog.js';
 import { REALITY_LIFE_CAPABILITIES } from './RealityCapabilityCatalogLife.js';
 import { REALITY_MATTER_CAPABILITIES } from './RealityCapabilityCatalogMatter.js';
 import { REALITY_WORLD_CAPABILITIES } from './RealityCapabilityCatalogWorld.js';
-import { listRealityTextureChannels } from './textures/RealityTextureChannelCatalog.js';
+import { listRealityTextureChannels } from './textures/RealityTextureChannels.js';
 
 const STATIC_CAPABILITIES = Object.freeze([
 	...REALITY_MATTER_CAPABILITIES,

@@ -1,0 +1,100 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews each command before glass, metric, or objective can crowd the player's sight;
+ * Awtsmoos.com keeps only true controls touchable while quiet HUD vessels let unused gestures pass into flight.
+ */
+.hud {
+	position: absolute;
+	z-index: 4;
+	left: 10px;
+	right: 10px;
+	display: flex;
+	align-items: center;
+	pointer-events: none;
+}
+
+.hud-top {
+	top: max(8px, env(safe-area-inset-top));
+	justify-content: space-between;
+}
+
+.icon-button {
+	pointer-events: auto;
+}
+
+.hud-actions {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	pointer-events: none;
+}
+
+.level-chip,
+.icon-button {
+	height: 46px;
+	border: 1px solid rgba(255, 255, 255, 0.09);
+	border-radius: 15px;
+	background: rgba(7, 10, 28, 0.5);
+	backdrop-filter: blur(16px) saturate(130%);
+}
+
+.level-chip {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	padding: 0 11px;
+	font-size: 0.58rem;
+	letter-spacing: 0.12em;
+	color: #7f89b5;
+}
+
+.level-chip strong {
+	font-size: 0.72rem;
+	color: #f8fbff;
+}
+
+.icon-button {
+	width: 46px;
+	padding: 0;
+	font-size: 0.82rem;
+	cursor: pointer;
+}
+
+.more-button {
+	letter-spacing: 0.08em;
+}
+
+.hud-bottom {
+	bottom: max(12px, calc(env(safe-area-inset-bottom) + 7px));
+	justify-content: center;
+}
+
+.objective {
+	display: flex;
+	max-width: min(100%, 520px);
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	border: 1px solid rgba(255, 255, 255, 0.07);
+	border-radius: 999px;
+	background: rgba(5, 8, 24, 0.44);
+	backdrop-filter: blur(14px);
+	font-size: 0.64rem;
+	color: #c8d0ed;
+}
+
+.pulse-dot {
+	width: 6px;
+	height: 6px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: #73ffe9;
+	box-shadow: 0 0 12px rgba(115, 255, 233, 0.6);
+}
+
+.desktop-hint {
+	display: none;
+}

@@ -1,0 +1,43 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews protection before a badge can claim permanence in the player's sight;
+ * Awtsmoos.com shows only an armed Chain Ward, then removes the vessel when protection leaves the fight.
+ */
+.power-status {
+	position: absolute;
+	z-index: 5;
+	top: max(124px, calc(env(safe-area-inset-top) + 116px));
+	left: 50%;
+	padding: 6px 10px;
+	transform: translateX(-50%);
+	border: 1px solid rgba(120, 255, 234, 0.2);
+	border-radius: 999px;
+	background: rgba(7, 12, 30, 0.64);
+	backdrop-filter: blur(14px);
+	font-size: 0.58rem;
+	font-weight: 800;
+	letter-spacing: 0.09em;
+	color: #9fffea;
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+	pointer-events: none;
+	white-space: nowrap;
+}
+
+.power-status[hidden] {
+	display: none;
+}
+
+.power-status[data-active="true"] {
+	animation: ward-arrive 240ms ease-out;
+}
+
+@media (forced-colors: active) {
+	.power-status {
+		border: 1px solid CanvasText;
+		background: Canvas;
+		color: CanvasText;
+	}
+}

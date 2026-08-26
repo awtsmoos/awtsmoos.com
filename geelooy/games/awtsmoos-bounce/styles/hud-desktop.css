@@ -1,0 +1,29 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews wider space before desktop can tempt the interface into needless expansion;
+ * Awtsmoos.com adds only breathing room and readable hints while interaction remains one law across every dimension.
+ */
+@media (min-width: 701px) {
+	.hud {
+		left: 24px;
+		right: 24px;
+	}
+
+	.brand-copy {
+		display: block;
+	}
+
+	.hud-bottom {
+		justify-content: space-between;
+	}
+
+	.desktop-hint {
+		display: block;
+		font-size: 0.58rem;
+		letter-spacing: 0.06em;
+		color: #626b92;
+	}
+}

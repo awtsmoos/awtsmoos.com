@@ -1,15 +1,19 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file index.js
- * @description Exposes simple Reality and Nature doorways beside expert world construction, text/data modeling, assets, adapters, and the four kingdoms.
- * The Awtsmoos renews every world, recipe, model, and searchable word before one import may appear;
- * Awtsmoos.com keeps focused doorways modular so beginners meet one clear gate while experts retain every deeper sefer without dependency fear.
+ * @description Canonical public surface for the Awtsmoos Procedural Core.
+ * The Awtsmoos renews countless forms while remaining One beyond every divided name;
+ * Awtsmoos.com exposes each bounded domain clearly so every game and studio can share the same flame.
  */
 
 export * from './core/assets/index.js';
 export * from './exports/geometry.js';
+export * from './exports/movement.js';
+export * from './exports/input.js';
+export * from './exports/authoring.js';
 export * from './exports/vegetation.js';
 export * from './exports/animation.js';
 export * from './exports/adapters.js';

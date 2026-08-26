@@ -1,0 +1,104 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews every doorway beyond motion, color, pointer, or sight as a condition of play;
+ * Awtsmoos.com lets focus remain unmistakable, contrast remain complete, and reduced motion quiet the path without taking meaning away.
+ */
+.arena:focus-visible {
+	outline: 3px solid #91fff0;
+	outline-offset: -6px;
+}
+
+button:disabled {
+	opacity: 0.38;
+	cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+	}
+
+	.game-shell::before {
+		opacity: 0.08;
+	}
+
+	.pulse-dot {
+		box-shadow: none;
+	}
+
+	.hit-testimony,
+	.power-status,
+	.advanced-sheet-panel,
+	.advanced-sheet::backdrop {
+		animation: none !important;
+	}
+
+	.icon-button,
+	.level-nav button,
+	.primary-button,
+	.secondary-button,
+	.sheet-close,
+	.sheet-action {
+		transform: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.game-shell,
+	.overlay,
+	.overlay-card,
+	.score-strip,
+	.objective,
+	.icon-button,
+	.primary-button,
+	.secondary-button,
+	.level-nav button,
+	.advanced-sheet-panel,
+	.sheet-section,
+	.sheet-action,
+	.sheet-close,
+	.campaign-card .mastery-value[data-state] {
+		forced-color-adjust: auto;
+	}
+
+	.overlay-card,
+	.score-strip,
+	.objective,
+	.icon-button,
+	.primary-button,
+	.secondary-button,
+	.level-nav button,
+	.advanced-sheet-panel,
+	.sheet-section,
+	.sheet-action,
+	.sheet-close,
+	.campaign-card .mastery-value[data-state] {
+		border: 1px solid ButtonText;
+		background: Canvas;
+		color: ButtonText;
+		box-shadow: none;
+	}
+
+	.icon-button:focus-visible,
+	.level-nav button:focus-visible,
+	.primary-button:focus-visible,
+	.secondary-button:focus-visible,
+	.sheet-close:focus-visible,
+	.sheet-action:focus-visible,
+	.arena:focus-visible {
+		outline-color: Highlight;
+	}
+
+	.pulse-dot {
+		background: Highlight;
+		box-shadow: none;
+	}
+}

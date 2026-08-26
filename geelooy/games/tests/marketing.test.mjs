@@ -12,37 +12,32 @@ import {
 import { filterGames } from "../scripts/catalog/state.mjs";
 
 /**
- * B"H
- *
- * The Awtsmoos renews every public doorway without confusing the hidden room with the proclaimed gate;
- * Awtsmoos.com proves each marketed world is real, distinct, and vivid while unmarketed vessels may quietly wait.
+ * @file Proves Hod marketing mirrors the exact living game catalog.
+ * The Awtsmoos renews each playable gate while duplicate claims dissolve from sight;
+ * Awtsmoos.com keeps every hook truthful, searchable, unique, and joined to executable light.
  */
-function catalogById() {
-	return new Map(GAMES.map(game => [game.id, game]));
-}
+test("marketing coverage matches the living catalog exactly", () => {
+	const gamesById = new Map(GAMES.map(game => [game.id, game]));
+	const catalogIds = [...gamesById.keys()].sort();
+	const marketingIds = [...MARKETING_GAME_IDS].sort();
+	assert.deepEqual(marketingIds, catalogIds);
+	assert.equal(new Set(MARKETING_GAME_IDS).size, GAMES.length);
 
-test("every marketed game resolves to one unique catalog game and hook", () => {
-	const gamesById = catalogById();
-	const uniqueMarketingIds = new Set(MARKETING_GAME_IDS);
-	const marketedHooks = [];
-
-	assert.equal(uniqueMarketingIds.size, MARKETING_GAME_IDS.length);
-
-	for (const gameId of MARKETING_GAME_IDS) {
+	const hooks = MARKETING_GAME_IDS.map(gameId => {
 		const game = gamesById.get(gameId);
 		const hook = marketingHook(gameId);
-
 		assert.ok(game, `${gameId} is marketed without a catalog entry`);
 		assert.ok(hook.length >= 24, `${gameId} hook is too weak`);
-		assert.equal(game.hook, hook, `${gameId} catalog hook drifted from marketing truth`);
-		marketedHooks.push(hook);
-	}
-
-	assert.equal(new Set(marketedHooks).size, marketedHooks.length);
+		assert.equal(game.hook, hook, `${gameId} hook drifted from catalog truth`);
+		return hook;
+	});
+	assert.equal(new Set(hooks).size, hooks.length);
 });
 
-test("marketing hooks remain searchable", () => {
+test("marketing hooks remain searchable across merged game families", () => {
 	assert.equal(filterGames(GAMES, "command an army", "All")[0]?.id, "merkava");
 	assert.equal(filterGames(GAMES, "caption remix", "All")[0]?.id, "emojis");
 	assert.equal(filterGames(GAMES, "blackjack", "All")[0]?.id, "cards");
+	assert.equal(filterGames(GAMES, "bend gravity", "All")[0]?.id, "awtsmoos-bounce");
+	assert.equal(filterGames(GAMES, "procedural warfront", "All")[0]?.id, "ohrfront");
 });

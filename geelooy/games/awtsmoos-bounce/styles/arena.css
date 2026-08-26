@@ -1,0 +1,113 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews the arena before darkness, card, or safe edge can call itself the field of flight;
+ * Awtsmoos.com preserves measured geometry while exceptional long copy may scroll without clipping truth from sight.
+ */
+.game-shell {
+	position: relative;
+	width: 100vw;
+	height: 100dvh;
+	overflow: hidden;
+	isolation: isolate;
+	background:
+		radial-gradient(circle at 50% 15%, rgba(82, 120, 255, 0.26), transparent 34rem),
+		radial-gradient(circle at 12% 78%, rgba(0, 255, 213, 0.14), transparent 30rem),
+		radial-gradient(circle at 88% 82%, rgba(255, 70, 189, 0.14), transparent 30rem),
+		linear-gradient(180deg, #0b0f2a 0%, #070817 58%, #03040d 100%);
+}
+
+.game-shell::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background-image:
+		radial-gradient(circle, rgba(255, 255, 255, 0.8) 0 1px, transparent 1.4px),
+		radial-gradient(circle, rgba(130, 217, 255, 0.6) 0 1px, transparent 1.3px);
+	background-size: 86px 86px, 141px 141px;
+	background-position: 20px 18px, 54px 70px;
+	opacity: 0.18;
+}
+
+.arena {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+	cursor: crosshair;
+}
+
+.game-shell::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: max(5px, env(safe-area-inset-bottom));
+	pointer-events: none;
+	background: linear-gradient(90deg, #42ffe1, #5a77ff 48%, #ff4fbd);
+	box-shadow: 0 -6px 30px rgba(76, 200, 255, 0.42);
+}
+
+.overlay {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	align-items: safe center;
+	justify-items: center;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+	padding:
+		max(24px, env(safe-area-inset-top))
+		24px
+		max(24px, env(safe-area-inset-bottom));
+	background: rgba(3, 4, 15, 0.42);
+	backdrop-filter: blur(12px);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 180ms ease;
+}
+
+.overlay.is-visible {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.overlay-card {
+	width: min(620px, 100%);
+	padding: clamp(24px, 6vw, 48px);
+	border: 1px solid rgba(255, 255, 255, 0.13);
+	border-radius: 30px;
+	background: linear-gradient(180deg, rgba(18, 23, 58, 0.92), rgba(7, 8, 23, 0.94));
+	box-shadow: 0 28px 90px rgba(0, 0, 0, 0.5);
+	text-align: center;
+}
+
+.overlay h1 {
+	margin: 8px 0 16px;
+	font-size: clamp(2.7rem, 10vw, 6.5rem);
+	line-height: 0.88;
+	letter-spacing: -0.06em;
+}
+
+.overlay p {
+	margin: 0 auto;
+	max-width: 46ch;
+	line-height: 1.65;
+	color: #cbd2f7;
+}
+
+@media (max-width: 430px) {
+	.overlay {
+		padding:
+			max(14px, env(safe-area-inset-top))
+			14px
+			max(14px, env(safe-area-inset-bottom));
+	}
+}

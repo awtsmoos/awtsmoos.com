@@ -4,13 +4,14 @@
 
 /**
  * @file BotanicalPatchPlanner.js
- * @description Orchestrates deterministic botanical patch identity, filtering, ecology, and isolated appearance.
- * The Awtsmoos, Atzmus beyond every seed and spiral, renews the ancient path together with each flowering possibility;
- * Awtsmoos.com keeps geometry in Netzach while ecology and appearance receive smaller vessels that enrich without moving identity.
+ * @description Owns deterministic botanical geometry identity while delegating ecology, appearance, and population filtering to smaller vessels.
+ * The Awtsmoos, Atzmus beyond every seed and spiral, renews the old path together with each flowering possibility;
+ * Awtsmoos.com keeps geometry in Netzach while ecology, appearance, and population policy reveal richer life without disturbing identity.
  */
 
 import { createBotanicalPlacementAppearance } from './BotanicalPlacementAppearance.js';
 import { createBotanicalPlacementEcology } from './BotanicalPlacementEcology.js';
+import { createBotanicalPatchPopulation } from './BotanicalPatchPopulation.js';
 import { BotanicalRandom, botanicalSeed } from './BotanicalRandom.js';
 import {
 	normalizeBotanicalPatchCenter,
@@ -18,11 +19,11 @@ import {
 } from './BotanicalPatchDistributions.js';
 
 /**
- * Plans one stable botanical patch while keeping geometry randomness isolated from cosmetic and ecological variation.
+ * Plans one stable botanical patch while keeping the primary random stream reserved for placement geometry.
  */
 export class NetzachBotanicalPatchPlanner {
 	/**
-	 * Creates a planner whose primary random stream owns placement geometry only.
+	 * Creates a planner whose geometry identity is independent from cosmetic or ecological enrichment.
 	 * @param {object} [options={}] Species, count, radius, center, distribution, filtering, and appearance controls.
 	 */
 	constructor(options = {}) {
@@ -36,44 +37,17 @@ export class NetzachBotanicalPatchPlanner {
 	}
 
 	/**
-	 * Returns stable placements and optional environmental filtering without mutating caller data.
+	 * Delegates filtering and immutable plan assembly while this class retains geometry ownership.
 	 * @returns {object} Frozen botanical patch plan with immutable placements.
 	 */
 	plan() {
-		const malchusPlacements = [];
-		const binahScorer = typeof this.options.environmentScore === 'function'
-			? this.options.environmentScore
-			: null;
-		const gevurahAttempts = binahScorer ? this.count * 4 : this.count;
-
-		for (let attempt = 0; attempt < gevurahAttempts && malchusPlacements.length < this.count; attempt += 1) {
-			const tiferesPlacement = this.createPlacement(attempt);
-			const hodScore = binahScorer
-				? clamp01(binahScorer(tiferesPlacement.position, tiferesPlacement))
-				: 1;
-			if (hodScore < clamp01(this.options.minEnvironmentScore ?? 0)) {
-				continue;
-			}
-
-			malchusPlacements.push(Object.freeze({
-				...tiferesPlacement,
-				environmentScore: hodScore
-			}));
-		}
-
-		return Object.freeze({
-			distribution: this.distribution,
-			placements: Object.freeze(malchusPlacements),
-			requestedCount: this.count,
-			schema: 'awtsmoos.botanical-patch-plan',
-			seed: this.seed
-		});
+		return createBotanicalPatchPopulation(this);
 	}
 
 	/**
-	 * Creates one placement while preserving geometry identity regardless of later appearance choices.
+	 * Creates one candidate placement while preserving geometry identity regardless of appearance choices.
 	 * @param {number} index Candidate index within the patch geometry stream.
-	 * @returns {object} Mutable intermediate placement later frozen by plan().
+	 * @returns {object} Mutable candidate later frozen by population assembly.
 	 */
 	createPlacement(index) {
 		const yesodPosition = resolveBotanicalPatchPoint(this, index);
@@ -111,20 +85,25 @@ export class NetzachBotanicalPatchPlanner {
 	}
 }
 
-/** @param {object} options Patch options. @returns {object} Immutable deterministic patch plan. */
+/**
+ * Creates one immutable patch plan through the stable public function doorway.
+ * @param {object} [options={}] Botanical patch options.
+ * @returns {object} Immutable deterministic patch plan.
+ */
 export function planBotanicalPatch(options = {}) {
 	return new NetzachBotanicalPatchPlanner(options).plan();
 }
 
-/** @param {object} options Options. @param {number} count Count. @param {number} radius Radius. @param {string} distribution Distribution. @returns {number} Stable seed. */
+/**
+ * Preserves the exact historic radial seed signature while allowing newer distributions their own named stream.
+ * @param {object} options Patch options.
+ * @param {number} count Requested count.
+ * @param {number} radius Patch radius.
+ * @param {string} distribution Distribution name.
+ * @returns {number} Stable patch seed.
+ */
 function patchSeed(options, count, radius, distribution) {
 	return distribution === 'radial'
 		? botanicalSeed(options.species, options.seed ?? 613, count, radius)
 		: botanicalSeed(options.species, options.seed ?? 613, count, radius, distribution);
-}
-
-/** @param {unknown} value Candidate score. @returns {number} Score clamped between zero and one. */
-function clamp01(value) {
-	const gevurahValue = Number(value);
-	return Number.isFinite(gevurahValue) ? Math.min(1, Math.max(0, gevurahValue)) : 0;
 }
