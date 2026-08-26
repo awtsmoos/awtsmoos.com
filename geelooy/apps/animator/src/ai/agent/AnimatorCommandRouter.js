@@ -5,7 +5,7 @@
  * @file AnimatorCommandRouter.js
  * @description
  * The Awtsmoos joins many powers without confusing their source, each command finding its appointed gate;
- * Awtsmoos.com routes agent intent into existing Studio vessels and pure catalogs, so one store remains the keeper of state.
+ * Awtsmoos.com routes project, performance, animation, and world intent into existing vessels while one store keeps state.
  */
 
 import { PerformancePromptCompiler } from '../PerformancePromptCompiler.js';
@@ -13,15 +13,28 @@ import { DaasPerformanceCapabilityCatalog } from '../performance/PerformanceCapa
 import { DaasPerformanceRecipeCatalog } from '../performance/PerformanceRecipeCatalog.js';
 import { StudioPromptWorkflow } from '../../studio/ai/StudioPromptWorkflow.js';
 import { AnimationPassEngine } from '../../studio/AnimationPassEngine.js';
+import { AnimatorWorldFacade } from './AnimatorWorldFacade.js';
 
 /** Routes validated public commands into pure compilers, catalogs, or undo-safe Studio workflows. */
 export class AnimatorCommandRouter {
 	/**
+	 * Binds every command family to the same NLE store without creating parallel project ownership.
 	 * @param {object} olamStore Existing NLE store that remains the sole owner of project state.
 	 */
 	constructor(olamStore) {
-		if (!olamStore?.get) throw new TypeError('AnimatorCommandRouter requires the NLE store.');
+		if (!olamStore?.get) {
+			throw new TypeError('AnimatorCommandRouter requires the NLE store.');
+		}
 		this.olamStore = olamStore;
+		this.malchusWorld = new AnimatorWorldFacade(olamStore);
+	}
+
+	/**
+	 * Exposes the ergonomic data-first World facade used by `window.AwtsmoosAnimator.world`.
+	 * @returns {AnimatorWorldFacade} Store-bound world creation facade.
+	 */
+	world() {
+		return this.malchusWorld;
 	}
 
 	/**
@@ -40,11 +53,14 @@ export class AnimatorCommandRouter {
 			case 'performance.recipe': return DaasPerformanceRecipeCatalog.resolve(keilimPayload.name);
 			case 'performance.compile': return PerformancePromptCompiler.compile(keilimPayload.prompt);
 			case 'animation.planPasses': return AnimationPassEngine.build(keilimPayload.plan ?? {});
+			case 'world.capabilities': return this.malchusWorld.capabilities();
+			case 'world.inspect': return this.malchusWorld.inspect(keilimPayload);
+			case 'world.create': return this.malchusWorld.create(keilimPayload);
 			default: throw new Error(`Unrouted Animator command: ${shemMitzvah}`);
 		}
 	}
 
-	/** Returns a compact project snapshot useful to remote agents before mutation. */
+	/** @returns {object} Compact project snapshot useful to remote agents before mutation. */
 	snapshot() {
 		const olamState = this.olamStore.get();
 		const keliDocument = olamState?.studioDocument ?? {};
@@ -58,7 +74,7 @@ export class AnimatorCommandRouter {
 		};
 	}
 
-	/** Generates and validates a prompt preview without installing it into the active document. */
+	/** @param {string} orPrompt Prompt text. @returns {object} Detached generated preview summary and document. */
 	previewPrompt(orPrompt) {
 		StudioPromptWorkflow.preview(this.olamStore, orPrompt);
 		const olamState = this.olamStore.get();
@@ -68,13 +84,13 @@ export class AnimatorCommandRouter {
 		};
 	}
 
-	/** Applies the current preview through the existing transaction and document codec. */
+	/** @returns {object} Result of applying the current preview through the existing document codec. */
 	applyPreview() {
 		const yesodApplied = StudioPromptWorkflow.apply(this.olamStore);
 		return { applied: yesodApplied, snapshot: this.snapshot() };
 	}
 
-	/** Clears generated preview state while leaving the active document untouched. */
+	/** @returns {object} Proof that transient preview state was discarded without document replacement. */
 	discardPreview() {
 		StudioPromptWorkflow.discard(this.olamStore);
 		return { discarded: true, snapshot: this.snapshot() };

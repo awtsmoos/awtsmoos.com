@@ -2,7 +2,7 @@
 // Boruch Hashem
 // Blessed is He
 
-import { StudioProceduralDescriptor } from '../procedural/StudioProceduralDescriptor.js';
+import { StudioProceduralDescriptorResolver } from '../procedural/StudioProceduralDescriptorResolver.js';
 import { StudioProceduralRegistry } from '../procedural/StudioProceduralRegistry.js';
 import { StudioDisclosureView } from './StudioDisclosureView.js';
 import { StudioProceduralLifecycleView } from './StudioProceduralLifecycleView.js';
@@ -11,28 +11,41 @@ import { StudioProceduralLifecycleView } from './StudioProceduralLifecycleView.j
  * @file StudioProceduralPropertiesView.js
  * @description
  * The Awtsmoos renews seed and measure before generated geometry receives a visible face;
- * Awtsmoos.com keeps identity and lifecycle actions near while deeper deterministic parameters unfold only when the artist invites their light.
+ * Awtsmoos.com preserves each descriptor generation faithfully, so inspection can never become a hidden downgrade in place.
  */
 export class StudioProceduralPropertiesView {
-	/** Renders a concise generator surface with advanced deterministic parameters folded below. */
+	/**
+	 * Renders one concise version-aware generator surface with advanced deterministic parameters folded below.
+	 * @param {object} entity Selected Studio entity.
+	 * @returns {object|null} Declarative inspector section or null for non-procedural entities.
+	 */
 	static render(entity) {
-		const descriptor = StudioProceduralDescriptor.normalize(entity?.properties?.procedural);
+		const descriptor = StudioProceduralDescriptorResolver.normalize(
+			entity?.properties?.procedural
+		);
 		if (!descriptor) {
 			return null;
 		}
 		const schema = StudioProceduralRegistry.schema(descriptor.kind);
 		return {
 			tag: 'section',
-			attrs: { className: 'aw-studio-inspector-section aw-studio-procedural-section' },
+			attrs: {
+				className: 'aw-studio-inspector-section aw-studio-procedural-section'
+			},
 			children: [
-				{ tag: 'h3', text: `🌱 Generator • v${descriptor.version}` },
+				{
+					tag: 'h3',
+					text: `🌱 Generator • v${descriptor.version}`
+				},
 				this.seedField(descriptor),
 				StudioProceduralLifecycleView.render(),
 				StudioDisclosureView.render('Generator parameters', [
 					{
 						tag: 'div',
 						attrs: { className: 'aw-studio-transform-grid' },
-						children: schema.map((field) => this.parameterField(descriptor, field))
+						children: schema.map((field) => {
+							return this.parameterField(descriptor, field);
+						})
 					}
 				], {
 					className: 'aw-studio-inner-disclosure',
@@ -42,7 +55,7 @@ export class StudioProceduralPropertiesView {
 		};
 	}
 
-	/** Renders the deterministic seed as an explicit editable identity value. */
+	/** @param {object} descriptor Normalized procedural descriptor. @returns {object} Editable deterministic seed field. */
 	static seedField(descriptor) {
 		return {
 			tag: 'label',
@@ -64,7 +77,7 @@ export class StudioProceduralPropertiesView {
 		};
 	}
 
-	/** Renders one bounded numeric parameter backed by real generator geometry. */
+	/** @param {object} descriptor Descriptor. @param {object} field Registry field. @returns {object} Bounded numeric parameter field. */
 	static parameterField(descriptor, field) {
 		return {
 			tag: 'label',

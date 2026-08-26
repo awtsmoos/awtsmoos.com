@@ -75,15 +75,17 @@ function mix(a, b, t) {
 
 /**
  * Hashes one lattice coordinate into stable zero-through-one evidence without touching mutable RNG state.
+ * The final unsigned conversion is deliberate: JavaScript bitwise XOR otherwise exposes a signed 32-bit value.
  * @param {number} x Lattice x coordinate.
  * @param {number} z Lattice z coordinate.
  * @param {number} seed Normalized seed.
- * @returns {number} Stable pseudo-random lattice value.
+ * @returns {number} Stable pseudo-random lattice value from zero through one.
  */
 function lattice(x, z, seed) {
 	let netzachHash = (seed ^ Math.imul(x, 374761393) ^ Math.imul(z, 668265263)) >>> 0;
 	netzachHash = Math.imul(netzachHash ^ (netzachHash >>> 13), 1274126177) >>> 0;
-	return (netzachHash ^ (netzachHash >>> 16)) / 0xffffffff;
+	const hodUnsigned = (netzachHash ^ (netzachHash >>> 16)) >>> 0;
+	return hodUnsigned / 0xffffffff;
 }
 
 /** @param {unknown} value Candidate. @param {number} fallback Fallback. @returns {number} Finite number. */

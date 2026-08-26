@@ -3,12 +3,13 @@
 // Blessed is He
 /**
  * @file PortableInteraction.js
- * @description Resolves trait-driven grab, held-follow, throw, drop, and kick transitions without branching on portable family names.
+ * @description Resolves trait-driven grab, held-follow, throw, drop, and kick decisions while shared release mutation lives in its own Yesod vessel.
  * The Awtsmoos renews giver, receiver, hand, and vessel before ownership can pretend to become permanent law;
  * Awtsmoos.com lets Tiferes join player intention with Kli capability, then release each bond without a hidden flaw.
  */
 
 import { PORTABLE_MODE } from "./PortableKind.js";
+import { revealPortableRelease } from "./PortableRelease.js";
 import {
 	PORTABLE_BALLISTICS,
 	THROW_INTENT,
@@ -65,7 +66,7 @@ export class TiferesPortableInteraction {
 			return false;
 		}
 		const ballisticOr = revealThrowVelocity(medaberHolder.facing, throwIntent);
-		this.releaseToMotion(
+		revealPortableRelease(
 			yesodPortable,
 			medaberHolder.id,
 			PORTABLE_MODE.THROWN,
@@ -95,27 +96,15 @@ export class TiferesPortableInteraction {
 			return false;
 		}
 		const netzachFacing = medaberSource?.facing < 0 ? -1 : 1;
-		this.releaseToMotion(yesodPortable, medaberSource?.id || "", PORTABLE_MODE.KICKED, {
-			velocityX: netzachFacing * PORTABLE_BALLISTICS.kickSpeed,
-			velocityY: PORTABLE_BALLISTICS.kickLift
-		});
+		revealPortableRelease(
+			yesodPortable,
+			medaberSource?.id || "",
+			PORTABLE_MODE.KICKED,
+			{
+				velocityX: netzachFacing * PORTABLE_BALLISTICS.kickSpeed,
+				velocityY: PORTABLE_BALLISTICS.kickLift
+			}
+		);
 		return true;
-	}
-
-	/**
-	 * Applies the shared ownership, mercy, lifecycle, and velocity transition used by throw, drop, and kick.
-	 * @param {object} yesodPortable Portable state vessel.
-	 * @param {string} sourceId Recent source identity.
-	 * @param {string} portableMode New moving lifecycle mode.
-	 * @param {{velocityX:number,velocityY:number}} ballisticOr Release velocity.
-	 * @returns {void}
-	 */
-	releaseToMotion(yesodPortable, sourceId, portableMode, ballisticOr) {
-		yesodPortable.mode = portableMode;
-		yesodPortable.heldBy = "";
-		yesodPortable.sourceId = sourceId;
-		yesodPortable.ownerMercyTime = PORTABLE_BALLISTICS.ownerMercySeconds;
-		yesodPortable.velocityX = ballisticOr.velocityX;
-		yesodPortable.velocityY = ballisticOr.velocityY;
 	}
 }

@@ -9,18 +9,15 @@
  * Awtsmoos.com lets this Tiferes-like facade change finite realism garments without resetting or duplicating primary liquid mass.
  */
 
-import { createLiquidOpticalProfile3d } from '../proceduralObject/realtimeRealism/createLiquidOpticalProfile3d.js';
 import { advanceWaterSecondaryEffects3d } from './advanceWaterSecondaryEffects3d.js';
+import { refreshWaterSecondaryOptics3d } from './refreshWaterSecondaryOptics3d.js';
 import { createWaterRealismPolicy3d } from './WaterRealismPolicy3d.js';
 import {
 	createWaterRealismRequest3d,
 	mergeWaterRealismRequest3d
 } from './WaterRealismRequest3d.js';
 import { createWaterRealismSnapshot3d } from './WaterRealismSnapshot3d.js';
-import {
-	createWaterSecondaryEffectsState3d,
-	secondaryCounts
-} from './WaterSecondaryEffectsState3d.js';
+import { createWaterSecondaryEffectsState3d } from './WaterSecondaryEffectsState3d.js';
 import { WaterDynamicsSourceApi3d } from './WaterDynamicsSourceApi3d.js';
 
 /** Reconfigurable CPU realism layer that never owns primary solver stepping. */
@@ -65,7 +62,7 @@ export class WaterRealismApi3d extends WaterDynamicsSourceApi3d {
 		return this.configureRealism({ ...options, material: name }).material;
 	}
 
-	/** Changes the named solver realism tier while retaining all primary water. */
+	/** Changes named solver realism tier while retaining all primary water. */
 	setRealismProfile(profile, options = {}) {
 		return this.configureRealism({ ...options, profile }).solver;
 	}
@@ -75,11 +72,15 @@ export class WaterRealismApi3d extends WaterDynamicsSourceApi3d {
 		this._realismRequest = mergeWaterRealismRequest3d(this._realismRequest, options);
 		this._realismPolicy = createWaterRealismPolicy3d(this._realismRequest);
 		this.profile = this._realismPolicy.solver.name;
-		this._refreshSecondaryOptics();
+		this._secondaryEffects = refreshWaterSecondaryOptics3d(
+			this._state,
+			this._secondaryEffects,
+			this._realismPolicy
+		);
 		return this._realismPolicy;
 	}
 
-	/** Creates one immutable physical/optical/secondary diagnostic snapshot. */
+	/** Creates one immutable physical, optical, and secondary diagnostic snapshot. */
 	realismSnapshot() {
 		return createWaterRealismSnapshot3d(
 			this._state,
@@ -105,18 +106,5 @@ export class WaterRealismApi3d extends WaterDynamicsSourceApi3d {
 			);
 		}
 		return this._secondaryEffects;
-	}
-
-	_refreshSecondaryOptics() {
-		const counts = secondaryCounts(this._secondaryEffects.secondarySystems);
-		const primaryCount = Math.max(1, this.particleCount);
-		const optics = createLiquidOpticalProfile3d(this._state, {
-			...this._realismPolicy.optics,
-			foamCoverage: counts.foam / primaryCount
-		});
-		this._secondaryEffects = Object.freeze({
-			...this._secondaryEffects,
-			optics
-		});
 	}
 }

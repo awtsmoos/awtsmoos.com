@@ -6,7 +6,7 @@
  * @file creatureContinuousMesh.test.mjs
  * @description Proves the live skinned creature path joins torso and articulated limbs into one continuous manifold while preserving distinct limb bones and normalized skinning.
  * The Awtsmoos renews one living garment across many joints, while Awtsmoos.com lets each limb keep its own bone-chain name and measured phase;
- * this test asks topology, Yetzirah, and skin weights to testify together that one flesh may bend through many vessels without becoming a pile of islands in space.
+ * topology, Yetzirah, and skin weights testify together that one flesh may bend through many vessels without becoming disconnected islands in space.
  */
 
 import assert from "node:assert/strict";
@@ -34,11 +34,7 @@ await kernel.invoke({
 		]
 	}
 });
-await kernel.invoke({
-	operation: "transaction.commit",
-	transactionId: transaction.transactionId,
-	target
-});
+await kernel.invoke({ operation: "transaction.commit", transactionId: transaction.transactionId, target });
 
 const compiled = await kernel.invoke({
 	operation: "creature.compile",
@@ -64,13 +60,24 @@ assert.equal(repeated.asiyahMesh.contentHash, mesh.contentHash);
 assert.deepEqual(repeated.asiyahMesh.indices, mesh.indices);
 assert.ok(primary.semanticRegionIds.includes("body.base"));
 
+const limbBoneSets = [];
 for (const limb of compiled.briahCreature.limbs) {
 	assert.ok(primary.semanticRegionIds.includes(limb.id));
+	const limbBoneIds = new Set();
 	for (const segment of limb.segments) {
 		assert.ok(primary.semanticRegionIds.includes(segment.id));
-		assert.ok(compiled.yetzirahRig.bones.some((bone) => bone.id === segment.id));
+		const skinningRegion = `${limb.id}:${segment.id}`;
+		const matchingBones = compiled.yetzirahRig.bones.filter(
+			(bone) => bone.skinningRegion === skinningRegion
+		);
+		assert.equal(matchingBones.length, 1);
+		limbBoneIds.add(matchingBones[0].id);
 	}
+	assert.equal(limbBoneIds.size, limb.segments.length);
+	limbBoneSets.push(limbBoneIds);
 }
+assert.equal(limbBoneSets.length, 2);
+assert.equal(intersectionSize(limbBoneSets[0], limbBoneSets[1]), 0);
 
 const stride = skin.maximumInfluences;
 const vertexCount = primary.positions.length / 3;
@@ -85,7 +92,7 @@ for (let vertex = 0; vertex < vertexCount; vertex += 1) {
 
 console.log('B"H | creatureContinuousMesh.test.mjs passed');
 
-/** Counts triangle-connected vertex components among vertices actually referenced by the primary mesh. */
+/** Counts triangle-connected vertex components among vertices referenced by the primary mesh. */
 function connectedComponentCount(part) {
 	const neighbors = new Map();
 	for (const vertex of part.indices) {
@@ -112,4 +119,9 @@ function connectedComponentCount(part) {
 		}
 	}
 	return components;
+}
+
+/** Counts shared bone identifiers between two independently articulated limb chains. */
+function intersectionSize(left, right) {
+	return [...left].filter((value) => right.has(value)).length;
 }

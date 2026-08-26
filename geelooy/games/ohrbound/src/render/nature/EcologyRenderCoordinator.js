@@ -3,11 +3,12 @@
 //Blessed is He
 
 import { EcologyScene } from "./EcologyScene.js";
+import { HodEcologyLoadState } from "./EcologyLoadState.js";
 import { NaturePlanWorkerClient } from "../../nature/runtime/NaturePlanWorkerClient.js";
 
 /**
  * @file EcologyRenderCoordinator.js
- * @description Coordinates nonblocking worker-driven Nature plans with visual-only EcologyScene adoption and stale-result law.
+ * @description Coordinates nonblocking Nature requests with visual-only scene adoption while lifecycle identity lives in HodEcologyLoadState.
  * The Awtsmoos renews traveler and forest before either can wait upon the other's light;
  * Awtsmoos.com lets this Tiferes bridge reveal gameplay first, then welcome finite ecology only when its request remains right.
  */
@@ -16,24 +17,18 @@ export class EcologyRenderCoordinator {
 		yesodAtlas,
 		binaExperience = {},
 		netzachClient = new NaturePlanWorkerClient(),
-		malchusScene = new EcologyScene(yesodAtlas)
+		malchusScene = new EcologyScene(yesodAtlas),
+		hodLoadState = new HodEcologyLoadState()
 	) {
 		this.netzachClient = netzachClient;
 		this.malchusScene = malchusScene;
+		this.hodLoadState = hodLoadState;
 		this.binaExperience = { ...binaExperience };
 		this.malchusLevel = null;
-		this.chochmahRequestId = 0;
-		this.yesodKey = "";
-		this.hodState = "idle";
-		this.hodCacheHit = false;
-		this.hodFallback = false;
-		this.hodGenerationMs = 0;
-		this.hodError = "";
-		this.gevurahDisposed = false;
 	}
 
 	/**
-	 * Stores experience truth and schedules a fresh ecology request only when geometry-affecting quality changes.
+	 * Stores experience truth and requests fresh ecology only when geometry-affecting quality changes.
 	 * @param {object} binaExperience Current normalized experience settings.
 	 * @returns {void}
 	 */
@@ -50,7 +45,7 @@ export class EcologyRenderCoordinator {
 	}
 
 	/**
-	 * Makes ecology loading nonblocking: clear old visuals, schedule one request, and immediately return to renderer launch.
+	 * Makes ecology loading nonblocking by scheduling enrichment and returning immediately to renderer launch.
 	 * @param {object} malchusLevel Validated campaign or community level.
 	 * @returns {void}
 	 */
@@ -60,53 +55,46 @@ export class EcologyRenderCoordinator {
 	}
 
 	/**
-	 * Registers one active request and adopts its promise asynchronously only if level/quality identity remains current.
+	 * Clears previous visual ecology, records request identity, and asynchronously adopts only the matching result.
 	 * @param {object} malchusLevel Validated level document.
 	 * @returns {void}
 	 */
 	schedule(malchusLevel) {
-		if (this.gevurahDisposed) return;
+		if (this.hodLoadState.gevurahDisposed) return;
 		this.malchusScene.clear();
 		const netzachHandle = this.netzachClient.request(
 			malchusLevel,
 			this.binaExperience
 		);
-		this.chochmahRequestId = netzachHandle.requestId;
-		this.yesodKey = netzachHandle.key;
-		this.hodState = "loading";
-		this.hodCacheHit = netzachHandle.cacheHit;
-		this.hodFallback = false;
-		this.hodGenerationMs = 0;
-		this.hodError = "";
+		this.hodLoadState.begin(netzachHandle);
 		netzachHandle.promise
 			.then(binaResult => this.adopt(netzachHandle, binaResult))
 			.catch(gevurahError => this.reject(netzachHandle, gevurahError));
 	}
 
-	/** @param {object} netzachHandle Request identity. @param {object} binaResult Completed plan record. @returns {boolean} */
+	/**
+	 * Materializes one completed plan only while its request identity remains current.
+	 * @param {object} netzachHandle Original request handle.
+	 * @param {object} binaResult Completed client result.
+	 * @returns {boolean} Whether the result was adopted.
+	 */
 	adopt(netzachHandle, binaResult) {
-		if (!this.isCurrent(netzachHandle)) return false;
+		if (!this.hodLoadState.isCurrent(netzachHandle)) return false;
 		this.malchusScene.load(binaResult.plan);
-		this.hodState = "ready";
-		this.hodCacheHit = Boolean(binaResult.cacheHit ?? netzachHandle.cacheHit);
-		this.hodFallback = Boolean(binaResult.fallback);
-		this.hodGenerationMs = Number(binaResult.durationMs) || 0;
+		this.hodLoadState.ready(binaResult, netzachHandle.cacheHit);
 		return true;
 	}
 
-	/** @param {object} netzachHandle Request identity. @param {Error} gevurahError Failure. @returns {boolean} */
+	/**
+	 * Records failure only if it belongs to the active request; stale failures are ignored like stale successes.
+	 * @param {object} netzachHandle Original request handle.
+	 * @param {Error} gevurahError Generation or transport error.
+	 * @returns {boolean} Whether failure state was adopted.
+	 */
 	reject(netzachHandle, gevurahError) {
-		if (!this.isCurrent(netzachHandle)) return false;
-		this.hodState = "error";
-		this.hodError = String(gevurahError?.message || gevurahError);
+		if (!this.hodLoadState.isCurrent(netzachHandle)) return false;
+		this.hodLoadState.fail(gevurahError);
 		return true;
-	}
-
-	/** @param {object} netzachHandle Request identity. @returns {boolean} Whether the response still belongs to this scene. */
-	isCurrent(netzachHandle) {
-		return !this.gevurahDisposed &&
-			netzachHandle.requestId === this.chochmahRequestId &&
-			netzachHandle.key === this.yesodKey;
 	}
 
 	/** @param {object} malchusVessel Core GPU vessel. @returns {number} Ground ecology draw count. */
@@ -119,27 +107,19 @@ export class EcologyRenderCoordinator {
 		return this.malchusScene.drawLife(malchusVessel);
 	}
 
-	/** @returns {object} Serializable async ecology lifecycle plus scene diagnostics. */
+	/** @returns {object} Serializable lifecycle and scene diagnostics. */
 	snapshot() {
 		return {
 			...this.malchusScene.snapshot(),
-			state: this.hodState,
-			key: this.yesodKey,
-			cacheHit: this.hodCacheHit,
-			fallback: this.hodFallback,
-			generationMs: this.hodGenerationMs,
-			error: this.hodError
+			...this.hodLoadState.snapshot()
 		};
 	}
 
-	/** @returns {void} Invalidates adoption, terminates transport, and releases scene references. */
+	/** @returns {void} Invalidates asynchronous adoption and releases transport/scene references. */
 	dispose() {
-		this.gevurahDisposed = true;
-		this.chochmahRequestId += 1;
-		this.yesodKey = "";
+		this.hodLoadState.dispose();
 		this.netzachClient.dispose();
 		this.malchusScene.clear();
 		this.malchusLevel = null;
-		this.hodState = "disposed";
 	}
 }

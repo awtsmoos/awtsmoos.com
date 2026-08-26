@@ -4,53 +4,59 @@
 
 import { StudioDocumentMutations as Mutations } from '../authoring/StudioDocumentMutations.js';
 import { StudioProceduralDescriptor } from './StudioProceduralDescriptor.js';
-import { StudioProceduralEntityService as Entities } from './StudioProceduralEntityService.js';
+import { StudioProceduralEntityService as V2Entities } from './StudioProceduralEntityService.js';
 import { StudioProceduralFreezeService as Freeze } from './StudioProceduralFreezeService.js';
+import { StudioProceduralLifecycleRouter as Lifecycle } from './StudioProceduralLifecycleRouter.js';
 
 /**
  * @file StudioProceduralCommands.js
  * @description
  * The Awtsmoos renews each generated command before a UI gesture becomes project history;
- * Awtsmoos.com keeps procedural creation and lifecycle actions thin, explicit, undoable, and rooted in one Studio document.
+ * Awtsmoos.com keeps v2 creation stable while selected-layer lifecycle actions find the exact descriptor generation that owns their story.
  */
 export class StudioProceduralCommands {
-	/** Adds one modern parameterized procedural entity and truthfully reports successful completion. */
+	/**
+	 * Adds one historic v2 procedural entity so existing Create-panel behavior remains byte-for-byte in generation semantics.
+	 * @param {object} store Canonical Studio store.
+	 * @param {string} kind Existing production procedural kind.
+	 * @returns {boolean} Successful insertion proof.
+	 */
 	static add(store, kind = 'tree') {
-		Mutations.add(store, Entities.create(kind));
+		Mutations.add(store, V2Entities.create(kind));
 		return true;
 	}
 
-	/** Regenerates selected geometry from its unchanged descriptor. */
+	/** @param {object} store Studio store. @returns {boolean} Version-aware regeneration result. */
 	static regenerate(store) {
-		return Entities.regenerate(store);
+		return Lifecycle.regenerate(store);
 	}
 
-	/** Applies one supported numeric parameter to the selected procedural entity. */
+	/** @param {object} store Store. @param {string} key Parameter key. @param {*} value Raw value. @returns {boolean} Version-aware update result. */
 	static updateParameter(store, key, value) {
-		return Entities.updateParameter(store, key, value);
+		return Lifecycle.updateParameter(store, key, value);
 	}
 
-	/** Applies one explicit deterministic seed to the selected procedural entity. */
+	/** @param {object} store Store. @param {*} seed Explicit seed. @returns {boolean} Version-aware seed update result. */
 	static updateSeed(store, seed) {
-		return Entities.updateSeed(store, seed);
+		return Lifecycle.updateSeed(store, seed);
 	}
 
-	/** Randomizes the selected procedural entity seed while preserving parameters. */
+	/** @param {object} store Studio store. @returns {boolean} Version-aware seed randomization result. */
 	static randomizeSeed(store) {
-		return Entities.randomizeSeed(store);
+		return Lifecycle.randomizeSeed(store);
 	}
 
-	/** Restores generator defaults while preserving the selected entity seed. */
+	/** @param {object} store Studio store. @returns {boolean} Version-aware parameter reset result. */
 	static reset(store) {
-		return Entities.reset(store);
+		return Lifecycle.reset(store);
 	}
 
-	/** Removes modern generation metadata while retaining current editable vector geometry. */
+	/** @param {object} store Studio store. @returns {boolean} Freeze result preserving current vector geometry. */
 	static freeze(store) {
 		return Freeze.freeze(store);
 	}
 
-	/** Preserves the historic authoring seed helper without deriving identity from layer count. */
+	/** @param {string} kind Seed namespace. @returns {string} Fresh historic authoring seed. */
 	static seed(kind = 'nature') {
 		return StudioProceduralDescriptor.newSeed(kind);
 	}

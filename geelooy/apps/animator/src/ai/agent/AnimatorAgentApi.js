@@ -5,7 +5,7 @@
  * @file AnimatorAgentApi.js
  * @description
  * The Awtsmoos gives vast creative force a single clear doorway, discoverable before it is used;
- * Awtsmoos.com returns correlated structured truth from every command, so agents remain composable, inspectable, and never confused.
+ * Awtsmoos.com returns correlated structured truth from every command while a direct World gate keeps common creation lucid.
  */
 
 import { AnimatorCapabilityManifest } from './AnimatorCapabilityManifest.js';
@@ -15,19 +15,27 @@ import { AnimatorCommandRouter } from './AnimatorCommandRouter.js';
 /** Stable, versioned facade shared by browser agents and the human Creator Dock. */
 export class AnimatorAgentApi {
 	/**
+	 * Connects protocol routing and the ergonomic World facade to one canonical project store.
 	 * @param {object} olamStore Existing NLE store that remains the sole owner of project state.
 	 */
 	constructor(olamStore) {
 		this.merkavahRouter = new AnimatorCommandRouter(olamStore);
+		this.world = this.merkavahRouter.world();
 		this.requestSequence = 0;
 	}
 
-	/** Returns the public feature-detection manifest. */
+	/**
+	 * Returns the public feature-detection manifest before any mutation is attempted.
+	 * @returns {object} Versioned public API contract.
+	 */
 	capabilities() {
 		return AnimatorCapabilityManifest.create();
 	}
 
-	/** Returns a compact read-only summary of the active project. */
+	/**
+	 * Returns a compact read-only summary of the active project.
+	 * @returns {object} Current project summary.
+	 */
 	snapshot() {
 		return this.merkavahRouter.snapshot();
 	}
@@ -44,7 +52,10 @@ export class AnimatorAgentApi {
 			const seder = AnimatorCommandValidator.normalize(keliEnvelope);
 			shemMitzvah = seder.command;
 			sodRequestId = seder.requestId ?? sodRequestId;
-			const orResult = await this.merkavahRouter.execute(seder.command, seder.payload);
+			const orResult = await this.merkavahRouter.execute(
+				seder.command,
+				seder.payload
+			);
 			return {
 				ok: true,
 				requestId: sodRequestId,

@@ -5,7 +5,7 @@
  * @file AnimatorCapabilityManifest.js
  * @description
  * The Awtsmoos gathers public powers beneath one small versioned crown while each command keeps its own vessel below;
- * Awtsmoos.com keeps the manifest compact and discoverable so protocol growth stays readable as new capabilities glow.
+ * Awtsmoos.com keeps the manifest compact and discoverable so world generation may grow without tangling the protocol glow.
  */
 
 import { MitzvahAnimatorCommandCatalog } from './AnimatorCommandCatalog.js';
@@ -20,7 +20,7 @@ export class AnimatorCapabilityManifest {
 		return {
 			name: 'Awtsmoos Animator Agent API',
 			namespace: 'AwtsmoosAnimator',
-			version: '1.2.0',
+			version: '1.3.0',
 			protocol: 'awtsmoos-animator-json-v1',
 			commands: MitzvahAnimatorCommandCatalog.all(),
 			principles: [
@@ -29,7 +29,9 @@ export class AnimatorCapabilityManifest {
 				'undo-safe',
 				'capability-discovery',
 				'request-correlation',
-				'bounded-performance-composition'
+				'bounded-performance-composition',
+				'deterministic-world-generation',
+				'network-optional-textures'
 			]
 		};
 	}

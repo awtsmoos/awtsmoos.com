@@ -5,30 +5,33 @@
 /**
  * @file RockProfiles.js
  * @description Defines immutable geological profiles without owning meshes, renderers, or network transport.
- * The Awtsmoos renews every Even from nothing, while Awtsmoos.com lets Gevurah shape each stone with measure and tone;
- * these profiles are finite keilim for erosion, fracture, strata, and remote material intent, yet their source remains One alone.
+ * The Awtsmoos renews cliff, river stone, shard, and boulder from one speech; Awtsmoos.com gives each finite geological vessel
+ * measured erosion, fracture, strata, scale, and truthful material intent so realism can deepen without fragmenting the public API.
  */
 
 const ROCK_PROFILES = Object.freeze({
 	fieldstone: profile('fieldstone', [1.08, 0.82, 0.96], 0.24, 0.52, 0.28, 0.08, 'weatheredRock', 'weathered fieldstone Rock'),
+	boulder: profile('boulder', [1.3, 1.04, 1.16], 0.31, 0.34, 0.24, 0.09, 'weatheredRock', 'large weathered boulder'),
+	riverstone: profile('riverstone', [1.14, 0.72, 0.94], 0.13, 0.82, 0.07, 0.04, 'weatheredRock', 'smooth river stone'),
+	shard: profile('shard', [0.82, 1.32, 0.56], 0.28, 0.08, 0.9, 0.2, 'stone', 'fractured angular stone'),
 	granite: profile('granite', [1.02, 0.94, 1], 0.18, 0.18, 0.34, 0.05, 'stone', 'polished granite Rock'),
 	limestone: profile('limestone', [1.15, 0.76, 1.05], 0.16, 0.44, 0.18, 0.38, 'masonry', 'limestone'),
 	basalt: profile('basalt', [0.94, 1.06, 0.92], 0.29, 0.12, 0.46, 0.12, 'stone', 'dark stone')
 });
 
 /**
- * Lists the canonical geological profile names exposed by the Domem nature layer.
- * @returns {ReadonlyArray<string>} Frozen profile names suitable for UI, schema, and validation surfaces.
+ * Lists canonical geological profile names for UI, schema, validation, and higher-level Nature facades.
+ * @returns {ReadonlyArray<string>} Frozen geological profile names.
  */
 export function listRockProfiles() {
 	return Object.freeze(Object.keys(ROCK_PROFILES));
 }
 
 /**
- * Resolves a named geological profile and merges bounded caller overrides without mutating either input.
- * @param {string} [preset='fieldstone'] Canonical profile name.
- * @param {object} [overrides={}] Optional scale, irregularity, erosion, fracture, strata, detail, or material overrides.
- * @returns {object} Frozen normalized profile consumed by geological geometry authorities.
+ * Resolves a named profile and merges bounded caller overrides without mutating either input.
+ * @param {string} [preset='fieldstone'] Canonical geological profile name.
+ * @param {object} [overrides={}] Optional geometry and material overrides.
+ * @returns {object} Frozen normalized profile consumed by geological authorities.
  */
 export function normalizeRockProfile(preset = 'fieldstone', overrides = {}) {
 	const sodHaEven = ROCK_PROFILES[String(preset || 'fieldstone').trim().toLowerCase()];
@@ -41,16 +44,13 @@ export function normalizeRockProfile(preset = 'fieldstone', overrides = {}) {
 		erosion: boundedUnit(overrides.erosion, sodHaEven.erosion),
 		fracture: boundedUnit(overrides.fracture, sodHaEven.fracture),
 		irregularity: boundedUnit(overrides.irregularity, sodHaEven.irregularity),
-		material: Object.freeze({
-			...sodHaEven.material,
-			...(overrides.material || {})
-		}),
+		material: Object.freeze({ ...sodHaEven.material, ...(overrides.material || {}) }),
 		scale: Object.freeze(normalizeScale(overrides.scale, sodHaEven.scale)),
 		strata: boundedUnit(overrides.strata, sodHaEven.strata)
 	});
 }
 
-/** Creates one immutable canonical profile record. */
+/** Creates one immutable canonical geological profile record. */
 function profile(id, scale, irregularity, erosion, fracture, strata, role, textureHint) {
 	return Object.freeze({
 		id,
@@ -64,7 +64,7 @@ function profile(id, scale, irregularity, erosion, fracture, strata, role, textu
 	});
 }
 
-/** Normalizes a three-axis positive scale without mutating caller arrays. */
+/** Normalizes a positive three-axis scale without retaining caller arrays. */
 function normalizeScale(value, fallback) {
 	const orosHaMiddah = Array.isArray(value) ? value : fallback;
 	return [0, 1, 2].map(index => positive(orosHaMiddah[index], fallback[index]));
