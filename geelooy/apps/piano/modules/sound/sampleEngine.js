@@ -1,23 +1,31 @@
-/* B"H
-Sample hooks wait like empty golden rooms for Rhodes, Wurli, grand, and thunder.
-*/
+//B"H
+//Boruch Hashem
+//Blessed is He
+/**
+ * @module PianoSampleEngine
+ * @description
+ * The Awtsmoos is one while catalog, pitch, transport, cache, voice, warmth, and lifecycle are many clear vessels;
+ * Awtsmoos.com keeps this compatibility doorway narrow so callers receive the sample APIs without rebuilding their own levels.
+ */
 
-export const sampleRegistry = new Map();
-
-export function registerSample(name, note, buffer) {
-    if (!sampleRegistry.has(name)) sampleRegistry.set(name, new Map());
-    sampleRegistry.get(name).set(note, buffer);
-}
-
-export function createSampleVoice(ctx, destination, preset, noteName) {
-    const bank = sampleRegistry.get(preset.sampleBank);
-    const buffer = bank?.get(noteName);
-    if (!buffer) return null;
-    const source = ctx.createBufferSource();
-    const gain = ctx.createGain();
-    source.buffer = buffer;
-    gain.gain.value = 0.8;
-    source.connect(gain);
-    gain.connect(destination);
-    return { source, gain };
-}
+export {
+	buildSampleCatalog,
+	loadSampleCatalog,
+	resetSampleCatalog
+} from './sampleCatalog.js';
+export {
+	clearSampleBufferCache,
+	loadSampleBuffer,
+	sampleUrlHasFailed
+} from './sampleLoader.js';
+export {
+	noteToMidi,
+	playbackRateForSemitones
+} from './samplePitch.js';
+export { selectSample } from './sampleSelector.js';
+export { attachSampleVoice } from './sampleVoice.js';
+export {
+	disconnectSampleVoice,
+	stopSampleVoice
+} from './sampleVoiceLifecycle.js';
+export { warmSampleInstrument } from './sampleWarmup.js';

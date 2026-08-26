@@ -1,41 +1,74 @@
-﻿/* B"H
-Realtime particles are light: DOM vessels that disappear quickly and never enter the encoder.
-*/
+//B"H
+//Boruch Hashem
+//Blessed is He
+/**
+ * @module PianoLiveEffects
+ * @description
+ * The Awtsmoos lets touch become a brief spark without making light the master of sound;
+ * Awtsmoos.com keeps realtime orchestration coordinate-safe, so MIDI, keys, and pointers may all play around.
+ */
+
 import { elements } from '../ui.js';
 import { realtimeRenderMode } from './effectRouting.js';
-const HEBREW = ['א','ב','ג','ד','ה','ו','ז','ח','ט','י','כ','ל','מ','נ','ס','ע','פ','צ','ק','ר','ש','ת'];
-const EMOJI = ['🎹','✨','🔥','🌊','🌟','💎','⚡','💫','🎶','💧','👑'];
-let liveLayer;
-export function showRealtimeEffect(keyElement, noteName, coords = { x: 0, y: 0 }) {
-    const mode = realtimeRenderMode();
-    if (mode === 'none' || !keyElement) return;
-    const box = keyElement.getBoundingClientRect();
-    const root = ensureLayer();
-    const x = box.left + (coords.x || box.width / 2), y = box.top + (coords.y || box.height / 2);
-    if (mode === 'touchpoint') return addParticle(root, x, y, '•', 'touch');
-    addParticle(root, x, y - 20, `🎹 ${noteName} ✨`, 'note');
-    const density = clamp(parseInt(elements.particleDensity?.value || '9', 10), 2, 18);
-    for (let i = 0; i < density; i++) {
-        const text = i % 3 === 0 ? HEBREW[Math.floor(Math.random() * HEBREW.length)] : EMOJI[Math.floor(Math.random() * EMOJI.length)];
-        addParticle(root, x, y, text, i % 3 === 0 ? 'hebrew' : 'emoji');
-    }
+import {
+	addLiveEffectParticle,
+	ensureLiveEffectLayer
+} from './liveEffectParticles.js';
+import { liveEffectSymbol } from './liveEffectSymbols.js';
+
+/**
+ * @description Renders one ephemeral realtime effect, safely centering coordinate-less keyboard or MIDI notes on the visible key.
+ * @param {HTMLElement|null} keyElement - Primary visible piano key receiving the effect.
+ * @param {string} noteName - Scientific note label displayed by full note effects.
+ * @param {{x:number,y:number}|null} [coords=null] - Optional pointer-local coordinates; null uses the key center.
+ * @returns {void}
+ */
+export function showRealtimeEffect(keyElement, noteName, coords = null) {
+	const mode = realtimeRenderMode();
+
+	if (mode === 'none' || !keyElement) {
+		return;
+	}
+
+	const root = ensureLiveEffectLayer();
+	const point = effectPoint(keyElement, coords);
+
+	if (mode === 'touchpoint') {
+		addLiveEffectParticle(root, point.x, point.y, '•', 'touch');
+		return;
+	}
+
+	addLiveEffectParticle(root, point.x, point.y - 20, `🎹 ${noteName} ✨`, 'note');
+	const density = effectDensity();
+
+	for (let index = 0; index < density; index += 1) {
+		const symbol = liveEffectSymbol(index);
+		addLiveEffectParticle(root, point.x, point.y, symbol.text, symbol.kind);
+	}
 }
-function ensureLayer() {
-    if (liveLayer) return liveLayer;
-    liveLayer = document.createElement('div');
-    liveLayer.id = 'live-effect-layer';
-    document.body.appendChild(liveLayer);
-    return liveLayer;
+
+/**
+ * @description Resolves page coordinates from optional key-local input, using the visible key center whenever pointer coordinates are absent.
+ * @param {HTMLElement} keyElement - Visible piano key whose client rectangle anchors the effect.
+ * @param {{x:number,y:number}|null} coords - Optional coordinates relative to the key.
+ * @returns {{x:number,y:number}} Page-space particle origin.
+ */
+function effectPoint(keyElement, coords) {
+	const box = keyElement.getBoundingClientRect();
+	const localX = Number.isFinite(coords?.x) ? coords.x : box.width / 2;
+	const localY = Number.isFinite(coords?.y) ? coords.y : box.height / 2;
+
+	return {
+		x: box.left + localX,
+		y: box.top + localY
+	};
 }
-function addParticle(root, x, y, text, kind) {
-    const el = document.createElement('span');
-    const angle = Math.random() * Math.PI * 2, speed = 45 + Math.random() * 120;
-    el.className = `live-effect-particle ${kind}`;
-    el.textContent = text;
-    el.style.left = `${x}px`; el.style.top = `${y}px`;
-    el.style.setProperty('--dx', `${Math.cos(angle) * speed}px`);
-    el.style.setProperty('--dy', `${Math.sin(angle) * speed - 80}px`);
-    root.appendChild(el);
-    setTimeout(() => el.remove(), 1100);
+
+/**
+ * @description Reads and bounds the live particle-density control for one realtime effect burst.
+ * @returns {number} Integer particle count from two through eighteen.
+ */
+function effectDensity() {
+	const value = Number.parseInt(elements.particleDensity?.value || '9', 10);
+	return Math.max(2, Math.min(18, value));
 }
-function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }

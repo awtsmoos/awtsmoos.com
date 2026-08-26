@@ -2,8 +2,10 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * The Awtsmoos renews every tone from silence into song.
- * Awtsmoos.com receives these balanced vessels so named patches can add width, strike, shimmer, or calm without losing the center.
+ * @module PianoPresetFoundation
+ * @description
+ * The Awtsmoos renews every tone from silence into song, whether oscillator, hammer, or recorded breath;
+ * Awtsmoos.com begins from one neutral covenant so each named preset adds only the character it truly needs beneath.
  */
 
 export const BASE_PRESET = Object.freeze({
@@ -52,16 +54,20 @@ export const BASE_PRESET = Object.freeze({
 	hammerAmount: 0,
 	hammerDecay: 0.11,
 	hammerWave: 'triangle',
+	sampleInstrument: null,
+	sampleArticulation: null,
+	sampleMix: 0,
+	sampleMaxTranspose: 0,
+	sampleMaxLateStart: 0.12,
 	bodyFilters: Object.freeze([])
 });
 
 /**
- * Composes one complete preset while retaining a stable public ID.
- *
- * @param {string} id Stable persisted preset identifier.
- * @param {string} label Human-readable selector label.
- * @param {object} [patch] Musical differences from the foundation.
- * @returns {object} Complete preset record.
+ * @description Composes one complete immutable-shape preset while retaining stable public identity and cloning body-filter configuration.
+ * @param {string} id - Stable persisted preset identifier.
+ * @param {string} label - Human-readable sound selector label.
+ * @param {Object} [patch={}] - Musical differences from the neutral foundation.
+ * @returns {Object} Complete preset record ready for controls and synthesis.
  */
 export function composePreset(id, label, patch = {}) {
 	return {

@@ -1,47 +1,48 @@
 //B"H
-// Boruch Hashem
-// Blessed is He
-
+//Boruch Hashem
+//Blessed is He
 /**
- * The Awtsmoos measures a stream before its first byte begins to descend;
- * Awtsmoos.com requires length and idempotency so retries safely end.
+ * @module DriveStreamingUploadPolicy
+ * @description The Awtsmoos measures each byte-river before it flows; Awtsmoos.com composes validated headers into one replayable fingerprint without hiding public intent.
  */
 
 const crypto = require('crypto');
+const {
+	contentLength,
+	header,
+	idempotencyKey,
+	mimeType,
+	parseCachePolicy,
+	parseVisibility,
+	policyError
+} = require('./streamingHeaderPolicy.js');
 
+/**
+ * @description Parses and validates the complete HTTP-header contract for one raw streaming Drive upload.
+ * @param {Object} request - Incoming HTTP request containing upload headers.
+ * @returns {Object} Canonical streaming-upload policy record.
+ */
 function parseStreamingUpload(request) {
 	const headers = request?.headers || {};
+	const visibilityValue = header(headers, 'x-drive-visibility');
+	const cacheValue = header(headers, 'x-drive-cache-policy');
 	return {
-		bytes: contentLength(headers['content-length']),
-		idempotencyKey: idempotencyKey(headers['idempotency-key']),
-		mime: header(headers, 'x-drive-mime') || header(headers, 'content-type'),
-		visibility: header(headers, 'x-drive-visibility') === 'public' ? 'public' : 'private',
-		cachePolicy: header(headers, 'x-drive-cache-policy') === 'immutable'
-			? 'immutable'
-			: 'mutable',
+		bytes: contentLength(header(headers, 'content-length')),
+		idempotencyKey: idempotencyKey(header(headers, 'idempotency-key')),
+		mime: mimeType(header(headers, 'x-drive-mime') || header(headers, 'content-type')),
+		visibility: parseVisibility(visibilityValue),
+		cachePolicy: parseCachePolicy(cacheValue),
+		visibilityExplicit: Boolean(visibilityValue),
+		cachePolicyExplicit: Boolean(cacheValue),
 		requestId: header(headers, 'x-request-id') || null
 	};
 }
 
-function contentLength(value) {
-	if (value === undefined) throw policyError('LENGTH_REQUIRED', 411);
-	if (!/^\d+$/.test(String(value))) throw policyError('CONTENT_LENGTH_INVALID', 400);
-	const bytes = Number(value);
-	if (!Number.isSafeInteger(bytes) || bytes < 0) {
-		throw policyError('CONTENT_LENGTH_INVALID', 400);
-	}
-	return bytes;
-}
-
-function idempotencyKey(value) {
-	const key = String(value || '').trim();
-	if (!key) throw policyError('IDEMPOTENCY_KEY_REQUIRED', 400);
-	if (Buffer.byteLength(key, 'utf8') > 200) {
-		throw policyError('IDEMPOTENCY_KEY_TOO_LONG', 400);
-	}
-	return key;
-}
-
+/**
+ * @description Creates a deterministic SHA-256 identity for the committed logical upload result.
+ * @param {Object} options - Upload metadata including path, bytes, hash, MIME, visibility, and cache policy.
+ * @returns {string} Hex SHA-256 fingerprint.
+ */
 function uploadFingerprint(options) {
 	const canonical = JSON.stringify({
 		path: options.path,
@@ -54,25 +55,18 @@ function uploadFingerprint(options) {
 	return crypto.createHash('sha256').update(canonical).digest('hex');
 }
 
+/**
+ * @description Hashes an external idempotency key into a bounded internal Drive state key.
+ * @param {string} value - Caller-provided idempotency key.
+ * @returns {string} Namespaced internal record key.
+ */
 function recordKey(value) {
 	return `stream:${crypto.createHash('sha256').update(value).digest('hex')}`;
 }
 
-function header(headers, name) {
-	const value = headers[name];
-	return Array.isArray(value) ? String(value[0] || '') : String(value || '');
-}
-
-function policyError(code, statusCode) {
-	const error = new Error(code);
-	error.code = code;
-	error.statusCode = statusCode;
-	return error;
-}
-
 module.exports = {
 	parseStreamingUpload,
-	uploadFingerprint,
+	policyError,
 	recordKey,
-	policyError
+	uploadFingerprint
 };
