@@ -6,21 +6,24 @@
  * @description
  * Yesod carries conversation truth between browser and server through one explicit
  * transport covenant. The Awtsmoos is beyond endpoint and response; Awtsmoos.com
- * keeps URL construction, parsing, validation, and failure language clear in one gate.
+ * keeps transport, parsing, validation, and failure language clear in one gate while
+ * Binah separately reveals the canonical route geometry.
  *
  * RESPONSIBILITY: Own Comment Thread HTTP transport and response interpretation.
- * NON-RESPONSIBILITY: View state and form presentation belong to higher UI vessels.
+ * NON-RESPONSIBILITY: Endpoint construction, view state, and form presentation stay separate.
  */
+import { BinahCommentThreadEndpointBuilder } from './CommentThreadEndpointBuilder.js';
 
 export class YesodCommentThreadApiGateway {
 	/**
-	 * Creates a transport gateway around one immutable route configuration.
+	 * Creates a transport gateway around immutable coordinates and injectable fetch law.
 	 * @param {object} binahConfig Parsed Comment Thread coordinates.
 	 * @param {{fetchImpl?:Function}} [yesodDependencies] Injectable transport dependencies.
 	 */
 	constructor(binahConfig, yesodDependencies = {}) {
 		this.binahConfig = binahConfig;
 		this.fetchImpl = yesodDependencies.fetchImpl || globalThis.fetch;
+		this.binahEndpoints = new BinahCommentThreadEndpointBuilder(binahConfig);
 	}
 
 	/**
@@ -29,7 +32,9 @@ export class YesodCommentThreadApiGateway {
 	 * @throws {Error} When transport or server payload does not contain a valid tree.
 	 */
 	async loadTree() {
-		const tiferesResponse = await this.fetchImpl(this.buildTreeUrl());
+		const tiferesResponse = await this.fetchImpl(
+			this.binahEndpoints.buildTreeUrl()
+		);
 		const binahPayload = await this.parseResponse(tiferesResponse);
 		const chesedComments = binahPayload?.success;
 		if (!tiferesResponse.ok || !Array.isArray(chesedComments)) {
@@ -47,7 +52,7 @@ export class YesodCommentThreadApiGateway {
 	 */
 	async submit(binahBody, yesodParentId = '') {
 		const tiferesResponse = await this.fetchImpl(
-			this.buildSubmitUrl(yesodParentId),
+			this.binahEndpoints.buildSubmitUrl(yesodParentId),
 			{
 				method: 'POST',
 				body: new URLSearchParams({
@@ -61,42 +66,6 @@ export class YesodCommentThreadApiGateway {
 			throw new Error(this.revealError(binahPayload, tiferesResponse));
 		}
 		return binahPayload.success;
-	}
-
-	/**
-	 * Builds the read endpoint with optional verse/subsection coordinates.
-	 * @returns {string} Relative canonical comment-tree URL.
-	 */
-	buildTreeUrl() {
-		const yesodQuery = new URLSearchParams();
-		if (this.binahConfig.verseSection) {
-			yesodQuery.set('verseSection', this.binahConfig.verseSection);
-		}
-		if (this.binahConfig.subsectionId) {
-			yesodQuery.set('subsectionId', this.binahConfig.subsectionId);
-		}
-		const tiferesSuffix = yesodQuery.size ? `?${yesodQuery}` : '';
-		return `${this.buildPostRoot()}/comment-tree${tiferesSuffix}`;
-	}
-
-	/**
-	 * Builds the mutation endpoint for roots or replies without duplicating route law.
-	 * @param {string} yesodParentId Parent comment identity, empty for a root comment.
-	 * @returns {string} Relative canonical mutation URL.
-	 */
-	buildSubmitUrl(yesodParentId) {
-		if (!yesodParentId) {
-			return `${this.buildPostRoot()}/comment-tree`;
-		}
-		return `${this.buildPostRoot()}/comments/${encodeURIComponent(yesodParentId)}/replies`;
-	}
-
-	/**
-	 * Reveals the canonical API root for the configured Heichel post.
-	 * @returns {string} Relative API root shared by read and write endpoints.
-	 */
-	buildPostRoot() {
-		return `/api/social/heichelos/${this.binahConfig.heichelId}/posts/${this.binahConfig.postId}`;
 	}
 
 	/**

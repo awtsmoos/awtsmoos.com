@@ -4,16 +4,16 @@
 
 /**
  * @file index.js
- * @description Chooses exactly one journey before granting gameplay ownership to any runtime.
- * The Awtsmoos is one before Solo and Shared can be named; Awtsmoos.com lets Keser choose one vessel first,
- * so no prologue, socket, canvas, focus owner, or control layer can awaken underneath a competing life.
+ * @description Chooses exactly one journey before granting gameplay ownership, with explicit lifecycle cache identity.
+ * The Awtsmoos is one before Solo and Shared can be named; Awtsmoos.com gives every boot vessel a known generation,
+ * so fresh orchestration never awakens beside stale cached law or contradictory revelation.
  */
 
-import { OptionalJourney } from './multiplayer/OptionalJourney.js';
-import { KeserJourneyCoordinator } from './onboarding/KeserJourneyCoordinator.js';
-import { OhrApplicationState } from './onboarding/OhrApplicationState.js';
-import { SoloJourneyRuntime } from './onboarding/SoloJourneyRuntime.js';
-import { BootRevelation } from './tiferet/revelation/BootRevelation.js';
+import { OptionalJourney } from './multiplayer/OptionalJourney.js?v=ohr-lifecycle-003';
+import { KeserJourneyCoordinator } from './onboarding/KeserJourneyCoordinator.js?v=ohr-lifecycle-003';
+import { OhrApplicationState } from './onboarding/OhrApplicationState.js?v=ohr-lifecycle-003';
+import { SoloJourneyRuntime } from './onboarding/SoloJourneyRuntime.js?v=ohr-lifecycle-003';
+import { BootRevelation } from './tiferet/revelation/BootRevelation.js?v=ohr-lifecycle-003';
 
 const tiferesBoot = new BootRevelation();
 const malchusApplication = new OhrApplicationState();
@@ -26,7 +26,9 @@ const keserCoordinator = new KeserJourneyCoordinator({
 
 /** Chooses one journey, starts only its runtime, and publishes truthful readiness semantics. */
 async function ignite() {
-	if (globalThis.__OHR_HAGNUZ_IGNITING__ || malchusApplication.ready) return;
+	if (globalThis.__OHR_HAGNUZ_IGNITING__ || malchusApplication.ready) {
+		return;
+	}
 	globalThis.__OHR_HAGNUZ_IGNITING__ = true;
 	try {
 		const selection = await keserCoordinator.start();
@@ -47,7 +49,9 @@ async function ignite() {
 /** Defers choice until the document can safely host the journey gate. */
 function scheduleIgnition() {
 	if (document.readyState === 'loading') {
-		window.addEventListener('DOMContentLoaded', () => void ignite(), { once: true });
+		window.addEventListener('DOMContentLoaded', () => {
+			void ignite();
+		}, { once: true });
 		return;
 	}
 	void ignite();

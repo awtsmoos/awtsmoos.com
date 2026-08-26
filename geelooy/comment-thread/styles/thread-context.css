@@ -1,0 +1,119 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos hides no truth, yet Awtsmoos.com reveals advanced context only when
+ * it serves the person. Native details remain the semantic vessel while local styling
+ * gives voice, media, links, and coordinates one calm expandable chamber without clutter.
+ */
+body[data-comment-thread-page] .threadContextPanel {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	overflow: clip;
+	border: 1px solid color-mix(in srgb, #818cf8 20%, var(--thread-line));
+	border-radius: .9rem;
+	background: color-mix(in srgb, var(--thread-surface-strong) 46%, transparent);
+}
+
+body[data-comment-thread-page] .threadContextPanel > .awtsmoosDisclosure__summary {
+	display: grid;
+	grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .55rem;
+	min-block-size: 48px;
+	padding: .65rem .75rem;
+	cursor: pointer;
+	list-style: none;
+}
+
+body[data-comment-thread-page] .threadContextPanel > .awtsmoosDisclosure__summary::-webkit-details-marker {
+	display: none;
+}
+
+body[data-comment-thread-page] .threadContextPanel .awtsmoosDisclosure__label {
+	font-weight: 780;
+}
+
+body[data-comment-thread-page] .threadContextPanel .awtsmoosDisclosure__detail {
+	min-inline-size: 0;
+	overflow: hidden;
+	font-size: .76rem;
+	opacity: .62;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+body[data-comment-thread-page] .threadContextPanel .awtsmoosDisclosure__chevron {
+	font-size: 1.05rem;
+	font-weight: 850;
+	transition: transform 180ms cubic-bezier(.2, .8, .2, 1);
+}
+
+body[data-comment-thread-page] .threadContextPanel[open] .awtsmoosDisclosure__chevron {
+	transform: rotate(180deg);
+}
+
+body[data-comment-thread-page] .threadContextPanel > .awtsmoosDisclosure__body {
+	min-inline-size: 0;
+	padding: 0 .75rem .75rem;
+}
+
+body[data-comment-thread-page] .threadContextBody label {
+	min-inline-size: 0;
+}
+
+body[data-comment-thread-page] .threadContextBody :where(input, textarea, select) {
+	box-sizing: border-box;
+	inline-size: 100%;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: .7rem .75rem;
+	border: 1px solid var(--thread-line);
+	border-radius: .72rem;
+	background: color-mix(in srgb, Canvas 96%, #4f46e5 4%);
+	color: inherit;
+	font: inherit;
+	font-size: max(1rem, 16px);
+}
+
+body[data-comment-thread-page] .threadContextBody textarea {
+	min-block-size: 5rem;
+	resize: vertical;
+}
+
+body[data-comment-thread-page] .threadContextPanel :where(
+	.awtsmoosDisclosure__summary,
+	input,
+	textarea,
+	select
+):focus-visible {
+	outline: 3px solid var(--thread-line-focus);
+	outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-comment-thread-page] .threadContextPanel > .awtsmoosDisclosure__summary:hover {
+		background: color-mix(in srgb, #818cf8 7%, transparent);
+	}
+}
+
+body[data-comment-thread-page] .threadContextPanel > .awtsmoosDisclosure__summary:active {
+	background: color-mix(in srgb, #818cf8 11%, transparent);
+}
+
+@media (max-width: 35rem) {
+	body[data-comment-thread-page] .threadContextPanel .awtsmoosDisclosure__detail {
+		display: none;
+	}
+
+	body[data-comment-thread-page] .threadContextPanel > .awtsmoosDisclosure__summary {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-comment-thread-page] .threadContextPanel .awtsmoosDisclosure__chevron {
+		transition-duration: .01ms;
+	}
+}

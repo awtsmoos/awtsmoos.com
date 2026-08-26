@@ -4,51 +4,31 @@
 
 /**
  * @file BotanicalFlowerOrgans.js
- * @description Plans protective and reproductive flower organs from species morphology instead of one universal radial recipe.
- * The Awtsmoos renews sepal, petal, stamen, and pistil before biology seems divided into parts; Awtsmoos.com lets each species reveal its proper whorl,
- * so composite discs, double roses, bilateral irises, bells, trumpets, and simple meadow flowers share one generator without losing their distinct heart.
+ * @description Composes morphology-aware flower organ plans from focused count, morphology, and spatial-layout authorities.
+ * The Awtsmoos renews sepal, petal, stamen, and pistil before their numbers and places appear apart; Awtsmoos.com lets Tiferes gather each focused vessel,
+ * so roses, composites, bells, trumpets, and bilateral flowers inherit deeper biology without turning one planner into a crowded heart.
  */
 
-import { botanicalDetailCount } from './BotanicalFlowerGeometry.js';
-import { resolveBotanicalFlowerMorphology } from './BotanicalFlowerMorphology.js';
+import {
+	createFlowerOrganContext,
+	createFlowerOrganCounts
+} from './BotanicalFlowerOrganCounts.js';
 import { createBotanicalFlowerOrganLayout } from './BotanicalFlowerOrganLayout.js';
-
-const QUALITY_DETAIL_BINAH = Object.freeze({
-	draft: 0.5,
-	low: 0.72,
-	medium: 1,
-	high: 1.35,
-	ultra: 1.75,
-	cinematic: 2
-});
+import { resolveBotanicalFlowerMorphology } from './BotanicalFlowerMorphology.js';
 
 /**
- * Plans explicit morphology-aware protective and reproductive flower organs.
- * @param {object} inputChesed Botanical generation context with species, quality, height, and spread.
- * @returns {Readonly<object>} Frozen organ arrays, morphology evidence, and semantic counts.
+ * Plans explicit protective and reproductive organs while preserving the historic return fields.
+ * @param {object} inputChesed Botanical generation context.
+ * @returns {Readonly<object>} Frozen sepals, petals, stamens, pistil, counts, and morphology evidence.
  */
 export function planBotanicalFlowerOrgans(inputChesed) {
-	const contextBinah = realizedContext(inputChesed);
+	const contextBinah = createFlowerOrganContext(inputChesed);
 	const morphologyBinah = resolveBotanicalFlowerMorphology(
 		contextBinah.species
 	);
-	const basePetalsGevurah = positiveInteger(
-		contextBinah.species?.petals,
-		6
-	);
-	const petalsGevurah = botanicalDetailCount(
+	const countsBinah = createFlowerOrganCounts(
 		contextBinah,
-		basePetalsGevurah * morphologyBinah.whorls,
-		3
-	);
-	const sepalsGevurah = Math.max(
-		3,
-		Math.round(basePetalsGevurah * 0.55)
-	);
-	const stamensGevurah = botanicalDetailCount(
-		contextBinah,
-		basePetalsGevurah * morphologyBinah.stamenRatio,
-		4
+		morphologyBinah
 	);
 	const spreadTiferes = Math.max(
 		1e-9,
@@ -56,18 +36,13 @@ export function planBotanicalFlowerOrgans(inputChesed) {
 	);
 
 	return Object.freeze({
-		counts: Object.freeze({
-			petals: petalsGevurah,
-			pistils: 1,
-			sepals: sepalsGevurah,
-			stamens: stamensGevurah
-		}),
+		counts: countsBinah,
 		morphology: morphologyBinah,
-		petals: organLayout(
+		petals: createRoleLayout(
 			contextBinah,
 			morphologyBinah,
 			'petal',
-			petalsGevurah,
+			countsBinah.petals,
 			spreadTiferes * 0.5,
 			0,
 			spreadTiferes * 0.28
@@ -75,20 +50,20 @@ export function planBotanicalFlowerOrgans(inputChesed) {
 		pistil: Object.freeze([
 			createPistil(contextBinah, morphologyBinah, spreadTiferes)
 		]),
-		sepals: organLayout(
+		sepals: createRoleLayout(
 			contextBinah,
 			{ ...morphologyBinah, whorls: 1 },
 			'sepal',
-			sepalsGevurah,
+			countsBinah.sepals,
 			spreadTiferes * 0.2,
 			-spreadTiferes * 0.035,
 			spreadTiferes * 0.11
 		),
-		stamens: organLayout(
+		stamens: createRoleLayout(
 			contextBinah,
 			stamenMorphology(morphologyBinah),
 			'stamen',
-			stamensGevurah,
+			countsBinah.stamens,
 			spreadTiferes * stamenRadius(morphologyBinah),
 			spreadTiferes * 0.035,
 			spreadTiferes * 0.035
@@ -96,8 +71,8 @@ export function planBotanicalFlowerOrgans(inputChesed) {
 	});
 }
 
-/** @returns {Readonly<Array<object>>} Organ records with stable species-role ids. */
-function organLayout(contextBinah, morphologyBinah, roleHod, countGevurah, radiusChesed, heightTiferes, scaleChesed) {
+/** @returns {Readonly<Array<object>>} Stable-id morphology-aware organ records. */
+function createRoleLayout(contextBinah, morphologyBinah, roleHod, countGevurah, radiusChesed, heightTiferes, scaleChesed) {
 	return Object.freeze(createBotanicalFlowerOrganLayout({
 		count: countGevurah,
 		height: heightTiferes,
@@ -105,15 +80,13 @@ function organLayout(contextBinah, morphologyBinah, roleHod, countGevurah, radiu
 		radius: radiusChesed,
 		role: roleHod,
 		scale: scaleChesed
-	}).map((organKli) => {
-		return Object.freeze({
-			...organKli,
-			id: organId(contextBinah, roleHod, organKli.index)
-		});
-	}));
+	}).map((organKli) => Object.freeze({
+		...organKli,
+		id: organId(contextBinah, roleHod, organKli.index)
+	})));
 }
 
-/** @returns {Readonly<object>} Central pistil with tube-aware elevation. */
+/** @returns {Readonly<object>} Tube-aware central pistil. */
 function createPistil(contextBinah, morphologyBinah, spreadTiferes) {
 	return Object.freeze({
 		angle: 0,
@@ -129,7 +102,7 @@ function createPistil(contextBinah, morphologyBinah, spreadTiferes) {
 	});
 }
 
-/** @returns {Readonly<object>} Reproductive layout tuned for composite discs. */
+/** @returns {Readonly<object>} Composite-disc-aware reproductive layout. */
 function stamenMorphology(morphologyBinah) {
 	return Object.freeze({
 		...morphologyBinah,
@@ -144,29 +117,7 @@ function stamenRadius(morphologyBinah) {
 	return Math.max(0.08, morphologyBinah.discRatio * 0.5);
 }
 
-/** @returns {object} Context with normalized quality detail. */
-function realizedContext(contextChesed) {
-	if (Number.isFinite(contextChesed.quality?.detail)) {
-		return contextChesed;
-	}
-	const qualityHod = String(contextChesed.quality || 'medium').toLowerCase();
-	return {
-		...contextChesed,
-		quality: {
-			detail: QUALITY_DETAIL_BINAH[qualityHod] ?? QUALITY_DETAIL_BINAH.medium
-		}
-	};
-}
-
-/** @returns {string} Stable semantic organ id. */
+/** @returns {string} Stable semantic organ identifier. */
 function organId(contextBinah, roleHod, indexNetzach) {
 	return `${contextBinah.species?.id ?? 'custom-botanical'}.flower.${roleHod}.${indexNetzach}`;
-}
-
-/** @returns {number} Positive integer or fallback. */
-function positiveInteger(valueOhr, fallbackOhr) {
-	const numberOhr = Number(valueOhr);
-	return Number.isFinite(numberOhr) && numberOhr > 0
-		? Math.round(numberOhr)
-		: fallbackOhr;
 }

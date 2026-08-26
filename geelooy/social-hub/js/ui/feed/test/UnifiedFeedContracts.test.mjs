@@ -7,7 +7,7 @@
  * real mode queries, density validation, canonical model provenance, action priority, safe dates, and executable + options together.
  */
 import assert from 'node:assert/strict';
-import { modeOptions } from '../../PublicDiscovery.js';
+import { modeOptions } from '../../PublicDiscoveryLoader.js';
 import { validDate } from '../../PublicFeedCard.js';
 import { executableOption } from '../../../../../shared/social/ui/UniversalAddSheet.js';
 import { prioritizedActions } from '../FeedUniversalActions.js';

@@ -7,10 +7,10 @@
  * unknown Answer policy stays disabled, post cards lose irrelevant Answer, and provenance plus density remain one truthful stream.
  */
 import assert from 'node:assert/strict';
+import { modeOptions } from '../../PublicDiscoveryLoader.js';
 import { legacyActions, revealOrotFeedPostModel } from '../FeedPostModel.js';
-import { visibleFeedActions } from '../FeedUniversalActions.js';
-import { modeOptions } from '../../PublicDiscovery.js';
 import { readFeedDensity, writeFeedDensity } from '../FeedPreferences.js';
+import { visibleFeedActions } from '../FeedUniversalActions.js';
 
 const unknown = legacyActions('question', true, true, { answers: { open: null } });
 assert.equal(unknown.find(action => action.id === 'answer').enabled, false);

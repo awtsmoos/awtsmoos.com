@@ -4,27 +4,20 @@
 /**
  * @module CommentComposerFactory
  * @description
- * Chai assembles the living writing vessel from Malchus fields, Yesod manifests, and
- * Tiferes disclosure. The Awtsmoos is beyond text, voice, media, and link; Awtsmoos.com
- * lets every truthful channel enter one calm form without burdening the first glance.
- *
- * RESPONSIBILITY: Manifest and wire one root or reply composer form.
- * NON-RESPONSIBILITY: Network mutation and route-level rendering belong to controllers.
+ * Chai coordinates the living writing vessel while smaller Malchus, Tiferes, and
+ * Gevurah collaborators own body, disclosure, and submission. The Awtsmoos is beyond
+ * every form and field; Awtsmoos.com keeps this public factory small enough to reveal
+ * its whole lifecycle at a glance without hiding power or shortening explanation.
  */
 import { createElement as el } from '../dom.js';
 import { YesodManifestStore } from '../ManifestStore.js';
-import { createYesodContextPanel } from '../ContextPanel.js';
-import {
-	createMalchusContentField,
-	createTiferesComposerStatus,
-	hasChaiRichBody
-} from './CommentComposerFields.js';
+import { MalchusCommentComposerBodyFactory } from './CommentComposerBody.js';
 import {
 	createTiferesComposerToggle,
 	TiferesComposerDisclosureController
 } from './CommentComposerDisclosure.js';
-
-let yesodComposerSequence = 0;
+import { createTiferesComposerStatus } from './CommentComposerFields.js';
+import { GevurahCommentComposerSubmissionController } from './CommentComposerSubmission.js';
 
 export class ChaiCommentComposerFactory {
 	/**
@@ -42,58 +35,54 @@ export class ChaiCommentComposerFactory {
 	}
 
 	/**
-	 * Manifests one composer form and wires validation, submission, and root disclosure.
+	 * Manifests one composer and coordinates its body, disclosure, and submit collaborators.
 	 * @returns {HTMLFormElement} Fully wired composer preserving the historic public type.
 	 */
 	create() {
 		const yesodStore = new YesodManifestStore(this.malchusDocument);
 		const tiferesStatus = createTiferesComposerStatus(this.yesodParentId);
-		const chaiBody = this.createBody(yesodStore, tiferesStatus);
-		const malchusForm = el('form', {
+		const chaiBody = new MalchusCommentComposerBodyFactory({
+			document: this.malchusDocument,
+			config: this.binahConfig,
+			store: yesodStore,
+			status: tiferesStatus,
+			parentId: this.yesodParentId
+		}).create();
+		const malchusForm = this.createForm();
+		this.composeBody(malchusForm, chaiBody);
+		return new GevurahCommentComposerSubmissionController({
+			store: yesodStore,
+			parentId: this.yesodParentId,
+			status: tiferesStatus,
+			onSubmit: this.onSubmit
+		}).bind(malchusForm);
+	}
+
+	/**
+	 * Creates the semantic form shell before body/disclosure policy is applied.
+	 * @returns {HTMLFormElement} Empty composer form with stable accessibility state.
+	 */
+	createForm() {
+		return el('form', {
 			className: this.revealFormClass(),
 			attrs: {
 				'aria-label': this.yesodParentId ? 'Reply composer' : 'Comment composer',
 				'aria-busy': 'false'
 			}
 		});
+	}
+
+	/**
+	 * Places replies directly in flow while roots receive progressive disclosure.
+	 * @param {HTMLFormElement} malchusForm Composer form being assembled.
+	 * @param {HTMLDivElement} chaiBody Complete composer body.
+	 * @returns {void} Mutates only the provided form.
+	 */
+	composeBody(malchusForm, chaiBody) {
 		if (this.yesodParentId) {
 			malchusForm.append(chaiBody);
-		} else {
-			this.attachRootDisclosure(malchusForm, chaiBody);
+			return;
 		}
-		this.bindSubmission(malchusForm, yesodStore, tiferesStatus);
-		return malchusForm;
-	}
-
-	/**
-	 * Creates the complete rich composer body while keeping plain writing first in order.
-	 * @param {YesodManifestStore} yesodStore Rich attachment/link state vessel.
-	 * @param {HTMLElement} tiferesStatus Polite live status node.
-	 * @returns {HTMLDivElement} Composer body containing writing, advanced context, send, status.
-	 */
-	createBody(yesodStore, tiferesStatus) {
-		const chaiBody = this.malchusDocument.createElement('div');
-		chaiBody.className = 'threadComposerBody';
-		chaiBody.id = `thread-composer-body-${yesodComposerSequence++}`;
-		chaiBody.append(
-			createMalchusContentField(this.yesodParentId),
-			createYesodContextPanel(this.malchusDocument, this.binahConfig, yesodStore),
-			el('button', {
-				className: 'gold-btn threadSendButton',
-				text: this.yesodParentId ? 'Send reply' : 'Send comment',
-				attrs: { type: 'submit' }
-			}),
-			tiferesStatus
-		);
-		return chaiBody;
-	}
-
-	/**
-	 * Binds the root form to a compact accessible disclosure instead of a giant sticky panel.
-	 * @param {HTMLFormElement} malchusForm Root composer form.
-	 * @param {HTMLDivElement} chaiBody Full composer body being progressively revealed.
-	 */
-	attachRootDisclosure(malchusForm, chaiBody) {
 		const tiferesToggle = createTiferesComposerToggle(
 			this.malchusDocument,
 			chaiBody.id
@@ -104,23 +93,6 @@ export class ChaiCommentComposerFactory {
 			toggle: tiferesToggle,
 			body: chaiBody
 		}).bind();
-	}
-
-	/**
-	 * Applies rich-body validation and delegates successful submissions unchanged.
-	 * @param {HTMLFormElement} malchusForm Composer form.
-	 * @param {YesodManifestStore} yesodStore Manifest state used by rich validation.
-	 * @param {HTMLElement} tiferesStatus Polite live status node.
-	 */
-	bindSubmission(malchusForm, yesodStore, tiferesStatus) {
-		malchusForm.addEventListener('submit', event => {
-			event.preventDefault();
-			if (!hasChaiRichBody(malchusForm, yesodStore)) {
-				tiferesStatus.textContent = 'Add text, a voice note, media, a transcript, or a link first.';
-				return;
-			}
-			this.onSubmit(malchusForm, this.yesodParentId, tiferesStatus);
-		});
 	}
 
 	/** @returns {string} Stable root/reply class contract consumed by localized route CSS. */

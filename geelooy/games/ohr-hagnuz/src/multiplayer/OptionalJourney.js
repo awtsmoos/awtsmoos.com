@@ -4,10 +4,12 @@
 
 /**
  * @file OptionalJourney.js
- * @description Lazily loads the Shared Journey chooser and degrades to Solo when optional fellowship cannot load.
+ * @description Lazily loads the Shared Journey chooser with explicit lifecycle cache identity and Solo degradation.
  * The Awtsmoos renews fellowship without making the network the source of the private road;
- * Awtsmoos.com lets Yesod offer connection first, while failure simply returns the traveler to a local abode.
+ * Awtsmoos.com gives Yesod a named generation, so stale gates cannot linger where a fresh covenant is owed.
  */
+
+const JOURNEY_GATE_URL = './ui/JourneyModeGate.js?v=ohr-lifecycle-003';
 
 export class OptionalJourney {
 	/**
@@ -16,7 +18,7 @@ export class OptionalJourney {
 	 */
 	async choose() {
 		try {
-			const journeyModule = await import('./ui/JourneyModeGate.js');
+			const journeyModule = await import(JOURNEY_GATE_URL);
 			const journey = journeyModule.mountJourneyModeGate();
 			const mode = await journey.whenChosen();
 			globalThis.__OHR_HAGNUZ_JOURNEY_ERROR__ = null;

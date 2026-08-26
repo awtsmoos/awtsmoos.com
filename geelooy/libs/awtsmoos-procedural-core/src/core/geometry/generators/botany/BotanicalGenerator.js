@@ -4,9 +4,9 @@
 
 /**
  * @file BotanicalGenerator.js
- * @description Generates deterministic plants and clusters while preserving immutable placement evidence for later living interpretation.
- * The Awtsmoos renews one flower and a thousand-plant meadow from the same indivisible source;
- * Awtsmoos.com keeps geometry in Netzach and exposes its frozen placement witness so richer life may be revealed without moving yesterday's constellation.
+ * @description Generates deterministic plants and clusters while carrying morphology, guide, support, and growth evidence into canonical botanical parts.
+ * The Awtsmoos renews one flower and a thousand-plant meadow from the same indivisible source; Awtsmoos.com lets explicit guides and living tropisms enter one stable vessel,
+ * so beginner species calls stay small while vines, flowers, shrubs, grass, and future growth laws receive professional advanced inputs without API fracture.
  */
 
 import { botanicalQuality } from './BotanicalArchetypes.js';
@@ -24,76 +24,111 @@ import { getBotanicalSpecies } from './BotanicalSpeciesCatalog.js';
 
 /**
  * Generates one recognizable deterministic plant at a requested world position.
- * @param {object} [options={}] Species, position, seed, scale, quality, and guide-point options.
+ * @param {object} [optionsChesed={}] Species, position, seed, scale, quality, guide, support, and advanced growth options.
  * @returns {object} Renderer-neutral botanical plant payload.
  */
-export function generateBotanicalPlant(options = {}) {
-	const species = getBotanicalSpecies(options.species || 'daisy');
-	const origin = pointObject(options.position);
-	const seed = botanicalSeed(species.id, options.seed ?? 613, origin.x, origin.z);
-	const random = new BotanicalRandom(seed);
-	const scale = Math.max(0.05, Number(options.scale) || 1);
-	const qualityName = options.quality || 'high';
-	const buffers = createBotanicalBuffers();
-	appendBotanicalPlant(buffers, {
-		species,
-		origin,
-		quality: botanicalQuality(qualityName),
-		random,
-		guidePoints: options.guidePoints,
-		height: species.height * scale * random.next(0.92, 1.08),
-		spread: species.spread * scale * random.next(0.9, 1.1)
-	});
-	return botanicalPlantPayload(species, buffers, qualityName, seed);
-}
+export function generateBotanicalPlant(optionsChesed = {}) {
+	const speciesBinah = getBotanicalSpecies(
+		optionsChesed.species || 'daisy'
+	);
+	const originMalchus = pointObject(optionsChesed.position);
+	const seedYesod = botanicalSeed(
+		speciesBinah.id,
+		optionsChesed.seed ?? 613,
+		originMalchus.x,
+		originMalchus.z
+	);
+	const randomChochmah = new BotanicalRandom(seedYesod);
+	const scaleTiferes = Math.max(
+		0.05,
+		Number(optionsChesed.scale) || 1
+	);
+	const qualityHod = optionsChesed.quality || 'high';
+	const buffersMalchus = createBotanicalBuffers();
 
-/** Exposes deterministic patch placement without allocating plant geometry. */
-export function planBotanicalCluster(options = {}) {
-	return planBotanicalPatch(options);
+	appendBotanicalPlant(buffersMalchus, {
+		growth: optionsChesed.growth,
+		guidePoints: optionsChesed.guidePoints,
+		height: speciesBinah.height * scaleTiferes *
+			randomChochmah.next(0.92, 1.08),
+		origin: originMalchus,
+		quality: botanicalQuality(qualityHod),
+		random: randomChochmah,
+		species: speciesBinah,
+		spread: speciesBinah.spread * scaleTiferes *
+			randomChochmah.next(0.9, 1.1),
+		supportPoints: optionsChesed.supportPoints
+	});
+
+	return botanicalPlantPayload(
+		speciesBinah,
+		buffersMalchus,
+		qualityHod,
+		seedYesod
+	);
 }
 
 /**
- * Generates a deterministic cluster and preserves the exact immutable placement plan used to build its geometry.
- * @param {object} [options={}] Patch and botanical generation options.
- * @returns {object} Cluster payload whose `placements` are authoritative plan evidence, not a second simulation.
+ * Exposes deterministic patch placement without allocating plant geometry.
+ * @param {object} [optionsChesed={}] Botanical patch planning options.
+ * @returns {Readonly<object>} Immutable placement plan.
  */
-export function generateBotanicalCluster(options = {}) {
-	const plan = planBotanicalPatch(options);
-	const merged = new Map();
-	for (const placement of plan.placements) {
-		const plant = generateBotanicalPlant({
-			...options,
-			seed: placement.seed,
-			position: placement.position,
-			scale: placement.scale
+export function planBotanicalCluster(optionsChesed = {}) {
+	return planBotanicalPatch(optionsChesed);
+}
+
+/**
+ * Generates a deterministic cluster while preserving the exact placement plan used to build its geometry.
+ * @param {object} [optionsChesed={}] Patch, species, quality, growth, and botanical generation options.
+ * @returns {object} Renderer-neutral cluster payload with authoritative placement evidence.
+ */
+export function generateBotanicalCluster(optionsChesed = {}) {
+	const planBinah = planBotanicalPatch(optionsChesed);
+	const mergedYesod = new Map();
+	for (const placementMalchus of planBinah.placements) {
+		const plantMalchus = generateBotanicalPlant({
+			...optionsChesed,
+			position: placementMalchus.position,
+			scale: placementMalchus.scale,
+			seed: placementMalchus.seed
 		});
-		mergeBotanicalParts(merged, plant.parts);
+		mergeBotanicalParts(
+			mergedYesod,
+			plantMalchus.parts
+		);
 	}
-	const parts = [...merged.values()].map(finalizeBotanicalPart);
-	const instances = plan.placements.length;
+	const partsMalchus = [...mergedYesod.values()].map(
+		finalizeBotanicalPart
+	);
+	const instancesNetzach = planBinah.placements.length;
 	return {
-		instances,
-		parts,
-		placements: plan.placements,
-		quality: options.quality || 'high',
-		seed: plan.seed,
-		speciesId: getBotanicalSpecies(options.species || 'daisy').id,
-		stats: summarizeBotanicalParts(parts, instances)
+		instances: instancesNetzach,
+		parts: partsMalchus,
+		placements: planBinah.placements,
+		quality: optionsChesed.quality || 'high',
+		seed: planBinah.seed,
+		speciesId: getBotanicalSpecies(
+			optionsChesed.species || 'daisy'
+		).id,
+		stats: summarizeBotanicalParts(
+			partsMalchus,
+			instancesNetzach
+		)
 	};
 }
 
-/** Normalizes array or object input into one plain finite world point. */
-function pointObject(value = {}) {
-	if (Array.isArray(value)) {
-		return {
-			x: Number(value[0]) || 0,
-			y: Number(value[1]) || 0,
-			z: Number(value[2]) || 0
-		};
-	}
+/**
+ * Normalizes array or object input into one finite world-space point.
+ * @param {Array<number>|object} [valueOhr={}] Candidate position.
+ * @returns {{x:number,y:number,z:number}} Plain world point.
+ */
+function pointObject(valueOhr = {}) {
+	const sourceOhr = Array.isArray(valueOhr)
+		? { x: valueOhr[0], y: valueOhr[1], z: valueOhr[2] }
+		: valueOhr;
 	return {
-		x: Number(value.x) || 0,
-		y: Number(value.y) || 0,
-		z: Number(value.z) || 0
+		x: Number(sourceOhr.x) || 0,
+		y: Number(sourceOhr.y) || 0,
+		z: Number(sourceOhr.z) || 0
 	};
 }

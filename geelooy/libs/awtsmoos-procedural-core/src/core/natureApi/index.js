@@ -13,7 +13,11 @@ export { NatureApi, createNatureApi } from './NatureApi.js';
 export { NatureApiBase } from './NatureApiBase.js';
 export { NatureDirectApi } from './NatureDirectApi.js';
 export { NatureCatalogApi } from './NatureCatalogApi.js';
-export { NatureCapabilityApi, createNatureCapabilityApi } from './capabilities/NatureCapabilityApi.js';
+export { NatureCapabilityLookupApi } from './capabilities/NatureCapabilityLookupApi.js';
+export {
+	NatureCapabilityApi,
+	createNatureCapabilityApi
+} from './capabilities/NatureCapabilityApi.js';
 export { createNatureCapabilityRecord } from './capabilities/NatureCapabilityRecord.js';
 export {
 	createNatureCapabilityInput,

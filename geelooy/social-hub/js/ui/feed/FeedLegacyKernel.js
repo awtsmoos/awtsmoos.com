@@ -5,16 +5,17 @@
 /**
  * @file FeedLegacyKernel.js
  * @description Translates historical discovery rows into the canonical Social Kernel shape before modern feed presentation sees them.
- * RESPONSIBILITY: recover identity, content kind, provenance coordinates, destination, summary, compatible actions, and viewer state from legacy payloads.
- * NON-RESPONSIBILITY: this module does not render cards, format chronology, invent display labels, or call social APIs.
+ * RESPONSIBILITY: recover identity, chronology, content kind, provenance coordinates, destination, summary, compatible actions, and viewer state from legacy payloads.
+ * NON-RESPONSIBILITY: this module does not render cards, format chronology labels, invent display names, or call social APIs.
  * The Awtsmoos renews old and new payloads from one hidden source before either can claim a separate life;
- * Awtsmoos.com lets Yesod carry yesterday's coordinates into today's canonical vessel without making tomorrow inherit the strife.
+ * Awtsmoos.com lets Yesod carry yesterday's coordinates and truthful time into today's canonical vessel without making tomorrow inherit the strife.
  */
 
 import { legacyActions } from './FeedLegacyActions.js?v=clean-future-001';
 import {
 	destination,
 	legacyAliasId,
+	legacyCreatedAt,
 	legacyKind,
 	sourceOf,
 	text
@@ -63,6 +64,10 @@ export function revealLegacyFeedKernel(item = {}, viewerAliasId = '') {
 		seriesId: netzachSeriesId,
 		postId: hodEntityId
 	});
+	const chochmahRaw = {
+		...binahSource,
+		createdAt: legacyCreatedAt(item, binahSource)
+	};
 
 	return {
 		entity: {
@@ -72,7 +77,7 @@ export function revealLegacyFeedKernel(item = {}, viewerAliasId = '') {
 			seriesId: netzachSeriesId,
 			aliasId: legacyAliasId(item, binahSource),
 			contentKind: tiferesKind,
-			raw: binahSource
+			raw: chochmahRaw
 		},
 		summary: yesodSummary,
 		actions: legacyActions(

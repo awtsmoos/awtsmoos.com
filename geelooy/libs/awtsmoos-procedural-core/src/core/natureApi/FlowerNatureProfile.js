@@ -1,39 +1,52 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file FlowerNatureProfile.js
- * @description Reveals immutable biological flower metadata directly from the canonical botanical catalog without duplicating species truth.
- * The Awtsmoos renews petal, crown, habitat, and hue within one living source;
- * Awtsmoos.com lets simple callers discover that depth while canonical botany remains the generator course.
+ * @description Reveals immutable flower biology from the canonical species catalog plus the shared morphology authority used by geometry generation.
+ * The Awtsmoos renews petal, crown, symmetry, whorl, habitat, and hue within one living source; Awtsmoos.com lets authoring tools see the same biology that geometry obeys,
+ * so simple callers gain meaningful species depth without duplicating botanical truth or creating a second taxonomy beside the canonical grove.
  */
-import { BOTANICAL_FLOWER_SPECIES } from '../geometry/generators/botany/BotanicalCatalogFlowers.js';
 
-const FLOWER_INDEX = new Map(
-	BOTANICAL_FLOWER_SPECIES.map(tiferesSpecies => [String(tiferesSpecies.id), tiferesSpecies])
+import { BOTANICAL_FLOWER_SPECIES } from '../geometry/generators/botany/BotanicalCatalogFlowers.js';
+import { resolveBotanicalFlowerMorphology } from '../geometry/generators/botany/BotanicalFlowerMorphology.js';
+
+const FLOWER_INDEX_YESOD = new Map(
+	BOTANICAL_FLOWER_SPECIES.map((speciesBinah) => {
+		return [String(speciesBinah.id), speciesBinah];
+	})
 );
 
 /**
- * Reveals one flower profile from the canonical catalog.
- * @param {string} yesodSpecies Canonical flower species id.
- * @returns {Readonly<object>} Frozen biological profile with renderer-neutral bloom diagnostics.
+ * Reveals one canonical flower profile with the morphology used by actual procedural generation.
+ * @param {string} speciesYesod Canonical flower species id.
+ * @returns {Readonly<object>} Frozen biological profile and surface-role metadata.
  * @throws {RangeError} When the requested flower id does not exist.
  */
-export function createFlowerNatureProfile(yesodSpecies) {
-	const tiferesId = String(yesodSpecies || '').trim();
-	const malchusSpecies = FLOWER_INDEX.get(tiferesId);
-	if (!malchusSpecies) {
-		throw new RangeError(`B"H | Unknown flower species "${tiferesId}".`);
+export function createFlowerNatureProfile(speciesYesod) {
+	const speciesIdHod = String(speciesYesod || '').trim();
+	const speciesBinah = FLOWER_INDEX_YESOD.get(speciesIdHod);
+	if (!speciesBinah) {
+		throw new RangeError(
+			`B"H | Unknown flower species "${speciesIdHod}".`
+		);
 	}
-	const chochmahColors = Object.freeze([...(malchusSpecies.colors || [])]);
+
 	return Object.freeze({
-		archetype: String(malchusSpecies.archetype || 'flower'),
-		colors: chochmahColors,
-		habitat: String(malchusSpecies.habitat || 'cottage'),
-		height: finite(malchusSpecies.height, 0.5),
-		id: tiferesId,
-		label: String(malchusSpecies.label || tiferesId),
-		petals: integer(malchusSpecies.petals, 6, 1, 64),
+		archetype: String(speciesBinah.archetype || 'flower'),
+		colors: Object.freeze([...(speciesBinah.colors || [])]),
+		habitat: String(speciesBinah.habitat || 'cottage'),
+		height: positive(speciesBinah.height, 0.5),
+		id: speciesIdHod,
+		label: String(speciesBinah.label || speciesIdHod),
+		morphology: resolveBotanicalFlowerMorphology(speciesBinah),
+		petals: boundedInteger(
+			speciesBinah.petals,
+			6,
+			1,
+			128
+		),
 		surfaceRoles: Object.freeze({
 			flower: 'flower',
 			foliage: 'leaf',
@@ -44,33 +57,49 @@ export function createFlowerNatureProfile(yesodSpecies) {
 
 /**
  * Lists every canonical flower profile in deterministic catalog order.
- * @returns {ReadonlyArray<object>} Frozen profile list safe for menus, tools, and procedural selection.
+ * @returns {Readonly<Array<object>>} Frozen profiles safe for menus, procedural selection, docs, and editors.
  */
 export function listFlowerNatureProfiles() {
 	return Object.freeze(
-		BOTANICAL_FLOWER_SPECIES.map(malchusSpecies => createFlowerNatureProfile(malchusSpecies.id))
+		BOTANICAL_FLOWER_SPECIES.map((speciesBinah) => {
+			return createFlowerNatureProfile(speciesBinah.id);
+		})
 	);
 }
 
 /**
  * Reports whether one id belongs to the canonical flower catalog without throwing.
- * @param {string} yesodSpecies Candidate species id.
- * @returns {boolean} True when the flower exists.
+ * @param {string} speciesYesod Candidate species id.
+ * @returns {boolean} True when the canonical flower exists.
  */
-export function hasFlowerNatureProfile(yesodSpecies) {
-	return FLOWER_INDEX.has(String(yesodSpecies || '').trim());
+export function hasFlowerNatureProfile(speciesYesod) {
+	return FLOWER_INDEX_YESOD.has(
+		String(speciesYesod || '').trim()
+	);
 }
 
-/** Returns a finite positive biological scalar or a stable fallback. */
-function finite(orValue, yesodFallback) {
-	const malchusValue = Number(orValue ?? yesodFallback);
-	return Number.isFinite(malchusValue) && malchusValue > 0 ? malchusValue : yesodFallback;
+/** @returns {number} Positive finite biological scalar or fallback. */
+function positive(valueOhr, fallbackOhr) {
+	const numberOhr = Number(valueOhr);
+	return Number.isFinite(numberOhr) && numberOhr > 0
+		? numberOhr
+		: fallbackOhr;
 }
 
-/** Returns one bounded integer suitable for count-like botanical diagnostics. */
-function integer(orValue, yesodFallback, gevurahMinimum, chesedMaximum) {
-	return Math.round(Math.min(
-		chesedMaximum,
-		Math.max(gevurahMinimum, finite(orValue, yesodFallback))
-	));
+/** @returns {number} Integer constrained to inclusive bounds. */
+function boundedInteger(
+	valueOhr,
+	fallbackOhr,
+	minimumGevurah,
+	maximumChesed
+) {
+	return Math.round(
+		Math.min(
+			maximumChesed,
+			Math.max(
+				minimumGevurah,
+				positive(valueOhr, fallbackOhr)
+			)
+		)
+	);
 }

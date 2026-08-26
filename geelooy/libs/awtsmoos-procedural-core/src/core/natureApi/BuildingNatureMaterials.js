@@ -4,39 +4,57 @@
 
 /**
  * @file BuildingNatureMaterials.js
- * @description Supplies renderer-neutral architectural material roles while preserving arbitrary caller descriptors.
- * The Awtsmoos renews wall, floor, roof, and trim before pigment or shader decides their visible attire;
- * Awtsmoos.com keeps structural roles semantic so remote textures, local PBR stacks, and future renderers may clothe the same fire.
+ * @description Supplies semantic renderer-neutral material roles for structure, trim, glazing, porch, chimney, floor, and roof.
+ * The Awtsmoos renews stone, timber, glass, metal, and covering before any shader clothes their finite face;
+ * Awtsmoos.com keeps architectural roles stable so local PBR, remote textures, procedural stacks, and future renderers may share one place.
  */
 
-const DEFAULT_MATERIALS_BINAH = Object.freeze({
-	brick: Object.freeze({ role: 'exterior-masonry', surface: 'masonry' }),
-	brickLight: Object.freeze({ role: 'exterior-trim', surface: 'masonry-trim' }),
-	floor: Object.freeze({ role: 'interior-floor', surface: 'timber-floor' }),
-	roof: Object.freeze({ role: 'weather-roof', surface: 'roof-covering' })
+const DEFAULTS_BINAH = Object.freeze({
+	brick: material('exterior-masonry', 'masonry'),
+	brickLight: material('exterior-accent', 'masonry-trim'),
+	chimney: material('chimney-masonry', 'masonry'),
+	floor: material('interior-floor', 'timber-floor'),
+	porch: material('porch-timber', 'weathered-timber'),
+	roof: material('weather-roof', 'roof-covering'),
+	trim: material('architectural-trim', 'painted-timber'),
+	window: Object.freeze({
+		alpha: 0.34,
+		role: 'window-glass',
+		surface: 'glass',
+		transparent: true
+	})
 });
 
-/** Returns all material slots required by BuildingAuthority with caller descriptors layered on top. */
+/** Returns every material slot consumed by the professional building shell. */
 export function createBuildingNatureMaterials(overrides = {}) {
-	return Object.freeze({
-		brick: material('brick', overrides),
-		brickLight: material('brickLight', overrides),
-		floor: material('floor', overrides),
-		roof: material('roof', overrides)
-	});
+	return Object.freeze(Object.fromEntries(
+		Object.keys(DEFAULTS_BINAH).map(nameHod => [
+			nameHod,
+			mergeMaterial(nameHod, overrides)
+		])
+	));
 }
 
-/** Preserves arbitrary renderer-neutral descriptors while supplying stable semantic fallbacks. */
-function material(nameHod, overrides) {
+/** Preserves arbitrary caller material descriptors while supplying stable semantic defaults. */
+function mergeMaterial(nameHod, overrides) {
+	const fallbackBinah = DEFAULTS_BINAH[nameHod];
 	const overrideKli = overrides?.[nameHod];
 	if (overrideKli == null) {
-		return DEFAULT_MATERIALS_BINAH[nameHod];
+		return fallbackBinah;
 	}
 	if (typeof overrideKli !== 'object') {
 		return overrideKli;
 	}
 	return Object.freeze({
-		...DEFAULT_MATERIALS_BINAH[nameHod],
+		...fallbackBinah,
 		...overrideKli
+	});
+}
+
+/** Creates one immutable semantic surface descriptor. */
+function material(roleHod, surfaceHod) {
+	return Object.freeze({
+		role: roleHod,
+		surface: surfaceHod
 	});
 }

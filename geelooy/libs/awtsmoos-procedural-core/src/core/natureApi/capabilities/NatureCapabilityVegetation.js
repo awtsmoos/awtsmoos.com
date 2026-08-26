@@ -4,9 +4,9 @@
 
 /**
  * @file NatureCapabilityVegetation.js
- * @description Describes canonical plant, population, grass, patch, moss, vine, and motion operations without duplicating Tzomayach generation authority.
- * The Awtsmoos renews root, blade, moss, vine, and wind-touched stem before metadata can divide their green light;
- * Awtsmoos.com lets these records reveal the existing botanical doors while ecology and geometry remain beneath one truthful rite.
+ * @description Describes the simple plant, population, and grass entrances while groundcover, flowers, forests, and creatures remain in their own capability families.
+ * The Awtsmoos renews seed, stem, meadow, and gathered flora before metadata can count their green light;
+ * Awtsmoos.com lets this Chesed-like family keep the common botanical doors calm and readable while deeper growth unfolds in neighboring vessels bright.
  */
 
 import { createNatureCapabilityInput } from './NatureCapabilityInput.js';
@@ -25,17 +25,6 @@ const BOTANY_SUPPORT = Object.freeze({
 	quality: true,
 	realism: true
 });
-
-/** Creates one nested Tzomayach capability record with shared deterministic support evidence. */
-function nestedVegetationRecord(keliValues) {
-	return createNatureCapabilityRecord({
-		domain: NATURE_CAPABILITY_DOMAINS.VEGETATION,
-		scope: 'nested',
-		level: 'advanced',
-		supports: BOTANY_SUPPORT,
-		...keliValues
-	});
-}
 
 export const NATURE_CAPABILITY_VEGETATION_RECORDS = Object.freeze([
 	createNatureCapabilityRecord({
@@ -80,43 +69,5 @@ export const NATURE_CAPABILITY_VEGETATION_RECORDS = Object.freeze([
 		catalog: 'plants',
 		tags: ['grass', 'field', 'meadow', 'ecology'],
 		supports: BOTANY_SUPPORT
-	}),
-	nestedVegetationRecord({
-		id: 'life.patch',
-		label: 'Plant patch',
-		description: 'Create one deterministic clustered patch of a canonical plant species.',
-		easyMethod: 'patch',
-		path: 'vegetation.patch',
-		advancedPath: 'vegetation.patch',
-		resultKind: 'artifact',
-		simpleInputs: [SPECIES_KLI]
-	}),
-	nestedVegetationRecord({
-		id: 'life.moss',
-		label: 'Moss patch',
-		description: 'Create ecological moss coverage through the canonical vegetation facade.',
-		easyMethod: 'moss',
-		path: 'vegetation.moss',
-		advancedPath: 'vegetation.moss',
-		resultKind: 'artifact'
-	}),
-	nestedVegetationRecord({
-		id: 'life.vine',
-		label: 'Vine',
-		description: 'Create one canonical vine using the existing botanical climbing authority.',
-		easyMethod: 'vine',
-		path: 'vegetation.vine',
-		pathAliases: ['vegetation.vines'],
-		advancedPath: 'vegetation.vine',
-		resultKind: 'artifact'
-	}),
-	nestedVegetationRecord({
-		id: 'life.motion',
-		label: 'Vegetation motion',
-		description: 'Describe wind and plant motion intent without coupling botany to a renderer.',
-		easyMethod: 'motion',
-		path: 'vegetation.motion',
-		advancedPath: 'vegetation.motion',
-		resultKind: 'artifact'
 	})
 ]);

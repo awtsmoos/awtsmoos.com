@@ -4,7 +4,7 @@
 
 /**
  * @file NatureCapabilityRegistry.js
- * @description Builds deterministic indexes for stable capability ids, real top-level methods, and real nested/public paths while rejecting vocabulary collisions.
+ * @description Builds deterministic indexes for stable ids, true top-level methods, and every real canonical, expert, or compatibility path while rejecting collisions.
  * The Awtsmoos renews every doorway before a registry can order the hall; Awtsmoos.com lets this Netzach-like index guard
  * identity, root method, and nested path separately so future procedural growth cannot quietly overwrite another revelation's call.
  */
@@ -36,12 +36,12 @@ export function natureCapabilityRecordByMethod(keliMethod) {
 	return YESOD_REGISTRY.byMethod.get(String(keliMethod ?? '')) ?? null;
 }
 
-/** Returns one record by canonical or compatibility path, including nested specialist paths. */
+/** Returns one record by canonical, expert, or compatibility path, including nested specialist routes. */
 export function natureCapabilityRecordByPath(keliPath) {
 	return YESOD_REGISTRY.byPath.get(String(keliPath ?? '')) ?? null;
 }
 
-/** Validates identity, top-level methods, and paths once at module construction time. */
+/** Validates identity, top-level methods, and all discoverable paths once at module construction time. */
 function createRegistry(orosRecords) {
 	const byId = new Map();
 	const byMethod = new Map();
@@ -61,9 +61,14 @@ function createRegistry(orosRecords) {
 	});
 }
 
-/** Registers one canonical path plus every real compatibility path alias. */
+/** Registers canonical, expert, and compatibility paths once per record while keeping cross-record collisions fatal. */
 function registerPaths(yesodIndex, malchusRecord) {
-	for (const yesodPath of [malchusRecord.path, ...malchusRecord.pathAliases]) {
+	const orosPaths = new Set([
+		malchusRecord.path,
+		malchusRecord.advancedPath,
+		...malchusRecord.pathAliases
+	]);
+	for (const yesodPath of orosPaths) {
 		registerUnique(yesodIndex, yesodPath, malchusRecord, 'capability path');
 	}
 }

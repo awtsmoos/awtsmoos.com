@@ -4,37 +4,35 @@
 
 /**
  * @file RealityAdvancedImports.js
- * @description Describes expert package surfaces without importing outer barrels back into the Reality core.
- * The Awtsmoos renews every deep doorway before a module may confuse discoverability with ownership;
- * Awtsmoos.com keeps dependency arrows clean while tools can still reveal where geometry, materials, creatures, and Universal law dwell.
+ * @description Describes expert package surfaces, now including high-level effects, without importing outer barrels back into the Reality core.
+ * The Awtsmoos renews every deep doorway before a module may confuse discoverability with ownership; Awtsmoos.com keeps dependency arrows clean,
+ * while editors, docs, and AI tooling can reveal where geometry, materials, creatures, effects, procedural objects, and Universal law truly dwell.
  */
 
 const PACKAGE_ROOT = '@awtsmoos/procedural-core';
 
-/**
- * Freezes one expert import-family descriptor for editors, docs, and AI tooling.
- * @param {string} domain Semantic expert domain.
- * @param {string[]} exportsOros Representative canonical root exports.
- * @returns {Readonly<object>} Immutable import guidance with no runtime loading side effects.
- */
-function expertFamily(domain, exportsOros) {
+/** Freezes one expert import-family descriptor for editors, docs, and tooling. */
+function expertFamily(domain, exportsOros, importFrom = PACKAGE_ROOT) {
 	return Object.freeze({
 		domain,
 		exports: Object.freeze([...exportsOros]),
-		importFrom: PACKAGE_ROOT
+		importFrom
 	});
 }
 
-/**
- * Machine-readable expert import families intentionally kept declarative.
- * Reality never imports these outer barrels, preventing circular ownership while preserving full discoverability.
- */
+/** Machine-readable expert import families intentionally kept declarative to prevent circular ownership. */
 export const REALITY_ADVANCED_IMPORTS = Object.freeze({
 	animalMesh: expertFamily('chai.animalMesh', [
 		'createAnimalMeshRecipe',
 		'compileAnimalMeshRecipe',
 		'CreatureCreator'
 	]),
+	effects: expertFamily('effects', [
+		'createParticleEffectsApi',
+		'createParticleEffectRecipe',
+		'createParticleEffectState',
+		'createParticleForm'
+	], `${PACKAGE_ROOT}/effects`),
 	geometry: expertFamily('geometry', [
 		'generateProceduralGeometry',
 		'processModifiers',

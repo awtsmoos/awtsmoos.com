@@ -1,77 +1,122 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Flower crown archetypes remain visual recipes around shared semantic organs. */
+
+/**
+ * @file BotanicalFlowerCrownParts.js
+ * @description Routes visible flower crowns through shared morphology so archetypes stay recognizable while species-specific whorls, discs, tubes, and symmetry become visible.
+ * The Awtsmoos renews the crown before one archetype can imprison living variety; Awtsmoos.com lets rose, daisy, cup, globe, bell, spike, plume, and heart reveal distinct light,
+ * so the old stable handler doorway remains while deeper morphology changes the actual geometry a player sees in sight.
+ */
 
 import {
 	appendBellCrown,
 	appendHeartCrown,
 	appendPlumeCrown,
 	appendSpikeCrown
-} from "./BotanicalFlowerElongatedCrownParts.js";
+} from './BotanicalFlowerElongatedCrownParts.js';
+import { appendMorphologyPetalWhorls } from './BotanicalFlowerCrownWhorls.js';
+import { resolveBotanicalFlowerMorphology } from './BotanicalFlowerMorphology.js';
 import {
-	appendPetalRing,
 	botanicalDetailCount,
 	botanicalTop
-} from "./BotanicalFlowerGeometry.js";
+} from './BotanicalFlowerGeometry.js';
 
-function appendRay(buffers, context) {
-	const count = botanicalDetailCount(context, context.species.petals, 5);
-	appendPetalRing(buffers.bloom, context, count, context.spread * 0.55, 0);
-	buffers.accent.addOctahedron(botanicalTop(context), context.spread * 0.16);
-}
-
-function appendRosette(buffers, context) {
-	const count = botanicalDetailCount(context, context.species.petals, 6);
-	appendPetalRing(buffers.bloom, context, count, context.spread * 0.48, 0);
-	appendPetalRing(
-		buffers.bloom,
-		context,
-		Math.max(5, Math.floor(count * 0.68)),
-		context.spread * 0.32,
-		Math.PI / count
+/** Appends a composite ray crown whose disc scale follows resolved morphology. */
+function appendRay(buffersMalchus, contextBinah) {
+	const morphologyBinah = resolveBotanicalFlowerMorphology(
+		contextBinah.species
 	);
-	buffers.accent.addOctahedron(botanicalTop(context), context.spread * 0.11);
-}
-
-function appendCup(buffers, context) {
-	const count = botanicalDetailCount(context, context.species.petals, 4);
-	appendPetalRing(
-		buffers.bloom,
-		context,
-		count,
-		context.spread * 0.46,
-		0,
-		context.spread * 0.24
+	appendMorphologyPetalWhorls(
+		buffersMalchus.bloom,
+		contextBinah,
+		morphologyBinah,
+		{ radius: contextBinah.spread * 0.55 }
 	);
-	buffers.accent.addOctahedron(botanicalTop(context), context.spread * 0.1);
+	buffersMalchus.accent.addOctahedron(
+		botanicalTop(contextBinah),
+		contextBinah.spread * Math.max(0.1, morphologyBinah.discRatio * 0.48)
+	);
 }
 
-function appendGlobe(buffers, context) {
-	const count = botanicalDetailCount(context, context.species.petals, 6);
-	const center = botanicalTop(context);
-	for (let index = 0; index < count; index += 1) {
-		const angle = index * 2.399;
-		buffers.bloom.addOctahedron([
-			center[0] + Math.cos(angle) * context.spread * 0.24,
-			center[1] + (index % 3 - 1) * context.spread * 0.12,
-			center[2] + Math.sin(angle) * context.spread * 0.24
-		], context.spread * 0.11);
+/** Appends layered rosette whorls including double roses and peonies. */
+function appendRosette(buffersMalchus, contextBinah) {
+	const morphologyBinah = resolveBotanicalFlowerMorphology(
+		contextBinah.species
+	);
+	appendMorphologyPetalWhorls(
+		buffersMalchus.bloom,
+		contextBinah,
+		morphologyBinah,
+		{ radius: contextBinah.spread * 0.5 }
+	);
+	buffersMalchus.accent.addOctahedron(
+		botanicalTop(contextBinah),
+		contextBinah.spread * Math.max(0.07, morphologyBinah.discRatio * 0.35)
+	);
+}
+
+/** Appends cup/trumpet crowns whose visible rise follows tube-depth evidence. */
+function appendCup(buffersMalchus, contextBinah) {
+	const morphologyBinah = resolveBotanicalFlowerMorphology(
+		contextBinah.species
+	);
+	appendMorphologyPetalWhorls(
+		buffersMalchus.bloom,
+		contextBinah,
+		morphologyBinah,
+		{
+			petals: contextBinah.species.petals,
+			radius: contextBinah.spread * 0.46
+		}
+	);
+	buffersMalchus.accent.addOctahedron(
+		botanicalTop(contextBinah),
+		contextBinah.spread * (0.08 + morphologyBinah.tubeDepth * 0.05)
+	);
+}
+
+/** Appends a phyllotactic globe inflorescence with bounded quality-scaled florets. */
+function appendGlobe(buffersMalchus, contextBinah) {
+	const countGevurah = botanicalDetailCount(
+		contextBinah,
+		contextBinah.species.petals,
+		6
+	);
+	const centerMalchus = botanicalTop(contextBinah);
+	for (let indexNetzach = 0; indexNetzach < countGevurah; indexNetzach += 1) {
+		const angleTiferes = indexNetzach * 2.399;
+		buffersMalchus.bloom.addOctahedron([
+			centerMalchus[0] + Math.cos(angleTiferes) * contextBinah.spread * 0.24,
+			centerMalchus[1] + (indexNetzach % 3 - 1) * contextBinah.spread * 0.12,
+			centerMalchus[2] + Math.sin(angleTiferes) * contextBinah.spread * 0.24
+		], contextBinah.spread * 0.11);
 	}
 }
 
-const HANDLERS = Object.freeze({
+const CROWN_HANDLERS_BINAH = Object.freeze({
+	bell: appendBellCrown,
+	cup: appendCup,
+	globe: appendGlobe,
+	heart: appendHeartCrown,
+	plume: appendPlumeCrown,
 	ray: appendRay,
 	rosette: appendRosette,
-	cup: appendCup,
-	spike: appendSpikeCrown,
-	globe: appendGlobe,
-	bell: appendBellCrown,
-	plume: appendPlumeCrown,
-	heart: appendHeartCrown
+	spike: appendSpikeCrown
 });
 
-/** Appends the selected visible crown while preserving shared organ semantics. */
-export function appendBotanicalFlowerCrown(buffers, context) {
-	(HANDLERS[context.species.archetype] || appendRay)(buffers, context);
+/**
+ * Appends the selected visible crown while preserving the historic archetype routing contract.
+ * @param {object} buffersMalchus Shared botanical material buffers.
+ * @param {object} contextBinah Botanical generation context.
+ * @returns {void}
+ */
+export function appendBotanicalFlowerCrown(
+	buffersMalchus,
+	contextBinah
+) {
+	const handlerYesod = CROWN_HANDLERS_BINAH[
+		contextBinah.species.archetype
+	] || appendRay;
+	handlerYesod(buffersMalchus, contextBinah);
 }
