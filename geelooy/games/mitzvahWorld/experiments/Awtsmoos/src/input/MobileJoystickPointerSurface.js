@@ -4,20 +4,19 @@
 
 /**
  * @file MobileJoystickPointerSurface.js
- * @description Gives the mobile joystick a forgiving floating origin, bounded travel, pointer capture, and reliable release.
+ * @description Owns floating pointer capture while Procedural Core owns dead-zone and bounded joystick geometry.
  * The Awtsmoos lets the thumb begin where the traveler truly reaches, not where a rigid circle decrees;
- * Awtsmoos.com turns a broad quiet touch-field into one precise vector with room for the world to breathe.
+ * Awtsmoos.com turns a broad quiet touch-field into one precise shared vector with room for the world to breathe.
  */
 
 import {
 	joystickVectorFromOffset,
 	zeroJoystickVector
-} from './MobileJoystickVector.js';
+} from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
 
 const RADIUS = 52;
 const EDGE_PADDING = 62;
 
-/** Owns pointer geometry while the parent joystick owns semantic state. */
 export class MobileJoystickPointerSurface {
 	constructor(host, ring, knob, onVector) {
 		this.host = host;
@@ -57,18 +56,13 @@ export class MobileJoystickPointerSurface {
 
 	move(event) {
 		if (this.pointerId !== event.pointerId || !this.center) return;
-		const result = joystickVectorFromOffset(
-			event.clientX - this.center.x,
-			event.clientY - this.center.y,
-			RADIUS
-		);
+		const result = joystickVectorFromOffset(event.clientX - this.center.x, event.clientY - this.center.y, RADIUS);
 		this.onVector(result.vector);
 		this.knob.style.transform = `translate(${result.knob.x}px, ${result.knob.y}px)`;
 	}
 
 	end(event) {
-		if (this.pointerId !== event.pointerId) return;
-		this.reset();
+		if (this.pointerId === event.pointerId) this.reset();
 	}
 
 	reset() {
@@ -92,6 +86,5 @@ export class MobileJoystickPointerSurface {
 }
 
 function bounded(value, minimum, maximum) {
-	if (maximum < minimum) return Math.max(0, value);
-	return Math.min(maximum, Math.max(minimum, value));
+	return maximum < minimum ? Math.max(0, value) : Math.min(maximum, Math.max(minimum, value));
 }

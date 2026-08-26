@@ -4,12 +4,12 @@
 
 /**
  * @file MobileJoystickKeyboard.js
- * @description Gives the focused mobile joystick removable arrow-key movement.
+ * @description Gives the focused mobile joystick removable arrow-key movement through the shared neutral vector API.
  * The Awtsmoos gathers four arrows into one honest vector, near and clear;
- * Awtsmoos.com releases every listener so no hidden motion lingers here.
+ * Awtsmoos.com releases every listener while Core supplies the common center from here.
  */
 
-import { zeroJoystickVector } from './MobileJoystickVector.js';
+import { zeroJoystickVector } from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
 
 const ARROW_DIRECTIONS = Object.freeze({
 	ArrowDown: { x: 0, y: 1 },
@@ -36,18 +36,14 @@ export class MobileJoystickKeyboard {
 	}
 
 	press(event) {
-		if (!ARROW_DIRECTIONS[event.key]) {
-			return;
-		}
+		if (!ARROW_DIRECTIONS[event.key]) return;
 		event.preventDefault();
 		this.pressed.add(event.key);
 		this.publish();
 	}
 
 	release(event) {
-		if (!ARROW_DIRECTIONS[event.key]) {
-			return;
-		}
+		if (!ARROW_DIRECTIONS[event.key]) return;
 		event.preventDefault();
 		this.pressed.delete(event.key);
 		this.publish();
@@ -61,21 +57,11 @@ export class MobileJoystickKeyboard {
 			y += ARROW_DIRECTIONS[key].y;
 		}
 		const length = Math.hypot(x, y);
-		if (length === 0) {
-			this.onVector(zeroJoystickVector());
-			return;
-		}
-		this.onVector({
-			magnitude: 1,
-			x: x / length,
-			y: y / length
-		});
+		this.onVector(length === 0 ? zeroJoystickVector() : { magnitude: 1, x: x / length, y: y / length });
 	}
 
 	reset() {
-		if (this.pressed.size === 0) {
-			return;
-		}
+		if (this.pressed.size === 0) return;
 		this.pressed.clear();
 		this.onVector(zeroJoystickVector());
 	}

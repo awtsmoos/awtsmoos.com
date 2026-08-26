@@ -4,19 +4,18 @@
 
 /**
  * @file MobileJoystick.js
- * @description Composes a floating touch surface, marks its measured movement zone, and resets cleanly across lifecycle changes.
- * The Awtsmoos turns touch and arrows toward one road while Awtsmoos.com gives the thumb field one named shore in the mobile sea;
- * movement may float within its generous vessel, yet geometry, accessibility, and verification now agree where that vessel must be.
+ * @description Composes accessible mobile movement UI while Procedural Core owns reusable joystick mathematics.
+ * The Awtsmoos turns touch and arrows toward one road while Awtsmoos.com keeps intention and presentation clean;
+ * this vessel owns DOM and lifecycle only, while shared vector law flows from one canonical engine stream.
  */
 
-import { MobileJoystickKeyboard } from './MobileJoystickKeyboard.js';
-import { MobileJoystickPointerSurface } from './MobileJoystickPointerSurface.js';
 import {
 	joystickDirectionLabel,
 	zeroJoystickVector
-} from './MobileJoystickVector.js';
+} from '../../../../../../libs/awtsmoos-procedural-core/src/index.js';
+import { MobileJoystickKeyboard } from './MobileJoystickKeyboard.js';
+import { MobileJoystickPointerSurface } from './MobileJoystickPointerSurface.js';
 
-/** Owns mobile movement input while the shared layout layer owns coordinates. */
 export class MobileJoystick {
 	constructor(host) {
 		this.host = host;
@@ -42,12 +41,7 @@ export class MobileJoystick {
 		this.ring.setAttribute('role', 'group');
 		this.ring.setAttribute('aria-roledescription', 'floating directional joystick');
 		this.ring.setAttribute('aria-keyshortcuts', 'ArrowUp ArrowDown ArrowLeft ArrowRight');
-		this.surface = new MobileJoystickPointerSurface(
-			this.host,
-			this.ring,
-			this.knob,
-			vector => this.setVector(vector)
-		);
+		this.surface = new MobileJoystickPointerSurface(this.host, this.ring, this.knob, vector => this.setVector(vector));
 		this.keyboard = new MobileJoystickKeyboard(this.ring, vector => {
 			if (this.surface.pointerId === null) this.setVector(vector);
 		});
@@ -64,8 +58,7 @@ export class MobileJoystick {
 
 	setVector(vector) {
 		this.vector = vector;
-		const direction = joystickDirectionLabel(vector);
-		this.ring?.setAttribute('aria-label', `Movement joystick: ${direction}`);
+		this.ring?.setAttribute('aria-label', `Movement joystick: ${joystickDirectionLabel(vector)}`);
 	}
 
 	reset() {
