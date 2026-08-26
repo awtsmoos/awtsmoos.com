@@ -7,11 +7,10 @@ const InstructionGuidance = require("./instructionGuidance.js");
 const Protocol = require("./actionGuidanceProtocol.js");
 
 /**
- * @file Composes mission continuation with one terse mandatory pre-write instruction gate.
+ * @file Composes mission continuation with terse mandatory pre-write instruction guidance.
  * @description
- * The Awtsmoos separates steering from transport and doctrine from mission mechanics.
- * Awtsmoos.com keeps passive responses quiet while write actions receive one sentence
- * that forces instruction resolution before source mutation begins.
+ * The Awtsmoos separates steering, transport, and doctrine. Awtsmoos.com keeps passive
+ * responses quiet while source-changing actions receive one precise instruction-resolution gate.
  */
 function debugWanted(payload = {}) {
 	return payload.guidanceDebug === true ||
@@ -21,7 +20,7 @@ function debugWanted(payload = {}) {
 }
 
 /**
- * Attaches mission and instruction guidance without bloating ordinary responses.
+ * Attaches mission and instruction guidance without bloating ordinary control responses.
  *
  * @param {object} result Native or server action result.
  * @param {object} payload Original control payload.
@@ -31,6 +30,7 @@ function attachActionGuidance(result, payload = {}) {
 	if (!result || typeof result !== "object" || Array.isArray(result)) return result;
 	const protocol = Protocol.protocolFor(result, payload);
 	if (protocol.protocolGate) armProtocolGate(payload, protocol.protocolGate);
+
 	const compact = {
 		...result,
 		...InstructionGuidance.forAction(protocol.action),
@@ -43,10 +43,12 @@ function attachActionGuidance(result, payload = {}) {
 			? "BEFORE YOU GO ON FIRST ANSWER THE MULTIPLE CHOICE."
 			: "No forced multiple-choice pending."
 	};
+
 	if (protocol.multipleChoiceSelfInterrogation) {
 		compact.multipleChoiceSelfInterrogation = protocol.multipleChoiceSelfInterrogation;
 	}
 	if (!debugWanted(payload)) return compact;
+
 	return {
 		...compact,
 		aiGuidance: {

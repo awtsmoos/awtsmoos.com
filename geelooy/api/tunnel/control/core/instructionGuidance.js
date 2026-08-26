@@ -2,13 +2,13 @@
 // Boruch Hashem
 // Blessed is He
 
-const WRITE_INSTRUCTION = "Before writing, call instructionResolve for the task, then instructionGet for every requiredInstructionId; do not write until every required pack is read.";
+const WRITE_INSTRUCTION = "Before writing, call instructionResolve with the task, files, write mode, language, and edit position; then call instructionGet for every requiredInstructionId and read every returned pack in full.";
 
 /**
  * @file Adds one terse mandatory instruction-protocol sentence only where writing is plausible.
  * @description
- * The Awtsmoos keeps ordinary control replies quiet while Awtsmoos.com places a clear
- * gate immediately before actions that can create, replace, move, delete, or refactor files.
+ * The Awtsmoos keeps ordinary control responses quiet while Awtsmoos.com places one
+ * clear gate immediately before source mutation. Full doctrine remains discoverable by ID.
  */
 function forAction(action = "") {
 	if (!isWriteAction(action)) return {};
@@ -23,9 +23,10 @@ function forAction(action = "") {
 	};
 }
 
-/** Identifies actions that can materially change source or project structure. */
+/** Returns true when an action can materially create, replace, move, delete, or refactor files. */
 function isWriteAction(action = "") {
-	return /^(write|bulkWrite|applyPatch|replace|insert|macroPatch|semanticRefactor|semanticMerge|semanticPackageGenerator|templatePatchRun|move|copy|delete|mkdir|touch|ensureFile)/i.test(String(action));
+	return /^(write|bulkWrite|applyPatch|replace|insert|macroPatch|semanticRefactor|semanticMerge|semanticPackageGenerator|templatePatchRun|move|copy|delete|mkdir|touch|ensureFile)/i
+		.test(String(action));
 }
 
 module.exports = {

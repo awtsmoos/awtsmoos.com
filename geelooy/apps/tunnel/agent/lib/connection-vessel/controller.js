@@ -10,11 +10,11 @@ const Proxy = require("./proxy.js");
 const State = require("./controller-state.js");
 
 /**
- * @file Composes clean mailbox preparation, child supervision, state, and custody routing.
+ * @file Composes durable mailbox custody with independently supervised connection life.
  * @description
- * The Awtsmoos renews network breath without mixing yesterday's custody with today's law.
- * Awtsmoos.com archives the former active mailbox before a new controller generation
- * receives a deed, while restart, status, and terminal ownership remain focused vessels.
+ * The Awtsmoos keeps socket breath, child liveness, execution custody, and parent state
+ * in distinct vessels. Awtsmoos.com exposes each bounded witness so repair can name
+ * exactly which generation is silent instead of collapsing everything into connected.
  */
 function createController(options = {}) {
 	const mailbox = ControllerMailbox.create(options);
@@ -28,7 +28,9 @@ function createController(options = {}) {
 		handleMessage: message => router?.handle(message),
 		log,
 		maximumRestartDelayMs: options.maximumRestartDelayMs,
-		mirror
+		mirror,
+		childLivenessOptions: options.childLivenessOptions,
+		childRepairOptions: options.childRepairOptions
 	});
 
 	router = MessageRouter.createMessageRouter({
@@ -42,40 +44,39 @@ function createController(options = {}) {
 		publishStats
 	});
 
+	/** Starts the independently supervised connection child and returns its proxy. */
 	function connect() {
 		options.state.activeWs = proxy;
 		supervisor.start();
 		return proxy;
 	}
 
+	/** Sends one IPC message through the exact currently supervised child. */
 	function notify(message) {
 		return supervisor.notify(message);
 	}
 
+	/** Mirrors one child state update into the parent-visible execution state. */
 	function mirror(next = {}) {
 		return State.mirror(options, proxy, next);
 	}
 
+	/** Publishes bounded parent scheduler stats to the child at most once per second. */
 	function publishStats(force = false) {
-		if (typeof options.stats !== "function") {
-			return false;
-		}
+		if (typeof options.stats !== "function") return false;
 		const now = Date.now();
-		if (!force && now - lastStatsSentAt < 1000) {
-			return false;
-		}
+		if (!force && now - lastStatsSentAt < 1000) return false;
 		const sent = notify(Protocol.message(Protocol.TYPES.STATS, {
 			stats: {
 				...options.stats({ workers: false }),
 				parentPulseAt: now
 			}
 		}));
-		if (sent) {
-			lastStatsSentAt = now;
-		}
+		if (sent) lastStatsSentAt = now;
 		return sent;
 	}
 
+	/** Honors a terminal child directive and prevents supervision from resurrecting it. */
 	function terminal(message) {
 		supervisor.preventRestart();
 		mirror({
@@ -89,9 +90,18 @@ function createController(options = {}) {
 		});
 	}
 
+	/** Stops only this controller's connection child and restart machinery. */
 	function stop() {
 		supervisor.stop(Protocol.message(Protocol.TYPES.STOP));
 		mirror({ connected: false, running: false });
+	}
+
+	/** Returns transport/mailbox state plus the parent-side child-liveness watchdog. */
+	function status() {
+		return {
+			...State.status(options, mailbox, supervisor.restartCount()),
+			childLiveness: supervisor.livenessStatus()
+		};
 	}
 
 	function log(level, message) {
@@ -107,7 +117,7 @@ function createController(options = {}) {
 		connect,
 		publishStats,
 		proxy,
-		status: () => State.status(options, mailbox, supervisor.restartCount()),
+		status,
 		stop
 	};
 }

@@ -3,7 +3,7 @@
 // Blessed is He
 
 /**
- * @file Reserves observation, recovery, and instruction retrieval outside work pressure.
+ * @file Reserves observation, recovery, and instruction retrieval outside ordinary pressure.
  * @description
  * The Awtsmoos leaves a doorway even when ordinary vessels overflow. Awtsmoos.com
  * keeps diagnosis, cancellation, generation repair, and pre-write doctrine on P0 so

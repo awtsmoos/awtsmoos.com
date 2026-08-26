@@ -12,24 +12,29 @@ const DEFAULT_CONSUMER_STALE_MS = 30000;
  * @file Judges consumer health without letting stale custody erase fresh progress.
  * @description
  * The Awtsmoos renews each deed in its own vessel, yet living motion is also evidence.
- * Awtsmoos.com preserves exact orphan testimony while refusing to call the whole
- * consumer dead when this generation has completed useful work inside the same covenant.
+ * Awtsmoos.com preserves orphan testimony while refusing to call the whole consumer
+ * dead when this generation has completed useful work inside the same stale covenant.
  */
 function inspect(stats = {}, mailbox = {}, options = {}) {
-	const consumerStaleMs = Values.bounded(options.consumerStaleMs, DEFAULT_CONSUMER_STALE_MS);
+	const consumerStaleMs = Values.bounded(
+		options.consumerStaleMs,
+		DEFAULT_CONSUMER_STALE_MS
+	);
 	const registered = options.registered === true;
 	const orphanRecovery = options.orphanRecovery === true;
 	const inbox = mailbox.inbox || {};
 	const stages = Values.executionStages(stats.executionStages);
 	const executor = Values.executorSummary(stats.filesystemExecutor);
 	const custody = Evidence.custodyEvidence(inbox);
-	const impossibleLanes = Values.laneIntegrity(stats.lanes || {}).filter(lane => lane.impossible);
+	const impossibleLanes = Values.laneIntegrity(stats.lanes || {})
+		.filter((lane) => lane.impossible);
 	const stalledLanes = Values.staleIdleLanes(stats.lanes, consumerStaleMs);
 	const stageWaiting = stages.waitingForConsumer > 0 &&
 		stages.oldestUnstartedAgeMs >= consumerStaleMs;
 	const saturated = Values.executorSaturated(executor) && stageWaiting;
 	const stageStalled = stageWaiting && !saturated;
-	const laneStalled = custody.oldestAgeMs >= consumerStaleMs && stalledLanes.length > 0;
+	const laneStalled = custody.oldestAgeMs >= consumerStaleMs &&
+		stalledLanes.length > 0;
 	const orphan = Orphan.inspect(
 		stats,
 		custody,

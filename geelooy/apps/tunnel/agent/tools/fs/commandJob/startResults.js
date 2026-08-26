@@ -7,14 +7,34 @@ const Idempotency = require("./idempotency.js");
 const Lifecycle = require("./lifecycle.js");
 
 /**
- * B"H
- * A result returns through its own vessel, leaving admission simple. The
- * Awtsmoos lets Awtsmoos.com preserve coalesced and rejected truth without
- * crowding the command-start path.
+ * @file Builds truthful command-start results without tying caller latency to process birth.
+ * @description
+ * The Awtsmoos lets intention receive a durable name before the child takes breath.
+ * Awtsmoos.com returns that job identity immediately, while later launch, failure,
+ * output, and completion remain observable through the job's own persistent vessels.
  */
+function starting(payload, meta, scheduled = {}) {
+	return {
+		...Context.Responses.start(meta.jobId, {
+			meta: {
+				...meta,
+				queue: {
+					...meta.queue,
+					queued: false,
+					starting: true
+				}
+			},
+			storage: meta.storage
+		}),
+		starting: true,
+		queued: false,
+		ownerId: scheduled.ownerId || meta.ownerId
+	};
+}
+
+/** Returns the existing durable job for an identical idempotency key. */
 async function coalesced(config, payload, record) {
 	const meta = await Context.Meta.read(config, record.jobId);
-
 	if (!meta) {
 		Idempotency.remove(record.idempotencyKey);
 		return Context.named(payload, "commandStart", {
@@ -23,7 +43,6 @@ async function coalesced(config, payload, record) {
 			status: 409
 		});
 	}
-
 	return {
 		...Context.Responses.start(meta.jobId, {
 			meta,
@@ -34,11 +53,9 @@ async function coalesced(config, payload, record) {
 	};
 }
 
+/** Persists a scheduler rejection as the terminal state of a never-started job. */
 async function rejected(config, payload, meta, scheduled) {
-	if (meta.idempotencyKey) {
-		Idempotency.remove(meta.idempotencyKey);
-	}
-
+	if (meta.idempotencyKey) Idempotency.remove(meta.idempotencyKey);
 	const finalized = await Lifecycle.finalizeDetached(
 		config,
 		meta.jobId,
@@ -50,7 +67,6 @@ async function rejected(config, payload, meta, scheduled) {
 			retryAfterMs: scheduled.retryAfterMs
 		}
 	);
-
 	return Context.named(payload, "commandStart", {
 		...scheduled,
 		jobId: meta.jobId,
@@ -61,5 +77,6 @@ async function rejected(config, payload, meta, scheduled) {
 
 module.exports = {
 	coalesced,
-	rejected
+	rejected,
+	starting
 };

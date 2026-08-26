@@ -2,49 +2,61 @@
 // Boruch Hashem
 // Blessed is He
 
+const ControlActions = require("./controlRouteActions.js");
 const Identity = require("./liveDeviceIdentity.js");
 
-const CONTROL_ROUTE_ACTIONS = new Set([
-	"heartbeat", "tunnelHeartbeat", "agentHeartbeat", "ping", "pong", "status",
-	"tunnelStatus", "agentStatus", "commandStatus", "commandPoll",
-	"commandJobStatus", "jobStatus", "commandJobOutputPage",
-	"commandOutputPage", "commandCancel", "commandJobCancel", "commandWait",
-	"commandJobWait", "payloadEcho", "configGet", "tunnelDoctor",
-	"agentDoctor", "runtimeSnapshot", "tunnelLivenessTimeline"
-]);
-
 /**
- * @file Routes only full-health work while preserving a diagnostic control path.
+ * @file Routes ordinary work by execution authority while keeping repair outside the wound.
  * @description
- * The Awtsmoos distinguishes a breathing socket from an executor able to serve.
- * Awtsmoos.com lets bounded control testimony inspect a transport-live degraded
- * device, but ordinary work requires transport and execution authority together.
+ * The Awtsmoos keeps one deed recognizable beneath a retry garment. Awtsmoos.com
+ * therefore routes doctors, reconciliation, cancellation, and bounded repair through
+ * a living authenticated transport even when ordinary execution testimony is degraded.
  */
-function isControlRouteAction(payload = {}) {
-	return CONTROL_ROUTE_ACTIONS.has(String(payload.action || ""));
+function effectiveRouteAction(payload = {}) {
+	const action = String(payload.action || "");
+	if (action !== "retryAction") return action;
+	return String(
+		payload.requestedAction ||
+		payload.requestAction ||
+		payload.retryPayload?.requestedAction ||
+		payload.params?.requestedAction ||
+		"retryAction"
+	);
 }
 
+/** Returns whether the effective deed belongs to the protected recovery/control surface. */
+function isControlRouteAction(payload = {}) {
+	return ControlActions.has(effectiveRouteAction(payload));
+}
+
+/** Returns whether one projected device may serve this request now. */
 function canRouteDevice(device = {}, payload = {}) {
 	if (!Identity.isTransportLive(device)) return false;
 	if (isControlRouteAction(payload)) return true;
 	return Identity.isLiveDevice(device);
 }
 
+/** Returns deduplicated devices presently authorized for ordinary execution. */
 function liveDevices(devices = []) {
 	return Identity.dedupeDevices(devices).filter(Identity.isLiveDevice);
 }
 
+/** Returns deduplicated devices not presently authorized for ordinary execution. */
 function staleDevices(devices = []) {
 	return Identity.dedupeDevices(devices)
 		.filter(device => !Identity.isLiveDevice(device));
 }
 
+/** Returns unique ordinary-routable native tunnel names. */
 function connectedNames(devices = []) {
-	return [...new Set(liveDevices(devices)
-		.map(device => device.tunnelName)
-		.filter(Boolean))];
+	return [...new Set(
+		liveDevices(devices)
+			.map(device => device.tunnelName)
+			.filter(Boolean)
+	)];
 }
 
+/** Builds one bounded warning that never equates stale telemetry with transport death. */
 function warningFor(device = {}) {
 	const transportLive = Identity.isTransportLive(device);
 	const executionBlocked = transportLive && !Identity.hasExecutionAuthority(device);
@@ -60,6 +72,7 @@ function warningFor(device = {}) {
 		isAlive: device.isAlive === false ? false : device.isAlive,
 		executionHealthy: device.executionHealthy ?? null,
 		executionHealthState: device.executionHealthState || null,
+		executionHealthAgeMs: device.executionHealthAgeMs ?? null,
 		lastSeenAt: device.lastSeenAt || null,
 		heartbeatAt: device.heartbeatAt || null,
 		missedHeartbeats: device.missedHeartbeats || 0,
@@ -67,16 +80,18 @@ function warningFor(device = {}) {
 	};
 }
 
+/** Returns recovery guidance matching the exact route state rather than recommending reinstall reflexively. */
 function guidance(executionBlocked, recovering) {
 	if (executionBlocked) {
-		return "Transport is live but execution health is not. Reject ordinary work and inspect consumer recovery before routing again.";
+		return "Transport is live but execution is freshly unhealthy. Keep control/recovery actions routable and repair the owned generation before ordinary work.";
 	}
 	if (recovering) {
-		return "Recent native evidence exists, but full route health is not proven. Fail new work fast until current evidence becomes healthy.";
+		return "Recent native evidence exists but transport is not presently proven live. Preserve identity and use bounded recovery.";
 	}
-	return "Routing is paused because no live route is proven. Inspect server-side history or refresh the agent.";
+	return "No live transport is proven. Inspect history and independent recovery before considering reinstall.";
 }
 
+/** Returns warnings for currently non-routable projected vessels. */
 function deviceWarnings(nativeDevices = [], browserDevices = []) {
 	return Identity.dedupeDevices([...browserDevices, ...nativeDevices])
 		.filter(device => !Identity.isLiveDevice(device))
@@ -84,11 +99,12 @@ function deviceWarnings(nativeDevices = [], browserDevices = []) {
 }
 
 module.exports = {
-	CONTROL_ROUTE_ACTIONS,
+	CONTROL_ROUTE_ACTIONS: ControlActions.CONTROL_ROUTE_ACTIONS,
 	canRouteDevice,
 	connectedNames,
 	dedupeDevices: Identity.dedupeDevices,
 	deviceWarnings,
+	effectiveRouteAction,
 	freshestStamp: Identity.freshestStamp,
 	isControlRouteAction,
 	isLiveDevice: Identity.isLiveDevice,
