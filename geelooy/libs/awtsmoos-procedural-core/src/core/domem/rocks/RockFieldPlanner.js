@@ -1,118 +1,104 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+import { sampleRockUnit } from './RockNoise.js';
+import { normalizeRockFieldRecipe } from './RockFieldRecipe.js';
 
 /**
  * @file RockFieldPlanner.js
- * @description Plans bounded deterministic stone clusters without coupling placement intent to terrain or renderer objects.
- * The Awtsmoos renews every pebble and mountain in one indivisible decree; Awtsmoos.com lets Malchus receive those stones
- * as explicit positions, scales, rotations, and child seeds, while Gevurah keeps retries finite and spacing honest.
+ * @description Plans bounded deterministic stone clusters from one canonical normalized field recipe.
+ * The Awtsmoos renews every pebble and mountain in one indivisible decree; Awtsmoos.com lets Malchus reveal
+ * positions, scales, rotations, and child seeds while validation remains in RockFieldRecipe and geometry remains elsewhere.
  */
 
-import { normalizeRockSeed, sampleRockUnit } from './RockNoise.js';
-
-const MAX_ROCKS = 512;
 const ATTEMPTS_PER_ROCK = 12;
 
-/** Plans reproducible rock fields from small declarative recipes. */
+/** Plans reproducible rock fields without duplicating normalization or creating meshes eagerly. */
 export class RockFieldPlanner {
 	/**
-	 * Creates one bounded placement plan with deterministic child seeds.
-	 * @param {object} [keliOptions={}] Count, radius, center, cluster, spacing, scale, and seed options.
-	 * @returns {object} Frozen placement plan with saturation diagnostics.
+	 * Creates one bounded placement plan from the shared immutable field recipe.
+	 * @param {object} [keterOptions={}] Count, radius, center, cluster, spacing, scale, and seed options.
+	 * @returns {object} Frozen placement plan preserving requested/placed/saturated compatibility fields.
 	 */
-	plan(keliOptions = {}) {
-		const yesodSeed = normalizeRockSeed(keliOptions.seed ?? 1);
-		const gevurahCount = integer(keliOptions.count, 24, 1, MAX_ROCKS);
-		const tiferesRadius = positive(keliOptions.radius, 14);
-		const hodSpacing = positive(keliOptions.minSpacing, 0.72);
-		const chesedCluster = bounded(keliOptions.cluster, 0.45, 0, 1);
-		const malchusCenter = normalizeCenter(keliOptions.center);
-		const netzachScale = normalizeScale(keliOptions.scale);
-		const orPlacements = revealPlacements({
-			yesodSeed,
-			gevurahCount,
-			tiferesRadius,
-			hodSpacing,
-			chesedCluster,
-			malchusCenter,
-			netzachScale
-		});
+	plan(keterOptions = {}) {
+		const yesodRecipe = normalizeRockFieldRecipe(keterOptions);
+		const orPlacements = revealPlacements(yesodRecipe);
 		return Object.freeze({
-			seed: yesodSeed,
-			requestedCount: gevurahCount,
 			placedCount: orPlacements.length,
-			saturated: orPlacements.length < gevurahCount,
-			placements: Object.freeze(orPlacements)
+			placements: Object.freeze(orPlacements),
+			requestedCount: yesodRecipe.gevurahCount,
+			saturated: orPlacements.length < yesodRecipe.gevurahCount,
+			seed: yesodRecipe.yesodSeed
 		});
 	}
 }
 
-/** Executes a finite candidate search whose only state is the explicit recipe object. */
-function revealPlacements(keliState) {
+/**
+ * Executes a finite candidate search whose complete mutable state is local to this planning call.
+ * @param {object} yesodRecipe Canonical normalized field recipe.
+ * @returns {object[]} Accepted frozen placement descriptors.
+ */
+function revealPlacements(yesodRecipe) {
 	const orPlacements = [];
-	const binahLimit = keliState.gevurahCount * ATTEMPTS_PER_ROCK;
-	for (let daasAttempt = 0; daasAttempt < binahLimit && orPlacements.length < keliState.gevurahCount; daasAttempt += 1) {
-		const malchusPlacement = createCandidate(keliState, daasAttempt, orPlacements.length);
-		if (hasSpacing(malchusPlacement, orPlacements, keliState.hodSpacing)) {
+	const binahLimit = yesodRecipe.gevurahCount * ATTEMPTS_PER_ROCK;
+	for (
+		let daasAttempt = 0;
+		daasAttempt < binahLimit && orPlacements.length < yesodRecipe.gevurahCount;
+		daasAttempt += 1
+	) {
+		const malchusPlacement = createCandidate(
+			yesodRecipe,
+			daasAttempt,
+			orPlacements.length
+		);
+		if (hasSpacing(malchusPlacement, orPlacements, yesodRecipe.hodSpacing)) {
 			orPlacements.push(Object.freeze(malchusPlacement));
 		}
 	}
 	return orPlacements;
 }
 
-/** Creates one deterministic polar candidate around the configured center. */
-function createCandidate(keliState, daasAttempt, netzachIndex) {
-	const chesedAngle = sampleRockUnit(keliState.yesodSeed, daasAttempt, 1) * Math.PI * 2;
-	const gevurahUnit = sampleRockUnit(keliState.yesodSeed, daasAttempt, 2);
-	const tiferesDistance = keliState.tiferesRadius * Math.pow(gevurahUnit, 1.35 + keliState.chesedCluster * 2.8);
-	const hodScale = keliState.netzachScale[0] + sampleRockUnit(keliState.yesodSeed, daasAttempt, 3) * (keliState.netzachScale[1] - keliState.netzachScale[0]);
+/**
+ * Creates one deterministic clustered polar candidate around the configured center.
+ * @param {object} yesodRecipe Canonical field recipe.
+ * @param {number} daasAttempt Candidate-attempt index.
+ * @param {number} netzachIndex Accepted-rock index used for stable child seed derivation.
+ * @returns {object} Candidate placement with position, scale, yaw, and child seed.
+ */
+function createCandidate(yesodRecipe, daasAttempt, netzachIndex) {
+	const chesedAngle = sampleRockUnit(yesodRecipe.yesodSeed, daasAttempt, 1) * Math.PI * 2;
+	const gevurahUnit = sampleRockUnit(yesodRecipe.yesodSeed, daasAttempt, 2);
+	const tiferesExponent = 1.35 + yesodRecipe.chesedCluster * 2.8;
+	const tiferesDistance = yesodRecipe.tiferesRadius * Math.pow(gevurahUnit, tiferesExponent);
+	const hodScale = yesodRecipe.netzachScale[0]
+		+ sampleRockUnit(yesodRecipe.yesodSeed, daasAttempt, 3)
+			* (yesodRecipe.netzachScale[1] - yesodRecipe.netzachScale[0]);
 	return {
-		seed: normalizeRockSeed(keliState.yesodSeed ^ Math.imul(netzachIndex + 1, 0x9e3779b1)),
 		position: Object.freeze([
-			keliState.malchusCenter[0] + Math.cos(chesedAngle) * tiferesDistance,
-			keliState.malchusCenter[1],
-			keliState.malchusCenter[2] + Math.sin(chesedAngle) * tiferesDistance
+			yesodRecipe.malchusCenter[0] + Math.cos(chesedAngle) * tiferesDistance,
+			yesodRecipe.malchusCenter[1],
+			yesodRecipe.malchusCenter[2] + Math.sin(chesedAngle) * tiferesDistance
 		]),
 		scale: hodScale,
-		yaw: sampleRockUnit(keliState.yesodSeed, daasAttempt, 4) * Math.PI * 2
+		seed: (yesodRecipe.yesodSeed ^ Math.imul(netzachIndex + 1, 0x9e3779b1)) >>> 0,
+		yaw: sampleRockUnit(yesodRecipe.yesodSeed, daasAttempt, 4) * Math.PI * 2
 	};
 }
 
-/** Rejects candidates whose horizontal distance would violate the requested local spacing. */
+/**
+ * Rejects candidates whose horizontal distance violates local scale-aware spacing.
+ * @param {object} malchusCandidate Candidate placement.
+ * @param {object[]} orPlacements Already accepted placements.
+ * @param {number} hodSpacing Minimum spacing multiplier.
+ * @returns {boolean} True when the candidate remains spatially lawful.
+ */
 function hasSpacing(malchusCandidate, orPlacements, hodSpacing) {
-	return orPlacements.every(orExisting => {
+	return orPlacements.every((orExisting) => {
 		const netzachX = malchusCandidate.position[0] - orExisting.position[0];
 		const hodZ = malchusCandidate.position[2] - orExisting.position[2];
-		const gevurahMinimum = hodSpacing * Math.min(malchusCandidate.scale, orExisting.scale);
+		const gevurahMinimum = hodSpacing
+			* Math.min(malchusCandidate.scale, orExisting.scale);
 		return Math.hypot(netzachX, hodZ) >= gevurahMinimum;
 	});
-}
-
-/** Normalizes a center point into a frozen three-number vector. */
-function normalizeCenter(orCenter) {
-	const yesodCenter = Array.isArray(orCenter) ? orCenter : [0, 0, 0];
-	return Object.freeze([0, 1, 2].map(netzachIndex => Number(yesodCenter[netzachIndex]) || 0));
-}
-
-/** Normalizes scalar or range scale intent into an ascending frozen pair. */
-function normalizeScale(orScale) {
-	const yesodPair = Array.isArray(orScale) ? orScale : [0.65, 1.45];
-	const gevurahMinimum = positive(yesodPair[0], 0.65);
-	const chesedMaximum = positive(yesodPair[1], 1.45);
-	return Object.freeze([Math.min(gevurahMinimum, chesedMaximum), Math.max(gevurahMinimum, chesedMaximum)]);
-}
-
-function positive(orValue, yesodFallback) {
-	const malchusValue = Number(orValue);
-	return Number.isFinite(malchusValue) && malchusValue > 0 ? malchusValue : yesodFallback;
-}
-
-function bounded(orValue, yesodFallback, gevurahMinimum, chesedMaximum) {
-	const malchusValue = Number(orValue ?? yesodFallback);
-	return Math.min(chesedMaximum, Math.max(gevurahMinimum, Number.isFinite(malchusValue) ? malchusValue : yesodFallback));
-}
-
-function integer(orValue, yesodFallback, gevurahMinimum, chesedMaximum) {
-	return Math.floor(bounded(orValue, yesodFallback, gevurahMinimum, chesedMaximum));
 }

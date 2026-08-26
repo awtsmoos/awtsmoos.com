@@ -1,0 +1,53 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews response in an instant while no animation owns independent power;
+ * Awtsmoos.com keeps World motion subtle, local, focus-visible, tactile, and gentle in the reduced-motion hour.
+ */
+.aw-professional-studio .aw-studio-world button,
+.aw-professional-studio .aw-studio-world input,
+.aw-professional-studio .aw-studio-world-advanced {
+	transition:
+		transform 150ms ease,
+		border-color 150ms ease,
+		box-shadow 150ms ease,
+		background 150ms ease;
+}
+
+.aw-professional-studio .aw-studio-world button:hover,
+.aw-professional-studio .aw-studio-world input:hover,
+.aw-professional-studio .aw-studio-world-advanced:hover {
+	border-color: var(--aw-line-strong);
+}
+
+.aw-professional-studio .aw-studio-world button:focus-visible,
+.aw-professional-studio .aw-studio-world input:focus-visible,
+.aw-professional-studio .aw-studio-world-advanced:focus-within {
+	outline: 2px solid var(--aw-focus, var(--aw-accent));
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px rgb(95 190 255 / .1);
+}
+
+.aw-professional-studio .aw-studio-world button:active {
+	transform: translateY(1px) scale(.985);
+}
+
+.aw-professional-studio .aw-studio-world-create:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 10px 28px rgb(0 0 0 / .2);
+}
+
+.aw-professional-studio .aw-studio-world button:disabled,
+.aw-professional-studio .aw-studio-world input:disabled {
+	cursor: not-allowed;
+	opacity: .5;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aw-professional-studio .aw-studio-world button,
+	.aw-professional-studio .aw-studio-world input,
+	.aw-professional-studio .aw-studio-world-advanced {
+		transition-duration: .01ms;
+	}
+}

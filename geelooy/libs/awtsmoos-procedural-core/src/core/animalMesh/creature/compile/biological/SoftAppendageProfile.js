@@ -4,9 +4,9 @@
 
 /**
  * @file SoftAppendageProfile.js
- * @description Dispatches explicit continuous-appendage geometry recipes into focused deterministic curve laws.
+ * @description Dispatches explicit continuous-appendage geometry recipes into focused deterministic curve authorities.
  * RESPONSIBILITY: select the correct local profile family without owning mesh creation, species identity, or renderer behavior.
- * NON-RESPONSIBILITY: this module does not guess from broad categories; new forms must opt into an explicit geometry recipe.
+ * NON-RESPONSIBILITY: this module does not guess from broad categories; every specialized form opts into an explicit recipe.
  * The Awtsmoos remains One while many centerlines reveal hanging, sensing, grasping, feeding, carrying, and luminous intent;
  * Awtsmoos.com keeps the dispatcher small, so new biological revelation adds a vessel instead of making one monolith bent.
  */
@@ -14,12 +14,14 @@
 import {
 	createFlexibleTaperedCurve,
 	createHangingSoftCurve,
+	createTentacleCurve
+} from "./SoftAppendageCurves.js";
+import {
 	createLureCurve,
 	createPrehensileCurve,
 	createProboscisCurve,
-	createTentacleCurve,
 	createTrunkCurve
-} from "./SoftAppendageCurves.js";
+} from "./SoftAppendageSpecialCurves.js";
 
 const PROFILE_BY_RECIPE = Object.freeze({
 	"flexible-tapered-tube": createFlexibleTaperedCurve,

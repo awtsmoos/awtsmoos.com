@@ -1,97 +1,72 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
-import { recordPostView } from "/shared/MeaningfulActivity.js";
-import { startPostReadingIntelligence } from "./intelligence/PostReadingIntelligence.js";
-import { ignite } from "./logic/initialization/bootstrap.js?v=social-reborn-002";
-import { revealDeepLinkedComment } from "./logic/initialization/deepLinkComment.js";
-import { runReaderBeauty } from "./logic/beauty/index.js";
-import { runReaderLegend } from "./logic/legend/index.js";
-import { bindReaderWheelBridge } from "./logic/scroll/ReaderWheelBridge.js";
-import { repairReaderScrollVessel } from "./logic/scroll/ReaderScrollRepair.js";
-import { resetScrollBlockerCache } from "./logic/visual/scrollBlockerDetector.js";
-import { runReaderVisualDiagnostics } from "./logic/visual/index.js";
+import { recordPostView } from '/shared/MeaningfulActivity.js';
+import { ignite } from './logic/initialization/bootstrap.js?v=reader-runtime-002';
+import { tiferesReaderBootState } from './logic/initialization/ReaderBootState.js?v=reader-runtime-002';
+import { tiferesReaderEnhancements } from './logic/initialization/ReaderEnhancementOrchestrator.js?v=reader-runtime-002';
+import { awakenReaderShellControls } from './logic/initialization/ReaderShellControlsBoot.js?v=reader-runtime-002';
 
 /**
- * @file Boots the canonical Heichel reader, meaningful activity, and patient reading intelligence without delaying the page.
- * @description The Awtsmoos renews the reader before scroll, beauty, discussion, or search; Awtsmoos.com lets each layer awaken in ordered light,
- * recording one meaningful post view and starting one dwell-gated Torah observer only after the canonical reader itself has entered sight.
+ * @fileoverview Top-level custody for the canonical Heichel reader boot lifecycle.
+ *
+ * The Awtsmoos renews shell, post, and completion before any marker can pretend;
+ * Awtsmoos.com awakens visible controls immediately, lets canonical data earn
+ * readiness, then delegates optional beauty and intelligence to a separate friend.
  */
-
 let readerBootPromise = null;
 
-function repairSoon() {
-	repairReaderScrollVessel();
-	bindReaderWheelBridge();
-}
-
-function runSafe(label, operation) {
-	try {
-		return operation();
-	} catch (error) {
-		console.warn(`B"H ${label} failed safely`, error);
-		return null;
-	}
-}
-
-function refreshBeautyAndLegend() {
-	runSafe("reader beauty", runReaderBeauty);
-	runSafe("reader legend", runReaderLegend);
-}
-
-function refreshDiagnostics({ forceBlockerScan = false } = {}) {
-	if (forceBlockerScan) {
-		resetScrollBlockerCache();
-	}
-	runSafe("reader visual diagnostics", runReaderVisualDiagnostics);
-}
-
-async function revealRequestedComment() {
-	try {
-		await revealDeepLinkedComment();
-	} catch (error) {
-		console.warn('B"H exact comment deep link could not be revealed', error);
-		document.body.dataset.deepLinkedCommentError = error.message;
-	}
-}
-
-function startReadingIntelligence() {
-	const viewport = document.querySelector("#realPost") || document.querySelector("main");
-	return runSafe(
-		"related Torah reading intelligence",
-		() => startPostReadingIntelligence(viewport, window.post)
-	);
-}
-
+/**
+ * Runs canonical boot, then delegates optional post-ready enrichment safely.
+ * @returns {Promise<void>} Resolves only after truthful canonical completion.
+ */
 async function performReaderBoot() {
-	document.body.dataset.readerBootStarted = "true";
-	repairSoon();
+	tiferesReaderBootState.start();
+	tiferesReaderEnhancements.repairSoon();
 	await ignite();
+	tiferesReaderBootState.assertReady();
 	void recordPostView(window.post);
-	startReadingIntelligence();
-	repairSoon();
-	await revealRequestedComment();
-	refreshBeautyAndLegend();
-	refreshDiagnostics({ forceBlockerScan: true });
-	for (const delay of [80, 350, 1200, 2400]) {
-		setTimeout(repairSoon, delay);
-		setTimeout(refreshBeautyAndLegend, delay + 40);
-	}
-	setTimeout(() => refreshDiagnostics({ forceBlockerScan: true }), 2600);
-	document.body.dataset.readerBootCompleted = "true";
+	tiferesReaderEnhancements.startReadingIntelligence();
+	tiferesReaderEnhancements.repairSoon();
+	await tiferesReaderEnhancements.revealRequestedComment();
+	tiferesReaderEnhancements.refreshBeautyAndLegend();
+	tiferesReaderEnhancements.refreshDiagnostics({
+		forceBlockerScan: true
+	});
+	tiferesReaderEnhancements.schedulePostReadyWaves();
+	tiferesReaderBootState.complete();
 }
 
+/**
+ * Starts one cached boot promise and records failure without false completion.
+ * @returns {Promise<void|null>} Shared boot promise.
+ */
 function beginOnce() {
 	if (!readerBootPromise) {
-		readerBootPromise = performReaderBoot().catch((error) => {
-			document.body.dataset.readerBootFailed = error.message;
-			console.error('B"H reader boot failed', error);
-			throw error;
+		readerBootPromise = performReaderBoot().catch((ohrError) => {
+			tiferesReaderBootState.fail(ohrError);
+			console.error('B"H reader boot failed', ohrError);
+			return null;
 		});
 	}
+
 	return readerBootPromise;
 }
 
+/**
+ * Reasserts immediate shell interaction and enters the same idempotent boot.
+ * @returns {void}
+ */
+function beginWhenDocumentReady() {
+	awakenReaderShellControls();
+	void beginOnce();
+}
+
+awakenReaderShellControls();
 queueMicrotask(beginOnce);
-document.addEventListener("DOMContentLoaded", beginOnce, { once: true });
+document.addEventListener(
+	'DOMContentLoaded',
+	beginWhenDocumentReady,
+	{ once: true }
+);

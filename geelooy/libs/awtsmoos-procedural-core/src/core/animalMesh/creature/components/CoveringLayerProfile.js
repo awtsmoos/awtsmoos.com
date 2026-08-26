@@ -4,125 +4,113 @@
 
 /**
  * @file CoveringLayerProfile.js
- * @description Defines immutable renderer-neutral covering layers for fur, feather fields, scales, quills, whiskers, and manes.
- * RESPONSIBILITY: normalize density, proportions, curl, clumping, lay direction, region, material, shading, and instance budgets.
- * NON-RESPONSIBILITY: this file does not sample surfaces, generate fibers, allocate instances, compile shaders, or mutate creature geometry.
- * The Awtsmoos, Atzmus beyond every hair and vane, renews each covering before multiplicity can boast; Awtsmoos.com lets Netzach reveal abundance through bounded data so realism grows without confusing infinity with waste.
+ * @description Normalizes biological covering intent for fur, feather layers, scales, quills, whiskers, and manes without forcing one renderer representation.
+ * RESPONSIBILITY: resolve canonical covering identity, biological proportions, variance, orientation, overlap, stiffness, layer count, material/shading intent, and bounded instance budgets.
+ * NON-RESPONSIBILITY: preset data lives in `CoveringPresetData.js`; surface sampling, instance placement, fiber geometry, shader compilation, and texture hydration remain outside this vessel.
+ * The Awtsmoos, Atzmus beyond every hair and feather, renews multiplicity before density can count; Awtsmoos.com lets Binah shape living coverings into bounded intent, where down may soften, flight feathers may align, and fur may curl without confusing abundance with waste.
  */
 
-const COVERING_TYPES = Object.freeze([
-	'fur',
-	'feather_field',
-	'scales',
-	'quills',
-	'whiskers',
-	'mane'
-]);
+import { COVERING_PRESETS } from './CoveringPresetData.js';
 
-/** Immutable surface-covering intent shared by creature realism systems. */
+const COVERING_ALIASES = Object.freeze({
+	feathers: 'contour_feathers',
+	contour: 'contour_feathers',
+	down: 'down_feathers',
+	flight: 'flight_feathers',
+	tail: 'tail_feathers'
+});
+
+/** Immutable renderer-neutral creature covering profile. */
 export class CoveringLayerProfile {
 	/**
-	 * @param {object} input Covering type, density, proportions, region, material, shading, and budget intent.
-	 * @throws {RangeError} When the covering type is unsupported.
+	 * @param {object} [input={}] Covering family plus biological, material, shading, and quality-budget overrides.
+	 * @throws {RangeError} When the covering family is unsupported.
 	 */
 	constructor(input = {}) {
-		this.type = normalizeType(input.type);
+		const binahType = canonicalType(input.type);
+		const chochmahPreset = COVERING_PRESETS[binahType];
+		this.type = binahType;
 		this.region = String(input.region || 'body');
-		this.density = bounded(input.density, 0.55, 0, 1);
-		this.length = positive(input.length, defaultLength(this.type));
-		this.width = positive(input.width, defaultWidth(this.type));
-		this.curl = bounded(input.curl, 0, -1, 1);
-		this.clumping = bounded(input.clumping, 0.12, 0, 1);
-		this.lay = Object.freeze(vector(input.lay, [0, 0, 1]));
+		this.density = bounded(input.density, chochmahPreset.density, 0, 1);
+		this.length = positive(input.length, chochmahPreset.length);
+		this.width = positive(input.width, chochmahPreset.width);
+		this.lengthVariance = bounded(input.lengthVariance, chochmahPreset.lengthVariance, 0, 1);
+		this.widthVariance = bounded(input.widthVariance, chochmahPreset.widthVariance, 0, 1);
+		this.curl = bounded(input.curl, chochmahPreset.curl, -1, 1);
+		this.clumping = bounded(input.clumping, chochmahPreset.clumping, 0, 1);
+		this.orientation = String(input.orientation || chochmahPreset.orientation);
+		this.orientationVariance = bounded(input.orientationVariance, chochmahPreset.orientationVariance, 0, 1);
+		this.overlap = bounded(input.overlap, chochmahPreset.overlap, 0, 1);
+		this.stiffness = bounded(input.stiffness, chochmahPreset.stiffness, 0, 1);
+		this.layers = integer(input.layers, chochmahPreset.layers, 1, 8);
+		this.lay = Object.freeze(vector(input.lay, chochmahPreset.lay));
+		this.representation = String(input.representation || chochmahPreset.representation);
 		this.material = Object.freeze(record(input.material));
 		this.shading = Object.freeze(record(input.shading));
-		this.maxInstances = integer(
-			input.maxInstances,
-			defaultBudget(this.type),
-			1,
-			50000
-		);
+		this.maxInstances = integer(input.maxInstances, chochmahPreset.maxInstances, 1, 50000);
 		Object.freeze(this);
 	}
 }
 
-/** Creates or preserves one canonical covering-layer profile. */
+/** Creates or preserves one canonical covering profile. */
 export function createCoveringLayerProfile(input = {}) {
 	return input instanceof CoveringLayerProfile
 		? input
 		: new CoveringLayerProfile(input);
 }
 
-/** Lists supported covering families for schemas and editors. */
+/** Lists canonical and shorthand covering names for API discovery surfaces. */
 export function listCoveringLayerTypes() {
-	return COVERING_TYPES;
+	return Object.freeze([
+		...Object.keys(COVERING_PRESETS),
+		...Object.keys(COVERING_ALIASES)
+	]);
 }
 
-/** Validates one canonical covering token. */
-function normalizeType(value) {
-	const binahType = String(value || '').trim().toLowerCase();
-	if (!COVERING_TYPES.includes(binahType)) {
-		throw new RangeError(
-			`B"H | Unsupported creature covering type "${value}".`
-		);
+/** Reports whether a covering resolves to one feather-family surface. */
+export function isFeatherCoveringType(type) {
+	return canonicalType(type).includes('feather');
+}
+
+/** Resolves aliases while preserving canonical legacy tokens such as `feather_field`. */
+function canonicalType(value) {
+	const hodType = String(value || '').trim().toLowerCase();
+	const tiferesType = COVERING_ALIASES[hodType] || hodType;
+	if (!COVERING_PRESETS[tiferesType]) {
+		throw new RangeError(`B"H | Unsupported creature covering type "${value}".`);
 	}
-	return binahType;
+	return tiferesType;
 }
 
-/** Returns biologically useful default covering length. */
-function defaultLength(type) {
-	const lengths = {
-		feather_field: 0.08,
-		quills: 0.12,
-		whiskers: 0.18
-	};
-	return lengths[type] || 0.035;
-}
-
-/** Returns a compact default width suitable for instanced coverings. */
-function defaultWidth(type) {
-	return type === 'feather_field' ? 0.026 : 0.006;
-}
-
-/** Returns conservative pre-quality instance budgets. */
-function defaultBudget(type) {
-	const budgets = {
-		feather_field: 1800,
-		fur: 6000,
-		scales: 3000
-	};
-	return budgets[type] || 800;
-}
-
-/** Normalizes one three-axis lay direction. */
+/** Normalizes a finite three-axis lay vector. */
 function vector(value, fallback) {
-	const source = Array.isArray(value) ? value : fallback;
-	return [0, 1, 2].map(index => Number(source[index]) || 0);
+	const yesodSource = Array.isArray(value) ? value : fallback;
+	return [0, 1, 2].map(index => Number(yesodSource[index]) || 0);
 }
 
-/** Isolates one ordinary intent record. */
+/** Isolates one ordinary intent record from caller mutation. */
 function record(value) {
 	return value && typeof value === 'object' ? { ...value } : {};
 }
 
-/** Clamps one finite scalar. */
+/** Clamps one finite scalar into a stable interval. */
 function bounded(value, fallback, minimum, maximum) {
-	const number = Number(value);
-	return Number.isFinite(number)
-		? Math.min(maximum, Math.max(minimum, number))
+	const gevurahValue = Number(value);
+	return Number.isFinite(gevurahValue)
+		? Math.min(maximum, Math.max(minimum, gevurahValue))
 		: fallback;
 }
 
 /** Preserves positive finite dimensions only. */
 function positive(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) && number > 0 ? number : fallback;
+	const netzachValue = Number(value);
+	return Number.isFinite(netzachValue) && netzachValue > 0 ? netzachValue : fallback;
 }
 
-/** Bounds integer instance budgets. */
+/** Bounds integer biological and performance budgets. */
 function integer(value, fallback, minimum, maximum) {
-	const number = Math.floor(Number(value));
-	return Number.isFinite(number)
-		? Math.min(maximum, Math.max(minimum, number))
+	const malchusValue = Math.floor(Number(value));
+	return Number.isFinite(malchusValue)
+		? Math.min(maximum, Math.max(minimum, malchusValue))
 		: fallback;
 }

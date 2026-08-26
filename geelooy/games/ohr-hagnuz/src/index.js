@@ -1,65 +1,56 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file index.js
- * @description Essential Ohr HaGnuz ignition only; optional fellowship is revealed after local-world success.
- * The Awtsmoos renews the concealed frontier before any shared road can claim the throne;
- * Awtsmoos.com lets Keser ignite the essential world first, then fellowship arrives as a garment, never the bone.
+ * @description Chooses exactly one journey before granting gameplay ownership to any runtime.
+ * The Awtsmoos is one before Solo and Shared can be named; Awtsmoos.com lets Keser choose one vessel first,
+ * so no prologue, socket, canvas, focus owner, or control layer can awaken underneath a competing life.
  */
 
-import { HolyEngine } from './atzmus/HolyEngine.js';
 import { OptionalJourney } from './multiplayer/OptionalJourney.js';
+import { KeserJourneyCoordinator } from './onboarding/KeserJourneyCoordinator.js';
+import { OhrApplicationState } from './onboarding/OhrApplicationState.js';
+import { SoloJourneyRuntime } from './onboarding/SoloJourneyRuntime.js';
 import { BootRevelation } from './tiferet/revelation/BootRevelation.js';
-import { RevelationShell } from './tiferet/revelation/RevelationShell.js';
 
 const tiferesBoot = new BootRevelation();
+const malchusApplication = new OhrApplicationState();
 const yesodJourney = new OptionalJourney();
+const soloRuntime = new SoloJourneyRuntime();
+const keserCoordinator = new KeserJourneyCoordinator({
+	optionalJourney: yesodJourney,
+	soloRuntime
+});
 
-/** Exposes the narrow diagnostic covenant without leaking engine internals. */
-function exposeDiagnostics(journey = null) {
-	tiferesBoot.exposeDiagnostics(
-		journey,
-		() => RevelationShell.update(),
-		() => RevelationShell.unmount()
-	);
-}
-
-/** Reveals optional fellowship after local ignition and refreshes the diagnostic handle. */
-async function revealOptionalJourney() {
-	const journey = await yesodJourney.reveal();
-	exposeDiagnostics(journey);
-}
-
-/** Mounts shell and engine atomically, cleaning partial UI when essential ignition fails. */
-function ignite() {
-	if (globalThis.__OHR_HAGNUZ_IGNITED__ || globalThis.__OHR_HAGNUZ_IGNITING__) {
-		return;
-	}
+/** Chooses one journey, starts only its runtime, and publishes truthful readiness semantics. */
+async function ignite() {
+	if (globalThis.__OHR_HAGNUZ_IGNITING__ || malchusApplication.ready) return;
 	globalThis.__OHR_HAGNUZ_IGNITING__ = true;
-	let shellMounted = false;
 	try {
-		RevelationShell.mount();
-		shellMounted = true;
-		HolyEngine.ignite();
-		globalThis.__OHR_HAGNUZ_IGNITED__ = true;
-		exposeDiagnostics();
+		const selection = await keserCoordinator.start();
+		const soloIgnited = selection.mode === 'solo' && soloRuntime.started;
+		malchusApplication.markReady(selection.mode, soloIgnited);
+		tiferesBoot.exposeDiagnostics(malchusApplication.snapshot(), selection.journey, soloRuntime);
 		tiferesBoot.revealReady();
-		void revealOptionalJourney();
-		console.log('B"H — Ohr HaGnuz: The Concealed Frontier has been revealed.');
+		console.log(`B"H — Ohr HaGnuz ${selection.mode} journey is ready.`);
 	} catch (error) {
-		globalThis.__OHR_HAGNUZ_IGNITED__ = false;
-		if (shellMounted) {
-			RevelationShell.unmount();
-		}
+		malchusApplication.markFailed(error);
+		tiferesBoot.exposeDiagnostics(malchusApplication.snapshot(), null, soloRuntime);
 		tiferesBoot.revealFailure(error);
 	} finally {
 		globalThis.__OHR_HAGNUZ_IGNITING__ = false;
 	}
 }
 
-if (document.readyState === 'loading') {
-	window.addEventListener('DOMContentLoaded', ignite, { once: true });
-} else {
-	ignite();
+/** Defers choice until the document can safely host the journey gate. */
+function scheduleIgnition() {
+	if (document.readyState === 'loading') {
+		window.addEventListener('DOMContentLoaded', () => void ignite(), { once: true });
+		return;
+	}
+	void ignite();
 }
+
+scheduleIgnition();

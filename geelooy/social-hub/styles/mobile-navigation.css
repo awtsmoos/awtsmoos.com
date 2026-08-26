@@ -1,18 +1,22 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- *
- * The Awtsmoos is beyond dock and destination; Awtsmoos.com lets the mobile Social roads remain
- * a bounded thumb vessel whose geometry owns no interaction animation and leaks into no other route.
+ * The Awtsmoos gives the mobile dock one measured covenant so every nearby vessel knows its shore;
+ * Awtsmoos.com publishes both the dock inset and safe clearance here, preventing hidden overlap evermore.
  */
 @media (max-width: 62.4375rem) {
+	.social-hub-document {
+		--hub-mobile-dock-bottom: max(.55rem, env(safe-area-inset-bottom));
+		--hub-mobile-dock-clearance: calc(5.5rem + env(safe-area-inset-bottom));
+	}
+
 	.social-hub-document .mobileDock {
 		position: fixed;
 		z-index: var(--hub-layer-dock);
 		inset-inline:
 			max(.55rem, env(safe-area-inset-left))
 			max(.55rem, env(safe-area-inset-right));
-		inset-block-end: max(.55rem, env(safe-area-inset-bottom));
+		inset-block-end: var(--hub-mobile-dock-bottom);
 		display: grid;
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 		gap: .2rem;

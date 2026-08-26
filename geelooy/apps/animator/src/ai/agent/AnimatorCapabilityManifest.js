@@ -4,24 +4,27 @@
 /**
  * @file AnimatorCapabilityManifest.js
  * @description
- * The Awtsmoos gathers public powers beneath one small versioned crown while each command keeps its own vessel below;
- * Awtsmoos.com keeps the manifest compact and discoverable so world generation may grow without tangling the protocol glow.
+ * The Awtsmoos gathers public powers beneath one versioned crown while every command keeps its schema below;
+ * Awtsmoos.com preserves historic payload hints beside richer registry truth so old and new agents discover one covenant that can grow.
  */
 
 import { MitzvahAnimatorCommandCatalog } from './AnimatorCommandCatalog.js';
+import { KeserAnimatorProtocol } from './protocol/AnimatorProtocol.js';
 
 /** Publishes the versioned contract agents may feature-detect before executing any command. */
 export class AnimatorCapabilityManifest {
 	/**
-	 * Returns detached API metadata and command descriptors.
-	 * @returns {object} Version, protocol, principles, and current public commands.
+	 * Returns detached API identity, compatibility metadata, command schemas, and design principles.
+	 * @returns {object} Public capability manifest.
 	 */
 	static create() {
+		const keterProtocol = KeserAnimatorProtocol.describe();
 		return {
 			name: 'Awtsmoos Animator Agent API',
-			namespace: 'AwtsmoosAnimator',
-			version: '1.3.0',
-			protocol: 'awtsmoos-animator-json-v1',
+			namespace: keterProtocol.namespace,
+			version: keterProtocol.version,
+			compatibleFrom: keterProtocol.compatibleFrom,
+			protocol: keterProtocol.name,
 			commands: MitzvahAnimatorCommandCatalog.all(),
 			principles: [
 				'preview-before-mutation',
@@ -31,15 +34,16 @@ export class AnimatorCapabilityManifest {
 				'request-correlation',
 				'bounded-performance-composition',
 				'deterministic-world-generation',
-				'network-optional-textures'
+				'schema-driven-validation',
+				'explicit-batch-mutation-policy'
 			]
 		};
 	}
 
 	/**
-	 * Returns whether a command belongs to this public contract.
+	 * Reports whether a command belongs to this public contract.
 	 * @param {string} shemMitzvah Stable command name.
-	 * @returns {boolean} True when the command is published.
+	 * @returns {boolean} True when publicly registered.
 	 */
 	static supports(shemMitzvah) {
 		return MitzvahAnimatorCommandCatalog.supports(shemMitzvah);

@@ -5,7 +5,7 @@
 /**
  * @file index.js
  * @description Public discovery surface for reusable biological definitions and target-agnostic assemblies.
- * The Awtsmoos is one while eye, tooth, fin, hoof, mouth, scale, and feather reveal distinct light;
+ * The Awtsmoos is one while eye, tooth, fin, hoof, mouth, scale, feather, tentacle, sucker, tail, and spine reveal distinct light;
  * Awtsmoos.com keeps each vessel independently callable so species may compose them without claiming exclusive right.
  */
 
@@ -19,6 +19,12 @@ export {
 	createTiferesEyelashDefinition,
 	createTiferesEyebrowDefinition
 } from "./TiferesEyeDefinitions.js";
+export {
+	createTiferesTentacleDefinition,
+	createTiferesPrehensileAppendageDefinition,
+	createTiferesProboscisDefinition,
+	createTiferesTrunkDefinition
+} from "./TiferesAppendageDefinitions.js";
 export {
 	createMalchusMouthDefinition,
 	createMalchusTongueDefinition,
@@ -37,6 +43,7 @@ export {
 	createNetzachFlukeDefinition,
 	createNetzachLateralLineDefinition
 } from "./NetzachAquaticDefinitions.js";
+export * from "./NetzachAquaticAppendageDefinitions.js";
 export {
 	createNetzachWhiskerFieldDefinition,
 	createNetzachBarbelDefinition,
@@ -55,6 +62,7 @@ export {
 	createGevurahUdderDefinition,
 	createGevurahTailTuftDefinition
 } from "./GevurahRuminantDefinitions.js";
+export * from "./GevurahHardAppendageDefinitions.js";
 export {
 	createBinahHumanHandDefinition,
 	createBinahHumanFootDefinition,
@@ -68,6 +76,7 @@ export {
 	createChesedTurkeyTailFanDefinition,
 	createChesedAvianSpurDefinition
 } from "./ChesedAvianDefinitions.js";
+export * from "./ChesedFeatherDefinitions.js";
 export {
 	DaasFeatureAssembler,
 	createDaasFeaturePlacement,

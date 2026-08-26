@@ -1,0 +1,93 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews stone, wood, earth, and every material sign before a palette can name their hue;
+Awtsmoos.com lets each choice stay bounded, touchable, and unmistakably selected without spilling the viewport through.
+*/
+
+.Awtsmoos-creator-rail__palette {
+	display: flex;
+	gap: 0.48rem;
+	inline-size: 100%;
+	max-inline-size: 100%;
+	padding: 0.1rem 0.05rem 0.35rem;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-inline: contain;
+	scroll-snap-type: inline proximity;
+	scrollbar-width: thin;
+	scrollbar-color: var(--creator-line-strong) transparent;
+}
+
+.Awtsmoos-creator-rail__material {
+	position: relative;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: auto auto;
+	align-items: center;
+	column-gap: 0.48rem;
+	row-gap: 0.08rem;
+	min-inline-size: 7.1rem;
+	min-block-size: 3.35rem;
+	padding: 0.55rem 0.65rem;
+	border: 1px solid var(--creator-line);
+	border-radius: 0.8rem;
+	background: rgba(255, 255, 255, 0.035);
+	color: var(--creator-text);
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+	scroll-snap-align: start;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}
+
+.Awtsmoos-creator-rail__material-icon {
+	grid-row: 1 / span 2;
+	display: grid;
+	place-items: center;
+	inline-size: 2rem;
+	block-size: 2rem;
+	border-radius: 0.62rem;
+	background: var(--creator-accent-soft);
+	font-size: 1.15rem;
+}
+
+.Awtsmoos-creator-rail__material-label {
+	font-size: 0.78rem;
+	font-weight: 720;
+	line-height: 1.15;
+}
+
+.Awtsmoos-creator-rail__material-cost {
+	color: var(--creator-muted);
+	font-size: 0.66rem;
+	line-height: 1.1;
+}
+
+.Awtsmoos-creator-rail__material:focus-visible {
+	outline: none;
+	border-color: var(--creator-accent);
+	box-shadow: var(--creator-focus);
+}
+
+.Awtsmoos-creator-rail__material:active {
+	transform: translate3d(0, 0.08rem, 0) scale(0.985);
+}
+
+.Awtsmoos-creator-rail__material[data-selected="true"] {
+	border-color: var(--creator-accent);
+	background: linear-gradient(145deg, rgba(112, 226, 255, 0.19), rgba(112, 226, 255, 0.06));
+	box-shadow: inset 0 0 0 1px rgba(112, 226, 255, 0.12), 0 0 1.2rem rgba(64, 195, 236, 0.1);
+}
+
+.Awtsmoos-creator-rail__material[data-selected="true"]::after {
+	content: "✓";
+	position: absolute;
+	inset-block-start: 0.28rem;
+	inset-inline-end: 0.38rem;
+	color: var(--creator-accent);
+	font-size: 0.7rem;
+	font-weight: 900;
+}

@@ -1,99 +1,47 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file JourneyModeGate.js
- * @description Lets the traveler choose local solitude or authenticated fellowship.
- * The Awtsmoos recreates freedom before every step; Awtsmoos.com opens no ticket,
- * socket, reconnect proof, or combat vessel until Shared Journey is chosen.
+ * @description Composes the Shared Journey store, transport, combat, view, commitment, and event adapters.
+ * The Awtsmoos unites distinct vessels without erasing the truth of each domain;
+ * Awtsmoos.com lets this facade assemble the gate while every deeper responsibility stays known.
  */
 
 import { SharedCombatController } from '../combat/SharedCombatController.js';
 import { SharedJourneyConnection } from '../connection/SharedJourneyConnection.js';
 import { SharedJourneyStore } from '../state/SharedJourneyStore.js';
-import { journeyModeMarkup } from './JourneyModeMarkup.js';
+import { YesodJourneyModeActions } from './JourneyModeActions.js';
+import { KeserJourneyModeController } from './JourneyModeController.js';
 import { renderJourneyState } from './JourneyModeRenderer.js';
 import { mountJourneyModeStyles } from './JourneyModeStyles.js';
+import { MalchusJourneyModeView } from './JourneyModeView.js';
 
+/**
+ * Mounts or returns the unique journey gate for this document.
+ * @returns {KeserJourneyModeController} The public commitment/Shared Journey controller.
+ */
 export function mountJourneyModeGate(documentObject = document, options = {}) {
-	const existing = documentObject.getElementById('journey-mode-root');
-	if (existing?.journeyController) return existing.journeyController;
+	const existingRoot = documentObject.getElementById('journey-mode-root');
+	if (existingRoot?.journeyController) {
+		return existingRoot.journeyController;
+	}
 	mountJourneyModeStyles(documentObject);
-	const store = options.store || new SharedJourneyStore();
-	const connection = options.connection || new SharedJourneyConnection(
-		store,
-		options.connectionOptions || {}
-	);
-	const combat = options.combat || new SharedCombatController(connection);
-	const root = documentObject.createElement('div');
-	root.id = 'journey-mode-root';
-	root.className = 'journey-mode-root';
-	root.innerHTML = journeyModeMarkup();
-	documentObject.body.append(root);
-	const controller = createJourneyController(root, store, connection, combat);
-	root.journeyController = controller;
-	store.subscribe(state => renderJourneyState(root, state));
-	wireJourneyActions(root, controller);
-	return controller;
-}
-
-function createJourneyController(root, store, connection, combat) {
-	return {
-		combat,
-		connection,
-		store,
-		chooseSolo() {
-			connection.disconnect();
-			store.reset();
-			root.hidden = true;
-		},
-		show() {
-			root.hidden = false;
-		},
-		showShared() {
-			root.querySelector('[data-view="choices"]').hidden = true;
-			root.querySelector('[data-view="shared"]').hidden = false;
-			root.querySelector('[data-field="name"]').focus();
-		},
-		async connect() {
-			const displayName = fieldValue(root, 'name');
-			const slot = normalizeSlot(fieldValue(root, 'slot'));
-			if (!displayName || !slot) {
-				store.setConnection('error', 'Enter a safe traveler name and character slot.');
-				return;
-			}
-			try {
-				await connection.connect({ displayName, glyph: 'א', slot });
-			} catch (error) {
-				store.setConnection('error', error.message);
-			}
-		}
-	};
-}
-
-function wireJourneyActions(root, controller) {
-	root.addEventListener('click', event => {
-		const button = event.target.closest('button');
-		if (!button) return;
-		const action = button.dataset.action;
-		if (action === 'solo') controller.chooseSolo();
-		if (action === 'shared') controller.showShared();
-		if (action === 'connect') controller.connect();
-		if (action === 'lamp') controller.connection.interact();
-		if (action === 'attack') controller.combat.attackVeilWisp();
-		if (button.dataset.move) {
-			const [dx, dy] = button.dataset.move.split(',').map(Number);
-			controller.connection.move(dx, dy);
-		}
+	const hodStore = options.store || new SharedJourneyStore();
+	const yesodConnection = options.connection || new SharedJourneyConnection(hodStore, options.connectionOptions || {});
+	const gevurahCombat = options.combat || new SharedCombatController(yesodConnection);
+	const malchusView = new MalchusJourneyModeView(documentObject);
+	const keserController = new KeserJourneyModeController({
+		malchusView,
+		hodStore,
+		yesodConnection,
+		gevurahCombat
 	});
-}
-
-function fieldValue(root, name) {
-	return root.querySelector(`[data-field="${name}"]`)?.value.trim() || '';
-}
-
-function normalizeSlot(value) {
-	const slot = value.toLowerCase();
-	return /^[a-z0-9-]{1,32}$/.test(slot) ? slot : '';
+	malchusView.attachController(keserController);
+	hodStore.subscribe((state) => {
+		renderJourneyState(malchusView.root, state);
+	});
+	new YesodJourneyModeActions(malchusView.root, keserController).bind();
+	return keserController;
 }

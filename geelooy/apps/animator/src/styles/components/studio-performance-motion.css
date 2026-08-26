@@ -1,34 +1,63 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos renews interaction as motion without moving the Studio beyond its proper place;
- * Awtsmoos.com keeps hover, focus, active, and reduced-motion states local to Performance Lab's own space.
+ * The Awtsmoos renews each visible response before hover, focus, press, or disclosure can seem to move by itself;
+ * Awtsmoos.com keeps Acting motion local, tactile, accessible, restrained, and willing to become still when the artist requests calm.
  */
-.aw-professional-studio .aw-studio-performance-advanced,
-.aw-professional-studio .aw-studio-performance-actions > button {
-	transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+.aw-professional-studio .aw-studio-performance button,
+.aw-professional-studio .aw-studio-performance input,
+.aw-professional-studio .aw-studio-performance select,
+.aw-professional-studio .aw-studio-performance textarea,
+.aw-professional-studio .aw-studio-performance-advanced {
+	transition:
+		transform 150ms ease,
+		border-color 150ms ease,
+		background 150ms ease,
+		box-shadow 150ms ease;
 }
 
-.aw-professional-studio .aw-studio-performance-advanced:hover,
+.aw-professional-studio .aw-studio-performance button:hover,
+.aw-professional-studio .aw-studio-performance input:hover,
+.aw-professional-studio .aw-studio-performance select:hover,
+.aw-professional-studio .aw-studio-performance textarea:hover,
+.aw-professional-studio .aw-studio-performance-advanced:hover {
+	border-color: var(--aw-line-strong);
+}
+
+.aw-professional-studio .aw-studio-performance button:focus-visible,
+.aw-professional-studio .aw-studio-performance input:focus-visible,
+.aw-professional-studio .aw-studio-performance select:focus-visible,
+.aw-professional-studio .aw-studio-performance textarea:focus-visible,
 .aw-professional-studio .aw-studio-performance-advanced:focus-within {
-	border-color: var(--aw-line-strong);
-	box-shadow: 0 10px 30px rgb(0 0 0 / .16);
+	outline: 2px solid var(--aw-focus, var(--aw-accent));
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px rgb(95 190 255 / .1);
 }
 
-.aw-professional-studio .aw-studio-performance-actions > button:hover,
-.aw-professional-studio .aw-studio-performance-actions > button:focus-visible {
-	transform: translateY(-1px);
-	border-color: var(--aw-line-strong);
-	box-shadow: 0 8px 22px rgb(0 0 0 / .18);
-}
-
-.aw-professional-studio .aw-studio-performance-actions > button:active {
+.aw-professional-studio .aw-studio-performance button:active {
 	transform: translateY(1px) scale(.985);
 }
 
+.aw-professional-studio .aw-studio-performance-actions > .aw-studio-primary:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 10px 28px rgb(0 0 0 / .2);
+}
+
+.aw-professional-studio .aw-studio-performance button:disabled,
+.aw-professional-studio .aw-studio-performance input:disabled,
+.aw-professional-studio .aw-studio-performance select:disabled,
+.aw-professional-studio .aw-studio-performance textarea:disabled {
+	cursor: not-allowed;
+	opacity: .5;
+	transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-	.aw-professional-studio .aw-studio-performance-advanced,
-	.aw-professional-studio .aw-studio-performance-actions > button {
+	.aw-professional-studio .aw-studio-performance button,
+	.aw-professional-studio .aw-studio-performance input,
+	.aw-professional-studio .aw-studio-performance select,
+	.aw-professional-studio .aw-studio-performance textarea,
+	.aw-professional-studio .aw-studio-performance-advanced {
 		transition-duration: .01ms;
 	}
 }

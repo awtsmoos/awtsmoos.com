@@ -1,0 +1,72 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos needs no color, border, glass, or glow, yet Awtsmoos.com clothes advanced command power in a calm local vessel;
+ * every token below lives only beneath this explorer root, so no neighboring menu, canvas, inventory, or studio inherits its garment.
+ */
+
+[data-awtsmoos-api-explorer] {
+	--awts-api-bg: linear-gradient(145deg, rgb(9 14 25 / .96), rgb(12 22 36 / .94));
+	--awts-api-surface: rgb(255 255 255 / .045);
+	--awts-api-surface-hover: rgb(255 255 255 / .075);
+	--awts-api-border: rgb(164 205 255 / .16);
+	--awts-api-border-strong: rgb(120 224 255 / .42);
+	--awts-api-text: rgb(240 247 255 / .96);
+	--awts-api-muted: rgb(185 203 226 / .72);
+	--awts-api-accent: rgb(100 220 255);
+	--awts-api-accent-soft: rgb(100 220 255 / .14);
+	--awts-api-success: rgb(107 234 170);
+	--awts-api-danger: rgb(255 125 145);
+	--awts-api-warning: rgb(255 208 115);
+	--awts-api-shadow: 0 18px 50px rgb(0 0 0 / .24);
+	--awts-api-radius-lg: 18px;
+	--awts-api-radius-md: 12px;
+	--awts-api-radius-sm: 9px;
+	--awts-api-gap-1: .4rem;
+	--awts-api-gap-2: .65rem;
+	--awts-api-gap-3: .95rem;
+	--awts-api-control: 44px;
+	box-sizing: border-box;
+	inline-size: 100%;
+	min-inline-size: 0;
+	color: var(--awts-api-text);
+	color-scheme: dark;
+	font: 500 14px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+[data-awtsmoos-api-explorer] *,
+[data-awtsmoos-api-explorer] *::before,
+[data-awtsmoos-api-explorer] *::after {
+	box-sizing: border-box;
+}
+
+[data-awtsmoos-api-explorer][hidden] {
+	display: none !important;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__title {
+	display: grid;
+	gap: .08rem;
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__title small {
+	color: var(--awts-api-accent);
+	font-size: .72rem;
+	font-weight: 750;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__title strong {
+	overflow-wrap: anywhere;
+	font-size: clamp(1.05rem, 4vw, 1.28rem);
+	font-weight: 760;
+	letter-spacing: -.025em;
+}
+
+[data-awtsmoos-api-explorer] ::selection {
+	background: var(--awts-api-accent-soft);
+	color: var(--awts-api-text);
+}

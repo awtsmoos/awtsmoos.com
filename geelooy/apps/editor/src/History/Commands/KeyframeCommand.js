@@ -1,87 +1,84 @@
 // B"H
-import { Command } from '../../Core/Command.js';
-import { Keyframe } from '../../Timeline/Keyframe.js'; // Needed for undo
-import { Track } from '../../Timeline/Track.js'; // Needed for getting property value
+// Boruch Hashem
+// Blessed is He
+/**
+ * The Awtsmoos lets one keyframe enter history as a reversible covenant, clear in intent and faithful in state;
+ * on Awtsmoos.com each captured value can travel forward and back, while mutable vessels never secretly mate.
+ */
+import { Command } from "../../Core/Command.js";
+import { Track } from "../../Timeline/Track.js";
+import { cloneKeyframeValue } from "./KeyframeValue.js";
 
+/** Undoable addition or replacement of one timeline keyframe. */
 export class AddKeyframeCommand extends Command {
-    constructor(timelineManager, objectUUID, propertyPath, time, value) {
-        super();
-        this.timelineManager = timelineManager;
-        this.objectUUID = objectUUID;
-        this.propertyPath = propertyPath;
-        this.time = time;
-        this.value = this._cloneValue(value); // Clone the value passed in
-        this.previousValueAtTime = null; // Store if a keyframe was overwritten
-        this.name = `Add Keyframe (${propertyPath} @ ${time.toFixed(2)}s)`;
-    }
+	/**
+	 * Capture one requested keyframe addition without mutating the timeline until HistoryManager executes it.
+	 * @param {object} timelineManager Historical TimelineManager façade.
+	 * @param {string} objectUUID Target object UUID.
+	 * @param {string} propertyPath Dot-separated animated property path.
+	 * @param {number} time Timeline instant in seconds.
+	 * @param {*} value Scene-domain value captured at creation time.
+	 */
+	constructor(timelineManager, objectUUID, propertyPath, time, value) {
+		super();
+		this.timelineManager = timelineManager;
+		this.objectUUID = objectUUID;
+		this.propertyPath = propertyPath;
+		this.time = time;
+		this.value = cloneKeyframeValue(value);
+		this.previousValueAtTime = null;
+		this.name = `Add Keyframe (${propertyPath} @ ${time.toFixed(2)}s)`;
+	}
 
-    _cloneValue(val) {
-        // Use the same cloning logic as Keyframe class
-        if (val === null || typeof val !== 'object') return val;
-        if (typeof val.clone === 'function') return val.clone();
-        if (Array.isArray(val)) return val.map(item => this._cloneValue(item));
-        return { ...val };
-    }
+	/**
+	 * Add or replace the keyframe while remembering any displaced value for a truthful undo.
+	 */
+	execute() {
+		const kliLayer = this.timelineManager.getLayer(this.objectUUID);
+		if (!kliLayer) return;
+		const kliExisting = kliLayer.getTrack(this.propertyPath)?.getKeyframeAt(this.time);
+		this.previousValueAtTime = kliExisting
+			? cloneKeyframeValue(kliExisting.value)
+			: null;
+		const isAdded = this.timelineManager._addKeyframeInternal(
+			this.objectUUID,
+			this.propertyPath,
+			this.time,
+			this.value
+		);
+		if (isAdded) this.revealStaticValue();
+	}
 
-    execute() {
-        const layer = this.timelineManager.getLayer(this.objectUUID);
-        if (!layer) return;
-        const track = layer.getTrack(this.propertyPath);
+	/** Restore the displaced keyframe when one existed, otherwise remove the keyframe introduced by execute. */
+	undo() {
+		if (this.previousValueAtTime !== null) {
+			this.timelineManager._addKeyframeInternal(
+				this.objectUUID,
+				this.propertyPath,
+				this.time,
+				this.previousValueAtTime
+			);
+		} else {
+			this.timelineManager._removeKeyframeInternal(
+				this.objectUUID,
+				this.propertyPath,
+				this.time
+			);
+		}
+		this.timelineManager.animator.update(this.timelineManager.currentTime);
+	}
 
-        // Check if a keyframe already exists at this exact time
-        const existingKeyframe = track?.getKeyframeAt(this.time);
-        if (existingKeyframe) {
-            this.previousValueAtTime = existingKeyframe.value; // Store overwritten value for undo
-        } else {
-            this.previousValueAtTime = null;
-        }
-
-        // Use the internal method which doesn't create another command
-        const success = this.timelineManager._addKeyframeInternal(
-            this.objectUUID,
-            this.propertyPath,
-            this.time,
-            this.value
-        );
-         if (success) console.log(`Executed AddKeyframeCommand`);
-
-         // Update the object's current state if timeline is not playing
-         // This ensures the object visually matches the new keyframe immediately
-         if (!this.timelineManager.isPlaying && !this.timelineManager.isScrubbing) {
-            const object = this.timelineManager.objectManager.getObjectByUUID(this.objectUUID);
-            if (object) {
-                 Track.setObjectPropertyValue(object, this.propertyPath, this.value);
-            }
-         }
-    }
-
-    undo() {
-        const layer = this.timelineManager.getLayer(this.objectUUID);
-        if (!layer) return;
-
-        if (this.previousValueAtTime !== null) {
-            // Restore the previously overwritten keyframe
-            this.timelineManager._addKeyframeInternal(
-                this.objectUUID,
-                this.propertyPath,
-                this.time,
-                this.previousValueAtTime
-            );
-        } else {
-            // Simply remove the keyframe that was added
-            this.timelineManager._removeKeyframeInternal(
-                this.objectUUID,
-                this.propertyPath,
-                this.time
-            );
-        }
-
-        // Update the object's current state after undo
-         if (!this.timelineManager.isPlaying && !this.timelineManager.isScrubbing) {
-             // Force animator update to reflect removal/change
-             this.timelineManager.animator.update(this.timelineManager.currentTime);
-         }
-
-        console.log(`Undone AddKeyframeCommand`);
-    }
+	/**
+	 * When playback is still, immediately reveal the newly keyed value on the scene object.
+	 */
+	revealStaticValue() {
+		if (this.timelineManager.isPlaying || this.timelineManager.isScrubbing) return;
+		const kliObject = this.timelineManager.objectManager.getObjectByUUID(this.objectUUID);
+		if (!kliObject) return;
+		Track.setObjectPropertyValue(
+			kliObject,
+			this.propertyPath,
+			cloneKeyframeValue(this.value)
+		);
+	}
 }

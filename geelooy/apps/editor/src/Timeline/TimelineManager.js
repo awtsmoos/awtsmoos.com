@@ -1,96 +1,96 @@
 // B"H
-import { Layer } from './Layer.js';
-import { Animator } from './Animator.js';
-import { Keyframe } from './Keyframe.js';
-import { AddKeyframeCommand } from '../History/Commands/KeyframeCommand.js';
-// ** Import the new RemoveKeyframeCommand **
-import { RemoveKeyframeCommand } from '../History/Commands/RemoveKeyframeCommand.js';
+// Boruch Hashem
+// Blessed is He
+/**
+ * The Awtsmoos gathers time, layers, keyframes, and events beneath one stable public name without forcing them into one tangled file;
+ * on Awtsmoos.com the façade stays simple while smaller inner vessels reveal each responsibility, clear in purpose and easy to refine.
+ */
+import { Animator } from "./Animator.js";
+import { YesodTimelineLayerRegistry } from "./TimelineLayerRegistry.js";
+import { NetzachTimelinePlayback } from "./TimelinePlayback.js";
+import { GevurahTimelineKeyframeActions } from "./TimelineKeyframeActions.js";
+import { KesherTimelineEventBridge } from "./TimelineEventBridge.js";
 
+/** Historical TimelineManager API preserved as a thin façade over focused runtime collaborators. */
 export class TimelineManager {
-    constructor(eventEmitter, objectManager, historyManager) {
-        this.eventEmitter = eventEmitter;
-        this.objectManager = objectManager;
-        this.historyManager = historyManager; // This must be a valid HistoryManager instance
+	/**
+	 * Compose timeline services around the Editor's existing event, object, and history managers.
+	 * @param {object} eventEmitter Existing Editor event emitter.
+	 * @param {object} objectManager Existing scene-object service.
+	 * @param {object} historyManager Existing undo/redo service.
+	 */
+	constructor(eventEmitter, objectManager, historyManager) {
+		this.eventEmitter = eventEmitter;
+		this.objectManager = objectManager;
+		this.historyManager = historyManager;
+		this.animator = new Animator(objectManager);
+		this.playback = new NetzachTimelinePlayback(eventEmitter, this.animator);
+		this.layerRegistry = new YesodTimelineLayerRegistry(
+			this.animator,
+			() => this.emitTimelineDataChanged()
+		);
+		this.keyframeActions = new GevurahTimelineKeyframeActions(
+			this,
+			historyManager,
+			() => this.emitTimelineDataChanged()
+		);
+		this.eventBridge = new KesherTimelineEventBridge(eventEmitter, this);
+		this.eventBridge.connect();
+	}
 
-        this.layers = new Map();
-        this.animator = new Animator(this.objectManager);
+	/** @returns {Map<string, object>} Historical public layer map. */
+	get layers() { return this.layerRegistry.layers; }
+	/** @returns {number} Current timeline instant. */
+	get currentTime() { return this.playback.currentTime; }
+	set currentTime(value) { this.playback.currentTime = value; }
+	/** @returns {number} Timeline range start. */
+	get startTime() { return this.playback.startTime; }
+	set startTime(value) { this.playback.startTime = value; }
+	/** @returns {number} Timeline range end. */
+	get endTime() { return this.playback.endTime; }
+	set endTime(value) { this.playback.endTime = value; }
+	/** @returns {boolean} Whether automatic playback is active. */
+	get isPlaying() { return this.playback.isPlaying; }
+	set isPlaying(value) { this.playback.isPlaying = Boolean(value); }
+	/** @returns {boolean} Whether the user is actively scrubbing. */
+	get isScrubbing() { return this.playback.isScrubbing; }
+	set isScrubbing(value) { this.playback.isScrubbing = Boolean(value); }
 
-        this.currentTime = 0;
-        this.startTime = 0;
-        this.endTime = 10;
-        this.isPlaying = false;
-        this.isScrubbing = false;
+	/** Delegate Properties-panel create/remove keyframe intent to the history-aware action service. */
+	handleCreateKeyframeRequest(request) { this.keyframeActions.handleCreateKeyframeRequest(request); }
+	/** Historical command hook: mutate one keyframe without creating nested history. */
+	_addKeyframeInternal(uuid, path, time, value) { return this.keyframeActions.addInternal(uuid, path, time, value); }
+	/** Historical command hook: remove one keyframe without creating nested history. */
+	_removeKeyframeInternal(uuid, path, time) { return this.keyframeActions.removeInternal(uuid, path, time); }
+	/** @returns {object[]} Ordered snapshot of registered layers. */
+	getLayersArray() { return this.layerRegistry.getLayersArray(); }
+	/** Register selectable objects beneath an added scene subtree. */
+	handleObjectAdded(object) { this.layerRegistry.handleObjectAdded(object); }
+	/** Retire layers beneath a removed scene subtree. */
+	handleObjectRemoved(object) { this.layerRegistry.handleObjectRemoved(object); }
+	/** Register one selectable object. */
+	createLayerForObject(object) { this.layerRegistry.createLayerForObject(object); }
+	/** Remove one object's timeline layer. */
+	removeLayerForObject(object) { this.layerRegistry.removeLayerForObject(object); }
+	/** @returns {object|undefined} Layer for one object UUID. */
+	getLayer(uuid) { return this.layerRegistry.getLayer(uuid); }
+	/** Begin timeline playback. */
+	play() { this.playback.play(); }
+	/** Pause timeline playback. */
+	pause() { this.playback.pause(); }
+	/** Seek to one clamped instant and reveal it through Animator. */
+	seek(time, isScrubbing = false) { return this.playback.seek(time, isScrubbing); }
+	/** Advance the playback state machine from the render loop. */
+	update(appTime, deltaTime) { this.playback.update(appTime, deltaTime); }
+	/** Toggle one layer's disclosure state. */
+	toggleLayerCollapse(uuid) { this.layerRegistry.toggleLayerCollapse(uuid); }
 
-        // ** FIX: Ensure all event listeners are correctly bound to 'this' **
-        this.eventEmitter.on('objectAdded', this.handleObjectAdded.bind(this));
-        this.eventEmitter.on('objectRemoved', this.handleObjectRemoved.bind(this));
-        this.eventEmitter.on('seekTimeline', this.seek.bind(this));
-        this.eventEmitter.on('playTimeline', this.play.bind(this));
-        this.eventEmitter.on('pauseTimeline', this.pause.bind(this));
-        this.eventEmitter.on('createKeyframeRequest', this.handleCreateKeyframeRequest.bind(this));
-        this.eventEmitter.on('toggleLayerCollapse', this.toggleLayerCollapse.bind(this));
-        
-        console.log('B\"H\n - TimelineManager Initialized');
-    }
-    
-    /**
-     * Handles requests to create OR delete keyframes from the Properties Panel.
-     */
-    handleCreateKeyframeRequest({ objectUUID, propertyPath, value }) {
-        // ** FIX: The crash was because this.historyManager was not correctly referenced. **
-        // The .bind(this) in the constructor solves this.
-        if (!this.historyManager) {
-            console.error("HistoryManager is missing in TimelineManager!");
-            return;
-        }
-
-        const layer = this.layers.get(objectUUID);
-        if (!layer) return;
-
-        const existingKeyframe = layer.getTrack(propertyPath)?.getKeyframeAt(this.currentTime);
-
-        if (existingKeyframe) {
-            // ** FEATURE: If a keyframe exists, create a command to REMOVE it. **
-            const command = new RemoveKeyframeCommand(this, objectUUID, propertyPath, this.currentTime, existingKeyframe.value);
-            this.historyManager.add(command);
-        } else {
-            // ** If no keyframe exists, create a command to ADD one. **
-            const command = new AddKeyframeCommand(this, objectUUID, propertyPath, this.currentTime, value);
-            this.historyManager.add(command);
-        }
-    }
-
-    // --- Internal methods called by commands ---
-     _addKeyframeInternal(objectUUID, propertyPath, time, value) {
-         const layer = this.layers.get(objectUUID);
-         if (!layer) return false;
-         const keyframe = new Keyframe(time, value);
-         layer.addKeyframe(propertyPath, keyframe);
-         this.emitTimelineDataChanged();
-         return true;
-     }
-
-      _removeKeyframeInternal(objectUUID, propertyPath, time) {
-         const layer = this.layers.get(objectUUID);
-         if (!layer) return false;
-         const removed = layer.removeKeyframeAt(propertyPath, time);
-         if (removed) {
-            this.emitTimelineDataChanged();
-         }
-         return removed;
-      }
-      
-    // --- All other methods from previous steps remain the same ---
-    getLayersArray() { return Array.from(this.layers.values()); }
-    handleObjectAdded(object) { object.traverse((obj) => { if (obj.userData?.isSelectable) this.createLayerForObject(obj); }); }
-    handleObjectRemoved(object) { object.traverse((obj) => { if (this.layers.has(obj.uuid)) this.removeLayerForObject(obj); }); }
-    createLayerForObject(object) { if (!object || this.layers.has(object.uuid)) return; const layer = new Layer(object.uuid, object.name); this.layers.set(object.uuid, layer); this.animator.setLayers(this.getLayersArray()); this.emitTimelineDataChanged(); }
-    removeLayerForObject(object) { if (object && this.layers.has(object.uuid)) { this.layers.delete(object.uuid); this.animator.setLayers(this.getLayersArray()); this.emitTimelineDataChanged(); } }
-    getLayer(objectUUID) { return this.layers.get(objectUUID); }
-    play() { if (this.isPlaying) return; this.isPlaying = true; if (this.currentTime >= this.endTime) this.currentTime = this.startTime; this.eventEmitter.emit('playbackStateChanged', { isPlaying: true }); }
-    pause() { if (!this.isPlaying) return; this.isPlaying = false; this.eventEmitter.emit('playbackStateChanged', { isPlaying: false }); }
-    seek(time, isScrubbing = false) { this.currentTime = Math.max(this.startTime, Math.min(this.endTime, time)); this.isScrubbing = isScrubbing; this.animator.update(this.currentTime); this.eventEmitter.emit('timeChanged', { currentTime: this.currentTime, isScrubbing }); }
-    update(appTime, deltaTime) { if (this.isPlaying && !this.isScrubbing) { let newTime = this.currentTime + deltaTime; if (newTime > this.endTime) newTime = this.startTime; this.seek(newTime); } }
-    toggleLayerCollapse(objectUUID) { const layer = this.layers.get(objectUUID); if (layer) { layer.collapsed = !layer.collapsed; this.emitTimelineDataChanged(); } }
-    emitTimelineDataChanged() { this.eventEmitter.emit('timelineDataChanged', { layers: this.getLayersArray(), startTime: this.startTime, endTime: this.endTime }); }
+	/** Publish the historical timeline-data payload after structural/keyframe changes. */
+	emitTimelineDataChanged() {
+		this.eventEmitter.emit("timelineDataChanged", {
+			layers: this.getLayersArray(),
+			startTime: this.startTime,
+			endTime: this.endTime
+		});
+	}
 }

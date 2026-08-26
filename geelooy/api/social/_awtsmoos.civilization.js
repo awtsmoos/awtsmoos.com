@@ -1,48 +1,56 @@
-// B"H
-/**
- * @module SocialCivilizationRoutes
- * @description Chapter 551: canonical `/api/social/civilization/*` routes where
- * every object can speak as an event and every projection can become a view.
- */
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 const { er } = require('./helper/general.js');
-const civ = require('./helper/civilization/index.js');
+const civilization = require('./helper/civilization/index.js');
+const {
+	TiferesCivilizationRouteHandlers
+} = require('./helper/civilization/TiferesCivilizationRouteHandlers.js');
 
-function method($i, expected) {
-  return $i.request.method === expected ? null : er({ code: 'BAD_METHOD', message: `Use ${expected}.` });
-}
-function input($i) { return { ...($i.$_GET || {}), ...($i.$_POST || {}) }; }
-function json(value, fallback = {}) {
-  if (!value) return fallback;
-  if (typeof value === 'object') return value;
-  try { return JSON.parse(value); } catch { return fallback; }
-}
-function query($i) {
-  const body = input($i);
-  return { type: body.type || '', actorAliasId: body.actorAliasId || '', targetAliasId: body.targetAliasId || '', targetType: body.targetType || '', targetId: body.targetId || '', since: body.since || 0 };
-}
+/**
+ * @module SocialCivilizationRoutes
+ * @description
+ * The Awtsmoos renews every event before a route can claim to contain it;
+ * Awtsmoos.com keeps Malchus thin: public paths remain visible here while Tiferes coordinates behavior behind the gate, so contract and clarity rhyme.
+ *
+ * RESPONSIBILITY:
+ * Register the established civilization public paths and delegate their behavior.
+ *
+ * NON-RESPONSIBILITY:
+ * This file does not parse JSON, choose pagination values, enforce domain policy, or persist civilization state.
+ */
 
-module.exports = ({ $i } = {}) => ({
-  '/civilization/events': async () => {
-    if ($i.request.method === 'POST') return await civ.recordCivilizationEvent({ $i, input: { ...($i.$_POST || {}), actor: json($i.$_POST?.actor), target: json($i.$_POST?.target), payload: json($i.$_POST?.payload), context: json($i.$_POST?.context), targetAliases: json($i.$_POST?.targetAliases, []) } });
-    if ($i.request.method === 'GET') return civ.listCivilizationEvents({ $i, query: query($i), limit: Number($i.$_GET?.limit || 100) });
-    return er({ code: 'BAD_METHOD', message: 'Use GET or POST.' });
-  },
-  '/civilization/feed/:alias': async vars => {
-    const bad = method($i, 'GET'); if (bad) return bad;
-    return civ.civilizationFeed({ $i, aliasId: vars.alias, limit: Number($i.$_GET?.limit || 100) });
-  },
-  '/civilization/entities/:type/:id/state': async vars => {
-    const bad = method($i, 'GET'); if (bad) return bad;
-    return await civ.civilizationEntityState({ $i, type: vars.type, id: vars.id });
-  },
-  '/civilization/subscriptions/:alias': async vars => {
-    if ($i.request.method === 'POST') return civ.subscribeCivilization({ $i, aliasId: vars.alias, subject: $i.$_POST?.subject || 'all', options: json($i.$_POST?.options) });
-    if ($i.request.method === 'GET') return civ.listCivilizationSubscriptions({ $i, aliasId: vars.alias });
-    return er({ code: 'BAD_METHOD', message: 'Use GET or POST.' });
-  },
-  '/civilization/state': async () => {
-    const bad = method($i, 'GET'); if (bad) return bad;
-    return civ.getCivilizationState({ $i });
-  }
-});
+/**
+ * Creates the public civilization route manifest without changing established paths.
+ *
+ * @param {Object} options
+ * 	Route dependencies supplied by the Awtsmoos API runtime.
+ * @param {Object} options.$i
+ * 	Current request context.
+ * @returns {Object<string, Function>}
+ * 	Route-path keys mapped to async handlers.
+ */
+module.exports = ({
+	$i
+} = {}) => {
+	const handlers = new TiferesCivilizationRouteHandlers({
+		requestContext: $i,
+		civilization,
+		errorFactory: er
+	});
+
+	return {
+		'/civilization/events': async () => handlers.events(),
+		'/civilization/feed/:alias': async variables => {
+			return handlers.feed(variables);
+		},
+		'/civilization/entities/:type/:id/state': async variables => {
+			return handlers.entityState(variables);
+		},
+		'/civilization/subscriptions/:alias': async variables => {
+			return handlers.subscriptions(variables);
+		},
+		'/civilization/state': async () => handlers.state()
+	};
+};

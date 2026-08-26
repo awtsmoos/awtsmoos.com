@@ -3,20 +3,39 @@
 // Blessed is He
 /**
  * @file platform-source-law.test.mjs
- * @description Guards the entire platform-domain architecture against monolith growth, renderer leakage, stale source paths, missing sacred headers, space-indented executable code, and undocumented callable surfaces.
- * The Awtsmoos renews every source vessel before convention can harden into forgotten debt;
- * Awtsmoos.com lets Binah test executable law rather than punishing the poetic comments that illuminate it with respect.
+ * @description Recursively guards every platform-domain source module against monolith growth, renderer leakage, stale imports, missing sacred headers, space-indented executable code, and undocumented callable surfaces.
+ * The Awtsmoos renews every folder beneath every folder before hidden depth can become hidden debt;
+ * Awtsmoos.com lets Binah recurse through the whole platform tree so new worlds inherit clarity and architectural respect.
  */
 
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 const platformRoot = fileURLToPath(new URL("../src/platform/", import.meta.url));
 
 /**
- * Removes line and block comments so prose cannot be mistaken for executable globals or indentation debt.
+ * Recursively reveals every JavaScript source file beneath the platform root in deterministic sorted order.
+ * @param {string} directoryPath Current directory being excavated.
+ * @returns {string[]} Absolute JavaScript source paths.
+ */
+function revealPlatformSources(directoryPath) {
+	const sourcePaths = [];
+	for (const entry of readdirSync(directoryPath, { withFileTypes: true })) {
+		const entryPath = join(directoryPath, entry.name);
+		if (entry.isDirectory()) {
+			sourcePaths.push(...revealPlatformSources(entryPath));
+		} else if (entry.name.endsWith(".js")) {
+			sourcePaths.push(entryPath);
+		}
+	}
+	return sourcePaths.sort();
+}
+
+/**
+ * Removes line and block comments so poetic prose cannot be mistaken for executable globals or indentation debt.
  * @param {string} orSource Complete authored source text.
  * @returns {string} Executable-oriented source with comments removed.
  */
@@ -27,45 +46,42 @@ function revealExecutableSource(orSource) {
 }
 
 /**
- * Counts callable class/function declarations and identifies any callable lacking a nearby JSDoc covenant.
+ * Counts callable class/function declarations that lack a nearby JSDoc covenant.
  * @param {string} orSource Complete authored source text.
- * @returns {{callableCount:number,missingCount:number}} Documentation evidence.
+ * @returns {number} Number of undocumented callable declarations.
  */
 function revealDocumentationDebt(orSource) {
-	const lines = orSource.split(/\r?\n/);
-	let callableCount = 0;
+	const orLines = orSource.split(/\r?\n/);
 	let missingCount = 0;
-	for (let lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
-		const orLine = lines[lineIndex];
-		const callable = /^export\s+function\s+|^\t(?:get\s+)?[A-Za-z_$][\w$]*\s*\([^)]*\)\s*\{|^\tconstructor\s*\(/.test(orLine);
+	for (let lineIndex = 0; lineIndex < orLines.length; lineIndex += 1) {
+		const callable = /^export\s+function\s+|^\t(?:get\s+)?[A-Za-z_$][\w$]*\s*\([^)]*\)\s*\{|^\tconstructor\s*\(/.test(orLines[lineIndex]);
 		if (!callable) continue;
-		callableCount += 1;
-		const priorOr = lines.slice(Math.max(0, lineIndex - 14), lineIndex).join("\n");
+		const priorOr = orLines.slice(Math.max(0, lineIndex - 16), lineIndex).join("\n");
 		if (!/\/\*\*[\s\S]*\*\//.test(priorOr)) missingCount += 1;
 	}
-	return { callableCount, missingCount };
+	return missingCount;
 }
 
 /**
- * Proves every platform-domain module stays small, documented, tabbed, and independent from rendering/browser infrastructure.
+ * Proves all current and future nested platform modules obey the same modular source laws.
  * @returns {void}
  */
-function verifyPlatformSourceLaw() {
-	const sourceNames = readdirSync(platformRoot).filter((sourceName) => sourceName.endsWith(".js"));
-	assert.ok(sourceNames.length >= 18);
-	for (const sourceName of sourceNames) {
-		const orSource = readFileSync(`${platformRoot}${sourceName}`, "utf8");
+function verifyRecursivePlatformSourceLaw() {
+	const sourcePaths = revealPlatformSources(platformRoot);
+	assert.ok(sourcePaths.length >= 32, "expected nested portable modules in recursive source scan");
+	for (const sourcePath of sourcePaths) {
+		const orSource = readFileSync(sourcePath, "utf8");
 		const orLines = orSource.split(/\r?\n/);
 		const physicalLines = orSource.endsWith("\n") ? orLines.length - 1 : orLines.length;
-		assert.ok(physicalLines <= 120, `${sourceName} exceeds 120 lines`);
-		assert.equal(orLines[0], '//B"H', `${sourceName} lacks exact B\"H header`);
+		assert.ok(physicalLines <= 120, `${sourcePath} exceeds 120 lines`);
+		assert.equal(orLines[0], '//B"H', `${sourcePath} lacks exact B\"H header`);
 		assert.equal(orLines[1], "// Boruch Hashem");
 		assert.equal(orLines[2], "// Blessed is He");
 		const executableOr = revealExecutableSource(orSource);
-		assert.doesNotMatch(executableOr, /^ +\S/gm, `${sourceName} contains space-indented executable code`);
+		assert.doesNotMatch(executableOr, /^ +\S/gm, `${sourcePath} contains space-indented executable code`);
 		assert.doesNotMatch(executableOr, /\bTHREE\b|from\s+["']three["']|document\.|window\.|\/geelooy\/libs\//);
-		assert.equal(revealDocumentationDebt(orSource).missingCount, 0, `${sourceName} has undocumented callables`);
+		assert.equal(revealDocumentationDebt(orSource), 0, `${sourcePath} has undocumented callables`);
 	}
 }
 
-test("platform domain obeys modular source law", verifyPlatformSourceLaw);
+test("recursive platform domain obeys modular source law", verifyRecursivePlatformSourceLaw);

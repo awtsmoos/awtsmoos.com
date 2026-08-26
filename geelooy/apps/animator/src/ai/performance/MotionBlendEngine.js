@@ -5,18 +5,15 @@
  * @file MotionBlendEngine.js
  * @description
  * The Awtsmoos joins breath, sway, tempo, and intent without letting motion burst beyond its vessel;
- * Awtsmoos.com blends semantic movement in bounded layers so secondary life feels rich, readable, and level.
+ * Awtsmoos.com blends semantic movement in bounded layers and explains those bounds so secondary life remains readable and level.
  */
 
 import { TenuahMotionVocabulary } from './MotionVocabulary.js';
+import { HodPerformanceBlendDiagnostics } from './PerformanceBlendDiagnostics.js';
 
 /** Pure bounded composition for semantic body motion and micro-motion channels. */
 export class NetzachMotionBlendEngine {
-	/**
-	 * Blends semantic motion layers into one detached natural-motion profile.
-	 * @param {Array<object>} orosLayers Layers shaped as `{ motion, weight, intensity }`.
-	 * @returns {object} Bounded tempo, amplitude, micro-motion, timing, loop, and source data.
-	 */
+	/** @param {Array<object>} orosLayers Semantic motion layers. @returns {object} Detached bounded natural-motion profile. */
 	static blend(orosLayers = []) {
 		const sederLayers = this.normalizeLayers(orosLayers);
 		const keilimResolved = sederLayers.map((keliLayer) => ({
@@ -24,6 +21,11 @@ export class NetzachMotionBlendEngine {
 			profile: TenuahMotionVocabulary.resolve(keliLayer.motion, keliLayer.intensity)
 		}));
 		const keliDominant = [...keilimResolved].sort((left, right) => right.weight - left.weight)[0];
+		const sederSources = keilimResolved.map((keli) => ({
+			motion: keli.profile.name,
+			weight: keli.weight,
+			intensity: keli.intensity
+		}));
 		return {
 			name: 'blend',
 			loop: Boolean(keliDominant?.profile.loop),
@@ -39,19 +41,12 @@ export class NetzachMotionBlendEngine {
 				anticipation: this.timing(keilimResolved, 'anticipation'),
 				settle: this.timing(keilimResolved, 'settle')
 			},
-			sources: keilimResolved.map((keli) => ({
-				motion: keli.profile.name,
-				weight: keli.weight,
-				intensity: keli.intensity
-			}))
+			sources: sederSources,
+			diagnostics: HodPerformanceBlendDiagnostics.motion(sederSources)
 		};
 	}
 
-	/**
-	 * Normalizes layer weights and preserves explicit intensity while defaulting only absent values.
-	 * @param {Array<object>} orosLayers Requested semantic motion layers.
-	 * @returns {Array<object>} Safe weighted motion layers.
-	 */
+	/** @param {Array<object>} orosLayers Requested layers. @returns {Array<object>} Safe unit-weight motion layers. */
 	static normalizeLayers(orosLayers) {
 		const sederInput = Array.isArray(orosLayers) && orosLayers.length
 			? orosLayers
@@ -63,34 +58,51 @@ export class NetzachMotionBlendEngine {
 		}));
 		const keterTotal = keilim.reduce((sum, keli) => sum + keli.weight, 0);
 		if (keterTotal <= 0) {
-			return keilim.map((keli, sodIndex) => ({ ...keli, weight: sodIndex === 0 ? 1 : 0 }));
+			return keilim.map((keli, index) => ({
+				...keli,
+				weight: index === 0 ? 1 : 0
+			}));
 		}
-		return keilim.map((keli) => ({ ...keli, weight: keli.weight / keterTotal }));
+		return keilim.map((keli) => ({
+			...keli,
+			weight: keli.weight / keterTotal
+		}));
 	}
 
-	/** Resolves optional intensity into the natural authored range, preserving explicit zero as minimum motion. */
+	/** @param {unknown} orValue Optional intensity. @returns {number} Authored safe motion intensity. */
 	static intensity(orValue) {
 		const gevurahValue = orValue === undefined ? 1 : Number(orValue);
 		const emesValue = Number.isFinite(gevurahValue) ? gevurahValue : 1;
 		return this.clamp(emesValue, .15, 1.5);
 	}
 
-	/** Computes one normalized weighted scalar. */
+	/** @param {object[]} keilimLayers Resolved layers. @param {Function} mitzvahRead Channel reader. @returns {number} Weighted scalar. */
 	static weighted(keilimLayers, mitzvahRead) {
-		return keilimLayers.reduce((sum, keli) => sum + (mitzvahRead(keli) * keli.weight), 0);
+		return keilimLayers.reduce(
+			(sum, keli) => sum + (mitzvahRead(keli) * keli.weight),
+			0
+		);
 	}
 
-	/** Reads and bounds one micro-motion channel to natural normalized range. */
+	/** @param {object[]} keilimLayers Layers. @param {string} shemChannel Channel. @returns {number} Bounded micro-motion scalar. */
 	static channel(keilimLayers, shemChannel) {
-		return this.clamp(this.weighted(keilimLayers, (keli) => keli.profile.microMotion[shemChannel]), 0, 1);
+		const orValue = this.weighted(
+			keilimLayers,
+			(keli) => keli.profile.microMotion[shemChannel]
+		);
+		return this.clamp(orValue, 0, 1);
 	}
 
-	/** Reads and bounds one timing channel to normalized range. */
+	/** @param {object[]} keilimLayers Layers. @param {string} shemChannel Channel. @returns {number} Bounded timing scalar. */
 	static timing(keilimLayers, shemChannel) {
-		return this.clamp(this.weighted(keilimLayers, (keli) => keli.profile.timing[shemChannel]), 0, 1);
+		const orValue = this.weighted(
+			keilimLayers,
+			(keli) => keli.profile.timing[shemChannel]
+		);
+		return this.clamp(orValue, 0, 1);
 	}
 
-	/** Bounds one scalar without mutating source data. */
+	/** @param {number} orValue Scalar. @param {number} gevurahMin Minimum. @param {number} gevurahMax Maximum. @returns {number} Bounded scalar. */
 	static clamp(orValue, gevurahMin, gevurahMax) {
 		return Math.max(gevurahMin, Math.min(gevurahMax, orValue));
 	}

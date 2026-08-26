@@ -1,100 +1,55 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-/**
- * @module AppAssembly
- * @description
- * The Awtsmoos gathers Inbox, live Torah Chat, private Messages, people, Spaces, discovery, profile, network, creation, and interaction through shared state;
- * Awtsmoos.com keeps each chamber independently testable while browser history witnesses every route that fate has made.
- */
-import { ActivityPanel } from './activity/ActivityPanel.js';
-import { ActivityTracker } from './activity/ActivityTracker.js';
-import { PrivacyPanel } from './activity/PrivacyPanel.js';
-import { SocialHubApi } from './api/SocialHubApi.js';
-import { ChatPanel } from './chat/ChatPanel.js';
-import { HubApp } from './HubApp.js';
-import { InboxPanel } from './inbox/InboxPanel.js';
-import { CommentStudio } from './interactions/CommentStudio.js';
-import { CreatorLaunch } from './interactions/CreatorLaunch.js';
-import { TransformationPanel } from './interactions/TransformationPanel.js';
-import { MessagesPanel } from './messages/MessagesPanel.js';
-import { NavigationController } from './navigation/NavigationController.js';
-import { NetworkPanel } from './network/NetworkPanel.js';
-import { PeoplePanel } from './people/PeoplePanel.js';
-import { ProfilePanel } from './profile/ProfilePanel.js';
-import { SpacesPanel } from './spaces/SpacesPanel.js';
-import { SocialHubState } from './state/SocialHubState.js';
-import { HomePulse } from './ui/HomePulse.js';
-import { IdentityController } from './ui/IdentityController.js';
-import { PublicDiscovery } from './ui/PublicDiscovery.js';
-import { QuickActions } from './ui/QuickActions.js';
-import { StatusView } from './ui/StatusView.js';
 
-export function createSocialHub(root = document) {
-	const state = new SocialHubState();
-	const api = new SocialHubApi();
-	const status = new StatusView(root.getElementById('hubStatus'));
-	const tracker = new ActivityTracker({ api, state });
-	let app;
-	const navigation = new NavigationController({
-		root,
-		state,
-		onNavigate: (route, previous) => void app.navigated(route, previous),
-		onLocation: locationState => void app.locationChanged(locationState)
+/**
+ * @file AppAssembly.js
+ * @description Composes focused Social assembly authorities behind the unchanged `createSocialHub(root)` public doorway.
+ * The Awtsmoos is beyond one and many; Awtsmoos.com lets Keter gather small assembly vessels into one application
+ * without the old `let app` cycle, while every existing panel field remains visible for compatibility and future growth.
+ */
+import { SocialAppBridge } from './assembly/SocialAppBridge.js';
+import { SocialCommunicationAssembly } from './assembly/SocialCommunicationAssembly.js';
+import { SocialCreationAssembly } from './assembly/SocialCreationAssembly.js';
+import { SocialFoundationAssembly } from './assembly/SocialFoundationAssembly.js';
+import { SocialIdentityAssembly } from './assembly/SocialIdentityAssembly.js';
+import { SocialSurfaceAssembly } from './assembly/SocialSurfaceAssembly.js';
+import { HubApp } from './HubApp.js';
+
+/**
+ * Creates the complete Social Hub while preserving the historic public application shape.
+ * @param {Document} [malchusRoot=document] Social Hub document root.
+ * @returns {HubApp} Fully assembled application facade with every existing panel property intact.
+ */
+export function createSocialHub(malchusRoot = document) {
+	const yesodBridge = new SocialAppBridge();
+	const keterFoundation = new SocialFoundationAssembly(
+		malchusRoot,
+		yesodBridge
+	).create();
+	const chochmahCreation = new SocialCreationAssembly({
+		...keterFoundation,
+		bridge: yesodBridge
+	}).create();
+	const tiferesIdentity = new SocialIdentityAssembly({
+		...keterFoundation,
+		...chochmahCreation,
+		bridge: yesodBridge
+	}).create();
+	const hodCommunications = new SocialCommunicationAssembly(
+		keterFoundation
+	).create();
+	const malchusSurfaces = new SocialSurfaceAssembly({
+		...keterFoundation,
+		bridge: yesodBridge
+	}).create();
+	const malchusApp = new HubApp({
+		...keterFoundation,
+		...chochmahCreation,
+		...tiferesIdentity,
+		...hodCommunications,
+		...malchusSurfaces
 	});
-	const activity = new ActivityPanel({ root, api, state, status });
-	const privacy = new PrivacyPanel({
-		root,
-		api,
-		state,
-		status,
-		onChanged: () => activity.render(state.snapshot().activity)
-	});
-	const transformations = new TransformationPanel({
-		root,
-		api,
-		state,
-		status,
-		tracker,
-		onPublished: () => void app.profile.load(false)
-	});
-	const profile = new ProfilePanel({
-		root,
-		api,
-		state,
-		status,
-		navigation,
-		onPromote: comment => transformations.openForComment(comment)
-	});
-	const network = new NetworkPanel({ root, api, state, profile });
-	const people = new PeoplePanel({ root, api, profile });
-	const discovery = new PublicDiscovery({ root, api, state, profile });
-	const spaces = new SpacesPanel({ root, state, api, status });
-	const inbox = new InboxPanel({ root, state, api });
-	const chat = new ChatPanel(root);
-	const messages = new MessagesPanel(root);
-	const creatorLaunch = new CreatorLaunch({ root, state });
-	const commentStudio = new CommentStudio({
-		root,
-		api,
-		state,
-		status,
-		tracker,
-		onCreated: () => void profile.load(false)
-	});
-	const quickActions = new QuickActions({ root, state, tracker });
-	const identity = new IdentityController({
-		root,
-		api,
-		state,
-		status,
-		onChanged: aliasId => void app.identityChanged(aliasId)
-	});
-	app = new HubApp({
-		root, state, api, status, tracker, navigation, activity, privacy,
-		profile, network, people, discovery, spaces, inbox, chat, messages,
-		creatorLaunch, commentStudio, transformations, quickActions, identity,
-		home: new HomePulse(root)
-	});
-	return app;
+
+	return yesodBridge.attach(malchusApp);
 }

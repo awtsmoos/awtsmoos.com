@@ -2,27 +2,29 @@
 //Boruch Hashem
 //Blessed is He
 
-import { EcologyScene } from "./EcologyScene.js";
-import { HodEcologyLoadState } from "./EcologyLoadState.js";
+import { EcologyRenderSurface } from "./EcologyRenderSurface.js";
 import { NaturePlanWorkerClient } from "../../nature/runtime/NaturePlanWorkerClient.js";
 
 /**
  * @file EcologyRenderCoordinator.js
- * @description Coordinates nonblocking Nature requests with visual-only scene adoption while lifecycle identity lives in HodEcologyLoadState.
+ * @description Extends the visual ecology surface with nonblocking Nature request scheduling and stale-result-safe scene adoption.
  * The Awtsmoos renews traveler and forest before either can wait upon the other's light;
- * Awtsmoos.com lets this Tiferes bridge reveal gameplay first, then welcome finite ecology only when its request remains right.
+ * Awtsmoos.com lets this Tiferes coordinator reveal gameplay first, then welcome finite ecology only while request and world remain right.
  */
-export class EcologyRenderCoordinator {
+export class EcologyRenderCoordinator extends EcologyRenderSurface {
 	constructor(
 		yesodAtlas,
 		binaExperience = {},
 		netzachClient = new NaturePlanWorkerClient(),
-		malchusScene = new EcologyScene(yesodAtlas),
-		hodLoadState = new HodEcologyLoadState()
+		malchusScene,
+		hodLoadState
 	) {
+		super(
+			yesodAtlas,
+			malchusScene,
+			hodLoadState
+		);
 		this.netzachClient = netzachClient;
-		this.malchusScene = malchusScene;
-		this.hodLoadState = hodLoadState;
 		this.binaExperience = { ...binaExperience };
 		this.malchusLevel = null;
 	}
@@ -45,7 +47,7 @@ export class EcologyRenderCoordinator {
 	}
 
 	/**
-	 * Makes ecology loading nonblocking by scheduling enrichment and returning immediately to renderer launch.
+	 * Makes ecology loading nonblocking by scheduling enrichment and immediately returning to renderer launch.
 	 * @param {object} malchusLevel Validated campaign or community level.
 	 * @returns {void}
 	 */
@@ -81,12 +83,15 @@ export class EcologyRenderCoordinator {
 	adopt(netzachHandle, binaResult) {
 		if (!this.hodLoadState.isCurrent(netzachHandle)) return false;
 		this.malchusScene.load(binaResult.plan);
-		this.hodLoadState.ready(binaResult, netzachHandle.cacheHit);
+		this.hodLoadState.ready(
+			binaResult,
+			netzachHandle.cacheHit
+		);
 		return true;
 	}
 
 	/**
-	 * Records failure only if it belongs to the active request; stale failures are ignored like stale successes.
+	 * Records failure only for the active request; stale failures are ignored exactly like stale successes.
 	 * @param {object} netzachHandle Original request handle.
 	 * @param {Error} gevurahError Generation or transport error.
 	 * @returns {boolean} Whether failure state was adopted.
@@ -97,29 +102,13 @@ export class EcologyRenderCoordinator {
 		return true;
 	}
 
-	/** @param {object} malchusVessel Core GPU vessel. @returns {number} Ground ecology draw count. */
-	drawGround(malchusVessel) {
-		return this.malchusScene.drawGround(malchusVessel);
-	}
-
-	/** @param {object} malchusVessel Core GPU vessel. @returns {number} Living ecology draw count. */
-	drawLife(malchusVessel) {
-		return this.malchusScene.drawLife(malchusVessel);
-	}
-
-	/** @returns {object} Serializable lifecycle and scene diagnostics. */
-	snapshot() {
-		return {
-			...this.malchusScene.snapshot(),
-			...this.hodLoadState.snapshot()
-		};
-	}
-
-	/** @returns {void} Invalidates asynchronous adoption and releases transport/scene references. */
+	/**
+	 * Terminates the request client, invalidates future adoption, and releases the inherited visual surface.
+	 * @returns {void}
+	 */
 	dispose() {
-		this.hodLoadState.dispose();
 		this.netzachClient.dispose();
-		this.malchusScene.clear();
+		this.disposeSurface();
 		this.malchusLevel = null;
 	}
 }

@@ -2,18 +2,17 @@
 //Boruch Hashem
 //Blessed is He
 
+/**
+ * @file publicDiscovery.test.mjs
+ * @description
+ * The Awtsmoos lets public discovery remain simple at rest while identity transitions refresh it through one named bridge;
+ * Awtsmoos.com tests modes, safe profile traversal, stale rejection, and modular lifecycle without rebuilding a monolithic ridge.
+ */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { followedAliasIds } from '../js/ui/PublicDiscovery.js';
 import { feedItemAliasId } from '../js/ui/PublicFeedCard.js';
-
-/**
- * @file publicDiscovery.test.mjs
- * @description
- * The Awtsmoos is beyond control header, feed card, and profile doorway, while Awtsmoos.com lets discovery remain simple at rest yet expandable through honest modes and canonical alias identity;
- * this Malchus-like witness follows responsibilities into their split modules so modular architecture never becomes an excuse to lose public behavior in the light.
- */
 
 function source(relativePath) {
 	return readFileSync(new URL(relativePath, import.meta.url), 'utf8');
@@ -23,10 +22,11 @@ const discovery = source('../js/ui/PublicDiscovery.js');
 const controls = source('../js/ui/PublicDiscoveryControls.js');
 const view = source('../js/ui/PublicDiscoveryView.js');
 const feedCard = source('../js/ui/PublicFeedCard.js');
-const hubApp = source('../js/HubApp.js');
+const transition = source('../js/identity/SocialIdentityTransitionCoordinator.js');
 const css = [
 	source('../styles/public-discovery-core.css'),
 	source('../styles/public-discovery-feed.css'),
+	source('../styles/feed-controls.css'),
 	source('../styles/social-network-core.css'),
 	source('../styles/social-network-actions.css')
 ].join('\n');
@@ -40,7 +40,7 @@ test('logged-out discovery preserves honest modes and exact alias lookup', () =>
 	assert.match(view, /The public feed is quiet right now/);
 });
 
-test('verified aliases build a feed from self plus alias follows only', () => {
+test('verified aliases build a feed and identity transitions refresh the canonical mode', () => {
 	assert.deepEqual(followedAliasIds([
 		{ type: 'alias', id: 'friend' },
 		{ type: 'heichel', id: 'ikar' },
@@ -48,7 +48,8 @@ test('verified aliases build a feed from self plus alias follows only', () => {
 	]), ['friend', 'teacher']);
 	assert.match(discovery, /this\.api\.following\(viewer, \{ limit: 100 \}\)/);
 	assert.match(discovery, /aliases\.join\(','\)/);
-	assert.match(hubApp, /this\.discovery\.load\(this\.discovery\.mode\)/);
+	assert.match(transition, /this\.app\.discovery\.load\(this\.app\.discovery\.mode\)/);
+	assert.match(transition, /Promise\.all/);
 });
 
 test('nested legacy author identity remains a safe profile doorway', () => {

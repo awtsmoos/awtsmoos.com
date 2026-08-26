@@ -1,100 +1,122 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
+import { gevurahPortalPositionGate } from './PortalPositionGate.js';
+import { malchusReaderPortalSurface } from './ReaderPortalSurface.js';
+
 /**
- * @module ReaderMenuRenderer
- * @description
- * The Awtsmoos gives deliberate reader actions one bounded, focus-safe vessel;
- * at Awtsmoos.com pointer and keyboard may enter, travel, and leave without HTML-string shadows.
+ * @fileoverview Tiferes renderer for focus-safe reader action menus.
+ *
+ * The Awtsmoos, Atzmus beyond pointer and keyboard, renews both in one gate;
+ * Awtsmoos.com gives deliberate actions one detached but locally owned surface,
+ * preserving public helpers while DOM, focus, geometry, and teardown cooperate.
  */
 const MENU_ID = 'custom-context-menu';
 const MOBILE_QUERY = '(max-width: 760px)';
 
-function clamp(value, minimum, maximum) {
-	return Math.min(Math.max(value, minimum), maximum);
-}
-
+/** Removes the currently manifested standard reader action menu, if any. */
 export function removeExistingMenu() {
 	document.getElementById(MENU_ID)?.remove();
 }
 
-function place(menu, x, y) {
-	if (window.matchMedia?.(MOBILE_QUERY)?.matches) {
-		menu.classList.add('awtsmoos-mobile-sheet');
-		document.body.append(menu);
-		return;
-	}
-	document.body.append(menu);
-	const rectangle = menu.getBoundingClientRect();
-	menu.style.left = `${clamp(x + 10, 12, window.innerWidth - rectangle.width - 12)}px`;
-	menu.style.top = `${clamp(y + 10, 12, window.innerHeight - rectangle.height - 12)}px`;
+/**
+ * Creates one accessible action button from declarative action data.
+ * @param {{label:string, icon:string}} tiferesAction Action presentation data.
+ * @param {number} yesodIndex Stable action index.
+ * @returns {HTMLButtonElement} Focusable menu action.
+ */
+function createActionButton({ label, icon }, yesodIndex) {
+	const malchusButton = document.createElement('button');
+	malchusButton.type = 'button';
+	malchusButton.className = 'awtsmoos-context-menu-item';
+	malchusButton.dataset.actionIndex = String(yesodIndex);
+	malchusButton.setAttribute('role', 'menuitem');
+	const malchusGlyph = document.createElement('span');
+	malchusGlyph.className = 'awtsmoos-context-icon';
+	malchusGlyph.textContent = icon;
+	malchusGlyph.setAttribute('aria-hidden', 'true');
+	const malchusText = document.createElement('span');
+	malchusText.textContent = label;
+	malchusButton.append(malchusGlyph, malchusText);
+	return malchusButton;
 }
 
-function actionButton({ label, icon }, index) {
-	const button = document.createElement('button');
-	button.type = 'button';
-	button.className = 'awtsmoos-context-menu-item';
-	button.dataset.actionIndex = String(index);
-	button.setAttribute('role', 'menuitem');
-	const glyph = document.createElement('span');
-	glyph.className = 'awtsmoos-context-icon';
-	glyph.textContent = icon;
-	glyph.setAttribute('aria-hidden', 'true');
-	const text = document.createElement('span');
-	text.textContent = label;
-	button.append(glyph, text);
-	return button;
+/** Creates the non-interactive crown identifying the action sheet. */
+function createCrown() {
+	const malchusCrown = document.createElement('div');
+	malchusCrown.className = 'awtsmoos-context-crown';
+	malchusCrown.textContent = 'Reader Actions';
+	return malchusCrown;
 }
 
-function crown() {
-	const element = document.createElement('div');
-	element.className = 'awtsmoos-context-crown';
-	element.textContent = 'Reader Actions';
-	return element;
-}
-
-function keyboardNavigation(menu, event) {
-	const items = [...menu.querySelectorAll('[role="menuitem"]')];
-	const index = Math.max(0, items.indexOf(document.activeElement));
-	if (event.key === 'Escape') {
-		event.preventDefault();
+/**
+ * Routes keyboard travel through one already-rendered action sheet.
+ * @param {HTMLElement} malchusMenu Owned action sheet.
+ * @param {KeyboardEvent} ohrEvent Keyboard event.
+ * @returns {void}
+ */
+function routeKeyboard(malchusMenu, ohrEvent) {
+	const malchusItems = [...malchusMenu.querySelectorAll('[role="menuitem"]')];
+	const yesodIndex = Math.max(0, malchusItems.indexOf(document.activeElement));
+	if (ohrEvent.key === 'Escape') {
+		ohrEvent.preventDefault();
 		removeExistingMenu();
 		return;
 	}
-	if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+	if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(ohrEvent.key)) {
 		return;
 	}
-	event.preventDefault();
-	const next = event.key === 'Home'
+	const nextIndex = ohrEvent.key === 'Home'
 		? 0
-		: event.key === 'End'
-			? items.length - 1
-			: (index + (event.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
-	items[next]?.focus();
+		: ohrEvent.key === 'End'
+			? malchusItems.length - 1
+			: (yesodIndex + (ohrEvent.key === 'ArrowDown' ? 1 : -1)
+				+ malchusItems.length) % malchusItems.length;
+	ohrEvent.preventDefault();
+	malchusItems[nextIndex]?.focus();
 }
 
-export function renderMenu(x, y, actions) {
+/**
+ * Renders the public reader action menu at one pointer coordinate.
+ * @param {number} gevurahX Pointer client X coordinate.
+ * @param {number} gevurahY Pointer client Y coordinate.
+ * @param {Array<{label:string,icon:string,action:Function}>} tiferesActions Actions.
+ * @returns {void}
+ */
+export function renderMenu(gevurahX, gevurahY, tiferesActions) {
 	removeExistingMenu();
-	const menu = document.createElement('div');
-	menu.id = MENU_ID;
-	menu.className = 'awtsmoos-reader-action-sheet';
-	menu.setAttribute('role', 'menu');
-	menu.setAttribute('aria-label', 'Reader actions');
-	menu.append(crown(), ...actions.map(actionButton));
-	menu.addEventListener('keydown', event => keyboardNavigation(menu, event));
-	menu.addEventListener('click', async event => {
-		const button = event.target.closest('[data-action-index]');
-		if (!button) return;
-		event.preventDefault();
-		const action = actions[Number(button.dataset.actionIndex)]?.action;
+	const malchusMenu = malchusReaderPortalSurface.bless(
+		document.createElement('div'),
+		'reader-actions'
+	);
+	malchusMenu.id = MENU_ID;
+	malchusMenu.classList.add('awtsmoos-reader-action-sheet');
+	malchusMenu.setAttribute('role', 'menu');
+	malchusMenu.setAttribute('aria-label', 'Reader actions');
+	malchusMenu.append(createCrown(), ...tiferesActions.map(createActionButton));
+	malchusMenu.addEventListener('keydown', (ohrEvent) => routeKeyboard(malchusMenu, ohrEvent));
+	malchusMenu.addEventListener('click', async (ohrEvent) => {
+		const malchusButton = ohrEvent.target.closest('[data-action-index]');
+		if (!malchusButton) {
+			return;
+		}
+		ohrEvent.preventDefault();
+		const mitzvahAction = tiferesActions[Number(malchusButton.dataset.actionIndex)]?.action;
 		removeExistingMenu();
-		await action?.();
+		await mitzvahAction?.();
 	});
-	place(menu, x, y);
-	menu.querySelector('[role="menuitem"]')?.focus({ preventScroll: true });
+	if (window.matchMedia?.(MOBILE_QUERY)?.matches) {
+		malchusMenu.classList.add('awtsmoos-mobile-sheet');
+	}
+	document.body.append(malchusMenu);
+	gevurahPortalPositionGate.place(malchusMenu, gevurahX, gevurahY);
+	malchusMenu.querySelector('[role="menuitem"]')?.focus({ preventScroll: true });
 	setTimeout(() => {
-		document.addEventListener('pointerdown', event => {
-			if (!menu.contains(event.target)) removeExistingMenu();
+		document.addEventListener('pointerdown', (ohrEvent) => {
+			if (!malchusMenu.contains(ohrEvent.target)) {
+				removeExistingMenu();
+			}
 		}, { once: true, capture: true });
 	}, 0);
 }

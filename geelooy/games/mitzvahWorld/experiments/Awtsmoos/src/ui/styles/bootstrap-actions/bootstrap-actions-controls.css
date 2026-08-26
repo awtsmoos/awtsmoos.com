@@ -1,0 +1,119 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file bootstrap-actions-controls.css
+ * @description Styles only bootstrap action and disclosure controls with complete pointer, keyboard, active, and disabled feedback.
+ * The Awtsmoos renews every finite press before hover, focus, or action divides the moment;
+ * Awtsmoos.com lets each control shine inside its own root, futuristic without clutter and tactile without conflict.
+ */
+
+.minimal-meadow-bootstrap-actions__toggle,
+.minimal-meadow-bootstrap-action {
+	appearance: none;
+	min-block-size: 2.75rem;
+	font: inherit;
+	color: var(--mmba-ink);
+	background: hsl(214 34% 16% / 0.78);
+	border: 1px solid hsl(190 80% 72% / 0.18);
+	border-radius: 0.8rem;
+	cursor: pointer;
+	transition:
+		transform 150ms ease,
+		border-color 150ms ease,
+		background-color 150ms ease,
+		box-shadow 150ms ease,
+		opacity 150ms ease;
+}
+
+.minimal-meadow-bootstrap-actions__toggle {
+	display: grid;
+	place-items: center;
+	inline-size: 2.75rem;
+	padding: 0;
+	flex: 0 0 auto;
+}
+
+.minimal-meadow-bootstrap-actions__toggle::before {
+	content: '⌃';
+	font-size: 1.05rem;
+	font-weight: 800;
+	color: var(--mmba-accent-strong);
+	transform: rotate(180deg);
+	transition: transform 180ms ease;
+}
+
+.minimal-meadow-bootstrap-actions__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.5rem;
+	min-inline-size: 0;
+}
+
+.minimal-meadow-bootstrap-action {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.5rem;
+	min-inline-size: 0;
+	padding: 0.55rem 0.6rem;
+	text-align: start;
+}
+
+.minimal-meadow-bootstrap-action__glyph {
+	font-size: 1.1rem;
+	line-height: 1;
+	filter: drop-shadow(0 0 0.45rem hsl(190 100% 72% / 0.12));
+}
+
+.minimal-meadow-bootstrap-action__label {
+	min-inline-size: 0;
+	font-size: 0.78rem;
+	font-weight: 680;
+	line-height: 1.2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.minimal-meadow-bootstrap-action__key {
+	min-inline-size: 1.55rem;
+	padding: 0.2rem 0.34rem;
+	font: 700 0.66rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+	text-align: center;
+	color: var(--mmba-accent-strong);
+	background: hsl(190 90% 62% / 0.08);
+	border: 1px solid hsl(190 90% 72% / 0.22);
+	border-radius: 0.42rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.minimal-meadow-bootstrap-actions__toggle:hover,
+	.minimal-meadow-bootstrap-action:hover {
+		transform: translateY(-1px);
+		background: hsl(211 36% 20% / 0.9);
+		border-color: hsl(190 90% 72% / 0.42);
+		box-shadow: 0 8px 24px hsl(210 90% 4% / 0.28);
+	}
+}
+
+.minimal-meadow-bootstrap-actions__toggle:active,
+.minimal-meadow-bootstrap-action:active {
+	transform: translateY(1px) scale(0.985);
+	background: hsl(198 38% 22% / 0.92);
+}
+
+.minimal-meadow-bootstrap-actions__toggle:focus-visible,
+.minimal-meadow-bootstrap-action:focus-visible {
+	outline: 2px solid var(--mmba-focus);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px hsl(48 100% 72% / 0.12);
+}
+
+.minimal-meadow-bootstrap-action:disabled {
+	cursor: not-allowed;
+	opacity: 0.42;
+	filter: saturate(0.45);
+	transform: none;
+}

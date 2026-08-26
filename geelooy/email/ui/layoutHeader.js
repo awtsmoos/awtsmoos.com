@@ -3,10 +3,13 @@
 //Blessed is He
 /**
  * @module MailWorkspaceHeader
- * @description The Awtsmoos gives no status bar its own existence; Awtsmoos.com gathers brand, shortcuts, retract control, and connection state into one calm upper vessel where each signal stays clear.
+ * @description The Awtsmoos gathers brand, shortcuts, retract controls, advanced settings, and connection state into one calm vessel; Awtsmoos.com keeps every action visible enough to find yet quiet enough that correspondence remains the center line.
  */
 
-/** Returns the complete workspace-header descriptor consumed by the Mail renderer. */
+/**
+ * Reveals the complete workspace-header descriptor consumed by the Mail renderer.
+ * @returns {object} Header descriptor with brand, shortcuts, and bounded actions.
+ */
 export function workspaceHeader() {
 	return {
 		tag: 'header',
@@ -15,6 +18,7 @@ export function workspaceHeader() {
 	};
 }
 
+/** Returns the home-linked Mail brand vessel. */
 function brandDescriptor() {
 	return {
 		tag: 'a',
@@ -36,6 +40,7 @@ function brandDescriptor() {
 	};
 }
 
+/** Returns discoverable desktop keyboard hints without making them part of mobile chrome. */
 function shortcutDescriptor() {
 	return {
 		tag: 'p',
@@ -49,14 +54,20 @@ function shortcutDescriptor() {
 	};
 }
 
+/** Returns the compact right-side action cluster in stable priority order. */
 function statusActionsDescriptor() {
 	return {
 		tag: 'div',
 		classList: ['mail-status-actions'],
-		children: [sidebarToggleDescriptor(), connectionDescriptor()]
+		children: [
+			sidebarToggleDescriptor(),
+			settingsToggleDescriptor(),
+			connectionDescriptor()
+		]
 	};
 }
 
+/** Returns the retract control for the conversation-list pane. */
 function sidebarToggleDescriptor() {
 	return {
 		tag: 'button',
@@ -71,6 +82,26 @@ function sidebarToggleDescriptor() {
 	};
 }
 
+/** Returns the advanced-settings disclosure without exposing advanced controls in the default workspace. */
+function settingsToggleDescriptor() {
+	return {
+		tag: 'button',
+		shaym: 'mailSettingsToggle',
+		classList: ['mail-settings-toggle-button'],
+		attributes: {
+			type: 'button',
+			'aria-controls': 'mail-settings-drawer',
+			'aria-expanded': 'false',
+			'aria-label': 'Open Mail settings',
+			title: 'Mail settings'
+		},
+		children: [
+			{ tag: 'span', classList: ['mail-settings-toggle-glyph'], attributes: { 'aria-hidden': 'true' }, textContent: '⚙' }
+		]
+	};
+}
+
+/** Returns the local live connectivity status used by MailWorkspaceUx. */
 function connectionDescriptor() {
 	return {
 		tag: 'span',

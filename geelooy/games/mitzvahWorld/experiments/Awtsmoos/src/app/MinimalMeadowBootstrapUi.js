@@ -4,103 +4,106 @@
 
 /**
  * @file MinimalMeadowBootstrapUi.js
- * @description Mounts essential actions and a deferred real minimap until rich UI replaces them.
- * The Awtsmoos lets the traveler act and recognize nearby souls before ornate panels descend;
- * Awtsmoos.com keeps keyboard, touch, status, map handoff, suspension, and teardown bounded.
+ * @description Orchestrates the localized, retractable essential-action surface and deferred real minimap until richer Mitzvah World UI replaces them.
+ * RESPONSIBILITY: install owned styles, emit semantic actions, publish status, preserve minimap handoff, expose diagnostics, and coordinate suspension/teardown.
+ * NON-RESPONSIBILITY: this class no longer authors action data, button markup, keyboard policy, disclosure DOM, CSS rules, combat mechanics, or minimap geometry.
+ * The Awtsmoos renews deed, status, and handoff before the richer world descends;
+ * Awtsmoos.com lets this Yesod-like bridge remain simple in API yet deep in order, so touch, keyboard, focus, and teardown reach one harmonious end.
  */
 
-import {
-	createMinimalMeadowBootstrapMinimap
-} from './MinimalMeadowBootstrapMinimap.js';
+import { DAAS_BOOTSTRAP_ACTIONS } from './MinimalMeadowBootstrapActionCatalog.js';
+import { createMinimalMeadowBootstrapMinimap } from './MinimalMeadowBootstrapMinimap.js';
+import { NetzachBootstrapShortcutRouter } from './MinimalMeadowBootstrapShortcutRouter.js';
+import { MalchusBootstrapActionShell } from './MinimalMeadowBootstrapShell.js';
+import { installBootstrapActionStyles } from '../ui/BootstrapActionStyles.js';
 
-const ACTIONS = Object.freeze([
-	['hebrew-fire', '1', '🔥', 'Hebrew Fire'],
-	['letter-light', '2', '☀️', 'Letter Light'],
-	['guarded-thought', '3', '🛡️', 'Guarded Thought'],
-	['waters-of-purification', '4', '💧', 'Purification']
-]);
-
+/** Runtime orchestrator for the temporary essential-action UI. */
 export class MinimalMeadowBootstrapUi {
+	/**
+	 * @param {object} runtime Active minimal meadow runtime with hosts, bus, and player statistics.
+	 * @param {Document} documentValue Owning browser document.
+	 */
 	constructor(runtime, documentValue) {
 		this.runtime = runtime;
-		this.documentValue = documentValue;
-		this.root = documentValue.createElement('section');
-		this.root.className = 'minimal-meadow-bootstrap-actions';
-		this.root.dataset.bootstrapUi = 'true';
-		this.root.setAttribute('aria-label', 'Essential combat actions');
-		this.buttons = ACTIONS.map(action => this.createButton(action));
-		this.status = documentValue.createElement('p');
-		this.status.className = 'minimal-meadow-bootstrap-status';
-		this.status.setAttribute('aria-live', 'polite');
-		this.status.textContent = 'Movement and essential actions are ready.';
-		this.root.append(...this.buttons, this.status);
+		installBootstrapActionStyles(documentValue);
+		this.shell = new MalchusBootstrapActionShell(
+			documentValue,
+			DAAS_BOOTSTRAP_ACTIONS,
+			(actionId) => this.activate(actionId)
+		);
+		this.root = this.shell.root;
+		this.buttons = this.shell.buttons;
+		this.status = this.shell.status;
 		runtime.hosts.actionHost.appendChild(this.root);
 		this.minimap = createMinimalMeadowBootstrapMinimap(runtime, documentValue);
-		this.keyListener = event => this.onKey(event);
-		documentValue.addEventListener('keydown', this.keyListener);
-		this.unsubscribe = runtime.bus.on('combat:bootstrap-action', receipt => {
-			this.status.textContent = `${labelFor(receipt.actionId)} activated.`;
+		this.shortcuts = new NetzachBootstrapShortcutRouter(
+			documentValue,
+			(actionId) => this.activate(actionId)
+		);
+		this.unsubscribe = runtime.bus.on(
+			'combat:bootstrap-action',
+			(receipt) => this.revealActivation(receipt.actionId)
+		);
+	}
+
+	/** Emits one semantic combat activation unless bootstrap controls are suspended. */
+	activate(actionId) {
+		if (this.root.dataset.suspended === 'true') {
+			return;
+		}
+		this.runtime.bus.emit('combat:activate', {
+			actionId,
+			source: 'bootstrap-ui'
 		});
 	}
 
-	createButton([actionId, keyLabel, icon, label]) {
-		const button = this.documentValue.createElement('button');
-		button.type = 'button';
-		button.dataset.actionId = actionId;
-		button.className = 'action-slot minimal-meadow-bootstrap-action';
-		button.setAttribute('aria-label', `${label}, key ${keyLabel}`);
-		button.innerHTML = `<span aria-hidden="true">${icon}</span><strong>${keyLabel}</strong>`;
-		button.addEventListener('click', () => this.activate(actionId));
-		return button;
-	}
-
-	activate(actionId) {
-		if (this.root.dataset.suspended === 'true') return;
-		this.runtime.bus.emit('combat:activate', { actionId, source: 'bootstrap-ui' });
-	}
-
-	onKey(event) {
-		const action = ACTIONS.find(([, keyLabel]) => keyLabel === event.key);
-		if (!action || event.repeat) return;
-		this.activate(action[0]);
-	}
-
+	/** Updates visible player vitality while preserving minimap refresh cadence. */
 	refresh() {
-		this.status.textContent = `Health ${Math.round(this.runtime.playerStats.health)} · Stamina ${Math.round(this.runtime.playerStats.stamina)}`;
+		const health = Math.round(this.runtime.playerStats.health);
+		const stamina = Math.round(this.runtime.playerStats.stamina);
+		this.status.textContent = `Health ${health} · Stamina ${stamina}`;
 		this.minimap.refresh();
 	}
 
+	/** Publishes immutable bootstrap health including retractable state for diagnostics and tests. */
 	diagnostics() {
 		return Object.freeze({
 			bootstrap: true,
 			buttons: this.buttons.length,
+			expanded: this.shell.disclosure.expanded,
 			minimap: this.minimap.diagnostics(),
 			suspended: this.root.dataset.suspended === 'true'
 		});
 	}
 
+	/** Releases minimap ownership for the richer UI handoff without destroying bootstrap actions. */
 	releaseMinimap() {
 		this.minimap.release();
 	}
 
+	/** Suspends combat actions semantically and visually while preserving disclosure/readability. */
 	suspend() {
-		this.root.dataset.suspended = 'true';
-		for (const button of this.buttons) button.disabled = true;
+		this.shell.setSuspended(true);
 	}
 
+	/** Restores action availability after a temporary runtime pause. */
 	resume() {
-		this.root.dataset.suspended = 'false';
-		for (const button of this.buttons) button.disabled = false;
+		this.shell.setSuspended(false);
 	}
 
+	/** Tears down bus, minimap, keyboard, disclosure, and DOM ownership in deterministic order. */
 	destroy() {
 		this.unsubscribe?.();
+		this.shortcuts.destroy();
 		this.minimap.destroy();
-		this.documentValue.removeEventListener('keydown', this.keyListener);
-		this.root.remove();
+		this.shell.destroy();
 	}
-}
 
-function labelFor(actionId) {
-	return ACTIONS.find(([id]) => id === actionId)?.[3] || actionId;
+	/** Reveals a localized activation receipt without duplicating the action catalog in presentation code. */
+	revealActivation(actionId) {
+		const actionRevelation = DAAS_BOOTSTRAP_ACTIONS.find(
+			(candidate) => candidate.id === actionId
+		);
+		this.status.textContent = `${actionRevelation?.label || actionId} activated.`;
+	}
 }

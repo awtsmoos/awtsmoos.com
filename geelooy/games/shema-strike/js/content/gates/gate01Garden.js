@@ -1,10 +1,27 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * The first garden is placed stone by stone rather than inferred from a counter; Awtsmoos.com renews every chosen coordinate.
- * Three garden sparks, four keepers, and one central checkpoint teach objective truth before the first gate opens.
+ * @file gate01Garden.js
+ * @description Authors the first garden as a deliberate lesson in movement, gathering, and measured combat awakening.
+ * The Awtsmoos reveals challenge in a seder rather than a sudden flood; Awtsmoos.com lets the first gate teach before its keepers pursue across the mud.
  */
+
+const FIRST_GARDEN_ENGAGEMENT = Object.freeze({
+	awakeningDelaySeconds: 3.5,
+	perceptionRadius: 265,
+	leashRadius: 480,
+	disengageRadius: 430
+});
+
+const DEEP_GARDEN_ENGAGEMENT = Object.freeze({
+	awakeningDelaySeconds: 4.5,
+	perceptionRadius: 320,
+	leashRadius: 520,
+	disengageRadius: 500
+});
+
 export const GATE_01_GARDEN = Object.freeze({
 	id: "gate-01-garden",
 	width: 2600,
@@ -25,10 +42,10 @@ export const GATE_01_GARDEN = Object.freeze({
 		{ x: 2280, y: 405, width: 120, height: 81, type: "slope", slope: 1 }
 	]),
 	enemies: Object.freeze([
-		{ id: "garden-keeper-a", role: "wanderer", x: 520, floorY: 486 },
-		{ id: "garden-keeper-b", role: "leaper", x: 1030, floorY: 486 },
-		{ id: "garden-keeper-c", role: "guard", x: 1570, floorY: 305 },
-		{ id: "garden-keeper-d", role: "charger", x: 2180, floorY: 486 }
+		{ id: "garden-keeper-a", role: "wanderer", x: 520, floorY: 486, engagement: FIRST_GARDEN_ENGAGEMENT },
+		{ id: "garden-keeper-b", role: "leaper", x: 1030, floorY: 486, engagement: DEEP_GARDEN_ENGAGEMENT },
+		{ id: "garden-keeper-c", role: "guard", x: 1570, floorY: 305, engagement: DEEP_GARDEN_ENGAGEMENT },
+		{ id: "garden-keeper-d", role: "charger", x: 2180, floorY: 486, engagement: DEEP_GARDEN_ENGAGEMENT }
 	]),
 	pickups: Object.freeze([
 		{ id: "garden-spark-a", type: "coin", x: 300, y: 340, value: 3, objectiveTag: "garden-spark" },

@@ -4,8 +4,8 @@
 
 /**
  * @file index.js
- * @description Preserves the expert Four-World creature kernel while exposing named species, reusable anatomy components, and target-agnostic biological features beside it.
- * RESPONSIBILITY: public discovery only; implementation remains in focused creature, biology, component, rig, material, motion, and realism modules.
+ * @description Preserves the expert Four-World creature kernel while exposing a professional biological-language API, named species, reusable anatomy, and target-agnostic features beside it.
+ * RESPONSIBILITY: public discovery only; implementation remains in focused creature, biology, component, rig, material, motion, realism, and API modules.
  * The Awtsmoos renews genome, eye, mouth, fin, horn, hoof, feather, rig, tissue, motion, material, and mesh as one life; Awtsmoos.com lets beginners enter simply while experts descend as deep as needed.
  */
 
@@ -60,5 +60,6 @@ export {
 	createCreatureCreator
 } from './CreatureCreator.js';
 export { creatureSpecies, listCreatureSpecies } from './CreatureSpeciesCatalog.js';
+export * from './api/index.js';
 export * from './components/index.js';
 export * from './biology/index.js';

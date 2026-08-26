@@ -1,0 +1,92 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives advanced Mail one bounded chamber; Awtsmoos.com lets backdrop,
+drawer, safe areas, and motion remain local while no neighboring element inherits their light.
+*/
+.geelooy-mail-document .mail-settings-layer {
+	position: fixed;
+	inset: 0;
+	z-index: var(--mail-layer-backdrop);
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) min(430px, 92vw);
+	visibility: visible;
+	pointer-events: auto;
+	transition: visibility var(--mail-motion-standard) step-start;
+}
+.geelooy-mail-document .mail-settings-layer[data-state="closed"] {
+	visibility: hidden;
+	pointer-events: none;
+	transition-timing-function: step-end;
+}
+.geelooy-mail-document .mail-settings-backdrop {
+	grid-column: 1 / -1;
+	grid-row: 1;
+	inline-size: 100%;
+	block-size: 100%;
+	border: 0;
+	background: rgb(2 6 10 / 62%);
+	backdrop-filter: blur(10px);
+	opacity: 1;
+	transition: opacity var(--mail-motion-standard) var(--mail-ease-out);
+}
+.geelooy-mail-document .mail-settings-layer[data-state="closed"] .mail-settings-backdrop { opacity: 0; }
+.geelooy-mail-document .mail-settings-drawer {
+	grid-column: 2;
+	grid-row: 1;
+	z-index: var(--mail-layer-drawer);
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	min-inline-size: 0;
+	min-block-size: 0;
+	max-inline-size: 100%;
+	block-size: 100dvh;
+	padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) 1rem;
+	border-inline-start: 1px solid var(--mail-border-strong);
+	background: color-mix(in srgb, var(--mail-panel-strong) 94%, transparent);
+	box-shadow: var(--mail-shadow);
+	backdrop-filter: blur(28px) saturate(125%);
+	transform: translateX(0);
+	transition: transform var(--mail-motion-slow) var(--mail-ease-out);
+}
+.geelooy-mail-document .mail-settings-layer[data-state="closed"] .mail-settings-drawer { transform: translateX(105%); }
+.geelooy-mail-document .mail-settings-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: .35rem .15rem 1rem;
+}
+.geelooy-mail-document .mail-settings-header :is(h2, p) { margin: .18rem 0 0; }
+.geelooy-mail-document .mail-settings-header p { color: var(--mail-text-muted); }
+.geelooy-mail-document .mail-settings-kicker {
+	font-size: .72rem;
+	font-weight: 750;
+	letter-spacing: .13em;
+	text-transform: uppercase;
+	color: var(--mail-accent);
+}
+.geelooy-mail-document .mail-settings-form {
+	min-block-size: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+	padding-inline: .1rem .35rem;
+}
+.geelooy-mail-document .mail-settings-status {
+	min-block-size: 1.4rem;
+	margin: .8rem 0 0;
+	color: var(--mail-text-muted);
+	font-size: .82rem;
+}
+.geelooy-mail-document .mail-settings-status[data-status="success"] { color: var(--mail-success); }
+.geelooy-mail-document .mail-settings-status[data-status="warning"] { color: var(--mail-warning); }
+.geelooy-mail-document .mail-settings-status[data-status="error"] { color: var(--mail-danger); }
+@media (max-width: 640px) {
+	.geelooy-mail-document .mail-settings-layer { grid-template-columns: 1fr; }
+	.geelooy-mail-document .mail-settings-drawer {
+		grid-column: 1;
+		inline-size: 100%;
+		padding-inline: max(1rem, env(safe-area-inset-left)) max(1rem, env(safe-area-inset-right));
+		border-inline-start: 0;
+	}
+}

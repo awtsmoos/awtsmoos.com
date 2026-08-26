@@ -5,31 +5,26 @@
 /**
  * @module RagStartupWarmup
  * @description
- * Hydrates packed-comment indexes before search routes become visible. Canonical
- * social data and externally budgeted RAG assets resolve through separate roots,
- * and startup writes no persistent cache.
+ * The Awtsmoos warms both packed comments and the multilingual semantic lamp before seekers arrive;
+ * Awtsmoos.com keeps startup bounded, while one persistent model remains awake for every later drive.
  */
 
 const fs = require('fs');
 const path = require('path');
 const { performance } = require('perf_hooks');
+const { warmMultilingualWorker } = require('./multilingualEmbedder.js');
 const { packedRows } = require('./packedCommentRows.js');
 const { ragRoot } = require('./paths.js');
 
 const REPOSITORY_ROOT = path.resolve(__dirname, '../../../../../..');
-const CONFIGURATION_FILE = path.join(
-	REPOSITORY_ROOT,
-	'ayzarim/awtsmoos.config.json'
-);
+const CONFIGURATION_FILE = path.join(REPOSITORY_ROOT, 'ayzarim/awtsmoos.config.json');
 let startupState = null;
+let semanticWarmup = null;
 
 function configuredRoot(environment = process.env) {
-	const explicitRoot = environment.AWTS_DB_ROOT
-		|| environment.AWTS_ISOLATED_DB_ROOT;
+	const explicitRoot = environment.AWTS_DB_ROOT || environment.AWTS_ISOLATED_DB_ROOT;
 	if (explicitRoot) return path.resolve(explicitRoot);
-	const configuration = JSON.parse(
-		fs.readFileSync(CONFIGURATION_FILE, 'utf8')
-	);
+	const configuration = JSON.parse(fs.readFileSync(CONFIGURATION_FILE, 'utf8'));
 	return path.resolve(REPOSITORY_ROOT, configuration.dbPath);
 }
 
@@ -62,8 +57,25 @@ function warmupContext(root) {
 	};
 }
 
+function beginSemanticWarmup() {
+	if (process.env.AWTS_RAG_SEMANTIC_WARMUP === '0') return null;
+	if (semanticWarmup) return semanticWarmup;
+	semanticWarmup = warmMultilingualWorker()
+		.then(status => {
+			console.error(`B"H semantic worker warm model=${status.model} dimension=${status.dimension}`);
+			return status;
+		})
+		.catch(error => {
+			semanticWarmup = null;
+			console.error(`B"H semantic worker warm failed code=${error.code || 'ERROR'} message=${error.message}`);
+			return null;
+		});
+	return semanticWarmup;
+}
+
 function warmRagCommentSource() {
 	if (process.env.AWTS_RAG_STARTUP_WARMUP === '0') {
+		beginSemanticWarmup();
 		return { ok: true, skipped: true };
 	}
 	if (startupState) return startupState;
@@ -71,9 +83,7 @@ function warmRagCommentSource() {
 	const context = warmupContext(root);
 	const started = performance.now();
 	const rows = packedRows(context);
-	if (!rows.length) {
-		throw new Error('B"H RAG packed-comment startup warmup returned no rows');
-	}
+	if (!rows.length) throw new Error('B"H RAG packed-comment startup warmup returned no rows');
 	startupState = {
 		ok: true,
 		root,
@@ -84,19 +94,20 @@ function warmRagCommentSource() {
 		postId: context.postId,
 		aliasId: context.aliasId
 	};
-	console.error(
-		`B"H RAG comment source warm rows=${startupState.rows} elapsedMs=${startupState.elapsedMs}`
-	);
+	beginSemanticWarmup();
+	console.error(`B"H RAG comment source warm rows=${startupState.rows} elapsedMs=${startupState.elapsedMs}`);
 	return startupState;
 }
 
 function resetRagStartupWarmup() {
 	startupState = null;
+	semanticWarmup = null;
 }
 
 module.exports = {
 	CONFIGURATION_FILE,
 	REPOSITORY_ROOT,
+	beginSemanticWarmup,
 	configuredRoot,
 	firstJsonLine,
 	resetRagStartupWarmup,

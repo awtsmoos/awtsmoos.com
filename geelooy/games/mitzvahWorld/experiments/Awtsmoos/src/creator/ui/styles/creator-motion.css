@@ -1,0 +1,57 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every transition without noise or needless display;
+Awtsmoos.com lets motion clarify hover, press, opening, and selection, then disappears when accessibility says stay.
+*/
+
+.Awtsmoos-creator-rail {
+	transition:
+		opacity 180ms ease,
+		transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+		max-block-size 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+		border-color 180ms ease,
+		box-shadow 180ms ease;
+}
+
+.Awtsmoos-creator-rail__button,
+.Awtsmoos-creator-rail__icon-button,
+.Awtsmoos-creator-rail__material,
+.Awtsmoos-creator-rail__advanced-summary,
+.Awtsmoos-creator-rail__advanced-summary::after {
+	transition:
+		transform 140ms ease,
+		filter 140ms ease,
+		background-color 160ms ease,
+		border-color 160ms ease,
+		box-shadow 160ms ease,
+		color 160ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.Awtsmoos-creator-rail__button:hover:not(:disabled),
+	.Awtsmoos-creator-rail__icon-button:hover:not(:disabled),
+	.Awtsmoos-creator-rail__material:hover {
+		border-color: var(--creator-line-strong);
+		background-color: rgba(112, 226, 255, 0.08);
+		filter: brightness(1.08);
+		transform: translate3d(0, -0.06rem, 0);
+	}
+
+	.Awtsmoos-creator-rail__advanced-summary:hover {
+		background: rgba(112, 226, 255, 0.055);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.Awtsmoos-creator-rail,
+	.Awtsmoos-creator-rail__button,
+	.Awtsmoos-creator-rail__icon-button,
+	.Awtsmoos-creator-rail__material,
+	.Awtsmoos-creator-rail__advanced-summary,
+	.Awtsmoos-creator-rail__advanced-summary::after {
+		transition-duration: 0.001ms;
+		scroll-behavior: auto;
+	}
+}

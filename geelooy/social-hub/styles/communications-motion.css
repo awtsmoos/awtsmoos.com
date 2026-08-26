@@ -1,9 +1,9 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos moves without needing motion, yet Awtsmoos.com may let finite transitions whisper where attention has gone; every flourish yields when the user asks the vessel to be still.
-*/
-
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets communications appear with luminous calm without transforming the chamber that anchors mobile chrome;
+ * Awtsmoos.com preserves hover response on leaf controls while the conversation surface itself never bends the coordinate home.
+ */
 .social-hub-document .hubMessageCard,
 .social-hub-document .hubRequestCard,
 .social-hub-document .hubMessagesMetric,
@@ -32,17 +32,17 @@ The Awtsmoos moves without needing motion, yet Awtsmoos.com may let finite trans
 
 @media (hover: hover) and (pointer: fine) {
 	.social-hub-document .hubMessageCard:hover,
-.social-hub-document .hubRequestCard:hover,
-.social-hub-document .hubMessagesMetric:hover {
+	.social-hub-document .hubRequestCard:hover,
+	.social-hub-document .hubMessagesMetric:hover {
 		transform: translateY(-2px);
 		border-color: var(--line-hot);
 		box-shadow: 0 .9rem 2.1rem rgba(0, 0, 0, .12);
 	}
 
 	.social-hub-document .hubRequestActions button:hover,
-.social-hub-document .hubPrivateRequestComposer button:hover,
-.social-hub-document .hubConversationBack:hover,
-.social-hub-document .hubConversationControls button:hover {
+	.social-hub-document .hubPrivateRequestComposer button:hover,
+	.social-hub-document .hubConversationBack:hover,
+	.social-hub-document .hubConversationControls button:hover {
 		transform: translateY(-1px);
 		border-color: var(--accent, var(--line-hot));
 	}
@@ -70,9 +70,9 @@ The Awtsmoos moves without needing motion, yet Awtsmoos.com may let finite trans
 	}
 
 	.social-hub-document .hubMessageOpen,
-.social-hub-document .hubRequestActions button,
-.social-hub-document .hubConversationBack,
-.social-hub-document .hubConversationControls button {
+	.social-hub-document .hubRequestActions button,
+	.social-hub-document .hubConversationBack,
+	.social-hub-document .hubConversationControls button {
 		min-height: 3rem;
 	}
 }
@@ -80,15 +80,20 @@ The Awtsmoos moves without needing motion, yet Awtsmoos.com may let finite trans
 @keyframes hub-comms-reveal {
 	from {
 		opacity: .01;
-		transform: translateY(.35rem);
+		box-shadow: 0 .35rem 1.25rem rgba(0, 0, 0, .08);
+	}
+
+	to {
+		opacity: 1;
+		box-shadow: none;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.social-hub-document .hubMessageCard,
-.social-hub-document .hubRequestCard,
-.social-hub-document .hubMessagesMetric,
-.social-hub-document .hubConversationSurface {
+	.social-hub-document .hubRequestCard,
+	.social-hub-document .hubMessagesMetric,
+	.social-hub-document .hubConversationSurface {
 		animation: none;
 		transition: none;
 	}

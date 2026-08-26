@@ -5,10 +5,9 @@
 /**
  * @file cleanFutureContract.test.mjs
  * @description
- * The Awtsmoos is beyond clutter and concealment, while Awtsmoos.com lets this Tiferes witness prove intent-first actions, coherent release garments, stable geometry, and quiet motion;
- * the future feels advanced because secondary capability retracts without making cards, buttons, or navigation jump away from the user's light.
+ * The Awtsmoos lets each cache boundary keep its own honest garment while interaction remains calm and bright;
+ * Awtsmoos.com proves feed priority, Hub-local release coherence, stable geometry, and restrained motion in one light.
  */
-
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -21,23 +20,19 @@ import { RELEASE as FEED_RELEASE } from '../js/ui/feed/FeedStyleSheet.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const social = resolve(here, '..');
-const desktopRetraction = readFileSync(
-	resolve(social, 'styles/desktop-retraction.css'),
-	'utf8'
-);
-const mobileNavigation = readFileSync(
-	resolve(social, 'styles/mobile-navigation.css'),
-	'utf8'
-);
-const futureMotion = readFileSync(
-	resolve(social, 'styles/future-motion.css'),
-	'utf8'
-);
-const futureNavigation = readFileSync(
-	resolve(social, 'styles/future-navigation.css'),
-	'utf8'
-);
-const styleIndex = readFileSync(resolve(social, 'style.css'), 'utf8');
+const source = relativePath => readFileSync(resolve(social, relativePath), 'utf8');
+const desktopRetraction = source('styles/desktop-retraction.css');
+const mobileNavigation = source('styles/mobile-navigation.css');
+const futureMotion = source('styles/future-motion.css');
+const futureNavigation = source('styles/future-navigation.css');
+const styleIndex = source('style.css');
+
+/** @returns {string} Canonical Hub-local release discovered from the manifest itself. */
+function hubLocalRelease() {
+	const yesodMatch = styleIndex.match(/desktop-retraction\.css\?v=(hub-local-\d+)/);
+	assert.ok(yesodMatch, 'desktop retraction must remain in the Hub-local manifest');
+	return yesodMatch[1];
+}
 
 assert.deepEqual(ACTION_PRIORITY, [
 	'answer',
@@ -58,7 +53,7 @@ assert.deepEqual(
 	['open', 'addToHeichel', 'share', 'copy']
 );
 assert.equal(FEED_RELEASE, 'clean-future-001');
-assert.match(styleIndex, /desktop-retraction\.css\?v=clean-future-001/);
+assert.match(hubLocalRelease(), /^hub-local-\d+$/);
 assert.match(desktopRetraction, /grid-template-columns: 5rem minmax\(0, 1fr\)/);
 assert.match(desktopRetraction, /inline-size: 14\.5rem/);
 assert.match(desktopRetraction, /prefers-reduced-motion/);
@@ -66,4 +61,5 @@ assert.doesNotMatch(mobileNavigation, /translateY\(-/);
 assert.doesNotMatch(futureMotion, /translateY\(-/);
 assert.doesNotMatch(futureNavigation, /scale\(1\.[1-9]/);
 assert.doesNotMatch(futureMotion, /animation[^;]*infinite/);
+
 console.log('B"H cleanFutureContract.test.mjs passed');

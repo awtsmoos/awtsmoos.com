@@ -4,9 +4,9 @@
 
 /**
  * @file index.js
- * @description Expert renderer-neutral water surface unifying emission, conserved parcels, 3D dynamics, shallow flow, and analytic ocean law.
- * The Awtsmoos renews river, drop, flood, and sea as one existence; Awtsmoos.com exposes their specialist keilim here
- * so advanced callers may descend beneath the simple Nature facade without losing conservation, determinism, or physical clarity.
+ * @description Expert renderer-neutral water surface spanning conserved mass, CPU realism, shallow flow, and analytic ocean law.
+ * The Awtsmoos renews river, drop, foam, flood, mist, and sea as one existence; Awtsmoos.com exposes specialist keilim
+ * so advanced callers descend beneath the simple Nature facade without losing conservation, determinism, or physical clarity.
  */
 
 export { freezeWaterValue } from './freezeWaterValue.js';
@@ -37,6 +37,14 @@ export { WaterSourceRegistry3d } from './WaterSourceRegistry3d.js';
 export { createWaterDynamicsState3d } from './createWaterDynamicsState3d.js';
 export { WaterDynamicsEmitterApi3d } from './WaterDynamicsEmitterApi3d.js';
 export { WaterDynamicsSourceApi3d } from './WaterDynamicsSourceApi3d.js';
+export { listWaterMaterialProfiles3d, waterMaterialProfile3d } from './WaterMaterialProfiles3d.js';
+export { createWaterRealismRequest3d, mergeWaterRealismRequest3d } from './WaterRealismRequest3d.js';
+export { createWaterRealismPolicy3d } from './WaterRealismPolicy3d.js';
+export { createWaterSecondaryEffectsState3d, secondaryCounts } from './WaterSecondaryEffectsState3d.js';
+export { advanceWaterSecondaryEffects3d } from './advanceWaterSecondaryEffects3d.js';
+export { refreshWaterSecondaryOptics3d } from './refreshWaterSecondaryOptics3d.js';
+export { createWaterRealismSnapshot3d } from './WaterRealismSnapshot3d.js';
+export { WaterRealismApi3d } from './WaterRealismApi3d.js';
 export { WaterDynamicsRuntime3d } from './WaterDynamicsRuntime3d.js';
 export { ShallowWaterRuntime } from './ShallowWaterRuntime.js';
 export { createOceanWaveSpectrum } from './createOceanWaveSpectrum.js';

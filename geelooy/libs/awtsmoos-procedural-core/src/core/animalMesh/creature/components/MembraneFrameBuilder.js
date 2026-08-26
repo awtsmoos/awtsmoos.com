@@ -4,32 +4,36 @@
 
 /**
  * @file MembraneFrameBuilder.js
- * @description Builds arbitrary frame-native webbing, fins, frills, and membranes from one ordered anatomical boundary or one local profile.
- * RESPONSIBILITY: turn resolved frames plus normalized membrane profile into the existing renderer-neutral membrane-guide language.
- * NON-RESPONSIBILITY: profile math, attachment resolution, mesh triangulation, and renderer hydration remain separate authorities.
- * The Awtsmoos, Atzmus beyond separate rays, renews boundary and living surface together; Awtsmoos.com lets Chesed join many frames through one membrane while Gevurah keeps every point explicit and editable forever.
+ * @description Orchestrates arbitrary and preset-driven anatomical membranes through one canonical renderer-neutral guide contract.
+ * RESPONSIBILITY: discover every membrane family, choose explicit multi-frame boundaries or one-frame biological profile geometry, transform local points, and publish material/surface intent.
+ * NON-RESPONSIBILITY: preset biology, profile normalization, boundary mathematics, attachment resolution, triangulation, mirroring, and renderer hydration remain in focused vessels.
+ * The Awtsmoos, Atzmus beyond separate rays, renews hand and web, wing and patagium, fin and flipper as one living possibility; Awtsmoos.com lets Yesod join exact anatomical boundaries with wise biological defaults, so simple APIs remain infinitely extensible without becoming obscure.
  */
 
 import { componentMembraneGuide } from './ComponentGuideFactory.js';
 import { CreatureComponentBuilder } from './CreatureComponentBuilder.js';
-import { createMembraneComponentProfile } from './MembraneComponentProfile.js';
+import {
+	createMembraneComponentProfile,
+	listMembraneComponentTypes
+} from './MembraneComponentProfile.js';
+import { createMembraneLocalPoints } from './MembraneGuideGeometry.js';
 
-/** Multi-frame specialist for arbitrary thin anatomical surfaces. */
+/** Multi-frame specialist for every canonical thin anatomical membrane family. */
 export class MembraneFrameBuilder extends CreatureComponentBuilder {
-	/** Declares webbing/membrane families as ordered multi-frame consumers. */
+	/** Declares the full membrane vocabulary through the canonical profile catalog. */
 	constructor() {
 		super(
-			['webbing', 'membrane', 'fin', 'frill'],
+			listMembraneComponentTypes(),
 			{ attachmentCardinality: 'many' }
 		);
 	}
 
 	/**
-	 * Creates one membrane guide from an ordered resolved boundary or one local attachment frame.
+	 * Builds one renderer-neutral membrane guide from exact boundary frames or one biological local profile.
 	 * @param {object} component Canonical anatomical component recipe.
 	 * @param {object[]} attachmentFrames Ordered resolved anatomical frames.
 	 * @param {object} [context={}] Stable component id and quality context.
-	 * @returns {object} Renderer-neutral membrane guide and surface role.
+	 * @returns {object} Canonical membrane-guide component result.
 	 */
 	build(component, attachmentFrames, context = {}) {
 		const binahProfile = createMembraneComponentProfile(
@@ -38,12 +42,11 @@ export class MembraneFrameBuilder extends CreatureComponentBuilder {
 			component.type
 		);
 		const yesodId = context.id || component.id || component.type;
-		const malchusPoints = membranePoints(attachmentFrames, binahProfile);
 		return {
 			guides: {
 				[yesodId]: componentMembraneGuide(
-					malchusPoints,
-					component.material.id || binahProfile.materialId,
+					membranePoints(attachmentFrames, binahProfile),
+					materialId(component, binahProfile),
 					binahProfile.doubleSided
 				)
 			},
@@ -54,9 +57,9 @@ export class MembraneFrameBuilder extends CreatureComponentBuilder {
 }
 
 /**
- * Resolves final membrane boundary points from explicit plural frames or one local profile frame.
- * @param {object[]} frames Ordered resolved frames.
- * @param {object} profile Normalized local membrane profile.
+ * Resolves exact world-space boundary points when three-or-more frames are supplied, otherwise expands one local biological profile.
+ * @param {object[]} frames Ordered resolved attachment frames.
+ * @param {object} profile Canonical membrane profile.
  * @returns {number[][]} World-space polygon boundary.
  */
 function membranePoints(frames, profile) {
@@ -67,9 +70,19 @@ function membranePoints(frames, profile) {
 		return frames.map(frame => [...frame.position]);
 	}
 	if (frames.length === 1) {
-		return profile.points.map(point => frames[0].transformPoint(point));
+		return createMembraneLocalPoints(profile).map(point => (
+			frames[0].transformPoint(point)
+		));
 	}
 	throw new RangeError(
 		'B"H | Membrane boundary needs one profile frame or at least three explicit frames.'
 	);
+}
+
+/** Preserves existing material id compatibility while accepting semantic or remote material roles. */
+function materialId(component, profile) {
+	return component.material.id
+		|| component.material.role
+		|| component.material.remoteRole
+		|| profile.materialId;
 }

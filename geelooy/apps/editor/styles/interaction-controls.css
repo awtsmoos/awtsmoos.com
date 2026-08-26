@@ -1,8 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos gives every Editor control one local tactile vessel before hover, press, focus, or stillness reveal themselves;
- * Awtsmoos.com keeps base interaction geometry separate from feedback so no animation rule secretly owns layout.
+ * The Awtsmoos gives shared Editor controls one tactile foundation while feature-specific worlds keep their own interaction laws apart;
+ * Awtsmoos.com keeps common behavior reusable and local, so no Timeline rule or future feature must fight a global cascade in the dark.
  */
 .awtsmoos-editor-shell #toolbar button,
 .awtsmoos-editor-shell #toolbar select,
@@ -10,10 +10,6 @@
 .awtsmoos-editor-shell .tree-item-header,
 .awtsmoos-editor-shell .toggle-btn,
 .awtsmoos-editor-shell .keyframe-btn,
-.awtsmoos-editor-shell .timeline-controls button,
-.awtsmoos-editor-shell .timeline-controls select,
-.awtsmoos-editor-shell .timeline-layer-header,
-.awtsmoos-editor-shell .timeline-keyframe,
 .awtsmoos-editor-shell .property-item input {
 	transition:
 		transform var(--editor-fast) ease,
@@ -24,31 +20,22 @@
 		filter var(--editor-fast) ease;
 }
 
-.awtsmoos-editor-shell .timeline-controls button,
-.awtsmoos-editor-shell .timeline-controls select {
-	min-height: 32px;
-	padding: 5px 9px;
-	border: 1px solid var(--editor-border);
-	border-radius: 7px;
-	color: var(--editor-text);
-	background: var(--editor-panel-2);
-	font: inherit;
-	cursor: pointer;
-}
-
 .awtsmoos-editor-shell .keyframe-btn {
-	min-width: 24px;
-	min-height: 24px;
+	min-width: 28px;
+	min-height: 28px;
 	padding: 0;
 	border: 0;
+	border-radius: 7px;
 	color: var(--editor-muted);
 	background: transparent;
+	font: inherit;
 	font-size: 16px;
 	cursor: pointer;
 }
 
 .awtsmoos-editor-shell .keyframe-btn.active {
 	color: var(--editor-keyframe-hot);
+	background: rgba(212, 124, 242, .1);
 }
 
 .awtsmoos-editor-shell .edit-mode-face-highlight {
@@ -74,4 +61,11 @@
 
 .awtsmoos-editor-shell ::-webkit-scrollbar-thumb:hover {
 	background: rgba(130, 230, 255, .5);
+}
+
+@media (pointer: coarse) {
+	.awtsmoos-editor-shell .keyframe-btn {
+		min-width: 44px;
+		min-height: 44px;
+	}
 }

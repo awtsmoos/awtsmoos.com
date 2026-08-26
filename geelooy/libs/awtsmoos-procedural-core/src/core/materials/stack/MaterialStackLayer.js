@@ -2,63 +2,108 @@
 // Boruch Hashem
 // Blessed is He
 
+import { createMaterialBlendPolicy } from './MaterialBlendPolicy.js';
+import {
+	identityMaterialUrl,
+	materialLayerChannelInputs,
+	materialLayerFinite,
+	materialLayerPair,
+	materialLayerPositive,
+	materialLayerPrimaryUrl
+} from './MaterialStackLayerNormalization.js';
+import { createMaterialTextureChannels } from './MaterialTextureChannel.js';
+
 /**
  * @file MaterialStackLayer.js
- * @description Normalizes one immutable ecological surface layer while accepting an injected URL validator.
- * The Awtsmoos reveals one world through many finite garments without belonging to one game's law;
- * Awtsmoos.com keeps slope, height, zones, repeat, and wetness generic while callers may guard each address they saw.
+ * @description Defines one immutable layered surface while preserving the historic single-URL terrain contract.
+ * The Awtsmoos renews one garment through many channels without fragmenting its identity; Awtsmoos.com lets
+ * Chesed reveal rich PBR possibility while Gevurah preserves every old field that existing games already understand.
  */
-export function materialStackLayer(role, url, options = {}, dependencies = {}) {
-	const validateUrl = dependencies.validateUrl || identityUrl;
-	const repeat = pair(options.repeat, [1, 1]);
-	const slope = orderedPair(options.slope, [0, 1]);
-	const height = orderedPair(options.height, [-10000, 10000]);
-	const zones = vector4(options.zones, [1, 1, 1, 1]);
-	return Object.freeze({
-		angle: finite(options.angle, 0),
-		height: Object.freeze(height),
-		priority: finite(options.priority, 0),
-		repeat: Object.freeze(repeat),
-		role,
-		slope: Object.freeze(slope),
-		strength: clamp(finite(options.strength, 1), 0, 1),
-		url: validateUrl(url, role),
-		wetness: clamp(finite(options.wetness, 0), 0, 1),
-		zones: Object.freeze(zones)
-	});
-}
-
-function pair(value, fallback) {
-	if (!Array.isArray(value) || value.length < 2) {
-		return [...fallback];
+export class MaterialStackLayer {
+	/**
+	 * Creates one renderer-neutral layer from legacy URL syntax plus optional advanced PBR channels and blend policy.
+	 * @param {string} yesodRole Semantic material role.
+	 * @param {string|null} malchusUrl Historic primary texture URL.
+	 * @param {object} [keterOptions={}] Repeat, channels, blend/masks, priority, angle, physical scale, and ecology.
+	 * @param {object} [chesedDependencies={}] Optional injected URL validator.
+	 */
+	constructor(yesodRole, malchusUrl, keterOptions = {}, chesedDependencies = {}) {
+		const gevurahValidator = chesedDependencies.validateUrl || identityMaterialUrl;
+		const tiferesChannels = materialLayerChannelInputs(
+			malchusUrl,
+			keterOptions.channels
+		);
+		const chochmahChannels = createMaterialTextureChannels(
+			tiferesChannels,
+			{ validateUrl: gevurahValidator }
+		);
+		const binahBlend = createMaterialBlendPolicy(keterOptions);
+		this.angle = materialLayerFinite(keterOptions.angle, 0);
+		this.blend = binahBlend;
+		this.channels = chochmahChannels;
+		this.height = binahBlend.mask.height;
+		this.physicalSizeMeters = materialLayerPositive(
+			keterOptions.physicalSizeMeters,
+			1
+		);
+		this.priority = materialLayerFinite(keterOptions.priority, 0);
+		this.repeat = Object.freeze(
+			materialLayerPair(keterOptions.repeat, [1, 1])
+		);
+		this.role = String(yesodRole || '').trim();
+		this.slope = binahBlend.mask.slope;
+		this.strength = binahBlend.strength;
+		this.url = materialLayerPrimaryUrl(
+			chochmahChannels,
+			malchusUrl,
+			gevurahValidator,
+			this.role
+		);
+		this.wetness = binahBlend.mask.wetness;
+		this.zones = binahBlend.mask.zones;
+		if (!this.role) {
+			throw new TypeError('B"H | Material stack layers require a semantic role.');
+		}
+		Object.freeze(this);
 	}
-	return [finite(value[0], fallback[0]), finite(value[1], fallback[1])];
-}
 
-function orderedPair(value, fallback) {
-	const pairValue = pair(value, fallback);
-	return pairValue[0] <= pairValue[1]
-		? pairValue
-		: [pairValue[1], pairValue[0]];
-}
-
-function vector4(value, fallback) {
-	if (!Array.isArray(value)) {
-		return [...fallback];
+	/**
+	 * Returns a plain immutable authoring view suited to paging, serialization, diagnostics, and runtime projection.
+	 * @returns {object} Layer data containing advanced channels and legacy compatibility fields.
+	 */
+	view() {
+		return Object.freeze({
+			angle: this.angle,
+			blend: this.blend,
+			channels: this.channels,
+			height: this.height,
+			physicalSizeMeters: this.physicalSizeMeters,
+			priority: this.priority,
+			repeat: this.repeat,
+			role: this.role,
+			slope: this.slope,
+			strength: this.strength,
+			url: this.url,
+			wetness: this.wetness,
+			zones: this.zones
+		});
 	}
-	return Array.from({ length: 4 }, (_, index) => {
-		return clamp(finite(value[index], fallback[index]), 0, 1);
-	});
 }
 
-function finite(value, fallback) {
-	return Number.isFinite(Number(value)) ? Number(value) : fallback;
-}
-
-function clamp(value, minimum, maximum) {
-	return Math.max(minimum, Math.min(maximum, value));
-}
-
-function identityUrl(url) {
-	return url;
+/**
+ * Preserves the historic functional layer constructor while routing through the class-based covenant.
+ * @returns {object} Immutable compatibility layer view.
+ */
+export function materialStackLayer(
+	yesodRole,
+	malchusUrl,
+	keterOptions = {},
+	chesedDependencies = {}
+) {
+	return new MaterialStackLayer(
+		yesodRole,
+		malchusUrl,
+		keterOptions,
+		chesedDependencies
+	).view();
 }

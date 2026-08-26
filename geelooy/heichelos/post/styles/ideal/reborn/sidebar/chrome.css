@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos crowns the chamber with controls that glow only when intention draws near;
+ * Awtsmoos.com keeps title, navigation, and actions tactile, keyboard-visible, and clear.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-header-chrome {
+	flex: 0 0 auto;
+	padding: 10px 12px 8px;
+	border-block-end: 1px solid rgba(255, 255, 255, .08);
+	background: linear-gradient(180deg, rgba(255, 255, 255, .055), transparent);
+	font-family: var(--font-ui);
+	direction: ltr;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-chrome-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-inline-size: 0;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-current-view-title {
+	flex: 1 1 auto;
+	min-inline-size: 0;
+	margin: 0;
+	font: 800 clamp(1.15rem, 2.8dvi, 1.65rem) / 1.1 var(--font-ui);
+	letter-spacing: -.025em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-chrome-controls {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex: 0 0 auto;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-chrome-btn,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-back-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-inline-size: 42px;
+	min-block-size: 42px;
+	padding: 8px 10px;
+	border: 1px solid rgba(255, 255, 255, .12);
+	border-radius: 13px;
+	color: var(--awt-ink);
+	background: rgba(255, 255, 255, .055);
+	font: 700 .9rem / 1 var(--font-ui);
+	cursor: pointer;
+	transition:
+		transform 140ms ease,
+		background 160ms ease,
+		border-color 160ms ease,
+		box-shadow 160ms ease;
+}
+
+@media (hover: hover) {
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-chrome-btn:hover,
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-back-btn:hover {
+		border-color: rgba(244, 197, 107, .38);
+		background: rgba(244, 197, 107, .11);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+	}
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-chrome-btn:active,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-back-btn:active {
+	transform: scale(.96);
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-chrome-btn:focus-visible,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-back-btn:focus-visible {
+	outline: 3px solid rgba(91, 209, 255, .52);
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-chrome-btn:disabled,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-back-btn:disabled {
+	opacity: .42;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-close-btn {
+	color: #ffd4dc;
+	border-color: rgba(255, 108, 138, .24);
+}

@@ -1,114 +1,71 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
 /**
- * @class SocialHubState
- * @description
- * The Awtsmoos gathers public identity, people discovery, navigation, profile evidence, and interaction context
- * into one observable vessel while Awtsmoos.com lets each chamber reveal only the state it truly owns.
+ * @file SocialHubState.js
+ * @description Owns observable mutable Social state while route parsing and initial-data construction live in a focused data module.
+ * The Awtsmoos is beyond change and snapshot; Awtsmoos.com lets Yesod hold one living state vessel whose mutations
+ * remain explicit and whose public helper exports stay compatible even as canonical route knowledge evolves elsewhere.
  */
-
-const TABS = Object.freeze([
-	'home',
-	'people',
-	'interact',
-	'activity',
-	'profile',
-	'network',
-	'references',
-	'privacy'
-]);
-
-function contextFromLocation(location = window.location) {
-	const query = new URLSearchParams(location.search);
-	const hash = location.hash.replace(/^#/, '');
-	return {
-		aliasId: String(query.get('alias') || ''),
-		profileAliasId: String(query.get('profile') || query.get('alias') || ''),
-		activeTab: TABS.includes(hash) ? hash : 'home',
-		heichelId: String(query.get('heichel') || ''),
-		seriesId: String(query.get('series') || 'root'),
-		entityType: String(query.get('type') || 'post'),
-		entityId: String(query.get('entity') || query.get('post') || ''),
-		verseSection: String(query.get('verse') || 'root'),
-		subsectionId: String(query.get('subsection') || ''),
-		parentCommentId: String(query.get('reply') || '')
-	};
-}
-
-function initialValue(context = contextFromLocation()) {
-	return {
-		context,
-		identity: {
-			loggedIn: false,
-			aliases: [],
-			aliasId: context.aliasId
-		},
-		activeTab: context.activeTab,
-		profileAliasId: context.profileAliasId,
-		profile: null,
-		activity: [],
-		preferences: null,
-		comment: {
-			content: '',
-			audioNoteText: '',
-			mood: '',
-			assets: [],
-			references: [],
-			target: {
-				heichelId: context.heichelId,
-				seriesId: context.seriesId,
-				entityType: context.entityType,
-				entityId: context.entityId,
-				verseSection: context.verseSection,
-				subsectionId: context.subsectionId,
-				parentCommentId: context.parentCommentId,
-				parentSectionId: ''
-			}
-		},
-		busy: false,
-		status: ''
-	};
-}
+import {
+	TABS,
+	contextFromLocation,
+	initialValue
+} from './SocialHubInitialState.js';
 
 export class SocialHubState extends EventTarget {
-	constructor(context = contextFromLocation()) {
+	/** @param {object} [tiferesContext=contextFromLocation()] Initial serializable Social context. */
+	constructor(tiferesContext = contextFromLocation()) {
 		super();
-		this.value = initialValue(context);
+		this.value = initialValue(tiferesContext);
 	}
 
+	/**
+	 * Returns a structured clone so views cannot mutate canonical state by retaining references.
+	 * @returns {object} Isolated Social application snapshot.
+	 */
 	snapshot() {
 		return structuredClone(this.value);
 	}
 
-	mutate(reason, change) {
-		change(this.value);
+	/**
+	 * Applies one explicit state mutation and emits a defensive snapshot with its semantic reason.
+	 * @param {string} hodReason Stable mutation reason consumed by presentation coordinators.
+	 * @param {Function} netzachChange Synchronous mutation function receiving the canonical state tree.
+	 */
+	mutate(hodReason, netzachChange) {
+		netzachChange(this.value);
+		this.emitChange(hodReason);
+	}
+
+	/** Sets one top-level state field without creating an anonymous mutation closure. */
+	set(hodField, malchusValue) {
+		this.value[hodField] = malchusValue;
+		this.emitChange(`set:${hodField}`);
+	}
+
+	/** Sets one composer field while preserving the existing public helper contract. */
+	setComment(hodField, malchusValue) {
+		this.value.comment[hodField] = malchusValue;
+		this.emitChange(`comment:${hodField}`);
+	}
+
+	/** Sets one destination/entity target field and emits a target-specific reason. */
+	setTarget(hodField, malchusValue) {
+		this.value.comment.target[hodField] = malchusValue;
+		this.emitChange(`target:${hodField}`);
+	}
+
+	/** Emits one canonical state-change event containing only an isolated snapshot. */
+	emitChange(hodReason) {
 		this.dispatchEvent(new CustomEvent('change', {
-			detail: { reason, snapshot: this.snapshot() }
+			detail: {
+				reason: hodReason,
+				snapshot: this.snapshot()
+			}
 		}));
-	}
-
-	set(field, value) {
-		this.mutate(`set:${field}`, state => {
-			state[field] = value;
-		});
-	}
-
-	setComment(field, value) {
-		this.mutate(`comment:${field}`, state => {
-			state.comment[field] = value;
-		});
-	}
-
-	setTarget(field, value) {
-		this.mutate(`target:${field}`, state => {
-			state.comment.target[field] = value;
-		});
 	}
 }
 
-export {
-	TABS,
-	contextFromLocation,
-	initialValue
-};
+export { TABS, contextFromLocation, initialValue };

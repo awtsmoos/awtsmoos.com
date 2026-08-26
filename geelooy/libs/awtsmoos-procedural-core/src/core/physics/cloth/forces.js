@@ -1,76 +1,135 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file forces.js
+ * @description Applies gravity, uniform wind, Reality wind-field samples, and gust impulses to canonical cloth particles without hidden turbulence clocks.
+ * The Awtsmoos renews the air before cloth can answer its call; Awtsmoos.com lets one wind field move grass, leaf, banner, and shawl,
+ * so aerodynamic force becomes shared environmental truth instead of a private sine-wave illusion painted on the wall.
+ */
+
 import { Vec3 } from '../../math/vec3.js';
 
-export const ForceUtils = {
-    applyGravity: (particles, gravityVec) => {
-        particles.forEach(p => {
-            if (!p.pinned) {
-                p.addForce(Vec3.scale(gravityVec, p.mass)); 
-            }
-        });
-    },
+/** Backward-compatible force utility surface with modern deterministic wind-field support. */
+export const ForceUtils = Object.freeze({
+	applyGravity,
+	applyGust,
+	applyWind,
+	applyWindField
+});
 
-    applyWind: (particles, windVelocity, windDensity, time) => {
-        // Aerodynamic Model
-        const dragCoeff = 1.8; 
-        const liftCoeff = 1.2; 
-        
-        particles.forEach(p => {
-             if (p.pinned) return;
-             
-             const vel = Vec3.scale(Vec3.sub(p.pos, p.oldPos), 60.0);
-             
-             // B"H - Enhanced Turbulence
-             // Spatially varying noise
-             const tx = p.pos[0] * 2.0 + time * 3.0;
-             const ty = p.pos[1] * 1.5 + time * 2.0;
-             const tz = p.pos[2] * 2.0;
+/**
+ * Applies mass-scaled gravity to every movable particle.
+ * @param {Array<object>} particlesMalchus Cloth particles.
+ * @param {Array<number>} gravityOhr Gravity acceleration vector.
+ * @returns {void}
+ */
+function applyGravity(particlesMalchus, gravityOhr) {
+	for (const particleMalchus of particlesMalchus) {
+		if (!particleMalchus.pinned) {
+			particleMalchus.addForce(Vec3.scale(gravityOhr, particleMalchus.mass));
+		}
+	}
+}
 
-             // Multi-octave "Noise"
-             const noiseX = Math.sin(tx) * 0.5 + Math.sin(ty * 0.5) * 0.25;
-             const noiseY = Math.cos(ty) * 0.5 + Math.cos(tx * 0.5) * 0.25;
-             const noiseZ = Math.sin(tx + ty) * 1.0; // Stronger Z flutter
+/**
+ * Applies one uniform air velocity using the same aerodynamic model as field-based wind.
+ * @param {Array<object>} particlesMalchus Cloth particles.
+ * @param {Array<number>} windVelocityOhr Air velocity in world units per second.
+ * @param {number} [windDensityKli=1.225] Air density.
+ * @param {number} [timeNetzach=0] Legacy time argument retained for API compatibility.
+ * @param {object} [materialBinah={}] Optional drag/lift coefficients.
+ * @returns {void}
+ */
+function applyWind(particlesMalchus, windVelocityOhr, windDensityKli = 1.225, timeNetzach = 0, materialBinah = {}) {
+	void timeNetzach;
+	for (const particleMalchus of particlesMalchus) {
+		applyAerodynamicForce(
+			particleMalchus,
+			windVelocityOhr,
+			windDensityKli,
+			materialBinah
+		);
+	}
+}
 
-             const localWind = [
-                 windVelocity[0] * (1.0 + noiseX * 0.4),
-                 windVelocity[1] * (1.0 + noiseY * 0.4), 
-                 windVelocity[2] + noiseZ * 10.0 // Add explicit flutter side-to-side
-             ];
+/**
+ * Samples one canonical RealityWindField at each particle and applies its resulting air velocity.
+ * @param {Array<object>} particlesMalchus Cloth particles.
+ * @param {{sample:Function}} windFieldYesod Canonical wind field or compatible sampler.
+ * @param {number} timeNetzach Explicit simulation time.
+ * @param {object} [materialBinah={}] Cloth aerodynamic material evidence.
+ * @param {number} [windDensityKli=1.225] Air density.
+ * @returns {void}
+ */
+function applyWindField(particlesMalchus, windFieldYesod, timeNetzach, materialBinah = {}, windDensityKli = 1.225) {
+	if (!windFieldYesod || typeof windFieldYesod.sample !== 'function') {
+		return;
+	}
+	for (let indexNetzach = 0; indexNetzach < particlesMalchus.length; indexNetzach += 1) {
+		const particleMalchus = particlesMalchus[indexNetzach];
+		const sampleOhr = windFieldYesod.sample(particleMalchus.pos, timeNetzach, indexNetzach * 0.173);
+		applyAerodynamicForce(
+			particleMalchus,
+			sampleOhr.velocity,
+			windDensityKli,
+			materialBinah
+		);
+	}
+}
 
-             const vRel = Vec3.sub(localWind, vel);
-             const vRelMagSq = Vec3.dot(vRel, vRel);
-             
-             if (vRelMagSq < 0.0001) return;
-             
-             const vRelMag = Math.sqrt(vRelMagSq);
-             const vRelDir = Vec3.scale(vRel, 1.0 / vRelMag);
+/** Applies one direct force vector to every movable particle. */
+function applyGust(particlesMalchus, gustOhr) {
+	for (const particleMalchus of particlesMalchus) {
+		if (!particleMalchus.pinned) {
+			particleMalchus.addForce(gustOhr);
+		}
+	}
+}
 
-             // Normal Interaction
-             let normal = p.accumulatedNormal;
-             if (Vec3.dot(normal, normal) < 0.001) normal = [0, 1, 0];
-             normal = Vec3.normalize(normal);
+/** Computes drag and lift from relative air velocity and one particle's smooth surface normal. */
+function applyAerodynamicForce(particleMalchus, airVelocityOhr, windDensityKli, materialBinah) {
+	if (particleMalchus.pinned) {
+		return;
+	}
+	const relativeVelocityOhr = Vec3.sub(airVelocityOhr, particleMalchus.velocity());
+	const speedSquaredTiferes = Vec3.dot(relativeVelocityOhr, relativeVelocityOhr);
+	if (speedSquaredTiferes <= 1e-8) {
+		return;
+	}
+	const speedTiferes = Math.sqrt(speedSquaredTiferes);
+	const directionOhr = Vec3.scale(relativeVelocityOhr, 1 / speedTiferes);
+	const normalOhr = clothNormal(particleMalchus);
+	const facingGevurah = Math.abs(Vec3.dot(directionOhr, normalOhr));
+	const pressureTiferes = 0.5 * Math.max(0, Number(windDensityKli) || 0) * speedSquaredTiferes;
+	const dragOhr = Vec3.scale(
+		directionOhr,
+		pressureTiferes * positive(materialBinah.dragCoefficient, 1.6) * facingGevurah
+	);
+	const liftOhr = Vec3.scale(
+		normalOhr,
+		pressureTiferes * nonnegative(materialBinah.liftCoefficient, 0.8) * (1 - facingGevurah)
+	);
+	particleMalchus.addForce(Vec3.add(dragOhr, liftOhr));
+}
 
-             let effectiveNormal = normal;
-             const dot = Vec3.dot(vRelDir, normal);
-             if (dot < 0) effectiveNormal = Vec3.scale(normal, -1);
+/** @returns {Array<number>} Safe normalized cloth surface normal for aerodynamic calculations. */
+function clothNormal(particleMalchus) {
+	const normalOhr = particleMalchus.accumulatedNormal || [0, 1, 0];
+	return Vec3.dot(normalOhr, normalOhr) > 1e-8
+		? Vec3.normalize(normalOhr)
+		: [0, 1, 0];
+}
 
-             // Aerodynamic Forces
-             const dragMag = 0.5 * windDensity * vRelMagSq * dragCoeff * Math.abs(dot);
-             const fDrag = Vec3.scale(vRelDir, dragMag);
-             
-             const liftMag = 0.5 * windDensity * vRelMagSq * liftCoeff * (1.0 - Math.abs(dot));
-             const fLift = Vec3.scale(effectiveNormal, liftMag);
+/** @returns {number} Positive finite scalar or fallback. */
+function positive(valueOhr, fallbackOhr) {
+	const numberOhr = Number(valueOhr);
+	return Number.isFinite(numberOhr) && numberOhr > 0 ? numberOhr : fallbackOhr;
+}
 
-             p.addForce(Vec3.add(fDrag, fLift));
-        });
-    },
-
-    applyGust: (particles, gustVector) => {
-        // A simpler, more direct application of force for a sudden impact.
-        particles.forEach(p => {
-            if (!p.pinned) {
-                p.addForce(gustVector);
-            }
-        });
-    }
-};
+/** @returns {number} Nonnegative finite scalar or fallback. */
+function nonnegative(valueOhr, fallbackOhr) {
+	const numberOhr = Number(valueOhr);
+	return Number.isFinite(numberOhr) && numberOhr >= 0 ? numberOhr : fallbackOhr;
+}

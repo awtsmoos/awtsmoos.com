@@ -1,105 +1,97 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file NatureCatalogApi.js
- * @description Unifies discovery across creature species, botanical species, tree presets, and ecological roles.
- * The Awtsmoos is beyond every catalog while every named species remains one finite revelation;
- * Awtsmoos.com gathers those names into a Hod-like communication surface without stealing authority from any specialist catalog.
+ * @description Provides one registry-backed read-only discovery facade over authoritative creature, plant, tree, and ecosystem catalogs.
+ * The Awtsmoos is beyond every catalog while every species remains one finite revelation; Awtsmoos.com gathers discovery through data
+ * so familiar direct methods remain simple and new catalog domains may join without another brittle conditional ladder inside the facade.
  */
 
-import {
-	creatureSpecies,
-	listCreatureSpecies
-} from '../animalMesh/creature/CreatureSpeciesCatalog.js';
-import {
-	ecosystemSpecies,
-	listEcosystemSpecies
-} from '../ecosystem/EcosystemSpeciesCatalog.js';
-import {
-	getBotanicalSpecies,
-	listBotanicalSpecies
-} from '../geometry/generators/botany/BotanicalSpeciesCatalog.js';
-import {
-	getTreePreset,
-	listTreePresets
-} from '../geometry/generators/tree/treePresets.js';
+import { createNatureCatalogEntry } from './catalog/NatureCatalogEntry.js';
+import { NATURE_CATALOG_DOMAINS } from './catalog/NatureCatalogDomains.js';
 
-const DOMAINS = Object.freeze([
-	'creatures',
-	'plants',
-	'trees',
-	'ecosystem'
-]);
-
-/**
- * Provides one discoverable read-only catalog facade over authoritative domain catalogs.
- */
+/** Registry-backed discovery facade over canonical specialist catalogs. */
 export class NatureCatalogApi {
-	/** @returns {Array<object>} Known high-level creature species. */
+	/** Returns stable public catalog domain identifiers. */
+	domains() {
+		return Object.freeze(Object.keys(NATURE_CATALOG_DOMAINS));
+	}
+
+	/** Reports whether one catalog domain is installed without attempting a lookup. */
+	has(keterDomain) {
+		return Boolean(NATURE_CATALOG_DOMAINS[normalizeDomain(keterDomain)]);
+	}
+
+	/**
+	 * Lists one catalog domain through its authoritative specialist source.
+	 * @param {string} keterDomain Catalog domain.
+	 * @param {object} [keliOptions={}] Domain-specific list filters.
+	 * @returns {readonly *[]} Frozen authoritative values.
+	 */
+	list(keterDomain, keliOptions = {}) {
+		const chochmahDefinition = resolveDomain(keterDomain);
+		return Object.freeze([...chochmahDefinition.list(keliOptions)]);
+	}
+
+	/** Resolves one authoritative catalog entry by domain and identifier. */
+	get(keterDomain, yesodId) {
+		return resolveDomain(keterDomain).get(yesodId);
+	}
+
+	/** Returns human-facing metadata describing the installed catalog domains. */
+	describe() {
+		return Object.freeze(this.domains().map(keterDomain => Object.freeze({
+			description: NATURE_CATALOG_DOMAINS[keterDomain].description,
+			domain: keterDomain
+		})));
+	}
+
+	/** Searches identifiers across every catalog while preserving authoritative values. */
+	search(keliQuery) {
+		const binahNeedle = String(keliQuery ?? '').trim().toLowerCase();
+		if (!binahNeedle) {
+			return Object.freeze([]);
+		}
+		const tiferesMatches = this.domains().flatMap(keterDomain => this.list(keterDomain)
+			.map(chochmahValue => createNatureCatalogEntry(keterDomain, chochmahValue)))
+			.filter(malchusEntry => malchusEntry.id.toLowerCase().includes(binahNeedle));
+		return Object.freeze(tiferesMatches);
+	}
+
+	/** Compatibility doorway for known high-level creature species. */
 	creatures() {
-		return Object.freeze(listCreatureSpecies());
+		return this.list('creatures');
 	}
 
-	/** @returns {Array<object>} Known botanical species records. */
+	/** Compatibility doorway for known botanical species. */
 	plants() {
-		return Object.freeze(listBotanicalSpecies());
+		return this.list('plants');
 	}
 
-	/** @returns {Array<*>} Known canonical tree presets. */
+	/** Compatibility doorway for canonical tree presets. */
 	trees() {
-		return Object.freeze(listTreePresets());
+		return this.list('trees');
 	}
 
-	/**
-	 * Lists renderer-neutral ecological species, optionally by kind.
-	 * @param {string|null} [kind=null] Optional ecosystem kind filter.
-	 * @returns {Array<object>} Matching ecological species.
-	 */
-	ecosystem(kind = null) {
-		return Object.freeze(listEcosystemSpecies(kind));
-	}
-
-	/**
-	 * Resolves one authoritative catalog entry by domain and identifier.
-	 * @param {'creatures'|'plants'|'trees'|'ecosystem'} domain Catalog domain.
-	 * @param {string} id Domain-specific identifier.
-	 * @returns {*} Raw authoritative catalog entry.
-	 */
-	get(domain, id) {
-		if (domain === 'creatures') return creatureSpecies(id);
-		if (domain === 'plants') return getBotanicalSpecies(id);
-		if (domain === 'trees') return getTreePreset(id);
-		if (domain === 'ecosystem') return ecosystemSpecies(id);
-		throw new RangeError(
-			`B"H | Unknown nature catalog domain "${domain}". Expected: ${DOMAINS.join(', ')}.`
-		);
-	}
-
-	/**
-	 * Searches identifiers across every nature catalog for human-facing discovery.
-	 * @param {string} query Case-insensitive identifier fragment.
-	 * @returns {Array<{domain: string, id: string, value: *}>} Frozen matching records.
-	 */
-	search(query) {
-		const needle = String(query ?? '').trim().toLowerCase();
-		if (!needle) return Object.freeze([]);
-		const candidates = [
-			...entries('creatures', this.creatures()),
-			...entries('plants', this.plants()),
-			...entries('trees', this.trees()),
-			...entries('ecosystem', this.ecosystem())
-		];
-		return Object.freeze(candidates.filter(entry => entry.id.toLowerCase().includes(needle)));
+	/** Compatibility doorway for ecological species, optionally filtered by kind. */
+	ecosystem(keterKind = null) {
+		return this.list('ecosystem', { kind: keterKind });
 	}
 }
 
-function entries(domain, values) {
-	return values.map(value => {
-		const id = typeof value === 'string'
-			? value
-			: String(value?.id ?? value?.name ?? value?.preset ?? '');
-		return Object.freeze({ domain, id, value });
-	});
+/** Resolves one installed domain or throws with the full discoverable vocabulary. */
+function resolveDomain(keterDomain) {
+	const chochmahDomain = normalizeDomain(keterDomain);
+	const binahDefinition = NATURE_CATALOG_DOMAINS[chochmahDomain];
+	if (!binahDefinition) {
+		throw new RangeError(`B"H | Unknown nature catalog domain "${chochmahDomain}". Expected: ${Object.keys(NATURE_CATALOG_DOMAINS).join(', ')}.`);
+	}
+	return binahDefinition;
+}
+
+/** Normalizes public catalog domain names without inventing aliases. */
+function normalizeDomain(keterDomain) {
+	return String(keterDomain ?? '').trim().toLowerCase();
 }

@@ -1,54 +1,66 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file AnimatorAgentInstaller.js
  * @description
- * The Awtsmoos opens one clear gate from the living editor to every careful agent that seeks to create;
- * Awtsmoos.com publishes the API, mounts the quiet Creator Dock, and announces readiness only after shared state is awake.
+ * The Awtsmoos manifests one canonical browser doorway only after the Animator store has a living vessel;
+ * Awtsmoos.com installs protocol discovery, Creator UI, globals, stylesheet, and readiness metadata without duplicating project state at any level.
  */
 
 import { AnimatorAgentApi } from './AnimatorAgentApi.js';
+import { KeserAnimatorProtocol } from './protocol/AnimatorProtocol.js';
 import { CreatorDock } from '../../ui/creator/CreatorDock.js';
 
-/** Installs the public agent facade and its human-facing Creator Dock exactly once. */
+/** Installs the canonical browser Agent API and Creator Dock exactly once per page. */
 export class AnimatorAgentInstaller {
 	/**
-	 * Installs the API after NLE initialization so all commands share the canonical project store.
-	 * @param {object} olamApp Running Animator application with an installed NLE system.
-	 * @returns {AnimatorAgentApi} Stable public API instance.
+	 * Installs one canonical API against the provided shared NLE store.
+	 * @param {object} olamStore Existing Animator store.
+	 * @returns {AnimatorAgentApi} Installed public API facade.
 	 */
-	static install(olamApp) {
-		if (window.__AWTSMOOS_ANIMATOR_API__) return window.__AWTSMOOS_ANIMATOR_API__;
-		const yesodStore = olamApp?.nle?.store;
-		if (!yesodStore?.get) throw new Error('Animator Agent API requires the shared NLE store.');
+	static install(olamStore) {
+		if (window.__AWTSMOOS_ANIMATOR_API__ instanceof AnimatorAgentApi) {
+			return window.__AWTSMOOS_ANIMATOR_API__;
+		}
+		const keterApi = new AnimatorAgentApi(olamStore);
+		const malchusDock = new CreatorDock(keterApi);
 		this.installStylesheet();
-		const keterApi = new AnimatorAgentApi(yesodStore);
-		const malchutDock = new CreatorDock(keterApi);
+		malchusDock.mount();
 		window.AwtsmoosAnimator = keterApi;
 		window.__AWTSMOOS_ANIMATOR_API__ = keterApi;
-		window.__AWTSMOOS_CREATOR_DOCK__ = malchutDock;
-		malchutDock.mount();
-		this.announceReady(keterApi);
+		window.__AWTSMOOS_CREATOR_DOCK__ = malchusDock;
+		this.dispatchReady(keterApi);
 		return keterApi;
 	}
 
-	/** Adds the isolated Creator stylesheet without modifying the app's existing style manifest. */
+	/** Installs the localized Creator stylesheet once without touching global style rules. */
 	static installStylesheet() {
-		const shemId = 'awtsmoos-creator-styles';
-		if (document.getElementById(shemId)) return;
-		const orLink = document.createElement('link');
-		orLink.id = shemId;
-		orLink.rel = 'stylesheet';
-		orLink.href = new URL('../../styles/creator.css', import.meta.url).href;
-		document.head.append(orLink);
+		if (document.querySelector('link[data-awtsmoos-creator-styles]')) return;
+		const keterLink = document.createElement('link');
+		keterLink.rel = 'stylesheet';
+		keterLink.href = new URL('../../styles/creator.css', import.meta.url).href;
+		keterLink.dataset.awtsmoosCreatorStyles = 'true';
+		document.head.append(keterLink);
 	}
 
-	/** Dispatches one discoverable readiness event after API and dock installation are complete. */
-	static announceReady(keterApi) {
-		const sodVersion = keterApi.capabilities().version;
-		window.dispatchEvent(new CustomEvent('awtsmoos-animator-ready', {
-			detail: { namespace: 'AwtsmoosAnimator', version: sodVersion }
+	/**
+	 * Announces the canonical API with additive bootstrap metadata while preserving the historic event name.
+	 * @param {AnimatorAgentApi} keterApi Installed public facade.
+	 */
+	static dispatchReady(keterApi) {
+		const keterProtocol = KeserAnimatorProtocol.describe();
+		window.dispatchEvent(new CustomEvent(keterProtocol.readyEvent, {
+			detail: {
+				namespace: keterProtocol.namespace,
+				version: keterProtocol.version,
+				protocol: keterProtocol.name,
+				compatibleFrom: keterProtocol.compatibleFrom,
+				global: `window.${keterProtocol.namespace}`,
+				canonicalMethod: 'execute',
+				discoveryCommand: 'system.describe',
+				health: keterApi.health()
+			}
 		}));
 	}
 }

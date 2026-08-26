@@ -4,100 +4,71 @@
 /**
  * @file AnimatorCommandValidator.js
  * @description
- * The Awtsmoos grants power through boundary and form, so an agent may act without spilling beyond the frame;
- * Awtsmoos.com validates project, performance, world, and correlation data before execution, keeping every public action named.
+ * The Awtsmoos grants power through truthful boundary, so command data is known before execution ever touches a frame;
+ * Awtsmoos.com validates protocol, registry identity, payload schema, normalization, and correlation from one canonical name.
  */
 
-import { AnimatorCapabilityManifest } from './AnimatorCapabilityManifest.js';
-import { DaasPerformanceRecipeCatalog } from '../performance/PerformanceRecipeCatalog.js';
+import { KeserAnimatorProtocol } from './protocol/AnimatorProtocol.js';
+import { DaasAnimatorCommandRegistry } from './registry/AnimatorCommandRegistry.js';
+import { YesodAnimatorPayloadNormalizer } from './schema/AnimatorPayloadNormalizer.js';
+import { GevurahAnimatorSchemaValidator } from './schema/AnimatorSchemaValidator.js';
 
-/** Guards the public Animator JSON protocol before any command reaches project state. */
+/** Guards and normalizes the public Animator JSON protocol before commands reach domain handlers. */
 export class AnimatorCommandValidator {
-	/**
-	 * Normalizes and validates an agent command envelope.
-	 * @param {object} keliEnvelope Object containing `command`, optional `payload`, and optional `requestId`.
-	 * @returns {{command:string,payload:object,requestId:string|null}} Safe normalized command envelope.
-	 */
+	/** @param {object} keliEnvelope Agent command envelope. @returns {object} Validated canonical execution record. */
 	static normalize(keliEnvelope = {}) {
 		if (!keliEnvelope || typeof keliEnvelope !== 'object' || Array.isArray(keliEnvelope)) {
 			throw this.error('invalid_envelope', 'Animator command must be an object.');
 		}
 		const shemMitzvah = String(keliEnvelope.command ?? '').trim();
-		if (!shemMitzvah) {
-			throw this.error('missing_command', 'Animator command name is required.');
-		}
-		if (!AnimatorCapabilityManifest.supports(shemMitzvah)) {
-			throw this.error('unsupported_command', `Unsupported Animator command: ${shemMitzvah}`);
+		if (!shemMitzvah) throw this.error('missing_command', 'Animator command name is required.');
+		const keliDescriptor = DaasAnimatorCommandRegistry.get(shemMitzvah);
+		if (!keliDescriptor) throw this.error('unsupported_command', `Unsupported Animator command: ${shemMitzvah}`);
+		const sodVersion = this.normalizeVersion(keliEnvelope.version ?? keliEnvelope.apiVersion);
+		if (!KeserAnimatorProtocol.accepts(sodVersion)) {
+			throw this.error('unsupported_version', `Unsupported Animator API version: ${sodVersion}`, { requestedVersion: sodVersion, protocol: KeserAnimatorProtocol.describe() });
 		}
 		const keilimPayload = keliEnvelope.payload ?? {};
-		if (typeof keilimPayload !== 'object' || Array.isArray(keilimPayload)) {
+		if (!keilimPayload || typeof keilimPayload !== 'object' || Array.isArray(keilimPayload)) {
 			throw this.error('invalid_payload', 'Animator command payload must be an object.');
 		}
-		this.validateRequiredFields(shemMitzvah, keilimPayload);
+		const keilimNormalized = YesodAnimatorPayloadNormalizer.normalize(keliDescriptor.payloadSchema, keilimPayload);
+		const sederIssues = GevurahAnimatorSchemaValidator.inspect(keliDescriptor.payloadSchema, keilimNormalized);
+		if (sederIssues.length) throw this.issueError(sederIssues[0]);
 		return {
 			command: shemMitzvah,
-			payload: { ...keilimPayload },
-			requestId: this.normalizeRequestId(keliEnvelope.requestId)
+			payload: keilimNormalized,
+			requestId: this.normalizeRequestId(keliEnvelope.requestId),
+			version: sodVersion,
+			descriptor: keliDescriptor
 		};
 	}
 
-	/** @param {string} shemMitzvah Command name. @param {object} keilimPayload Public payload. */
-	static validateRequiredFields(shemMitzvah, keilimPayload) {
-		if (['project.previewPrompt', 'performance.compile'].includes(shemMitzvah)) {
-			if (!String(keilimPayload.prompt ?? '').trim()) {
-				throw this.error('missing_prompt', `${shemMitzvah} requires payload.prompt.`);
-			}
-		}
-		if (shemMitzvah === 'performance.recipe') {
-			this.validateRecipe(keilimPayload);
-		}
-		if (['world.inspect', 'world.create'].includes(shemMitzvah)) {
-			this.validateWorldIntent(shemMitzvah, keilimPayload);
-		}
-		if (shemMitzvah === 'animation.planPasses' && keilimPayload.plan !== undefined) {
-			if (!keilimPayload.plan || typeof keilimPayload.plan !== 'object' || Array.isArray(keilimPayload.plan)) {
-				throw this.error('invalid_plan', 'animation.planPasses payload.plan must be an object.');
-			}
-		}
+	/** @param {unknown} sodVersion Optional caller version. @returns {string|null} Trimmed version or null. */
+	static normalizeVersion(sodVersion) {
+		if (sodVersion === undefined || sodVersion === null || sodVersion === '') return null;
+		return String(sodVersion).trim();
 	}
 
-	/** @param {object} keilimPayload Recipe payload. */
-	static validateRecipe(keilimPayload) {
-		const shemRecipe = String(keilimPayload.name ?? '').trim();
-		if (!shemRecipe) {
-			throw this.error('missing_recipe', 'performance.recipe requires payload.name.');
-		}
-		if (!DaasPerformanceRecipeCatalog.supports(shemRecipe)) {
-			throw this.error('unknown_recipe', `Unknown performance recipe: ${shemRecipe}`);
-		}
-	}
-
-	/** @param {string} shemMitzvah World command name. @param {object} keilimPayload World intent. */
-	static validateWorldIntent(shemMitzvah, keilimPayload) {
-		if (!String(keilimPayload.kind ?? '').trim()) {
-			throw this.error('missing_world_kind', `${shemMitzvah} requires payload.kind.`);
-		}
-	}
-
-	/** @param {*} sodRequestId Optional caller correlation ID. @returns {string|null} Normalized ID. */
+	/** @param {unknown} sodRequestId Optional correlation value. @returns {string|null} Trimmed request ID or null. */
 	static normalizeRequestId(sodRequestId) {
-		if (sodRequestId === undefined || sodRequestId === null) {
-			return null;
-		}
+		if (sodRequestId === undefined || sodRequestId === null) return null;
 		const keterId = String(sodRequestId).trim();
-		if (!keterId) {
-			throw this.error('invalid_request_id', 'requestId must not be empty when provided.');
-		}
-		if (keterId.length > 160) {
-			throw this.error('invalid_request_id', 'requestId must be 160 characters or fewer.');
-		}
+		if (!keterId) throw this.error('invalid_request_id', 'requestId must not be empty when provided.');
+		if (keterId.length > 160) throw this.error('invalid_request_id', 'requestId must be 160 characters or fewer.');
 		return keterId;
 	}
 
-	/** @param {string} sodCode Stable error code. @param {string} orMessage Human message. @returns {Error} Coded protocol error. */
-	static error(sodCode, orMessage) {
+	/** @param {object} keliIssue Schema issue. @returns {Error} Coded public validation error. */
+	static issueError(keliIssue) {
+		return this.error(keliIssue.code, keliIssue.message, { path: keliIssue.path });
+	}
+
+	/** @param {string} sodCode Code. @param {string} orMessage Message. @param {object} keilimDetails Details. @returns {Error} Coded error. */
+	static error(sodCode, orMessage, keilimDetails = null) {
 		const gevurahError = new Error(orMessage);
 		gevurahError.code = sodCode;
+		gevurahError.details = keilimDetails;
 		return gevurahError;
 	}
 }

@@ -1,0 +1,73 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is equally present in broad horizon and narrow handheld vessel; Awtsmoos.com therefore lets this explorer contract gracefully without hiding power off-screen.
+ * Motion remains a servant of meaning, and those who request stillness receive the same complete interface without ornamental movement.
+ */
+
+@media (min-width: 46rem) {
+	[data-awtsmoos-api-explorer] {
+		max-block-size: min(82dvh, 820px);
+		padding: 1rem;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__body {
+		grid-template-columns: minmax(13rem, .72fr) minmax(0, 1.28fr);
+		align-items: start;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__descriptor,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__actions,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__result {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 32rem) {
+	[data-awtsmoos-api-explorer] {
+		max-block-size: min(82dvh, 720px);
+		padding:
+			max(.7rem, env(safe-area-inset-top))
+			max(.7rem, env(safe-area-inset-right))
+			max(.7rem, env(safe-area-inset-bottom))
+			max(.7rem, env(safe-area-inset-left));
+		border-radius: 14px;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__header {
+		align-items: flex-start;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__actions {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__actions > :last-child {
+		margin-inline-start: 0;
+		text-align: start;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__button {
+		inline-size: 100%;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__header .Awtsmoos-api-explorer__button {
+		inline-size: auto;
+		flex: 0 0 auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__button,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__input,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__select,
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__textarea {
+		transition-duration: 0.01ms;
+	}
+
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__button[data-loading="true"] {
+		animation: none;
+	}
+}

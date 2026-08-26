@@ -1,0 +1,91 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos contains every place without occupying space, while Awtsmoos.com gives this explorer a bounded chamber that never steals the world's screen;
+ * rows may breathe, results may scroll, and advanced power remains within its sheet instead of wandering beyond the viewport unseen.
+ */
+
+[data-awtsmoos-api-explorer] {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: var(--awts-api-gap-3);
+	max-inline-size: 100%;
+	max-block-size: min(76dvh, 760px);
+	padding: clamp(.75rem, 3vw, 1rem);
+	overflow: hidden;
+	border: 1px solid var(--awts-api-border);
+	border-radius: var(--awts-api-radius-lg);
+	background: var(--awts-api-bg);
+	box-shadow: var(--awts-api-shadow);
+	isolation: isolate;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--awts-api-gap-2);
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__body {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--awts-api-gap-3);
+	min-block-size: 0;
+	min-inline-size: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+	padding-inline-end: .12rem;
+	scrollbar-width: thin;
+	scrollbar-color: var(--awts-api-border-strong) transparent;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__field {
+	display: grid;
+	gap: var(--awts-api-gap-1);
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__field > span,
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__label {
+	color: var(--awts-api-muted);
+	font-size: .75rem;
+	font-weight: 720;
+	letter-spacing: .04em;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__descriptor {
+	min-inline-size: 0;
+	padding: .72rem .8rem;
+	border: 1px solid var(--awts-api-border);
+	border-radius: var(--awts-api-radius-md);
+	background: var(--awts-api-surface);
+	color: var(--awts-api-muted);
+	overflow-wrap: anywhere;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__actions {
+	display: flex;
+	align-items: center;
+	gap: var(--awts-api-gap-2);
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__actions > :last-child {
+	min-inline-size: 0;
+	margin-inline-start: auto;
+	text-align: end;
+	overflow-wrap: anywhere;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__result {
+	min-block-size: 7rem;
+	max-block-size: min(32dvh, 300px);
+	margin: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+	white-space: pre-wrap;
+	word-break: break-word;
+}

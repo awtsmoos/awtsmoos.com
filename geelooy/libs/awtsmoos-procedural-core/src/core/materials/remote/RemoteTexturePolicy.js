@@ -1,106 +1,124 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @file RemoteTexturePolicy.js
- * @description Defines immutable, provider-neutral identity for optional remote texture hydration.
- * The Awtsmoos, Atzmus beyond all distance and category, renews every near and distant pixel in one instant;
- * Awtsmoos.com gives those finite journeys named roles, bounded time, and versioned keys so transport never becomes hidden intent.
+ * @description Defines immutable provider-neutral identity for trusted optional remote texture hydration.
+ * The Awtsmoos renews every near and distant pixel before transport may carry its finite sign;
+ * Awtsmoos.com preserves old cache identity while richer channel, version, transform, and integrity truth may shine.
  */
+import {
+	normalizeRemoteTextureChannel,
+	normalizeRemoteTextureColorSpace,
+	normalizeRemoteTextureContentVersion,
+	normalizeRemoteTextureIntegrity
+} from './RemoteTextureMetadata.js';
+import { createRemoteTextureTransform } from './RemoteTextureTransform.js';
 
 export const REMOTE_TEXTURE_POLICY_VERSION = 1;
 
 /**
- * Creates one serializable policy without performing network I/O or touching renderer state.
- * The function belongs to Gevurah: it bounds an otherwise open remote request before Yesod may carry it outward.
- * @param {string} url HTTPS texture URL whose canonical identity should be established.
- * @param {object} [options={}] Semantic provider, role, quality, timeout, and cache hints.
- * @returns {object} Frozen policy containing canonical URL, cache identity, and hydration limits.
- * @throws {TypeError} When the URL is invalid or does not use HTTPS.
+ * Creates one serializable remote-hydration policy while preserving the legacy request-key contract exactly.
+ * @param {string} yesodUrlInput HTTPS texture URL.
+ * @param {object} [keterOptions={}] Provider, role, quality, channel, transform, revision, and cache hints.
+ * @returns {object} Frozen transport policy with old identity fields plus richer variant identity.
  */
-export function createRemoteTexturePolicy(url, options = {}) {
-	const yesodUrl = normalizeRemoteTextureUrl(url);
-	const binahProvider = normalizePolicyToken(options.provider, new URL(yesodUrl).host);
-	const tiferesRole = normalizePolicyToken(options.role, 'generic');
-	const hodQuality = normalizePolicyToken(options.quality, 'full');
-	const gevurahTimeoutMs = normalizeTextureTimeout(options.timeoutMs);
-	const malchusRequestKey = [
-		`remote-texture-v${REMOTE_TEXTURE_POLICY_VERSION}`,
-		binahProvider,
-		tiferesRole,
-		hodQuality,
-		yesodUrl
-	].join(':');
-
+export function createRemoteTexturePolicy(yesodUrlInput, keterOptions = {}) {
+	const tiferesUrl = normalizeRemoteTextureUrl(yesodUrlInput);
+	const binahProvider = token(keterOptions.provider, new URL(tiferesUrl).host);
+	const malchusRole = token(keterOptions.role, 'generic');
+	const hodQuality = token(keterOptions.quality, 'full');
+	const gevurahTimeoutMs = timeout(keterOptions.timeoutMs);
+	const chochmahChannel = normalizeRemoteTextureChannel(keterOptions.channel, malchusRole);
+	const netzachColorSpace = normalizeRemoteTextureColorSpace(keterOptions.colorSpace, chochmahChannel);
+	const yesodContentVersion = normalizeRemoteTextureContentVersion(keterOptions.contentVersion);
+	const tiferesTransform = createRemoteTextureTransform(keterOptions.transform || keterOptions);
+	const malchusRequestKey = legacyRequestKey(binahProvider, malchusRole, hodQuality, tiferesUrl);
+	const binahVariantKey = variantKey(malchusRequestKey, {
+		channel: chochmahChannel,
+		colorSpace: netzachColorSpace,
+		contentVersion: yesodContentVersion,
+		transform: tiferesTransform
+	});
 	return Object.freeze({
-		cacheKey: String(options.cacheKey || malchusRequestKey),
+		cacheKey: String(keterOptions.cacheKey || malchusRequestKey),
+		channel: chochmahChannel,
+		colorSpace: netzachColorSpace,
+		contentVersion: yesodContentVersion,
+		integrity: normalizeRemoteTextureIntegrity(keterOptions.integrity),
 		provider: binahProvider,
 		quality: hodQuality,
 		requestKey: malchusRequestKey,
-		role: tiferesRole,
+		role: malchusRole,
 		timeoutMs: gevurahTimeoutMs,
-		url: yesodUrl,
+		transform: tiferesTransform,
+		url: tiferesUrl,
+		variantKey: binahVariantKey,
 		version: REMOTE_TEXTURE_POLICY_VERSION
 	});
 }
 
 /**
- * Creates clone-safe provenance suitable for diagnostics, receipts, and renderer handoff.
- * Canonical identity fields are written after caller details so diagnostic additions can never forge transport truth.
- * @param {object} policy Policy produced by createRemoteTexturePolicy.
- * @param {string} source Resolution source such as remote, cache, local-fallback, aborted, or failure.
- * @param {object} [details={}] Additional serializable evidence that should accompany the resolution.
- * @returns {object} Frozen provenance record whose canonical identity cannot be overridden by details.
+ * Creates clone-safe provenance whose canonical transport and material identity cannot be forged by caller details.
+ * @param {object} tiferesPolicy Policy from createRemoteTexturePolicy.
+ * @param {string} malchusSource Resolution source such as remote, cache, fallback, aborted, or failure.
+ * @param {object} [keterDetails={}] Additional serializable diagnostic evidence.
+ * @returns {object} Frozen provenance record.
  */
-export function createRemoteTextureProvenance(policy, source, details = {}) {
+export function createRemoteTextureProvenance(tiferesPolicy, malchusSource, keterDetails = {}) {
 	return Object.freeze({
-		...details,
-		cacheKey: policy.cacheKey,
-		provider: policy.provider,
-		quality: policy.quality,
-		role: policy.role,
-		source: normalizePolicyToken(source, 'unknown'),
-		url: policy.url,
-		version: policy.version
+		...keterDetails,
+		cacheKey: tiferesPolicy.cacheKey,
+		channel: tiferesPolicy.channel,
+		colorSpace: tiferesPolicy.colorSpace,
+		contentVersion: tiferesPolicy.contentVersion,
+		provider: tiferesPolicy.provider,
+		quality: tiferesPolicy.quality,
+		role: tiferesPolicy.role,
+		source: token(malchusSource, 'unknown'),
+		url: tiferesPolicy.url,
+		variantKey: tiferesPolicy.variantKey,
+		version: tiferesPolicy.version
 	});
 }
 
-/**
- * Canonicalizes one texture URL and enforces the HTTPS-only remote-material covenant.
- * @param {string} value Candidate remote URL.
- * @returns {string} Canonical HTTPS URL.
- * @throws {TypeError} When parsing fails or transport is not HTTPS.
- */
-export function normalizeRemoteTextureUrl(value) {
-	const yesodUrl = new URL(String(value || ''));
+/** Canonicalizes one URL and enforces the HTTPS-only remote-material covenant. */
+export function normalizeRemoteTextureUrl(keterValue) {
+	const yesodUrl = new URL(String(keterValue || ''));
 	if (yesodUrl.protocol !== 'https:') {
-		throw new TypeError(`B"H | Remote texture URL must use HTTPS: ${value}`);
+		throw new TypeError(`B"H | Remote texture URL must use HTTPS: ${keterValue}`);
 	}
-
 	return yesodUrl.href;
 }
 
-/**
- * Normalizes one short semantic token while keeping public data compact and deterministic.
- * @param {unknown} value Candidate token.
- * @param {string} fallback Non-empty fallback token.
- * @returns {string} Trimmed non-empty token.
- */
-function normalizePolicyToken(value, fallback) {
-	return String(value ?? fallback).trim() || fallback;
+/** Preserves the exact historical request-key structure for backwards-compatible caches. */
+function legacyRequestKey(binahProvider, malchusRole, hodQuality, tiferesUrl) {
+	return [`remote-texture-v${REMOTE_TEXTURE_POLICY_VERSION}`, binahProvider, malchusRole, hodQuality, tiferesUrl].join(':');
 }
 
-/**
- * Bounds a texture timeout to a browser-useful interval and rejects numeric chaos through a stable fallback.
- * @param {unknown} value Candidate timeout in milliseconds.
- * @returns {number} Integer timeout from 250ms through 60000ms.
- */
-function normalizeTextureTimeout(value) {
-	const gevurahValue = Number(value ?? 15000);
-	if (!Number.isFinite(gevurahValue)) {
-		return 15000;
-	}
+/** Builds richer material-variant identity without changing the established transport request key. */
+function variantKey(malchusRequestKey, tiferesMetadata) {
+	const yesodTransform = tiferesMetadata.transform;
+	return [
+		malchusRequestKey,
+		tiferesMetadata.channel,
+		tiferesMetadata.colorSpace,
+		tiferesMetadata.contentVersion,
+		yesodTransform.repeat.join('x'),
+		yesodTransform.offset.join('x'),
+		yesodTransform.rotation,
+		yesodTransform.scaleMeters
+	].join(':');
+}
 
+/** Returns one stable non-empty semantic token. */
+function token(keterValue, yesodFallback) {
+	return String(keterValue ?? yesodFallback).trim() || yesodFallback;
+}
+
+/** Bounds remote hydration timeout to a browser-useful interval. */
+function timeout(keterValue) {
+	const gevurahValue = Number(keterValue ?? 15000);
+	if (!Number.isFinite(gevurahValue)) return 15000;
 	return Math.min(60000, Math.max(250, Math.round(gevurahValue)));
 }

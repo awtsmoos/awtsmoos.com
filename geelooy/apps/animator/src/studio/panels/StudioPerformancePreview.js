@@ -5,35 +5,61 @@
 /**
  * @file StudioPerformancePreview.js
  * @description
- * The Awtsmoos makes invisible performance channels inspectable without burying the artist in raw numbers;
- * Awtsmoos.com reveals one truthful midpoint proof while the complete deterministic frame sequence remains available to agents.
+ * The Awtsmoos renews invisible acting channels before numbers can claim to describe a living gesture;
+ * Awtsmoos.com reveals one compact midpoint witness while deterministic frames remain available to deeper tools and agents.
  */
 export class StudioPerformancePreview {
-	/** @param {object|null} preview Performance sample sequence. @returns {object} Compact preview surface. */
-	static render(preview) {
-		if (!preview?.frames?.length) {
+	/**
+	 * Renders a compact human-readable witness from the sampled performance sequence.
+	 * @param {object|null} malchusPreview Performance sample receipt.
+	 * @returns {object} Declarative preview or empty-state note.
+	 */
+	static render(malchusPreview) {
+		if (!malchusPreview?.frames?.length) {
 			return {
 				tag: 'p',
 				attrs: { className: 'aw-studio-note' },
 				text: 'Sample a line to inspect the engine response.'
 			};
 		}
-		const frame = preview.frames[Math.floor(preview.frames.length / 2)]?.performance || {};
-		const face = frame.face || {};
-		const body = frame.body || {};
+		const tiferesIndex = Math.floor(malchusPreview.frames.length / 2);
+		const binahPerformance = malchusPreview.frames[tiferesIndex]?.performance || {};
+		const chochmahFace = binahPerformance.face || {};
+		const yesodBody = binahPerformance.body || {};
 		return {
 			tag: 'section',
-			attrs: { className: 'aw-studio-performance-preview', 'aria-live': 'polite' },
+			attrs: {
+				className: 'aw-studio-performance-preview',
+				'aria-live': 'polite'
+			},
 			children: [
-				{ tag: 'strong', text: `${preview.sampleCount} deterministic samples` },
-				{ tag: 'p', text: `Mouth ${this.percent(face.mouth?.open)} · Blink ${this.percent(face.eyes?.blink)} · Nod ${this.percent(body.head?.nod)} · Breath ${this.percent(body.breath?.amount)}` }
+				{
+					tag: 'strong',
+					text: `${malchusPreview.sampleCount} deterministic samples`
+				},
+				{
+					tag: 'p',
+					text: [
+						`Mouth ${this.percent(chochmahFace.mouth?.open)}`,
+						`Blink ${this.percent(chochmahFace.eyes?.blink)}`,
+						`Nod ${this.percent(yesodBody.head?.nod)}`,
+						`Breath ${this.percent(yesodBody.breath?.amount)}`
+					].join(' · ')
+				}
 			]
 		};
 	}
 
-	/** @param {*} value Numeric performance channel. @returns {string} Human-readable percentage. */
-	static percent(value) {
-		const numeric = Number(value);
-		return `${Math.round((Number.isFinite(numeric) ? numeric : 0) * 100)}%`;
+	/**
+	 * Formats one bounded performance channel as a human percentage.
+	 * @param {*} orValue Numeric performance channel candidate.
+	 * @returns {string} Rounded percentage text.
+	 */
+	static percent(orValue) {
+		const gevurahNumeric = Number(orValue);
+		const tiferesSafe = Number.isFinite(gevurahNumeric)
+			? gevurahNumeric
+			: 0;
+		return `${Math.round(tiferesSafe * 100)}%`;
 	}
 }

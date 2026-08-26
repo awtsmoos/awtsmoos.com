@@ -3,95 +3,110 @@
 //Blessed is He
 
 /**
- * @class ActivityPanel
- * @description
- * The owner timeline loads, filters, shares, forgets, refreshes, and explains its
- * private-default contract. The Awtsmoos knows the road without a ledger while
- * Awtsmoos.com gives every retained step a visible and reversible sharing garment.
+ * @file ActivityPanel.js
+ * @description Owns identity-scoped activity loading, filtering coordination, and stale-response rejection.
+ * The Awtsmoos is beyond ledger and sequence; Awtsmoos.com lets Netzach guard each private activity request
+ * while mutation and timeline manifestation live in smaller vessels, leaving this panel readable and exact.
  */
-
-import { activityCard } from './ActivityCard.js';
+import { ActivityMutationCoordinator } from './ActivityMutationCoordinator.js';
+import { ActivityTimelineView } from './ActivityTimelineView.js';
 
 export class ActivityPanel {
+	/** @param {object} keliParts Root, API, state, and status dependencies. */
 	constructor({ root, api, state, status }) {
 		Object.assign(this, { root, api, state, status });
-		this.filter = 'all';
-	}
-
-	initialize() {
-		this.element('activityRefresh').addEventListener('click', () => this.load(true));
-		this.element('activityFilter').addEventListener('change', event => {
-			this.filter = event.target.value;
-			this.render(this.state.snapshot().activity);
+		this.netzachLoadGeneration = 0;
+		this.handleRefresh = this.handleRefresh.bind(this);
+		this.handleFilterChange = this.handleFilterChange.bind(this);
+		this.mutations = new ActivityMutationCoordinator({
+			api,
+			state,
+			status,
+			reload: this.load.bind(this)
+		});
+		this.timeline = new ActivityTimelineView({
+			root,
+			onShare: this.mutations.share.bind(this.mutations),
+			onDelete: this.mutations.remove.bind(this.mutations)
 		});
 	}
 
+	/** Mounts stable refresh and filter listeners exactly once for this panel instance. */
+	initialize() {
+		this.element('activityRefresh').addEventListener('click', this.handleRefresh);
+		this.element('activityFilter').addEventListener('change', this.handleFilterChange);
+	}
+
+	/** Requests an announced refresh from the currently verified alias. */
+	handleRefresh() {
+		void this.load(true);
+	}
+
+	/** Updates local presentation filtering without refetching private activity. */
+	handleFilterChange(malchusEvent) {
+		this.timeline.setFilter(malchusEvent.target.value);
+		this.render(this.state.snapshot().activity);
+	}
+
+	/**
+	 * Loads retained activity and rejects stale cross-alias completions.
+	 * @param {boolean} [announce=false] Whether to show explicit refresh status.
+	 * @returns {Promise<object|null>} Current result, or null when unavailable, stale, or failed.
+	 */
 	async load(announce = false) {
-		const aliasId = this.state.snapshot().identity.aliasId;
-		if (!aliasId) return;
-		if (announce) this.status.show('Reading your private ledger…', 'working');
+		const yesodAliasId = String(this.state.snapshot().identity.aliasId || '');
+		if (!yesodAliasId) {
+			return null;
+		}
+
+		const netzachGeneration = ++this.netzachLoadGeneration;
+		if (announce) {
+			this.status.show('Reading your private ledger…', 'working');
+		}
+
 		try {
-			const result = await this.api.activity(aliasId, 300);
-			this.state.mutate('activity:loaded', value => {
-				value.activity = result.events || [];
-				value.preferences = result.preferences || value.preferences;
-			});
-			this.render(result.events || []);
-			if (announce) this.status.show('Private activity refreshed.', 'success');
-		} catch (error) {
-			this.status.show(error.message, 'error');
+			const binahResult = await this.api.activity(yesodAliasId, 300);
+			if (!this.isCurrent(netzachGeneration, yesodAliasId)) {
+				return null;
+			}
+			this.manifestResult(binahResult);
+			if (announce) {
+				this.status.show('Private activity refreshed.', 'success');
+			}
+			return binahResult;
+		} catch (orError) {
+			if (this.isCurrent(netzachGeneration, yesodAliasId)) {
+				this.status.show(orError.message, 'error');
+			}
+			return null;
 		}
 	}
 
-	render(events = []) {
-		const container = this.element('activityTimeline');
-		container.replaceChildren();
-		const filtered = this.filter === 'all'
-			? events
-			: events.filter(event => event.category === this.filter);
-		this.element('activityCount').textContent = String(filtered.length);
-		if (!filtered.length) {
-			const empty = document.createElement('p');
-			empty.className = 'emptyState';
-			empty.textContent = 'No retained events match this view.';
-			container.append(empty);
-			return;
+	/** Applies one current activity response to canonical state and timeline presentation. */
+	manifestResult(binahResult) {
+		const malchusEvents = binahResult.events || [];
+		const tiferesPreferences = binahResult.preferences;
+		function manifestMalchusActivity(malchusState) {
+			malchusState.activity = malchusEvents;
+			malchusState.preferences = tiferesPreferences || malchusState.preferences;
 		}
-		for (const event of filtered) {
-			container.append(activityCard({
-				document: this.root,
-				event,
-				onShare: (id, visibility) => this.share(id, visibility),
-				onDelete: id => this.remove(id)
-			}));
-		}
+		this.state.mutate('activity:loaded', manifestMalchusActivity);
+		this.render(malchusEvents);
 	}
 
-	async share(eventId, visibility) {
-		const aliasId = this.state.snapshot().identity.aliasId;
-		this.status.show('Saving event visibility…', 'working');
-		try {
-			await this.api.updateActivity(aliasId, eventId, { visibility });
-			await this.load(false);
-			this.status.show('Event sharing updated.', 'success');
-		} catch (error) {
-			this.status.show(error.message, 'error');
-		}
+	/** @returns {boolean} Whether a response still belongs to the current load generation and alias. */
+	isCurrent(netzachGeneration, yesodAliasId) {
+		return netzachGeneration === this.netzachLoadGeneration
+			&& this.state.snapshot().identity.aliasId === yesodAliasId;
 	}
 
-	async remove(eventId) {
-		const aliasId = this.state.snapshot().identity.aliasId;
-		this.status.show('Forgetting this event…', 'working');
-		try {
-			await this.api.deleteActivity(aliasId, eventId);
-			await this.load(false);
-			this.status.show('Event forgotten.', 'success');
-		} catch (error) {
-			this.status.show(error.message, 'error');
-		}
+	/** Delegates activity manifestation to the dedicated timeline view. */
+	render(malchusEvents = []) {
+		this.timeline.render(malchusEvents);
 	}
 
-	element(id) {
-		return this.root.getElementById(id);
+	/** @returns {HTMLElement} Required panel element by stable Social Hub ID. */
+	element(hodId) {
+		return this.root.getElementById(hodId);
 	}
 }

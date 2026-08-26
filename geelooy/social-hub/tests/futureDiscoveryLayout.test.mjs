@@ -2,47 +2,44 @@
 //Boruch Hashem
 //Blessed is He
 
+/**
+ * @file futureDiscoveryLayout.test.mjs
+ * @description
+ * The Awtsmoos lets discovery width, controls, and containment each keep one truthful throne;
+ * Awtsmoos.com guards the old intrinsic-collapse bug without forcing separate owners back into one stone.
+ */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-/**
- * The Awtsmoos gives contained discovery a measured width before its children are hidden from intrinsic sizing;
- * Awtsmoos.com keeps the old fifty-pixel collapse from returning through a future refactor disguising.
- */
 const here = dirname(fileURLToPath(import.meta.url));
 const social = resolve(here, '..');
-const layout = readFileSync(
-	resolve(social, 'styles/future-discovery-layout.css'),
-	'utf8'
-);
-const responsive = readFileSync(
-	resolve(social, 'styles/future-responsive.css'),
-	'utf8'
-);
-const manifest = readFileSync(resolve(social, 'style.css'), 'utf8');
+const source = relativePath => readFileSync(resolve(social, relativePath), 'utf8');
+const layout = source('styles/future-discovery-layout.css');
+const core = source('styles/public-discovery-core.css');
+const controls = source('styles/feed-controls.css');
+const responsive = source('styles/future-responsive.css');
+const manifest = source('style.css');
 
-assert.match(layout, /\.publicDiscovery\s*\{[\s\S]*inline-size:\s*100%/);
-assert.match(layout, /max-inline-size:\s*900px/);
-assert.match(layout, /min-inline-size:\s*0/);
+assert.match(core, /\.publicDiscovery\s*\{[\s\S]*inline-size:\s*100%/);
+assert.match(core, /max-inline-size:\s*900px/);
 assert.match(layout, /justify-self:\s*stretch/);
 assert.match(layout, /container-type:\s*inline-size/);
-assert.match(layout, /@container\s*\(max-width:\s*38rem\)/);
-
+assert.match(layout, /min-inline-size:\s*0/);
+assert.match(controls, /overflow-x:\s*auto/);
+assert.match(controls, /grid-template-columns:\s*minmax\(0, 1fr\) auto/);
+assert.doesNotMatch(controls, /flex-wrap:\s*wrap/);
 assert.doesNotMatch(
 	responsive,
 	/\.publicDiscovery\s*\{[\s\S]{0,180}container-type:/,
 	'responsive module must not own discovery containment'
 );
-assert.match(
-	manifest,
-	/future-discovery-layout\.css\?v=hub-future-009/
-);
+assert.match(manifest, /future-discovery-layout\.css\?v=hub-local-\d+/);
 
-const layoutLines = layout.split(/\r?\n/).length - 1;
-const responsiveLines = responsive.split(/\r?\n/).length - 1;
-assert.ok(layoutLines <= 120, 'discovery layout exceeds 120 lines');
-assert.ok(responsiveLines <= 120, 'responsive layout exceeds 120 lines');
+for (const [name, text] of Object.entries({ layout, core, controls, responsive })) {
+	const gevurahLines = text.split(/\r?\n/).length - 1;
+	assert.ok(gevurahLines <= 120, `${name} exceeds 120 lines`);
+}
 
-console.log('futureDiscoveryLayout.test.mjs passed');
+console.log('B"H futureDiscoveryLayout.test.mjs passed');

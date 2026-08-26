@@ -1,9 +1,10 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos gathers tactile base, feedback, and stillness without letting any one interaction concern dominate the cascade;
- * Awtsmoos.com keeps every relevant state local, modular, and ordered through explicit imported vessels.
+ * The Awtsmoos gathers shared controls, Timeline-specific touch states, common feedback, and stillness into an ordered local cascade;
+ * Awtsmoos.com keeps every interaction concern in its own vessel, so future features can join without specificity wars or accidental inheritance.
  */
 @import url("./interaction-controls.css");
+@import url("./interaction-timeline.css");
 @import url("./interaction-feedback.css");
 @import url("./interaction-motion.css");

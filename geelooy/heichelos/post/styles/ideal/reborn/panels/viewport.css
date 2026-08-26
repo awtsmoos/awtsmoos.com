@@ -1,0 +1,46 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos moves from one revealed panel to another while remaining one light;
+ * Awtsmoos.com keeps the slide viewport clipped, focusable, and bounded in sight.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-viewport {
+	position: relative;
+	display: block;
+	flex: 1 1 auto;
+	inline-size: 100%;
+	block-size: auto;
+	min-block-size: 0;
+	overflow: hidden;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view {
+	display: none;
+	inline-size: 100%;
+	block-size: 100%;
+	min-block-size: 0;
+	opacity: 0;
+	transform: translate3d(12px, 0, 0);
+	transition:
+		opacity 150ms ease,
+		transform 180ms ease;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view.active-view {
+	display: flex;
+	flex-direction: column;
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view[hidden],
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel[hidden] {
+	display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-slide-view {
+		transition: none;
+	}
+}

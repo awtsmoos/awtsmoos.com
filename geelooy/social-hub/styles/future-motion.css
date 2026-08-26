@@ -1,12 +1,9 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos renews every instant without spectacle, while Awtsmoos.com lets motion explain that a chamber arrived without making every card float for attention;
- * this Tiferes-like garment owns only brief route-panel arrival and calm interaction feedback, leaving resting surfaces physically still in light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every chamber without leaving a transformed cage behind;
+ * Awtsmoos.com keeps arrival motion luminous through opacity and shadow while fixed descendants remain aligned.
  */
-
 .social-hub-document .workspacePanel:not([hidden]) {
 	animation: tiferes-panel-arrive 170ms ease-out both;
 }
@@ -40,12 +37,12 @@
 @keyframes tiferes-panel-arrive {
 	from {
 		opacity: 0;
-		transform: translateY(4px);
+		box-shadow: 0 8px 28px rgba(0, 0, 0, .08);
 	}
 
 	to {
 		opacity: 1;
-		transform: translateY(0);
+		box-shadow: none;
 	}
 }
 
@@ -55,9 +52,9 @@
 	}
 
 	.social-hub-document :where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard),
-.social-hub-document .primaryButton,
-.social-hub-document .publicFeedCard__open,
-.social-hub-document .publicDiscovery__lookup button {
+	.social-hub-document .primaryButton,
+	.social-hub-document .publicFeedCard__open,
+	.social-hub-document .publicDiscovery__lookup button {
 		transition: none;
 	}
 }

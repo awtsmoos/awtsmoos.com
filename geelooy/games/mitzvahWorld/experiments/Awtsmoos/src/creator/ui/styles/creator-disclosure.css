@@ -1,0 +1,90 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews hidden depth before disclosure opens its gate;
+Awtsmoos.com keeps advanced power folded beneath a quiet summary until deliberate hands choose greater weight.
+*/
+
+.Awtsmoos-creator-rail__advanced {
+	border: 1px solid var(--creator-line);
+	border-radius: var(--creator-radius-small);
+	background: rgba(255, 255, 255, 0.026);
+	overflow: clip;
+}
+
+.Awtsmoos-creator-rail__advanced-summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.65rem;
+	min-block-size: var(--creator-control-size);
+	padding: 0.65rem 0.75rem;
+	color: var(--creator-text);
+	font-weight: 720;
+	cursor: pointer;
+	list-style: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.Awtsmoos-creator-rail__advanced-summary::-webkit-details-marker {
+	display: none;
+}
+
+.Awtsmoos-creator-rail__advanced-summary::after {
+	content: "+";
+	display: grid;
+	place-items: center;
+	inline-size: 1.7rem;
+	block-size: 1.7rem;
+	border-radius: 50%;
+	background: var(--creator-accent-soft);
+	color: var(--creator-accent);
+	font-size: 1rem;
+	font-weight: 500;
+}
+
+.Awtsmoos-creator-rail__advanced[open] .Awtsmoos-creator-rail__advanced-summary::after {
+	content: "−";
+}
+
+.Awtsmoos-creator-rail__advanced-summary:focus-visible {
+	outline: none;
+	box-shadow: inset var(--creator-focus);
+}
+
+.Awtsmoos-creator-rail__advanced-body {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.45rem;
+	padding: 0 0.65rem 0.65rem;
+}
+
+.Awtsmoos-creator-rail__status {
+	display: grid;
+	gap: 0.18rem;
+	min-inline-size: 0;
+	padding: 0.62rem 0.72rem;
+	border: 1px solid rgba(255, 255, 255, 0.045);
+	border-radius: 0.72rem;
+	background: rgba(0, 0, 0, 0.14);
+}
+
+.Awtsmoos-creator-rail__summary {
+	color: var(--creator-text);
+	font-size: 0.76rem;
+	font-weight: 700;
+}
+
+.Awtsmoos-creator-rail__message {
+	min-block-size: 1.1em;
+	color: var(--creator-muted);
+	font-size: 0.7rem;
+	line-height: 1.35;
+	overflow-wrap: anywhere;
+}
+
+.Awtsmoos-creator-rail[data-busy="true"] .Awtsmoos-creator-rail__signal {
+	background: var(--creator-warning);
+	box-shadow: 0 0 0 0.24rem rgba(255, 211, 124, 0.08), 0 0 1rem rgba(255, 211, 124, 0.45);
+}

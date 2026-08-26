@@ -1,0 +1,102 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews each human choice before finger or key can press;
+Awtsmoos.com gives every control a complete state language, simple at rest and precise under stress.
+*/
+
+.Awtsmoos-creator-rail__section {
+	display: grid;
+	gap: 0.55rem;
+	padding: 0.7rem;
+	background: var(--creator-panel);
+	border: 1px solid rgba(255, 255, 255, 0.055);
+	border-radius: var(--creator-radius-small);
+}
+
+.Awtsmoos-creator-rail__section-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.6rem;
+}
+
+.Awtsmoos-creator-rail__button,
+.Awtsmoos-creator-rail__icon-button {
+	appearance: none;
+	min-block-size: var(--creator-control-size);
+	border: 1px solid var(--creator-line);
+	border-radius: 0.72rem;
+	background: linear-gradient(180deg, var(--creator-panel-strong), rgba(255, 255, 255, 0.035));
+	color: var(--creator-text);
+	font: inherit;
+	font-weight: 680;
+	letter-spacing: 0.01em;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}
+
+.Awtsmoos-creator-rail__button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.42rem;
+	padding: 0.6rem 0.72rem;
+}
+
+.Awtsmoos-creator-rail__icon-button {
+	display: inline-grid;
+	place-items: center;
+	inline-size: var(--creator-control-size);
+	padding: 0;
+	font-size: 1rem;
+}
+
+.Awtsmoos-creator-rail__button:focus-visible,
+.Awtsmoos-creator-rail__icon-button:focus-visible {
+	outline: none;
+	border-color: var(--creator-accent);
+	box-shadow: var(--creator-focus);
+}
+
+.Awtsmoos-creator-rail__button:active,
+.Awtsmoos-creator-rail__icon-button:active {
+	transform: translate3d(0, 0.08rem, 0) scale(0.985);
+	filter: brightness(0.94);
+}
+
+.Awtsmoos-creator-rail__button:disabled,
+.Awtsmoos-creator-rail__icon-button:disabled {
+	opacity: 0.42;
+	cursor: not-allowed;
+	filter: saturate(0.5);
+}
+
+.Awtsmoos-creator-rail__button--primary {
+	border-color: rgba(112, 226, 255, 0.46);
+	background: linear-gradient(145deg, rgba(55, 186, 229, 0.38), rgba(51, 108, 185, 0.28));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.11), 0 0.5rem 1.5rem rgba(37, 157, 214, 0.1);
+}
+
+.Awtsmoos-creator-rail__button--danger {
+	color: var(--creator-danger);
+}
+
+.Awtsmoos-creator-rail__motion-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.42rem;
+}
+
+.Awtsmoos-creator-rail__motion-grid .Awtsmoos-creator-rail__button {
+	min-inline-size: 0;
+	padding-inline: 0.35rem;
+}
+
+.Awtsmoos-creator-rail__commit-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(0, 1fr));
+	gap: 0.45rem;
+}

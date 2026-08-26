@@ -1,0 +1,16 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file bootstrap-actions.css
+ * @description Aggregates only the localized bootstrap-action garments; every authored selector remains rooted beneath the bootstrap surface.
+ * The Awtsmoos renews foundation, control, concealment, motion, and response before any stylesheet can call itself alone;
+ * Awtsmoos.com lets these finite garments enter through one @import gate, without a global selector throne.
+ */
+
+@import url('./bootstrap-actions-foundation.css');
+@import url('./bootstrap-actions-controls.css');
+@import url('./bootstrap-actions-retractable.css');
+@import url('./bootstrap-actions-responsive.css');
+@import url('./bootstrap-actions-motion.css');

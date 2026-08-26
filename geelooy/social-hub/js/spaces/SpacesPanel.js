@@ -1,104 +1,85 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
 /**
- * @class SpacesPanel
- * @description
- * The Awtsmoos lets discovery, channels, activity, review, member governance, and browser memory share one current;
- * Awtsmoos.com keeps alias, Heichel, series, canonical posts, moderation, and hierarchy synchronized without duplicating truth.
+ * @file SpacesPanel.js
+ * @description Keeps the public Spaces panel contract while search and channel lifecycles live in stale-safe coordinators.
+ * The Awtsmoos is beyond community and channel; Awtsmoos.com lets Malchus remain a small doorway whose search
+ * and opening intentions travel into focused vessels, preserving old callers while making alias transitions trustworthy.
  */
-import { isCurrentSpaceRoute, spaceRouteUrl } from '../navigation/SpaceRouteState.js';
 import { ChannelActivityPanel } from './ChannelActivityPanel.js';
 import { MemberGovernancePanel } from './MemberGovernancePanel.js';
 import { ReviewQueuePanel } from './ReviewQueuePanel.js';
+import { SpacesChannelCoordinator } from './SpacesChannelCoordinator.js';
+import { SpacesSearchCoordinator } from './SpacesSearchCoordinator.js';
 import { SpacesView } from './SpacesView.js';
 
 export class SpacesPanel {
+	/** @param {object} keliParts Root, state, API, and status dependencies. */
 	constructor({ root, state, api, status }) {
 		Object.assign(this, { root, state, api, status });
 		this.view = new SpacesView(root);
 		this.activity = new ChannelActivityPanel({ root, api });
 		this.members = new MemberGovernancePanel({ root, state, api });
 		this.review = new ReviewQueuePanel({ root, state, api });
-		this.searchTimer = null;
-		this.openSequence = 0;
+		this.channels = new SpacesChannelCoordinator({
+			state,
+			api,
+			view: this.view,
+			activity: this.activity,
+			members: this.members,
+			review: this.review
+		});
+		this.search = new SpacesSearchCoordinator({
+			state,
+			api,
+			view: this.view,
+			onOpen: this.channels.open.bind(this.channels)
+		});
+		this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+		this.handleSearchInput = this.handleSearchInput.bind(this);
+		this.malchusSearchInput = null;
 	}
 
-	/** Creates the route surface and binds debounced community search. */
+	/** Creates the route surface and binds named community-search handlers. */
 	initialize() {
-		const panel = this.view.ensurePanel();
-		const form = panel.querySelector('.spacesSearch');
-		const input = panel.querySelector('#spacesSearchInput');
-		form?.addEventListener('submit', event => {
-			event.preventDefault();
-			void this.load(input?.value || '');
-		});
-		input?.addEventListener('input', event => this.queueSearch(event.target.value));
+		const malchusPanel = this.view.ensurePanel();
+		const malchusForm = malchusPanel.querySelector('.spacesSearch');
+		this.malchusSearchInput = malchusPanel.querySelector('#spacesSearchInput');
+		malchusForm?.addEventListener('submit', this.handleSearchSubmit);
+		this.malchusSearchInput?.addEventListener('input', this.handleSearchInput);
 		this.view.message('spaceDetail', 'Choose a community to open its channel tree.');
 	}
 
-	/** Loads communities for the currently selected alias. */
-	async load(query = '') {
-		const aliasId = this.state.snapshot().identity?.aliasId;
-		if (!aliasId) {
-			this.view.message('spacesResults', 'Choose an alias above to discover communities.');
-			return;
-		}
-		this.view.message('spacesResults', 'Loading live communities…');
-		try {
-			const destinations = await this.api.destinationApi.list(aliasId, query.trim());
-			if (!destinations.length) {
-				this.view.message('spacesResults', 'No matching communities yet. Create one in Composer.');
-				return;
-			}
-			this.view.destinations(destinations, (heichelId, seriesId) => {
-				void this.open(heichelId, seriesId);
-			});
-		} catch (error) {
-			this.view.message('spacesResults', error.message || 'Community discovery is unavailable.');
-		}
+	/** Submits the current search immediately through the stale-safe search coordinator. */
+	handleSearchSubmit(malchusEvent) {
+		malchusEvent.preventDefault();
+		void this.load(this.malchusSearchInput?.value || '');
 	}
 
-	/** Opens one channel, then hydrates public and capability-gated community surfaces independently. */
-	async open(heichelId, seriesId = 'root', options = {}) {
-		const aliasId = this.state.snapshot().identity?.aliasId;
-		if (!aliasId || !heichelId) return;
-		const requestId = ++this.openSequence;
-		if (options.writeHistory !== false && !isCurrentSpaceRoute(heichelId, seriesId)) {
-			history.pushState(null, '', spaceRouteUrl(heichelId, seriesId));
-		}
-		this.view.message('spaceDetail', 'Opening community channel…');
-		try {
-			const detail = await this.api.destinationApi.detail(aliasId, heichelId, seriesId);
-			if (requestId !== this.openSequence) return;
-			this.view.detail(detail, (nextHeichel, nextSeries) => {
-				void this.open(nextHeichel, nextSeries);
-			});
-			const context = {
-				heichelId: detail.heichel.heichelId,
-				seriesId: detail.series.seriesId || seriesId || 'root'
-			};
-			void this.activity.load(context);
-			void this.members.load(context);
-			void this.review.load(context);
-		} catch (error) {
-			this.view.message('spaceDetail', error.message || 'This community channel could not be opened.');
-		}
+	/** Queues one bounded search as text input changes. */
+	handleSearchInput(malchusEvent) {
+		this.search.queue(malchusEvent.target.value);
 	}
 
-	/** Restores one Space coordinate from browser history without mutating history again. */
-	async restore(space = {}) {
-		if (!space.heichelId) {
-			this.view.message('spaceDetail', 'Choose a community to open its channel tree.');
-			return;
-		}
-		await this.open(space.heichelId, space.seriesId || 'root', { writeHistory: false });
+	/** Preserves the historic SpacesPanel list-loading contract. */
+	load(chochmahQuery = '') {
+		return this.search.load(chochmahQuery);
 	}
 
-	queueSearch(value) {
-		clearTimeout(this.searchTimer);
-		this.searchTimer = setTimeout(() => {
-			void this.load(value);
-		}, 180);
+	/** Preserves the historic SpacesPanel channel-opening contract. */
+	open(yesodHeichelId, yesodSeriesId = 'root', gevurahOptions = {}) {
+		return this.channels.open(yesodHeichelId, yesodSeriesId, gevurahOptions);
+	}
+
+	/** Preserves the historic browser-history restoration contract. */
+	restore(tiferesSpace = {}) {
+		return this.channels.restore(tiferesSpace);
+	}
+
+	/** Preserves the historic debounced-search helper contract for external callers. */
+	queueSearch(chochmahQuery) {
+		this.search.queue(chochmahQuery);
 	}
 }

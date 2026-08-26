@@ -4,9 +4,9 @@
 
 /**
  * @file natureApiRockSurface.test.mjs
- * @description Proves the simple Nature doors remain deterministic, bounded, local-first, and compatible with the mature facade.
- * The Awtsmoos renews every test run from nothing; Awtsmoos.com asks these witnesses to show that apparent randomness keeps its seed,
- * distant textures remain optional, caller data stays untouched, and new stone vessels do not close the older gates of life and water.
+ * @description Proves simple rock and material doors stay deterministic while the geology vocabulary can grow without erasing legacy morphology.
+ * The Awtsmoos renews every stone before old name and new stratum appear divided; Awtsmoos.com asks these witnesses to preserve
+ * compatibility, geological expansion, deterministic shape, bounded fields, and local-first material truth in one organized covenant.
  */
 
 import assert from 'node:assert/strict';
@@ -17,20 +17,27 @@ import {
 	createNatureSurfacePlan
 } from '../src/core/natureApi/index.js';
 
-/** Extracts a compact immutable geometry witness without comparing whole meshes. */
+/** Extracts a compact immutable geometry witness without comparing complete generated meshes. */
 function geometryWitness(malchusResult) {
 	return malchusResult.value.rock.mesh.faces
 		.slice(0, 5)
 		.flatMap(hodFace => hodFace.vertices.map(netzachVertex => netzachVertex.pos));
 }
 
-test('B"H | rock morphology catalog exposes stable named vessels', () => {
+/** Proves legacy morphology names remain ordered while geology-native presets may extend the same expert vocabulary. */
+test('B"H | rock morphology catalog preserves legacy vessels and geology-native expansion', () => {
+	const keterMorphologies = listRockMorphologies();
 	assert.deepEqual(
-		listRockMorphologies(),
+		keterMorphologies.slice(0, 4),
 		['fieldstone', 'boulder', 'riverstone', 'shard']
 	);
+	for (const chochmahGeology of ['granite', 'basalt', 'sandstone', 'limestone', 'volcanic', 'talus', 'glacial']) {
+		assert.ok(keterMorphologies.includes(chochmahGeology), `${chochmahGeology} should remain discoverable`);
+	}
+	assert.equal(new Set(keterMorphologies).size, keterMorphologies.length);
 });
 
+/** Proves identical seeds produce identical geometry without mutating caller-owned recipe data. */
 test('B"H | nature.rock is deterministic and keeps caller recipes untouched', () => {
 	const keterApi = createNatureApi({ quality: 'low', realism: 'extreme', seed: 'garden' });
 	const chochmahRecipe = { radius: 1.4, surfaceRole: 'weatheredRock' };
@@ -43,6 +50,7 @@ test('B"H | nature.rock is deterministic and keeps caller recipes untouched', ()
 	assert.equal(chesedFirst.value.surface.hydration.failureMode, 'keep-local');
 });
 
+/** Proves field planning remains finite, deterministic, and bounded by caller count. */
 test('B"H | nature.rockField is deterministic, finite, and bounded by requested count', () => {
 	const keterApi = createNatureApi({ seed: 613 });
 	const chochmahOptions = { count: 36, radius: 9, minSpacing: 0.8, seed: 'field-a' };
@@ -53,6 +61,7 @@ test('B"H | nature.rockField is deterministic, finite, and bounded by requested 
 	assert.ok(binahFirst.value.placements.placedCount > 0);
 });
 
+/** Proves semantic surfaces expose remote potential without performing hidden I/O. */
 test('B"H | semantic surfaces support remote and procedural-only roles without I/O', () => {
 	const keterRock = createNatureSurfacePlan('weatheredRock');
 	const chochmahGlass = createNatureSurfacePlan('glass');
@@ -62,6 +71,7 @@ test('B"H | semantic surfaces support remote and procedural-only roles without I
 	assert.equal(chochmahGlass.local.transmission, 0.88);
 });
 
+/** Proves the expanded facade keeps mature specialist domains and direct ergonomic doors together. */
 test('B"H | expanded facade preserves mature domains and adds simple doors', () => {
 	const keterApi = createNatureApi({ seed: 42 });
 	for (const daasMethod of ['creature', 'plant', 'grass', 'tree', 'river', 'world', 'flowers', 'rock', 'rockField', 'surface', 'with']) {

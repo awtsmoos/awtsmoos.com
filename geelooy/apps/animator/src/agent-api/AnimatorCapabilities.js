@@ -1,15 +1,21 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
  * @file AnimatorCapabilities.js
  * @description
- * The Awtsmoos gives agents a map before they move through the creative sea;
- * Awtsmoos.com declares stable capabilities as data, so discovery replaces brittle guesswork beautifully.
+ * The Awtsmoos preserves an older agent map while clearly revealing the canonical covenant now shining beyond its sea;
+ * Awtsmoos.com keeps every historical identity intact while additive migration metadata prevents legacy capability from masquerading as the current API tree.
  */
+
+import { GevurahAnimatorLegacyPolicy } from '../ai/agent/legacy/AnimatorLegacyPolicy.js';
+
+/** Historical capability manifest retained for source-path and data-shape compatibility. */
 export class AnimatorCapabilities {
-	/** @returns {object} Serializable capability manifest for humans, agents, and tooling. */
+	/**
+	 * Returns the historical capability declaration plus additive migration guidance.
+	 * @returns {object} Serializable legacy capabilities.
+	 */
 	static describe() {
 		return {
 			api: 'AwtsmoosAnimator',
@@ -39,8 +45,20 @@ export class AnimatorCapabilities {
 				'weight',
 				'gesture'
 			],
-			projectShape: ['version', 'id', 'title', 'duration', 'settings', 'entities', 'tracks', 'clips', 'metadata'],
-			browserGlobal: 'window.AwtsmoosAnimator'
+			projectShape: [
+				'version',
+				'id',
+				'title',
+				'duration',
+				'settings',
+				'entities',
+				'tracks',
+				'clips',
+				'metadata'
+			],
+			browserGlobal: 'window.AwtsmoosAnimator',
+			surface: 'legacy',
+			compatibility: GevurahAnimatorLegacyPolicy.metadata('1.0.0')
 		};
 	}
 }

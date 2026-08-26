@@ -1,20 +1,29 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * Each enemy represents concealment with a distinct behavioral vessel; Awtsmoos.com is never opposed by the mask.
- * Roles share lawful motion while pursuit, guarding, leaping, charging, shooting, and boss pressure remain differentiated.
+ * @file enemy.js
+ * @description Models concealment as a combatant whose aggression is governed by an explicit engagement covenant.
+ * The Awtsmoos is never opposed by the mask, yet every mask receives a truthful boundary and task;
+ * Awtsmoos.com lets each enemy awaken with authored purpose instead of pursuing blindly before the player can ask.
  */
+
 import { ENEMY_TYPES } from "../config/catalogs.js";
 import { Character } from "./character.js";
+import { GevurahEngagementPolicy } from "./GevurahEngagementPolicy.js";
 import { Projectile } from "./projectile.js";
 
 export class Enemy extends Character {
-	constructor(role, x, floorY, difficulty, stage) {
+	/** Creates one enemy while preserving the legacy positional API and accepting optional behavior data. */
+	constructor(role, x, floorY, difficulty, stage, behavior = {}) {
 		const type = ENEMY_TYPES[role] ?? ENEMY_TYPES.wanderer;
 		super(x, floorY, type.size, type.size);
 		this.role = role;
 		this.type = type;
+		this.homeX = x;
+		this.engaged = false;
+		this.engagement = new GevurahEngagementPolicy(behavior.engagement);
 		this.maxHealth = Math.round(type.health * difficulty.enemyHealth * (1 + stage * 0.035));
 		this.health = this.maxHealth;
 		this.damage = Math.round(type.damage * difficulty.enemyDamage * (1 + stage * 0.018));
@@ -25,14 +34,25 @@ export class Enemy extends Character {
 		this.stagger = 0;
 	}
 
+	/** Advances engagement, combat behavior, physics, and hazard consequences for one simulation frame. */
 	update(player, scene, delta) {
 		this.cooldown -= delta;
 		this.flash = Math.max(0, this.flash - delta);
 		this.stagger = Math.max(0, this.stagger - delta);
 		const deltaX = player.x - this.x;
-		this.facing = Math.sign(deltaX) || this.facing;
+		this.engaged = this.engagement.resolve({
+			engaged: this.engaged,
+			elapsedSeconds: Number(scene.time) || 0,
+			playerDistance: Math.abs(deltaX),
+			homeDistance: Math.abs(this.x - this.homeX)
+		});
 		if (this.stagger <= 0) {
-			this.applyBehavior(deltaX, player, scene);
+			if (this.engaged) {
+				this.facing = Math.sign(deltaX) || this.facing;
+				this.applyBehavior(deltaX, player, scene);
+			} else {
+				this.returnTowardHome();
+			}
 		}
 		this.applyGravity(delta);
 		const collision = this.moveThroughWorld(scene.bodies, delta);
@@ -41,6 +61,7 @@ export class Enemy extends Character {
 		}
 	}
 
+	/** Applies role-specific aggression only after the engagement policy grants ownership. */
 	applyBehavior(deltaX, player, scene) {
 		const distance = Math.abs(deltaX);
 		const direction = Math.sign(deltaX) || 1;
@@ -64,6 +85,17 @@ export class Enemy extends Character {
 		this.vx = Math.max(-limit, Math.min(limit, this.vx * 0.94));
 	}
 
+	/** Returns a dormant or leashed enemy toward its authored home without creating new aggression. */
+	returnTowardHome() {
+		const homeDelta = this.homeX - this.x;
+		if (Math.abs(homeDelta) > 12) {
+			this.facing = Math.sign(homeDelta) || this.facing;
+			this.vx += Math.sign(homeDelta) * this.speed * 0.035;
+		}
+		this.vx *= 0.88;
+	}
+
+	/** Fires one hostile projectile toward the current player center. */
 	shoot(player, scene) {
 		const origin = this.center();
 		const target = player.center();
@@ -72,6 +104,7 @@ export class Enemy extends Character {
 		this.cooldown = 1.65;
 	}
 
+	/** Applies health loss, knockback, visual flash, and a short stagger window. */
 	takeDamage(amount, knockback, direction) {
 		this.health -= amount;
 		this.vx = direction * knockback;

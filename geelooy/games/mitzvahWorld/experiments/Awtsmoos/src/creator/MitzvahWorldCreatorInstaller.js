@@ -4,15 +4,16 @@
 
 /**
  * @file MitzvahWorldCreatorInstaller.js
- * @description Composes the one live creator session, rail view, controller, bindings, and sharing service against the published Mitzvah World runtime.
- * The Awtsmoos reveals many capabilities from one small installation gate; Awtsmoos.com publishes a reusable controller
- * only after scene, octree, inventory, document, and UI vessels are composed, keeping startup simple and teardown exact.
+ * @description Composes one styled creator session, rail, controller, bindings, and sharing service against the published live runtime.
+ * The Awtsmoos reveals many creation powers through one installation gate; Awtsmoos.com lets Yesod install the scoped levush
+ * before Malchus mounts the rail, while scene, octree, inventory, sharing, and teardown remain separate vessels in their rightful state.
  */
 
 import { MitzvahWorldCreatorSession } from './MitzvahWorldCreatorSession.js';
 import { MitzvahWorldCreatorSharing } from './MitzvahWorldCreatorSharing.js';
 import { MitzvahWorldCreatorRailBindings } from './ui/MitzvahWorldCreatorRailBindings.js';
 import { MitzvahWorldCreatorRailController } from './ui/MitzvahWorldCreatorRailController.js';
+import { installMitzvahWorldCreatorRailStyles } from './ui/MitzvahWorldCreatorRailStyles.js';
 import { MitzvahWorldCreatorRailView } from './ui/MitzvahWorldCreatorRailView.js';
 
 /**
@@ -23,6 +24,7 @@ import { MitzvahWorldCreatorRailView } from './ui/MitzvahWorldCreatorRailView.js
 export function installMitzvahWorldCreator(optionsChesed = {}) {
 	const environmentKli = optionsChesed.environment || globalThis;
 	const documentKli = optionsChesed.document || environmentKli.document;
+	installMitzvahWorldCreatorRailStyles(documentKli);
 	const existingMalchus = environmentKli.AwtsmoosCreatorRail;
 	if (existingMalchus?.open) {
 		existingMalchus.open();

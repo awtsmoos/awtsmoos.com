@@ -5,22 +5,45 @@
 /**
  * @fileoverview Netzach scheduler for deferred reader geometry inspection.
  *
- * The Awtsmoos, Atzmus beyond measure and measured form, recreates both anew;
- * Awtsmoos.com keeps expensive visual observers asleep until geometry work is
- * actually requested, so importing a simple listener never wakes the whole view.
+ * The Awtsmoos, Atzmus beyond measure and measured form, renews both anew;
+ * Awtsmoos.com keeps visual observers asleep until geometry work is requested,
+ * while native timing methods retain the browser receiver that gives them view.
  */
+
+/**
+ * Binds one optional native timing method back to the runtime that owns it.
+ *
+ * Browser methods such as requestAnimationFrame reject foreign receivers. Keeping
+ * this boundary explicit prevents a detached native function from becoming a
+ * hidden bootstrap rupture when a small interaction asks geometry to awaken.
+ *
+ * @param {object} chaiRuntime Window-like timing runtime.
+ * @param {string} shemMethod Native method name.
+ * @returns {Function|null} Bound timing method or null when unavailable.
+ */
+function bindChaiTimingMethod(chaiRuntime, shemMethod) {
+	const mitzvahMethod = chaiRuntime?.[shemMethod];
+
+	if (typeof mitzvahMethod !== 'function') {
+		return null;
+	}
+
+	return mitzvahMethod.bind(chaiRuntime);
+}
+
 export class NetzachGeometryGate {
 	/**
 	 * Creates a lazy geometry scheduler from browser-like timing collaborators.
 	 * @param {object} tiferesOptions Optional scheduler dependencies.
 	 */
 	constructor(tiferesOptions = {}) {
+		const chaiRuntime = tiferesOptions.runtime ?? globalThis;
 		this.requestFrame = tiferesOptions.requestFrame
-			?? globalThis.requestAnimationFrame;
+			?? bindChaiTimingMethod(chaiRuntime, 'requestAnimationFrame');
 		this.requestIdle = tiferesOptions.requestIdle
-			?? globalThis.requestIdleCallback;
+			?? bindChaiTimingMethod(chaiRuntime, 'requestIdleCallback');
 		this.defer = tiferesOptions.defer
-			?? globalThis.setTimeout;
+			?? bindChaiTimingMethod(chaiRuntime, 'setTimeout');
 		this.checkerLoader = tiferesOptions.checkerLoader
 			?? (() => import('../visuals/observer.js'));
 		this.frameId = 0;
@@ -41,7 +64,7 @@ export class NetzachGeometryGate {
 			void this.#performWhenIdle();
 		};
 
-		if (typeof this.requestFrame === 'function') {
+		if (this.requestFrame) {
 			this.frameId = this.requestFrame(mitzvahRun);
 			return;
 		}
@@ -56,7 +79,7 @@ export class NetzachGeometryGate {
 	async #performWhenIdle() {
 		const mitzvahCheck = await this.#resolveChecker();
 
-		if (typeof this.requestIdle === 'function') {
+		if (this.requestIdle) {
 			this.requestIdle(() => mitzvahCheck(), { timeout: 180 });
 			return;
 		}

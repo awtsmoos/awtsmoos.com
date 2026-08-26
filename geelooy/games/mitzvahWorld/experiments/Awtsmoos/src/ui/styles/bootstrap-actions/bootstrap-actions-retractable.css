@@ -1,0 +1,40 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file bootstrap-actions-retractable.css
+ * @description Owns only expanded/collapsed visual geometry for the bootstrap panel while semantic focus safety remains in the Binah disclosure controller.
+ * The Awtsmoos renews concealment without exile and revelation without clutter;
+ * Awtsmoos.com lets one compact header remain while the fuller controls fold into a measured, conflict-free vessel.
+ */
+
+.minimal-meadow-bootstrap-actions__panel {
+	transition:
+		grid-template-rows 190ms ease,
+		opacity 160ms ease,
+		transform 190ms ease;
+	transform-origin: bottom center;
+}
+
+.minimal-meadow-bootstrap-actions[data-expanded='false'] {
+	max-inline-size: 14rem;
+}
+
+.minimal-meadow-bootstrap-actions[data-expanded='false'] .minimal-meadow-bootstrap-actions__panel {
+	grid-template-rows: 0fr;
+	opacity: 0;
+	transform: translateY(0.3rem) scale(0.985);
+}
+
+.minimal-meadow-bootstrap-actions[data-expanded='false'] .minimal-meadow-bootstrap-actions__toggle::before {
+	transform: rotate(0deg);
+}
+
+.minimal-meadow-bootstrap-actions[data-expanded='false'] .minimal-meadow-bootstrap-actions__eyebrow {
+	display: none;
+}
+
+.minimal-meadow-bootstrap-actions[data-expanded='false'] .minimal-meadow-bootstrap-actions__title {
+	font-size: 0.86rem;
+}

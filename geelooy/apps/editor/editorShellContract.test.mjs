@@ -18,12 +18,13 @@ const ohrShell = seferSource("./index.html");
 const ohrManifest = seferSource("./style.css");
 const ohrMobile = seferSource("./styles/mobile.css");
 const ohrFeedback = seferSource("./styles/interaction-feedback.css");
+const ohrTimelineInteraction = seferSource("./styles/interaction-timeline.css");
 const ohrMotion = seferSource("./styles/interaction-motion.css");
 const ohrBasePanel = seferSource("./src/UI/BasePanel.js");
 const ohrCss = [
 	"foundation", "toolbar", "panels", "panels-tree", "panels-properties",
-	"timeline", "timeline-shell", "timeline-tracks", "mobile", "interactions",
-	"interaction-controls", "interaction-feedback", "interaction-motion"
+	"timeline", "timeline-shell", "timeline-tracks", "timeline-touch", "mobile", "interactions",
+	"interaction-controls", "interaction-timeline", "interaction-feedback", "interaction-motion"
 ].map(shem => seferSource(`./styles/${shem}.css`)).join("\n");
 
 test("shell restores zoom freedom, route scope, vendor boundaries, and CompactJS entry", () => {
@@ -61,11 +62,12 @@ test("phone geometry owns internal overflow and real touch targets", () => {
 	assert.match(ohrMobile, /awtsmoos-editor-sheet-reveal 180ms/);
 });
 
-test("relevant Editor controls have hover active focus and reduced-motion contracts", () => {
+test("shared and Timeline controls have localized hover active focus and reduced-motion contracts", () => {
 	assert.match(ohrFeedback, /#toolbar button:not\(:disabled\):hover/);
 	assert.match(ohrFeedback, /#toolbar button:not\(:disabled\):active/);
 	assert.match(ohrFeedback, /\.panel-header:focus-visible/);
-	assert.match(ohrFeedback, /\.timeline-keyframe:active/);
+	assert.match(ohrTimelineInteraction, /\.timeline-keyframe:active/);
+	assert.match(ohrTimelineInteraction, /\.timeline-keyframe:focus-visible/);
 	assert.match(ohrMotion, /prefers-reduced-motion: reduce/);
 	assert.doesNotMatch(ohrMotion, /!important/);
 });

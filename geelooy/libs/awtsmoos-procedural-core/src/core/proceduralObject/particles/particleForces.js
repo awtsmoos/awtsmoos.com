@@ -1,88 +1,116 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/** Forces are explicit vectors; no invisible engine hand moves the particles. */
 
-import { normalizeVector, scaleVector } from "../geometry/vectorMath.js";
+/**
+ * @file particleForces.js
+ * @description Coordinates canonical particle force families while delegating specialized mathematics to small focused modules.
+ * The Awtsmoos is beyond gravity, wind, heat, vortex, orbit, and every apparent power that moves a finite mote;
+ * Awtsmoos.com lets Daas dispatch each force by name while Gevurah keeps the coordinator small and every specialist independently extensible.
+ */
+import { normalizeVector } from "../geometry/vectorMath.js";
 import { sampleField } from "../fields/sampleField.js";
+import {
+	centeredParticleForce,
+	crossParticleVectors,
+	directionalParticleForce,
+	subtractParticleVectors
+} from "./particleForceMath.js";
+import { sampleOrbitParticleForce } from "./particleOrbitForce.js";
+import { sampleThermalParticleForce } from "./particleThermalForce.js";
 import { sampleParticleTurbulence } from "./particleTurbulence.js";
 
-function subtract(left, right) {
-	return left.map((value, axis) => value - right[axis]);
-}
-
-function cross(left, right) {
-	return [
-		left[1] * right[2] - left[2] * right[1],
-		left[2] * right[0] - left[0] * right[2],
-		left[0] * right[1] - left[1] * right[0]
-	];
-}
-
-function directionalForce(vector, strength, mass = 1) {
-	return normalizeVector(vector).map(value => value * strength * mass);
-}
-
-function centerForce(force, particle, outward) {
-	const center = force.center ?? [0, 0, 0];
-	const delta = outward
-		? subtract(particle.position, center)
-		: subtract(center, particle.position);
-	const distance = Math.max(1e-9, Math.hypot(...delta));
-	const falloff = Math.max(0, Number(force.falloff ?? 1));
-	const softening = Math.max(1e-9, Number(force.softening ?? 1));
-	const strength = Number(force.strength ?? 1) * particle.mass
-		/ (softening + distance ** falloff);
-	return directionalForce(delta, strength);
-}
-
-/** Samples one declared force in O(1), or delegates to a field sampler. */
-export function sampleParticleForce(force, particle, context = {}) {
-	const type = force.type ?? "gravity";
-	if (type === "gravity") {
-		return (force.vector ?? [0, -9.81, 0]).map(value => value * particle.mass);
+/**
+ * Samples one declared force in O(1), or delegates to a field/specialist sampler.
+ * @param {object} keterForce - Canonical force descriptor.
+ * @param {object} chochmahParticle - Immutable particle being sampled.
+ * @param {object} [binahContext={}] - Time, seed, and world-field context.
+ * @returns {number[]} Three-component force vector.
+ */
+export function sampleParticleForce(keterForce, chochmahParticle, binahContext = {}) {
+	const gevurahType = keterForce.type ?? "gravity";
+	if (gevurahType === "gravity") {
+		return (keterForce.vector ?? [0, -9.81, 0]).map((value) => {
+			return value * chochmahParticle.mass;
+		});
 	}
-	if (type === "drag") {
-		return particle.velocity.map(value => -value * Number(force.coefficient ?? 0.1));
+	if (gevurahType === "drag") {
+		return chochmahParticle.velocity.map((value) => {
+			return -value * Number(keterForce.coefficient ?? 0.1);
+		});
 	}
-	if (type === "wind") {
-		const relative = subtract(force.vector ?? [0, 0, 0], particle.velocity);
-		return relative.map(value => value * Number(force.coefficient ?? 0.4));
+	if (gevurahType === "wind") {
+		const tiferesRelative = subtractParticleVectors(
+			keterForce.vector ?? [0, 0, 0],
+			chochmahParticle.velocity
+		);
+		return tiferesRelative.map((value) => {
+			return value * Number(keterForce.coefficient ?? 0.4);
+		});
 	}
-	if (type === "buoyancy") {
-		return directionalForce(
-			force.direction ?? [0, 1, 0],
-			Number(force.strength ?? 9.81) * Number(force.displacedDensity ?? 1),
-			particle.mass
+	if (gevurahType === "buoyancy") {
+		return directionalParticleForce(
+			keterForce.direction ?? [0, 1, 0],
+			Number(keterForce.strength ?? 9.81) * Number(keterForce.displacedDensity ?? 1),
+			chochmahParticle.mass
 		);
 	}
-	if (type === "turbulence") {
-		return sampleParticleTurbulence(particle.position, {
-			...force,
-			time: context.time,
-			seed: force.seed ?? context.seed
-		}).map(value => value * Number(force.strength ?? 1) * particle.mass);
+	if (gevurahType === "thermalBuoyancy") {
+		return sampleThermalParticleForce(keterForce, chochmahParticle);
 	}
-	if (type === "field") {
-		return sampleField(force.field, { ...context, position: particle.position });
+	if (gevurahType === "orbit") {
+		return sampleOrbitParticleForce(keterForce, chochmahParticle);
 	}
-	if (type === "radial") return centerForce(force, particle, true);
-	if (type === "attractor") return centerForce(force, particle, false);
-	if (type === "vortex") {
-		const center = force.center ?? [0, 0, 0];
-		const radius = subtract(particle.position, center);
-		const tangent = cross(normalizeVector(force.axis ?? [0, 1, 0]), radius);
-		return directionalForce(tangent, Number(force.strength ?? 1), particle.mass);
+	if (gevurahType === "turbulence") {
+		return sampleParticleTurbulence(chochmahParticle.position, {
+			...keterForce,
+			seed: keterForce.seed ?? binahContext.seed,
+			time: binahContext.time
+		}).map((value) => {
+			return value * Number(keterForce.strength ?? 1) * chochmahParticle.mass;
+		});
 	}
-	throw new TypeError(`Unsupported particle force: ${type}`);
+	if (gevurahType === "field") {
+		return sampleField(keterForce.field, {
+			...binahContext,
+			position: chochmahParticle.position
+		});
+	}
+	if (gevurahType === "radial") {
+		return centeredParticleForce(keterForce, chochmahParticle, true);
+	}
+	if (gevurahType === "attractor") {
+		return centeredParticleForce(keterForce, chochmahParticle, false);
+	}
+	if (gevurahType === "vortex") {
+		return sampleVortex(keterForce, chochmahParticle);
+	}
+	throw new TypeError(`B"H | Unsupported particle force: ${gevurahType}`);
 }
 
 /** Adds a declared force stack in canonical array order. */
-export function sumParticleForces(forces, particle, context = {}) {
-	const total = [0, 0, 0];
-	for (const force of forces) {
-		const sampled = sampleParticleForce(force, particle, context);
-		for (let axis = 0; axis < 3; axis += 1) total[axis] += sampled[axis];
+export function sumParticleForces(keterForces, chochmahParticle, binahContext = {}) {
+	const gevurahTotal = [0, 0, 0];
+	for (const tiferesForce of keterForces) {
+		const netzachSample = sampleParticleForce(tiferesForce, chochmahParticle, binahContext);
+		for (let hodAxis = 0; hodAxis < 3; hodAxis += 1) {
+			gevurahTotal[hodAxis] += netzachSample[hodAxis];
+		}
 	}
-	return total;
+	return gevurahTotal;
+}
+
+/** Samples canonical tangential vortex force while preserving the historical contract. */
+function sampleVortex(keterForce, chochmahParticle) {
+	const chochmahCenter = keterForce.center ?? [0, 0, 0];
+	const binahRadius = subtractParticleVectors(chochmahParticle.position, chochmahCenter);
+	const gevurahTangent = crossParticleVectors(
+		normalizeVector(keterForce.axis ?? [0, 1, 0]),
+		binahRadius
+	);
+	return directionalParticleForce(
+		gevurahTangent,
+		Number(keterForce.strength ?? 1),
+		chochmahParticle.mass
+	);
 }

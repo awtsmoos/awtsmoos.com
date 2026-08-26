@@ -1,28 +1,31 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
-import { AnimatorAgentApi } from './AnimatorAgentApi.js';
-
 /**
  * @file AnimatorAgentBridge.js
  * @description
- * The Awtsmoos turns a deep module graph into one discoverable browser covenant;
- * Awtsmoos.com lets any agent begin from `window.AwtsmoosAnimator` without DOM archaeology or duplicated state.
+ * The Awtsmoos lets an old bridge remain crossable without letting it replace the canonical road of light;
+ * Awtsmoos.com preserves historical installation code while protecting `window.AwtsmoosAnimator` whenever the modern protocol is already right.
  */
+
+import { GevurahAnimatorLegacyPolicy } from '../ai/agent/legacy/AnimatorLegacyPolicy.js';
+import { AnimatorAgentApi } from './AnimatorAgentApi.js';
+
+/** Historical browser bridge retained without permission to replace a canonical installation. */
 export class AnimatorAgentBridge {
-	/** @param {object} app Live Animator application. @returns {AnimatorAgentApi} Installed public facade. */
+	/** @param {object} app Live Animator application. @returns {AnimatorAgentApi} Legacy facade instance. */
 	static install(app) {
-		const api = new AnimatorAgentApi(app);
+		const keterLegacy = new AnimatorAgentApi(app);
+		if (GevurahAnimatorLegacyPolicy.canonicalInstalled(window)) return keterLegacy;
 		Object.defineProperty(window, 'AwtsmoosAnimator', {
 			configurable: true,
 			enumerable: false,
 			writable: false,
-			value: api
+			value: keterLegacy
 		});
 		window.dispatchEvent(new CustomEvent('awtsmoos-animator-api-ready', {
-			detail: api.capabilities()
+			detail: keterLegacy.capabilities()
 		}));
-		return api;
+		return keterLegacy;
 	}
 }

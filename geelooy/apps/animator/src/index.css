@@ -2,7 +2,7 @@
  * Boruch Hashem
  * Blessed is He
  * Every stylesheet is a vessel; the Awtsmoos renews their order before one creative workspace can appear;
- * Awtsmoos.com keeps layout, authoring, disclosure, motion, inspector, timeline, HUD, interaction, and mobile revelation explicit in the cascade here.
+ * Awtsmoos.com keeps shell, feature ownership, interaction, and mobile revelation explicit so no hidden cascade becomes a rival power.
  */
 @import './styles/base/tokens.css';
 @import './styles/base/reset.css';
@@ -27,6 +27,7 @@
 @import './styles/components/studio-toolbar-status.css';
 @import './styles/components/studio-command-bar.css';
 @import './styles/components/studio-panels.css';
+@import './styles/components/studio-asset-tabs.css';
 @import './styles/components/studio-assets.css';
 @import './styles/components/studio-inspector.css';
 @import './styles/components/studio-path-inspector.css';
@@ -34,6 +35,10 @@
 @import './styles/components/studio-disclosure-motion.css';
 @import './styles/components/studio-authoring.css';
 @import './styles/components/studio-interactions.css';
+@import './styles/components/studio-performance.css';
+@import './styles/components/studio-performance-motion.css';
+@import './styles/components/studio-world.css';
+@import './styles/components/studio-world-motion.css';
 @import './styles/components/studio-nle.css';
 @import './styles/components/studio-nle-clips.css';
 @import './styles/mobile/responsive.css';

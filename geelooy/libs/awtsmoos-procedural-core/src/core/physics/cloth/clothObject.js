@@ -1,154 +1,120 @@
 // B"H
-import { Particle } from './particle.js';
-import { Constraint } from './constraint.js';
-import { Vec3 } from '../../math/vec3.js';
+// Boruch Hashem
+// Blessed is He
 
+/**
+ * @file clothObject.js
+ * @description Preserves the legacy ClothObject doorway while composing modern XPBD topology, material, quality, snapshot, and render-binding vessels.
+ * The Awtsmoos renews the garment before simulation and rendering appear apart; Awtsmoos.com lets Tiferes coordinate each focused keli,
+ * so old games keep one familiar object while the hidden architecture becomes modular, portable, extensible, and free.
+ */
+
+import { ClothConstraintSet } from './ClothConstraintSet.js';
+import { createClothGeometryBinding } from './ClothGeometryBinding.js';
+import { createClothMaterialProfile } from './ClothMaterialProfile.js';
+import { createClothQualityProfile } from './ClothQualityProfile.js';
+import { ClothRenderBinding } from './ClothRenderBinding.js';
+import { createClothSnapshot } from './ClothSnapshot.js';
+import { createClothTopology } from './ClothTopology.js';
+
+/** Legacy-compatible cloth simulation object with renderer-neutral XPBD internals. */
 export class ClothObject {
-    constructor(id, renderObj, config) {
-        this.id = id;
-        this.renderObj = renderObj;
-        this.particles = [];
-        this.constraints = [];
-        this.indices = renderObj.indices;
-        
-        // Defaults
-        this.config = Object.assign({
-            mass: 1.0,          // "Thickness" / Weight
-            drag: 0.05,         // Air resistance / Damping
-            stiffness: 1.0,     // Structural integrity
-            pinFunction: null
-        }, config);
+	/**
+	 * @param {string} idHod Stable cloth identifier.
+	 * @param {object} renderObjKli Legacy geometry object containing positions, normals, and indices.
+	 * @param {object} [configChesed={}] Mass, drag, stiffness, material, quality, pinning, and expert options.
+	 */
+	constructor(idHod, renderObjKli, configChesed = {}) {
+		this.id = idHod;
+		this.renderObj = renderObjKli;
+		this.config = normalizeLegacyConfig(configChesed);
+		this.material = createMaterialFromConfig(this.config);
+		this.quality = createClothQualityProfile(this.config.quality);
+		const bindingYesod = createClothGeometryBinding(renderObjKli, this.config);
+		this.particles = bindingYesod.particles;
+		this.indices = renderObjKli.indices;
+		this.simulationIndices = bindingYesod.simulationIndices;
+		this.topology = createClothTopology(this.simulationIndices);
+		this.constraintSet = new ClothConstraintSet(this.particles, this.topology, this.material);
+		this.constraints = this.constraintSet.constraints;
+		this.renderBinding = new ClothRenderBinding(renderObjKli, bindingYesod.renderToParticle);
+		this.riToParticle = bindingYesod.renderToParticle.map(indexNetzach => {
+			return this.particles[indexNetzach];
+		});
+		this.lastDiagnostics = Object.freeze({
+			constraintCount: this.constraints.length,
+			maximumError: 0,
+			meanError: 0
+		});
+	}
 
-        this.init();
-    }
+	/**
+	 * Advances particles through Verlet integration while preserving the historic call signature.
+	 * @param {number} deltaTimeTiferes Positive substep duration.
+	 * @returns {void}
+	 */
+	integrate(deltaTimeTiferes) {
+		for (const particleMalchus of this.particles) {
+			particleMalchus.integrate(deltaTimeTiferes, this.config.maximumSpeed);
+		}
+	}
 
-    init() {
-        const pos = this.renderObj.positions;
-        const particleMap = {};
+	/**
+	 * Solves all XPBD constraint families under the configured quality budget.
+	 * @param {number} [deltaTimeTiferes=1/60] Positive substep duration.
+	 * @returns {Readonly<object>} Frozen solver diagnostics.
+	 */
+	solveConstraints(deltaTimeTiferes = 1 / 60) {
+		this.constraintSet.beginSubstep();
+		this.lastDiagnostics = this.constraintSet.solve(
+			deltaTimeTiferes,
+			this.quality.iterations
+		);
+		return this.lastDiagnostics;
+	}
 
-        // 1. Create Particles (Welding vertices based on position)
-        for (let i = 0; i < pos.length; i += 3) {
-            const x = pos[i], y = pos[i+1], z = pos[i+2];
-            // Key based on rounded position to identify shared vertices
-            const kx = Math.round(x * 1000);
-            const ky = Math.round(y * 1000);
-            const kz = Math.round(z * 1000);
-            const key = `${kx}_${ky}_${kz}`;
-            
-            let p;
-            if (particleMap[key]) {
-                p = particleMap[key];
-            } else {
-                const isPinned = this.config.pinFunction ? this.config.pinFunction(x, y, z) : false;
-                p = new Particle(x, y, z, this.config.mass, this.config.drag, isPinned);
-                this.particles.push(p);
-                particleMap[key] = p;
-            }
-            // Map render vertex index to this particle
-            p.renderIndices.push(i);
-        }
+	/** Legacy renderer synchronization alias retained for existing games. */
+	updateNormals() {
+		this.renderBinding.sync(this.particles);
+	}
 
-        // 2. Create Constraints (Edges)
-        const constraintSet = new Set();
-        const indices = this.indices;
+	/**
+	 * Creates a portable immutable snapshot for render adapters, tests, networking, or debugging.
+	 * @param {object} [evidenceHod={}] Optional time and timestep evidence.
+	 * @returns {Readonly<object>} Cloth snapshot.
+	 */
+	snapshot(evidenceHod = {}) {
+		return createClothSnapshot(this.particles, this.topology, {
+			...evidenceHod,
+			diagnostics: this.lastDiagnostics,
+			material: this.material,
+			quality: this.quality
+		});
+	}
+}
 
-        const addLink = (i1, i2) => {
-             const p1 = this.getParticleForIndex(i1, particleMap);
-             const p2 = this.getParticleForIndex(i2, particleMap);
-             if (p1 === p2) return;
-             
-             // Unique key for edge
-             const id1 = this.particles.indexOf(p1);
-             const id2 = this.particles.indexOf(p2);
-             const key = id1 < id2 ? `${id1}_${id2}` : `${id2}_${id1}`;
-             
-             if (!constraintSet.has(key)) {
-                 this.constraints.push(new Constraint(p1, p2, this.config.stiffness));
-                 constraintSet.add(key);
-             }
-        };
+/** @returns {object} Compatibility configuration with bounded defaults. */
+function normalizeLegacyConfig(configChesed) {
+	return {
+		drag: configChesed.drag ?? 0.05,
+		mass: configChesed.mass ?? 1,
+		material: configChesed.material ?? null,
+		maximumSpeed: configChesed.maximumSpeed ?? 3,
+		pinFunction: configChesed.pinFunction ?? null,
+		quality: configChesed.quality ?? 'medium',
+		stiffness: configChesed.stiffness ?? 1,
+		weldPrecision: configChesed.weldPrecision ?? 1000
+	};
+}
 
-        for (let i = 0; i < indices.length; i += 3) {
-            addLink(indices[i], indices[i+1]);
-            addLink(indices[i+1], indices[i+2]);
-            addLink(indices[i+2], indices[i]);
-        }
-
-        // 3. Precompute mapping for fast normal updates
-        this.riToParticle = new Array(pos.length/3);
-        this.particles.forEach(p => {
-             p.renderIndices.forEach(ri => this.riToParticle[ri/3] = p);
-        });
-        
-        console.log(`B"H - ClothObject '${this.id}': ${this.particles.length} particles, ${this.constraints.length} constraints. Mass: ${this.config.mass}`);
-    }
-
-    getParticleForIndex(idx, map) {
-        const i = idx * 3;
-        const p = this.renderObj.positions;
-        const key = `${Math.round(p[i]*1000)}_${Math.round(p[i+1]*1000)}_${Math.round(p[i+2]*1000)}`;
-        return map[key];
-    }
-
-    integrate(dt) {
-        this.particles.forEach(p => p.integrate(dt));
-    }
-
-    solveConstraints() {
-        // Multiple iterations for stiffer cloth
-        const iterations = 4;
-        for (let i = 0; i < iterations; i++) {
-            this.constraints.forEach(c => c.resolve());
-        }
-    }
-
-    updateNormals() {
-        const normBuffer = this.renderObj.normals;
-        const posBuffer = this.renderObj.positions;
-        
-        // Reset accumulators
-        this.particles.forEach(p => p.accumulatedNormal = [0,0,0]);
-
-        // Accumulate face normals
-        for (let i = 0; i < this.indices.length; i += 3) {
-            const p0 = this.riToParticle[this.indices[i]];
-            const p1 = this.riToParticle[this.indices[i+1]];
-            const p2 = this.riToParticle[this.indices[i+2]];
-
-            if (p0 && p1 && p2) {
-                const v1 = Vec3.sub(p1.pos, p0.pos);
-                const v2 = Vec3.sub(p2.pos, p0.pos);
-                // Standard cross product (Triangle Normal)
-                const n = Vec3.cross(v1, v2); 
-                
-                // Add to vertices (Weighted by area implicitly via cross product magnitude)
-                p0.accumulatedNormal = Vec3.add(p0.accumulatedNormal, n);
-                p1.accumulatedNormal = Vec3.add(p1.accumulatedNormal, n);
-                p2.accumulatedNormal = Vec3.add(p2.accumulatedNormal, n);
-            }
-        }
-
-        // Normalize and write back to buffers
-        this.particles.forEach(p => {
-            // Safety check for degenerate geometry
-            let n = p.accumulatedNormal;
-            if (n[0]===0 && n[1]===0 && n[2]===0) n = [0, 1, 0];
-            else n = Vec3.normalize(n);
-
-            p.renderIndices.forEach(idx => {
-                // Update Position Buffer
-                posBuffer[idx] = p.pos[0];
-                posBuffer[idx+1] = p.pos[1];
-                posBuffer[idx+2] = p.pos[2];
-
-                // Update Normal Buffer
-                normBuffer[idx] = n[0];
-                normBuffer[idx+1] = n[1];
-                normBuffer[idx+2] = n[2];
-            });
-        });
-        
-        // Flag for WebGL update
-        this.renderObj.dirty = true;
-    }
+/** @returns {Readonly<object>} Material profile honoring legacy stiffness when no material is supplied. */
+function createMaterialFromConfig(configBinah) {
+	if (configBinah.material) {
+		return createClothMaterialProfile(configBinah.material);
+	}
+	const stiffnessGevurah = Math.min(1, Math.max(0, Number(configBinah.stiffness) || 0));
+	return createClothMaterialProfile({
+		name: 'cotton',
+		stretchCompliance: (1 - stiffnessGevurah) ** 2 * 1e-5
+	});
 }

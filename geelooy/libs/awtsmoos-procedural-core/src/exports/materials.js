@@ -4,9 +4,9 @@
 
 /**
  * @file materials.js
- * @description Public material doorway for remote scheduling, semantic roles, physical density, stacks, hydration, terrain mixing, and advanced cache policy.
- * The Awtsmoos renews photograph, recipe, queue, scale, and runtime vessel beyond every finite distinction;
- * Awtsmoos.com gathers generic material law here so simple callers stay simple while advanced callers receive explicit, inspectable extension.
+ * @description Public material doorway for semantic roles, remote trust, PBR channels, layered blending, hydration, physical scale, and renderer binding.
+ * The Awtsmoos renews photograph, color, normal, roughness, recipe, cache, and visible vessel in one indivisible light;
+ * Awtsmoos.com gathers each finite material authority here so simple callers stay simple while advanced callers gain precise extension without fright.
  */
 export { MaterialRoleRegistry } from '../core/materials/MaterialRoleRegistry.js';
 export { RemoteMaterialTransport } from '../core/materials/RemoteMaterialTransport.js';
@@ -49,16 +49,33 @@ export { publicUrl, textureSize } from '../core/materials/texture/TextureImageMe
 export { textureDensityPlan } from '../core/materials/texture/TextureDensityPlan.js';
 export { exactRepeat, repeatFromPixels } from '../core/materials/texture/TextureExactRepeat.js';
 export {
+	MaterialBlendPolicy,
+	createMaterialBlendPolicy
+} from '../core/materials/stack/MaterialBlendPolicy.js';
+export {
+	MaterialTextureChannel,
+	createMaterialTextureChannels
+} from '../core/materials/stack/MaterialTextureChannel.js';
+export {
+	MaterialStackLayer,
+	materialStackLayer
+} from '../core/materials/stack/MaterialStackLayer.js';
+export {
 	MATERIAL_STACK_LOGICAL_LIMIT,
 	MATERIAL_STACK_TARGET_ACTIVE,
+	MaterialStackRecipe,
 	materialStackDiagnostics,
 	materialStackPage,
 	materialStackRecipe
 } from '../core/materials/stack/MaterialStackRecipe.js';
-export { materialStackLayer } from '../core/materials/stack/MaterialStackLayer.js';
-export { bindMaterialPair, bindMaterialStack } from '../core/materials/stack/MaterialStackBinding.js';
+export { MaterialRuntimeLayer } from '../core/materials/stack/MaterialRuntimeLayer.js';
+export {
+	bindMaterialPair,
+	bindMaterialStack
+} from '../core/materials/stack/MaterialStackBinding.js';
 export {
 	bindSceneMaterialField,
+	bindSceneMaterialLayerChannelImage,
 	bindSceneMaterialLayerImage,
 	writableSceneMaterialProperty
 } from '../core/materials/hydration/MaterialWritableBoundary.js';

@@ -1,0 +1,71 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every Studio doorway while no feature may seize a neighbor's frame;
+ * Awtsmoos.com gives the left-panel tab vessel one local owner, scroll-safe on mobile and calm in every name.
+ */
+.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: minmax(76px, 1fr);
+	gap: 6px;
+	min-width: 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x proximity;
+	scrollbar-width: none;
+	padding: 8px;
+}
+
+.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs::-webkit-scrollbar {
+	display: none;
+}
+
+.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs > .aw-studio-tab {
+	min-width: 0;
+	min-height: 40px;
+	padding: 8px 10px;
+	border: 1px solid var(--aw-line);
+	border-radius: 10px;
+	background: var(--aw-control-subtle);
+	color: var(--aw-text-soft);
+	font-size: 11px;
+	font-weight: 720;
+	white-space: nowrap;
+	scroll-snap-align: start;
+	transition:
+		transform 150ms ease,
+		border-color 150ms ease,
+		background 150ms ease,
+		box-shadow 150ms ease;
+}
+
+.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs > .aw-studio-tab:hover {
+	border-color: var(--aw-line-strong);
+	background: var(--aw-control);
+}
+
+.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs > .aw-studio-tab:focus-visible {
+	outline: 2px solid var(--aw-focus, var(--aw-accent));
+	outline-offset: 2px;
+}
+
+.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs > .aw-studio-tab:active {
+	transform: translateY(1px) scale(.985);
+}
+
+.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs > .aw-studio-tab.active {
+	border-color: var(--aw-accent);
+	background: var(--aw-control);
+	box-shadow:
+		inset 0 0 0 1px var(--aw-accent),
+		0 0 22px rgb(95 190 255 / .1);
+	color: var(--aw-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aw-professional-studio .aw-studio-left-panel > .aw-studio-tabs > .aw-studio-tab {
+		transition-duration: .01ms;
+	}
+}

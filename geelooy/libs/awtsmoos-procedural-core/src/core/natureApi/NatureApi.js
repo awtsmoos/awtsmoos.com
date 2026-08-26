@@ -1,82 +1,93 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file NatureApi.js
- * @description Extends mature Nature domains with tiny ergonomic doors and explicitly injected advanced capabilities.
- * The Awtsmoos is one beyond every API branch, yet each branch receives a measured keli in light;
- * Awtsmoos.com keeps creation simple outside while specialist authorities and optional remote garments remain deep inside.
+ * @description Crowns the direct Nature facade with immutable recipe routing, ordered batches, and truthful capability discovery.
+ * The Awtsmoos is one beyond direct verb and declarative recipe, while every lower authority receives its proper boundary;
+ * Awtsmoos.com lets this Keser-like API reveal enormous depth through a calm surface where composition grows without architectural injury.
  */
 
-import { NatureApiBase } from './NatureApiBase.js';
-import { RockNatureApi } from './RockNatureApi.js';
-import { SurfaceNatureApi } from './SurfaceNatureApi.js';
+import { NatureDirectApi } from './NatureDirectApi.js';
+import { createDefaultNatureOperationRegistry } from './orchestration/DefaultNatureOperations.js';
+import { createNatureCapabilityReport } from './orchestration/NatureCapabilities.js';
+import { NetzachNatureBatchExecutor } from './orchestration/NatureBatchExecutor.js';
+import { NatureOperationRegistry } from './orchestration/NatureOperationRegistry.js';
+import { TiferesNatureRecipeExecutor } from './orchestration/NatureRecipeExecutor.js';
 
-/** Immutable high-level renderer-neutral nature API with simple doors and advanced domain facades. */
-export class NatureApi extends NatureApiBase {
+/** Immutable high-level Nature API supporting both immediate verbs and declarative orchestration. */
+export class NatureApi extends NatureDirectApi {
 	/**
-	 * Creates the complete facade while preserving explicit host capabilities separately from deterministic defaults.
-	 * @param {object} [options={}] Shared seed/profile defaults plus optional `textureGenerator` capability.
+	 * @param {object} [keliOptions={}] Shared Nature defaults, optional capabilities, and optional operation registry.
 	 */
-	constructor(options = {}) {
-		super(options);
-		this.capabilities = Object.freeze({
-			textureGenerator: options.textureGenerator ?? null
-		});
-		this.rocks = Object.freeze(new RockNatureApi(this.defaults));
-		this.surfaces = Object.freeze(new SurfaceNatureApi(this.defaults, this.capabilities));
+	constructor(keliOptions = {}) {
+		super(keliOptions);
+		this.operationRegistry = resolveOperationRegistry(keliOptions.operationRegistry);
+		this.recipes = Object.freeze(new TiferesNatureRecipeExecutor(this, this.operationRegistry));
+		this.batches = Object.freeze(new NetzachNatureBatchExecutor(this.recipes));
 		Object.freeze(this);
 	}
 
-	/** Creates one editable deterministic rock paired with semantic surface intent. */
-	rock(preset = 'fieldstone', options = {}) {
-		return this.rocks.create(preset, options);
+	/** Executes one synchronous declarative Nature recipe through the same public methods used by direct callers. */
+	create(keliRecipe) {
+		return this.recipes.execute(keliRecipe);
 	}
 
-	/** Plans one bounded deterministic rock field without eagerly allocating every mesh. */
-	rockField(options = {}) {
-		return this.rocks.field(options);
+	/** Executes one synchronous or asynchronous declarative Nature recipe with explicit Promise semantics. */
+	async createAsync(keliRecipe) {
+		return this.recipes.executeAsync(keliRecipe);
 	}
 
-	/** Creates one local-first semantic material plan without performing network I/O. */
-	surface(role, options = {}) {
-		return this.surfaces.create(role, options);
+	/** Executes synchronous recipes sequentially with explicit fail-fast or continue-on-error policy. */
+	batch(keliRecipes = [], keliOptions = {}) {
+		return this.batches.execute(keliRecipes, keliOptions);
 	}
 
-	/** Generates optional remote texture descriptors while retaining the synchronous local surface fallback. */
-	async generateSurface(role, options = {}) {
-		return this.surfaces.generate(role, options);
+	/** Executes mixed sync/async recipes sequentially while preserving deterministic input order. */
+	async batchAsync(keliRecipes = [], keliOptions = {}) {
+		return this.batches.executeAsync(keliRecipes, keliOptions);
 	}
 
-	/** Creates a realistic botanical flower cluster through the canonical Tzomayach engine. */
-	flowers(species = 'daisy', options = {}) {
-		return this.vegetation.plantCluster(species, options);
+	/** Reports whether one declarative operation kind is installed without invoking it. */
+	supports(keliKind) {
+		return this.operationRegistry.has(keliKind);
 	}
 
-	/** Reports whether this immutable API has a texture-generation capability installed. */
-	canGenerateTextures() {
-		return this.surfaces.canGenerate();
+	/** Returns immutable capability evidence for editors, tooling, agents, and runtime negotiation. */
+	describe() {
+		return createNatureCapabilityReport(this, this.operationRegistry);
 	}
 
 	/**
-	 * Creates an independent immutable API while preserving capabilities unless explicitly replaced.
-	 * @param {object} [overrides={}] New defaults and optionally a replacement `textureGenerator`.
-	 * @returns {NatureApi} Independent facade with isolated deterministic defaults.
+	 * Creates an independent immutable API while preserving providers and operation registry unless explicitly replaced.
+	 * @param {object} [keliOverrides={}] Defaults, provider, or registry overrides.
+	 * @returns {NatureApi} Independent high-level facade.
 	 */
-	with(overrides = {}) {
-		const hasGeneratorOverride = Object.prototype.hasOwnProperty.call(overrides, 'textureGenerator');
+	with(keliOverrides = {}) {
+		const yesodHasGenerator = Object.prototype.hasOwnProperty.call(keliOverrides, 'textureGenerator');
+		const yesodHasRegistry = Object.prototype.hasOwnProperty.call(keliOverrides, 'operationRegistry');
 		return new NatureApi({
 			...this.defaults,
-			...overrides,
-			textureGenerator: hasGeneratorOverride
-				? overrides.textureGenerator
-				: this.capabilities.textureGenerator
+			...keliOverrides,
+			operationRegistry: yesodHasRegistry ? keliOverrides.operationRegistry : this.operationRegistry,
+			textureGenerator: yesodHasGenerator ? keliOverrides.textureGenerator : this.capabilities.textureGenerator
 		});
 	}
 }
 
-/** Creates the high-level direct procedural Nature API. */
-export function createNatureApi(options = {}) {
-	return new NatureApi(options);
+/** Creates the high-level renderer-neutral procedural Nature API. */
+export function createNatureApi(keliOptions = {}) {
+	return new NatureApi(keliOptions);
+}
+
+/** Validates optional registry injection so orchestration never falls back to shape-guessing. */
+function resolveOperationRegistry(gevurahRegistry) {
+	if (gevurahRegistry === undefined || gevurahRegistry === null) {
+		return createDefaultNatureOperationRegistry();
+	}
+	if (!(gevurahRegistry instanceof NatureOperationRegistry)) {
+		throw new TypeError('B"H | operationRegistry must be a NatureOperationRegistry.');
+	}
+	return gevurahRegistry;
 }

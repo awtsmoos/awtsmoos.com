@@ -1,28 +1,30 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
  * @file OptionalJourney.js
- * @description Loads the shared-road experience only after the concealed local frontier has ignited.
- * The Awtsmoos renews fellowship after the individual vessel already stands in light;
- * Awtsmoos.com lets Yesod join souls across distance without making the network prerequisite to the night.
+ * @description Lazily loads the Shared Journey chooser and degrades to Solo when optional fellowship cannot load.
+ * The Awtsmoos renews fellowship without making the network the source of the private road;
+ * Awtsmoos.com lets Yesod offer connection first, while failure simply returns the traveler to a local abode.
  */
 
 export class OptionalJourney {
 	/**
-	 * Dynamically imports and mounts the optional shared-road gate.
-	 * @returns {Promise<object|null>} Mounted journey controller or null when optional code fails.
+	 * Presents the optional mode gate and waits for one committed Solo or authenticated Shared decision.
+	 * @returns {Promise<{mode:'solo'|'shared',journey:object|null,degraded:boolean}>} Selection contract.
 	 */
-	async reveal() {
+	async choose() {
 		try {
 			const journeyModule = await import('./ui/JourneyModeGate.js');
 			const journey = journeyModule.mountJourneyModeGate();
+			const mode = await journey.whenChosen();
 			globalThis.__OHR_HAGNUZ_JOURNEY_ERROR__ = null;
-			return journey;
+			return Object.freeze({ mode, journey, degraded: false });
 		} catch (error) {
-			console.warn('B"H — Ohr HaGnuz continued without the shared-road gate.', error);
+			console.warn('B"H — Ohr HaGnuz continued in Solo after Shared Journey became unavailable.', error);
 			globalThis.__OHR_HAGNUZ_JOURNEY_ERROR__ = error;
-			return null;
+			return Object.freeze({ mode: 'solo', journey: null, degraded: true });
 		}
 	}
 }

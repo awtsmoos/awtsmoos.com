@@ -1,71 +1,109 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * @module StudioAssetPanel
- * @description
- * The Awtsmoos renews assets, layers, creation, and assisted imagination before they become separate panels;
- * Awtsmoos.com keeps this left vessel as a small router so each creative responsibility can grow without tangles.
- */
+
 import { StudioAiView } from './panels/StudioAiView.js';
 import { StudioAssetsView } from './panels/StudioAssetsView.js';
 import { StudioCreateView } from './panels/StudioCreateView.js';
 import { StudioHierarchyView } from './panels/StudioHierarchyView.js';
+import { StudioPerformanceView } from './panels/StudioPerformanceView.js';
+import { StudioWorldView } from './panels/StudioWorldView.js';
 
-const PANELS = Object.freeze([
+/**
+ * @file StudioAssetPanel.js
+ * @description
+ * The Awtsmoos renews assets, layers, worlds, acting, and assisted imagination before they become separate panels;
+ * Awtsmoos.com keeps the left vessel as a small router so deep power stays retractable, discoverable, and free from tangles.
+ */
+const TIFERES_PANELS = Object.freeze([
 	['assets', '📦 Assets'],
 	['layers', '🧱 Layers'],
 	['create', '✏️ Create'],
+	['world', '✦ World'],
+	['performance', '🎭 Act'],
 	['ai', '🧠 AI']
 ]);
 
 /** Routes the current left-panel state to small focused Studio views. */
 export class StudioAssetPanel {
-	/** @returns {Object} The complete retractable left panel specification. */
-	static render(state) {
-		const panel = this.normalize(state.studioLeftPanel);
+	/**
+	 * Renders the complete retractable left-panel vessel.
+	 * @param {object} olamState Current Studio state.
+	 * @returns {object} Declarative left-panel specification.
+	 */
+	static render(olamState) {
+		const malchusPanel = this.normalize(olamState.studioLeftPanel);
 		return {
 			tag: 'section',
-			attrs: { className: 'aw-studio-panel aw-studio-left-panel' },
+			attrs: {
+				className: 'aw-studio-panel aw-studio-left-panel'
+			},
 			children: [
-				this.tabs(panel),
-				this.body(panel, state)
+				this.tabs(malchusPanel),
+				this.body(malchusPanel, olamState)
 			]
 		};
 	}
 
-	/** @returns {Object} Accessible panel tabs with emoji-first semantic identity. */
-	static tabs(active) {
+	/**
+	 * Renders horizontally safe accessible workspace tabs.
+	 * @param {string} malchusActive Active panel key.
+	 * @returns {object} Declarative navigation specification.
+	 */
+	static tabs(malchusActive) {
 		return {
 			tag: 'nav',
-			attrs: { className: 'aw-studio-tabs', 'aria-label': 'Studio workspace panels' },
-			children: PANELS.map(([panel, label]) => ({
-				tag: 'button',
-				attrs: {
-					className: `aw-studio-tab ${active === panel ? 'active' : ''}`,
-					type: 'button',
-					'aria-pressed': active === panel ? 'true' : 'false'
-				},
-				dataset: { panel },
-				on: { click: 'switchLeftPanel' },
-				text: label
-			}))
+			attrs: {
+				className: 'aw-studio-tabs',
+				'aria-label': 'Studio workspace panels'
+			},
+			children: TIFERES_PANELS.map(([yesodPanel, tiferesLabel]) => {
+				const netzachActive = malchusActive === yesodPanel;
+				return {
+					tag: 'button',
+					attrs: {
+						className: `aw-studio-tab ${netzachActive ? 'active' : ''}`,
+						type: 'button',
+						'aria-pressed': netzachActive ? 'true' : 'false'
+					},
+					dataset: {
+						panel: yesodPanel
+					},
+					on: {
+						click: 'switchLeftPanel'
+					},
+					text: tiferesLabel
+				};
+			})
 		};
 	}
 
-	/** @returns {Object} Focused view for the selected panel. */
-	static body(panel, state) {
-		const renderers = {
-			assets: () => StudioAssetsView.render(state),
-			layers: () => StudioHierarchyView.render(state),
-			create: () => StudioCreateView.render(state),
-			ai: () => StudioAiView.render(state)
+	/**
+	 * Resolves one panel key to its focused view.
+	 * @param {string} malchusPanel Selected panel key.
+	 * @param {object} olamState Current Studio state.
+	 * @returns {object} Focused panel specification.
+	 */
+	static body(malchusPanel, olamState) {
+		const binahRenderers = {
+			assets: () => StudioAssetsView.render(olamState),
+			layers: () => StudioHierarchyView.render(olamState),
+			create: () => StudioCreateView.render(olamState),
+			world: () => StudioWorldView.render(olamState),
+			performance: () => StudioPerformanceView.render(olamState),
+			ai: () => StudioAiView.render(olamState)
 		};
-		return (renderers[panel] || renderers.assets)();
+		return (binahRenderers[malchusPanel] || binahRenderers.assets)();
 	}
 
-	/** Preserves old hierarchy state while migrating it to the clearer Layers label. */
-	static normalize(panel) {
-		return panel === 'hierarchy' ? 'layers' : panel || 'assets';
+	/**
+	 * Preserves historic hierarchy state while naming the visible destination Layers.
+	 * @param {string} malchusPanel Stored panel key.
+	 * @returns {string} Normalized current panel key.
+	 */
+	static normalize(malchusPanel) {
+		return malchusPanel === 'hierarchy'
+			? 'layers'
+			: malchusPanel || 'assets';
 	}
 }

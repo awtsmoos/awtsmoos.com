@@ -1,0 +1,61 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets commentary become a river without washing away its header shore;
+ * Awtsmoos.com gives every active panel one scroll vessel and one content floor.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-header {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-block-size: 48px;
+	padding: 8px 12px;
+	border-block-end: 1px solid rgba(255, 255, 255, .07);
+	font-family: var(--font-ui);
+	direction: ltr;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content,
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel.is-current-panel {
+	flex: 1 1 auto;
+	min-block-size: 0;
+	inline-size: 100%;
+	overflow-x: clip;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-gutter: stable;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-content {
+	padding: 10px;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel {
+	display: none;
+	inline-size: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-panel.is-current-panel {
+	display: grid;
+	gap: 12px;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .post-root-menu-grid,
+.post-reader-localized-context.awtsmoos-reader-vision .keepers-assembly {
+	display: grid;
+	align-content: start;
+	gap: 10px;
+	inline-size: 100%;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-view-title {
+	min-inline-size: 0;
+	margin: 0;
+	color: var(--awt-ink);
+	font: 800 1rem / 1.2 var(--font-ui);
+}

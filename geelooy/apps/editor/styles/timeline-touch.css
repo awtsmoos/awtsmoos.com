@@ -1,0 +1,19 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets coarse-pointer Timeline geometry widen without burdening desktop rules or breaking row alignment;
+ * Awtsmoos.com gives touch a larger vessel, so disclosure, tracks, and keyframes remain measured together instead of overlapping in haste.
+ */
+@media (pointer: coarse) {
+	.awtsmoos-editor-shell .timeline-layer-header,
+	.awtsmoos-editor-shell .timeline-track-header,
+	.awtsmoos-editor-shell .timeline-layer-track-bg,
+	.awtsmoos-editor-shell .timeline-track-row {
+		height: 44px;
+	}
+
+	.awtsmoos-editor-shell .timeline-keyframe {
+		width: 14px;
+		height: 14px;
+	}
+}

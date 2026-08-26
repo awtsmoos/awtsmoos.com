@@ -4,83 +4,94 @@
 /**
  * @file AnimatorAgentApi.js
  * @description
- * The Awtsmoos gives vast creative force a single clear doorway, discoverable before it is used;
- * Awtsmoos.com returns correlated structured truth from every command while a direct World gate keeps common creation lucid.
+ * The Awtsmoos gives vast creative force one stable public doorway while every deeper responsibility lives in its appointed vessel;
+ * Awtsmoos.com exposes discovery, typed namespaces, batching, world creation, and canonical execution without duplicating the engine level.
  */
 
 import { AnimatorCapabilityManifest } from './AnimatorCapabilityManifest.js';
-import { AnimatorCommandValidator } from './AnimatorCommandValidator.js';
 import { AnimatorCommandRouter } from './AnimatorCommandRouter.js';
+import { NetzachAnimatorBatchCoordinator } from './execution/AnimatorBatchCoordinator.js';
+import { TiferesAnimatorExecutionCoordinator } from './execution/AnimatorExecutionCoordinator.js';
+import { NetzachAnimatorAnimationFacade } from './facade/AnimatorAnimationFacade.js';
+import { TiferesAnimatorPerformanceFacade } from './facade/AnimatorPerformanceFacade.js';
+import { MalchusAnimatorProjectFacade } from './facade/AnimatorProjectFacade.js';
+import { KeserAnimatorSystemFacade } from './facade/AnimatorSystemFacade.js';
+import { DaasAnimatorCommandRegistry } from './registry/AnimatorCommandRegistry.js';
+import { GevurahAnimatorErrorCatalog } from './protocol/AnimatorErrorCatalog.js';
 
-/** Stable, versioned facade shared by browser agents and the human Creator Dock. */
+/** Stable versioned facade shared by browser agents, typed convenience namespaces, and the Creator Dock. */
 export class AnimatorAgentApi {
-	/**
-	 * Connects protocol routing and the ergonomic World facade to one canonical project store.
-	 * @param {object} olamStore Existing NLE store that remains the sole owner of project state.
-	 */
+	/** @param {object} olamStore Existing NLE store that remains the sole owner of project state. */
 	constructor(olamStore) {
 		this.merkavahRouter = new AnimatorCommandRouter(olamStore);
+		this.tiferesExecution = new TiferesAnimatorExecutionCoordinator(this.merkavahRouter);
+		this.netzachBatch = new NetzachAnimatorBatchCoordinator(
+			DaasAnimatorCommandRegistry,
+			(envelope) => this.execute(envelope),
+			(request, requestId) => this.tiferesExecution.rejectBatchMutation(request, requestId)
+		);
 		this.world = this.merkavahRouter.world();
+		this.system = new KeserAnimatorSystemFacade(this);
+		this.project = new MalchusAnimatorProjectFacade(this);
+		this.performance = new TiferesAnimatorPerformanceFacade(this);
+		this.animation = new NetzachAnimatorAnimationFacade(this);
 		this.requestSequence = 0;
 	}
 
-	/**
-	 * Returns the public feature-detection manifest before any mutation is attempted.
-	 * @returns {object} Versioned public API contract.
-	 */
+	/** @returns {object} Public feature-detection manifest. */
 	capabilities() {
 		return AnimatorCapabilityManifest.create();
 	}
 
-	/**
-	 * Returns a compact read-only summary of the active project.
-	 * @returns {object} Current project summary.
-	 */
+	/** @returns {object} Compact synchronous project snapshot preserved for legacy callers. */
 	snapshot() {
-		return this.merkavahRouter.snapshot();
+		return this.merkavahRouter.execute('project.snapshot', {});
 	}
 
-	/**
-	 * Validates and executes one JSON command, always returning a correlated structured envelope.
-	 * @param {object} keliEnvelope `{ command, payload, requestId? }` command data.
-	 * @returns {Promise<object>} Success or failure envelope containing the same stable request ID.
-	 */
+	/** @returns {object} Complete synchronous protocol/registry discovery document. */
+	describe() {
+		return this.merkavahRouter.execute('system.describe', {});
+	}
+
+	/** @returns {object} Synchronous read-only API health report. */
+	health() {
+		return this.merkavahRouter.execute('system.health', {});
+	}
+
+	/** @param {string} shemMitzvah Command name. @returns {object|null} Synchronous detached command descriptor. */
+	command(shemMitzvah) {
+		return DaasAnimatorCommandRegistry.get(String(shemMitzvah ?? '').trim());
+	}
+
+	/** @param {object} keliEnvelope Public command envelope. @returns {Promise<object>} Structured canonical response. */
 	async execute(keliEnvelope = {}) {
-		let shemMitzvah = String(keliEnvelope?.command ?? 'unknown');
-		let sodRequestId = this.nextRequestId();
+		return this.tiferesExecution.execute(keliEnvelope, this.nextRequestId());
+	}
+
+	/** @param {object} keliBatch Batch request. @returns {Promise<object>} Ordered batch result with child envelopes. */
+	async executeBatch(keliBatch = {}) {
+		const sodBatchId = this.batchRequestId(keliBatch.requestId);
 		try {
-			const seder = AnimatorCommandValidator.normalize(keliEnvelope);
-			shemMitzvah = seder.command;
-			sodRequestId = seder.requestId ?? sodRequestId;
-			const orResult = await this.merkavahRouter.execute(
-				seder.command,
-				seder.payload
-			);
-			return {
-				ok: true,
-				requestId: sodRequestId,
-				command: seder.command,
-				data: orResult
-			};
+			return await this.netzachBatch.execute(keliBatch, sodBatchId);
 		} catch (gevurahError) {
 			return {
 				ok: false,
-				requestId: sodRequestId,
-				command: shemMitzvah,
-				error: {
-					code: gevurahError?.code ?? 'execution_failed',
-					message: gevurahError?.message ?? String(gevurahError)
-				}
+				requestId: sodBatchId,
+				error: GevurahAnimatorErrorCatalog.normalize(gevurahError),
+				results: []
 			};
 		}
 	}
 
-	/**
-	 * Generates a local correlation ID when the caller does not provide one.
-	 * @returns {string} Stable-enough session-local identifier for logging and command matching.
-	 */
-	nextRequestId() {
+	/** @param {unknown} sodRequestId Optional batch request ID. @returns {string} Valid batch correlation ID. */
+	batchRequestId(sodRequestId) {
+		const sodCandidate = String(sodRequestId ?? '').trim();
+		return sodCandidate && sodCandidate.length <= 160 ? sodCandidate : this.nextRequestId('animator-batch');
+	}
+
+	/** @param {string} sodPrefix Correlation prefix. @returns {string} Session-local request identifier. */
+	nextRequestId(sodPrefix = 'animator') {
 		this.requestSequence += 1;
-		return `animator-${Date.now().toString(36)}-${this.requestSequence.toString(36)}`;
+		return `${sodPrefix}-${Date.now().toString(36)}-${this.requestSequence.toString(36)}`;
 	}
 }

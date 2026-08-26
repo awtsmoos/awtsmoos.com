@@ -4,19 +4,23 @@
 
 /**
  * @file MitzvahWorldCreatorRailView.js
- * @description Owns creator rail DOM, open/collapse presentation, immutable snapshot rendering, derived busy state, and concise feedback.
- * The Awtsmoos, Atzmus beyond power and restraint, lets advanced creation appear without swallowing the living world;
- * Awtsmoos.com keeps this rail outside the modal chamber while every disabled state is freshly derived, so movement stays alive and temporary work never becomes permanent silence.
+ * @description Owns creator rail DOM, immutable snapshot rendering, busy presentation, and accessible reveal/concealment without taking gameplay input.
+ * The Awtsmoos renews every visible control while gameplay remains alive beneath the rail;
+ * Awtsmoos.com lets Malchus reveal or conceal this creator vessel with inert focus boundaries, so polish never becomes a prison or a veil.
  */
 
 import { applyCreatorRailActionState } from './MitzvahWorldCreatorRailActionState.js';
-import { mitzvahWorldCreatorRailMarkup } from './MitzvahWorldCreatorRailMarkup.js';
+import { createMitzvahWorldCreatorRailMarkup } from './MitzvahWorldCreatorRailMarkup.js';
 import { renderCreatorMaterials } from './MitzvahWorldCreatorRailMaterials.js';
+import {
+	applyCreatorRailCollapsedState,
+	applyCreatorRailOpenState
+} from './MitzvahWorldCreatorRailVisibility.js';
 
 /** Presentation-only creator rail that never changes gameplay inert or movement ownership. */
 export class MitzvahWorldCreatorRailView {
 	/**
-	 * Creates one closed-by-default creator rail with no hidden global input capture.
+	 * Creates one closed-by-default rail with scoped semantic markup and no global input capture.
 	 * @param {Document} documentKli Active Mitzvah World document.
 	 */
 	constructor(documentKli) {
@@ -25,16 +29,16 @@ export class MitzvahWorldCreatorRailView {
 		this.snapshotBinah = null;
 		this.root = documentKli.createElement('aside');
 		this.root.className = 'Awtsmoos-creator-rail';
-		this.root.dataset.open = 'false';
-		this.root.dataset.collapsed = 'false';
 		this.root.dataset.busy = 'false';
-		this.root.setAttribute('aria-label', 'Mitzvah World creator controls');
-		this.root.innerHTML = mitzvahWorldCreatorRailMarkup();
+		this.root.setAttribute('aria-labelledby', 'Awtsmoos-creator-rail-title');
+		this.root.innerHTML = createMitzvahWorldCreatorRailMarkup();
 		documentKli.body.appendChild(this.root);
 		this.resolveReferences();
+		this.setCollapsed(false);
+		this.setOpen(false);
 	}
 
-	/** Resolves stable references once so controllers never query by visual structure. */
+	/** Resolves stable semantic hooks once so controller logic never depends on visual DOM depth. */
 	resolveReferences() {
 		this.body = this.root.querySelector('[data-creator-body]');
 		this.palette = this.root.querySelector('[data-creator-palette]');
@@ -45,24 +49,25 @@ export class MitzvahWorldCreatorRailView {
 	}
 
 	/**
-	 * Opens or closes only creator chrome, never the gameplay interaction root.
+	 * Opens or closes creator chrome while removing hidden controls from pointer and focus flow.
 	 * @param {boolean} openOhr Desired rail visibility.
 	 */
 	setOpen(openOhr) {
-		const visibleOhr = Boolean(openOhr);
-		this.root.dataset.open = String(visibleOhr);
-		this.root.setAttribute('aria-hidden', String(!visibleOhr));
+		applyCreatorRailOpenState(this.root, openOhr, this.document);
 	}
 
 	/**
-	 * Collapses or expands secondary creator controls while retaining a recovery header.
+	 * Collapses or expands secondary creator controls while preserving a keyboard recovery target.
 	 * @param {boolean} collapsedOhr Desired compact-body state.
 	 */
 	setCollapsed(collapsedOhr) {
-		const nextOhr = Boolean(collapsedOhr);
-		this.root.dataset.collapsed = String(nextOhr);
-		this.collapseButton.setAttribute('aria-expanded', String(!nextOhr));
-		this.collapseButton.textContent = nextOhr ? '+' : '−';
+		applyCreatorRailCollapsedState(
+			this.root,
+			this.body,
+			this.collapseButton,
+			collapsedOhr,
+			this.document
+		);
 	}
 
 	/**
@@ -78,8 +83,8 @@ export class MitzvahWorldCreatorRailView {
 	}
 
 	/**
-	 * Applies transient busy state and immediately recomputes every action from domain truth.
-	 * @param {boolean} busyOhr Whether an asynchronous mutation is active.
+	 * Applies transient busy state and recomputes every action from domain truth.
+	 * @param {boolean} busyOhr Whether an asynchronous creator mutation is active.
 	 */
 	setBusy(busyOhr) {
 		this.busyGevurah = Boolean(busyOhr);
@@ -87,13 +92,9 @@ export class MitzvahWorldCreatorRailView {
 		this.applyActionState();
 	}
 
-	/** Recomputes button availability without preserving prior DOM disabled values. */
+	/** Recomputes action availability without preserving stale DOM disabled values. */
 	applyActionState() {
-		applyCreatorRailActionState(
-			this.root,
-			this.snapshotBinah,
-			this.busyGevurah
-		);
+		applyCreatorRailActionState(this.root, this.snapshotBinah, this.busyGevurah);
 	}
 
 	/**
@@ -104,7 +105,7 @@ export class MitzvahWorldCreatorRailView {
 		this.message.textContent = String(messageOhr || '');
 	}
 
-	/** Removes creator chrome after controller/session cleanup has released owned services. */
+	/** Removes creator chrome after controller/session cleanup releases owned services. */
 	destroy() {
 		this.root.remove();
 	}

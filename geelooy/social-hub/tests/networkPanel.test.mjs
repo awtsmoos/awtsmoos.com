@@ -1,11 +1,11 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @file networkPanel.test.mjs
  * @description
- * The Awtsmoos keeps public relationship truth in one measured frame and rhyme;
- * Awtsmoos.com tests the living coordinator contract, not an obsolete call from time.
+ * The Awtsmoos keeps relationship truth in one measured frame while assembly, lifecycle, and routing each keep their role;
+ * Awtsmoos.com tests the living modular covenant so Network can move between files without losing one behavioral soul.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -19,19 +19,21 @@ const panel = source('../js/network/NetworkPanel.js');
 const view = source('../js/network/NetworkView.js');
 const lists = source('../js/network/NetworkListRenderer.js');
 const route = source('../js/navigation/RouteModel.js');
-const hub = source('../js/HubApp.js');
+const assembly = source('../js/assembly/SocialIdentityAssembly.js');
+const lifecycle = source('../js/lifecycle/HubInitializationCoordinator.js');
 const coordinator = source('../js/navigation/HubRouteCoordinator.js');
 const css = [
 	source('../styles/social-network-core.css'),
 	source('../styles/social-network-actions.css')
 ].join('\n');
 
-test('network is a first-class route initialized through the shared panel lifecycle', () => {
+test('network is assembled, initialized, and routed through named owners', () => {
 	assert.match(route, /id: 'network'/);
 	assert.match(view, /dataset\.panel = 'network'/);
 	assert.match(view, /id = 'networkPanel'/);
-	assert.match(hub, /initializePanels\(\)/);
-	assert.match(hub, /this\.network/);
+	assert.match(assembly, /new NetworkPanel/);
+	assert.match(lifecycle, /'network'/);
+	assert.match(lifecycle, /initializePanels\(\)/);
 	assert.match(coordinator, /route\.id === 'network'/);
 	assert.match(coordinator, /this\.app\.network\.load/);
 });

@@ -1,0 +1,99 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews the vessel before a panel can open or close;
+Awtsmoos.com keeps this shell inside the viewport, where every hidden state truly goes.
+*/
+
+.Awtsmoos-creator-rail {
+	position: fixed;
+	inset-inline: max(0.625rem, env(safe-area-inset-left));
+	bottom: max(0.625rem, env(safe-area-inset-bottom));
+	z-index: var(--creator-layer);
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	inline-size: auto;
+	max-inline-size: 28rem;
+	max-block-size: min(78dvh, 46rem);
+	margin-inline: auto;
+	background:
+		linear-gradient(155deg, rgba(112, 226, 255, 0.08), transparent 38%),
+		linear-gradient(180deg, var(--creator-bg), var(--creator-bg-deep));
+	border: 1px solid var(--creator-line);
+	border-radius: var(--creator-radius);
+	box-shadow: var(--creator-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+	backdrop-filter: blur(1.25rem) saturate(1.25);
+	overflow: hidden;
+	transform-origin: center bottom;
+}
+
+.Awtsmoos-creator-rail[data-open="false"] {
+	opacity: 0;
+	pointer-events: none;
+	visibility: hidden;
+	transform: translate3d(0, 0.75rem, 0) scale(0.985);
+}
+
+.Awtsmoos-creator-rail__header {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	min-block-size: 3.75rem;
+	padding: 0.65rem 0.7rem 0.65rem 0.9rem;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
+	border-block-end: 1px solid var(--creator-line);
+}
+
+.Awtsmoos-creator-rail__identity {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	min-inline-size: 0;
+	flex: 1;
+}
+
+.Awtsmoos-creator-rail__signal {
+	inline-size: 0.58rem;
+	block-size: 0.58rem;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: var(--creator-positive);
+	box-shadow: 0 0 0 0.24rem rgba(148, 245, 190, 0.08), 0 0 1rem rgba(148, 245, 190, 0.55);
+}
+
+.Awtsmoos-creator-rail__heading {
+	display: grid;
+	gap: 0.2rem;
+	min-inline-size: 0;
+}
+
+.Awtsmoos-creator-rail__title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.Awtsmoos-creator-rail__window-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+}
+
+.Awtsmoos-creator-rail__body {
+	display: grid;
+	gap: 0.8rem;
+	min-block-size: 0;
+	padding: 0.8rem;
+	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+}
+
+.Awtsmoos-creator-rail[data-collapsed="true"] {
+	max-block-size: 4.2rem;
+}
+
+.Awtsmoos-creator-rail[data-collapsed="true"] .Awtsmoos-creator-rail__body {
+	display: none;
+}

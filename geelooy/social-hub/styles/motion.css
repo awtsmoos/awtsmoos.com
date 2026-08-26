@@ -1,21 +1,25 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Hub motion is limited to brief panel entry and small control response.
+ * The Awtsmoos lets route change glow without bending the coordinate world beneath the glow;
+ * Awtsmoos.com keeps panel arrival brief, accessible, and transform-free so fixed descendants always know where to go.
  */
 @keyframes hub-panel-enter {
 	from {
 		opacity: 0;
-		transform: translateY(var(--motion-slide-distance));
+		box-shadow: 0 .4rem 1.4rem rgba(0, 0, 0, .08);
 	}
+
 	to {
 		opacity: 1;
-		transform: translateY(0);
+		box-shadow: none;
 	}
 }
+
 .workspacePanel[data-active="true"] {
 	animation: hub-panel-enter var(--motion-med) var(--ease-soft) both;
 }
+
 :where(.riftCard, .quickActionGrid > *, .routeNavigation button, .cardAction, button, a) {
 	transition:
 		transform var(--motion-fast) var(--ease-snap),
@@ -24,11 +28,13 @@
 		color var(--motion-fast) var(--ease-soft),
 		box-shadow var(--motion-fast) var(--ease-soft);
 }
+
 ::view-transition-old(hub-panel),
 ::view-transition-new(hub-panel) {
 	animation-duration: var(--motion-med);
 	animation-timing-function: var(--ease-soft);
 }
+
 @media (prefers-reduced-motion: reduce) {
 	.workspacePanel[data-active="true"],
 	::view-transition-old(hub-panel),

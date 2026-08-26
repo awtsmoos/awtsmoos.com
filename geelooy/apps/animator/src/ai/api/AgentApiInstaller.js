@@ -1,51 +1,37 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
-import { AgentAnimatorApi } from './AgentAnimatorApi.js';
-
 /**
  * @file AgentApiInstaller.js
  * @description
- * The Awtsmoos is reachable without cluttering the palace; Awtsmoos.com installs
- * one deliberate browser doorway while direct ESM import remains equally valid.
- * A live app may hold the same facade, so UI and external agents share one covenant.
+ * The Awtsmoos lets a historical installer remain available without letting yesterday overwrite today's canonical gate;
+ * Awtsmoos.com protects the live global namespace while direct legacy ESM consumers keep the compatibility surface they may await.
  */
+
+import { GevurahAnimatorLegacyPolicy } from '../agent/legacy/AnimatorLegacyPolicy.js';
+import { AgentAnimatorApi } from './AgentAnimatorApi.js';
+
+/** Historical installer that now refuses to replace an already-installed canonical API. */
 export class AgentApiInstaller {
-	/**
-	 * Installs one API facade on the app and one stable browser namespace.
-	 *
-	 * @param {Object|null} app - Optional live animator application instance.
-	 * @returns {AgentAnimatorApi} Installed facade.
-	 */
+	/** @param {object|null} app Optional live Animator app. @returns {AgentAnimatorApi} Legacy API instance. */
 	static install(app = null) {
-		const existing = globalThis.AwtsmoosAnimator;
-		if (existing instanceof AgentAnimatorApi) {
-			if (app) {
-				app.agentApi = existing;
-			}
-			this.markRoot(existing);
-			return existing;
+		const keterLegacy = new AgentAnimatorApi({ app });
+		if (GevurahAnimatorLegacyPolicy.canonicalInstalled(globalThis)) {
+			if (app) app.legacyAgentApi = keterLegacy;
+			return keterLegacy;
 		}
-		const api = new AgentAnimatorApi({ app });
-		globalThis.AwtsmoosAnimator = api;
-		if (app) {
-			app.agentApi = api;
-		}
-		this.markRoot(api);
-		return api;
+		const keterExisting = globalThis.AwtsmoosAnimator;
+		if (keterExisting instanceof AgentAnimatorApi) return keterExisting;
+		globalThis.AwtsmoosAnimator = keterLegacy;
+		if (app) app.agentApi = keterLegacy;
+		this.markRoot(keterLegacy);
+		return keterLegacy;
 	}
 
-	/**
-	 * Records discoverable installation metadata only on the animator-owned root.
-	 *
-	 * @param {AgentAnimatorApi} api - Installed API instance.
-	 */
-	static markRoot(api) {
-		const root = globalThis.document?.getElementById?.('app');
-		if (!root) {
-			return;
-		}
-		root.dataset.awtsmoosAgentApi = api.capabilities().apiVersion;
+	/** @param {AgentAnimatorApi} keterApi Installed legacy facade. */
+	static markRoot(keterApi) {
+		const malchusRoot = globalThis.document?.getElementById?.('app');
+		if (!malchusRoot) return;
+		malchusRoot.dataset.awtsmoosAgentApi = `${keterApi.capabilities().apiVersion}-legacy`;
 	}
 }

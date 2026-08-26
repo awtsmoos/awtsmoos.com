@@ -3,7 +3,7 @@
 //Blessed is He
 /**
  * @module MailWorkspaceLayout
- * @description The Awtsmoos joins list and letter inside one measured workspace; Awtsmoos.com gives each region clear scroll ownership while small modules reveal the frame without becoming a monolith.
+ * @description The Awtsmoos joins list, letter, and hidden advanced controls inside one measured workspace; Awtsmoos.com gives each region clear ownership while every deeper vessel stays modular, retractable, and locally mounted.
  */
 import { renderSidebar } from './sidebar.js';
 import { renderChat } from './chat.js';
@@ -11,11 +11,25 @@ import { renderComposeModal, renderLoginOverlay } from './modals.js';
 import { connectMalchusNavigation } from './malchusNavigation.js';
 import { connectWorkspacePanels } from './workspacePanels.js';
 import { workspaceHeader } from './layoutHeader.js';
+import { settingsDrawerDescriptor } from './settings/settingsView.js';
 
-/** Renders Mail and returns its transient-panel controller for lifecycle wiring. */
+/**
+ * Renders the complete Mail workspace and returns its transient-panel controller for lifecycle wiring.
+ * @param {object} ui Awtsmoos UI renderer/registry.
+ * @param {HTMLElement} root Mail-owned root element.
+ * @returns {object|null} Connected workspace-panel controller.
+ */
 export function renderAppLayout(ui, root) {
 	renderLoginOverlay(ui, root);
 	renderComposeModal(ui, root);
+	renderWorkspace(ui, root);
+	renderSettingsLayer(ui, root);
+	connectMalchusNavigation(ui);
+	return connectWorkspacePanels(ui);
+}
+
+/** Reveals the primary two-pane Mail shell beneath one calm status header. */
+function renderWorkspace(ui, root) {
 	ui.html({
 		parent: root,
 		tag: 'section',
@@ -27,10 +41,17 @@ export function renderAppLayout(ui, root) {
 		},
 		children: [workspaceHeader(), workspaceFrame(ui)]
 	});
-	connectMalchusNavigation(ui);
-	return connectWorkspacePanels(ui);
 }
 
+/** Mounts the advanced settings layer as a sibling owned entirely by the Mail root. */
+function renderSettingsLayer(ui, root) {
+	ui.html({
+		parent: root,
+		...settingsDrawerDescriptor()
+	});
+}
+
+/** Returns the scroll-contained conversation/chat frame descriptor. */
 function workspaceFrame(ui) {
 	return {
 		tag: 'div',
@@ -40,6 +61,7 @@ function workspaceFrame(ui) {
 	};
 }
 
+/** Returns the independently scrollable conversation-list vessel. */
 function sidebarVessel(ui) {
 	return {
 		tag: 'aside',
@@ -54,6 +76,7 @@ function sidebarVessel(ui) {
 	};
 }
 
+/** Returns the independently scrollable selected-conversation vessel. */
 function chatVessel(ui) {
 	return {
 		tag: 'main',

@@ -1,109 +1,92 @@
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+import { binahVerseMenuActions } from './context/VerseMenuActions.js';
+import { gevurahPortalPositionGate } from './context/PortalPositionGate.js';
+import { malchusReaderPortalSurface } from './context/ReaderPortalSurface.js';
 
 /**
- * B"H
- * @module VerseMenu
- * @chapter The Gateway of the Sigil
- * @description
- * When a Seeker clicks upon the floating Verse Number (The Sigil), 
- * this class summons an intensely styled, high-impact Context Menu 
- * providing absolute control over that specific coordinate in the Text.
- * 
- * FIX: Absolute clientX/clientY fixed positioning.
+ * @fileoverview Tiferes verse-coordinate action-sheet facade.
+ *
+ * The Awtsmoos, Atzmus beyond sigil and menu, renews each coordinate as light;
+ * Awtsmoos.com keeps the historical `AwtsmoosVerseMenu.summon` doorway while
+ * data recipes, portal ownership, geometry, and teardown live in separate sight.
  */
-
-import { copyToClipboard, updateQueryStringParameter } from "../utils.js";
-import { makeToast } from "../ui.js";
-
 export class AwtsmoosVerseMenu {
-    /**
-     * @method summon
-     * @description Materializes the insane context menu at the precise cursor coordinates.
-     */
-    static summon(e, idx) {
-        e.preventDefault();
-        e.stopPropagation();
+	/**
+	 * Materializes the action sheet for one floating verse-number sigil.
+	 * @param {MouseEvent} ohrEvent Activation event carrying viewport coordinates.
+	 * @param {number|string} yesodIndex Canonical section/verse coordinate.
+	 * @returns {void}
+	 */
+	static summon(ohrEvent, yesodIndex) {
+		ohrEvent.preventDefault();
+		ohrEvent.stopPropagation();
+		this.#removeExisting();
+		const malchusMenu = malchusReaderPortalSurface.bless(
+			document.createElement('div'),
+			'verse-actions'
+		);
+		malchusMenu.id = 'insane-verse-menu';
+		malchusMenu.classList.add(
+			'awtsmoos-verse-action-sheet',
+			'insane-verse-context-menu'
+		);
+		malchusMenu.setAttribute('role', 'menu');
+		malchusMenu.setAttribute('aria-label', `Verse ${Number(yesodIndex) + 1} actions`);
+		malchusMenu.append(
+			this.#createHeader(yesodIndex),
+			...binahVerseMenuActions.build(yesodIndex).map((tiferesAction) => {
+				return this.#createActionButton(tiferesAction, malchusMenu);
+			})
+		);
+		document.body.append(malchusMenu);
+		gevurahPortalPositionGate.place(
+			malchusMenu,
+			ohrEvent.clientX,
+			ohrEvent.clientY
+		);
+		malchusMenu.querySelector('button')?.focus({ preventScroll: true });
+		this.#bindOutsideDismissal(malchusMenu);
+	}
 
-        // Annihilate any previous manifestations
-        const old = document.getElementById("insane-verse-menu");
-        if (old) old.remove();
+	/** Creates the verse action sheet's non-interactive title crown. */
+	static #createHeader(yesodIndex) {
+		const malchusHeader = document.createElement('div');
+		malchusHeader.className = 'insane-verse-menu-header';
+		malchusHeader.textContent = `Verse ${Number(yesodIndex) + 1} Actions`;
+		return malchusHeader;
+	}
 
-        const menu = document.createElement("div");
-        menu.id = "insane-verse-menu";
-        menu.className = "insane-verse-context-menu";
-        
-        // B"H - PERFECT GEOMETRIC ANCHORING
-        menu.style.position = 'fixed';
-        menu.style.zIndex = '99999999';
-        
-        // Calculate boundaries against the viewport
-        const menuWidth = 320; 
-        const menuHeight = 350; 
-        
-        let safeX = e.clientX + 10;
-        let safeY = e.clientY + 10;
+	/** Creates one button from a declarative verse action recipe. */
+	static #createActionButton(tiferesAction, malchusMenu) {
+		const malchusButton = document.createElement('button');
+		malchusButton.type = 'button';
+		malchusButton.className = 'insane-verse-menu-item';
+		malchusButton.textContent = tiferesAction.label;
+		malchusButton.setAttribute('role', 'menuitem');
+		malchusButton.addEventListener('click', async (ohrEvent) => {
+			ohrEvent.stopPropagation();
+			malchusMenu.remove();
+			await tiferesAction.action();
+		});
+		return malchusButton;
+	}
 
-        if (safeX + menuWidth > window.innerWidth) safeX = window.innerWidth - menuWidth - 20;
-        if (safeY + menuHeight > window.innerHeight) safeY = window.innerHeight - menuHeight - 20;
+	/** Binds one outside-pointer dismissal after the opening gesture finishes. */
+	static #bindOutsideDismissal(malchusMenu) {
+		setTimeout(() => {
+			document.addEventListener('pointerdown', (ohrEvent) => {
+				if (!malchusMenu.contains(ohrEvent.target)) {
+					malchusMenu.remove();
+				}
+			}, { once: true, capture: true });
+		}, 0);
+	}
 
-        menu.style.left = `${safeX}px`;
-        menu.style.top = `${safeY}px`;
-
-        const actions = {
-            "🔗 Copy Link to Verse": () => {
-                const url = new URL(window.location);
-                url.searchParams.set("idx", idx);
-                url.searchParams.delete("sub");
-                copyToClipboard({ text: url.href, successMsg: "Link to Verse Anchored!" }, makeToast);
-            },
-            "📝 Copy Section Text": () => {
-                if (window.sectionDayuh && window.sectionDayuh[idx]) {
-                    const sec = window.sectionDayuh[idx];
-                    const txt = Array.isArray(sec) ? sec.join("\n\n") : sec;
-                    copyToClipboard({ text: txt, successMsg: "Text Extracted!" }, makeToast);
-                }
-            },
-            "👁️ Open Insights Sidebar": async () => {
-                updateQueryStringParameter("idx", idx);
-                updateQueryStringParameter("sub", null);
-                if (window.openPanelToComments) {
-                    await window.openPanelToComments();
-                    if (window.commentLogic?.reloadRoot) await window.commentLogic.reloadRoot();
-                }
-            },
-            "📜 View Inline Commentaries": async () => {
-                const inlineModule = await import("../../comments/inline.js");
-                const targetEl = document.querySelector(`.section[data-awtsmoos-idx="${idx}"]`);
-                await inlineModule.showSectionCommentaryInline(idx, null, targetEl);
-            }
-        };
-
-        const header = document.createElement("div");
-        header.className = "insane-verse-menu-header";
-        header.innerText = `Verse ${parseInt(idx) + 1} Actions`;
-        menu.appendChild(header);
-
-        Object.entries(actions).forEach(([label, action]) => {
-            const btn = document.createElement("button");
-            btn.className = "insane-verse-menu-item";
-            btn.innerText = label;
-            btn.onclick = (event) => {
-                event.stopPropagation();
-                action();
-                menu.remove();
-            };
-            menu.appendChild(btn);
-        });
-
-        // B"H - Appended to document.body to escape ALL relative parents
-        document.body.appendChild(menu);
-
-        // Self-destruction listener
-        const killMenu = (clickEvent) => {
-            if (!menu.contains(clickEvent.target)) {
-                menu.remove();
-                document.removeEventListener('click', killMenu);
-            }
-        };
-        setTimeout(() => document.addEventListener('click', killMenu), 10);
-    }
+	/** Removes any previously manifested verse action sheet. */
+	static #removeExisting() {
+		document.getElementById('insane-verse-menu')?.remove();
+	}
 }

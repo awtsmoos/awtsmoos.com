@@ -1,0 +1,74 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond success and failure, yet finite work needs truthful signals instead of silent ambiguity;
+ * Awtsmoos.com gives receipts, warnings, and errors a restrained local light so status is visible without turning the interface into noisy circuitry.
+ */
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__status {
+	display: inline-flex;
+	align-items: center;
+	gap: .4rem;
+	min-block-size: 1.5rem;
+	color: var(--awts-api-muted);
+	font-size: .76rem;
+	font-weight: 650;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__status::before {
+	inline-size: .5rem;
+	block-size: .5rem;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: currentColor;
+	box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 12%, transparent);
+	content: "";
+}
+
+[data-awtsmoos-api-explorer][data-state="busy"] .Awtsmoos-api-explorer__status {
+	color: var(--awts-api-accent);
+}
+
+[data-awtsmoos-api-explorer][data-state="success"] .Awtsmoos-api-explorer__status {
+	color: var(--awts-api-success);
+}
+
+[data-awtsmoos-api-explorer][data-state="error"] .Awtsmoos-api-explorer__status {
+	color: var(--awts-api-danger);
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__result {
+	padding: .8rem;
+	border: 1px solid var(--awts-api-border);
+	border-radius: var(--awts-api-radius-md);
+	background: rgb(1 6 13 / .72);
+	color: rgb(219 235 250 / .9);
+	font: 500 .74rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+[data-awtsmoos-api-explorer][data-state="success"] .Awtsmoos-api-explorer__result {
+	border-color: rgb(107 234 170 / .28);
+	box-shadow: inset 3px 0 0 rgb(107 234 170 / .5);
+}
+
+[data-awtsmoos-api-explorer][data-state="error"] .Awtsmoos-api-explorer__result {
+	border-color: rgb(255 125 145 / .3);
+	box-shadow: inset 3px 0 0 rgb(255 125 145 / .56);
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__descriptor code {
+	padding: .08rem .28rem;
+	border-radius: .35rem;
+	background: var(--awts-api-accent-soft);
+	color: var(--awts-api-accent);
+	font: 650 .75rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__empty {
+	padding: 1rem;
+	border: 1px dashed var(--awts-api-border);
+	border-radius: var(--awts-api-radius-md);
+	color: var(--awts-api-muted);
+	text-align: center;
+}

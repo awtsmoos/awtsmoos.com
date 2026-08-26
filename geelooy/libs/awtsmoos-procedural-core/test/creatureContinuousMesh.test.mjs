@@ -12,6 +12,10 @@
 import assert from "node:assert/strict";
 import { createCreatureKernel } from "../src/core/animalMesh/creature/index.js";
 import { reportMeshPartTopology } from "../src/core/animalMesh/validation/meshTopologyReport.js";
+import {
+	connectedComponentCount,
+	intersectionSize
+} from "./helpers/CreatureContinuityGraph.js";
 
 const kernel = createCreatureKernel();
 const created = await kernel.invoke({
@@ -91,37 +95,3 @@ for (let vertex = 0; vertex < vertexCount; vertex += 1) {
 }
 
 console.log('B"H | creatureContinuousMesh.test.mjs passed');
-
-/** Counts triangle-connected vertex components among vertices referenced by the primary mesh. */
-function connectedComponentCount(part) {
-	const neighbors = new Map();
-	for (const vertex of part.indices) {
-		if (!neighbors.has(vertex)) neighbors.set(vertex, new Set());
-	}
-	for (let index = 0; index < part.indices.length; index += 3) {
-		const triangle = part.indices.slice(index, index + 3);
-		for (let corner = 0; corner < 3; corner += 1) {
-			const left = triangle[corner];
-			const right = triangle[(corner + 1) % 3];
-			neighbors.get(left).add(right);
-			neighbors.get(right).add(left);
-		}
-	}
-	const unseen = new Set(neighbors.keys());
-	let components = 0;
-	while (unseen.size) {
-		components += 1;
-		const stack = [unseen.values().next().value];
-		while (stack.length) {
-			const vertex = stack.pop();
-			if (!unseen.delete(vertex)) continue;
-			stack.push(...neighbors.get(vertex));
-		}
-	}
-	return components;
-}
-
-/** Counts shared bone identifiers between two independently articulated limb chains. */
-function intersectionSize(left, right) {
-	return [...left].filter((value) => right.has(value)).length;
-}

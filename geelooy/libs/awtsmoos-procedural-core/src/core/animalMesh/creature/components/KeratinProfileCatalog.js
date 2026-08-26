@@ -4,72 +4,111 @@
 
 /**
  * @file KeratinProfileCatalog.js
- * @description Declares reusable hard-growth shape profiles independent from species identity, attachment location, and mesh compilation.
- * RESPONSIBILITY: normalize length, width, sweep, curve, curl, twist, taper, sections, radial detail, and optional tine count.
- * NON-RESPONSIBILITY: this catalog does not resolve anatomy, transform paths, create guides, mirror geometry, or choose textures.
- * The Awtsmoos, Atzmus beyond horn and hoof, renews every hard growth before its shape receives a name; Awtsmoos.com lets Gevurah measure spirals, claws, tusks, antlers, and crowns while Chochmah remains free to invent another form.
+ * @description Normalizes reusable hard-growth silhouette profiles independently from attachment, guide generation, mesh compilation, and rendering.
+ * RESPONSIBILITY: resolve canonical preset identity, merge caller overrides, enforce safe geometric budgets, and publish one immutable shape contract.
+ * NON-RESPONSIBILITY: raw preset data lives in `KeratinPresetData.js`; path mathematics, tine planning, anatomy resolution, and material hydration remain separate.
+ * The Awtsmoos, Atzmus beyond every horn, tusk, hoof, claw, and crown, renews all measure before measure can bind; Awtsmoos.com lets Binah shape wild Chochmah into bounded profiles, where every curve may deepen while the source remains beyond every form the profile can find.
  */
 
-const PRESETS = Object.freeze({
-	straight: preset(0.56, 0.075, 0, 0.04, 0, 0.04, 7, 11),
-	cattle: preset(0.62, 0.08, 0.18, 0.12, 0.08, 0.12, 8, 12),
-	swept: preset(0.74, 0.072, -0.24, 0.2, 0.18, 0.34, 9, 12),
-	spiral: preset(0.78, 0.078, 0.12, 0.18, 0.82, 1.1, 14, 13),
-	ram: preset(0.72, 0.1, -0.06, 0.14, 1.22, 0.62, 16, 14),
-	kudu: preset(0.98, 0.075, 0.16, 0.12, 1.48, 1.36, 18, 13),
-	unicorn: preset(0.92, 0.085, 0, 0.03, 0.12, 1.8, 12, 14),
-	demonic: preset(0.88, 0.11, 0.28, 0.32, 0.5, 0.7, 12, 14),
-	antler: Object.freeze({ ...preset(0.72, 0.09, 0.12, 0.18, 0.18, 0.12, 10, 12), tines: 3 }),
-	tusk: preset(0.52, 0.07, 0.04, 0.34, 0.18, 0, 10, 11),
-	claw: preset(0.18, 0.045, 0, -0.14, 0.1, 0, 6, 9),
-	talon: preset(0.23, 0.04, 0.02, -0.26, 0.18, 0, 7, 9),
-	hoof: preset(0.16, 0.1, 0, -0.05, 0, 0, 5, 10),
-	beak: preset(0.34, 0.12, 0, -0.04, 0, 0, 6, 10),
-	spike: preset(0.34, 0.055, 0, 0, 0, 0, 6, 10)
-});
+import { KERATIN_PRESETS } from './KeratinPresetData.js';
 
-/** Resolves one hard-growth profile from a preset id plus bounded overrides. */
+/**
+ * Resolves one hard-growth profile from canonical preset identity plus bounded caller overrides.
+ * @param {string} componentType Semantic component family such as `horn`, `antler`, `tusk`, or `claw`.
+ * @param {string|object} [input={}] Preset id shorthand or explicit profile overrides.
+ * @returns {object} Frozen normalized shape profile consumed by keratin guide planners.
+ * @throws {RangeError} When an explicit preset id is unknown and the component type has no canonical fallback.
+ */
 export function keratinProfile(componentType, input = {}) {
-	const chochmahInput = typeof input === 'string' ? { id: input } : input || {};
-	const binahId = String(chochmahInput.id || componentType || 'straight').toLowerCase();
-	const tiferesPreset = PRESETS[binahId] || PRESETS[componentType] || PRESETS.straight;
+	const chochmahInput = normalizedInput(input);
+	const binahId = String(
+		chochmahInput.id || componentType || 'straight'
+	).trim().toLowerCase();
+	const tiferesPreset = resolvePreset(binahId, componentType);
 	return Object.freeze({
 		...tiferesPreset,
 		...chochmahInput,
+		baseFlare: bounded(chochmahInput.baseFlare, tiferesPreset.baseFlare, 0, 1.5),
+		bendPower: bounded(chochmahInput.bendPower, tiferesPreset.bendPower, 0.35, 4),
 		curl: bounded(chochmahInput.curl, tiferesPreset.curl, -2.5, 2.5),
 		curve: bounded(chochmahInput.curve, tiferesPreset.curve, -1.5, 1.5),
+		id: binahId,
 		length: positive(chochmahInput.length, tiferesPreset.length),
-		radialSegments: integer(chochmahInput.radialSegments, tiferesPreset.radialSegments, 6, 28),
-		sections: integer(chochmahInput.sections, tiferesPreset.sections, 3, 32),
+		radialSegments: integer(
+			chochmahInput.radialSegments,
+			tiferesPreset.radialSegments,
+			6,
+			32
+		),
+		radiusWave: bounded(chochmahInput.radiusWave, tiferesPreset.radiusWave, 0, 0.35),
+		radiusWaveCycles: integer(
+			chochmahInput.radiusWaveCycles,
+			tiferesPreset.radiusWaveCycles,
+			0,
+			24
+		),
+		secondarySweep: bounded(
+			chochmahInput.secondarySweep,
+			tiferesPreset.secondarySweep,
+			-1.5,
+			1.5
+		),
+		sections: integer(chochmahInput.sections, tiferesPreset.sections, 3, 48),
 		sweep: bounded(chochmahInput.sweep, tiferesPreset.sweep, -1.5, 1.5),
-		taper: bounded(chochmahInput.taper, tiferesPreset.taper, 0.01, 0.95),
-		tines: integer(chochmahInput.tines, tiferesPreset.tines || 0, 0, 10),
-		twist: bounded(chochmahInput.twist, tiferesPreset.twist, -4, 4),
+		taper: bounded(chochmahInput.taper, tiferesPreset.taper, 0.005, 0.95),
+		tines: integer(chochmahInput.tines, tiferesPreset.tines, 0, 16),
+		tipHook: bounded(chochmahInput.tipHook, tiferesPreset.tipHook, -1.5, 1.5),
+		twist: bounded(chochmahInput.twist, tiferesPreset.twist, -6, 6),
 		width: positive(chochmahInput.width, tiferesPreset.width)
 	});
 }
 
-/** Lists canonical hard-growth profile names for editors and docs. */
+/**
+ * Lists every canonical hard-growth preset for discovery UIs, schema generation, documentation, and expert APIs.
+ * @returns {ReadonlyArray<string>} Frozen alphabetically sorted preset names.
+ */
 export function listKeratinProfiles() {
-	return Object.freeze(Object.keys(PRESETS));
+	return Object.freeze(Object.keys(KERATIN_PRESETS).sort());
 }
 
-/** Creates one immutable preset record. */
-function preset(length, width, sweep, curve, curl, twist, sections, radialSegments) {
-	return Object.freeze({ curl, curve, length, radialSegments, sections, sweep, taper: 0.06, tines: 0, twist, width });
+/** Turns concise string shorthand into one explicit override record. */
+function normalizedInput(input) {
+	if (typeof input === 'string') {
+		return { id: input.trim() };
+	}
+	return input && typeof input === 'object' ? { ...input } : {};
 }
 
+/** Resolves a canonical preset while preserving component-family fallback compatibility. */
+function resolvePreset(id, componentType) {
+	const gevurahPreset = KERATIN_PRESETS[id]
+		|| KERATIN_PRESETS[String(componentType || '').toLowerCase()]
+		|| KERATIN_PRESETS.straight;
+	return gevurahPreset;
+}
+
+/** Clamps one finite scalar into an explicit safe interval. */
 function bounded(value, fallback, minimum, maximum) {
-	const number = Number(value);
-	return Number.isFinite(number) ? Math.min(maximum, Math.max(minimum, number)) : fallback;
+	const yesodValue = Number(value);
+	if (!Number.isFinite(yesodValue)) {
+		return fallback;
+	}
+	return Math.min(maximum, Math.max(minimum, yesodValue));
 }
 
+/** Accepts only positive finite dimensional values. */
 function positive(value, fallback) {
-	const number = Number(value);
-	return Number.isFinite(number) && number > 0 ? number : fallback;
+	const netzachValue = Number(value);
+	return Number.isFinite(netzachValue) && netzachValue > 0
+		? netzachValue
+		: fallback;
 }
 
+/** Clamps one integer geometry budget without silently accepting fractional detail. */
 function integer(value, fallback, minimum, maximum) {
-	const number = Math.floor(Number(value));
-	return Number.isFinite(number) ? Math.min(maximum, Math.max(minimum, number)) : fallback;
+	const binahValue = Math.floor(Number(value));
+	if (!Number.isFinite(binahValue)) {
+		return fallback;
+	}
+	return Math.min(maximum, Math.max(minimum, binahValue));
 }

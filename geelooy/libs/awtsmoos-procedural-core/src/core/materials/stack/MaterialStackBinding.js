@@ -2,58 +2,93 @@
 // Boruch Hashem
 // Blessed is He
 
+import { MaterialBindingPolicy } from './MaterialBindingPolicy.js';
+import { MaterialRuntimeLayer } from './MaterialRuntimeLayer.js';
+import { materialStackPage } from './MaterialStackRecipe.js';
+
 /**
  * @file MaterialStackBinding.js
- * @description Binds logical recipes and cached images into renderer material fields through dependency injection.
- * The Awtsmoos joins recipe and visible image while remaining beyond either finite side;
- * Awtsmoos.com lets every game supply its own cache while one generic material covenant can abide.
+ * @description Projects immutable logical material recipes and already-cached PBR images into mutable renderer fields.
+ * The Awtsmoos joins hidden recipe and visible image without confusing authoring with hydration; Awtsmoos.com lets
+ * every game inject its own cache while one generic covenant exposes rich channels and preserves historic shader fields.
  */
-import {
-	materialStackDiagnostics,
-	materialStackPage
-} from './MaterialStackRecipe.js';
 
-export function bindMaterialStack(fields, recipe, activeCapacity = 10, dependencies = {}) {
-	const cachedTextureImage = dependencies.cachedTextureImage || emptyImage;
-	const page = materialStackPage(recipe, activeCapacity, 0);
+/**
+ * Binds the first capacity-bounded page of a logical stack without fetching or mutating its authoring recipe.
+ * @param {object} malchusFields Existing renderer material fields.
+ * @param {object} keterRecipe Logical MaterialStackRecipe or compatible plain object.
+ * @param {number} [gevurahCapacity=10] Maximum active layers supported by this renderer.
+ * @param {object} [chesedDependencies={}] Optional `cachedTextureImage(url)` lookup.
+ * @returns {object} New renderer fields containing runtime texture layers and diagnostics policy.
+ */
+export function bindMaterialStack(
+	malchusFields,
+	keterRecipe,
+	gevurahCapacity = 10,
+	chesedDependencies = {}
+) {
+	const yesodCachedImage = chesedDependencies.cachedTextureImage || emptyImage;
+	const tiferesPage = materialStackPage(keterRecipe, gevurahCapacity, 0);
 	return {
-		...fields,
-		materialStack: recipe,
-		textureLayers: page.layers.map(layer => ({
-			...layer,
-			image: cachedTextureImage(layer.url)
-		})),
-		texturePolicy: {
-			...(fields.texturePolicy || {}),
-			fallbackFirst: true,
-			materialStack: materialStackDiagnostics(recipe, activeCapacity),
-			publicFirebase: true,
-			shader: 'terrain-layered-ten-stage-material-stack'
-		}
+		...malchusFields,
+		materialStack: keterRecipe,
+		textureLayers: tiferesPage.layers.map((orLayer) => {
+			return new MaterialRuntimeLayer(orLayer, yesodCachedImage);
+		}),
+		texturePolicy: MaterialBindingPolicy.forStack(
+			malchusFields,
+			keterRecipe,
+			gevurahCapacity
+		)
 	};
 }
 
-export function bindMaterialPair(fields, primaryLayer, secondaryLayer, dependencies = {}) {
-	const cachedTextureImage = dependencies.cachedTextureImage || emptyImage;
+/**
+ * Preserves the historic two-layer renderer contract while also projecting full per-channel runtime images.
+ * @param {object} malchusFields Existing renderer fields.
+ * @param {object} chesedPrimary Primary logical material layer.
+ * @param {object} gevurahSecondary Secondary logical material layer.
+ * @param {object} [yesodDependencies={}] Optional cached-image lookup.
+ * @returns {object} New two-source renderer fields with legacy and advanced channel data.
+ */
+export function bindMaterialPair(
+	malchusFields,
+	chesedPrimary,
+	gevurahSecondary,
+	yesodDependencies = {}
+) {
+	const tiferesCachedImage = yesodDependencies.cachedTextureImage || emptyImage;
+	const orPrimary = new MaterialRuntimeLayer(
+		chesedPrimary,
+		tiferesCachedImage
+	);
+	const orSecondary = new MaterialRuntimeLayer(
+		gevurahSecondary,
+		tiferesCachedImage
+	);
 	return {
-		...fields,
-		mapImage: cachedTextureImage(primaryLayer.url) || fields.mapImage || null,
-		mapRepeat: primaryLayer.repeat,
-		mixImage: cachedTextureImage(secondaryLayer.url),
-		mixRepeat: secondaryLayer.repeat,
-		mixStrength: secondaryLayer.strength,
-		mixTextureUrl: secondaryLayer.url,
-		textureUrl: primaryLayer.url,
-		texturePolicy: {
-			...(fields.texturePolicy || {}),
-			fallbackFirst: true,
-			materialRoles: [primaryLayer.role, secondaryLayer.role],
-			publicFirebase: true,
-			shader: 'world-space-two-source-physical-mix'
-		}
+		...malchusFields,
+		mapChannels: orPrimary.channelImages,
+		mapImage: orPrimary.image || malchusFields.mapImage || null,
+		mapRepeat: chesedPrimary.repeat,
+		mixChannels: orSecondary.channelImages,
+		mixImage: orSecondary.image,
+		mixRepeat: gevurahSecondary.repeat,
+		mixStrength: gevurahSecondary.strength,
+		mixTextureUrl: gevurahSecondary.url,
+		texturePolicy: MaterialBindingPolicy.forPair(
+			malchusFields,
+			chesedPrimary,
+			gevurahSecondary
+		),
+		textureUrl: chesedPrimary.url
 	};
 }
 
+/**
+ * Returns null when a game supplies no already-decoded texture cache.
+ * @returns {null} Explicit cache miss.
+ */
 function emptyImage() {
 	return null;
 }

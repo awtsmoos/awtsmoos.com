@@ -1,114 +1,12 @@
-/* B"H
- * @module PostReaderSidebarSheet
- * @description Chapter 603: the sidebar owns only the shell, chrome, and sheet
- * behavior. Panel viewport/content flow belongs to panels.css, so selector
- * ownership stays clean while the mobile sheet no longer bites the page.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews commentary from concealed to revealed without collision;
+ * Awtsmoos.com gathers each sidebar responsibility through one ordered local vision.
  */
-
-.post-reader-localized-context .sidebar {
-    position: fixed !important;
-    z-index: var(--z-sidebar) !important;
-    left: max(12px, env(safe-area-inset-left)) !important;
-    right: max(12px, env(safe-area-inset-right)) !important;
-    top: calc(var(--awt-header-space) + 10px) !important;
-    bottom: auto !important;
-    width: auto !important;
-    max-width: calc(100vw - 24px) !important;
-    height: auto !important;
-    max-height: min(72dvh, 34rem) !important;
-    overflow: hidden !important;
-    border: 1px solid rgba(246,201,108,.22) !important;
-    border-radius: 24px !important;
-    background: linear-gradient(180deg, #050b14, #020712 72%) !important;
-    color: var(--awt-text) !important;
-    box-shadow: 0 22px 70px rgba(0,0,0,.62) !important;
-    transform: translate3d(0,0,0) !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-}
-
-.post-reader-localized-context .sidebar.hidden-comments {
-    transform: translate3d(0, calc(-100% - var(--awt-header-space) - 40px), 0) !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-}
-
-.post-reader-localized-context .awtsmoos-sidebar-resizer { display: none !important; }
-.post-reader-localized-context .awtsmoos-sidebar-shell {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    max-height: inherit !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-}
-
-.post-reader-localized-context .awtsmoos-sidebar-header-chrome {
-    flex: 0 0 auto !important;
-    padding: 14px !important;
-    border-bottom: 1px solid rgba(191,203,226,.14) !important;
-    background: radial-gradient(circle at 8% 0%, rgba(139,92,246,.16), transparent 12rem), rgba(3,8,18,.98) !important;
-}
-
-.post-reader-localized-context .awtsmoos-chrome-row {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 10px !important;
-    min-width: 0 !important;
-}
-
-.post-reader-localized-context .awtsmoos-current-view-title {
-    appearance: none !important;
-    border: 0 !important;
-    background: transparent !important;
-    color: #ffffff !important;
-    min-width: 0 !important;
-    padding: 0 !important;
-    text-align: left !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    font: 950 clamp(1.35rem,6vw,2rem)/1.1 var(--font-ui) !important;
-}
-
-.post-reader-localized-context .awtsmoos-current-view-title.can-go-back::before {
-    content: "‹ ";
-    color: var(--inline-edge-gold);
-}
-
-.post-reader-localized-context .awtsmoos-chrome-controls {
-    display: flex !important;
-    gap: max(.5rem, 8px) !important;
-    flex: 0 0 auto !important;
-}
-
-.post-reader-localized-context .awtsmoos-chrome-btn,
-.post-reader-localized-context .awtsmoos-back-btn {
-    display: inline-grid !important;
-    place-items: center !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
-    border-radius: 999px !important;
-    border: 1px solid rgba(191,203,226,.16) !important;
-    background: rgba(255,255,255,.06) !important;
-    color: var(--awt-text) !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
-}
-
-.post-reader-localized-context .awtsmoos-chrome-btn.close {
-    color: #fecdd3 !important;
-    background: rgba(244,63,94,.13) !important;
-    border-color: rgba(244,63,94,.28) !important;
-}
-
-.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs { display: flex !important; flex-wrap: wrap !important; gap: 8px !important; margin-top: 12px !important; min-width: 0 !important; }
-.post-reader-localized-context .awtsmoos-sidebar-breadcrumbs.is-empty { display: none !important; }
-.post-reader-localized-context .awtsmoos-crumb-link { border: 1px solid rgba(246,201,108,.18) !important; border-radius: 999px !important; background: rgba(255,255,255,.055) !important; color: var(--inline-edge-gold) !important; padding: .55rem .8rem !important; font: 850 .88rem/1 var(--font-ui) !important; }
-
-@media (min-width: 901px) {
-    .post-reader-localized-context .sidebar { top: 0 !important; left: auto !important; right: 0 !important; bottom: 0 !important; width: min(440px,42%) !important; max-width: 42% !important; height: 100dvh !important; max-height: 100dvh !important; border-radius: 0 !important; border: 0 !important; border-left: 1px solid rgba(246,201,108,.18) !important; transform: translate3d(0,0,0) !important; visibility: visible !important; }
-    .post-reader-localized-context .sidebar.hidden-comments { transform: translate3d(104%,0,0) !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
-}
+@import url('./sidebar/shell.css');
+@import url('./sidebar/chrome.css');
+@import url('./sidebar/breadcrumbs.css');
+@import url('./sidebar/containment.css');
+@import url('./sidebar/responsive.css');

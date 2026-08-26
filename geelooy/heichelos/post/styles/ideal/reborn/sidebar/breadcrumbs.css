@@ -1,0 +1,60 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals every path without letting navigation become a wall;
+ * Awtsmoos.com keeps breadcrumbs compact, wrapping, touchable, and calm for all.
+ */
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-sidebar-breadcrumbs {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+	min-inline-size: 0;
+	margin-block-start: 8px;
+	font-family: var(--font-ui);
+	direction: ltr;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-crumb-link {
+	display: inline-flex;
+	align-items: center;
+	min-block-size: 34px;
+	max-inline-size: 100%;
+	padding: .42rem .66rem;
+	border: 1px solid rgba(255, 255, 255, .09);
+	border-radius: 999px;
+	color: var(--awt-muted);
+	background: rgba(255, 255, 255, .035);
+	font: 700 .78rem / 1.1 var(--font-ui);
+	text-decoration: none;
+	white-space: normal;
+	cursor: pointer;
+	transition:
+		color 150ms ease,
+		background 150ms ease,
+		border-color 150ms ease,
+		transform 130ms ease;
+}
+
+@media (hover: hover) {
+	.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-crumb-link:hover {
+		color: var(--awt-ink);
+		background: rgba(91, 209, 255, .09);
+		border-color: rgba(91, 209, 255, .26);
+	}
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-crumb-link:active {
+	transform: scale(.97);
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-crumb-link:focus-visible {
+	outline: 3px solid rgba(91, 209, 255, .5);
+	outline-offset: 2px;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-crumb-separator {
+	color: rgba(255, 255, 255, .3);
+	user-select: none;
+}

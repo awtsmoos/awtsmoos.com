@@ -4,72 +4,88 @@
 
 /**
  * @file MembraneComponentProfile.js
- * @description Normalizes local membrane geometry intent independently from attachment resolution and component compilation.
- * RESPONSIBILITY: own local polygon points, concise fan generation, double-sided intent, material role, and bounded ray budgets.
- * NON-RESPONSIBILITY: this file does not resolve anatomy, transform points, compile triangles, or choose symmetry.
- * The Awtsmoos, Atzmus beyond separation, renews each ray and the surface joining them; Awtsmoos.com lets Binah measure a membrane without imprisoning it inside feet, wings, fins, or any one creature form.
+ * @description Normalizes renderer-neutral membrane biology independently from attachment resolution, boundary generation, and mesh triangulation.
+ * RESPONSIBILITY: resolve membrane family, scale biological dimensions, validate explicit local boundaries, and publish bounded camber/ray/edge/material/surface intent.
+ * NON-RESPONSIBILITY: raw defaults live in `MembranePresetData.js`; polygon math, frame transforms, guide compilation, mirroring, and renderer hydration remain separate.
+ * The Awtsmoos, Atzmus beyond every stretched surface, renews span and boundary before either can become law; Awtsmoos.com lets Binah measure webbing, patagium, fin, flipper, ear, frill, and wing while every explicit anatomical point remains free to define its own path.
  */
 
+import { MEMBRANE_PRESETS } from './MembranePresetData.js';
+
+const MEMBRANE_ALIASES = Object.freeze({
+	wing: 'wing_membrane',
+	webbed_feet: 'webbed_foot',
+	webbed_hands: 'webbed_hand'
+});
+
 /**
- * Creates one normalized membrane profile.
- * @param {object} [profile={}] Explicit points or concise fan dimensions.
+ * Creates one immutable membrane profile.
+ * @param {object} [profile={}] Biological dimensions or explicit local polygon points.
  * @param {number[]} [scale=[1,1,1]] Component xyz scale.
- * @param {string} [type='webbing'] Component semantic type.
- * @returns {object} Frozen local membrane profile.
+ * @param {string} [type='webbing'] Semantic membrane family.
+ * @returns {object} Frozen local membrane profile consumed by boundary geometry.
  */
 export function createMembraneComponentProfile(
 	profile = {},
 	scale = [1, 1, 1],
 	type = 'webbing'
 ) {
-	const tiferesPoints = Array.isArray(profile.points) && profile.points.length >= 3
-		? profile.points.map(point => scalePoint(point, scale))
-		: createFanPoints(profile, scale);
+	const binahType = canonicalType(type);
+	const chochmahPreset = MEMBRANE_PRESETS[binahType];
 	return Object.freeze({
-		doubleSided: profile.doubleSided !== false,
-		materialId: String(profile.materialId || defaultMaterial(type)),
-		points: Object.freeze(tiferesPoints.map(point => Object.freeze(point))),
-		surfaceRole: String(profile.surfaceRole || defaultRole(type))
+		camber: finite(profile.camber, chochmahPreset.camber) * scale[1],
+		depth: positive(profile.depth, chochmahPreset.depth) * scale[2],
+		doubleSided: profile.doubleSided ?? chochmahPreset.doubleSided,
+		edgeScallop: bounded(profile.edgeScallop, chochmahPreset.edgeScallop, 0, 0.3),
+		lift: finite(profile.lift, chochmahPreset.lift) * scale[1],
+		materialId: String(profile.materialId || chochmahPreset.materialId),
+		points: explicitPoints(profile.points, scale),
+		rays: integer(profile.rays, chochmahPreset.rays, 2, 24),
+		span: positive(profile.span, chochmahPreset.span) * scale[0],
+		surfaceRole: String(profile.surfaceRole || chochmahPreset.surfaceRole),
+		tipBias: bounded(profile.tipBias, chochmahPreset.tipBias, 0.1, 0.95),
+		type: binahType
 	});
 }
 
-/** Generates a bounded tapered fan in local attachment-frame coordinates. */
-function createFanPoints(profile, scale) {
-	const chesedSpan = positive(profile.span, 0.42) * scale[0];
-	const gevurahDepth = positive(profile.depth, 0.5) * scale[2];
-	const tiferesLift = finite(profile.lift, 0) * scale[1];
-	const hodRays = integer(profile.rays, 4, 2, 12);
-	const orPoints = [[-chesedSpan * 0.5, 0, 0]];
-	for (let index = 0; index < hodRays; index += 1) {
-		const amount = index / Math.max(1, hodRays - 1);
-		orPoints.push([
-			-chesedSpan * 0.5 + chesedSpan * amount,
-			tiferesLift * Math.sin(Math.PI * amount),
-			gevurahDepth * (0.76 + Math.sin(Math.PI * amount) * 0.24)
-		]);
-	}
-	orPoints.push([chesedSpan * 0.5, 0, 0]);
-	return orPoints;
+/** Lists canonical and shorthand membrane families for component catalog discovery. */
+export function listMembraneComponentTypes() {
+	return Object.freeze([
+		...Object.keys(MEMBRANE_PRESETS),
+		...Object.keys(MEMBRANE_ALIASES)
+	]);
 }
 
-/** Scales and validates one local membrane coordinate. */
-function scalePoint(point, scale) {
+/** Resolves shorthand family names and validates canonical membrane types. */
+function canonicalType(value) {
+	const hodType = String(value || 'webbing').trim().toLowerCase();
+	const tiferesType = MEMBRANE_ALIASES[hodType] || hodType;
+	if (!MEMBRANE_PRESETS[tiferesType]) {
+		throw new RangeError(`B"H | Unsupported membrane component type "${value}".`);
+	}
+	return tiferesType;
+}
+
+/** Preserves three-or-more explicit local boundary points after scale and finite validation. */
+function explicitPoints(value, scale) {
+	if (!Array.isArray(value) || value.length < 3) {
+		return null;
+	}
+	return Object.freeze(value.map(point => (
+		Object.freeze(validatedPoint(point, scale))
+	)));
+}
+
+/** Validates one explicit three-axis boundary coordinate before scale is applied. */
+function validatedPoint(point, scale) {
 	if (!Array.isArray(point) || point.length !== 3) {
 		throw new TypeError(
-			'B"H | Membrane profile points must contain three coordinates.'
+			'B"H | Membrane profile points must contain exactly three coordinates.'
 		);
 	}
-	return point.map((coordinate, axis) => finite(coordinate, 0) * scale[axis]);
-}
-
-/** Maps membrane families onto established semantic material ids. */
-function defaultMaterial(type) {
-	return type === 'fin' ? 'webbing_surface' : `${type}_surface`;
-}
-
-/** Maps semantic type onto the material/surface role vocabulary. */
-function defaultRole(type) {
-	return type === 'membrane' ? 'webbing' : type;
+	return point.map((coordinate, axis) => (
+		finite(coordinate, 0) * scale[axis]
+	));
 }
 
 /** Returns a finite scalar or stable fallback. */
@@ -80,14 +96,16 @@ function finite(value, fallback) {
 
 /** Returns a positive finite scalar or stable fallback. */
 function positive(value, fallback) {
-	const malchusValue = finite(value, fallback);
-	return malchusValue > 0 ? malchusValue : fallback;
+	const netzachValue = finite(value, fallback);
+	return netzachValue > 0 ? netzachValue : fallback;
 }
 
-/** Bounds integer polygon budgets before geometry exists. */
+/** Clamps one finite scalar into a declared safe interval. */
+function bounded(value, fallback, minimum, maximum) {
+	return Math.min(maximum, Math.max(minimum, finite(value, fallback)));
+}
+
+/** Bounds integer membrane-ray budgets before any polygon exists. */
 function integer(value, fallback, minimum, maximum) {
-	return Math.floor(Math.min(
-		maximum,
-		Math.max(minimum, finite(value, fallback))
-	));
+	return Math.floor(bounded(value, fallback, minimum, maximum));
 }

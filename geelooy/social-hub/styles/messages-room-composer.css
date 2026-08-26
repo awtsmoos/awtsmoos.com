@@ -1,8 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos keeps the private-message mouth near the living conversation without covering the mobile dock;
- * Awtsmoos.com lets the draft grow only as needed, while reply and voice vessels remain clear, touchable, and unlocked.
+ * The Awtsmoos keeps the private-message mouth near the living conversation without yielding its place to generic form chrome;
+ * Awtsmoos.com gives this room sole ownership of composer geometry, send light, hint, voice row, and the mobile dock-safe home.
  */
 .social-hub-document .hubConversationComposer--rich {
 	position: sticky;
@@ -38,7 +38,8 @@
 	overflow-y: auto;
 }
 
-.social-hub-document .hubConversationComposer__textRow :where(button, .hubIconButton) {
+.social-hub-document .hubConversationComposer__textRow :where(button, .hubIconButton),
+.social-hub-document .hubConversationComposer__send {
 	inline-size: 48px;
 	min-inline-size: 48px;
 	block-size: 48px;
@@ -47,10 +48,18 @@
 	border-radius: 999px;
 }
 
+.social-hub-document .hubConversationComposer__send {
+	border-color: rgba(60, 236, 255, .52);
+	background: linear-gradient(135deg, rgba(60, 236, 255, .24), rgba(255, 72, 203, .2));
+	box-shadow: 0 10px 28px rgba(60, 236, 255, .12);
+	font-size: 1.2rem;
+}
+
 .social-hub-document .hubConversationComposer__hint {
 	justify-self: end;
-	color: var(--hub-muted, #9fb0c8);
-	font-size: .72rem;
+	color: rgba(218, 229, 247, .46);
+	font-size: .68rem;
+	font-variant-numeric: tabular-nums;
 }
 
 .social-hub-document .hubConversationVoiceComposer {
@@ -75,7 +84,7 @@
 	.social-hub-document .hubConversationComposer--rich {
 		position: fixed;
 		inset-inline: max(.55rem, env(safe-area-inset-left)) max(.55rem, env(safe-area-inset-right));
-		bottom: calc(4.7rem + env(safe-area-inset-bottom));
+		bottom: var(--hub-mobile-dock-clearance, calc(5.5rem + env(safe-area-inset-bottom)));
 		z-index: 8;
 		max-inline-size: calc(100vw - 1.1rem - env(safe-area-inset-left) - env(safe-area-inset-right));
 		margin: 0 auto;
