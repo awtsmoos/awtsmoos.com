@@ -2,65 +2,78 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos arranges words, actions, and hidden depth within one measured chamber that never spills beyond its shore;
- * Awtsmoos.com keeps Creator content layout local, readable, and expandable while advanced tools remain calmly in store.
+ * The Awtsmoos arranges prompt, action, advanced craft, and status within a chamber that never spills beyond its shore;
+ * Awtsmoos.com keeps first-glance direction simple while deeper acting controls remain calm, legible, and ready for more.
  */
 
 [data-awtsmoos-creator] .aw-creator__prompt-label {
 	display: block;
-	margin-bottom: 6px;
-	font-size: 12px;
-	font-weight: 700;
-	color: var(--aw-text-muted, #9da9bd);
+	margin: 11px 0 6px;
+	color: var(--aw-creator-muted);
+	font-size: 11px;
+	font-weight: 760;
+	letter-spacing: .03em;
+	text-transform: uppercase;
 }
 
 [data-awtsmoos-creator] textarea {
 	width: 100%;
 	min-width: 0;
-	min-height: 122px;
+	min-height: 118px;
 	max-height: 34dvh;
 	padding: 12px 13px;
 	resize: vertical;
-	border: 1px solid color-mix(in srgb, var(--aw-text-muted, #9da9bd) 28%, transparent);
-	border-radius: 13px;
-	background: color-mix(in srgb, var(--aw-bg, #080b12) 84%, transparent);
-	line-height: 1.5;
-	caret-color: var(--aw-focus, #80aaff);
+	border: 1px solid var(--aw-creator-line);
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--aw-creator-bg) 84%, transparent);
+	line-height: 1.52;
+	caret-color: var(--aw-creator-focus);
 }
 
 [data-awtsmoos-creator] textarea::placeholder {
-	color: color-mix(in srgb, var(--aw-text-muted, #9da9bd) 70%, transparent);
+	color: color-mix(in srgb, var(--aw-creator-muted) 68%, transparent);
 }
 
 [data-awtsmoos-creator] .aw-creator__actions {
 	display: grid;
 	grid-template-columns: 2fr 1fr 1fr;
 	gap: 8px;
-	margin-top: 10px;
+	margin-top: 9px;
 	min-width: 0;
 }
 
 [data-awtsmoos-creator] .aw-creator__advanced {
-	margin-top: 12px;
-	padding-top: 10px;
-	border-top: 1px solid color-mix(in srgb, var(--aw-text-muted, #9da9bd) 17%, transparent);
+	margin-top: 10px;
+	border: 1px solid color-mix(in srgb, var(--aw-creator-line) 78%, transparent);
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--aw-creator-surface) 38%, transparent);
+	overflow: clip;
 }
 
 [data-awtsmoos-creator] .aw-creator__advanced summary {
-	min-height: var(--aw-touch-height, 44px);
+	min-height: var(--aw-creator-touch);
 	display: flex;
 	align-items: center;
-	border-radius: 10px;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 8px 11px;
+	border-radius: 13px;
 	cursor: pointer;
-	font-weight: 700;
+	font-weight: 740;
 	user-select: none;
+}
+
+[data-awtsmoos-creator] .aw-creator__advanced summary small {
+	color: var(--aw-creator-muted);
+	font-size: 10px;
+	font-weight: 560;
 }
 
 [data-awtsmoos-creator] .aw-creator__chip-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 7px;
-	padding-top: 7px;
+	padding: 2px 9px 10px;
 	min-width: 0;
 }
 
@@ -70,23 +83,16 @@
 }
 
 [data-awtsmoos-creator] .aw-creator__status {
-	margin-top: 11px;
+	margin-top: 10px;
 	padding: 9px 10px;
-	border-radius: 10px;
-	background: color-mix(in srgb, var(--aw-surface, #0e1320) 72%, transparent);
-	color: var(--aw-text-muted, #9da9bd);
-	font-size: 12px;
+	border: 1px solid color-mix(in srgb, var(--aw-creator-line) 70%, transparent);
+	border-radius: 11px;
+	background: color-mix(in srgb, var(--aw-creator-bg) 58%, transparent);
+	color: var(--aw-creator-muted);
+	font-size: 11px;
 	overflow-wrap: anywhere;
 }
 
-[data-awtsmoos-creator] .aw-creator__status[data-tone="success"] {
-	color: #a8f0c6;
-}
-
-[data-awtsmoos-creator] .aw-creator__status[data-tone="warning"] {
-	color: #ffd98d;
-}
-
-[data-awtsmoos-creator] .aw-creator__status[data-tone="error"] {
-	color: #ffaaa6;
-}
+[data-awtsmoos-creator] .aw-creator__status[data-tone="success"] { color: var(--aw-creator-success); }
+[data-awtsmoos-creator] .aw-creator__status[data-tone="warning"] { color: var(--aw-creator-warning); }
+[data-awtsmoos-creator] .aw-creator__status[data-tone="error"] { color: var(--aw-creator-danger); }

@@ -1,0 +1,78 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals system truth through a few quiet lights while advanced transport remains folded until called;
+ * Awtsmoos.com keeps telemetry and Studio controls compact, readable, and local so diagnostics never become a cluttered wall.
+ */
+
+[data-awtsmoos-creator] .aw-creator__metrics {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 6px;
+	min-width: 0;
+}
+
+[data-awtsmoos-creator] .aw-creator__metric {
+	min-width: 0;
+	padding: 6px 8px;
+	border: 1px solid var(--aw-creator-line);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--aw-creator-surface) 62%, transparent);
+	color: var(--aw-creator-muted);
+	font-size: 9px;
+	font-weight: 720;
+	letter-spacing: .015em;
+	line-height: 1.3;
+	text-align: center;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+[data-awtsmoos-creator] .aw-creator__metric[data-tone="success"] {
+	border-color: color-mix(in srgb, var(--aw-creator-teal) 40%, transparent);
+	color: var(--aw-creator-success);
+}
+
+[data-awtsmoos-creator] .aw-creator__metric[data-tone="progress"] {
+	border-color: color-mix(in srgb, var(--aw-creator-violet) 42%, transparent);
+	color: #c9c1ff;
+}
+
+[data-awtsmoos-creator] .aw-creator__studio-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 7px;
+	padding: 2px 9px 9px;
+}
+
+[data-awtsmoos-creator] .aw-creator__studio-grid .aw-creator__wide {
+	grid-column: 1 / -1;
+}
+
+[data-awtsmoos-creator][data-playing="true"] [data-creator-action="play"] {
+	border-color: color-mix(in srgb, var(--aw-creator-teal) 58%, transparent);
+	background: color-mix(in srgb, var(--aw-creator-teal) 14%, var(--aw-creator-surface));
+	color: var(--aw-creator-success);
+}
+
+[data-awtsmoos-creator] .aw-creator__hints {
+	margin: 0;
+	padding: 0 10px 10px;
+	color: var(--aw-creator-muted);
+	font-size: 10px;
+	line-height: 1.5;
+	overflow-wrap: anywhere;
+}
+
+[data-awtsmoos-creator] .aw-creator__hints kbd {
+	display: inline-block;
+	min-width: 22px;
+	padding: 2px 5px;
+	border: 1px solid var(--aw-creator-line);
+	border-radius: 6px;
+	background: color-mix(in srgb, var(--aw-creator-bg) 78%, transparent);
+	font: 700 10px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+	text-align: center;
+}

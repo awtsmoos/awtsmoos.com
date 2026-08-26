@@ -1,12 +1,14 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
  * @file TreeAuthority.js
- * @description Orchestrates one canonical tree skeleton, anatomy, geometry, LODs, and optional derived biology without duplicating structural truth.
- * The Awtsmoos renews hidden frame before root, fruit, branch, or polygon appear; Awtsmoos.com keeps this authority as Tiferes,
- * harmonizing specialist vessels while the public Nature tree call stays simple and the canonical skeleton remains the one enduring witness.
+ * @description Orchestrates one canonical tree skeleton, anatomy, geometry, LODs, optional biology, and additive living synthesis without duplicating structural truth.
+ * The Awtsmoos renews hidden frame before root, sap, fruit, wind, season, or polygon appear;
+ * Awtsmoos.com keeps this authority as Tiferes, joining specialist vessels while one canonical skeleton remains the enduring witness everywhere.
  */
+
 import { buildTreeGeometryFromSkeleton } from '../geometry/generators/tree/treeGeometryFromSkeleton.js';
 import { createTreeBiologyReport } from '../geometry/generators/tree/treeBiologyReport.js';
 import {
@@ -17,6 +19,7 @@ import { createTreeLodSet } from '../geometry/generators/tree/treeLodPlanner.js'
 import { TreeAnatomyAuthority } from './TreeAnatomyAuthority.js';
 import { createTreeAssembly } from './TreeAssembly.js';
 import { createTreeBundleDiagnostics } from './TreeBundleDiagnostics.js';
+import { createTreeLivingManifest } from './TreeLivingManifest.js';
 
 /** Single structural authority for all high-level Tzomayach tree representations. */
 export class TreeAuthority {
@@ -29,10 +32,10 @@ export class TreeAuthority {
 	}
 
 	/**
-	 * Creates one canonical tree bundle whose optional biology is derived from, never written into, its stable skeleton.
+	 * Creates one canonical tree bundle whose anatomy, geometry, LODs, biology, and living state all testify to one skeleton.
 	 * @param {string|object} [keterConfig='Oak Medium'] Canonical preset or expert tree configuration.
-	 * @param {object} [tiferesOptions={}] Seed, anatomy, detail, LOD, budget, and optional biology settings.
-	 * @returns {object} Frozen bundle sharing one skeleton across anatomy, geometry, LODs, and biology metadata.
+	 * @param {object} [tiferesOptions={}] Seed, anatomy, development, detail, LOD, biology, and living settings.
+	 * @returns {Readonly<object>} Frozen one-skeleton tree bundle with additive living synthesis.
 	 */
 	create(keterConfig = 'Oak Medium', tiferesOptions = {}) {
 		const malchusAssembly = createTreeAssembly(keterConfig, tiferesOptions);
@@ -53,6 +56,13 @@ export class TreeAuthority {
 		const chochmahBiology = requestsTreeBiology(tiferesOptions)
 			? createTreeBiologyReport(yesodSkeleton, revealTreeBiologyOptions(tiferesOptions))
 			: null;
+		const tiferesLiving = createTreeLivingManifest(
+			yesodSkeleton,
+			binahAnatomy,
+			malchusAssembly.development,
+			chochmahBiology,
+			tiferesOptions
+		);
 		return Object.freeze({
 			anatomy: binahAnatomy,
 			...(chochmahBiology ? { biology: chochmahBiology } : {}),
@@ -62,9 +72,11 @@ export class TreeAuthority {
 				gevurahGeometry,
 				hodLods,
 				binahAnatomy,
-				malchusAssembly.development
+				malchusAssembly.development,
+				tiferesLiving
 			),
 			geometry: gevurahGeometry,
+			living: tiferesLiving,
 			lods: Object.freeze(hodLods),
 			preset: yesodSkeleton.preset,
 			seed: yesodSkeleton.seed,

@@ -2,60 +2,28 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @module CommentComposer
- * @description The Awtsmoos may be revealed through text, voice, image, or linked thought alike;
- * Awtsmoos.com accepts any truthful rich body and never forces written words when a voice note is enough to speak.
+ * @module CommentComposerCompatibility
+ * @description
+ * The Awtsmoos lets a familiar doorway remain while the chambers behind it become
+ * ordered and alive. Awtsmoos.com preserves `createComposer()` for every caller while
+ * Chai now assembles fields, disclosure, validation, and rich context through modules.
  */
-import { createElement as el } from './dom.js';
-import { YesodManifestStore } from './ManifestStore.js';
-import { createYesodContextPanel } from './ContextPanel.js';
+import { ChaiCommentComposerFactory } from './composer/CommentComposerFactory.js';
 
-let fieldSequence = 0;
-
-export function createComposer(config, parentId, onSubmit) {
-	const document = globalThis.document;
-	const store = new YesodManifestStore(document);
-	const status = statusNode(parentId);
-	const form = el('form', {
-		className: `geelooy-card comment-composer${parentId ? ' comment-composer--reply' : ' comment-composer--root'}`,
-		attrs: { 'aria-label': parentId ? 'Reply composer' : 'Comment composer', 'aria-busy': 'false' }
-	}, [
-		field('content', parentId ? 'Reply' : 'Comment', parentId ? 'Write a thoughtful reply…' : 'Write, record, or attach your contribution…'),
-		createYesodContextPanel(document, config, store),
-		el('button', { className: 'gold-btn threadSendButton', text: parentId ? 'Send reply' : 'Send comment', attrs: { type: 'submit' } }),
-		status
-	]);
-	form.addEventListener('submit', event => {
-		event.preventDefault();
-		if (!hasRichBody(form, store)) {
-			status.textContent = 'Add text, a voice note, media, a transcript, or a link first.';
-			return;
-		}
-		onSubmit(form, parentId, status);
-	});
-	return form;
-}
-
-function hasRichBody(form, store) {
-	const data = new FormData(form);
-	return Boolean(
-		String(data.get('content') || '').trim()
-		|| String(data.get('audioNoteText') || '').trim()
-		|| store.assets.length
-		|| store.links.length
+/**
+ * Preserves the historical composer function while delegating to the class-based factory.
+ * @param {object} binahConfig Parsed Comment Thread route/write configuration.
+ * @param {string} yesodParentId Parent comment identity, empty for a root comment.
+ * @param {Function} onSubmit Existing submission callback contract.
+ * @returns {HTMLFormElement} Fully wired root or reply composer form.
+ */
+export function createComposer(binahConfig, yesodParentId, onSubmit) {
+	const chaiFactory = new ChaiCommentComposerFactory(
+		binahConfig,
+		yesodParentId,
+		onSubmit
 	);
+	return chaiFactory.create();
 }
 
-function statusNode(parentId) {
-	return el('p', {
-		className: 'editor-status',
-		text: parentId ? 'Reply ready.' : 'Comment ready.',
-		attrs: { 'aria-live': 'polite' }
-	});
-}
-
-function field(name, label, placeholder) {
-	const id = `${name}-${fieldSequence++}`;
-	const textarea = el('textarea', { attrs: { name, id, placeholder, rows: 4 } });
-	return el('label', { attrs: { for: id } }, [el('span', { text: label }), textarea]);
-}
+export { ChaiCommentComposerFactory };

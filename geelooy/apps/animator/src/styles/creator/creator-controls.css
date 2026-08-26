@@ -2,8 +2,8 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos gives every touch a response and every focus a visible flame;
- * Awtsmoos.com keeps interaction styling beneath one local root, so no neighboring control inherits its name.
+ * The Awtsmoos gives every touch a response, every focus a visible boundary, and every disabled deed a truthful rest;
+ * Awtsmoos.com keeps interaction styling local and consistent so no relevant control remains half-dressed.
  */
 
 [data-awtsmoos-creator] button,
@@ -19,54 +19,59 @@
 }
 
 [data-awtsmoos-creator] button {
-	min-height: var(--aw-touch-height, 44px);
+	min-height: var(--aw-creator-touch);
 	padding: 9px 12px;
-	border: 1px solid color-mix(in srgb, var(--aw-text-muted, #9da9bd) 28%, transparent);
+	border: 1px solid var(--aw-creator-line);
 	border-radius: 12px;
-	background: color-mix(in srgb, var(--aw-surface, #0e1320) 82%, transparent);
+	background: color-mix(in srgb, var(--aw-creator-surface) 86%, transparent);
 	box-shadow: inset 0 1px rgba(255, 255, 255, .045);
 	cursor: pointer;
 }
 
 [data-awtsmoos-creator] button:hover:not(:disabled) {
-	border-color: color-mix(in srgb, var(--aw-focus, #80aaff) 62%, transparent);
-	background: color-mix(in srgb, var(--aw-focus, #80aaff) 11%, var(--aw-surface, #0e1320));
+	border-color: color-mix(in srgb, var(--aw-creator-focus) 62%, transparent);
+	background: color-mix(in srgb, var(--aw-creator-focus) 11%, var(--aw-creator-surface));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .08), 0 8px 24px rgba(0, 0, 0, .18);
 	transform: translateY(-1px);
 }
 
 [data-awtsmoos-creator] button:active:not(:disabled) {
+	box-shadow: inset 0 1px rgba(255, 255, 255, .04);
 	transform: translateY(0) scale(.975);
-}
-
-[data-awtsmoos-creator] button:focus-visible,
-[data-awtsmoos-creator] textarea:focus-visible,
-[data-awtsmoos-creator] summary:focus-visible {
-	outline: 2px solid var(--aw-focus, #80aaff);
-	outline-offset: 3px;
 }
 
 [data-awtsmoos-creator] button:disabled {
 	opacity: .42;
 	cursor: not-allowed;
-	filter: saturate(.5);
+	filter: saturate(.48);
 }
 
 [data-awtsmoos-creator] .aw-creator__primary {
-	border-color: color-mix(in srgb, var(--aw-focus, #80aaff) 66%, transparent);
-	background: linear-gradient(135deg, color-mix(in srgb, var(--aw-focus, #80aaff) 76%, #546cff), color-mix(in srgb, var(--aw-focus, #80aaff) 38%, #7a55ff));
+	border-color: color-mix(in srgb, var(--aw-creator-focus) 68%, transparent);
+	background: linear-gradient(135deg, #657dff, var(--aw-creator-violet));
 	color: #fff;
-	font-weight: 700;
-	box-shadow: 0 9px 24px color-mix(in srgb, var(--aw-focus, #80aaff) 20%, transparent);
+	font-weight: 760;
+	box-shadow: 0 10px 28px color-mix(in srgb, var(--aw-creator-violet) 24%, transparent);
+}
+
+[data-awtsmoos-creator] .aw-creator__icon-button {
+	width: var(--aw-creator-touch);
+	min-width: var(--aw-creator-touch);
+	padding: 0;
+	font-size: 20px;
+	line-height: 1;
 }
 
 [data-awtsmoos-creator] textarea:hover {
-	border-color: color-mix(in srgb, var(--aw-focus, #80aaff) 42%, transparent);
+	border-color: color-mix(in srgb, var(--aw-creator-focus) 42%, transparent);
 }
 
 [data-awtsmoos-creator] .aw-creator__advanced summary:hover {
-	color: var(--aw-focus, #80aaff);
+	color: var(--aw-creator-focus);
+	background: color-mix(in srgb, var(--aw-creator-focus) 7%, transparent);
 }
 
 [data-awtsmoos-creator] .aw-creator__advanced summary:active {
-	opacity: .72;
+	opacity: .74;
+	transform: scale(.992);
 }

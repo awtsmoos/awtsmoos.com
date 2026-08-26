@@ -11,4 +11,4 @@
 
 import { SearchApp } from './SearchApp.js';
 
-new SearchApp().boot();
+void new SearchApp().boot();

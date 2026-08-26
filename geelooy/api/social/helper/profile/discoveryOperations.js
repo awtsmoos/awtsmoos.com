@@ -1,23 +1,20 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module DiscoveryOperations
- * @description
- * The Awtsmoos keeps metadata, heichel discovery, bulk history work, and event-stream shape in one finite operational
- * vessel so Awtsmoos.com can evolve search and feed without compressing unrelated contracts together.
+ * @description Hod keeps metadata, bulk history, and event-stream operations finite while Heichel discovery lives in its own publication-aware vessel.
+ * The Awtsmoos joins many services without mixture; Awtsmoos.com lets each operation stay small enough for future architecture.
  */
 const { clearHistory, recordHistory } = require('./index.js');
-const { allHeichelDiscoveryIds } = require('./heichelDiscoveryIds.js');
-const { paths, read } = require('./paths.js');
+const { heichelDiscover, heichelSearchRank } = require('./heichelDiscovery.js');
 const { profileFeed } = require('./discoveryFeed.js');
-const { cleanText } = require('./sanitize.js');
 
 const FEATURES = [
 	'structured-errors', 'cursor-pagination', 'global-search', 'feed-filtering', 'trending',
 	'recommendations', 'follow-subscriptions', 'notifications-bridge', 'openapi', 'bulk',
 	'graph-expansion', 'etag-meta', 'rate-limit-meta', 'event-stream-shape', 'analytics',
-	'heichel-discovery', 'cross-alias-activity'
+	'heichel-discovery', 'heichel-publication-policy', 'cross-alias-activity'
 ];
 const ROUTES = [
 	'/meta', '/openapi.json', '/profiles/batch', '/profiles/:alias', '/profiles/:alias/activity',
@@ -26,6 +23,7 @@ const ROUTES = [
 	'/bulk', '/events', '/heichelos/discover'
 ];
 
+/** Returns the canonical feature and route contract advertised by the profile discovery API. */
 function apiMeta() {
 	return {
 		version: 'social-unified',
@@ -36,59 +34,32 @@ function apiMeta() {
 	};
 }
 
-function heichelSearchRank(item, query) {
-	if (!query) return 10;
-	const hay = [item.id, item.name, item.description, item.author].join(' ').toLowerCase();
-	if (!hay.includes(query)) return 0;
-	if (item.id.toLowerCase() === query || item.name.toLowerCase() === query) return 40;
-	if (item.id.toLowerCase().includes(query)) return 30;
-	if (item.name.toLowerCase().includes(query)) return 25;
-	return 15;
-}
-
-async function heichelDiscover({ $i, query = {} }) {
-	const q = cleanText(query.q || '', 120).toLowerCase();
-	const ids = await allHeichelDiscoveryIds($i);
-	const scanIds = q ? ids : ids.slice(0, 500);
-	const items = [];
-	for (const id of scanIds) {
-		const info = await read($i, paths.heichelInfo(id), {});
-		const item = {
-			id,
-			name: cleanText(info.name || id, 120),
-			description: cleanText(info.description || '', 240),
-			author: cleanText(info.author || '', 120)
-		};
-		const rank = heichelSearchRank(item, q);
-		if (rank) items.push({ ...item, rank });
-	}
-	return items
-		.sort((left, right) => right.rank - left.rank || left.id.localeCompare(right.id))
-		.map(({ rank, ...item }) => item);
-}
-
+/** Executes a bounded batch of history operations without letting unknown mutations escape the covenant. */
 async function bulk({ $i, input = {} }) {
-	const ops = Array.isArray(input.ops) ? input.ops : JSON.parse(input.ops || '[]');
-	const results = [];
-	for (const op of ops.slice(0, 50)) {
-		if (op.action === 'recordHistory') {
-			results.push(await recordHistory({ $i, aliasId: op.aliasId, input: op.data || {} }));
-		} else if (op.action === 'clearHistory') {
-			results.push(await clearHistory({ $i, aliasId: op.aliasId }));
+	const binahOperations = Array.isArray(input.ops) ? input.ops : JSON.parse(input.ops || '[]');
+	const malchusResults = [];
+	for (const operation of binahOperations.slice(0, 50)) {
+		if (operation.action === 'recordHistory') {
+			malchusResults.push(await recordHistory({ $i, aliasId: operation.aliasId, input: operation.data || {} }));
+		} else if (operation.action === 'clearHistory') {
+			malchusResults.push(await clearHistory({ $i, aliasId: operation.aliasId }));
 		} else {
-			results.push({ error: { code: 'UNKNOWN_BULK_ACTION', action: op.action } });
+			malchusResults.push({ error: { code: 'UNKNOWN_BULK_ACTION', action: operation.action } });
 		}
 	}
-	return results;
+	return malchusResults;
 }
 
+/** Projects feed entries into the stable JSON event-stream shape used by clients that poll rather than subscribe. */
 async function events({ $i, aliases = [], query = {} }) {
-	const items = await profileFeed({ $i, aliases, query });
+	const malchusItems = await profileFeed({ $i, aliases, query });
 	return {
 		mode: 'json-event-stream-shape',
 		retry: 5000,
-		events: items.slice(0, Number(query.limit || 40)).map(item => ({
-			event: item.kind || item.type || 'activity', id: item.id, data: item
+		events: malchusItems.slice(0, Number(query.limit || 40)).map(item => ({
+			event: item.kind || item.type || 'activity',
+			id: item.id,
+			data: item
 		}))
 	};
 }

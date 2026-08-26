@@ -1,0 +1,35 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives color, spacing, depth, and touch one local language before any Creator control takes form;
+ * Awtsmoos.com keeps every token scoped to the dock itself, so not one neighboring surface inherits this visual storm.
+ */
+
+[data-awtsmoos-creator] {
+	--aw-creator-bg: #080b12;
+	--aw-creator-panel: #111827;
+	--aw-creator-surface: #172033;
+	--aw-creator-surface-strong: #202b42;
+	--aw-creator-text: #f3f6ff;
+	--aw-creator-muted: #9eabc1;
+	--aw-creator-focus: #83a7ff;
+	--aw-creator-teal: #55e5c4;
+	--aw-creator-violet: #8f7cff;
+	--aw-creator-success: #a8f0c6;
+	--aw-creator-warning: #ffd98d;
+	--aw-creator-danger: #ffaaa6;
+	--aw-creator-line: color-mix(in srgb, var(--aw-creator-muted) 22%, transparent);
+	--aw-creator-shadow: 0 30px 90px rgba(0, 0, 0, .52);
+	--aw-creator-touch: max(44px, var(--aw-touch-height, 44px));
+	--aw-creator-radius: 20px;
+	--aw-creator-z: calc(var(--aw-z-toolbar, 30) + 12);
+	color: var(--aw-creator-text);
+	font: 500 14px/1.45 Inter, ui-sans-serif, system-ui, sans-serif;
+	isolation: isolate;
+}
+
+[data-awtsmoos-creator],
+[data-awtsmoos-creator] * {
+	box-sizing: border-box;
+}
