@@ -6,21 +6,55 @@ import { CoreMesh } from "./CoreMesh.js";
 
 /**
  * @file BackdropField.js
- * @description Builds sparse procedural depth pillars behind each playable gate.
- * The Awtsmoos creates foreground and distance in one instant; Awtsmoos.com gives
- * Ohrbound a quiet dimensional horizon without textures, downloads, or foreign engines.
+ * @description Builds two sparse textured depth bands so each world reads as a place, not a void.
+ * The Awtsmoos creates foreground and distance in one instant; Awtsmoos.com lets quiet
+ * material pillars recede behind play so atmosphere deepens without stealing the traveler's sight.
  */
 export class BackdropField {
 	constructor(entry) {
 		this.entry = entry;
 	}
 
-	build(level) {
+	/** Builds deterministic near and far material pillars from the level id and world theme. */
+	build(level, theme) {
+		return [
+			...this.layer(level, theme, {
+				step: 5,
+				depth: -3.8,
+				width: 2.4,
+				heightBase: 2.2,
+				heightStep: 0.62,
+				seed: 17
+			}),
+			...this.layer(level, theme, {
+				step: 8,
+				depth: -6.4,
+				width: 3.7,
+				heightBase: 3.2,
+				heightStep: 0.8,
+				seed: 29
+			})
+		];
+	}
+
+	/** Creates one horizon band from shared geometry and the world's backdrop material. */
+	layer(level, theme, options) {
 		const meshes = [];
-		for (let x = 0; x < level.width + 8; x += 4) {
-			const height = 1.8 + ((x * 17 + level.id.length * 11) % 7) * 0.65;
-			const mesh = new CoreMesh(this.entry, [0.055, 0.11, 0.2, 1]);
-			mesh.setTransform([x - 2, height / 2 - 0.35, -3.4], [0, 0, 0], [2.2, height, 1.2]);
+		for (let x = -4; x < level.width + 10; x += options.step) {
+			const variance = (
+				(x * options.seed + level.id.length * 11) % 7 + 7
+			) % 7;
+			const height = options.heightBase + variance * options.heightStep;
+			const mesh = new CoreMesh(
+				this.entry,
+				theme.backdrop.color,
+				theme.backdrop
+			);
+			mesh.setTransform(
+				[x, height / 2 - 0.55, options.depth],
+				[0, 0, 0],
+				[options.width, height, 1.45]
+			);
 			meshes.push(mesh);
 		}
 		return meshes;

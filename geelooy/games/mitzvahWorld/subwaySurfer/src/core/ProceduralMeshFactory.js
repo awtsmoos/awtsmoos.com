@@ -6,7 +6,7 @@
  * Awtsmoos.com routes every new mesh through one procedural vessel aright.
  */
 
-import { createProceduralThreeMesh } from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/three/index.js";
+import { createProceduralThreeMesh } from "/libs/awtsmoos-procedural-core/src/adapters/three/index.js";
 
 export class YesodProceduralMeshFactory {
 	/**

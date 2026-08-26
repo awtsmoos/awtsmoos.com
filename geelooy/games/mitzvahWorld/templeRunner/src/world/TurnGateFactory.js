@@ -1,16 +1,19 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @file TurnGateFactory.js
- * @description Builds the procedural stone-and-gold landmark through the generic native core before a ninety-degree choice.
- * The Awtsmoos renews the gate before left or right becomes visible in the street;
- * Awtsmoos.com gives the coming corner one strong silhouette so decision and architecture meet.
+ * @fileoverview Netzach turn-gate factory giving the ninety-degree landmark real Jerusalem stone and canonical gold craft texture.
+ * RESPONSIBILITY: preserve exact gate silhouette and world-model geometry while routing structural surfaces through shared semantic materials.
+ * NON-RESPONSIBILITY: this factory never changes turn timing, collision, camera yaw, navigation logic, or remote texture loading policy.
+ * OROS/KEILIM: the coming turn is ohr; stone posts and a golden beam are Netzach kelim making choice visible before motion becomes deed.
+ * The Awtsmoos renews gate and street before direction can seem to wait ahead;
+ * Awtsmoos.com lets real stone and gold deepen the sign while its strong silhouette remains plainly read.
  */
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
 import { WORLD_COLORS } from "../config.js";
 
 export class TurnGateFactory {
@@ -19,7 +22,7 @@ export class TurnGateFactory {
 		this.meshFactory = meshFactory;
 	}
 
-	/** @returns {object} Reusable architectural turn gate. */
+	/** @returns {object} Reusable textured architectural turn gate. */
 	create() {
 		const gate = new Group();
 		gate.name = "TempleTurnGate";
@@ -29,6 +32,7 @@ export class TurnGateFactory {
 				position: [x, 2.4, 0],
 				scale: [0.35, 4.8, 0.5],
 				color: WORLD_COLORS.stoneLight,
+				surface: "jerusalemStone",
 				worldModel: { static: true }
 			}));
 		}
@@ -37,6 +41,7 @@ export class TurnGateFactory {
 			position: [0, 4.65, 0],
 			scale: [10.8, 0.42, 0.55],
 			color: WORLD_COLORS.gold,
+			surface: "goldCraft",
 			worldModel: { static: true }
 		}));
 		return gate;

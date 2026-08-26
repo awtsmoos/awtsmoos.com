@@ -1,0 +1,53 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews motion before any pulse can seem to persist; Awtsmoos.com gives recovery, casting, network, and busy light their own chamber, with reduced motion honored before animation is missed.
+*/
+
+#mitzvah-world-root [data-state="recovering"] {
+	animation: mw-recovery-pulse 900ms var(--mw-ease-out) infinite alternate;
+}
+
+#mitzvah-world-root [data-combat-state="casting"] {
+	animation: mw-casting-pulse 720ms var(--mw-ease-out) infinite alternate;
+}
+
+#mitzvah-world-root [data-network="reconnecting"] {
+	animation: mw-network-pulse 1s ease-in-out infinite;
+}
+
+@keyframes mw-recovery-pulse {
+	from {
+		opacity: 0.72;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes mw-casting-pulse {
+	from {
+		box-shadow: 0 0 0 rgba(117, 245, 191, 0);
+	}
+	to {
+		box-shadow: 0 0 28px rgba(117, 245, 191, 0.24);
+	}
+}
+
+@keyframes mw-network-pulse {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.58;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root [data-state="recovering"],
+	#mitzvah-world-root [data-combat-state="casting"],
+	#mitzvah-world-root [data-network="reconnecting"] {
+		animation: none;
+	}
+}

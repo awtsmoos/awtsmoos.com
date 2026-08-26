@@ -4,14 +4,20 @@
 
 /**
  * @file TorahAbilityTooltip.js
- * @description Presents accessible local detail for every canonical hotbar action.
- * The historic vessel keeps its public name, yet the Awtsmoos widens its truthful light;
- * on Awtsmoos.com both sefer and staff reveal cost, range, cadence, and readiness bright.
+ * @description Owns lifecycle, data binding, and local geometry for action-bar ability explanations.
+ * The Awtsmoos reveals understanding beside the deed without exiling it to the document sky;
+ * Awtsmoos.com keeps explanation inside its component root, bounded and accessible to hand and eye.
  */
 
 import { actionBarActionPresentation } from './ActionBarActionPresentation.js';
+import { revealTooltipContent } from './TorahAbilityTooltipContent.js';
+import { YesodTooltipGeometry } from './YesodTooltipGeometry.js';
 
 export class TorahAbilityTooltip {
+	/**
+	 * Creates one hidden tooltip owned by the supplied action-bar frame.
+	 * @param {HTMLElement} host Local action-bar frame that owns tooltip geometry and styling.
+	 */
 	constructor(host) {
 		this.element = document.createElement('aside');
 		this.element.className = 'Mitzvah-ability-tooltip';
@@ -20,69 +26,43 @@ export class TorahAbilityTooltip {
 		this.element.setAttribute('role', 'tooltip');
 		this.element.hidden = true;
 		host.appendChild(this.element);
+		this.geometry = new YesodTooltipGeometry({ host, surface: this.element });
 	}
 
+	/**
+	 * Reveals an action explanation and clamps its local placement to the visible viewport.
+	 * @param {object|null} definition Canonical action definition.
+	 * @param {object|null} readiness Current readiness decision.
+	 * @param {HTMLElement|null} anchor Action slot requesting inspection.
+	 * @returns {boolean} True when a tooltip was revealed.
+	 */
 	show(definition, readiness, anchor) {
-		if (!definition || !anchor) return this.hide();
+		if (!definition || !anchor) {
+			this.hide();
+			return false;
+		}
 		const presentation = actionBarActionPresentation(definition.id);
-		this.element.replaceChildren(
-			row('Mitzvah-tooltip-heading', `${presentation.glyph} ${definition.title}`),
-			row('Mitzvah-tooltip-school', definition.school),
-			row('Mitzvah-tooltip-description', definition.description),
-			stats(definition),
-			row(
-				readiness?.ok ? 'Mitzvah-tooltip-ready' : 'Mitzvah-tooltip-unavailable',
-				readinessLabel(readiness)
-			)
-		);
-		const bounds = anchor.getBoundingClientRect();
-		this.element.style.setProperty('--tooltip-x', `${bounds.left + bounds.width / 2}px`);
-		this.element.style.setProperty('--tooltip-y', `${Math.max(8, bounds.top - 12)}px`);
+		this.element.replaceChildren(...revealTooltipContent(definition, presentation, readiness));
 		this.element.hidden = false;
 		this.element.setAttribute('aria-hidden', 'false');
+		this.geometry.place(anchor);
+		return true;
 	}
 
+	/**
+	 * Hides the tooltip from both visual and accessibility trees.
+	 * @returns {void}
+	 */
 	hide() {
 		this.element.hidden = true;
 		this.element.setAttribute('aria-hidden', 'true');
 	}
 
+	/**
+	 * Removes the tooltip surface and its local state from the owning action bar.
+	 * @returns {void}
+	 */
 	destroy() {
 		this.element.remove();
 	}
-}
-
-function stats(definition) {
-	const element = document.createElement('dl');
-	element.className = 'Mitzvah-tooltip-stats';
-	const values = [
-		['Focus', definition.resourceCost || 0],
-		['Range', definition.range ? `${definition.range}m` : 'Self'],
-		['Cast', castLabel(definition)],
-		['Cooldown', `${(definition.cooldownMilliseconds / 1000).toFixed(1)}s`]
-	];
-	for (const [label, value] of values) {
-		element.append(row('Mitzvah-tooltip-term', label, 'dt'));
-		element.append(row('Mitzvah-tooltip-value', value, 'dd'));
-	}
-	return element;
-}
-
-function castLabel(definition) {
-	if (definition.castType === 'channel') return `${definition.channelMilliseconds / 1000}s channel`;
-	if (!definition.castMilliseconds) return definition.castType;
-	return `${definition.castMilliseconds / 1000}s ${definition.castType}`;
-}
-
-function readinessLabel(readiness) {
-	if (!readiness) return '';
-	if (readiness.ok) return 'Ready';
-	return String(readiness.reason || 'Unavailable').replaceAll('-', ' ');
-}
-
-function row(className, text, tagName = 'p') {
-	const element = document.createElement(tagName);
-	element.className = className;
-	element.textContent = text;
-	return element;
 }

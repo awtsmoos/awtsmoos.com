@@ -4,96 +4,45 @@
 
 /**
  * @file VegetationNatureApi.js
- * @description Keeps Nature vegetation convenience calls aligned with the one canonical Tzomayach authority.
- * The Awtsmoos, Atzmus beyond root and species, reveals one soil as meadow, reed, shrub, bloom, and grove;
- * Awtsmoos.com lets Nature translate realism and budget while Tzomayach alone directs grass, botany, and population growth.
+ * @description Adds tiny moss, vine, flower, and patch doors above the canonical Tzomayach vegetation foundation.
+ * The Awtsmoos renews meadow and climbing vine before a convenience name can divide their source;
+ * Awtsmoos.com keeps the surface mercifully small while advanced distribution, realism, guide, and ecology options remain the same course.
  */
+import { VegetationNatureFoundationApi } from './VegetationNatureFoundationApi.js';
 
-import { listEcosystemSpecies } from '../ecosystem/EcosystemSpeciesCatalog.js';
-import { VegetationAuthority } from '../tzomayach/VegetationAuthority.js';
-import { createNatureGrassPatchCandidate } from './NatureGrassPatchCandidate.js';
-import { createNatureCallContext } from './NatureApiOperation.js';
-import { natureQualityScale, specialistNatureQuality } from './NatureApiProfiles.js';
-import { createNatureResult } from './NatureApiResult.js';
-import {
-	botanicalNatureDiagnostics,
-	vegetationPatchOptions
-} from './VegetationNatureDefaults.js';
-
-/** High-level renderer-neutral vegetation facade delegating through Tzomayach. */
-export class VegetationNatureApi {
-	/** @param {object} [defaults={}] Shared NatureApi defaults. */
-	constructor(defaults = {}) {
-		this.defaults = Object.freeze({ ...defaults });
-		this.authority = new VegetationAuthority();
-	}
-
-	/** Plans ecological grass with realism-aware patch topology by default. */
-	grass(options = {}) {
-		const context = this.context(options, 'grass', options.id ?? 'field');
-		const count = options.count ?? Math.round(480 * natureQualityScale(context.quality));
-		const patch = vegetationPatchOptions(options, context.realism);
-		const candidateAt = options.candidateAt
-			?? createNatureGrassPatchCandidate(patch);
-		const value = this.authority.grass({
+/** High-level vegetation facade with progressive disclosure rather than a second generator. */
+export class VegetationNatureApi extends VegetationNatureFoundationApi {
+	/** Generates a semantic botanical patch while preserving the full cluster option surface. */
+	patch(species = 'daisy', options = {}) {
+		return this.plantCluster(species, {
 			...options,
-			candidateAt,
-			count,
-			seed: context.seed
-		});
-		return createNatureResult('grass', context, value, {
-			patchiness: patch.patchiness,
-			placed: value.placements.length,
-			requested: value.requested
+			distribution: options.distribution ?? 'meadow'
 		});
 	}
 
-	/** Generates one canonical botanical organism through Tzomayach. */
-	plant(species, options = {}) {
-		const context = this.context(options, 'plant', species);
-		const value = this.authority.plant(species, {
+	/** Creates a flower patch with meadow placement by default. */
+	flowers(species = 'daisy', options = {}) {
+		return this.patch(species, options);
+	}
+
+	/** Creates a low-growing moss patch with understory placement by default. */
+	moss(species = 'sheet-moss', options = {}) {
+		return this.patch(species, {
 			...options,
-			quality: specialistNatureQuality(context.quality),
-			realism: context.realism,
-			seed: context.seed
+			distribution: options.distribution ?? 'understory'
 		});
-		return createNatureResult(
-			'plant',
-			context,
-			value,
-			botanicalNatureDiagnostics(value, species)
-		);
 	}
 
-	/** Generates one canonical botanical cluster through Tzomayach. */
-	plantCluster(species, options = {}) {
-		const context = this.context(options, 'plant-cluster', species);
-		const value = this.authority.cluster(species, {
+	/** Creates one guide-aware climbing vine using the same canonical plant generator. */
+	vine(species = 'english-ivy', options = {}) {
+		return this.plant(species, options);
+	}
+
+	/** Creates a deterministic vine patch suitable for walls, edges, and bands. */
+	vines(species = 'english-ivy', options = {}) {
+		return this.patch(species, {
 			...options,
-			realism: context.realism,
-			seed: context.seed
+			distribution: options.distribution ?? 'edge'
 		});
-		return createNatureResult('plant-cluster', context, value, {
-			plantCount: value.plants?.length ?? value.instances?.length ?? 0,
-			species
-		});
-	}
-
-	/** Plans mixed vegetation through the canonical Tzomayach population authority. */
-	population(options = {}) {
-		const context = this.context(options, 'vegetation-population', options.id ?? 'population');
-		const species = options.species ?? listEcosystemSpecies('plant');
-		const patch = vegetationPatchOptions(options, context.realism);
-		const value = this.authority.population({
-			...options,
-			...patch,
-			seed: context.seed,
-			species
-		});
-		return createNatureResult('vegetation-population', context, value, value.diagnostics);
-	}
-
-	context(options, domain, identity) {
-		return createNatureCallContext(this.defaults, options, domain, identity);
 	}
 }

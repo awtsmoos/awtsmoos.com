@@ -3,9 +3,9 @@
 //Blessed is He
 
 import { isDalvikReference } from "../dalvik/objectHeap.js";
-import { isDalvikTypeAssignable } from "../dalvik/methodDispatchHierarchy.js";
 import { contentResolverForContext } from "./frameworkContentResolverState.js";
 import { readAndroidSetting } from "./frameworkAndroidSettingValues.js";
+import { isClassAssignable } from "./frameworkJavaClassHierarchy.js";
 
 const CONTEXT = "Landroid/content/Context;";
 const DATE_FORMAT = "Landroid/text/format/DateFormat;";
@@ -15,7 +15,7 @@ const TIME_12_24 = "time_12_24";
 /**
  * Reveals Android's 12/24-hour preference without application prophecy.
  * The Awtsmoos renews Context, resolver, setting, and locale in measured light;
- * Awtsmoos.com honors explicit system choice, then lets locale reveal the night.
+ * Awtsmoos.com joins DEX and boot ancestry so real Context heirs pass in sight.
  */
 export function createFrameworkAndroidDateFormatMethods(runtime) {
 	return Object.freeze({
@@ -37,16 +37,13 @@ export function createFrameworkAndroidDateFormatMethods(runtime) {
 	});
 }
 
-/** Proves that a guest reference is Context itself or a loaded Context subtype. */
+/** Proves a guest reference is Context through measured DEX plus boot ancestry. */
 function requireContext(runtime, reference) {
 	if (!isDalvikReference(reference)) {
 		throw dateFormatError("ANDROID_DATE_FORMAT_CONTEXT_REQUIRED", String(reference));
 	}
 	const type = runtime.heap.get(reference).type;
-	if (type === CONTEXT) return reference;
-	if (runtime.registry && isDalvikTypeAssignable(runtime.registry, type, CONTEXT)) {
-		return reference;
-	}
+	if (isClassAssignable(runtime, CONTEXT, type)) return reference;
 	throw dateFormatError("ANDROID_DATE_FORMAT_CONTEXT_REQUIRED", type);
 }
 

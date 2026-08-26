@@ -1,16 +1,16 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-
-The Awtsmoos hides infinity inside one point; Awtsmoos.com lets three quiet orbits hint at that endless source,
-each ring moving differently while the central pulse remains the still and readable course.
-*/
-.pulseOrb {
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos hides infinity inside one point while Awtsmoos.com reveals three quiet local orbits;
+ * each ring moves only inside the Social Hub vessel, so no foreign pulse inherits motion, glow, or stacking by accident.
+ */
+.social-hub-document .pulseOrb {
 	isolation: isolate;
 	transform-style: preserve-3d;
 }
 
-.pulseOrb::after {
+.social-hub-document .pulseOrb::after {
 	position: absolute;
 	inset: 17%;
 	border: 1px solid rgb(126 239 255 / 22%);
@@ -20,7 +20,7 @@ each ring moving differently while the central pulse remains the still and reada
 	content: "";
 }
 
-.pulseOrb span {
+.social-hub-document .pulseOrb span {
 	position: absolute;
 	display: block;
 	border: 1px solid rgb(126 239 255 / 18%);
@@ -28,11 +28,11 @@ each ring moving differently while the central pulse remains the still and reada
 	pointer-events: none;
 }
 
-.pulseOrb span::after {
+.social-hub-document .pulseOrb span::after {
 	position: absolute;
-	top: 50%;
-	left: -3px;
-	width: 6px;
+	inset-block-start: 50%;
+	inset-inline-start: -3px;
+	inline-size: 6px;
 	aspect-ratio: 1;
 	border-radius: 50%;
 	background: #bff7ff;
@@ -40,37 +40,37 @@ each ring moving differently while the central pulse remains the still and reada
 	content: "";
 }
 
-.pulseOrb span:nth-child(1) {
+.social-hub-document .pulseOrb span:nth-child(1) {
 	inset: 6%;
 	transform: rotateX(67deg) rotateZ(12deg);
 	animation: chochmah-orbit 13s linear infinite;
 }
 
-.pulseOrb span:nth-child(2) {
+.social-hub-document .pulseOrb span:nth-child(2) {
 	inset: 17%;
 	border-color: rgb(178 134 255 / 20%);
 	transform: rotateY(64deg) rotateZ(-24deg);
 	animation: binah-orbit 17s linear infinite reverse;
 }
 
-.pulseOrb span:nth-child(2)::after {
+.social-hub-document .pulseOrb span:nth-child(2)::after {
 	background: #d7c8ff;
 	box-shadow: 0 0 14px rgb(178 134 255 / 65%);
 }
 
-.pulseOrb span:nth-child(3) {
+.social-hub-document .pulseOrb span:nth-child(3) {
 	inset: 29%;
 	border-color: rgb(255 132 218 / 18%);
 	transform: rotateX(54deg) rotateY(38deg);
 	animation: daas-orbit 21s linear infinite;
 }
 
-.pulseOrb span:nth-child(3)::after {
+.social-hub-document .pulseOrb span:nth-child(3)::after {
 	background: #ffd0ef;
 	box-shadow: 0 0 14px rgb(255 132 218 / 58%);
 }
 
-.pulseOrb[data-active="true"] {
+.social-hub-document .pulseOrb[data-active="true"] {
 	animation: keter-orb-breathe 5.2s ease-in-out infinite;
 }
 

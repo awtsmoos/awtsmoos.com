@@ -1,65 +1,58 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos is beyond concealed road and expanded map, while Awtsmoos.com lets medium desktop navigation return width to the work until attention calls the labels forth;
- * this Gevurah-like garment owns only rail retraction and revelation, overlaying its expansion without shifting the workspace vessel of light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos is beyond concealed road and expanded map; Awtsmoos.com lets medium-desktop Social
+ * navigation reveal labels on intent without shifting the workspace or leaking rail geometry elsewhere.
  */
-
 @media (min-width: 62.5rem) and (max-width: 90.5625rem) {
-	.hubShell {
+	.social-hub-document .hubShell {
 		grid-template-columns: 5rem minmax(0, 1fr);
 	}
 
-	.desktopRail {
+	.social-hub-document .desktopRail {
 		display: flex;
 		inline-size: 5rem;
-		transition:
-			inline-size 160ms ease,
-			box-shadow 160ms ease;
+		z-index: var(--hub-layer-rail);
+		transition: inline-size 160ms ease, box-shadow 160ms ease;
 	}
 
-	.desktopRail:is(:hover, :focus-within) {
+	.social-hub-document .desktopRail:is(:hover, :focus-within) {
 		inline-size: 14.5rem;
-		box-shadow: 18px 0 44px rgba(0, 0, 0, .28);
+		box-shadow: 18px 0 44px rgb(0 0 0 / 28%);
 	}
 
-	.desktopRail .routeLabel,
-	.desktopRail .railFooter {
+	.social-hub-document .desktopRail :where(.routeLabel, .railFooter) {
 		opacity: 0;
 		pointer-events: none;
 		transition: opacity 100ms ease;
 	}
 
-	.desktopRail:is(:hover, :focus-within) .routeLabel,
-	.desktopRail:is(:hover, :focus-within) .railFooter {
+	.social-hub-document .desktopRail:is(:hover, :focus-within) :where(.routeLabel, .railFooter) {
 		opacity: 1;
 		pointer-events: auto;
 	}
 }
 
 @media (min-width: 90.625rem) {
-	.hubShell {
+	.social-hub-document .hubShell {
 		grid-template-columns: 16rem minmax(0, 1fr);
 	}
 
-	.desktopRail,
-	.desktopRail:is(:hover, :focus-within) {
+	.social-hub-document .desktopRail,
+.social-hub-document .desktopRail:is(:hover, :focus-within) {
 		inline-size: 16rem;
 	}
 
-	.desktopRail .routeLabel,
-	.desktopRail .railFooter {
+	.social-hub-document .desktopRail :where(.routeLabel, .railFooter) {
 		opacity: 1;
 		pointer-events: auto;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.desktopRail,
-	.desktopRail .routeLabel,
-	.desktopRail .railFooter {
+	.social-hub-document .desktopRail,
+.social-hub-document .desktopRail :where(.routeLabel, .railFooter) {
 		transition: none;
 	}
 }

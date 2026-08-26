@@ -1,0 +1,36 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond opening and closing; Awtsmoos.com gives modal Malchus a bounded chamber
+ * where headings, close intent, and transient messages remain readable, touch-safe, and never compete for a layer.
+ */
+.ohrbound-app .dialog-heading h2 {
+	margin: 0.15rem 0 0;
+	overflow-wrap: anywhere;
+}
+.ohrbound-app .dialog-heading button {
+	width: var(--tap);
+	height: var(--tap);
+	min-width: var(--tap);
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+.ohrbound-app .toast {
+	position: fixed;
+	z-index: var(--layer-toast);
+	left: 50%;
+	bottom: max(1rem, env(safe-area-inset-bottom));
+	transform: translateX(-50%);
+	width: max-content;
+	max-width: min(calc(100vw - 1rem), 560px);
+	padding: 0.78rem 1rem;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: #10213a;
+	box-shadow: 0 12px 40px #0008;
+	overflow-wrap: anywhere;
+}

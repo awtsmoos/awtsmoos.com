@@ -1,75 +1,89 @@
-/* B"H */
-/**
- * The Awtsmoos arranges the visible roof of the documentation world; Awtsmoos.com
- * keeps brand, global search, and the primary grid stable while deeper rails live in their own vessel.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos arranges the visible roof while Awtsmoos.com keeps brand, search, actions, and stage
+ * inside one bounded Docs shell whose layers are named for purpose rather than numbered by fear.
  */
-.skip-link {
+body[data-geelooy-route="docs"] .skip-link {
 	position: fixed;
-	left: 16px;
-	top: -80px;
-	z-index: 1000;
+	z-index: var(--docs-layer-skip);
+	inset-inline-start: max(16px, env(safe-area-inset-left));
+	inset-block-start: -80px;
 	padding: 10px 14px;
+	border-radius: var(--radius-sm);
 	background: var(--accent);
 	color: var(--bg);
-	border-radius: var(--radius-sm);
-	transition: top .18s ease;
+	transition: inset-block-start .18s ease;
 }
-.skip-link:focus {
-	top: 12px;
+
+body[data-geelooy-route="docs"] .skip-link:focus {
+	inset-block-start: max(12px, env(safe-area-inset-top));
 }
-.topbar {
+
+body[data-geelooy-route="docs"] .topbar {
 	position: sticky;
+	z-index: var(--docs-layer-topbar);
 	top: 0;
-	z-index: 80;
 	display: grid;
 	grid-template-columns: var(--nav-width) minmax(280px, 620px) 1fr;
 	align-items: center;
 	gap: 20px;
-	height: var(--topbar);
-	padding: 0 22px;
+	min-inline-size: 0;
+	min-block-size: var(--topbar);
+	padding: max(8px, env(safe-area-inset-top)) max(22px, env(safe-area-inset-right)) 8px max(22px, env(safe-area-inset-left));
 	border-bottom: 1px solid var(--line);
 	background: color-mix(in srgb, var(--bg) 88%, transparent);
 	backdrop-filter: blur(18px) saturate(140%);
 }
-.brand {
+
+body[data-geelooy-route="docs"] .brand {
 	display: flex;
 	align-items: center;
 	gap: 11px;
-	min-width: 0;
+	min-inline-size: 0;
 	text-decoration: none;
 }
-.brand-mark {
+
+body[data-geelooy-route="docs"] .brand-mark {
 	display: grid;
+	inline-size: 38px;
+	block-size: 38px;
+	flex: 0 0 auto;
 	place-items: center;
-	width: 38px;
-	height: 38px;
 	border: 1px solid var(--line-strong);
 	border-radius: 12px;
 	background: linear-gradient(145deg, var(--accent-soft), transparent);
 	color: var(--accent);
 	font: 700 1.25rem var(--font-serif);
 }
-.brand strong,
-.brand small {
+
+body[data-geelooy-route="docs"] .brand :where(strong, small) {
 	display: block;
 }
-.brand small {
-	margin-top: 1px;
+
+body[data-geelooy-route="docs"] .brand small {
+	margin-block-start: 1px;
 	color: var(--muted);
 	font-size: .72rem;
 	letter-spacing: .08em;
 	text-transform: uppercase;
 }
-.top-actions {
+
+body[data-geelooy-route="docs"] .top-actions {
 	display: flex;
 	justify-content: flex-end;
 	gap: 8px;
+	min-inline-size: 0;
 }
-.app-shell {
+
+body[data-geelooy-route="docs"] .app-shell {
 	display: grid;
 	grid-template-columns: var(--nav-width) minmax(0, 1fr) var(--context-width);
-	min-height: calc(100vh - var(--topbar));
+	min-inline-size: 0;
+	min-block-size: calc(100dvh - var(--topbar));
 }
-.mobile-only {
+
+body[data-geelooy-route="docs"] .mobile-only {
 	display: none;
 }

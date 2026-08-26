@@ -1,101 +1,131 @@
-/* B"H */
-/** The Awtsmoos lets a dense corpus open with invitation before evidence; Awtsmoos.com keeps home and document framing spacious. */
-.hero {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets document, metadata, status, and toast reveal themselves in measured layers; Awtsmoos.com keeps
+ * content readable while links answer intent and transient messages remain inside the safe visible Docs vessel.
+ */
+body[data-geelooy-route="docs"] .hero {
 	padding: clamp(18px, 4vw, 44px) 0 38px;
 }
-.hero h1 {
+
+body[data-geelooy-route="docs"] .hero h1 {
 	max-width: 820px;
 	margin: 0;
 	font: 650 clamp(2.2rem, 6vw, 5.4rem)/.98 var(--font-serif);
 	letter-spacing: -.045em;
 }
-.hero p {
+
+body[data-geelooy-route="docs"] .hero p {
 	max-width: 720px;
 	margin: 22px 0 0;
 	color: var(--muted);
 	font-size: clamp(1rem, 1.7vw, 1.2rem);
 	line-height: 1.65;
 }
-.section-head {
+
+body[data-geelooy-route="docs"] .section-head {
 	display: flex;
 	align-items: end;
 	justify-content: space-between;
 	gap: 18px;
 	margin: 38px 0 15px;
 }
-.section-head h2 {
+
+body[data-geelooy-route="docs"] .section-head h2 {
 	margin: 0;
 	font-size: 1.05rem;
 }
-.stat-strip {
+
+body[data-geelooy-route="docs"] .stat-strip {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: 10px;
 }
-.stat-card {
+
+body[data-geelooy-route="docs"] .stat-card {
 	padding: 16px;
 }
-.stat-card strong {
+
+body[data-geelooy-route="docs"] .stat-card strong {
 	display: block;
 	font: 700 1.55rem var(--font-serif);
 }
-.stat-card span {
+
+body[data-geelooy-route="docs"] .stat-card span {
 	color: var(--muted);
 	font-size: .75rem;
 }
-.doc-card h3,
-.result-card h3 {
+
+body[data-geelooy-route="docs"] :where(.doc-card, .result-card) h3 {
 	margin: 8px 0 7px;
 	font-size: 1rem;
 }
-.doc-card p,
-.result-card p {
+
+body[data-geelooy-route="docs"] :where(.doc-card, .result-card) p {
 	margin: 0;
 	color: var(--muted);
 	font-size: .84rem;
 	line-height: 1.55;
 }
-.document-shell {
+
+body[data-geelooy-route="docs"] .document-shell {
 	width: min(100%, var(--max-content));
 	margin: 0 auto;
 }
-.document-meta {
+
+body[data-geelooy-route="docs"] .document-meta {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 8px;
 	margin-bottom: 24px;
 }
-.source-path {
+
+body[data-geelooy-route="docs"] .source-path {
 	width: 100%;
 	color: var(--faint);
 	font: .76rem/1.5 var(--font-mono);
 	word-break: break-word;
 }
-.context-title {
+
+body[data-geelooy-route="docs"] .context-title {
 	margin: 5px 0 12px;
+	color: var(--faint);
 	font-size: .72rem;
 	letter-spacing: .1em;
 	text-transform: uppercase;
-	color: var(--faint);
 }
-.context-link {
+
+body[data-geelooy-route="docs"] .context-link {
 	display: block;
-	padding: 5px 0;
+	min-block-size: 36px;
+	padding: 7px 0;
 	color: var(--muted);
 	font-size: .78rem;
 	line-height: 1.35;
 	text-decoration: none;
+	transition: color .14s ease, transform .14s ease;
 }
-.context-link:hover {
-	color: var(--accent);
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="docs"] .context-link:hover {
+		color: var(--accent);
+	}
 }
-.toast {
+
+body[data-geelooy-route="docs"] .context-link:active {
+	transform: translateX(2px);
+}
+
+body[data-geelooy-route="docs"] .toast {
 	position: fixed;
-	right: 20px;
-	bottom: 20px;
-	z-index: 120;
+	z-index: var(--docs-layer-toast);
+	inset-inline-end: max(20px, env(safe-area-inset-right));
+	inset-block-end: max(20px, env(safe-area-inset-bottom));
+	max-inline-size: min(32rem, calc(100dvw - 40px));
 	padding: 11px 14px;
+	overflow-wrap: anywhere;
 	border: 1px solid var(--line-strong);
 	border-radius: 11px;
 	background: var(--surface-strong);

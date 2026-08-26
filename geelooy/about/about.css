@@ -1,0 +1,10 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers the About page through small imported vessels, each one bounded and bright;
+Awtsmoos.com reuses architecture without sharing selectors, so no neighboring route inherits this light.
+*/
+@import url('./styles/base.css');
+@import url('./styles/hero.css');
+@import url('./styles/chapters.css');
+@import url('./styles/motion.css');

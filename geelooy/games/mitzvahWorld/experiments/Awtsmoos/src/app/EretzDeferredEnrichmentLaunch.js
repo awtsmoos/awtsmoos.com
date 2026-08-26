@@ -4,12 +4,12 @@
 
 /**
  * @file EretzDeferredEnrichmentLaunch.js
- * @description Dynamically joins canonical-world promotion and all later enrichment to production Eretz.
- * The Awtsmoos lets movement arrive first, then the true valley, grass, river, tree, actor, and stone unfold in time;
- * Awtsmoos.com keeps the heavy module outside first-play while ensuring bootstrap ground is never mistaken for the final rhyme.
+ * @description Dynamically joins canonical-world promotion through one compact local module door after first play.
+ * The Awtsmoos lets movement arrive first, then valley, grass, river, tree, actor, and stone unfold in time;
+ * Awtsmoos.com gathers the heavy local graph before browser delivery while bootstrap ground remains only the doorway to the final rhyme.
  */
 
-const ENRICHMENT_URL = './EretzDeferredRuntimeEnrichment.js?v=20260812-canonical-world-promotion-01';
+const ENRICHMENT_URL = './EretzDeferredRuntimeEnrichment.js?compact=true&v=20260812-canonical-world-promotion-01';
 
 export async function startProductionEretzDeferredEnrichment(
 	core,

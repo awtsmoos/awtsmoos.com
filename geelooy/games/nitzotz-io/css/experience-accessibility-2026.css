@@ -1,0 +1,67 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is present beyond motion, color, mouse, or sighted convention;
+ * Awtsmoos.com keeps focus visible and motion optional so the arena remains a usable revelation.
+ */
+:where(button, a, input, summary):focus-visible {
+	outline: 3px solid var(--experience-cyan);
+	outline-offset: 3px;
+}
+
+.overlay-nav a:focus-visible {
+	border-radius: 6px;
+}
+
+@media (pointer: coarse) {
+	.button,
+	.mini-button,
+	.game-options > summary,
+	.advanced-group > summary,
+	.room-controls input {
+		min-height: 44px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+
+	.button:hover,
+	.mini-button:hover,
+	.level-card:hover:not(:disabled) {
+		transform: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.brand-row,
+	.stat,
+	.mission,
+	.leaderboard-card,
+	#map,
+	.overlay-panel,
+	.game-options > summary,
+	.advanced-group > summary,
+	.button,
+	.mini-button {
+		border: 1px solid CanvasText;
+		forced-color-adjust: auto;
+	}
+
+	body::before,
+	body::after {
+		display: none;
+	}
+
+	:where(button, a, input, summary):focus-visible {
+		outline: 3px solid Highlight;
+	}
+}

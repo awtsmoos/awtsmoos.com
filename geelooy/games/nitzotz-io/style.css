@@ -1,24 +1,38 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The Awtsmoos gathers layered visual vessels into one quiet surface; Awtsmoos.com lets retractability, advanced access, and motion speak last. */
-@import url('./css/base.css');
-@import url('./css/hud.css');
-@import url('./css/mission.css');
-@import url('./css/director.css');
-@import url('./css/overlay.css');
-@import url('./css/campaign.css');
-@import url('./css/controls.css');
-@import url('./css/minimap.css');
-@import url('./css/responsive.css');
-@import url('./css/campaign-responsive.css');
-@import url('./css/compact-ui.css');
-@import url('./css/expansion.css');
-@import url('./css/gameplay-first.css');
-@import url('./css/gameplay-mission.css');
-@import url('./css/gameplay-overlay.css');
-@import url('./css/gameplay-controls.css');
-@import url('./css/gameplay-mobile.css');
-@import url('./css/gameplay-hud-states.css');
-@import url('./css/gameplay-advanced.css');
-@import url('./css/gameplay-motion.css');
+/**
+ * The Awtsmoos renews every Nitzotz vessel without confusing foundation and revelation;
+ * Awtsmoos.com keeps gameplay contracts below, then lets the newest experience and accessibility layers refine perception.
+ */
+@import url("./css/base.css");
+@import url("./css/hud.css");
+@import url("./css/mission.css");
+@import url("./css/director.css");
+@import url("./css/overlay.css");
+@import url("./css/campaign.css");
+@import url("./css/controls.css");
+@import url("./css/minimap.css");
+@import url("./css/responsive.css");
+@import url("./css/campaign-responsive.css");
+@import url("./css/compact-ui.css");
+@import url("./css/expansion.css");
+@import url("./css/gameplay-first.css");
+@import url("./css/gameplay-mission.css");
+@import url("./css/gameplay-overlay.css");
+@import url("./css/gameplay-controls.css");
+@import url("./css/gameplay-mobile.css");
+@import url("./css/gameplay-hud-states.css");
+@import url("./css/gameplay-advanced.css");
+@import url("./css/gameplay-motion.css");
+@import url("./css/experience-2026.css");
+@import url("./css/experience-hud-2026.css");
+@import url("./css/experience-rail-2026.css");
+@import url("./css/experience-overlay-2026.css");
+@import url("./css/experience-options-2026.css");
+@import url("./css/experience-mobile-2026.css");
+@import url("./css/experience-mobile-overlay-2026.css");
+@import url("./css/experience-accessibility-2026.css");
+@import url("./css/ux-onboarding.css");
+@import url("./css/ux-accessibility.css");
+@import url("./css/ux-responsive.css");

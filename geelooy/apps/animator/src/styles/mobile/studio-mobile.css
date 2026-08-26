@@ -1,8 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * On a small screen the Awtsmoos remains complete. Awtsmoos.com reveals one
- * safe-area-aware editing vessel at a time with reliable touch-scale controls.
+ * The Awtsmoos renews the narrow screen before tool, stage, sheet, HUD, or safe area can claim room;
+ * Awtsmoos.com gives mobile artists one major vessel at a time while every visible control remains reachable, styled, and generous to touch.
  */
 @media (max-width: 780px) {
 	.aw-professional-studio .app-shell {
@@ -10,85 +10,107 @@
 		grid-template-rows: minmax(0, 1fr);
 	}
 
-	.aw-professional-studio .app-stage {
-		grid-column: 1;
-		grid-row: 1;
-	}
-
-	.aw-professional-studio .stage-canvas,
-	.aw-professional-studio #character-canvas {
-		top: 35%;
-	}
-
+	.aw-professional-studio .app-sidebar-left,
+	.aw-professional-studio .app-sidebar-right,
 	.aw-professional-studio .app-timeline {
-		grid-column: 1;
-		grid-row: 1;
-		border-radius: var(--aw-radius-md) var(--aw-radius-md) 0 0;
+		z-index: var(--aw-z-mobile-panel);
+		border: 1px solid var(--aw-line-strong);
+		border-radius: var(--aw-radius-lg);
+		background: var(--aw-panel-glass-strong);
+		box-shadow: var(--aw-shadow);
+		backdrop-filter: blur(14px);
 	}
 
 	.aw-professional-studio .app-sidebar-left,
 	.aw-professional-studio .app-sidebar-right {
-		position: fixed;
-		inset:
-			calc(env(safe-area-inset-top, 0px) + 92px)
-			max(8px, env(safe-area-inset-right, 0px))
-			calc(var(--aw-dock-height, 74px) + env(safe-area-inset-bottom, 0px) + 12px)
-			max(8px, env(safe-area-inset-left, 0px));
-		z-index: 45;
-		display: none;
-		border: 1px solid var(--aw-line-strong);
-		border-radius: var(--aw-radius-lg);
-		box-shadow: var(--aw-shadow);
-	}
-
-	.aw-professional-studio[data-mobile-panel='editor'] .app-sidebar-left,
-	.aw-professional-studio[data-mobile-panel='props'] .app-sidebar-right {
-		display: flex;
-		opacity: 1;
-		pointer-events: auto;
-		transform: none;
-	}
-
-	.aw-professional-studio[data-mobile-panel='time'] .app-timeline {
-		position: fixed;
-		inset:
-			calc(env(safe-area-inset-top, 0px) + 92px)
-			max(8px, env(safe-area-inset-right, 0px))
-			calc(var(--aw-dock-height, 74px) + env(safe-area-inset-bottom, 0px) + 12px)
-			max(8px, env(safe-area-inset-left, 0px));
-		z-index: 44;
-		display: flex;
-		height: auto;
-		opacity: 1;
-		pointer-events: auto;
-		transform: none;
-	}
-
-	.aw-professional-studio .left-resizer,
-	.aw-professional-studio .right-resizer,
-	.aw-professional-studio .h-resizer {
-		display: none;
+		top: max(8px, env(safe-area-inset-top, 0px));
+		bottom: calc(env(safe-area-inset-bottom, 0px) + var(--aw-dock-height, 74px));
 	}
 
 	#aw-studio-toolbar-mount {
-		top: calc(env(safe-area-inset-top, 0px) + 6px);
+		top: max(6px, env(safe-area-inset-top, 0px));
 		width: calc(100% - 12px);
 	}
 
 	.aw-studio-toolbar {
 		grid-template-columns: minmax(0, 1fr) auto;
 		gap: 5px 8px;
-		padding: 7px;
+		padding: 5px 6px;
 		border-radius: var(--aw-radius-md);
 	}
 
-	.aw-studio-project-title small,
-	.aw-studio-timecode small,
-	.aw-studio-export-status {
-		display: none;
+	.aw-studio-project-title {
+		min-width: 0;
 	}
 
 	.aw-studio-timecode {
 		font-size: 11px;
+	}
+
+	.aw-studio-toolbar-actions {
+		grid-column: 1 / -1;
+		justify-content: flex-start;
+		overflow-x: auto;
+		padding-bottom: 2px;
+		scrollbar-width: none;
+	}
+
+	.aw-studio-toolbar-actions::-webkit-scrollbar {
+		display: none;
+	}
+
+	.aw-studio-toolbar button,
+	.aw-studio-panel button,
+	.aw-studio-panel input:not([type='range']),
+	.aw-studio-panel select,
+	.cartoon-tab,
+	.cartoon-card nav button,
+	.cartoon-row button {
+		min-height: var(--aw-touch-height);
+	}
+
+	.aw-studio-toolbar button {
+		flex: 0 0 auto;
+		min-width: var(--aw-touch-height);
+	}
+
+	.aw-studio-tabs {
+		position: sticky;
+		top: 0;
+		z-index: var(--aw-z-panel-header);
+		padding: 6px;
+		background: var(--aw-panel-glass-strong);
+	}
+
+	.aw-studio-tab {
+		min-height: var(--aw-touch-height);
+	}
+
+	.aw-studio-scroll {
+		padding: 8px;
+	}
+
+	.aw-studio-create-button,
+	.aw-studio-layer-action-grid button,
+	.aw-studio-pen-actions button {
+		min-height: var(--aw-touch-height);
+	}
+
+	.aw-studio-inspector-section {
+		margin: 7px;
+		padding: 9px;
+	}
+
+	.aw-studio-disclosure.aw-studio-inspector-section {
+		padding: 0;
+	}
+
+	.cartoon-studio {
+		top: 126px;
+		right: 8px;
+	}
+
+	.cartoon-card {
+		max-height: 52vh;
 	}
 }

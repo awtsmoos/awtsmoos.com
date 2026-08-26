@@ -2,76 +2,29 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/**
- * The Awtsmoos reveals one Website Maker at every width, while Awtsmoos.com lets space unfold without forcing a desktop vessel onto a phone.
- * Each breakpoint protects readable forms, clear readiness, full-width primary actions, and touch targets large enough for the hand that creates.
- */
+/** The Awtsmoos reveals one Website Maker at every width; Awtsmoos.com keeps every breakpoint behind both the Drive and builder roots so responsive rules cannot affect neighboring applications or generic component names. */
 
 @media (max-width: 479px) {
-	.builder-intro,
-	.builder-readiness,
-	.builder-pane-body {
-		padding-inline: .8rem;
-	}
-
-	.builder-readiness-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	.builder-readiness-card {
-		min-height: 82px;
-		padding: .7rem;
-	}
-
-	.builder-readiness-card__title {
-		display: grid;
-	}
-
-	.builder-actions,
-	.builder-preview-tools {
-		grid-template-columns: 1fr;
-	}
-
-	.builder-preview-frame {
-		min-height: 22rem;
-	}
+	[data-awtsmoos-drive] .site-builder-root :where(.builder-intro, .builder-readiness, .builder-pane-body) { padding-inline: .8rem; }
+	[data-awtsmoos-drive] .site-builder-root .builder-readiness-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	[data-awtsmoos-drive] .site-builder-root .builder-readiness-card { min-height: 82px; padding: .7rem; }
+	[data-awtsmoos-drive] .site-builder-root .builder-readiness-card__title { display: grid; }
+	[data-awtsmoos-drive] .site-builder-root :where(.builder-actions, .builder-preview-tools) { grid-template-columns: minmax(0, 1fr); }
+	[data-awtsmoos-drive] .site-builder-root .builder-preview-frame { min-height: 22rem; }
 }
 
 @media (min-width: 600px) {
-	.builder-grid-two,
-	.builder-actions {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	.builder-grid-two > .builder-button-primary {
-		align-self: end;
-	}
+	[data-awtsmoos-drive] .site-builder-root :where(.builder-grid-two, .builder-actions) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	[data-awtsmoos-drive] .site-builder-root .builder-grid-two > .builder-button-primary { align-self: end; }
 }
 
 @media (min-width: 900px) {
-	.builder-studio {
-		gap: 1.15rem;
-	}
-
-	.builder-intro,
-	.builder-readiness,
-	.builder-dock,
-	.builder-pane {
-		grid-column: 1 / -1;
-	}
-
-	.builder-pane-body {
-		padding: 1.2rem;
-	}
+	[data-awtsmoos-drive] .site-builder-root .builder-studio { gap: 1.15rem; }
+	[data-awtsmoos-drive] .site-builder-root :where(.builder-intro, .builder-readiness, .builder-dock, .builder-pane) { grid-column: 1 / -1; }
+	[data-awtsmoos-drive] .site-builder-root .builder-pane-body { padding: 1.2rem; }
 }
 
 @media (min-width: 1200px) {
-	.builder-preview-frame,
-	.builder-code-editor {
-		min-height: 38rem;
-	}
-
-	.builder-pane-body {
-		padding: 1.35rem;
-	}
+	[data-awtsmoos-drive] .site-builder-root :where(.builder-preview-frame, .builder-code-editor) { min-height: 38rem; }
+	[data-awtsmoos-drive] .site-builder-root .builder-pane-body { padding: 1.35rem; }
 }

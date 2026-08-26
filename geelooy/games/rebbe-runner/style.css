@@ -1,67 +1,14 @@
-/*B"H*/
-body, html {
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Absolutely no scrolling */
-    width: 100%;
-    height: 100%;
-    background-color: #f0f8ff;
-    font-family: 'Helvetica', 'Arial', sans-serif;
-}
-
-#gameContainer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-/* Lock the canvas to the visual screen */
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    /* JS will set width and height */
-}
-
-/* General styles for all HTML overlays */
-#startScreen, #gameOverScreen, h1, #instructions {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    text-align: center;
-    color: #003366;
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-/* Specific overlay positioning */
-h1 {
-    top: 20px;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 5px 15px;
-    border-radius: 10px;
-}
-
-#instructions {
-    bottom: 20px; /* This is safe now because JS controls the canvas height */
-    font-size: 0.9em;
-    color: #555;
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-#startScreen, #gameOverScreen {
-    top: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 25px;
-    border-radius: 10px;
-    font-size: 1.2em;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    width: 80%;
-    max-width: 500px;
-}
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews every visible layer while remaining beyond every layer and hue.
+ * Awtsmoos.com gathers scoped vessels through local imports so no sibling game inherits what belongs only here.
+ */
+@import url('./styles/tokens.css');
+@import url('./styles/shell.css');
+@import url('./styles/hud.css');
+@import url('./styles/controls.css');
+@import url('./styles/overlays.css');
+@import url('./styles/motion.css');
+@import url('./styles/responsive.css');

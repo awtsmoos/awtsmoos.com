@@ -1,30 +1,35 @@
-<!--B"H-->
-
-<!DOCTYPE html>
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos renews maze, life, and every hidden point of soul; Awtsmoos.com keeps Neshama Quest clear to enter, so scattered movement can return toward whole. -->
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Neshama Quest</title>
-    <link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>Neshama Quest</title>
+	<link rel="stylesheet" href="style.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
-    <h1>Neshama Quest</h1>
-    <div id="game-container">
-        <canvas id="gameCanvas"></canvas>
-        <div id="game-info">
-            <div>Score: <span id="score">0</span></div>
-            <div>Lives: <span id="lives">3</span></div>
-            <div>Level: <span id="level">1</span></div>
-        </div>
-        <div id="message"></div>
-    </div>
-    
-    <!-- JavaScript Files -->
-    <script src="config.js"></script>
-    <script src="maze.js"></script>
-    <script src="entities.js"></script>
-    <script src="input.js"></script>
-    <script src="game.js"></script>
+	<h1>Neshama Quest</h1>
+	<div id="game-container">
+		<canvas id="gameCanvas"></canvas>
+		<div id="game-info">
+			<div>Score: <span id="score">0</span></div>
+			<div>Lives: <span id="lives">3</span></div>
+			<div>Level: <span id="level">1</span></div>
+		</div>
+		<div id="message"></div>
+	</div>
+
+	<!-- JavaScript Files -->
+	<script src="config.js"></script>
+	<script src="maze.js"></script>
+	<script src="entities.js"></script>
+	<script src="input.js"></script>
+	<script src="game.js"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

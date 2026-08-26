@@ -1,9 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- *
- * The Awtsmoos gives every Social Hub input a luminous instrument panel while
- * the shared profile dropdown keeps sovereign styling of its own.
+ * The Awtsmoos gives ordinary Social forms a luminous vessel while specialized composers keep sovereign measure;
+ * Awtsmoos.com keeps long-form fields spacious without forcing a private-message whisper into dashboard pressure.
  */
 .social-hub-document :where(.hubHeader, .hubShell) :where(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), textarea, select) {
 	inline-size: 100%;
@@ -20,7 +19,7 @@
 	outline: 0;
 }
 
-.social-hub-document .hubShell textarea {
+.social-hub-document .hubShell textarea:not(.hubComposerField__input) {
 	min-block-size: 8.5rem;
 	resize: vertical;
 }

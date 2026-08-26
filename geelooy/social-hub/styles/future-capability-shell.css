@@ -1,0 +1,93 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond concealment and revelation; Awtsmoos.com gives the
+ * Capability Center one quiet shell whose search and count appear only by choice,
+ * with every selector rooted beneath the Social Hub so neighboring pages rejoice.
+ */
+.social-hub-document .futureCapabilityCenter {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	margin-block: clamp(.9rem, 2.4dvb, 1.6rem);
+	border: 1px solid var(--yesod-edge);
+	border-radius: var(--binah-radius);
+	background: linear-gradient(145deg, var(--yesod-glass-strong), var(--yesod-glass));
+	box-shadow: var(--yesod-inset), 0 16px 44px rgb(0 0 0 / 18%);
+	overflow: clip;
+}
+.social-hub-document .futureCapabilityCenter__summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	align-items: center;
+	gap: .6rem;
+	min-block-size: 52px;
+	padding: .78rem .9rem;
+	list-style: none;
+	cursor: pointer;
+	transition: background var(--keter-fast) var(--tiferes-ease);
+}
+.social-hub-document .futureCapabilityCenter__summary::-webkit-details-marker {
+	display: none;
+}
+.social-hub-document .futureCapabilityCenter__summary:focus-visible,
+.social-hub-document .futureCapabilityCenter__search:focus-visible {
+	outline: 2px solid rgb(126 235 255 / 88%);
+	outline-offset: 3px;
+}
+.social-hub-document .futureCapabilityCenter__hint,
+.social-hub-document .futureCapabilityCenter__count {
+	font-size: .76rem;
+	opacity: .62;
+}
+.social-hub-document .futureCapabilityCenter__chevron {
+	transition: transform var(--keter-fast) var(--tiferes-ease);
+}
+.social-hub-document .futureCapabilityCenter[open] .futureCapabilityCenter__chevron {
+	transform: rotate(180deg);
+}
+.social-hub-document .futureCapabilityCenter__body {
+	display: grid;
+	gap: .8rem;
+	min-inline-size: 0;
+	padding: 0 .9rem .9rem;
+}
+.social-hub-document .futureCapabilityCenter__controls {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .65rem;
+}
+.social-hub-document .futureCapabilityCenter__search {
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 46px;
+	padding-inline: .82rem;
+	border: 1px solid var(--yesod-edge);
+	border-radius: .82rem;
+	background: rgb(3 9 20 / 54%);
+	color: inherit;
+	font: inherit;
+}
+.social-hub-document .futureCapabilityCenter__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+	gap: .65rem;
+	min-inline-size: 0;
+}
+.social-hub-document .futureCapabilityCenter__empty {
+	grid-column: 1 / -1;
+	margin: 0;
+	padding: 1rem;
+	text-align: center;
+	opacity: .68;
+}
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .futureCapabilityCenter__summary:hover {
+		background: rgb(126 235 255 / 6%);
+	}
+}
+.social-hub-document .futureCapabilityCenter__summary:active {
+	transform: scale(.99);
+}

@@ -1,0 +1,66 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every invitation to open, hover, focus, or press before advanced light can move;
+ * Awtsmoos.com makes disclosure motion tactile and finite, with reduced-motion mercy and no ornamental motion that outlives the artist's intent.
+ */
+.aw-studio-disclosure-summary {
+	transition:
+		background var(--aw-fast),
+		border-color var(--aw-fast),
+		color var(--aw-fast),
+		transform var(--aw-fast);
+}
+
+.aw-studio-disclosure-summary:hover {
+	color: var(--aw-text);
+	background: var(--aw-control-hover);
+}
+
+.aw-studio-disclosure-summary:active {
+	background: var(--aw-control-active);
+	transform: translateY(1px) scale(.99);
+}
+
+.aw-studio-disclosure-summary:focus-visible {
+	outline: 0;
+	box-shadow: var(--aw-focus);
+}
+
+.aw-studio-disclosure-caret {
+	transition: transform var(--aw-normal);
+}
+
+.aw-studio-disclosure[open] > .aw-studio-disclosure-summary .aw-studio-disclosure-caret {
+	transform: rotate(90deg);
+}
+
+.aw-studio-disclosure-content {
+	animation: aw-studio-disclosure-reveal var(--aw-normal) ease-out;
+}
+
+@keyframes aw-studio-disclosure-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aw-studio-disclosure-summary,
+	.aw-studio-disclosure-caret {
+		transition: none;
+	}
+
+	.aw-studio-disclosure-content {
+		animation: none;
+	}
+
+	.aw-studio-disclosure-summary:active {
+		transform: none;
+	}
+}

@@ -1,25 +1,27 @@
-/* B"H */
-/**
- * The Awtsmoos gives every visible layer a measured vessel; Awtsmoos.com keeps color,
- * rhythm, typography, and motion in one covenant so the documentation can breathe without chaos.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives Docs color, rhythm, motion, and layer without lending them to the whole world;
+ * Awtsmoos.com roots every token to this documentation vessel so neighboring routes keep their own garments unfurled.
  */
-:root {
+html[data-geelooy-route="docs"] {
 	--bg: #07110f;
 	--bg-soft: #0d1916;
-	--surface: rgba(17, 31, 27, .86);
+	--surface: rgb(17 31 27 / 86%);
 	--surface-strong: #14231f;
 	--surface-hover: #1a2d27;
 	--text: #f4fbf7;
 	--muted: #a9bbb3;
 	--faint: #71867d;
-	--line: rgba(190, 224, 209, .15);
-	--line-strong: rgba(190, 224, 209, .28);
+	--line: rgb(190 224 209 / 15%);
+	--line-strong: rgb(190 224 209 / 28%);
 	--accent: #7ff7c8;
-	--accent-soft: rgba(127, 247, 200, .13);
+	--accent-soft: rgb(127 247 200 / 13%);
 	--accent-2: #c6a7ff;
 	--warning: #ffd58a;
 	--danger: #ff9f9f;
-	--shadow: 0 24px 70px rgba(0, 0, 0, .28);
+	--shadow: 0 24px 70px rgb(0 0 0 / 28%);
 	--radius-sm: 10px;
 	--radius: 18px;
 	--radius-lg: 28px;
@@ -30,68 +32,86 @@
 	--font-ui: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	--font-serif: Iowan Old Style, Charter, Georgia, serif;
 	--font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-}
-
-:root[data-theme="light"] {
-	--bg: #f5f7f5;
-	--bg-soft: #eef2ef;
-	--surface: rgba(255, 255, 255, .9);
-	--surface-strong: #ffffff;
-	--surface-hover: #e9f2ed;
-	--text: #102019;
-	--muted: #50665d;
-	--faint: #778980;
-	--line: rgba(32, 69, 52, .13);
-	--line-strong: rgba(32, 69, 52, .24);
-	--accent: #087a54;
-	--accent-soft: rgba(8, 122, 84, .10);
-	--accent-2: #6f45aa;
-	--warning: #8e5a00;
-	--danger: #a33030;
-	--shadow: 0 20px 55px rgba(37, 57, 47, .11);
-}
-
-* {
-	box-sizing: border-box;
-}
-
-html {
+	--docs-layer-base: 0;
+	--docs-layer-content: 4;
+	--docs-layer-search: 8;
+	--docs-layer-topbar: 12;
+	--docs-layer-drawer: 16;
+	--docs-layer-toast: 24;
+	--docs-layer-skip: 32;
+	color-scheme: dark;
 	background: var(--bg);
 	color: var(--text);
 	font-family: var(--font-ui);
 	font-size: 16px;
-	scroll-behavior: smooth;
 }
 
-body {
+html[data-geelooy-route="docs"][data-theme="light"] {
+	--bg: #f5f7f5;
+	--bg-soft: #eef2ef;
+	--surface: rgb(255 255 255 / 90%);
+	--surface-strong: #fff;
+	--surface-hover: #e9f2ed;
+	--text: #102019;
+	--muted: #50665d;
+	--faint: #778980;
+	--line: rgb(32 69 52 / 13%);
+	--line-strong: rgb(32 69 52 / 24%);
+	--accent: #087a54;
+	--accent-soft: rgb(8 122 84 / 10%);
+	--accent-2: #6f45aa;
+	--warning: #8e5a00;
+	--danger: #a33030;
+	--shadow: 0 20px 55px rgb(37 57 47 / 11%);
+	color-scheme: light;
+}
+
+body[data-geelooy-route="docs"],
+body[data-geelooy-route="docs"] *,
+body[data-geelooy-route="docs"] *::before,
+body[data-geelooy-route="docs"] *::after {
+	box-sizing: border-box;
+}
+
+html[data-geelooy-route="docs"] {
+	min-inline-size: 0;
+	scroll-behavior: smooth;
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+body[data-geelooy-route="docs"] {
+	min-inline-size: 0;
+	min-block-size: 100vh;
+	min-block-size: 100dvh;
 	margin: 0;
-	min-height: 100vh;
 	background:
-		radial-gradient(circle at 7% -10%, rgba(127, 247, 200, .11), transparent 30rem),
-		radial-gradient(circle at 95% 4%, rgba(198, 167, 255, .09), transparent 28rem),
+		radial-gradient(circle at 7% -10%, rgb(127 247 200 / 11%), transparent 30rem),
+		radial-gradient(circle at 95% 4%, rgb(198 167 255 / 9%), transparent 28rem),
 		var(--bg);
 }
 
-button,
-input,
-textarea {
+body[data-geelooy-route="docs"] :where(button, input, textarea) {
 	font: inherit;
 }
 
-a {
+body[data-geelooy-route="docs"] a {
 	color: inherit;
 }
 
-::selection {
+body[data-geelooy-route="docs"] ::selection {
 	background: var(--accent);
 	color: var(--bg);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
+	html[data-geelooy-route="docs"] {
+		scroll-behavior: auto;
+	}
+
+	body[data-geelooy-route="docs"] *,
+	body[data-geelooy-route="docs"] *::before,
+	body[data-geelooy-route="docs"] *::after {
 		animation-duration: .01ms !important;
 		transition-duration: .01ms !important;
 	}

@@ -1,0 +1,37 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives pause, loss, and victory a bounded face; Awtsmoos.com lets terminal states speak clearly without swallowing the chamber's grace.
+*/
+.game-overlay {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	padding: 20px;
+	background: rgba(0, 5, 14, 0.64);
+}
+
+.game-overlay[hidden] {
+	display: none;
+}
+
+.overlay-card {
+	width: min(100%, 360px);
+	padding: 24px;
+	border: 1px solid rgba(126, 216, 255, 0.42);
+	border-radius: 24px;
+	background: rgba(5, 16, 35, 0.94);
+	box-shadow: 0 26px 70px rgba(0, 0, 0, 0.5), 0 0 45px rgba(100, 188, 255, 0.12);
+	text-align: center;
+}
+
+.overlay-card h1 {
+	margin: 7px 0 8px;
+	font-size: clamp(25px, 7vw, 38px);
+}
+
+.overlay-card p {
+	margin: 0 0 18px;
+	color: #a9c7dc;
+}

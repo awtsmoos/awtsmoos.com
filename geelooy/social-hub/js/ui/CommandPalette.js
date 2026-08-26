@@ -4,12 +4,14 @@
 
 import { DaasCommandActions } from './CommandPaletteActions.js';
 import { GevurahCommandKeyboard } from './CommandPaletteKeyboard.js';
+import { DaasCommandRoute } from './CommandPaletteRoute.js';
 import { MalchusCommandPaletteView } from './CommandPaletteView.js';
 
 /**
  * @class KeterCommandPalette
  * @description
- * The Awtsmoos lets one point contain many roads; Awtsmoos.com opens the crown on the current route and keeps navigation state distinct from rendering.
+ * The Awtsmoos lets one crown contain many social roads while Awtsmoos.com keeps search, focus, and visible dialog state in one bounded vessel;
+ * route interpretation now lives in Daas, so activation may pass through the same close gate that restores keyboard focus before navigation changes the chamber.
  */
 export class KeterCommandPalette {
 	constructor(root = document) {
@@ -17,6 +19,7 @@ export class KeterCommandPalette {
 		this.actions = DaasCommandActions.all();
 		this.activeIndex = 0;
 		this.keyboard = new GevurahCommandKeyboard(this);
+		this.route = new DaasCommandRoute();
 		this.view = new MalchusCommandPaletteView(root);
 	}
 
@@ -45,7 +48,7 @@ export class KeterCommandPalette {
 	}
 
 	open() {
-		this.activeIndex = this.currentRouteIndex();
+		this.activeIndex = this.route.currentIndex(this.actions);
 		this.input.value = '';
 		this.render();
 		if (typeof this.dialog.showModal === 'function') {
@@ -54,12 +57,6 @@ export class KeterCommandPalette {
 			this.dialog.setAttribute('open', '');
 		}
 		this.input.focus();
-	}
-
-	currentRouteIndex() {
-		const current = String(location.hash || '#home').replace(/^#/, '');
-		const found = this.actions.findIndex(action => action.id === current);
-		return found >= 0 ? found : 0;
 	}
 
 	close() {
@@ -75,7 +72,9 @@ export class KeterCommandPalette {
 	}
 
 	move(delta, count) {
-		this.activeIndex = (this.activeIndex + delta + count) % count;
+		this.activeIndex = (
+			this.activeIndex + delta + count
+		) % count;
 		this.render();
 	}
 
@@ -85,7 +84,10 @@ export class KeterCommandPalette {
 	}
 
 	render() {
-		this.current = DaasCommandActions.filter(this.actions, this.input?.value);
+		this.current = DaasCommandActions.filter(
+			this.actions,
+			this.input?.value
+		);
 		this.activeIndex = Math.min(
 			this.activeIndex,
 			Math.max(0, this.current.length - 1)
@@ -99,18 +101,17 @@ export class KeterCommandPalette {
 		const active = this.current.length
 			? `futureCommandOption${this.activeIndex}`
 			: '';
-		this.input?.setAttribute('aria-activedescendant', active);
+		this.input?.setAttribute(
+			'aria-activedescendant',
+			active
+		);
 	}
 
 	activate(action) {
 		if (!action) {
 			return;
 		}
-		if (typeof this.dialog.close === 'function') {
-			this.dialog.close();
-		} else {
-			this.dialog.removeAttribute('open');
-		}
-		location.hash = action.id;
+		this.close();
+		this.route.go(action);
 	}
 }

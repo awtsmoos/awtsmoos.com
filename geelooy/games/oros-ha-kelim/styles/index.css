@@ -1,0 +1,21 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos gathers every Oros style through one named cascade without leaking into another page;
+ * Awtsmoos.com lets small local vessels compose a single futuristic shell with deterministic visual order.
+ */
+@layer oros.tokens, oros.shell, oros.hud, oros.overlay, oros.panel, oros.controls, oros.motion, oros.accessibility;
+@import url('./tokens.css');
+@import url('./shell.css');
+@import url('./game.css');
+@import url('./hud.css');
+@import url('./meters.css');
+@import url('./overlays.css');
+@import url('./onboarding.css');
+@import url('./panel.css');
+@import url('./panel-content.css');
+@import url('./controls.css');
+@import url('./guide.css');
+@import url('./interactions.css');
+@import url('./motion.css');

@@ -1,92 +1,101 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * The Awtsmoos contains endless depth without forcing every chamber into view; Awtsmoos.com lets native disclosure reveal advanced power with one calm, semantic gesture.
- * This Binah-like garment keeps state readable through edge, spacing, and a brief chevron turn while content itself remains the light.
+ * The Awtsmoos contains endless depth without forcing endless chrome;
+ * Awtsmoos.com keeps native details locally scoped, tactile, and calm.
  */
-
-.awtsmoosDisclosure {
-	border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+.awtsmoosSocialExperience .awtsmoosDisclosure {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	border: 1px solid var(--social-line);
 	border-radius: .88rem;
 	background: color-mix(in srgb, Canvas 96%, currentColor 4%);
 	overflow: clip;
 }
-
-.awtsmoosDisclosure__summary {
+.awtsmoosSocialExperience .awtsmoosDisclosure__summary {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto auto;
 	align-items: center;
 	gap: .45rem;
+	min-inline-size: 0;
 	min-block-size: 44px;
 	padding: .55rem .7rem;
 	cursor: pointer;
 	list-style: none;
 	font-weight: 760;
 }
-
-.awtsmoosDisclosure__summary::-webkit-details-marker {
+.awtsmoosSocialExperience .awtsmoosDisclosure__summary::-webkit-details-marker {
 	display: none;
 }
-
-.awtsmoosDisclosure__summary:focus-visible {
-	outline: 2px solid currentColor;
-	outline-offset: 2px;
+.awtsmoosSocialExperience .awtsmoosDisclosure__summary > * {
+	min-inline-size: 0;
 }
-
-.awtsmoosDisclosure__detail {
+.awtsmoosSocialExperience .awtsmoosDisclosure__summary:focus-visible {
+	outline-offset: -3px;
+	background: color-mix(in srgb, var(--social-focus) 8%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+	.awtsmoosSocialExperience .awtsmoosDisclosure__summary:hover {
+		background: var(--social-soft);
+	}
+}
+.awtsmoosSocialExperience .awtsmoosDisclosure__summary:active {
+	background: var(--social-strong);
+}
+.awtsmoosSocialExperience .awtsmoosDisclosure__detail {
+	overflow: hidden;
 	font-size: .72rem;
 	font-weight: 650;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	opacity: .58;
 }
-
-.awtsmoosDisclosure__chevron {
+.awtsmoosSocialExperience .awtsmoosDisclosure__chevron {
 	display: inline-grid;
 	inline-size: 1.4rem;
 	block-size: 1.4rem;
 	place-items: center;
 	font-size: .9rem;
-	transition: transform 140ms ease;
+	transition: transform var(--social-motion-fast) var(--social-ease);
 }
-
-.awtsmoosDisclosure[open] .awtsmoosDisclosure__chevron {
+.awtsmoosSocialExperience .awtsmoosDisclosure[open] .awtsmoosDisclosure__chevron {
 	transform: rotate(180deg);
 }
-
-.awtsmoosDisclosure__body {
+.awtsmoosSocialExperience .awtsmoosDisclosure__body {
 	display: grid;
 	gap: .65rem;
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	padding: .1rem .7rem .75rem;
-	animation: awtsmoos-disclosure-reveal 140ms ease-out both;
+	overflow-wrap: anywhere;
+	animation: awtsmoos-disclosure-reveal var(--social-motion-fast) ease-out both;
 }
-
-.awtsmoosDisclosure--compact {
+.awtsmoosSocialExperience .awtsmoosDisclosure--compact {
 	border-radius: .78rem;
 }
-
-.awtsmoosDisclosure--compact > .awtsmoosDisclosure__body {
-	min-inline-size: min(20rem, calc(100vw - 2rem));
-}
-
 @keyframes awtsmoos-disclosure-reveal {
 	from {
 		opacity: 0;
-		transform: translateY(3px);
+		transform: translateY(3px) scale(.995);
 	}
-
 	to {
 		opacity: 1;
-		transform: translateY(0);
+		transform: none;
 	}
 }
-
 @media (prefers-reduced-motion: reduce) {
-	.awtsmoosDisclosure__body {
+	.awtsmoosSocialExperience .awtsmoosDisclosure__body {
 		animation: none;
 	}
-
-	.awtsmoosDisclosure__chevron {
+	.awtsmoosSocialExperience .awtsmoosDisclosure__chevron {
 		transition: none;
+	}
+}
+@media (forced-colors: active) {
+	.awtsmoosSocialExperience .awtsmoosDisclosure {
+		border-color: CanvasText;
 	}
 }

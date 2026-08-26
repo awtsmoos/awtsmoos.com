@@ -1,0 +1,101 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets the finished image rest in one bounded vessel without forcing its true resolution onto the page;
+ * Awtsmoos.com keeps preview, status, and export visually complete from the smallest phone to the widest stage.
+ */
+.preview-card {
+	display: grid;
+	gap: 14px;
+	padding: 18px;
+}
+
+.preview-header {
+	display: grid;
+	gap: 4px;
+}
+
+.preview-header h2,
+.preview-header p {
+	margin: 0;
+}
+
+.preview-header h2 {
+	font-size: 1rem;
+	letter-spacing: -.02em;
+}
+
+.preview-header p {
+	color: var(--cover-muted);
+	font-size: .76rem;
+	line-height: 1.45;
+}
+
+.preview-stage {
+	position: relative;
+	display: grid;
+	place-items: center;
+	min-height: clamp(260px, 64vw, 560px);
+	min-width: 0;
+	padding: 14px;
+	overflow: auto;
+	overscroll-behavior: contain;
+	border: 1px solid rgba(135, 221, 255, .1);
+	border-radius: 16px;
+	background:
+		linear-gradient(45deg, rgba(255, 255, 255, .018) 25%, transparent 25%) 0 0 / 18px 18px,
+		linear-gradient(-45deg, rgba(255, 255, 255, .018) 25%, transparent 25%) 0 9px / 18px 18px,
+		rgba(0, 0, 0, .18);
+}
+
+#coverCanvas {
+	display: none;
+	max-width: 100%;
+	height: auto;
+	border-radius: 8px;
+	box-shadow: 0 18px 50px rgba(0, 0, 0, .42);
+}
+
+.preview-stage[data-ready="true"] #coverCanvas {
+	display: block;
+}
+
+.preview-empty {
+	max-width: 280px;
+	margin: 0;
+	color: var(--cover-muted);
+	font-size: .82rem;
+	line-height: 1.55;
+	text-align: center;
+}
+
+.preview-stage[data-ready="true"] .preview-empty {
+	display: none;
+}
+
+.cover-status {
+	min-height: 1.35em;
+	margin: 0;
+	color: var(--cover-muted);
+	font-size: .76rem;
+	line-height: 1.4;
+}
+
+.cover-status[data-state="ready"] {
+	color: #9ff3d0;
+}
+
+.cover-status[data-state="error"] {
+	color: #ffaaa7;
+}
+
+.cover-status[data-state="loading"] {
+	color: var(--cover-accent);
+}
+
+@media (min-width: 900px) and (min-height: 700px) {
+	.preview-card {
+		position: sticky;
+		top: 20px;
+	}
+}

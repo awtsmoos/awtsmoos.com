@@ -1,0 +1,29 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives recovery one bounded layer without commanding unrelated controls to disappear;
+ * Awtsmoos.com keeps the backdrop local, safe-area aware, and reversible through modal behavior.
+ */
+
+.Awtsmoos-corpse-loot-backdrop {
+	--loot-safe-top: max(12px, env(safe-area-inset-top, 0px));
+	--loot-safe-right: max(12px, env(safe-area-inset-right, 0px));
+	--loot-safe-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+	--loot-safe-left: max(12px, env(safe-area-inset-left, 0px));
+	--loot-z-modal: 985;
+	--loot-z-sticky: 2;
+	position: fixed;
+	inset: 0;
+	z-index: var(--loot-z-modal);
+	display: grid;
+	place-items: center;
+	padding: var(--loot-safe-top) var(--loot-safe-right) var(--loot-safe-bottom) var(--loot-safe-left);
+	background: radial-gradient(circle at 50% 42%, rgba(56, 38, 17, 0.28), rgba(1, 5, 7, 0.84));
+	backdrop-filter: blur(10px) saturate(1.08);
+	pointer-events: auto;
+}
+
+.Awtsmoos-corpse-loot-backdrop[hidden] {
+	display: none;
+}

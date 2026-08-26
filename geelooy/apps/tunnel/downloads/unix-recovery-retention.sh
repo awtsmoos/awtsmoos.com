@@ -4,8 +4,7 @@
 # Blessed is He
 
 # Archive metadata and retention preserve verified worlds rather than directory names.
-# The Awtsmoos renews integrity before recency; Awtsmoos.com removes corrupt archives
-# first, then keeps the newest healthy versions so debris cannot evict salvation.
+# The Awtsmoos renews integrity before recency; Awtsmoos.com prunes corrupt debris first.
 write_archive_metadata() {
 	local archive_dir="${1:?Archive directory is required.}"
 	local version="${2:-unknown}"
@@ -13,14 +12,16 @@ write_archive_metadata() {
 	local archive_sha="$(sha256_file "$archive_dir/runtime.tar")"
 	local manifest_sha="$(cat "$ROOT/install-manifest.sha256" 2>/dev/null | awk '{print $1}')"
 	local archive_bytes="$(wc -c < "$archive_dir/runtime.tar" | tr -d '[:space:]')"
-	node - "$archive_dir/metadata.json" "$archive_dir/archive.json" \
+	"$AWTSMOOS_NODE_BIN" - "$archive_dir/metadata.json" "$archive_dir/archive.json" \
 		"$archive_dir/inventory.json" "$ROOT" "$version" "$reason" \
 		"$manifest_sha" "$archive_sha" "$archive_bytes" <<'NODE'
 const fs = require("node:fs");
 const [metadataFile, archiveFile, inventoryFile, runtimeRoot, version, reason,
 	manifestSha256, artifactSha256, bytes] = process.argv.slice(2);
 let inventory = null;
-try { inventory = JSON.parse(fs.readFileSync(inventoryFile, "utf8")); } catch {}
+try {
+	inventory = JSON.parse(fs.readFileSync(inventoryFile, "utf8"));
+} catch {}
 const createdAt = new Date().toISOString();
 atomicWrite(metadataFile, {
 	version,
@@ -51,7 +52,7 @@ NODE
 }
 
 prune_recovery_versions() {
-	node - "$RECOVERY_ROOT/versions" \
+	"$AWTSMOOS_NODE_BIN" - "$RECOVERY_ROOT/versions" \
 		"${AWTSMOOS_ARCHIVE_KEEP:-${AWTSMOOS_RECOVERY_KEEP:-5}}" <<'NODE'
 const crypto = require("node:crypto");
 const fs = require("node:fs");
@@ -74,7 +75,9 @@ function inspect(directory) {
 	try {
 		const archive = path.join(directory, "runtime.tar");
 		const stat = fs.lstatSync(archive);
-		if (!stat.isFile() || stat.isSymbolicLink()) throw new Error("archive_not_regular");
+		if (!stat.isFile() || stat.isSymbolicLink()) {
+			throw new Error("archive_not_regular");
+		}
 		const metadata = JSON.parse(fs.readFileSync(path.join(directory, "metadata.json"), "utf8"));
 		const expected = String(metadata.archiveSha256 || "");
 		const actual = crypto.createHash("sha256").update(fs.readFileSync(archive)).digest("hex");
@@ -97,7 +100,7 @@ prune_known_good_archives() {
 
 verify_archive_artifact() {
 	local archive_dir="$1"
-	local expected_sha="$(node - "$archive_dir" <<'NODE'
+	local expected_sha="$("$AWTSMOOS_NODE_BIN" - "$archive_dir" <<'NODE'
 const fs = require("node:fs");
 const path = require("node:path");
 const directory = process.argv[2];

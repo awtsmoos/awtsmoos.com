@@ -7,7 +7,7 @@
  * this Hod-like garment owns attention-card hierarchy only, leaving summary and thread-shell geometry to the larger Inbox vessel of light.
  */
 
-.communicationsInboxItem {
+.social-hub-document .communicationsInboxItem {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
 	gap: .6rem;
@@ -17,13 +17,13 @@
 	background: var(--surface);
 }
 
-.communicationsInboxItem[data-read="false"] {
+.social-hub-document .communicationsInboxItem[data-read="false"] {
 	border-color: var(--cyan);
 	box-shadow: inset 3px 0 0 var(--cyan);
 	background: color-mix(in srgb, var(--cyan) 7%, var(--surface));
 }
 
-.communicationsInboxOpen {
+.social-hub-document .communicationsInboxOpen {
 	display: grid;
 	gap: .38rem;
 	min-width: 0;
@@ -37,13 +37,13 @@
 	cursor: pointer;
 }
 
-.communicationsInboxEyebrow {
+.social-hub-document .communicationsInboxEyebrow {
 	display: flex;
 	flex-wrap: wrap;
 	gap: .35rem;
 }
 
-.communicationsInboxChip {
+.social-hub-document .communicationsInboxChip {
 	padding: .18rem .42rem;
 	border: 1px solid var(--line);
 	border-radius: 999px;
@@ -53,25 +53,25 @@
 	letter-spacing: .035em;
 }
 
-.communicationsInboxChip[data-tone="unread"] {
+.social-hub-document .communicationsInboxChip[data-tone="unread"] {
 	border-color: var(--cyan);
 	color: var(--ink);
 }
 
-.communicationsInboxTitle {
+.social-hub-document .communicationsInboxTitle {
 	font-size: 1rem;
 	line-height: 1.3;
 }
 
-.communicationsInboxPreview,
-.communicationsInboxContext {
+.social-hub-document .communicationsInboxPreview,
+.social-hub-document .communicationsInboxContext {
 	overflow: hidden;
 	color: var(--muted);
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.communicationsMarkRead {
+.social-hub-document .communicationsMarkRead {
 	align-self: center;
 	min-height: 44px;
 	padding: .55rem .75rem;
@@ -85,11 +85,11 @@
 }
 
 @media (max-width: 34rem) {
-	.communicationsInboxItem {
+	.social-hub-document .communicationsInboxItem {
 		grid-template-columns: 1fr;
 	}
 
-	.communicationsMarkRead {
+	.social-hub-document .communicationsMarkRead {
 		width: 100%;
 		min-height: 48px;
 	}

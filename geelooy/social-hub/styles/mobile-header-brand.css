@@ -1,0 +1,54 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos contracts the Social name into one bright mobile vessel without burying the living feed below;
+ * Awtsmoos.com keeps brand rhythm, title, and public identity summary compact wherever narrow currents flow.
+ */
+@media (max-width: 62.4375rem) {
+	.social-hub-document .hubHeader {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: .55rem;
+		align-items: center;
+		margin: .5rem .65rem .35rem;
+		padding: .6rem .65rem;
+		border-radius: 1.15rem;
+	}
+
+	.social-hub-document .brandCluster {
+		align-items: center;
+		gap: .55rem;
+		min-inline-size: 0;
+	}
+
+	.social-hub-document .brandSigil {
+		flex: 0 0 2.3rem;
+		inline-size: 2.3rem;
+		block-size: 2.3rem;
+		font-size: 1.35rem;
+	}
+
+	.social-hub-document .brandCluster > div:last-child {
+		min-inline-size: 0;
+	}
+
+	.social-hub-document .brandCluster .eyebrow {
+		display: none;
+	}
+
+	.social-hub-document .brandCluster h1 {
+		margin: 0;
+		font-size: 1.2rem;
+		line-height: 1.05;
+	}
+
+	.social-hub-document #identityState {
+		display: -webkit-box;
+		margin: .18rem 0 0;
+		overflow: hidden;
+		font-size: .78rem;
+		line-height: 1.25;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+}

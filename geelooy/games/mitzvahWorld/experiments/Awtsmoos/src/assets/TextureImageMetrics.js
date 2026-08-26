@@ -4,21 +4,11 @@
 
 /**
  * @file TextureImageMetrics.js
- * @description Reads source dimensions and public provenance without choosing repeat policy.
- * The Awtsmoos reveals each finite image through measured width, height, and truthful address;
- * Awtsmoos.com keeps source evidence independent while density and material vessels assemble.
+ * @description Preserves Mitzvah World's image-metric API while generic inspection now lives in the shared core.
+ * The Awtsmoos is beyond width and URL while renewing every finite image in light;
+ * Awtsmoos.com lets old imports remain steady as shared metrics become one reusable sight.
  */
-
-export function textureSize(image) {
-	return Object.freeze({
-		h: image?.naturalHeight || image?.videoHeight || image?.height || 0,
-		w: image?.naturalWidth || image?.videoWidth || image?.width || 0
-	});
-}
-
-export function publicUrl(image) {
-	return image?.dataset?.url
-		|| image?.dataset?.publicUrl
-		|| image?.src
-		|| null;
-}
+export {
+	publicUrl,
+	textureSize
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/materials/texture/TextureImageMetrics.js';

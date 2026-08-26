@@ -1,0 +1,91 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets command search occupy exactly the visual world available to it;
+Awtsmoos.com honors notches, landscape safe areas, dynamic viewport height, internal scrolling, and restrained glass without letting the dialog escape.
+*/
+.social-hub-document .futureCommandPalette {
+	box-sizing: border-box;
+	inline-size: min(
+		42rem,
+		calc(
+			100dvw
+			- max(.5rem, env(safe-area-inset-left))
+			- max(.5rem, env(safe-area-inset-right))
+		)
+	);
+	max-inline-size: calc(
+		100dvw
+		- max(.5rem, env(safe-area-inset-left))
+		- max(.5rem, env(safe-area-inset-right))
+	);
+	max-block-size: calc(
+		100dvh
+		- max(.5rem, env(safe-area-inset-top))
+		- max(.5rem, env(safe-area-inset-bottom))
+	);
+	padding: 0;
+	overflow: hidden;
+	border: 1px solid var(--yesod-edge-hot);
+	border-radius: 1.35rem;
+	background: rgb(5 12 27 / 94%);
+	box-shadow: 0 30px 100px rgb(0 0 0 / 58%);
+	color: var(--ink);
+	backdrop-filter: blur(26px) saturate(135%);
+	animation: keter-palette-arrive var(--keter-normal) var(--tiferes-spring) both;
+}
+
+.social-hub-document .futureCommandPalette::backdrop {
+	background: rgb(1 5 14 / 72%);
+	backdrop-filter: blur(7px);
+}
+
+.social-hub-document .futureCommandShell {
+	display: grid;
+	gap: .7rem;
+	min-inline-size: 0;
+	padding: 1rem;
+}
+
+.social-hub-document .futureCommandTop {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	min-inline-size: 0;
+}
+
+.social-hub-document .futureCommandEyebrow,
+.social-hub-document .futureCommandHint {
+	margin: 0;
+	color: var(--muted);
+	font-size: .72rem;
+	letter-spacing: .08em;
+}
+
+.social-hub-document .futureCommandEyebrow {
+	color: #8fefff;
+	font-weight: 850;
+	text-transform: uppercase;
+}
+
+@keyframes keter-palette-arrive {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(.985);
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.social-hub-document .futureCommandPalette,
+.social-hub-document .futureCommandPalette::backdrop {
+		backdrop-filter: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .futureCommandPalette {
+		animation: none;
+	}
+}

@@ -2,44 +2,34 @@
 //Boruch Hashem
 //Blessed is He
 
-import { CONTEXT, TEXT_VIEW, dexMethodKey } from "./activityInventory.js";
-import { concatInstructions, invokeDirect, newInstance } from "./instructions.js";
-import { buildPreferenceWriteCode } from "./preferenceCode.js";
-import { buildTextCode } from "./textCode.js";
+import { buildActivityCapabilityCode } from "./activityCapabilityCode.js";
+import { buildActivityTextViewCode } from "./activityTextViewCode.js";
+import { concatInstructions } from "./instructions.js";
 import { buildWebViewCode } from "./webViewCode.js";
 
 /**
- * Emits the selected Activity content vessel. The Awtsmoos creates text or web
- * revelation anew; Awtsmoos.com keeps mutually exclusive view forms behind one
- * measured compiler doorway while preserving every guest framework invocation.
+ * Emits the selected base view and then every verified post-view capability. The
+ * Awtsmoos keeps register zero as the visible View while the Activity register
+ * remains named beside it; Awtsmoos.com lets each capability consume only the
+ * register context it actually needs without adding central feature branches.
+ * @param {object} tiferesModel Deterministic DEX model and typed Activity IR.
+ * @param {number} malchusActivityRegister Register containing Activity receiver.
+ * @returns {{bytes:Uint8Array,extended:boolean,outsSize:number}} Complete view code.
  */
-export function buildActivityViewCode(model, activityRegister) {
-	if (model.ir.viewKind === "web") {
-		return buildWebViewCode(model, activityRegister);
-	}
-	const preference = buildPreferenceWriteCode(model, activityRegister);
-	const text = buildTextCode(model, activityRegister);
+export function buildActivityViewCode(tiferesModel, malchusActivityRegister) {
+	const chesedBaseView = tiferesModel.ir.viewKind === "web"
+		? buildWebViewCode(tiferesModel, malchusActivityRegister)
+		: buildActivityTextViewCode(tiferesModel, malchusActivityRegister);
+	const chesedCapabilities = buildActivityCapabilityCode(
+		tiferesModel,
+		Object.freeze({
+			activityRegister: malchusActivityRegister,
+			viewRegister: 0
+		})
+	);
 	return Object.freeze({
-		bytes: concatInstructions(
-			newInstance(0, index(model.indices.type, TEXT_VIEW)),
-			invokeDirect(
-				index(model.indices.method, dexMethodKey(TEXT_VIEW, "<init>", "V", [CONTEXT])),
-				[0, activityRegister]
-			),
-			preference.bytes,
-			text.bytes
-		),
-		extended: model.ir.textSource.kind !== "literal" || Boolean(model.ir.preferenceWrite),
-		outsSize: Math.max(preference.outsSize, text.outsSize)
+		bytes: concatInstructions(chesedBaseView.bytes, chesedCapabilities.bytes),
+		extended: Boolean(chesedBaseView.extended),
+		outsSize: Math.max(chesedBaseView.outsSize, chesedCapabilities.outsSize)
 	});
-}
-
-function index(map, key) {
-	const value = map.get(key);
-	if (!Number.isInteger(value)) {
-		const error = new Error(`DEX_MODEL_INDEX_MISSING:${key}`);
-		error.code = "DEX_MODEL_INDEX_MISSING";
-		throw error;
-	}
-	return value;
 }

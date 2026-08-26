@@ -2,10 +2,10 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos renews each shade and measure; Awtsmoos.com gives the grid a calm
-visual vessel where focus can shine without noise and shared work can remain clear.
+The Awtsmoos renews every shade, measure, line, layer, and instant inside this single Sheets vessel of light;
+Awtsmoos.com names both app-wide and grid-local truth here alone, so neighboring apps and internal handles never enter a styling fight.
 */
-:root {
+.awtsmoos-sheets-app {
 	color-scheme: light;
 	--bg: #f7f8fa;
 	--surface: #ffffff;
@@ -14,6 +14,7 @@ visual vessel where focus can shine without noise and shared work can remain cle
 	--muted: #66706a;
 	--border: #dfe5e1;
 	--border-strong: #c6d0ca;
+	--grid-line: #e5e9e7;
 	--accent: #137c53;
 	--accent-strong: #0d6744;
 	--accent-soft: #e5f5ed;
@@ -25,36 +26,20 @@ visual vessel where focus can shine without noise and shared work can remain cle
 	--cell-height: 30px;
 	--row-head-width: 48px;
 	--font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-* {
-	box-sizing: border-box;
-}
-
-html,
-body {
-	margin: 0;
-	min-height: 100%;
-	font-family: var(--font);
-	background: var(--bg);
-	color: var(--text);
-}
-
-button,
-input,
-textarea,
-select {
-	font: inherit;
-}
-
-button {
-	cursor: pointer;
-}
-
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-[tabindex]:focus-visible {
-	outline: 2px solid var(--accent);
-	outline-offset: 2px;
+	--motion-fast: 120ms;
+	--motion-base: 170ms;
+	--motion-panel: 240ms;
+	--ease-direct: cubic-bezier(0.2, 0.7, 0.2, 1);
+	--ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+	--z-base: 0;
+	--z-grid-active: 2;
+	--z-grid-sticky: 3;
+	--z-grid-row: 4;
+	--z-grid-corner: 5;
+	--z-grid-resize: 6;
+	--z-sticky: 10;
+	--z-floating: 20;
+	--z-popover: 40;
+	--z-dialog: 60;
+	--z-toast: 80;
 }

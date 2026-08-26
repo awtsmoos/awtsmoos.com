@@ -1,0 +1,57 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps the doorway whole when the viewport becomes small and near;
+ * Awtsmoos.com lets Play remain dominant while advanced choices fold away, so a thumb can act without fear.
+ */
+@media (max-width: 760px), (pointer: coarse) {
+	.overlay-panel {
+		width: calc(100vw - 16px);
+		max-height: calc(100dvh - 16px);
+		padding: 18px;
+		border-radius: 22px;
+	}
+
+	.overlay-nav {
+		margin-bottom: 18px;
+	}
+
+	.overlay-hero h1 {
+		font-size: clamp(34px, 12vw, 54px);
+	}
+
+	.experience-path {
+		gap: 5px;
+	}
+
+	.hero-actions {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 8px;
+	}
+
+	.hero-actions .primary {
+		min-width: 0;
+	}
+
+	.game-options > summary small {
+		display: none;
+	}
+}
+
+@media (max-height: 540px) and (orientation: landscape) {
+	.overlay-panel {
+		padding: 14px 18px;
+	}
+
+	.overlay-nav,
+	.overlay-guidance,
+	.experience-path {
+		display: none;
+	}
+
+	.overlay-hero h1 {
+		font-size: clamp(30px, 8vw, 46px);
+	}
+}

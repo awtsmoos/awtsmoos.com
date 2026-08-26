@@ -1,0 +1,69 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos holds every creative chamber without collision or division.
+ * Awtsmoos.com gives the mobile Composer one safe floor, one layer ladder,
+ * and one measured publication gate so advanced tools can unfold without overlap.
+ */
+.composer-civilization-document {
+	--creator-safe-inline-start: max(.65rem, env(safe-area-inset-left));
+	--creator-safe-inline-end: max(.65rem, env(safe-area-inset-right));
+	--creator-safe-bottom: max(.65rem, env(safe-area-inset-bottom));
+	--creator-publication-height: 6.35rem;
+	--creator-layer-dock: 70;
+	--creator-layer-launcher: 80;
+	--creator-layer-publish: 90;
+	--creator-layer-dialog: 110;
+}
+
+@media (max-width: 42.5rem) {
+	.composer-civilization-document {
+		padding-block-end: calc(
+			var(--creator-publication-height) + var(--creator-safe-bottom) + 1rem
+		);
+	}
+
+	.composer-civilization-document .creatorDock {
+		z-index: var(--creator-layer-dock);
+		bottom: calc(
+			var(--creator-publication-height) + var(--creator-safe-bottom)
+		);
+	}
+
+	.composer-civilization-document .creatorCommandLauncher {
+		z-index: var(--creator-layer-launcher);
+		inset-inline-end: var(--creator-safe-inline-end);
+		bottom: calc(
+			var(--creator-publication-height) + var(--creator-safe-bottom) + .7rem
+		);
+	}
+
+	.composer-civilization-document .actionBar {
+		z-index: var(--creator-layer-publish);
+	}
+
+	.composer-civilization-document :where(
+		.publicationReviewDialog,
+		.draftRecoveryDialog,
+		.creatorPalette
+	) {
+		z-index: var(--creator-layer-dialog);
+	}
+}
+
+@media (max-width: 23rem) {
+	.composer-civilization-document {
+		--creator-publication-height: 9.8rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.composer-civilization-document :where(
+		.creatorCommandLauncher,
+		.creatorDock,
+		.actionBar
+	) {
+		transition: none;
+	}
+}

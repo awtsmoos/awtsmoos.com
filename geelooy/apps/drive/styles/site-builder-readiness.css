@@ -2,87 +2,79 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/**
- * The Awtsmoos lets readiness appear as measured testimony rather than one deceptive green light.
- * Awtsmoos.com gives Source, Preview, Public, and Domain their own small vessels so the next action remains obvious and the optional remains optional.
- */
+/** The Awtsmoos lets readiness appear as measured testimony rather than one deceptive green light; Awtsmoos.com keeps every readiness state local to Website Maker and makes motion clarify state without adding dashboard noise. */
 
-.builder-readiness {
+[data-awtsmoos-drive] .site-builder-root .builder-readiness {
 	display: grid;
 	gap: .8rem;
 	padding: 1rem;
-	border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
-	border-radius: 1.2rem;
-	background: color-mix(in srgb, var(--panel, #fff) 97%, currentColor 3%);
+	border: 1px solid var(--line);
+	border-radius: var(--radius-large);
+	background: var(--surface-soft);
 }
 
-.builder-readiness-heading {
-	font-weight: 850;
-	font-size: 1rem;
-}
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-heading { font-size: 1rem; font-weight: 850; }
 
-.builder-readiness-next {
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-next {
 	margin: 0;
 	font-size: .92rem;
 	line-height: 1.5;
 	opacity: .8;
 }
 
-.builder-readiness-grid {
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(min(10.5rem, 100%), 1fr));
 	gap: .65rem;
 }
 
-.builder-readiness-card {
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-card {
 	display: grid;
 	gap: .45rem;
 	min-width: 0;
 	min-height: 88px;
 	padding: .8rem;
-	border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
-	border-radius: .95rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
 	background: transparent;
 	color: inherit;
 	text-align: left;
 }
 
-.builder-readiness-card:hover,
-.builder-readiness-card:focus-visible {
-	background: color-mix(in srgb, currentColor 6%, transparent);
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-card:hover {
+	border-color: var(--line-strong);
+	background: var(--surface-hover);
+	transform: translateY(-1px);
 }
 
-.builder-readiness-card__title {
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-card:focus-visible {
+	border-color: var(--accent);
+	background: var(--surface-hover);
+	box-shadow: var(--focus-ring);
+	outline: none;
+}
+
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-card:active { transform: scale(.99); }
+
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-card__title {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: .5rem;
 }
 
-.builder-readiness-card__copy {
-	font-size: .78rem;
-	line-height: 1.4;
-	opacity: .7;
-}
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-card__copy { font-size: .78rem; line-height: 1.4; opacity: .7; }
 
-.builder-readiness-state {
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-state {
 	padding: .18rem .45rem;
 	border: 1px solid currentColor;
 	border-radius: 999px;
 	font-size: .68rem;
 	font-weight: 800;
 	white-space: nowrap;
-	opacity: .68;
+	opacity: .72;
 }
 
-.builder-readiness-card[data-state='ready'] {
-	background: color-mix(in srgb, #22c55e 10%, transparent);
-}
-
-.builder-readiness-card[data-state='optional'] {
-	background: color-mix(in srgb, #3b82f6 8%, transparent);
-}
-
-.builder-readiness-card[data-state='locked'] {
-	opacity: .58;
-}
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-card[data-state='ready'] { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-card[data-state='optional'] { background: rgba(96, 165, 250, .08); }
+[data-awtsmoos-drive] .site-builder-root .builder-readiness-card[data-state='locked'] { opacity: .58; }

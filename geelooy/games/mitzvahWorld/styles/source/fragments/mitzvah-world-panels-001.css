@@ -1,45 +1,48 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-panels-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos gives each meeting a bounded chamber and each chamber a lawful depth; Awtsmoos.com keeps dialogue, sheets, backdrops, and quests inside one local stack where clarity expands without covering the world by accident.
 */
-
-/* B"H */
-
-/* Boruch Hashem */
-
-/* Blessed is He */
-
-/**
- * Dialogue is a finite chamber for an infinite meeting. The Awtsmoos gives each word room while
- * Awtsmoos.com keeps the chamber bounded, readable, and free from permanent compositor blur.
- */
 
 #mitzvah-world-root .Awtsmoos-npc-dialogue {
 	position: fixed;
 	inset: 0;
-	z-index: 930;
-	display: none;
+	z-index: var(--mw-z-dialog);
+	display: grid;
 	place-items: center;
-	padding: 14px;
-	background: rgba(1, 5, 8, 0.54);
+	padding: max(14px, var(--mw-safe-top)) max(14px, var(--mw-safe-right)) max(14px, var(--mw-safe-bottom)) max(14px, var(--mw-safe-left));
+	background: rgba(1, 7, 6, 0.62);
+	opacity: 0;
+	visibility: hidden;
 	pointer-events: none;
+	transition: opacity var(--mw-motion-normal) ease, visibility var(--mw-motion-normal) step-end;
 }
 
 #mitzvah-world-root .Awtsmoos-npc-dialogue[data-open="true"] {
-	display: grid;
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+	transition-timing-function: ease, step-start;
 }
 
 #mitzvah-world-root .Awtsmoos-npc-dialogue section {
-	width: min(92vw, 430px);
-	max-height: min(78vh, 620px);
+	width: min(430px, var(--mw-viewport-inline));
+	max-width: 100%;
+	max-height: min(620px, calc(var(--mw-viewport-block) - 20px));
 	overflow: auto;
-	padding: 14px;
-	border: 1px solid rgba(255, 228, 94, 0.72);
-	border-radius: 16px;
-	background: rgba(5, 11, 17, 0.98);
-	box-shadow: 0 18px 46px rgba(0, 0, 0, 0.62);
-	pointer-events: auto;
+	overscroll-behavior: contain;
+	padding: 16px;
+	border: 1px solid var(--mw-border-strong);
+	border-radius: var(--mw-radius-lg);
+	background: var(--mw-surface-raised);
+	box-shadow: var(--mw-shadow-panel), var(--mw-shadow-glow);
+	transform: translateY(10px) scale(0.985);
+	transition: transform var(--mw-motion-slow) var(--mw-ease-spring), border-color var(--mw-motion-fast) ease;
+}
+
+#mitzvah-world-root .Awtsmoos-npc-dialogue[data-open="true"] section {
+	transform: translateY(0) scale(1);
 }
 
 #mitzvah-world-root .Awtsmoos-npc-dialogue header {
@@ -47,49 +50,74 @@ mitzvah-world-panels-001.css reveals localized style through the Awtsmoos and Aw
 	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
-	padding-bottom: 8px;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+	padding-bottom: 9px;
+	border-bottom: 1px solid var(--mw-border-soft);
 }
 
 #mitzvah-world-root .Awtsmoos-npc-dialogue p {
-	color: #e7ffff;
-	line-height: 1.45;
+	margin-block: 12px;
+	color: var(--mw-text-primary);
+	line-height: 1.55;
 }
 
 #mitzvah-world-root .Awtsmoos-npc-dialogue button {
 	width: 100%;
+	min-height: var(--mw-control-min);
 	margin-top: 7px;
-	padding: 10px;
-	border: 1px solid rgba(255, 228, 94, 0.36);
-	border-radius: 10px;
-	background: rgba(255, 228, 94, 0.1);
-	color: #fff;
+	padding: 9px 11px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-sm);
+	background: var(--mw-surface-control);
+	color: var(--mw-text-primary);
 	text-align: left;
+	cursor: pointer;
 	touch-action: manipulation;
 }
 
 #mitzvah-world-root .Awtsmoos-npc-dialogue [data-close] {
 	width: auto;
+	min-width: var(--mw-control-min);
 	margin: 0;
-	border-color: #ff7b72;
-	background: #401219;
+	border-color: rgba(255, 113, 135, 0.48);
+	background: var(--mw-surface-danger);
+	color: #fff7f8;
 }
 
-#mitzvah-world-root #mitzvah-world-root .Awtsmoos-sheet {
-	background: rgba(5, 16, 15, 0.98) !important;
-	box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5) !important;
-	backdrop-filter: none !important;
+#mitzvah-world-root .Awtsmoos-sheet {
+	z-index: var(--mw-z-dialog);
+	max-width: var(--mw-viewport-inline);
+	max-height: var(--mw-viewport-block);
+	background: var(--mw-surface-raised);
+	box-shadow: var(--mw-shadow-panel);
+	backdrop-filter: none;
 }
 
-#mitzvah-world-root #mitzvah-world-root .Awtsmoos-modal-backdrop {
-	background: rgba(2, 5, 4, 0.74) !important;
-	backdrop-filter: none !important;
+#mitzvah-world-root .Awtsmoos-modal-backdrop {
+	z-index: var(--mw-z-overlay);
+	background: rgba(2, 7, 6, 0.76);
+	backdrop-filter: none;
 }
 
-#mitzvah-world-root #mitzvah-world-root .Awtsmoos-quest-tracker {
-	max-width: min(270px, 42vw) !important;
-	padding: 8px !important;
-	background: rgba(5, 16, 15, 0.96) !important;
-	font-size: 11px !important;
-	backdrop-filter: none !important;
+#mitzvah-world-root .Awtsmoos-quest-tracker {
+	z-index: var(--mw-z-status);
+	max-width: min(270px, calc(var(--mw-viewport-inline) * 0.52));
+	max-height: min(42dvh, 320px);
+	overflow: auto;
+	padding: 8px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-md);
+	background: var(--mw-surface-panel);
+	box-shadow: var(--mw-shadow-control);
+	font-size: 11px;
+	backdrop-filter: none;
+}
+
+@media (max-width: 520px) {
+	#mitzvah-world-root .Awtsmoos-npc-dialogue section {
+		max-height: calc(var(--mw-viewport-block) - 8px);
+	}
+
+	#mitzvah-world-root .Awtsmoos-quest-tracker {
+		max-width: min(220px, calc(var(--mw-viewport-inline) * 0.64));
+	}
 }

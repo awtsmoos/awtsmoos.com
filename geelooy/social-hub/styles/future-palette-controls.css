@@ -1,0 +1,56 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the command crown contain both a clear exit and a readable search field;
+Awtsmoos.com gives close pressure, keyboard focus, fine-pointer hover, and bounded input geometry without borrowing unrelated button styles.
+*/
+.social-hub-document .futureCommandClose {
+	min-height: 40px;
+	padding: .35rem .7rem;
+	border: 1px solid var(--yesod-edge);
+	border-radius: 999px;
+	background: rgb(255 255 255 / 4%);
+	color: var(--muted);
+	transition:
+		transform var(--keter-fast) var(--tiferes-spring),
+		border-color var(--keter-normal) ease,
+		background-color var(--keter-normal) ease,
+		box-shadow var(--keter-normal) ease;
+}
+
+.social-hub-document .futureCommandClose:focus-visible {
+	border-color: var(--yesod-edge-hot);
+	outline: 3px solid rgb(126 239 255 / 16%);
+	outline-offset: 2px;
+}
+
+.social-hub-document .futureCommandClose:active {
+	transform: translateY(1px) scale(.97);
+}
+
+.social-hub-document .futureCommandInput {
+	min-height: 3.25rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding-inline: .9rem;
+	border-color: var(--yesod-edge);
+	border-radius: .85rem;
+	background: rgb(2 8 20 / 88%);
+	font-size: max(16px, 1rem);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .futureCommandClose:hover {
+		border-color: #a9f3ff;
+		box-shadow: 0 10px 28px rgb(43 190 255 / 14%);
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .futureCommandClose {
+		transition: none;
+		transform: none !important;
+	}
+}

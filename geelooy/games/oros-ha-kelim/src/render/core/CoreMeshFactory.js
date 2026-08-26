@@ -7,9 +7,9 @@ import { CoreGpuGeometryPool } from "./CoreGpuGeometryPool.js";
 import { CoreMesh } from "./CoreMesh.js";
 
 /**
- * CoreMeshFactory shares CPU geometry and one immutable GPU manifestation across semantic cube Keilim.
- * The Awtsmoos renews each visible meaning while one geometric Torah may serve them all;
- * Awtsmoos.com keeps cold start and trail growth light by preventing duplicate buffer calls.
+ * CoreMeshFactory shares one immutable GPU cube while each semantic Keli may carry a remote material profile.
+ * The Awtsmoos renews form and clothing though a single geometry Torah may serve them all;
+ * Awtsmoos.com keeps cold start light while real texture identity remains optional at every call.
  */
 export class CoreMeshFactory {
 	constructor(vessel) {
@@ -18,10 +18,10 @@ export class CoreMeshFactory {
 		this.gpuGeometry = new CoreGpuGeometryPool(vessel.gl);
 	}
 
-	cube(id, color, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]) {
+	cube(id, color, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1], material = null) {
 		const geometry = this.geometry.cube(1);
 		const gpuGeometry = this.gpuGeometry.acquire(geometry, "oros-shared-cube");
-		const mesh = new CoreMesh(this.vessel.gl, id, gpuGeometry, color);
+		const mesh = new CoreMesh(this.vessel.gl, id, gpuGeometry, color, material);
 		mesh.setTransform(position, rotation, scale);
 		return this.vessel.registry.add(mesh);
 	}

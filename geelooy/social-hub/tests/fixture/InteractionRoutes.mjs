@@ -1,38 +1,31 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
-
 /**
  * @module InteractionRoutes
  * @description
- * Native media, canonical comments, references, promotion previews, and idempotent
- * transformations are simulated for Chrome. The Awtsmoos gives every interaction
- * its source while Awtsmoos.com proves the visible orchestration without live writes.
+ * Native media, canonical comments, references, promotion previews, and idempotent transformations are simulated for Chrome;
+ * the Awtsmoos gives each local contract one truthful fixture while Awtsmoos.com leaves external Archive.org video to its own injected proof.
  */
-
 export function handleInteraction({ core, url, method, body, formData }) {
-	const upload = url.pathname.match(/\/api\/social\/aliases\/([^/]+)\/assets\/upload$/);
-	if (upload && method === 'POST') {
-		const file = formData?.get('file');
-		const type = file?.type?.startsWith('audio/')
-			? 'audio'
-			: file?.type?.startsWith('video/')
-				? 'video'
-				: 'image';
-		const asset = {
+	const yesodUpload = url.pathname.match(/\/api\/social\/assets\/([^/]+)\/upload$/);
+	if (yesodUpload && method === 'POST') {
+		const malchusFile = formData?.get('file');
+		const nefeshType = malchusFile?.type?.startsWith('audio/') ? 'audio' : 'image';
+		const malchusAsset = {
 			id: core.assetId(),
 			assetId: core.assetId(),
-			aliasId: decodeURIComponent(upload[1]),
-			type,
-			mime: file?.type || `${type}/fixture`,
-			publicPath: `/fixture-assets/${Date.now()}-${file?.name || type}`
+			aliasId: decodeURIComponent(yesodUpload[1]),
+			type: nefeshType,
+			mime: malchusFile?.type || `${nefeshType}/fixture`,
+			publicPath: `/fixture-assets/${Date.now()}-${malchusFile?.name || nefeshType}`
 		};
-		core.state.assets.push(asset);
+		core.state.assets.push(malchusAsset);
 		core.save();
-		return core.json(asset);
+		return core.json(malchusAsset);
 	}
 	if (url.pathname.endsWith('/unified-social/interactions/comments') && method === 'POST') {
-		const comment = {
+		const malchusComment = {
 			id: core.commentId(),
 			aliasId: body.aliasId,
 			heichelId: body.target.heichelId,
@@ -50,46 +43,46 @@ export function handleInteraction({ core, url, method, body, formData }) {
 			sections: [],
 			createdAt: Date.now()
 		};
-		core.state.comments.unshift(comment);
-		for (const reference of body.references || []) {
+		core.state.comments.unshift(malchusComment);
+		for (const binahReference of body.references || []) {
 			core.state.references.unshift({
 				id: `edge-${core.state.references.length + 1}`,
 				direction: 'outbound',
 				kind: 'references',
-				from: { type: 'comment', id: comment.id },
-				to: reference,
+				from: { type: 'comment', id: malchusComment.id },
+				to: binahReference,
 				note: 'Referenced inside a canonical comment.'
 			});
 		}
 		core.save();
-		return core.json({ comment, target: body.target, graph: core.state.references.slice(0, 1) });
+		return core.json({ comment: malchusComment, target: body.target, graph: core.state.references.slice(0, 1) });
 	}
-	const preview = url.pathname.match(/\/interactions\/comments\/([^/]+)\/promote-preview$/);
-	if (preview && method === 'GET') {
-		const comment = core.state.comments.find(item => item.id === preview[1]);
+	const binahPreview = url.pathname.match(/\/interactions\/comments\/([^/]+)\/promote-preview$/);
+	if (binahPreview && method === 'GET') {
+		const yesodComment = core.state.comments.find(item => item.id === binahPreview[1]);
 		return core.json({
-			comment,
-			contentPayload: { title: url.searchParams.get('title'), provenance: { commentId: preview[1] } },
+			comment: yesodComment,
+			contentPayload: { title: url.searchParams.get('title'), provenance: { commentId: binahPreview[1] } },
 			publicationPlan: { primary: { heichelId: url.searchParams.get('heichelId'), seriesId: url.searchParams.get('seriesId') } }
 		});
 	}
-	const promote = url.pathname.match(/\/interactions\/comments\/([^/]+)\/promote$/);
-	if (promote && method === 'POST') {
-		if (core.state.promotions[promote[1]]) {
-			return core.json({ ...core.state.promotions[promote[1]], replayed: true });
+	const gevurahPromotion = url.pathname.match(/\/interactions\/comments\/([^/]+)\/promote$/);
+	if (gevurahPromotion && method === 'POST') {
+		if (core.state.promotions[gevurahPromotion[1]]) {
+			return core.json({ ...core.state.promotions[gevurahPromotion[1]], replayed: true });
 		}
-		const receipt = {
+		const keterReceipt = {
 			status: 'completed',
-			commentId: promote[1],
+			commentId: gevurahPromotion[1],
 			canonical: { type: 'post', id: 'promoted-one', heichelId: body.heichelId, seriesId: body.seriesId },
 			graph: { kind: 'references' },
 			createdAt: Date.now(),
 			replayed: false
 		};
-		core.state.promotions[promote[1]] = receipt;
+		core.state.promotions[gevurahPromotion[1]] = keterReceipt;
 		core.state.posts.unshift({ id: 'promoted-one', postId: 'promoted-one', title: body.title, description: body.summary, heichelId: body.heichelId, seriesId: body.seriesId, aliasId: body.aliasId });
 		core.save();
-		return core.json(receipt);
+		return core.json(keterReceipt);
 	}
 	return null;
 }

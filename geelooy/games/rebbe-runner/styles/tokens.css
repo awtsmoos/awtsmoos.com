@@ -1,0 +1,30 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos is beyond measure; these measured tokens let Awtsmoos.com reveal harmony without style leakage. */
+.rebbe-runner {
+	--rr-bg: #050b16;
+	--rr-panel: rgba(11, 22, 39, .78);
+	--rr-panel-strong: rgba(9, 18, 33, .94);
+	--rr-line: rgba(148, 226, 255, .18);
+	--rr-text: #f6fbff;
+	--rr-muted: #9bb0c8;
+	--rr-accent: #66f4ff;
+	--rr-accent-2: #b792ff;
+	--rr-danger: #ff8a8a;
+	--rr-radius-sm: 12px;
+	--rr-radius: 20px;
+	--rr-radius-lg: 28px;
+	--rr-shadow: 0 22px 70px rgba(0, 0, 0, .38);
+	--rr-z-world: 1;
+	--rr-z-hud: 20;
+	--rr-z-controls: 30;
+	--rr-z-overlay: 40;
+	--rr-z-drawer: 50;
+	color-scheme: dark;
+}
+
+.rebbe-runner,
+.rebbe-runner * {
+	box-sizing: border-box;
+}

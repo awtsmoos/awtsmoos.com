@@ -1,30 +1,34 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The Awtsmoos renews every thumb and jump; Awtsmoos.com gives touch a broad, uncluttered vessel. */
-.mobile-controls {
+/** The Awtsmoos renews every thumb and jump; Awtsmoos.com gives touch broad responsive vessels that stay clear of safe areas, HUD, and each other. */
+.ohrbound-app .mobile-controls {
 	position: absolute;
-	z-index: 12;
-	left: max(1rem, env(safe-area-inset-left));
-	right: max(1rem, env(safe-area-inset-right));
-	bottom: max(1rem, env(safe-area-inset-bottom));
+	z-index: var(--layer-touch);
+	left: max(0.75rem, env(safe-area-inset-left));
+	right: max(0.75rem, env(safe-area-inset-right));
+	bottom: max(0.8rem, env(safe-area-inset-bottom));
 	display: flex;
 	align-items: end;
 	justify-content: space-between;
+	gap: 1rem;
+	min-width: 0;
 	pointer-events: none;
 }
-.joystick {
+.ohrbound-app .joystick {
 	position: relative;
-	width: clamp(112px, 24vw, 148px);
+	flex: 0 0 auto;
+	width: clamp(96px, 27vw, 132px);
 	aspect-ratio: 1;
-	border: 1px solid rgba(255, 255, 255, 0.18);
+	border: 1px solid rgba(255, 255, 255, 0.16);
 	border-radius: 50%;
 	background: rgba(8, 20, 38, 0.46);
-	backdrop-filter: blur(9px);
+	backdrop-filter: blur(10px);
+	box-shadow: inset 0 0 0 1px rgba(110, 231, 200, 0.035), 0 12px 40px rgba(0, 0, 0, 0.18);
 	pointer-events: auto;
 	touch-action: none;
 }
-.joystick::before {
+.ohrbound-app .joystick::before {
 	content: "";
 	position: absolute;
 	left: 50%;
@@ -32,9 +36,9 @@
 	width: 46%;
 	height: 2px;
 	transform: translate(-50%, -50%);
-	background: rgba(255, 255, 255, 0.18);
+	background: rgba(255, 255, 255, 0.16);
 }
-.joystick-knob {
+.ohrbound-app .joystick-knob {
 	position: absolute;
 	left: 50%;
 	top: 50%;
@@ -42,38 +46,64 @@
 	aspect-ratio: 1;
 	margin: -22%;
 	border-radius: 50%;
-	background: rgba(235, 255, 250, 0.9);
-	box-shadow: 0 8px 28px #0007;
+	background: radial-gradient(circle at 36% 28%, #fff, #bdf9ec 42%, #79dcc6 100%);
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.42), 0 0 20px rgba(110, 231, 200, 0.12);
 	will-change: transform;
 }
-.touch-actions {
+.ohrbound-app .touch-actions {
 	display: flex;
+	flex: 0 0 auto;
 	align-items: end;
-	gap: 0.75rem;
+	gap: clamp(0.45rem, 2vw, 0.7rem);
 	pointer-events: auto;
 }
-.touch-actions button {
-	width: 68px;
-	height: 68px;
-	border: 1px solid rgba(255, 255, 255, 0.18);
+.ohrbound-app .touch-actions button {
+	display: grid;
+	place-items: center;
+	width: clamp(54px, 16vw, 66px);
+	height: clamp(54px, 16vw, 66px);
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, 0.16);
 	border-radius: 50%;
-	background: rgba(8, 20, 38, 0.56);
-	font-size: 1.45rem;
+	background: rgba(8, 20, 38, 0.58);
+	font-size: 1.35rem;
 	font-weight: 900;
-	backdrop-filter: blur(9px);
+	backdrop-filter: blur(10px);
 	touch-action: none;
 }
-.touch-actions .jump-button {
-	width: 88px;
-	height: 88px;
-	background: rgba(110, 231, 200, 0.72);
+.ohrbound-app .touch-actions .jump-button {
+	width: clamp(68px, 20vw, 82px);
+	height: clamp(68px, 20vw, 82px);
+	background: rgba(121, 234, 209, 0.8);
 	color: #062019;
 }
-.touch-actions button[data-active="true"], .joystick:active {
-	transform: scale(0.96);
+.ohrbound-app .touch-actions button[data-active="true"] {
+	box-shadow: 0 0 30px rgba(110, 231, 200, 0.2);
+	transform: scale(0.95);
 }
-@media (orientation: portrait) and (max-width: 700px) {
-	.mobile-controls { bottom: max(1.35rem, env(safe-area-inset-bottom)); }
-	.joystick { width: 118px; }
-	.touch-actions .jump-button { width: 78px; height: 78px; }
+@media (orientation: landscape) and (max-height: 520px) {
+	.ohrbound-app .mobile-controls {
+		bottom: max(0.45rem, env(safe-area-inset-bottom));
+	}
+	.ohrbound-app .joystick {
+		width: clamp(82px, 18vh, 104px);
+	}
+	.ohrbound-app .touch-actions button {
+		width: 52px;
+		height: 52px;
+	}
+	.ohrbound-app .touch-actions .jump-button {
+		width: 64px;
+		height: 64px;
+	}
+}
+@media (max-width: 340px) {
+	.ohrbound-app .mobile-controls {
+		left: max(0.5rem, env(safe-area-inset-left));
+		right: max(0.5rem, env(safe-area-inset-right));
+		gap: 0.5rem;
+	}
+	.ohrbound-app .joystick {
+		width: 92px;
+	}
 }

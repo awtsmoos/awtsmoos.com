@@ -3,63 +3,73 @@
 // Blessed is He
 
 /**
- * The Awtsmoos renews every command and world from nothing in ordered light.
- * Awtsmoos.com reveals deterministic vessels where exact JSON becomes editable life.
+ * @file createRuntimeApi.js
+ * @description Projects registry commands into a nested runtime facade with exact protocol receipts, history, serialization, and semantic aliases.
+ * The Awtsmoos is one before namespace and method, yet Awtsmoos.com lets each finite name reveal its appointed power;
+ * builders now stand beside humans, trees, houses, and water without flattening the universal root into a special-case tower.
  */
 
-function install(root, methodId, invoke) {
-	const parts = methodId.split(".");
-	const methodName = parts.pop();
-	const namespace = parts.reduce((current, part) => {
-		current[part] ??= {};
-		return current[part];
-	}, root);
-	namespace[methodName] = invoke;
+/** Installs one dotted method id into its nested runtime namespace. */
+function installRuntimeMethod(rootKli, methodId, invokeOhr) {
+	const pathOros = methodId.split('.');
+	const methodName = pathOros.pop();
+	const namespaceKli = pathOros.reduce((currentKli, partOhr) => {
+		currentKli[partOhr] ??= {};
+		return currentKli[partOhr];
+	}, rootKli);
+	namespaceKli[methodName] = invokeOhr;
 }
 
 /** Builds convenience runtime methods that dispatch exact protocol commands. */
-export function createRuntimeApi(executor) {
-	const runtime = {};
-	let sequence = 0;
-	const nextId = (method) => `${method}-${String(sequence += 1).padStart(6, "0")}`;
-	for (const definition of executor.registry.list()) {
-		if (definition.id === "core.batch") continue;
-		install(runtime, definition.id, async (params = {}, options = {}) => executor.execute({
-			api: executor.apiId,
-			id: options.id ?? nextId(definition.id),
-			method: definition.id,
-			params,
-			options
-		}));
+export function createRuntimeApi(executorTiferes) {
+	const runtimeMalchus = {};
+	let sequenceYesod = 0;
+	const nextId = methodOhr => `${methodOhr}-${String(sequenceYesod += 1).padStart(6, '0')}`;
+	for (const definitionKli of executorTiferes.registry.list()) {
+		if (definitionKli.id === 'core.batch') continue;
+		installRuntimeMethod(runtimeMalchus, definitionKli.id, (paramsKli = {}, optionsKli = {}) =>
+			executorTiferes.execute({
+				api: executorTiferes.apiId,
+				id: optionsKli.id ?? nextId(definitionKli.id),
+				method: definitionKli.id,
+				options: optionsKli,
+				params: paramsKli
+			})
+		);
 	}
-	runtime.execute = (command) => executor.execute(command);
-	runtime.dryRun = (command) => executor.execute({
-		...command,
-		options: { ...command.options, dryRun: true }
+	installProtocolHelpers(runtimeMalchus, executorTiferes, nextId);
+	runtimeMalchus.mitzvahWorld = {
+		builder: runtimeMalchus.builder,
+		houses: runtimeMalchus.houses,
+		humans: runtimeMalchus.humans,
+		trees: runtimeMalchus.trees,
+		water: runtimeMalchus.water
+	};
+	return runtimeMalchus;
+}
+
+/** Adds protocol execution, dry-run, batch, history, and serialization controls. */
+function installProtocolHelpers(runtimeMalchus, executorTiferes, nextId) {
+	runtimeMalchus.execute = commandKli => executorTiferes.execute(commandKli);
+	runtimeMalchus.dryRun = commandKli => executorTiferes.execute({
+		...commandKli,
+		options: { ...commandKli.options, dryRun: true }
 	});
-	runtime.batch = (operations, options = {}) => executor.execute({
-		api: executor.apiId,
-		id: options.id ?? nextId("batch"),
-		method: "core.batch",
-		params: { atomic: true, operations },
-		options
+	runtimeMalchus.batch = (operationsOros, optionsKli = {}) => executorTiferes.execute({
+		api: executorTiferes.apiId,
+		id: optionsKli.id ?? nextId('batch'),
+		method: 'core.batch',
+		options: optionsKli,
+		params: { atomic: true, operations: operationsOros }
 	});
-	runtime.undo = () => {
-		const document = executor.history.undo(executor.document);
-		if (document) executor.document = document;
-		return document;
-	};
-	runtime.redo = () => {
-		const document = executor.history.redo(executor.document);
-		if (document) executor.document = document;
-		return document;
-	};
-	runtime.serialize = () => JSON.stringify(executor.document, null, 2);
-	runtime.mitzvahWorld = {
-		humans: runtime.humans,
-		trees: runtime.trees,
-		houses: runtime.houses,
-		water: runtime.water
-	};
-	return runtime;
+	runtimeMalchus.undo = () => restoreHistory(executorTiferes, 'undo');
+	runtimeMalchus.redo = () => restoreHistory(executorTiferes, 'redo');
+	runtimeMalchus.serialize = () => JSON.stringify(executorTiferes.document, null, 2);
+}
+
+/** Restores one historical document snapshot as the executor's current truth. */
+function restoreHistory(executorTiferes, directionOhr) {
+	const documentMalchus = executorTiferes.history[directionOhr](executorTiferes.document);
+	if (documentMalchus) executorTiferes.document = documentMalchus;
+	return documentMalchus;
 }

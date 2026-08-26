@@ -1,11 +1,9 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module SocialActionDescriptor
- * @description
- * The Awtsmoos lets intention precede execution; Awtsmoos.com describes each action before mutation so every UI
- * can share labels, risk, and canonical endpoint family without one generic route bypassing the authorization sky.
+ * @description The Awtsmoos lets intention precede execution; Awtsmoos.com describes label, risk, capability state, and safe mutation coordinates before any UI acts.
  */
 const ACTIONS = Object.freeze({
 	open: ['Open', '↗', 'navigate', 'deep-link', 'none'],
@@ -22,15 +20,18 @@ const ACTIONS = Object.freeze({
 	delete: ['Delete', '×', 'delete', 'entity-specific', 'destructive'],
 	moderate: ['Moderate', '◇', 'moderate', 'heichel', 'confirm'],
 	submit: ['Submit', '↑', 'submit', 'heichel', 'confirm'],
-	follow: ['Follow', '◎', 'follow', 'future-relations', 'optimistic'],
+	follow: ['Follow', '◎', 'follow', 'relationships', 'optimistic'],
 	save: ['Save', '☆', 'save', 'future-library', 'optimistic'],
 	collaborate: ['Collaborate', '♧', 'collaborate', 'future-collaboration', 'confirm']
 });
 
+/** Converts one capability state into the universal action descriptor consumed by all social surfaces. */
 function describeAction(name, state = {}) {
 	const definition = ACTIONS[name];
 	if (!definition) return null;
-	const [label, icon, intent, endpointFamily, risk] = definition;
+	const [defaultLabel, icon, intent, endpointFamily, risk] = definition;
+	const active = Boolean(state.active);
+	const label = name === 'follow' && active ? 'Unfollow' : defaultLabel;
 	return {
 		id: name,
 		label,
@@ -41,10 +42,13 @@ function describeAction(name, state = {}) {
 		available: state.available !== false,
 		enabled: Boolean(state.enabled),
 		reasonDisabled: state.reasonDisabled || '',
-		availability: state.availability || 'known'
+		availability: state.availability || 'known',
+		active,
+		mutation: state.mutation || null
 	};
 }
 
+/** Projects a complete capability map into universal action descriptors. */
 function socialActionDescriptors(capabilities = {}) {
 	return Object.keys(ACTIONS)
 		.map(name => describeAction(name, capabilities[name] || {}))

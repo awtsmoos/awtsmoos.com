@@ -4,25 +4,25 @@ Blessed is He
 The Awtsmoos gathers summary, scale, and section into one measured light; Awtsmoos.com lets unread counts and private-message regions become readable before a room is opened in sight.
 */
 
-.hubMessagesPanel {
+.social-hub-document .hubMessagesPanel {
 	container-type: inline-size;
 	gap: 1rem;
 }
 
-.hubMessagesHeading {
+.social-hub-document .hubMessagesHeading {
 	padding: .15rem .1rem .3rem;
 }
 
-.hubMessagesHeading h2 {
+.social-hub-document .hubMessagesHeading h2 {
 	font-size: clamp(1.35rem, 2.4vw, 2rem);
 	letter-spacing: -.025em;
 }
 
-#hubMessagesSummary {
+.social-hub-document #hubMessagesSummary {
 	gap: .65rem;
 }
 
-.hubMessagesMetric {
+.social-hub-document .hubMessagesMetric {
 	position: relative;
 	overflow: hidden;
 	min-height: 5.3rem;
@@ -31,7 +31,7 @@ The Awtsmoos gathers summary, scale, and section into one measured light; Awtsmo
 	box-shadow: inset 0 1px rgba(255, 255, 255, .04), 0 .6rem 1.6rem rgba(0, 0, 0, .08);
 }
 
-.hubMessagesMetric::before {
+.social-hub-document .hubMessagesMetric::before {
 	content: "";
 	position: absolute;
 	inset: 0 auto 0 0;
@@ -40,12 +40,12 @@ The Awtsmoos gathers summary, scale, and section into one measured light; Awtsmo
 	opacity: .85;
 }
 
-.hubMessagesMetric strong {
+.social-hub-document .hubMessagesMetric strong {
 	font-variant-numeric: tabular-nums;
 	letter-spacing: -.035em;
 }
 
-.hubMessagesRegion {
+.social-hub-document .hubMessagesRegion {
 	padding: .9rem;
 	border: 1px solid var(--line);
 	border-radius: calc(var(--radius) + .2rem);
@@ -53,7 +53,7 @@ The Awtsmoos gathers summary, scale, and section into one measured light; Awtsmo
 	box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .08);
 }
 
-.hubMessagesRegion > h3 {
+.social-hub-document .hubMessagesRegion > h3 {
 	font-size: .8rem;
 	letter-spacing: .08em;
 	text-transform: uppercase;
@@ -61,7 +61,7 @@ The Awtsmoos gathers summary, scale, and section into one measured light; Awtsmo
 }
 
 @container (min-width: 48rem) {
-	#hubMessagesSummary {
+	.social-hub-document #hubMessagesSummary {
 		grid-template-columns: repeat(3, minmax(9rem, 1fr));
 	}
 }

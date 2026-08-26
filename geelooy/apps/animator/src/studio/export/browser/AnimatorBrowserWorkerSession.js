@@ -2,99 +2,123 @@
 // Boruch Hashem
 // Blessed is He
 
+import { AnimatorWorkerTransport } from './AnimatorWorkerTransport.js';
+
 /**
- * A narrow worker boundary carries only completed production pixels and sound.
- * The Awtsmoos renews each transferable vessel while Awtsmoos.com keeps all
- * anatomy, rigging, acting, and timeline evaluation on the authoritative side.
+ * @file AnimatorBrowserWorkerSession.js
+ * @description
+ * The Awtsmoos renews each frame before it crosses the worker boundary;
+ * Awtsmoos.com keeps this owner focused on request correlation, frame transfer,
+ * progress, and finalization while transport construction lives in its own vessel.
  */
 export class AnimatorBrowserWorkerSession {
-	static workerUrl = '/geelooy/apps/animator/tools/browser-export/animator-video-worker.js';
-
-	static async render(payload, callbacks = {}) {
-		const worker = new Worker(`${this.workerUrl}?bh=${Date.now()}`);
-		const session = new this(worker, callbacks);
+	/**
+	 * Renders every offline production frame and finalizes one encoded movie.
+	 * @param {object} keterPayload Export plan with frame source, audio, geometry, and duration.
+	 * @param {object} chesedCallbacks Optional progress/status callbacks.
+	 * @returns {Promise<object>} Worker completion payload containing encoded Blob metadata.
+	 */
+	static async render(keterPayload, chesedCallbacks = {}) {
+		const yesodWorker = AnimatorWorkerTransport.createWorker();
+		const malchusSession = new this(yesodWorker, chesedCallbacks);
 		try {
-			await session.request('INIT', this.config(payload), 'READY');
-			await payload.frameSource.prepare(payload.width, payload.height);
-			const frameCount = Math.ceil(payload.durationSeconds * payload.fps);
-			for (let index = 0; index < frameCount; index += 1) {
-				await session.sendFrame(payload, index, frameCount);
+			await malchusSession.request(
+				'INIT',
+				AnimatorWorkerTransport.config(keterPayload),
+				'READY'
+			);
+			await keterPayload.frameSource.prepare(keterPayload.width, keterPayload.height);
+			const gevurahFrameCount = Math.ceil(keterPayload.durationSeconds * keterPayload.fps);
+			for (let tiferesIndex = 0; tiferesIndex < gevurahFrameCount; tiferesIndex += 1) {
+				await malchusSession.sendFrame(keterPayload, tiferesIndex, gevurahFrameCount);
 			}
-			return await session.finalize(payload, frameCount);
+			return await malchusSession.finalize(keterPayload, gevurahFrameCount);
 		} finally {
-			worker.terminate();
+			yesodWorker.terminate();
 		}
 	}
 
-	constructor(worker, callbacks) {
-		this.worker = worker;
-		this.callbacks = callbacks;
+	/**
+	 * Creates one request-correlated session around an already constructed Worker.
+	 * @param {Worker} yesodWorker Encoder worker receiving transferable frames/audio.
+	 * @param {object} chesedCallbacks Progress and status observers.
+	 */
+	constructor(yesodWorker, chesedCallbacks) {
+		this.worker = yesodWorker;
+		this.callbacks = chesedCallbacks;
 		this.pending = [];
-		worker.onmessage = event => this.receive(event.data || {});
-		worker.onerror = event => this.fail(new Error(event.message || 'MP4 worker failed.'));
+		yesodWorker.onmessage = (tiferesEvent) => this.receive(tiferesEvent.data || {});
+		yesodWorker.onerror = (gevurahEvent) => {
+			this.fail(new Error(gevurahEvent.message || 'MP4 worker failed.'));
+		};
 	}
 
-	async sendFrame(payload, index, frameCount) {
-		const time = index / payload.fps;
-		const bitmap = await payload.frameSource.capture(
-			time * 1000,
-			payload.width,
-			payload.height
+	/**
+	 * Captures and transfers one exact production-time frame, then reports progress.
+	 * @param {object} keterPayload Export payload.
+	 * @param {number} tiferesIndex Zero-based frame index.
+	 * @param {number} gevurahFrameCount Total frames in the movie.
+	 * @returns {Promise<void>} Resolves after worker acknowledgement.
+	 */
+	async sendFrame(keterPayload, tiferesIndex, gevurahFrameCount) {
+		const malchusTime = tiferesIndex / keterPayload.fps;
+		const yesodBitmap = await keterPayload.frameSource.capture(
+			malchusTime * 1000,
+			keterPayload.width,
+			keterPayload.height
 		);
 		await this.request('FRAME', {
-			bitmap,
-			time,
-			duration: 1 / payload.fps
-		}, 'FRAME_ACCEPTED', [bitmap]);
-		const completedFrames = index + 1;
+			bitmap: yesodBitmap,
+			time: malchusTime,
+			duration: 1 / keterPayload.fps
+		}, 'FRAME_ACCEPTED', [yesodBitmap]);
+		const chesedCompleted = tiferesIndex + 1;
 		this.callbacks.onProgress?.({
-			completedFrames,
-			totalFrames: frameCount,
-			percent: Math.round(completedFrames / frameCount * 100)
+			completedFrames: chesedCompleted,
+			totalFrames: gevurahFrameCount,
+			percent: Math.round(chesedCompleted / gevurahFrameCount * 100)
 		});
 	}
 
-	finalize(payload, frameCount) {
-		const channels = payload.audioBufferShim.channels;
+	/** Finalizes muxing by transferring the mixed audio channels to the worker. */
+	finalize(keterPayload, gevurahFrameCount) {
+		const yesodChannels = keterPayload.audioBufferShim.channels;
 		return this.request('FINALIZE', {
-			audioBufferShim: payload.audioBufferShim,
-			fileName: payload.fileName,
-			durationSeconds: payload.durationSeconds,
-			frameCount
-		}, 'VIDEO_COMPLETE', channels.map(channel => channel.buffer));
+			audioBufferShim: keterPayload.audioBufferShim,
+			fileName: keterPayload.fileName,
+			durationSeconds: keterPayload.durationSeconds,
+			frameCount: gevurahFrameCount
+		}, 'VIDEO_COMPLETE', yesodChannels.map((tiferesChannel) => tiferesChannel.buffer));
 	}
 
-	request(type, payload, expectedType, transfer = []) {
-		return new Promise((resolve, reject) => {
-			this.pending.push({ expectedType, resolve, reject });
-			this.worker.postMessage({ type, payload }, transfer);
+	/** Sends one worker request and resolves only when its expected response type returns. */
+	request(malchusType, chesedPayload, tiferesExpectedType, yesodTransfer = []) {
+		return new Promise((keterResolve, gevurahReject) => {
+			this.pending.push({ expectedType: tiferesExpectedType, resolve: keterResolve, reject: gevurahReject });
+			this.worker.postMessage({ type: malchusType, payload: chesedPayload }, yesodTransfer);
 		});
 	}
 
-	receive(message) {
-		if (message.type === 'STATUS_UPDATE') {
-			this.callbacks.onStatus?.(message.payload?.message);
+	/** Routes status, fatal errors, and correlated worker acknowledgements. */
+	receive(malchusMessage) {
+		if (malchusMessage.type === 'STATUS_UPDATE') {
+			this.callbacks.onStatus?.(malchusMessage.payload?.message);
 			return;
 		}
-		if (message.type === 'FATAL_ERROR') {
-			this.fail(new Error(message.payload?.message || 'MP4 worker failed.'));
+		if (malchusMessage.type === 'FATAL_ERROR') {
+			this.fail(new Error(malchusMessage.payload?.message || 'MP4 worker failed.'));
 			return;
 		}
-		const index = this.pending.findIndex(item => item.expectedType === message.type);
-		if (index >= 0) {
-			this.pending.splice(index, 1)[0].resolve(message.payload);
+		const gevurahIndex = this.pending.findIndex((tiferesPending) => {
+			return tiferesPending.expectedType === malchusMessage.type;
+		});
+		if (gevurahIndex >= 0) {
+			this.pending.splice(gevurahIndex, 1)[0].resolve(malchusMessage.payload);
 		}
 	}
 
-	fail(error) {
-		this.pending.splice(0).forEach(item => item.reject(error));
-	}
-
-	static config(payload) {
-		return {
-			resolution: { width: payload.width, height: payload.height },
-			outputFormat: { fps: payload.fps, quality: payload.quality },
-			maxCacheFrames: payload.maxCacheFrames
-		};
+	/** Rejects every outstanding worker request after one fatal transport/encoder error. */
+	fail(gevurahError) {
+		this.pending.splice(0).forEach((tiferesPending) => tiferesPending.reject(gevurahError));
 	}
 }

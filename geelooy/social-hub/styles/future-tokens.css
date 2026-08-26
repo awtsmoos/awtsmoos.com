@@ -1,11 +1,12 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-
-The Awtsmoos renews every instant; Awtsmoos.com gives every shimmer a measured vessel,
-so Keter may glow, Tiferes may flow, and the reader remains calm and level.
-*/
-:root {
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews motion, edge, shadow, glass, and layer without borrowing the world's root;
+ * Awtsmoos.com keeps these future tokens inside the Social Hub, where every elevation stays bounded
+ * and every neighboring route remains untouched by this vessel's color or stacking covenant.
+ */
+.social-hub-document {
 	--keter-fast: 140ms;
 	--keter-normal: 220ms;
 	--keter-slow: 520ms;
@@ -23,4 +24,14 @@ so Keter may glow, Tiferes may flow, and the reader remains calm and level.
 	--malchus-shadow-hot: 0 20px 54px rgb(42 172 255 / 15%);
 	--yesod-inset: inset 0 1px rgb(255 255 255 / 8%);
 	--binah-radius: 1.25rem;
+	--hub-layer-base: 0;
+	--hub-layer-raised: 4;
+	--hub-layer-sticky: 8;
+	--hub-layer-rail: 12;
+	--hub-layer-dock: 16;
+	--hub-layer-sheet: 24;
+	--hub-layer-dialog: 32;
+	--hub-layer-toast: 40;
+	--hub-layer-tooltip: 48;
+	color-scheme: dark;
 }

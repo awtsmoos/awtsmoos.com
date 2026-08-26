@@ -1,0 +1,69 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals danger through word, glyph, border shape, and measured progress rather than color alone;
+ * Awtsmoos.com keeps enemy warnings bounded above the action bar so urgency never becomes visual sprawl.
+ */
+
+.Mitzvah-combat-host .Mitzvah-enemy-casts {
+	position: absolute;
+	left: 50%;
+	bottom: calc(100% + 98px);
+	display: grid;
+	gap: 6px;
+	width: min(520px, 88vw);
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+.Mitzvah-combat-host .Mitzvah-enemy-cast {
+	padding: 7px 9px;
+	border: 2px solid currentColor;
+	border-radius: 10px;
+	background: rgba(7, 10, 16, 0.94);
+	color: #f5f8ff;
+	font: 700 11px system-ui, sans-serif;
+}
+
+.Mitzvah-combat-host .Mitzvah-enemy-cast[data-danger="critical"] {
+	border-style: double;
+	outline: 2px solid rgba(255, 255, 255, 0.32);
+}
+
+.Mitzvah-combat-host .Mitzvah-enemy-cast[data-danger="high"] {
+	border-style: dashed;
+}
+
+.Mitzvah-combat-host .Mitzvah-enemy-cast header {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.Mitzvah-combat-host .Mitzvah-enemy-cast :is(p, small) {
+	display: block;
+	margin: 3px 0 0;
+}
+
+.Mitzvah-combat-host .Mitzvah-enemy-cast div {
+	height: 5px;
+	margin-top: 5px;
+	overflow: hidden;
+	border-radius: 99px;
+	background: rgba(255, 255, 255, 0.14);
+}
+
+.Mitzvah-combat-host .Mitzvah-enemy-cast i {
+	display: block;
+	height: 100%;
+	background: currentColor;
+	transform-origin: left;
+}
+
+@media (forced-colors: active) {
+	.Mitzvah-combat-host .Mitzvah-enemy-cast {
+		background: Canvas;
+		color: CanvasText;
+	}
+}

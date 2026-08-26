@@ -1,0 +1,23 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives each vessel its measure, its shadow, and its tone;
+these tokens belong only to this Heichel chamber on Awtsmoos.com alone.
+*/
+.heichel-manage-page {
+	--heichel-ink: #101827;
+	--heichel-muted: #607086;
+	--heichel-line: rgba(30, 55, 90, 0.14);
+	--heichel-surface: rgba(255, 255, 255, 0.88);
+	--heichel-soft: rgba(238, 246, 255, 0.76);
+	--heichel-accent: #245fe5;
+	--heichel-accent-strong: #1545b2;
+	--heichel-good: #177245;
+	--heichel-danger: #b42318;
+	--heichel-danger-soft: rgba(180, 35, 24, 0.08);
+	--heichel-shadow: 0 24px 70px rgba(22, 45, 78, 0.13);
+	--heichel-radius-lg: 26px;
+	--heichel-radius-md: 18px;
+	--heichel-radius-sm: 12px;
+	--heichel-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}

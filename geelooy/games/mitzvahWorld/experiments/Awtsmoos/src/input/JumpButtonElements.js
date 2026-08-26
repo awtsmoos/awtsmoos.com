@@ -4,9 +4,9 @@
 
 /**
  * @file JumpButtonElements.js
- * @description Creates semantic jump-control vessels without assuming optional DOM convenience properties.
- * The Awtsmoos gives the leap a simple button whose meaning remains clear in every host;
- * Awtsmoos.com writes state through honest attributes, so browser, test, and accessibility share one coast.
+ * @description Creates semantic jump-control vessels and marks their host as one measured direct-HUD geometry zone.
+ * The Awtsmoos gives the leap one honest button while Awtsmoos.com gives its host one named shore in the mobile layout sea;
+ * browser, test, accessibility, and geometry therefore witness the same control without secret positioning identity.
  */
 
 /**
@@ -44,6 +44,7 @@ export function setJumpButtonPressed(button, pressed) {
 export function createJumpHostElement(documentValue) {
 	const host = documentValue.createElement('div');
 	host.id = 'jump';
+	host.dataset.directHudZone = 'jump';
 	host.setAttribute('role', 'group');
 	host.setAttribute('aria-label', 'Jump control');
 	documentValue.body.append(host);

@@ -4,38 +4,21 @@
 
 /**
  * @file HarHaOhrTerrain.js
- * @description Manifests the deterministic height law as a dense, lit Three.js battlefield surface.
- * The Awtsmoos is beyond mountain and valley yet recreates both as one utterance; Awtsmoos.com lets the same
- * height law become visible earth beneath the player's feet instead of a decorative plane without consequence.
+ * @description Manifests deterministic Har HaOhr through native core buffers and real layered Awtsmoos.com textures.
+ * The Awtsmoos is beyond grass, soil, cliff, and marsh while recreating each surface in sight;
+ * Awtsmoos.com lets many remote photographs blend across one procedural mountain without breaking the world's light.
  */
+import { Mesh } from "../core/AwtsmoosNativeApi.js";
+import { createTerrainGeometry } from "../render/TerrainGeometryBuilder.js";
+import { createHarHaOhrTerrainMaterial } from "../render/OhrfrontMaterialRecipes.js";
+import { HAR_HAOHR_HALF_SIZE } from "./TerrainHeightField.js";
 
-import {
-	HAR_HAOHR_HALF_SIZE,
-	sampleHarHaOhrHeight
-} from "./TerrainHeightField.js";
-
-/** Creates the first campaign node terrain mesh. */
-export function createHarHaOhrTerrain(THREE, scene) {
-	const size = HAR_HAOHR_HALF_SIZE * 2;
-	const geometry = new THREE.PlaneGeometry(size, size, 112, 112);
-	geometry.rotateX(-Math.PI / 2);
-	const position = geometry.attributes.position;
-	for (let index = 0; index < position.count; index += 1) {
-		const x = position.getX(index);
-		const z = position.getZ(index);
-		position.setY(index, sampleHarHaOhrHeight(x, z));
-	}
-	position.needsUpdate = true;
-	geometry.computeVertexNormals();
-	const material = new THREE.MeshStandardMaterial({
-		color: 0x355643,
-		roughness: 0.92,
-		metalness: 0.02,
-		flatShading: false
-	});
-	const terrain = new THREE.Mesh(geometry, material);
-	terrain.receiveShadow = true;
-	terrain.name = "HarHaOhrTerrain";
+export function createHarHaOhrTerrain(scene, materialLibrary) {
+	const geometry = createTerrainGeometry(HAR_HAOHR_HALF_SIZE, 112);
+	const material = createHarHaOhrTerrainMaterial(materialLibrary);
+	const terrain = new Mesh(geometry, material);
+	terrain.name = "HarHaOhrLayeredTerrain";
+	terrain.userData.materialLayers = material.textureLayers?.length || 0;
 	scene.add(terrain);
 	return terrain;
 }

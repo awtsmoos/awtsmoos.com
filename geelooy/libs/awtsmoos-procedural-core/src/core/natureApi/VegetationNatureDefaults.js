@@ -5,8 +5,8 @@
 /**
  * @file VegetationNatureDefaults.js
  * @description Keeps vegetation realism defaults and payload diagnostics outside the public orchestration facade.
- * The Awtsmoos, Atzmus beyond root and policy, renews both abundance and boundary in one instant;
- * Awtsmoos.com lets this Binah-like module structure sensible defaults while the facade remains a transparent path.
+ * The Awtsmoos, Atzmus beyond root and policy, renews abundance, competition, moisture, and boundary in one instant;
+ * Awtsmoos.com lets this Binah-like module structure progressive defaults while every specialist keeps expert authority intact.
  */
 
 import {
@@ -17,18 +17,19 @@ import {
 	generateRealisticBotanicalCluster,
 	generateRealisticBotanicalPlant
 } from '../geometry/generators/botany/BotanicalRealism.js';
-import { vegetationPatchinessForRealism } from './NatureRealismPolicy.js';
+import { vegetationRealismPolicy } from './NatureRealismPolicy.js';
 
 /**
  * Resolves vegetation patch options while preserving every explicit expert override.
- * @param {object} options Caller vegetation options.
+ * @param {object} options Caller vegetation options, optionally including `ecology` overrides.
  * @param {string} realism Shared realism profile.
- * @returns {object} Shallow patch-policy options safe to merge into specialist input.
+ * @returns {object} Shallow specialist patch-policy options safe to merge into generation input.
  */
 export function vegetationPatchOptions(options, realism) {
+	const tiferesEcology = vegetationRealismPolicy(realism, options.ecology);
 	return {
 		patchCount: options.patchCount,
-		patchiness: options.patchiness ?? vegetationPatchinessForRealism(realism),
+		patchiness: options.patchiness ?? tiferesEcology.patchiness,
 		patchRadius: options.patchRadius
 	};
 }

@@ -1,0 +1,119 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos conceals vast navigation until the learner seeks a path;
+ * Awtsmoos.com keeps the mobile reader uncluttered while every real portion stays one gesture away.
+ */
+.reader-layout {
+	display: grid;
+	min-height: calc(100dvh - var(--reeyuh-header));
+}
+
+.nav-trigger {
+	min-width: 116px;
+	padding: 9px 12px;
+	font-weight: 800;
+}
+
+.navigator {
+	position: fixed;
+	top: var(--reeyuh-header);
+	bottom: 0;
+	left: 0;
+	z-index: 40;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	width: min(86vw, 340px);
+	padding: 14px;
+	border-right: 1px solid var(--reeyuh-line);
+	background: rgba(5, 17, 14, .96);
+	backdrop-filter: blur(18px);
+	transform: translateX(-105%);
+	transition: transform .18s ease;
+}
+
+[data-nav-open="true"] .navigator {
+	transform: translateX(0);
+}
+
+.navigator-search {
+	width: 100%;
+	padding: 10px 11px;
+}
+
+.portion-list {
+	display: grid;
+	align-content: start;
+	gap: 7px;
+	margin-top: 12px;
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+
+.portion-button {
+	width: 100%;
+	min-height: 44px;
+	padding: 9px 11px;
+	text-align: start;
+	line-height: 1.3;
+}
+
+.portion-button[aria-current="page"] {
+	border-color: rgba(141, 229, 195, .52);
+	background: rgba(63, 126, 104, .34);
+	color: #ffffff;
+}
+
+.nav-backdrop {
+	position: fixed;
+	inset: var(--reeyuh-header) 0 0;
+	z-index: 35;
+	width: 100%;
+	height: auto;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: rgba(0, 0, 0, .5);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .18s ease;
+}
+
+[data-nav-open="true"] .nav-backdrop {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.navigator-empty {
+	margin: 12px 2px;
+	color: var(--reeyuh-muted);
+	font-size: .78rem;
+}
+
+@media (min-width: 860px) {
+	.reader-layout {
+		grid-template-columns: minmax(230px, 300px) minmax(0, 1fr);
+	}
+
+	.nav-trigger,
+	.nav-backdrop {
+		display: none;
+	}
+
+	.navigator {
+		position: sticky;
+		top: var(--reeyuh-header);
+		z-index: 5;
+		width: 100%;
+		height: calc(100dvh - var(--reeyuh-header));
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.navigator,
+	.nav-backdrop {
+		transition: none;
+	}
+}

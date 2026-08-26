@@ -1,0 +1,75 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos, Atzmus beyond motion and stillness, renews each hover, focus, press, and disabled boundary before the hand can meet it;
+Awtsmoos.com lets interaction states shine inside one local root with a calm futuristic rhythm, while geometry remains in its own vessel and no selector leaks into another world.
+*/
+
+#mitzvah-world-root .Awtsmoos-creative-dock :is(
+	.Awtsmoos-creative-dock__trigger,
+	.Awtsmoos-creative-dock__close,
+	.Awtsmoos-creative-dock__actions button
+) {
+	transition:
+		transform 110ms cubic-bezier(.2, .8, .2, 1),
+		border-color 140ms ease,
+		background 140ms ease,
+		box-shadow 160ms ease,
+		opacity 140ms ease;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock :is(
+	.Awtsmoos-creative-dock__trigger,
+	.Awtsmoos-creative-dock__close,
+	.Awtsmoos-creative-dock__actions button
+):active:not(:disabled) {
+	transform: translateY(1px) scale(.975);
+	border-color: rgba(197, 255, 219, .7);
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock :is(button, summary):focus-visible {
+	outline: 2px solid rgba(198, 255, 218, .96);
+	outline-offset: 3px;
+	border-color: rgba(218, 255, 232, .82);
+	box-shadow: 0 0 0 4px rgba(122, 255, 168, .13), 0 8px 22px rgba(0, 0, 0, .16);
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock :is(button, summary):disabled,
+#mitzvah-world-root .Awtsmoos-creative-dock button[data-loading="true"] {
+	cursor: not-allowed;
+	opacity: .5;
+	filter: saturate(.58);
+}
+
+@media (hover: hover) {
+	#mitzvah-world-root .Awtsmoos-creative-dock :is(
+		.Awtsmoos-creative-dock__trigger,
+		.Awtsmoos-creative-dock__close,
+		.Awtsmoos-creative-dock__actions button
+	):hover:not(:disabled) {
+		border-color: rgba(194, 255, 218, .62);
+		background: linear-gradient(145deg, rgba(38, 83, 55, .86), rgba(14, 43, 26, .8));
+		box-shadow: 0 8px 20px rgba(0, 0, 0, .14), inset 0 1px 0 rgba(255, 255, 255, .08);
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root .Awtsmoos-creative-dock :is(
+		.Awtsmoos-creative-dock__trigger,
+		.Awtsmoos-creative-dock__close,
+		.Awtsmoos-creative-dock__actions button,
+		.Awtsmoos-creative-dock__sheet
+	) {
+		transition: none;
+	}
+
+	#mitzvah-world-root .Awtsmoos-creative-dock :is(
+		.Awtsmoos-creative-dock__trigger,
+		.Awtsmoos-creative-dock__close,
+		.Awtsmoos-creative-dock__actions button
+	):active:not(:disabled) {
+		transform: none;
+	}
+}

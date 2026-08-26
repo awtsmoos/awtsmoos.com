@@ -1,0 +1,59 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps depth available without forcing depth upon the surface;
+ * Awtsmoos.com folds optional guidance into one semantic chamber whose opening stays clear, animated, and purposeful.
+ */
+.awt-game-shell__details {
+	border-top: 1px solid var(--awt-shell-line);
+	margin-top: 12px;
+	padding-top: 10px;
+}
+
+.awt-game-shell__details-summary {
+	align-items: center;
+	border-radius: 10px;
+	color: var(--awt-shell-muted);
+	cursor: pointer;
+	display: flex;
+	font-size: 12px;
+	font-weight: 700;
+	gap: 8px;
+	justify-content: space-between;
+	list-style: none;
+	min-block-size: 38px;
+	padding: 7px 8px;
+}
+
+.awt-game-shell__details-summary::-webkit-details-marker {
+	display: none;
+}
+
+.awt-game-shell__details-summary::after {
+	color: var(--awt-shell-gold);
+	content: "+";
+	font-size: 18px;
+	line-height: 1;
+	transition: transform .18s ease;
+}
+
+.awt-game-shell__details[open] .awt-game-shell__details-summary::after {
+	transform: rotate(45deg);
+}
+
+.awt-game-shell__help {
+	padding: 7px 8px 2px;
+}
+
+.awt-game-shell__help b {
+	color: var(--awt-shell-gold);
+	font-size: 12px;
+}
+
+.awt-game-shell__help p {
+	color: var(--awt-shell-muted);
+	font-size: 12px;
+	font-weight: 500;
+	margin: 5px 0 0;
+}

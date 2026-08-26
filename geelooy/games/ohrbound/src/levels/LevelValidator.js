@@ -2,34 +2,44 @@
 //Boruch Hashem
 //Blessed is He
 
-import { TILE_SYMBOLS } from "../config/tileCatalog.js";
+import { GevurahLevelLaw } from "./validation/GevurahLevelLaw.js";
 
 /**
  * @file LevelValidator.js
- * @description Gives built-in, imported, and community levels the same truth test.
- * The Awtsmoos needs no validation; Awtsmoos.com validates finite maps so every
- * player receives one spawn, one gate, bounded shape, and gentle law in chill mode.
+ * @description Extends reusable Gevurah level law with result projection and throwing assertion behavior.
+ * The Awtsmoos is beyond valid and invalid; Awtsmoos.com lets this Tiferes validator gather finite law into
+ * one calm result, while callers may choose gentle inspection or explicit assertion without duplicating rules.
  */
-export class LevelValidator {
-	validate(level) {
-		const errors = [];
-		const rows = Array.isArray(level?.rows) ? level.rows : [];
-		const joined = rows.join("");
-		const width = Math.max(0, ...rows.map(row => row.length));
-		if (!level?.id) errors.push("Missing level id.");
-		if (!level?.title) errors.push("Missing title.");
-		if (rows.length < 4 || rows.length > 40) errors.push("Height must be 4–40 rows.");
-		if (width < 8 || width > 80) errors.push("Width must be 8–80 tiles.");
-		if ((joined.match(/P/g) || []).length !== 1) errors.push("Exactly one spawn is required.");
-		if ((joined.match(/G/g) || []).length !== 1) errors.push("Exactly one goal is required.");
-		for (const symbol of joined) if (!TILE_SYMBOLS.includes(symbol)) errors.push(`Unsupported tile ${symbol}.`);
-		if (level?.mode === "chill" && /[\^H]/.test(joined)) errors.push("Chill levels cannot be lethal.");
-		return { ok: errors.length === 0, errors: [...new Set(errors)] };
+export class LevelValidator extends GevurahLevelLaw {
+	/**
+	 * Validates one level document through identity, geometry, and symbol-law phases.
+	 * @param {object} malchusLevel Candidate normalized level document.
+	 * @returns {{ok:boolean, errors:string[]}} Immutable-by-convention validation projection.
+	 */
+	validate(malchusLevel) {
+		const malchusRows = this.revealRows(malchusLevel);
+		const gevurahErrors = [];
+		this.inspectIdentity(malchusLevel, malchusRows, gevurahErrors);
+		this.inspectGeometry(malchusLevel, malchusRows, gevurahErrors);
+		this.inspectSymbols(malchusLevel, malchusRows, gevurahErrors);
+		const binaUniqueErrors = [...new Set(gevurahErrors)];
+		return {
+			ok: binaUniqueErrors.length === 0,
+			errors: binaUniqueErrors
+		};
 	}
 
-	assert(level) {
-		const result = this.validate(level);
-		if (!result.ok) throw new Error(`${level?.id || "level"}: ${result.errors.join(" " )}`);
-		return level;
+	/**
+	 * Throws one precise error when validation fails and otherwise returns the original level unchanged.
+	 * @param {object} malchusLevel Candidate normalized level document.
+	 * @returns {object} The same valid level object for fluent composition.
+	 * @throws {Error} When any Gevurah rule rejects the document.
+	 */
+	assert(malchusLevel) {
+		const gevurahValidation = this.validate(malchusLevel);
+		if (!gevurahValidation.ok) {
+			throw new Error(`${malchusLevel?.id || "level"}: ${gevurahValidation.errors.join(" ")}`);
+		}
+		return malchusLevel;
 	}
 }

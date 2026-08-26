@@ -6,11 +6,12 @@
  * @file One futuristic Explorer drive control consuming the shared remote-world truth.
  * @description
  * The Awtsmoos lets every mounted world wear one honest face while Awtsmoos.com
- * derives state, speech, and action from a single descriptor. Living worlds open;
- * locked SSH worlds ask for fresh credential light, and accessibility joins the rhyme.
+ * derives identity, state, and action from one descriptor. A shared status vessel
+ * now keeps connection truth readable instead of compressing distant worlds in rhyme.
  */
 import { createElement } from "/scripts/awtsmoos/ui/basic.js";
 import { remoteWorldDescriptor } from "./remoteWorldDescriptor.js";
+import { createRemoteWorldStatus } from "./remoteWorldStatus.js";
 
 /**
  * Builds one touch-first drive button whose visible and spoken state cannot drift.
@@ -21,7 +22,7 @@ import { remoteWorldDescriptor } from "./remoteWorldDescriptor.js";
 export function createDriveChip(options = {}) {
 	const { os, mount, onNavigate, onReconnect } = options;
 	const world = remoteWorldDescriptor(os, mount);
-	return createElement({
+	const chip = createElement({
 		tag: "button",
 		attributes: {
 			class: `drive-chip ${world.className}`,
@@ -33,7 +34,6 @@ export function createDriveChip(options = {}) {
 			"data-state": world.state,
 			"data-reconnectable": world.reconnectable ? "yes" : "no"
 		},
-		children: childrenFor(world),
 		on: {
 			click: () => activate({
 				os,
@@ -44,6 +44,8 @@ export function createDriveChip(options = {}) {
 			})
 		}
 	});
+	chip.append(...identityNodes(world), createRemoteWorldStatus(world, "drive-chip-state"));
+	return chip;
 }
 
 function activate(options) {
@@ -58,32 +60,27 @@ function activate(options) {
 	options.onReconnect?.(profile);
 }
 
-function childrenFor(world) {
+function identityNodes(world) {
 	return [
-		{
+		createElement({
 			tag: "span",
 			attributes: {
 				class: "drive-chip-icon",
 				"aria-hidden": "true"
 			},
 			html: world.icon
-		},
-		{
-			tag: "span",
-			attributes: { class: "drive-chip-label" },
-			html: escapeHtml(world.label)
-		},
-		{
-			tag: "small",
-			attributes: { class: "drive-chip-meta" },
-			html: escapeHtml(world.subtitle)
-		},
-		{
-			tag: "small",
-			attributes: { class: "drive-chip-state" },
-			html: escapeHtml(`${world.stateLabel} · ${world.action}`)
-		}
+		}),
+		createText("drive-chip-label", world.label),
+		createText("drive-chip-meta", world.subtitle)
 	];
+}
+
+function createText(className, value) {
+	return createElement({
+		tag: "span",
+		attributes: { class: className },
+		html: escapeHtml(value)
+	});
 }
 
 function escapeHtml(value) {

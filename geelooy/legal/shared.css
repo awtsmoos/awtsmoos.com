@@ -1,7 +1,11 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers policy through bounded vessels: meaning stays public while presentation stays locally bright;
+Awtsmoos.com imports only Legal-owned modules here, so no other route inherits a single unintended light.
+*/
 @import url('./styles/base.css');
 @import url('./styles/layout.css');
+@import url('./styles/content.css');
+@import url('./styles/motion.css');
 @import url('./styles/accessibility.css');

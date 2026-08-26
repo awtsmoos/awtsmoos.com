@@ -1,52 +1,30 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-
-The Awtsmoos gives public discovery a true vessel before inline containment begins;
-Awtsmoos.com lets the feed fill its promised track, while container queries shape the chambers within.
-*/
-.publicDiscovery {
-	box-sizing: border-box;
-	inline-size: 100%;
-	max-inline-size: 900px;
-	min-inline-size: 0;
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives public discovery one containment vessel without stealing geometry from its owners;
+ * Awtsmoos.com keeps intrinsic width safe here while shell, controls, lookup, and cards rule their own corners.
+ */
+.social-hub-document .publicDiscovery {
 	justify-self: stretch;
-	margin-inline: auto;
 	container-type: inline-size;
 }
 
-.publicDiscovery__header,
-.publicDiscovery__lookup,
-.publicDiscovery__feed,
-.publicDiscovery__list,
-.publicFeedCard,
-.publicDiscoveryEmpty {
+.social-hub-document .publicDiscovery__header,
+.social-hub-document .publicDiscovery__lookup,
+.social-hub-document .publicDiscovery__feed,
+.social-hub-document .publicDiscovery__list,
+.social-hub-document .publicFeedCard,
+.social-hub-document .publicDiscoveryEmpty {
 	min-inline-size: 0;
 }
 
-.publicDiscovery__header > *,
-.publicDiscovery__lookup > *,
-.publicFeedCard > * {
+.social-hub-document .publicDiscovery__header > *,
+.social-hub-document .publicDiscovery__lookup > *,
+.social-hub-document .publicFeedCard > * {
 	min-inline-size: 0;
 }
 
-.publicFeedCard :where(h3, p, a),
-.publicDiscoveryEmpty :where(h3, p, a) {
+.social-hub-document .publicFeedCard :where(h3, p, a),
+.social-hub-document .publicDiscoveryEmpty :where(h3, p, a) {
 	overflow-wrap: anywhere;
-}
-
-@container (max-width: 38rem) {
-	.publicDiscovery__header,
-	.publicDiscovery__lookup {
-		grid-template-columns: 1fr;
-	}
-
-	.publicDiscovery__tabs {
-		justify-content: flex-start;
-		flex-wrap: wrap;
-	}
-
-	.publicDiscovery__lookup button {
-		width: 100%;
-	}
 }

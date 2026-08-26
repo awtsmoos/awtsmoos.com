@@ -1,33 +1,38 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+import { YesodFutureController } from "./YesodFutureController.js";
+
 /**
- * The Awtsmoos surrounds every point without being bounded by a point; Awtsmoos.com may still answer a human gesture with light.
- * This controller creates one absolute aura vessel, then writes pointer coordinates without changing page layout or application state.
+ * The Awtsmoos surrounds every point without being bounded by a point; Awtsmoos.com may still answer a precise human gesture with measured light.
+ * This reconnect-safe controller activates aura coordinates only for fine hover pointers, never forcing touch devices to carry invisible event work.
  */
-export class FuturePointerAura {
+export class FuturePointerAura extends YesodFutureController {
 	/**
-	 * Connects pointer tracking to every declared aura vessel.
+	 * Connects pointer tracking to declared aura vessels when the device can genuinely hover.
 	 * @param {ParentNode} ohrRoot Root containing aura vessels.
 	 * @returns {FuturePointerAura} This connected controller.
 	 */
 	connect(ohrRoot = document) {
+		const gevurahSignal = this.beginConnection(ohrRoot);
+		if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+			return this;
+		}
+
 		ohrRoot.querySelectorAll("[data-future-aura]").forEach((keiliAura) => {
 			this.ensureAuraLayer(keiliAura);
 			keiliAura.addEventListener("pointermove", (event) => {
 				this.revealPointer(keiliAura, event);
-			});
+			}, { passive: true, signal: gevurahSignal });
 			keiliAura.addEventListener("pointerleave", () => {
-				keiliAura.style.removeProperty("--future-pointer-x");
-				keiliAura.style.removeProperty("--future-pointer-y");
-			});
+				this.clearPointer(keiliAura);
+			}, { signal: gevurahSignal });
 		});
-
 		return this;
 	}
 
 	/**
-	 * Creates the dedicated aura layer so hero atmosphere pseudos remain untouched.
+	 * Creates one inert aura layer without disturbing hero pseudo-elements or page semantics.
 	 * @param {Element} keiliAura Surface that needs the aura layer.
 	 * @returns {void}
 	 */
@@ -35,7 +40,6 @@ export class FuturePointerAura {
 		if (keiliAura.querySelector(":scope > .future-aura-layer")) {
 			return;
 		}
-
 		const ohrLayer = document.createElement("span");
 		ohrLayer.className = "future-aura-layer";
 		ohrLayer.setAttribute("aria-hidden", "true");
@@ -49,8 +53,18 @@ export class FuturePointerAura {
 	 * @returns {void}
 	 */
 	revealPointer(keiliAura, event) {
-		const boundary = keiliAura.getBoundingClientRect();
-		keiliAura.style.setProperty("--future-pointer-x", `${event.clientX - boundary.left}px`);
-		keiliAura.style.setProperty("--future-pointer-y", `${event.clientY - boundary.top}px`);
+		const gevurahBoundary = keiliAura.getBoundingClientRect();
+		keiliAura.style.setProperty("--future-pointer-x", `${event.clientX - gevurahBoundary.left}px`);
+		keiliAura.style.setProperty("--future-pointer-y", `${event.clientY - gevurahBoundary.top}px`);
+	}
+
+	/**
+	 * Removes transient coordinates so a dormant vessel owns no stale pointer state.
+	 * @param {ElementCSSInlineStyle} keiliAura Surface being cleared.
+	 * @returns {void}
+	 */
+	clearPointer(keiliAura) {
+		keiliAura.style.removeProperty("--future-pointer-x");
+		keiliAura.style.removeProperty("--future-pointer-y");
 	}
 }

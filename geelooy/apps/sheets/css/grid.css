@@ -3,69 +3,79 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos gives every cell a boundary without imprisoning the light;
-Awtsmoos.com keeps the core grid quiet while resize chrome lives in its own vessel, clean and bright.
+Awtsmoos.com roots grid, selection, activity, note, and keyboard focus beneath one Sheets vessel while resize chrome lives in its own rite.
 */
-@import url("./gridResize.css");
+@import url("./gridResize.css?v=sheets-009");
 
-.grid-viewport {
+.awtsmoos-sheets-app .grid-viewport {
 	position: relative;
 	min-width: 0;
 	min-height: 0;
 	width: 100%;
 	height: 100%;
 	overflow: auto;
-	background: #fff;
+	background: var(--surface);
 	overscroll-behavior: contain;
 }
 
-.sheet-grid {
+.awtsmoos-sheets-app .sheet-grid {
 	display: grid;
 	width: max-content;
 	min-width: 100%;
 	align-content: start;
-	background: #fff;
+	background: var(--surface);
 }
 
-.grid-corner,
-.column-header,
-.row-header,
-.sheet-cell {
+.awtsmoos-sheets-app .grid-corner,
+.awtsmoos-sheets-app .column-header,
+.awtsmoos-sheets-app .row-header,
+.awtsmoos-sheets-app .sheet-cell {
 	box-sizing: border-box;
 	border-right: 1px solid var(--grid-line);
 	border-bottom: 1px solid var(--grid-line);
 }
 
-.sheet-cell {
+.awtsmoos-sheets-app .sheet-cell {
 	position: relative;
 	min-width: 0;
 	min-height: 0;
 	padding: 6px 8px;
 	overflow: hidden;
 	outline: none;
-	background: #fff;
-	color: var(--ink);
+	background: var(--surface);
+	color: var(--text);
 	font-size: 13px;
 	line-height: 1.25;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	transition:
+		background-color var(--motion-fast) var(--ease-direct),
+		box-shadow var(--motion-fast) var(--ease-direct);
 }
 
-.sheet-cell:hover {
+.awtsmoos-sheets-app .sheet-cell:hover {
 	background-color: rgba(19, 124, 83, 0.025);
 }
 
-.sheet-cell.is-selected {
+.awtsmoos-sheets-app .sheet-cell.is-selected {
 	box-shadow: inset 0 0 0 999px rgba(19, 124, 83, 0.035);
 }
 
-.sheet-cell.is-active {
-	z-index: 3;
+.awtsmoos-sheets-app .sheet-cell.is-active {
+	z-index: var(--z-grid-active);
 	box-shadow:
 		inset 0 0 0 2px var(--accent),
 		0 0 0 1px rgba(255, 255, 255, 0.7);
 }
 
-.sheet-cell.has-note::after {
+.awtsmoos-sheets-app .sheet-cell:focus-visible {
+	z-index: var(--z-grid-active);
+	box-shadow:
+		inset 0 0 0 2px var(--accent-strong),
+		0 0 0 2px rgba(19, 124, 83, 0.16);
+}
+
+.awtsmoos-sheets-app .sheet-cell.has-note::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -74,4 +84,5 @@ Awtsmoos.com keeps the core grid quiet while resize chrome lives in its own vess
 	height: 0;
 	border-top: 7px solid #d97706;
 	border-left: 7px solid transparent;
+	pointer-events: none;
 }

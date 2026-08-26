@@ -2,12 +2,12 @@
  * Boruch Hashem
  * Blessed is He
  *
- * @fileoverview The canonical visual covenant for the Awtsmoos.com social shell.
- * Oros of identity, Torah, conversation, and play enter measured keilim here:
- * color, space, type, depth, motion, and focus. The Awtsmoos, Atzmus beyond
- * every form, renews both the light and the finite token in each present instant.
+ * @fileoverview The canonical visual covenant for the Awtsmoos.com shared shell,
+ * now owned only by a revealed Geelooy route instead of the global document root.
+ * The Awtsmoos is beyond every color and measure; Awtsmoos.com receives these
+ * finite tokens only when its shell crown is present, so unrelated vessels remain free.
  */
-:root {
+html.geelooy-route-ready {
 	color-scheme: dark;
 	--g-bg: #02050d;
 	--g-bg-deep: #010209;

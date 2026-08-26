@@ -1,110 +1,98 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
+/** The Awtsmoos holds every chamber without collision; Awtsmoos.com fixes each messaging region to an explicit local track so drawers, modals, and panes remain bounded in light. */
 
-/** The Awtsmoos holds every chamber without dimension; Awtsmoos.com fixes each flagship region to an explicit track so optional feedback/status may vanish without moving the inbox, thread, or special workspace from its rightful vessel in light. */
-
-.messaging-app {
+body[data-messaging-page] .messaging-app {
 	position: relative;
 	display: grid;
 	grid-template-columns: 148px minmax(300px, 356px) minmax(0, 1fr);
 	grid-template-rows: minmax(0, 1fr);
-	width: 100vw;
-	height: 100vh;
-	height: 100dvh;
-	min-width: 0;
-	min-height: 0;
+	inline-size: 100%;
+	block-size: 100dvh;
+	min-inline-size: 0;
+	min-block-size: 0;
 	overflow: hidden;
-	background: linear-gradient(145deg, rgba(7, 16, 12, 0.98), rgba(5, 12, 9, 0.99));
+	isolation: isolate;
+	background: linear-gradient(145deg, rgb(7 16 12 / 98%), rgb(5 12 9 / 99%));
 }
 
-.messaging-rail,
-.messaging-list-pane,
-.messaging-thread-pane {
-	min-width: 0;
-	min-height: 0;
-	background: rgba(9, 18, 14, 0.9);
+body[data-messaging-page] :is(
+	.messaging-rail,
+	.messaging-list-pane,
+	.messaging-thread-pane
+) {
+	min-inline-size: 0;
+	min-block-size: 0;
+	max-inline-size: 100%;
+	background: rgb(9 18 14 / 90%);
 }
 
-.messaging-rail {
+body[data-messaging-page] .messaging-rail {
 	display: grid;
 	grid-template-rows: auto minmax(0, 1fr) auto;
 	overflow: hidden;
-	border-right: 1px solid var(--msg-line);
+	border-inline-end: 1px solid var(--msg-line);
 }
 
-.messaging-list-pane {
+body[data-messaging-page] .messaging-list-pane {
 	display: grid;
 	grid-template-rows: auto auto auto auto auto minmax(0, 1fr);
 	overflow: hidden;
-	border-right: 1px solid var(--msg-line);
+	border-inline-end: 1px solid var(--msg-line);
 }
 
-.messaging-list-pane > .messaging-pane-header {
-	grid-row: 1;
-}
+body[data-messaging-page] .messaging-list-pane > .messaging-pane-header { grid-row: 1; }
+body[data-messaging-page] .messaging-list-pane > .messaging-presence-summary { grid-row: 2; }
+body[data-messaging-page] .messaging-list-pane > .messaging-workspace-search { grid-row: 3; }
+body[data-messaging-page] .messaging-list-pane > .messaging-search-feedback { grid-row: 4; }
+body[data-messaging-page] .messaging-list-pane > .messaging-status { grid-row: 5; }
 
-.messaging-list-pane > .messaging-presence-summary {
-	grid-row: 2;
-}
-
-.messaging-list-pane > .messaging-workspace-search {
-	grid-row: 3;
-}
-
-.messaging-list-pane > .messaging-search-feedback {
-	grid-row: 4;
-}
-
-.messaging-list-pane > .messaging-status {
-	grid-row: 5;
-}
-
-.messaging-list-pane > .messaging-list {
+body[data-messaging-page] .messaging-list-pane > .messaging-list {
 	grid-row: 6;
-	min-height: 0;
+	min-block-size: 0;
 }
 
-.messaging-thread-pane {
+body[data-messaging-page] .messaging-thread-pane {
 	position: relative;
 	display: grid;
 	grid-template-rows: auto minmax(0, 1fr) auto;
 	overflow: hidden;
-	background: linear-gradient(180deg, rgba(12, 24, 18, 0.72), rgba(7, 15, 11, 0.9));
+	background: linear-gradient(180deg, rgb(12 24 18 / 72%), rgb(7 15 11 / 90%));
 }
 
-.messaging-special-pane {
+body[data-messaging-page] .messaging-special-pane {
 	grid-row: 2 / 4;
-	min-height: 0;
+	min-block-size: 0;
 	overflow: auto;
 	overscroll-behavior: contain;
 }
 
-#messagingModalHost {
+body[data-messaging-page] #messagingModalHost {
 	position: absolute;
 	inset: 0;
-	z-index: 1000;
+	z-index: var(--msg-layer-modal);
 	pointer-events: none;
 }
 
-#messagingModalHost > * {
+body[data-messaging-page] #messagingModalHost > * {
 	pointer-events: auto;
 }
 
-.messaging-details {
+body[data-messaging-page] .messaging-details {
 	position: absolute;
-	z-index: 30;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	width: min(360px, 88vw);
+	z-index: var(--msg-layer-details);
+	inset-block: 0;
+	inset-inline-end: 0;
+	inline-size: min(360px, 88vw);
+	max-inline-size: 100%;
 	overflow: auto;
 	padding: 1.25rem;
-	border-left: 1px solid var(--msg-line-strong);
-	background: rgba(10, 20, 15, 0.98);
+	border-inline-start: 1px solid var(--msg-line-strong);
+	background: rgb(10 20 15 / 98%);
 	box-shadow: var(--msg-shadow);
 }
 
-[hidden] {
+body[data-messaging-page] [hidden] {
 	display: none !important;
 }

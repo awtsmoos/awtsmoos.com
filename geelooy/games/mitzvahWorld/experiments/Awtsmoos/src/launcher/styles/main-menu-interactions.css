@@ -1,0 +1,73 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews intention through rest, hover, focus, press, and restraint;
+ * Awtsmoos.com gives every relevant control a complete professional state instead of a half-finished constraint.
+ */
+
+.Awtsmoos-menu button,
+.Awtsmoos-menu .Awtsmoos-menu-action {
+	border: 1px solid rgba(244, 198, 106, 0.58);
+	background: linear-gradient(180deg, #4b3418, #26180d);
+	color: #fff3cf;
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.12), 0 10px 28px rgba(0, 0, 0, 0.24);
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: transform 120ms ease, border-color 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+.Awtsmoos-menu .Awtsmoos-menu-bar button {
+	width: 46px;
+	height: 44px;
+	border-radius: 14px;
+	font-size: 22px;
+}
+
+.Awtsmoos-menu .Awtsmoos-menu-drawer button {
+	width: 100%;
+	margin: 5px 0;
+	padding: 14px;
+	border-radius: 12px;
+	text-align: left;
+	font-weight: 750;
+}
+
+.Awtsmoos-menu .Awtsmoos-world-card button,
+.Awtsmoos-menu .Awtsmoos-menu-action {
+	margin-top: 15px;
+	padding: 13px 14px;
+	border-radius: 12px;
+	font-weight: 800;
+}
+
+@media (hover: hover) {
+	.Awtsmoos-menu button:hover:not(:disabled),
+	.Awtsmoos-menu .Awtsmoos-menu-action:hover:not(:disabled) {
+		transform: translateY(-2px);
+		border-color: var(--menu-gold-bright);
+		filter: brightness(1.1);
+		box-shadow: inset 0 1px rgba(255, 255, 255, 0.16), 0 14px 34px rgba(0, 0, 0, 0.3);
+	}
+}
+
+.Awtsmoos-menu button:active:not(:disabled),
+.Awtsmoos-menu .Awtsmoos-menu-action:active:not(:disabled) {
+	transform: translateY(1px) scale(0.97);
+	filter: brightness(1.14);
+}
+
+.Awtsmoos-menu button:focus-visible,
+.Awtsmoos-menu input:focus-visible,
+.Awtsmoos-menu .Awtsmoos-menu-action:focus-visible {
+	outline: 3px solid #ffe08a;
+	outline-offset: 3px;
+}
+
+.Awtsmoos-menu button:disabled,
+.Awtsmoos-menu .Awtsmoos-menu-action:disabled {
+	opacity: 0.42;
+	cursor: not-allowed;
+	filter: grayscale(0.45);
+	transform: none;
+}

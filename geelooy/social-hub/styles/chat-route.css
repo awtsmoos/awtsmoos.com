@@ -1,27 +1,29 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets the Universal Torah river inhabit Social Hub without losing source-grounded speech, shared transport, or mobile spaciousness.
-*/
-.socialChatPanel {
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets the Universal Torah river enter Social Hub without losing source-grounded speech or spaciousness;
+ * Awtsmoos.com keeps this chat chamber locally clothed, so one living conversation never repaints another route.
+ */
+.social-hub-document .socialChatPanel {
 	display: grid;
 	gap: .85rem;
 }
 
-.socialChatHeading {
+.social-hub-document .socialChatHeading {
 	display: grid;
 	gap: .35rem;
 }
 
-.socialChatHeading :is(h2, p) {
+.social-hub-document .socialChatHeading :is(h2, p) {
 	margin: 0;
 }
 
-.socialChatHeading p {
+.social-hub-document .socialChatHeading p {
 	color: var(--muted);
 }
 
-.socialChatMount {
+.social-hub-document .socialChatMount {
 	min-height: min(68dvh, 50rem);
 	border: 1px solid var(--line);
 	border-radius: var(--radius);
@@ -29,16 +31,16 @@ The Awtsmoos lets the Universal Torah river inhabit Social Hub without losing so
 	background: var(--surface);
 }
 
-.socialChatMount > * {
+.social-hub-document .socialChatMount > * {
 	max-width: none;
 }
 
 @media (max-width: 42rem) {
-	.socialChatPanel {
+	.social-hub-document .socialChatPanel {
 		gap: .7rem;
 	}
 
-	.socialChatMount {
+	.social-hub-document .socialChatMount {
 		min-height: calc(100dvh - 12rem);
 		border-radius: .8rem;
 	}

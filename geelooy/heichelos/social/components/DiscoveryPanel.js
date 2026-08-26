@@ -1,47 +1,56 @@
 // B"H
-/**
- * @module DiscoveryPanel
- * @description
- * Chapter 74: Discovery becomes a dashboard of living relation.
- * Trending nodes, active aliases, heichelos, series, media, and recent events
- * gather into one surface so the network feels alive instead of merely listed.
- */
 import { h } from './render.js';
 import { TimelineEventCard } from './TimelineEventCard.js';
 
-export function DiscoveryPanel(discovery = {}) {
-    return h('section', { class: 'awt-panel awt-discovery-panel' }, [
-        h('h2', {}, ['Discovery']),
-        stats(discovery.totals || {}),
-        shelf('Trending', discovery.trendingNodes || []),
-        shelf('Active Aliases', discovery.activeAliases || []),
-        shelf('Active Heichelos', discovery.activeHeichelos || []),
-        shelf('Active Series', discovery.activeSeries || []),
-        shelf('Media', discovery.media || []),
-        h('section', { class: 'awt-timeline-list' }, [
-            h('h3', {}, ['Recent Graph Events']),
-            ...((discovery.recentEvents || []).map(TimelineEventCard))
-        ])
-    ]);
+/**
+ * @module DiscoveryPanel
+ * @description
+ * Malchus reveals graph discovery as quiet shelves and bounded nodes. The renderer
+ * is data-driven: adding a discovery collection never requires new page geometry.
+ */
+export function DiscoveryPanel(binahDiscovery = {}) {
+	return h('section', { class: 'awt-panel awt-discovery-panel' }, [
+		h('h2', {}, ['Discovery']),
+		statRow(binahDiscovery.totals || {}),
+		discoveryShelf('Trending', binahDiscovery.trendingNodes || []),
+		discoveryShelf('Active Aliases', binahDiscovery.activeAliases || []),
+		discoveryShelf('Active Heichelos', binahDiscovery.activeHeichelos || []),
+		discoveryShelf('Active Series', binahDiscovery.activeSeries || []),
+		discoveryShelf('Media', binahDiscovery.media || []),
+		h('section', { class: 'awt-timeline-list' }, [
+			h('h3', {}, ['Recent Graph Events']),
+			...(binahDiscovery.recentEvents || []).map(TimelineEventCard)
+		])
+	]);
 }
 
-function stats(totals) {
-    const entries = Object.entries(totals);
-    if (!entries.length) return h('p', { class: 'awt-empty' }, ['No graph totals yet.']);
-    return h('div', { class: 'awt-stat-row' }, entries.map(([type, count]) => h('span', { class: 'awt-chip' }, [`${type}: ${count}`])));
+/** @param {object} binahTotals @returns {object} Totals row or empty copy. */
+function statRow(binahTotals) {
+	const malchusEntries = Object.entries(binahTotals);
+	if (!malchusEntries.length) return h('p', { class: 'awt-empty' }, ['No graph totals yet.']);
+	return h('div', { class: 'awt-stat-row' }, malchusEntries.map(([yesodType, malchusCount]) => (
+		h('span', { class: 'awt-chip' }, [`${yesodType}: ${malchusCount}`])
+	)));
 }
 
-function shelf(title, nodes) {
-    return h('section', { class: 'awt-discovery-shelf' }, [
-        h('h3', {}, [title]),
-        nodes.length ? h('div', { class: 'awt-discovery-grid' }, nodes.map(nodeCard)) : h('p', { class: 'awt-empty' }, ['Nothing here yet.'])
-    ]);
+/** @param {string} malchusTitle @param {Array<object>} malchusNodes @returns {object} Discovery shelf. */
+function discoveryShelf(malchusTitle, malchusNodes) {
+	return h('section', { class: 'awt-discovery-shelf' }, [
+		h('h3', {}, [malchusTitle]),
+		malchusNodes.length
+			? h('div', { class: 'awt-discovery-grid' }, malchusNodes.map(discoveryNode))
+			: h('p', { class: 'awt-empty' }, ['Nothing here yet.'])
+	]);
 }
 
-function nodeCard(node) {
-    return h('article', { class: 'awt-discovery-node', 'data-node-id': node.id || '' }, [
-        h('strong', {}, [node.label || node.id || 'Unknown node']),
-        h('span', { class: 'awt-chip' }, [node.type || 'node']),
-        h('span', { class: 'awt-media-pill' }, [`degree ${node.degree || 0}`])
-    ]);
+/** @param {object} malchusNode @returns {object} Discovery node card. */
+function discoveryNode(malchusNode = {}) {
+	return h('article', {
+		class: 'awt-discovery-node',
+		'data-node-id': malchusNode.id || ''
+	}, [
+		h('strong', {}, [malchusNode.label || malchusNode.id || 'Unknown node']),
+		h('span', { class: 'awt-chip' }, [malchusNode.type || 'node']),
+		h('span', { class: 'awt-media-pill' }, [`degree ${malchusNode.degree || 0}`])
+	]);
 }

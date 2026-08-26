@@ -1,0 +1,98 @@
+/* B"H — developer instruments stay detailed, scoped, and secondary. */
+.awtsmoos-browser-host .awtsmoos-browser-developer-controls {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(64px, 0.5fr);
+	gap: 7px;
+	min-inline-size: 0;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-tool-button,
+.awtsmoos-browser-host .awtsmoos-browser-depth,
+.awtsmoos-browser-host .awtsmoos-browser-editor {
+	min-inline-size: 0;
+	border: 1px solid var(--awtsmoos-browser-line);
+	border-radius: var(--awtsmoos-browser-radius-sm);
+	color: var(--awtsmoos-browser-ink);
+	background: rgba(6, 9, 15, 0.72);
+	transition:
+		border-color var(--awtsmoos-browser-speed) ease,
+		background var(--awtsmoos-browser-speed) ease,
+		box-shadow var(--awtsmoos-browser-speed) ease,
+		transform var(--awtsmoos-browser-speed-fast) var(--awtsmoos-browser-ease);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-tool-button,
+.awtsmoos-browser-host .awtsmoos-browser-depth {
+	min-block-size: 34px;
+	padding: 7px 9px;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-tool-button {
+	cursor: pointer;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-tool-button:hover,
+.awtsmoos-browser-host .awtsmoos-browser-depth:hover,
+.awtsmoos-browser-host .awtsmoos-browser-editor:hover {
+	border-color: rgba(174, 190, 255, 0.3);
+	background: rgba(10, 14, 24, 0.9);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-tool-button:active {
+	transform: translateY(1px) scale(0.98);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-tool-button:focus-visible,
+.awtsmoos-browser-host .awtsmoos-browser-depth:focus-visible,
+.awtsmoos-browser-host .awtsmoos-browser-editor:focus-visible {
+	outline: 2px solid var(--awtsmoos-browser-accent);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 3px rgba(139, 159, 255, 0.09);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-tool-button:disabled,
+.awtsmoos-browser-host .awtsmoos-browser-depth:disabled,
+.awtsmoos-browser-host .awtsmoos-browser-editor:disabled {
+	opacity: 0.42;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-editor {
+	inline-size: 100%;
+	min-block-size: 132px;
+	max-block-size: 34vh;
+	resize: vertical;
+	padding: 10px;
+	font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+	font-size: 11px;
+	line-height: 1.5;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-editor::selection {
+	color: #0c1020;
+	background: var(--awtsmoos-browser-accent-strong);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-metrics {
+	margin: 0;
+	max-inline-size: 100%;
+	overflow: auto;
+	padding: 8px;
+	border-radius: var(--awtsmoos-browser-radius-sm);
+	color: #a9f5c1;
+	background: rgba(1, 4, 7, 0.54);
+	font-size: 10px;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+@media (max-width: 419px) {
+	.awtsmoos-browser-host .awtsmoos-browser-developer-controls {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+
+	.awtsmoos-browser-host .awtsmoos-browser-depth {
+		grid-column: 1 / -1;
+	}
+}

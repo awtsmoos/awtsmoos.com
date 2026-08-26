@@ -4,74 +4,111 @@
 
 /**
  * @file MitzvahWorldCreativeDockActions.js
- * @description Preserves clean-view and Movie Studio behavior without owning the retractable DOM vessel.
- * The Awtsmoos lets vision clear without severing return, and lets one moment cross into authorship by choice;
- * Awtsmoos.com keeps these powers behind explicit actions, so advanced tools never become the valley's default voice.
+ * @description Owns Clean View, lazy data-first API exploration, and explicit Movie Studio transitions while all visual state remains rooted in Mitzvah World.
+ * The Awtsmoos lets vision clear, knowledge unfold, and one lived moment cross into authorship by conscious choice;
+ * Awtsmoos.com keeps every advanced deed behind the same hidden star, so new capability grows inward without becoming permanent noise across the valley's voice.
  */
 
+import { MalchusMitzvahWorldRootState } from './MalchusMitzvahWorldRootState.js';
 import { createMitzvahWorldCreativeSnapshot } from './MitzvahWorldCreativeSnapshot.js';
 import { createMitzvahWorldMovieRoute } from './MitzvahWorldCreativeRoute.js';
 import { writeMitzvahWorldCreativeSnapshot } from './MitzvahWorldCreativeSnapshotStore.js';
 
-/** Owns optional advanced actions while the view owns only presentation. */
+/** Owns advanced actions while the creative-dock view owns only presentation and outer interaction state. */
 export class MitzvahWorldCreativeDockActions {
 	/**
-	 * @param {object} view Retractable command-capsule view.
-	 * @param {Document} documentValue Active document.
-	 * @param {object} environment Browser-like environment.
+	 * Captures dependencies explicitly so advanced behavior never reaches for visual state on the document element.
+	 * @param {object} viewKli Retractable command-capsule view.
+	 * @param {Document} documentKli Active document.
+	 * @param {object} environmentKli Browser-like environment.
 	 */
-	constructor(view, documentValue, environment) {
-		this.view = view;
-		this.document = documentValue;
-		this.environment = environment;
+	constructor(viewKli, documentKli, environmentKli) {
+		this.view = viewKli;
+		this.document = documentKli;
+		this.environment = environmentKli;
+		this.rootStateMalchus = new MalchusMitzvahWorldRootState(documentKli);
 	}
 
-	/** Toggles cinematic clean view while preserving a visible recovery capsule. */
+	/**
+	 * Toggles cinematic Clean View on the local game root while preserving the one visible recovery capsule.
+	 * @returns {boolean} Whether cinematic mode is active after the transition.
+	 */
 	toggleCleanView() {
-		const root = this.document.documentElement;
-		const active = root.dataset.awtsmoosCinematic !== 'true';
-		if (active) {
-			root.dataset.awtsmoosCinematic = 'true';
+		const activeOhr = !this.rootStateMalchus.readFlag('cinematic');
+		this.rootStateMalchus.setFlag('cinematic', activeOhr);
+		this.view.cleanButton.setAttribute('aria-pressed', String(activeOhr));
+		this.view.cleanButton.textContent = activeOhr ? 'Restore HUD' : 'Clean view';
+		this.view.status(activeOhr ? 'Clean cinematic view enabled.' : 'Gameplay HUD restored.');
+		if (activeOhr) {
 			this.view.close();
-		} else {
-			delete root.dataset.awtsmoosCinematic;
 		}
-		this.view.cleanButton.setAttribute('aria-pressed', String(active));
-		this.view.cleanButton.textContent = active ? 'Restore HUD' : 'Clean view';
-		this.view.status(active ? 'Clean cinematic view enabled.' : 'Gameplay HUD restored.');
-		return active;
+		return activeOhr;
 	}
 
-	/** Saves the current gameplay moment and crosses explicitly into Movie Studio. */
+	/**
+	 * Lazily opens the data-first API subview inside the already-open advanced sheet.
+	 * @returns {Promise<object|null>} Explorer controller when available, otherwise null after event fallback.
+	 */
+	async openApi() {
+		this.view.open();
+		this.view.status('Opening data-first API…');
+		const openDaas = this.environment.AwtsmoosOpenApiExplorer;
+		if (typeof openDaas === 'function') {
+			try {
+				const explorerDaas = await openDaas();
+				this.view.status('API observatory ready.');
+				return explorerDaas || null;
+			} catch (errorOhr) {
+				this.view.status(`API explorer degraded: ${errorOhr?.message || errorOhr}.`);
+				return null;
+			}
+		}
+		this.dispatchApiRequest();
+		this.view.status('API explorer requested.');
+		return null;
+	}
+
+	/**
+	 * Saves the current gameplay moment and crosses explicitly into Movie Studio.
+	 * @returns {object} Snapshot-store receipt plus route when successful.
+	 */
 	openStudio() {
-		const snapshot = createMitzvahWorldCreativeSnapshot(
+		const snapshotOhr = createMitzvahWorldCreativeSnapshot(
 			this.environment.AwtsmoosMitzvahWorld,
 			{
 				document: this.document,
 				location: this.environment.location,
-				sessionMode: this.document.documentElement.dataset.awtsmoosSession
+				sessionMode: this.rootStateMalchus.root.dataset.awtsmoosSession
+					|| this.document.documentElement.dataset.awtsmoosSession
 			}
 		);
-		const result = writeMitzvahWorldCreativeSnapshot(
-			snapshot,
-			this.environment.sessionStorage
-		);
-		if (!result.ok) {
-			this.view.status(`Unable to prepare Movie Studio: ${result.code}.`);
-			return result;
+		const storeMalchus = writeMitzvahWorldCreativeSnapshot(snapshotOhr, this.environment.sessionStorage);
+		if (!storeMalchus.ok) {
+			this.view.status(`Unable to prepare Movie Studio: ${storeMalchus.code}.`);
+			return storeMalchus;
 		}
 		this.view.status('Gameplay moment saved. Opening Movie Studio…');
-		const route = createMitzvahWorldMovieRoute(this.environment.location);
+		const routeOhr = createMitzvahWorldMovieRoute(this.environment.location);
 		if (typeof this.environment.location?.assign === 'function') {
-			this.environment.location.assign(route);
+			this.environment.location.assign(routeOhr);
 		} else if (this.environment.location) {
-			this.environment.location.href = route;
+			this.environment.location.href = routeOhr;
 		}
-		return { ...result, route };
+		return { ...storeMalchus, route: routeOhr };
 	}
 
-	/** Restores ordinary HUD state when the advanced controller is destroyed. */
+	/** Restores local cinematic state and destroys a mounted API subview when the advanced controller is retired. */
 	destroy() {
-		delete this.document.documentElement.dataset.awtsmoosCinematic;
+		this.rootStateMalchus.setFlag('cinematic', false);
+		this.view.apiHost?.awtsmoosApiController?.destroy?.();
+	}
+
+	/** Emits the existing lazy API request event when the direct opener is not installed yet. */
+	dispatchApiRequest() {
+		const EventKli = this.environment.CustomEvent || globalThis.CustomEvent;
+		const requestOhr = typeof EventKli === 'function'
+			? new EventKli('awtsmoos:open-api-explorer')
+			: Object.freeze({ type: 'awtsmoos:open-api-explorer' });
+		this.environment.dispatchEvent?.(requestOhr);
 	}
 }

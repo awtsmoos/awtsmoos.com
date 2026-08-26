@@ -1,0 +1,52 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives each deed a distinct garment without changing the one source beneath;
+ * Awtsmoos.com stores tone as data so future schools can expand without selector grief.
+ */
+
+.Mitzvah-combat-host .Mitzvah-action-slot[data-tone="awakening"] {
+	--ability-a: #9a8544;
+	--ability-b: #30250f;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot[data-tone="clarity"] {
+	--ability-a: #70b9c8;
+	--ability-b: #15313e;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot[data-tone="illumination"] {
+	--ability-a: #efcb61;
+	--ability-b: #51370e;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot[data-tone="joy"] {
+	--ability-a: #d68a40;
+	--ability-b: #51250e;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot[data-tone="peace"] {
+	--ability-a: #7b91bd;
+	--ability-b: #242b47;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot[data-tone="protection"] {
+	--ability-a: #80a960;
+	--ability-b: #26351c;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot[data-tone="purification"] {
+	--ability-a: #58b9bd;
+	--ability-b: #143a46;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot[data-tone="restraint"] {
+	--ability-a: #967d61;
+	--ability-b: #34271d;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot[data-tone="unity"] {
+	--ability-a: #9f78ba;
+	--ability-b: #352040;
+}

@@ -4,51 +4,11 @@
 
 /**
  * @file TextureExactRepeat.js
- * @description Preserves exact fractional source coverage and optional bounded compatibility.
- * The Awtsmoos does not round away a partial garment when world and source reveal their ratio;
- * Awtsmoos.com lets explicit bounded callers choose restraint while authored fractions continue to flow.
+ * @description Keeps Mitzvah World's exact-repeat API stable while shared physical texture law lives in the core.
+ * The Awtsmoos renews every tiled garment while remaining beyond tile and floor;
+ * Awtsmoos.com lets old callers speak the same names as many worlds share one measured core.
  */
-
-import {
-	exactPixelRepeat,
-	positiveTextureNumber
-} from './TextureDensityMath.js';
-import { textureDensityPlan } from './TextureDensityPlan.js';
-import { textureSize } from './TextureImageMetrics.js';
-
-export function repeatFromPixels(
-	width,
-	depth,
-	image,
-	texelsPerWorld = 96,
-	fallback = [1, 1],
-	options = {}
-) {
-	const source = textureSize(image);
-
-	if (!source.w || !source.h) {
-		return [...fallback];
-	}
-
-	if (options.bounded === true) {
-		return [...textureDensityPlan({
-			...options,
-			image,
-			texelsPerWorld,
-			worldDepth: depth,
-			worldWidth: width
-		}).repeat];
-	}
-
-	const target = positiveTextureNumber(texelsPerWorld, 96);
-	return exactPixelRepeat(width, depth, source.w, source.h, target);
-}
-
-export function exactRepeat(width, depth, tileWorld) {
-	const tile = positiveTextureNumber(tileWorld, 1);
-
-	return [
-		Math.abs(Number(width)) / tile,
-		Math.abs(Number(depth)) / tile
-	];
-}
+export {
+	exactRepeat,
+	repeatFromPixels
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/materials/texture/TextureExactRepeat.js';

@@ -1,37 +1,39 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos is beyond movement and stillness, while Awtsmoos.com lets route state become visible through edge, contrast, and focus without making navigation physically wander;
- * this Netzach-like garment owns quiet route feedback only, leaving geometry fixed so orientation remains trustworthy in light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos is beyond movement and stillness; Awtsmoos.com lets Social route state appear through
+ * edge, contrast, focus, hover, and touch while this navigation feedback never escapes its route.
  */
-
-.routeNavigation .routeButton {
+.social-hub-document .routeNavigation .routeButton {
 	position: relative;
-	transition:
-		background-color 140ms ease,
-		border-color 140ms ease,
-		opacity 140ms ease;
+	transition: transform 120ms var(--tiferes-ease), background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
 }
 
-.routeNavigation .routeButton[data-active="true"] {
-	background: rgba(126, 239, 255, .07);
+.social-hub-document .routeNavigation .routeButton[data-active="true"] {
+	background: rgb(126 239 255 / 7%);
 }
 
-.routeNavigation .routeIcon {
-	transition:
-		background-color 140ms ease,
-		border-color 140ms ease,
-		box-shadow 140ms ease;
+.social-hub-document .routeNavigation .routeButton:focus-visible {
+	border-color: var(--yesod-edge-hot);
+	outline: 3px solid rgb(126 239 255 / 16%);
+	outline-offset: 2px;
 }
 
-.routeNavigation .routeButton:is(:focus-visible, [data-active="true"]) .routeIcon {
+.social-hub-document .routeNavigation .routeButton:active {
+	transform: translateY(1px) scale(.975);
+}
+
+.social-hub-document .routeNavigation .routeIcon {
+	transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 140ms var(--tiferes-ease);
+}
+
+.social-hub-document .routeNavigation .routeButton:is(:focus-visible, [data-active="true"]) .routeIcon {
 	border-color: var(--yesod-edge-hot);
 	box-shadow: 0 0 0 2px rgb(72 202 255 / 8%);
 }
 
-.desktopRail .routeButton::before {
+.social-hub-document .desktopRail .routeButton::before {
 	position: absolute;
 	inset-block: 22%;
 	inset-inline-start: -1px;
@@ -44,22 +46,30 @@
 	transition: opacity 120ms ease, transform 140ms ease;
 }
 
-.desktopRail .routeButton[data-active="true"]::before {
+.social-hub-document .desktopRail .routeButton[data-active="true"]::before {
 	opacity: 1;
 	transform: scaleY(1);
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.routeNavigation .routeButton:hover .routeIcon {
-		border-color: rgba(126, 239, 255, .34);
-		background: rgba(126, 239, 255, .07);
+	.social-hub-document .routeNavigation .routeButton:hover {
+		border-color: rgb(126 239 255 / 22%);
+		background: rgb(126 239 255 / 5%);
+	}
+
+	.social-hub-document .routeNavigation .routeButton:hover .routeIcon {
+		border-color: rgb(126 239 255 / 34%);
+		background: rgb(126 239 255 / 7%);
+		box-shadow: 0 .45rem 1.2rem rgb(0 0 0 / 14%);
+		transform: translateY(-1px);
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.routeNavigation .routeButton,
-	.routeNavigation .routeIcon,
-	.desktopRail .routeButton::before {
+	.social-hub-document .routeNavigation .routeButton,
+.social-hub-document .routeNavigation .routeIcon,
+.social-hub-document .desktopRail .routeButton::before {
 		transition: none;
+		transform: none !important;
 	}
 }

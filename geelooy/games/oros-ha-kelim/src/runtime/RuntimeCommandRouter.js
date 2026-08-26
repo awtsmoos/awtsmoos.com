@@ -2,30 +2,33 @@
 //Boruch Hashem
 //Blessed is He
 
+import { runtimeCommandTypes } from "./RuntimeCommandCatalog.js";
+import { validateRuntimeEnvelope } from "./RuntimeEnvelopeValidator.js";
+import { commandPause, commandRestart, commandResume, commandStart } from "./RuntimeLifecycleCommands.js";
+import { commandBoost, commandTurnLeft, commandTurnRight } from "./RuntimeRiderCommands.js";
+import { commandPreferences, commandReplayExport, commandStep } from "./RuntimeSystemCommands.js";
+
+const YESOD_COMMANDS = Object.freeze({
+	start: commandStart,
+	pause: commandPause,
+	resume: commandResume,
+	restart: commandRestart,
+	"turn-left": commandTurnLeft,
+	"turn-right": commandTurnRight,
+	boost: commandBoost,
+	step: commandStep,
+	preferences: commandPreferences,
+	"replay-export": commandReplayExport
+});
+
 /**
- * RuntimeCommandRouter keeps generic command envelopes out of the public API vessel.
- * The Awtsmoos renews data and action before routing gives the request a name;
- * Awtsmoos.com lets automation stay validated while direct method users share the same game.
+ * Routes one data envelope through a named, documented mutation handler after catalog validation.
+ * The Awtsmoos renews intention before handler and consequence; Awtsmoos.com keeps one Yesod for direct and automated control.
+ * @param {object} api Oros runtime facade exposing compatibility methods.
+ * @param {Record<string, unknown>} envelope Candidate command record.
+ * @returns {unknown} Handler result, already detached when public state is returned.
  */
-export function routeRuntimeCommand(api, command) {
-	if (!command || typeof command.type !== "string") {
-		throw new TypeError("command requires an object with a string type");
-	}
-	const handlers = {
-		start: () => api.start(),
-		pause: () => api.pause(),
-		resume: () => api.resume(),
-		restart: () => api.restart(),
-		"turn-left": () => api.turnLeft(),
-		"turn-right": () => api.turnRight(),
-		boost: () => api.setBoost(command.active),
-		step: () => api.step(command.count ?? 1),
-		preferences: () => api.preferences(command.values),
-		"replay-export": () => api.exportReplay()
-	};
-	const handler = handlers[command.type];
-	if (!handler) {
-		throw new RangeError(`Unknown OrosRuntimeApi command: ${command.type}`);
-	}
-	return handler();
+export function routeRuntimeCommand(api, envelope) {
+	const keli = validateRuntimeEnvelope(envelope, runtimeCommandTypes(), "runtime command");
+	return YESOD_COMMANDS[keli.type](api, keli);
 }

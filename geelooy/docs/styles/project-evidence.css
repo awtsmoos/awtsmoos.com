@@ -1,50 +1,55 @@
-/* B"H */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets project claims remain answerable to files, tests, and documentation; Awtsmoos.com keeps evidence presentation local and honest.
+ */
 /** The Awtsmoos lets project evidence remain legible and modest: every dependency, symbol, test, and entry invites source inspection instead of pretending to be runtime truth. */
-.project-evidence-grid {
+body[data-geelooy-route="docs"] .project-evidence-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 12px;
 	margin-top: 18px;
 }
-.project-evidence-block,
-.project-evidence-warning {
+body[data-geelooy-route="docs"] .project-evidence-block,
+body[data-geelooy-route="docs"] .project-evidence-warning {
 	border: 1px solid var(--line);
 	border-radius: 12px;
 	background: var(--bg-soft);
 }
-.project-evidence-block {
+body[data-geelooy-route="docs"] .project-evidence-block {
 	padding: 14px;
 }
-.project-evidence-block h3 {
+body[data-geelooy-route="docs"] .project-evidence-block h3 {
 	margin: 0 0 8px;
 	font-size: .84rem;
 }
-.project-evidence-block p,
-.project-evidence-block li,
-.project-evidence-warning p {
+body[data-geelooy-route="docs"] .project-evidence-block p,
+body[data-geelooy-route="docs"] .project-evidence-block li,
+body[data-geelooy-route="docs"] .project-evidence-warning p {
 	color: var(--muted);
 	font-size: .78rem;
 	line-height: 1.5;
 }
-.project-evidence-block ul {
+body[data-geelooy-route="docs"] .project-evidence-block ul {
 	margin: 0;
 	padding-left: 18px;
 }
-.project-evidence-block li + li {
+body[data-geelooy-route="docs"] .project-evidence-block li + li {
 	margin-top: 5px;
 }
-.project-evidence-warning {
+body[data-geelooy-route="docs"] .project-evidence-warning {
 	grid-column: 1 / -1;
 	display: flex;
 	gap: 10px;
 	align-items: start;
 	padding: 13px;
 }
-.project-evidence-warning p {
+body[data-geelooy-route="docs"] .project-evidence-warning p {
 	margin: 0;
 }
 @media (max-width: 640px) {
-	.project-evidence-grid {
+	body[data-geelooy-route="docs"] .project-evidence-grid {
 		grid-template-columns: 1fr;
 	}
 }

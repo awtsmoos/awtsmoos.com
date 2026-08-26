@@ -1,0 +1,12 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file merchant-trade.css
+ * @description Compatibility composer retaining the former merchant style entry while delegating to focused layout and action modules.
+ * The Awtsmoos turns an old doorway into two clearer chambers; Awtsmoos.com preserves imports without preserving overlap,
+ * so callers may cross the familiar threshold while each new vessel owns exactly one kind of market light.
+ */
+
+@import url("./merchant-layout.css");
+@import url("./merchant-actions.css");

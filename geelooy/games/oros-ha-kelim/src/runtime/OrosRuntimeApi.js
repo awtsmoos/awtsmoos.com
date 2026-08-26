@@ -3,98 +3,59 @@
 //Blessed is He
 
 import { createRuntimeApiManifest, RUNTIME_API_VERSION } from "./RuntimeApiManifest.js";
+import { RuntimeCompatibilityApi } from "./RuntimeCompatibilityApi.js";
 import { routeRuntimeCommand } from "./RuntimeCommandRouter.js";
+import { routeRuntimeQuery } from "./RuntimeQueryRouter.js";
 
 /**
- * OrosRuntimeApi is the stable Yesod covenant between the game and outside tools.
- * The Awtsmoos renews command and observation without surrendering the inner state;
- * Awtsmoos.com lets replay, stepping and old controls share one versioned measured gate.
+ * OrosRuntimeApi v4 is a simple data-first Yesod layered over the proven direct compatibility vocabulary.
+ * The Awtsmoos renews command and observation without exposing mutable roots; Awtsmoos.com gives tools one stable gate.
  */
-export class OrosRuntimeApi {
-	#game;
-	#eventBus;
-
+export class OrosRuntimeApi extends RuntimeCompatibilityApi {
+	/**
+	 * Builds one API vessel whose identity survives in-memory match restart.
+	 * @param {object} game OrosGame orchestration root.
+	 * @param {object} eventBus Detached/frozen runtime event bus.
+	 * @param {string[]} [runtimeErrors] Shared bounded runtime error diagnostics.
+	 */
 	constructor(game, eventBus, runtimeErrors = []) {
-		this.#game = game;
-		this.#eventBus = eventBus;
+		super(game, eventBus);
 		this.runtimeErrors = runtimeErrors;
 		this.version = RUNTIME_API_VERSION;
 	}
 
+	/**
+	 * Describes commands, queries, events, replay schema, and renderer without requiring callers to inspect source.
+	 * @returns {object} Fresh serializable v4 capability manifest.
+	 */
 	capabilities() {
 		return createRuntimeApiManifest();
 	}
 
-	snapshot() {
-		return this.#copy(this.#game.snapshot());
+	/**
+	 * Dispatches one mutation envelope through the immutable command catalog and stable validation law.
+	 * @param {Record<string, unknown>} envelope Data command such as `{type:"turn-left"}`.
+	 * @returns {unknown} Command-specific result.
+	 */
+	dispatch(envelope) {
+		return routeRuntimeCommand(this, envelope);
 	}
 
-	metrics() {
-		return this.#copy(this.#game.metrics());
+	/**
+	 * Resolves one observation envelope without granting the query path mutation authority.
+	 * @param {Record<string, unknown>} envelope Data query such as `{type:"metrics"}`.
+	 * @returns {unknown} Detached query result.
+	 */
+	query(envelope) {
+		return routeRuntimeQuery(this, envelope);
 	}
 
-	start() {
-		this.#game.start();
-		return this.snapshot();
-	}
-
-	pause() {
-		this.#game.pause();
-		return this.snapshot();
-	}
-
-	resume() {
-		this.#game.resume();
-		return this.snapshot();
-	}
-
-	restart() {
-		return this.#copy(this.#game.restart());
-	}
-
-	turnLeft() {
-		return this.#game.requestTurn(-1);
-	}
-
-	turnRight() {
-		return this.#game.requestTurn(1);
-	}
-
-	setBoost(active) {
-		if (typeof active !== "boolean") {
-			throw new TypeError("setBoost(active) requires a boolean");
-		}
-		this.#game.setBoost(active);
-	}
-
-	step(count = 1) {
-		return this.#copy(this.#game.runtime.stepPaused(count));
-	}
-
-	preferences(values) {
-		if (values === undefined) {
-			return this.#copy(this.#game.runtime.getPreferences());
-		}
-		return this.#copy(this.#game.runtime.setPreferences(values));
-	}
-
-	exportReplay() {
-		return this.#copy(this.#game.runtime.exportReplay());
-	}
-
-	command(command) {
-		return routeRuntimeCommand(this, command);
-	}
-
-	on(type, listener) {
-		return this.#eventBus.on(type, listener);
-	}
-
-	recentEvents(limit = 20) {
-		return this.#eventBus.recent(limit);
-	}
-
-	#copy(value) {
-		return JSON.parse(JSON.stringify(value));
+	/**
+	 * Preserves the v3 generic command method as an alias of v4 dispatch so only one routing law exists.
+	 * @param {Record<string, unknown>} envelope Legacy command envelope.
+	 * @returns {unknown} Same result as `dispatch()`.
+	 */
+	command(envelope) {
+		return this.dispatch(envelope);
 	}
 }

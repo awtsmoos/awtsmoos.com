@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldModeLoaders.js
- * @description Opens playable worlds first while freshly versioned creative and post-play systems remain explicitly secondary.
+ * @description Opens playable worlds first while raw local module doors request compact server graphs and optional systems remain explicitly secondary.
  * The Awtsmoos reveals movement before ornament and purpose before display;
- * Awtsmoos.com keeps each route a narrow gate, while deeper powers arrive only in their rightful and newly refreshed way.
+ * Awtsmoos.com keeps each browser doorway compact and each deeper chamber deferred, so speed grows without making the visible world noisy or wide.
  */
 
 import {
@@ -16,10 +16,10 @@ import {
 } from './MitzvahWorldDirectRuntimeOptions.js';
 
 const CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
-const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?v=20260802-game-studio-bridge-02';
-const DIRECT_EXPERIENCE_URL = `./MitzvahWorldDirectExperience.js?v=${CAPSULE_VERSION}`;
-const POST_PLAY_EXPERIENCE_URL = `./MitzvahWorldPostPlayExperience.js?v=${CAPSULE_VERSION}`;
-const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?v=20260804-map-01';
+const CREATIVE_URL = './MitzvahWorldCreativeModeLoaders.js?compact=true&v=20260802-game-studio-bridge-02';
+const DIRECT_EXPERIENCE_URL = `./MitzvahWorldDirectExperience.js?compact=true&v=${CAPSULE_VERSION}`;
+const POST_PLAY_EXPERIENCE_URL = `./MitzvahWorldPostPlayExperience.js?compact=true&v=${CAPSULE_VERSION}`;
+const SINGLE_PLAYER_RUNTIME_URL = '../app/createEretzRuntime.js?compact=true&v=20260804-map-01';
 
 /** Returns the public route-loader covenant without exposing implementation details. */
 export function createMitzvahWorldModeLoaders(environment = globalThis) {
@@ -48,7 +48,7 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 	reportDirectWorldProgress(options, 'Preparing visible WebGL control and map…');
 	const [runtimeModule, badgeModule] = await Promise.all([
 		import(SINGLE_PLAYER_RUNTIME_URL),
-		import('../network/MultiplayerStatusBadge.js')
+		import('../network/MultiplayerStatusBadge.js?compact=true')
 	]);
 	const diagnostics = await runtimeModule.createEretzRuntime(
 		hosts,
@@ -69,7 +69,7 @@ async function openSinglePlayer(hosts, options = {}, environment = globalThis) {
 async function openMultiplayer(hosts, options = {}, environment = globalThis) {
 	reportDirectWorldProgress(options, 'Preparing visible WebGL shared control and map…');
 	const { createMultiplayerEretzRuntime } = await import(
-		'../network/MultiplayerEretzRuntime.js?v=20260804-map-01'
+		'../network/MultiplayerEretzRuntime.js?compact=true&v=20260804-map-01'
 	);
 	const diagnostics = await createMultiplayerEretzRuntime(hosts, {
 		...createDirectWorldRuntimeOptions(options, environment),

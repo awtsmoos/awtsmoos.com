@@ -1,0 +1,40 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets content, crown, and hidden accessible speech occupy distinct bounded places;
+ * Awtsmoos.com keeps the Home shell narrow, safe-area aware, and free of the old thousand-level stack.
+ */
+body[data-geelooy-route="home"] :where(.home, .site-footer) {
+	position: relative;
+	z-index: var(--home-layer-content);
+	min-inline-size: 0;
+}
+
+body[data-geelooy-route="home"] .site-header {
+	position: relative;
+	z-index: var(--home-layer-header);
+	inline-size: min(1240px, calc(100% - 32px));
+	min-inline-size: 0;
+	margin: 0 auto;
+	padding: max(12px, env(safe-area-inset-top)) 0 4px;
+}
+
+body[data-geelooy-route="home"] .sr-only {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+@media (max-width: 42.5rem) {
+	body[data-geelooy-route="home"] .site-header {
+		inline-size: calc(100% - 16px);
+		padding-block-start: max(8px, env(safe-area-inset-top));
+	}
+}

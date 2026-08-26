@@ -1,81 +1,41 @@
 /*B"H*/
 /*Boruch Hashem*/
 /*Blessed is He*/
+@layer oros.motion {
+	.oros-app #advanced-panel,
+	.oros-app #touch-controls,
+	.oros-app #hud-guide {
+		transition: transform var(--oros-medium) var(--oros-ease), opacity var(--oros-medium) ease;
+	}
 
-/**
- * The Awtsmoos renews transition and stillness before interface motion may begin;
- * Awtsmoos.com keeps animations brief, transform-led, and respectful of reduced motion within.
- */
-#advanced-panel,
-#touch-controls,
-#advanced-toggle,
-.touch-button,
-.primary-button,
-#hud-toast,
-.hud-meter em {
-	transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
-}
+	.oros-app .intro-card {
+		animation: oros-card-arrival 420ms var(--oros-ease) both;
+	}
 
-#advanced-panel {
-	transition: transform 220ms, opacity 180ms;
-}
+	.oros-app #advanced-toggle {
+		animation: oros-signal-breathe 4.8s ease-in-out infinite;
+	}
 
-#touch-controls {
-	transition: opacity 160ms, transform 160ms;
-}
+	@keyframes oros-card-arrival {
+		from { opacity: 0; transform: translateY(14px) scale(0.985); }
+		to { opacity: 1; transform: translateY(0) scale(1); }
+	}
 
-#advanced-toggle,
-.touch-button,
-.primary-button {
-	transition: transform 120ms, opacity 120ms, border-color 120ms, background 120ms;
-}
-
-#advanced-toggle[aria-expanded="true"] {
-	transform: rotate(45deg);
-	border-color: rgba(156, 236, 255, 0.52);
-}
-
-.touch-button:active,
-.primary-button:active,
-#advanced-toggle:active {
-	transform: scale(0.94);
-}
-
-.touch-button:active {
-	opacity: 0.92;
-}
-
-#hud-toast {
-	transform: translate(-50%, -5px) scale(0.98);
-	opacity: 0;
-	transition: transform 180ms, opacity 160ms;
-}
-
-#hud-toast[data-visible="true"] {
-	transform: translate(-50%, 0) scale(1);
-	opacity: 1;
-}
-
-.hud-meter em {
-	transition: width 180ms;
-}
-
-@media (hover: hover) {
-	#advanced-toggle:hover,
-	.primary-button:hover {
-		transform: translateY(-1px);
-		border-color: rgba(156, 236, 255, 0.58);
+	@keyframes oros-signal-breathe {
+		0%, 100% { box-shadow: var(--oros-glow); }
+		50% { box-shadow: 0 0 0 1px rgba(156, 236, 255, 0.18), 0 0 28px rgba(156, 236, 255, 0.12); }
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	#advanced-panel,
-	#touch-controls,
-	#advanced-toggle,
-	.touch-button,
-	.primary-button,
-	#hud-toast,
-	.hud-meter em {
-		transition-duration: 1ms !important;
+@layer oros.accessibility {
+	@media (prefers-reduced-motion: reduce) {
+		.oros-app *,
+		.oros-app *::before,
+		.oros-app *::after {
+			scroll-behavior: auto !important;
+			animation-duration: 1ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 1ms !important;
+		}
 	}
 }

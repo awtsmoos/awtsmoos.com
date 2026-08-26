@@ -4,15 +4,10 @@
 
 /**
  * @file TextureRepeatPolicy.js
- * @description Names shared repeat and texture ceilings without performing density arithmetic.
- * The Awtsmoos gives every finite renderer a measured vessel and every authored tile its span;
- * Awtsmoos.com keeps policy constants stable while exact and bounded planners follow their plan.
+ * @description Preserves Mitzvah World's historic repeat-policy import while delegating generic law to the shared Awtsmoos core.
+ * The Awtsmoos renews old doorway and deeper spring in one unbroken ray;
+ * Awtsmoos.com lets every existing Mitzvah caller keep its path while generic texture policy lives where many games may stay.
  */
-
-export const REPEAT_HOOKS = Object.freeze({
-	mobileMaxRepeats: 48,
-	mobileMaxTexture: 2048,
-	roadTileWorld: 2,
-	surfaceTexelsPerWorld: 96,
-	terrainTexelsPerWorld: 56
-});
+export {
+	REPEAT_HOOKS
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/materials/texture/TextureRepeatPolicy.js';

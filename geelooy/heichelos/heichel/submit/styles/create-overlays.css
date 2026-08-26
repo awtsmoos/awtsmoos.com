@@ -1,0 +1,25 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets overlays appear without escaping the viewport; Awtsmoos.com makes modals internally scrollable and every close action tactile. */
+.modal {
+	position:fixed;
+	z-index:80;
+	inset:0;
+	display:none;
+	align-items:center;
+	justify-content:center;
+	box-sizing:border-box;
+	padding:max(1rem,env(safe-area-inset-top)) max(1rem,env(safe-area-inset-right)) max(1rem,env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left));
+	overflow:auto;
+	overscroll-behavior:contain;
+	background:rgba(15,23,42,.42);
+}
+.modal.active,
+.modal[open] { display:flex; }
+.modal-card { box-sizing:border-box; inline-size:min(100%,28.75rem); max-inline-size:100%; max-block-size:calc(100dvh - 2rem); padding:1rem; overflow:auto; overscroll-behavior:contain; border:1px solid var(--create-line); border-radius:1.1rem; background:#fff; box-shadow:var(--create-shadow); }
+.modal-close { float:inline-end; min-block-size:44px; }
+.drop-zone { max-inline-size:100%; padding:2rem 1rem; overflow-wrap:anywhere; border:1px dashed #cbd5e1; border-radius:.9rem; text-align:center; }
+@media (hover:hover) and (pointer:fine) { .modal-close:hover { transform:translateY(-1px); } }
+.modal-close:active { transform:scale(.96); }
+.modal-close:focus-visible { outline:3px solid color-mix(in srgb,var(--create-accent),white 20%); outline-offset:2px; }

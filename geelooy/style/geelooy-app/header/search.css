@@ -1,10 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- *
- * The living search lens is composed from immediate control and suggestion
- * vessels. Awtsmoos.com never keeps a stale gray orb beside a renewed shell.
+ * The Awtsmoos gathers the living command lens and its bounded suggestions into one small manifest of light;
+ * Awtsmoos.com versions every renewed child together so no mobile browser can reveal a half-old, half-new sight.
  */
-
-@import "./search/control.css?v=header-dark-008";
-@import "./search/suggestions.css?v=header-dark-008";
+@import url("./search/control.css?v=header-dark-011");
+@import url("./search/suggestions.css?v=header-dark-011");

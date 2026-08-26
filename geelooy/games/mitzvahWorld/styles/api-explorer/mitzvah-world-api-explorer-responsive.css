@@ -1,0 +1,58 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos is equally present in a narrow phone and a wide window, while Awtsmoos.com lets the finite API observatory bend without breaking its parent's bounds;
+responsive law here changes density only, never viewport coordinates, so no textarea, receipt, button, or label may push beyond the retractable sheet or collide with its outer controls.
+*/
+
+@media (max-width: 430px) {
+	.Awtsmoos-api-explorer {
+		gap: 9px;
+		padding-top: 10px;
+		font-size: 11.5px;
+	}
+
+	.Awtsmoos-api-explorer__header {
+		align-items: flex-start;
+	}
+
+	.Awtsmoos-api-explorer__title strong {
+		font-size: 13px;
+	}
+
+	.Awtsmoos-api-explorer__command-row {
+		grid-template-columns: 1fr;
+	}
+
+	.Awtsmoos-api-explorer__execute,
+	.Awtsmoos-api-explorer__back {
+		width: 100%;
+	}
+
+	.Awtsmoos-api-explorer__result {
+		max-height: min(180px, 24dvh);
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.Awtsmoos-api-explorer {
+		gap: 7px;
+		padding-top: 8px;
+	}
+
+	.Awtsmoos-api-explorer__descriptor {
+		min-height: 34px;
+		padding: 7px 8px;
+	}
+
+	.Awtsmoos-api-explorer textarea {
+		min-height: 58px;
+		max-height: 96px;
+	}
+
+	.Awtsmoos-api-explorer__result {
+		min-height: 64px;
+		max-height: 112px;
+	}
+}

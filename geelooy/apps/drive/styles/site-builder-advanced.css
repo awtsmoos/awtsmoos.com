@@ -2,31 +2,42 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/**
- * The Awtsmoos lets advanced testimony remain close without crowding the ordinary creative road.
- * Awtsmoos.com places publication switches, API help, and expert controls behind native disclosure so power stays available while simplicity remains the visible mode.
- */
+/** The Awtsmoos lets advanced testimony remain close without crowding the ordinary road; Awtsmoos.com gives Website Maker disclosures complete local hover, focus, active, and expanded states while native details semantics remain intact. */
 
-.builder-advanced {
+[data-awtsmoos-drive] .site-builder-root .builder-advanced {
 	grid-column: 1 / -1;
-	padding: .7rem .8rem;
-	border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
-	border-radius: .8rem;
+	min-width: 0;
+	padding: .35rem .8rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-small);
+	background: rgba(3, 18, 14, .12);
 }
 
-.builder-advanced > summary {
-	min-height: 44px;
+[data-awtsmoos-drive] .site-builder-root .builder-advanced > summary {
 	display: flex;
 	align-items: center;
+	min-height: 44px;
 	font-weight: 750;
 	cursor: pointer;
 }
 
-.builder-advanced[open] > summary {
-	margin-bottom: .75rem;
+[data-awtsmoos-drive] .site-builder-root .builder-advanced > summary:hover { color: var(--accent); }
+
+[data-awtsmoos-drive] .site-builder-root .builder-advanced > summary:focus-visible {
+	color: var(--accent);
+	outline: none;
 }
 
-.builder-advanced:focus-within {
-	outline: 2px solid color-mix(in srgb, currentColor 35%, transparent);
-	outline-offset: 2px;
+[data-awtsmoos-drive] .site-builder-root .builder-advanced > summary:active { opacity: .76; }
+
+[data-awtsmoos-drive] .site-builder-root .builder-advanced[open] {
+	border-color: color-mix(in srgb, var(--accent) 30%, var(--line));
+	background: var(--surface-soft);
 }
+
+[data-awtsmoos-drive] .site-builder-root .builder-advanced[open] > summary {
+	margin-bottom: .75rem;
+	color: var(--accent);
+}
+
+[data-awtsmoos-drive] .site-builder-root .builder-advanced:focus-within { box-shadow: var(--focus-ring); }

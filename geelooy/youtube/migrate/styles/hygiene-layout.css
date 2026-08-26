@@ -1,0 +1,105 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets every migration vessel contract to the screen without collapsing the meaning inside it;
+Awtsmoos.com keeps cards, disclosure bodies, media, labels, safe gutters, and long links inside a measured local-first layout where nothing wounds the page sideways.
+*/
+body,
+.migrationHeader,
+.migrationGrid,
+.migrationCard,
+.futureDisclosureBody,
+.reviewCard {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+body {
+	overflow-x: clip;
+}
+
+.migrationHeader,
+.migrationGrid {
+	inline-size: min(
+		1040px,
+		calc(
+			100%
+			- max(1rem, env(safe-area-inset-left))
+			- max(1rem, env(safe-area-inset-right))
+		)
+	);
+}
+
+.migrationCard :where(
+	img,
+	video,
+	audio,
+	canvas,
+	iframe,
+	pre,
+	table
+) {
+	max-inline-size: 100%;
+}
+
+.migrationCard[data-future-disclosure] {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	overflow: clip;
+}
+
+.futureDisclosureBody,
+.futureDisclosureBody :where(
+	p,
+	a,
+	label,
+	form,
+	div
+) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.futureDisclosureBody a,
+.statusLine,
+.summaryMeta {
+	overflow-wrap: anywhere;
+	word-break: normal;
+}
+
+.futureDisclosureBody :where(
+	.fieldGrid,
+	.fileChoiceGrid,
+	.buttonRow,
+	.linkRow
+) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.headerRail,
+.linkRow,
+.buttonRow {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.headerRail > *,
+.linkRow > *,
+.buttonRow > * {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+@media (max-width: 26rem) {
+	.migrationCard {
+		padding-inline: .82rem;
+	}
+
+	.privacyPill {
+		max-inline-size: 100%;
+		white-space: normal;
+	}
+}

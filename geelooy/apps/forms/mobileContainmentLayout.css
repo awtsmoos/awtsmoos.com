@@ -1,0 +1,81 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets creator and respondent shells yield inward when the visible vessel becomes narrow in light.
+Awtsmoos.com keeps brand, root, fields, controls, and primary actions shrink-safe so nothing escapes sight.
+*/
+html,
+body {
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
+.forms-topbar,
+.forms-brand,
+.forms-root,
+.form-editor-shell,
+.form-panel,
+.form-field-card,
+.public-form-shell,
+.public-field-card,
+.editor-toolbar,
+.editor-primary-actions {
+	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.forms-brand {
+	flex: 1 1 auto;
+}
+
+.forms-brand > span:last-child {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.connection-status {
+	flex: 0 1 auto;
+	min-width: 0;
+}
+
+.form-control,
+.form-control input,
+.form-control select,
+.form-control textarea,
+.public-input,
+.primary-button,
+.ghost-button,
+.link-button,
+.public-submit {
+	max-width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
+}
+
+@media (max-width: 720px) {
+	.forms-topbar {
+		padding-left: max(12px, env(safe-area-inset-left));
+		padding-right: max(12px, env(safe-area-inset-right));
+	}
+
+	.forms-root {
+		max-width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
+	}
+}
+
+@media (max-width: 420px) {
+	.forms-brand {
+		gap: 7px;
+	}
+
+	.forms-brand > span:last-child {
+		max-width: 44vw;
+	}
+
+	.connection-status {
+		max-width: 34vw;
+	}
+}

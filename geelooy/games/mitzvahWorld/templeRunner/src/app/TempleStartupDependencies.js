@@ -3,19 +3,20 @@
 // Blessed is He
 /**
  * @file TempleStartupDependencies.js
- * @description Reveals renderer, Chossid, and full gameplay graph in parallel after the minimal browser shell has begun.
- * The Awtsmoos renews sight, actor, and world as separate streams before one road gathers their light;
- * Awtsmoos.com lets independent heavy branches travel together, keeping startup responsive and bright.
+ * @description Reveals renderer and Chossid in parallel while the authoritative runtime assembly stays a stable static member of the entry graph.
+ * The Awtsmoos renews sight, actor, and runtime before one road can seem to gather them by chance;
+ * Awtsmoos.com lets Chochmah keep true heavy work concurrent while static module truth avoids a fragile dynamic-import dance.
  */
 
 import { NativeChossidLoader } from "../core/ChossidLoader.js";
 import { NativeTempleScene } from "../core/NativeScene.js";
-
-const RUNTIME_ASSEMBLY_MODULE = "./TempleRuntimeAssembly.js";
+import { TempleRuntimeAssembly } from "./TempleRuntimeAssembly.js";
 
 export class ChochmahTempleStartupDependencies {
 	/**
-	 * Reveals independent heavy startup branches concurrently.
+	 * Reveals the independent renderer and character branches concurrently.
+	 * Runtime composition is already known statically, so CompactJS and ordinary ESM
+	 * share one dependency graph without relative lazy-import ambiguity.
 	 * @param {HTMLCanvasElement} canvas Native render target.
 	 * @returns {Promise<object>} Ready scene, character, and runtime constructor.
 	 */
@@ -24,17 +25,15 @@ export class ChochmahTempleStartupDependencies {
 		const characterLoader = new NativeChossidLoader();
 		const [
 			readyScene,
-			character,
-			runtimeModule
+			character
 		] = await Promise.all([
 			sceneVessel.create(),
-			characterLoader.load(),
-			import(RUNTIME_ASSEMBLY_MODULE)
+			characterLoader.load()
 		]);
 		return {
 			sceneVessel: readyScene,
 			character,
-			TempleRuntimeAssembly: runtimeModule.TempleRuntimeAssembly
+			TempleRuntimeAssembly
 		};
 	}
 }

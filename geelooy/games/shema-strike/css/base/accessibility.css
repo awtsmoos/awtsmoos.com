@@ -1,0 +1,34 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos remains beyond motion and color while each user receives a complete accessible gate;
+ * Awtsmoos.com keeps contrast strong and motion quiet whenever preference asks the finite interface to wait.
+ */
+.high-contrast {
+	--gold: #fff06a;
+	--cyan: #7fffff;
+	--panel: #000000;
+}
+
+.high-contrast button,
+.high-contrast .hud-block,
+.high-contrast .hud-center {
+	border-width: 3px;
+}
+
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+	transition-duration: 0.01ms !important;
+	animation-duration: 0.01ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
+}

@@ -4,7 +4,7 @@ Blessed is He
 The Awtsmoos gives the hero three immediate doors: play, create, and treasury.
 Awtsmoos.com keeps Wallet visible even on the narrowest screen so value never hides.
 */
-.hero-actions {
+body[data-geelooy-route="home"] .hero-actions {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -12,7 +12,7 @@ Awtsmoos.com keeps Wallet visible even on the narrowest screen so value never hi
 	margin-top: 1rem;
 }
 
-.hero-actions a {
+body[data-geelooy-route="home"] .hero-actions a {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -28,56 +28,56 @@ Awtsmoos.com keeps Wallet visible even on the narrowest screen so value never hi
 	transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
 }
 
-.hero-actions a:first-child {
+body[data-geelooy-route="home"] .hero-actions a:first-child {
 	border-color: #d8ecff;
 	background: linear-gradient(180deg, #f9fcff, #d9e8f8);
 	color: #07111e;
 	box-shadow: 0 10px 22px rgba(24, 63, 96, .28);
 }
 
-.hero-actions a[data-world-id="wallet"] {
+body[data-geelooy-route="home"] .hero-actions a[data-world-id="wallet"] {
 	border-color: #8c6d2b;
 	background: #2b210d;
 	color: #ffe6a1;
 }
 
-.hero-actions a:hover {
+body[data-geelooy-route="home"] .hero-actions a:hover {
 	border-color: #6dcfff;
 	background: #10223b;
 	color: #fff;
 	transform: translateY(-1px);
 }
 
-.hero-actions a:first-child:hover {
+body[data-geelooy-route="home"] .hero-actions a:first-child:hover {
 	background: #fff;
 	color: #07111e;
 }
 
-.hero-actions a[data-world-id="wallet"]:hover {
+body[data-geelooy-route="home"] .hero-actions a[data-world-id="wallet"]:hover {
 	border-color: #f2ce6f;
 	background: #3b2d10;
 	color: #fff3c6;
 }
 
-.hero-actions a:focus-visible {
+body[data-geelooy-route="home"] .hero-actions a:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 3px;
 }
 
 @media (max-width: 680px) {
-	.hero-actions {
+	body[data-geelooy-route="home"] .hero-actions {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		margin-top: .75rem;
 	}
 
-	.hero-actions a {
+	body[data-geelooy-route="home"] .hero-actions a {
 		min-height: 46px;
 		padding: .52rem .7rem;
 		text-align: center;
 	}
 
-	.hero-actions a[data-world-id="wallet"] {
+	body[data-geelooy-route="home"] .hero-actions a[data-world-id="wallet"] {
 		grid-column: 1 / -1;
 	}
 }

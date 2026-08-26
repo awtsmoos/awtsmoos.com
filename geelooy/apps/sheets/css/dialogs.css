@@ -3,71 +3,120 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos gives every temporary dialogue a bounded vessel and every notice a gentle place;
-Awtsmoos.com lets sharing, public discovery, and passing feedback appear without obscuring the grid's face.
+Awtsmoos.com keeps dialog content, public cards, controls, and toasts inside the Sheets root and viewport without obscuring the grid's face.
 */
-.sheet-dialog {
-	width: min(460px, calc(100vw - 24px));
-	border: 0;
+.awtsmoos-sheets-app .sheet-dialog {
+	width: min(460px, calc(100dvw - 24px));
+	max-width: calc(100dvw - 24px);
+	max-height: calc(100dvh - 24px);
+	border: 1px solid var(--glass-border);
 	border-radius: var(--radius);
+	background: var(--surface);
 	box-shadow: var(--shadow);
 	padding: 20px;
+	overflow: auto;
+	overscroll-behavior: contain;
 }
 
-.wide-dialog {
-	width: min(720px, calc(100vw - 24px));
+.awtsmoos-sheets-app .wide-dialog {
+	width: min(720px, calc(100dvw - 24px));
 }
 
-.sheet-dialog::backdrop {
+.awtsmoos-sheets-app .sheet-dialog::backdrop {
 	background: rgba(10, 18, 14, 0.35);
+	backdrop-filter: blur(5px);
 }
 
-.dialog-stack {
+.awtsmoos-sheets-app .dialog-stack {
 	display: grid;
 	gap: 12px;
+	min-width: 0;
 }
 
-.dialog-stack input,
-.dialog-stack select {
+.awtsmoos-sheets-app .dialog-stack input,
+.awtsmoos-sheets-app .dialog-stack select {
 	width: 100%;
+	min-width: 0;
 	border: 1px solid var(--border-strong);
 	border-radius: 8px;
+	background: var(--surface);
+	color: var(--text);
 	padding: 9px 10px;
 }
 
-.dialog-actions {
+.awtsmoos-sheets-app .dialog-stack input:hover:not(:disabled),
+.awtsmoos-sheets-app .dialog-stack select:hover:not(:disabled) {
+	border-color: rgba(19, 124, 83, 0.28);
+}
+
+.awtsmoos-sheets-app .dialog-stack input:focus-visible,
+.awtsmoos-sheets-app .dialog-stack select:focus-visible {
+	border-color: var(--accent);
+	box-shadow: var(--glow-active);
+}
+
+.awtsmoos-sheets-app .dialog-stack input:disabled,
+.awtsmoos-sheets-app .dialog-stack select:disabled {
+	opacity: 0.48;
+	background: var(--surface-soft);
+}
+
+.awtsmoos-sheets-app .dialog-actions {
 	display: flex;
 	justify-content: flex-end;
+	flex-wrap: wrap;
 	gap: 8px;
 }
 
-.public-list {
+.awtsmoos-sheets-app .public-list {
 	display: grid;
 	gap: 8px;
-	max-height: 60vh;
+	max-height: min(60dvh, 560px);
 	overflow: auto;
+	overscroll-behavior: contain;
 }
 
-.public-card {
+.awtsmoos-sheets-app .public-card {
+	min-width: 0;
 	border: 1px solid var(--border);
 	border-radius: 10px;
 	padding: 12px;
 	background: var(--surface);
 }
 
-.toast-region {
-	position: fixed;
-	right: 16px;
-	bottom: 54px;
-	z-index: 50;
-	display: grid;
-	gap: 8px;
+.awtsmoos-sheets-app .public-card:hover,
+.awtsmoos-sheets-app .public-card:focus-within {
+	border-color: rgba(19, 124, 83, 0.18);
+	box-shadow: 0 8px 24px rgba(19, 50, 40, 0.08);
 }
 
-.toast {
-	max-width: 320px;
+.awtsmoos-sheets-app .toast-region {
+	position: fixed;
+	right: max(16px, env(safe-area-inset-right));
+	bottom: max(54px, calc(16px + env(safe-area-inset-bottom)));
+	z-index: var(--z-toast);
+	display: grid;
+	gap: 8px;
+	max-width: calc(100dvw - 32px);
+	pointer-events: none;
+}
+
+.awtsmoos-sheets-app .toast {
+	max-width: min(320px, calc(100dvw - 32px));
 	border-radius: 9px;
 	background: #1d2a22;
 	color: white;
 	padding: 10px 12px;
 	box-shadow: var(--shadow);
+	pointer-events: auto;
+}
+
+@media (max-width: 620px) {
+	.awtsmoos-sheets-app .sheet-dialog,
+	.awtsmoos-sheets-app .wide-dialog {
+		width: calc(100dvw - 12px);
+		max-width: calc(100dvw - 12px);
+		max-height: calc(100dvh - 12px);
+		padding: 16px;
+	}
 }

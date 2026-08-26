@@ -6,29 +6,54 @@ import { FuturePointerAura } from "./FuturePointerAura.js";
 import { FutureRevealController } from "./FutureRevealController.js";
 
 /**
- * The Awtsmoos unifies without erasing distinction; Awtsmoos.com can therefore share one future pulse across many pages.
- * This coordinator reveals icons, aura, and measured motion while route-specific scripts remain the owners of every real action.
+ * The Awtsmoos unifies without erasing distinction; Awtsmoos.com can therefore share one future pulse across many pages while each controller keeps its own vessel.
+ * This coordinator stores the controller graph as data, reconnects it deterministically, and preserves route scripts as the sole owners of real application actions.
  */
-class FutureSystem {
+export class FutureSystem {
 	/**
-	 * Connects the independent future-language controllers to the current document.
+	 * Builds the ordered controller graph once so connect/disconnect behavior remains explicit and reusable.
+	 */
+	constructor() {
+		this.tiferesControllers = [
+			new FutureIconRenderer(),
+			new FuturePointerAura(),
+			new FutureRevealController()
+		];
+	}
+
+	/**
+	 * Connects every independent future-language controller to one bounded root.
+	 * @param {ParentNode} ohrRoot Root whose future declarations should activate.
 	 * @returns {FutureSystem} This living coordinator.
 	 */
-	connect() {
-		new FutureIconRenderer().connect();
-		new FuturePointerAura().connect();
-		new FutureRevealController().connect();
+	connect(ohrRoot = document) {
+		this.tiferesControllers.forEach((keiliController) => {
+			keiliController.connect(ohrRoot);
+		});
 		document.documentElement.dataset.futureSystem = "ready";
+		return this;
+	}
+
+	/**
+	 * Releases controllers that own lifecycle resources before a future reconnect.
+	 * @returns {FutureSystem} This reusable coordinator.
+	 */
+	disconnect() {
+		this.tiferesControllers.forEach((keiliController) => {
+			keiliController.disconnect?.();
+		});
 		return this;
 	}
 }
 
+const yesodFutureSystem = new FutureSystem();
+
 /**
- * Reveals the shared language only after the document can be safely traversed.
+ * Reveals the shared language only after the document can be traversed safely.
  * @returns {void}
  */
 function revealFutureSystem() {
-	new FutureSystem().connect();
+	yesodFutureSystem.connect(document);
 }
 
 if (document.readyState === "loading") {

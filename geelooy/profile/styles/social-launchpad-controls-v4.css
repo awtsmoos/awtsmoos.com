@@ -1,0 +1,102 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos turns intention into action through small vessels that answer touch, key, and hover;
+ * Awtsmoos.com gives every Profile control a bounded hit area, visible focus, active compression,
+ * and restrained motion so advanced choices feel alive without becoming noisy or unsafe.
+ */
+.geelooy-profile-shell :where(.profile-social-action, .profileIdentityTool) {
+	min-inline-size: 0;
+	min-block-size: 46px;
+	border: 1px solid var(--social-line, rgb(148 163 184 / 20%));
+	background: color-mix(in srgb, Canvas 91%, currentColor 9%);
+	color: inherit;
+	text-decoration: none;
+	transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.geelooy-profile-shell :where(.profile-social-action) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 1 auto;
+	max-inline-size: 100%;
+	padding: .58rem .8rem;
+	overflow: hidden;
+	border-radius: 999px;
+	font: inherit;
+	font-size: .8rem;
+	font-weight: 790;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.geelooy-profile-shell :where(.profile-social-action.is-primary) {
+	border-color: color-mix(in srgb, #7c5cff 48%, transparent);
+	background: color-mix(in srgb, #7c5cff 13%, Canvas);
+}
+
+.geelooy-profile-shell :where(.profile-social-action.is-question) {
+	border-color: color-mix(in srgb, #2fd7c4 44%, transparent);
+	background: color-mix(in srgb, #2fd7c4 11%, Canvas);
+}
+
+.geelooy-profile-shell :where(.profileIdentityTools) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	border-radius: 1rem;
+	background: color-mix(in srgb, Canvas 96%, transparent);
+}
+
+.geelooy-profile-shell :where(.profileIdentityTools__grid) {
+	display: grid;
+	gap: .45rem;
+	min-inline-size: 0;
+}
+
+.geelooy-profile-shell :where(.profileIdentityTool) {
+	display: flex;
+	align-items: center;
+	padding: .58rem .7rem;
+	border-radius: .8rem;
+}
+
+.geelooy-profile-shell :where(.profileIdentityTool span) {
+	display: grid;
+	gap: .12rem;
+	min-inline-size: 0;
+}
+
+.geelooy-profile-shell :where(.profileIdentityTool strong, .profileIdentityTool small) {
+	overflow-wrap: anywhere;
+}
+
+.geelooy-profile-shell :where(.profileIdentityTool small) {
+	font-size: .72rem;
+	opacity: .62;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.geelooy-profile-shell :where(.profile-social-action:hover, .profileIdentityTool:hover) {
+		transform: translateY(-1px);
+		border-color: color-mix(in srgb, #7c5cff 40%, var(--social-line));
+		box-shadow: 0 8px 24px rgb(15 23 42 / 8%);
+	}
+}
+
+.geelooy-profile-shell :where(.profile-social-action:active, .profileIdentityTool:active) {
+	transform: scale(.975);
+}
+
+.geelooy-profile-shell :where(.profile-social-action:focus-visible, .profileIdentityTool:focus-visible) {
+	outline: 2px solid var(--social-focus, #67e8f9);
+	outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-profile-shell :where(.profile-social-action, .profileIdentityTool) {
+		animation: none;
+		transition: none;
+	}
+}

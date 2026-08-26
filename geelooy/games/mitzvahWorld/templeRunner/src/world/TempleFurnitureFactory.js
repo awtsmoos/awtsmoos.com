@@ -3,15 +3,17 @@
 // Blessed is He
 /**
  * @file TempleFurnitureFactory.js
- * @description Builds non-colliding market furniture through the generic Awtsmoos procedural-core native adapter.
+ * @description Builds non-colliding market furniture with shared oak and ceramic surface realism through Awtsmoos procedural core.
  * The Awtsmoos renews bench, cart, barrel, basket, and vessel before the street can feel alive;
- * Awtsmoos.com keeps every curbside prop outside the runner's law, so atmosphere may deepen while lanes survive.
+ * Awtsmoos.com lets wood grain and pottery weather softly while every curbside prop remains outside the runner's law and lanes survive.
  */
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 import { WORLD_COLORS } from "../config.js";
+
+const STATIC_MODEL = Object.freeze({ static: true });
 
 export class TempleFurnitureFactory {
 	/** @param {object} meshFactory Procedural native mesh materializer. */
@@ -27,14 +29,16 @@ export class TempleFurnitureFactory {
 			position: [x, 0.58, z],
 			scale: [1.7, 0.2, 0.7],
 			color: WORLD_COLORS.wood,
-			worldModel: { static: true }
+			surface: "wood",
+			worldModel: STATIC_MODEL
 		}));
 		root.add(this.meshFactory.cube({
 			name: "JerusalemBenchBack",
 			position: [x, 1.02, z + 0.26],
 			scale: [1.7, 0.72, 0.14],
 			color: WORLD_COLORS.wood,
-			worldModel: { static: true }
+			surface: "wood",
+			worldModel: STATIC_MODEL
 		}));
 		return root;
 	}
@@ -47,7 +51,8 @@ export class TempleFurnitureFactory {
 			position: [x, 0.78, z],
 			scale: [1.75, 0.88, 1.0],
 			color: WORLD_COLORS.wood,
-			worldModel: { static: true }
+			surface: "wood",
+			worldModel: STATIC_MODEL
 		}));
 		for (const wheelX of [-0.7, 0.7]) {
 			root.add(this.meshFactory.cylinder({
@@ -61,7 +66,7 @@ export class TempleFurnitureFactory {
 				position: [x + wheelX, 0.3, z],
 				rotation: [0, 0, Math.PI / 2],
 				color: WORLD_COLORS.stoneDark,
-				worldModel: { static: true }
+				worldModel: STATIC_MODEL
 			}));
 		}
 		return root;
@@ -81,7 +86,8 @@ export class TempleFurnitureFactory {
 				},
 				position: [x + offset, 0.58, z],
 				color: [0.54, 0.35, 0.19, 1],
-				worldModel: { static: true }
+				surface: "pottery",
+				worldModel: STATIC_MODEL
 			}));
 		}
 		return root;
@@ -99,7 +105,8 @@ export class TempleFurnitureFactory {
 			},
 			position: [x, 0.46, z],
 			color: WORLD_COLORS.wood,
-			worldModel: { static: true }
+			surface: "wood",
+			worldModel: STATIC_MODEL
 		});
 	}
 }

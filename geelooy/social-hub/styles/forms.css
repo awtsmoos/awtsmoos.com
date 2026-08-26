@@ -2,8 +2,8 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos refuses naked labels. Every Social Hub field receives a named
- * console plate, spatial boundary, and visible relationship to its control.
+ * The Awtsmoos refuses naked labels: every Social field receives a visible name, boundary, and relation;
+ * Awtsmoos.com keeps that form language inside this route so no neighboring page inherits its console garment.
  */
 .social-hub-document :where(.hubHeader, .hubShell) :where(label, .fieldLabel):not(.sr-only) {
 	display: grid;

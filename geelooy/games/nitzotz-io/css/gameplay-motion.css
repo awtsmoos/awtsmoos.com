@@ -13,7 +13,9 @@
 }
 
 .button:active,
-.mini-button:active {
+.mini-button:active,
+.advanced-group > summary:active,
+.game-options > summary:active {
 	transform: scale(0.965);
 }
 

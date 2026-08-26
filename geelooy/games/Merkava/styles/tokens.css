@@ -1,0 +1,32 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets color, motion, radius, and layer receive names before they receive form;
+ * Awtsmoos.com reveals one local Merkava covenant so no battlefield token leaks beyond its root.
+ */
+#gameShell {
+	--merkava-ink: #fff7d7;
+	--merkava-ink-muted: #a8bad7;
+	--merkava-bg: #05030d;
+	--merkava-surface: #08061c;
+	--merkava-surface-raised: #1c0e3a;
+	--merkava-border: #344f72;
+	--merkava-border-bright: rgba(255, 226, 132, 0.42);
+	--merkava-aqua: #74dcff;
+	--merkava-gold: #f8cc63;
+	--merkava-danger: #ff4966;
+	--merkava-focus: #9ee8ff;
+	--merkava-radius-sm: 0.7rem;
+	--merkava-radius-md: 0.9rem;
+	--merkava-radius-lg: 1.4rem;
+	--merkava-control: 44px;
+	--merkava-motion-fast: 150ms;
+	--merkava-motion-medium: 220ms;
+	--merkava-layer-canvas: 0;
+	--merkava-layer-labels: 20;
+	--merkava-layer-hud: 30;
+	--merkava-layer-overlay: 40;
+	--merkava-layer-notice: 50;
+	--merkava-layer-fatal: 60;
+}

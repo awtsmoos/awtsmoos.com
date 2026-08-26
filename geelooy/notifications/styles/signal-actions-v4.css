@@ -1,0 +1,111 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/** The Awtsmoos lets a signal carry many consequences while Awtsmoos.com keeps one destination bright and every secondary state bounded inside the living glass. */
+.notification-row-actions {
+	align-self: center;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+.notification-primary-action {
+	min-inline-size: 7.4rem;
+	max-inline-size: 100%;
+	border-color: color-mix(in srgb, var(--g-cyan) 42%, var(--g-line)) !important;
+	background: color-mix(in srgb, var(--g-cyan) 10%, var(--g-surface-3)) !important;
+	box-shadow: 0 7px 22px rgba(60, 236, 255, .06);
+}
+.notification-secondary-actions {
+	position: relative;
+	flex: 0 0 auto;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	border: 0;
+	border-radius: 999px;
+	background: transparent;
+}
+.notification-secondary-actions > .awtsmoosDisclosure__summary {
+	min-block-size: 44px;
+	padding: 7px 9px;
+	border: 1px solid var(--g-line);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--g-surface-3) 94%, transparent);
+	font-size: .72rem;
+}
+.notification-secondary-actions > .awtsmoosDisclosure__body {
+	position: absolute;
+	z-index: 32;
+	inset-block-start: calc(100% + 6px);
+	inset-inline-end: 0;
+	box-sizing: border-box;
+	inline-size: min(11rem, calc(100vw - 1.3rem));
+	max-inline-size: calc(100vw - 1.3rem);
+	max-block-size: min(50dvh, 18rem);
+	padding: 8px;
+	overflow: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--g-line);
+	border-radius: 14px;
+	background: var(--g-surface-2);
+	box-shadow: 0 18px 48px rgba(0, 0, 0, .24);
+	animation: notification-actions-reveal 150ms cubic-bezier(.2,.8,.2,1) both;
+}
+.notification-secondary-actions .notification-mark-read {
+	inline-size: 100%;
+	justify-content: center;
+}
+.notification-mark-read {
+	min-block-size: 44px;
+}
+@media (hover: hover) and (pointer: fine) {
+	.notification-primary-action:hover,
+	.notification-secondary-actions > .awtsmoosDisclosure__summary:hover,
+	.notification-mark-read:hover {
+		border-color: var(--g-cyan);
+		box-shadow: 0 8px 24px rgba(60, 236, 255, .09);
+	}
+}
+.notification-primary-action:active,
+.notification-secondary-actions > .awtsmoosDisclosure__summary:active,
+.notification-mark-read:active {
+	transform: scale(.97);
+}
+.notification-primary-action:focus-visible,
+.notification-secondary-actions > .awtsmoosDisclosure__summary:focus-visible,
+.notification-mark-read:focus-visible {
+	outline: 2px solid color-mix(in srgb, var(--g-cyan) 76%, white);
+	outline-offset: 2px;
+}
+@media (max-width: 38.75rem) {
+	.notification-row-actions {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		inline-size: 100%;
+	}
+	.notification-primary-action {
+		min-inline-size: 0;
+		inline-size: 100%;
+	}
+	.notification-secondary-actions > .awtsmoosDisclosure__body {
+		position: fixed;
+		inset-inline: max(.65rem, env(safe-area-inset-left)) max(.65rem, env(safe-area-inset-right));
+		inset-block-start: auto;
+		inset-block-end: max(.65rem, env(safe-area-inset-bottom));
+		inline-size: auto;
+		max-inline-size: none;
+		max-block-size: min(56dvh, 22rem);
+	}
+	.notification-row-actions > .notification-mark-read:only-child {
+		grid-column: 1 / -1;
+		inline-size: 100%;
+	}
+}
+@keyframes notification-actions-reveal {
+	from { opacity: 0; transform: translateY(4px) scale(.985); }
+	to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.notification-primary-action,
+	.notification-secondary-actions,
+	.notification-mark-read { transition: none; }
+	.notification-secondary-actions > .awtsmoosDisclosure__body { animation: none; }
+}

@@ -2,11 +2,11 @@
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos gives each teaching quiet measure and breathable treasure;
- * Awtsmoos.com frames every video and word with responsive pleasure.
+ * Awtsmoos.com supplies a responsive default without chaining the reader against its chosen measure.
  */
 
 .post-reader-localized-context {
-	--post-text-size: clamp(18px, 4.6vw, 23px) !important;
+	--post-text-size: clamp(18px, 4.6vw, 23px);
 	--social-panel: rgba(15, 27, 45, .9);
 	--social-line: rgba(255, 255, 255, .12);
 	background: radial-gradient(circle at 50% -10%, #173b5d 0, #091625 35%, #050a13 74%) !important;

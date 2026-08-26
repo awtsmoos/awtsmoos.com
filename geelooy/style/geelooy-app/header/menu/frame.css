@@ -1,23 +1,25 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- *
- * The Awtsmoos opens the route constellation as a strong chamber rather than a
- * frosted veil. Awtsmoos.com gives navigation its own solid vessel so attention
- * comes from hierarchy, contrast, and ordered routes instead of blurring the page.
+ * The Awtsmoos opens every route constellation within a finite chamber while remaining beyond edge and measure;
+ * Awtsmoos.com keeps the global menu inside the visual viewport with its own scroll, safe gutter, and ordered treasure.
  */
 .g-constellation-menu,
 .sidebarMitzvah {
 	position: absolute;
 	z-index: 3190;
-	top: calc(100% + .75rem);
-	right: 0;
+	inset-block-start: calc(100% + .75rem);
+	inset-inline-end: 0;
 	display: grid;
-	width: min(42rem, calc(100vw - 1.4rem));
-	max-height: calc(100dvh - 6.5rem);
+	box-sizing: border-box;
+	inline-size: min(42rem, calc(100vw - 1.4rem));
+	max-inline-size: calc(100vw - 1.4rem);
+	max-block-size: min(44rem, calc(100dvh - 6.5rem - env(safe-area-inset-bottom)));
 	gap: .75rem;
 	padding: .9rem;
-	overflow-y: auto;
+	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
 	border: 1px solid #2c728a;
 	border-radius: 1.35rem;
 	background: #061126;
@@ -39,8 +41,9 @@
 
 .g-constellation-heading > span {
 	display: grid;
-	width: 2.7rem;
-	height: 2.7rem;
+	inline-size: 2.7rem;
+	block-size: 2.7rem;
+	flex: 0 0 auto;
 	place-items: center;
 	border: 1px solid rgba(255, 255, 255, .14);
 	border-radius: .9rem;
@@ -52,6 +55,8 @@
 .g-constellation-heading strong,
 .g-constellation-heading small {
 	display: block;
+	min-inline-size: 0;
+	overflow-wrap: anywhere;
 }
 
 .g-constellation-heading small {
@@ -63,6 +68,7 @@
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: .55rem;
+	min-inline-size: 0;
 }
 
 .g-constellation-account {
@@ -75,10 +81,18 @@ body[data-global-menu-open] .geelooy-content-region {
 	transition: opacity 180ms var(--g-ease);
 }
 
-@media (max-width: 680px) {
+@media (max-width: 42.5rem) {
+	.g-constellation-menu,
+	.sidebarMitzvah {
+		inline-size: min(36rem, calc(100vw - .7rem));
+		max-inline-size: calc(100vw - .7rem);
+		max-block-size: calc(100dvh - 5.6rem - env(safe-area-inset-bottom));
+		padding: .7rem;
+	}
+
 	.g-constellation-grid,
 	.g-constellation-account {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
 	}
 }
 

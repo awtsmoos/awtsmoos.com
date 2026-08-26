@@ -1,14 +1,17 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets title, one invitation, and one primary doorway carry the card while extra facts stay quiet.
-*/
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Hod card-metadata owner for genre, title, hook, capability chips, and quiet supporting truth.
+ * The Awtsmoos is beyond every label while Hod lets each world speak one precise invitation without noise;
+ * Awtsmoos.com keeps metadata separate from action controls so information remains calm around the player's choice.
+ */
 .gameGenre {
 	margin: 16px 0 5px;
 	color: var(--games-cyan);
-	font-size: .7rem;
+	font-size: 0.7rem;
 	font-weight: 900;
-	letter-spacing: .08em;
+	letter-spacing: 0.08em;
 	text-transform: uppercase;
 }
 
@@ -19,19 +22,27 @@ The Awtsmoos lets title, one invitation, and one primary doorway carry the card 
 }
 
 .gameTitleLink {
+	display: inline-block;
 	color: var(--games-text);
 	text-decoration: none;
+	touch-action: manipulation;
+	transition: color 140ms ease, transform 140ms ease, filter 140ms ease;
 }
 
-.gameTitleLink:hover,
 .gameTitleLink:focus-visible {
 	color: var(--games-gold);
+}
+
+.gameTitleLink:active {
+	color: var(--games-gold);
+	filter: brightness(0.96);
+	transform: translateY(1px) scale(0.99);
 }
 
 .gameHook {
 	margin: 9px 0 0;
 	color: var(--games-text-soft);
-	font-size: .88rem;
+	font-size: 0.88rem;
 	line-height: 1.48;
 }
 
@@ -50,53 +61,27 @@ The Awtsmoos lets title, one invitation, and one primary doorway carry the card 
 	border: 1px solid var(--games-line-soft);
 	border-radius: 999px;
 	color: var(--games-muted);
-	font-size: .66rem;
+	font-size: 0.66rem;
 	font-weight: 800;
 }
 
 .modeChip--native {
-	border-color: rgba(64, 225, 255, .35);
+	border-color: rgba(64, 225, 255, 0.35);
 	color: var(--games-cyan);
 }
 
-.gameCard__footer {
-	display: grid;
-	margin-top: auto;
-	padding-top: 16px;
+@media (hover: hover) and (pointer: fine) {
+	.gameTitleLink:hover {
+		color: var(--games-gold);
+		transform: translateY(-1px);
+	}
 }
 
-.gameActions {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
-	gap: 8px;
-}
-
-.playCta,
-.partyCta {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 46px;
-	border-radius: 12px;
-	font-size: .78rem;
-	font-weight: 900;
-	text-decoration: none;
-}
-
-.playCta {
-	padding: 0 13px;
-	background: linear-gradient(135deg, var(--games-gold), #fff0b0);
-	color: #171006;
-}
-
-.partyCta {
-	padding: 0 11px;
-	border: 1px solid var(--games-line-soft);
-	background: rgba(255,255,255,.035);
-	color: var(--games-text-soft);
-}
-
-.playCta:hover,
-.partyCta:hover {
-	transform: translateY(-1px);
+@media (prefers-reduced-motion: reduce) {
+	.gameTitleLink,
+	.gameTitleLink:hover,
+	.gameTitleLink:active {
+		transition: none;
+		transform: none;
+	}
 }

@@ -14,7 +14,8 @@ pass-and-play tournament—real shared play without pretending a network exists.
 	<meta name="theme-color" content="#050813">
 	<meta name="description" content="Party Challenge turns any public Awtsmoos visual game into a 2–4 player local pass-and-play tournament while Solo remains the default game mode.">
 	<title>Party Challenge — Awtsmoos Games</title>
-	<link rel="stylesheet" href="./style.css?v=party-001">
+	<link rel="stylesheet" href="./style.css?v=party-001&compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
 	<main class="partyShell">
@@ -83,6 +84,8 @@ pass-and-play tournament—real shared play without pretending a network exists.
 			<div class="partyLinks"><a id="soloLink" href="../">Open selected game Solo</a><a id="gamesLink" href="../">Back to all Games</a></div>
 		</section>
 	</main>
-	<script type="module" src="./js/main.js?v=party-001"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="./js/main.js?v=party-001&compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

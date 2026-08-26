@@ -1,0 +1,78 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos recreates readiness, disclosure, and cinematic silence while Awtsmoos.com keeps every finite flag on the world that owns it; no document-global selector is needed to coordinate one local meadow.
+*/
+
+#mitzvah-world-root [hidden],
+#mitzvah-world-root [aria-hidden="true"][data-hide-from-layout="true"] {
+	display: none;
+}
+
+#mitzvah-world-root:not([data-awtsmoos-boot-stage="ready"]) :is(
+	#AwtsmoosCanvas,
+	#playerHudShell,
+	#combatTarget,
+	#npcDialogue,
+	#mobileControls,
+	#actions,
+	#gameRail,
+	#combatFx,
+	#inventory,
+	#meadowMenu
+) {
+	visibility: hidden;
+	pointer-events: none;
+}
+
+#mitzvah-world-root[data-awtsmoos-boot-stage="failed"] #hud[data-boot-failure] {
+	position: fixed;
+	inset: auto var(--mw-safe-right) var(--mw-safe-bottom) var(--mw-safe-left);
+	z-index: var(--mw-z-failure);
+	visibility: visible;
+	max-block-size: min(42dvh, 300px);
+	overflow: auto;
+	padding: 12px 14px;
+	border: 1px solid var(--mw-danger);
+	border-radius: var(--mw-radius-sm);
+	background: rgba(48, 7, 10, 0.97);
+	color: #fff4ef;
+	font-size: 12px;
+	white-space: pre-wrap;
+	pointer-events: auto;
+}
+
+#mitzvah-world-root[data-awtsmoos-menu-ready="true"] .Awtsmoos-menu-boot {
+	display: none;
+}
+
+#mitzvah-world-root[data-awtsmoos-advanced-controls="true"] :is(#mobileControls, .Awtsmoos-context-action, .Awtsmoos-control-receipt) {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+#mitzvah-world-root[data-awtsmoos-cinematic="true"] :is(
+	#hud,
+	#playerHudShell,
+	#combatTarget,
+	#npcDialogue,
+	#mobileControls,
+	#actions,
+	#gameRail,
+	#combatFx,
+	#inventory,
+	#meadowMenu,
+	.Awtsmoos-status-dock,
+	.Awtsmoos-status-ribbon,
+	.Awtsmoos-realtime-status,
+	.Awtsmoos-camera-mode-toggle,
+	.Awtsmoos-minimap,
+	.Awtsmoos-context-action,
+	.Awtsmoos-control-receipt
+) {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}

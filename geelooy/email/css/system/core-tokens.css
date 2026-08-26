@@ -1,32 +1,46 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos colors Mail with quiet depth: distinctions serve meaning, not spectacle;
-Awtsmoos.com lets every surface become a vessel where correspondence stays legible.
+The Awtsmoos gives each Mail vessel its own measured light; Awtsmoos.com keeps
+color, motion, depth, and layering inside the communication chamber, calm and bright.
 */
-:root {
+body[data-mail-page] {
 	--mail-bg: #060910;
 	--mail-bg-elevated: #090e17;
 	--mail-panel: #0d1521;
 	--mail-panel-strong: #111b29;
-	--mail-panel-soft: rgba(13, 21, 33, .88);
-	--mail-panel-hover: rgba(26, 39, 57, .78);
-	--mail-border: rgba(192, 211, 239, .11);
-	--mail-border-strong: rgba(192, 211, 239, .22);
-	--mail-border-focus: rgba(152, 190, 248, .58);
+	--mail-panel-soft: rgb(13 21 33 / 88%);
+	--mail-panel-hover: rgb(26 39 57 / 78%);
+	--mail-border: rgb(192 211 239 / 11%);
+	--mail-border-strong: rgb(192 211 239 / 22%);
+	--mail-border-focus: rgb(152 190 248 / 58%);
 	--mail-accent: #b8d2fb;
 	--mail-accent-strong: #d9e8ff;
-	--mail-accent-soft: rgba(119, 164, 231, .14);
+	--mail-accent-soft: rgb(119 164 231 / 14%);
 	--mail-text: #f5f7fb;
 	--mail-text-secondary: #b6c0cf;
 	--mail-text-muted: #7d8a9d;
 	--mail-success: #80d1ad;
 	--mail-danger: #f0a5a5;
 	--mail-warning: #e8c78d;
-	--mail-shadow: 0 18px 60px rgba(0, 0, 0, .32);
+	--mail-shadow: 0 18px 60px rgb(0 0 0 / 32%);
+	--mail-shadow-soft: 0 12px 34px rgb(0 0 0 / 22%);
 	--mail-radius-sm: 10px;
 	--mail-radius-md: 14px;
 	--mail-radius-lg: 20px;
 	--mail-reading-width: 760px;
-	--sidebar-w: clamp(320px, 29vw, 410px);
+	--sidebar-w: clamp(300px, 29vw, 410px);
+	--mail-touch-target: 44px;
+	--mail-motion-fast: 120ms;
+	--mail-motion-standard: 180ms;
+	--mail-motion-slow: 260ms;
+	--mail-ease-out: cubic-bezier(.2, .8, .2, 1);
+	--mail-layer-base: 0;
+	--mail-layer-content: 2;
+	--mail-layer-header: 3;
+	--mail-layer-dock: 6;
+	--mail-layer-backdrop: 40;
+	--mail-layer-drawer: 50;
+	--mail-layer-dialog: 60;
+	--mail-layer-toast: 70;
 }

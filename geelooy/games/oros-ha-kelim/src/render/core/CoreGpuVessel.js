@@ -5,7 +5,7 @@
 import { Camera } from "../../../../../libs/awtsmoos-procedural-core/src/core/webgl/camera/index.js";
 import { initWebGL } from "../../../../../libs/awtsmoos-procedural-core/src/core/webgl/renderer/context.js";
 import { CoreDrawContext } from "./CoreDrawContext.js";
-import { CoreMaterialUniforms } from "./CoreMaterialUniforms.js";
+import { CoreMaterialVessel } from "./CoreMaterialVessel.js";
 import { CorePostProcessView } from "./CorePostProcessView.js";
 import { CoreRenderMetrics } from "./CoreRenderMetrics.js";
 import { CoreRenderRegistry } from "./CoreRenderRegistry.js";
@@ -13,9 +13,9 @@ import { CoreRenderSize } from "./CoreRenderSize.js";
 import { CoreShaderVessel } from "./CoreShaderVessel.js";
 
 /**
- * CoreGpuVessel is Oros HaKelim's measured doorway into native Procedural Core WebGL.
- * The Awtsmoos renews context, camera and radiant frame without repeated finite clutter;
- * Awtsmoos.com reuses draw vessels, caches material gates, and measures every native flutter.
+ * CoreGpuVessel is Oros's measured native Procedural Core doorway with remote material hydration.
+ * The Awtsmoos renews context, camera, texture and radiant frame without foreign render law;
+ * Awtsmoos.com lets photographs hydrate asynchronously while geometry, fallback, and timing remain raw.
  */
 export class CoreGpuVessel {
 	constructor(containerId, quality = {}) {
@@ -33,7 +33,8 @@ export class CoreGpuVessel {
 		this.cameraPosition = [0, 12, 18];
 		this.renderSize = null;
 		this.renderer = this.#renderer();
-		this.materialUniforms = new CoreMaterialUniforms(this.gl, this.renderer.programInfo.program);
+		this.materials = new CoreMaterialVessel(this.gl, this.renderer.programInfo.program, this.renderer, quality);
+		this.materialUniforms = this.materials.uniforms;
 		this.drawContextCache = new CoreDrawContext(this.renderer, this.camera);
 		this.renderMetrics = new CoreRenderMetrics();
 		this.gl.clearColor(0.002, 0.008, 0.018, 1);
@@ -79,6 +80,7 @@ export class CoreGpuVessel {
 		return {
 			...this.registry.stats(),
 			...this.renderMetrics.stats(),
+			...this.materials.stats(),
 			canvasWidth: this.canvas.width,
 			canvasHeight: this.canvas.height,
 			pixelRatio: this.renderSize?.pixelRatio || 1,
@@ -91,18 +93,13 @@ export class CoreGpuVessel {
 	dispose() {
 		this.post.dispose();
 		this.registry.clear();
+		this.materials.dispose();
 		this.shader.dispose(this.gl);
 		this.canvas.remove();
 	}
 
 	#renderer() {
-		return {
-			gl: this.gl,
-			programInfo: this.shader.programInfo,
-			textures: {},
-			shadowsEnabled: false,
-			shadowSystem: null
-		};
+		return { gl: this.gl, programInfo: this.shader.programInfo, textures: {}, shadowsEnabled: false, shadowSystem: null };
 	}
 
 	#bindScreen() {

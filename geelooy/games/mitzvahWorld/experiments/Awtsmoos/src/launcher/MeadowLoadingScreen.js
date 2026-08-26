@@ -4,110 +4,99 @@
 
 /**
  * @file MeadowLoadingScreen.js
- * @description Presents measured milestones, hides completely at readiness, and preserves visible failure.
+ * @description Presents measured milestones, hides completely at readiness, and keeps all loading state inside the Mitzvah World root.
  * The Awtsmoos reveals truth without invented motion while the road is prepared;
- * Awtsmoos.com removes the blocking veil only after essential play is ready and keeps failure readable.
+ * Awtsmoos.com removes the blocking veil only after essential play is ready and keeps failure readable without borrowing state from `<html>`.
  */
 
+import { MalchusMitzvahWorldRootState } from './MalchusMitzvahWorldRootState.js';
+import {
+	formatMalchusBytes,
+	normalizeTiferesProgress,
+	presentYesodMeasuredBar
+} from './MeadowLoadingProgress.js';
+
+const MODEL_PHASE_LABELS_BINAH = Object.freeze({
+	fallback: 'Model unavailable · visible fallback installed',
+	ready: 'Chossid model ready',
+	starting: 'Requesting chossid.glb…',
+	waiting: 'Waiting for the world renderer…'
+});
+
+/** Owns the static loading veil and its measured world/model progress. */
 export class MeadowLoadingScreen {
-	constructor(documentValue, environment = globalThis) {
-		this.document = documentValue;
-		this.environment = environment;
-		this.root = documentValue.getElementById('menuBoot');
-		this.message = documentValue.getElementById('loadingMessage');
-		this.worldBar = documentValue.getElementById('worldProgress');
-		this.worldValue = documentValue.getElementById('worldProgressValue');
-		this.modelBar = documentValue.getElementById('modelProgress');
-		this.modelValue = documentValue.getElementById('modelProgressValue');
-		this.modelDetail = documentValue.getElementById('modelProgressDetail');
-		this.handleModel = event => this.model(event.detail || {});
-		environment.addEventListener?.(
-			'awtsmoos:model-progress',
-			this.handleModel
-		);
+	/** @param {Document} documentKli Active document. @param {object} [environmentKli=globalThis] Event environment. */
+	constructor(documentKli, environmentKli = globalThis) {
+		this.document = documentKli;
+		this.environment = environmentKli;
+		this.rootStateMalchus = new MalchusMitzvahWorldRootState(documentKli);
+		this.root = documentKli.getElementById('menuBoot');
+		this.message = documentKli.getElementById('loadingMessage');
+		this.worldBar = documentKli.getElementById('worldProgress');
+		this.worldValue = documentKli.getElementById('worldProgressValue');
+		this.modelBar = documentKli.getElementById('modelProgress');
+		this.modelValue = documentKli.getElementById('modelProgressValue');
+		this.modelDetail = documentKli.getElementById('modelProgressDetail');
+		this.handleModelYesod = eventOhr => this.model(eventOhr.detail || {});
+		environmentKli.addEventListener?.('awtsmoos:model-progress', this.handleModelYesod);
+		this.rootStateMalchus.setFlag('menuReady', false);
+		delete this.root.dataset.loadingFailure;
 		this.root.hidden = false;
 		this.root.setAttribute('aria-hidden', 'false');
-		this.world({
-			message: 'Preparing the visible meadow…',
-			progress: 0
-		});
+		this.world({ message: 'Preparing the visible meadow…', progress: 0 });
 		this.model({ phase: 'waiting', progress: 0 });
 	}
 
-	world(update = {}) {
-		const progress = clamp(update.progress ?? 0);
-		setMeasuredBar(this.worldBar, this.worldValue, progress);
-		if (update.message) this.message.textContent = update.message;
+	/** @param {object} [updateChesed={}] World-load message and unit progress. */
+	world(updateChesed = {}) {
+		const progressTiferes = normalizeTiferesProgress(updateChesed.progress ?? 0);
+		presentYesodMeasuredBar(this.worldBar, this.worldValue, progressTiferes);
+		if (updateChesed.message) {
+			this.message.textContent = updateChesed.message;
+		}
 	}
 
-	model(update = {}) {
-		const phase = update.phase || 'waiting';
-		const progress = Number.isFinite(update.progress)
-			? clamp(update.progress)
+	/** @param {object} [updateChesed={}] Model hydration phase and measured byte/progress evidence. */
+	model(updateChesed = {}) {
+		const phaseBinah = updateChesed.phase || 'waiting';
+		const progressTiferes = Number.isFinite(updateChesed.progress)
+			? normalizeTiferesProgress(updateChesed.progress)
 			: null;
-		setMeasuredBar(this.modelBar, this.modelValue, progress);
-		if (phase === 'download') {
-			this.modelDetail.textContent = update.total > 0
-				? `${formatBytes(update.loaded)} of ${formatBytes(update.total)}`
-				: `${formatBytes(update.loaded)} received · total unavailable`;
+		presentYesodMeasuredBar(this.modelBar, this.modelValue, progressTiferes);
+		if (phaseBinah === 'download') {
+			this.modelDetail.textContent = updateChesed.total > 0
+				? `${formatMalchusBytes(updateChesed.loaded)} of ${formatMalchusBytes(updateChesed.total)}`
+				: `${formatMalchusBytes(updateChesed.loaded)} received · total unavailable`;
 			return;
 		}
-		const labels = {
-			fallback: 'Model unavailable · visible fallback installed',
-			parsing: `Parsing ${formatBytes(update.loaded || update.total || 0)} locally…`,
-			ready: 'Chossid model ready',
-			starting: 'Requesting chossid.glb…',
-			waiting: 'Waiting for the world renderer…'
-		};
-		this.modelDetail.textContent = labels[phase] || phase;
+		this.modelDetail.textContent = phaseBinah === 'parsing'
+			? `Parsing ${formatMalchusBytes(updateChesed.loaded || updateChesed.total || 0)} locally…`
+			: MODEL_PHASE_LABELS_BINAH[phaseBinah] || phaseBinah;
 	}
 
+	/** Marks menu readiness locally and removes the blocking loading vessel from layout and accessibility trees. */
 	finish() {
 		this.world({ message: 'Meadow ready.', progress: 1 });
-		this.document.documentElement.dataset.awtsmoosMenuReady = 'true';
+		this.rootStateMalchus.setFlag('menuReady', true);
 		this.root.dataset.loadingComplete = 'true';
 		this.root.hidden = true;
 		this.root.setAttribute('aria-hidden', 'true');
 		this.dispose();
 	}
 
-	fail(error) {
+	/** @param {unknown} errorOhr Visible loading failure value. */
+	fail(errorOhr) {
+		this.rootStateMalchus.setBootStage('failed');
 		this.root.hidden = false;
 		this.root.setAttribute('aria-hidden', 'false');
 		this.root.dataset.loadingFailure = 'true';
-		this.message.textContent = error?.message || String(error);
+		this.message.textContent = errorOhr?.message || String(errorOhr);
 	}
 
+	/** Releases the model-progress listener after readiness or controller retirement. */
 	dispose() {
-		this.environment.removeEventListener?.(
-			'awtsmoos:model-progress',
-			this.handleModel
-		);
+		this.environment.removeEventListener?.('awtsmoos:model-progress', this.handleModelYesod);
 	}
-}
-
-function setMeasuredBar(bar, label, progress) {
-	if (progress === null) {
-		bar.removeAttribute('value');
-		label.textContent = 'measuring';
-		return;
-	}
-	const percent = Math.round(progress * 100);
-	bar.value = percent;
-	label.textContent = `${percent}%`;
-}
-
-function clamp(value) {
-	return Math.max(0, Math.min(1, Number(value) || 0));
-}
-
-function formatBytes(value) {
-	const bytes = Math.max(0, Number(value) || 0);
-	if (bytes < 1024) return `${bytes} B`;
-	if (bytes < 1024 ** 2) {
-		return `${(bytes / 1024).toFixed(1)} KB`;
-	}
-	return `${(bytes / 1024 ** 2).toFixed(1)} MB`;
 }
 
 export default MeadowLoadingScreen;

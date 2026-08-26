@@ -1,0 +1,43 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives each touch a quiet luminous response without moving the layout from its place;
+ * Awtsmoos.com distinguishes focus, hover, physical press, and held-game state with one professional grace.
+ */
+.touch-controls button {
+	transition: transform 120ms ease, filter 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.touch-controls button:focus-visible {
+	outline: 3px solid var(--cyan);
+	outline-offset: 3px;
+}
+
+.touch-controls button:active,
+.touch-controls button.active {
+	filter: brightness(1.08);
+	transform: translateY(1px) scale(0.94);
+	border-color: var(--cyan);
+	box-shadow: 0 0 20px rgba(118, 247, 255, 0.26), inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.touch-controls button:hover {
+		filter: brightness(1.14);
+		transform: translateY(-2px);
+		border-color: rgba(118, 247, 255, 0.72);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.touch-controls button {
+		transition-duration: 0.01ms;
+	}
+
+	.touch-controls button:hover,
+	.touch-controls button:active,
+	.touch-controls button.active {
+		transform: none;
+	}
+}

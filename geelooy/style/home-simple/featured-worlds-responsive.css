@@ -4,40 +4,40 @@ Blessed is He
 The Awtsmoos lets the four gateways re-form across every screen, so Awtsmoos.com remains spacious without becoming distant.
 */
 @media (max-width: 900px) {
-	.featured-grid {
+	body[data-geelooy-route="home"] .featured-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @media (max-width: 680px) {
-	.featured-worlds {
+	body[data-geelooy-route="home"] .featured-worlds {
 		padding-top: 1rem;
 	}
 
-	.featured-heading {
+	body[data-geelooy-route="home"] .featured-heading {
 		align-items: center;
 	}
 
-	.featured-heading > a {
+	body[data-geelooy-route="home"] .featured-heading > a {
 		display: none;
 	}
 
-	.featured-card {
+	body[data-geelooy-route="home"] .featured-card {
 		min-height: 190px;
 		padding: .85rem;
 	}
 }
 
 @media (max-width: 430px) {
-	.featured-grid {
+	body[data-geelooy-route="home"] .featured-grid {
 		gap: .5rem;
 	}
 
-	.featured-card {
+	body[data-geelooy-route="home"] .featured-card {
 		min-height: 174px;
 	}
 
-	.featured-card p {
+	body[data-geelooy-route="home"] .featured-card p {
 		font-size: .66rem;
 	}
 }

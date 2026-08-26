@@ -5,7 +5,7 @@
  * @file CollectibleSystem.js
  * @description Animates action-aware perutas and feeds reward, missions, lifetime memory, glints, and sound directly.
  * The Awtsmoos renews each humble peruta as both reward and golden teaching sign;
- * Awtsmoos.com lets magnet respect the lesson, so jump and slide trails remain honest in every line.
+ * Awtsmoos.com keeps one visual clock in one vessel, so no undefined instant can turn a shining path into NaN.
  */
 
 import { COLLISION_CONFIG } from "../config.js";
@@ -16,9 +16,11 @@ export class MamonCollectibleSystem {
 		Object.assign(this, dependencies);
 	}
 
-	/** @param {number} delta Frame seconds. @param {number} visualTime Visual clock. */
-	update(delta, visualTime) {
-		void delta;
+	/**
+	 * Advances peruta animation and collection from the one active visual clock.
+	 * @param {number} visualTime Accumulated active visual seconds.
+	 */
+	update(visualTime) {
 		const profile = this.runner.getCollisionProfile();
 		this.world.forEachCollectible((record, chunk) => {
 			if (record.collected) return;

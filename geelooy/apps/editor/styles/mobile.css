@@ -1,0 +1,113 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos reveals one advanced vessel at a time so the smallest screen never becomes a battlefield;
+ * Awtsmoos.com turns the editor into a safe-area-aware mobile accordion where canvas, toolbar, and panels keep their rightful place.
+ */
+@media (max-width: 760px) {
+	.awtsmoos-editor-shell #toolbar {
+		top: max(8px, env(safe-area-inset-top));
+		left: max(8px, env(safe-area-inset-left));
+		right: max(8px, env(safe-area-inset-right));
+		width: auto;
+		max-width: none;
+		height: 56px;
+		padding: 5px;
+		gap: 4px;
+		overflow-x: auto;
+		overflow-y: hidden;
+		overscroll-behavior-x: contain;
+	}
+
+	.awtsmoos-editor-shell #toolbar button,
+	.awtsmoos-editor-shell #toolbar select {
+		min-width: 46px;
+		min-height: 46px;
+		padding: 8px 11px;
+	}
+
+	.awtsmoos-editor-shell .separator {
+		display: none;
+	}
+
+	.awtsmoos-editor-shell #orbit-gizmo-container {
+		top: calc(max(8px, env(safe-area-inset-top)) + 66px);
+		right: max(8px, env(safe-area-inset-right));
+		max-width: 72px;
+		max-height: 72px;
+	}
+
+	.awtsmoos-editor-shell #object-tree-panel,
+	.awtsmoos-editor-shell #properties-panel,
+	.awtsmoos-editor-shell #timeline-panel {
+		top: calc(max(8px, env(safe-area-inset-top)) + 70px);
+		left: max(8px, env(safe-area-inset-left));
+		right: max(8px, env(safe-area-inset-right));
+		bottom: calc(68px + env(safe-area-inset-bottom));
+		z-index: var(--editor-z-sheet);
+		width: auto;
+		height: auto;
+		min-height: 0;
+		max-height: 46dvh;
+		padding: 8px;
+	}
+
+	.awtsmoos-editor-shell #object-tree-panel:not(.collapsed),
+	.awtsmoos-editor-shell #properties-panel:not(.collapsed),
+	.awtsmoos-editor-shell #timeline-panel:not(.collapsed) {
+		animation: awtsmoos-editor-sheet-reveal 180ms ease-out both;
+	}
+
+	.awtsmoos-editor-shell #object-tree-panel.collapsed,
+	.awtsmoos-editor-shell #properties-panel.collapsed,
+	.awtsmoos-editor-shell #timeline-panel.collapsed {
+		top: auto;
+		bottom: max(8px, env(safe-area-inset-bottom));
+		height: 52px;
+		max-height: 52px;
+		padding: 4px;
+	}
+
+	.awtsmoos-editor-shell #object-tree-panel.collapsed {
+		left: max(8px, env(safe-area-inset-left));
+		right: calc(66.666% + 3px);
+	}
+
+	.awtsmoos-editor-shell #properties-panel.collapsed {
+		left: calc(33.333% + 3px);
+		right: calc(33.333% + 3px);
+	}
+
+	.awtsmoos-editor-shell #timeline-panel.collapsed {
+		left: calc(66.666% + 3px);
+		right: max(8px, env(safe-area-inset-right));
+	}
+
+	.awtsmoos-editor-shell .panel > .panel-header {
+		min-height: 44px;
+	}
+
+	.awtsmoos-editor-shell .panel.collapsed > .panel-header {
+		margin: 0;
+		padding: 0 5px;
+		border: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.awtsmoos-editor-shell .panel:not(.collapsed) > .panel-content {
+		overflow: auto;
+		overscroll-behavior: contain;
+	}
+
+	.awtsmoos-editor-shell .timeline-layers {
+		width: 128px;
+		flex-basis: 128px;
+	}
+}
+
+@keyframes awtsmoos-editor-sheet-reveal {
+	from { opacity: .4; transform: translateY(8px) scale(.985); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
+}

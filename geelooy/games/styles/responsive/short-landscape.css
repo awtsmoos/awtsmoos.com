@@ -1,0 +1,111 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives the short horizon breadth without demanding vertical tribute;
+Awtsmoos.com lets landscape players see invitation and discovery together while every touch remains resolute.
+*/
+@media (max-height: 520px) and (orientation: landscape) {
+	.gamesShell {
+		padding: 8px 10px calc(18px + env(safe-area-inset-bottom));
+	}
+
+	.heroPanel {
+		padding: 12px 14px;
+		border-radius: 16px;
+	}
+
+	.heroDeck {
+		grid-template-columns: minmax(0, 1.15fr) minmax(220px, .85fr);
+		gap: 12px;
+	}
+
+	.heroPanel h1 {
+		font-size: clamp(2rem, 5vw, 2.8rem);
+		line-height: .95;
+	}
+
+	.heroText,
+	.featuredCopy,
+	.playModeRail,
+	.discoveryHeading .eyebrow {
+		display: none;
+	}
+
+	.heroActions {
+		gap: 7px;
+		margin-top: 10px;
+	}
+
+	.primaryCta,
+	.secondaryCta {
+		min-height: 44px;
+		padding: 0 12px;
+	}
+
+	.featuredWorld {
+		min-height: 132px;
+		padding: 12px 14px;
+		border-radius: 16px;
+	}
+
+	.featuredSignal {
+		top: 16px;
+		left: 50%;
+		width: 54px;
+		height: 54px;
+	}
+
+	.featuredSignal::before {
+		width: 54px;
+		height: 54px;
+	}
+
+	.featuredSignal::after {
+		width: 34px;
+		height: 34px;
+	}
+
+	.featuredSignal i {
+		width: 15px;
+		height: 15px;
+	}
+
+	.featuredSignal b {
+		width: 42px;
+		height: 10px;
+	}
+
+	.quickLaunch {
+		gap: 7px;
+		margin-top: 7px;
+	}
+
+	.quickLaunch a {
+		min-height: 48px;
+		padding: 7px 10px;
+		border-radius: 14px;
+	}
+
+	.quickLaunch small {
+		display: none;
+	}
+
+	.quickIcon {
+		width: 32px;
+		height: 32px;
+	}
+
+	.discoveryPanel {
+		margin-top: 8px;
+		padding: 10px 12px;
+		border-radius: 16px;
+	}
+
+	.searchWrap {
+		margin-top: 8px;
+	}
+
+	.tagCloud {
+		margin-top: 6px;
+	}
+}

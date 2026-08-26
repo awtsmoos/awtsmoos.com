@@ -1,0 +1,64 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Hod tag-control owner for the optional filter chamber, including complete selected, hover, press, and touch states.
+ * The Awtsmoos is beyond every category while Hod lets finite names answer hand and pointer without clutter or fight;
+ * Awtsmoos.com keeps tags locally complete so no accessibility patch must secretly finish their visual light.
+ */
+.tagCloud {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	padding: 10px;
+}
+
+.tag {
+	appearance: none;
+	flex: 0 1 auto;
+	min-width: 0;
+	min-height: 40px;
+	padding: 7px 11px;
+	border: 1px solid var(--games-line-soft);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.035);
+	color: var(--games-muted);
+	cursor: pointer;
+	font: inherit;
+	font-size: 0.74rem;
+	font-weight: 780;
+	touch-action: manipulation;
+	transition: transform 140ms ease, border-color 140ms ease, color 140ms ease, background 140ms ease, filter 140ms ease;
+}
+
+.tag.active {
+	border-color: rgba(140, 247, 255, 0.78);
+	background: rgba(140, 247, 255, 0.12);
+	color: #effeff;
+}
+
+.tag:active {
+	background: rgba(117, 222, 255, 0.14);
+	filter: brightness(0.96);
+	transform: translateY(1px) scale(0.98);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.tag:hover {
+		border-color: var(--games-cyan);
+		background: rgba(117, 222, 255, 0.07);
+		color: var(--games-text);
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.tag {
+		transition: none;
+	}
+
+	.tag:hover,
+	.tag:active {
+		transform: none;
+	}
+}

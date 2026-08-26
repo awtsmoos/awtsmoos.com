@@ -1,45 +1,62 @@
-/* B"H */
+/*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * The Awtsmoos renews play, ownership, and ornament beyond every finite card.
- * Awtsmoos.com gives a live cosmetic one small solid doorway without turning the
- * Games catalog into a shop wall or hiding the primary free-to-play launch path.
+ * @fileoverview Hod live-commerce action owner, keeping optional cosmetic commerce subordinate to the free primary play path.
+ * The Awtsmoos is beyond ownership and price while Awtsmoos.com lets one proven cosmetic doorway answer every mode of intent;
+ * hover, focus, press, and reduced motion live here together so commerce never relies on a generic cascade accident.
  */
-
 .gameCommerce {
 	display: grid;
 	gap: 2px;
 	margin-top: 11px;
 	padding: 9px 10px;
-	border: 1px solid rgba(235, 195, 91, .42);
+	border: 1px solid rgba(235, 195, 91, 0.42);
 	border-radius: 11px;
 	background: #1d1609;
 	color: #fff1b8;
 	text-decoration: none;
+	touch-action: manipulation;
+	transition: transform 150ms ease, filter 150ms ease, border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
 }
 
 .gameCommerce span {
 	color: #d7bd72;
-	font-size: .62rem;
+	font-size: 0.62rem;
 	font-weight: 900;
-	letter-spacing: .08em;
+	letter-spacing: 0.08em;
 	text-transform: uppercase;
 }
 
 .gameCommerce strong {
-	font-size: .74rem;
+	font-size: 0.74rem;
 	line-height: 1.35;
 }
 
-.gameCommerce:hover,
 .gameCommerce:focus-visible {
 	border-color: #f0ce72;
 	background: #2a200b;
+	box-shadow: 0 0 0 4px rgba(240, 206, 114, 0.1);
 }
 
-.gameCommerce:focus-visible {
-	outline: 3px solid var(--games-cyan);
-	outline-offset: 2px;
+.gameCommerce:active {
+	filter: brightness(0.96);
+	transform: translateY(1px) scale(0.99);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.gameCommerce:hover {
+		border-color: #f0ce72;
+		background: #2a200b;
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.gameCommerce,
+	.gameCommerce:hover,
+	.gameCommerce:active {
+		transition: none;
+		transform: none;
+	}
 }

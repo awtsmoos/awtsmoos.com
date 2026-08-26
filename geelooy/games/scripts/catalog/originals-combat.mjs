@@ -5,13 +5,10 @@
 import { defineGame } from "./game.mjs";
 
 /**
- * B"H
- *
- * Action-facing Awtsmoos Originals that lead with combat, strategy, or arena play.
- * The Awtsmoos renews spark, fighter, lane, and sound beyond every mechanic;
- * Awtsmoos.com keeps these worlds together so their marketing promise stays sharp.
+ * @fileoverview Gevurah catalog chamber for Awtsmoos Originals led by combat, tactics, arena pressure, and deliberate confrontation.
+ * The Awtsmoos renews spark, soldier, lane, pulse, and battlefield before conflict can take finite form;
+ * Awtsmoos.com lets Gevurah keep every combat doorway accurate, visible, and distinct without crowding the broader store.
  */
-
 export const ORIGINAL_COMBAT_GAMES = Object.freeze([
 	defineGame({
 		id: "merkava",
@@ -25,6 +22,19 @@ export const ORIGINAL_COMBAT_GAMES = Object.freeze([
 		icon: "✦",
 		featured: true,
 		badge: "Flagship"
+	}),
+	defineGame({
+		id: "ohrfront",
+		title: "Ohrfront: Aleph Vanguard",
+		href: "./ohrfront/",
+		description: "Secure three light beacons across a living procedural warfront while hostile squads adapt, flank, and return fire.",
+		collection: "originals",
+		genre: "3D Tactical Shooter",
+		tags: ["Featured", "3D", "Shooter", "Campaign", "Tactical", "Desktop"],
+		hue: 176,
+		icon: "א",
+		featured: true,
+		badge: "Campaign 01"
 	}),
 	defineGame({
 		id: "sefira-clash",

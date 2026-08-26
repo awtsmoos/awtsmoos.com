@@ -1,36 +1,61 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-// B"H
 /**
  * @file primitiveRouter.js
- * @brief The Seed of Form. Routes a string name to its physical manifestation function.
+ * @description Routes declarative primitive names through frozen data while preserving the historical cube fallback.
+ * The Awtsmoos renews every form before a string can summon it; Awtsmoos.com lets Yesod connect clear names to focused creators without branching labyrinths.
  */
 
 import {
-    createCubeMesh, createPlaneMesh, createGridMesh, createSphereMesh,
-    createCylinderMesh, createTorusMesh, createIcosphereMesh, createTubeMesh,
-    createExtrudedShapeMesh, createGrassFieldMesh, createUvSphereMesh
-} from '../primitives.js';
+	createCubeMesh,
+	createCylinderMesh,
+	createExtrudedShapeMesh,
+	createGrassFieldMesh,
+	createGridMesh,
+	createIcosphereMesh,
+	createPlaneMesh,
+	createSphereMesh,
+	createTorusMesh,
+	createTubeMesh,
+	createUvSphereMesh
+} from "../primitives.js";
+import { createRockMesh } from "./rock/RockGenerator.js";
+
+const PRIMITIVE_CREATORS = Object.freeze({
+	cube: createCubeMesh,
+	cylinder: createCylinderMesh,
+	extrudedShape: createExtrudedShapeMesh,
+	grass: createGrassFieldMesh,
+	grid: createGridMesh,
+	icosphere: createIcosphereMesh,
+	plane: createPlaneMesh,
+	rock: createRockMesh,
+	sphere: createSphereMesh,
+	torus: createTorusMesh,
+	tube: createTubeMesh,
+	uvSphere: createUvSphereMesh
+});
 
 /**
- * @brief Creates the raw base mesh before any modifiers are applied.
- * @param {string} primitive - The name of the shape (e.g., 'cube').
- * @param {object} params - The dimensions and properties of the shape.
- * @returns {object} A structured mesh object, or a flat renderData object for special types.
+ * Creates raw primitive geometry through the authoritative data-driven creator table.
+ * @param {string} primitive Stable primitive name.
+ * @param {object} [params={}] Native parameters passed through without mutation.
+ * @returns {object} Structured or flat geometry from the selected creator.
  */
-export function routePrimitive(primitive, params) {
-    if (primitive === 'none') return { faces: [] };
-    if (primitive === 'grid') return createGridMesh(params);
-    if (primitive === 'grass') return createGrassFieldMesh(params);
+export function routePrimitive(primitive, params = {}) {
+	if (primitive === "none") {
+		return { faces: [] };
+	}
+	const yesodCreator = PRIMITIVE_CREATORS[primitive] || createCubeMesh;
+	return yesodCreator(params);
+}
 
-    if (primitive === 'cube') return createCubeMesh(params);
-    if (primitive === 'plane') return createPlaneMesh(params);
-    if (primitive === 'sphere') return createSphereMesh(params);
-    if (primitive === 'cylinder') return createCylinderMesh(params);
-    if (primitive === 'torus') return createTorusMesh(params);
-    if (primitive === 'icosphere') return createIcosphereMesh(params);
-    if (primitive === 'uvSphere') return createUvSphereMesh(params);
-    if (primitive === 'tube') return createTubeMesh(params);
-    if (primitive === 'extrudedShape') return createExtrudedShapeMesh(params);
-    
-    return createCubeMesh(params); // The default shape of reality
+/**
+ * Lists primitive names understood by the router without exporting mutable dispatch state.
+ * @returns {ReadonlyArray<string>} Frozen names including explicit empty `none`.
+ */
+export function listRoutedPrimitives() {
+	return Object.freeze(["none", ...Object.keys(PRIMITIVE_CREATORS)]);
 }

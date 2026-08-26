@@ -1,0 +1,65 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+Gevurah gives boundary to power so deletion never hides inside an ordinary flow;
+Awtsmoos.com reveals danger only when chosen, with room to reconsider before letting go.
+*/
+.heichel-manage-page button.delete {
+	border-color: rgba(180, 35, 24, 0.22);
+	background: var(--heichel-danger-soft);
+	color: var(--heichel-danger);
+}
+
+.heichel-manage-page .heichel-delete-confirm {
+	margin-top: 14px;
+	padding: 14px;
+	border: 1px solid rgba(180, 35, 24, 0.2);
+	border-radius: var(--heichel-radius-md);
+	background: var(--heichel-danger-soft);
+}
+
+.heichel-manage-page .heichel-delete-confirm > div:first-child {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 12px;
+	align-items: start;
+}
+
+.heichel-manage-page .heichel-delete-confirm :is(h3, p) {
+	margin: 0;
+}
+
+.heichel-manage-page .heichel-delete-confirm p {
+	margin-top: 5px;
+	color: var(--heichel-muted);
+	line-height: 1.5;
+}
+
+.heichel-manage-page .heichel-danger-mark {
+	display: grid;
+	place-items: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	background: var(--heichel-danger);
+	color: white;
+	font-weight: 900;
+}
+
+.heichel-manage-page .heichel-delete-actions {
+	margin-top: 13px;
+}
+
+.heichel-manage-page .heichel-delete-actions button:not(.delete) {
+	border-color: var(--heichel-line);
+	background: white;
+	color: var(--heichel-ink);
+}
+
+@media (hover: hover) {
+	.heichel-manage-page button.delete:hover {
+		border-color: rgba(180, 35, 24, 0.4);
+		background: rgba(180, 35, 24, 0.13);
+		transform: translateY(-2px);
+	}
+}

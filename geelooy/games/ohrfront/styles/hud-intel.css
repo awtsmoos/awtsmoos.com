@@ -1,0 +1,94 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews concealed and revealed battlefield knowledge while the default combat surface remains almost silent in sight.
+Awtsmoos.com lets advanced INTEL live inside one bounded mobile-first vessel whose data is deep but whose presence is always light.
+*/
+.ohrfront-app .ohr-intel {
+	position: absolute;
+	inset: 0;
+	z-index: var(--ohr-z-hud-panel);
+	min-width: 0;
+	min-height: 0;
+	pointer-events: none;
+}
+
+.ohrfront-app .ohr-intel__toggle {
+	position: absolute;
+	top: calc(var(--ohr-safe-top) + 70px);
+	right: var(--ohr-safe-right);
+	z-index: var(--ohr-z-hud-panel);
+	display: inline-grid;
+	grid-template-columns: auto 14px;
+	align-items: center;
+	gap: 8px;
+	min-width: 78px;
+	min-height: 44px;
+	padding: 9px 11px;
+	border: 1px solid var(--ohr-line-strong);
+	border-radius: var(--ohr-radius-sm);
+	font: 700 9px/1 var(--ohr-font);
+	letter-spacing: 0.16em;
+	color: var(--ohr-muted);
+	background: rgba(6, 12, 13, 0.72);
+	backdrop-filter: blur(8px);
+	pointer-events: auto;
+	cursor: pointer;
+}
+
+.ohrfront-app .ohr-intel__toggle i {
+	font-style: normal;
+	font-size: 12px;
+	text-align: center;
+	color: var(--ohr-energy);
+}
+
+.ohrfront-app .ohr-intel__panel {
+	position: absolute;
+	left: var(--ohr-safe-left);
+	right: var(--ohr-safe-right);
+	bottom: calc(var(--ohr-safe-bottom) + 72px);
+	z-index: var(--ohr-z-hud-panel);
+	width: auto;
+	max-width: 32rem;
+	max-height: min(42vh, 18rem);
+	margin-inline: auto;
+	padding: 14px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	contain: layout paint style;
+	border: 1px solid var(--ohr-line);
+	border-radius: var(--ohr-radius-md);
+	color: var(--ohr-text);
+	background: linear-gradient(145deg, rgba(7, 14, 15, 0.96), rgba(5, 10, 11, 0.9));
+	box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34);
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	touch-action: pan-y;
+}
+
+.ohrfront-app .ohr-intel__panel.ohr-is-expanded {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+}
+
+.ohrfront-app .ohr-intel__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid var(--ohr-line);
+	font-size: 9px;
+	font-weight: 720;
+	letter-spacing: 0.14em;
+}
+
+.ohrfront-app .ohr-intel__header small {
+	font-size: 8px;
+	font-weight: 600;
+	color: var(--ohr-muted);
+}

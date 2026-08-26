@@ -1,0 +1,54 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos has no narrow or wide boundary, yet Awtsmoos.com respects each
+ * human viewport as a true vessel; mobile stacks without overflow, reduced motion
+ * loses no meaning, and forced colors keep every revealed doorway clearly showing.
+ */
+@media (max-width: 32rem) {
+	.social-hub-document .futureCapabilityCenter__controls,
+	.social-hub-document .futureCapabilityCard {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.social-hub-document .futureCapabilityCenter__summary {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.social-hub-document .futureCapabilityCenter__hint {
+		display: none;
+	}
+
+	.social-hub-document .futureCapabilityCard__icon {
+		display: none;
+	}
+
+	.social-hub-document .futureCapabilityCard__open {
+		inline-size: 100%;
+		min-block-size: 48px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .futureCapabilityCenter__summary,
+	.social-hub-document .futureCapabilityCenter__chevron,
+	.social-hub-document .futureCapabilityCard,
+	.social-hub-document .futureCapabilityCard__open {
+		transition: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.social-hub-document .futureCapabilityCenter,
+	.social-hub-document .futureCapabilityCard,
+	.social-hub-document .futureCapabilityCard__open {
+		border-color: CanvasText;
+	}
+
+	.social-hub-document .futureCapabilityCard__open:focus-visible,
+	.social-hub-document .futureCapabilityCenter__summary:focus-visible,
+	.social-hub-document .futureCapabilityCenter__search:focus-visible {
+		outline-color: Highlight;
+	}
+}

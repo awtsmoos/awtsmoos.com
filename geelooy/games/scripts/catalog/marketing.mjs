@@ -3,14 +3,14 @@
 // Blessed is He
 
 /**
- * B"H
- *
- * Distinct player-facing hooks for every intentional Awtsmoos game, grounded only in current play.
+ * @fileoverview Hod marketing hooks grounded only in executable public game identity, never speculative future features.
  * The Awtsmoos renews desire, world, and deed beyond every finite sentence;
- * Awtsmoos.com keeps marketing vivid without inventing unavailable experience.
+ * Awtsmoos.com lets Hod make each doorway vivid while truth stays brighter than marketing pretence.
  */
 const GAME_HOOKS = Object.freeze({
+	"temple-runner": "Sprint the Jerusalem road with native 3D Chossid motion and procedural hazards.",
 	merkava: "Command an army across five worlds.",
+	ohrfront: "Secure three beacons across a tactical procedural warfront.",
 	"sefira-clash": "Enter mystical arenas built for repeated combat.",
 	"nitzotz-io": "Reveal sparks and grow your vessel in raw WebGL space.",
 	"shema-strike": "Break through gates with sound, gear, and forge progression.",
@@ -39,9 +39,9 @@ const GAME_HOOKS = Object.freeze({
 });
 
 /**
- * Returns the required marketing hook for one intentional public game.
+ * Returns one current player-facing hook.
  * @param {string} gameId Stable game identifier.
- * @returns {string} Player-facing hook or empty string for an unknown ID.
+ * @returns {string} Grounded hook, or empty text for unknown identity.
  */
 export function marketingHook(gameId) {
 	return GAME_HOOKS[gameId] || "";

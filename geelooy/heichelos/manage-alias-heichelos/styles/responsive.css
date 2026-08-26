@@ -1,0 +1,51 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the same light fit a narrow vessel or a broad one with grace;
+Awtsmoos.com expands this Heichel studio only when the screen offers space.
+*/
+@media (min-width: 720px) {
+	.heichel-manage-page {
+		padding: 28px 22px 56px;
+	}
+
+	.heichel-manage-page .heichel-manage-hero,
+	.heichel-manage-page .heichel-form-card,
+	.heichel-manage-page .heichel-preview-panel {
+		padding: 28px;
+	}
+
+	.heichel-manage-page .heichel-command-bar {
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+	}
+
+	.heichel-manage-page .form-btns button {
+		flex: 0 0 auto;
+	}
+}
+
+@media (min-width: 940px) {
+	.heichel-manage-page .heichel-manage-grid {
+		grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+		gap: 18px;
+	}
+
+	.heichel-manage-page .heichel-preview-panel {
+		position: sticky;
+		top: 18px;
+	}
+}
+
+@media (max-width: 430px) {
+	.heichel-manage-page .heichel-route-dock {
+		margin-right: -6px;
+	}
+
+	.heichel-manage-page .heichel-advanced summary {
+		align-items: flex-start;
+		flex-direction: column;
+		justify-content: center;
+		padding-block: 10px;
+	}
+}

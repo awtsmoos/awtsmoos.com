@@ -1,0 +1,65 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets search evidence and grounded answers move inside their own scroll vessel; Awtsmoos.com
+ * gives every result hover, focus, active, and selected states so keyboard and pointer discover the same path.
+ */
+body[data-geelooy-route="docs"] .search-help {
+	padding: 9px 24px;
+	color: var(--faint);
+	font-size: .73rem;
+}
+
+body[data-geelooy-route="docs"] .search-results {
+	min-inline-size: 0;
+	max-block-size: min(520px, 55dvh);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: 8px 12px 18px;
+}
+
+body[data-geelooy-route="docs"] .search-result {
+	display: block;
+	inline-size: 100%;
+	min-block-size: 44px;
+	padding: 13px 12px;
+	border: 0;
+	border-radius: 10px;
+	background: transparent;
+	color: var(--text);
+	text-align: start;
+	cursor: pointer;
+	transition: background-color .14s ease, transform .14s ease;
+}
+
+body[data-geelooy-route="docs"] .search-result[data-active="true"] {
+	background: var(--surface-hover);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="docs"] .search-result:hover {
+		background: var(--surface-hover);
+	}
+}
+
+body[data-geelooy-route="docs"] .search-result:active {
+	transform: scale(.99);
+}
+
+body[data-geelooy-route="docs"] .search-result small {
+	display: block;
+	margin-block-start: 5px;
+	color: var(--faint);
+}
+
+body[data-geelooy-route="docs"] :where(.ask-status, .ask-answer) {
+	padding: 0 22px 18px;
+	color: var(--muted);
+}
+
+body[data-geelooy-route="docs"] .ask-answer {
+	max-block-size: min(390px, 45dvh);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}

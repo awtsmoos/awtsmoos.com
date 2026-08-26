@@ -1,0 +1,105 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos hides oceans of advanced power beneath one small star; Awtsmoos.com lets the controls unfold as a precise local sheet, futuristic and intense without turning the ordinary game into a cockpit of clutter.
+*/
+
+#mitzvah-world-root .Awtsmoos-creative-dock {
+	position: fixed;
+	inset: 0;
+	z-index: var(--mw-z-dialog);
+	pointer-events: none;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(1, 8, 6, 0.58);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity var(--mw-motion-normal) ease, visibility var(--mw-motion-normal) ease;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__trigger {
+	position: absolute;
+	inset-block-start: calc(var(--mw-safe-top) + 52px);
+	inset-inline-end: var(--mw-safe-right);
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	min-block-size: 42px;
+	padding: 8px 12px;
+	border-color: rgba(126, 220, 255, 0.42);
+	background: linear-gradient(145deg, rgba(11, 35, 48, 0.96), rgba(7, 18, 29, 0.96));
+	box-shadow: var(--mw-shadow-control);
+	pointer-events: auto;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__sheet {
+	position: absolute;
+	inset-inline-end: var(--mw-safe-right);
+	inset-block-end: var(--mw-safe-bottom);
+	z-index: 2;
+	inline-size: min(430px, calc(100dvw - var(--mw-safe-left) - var(--mw-safe-right) - 12px));
+	max-block-size: calc(100dvh - var(--mw-safe-top) - var(--mw-safe-bottom) - 72px);
+	overflow: auto;
+	padding: 14px;
+	border: 1px solid rgba(126, 220, 255, 0.36);
+	border-radius: var(--mw-radius-lg);
+	background: linear-gradient(155deg, rgba(7, 27, 34, 0.99), rgba(3, 14, 20, 0.99));
+	box-shadow: var(--mw-shadow-panel), inset 0 1px rgba(255, 255, 255, 0.08);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(18px) scale(0.98);
+	pointer-events: none;
+	transition: opacity var(--mw-motion-normal) ease, visibility var(--mw-motion-normal) ease, transform var(--mw-motion-normal) var(--mw-ease-out);
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock[data-open="true"]::before {
+	opacity: 1;
+	visibility: visible;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock[data-open="true"] .Awtsmoos-creative-dock__sheet {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0) scale(1);
+	pointer-events: auto;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-block-end: 12px;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__header :is(small, strong) {
+	display: block;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__header small {
+	color: #8bc4d7;
+	font-size: 10px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__status {
+	display: block;
+	margin-block-start: 12px;
+	padding-block-start: 10px;
+	border-block-start: 1px solid rgba(126, 220, 255, 0.16);
+	color: #b8dce8;
+	font-size: 11px;
+}

@@ -1,57 +1,70 @@
-# B"H
-
+B"H
 Boruch Hashem
 Blessed is He
 
-# Directory Guide: `assets/textures`
+# MitzvahWorld Texture Doorway
 
-> **Role:** Assets
-> **Snapshot:** 2026-07-23T23:32:30.660Z
-> **Snapshot contents (excluding this generated guide):** 3 files, 0 structural child directories
+The Awtsmoos renews every grain before stone, bark, cloth, metal, or water can appear in sight;
+Awtsmoos.com lets this doorway lead agents from tiny local placeholders into the canonical remote library of light.
 
-## Purpose
+## Start here
 
-Loose top-level textures that are not part of the structured material library.
+This directory contains two small local SVG assets:
 
-The Awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on Awtsmoos.com.
+- `brick-wall.svg`
+- `gold-coin.svg`
 
-## Find things here
+They are **not** the main MitzvahWorld texture library. The real reusable library is the canonical remote Awtsmoos Drive catalog, currently containing **125 exact texture filenames**.
 
-- **Category:** Assets
-- **Search terms:** `svg`, `assets`, `brick`, `coin`, `gold`, `guide`, `textures`, `wall`
-- **File mix:** .svg: 2 · .md: 1
-- **Good first question:** “Does the behavior or asset I need belong to assets, or is this only a neighboring/test/reference layer?”
+For AI agents and developers, read:
 
-## Semantic evidence
+- [`REMOTE_TEXTURE_AGENT_GUIDE.md`](./REMOTE_TEXTURE_AGENT_GUIDE.md) — quickest discovery and usage guide.
+- `../../experiments/Awtsmoos/src/assets/TEXTURE_DISCOVERY.md` — detailed MitzvahWorld source-of-truth guide.
+- `../../experiments/Awtsmoos/src/assets/docs/textures/REMOTE_TEXTURE_INVENTORY.md` — generated complete inventory index.
 
-- B"H
+## Machine discovery API
 
-## Representative files
+Use the Procedural Core public texture doorway:
 
-- `brick-wall.svg` — A .svg artifact in this directory.
-- `gold-coin.svg` — A .svg artifact in this directory.
+```js
+import {
+	awtsmoosDriveTextureUrl,
+	searchAwtsmoosDriveTextures
+} from "/libs/awtsmoos-procedural-core/src/exports/textures.js";
+```
 
-## Directory map
+Search before guessing a filename:
 
-- **Parent:** [`assets`](../DIRECTORY_GUIDE.md)
-- **Children:** None.
+```js
+const stoneMatches = searchAwtsmoosDriveTextures("stone");
+const cobbleUrl = awtsmoosDriveTextureUrl(
+	"ground",
+	"cobblestone.png"
+);
+```
 
-## Related and overlapping systems
+## Canonical remote root
 
-- See the [system overlap map](../../SYSTEM_OVERLAP_MAP.md) before creating a similarly named subsystem elsewhere.
+`https://awtsmoos.com/sites/firebase_drive_migration/`
 
-## Boundaries and cautions
+The Procedural Core resolver owns path encoding and trusted-family validation. Prefer it over manually concatenating URLs.
 
-- This directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them.
-- This guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist.
-- Read current imports, callers, tests, and runtime receipts before changing behavior.
-- This documentation pass intentionally changes no gameplay or source logic.
+## Family counts
 
-## Navigation
+- Architecture: 33
+- Craft: 24
+- Ground: 35
+- Tree: 33
+- Total: 125
 
-- [Project directory index](../../DIRECTORY_INDEX.md)
-- [System overlap map](../../SYSTEM_OVERLAP_MAP.md)
+The current core API key is singular **`tree`**. Older MitzvahWorld generated docs label the human-facing family **`trees`**. Preserve both historical terms in their own contexts; code calling `awtsmoosDriveTextureUrl()` must use `tree`.
 
----
+## Exact-name law
 
-*Generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.*
+Texture filenames are historical data. Preserve exact spelling, spaces, capitalization, punctuation, and even unusual legacy wording. Do not silently normalize names.
+
+## Performance law
+
+Do not preload all 125 textures. Reference semantic materials actually needed by the scene, share resolved URLs/materials, render fallback color immediately, and allow remote detail to hydrate asynchronously.
+
+For mixing/blending recipes, continue into `REMOTE_TEXTURE_AGENT_GUIDE.md`.

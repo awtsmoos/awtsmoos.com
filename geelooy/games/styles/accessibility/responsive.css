@@ -1,0 +1,42 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the thumb enough room while letting the phone remain simple and near;
+ * Awtsmoos.com enlarges only the touch covenant and spacing needed for confident mobile play here.
+ */
+@media (pointer: coarse) {
+	.tag {
+		min-height: 44px;
+	}
+
+	.primaryCta,
+	.secondaryCta,
+	.playCta,
+	.partyCta {
+		min-height: 48px;
+	}
+
+	.quickLaunch a {
+		min-height: 70px;
+	}
+}
+
+@media (max-width: 700px) {
+	.featuredWorld {
+		padding: 20px;
+		border-radius: 20px;
+	}
+
+	.quickLaunch {
+		margin-top: 10px;
+	}
+
+	.discoveryPanel {
+		margin-top: 16px;
+	}
+
+	.searchWrap {
+		min-height: 52px;
+	}
+}

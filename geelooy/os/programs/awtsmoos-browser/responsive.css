@@ -1,0 +1,85 @@
+/* B"H */
+/*
+ * The Awtsmoos grants every vessel the freedom to adapt without creating a second
+ * competing layout system. This final layer owns only cross-cutting accessibility and
+ * environmental constraints; component geometry remains with each component itself.
+ */
+
+@media (pointer: coarse) {
+	.awtsmoos-browser-host :where(
+		.awtsmoos-browser-menu,
+		.awtsmoos-browser-tool-button,
+		.awtsmoos-browser-remote-button,
+		.awtsmoos-browser-depth,
+		.awtsmoos-browser-remote-input
+	) {
+		min-block-size: 42px;
+	}
+
+	.awtsmoos-browser-host .awtsmoos-browser-navigation-actions .awtsmoos-browser-remote-button {
+		inline-size: 40px;
+		flex-basis: 40px;
+	}
+}
+
+@media (max-height: 480px) {
+	.awtsmoos-browser-host .awtsmoos-browser-tab-strip {
+		block-size: 30px;
+	}
+
+	.awtsmoos-browser-host .awtsmoos-browser-toolbar {
+		padding-block: 4px;
+	}
+
+	.awtsmoos-browser-host .awtsmoos-browser-advanced-panel {
+		inset-block: 4px;
+		max-block-size: calc(100% - 8px);
+	}
+
+	.awtsmoos-browser-host .awtsmoos-browser-editor {
+		min-block-size: 96px;
+		max-block-size: 30vh;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-browser-host,
+	.awtsmoos-browser-host :where(*) {
+		scroll-behavior: auto !important;
+		animation-duration: 1ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 1ms !important;
+	}
+
+	.awtsmoos-browser-host .awtsmoos-browser-progress,
+	.awtsmoos-browser-host .awtsmoos-browser-empty-mark,
+	.awtsmoos-browser-host .awtsmoos-browser-advanced-panel {
+		animation: none !important;
+		transform: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.awtsmoos-browser-host :where(
+		.awtsmoos-browser-tab,
+		.awtsmoos-browser-menu,
+		.awtsmoos-browser-omnibox,
+		.awtsmoos-browser-tool-button,
+		.awtsmoos-browser-remote-button,
+		.awtsmoos-browser-remote-input,
+		.awtsmoos-browser-editor,
+		.awtsmoos-browser-depth
+	) {
+		border: 1px solid CanvasText;
+		box-shadow: none;
+	}
+
+	.awtsmoos-browser-host :where(
+		.awtsmoos-browser-menu,
+		.awtsmoos-browser-tool-button,
+		.awtsmoos-browser-remote-button
+	):focus-visible {
+		outline: 2px solid Highlight;
+		outline-offset: 2px;
+	}
+}

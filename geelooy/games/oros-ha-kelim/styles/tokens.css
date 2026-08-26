@@ -1,0 +1,34 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+@layer oros.tokens {
+	.oros-app {
+		--oros-bg: #02060b;
+		--oros-ink: #eefcff;
+		--oros-muted: rgba(226, 248, 255, 0.64);
+		--oros-cyan: #9cecff;
+		--oros-violet: #c0a9ff;
+		--oros-gold: #ffe3a0;
+		--oros-line: rgba(154, 235, 255, 0.2);
+		--oros-glass: rgba(3, 12, 20, 0.72);
+		--oros-glass-strong: rgba(3, 10, 18, 0.94);
+		--oros-danger: #ff6687;
+		--oros-shadow: 0 18px 55px rgba(0, 0, 0, 0.34);
+		--oros-glow: 0 0 0 1px rgba(156, 236, 255, 0.12), 0 16px 48px rgba(0, 0, 0, 0.32);
+		--oros-safe-top: max(12px, env(safe-area-inset-top));
+		--oros-safe-right: max(12px, env(safe-area-inset-right));
+		--oros-safe-bottom: max(12px, env(safe-area-inset-bottom));
+		--oros-safe-left: max(12px, env(safe-area-inset-left));
+		--oros-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+		--oros-fast: 140ms;
+		--oros-medium: 220ms;
+		--oros-z-world: 0;
+		--oros-z-hud: 20;
+		--oros-z-guide: 30;
+		--oros-z-controls: 40;
+		--oros-z-toggle: 55;
+		--oros-z-overlay: 60;
+		--oros-z-panel: 80;
+		--oros-z-error: 100;
+	}
+}

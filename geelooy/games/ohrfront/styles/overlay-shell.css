@@ -1,0 +1,47 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews choice and completion while every finite dialog remains bounded before the battlefield in sight.
+Awtsmoos.com lets entry and closure share one calm shell whose proportions never escape the appointed viewport light.
+*/
+.ohrfront-app .ohr-dialog-layer {
+	position: absolute;
+	inset: 0;
+	z-index: var(--ohr-z-dialog);
+	display: grid;
+	place-items: center;
+	min-width: 0;
+	min-height: 0;
+	padding: var(--ohr-safe-top) var(--ohr-safe-right) var(--ohr-safe-bottom) var(--ohr-safe-left);
+	overflow: hidden;
+	background: linear-gradient(90deg, rgba(4, 8, 10, 0.95), rgba(4, 8, 10, 0.68) 58%, rgba(4, 8, 10, 0.28));
+	pointer-events: auto;
+}
+.ohrfront-app .ohr-dialog {
+	width: min(34rem, 100%);
+	max-width: 100%;
+	max-height: 100%;
+	padding: clamp(20px, 4vw, 34px);
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--ohr-line);
+	border-radius: var(--ohr-radius-md);
+	background: linear-gradient(145deg, rgba(9, 16, 18, 0.94), rgba(6, 11, 12, 0.86));
+	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+	scrollbar-width: thin;
+	scrollbar-color: var(--ohr-line-strong) transparent;
+}
+.ohrfront-app .ohr-dialog--launch { justify-self: start; }
+.ohrfront-app .ohr-dialog--completion { text-align: center; }
+.ohrfront-app .ohr-eyebrow { margin: 0 0 16px; font-size: 9px; font-weight: 700; line-height: 1.4; letter-spacing: 0.18em; color: var(--ohr-warm); overflow-wrap: anywhere; }
+.ohrfront-app .ohr-title { margin: 0; font-size: clamp(44px, 8vw, 84px); font-weight: 740; line-height: 0.88; letter-spacing: -0.052em; color: var(--ohr-text); overflow-wrap: anywhere; }
+.ohrfront-app .ohr-subtitle,
+.ohrfront-app .ohr-completion__title { margin: 10px 0 0; font-size: clamp(12px, 1.8vw, 15px); font-weight: 560; line-height: 1.4; letter-spacing: 0.2em; color: var(--ohr-energy); overflow-wrap: anywhere; }
+.ohrfront-app .ohr-dialog__copy { max-width: 31rem; margin: 22px 0 17px; font-size: clamp(13px, 1.6vw, 14px); line-height: 1.65; color: #c4d0cb; overflow-wrap: anywhere; }
+.ohrfront-app .ohr-dialog--completion .ohr-dialog__copy { margin-inline: auto; }
+.ohrfront-app .ohr-arsenal { margin: 0 0 27px; font-size: 9px; line-height: 1.8; letter-spacing: 0.09em; color: var(--ohr-muted); overflow-wrap: anywhere; }
+.ohrfront-app .ohr-arsenal b { font: 600 17px/1 Georgia, serif; color: var(--ohr-energy); }
+.ohrfront-app .ohr-arsenal i { padding-inline: 6px; font-style: normal; color: var(--ohr-line-strong); }
+.ohrfront-app .ohr-field__label { display: block; margin-bottom: 7px; font-size: 9px; font-weight: 680; line-height: 1.4; letter-spacing: 0.13em; color: var(--ohr-muted); }
+.ohrfront-app .ohr-controls-note { margin: 12px 0 0; font-size: 9px; line-height: 1.55; color: #71817c; overflow-wrap: anywhere; }

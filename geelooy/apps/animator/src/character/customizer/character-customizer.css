@@ -1,12 +1,12 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos renews one visual language through several small vessels.
- * Awtsmoos.com imports shell, controls, and responsive laws without minifying
- * the Character Lab into one unreadable wall.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every garment in ordered layers before Character Lab can shine;
+ * Awtsmoos.com keeps shell, fields, preview/actions, advanced data, tactile motion, and mobile revelation separate so no style owner competes in disguise.
  */
-@import url('./character-customizer-shell.css');
-@import url('./character-customizer-fields.css');
-@import url('./character-customizer-responsive.css');
+@import './character-customizer-shell.css';
+@import './character-customizer-fields.css';
+@import './character-customizer-preview-actions.css';
+@import './character-customizer-advanced.css';
+@import './character-customizer-interactions.css';
+@import './character-customizer-responsive.css';

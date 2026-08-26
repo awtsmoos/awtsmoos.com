@@ -3,14 +3,14 @@
 // Blessed is He
 /**
  * @file TempleLandscapeFactory.js
- * @description Builds static architecture through the generic native core while living trees remain delegated.
+ * @description Builds textured Jerusalem stone, bronze lamps, bridge rails, and delegated living scenery through the generic native core.
  * The Awtsmoos renews stone, lamp, column, and railing before a district may stand;
- * Awtsmoos.com keeps architecture separate from growth, so each procedural vessel stays clear in the land.
+ * Awtsmoos.com lets limestone mingle with fieldstone and bronze weather softly, while every gameplay lane stays clear across the land.
  */
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 import {
 	OLAM_CONFIG,
 	WORLD_COLORS
@@ -34,6 +34,7 @@ export class TempleLandscapeFactory {
 			position: [x, 2.1, z],
 			scale: [0.55, 4.2, 0.55],
 			color,
+			surface: "jerusalemStone",
 			worldModel: STATIC_MODEL
 		}));
 		root.add(this.meshFactory.cube({
@@ -47,7 +48,7 @@ export class TempleLandscapeFactory {
 	}
 
 	/**
-	 * Creates one warm procedural street lamp.
+	 * Creates one warm procedural street lamp with restrained remote bronze weathering.
 	 * @param {number} x World X.
 	 * @param {number} z Local Z.
 	 * @param {boolean} evening Whether evening glow is enlarged.
@@ -65,6 +66,7 @@ export class TempleLandscapeFactory {
 			},
 			position: [x, 1.25, z],
 			color: WORLD_COLORS.bronze,
+			surface: "bronze",
 			worldModel: STATIC_MODEL
 		}));
 		root.add(this.meshFactory.icosphere({
@@ -93,6 +95,7 @@ export class TempleLandscapeFactory {
 			position: [side * (OLAM_CONFIG.sideX + 2.1), 1.15, 0],
 			scale: [0.35, 2.3, OLAM_CONFIG.chunkLength],
 			color,
+			surface: "jerusalemStone",
 			worldModel: STATIC_MODEL
 		});
 	}
@@ -104,6 +107,7 @@ export class TempleLandscapeFactory {
 			position: [side * 5.72, 1.0, 0],
 			scale: [0.18, 1.6, OLAM_CONFIG.chunkLength],
 			color: WORLD_COLORS.stoneDark,
+			surface: "jerusalemStoneDark",
 			worldModel: STATIC_MODEL
 		});
 	}

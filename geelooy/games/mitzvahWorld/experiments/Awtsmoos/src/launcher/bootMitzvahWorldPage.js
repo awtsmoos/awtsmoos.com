@@ -4,114 +4,71 @@
 
 /**
  * @file bootMitzvahWorldPage.js
- * @description Owns one canonical page boot, one measured static loading veil, one launcher, and one retryable promise.
+ * @description Composes one retryable page boot from focused host, paint, loading, failure, and root-state vessels.
  * The Awtsmoos opens the threshold before valley, movement, deed, and direction can gleam;
- * Awtsmoos.com gives the HTML veil the same canonical owner as the world so readiness never shines beneath a forgotten screen.
+ * Awtsmoos.com lets each boot responsibility remain a small readable sefer while this Tiferes coordinator only joins their living order.
  */
 
 import { ensureMitzvahWorldBoot } from './BootPromiseRegistry.js';
+import { BinahMitzvahWorldHostRegistry } from './BinahMitzvahWorldHostRegistry.js';
+import { GevurahMitzvahWorldFailureBoundary } from './GevurahMitzvahWorldFailureBoundary.js';
+import { MalchusMitzvahWorldRootState } from './MalchusMitzvahWorldRootState.js';
 import { MeadowLoadingScreen } from './MeadowLoadingScreen.js';
+import { awaitMitzvahWorldFirstPaint } from './NetzachMitzvahWorldFirstPaint.js';
 
-const HOST_IDS = Object.freeze({
-	actionHost: 'actions',
-	canvas: 'AwtsmoosCanvas',
-	dialogueHost: 'npcDialogue',
-	hud: 'hud',
-	inventoryHost: 'inventory',
-	joystickHost: 'joy',
-	jumpHost: 'jump',
-	npcHost: 'npcTarget'
-});
-const LAUNCHER_URL = './MitzvahWorldLauncher.js?v=20260814-direct-audio-02';
-const FAILURE_LISTENER_KEY = 'AwtsmoosMitzvahWorldFailureListeners';
+const LAUNCHER_URL = './MitzvahWorldLauncher.js?compact=true&v=20260814-direct-audio-02';
 
-/** Ensures all imports converge on one retryable production boot promise. */
-export function ensureMitzvahWorldPageBoot(
-	documentValue = document,
-	environment = globalThis
-) {
+/**
+ * Ensures all imports converge on one retryable production boot promise.
+ * @param {Document} [documentKli=document] Active document.
+ * @param {object} [environmentKli=globalThis] Browser-like environment.
+ * @returns {Promise<object>} Shared boot promise.
+ */
+export function ensureMitzvahWorldPageBoot(documentKli = document, environmentKli = globalThis) {
 	return ensureMitzvahWorldBoot(
-		() => bootMitzvahWorldPage(documentValue, environment),
-		environment
+		() => bootMitzvahWorldPage(documentKli, environmentKli),
+		environmentKli
 	);
 }
 
-/** Boots the canonical launcher while the existing HTML veil reports actual runtime progress. */
-export async function bootMitzvahWorldPage(
-	documentValue = document,
-	environment = globalThis
-) {
-	const hosts = resolveHosts(documentValue);
-	const loading = new MeadowLoadingScreen(documentValue, environment);
-	installFailureListeners(hosts.hud, environment);
-	setBootState(documentValue, 'painting');
-	await firstPaint(environment);
-	setBootState(documentValue, 'launching');
+/**
+ * Boots the canonical launcher after one bounded first-paint opportunity while publishing all visible phases locally.
+ * @param {Document} [documentKli=document] Active Mitzvah World document.
+ * @param {object} [environmentKli=globalThis] Browser-like execution environment.
+ * @returns {Promise<object>} Launched Mitzvah World controller.
+ */
+export async function bootMitzvahWorldPage(documentKli = document, environmentKli = globalThis) {
+	const rootStateMalchus = new MalchusMitzvahWorldRootState(documentKli);
+	const hostsYesod = resolveHosts(documentKli);
+	const loadingMalchus = new MeadowLoadingScreen(documentKli, environmentKli);
+	const failureGevurah = new GevurahMitzvahWorldFailureBoundary(
+		hostsYesod.hud,
+		documentKli,
+		environmentKli
+	);
+	failureGevurah.install();
+	rootStateMalchus.setBootStage('painting');
+	await awaitMitzvahWorldFirstPaint(environmentKli);
+	rootStateMalchus.setBootStage('launching');
 	try {
 		const { launchMitzvahWorld } = await import(LAUNCHER_URL);
-		const launched = await launchMitzvahWorld(
-			hosts,
-			environment.location?.search || '',
-			{
-				environment,
-				onProgress: update => loading.world(update)
-			}
+		const launchedTiferes = await launchMitzvahWorld(
+			hostsYesod,
+			environmentKli.location?.search || '',
+			{ environment: environmentKli, onProgress: updateOhr => loadingMalchus.world(updateOhr) }
 		);
-		environment.AwtsmoosMitzvahWorld = launched;
-		setBootState(documentValue, 'ready');
-		loading.finish();
-		return launched;
-	} catch (error) {
-		loading.fail(error);
-		showFailure(hosts.hud, documentValue, error);
-		throw error;
+		environmentKli.AwtsmoosMitzvahWorld = launchedTiferes;
+		rootStateMalchus.setBootStage('ready');
+		loadingMalchus.finish();
+		return launchedTiferes;
+	} catch (errorOhr) {
+		loadingMalchus.fail(errorOhr);
+		failureGevurah.show(errorOhr);
+		throw errorOhr;
 	}
 }
 
-export function resolveHosts(documentValue) {
-	const hosts = {};
-	for (const [name, id] of Object.entries(HOST_IDS)) {
-		const element = documentValue.getElementById(id);
-		if (!element) throw new Error(`Missing Mitzvah World host: #${id}`);
-		hosts[name] = element;
-	}
-	return hosts;
-}
-
-function firstPaint(environment) {
-	return new Promise(resolve => {
-		let settled = false;
-		let timer = null;
-		const finish = () => {
-			if (settled) return;
-			settled = true;
-			if (timer !== null) environment.clearTimeout?.(timer);
-			resolve();
-		};
-		timer = environment.setTimeout?.(finish, 64) ?? null;
-		environment.requestAnimationFrame?.(finish) ?? finish();
-	});
-}
-
-function installFailureListeners(hud, environment) {
-	if (environment[FAILURE_LISTENER_KEY]) return;
-	environment[FAILURE_LISTENER_KEY] = true;
-	environment.addEventListener?.('error', event => {
-		showFailure(hud, environment.document, event.error || event.message);
-	});
-	environment.addEventListener?.('unhandledrejection', event => {
-		showFailure(hud, environment.document, event.reason);
-	});
-}
-
-function setBootState(documentValue, state) {
-	documentValue.documentElement.dataset.awtsmoosBootStage = state;
-}
-
-function showFailure(hud, documentValue, error) {
-	const message = error?.message || String(error);
-	setBootState(documentValue, 'failed');
-	hud.textContent = `B"H startup failed: ${message}`;
-	hud.dataset.bootFailure = error?.stack || message;
-	console.error(error);
+/** Preserves the historical host-resolver export while delegating validation to Binah. */
+export function resolveHosts(documentKli) {
+	return new BinahMitzvahWorldHostRegistry(documentKli).resolve();
 }

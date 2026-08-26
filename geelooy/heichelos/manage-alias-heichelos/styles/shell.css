@@ -1,0 +1,76 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos places breadth inside boundary and motion inside peace;
+this shell keeps every Heichel vessel on Awtsmoos.com contained without visual cease.
+*/
+.heichel-manage-page,
+.heichel-manage-page * {
+	box-sizing: border-box;
+}
+
+.heichel-manage-page {
+	width: min(100%, 1180px);
+	margin: 0 auto;
+	padding: 18px 14px 42px;
+	color: var(--heichel-ink);
+	overflow-x: clip;
+}
+
+.heichel-manage-page :is(.heichel-manage-hero, .heichel-form-card, .heichel-preview-panel) {
+	min-width: 0;
+	border: 1px solid var(--heichel-line);
+	background: var(--heichel-surface);
+	box-shadow: var(--heichel-shadow);
+	backdrop-filter: blur(18px);
+}
+
+.heichel-manage-page .heichel-manage-hero {
+	position: relative;
+	padding: 22px;
+	border-radius: var(--heichel-radius-lg);
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(239, 246, 255, 0.88));
+}
+
+.heichel-manage-page :is(.heichel-kicker, .heichel-eyebrow) {
+	margin: 0 0 8px;
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+	color: var(--heichel-accent);
+}
+
+.heichel-manage-page :is(.heichel-manage-hero h1, .heichel-section-heading h2, .heichel-preview-panel h2) {
+	margin: 0;
+	line-height: 1.08;
+	text-wrap: balance;
+}
+
+.heichel-manage-page .heichel-manage-hero h1 {
+	font-size: clamp(2rem, 9vw, 4.15rem);
+	letter-spacing: -0.05em;
+}
+
+.heichel-manage-page .heichel-hero-copy {
+	max-width: 62ch;
+	margin: 14px 0 0;
+	color: var(--heichel-muted);
+	line-height: 1.65;
+}
+
+.heichel-manage-page .heichel-manage-grid {
+	display: grid;
+	gap: 14px;
+	margin-top: 14px;
+	min-width: 0;
+}
+
+.heichel-manage-page :is(.heichel-form-card, .heichel-preview-panel) {
+	padding: 20px;
+	border-radius: var(--heichel-radius-lg);
+}
+
+.heichel-manage-page .heichel-section-heading {
+	margin-bottom: 18px;
+}

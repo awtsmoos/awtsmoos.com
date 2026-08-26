@@ -1,0 +1,63 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives a threshold one quiet voice and a Hebrew glyph one brief arc of fire; Awtsmoos.com keeps both temporary layers above play without ever stealing a touch from the world below.
+*/
+
+#mitzvah-world-root .Awtsmoos-house-notice {
+	position: fixed;
+	inset-inline-start: 50%;
+	inset-block-start: calc(var(--mw-safe-top) + 68px);
+	z-index: var(--mw-z-notice);
+	max-inline-size: min(520px, calc(100dvw - var(--mw-safe-left) - var(--mw-safe-right) - 12px));
+	padding: 9px 14px;
+	border: 1px solid rgba(238, 204, 126, 0.72);
+	border-radius: var(--mw-radius-xs);
+	background: linear-gradient(180deg, rgba(63, 35, 18, 0.95), rgba(30, 17, 9, 0.96));
+	box-shadow: var(--mw-shadow-control);
+	color: #ffe9b6;
+	font: 700 12px/1.35 Georgia, serif;
+	text-align: center;
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+#mitzvah-world-root .Awtsmoos-combat-glyph-field {
+	position: fixed;
+	inset: 0;
+	z-index: var(--mw-z-notice);
+	overflow: hidden;
+	pointer-events: none;
+}
+
+#mitzvah-world-root .Awtsmoos-hebrew-particle {
+	position: absolute;
+	inset-inline-start: 50%;
+	inset-block-start: 52%;
+	color: #ff2f24;
+	font: 900 clamp(24px, 5vw, 58px)/1 serif;
+	text-shadow: 0 0 5px #fff1b8, 0 0 15px #ff1a0a, 0 0 32px #8d0000;
+	opacity: 0;
+	transform: translate(-50%, -50%) scale(0.25);
+	animation: mw-hebrew-flight 920ms var(--mw-ease-out) var(--glyph-delay) forwards;
+}
+
+#mitzvah-world-root .Awtsmoos-hebrew-particle[data-hostile="true"] {
+	color: #d90020;
+	text-shadow: 0 0 5px #ffb0a4, 0 0 17px #ef001d, 0 0 34px #48000b;
+}
+
+@keyframes mw-hebrew-flight {
+	0% {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.2);
+	}
+	24% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(calc(-50% + var(--glyph-x)), calc(-50% + var(--glyph-y))) scale(1.25) rotate(var(--glyph-turn));
+	}
+}

@@ -4,10 +4,10 @@
 
 /**
  * @file ActionBarHud.js
- * @description Composes one bounded HUD for Torah actions, cooldowns, casts, statuses, and insight.
- * The Awtsmoos reveals one interface through many faithful vessels, each serving its measure;
- * Awtsmoos.com preserves readiness, hostile warning, rhythm, and player treasure.
+ * @description Coordinates action slots, cooldowns, casts, statuses, tooltip inspection, and input as one bounded HUD facade.
+ * The Awtsmoos joins many changing signals without confusing their ownership; Awtsmoos.com keeps each mechanism modular while this facade preserves one stable public fellowship.
  */
+
 import { actionBarActionDefinition } from '../gameplay/actionbar/ActionBarActionCatalog.js';
 import { ActionBarCombatDisplays } from './ActionBarCombatDisplays.js';
 import { ActionBarCooldownPresenter } from './ActionBarCooldownPresenter.js';
@@ -19,36 +19,42 @@ import { installActionBarStyles } from './ActionBarStyles.js';
 import { TorahAbilityTooltip } from './TorahAbilityTooltip.js';
 
 export class ActionBarHud {
+	/**
+	 * @param {object} runtime Action-bar runtime facade.
+	 * @param {object} bus Event bus publishing combat/target lifecycle signals.
+	 * @param {object} [options={}] Clock, host, refresh, and input options.
+	 */
 	constructor(runtime, bus, options = {}) {
 		installActionBarStyles();
 		this.runtime = runtime;
 		this.clock = options.clock || Date.now;
 		this.ownsHost = !options.host;
 		this.elements = ActionBarHudMarkup(options.host);
-		this.tooltip = new TorahAbilityTooltip(document.body);
-		this.displays = new ActionBarCombatDisplays(
-			this.elements.frame,
-			bus,
-			runtime,
-			options
-		);
+		this.tooltip = new TorahAbilityTooltip(this.elements.frame);
+		this.displays = new ActionBarCombatDisplays(this.elements.frame, bus, runtime, options);
 		this.meta = new ActionBarMetaPresenter(this.elements, { clock: this.clock });
 		this.cooldowns = new ActionBarCooldownPresenter(runtime, this.elements.grid, {
 			refreshMilliseconds: options.cooldownRefreshMilliseconds
 		});
 		this.slots = new ActionBarSlotPresenter(runtime, this.elements, this.cooldowns);
-		this.input = new ActionBarInputController({
+		this.input = this.createInputController(options);
+		this.unsubscribers = this.subscribe(bus);
+		this.slots.render();
+	}
+
+	/** @returns {ActionBarInputController} Input controller bound to this HUD. */
+	createInputController(options) {
+		return new ActionBarInputController({
 			longPressOptions: options.longPressOptions,
 			onInspect: (slotIndex, anchor) => this.inspect(slotIndex, anchor),
 			onInspectEnd: () => this.tooltip.hide(),
 			onResult: result => this.showResult(result),
 			root: this.elements.root,
-			runtime
+			runtime: this.runtime
 		});
-		this.unsubscribers = this.subscribe(bus);
-		this.slots.render();
 	}
 
+	/** @param {object} bus Event bus. @returns {Function[]} Unsubscribe callbacks. */
 	subscribe(bus) {
 		return [
 			this.runtime.store.onChange(() => this.slots.render()),
@@ -60,6 +66,7 @@ export class ActionBarHud {
 		];
 	}
 
+	/** @param {number} [now=this.clock()] Frame timestamp. @returns {boolean} Whether visible HUD state updated. */
 	update(now = this.clock()) {
 		if (this.elements.root.hidden) return false;
 		this.meta.updateFocus(this.runtime.combat.snapshot().focus);
@@ -69,44 +76,32 @@ export class ActionBarHud {
 		return true;
 	}
 
+	/** @param {number} slotIndex Slot index. @param {HTMLElement} anchor Slot element. @returns {boolean} Tooltip reveal result. */
 	inspect(slotIndex, anchor) {
 		const actionId = anchor.dataset.actionId;
-		if (!actionId) return this.tooltip.hide();
-		return this.tooltip.show(
-			actionBarActionDefinition(actionId),
-			this.runtime.readinessForSlot(slotIndex),
-			anchor
-		);
+		if (!actionId) return Boolean(this.tooltip.hide());
+		return this.tooltip.show(actionBarActionDefinition(actionId), this.runtime.readinessForSlot(slotIndex), anchor);
 	}
 
+	/** @param {object} result Action/combat result. @returns {boolean} Whether result was presented. */
 	showResult(result) {
 		if (!this.meta.showResult(result)) return false;
 		this.slots.refreshReadiness();
 		return true;
 	}
 
-	activateGamepad(buttonIndex, secondRow = false) {
-		return this.input.activateGamepad(buttonIndex, secondRow);
-	}
+	/** @param {number} buttonIndex Gamepad button. @param {boolean} [secondRow=false] Row modifier. @returns {*} Input result. */
+	activateGamepad(buttonIndex, secondRow = false) { return this.input.activateGamepad(buttonIndex, secondRow); }
 
+	/** @returns {object} Serializable HUD state snapshot. */
 	snapshot() {
-		return {
-			...this.displays.snapshot(),
-			cooldowns: this.cooldowns.snapshot(),
-			input: this.input.snapshot(),
-			meta: this.meta.snapshot(),
-			slots: this.slots.snapshot()
-		};
+		return { ...this.displays.snapshot(), cooldowns: this.cooldowns.snapshot(), input: this.input.snapshot(), meta: this.meta.snapshot(), slots: this.slots.snapshot() };
 	}
 
+	/** @returns {void} Releases subscriptions, presenters, tooltip, and owned DOM. */
 	destroy() {
 		for (const unsubscribe of this.unsubscribers) unsubscribe();
-		this.input.destroy();
-		this.slots.destroy();
-		this.cooldowns.destroy();
-		this.tooltip.destroy();
-		this.displays.destroy();
-		if (this.ownsHost) this.elements.root.remove();
-		else this.elements.root.replaceChildren();
+		this.input.destroy(); this.slots.destroy(); this.cooldowns.destroy(); this.tooltip.destroy(); this.displays.destroy();
+		if (this.ownsHost) this.elements.root.remove(); else this.elements.root.replaceChildren();
 	}
 }

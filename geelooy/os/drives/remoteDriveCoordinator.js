@@ -1,11 +1,20 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Keeps live account tunnels synchronized with Geelooy OS without noisy polling.
- * @description The Awtsmoos renews every connected vessel each instant; Awtsmoos.com refreshes quietly and rerenders only when the living drive-set truly shifts.
+ * @file Visibility-aware scheduler and cancellation vessel for live remote-drive refreshes.
+ * @description
+ * The Awtsmoos renews every distant world while Awtsmoos.com lets the browser rest
+ * when hidden, aborts abandoned discovery, and delegates each actual refresh deed
+ * to its own module so lifecycle remains small, clear, and quietly in rhyme.
  */
+import { refreshRemoteDriveWorld } from "./remoteDriveRefresh.js";
+import {
+	publishRemoteDriveState,
+	remoteDriveState
+} from "./remoteDriveState.js";
+
 const DEFAULT_INTERVAL_MS = 15_000;
 
 export class RemoteDriveCoordinator {
@@ -14,22 +23,27 @@ export class RemoteDriveCoordinator {
 		this.intervalMs = intervalMs;
 		this.timer = null;
 		this.pending = null;
-		this.state = stateOf("idle");
+		this.controller = null;
+		this.running = false;
+		this.state = remoteDriveState("idle", os);
 	}
 
 	start() {
-		if (this.timer) {
+		if (this.running) {
 			return this;
 		}
-		this.timer = setInterval(() => this.refresh(), this.intervalMs);
+		this.running = true;
 		globalThis.addEventListener?.("focus", this.onFocus);
 		globalThis.document?.addEventListener?.("visibilitychange", this.onVisibility);
+		this.scheduleNext(0);
 		return this;
 	}
 
 	stop() {
-		clearInterval(this.timer);
-		this.timer = null;
+		this.running = false;
+		this.clearTimer();
+		this.controller?.abort("remote_drive_coordinator_stopped");
+		this.controller = null;
 		globalThis.removeEventListener?.("focus", this.onFocus);
 		globalThis.document?.removeEventListener?.("visibilitychange", this.onVisibility);
 	}
@@ -38,81 +52,66 @@ export class RemoteDriveCoordinator {
 		if (this.pending) {
 			return this.pending;
 		}
-		this.state = { ...this.state, status: "loading", lastError: "" };
-		this.publish();
-		this.pending = this.performRefresh(announce).finally(() => {
+		this.controller = new AbortController();
+		const signal = this.controller.signal;
+		if (announce || this.state.status === "idle") {
+			this.state = remoteDriveState("loading", this.os, "", this.state);
+			publishRemoteDriveState(this.os, this.state);
+		}
+		this.pending = refreshRemoteDriveWorld(
+			this.os,
+			this.state,
+			announce,
+			signal
+		).then(({ result, state }) => {
+			this.state = state;
+			return result;
+		}).finally(() => {
 			this.pending = null;
+			this.controller = null;
+			this.scheduleNext();
 		});
 		return this.pending;
 	}
 
-	performRefresh = async announce => {
-		const before = this.driveKey();
-		try {
-			const result = await this.os.drives.refreshRemote();
-			const after = this.driveKey();
-			this.os.lastSyncAt = Date.now();
-			this.os.updateStatus(result.devices?.ok === false ? "needs-login" : "ready");
-			this.os.recordGraphEvent?.("remote.refresh", {
-				connected: liveTunnelIds(this.os).length,
-				changed: before !== after
-			});
-			this.state = stateOf("ready", this.os, "");
-			this.publish();
-			if (before !== after) {
-				this.os.renderDesktop?.();
-			}
-			if (announce) {
-				this.os.taskbar?.notify?.(`Connected drives: ${this.state.driveIds.length}`, "success");
-			}
-			return result;
-		} catch (error) {
-			this.state = stateOf("error", this.os, error?.message || String(error));
-			this.publish();
-			return { ok: false, error };
+	scheduleNext(delay = this.intervalMs) {
+		this.clearTimer();
+		if (!this.running || documentHidden()) {
+			return;
 		}
-	};
+		this.timer = globalThis.setTimeout(() => this.refresh(), delay);
+	}
 
-	onFocus = () => this.refresh();
+	clearTimer() {
+		globalThis.clearTimeout(this.timer);
+		this.timer = null;
+	}
 
-	onVisibility = () => {
-		if (globalThis.document?.visibilityState === "visible") {
+	onFocus = () => {
+		if (!documentHidden()) {
 			this.refresh();
 		}
 	};
 
-	driveKey() {
-		return liveTunnelIds(this.os).sort().join("|");
-	}
-
-	publish() {
-		this.os.remoteDriveState = Object.freeze({ ...this.state });
-		if (typeof CustomEvent === "function") {
-			globalThis.dispatchEvent?.(new CustomEvent("awtsmoos:remote-drives", {
-				detail: this.os.remoteDriveState
-			}));
+	onVisibility = () => {
+		if (documentHidden()) {
+			this.clearTimer();
+			return;
 		}
-	}
+		this.refresh();
+	};
 }
 
 export function installRemoteDriveCoordinator(os, options = {}) {
 	if (!os.remoteDriveCoordinator) {
-		os.remoteDriveCoordinator = new RemoteDriveCoordinator(os, options.intervalMs).start();
+		os.remoteDriveCoordinator = new RemoteDriveCoordinator(
+			os,
+			options.intervalMs
+		).start();
 	}
 	return os.remoteDriveCoordinator;
 }
 
-function stateOf(status, os, lastError = "") {
-	return {
-		status,
-		driveIds: liveTunnelIds(os),
-		lastSuccessAt: status === "ready" ? Date.now() : 0,
-		lastError
-	};
-}
-
-function liveTunnelIds(os) {
-	return (os?.drives?.list?.() || [])
-		.filter(drive => drive.dynamicTunnelDrive === true)
-		.map(drive => drive.id);
+function documentHidden() {
+	return globalThis.document?.visibilityState === "hidden";
 }

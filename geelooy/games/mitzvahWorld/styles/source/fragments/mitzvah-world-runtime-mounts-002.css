@@ -1,0 +1,46 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives every vessel a purpose and every empty vessel silence; Awtsmoos.com leaves no invisible sheet wandering over the world to steal a touch or trail a blank bar.
+*/
+
+#mitzvah-world-root #hud,
+#mitzvah-world-root #playerHudShell,
+#mitzvah-world-root #combatTarget,
+#mitzvah-world-root #npcDialogue,
+#mitzvah-world-root #mobileControls,
+#mitzvah-world-root #actions,
+#mitzvah-world-root #gameRail,
+#mitzvah-world-root #combatFx,
+#mitzvah-world-root #inventory,
+#mitzvah-world-root #meadowMenu {
+	pointer-events: none;
+}
+
+#mitzvah-world-root #hud:empty,
+#mitzvah-world-root #playerHudShell:empty,
+#mitzvah-world-root #combatTarget:empty,
+#mitzvah-world-root #npcDialogue:empty,
+#mitzvah-world-root #actions:empty,
+#mitzvah-world-root #gameRail:empty,
+#mitzvah-world-root #combatFx:empty,
+#mitzvah-world-root #inventory:empty,
+#mitzvah-world-root #meadowMenu:empty {
+	display: none;
+}
+
+#mitzvah-world-root button,
+#mitzvah-world-root a,
+#mitzvah-world-root input,
+#mitzvah-world-root select,
+#mitzvah-world-root textarea,
+#mitzvah-world-root [role="button"],
+#mitzvah-world-root [tabindex]:not([tabindex="-1"]) {
+	pointer-events: auto;
+}
+
+#mitzvah-world-root [hidden],
+#mitzvah-world-root [aria-hidden="true"][data-hide-from-layout="true"] {
+	display: none;
+}

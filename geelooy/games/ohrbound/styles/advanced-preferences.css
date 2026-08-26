@@ -1,0 +1,64 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos contains every option without clutter; Awtsmoos.com lets Bina preferences unfold in measured rows and retreat when their work is complete. */
+.ohrbound-app .preference-list {
+	display: grid;
+}
+.ohrbound-app .preference-list label {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 0.75rem;
+	min-width: 0;
+	min-height: 60px;
+	padding-block: 0.45rem;
+	border-top: 1px solid var(--line);
+}
+.ohrbound-app .preference-list label > span {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+.ohrbound-app .preference-list select {
+	width: min(138px, 38vw);
+	min-height: var(--tap);
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: #07101f;
+	color: var(--ink);
+	padding: 0.45rem 0.65rem;
+}
+.ohrbound-app .toggle-row input {
+	width: 1.3rem;
+	height: 1.3rem;
+	margin: 0;
+	accent-color: var(--glow);
+}
+@media (max-width: 360px) {
+	.ohrbound-app .advanced-actions {
+		grid-template-columns: 1fr;
+	}
+	.ohrbound-app .preference-list label {
+		gap: 0.5rem;
+	}
+	.ohrbound-app .preference-list select {
+		width: 116px;
+	}
+}
+@media (min-width: 800px) {
+	.ohrbound-app .advanced-overlay {
+		align-items: stretch;
+		justify-content: end;
+	}
+	.ohrbound-app .advanced-sheet {
+		width: min(390px, 92vw);
+		max-height: 100dvh;
+		border-bottom: 1px solid var(--line);
+		border-radius: 0;
+		padding-top: max(1rem, env(safe-area-inset-top));
+		transform: translateX(104%);
+	}
+	.ohrbound-app .advanced-overlay[data-open="true"] .advanced-sheet {
+		transform: translateX(0);
+	}
+}

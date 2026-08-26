@@ -1,71 +1,95 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * Legal sections use readable document measure, solid surfaces, and compact navigation.
- */
-main {
-	width: min(74rem, calc(100% - 1.25rem));
-	margin: 0 auto;
-	padding: clamp(1rem, 5vw, 4rem) 0;
+Boruch Hashem
+Blessed is He
+The Awtsmoos places each policy section in measured order, never drifting beyond the viewport or another layer's right;
+Awtsmoos.com keeps the document mobile-first, with retractable navigation and no fixed overlay fighting for height.
+*/
+.legal-page__hero,
+.legal-page__section {
+	min-width: 0;
+	border: 1px solid var(--legal-line);
+	border-radius: var(--legal-radius);
+	background: var(--legal-surface);
+	box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .22);
+	backdrop-filter: blur(18px);
 }
-header,
-section {
-	padding: clamp(1.15rem, 3vw, 2.25rem);
-	border: 1px solid var(--line);
-	border-radius: 1.25rem;
-	background: var(--surface);
-	box-shadow: 0 6px 18px rgba(0, 0, 0, .16);
+.legal-page__hero {
+	padding: clamp(1.1rem, 5vw, 2.4rem);
 }
-header {
-	margin-bottom: 1rem;
+.legal-page__hero > p:last-of-type {
+	max-width: 70ch;
+	margin: .85rem 0 0;
+	color: var(--legal-muted);
+	line-height: 1.7;
 }
-section + section {
+.legal-page__sections {
+	display: grid;
+	gap: .85rem;
+	margin-top: .85rem;
+}
+.legal-page__section {
+	padding: clamp(1rem, 4vw, 1.8rem);
+	scroll-margin-top: 1rem;
+}
+.legal-page__toc {
 	margin-top: 1rem;
+	border: 1px solid var(--legal-line);
+	border-radius: 1rem;
+	background: var(--legal-soft);
+	overflow: clip;
 }
-nav {
+.legal-page__toc summary {
+	display: flex;
+	min-height: 3rem;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	padding: .7rem .85rem;
+	color: #f5f7fb;
+	font-size: .82rem;
+	font-weight: 820;
+	cursor: pointer;
+	list-style: none;
+	transition: background var(--legal-fast), color var(--legal-fast), transform var(--legal-fast);
+}
+.legal-page__toc summary::-webkit-details-marker {
+	display: none;
+}
+.legal-page__toc summary::after {
+	color: var(--legal-accent);
+	content: "+";
+	font-size: 1.1rem;
+	transition: transform var(--legal-fast);
+}
+.legal-page__toc[open] summary::after {
+	transform: rotate(45deg);
+}
+.legal-page__toc summary:is(:hover, :focus-visible) {
+	background: rgba(255, 255, 255, .045);
+	color: #ffffff;
+}
+.legal-page__toc summary:active {
+	transform: scale(.995);
+}
+.legal-page__jump-links,
+.legal-page__footer-links {
 	display: flex;
 	flex-wrap: wrap;
-	gap: .45rem;
-	margin-top: 1.25rem;
+	gap: .5rem;
 }
-nav a {
-	display: inline-flex;
-	min-height: 40px;
-	align-items: center;
-	gap: .35rem;
-	padding: .55rem .75rem;
-	border: 1px solid var(--line);
-	border-radius: .75rem;
-	background: var(--surface-soft);
-	color: var(--muted);
-	font-size: .85rem;
-	font-weight: 720;
-	text-decoration: none;
+.legal-page__jump-links {
+	padding: 0 .75rem .75rem;
 }
-nav a::before {
-	width: .35rem;
-	height: .35rem;
-	border-radius: 50%;
-	background: var(--accent);
-	content: "";
+.legal-page__footer-links {
+	margin-top: 1rem;
 }
-nav a:is(:hover, :focus-visible) {
-	border-color: var(--line-strong);
-	color: #f4f2ec;
-}
-ul {
-	padding-left: 1.25rem;
-}
-@media (max-width: 32rem) {
-	main {
-		width: min(100% - .75rem, 74rem);
+@media (min-width: 48rem) {
+	.legal-page__toc > summary {
+		display: none;
 	}
-	header,
-	section {
-		padding: 1rem;
-		border-radius: .9rem;
-	}
-	nav a {
-		flex: 1 1 9rem;
+	.legal-page__toc:not([open]) .legal-page__jump-links,
+	.legal-page__jump-links {
+		display: flex;
+		padding-top: .75rem;
 	}
 }

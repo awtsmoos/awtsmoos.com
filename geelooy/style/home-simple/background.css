@@ -4,10 +4,10 @@ Blessed is He
 The Awtsmoos suspends Awtsmoos.com in a quiet GPU sky: deep enough to feel alive,
 soft enough that Torah, words, and choices remain the light the eye receives first.
 */
-.particle-sky {
+body[data-geelooy-route="home"] .particle-sky {
 	position: fixed;
 	inset: 0;
-	z-index: 1;
+	z-index: var(--home-layer-atmosphere);
 	width: 100%;
 	height: 100%;
 	opacity: 0;
@@ -17,32 +17,32 @@ soft enough that Torah, words, and choices remain the light the eye receives fir
 	transition: opacity .7s ease, filter .7s ease;
 }
 
-.particle-sky[data-particle-status="building"],
-.particle-sky[data-particle-status="restoring"] {
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="building"],
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="restoring"] {
 	opacity: .1;
 }
 
-.particle-sky[data-particle-status="running"] {
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="running"] {
 	opacity: .28;
 }
 
-.particle-sky[data-particle-status="degraded"],
-.particle-sky[data-particle-status="paused"] {
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="degraded"],
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="paused"] {
 	opacity: .2;
 }
 
-.particle-sky[data-particle-status="static"] {
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="static"] {
 	opacity: .16;
 	filter: saturate(.82);
 }
 
-.particle-sky[data-particle-status="unavailable"],
-.particle-sky[data-particle-status="error"],
-.particle-sky[data-particle-status="lost"] {
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="unavailable"],
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="error"],
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="lost"] {
 	opacity: 0;
 }
 
-.ambient-glow {
+body[data-geelooy-route="home"] .ambient-glow {
 	position: fixed;
 	inset: 4% auto auto 50%;
 	z-index: 0;
@@ -57,8 +57,8 @@ soft enough that Torah, words, and choices remain the light the eye receives fir
 	pointer-events: none;
 }
 
-body::before,
-body::after {
+body[data-geelooy-route="home"]::before,
+body[data-geelooy-route="home"]::after {
 	position: fixed;
 	inset: 0;
 	z-index: 0;
@@ -66,14 +66,14 @@ body::after {
 	pointer-events: none;
 }
 
-body::before {
+body[data-geelooy-route="home"]::before {
 	background:
 		radial-gradient(circle at 8% 18%, rgba(52, 121, 190, .1), transparent 26%),
 		radial-gradient(circle at 88% 28%, rgba(116, 65, 176, .085), transparent 28%),
 		linear-gradient(180deg, #080e1b 0%, #030711 72%, #02050b 100%);
 }
 
-body::after {
+body[data-geelooy-route="home"]::after {
 	opacity: .14;
 	background-image:
 		radial-gradient(circle, rgba(206, 230, 255, .76) 0 1px, transparent 1.35px),
@@ -84,33 +84,34 @@ body::after {
 }
 
 @media (max-width: 680px) {
-	.particle-sky[data-particle-status="building"],
-	.particle-sky[data-particle-status="restoring"] {
+	body[data-geelooy-route="home"] .particle-sky[data-particle-status="building"],
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="restoring"] {
 		opacity: .07;
 	}
 
-	.particle-sky[data-particle-status="running"] {
+	body[data-geelooy-route="home"] .particle-sky[data-particle-status="running"] {
 		opacity: .18;
 	}
 
-	.particle-sky[data-particle-status="degraded"],
-	.particle-sky[data-particle-status="paused"] {
+	body[data-geelooy-route="home"] .particle-sky[data-particle-status="degraded"],
+body[data-geelooy-route="home"] .particle-sky[data-particle-status="paused"] {
 		opacity: .14;
 	}
 
-	.particle-sky[data-particle-status="static"] {
+	body[data-geelooy-route="home"] .particle-sky[data-particle-status="static"] {
 		opacity: .11;
 	}
 
-	.ambient-glow {
+	body[data-geelooy-route="home"] .ambient-glow {
 		inset-block-start: 12%;
-		width: 120vw;
+		width: calc(100vw - 16px);
+		max-width: calc(100vw - 16px);
 		filter: blur(76px);
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.particle-sky {
+	body[data-geelooy-route="home"] .particle-sky {
 		transition: none;
 	}
 }

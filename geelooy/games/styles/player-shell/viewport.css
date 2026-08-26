@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives even the narrowest phone a complete measured doorway with no edge lost beyond sight;
+ * Awtsmoos.com makes the menu retractable above gameplay, safe-area aware, internally scrollable, and bounded in portrait or landscape light.
+ */
+.awt-game-shell__panel {
+	max-block-size: calc(100vh - 82px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+}
+
+@supports (height: 100dvh) {
+	.awt-game-shell__panel {
+		max-block-size: calc(100dvh - 82px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+	}
+}
+
+@media (pointer: coarse) {
+	.awt-game-shell__launcher {
+		block-size: 50px;
+		inline-size: 50px;
+	}
+
+	.awt-game-shell__action,
+	.awt-game-shell__close,
+	.awt-game-shell__details-summary {
+		min-block-size: 46px;
+	}
+
+	.awt-game-shell__close {
+		min-inline-size: 46px;
+	}
+}
+
+@media (max-width: 520px) {
+	.awt-game-shell {
+		align-items: stretch;
+		left: max(8px, env(safe-area-inset-left));
+		max-inline-size: none;
+		right: max(8px, env(safe-area-inset-right));
+	}
+
+	.awt-game-shell__launcher {
+		align-self: flex-end;
+	}
+
+	.awt-game-shell__panel {
+		border-radius: 18px;
+		inline-size: 100%;
+		padding: 12px;
+	}
+
+	.awt-game-shell__heading {
+		margin: -12px -12px 10px;
+		padding: 11px 12px;
+		top: -12px;
+	}
+
+	.awt-game-shell__actions {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (max-width: 340px) {
+	.awt-game-shell {
+		left: max(6px, env(safe-area-inset-left));
+		right: max(6px, env(safe-area-inset-right));
+		top: max(6px, env(safe-area-inset-top));
+	}
+
+	.awt-game-shell__panel {
+		padding: 10px;
+	}
+
+	.awt-game-shell__heading {
+		margin: -10px -10px 8px;
+		padding: 10px;
+		top: -10px;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.awt-game-shell__panel {
+		border-radius: 14px;
+		margin-top: 6px;
+		padding: 10px;
+	}
+
+	.awt-game-shell__actions {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

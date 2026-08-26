@@ -1,0 +1,100 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos orders many remembered missions without losing the current deed;
+ * Awtsmoos.com keeps quest history scrollable, selectable, readable, and bounded to actual need.
+ */
+
+.Awtsmoos-gameplay:is(.Awtsmoos-quest-log, .Awtsmoos-torah-library) {
+	position: fixed;
+	inset: max(7vh, var(--gp-safe-top)) max(7vw, var(--gp-safe-right)) max(7vh, var(--gp-safe-bottom)) max(7vw, var(--gp-safe-left));
+	z-index: var(--gp-z-panel);
+	overflow: auto;
+	overscroll-behavior: contain;
+	padding: 20px;
+	border: 1px solid var(--gp-line);
+	border-radius: 22px;
+	background: linear-gradient(150deg, rgba(27, 35, 28, 0.97), rgba(6, 14, 12, 0.98));
+	color: var(--gp-text);
+	box-shadow: 0 26px 90px rgba(0, 0, 0, 0.52), inset 0 1px rgba(255, 255, 255, 0.06);
+	content-visibility: auto;
+}
+
+.Awtsmoos-gameplay:is(.Awtsmoos-quest-log, .Awtsmoos-torah-library)[hidden] {
+	display: none;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-panel-header {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 0 14px;
+	background: linear-gradient(180deg, #0a1614 70%, transparent);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-panel-header h2 {
+	margin: 0;
+	color: var(--gp-gold-bright);
+	font-family: Georgia, serif;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-panel-header button {
+	margin-left: auto;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-quest-tabs {
+	display: flex;
+	gap: 7px;
+	overflow: auto;
+	margin: 10px 0 14px;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-quest-tabs button {
+	padding: 8px 12px;
+	border-color: rgba(126, 166, 150, 0.38);
+	border-radius: 999px;
+	background: rgba(22, 43, 36, 0.86);
+	color: #d8e8e1;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-quest-tabs button[aria-selected="true"] {
+	border-color: var(--gp-gold);
+	background: #3b2914;
+	color: var(--gp-gold-bright);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-quest-card {
+	margin: 9px 0;
+	padding: 15px;
+	border: 1px solid rgba(116, 151, 137, 0.28);
+	border-radius: 14px;
+	background: linear-gradient(145deg, rgba(18, 35, 30, 0.94), rgba(9, 22, 19, 0.94));
+}
+
+.Awtsmoos-gameplay .Awtsmoos-quest-card h3 {
+	margin: 0 0 6px;
+	color: #f4d18c;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-quest-card footer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-progress {
+	height: 8px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-progress span {
+	display: block;
+	height: 100%;
+	background: linear-gradient(90deg, #bd8431, #f5d07b, #fff0b5);
+}

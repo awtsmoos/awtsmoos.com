@@ -4,65 +4,78 @@
 
 /**
  * @file InventoryPanelActionRunner.js
- * @description Executes real Bag actions, async effects, contextual selection, and focus-safe openness.
- * The Awtsmoos joins intention to consequence without invisible blockers; Awtsmoos.com keeps
- * touch and keyboard actions connected to store truth, authority receipts, events, and restored focus.
+ * @description Coordinates Bag selection, command execution, and focus-safe open state.
+ * The Awtsmoos joins intention to consequence without letting geometry leak into behavior;
+ * Awtsmoos.com keeps selection in Malchus, commands in Yesod, and the bounded action tray inside its own layer.
  */
 
+import { YESOD_INVENTORY_COMMAND_REGISTRY } from './InventoryActionCommandRegistry.js';
 import { combinedInventoryStack } from './InventoryPanelState.js';
 import { renderInventoryCard, renderInventoryMenu } from './InventoryPanelView.js';
 
-export function selectInventoryPanelItem(panel, itemId, button) {
-	panel.selectedItemId = itemId;
-	const state = panel.store.snapshot();
-	const stack = combinedInventoryStack(state, itemId);
-	renderInventoryCard(panel.card, stack, state, panel.equipmentState);
-	renderInventoryMenu(panel.menu, stack, state, panel.equipmentState);
-	positionMenu(panel.menu, button.getBoundingClientRect());
+/**
+ * Selects one inventory item and reveals details plus contextual actions in the modal's own tray.
+ * @param {object} yesodPanel Inventory panel facade.
+ * @param {string} itemId Selected item id.
+ * @param {HTMLElement} [_malchusAnchor] Historical anchor argument retained for caller compatibility.
+ * @returns {void}
+ */
+export function selectInventoryPanelItem(yesodPanel, itemId, _malchusAnchor) {
+	yesodPanel.selectedItemId = itemId;
+	const malchusState = yesodPanel.store.snapshot();
+	const yesodStack = combinedInventoryStack(malchusState, itemId);
+	renderInventoryCard(yesodPanel.card, yesodStack, malchusState, yesodPanel.equipmentState);
+	renderInventoryMenu(yesodPanel.menu, yesodStack, malchusState, yesodPanel.equipmentState);
 }
 
-export async function runInventoryPanelAction(panel, action) {
-	const state = panel.store.snapshot();
-	const item = combinedInventoryStack(state, panel.selectedItemId)?.definition;
-	if (!item) return;
-	if (action === 'equip') panel.store.equip(item.id);
-	if (action === 'unequip') panel.store.unequip(item.slot);
-	if (action === 'draw') panel.bus.emit('equipment:draw');
-	if (action === 'sheath') panel.bus.emit('equipment:sheath');
-	if (action === 'drop') panel.store.remove(item.id, 1);
-	if (action === 'use') await requireUseHandler(panel)(item.id);
-	if (action === 'open' && item.category === 'book') panel.bus.emit('torah:toggle');
-	if (action === 'open' && item.id === 'quest-scroll') panel.bus.emit('questlog:toggle');
-	if (action === 'pin' && item.category === 'book') panel.store.toggleBookPin(item.id);
-	panel.bus.emit('inventory:action', { action, itemId: item.id });
-	panel.menu.dataset.open = 'false';
-	panel.render();
-}
-
-export function setInventoryPanelOpen(panel, open) {
-	const nextOpen = Boolean(open);
-	if (nextOpen && !panel.open) panel.lastFocusedElement = panel.document?.activeElement || null;
-	panel.open = nextOpen;
-	panel.panel.dataset.open = String(panel.open);
-	panel.panel.setAttribute('aria-hidden', String(!panel.open));
-	if (panel.open) panel.panel.querySelector('[data-close]')?.focus?.();
-	if (!panel.open) {
-		panel.menu.dataset.open = 'false';
-		panel.lastFocusedElement?.focus?.();
+/**
+ * Executes one contextual Bag action through the data-driven command registry.
+ * @param {object} yesodPanel Inventory panel facade.
+ * @param {string} action Canonical action id.
+ * @returns {Promise<boolean>} True when an item existed and the command cycle ran.
+ */
+export async function runInventoryPanelAction(yesodPanel, action) {
+	const malchusState = yesodPanel.store.snapshot();
+	const malchusItem = combinedInventoryStack(
+		malchusState,
+		yesodPanel.selectedItemId
+	)?.definition;
+	if (!malchusItem) {
+		return false;
 	}
-	panel.bus.emit('inventory:state', { open: panel.open });
+	await YESOD_INVENTORY_COMMAND_REGISTRY.execute(action, {
+		yesodPanel,
+		malchusItem
+	});
+	yesodPanel.bus.emit('inventory:action', {
+		action,
+		itemId: malchusItem.id
+	});
+	yesodPanel.menu.dataset.open = 'false';
+	yesodPanel.render();
+	return true;
 }
 
-function requireUseHandler(panel) {
-	if (typeof panel.onUse !== 'function') {
-		throw new Error('This runtime cannot use consumable items.');
+/**
+ * Opens or closes the Bag while preserving focus restoration and semantic visibility state.
+ * @param {object} yesodPanel Inventory panel facade.
+ * @param {boolean} open Requested open state.
+ * @returns {boolean} Canonical resulting open state.
+ */
+export function setInventoryPanelOpen(yesodPanel, open) {
+	const malchusOpen = Boolean(open);
+	if (malchusOpen && !yesodPanel.open) {
+		yesodPanel.lastFocusedElement = yesodPanel.document?.activeElement || null;
 	}
-	return panel.onUse;
-}
-
-function positionMenu(menu, rectangle) {
-	const width = Number(globalThis.innerWidth) || 390;
-	const height = Number(globalThis.innerHeight) || 844;
-	menu.style.left = `${Math.max(8, Math.min(width - 230, rectangle.left))}px`;
-	menu.style.top = `${Math.max(8, Math.min(height - 180, rectangle.bottom + 6))}px`;
+	yesodPanel.open = malchusOpen;
+	yesodPanel.panel.dataset.open = String(malchusOpen);
+	yesodPanel.panel.setAttribute('aria-hidden', String(!malchusOpen));
+	if (malchusOpen) {
+		yesodPanel.panel.querySelector('[data-close]')?.focus?.();
+	} else {
+		yesodPanel.menu.dataset.open = 'false';
+		yesodPanel.lastFocusedElement?.focus?.();
+	}
+	yesodPanel.bus.emit('inventory:state', { open: malchusOpen });
+	return malchusOpen;
 }

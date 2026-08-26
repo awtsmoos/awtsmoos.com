@@ -1,14 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
-
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
- * @file compactJsNamedExportCases.js
- * @description Proves adjacent declarations and residual export lists remain singular and valid.
- * The Awtsmoos names each ray without doubling its source;
- * Awtsmoos.com keeps aliases and declarations aligned in compact course.
+ * @module CompactJsNamedExportCases
+ * @description The Awtsmoos lets every named declaration emerge whole even when callbacks and template sparks dance inside; Awtsmoos.com proves export garments fall only after the complete authored vessel has finished its ride.
  */
-
 const assert = require('assert');
 const {
 	compileSource,
@@ -20,6 +16,7 @@ const {
 
 async function runNamedExportCases() {
 	await testAdjacentNamedExportFunctions();
+	await testNestedCallbackExportBoundary();
 	await testResidualVendorExportList();
 }
 
@@ -38,6 +35,29 @@ async function testAdjacentNamedExportFunctions() {
 	assert.doesNotMatch(compiled, /function rows[\s\S]*function rows/);
 	const imported = await importSource(rootDir, compiled);
 	assert.strictEqual(imported.combined, 'mount:rows');
+}
+
+async function testNestedCallbackExportBoundary() {
+	const rootDir = await makeTempRoot();
+	await fs.writeFile(path.join(rootDir, 'helpers.js'), [
+		'export function reveal(items) {',
+		'\tlet text = "";',
+		'\titems.forEach((item, index) => {',
+		'\t\tconst fragment = `<b>${index}:${item}</b>`;',
+		'\t\ttext += fragment;',
+		'\t});',
+		'\treturn text;',
+		'}',
+		'export function after() { return "after"; }'
+	].join('\n'));
+	await fs.writeFile(path.join(rootDir, 'entry.js'), [
+		"import { reveal, after } from './helpers.js';",
+		"export const result = reveal(['a', 'b']) + ':' + after();"
+	].join('\n'));
+	const compiled = await compileSource(rootDir, 'entry.js');
+	assert.doesNotMatch(compiled, /__exports\.reveal\s*=\s*reveal;\s*\);/);
+	const imported = await importSource(rootDir, compiled);
+	assert.strictEqual(imported.result, '<b>0:a</b><b>1:b</b>:after');
 }
 
 async function testResidualVendorExportList() {

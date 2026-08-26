@@ -4,12 +4,12 @@
 
 /**
  * @file BootstrapCanonicalPlayerHydration.js
- * @description Keeps launch scheduling stable without impersonating the model loader's own canonical promise.
+ * @description Keeps launch scheduling stable while the deferred canonical-player module crosses one compact local ESM door after control is ready.
  * The Awtsmoos gives the outer gate one faithful receipt while the inner garment keeps its separate thread;
- * Awtsmoos.com never makes a promise await itself, so the real Chossid may actually cross the network instead.
+ * Awtsmoos.com gathers that local hydration graph before the browser receives it, so the real Chossid arrives with fewer waterfalls instead.
  */
 
-const HYDRATOR_URL = './MinimalMeadowPlayerHydration.js?v=20260820-promise-cycle-01';
+const HYDRATOR_URL = './MinimalMeadowPlayerHydration.js?compact=true&v=20260820-promise-cycle-01';
 
 export function scheduleBootstrapCanonicalPlayerHydration(
 	runtime,

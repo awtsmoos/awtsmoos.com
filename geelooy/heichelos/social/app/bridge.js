@@ -1,55 +1,85 @@
 // B"H
+import { bootSocialRevamp } from './boot.js';
+
 /**
  * @module SocialRevampBridge
  * @description
- * Chapter 48: The bridge refuses to conquer the old palace by accident.
- * The Awtsmoos opens the new social shell only when a clear sign is given:
- * query, hash, or dataset. Thus the legacy Heichelos flow remains untouched
- * while the revamp can be summoned, tested, and revealed step by step.
+ * Gevurah guards the boundary between legacy Heichelos and the new social system.
+ * The revamp mounts only under an explicit query, hash, dataset, or caller target;
+ * Awtsmoos.com therefore gains a reversible migration gate instead of accidental conquest.
  */
-import { bootSocialRevamp } from './boot.js';
+export class GevurahSocialRevampGate {
+	/** @param {object} [options={}] Optional runtime adapters and boot override. */
+	constructor(options = {}) {
+		this.malchusLocation = options.location || globalThis.location;
+		this.malchusDocument = options.document || globalThis.document;
+		this.malchusTarget = options.target || null;
+		this.malchusBoot = options.boot || bootSocialRevamp;
+		this.binahData = options.data || {};
+	}
 
-const QUERY_FLAG = 'socialRevamp';
-const HASH_FLAG = 'social-revamp';
-const DATA_FLAG = 'socialRevamp';
+	/** @returns {boolean} Whether any explicit mount signal is present. */
+	requested() {
+		return this.hasQueryFlag()
+			|| this.hasHashFlag()
+			|| this.hasDatasetFlag();
+	}
 
+	/** @returns {object} Mount result with explicit reason when mounting cannot occur. */
+	mount() {
+		if (!this.requested()) return { mounted: false, reason: 'not-requested' };
+		const malchusTarget = this.target();
+		if (!malchusTarget) return { mounted: false, reason: 'missing-target' };
+		const malchusRoot = this.malchusBoot(malchusTarget, this.binahData);
+		return {
+			mounted: true,
+			root: malchusRoot,
+			target: malchusTarget
+		};
+	}
+
+	/** @returns {boolean} Whether `?socialRevamp=1|true` is present. */
+	hasQueryFlag() {
+		const yesodSearch = this.malchusLocation?.search || '';
+		const binahParameters = new URLSearchParams(
+			yesodSearch.startsWith('?') ? yesodSearch.slice(1) : yesodSearch
+		);
+		const malchusValue = binahParameters.get('socialRevamp');
+		return malchusValue === '1' || malchusValue === 'true';
+	}
+
+	/** @returns {boolean} Whether the social-revamp hash signal is present. */
+	hasHashFlag() {
+		return String(this.malchusLocation?.hash || '')
+			.toLowerCase()
+			.includes('social-revamp');
+	}
+
+	/** @returns {boolean} Whether the document root dataset explicitly enables the revamp. */
+	hasDatasetFlag() {
+		const malchusValue = this.malchusDocument?.documentElement?.dataset?.socialRevamp;
+		return malchusValue === '1' || malchusValue === 'true';
+	}
+
+	/** @returns {Element|object|null} Explicit mount target, marked root, body, or null. */
+	target() {
+		if (this.malchusTarget) return this.malchusTarget;
+		if (!this.malchusDocument) return null;
+		return this.malchusDocument.querySelector?.('[data-social-revamp-root]')
+			|| this.malchusDocument.body
+			|| null;
+	}
+}
+
+/** @param {object} [locationLike] @param {object} [documentLike] @returns {boolean} Backward-compatible mount predicate. */
 export function shouldMountSocialRevamp(locationLike = globalThis.location, documentLike = globalThis.document) {
-    return hasQueryFlag(locationLike) || hasHashFlag(locationLike) || hasDatasetFlag(documentLike);
+	return new GevurahSocialRevampGate({
+		location: locationLike,
+		document: documentLike
+	}).requested();
 }
 
+/** @param {object} [options={}] @returns {object} Backward-compatible conditional mount result. */
 export function mountSocialRevampWhenRequested(options = {}) {
-    const locationLike = options.location || globalThis.location;
-    const documentLike = options.document || globalThis.document;
-
-    if (!shouldMountSocialRevamp(locationLike, documentLike)) {
-        return { mounted: false, reason: 'not-requested' };
-    }
-
-    const target = getTarget(options, documentLike);
-    if (!target) return { mounted: false, reason: 'missing-target' };
-
-    const boot = options.boot || bootSocialRevamp;
-    const root = boot(target, options.data || {});
-    return { mounted: true, root, target };
-}
-
-function hasQueryFlag(locationLike) {
-    const search = locationLike?.search || '';
-    const params = new URLSearchParams(search.startsWith('?') ? search.slice(1) : search);
-    return params.get(QUERY_FLAG) === '1' || params.get(QUERY_FLAG) === 'true';
-}
-
-function hasHashFlag(locationLike) {
-    return String(locationLike?.hash || '').toLowerCase().includes(HASH_FLAG);
-}
-
-function hasDatasetFlag(documentLike) {
-    return documentLike?.documentElement?.dataset?.[DATA_FLAG] === '1' ||
-        documentLike?.documentElement?.dataset?.[DATA_FLAG] === 'true';
-}
-
-function getTarget(options, documentLike) {
-    if (options.target) return options.target;
-    if (!documentLike) return null;
-    return documentLike.querySelector?.('[data-social-revamp-root]') || documentLike.body || null;
+	return new GevurahSocialRevampGate(options).mount();
 }

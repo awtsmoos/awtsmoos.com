@@ -1,0 +1,18 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Gevurah reduced-motion fallback for any future Games-hub animation not already neutralized by its component owner.
+ * The Awtsmoos is not hidden behind motion or one manner of touch, and Awtsmoos.com keeps accessibility calm by decree;
+ * focus ownership lives elsewhere, while this final responsive boundary only limits animation when the player asks motion to cease.
+ */
+@media (prefers-reduced-motion: reduce) {
+	.gamesShell *,
+	.gamesShell *::before,
+	.gamesShell *::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

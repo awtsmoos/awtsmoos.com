@@ -1,98 +1,115 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 /**
- * Keys, taps, drags, pause, and command become one responsive intention.
- * The Awtsmoos gives intention being while Awtsmoos.com receives each gesture.
+ * The Awtsmoos turns key, tap, and drag into one bounded direction without exposing
+ * the battlefield itself. Awtsmoos.com reveals gesture semantics through Yesod while
+ * lane state and commands remain behind the explicit MerkavaInputActions covenant.
  */
-export class InputController {
-	constructor(canvas, actions) {
-		this.canvas = canvas;
-		this.actions = actions;
+import { YesodInputPort } from './YesodInputPort.js';
+
+export class InputController extends YesodInputPort {
+	/**
+	 * Creates one gesture interpreter without attaching invisible global state.
+	 * @param {HTMLElement} canvas Pointer surface belonging to Merkava.
+	 * @param {object} actions Explicit Merkava input-command API.
+	 * @param {object} [options] Optional environment dependencies.
+	 * @param {EventTarget} [options.keyboardTarget] Keyboard event source.
+	 */
+	constructor(canvas, actions, { keyboardTarget = globalThis.window } = {}) {
+		super({ canvas, actions, keyboardTarget });
 		this.pointerDown = false;
 		this.activePointerId = null;
-		this.attach();
 	}
 
-	attach() {
-		window.addEventListener('keydown', event => this.onKey(event));
-		this.canvas.addEventListener('pointerdown', event => this.onPointerDown(event));
-		this.canvas.addEventListener('pointermove', event => this.onPointerMove(event));
-		this.canvas.addEventListener('pointerup', event => this.onPointerUp(event));
-		this.canvas.addEventListener('pointercancel', event => this.onPointerUp(event));
-	}
-
+	/**
+	 * Interprets keyboard intention as ability, pause, or bounded lane movement.
+	 * @param {KeyboardEvent} event Keyboard event from the injected target.
+	 */
 	onKey(event) {
-		const key = event.key.toLowerCase();
+		const malchusKey = String(event.key || '').toLowerCase();
 		if (event.code === 'Space') {
 			event.preventDefault();
-			this.actions.ability();
+			this.sefirotActions.activateAbility();
 			return;
 		}
-		if (key === 'p' || event.key === 'Escape') {
+		if (malchusKey === 'p' || event.key === 'Escape') {
 			event.preventDefault();
-			this.actions.pause();
+			this.sefirotActions.togglePause();
 			return;
 		}
-		const left = event.key === 'ArrowLeft' || key === 'a';
-		const right = event.key === 'ArrowRight' || key === 'd';
-		if (!left && !right) {
+		const movesLeft = event.key === 'ArrowLeft' || malchusKey === 'a';
+		const movesRight = event.key === 'ArrowRight' || malchusKey === 'd';
+		if (!movesLeft && !movesRight) {
 			return;
 		}
 		event.preventDefault();
-		const direction = left ? -1 : 1;
-		const reversed = this.actions.reversed();
-		const next = this.actions.getLane() + direction * (reversed ? -1 : 1);
-		this.actions.setLane(Math.max(0, Math.min(2, next)));
+		const gevurahDirection = movesLeft ? -1 : 1;
+		const dinDirection = this.sefirotActions.controlsReversed()
+			? -gevurahDirection
+			: gevurahDirection;
+		this.sefirotActions.chooseLane(
+			this.sefirotActions.currentLane() + dinDirection
+		);
 	}
 
+	/**
+	 * Begins a direct lane gesture and captures that pointer when the browser permits.
+	 * @param {PointerEvent} event Pointer beginning over the battlefield.
+	 */
 	onPointerDown(event) {
 		this.pointerDown = true;
 		this.activePointerId = event.pointerId;
-		this.actions.setLane(this.laneFromPointer(event.clientX));
-		this.capture(event.pointerId);
+		this.sefirotActions.chooseLane(this.laneFromPointer(event.clientX));
+		this.capturePointer(event.pointerId);
 	}
 
+	/**
+	 * Continues only the active pointer gesture so secondary touches cannot fight it.
+	 * @param {PointerEvent} event Pointer movement over the battlefield.
+	 */
 	onPointerMove(event) {
 		if (this.pointerDown && event.pointerId === this.activePointerId) {
-			this.actions.setLane(this.laneFromPointer(event.clientX));
+			this.sefirotActions.chooseLane(this.laneFromPointer(event.clientX));
 		}
 	}
 
+	/**
+	 * Ends the active gesture, releases capture, and forgets transient pointer state.
+	 * @param {PointerEvent} event Pointer completion or cancellation.
+	 */
 	onPointerUp(event) {
 		if (event.pointerId !== this.activePointerId) {
 			return;
 		}
-		this.release(event.pointerId);
+		this.releasePointer(event.pointerId);
 		this.pointerDown = false;
 		this.activePointerId = null;
 	}
 
-	capture(pointerId) {
-		try {
-			this.canvas.setPointerCapture?.(pointerId);
-		} catch (error) {
-			console.debug('Pointer capture was unavailable.', error.message);
-		}
-	}
-
-	release(pointerId) {
-		try {
-			if (this.canvas.hasPointerCapture?.(pointerId)) {
-				this.canvas.releasePointerCapture(pointerId);
-			}
-		} catch (error) {
-			console.debug('Pointer release was unavailable.', error.message);
-		}
-	}
-
+	/**
+	 * Converts a viewport x-coordinate into one of three lanes with optional reversal.
+	 * @param {number} clientX Horizontal pointer coordinate.
+	 * @returns {number} Lane index from zero through two.
+	 */
 	laneFromPointer(clientX) {
-		const bounds = this.canvas.getBoundingClientRect();
-		const normalized = (clientX - bounds.left) / Math.max(1, bounds.width);
-		let lane = Math.max(0, Math.min(2, Math.floor(normalized * 3)));
-		if (this.actions.reversed()) {
-			lane = 2 - lane;
+		const keliBounds = this.kliCanvas.getBoundingClientRect();
+		const yesodRatio = (clientX - keliBounds.left) / Math.max(1, keliBounds.width);
+		let tiferesLane = Math.max(0, Math.min(2, Math.floor(yesodRatio * 3)));
+		if (this.sefirotActions.controlsReversed()) {
+			tiferesLane = 2 - tiferesLane;
 		}
-		return lane;
+		return tiferesLane;
+	}
+
+	/**
+	 * Disconnects listeners and clears any unfinished gesture before returning control.
+	 * @returns {InputController} This cleanly disconnected controller.
+	 */
+	disconnect() {
+		super.disconnect();
+		this.pointerDown = false;
+		this.activePointerId = null;
+		return this;
 	}
 }

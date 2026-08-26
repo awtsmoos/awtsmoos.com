@@ -11,15 +11,16 @@ import { CharacterDesignOptions } from './CharacterDesignOptions.js';
 import { CharacterDesignSchema } from './CharacterDesignSchema.js';
 
 /**
- * The Awtsmoos renews every click and every preview. Awtsmoos.com binds the
- * reference presets, JSON editor, library, and live scene to one honest state.
+ * @file CharacterCustomizerPanel.js
+ * @description The Awtsmoos renews garment before form; Awtsmoos.com therefore
+ * keeps Character Lab concealed until its module-relative stylesheet has truly arrived,
+ * then binds one real design state to preview, prompt, library, JSON, and scene life.
  */
 export class CharacterCustomizerPanel {
 	static install(app) {
 		if (document.getElementById('character-customizer')) {
 			return;
 		}
-		this.styles();
 		const host = document.getElementById('hud-overlay') || document.body;
 		host.insertAdjacentHTML('beforeend', CharacterCustomizerTemplate.panel());
 		const root = document.getElementById('character-customizer');
@@ -28,6 +29,7 @@ export class CharacterCustomizerPanel {
 		root.__preview = new CharacterCustomizerPreview(root.querySelector('canvas'));
 		this.bind(root);
 		this.render(root);
+		this.loadStyles(root);
 	}
 
 	static bind(root) {
@@ -44,14 +46,14 @@ export class CharacterCustomizerPanel {
 		this.action(root, 'json-apply', () => CharacterCustomizerActions.applyJson(root, rerender));
 		this.action(root, 'export', () => CharacterCustomizerActions.export(root));
 		this.action(root, 'trio', () => CharacterCustomizerActions.trio(root));
-		root.querySelectorAll('[data-character-preset]').forEach(button => {
+		root.querySelectorAll('[data-character-preset]').forEach((button) => {
 			button.onclick = () => CharacterCustomizerActions.preset(
 				root,
 				button.dataset.characterPreset,
 				rerender
 			);
 		});
-		root.querySelector('[data-character-library]').onchange = event => {
+		root.querySelector('[data-character-library]').onchange = (event) => {
 			CharacterCustomizerActions.load(root, event.target.value, rerender);
 		};
 	}
@@ -68,7 +70,7 @@ export class CharacterCustomizerPanel {
 		CharacterCustomizerForm.render(
 			root.querySelector('[data-character-fields]'),
 			root.__design,
-			design => {
+			(design) => {
 				root.__design = CharacterDesignSchema.create(design);
 				this.refresh(root);
 			}
@@ -82,15 +84,31 @@ export class CharacterCustomizerPanel {
 		root.querySelector('[data-character-json]').value = JSON.stringify(root.__design, null, 2);
 	}
 
-	static styles() {
-		if (document.querySelector('link[data-character-lab-style]')) {
+	static loadStyles(root) {
+		const existing = document.querySelector('link[data-character-lab-style]');
+		if (existing) {
+			this.revealWhenReady(root, existing);
 			return;
 		}
 		const link = Object.assign(document.createElement('link'), {
 			rel: 'stylesheet',
-			href: '/geelooy/apps/animator/src/character/customizer/character-customizer.css'
+			href: new URL('./character-customizer.css', import.meta.url).href
 		});
 		link.dataset.characterLabStyle = 'true';
+		this.revealWhenReady(root, link);
 		document.head.appendChild(link);
+	}
+
+	static revealWhenReady(root, link) {
+		if (link.sheet) {
+			root.hidden = false;
+			return;
+		}
+		link.addEventListener('load', () => {
+			root.hidden = false;
+		}, { once: true });
+		link.addEventListener('error', () => {
+			console.error('Character Lab stylesheet failed to load:', link.href);
+		}, { once: true });
 	}
 }

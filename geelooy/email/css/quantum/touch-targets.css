@@ -1,25 +1,19 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos grants every Mail action enough physical room to be chosen with
- * confidence. Awtsmoos.com keeps compact density, but no finger, stylus, zoom,
- * or tremor is asked to land on a 32-pixel accident.
- */
-
-.geelooy-mail-document :is(
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every Mail action enough room to be chosen with confidence; Awtsmoos.com keeps general touch law gentle and local, while each specialized component owns its own shape, motion, and radiance.
+*/
+.geelooy-mail-document :where(
 	button,
 	[role="button"],
 	[role="tab"],
-	.ctx-item,
-	.mail-identity-summary-action,
 	.g-header-brand,
 	.sidebar a[href]
 ) {
 	min-block-size: 44px;
 }
 
-.geelooy-mail-document :is(
+.geelooy-mail-document :where(
 	.icon-btn,
 	.win-ctrl,
 	.close-modal,
@@ -34,7 +28,7 @@
 	padding: 0;
 }
 
-.geelooy-mail-document :is(
+.geelooy-mail-document :where(
 	#mailSearchInput,
 	input[type="search"],
 	input[type="text"],
@@ -45,63 +39,70 @@
 	font-size: max(1rem, 16px);
 }
 
-.geelooy-mail-document :is(
-	.mail-folder-tab,
-	.mail-sender-category,
-	.mode-tab,
-	.ctx-item,
-	.sidebar a[href]
-) {
-	display: flex;
-	align-items: center;
-	gap: .55rem;
-	padding-block: .62rem;
-}
-
-.geelooy-mail-document .mail-folder-tab,
-.geelooy-mail-document .mail-sender-category {
-	justify-content: space-between;
-	inline-size: 100%;
-}
-
 .geelooy-mail-document .context-menu {
 	min-inline-size: min(15rem, calc(100vw - 1rem));
+	max-inline-size: calc(100vw - 1rem);
+	max-block-size: min(75dvh, 34rem);
+	overflow: auto;
 	padding: .45rem;
 	border: 1px solid rgba(96, 228, 255, .3);
 	border-radius: .9rem;
 	background: linear-gradient(155deg, rgba(8, 22, 42, .99), rgba(26, 10, 52, .99));
 	box-shadow: 0 22px 60px rgba(0, 0, 0, .48), 0 0 32px rgba(96, 228, 255, .1);
+	overscroll-behavior: contain;
 }
 
 .geelooy-mail-document .ctx-item {
+	display: flex;
+	align-items: center;
 	justify-content: flex-start;
+	gap: .55rem;
 	inline-size: 100%;
+	min-block-size: 44px;
+	padding: .62rem .75rem;
 	border: 1px solid transparent;
 	border-radius: .68rem;
 	background: transparent;
 	color: var(--mail-fg, #eef7ff);
+	font: inherit;
 	font-size: .95rem;
 	font-weight: 760;
 	text-align: start;
+	touch-action: manipulation;
+	transition:
+		transform 120ms cubic-bezier(.2, .8, .2, 1),
+		border-color 140ms ease,
+		background-color 140ms ease,
+		box-shadow 160ms ease;
 }
 
-.geelooy-mail-document .ctx-item:is(:hover, :focus-visible) {
-	border-color: rgba(96, 228, 255, .32);
-	background: rgba(96, 228, 255, .1);
+.geelooy-mail-document .ctx-item:focus-visible {
+	outline: 2px solid #73efff;
+	outline-offset: 2px;
+	border-color: rgba(96, 228, 255, .42);
+	background: rgba(96, 228, 255, .11);
+	box-shadow: 0 0 0 4px rgba(96, 228, 255, .14);
+}
+
+.geelooy-mail-document .ctx-item:active {
+	transform: translateY(1px) scale(.985);
 }
 
 .geelooy-mail-document .ctx-item.ctx-danger {
 	color: #ff9ab8;
 }
 
-@media (max-width: 42.5rem) {
-	.geelooy-mail-document :is(
-		.mail-folder-tab,
-		.mail-sender-category,
-		.mode-tab,
-		.fab-compose,
-		.btn-primary
-	) {
-		min-block-size: 48px;
+@media (hover: hover) and (pointer: fine) {
+	.geelooy-mail-document .ctx-item:hover {
+		border-color: rgba(96, 228, 255, .32);
+		background: rgba(96, 228, 255, .1);
+		box-shadow: 0 8px 20px rgba(0, 0, 0, .16);
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-mail-document .ctx-item {
+		transition-duration: 1ms;
 	}
 }

@@ -1,68 +1,63 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The Awtsmoos holds abundance without clutter; Awtsmoos.com gives the home screen breathing room. */
-.menu-pane {
+/** The Awtsmoos holds boundless depth without clutter; Awtsmoos.com gives the home surface one bright invitation while deeper power waits behind a quiet shutter. */
+.ohrbound-app .menu-pane {
 	min-height: 100dvh;
-	padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) 4rem max(1rem, env(safe-area-inset-left));
+	padding: max(0.75rem, env(safe-area-inset-top)) max(0.75rem, env(safe-area-inset-right)) max(3rem, env(safe-area-inset-bottom)) max(0.75rem, env(safe-area-inset-left));
 }
-.topbar {
-	display: flex;
+.ohrbound-app .topbar,
+.ohrbound-app .menu-content { width: min(100%, 1160px); margin-inline: auto; }
+.ohrbound-app .topbar { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; min-width: 0; }
+.ohrbound-app .topbar-tools { display: flex; align-items: center; justify-content: end; gap: 0.45rem; min-width: 0; }
+.ohrbound-app .brand-mark {
+	display: inline-flex;
 	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
-	max-width: 1160px;
-	margin: 0 auto;
-}
-.brand-mark {
+	min-height: var(--tap);
 	color: var(--ink);
-	font-size: 0.72rem;
+	font-size: 0.7rem;
 	font-weight: 900;
-	letter-spacing: 0.22em;
+	letter-spacing: 0.2em;
 	text-decoration: none;
+	white-space: nowrap;
 }
-.identity-strip {
-	display: flex;
-	align-items: center;
-	gap: 0.65rem;
-	color: var(--muted);
-	font-size: 0.82rem;
+.ohrbound-app .identity-strip { display: flex; align-items: center; justify-content: end; gap: 0.45rem; min-width: 0; color: var(--muted); font-size: 0.8rem; }
+.ohrbound-app .identity-strip [data-identity-label] { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ohrbound-app .hero { width: min(100%, 760px); padding: clamp(3rem, 9vw, 7rem) 0 clamp(2.8rem, 6vw, 5rem); }
+.ohrbound-app .eyebrow { margin: 0; color: var(--glow); font-size: 0.72rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
+.ohrbound-app .hero h1 {
+	margin: 0.08em 0;
+	font-size: clamp(3.2rem, 13vw, 8.5rem);
+	line-height: 0.88;
+	letter-spacing: -0.065em;
+	overflow-wrap: anywhere;
 }
-.menu-content {
-	max-width: 1160px;
-	margin: 0 auto;
+.ohrbound-app .hero-copy { max-width: 650px; margin: 1rem 0 0; color: #bbc8da; font-size: clamp(0.98rem, 2.1vw, 1.3rem); line-height: 1.58; }
+.ohrbound-app .hero-actions { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1.45rem; }
+.ohrbound-app .quick-play-button {
+	display: grid;
+	gap: 0.12rem;
+	min-width: min(100%, 238px);
+	min-height: 58px;
+	padding: 0.78rem 1rem;
+	border: 1px solid rgba(110, 231, 200, 0.5);
+	border-radius: 18px;
+	background: linear-gradient(135deg, rgba(121, 234, 209, 0.97), rgba(116, 200, 255, 0.9));
+	color: #041b1a;
+	box-shadow: 0 14px 42px rgba(45, 222, 191, 0.14);
+	cursor: pointer;
+	text-align: left;
 }
-.hero {
-	max-width: 760px;
-	padding: clamp(4rem, 11vw, 8.5rem) 0 clamp(3.5rem, 7vw, 6rem);
+.ohrbound-app .quick-play-button span { font-size: 1.03rem; font-weight: 900; }
+.ohrbound-app .quick-play-button small { color: rgba(4, 27, 26, 0.68); font-size: 0.71rem; }
+@media (max-width: 560px) {
+	.ohrbound-app .hero-actions { display: grid; grid-template-columns: 1fr; }
+	.ohrbound-app .quick-play-button,
+.ohrbound-app .hero-actions .secondary-button { width: 100%; }
 }
-.eyebrow {
-	color: var(--glow);
-	font-size: 0.75rem;
-	font-weight: 800;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
-}
-.hero h1 {
-	margin: 0.1em 0;
-	font-size: clamp(4rem, 12vw, 9rem);
-	line-height: 0.86;
-	letter-spacing: -0.07em;
-}
-.hero-copy {
-	max-width: 650px;
-	color: #bbc8da;
-	font-size: clamp(1rem, 2.1vw, 1.35rem);
-	line-height: 1.6;
-}
-.hero-actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.65rem;
-	margin-top: 1.6rem;
-}
-@media (max-width: 460px) {
-	.identity-strip span {
-		display: none;
-	}
+@media (max-width: 420px) {
+	.ohrbound-app .menu-pane { padding-inline: max(0.6rem, env(safe-area-inset-left)); }
+	.ohrbound-app .identity-strip [data-identity-label] { display: none; }
+	.ohrbound-app .hero { padding-top: 2.4rem; }
+	.ohrbound-app .hero h1 { font-size: clamp(3rem, 18vw, 4.9rem); }
 }

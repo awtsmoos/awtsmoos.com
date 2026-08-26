@@ -1,59 +1,89 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
-/** The Awtsmoos gives motion its boundary; Awtsmoos.com preserves the original wall and collection laws exactly. */
-import { coins, keys, player, walls } from './world.js';
+// B"H
+// Boruch Hashem
+// Blessed is He
+import { clamp, overlaps } from './geometry.js';
 
-/** Move on the X axis with the same wall correction used by the original game. */
-function resolveHorizontalMotion() {
-	let nextX = player.x + player.dx;
-	for (const wall of walls) {
-		const overlaps = nextX < wall.x + wall.width
-			&& nextX + player.width > wall.x
-			&& player.y < wall.y + wall.height
-			&& player.y + player.height > wall.y;
-		if (!overlaps) continue;
-		if (player.dx > 0) nextX = wall.x - player.width;
-		if (player.dx < 0) nextX = wall.x + wall.width;
-		player.dx = 0;
+/**
+ * The Awtsmoos gives motion consequence without confusion; Awtsmoos.com lets walls, sparks, shadows, keys, and gates each answer one collision.
+ */
+export class AdventureMechanics {
+	constructor(world) {
+		this.world = world;
 	}
-	player.x = nextX;
-}
 
-/** Move on the Y axis with the same wall correction used by the original game. */
-function resolveVerticalMotion() {
-	let nextY = player.y + player.dy;
-	for (const wall of walls) {
-		const overlaps = player.x < wall.x + wall.width
-			&& player.x + player.width > wall.x
-			&& nextY < wall.y + wall.height
-			&& nextY + player.height > wall.y;
-		if (!overlaps) continue;
-		if (player.dy > 0) nextY = wall.y - player.height;
-		if (player.dy < 0) nextY = wall.y + wall.height;
-		player.dy = 0;
+	/** Advance one game frame only while the chamber is truly playing. */
+	update() {
+		const world = this.world;
+		if (world.status !== 'playing') return;
+		world.frame += 1;
+		world.graceFrames = Math.max(0, world.graceFrames - 1);
+		this.moveHorizontal();
+		this.moveVertical();
+		this.collectSparks();
+		this.collectKey();
+		this.resolveHazards();
+		this.resolvePortal();
 	}
-	player.y = nextY;
-}
 
-/** Remove every collectible intersected by the player. */
-function collectFrom(items) {
-	for (let index = 0; index < items.length; index += 1) {
-		const item = items[index];
-		const overlaps = player.x < item.x + item.width
-			&& player.x + player.width > item.x
-			&& player.y < item.y + item.height
-			&& player.y + player.height > item.y;
-		if (!overlaps) continue;
-		items.splice(index, 1);
-		index -= 1;
+	moveHorizontal() {
+		const { player, walls, config } = this.world;
+		let nextX = clamp(player.x + player.dx, 0, config.worldWidth - player.width);
+		const probe = { ...player, x: nextX };
+		for (const wall of walls) {
+			if (!overlaps(probe, wall)) continue;
+			if (player.dx > 0) nextX = wall.x - player.width;
+			if (player.dx < 0) nextX = wall.x + wall.width;
+			probe.x = nextX;
+		}
+		player.x = clamp(nextX, 0, config.worldWidth - player.width);
 	}
-}
 
-/** Advance exactly one original game update. */
-export function updateWorld() {
-	resolveHorizontalMotion();
-	resolveVerticalMotion();
-	collectFrom(coins);
-	collectFrom(keys);
+	moveVertical() {
+		const { player, walls, config } = this.world;
+		let nextY = clamp(player.y + player.dy, 0, config.worldHeight - player.height);
+		const probe = { ...player, y: nextY };
+		for (const wall of walls) {
+			if (!overlaps(probe, wall)) continue;
+			if (player.dy > 0) nextY = wall.y - player.height;
+			if (player.dy < 0) nextY = wall.y + wall.height;
+			probe.y = nextY;
+		}
+		player.y = clamp(nextY, 0, config.worldHeight - player.height);
+	}
+
+	collectSparks() {
+		const world = this.world;
+		for (let index = world.sparks.length - 1; index >= 0; index -= 1) {
+			if (!overlaps(world.player, world.sparks[index])) continue;
+			world.sparks.splice(index, 1);
+			world.score += world.config.sparkScore;
+			world.message = world.sparks.length ? `${world.sparks.length} sparks remain.` : 'The key now answers.';
+		}
+	}
+
+	collectKey() {
+		const world = this.world;
+		if (world.keyCollected || !overlaps(world.player, world.key)) return;
+		if (world.sparks.length > 0) {
+			world.message = 'The key sleeps until every spark is gathered.';
+			return;
+		}
+		world.keyCollected = true;
+		world.score += world.config.keyScore;
+		world.message = 'The portal is open.';
+	}
+
+	resolveHazards() {
+		const world = this.world;
+		if (world.graceFrames > 0) return;
+		if (world.hazards.some(hazard => overlaps(world.player, hazard))) world.damage();
+	}
+
+	resolvePortal() {
+		const world = this.world;
+		if (!overlaps(world.player, world.portal)) return;
+		if (world.portalReady) world.advanceStage();
+		else if (world.sparks.length > 0) world.message = 'The gate waits for every spark.';
+		else world.message = 'Find the key before entering the gate.';
+	}
 }

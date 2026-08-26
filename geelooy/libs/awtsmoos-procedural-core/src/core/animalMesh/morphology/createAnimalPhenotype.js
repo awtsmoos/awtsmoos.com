@@ -4,14 +4,15 @@
 
 /**
  * @file createAnimalPhenotype.js
- * @description Joins authoritative morphology with reusable anatomy components, real quality budgets, locomotion, biomechanics, and the established compiler.
- * RESPONSIBILITY: coordinate profile → base guides → component guides → recipe → artifact without introducing another creature engine.
- * NON-RESPONSIBILITY: this file does not implement geometry operations or renderer adaptation.
- * The Awtsmoos is one while phenotype reveals many organs; Awtsmoos.com lets horn, foot, feather, web, body, and motion descend through one inspectable deterministic path.
+ * @description Joins morphology, reusable anatomy, realism metadata, quality, motion, biomechanics, and established mesh compilation.
+ * RESPONSIBILITY: orchestrate canonical phenotype authorities and publish one immutable renderer-neutral phenotype record.
+ * NON-RESPONSIBILITY: component specialization, locomotion option derivation, guide generation, metadata projection, and mesh compilation remain delegated.
+ * The Awtsmoos is one while phenotype reveals many organs; Awtsmoos.com lets horn, feather, fur, membrane, bone, body, and motion descend through one path, so tiny data recipes may reveal extreme anatomy without inventing another compiler or mutable creature world.
  */
 
 import { AnimalMeshCompiler } from '../compiler/AnimalMeshCompiler.js';
 import { createCreatureComponentProfile } from '../creature/components/CreatureComponentProfile.js';
+import { creaturePhenotypeComponentMetadata } from '../creature/components/CreaturePhenotypeComponentMetadata.js';
 import { creatureQualityProfile } from '../creature/components/CreatureQualityProfile.js';
 import { createAnimalLocomotionProfile } from '../motion/createLocomotionProfile.js';
 import { createAnimalMorphologyReport } from '../validation/morphologyReport.js';
@@ -19,89 +20,102 @@ import { deriveAnimalBiomechanics } from './biomechanics/deriveAnimalBiomechanic
 import { createAnimalMorphologyProfile } from './createAnimalMorphologyProfile.js';
 import { createAppendagePhenotypeGuides } from './phenotype/appendageGuides.js';
 import { createAxialPhenotypeGuides } from './phenotype/axialGuides.js';
+import { phenotypeLocomotionOptions } from './phenotype/phenotypeLocomotionOptions.js';
 import { createPhenotypeRecipe } from './phenotype/phenotypeRecipeFactory.js';
 
-/** Creates one component-aware renderer-neutral phenotype. */
+/**
+ * Creates one component-aware renderer-neutral phenotype from species and plain-data options.
+ * @param {object} [options={}] Morphology, quality, components, motion, recipe, and compiler-adjacent options.
+ * @returns {object} Frozen phenotype carrying geometry recipe plus realism/component metadata.
+ */
 export function createAnimalPhenotype(options = {}) {
-	const profile = createAnimalMorphologyProfile(options);
-	const quality = options.qualityProfile || creatureQualityProfile(options.quality);
-	const axial = createAxialPhenotypeGuides(profile, quality);
-	const appendages = createAppendagePhenotypeGuides(
-		profile,
-		axial.anchors,
-		quality
+	const keterProfile = createAnimalMorphologyProfile(options);
+	const chochmahQuality = options.qualityProfile || creatureQualityProfile(options.quality);
+	const binahAxial = createAxialPhenotypeGuides(keterProfile, chochmahQuality);
+	const gevurahAppendages = createAppendagePhenotypeGuides(
+		keterProfile,
+		binahAxial.anchors,
+		chochmahQuality
 	);
-	const baseGuides = {
-		...axial.guides,
-		...appendages.guides
+	const tiferesBaseGuides = {
+		...binahAxial.guides,
+		...gevurahAppendages.guides
 	};
-	const components = createCreatureComponentProfile({
-		guides: baseGuides,
-		quality,
-		speciesId: options.speciesId
+	const netzachComponents = createCreatureComponentProfile({
+		components: options.components ?? options.anatomy?.components ?? [],
+		guides: tiferesBaseGuides,
+		landmarks: options.landmarks,
+		quality: chochmahQuality,
+		rig: options.rig,
+		speciesId: options.speciesId,
+		surfaceFrames: options.surfaceFrames
 	});
-	const guides = Object.freeze({
-		...baseGuides,
-		...components.guides
+	const hodGuides = Object.freeze({
+		...tiferesBaseGuides,
+		...netzachComponents.guides
 	});
-	const symmetryPairs = Object.freeze([
-		...appendages.symmetryPairs,
-		...components.symmetryPairs
+	const yesodSymmetryPairs = Object.freeze([
+		...gevurahAppendages.symmetryPairs,
+		...netzachComponents.symmetryPairs
 	]);
-	const recipe = createPhenotypeRecipe(
-		profile,
-		guides,
-		symmetryPairs,
+	const malchusRecipe = createPhenotypeRecipe(
+		keterProfile,
+		hodGuides,
+		yesodSymmetryPairs,
 		{
 			...(options.recipe || options),
-			targetTriangleCount: options.targetTriangleCount || quality.targetTriangles
+			targetTriangleCount: options.targetTriangleCount
+				|| chochmahQuality.targetTriangles
 		},
-		components.surfaceRoles
+		netzachComponents.surfaceRoles
 	);
-	const phenotype = {
-		anatomy: components.anatomy,
-		biomechanics: deriveAnimalBiomechanics(profile),
-		genome: profile.genome,
-		id: `phenotype_${profile.genome.id}`,
-		locomotion: createAnimalLocomotionProfile(locomotionOptions(profile, options)),
-		profile,
-		provenance: {
-			archetype_id: profile.archetype_id,
+	const daasPhenotype = {
+		...creaturePhenotypeComponentMetadata(netzachComponents),
+		anatomy: netzachComponents.anatomy,
+		biomechanics: deriveAnimalBiomechanics(keterProfile),
+		genome: keterProfile.genome,
+		id: `phenotype_${keterProfile.genome.id}`,
+		locomotion: createAnimalLocomotionProfile(
+			phenotypeLocomotionOptions(keterProfile, options)
+		),
+		profile: keterProfile,
+		provenance: Object.freeze({
+			archetype_id: keterProfile.archetype_id,
 			component_pipeline: true,
+			custom_components: Boolean(
+				options.components?.length || options.anatomy?.components?.length
+			),
 			deterministic: true,
 			existing_compiler_contract: true,
-			genome_id: profile.genome.id,
-			quality: quality.id
-		},
-		quality,
-		recipe,
+			genome_id: keterProfile.genome.id,
+			quality: chochmahQuality.id
+		}),
+		quality: chochmahQuality,
+		recipe: malchusRecipe,
 		schema: 'awtsmoos.animal-phenotype',
-		surface_roles: components.surfaceRoles,
-		symmetry_pairs: symmetryPairs,
-		version: '1.1.0'
+		symmetry_pairs: yesodSymmetryPairs,
+		version: '1.3.0'
 	};
 	return Object.freeze({
-		...phenotype,
-		morphology_report: createAnimalMorphologyReport(phenotype)
+		...daasPhenotype,
+		morphology_report: createAnimalMorphologyReport(daasPhenotype)
 	});
 }
 
-/** Compiles one component-aware phenotype with the established AnimalMeshCompiler. */
+/**
+ * Compiles one component-aware phenotype through the established AnimalMeshCompiler.
+ * @param {object} [options={}] Phenotype plus compiler/compile options.
+ * @returns {object} Frozen phenotype extended with its compiled artifact.
+ */
 export function compileAnimalPhenotype(options = {}) {
-	const phenotype = createAnimalPhenotype(options);
-	const compiler = options.compiler || new AnimalMeshCompiler(options.compilerOptions);
+	const keterPhenotype = createAnimalPhenotype(options);
+	const malchusCompiler = options.compiler
+		|| new AnimalMeshCompiler(options.compilerOptions);
 	return Object.freeze({
-		...phenotype,
-		artifact: compiler.compile(phenotype.recipe, options.compileOptions || {})
+		...keterPhenotype,
+		artifact: malchusCompiler.compile(
+			keterPhenotype.recipe,
+			options.compileOptions || {}
+		)
 	});
-}
-
-function locomotionOptions(profile, options) {
-	return {
-		archetypeId: profile.archetype_id,
-		cycleDuration: options.cycleDuration,
-		legPairs: profile.genome.traits.leg_pairs,
-		mode: options.locomotionMode || options.mode,
-		segmentCount: profile.segments.length * 4
-	};
 }

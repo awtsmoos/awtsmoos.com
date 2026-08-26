@@ -1,66 +1,22 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module SocialCapabilityPolicy
- * @description
- * The Awtsmoos gives possibility without deception; Awtsmoos.com computes conservative capabilities from proven entity law,
- * while one request-scoped authority vessel prevents the same Heichel truth from being fetched again under every visible card.
+ * @description The Awtsmoos gives possibility without deception; Awtsmoos.com composes capability truth from entity law, policy, authority, and reversible graph state.
  */
-const { verifyHeichelAuthority } = require('../../index.js');
 const { DISCUSSABLE_TYPES, isPostLike } = require('../entity/SocialEntityType.js');
 const { capability, unsupported } = require('./SocialCapabilityCatalog.js');
+const { answerCapability } = require('./SocialAnswerCapability.js');
+const {
+	authorityKey,
+	authorAlias,
+	heichelAuthority,
+	readAuthority
+} = require('./SocialAuthorityCapability.js');
+const { followCapability } = require('./SocialFollowCapability.js');
 
-function authorAlias(entity = {}) {
-	return String(
-		entity.raw?.authorAliasId
-		|| entity.raw?.aliasId
-		|| entity.raw?.author
-		|| entity.aliasId
-		|| ''
-	);
-}
-
-function authorityKey(entity = {}, viewerAliasId = '') {
-	return `${String(viewerAliasId || '')}:${String(entity.heichelId || '')}`;
-}
-
-async function readAuthority({ $i, entity, viewerAliasId }) {
-	try {
-		return Boolean(await verifyHeichelAuthority({
-			$i,
-			heichelId: entity.heichelId,
-			aliasId: viewerAliasId
-		}));
-	} catch {
-		return false;
-	}
-}
-
-async function heichelAuthority({ $i, entity, viewerAliasId, authorityCache = null }) {
-	if (!entity.heichelId || !viewerAliasId) return false;
-	const key = authorityKey(entity, viewerAliasId);
-	if (authorityCache?.has(key)) return Boolean(await authorityCache.get(key));
-	const pending = readAuthority({ $i, entity, viewerAliasId });
-	authorityCache?.set(key, pending);
-	const result = await pending;
-	authorityCache?.set(key, result);
-	return result;
-}
-
-function answerCapability(entity, summary) {
-	if (entity.type !== 'question') {
-		return capability(false, 'Formal answers apply only to questions.');
-	}
-	const answers = summary?.answers;
-	if (!answers || answers.policyAvailable === false || answers.open === null || answers.open === undefined) {
-		return capability(false, 'Answer policy could not be verified.');
-	}
-	return answers.open
-		? capability(true)
-		: capability(false, 'Formal answers are closed for this question.');
-}
-
+/** Computes the complete conservative action capability map for one normalized social entity. */
 async function socialCapabilities({
 	$i,
 	entity,
@@ -89,10 +45,17 @@ async function socialCapabilities({
 		delete: capability(owner || moderator, 'Author or Heichel authority is required.'),
 		moderate: capability(moderator, 'Heichel authority is required.'),
 		submit: capability(Boolean(viewerAliasId && entity.heichelId), 'Choose a verified alias and Heichel.'),
-		follow: unsupported('Follow storage is not yet unified.'),
+		follow: followCapability({ $i, entity, viewerAliasId }),
 		save: unsupported('Save/library storage is not yet unified.'),
 		collaborate: unsupported('Collaboration capability requires canonical role storage.')
 	};
 }
 
-module.exports = { answerCapability, authorityKey, authorAlias, heichelAuthority, readAuthority, socialCapabilities };
+module.exports = {
+	answerCapability,
+	authorityKey,
+	authorAlias,
+	heichelAuthority,
+	readAuthority,
+	socialCapabilities
+};

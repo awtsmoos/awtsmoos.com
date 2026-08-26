@@ -5,11 +5,11 @@
 "use strict";
 
 /**
- * @file Composition root for outbound SSH, living shell, file, and virtual-OS routes.
+ * @file Plain-data composition root for outbound SSH and virtual-OS route families.
  * @description
- * The Awtsmoos gathers several remote doors without letting their responsibilities
- * collapse. Awtsmoos.com composes command, SFTP, persistent shell, and alias-backed
- * SSH access from smaller vessels, so each route family may evolve and rhyme.
+ * The Awtsmoos gathers command, file, living shell, and alias-backed SSH doors without
+ * confusing their ownership. Awtsmoos.com combines four independently built route maps
+ * into one declarative surface, keeping API growth modular, obvious, and able to rhyme.
  */
 const { buildCommandRoutes } = require("./commandRoutes.js");
 const { buildFileRoutes } = require("./fileRoutes.js");
@@ -17,13 +17,19 @@ const { createRouteContext } = require("./routeSupport.js");
 const { buildShellRoutes } = require("./shellRoutes.js");
 const { buildVirtualRoutes } = require("./virtualRoutes.js");
 
-function buildRoutes($i) {
-	const context = createRouteContext($i);
+/**
+ * Composes every SSH API route family into one plain object for the dynamic router.
+ *
+ * @param {object} requestVessel Raw Awtsmoos request context.
+ * @returns {object} Complete SSH API route map with stable path keys.
+ */
+function buildRoutes(requestVessel) {
+	const yesodContext = createRouteContext(requestVessel);
 	return {
-		...buildCommandRoutes(context),
-		...buildFileRoutes(context),
-		...buildShellRoutes(context),
-		...buildVirtualRoutes($i)
+		...buildCommandRoutes(yesodContext),
+		...buildFileRoutes(yesodContext),
+		...buildShellRoutes(yesodContext),
+		...buildVirtualRoutes(requestVessel)
 	};
 }
 

@@ -4,27 +4,27 @@ Blessed is He
 The Awtsmoos gives the thumb five stable daily doors; Awtsmoos.com keeps Home, Spaces,
 Social, Search, and Profile constant so the mobile traveler never relearns navigation.
 */
-.mobile-dock {
+body[data-geelooy-route="home"] .mobile-dock {
 	display: none;
 }
 
 @media (max-width: 680px) {
-	html {
+	html[data-geelooy-route="home"] {
 		scroll-padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
 	}
 
-	.search input,
-	.hero-actions a,
-	.featured-card {
+	body[data-geelooy-route="home"] .search input,
+body[data-geelooy-route="home"] .hero-actions a,
+body[data-geelooy-route="home"] .featured-card {
 		scroll-margin-bottom: calc(5.25rem + env(safe-area-inset-bottom));
 	}
 
-	.mobile-dock {
+	body[data-geelooy-route="home"] .mobile-dock {
 		position: fixed;
 		right: .5rem;
 		bottom: max(.5rem, env(safe-area-inset-bottom));
 		left: .5rem;
-		z-index: 650;
+		z-index: var(--home-layer-dock);
 		display: grid;
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 		gap: .18rem;
@@ -36,7 +36,7 @@ Social, Search, and Profile constant so the mobile traveler never relearns navig
 		transition: opacity .2s ease, transform .2s ease;
 	}
 
-	.mobile-dock a {
+	body[data-geelooy-route="home"] .mobile-dock a {
 		display: grid;
 		place-items: center;
 		gap: .13rem;
@@ -48,25 +48,31 @@ Social, Search, and Profile constant so the mobile traveler never relearns navig
 		transition: background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
 	}
 
-	.mobile-dock a:hover,
-	.mobile-dock a[aria-current="page"] {
+	body[data-geelooy-route="home"] .mobile-dock a:hover,
+body[data-geelooy-route="home"] .mobile-dock a[aria-current="page"] {
 		border-color: #355f7f;
 		background: #10253e;
 		color: #fff;
 		transform: translateY(-1px);
 	}
 
-	.mobile-dock a:focus-visible {
+	body[data-geelooy-route="home"] .mobile-dock a:active {
+		border-color: #4f83a8;
+		background: #0d1d30;
+		transform: translateY(1px) scale(.97);
+	}
+
+	body[data-geelooy-route="home"] .mobile-dock a:focus-visible {
 		outline: 3px solid var(--focus-ring);
 		outline-offset: 2px;
 	}
 
-	.mobile-dock span {
+	body[data-geelooy-route="home"] .mobile-dock span {
 		font-size: 1.04rem;
 		line-height: 1;
 	}
 
-	.mobile-dock small {
+	body[data-geelooy-route="home"] .mobile-dock small {
 		overflow: hidden;
 		max-width: 100%;
 		font-size: .56rem;
@@ -75,21 +81,21 @@ Social, Search, and Profile constant so the mobile traveler never relearns navig
 		white-space: nowrap;
 	}
 
-	.site-footer {
+	body[data-geelooy-route="home"] .site-footer {
 		display: none;
 	}
 }
 
-body.explore-open .mobile-dock,
-body[data-awtsmoos-profile-open="true"] .mobile-dock {
+body[data-geelooy-route="home"].explore-open .mobile-dock,
+body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] .mobile-dock {
 	opacity: 0;
 	pointer-events: none;
 	transform: translateY(1rem);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.mobile-dock,
-	.mobile-dock a {
+	body[data-geelooy-route="home"] .mobile-dock,
+body[data-geelooy-route="home"] .mobile-dock a {
 		transition: none;
 	}
 }

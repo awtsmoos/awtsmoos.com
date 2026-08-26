@@ -1,0 +1,67 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets one mission enter attention without letting its backdrop own the world forever;
+ * Awtsmoos.com bounds the offer to safe viewport measure, clear actions, and deliberate disclosure together.
+ */
+
+.Awtsmoos-gameplay.Awtsmoos-modal-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: var(--gp-z-modal);
+	display: grid;
+	place-items: center;
+	padding: var(--gp-safe-top) var(--gp-safe-right) var(--gp-safe-bottom) var(--gp-safe-left);
+	background: rgba(2, 5, 4, 0.72);
+	backdrop-filter: blur(10px);
+}
+
+.Awtsmoos-gameplay.Awtsmoos-modal-backdrop[hidden] {
+	display: none;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-quest-offer {
+	width: min(620px, 100%);
+	max-height: calc(100dvh - var(--gp-safe-top) - var(--gp-safe-bottom) - 8px);
+	padding: clamp(20px, 5vw, 28px);
+	overflow: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--gp-line);
+	border-radius: 24px;
+	background: linear-gradient(150deg, rgba(27, 35, 28, 0.97), rgba(6, 14, 12, 0.98));
+	color: var(--gp-text);
+	box-shadow: 0 26px 90px rgba(0, 0, 0, 0.52), inset 0 1px rgba(255, 255, 255, 0.06);
+	font-size: 15px;
+	line-height: 1.6;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-quest-offer h2 {
+	margin: 0;
+	color: var(--gp-gold-bright);
+	font: 600 clamp(30px, 6vw, 42px) Georgia, serif;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-quest-offer .giver {
+	color: #9fd9c0;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-objectives {
+	padding-left: 22px;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-objectives li {
+	margin: 8px 0;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-offer-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.Awtsmoos-gameplay :is(.Awtsmoos-offer-actions button, .Awtsmoos-quest-button) {
+	min-height: 44px;
+	padding: 11px 15px;
+}

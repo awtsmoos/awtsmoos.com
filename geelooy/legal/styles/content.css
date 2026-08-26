@@ -1,0 +1,71 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives written policy generous measure, clear links, and controls whose states never disappear from sight;
+Awtsmoos.com keeps these prose and action rules rooted in Legal alone, professional by day and luminous by night.
+*/
+.legal-page__section p,
+.legal-page__section li {
+	max-width: 72ch;
+	color: var(--legal-muted);
+	line-height: 1.72;
+}
+.legal-page__section p:last-child {
+	margin-bottom: 0;
+}
+.legal-page__section ul {
+	margin-bottom: 0;
+	padding-left: 1.25rem;
+}
+.legal-page__section li + li {
+	margin-top: .45rem;
+}
+.legal-page__jump-links a,
+.legal-page__footer-links a {
+	display: inline-flex;
+	min-height: 2.75rem;
+	align-items: center;
+	gap: .45rem;
+	padding: .55rem .75rem;
+	border: 1px solid var(--legal-line);
+	border-radius: .8rem;
+	background: rgba(255, 255, 255, .035);
+	color: var(--legal-muted);
+	font-size: .82rem;
+	font-weight: 760;
+	text-decoration: none;
+	transition: color var(--legal-fast), border-color var(--legal-fast), background var(--legal-fast), transform var(--legal-fast), box-shadow var(--legal-fast);
+}
+.legal-page__jump-links a::before,
+.legal-page__footer-links a::before {
+	width: .34rem;
+	height: .34rem;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: var(--legal-accent);
+	content: "";
+}
+.legal-page__jump-links a:is(:hover, :focus-visible),
+.legal-page__footer-links a:is(:hover, :focus-visible) {
+	border-color: var(--legal-line-strong);
+	background: rgba(139, 220, 236, .07);
+	color: #ffffff;
+	box-shadow: 0 .55rem 1.5rem rgba(0, 0, 0, .12);
+	transform: translateY(-1px);
+}
+.legal-page__jump-links a:active,
+.legal-page__footer-links a:active {
+	transform: translateY(1px) scale(.985);
+}
+.legal-page__section a:not(.legal-page__footer-links a) {
+	color: var(--legal-accent);
+	text-underline-offset: .2em;
+	transition: color var(--legal-fast), text-decoration-thickness var(--legal-fast);
+}
+.legal-page__section a:not(.legal-page__footer-links a):is(:hover, :focus-visible) {
+	color: #d8f7ff;
+	text-decoration-thickness: .12em;
+}
+.legal-page__section a:not(.legal-page__footer-links a):active {
+	color: var(--legal-gold);
+}

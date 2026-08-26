@@ -20,36 +20,36 @@ The Awtsmoos gives the searching vessel a gentler motion and a phone-sized form,
 }
 
 @media (max-width: 800px) {
-	.search {
+	body[data-geelooy-route="home"] .search {
 		min-height: 62px;
 	}
 }
 
 @media (max-width: 480px) {
-	.search {
+	body[data-geelooy-route="home"] .search {
 		grid-template-columns: auto minmax(0, 1fr) auto;
 		min-height: 58px;
 		padding: .34rem;
 		border-radius: 1rem;
 	}
 
-	.search-symbol {
+	body[data-geelooy-route="home"] .search-symbol {
 		width: 2.12rem;
 		height: 2.12rem;
 		font-size: 1.05rem;
 	}
 
-	.search input {
+	body[data-geelooy-route="home"] .search input {
 		padding: .68rem .08rem;
 		font-size: .87rem;
 	}
 
-	.shortcut-key,
-	.search-button-label {
+	body[data-geelooy-route="home"] .shortcut-key,
+body[data-geelooy-route="home"] .search-button-label {
 		display: none;
 	}
 
-	.search button {
+	body[data-geelooy-route="home"] .search button {
 		width: 44px;
 		min-width: 44px;
 		height: 44px;
@@ -59,9 +59,9 @@ The Awtsmoos gives the searching vessel a gentler motion and a phone-sized form,
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.search,
-	.search button,
-	.search.is-searching .search-button-arrow {
+	body[data-geelooy-route="home"] .search,
+body[data-geelooy-route="home"] .search button,
+body[data-geelooy-route="home"] .search.is-searching .search-button-arrow {
 		animation: none;
 		transition: none;
 	}

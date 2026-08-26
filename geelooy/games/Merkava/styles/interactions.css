@@ -1,0 +1,56 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets every finite action answer touch, focus, and true hover without ambiguity;
+ * Awtsmoos.com keeps interaction states local to Merkava so no neighboring shell inherits battlefield motion.
+ */
+#gameShell :is(button, select, input, .commander-sigil__wallet) {
+	min-block-size: var(--merkava-control);
+}
+
+#gameShell :is(button, .commander-sigil__wallet) {
+	transition:
+		transform var(--merkava-motion-fast) ease,
+		border-color var(--merkava-motion-fast) ease,
+		background var(--merkava-motion-fast) ease,
+		box-shadow var(--merkava-motion-fast) ease,
+		filter var(--merkava-motion-fast) ease;
+}
+
+#gameShell :is(button, .commander-sigil__wallet):active:not(:disabled) {
+	transform: translateY(1px) scale(0.985);
+	filter: brightness(0.94);
+}
+
+#gameShell :is(button, select, input, .commander-sigil__wallet):focus-visible {
+	outline: 3px solid var(--merkava-focus);
+	outline-offset: 3px;
+}
+
+#gameShell :is(select, input) {
+	border: 1px solid var(--merkava-border);
+	border-radius: var(--merkava-radius-sm);
+	background: #0b0a20;
+	color: var(--merkava-ink);
+}
+
+#gameShell :is(select, input):focus-visible {
+	border-color: var(--merkava-focus);
+	box-shadow: 0 0 0 3px rgba(158, 232, 255, 0.14);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	#gameShell :is(button, .commander-sigil__wallet):hover:not(:disabled) {
+		transform: translateY(-1px);
+		border-color: var(--merkava-aqua);
+		box-shadow:
+			0 0.8rem 1.8rem rgba(0, 0, 0, 0.28),
+			0 0 1.2rem rgba(116, 220, 255, 0.12);
+	}
+
+	#gameShell button.primary:hover:not(:disabled) {
+		border-color: #fff8d6;
+		filter: brightness(1.08);
+	}
+}

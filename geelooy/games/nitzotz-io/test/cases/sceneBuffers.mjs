@@ -2,23 +2,21 @@
 // Boruch Hashem
 // Blessed is He
 import assert from 'node:assert/strict';
+import { fieldOfViewForAspect } from '../../js/camera/viewportProfile.js';
 import { lookAt, mul, perspective } from '../../js/math.js';
-import {
-	viewProjection,
-	writeViewProjection
-} from '../../js/render/matrix.js';
+import { viewProjection, writeViewProjection } from '../../js/render/matrix.js';
 import { writeSceneBuffers } from '../../js/render/sceneBuffers.js';
 
 /**
- * The Awtsmoos proves fresh vision can enter the same vessels without changing the old camera law;
- * Awtsmoos.com compares scalar projection against the established matrix helpers while stable typed identities remain one.
+ * The Awtsmoos lets fresh vision enter stable vessels without freezing yesterday's portrait distance in a test;
+ * Awtsmoos.com proves scalar projection against the shared viewport covenant while typed identities remain one.
  */
 export function runSceneBufferCases() {
 	checkStableIdentities();
 	checkProjectionEquivalence();
 	return [
 		'scene uniforms reuse stable matrix and camera typed-array identities',
-		'scalar projection matches the established portrait standard and ultrawide camera law',
+		'scalar projection matches the shared portrait, standard, and ultrawide camera law',
 		'compatibility projection preserves an owned plain-array result'
 	];
 }
@@ -47,7 +45,7 @@ function checkProjectionEquivalence() {
 	for (const canvas of aspectCases()) {
 		const actual = new Float32Array(16);
 		writeViewProjection(canvas, camera, player, actual);
-		const expected = legacyProjection(canvas, camera, player);
+		const expected = referenceProjection(canvas, camera, player);
 		for (let index = 0; index < 16; index += 1) {
 			assert.ok(Math.abs(actual[index] - expected[index]) < 0.00001, `matrix ${index}`);
 		}
@@ -56,13 +54,9 @@ function checkProjectionEquivalence() {
 	}
 }
 
-function legacyProjection(canvas, camera, player) {
+function referenceProjection(canvas, camera, player) {
 	const aspect = canvas.width / Math.max(1, canvas.height);
-	const fov = aspect > 1.7
-		? Math.PI / 3.75
-		: aspect < 0.8
-			? Math.PI / 2.75
-			: Math.PI / 3.25;
+	const fov = fieldOfViewForAspect(aspect);
 	const eye = [camera.x, camera.z, camera.y];
 	const target = [camera.targetX ?? player.x, camera.targetZ ?? player.z, camera.targetY ?? player.y];
 	return mul(perspective(fov, aspect, 8, 8200), lookAt(eye, target));

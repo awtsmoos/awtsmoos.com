@@ -1,19 +1,22 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @file TempleChunk.js
- * @description Owns one bounded recyclable road segment using only the generic procedural-core native scene graph.
- * The Awtsmoos renews one stretch of stone until yesterday's vessel becomes today's road again;
- * Awtsmoos.com keeps static district form apart from pooled challenge and reward so endlessness stays plain.
+ * @fileoverview Malchus recyclable Temple road chunk with textured stone road realism and quiet persistent lane guides.
+ * RESPONSIBILITY: own one pooled static road segment, lane dividers, decor, and dynamic challenge/reward regeneration lifecycle.
+ * NON-RESPONSIBILITY: this chunk never advances stream speed, chooses collision responses, computes camera framing, or imports another renderer.
+ * OROS/KEILIM: endless road possibility is ohr; pooled stone, lane light, and generated challenges are Malchus kelim renewed into each stretch.
+ * The Awtsmoos renews one road beneath the runner before yesterday's chunk can become today's way;
+ * Awtsmoos.com lets remote cobblestone mingle with worn stone while bright lane law stays simple, readable, and clear each day.
  */
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 import {
 	OLAM_CONFIG,
-	WORLD_COLORS
+	READABILITY_COLORS
 } from "../config.js";
 import { ChunkDynamicBuilder } from "./ChunkDynamicBuilder.js";
 
@@ -35,7 +38,7 @@ export class TempleChunk {
 		this.dynamicBuilder.initialize(this);
 	}
 
-	/** @returns {object} Procedural road slab. */
+	/** @returns {object} Procedural road slab with shared remote stone blending. */
 	createRoad() {
 		return this.meshFactory.cube({
 			name: "TempleRoad",
@@ -45,12 +48,13 @@ export class TempleChunk {
 				0.34,
 				OLAM_CONFIG.chunkLength
 			],
-			color: WORLD_COLORS.stoneDark,
+			color: READABILITY_COLORS.roadBase,
+			surface: "roadStone",
 			worldModel: { static: true }
 		});
 	}
 
-	/** Draws two quiet gold dividers that preserve three readable lanes. */
+	/** Draws two restrained bright dividers that remain deliberately untextured for speed readability. */
 	addLaneDividers() {
 		for (const x of [-1.55, 1.55]) {
 			this.root.add(this.meshFactory.cube({
@@ -61,7 +65,7 @@ export class TempleChunk {
 					0.025,
 					OLAM_CONFIG.chunkLength
 				],
-				color: [0.73, 0.58, 0.32, 1],
+				color: READABILITY_COLORS.roadEdge,
 				worldModel: { static: true }
 			}));
 		}
@@ -87,11 +91,7 @@ export class TempleChunk {
 				}
 			}
 			: this.patternBook.get(generationIndex);
-		this.dynamicBuilder.populate(
-			this,
-			pattern,
-			generationIndex
-		);
+		this.dynamicBuilder.populate(this, pattern, generationIndex);
 		this.root.userData.generationIndex = generationIndex;
 		this.root.userData.district = district.id;
 		this.root.userData.districtLabel = district.label;

@@ -1,0 +1,891 @@
+{
+	"BH": "B\"H",
+	"boruchHashem": "Boruch Hashem",
+	"blessedIsHe": "Blessed is He",
+	"awtsmoos": "The Awtsmoos renews every photographed vessel while Awtsmoos.com keeps each canonical collection and URL discoverable in light.",
+	"productionRoot": "https://awtsmoos.com/sites/firebase_drive_migration/",
+	"count": 125,
+	"families": {
+		"architecture": 33,
+		"craft": 24,
+		"ground": 35,
+		"trees": 33
+	},
+	"entries": [
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:displacement map for tiled roof 4.png",
+			"name": "displacement map for tiled roof 4.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/displacement%20map%20for%20tiled%20roof%204.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:gray brick 1.png",
+			"name": "gray brick 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/gray%20brick%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:limestone bricks 1.png",
+			"name": "limestone bricks 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/limestone%20bricks%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:limestone bricks 2.png",
+			"name": "limestone bricks 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/limestone%20bricks%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:marble 1.png",
+			"name": "marble 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/marble%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:new bricks 1.png",
+			"name": "new bricks 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/new%20bricks%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:new red bricks 2.png",
+			"name": "new red bricks 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/new%20red%20bricks%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:oak wood 1.png",
+			"name": "oak wood 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/oak%20wood%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:oak wood 2.png",
+			"name": "oak wood 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/oak%20wood%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:oak wood 3.png",
+			"name": "oak wood 3.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/oak%20wood%203.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:oak wooden planks 2.png",
+			"name": "oak wooden planks 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/oak%20wooden%20planks%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:polished granite Rock 1.png",
+			"name": "polished granite Rock 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/polished%20granite%20Rock%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:polished granite Rock 2.png",
+			"name": "polished granite Rock 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/polished%20granite%20Rock%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:polished granite Rock 3.png",
+			"name": "polished granite Rock 3.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/polished%20granite%20Rock%203.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:polished granite Rock 4.png",
+			"name": "polished granite Rock 4.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/polished%20granite%20Rock%204.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:red brick 1.png",
+			"name": "red brick 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/red%20brick%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:red brick 2.png",
+			"name": "red brick 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/red%20brick%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:red brick 3.png",
+			"name": "red brick 3.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/red%20brick%203.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:tiled roof 1.png",
+			"name": "tiled roof 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/tiled%20roof%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:tiled roof 2.png",
+			"name": "tiled roof 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/tiled%20roof%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:tiled roof 3 smaller tiles.png",
+			"name": "tiled roof 3 smaller tiles.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/tiled%20roof%203%20smaller%20tiles.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:tiled roof 4.png",
+			"name": "tiled roof 4.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/tiled%20roof%204.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:tree bark 1.png",
+			"name": "tree bark 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/tree%20bark%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:weathered Red bricks 1.png",
+			"name": "weathered Red bricks 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/weathered%20Red%20bricks%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:weathered Red bricks 3.png",
+			"name": "weathered Red bricks 3.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/weathered%20Red%20bricks%203.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:weathered Red bricks 5.png",
+			"name": "weathered Red bricks 5.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/weathered%20Red%20bricks%205.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:weathered Red bricks 6.png",
+			"name": "weathered Red bricks 6.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/weathered%20Red%20bricks%206.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:weathered Red bricks with slight yellow touch4.png",
+			"name": "weathered Red bricks with slight yellow touch4.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/weathered%20Red%20bricks%20with%20slight%20yellow%20touch4.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:weathered Red bricks2.png",
+			"name": "weathered Red bricks2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/weathered%20Red%20bricks2.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:white brick 1.png",
+			"name": "white brick 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/white%20brick%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:wooden oak planks 1.png",
+			"name": "wooden oak planks 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/wooden%20oak%20planks%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:wooden planked floor.png",
+			"name": "wooden planked floor.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/wooden%20planked%20floor.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "architecture",
+			"id": "architecture:yellow brick 1.png",
+			"name": "yellow brick 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/yellow%20brick%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:copper 1.png",
+			"name": "copper 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/copper%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:copper 2.png",
+			"name": "copper 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/copper%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:cow fur 1.png",
+			"name": "cow fur 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/cow%20fur%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:cracked glass.png",
+			"name": "cracked glass.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/cracked%20glass.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:deer fur 1.png",
+			"name": "deer fur 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/deer%20fur%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:fox fur 1.png",
+			"name": "fox fur 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/fox%20fur%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:gold 2.png",
+			"name": "gold 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/gold%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:horse fur 1.png",
+			"name": "horse fur 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/horse%20fur%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:leaf 1.png",
+			"name": "leaf 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/leaf%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:leather.png",
+			"name": "leather.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/leather.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:oak leaf fall.png",
+			"name": "oak leaf fall.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/oak%20leaf%20fall.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:oak leaf spring.png",
+			"name": "oak leaf spring.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/oak%20leaf%20spring.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:parchment.png",
+			"name": "parchment.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/parchment.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:raveled rope.png",
+			"name": "raveled rope.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/raveled%20rope.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:red ceramic.png",
+			"name": "red ceramic.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/red%20ceramic.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:rusty iron.png",
+			"name": "rusty iron.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/rusty%20iron.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:seamless water brighter.png",
+			"name": "seamless water brighter.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/seamless%20water%20brighter.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:seamless water.png",
+			"name": "seamless water.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/seamless%20water.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:shallow river water.png",
+			"name": "shallow river water.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/shallow%20river%20water.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:silver 1.png",
+			"name": "silver 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/silver%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:silver 2.png",
+			"name": "silver 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/silver%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:tan cloth.png",
+			"name": "tan cloth.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/tan%20cloth.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:unraveled rope.png",
+			"name": "unraveled rope.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/unraveled%20rope.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "craft",
+			"id": "craft:water not seamless.png",
+			"name": "water not seamless.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/water%20not%20seamless.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:bluestone 1.png",
+			"name": "bluestone 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/bluestone%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:cave floor.png",
+			"name": "cave floor.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/cave%20floor.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:cobblestone.png",
+			"name": "cobblestone.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/cobblestone.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dark forest floor nonlight.png",
+			"name": "dark forest floor nonlight.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dark%20forest%20floor%20nonlight.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dirt 1.png",
+			"name": "dirt 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dirt 2.png",
+			"name": "dirt 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dirt 5.png",
+			"name": "dirt 5.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%205.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dirt 6.png",
+			"name": "dirt 6.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%206.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dirt grass 1.png",
+			"name": "dirt grass 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%20grass%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dirt grass 2.png",
+			"name": "dirt grass 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%20grass%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dirt grass 3.png",
+			"name": "dirt grass 3.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%20grass%203.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dirt grass 4.png",
+			"name": "dirt grass 4.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%20grass%204.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dirt grass 6.png",
+			"name": "dirt grass 6.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%20grass%206.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:dirt ground 3.png",
+			"name": "dirt ground 3.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/dirt%20ground%203.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:forest floor covered with leaves.png",
+			"name": "forest floor covered with leaves.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/forest%20floor%20covered%20with%20leaves.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:grass 1.png",
+			"name": "grass 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:grass 4.png",
+			"name": "grass 4.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%204.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:grass 5.png",
+			"name": "grass 5.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%205.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:grass 6.png",
+			"name": "grass 6.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%206.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:grass 7.png",
+			"name": "grass 7.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%207.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:grass 8.png",
+			"name": "grass 8.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass%208.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:grass1.png",
+			"name": "grass1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/grass1.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:marsh grass.png",
+			"name": "marsh grass.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/marsh%20grass.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:mud.png",
+			"name": "mud.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/mud.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:sand 1.png",
+			"name": "sand 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/sand%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:sand 2.png",
+			"name": "sand 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/sand%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:scortced floor.png",
+			"name": "scortced floor.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/scortced%20floor.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:snow 1.png",
+			"name": "snow 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/snow%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:snow 2.png",
+			"name": "snow 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/snow%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:stone 1.png",
+			"name": "stone 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/stone%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:stone floor 2.png",
+			"name": "stone floor 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/stone%20floor%202.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:stone floor.png",
+			"name": "stone floor.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/stone%20floor.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:tilled soil.png",
+			"name": "tilled soil.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/tilled%20soil.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:weathered fieldstone Rock 1.png",
+			"name": "weathered fieldstone Rock 1.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/weathered%20fieldstone%20Rock%201.png"
+		},
+		{
+			"collection": "full-resolution",
+			"family": "ground",
+			"id": "ground:weathered fieldstone Rock 2.png",
+			"name": "weathered fieldstone Rock 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/full-resolution/weathered%20fieldstone%20Rock%202.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:acacia bark.png",
+			"name": "acacia bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/acacia%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:acacia compound leaf.png",
+			"name": "acacia compound leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/acacia%20compound%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:apple leaf.png",
+			"name": "apple leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/apple%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:apple tree bark.png",
+			"name": "apple tree bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/apple%20tree%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:ash bark.png",
+			"name": "ash bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/ash%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:ash leaf.png",
+			"name": "ash leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/ash%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:aspen bark.png",
+			"name": "aspen bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/aspen%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:aspen leaf.png",
+			"name": "aspen leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/aspen%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:baobab bark.png",
+			"name": "baobab bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/baobab%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:baobab leaf.png",
+			"name": "baobab leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/baobab%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:Birch bark.png",
+			"name": "Birch bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/Birch%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:birtch leaf.png",
+			"name": "birtch leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/birtch%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:cedar spray.png",
+			"name": "cedar spray.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/cedar%20spray.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:cypress bark.png",
+			"name": "cypress bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/cypress%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:cypress scale leaf.png",
+			"name": "cypress scale leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/cypress%20scale%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:mangrove leaf.png",
+			"name": "mangrove leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/mangrove%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:mangrove tree bark.png",
+			"name": "mangrove tree bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/mangrove%20tree%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:maple leaf 2.png",
+			"name": "maple leaf 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/maple%20leaf%202.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:maple leaf.png",
+			"name": "maple leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/maple%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:oak leaf.png",
+			"name": "oak leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/oak%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:olive leaf.png",
+			"name": "olive leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/olive%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:Olive tree bark.png",
+			"name": "Olive tree bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/Olive%20tree%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:palm bark 2.png",
+			"name": "palm bark 2.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/palm%20bark%202.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:palm bark.png",
+			"name": "palm bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/palm%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:palm frond.png",
+			"name": "palm frond.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/palm%20frond.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:pine needles.png",
+			"name": "pine needles.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/pine%20needles.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:poplar bark.png",
+			"name": "poplar bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/poplar%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:poplar leaf.png",
+			"name": "poplar leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/poplar%20leaf.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:redwood bark.png",
+			"name": "redwood bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/redwood%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:redwood needles.png",
+			"name": "redwood needles.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/redwood%20needles.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:sakura petal.png",
+			"name": "sakura petal.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/sakura%20petal.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:willow bark.png",
+			"name": "willow bark.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/willow%20bark.png"
+		},
+		{
+			"collection": "tree",
+			"family": "trees",
+			"id": "trees:willow leaf.png",
+			"name": "willow leaf.png",
+			"productionUrl": "https://awtsmoos.com/sites/firebase_drive_migration/awtsmoos-nature/ilanos/trees/willow%20leaf.png"
+		}
+	]
+}

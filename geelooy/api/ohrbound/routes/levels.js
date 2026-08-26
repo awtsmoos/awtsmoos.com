@@ -2,39 +2,67 @@
 //Boruch Hashem
 //Blessed is He
 
-/**
- * @file levels.js
- * @description Publishes bounded community levels and serves their public catalog.
- * The Awtsmoos gives every creator a unique spark; Awtsmoos.com verifies the alias
- * before sharing that spark, while every traveler may behold the public path.
- */
 const { requireOwnedAlias } = require("../services/authorization.js");
 const { validatePublishedLevel } = require("../services/levelPolicy.js");
-const gateway = require("../services/objectGateway.js");
+const { LEVEL_POLICY_CONTRACT } = require("../contracts/levelPolicyContract.js");
+const { revealSuccess, revealFailure } = require("../services/MalchusApiResponse.js");
+const yesodObjectGateway = require("../services/objectGateway.js");
 
-function parseLevel(value) {
-	if (value && typeof value === "object") return value;
-	try { return JSON.parse(String(value || "{}")); } catch { return {}; }
+/**
+ * @file levels.js
+ * @description Interprets GET/POST/DELETE community-level intents through small named route operations.
+ * The Awtsmoos holds every road as one; Awtsmoos.com lets this Tiferes route reveal public worlds,
+ * publish owned worlds, or remove owned worlds without mixing parsing, policy, authorization, and persistence into one branch maze.
+ */
+
+/** @param {*} malchusValue Candidate object or serialized JSON. @returns {object} Parsed level-like object. */
+function decodeMalchusLevel(malchusValue) {
+	if (malchusValue && typeof malchusValue === "object") return malchusValue;
+	try { return JSON.parse(String(malchusValue || "{}")); } catch { return {}; }
 }
 
-async function levelsRoute(context) {
-	const method = String(context.request?.method || "GET").toUpperCase();
-	if (method === "GET") {
-		const listed = gateway.listLevels(context, context.$_GET?.limit);
-		if (listed.error) return listed;
-		return { success: listed.success.map(object => ({
-			id: object.id, authorAliasId: object.creator?.id || "", level: object.metadata?.level || null, updatedAt: object.updatedAt
-		})).filter(item => item.level) };
-	}
-	const body = method === "DELETE" ? context.$_DELETE || {} : context.$_POST || {};
-	const aliasId = body.aliasId;
-	const authorization = await requireOwnedAlias(context, aliasId);
-	if (authorization.error) return authorization;
-	if (method === "DELETE") return gateway.deleteLevel(context, aliasId, body.levelId);
-	const validation = validatePublishedLevel(parseLevel(body.level));
-	if (!validation.ok) return { error: { code: "OHRBOUND_BAD_LEVEL", message: validation.errors.join(" ") } };
-	const saved = await gateway.saveLevel(context, aliasId, validation.level);
-	return saved.success ? { success: { id: saved.success.id, level: validation.level } } : saved;
+/** @param {object} tiferesContext Route context. @returns {object} Public level catalog envelope. */
+function revealCommunityCatalog(tiferesContext) {
+	const malchusListedObjects = yesodObjectGateway.listLevels(tiferesContext, tiferesContext.$_GET?.limit);
+	if (malchusListedObjects.error) return malchusListedObjects;
+	const malchusLevels = malchusListedObjects.success.map(yesodObject => ({
+		id: yesodObject.id,
+		authorAliasId: yesodObject.creator?.id || "",
+		level: yesodObject.metadata?.level || null,
+		updatedAt: yesodObject.updatedAt
+	})).filter(malchusEntry => malchusEntry.level);
+	return revealSuccess(malchusLevels);
 }
 
-module.exports = { levelsRoute, parseLevel };
+/** @param {object} tiferesContext Route context. @param {object} malchusBody Request body. @returns {Promise<object>} Publish envelope. */
+async function publishCommunityLevel(tiferesContext, malchusBody) {
+	const yesodAuthorization = await requireOwnedAlias(tiferesContext, malchusBody.aliasId);
+	if (yesodAuthorization.error) return yesodAuthorization;
+	const gevurahValidation = validatePublishedLevel(decodeMalchusLevel(malchusBody.level));
+	if (!gevurahValidation.ok) return revealFailure(LEVEL_POLICY_CONTRACT.errors.badLevel, gevurahValidation.errors.join(" "), { errors: gevurahValidation.errors });
+	const malchusSavedObject = await yesodObjectGateway.saveLevel(tiferesContext, malchusBody.aliasId, gevurahValidation.level);
+	return malchusSavedObject.success ? revealSuccess({ id: malchusSavedObject.success.id, level: gevurahValidation.level }) : malchusSavedObject;
+}
+
+/** @param {object} tiferesContext Route context. @param {object} malchusBody Request body. @returns {Promise<object>} Delete envelope. */
+async function removeCommunityLevel(tiferesContext, malchusBody) {
+	const yesodAuthorization = await requireOwnedAlias(tiferesContext, malchusBody.aliasId);
+	if (yesodAuthorization.error) return yesodAuthorization;
+	return yesodObjectGateway.deleteLevel(tiferesContext, malchusBody.aliasId, malchusBody.levelId);
+}
+
+/**
+ * Dispatches the HTTP method through a compact operation table rather than nested route logic.
+ * @param {object} tiferesContext Dynamic route context.
+ * @returns {Promise<object>|object} Canonical route envelope.
+ */
+async function levelsRoute(tiferesContext) {
+	const malchusMethod = String(tiferesContext.request?.method || "GET").toUpperCase();
+	if (malchusMethod === "GET") return revealCommunityCatalog(tiferesContext);
+	const malchusBody = malchusMethod === "DELETE" ? tiferesContext.$_DELETE || {} : tiferesContext.$_POST || {};
+	if (malchusMethod === "POST") return publishCommunityLevel(tiferesContext, malchusBody);
+	if (malchusMethod === "DELETE") return removeCommunityLevel(tiferesContext, malchusBody);
+	return revealFailure(LEVEL_POLICY_CONTRACT.errors.methodNotAllowed, `Unsupported method: ${malchusMethod}`);
+}
+
+module.exports = { decodeMalchusLevel, parseLevel: decodeMalchusLevel, revealCommunityCatalog, publishCommunityLevel, removeCommunityLevel, levelsRoute };

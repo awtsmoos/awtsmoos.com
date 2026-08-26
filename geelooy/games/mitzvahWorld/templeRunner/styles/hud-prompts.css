@@ -2,17 +2,19 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
+ * @fileoverview Tiferes status, power, and turning prompts using explicit HUD/prompt layers so temporary guidance never collides with controls or drawers.
  * The Awtsmoos renews status, power, and turning before a prompt may enter the runner's eye;
- * Awtsmoos.com keeps each message brief and contextual, then lets it leave so the road stays wide beneath the sky.
+ * Awtsmoos.com lets each message hold its own measured row, so pause, power, and reward never trample one another beneath the sky.
  */
 
 .status-stage {
 	position: absolute;
 	top: calc(var(--safe-top) + 58px);
 	left: 50%;
-	z-index: 8;
+	z-index: var(--layer-hud);
 	display: grid;
-	place-items: center;
+	justify-items: center;
+	gap: 5px;
 	max-width: calc(100vw - 32px);
 	transform: translateX(-50%);
 	pointer-events: none;
@@ -20,7 +22,7 @@
 
 .status-pill,
 .power-up-status {
-	grid-area: 1 / 1;
+	min-width: 0;
 	max-width: min(82vw, 430px);
 	padding: 6px 11px;
 	border: 1px solid var(--line);
@@ -37,24 +39,49 @@
 	white-space: nowrap;
 }
 
+.status-pill[data-moment="streak"],
+.status-pill[data-moment="shield"] {
+	border-color: var(--line-strong);
+	background: rgba(48, 32, 15, 0.76);
+	color: var(--gold-300);
+}
+
+.status-pill[data-moment="magnet"],
+.status-pill[data-moment="double"] {
+	border-color: var(--line-cyan);
+	background: rgba(15, 30, 33, 0.76);
+	color: var(--cyan-300);
+}
+
 .power-up-status {
 	border-color: var(--line-cyan);
 	background: rgba(15, 30, 33, 0.68);
 	color: var(--cyan-300);
 }
 
+.power-up-status[data-power="shield"] {
+	border-color: var(--line-strong);
+	background: rgba(48, 32, 15, 0.72);
+	color: var(--gold-300);
+}
+
+.power-up-status[data-power="mixed"] {
+	border-color: rgba(165, 226, 235, 0.42);
+	background: linear-gradient(135deg, rgba(46, 31, 15, 0.74), rgba(14, 32, 35, 0.72));
+	color: var(--ivory-100);
+}
+
 .turn-prompt {
 	position: absolute;
 	top: 26%;
 	left: 50%;
-	z-index: 10;
+	z-index: var(--layer-prompt);
 	min-width: 136px;
 	padding: 10px 18px;
 	transform: translate(-50%, -50%);
 	border: 1px solid rgba(255, 224, 138, 0.55);
 	border-radius: var(--radius-medium);
-	background:
-		linear-gradient(135deg, rgba(63, 38, 17, 0.88), rgba(20, 13, 9, 0.84));
+	background: linear-gradient(135deg, rgba(63, 38, 17, 0.88), rgba(20, 13, 9, 0.84));
 	backdrop-filter: var(--glass-blur);
 	box-shadow: var(--shadow-deep);
 	color: var(--gold-300);
@@ -78,6 +105,7 @@
 @media (max-height: 520px) and (orientation: landscape) {
 	.status-stage {
 		top: calc(var(--safe-top) + 48px);
+		gap: 3px;
 	}
 
 	.turn-prompt {

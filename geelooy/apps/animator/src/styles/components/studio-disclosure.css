@@ -1,0 +1,87 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews concealment and revelation before advanced controls can receive shape;
+ * Awtsmoos.com gives native disclosure structure a quiet professional vessel, while a truly closed chamber contributes no stray geometry to the page.
+ */
+.aw-studio-disclosure {
+	min-width: 0;
+}
+
+.aw-studio-disclosure.aw-studio-inspector-section {
+	padding: 0;
+	overflow: clip;
+}
+
+.aw-studio-inner-disclosure {
+	margin-top: 8px;
+	border: 1px solid var(--aw-line);
+	border-radius: var(--aw-radius-sm);
+	background: var(--aw-control-subtle);
+	overflow: clip;
+}
+
+.aw-studio-disclosure-summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	gap: 7px;
+	align-items: center;
+	min-height: 38px;
+	padding: 7px 9px;
+	color: var(--aw-text-soft);
+	cursor: pointer;
+	list-style: none;
+	user-select: none;
+}
+
+.aw-studio-disclosure-summary::-webkit-details-marker {
+	display: none;
+}
+
+.aw-studio-disclosure-title {
+	overflow: hidden;
+	font-size: 10px;
+	font-weight: 720;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.aw-studio-disclosure-hint {
+	color: var(--aw-muted);
+	font-size: 8px;
+	white-space: nowrap;
+}
+
+.aw-studio-disclosure-caret {
+	font-size: 18px;
+	line-height: 1;
+}
+
+.aw-studio-disclosure-content {
+	display: grid;
+	gap: 8px;
+	padding: 0 9px 9px;
+	border-top: 1px solid var(--aw-line);
+}
+
+.aw-studio-disclosure:not([open]) > .aw-studio-disclosure-content {
+	display: none;
+}
+
+.aw-studio-inner-disclosure > .aw-studio-disclosure-content {
+	padding-top: 8px;
+}
+
+.aw-studio-field {
+	display: grid;
+	gap: 4px;
+	margin-bottom: 8px;
+	color: var(--aw-muted);
+	font-size: 9px;
+}
+
+@media (max-width: 780px) {
+	.aw-studio-disclosure-summary {
+		min-height: var(--aw-touch-height);
+	}
+}

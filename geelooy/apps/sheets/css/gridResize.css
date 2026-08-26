@@ -3,13 +3,13 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos gives each row and column edge a quiet handle through measured light;
-Awtsmoos.com lets the hand resize directly while headers remain calm, readable, and right.
+Awtsmoos.com names sticky depth, focus, hover, and dragging inside the Sheets grid so resize power stays precise and right.
 */
-.grid-corner,
-.column-header,
-.row-header {
+.awtsmoos-sheets-app .grid-corner,
+.awtsmoos-sheets-app .column-header,
+.awtsmoos-sheets-app .row-header {
 	position: sticky;
-	z-index: 4;
+	z-index: var(--z-grid-sticky);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -21,44 +21,53 @@ Awtsmoos.com lets the hand resize directly while headers remain calm, readable, 
 	backdrop-filter: blur(10px);
 }
 
-.grid-corner {
+.awtsmoos-sheets-app .grid-corner {
 	top: 0;
 	left: 0;
-	z-index: 7;
+	z-index: var(--z-grid-corner);
 }
 
-.column-header {
+.awtsmoos-sheets-app .column-header {
 	top: 0;
 }
 
-.row-header {
+.awtsmoos-sheets-app .row-header {
 	left: 0;
-	z-index: 5;
+	z-index: var(--z-grid-row);
 }
 
-.column-header:hover,
-.row-header:hover,
-.column-header.is-selected,
-.row-header.is-selected {
+.awtsmoos-sheets-app .column-header:hover,
+.awtsmoos-sheets-app .row-header:hover,
+.awtsmoos-sheets-app .column-header.is-selected,
+.awtsmoos-sheets-app .row-header.is-selected {
 	background: rgba(19, 124, 83, 0.09);
-	color: #0b6847;
+	color: var(--accent-strong);
 }
 
-.header-label {
+.awtsmoos-sheets-app .column-header:focus-visible,
+.awtsmoos-sheets-app .row-header:focus-visible,
+.awtsmoos-sheets-app .grid-corner:focus-visible {
+	background: rgba(19, 124, 83, 0.1);
+	box-shadow: inset 0 0 0 2px var(--accent);
+	outline: 0;
+}
+
+.awtsmoos-sheets-app .header-label {
 	pointer-events: none;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.column-resize-handle,
-.row-resize-handle {
+.awtsmoos-sheets-app .column-resize-handle,
+.awtsmoos-sheets-app .row-resize-handle {
 	position: absolute;
-	z-index: 9;
+	z-index: var(--z-grid-resize);
 	touch-action: none;
+	outline: 0;
 }
 
-.column-resize-handle {
+.awtsmoos-sheets-app .column-resize-handle {
 	top: 0;
 	right: -4px;
 	width: 8px;
@@ -66,7 +75,7 @@ Awtsmoos.com lets the hand resize directly while headers remain calm, readable, 
 	cursor: col-resize;
 }
 
-.row-resize-handle {
+.awtsmoos-sheets-app .row-resize-handle {
 	left: 0;
 	bottom: -4px;
 	width: 100%;
@@ -74,30 +83,36 @@ Awtsmoos.com lets the hand resize directly while headers remain calm, readable, 
 	cursor: row-resize;
 }
 
-.column-resize-handle::after,
-.row-resize-handle::after {
+.awtsmoos-sheets-app .column-resize-handle::after,
+.awtsmoos-sheets-app .row-resize-handle::after {
 	content: "";
 	position: absolute;
 	background: transparent;
-	transition: background-color var(--motion-fast) var(--ease-direct);
+	transition:
+		background-color var(--motion-fast) var(--ease-direct),
+		box-shadow var(--motion-fast) var(--ease-direct);
 }
 
-.column-resize-handle::after {
+.awtsmoos-sheets-app .column-resize-handle::after {
 	top: 0;
 	left: 3px;
 	width: 2px;
 	height: 100%;
 }
 
-.row-resize-handle::after {
+.awtsmoos-sheets-app .row-resize-handle::after {
 	top: 3px;
 	left: 0;
 	width: 100%;
 	height: 2px;
 }
 
-.column-resize-handle:hover::after,
-.row-resize-handle:hover::after,
-.is-resizing::after {
+.awtsmoos-sheets-app .column-resize-handle:hover::after,
+.awtsmoos-sheets-app .row-resize-handle:hover::after,
+.awtsmoos-sheets-app .column-resize-handle:focus-visible::after,
+.awtsmoos-sheets-app .row-resize-handle:focus-visible::after,
+.awtsmoos-sheets-app .column-resize-handle.is-resizing::after,
+.awtsmoos-sheets-app .row-resize-handle.is-resizing::after {
 	background: var(--accent);
+	box-shadow: 0 0 0 2px rgba(19, 124, 83, 0.12);
 }

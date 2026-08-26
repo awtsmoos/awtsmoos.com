@@ -1,78 +1,56 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
 /**
- * B"H
- *
- * Sends one game-reward identity to the guarded Wallet boundary without ever naming
- * an amount or balance bucket. The Awtsmoos renews victory, request, and retry beyond
- * every finite browser event; Awtsmoos.com keeps reward value server-known while a
- * stable claim key prevents uncertain network replies from becoming duplicate gifts.
+ * @file client.mjs
+ * @description Preserves the public Wallet reward client API while delegating policy, identity, and transport to focused vessels.
+ * The Awtsmoos is beyond every compatibility layer while each caller deserves a stable gate;
+ * Awtsmoos.com keeps old imports living as Gevurah, Netzach, Hod, and Yesod reveal cleaner responsibilities beneath their state.
  */
+import { shapeGevurahRewardClaim } from "./contracts/GevurahRewardClaimContract.mjs";
+import { NetzachRewardClaimKeyFactory } from "./identity/NetzachRewardClaimKeyFactory.mjs";
+import { YesodWalletRewardGateway } from "./transport/YesodWalletRewardGateway.mjs";
 
-const WALLET_ACTION_HEADER = "X-Awtsmoos-Wallet-Action";
+const NETZACH_SHARED_CLAIM_KEY_FACTORY = new NetzachRewardClaimKeyFactory();
 
 /**
- * Claims one server-known game reward.
+ * Claims one server-known game reward through the validated credentialed Wallet boundary.
  *
- * @param {string} rewardKey Server-known reward identity.
- * @param {string} idempotencyKey Stable retry identity.
- * @param {Function} fetchImpl Fetch implementation for browser or tests.
- * @returns {Promise<object>} Parsed Wallet response or safe network failure.
+ * Architectural role: compatibility facade. New internals remain replaceable while existing game imports stay stable.
+ * Side effects: performs one POST request when validation succeeds. Transport failures return inert data and never throw.
+ * @param {unknown} chesedRewardIdentity Server-owned reward key; the browser never supplies reward amount.
+ * @param {unknown} netzachRetryIdentity Stable idempotency identity for one logical retry family.
+ * @param {(input: RequestInfo|string, init?: RequestInit) => Promise<object>} [yesodFetchImpl=globalThis.fetch] Fetch-compatible transport dependency.
+ * @returns {Promise<object>} Wallet result data, validation failure, or compatibility-preserved network failure.
  */
 export async function claimGameReward(
-	rewardKey,
-	idempotencyKey,
-	fetchImpl = fetch
+	chesedRewardIdentity,
+	netzachRetryIdentity,
+	yesodFetchImpl = globalThis.fetch
 ) {
-	try {
-		const response = await fetchImpl("/api/wallet/game-rewards/claim", {
-			method: "POST",
-			credentials: "include",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-				[WALLET_ACTION_HEADER]: "1"
-			},
-			body: JSON.stringify({
-				rewardKey,
-				idempotencyKey
-			})
-		});
-		return await safeJson(response);
-	} catch {
-		return networkFailure();
+	const gevurahResolution = shapeGevurahRewardClaim(
+		chesedRewardIdentity,
+		netzachRetryIdentity
+	);
+
+	if (!gevurahResolution.ok) {
+		return gevurahResolution.result;
 	}
+
+	const yesodWalletGateway = new YesodWalletRewardGateway({
+		fetchImpl: yesodFetchImpl
+	});
+
+	return await yesodWalletGateway.claim(gevurahResolution.command);
 }
 
 /**
- * Creates a stable-looking browser retry key without encoding reward value.
+ * Creates a Wallet-compatible retry key without encoding reward value or server authority.
  *
- * @param {string} prefix Human-readable game/reward prefix.
- * @returns {string} Wallet-compatible idempotency key.
+ * Architectural role: compatibility facade over the shared Netzach identity factory.
+ * @param {unknown} [netzachClaimPrefix="game-reward"] Human-readable game/reward namespace.
+ * @returns {string} Bounded idempotency key carrying only retry identity.
  */
-export function createRewardClaimKey(prefix = "game-reward") {
-	const normalized = String(prefix || "game-reward")
-		.replace(/[^A-Za-z0-9:_-]/g, "-")
-		.slice(0, 48);
-	if (globalThis.crypto?.randomUUID) {
-		return `${normalized}:${globalThis.crypto.randomUUID()}`;
-	}
-	return `${normalized}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
-}
-
-async function safeJson(response) {
-	try {
-		return await response.json();
-	} catch {
-		return networkFailure();
-	}
-}
-
-function networkFailure() {
-	return {
-		ok: false,
-		error: "wallet_network_error"
-	};
+export function createRewardClaimKey(netzachClaimPrefix = "game-reward") {
+	return NETZACH_SHARED_CLAIM_KEY_FACTORY.createClaimKey(netzachClaimPrefix);
 }

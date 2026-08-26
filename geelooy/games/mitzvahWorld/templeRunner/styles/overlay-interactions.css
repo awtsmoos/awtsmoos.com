@@ -1,0 +1,40 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @fileoverview Hod interaction grammar for game-over actions, keeping hover, press, and keyboard focus inside the overlay that owns them.
+ * The Awtsmoos renews pointer, touch, and focus before one restart can seem to answer the player's hand;
+ * Awtsmoos.com lets Hod return motion as measured feedback so the overlay stays futuristic, simple, and grand.
+ */
+
+.game-over button:focus-visible {
+	outline: 2px solid var(--gold-300);
+	outline-offset: 3px;
+	border-color: var(--line-strong);
+	box-shadow: 0 0 0 5px rgba(255, 224, 138, 0.08);
+}
+
+.game-over button:active {
+	transform: scale(0.95);
+	border-color: var(--line-strong);
+	background: linear-gradient(
+		135deg,
+		rgba(255, 224, 138, 0.28),
+		rgba(217, 157, 63, 0.18)
+	);
+	color: var(--gold-300);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.game-over button:hover {
+		transform: translateY(-2px);
+		border-color: var(--line-strong);
+		background: linear-gradient(
+			135deg,
+			rgba(255, 224, 138, 0.25),
+			rgba(217, 157, 63, 0.15)
+		);
+		color: var(--gold-300);
+	}
+}

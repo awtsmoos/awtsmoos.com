@@ -1,2 +1,10 @@
-/* B"H reader beauty settings/font-preview.css. */
-.font-preview-card { font-family:var(--font-serif); line-height:1.6; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets a font preview sing inside one chamber without changing another page's tongue;
+ * Awtsmoos.com keeps typographic experiments local, legible, and safely among the reader's vessels hung.
+ */
+.post-reader-localized-context .font-preview-card {
+	font-family: var(--font-manuscript, var(--font-serif));
+	line-height: 1.6;
+}

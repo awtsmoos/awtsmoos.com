@@ -1,0 +1,118 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets room identity remain visible while control stays humble; Awtsmoos.com gives header actions
+ * complete pointer, keyboard, press, and disabled states on one bounded sticky layer rather than arbitrary height.
+ */
+.social-hub-document .hubConversationHeader {
+	position: sticky;
+	z-index: var(--hub-layer-sticky);
+	top: 0;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: .75rem;
+	padding: .65rem 0;
+	background: color-mix(in srgb, var(--surface) 94%, transparent);
+	backdrop-filter: blur(14px);
+}
+
+.social-hub-document .hubConversationHeader > div {
+	min-width: 0;
+}
+
+.social-hub-document :is(
+	.hubConversationHeader h3,
+	.hubConversationHeader p,
+	.hubConversationStatus
+) {
+	margin: 0;
+}
+
+.social-hub-document :is(
+	.hubConversationHeader h3,
+	.hubConversationMeta
+) {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.social-hub-document :is(
+	.hubConversationMeta,
+	.hubConversationStatus
+) {
+	color: var(--muted);
+}
+
+.social-hub-document :is(
+	.hubConversationBack,
+	.hubConversationControls button
+) {
+	min-height: 44px;
+	padding: .58rem .78rem;
+	border: 1px solid var(--line-hot);
+	border-radius: .8rem;
+	background: var(--surface-strong);
+	color: var(--ink);
+	font: inherit;
+	font-weight: 750;
+	cursor: pointer;
+	transition:
+		border-color 150ms ease,
+		background 150ms ease,
+		box-shadow 150ms ease,
+		transform 150ms ease,
+		opacity 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document :is(
+		.hubConversationBack,
+		.hubConversationControls button
+	):hover {
+		border-color: color-mix(in srgb, var(--line-hot) 72%, var(--ink));
+		background: color-mix(in srgb, var(--surface-strong) 92%, var(--ink) 8%);
+	}
+}
+
+.social-hub-document :is(
+	.hubConversationBack,
+	.hubConversationControls button
+):focus-visible {
+	outline: 2px solid var(--accent, #8bdcec);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent, #8bdcec) 18%, transparent);
+}
+
+.social-hub-document :is(
+	.hubConversationBack,
+	.hubConversationControls button
+):active {
+	transform: translateY(1px) scale(.985);
+}
+
+.social-hub-document :is(
+	.hubConversationBack,
+	.hubConversationControls button
+):disabled {
+	opacity: .48;
+	cursor: not-allowed;
+	transform: none;
+}
+
+@media (max-width: 42rem) {
+	.social-hub-document .hubConversationHeader {
+		padding-top: .45rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document :is(
+		.hubConversationBack,
+		.hubConversationControls button
+	) {
+		transition: none;
+	}
+}

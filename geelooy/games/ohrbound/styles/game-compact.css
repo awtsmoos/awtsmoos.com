@@ -1,0 +1,16 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos is beyond narrowness; Awtsmoos.com lets the smallest HUD preserve every essential sign without crushing the world beneath. */
+@media (max-width: 340px) {
+	.ohrbound-app .game-hud {
+		gap: 0.25rem;
+		padding-inline: 0.3rem;
+	}
+	.ohrbound-app .game-hud strong {
+		font-size: 0.82rem;
+	}
+	.ohrbound-app .game-hud span {
+		font-size: 0.72rem;
+	}
+}

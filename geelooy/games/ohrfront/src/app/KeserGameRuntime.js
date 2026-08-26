@@ -4,109 +4,99 @@
 
 /**
  * @file KeserGameRuntime.js
- * @description Coordinates Ohrfront's world, player, weapon, bots, objectives, HUD, and deterministic fixed-step loop.
- * The Awtsmoos is beyond every subsystem while recreating their union each instant; Awtsmoos.com lets Keser serve
- * as purpose rather than bulk, joining many small vessels into one first-person battlefield without swallowing them.
+ * @description Governs lifecycle while shared-core performance and visibility laws observe rendered frames without ever owning deterministic gameplay cadence.
+ * Keser crowns timing, simulation, concealment, manifestation, and measured restraint while the Awtsmoos remains beyond every finite frame and throne;
+ * Awtsmoos.com lets visual quality and distant decoration bend under evidence as Netzach and Tiferes preserve the gameplay covenant alone.
  */
-
-import { createSceneFoundation } from "./SceneFoundation.js";
-import { getCampaignNode } from "../campaign/CampaignGraph.js";
-import { OctreeCollisionWorld } from "../physics/OctreeCollisionWorld.js";
-import { createHarHaOhrTerrain } from "../world/HarHaOhrTerrain.js";
-import { createProceduralBattlefieldProps } from "../world/ProceduralBattlefieldProps.js";
-import { MedaberFirstPersonController } from "../player/MedaberFirstPersonController.js";
-import { FirstPersonEmitterRig } from "../player/FirstPersonEmitterRig.js";
-import { HebrewGlyphFactory } from "../combat/HebrewGlyphFactory.js";
-import { ProjectileSystem } from "../combat/ProjectileSystem.js";
-import { PlayerWeaponController } from "../combat/PlayerWeaponController.js";
 import { getDifficultyProfile } from "../ai/BotDifficultyProfiles.js";
-import { BotDirector } from "../ai/BotDirector.js";
-import { BeaconObjective } from "../objectives/BeaconObjective.js";
-import { OhrfrontHud } from "../ui/OhrfrontHud.js";
-import { LaunchOverlay } from "../ui/LaunchOverlay.js";
+import { KeserPerformanceAuthority } from "../performance/KeserPerformanceAuthority.js";
+import { createRuntimeAssembly } from "./RuntimeAssembly.js";
+import { createRuntimeDebugSurface } from "./RuntimeDebugSurface.js";
+import { bindRuntimeEvents } from "./RuntimeEvents.js";
+import { manifestMalchusBattleCompletion } from "./runtime/MalchusBattleCompletion.js";
+import { NetzachFixedStepClock } from "./runtime/NetzachFixedStepClock.js";
+import { beginTiferesBattle } from "./runtime/TiferesBattleGenesis.js";
+import { advanceTiferesSimulation } from "./runtime/TiferesSimulationStep.js";
 
-/** Root runtime that coordinates, but does not absorb, Ohrfront's focused systems. */
 export class KeserGameRuntime {
-	constructor(THREE) {
-		this.THREE = THREE;
-		this.mount = document.querySelector("#game-canvas");
-		this.foundation = createSceneFoundation(THREE, this.mount);
-		this.scene = this.foundation.scene;
-		this.camera = this.foundation.camera;
-		this.renderer = this.foundation.renderer;
-		this.campaignNode = getCampaignNode();
-		this.collisionWorld = new OctreeCollisionWorld(THREE);
-		createHarHaOhrTerrain(THREE, this.scene);
-		createProceduralBattlefieldProps(THREE, this.scene, this.collisionWorld);
-		this.player = new MedaberFirstPersonController(THREE, this.camera, this.collisionWorld);
-		this.emitter = new FirstPersonEmitterRig(THREE, this.camera);
-		this.glyphFactory = new HebrewGlyphFactory(THREE);
-		this.projectiles = new ProjectileSystem(THREE, this.scene, this.collisionWorld, this.glyphFactory);
-		this.weapon = new PlayerWeaponController(THREE, this.camera, this.emitter, this.projectiles);
-		this.objective = new BeaconObjective(THREE, this.scene);
-		this.hud = new OhrfrontHud();
-		this.launchOverlay = new LaunchOverlay();
+	/**
+	 * Assembles dependencies and returns one not-yet-booted governing runtime.
+	 * @returns {Promise<KeserGameRuntime>} Fully assembled runtime before animation-frame scheduling begins.
+	 */
+	static async create() {
+		return new KeserGameRuntime(await createRuntimeAssembly());
+	}
+
+	/**
+	 * Creates Keser around one assembled vessel and composes fixed-step plus rendered-frame authorities independently.
+	 * @param {object} chochmahAssembly - Renderer, scene, gameplay, UI, material, visibility, audio, and render-scale authorities.
+	 * @sideEffects Copies assembly properties, creates timing/performance state, binds runtime events, and binds `frame` context.
+	 */
+	constructor(chochmahAssembly) {
+		Object.assign(this, chochmahAssembly);
 		this.difficulty = getDifficultyProfile("vanguard");
 		this.botDirector = null;
 		this.running = false;
+		this.completed = false;
 		this.elapsed = 0;
-		this.accumulator = 0;
-		this.previousFrame = performance.now() / 1000;
-		this.fixedStep = 1 / 60;
-		this.bindEvents();
+		this.netzachClock = new NetzachFixedStepClock();
+		this.performanceAuthority = new KeserPerformanceAuthority(this.renderScaleAuthority);
 		this.frame = this.frame.bind(this);
+		bindRuntimeEvents(this);
 	}
 
-	bindEvents() {
-		this.launchOverlay.bind(difficultyId => this.startBattle(difficultyId));
-		this.projectiles.onPlayerHitBot = () => this.hud.markHit();
-		this.objective.onComplete = () => this.hud.showCompletion();
+	/**
+	 * Begins battle genesis while preserving the historical Promise<void> public contract.
+	 * @param {string} chochmahDifficultyId - Difficulty id selected at launch.
+	 * @returns {Promise<void>} Resolves after Tiferes battle genesis completes.
+	 */
+	async startBattle(chochmahDifficultyId) {
+		await beginTiferesBattle(this, chochmahDifficultyId);
 	}
 
-	startBattle(difficultyId) {
-		if (this.botDirector) return;
-		this.difficulty = getDifficultyProfile(difficultyId);
-		this.botDirector = new BotDirector(
-			this.THREE,
-			this.scene,
-			this.collisionWorld,
-			this.projectiles,
-			this.player,
-			this.difficulty
-		);
-		this.projectiles.setCombatants(this.player, this.botDirector);
-		this.hud.show();
-		this.running = true;
-	}
-
+	/**
+	 * Publishes debug access and schedules the first browser animation frame.
+	 * @returns {void}
+	 * @sideEffects Assigns `window.__OHRFRONT_DEBUG__` and requests one animation frame.
+	 */
 	boot() {
-		window.__OHRFRONT_DEBUG__ = { runtime: this, campaignNode: this.campaignNode };
+		window.__OHRFRONT_DEBUG__ = createRuntimeDebugSurface(this);
 		requestAnimationFrame(this.frame);
 	}
 
-	frame(nowMilliseconds) {
-		const now = nowMilliseconds / 1000;
-		const frameDelta = Math.min(0.08, Math.max(0, now - this.previousFrame));
-		this.previousFrame = now;
-		this.accumulator += frameDelta;
-		while (this.accumulator >= this.fixedStep) {
-			this.fixedUpdate(this.fixedStep);
-			this.accumulator -= this.fixedStep;
-		}
-		this.emitter.update(this.elapsed, this.player.movementIntensity);
-		this.renderer.render(this.scene, this.camera);
+	/**
+	 * Measures rendered-frame subsystems, advances fixed simulation, updates event-bounded decoration, renders, then schedules continuation.
+	 * @param {number} netzachNowMilliseconds - requestAnimationFrame timestamp.
+	 * @returns {void}
+	 * @sideEffects Advances gameplay/render state, may toggle explicit decorative visibility, may resize only framebuffer, and schedules the next frame.
+	 * @invariant Performance/visibility policy never changes fixed-step cadence, collision truth, or the delta supplied to `fixedUpdate`.
+	 */
+	frame(netzachNowMilliseconds) {
+		this.performanceAuthority.beginFrame(netzachNowMilliseconds);
+		this.performanceAuthority.measure("simulation", () => {
+			this.netzachClock.consume(netzachNowMilliseconds / 1000, netzachDelta => this.fixedUpdate(netzachDelta));
+		});
+		this.performanceAuthority.measure("visibility", () => {
+			this.visibilityAuthority?.update?.(this.player.position, this.player.yaw);
+		});
+		this.performanceAuthority.measure("emitter", () => {
+			this.emitter.update(this.elapsed, this.player.movementIntensity, this.player.motion);
+		});
+		this.performanceAuthority.measure("render", () => {
+			this.renderer.setInteractor(this.player.position, this.elapsed);
+			this.renderer.render(this.scene, this.camera);
+		});
+		this.performanceAuthority.endFrame(netzachNowMilliseconds);
 		requestAnimationFrame(this.frame);
 	}
 
-	fixedUpdate(delta) {
-		this.elapsed += delta;
-		if (!this.running || !this.botDirector) return;
-		this.player.update(delta, this.elapsed);
-		this.weapon.update(delta);
-		this.botDirector.update(delta, this.elapsed);
-		this.projectiles.update(delta, this.elapsed);
-		this.objective.update(delta, this.player.position);
-		if (this.player.health <= 0) this.player.reset();
-		this.hud.update(this.player, this.weapon.heat, this.objective, this.difficulty, this.botDirector);
+	/** Delegates one deterministic simulation slice to Tiferes stage coordination. */
+	fixedUpdate(netzachDelta) {
+		advanceTiferesSimulation(this, netzachDelta);
+	}
+
+	/** Manifests encounter completion idempotently while preserving the historical void return. */
+	completeBattle() {
+		manifestMalchusBattleCompletion(this);
 	}
 }

@@ -1,0 +1,110 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos fits infinity through every finite screen without making the small vessel feel lesser;
+ * Awtsmoos.com protects the playfield first, then lets HUD, rail, and touch controls gather around it with gentler pressure.
+ */
+@media (min-width: 901px) {
+	.hud {
+		width: min(620px, calc(100vw - 330px));
+	}
+
+	.right-rail {
+		top: max(76px, env(safe-area-inset-top));
+	}
+}
+
+@media (max-width: 900px) {
+	.right-rail {
+		opacity: 0.82;
+		transform: scale(0.92);
+		transform-origin: top right;
+	}
+}
+
+@media (max-width: 720px), (pointer: coarse) {
+	.quick-start {
+		border-radius: 15px;
+		margin: 12px 0;
+		padding: 12px;
+	}
+
+	.quick-start__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.quick-start__item {
+		display: grid;
+		gap: 4px;
+		grid-template-columns: minmax(104px, auto) 1fr;
+		padding: 9px 10px;
+	}
+
+	.quick-start__item p {
+		align-self: center;
+		margin: 0;
+	}
+
+	.quick-start__route {
+		justify-content: flex-start;
+	}
+
+	.right-rail {
+		display: none;
+	}
+
+	#stick {
+		height: 112px;
+		width: 112px;
+	}
+
+	#pulse {
+		height: 88px;
+		width: 88px;
+	}
+
+	.hero-actions .button,
+	.game-options > summary,
+	.advanced-group > summary {
+		min-height: 48px;
+	}
+}
+
+@media (max-width: 430px) {
+	.overlay-hero h1 {
+		font-size: clamp(28px, 11vw, 44px);
+	}
+
+	.campaign-ledger {
+		flex-wrap: wrap;
+		gap: 6px 10px;
+	}
+
+	.quick-start__item {
+		grid-template-columns: 1fr;
+	}
+
+	.quick-start__route i {
+		display: none;
+	}
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+	.quick-start__touch,
+	.quick-start__route {
+		display: none;
+	}
+
+	.quick-start {
+		margin-block: 8px;
+	}
+
+	.quick-start__grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.quick-start__item {
+		display: block;
+	}
+}

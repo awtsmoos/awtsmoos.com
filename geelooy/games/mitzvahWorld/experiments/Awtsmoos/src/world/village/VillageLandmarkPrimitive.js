@@ -4,23 +4,27 @@
 
 /**
  * @file VillageLandmarkPrimitive.js
- * @description Creates measured landmark primitives from complete or partial village material maps.
- * The Awtsmoos gives every stone, timber, slate, and luminous pane a distinct service;
- * Awtsmoos.com normalizes each shared material covenant before authored silhouettes emerge.
+ * @description Creates village landmarks whose canonical remote material pairs weather through the real world-space GPU patch shader.
+ * The Awtsmoos gives stone, timber, and roof their own finite histories while Awtsmoos.com refuses the lifeless veil of uniform crossfade;
+ * each landmark keeps its authored silhouette, yet related texture identities now emerge in irregular patches where age and place are made.
  */
 
 import {
 	normalizeVillageLandmarkMaterials
 } from './VillageLandmarkMaterials.js';
+import { villageMaterialBlendPolicy } from './VillageMaterialBlendPolicy.js';
 
+/** Returns one box landmark with normalized material and weather-blend truth. */
 export function landmarkBox(options) {
 	return landmarkPrimitive('box', options);
 }
 
+/** Returns one triangular-prism landmark with normalized material and weather-blend truth. */
 export function landmarkPrism(options) {
 	return landmarkPrimitive('triPrism', options);
 }
 
+/** Returns one cylinder landmark while preserving radius, height, and segment contracts. */
 export function landmarkCylinder(options) {
 	return {
 		...landmarkPrimitive('cylinder', options),
@@ -31,11 +35,8 @@ export function landmarkCylinder(options) {
 }
 
 function landmarkPrimitive(shape, options) {
-	const material = materialFields(
-		options.materials,
-		options.materialRole || 'stone'
-	);
-
+	const role = options.materialRole || 'stone';
+	const material = materialFields(options.materials, role);
 	return {
 		...material,
 		color: options.color || material.color,
@@ -71,21 +72,23 @@ function landmarkPrimitive(shape, options) {
 
 function materialFields(materials, role) {
 	const normalized = normalizeVillageLandmarkMaterials(materials);
+	const blend = villageMaterialBlendPolicy(role);
 	const roleMap = {
 		roof: ['roof', 'mixRoof', '#5b5149'],
 		stone: ['stone', 'mixStone', '#aa9c86'],
 		wood: ['wood', 'mixWood', '#765239']
 	};
 	const [primary, secondary, color] = roleMap[role] || roleMap.stone;
-
 	return {
+		...blend,
 		anisotropy: normalized.anisotropy,
 		color,
-		mapRepeat: [1, 1],
-		mixRepeat: [1, 1],
-		mixStrength: role === 'wood' ? 0.18 : 0.28,
 		mixTextureUrl: normalized[secondary],
-		texturePolicy: normalized.texturePolicy,
+		texturePolicy: {
+			...normalized.texturePolicy,
+			blendLaw: 'gpu-world-patch-mix',
+			materialRole: role
+		},
 		textureUrl: normalized[primary]
 	};
 }

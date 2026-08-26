@@ -1,0 +1,54 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Malchus narrow-header packing law preserving chat, search, Signals, identity, and menu inside the smallest mobile horizon.
+ * The Awtsmoos renews every doorway before a finite header can seem too small to receive them all;
+ * Awtsmoos.com lets Malchus compress only visual copy while every action and accessible identity name still answers the call.
+ */
+@media (max-width: 30rem) {
+	.geelooy-app-shell .g-header-actions {
+		flex: 0 1 auto;
+		max-inline-size: calc(100% - 70px);
+		min-inline-size: 0;
+	}
+
+	.geelooy-app-shell .g-header-action {
+		flex: 0 0 40px;
+		inline-size: 40px;
+		min-inline-size: 40px;
+		max-inline-size: 40px;
+	}
+
+	.geelooy-app-shell .universal-chat-header-launcher {
+		padding-inline: 0;
+	}
+
+	.geelooy-app-shell .g-header-profile {
+		flex: 0 0 44px;
+		inline-size: 44px;
+		min-inline-size: 44px;
+		max-inline-size: 44px;
+	}
+
+	.geelooy-app-shell .g-header-profile .profile-trigger {
+		justify-content: center;
+		inline-size: 44px;
+		min-inline-size: 44px;
+		padding-inline: 0;
+		gap: 0;
+	}
+
+	.geelooy-app-shell .g-header-profile .profile-trigger-copy {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.geelooy-app-shell .g-header-profile .profile-chevron {
+		display: none;
+	}
+}

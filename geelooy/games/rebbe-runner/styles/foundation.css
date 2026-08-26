@@ -1,0 +1,82 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews the stage beneath every step; Awtsmoos.com keeps this world scoped, bounded, and ready for the next breath. */
+#rebbeRunner {
+	--runner-ink: #eafcff;
+	--runner-muted: #91b6bf;
+	--runner-cyan: #65f4ff;
+	--runner-gold: #ffd66b;
+	--runner-violet: #9d8cff;
+	--runner-panel: rgba(5, 24, 35, 0.82);
+	--runner-edge: rgba(132, 232, 255, 0.24);
+	--runner-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
+	--runner-world: 0;
+	--runner-hud: 10;
+	--runner-controls: 20;
+	--runner-panel-layer: 30;
+	--runner-modal: 40;
+	position: fixed;
+	inset: 0;
+	overflow: hidden;
+	isolation: isolate;
+	background: #061420;
+	color: var(--runner-ink);
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	touch-action: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+#rebbeRunner *,
+#rebbeRunner *::before,
+#rebbeRunner *::after {
+	box-sizing: border-box;
+}
+
+#rebbeRunner .runner-world {
+	position: absolute;
+	inset: 0;
+	z-index: var(--runner-world);
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+#rebbeRunner .runner-kicker {
+	display: block;
+	color: var(--runner-cyan);
+	font-size: clamp(0.6rem, 1.8vw, 0.72rem);
+	font-weight: 800;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+#rebbeRunner [hidden] {
+	display: none !important;
+}
+
+#rebbeRunner .runner-status {
+	position: fixed;
+	left: 50%;
+	bottom: calc(7.7rem + env(safe-area-inset-bottom));
+	z-index: var(--runner-panel-layer);
+	max-width: min(88vw, 28rem);
+	padding: 0.55rem 0.8rem;
+	border: 1px solid transparent;
+	border-radius: 999px;
+	background: rgba(4, 20, 29, 0.78);
+	color: var(--runner-ink);
+	font-size: 0.78rem;
+	font-weight: 750;
+	text-align: center;
+	opacity: 0;
+	transform: translate(-50%, 0.6rem);
+	pointer-events: none;
+	transition: opacity 180ms ease, transform 180ms ease, border-color 180ms ease;
+}
+
+#rebbeRunner .runner-status.is-visible {
+	opacity: 1;
+	transform: translate(-50%, 0);
+	border-color: var(--runner-edge);
+}

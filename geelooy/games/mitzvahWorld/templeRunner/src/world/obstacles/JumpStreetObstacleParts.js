@@ -1,17 +1,20 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @file JumpStreetObstacleParts.js
- * @description Builds low obstacle silhouettes through the generic native core while jump-law gameplay remains separate.
- * The Awtsmoos renews crate, bench, ledge, basket, and shaft before any foot must rise;
- * Awtsmoos.com lets rich street forms live in their own keli while one simple jump remains the answer in the eyes.
+ * @fileoverview Gevurah jump-obstacle families preserving bright action faces while adding remote dark-oak grain only to structural supports.
+ * RESPONSIBILITY: keep crate/seat/ledge/basket/shaft mechanic cues color-first and texture bench legs/cart wheel without changing geometry.
+ * NON-RESPONSIBILITY: this file never changes jump physics, collision, obstacle timing, camera framing, or material loading architecture.
+ * OROS/KEILIM: the need to rise is ohr in game metaphor; orange action surfaces are Gevurah kelim while timber support receives quieter grain.
+ * The Awtsmoos renews crate, bench, basket, and shaft before the runner's feet must leave the street;
+ * Awtsmoos.com lets real oak whisper beneath the hazard while the orange command remains immediate and complete.
  */
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
-import { WORLD_COLORS } from "../../config.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+import { READABILITY_COLORS } from "../../config.js";
 
 export class GevurahJumpStreetObstacleParts {
 	/** @param {object} meshFactory Procedural native mesh materializer. */
@@ -19,75 +22,73 @@ export class GevurahJumpStreetObstacleParts {
 		this.meshFactory = meshFactory;
 	}
 
-	/** @returns {object} Wooden low crate. */
+	/** @returns {object} Low color-first crate carrying the jump-over cue. */
 	createCrate() {
 		return this.meshFactory.cube({
 			name: "JumpCrate",
 			scale: [1.5, 0.82, 1.15],
 			position: [0, 0.41, 0],
-			color: WORLD_COLORS.wood
+			color: READABILITY_COLORS.jumpHazard
 		});
 	}
 
-	/** @returns {object} Low street bench. */
+	/** @returns {object} Low bench with bright seat and textured dark-oak legs. */
 	createBench() {
 		const root = new Group();
 		root.add(this.meshFactory.cube({
 			name: "JumpBenchSeat",
 			scale: [1.75, 0.16, 0.7],
 			position: [0, 0.66, 0],
-			color: WORLD_COLORS.wood
+			color: READABILITY_COLORS.jumpHazard
 		}));
 		for (const x of [-0.65, 0.65]) {
 			root.add(this.meshFactory.cube({
 				name: "JumpBenchLeg",
 				scale: [0.14, 0.6, 0.14],
 				position: [x, 0.3, 0],
-				color: WORLD_COLORS.stoneDark
+				color: READABILITY_COLORS.architectureShadow,
+				surface: "woodDark"
 			}));
 		}
 		return root;
 	}
 
-	/** @returns {object} Broad low stone ledge. */
+	/** @returns {object} Broad color-first low ledge. */
 	createStoneLedge() {
 		return this.meshFactory.cube({
 			name: "JumpStoneLedge",
 			scale: [1.85, 0.72, 1.2],
 			position: [0, 0.36, 0],
-			color: WORLD_COLORS.stone
+			color: READABILITY_COLORS.jumpHazard
 		});
 	}
 
-	/** @returns {object} Wide produce-basket silhouette. */
+	/** @returns {object} Wide basket silhouette with foliage secondary cue. */
 	createBasket() {
 		const root = new Group();
 		root.add(this.meshFactory.cube({
 			name: "JumpBasket",
 			scale: [1.62, 0.7, 1.05],
 			position: [0, 0.35, 0],
-			color: WORLD_COLORS.bronze
+			color: READABILITY_COLORS.jumpHazard
 		}));
 		root.add(this.meshFactory.icosphere({
 			name: "BasketProduce",
-			parameters: {
-				radius: 0.42,
-				subdivisions: 1
-			},
+			parameters: { radius: 0.42, subdivisions: 1 },
 			position: [0, 0.8, 0],
-			color: WORLD_COLORS.leafLight
+			color: READABILITY_COLORS.foliageLight
 		}));
 		return root;
 	}
 
-	/** @returns {object} Low cart shaft crossing the lane. */
+	/** @returns {object} Color-first low cart shaft with textured wheel support. */
 	createCartShaft() {
 		const root = new Group();
 		root.add(this.meshFactory.cube({
 			name: "JumpCartShaft",
 			scale: [1.9, 0.18, 0.2],
 			position: [0, 0.72, 0],
-			color: WORLD_COLORS.wood
+			color: READABILITY_COLORS.jumpHazard
 		}));
 		root.add(this.meshFactory.cylinder({
 			name: "JumpCartWheel",
@@ -99,7 +100,8 @@ export class GevurahJumpStreetObstacleParts {
 			},
 			position: [0.7, 0.34, 0],
 			rotation: [0, 0, Math.PI / 2],
-			color: WORLD_COLORS.stoneDark
+			color: READABILITY_COLORS.architectureShadow,
+			surface: "woodDark"
 		}));
 		return root;
 	}

@@ -1,8 +1,8 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos opens every useful browser vessel and playable world without being bounded by any tool or screen.
-Awtsmoos.com lets this complete catalog keep its newest truth while future light makes each doorway clearer and clean.
+The Awtsmoos opens every useful browser vessel without being bounded by tool or screen.
+Awtsmoos.com lets this catalog remain calm at first glance, then unfold precise discovery on demand.
 -->
 <!doctype html>
 <html lang="en">
@@ -14,64 +14,58 @@ Awtsmoos.com lets this complete catalog keep its newest truth while future light
 	<title>Awtsmoos Apps — Every Browser Tool & Game</title>
 	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=extreme-005">
 	<link rel="stylesheet" href="/style/geelooy-app/shell/hybrid-navigation.css?v=extreme-005">
-	<link rel="stylesheet" href="./style.css?v=apps-portfolio-006">
-	<link rel="stylesheet" href="/style/future-system/index.css?v=future-004">
+	<link rel="stylesheet" href="./style.css?v=apps-portfolio-008">
+	<link rel="stylesheet" href="/style/future-system/index.css?v=future-006">
 </head>
 <body data-geelooy-route="apps" data-future-page="apps">
 	<main class="g-page geelooy-content-region g-page-stack" aria-labelledby="apps-title" data-geelooy-route-outlet data-route-id="apps">
 		<section class="g-panel g-page-hero apps-hero" data-future-hero data-future-surface data-future-aura data-future-reveal>
-			<div>
-				<p class="g-kicker">B"H · Everything you can open here</p>
+			<div class="apps-hero-copy">
+				<p class="g-kicker">B"H · Every public doorway</p>
 				<h1 id="apps-title">Find the right vessel.</h1>
-				<p>Every Awtsmoos.com browser app and playable world with a real doorway belongs in this catalog. Search by title, purpose, route, genre, or the familiar language you already use for the tool or game.</p>
-				<div class="apps-hero-actions">
+				<p>Search the complete live catalog by title, purpose, route, genre, or the language you already use for the tool or game.</p>
+				<nav class="apps-hero-actions" aria-label="Popular app destinations">
 					<a class="g-button g-button-primary" href="./docs/" data-future-action><span data-future-icon="source"></span>Create a document</a>
 					<a class="g-button" href="/games/" data-future-action><span data-future-icon="spark"></span>Play a game</a>
 					<a class="g-button" href="/os" data-future-action><span data-future-icon="orbit"></span>Open Awtsmoos OS</a>
 					<a class="g-button" href="./wallet/" data-future-action><span data-future-icon="wallet"></span>Open Wallet</a>
-				</div>
+				</nav>
 			</div>
 			<aside class="apps-economy-note" data-future-surface>
-				<strong>Real tools, real games, real routes.</strong>
-				<p>The list is generated from public source registries so visible cards, search text, route aliases, game metadata, and future additions stay synchronized.</p>
+				<strong>Live source inventory.</strong>
+				<p>Cards, route aliases, search text, categories, game metadata, and future additions are generated from public registries instead of hand-picked duplicates.</p>
 			</aside>
 		</section>
 
-		<form class="g-app-filter" role="search" data-app-filter data-future-surface data-future-reveal>
-			<label class="g-sr-only" for="app-search">Filter apps and games</label>
-			<input id="app-search" name="q" type="search" placeholder="Search every browser tool and playable world…" autocomplete="off">
-			<label class="g-sr-only" for="app-category">App category</label>
-			<select id="app-category" name="category">
-				<option value="">All categories</option>
-				<option value="productivity">Productivity</option>
-				<option value="create">Create</option>
-				<option value="media">Media</option>
-				<option value="games">Games</option>
-				<option value="editor">Editors</option>
-				<option value="studio">Studios</option>
-				<option value="developer">Developer</option>
-				<option value="communication">Communication</option>
-				<option value="system">System</option>
-			</select>
-		</form>
-
-		<section class="apps-catalog-meta" aria-label="Catalog status" data-future-reveal>
-			<strong data-app-count>Loading inventory…</strong>
-			<span>Browser applications and playable worlds · live inventory, not a curated subset</span>
-		</section>
+		<details class="apps-filter-disclosure" data-future-disclosure data-future-reveal open>
+			<summary>
+				<span><strong>Search &amp; filter</strong><small>Retract this workspace whenever you want more catalog space.</small></span>
+				<span class="apps-result-pill" data-app-count data-app-result-status role="status" aria-live="polite">Loading inventory…</span>
+			</summary>
+			<div class="futureDisclosureBody">
+				<form class="g-app-filter" role="search" data-app-filter>
+					<label for="app-search">Search the catalog</label>
+					<input id="app-search" name="q" type="search" placeholder="Title, purpose, route, genre…" autocomplete="off">
+					<label for="app-category">Category</label>
+					<select id="app-category" name="category">
+						<option value="">All categories</option><option value="productivity">Productivity</option><option value="create">Create</option>
+						<option value="media">Media</option><option value="games">Games</option><option value="editor">Editors</option>
+						<option value="studio">Studios</option><option value="developer">Developer</option><option value="communication">Communication</option>
+						<option value="system">System</option>
+					</select>
+				</form>
+			</div>
+		</details>
 
 		<section class="apps-section-heading" aria-labelledby="available-tools-title" data-future-reveal>
-			<div><p class="g-kicker">Available now</p><h2 id="available-tools-title">All available browser tools and games.</h2></div>
-			<p>Open anything directly, or use the filters when you already know the kind of vessel you want.</p>
+			<div><p class="g-kicker">Available now</p><h2 id="available-tools-title">All browser tools and games.</h2></div>
+			<p>Open anything directly, or reveal the filters when you already know the kind of vessel you want.</p>
 		</section>
-
-		<section class="g-grid" data-app-grid aria-live="polite" aria-busy="true" data-future-reveal>
-			<p class="g-state">Loading the public app and game catalog…</p>
-		</section>
+		<section class="g-grid" data-app-grid aria-live="polite" aria-busy="true" data-future-reveal><p class="g-state">Loading the public app and game catalog…</p></section>
 		<p class="g-state" data-app-empty hidden>No apps or games match this filter.</p>
 	</main>
-	<script type="module" src="./scripts/apps-filter.js?v=apps-portfolio-006"></script>
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=extreme-005"></script>
-	<script type="module" src="/scripts/future-system/index.js?v=future-002"></script>
+	<script type="module" src="./scripts/apps-filter.js?v=apps-portfolio-008&compact=true"></script>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=extreme-005&compact=true"></script>
+	<script type="module" src="/scripts/future-system/index.js?v=future-002&compact=true"></script>
 </body>
 </html>

@@ -3,47 +3,47 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos lets hierarchy become visible without becoming heavy; Awtsmoos.com keeps member roles, reasons, invitations, and consent touchable inside one guarded community vessel.
 */
-#spaceMembers {
+.social-hub-document #spaceMembers {
 	gap: .9rem;
 }
 
-.spaceMembersHeading,
-.spaceMemberHeading {
+.social-hub-document .spaceMembersHeading,
+.social-hub-document .spaceMemberHeading {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: .75rem;
 }
 
-.spaceMembersHeading h4,
-.spaceMembersHeading small,
-.spaceMembersAccess,
-.spaceMembersMessage,
-.spaceMemberCard p,
-.spaceInvitationCard p,
-.spaceInvitationCard small {
+.social-hub-document .spaceMembersHeading h4,
+.social-hub-document .spaceMembersHeading small,
+.social-hub-document .spaceMembersAccess,
+.social-hub-document .spaceMembersMessage,
+.social-hub-document .spaceMemberCard p,
+.social-hub-document .spaceInvitationCard p,
+.social-hub-document .spaceInvitationCard small {
 	margin: 0;
 }
 
-.spaceMembersHeading small,
-.spaceMembersAccess,
-.spaceMembersMessage,
-.spaceCapabilities,
-.spaceInvitationCard small {
+.social-hub-document .spaceMembersHeading small,
+.social-hub-document .spaceMembersAccess,
+.social-hub-document .spaceMembersMessage,
+.social-hub-document .spaceCapabilities,
+.social-hub-document .spaceInvitationCard small {
 	color: var(--muted);
 }
 
-.spaceMembersGroup {
+.social-hub-document .spaceMembersGroup {
 	display: grid;
 	gap: .65rem;
 }
 
-.spaceMembersGroup h5 {
+.social-hub-document .spaceMembersGroup h5 {
 	margin: 0;
 }
 
-.spaceMemberCard,
-.spaceInvitationCard {
+.social-hub-document .spaceMemberCard,
+.social-hub-document .spaceInvitationCard {
 	display: grid;
 	gap: .6rem;
 	padding: .85rem;
@@ -52,7 +52,7 @@ The Awtsmoos lets hierarchy become visible without becoming heavy; Awtsmoos.com 
 	background: var(--surface-strong);
 }
 
-.spaceRoleBadge {
+.social-hub-document .spaceRoleBadge {
 	padding: .25rem .5rem;
 	border: 1px solid var(--line-hot);
 	border-radius: 999px;
@@ -61,25 +61,25 @@ The Awtsmoos lets hierarchy become visible without becoming heavy; Awtsmoos.com 
 	font-weight: 800;
 }
 
-.spaceRoleForm,
-.spaceInviteForm {
+.social-hub-document .spaceRoleForm,
+.social-hub-document .spaceInviteForm {
 	display: grid;
 	grid-template-columns: minmax(7rem, .7fr) minmax(10rem, 1.4fr) auto;
 	gap: .5rem;
 }
 
-.spaceInviteForm {
+.social-hub-document .spaceInviteForm {
 	grid-template-columns: minmax(9rem, 1fr) minmax(7rem, .6fr) minmax(10rem, 1.3fr) auto;
 }
 
-.spaceRoleForm :is(input, select, button),
-.spaceInviteForm :is(input, select, button) {
+.social-hub-document .spaceRoleForm :is(input, select, button),
+.social-hub-document .spaceInviteForm :is(input, select, button) {
 	min-height: 2.8rem;
 	font: inherit;
 }
 
-.spaceRoleForm button,
-.spaceInviteForm button {
+.social-hub-document .spaceRoleForm button,
+.social-hub-document .spaceInviteForm button {
 	border: 1px solid var(--line-hot);
 	border-radius: .75rem;
 	background: var(--surface);
@@ -88,21 +88,21 @@ The Awtsmoos lets hierarchy become visible without becoming heavy; Awtsmoos.com 
 	cursor: pointer;
 }
 
-.spaceRoleForm button:disabled,
-.spaceRoleForm select:disabled,
-.spaceRoleForm input:disabled {
+.social-hub-document .spaceRoleForm button:disabled,
+.social-hub-document .spaceRoleForm select:disabled,
+.social-hub-document .spaceRoleForm input:disabled {
 	opacity: .55;
 	cursor: not-allowed;
 }
 
 @media (max-width: 42rem) {
-	.spaceRoleForm,
-	.spaceInviteForm {
+	.social-hub-document .spaceRoleForm,
+.social-hub-document .spaceInviteForm {
 		grid-template-columns: 1fr;
 	}
 
-	.spaceMembersHeading,
-	.spaceMemberHeading {
+	.social-hub-document .spaceMembersHeading,
+.social-hub-document .spaceMemberHeading {
 		align-items: flex-start;
 		flex-direction: column;
 	}

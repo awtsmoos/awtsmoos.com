@@ -1,95 +1,103 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-runtime-states-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos renews every semantic state without letting one garment tear another; Awtsmoos.com gives generic controls one complete language of focus, hover, press, selection, openness, loading, error, and rest while specialized action motion keeps its own chamber.
 */
 
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos and Awtsmoos.com reveal every gameplay state beneath one rooted interface.
-*/
-
-#mitzvah-world-root [data-state="loading"], #mitzvah-world-root .is-loading {
+#mitzvah-world-root [data-state="loading"],
+#mitzvah-world-root .is-loading {
 	cursor: progress;
-	opacity: 0.78;
+	opacity: 0.74;
 }
 
-#mitzvah-world-root [data-state="error"], #mitzvah-world-root .has-error {
-	outline: 2px solid currentColor;
+#mitzvah-world-root [data-state="error"],
+#mitzvah-world-root .has-error {
+	outline: 2px solid var(--mw-danger);
 	outline-offset: 2px;
+	box-shadow: 0 0 22px rgba(255, 113, 135, 0.14);
 }
 
-#mitzvah-world-root [aria-selected="true"], #mitzvah-world-root [data-state="selected"] {
+#mitzvah-world-root :is([aria-selected="true"], [aria-pressed="true"], [data-state="selected"]) {
+	border-color: var(--mw-accent);
+	box-shadow: inset 0 0 0 1px rgba(180, 255, 221, 0.12), var(--mw-shadow-glow);
 	font-weight: 700;
 }
 
-#mitzvah-world-root [data-open="true"] {
+#mitzvah-world-root :is([aria-expanded="true"], [data-open="true"]) {
 	visibility: visible;
 }
 
-#mitzvah-world-root [data-open="false"], #mitzvah-world-root [data-state="closed"] {
+#mitzvah-world-root :is([aria-expanded="false"], [data-open="false"], [data-state="closed"]) {
 	visibility: hidden;
+	pointer-events: none;
 }
 
-#mitzvah-world-root :is(button, input, select, textarea):hover:not(:disabled) {
-	filter: brightness(1.08);
+#mitzvah-world-root :where(button, [role="button"], a[href], summary, input, select, textarea) {
+	transition: border-color var(--mw-motion-fast) ease, box-shadow var(--mw-motion-fast) ease, color var(--mw-motion-fast) ease, filter var(--mw-motion-fast) ease, opacity var(--mw-motion-fast) ease;
 }
 
-#mitzvah-world-root :is(button, input, select, textarea):focus-visible {
-	outline: 3px solid currentColor;
+@media (hover: hover) {
+	#mitzvah-world-root :where(button, [role="button"], a[href], summary, input, select, textarea):hover:not(:disabled):not([aria-disabled="true"]) {
+		border-color: var(--mw-border-strong);
+		filter: brightness(1.08) saturate(1.04);
+	}
+}
+
+#mitzvah-world-root :where(button, [role="button"], a[href], summary, input, select, textarea):focus-visible {
+	outline: 2px solid var(--mw-accent-strong);
 	outline-offset: 3px;
+	box-shadow: var(--mw-focus-ring);
 }
 
-#mitzvah-world-root :is(button, input, select, textarea):active:not(:disabled) {
-	transform: translateY(1px);
+#mitzvah-world-root :where(button, [role="button"], a[href], summary):active:not(:disabled):not([aria-disabled="true"]) {
+	border-color: var(--mw-accent);
+	filter: brightness(0.94) saturate(1.08);
 }
 
-#mitzvah-world-root :is(button, input, select, textarea):disabled, #mitzvah-world-root [aria-disabled="true"] {
+#mitzvah-world-root :where(button, input, select, textarea):disabled,
+#mitzvah-world-root [aria-disabled="true"] {
 	cursor: not-allowed;
-	opacity: 0.48;
+	opacity: 0.46;
+	filter: saturate(0.55);
+}
+
+#mitzvah-world-root :where(a[href], summary) {
+	border-radius: 6px;
+	color: inherit;
+	text-underline-offset: 0.18em;
+	cursor: pointer;
+}
+
+#mitzvah-world-root summary {
+	list-style-position: inside;
 }
 
 #mitzvah-world-root [data-state="defeated"] {
-	filter: grayscale(0.75);
-}
-
-#mitzvah-world-root [data-state="recovering"] {
-	animation: mw-recovery-pulse 900ms ease-in-out infinite alternate;
+	opacity: 0.56;
+	filter: saturate(0.58);
 }
 
 #mitzvah-world-root [data-combat-state="blocking"] {
-	filter: drop-shadow(0 0 0.45rem currentColor);
-}
-
-#mitzvah-world-root [data-combat-state="casting"] {
-	animation: mw-casting-pulse 700ms ease-in-out infinite alternate;
+	box-shadow: 0 0 0 2px rgba(117, 245, 191, 0.28), 0 0 24px rgba(117, 245, 191, 0.16);
 }
 
 #mitzvah-world-root [data-combat-state="melee-windup"] {
-	transform: scale(0.98);
+	outline: 1px solid rgba(255, 215, 94, 0.46);
+	outline-offset: 2px;
 }
 
 #mitzvah-world-root [data-combat-state="melee-active"] {
-	transform: scale(1.02);
+	box-shadow: 0 0 26px rgba(255, 113, 135, 0.2);
 }
 
 #mitzvah-world-root [data-network="offline"] {
-	filter: saturate(0.45);
+	opacity: 0.68;
+	filter: saturate(0.62);
 }
 
-#mitzvah-world-root [data-network="reconnecting"] {
-	animation: mw-network-pulse 1s linear infinite;
-}
-
-@keyframes mw-recovery-pulse {
-	to { opacity: 1; }
-}
-
-@keyframes mw-casting-pulse {
-	to { filter: brightness(1.16); }
-}
-
-@keyframes mw-network-pulse {
-	50% { opacity: 0.62; }
+@media (pointer: coarse) {
+	#mitzvah-world-root :where(button, [role="button"], summary, select) {
+		min-height: var(--mw-control-min);
+	}
 }

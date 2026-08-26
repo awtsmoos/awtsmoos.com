@@ -1,106 +1,103 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/*
-	Menus and choice chambers pause velocity so strategy can become visible.
-	The Awtsmoos is beyond choice while Awtsmoos.com reveals every finite option
-	on solid surfaces, without frosted glass standing between player and truth.
-*/
-.overlay {
-	position: fixed;
+/**
+ * The Awtsmoos lets choice, pause, blessing, and defeat appear above battle without escaping it;
+ * Awtsmoos.com keeps every overlay bounded, scrollable, safe-area aware, and local to #gameShell.
+ */
+#gameShell .overlay {
+	position: absolute;
 	inset: 0;
+	z-index: var(--merkava-layer-overlay);
 	display: none;
 	place-items: center;
-	z-index: 10;
-	padding: 1rem;
-	background: #03020e;
+	padding:
+		max(1rem, env(safe-area-inset-top))
+		max(1rem, env(safe-area-inset-right))
+		max(1rem, env(safe-area-inset-bottom))
+		max(1rem, env(safe-area-inset-left));
+	background: rgba(3, 2, 12, 0.82);
+	overflow: auto;
+	overscroll-behavior: contain;
 }
 
-.overlay.visible {
+#gameShell .overlay.visible {
 	display: grid;
 }
 
-.panel {
-	width: min(46rem, 100%);
-	max-height: min(90vh, 54rem);
+#gameShell .panel {
+	inline-size: min(46rem, 100%);
+	max-block-size: min(90dvh, 54rem);
 	overflow: auto;
-	padding: clamp(1.1rem, 3vw, 2.2rem);
-	border: 1px solid #5d4772;
-	border-radius: 1.4rem;
-	background: linear-gradient(155deg, #1c0e3a, #070619);
+	padding: clamp(1rem, 3vw, 1.6rem);
+	border: 1px solid var(--merkava-border);
+	border-radius: var(--merkava-radius-lg);
+	background: linear-gradient(180deg, #120b2c, #070514);
 	box-shadow:
-		0 2rem 7rem rgba(0, 0, 0, 0.65),
-		inset 0 0 0 1px rgba(125, 84, 255, 0.08);
-	text-align: center;
+		0 1.5rem 4rem rgba(0, 0, 0, 0.48),
+		inset 0 1px rgba(255, 255, 255, 0.035);
 }
 
-.hero-panel h1 {
-	margin: 0.2rem 0 0.7rem;
-	font-size: clamp(2rem, 8vw, 4.8rem);
-	line-height: 0.9;
-	background: linear-gradient(180deg, #fff5bd, #e8a523);
-	-webkit-background-clip: text;
-	color: transparent;
+#gameShell .hero-panel h1 {
+	margin: 0.15rem 0 0.6rem;
+	font-size: clamp(1.65rem, 5vw, 3.3rem);
+	line-height: 0.96;
 }
 
-.eyebrow {
-	color: #74dcff;
-	font-size: 0.72rem;
+#gameShell .eyebrow {
+	margin: 0;
+	font-size: 0.68rem;
 	font-weight: 900;
-	letter-spacing: 0.28em;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--merkava-aqua);
 }
 
-.bank {
-	margin: 1rem 0;
-	font-size: 0.82rem;
-	color: #ffd566;
+#gameShell .bank {
+	margin-block: 0.8rem;
+	color: var(--merkava-gold);
+	font-weight: 900;
 }
 
-.hero-panel button,
-.compact-panel button {
-	display: block;
-	width: min(22rem, 100%);
-	margin: 0.6rem auto;
+#gameShell .controls {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.65rem;
+	align-items: center;
 }
 
-.controls {
-	font-size: 0.72rem;
-	color: #a5b9dc;
-}
-
-.choice-list {
+#gameShell .choice-list {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 0.7rem;
-	margin: 1rem 0;
+	gap: 0.75rem;
+	margin-block-start: 1rem;
 }
 
-.choice-card {
-	min-height: 10rem;
-	text-align: left;
+#gameShell .choice-card {
+	display: grid;
+	gap: 0.35rem;
+	align-content: start;
+	min-inline-size: 0;
+	text-align: start;
 }
 
-.choice-card strong,
-.choice-card span,
-.choice-card footer {
-	display: block;
+#gameShell .choice-card strong {
+	font-size: 0.88rem;
 }
 
-.choice-card span {
-	margin: 0.55rem 0;
-	font-size: 0.78rem;
-	color: #b8ccef;
+#gameShell .choice-card span {
+	font-size: 0.72rem;
+	line-height: 1.4;
+	color: var(--merkava-ink-muted);
 }
 
-.choice-card footer {
-	display: flex;
-	justify-content: space-between;
-	gap: 0.4rem;
-	font-size: 0.68rem;
-	color: #ffd566;
+#gameShell .compact-panel label {
+	display: grid;
+	gap: 0.35rem;
+	margin-block: 0.7rem;
 }
 
-.compact-panel label {
-	display: block;
-	margin: 1rem auto;
+#gameShell .compact-panel :is(select, input) {
+	inline-size: 100%;
+	padding-inline: 0.7rem;
 }

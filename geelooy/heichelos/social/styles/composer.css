@@ -1,30 +1,71 @@
 /* B"H */
-/**
- * Chapter 60: The composer receives chambers for each section.
- * Inputs, section cards, asset rows, and upload lanes stand visibly apart,
- * so image, audio, and file vessels can attach to the exact text they serve.
- */
-.awt-composer { display: grid; gap: 12px; padding: 18px; }
-.awt-composer input, .awt-composer textarea {
-  box-sizing: border-box;
-  width: 100%;
-  border: 1px solid var(--awt-border);
-  border-radius: var(--awt-radius-md);
-  background: rgba(0,0,0,.22);
-  color: var(--awt-text);
-  padding: 12px;
+/** The Awtsmoos lets creation begin simply while advanced sections and media remain bounded beneath the same local composer root. */
+.awtsmoos-social-root .awt-composer {
+	display: grid;
+	gap: .75rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: 1rem;
 }
-.awt-target-picker { display: grid; gap: 8px; }
-.awt-target-list, .awt-composer-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.awt-composer-section {
-  display: grid;
-  gap: 10px;
-  border: 1px solid var(--awt-border);
-  border-radius: var(--awt-radius-md);
-  background: rgba(255,255,255,.04);
-  padding: 14px;
+
+.awtsmoos-social-root .awt-composer :where(input, textarea, select) {
+	box-sizing: border-box;
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 46px;
+	max-inline-size: 100%;
+	padding: .75rem;
+	border: 1px solid var(--awt-border);
+	border-radius: var(--awt-radius-md);
+	background: rgba(0,0,0,.22);
+	color: var(--awt-text);
+	font: inherit;
+	font-size: max(16px, 1em);
 }
-.awt-section-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.awt-dropzone { border: 1px dashed var(--awt-border); border-radius: var(--awt-radius-md); padding: 16px; color: var(--awt-muted); }
-.awt-asset-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.awt-asset-pill { background: var(--awt-surface-strong); border-radius: 999px; color: var(--awt-muted); padding: 7px 10px; }
+
+.awtsmoos-social-root .awt-composer textarea {
+	min-block-size: 7rem;
+	resize: vertical;
+}
+
+.awtsmoos-social-root .awt-target-picker {
+	display: grid;
+	gap: .5rem;
+	min-inline-size: 0;
+}
+
+.awtsmoos-social-root :where(.awt-target-list, .awt-composer-actions, .awt-section-meta, .awt-asset-row) {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .5rem;
+	min-inline-size: 0;
+}
+
+.awtsmoos-social-root .awt-composer-section {
+	display: grid;
+	gap: .65rem;
+	min-inline-size: 0;
+	padding: .85rem;
+	border: 1px solid var(--awt-border);
+	border-radius: var(--awt-radius-md);
+	background: rgba(255,255,255,.04);
+}
+
+.awtsmoos-social-root .awt-dropzone {
+	min-inline-size: 0;
+	padding: 1rem;
+	overflow-wrap: anywhere;
+	border: 1px dashed var(--awt-border);
+	border-radius: var(--awt-radius-md);
+	color: var(--awt-muted);
+}
+
+.awtsmoos-social-root .awt-asset-pill {
+	max-inline-size: 100%;
+	padding: .45rem .65rem;
+	overflow-wrap: anywhere;
+	border-radius: 999px;
+	background: var(--awt-surface-strong);
+	color: var(--awt-muted);
+}

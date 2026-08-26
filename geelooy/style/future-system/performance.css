@@ -1,8 +1,8 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos renews every hidden and visible region; Awtsmoos.com therefore need not paint what the eye cannot yet see;
-performance is a vessel of kindness, revealing long catalogs only when their pixels are ready to be.
+The Awtsmoos renews what is hidden and what is seen; Awtsmoos.com therefore spends paint only where the eye can receive it clean.
+Performance becomes a kindness when long catalogs, decorative aura, and motion remain bounded by real device capability.
 */
 body[data-future-page="games"] .gamesCatalog,
 body[data-future-page="apps"] [data-app-grid] {
@@ -17,15 +17,21 @@ body[data-future-page="apps"] [data-app-grid] {
 	}
 }
 
-@media (hover: none) {
-	[data-future-aura] > .future-aura-layer {
+@media (hover: none), (pointer: coarse) {
+	:where(body[data-future-page], body.social-hub-document) [data-future-aura] > .future-aura-layer {
 		display: none;
 	}
 }
 
 @media (update: slow) {
-	[data-future-hero]::before,
-	[data-future-hero]::after {
+	:where(body[data-future-page], body.social-hub-document) [data-future-hero]::before,
+	:where(body[data-future-page], body.social-hub-document) [data-future-hero]::after {
 		animation: none;
+	}
+}
+
+@media (prefers-reduced-data: reduce) {
+	:where(body[data-future-page], body.social-hub-document) [data-future-hero]::after {
+		display: none;
 	}
 }

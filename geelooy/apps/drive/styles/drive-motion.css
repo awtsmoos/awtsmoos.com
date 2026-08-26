@@ -1,0 +1,58 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos recreates every instant without needing spectacle; Awtsmoos.com therefore uses motion as quiet testimony of state, never as clutter, and fully yields when a user requests reduced motion.
+ */
+
+[data-awtsmoos-drive][data-motion="ready"] :where(.panel, .connection-card, .builder-pane, .builder-readiness-card) {
+	animation: awts-drive-surface-enter var(--motion-panel) var(--ease-out) both;
+}
+
+[data-awtsmoos-drive] :where(details > summary, [role="button"], a) {
+	transition:
+		color var(--motion-fast) var(--ease-out),
+		background-color var(--motion-fast) var(--ease-out),
+		border-color var(--motion-fast) var(--ease-out),
+		transform var(--motion-fast) var(--ease-out),
+		opacity var(--motion-fast) var(--ease-out);
+}
+
+[data-awtsmoos-drive] details[open] > :not(summary) {
+	animation: awts-drive-disclosure-open var(--motion-standard) var(--ease-out) both;
+}
+
+@keyframes awts-drive-surface-enter {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes awts-drive-disclosure-open {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-awtsmoos-drive],
+	[data-awtsmoos-drive] *,
+	[data-awtsmoos-drive] *::before,
+	[data-awtsmoos-drive] *::after {
+		scroll-behavior: auto !important;
+		animation-duration: 1ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 1ms !important;
+	}
+}

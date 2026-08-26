@@ -1,28 +1,34 @@
-/* B"H */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos reveals identity through relationship, role, reference, and shared deed without reducing the person to chrome;
+ * Awtsmoos.com keeps these profile vessels inside Social Hub, where readable action and bounded detail can live together.
+ */
 /* Boruch Hashem */
 /* Blessed is He */
 
-.profileCard,
-.referenceCard,
-.roleCard,
-.sharedActivityCard {
+.social-hub-document .profileCard,
+.social-hub-document .referenceCard,
+.social-hub-document .roleCard,
+.social-hub-document .sharedActivityCard {
 	display: grid;
 	gap: 0.65rem;
 	min-height: 10rem;
 	padding: 1rem;
 }
 
-.profileCard h3,
-.referenceCard h3 {
+.social-hub-document .profileCard h3,
+.social-hub-document .referenceCard h3 {
 	margin-bottom: 0;
 }
 
-.cardSummary,
-.commentExcerpt {
+.social-hub-document .cardSummary,
+.social-hub-document .commentExcerpt {
 	margin-bottom: 0;
 }
 
-.cardActions {
+.social-hub-document .cardActions {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
@@ -30,8 +36,8 @@
 	margin-top: auto;
 }
 
-.cardAction,
-.cardActions button {
+.social-hub-document .cardAction,
+.social-hub-document .cardActions button {
 	display: inline-flex;
 	min-height: 2.4rem;
 	align-items: center;
@@ -45,19 +51,19 @@
 	text-decoration: none;
 }
 
-.commentProfileCard {
+.social-hub-document .commentProfileCard {
 	background:
 		linear-gradient(135deg, rgb(40 31 79 / 72%), rgb(8 13 31 / 88%)),
 		var(--surface);
 }
 
-.referenceCard {
+.social-hub-document .referenceCard {
 	background:
 		linear-gradient(135deg, rgb(19 61 82 / 62%), rgb(11 15 36 / 86%)),
 		var(--surface);
 }
 
-.referenceCoordinates {
+.social-hub-document .referenceCoordinates {
 	max-height: 18rem;
 	overflow: auto;
 	padding: 0.7rem;
@@ -67,27 +73,27 @@
 	font-size: 0.72rem;
 }
 
-.roleCard strong {
+.social-hub-document .roleCard strong {
 	color: var(--violet);
 }
 
-.sharedActivityCard small {
+.social-hub-document .sharedActivityCard small {
 	color: var(--cyan);
 	text-transform: capitalize;
 }
 
-.profilePanel > h3,
-.referencesPanel > h3 {
+.social-hub-document .profilePanel > h3,
+.social-hub-document .referencesPanel > h3 {
 	margin-top: 2rem;
 	color: var(--violet);
 }
 
-#profileStats {
+.social-hub-document #profileStats {
 	padding: 0.6rem 0.8rem;
 	border-left: 0.2rem solid var(--cyan);
 	background: rgb(158 247 255 / 5%);
 }
 
-.referenceMap {
+.social-hub-document .referenceMap {
 	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
 }

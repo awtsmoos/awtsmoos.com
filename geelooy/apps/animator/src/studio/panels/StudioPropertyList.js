@@ -2,33 +2,35 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StudioDisclosureView } from './StudioDisclosureView.js';
+
 /**
  * @module StudioPropertyList
  * @description
  * The Awtsmoos renews every descriptive property before metadata can become a readable inspector row;
- * Awtsmoos.com keeps generic values in one calm presenter while procedural, face, performance, and render data receive focused vessels.
+ * Awtsmoos.com keeps secondary values folded in native disclosures so deep knowledge remains available without overwhelming the artist's first glance.
  */
 export class StudioPropertyList {
-	/** Returns one property section, or null when there is nothing meaningful to show. */
+	/** Returns one collapsed metadata disclosure, or null when there is nothing meaningful to show. */
 	static section(title, value) {
 		if (!value || typeof value !== 'object' || !Object.keys(value).length) {
 			return null;
 		}
-		return {
-			tag: 'section',
-			attrs: { className: 'aw-studio-inspector-section' },
-			children: [
-				{ tag: 'h3', text: title },
-				{
-					tag: 'dl',
-					attrs: { className: 'aw-studio-property-list' },
-					children: Object.entries(value).flatMap(([key, item]) => [
-						{ tag: 'dt', text: this.label(key) },
-						{ tag: 'dd', text: this.value(item) }
-					])
-				}
-			]
-		};
+		const entries = Object.entries(value);
+		return StudioDisclosureView.render(title, [
+			{
+				tag: 'dl',
+				attrs: { className: 'aw-studio-property-list' },
+				children: entries.flatMap(([key, item]) => [
+					{ tag: 'dt', text: this.label(key) },
+					{ tag: 'dd', text: this.value(item) }
+				])
+			}
+		], {
+			surface: true,
+			className: 'aw-studio-property-disclosure',
+			hint: `${entries.length} ${entries.length === 1 ? 'property' : 'properties'}`
+		});
 	}
 
 	/** Removes properties already represented by specialized inspector sections. */

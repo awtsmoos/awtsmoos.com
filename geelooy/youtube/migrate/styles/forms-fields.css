@@ -1,0 +1,90 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets each migration field become a measured keli instead of a source of sideways drift;
+Awtsmoos.com keeps grids shrinkable, labels explicit, inputs bounded, focus luminous, and hover reserved for pointers that can truly leave.
+*/
+.fieldGrid,
+.fileChoiceGrid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+	min-inline-size: 0;
+}
+
+.fileChoiceGrid {
+	margin-bottom: 20px;
+}
+
+label {
+	display: grid;
+	gap: 7px;
+	min-inline-size: 0;
+}
+
+input,
+select {
+	box-sizing: border-box;
+	inline-size: 100%;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	min-block-size: 46px;
+	padding: 10px 12px;
+	border: 1px solid #30394a;
+	border-radius: 12px;
+	background: #090d15;
+	color: #f6f8ff;
+	font: inherit;
+	transition:
+		border-color 160ms ease,
+		background-color 160ms ease,
+		box-shadow 160ms ease;
+}
+
+input:focus,
+select:focus {
+	border-color: #74c9ff;
+	background: #0b111d;
+	box-shadow: 0 0 0 3px rgb(116 201 255 / 9%);
+}
+
+input:focus-visible,
+select:focus-visible {
+	outline: 2px solid #8cddff;
+	outline-offset: 3px;
+}
+
+.checkRow {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	min-inline-size: 0;
+}
+
+.checkRow input {
+	inline-size: 22px;
+	min-block-size: 22px;
+	flex: 0 0 auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	input:hover,
+	select:hover {
+		border-color: #46536b;
+	}
+}
+
+@media (max-width: 42rem) {
+	.fieldGrid,
+	.fileChoiceGrid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	input,
+	select {
+		transition: none;
+	}
+}

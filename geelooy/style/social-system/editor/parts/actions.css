@@ -1,24 +1,98 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps final editor actions near without stealing the page.
+ * Awtsmoos.com gives Post Editor and Heichel Editor one sticky, safe-area-aware, tactile action garment.
+ */
 .editor-actions {
-  position: sticky;
-  bottom: .75rem;
-  z-index: 10;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .6rem;
-  padding: .45rem;
-  border: 1px solid #dfe6ee;
-  border-radius: 1rem;
-  background: #fff;
-  box-shadow: 0 8px 26px rgba(15, 23, 42, .08);
+	position: sticky;
+	z-index: var(--z-sticky, 20);
+	inset-block-end: max(.75rem, env(safe-area-inset-bottom));
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .6rem;
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: .45rem;
+	border: 1px solid var(--g-line, #dfe6ee);
+	border-radius: 1rem;
+	background: color-mix(in srgb, var(--g-surface, #fff) 94%, transparent);
+	box-shadow: 0 8px 26px rgba(15, 23, 42, .08);
+	backdrop-filter: blur(12px);
 }
+
 .gold-btn,
 .soft-btn,
 .danger-btn {
-  border-radius: .85rem;
-  padding: .85rem 1rem;
-  font-weight: 750;
+	min-inline-size: 0;
+	min-block-size: var(--g-touch, 44px);
+	max-inline-size: 100%;
+	padding: .85rem 1rem;
+	border-radius: .85rem;
+	font-weight: 750;
+	transition:
+		transform 150ms cubic-bezier(.2, .8, .2, 1),
+		filter 180ms ease,
+		box-shadow 180ms ease;
 }
-.gold-btn { background: #0f172a; border: 1px solid #0f172a; color: #fff; }
-.soft-btn { background: #f8fafc; color: #0f172a; border: 1px solid #dfe6ee; }
-.danger-btn { border: 1px solid #dc2626; background: #fff; color: #dc2626; }
-.editor-actions button { min-height: var(--g-touch, 44px); }
+
+.gold-btn {
+	border: 1px solid #0f172a;
+	background: #0f172a;
+	color: #fff;
+}
+
+.soft-btn {
+	border: 1px solid #dfe6ee;
+	background: #f8fafc;
+	color: #0f172a;
+}
+
+.danger-btn {
+	border: 1px solid #dc2626;
+	background: #fff;
+	color: #dc2626;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.editor-actions button:hover {
+		transform: translateY(-1px);
+		filter: brightness(1.04);
+	}
+}
+
+.editor-actions button:active {
+	transform: scale(.975);
+}
+
+.editor-actions button:focus-visible {
+	outline: 2px solid var(--g-cyan, #67e8f9);
+	outline-offset: 2px;
+}
+
+.editor-actions button:disabled {
+	cursor: not-allowed;
+	opacity: .48;
+	transform: none;
+}
+
+@media (max-width: 26rem) {
+	.editor-actions {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.editor-actions {
+		background: var(--g-surface, #fff);
+		backdrop-filter: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.editor-actions button {
+		transition: none;
+	}
+}

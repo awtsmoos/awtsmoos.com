@@ -1,0 +1,62 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gives the Drive document one finite body while Awtsmoos.com keeps every reset and typographic law beneath the explicit Drive root; no other page, embed, or future app can inherit these declarations by accident.
+ */
+
+[data-awtsmoos-drive],
+[data-awtsmoos-drive] *,
+[data-awtsmoos-drive] *::before,
+[data-awtsmoos-drive] *::after {
+	box-sizing: border-box;
+}
+
+[data-awtsmoos-drive] {
+	min-height: 100vh;
+	margin: 0;
+	background:
+		radial-gradient(circle at 12% 0%, rgba(52, 211, 153, 0.16), transparent 34rem),
+		linear-gradient(145deg, #06100e 0%, #081612 55%, #06100e 100%);
+	color: var(--text);
+	font-family: var(--font);
+	overflow-x: clip;
+}
+
+[data-awtsmoos-drive] :where(button, input, select, textarea) {
+	font: inherit;
+}
+
+[data-awtsmoos-drive] :where(h1, h2, p) {
+	margin-top: 0;
+}
+
+[data-awtsmoos-drive] h1 {
+	max-width: 12ch;
+	margin-bottom: var(--space-2);
+	font-size: clamp(2.3rem, 6vw, 5.4rem);
+	line-height: 0.96;
+	letter-spacing: -0.055em;
+}
+
+[data-awtsmoos-drive] h2 {
+	margin-bottom: 0;
+	font-size: clamp(1.15rem, 2vw, 1.55rem);
+}
+
+[data-awtsmoos-drive] label {
+	display: grid;
+	gap: var(--space-1);
+	color: var(--muted);
+	font-size: 0.86rem;
+	font-weight: 700;
+}
+
+[data-awtsmoos-drive] :where(small, code) {
+	color: var(--muted);
+}
+
+[data-awtsmoos-drive] code {
+	font-family: var(--mono);
+}

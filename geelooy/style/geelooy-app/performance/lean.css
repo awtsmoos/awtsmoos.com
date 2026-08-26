@@ -2,20 +2,16 @@
  * Boruch Hashem
  * Blessed is He
  *
- * Lean devices receive final visual states immediately. Awtsmoos.com disables
- * motion rather than setting microscopic durations that can freeze at their
- * browser-default starting frame when a tab is backgrounded or throttled.
+ * @fileoverview Lean rendering removes expensive shared effects without flattening
+ * an entire document. The Awtsmoos renews every instant; Awtsmoos.com therefore
+ * preserves final component truth while quieting only known motion-bearing vessels.
  */
-
-html[data-g-performance="lean"] *,
-html[data-g-performance="lean"] *::before,
-html[data-g-performance="lean"] *::after {
-	animation: none !important;
-	scroll-behavior: auto !important;
-	transition: none !important;
-}
-
-html[data-g-performance="lean"] :where(
+html[data-g-performance="lean"] body.geelooy-app-shell :where(
+	button,
+	[role="button"],
+	a[href],
+	summary,
+	[data-g-motion],
 	.g-unusual-header,
 	.g-dock,
 	.g-context-ribbon,
@@ -31,24 +27,44 @@ html[data-g-performance="lean"] :where(
 	.modal-content,
 	.dropdown-menu
 ) {
-	filter: none !important;
-	backdrop-filter: none !important;
-	-webkit-backdrop-filter: none !important;
-	box-shadow: 0 .65rem 1.8rem rgba(0, 0, 0, .22) !important;
+	animation: none;
+	transition: none;
 }
 
-html[data-g-performance="lean"] :where(
+html[data-g-performance="lean"] body.geelooy-app-shell :where(
+	.g-unusual-header,
+	.g-dock,
+	.g-context-ribbon,
+	.g-constellation-menu,
+	.g-panel,
+	.geelooy-feed-card,
+	.geelooy-home-composer,
+	.desktopRail,
+	.mobileDock,
+	.composerShell,
+	.reviewShell,
+	.heichel-nav-panel,
+	.modal-content,
+	.dropdown-menu
+) {
+	filter: none;
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
+	box-shadow: 0 .65rem 1.8rem rgba(0, 0, 0, .22);
+}
+
+html[data-g-performance="lean"] body.geelooy-app-shell :where(
 	.premium-sky,
 	.ambient-orb,
 	.cosmic-field,
 	.hero-orbit,
 	.particle-field
 ) {
-	display: none !important;
+	display: none;
 }
 
 @media (pointer: coarse), (max-width: 54rem), (prefers-reduced-motion: reduce) {
-	:where(
+	body.geelooy-app-shell :where(
 		.g-unusual-header,
 		.g-dock,
 		.g-context-ribbon,
@@ -61,17 +77,30 @@ html[data-g-performance="lean"] :where(
 		.modal-content,
 		.dropdown-menu
 	) {
-		backdrop-filter: none !important;
-		-webkit-backdrop-filter: none !important;
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
 	}
 
-	:where(.g-panel, .geelooy-feed-card, .home-post-card, .social-space-card, .card-wrapper, .post-card):is(:hover, :focus-within) {
-		transform: none !important;
+	body.geelooy-app-shell :where(
+		.g-panel,
+		.geelooy-feed-card,
+		.home-post-card,
+		.social-space-card,
+		.card-wrapper,
+		.post-card
+	):is(:hover, :focus-within) {
+		transform: none;
 	}
 }
 
 @media (max-width: 34rem) {
-	:where(.g-page, .geelooy-main-stage, .social-spaces-shell, .composerShell, .reviewShell) {
-		padding-inline: .65rem !important;
+	body.geelooy-app-shell :where(
+		.g-page,
+		.geelooy-main-stage,
+		.social-spaces-shell,
+		.composerShell,
+		.reviewShell
+	) {
+		padding-inline: .65rem;
 	}
 }

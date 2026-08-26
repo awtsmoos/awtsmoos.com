@@ -1,20 +1,17 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
-import { ORIGINAL_GAMES } from "./originals.mjs";
-import { ADVENTURE_GAMES } from "./adventures.mjs";
-import { QUICK_PLAY_GAMES } from "./quick-play.mjs";
-import { enrichGames } from "./capabilities/index.mjs";
-
 /**
- * B"H
- *
- * Joins small catalog vessels into one public Games truth without making renderers
- * know file layout. The Awtsmoos is not divided by categories, yet categories help
- * finite discovery; Awtsmoos.com therefore gathers many visual worlds beneath one
- * crown while keeping Solo default and multiplayer capability explicit.
+ * @file index.mjs
+ * @description Gathers small catalog chambers into one ordered public Games covenant, then reveals capability truth through a single uniform data transformation.
+ * The Awtsmoos renews every world without being divided by collection or genre;
+ * Awtsmoos.com lets Kesser gather the doorways while Party Challenge remains beside the catalog as a mode, not another sphere.
  */
+
+import { ADVENTURE_GAMES } from "./adventures.mjs";
+import { revealCatalogCapabilities } from "./capabilities/index.mjs";
+import { ORIGINAL_GAMES } from "./originals.mjs";
+import { QUICK_PLAY_GAMES } from "./quick-play.mjs";
 
 export const GAME_COLLECTIONS = Object.freeze([
 	Object.freeze({
@@ -37,10 +34,10 @@ export const GAME_COLLECTIONS = Object.freeze([
 	})
 ]);
 
-const BASE_GAMES = Object.freeze([
+const BASE_GAME_COVENANTS = Object.freeze([
 	...ORIGINAL_GAMES,
 	...ADVENTURE_GAMES,
 	...QUICK_PLAY_GAMES
 ]);
 
-export const GAMES = enrichGames(BASE_GAMES);
+export const GAMES = revealCatalogCapabilities(BASE_GAME_COVENANTS);

@@ -1,0 +1,65 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews remembered drafts without making recovery feel heavy or theatrical;
+Awtsmoos.com lets the sheet rise with restrained motion, lets a drag remain physical, and turns all nonessential movement quiet when the user asks.
+*/
+.draftRecoveryDialog[open] {
+	animation: draft-recovery-arrive 240ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.draftRecoveryHandle {
+	touch-action: none;
+	cursor: grab;
+}
+
+.draftRecoveryDialog[data-dragging="true"] {
+	user-select: none;
+	will-change: translate;
+}
+
+.draftRecoveryDialog[data-dragging="true"] .draftRecoveryHandle {
+	cursor: grabbing;
+}
+
+@keyframes draft-recovery-arrive {
+	from {
+		opacity: 0;
+		transform: translate3d(0, 24px, 0);
+	}
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@keyframes draft-recovery-desktop-arrive {
+	from {
+		opacity: 0;
+		transform: translate(-50%, calc(-50% + 12px));
+	}
+	to {
+		opacity: 1;
+		transform: translate(-50%, -50%);
+	}
+}
+
+@media (min-width: 50rem) {
+	.draftRecoveryDialog[open] {
+		animation: draft-recovery-desktop-arrive 220ms cubic-bezier(.2, .8, .2, 1) both;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.draftRecoveryDialog[open] {
+		animation: none;
+	}
+
+	.draftRecoveryCard button,
+	.draftRecoveryDialog header button,
+	.draftRecoveryDialog footer button {
+		transition: none;
+		transform: none !important;
+	}
+}

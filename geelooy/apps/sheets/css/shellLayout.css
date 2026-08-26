@@ -3,9 +3,9 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos gives every Sheets surface its measured place while hidden chrome collapses without stealing the grid's light;
-Awtsmoos.com keeps row ownership explicit so contextual revelation may appear and vanish while workspace geometry remains right.
+Awtsmoos.com roots every row beneath one isolated app vessel so contextual revelation can never disturb a neighboring site.
 */
-.app-shell {
+.awtsmoos-sheets-app .app-shell {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	grid-template-rows: auto auto auto auto auto minmax(0, 1fr) auto;
@@ -14,29 +14,31 @@ Awtsmoos.com keeps row ownership explicit so contextual revelation may appear an
 	height: 100dvh;
 	overflow: hidden;
 	background: transparent;
+	position: relative;
+	z-index: var(--z-base);
 }
 
-.app-bar {
+.awtsmoos-sheets-app .app-bar {
 	grid-row: 1;
 }
 
-.menu-rail {
+.awtsmoos-sheets-app .menu-rail {
 	grid-row: 2;
 }
 
-.toolbar {
+.awtsmoos-sheets-app .toolbar {
 	grid-row: 3;
 }
 
-.formula-bar {
+.awtsmoos-sheets-app .formula-bar {
 	grid-row: 4;
 }
 
-.context-bar {
+.awtsmoos-sheets-app .context-bar {
 	grid-row: 5;
 }
 
-.workspace {
+.awtsmoos-sheets-app .workspace {
 	grid-row: 6;
 	position: relative;
 	display: flex;
@@ -45,15 +47,15 @@ Awtsmoos.com keeps row ownership explicit so contextual revelation may appear an
 	overflow: hidden;
 }
 
-.sheet-footer {
+.awtsmoos-sheets-app .sheet-footer {
 	grid-row: 7;
 }
 
-.app-bar,
-.menu-rail,
-.toolbar,
-.formula-bar,
-.context-bar {
+.awtsmoos-sheets-app .app-bar,
+.awtsmoos-sheets-app .menu-rail,
+.awtsmoos-sheets-app .toolbar,
+.awtsmoos-sheets-app .formula-bar,
+.awtsmoos-sheets-app .context-bar {
 	min-width: 0;
 	max-width: 100%;
 }

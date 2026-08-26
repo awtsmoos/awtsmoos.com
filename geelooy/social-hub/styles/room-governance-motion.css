@@ -1,0 +1,66 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets advanced room depth appear as a whisper, never a spectacle that steals the message from sight;
+Awtsmoos.com keeps each transition local, transform-led, brief, and removable for those who choose still light.
+*/
+@keyframes hub-room-governance-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-.25rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+.social-hub-document .hubRoomGovernance > summary,
+.social-hub-document .hubRoomGovernance > summary::after,
+.social-hub-document .hubRoomLeave summary {
+	transition:
+		color 150ms ease,
+		background 150ms ease,
+		transform 150ms ease;
+}
+.social-hub-document .hubRoomGovernance > summary:is(:hover, :focus-visible) {
+	background: color-mix(in srgb, var(--surface-strong) 88%, var(--ink) 6%);
+}
+.social-hub-document .hubRoomGovernance > summary:focus-visible {
+	outline: 2px solid var(--accent, #8bdcec);
+	outline-offset: -2px;
+}
+.social-hub-document .hubRoomGovernance > summary:active {
+	transform: scale(.995);
+}
+.social-hub-document .hubRoomGovernance[open] > summary::after {
+	transform: rotate(45deg);
+}
+.social-hub-document .hubRoomGovernance[open] .hubRoomGovernanceBody,
+.social-hub-document .hubRoomLeave[open] > :not(summary) {
+	animation: hub-room-governance-reveal 180ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .hubRoomGovernance *,
+.social-hub-document .hubRoomGovernance *::before,
+.social-hub-document .hubRoomGovernance *::after {
+		animation: none !important;
+		transition: none !important;
+		scroll-behavior: auto !important;
+	}
+}
+@media (forced-colors: active) {
+	.social-hub-document :is(
+		.hubRoomGovernance,
+		.hubRoomMembership,
+		.hubRoomPrivacy,
+		.hubRoomMember,
+		.hubRoomInvite input,
+		.hubRoomPolicyGrid select,
+		.hubRoomInvite button,
+		.hubRoomLeave button,
+		.hubRoomBlockButton
+	) {
+		border-color: CanvasText;
+		box-shadow: none;
+	}
+}

@@ -1,0 +1,98 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives every gesture a measured place; Awtsmoos.com lets the mobile HUD breathe inside safe edges, retract without collision, and remain simple even when advanced light is near.
+*/
+
+#mitzvah-world-root #mobileControls {
+	position: fixed;
+	inset: 0;
+	z-index: var(--mw-z-hud);
+	display: none;
+	overflow: hidden;
+	pointer-events: none;
+	transition: opacity var(--mw-motion-normal) ease, visibility var(--mw-motion-normal) ease;
+}
+
+#mitzvah-world-root #joy {
+	position: absolute;
+	left: calc(var(--mw-safe-left) + 12px);
+	bottom: calc(var(--mw-safe-bottom) + 12px);
+	width: clamp(96px, 27vw, 128px);
+	aspect-ratio: 1;
+	max-width: calc(50vw - var(--mw-safe-left) - 20px);
+	max-height: calc(50vh - var(--mw-safe-bottom));
+}
+
+#mitzvah-world-root #jump {
+	position: absolute;
+	right: calc(var(--mw-safe-right) + 12px);
+	bottom: calc(var(--mw-safe-bottom) + 16px);
+	width: clamp(64px, 18vw, 76px);
+	aspect-ratio: 1;
+	max-width: calc(34vw - var(--mw-safe-right));
+}
+
+#mitzvah-world-root .Awtsmoos-context-action {
+	position: fixed;
+	right: calc(var(--mw-safe-right) + 12px);
+	bottom: calc(var(--mw-safe-bottom) + clamp(94px, 23vw, 112px));
+	z-index: var(--mw-z-floating);
+	max-width: min(240px, calc(100vw - var(--mw-safe-left) - var(--mw-safe-right) - 24px));
+	transition: opacity var(--mw-motion-normal) ease, visibility var(--mw-motion-normal) ease;
+}
+
+#mitzvah-world-root .Awtsmoos-control-receipt {
+	position: fixed;
+	top: calc(var(--mw-safe-top) + 8px);
+	left: 50%;
+	z-index: var(--mw-z-status);
+	width: min(340px, calc(100vw - var(--mw-safe-left) - var(--mw-safe-right) - 16px));
+	max-height: min(36vh, 220px);
+	overflow: auto;
+	overscroll-behavior: contain;
+	transform: translateX(-50%);
+	transition: opacity var(--mw-motion-normal) ease, visibility var(--mw-motion-normal) ease;
+}
+
+@media (max-width: 820px), (pointer: coarse) {
+	#mitzvah-world-root #mobileControls {
+		display: block;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	#mitzvah-world-root #joy {
+		left: calc(var(--mw-safe-left) + 8px);
+		bottom: calc(var(--mw-safe-bottom) + 8px);
+		width: clamp(82px, 21vh, 108px);
+		max-height: calc(100vh - var(--mw-safe-top) - var(--mw-safe-bottom) - 18px);
+	}
+
+	#mitzvah-world-root #jump {
+		right: calc(var(--mw-safe-right) + 8px);
+		bottom: calc(var(--mw-safe-bottom) + 10px);
+		width: clamp(58px, 16vh, 70px);
+	}
+
+	#mitzvah-world-root .Awtsmoos-context-action {
+		right: calc(var(--mw-safe-right) + 8px);
+		bottom: calc(var(--mw-safe-bottom) + 82px);
+		max-width: min(210px, 38vw);
+	}
+
+	#mitzvah-world-root .Awtsmoos-control-receipt {
+		top: calc(var(--mw-safe-top) + 4px);
+		width: min(300px, 48vw);
+		max-height: 30vh;
+	}
+}
+
+html[data-awtsmoos-advanced-controls="true"] #mitzvah-world-root #mobileControls,
+html[data-awtsmoos-advanced-controls="true"] #mitzvah-world-root .Awtsmoos-context-action,
+html[data-awtsmoos-advanced-controls="true"] #mitzvah-world-root .Awtsmoos-control-receipt {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}

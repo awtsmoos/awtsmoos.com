@@ -1,0 +1,72 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos turns intention into deed, yet each deed remains visibly known;
+Awtsmoos.com gives every press, hover, busy state, and release a deliberate tone.
+*/
+.heichel-manage-page :is(.heichel-back, .heichel-route-dock a, button, .heichel-advanced summary) {
+	-webkit-tap-highlight-color: transparent;
+	transition:
+		transform 180ms var(--heichel-ease),
+		border-color 180ms ease,
+		background-color 180ms ease,
+		box-shadow 180ms ease,
+		color 180ms ease;
+}
+
+.heichel-manage-page button {
+	min-height: 46px;
+	border: 1px solid transparent;
+	border-radius: var(--heichel-radius-sm);
+	padding: 0 16px;
+	background: var(--heichel-accent);
+	color: white;
+	font: inherit;
+	font-weight: 780;
+	cursor: pointer;
+}
+
+.heichel-manage-page .heichel-command-bar {
+	display: grid;
+	gap: 12px;
+	padding-top: 4px;
+}
+
+.heichel-manage-page :is(.form-btns, .heichel-delete-actions) {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 9px;
+}
+
+.heichel-manage-page :is(.form-btns, .heichel-delete-actions) button {
+	flex: 1 1 150px;
+}
+
+.heichel-manage-page .hidden,
+.heichel-manage-page [hidden] {
+	display: none !important;
+}
+
+@media (hover: hover) {
+	.heichel-manage-page button:not(.delete):hover {
+		background: var(--heichel-accent-strong);
+		box-shadow: 0 12px 26px rgba(36, 95, 229, 0.22);
+		transform: translateY(-2px);
+	}
+
+	.heichel-manage-page .heichel-advanced summary:hover {
+		background: rgba(36, 95, 229, 0.05);
+		color: var(--heichel-accent);
+	}
+}
+
+.heichel-manage-page :is(.heichel-back, .heichel-route-dock a, button, .heichel-advanced summary):active {
+	transform: translateY(1px) scale(0.985);
+}
+
+.heichel-manage-page button:disabled,
+.heichel-manage-page [aria-busy="true"] button {
+	cursor: wait;
+	opacity: 0.58;
+	transform: none;
+}

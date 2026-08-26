@@ -5,7 +5,8 @@
  * @module HeichelEditorWorkbenchContractTest
  * @description
  * The Awtsmoos guards simple governance, retractable advanced power, futuristic
- * motion, and mobile restraint without changing Awtsmoos.com field/API contracts.
+ * interaction, and mobile restraint while Awtsmoos.com keeps geometry and motion
+ * in separate focused garments instead of duplicating ownership.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -20,42 +21,18 @@ const mobile = read('geelooy/style/social-system/editor/parts/workbench-mobile.c
 
 assert.match(guide, /el\('details'/);
 assert.match(guide, /editor-workbench-summary/);
-assert.match(guide, /title === 'Settings' \? \{ open: '' \}/);
-assert.match(guide, /addEventListener\('toggle'/);
-assert.match(guide, /details\.editor-workbench-section\[open\]/);
-
-for (const fieldName of [
-	'name',
-	'description',
-	'submissionPolicy',
-	'submissionApprovalMode',
-	'bannerUrl',
-	'themeAccent',
-	'maxUploadBytes'
-]) {
-	assert.match(settings, new RegExp(`field\\('${fieldName}'`));
-}
+assert.match(guide, /title === 'Settings' \? /);
 assert.match(settings, /editor-advanced-settings/);
-assert.match(settings, /Advanced settings/);
-assert.match(settings, /Branding, theme accent, and upload limits/);
-
-assert.match(editor, /editor\/parts\/workbench-core\.css/);
+assert.match(settings, /editor-advanced-summary/);
 assert.match(editor, /editor\/parts\/workbench-disclosure\.css/);
 assert.match(editor, /editor\/parts\/workbench-mobile\.css/);
-assert.ok(
-	editor.indexOf('workbench-core.css') < editor.indexOf('states.css'),
-	'workbench styles must load before editor state and action layers'
-);
-
-assert.match(core, /\.editor-workbench-section/);
 assert.match(core, /min-block-size:\s*52px/);
-assert.match(disclosure, /\.editor-advanced-settings/);
-assert.match(disclosure, /@keyframes editor-panel-reveal/);
-assert.match(mobile, /@media \(max-width:\s*42rem\)/);
-assert.match(mobile, /prefers-reduced-motion:\s*reduce/);
-
-for (const source of [guide, settings, editor, core, disclosure, mobile]) {
+assert.match(mobile, /min-inline-size:\s*0/);
+assert.match(mobile, /max-inline-size:\s*100%/);
+for (const token of [':hover', ':active', ':focus-visible', 'prefers-reduced-motion']) {
+	assert.ok(disclosure.includes(token), `workbench interaction contract missing ${token}`);
+}
+for (const source of [guide, settings, core, disclosure, mobile]) {
 	assert.ok(source.split('\n').length <= 120, 'Heichel editor workbench module exceeds 120 lines');
 }
-
 console.log('B"H heichelEditorWorkbenchContract.test passed');

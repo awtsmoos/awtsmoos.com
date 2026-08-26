@@ -1,0 +1,39 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets a card become a doorway only when its whole state makes that promise clear;
+ * Awtsmoos.com gives Docs cards bounded grids, focus, hover, and press without spilling beyond their rail.
+ */
+body[data-geelooy-route="docs"] .card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+	gap: 14px;
+	min-inline-size: 0;
+}
+
+body[data-geelooy-route="docs"] :where(.doc-card, .stat-card, .result-card) {
+	min-inline-size: 0;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: linear-gradient(145deg, var(--surface), color-mix(in srgb, var(--surface-strong) 80%, transparent));
+}
+
+body[data-geelooy-route="docs"] :where(.doc-card, .result-card) {
+	display: block;
+	padding: 18px;
+	text-decoration: none;
+	transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="docs"] :where(.doc-card, .result-card):hover {
+		border-color: var(--line-strong);
+		box-shadow: 0 10px 28px rgb(0 0 0 / 12%);
+		transform: translateY(-2px);
+	}
+}
+
+body[data-geelooy-route="docs"] :where(.doc-card, .result-card):active {
+	transform: translateY(1px) scale(.99);
+}

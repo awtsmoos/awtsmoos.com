@@ -4,48 +4,66 @@
 
 /**
  * @file app-view-router.mjs
- * @description The Awtsmoos lets home, learning, API, project, system, and document views share one main stage without tangling rendering concerns.
+ * @description Routes shareable Docs state into major explorers, home, or one asynchronously loaded source document.
+ * The Awtsmoos is beyond route and rendered page; Awtsmoos.com lets Tiferes choose the proper manifestation
+ * from a data-backed view map while stale document loads are refused before they can overwrite newer intent.
  */
 
 import { clearContext, renderContext } from "./context-view.mjs";
 import { loadPage } from "./data.mjs";
 import { renderDocument, scrollToHeading } from "./document-view.mjs";
-import { renderApiExplorer } from "./api-explorer-view.mjs";
 import { renderHome } from "./home-view.mjs";
-import { renderLearning } from "./learning-view.mjs";
-import { renderProjectExplorer } from "./project-explorer-view.mjs";
-import { renderSystemExplorer } from "./system-explorer-view.mjs";
+import { DOCS_VIEW_MANIFEST } from "./DocsViewManifest.mjs";
 
-export async function renderApplicationView(options) {
-	const { state, dataset, elements, actions, generation, currentGeneration } = options;
-	if (state.view === "learn") {
-		renderLearning(elements.view, dataset, actions);
-		clearContext(elements.context);
+/**
+ * Manifests one normalized state into the main stage and context rail.
+ * @param {object} keliOptions Rendering dependencies and current state.
+ * @returns {Promise<void>} Resolves after synchronous view render or current document load.
+ */
+export async function renderApplicationView(keliOptions) {
+	const {
+		state: tiferesState,
+		dataset: binahDataset,
+		elements: malchusElements,
+		actions: netzachActions,
+		generation: yesodGeneration,
+		currentGeneration: currentGeneration
+	} = keliOptions;
+	const chochmahRenderer = DOCS_VIEW_MANIFEST[tiferesState.view];
+
+	if (chochmahRenderer) {
+		chochmahRenderer(
+			malchusElements,
+			binahDataset,
+			tiferesState,
+			netzachActions
+		);
+		clearContext(malchusElements.context);
 		return;
 	}
-	if (state.view === "api") {
-		renderApiExplorer(elements.view, dataset, state, actions);
-		clearContext(elements.context);
+
+	if (!tiferesState.doc || !binahDataset.byId.has(tiferesState.doc)) {
+		renderHome(malchusElements.view, binahDataset, netzachActions);
+		clearContext(malchusElements.context);
 		return;
 	}
-	if (state.view === "projects") {
-		renderProjectExplorer(elements.view, dataset, state, actions);
-		clearContext(elements.context);
+
+	const malchusPage = await loadPage(
+		binahDataset.byId.get(tiferesState.doc)
+	);
+	if (yesodGeneration !== currentGeneration()) {
 		return;
 	}
-	if (state.view === "systems") {
-		renderSystemExplorer(elements.view, dataset, state, actions);
-		clearContext(elements.context);
-		return;
-	}
-	if (!state.doc || !dataset.byId.has(state.doc)) {
-		renderHome(elements.view, dataset, actions);
-		clearContext(elements.context);
-		return;
-	}
-	const page = await loadPage(dataset.byId.get(state.doc));
-	if (generation !== currentGeneration()) return;
-	renderDocument(elements.view, page, dataset, actions);
-	renderContext(elements.context, page, actions.heading);
-	scrollToHeading(state.heading);
+	renderDocument(
+		malchusElements.view,
+		malchusPage,
+		binahDataset,
+		netzachActions
+	);
+	renderContext(
+		malchusElements.context,
+		malchusPage,
+		netzachActions.heading
+	);
+	scrollToHeading(tiferesState.heading);
 }

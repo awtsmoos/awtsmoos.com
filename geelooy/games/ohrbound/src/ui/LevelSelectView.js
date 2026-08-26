@@ -3,55 +3,69 @@
 //Blessed is He
 
 import { PACK_ORDER } from "../levels/catalog.js";
+import { MalchusDomFactory } from "./dom/MalchusDomFactory.js";
 import { WorldTabsView } from "./WorldTabsView.js";
 import { LevelCardFactory } from "./LevelCardFactory.js";
 
 /**
  * @file LevelSelectView.js
- * @description Reveals one six-stage world at a time instead of a forty-eight-card wall.
- * The Awtsmoos holds all journeys simultaneously; Awtsmoos.com gives attention a
- * quieter keli where one world may shine while the others remain one tap away.
+ * @description Coordinates one visible world and its bounded stage grid from catalog/progress data.
+ * The Awtsmoos holds all journeys simultaneously; Awtsmoos.com lets this Tiferes selector join
+ * world choice and stage choice while each renderer remains its own small, declarative vessel.
  */
 export class LevelSelectView {
-	constructor(root, onSelect) {
-		this.root = root;
-		this.tabRoot = document.createElement("nav");
-		this.gridRoot = document.createElement("div");
-		this.tabRoot.className = "world-tabs";
-		this.gridRoot.className = "level-grid";
-		this.root.append(this.tabRoot, this.gridRoot);
-		this.tabs = new WorldTabsView(this.tabRoot, world => this.selectWorld(world));
-		this.cards = new LevelCardFactory(onSelect);
-		this.selectedWorld = PACK_ORDER[0];
+	constructor(yesodRoot, netzachSelectLevel) {
+		this.yesodRoot = yesodRoot;
+		this.malchusDomFactory = new MalchusDomFactory(yesodRoot.ownerDocument);
+		this.buildMalchusStructure();
+		this.hodWorldTabs = new WorldTabsView(this.yesodTabRoot, malchusWorld => this.selectWorld(malchusWorld), this.malchusDomFactory);
+		this.hodLevelCards = new LevelCardFactory(netzachSelectLevel, this.malchusDomFactory);
+		this.tiferesSelectedWorld = PACK_ORDER[0];
+		this.binaLevels = [];
+		this.yesodProgress = {};
+		this.malchusCommunity = [];
 	}
 
-	/** Stores the latest catalog/progress snapshot and redraws only the active world. */
-	render(levels, progress, community = []) {
-		this.levels = levels;
-		this.progress = progress;
-		this.community = community;
-		const worlds = community.length ? [...PACK_ORDER, "Community"] : [...PACK_ORDER];
-		if (!worlds.includes(this.selectedWorld)) this.selectedWorld = worlds[0];
-		this.tabs.render(worlds, this.selectedWorld);
-		this.renderGrid();
+	/** Builds the two permanent containers once while their children remain data-driven. @returns {void} */
+	buildMalchusStructure() {
+		this.malchusDomFactory.revealChildren(this.yesodRoot, [
+			{ tag: "nav", className: "world-tabs", attributes: { "aria-label": "Ohrbound worlds" } },
+			{ tag: "div", className: "level-grid" }
+		]);
+		[this.yesodTabRoot, this.malchusGridRoot] = this.yesodRoot.children;
 	}
 
-	/** Changes the visible world without creating another screen or page transition. */
-	selectWorld(world) {
-		this.selectedWorld = world;
-		const worlds = this.community.length ? [...PACK_ORDER, "Community"] : [...PACK_ORDER];
-		this.tabs.render(worlds, world);
-		this.renderGrid();
+	/**
+	 * Stores one catalog/progress/community snapshot and reveals the current world.
+	 * @param {object[]} binaLevels Built-in campaign levels.
+	 * @param {object} yesodProgress Progress snapshot.
+	 * @param {object[]} [malchusCommunity=[]] Community levels.
+	 * @returns {void}
+	 */
+	render(binaLevels, yesodProgress, malchusCommunity = []) {
+		this.binaLevels = binaLevels;
+		this.yesodProgress = yesodProgress;
+		this.malchusCommunity = malchusCommunity;
+		const binaWorlds = this.worldNames();
+		if (!binaWorlds.includes(this.tiferesSelectedWorld)) this.tiferesSelectedWorld = binaWorlds[0];
+		this.revealSelection(binaWorlds);
 	}
 
-	/** Renders six authored stages, or the bounded community collection, into one grid. */
-	renderGrid() {
-		this.gridRoot.replaceChildren();
-		const visible = this.selectedWorld === "Community"
-			? this.community
-			: this.levels.filter(level => level.pack === this.selectedWorld);
-		for (const level of visible) {
-			this.gridRoot.append(this.cards.create(level, this.progress));
-		}
+	/** Selects another world and redraws only world tabs and stage cards. @param {string} malchusWorld @returns {void} */
+	selectWorld(malchusWorld) {
+		this.tiferesSelectedWorld = malchusWorld;
+		this.revealSelection(this.worldNames());
+	}
+
+	/** Returns visible world names, adding Community only when data exists. @returns {string[]} */
+	worldNames() {
+		return this.malchusCommunity.length ? [...PACK_ORDER, "Community"] : [...PACK_ORDER];
+	}
+
+	/** Projects selection state into tabs and the bounded stage grid. @param {string[]} binaWorlds @returns {void} */
+	revealSelection(binaWorlds) {
+		this.hodWorldTabs.revealWorldChoices(binaWorlds, this.tiferesSelectedWorld);
+		const malchusVisibleLevels = this.tiferesSelectedWorld === "Community" ? this.malchusCommunity : this.binaLevels.filter(malchusLevel => malchusLevel.pack === this.tiferesSelectedWorld);
+		this.malchusGridRoot.replaceChildren(...malchusVisibleLevels.map(malchusLevel => this.hodLevelCards.create(malchusLevel, this.yesodProgress)));
 	}
 }

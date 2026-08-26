@@ -1,96 +1,49 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
-import {
-	DETAILS,
-	HISTORY,
-	READ,
-	SEND
-} from '/scripts/awtsmoos/social/privateMessaging/protocol.js';
+import { SEND } from '/scripts/awtsmoos/social/privateMessaging/protocol.js';
 import { buildConversationSendPayload } from './ConversationSendPayload.js';
+import { YesodConversationReadGateway } from './ConversationReadGateway.js';
 
 /**
  * @class ConversationGateway
+ * @extends YesodConversationReadGateway
  * @description
- * The Awtsmoos is beyond wire, room, quote, and audible breath, while Awtsmoos.com lets one Social room speak the exact canonical private-messaging protocol rather than imagined aliases;
- * this Yesod-like gateway delegates outbound field construction to one pure Gevurah vessel while the server remains sovereign over membership, media truth, and light.
+ * The Awtsmoos is beyond speech and silence, yet Awtsmoos.com presents one simple room gateway whose deeper capabilities unfold by inheritance;
+ * DETAILS, HISTORY, and READ rise from the Yesod read vessel, while this send-capable specialization adds canonical mutation without clutter or divergence.
+ *
+ * RESPONSIBILITY: Public accepted-room gateway surface, adding SEND to inherited read/history/watermark capability.
+ * NON-RESPONSIBILITY: Session/socket mechanics remain sitewide; store reconciliation remains in its synchronizer; workflow/rendering live above.
  */
-
-const PAGE_SIZE = 50;
-
-export class ConversationGateway {
-	constructor(bridge) {
-		this.bridge = bridge;
-	}
-
-	/** Ensures the shared private-messaging session is open before room operations. */
-	async ensureSession() {
-		if (!this.bridge.session.opened) {
-			await this.bridge.session.start();
-		}
-	}
-
-	/** Fetches canonical accepted-room details through the protocol's real DETAILS event. */
-	async details(conversationId) {
-		await this.ensureSession();
-		return this.bridge.socket.request(
-			DETAILS,
-			{ conversationId }
-		);
-	}
-
-	/** Loads one bounded history page and merges it through the shared store. */
-	async loadHistory(conversationId, beforeSequence = null) {
-		await this.ensureSession();
-		const response = await this.bridge.socket.request(
-			HISTORY,
-			{
-				conversationId,
-				beforeSequence,
-				limit: PAGE_SIZE
-			}
-		);
-		const messages = response.payload?.messages || [];
-		if (beforeSequence) {
-			this.bridge.store.prependHistory(conversationId, messages);
-		} else {
-			this.bridge.store.setHistory(conversationId, messages);
-		}
-		return messages;
-	}
-
+export class ConversationGateway extends YesodConversationReadGateway {
 	/**
-	 * Sends text, canonical reply coordinates, or one verified attachment asset coordinate.
-	 * @param {string} conversationId Accepted canonical room id.
-	 * @param {string} text Optional text body.
-	 * @param {object|null} reply Optional `{replyTo, replySequence}` coordinates.
-	 * @param {object|null} attachment Optional `{assetId}` coordinate.
-	 * @returns {Promise<object>} Canonical send response.
+	 * Sends text, canonical reply coordinates, or one verified attachment coordinate through the real SEND event.
+	 *
+	 * The public surface stays deliberately small while payload construction remains delegated to the pure Gevurah
+	 * send builder, preventing protocol vocabulary from leaking into view/composer layers.
+	 *
+	 * @param {string} malchusConversationId - Canonical accepted room identity.
+	 * @param {string} hodText - Optional text body governed by the established send-payload contract.
+	 * @param {object|null} [tiferesReply=null] - Optional canonical reply coordinates.
+	 * @param {object|null} [yesodAttachment=null] - Optional verified asset coordinate.
+	 * @returns {Promise<object>} Unmodified canonical message-sent response envelope.
 	 */
-	async send(conversationId, text, reply = null, attachment = null) {
-		await this.ensureSession();
-		const payload = buildConversationSendPayload(
-			conversationId,
-			text,
-			reply,
-			attachment
+	send(
+		malchusConversationId,
+		hodText,
+		tiferesReply = null,
+		yesodAttachment = null
+	) {
+		const malchusPayload = buildConversationSendPayload(
+			malchusConversationId,
+			hodText,
+			tiferesReply,
+			yesodAttachment
 		);
-		return this.bridge.socket.request(
+		return this.request(
 			SEND,
-			payload
-		);
-	}
-
-	/** Marks a bounded canonical read watermark through the protocol's real READ event. */
-	async markRead(conversationId, lastReadSequence) {
-		await this.ensureSession();
-		return this.bridge.socket.request(
-			READ,
-			{
-				conversationId,
-				lastReadSequence
-			}
+			malchusPayload
 		);
 	}
 }

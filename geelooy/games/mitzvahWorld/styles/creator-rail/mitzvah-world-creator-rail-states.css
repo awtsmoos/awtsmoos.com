@@ -1,0 +1,59 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos, Atzmus beyond hover, focus, pressure, or waiting, renews each visible state before the hand can encounter it;
+Awtsmoos.com lets selected materials, busy deeds, disabled boundaries, keyboard focus, mouse hover, and active touch receive precise feedback inside MitzvahWorld without specificity wars.
+*/
+
+#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary) {
+	transition: transform 110ms var(--Awtsmoos-creator-ease), border-color 140ms ease, background 140ms ease, box-shadow 150ms ease, opacity 140ms ease;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail [data-creator-material][data-selected="true"] {
+	border-color: rgba(177, 255, 219, .72);
+	background: linear-gradient(145deg, rgba(43, 104, 68, .94), rgba(15, 49, 30, .9));
+	box-shadow: 0 0 0 1px rgba(177, 255, 219, .18), 0 8px 18px rgba(0, 0, 0, .16);
+	color: #f6fff9;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary):focus-visible {
+	outline: 2px solid rgba(204, 255, 224, .98);
+	outline-offset: 3px;
+	border-color: rgba(217, 255, 232, .84);
+	box-shadow: 0 0 0 4px var(--Awtsmoos-creator-glow);
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary):active:not(:disabled) {
+	transform: translateY(1px) scale(.97);
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail button:disabled,
+#mitzvah-world-root .Awtsmoos-creator-rail button[data-loading="true"] {
+	cursor: not-allowed;
+	opacity: .42;
+	filter: saturate(.5);
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail[data-busy="true"] {
+	border-color: rgba(255, 223, 149, .34);
+	box-shadow: 0 18px 54px rgba(0, 0, 0, .28), 0 0 0 1px rgba(255, 223, 149, .06);
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail[data-busy="true"] .Awtsmoos-creator-rail__status output::before {
+	content: "◌ ";
+	color: #ffe2a0;
+}
+
+@media (hover: hover) {
+	#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary):hover:not(:disabled) {
+		border-color: rgba(177, 255, 219, .55);
+		background: linear-gradient(145deg, rgba(34, 77, 51, .92), rgba(11, 37, 23, .86));
+		box-shadow: 0 8px 20px rgba(0, 0, 0, .15), inset 0 1px rgba(255, 255, 255, .075);
+		transform: translateY(-1px);
+	}
+
+	#mitzvah-world-root .Awtsmoos-creator-rail [data-creator-material][data-selected="true"]:hover:not(:disabled) {
+		background: linear-gradient(145deg, rgba(50, 118, 77, .98), rgba(17, 57, 35, .94));
+	}
+}

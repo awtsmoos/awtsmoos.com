@@ -1,0 +1,59 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets Shefa and locked gates appear as measures without confusing their source;
+ * Awtsmoos.com gives market headers and unlock vessels explicit hierarchy along the course.
+ */
+.marketPanel {
+	display: grid;
+	gap: 14px;
+}
+
+.marketHeader,
+.marketUnlock {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+}
+
+.marketHeader {
+	flex-wrap: wrap;
+}
+
+.shopShefa {
+	font-size: 18px;
+	font-weight: 1000;
+	color: var(--gold) !important;
+	margin: 0 !important;
+}
+
+.marketUnlock {
+	text-align: left;
+	background: linear-gradient(135deg, #ffd36a1a, #ff6ad51f);
+	border: 1px solid #ffd36a66;
+	border-radius: 20px;
+	padding: 14px;
+	box-shadow: 0 0 28px #ffd36a22;
+}
+
+.marketUnlock b,
+.marketUnlock span {
+	display: block;
+}
+
+.marketUnlock b {
+	color: #fff;
+	font-size: 18px;
+}
+
+.marketUnlock span {
+	color: #9df7ff;
+	font-size: 13px;
+}
+
+.marketUnlock button {
+	white-space: nowrap;
+	padding: 11px 18px;
+}

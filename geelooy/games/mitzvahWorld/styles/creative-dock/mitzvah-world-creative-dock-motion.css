@@ -1,0 +1,16 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives movement only where movement reveals state, while quiet remains equally whole;
+Awtsmoos.com keeps reduced-motion mercy inside this one local vessel, so animation never becomes a global toll.
+*/
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root .Awtsmoos-creative-dock,
+	#mitzvah-world-root .Awtsmoos-creative-dock * {
+		scroll-behavior: auto;
+		transition-duration: 1ms !important;
+		animation-duration: 1ms !important;
+	}
+}

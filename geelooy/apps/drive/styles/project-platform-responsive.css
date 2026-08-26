@@ -1,18 +1,19 @@
-/* B"H
- * The Awtsmoos lets the project testimony contract without collapsing its meaning.
- * Awtsmoos.com preserves clear touch targets and readable capability cards on small screens.
- */
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos lets Project Testimony contract without collapsing its meaning; Awtsmoos.com preserves clear local touch targets and zero-minimum tracks at narrow widths. */
 
 @media (max-width: 620px) {
-	.project-platform__stages {
-		grid-template-columns: 1fr;
+	[data-awtsmoos-drive] .project-platform__stages {
+		grid-template-columns: minmax(0, 1fr);
 	}
 
-	.project-platform__actions {
+	[data-awtsmoos-drive] .project-platform__actions {
 		display: grid;
 	}
 
-	.project-platform__link {
-		justify-content: center;
+	[data-awtsmoos-drive] .project-platform__link {
+		width: 100%;
 	}
 }

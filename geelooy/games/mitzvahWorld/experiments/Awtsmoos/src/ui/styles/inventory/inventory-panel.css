@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals inventory truth through one glass vessel whose edges never leave the visible shore;
+ * Awtsmoos.com keeps header, body, and action tray ordered so advanced depth appears without cluttering more.
+ */
+
+.Awtsmoos-inventory-shell .Awtsmoos-inventory-panel[data-open="true"] {
+	position: fixed;
+	inset: var(--inv-safe-top) var(--inv-safe-right) var(--inv-safe-bottom) var(--inv-safe-left);
+	z-index: var(--inv-z-panel);
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	min-width: 0;
+	min-height: 0;
+	max-height: calc(100dvh - var(--inv-safe-top) - var(--inv-safe-bottom));
+	padding: clamp(12px, 2.5vw, 20px);
+	overflow: hidden;
+	border: 1px solid var(--inv-line);
+	border-radius: 24px;
+	background:
+		linear-gradient(145deg, rgba(7, 30, 26, 0.98), rgba(3, 14, 17, 0.99)),
+		radial-gradient(circle at 85% 10%, rgba(69, 255, 205, 0.1), transparent 30%);
+	color: var(--inv-text);
+	box-shadow: 0 28px 90px rgba(0, 0, 0, 0.52), inset 0 1px rgba(255, 255, 255, 0.06);
+	pointer-events: auto;
+	touch-action: manipulation;
+}
+
+.Awtsmoos-inventory-shell .inv-header {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 44px;
+	align-items: center;
+	gap: 12px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid rgba(135, 255, 223, 0.16);
+}
+
+.Awtsmoos-inventory-shell .inv-heading {
+	display: grid;
+	gap: 3px;
+	min-width: 0;
+}
+
+.Awtsmoos-inventory-shell .inv-heading b {
+	color: var(--inv-gold);
+	font: 700 clamp(18px, 4vw, 25px) Georgia, serif;
+}
+
+.Awtsmoos-inventory-shell .inv-heading span {
+	min-width: 0;
+	overflow: hidden;
+	color: #b7d6ce;
+	font-size: 12px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.Awtsmoos-inventory-shell .inv-body {
+	min-width: 0;
+	min-height: 0;
+	padding-block: 14px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+	touch-action: pan-y;
+	scrollbar-gutter: stable;
+}

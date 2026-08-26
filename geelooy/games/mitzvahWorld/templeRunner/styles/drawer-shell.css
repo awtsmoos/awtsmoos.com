@@ -2,15 +2,16 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
+ * @fileoverview Binah off-canvas drawer shell with safe-area bounds, internal scrolling, and semantic layer ownership.
  * The Awtsmoos renews hidden depth before the advanced drawer may enter or leave the scene;
- * Awtsmoos.com keeps this shell concerned only with placement and motion, so inner knowledge stays clean.
+ * Awtsmoos.com keeps this shell bounded by dynamic viewport and safe areas, so no menu edge can drift beyond what may be seen.
  */
 
 .drawer-backdrop {
 	position: absolute;
 	inset: 0;
-	z-index: 18;
-	background: rgba(5, 3, 2, 0.34);
+	z-index: var(--layer-drawer-backdrop);
+	background: rgba(5, 3, 2, 0.42);
 	opacity: 0;
 	pointer-events: none;
 	transition: opacity var(--motion-medium) var(--ease-soft);
@@ -21,23 +22,24 @@
 	top: var(--safe-top);
 	right: var(--safe-right);
 	bottom: var(--safe-bottom);
-	z-index: 20;
-	width: min(340px, calc(100vw - 20px));
+	z-index: var(--layer-drawer);
+	width: min(360px, calc(100vw - 20px));
+	max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom));
 	padding: 14px;
 	border: 1px solid var(--line-strong);
 	border-radius: var(--radius-large);
-	background:
-		linear-gradient(160deg, rgba(34, 23, 15, 0.94), rgba(12, 8, 6, 0.92));
+	background: linear-gradient(160deg, rgba(34, 23, 15, 0.96), rgba(12, 8, 6, 0.94));
 	backdrop-filter: blur(18px) saturate(1.08);
 	box-shadow: var(--shadow-deep);
-	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
 	overscroll-behavior: contain;
-	transform: translate3d(calc(100% + 22px), 0, 0);
+	scrollbar-gutter: stable;
+	scrollbar-width: thin;
+	transform: translate3d(calc(100% + 24px), 0, 0);
 	opacity: 0;
 	pointer-events: none;
-	transition:
-		transform var(--motion-medium) var(--ease-out),
-		opacity var(--motion-fast) var(--ease-soft);
+	transition: transform var(--motion-medium) var(--ease-out), opacity var(--motion-fast) var(--ease-soft);
 }
 
 .game-shell[data-drawer="open"] .drawer-backdrop {
@@ -52,12 +54,18 @@
 }
 
 .drawer-header {
+	position: sticky;
+	top: -14px;
+	z-index: 1;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
-	padding: 2px 2px 12px;
+	margin: -14px -14px 0;
+	padding: 16px 16px 12px;
 	border-bottom: 1px solid var(--line);
+	background: linear-gradient(180deg, rgba(30, 20, 14, 0.98), rgba(26, 17, 12, 0.92));
+	backdrop-filter: blur(18px) saturate(1.08);
 }
 
 .drawer-kicker {
@@ -75,14 +83,20 @@
 }
 
 .drawer-header button {
+	display: grid;
+	place-items: center;
+	flex: 0 0 var(--tap);
 	width: var(--tap);
 	height: var(--tap);
+	padding: 0;
 	border: 1px solid var(--line);
 	border-radius: 14px;
 	background: rgba(255, 255, 255, 0.035);
 	color: var(--ivory-300);
 	font-size: 24px;
+	line-height: 1;
 	cursor: pointer;
+	touch-action: manipulation;
 }
 
 @media (max-width: 600px) {
@@ -90,6 +104,7 @@
 		top: max(6px, env(safe-area-inset-top));
 		right: max(6px, env(safe-area-inset-right));
 		bottom: max(6px, env(safe-area-inset-bottom));
-		width: min(92vw, 360px);
+		width: min(360px, calc(100vw - max(12px, env(safe-area-inset-left)) - max(12px, env(safe-area-inset-right))));
+		max-height: calc(100dvh - max(6px, env(safe-area-inset-top)) - max(6px, env(safe-area-inset-bottom)));
 	}
 }

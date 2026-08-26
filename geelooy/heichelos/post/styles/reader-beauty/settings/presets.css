@@ -1,2 +1,12 @@
-/* B"H reader beauty settings/presets.css. */
-.reader-preset-card { border-radius:1rem; padding:1rem; background:rgba(255,255,255,.06); }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets a preset suggest a garment without clothing the world beyond its reader;
+ * Awtsmoos.com keeps every future preset card scoped to the revelation chamber that needs her.
+ */
+.post-reader-localized-context .reader-preset-card {
+	border: 1px solid rgba(255, 255, 255, .1);
+	border-radius: 1rem;
+	padding: 1rem;
+	background: rgba(255, 255, 255, .06);
+}

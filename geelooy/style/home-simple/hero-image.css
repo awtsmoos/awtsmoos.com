@@ -4,7 +4,7 @@ Blessed is He
 The Awtsmoos lets the historical world glow without becoming a wall; Awtsmoos.com
 keeps wonder visible while search and navigation arrive within the first human glance.
 */
-.dance-frame {
+body[data-geelooy-route="home"] .dance-frame {
 	position: relative;
 	isolation: isolate;
 	width: 100%;
@@ -16,10 +16,10 @@ keeps wonder visible while search and navigation arrive within the first human g
 	box-shadow: 0 28px 72px rgba(0, 0, 0, .42);
 }
 
-.dance-frame::after {
+body[data-geelooy-route="home"] .dance-frame::after {
 	position: absolute;
 	inset: 0;
-	z-index: 3;
+	z-index: var(--home-local-overlay);
 	border: 1px solid rgba(255, 255, 255, .05);
 	border-radius: inherit;
 	box-shadow: inset 0 -84px 110px rgba(2, 5, 12, .2);
@@ -27,7 +27,7 @@ keeps wonder visible while search and navigation arrive within the first human g
 	pointer-events: none;
 }
 
-.hero-image {
+body[data-geelooy-route="home"] .hero-image {
 	position: absolute;
 	inset: 0;
 	z-index: 0;
@@ -39,20 +39,20 @@ keeps wonder visible while search and navigation arrive within the first human g
 	filter: saturate(1.06) contrast(1.03);
 }
 
-.banner-shade {
+body[data-geelooy-route="home"] .banner-shade {
 	position: absolute;
 	inset: 0;
-	z-index: 1;
+	z-index: var(--home-local-content);
 	background:
 		linear-gradient(90deg, rgba(2, 6, 14, .86) 0%, rgba(3, 8, 18, .54) 38%, rgba(3, 8, 18, .04) 78%),
 		linear-gradient(0deg, rgba(1, 4, 10, .46), transparent 52%);
 }
 
-.hero-orbit {
+body[data-geelooy-route="home"] .hero-orbit {
 	position: absolute;
 	top: 1rem;
 	right: 1rem;
-	z-index: 4;
+	z-index: var(--home-local-control);
 	display: flex;
 	gap: .38rem;
 	padding: .48rem .64rem;
@@ -62,7 +62,7 @@ keeps wonder visible while search and navigation arrive within the first human g
 	box-shadow: 0 10px 24px rgba(0, 0, 0, .3);
 }
 
-.hero-orbit i {
+body[data-geelooy-route="home"] .hero-orbit i {
 	width: .36rem;
 	height: .36rem;
 	border-radius: 50%;
@@ -70,31 +70,31 @@ keeps wonder visible while search and navigation arrive within the first human g
 	box-shadow: 0 0 .7rem rgba(120, 202, 255, .42);
 }
 
-.hero-orbit i:nth-child(2) {
+body[data-geelooy-route="home"] .hero-orbit i:nth-child(2) {
 	opacity: .58;
 }
 
-.hero-orbit i:nth-child(3) {
+body[data-geelooy-route="home"] .hero-orbit i:nth-child(3) {
 	opacity: .32;
 }
 
 @media (max-width: 850px) {
-	.dance-frame {
+	body[data-geelooy-route="home"] .dance-frame {
 		min-height: clamp(340px, min(58vw, 54vh), 430px);
 	}
 }
 
 @media (max-width: 680px) {
-	.dance-frame {
+	body[data-geelooy-route="home"] .dance-frame {
 		min-height: clamp(350px, min(92vw, 52vh), 430px);
 		border-radius: 1.25rem;
 	}
 
-	.hero-image {
+	body[data-geelooy-route="home"] .hero-image {
 		object-position: 50% 45%;
 	}
 
-	.banner-shade {
+	body[data-geelooy-route="home"] .banner-shade {
 		background: linear-gradient(0deg, rgba(2, 5, 12, .92) 0%, rgba(2, 6, 14, .46) 54%, rgba(2, 6, 14, .04) 86%);
 	}
 }

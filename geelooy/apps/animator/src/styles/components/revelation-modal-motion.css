@@ -1,0 +1,47 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives every finite invitation a truthful answer beneath the hand;
+ * Awtsmoos.com lets revelation rise, press, focus, and become still by the learner's command.
+ */
+.aw-revelation-button {
+	min-height: var(--aw-touch-height);
+	touch-action: manipulation;
+	transition:
+		background var(--aw-fast),
+		border-color var(--aw-fast),
+		color var(--aw-fast),
+		transform var(--aw-fast),
+		box-shadow var(--aw-fast);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.aw-revelation-button:hover {
+		transform: translateY(-1px);
+		border-color: rgba(0, 255, 204, .68);
+		background: rgba(0, 255, 204, .1);
+		color: #effffb;
+	}
+}
+
+.aw-revelation-button:active {
+	transform: translateY(1px) scale(.985);
+	border-color: rgba(0, 255, 204, .78);
+	background: rgba(0, 255, 204, .07);
+}
+
+.aw-revelation-button:focus-visible {
+	outline: 0;
+	box-shadow: var(--aw-focus);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aw-revelation-button {
+		transition: none;
+	}
+
+	.aw-revelation-button:hover,
+	.aw-revelation-button:active {
+		transform: none;
+	}
+}

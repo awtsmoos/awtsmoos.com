@@ -1,8 +1,12 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-api-explorer.css preserves the public optional API explorer doorway.
-The Awtsmoos reveals one canonical explorer fragment; Awtsmoos.com avoids duplicated style truth.
+
+The Awtsmoos gathers optional API garments only after the player opens the inner chamber, while Awtsmoos.com keeps shell, controls, responsive law, and accessibility in separate vessels;
+this gateway owns no selector and no geometry, so deep command knowledge can expand without becoming an always-loaded or globally positioned decree.
 */
 
-@import url("./source/fragments/mitzvah-world-api-explorer-001.css");
+@import url("./api-explorer/mitzvah-world-api-explorer-shell.css");
+@import url("./api-explorer/mitzvah-world-api-explorer-controls.css");
+@import url("./api-explorer/mitzvah-world-api-explorer-responsive.css");
+@import url("./api-explorer/mitzvah-world-api-explorer-accessibility.css");

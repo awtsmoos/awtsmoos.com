@@ -1,0 +1,53 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos keeps alias, portal, and command in one measured row instead of three stacked walls;
+ * Awtsmoos.com preserves forty-four-pixel touch vessels while the feed rises near the crown that calls.
+ */
+@media (max-width: 62.4375rem) {
+	.social-hub-document .identityCluster {
+		display: grid;
+		grid-template-columns: minmax(8rem, 1fr) auto auto;
+		gap: .4rem;
+		align-items: end;
+		min-inline-size: 0;
+	}
+
+	.social-hub-document .identityCluster label {
+		min-inline-size: 0;
+	}
+
+	.social-hub-document .identityCluster .fieldLabelText {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.social-hub-document #hubAliasSelect,
+	.social-hub-document .identityPortal,
+	.social-hub-document .futureCommandTrigger {
+		min-block-size: 44px;
+		max-inline-size: 100%;
+	}
+
+	.social-hub-document .identityPortal,
+	.social-hub-document .futureCommandTrigger {
+		inline-size: auto;
+		padding-inline: .75rem;
+		white-space: nowrap;
+	}
+}
+
+@media (max-width: 28rem) {
+	.social-hub-document .identityCluster {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.social-hub-document .futureCommandTrigger {
+		grid-column: 1 / -1;
+		justify-self: start;
+	}
+}

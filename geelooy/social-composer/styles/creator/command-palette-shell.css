@@ -1,0 +1,97 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives command search one bounded vessel while Awtsmoos.com keeps geometry separate from tactile interaction.
+ * The shell owns position, safe viewport measure, scrolling, and structure so no state layer can accidentally move the chamber.
+ */
+.creatorCommandLauncher {
+	position: fixed;
+	z-index: var(--creator-layer-launcher, 80);
+	inset-inline-end: var(
+		--creator-safe-inline-end,
+		max(1rem, env(safe-area-inset-right))
+	);
+	bottom: calc(
+		var(--creator-publication-height, 6.35rem) +
+		var(--creator-safe-bottom, env(safe-area-inset-bottom)) +
+		.7rem
+	);
+	min-inline-size: 0;
+	max-inline-size: calc(
+		100dvw - var(--creator-safe-inline-start, 1rem) - var(--creator-safe-inline-end, 1rem)
+	);
+	min-block-size: 46px;
+	padding-inline: .9rem;
+	border: 1px solid #4b6a78;
+	border-radius: 14px;
+	color: #eaf8fb;
+	background: #13212a;
+	box-shadow: 0 14px 38px rgb(0 0 0 / 30%);
+}
+
+.creatorPalette {
+	z-index: var(--creator-layer-dialog, 110);
+	box-sizing: border-box;
+	inline-size: min(
+		640px,
+		calc(100dvw - var(--creator-safe-inline-start, 1rem) - var(--creator-safe-inline-end, 1rem))
+	);
+	max-inline-size: calc(
+		100dvw - var(--creator-safe-inline-start, 1rem) - var(--creator-safe-inline-end, 1rem)
+	);
+	max-block-size: calc(
+		100dvh - max(1rem, env(safe-area-inset-top)) - var(--creator-safe-bottom, 1rem)
+	);
+	padding: 0;
+	overflow: hidden;
+	border: 1px solid #405b69;
+	border-radius: 22px;
+	color: #f3f8fa;
+	background: #101b23;
+}
+
+.creatorPalette::backdrop {
+	background: rgb(0 5 9 / 68%);
+}
+
+.creatorPaletteShell {
+	display: grid;
+	gap: .75rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	max-block-size: inherit;
+	padding: 1rem;
+	overflow-y: auto;
+	overflow-x: clip;
+	overscroll-behavior: contain;
+}
+
+.creatorPaletteShell header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	min-inline-size: 0;
+}
+
+.creatorPaletteShell input {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	min-block-size: 48px;
+	padding: .7rem .85rem;
+	border: 1px solid #36505d;
+	border-radius: 13px;
+	color: inherit;
+	background: #091319;
+	font: inherit;
+}
+
+.creatorPaletteClose {
+	inline-size: 46px;
+	min-inline-size: 46px;
+	min-block-size: 46px;
+	border-radius: 50%;
+	color: inherit;
+	background: #1b2b34;
+}

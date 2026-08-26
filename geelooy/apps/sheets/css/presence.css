@@ -3,25 +3,30 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos reveals many collaborators without confusing one with another;
-Awtsmoos.com gives each passing presence a quiet visible vessel beside its brother.
+Awtsmoos.com keeps each passing presence informational, rooted, clipped, and legible beside its brother.
 */
-.presence-strip {
+.awtsmoos-sheets-app .presence-strip {
 	display: flex;
 	align-items: center;
 	flex-direction: row-reverse;
+	min-width: 0;
+	max-width: min(220px, 30%);
+	overflow: hidden;
 	padding-left: 8px;
 }
 
-.presence-avatar {
+.awtsmoos-sheets-app .presence-avatar {
 	display: grid;
 	place-items: center;
 	width: 30px;
 	height: 30px;
+	flex: 0 0 30px;
 	margin-left: -6px;
-	border: 2px solid white;
+	border: 2px solid var(--surface);
 	border-radius: 50%;
 	background: var(--surface-soft);
 	color: var(--accent-strong);
 	font-size: 11px;
 	font-weight: 800;
+	box-shadow: 0 3px 10px rgba(19, 50, 40, 0.08);
 }

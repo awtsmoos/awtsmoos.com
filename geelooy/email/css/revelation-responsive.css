@@ -1,100 +1,111 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos loses no essence when the vessel narrows; Awtsmoos.com lets Mail
- * keep status, touch targets, safe areas, and reading space intact from wide
- * desktop windows down to the smallest practical mobile deck.
- */
-
-.mail-civilization-status {
+Boruch Hashem
+Blessed is He
+The Awtsmoos loses no essence when the vessel narrows; Awtsmoos.com keeps
+status, safe areas, touch intent, and readable depth inside Mail alone.
+*/
+.geelooy-mail-document .mail-civilization-status {
 	display: flex;
 	align-items: center;
 	gap: .65rem;
-	min-width: 0;
-	padding-inline: max(.35rem, env(safe-area-inset-left)) max(.35rem, env(safe-area-inset-right));
+	min-inline-size: 0;
+	padding-inline:
+		max(.35rem, env(safe-area-inset-left))
+		max(.35rem, env(safe-area-inset-right));
 }
 
-.mail-civilization-brand {
-	min-width: 0;
+.geelooy-mail-document .mail-civilization-brand {
+	min-inline-size: 0;
 	flex: 1 1 auto;
 }
 
-.mail-civilization-brand > span:last-child {
-	min-width: 0;
+.geelooy-mail-document .mail-civilization-brand > span:last-child {
+	min-inline-size: 0;
 }
 
-.mail-civilization-brand strong,
-.mail-civilization-brand small {
+.geelooy-mail-document .mail-civilization-brand :is(strong, small) {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.mail-connection-state {
+.geelooy-mail-document .mail-connection-state {
 	flex: 0 0 auto;
-	min-height: 2rem;
+	min-block-size: 2rem;
 	display: inline-flex;
 	align-items: center;
 	padding: .3rem .65rem;
 	border: 1px solid rgb(255 255 255 / 10%);
 	border-radius: 999px;
 	background: rgb(255 255 255 / 4%);
+	transition:
+		border-color var(--mail-motion-standard) ease,
+		background-color var(--mail-motion-standard) ease;
 }
 
-.mail-connection-state[data-state="online"]::before,
-.mail-connection-state[data-state="offline"]::before {
+.geelooy-mail-document .mail-connection-state::before {
 	content: "";
-	width: .45rem;
-	height: .45rem;
+	inline-size: .45rem;
+	block-size: .45rem;
 	margin-inline-end: .4rem;
 	border-radius: 50%;
-	background: #75e6a2;
-	box-shadow: 0 0 0 .2rem rgb(117 230 162 / 12%);
+	background: var(--mail-text-muted);
+	box-shadow: 0 0 0 .2rem rgb(125 138 157 / 12%);
 }
 
-.mail-connection-state[data-state="offline"] {
-	border-color: rgb(255 177 96 / 40%);
-	background: rgb(255 151 67 / 10%);
+.geelooy-mail-document .mail-connection-state[data-state="online"]::before {
+	background: var(--mail-success);
+	box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--mail-success) 14%, transparent);
 }
 
-.mail-connection-state[data-state="offline"]::before {
-	background: #ffb160;
-	box-shadow: 0 0 0 .2rem rgb(255 177 96 / 12%);
+.geelooy-mail-document .mail-connection-state[data-state="offline"] {
+	border-color: color-mix(in srgb, var(--mail-warning) 45%, transparent);
+	background: color-mix(in srgb, var(--mail-warning) 10%, transparent);
+}
+
+.geelooy-mail-document .mail-connection-state[data-state="offline"]::before {
+	background: var(--mail-warning);
+	box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--mail-warning) 14%, transparent);
 }
 
 @media (max-width: 640px) {
-	.mail-civilization-status {
+	.geelooy-mail-document .mail-civilization-status {
 		gap: .45rem;
-		padding-block: .35rem;
+		padding-block: max(.35rem, env(safe-area-inset-top)) .35rem;
 	}
 
-	.mail-header-shortcuts,
-	.mail-civilization-brand small {
+	.geelooy-mail-document :is(.mail-header-shortcuts, .mail-civilization-brand small) {
 		display: none;
 	}
 
-	.mail-workspace-frame {
+	.geelooy-mail-document .mail-workspace-frame {
 		padding-bottom: max(.25rem, env(safe-area-inset-bottom));
 	}
 
-	.mail-connection-state {
+	.geelooy-mail-document .mail-connection-state {
 		font-size: .78rem;
 	}
 }
 
 @media (pointer: coarse) {
-	:is(.mail-primary-command, .mail-folder-tab, .mail-sender-category, .mail-search-clear, .fab-compose) {
-		min-height: 2.75rem;
+	.geelooy-mail-document :is(
+		.mail-primary-command,
+		.mail-folder-tab,
+		.mail-sender-category,
+		.mail-search-clear,
+		.fab-compose
+	) {
+		min-block-size: var(--mail-touch-target);
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.mail-civilization-shell *,
-	.mail-civilization-shell *::before,
-	.mail-civilization-shell *::after {
-		scroll-behavior: auto !important;
-		transition-duration: .01ms !important;
-		animation-duration: .01ms !important;
+	.geelooy-mail-document .mail-civilization-shell *,
+	.geelooy-mail-document .mail-civilization-shell *::before,
+	.geelooy-mail-document .mail-civilization-shell *::after {
+		scroll-behavior: auto;
+		transition-duration: .01ms;
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
 	}
 }

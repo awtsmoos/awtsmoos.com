@@ -2,14 +2,17 @@
 // Boruch Hashem
 // Blessed is He
 
+import { StudioDisclosureView } from './StudioDisclosureView.js';
+import { StudioVectorPathFieldView as Field } from './StudioVectorPathFieldView.js';
+
 /**
  * @file StudioVectorPathPropertiesView.js
  * @description
- * The Awtsmoos renews every stroke and fill before appearance becomes a property;
- * Awtsmoos.com exposes only Canvas2D path capabilities the production renderer truly honors, preserving trust from inspector to export.
+ * The Awtsmoos renews every stroke before simple appearance and advanced path behavior can receive distinct vessels;
+ * Awtsmoos.com keeps Stroke and Width immediate while cap, join, closure, and fill unfold only when precision is requested.
  */
 export class StudioVectorPathPropertiesView {
-	/** Renders path styling controls only for a real selected vector path. */
+	/** Renders concise primary path styling plus an expandable advanced chamber. */
 	static render(entity) {
 		const spec = entity?.properties?.renderSpec;
 		if (entity?.type !== 'vector-path' || spec?.type !== 'path') {
@@ -25,81 +28,26 @@ export class StudioVectorPathPropertiesView {
 					tag: 'div',
 					attrs: { className: 'aw-studio-transform-grid' },
 					children: [
-						this.colorField('Stroke', spec.stroke || '#7db4ff', 'updateVectorPathStroke'),
-						this.numberField('Width', spec.lineWidth ?? 4, 'updateVectorPathWidth'),
-						this.selectField('Cap', spec.lineCap || 'round', ['butt', 'round', 'square'], 'updateVectorPathCap'),
-						this.selectField('Join', spec.lineJoin || 'round', ['miter', 'round', 'bevel'], 'updateVectorPathJoin')
+						Field.color('Stroke', spec.stroke || '#7db4ff', 'updateVectorPathStroke'),
+						Field.number('Width', spec.lineWidth ?? 4, 'updateVectorPathWidth')
 					]
 				},
-				this.toggleField('Closed path', Boolean(spec.close), 'toggleVectorPathClosed'),
-				this.toggleField('Enable fill', fillEnabled, 'toggleVectorPathFill'),
-				this.colorField('Fill', fillEnabled ? spec.fill : '#6ea8ff', 'updateVectorPathFill', !fillEnabled)
-			]
-		};
-	}
-
-	/** Creates one accessible color input backed by a real render-spec field. */
-	static colorField(label, value, eventName, disabled = false) {
-		return {
-			tag: 'label',
-			children: [
-				{ tag: 'span', text: label },
-				{
-					tag: 'input',
-					attrs: { type: 'color', value, disabled, 'aria-label': `Vector path ${label.toLowerCase()}` },
-					on: { change: eventName }
-				}
-			]
-		};
-	}
-
-	/** Creates one bounded stroke-width field. */
-	static numberField(label, value, eventName) {
-		return {
-			tag: 'label',
-			children: [
-				{ tag: 'span', text: label },
-				{
-					tag: 'input',
-					attrs: { type: 'number', min: 0.5, max: 128, step: 0.5, value, inputmode: 'decimal', 'aria-label': `Vector path ${label.toLowerCase()}` },
-					on: { change: eventName }
-				}
-			]
-		};
-	}
-
-	/** Creates one Canvas2D-supported cap or join selector. */
-	static selectField(label, current, values, eventName) {
-		return {
-			tag: 'label',
-			children: [
-				{ tag: 'span', text: label },
-				{
-					tag: 'select',
-					attrs: { 'aria-label': `Vector path ${label.toLowerCase()}` },
-					on: { change: eventName },
-					children: values.map((value) => ({
-						tag: 'option',
-						attrs: { value, selected: value === current },
-						text: value
-					}))
-				}
-			]
-		};
-	}
-
-	/** Creates one boolean path behavior control. */
-	static toggleField(label, checked, eventName) {
-		return {
-			tag: 'label',
-			attrs: { className: 'aw-studio-path-toggle' },
-			children: [
-				{
-					tag: 'input',
-					attrs: { type: 'checkbox', checked, 'aria-label': label },
-					on: { change: eventName }
-				},
-				{ tag: 'span', text: label }
+				StudioDisclosureView.render('Advanced path', [
+					{
+						tag: 'div',
+						attrs: { className: 'aw-studio-transform-grid' },
+						children: [
+							Field.select('Cap', spec.lineCap || 'round', ['butt', 'round', 'square'], 'updateVectorPathCap'),
+							Field.select('Join', spec.lineJoin || 'round', ['miter', 'round', 'bevel'], 'updateVectorPathJoin')
+						]
+					},
+					Field.toggle('Closed path', Boolean(spec.close), 'toggleVectorPathClosed'),
+					Field.toggle('Enable fill', fillEnabled, 'toggleVectorPathFill'),
+					Field.color('Fill', fillEnabled ? spec.fill : '#6ea8ff', 'updateVectorPathFill', !fillEnabled)
+				], {
+					className: 'aw-studio-inner-disclosure',
+					hint: 'Cap · join · fill'
+				})
 			]
 		};
 	}

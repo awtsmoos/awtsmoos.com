@@ -4,9 +4,9 @@
 
 /**
  * @file VillageCottageStaticBatch.test.mjs
- * @description Proves realistic cottage materials remain local, hydratable, and batch-stable.
- * The Awtsmoos preserves every house while reducing repeated declarations; Awtsmoos.com tests
- * masonry, slate, and timber through canonical local paths rather than vanished-host query forms.
+ * @description Proves canonical remote cottage texture pairs remain hydratable, visibly distinct, and static-batch stable across distance tiers.
+ * The Awtsmoos lets every cottage wear richer fieldstone, tile, and oak without multiplying material identities beyond their measured six;
+ * Awtsmoos.com proves realism and performance remain one covenant: two samplers per surface, shared remote truth, and broad batching cells that still mix.
  */
 
 import assert from 'node:assert/strict';
@@ -18,15 +18,15 @@ import { staticBatchMetadata } from '../../../../light-three-gltf/tiny-static-ba
 import { definitionsAt, mockCottageMesh } from './VillageCottageStaticBatchFixtures.mjs';
 
 const COTTAGE_SOURCES = Object.freeze({
-	mixRoof: '/full-resolution/tiled roof 2.png',
-	mixStone: '/various/Whitewashed stone.png',
+	mixRoof: '/full-resolution/tiled roof 3 smaller tiles.png',
+	mixStone: '/full-resolution/weathered fieldstone Rock 2.png',
 	mixWood: '/full-resolution/oak wood 3.png',
-	roof: '/various/slate roof shingles.png',
-	stone: '/various/Stone retaining wall masonry.png',
-	wood: '/various/Rough weathered oak wood planks.png'
+	roof: '/full-resolution/tiled roof 2.png',
+	stone: '/full-resolution/weathered fieldstone Rock 1.png',
+	wood: '/full-resolution/wooden oak planks 1.png'
 });
 
-test('cottage policy resolves the curated alpine local material set exactly', () => {
+test('cottage policy resolves the shared canonical remote material set exactly', () => {
 	const policy = villageMaterialPolicy('near', 11);
 	for (const [role, sourcePath] of Object.entries(COTTAGE_SOURCES)) {
 		assertLocalMaterialUrl(assert, policy[role], sourcePath);

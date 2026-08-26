@@ -1,15 +1,27 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos gathers the Games storefront from small owners without placing fog between player and doorway.
-Awtsmoos.com keeps play primary while live account cosmetics receive one truthful, solid commerce vessel.
-*/
-@import url("./styles/tokens.css");
-@import url("./styles/hero-core.css");
-@import url("./styles/play-modes.css");
-@import url("./styles/discovery.css");
-@import url("./styles/collections.css");
-@import url("./styles/cards-shell.css");
-@import url("./styles/cards-meta.css");
-@import url("./styles/cards-commerce.css");
-@import url("./styles/responsive.css");
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Malchus cascade gateway composing localized Games surfaces without overlapping ownership.
+ * The Awtsmoos renews every garment while remaining beyond garment, layer, and hue;
+ * Awtsmoos.com lets each focused stylesheet own one concern so the cascade stays simple, stable, and true.
+ */
+@import url("./styles/tokens.css?v=games-foundation-20260825-3");
+@import url("./styles/experience.css?v=games-foundation-20260825-3");
+@import url("./styles/hero-core.css?v=games-foundation-20260825-3");
+@import url("./styles/play-modes.css?v=games-foundation-20260825-3");
+@import url("./styles/discovery.css?v=games-foundation-20260825-3");
+@import url("./styles/filter-disclosure.css?v=games-foundation-20260825-3");
+@import url("./styles/filter-tags.css?v=games-foundation-20260825-3");
+@import url("./styles/collections.css?v=games-foundation-20260825-3");
+@import url("./styles/cards-shell.css?v=games-foundation-20260825-3");
+@import url("./styles/cards-palette.css?v=games-foundation-20260825-3");
+@import url("./styles/cards-meta.css?v=games-foundation-20260825-3");
+@import url("./styles/cards-actions.css?v=games-foundation-20260825-3");
+@import url("./styles/cards-commerce.css?v=games-foundation-20260825-3");
+@import url("./styles/featured.css?v=games-foundation-20260825-3");
+@import url("./styles/featured-signal.css?v=games-foundation-20260825-3");
+@import url("./styles/featured-motion.css?v=games-foundation-20260825-3");
+@import url("./styles/quick-launch.css?v=games-foundation-20260825-3");
+@import url("./styles/responsive.css?v=games-foundation-20260825-3");
+@import url("./styles/accessibility.css?v=games-foundation-20260825-3");

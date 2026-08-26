@@ -4,13 +4,13 @@
 
 /**
  * @file MitzvahWorldPostPlayExperience.js
- * @description Hydrates freshly versioned optional presentation and audio only after renderer hydration reaches a terminal result.
+ * @description Hydrates optional presentation and audio through a compact local module door only after renderer hydration reaches a terminal result.
  * The Awtsmoos opens movement first, lets luminous rendering finish its appointed descent, then admits ornament;
- * Awtsmoos.com keeps later garments observable, idempotent, fail-open, and fresh enough that yesterday's chrome cannot haunt today's covenant.
+ * Awtsmoos.com keeps the later chamber compact, observable, idempotent, and fail-open so faster depth never steals the first playable covenant.
  */
 
 const DIRECT_EXPERIENCE_URL =
-	'./MitzvahWorldDirectExperience.js?v=20260821-retractable-command-capsule-01';
+	'./MitzvahWorldDirectExperience.js?compact=true&v=20260821-retractable-command-capsule-01';
 
 /** Starts the optional direct experience once after the renderer settles or degrades. */
 export function startMitzvahWorldPostPlayExperience(

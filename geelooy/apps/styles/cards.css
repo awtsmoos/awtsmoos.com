@@ -1,32 +1,60 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos renews every Awtsmoos.com tool card without stealing the motion of the larger shell;
-a deliberate rise, a gentle press, then stillness returns so useful creation remains easy to tell.
+The Awtsmoos renews each Awtsmoos.com doorway as a bounded luminous vessel; quiet
+depth answers mouse, touch, and focus without leaking motion into another route.
+A card rises only for a fine pointer, presses for every hand, then returns to rest.
 */
-.g-app-card {
+
+body[data-geelooy-route="apps"] .g-app-card {
+	position: relative;
+	isolation: isolate;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	gap: var(--g-space-2);
-	min-height: 245px;
+	min-inline-size: 0;
+	min-block-size: 220px;
+	overflow: clip;
 	border-color: color-mix(in srgb, var(--g-border), var(--g-accent) 12%);
+	content-visibility: auto;
+	contain-intrinsic-size: 220px;
 }
 
-.g-app-card:hover {
+body[data-geelooy-route="apps"] .g-app-card::after {
+	position: absolute;
+	inset: auto -18% -42% 38%;
+	z-index: -1;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: radial-gradient(circle, color-mix(in srgb, var(--g-accent) 16%, transparent), transparent 68%);
+	content: "";
+	pointer-events: none;
+	transition:
+		transform 220ms ease,
+		opacity 220ms ease;
+}
+
+body[data-geelooy-route="apps"] .g-app-card:focus-visible {
 	border-color: var(--g-accent);
-	transform: translateY(-3px);
+	outline: 3px solid var(--g-accent);
+	outline-offset: 4px;
+	transform: translateY(-2px);
 }
 
-.g-app-card:active {
+body[data-geelooy-route="apps"] .g-app-card:active {
 	transform: translateY(-1px) scale(.995);
 }
 
-.g-app-icon {
+body[data-geelooy-route="apps"] .g-app-card[hidden] {
+	display: none;
+}
+
+body[data-geelooy-route="apps"] .g-app-icon {
 	display: grid;
 	place-items: center;
-	width: 48px;
-	height: 48px;
+	inline-size: 48px;
+	block-size: 48px;
 	border: 1px solid var(--g-border);
 	border-radius: var(--g-radius-md);
 	background: var(--g-surface-2);
@@ -34,20 +62,25 @@ a deliberate rise, a gentle press, then stillness returns so useful creation rem
 	font-weight: var(--g-font-weight-bold);
 }
 
-.g-app-card h2 {
+body[data-geelooy-route="apps"] .g-app-card :where(h2, p) {
+	max-inline-size: 100%;
+	overflow-wrap: anywhere;
+}
+
+body[data-geelooy-route="apps"] .g-app-card h2 {
 	margin: 0;
 	font-size: var(--g-font-size-lg);
-	letter-spacing: -0.02em;
+	letter-spacing: -.02em;
 }
 
-.g-app-card p {
+body[data-geelooy-route="apps"] .g-app-card p {
 	margin: 0;
 	color: var(--g-text-muted);
-	line-height: 1.5;
+	line-height: 1.55;
 }
 
-.g-app-commerce {
-	margin-top: auto;
+body[data-geelooy-route="apps"] .g-app-commerce {
+	margin-block-start: auto;
 	padding: 6px 9px;
 	border: 1px solid color-mix(in srgb, var(--g-accent), transparent 55%);
 	border-radius: var(--g-radius-pill);
@@ -57,22 +90,21 @@ a deliberate rise, a gentle press, then stillness returns so useful creation rem
 	font-weight: var(--g-font-weight-semibold);
 }
 
-.g-app-commerce--free {
-	border-color: color-mix(in srgb, #73e69a, transparent 55%);
-	color: #9ff3b8;
-	background: rgba(92, 208, 126, 0.08);
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+	body[data-geelooy-route="apps"] .g-app-card:hover {
+		border-color: var(--g-accent);
+		transform: translateY(-3px);
+	}
+
+	body[data-geelooy-route="apps"] .g-app-card:hover::after {
+		transform: translate(-4%, -6%) scale(1.08);
+	}
 }
 
-@media (prefers-reduced-motion: no-preference) and (hover: hover) {
-	.g-page .g-grid a.g-card.g-app-card[data-app-card] {
-		transition:
-			transform 220ms cubic-bezier(.2, .8, .2, 1),
-			border-color 180ms ease,
-			box-shadow 220ms ease,
-			background-position var(--g-motion-medium) var(--g-ease),
-			background-size var(--g-motion-medium) var(--g-ease),
-			color var(--g-motion-fast) var(--g-ease),
-			filter var(--g-motion-fast) var(--g-ease),
-			text-shadow var(--g-motion-medium) var(--g-ease);
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="apps"] .g-app-card,
+	body[data-geelooy-route="apps"] .g-app-card::after {
+		transform: none;
+		transition: none;
 	}
 }

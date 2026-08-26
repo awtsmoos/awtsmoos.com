@@ -1,0 +1,54 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets command search become a bottom sheet only when the hand needs one;
+Awtsmoos.com keeps narrow screens inside notch-safe gutters while desktop retains a centered instrument with no accidental full-width takeover.
+*/
+@media (max-width: 620px) {
+	.creatorPalette {
+		inline-size: calc(
+			100dvw
+			- env(safe-area-inset-left)
+			- env(safe-area-inset-right)
+		);
+		max-inline-size: calc(
+			100dvw
+			- env(safe-area-inset-left)
+			- env(safe-area-inset-right)
+		);
+		max-block-size: calc(
+			82dvh
+			- env(safe-area-inset-top)
+		);
+		margin:
+			auto
+			env(safe-area-inset-right)
+			0
+			env(safe-area-inset-left);
+		border-width: 1px 0 0;
+		border-radius: 24px 24px 0 0;
+	}
+
+	.creatorPaletteShell {
+		padding-bottom: max(
+			1rem,
+			env(safe-area-inset-bottom)
+		);
+	}
+
+	.creatorPaletteGrab {
+		display: block;
+	}
+}
+
+@media (max-width: 24rem) {
+	.creatorPaletteShell header {
+		align-items: stretch;
+	}
+
+	.creatorCommandLauncher {
+		right: max(.6rem, env(safe-area-inset-right));
+		bottom: max(.6rem, env(safe-area-inset-bottom));
+	}
+}

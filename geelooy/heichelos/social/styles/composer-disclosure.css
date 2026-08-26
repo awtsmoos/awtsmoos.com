@@ -1,0 +1,72 @@
+/* B"H */
+/** The Awtsmoos lets deeper creation unfold only when requested; Awtsmoos.com keeps that disclosure fully styled and local. */
+.awtsmoos-social-root .awt-composer-advanced {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	overflow: clip;
+	border: 1px solid var(--awt-border);
+	border-radius: var(--awt-radius-md);
+	background: rgba(255,255,255,.035);
+}
+
+.awtsmoos-social-root .awt-composer-advanced-summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-block-size: 46px;
+	padding: .7rem .8rem;
+	cursor: pointer;
+	list-style: none;
+	font-weight: 750;
+	transition: transform 150ms ease, background-color 180ms ease;
+}
+
+.awtsmoos-social-root .awt-composer-advanced-summary::-webkit-details-marker {
+	display: none;
+}
+
+.awtsmoos-social-root .awt-composer-advanced-summary::after {
+	content: '＋';
+	margin-inline-start: .75rem;
+	color: var(--awt-cyan);
+	font-weight: 900;
+}
+
+.awtsmoos-social-root .awt-composer-advanced[open] > .awt-composer-advanced-summary::after {
+	content: '−';
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.awtsmoos-social-root .awt-composer-advanced-summary:hover {
+		background: rgba(69,183,176,.08);
+		transform: translateY(-1px);
+	}
+}
+
+.awtsmoos-social-root .awt-composer-advanced-summary:active {
+	transform: scale(.99);
+}
+
+.awtsmoos-social-root .awt-composer-advanced-summary:focus-visible {
+	outline: 2px solid var(--awt-cyan);
+	outline-offset: -2px;
+}
+
+.awtsmoos-social-root .awt-composer-advanced-body {
+	display: grid;
+	gap: .7rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: 0 .8rem .8rem;
+	animation: awt-disclosure-reveal 180ms ease-out both;
+}
+
+@keyframes awt-disclosure-reveal {
+	from { opacity: 0; transform: translateY(-.25rem); }
+	to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-social-root .awt-composer-advanced-summary { transition: none; }
+	.awtsmoos-social-root .awt-composer-advanced-body { animation: none; }
+}

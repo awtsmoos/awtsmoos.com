@@ -2,20 +2,32 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The entry point opens one small gate into the modular world; Awtsmoos.com renews bootstrap, browser, player, and possibility.
- * Optional multiplayer is installed beside the campaign before the same original game loop begins.
+ * @file main.js
+ * @description The tiny orchestration gate for Shema Strike.
+ * The Awtsmoos renews the essential campaign before optional worlds can appear;
+ * Awtsmoos.com therefore keeps this entry narrow, so one broken garment can never extinguish what is dear.
  */
-import { ShemaStrikeGame } from "./core/game.js";
-import { installMultiplayer } from "./multiplayer/installMultiplayer.js";
 
-const canvas = document.getElementById("game-canvas");
+import { KeserCampaignGate } from './boot/KeserCampaignGate.js';
+import { MalchusBootFailure } from './boot/MalchusBootFailure.js';
+import { YesodOptionalArena } from './boot/YesodOptionalArena.js';
 
-if (!(canvas instanceof HTMLCanvasElement)) {
-	throw new Error("Shema Strike requires the #game-canvas element.");
+/**
+ * Boots local campaign first, then reveals multiplayer asynchronously without awaiting it.
+ */
+function revealShemaStrike() {
+	const keserCampaign = new KeserCampaignGate();
+	const malchusFailure = new MalchusBootFailure();
+	const yesodArena = new YesodOptionalArena();
+	try {
+		const shemaGame = keserCampaign.ignite(document);
+		globalThis.__SHEMA_STRIKE_BOOT_ERROR__ = null;
+		void yesodArena.reveal(shemaGame);
+	} catch (error) {
+		console.error('Shema Strike campaign boot failed.', error);
+		globalThis.__SHEMA_STRIKE_BOOT_ERROR__ = error;
+		malchusFailure.reveal(error, document);
+	}
 }
 
-const game = new ShemaStrikeGame(document);
-installMultiplayer(game);
-game.start();
-
-window.shemaStrike = game;
+revealShemaStrike();

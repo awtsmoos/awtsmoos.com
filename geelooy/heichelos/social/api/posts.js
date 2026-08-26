@@ -1,27 +1,40 @@
 // B"H
-/**
- * @module PostsApi
- * @description
- * Chapter 89: A post is a citadel with gates for body, sections, assets,
- * comments, creation, mutation, and removal. Each gate stands alone so tests
- * can strike it independently and prove the route is real.
- */
-export function createPostsApi(client) {
-    const post = id => '/posts/' + encodeURIComponent(id);
-    return {
-        get: id => client.get(post(id)),
-        sections: id => client.get(post(id) + '/sections'),
-        assets: id => client.get(post(id) + '/assets'),
-        comments: (id, query) => client.get(withQuery(post(id) + '/comments', query)),
-        comment: (id, body) => client.post(post(id) + '/comments', body),
-        create: body => client.post('/posts', body),
-        update: (id, body) => client.put(post(id), body),
-        remove: id => client.delete(post(id))
-    };
+import { YesodEndpointService } from './YesodEndpointService.js';
+
+/** MalchusPostsApi exposes the public lifecycle of a post through one stable service. */
+export class MalchusPostsApi extends YesodEndpointService {
+	post(id) {
+		return `/posts/${this.identity(id)}`;
+	}
+
+	/** @param {string} id @returns {Promise<object>} Post envelope. */
+	get(id) { return this.yesodClient.get(this.post(id)); }
+
+	/** @param {string} id @returns {Promise<object>} Post sections. */
+	sections(id) { return this.yesodClient.get(`${this.post(id)}/sections`); }
+
+	/** @param {string} id @returns {Promise<object>} Post assets. */
+	assets(id) { return this.yesodClient.get(`${this.post(id)}/assets`); }
+
+	/** @param {string} id @param {object} query @returns {Promise<object>} Post comments. */
+	comments(id, query = {}) {
+		return this.yesodClient.get(this.query(`${this.post(id)}/comments`, query));
+	}
+
+	/** @param {string} id @param {object} body @returns {Promise<object>} Created comment envelope. */
+	comment(id, body) { return this.yesodClient.post(`${this.post(id)}/comments`, body); }
+
+	/** @param {object} body @returns {Promise<object>} Created post envelope. */
+	create(body) { return this.yesodClient.post('/posts', body); }
+
+	/** @param {string} id @param {object} body @returns {Promise<object>} Updated post envelope. */
+	update(id, body) { return this.yesodClient.put(this.post(id), body); }
+
+	/** @param {string} id @returns {Promise<object>} Removal envelope. */
+	remove(id) { return this.yesodClient.delete(this.post(id)); }
 }
 
-function withQuery(path, query = {}) {
-    const entries = Object.entries(query || {}).filter(([, value]) => value !== undefined && value !== null);
-    const params = new URLSearchParams(entries);
-    return params.size ? path + '?' + params : path;
+/** @param {object} client @returns {MalchusPostsApi} Posts service. */
+export function createPostsApi(client) {
+	return new MalchusPostsApi(client);
 }

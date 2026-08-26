@@ -1,0 +1,104 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives the maker one calm vessel beneath every possible cover;
+ * Awtsmoos.com keeps the mobile page whole while depth lives in spacing, light, and order.
+ */
+:root {
+	color-scheme: dark;
+	--cover-bg: #05070c;
+	--cover-panel: rgba(12, 18, 29, .86);
+	--cover-panel-strong: rgba(16, 24, 38, .96);
+	--cover-border: rgba(135, 221, 255, .16);
+	--cover-text: #f2f7fb;
+	--cover-muted: #93a7b7;
+	--cover-accent: #82e6ff;
+	--cover-accent-2: #9b8cff;
+	--cover-radius: 20px;
+	--cover-shadow: 0 24px 70px rgba(0, 0, 0, .34);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-width: 0;
+	min-height: 100%;
+}
+
+body {
+	min-height: 100dvh;
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	color: var(--cover-text);
+	background:
+		radial-gradient(circle at 10% 0%, rgba(130, 230, 255, .12), transparent 30%),
+		radial-gradient(circle at 90% 8%, rgba(155, 140, 255, .1), transparent 28%),
+		linear-gradient(150deg, #070b13, var(--cover-bg) 72%);
+}
+
+.cover-page {
+	width: min(1160px, 100%);
+	margin: 0 auto;
+	padding:
+		max(20px, env(safe-area-inset-top))
+		max(16px, env(safe-area-inset-right))
+		max(28px, env(safe-area-inset-bottom))
+		max(16px, env(safe-area-inset-left));
+}
+
+.cover-header {
+	margin-bottom: 18px;
+}
+
+.cover-kicker,
+.cover-title,
+.cover-description {
+	margin: 0;
+}
+
+.cover-kicker {
+	color: var(--cover-accent);
+	font-size: .7rem;
+	font-weight: 850;
+	letter-spacing: .13em;
+	text-transform: uppercase;
+}
+
+.cover-title {
+	margin-top: 5px;
+	font-size: clamp(1.9rem, 8vw, 3.8rem);
+	line-height: .98;
+	letter-spacing: -.055em;
+}
+
+.cover-description {
+	max-width: 680px;
+	margin-top: 9px;
+	color: var(--cover-muted);
+	font-size: .92rem;
+	line-height: 1.55;
+}
+
+.cover-layout {
+	display: grid;
+	gap: 16px;
+	align-items: start;
+}
+
+.cover-card {
+	min-width: 0;
+	border: 1px solid var(--cover-border);
+	border-radius: var(--cover-radius);
+	background: var(--cover-panel);
+	box-shadow: var(--cover-shadow);
+	backdrop-filter: blur(18px) saturate(1.08);
+}
+
+@media (min-width: 900px) {
+	.cover-layout {
+		grid-template-columns: minmax(300px, .78fr) minmax(0, 1.22fr);
+	}
+}

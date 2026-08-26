@@ -1,0 +1,101 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals the game before the ornament and the doorway before the hall;
+ * Awtsmoos.com keeps mobile flow vertical, bounded, and thumb-readable so no hidden sideways rail can call.
+ */
+@media (max-width: 700px) {
+	.gamesShell {
+		padding: 8px 8px calc(var(--g-dock-h, calc(4.9rem + env(safe-area-inset-bottom))) + 1rem);
+	}
+
+	.heroPanel {
+		border-radius: 18px;
+		padding: 16px 14px;
+	}
+
+	.heroPanel h1 {
+		font-size: clamp(2rem, 9.5vw, 2.8rem);
+		line-height: 0.98;
+	}
+
+	.heroText {
+		font-size: 0.95rem;
+		line-height: 1.46;
+		margin-top: 10px;
+	}
+
+	.heroActions {
+		display: grid;
+		gap: 8px;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		margin-top: 14px;
+	}
+
+	.primaryCta,
+	.secondaryCta {
+		justify-content: center;
+		min-height: 44px;
+		padding: 10px 12px;
+		text-align: center;
+		width: 100%;
+	}
+
+	.playModeRail {
+		flex-wrap: wrap;
+		gap: 6px;
+		margin-top: 9px;
+		overflow: visible;
+		padding: 0;
+	}
+
+	.playModeRail > span {
+		flex: 1 1 130px;
+		min-height: 34px;
+		min-width: 0;
+		padding: 6px 10px;
+	}
+
+	.discoveryPanel {
+		border-radius: 18px;
+		margin-top: 10px;
+		padding: 13px 12px;
+	}
+
+	.discoveryHeading {
+		align-items: center;
+		gap: 8px;
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.discoveryHeading h2 {
+		font-size: clamp(1.35rem, 7vw, 1.8rem);
+	}
+
+	.gameCount {
+		min-height: 32px;
+		padding: 0 9px;
+	}
+
+	.searchWrap {
+		margin-top: 10px;
+		min-height: 46px;
+		padding: 0 11px;
+	}
+
+	.searchWrap kbd {
+		display: none;
+	}
+
+	.gamesFooter {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}
+
+@media (max-width: 340px) {
+	.heroActions {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

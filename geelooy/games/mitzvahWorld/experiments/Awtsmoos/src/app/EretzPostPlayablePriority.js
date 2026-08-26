@@ -4,13 +4,13 @@
 
 /**
  * @file EretzPostPlayablePriority.js
- * @description Gives the canonical Chossid one bounded clear lane before canonical world enrichment begins.
+ * @description Gives the canonical Chossid one bounded clear lane before compact district and enrichment launchers begin.
  * The Awtsmoos reveals the traveler, then the valley, without making either wait forever in disguise;
- * Awtsmoos.com preserves every canonical system while ordering its arrival so smoothness and realism rise.
+ * Awtsmoos.com gathers each deferred launcher graph before browser delivery so smoothness and realism rise without widening first sight.
  */
 
-const DISTRICT_URL = './EretzDistrictStreamingLaunch.js?v=20260820-player-priority-02';
-const ENRICHMENT_URL = './EretzDeferredEnrichmentLaunch.js?v=20260820-player-priority-02';
+const DISTRICT_URL = './EretzDistrictStreamingLaunch.js?compact=true&v=20260820-player-priority-02';
+const ENRICHMENT_URL = './EretzDeferredEnrichmentLaunch.js?compact=true&v=20260820-player-priority-02';
 const DEFAULT_PLAYER_PRIORITY_MILLISECONDS = 1500;
 
 export async function startEretzPostPlayablePriority(context, dependencies = {}) {

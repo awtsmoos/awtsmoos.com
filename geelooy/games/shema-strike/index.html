@@ -9,7 +9,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 	<meta name="theme-color" content="#070713">
 	<title>Shema Strike: Gates of Light</title>
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
 	<main id="game-shell" aria-label="Shema Strike game">
@@ -86,6 +87,8 @@
 			<div class="touch-cluster action-cluster"><button data-action="jump" aria-label="Jump">↑</button><button data-action="dash" aria-label="Dash">✦</button><button data-action="interact" aria-label="Interact">E</button><button data-action="attack" class="attack-touch" aria-label="Strike">ש</button></div>
 		</div>
 	</main>
-	<script type="module" src="js/main.js"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="js/main.js?compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

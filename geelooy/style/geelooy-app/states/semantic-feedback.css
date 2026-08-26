@@ -1,0 +1,64 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview The Awtsmoos gives success, warning, error, and disabled truth a
+ * readable vessel on Awtsmoos.com. Each state speaks clearly without stealing the
+ * component's own geometry, motion, or future ability to specialize its revelation.
+ */
+body.geelooy-app-shell {
+	--g-state-error-border: rgba(255, 95, 143, .68);
+}
+
+body.geelooy-app-shell :where(
+	[data-state="success"],
+	.is-success,
+	[role="status"][data-tone="success"]
+) {
+	border-color: rgba(72, 240, 182, .56);
+	background: linear-gradient(135deg, rgba(72, 240, 182, .12), rgba(7, 16, 31, .94));
+	box-shadow: 0 0 24px rgba(72, 240, 182, .12);
+	color: #d9fff1;
+}
+
+body.geelooy-app-shell :where(
+	[data-state="warning"],
+	.is-warning,
+	[role="status"][data-tone="warning"]
+) {
+	border-color: rgba(255, 209, 102, .62);
+	background: linear-gradient(135deg, rgba(255, 209, 102, .12), rgba(22, 13, 8, .94));
+	box-shadow: 0 0 24px rgba(255, 122, 69, .12);
+	color: #fff2c9;
+}
+
+body.geelooy-app-shell :where(
+	[data-state="error"],
+	.is-error,
+	[role="alert"],
+	[aria-invalid="true"]
+) {
+	border-color: var(--g-state-error-border);
+	background-color: rgba(255, 95, 143, .06);
+	box-shadow: 0 0 0 3px rgba(255, 95, 143, .1), 0 0 26px rgba(255, 72, 203, .12);
+}
+
+body.geelooy-app-shell :where([aria-disabled="true"], :disabled) {
+	cursor: not-allowed;
+	filter: grayscale(.55) saturate(.3);
+	opacity: .48;
+	transform: none;
+}
+
+@media (forced-colors: active) {
+	body.geelooy-app-shell :where(
+		[data-state],
+		[aria-invalid],
+		[aria-pressed],
+		[aria-selected]
+	) {
+		border: 2px solid ButtonText;
+		background: Canvas;
+		box-shadow: none;
+	}
+}

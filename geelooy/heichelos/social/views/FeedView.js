@@ -1,11 +1,4 @@
 // B"H
-/**
- * @module FeedView
- * @description
- * Chapter 55: The view now receives a river, not scattered droplets.
- * Raw social content flows through feed state, becomes ordered envelopes, and
- * then reveals profile, composer, feed cards, and comment trees in one shell.
- */
 import { AppShell } from '../components/AppShell.js';
 import { FeedCard } from '../components/FeedCard.js';
 import { ProfileHeader } from '../components/ProfileHeader.js';
@@ -13,35 +6,68 @@ import { CommentTree } from '../components/CommentTree.js';
 import { Composer } from '../components/Composer.js';
 import { buildFeedState } from '../data/feedState.js';
 
-export function FeedView(data = {}, actions = {}) {
-    const state = buildFeedState(hasContent(data) ? data : demoData());
-    return AppShell([
-        ProfileHeader(state.profile),
-        Composer({ ...(actions.draft || {}), onSubmit: actions.onSubmit, onAddSection: actions.onAddSection, onRefresh: actions.onRefresh, status: actions.status, statusKind: actions.statusKind }),
-        { tag: 'section', props: { class: 'awt-feed-list', id: 'feed' }, children: state.posts.length ? state.posts.map(post => FeedCard(post, actions)) : [{ tag: 'article', props: { class: 'awt-card awt-empty-state' }, children: ['No feed items returned yet.'] }] },
-        CommentTree(state.comments)
-    ], { notifications: data.notifications, onRefresh: actions.onRefresh });
+/**
+ * @module FeedView
+ * @description
+ * Malchus renders only the social data actually supplied by callers or live APIs.
+ * Awtsmoos.com never replaces absence with fabricated demo posts: an empty river
+ * remains visibly empty until Yesod and Binah deliver real content into the state.
+ */
+export function FeedView(binahData = {}, netzachActions = {}) {
+	const malchusState = buildFeedState(binahData);
+	return AppShell([
+		ProfileHeader(malchusState.profile),
+		Composer(composerProperties(netzachActions)),
+		feedSection(malchusState.posts),
+		CommentTree(malchusState.comments)
+	], {
+		notifications: binahData.notifications,
+		onRefresh: netzachActions.onRefresh
+	});
 }
 
-function hasContent(data) {
-    return Array.isArray(data.posts) || Array.isArray(data.items) || data.profile || Array.isArray(data.comments);
+/**
+ * Maps lifecycle actions into the Composer's explicit public contract.
+ * @param {object} netzachActions - Current view actions and draft state.
+ * @returns {object} Composer properties.
+ */
+function composerProperties(netzachActions) {
+	return {
+		...(netzachActions.draft || {}),
+		onSubmit: netzachActions.onSubmit,
+		onAddSection: netzachActions.onAddSection,
+		onRefresh: netzachActions.onRefresh,
+		status: netzachActions.status,
+		statusKind: netzachActions.statusKind
+	};
 }
 
-function demoData() {
-    return {
-        posts: [{
-            id: 'demo-post-1',
-            title: 'First living feed card',
-            author: 'Awtsmoos Builder',
-            heichel: 'Heichelos',
-            body: 'Images, audio, comments, and series context now have visible vessels.',
-            media: ['image', 'audio'],
-            createdAt: '2026-06-18T00:00:00.000Z'
-        }],
-        comments: [{
-            author: 'Commenter',
-            text: 'This tree has roots.',
-            replies: [{ author: 'Reply', text: 'And branches.' }]
-        }]
-    };
+/**
+ * Builds the feed region from normalized posts or an honest empty-state card.
+ * @param {Array<object>} malchusPosts - Normalized social posts.
+ * @returns {object} Feed-section blueprint.
+ */
+function feedSection(malchusPosts) {
+	const malchusChildren = malchusPosts.length
+		? malchusPosts.map(malchusPost => FeedCard(malchusPost))
+		: [emptyFeedCard()];
+	return {
+		tag: 'section',
+		props: {
+			class: 'awt-feed-list',
+			id: 'feed'
+		},
+		children: malchusChildren
+	};
+}
+
+/** @returns {object} Honest no-content blueprint. */
+function emptyFeedCard() {
+	return {
+		tag: 'article',
+		props: {
+			class: 'awt-card awt-empty-state'
+		},
+		children: ['No feed items returned yet.']
+	};
 }

@@ -1,12 +1,12 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos renews the studio shell; Awtsmoos.com gives each editor vessel
- * stable scale, quiet hierarchy, and reliable production space.
+ * The Awtsmoos renews the studio shell before panel and stage can occupy a place;
+ * Awtsmoos.com gives the artboard the broadest vessel while tools and inspectors remain disciplined around its face.
  */
 .aw-professional-studio .app-shell {
-	grid-template-columns: clamp(250px, 21vw, 340px) 6px minmax(0, 1fr) 6px clamp(250px, 20vw, 330px);
-	grid-template-rows: minmax(0, 1fr) 6px clamp(220px, 31vh, 360px);
+	grid-template-columns: clamp(228px, 18vw, 300px) 4px minmax(0, 1fr) 4px clamp(248px, 19vw, 320px);
+	grid-template-rows: minmax(0, 1fr) 4px clamp(210px, 29vh, 330px);
 	background: var(--aw-workspace);
 }
 
@@ -15,13 +15,23 @@
 	display: flex;
 	flex-direction: column;
 	min-width: 0;
+	border-color: var(--aw-line);
 	background: var(--aw-panel);
+}
+
+.aw-professional-studio .app-sidebar-left > .sidebar-header,
+.aw-professional-studio .app-sidebar-right > .sidebar-header {
+	display: none;
 }
 
 .aw-professional-studio .app-sidebar-left > .editor-mount,
 .aw-professional-studio .app-sidebar-left > .workspace-mount,
 .aw-professional-studio .app-sidebar-right > .inspector-mount {
 	display: none;
+}
+
+.aw-professional-studio .app-stage {
+	background: #080b12;
 }
 
 #aw-studio-left,
@@ -44,17 +54,29 @@
 	min-height: 0;
 	flex: 1;
 	overflow: auto;
-	padding: var(--aw-space-3);
+	padding: 10px;
 	scrollbar-color: var(--aw-control-active) transparent;
 	scrollbar-width: thin;
 }
 
 #aw-studio-toolbar-mount {
 	position: absolute;
-	top: var(--aw-space-3);
+	top: 10px;
 	left: 50%;
-	z-index: 30;
-	width: min(780px, calc(100% - 32px));
+	z-index: var(--aw-z-toolbar);
+	width: min(920px, calc(100% - 28px));
 	transform: translateX(-50%);
 	pointer-events: auto;
+}
+
+.aw-professional-studio .left-resizer,
+.aw-professional-studio .right-resizer,
+.aw-professional-studio .h-resizer {
+	background: transparent;
+}
+
+.aw-professional-studio .left-resizer:hover,
+.aw-professional-studio .right-resizer:hover,
+.aw-professional-studio .h-resizer:hover {
+	background: var(--aw-selection-soft);
 }

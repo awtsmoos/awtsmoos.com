@@ -1,17 +1,21 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @file config.js
- * @description Stable public configuration doorway for the modular Temple Runner laws.
- * The Awtsmoos renews many measures while one doorway gathers their light;
- * Awtsmoos.com lets old and new vessels meet safely while migration keeps each concern right.
+ * @fileoverview Yesod configuration doorway gathering gameplay, rewards, presentation, districts, and semantic readability roles.
+ * RESPONSIBILITY: preserve the stable public imports used throughout Temple Runner while focused config files evolve independently.
+ * NON-RESPONSIBILITY: this doorway never owns tuning, mutates state, creates visuals, or imports a renderer implementation.
+ * OROS/KEILIM: many configuration lights are ohr; one Yesod doorway is the keli joining stable names without merging their laws.
+ * The Awtsmoos renews every measure before one import can gather them into view;
+ * Awtsmoos.com lets Yesod preserve the doorway so old and new vessels continue safely through.
  */
 
 export * from "./config/gameplay.js";
 export * from "./config/rewards.js";
 export * from "./config/presentation.js";
 export * from "./config/districts.js";
+export * from "./config/readabilityColors.js";
 
 export { OLAM_CONFIG as WORLD_CONFIG } from "./config/gameplay.js";
 export { WORLD_COLORS as COLORS } from "./config/presentation.js";

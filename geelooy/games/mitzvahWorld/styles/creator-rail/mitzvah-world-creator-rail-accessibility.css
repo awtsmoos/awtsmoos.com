@@ -1,0 +1,59 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos, Atzmus beyond motion, color, pointer, and eye, renews every human way of meeting the finite interface;
+Awtsmoos.com lets Creator Mode remain legible when motion is reduced, system colors are forced, or coarse touch replaces hover, all within the MitzvahWorld vessel.
+*/
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root .Awtsmoos-creator-rail,
+	#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary) {
+		transition: none;
+	}
+
+	#mitzvah-world-root .Awtsmoos-creator-rail,
+	#mitzvah-world-root .Awtsmoos-creator-rail[data-open="true"],
+	#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary):active:not(:disabled) {
+		transform: none;
+	}
+}
+
+@media (pointer: coarse) {
+	#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary) {
+		min-height: 46px;
+	}
+
+	#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__window-actions button {
+		width: 42px;
+		min-height: 42px;
+	}
+}
+
+@media (forced-colors: active) {
+	#mitzvah-world-root .Awtsmoos-creator-rail {
+		border: 1px solid CanvasText;
+		background: Canvas;
+		box-shadow: none;
+		color: CanvasText;
+	}
+
+	#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary) {
+		border: 1px solid ButtonText;
+		background: ButtonFace;
+		box-shadow: none;
+		color: ButtonText;
+	}
+
+	#mitzvah-world-root .Awtsmoos-creator-rail [data-creator-material][data-selected="true"] {
+		outline: 2px solid Highlight;
+		outline-offset: 2px;
+		background: Highlight;
+		color: HighlightText;
+	}
+
+	#mitzvah-world-root .Awtsmoos-creator-rail button:disabled {
+		color: GrayText;
+		opacity: 1;
+	}
+}

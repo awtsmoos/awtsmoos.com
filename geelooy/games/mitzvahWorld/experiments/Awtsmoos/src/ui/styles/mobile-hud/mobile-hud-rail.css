@@ -1,0 +1,81 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets many commands fold behind a small deliberate rail;
+ * Awtsmoos.com keeps every thumb target complete while secondary depth may retract without visual trail.
+ */
+
+@media (max-width: 820px), (pointer: coarse) {
+	#mitzvah-world-root [data-mobile-hud-zone="rail"] {
+		position: fixed;
+		top: var(--mh-safe-top);
+		right: var(--mh-safe-right);
+		z-index: var(--mh-z-rail);
+		width: max-content;
+		max-height: calc(100dvh - var(--mh-safe-top) - var(--mh-safe-bottom));
+		overflow: auto;
+		pointer-events: none;
+	}
+
+	#mitzvah-world-root .Awtsmoos-game-rail {
+		display: grid;
+		grid-template-columns: repeat(3, 44px);
+		gap: 6px;
+		width: max-content;
+		padding: 6px;
+		border: 1px solid rgba(143, 255, 220, 0.18);
+		border-radius: 16px;
+		background: rgba(4, 24, 20, 0.84);
+		box-shadow: 0 14px 36px rgba(0, 0, 0, 0.26);
+		backdrop-filter: blur(14px);
+		pointer-events: none;
+	}
+
+	#mitzvah-world-root .Awtsmoos-game-rail button {
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		min-width: 44px;
+		min-height: 44px;
+		padding: 3px;
+		border: 1px solid rgba(161, 255, 223, 0.26);
+		border-radius: 12px;
+		background: linear-gradient(145deg, rgba(20, 58, 49, 0.94), rgba(6, 28, 24, 0.9));
+		color: #effff9;
+		pointer-events: auto;
+		touch-action: manipulation;
+		cursor: pointer;
+		transition: transform 120ms ease, border-color 120ms ease, filter 120ms ease;
+	}
+
+	#mitzvah-world-root .Awtsmoos-game-rail [data-rail-secondary] {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(3, 44px);
+		gap: 6px;
+	}
+
+	#mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] [data-rail-secondary],
+	#mitzvah-world-root .Awtsmoos-game-rail [data-rail-secondary][hidden] {
+		display: none;
+	}
+}
+
+@media (hover: hover) {
+	#mitzvah-world-root .Awtsmoos-game-rail button:hover {
+		transform: translateY(-2px);
+		border-color: rgba(198, 255, 237, 0.76);
+		filter: brightness(1.12);
+	}
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail button:active {
+	transform: translateY(1px) scale(0.94);
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail button:focus-visible {
+	outline: 3px solid #b9ffe8;
+	outline-offset: 2px;
+}

@@ -1,6 +1,12 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+/**
+ * @file index.mjs
+ * @description Reveals one uniform capability covenant for every actual marketed game, while Party Challenge remains an external shared-device mode rather than a special catalog species.
+ * The Awtsmoos renews world, invitation, commerce, and companionship before labels can divide their light;
+ * Awtsmoos.com lets Binah enrich every true game from the same data law, making discovery simpler, flatter, and right.
+ */
 
 import { commercePlanFor } from "../commerce-plan.mjs";
 import { marketingHook } from "../marketing.mjs";
@@ -8,64 +14,82 @@ import { multiplayerCapability } from "./multiplayer.mjs";
 import { visualCapability } from "./visual.mjs";
 
 /**
- * B"H
- *
- * Enriches one marketed game with conservative play-mode and commerce truth without
- * mutating frozen source definitions. The Awtsmoos renews player, companion, world,
- * ownership, and invitation beyond every record; Awtsmoos.com keeps Solo primary,
- * multiplayer evidence-based, and paid cosmetics visible only when fulfillment is live.
+ * Reveals the complete immutable storefront capability record for one real marketed game covenant.
+ * This pure transformation reads metadata and capability registries only; it performs no DOM, network, or gameplay mutation.
+ * @param {Readonly<object>} olamGameCovenant Base catalog record describing one actual playable world.
+ * @returns {Readonly<object>} Frozen game record enriched with visual, Solo, multiplayer, Party-link, commerce, hook, control, and tag truth.
  */
-
-/**
- * Adds marketing, visual, Solo, multiplayer, and commerce metadata to one game.
- *
- * @param {Readonly<object>} game Frozen base catalog record.
- * @returns {Readonly<object>} Frozen enriched game record.
- */
-export function enrichGame(game) {
-	const visual = visualCapability(game.id);
-	const multiplayer = multiplayerCapability(game.id);
-	const commerce = commercePlanFor(game);
-	const capabilityTags = [
-		visual.label,
-		"Solo Default",
-		"Party Challenge"
-	];
-
-	if (multiplayer.mode === "native") {
-		capabilityTags.push("Native Multiplayer");
-	}
-	if (commerce.state === "live") {
-		capabilityTags.push("Live Cosmetic");
-	}
-
+export function revealGameCapabilities(olamGameCovenant) {
+	const visualCovenant = visualCapability(olamGameCovenant.id);
+	const multiplayerCovenant = multiplayerCapability(olamGameCovenant.id);
+	const commerceCovenant = commercePlanFor(olamGameCovenant);
+	const capabilityTags = revealCapabilityTags(
+		visualCovenant,
+		multiplayerCovenant,
+		commerceCovenant
+	);
 	return Object.freeze({
-		...game,
-		hook: marketingHook(game.id),
-		visual,
-		commerce,
-		solo: Object.freeze({
-			mode: "default",
-			label: game.id === "sulam-ha-sod"
-				? "Solo Preview"
-				: "Solo Default"
-		}),
-		multiplayer,
-		partyHref: `./party/?game=${encodeURIComponent(game.id)}`,
+		...olamGameCovenant,
+		hook: olamGameCovenant.hook || marketingHook(olamGameCovenant.id),
+		visual: visualCovenant,
+		commerce: commerceCovenant,
+		solo: revealSoloCovenant(olamGameCovenant.id),
+		multiplayer: multiplayerCovenant,
+		partyHref: `./party/?game=${encodeURIComponent(olamGameCovenant.id)}`,
+		primaryActionLabel: olamGameCovenant.primaryActionLabel || "Play Solo",
 		controlsLabel: "Browser controls",
 		tags: Object.freeze([
-			...game.tags,
+			...olamGameCovenant.tags,
 			...capabilityTags
 		])
 	});
 }
 
 /**
- * Enriches a complete catalog while preserving order.
- *
- * @param {ReadonlyArray<object>} games Base game records.
- * @returns {ReadonlyArray<object>} Frozen enriched catalog.
+ * Reveals capability truth for an ordered catalog without changing the incoming array or its records.
+ * @param {ReadonlyArray<Readonly<object>>} olamGameCovenants Ordered base game covenants.
+ * @returns {ReadonlyArray<Readonly<object>>} Frozen enriched catalog preserving the original order.
  */
-export function enrichGames(games) {
-	return Object.freeze(games.map(enrichGame));
+export function revealCatalogCapabilities(olamGameCovenants) {
+	return Object.freeze(olamGameCovenants.map(revealGameCapabilities));
+}
+
+/**
+ * Composes searchable capability tags from visual, multiplayer, and commerce covenants.
+ * @param {Readonly<object>} visualCovenant Visual runtime truth for one game.
+ * @param {Readonly<object>} multiplayerCovenant Native/social multiplayer truth.
+ * @param {Readonly<object>} commerceCovenant Commerce availability truth.
+ * @returns {string[]} Mutable local tag vessel consumed immediately by the frozen caller record.
+ */
+function revealCapabilityTags(
+	visualCovenant,
+	multiplayerCovenant,
+	commerceCovenant
+) {
+	const capabilityTags = [
+		visualCovenant.label,
+		"Solo Default",
+		"Party Challenge"
+	];
+	if (multiplayerCovenant.mode === "native") {
+		capabilityTags.push("Native Multiplayer");
+	}
+	if (commerceCovenant.state === "live") {
+		capabilityTags.push("Live Cosmetic");
+	}
+	return capabilityTags;
+}
+
+/**
+ * Reveals the stable Solo-first covenant for one game, preserving the intentional Sulam preview label exception.
+ * @param {string} olamGameId Stable machine identity for the marketed world.
+ * @returns {Readonly<{mode: string, label: string}>} Frozen Solo capability covenant.
+ */
+function revealSoloCovenant(olamGameId) {
+	return Object.freeze({
+		mode: "default",
+		label: olamGameId === "sulam-ha-sod"
+			? "Solo Preview"
+			: "Solo Default"
+	});
 }

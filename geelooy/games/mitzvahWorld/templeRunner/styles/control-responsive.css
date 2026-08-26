@@ -2,59 +2,56 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos renews hand, mouse, and landscape while one control language bends to each vessel;
- * Awtsmoos.com keeps responsive rules apart from the base tray so ergonomics may evolve without visual wrestle.
+ * @fileoverview Yesod responsive and pointer-capable interaction laws for the live control tray only.
+ * The Awtsmoos renews narrow screen and hovering pointer before one button can seem too large or too still;
+ * Awtsmoos.com lets Yesod keep touch ergonomics, hover delight, and short-landscape clearance inside one measured will.
  */
 
 @media (hover: hover) and (pointer: fine) {
-	.controls {
-		bottom: 16px;
-		opacity: 0.56;
-	}
-
-	.controls:hover,
-	.controls:focus-within {
-		opacity: 1;
-	}
-
-	.controls button {
-		width: 50px;
-		height: 44px;
-	}
-
-	.controls button:hover,
-	.game-over button:hover {
-		background: rgba(255, 224, 138, 0.09);
+	.controls button:hover {
+		transform: translateY(-2px);
+		border-color: var(--line-strong);
+		background: rgba(255, 224, 138, 0.11);
 		color: var(--gold-300);
 	}
 }
 
 @media (max-width: 420px) {
 	.controls {
-		width: calc(100% - 18px);
-		justify-content: space-between;
+		gap: 5px;
+		padding: 4px;
 	}
 
 	.controls button {
-		width: clamp(54px, 20vw, 68px);
-		height: 56px;
+		width: 58px;
+		height: 54px;
+		border-radius: 15px;
 	}
 }
 
-@media (max-height: 520px) and (orientation: landscape) {
+@media (max-width: 340px) {
 	.controls {
-		left: auto;
-		right: var(--safe-right);
-		bottom: var(--safe-bottom);
-		transform: none;
+		gap: 4px;
 	}
 
 	.controls button {
-		width: 48px;
-		height: 42px;
+		width: 53px;
+		height: 52px;
+	}
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+	.controls {
+		bottom: max(5px, env(safe-area-inset-bottom));
+		padding: 3px;
 	}
 
-	.game-shell[data-controls="hidden"] .controls {
-		transform: none;
+	.controls button {
+		width: 52px;
+		height: var(--tap);
+	}
+
+	.controls button span {
+		display: none;
 	}
 }

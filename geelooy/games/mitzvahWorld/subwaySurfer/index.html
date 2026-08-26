@@ -2,54 +2,51 @@
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
 <!--
-	The Awtsmoos renews each runner, road, and ray;
-	Awtsmoos.com gives the living game a vessel for today.
+	The Awtsmoos renews each runner, road, and ray while every control receives a clear and measured place;
+	Awtsmoos.com keeps touch simple, keyboard swift, and advanced chrome away from the child's moving race.
 -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#091b2b">
+	<meta name="color-scheme" content="dark">
+	<meta name="description" content="Run through Mitzvah World, collect perutas, dodge obstacles, jump the road, and keep moving in Peruta Run.">
 	<title>Peruta Run — Mitzvah World</title>
-	<link rel="stylesheet" href="./styles/base.css">
-	<link rel="stylesheet" href="./styles/hud.css">
-	<link rel="stylesheet" href="./styles/controls.css">
-	<link rel="stylesheet" href="./styles/mobile.css">
+	<link rel="stylesheet" href="./styles/base.css?compact=true">
+	<link rel="stylesheet" href="./styles/hud.css?compact=true">
+	<link rel="stylesheet" href="./styles/controls.css?compact=true">
+	<link rel="stylesheet" href="./styles/mobile.css?compact=true">
+	<link rel="stylesheet" href="./styles/motion.css?compact=true">
 </head>
-<body>
+<body class="peruta-run-route">
 	<main id="game-shell" aria-label="Peruta Run endless runner">
-		<canvas id="game-canvas" aria-label="3D Jewish endless runner"></canvas>
+		<canvas id="game-canvas" aria-label="Jewish endless runner game world"></canvas>
 
-		<section id="loading-panel" class="center-panel" aria-live="polite">
+		<section id="loading-panel" class="center-panel" aria-live="polite" aria-atomic="true">
 			<div class="brand-mark">ב״ה</div>
 			<h1>PERUTA RUN</h1>
 			<p id="loading-message">Revealing the road…</p>
 		</section>
 
 		<header id="hud" class="hud" aria-label="Game status">
-			<div class="hud-brand">
-				<span class="hud-bh">ב״ה</span>
-				<strong>PERUTA RUN</strong>
-			</div>
+			<div class="hud-brand"><span class="hud-bh">ב״ה</span><strong>PERUTA RUN</strong></div>
 			<div class="metric"><span>Score</span><strong id="score-value">0</strong></div>
 			<div class="metric peruta-metric"><span>Perutas</span><strong id="peruta-value">0</strong></div>
 			<div class="metric"><span>Speed</span><strong id="speed-value">0</strong></div>
 			<div class="metric wide-only"><span>Best</span><strong id="best-value">0</strong></div>
 		</header>
 
-		<nav id="top-controls" class="top-controls" aria-label="Runner controls">
-			<button type="button" data-intent="left" aria-label="Move left">◀</button>
-			<button type="button" data-intent="jump" aria-label="Jump">▲</button>
-			<button type="button" data-intent="right" aria-label="Move right">▶</button>
+		<nav id="top-controls" class="top-controls" aria-label="Quick actions">
 			<button type="button" data-intent="pause" aria-label="Pause or resume">Ⅱ</button>
-			<button type="button" data-intent="restart" aria-label="Restart">↻</button>
+			<button type="button" data-intent="restart" aria-label="Restart run">↻</button>
 		</nav>
 
-		<div id="status-pill" class="status-pill" aria-live="polite">Loading Chossid…</div>
+		<div id="status-pill" class="status-pill" aria-live="polite" aria-atomic="true">Loading Chossid…</div>
 
-		<section id="mobile-controls" class="mobile-controls" aria-label="Mobile controls">
-			<div id="joystick" class="joystick" aria-label="Lane joystick">
+		<section id="mobile-controls" class="mobile-controls" aria-label="Touch controls">
+			<div id="joystick" class="joystick" role="group" aria-label="Lane joystick: drag left or right">
 				<div id="joystick-knob" class="joystick-knob"></div>
 			</div>
 			<button id="jump-button" class="jump-button" type="button" aria-label="Jump">JUMP</button>
@@ -57,13 +54,13 @@
 
 		<p class="desktop-hint">A / D or ← / → · Space / W jump · P pause · R restart</p>
 
-		<section id="game-over-panel" class="center-panel game-over-panel" hidden>
+		<section id="game-over-panel" class="center-panel game-over-panel" hidden aria-live="polite" aria-atomic="true">
 			<div class="brand-mark">✦</div>
 			<h2>Run Complete</h2>
 			<p>Score <strong id="final-score">0</strong> · Perutas <strong id="final-perutas">0</strong></p>
 			<button id="game-over-restart" type="button">Run Again</button>
 		</section>
 	</main>
-	<script type="module" src="./src/main.js"></script>
+	<script type="module" src="./src/main.js?v=peruta-run-20260825-2&compact=true"></script>
 </body>
 </html>

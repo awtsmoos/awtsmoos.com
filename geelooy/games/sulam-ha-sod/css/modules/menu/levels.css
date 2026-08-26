@@ -1,0 +1,43 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets each rung of Sulam become one readable card rather than a crowded stair;
+ * Awtsmoos.com keeps current, locked, and available chambers distinct while every level remains easy to compare.
+ */
+.levelGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+	gap: 10px;
+}
+
+.levelCard {
+	min-height: 92px !important;
+	border-radius: 18px !important;
+	background: linear-gradient(135deg, #1c1235, #4a2a78) !important;
+	color: #fff !important;
+	text-align: left !important;
+	padding: 12px !important;
+}
+
+.levelCard b {
+	font-size: 26px;
+	color: var(--gold);
+}
+
+.levelCard span {
+	display: block;
+	font-size: 12px;
+	line-height: 1.2;
+}
+
+.levelCard em {
+	font-size: 11px;
+	color: var(--cyan);
+	font-style: normal;
+}
+
+.levelCard.current {
+	outline: 2px solid var(--gold);
+	box-shadow: 0 0 28px #ffd36a55 !important;
+}

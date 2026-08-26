@@ -1,0 +1,63 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews purpose above the battlefield while no mission label may conquer the horizon in sight.
+Awtsmoos.com lets Har HaOhr remain readable through disciplined measure, quiet contrast, and a thin line of light.
+*/
+.ohrfront-app .ohr-hud {
+	position: absolute;
+	inset: 0;
+	z-index: var(--ohr-z-hud);
+	min-width: 0;
+	min-height: 0;
+	pointer-events: none;
+	font-size: 12px;
+	letter-spacing: 0.08em;
+}
+.ohrfront-app .ohr-mission {
+	position: absolute;
+	top: var(--ohr-safe-top);
+	left: var(--ohr-safe-left);
+	width: min(30rem, calc(100% - var(--ohr-safe-left) - var(--ohr-safe-right)));
+	min-width: 0;
+}
+.ohrfront-app .ohr-mission__primary,
+.ohrfront-app .ohr-mission__meta {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 14px;
+	min-width: 0;
+}
+.ohrfront-app .ohr-mission__location,
+.ohrfront-app .ohr-mission__meta {
+	font-size: 9px;
+	font-weight: 650;
+	line-height: 1.4;
+	color: var(--ohr-muted);
+}
+.ohrfront-app .ohr-mission__objective {
+	min-width: 0;
+	font-size: clamp(12px, 1.4vw, 14px);
+	font-weight: 680;
+	line-height: 1.25;
+	letter-spacing: 0.045em;
+	color: var(--ohr-text);
+	overflow-wrap: anywhere;
+}
+.ohrfront-app .ohr-mission__meta { margin-top: 6px; }
+.ohrfront-app .ohr-mission__track {
+	height: 2px;
+	margin-top: 9px;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.1);
+}
+.ohrfront-app .ohr-mission__fill {
+	display: block;
+	height: 100%;
+	width: 0;
+	max-width: 100%;
+	background: linear-gradient(90deg, rgba(121, 231, 236, 0.55), var(--ohr-energy));
+	box-shadow: 0 0 10px rgba(121, 231, 236, 0.34);
+	transition: width 160ms linear;
+}

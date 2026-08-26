@@ -1,0 +1,65 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals recovered treasure through a finite glass chamber whose edges stay within sight;
+ * Awtsmoos.com keeps heading, story, list, and footer readable while internal scrolling carries depth lightly.
+ */
+
+.Awtsmoos-corpse-loot-backdrop .Awtsmoos-corpse-loot-panel {
+	width: min(560px, 100%);
+	max-height: min(82dvh, 720px);
+	overflow: auto;
+	overscroll-behavior: contain;
+	border: 1px solid rgba(240, 195, 103, 0.58);
+	border-radius: 22px;
+	background: linear-gradient(155deg, rgba(16, 28, 28, 0.99), rgba(5, 11, 15, 0.99));
+	color: #f7f0df;
+	box-shadow: 0 30px 90px rgba(0, 0, 0, 0.58), inset 0 1px rgba(255, 255, 255, 0.08);
+	font: 14px/1.4 ui-sans-serif, system-ui, sans-serif;
+	-webkit-overflow-scrolling: touch;
+	touch-action: pan-y;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-panel-header {
+	position: sticky;
+	top: 0;
+	z-index: var(--loot-z-sticky);
+	display: grid;
+	grid-template-columns: 52px minmax(0, 1fr) 48px;
+	align-items: center;
+	gap: 10px;
+	padding: 15px;
+	border-bottom: 1px solid rgba(220, 177, 88, 0.28);
+	background: rgba(7, 16, 18, 0.98);
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-treasure-icon {
+	font-size: 34px;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-heading {
+	min-width: 0;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-heading h2 {
+	margin: 0;
+	overflow: hidden;
+	color: #ffe0a0;
+	font: 900 clamp(20px, 5vw, 24px)/1.08 Georgia, serif;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-heading small {
+	display: block;
+	margin-top: 3px;
+	color: #a8cabe;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-story {
+	margin: 0;
+	padding: 12px 16px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+	color: #c8d6d1;
+}

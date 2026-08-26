@@ -1,0 +1,114 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals depth without demanding confusion first;
+ * Awtsmoos.com turns the opening screen into a small path from movement to mission, so play can begin before options burst.
+ */
+.quick-start {
+	background: linear-gradient(145deg, rgba(126, 220, 255, 0.08), rgba(255, 223, 108, 0.045));
+	border: 1px solid rgba(126, 220, 255, 0.2);
+	border-radius: 18px;
+	margin: 14px 0;
+	padding: 14px;
+	text-align: left;
+}
+
+.quick-start__heading {
+	display: grid;
+	gap: 3px;
+	margin-bottom: 11px;
+}
+
+.quick-start__heading span {
+	color: var(--gold);
+	font-size: 9px;
+	font-weight: 900;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.quick-start__heading strong {
+	font-size: 15px;
+	line-height: 1.25;
+}
+
+.quick-start__grid {
+	display: grid;
+	gap: 8px;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.quick-start__item {
+	background: rgba(255, 255, 255, 0.045);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 13px;
+	min-width: 0;
+	padding: 10px;
+}
+
+.quick-start__item > div {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+.quick-start__item kbd {
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 6px;
+	color: #fff8ca;
+	font: 900 10px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	padding: 5px 6px;
+}
+
+.quick-start__item span,
+.quick-start__item p,
+.quick-start__touch {
+	color: #c8d5e8;
+	font-size: 10px;
+}
+
+.quick-start__item p {
+	line-height: 1.35;
+	margin: 7px 0 0;
+}
+
+.quick-start__touch {
+	line-height: 1.4;
+	margin: 11px 2px 0;
+}
+
+.quick-start__touch b {
+	color: var(--gold);
+}
+
+.quick-start__route {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	justify-content: center;
+	margin-top: 11px;
+}
+
+.quick-start__route span {
+	background: rgba(255, 255, 255, 0.07);
+	border-radius: 999px;
+	font-size: 9px;
+	font-weight: 850;
+	letter-spacing: 0.04em;
+	padding: 6px 9px;
+	text-transform: uppercase;
+}
+
+.quick-start__route i {
+	color: var(--gold);
+	font-style: normal;
+	opacity: 0.7;
+}
+
+.game-options > summary {
+	color: #c6d4e8;
+}

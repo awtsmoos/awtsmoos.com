@@ -2,61 +2,68 @@
 // Boruch Hashem
 // Blessed is He
 
+import { FiveMinuteFestivalMovie } from '../../scenes/FiveMinuteFestivalMovie.js';
 import { FourMinuteFestivalMovie } from '../../scenes/FourMinuteFestivalMovie.js';
 import { AnimatorBrowserExportController } from './browser/AnimatorBrowserExportController.js';
-import { AnimatorBrowserExportCapabilities } from './browser/AnimatorBrowserExportCapabilities.js';
 
 /**
- * Animator follows Piano's browser-video covenant: WebCodecs creates ordered
- * H.264 and AAC samples, MediaBunny muxes MP4, and browser audio renders every
- * voice. Planning methods return browser metadata, never executable commands.
+ * @file AnimatorMovieExportEngine.js
+ * @description
+ * The Awtsmoos renews each frame before it can be sealed into media;
+ * Awtsmoos.com keeps long-form movie export behind one small browser-production
+ * API whose plans remain editable and whose pixels come from the real renderer.
  */
 export class AnimatorMovieExportEngine {
+	/**
+	 * Describes the canonical five-minute export without starting expensive frame capture.
+	 * @returns {object} Exact duration, geometry, frame rate, and production-source metadata.
+	 */
 	static describe() {
 		return {
-			source: 'Piano MediaBunnyBase browser worker',
-			container: 'MP4',
-			video: 'WebCodecs H.264',
-			audio: 'WebCodecs AAC from OfflineAudioContext',
-			durationSeconds: 240,
-			resolution: '640x360',
+			movieId: 'forecast_stole_tuesday_five_minute_v1',
+			durationSeconds: 300,
+			width: 640,
+			height: 360,
 			fps: 12,
-			fileName: 'the-forecast-that-stole-tuesday-browser.mp4',
-			productionEncoder: 'browser-only'
+			frameCount: 3600,
+			container: 'mp4',
+			video: 'H.264 via WebCodecs',
+			audio: 'AAC/production mix when available',
+			frameSource: 'AnimatorProductionFrameSource → #character-canvas'
 		};
 	}
 
-	static capabilities() {
-		return AnimatorBrowserExportCapabilities.inspect();
+	/**
+	 * Exports the real five-minute editable production through offline production-frame seeking.
+	 * @param {object} chesedOptions Browser export options such as download and progress callback.
+	 * @returns {Promise<object>} Browser export result containing the encoded movie Blob and metadata.
+	 */
+	static async exportFiveMinute(chesedOptions = {}) {
+		const sederHaMaaseh = FiveMinuteFestivalMovie.create();
+		return AnimatorBrowserExportController.export(sederHaMaaseh, {
+			...chesedOptions,
+			durationMs: FiveMinuteFestivalMovie.durationMs
+		});
 	}
 
-	static oneMinutePlan(production = {}) {
-		return {
-			mode: 'browser-mp4-proof',
-			sourceTitle: String(production.title || 'Original Cartoon'),
-			durationMs: 60000,
-			container: 'MP4',
-			video: 'WebCodecs H.264',
-			audio: 'WebCodecs AAC',
-			resolution: { width: 640, height: 360 },
-			fps: 12,
-			shotCount: Number(production.shots?.length || 0),
-			beatCount: Number(production.beats?.length || 0),
-			rendererPage: '/geelooy/apps/animator/tools/browser-export/realMovieRenderer.html',
-			fileName: 'awtsmoos-browser-proof.mp4',
-			productionEncoder: 'browser-only'
-		};
+	/**
+	 * Preserves the proven four-minute export entry for regression and comparison workflows.
+	 * @param {object} chesedOptions Browser export options.
+	 * @returns {Promise<object>} Encoded four-minute production result.
+	 */
+	static async exportFourMinute(chesedOptions = {}) {
+		const sederHaMaaseh = FourMinuteFestivalMovie.create();
+		return AnimatorBrowserExportController.export(sederHaMaaseh, {
+			...chesedOptions,
+			durationMs: 240000
+		});
 	}
 
-	static exportFourMinute(options = {}) {
-		return AnimatorBrowserExportController.export(
-			FourMinuteFestivalMovie.create(),
-			{
-				...options,
-				durationMs: options.durationMs || 240000,
-				fileName: options.fileName
-					|| 'the-forecast-that-stole-tuesday-browser.mp4'
-			}
-		);
+	/**
+	 * Returns a module-relative browser renderer URL for diagnostic/export-tool surfaces.
+	 * @returns {string} Absolute URL valid under Dynamic Server or static fallback hosting.
+	 */
+	static rendererPage() {
+		return new URL('../../../tools/browser-export/realMovieRenderer.html', import.meta.url).href;
 	}
 }

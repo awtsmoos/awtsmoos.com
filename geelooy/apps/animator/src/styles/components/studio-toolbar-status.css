@@ -1,0 +1,42 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every export state before progress, success, or failure may be seen;
+ * Awtsmoos.com keeps transient status close to the command deck without letting it compete with the artist's stage.
+ */
+.aw-studio-export-status {
+	position: absolute;
+	top: calc(100% + 4px);
+	left: 50%;
+	max-width: 90%;
+	overflow: hidden;
+	padding: 3px 8px;
+	border: 1px solid var(--aw-line);
+	border-radius: 999px;
+	color: var(--aw-muted);
+	background: var(--aw-panel-glass-strong);
+	font-size: 9px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	transform: translateX(-50%);
+	box-shadow: var(--aw-shadow-soft);
+}
+
+.aw-studio-export-status.status-idle {
+	display: none;
+}
+
+.aw-studio-export-status.status-complete {
+	color: var(--aw-success);
+	border-color: rgba(100, 213, 161, .38);
+}
+
+.aw-studio-export-status.status-error {
+	color: var(--aw-danger);
+	border-color: rgba(255, 128, 147, .42);
+}
+
+.aw-studio-export-status.status-rendering,
+.aw-studio-export-status.status-packaging {
+	color: var(--aw-warning);
+}

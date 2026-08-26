@@ -1,10 +1,11 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets one selected cell call only its nearest useful vessels into a narrow ribbon of light.
-Awtsmoos.com keeps this contextual rail transient, touchable, and quiet so Focus mode stays spacious and right.
+
+The Awtsmoos lets one selected cell call only its nearest useful vessels into a narrow ribbon of light;
+Awtsmoos.com keeps this contextual rail rooted, transient, touchable, and complete in every interaction state without global might.
 */
-.context-bar {
+.awtsmoos-sheets-app .context-bar {
 	display: flex;
 	align-items: center;
 	gap: 6px;
@@ -14,66 +15,60 @@ Awtsmoos.com keeps this contextual rail transient, touchable, and quiet so Focus
 	overflow-x: auto;
 	overflow-y: hidden;
 	border-bottom: 1px solid var(--glass-border);
-	background: rgba(255, 255, 255, .76);
+	background: rgba(255, 255, 255, 0.76);
 	backdrop-filter: blur(14px) saturate(125%);
+	-webkit-backdrop-filter: blur(14px) saturate(125%);
 	scrollbar-width: none;
 }
 
-.context-bar::-webkit-scrollbar {
+.awtsmoos-sheets-app .context-bar::-webkit-scrollbar {
 	display: none;
 }
 
-.context-bar[hidden] {
-	display: none !important;
-}
-
-.context-action {
+.awtsmoos-sheets-app .context-action {
 	flex: 0 0 auto;
 	min-height: 30px;
 	padding: 5px 9px;
 	border: 1px solid transparent;
 	border-radius: 999px;
 	color: var(--text);
-	background: rgba(255, 255, 255, .62);
+	background: rgba(255, 255, 255, 0.62);
 	font-size: 11px;
 	font-weight: 700;
-	letter-spacing: .01em;
+	letter-spacing: 0.01em;
 	white-space: nowrap;
-	transition:
-		transform var(--motion-fast) var(--ease-direct),
-		border-color var(--motion-fast) var(--ease-direct),
-		background var(--motion-fast) var(--ease-direct);
 }
 
-.context-action:hover,
-.context-action:focus-visible {
-	border-color: rgba(19, 124, 83, .18);
-	background: rgba(19, 124, 83, .08);
+.awtsmoos-sheets-app .context-action:hover:not(:disabled) {
+	border-color: rgba(19, 124, 83, 0.18);
+	background: rgba(19, 124, 83, 0.08);
+	transform: translateY(-1px);
 }
 
-.context-action:active {
-	transform: scale(.98);
+.awtsmoos-sheets-app .context-action:focus-visible {
+	border-color: rgba(19, 124, 83, 0.25);
+	background: rgba(19, 124, 83, 0.08);
+	box-shadow: var(--glow-active);
 }
 
-.context-action:disabled {
-	opacity: .42;
-	cursor: not-allowed;
+.awtsmoos-sheets-app .context-action:active:not(:disabled) {
+	transform: translateY(1px) scale(0.98);
+}
+
+.awtsmoos-sheets-app .context-action:disabled {
+	opacity: 0.42;
+	box-shadow: none;
+	transform: none;
 }
 
 @media (max-width: 760px) {
-	.context-bar {
+	.awtsmoos-sheets-app .context-bar {
 		min-height: 48px;
 		padding-inline: 7px;
 	}
 
-	.context-action {
-		min-height: 38px;
+	.awtsmoos-sheets-app .context-action {
+		min-height: 44px;
 		padding-inline: 11px;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.context-action {
-		transition: none;
 	}
 }

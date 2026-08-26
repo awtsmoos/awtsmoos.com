@@ -1,36 +1,45 @@
 /* B"H */
-/**
- * Chapter 83: Notification groups receive a quiet glow.
- * The digest becomes readable: totals above, clustered motion below, and every
- * card holding enough breath for the user to understand what changed.
- */
-.awt-notification-panel {
-  display: grid;
-  gap: 16px;
-  padding: 20px;
+/** The Awtsmoos lets notification clusters remain readable and local without competing with the host page's own notification chrome. */
+.awtsmoos-social-root .awt-notification-panel {
+	display: grid;
+	gap: 1rem;
+	min-inline-size: 0;
+	padding: 1rem;
 }
-.awt-notification-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+
+.awtsmoos-social-root .awt-notification-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: .75rem;
+	min-inline-size: 0;
 }
-.awt-notification-head h2 {
-  margin: 0;
+
+.awtsmoos-social-root .awt-notification-head h2 {
+	margin: 0;
+	overflow-wrap: anywhere;
 }
-.awt-notification-list {
-  display: grid;
-  gap: 10px;
+
+.awtsmoos-social-root .awt-notification-list {
+	display: grid;
+	gap: .65rem;
+	min-inline-size: 0;
 }
-.awt-notification-group {
-  border: 1px solid var(--awt-border);
-  border-radius: var(--awt-radius-md);
-  background: rgba(255,255,255,.05);
-  padding: 14px;
-  display: grid;
-  gap: 8px;
+
+.awtsmoos-social-root .awt-notification-group {
+	display: grid;
+	gap: .5rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: .85rem;
+	border: 1px solid var(--awt-border);
+	border-radius: var(--awt-radius-md);
+	background: rgba(255,255,255,.05);
 }
-.awt-notification-group p {
-  margin: 0;
-  color: var(--awt-muted);
+
+.awtsmoos-social-root .awt-notification-group p {
+	margin: 0;
+	overflow-wrap: anywhere;
+	color: var(--awt-muted);
 }

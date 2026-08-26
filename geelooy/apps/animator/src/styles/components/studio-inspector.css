@@ -1,0 +1,99 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every selected object before an inspector can describe its garment;
+ * Awtsmoos.com gives transform, metadata, and layer identity one calm professional editing chamber.
+ */
+.aw-studio-properties {
+	overflow: auto;
+	background: var(--aw-panel);
+}
+
+.aw-studio-inspector-header {
+	position: sticky;
+	top: 0;
+	z-index: var(--aw-z-panel-header);
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 10px;
+	align-items: center;
+	padding: 12px 13px;
+	border-bottom: 1px solid var(--aw-line-strong);
+	background: var(--aw-panel-glass-strong);
+	backdrop-filter: blur(12px);
+}
+
+.aw-studio-inspector-header h2 {
+	margin: 1px 0 0;
+	overflow: hidden;
+	font-size: 15px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.aw-studio-inspector-header small {
+	color: var(--aw-muted);
+	font-size: 9px;
+	letter-spacing: .07em;
+	text-transform: uppercase;
+}
+
+.aw-studio-inspector-emoji {
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border: 1px solid var(--aw-line);
+	border-radius: var(--aw-radius-md);
+	background: var(--aw-control-subtle);
+	font-size: 19px;
+}
+
+.aw-studio-inspector-section {
+	margin: 8px;
+	padding: 10px;
+	border: 1px solid var(--aw-line);
+	border-radius: var(--aw-radius-md);
+	background: var(--aw-panel-inset);
+}
+
+.aw-studio-inspector-section h3 {
+	margin: 0 0 9px;
+	color: var(--aw-text-soft);
+	font-size: 9px;
+	font-weight: 750;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.aw-studio-transform-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 7px;
+}
+
+.aw-studio-transform-grid label {
+	display: grid;
+	gap: 4px;
+	color: var(--aw-muted);
+	font-size: 9px;
+}
+
+.aw-studio-property-list {
+	display: grid;
+	grid-template-columns: minmax(78px, .7fr) minmax(0, 1.3fr);
+	gap: 6px 9px;
+	margin: 0;
+	font-size: 10px;
+	line-height: 1.4;
+}
+
+.aw-studio-property-list dt {
+	color: var(--aw-muted);
+}
+
+.aw-studio-property-list dd {
+	margin: 0;
+	overflow-wrap: anywhere;
+	color: var(--aw-text-soft);
+}

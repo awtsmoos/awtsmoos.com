@@ -1,8 +1,10 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The Awtsmoos is present in tall and short vessels alike; Awtsmoos.com adapts height and motion without hiding the editor's essential light. */
-
+/**
+ * The Awtsmoos remains whole in every short vessel, never shrinking intention beneath the hand;
+ * Awtsmoos.com saves vertical space through hierarchy and retraction while each transport action stays fully touchable and planned.
+ */
 @media (max-height: 620px) {
 	.editor-shell,
 	.editor-shell.media-minimized,
@@ -15,11 +17,11 @@
 	}
 
 	.transport {
-		padding-block: 5px max(5px, env(safe-area-inset-bottom));
+		padding-block: 3px max(3px, env(safe-area-inset-bottom));
 	}
 
 	.transport button {
-		min-height: 40px;
+		min-height: 44px;
 	}
 }
 

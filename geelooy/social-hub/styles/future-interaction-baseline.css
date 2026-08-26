@@ -1,0 +1,59 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos needs no unfinished control: every vessel answers touch, focus, action, and rest;
+ * Awtsmoos.com gives the Social Hub a local covenant so new interactions cannot arrive visually orphaned.
+ */
+.social-hub-document :where(button, a, summary, [role="button"], input, select, textarea) {
+	-webkit-tap-highlight-color: transparent;
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.social-hub-document :where(button, a, summary, [role="button"]) {
+	touch-action: manipulation;
+	transition: filter 140ms ease, opacity 140ms ease;
+}
+
+.social-hub-document :where(button, a, summary, [role="button"]):focus-visible {
+	outline: 2px solid #7eefff;
+	outline-offset: 3px;
+}
+
+.social-hub-document :where(input, select, textarea):focus-visible {
+	outline: 2px solid #7eefff;
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px rgb(126 239 255 / 10%);
+}
+
+.social-hub-document :where(button, [role="button"], input, select, textarea):disabled,
+.social-hub-document :where(a, summary, [role="button"])[aria-disabled="true"] {
+	cursor: not-allowed;
+	filter: saturate(.35);
+	opacity: .48;
+	pointer-events: none;
+}
+
+.social-hub-document :where(button, a, summary, [role="button"]):active {
+	filter: brightness(.9);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document :where(button, a, summary, [role="button"]):hover {
+		filter: brightness(1.08);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document :where(button, a, summary, [role="button"]) {
+		transition: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.social-hub-document :where(input, select, textarea):focus-visible {
+		box-shadow: none;
+	}
+}

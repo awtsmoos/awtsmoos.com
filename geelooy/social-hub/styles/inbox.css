@@ -7,31 +7,31 @@
  * this Tiferes-like garment owns Inbox shell, summary, stable status, and thread context only, leaving individual attention cards to their own vessel of light.
  */
 
-.communicationsInboxPanel,
-.communicationsInboxRegion {
+.social-hub-document .communicationsInboxPanel,
+.social-hub-document .communicationsInboxRegion {
 	display: grid;
 	gap: .85rem;
 }
 
-.communicationsInboxHeading,
-.communicationsThreadIdentity {
+.social-hub-document .communicationsInboxHeading,
+.social-hub-document .communicationsThreadIdentity {
 	display: grid;
 	gap: .25rem;
 }
 
-.communicationsInboxHeading :is(h2, p),
-.communicationsInboxMessage,
-.communicationsThreadIdentity :is(strong, span) {
+.social-hub-document .communicationsInboxHeading :is(h2, p),
+.social-hub-document .communicationsInboxMessage,
+.social-hub-document .communicationsThreadIdentity :is(strong, span) {
 	margin: 0;
 }
 
-.communicationsInboxHeading p,
-.communicationsInboxMessage,
-.communicationsThreadIdentity span {
+.social-hub-document .communicationsInboxHeading p,
+.social-hub-document .communicationsInboxMessage,
+.social-hub-document .communicationsThreadIdentity span {
 	color: var(--muted);
 }
 
-#communicationsInboxState {
+.social-hub-document #communicationsInboxState {
 	grid-template-columns: minmax(0, 1fr) auto;
 	align-items: center;
 	min-height: 2.75rem;
@@ -41,12 +41,12 @@
 	background: color-mix(in srgb, var(--surface) 88%, transparent);
 }
 
-#communicationsInboxState[data-tone="error"] {
+.social-hub-document #communicationsInboxState[data-tone="error"] {
 	border-color: color-mix(in srgb, #ff7f9f 68%, var(--line));
 }
 
-.communicationsInboxRetry,
-.communicationsThreadBack {
+.social-hub-document .communicationsInboxRetry,
+.social-hub-document .communicationsThreadBack {
 	min-height: 44px;
 	padding: .55rem .75rem;
 	border: 1px solid var(--line-hot);
@@ -58,11 +58,11 @@
 	cursor: pointer;
 }
 
-#communicationsSummary {
+.social-hub-document #communicationsSummary {
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.communicationsSummaryCard {
+.social-hub-document .communicationsSummaryCard {
 	display: grid;
 	gap: .15rem;
 	min-height: 5rem;
@@ -74,11 +74,11 @@
 	text-decoration: none;
 }
 
-.communicationsSummaryCard strong {
+.social-hub-document .communicationsSummaryCard strong {
 	font-size: clamp(1.35rem, 4vw, 1.8rem);
 }
 
-#communicationsThreadHeader {
+.social-hub-document #communicationsThreadHeader {
 	grid-template-columns: auto minmax(0, 1fr);
 	align-items: center;
 	padding: .65rem;
@@ -88,14 +88,14 @@
 }
 
 @media (max-width: 34rem) {
-	#communicationsSummary,
-	#communicationsInboxState,
-	#communicationsThreadHeader {
+	.social-hub-document #communicationsSummary,
+.social-hub-document #communicationsInboxState,
+.social-hub-document #communicationsThreadHeader {
 		grid-template-columns: 1fr;
 	}
 
-	.communicationsInboxRetry,
-	.communicationsThreadBack {
+	.social-hub-document .communicationsInboxRetry,
+.social-hub-document .communicationsThreadBack {
 		width: 100%;
 	}
 }

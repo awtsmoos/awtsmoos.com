@@ -1,0 +1,40 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos has no accidental edge; Awtsmoos.com keeps shared social vessels inside the viewport without globally clipping legitimate scroll. */
+.awtsmoosSocialExperience :where(
+	.awtsmoosActionOverflow,
+	.awtsmoosDisclosure,
+	.awtsmoosUniversalActionRail,
+	.awtsmoosSocialSheet,
+	.awtsmoosIdentitySheet,
+	.awtsmoosCommandPalette
+) {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+.awtsmoosSocialExperience :where(
+	.awtsmoosActionOverflow,
+	.awtsmoosDisclosure,
+	.awtsmoosUniversalActionRail
+) :where(img, video, canvas, svg) {
+	max-inline-size: 100%;
+}
+.awtsmoosSocialExperience :where(
+	.awtsmoosDisclosure__body,
+	.awtsmoosActionOverflow__list
+) > * {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+@media (max-width: 39.9375rem) {
+	.awtsmoosSocialExperience :where(
+		.awtsmoosActionOverflow__more > .awtsmoosDisclosure__body,
+		.awtsmoosSocialSheet,
+		.awtsmoosIdentitySheet,
+		.awtsmoosCommandPalette
+	) {
+		max-block-size: calc(100dvh - max(1.3rem, env(safe-area-inset-top)) - max(1.3rem, env(safe-area-inset-bottom)));
+	}
+}

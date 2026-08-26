@@ -2,81 +2,50 @@
 // Boruch Hashem
 // Blessed is He
 
-import { driveState } from './state.js';
-
 /**
  * @module DriveApiTransport
  * @description
- * The Awtsmoos gives every Drive request one guarded mouth and no secret memory;
- * Awtsmoos.com sends session or explicit credential authority only across the canonical API boundary.
+ * The Awtsmoos is simple before every transport detail; Awtsmoos.com keeps this file as the stable functional facade while KeterDriveTransport owns request correlation, authentication, encoding, parsing, and bounded HTTP errors beneath it.
  */
 
-export const API_ROOT = '/api/social';
+import {
+	API_ROOT,
+	driveTransport
+} from './api/KeterDriveTransport.js';
 
-export async function request(route, options = {}) {
-	assertConnected();
-	const headers = authenticationHeaders();
-	let body;
-	if (options.body) {
-		headers.set('content-type', 'application/x-www-form-urlencoded');
-		body = new URLSearchParams(normalizeBody(options.body));
-	}
-	headers.set('x-request-id', crypto.randomUUID());
-	const response = await fetch(`${API_ROOT}${route}`, {
-		method: options.method || 'GET',
-		headers,
-		body,
-		cache: 'no-store',
-		credentials: 'same-origin'
-	});
-	const text = await response.text();
-	const value = text ? safeJson(text) : {};
-	if (!response.ok) throw apiError(response.status, value);
-	return value;
+export { API_ROOT, driveTransport };
+
+/**
+ * Performs one canonical same-origin Drive API request.
+ * @param {string} keterRoute API-relative route after `/api/social`.
+ * @param {object} [kliOptions] HTTP method and optional form body.
+ * @returns {Promise<object>} Parsed server testimony.
+ */
+export function request(keterRoute, kliOptions = {}) {
+	return driveTransport.request(keterRoute, kliOptions);
 }
 
+/**
+ * Returns ephemeral authentication headers for the current Drive connection.
+ * @returns {Headers} Current session/API-key/bearer authority headers.
+ */
 export function authenticationHeaders() {
-	const headers = new Headers();
-	if (driveState.credentialType === 'user') {
-		headers.set('x-awtsmoos-api-key', driveState.credential);
-	}
-	if (driveState.credentialType === 'drive') {
-		headers.set('authorization', `Bearer ${driveState.credential}`);
-	}
-	return headers;
+	return driveTransport.authenticationHeaders();
 }
 
+/**
+ * Verifies that current alias and credential state can attempt API work.
+ * @returns {void}
+ * @throws {Error} When alias or required explicit credential is missing.
+ */
 export function assertConnected() {
-	if (!driveState.aliasId) throw new Error('Enter an alias ID first.');
-	if (driveState.credentialType !== 'session' && !driveState.credential) {
-		throw new Error('Enter the selected credential or use the current session.');
-	}
+	driveTransport.assertConnected();
 }
 
+/**
+ * Returns the URL-encoded current alias segment used by resource paths.
+ * @returns {string} Encoded alias identifier.
+ */
 export function aliasSegment() {
-	return encodeURIComponent(driveState.aliasId);
-}
-
-function normalizeBody(values) {
-	return Object.fromEntries(
-		Object.entries(values)
-			.filter(([, value]) => value !== undefined && value !== null)
-			.map(([key, value]) => [key, String(value)])
-	);
-}
-
-function safeJson(text) {
-	try {
-		return JSON.parse(text);
-	} catch {
-		return { message: text };
-	}
-}
-
-function apiError(status, value) {
-	const code = value?.error?.code || value?.code || `HTTP_${status}`;
-	const error = new Error(value?.error?.message || value?.message || code);
-	error.code = code;
-	error.status = status;
-	return error;
+	return driveTransport.aliasSegment();
 }

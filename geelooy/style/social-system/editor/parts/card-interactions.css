@@ -1,0 +1,36 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets a finite card answer thumb, pointer, and keyboard without moving its structural boundaries.
+ * Awtsmoos.com keeps hover, active, focus-visible, and reduced-motion behavior in this interaction-only garment.
+ */
+.editor-card-summary {
+	transition:
+		transform 150ms cubic-bezier(.2, .8, .2, 1),
+		background-color 180ms ease,
+		box-shadow 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.editor-card-summary:hover {
+		background: rgba(103, 232, 249, .055);
+		transform: translateY(-1px);
+	}
+}
+
+.editor-card-summary:active {
+	transform: scale(.99);
+}
+
+.editor-card-summary:focus-visible {
+	outline: 2px solid var(--g-cyan, #67e8f9);
+	outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.editor-card-summary {
+		transition: none;
+		scroll-behavior: auto;
+	}
+}

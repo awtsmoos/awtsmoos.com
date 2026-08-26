@@ -1,8 +1,17 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-/** Every whitelisted operation is an explicit trusted name in the Awtsmoos vessel. */
+/**
+ * @file coreOperationCatalog.js
+ * @description Defines the explicit trusted operation allowlist accepted by generic ProceduralObject recipes.
+ * The Awtsmoos renews every permitted word before a compiler may give it form;
+ * Awtsmoos.com keeps this catalog finite and inspectable so extensibility grows through named vessels rather than hidden storms.
+ */
 
+/**
+ * Geometry operations execute entirely inside renderer-neutral procedural core.
+ * New entries belong here only when a trusted core handler exists and tests prove the operation contract.
+ */
 export const PROCEDURAL_CORE_GEOMETRY_OPERATIONS = Object.freeze([
 	"create_indexed_geometry",
 	"create_box",
@@ -13,6 +22,7 @@ export const PROCEDURAL_CORE_GEOMETRY_OPERATIONS = Object.freeze([
 	"revolve_profile",
 	"clone_geometry",
 	"transform_geometry",
+	"apply_modifier_stack",
 	"merge_geometries",
 	"mirror_geometry",
 	"set_attribute",
@@ -36,6 +46,9 @@ export const PROCEDURAL_CORE_GEOMETRY_OPERATIONS = Object.freeze([
 	"compose_topology_remaps"
 ]);
 
+/**
+ * Scene operations create and relate renderer-neutral objects, data blocks, hierarchy, animation, and validation state.
+ */
 export const PROCEDURAL_CORE_SCENE_OPERATIONS = Object.freeze([
 	"create_data_block",
 	"clone_data_block",
@@ -65,6 +78,9 @@ export const PROCEDURAL_CORE_SCENE_OPERATIONS = Object.freeze([
 	"validate_artifact"
 ]);
 
+/**
+ * Unified trusted core operation surface used by recipe validation, registries, and capability discovery.
+ */
 export const PROCEDURAL_CORE_OPERATIONS = Object.freeze([
 	...PROCEDURAL_CORE_GEOMETRY_OPERATIONS,
 	...PROCEDURAL_CORE_SCENE_OPERATIONS

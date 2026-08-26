@@ -1,0 +1,46 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets every deliberate touch receive a restrained reply;
+ * Awtsmoos.com makes hover, focus, and press distinct without letting animation shake the surrounding game sky.
+ */
+.awt-game-shell :is(button, a, summary) {
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+	transition:
+		transform .15s ease,
+		filter .15s ease,
+		box-shadow .15s ease,
+		background-color .15s ease,
+		border-color .15s ease;
+}
+
+.awt-game-shell :is(button, a, summary):focus-visible {
+	outline: 3px solid #9ee8ff;
+	outline-offset: 3px;
+}
+
+.awt-game-shell :is(button, a, summary):active {
+	filter: brightness(.94);
+	transform: translateY(1px) scale(.98);
+}
+
+.awt-game-shell__launcher[aria-expanded="true"] {
+	box-shadow:
+		0 12px 34px rgba(0, 0, 0, 0.42),
+		0 0 22px rgba(255, 226, 122, 0.24);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.awt-game-shell :is(button, a, summary):hover {
+		filter: brightness(1.1);
+		transform: translateY(-1px);
+	}
+
+	.awt-game-shell__launcher:hover {
+		box-shadow:
+			0 12px 34px rgba(0, 0, 0, 0.42),
+			0 0 24px rgba(255, 226, 122, 0.24);
+	}
+}

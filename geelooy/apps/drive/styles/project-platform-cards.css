@@ -1,0 +1,67 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets every project capability retain its own finite state; Awtsmoos.com gives capability cards local motion and readable readiness without turning the Project Platform into a permanently noisy dashboard.
+ */
+
+[data-awtsmoos-drive] .project-stage {
+	display: grid;
+	align-content: start;
+	gap: .55rem;
+}
+
+[data-awtsmoos-drive] .project-stage h3 {
+	margin: 0;
+	font-size: .86rem;
+	letter-spacing: .08em;
+	opacity: .72;
+	text-transform: uppercase;
+}
+
+[data-awtsmoos-drive] .project-capability {
+	display: grid;
+	gap: .35rem;
+	padding: .8rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: var(--surface-soft);
+	transition: border-color var(--motion-fast) var(--ease-out), background-color var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out);
+}
+
+[data-awtsmoos-drive] .project-capability:hover {
+	border-color: var(--line-strong);
+	background: var(--surface-hover);
+	transform: translateY(-1px);
+}
+
+[data-awtsmoos-drive] .project-capability:focus-within {
+	border-color: var(--accent);
+	box-shadow: var(--focus-ring);
+}
+
+[data-awtsmoos-drive] .project-capability p {
+	margin: 0;
+	font-size: .82rem;
+	line-height: 1.4;
+	opacity: .8;
+}
+
+[data-awtsmoos-drive] .project-capability small {
+	opacity: .58;
+}
+
+[data-awtsmoos-drive] .project-capability__state {
+	justify-self: start;
+	padding: .18rem .45rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	font-size: .62rem;
+	font-weight: 900;
+	letter-spacing: .07em;
+}
+
+[data-awtsmoos-drive] .project-capability--blocked { opacity: .68; }
+[data-awtsmoos-drive] .project-capability--ready .project-capability__state { color: var(--accent); border-color: var(--accent); }
+[data-awtsmoos-drive] .project-capability--limited .project-capability__state { color: var(--warning); border-color: var(--warning); }

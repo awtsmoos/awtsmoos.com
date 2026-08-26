@@ -4,36 +4,43 @@
 
 /**
  * @file HebrewGlyphFactory.js
- * @description Creates cached luminous Hebrew glyph textures and billboard projectiles.
- * The Awtsmoos continuously recreates every letter and the light by which it is seen; Awtsmoos.com gives those
- * letters a temporary luminous keli so a shot is visibly Aleph, Shin, or Lamed instead of an anonymous tracer.
+ * @description Paints actual Hebrew letters onto canvas textures and manifests them as native luminous billboard meshes.
+ * The Awtsmoos renews letter and light before every eye in the fight;
+ * Awtsmoos.com gives each glyph a transparent finite plane so language itself may travel through battle bright.
  */
+import {
+	Mesh,
+	MeshStandardMaterial
+} from "../core/AwtsmoosNativeApi.js";
+import { nativeUnitQuad } from "../render/NativeQuadGeometry.js";
 
-/** Canvas-backed Hebrew glyph sprite factory. */
 export class HebrewGlyphFactory {
-	constructor(THREE) {
-		this.THREE = THREE;
-		this.textures = new Map();
+	constructor() {
+		this.images = new Map();
 	}
 
-	createSprite(glyph, color) {
-		const texture = this.getTexture(glyph, color);
-		const material = new this.THREE.SpriteMaterial({
-			map: texture,
-			color: 0xffffff,
+	createGlyph(profile) {
+		const material = new MeshStandardMaterial({
+			name: `Glyph_${profile.id}`,
+			color: [1, 1, 1, 1],
+			alphaMode: "BLEND",
+			opacity: 1,
 			transparent: true,
-			depthWrite: false,
-			blending: this.THREE.AdditiveBlending
+			doubleSided: true
 		});
-		const sprite = new this.THREE.Sprite(material);
-		sprite.scale.set(1.45, 1.45, 1.45);
-		sprite.userData.glyph = glyph;
-		return sprite;
+		material.mapImage = this.getImage(profile.glyph, profile.color);
+		material.mapRepeat = [1, 1];
+		material.emissiveStrength = 2.4;
+		const mesh = new Mesh(nativeUnitQuad(), material);
+		const size = profile.projectileScale || 1.3;
+		mesh.scale.set(size, size, size);
+		mesh.userData.glyph = profile.glyph;
+		return mesh;
 	}
 
-	getTexture(glyph, color) {
+	getImage(glyph, color) {
 		const key = `${glyph}:${color}`;
-		if (this.textures.has(key)) return this.textures.get(key);
+		if (this.images.has(key)) return this.images.get(key);
 		const canvas = document.createElement("canvas");
 		canvas.width = 128;
 		canvas.height = 128;
@@ -41,17 +48,15 @@ export class HebrewGlyphFactory {
 		context.clearRect(0, 0, 128, 128);
 		context.textAlign = "center";
 		context.textBaseline = "middle";
-		context.font = "700 86px Arial, sans-serif";
+		context.font = "700 84px Georgia, serif";
 		context.shadowColor = color;
-		context.shadowBlur = 24;
+		context.shadowBlur = 28;
 		context.fillStyle = color;
 		context.fillText(glyph, 64, 67);
-		context.shadowBlur = 8;
+		context.shadowBlur = 6;
 		context.fillStyle = "#ffffff";
 		context.fillText(glyph, 64, 67);
-		const texture = new this.THREE.CanvasTexture(canvas);
-		texture.colorSpace = this.THREE.SRGBColorSpace;
-		this.textures.set(key, texture);
-		return texture;
+		this.images.set(key, canvas);
+		return canvas;
 	}
 }

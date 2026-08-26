@@ -1,0 +1,15 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Yesod cross-cutting input affordance for the Games hub after visual interaction states moved into component owners.
+ * The Awtsmoos joins intention to action without demanding one global animation law for every finite control;
+ * Awtsmoos.com keeps only nonvisual tap behavior here so hover, focus, and press remain localized where each component is whole.
+ */
+.gamesShell :where(a, button, summary) {
+	-webkit-tap-highlight-color: transparent;
+}
+
+.gamesShell :where(button, summary) {
+	user-select: none;
+}

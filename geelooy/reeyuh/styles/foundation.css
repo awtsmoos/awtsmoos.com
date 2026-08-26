@@ -1,0 +1,117 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the reader a calm finite vessel while Torah remains greater than every screen;
+ * Awtsmoos.com keeps the first glance simple, mobile-safe, and bright enough for long study without visual sheen.
+ */
+:root {
+	color-scheme: dark;
+	--reeyuh-bg: #06100f;
+	--reeyuh-panel: rgba(10, 27, 25, .82);
+	--reeyuh-line: rgba(159, 218, 199, .16);
+	--reeyuh-text: #edf8f2;
+	--reeyuh-muted: #9db9ae;
+	--reeyuh-accent: #8de5c3;
+	--reeyuh-header: 74px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-width: 0;
+	min-height: 100%;
+}
+
+body {
+	min-height: 100dvh;
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	color: var(--reeyuh-text);
+	background:
+		radial-gradient(circle at 12% 6%, rgba(80, 190, 151, .12), transparent 28%),
+		linear-gradient(155deg, #071512, var(--reeyuh-bg) 70%);
+}
+
+#BH {
+	position: fixed;
+	top: max(8px, env(safe-area-inset-top));
+	right: max(10px, env(safe-area-inset-right));
+	z-index: 50;
+	color: rgba(237, 248, 242, .58);
+	font-size: .72rem;
+	font-weight: 800;
+}
+
+.reader-header {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: var(--reeyuh-header);
+	padding:
+		max(12px, env(safe-area-inset-top))
+		max(16px, env(safe-area-inset-right))
+		12px
+		max(16px, env(safe-area-inset-left));
+	border-bottom: 1px solid var(--reeyuh-line);
+	background: rgba(5, 15, 13, .82);
+	backdrop-filter: blur(18px) saturate(1.1);
+}
+
+.reader-title,
+.reader-title p,
+.reader-title h1 {
+	margin: 0;
+}
+
+.reader-title p {
+	color: var(--reeyuh-accent);
+	font-size: .68rem;
+	font-weight: 850;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.reader-title h1 {
+	margin-top: 2px;
+	font-size: clamp(1.05rem, 4vw, 1.35rem);
+	letter-spacing: -.02em;
+}
+
+.reader-status {
+	margin: 0;
+	color: var(--reeyuh-muted);
+	font-size: .74rem;
+	line-height: 1.35;
+}
+
+button,
+input,
+summary {
+	font: inherit;
+}
+
+button,
+input {
+	min-height: 44px;
+	border: 1px solid var(--reeyuh-line);
+	border-radius: 11px;
+	color: var(--reeyuh-text);
+	background: rgba(15, 38, 33, .88);
+}
+
+button {
+	cursor: pointer;
+}
+
+:focus-visible {
+	outline: 3px solid var(--reeyuh-accent);
+	outline-offset: 3px;
+}

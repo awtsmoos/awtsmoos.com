@@ -1,26 +1,63 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * The Awtsmoos is beyond hidden panel and floating control, yet Awtsmoos.com gives
- * the reader a stable first vessel before its larger styles awaken in light.
+ * The Awtsmoos is beyond floating and fixed, yet Awtsmoos.com gives the reader
+ * controls one bounded geometry law: safe from the notch, beneath settings,
+ * above the Torah canvas, and never wider than the living inline viewport.
+ *
+ * This file is intentionally a critical cascade boundary. A small set of
+ * `!important` declarations remains only where older reader garments must be
+ * overruled during first paint; visual styling belongs to later local modules.
  */
+.all.post-reader-localized-context.awtsmoos-reader-vision {
+	--reader-control-safe-inline-start: max(14px, env(safe-area-inset-left, 0px));
+	--reader-control-safe-inline-end: max(14px, env(safe-area-inset-right, 0px));
+	--reader-control-safe-bottom: max(14px, env(safe-area-inset-bottom, 0px));
+	--reader-control-safe-top: max(14px, env(safe-area-inset-top, 0px));
+	--reader-layer-floating-controls: calc(var(--z-sidebar, 3000) + 10);
+}
 
-.post-reader-localized-context .hidden-details {
+.all.post-reader-localized-context.awtsmoos-reader-vision .hidden-details {
 	display: none !important;
 }
 
-.post-reader-localized-context .typography-details:not(.hidden-details) {
-	display: grid;
+.all.post-reader-localized-context.awtsmoos-reader-vision .typography-details:not(.hidden-details) {
+	display: flex !important;
 }
 
-.post-reader-localized-context .awtsmoos-floating-controls {
-	position: fixed;
-	top: max(0.8rem, env(safe-area-inset-top));
-	left: 50%;
-	z-index: 140;
-	display: flex;
-	gap: 0.4rem;
-	transform: translateX(-50%);
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+	position: fixed !important;
+	z-index: var(--reader-layer-floating-controls) !important;
+	inset-block-start: calc(72px + var(--reader-control-safe-top)) !important;
+	inset-inline-start: var(--reader-control-safe-inline-start) !important;
+	display: flex !important;
+	flex-direction: column !important;
+	gap: 10px !important;
+	max-inline-size: calc(
+		100dvi
+		- var(--reader-control-safe-inline-start)
+		- var(--reader-control-safe-inline-end)
+	) !important;
+	pointer-events: none !important;
+	transform: none !important;
+}
+
+.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls > * {
+	pointer-events: auto !important;
+}
+
+@media (max-width: 700px) {
+	.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+		inset-block-start: auto !important;
+		inset-block-end: var(--reader-control-safe-bottom) !important;
+		inset-inline-start: var(--reader-control-safe-inline-start) !important;
+		flex-direction: row !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.all.post-reader-localized-context.awtsmoos-reader-vision .awtsmoos-floating-controls {
+		scroll-behavior: auto !important;
+	}
 }

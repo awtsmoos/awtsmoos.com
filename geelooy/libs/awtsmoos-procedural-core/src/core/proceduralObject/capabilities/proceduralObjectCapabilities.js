@@ -1,9 +1,17 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-/** This Awtsmoos.com vessel reports only capability supported by present evidence. */
+/**
+ * @file proceduralObjectCapabilities.js
+ * @description Composes focused capability profiles with Blender schema, topology, operation, and domain evidence into the public procedural-object capability contract.
+ * The Awtsmoos renews many capability vessels without collapsing them into one wall;
+ * Awtsmoos.com lets Malchus compose Domem, Chai, Yesod, Blender, and domain truth while every source remains small.
+ */
 
 import { BLENDER_SCHEMA_CAPABILITIES } from "./blenderSchemaCapabilities.js";
+import { ChaiSimulationCapabilityProfile } from "./ChaiSimulationCapabilityProfile.js";
+import { DomemCoreCapabilityProfile } from "./DomemCoreCapabilityProfile.js";
+import { YesodWebGpuCapabilityProfile } from "./YesodWebGpuCapabilityProfile.js";
 import {
 	PROCEDURAL_ADAPTER_OPERATIONS,
 	PROCEDURAL_COMPONENT_TYPES,
@@ -11,102 +19,20 @@ import {
 	PROCEDURAL_TOPOLOGY_MODES
 } from "../constants/proceduralObjectContract.js";
 import { proceduralDomainRegistry } from "../domains/ProceduralDomainRegistry.js";
-import { BLENDER_MODIFIER_CATALOG } from "../modifiers/blenderModifierCatalog.js";
-import { CORE_TRANSFORM_MODIFIER_ID } from "../modifiers/builtins/transformModifier.js";
-import { CORE_WAVE_MODIFIER_ID } from "../modifiers/builtins/waveModifier.js";
 
+const domemCoreCapabilityProfile = new DomemCoreCapabilityProfile();
+const chaiSimulationCapabilityProfile = new ChaiSimulationCapabilityProfile();
+const yesodWebGpuCapabilityProfile = new YesodWebGpuCapabilityProfile();
+
+/**
+ * Returns the immutable evidence-backed feature surface available to callers and adapter negotiations.
+ * @returns {object} Composed capability data with explicit native, adapter-dependent, and unsupported states.
+ */
 export function getProceduralObjectCapabilities() {
 	return Object.freeze({
-		rendererNeutral: true,
-		bufferGeometryEquivalent: true,
-		arbitraryNamedAttributes: true,
-		indexedAndNonIndexedGeometry: true,
-		multipleTopologyModes: true,
-		morphTargets: true,
-		sceneGraphs: true,
-		instancing: true,
-		materials: true,
-		dataBlocks: true,
-		nodeGraphs: true,
-		collections: true,
-		camerasAndLights: true,
-		constraintsAndDrivers: true,
-		armatures: true,
-		animations: true,
-		incrementalPatches: true,
-		pluginManifests: true,
-		pluginPermissionPolicy: "default-deny",
-		pluginSignatureVerification: "trusted-host-adapter",
-		pluginExecution: false,
-		trustedExtensions: false,
-		adapterCapabilityNegotiation: true,
-		modifierCatalog: true,
-		modifierCatalogSize: BLENDER_MODIFIER_CATALOG.length,
-		modifierStackExecution: true,
-		locallyImplementedModifiers: Object.freeze([
-			CORE_TRANSFORM_MODIFIER_ID,
-			CORE_WAVE_MODIFIER_ID
-		]),
-		fullBlenderModifierParity: false,
-		typedFields: true,
-		deterministicParticles: true,
-		shallowWater2d: true,
-		combustion2d: true,
-		explosionCoupling: true,
-		volumetricFluid: "adapter-dependent",
-		nodeSocketAlgebra: true,
-		keyframeCurves: true,
-		assetGeneration: true,
-		denseVolumes3d: true,
-		sparseScalarBricks3d: true,
-		signedDistanceFields: true,
-		particleSurfaceReconstruction: true,
-		marchingCubesSurface: true,
-		marchingCubesInteriorTopologyCompleteness: false,
-		combustion3dReference: true,
-		realtimeGpuVolumes: "adapter-dependent",
-		particleGridLiquid3dReference: true,
-		picFlipHybridReference: true,
-		liveLiquidSurfaceExtraction: true,
-		solidSdfColliders3d: true,
-		movingSolidLinearVelocity: true,
-		liquidSolidOneWayCoupling: true,
-		realtimeLiquidFrameBudgetControl: true,
-		adaptiveRealtimeLiquidQuality: true,
-		croppedLiquidSurfaceReconstruction: true,
-		liquidSurfaceCadenceAndCaching: true,
-		realtimeLiquidTelemetry: true,
-		target60FpsProfile: true,
-		guaranteed60Fps: false,
-		webGpuResourceContracts3d: true,
-		webGpuParticleIntegrationKernel3d: true,
-		webGpuGridClearKernel3d: true,
-		webGpuParticleGridDeposition3d: true,
-		webGpuGlobalForceKernel3d: true,
-		webGpuGridVelocityNormalization3d: true,
-		webGpuCollocatedDivergence3d: true,
-		webGpuCollocatedPressureProjection3d: true,
-		webGpuOccupiedAirPressureBoundary3d: true,
-		webGpuPicGridToParticleTransfer3d: true,
-		webGpuFlipGridToParticleTransfer3d: true,
-		webGpuGridVelocityHistory3d: true,
-		webGpuVorticityConfinement3d: true,
-		webGpuSurfacePointPackingKernel3d: true,
-		webGpuPersistentDoubleBuffers3d: true,
-		webGpuReadbackFreeFramePath3d: true,
-		webGpuSingleSubmissionFramePath3d: true,
-		webGpuHardwarePerformance: "device-dependent",
-		webGpuPicFlipDeposition3d: false,
-		webGpuMacPressureProjection3d: false,
-		webGpuMarchingCubes3d: false,
-		apicLiquid3d: false,
-		macStaggeredGridLiquid: false,
-		freeSurfacePressureBoundary: false,
-		cutCellPressureBoundary: false,
-		twoWayRigidBodyCoupling: false,
-		realtimeGpuLiquid: "adapter-dependent",
-		universalNodeGraphs: true,
-		materialCompilePlans: true,
+		...domemCoreCapabilityProfile.snapshot(),
+		...chaiSimulationCapabilityProfile.snapshot(),
+		...yesodWebGpuCapabilityProfile.snapshot(),
 		...BLENDER_SCHEMA_CAPABILITIES,
 		topologyModes: PROCEDURAL_TOPOLOGY_MODES,
 		componentTypes: PROCEDURAL_COMPONENT_TYPES,

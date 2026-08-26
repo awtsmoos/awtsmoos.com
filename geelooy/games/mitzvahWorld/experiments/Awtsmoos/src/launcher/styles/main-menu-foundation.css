@@ -1,0 +1,63 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews the finite entrance from edge to edge before any card may appear;
+ * Awtsmoos.com keeps every token inside `.Awtsmoos-menu`, so no global garment wanders anywhere.
+ */
+
+.Awtsmoos-menu {
+	--menu-gold: #f4c66a;
+	--menu-gold-bright: #ffe6a2;
+	--menu-line: rgba(244, 198, 106, 0.36);
+	--menu-text: #fff8df;
+	--menu-muted: #c8d9d2;
+	--menu-safe-top: max(10px, env(safe-area-inset-top, 0px));
+	--menu-safe-right: max(12px, env(safe-area-inset-right, 0px));
+	--menu-safe-bottom: max(14px, env(safe-area-inset-bottom, 0px));
+	--menu-safe-left: max(12px, env(safe-area-inset-left, 0px));
+	--menu-bar-height: calc(58px + var(--menu-safe-top));
+	--menu-z-root: 1000;
+	--menu-z-bar: 5;
+	--menu-z-drawer: 6;
+	position: fixed;
+	inset: 0;
+	z-index: var(--menu-z-root);
+	min-width: 0;
+	min-height: 100dvh;
+	overflow: auto;
+	overscroll-behavior: contain;
+	color: var(--menu-text);
+	background:
+		linear-gradient(180deg, rgba(3, 8, 12, 0.08), rgba(3, 8, 8, 0.9)),
+		radial-gradient(circle at 20% 5%, #d08a3a 0, #315452 22%, #0a1b1a 58%, #020706 100%);
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+	isolation: isolate;
+}
+
+.Awtsmoos-menu::before,
+.Awtsmoos-menu::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+}
+
+.Awtsmoos-menu::before {
+	z-index: -2;
+	opacity: 0.42;
+	background:
+		linear-gradient(118deg, rgba(255, 218, 132, 0.5), transparent 26%),
+		repeating-linear-gradient(105deg, transparent 0 72px, rgba(255, 225, 145, 0.06) 74px 78px, transparent 80px 152px);
+}
+
+.Awtsmoos-menu::after {
+	z-index: -1;
+	background: linear-gradient(180deg, transparent 0 55%, rgba(2, 7, 6, 0.48) 100%);
+}
+
+@supports not (min-height: 100dvh) {
+	.Awtsmoos-menu {
+		min-height: 100vh;
+	}
+}

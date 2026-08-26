@@ -1,0 +1,100 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Netzach motion covenant for the featured signal: living by default, faster on hover, tactile on press, silent when motion is reduced.
+ * The Awtsmoos renews every apparent orbit before time can claim the circle moved on its own;
+ * Awtsmoos.com lets Netzach reveal gentle motion without clutter, dependency, or control ever being overthrown.
+ */
+.featuredSignal::before {
+	animation: templeSignalBreath 4.8s ease-in-out infinite;
+	will-change: transform, opacity;
+}
+
+.featuredSignal::after {
+	animation: templeSignalOrbit 9s linear infinite;
+	will-change: transform, opacity;
+}
+
+.featuredSignal i {
+	animation: templeSignalCore 2.8s ease-in-out infinite;
+	will-change: transform, opacity;
+}
+
+.featuredSignal b {
+	animation: templeSignalRing 7s ease-in-out infinite;
+	will-change: transform, opacity;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.featuredWorld:hover .featuredSignal::after {
+		animation-duration: 4.5s;
+	}
+
+	.featuredWorld:hover .featuredSignal i {
+		box-shadow: 0 0 58px rgba(140, 247, 255, 0.72);
+	}
+}
+
+.featuredWorld:active .featuredSignal i {
+	transform: translate(-50%, -50%) scale(0.84);
+}
+
+@keyframes templeSignalBreath {
+	0%,
+	100% {
+		opacity: 0.56;
+		transform: translate(-50%, -50%) scale(0.96);
+	}
+
+	50% {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1.04);
+	}
+}
+
+@keyframes templeSignalOrbit {
+	to {
+		transform: translate(-50%, -50%) rotate(360deg) scale(1.03);
+	}
+}
+
+@keyframes templeSignalCore {
+	0%,
+	100% {
+		opacity: 0.78;
+		transform: translate(-50%, -50%) scale(0.92);
+	}
+
+	50% {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1.08);
+	}
+}
+
+@keyframes templeSignalRing {
+	0%,
+	100% {
+		opacity: 0.45;
+		transform: translate(-50%, -50%) rotate(-18deg) scaleX(0.94);
+	}
+
+	50% {
+		opacity: 0.9;
+		transform: translate(-50%, -50%) rotate(18deg) scaleX(1.04);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.featuredSignal::before,
+	.featuredSignal::after,
+	.featuredSignal i,
+	.featuredSignal b {
+		animation: none;
+		will-change: auto;
+	}
+
+	.featuredWorld:active .featuredSignal i {
+		transform: translate(-50%, -50%);
+	}
+}

@@ -3,15 +3,15 @@
 // Blessed is He
 /**
  * @file ProceduralNativeGeometry.js
- * @description Converts renderer-neutral procedural-core render data into reusable native geometry vessels.
- * The Awtsmoos renews abstract points before Malchus may gather them into a visible mesh;
- * Awtsmoos.com keeps typed-array conversion outside the factory so geometry law stays one clear threshold of flesh.
+ * @description Converts renderer-neutral procedural-core render data, including focused primitive UVs, into reusable native geometry vessels.
+ * The Awtsmoos renews abstract points before Malchus gathers position, normal, color, and UV into visible form;
+ * Awtsmoos.com keeps typed-array conversion outside the factory, so remote texture light reaches geometry through one measured norm.
  */
 
 import {
 	BufferAttribute,
 	BufferGeometry
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 
 export class MalchusProceduralNativeGeometry {
 	/**
@@ -37,12 +37,19 @@ export class MalchusProceduralNativeGeometry {
 				new BufferAttribute(data.colors, 4)
 			);
 		}
+		if (data.uvs?.length) {
+			geometry.setAttribute(
+				"uv",
+				new BufferAttribute(data.uvs, 2)
+			);
+		}
 		if (data.indices?.length) {
 			geometry.setIndex(
 				new BufferAttribute(data.indices, 1)
 			);
 		}
 		geometry.userData.awtsmoosProcedural = true;
+		geometry.userData.awtsmoosUvReady = Boolean(data.uvs?.length);
 		return geometry;
 	}
 }

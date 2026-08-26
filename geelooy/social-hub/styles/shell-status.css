@@ -1,29 +1,59 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-.hubStatus {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets status appear without stealing the road; Awtsmoos.com keeps every toast inside
+ * the viewport and on the route-owned toast layer, above the mobile dock without arbitrary stack arithmetic.
+ */
+.social-hub-document .hubStatus {
 	position: fixed;
-	z-index: 20;
-	right: 1rem;
-	bottom: calc(1rem + var(--safe-bottom));
-	max-width: min(32rem, calc(100% - 2rem));
-	padding: 0.85rem 1rem;
+	z-index: var(--hub-layer-toast);
+	inset-inline-end: max(1rem, env(safe-area-inset-right));
+	inset-block-end: calc(1rem + max(var(--safe-bottom), env(safe-area-inset-bottom)));
+	box-sizing: border-box;
+	inline-size: max-content;
+	max-inline-size: min(32rem, calc(100vw - 2rem));
+	padding: .85rem 1rem;
+	overflow-wrap: anywhere;
 	border: 1px solid var(--line-hot);
 	border-radius: 1rem;
-	background: rgb(5 10 27 / 94%);
+	background: rgb(5 10 27 / 96%);
 	box-shadow: 0 1rem 3rem rgb(0 0 0 / 45%);
 	color: var(--ink);
+	animation: hub-status-enter 180ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
-.hubStatus[data-kind="error"] {
+.social-hub-document .hubStatus[data-kind="error"] {
 	border-color: var(--danger);
 }
 
-.hubStatus[data-kind="success"] {
+.social-hub-document .hubStatus[data-kind="success"] {
 	border-color: var(--success);
 }
 
-.hubStatus[data-kind="working"] {
+.social-hub-document .hubStatus[data-kind="working"] {
 	border-color: var(--violet);
+}
+
+@media (max-width: 62.4375rem) {
+	.social-hub-document .hubStatus {
+		inset-inline:
+			max(.65rem, env(safe-area-inset-left))
+			max(.65rem, env(safe-area-inset-right));
+		inset-block-end: calc(5.25rem + max(.65rem, env(safe-area-inset-bottom)));
+		inline-size: auto;
+		max-inline-size: none;
+		text-align: center;
+	}
+}
+
+@keyframes hub-status-enter {
+	from { opacity: 0; transform: translateY(8px) scale(.985); }
+	to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .hubStatus {
+		animation: none;
+	}
 }

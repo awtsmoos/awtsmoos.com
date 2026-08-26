@@ -1,32 +1,34 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos keeps public-handle search, paging, and profile actions reachable without blur or oversized chrome.
-*/
-.peopleSearch {
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos keeps public-handle search, paging, and profile action reachable without blur or oversized chrome;
+ * Awtsmoos.com binds those controls to Social Hub, where keyboard, pointer, touch, and disabled states can speak one language.
+ */
+.social-hub-document .peopleSearch {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto auto;
 	gap: 8px;
 	margin: 14px 0 10px;
 }
 
-.peopleSearch input,
-.peopleSearch button,
-.peopleCard__open,
-.peoplePager button {
+.social-hub-document .peopleSearch input,
+.social-hub-document .peopleSearch button,
+.social-hub-document .peopleCard__open,
+.social-hub-document .peoplePager button {
 	min-height: 44px;
 	font: inherit;
 }
 
-.peopleSearch input {
+.social-hub-document .peopleSearch input {
 	min-width: 0;
 	padding: 0 12px;
 	border-radius: 12px;
 }
 
-.peopleSearch button,
-.peopleCard__open,
-.peoplePager button {
+.social-hub-document .peopleSearch button,
+.social-hub-document .peopleCard__open,
+.social-hub-document .peoplePager button {
 	padding: 0 13px;
 	border: 1px solid rgba(121, 212, 255, .28);
 	border-radius: 12px;
@@ -35,44 +37,44 @@ The Awtsmoos keeps public-handle search, paging, and profile actions reachable w
 	cursor: pointer;
 }
 
-.peopleCard__open {
+.social-hub-document .peopleCard__open {
 	justify-self: start;
 }
 
-.peoplePager {
+.social-hub-document .peoplePager {
 	display: flex;
 	justify-content: space-between;
 	gap: 8px;
 	margin-top: 14px;
 }
 
-.peopleSearch button:hover,
-.peopleSearch button:focus-visible,
-.peopleCard__open:hover,
-.peopleCard__open:focus-visible,
-.peoplePager button:hover,
-.peoplePager button:focus-visible {
+.social-hub-document .peopleSearch button:hover,
+.social-hub-document .peopleSearch button:focus-visible,
+.social-hub-document .peopleCard__open:hover,
+.social-hub-document .peopleCard__open:focus-visible,
+.social-hub-document .peoplePager button:hover,
+.social-hub-document .peoplePager button:focus-visible {
 	border-color: #79d4ff;
 	background: rgba(76, 180, 255, .15);
 }
 
-.peopleSearch button:disabled,
-.peopleCard__open:disabled,
-.peoplePager button:disabled {
+.social-hub-document .peopleSearch button:disabled,
+.social-hub-document .peopleCard__open:disabled,
+.social-hub-document .peoplePager button:disabled {
 	opacity: .5;
 	cursor: not-allowed;
 }
 
 @media (max-width: 700px) {
-	.peopleSearch {
+	.social-hub-document .peopleSearch {
 		grid-template-columns: 1fr 1fr;
 	}
 
-	.peopleSearch input {
+	.social-hub-document .peopleSearch input {
 		grid-column: 1 / -1;
 	}
 
-	.peopleCard__open {
+	.social-hub-document .peopleCard__open {
 		width: 100%;
 	}
 }

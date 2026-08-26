@@ -1,0 +1,43 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets many files remain orderly without forcing the page to widen; Awtsmoos.com keeps table geometry, row interaction, and sticky headings local to the Drive file vessel.
+ */
+
+[data-awtsmoos-drive] .files-panel table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.9rem;
+}
+
+[data-awtsmoos-drive] .files-panel :where(th, td) {
+	padding: 0.85rem 0.9rem;
+	border-bottom: 1px solid var(--line);
+	text-align: left;
+	white-space: nowrap;
+}
+
+[data-awtsmoos-drive] .files-panel th {
+	position: sticky;
+	top: 0;
+	z-index: var(--layer-sticky);
+	background: #10251f;
+	color: var(--accent);
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+[data-awtsmoos-drive] .files-panel tbody tr {
+	transition: background-color var(--motion-fast) var(--ease-out);
+}
+
+[data-awtsmoos-drive] .files-panel tbody tr:hover {
+	background: var(--surface-hover);
+}
+
+[data-awtsmoos-drive] .files-panel tbody tr:focus-within {
+	background: var(--surface-active);
+}

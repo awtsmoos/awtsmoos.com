@@ -4,9 +4,9 @@
 
 /**
  * @file InventoryPanelView.js
- * @description Renders real Bag stacks and reveals bounded details only after deliberate selection.
- * The Awtsmoos fills actual vessels without pretending empty space is treasure;
- * Awtsmoos.com keeps the mobile Bag compact, truthful, and free of an unused detail chamber.
+ * @description Projects Bag state into semantic DOM without owning action execution or geometry.
+ * The Awtsmoos fills true vessels and leaves empty vessels honest and clear;
+ * Awtsmoos.com lets Malchus reveal data while CSS, commands, and focus each keep their sphere.
  */
 
 import {
@@ -20,96 +20,92 @@ import {
 	inventoryActionsFor
 } from './InventoryPanelGuidance.js';
 import {
+	escapeInventoryHtml,
+	inventoryPanelMarkup
+} from './InventoryPanelMarkup.js';
+import {
 	aggregateInventoryStacks,
-	combinedInventoryStack,
-	inventorySummaryText
+	combinedInventoryStack
 } from './InventoryPanelState.js';
 
 export { combinedInventoryStack } from './InventoryPanelState.js';
 
-export function inventoryPanelHtml(state) {
-	return `<section class="Awtsmoos-inventory-panel" data-open="false" aria-hidden="true" aria-label="Bag">
-		<header>
-			<b>🎒 B"H Bag</b><span>${inventorySummaryText(state)}</span>
-			<button data-close aria-label="Close Bag" style="min-width:44px;min-height:44px">×</button>
-		</header>
-		<div class="inv-body">
-			<aside><h3>Equipped</h3><div class="equip-grid" data-equipment></div></aside>
-			<main>
-				<h3>Backpack</h3><div class="bag-grid" data-items></div>
-				<div class="item-card" data-item-card data-has-selection="false" role="status" hidden></div>
-			</main>
-		</div>
-		<div class="inv-context-menu" data-open="false" data-menu role="menu"></div>
-	</section>`;
+/** @param {object} malchusState Inventory snapshot. @returns {string} Semantic Bag shell markup. */
+export function inventoryPanelHtml(malchusState) {
+	return inventoryPanelMarkup(malchusState);
 }
 
-export function renderInventoryItems(container, state) {
-	const stacks = aggregateInventoryStacks(state);
-	if (stacks.length) {
-		container.replaceChildren(...stacks.map(inventoryItemButton));
+/** @param {HTMLElement} malchusContainer Item-grid root. @param {object} malchusState Inventory snapshot. @returns {void} */
+export function renderInventoryItems(malchusContainer, malchusState) {
+	const yesodStacks = aggregateInventoryStacks(malchusState);
+	if (yesodStacks.length) {
+		malchusContainer.replaceChildren(...yesodStacks.map(inventoryItemButton));
 		return;
 	}
-	const documentValue = container.ownerDocument || document;
-	const empty = documentValue.createElement('p');
-	empty.className = 'bag-empty';
-	empty.textContent = 'Your Bag is empty. Looted items will appear here.';
-	container.replaceChildren(empty);
+	const malchusDocument = malchusContainer.ownerDocument || document;
+	const malchusEmpty = malchusDocument.createElement('p');
+	malchusEmpty.className = 'bag-empty';
+	malchusEmpty.textContent = 'Your Bag is empty. Looted items will appear here.';
+	malchusContainer.replaceChildren(malchusEmpty);
 }
 
-export function renderEquipment(container, state) {
-	const buttons = EQUIPMENT_SLOTS.map(slot => inventoryEquipmentButton(slot, state));
-	container.replaceChildren(...buttons);
+/** @param {HTMLElement} malchusContainer Equipment-grid root. @param {object} malchusState Inventory snapshot. @returns {void} */
+export function renderEquipment(malchusContainer, malchusState) {
+	malchusContainer.replaceChildren(
+		...EQUIPMENT_SLOTS.map(slot => inventoryEquipmentButton(slot, malchusState))
+	);
 }
 
-export function renderInventoryCard(container, stack, state, equipmentState = {}) {
-	if (!stack?.definition) {
-		container.hidden = true;
-		container.dataset.hasSelection = 'false';
-		container.replaceChildren();
+/**
+ * Reveals selected-item details or collapses the detail vessel completely when nothing is selected.
+ * @param {HTMLElement} malchusContainer Detail-card root.
+ * @param {object|null} yesodStack Selected item stack.
+ * @param {object} malchusState Inventory snapshot.
+ * @param {object} [binahEquipment={}] Equipment state.
+ * @returns {void}
+ */
+export function renderInventoryCard(malchusContainer, yesodStack, malchusState, binahEquipment = {}) {
+	if (!yesodStack?.definition) {
+		malchusContainer.hidden = true;
+		malchusContainer.dataset.hasSelection = 'false';
+		malchusContainer.replaceChildren();
 		return;
 	}
-	const item = stack.definition;
-	container.hidden = false;
-	container.dataset.hasSelection = 'true';
-	container.innerHTML = `<h4>${escapeHtml(item.icon)} ${escapeHtml(item.name)}</h4>
-		<p><b>${escapeHtml(item.category)}</b> · quantity ${stack.quantity}</p>
-		<p>${escapeHtml(item.description)}</p>
-		<p>Damage ${item.stats.damage} · Defense ${item.stats.defense} · Focus ${item.stats.focus}</p>
-		<p>${escapeHtml(inventoryActionGuidance(item, state, equipmentState))}</p>`;
+	const malchusItem = yesodStack.definition;
+	malchusContainer.hidden = false;
+	malchusContainer.dataset.hasSelection = 'true';
+	malchusContainer.innerHTML = `<h4>${escapeInventoryHtml(malchusItem.icon)} ${escapeInventoryHtml(malchusItem.name)}</h4>
+		<p><b>${escapeInventoryHtml(malchusItem.category)}</b> · quantity ${yesodStack.quantity}</p>
+		<p>${escapeInventoryHtml(malchusItem.description)}</p>
+		<p>Damage ${malchusItem.stats.damage} · Defense ${malchusItem.stats.defense} · Focus ${malchusItem.stats.focus}</p>
+		<p>${escapeInventoryHtml(inventoryActionGuidance(malchusItem, malchusState, binahEquipment))}</p>`;
 }
 
-export function renderInventoryMenu(menu, stack, state, equipmentState = {}) {
-	menu.replaceChildren();
-	if (!stack?.definition) {
-		menu.dataset.open = 'false';
+/**
+ * Reveals contextual actions inside the Bag's own bounded action tray.
+ * @param {HTMLElement} malchusMenu Context-action tray.
+ * @param {object|null} yesodStack Selected item stack.
+ * @param {object} malchusState Inventory snapshot.
+ * @param {object} [binahEquipment={}] Equipment state.
+ * @returns {void}
+ */
+export function renderInventoryMenu(malchusMenu, yesodStack, malchusState, binahEquipment = {}) {
+	malchusMenu.replaceChildren();
+	if (!yesodStack?.definition) {
+		malchusMenu.dataset.open = 'false';
 		return;
 	}
-	const documentValue = menu.ownerDocument || document;
-	const title = documentValue.createElement('h4');
-	title.textContent = `${stack.definition.icon} ${stack.definition.name}`;
-	const actions = documentValue.createElement('div');
-	for (const action of inventoryActionsFor(stack.definition, state, equipmentState)) {
-		const button = documentValue.createElement('button');
-		button.dataset.action = action;
-		button.setAttribute('role', 'menuitem');
-		button.style.minWidth = '44px';
-		button.style.minHeight = '44px';
-		button.textContent = inventoryActionLabel(action);
-		actions.appendChild(button);
+	const malchusDocument = malchusMenu.ownerDocument || document;
+	const malchusTitle = malchusDocument.createElement('h4');
+	malchusTitle.textContent = `${yesodStack.definition.icon} ${yesodStack.definition.name}`;
+	const yesodActions = malchusDocument.createElement('div');
+	for (const action of inventoryActionsFor(yesodStack.definition, malchusState, binahEquipment)) {
+		const malchusButton = malchusDocument.createElement('button');
+		malchusButton.dataset.action = action;
+		malchusButton.type = 'button';
+		malchusButton.textContent = inventoryActionLabel(action);
+		yesodActions.appendChild(malchusButton);
 	}
-	menu.append(title, actions);
-	menu.dataset.open = 'true';
+	malchusMenu.append(malchusTitle, yesodActions);
+	malchusMenu.dataset.open = 'true';
 }
-
-function escapeHtml(value) {
-	return String(value ?? '').replace(/[&<>"']/g, character => ESCAPES[character]);
-}
-
-const ESCAPES = Object.freeze({
-	'&': '&amp;',
-	'<': '&lt;',
-	'>': '&gt;',
-	'"': '&quot;',
-	"'": '&#39;'
-});

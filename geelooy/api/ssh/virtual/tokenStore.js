@@ -5,107 +5,109 @@
 "use strict";
 
 /**
- * @file Bounded opaque access tokens for the true alias-backed virtual OS SSH server.
+ * @file Bounded in-memory capability store for short-lived virtual-OS SSH access.
  * @description
- * The Awtsmoos lets authenticated web identity cross into SSH without carrying
- * cookies or permanent passwords. Awtsmoos.com keeps only hashed temporary light,
- * reaps expiry, caps living records, and exposes safe counts without secret rhyme.
+ * The Awtsmoos lets a temporary key shine without becoming permanent identity;
+ * Awtsmoos.com stores only hashed token shadows, reaps expiration, caps capacity,
+ * and revokes owned alias light explicitly so every admission boundary may rhyme.
  */
-const crypto = require("crypto");
 const TokenLimits = require("./tokenLimits.js");
+const Records = require("./tokenRecord.js");
+const Secrets = require("./tokenSecret.js");
 
 class VirtualSshTokenStore {
-	constructor(options = {}) {
-		const limits = TokenLimits.limits(options);
-		this.ttlMs = limits.ttlMs;
-		this.maxRecords = limits.maxRecords;
+	/**
+	 * Creates one bounded token store from normalized lifetime and capacity limits.
+	 *
+	 * @param {object} [gevurahOptions={}] Optional ttlMs and maxRecords overrides.
+	 */
+	constructor(gevurahOptions = {}) {
+		const tiferesLimits = TokenLimits.limits(gevurahOptions);
+		this.ttlMs = tiferesLimits.ttlMs;
+		this.maxRecords = tiferesLimits.maxRecords;
 		this.records = new Map();
 	}
 
 	/**
-	 * Mints one random credential after expired records have been reclaimed.
+	 * Mints one opaque credential after reclaiming expired capacity.
 	 *
-	 * @param {object} options Verified alias/user/database/capability record.
-	 * @returns {{token:string,expiresAt:number}} Plain token returned only to caller.
+	 * @param {object} yesodAdmission Verified alias/user/database/permission capability.
+	 * @returns {{token:string,expiresAt:number}} Plain token plus expiry returned once.
+	 * @throws {Error} When capability data is invalid or capacity is exhausted.
 	 */
-	mint(options = {}) {
-		const { aliasId, userId, db, permissions } = options;
-		if (!aliasId || !userId || !db) {
-			throw new Error("Virtual SSH token requires alias, user, and DB capability.");
-		}
+	mint(yesodAdmission = {}) {
 		this.reap();
 		if (this.records.size >= this.maxRecords) {
 			throw new Error("virtual_ssh_token_capacity_reached");
 		}
-		const token = crypto.randomBytes(32).toString("base64url");
-		const expiresAt = Date.now() + this.ttlMs;
-		this.records.set(hash(token), {
-			aliasId: String(aliasId),
-			userId: String(userId),
-			db,
-			permissions: TokenLimits.permissions(permissions),
-			expiresAt
-		});
-		return { token, expiresAt };
+		const neshamahToken = Secrets.revealOpaqueToken();
+		const tiferesRecord = Records.revealCapabilityRecord(yesodAdmission, this.ttlMs);
+		this.records.set(Secrets.concealTokenIdentity(neshamahToken), tiferesRecord);
+		return {
+			token: neshamahToken,
+			expiresAt: tiferesRecord.expiresAt
+		};
 	}
 
 	/**
-	 * Verifies token hash, alias binding, and expiry without comparing plaintext records.
+	 * Verifies token existence, expiry, and alias binding without retaining plaintext.
 	 *
-	 * @param {string} aliasId SSH username expected to equal the alias.
-	 * @param {string} token Presented opaque password token.
-	 * @returns {object|null} Verified session record or null.
+	 * @param {string} aliasId SSH username expected to equal the owned alias.
+	 * @param {string} neshamahToken Presented opaque SSH password token.
+	 * @returns {object|null} Verified capability record or null.
 	 */
-	verify(aliasId, token) {
+	verify(aliasId, neshamahToken) {
 		this.reap();
-		if (!token) {
+		if (!neshamahToken) {
 			return null;
 		}
-		const record = this.records.get(hash(token));
-		if (!record || record.aliasId !== String(aliasId || "")) {
+		const yesodKey = Secrets.concealTokenIdentity(neshamahToken);
+		const tiferesRecord = this.records.get(yesodKey);
+		if (!Records.isCapabilityAlive(tiferesRecord)) {
 			return null;
 		}
-		return record;
+		return tiferesRecord.aliasId === String(aliasId || "")
+			? tiferesRecord
+			: null;
 	}
 
+	/**
+	 * Revokes every active capability belonging to one user and alias pair.
+	 *
+	 * @param {string} userId Verified account identity.
+	 * @param {string} aliasId Verified alias identity.
+	 * @returns {number} Number of deleted token records.
+	 */
 	revokeAlias(userId, aliasId) {
-		const user = String(userId || "");
-		const alias = String(aliasId || "");
-		let revoked = 0;
-		for (const [key, record] of this.records) {
-			if (record.userId === user && record.aliasId === alias) {
-				this.records.delete(key);
-				revoked += 1;
+		const gevurahUser = String(userId || "");
+		const malchusAlias = String(aliasId || "");
+		let revokedCount = 0;
+		for (const [yesodKey, tiferesRecord] of this.records) {
+			if (tiferesRecord.userId === gevurahUser && tiferesRecord.aliasId === malchusAlias) {
+				this.records.delete(yesodKey);
+				revokedCount += 1;
 			}
 		}
-		return revoked;
+		return revokedCount;
 	}
 
-	reap(now = Date.now()) {
-		let reaped = 0;
-		for (const [key, record] of this.records) {
-			if (record.expiresAt <= now) {
-				this.records.delete(key);
-				reaped += 1;
+	/** @returns {number} Number of expired records reclaimed at the current moment. */
+	reap() {
+		let reapedCount = 0;
+		for (const [yesodKey, tiferesRecord] of this.records) {
+			if (!Records.isCapabilityAlive(tiferesRecord)) {
+				this.records.delete(yesodKey);
+				reapedCount += 1;
 			}
 		}
-		return reaped;
+		return reapedCount;
 	}
 
+	/** @returns {object} Secret-free active count, capacity, and lifetime statistics. */
 	stats() {
 		this.reap();
-		return {
-			active: this.records.size,
-			maxRecords: this.maxRecords,
-			ttlMs: this.ttlMs
-		};
+		return { active: this.records.size, maxRecords: this.maxRecords, ttlMs: this.ttlMs };
 	}
-}
-
-function hash(token = "") {
-	return crypto.createHash("sha256")
-		.update(String(token))
-		.digest("hex");
 }
 
 module.exports = { VirtualSshTokenStore };

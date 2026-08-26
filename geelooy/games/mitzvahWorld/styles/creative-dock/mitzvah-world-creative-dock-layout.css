@@ -1,0 +1,73 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every edge before the eye can measure its finite place;
+Awtsmoos.com keeps this advanced vessel inside MitzvahWorld alone, bounded by safe areas, shared layers, calm stacking, and uncluttered grace.
+*/
+
+#mitzvah-world-root .Awtsmoos-creative-dock {
+	position: fixed;
+	top: max(14px, calc(env(safe-area-inset-top, 0px) + 8px));
+	right: max(14px, calc(env(safe-area-inset-right, 0px) + 8px));
+	z-index: var(--mw-z-dialog, 80);
+	box-sizing: border-box;
+	max-width: calc(100dvw - 16px);
+	pointer-events: none;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__trigger {
+	box-sizing: border-box;
+	min-width: 48px;
+	min-height: 48px;
+	padding-inline: 14px;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__sheet {
+	position: absolute;
+	top: calc(100% + 10px);
+	right: 0;
+	width: min(334px, calc(100dvw - 28px));
+	max-width: calc(100dvw - 28px);
+	max-height: min(560px, calc(100dvh - 86px));
+	box-sizing: border-box;
+	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+}
+
+@media (max-width: 820px), (pointer: coarse) {
+	#mitzvah-world-root .Awtsmoos-creative-dock {
+		top: var(--mw-dock-top, max(12px, calc(env(safe-area-inset-top, 0px) + 8px)));
+		right: var(--mw-dock-right, max(12px, calc(env(safe-area-inset-right, 0px) + 8px)));
+		bottom: auto;
+	}
+
+	#mitzvah-world-root .Awtsmoos-creative-dock__trigger {
+		width: 48px;
+		height: 48px;
+		padding: 0;
+		justify-content: center;
+	}
+
+	#mitzvah-world-root .Awtsmoos-creative-dock__sheet {
+		position: fixed;
+		top: max(8px, env(safe-area-inset-top, 0px));
+		right: max(8px, env(safe-area-inset-right, 0px));
+		bottom: max(8px, env(safe-area-inset-bottom, 0px));
+		left: max(8px, env(safe-area-inset-left, 0px));
+		width: auto;
+		max-width: none;
+		max-height: none;
+		transform-origin: top right;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	#mitzvah-world-root .Awtsmoos-creative-dock__sheet {
+		top: max(6px, env(safe-area-inset-top, 0px));
+		right: max(6px, env(safe-area-inset-right, 0px));
+		bottom: max(6px, env(safe-area-inset-bottom, 0px));
+		left: max(6px, env(safe-area-inset-left, 0px));
+	}
+}

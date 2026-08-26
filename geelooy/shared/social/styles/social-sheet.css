@@ -1,37 +1,43 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos is beyond reference and copy, while Awtsmoos.com lets their meanings appear in one spacious bottom sheet. */
+/** The Awtsmoos is beyond sheet and viewport; Awtsmoos.com makes every advanced chamber safe-area aware, scrollable, tactile, and complete. */
 .awtsmoosSocialSheet,
 .awtsmoosIdentitySheet,
 .awtsmoosCommandPalette {
-	width: min(560px, calc(100vw - 20px));
-	max-height: min(78vh, 720px);
-	margin: auto auto max(10px, env(safe-area-inset-bottom));
-	padding: 18px;
+	box-sizing: border-box;
+	inline-size: min(35rem, calc(100vw - 1.3rem));
+	max-inline-size: calc(100vw - 1.3rem);
+	max-block-size: min(82dvh, 45rem);
+	margin: auto auto max(.65rem, env(safe-area-inset-bottom));
+	padding: 1rem;
+	overflow: auto;
+	overscroll-behavior: contain;
 	border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
-	border-radius: 24px;
+	border-radius: 1.35rem;
 	background: Canvas;
 	color: CanvasText;
-	box-shadow: 0 24px 80px rgba(0, 0, 0, .28);
+	box-shadow: 0 24px 80px rgba(0,0,0,.28);
 }
 .awtsmoosSocialSheet::backdrop,
 .awtsmoosIdentitySheet::backdrop,
 .awtsmoosCommandPalette::backdrop {
-	background: rgba(0, 0, 0, .52);
+	background: rgba(0,0,0,.52);
 	backdrop-filter: blur(5px);
 }
 .awtsmoosSocialSheet__options,
 .awtsmoosIdentitySheet__actions,
 .awtsmoosCommandPalette__list {
 	display: grid;
-	gap: 9px;
+	gap: .55rem;
+	min-inline-size: 0;
 }
 .awtsmoosSocialSheet__option {
 	display: grid;
-	gap: 4px;
-	min-height: 56px;
-	padding: 12px 14px;
+	gap: .25rem;
+	min-inline-size: 0;
+	min-block-size: 56px;
+	padding: .75rem .85rem;
 	text-align: start;
 }
 .awtsmoosSocialSheet__option span {
@@ -41,5 +47,26 @@
 .awtsmoosSocialSheet button,
 .awtsmoosIdentitySheet button,
 .awtsmoosCommandPalette button {
-	min-height: 44px;
+	min-block-size: 44px;
+}
+@media (hover: hover) and (pointer: fine) {
+	.awtsmoosSocialSheet__option:hover {
+		transform: translateY(-1px);
+	}
+}
+.awtsmoosSocialSheet__option:active {
+	transform: scale(.985);
+}
+@media (max-width: 30rem) {
+	.awtsmoosSocialSheet,
+	.awtsmoosIdentitySheet,
+	.awtsmoosCommandPalette {
+		inline-size: auto;
+		max-inline-size: none;
+		margin-inline: max(.45rem, env(safe-area-inset-left)) max(.45rem, env(safe-area-inset-right));
+		border-radius: 1.1rem;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoosSocialSheet__option { transition: none; }
 }

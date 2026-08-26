@@ -1,44 +1,46 @@
 /* B"H */
-/**
- * Chapter 76: Discovery receives form, rhythm, and spacious breath.
- * Trending sparks, graph totals, active vessels, and timeline events become
- * a dashboard instead of loose facts.
- */
-.awt-discovery-panel {
-  display: grid;
-  gap: 18px;
-  padding: 20px;
+/** The Awtsmoos lets discovery expose a wide graph through bounded local cards rather than loose global dashboard rules. */
+.awtsmoos-social-root .awt-discovery-panel {
+	display: grid;
+	gap: 1rem;
+	min-inline-size: 0;
+	padding: 1rem;
 }
-.awt-discovery-panel h2,
-.awt-discovery-panel h3 {
-  margin: 0;
+
+.awtsmoos-social-root :where(.awt-discovery-panel h2, .awt-discovery-panel h3) {
+	margin: 0;
+	overflow-wrap: anywhere;
 }
-.awt-discovery-shelf {
-  display: grid;
-  gap: 10px;
+
+.awtsmoos-social-root :where(.awt-discovery-shelf, .awt-timeline-list) {
+	display: grid;
+	gap: .65rem;
+	min-inline-size: 0;
 }
-.awt-discovery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 10px;
+
+.awtsmoos-social-root .awt-discovery-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr));
+	gap: .65rem;
+	min-inline-size: 0;
 }
-.awt-discovery-node,
-.awt-timeline-event {
-  border: 1px solid var(--awt-border);
-  border-radius: var(--awt-radius-md);
-  background: rgba(255,255,255,.05);
-  padding: 12px;
-  display: grid;
-  gap: 8px;
+
+.awtsmoos-social-root :where(.awt-discovery-node, .awt-timeline-event) {
+	display: grid;
+	gap: .5rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: .75rem;
+	border: 1px solid var(--awt-border);
+	border-radius: var(--awt-radius-md);
+	background: rgba(255,255,255,.05);
 }
-.awt-discovery-node strong {
-  overflow-wrap: anywhere;
+
+.awtsmoos-social-root :where(.awt-discovery-node strong, .awt-timeline-event p) {
+	overflow-wrap: anywhere;
 }
-.awt-timeline-list {
-  display: grid;
-  gap: 10px;
-}
-.awt-timeline-event p {
-  margin: 0;
-  color: var(--awt-muted);
+
+.awtsmoos-social-root .awt-timeline-event p {
+	margin: 0;
+	color: var(--awt-muted);
 }

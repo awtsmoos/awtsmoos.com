@@ -3,16 +3,16 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos gives public-handle discovery a finite readable structure through Awtsmoos.com without opening account chambers.
 */
-.peoplePanel {
+.social-hub-document .peoplePanel {
 	max-width: 980px;
 	margin: 0 auto;
 }
 
-.peopleIntro {
+.social-hub-document .peopleIntro {
 	margin-bottom: 14px;
 }
 
-.peopleEyebrow {
+.social-hub-document .peopleEyebrow {
 	margin: 0 0 6px;
 	color: #8fd5ff;
 	font-size: .72rem;
@@ -21,31 +21,31 @@ The Awtsmoos gives public-handle discovery a finite readable structure through A
 	text-transform: uppercase;
 }
 
-.peopleIntro h2 {
+.social-hub-document .peopleIntro h2 {
 	margin: 0;
 }
 
-.peopleIntro p:last-child,
-.peopleStatus,
-.peopleEmpty,
-.peopleCard__description,
-.peopleCard__handle {
+.social-hub-document .peopleIntro p:last-child,
+.social-hub-document .peopleStatus,
+.social-hub-document .peopleEmpty,
+.social-hub-document .peopleCard__description,
+.social-hub-document .peopleCard__handle {
 	color: var(--muted, #aeb8c8);
 	line-height: 1.5;
 }
 
-.peopleStatus {
+.social-hub-document .peopleStatus {
 	margin: 0 0 12px;
 	font-size: .78rem;
 }
 
-.peopleResults {
+.social-hub-document .peopleResults {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 12px;
 }
 
-.peopleCard {
+.social-hub-document .peopleCard {
 	display: grid;
 	gap: 10px;
 	padding: 14px;
@@ -54,24 +54,24 @@ The Awtsmoos gives public-handle discovery a finite readable structure through A
 	background: rgba(255, 255, 255, .025);
 }
 
-.peopleCard__name,
-.peopleCard__handle,
-.peopleCard__description {
+.social-hub-document .peopleCard__name,
+.social-hub-document .peopleCard__handle,
+.social-hub-document .peopleCard__description {
 	margin: 0;
 }
 
-.peopleCard__name {
+.social-hub-document .peopleCard__name {
 	font-size: .95rem;
 }
 
-.peopleCard__handle,
-.peopleCard__description,
-.peopleEmpty {
+.social-hub-document .peopleCard__handle,
+.social-hub-document .peopleCard__description,
+.social-hub-document .peopleEmpty {
 	font-size: .78rem;
 }
 
 @media (max-width: 700px) {
-	.peopleResults {
+	.social-hub-document .peopleResults {
 		grid-template-columns: 1fr;
 	}
 }

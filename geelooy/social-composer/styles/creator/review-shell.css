@@ -1,0 +1,108 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets final consent rise as one bounded chamber instead of spilling into hidden screen space;
+Awtsmoos.com gives review a safe mobile floor, a calm desktop wall, and enough breathing room that long titles and close controls never collide.
+*/
+.publicationReviewDialog {
+	position: fixed;
+	inset: auto 0 0;
+	display: none;
+	box-sizing: border-box;
+	inline-size: 100%;
+	max-inline-size: 100vw;
+	max-block-size: 91dvh;
+	margin: 0;
+	padding:
+		.55rem max(1rem, env(safe-area-inset-right))
+		max(1rem, env(safe-area-inset-bottom))
+		max(1rem, env(safe-area-inset-left));
+	overflow-x: clip;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--composer-border);
+	border-radius: 1.35rem 1.35rem 0 0;
+	background: rgb(7 12 19 / 99%);
+	color: var(--composer-text);
+	box-shadow: 0 -1.8rem 5rem rgb(0 0 0 / 44%);
+}
+
+.publicationReviewDialog[open] {
+	display: block;
+}
+
+.publicationReviewDialog::backdrop {
+	background: rgb(0 0 0 / 62%);
+	backdrop-filter: blur(4px);
+}
+
+.publicationReviewHeader {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .75rem;
+	min-inline-size: 0;
+	padding-block-end: .72rem;
+	border-block-end: 1px solid var(--composer-border-soft);
+}
+
+.publicationReviewHeader > div {
+	min-inline-size: 0;
+}
+
+.publicationReviewHeader span {
+	color: var(--composer-cyan);
+	font-size: .62rem;
+	font-weight: 850;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.publicationReviewHeader h2 {
+	margin: .12rem 0 0;
+	font-size: clamp(1.25rem, 6vw, 1.65rem);
+	overflow-wrap: anywhere;
+}
+
+.publicationReviewIssues {
+	margin-block: .7rem;
+	padding: .75rem;
+	border: 1px solid color-mix(in srgb, var(--composer-danger) 46%, var(--composer-border));
+	border-radius: .9rem;
+	background: var(--composer-danger-soft);
+}
+
+.publicationReviewIssues ul {
+	margin: .4rem 0 0;
+	padding-inline-start: 1.1rem;
+	color: var(--composer-text-soft);
+	font-size: .75rem;
+}
+
+@media (max-width: 24rem) {
+	.publicationReviewHeader {
+		grid-template-columns: 1fr;
+	}
+
+	.publicationReviewHeader button {
+		justify-self: start;
+	}
+}
+
+@media (min-width: 64rem) {
+	.publicationReviewDialog {
+		inset: 0 0 0 auto;
+		inline-size: min(34rem, 42vw);
+		max-inline-size: calc(100vw - 2rem);
+		block-size: 100dvh;
+		max-block-size: 100dvh;
+		border-radius: 0;
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.publicationReviewDialog::backdrop {
+		backdrop-filter: none;
+	}
+}

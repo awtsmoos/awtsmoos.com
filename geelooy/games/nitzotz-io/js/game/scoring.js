@@ -1,65 +1,98 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
+/**
+ * @file scoring.js
+ * @description Local-authoritative mass, score, radius, and leaderboard calculations with observational multiplayer peers kept separate.
+ * The Awtsmoos lets many visible players share one ranking surface without letting observation rewrite campaign truth;
+ * Awtsmoos.com keeps local authority explicit so stars and progression arise only from the simulation that owns them in proof.
+ */
+
 import { visiblePeers } from '../multiplayer/state.js';
 
-/** Radius grows sublinearly, preserving control while unlocking larger prey. */
-export function radiusForMass(mass) {
-	return 18 + Math.sqrt(Math.max(0, mass)) * 2.1;
-}
-
-/** Feed a hole and update all derived measurements in one place. */
-export function feedHole(hole, mass, score = mass) {
-	hole.mass += mass;
-	hole.score = (hole.score || 0) + score;
-	hole.r = radiusForMass(hole.mass);
+/**
+ * Converts mass into the sublinear radius used by player and rival collision/render systems.
+ * @param {number} massMeasure Current entity mass.
+ * @returns {number} Radius preserving control as mass grows.
+ */
+export function radiusForMass(massMeasure) {
+	return 18 + Math.sqrt(Math.max(0, massMeasure)) * 2.1;
 }
 
 /**
- * Produce one visual leaderboard containing authoritative local rivals and
- * observational live peers. Peer mass can never affect campaign rank or stars.
+ * Applies captured mass and score to one mutable hole and refreshes its derived radius atomically.
+ * @param {object} holeKeli Mutable player or rival vessel.
+ * @param {number} massOhr Captured mass increment.
+ * @param {number} scoreOhr Score increment, defaulting to captured mass.
+ * @returns {void}
  */
-export function rankings(world) {
-	return [
-		...localRankings(world),
-		...visiblePeers(world).map(peer => ({
-			id: peer.peerId,
-			name: peer.name,
-			archetype: 'LIVE HEVRUTA',
-			mass: peer.mass,
-			score: 0,
-			peer: true,
-			player: false
-		}))
-	].sort(compareRank);
+export function feedHole(holeKeli, massOhr, scoreOhr = massOhr) {
+	holeKeli.mass += massOhr;
+	holeKeli.score = (holeKeli.score || 0) + scoreOhr;
+	holeKeli.r = radiusForMass(holeKeli.mass);
 }
 
-/** Calculate campaign-authoritative rank from local simulation only. */
-export function playerRank(world) {
-	return localRankings(world).sort(compareRank).findIndex(entry => entry.player) + 1;
+/**
+ * Builds the visual leaderboard from authoritative local entries plus observational live peers.
+ * Peer mass may affect display ordering but never campaign rank, stars, or settlement.
+ * @param {object} olam Current Nitzotz world state.
+ * @returns {object[]} Descending visual leaderboard entries.
+ */
+export function rankings(olam) {
+	const peerOros = visiblePeers(olam).map(peerKeli => ({
+		id: peerKeli.peerId,
+		name: peerKeli.name,
+		archetype: 'LIVE HEVRUTA',
+		mass: peerKeli.mass,
+		score: 0,
+		peer: true,
+		player: false
+	}));
+	return [...localRankings(olam), ...peerOros].sort(compareRank);
 }
 
-/** Return the local player and deterministic rivals without peer observations. */
-export function localRankings(world) {
+/**
+ * Calculates campaign-authoritative player rank from deterministic local simulation only.
+ * @param {object} olam Current Nitzotz world state.
+ * @returns {number} One-based local rank.
+ */
+export function playerRank(olam) {
+	return localRankings(olam).sort(compareRank)
+		.findIndex(rankKeli => rankKeli.player) + 1;
+}
+
+/**
+ * Projects the local player and deterministic rivals without observational network peers.
+ * @param {object} olam Current Nitzotz world state.
+ * @returns {object[]} Unsorted local leaderboard records.
+ */
+export function localRankings(olam) {
 	return [
 		{
 			id: 'player',
 			name: 'You',
-			mass: world.player.mass,
-			score: world.score,
+			mass: olam.player.mass,
+			score: olam.score,
 			player: true
 		},
-		...world.rivals.map(rival => ({
-			id: rival.id,
-			name: rival.name,
-			archetype: rival.archetype.name,
-			mass: rival.mass,
-			score: rival.score,
+		...olam.rivals.map(rivalKeli => ({
+			id: rivalKeli.id,
+			name: rivalKeli.name,
+			archetype: rivalKeli.archetype.name,
+			mass: rivalKeli.mass,
+			score: rivalKeli.score,
 			player: false
 		}))
 	];
 }
 
-function compareRank(left, right) {
-	return right.mass - left.mass || right.score - left.score;
+/**
+ * Orders ranking records by descending mass and then descending score as the stable tie-breaker.
+ * @param {object} leftKeli Left ranking record.
+ * @param {object} rightKeli Right ranking record.
+ * @returns {number} Array-sort comparison result.
+ */
+function compareRank(leftKeli, rightKeli) {
+	return rightKeli.mass - leftKeli.mass || rightKeli.score - leftKeli.score;
 }

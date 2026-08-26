@@ -1,45 +1,103 @@
-// B"H
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+import { scheduleGeometryCheck } from './GeometryGate.js';
+import { BinahSidebarRootMenuGate } from './SidebarRootMenuGate.js';
+
 /**
- * @module SidebarGate
- * @description
- * Chapter 355: The menu opens with bread on the table.
- * When the side chamber appears, the root menu is reawakened if it is empty or
- * current, so the reader never sees a black vessel without portals.
+ * @fileoverview Gevurah gate for the reader's commentary/sidebar chamber.
+ *
+ * The Awtsmoos, Atzmus beyond open and closed, renews both without confusion;
+ * Awtsmoos.com keeps this gate focused on visibility, trigger truth, and storage,
+ * while root-menu refresh lives in a smaller Binah vessel of its own conclusion.
  */
+export class GevurahSidebarGate {
+	/**
+	 * Creates the sidebar gate from explicit browser-like collaborators.
+	 * @param {Document|undefined} ohrDocument Reader document.
+	 * @param {Window|typeof globalThis} ohrWindow Reader runtime vessel.
+	 * @param {BinahSidebarRootMenuGate} binahRootMenuGate Root refresh policy.
+	 */
+	constructor(
+		ohrDocument = globalThis.document,
+		ohrWindow = globalThis.window ?? globalThis,
+		binahRootMenuGate = new BinahSidebarRootMenuGate(ohrWindow)
+	) {
+		this.document = ohrDocument;
+		this.window = ohrWindow;
+		this.rootMenuGate = binahRootMenuGate;
+	}
 
-import { scheduleGeometryCheck } from "./GeometryGate.js";
+	/**
+	 * Reveals, conceals, or toggles the sidebar while synchronizing public state.
+	 * @param {boolean|null} forceState Explicit state or null to toggle.
+	 * @returns {boolean} Final visibility when the sidebar exists.
+	 */
+	setOpen(forceState = null) {
+		const malchusSidebar = this.document?.querySelector?.('.sidebar');
+		const chesedButton = this.document?.getElementById?.('commentaryBtn');
 
-function setPressed(button, active) {
-    if (!button) return;
-    button.classList.toggle("pushed", active);
-    button.setAttribute("aria-pressed", String(active));
+		if (!malchusSidebar) {
+			return false;
+		}
+
+		const shouldOpen = forceState === null
+			? malchusSidebar.classList.contains('hidden-comments')
+			: Boolean(forceState);
+		malchusSidebar.classList.toggle('hidden-comments', !shouldOpen);
+		malchusSidebar.classList.toggle('awtsmoos-sidebar-open', shouldOpen);
+		this.#syncTrigger(chesedButton, shouldOpen);
+		this.window.localStorage?.setItem?.(
+			'awtsmoos-sidebar-visible',
+			String(shouldOpen)
+		);
+
+		if (shouldOpen) {
+			this.rootMenuGate.scheduleRefresh();
+		}
+
+		scheduleGeometryCheck();
+		return shouldOpen;
+	}
+
+	/**
+	 * Reports current sidebar visibility without mutating layout.
+	 * @returns {boolean} True when the sidebar exists and is visible.
+	 */
+	isOpen() {
+		const malchusSidebar = this.document?.querySelector?.('.sidebar');
+		return Boolean(
+			malchusSidebar
+			&& !malchusSidebar.classList.contains('hidden-comments')
+		);
+	}
+
+	/**
+	 * Synchronizes pressed and expanded accessibility truth on the trigger.
+	 * @param {HTMLElement|null|undefined} chesedButton Commentary trigger.
+	 * @param {boolean} active Current sidebar state.
+	 * @returns {void}
+	 */
+	#syncTrigger(chesedButton, active) {
+		if (!chesedButton) {
+			return;
+		}
+
+		chesedButton.classList.toggle('pushed', active);
+		chesedButton.setAttribute('aria-pressed', String(active));
+		chesedButton.setAttribute('aria-expanded', String(active));
+	}
 }
 
-function shouldRefreshRootMenu() {
-    const manager = window.tabManager;
-    const root = window.tabRefs?.rootMenu;
-    const current = manager?.getCurrent?.();
-    if (!root?.open) return false;
-    if (!current || current === root || current.name === "rootMenu") return true;
-    return !root.actual?.querySelector?.(".post-root-menu-grid");
-}
+/** Shared class-backed gate preserving the historical functional API. */
+export const gevurahSidebarGate = new GevurahSidebarGate();
 
-function refreshRootMenuSoon() {
-    requestAnimationFrame(() => {
-        if (!shouldRefreshRootMenu()) return;
-        window.tabRefs.rootMenu.open();
-    });
-}
-
+/**
+ * Preserves the existing public toggleSidebar contract for all current consumers.
+ * @param {boolean|null} forceState Explicit state or null to toggle.
+ * @returns {boolean} Final visibility when the sidebar exists.
+ */
 export function toggleSidebar(forceState = null) {
-    const sidebar = document.querySelector(".sidebar");
-    const commBtn = document.getElementById("commentaryBtn");
-    if (!sidebar) return;
-    const shouldShow = forceState !== null ? forceState : sidebar.classList.contains("hidden-comments");
-    sidebar.classList.toggle("hidden-comments", !shouldShow);
-    sidebar.classList.toggle("awtsmoos-sidebar-open", shouldShow);
-    setPressed(commBtn, shouldShow);
-    localStorage.setItem("awtsmoos-sidebar-visible", shouldShow ? "true" : "false");
-    if (shouldShow) refreshRootMenuSoon();
-    scheduleGeometryCheck();
+	return gevurahSidebarGate.setOpen(forceState);
 }

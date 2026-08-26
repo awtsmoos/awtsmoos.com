@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file gameplay.js
- * @description Canonical geometry, speed, motion, collision, and turn laws for Temple Runner.
+ * @description Canonical geometry, speed, forgiving child-readable motion, collision, and turn laws for Temple Runner.
  * The Awtsmoos renews each measured lane and leap before the runner can choose a way;
- * Awtsmoos.com keeps movement laws in one vessel so fairness survives every district of play.
+ * Awtsmoos.com lets Gevurah keep challenge clear while Chesed widens the honest window in which a child's swipe becomes play.
  */
 
 export const OROS_LANES = Object.freeze([-3.1, 0, 3.1]);
@@ -30,11 +30,11 @@ export const RUNNER_CONFIG = Object.freeze({
 	startSpeed: 10,
 	maxSpeed: 24,
 	acceleration: 0.22,
-	jumpVelocity: 8.7,
-	gravity: 21,
+	jumpVelocity: 9.2,
+	gravity: 19.5,
 	laneEase: 13,
-	duckSeconds: 0.72,
-	actionBufferSeconds: 0.16,
+	duckSeconds: 0.82,
+	actionBufferSeconds: 0.2,
 	landingSeconds: 0.18,
 	maxLean: 0.2,
 	slidePitch: 0.34,
@@ -50,8 +50,8 @@ export const COLLISION_CONFIG = Object.freeze({
 	collectX: 0.9,
 	magnetZ: 4.8,
 	magnetX: 4.5,
-	jumpClearY: 1.08,
-	duckClearSeconds: 0.08,
+	jumpClearY: 0.88,
+	duckClearSeconds: 0.06,
 	grazeX: 1.52,
 	nearMissX: 1.9,
 	nearMissZ: 1.15

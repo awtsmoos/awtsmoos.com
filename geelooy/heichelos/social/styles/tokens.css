@@ -1,37 +1,22 @@
 /* B"H */
-/**
- * Chapter 94: Tokens become lightning bones.
- * Every surface drinks from brutal gradients, rift shadows, and living motion.
- */
-:root {
-  --awt-bg: #0b0d10;
-  --awt-surface: rgba(19, 23, 28, .88);
-  --awt-surface-strong: rgba(29, 35, 42, .96);
-  --awt-border: rgba(231, 237, 242, .14);
-  --awt-text: #f7faf8;
-  --awt-muted: #abb8b4;
-  --awt-fire: #d84f68;
-  --awt-sun: #d7b35a;
-  --awt-cyan: #45b7b0;
-  --awt-violet: #7a8cff;
-  --awt-green: #62c584;
-  --awt-radius-sm: 4px;
-  --awt-radius-md: 6px;
-  --awt-radius-lg: 8px;
-  --awt-gradient-brutal: linear-gradient(135deg, var(--awt-cyan), var(--awt-sun) 48%, var(--awt-fire));
-  --awt-rift: linear-gradient(135deg, #0b0d10, #12171b 48%, #111611);
-  --awt-shadow-brutal: 0 1px 0 rgba(255,255,255,.08), 0 18px 50px rgba(0,0,0,.32);
-}
-@keyframes awtRift {
-  0% { filter: hue-rotate(0deg); transform: translate3d(0,0,0) scale(1); }
-  50% { filter: hue-rotate(35deg); transform: translate3d(0,-2px,0) scale(1.01); }
-  100% { filter: hue-rotate(0deg); transform: translate3d(0,0,0) scale(1); }
-}
-@keyframes awtPulse {
-  0%,100% { box-shadow: var(--awt-shadow-brutal); }
-  50% { box-shadow: 0 0 0 1px rgba(255,255,255,.3), 0 0 95px rgba(255,43,214,.44); }
-}
-@keyframes awtScan {
-  from { background-position: 0 0; }
-  to { background-position: 180px 180px; }
+/** The Awtsmoos gives this social root a private visual vocabulary so token values cannot leak into neighboring pages. */
+.awtsmoos-social-root {
+	--awt-bg: #0b0d10;
+	--awt-surface: rgba(19, 23, 28, .88);
+	--awt-surface-strong: rgba(29, 35, 42, .96);
+	--awt-border: rgba(231, 237, 242, .14);
+	--awt-text: #f7faf8;
+	--awt-muted: #abb8b4;
+	--awt-fire: #d84f68;
+	--awt-sun: #d7b35a;
+	--awt-cyan: #45b7b0;
+	--awt-violet: #7a8cff;
+	--awt-green: #62c584;
+	--awt-accent: var(--awt-cyan);
+	--awt-radius-sm: .35rem;
+	--awt-radius-md: .6rem;
+	--awt-radius-lg: 1rem;
+	--awt-gradient-brutal: linear-gradient(135deg, var(--awt-cyan), var(--awt-sun) 48%, var(--awt-fire));
+	--awt-rift: linear-gradient(135deg, #0b0d10, #12171b 48%, #111611);
+	--awt-shadow-brutal: 0 1px 0 rgba(255,255,255,.08), 0 18px 50px rgba(0,0,0,.32);
 }

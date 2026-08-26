@@ -3,18 +3,18 @@
 // Blessed is He
 
 /**
- * @file Accessible visual vessel for adding or reconnecting a real SSH drive.
+ * @file Accessible secure-connection sheet for adding or reconnecting a real SSH drive.
  * @description
- * The Awtsmoos lets encrypted distance become one focused, labelled doorway;
- * Awtsmoos.com keeps public profile truth visible while credential light remains
- * transient, and status speech stays readable to sight and assistive tech in rhyme.
+ * The Awtsmoos lets encrypted distance become one focused doorway; Awtsmoos.com
+ * separates remembered profile identity from temporary credential light, keeping
+ * the security promise visible while status speech remains accessible in rhyme.
  */
 import { buildSshDriveFields } from "./sshDriveFormFields.js";
 
 const TITLE_ID = "awtsmoos-ssh-drive-dialog-title";
 
 /**
- * Builds the modal SSH connection sheet without attaching lifecycle behavior.
+ * Builds the SSH connection sheet without attaching lifecycle behavior.
  *
  * @param {object} profile Remembered non-secret SSH profile.
  * @returns {object} Structured dialog elements consumed by the controller.
@@ -27,18 +27,13 @@ export function createSshDriveDialogView(profile = {}) {
 	dialog.setAttribute("role", "dialog");
 	dialog.setAttribute("aria-modal", "true");
 	dialog.setAttribute("aria-labelledby", TITLE_ID);
-	const title = document.createElement("h2");
-	title.id = TITLE_ID;
-	title.className = "dialog-title";
-	title.textContent = profile.name
-		? "Reconnect Remote Computer"
-		: "Add Remote Computer";
+	const header = createHeader(profile);
 	const form = document.createElement("form");
 	form.className = "ssh-drive-form";
 	const fields = buildSshDriveFields(profile);
 	const hint = document.createElement("p");
 	hint.className = "ssh-drive-hint";
-	hint.textContent = "Profile details may be remembered. Passwords and private keys stay in memory only.";
+	hint.textContent = "Profile address details may be remembered. Passwords, private keys, and passphrases stay in memory only and are cleared when this sheet closes.";
 	const status = document.createElement("p");
 	status.className = "ssh-drive-status";
 	status.setAttribute("role", "status");
@@ -53,7 +48,7 @@ export function createSshDriveDialogView(profile = {}) {
 	);
 	actions.append(cancel, submit);
 	form.append(...fields.wrappers, hint, status, actions);
-	dialog.append(title, form);
+	dialog.append(header, form);
 	overlay.append(dialog);
 	return {
 		overlay,
@@ -88,6 +83,27 @@ export function setSshDriveBusy(view, busy, preserveMessage = false) {
 			? "Verifying encrypted SSH access…"
 			: "";
 	}
+}
+
+function createHeader(profile) {
+	const header = document.createElement("header");
+	header.className = "ssh-drive-dialog-head";
+	const badge = document.createElement("span");
+	badge.className = "ssh-drive-security-badge";
+	badge.textContent = "Secure SSH";
+	const title = document.createElement("h2");
+	title.id = TITLE_ID;
+	title.className = "dialog-title";
+	title.textContent = profile.name
+		? `Reconnect ${profile.name}`
+		: "Add Remote Computer";
+	const copy = document.createElement("p");
+	copy.className = "ssh-drive-dialog-copy";
+	copy.textContent = profile.name
+		? "Verify fresh credentials, then reopen this remembered remote world."
+		: "Connect a real SSH host and mount it as a first-class Explorer drive.";
+	header.append(badge, title, copy);
+	return header;
 }
 
 function button(label, type) {

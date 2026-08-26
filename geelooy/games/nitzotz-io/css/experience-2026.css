@@ -1,0 +1,85 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews the arena behind every number and button, so the city remains the living center;
+ * Awtsmoos.com gives its glass more depth and its signals more order, but never lets the interface become the presenter.
+ */
+:root {
+	--experience-panel: rgba(5, 7, 20, 0.82);
+	--experience-panel-strong: rgba(4, 5, 16, 0.94);
+	--experience-edge: rgba(255, 255, 255, 0.16);
+	--experience-cyan: #9cecff;
+	--experience-gold: #ffe68e;
+}
+
+body::before {
+	background:
+		radial-gradient(circle at 12% 8%, rgba(126, 220, 255, 0.08), transparent 26rem),
+		radial-gradient(circle at 86% 18%, rgba(157, 124, 255, 0.08), transparent 28rem);
+	content: "";
+	inset: 0;
+	pointer-events: none;
+	position: fixed;
+	z-index: 2;
+}
+
+.brand-row,
+.stat,
+.mission,
+.leaderboard-card,
+#map,
+.overlay-panel {
+	border-color: var(--experience-edge);
+	box-shadow:
+		0 18px 44px rgba(0, 0, 0, 0.28),
+		inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.brand-row,
+.stat,
+.mission,
+.leaderboard-card {
+	background: linear-gradient(150deg, rgba(11, 14, 34, 0.9), var(--experience-panel));
+}
+
+.mini-button,
+.button,
+.game-options > summary,
+.advanced-group > summary {
+	touch-action: manipulation;
+}
+
+.rail-label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 4px;
+	color: #aebddb;
+	font-size: 8px;
+	font-weight: 900;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+}
+
+.rail-label b {
+	color: var(--experience-gold);
+	font-size: inherit;
+}
+
+#message {
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+#sparkMeter {
+	accent-color: var(--experience-gold);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.mini-button:hover,
+	.button:hover,
+	.game-options > summary:hover,
+	.advanced-group > summary:hover {
+		border-color: rgba(255, 230, 142, 0.68);
+	}
+}

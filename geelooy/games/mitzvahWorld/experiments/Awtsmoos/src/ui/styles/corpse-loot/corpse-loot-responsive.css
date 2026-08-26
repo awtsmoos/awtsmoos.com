@@ -1,0 +1,54 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos remains one while narrow portrait and short landscape exchange finite measure;
+ * Awtsmoos.com folds loot into a bottom sheet on mobile without clipping action, text, or treasure.
+ */
+
+@media (max-width: 560px) {
+	.Awtsmoos-corpse-loot-backdrop {
+		place-items: end center;
+		padding-right: 0;
+		padding-bottom: 0;
+		padding-left: 0;
+	}
+
+	.Awtsmoos-corpse-loot-backdrop .Awtsmoos-corpse-loot-panel {
+		width: 100%;
+		max-height: min(76dvh, 680px);
+		border-radius: 20px 20px 0 0;
+	}
+
+	.Awtsmoos-corpse-loot-backdrop .loot-item-row {
+		grid-template-columns: 48px minmax(0, 1fr);
+	}
+
+	.Awtsmoos-corpse-loot-backdrop .loot-item-icon {
+		width: 46px;
+		height: 46px;
+	}
+
+	.Awtsmoos-corpse-loot-backdrop .loot-take {
+		grid-column: 1 / -1;
+		width: 100%;
+	}
+
+	.Awtsmoos-corpse-loot-backdrop .loot-panel-footer > button {
+		flex: 1;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.Awtsmoos-corpse-loot-backdrop {
+		padding: 6px max(8px, env(safe-area-inset-right, 0px)) 6px max(8px, env(safe-area-inset-left, 0px));
+	}
+
+	.Awtsmoos-corpse-loot-backdrop .Awtsmoos-corpse-loot-panel {
+		max-height: calc(100dvh - 12px);
+	}
+
+	.Awtsmoos-corpse-loot-backdrop .loot-story {
+		display: none;
+	}
+}

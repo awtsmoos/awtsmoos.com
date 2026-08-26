@@ -1,0 +1,60 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews hidden depth before raw data may be invited into view;
+ * Awtsmoos.com keeps Advanced JSON folded by default so technical power remains available without becoming the first visual demand.
+ */
+.character-advanced {
+	margin: 0 0 10px;
+	padding: 0;
+	border: 1px solid var(--aw-line);
+	border-radius: var(--aw-radius-md);
+	overflow: clip;
+	background: var(--aw-control-subtle);
+}
+
+.character-advanced summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	align-items: center;
+	gap: 7px;
+	min-height: var(--aw-control-height);
+	padding: 7px 9px;
+	color: var(--aw-text-soft);
+	cursor: pointer;
+	list-style: none;
+}
+
+.character-advanced summary::-webkit-details-marker {
+	display: none;
+}
+
+.character-advanced summary small {
+	color: var(--aw-muted);
+	font-size: 8px;
+}
+
+.character-advanced summary i {
+	font-size: 18px;
+	font-style: normal;
+	line-height: 1;
+}
+
+.character-advanced-content {
+	display: grid;
+	gap: 8px;
+	padding: 9px;
+	border-top: 1px solid var(--aw-line);
+}
+
+.character-advanced:not([open]) > .character-advanced-content {
+	display: none;
+}
+
+[data-character-json] {
+	min-height: 220px;
+	resize: vertical;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 10px;
+	line-height: 1.45;
+}

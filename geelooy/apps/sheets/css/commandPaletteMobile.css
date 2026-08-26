@@ -1,0 +1,25 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the same command universe become touch-sized on a narrow vessel without swelling its visual weight;
+Awtsmoos.com keeps every mobile adaptation rooted beneath Sheets, hiding only redundant glyphs while command meaning stays bright.
+*/
+@media (max-width: 620px) {
+	.awtsmoos-sheets-app .command-search-shell {
+		padding: 10px;
+	}
+
+	.awtsmoos-sheets-app .command-list {
+		max-height: calc(82dvh - 82px);
+		padding: 6px;
+	}
+
+	.awtsmoos-sheets-app .command-row {
+		min-height: 46px;
+	}
+
+	.awtsmoos-sheets-app .command-row-shortcut {
+		display: none;
+	}
+}

@@ -1,0 +1,104 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos, Atzmus beyond hand and instrument, renews every small control before it can move a target or place a stone;
+Awtsmoos.com lets materials, free motion, commit actions, and advanced sharing become clear thumb-safe keilim inside MitzvahWorld without turning the rail into a cluttered permanent dashboard.
+*/
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__window-actions,
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__advanced > div {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: minmax(0, 1fr);
+	gap: 6px;
+	min-width: 0;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__palette {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 6px;
+	min-width: 0;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__palette button {
+	display: grid;
+	place-items: center;
+	gap: 2px;
+	min-width: 0;
+	min-height: 54px;
+	padding: 5px 4px;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__palette button > span {
+	font-size: 20px;
+	line-height: 1;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__palette small {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__motion {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 6px;
+	min-width: 0;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__commit {
+	display: grid;
+	grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+	gap: 6px;
+	min-width: 0;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail :is(button, summary) {
+	min-width: 0;
+	min-height: 42px;
+	border: 1px solid rgba(177, 255, 219, .22);
+	border-radius: 11px;
+	background: linear-gradient(145deg, rgba(23, 55, 37, .82), rgba(8, 27, 17, .78));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .045);
+	color: var(--Awtsmoos-creator-text);
+	font: inherit;
+	font-weight: 720;
+	cursor: pointer;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__window-actions button {
+	width: 38px;
+	min-height: 38px;
+	padding: 0;
+	font-size: 18px;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__advanced {
+	min-width: 0;
+	border-top: 1px solid rgba(177, 255, 219, .1);
+	padding-top: 7px;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__advanced summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding-inline: 10px;
+	list-style: none;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__advanced summary::-webkit-details-marker {
+	display: none;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail .Awtsmoos-creator-rail__advanced > div {
+	margin-top: 6px;
+}

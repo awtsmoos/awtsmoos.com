@@ -11,7 +11,7 @@
  * advanced light remains available, but never crowds the path the user holds most dear.
  */
 
-import { createBrowserDeveloperTools } from "./browserDeveloperTools.js";
+import { createBrowserDeveloperTools } from "./browserDeveloperTools.js?compact=true";
 
 /**
  * Creates the advanced browser drawer and its session/developer regions.
@@ -62,12 +62,7 @@ export function createBrowserAdvancedPanel(documentObject = document) {
 	};
 }
 
-/**
- * Creates the drawer heading that explains its secondary role.
- *
- * @param {Document} documentObject Host document receiving the heading.
- * @returns {HTMLElement} Complete advanced-panel header.
- */
+/** Creates the drawer heading that explains its secondary role. */
 function createHeader(documentObject) {
 	const header = createElement(documentObject, "header", "awtsmoos-browser-advanced-header");
 	const title = createElement(documentObject, "h2", "awtsmoos-browser-advanced-title", "Advanced");
@@ -81,12 +76,7 @@ function createHeader(documentObject) {
 	return header;
 }
 
-/**
- * Creates the dedicated host-session slot consumed by remote controls.
- *
- * @param {Document} documentObject Host document receiving the session region.
- * @returns {{section: HTMLElement, body: HTMLElement}} Session section and mount body.
- */
+/** Creates the host-session slot consumed by remote controls. */
 function createSessionSection(documentObject) {
 	const section = createElement(documentObject, "section", "awtsmoos-browser-advanced-section");
 	const title = createElement(documentObject, "h3", "awtsmoos-browser-section-title", "Session");
@@ -95,15 +85,7 @@ function createSessionSection(documentObject) {
 	return { section, body };
 }
 
-/**
- * Creates a host-owned DOM element with optional visible text.
- *
- * @param {Document} documentObject Host document that owns the element.
- * @param {string} tagName DOM tag name.
- * @param {string} className CSS class list.
- * @param {string} [text=""] Optional visible text.
- * @returns {HTMLElement} The created element.
- */
+/** Creates a host-owned DOM element with optional visible text. */
 function createElement(documentObject, tagName, className, text = "") {
 	const element = documentObject.createElement(tagName);
 	element.className = className;

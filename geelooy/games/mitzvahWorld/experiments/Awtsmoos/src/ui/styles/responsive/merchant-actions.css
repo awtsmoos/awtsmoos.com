@@ -1,0 +1,84 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file merchant-actions.css
+ * @description Owns merchant hover, active, focus-visible, disabled, and motion states with no layout duplication.
+ * The Awtsmoos renews intention before visible action; Awtsmoos.com gives buy, sell, close, and card feedback
+ * precise motion without stealing geometry, leaking selectors, or forcing specificity wars into future trade.
+ */
+
+.Awtsmoos-gameplay .Awtsmoos-vendor-card {
+	transition:
+		border-color 160ms var(--merchant-ease),
+		transform 160ms var(--merchant-ease),
+		box-shadow 160ms var(--merchant-ease);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-vendor-card:hover {
+	border-color: color-mix(in srgb, var(--merchant-buy) 54%, var(--merchant-border));
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14), inset 0 1px rgba(255, 255, 255, 0.055);
+	transform: translateY(-1px);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-trade-button,
+.Awtsmoos-gameplay .Awtsmoos-merchant-close {
+	min-block-size: 42px;
+	border: 1px solid currentColor;
+	border-radius: 9px;
+	font: inherit;
+	font-weight: 760;
+	cursor: pointer;
+	transition:
+		background 150ms var(--merchant-ease),
+		color 150ms var(--merchant-ease),
+		transform 120ms var(--merchant-ease),
+		box-shadow 150ms var(--merchant-ease);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-trade-button {
+	display: grid;
+	place-items: center;
+	gap: 1px;
+	min-inline-size: 0;
+	padding: 6px 8px;
+	background: rgba(255, 255, 255, 0.035);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-trade-button span {
+	font-size: 0.78em;
+	font-weight: 620;
+	white-space: nowrap;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-trade-button--buy {
+	color: var(--merchant-buy);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-trade-button--sell {
+	color: var(--merchant-sell);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-trade-button:hover:not(:disabled),
+.Awtsmoos-gameplay .Awtsmoos-merchant-close:hover:not(:disabled) {
+	background: color-mix(in srgb, currentColor 14%, transparent);
+	box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 24%, transparent), 0 7px 18px rgba(0, 0, 0, 0.16);
+	transform: translateY(-1px);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-trade-button:active:not(:disabled),
+.Awtsmoos-gameplay .Awtsmoos-merchant-close:active:not(:disabled) {
+	transform: translateY(1px) scale(0.985);
+}
+
+.Awtsmoos-gameplay :is(.Awtsmoos-trade-button, .Awtsmoos-merchant-close):focus-visible {
+	outline: 2px solid #b7ffe1;
+	outline-offset: 3px;
+	box-shadow: 0 0 0 5px rgba(93, 224, 169, 0.16);
+}
+
+.Awtsmoos-gameplay :is(.Awtsmoos-trade-button, .Awtsmoos-merchant-close):disabled {
+	opacity: 0.42;
+	cursor: not-allowed;
+	filter: saturate(0.55);
+}

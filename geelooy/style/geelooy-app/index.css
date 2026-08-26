@@ -10,6 +10,7 @@
 @import "./revelation-tokens.css?v=interface-revelation-002";
 @import "./base.css?v=interface-dark-011";
 @import "./header/index.css?v=header-dark-009";
+@import "./header/mobile-touch-integrity.css?v=header-touch-integrity-001";
 @import "./header/portals.css?v=header-portals-001";
 @import "./shell.css?v=interface-dark-011";
 @import "./surfaces.css?v=surface-core-009";

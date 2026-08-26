@@ -1,9 +1,9 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos lets each disclosure move like a quiet living gate; Awtsmoos.com
- * reveals advanced governance with short motion and no loss of native semantics.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets advanced governance open like a quiet gate rather than a permanent wall.
+ * Awtsmoos.com keeps summary interaction, chevron motion, and reveal animation explicit and keyboard-visible.
  */
 .editor-workbench-chevron,
 .editor-advanced-glyph {
@@ -21,12 +21,41 @@
 	transform: rotate(45deg);
 }
 
+.editor-workbench-summary,
+.editor-advanced-summary {
+	transition:
+		transform 150ms cubic-bezier(.2, .8, .2, 1),
+		background-color 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.editor-workbench-summary:hover,
+	.editor-advanced-summary:hover {
+		background: rgba(103, 232, 249, .055);
+		transform: translateY(-1px);
+	}
+}
+
+.editor-workbench-summary:active,
+.editor-advanced-summary:active {
+	transform: scale(.99);
+}
+
+.editor-workbench-summary:focus-visible,
+.editor-advanced-summary:focus-visible {
+	outline: 2px solid var(--g-cyan, #67e8f9);
+	outline-offset: -2px;
+}
+
 .editor-workbench-body {
+	min-inline-size: 0;
 	padding: 0 .9rem .9rem;
 	animation: editor-panel-reveal .22s ease-out both;
 }
 
 .editor-advanced-settings {
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	border: 1px solid var(--g-line);
 	border-radius: .9rem;
 	background: rgba(255, 255, 255, .035);
@@ -40,6 +69,7 @@
 .editor-advanced-body {
 	display: grid;
 	gap: .65rem;
+	min-inline-size: 0;
 	padding: 0 .75rem .75rem;
 	animation: editor-panel-reveal .2s ease-out both;
 }
@@ -53,5 +83,19 @@
 	to {
 		opacity: 1;
 		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.editor-workbench-chevron,
+	.editor-advanced-glyph,
+	.editor-workbench-summary,
+	.editor-advanced-summary {
+		transition: none;
+	}
+
+	.editor-workbench-body,
+	.editor-advanced-body {
+		animation: none;
 	}
 }

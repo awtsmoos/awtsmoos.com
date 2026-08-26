@@ -1,81 +1,76 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * RESPONSIBILITY:
- * Order every Social Hub visual vessel so foundations arrive before route-specific surfaces, communications, retractable navigation, and final accessibility light.
- *
- * NON-RESPONSIBILITY:
- * This file contains no component styling of its own; it is only the dependency-order covenant for human-authored Social presentation.
- *
- * AWTSMOOS:
- * The Awtsmoos, Atzmus beyond every layer, renews cascade, browser, and reader from nothing in every instant; Awtsmoos.com lets each stylesheet become
- * a keli for one bounded responsibility, many chapters receiving one light without confusing import order for the Source that makes all order bright.
+ * The Awtsmoos renews every route before the cascade can claim a beginning;
+ * Awtsmoos.com therefore lets the Social Hub wear only garments it explicitly owns,
+ * many local vessels receiving one light without global selectors competing for the crown.
  */
-
-@import url('/style/social-system/index.css?v=social-core-006');
-@import url('/style/future-system/index.css?v=future-004');
-@import url('./styles/foundation.css?v=hub-nebula-004');
-@import url('./styles/typography.css?v=hub-nebula-004');
-@import url('./styles/forms.css?v=hub-nebula-004');
-@import url('./styles/smart-fields.css?v=hub-icon-ui-001');
-@import url('./styles/shell.css?v=hub-nebula-004');
-@import url('./styles/shell-status.css?v=hub-nebula-004');
-@import url('./styles/navigation.css?v=clean-future-001');
-@import url('./styles/communication-links.css?v=hub-comms-002');
-@import url('./styles/inbox.css?v=hub-inbox-003');
-@import url('./styles/inbox-cards.css?v=hub-inbox-003');
-@import url('./styles/realtime.css?v=hub-live-001');
-@import url('./styles/chat-route.css?v=hub-chat-001');
-@import url('./styles/messages-layout.css?v=hub-messages-006');
-@import url('./styles/messages-cards.css?v=hub-messages-006');
-@import url('./styles/messages-request-cards.css?v=hub-messages-006');
-@import url('./styles/messages-room-shell.css?v=hub-messages-006');
-@import url('./styles/messages-room-content.css?v=hub-messages-006');
-@import url('./styles/messages-room-composer.css?v=hub-messages-006');
-@import url('./styles/messages-room-replies.css?v=hub-messages-006');
-@import url('./styles/messages-room-voice.css?v=hub-messages-006');
-@import url('./styles/communications-cockpit.css?v=hub-comms-cockpit-002');
-@import url('./styles/communications-motion.css?v=hub-comms-cockpit-001');
-@import url('./styles/composer.css?v=hub-icon-ui-001');
-@import url('./styles/cards.css?v=hub-dark-003');
-@import url('./styles/interaction.css?v=hub-dark-003');
-@import url('./styles/interaction-disclosure.css?v=hub-disclosure-002');
-@import url('./styles/interaction-density.css?v=hub-density-001');
-@import url('./styles/interaction-media.css?v=hub-dark-003');
-@import url('./styles/activity.css?v=hub-dark-003');
-@import url('./styles/profile.css?v=hub-dark-003');
-@import url('./styles/profile-relationships.css?v=hub-relations-001');
-@import url('./styles/social-network.css?v=hub-network-001');
-@import url('./styles/public-discovery.css?v=hub-public-001');
-@import url('./styles/people-discovery.css?v=hub-people-001');
-@import url('./styles/spaces.css?v=hub-spaces-003');
-@import url('./styles/space-channel.css?v=hub-channel-001');
-@import url('./styles/space-review.css?v=hub-review-001');
-@import url('./styles/space-members.css?v=hub-members-001');
-@import url('./styles/desktop.css?v=clean-future-001');
-@import url('./styles/desktop-retraction.css?v=clean-future-001');
-@import url('./styles/mobile.css?v=hub-mobile-006');
-@import url('./styles/mobile-header.css?v=hub-nebula-004');
-@import url('./styles/mobile-narrow.css?v=hub-mobile-006');
-@import url('./styles/icon-navigation.css?v=hub-icon-ui-001');
-@import url('./styles/mobile-navigation.css?v=clean-future-001');
-@import url('./styles/mobile-more-sheet.css?v=hub-mobile-nav-001');
-@import url('./styles/accessibility.css?v=hub-dark-003');
-@import url('./styles/surface-contract.css?v=hub-contract-004');
-@import url('./styles/future-tokens.css?v=hub-future-009');
-@import url('./styles/future-typography.css?v=hub-future-009');
-@import url('./styles/future-surfaces.css?v=hub-future-009');
-@import url('./styles/future-discovery-layout.css?v=hub-future-009');
-@import url('./styles/future-motion.css?v=clean-future-001');
-@import url('./styles/future-orbits.css?v=hub-future-009');
-@import url('./styles/future-navigation.css?v=clean-future-001');
-@import url('./styles/future-feedback.css?v=hub-future-009');
-@import url('./styles/future-progress.css?v=hub-future-009');
-@import url('./styles/future-disclosure.css?v=hub-future-009');
-@import url('./styles/future-palette.css?v=hub-future-009');
-@import url('./styles/future-responsive.css?v=hub-future-009');
-@import url('./styles/future-context.css?v=hub-future-009');
-@import url('./styles/future-accessibility.css?v=hub-future-009');
-@import url('./styles/creator-launch.css?v=hub-creator-002');
+@import url('./styles/future-tokens.css?v=hub-local-014');
+@import url('./styles/foundation.css?v=hub-local-014');
+@import url('./styles/typography.css?v=hub-local-014');
+@import url('./styles/forms.css?v=hub-local-014');
+@import url('./styles/smart-fields.css?v=hub-local-014');
+@import url('./styles/shell.css?v=hub-local-014');
+@import url('./styles/shell-status.css?v=hub-local-014');
+@import url('./styles/navigation.css?v=hub-local-014');
+@import url('./styles/communication-links.css?v=hub-local-014');
+@import url('./styles/inbox.css?v=hub-local-014');
+@import url('./styles/inbox-cards.css?v=hub-local-014');
+@import url('./styles/realtime.css?v=hub-local-014');
+@import url('./styles/chat-route.css?v=hub-local-014');
+@import url('./styles/messages-layout.css?v=hub-local-014');
+@import url('./styles/messages-cards.css?v=hub-local-014');
+@import url('./styles/messages-request-cards.css?v=hub-local-014');
+@import url('./styles/messages-room-shell.css?v=hub-local-014');
+@import url('./styles/messages-room-governance.css?v=hub-local-014');
+@import url('./styles/messages-room-content.css?v=hub-local-014');
+@import url('./styles/messages-room-composer.css?v=hub-local-014');
+@import url('./styles/messages-room-replies.css?v=hub-local-014');
+@import url('./styles/messages-room-voice.css?v=hub-local-014');
+@import url('./styles/communications-cockpit.css?v=hub-local-014');
+@import url('./styles/communications-motion.css?v=hub-local-014');
+@import url('./styles/composer.css?v=hub-local-014');
+@import url('./styles/cards.css?v=hub-local-014');
+@import url('./styles/interaction.css?v=hub-local-014');
+@import url('./styles/interaction-disclosure.css?v=hub-local-014');
+@import url('./styles/interaction-density.css?v=hub-local-014');
+@import url('./styles/interaction-media.css?v=hub-local-014');
+@import url('./styles/activity.css?v=hub-local-014');
+@import url('./styles/profile.css?v=hub-local-014');
+@import url('./styles/profile-relationships.css?v=hub-local-014');
+@import url('./styles/social-network.css?v=hub-local-014');
+@import url('./styles/public-discovery.css?v=hub-local-014');
+@import url('./styles/people-discovery.css?v=hub-local-014');
+@import url('./styles/spaces.css?v=hub-local-014');
+@import url('./styles/space-channel.css?v=hub-local-014');
+@import url('./styles/space-review.css?v=hub-local-014');
+@import url('./styles/space-members.css?v=hub-local-014');
+@import url('./styles/desktop.css?v=hub-local-014');
+@import url('./styles/desktop-retraction.css?v=hub-local-014');
+@import url('./styles/mobile.css?v=hub-local-014');
+@import url('./styles/mobile-header.css?v=hub-local-014');
+@import url('./styles/mobile-narrow.css?v=hub-local-014');
+@import url('./styles/icon-navigation.css?v=hub-local-014');
+@import url('./styles/mobile-navigation.css?v=hub-local-014');
+@import url('./styles/mobile-navigation-interaction.css?v=hub-local-014');
+@import url('./styles/mobile-more-sheet.css?v=hub-local-014');
+@import url('./styles/accessibility.css?v=hub-local-014');
+@import url('./styles/surface-contract.css?v=hub-local-014');
+@import url('./styles/future-typography.css?v=hub-local-014');
+@import url('./styles/future-surfaces.css?v=hub-local-014');
+@import url('./styles/future-discovery-layout.css?v=hub-local-014');
+@import url('./styles/future-motion.css?v=hub-local-014');
+@import url('./styles/future-orbits.css?v=hub-local-014');
+@import url('./styles/future-navigation.css?v=hub-local-014');
+@import url('./styles/future-feedback.css?v=hub-local-014');
+@import url('./styles/future-progress.css?v=hub-local-014');
+@import url('./styles/future-disclosure.css?v=hub-local-014');
+@import url('./styles/future-capability-center.css?v=hub-local-014');
+@import url('./styles/future-palette.css?v=hub-local-014');
+@import url('./styles/future-responsive.css?v=hub-local-014');
+@import url('./styles/future-context.css?v=hub-local-014');
+@import url('./styles/future-accessibility.css?v=hub-local-014');
+@import url('./styles/creator-launch.css?v=hub-local-014');
+@import url('./styles/future-interaction-baseline.css?v=hub-local-014');
+@import url('./styles/future-hygiene.css?v=hub-local-014');

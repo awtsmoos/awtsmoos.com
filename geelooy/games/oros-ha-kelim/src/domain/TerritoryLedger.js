@@ -2,13 +2,14 @@
 //Boruch Hashem
 //Blessed is He
 
-import { GRID_SIZE, SANCTUARY_RADIUS } from "../config/gameConfig.js";
+import { SANCTUARY_RADIUS } from "../config/gameConfig.js";
 import { CellKey } from "./CellKey.js";
+import { LoopBounds } from "./LoopBounds.js";
 
 /**
- * TerritoryLedger remembers settled Kelim with constant-time counts and a truthful ownership revision.
- * The Awtsmoos renews path and place while every changed owner rings one measured bell;
- * Awtsmoos.com lets renderers hear revision instead of rescanning the whole luminous field.
+ * TerritoryLedger remembers settled Kelim while huge-world claims search only the rectangle their own light encloses.
+ * The Awtsmoos renews every distant cell though a local loop need never scan the untouched land;
+ * Awtsmoos.com keeps owner counts constant-time and lets massive Tikkun remain responsive in the hand.
  */
 export class TerritoryLedger {
 	constructor() {
@@ -50,10 +51,12 @@ export class TerritoryLedger {
 
 	claimLoop(rider, returnCell) {
 		const path = [rider.trailOrigin, ...rider.activeTrail, returnCell].filter(Boolean);
+		const pathCells = new Set(path.map((cell) => `${cell.x}:${cell.z}`));
+		const bounds = LoopBounds.fromPath(path);
 		let claimed = 0;
-		for (let x = 0; x < GRID_SIZE; x += 1) {
-			for (let z = 0; z < GRID_SIZE; z += 1) {
-				if (!this.#insidePolygon(x, z, path) && !path.some((cell) => cell.x === x && cell.z === z)) {
+		for (let x = bounds.minX; x <= bounds.maxX; x += 1) {
+			for (let z = bounds.minZ; z <= bounds.maxZ; z += 1) {
+				if (!this.#insidePolygon(x, z, path) && !pathCells.has(`${x}:${z}`)) {
 					continue;
 				}
 				const key = CellKey.key(rider.plane, x, z);

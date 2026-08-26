@@ -1,116 +1,102 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets project truth breathe through measured space, visible state, and explicit action.
-*/
-.project-workspace {
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@import url('./project-publication.css');
+
+/**
+ * The Awtsmoos lets each project truth appear in a measured local vessel; Awtsmoos.com keeps capability states and project-stage geometry here while publication/site surfaces live in their own focused module.
+ */
+
+[data-awtsmoos-drive] .project-workspace {
 	display: grid;
 	gap: 1rem;
 	margin-top: 1rem;
 }
-.project-intro {
+
+[data-awtsmoos-drive] .project-intro {
 	display: grid;
 	gap: .35rem;
 	padding-top: 1rem;
-	border-top: 1px solid var(--border);
+	border-top: 1px solid var(--line);
 }
-.project-intro h3,
-.project-site-list h3,
-.project-publisher h3 {
+
+[data-awtsmoos-drive] .project-intro h3 {
 	margin: 0;
 }
-.project-stage-grid {
+
+[data-awtsmoos-drive] .project-stage-grid {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: .7rem;
 }
-.project-stage {
+
+[data-awtsmoos-drive] .project-stage {
 	display: grid;
 	gap: .45rem;
 	padding: .8rem;
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-	background: var(--surface-2);
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: var(--surface-soft);
+	transition:
+		border-color var(--motion-fast) var(--ease-out),
+		background-color var(--motion-fast) var(--ease-out),
+		transform var(--motion-fast) var(--ease-out);
 }
-.project-capability,
-.project-site-heading {
+
+[data-awtsmoos-drive] .project-stage:hover {
+	border-color: var(--line-strong);
+	background: var(--surface-hover);
+	transform: translateY(-1px);
+}
+
+[data-awtsmoos-drive] .project-capability {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: .5rem;
 }
-.project-capability span:first-child {
+
+[data-awtsmoos-drive] .project-capability span:first-child {
 	text-transform: capitalize;
 }
-.project-state {
+
+[data-awtsmoos-drive] .project-state {
 	padding: .2rem .45rem;
+	border: 1px solid var(--line);
 	border-radius: 999px;
-	font-size: .72rem;
-	border: 1px solid var(--border);
 	background: var(--surface);
+	font-size: .72rem;
 }
-.project-state[data-state="ready"] {
-	border-color: var(--success);
+
+[data-awtsmoos-drive] .project-state[data-state="ready"] {
+	border-color: var(--accent);
+	color: var(--accent);
 }
-.project-state[data-state="draft"],
-.project-state[data-state="requested"] {
+
+[data-awtsmoos-drive] :where(
+	.project-state[data-state="draft"],
+	.project-state[data-state="requested"]
+) {
 	border-color: var(--warning);
+	color: var(--warning);
 }
-.project-state[data-state="unattached"],
-.project-state[data-state="available"] {
+
+[data-awtsmoos-drive] :where(
+	.project-state[data-state="unattached"],
+	.project-state[data-state="available"]
+) {
 	opacity: .72;
 }
-.project-publisher {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: .7rem;
-	align-items: end;
-	padding: .9rem;
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-}
-.project-publisher h3 {
-	grid-column: 1 / -1;
-}
-.project-check {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: .35rem;
-}
-.project-site-list {
-	display: grid;
-	gap: .6rem;
-}
-.project-site-card {
-	display: grid;
-	gap: .45rem;
-	padding: .75rem;
-	border: 1px solid var(--border);
-	border-radius: var(--radius);
-}
-.project-site-meta {
-	margin: 0;
-	opacity: .78;
-}
-.project-site-actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: .4rem;
-}
-.project-empty {
-	margin: 0;
-	opacity: .72;
-}
+
 @media (max-width: 900px) {
-	.project-stage-grid,
-	.project-publisher {
-		grid-template-columns: 1fr 1fr;
+	[data-awtsmoos-drive] .project-stage-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
+
 @media (max-width: 620px) {
-	.project-stage-grid,
-	.project-publisher {
-		grid-template-columns: 1fr;
+	[data-awtsmoos-drive] .project-stage-grid {
+		grid-template-columns: minmax(0, 1fr);
 	}
 }

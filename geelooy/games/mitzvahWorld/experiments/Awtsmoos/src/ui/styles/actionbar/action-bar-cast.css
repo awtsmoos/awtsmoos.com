@@ -1,0 +1,85 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals preparation, consequence, and temporary state without crowding the deed below;
+ * Awtsmoos.com gives casts, effects, and feedback one local hierarchy with readable progress flow.
+ */
+
+.Mitzvah-combat-host .Mitzvah-castbar {
+	position: absolute;
+	left: 50%;
+	bottom: calc(100% + 8px);
+	width: min(360px, 76vw);
+	padding: 8px 10px;
+	border: 1px solid rgba(255, 209, 102, 0.42);
+	border-radius: 10px;
+	background: rgba(8, 12, 18, 0.96);
+	color: #f6fbff;
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+.Mitzvah-combat-host .Mitzvah-castbar header {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	font: 700 11px system-ui, sans-serif;
+}
+
+.Mitzvah-combat-host .Mitzvah-castbar div {
+	height: 7px;
+	margin-top: 6px;
+	overflow: hidden;
+	border-radius: 99px;
+	background: rgba(255, 255, 255, 0.12);
+}
+
+.Mitzvah-combat-host .Mitzvah-castbar i {
+	display: block;
+	height: 100%;
+	background: linear-gradient(90deg, #3cf0c5, #ffd166);
+	transition: width 80ms linear;
+}
+
+.Mitzvah-combat-host .Mitzvah-status-effects {
+	position: absolute;
+	left: 50%;
+	bottom: calc(100% + 58px);
+	display: flex;
+	gap: 5px;
+	width: min(420px, 78vw);
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+.Mitzvah-combat-host .Mitzvah-status-effect {
+	padding: 5px 7px;
+	border: 1px solid rgba(122, 230, 255, 0.35);
+	border-radius: 8px;
+	background: rgba(7, 18, 28, 0.9);
+	color: #e9fbff;
+	font: 700 10px system-ui, sans-serif;
+}
+
+.Mitzvah-combat-host .Mitzvah-status-effect[data-kind="harmful"] {
+	border-color: rgba(255, 91, 112, 0.45);
+	color: #ffd6dd;
+}
+
+.Mitzvah-combat-host .Mitzvah-combat-feedback {
+	position: absolute;
+	left: 50%;
+	top: -64px;
+	z-index: var(--ab-z-feedback);
+	padding: 8px 12px;
+	border-radius: 10px;
+	background: rgba(5, 9, 14, 0.9);
+	color: #fff;
+	font: 800 13px system-ui, sans-serif;
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+.Mitzvah-combat-host .Mitzvah-combat-feedback[data-kind="damage"] { color: #ffb0bd; }
+.Mitzvah-combat-host .Mitzvah-combat-feedback[data-kind="heal"] { color: #a8ffd2; }

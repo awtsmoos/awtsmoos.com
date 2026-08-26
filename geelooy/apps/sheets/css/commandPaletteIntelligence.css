@@ -1,0 +1,127 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets one active command rise gently from many without turning discovery into spectacle or visual fight;
+Awtsmoos.com roots search, recency, focus, selection, and press beneath one Sheets vessel so advanced power stays simple and bright.
+*/
+.awtsmoos-sheets-app .command-search-shell {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 14px;
+	border-bottom: 1px solid rgba(19, 124, 83, 0.1);
+}
+
+.awtsmoos-sheets-app .command-search {
+	width: 100%;
+	min-width: 0;
+	padding: 11px 13px;
+	border: 1px solid rgba(19, 124, 83, 0.15);
+	border-radius: 12px;
+	background: rgba(248, 252, 250, 0.94);
+	color: var(--text);
+	font: inherit;
+}
+
+.awtsmoos-sheets-app .command-search:hover:not(:disabled) {
+	border-color: rgba(19, 124, 83, 0.24);
+	background: white;
+}
+
+.awtsmoos-sheets-app .command-search:focus-visible {
+	border-color: rgba(19, 124, 83, 0.32);
+	background: white;
+	box-shadow: var(--glow-active);
+	outline: 0;
+}
+
+.awtsmoos-sheets-app .command-search:disabled {
+	opacity: 0.48;
+}
+
+.awtsmoos-sheets-app .command-list {
+	display: grid;
+	gap: 4px;
+	max-height: min(560px, calc(100dvh - 170px));
+	overflow: auto;
+	overscroll-behavior: contain;
+	padding: 8px;
+}
+
+.awtsmoos-sheets-app .command-section-label {
+	padding: 10px 10px 4px;
+	color: var(--muted);
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.awtsmoos-sheets-app .command-row {
+	min-height: 38px;
+	border: 1px solid transparent;
+	border-radius: 12px;
+	background: transparent;
+	color: var(--text);
+}
+
+.awtsmoos-sheets-app .command-row:hover:not(:disabled) {
+	background: rgba(19, 124, 83, 0.055);
+	border-color: rgba(19, 124, 83, 0.1);
+}
+
+.awtsmoos-sheets-app .command-row:focus-visible {
+	background: rgba(19, 124, 83, 0.065);
+	border-color: rgba(19, 124, 83, 0.18);
+	box-shadow: var(--glow-active);
+}
+
+.awtsmoos-sheets-app .command-row.is-active,
+.awtsmoos-sheets-app .command-row[aria-selected="true"] {
+	background: rgba(19, 124, 83, 0.08);
+	border-color: rgba(19, 124, 83, 0.13);
+	box-shadow: inset 3px 0 0 rgba(19, 124, 83, 0.7);
+}
+
+.awtsmoos-sheets-app .command-row:active:not(:disabled) {
+	transform: translateY(1px) scale(0.992);
+}
+
+.awtsmoos-sheets-app .command-row:disabled {
+	opacity: 0.42;
+	box-shadow: none;
+	transform: none;
+}
+
+.awtsmoos-sheets-app .command-row-copy {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.awtsmoos-sheets-app .command-row-copy strong {
+	overflow: hidden;
+	font-size: 12px;
+	font-weight: 720;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.awtsmoos-sheets-app .command-row-copy small {
+	color: var(--muted);
+	font-size: 10px;
+}
+
+.awtsmoos-sheets-app .command-empty-state {
+	display: grid;
+	gap: 6px;
+	place-items: center;
+	padding: 42px 20px;
+	color: var(--muted);
+	text-align: center;
+}
+
+.awtsmoos-sheets-app .command-empty-state strong {
+	color: var(--text);
+}

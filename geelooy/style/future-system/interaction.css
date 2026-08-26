@@ -1,54 +1,59 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives every Awtsmoos.com shared action a measured answer: rise when invited, settle when pressed;
-product cards keep their native choreography, while common controls receive one tactile covenant expressed.
+The Awtsmoos answers every action before motion can claim importance; on
+Awtsmoos.com the finite control rises when invited, settles when pressed, and
+lets accessibility own focus so no competing style law paints the same state twice.
 */
-body[data-future-page] [data-future-action],
+
+:where(body[data-future-page], body.social-hub-document) [data-future-action],
 body[data-future-page="wallet"] button,
-.social-hub-document .quickActionGrid > * {
+body.social-hub-document .quickActionGrid > * {
+	min-block-size: var(--future-touch);
 	transform-origin: center;
 	transition:
-		translate .18s cubic-bezier(.2, .72, .2, 1),
-		scale .1s ease-out,
-		border-color .2s ease,
-		box-shadow .24s ease;
+		translate var(--future-motion-fast) var(--future-ease),
+		scale 100ms ease-out,
+		border-color var(--future-motion-fast) ease,
+		box-shadow var(--future-motion-medium) ease,
+		background-color var(--future-motion-fast) ease;
 }
 
-body[data-future-page="wallet"] button:hover,
-.social-hub-document .quickActionGrid > :hover {
-	translate: 0 -2px;
+@media (hover: hover) and (pointer: fine) {
+	:where(body[data-future-page], body.social-hub-document) [data-future-action]:hover,
+	body[data-future-page="wallet"] button:hover,
+	body.social-hub-document .quickActionGrid > :hover {
+		translate: 0 -2px;
+		box-shadow: var(--future-glow-strong);
+	}
 }
 
-body[data-future-page] [data-future-action]:hover,
-body[data-future-page] [data-future-action]:focus-visible {
-	translate: 0 -3px;
-}
-
-body[data-future-page] [data-future-action]:active,
-body[data-future-page="wallet"] button:active,
-.social-hub-document .quickActionGrid > :active {
+:where(body[data-future-page], body.social-hub-document) [data-future-action]:active:not(:disabled, [aria-disabled="true"]),
+body[data-future-page="wallet"] button:active:not(:disabled),
+body.social-hub-document .quickActionGrid > :active:not([aria-disabled="true"]) {
 	translate: 0 0;
 	scale: .985;
-	transition-duration: .08s;
+	transition-duration: 80ms;
 }
 
-body[data-future-page] [data-future-action]:focus-visible,
-body[data-future-page="wallet"] button:focus-visible {
-	outline: 3px solid rgba(var(--future-accent), .72);
-	outline-offset: 3px;
-}
-
-body[data-future-page] :is(input, textarea, select):focus-visible {
+:where(body[data-future-page], body.social-hub-document) [data-future-action][aria-expanded="true"] {
 	border-color: var(--future-border-strong);
-	box-shadow: 0 0 0 3px var(--future-accent-soft);
-	outline: none;
+	box-shadow: 0 0 0 1px var(--future-accent-soft), var(--future-glow);
+}
+
+:where(body[data-future-page], body.social-hub-document) :is(button, [data-future-action]):disabled,
+:where(body[data-future-page], body.social-hub-document) [data-future-action][aria-disabled="true"] {
+	cursor: not-allowed;
+	opacity: .52;
+	translate: none;
+	scale: 1;
+	box-shadow: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	body[data-future-page] [data-future-action],
+	:where(body[data-future-page], body.social-hub-document) [data-future-action],
 	body[data-future-page="wallet"] button,
-	.social-hub-document .quickActionGrid > * {
+	body.social-hub-document .quickActionGrid > * {
 		translate: none;
 		scale: 1;
 		transition: none;

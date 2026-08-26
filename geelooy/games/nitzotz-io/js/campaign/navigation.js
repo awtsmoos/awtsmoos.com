@@ -1,34 +1,90 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
+/**
+ * @file navigation.js
+ * @description Pure campaign navigation and progress projections over the durable Nitzotz save record.
+ * The Awtsmoos lets a vast campaign become a measured seder without hiding the whole inside the part;
+ * Awtsmoos.com keeps chapter selection bounded, star counts explicit, and navigation free of accidental state mutation at heart.
+ */
+
 import { CHAPTERS, LEVELS } from './catalog.js';
 
-/** Awtsmoos.com pages a vast campaign into human-scale chapters without hiding truth. */
-export function levelsForChapter(chapterIndex) {
-	const safeIndex = Math.max(0, Math.min(CHAPTERS.length - 1, chapterIndex));
-	return LEVELS.slice(safeIndex * 20, safeIndex * 20 + 20);
+/**
+ * Returns the twenty campaign levels belonging to a safely clamped chapter index.
+ * This function is read-only: it never mutates the campaign catalog or caller state.
+ * @param {number} chapterSeder Requested zero-based chapter index.
+ * @returns {Array<object>} Catalog level records in chapter order.
+ */
+export function levelsForChapter(chapterSeder) {
+	const safeChapterSeder = Math.max(0, Math.min(CHAPTERS.length - 1, chapterSeder));
+	return LEVELS.slice(safeChapterSeder * 20, safeChapterSeder * 20 + 20);
 }
 
-export function chapterForLevel(levelIndex) {
-	return Math.max(0, Math.min(CHAPTERS.length - 1, Math.floor(levelIndex / 20)));
+/**
+ * Resolves a level index to its bounded chapter index using the fixed twenty-level chapter cadence.
+ * @param {number} levelSeder Requested zero-based level index.
+ * @returns {number} Safe zero-based chapter index.
+ */
+export function chapterForLevel(levelSeder) {
+	return Math.max(0, Math.min(CHAPTERS.length - 1, Math.floor(levelSeder / 20)));
 }
 
-export function unlockedChapterIndex(save) {
-	return chapterForLevel(save.unlocked || 0);
+/**
+ * Derives the highest campaign chapter currently reachable from durable unlock progress.
+ * @param {object} shmira Durable Nitzotz save record.
+ * @returns {number} Highest unlocked chapter index.
+ */
+export function unlockedChapterIndex(shmira) {
+	return chapterForLevel(shmira.unlocked || 0);
 }
 
-export function selectSafeChapter(save, requestedIndex) {
-	return Math.max(0, Math.min(unlockedChapterIndex(save), requestedIndex));
+/**
+ * Clamps a requested chapter to the range the player's durable save currently permits.
+ * @param {object} shmira Durable Nitzotz save record.
+ * @param {number} requestedSeder Requested chapter index.
+ * @returns {number} Safe chapter selection.
+ */
+export function selectSafeChapter(shmira, requestedSeder) {
+	return Math.max(0, Math.min(unlockedChapterIndex(shmira), requestedSeder));
 }
 
-export function chapterProgress(save, chapterIndex) {
-	const levels = levelsForChapter(chapterIndex);
-	const stars = levels.reduce((sum, level) => sum + (save.stars[level.key] || 0), 0);
-	const completed = levels.filter(level => (save.stars[level.key] || 0) > 0).length;
-	return Object.freeze({ completed, total: levels.length, stars, maximumStars: levels.length * 3 });
+/**
+ * Projects completion and star totals for one chapter without mutating save data.
+ * @param {object} shmira Durable save containing the `stars` map.
+ * @param {number} chapterSeder Chapter index to summarize.
+ * @returns {Readonly<object>} Completed levels, total levels, earned stars, and maximum stars.
+ */
+export function chapterProgress(shmira, chapterSeder) {
+	const chapterKeilim = levelsForChapter(chapterSeder);
+	const kochavim = chapterKeilim.reduce(
+		(sumOhr, levelKeli) => sumOhr + (shmira.stars[levelKeli.key] || 0),
+		0
+	);
+	const completedCount = chapterKeilim.filter(
+		levelKeli => (shmira.stars[levelKeli.key] || 0) > 0
+	).length;
+	return Object.freeze({
+		completed: completedCount,
+		total: chapterKeilim.length,
+		stars: kochavim,
+		maximumStars: chapterKeilim.length * 3
+	});
 }
 
-export function campaignProgress(save) {
-	const completed = LEVELS.filter(level => (save.stars[level.key] || 0) > 0).length;
-	return Object.freeze({ completed, total: LEVELS.length, percent: Math.round(completed / LEVELS.length * 100) });
+/**
+ * Projects campaign-wide completion percentage from durable star records.
+ * @param {object} shmira Durable save containing the `stars` map.
+ * @returns {Readonly<object>} Completed count, total level count, and rounded completion percentage.
+ */
+export function campaignProgress(shmira) {
+	const completedCount = LEVELS.filter(
+		levelKeli => (shmira.stars[levelKeli.key] || 0) > 0
+	).length;
+	return Object.freeze({
+		completed: completedCount,
+		total: LEVELS.length,
+		percent: Math.round(completedCount / LEVELS.length * 100)
+	});
 }

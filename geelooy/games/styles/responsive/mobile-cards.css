@@ -1,0 +1,93 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos places many worlds inside small vessels without making the vessels small in dignity;
+Awtsmoos.com keeps every title, truth, and touch target clear while removing wasted infinity.
+*/
+@media (max-width: 700px) {
+	.gamesGrid,
+	.gamesGrid--originals {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+
+	.collectionHeading {
+		gap: 4px;
+	}
+
+	.gameCard {
+		min-height: 0;
+		padding: 14px;
+		border-radius: 18px;
+	}
+
+	.gameCard__header {
+		min-height: 40px;
+	}
+
+	.gameIcon {
+		width: 40px;
+		height: 40px;
+		border-radius: 12px;
+		font-size: 1.25rem;
+	}
+
+	.gameGenre {
+		margin: 11px 0 4px;
+	}
+
+	.gameCard h3 {
+		font-size: clamp(1.16rem, 5.8vw, 1.38rem);
+	}
+
+	.gameHook {
+		display: -webkit-box;
+		overflow: hidden;
+		margin-top: 7px;
+		font-size: .84rem;
+		line-height: 1.42;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+
+	.gameModes {
+		gap: 5px;
+		margin-top: 9px;
+	}
+
+	.modeChip {
+		min-height: 26px;
+		padding: 3px 7px;
+	}
+
+	.gameCard__footer {
+		padding-top: 12px;
+	}
+
+	.gameActions {
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 7px;
+	}
+
+	.playCta,
+	.partyCta {
+		min-height: 44px;
+	}
+}
+
+@media (min-width: 600px) and (max-width: 700px) {
+	.gamesGrid,
+	.gamesGrid--originals {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 340px) {
+	.gameActions {
+		grid-template-columns: 1fr;
+	}
+
+	.partyCta {
+		width: 100%;
+	}
+}

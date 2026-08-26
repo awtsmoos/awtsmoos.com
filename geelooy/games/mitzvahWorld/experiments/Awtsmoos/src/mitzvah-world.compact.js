@@ -1,114 +1,112 @@
-/* B\"H compact live import helpers */
-function __awtsmoosLiveImport(getModule, name) {
-  const read = () => {
-    const module = getModule();
-    return module && module[name];
-  };
-  return new Proxy(function __awtsmoosLiveBinding(...args) {
-    const value = read();
-    if (typeof value !== "function") return value;
-    return value(...args);
-  }, {
-    apply(_target, thisArg, args) {
-      const value = read();
-      if (typeof value !== "function") throw new TypeError(String(name) + " is not a function");
-      return Reflect.apply(value, thisArg, args);
-    },
-    construct(_target, args) {
-      const value = read();
-      if (typeof value !== "function") throw new TypeError(String(name) + " is not a constructor");
-      return Reflect.construct(value, args);
-    },
-    get(_target, prop) {
-      if (prop === Symbol.toPrimitive) return () => read();
-      if (prop === "valueOf") return () => read();
-      if (prop === "toString") return () => String(read());
-      const value = read();
-      return value == null ? undefined : value[prop];
-    },
-    set(_target, prop, newValue) {
-      const targetValue = read();
-      if (targetValue == null) return false;
-      targetValue[prop] = newValue;
-      return true;
-    }
-  });
-}
-function __awtsmoosLiveNamespace(getModule) {
-  return new Proxy({}, { get(_target, prop) {
-    const module = getModule();
-    return module == null ? undefined : module[prop];
-  }});
-}
-var __awtsmoosModule_0;
-/* B\"H compact source: games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js */
-__awtsmoosModule_0 = (() => {
-const __exports = {};
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
 
-/**
- * @file MinimalSharedMeadowPage.js
- * @description Keeps one tiny documented gate valid in browsers, compact builds, and Node.
- * The Awtsmoos reveals one address from every vessel and shore;
- * Awtsmoos.com lets source and compact gates find the same living door.
- */
-
-const BUILD_VERSION = '20260814-direct-audio-02';
-const SOURCE_URL = new URL(new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js", globalThis.location?.origin || import.meta.url).href);
-const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
-	? new URL('./', SOURCE_URL)
-	: new URL('./launcher/', SOURCE_URL);
-const PAGE_BOOT_URL = launcherModuleUrl('bootMitzvahWorldPage.js');
-const RUNTIME_BOOT_URL = launcherModuleUrl('MinimalSharedMeadowRuntimePage.js');
-const SESSION_MODE_URL = launcherModuleUrl('MitzvahWorldSessionMode.js');
-
-async function bootCanonicalMitzvahWorldPage(
-	documentValue = document,
-	environment = globalThis
-) {
-	const { ensureMitzvahWorldPageBoot } = await import(PAGE_BOOT_URL);
-	return ensureMitzvahWorldPageBoot(documentValue, environment);
-}
-
-
-__exports.bootCanonicalMitzvahWorldPage = bootCanonicalMitzvahWorldPage;
-async function bootMinimalSharedMeadow(
-	documentValue = document,
-	environment = globalThis,
-	dependencies = {}
-) {
-	const runtimeModule = await import(RUNTIME_BOOT_URL);
-	const sessionMode = await resolveSessionMode(environment);
-	return runtimeModule.bootMinimalSharedMeadowRuntimePage(
-		documentValue,
-		environment,
-		{ ...dependencies, sessionMode }
-	);
-}
-
-
-__exports.bootMinimalSharedMeadow = bootMinimalSharedMeadow;
-async function resolveSessionMode(environment) {
-	const { mitzvahWorldSessionMode } = await import(SESSION_MODE_URL);
-	const parameters = new URLSearchParams(environment.location?.search || '');
-	return mitzvahWorldSessionMode(parameters);
-}
-
-function launcherModuleUrl(fileName) {
-	const moduleUrl = new URL(fileName, LAUNCHER_BASE);
-	moduleUrl.searchParams.set('v', BUILD_VERSION);
-	return moduleUrl.href;
-}
-
-if (typeof document !== 'undefined' && globalThis.AwtsmoosDisableAutoBoot !== true) {
-	void bootCanonicalMitzvahWorldPage().catch(error => {
-		console.error('[MitzvahWorld] canonical boot failed.', error);
+const __awtsmoosLiveImport = (resolve, name) => {
+	const callable = function(...args) {
+		const value = resolve()[name];
+		if (new.target) return Reflect.construct(value, args, new.target);
+		return Reflect.apply(value, this, args);
+	};
+	return new Proxy(callable, {
+		apply(_target, thisArg, args) { return Reflect.apply(resolve()[name], thisArg, args); },
+		construct(_target, args, newTarget) { return Reflect.construct(resolve()[name], args, newTarget); },
+		get(_target, property) { const value = resolve()[name]; return value?.[property]; },
+		set(_target, property, value) { const current = resolve()[name]; current[property] = value; return true; },
+		has(_target, property) { const current = resolve()[name]; return property in current; },
+		ownKeys() { return Reflect.ownKeys(resolve()[name]); }
 	});
+};
+const __awtsmoosLiveNamespace = (resolve) => new Proxy(Object.create(null), {
+	get(_target, property) { return resolve()[property]; },
+	set(_target, property, value) { resolve()[property] = value; return true; },
+	has(_target, property) { return property in resolve(); },
+	ownKeys() { return Reflect.ownKeys(resolve()); },
+	getOwnPropertyDescriptor(_target, property) {
+		const descriptor = Object.getOwnPropertyDescriptor(resolve(), property);
+		return descriptor ? { ...descriptor, configurable: true } : undefined;
+	}
+});
+
+const __awtsmoosModule_1 = Object.create(null);
+
+const __awtsmoosModule_0 = Object.create(null);
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js ----
+{
+	const __exports = __awtsmoosModule_1;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalSharedMeadowPage.js
+	 * @description Resolves page, runtime, and session launcher doors with canonical compact-first query identity.
+	 * The Awtsmoos gives every finite doorway one ordered name while Awtsmoos.com gathers each local graph before the browser crosses the sea;
+	 * compact truth comes first, version truth follows, and page boot remains small enough that advanced chambers wait until the player calls them to be.
+	 */
+
+	const BUILD_VERSION = '20260814-direct-audio-02';
+	const SOURCE_URL = new URL("/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js");
+	const LAUNCHER_BASE = SOURCE_URL.pathname.includes('/launcher/')
+		? new URL('./', SOURCE_URL)
+		: new URL('./launcher/', SOURCE_URL);
+	const PAGE_BOOT_URL = launcherModuleUrl('bootMitzvahWorldPage.js');
+	const RUNTIME_BOOT_URL = launcherModuleUrl('MinimalSharedMeadowRuntimePage.js');
+	const SESSION_MODE_URL = launcherModuleUrl('MitzvahWorldSessionMode.js');
+
+	/** Boots the canonical MitzvahWorld page once through the compact page launcher. */
+	async function bootMinimalSharedMeadowPage(
+		documentValue = document,
+		environment = globalThis
+	) {
+		const module = await import(PAGE_BOOT_URL);
+		return module.ensureMitzvahWorldPageBoot(documentValue, environment);
+	}
+
+
+	__exports.bootMinimalSharedMeadowPage = bootMinimalSharedMeadowPage;
+	/** Boots only the shared meadow runtime for embedded or test surfaces. */
+	async function bootMinimalSharedMeadowRuntimePage(
+		hosts,
+		options = {},
+		environment = globalThis
+	) {
+		const module = await import(RUNTIME_BOOT_URL);
+		return module.bootMinimalSharedMeadowRuntimePage(hosts, options, environment);
+	}
+
+
+	__exports.bootMinimalSharedMeadowRuntimePage = bootMinimalSharedMeadowRuntimePage;
+	/** Resolves the public route/session mode with the same compact launcher boundary. */
+	async function resolveMinimalSharedMeadowSessionMode(search = '') {
+		const module = await import(SESSION_MODE_URL);
+		return module.resolveMitzvahWorldSessionMode(search);
+	}
+
+
+	__exports.resolveMinimalSharedMeadowSessionMode = resolveMinimalSharedMeadowSessionMode;
+	function launcherModuleUrl(fileName) {
+		const moduleUrl = new URL(fileName, LAUNCHER_BASE);
+		moduleUrl.searchParams.set('compact', 'true');
+		moduleUrl.searchParams.set('v', BUILD_VERSION);
+		return moduleUrl.href;
+	}
+
 }
-return Object.freeze(__exports);
-})();
-/* B\"H compact entry exports */
-export const bootCanonicalMitzvahWorldPage = __awtsmoosModule_0.bootCanonicalMitzvahWorldPage;
-export const bootMinimalSharedMeadow = __awtsmoosModule_0.bootMinimalSharedMeadow;
+
+// ---- games/mitzvahWorld/experiments/Awtsmoos/src/MinimalMeadowCompactBootstrap.js ----
+{
+	const __exports = __awtsmoosModule_0;
+	// B"H
+	// Boruch Hashem
+	// Blessed is He
+
+	/**
+	 * @file MinimalMeadowCompactBootstrap.js
+	 * @description Statically joins the production entry to the readable launcher module graph.
+	 * The Awtsmoos reveals the essential doorway without a deferred fetch race;
+	 * Awtsmoos.com lets native module loading report exact dependency failures before play begins.
+	 */
+
+
+
+}

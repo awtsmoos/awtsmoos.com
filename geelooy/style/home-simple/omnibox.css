@@ -3,24 +3,24 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos opens verified paths beneath one searching vessel; Awtsmoos.com keeps that chamber solid and legible, because discovery should be revealed by order rather than a frosted distortion of what lies behind it.
 */
-.search-shell {
+body[data-geelooy-route="home"] .search-shell {
 	position: relative;
-	z-index: 120;
+	z-index: var(--home-layer-search);
 	width: 100%;
 }
 
-.search-shell.is-open .search {
+body[data-geelooy-route="home"] .search-shell.is-open .search {
 	border-color: #68ceff;
 	border-radius: 1.15rem 1.15rem .62rem .62rem;
 	box-shadow: 0 0 0 4px rgba(73, 157, 220, .11), 0 22px 58px rgba(0, 0, 0, .4);
 }
 
-.omnibox-panel {
+body[data-geelooy-route="home"] .omnibox-panel {
 	position: absolute;
 	top: calc(100% + .42rem);
 	right: 0;
 	left: 0;
-	z-index: 150;
+	z-index: var(--home-layer-search-panel);
 	max-height: min(430px, calc(100vh - 9rem));
 	overflow: auto;
 	padding: .48rem;
@@ -32,11 +32,11 @@ The Awtsmoos opens verified paths beneath one searching vessel; Awtsmoos.com kee
 	animation: omnibox-arrive .18s ease both;
 }
 
-.omnibox-panel[hidden] {
+body[data-geelooy-route="home"] .omnibox-panel[hidden] {
 	display: none;
 }
 
-.omnibox-heading {
+body[data-geelooy-route="home"] .omnibox-heading {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -49,7 +49,7 @@ The Awtsmoos opens verified paths beneath one searching vessel; Awtsmoos.com kee
 	text-transform: uppercase;
 }
 
-.omnibox-heading button {
+body[data-geelooy-route="home"] .omnibox-heading button {
 	padding: .36rem .5rem;
 	border: 1px solid transparent;
 	border-radius: .45rem;
@@ -61,18 +61,18 @@ The Awtsmoos opens verified paths beneath one searching vessel; Awtsmoos.com kee
 	text-transform: none;
 }
 
-.omnibox-heading button:hover {
+body[data-geelooy-route="home"] .omnibox-heading button:hover {
 	border-color: #2d4c68;
 	background: #102239;
 	color: #fff;
 }
 
-.omnibox-heading button:focus-visible {
+body[data-geelooy-route="home"] .omnibox-heading button:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 }
 
-.omnibox-options {
+body[data-geelooy-route="home"] .omnibox-options {
 	display: grid;
 	gap: .2rem;
 }

@@ -1,0 +1,74 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets the editor's primary actions gather in one luminous rail without becoming a wall;
+ * Awtsmoos.com keeps every toolbar control bounded, readable, and ready for touch before deeper panels answer the call.
+ */
+.awtsmoos-editor-shell #toolbar {
+	top: 10px;
+	left: 10px;
+	z-index: var(--editor-z-toolbar);
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	width: auto;
+	max-width: calc(100% - 20px);
+	height: 48px;
+	padding: 6px;
+	gap: 5px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
+	scrollbar-width: thin;
+}
+
+.awtsmoos-editor-shell .toolbar-section {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	flex: 0 0 auto;
+}
+
+.awtsmoos-editor-shell #toolbar button,
+.awtsmoos-editor-shell #toolbar select {
+	min-height: 34px;
+	padding: 6px 10px;
+	border: 1px solid var(--editor-border);
+	border-radius: 8px;
+	color: var(--editor-text);
+	background: var(--editor-panel-2);
+	font: inherit;
+	font-weight: 650;
+	cursor: pointer;
+}
+
+.awtsmoos-editor-shell #toolbar button.active {
+	border-color: rgba(130, 230, 255, .42);
+	color: white;
+	background: linear-gradient(135deg, rgba(53, 111, 199, .94), rgba(89, 72, 175, .9));
+	box-shadow: 0 0 0 1px rgba(130, 230, 255, .12) inset;
+}
+
+.awtsmoos-editor-shell #toolbar button:disabled,
+.awtsmoos-editor-shell #toolbar select:disabled {
+	cursor: not-allowed;
+	opacity: .45;
+}
+
+.awtsmoos-editor-shell .separator {
+	width: 1px;
+	height: 22px;
+	margin: 0 5px;
+	flex: 0 0 auto;
+	background: linear-gradient(transparent, var(--editor-border), transparent);
+}
+
+.awtsmoos-editor-shell #orbit-gizmo-container {
+	position: absolute;
+	top: 70px;
+	right: 12px;
+	z-index: var(--editor-z-overlay);
+	max-width: 88px;
+	max-height: 88px;
+	pointer-events: auto;
+}

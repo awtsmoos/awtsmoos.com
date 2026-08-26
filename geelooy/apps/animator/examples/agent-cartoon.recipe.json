@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H",
+	"blessing": "Boruch Hashem — Blessed is He",
+	"version": "1.0.0",
+	"title": "A Small Light Becomes a Story",
+	"preset": "dialogue",
+	"canvas": {
+		"width": 1280,
+		"height": 720,
+		"fps": 24
+	},
+	"style": {
+		"name": "clean-futuristic-2d",
+		"line": "soft-ink",
+		"depth": "subtle"
+	},
+	"characters": [
+		{
+			"id": "guide",
+			"name": "Guide",
+			"asset": "human",
+			"role": "teacher"
+		},
+		{
+			"id": "student",
+			"name": "Student",
+			"asset": "human",
+			"role": "listener"
+		}
+	],
+	"shots": [
+		{
+			"id": "opening",
+			"durationMs": 2600,
+			"camera": "medium-wide",
+			"characters": ["guide", "student"],
+			"action": "The guide opens a glowing sketchbook while the student leans closer.",
+			"dialogue": [
+				{
+					"speaker": "guide",
+					"text": "Describe the story as data; the director reveals the scene."
+				}
+			]
+		},
+		{
+			"id": "reaction",
+			"durationMs": 2200,
+			"camera": "medium-close",
+			"characters": ["student"],
+			"action": "The student smiles as simple shapes become an expressive 2D world.",
+			"dialogue": [
+				{
+					"speaker": "student",
+					"text": "So the simple recipe can still unfold into advanced animation."
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews every gameplay vessel without publishing one global decree;
+ * Awtsmoos.com keeps color, type, layers, focus, hover, press, and restraint inside the surfaces that agree.
+ */
+
+.Awtsmoos-gameplay,
+#mitzvah-world-root .Awtsmoos-status-dock,
+#mitzvah-world-root .Awtsmoos-npc-dialogue {
+	--gp-gold: #f2c66f;
+	--gp-gold-bright: #ffe6a5;
+	--gp-panel: rgba(7, 17, 15, 0.94);
+	--gp-line: rgba(242, 198, 111, 0.34);
+	--gp-text: #f6f2e8;
+	--gp-muted: #b9cbc4;
+	--gp-danger: #e46f5f;
+	--gp-success: #7bd7a9;
+	--gp-safe-top: max(12px, env(safe-area-inset-top, 0px));
+	--gp-safe-right: max(12px, env(safe-area-inset-right, 0px));
+	--gp-safe-bottom: max(14px, env(safe-area-inset-bottom, 0px));
+	--gp-safe-left: max(12px, env(safe-area-inset-left, 0px));
+	--gp-z-marker: 650;
+	--gp-z-map: 710;
+	--gp-z-tracker: 720;
+	--gp-z-ribbon: 735;
+	--gp-z-status: 740;
+	--gp-z-dialogue: 820;
+	--gp-z-panel: 890;
+	--gp-z-sheet: 905;
+	--gp-z-expanded: 910;
+	--gp-z-modal: 920;
+	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.Awtsmoos-gameplay button,
+#mitzvah-world-root .Awtsmoos-npc-dialogue button {
+	border: 1px solid rgba(242, 198, 111, 0.46);
+	border-radius: 11px;
+	background: linear-gradient(180deg, #493116, #25180c);
+	color: #fff0c7;
+	font-family: inherit;
+	font-weight: 800;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: transform 120ms ease, border-color 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+@media (hover: hover) {
+	.Awtsmoos-gameplay button:hover:not(:disabled),
+	#mitzvah-world-root .Awtsmoos-npc-dialogue button:hover:not(:disabled) {
+		transform: translateY(-2px);
+		border-color: var(--gp-gold-bright);
+		filter: brightness(1.1);
+	}
+}
+
+.Awtsmoos-gameplay button:active:not(:disabled),
+#mitzvah-world-root .Awtsmoos-npc-dialogue button:active:not(:disabled) {
+	transform: translateY(1px) scale(0.97);
+	filter: brightness(1.14);
+}
+
+.Awtsmoos-gameplay :is(button, input, [tabindex]):focus-visible,
+#mitzvah-world-root .Awtsmoos-npc-dialogue :is(button, [tabindex]):focus-visible {
+	outline: 3px solid #ffe08a;
+	outline-offset: 3px;
+}
+
+.Awtsmoos-gameplay button:disabled,
+#mitzvah-world-root .Awtsmoos-npc-dialogue button:disabled {
+	opacity: 0.42;
+	cursor: not-allowed;
+	filter: grayscale(0.45);
+	transform: none;
+}

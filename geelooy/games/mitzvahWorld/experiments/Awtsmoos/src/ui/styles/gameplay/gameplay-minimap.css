@@ -1,0 +1,80 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos contains every direction while the finite traveler sees one measured field;
+ * Awtsmoos.com keeps map, markers, expansion, and player light inside a bounded glass shield.
+ */
+
+.Awtsmoos-gameplay.Awtsmoos-minimap {
+	position: fixed;
+	right: var(--gp-safe-right);
+	bottom: var(--gp-safe-bottom);
+	z-index: var(--gp-z-map);
+	width: min(220px, calc(100vw - var(--gp-safe-left) - var(--gp-safe-right)));
+	overflow: hidden;
+	border: 1px solid var(--gp-line);
+	border-radius: 16px;
+	background: var(--gp-panel);
+	color: white;
+	box-shadow: 0 16px 46px rgba(0, 0, 0, 0.34);
+}
+
+.Awtsmoos-gameplay.Awtsmoos-minimap[data-expanded="true"] {
+	top: var(--gp-safe-top);
+	right: var(--gp-safe-right);
+	bottom: var(--gp-safe-bottom);
+	left: var(--gp-safe-left);
+	z-index: var(--gp-z-expanded);
+	width: auto;
+	height: auto;
+	max-width: 720px;
+	max-height: 620px;
+	margin: auto;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-minimap header {
+	display: flex;
+	align-items: center;
+	padding: 8px 10px;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-minimap header button {
+	margin-left: auto;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-map-canvas {
+	position: relative;
+	aspect-ratio: 1;
+	overflow: hidden;
+	background: radial-gradient(circle at 46% 43%, #4d6e50, #1a3128 48%, #0b1814 72%);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-map-canvas::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		linear-gradient(120deg, transparent 44%, rgba(125, 182, 186, 0.5) 45% 48%, transparent 49%),
+		radial-gradient(ellipse at 40% 53%, rgba(83, 127, 164, 0.48) 0 12%, transparent 13%);
+}
+
+.Awtsmoos-gameplay :is(.Awtsmoos-map-marker, .Awtsmoos-map-player) {
+	position: absolute;
+	transform: translate(-50%, -50%);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-map-marker {
+	border: 0;
+	background: transparent;
+	font-size: 18px;
+	filter: drop-shadow(0 2px 2px #000);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-map-player {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: #66e4ff;
+	box-shadow: 0 0 10px #55dfff;
+}

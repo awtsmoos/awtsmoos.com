@@ -1,0 +1,81 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews vitality before any meter can claim the life it depicts;
+ * Awtsmoos.com keeps player and target status inside the game root, safe from stray layers and clipped scripts.
+ */
+
+#mitzvah-world-root .Awtsmoos-status-dock {
+	position: fixed;
+	left: var(--gp-safe-left);
+	bottom: var(--gp-safe-bottom);
+	z-index: var(--gp-z-status);
+	display: grid;
+	gap: 9px;
+	width: min(350px, calc(100vw - var(--gp-safe-left) - var(--gp-safe-right)));
+	pointer-events: none;
+}
+
+#mitzvah-world-root .Awtsmoos-status-dock .status-card {
+	display: grid;
+	grid-template-columns: 54px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 14px;
+	border: 1px solid var(--gp-line);
+	border-radius: 17px;
+	background: linear-gradient(145deg, rgba(13, 29, 25, 0.94), rgba(5, 14, 12, 0.96));
+	color: var(--gp-text);
+	box-shadow: 0 16px 42px rgba(0, 0, 0, 0.36), inset 0 1px rgba(255, 255, 255, 0.06);
+	backdrop-filter: blur(12px);
+	contain: content;
+}
+
+#mitzvah-world-root .Awtsmoos-status-dock .target-card {
+	border-color: rgba(242, 198, 111, 0.58);
+	background: linear-gradient(145deg, rgba(53, 37, 17, 0.94), rgba(16, 22, 18, 0.97));
+}
+
+#mitzvah-world-root .Awtsmoos-status-dock .status-face {
+	display: grid;
+	place-items: center;
+	width: 50px;
+	height: 50px;
+	border: 1px solid rgba(242, 198, 111, 0.36);
+	border-radius: 15px;
+	background: rgba(255, 255, 255, 0.055);
+	font-size: 28px;
+}
+
+#mitzvah-world-root .Awtsmoos-status-dock :is(b, small, label) {
+	display: block;
+}
+
+#mitzvah-world-root .Awtsmoos-status-dock b {
+	color: #fff0c6;
+	font-size: 14px;
+}
+
+#mitzvah-world-root .Awtsmoos-status-dock :is(small, label) {
+	margin-top: 2px;
+	color: var(--gp-muted);
+	font-size: 10px;
+}
+
+#mitzvah-world-root .Awtsmoos-status-dock :is(meter, progress) {
+	display: block;
+	width: 100%;
+	height: 7px;
+	margin-top: 5px;
+	accent-color: var(--gp-success);
+}
+
+#mitzvah-world-root .Awtsmoos-status-dock .target-card meter {
+	accent-color: var(--gp-danger);
+}
+
+#mitzvah-world-root .Awtsmoos-status-dock article > strong {
+	color: var(--gp-gold-bright);
+	font: 700 18px Georgia, serif;
+}

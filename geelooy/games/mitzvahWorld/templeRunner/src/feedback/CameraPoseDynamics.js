@@ -1,17 +1,21 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @file CameraPoseDynamics.js
- * @description Computes collision-neutral speed, lane, jump, slide, and corner camera targets apart from mutation/easing.
- * The Awtsmoos renews motion before Ayin chooses where perspective may softly lean;
- * Awtsmoos.com keeps target mathematics separate from camera mutation so gameplay truth remains unseen and clean.
+ * @fileoverview Chochmah camera-target dynamics combining runner pose, speed, turn state, and Binah aspect-aware framing policy.
+ * RESPONSIBILITY: compute collision-neutral position, FOV, lane roll, and turn rotation targets without mutating the native camera.
+ * NON-RESPONSIBILITY: this class never eases camera state, changes runner physics, moves chunks, or imports any renderer implementation.
+ * OROS/KEILIM: motion possibility is ohr; Chochmah forms immediate targets while Binah measures the viewport vessel around their light.
+ * The Awtsmoos renews lane, jump, speed, and corner before perspective can lean into the scene;
+ * Awtsmoos.com lets Chochmah reveal the target while gameplay truth stays separate, measured, and clean.
  */
 
 import {
 	CAMERA_CONFIG,
 	RUNNER_CONFIG
 } from "../config.js";
+import { BinahCameraFraming } from "./CameraFraming.js";
 
 export class ChochmahCameraPoseDynamics {
 	/** @param {object} runner Runner controller. @param {object} state Runner state. @param {object} world Temple world. */
@@ -19,54 +23,62 @@ export class ChochmahCameraPoseDynamics {
 		this.runner = runner;
 		this.state = state;
 		this.world = world;
+		this.framing = new BinahCameraFraming(CAMERA_CONFIG);
 	}
 
-	/** @param {number} landingOffset Decaying landing impulse. @returns {object} Position target and speed ratio. */
-	positionTarget(landingOffset) {
+	/**
+	 * Computes a stable player-composition target for current pose and viewport.
+	 *
+	 * @param {number} landingOffset Decaying presentation-only landing impulse.
+	 * @param {number} aspect Current native camera aspect.
+	 * @returns {Readonly<object>} Position, FOV, and normalized speed target facts.
+	 */
+	positionTarget(landingOffset, aspect) {
 		const speedRatio = this.speedRatio();
-		const wrapper = this.runner.character.wrapper;
+		const wrapperX = this.runner.character.wrapper.position.x;
 		const slideDip = this.runner.ducking
 			? CAMERA_CONFIG.slideDip
 			: 0;
-		return {
-			x: wrapper.position.x * CAMERA_CONFIG.laneFollow,
+		return Object.freeze({
+			x: this.framing.lateralOffset(wrapperX),
 			y: CAMERA_CONFIG.baseY
-				+ this.runner.verticalY * CAMERA_CONFIG.jumpFollow
+				+ this.framing.jumpOffset(this.runner.verticalY)
 				- slideDip
 				- landingOffset,
-			z: CAMERA_CONFIG.baseZ + speedRatio * 0.5,
+			z: this.framing.zTarget(speedRatio, aspect),
+			fov: this.framing.fovTarget(speedRatio, aspect),
 			speedRatio
-		};
+		});
 	}
 
-	/** @returns {object} Euler XYZ presentation rotation. */
+	/** @returns {Readonly<object>} Euler XYZ presentation rotation. */
 	rotationTarget() {
 		const wrapperX = this.runner.character.wrapper.position.x;
-		const laneRoll = Math.max(
+		const laneRoll = clamp(
+			-wrapperX * CAMERA_CONFIG.laneRollStrength,
 			-CAMERA_CONFIG.maxRoll,
-			Math.min(
-				CAMERA_CONFIG.maxRoll,
-				-wrapperX * 0.012
-			)
+			CAMERA_CONFIG.maxRoll
 		);
 		const turnStrength = this.turnStrength();
-		return {
+		return Object.freeze({
 			pitch: CAMERA_CONFIG.pitch,
 			yaw: turnStrength * CAMERA_CONFIG.turnYaw,
-			roll: laneRoll - turnStrength * CAMERA_CONFIG.maxRoll,
+			roll: clamp(
+				laneRoll - turnStrength * CAMERA_CONFIG.turnRoll,
+				-CAMERA_CONFIG.maxRoll,
+				CAMERA_CONFIG.maxRoll
+			),
 			turnStrength
-		};
+		});
 	}
 
 	/** @returns {number} Zero-to-one normalized speed intensity. */
 	speedRatio() {
 		const span = RUNNER_CONFIG.maxSpeed - RUNNER_CONFIG.startSpeed;
-		return Math.max(
+		return clamp(
+			(this.state.speed - RUNNER_CONFIG.startSpeed) / span,
 			0,
-			Math.min(
-				1,
-				(this.state.speed - RUNNER_CONFIG.startSpeed) / span
-			)
+			1
 		);
 	}
 
@@ -74,4 +86,9 @@ export class ChochmahCameraPoseDynamics {
 	turnStrength() {
 		return this.world.turnController.bankStrength();
 	}
+}
+
+/** @private */
+function clamp(value, minimum, maximum) {
+	return Math.min(maximum, Math.max(minimum, value));
 }

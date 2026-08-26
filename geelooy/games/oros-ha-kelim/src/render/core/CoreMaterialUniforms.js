@@ -3,37 +3,42 @@
 //Blessed is He
 
 /**
- * CoreMaterialUniforms resolves Oros-specific shader locations once instead of once per mesh per frame.
- * The Awtsmoos renews every color while the finite doorway to the shader need only be found one time;
- * Awtsmoos.com lets native WebGL spend its breath drawing light instead of repeating the same climb.
+ * CoreMaterialUniforms caches material gates and delegates photographic binding without per-frame lookup churn.
+ * The Awtsmoos renews color and texture state while finite uniform doorways need only be found one time;
+ * Awtsmoos.com lets solid signals stay immediate and textured Keilim enter richer light without repeated climb.
  */
 export class CoreMaterialUniforms {
-	constructor(gl, program) {
+	constructor(gl, program, binding) {
 		this.gl = gl;
-		this.locations = Object.freeze({
-			useSolidColor: gl.getUniformLocation(program, "uUseSolidColor"),
-			solidColor: gl.getUniformLocation(program, "uSolidColor"),
-			windEnabled: gl.getUniformLocation(program, "uWindEnabled"),
-			useTriplanar: gl.getUniformLocation(program, "uUseTriplanar"),
-			alphaTest: gl.getUniformLocation(program, "uAlphaTest"),
-			patternType: gl.getUniformLocation(program, "uPatternType")
-		});
+		this.binding = binding;
+		this.locations = this.#locations(program);
 	}
 
-	/** @param {number[]} color Current semantic solid RGBA. */
-	apply(color) {
-		const gl = this.gl;
-		const location = this.locations;
-		this.#float(location.useSolidColor, 1);
-		if (location.solidColor !== null) {
-			gl.uniform4fv(location.solidColor, color);
+	apply(mesh, vessel) {
+		const textured = Boolean(mesh.material);
+		this.#float(this.locations.useSolidColor, textured ? 0 : 1);
+		if (this.locations.solidColor !== null) {
+			this.gl.uniform4fv(this.locations.solidColor, mesh.color);
 		}
-		this.#float(location.windEnabled, 0);
-		this.#float(location.useTriplanar, 0);
-		this.#float(location.alphaTest, 0);
-		if (location.patternType !== null) {
-			gl.uniform1i(location.patternType, 0);
+		this.#float(this.locations.windEnabled, 0);
+		this.#float(this.locations.useTriplanar, textured ? 1 : 0);
+		this.#float(this.locations.alphaTest, 0);
+		if (this.locations.patternType !== null) {
+			this.gl.uniform1i(this.locations.patternType, 0);
 		}
+		this.binding.apply(mesh, vessel.cameraPosition);
+	}
+
+	#locations(program) {
+		const names = {
+			useSolidColor: "uUseSolidColor",
+			solidColor: "uSolidColor",
+			windEnabled: "uWindEnabled",
+			useTriplanar: "uUseTriplanar",
+			alphaTest: "uAlphaTest",
+			patternType: "uPatternType"
+		};
+		return Object.fromEntries(Object.entries(names).map(([key, name]) => [key, this.gl.getUniformLocation(program, name)]));
 	}
 
 	#float(location, value) {

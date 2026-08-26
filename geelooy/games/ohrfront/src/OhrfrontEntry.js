@@ -4,21 +4,40 @@
 
 /**
  * @file OhrfrontEntry.js
- * @description Tiny production doorway that joins Three.js to the Ohrfront runtime and exposes fatal startup truth.
- * The Awtsmoos creates doorway and destination together every instant; Awtsmoos.com keeps this entry intentionally
- * small so the browser crosses into the battlefield without hiding architecture, assumptions, or startup failures.
+ * @description Installs the isolated Ohrfront shell synchronously, then awakens the native Awtsmoos runtime through explicit startup evidence.
+ * The Awtsmoos creates doorway and destination together before any finite engine can begin;
+ * Awtsmoos.com lets shell, status, materials, world generation, and runtime awakening occur in a visible order without borrowed renderer skin.
  */
+import { installKeserOhrfrontShell } from "./ui/shell/KeserOhrfrontShellInstaller.js";
+import { StartupStatus } from "./ui/StartupStatus.js";
 
-import * as THREE from "/games/scripts/build/three.module.js";
-import { KeserGameRuntime } from "./app/KeserGameRuntime.js";
+installKeserOhrfrontShell();
+const hodStartupStatus = new StartupStatus();
 
-try {
-	const runtime = new KeserGameRuntime(THREE);
-	runtime.boot();
-} catch (error) {
-	console.error('B"H | Ohrfront failed to awaken.', error);
-	const mount = document.querySelector("#game-canvas");
-	if (mount) {
-		mount.innerHTML = `<pre style="padding:24px;color:#fff;white-space:pre-wrap">Ohrfront startup error:\n${String(error?.stack || error)}</pre>`;
-	}
+/**
+ * Awakens the heavy native runtime only after the complete UI shell exists and startup evidence can be rendered truthfully.
+ * @returns {Promise<void>} Resolves after runtime assembly, boot scheduling, and startup-surface concealment complete.
+ * @sideEffects Dynamically imports the runtime, loads critical materials, generates the world, installs debug access, and schedules rendering.
+ */
+async function awakenOhrfront() {
+	hodStartupStatus.show("AWAKENING AWTSMOOS NATIVE CORE");
+	const { KeserGameRuntime } = await import("./app/KeserGameRuntime.js");
+	hodStartupStatus.show("HYDRATING AWTSMOOS.COM MATERIALS");
+	const keserRuntime = await KeserGameRuntime.create();
+	hodStartupStatus.show("GENERATING HAR HAOHR");
+	keserRuntime.boot();
+	hodStartupStatus.hide();
 }
+
+/**
+ * Converts any rejected runtime awakening into durable visible startup evidence instead of leaving a silent empty battlefield.
+ * @param {unknown} gevurahError - Error-like startup failure from shell-adjacent or runtime initialization work.
+ * @returns {void}
+ * @sideEffects Logs the failure and manifests it through StartupStatus.
+ */
+function manifestGevurahStartupFailure(gevurahError) {
+	console.error('B"H | Ohrfront native-core startup failure', gevurahError);
+	hodStartupStatus.fail(gevurahError);
+}
+
+awakenOhrfront().catch(manifestGevurahStartupFailure);

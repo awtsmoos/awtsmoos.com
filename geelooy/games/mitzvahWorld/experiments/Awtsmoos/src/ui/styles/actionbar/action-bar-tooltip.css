@@ -1,0 +1,69 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets understanding hover above or below action without escaping the component that gives it meaning;
+ * Awtsmoos.com styles every tooltip field completely, bounded by viewport width and locally measured positioning.
+ */
+
+.Mitzvah-combat-host .Mitzvah-ability-tooltip {
+	position: absolute;
+	left: var(--tooltip-x, 50%);
+	top: var(--tooltip-y, 0px);
+	z-index: var(--ab-z-tooltip);
+	width: min(320px, calc(100vw - 24px));
+	max-height: min(56dvh, 420px);
+	padding: 12px;
+	overflow: auto;
+	overscroll-behavior: contain;
+	border: 1px solid rgba(110, 255, 222, 0.42);
+	border-radius: 14px;
+	background: rgba(4, 12, 18, 0.98);
+	color: #eaffff;
+	box-shadow: 0 18px 44px rgba(0, 0, 0, 0.54), inset 0 1px rgba(255, 255, 255, 0.05);
+	font: 600 12px/1.45 ui-sans-serif, system-ui, sans-serif;
+	transform: translate(-50%, calc(-100% - 10px));
+	pointer-events: none;
+}
+
+.Mitzvah-combat-host .Mitzvah-ability-tooltip[data-placement="below"] {
+	transform: translate(-50%, 10px);
+}
+
+.Mitzvah-combat-host .Mitzvah-ability-tooltip[hidden] {
+	display: none;
+}
+
+.Mitzvah-combat-host .Mitzvah-tooltip-heading {
+	margin: 0 0 4px;
+	color: #9dffe8;
+	font-size: 14px;
+	font-weight: 900;
+}
+
+.Mitzvah-combat-host .Mitzvah-tooltip-school {
+	margin: 0 0 8px;
+	color: #ffe3a0;
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+}
+
+.Mitzvah-combat-host .Mitzvah-tooltip-description {
+	margin: 0 0 10px;
+	color: #d4e7e8;
+}
+
+.Mitzvah-combat-host .Mitzvah-tooltip-stats {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 4px 10px;
+	margin: 0 0 10px;
+}
+
+.Mitzvah-combat-host :is(.Mitzvah-tooltip-term, .Mitzvah-tooltip-value) { margin: 0; }
+.Mitzvah-combat-host .Mitzvah-tooltip-term { color: #9fb8bd; }
+.Mitzvah-combat-host .Mitzvah-tooltip-value { color: #f2fcff; text-align: right; }
+.Mitzvah-combat-host .Mitzvah-tooltip-ready { color: #9effc8; }
+.Mitzvah-combat-host .Mitzvah-tooltip-unavailable { color: #ffadb8; }

@@ -1,0 +1,67 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets advanced creator depth remain quiet until its doorway is chosen;
+Awtsmoos.com gives every top-level disclosure a finished open, keyboard, pressed, hover, and reduced-motion state without styling hidden content twice.
+*/
+.majorPanelBody > details {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	overflow: clip;
+	border-radius: .82rem;
+}
+
+.majorPanelBody > details > summary {
+	min-inline-size: 0;
+	border-radius: .78rem;
+	transition:
+		transform 140ms cubic-bezier(.2, .8, .2, 1),
+		background-color 180ms ease,
+		border-color 180ms ease,
+		box-shadow 180ms ease;
+}
+
+.majorPanelBody > details[open] > summary {
+	background: color-mix(
+		in srgb,
+		var(--composer-cyan) 5%,
+		transparent
+	);
+}
+
+.majorPanelBody > details > summary:focus-visible {
+	outline: 3px solid color-mix(
+		in srgb,
+		var(--composer-cyan) 18%,
+		transparent
+	);
+	outline-offset: 2px;
+}
+
+.majorPanelBody > details > summary:active {
+	transform: translateY(1px) scale(.992);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.majorPanelBody > details > summary:hover {
+		background: color-mix(
+			in srgb,
+			var(--composer-cyan) 4%,
+			transparent
+		);
+		box-shadow: inset 0 0 0 1px color-mix(
+			in srgb,
+			var(--composer-cyan) 12%,
+			transparent
+		);
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.majorPanelBody > details > summary {
+		transition: none;
+		transform: none !important;
+	}
+}

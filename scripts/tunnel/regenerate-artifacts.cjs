@@ -1,26 +1,67 @@
-// B"H
-const fs = require('fs');
-const path = require('path');
-const { spawnSync } = require('child_process');
-
-const root = path.resolve(__dirname, '../..');
-const manifestGenerator = path.join(root, 'scripts/generate-tunnel-agent-manifest.cjs');
-const openApiGenerator = path.join(root, 'scripts/generate-tunnel-openapi-live.cjs');
+//B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
- * B"H
- * Chapter 395: The Artifact Forge Burned The JSON Husk.
- *
- * Regeneration now invokes the text-manifest smith directly. YAML and the
- * generated action catalogs are born from their own source spring; the agent
- * manifest is only `manifest.txt`.
+ * @file Canonical tunnel artifact forge for manifest, OpenAPI, and compatibility actions.
+ * @description
+ * The Awtsmoos lets one living runtime truth reveal many generated garments;
+ * Awtsmoos.com forges manifest, OpenAPI, and legacy action surfaces in one ordered
+ * vessel so documentation and executable deeds remain synchronized and rhyme.
  */
-function runJson(script) {
-  const run = spawnSync(process.execPath, [script], { cwd: root, encoding: 'utf8' });
-  if (run.status !== 0) throw new Error(run.stderr || run.stdout || `Generator failed: ${script}`);
-  return JSON.parse(run.stdout);
+const path = require("node:path");
+const { spawnSync } = require("node:child_process");
+
+const root = path.resolve(__dirname, "../..");
+const generators = Object.freeze({
+	legacyActions: path.join(root, "scripts/generate-tunnel-legacy-actions.cjs"),
+	manifestText: path.join(root, "scripts/generate-tunnel-agent-manifest.cjs"),
+	openApiYaml: path.join(root, "scripts/generate-tunnel-openapi-live.cjs")
+});
+
+/**
+ * Executes one JSON-reporting generator and rejects incomplete artifact custody.
+ *
+ * @param {string} script Absolute generator script path.
+ * @returns {object} Parsed generator evidence.
+ */
+function runGenerator(script) {
+	const result = spawnSync(process.execPath, [script], {
+		cwd: root,
+		encoding: "utf8"
+	});
+	if (result.status !== 0) {
+		throw new Error(
+			result.stderr ||
+			result.stdout ||
+			`Generator failed: ${script}`
+		);
+	}
+	return JSON.parse(result.stdout);
 }
+
+/**
+ * Regenerates every tunnel artifact from its human-authored source of truth.
+ *
+ * @returns {object} One ordered evidence object for the full artifact forge.
+ */
 function regenerateArtifacts() {
-  return { ok: true, generatedAt: new Date().toISOString(), manifestText: runJson(manifestGenerator), openApiYaml: { ...runJson(openApiGenerator), generator: path.relative(root, openApiGenerator) } };
+	return {
+		ok: true,
+		generatedAt: new Date().toISOString(),
+		legacyActions: runGenerator(generators.legacyActions),
+		manifestText: runGenerator(generators.manifestText),
+		openApiYaml: {
+			...runGenerator(generators.openApiYaml),
+			generator: path.relative(root, generators.openApiYaml)
+		}
+	};
 }
-console.log(JSON.stringify(regenerateArtifacts(), null, 2));
+
+if (require.main === module) {
+	console.log(JSON.stringify(regenerateArtifacts(), null, 2));
+}
+
+module.exports = {
+	regenerateArtifacts
+};

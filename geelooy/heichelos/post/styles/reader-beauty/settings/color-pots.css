@@ -1,2 +1,10 @@
-/* B"H reader beauty settings/color-pots.css. */
-.ink-pot { inline-size:100%; min-height:2.8rem; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets color enter one vessel without spilling across another shore;
+ * Awtsmoos.com keeps every tincture pot local, touch-ready, and bounded to the reader door.
+ */
+.post-reader-localized-context .ink-pot {
+	inline-size: 100%;
+	min-block-size: 2.8rem;
+}

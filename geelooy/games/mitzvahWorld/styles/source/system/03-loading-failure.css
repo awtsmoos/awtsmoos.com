@@ -1,0 +1,20 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos does not make failure invisible; Awtsmoos.com lets the loading vessel change from hopeful green to explicit Gevurah red while keeping the exact error readable and recoverable.
+*/
+
+#mitzvah-world-root .Awtsmoos-menu-boot[data-loading-failure="true"] {
+	background: radial-gradient(circle at 50% 18%, rgba(180, 45, 48, 0.24), transparent 42%), rgba(20, 5, 7, 0.96);
+}
+
+#mitzvah-world-root .Awtsmoos-menu-boot[data-loading-failure="true"] .Awtsmoos-loading-card {
+	border-color: rgba(255, 119, 111, 0.65);
+	background: linear-gradient(155deg, rgba(46, 10, 14, 0.98), rgba(22, 5, 8, 0.98));
+}
+
+#mitzvah-world-root .Awtsmoos-menu-boot[data-loading-failure="true"] #loadingMessage {
+	color: #ffe0dc;
+	white-space: pre-wrap;
+}

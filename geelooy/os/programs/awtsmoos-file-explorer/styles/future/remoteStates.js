@@ -3,22 +3,30 @@
 // Blessed is He
 
 /**
- * @file Shared visual state language for every local and remote Explorer world.
+ * @file Shared readable state-and-action language for every mounted Explorer world.
  * @description
- * The Awtsmoos renews connection and disconnection without confusing one for the
- * other; Awtsmoos.com gives each truthful state a stable marker while words and
- * ARIA remain authoritative, so color assists rather than rules the rhyme.
+ * The Awtsmoos renews connection, waiting, error, and rest without confusing one
+ * garment for another. Awtsmoos.com keeps words primary, color secondary, and the
+ * next action visibly distinct, so every remote-world state can truthfully rhyme.
  */
 export default /*css*/ `
-.drive-chip-state,
-.node-meta {
+.remote-world-status {
+	min-width: 0;
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
+	gap: 7px;
+	width: fit-content;
+	max-width: 100%;
+	padding: 3px 7px;
+	border: 1px solid rgba(138, 219, 255, .18);
+	border-radius: 999px;
+	background: rgba(0, 8, 18, .36);
+	font: 680 var(--awt-text-xs)/1.25 var(--awt-font);
+	color: var(--awt-muted);
+	white-space: nowrap;
 }
 
-.drive-chip-state::before,
-.node-meta::before {
+.remote-world-status::before {
 	content: "";
 	flex: 0 0 auto;
 	width: 7px;
@@ -27,51 +35,70 @@ export default /*css*/ `
 	background: var(--awt-faint);
 }
 
-[data-state="connected"] .drive-chip-state::before,
-[data-state="connected"] .node-meta::before {
-	background: var(--awt-green);
-	box-shadow: 0 0 10px rgba(82, 255, 184, .5);
+.remote-world-state-label,
+.remote-world-action {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-[data-state="connecting"] .drive-chip-state::before,
-[data-state="connecting"] .node-meta::before {
+.remote-world-action {
+	color: var(--awt-text);
+	font-weight: 820;
+}
+
+.remote-world-action::before {
+	content: "·";
+	margin-right: 7px;
+	color: var(--awt-faint);
+}
+
+[data-state="connected"] .remote-world-status::before {
+	background: var(--awt-green);
+	box-shadow: 0 0 9px rgba(82, 255, 184, .48);
+}
+
+[data-state="connecting"] .remote-world-status::before {
 	background: var(--awt-cyan);
 }
 
-[data-state="needs-credential"] .drive-chip-state::before,
-[data-state="needs-credential"] .node-meta::before,
-[data-state="snapshot"] .drive-chip-state::before,
-[data-state="snapshot"] .node-meta::before {
+[data-state="needs-credential"] .remote-world-status,
+[data-state="snapshot"] .remote-world-status {
+	border-color: rgba(255, 209, 102, .34);
+	background: rgba(255, 209, 102, .075);
+}
+
+[data-state="needs-credential"] .remote-world-status::before,
+[data-state="snapshot"] .remote-world-status::before {
 	background: var(--awt-gold);
 }
 
-[data-state="error"] .drive-chip-state::before,
-[data-state="error"] .node-meta::before {
+[data-state="error"] .remote-world-status {
+	border-color: rgba(255, 102, 133, .42);
+	background: rgba(255, 102, 133, .08);
+}
+
+[data-state="error"] .remote-world-status::before {
 	background: var(--awt-danger);
 }
 
-[data-state="offline"] .drive-chip-state::before,
-[data-state="offline"] .node-meta::before {
+[data-state="offline"] .remote-world-status::before {
 	background: var(--awt-faint);
 }
 
 .drive-chip[data-state="error"],
 .drive-node[data-state="error"] .tree-node-content {
-	border-color: rgba(255, 102, 133, .56);
+	border-color: rgba(255, 102, 133, .58);
 }
 
 .drive-chip[data-state="offline"],
 .drive-node[data-state="offline"] .tree-node-content {
-	opacity: .72;
-}
-
-.drive-chip[data-state="snapshot"] {
-	border-color: rgba(255, 209, 102, .34);
+	opacity: .76;
 }
 
 .drive-chip[data-state="needs-credential"],
 .drive-node[data-state="needs-credential"] .tree-node-content {
 	border-style: dashed;
-	border-color: rgba(255, 209, 102, .56);
+	border-color: rgba(255, 209, 102, .62);
 }
 `;

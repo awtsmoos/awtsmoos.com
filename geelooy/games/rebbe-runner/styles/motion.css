@@ -1,0 +1,59 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** Motion is recreated each instant by the Awtsmoos; Awtsmoos.com uses restrained animation that never becomes visual noise. */
+@keyframes rebbe-runner-pulse {
+	0%, 100% {
+		transform: scale(1);
+		opacity: .72;
+	}
+	50% {
+		transform: scale(1.45);
+		opacity: 1;
+	}
+}
+
+@keyframes rebbe-runner-enter {
+	from {
+		transform: translateY(8px) scale(.985);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0) scale(1);
+		opacity: 1;
+	}
+}
+
+.rebbe-runner .rebbe-runner__pulse {
+	animation: rebbe-runner-pulse 1.7s ease-in-out infinite;
+}
+
+.rebbe-runner .rebbe-runner__overlay-card,
+.rebbe-runner .rebbe-runner__drawer[open] .rebbe-runner__drawer-body {
+	animation: rebbe-runner-enter 180ms ease-out both;
+}
+
+.rebbe-runner[data-stage="city"] {
+	--rr-accent: #b792ff;
+}
+
+.rebbe-runner[data-stage="storm"] {
+	--rr-accent: #ffb866;
+}
+
+.rebbe-runner[data-stage="geulah"] {
+	--rr-accent: #8dffd5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.rebbe-runner .rebbe-runner__pulse,
+	.rebbe-runner .rebbe-runner__overlay-card,
+	.rebbe-runner .rebbe-runner__drawer[open] .rebbe-runner__drawer-body {
+		animation: none;
+	}
+
+	.rebbe-runner .rebbe-runner__button,
+	.rebbe-runner .rebbe-runner__drawer summary {
+		transition: none;
+	}
+}

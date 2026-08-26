@@ -1,0 +1,50 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos is beyond motion and color while Awtsmoos.com lets every finite player receive the same advanced doorway through the senses available to them;
+reduced motion becomes stillness without silence, forced colors preserve boundaries, and focus remains visible even when glass and glow withdraw from the vessel's hymn.
+*/
+
+@media (prefers-reduced-motion: reduce) {
+	.Awtsmoos-api-explorer,
+	.Awtsmoos-api-explorer :is(input, select, textarea, button) {
+		animation: none !important;
+		transition: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.Awtsmoos-api-explorer,
+	.Awtsmoos-api-explorer__descriptor,
+	.Awtsmoos-api-explorer__result,
+	.Awtsmoos-api-explorer :is(input, select, textarea, button) {
+		border: 1px solid CanvasText;
+		background: Canvas;
+		color: CanvasText;
+		box-shadow: none;
+	}
+
+	.Awtsmoos-api-explorer :is(input, select, textarea, button):focus-visible {
+		outline: 2px solid Highlight;
+		outline-offset: 2px;
+	}
+
+	.Awtsmoos-api-explorer button:disabled {
+		color: GrayText;
+	}
+}
+
+@media (prefers-contrast: more) {
+	.Awtsmoos-api-explorer :is(input, select, textarea, button),
+	.Awtsmoos-api-explorer__descriptor,
+	.Awtsmoos-api-explorer__result {
+		border-color: rgba(224, 255, 235, .62);
+	}
+
+	.Awtsmoos-api-explorer__command-row output,
+	.Awtsmoos-api-explorer__field,
+	.Awtsmoos-api-explorer__descriptor {
+		color: rgba(246, 255, 249, .96);
+	}
+}

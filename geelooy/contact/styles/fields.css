@@ -1,0 +1,64 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives each field a measured vessel, receptive without overflow and disciplined at the gate;
+Awtsmoos.com keeps every input state beneath Contact alone, responsive, readable, focused, and straight.
+*/
+.contact-page__form,
+.contact-page__field {
+	display: grid;
+	gap: .5rem;
+}
+.contact-page__form {
+	gap: 1rem;
+}
+.contact-page__field-grid {
+	display: grid;
+	gap: 1rem;
+}
+.contact-page__field {
+	min-width: 0;
+	color: var(--contact-muted);
+	font-size: .8rem;
+	font-weight: 760;
+}
+.contact-page__field :is(input, select, textarea) {
+	width: 100%;
+	min-width: 0;
+	border: 1px solid var(--contact-line);
+	border-radius: .9rem;
+	outline: none;
+	background: rgba(255, 255, 255, .035);
+	color: var(--contact-text);
+	padding: .8rem .9rem;
+	font: inherit;
+	font-size: 1rem;
+	transition: border-color var(--contact-fast), background var(--contact-fast), box-shadow var(--contact-fast), transform var(--contact-fast);
+}
+.contact-page__field textarea {
+	min-height: 10rem;
+	resize: vertical;
+	line-height: 1.55;
+}
+.contact-page__field :is(input, select, textarea):hover {
+	border-color: rgba(181, 207, 244, .27);
+	background: rgba(255, 255, 255, .055);
+}
+.contact-page__field :is(input, select, textarea):focus-visible {
+	border-color: var(--contact-line-strong);
+	box-shadow: 0 0 0 .2rem rgba(96, 180, 255, .12), 0 .5rem 1.5rem rgba(0, 0, 0, .14);
+}
+.contact-page__field :is(input, select, textarea):active {
+	transform: translateY(1px);
+}
+.contact-page__field :is(input, select, textarea):user-invalid {
+	border-color: rgba(255, 170, 168, .5);
+}
+.contact-page__honey {
+	display: none;
+}
+@media (min-width: 40rem) {
+	.contact-page__field-grid {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}

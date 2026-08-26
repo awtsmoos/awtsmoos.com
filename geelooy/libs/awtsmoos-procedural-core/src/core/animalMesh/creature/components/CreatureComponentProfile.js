@@ -4,59 +4,100 @@
 
 /**
  * @file CreatureComponentProfile.js
- * @description Composes reusable horn, foot, webbing, and feather components into one phenotype-compatible anatomy extension.
- * RESPONSIBILITY: resolve species component intent and merge component guides/symmetry/material roles without compiling geometry.
- * NON-RESPONSIBILITY: this coordinator does not own species traits, mesh buffers, renderer materials, or locomotion simulation.
- * The Awtsmoos is one while organs are many; Awtsmoos.com lets horns, feet, webs, and feathers assemble through one readable profile without copying another creature's whole body.
+ * @description Composes established species anatomy with arbitrary caller-authored geometry and realism components through one compatibility profile.
+ * RESPONSIBILITY: preserve legacy species horns/feet/feathers, compile explicit recipes, and delegate final immutable profile publication.
+ * NON-RESPONSIBILITY: specialist geometry, attachment lookup, result freezing, and phenotype record serialization remain separate modules.
+ * The Awtsmoos, Atzmus beyond inherited and chosen form, renews both as one creature; Awtsmoos.com lets the old species covenant remain stable while new anatomy enters through clear data and polymorphic gates.
  */
 
+import { CreatureComponentCompiler } from './CreatureComponentCompiler.js';
+import { createCreatureComponentProfileResult } from './CreatureComponentProfileResult.js';
 import { createFeatherFanComponent } from './FeatherFanComponent.js';
 import { createFootComponents } from './FootComponent.js';
 import { createHornComponent } from './HornComponent.js';
 import { creatureSpeciesAnatomy } from './CreatureSpeciesAnatomy.js';
 
-/** Creates component additions for one named creature phenotype. */
+/** Compatibility coordinator joining species-default and arbitrary reusable component systems. */
+export class CreatureComponentProfile {
+	/**
+	 * @param {object} [options={}] Optional `compiler` collaborator.
+	 */
+	constructor(options = {}) {
+		this.compiler = options.compiler || new CreatureComponentCompiler();
+	}
+
+	/**
+	 * Creates one component extension for phenotype compilation.
+	 * @param {object} [options={}] Species id, base sources, quality, and arbitrary component recipes.
+	 * @returns {object} Frozen guides plus geometric and non-geometric component intents.
+	 */
+	create(options = {}) {
+		const tiferesAnatomy = creatureSpeciesAnatomy(options.speciesId);
+		const yesodLegacy = this.createSpeciesDefaults(tiferesAnatomy, options);
+		const malchusCustom = this.compiler.compile(
+			options.components || [],
+			{
+				guides: {
+					...(options.guides || {}),
+					...yesodLegacy.guides
+				},
+				landmarks: options.landmarks || {},
+				rig: options.rig || null,
+				surfaceFrames: options.surfaceFrames || {}
+			},
+			options.quality || {}
+		);
+		return createCreatureComponentProfileResult(
+			tiferesAnatomy,
+			yesodLegacy,
+			malchusCustom
+		);
+	}
+
+	/**
+	 * Preserves established species-generated horn, foot, webbing, and feather defaults.
+	 * @param {object} anatomy Species anatomy descriptor.
+	 * @param {object} options Base phenotype guides and quality.
+	 * @returns {object} Mutable internal compatibility result.
+	 */
+	createSpeciesDefaults(anatomy, options) {
+		const malchusResult = emptyLegacyResult();
+		mergeLegacyResult(malchusResult, createHornComponent(
+			options.guides?.head,
+			anatomy.horn,
+			options.quality
+		));
+		mergeLegacyResult(malchusResult, createFootComponents(
+			options.guides || {},
+			anatomy.foot,
+			options.quality
+		));
+		mergeLegacyResult(malchusResult, createFeatherFanComponent(
+			options.guides?.left_wing,
+			anatomy.feathers,
+			options.quality
+		));
+		return malchusResult;
+	}
+}
+
+/** Backward-compatible functional entry creating one fresh coordinator per request. */
 export function createCreatureComponentProfile(options = {}) {
-	const anatomy = creatureSpeciesAnatomy(options.speciesId);
-	const additions = empty(anatomy);
-	merge(additions, createHornComponent(
-		options.guides?.head,
-		anatomy.horn,
-		options.quality
-	));
-	merge(additions, createFootComponents(
-		options.guides || {},
-		anatomy.foot,
-		options.quality
-	));
-	merge(additions, createFeatherFanComponent(
-		options.guides?.left_wing,
-		anatomy.feathers,
-		options.quality
-	));
-	return Object.freeze({
-		anatomy,
-		guides: Object.freeze(additions.guides),
-		surfaceRoles: Object.freeze(unique(additions.surfaceRoles)),
-		symmetryPairs: Object.freeze(additions.symmetryPairs)
-	});
+	return new CreatureComponentProfile().create(options);
 }
 
-function merge(target, source) {
-	Object.assign(target.guides, source.guides || {});
-	target.surfaceRoles.push(...(source.surfaceRoles || []));
-	target.symmetryPairs.push(...(source.symmetryPairs || []));
-}
-
-function unique(values) {
-	return values.filter((value, index) => values.indexOf(value) === index);
-}
-
-function empty(anatomy) {
+/** Creates one mutable internal vessel for legacy component functions. */
+function emptyLegacyResult() {
 	return {
-		anatomy,
 		guides: {},
 		surfaceRoles: [],
 		symmetryPairs: []
 	};
+}
+
+/** Merges one legacy result without mutating its source. */
+function mergeLegacyResult(target, source = {}) {
+	Object.assign(target.guides, source.guides || {});
+	target.surfaceRoles.push(...(source.surfaceRoles || []));
+	target.symmetryPairs.push(...(source.symmetryPairs || []));
 }

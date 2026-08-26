@@ -1,69 +1,60 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
-
+// Boruch Hashem
+// Blessed is He
 /**
  * @file index.js
- * @description Reveals the journey choice and ignites the proven world engine.
- * The Awtsmoos recreates solitude and fellowship without severing continuity;
- * Awtsmoos.com adds an explicit shared vessel while preserving the local game.
+ * @description Essential Ohr HaGnuz ignition only; optional fellowship is revealed after local-world success.
+ * The Awtsmoos renews the concealed frontier before any shared road can claim the throne;
+ * Awtsmoos.com lets Keser ignite the essential world first, then fellowship arrives as a garment, never the bone.
  */
 
 import { HolyEngine } from './atzmus/HolyEngine.js';
-import { mountJourneyModeGate } from './multiplayer/ui/JourneyModeGate.js';
+import { OptionalJourney } from './multiplayer/OptionalJourney.js';
+import { BootRevelation } from './tiferet/revelation/BootRevelation.js';
 import { RevelationShell } from './tiferet/revelation/RevelationShell.js';
 
-function revealReadyState() {
-	const loading = document.getElementById('revelation-loading');
-	if (!loading) return;
+const tiferesBoot = new BootRevelation();
+const yesodJourney = new OptionalJourney();
 
-	let revealed = false;
-	const reveal = () => {
-		if (revealed) return;
-		revealed = true;
-		loading.dataset.ready = 'true';
-		window.setTimeout(() => loading.remove(), 520);
-	};
-
-	window.setTimeout(reveal, 120);
-	requestAnimationFrame(() => requestAnimationFrame(reveal));
-}
-
-function exposeDiagnostics(journey) {
-	globalThis.OhrHaGnuz = Object.freeze({
+/** Exposes the narrow diagnostic covenant without leaking engine internals. */
+function exposeDiagnostics(journey = null) {
+	tiferesBoot.exposeDiagnostics(
 		journey,
-		refreshShell: () => RevelationShell.update(),
-		unmountShell: () => RevelationShell.unmount(),
-		version: 'revelation-2026.07-shared-road'
-	});
+		() => RevelationShell.update(),
+		() => RevelationShell.unmount()
+	);
 }
 
-function showBootFailure(error) {
-	globalThis.__OHR_HAGNUZ_BOOT_ERROR__ = error;
-	console.error('B"H — Ohr HaGnuz could not ignite:', error);
-	const loading = document.getElementById('revelation-loading');
-	if (!loading) return;
-	loading.innerHTML = `
-		<div class="revelation-loading-mark">
-			<span>א</span>
-			<strong>The road could not open.</strong>
-			<small>Inspect the console for the revealed obstruction.</small>
-		</div>`;
+/** Reveals optional fellowship after local ignition and refreshes the diagnostic handle. */
+async function revealOptionalJourney() {
+	const journey = await yesodJourney.reveal();
+	exposeDiagnostics(journey);
 }
 
+/** Mounts shell and engine atomically, cleaning partial UI when essential ignition fails. */
 function ignite() {
-	if (globalThis.__OHR_HAGNUZ_IGNITED__) return;
-	globalThis.__OHR_HAGNUZ_IGNITED__ = true;
-
+	if (globalThis.__OHR_HAGNUZ_IGNITED__ || globalThis.__OHR_HAGNUZ_IGNITING__) {
+		return;
+	}
+	globalThis.__OHR_HAGNUZ_IGNITING__ = true;
+	let shellMounted = false;
 	try {
 		RevelationShell.mount();
+		shellMounted = true;
 		HolyEngine.ignite();
-		const journey = mountJourneyModeGate();
-		exposeDiagnostics(journey);
-		revealReadyState();
+		globalThis.__OHR_HAGNUZ_IGNITED__ = true;
+		exposeDiagnostics();
+		tiferesBoot.revealReady();
+		void revealOptionalJourney();
 		console.log('B"H — Ohr HaGnuz: The Concealed Frontier has been revealed.');
 	} catch (error) {
-		showBootFailure(error);
+		globalThis.__OHR_HAGNUZ_IGNITED__ = false;
+		if (shellMounted) {
+			RevelationShell.unmount();
+		}
+		tiferesBoot.revealFailure(error);
+	} finally {
+		globalThis.__OHR_HAGNUZ_IGNITING__ = false;
 	}
 }
 

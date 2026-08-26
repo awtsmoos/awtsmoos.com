@@ -1,0 +1,89 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets every final-review fact become one readable shard instead of one unbounded wall;
+Awtsmoos.com keeps cards narrow, text honest, and correction paths tactile so a long title or summary can never tear the mobile sheet wider.
+*/
+.publicationReviewGrid {
+	display: grid;
+	gap: .55rem;
+	min-inline-size: 0;
+	margin-block: .75rem 5.7rem;
+}
+
+.publicationReviewCard {
+	display: grid;
+	gap: .16rem;
+	inline-size: 100%;
+	min-inline-size: 0;
+	padding: .76rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: .92rem;
+	background:
+		linear-gradient(145deg, rgb(89 189 210 / 5%), transparent 58%),
+		var(--composer-surface-1);
+	color: var(--composer-text);
+	text-align: start;
+	content-visibility: auto;
+	contain-intrinsic-size: auto 5.4rem;
+	transition:
+		transform 140ms cubic-bezier(.2, .8, .2, 1),
+		border-color 180ms ease,
+		background-color 180ms ease,
+		box-shadow 180ms ease;
+}
+
+.publicationReviewCard span {
+	color: var(--composer-cyan);
+	font-size: .61rem;
+	font-weight: 820;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.publicationReviewCard strong {
+	min-inline-size: 0;
+	overflow-wrap: anywhere;
+	font-size: .92rem;
+}
+
+.publicationReviewCard p {
+	min-inline-size: 0;
+	margin: 0;
+	color: var(--composer-text-muted);
+	font-size: .73rem;
+	line-height: 1.42;
+	overflow-wrap: anywhere;
+}
+
+.publicationReviewCard:focus-visible {
+	border-color: color-mix(in srgb, var(--composer-cyan) 48%, var(--composer-border));
+	outline: 3px solid color-mix(in srgb, var(--composer-cyan) 18%, transparent);
+	outline-offset: 2px;
+}
+
+.publicationReviewCard:active {
+	transform: translateY(1px) scale(.986);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.publicationReviewCard:hover {
+		border-color: color-mix(in srgb, var(--composer-cyan) 36%, var(--composer-border));
+		box-shadow: 0 .65rem 1.8rem rgb(0 0 0 / 15%);
+		transform: translateY(-1px);
+	}
+}
+
+@media (max-width: 24rem) {
+	.publicationReviewGrid {
+		margin-block-end: 8.4rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.publicationReviewCard {
+		transition: none;
+		transform: none !important;
+	}
+}

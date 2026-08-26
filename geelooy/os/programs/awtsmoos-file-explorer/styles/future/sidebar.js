@@ -5,9 +5,9 @@
 /**
  * @file Mobile-first location tree for local, tunnel, SSH, and virtual worlds.
  * @description
- * The Awtsmoos lets hierarchy become a calm map rather than a cramped desktop rail;
- * Awtsmoos.com keeps broad touch rows and static luminous depth here while shared
- * remote-state truth lives in its own vessel, reducing paint and duplicated rhyme.
+ * The Awtsmoos lets hierarchy become a calm map instead of a cramped rail;
+ * Awtsmoos.com keeps broad touch rows, readable state capsules, and static luminous
+ * depth here while remote truth remains in its shared descriptor vessel in rhyme.
  */
 export default /*css*/ `
 .file-explorer-sidebar {
@@ -15,7 +15,7 @@ export default /*css*/ `
 	padding: 8px;
 	overflow: auto;
 	overscroll-behavior: contain;
-	background: linear-gradient(180deg, rgba(8, 27, 49, .96), rgba(4, 15, 28, .97));
+	background: linear-gradient(180deg, rgba(8, 27, 49, .97), rgba(4, 15, 28, .98));
 	border: 1px solid var(--awt-line);
 	border-radius: var(--awt-radius-lg);
 	color: var(--awt-text);
@@ -23,9 +23,9 @@ export default /*css*/ `
 }
 
 .sidebar-heading {
-	padding: 7px 9px 10px;
+	padding: 8px 10px 11px;
 	color: var(--awt-muted);
-	font: 820 10px var(--awt-font);
+	font: 820 var(--awt-text-xs)/1 var(--awt-font);
 	letter-spacing: .14em;
 	text-transform: uppercase;
 }
@@ -35,20 +35,20 @@ export default /*css*/ `
 	padding: 0;
 	list-style: none;
 	display: grid;
-	gap: 5px;
+	gap: 6px;
 }
 
 .tree-node-content {
 	width: 100%;
 	min-height: var(--awt-touch);
 	display: grid;
-	grid-template-columns: 16px 30px minmax(0, 1fr);
+	grid-template-columns: 16px 32px minmax(0, 1fr);
 	align-items: center;
-	gap: 8px;
-	padding: 7px 9px;
+	gap: 9px;
+	padding: 8px 10px;
 	border: 1px solid transparent;
 	border-radius: var(--awt-radius-sm);
-	background: rgba(255, 255, 255, .035);
+	background: rgba(255, 255, 255, .04);
 	color: var(--awt-text);
 	text-align: left;
 	cursor: pointer;
@@ -56,41 +56,38 @@ export default /*css*/ `
 }
 
 .tree-node-content.selected {
-	background: linear-gradient(90deg, rgba(58, 167, 255, .28), rgba(82, 255, 184, .10));
-	border-color: rgba(92, 246, 255, .38);
+	background: linear-gradient(90deg, rgba(58, 167, 255, .30), rgba(82, 255, 184, .11));
+	border-color: rgba(92, 246, 255, .42);
 }
 
 .node-provider-icon {
-	text-shadow: 0 0 7px rgba(92, 246, 255, .24);
+	font-size: 21px;
+	text-align: center;
+	text-shadow: 0 0 8px rgba(92, 246, 255, .24);
 }
 
 .node-copy {
 	min-width: 0;
 	display: grid;
-	gap: 2px;
+	gap: 5px;
 }
 
-.node-name,
-.node-meta {
+.node-name {
 	min-width: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-
-.node-name {
-	font: 760 12px var(--awt-font);
+	font: 780 var(--awt-text-sm)/1.2 var(--awt-font);
 }
 
 .node-meta {
-	color: var(--awt-muted);
-	font: 600 9px var(--awt-font);
+	max-width: 100%;
 }
 
 @media (hover: hover) and (pointer: fine) {
 	.tree-node-content:hover {
 		background: rgba(58, 167, 255, .18);
-		border-color: rgba(92, 246, 255, .25);
+		border-color: rgba(92, 246, 255, .28);
 	}
 }
 
@@ -101,7 +98,7 @@ export default /*css*/ `
 	}
 
 	.tree-node-content {
-		min-height: 40px;
+		min-height: 44px;
 	}
 }
 `;

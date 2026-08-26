@@ -2,7 +2,7 @@
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos renews one finite studio grammar; Awtsmoos.com lets every panel,
- * timeline, focus ring, warning, and touch target share an accessible vocabulary.
+ * timeline, focus ring, warning, touch target, and z-layer share an accessible vocabulary.
  */
 :root {
 	--aw-bg: #07090f;
@@ -10,17 +10,21 @@
 	--aw-panel: #101520;
 	--aw-panel-raised: #171d2a;
 	--aw-panel-inset: #0c1019;
+	--aw-panel-glass: rgba(16, 21, 32, .88);
+	--aw-panel-glass-strong: rgba(13, 18, 28, .96);
 	--aw-control: #202839;
+	--aw-control-subtle: rgba(255, 255, 255, .035);
 	--aw-control-hover: #2a354a;
 	--aw-control-active: #344461;
-	--aw-line: rgba(221, 229, 246, 0.12);
-	--aw-line-strong: rgba(221, 229, 246, 0.24);
+	--aw-line: rgba(221, 229, 246, .12);
+	--aw-line-strong: rgba(221, 229, 246, .24);
 	--aw-line-focus: #8eb4ff;
 	--aw-text: #f1f4fa;
 	--aw-text-soft: #c8d0df;
 	--aw-muted: #8d98aa;
 	--aw-selection: #709dff;
-	--aw-selection-soft: rgba(112, 157, 255, 0.2);
+	--aw-selection-soft: rgba(112, 157, 255, .17);
+	--aw-selection-strong: rgba(112, 157, 255, .34);
 	--aw-playhead: #ff5878;
 	--aw-success: #64d5a1;
 	--aw-warning: #f0bd65;
@@ -36,10 +40,16 @@
 	--aw-radius: var(--aw-radius-lg);
 	--aw-control-height: 34px;
 	--aw-touch-height: 44px;
-	--aw-shadow: 0 18px 54px rgba(0, 0, 0, 0.46);
+	--aw-shadow: 0 18px 54px rgba(0, 0, 0, .46);
+	--aw-shadow-soft: 0 10px 30px rgba(0, 0, 0, .28);
 	--aw-focus: 0 0 0 2px var(--aw-bg), 0 0 0 4px var(--aw-line-focus);
 	--aw-fast: 100ms;
 	--aw-normal: 180ms;
+	--aw-z-panel-header: 4;
+	--aw-z-stage-hud: 20;
+	--aw-z-toolbar: 30;
+	--aw-z-mobile-panel: 45;
+	--aw-z-modal: 70;
 	--aw-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	--aw-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }

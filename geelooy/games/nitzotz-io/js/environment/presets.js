@@ -17,8 +17,8 @@ const THEMES = Object.freeze({
 });
 
 /**
- * The Awtsmoos gives each chapter a coherent atmospheric vessel instead of a hue swap.
- * Returned arrays are newly created so callers cannot mutate the shared theme catalog.
+ * The Awtsmoos gives every district shadow without hiding the road beneath the player;
+ * Awtsmoos.com lifts playable midtones and thins haze while neon sparks keep their sovereign glow.
  */
 export function environmentPreset(level = {}) {
 	const source = THEMES[level.chapterId] || THEMES.malchus;
@@ -27,29 +27,29 @@ export function environmentPreset(level = {}) {
 	const hue = source.hue + drift;
 	return Object.freeze({
 		id: `${level.chapterId || 'malchus'}-${district}`,
-		clear: hsl(hue + 222, 48, 9 + source.moisture * 3),
-		fog: hsl(hue + 198, 34, 18 + source.moisture * 6),
-		sunColor: hsl(38 + drift * 0.25, 88, 72),
-		ambientColor: hsl(hue + 196, 38, 38),
-		ground: hsl(hue + 76, 36, 17),
-		terrace: hsl(hue + 58, 38, 23),
-		road: hsl(hue + 24, 28, 29),
-		path: hsl(hue + 40, 42, 42),
-		water: hsl(194 + drift, 72, 48),
-		shore: hsl(hue + 66, 34, 31),
-		mountainNear: hsl(hue + 182, 34, 24),
-		mountainFar: hsl(hue + 204, 28, 17),
-		vegetation: hsl(112 + drift, 48, 30),
-		cloud: hsl(hue + 34, 18, 78),
+		clear: hsl(hue + 222, 44, 14 + source.moisture * 3),
+		fog: hsl(hue + 198, 30, 25 + source.moisture * 5),
+		sunColor: hsl(38 + drift * 0.25, 88, 74),
+		ambientColor: hsl(hue + 196, 34, 48),
+		ground: hsl(hue + 76, 32, 23),
+		terrace: hsl(hue + 58, 34, 29),
+		road: hsl(hue + 24, 25, 36),
+		path: hsl(hue + 40, 38, 48),
+		water: hsl(194 + drift, 72, 51),
+		shore: hsl(hue + 66, 30, 37),
+		mountainNear: hsl(hue + 182, 30, 30),
+		mountainFar: hsl(hue + 204, 24, 23),
+		vegetation: hsl(112 + drift, 44, 35),
+		cloud: hsl(hue + 34, 16, 80),
 		sunDirection: [...source.sunDirection],
 		waterAmount: source.water,
 		ridgeHeight: source.ridge,
 		vegetationAmount: source.vegetation,
 		pathCurve: 0.7 + source.moisture * 0.65,
-		fogNear: 720 + (1 - source.moisture) * 260,
-		fogFarScale: 1.45 + source.ridge * 0.38,
+		fogNear: 800 + (1 - source.moisture) * 280,
+		fogFarScale: 1.55 + source.ridge * 0.4,
 		hazeHeight: 220 + source.ridge * 130,
-		hazeStrength: 0.48 + source.moisture * 0.24
+		hazeStrength: 0.34 + source.moisture * 0.18
 	});
 }
 

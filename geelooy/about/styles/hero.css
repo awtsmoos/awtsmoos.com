@@ -1,0 +1,66 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the first light arrive with clarity: one statement, two doors, no crowded parade in sight;
+Awtsmoos.com keeps hero scale and action behavior in this vessel so the foundation stays small and bright.
+*/
+.about-page__hero {
+	display: grid;
+	gap: 1.35rem;
+	padding: clamp(1.15rem, 5vw, 2.6rem);
+}
+.about-page__hero-copy {
+	min-width: 0;
+}
+.about-page h1 {
+	max-width: 13ch;
+	margin: 0;
+	font-size: clamp(2.35rem, 10vw, 5.5rem);
+	line-height: .92;
+	letter-spacing: -.055em;
+	text-wrap: balance;
+}
+.about-page__hero-copy > p:last-child,
+.about-page__intro > p:last-child {
+	max-width: 66ch;
+	margin: .9rem 0 0;
+	color: var(--about-muted);
+	line-height: 1.7;
+}
+.about-page__primary {
+	display: inline-flex;
+	min-height: 3rem;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.2rem;
+	padding: 0 1rem;
+	border: 1px solid rgba(255, 255, 255, .55);
+	border-radius: .95rem;
+	background: #eef7ff;
+	color: #091220;
+	font-size: .88rem;
+	font-weight: 850;
+	text-decoration: none;
+	transition: transform var(--about-fast), background var(--about-fast), box-shadow var(--about-fast);
+}
+.about-page__primary:is(:hover, :focus-visible) {
+	background: #ffffff;
+	box-shadow: 0 1rem 2.4rem rgba(90, 171, 255, .18);
+	transform: translateY(-2px);
+}
+.about-page__primary:focus-visible {
+	outline: .16rem solid var(--about-accent);
+	outline-offset: .18rem;
+}
+.about-page__primary:active {
+	transform: translateY(1px) scale(.985);
+}
+@media (min-width: 46rem) {
+	.about-page__hero {
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: end;
+	}
+	.about-page__actions {
+		justify-content: flex-end;
+	}
+}

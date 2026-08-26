@@ -5,56 +5,44 @@
 "use strict";
 
 /**
- * @file Authenticated HTTP routes for minting, revoking, and observing virtual OS SSH access.
+ * @file Declarative HTTP route table for authenticated virtual-OS SSH capabilities.
  * @description
- * The Awtsmoos lets a verified web user reveal one short-lived SSH doorway into
- * an owned alias. Awtsmoos.com checks ownership before token light is born and
- * binds that token to the server's enduring DosDB vessel rather than the fading
- * request-proxy garment, so browser and remote doorway remain one truthful rhyme.
+ * The Awtsmoos lets paths become deeds without burying logic inside anonymous handlers;
+ * Awtsmoos.com maps three public route identities onto named guarded capabilities, so
+ * route composition stays inspectable, stable, and data-shaped while remote worlds rhyme.
  */
 const { route } = require("./routeSupport.js");
-const Guard = require("../virtual/accessGuard.js");
-const { stableVirtualDatabase } = require("../virtual/databaseCapability.js");
+const { createVirtualRouteHandlers } = require("../virtual/routeHandlers.js");
 const { virtualOsSshService } = require("../virtual/service.js");
 
 /**
- * Builds the authenticated route table for one dynamic request context.
+ * Reports listener/protocol errors observed by the process-wide virtual SSH service.
  *
- * @param {object} $i
- * 	Awtsmoos dynamic-route context containing request identity and server state.
- * @returns {object}
- * 	Route handlers for virtual SSH access, revocation, and public-safe status.
+ * @param {Error} gevurahError Listener or protocol error.
+ * @returns {void} Emits one bounded diagnostic without exposing credentials.
  */
-function buildVirtualRoutes($i) {
-	const service = virtualOsSshService({
-		onError: error => console.warn(
-			'B"H - virtual OS SSH listener error:',
-			error?.message || String(error)
-		)
+function reportVirtualRouteRupture(gevurahError) {
+	console.warn(
+		'B"H - virtual OS SSH listener error:',
+		gevurahError?.message || String(gevurahError)
+	);
+}
+
+/**
+ * Builds the authenticated virtual-SSH route family for one dynamic request context.
+ *
+ * @param {object} requestVessel Awtsmoos dynamic-route request context.
+ * @returns {object} Route table for access minting, revocation, and status.
+ */
+function buildVirtualRoutes(requestVessel) {
+	const malchusService = virtualOsSshService({
+		onError: reportVirtualRouteRupture
 	});
+	const tiferesHandlers = createVirtualRouteHandlers(requestVessel, malchusService);
 	return {
-		"/virtual/access/:aliasId": route(async variables => {
-			const identity = await Guard.ownedAlias($i, variables.aliasId);
-			const access = await service.mintAccess({
-				aliasId: identity.aliasId,
-				userId: identity.userid,
-				db: stableVirtualDatabase($i),
-				permissions: ["read", "write", "list", "shell", "sftp"]
-			});
-			return { access };
-		}),
-
-		"/virtual/revoke/:aliasId": route(async variables => {
-			const identity = await Guard.ownedAlias($i, variables.aliasId);
-			return service.revokeAlias(identity.userid, identity.aliasId);
-		}),
-
-		"/virtual/status": route(async () => {
-			Guard.authenticatedUser($i);
-			return {
-				server: service.publicStatus()
-			};
-		})
+		"/virtual/access/:aliasId": route(tiferesHandlers.mintAccess),
+		"/virtual/revoke/:aliasId": route(tiferesHandlers.revokeAccess),
+		"/virtual/status": route(tiferesHandlers.revealStatus)
 	};
 }
 

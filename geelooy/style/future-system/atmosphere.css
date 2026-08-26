@@ -1,16 +1,16 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos shines through each opted-in Awtsmoos.com hero without replacing the page beneath;
-a quiet grid and moving ray suggest tomorrow while every word remains easy to read.
+The Awtsmoos shines through every measured horizon without being bounded by the glow;
+Awtsmoos.com keeps atmosphere inside its chosen vessel, where restrained light may move and readable content may still lead the flow.
 */
-[data-future-hero] {
+:where(body[data-future-page], body.social-hub-document) [data-future-hero] {
 	position: relative;
 	isolation: isolate;
 	overflow: clip;
 }
 
-[data-future-hero]::before {
+:where(body[data-future-page], body.social-hub-document) [data-future-hero]::before {
 	position: absolute;
 	inset: 0;
 	z-index: 0;
@@ -25,7 +25,7 @@ a quiet grid and moving ray suggest tomorrow while every word remains easy to re
 	animation: future-grid-drift 18s linear infinite;
 }
 
-[data-future-hero]::after {
+:where(body[data-future-page], body.social-hub-document) [data-future-hero]::after {
 	position: absolute;
 	inset: -45% -25%;
 	z-index: 0;
@@ -33,7 +33,7 @@ a quiet grid and moving ray suggest tomorrow while every word remains easy to re
 		110deg,
 		transparent 38%,
 		rgba(var(--future-accent), .03) 45%,
-		rgba(var(--future-accent), .19) 50%,
+		rgba(var(--future-accent), .16) 50%,
 		rgba(var(--future-accent), .03) 55%,
 		transparent 62%
 	);
@@ -43,9 +43,9 @@ a quiet grid and moving ray suggest tomorrow while every word remains easy to re
 	animation: future-scan-pass 11s ease-in-out infinite;
 }
 
-[data-future-hero] > * {
+:where(body[data-future-page], body.social-hub-document) [data-future-hero] > * {
 	position: relative;
-	z-index: 1;
+	z-index: var(--future-layer-content);
 }
 
 @keyframes future-grid-drift {

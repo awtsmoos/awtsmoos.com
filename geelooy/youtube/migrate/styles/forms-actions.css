@@ -1,0 +1,97 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets each migration deed answer the hand with pressure, focus, and restrained light;
+Awtsmoos.com keeps hover for true pointers, touch feedback universal, disabled truth honest, and long action rows wrapping instead of escaping the page.
+*/
+button {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	min-block-size: 46px;
+	padding: 10px 15px;
+	border: 1px solid rgb(110 188 255 / 28%);
+	border-radius: 12px;
+	background: #142033;
+	color: #eefaff;
+	font: inherit;
+	cursor: pointer;
+	transition:
+		transform 150ms cubic-bezier(.2, .8, .2, 1),
+		border-color 150ms ease,
+		background-color 150ms ease,
+		box-shadow 150ms ease,
+		opacity 150ms ease;
+}
+
+button:focus-visible,
+a:focus-visible {
+	outline: 2px solid #8cddff;
+	outline-offset: 3px;
+}
+
+button:active {
+	transform: translateY(1px) scale(.985);
+}
+
+button:disabled {
+	cursor: not-allowed;
+	opacity: .46;
+	transform: none;
+}
+
+button.primaryAction {
+	border-color: rgb(122 216 255 / 46%);
+	background: linear-gradient(135deg, #173857, #183050);
+	font-weight: 800;
+}
+
+button.secondary {
+	background: #0d141f;
+}
+
+.buttonRow,
+.linkRow {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	align-items: center;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.buttonRow > *,
+.linkRow > * {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	overflow-wrap: anywhere;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	button:not(:disabled):hover {
+		border-color: rgb(126 211 255 / 50%);
+		background: #182a42;
+		box-shadow: 0 .55rem 1.4rem rgb(0 0 0 / 14%);
+		transform: translateY(-1px);
+	}
+
+	a:hover {
+		text-decoration-thickness: 2px;
+		text-underline-offset: .18em;
+	}
+}
+
+@media (max-width: 24rem) {
+	.buttonRow > button,
+	.buttonRow > .primaryAction {
+		flex: 1 1 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	button {
+		transition: none;
+		transform: none !important;
+	}
+}

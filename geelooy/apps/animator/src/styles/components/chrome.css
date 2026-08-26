@@ -1,31 +1,106 @@
-/* B"H - Floating desktop rail and mobile dock. */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every responsive command before rail and dock can hold a visible place;
+ * Awtsmoos.com keeps these controls quiet, tactile, semantic, and above functional sheets without overwhelming the living stage.
+ */
 .awtsmoos-chrome {
-  position: fixed;
-  inset: 0;
-  z-index: 120;
-  pointer-events: none;
+	position: fixed;
+	inset: 0;
+	z-index: var(--aw-z-modal);
+	pointer-events: none;
 }
 
 .awtsmoos-chrome-rail {
-  position: absolute;
-  top: 14px;
-  left: calc(env(safe-area-inset-left, 0px) + 14px);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  pointer-events: auto;
+	position: absolute;
+	top: 14px;
+	left: calc(env(safe-area-inset-left, 0px) + 14px);
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	pointer-events: auto;
 }
 
-.awtsmoos-mobile-dock { display: none; }
+.awtsmoos-mobile-dock {
+	display: none;
+}
 
 .awtsmoos-chrome-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 86px;
-  padding: 9px 11px;
-  backdrop-filter: blur(12px);
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 92px;
+	min-height: var(--aw-control-height);
+	padding: 8px 10px;
+	border: 1px solid var(--aw-line);
+	border-radius: var(--aw-radius-md);
+	color: var(--aw-text-soft);
+	background: var(--aw-panel-glass);
+	box-shadow: var(--aw-shadow-soft);
+	backdrop-filter: blur(12px) saturate(1.08);
+	cursor: pointer;
+	transition:
+		background var(--aw-fast),
+		border-color var(--aw-fast),
+		color var(--aw-fast),
+		transform var(--aw-fast),
+		box-shadow var(--aw-fast);
 }
 
-.awtsmoos-chrome-icon { width: 1.25em; text-align: center; }
-.awtsmoos-chrome-label { font-size: 12px; font-weight: 700; letter-spacing: 0.03em; }
+.awtsmoos-chrome-btn:hover {
+	color: var(--aw-text);
+	border-color: var(--aw-line-strong);
+	background: var(--aw-control-hover);
+}
+
+.awtsmoos-chrome-btn:active {
+	transform: translateY(1px) scale(.98);
+}
+
+.awtsmoos-chrome-btn:focus-visible {
+	outline: 0;
+	box-shadow: var(--aw-focus);
+}
+
+.awtsmoos-chrome-btn.active {
+	color: var(--aw-text);
+	border-color: rgba(112, 157, 255, .68);
+	background: var(--aw-selection-soft);
+	box-shadow: inset 3px 0 0 var(--aw-selection), var(--aw-shadow-soft);
+}
+
+.awtsmoos-chrome-btn.playing {
+	border-color: rgba(100, 213, 161, .5);
+	background: rgba(100, 213, 161, .12);
+}
+
+.awtsmoos-chrome-btn:disabled {
+	cursor: not-allowed;
+	opacity: .42;
+	transform: none;
+}
+
+.awtsmoos-chrome-icon {
+	display: inline-grid;
+	place-items: center;
+	width: 1.4em;
+	font-size: 16px;
+	line-height: 1;
+	text-align: center;
+}
+
+.awtsmoos-chrome-label {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: .02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-chrome-btn {
+		transition: none;
+	}
+
+	.awtsmoos-chrome-btn:active {
+		transform: none;
+	}
+}

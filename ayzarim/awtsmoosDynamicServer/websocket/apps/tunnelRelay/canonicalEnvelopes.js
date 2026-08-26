@@ -4,13 +4,14 @@
 
 const Envelopes = require("./envelopes.js");
 const Expectation = require("./expectation.js");
+const Result = require("./durableRecordResult.js");
 
 /**
- * @file Converts durable relay records into stable observation envelopes.
+ * @file Converts durable relay records into stable effective observation envelopes.
  * @description
- * The Awtsmoos distinguishes absence, phase, completion, expiration, and conflict.
- * Awtsmoos.com exposes persisted dispatch and custody evidence while lean retries
- * remain observations of one immutable deed.
+ * The Awtsmoos distinguishes absence, phase, transport timeout, and manifested deed.
+ * Awtsmoos.com preserves an earlier timeout in durable history while a later verified
+ * native terminal result becomes the effective truth returned to every future observer.
  */
 function fromRecord(record, incoming, waitMs = 0, retry = null) {
 	if (!record) return unknown(incoming);
@@ -18,30 +19,37 @@ function fromRecord(record, incoming, waitMs = 0, retry = null) {
 		return conflict(record.expected, incoming);
 	}
 	if (["completed", "failed", "expired"].includes(record.state)) {
-		return record.data;
+		return Result.effectiveData(record);
 	}
 	return pending(record, waitMs, true);
 }
 
+/** Returns whether incoming observation identity belongs to the stored deed. */
 function matches(stored = {}, incoming = {}, retry = null) {
 	if (!retry) return Expectation.sameExpectation(stored, incoming);
 	return stored.registrationKey === incoming.registrationKey &&
 		(!retry.requestedAction || retry.requestedAction === stored.requestedAction);
 }
 
+/** Builds one nonterminal observation envelope without authorizing redispatch. */
 function pending(record, waitMs = 0, recoveredAfterRestart = false) {
 	const expected = record.expected || {};
+	const timeout = Envelopes.timeoutEnvelope(
+		expected,
+		waitMs,
+		expected.timeoutMs,
+		record
+	);
 	return {
-		...Envelopes.timeoutEnvelope(expected, waitMs, expected.timeoutMs, record),
+		...timeout,
 		error: "canonical_request_pending",
 		recoveredAfterRestart,
 		reconciliationRequired: Boolean(record.dispatchedAt && !record.acceptedAt),
-		message: Envelopes.timeoutEnvelope(
-			expected, waitMs, expected.timeoutMs, record
-		).message
+		message: timeout.message
 	};
 }
 
+/** Builds a fail-closed observation for an unknown canonical request identity. */
 function unknown(expected = {}) {
 	const controlRequestId = expected.controlRequestId || expected.id || "";
 	return {
@@ -59,10 +67,12 @@ function unknown(expected = {}) {
 	};
 }
 
+/** Builds an immutable-identity conflict without touching the native deed. */
 function conflict(stored = {}, incoming = {}) {
 	return Envelopes.conflictEnvelope(stored, incoming);
 }
 
+/** Reports that execution completed but durable server result persistence failed. */
 function persistenceFailure(expected = {}, error, executionCompleted = false) {
 	return {
 		BH: "B\"H",
@@ -77,4 +87,11 @@ function persistenceFailure(expected = {}, error, executionCompleted = false) {
 	};
 }
 
-module.exports = { conflict, fromRecord, matches, pending, persistenceFailure, unknown };
+module.exports = {
+	conflict,
+	fromRecord,
+	matches,
+	pending,
+	persistenceFailure,
+	unknown
+};

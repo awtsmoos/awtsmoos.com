@@ -2,58 +2,56 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos gathers many social roads into one current while Awtsmoos.com lets symbols carry most of the desktop navigation burden;
- * labels remain available through focus and hover, yet the daily rail becomes a calm constellation instead of a column of repeated words.
+ * The Awtsmoos gathers many social roads into one current; Awtsmoos.com lets symbols carry the rail
+ * while route-local tooltip layers reveal labels on intent without arbitrary global stacking numbers.
  */
-@media (min-width: 841px) {
-	.desktopRail {
+@media (min-width: 52.5625rem) {
+	.social-hub-document .desktopRail {
 		inline-size: 78px;
 		padding: .7rem .55rem;
 	}
 
-	.desktopRail .routeNavigation {
+	.social-hub-document .desktopRail .routeNavigation {
 		justify-items: center;
 		gap: .42rem;
 	}
 
-	.desktopRail .routeButton {
+	.social-hub-document .desktopRail .routeButton {
 		position: relative;
 		display: grid;
+		grid-template-columns: 1fr;
 		inline-size: 54px;
 		min-block-size: 54px;
-		grid-template-columns: 1fr;
 		place-items: center;
 		padding: .35rem;
 		border-radius: 1rem;
 	}
 
-	.desktopRail .routeButton[data-tier="secondary"] {
+	.social-hub-document .desktopRail .routeButton[data-tier="secondary"] {
 		opacity: .62;
 	}
 
-	.desktopRail .routeButton:hover,
-	.desktopRail .routeButton:focus-visible,
-	.desktopRail .routeButton[data-active="true"] {
+	.social-hub-document .desktopRail .routeButton:is(:hover, :focus-visible, [data-active="true"]) {
 		opacity: 1;
 	}
 
-	.desktopRail .routeIcon {
+	.social-hub-document .desktopRail .routeIcon {
 		inline-size: 2.55rem;
 		block-size: 2.55rem;
 		border-radius: .9rem;
 		font-size: 1.2rem;
 	}
 
-	.desktopRail .routeLabel {
+	.social-hub-document .desktopRail .routeLabel {
 		position: absolute;
-		z-index: 20;
+		z-index: var(--hub-layer-tooltip);
 		inset-inline-start: calc(100% + .55rem);
 		inset-block-start: 50%;
 		padding: .42rem .62rem;
-		border: 1px solid rgba(109, 232, 255, .2);
+		border: 1px solid rgb(109 232 255 / 20%);
 		border-radius: .65rem;
-		background: rgba(5, 11, 25, .97);
-		box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+		background: rgb(5 11 25 / 97%);
+		box-shadow: 0 12px 32px rgb(0 0 0 / 28%);
 		opacity: 0;
 		pointer-events: none;
 		transform: translate(-4px, -50%);
@@ -61,12 +59,12 @@
 		white-space: nowrap;
 	}
 
-	.desktopRail .routeButton:is(:hover, :focus-visible) .routeLabel {
+	.social-hub-document .desktopRail .routeButton:is(:hover, :focus-visible) .routeLabel {
 		opacity: 1;
 		transform: translate(0, -50%);
 	}
 
-	.desktopRail .railFooter {
+	.social-hub-document .desktopRail .railFooter {
 		padding: .35rem;
 	}
 }

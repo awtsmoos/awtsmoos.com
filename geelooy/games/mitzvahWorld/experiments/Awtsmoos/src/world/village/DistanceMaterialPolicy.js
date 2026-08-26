@@ -4,28 +4,30 @@
 
 /**
  * @file DistanceMaterialPolicy.js
- * @description Selects hydratable alpine material pairs at one stable physical texture scale.
- * The Awtsmoos reveals distance without falsifying substance; Awtsmoos.com keeps stone,
- * slate, and timber exact while replacing the one runtime-log-proven blocked timber doorway.
+ * @description Selects shared canonical remote stone, roof, and timber pairs at stable physical texture scale.
+ * The Awtsmoos reveals distance without falsifying substance; Awtsmoos.com now clothes every cottage from the proven 125-texture library alone;
+ * fieldstone weathers into fieldstone, tile meets smaller tile, and oak planks reveal grain while two samplers remain one disciplined village tone.
  */
 
-import { exactMaterialUrl } from '../../assets/PublicMaterialResolver.js';
+import { remoteFullResolutionTextureUrl } from '../../assets/RemoteTextureCatalog.js';
 import {
 	physicalTexturePolicy,
 	physicalTextureRepeat
 } from '../materials/PhysicalTextureCoverage.js';
 
-const ALPINE_PATHS = Object.freeze({
-	mixRoof: 'full-resolution/tiled roof 2.png',
-	mixStone: 'various/Whitewashed stone.png',
-	mixWood: 'full-resolution/oak wood 3.png',
-	roof: 'various/slate roof shingles.png',
-	stone: 'various/Stone retaining wall masonry.png',
-	wood: 'various/Rough weathered oak wood planks.png'
+const ARCHITECTURE_TEXTURES = Object.freeze({
+	mixRoof: 'tiled roof 3 smaller tiles.png',
+	mixStone: 'weathered fieldstone Rock 2.png',
+	mixWood: 'oak wood 3.png',
+	roof: 'tiled roof 2.png',
+	stone: 'weathered fieldstone Rock 1.png',
+	wood: 'wooden oak planks 1.png'
 });
 
-const ALPINE_URLS = Object.freeze(Object.fromEntries(
-	Object.entries(ALPINE_PATHS).map(([role, path]) => [role, exactMaterialUrl(path)])
+const ARCHITECTURE_URLS = Object.freeze(Object.fromEntries(
+	Object.entries(ARCHITECTURE_TEXTURES).map(([role, filename]) => {
+		return [role, remoteFullResolutionTextureUrl(filename)];
+	})
 ));
 
 const TIER_ANISOTROPY = Object.freeze({
@@ -40,15 +42,13 @@ const POLICIES = Object.freeze({
 	near: createPolicy('near')
 });
 
+/** Returns the shared material URL covenant for one cottage distance tier. */
 export function villageMaterialPolicy(detail = 'near', _variant = 0) {
 	return POLICIES[TIER_ANISOTROPY[detail] ? detail : 'near'];
 }
 
-export function cottageMaterialRepeat(
-	_detail = 'near',
-	surface = 'wall',
-	dimensions = {}
-) {
+/** Returns world-scale UV repeats for cottage wall or roof geometry. */
+export function cottageMaterialRepeat(_detail = 'near', surface = 'wall', dimensions = {}) {
 	if (surface === 'roof') {
 		const slopeLength = Math.hypot(
 			(Number(dimensions.width) || 7) / 2,
@@ -69,15 +69,16 @@ export function cottageMaterialRepeat(
 
 function createPolicy(tier) {
 	return Object.freeze({
-		...ALPINE_URLS,
+		...ARCHITECTURE_URLS,
 		anisotropy: TIER_ANISOTROPY[tier],
 		texturePolicy: physicalTexturePolicy('stone', {
+			canonicalCatalog: 'remote-125-v1',
 			distanceSelected: true,
-			materialSet: 'alpine-stone-slate-timber-v3',
+			materialSet: 'canonical-fieldstone-tile-oak-v4',
 			publicFirebase: true,
 			samplersPerSurface: 2,
-			uniqueVillageUrlBudget: Object.keys(ALPINE_URLS).length,
-			visualVariationSource: 'geometry-weathering-ornament-placement'
+			uniqueVillageUrlBudget: Object.keys(ARCHITECTURE_URLS).length,
+			visualVariationSource: 'gpu-world-patch-mix+geometry-weathering'
 		})
 	});
 }

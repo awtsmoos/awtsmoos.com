@@ -1,2 +1,17 @@
-/* B"H reader beauty controls/magnetic-hover.css. */
-.awtsmoos-floating-controls button:hover { transform:translateY(-2px); }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lifts a reader orb by one measured breath and never drags another page along;
+ * Awtsmoos.com keeps this motion local, pointer-aware, and subordinate to focus where it belongs.
+ */
+@media (hover: hover) {
+	.post-reader-localized-context .awtsmoos-floating-controls button:hover {
+		transform: translateY(-2px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context .awtsmoos-floating-controls button:hover {
+		transform: none;
+	}
+}

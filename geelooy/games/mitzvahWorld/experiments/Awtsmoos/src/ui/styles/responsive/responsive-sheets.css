@@ -1,0 +1,72 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives advanced profile and market depth a bounded chamber;
+ * Awtsmoos.com keeps every sheet safe, scrollable, focused, and subordinate to gameplay nature.
+ */
+
+.Awtsmoos-gameplay.Awtsmoos-sheet {
+	position: fixed;
+	top: max(64px, env(safe-area-inset-top, 0px));
+	right: max(10px, env(safe-area-inset-right, 0px));
+	bottom: max(64px, env(safe-area-inset-bottom, 0px));
+	z-index: var(--gp-z-sheet);
+	width: min(400px, calc(100vw - 20px));
+	overflow: auto;
+	overscroll-behavior: contain;
+	padding: 13px;
+	border: 1px solid #9b7844;
+	border-radius: 14px;
+	background: rgba(5, 16, 15, 0.98);
+	color: #f5eee0;
+	box-shadow: 0 16px 44px rgba(0, 0, 0, 0.48);
+	font: 13px/1.42 system-ui, sans-serif;
+}
+
+.Awtsmoos-gameplay.Awtsmoos-sheet[hidden] {
+	display: none;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-sheet-header {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	background: #07100f;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-sheet-header h2 {
+	margin: 0;
+	color: #ffd784;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-sheet-header small {
+	color: #9ec8b6;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-sheet-header button {
+	margin-left: auto;
+}
+
+.Awtsmoos-gameplay.Awtsmoos-status-ribbon {
+	position: fixed;
+	top: max(8px, env(safe-area-inset-top, 0px));
+	left: 50%;
+	z-index: var(--gp-z-ribbon);
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	max-width: min(72vw, calc(100vw - 24px));
+	overflow: auto;
+	padding: 6px 10px;
+	border: 1px solid #796844;
+	border-radius: 999px;
+	background: rgba(5, 16, 15, 0.96);
+	color: #fff;
+	font: 11px system-ui, sans-serif;
+	white-space: nowrap;
+	transform: translateX(-50%);
+}

@@ -1,0 +1,39 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+@layer oros.hud {
+	.oros-app #hud-guide {
+		position: absolute;
+		left: 50%;
+		bottom: calc(var(--oros-safe-bottom) + 12px);
+		max-width: min(680px, calc(100dvw - 30px));
+		margin: 0;
+		padding: 9px 13px;
+		border: 1px solid rgba(107, 233, 255, 0.22);
+		border-radius: 999px;
+		background: rgba(2, 10, 18, 0.78);
+		backdrop-filter: blur(14px);
+		box-shadow: 0 10px 38px rgba(0, 0, 0, 0.24);
+		font-size: 0.72rem;
+		line-height: 1.35;
+		text-align: center;
+		color: rgba(230, 250, 255, 0.9);
+		opacity: 0;
+		transform: translate(-50%, 8px);
+		pointer-events: none;
+		z-index: var(--oros-z-guide);
+	}
+
+	.oros-app #hud-guide[data-visible="true"] {
+		opacity: 1;
+		transform: translate(-50%, 0);
+	}
+
+	@media (pointer: coarse), (max-width: 760px) {
+		.oros-app #hud-guide {
+			bottom: calc(var(--oros-safe-bottom) + 174px);
+			border-radius: 16px;
+			font-size: 0.68rem;
+		}
+	}
+}

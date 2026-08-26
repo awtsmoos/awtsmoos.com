@@ -3,13 +3,13 @@ Boruch Hashem
 Blessed is He
 Each tile is a small keli for a different light; together the Awtsmoos.com worlds form a grid clearer than a pile of links.
 */
-.world-grid {
+body[data-geelooy-route="home"] .world-grid {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: .62rem;
 }
 
-.world-tile {
+body[data-geelooy-route="home"] .world-tile {
 	--world-accent: 113, 194, 255;
 	display: grid;
 	grid-template-columns: 2.75rem minmax(0, 1fr);
@@ -24,7 +24,7 @@ Each tile is a small keli for a different light; together the Awtsmoos.com world
 	transition: border-color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
 }
 
-.world-tile > span {
+body[data-geelooy-route="home"] .world-tile > span {
 	display: grid;
 	place-items: center;
 	width: 2.75rem;
@@ -38,7 +38,7 @@ Each tile is a small keli for a different light; together the Awtsmoos.com world
 	font-weight: 900;
 }
 
-.world-tile b {
+body[data-geelooy-route="home"] .world-tile b {
 	display: grid;
 	gap: .16rem;
 	min-width: 0;
@@ -46,7 +46,7 @@ Each tile is a small keli for a different light; together the Awtsmoos.com world
 	letter-spacing: -.01em;
 }
 
-.world-tile small {
+body[data-geelooy-route="home"] .world-tile small {
 	overflow: hidden;
 	color: #7788a2;
 	font-size: .62rem;
@@ -56,8 +56,8 @@ Each tile is a small keli for a different light; together the Awtsmoos.com world
 	white-space: nowrap;
 }
 
-.world-tile:hover,
-.world-tile:focus-visible {
+body[data-geelooy-route="home"] .world-tile:hover,
+body[data-geelooy-route="home"] .world-tile:focus-visible {
 	border-color: rgba(var(--world-accent), .48);
 	background: linear-gradient(145deg, rgba(var(--world-accent), .18), rgba(255, 255, 255, .035));
 	box-shadow: 0 14px 34px rgba(0, 0, 0, .24), inset 0 1px rgba(255, 255, 255, .07);
@@ -65,35 +65,35 @@ Each tile is a small keli for a different light; together the Awtsmoos.com world
 	transform: translateY(-2px);
 }
 
-.world-tile[data-tone="gold"] { --world-accent: 245, 193, 99; }
-.world-tile[data-tone="blue"] { --world-accent: 99, 178, 255; }
-.world-tile[data-tone="violet"] { --world-accent: 178, 130, 255; }
-.world-tile[data-tone="cyan"] { --world-accent: 91, 218, 222; }
-.world-tile[data-tone="green"] { --world-accent: 104, 220, 160; }
-.world-tile[data-tone="rose"] { --world-accent: 245, 121, 164; }
-.world-tile[data-tone="indigo"] { --world-accent: 126, 143, 255; }
-.world-tile[data-tone="orange"] { --world-accent: 246, 153, 82; }
+body[data-geelooy-route="home"] .world-tile[data-tone="gold"] { --world-accent: 245, 193, 99; }
+body[data-geelooy-route="home"] .world-tile[data-tone="blue"] { --world-accent: 99, 178, 255; }
+body[data-geelooy-route="home"] .world-tile[data-tone="violet"] { --world-accent: 178, 130, 255; }
+body[data-geelooy-route="home"] .world-tile[data-tone="cyan"] { --world-accent: 91, 218, 222; }
+body[data-geelooy-route="home"] .world-tile[data-tone="green"] { --world-accent: 104, 220, 160; }
+body[data-geelooy-route="home"] .world-tile[data-tone="rose"] { --world-accent: 245, 121, 164; }
+body[data-geelooy-route="home"] .world-tile[data-tone="indigo"] { --world-accent: 126, 143, 255; }
+body[data-geelooy-route="home"] .world-tile[data-tone="orange"] { --world-accent: 246, 153, 82; }
 
 @media (max-width: 900px) {
-	.world-grid {
+	body[data-geelooy-route="home"] .world-grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
 
 @media (max-width: 620px) {
-	.world-grid {
+	body[data-geelooy-route="home"] .world-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: .5rem;
 	}
 
-	.world-tile {
+	body[data-geelooy-route="home"] .world-tile {
 		grid-template-columns: 2.35rem minmax(0, 1fr);
 		min-height: 64px;
 		padding: .58rem;
 		border-radius: .85rem;
 	}
 
-	.world-tile > span {
+	body[data-geelooy-route="home"] .world-tile > span {
 		width: 2.35rem;
 		height: 2.35rem;
 		border-radius: .72rem;

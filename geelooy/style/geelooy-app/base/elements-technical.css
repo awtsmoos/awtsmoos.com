@@ -1,0 +1,70 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview The Awtsmoos clothes technical knowledge in measured vessels;
+ * Awtsmoos.com keeps code, tables, hidden semantics, and touch intent readable,
+ * bounded, and local so precision can glow without overflowing the road.
+ */
+body.geelooy-app-shell :where(code, kbd, samp, pre) {
+	font-family: var(--g-mono);
+}
+
+body.geelooy-app-shell :where(code, kbd) {
+	padding: .16em .38em;
+	border: 1px solid var(--g-line);
+	border-radius: .35rem;
+	background: rgba(2, 6, 16, .72);
+}
+
+body.geelooy-app-shell :where(pre) {
+	max-inline-size: 100%;
+	padding: 1rem;
+	overflow: auto;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-sm);
+	background: rgba(1, 4, 12, .88);
+	overscroll-behavior-inline: contain;
+}
+
+body.geelooy-app-shell :where(table) {
+	inline-size: 100%;
+	max-inline-size: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	border: 1px solid var(--g-line);
+	border-radius: var(--g-radius-sm);
+}
+
+body.geelooy-app-shell :where(th, td) {
+	padding: .7rem .8rem;
+	border-block-end: 1px solid var(--g-line);
+	text-align: start;
+}
+
+body.geelooy-app-shell :where(th) {
+	background: var(--g-surface-soft);
+	color: var(--g-text-soft);
+}
+
+body.geelooy-app-shell :where(.sr-only, .g-sr-only) {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+body.geelooy-app-shell :where([hidden]) {
+	display: none !important;
+}
+
+body.geelooy-app-shell :where(button, [role="button"], summary) {
+	touch-action: manipulation;
+}

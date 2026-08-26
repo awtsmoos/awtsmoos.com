@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews each state between rest and response, a quiet pulse that never overwhelms the eye;
+ * Awtsmoos.com uses motion as meaning, then yields completely when reduced-motion asks animation to pass by.
+ */
+
+[data-awtsmoos-creator] .aw-creator__launcher,
+[data-awtsmoos-creator] .aw-creator__panel,
+[data-awtsmoos-creator] button,
+[data-awtsmoos-creator] textarea,
+[data-awtsmoos-creator] summary {
+	transition:
+		transform 170ms cubic-bezier(.2, .8, .2, 1),
+		opacity 170ms ease,
+		border-color 170ms ease,
+		background-color 170ms ease,
+		box-shadow 170ms ease,
+		color 170ms ease;
+}
+
+[data-awtsmoos-creator][data-expanded="true"] .aw-creator__launcher {
+	box-shadow:
+		0 16px 48px rgba(0, 0, 0, .38),
+		0 0 0 1px color-mix(in srgb, var(--aw-focus, #80aaff) 18%, transparent),
+		0 0 32px color-mix(in srgb, var(--aw-focus, #80aaff) 13%, transparent);
+}
+
+[data-awtsmoos-creator][data-expanded="true"] .aw-creator__panel {
+	animation: awtsmoosCreatorReveal 210ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+[data-awtsmoos-creator][data-busy="true"] .aw-creator__primary {
+	animation: awtsmoosCreatorPulse 900ms ease-in-out infinite alternate;
+}
+
+[data-awtsmoos-creator][data-busy="true"] .aw-creator__primary::after {
+	content: ' ···';
+}
+
+@keyframes awtsmoosCreatorReveal {
+	from {
+		opacity: 0;
+		transform: translateY(10px) scale(.985);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes awtsmoosCreatorPulse {
+	from {
+		box-shadow: 0 9px 24px color-mix(in srgb, var(--aw-focus, #80aaff) 16%, transparent);
+	}
+	to {
+		box-shadow: 0 12px 34px color-mix(in srgb, var(--aw-focus, #80aaff) 34%, transparent);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-awtsmoos-creator],
+	[data-awtsmoos-creator] * {
+		scroll-behavior: auto !important;
+		transition-duration: .01ms !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

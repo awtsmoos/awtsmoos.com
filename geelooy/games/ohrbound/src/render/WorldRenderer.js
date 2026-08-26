@@ -2,114 +2,115 @@
 //Boruch Hashem
 //Blessed is He
 
-import { CoreGpuVessel } from "./CoreGpuVessel.js";
-import { CoreGeometryFactory } from "./CoreGeometryFactory.js";
-import { CoreBufferAtlas } from "./CoreBufferAtlas.js";
-import { TileMeshFactory } from "./TileMeshFactory.js";
-import { BackdropField } from "./BackdropField.js";
-import { CameraRig } from "./CameraRig.js";
-import { PlayerVisual } from "./PlayerVisual.js";
-import { AmbientParticleField } from "./AmbientParticleField.js";
-import { particleCountFor, pixelRatioCapFor } from "../preferences/ExperienceRules.js";
+import { WorldRenderFoundation } from "./WorldRenderFoundation.js";
+import { worldThemeFor } from "./materials/WorldThemeCatalog.js";
+import {
+	particleCountFor,
+	pixelRatioCapFor
+} from "../preferences/ExperienceRules.js";
 
 /**
  * @file WorldRenderer.js
- * @description Draws Ohrbound through Procedural Core with restrained ambient depth.
- * The Awtsmoos renews every GPU frame from nothing; Awtsmoos.com lets subtle motes
- * surround the finite keilim while gameplay color, collision, and readability remain one.
+ * @description Orchestrates experience law, level loading, depth-ordered frames, and diagnostics atop WorldRenderFoundation.
+ * The Awtsmoos renews every frame before orchestration can claim to command its light;
+ * Awtsmoos.com lets this Tiferes vessel order finite render kingdoms while the deeper GPU foundations remain quiet and bright.
  */
-export class WorldRenderer {
-	constructor(containerId, appearanceProfile, experienceSettings = {}) {
-		this.gpu = new CoreGpuVessel(containerId);
-		this.geometry = new CoreGeometryFactory();
-		this.atlas = new CoreBufferAtlas(this.gpu.gl);
-		this.factory = new TileMeshFactory(this.atlas, this.geometry);
-		this.backdrop = new BackdropField(
-			this.atlas.get("world-cube", this.geometry.cube(1))
+export class WorldRenderer extends WorldRenderFoundation {
+	constructor(containerId, malchusAppearanceProfile, binaExperienceSettings = {}) {
+		super(
+			containerId,
+			malchusAppearanceProfile,
+			binaExperienceSettings
 		);
-		this.camera = new CameraRig();
-		this.playerVisual = new PlayerVisual(this.factory, appearanceProfile);
-		this.particles = new AmbientParticleField(this.gpu.gl);
-		this.staticMeshes = [];
-		this.sparks = [];
-		this.movingHazards = [];
-		this.applyExperience(experienceSettings);
+		this.applyExperience(binaExperienceSettings);
 	}
 
-	/** Changes only the visible player vessel. */
-	setAppearance(profile) {
-		this.playerVisual.apply(profile);
+	/**
+	 * Applies GPU density, particles, motion, and ecology quality through one simple experience vocabulary.
+	 * @param {object} binaExperienceSettings Persisted experience settings.
+	 * @returns {void}
+	 * @sideEffect May regenerate visual-only ecology when a loaded world's quality tier changes.
+	 */
+	applyExperience(binaExperienceSettings = {}) {
+		this.binaExperience = { ...binaExperienceSettings };
+		this.malchusGpu.setPixelRatioCap(
+			pixelRatioCapFor(binaExperienceSettings.quality)
+		);
+		this.hodParticles.configure(
+			particleCountFor(binaExperienceSettings.particles),
+			binaExperienceSettings.motion === "reduced"
+		);
+		this.hodEcology.applyExperience(binaExperienceSettings);
 	}
 
-	/** Applies real render-density, particle-count, and motion policy immediately. */
-	applyExperience(settings = {}) {
-		this.experience = { ...settings };
-		this.gpu.setPixelRatioCap(pixelRatioCapFor(settings.quality));
-		this.particles.configure(
-			particleCountFor(settings.particles),
-			settings.motion === "reduced"
+	/**
+	 * Loads theme, trusted texture intent, authored scene, deterministic ecology, atmosphere seed, and camera.
+	 * @param {object} malchusLevel Validated level document.
+	 * @param {object} tiferesSession Active deterministic GameSession.
+	 * @returns {void}
+	 */
+	load(malchusLevel, tiferesSession) {
+		this.tiferesTheme = worldThemeFor(malchusLevel.pack);
+		this.malchusGpu.applyTheme(this.tiferesTheme);
+		this.yesodTextures.loadTheme(this.tiferesTheme);
+		this.malchusScene.load(
+			malchusLevel,
+			this.tiferesTheme
+		);
+		this.hodEcology.load(malchusLevel);
+		this.hodParticles.reseed(malchusLevel.id);
+		this.tiferesCamera.load(
+			malchusLevel,
+			tiferesSession.player,
+			this.malchusGpu.viewport()
 		);
 	}
 
-	/** Rebuilds level transforms while preserving shared buffers and particle resources. */
-	load(level, session) {
-		this.staticMeshes = this.backdrop.build(level);
-		this.sparks = [];
-		this.movingHazards = [];
-		this.particles.reseed(level.id);
-		for (let row = 0; row < level.height; row += 1) {
-			for (let x = 0; x < level.width; x += 1) {
-				this.addTile(level, row, x);
-			}
-		}
-		this.camera.snap(session.player);
+	/**
+	 * Draws one frame in depth order: atmosphere, ground ecology, authored world, ambient life, then traveler.
+	 * @param {object} tiferesSession Active deterministic GameSession.
+	 * @param {number} netzachDeltaSeconds Presentation frame delta.
+	 * @returns {void}
+	 */
+	render(tiferesSession, netzachDeltaSeconds) {
+		this.tiferesCamera.update(
+			this.malchusGpu,
+			tiferesSession.player,
+			netzachDeltaSeconds
+		);
+		this.malchusPlayerVisual.update(
+			tiferesSession.player,
+			tiferesSession.elapsed
+		);
+		this.malchusScene.update(tiferesSession);
+		this.malchusGpu.beginFrame();
+		this.hodParticles.draw(
+			tiferesSession.elapsed,
+			this.malchusGpu.cameraPosition
+		);
+		this.hodEcology.drawGround(this.malchusGpu);
+		this.malchusScene.draw(this.malchusGpu);
+		this.hodEcology.drawLife(this.malchusGpu);
+		this.malchusPlayerVisual.draw(this.malchusGpu);
 	}
 
-	/** Sorts one authored tile into its static or animated render collection. */
-	addTile(level, row, x) {
-		const symbol = level.rows[row][x];
-		const y = level.height - 1 - row;
-		const mesh = this.factory.create(symbol, x, y);
-		if (!mesh) return;
-		if (symbol === "*") {
-			this.sparks.push({ key: `${x}:${y}`, mesh });
-		} else if (symbol === "H") {
-			this.movingHazards.push({
-				originX: x + 0.5,
-				index: this.movingHazards.length,
-				mesh
-			});
-		} else {
-			this.staticMeshes.push(mesh);
-		}
+	/**
+	 * Reveals compact renderer evidence without exposing generated geometry or mutable GPU objects.
+	 * @returns {object} Serializable diagnostics for tests and browser probes.
+	 */
+	snapshot() {
+		return {
+			theme: this.tiferesTheme?.id || null,
+			camera: this.tiferesCamera.snapshot(),
+			textures: this.yesodTextures.snapshot(),
+			scene: this.malchusScene.snapshot(),
+			ecology: this.hodEcology.snapshot(),
+			viewport: this.malchusGpu.viewport()
+		};
 	}
 
-	/** Draws ambient points first, then geometry, so gameplay remains visually dominant. */
-	render(session, delta) {
-		const player = session.player;
-		this.camera.update(this.gpu, player, delta);
-		this.playerVisual.update(player, session.elapsed);
-		for (const spark of this.sparks) {
-			spark.mesh.visible = !player.collected.has(spark.key);
-		}
-		for (const hazard of this.movingHazards) {
-			hazard.mesh.transform.position[0] = hazard.originX
-				+ Math.sin(session.elapsed * 2.1 + hazard.index * 1.7) * 0.62;
-			hazard.mesh.transform.rotation[2] = session.elapsed * 1.8;
-		}
-		this.gpu.beginFrame();
-		this.particles.draw(session.elapsed, this.gpu.cameraPosition);
-		for (const mesh of this.staticMeshes) mesh.draw(this.gpu);
-		for (const spark of this.sparks) spark.mesh.draw(this.gpu);
-		for (const hazard of this.movingHazards) hazard.mesh.draw(this.gpu);
-		this.playerVisual.draw(this.gpu);
-	}
-
-	/** Releases every GPU resource owned by this renderer. */
+	/** Releases every inherited render vessel in dependency-safe order. @returns {void} */
 	dispose() {
-		this.particles.dispose();
-		this.atlas.dispose();
-		this.geometry.clear();
-		this.gpu.dispose();
+		this.disposeFoundation();
 	}
 }

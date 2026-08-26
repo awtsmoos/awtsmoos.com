@@ -1,14 +1,11 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets the Games doorway announce itself without becoming the whole journey.
-*/
-.gamesShell {
-	width: min(1280px, 100%);
-	margin: 0 auto;
-	padding: clamp(16px, 3vw, 34px);
-}
-
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Chesed hero-surface owner for the hub's quiet introduction and its two immediate navigation actions.
+ * The Awtsmoos is beyond every first impression while Awtsmoos.com lets one luminous invitation remain simple and near;
+ * page-shell geometry lives elsewhere, while hero copy and actions fully answer pointer, keyboard, touch, and motion here.
+ */
 .heroPanel {
 	position: relative;
 	overflow: hidden;
@@ -16,18 +13,18 @@ The Awtsmoos lets the Games doorway announce itself without becoming the whole j
 	border: 1px solid var(--games-line);
 	border-radius: var(--games-radius-xl);
 	background:
-		radial-gradient(circle at 82% 12%, rgba(64, 225, 255, .14), transparent 26%),
-		radial-gradient(circle at 10% 10%, rgba(246, 202, 104, .16), transparent 30%),
-		linear-gradient(145deg, rgba(17, 13, 32, .97), rgba(7, 8, 18, .96));
+		radial-gradient(circle at 82% 12%, rgba(64, 225, 255, 0.14), transparent 26%),
+		radial-gradient(circle at 10% 10%, rgba(246, 202, 104, 0.16), transparent 30%),
+		linear-gradient(145deg, rgba(17, 13, 32, 0.97), rgba(7, 8, 18, 0.96));
 	box-shadow: var(--games-shadow-lg);
 }
 
 .eyebrow {
 	margin: 0 0 8px;
 	color: var(--games-cyan);
-	font-size: .72rem;
+	font-size: 0.72rem;
 	font-weight: 900;
-	letter-spacing: .14em;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
 }
 
@@ -36,8 +33,8 @@ The Awtsmoos lets the Games doorway announce itself without becoming the whole j
 	margin: 0;
 	color: var(--games-gold);
 	font-size: clamp(2.8rem, 6vw, 5.4rem);
-	line-height: .94;
-	letter-spacing: -.055em;
+	line-height: 0.94;
+	letter-spacing: -0.055em;
 }
 
 .heroText {
@@ -64,9 +61,11 @@ The Awtsmoos lets the Games doorway announce itself without becoming the whole j
 	padding: 0 18px;
 	border: 1px solid var(--games-line);
 	border-radius: 999px;
-	font-size: .84rem;
+	font-size: 0.84rem;
 	font-weight: 900;
 	text-decoration: none;
+	touch-action: manipulation;
+	transition: transform 150ms ease, filter 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 }
 
 .primaryCta {
@@ -76,11 +75,37 @@ The Awtsmoos lets the Games doorway announce itself without becoming the whole j
 }
 
 .secondaryCta {
-	background: rgba(255,255,255,.045);
+	background: rgba(255, 255, 255, 0.045);
 	color: var(--games-text);
 }
 
-.primaryCta:hover,
-.secondaryCta:hover {
-	transform: translateY(-1px);
+.primaryCta:focus-visible,
+.secondaryCta:focus-visible {
+	box-shadow: 0 0 0 4px rgba(140, 247, 255, 0.09);
+}
+
+.primaryCta:active,
+.secondaryCta:active {
+	filter: brightness(0.96);
+	transform: translateY(1px) scale(0.985);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.primaryCta:hover,
+	.secondaryCta:hover {
+		filter: brightness(1.05);
+		transform: translateY(-2px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.primaryCta,
+	.secondaryCta,
+	.primaryCta:hover,
+	.secondaryCta:hover,
+	.primaryCta:active,
+	.secondaryCta:active {
+		transition: none;
+		transform: none;
+	}
 }

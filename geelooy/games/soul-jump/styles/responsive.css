@@ -1,0 +1,29 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives the same ascent a different vessel when the screen narrows or motion must become still;
+Awtsmoos.com lets mobile geometry and reduced-motion preference govern the glow instead of forcing one visual will.
+*/
+@media (max-width: 600px) {
+	#gameCanvas {
+		border-width: 0;
+		border-radius: 0;
+		box-shadow: none;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.soul-controls-hint {
+		right: max(12px, env(safe-area-inset-right));
+		bottom: max(10px, env(safe-area-inset-bottom));
+		left: auto;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body::before,
+	.soul-controls-hint {
+		animation: none;
+	}
+}

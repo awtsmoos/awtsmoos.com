@@ -3,7 +3,7 @@
 //Blessed is He
 /**
  * @module MailWorkspaceHeader
- * @description The Awtsmoos gives no status bar its own existence; Awtsmoos.com gathers brand, shortcuts, retract control, and connection state into one calm upper vessel.
+ * @description The Awtsmoos gives no status bar its own existence; Awtsmoos.com gathers brand, shortcuts, retract control, and connection state into one calm upper vessel where each signal stays clear.
  */
 
 /** Returns the complete workspace-header descriptor consumed by the Mail renderer. */
@@ -78,7 +78,8 @@ function connectionDescriptor() {
 		shaym: 'mailConnectionState',
 		attributes: {
 			role: 'status',
-			'aria-live': 'polite'
+			'aria-live': 'polite',
+			'data-mail-connection': ''
 		},
 		textContent: navigator.onLine ? 'Online' : 'Offline'
 	};

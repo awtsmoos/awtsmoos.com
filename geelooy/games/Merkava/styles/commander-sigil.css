@@ -1,31 +1,28 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * The Awtsmoos renews commander, mark, price, and ownership beyond every finite
- * ornament. Awtsmoos.com keeps the Sigil a solid start-screen account cosmetic:
- * visible, durable, and optional, with no glass and no battlefield advantage.
+ * The Awtsmoos lets one optional commander mark remain visible without becoming global chrome;
+ * Awtsmoos.com keeps identity, ownership, and wallet actions scoped inside the start-screen vessel.
  */
-
-.commander-sigil {
+#gameShell .commander-sigil {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr);
-	gap: .7rem .8rem;
+	gap: 0.7rem 0.8rem;
 	align-items: center;
-	margin: .9rem auto 1rem;
-	padding: .8rem;
+	margin: 0.9rem auto 1rem;
+	padding: 0.8rem;
 	border: 1px solid #56416f;
 	border-radius: 1rem;
 	background: #0b0920;
-	text-align: left;
+	text-align: start;
 }
 
-.commander-sigil__mark {
+#gameShell .commander-sigil__mark {
 	display: grid;
 	grid-row: 1 / span 2;
-	width: 2.8rem;
-	height: 2.8rem;
+	inline-size: 2.8rem;
+	block-size: 2.8rem;
 	place-items: center;
 	border: 1px solid #6b50a1;
 	border-radius: 50%;
@@ -34,68 +31,73 @@
 	font-size: 1.4rem;
 }
 
-.commander-sigil__copy {
+#gameShell .commander-sigil__copy {
 	display: grid;
-	gap: .18rem;
+	gap: 0.18rem;
+	min-inline-size: 0;
 }
 
-.commander-sigil__kicker {
-	color: #70d9ff;
-	font-size: .62rem;
+#gameShell .commander-sigil__kicker {
+	color: var(--merkava-aqua);
+	font-size: 0.62rem;
 	font-weight: 900;
-	letter-spacing: .16em;
+	letter-spacing: 0.16em;
 }
 
-.commander-sigil__title {
+#gameShell .commander-sigil__title {
 	color: #fff3c0;
-	font-size: .9rem;
+	font-size: 0.9rem;
 }
 
-.commander-sigil__status {
-	color: #a8bad7;
-	font-size: .7rem;
+#gameShell .commander-sigil__status {
+	color: var(--merkava-ink-muted);
+	font-size: 0.7rem;
 	line-height: 1.35;
 }
 
-.commander-sigil__status[data-tone="success"] {
+#gameShell .commander-sigil__status[data-tone="success"] {
 	color: #9ceeb9;
 }
 
-.commander-sigil__status[data-tone="error"] {
+#gameShell .commander-sigil__status[data-tone="error"] {
 	color: #ff9cab;
 }
 
-.commander-sigil__actions {
+#gameShell .commander-sigil__actions {
 	display: flex;
 	grid-column: 1 / -1;
-	gap: .5rem;
+	flex-wrap: wrap;
+	gap: 0.5rem;
 	align-items: center;
 }
 
-.hero-panel .commander-sigil__button {
-	width: auto;
+#gameShell .hero-panel .commander-sigil__button {
+	inline-size: auto;
 	margin: 0;
-	padding: .55rem .75rem;
-	font-size: .68rem;
+	padding: 0.55rem 0.75rem;
+	font-size: 0.68rem;
 }
 
-.commander-sigil__wallet {
-	padding: .52rem .7rem;
+#gameShell .commander-sigil__wallet {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.52rem 0.7rem;
 	border: 1px solid #4e678c;
-	border-radius: .65rem;
+	border-radius: 0.65rem;
 	background: #101b2e;
 	color: #cbe8ff;
-	font-size: .68rem;
+	font-size: 0.68rem;
 	font-weight: 800;
 	text-decoration: none;
 }
 
-.commander-sigil[data-state="owned"] {
+#gameShell .commander-sigil[data-state="owned"] {
 	border-color: #d8ad52;
 	background: #1b1308;
 }
 
-.commander-sigil[data-state="owned"] .commander-sigil__mark {
+#gameShell .commander-sigil[data-state="owned"] .commander-sigil__mark {
 	border-color: #e6bd62;
 	background: #302207;
 	color: #ffe8a0;

@@ -1,0 +1,85 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos shines through filled and empty item vessels while each finite object keeps honest measure;
+ * Awtsmoos.com gives every slot rest, hover, focus, press, disabled, and selected truth without visual pressure.
+ */
+
+.Awtsmoos-inventory-shell .inv-slot {
+	display: grid;
+	grid-template-columns: 36px minmax(0, 1fr);
+	grid-template-rows: auto auto;
+	align-items: center;
+	gap: 2px 8px;
+	min-width: 0;
+	min-height: 74px;
+	padding: 9px;
+	border: 1px solid rgba(136, 255, 224, 0.2);
+	border-radius: 13px;
+	background: linear-gradient(145deg, rgba(15, 54, 45, 0.9), rgba(4, 25, 24, 0.92));
+	color: #effff9;
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
+	text-align: left;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: transform 120ms ease, border-color 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+.Awtsmoos-inventory-shell .inv-slot > span {
+	grid-row: 1 / 3;
+	font-size: 27px;
+}
+
+.Awtsmoos-inventory-shell .inv-slot > :is(b, small) {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.Awtsmoos-inventory-shell .inv-slot small {
+	color: #a9cbc1;
+}
+
+@media (hover: hover) {
+	.Awtsmoos-inventory-shell .inv-slot:hover:not(:disabled) {
+		transform: translateY(-2px);
+		border-color: rgba(187, 255, 236, 0.72);
+		filter: brightness(1.12);
+		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+	}
+}
+
+.Awtsmoos-inventory-shell .inv-slot:active:not(:disabled) {
+	transform: translateY(1px) scale(0.97);
+}
+
+.Awtsmoos-inventory-shell .inv-slot:focus-visible {
+	outline: 3px solid #b9ffe7;
+	outline-offset: 2px;
+}
+
+.Awtsmoos-inventory-shell .inv-slot:disabled,
+.Awtsmoos-inventory-shell .inv-slot.empty {
+	opacity: 0.48;
+	cursor: default;
+	filter: grayscale(0.5);
+}
+
+.Awtsmoos-inventory-shell .item-card {
+	margin-top: 12px;
+	padding: 12px;
+	border: 1px solid rgba(255, 216, 132, 0.25);
+	border-radius: 14px;
+	background: rgba(40, 31, 17, 0.64);
+	color: #f7f1de;
+}
+
+.Awtsmoos-inventory-shell .item-card[hidden] {
+	display: none;
+}
+
+.Awtsmoos-inventory-shell .item-card :is(h4, p) {
+	margin: 0 0 6px;
+}

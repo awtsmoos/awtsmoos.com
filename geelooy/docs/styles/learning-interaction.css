@@ -1,0 +1,57 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets a learning step answer intention without becoming noisy; Awtsmoos.com gives check and open controls
+ * full hover, keyboard, pressure, and disabled states while coarse pointers receive no meaningless hover displacement.
+ */
+body[data-geelooy-route="docs"] :where(.learn-check, .learn-step-open) {
+	border: 0;
+	background: transparent;
+	color: var(--text);
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: color .14s ease, background-color .14s ease, opacity .14s ease, transform .14s ease;
+}
+
+body[data-geelooy-route="docs"] .learn-check {
+	width: 32px;
+	height: 32px;
+	border: 1px solid var(--line-strong);
+	border-radius: 999px;
+	color: var(--accent);
+	font-weight: 800;
+}
+
+body[data-geelooy-route="docs"] .learn-step-open {
+	min-block-size: 36px;
+	padding: 0;
+	text-align: left;
+	font-weight: 650;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="docs"] .learn-step-open:hover {
+		color: var(--accent);
+	}
+
+	body[data-geelooy-route="docs"] .learn-check:hover {
+		background: var(--accent-soft);
+	}
+}
+
+body[data-geelooy-route="docs"] :where(.learn-check, .learn-step-open):active {
+	transform: scale(.97);
+}
+
+body[data-geelooy-route="docs"] :where(.learn-check, .learn-step-open):disabled {
+	opacity: .46;
+	cursor: not-allowed;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="docs"] :where(.learn-check, .learn-step-open) {
+		transition: none;
+	}
+}

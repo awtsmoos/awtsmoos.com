@@ -1,0 +1,12 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers final accessibility vessels without mixing their distinct work into one crowded wall;
+ * Awtsmoos.com keeps focus, touch, mobile sizing, stillness, and contrast separately readable while one final cascade joins all.
+ */
+@import url("./accessibility/focus.css");
+@import url("./accessibility/interaction.css");
+@import url("./accessibility/responsive.css");
+@import url("./accessibility/motion.css");
+@import url("./accessibility/contrast.css");

@@ -1,0 +1,78 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos reveals the next deed without turning possibility into clutter; Awtsmoos.com gives the ordinary action rail and minimap each one local owner while the newer combat ActionBar keeps its own separate vessel.
+*/
+
+#mitzvah-world-root .Awtsmoos-action-host {
+	position: fixed;
+	inset-inline-start: 50%;
+	inset-block-end: var(--Awtsmoos-bottom, calc(var(--mw-safe-bottom) + 8px));
+	z-index: var(--mw-z-controls);
+	max-inline-size: calc(100dvw - var(--mw-safe-left) - var(--mw-safe-right));
+	transform: translateX(-50%);
+}
+
+#mitzvah-world-root .Awtsmoos-action-bar {
+	display: flex;
+	gap: 6px;
+	inline-size: max-content;
+	max-inline-size: min(680px, calc(100dvw - var(--mw-safe-left) - var(--mw-safe-right)));
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	padding: 6px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-md);
+	background: var(--mw-surface-deep);
+	box-shadow: var(--mw-shadow-panel);
+	scrollbar-width: none;
+}
+
+#mitzvah-world-root .Awtsmoos-action-bar::-webkit-scrollbar {
+	display: none;
+}
+
+#mitzvah-world-root .Awtsmoos-action-bar button {
+	flex: 0 0 var(--mw-control-min);
+	display: grid;
+	place-items: center;
+	min-inline-size: var(--mw-control-min);
+	min-block-size: var(--mw-control-min);
+	padding: 4px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-sm);
+	background: var(--mw-surface-control);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	#mitzvah-world-root .Awtsmoos-action-bar button:hover:not(:disabled) {
+		border-color: var(--mw-border-strong);
+		background: var(--mw-surface-control-hover);
+		transform: translateY(-2px);
+	}
+}
+
+#mitzvah-world-root .Awtsmoos-action-bar button:focus-visible {
+	box-shadow: var(--mw-focus-ring);
+}
+
+#mitzvah-world-root .Awtsmoos-minimap {
+	position: fixed;
+	inset-inline-end: var(--mw-safe-right);
+	inset-block-end: calc(var(--mw-safe-bottom) + 66px);
+	z-index: var(--mw-z-status);
+	inline-size: min(146px, calc(100dvw - var(--mw-safe-left) - var(--mw-safe-right)));
+	max-block-size: min(42dvh, 260px);
+	overflow: hidden;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-md);
+	background: var(--mw-surface-deep);
+	box-shadow: var(--mw-shadow-control);
+	transition: transform var(--mw-motion-normal) var(--mw-ease-out), opacity var(--mw-motion-normal) ease;
+}
+
+#mitzvah-world-root .Awtsmoos-minimap[data-collapsed="true"] {
+	transform: translateX(calc(100% - 42px));
+	opacity: 0.78;
+}

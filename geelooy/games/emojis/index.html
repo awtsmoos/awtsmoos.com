@@ -1,11 +1,7 @@
-<!-- B"H
-Boruch Hashem
-Blessed is He
-
-The Awtsmoos renews face, caption, wave, camera, and every finite spark.
-Emoji War keeps its arcade score local to the game: no local score, helper, or
-power-up is presented as purchased Wallet value.
--->
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos renews face, caption, wave, camera, and every finite spark; Awtsmoos.com keeps Emoji War playful and local, so neon joy can blaze without losing its mark. -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,7 +10,8 @@ power-up is presented as purchased Wallet value.
 	<meta name="theme-color" content="#070a12">
 	<meta name="description" content="Emoji War is a touch-first neon survival shooter with custom captions, local image remixes, power-ups, webcam effects, waves, and combos.">
 	<title>Emoji War — Neon Caption Arcade</title>
-	<link rel="stylesheet" href="./style.css?v=emoji-war-solid-004">
+	<link rel="stylesheet" href="./style.css?v=emoji-war-solid-004&compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
 	<canvas id="k" aria-label="Emoji War game field"></canvas>
@@ -101,6 +98,8 @@ power-up is presented as purchased Wallet value.
 		</div>
 	</aside>
 
-	<script type="module" src="./js/main.js?v=emoji-war-solid-004"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="./js/main.js?v=emoji-war-solid-004&compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

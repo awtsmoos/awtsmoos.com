@@ -1,0 +1,116 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets every finite destination glow only when approached, focused, or pressed;
+ * Awtsmoos.com keeps route and Torah results fully styled so no orphan line appears unfinished or distressed.
+ */
+.g-search-route-results {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .45rem;
+	min-inline-size: 0;
+}
+
+.g-search-route-results a,
+.g-search-torah-link {
+	position: relative;
+	display: grid;
+	grid-template-columns: 2.3rem minmax(0, 1fr);
+	align-items: center;
+	gap: .65rem;
+	min-inline-size: 0;
+	min-block-size: 3.7rem;
+	padding-block: .72rem;
+	padding-inline: .72rem 2.2rem;
+	border: 1px solid #1b3148;
+	border-radius: .9rem;
+	background: #0b1830;
+	color: var(--g-text);
+	text-decoration: none;
+	transition: transform 160ms var(--g-ease), border-color 160ms var(--g-ease), background-color 160ms var(--g-ease), box-shadow 160ms var(--g-ease);
+}
+
+.g-search-route-results a::after,
+.g-search-torah-link::after {
+	content: "›";
+	position: absolute;
+	inset-inline-end: .8rem;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #7ce2f0;
+	font-size: 1.15rem;
+}
+
+.g-search-result-icon,
+.g-search-torah-link > span:first-child {
+	display: grid;
+	inline-size: 2.3rem;
+	block-size: 2.3rem;
+	place-items: center;
+	border: 1px solid rgba(255, 255, 255, .14);
+	border-radius: .8rem;
+	background: linear-gradient(145deg, #173b56, #392a78);
+}
+
+.g-search-result-copy,
+.g-search-result-copy strong,
+.g-search-result-copy small {
+	display: block;
+	min-inline-size: 0;
+}
+
+.g-search-result-copy small {
+	margin-top: .16rem;
+	color: var(--g-muted);
+	font-size: .72rem;
+	line-height: 1.35;
+	overflow-wrap: anywhere;
+}
+
+.g-search-route-results a:focus-visible,
+.g-search-torah-link:focus-visible {
+	border-color: #3cecff;
+	outline: 3px solid #3cecff;
+	outline-offset: 2px;
+	background: #102340;
+	box-shadow: inset .2rem 0 #3cecff;
+}
+
+.g-search-route-results a:active,
+.g-search-torah-link:active {
+	transform: translateY(0) scale(.985);
+	border-color: #8df4ff;
+	background: #132a4b;
+}
+
+.g-search-torah-link {
+	border-color: #5b3e72;
+	background: #1a1530;
+}
+
+.g-search-torah-link > span:first-child {
+	background: var(--g-gradient);
+	color: #02050d;
+}
+
+.g-search-empty {
+	grid-column: 1 / -1;
+	margin: 0;
+	padding: 1rem;
+	border: 1px dashed #294a66;
+	border-radius: .9rem;
+	background: rgba(255, 255, 255, .025);
+	color: var(--g-muted);
+	line-height: 1.5;
+	text-align: center;
+	overflow-wrap: anywhere;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.g-search-route-results a:hover:not(:active),
+	.g-search-torah-link:hover:not(:active) {
+		transform: translateY(-2px);
+		border-color: #3cecff;
+		background: #102340;
+	}
+}

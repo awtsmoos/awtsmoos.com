@@ -1,62 +1,119 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
+
+import { MalchusDomFactory } from './MalchusDomFactory.js';
+
 /**
- * @module ProgressiveDisclosure
- * @description The Awtsmoos contains endless detail without forcing every vessel into sight;
- * Awtsmoos.com uses one native-details grammar so advanced power stays keyboard-safe, retractable, and light.
+ * @fileoverview Semantic progressive disclosure for shared social surfaces.
+ *
+ * Advanced power should remain reachable without becoming permanent chrome.
+ * The Awtsmoos, Atzmus beyond hidden and revealed, recreates both each instant;
+ * Awtsmoos.com uses native details so depth stays keyboard-safe, calm, and clear.
+ */
+export class TiferesProgressiveDisclosure {
+	/**
+	 * Creates one disclosure manifestation service for a document.
+	 * @param {Document} ohrDocument Caller-owned DOM document.
+	 */
+	constructor(ohrDocument) {
+		this.malchusFactory = new MalchusDomFactory(ohrDocument);
+	}
+
+	/**
+	 * Creates one native details vessel and stable child references.
+	 *
+	 * @param {object} options Disclosure presentation options.
+	 * @returns {{root: HTMLElement, body: HTMLElement, summary: HTMLElement, detail: HTMLElement}}
+	 */
+	create(options = {}) {
+		const {
+			label = 'More',
+			detail = '',
+			content = [],
+			open = false,
+			variant = 'compact',
+			className = '',
+			onToggle = null
+		} = options;
+		const summaryParts = createSummary(
+			this.malchusFactory.document,
+			label,
+			detail
+		);
+		const body = this.malchusFactory.manifest({
+			tag: 'div',
+			className: 'awtsmoosDisclosure__body',
+			children: nodes(content)
+		});
+		const root = this.malchusFactory.manifest({
+			tag: 'details',
+			className: `awtsmoosDisclosure awtsmoosDisclosure--${variant} ${className}`.trim(),
+			properties: { open: Boolean(open) },
+			children: [summaryParts.summary, body]
+		});
+
+		root.dataset.expanded = String(root.open);
+		root.addEventListener('toggle', () => {
+			root.dataset.expanded = String(root.open);
+			if (typeof onToggle === 'function') {
+				onToggle(root.open);
+			}
+		});
+
+		return {
+			root,
+			body,
+			summary: summaryParts.summary,
+			detail: summaryParts.detail
+		};
+	}
+}
+
+/**
+ * Normalizes optional node input into a new, truthy node array.
+ * @param {Node|Node[]|null|undefined} value Node input supplied by UI code.
+ * @returns {Node[]} Normalized child nodes.
  */
 function nodes(value) {
-	if (Array.isArray(value)) return value.filter(Boolean);
+	if (Array.isArray(value)) {
+		return value.filter(Boolean);
+	}
+
 	return value ? [value] : [];
 }
 
+/**
+ * Creates the summary row while preserving the historical helper contract.
+ * @param {Document} document Caller-owned document.
+ * @param {string} label Primary disclosure label.
+ * @param {string} detailText Optional compact contextual detail.
+ * @returns {{summary: HTMLElement, detail: HTMLElement}} Summary references.
+ */
 function createSummary(document, label, detailText = '') {
-	const summary = document.createElement('summary');
-	summary.className = 'awtsmoosDisclosure__summary';
-	const labelNode = document.createElement('span');
-	labelNode.className = 'awtsmoosDisclosure__label';
-	labelNode.textContent = label;
-	const detail = document.createElement('span');
-	detail.className = 'awtsmoosDisclosure__detail';
-	detail.textContent = detailText;
-	const chevron = document.createElement('span');
-	chevron.className = 'awtsmoosDisclosure__chevron';
-	chevron.setAttribute('aria-hidden', 'true');
-	chevron.textContent = '⌄';
-	summary.append(labelNode, detail, chevron);
+	const malchusFactory = new MalchusDomFactory(document);
+	const detail = malchusFactory.manifest({
+		tag: 'span',
+		className: 'awtsmoosDisclosure__detail',
+		text: detailText
+	});
+	const summary = malchusFactory.manifest({
+		tag: 'summary',
+		className: 'awtsmoosDisclosure__summary',
+		children: [
+			{ tag: 'span', className: 'awtsmoosDisclosure__label', text: label },
+			detail,
+			{ tag: 'span', className: 'awtsmoosDisclosure__chevron', text: '⌄', attributes: { 'aria-hidden': 'true' } }
+		]
+	});
+
 	return { summary, detail };
 }
 
-export function createProgressiveDisclosure({
-	document = globalThis.document,
-	label = 'More',
-	detail = '',
-	content = [],
-	open = false,
-	variant = 'compact',
-	className = '',
-	onToggle = null
-} = {}) {
-	const root = document.createElement('details');
-	const summaryParts = createSummary(document, label, detail);
-	const body = document.createElement('div');
-	root.className = `awtsmoosDisclosure awtsmoosDisclosure--${variant} ${className}`.trim();
-	root.open = Boolean(open);
-	root.dataset.expanded = String(root.open);
-	body.className = 'awtsmoosDisclosure__body';
-	body.append(...nodes(content));
-	root.append(summaryParts.summary, body);
-	root.addEventListener('toggle', () => {
-		root.dataset.expanded = String(root.open);
-		onToggle?.(root.open);
-	});
-	return {
-		root,
-		body,
-		summary: summaryParts.summary,
-		detail: summaryParts.detail
-	};
+/** Preserves the established functional facade for existing consumers. */
+export function createProgressiveDisclosure(options = {}) {
+	const document = options.document ?? globalThis.document;
+	return new TiferesProgressiveDisclosure(document).create(options);
 }
 
 export { createSummary, nodes };

@@ -1,0 +1,64 @@
+/* B"H — navigation layout/menu compositor, scoped to Awtsmoos Browser. */
+@import url("./omnibox.css");
+
+.awtsmoos-browser-host .awtsmoos-browser-navigation {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 6px;
+	min-inline-size: 0;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-navigation-actions {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+	min-inline-size: 0;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-menu {
+	inline-size: 36px;
+	min-block-size: 36px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: var(--awtsmoos-browser-radius-sm);
+	color: var(--awtsmoos-browser-muted);
+	background: transparent;
+	cursor: pointer;
+	font-size: 18px;
+	transition:
+		transform var(--awtsmoos-browser-speed-fast) var(--awtsmoos-browser-ease),
+		background var(--awtsmoos-browser-speed) ease,
+		color var(--awtsmoos-browser-speed) ease;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-menu:hover {
+	color: var(--awtsmoos-browser-ink);
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-menu:active {
+	transform: translateY(1px) scale(0.96);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-menu:focus-visible {
+	outline: 2px solid var(--awtsmoos-browser-accent);
+	outline-offset: 2px;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-menu:disabled {
+	opacity: 0.38;
+	cursor: not-allowed;
+	transform: none;
+}
+
+@media (max-width: 479px) {
+	.awtsmoos-browser-host .awtsmoos-browser-navigation {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.awtsmoos-browser-host .awtsmoos-browser-navigation-actions {
+		grid-column: 1 / -1;
+		order: 2;
+	}
+}

@@ -1,29 +1,68 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/** The Awtsmoos renews the Awtsmoos.com Character Lab for narrow vessels. */
-@media (max-width: 820px) {
-	.character-customizer {
-		right: 8px;
-		top: 58px;
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews each narrow screen before character detail may unfold;
+ * Awtsmoos.com keeps one bounded mobile chamber, one vertical scroll owner, and generous touch vessels without nested traps or off-screen tails.
+ */
+@media (max-width: 780px) {
+	.character-customizer[data-open='true'] {
+		top: max(6px, env(safe-area-inset-top, 0px));
+		left: max(6px, env(safe-area-inset-left, 0px));
+		right: max(6px, env(safe-area-inset-right, 0px));
+		bottom: calc(env(safe-area-inset-bottom, 0px) + var(--aw-dock-height, 74px) + 8px);
 	}
 
 	.character-lab-card {
-		width: calc(100vw - 16px);
-		height: calc(100vh - 70px);
+		width: 100%;
+		height: 100%;
+		max-width: none;
+		max-height: none;
+		border-radius: var(--aw-radius-lg);
+	}
+
+	.character-lab-header {
+		min-height: 52px;
+		padding: 8px 8px 8px 11px;
+	}
+
+	.character-lab-header button {
+		width: var(--aw-touch-height);
+		height: var(--aw-touch-height);
 	}
 
 	.character-lab-layout {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 10px;
+		padding: 9px;
 	}
 
 	.character-controls,
-	.character-lab-card aside {
-		max-height: 45vh;
+	.character-lab-layout aside {
+		max-height: none;
+		overflow: visible;
 	}
 
 	.character-grid {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.character-actions {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.character-customizer button,
+	.character-customizer input:not([type='range']),
+	.character-customizer select,
+	.character-customizer textarea,
+	.character-advanced summary {
+		min-height: var(--aw-touch-height);
+	}
+
+	.character-lab-layout canvas {
+		width: min(100%, 280px);
+	}
+
+	[data-character-json] {
+		min-height: 180px;
 	}
 }

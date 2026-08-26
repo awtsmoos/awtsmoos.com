@@ -4,11 +4,13 @@
 
 /**
  * @file BotanicalGenerator.js
- * @description Generates deterministic plants and clusters from species intent.
- * The Awtsmoos reveals a garden without one downloaded model for every bloom.
+ * @description Generates deterministic plants and clusters from species and patch intent.
+ * The Awtsmoos renews one flower and a thousand-plant meadow from the same indivisible source;
+ * Awtsmoos.com keeps simple radial clusters unchanged while richer patch grammars follow one lawful course.
  */
 import { botanicalQuality } from './BotanicalArchetypes.js';
 import { appendBotanicalPlant } from './BotanicalParts.js';
+import { planBotanicalPatch } from './BotanicalPatchPlanner.js';
 import {
 	botanicalPlantPayload,
 	createBotanicalBuffers,
@@ -33,54 +35,40 @@ export function generateBotanicalPlant(options = {}) {
 		origin,
 		quality: botanicalQuality(qualityName),
 		random,
+		guidePoints: options.guidePoints,
 		height: species.height * scale * random.next(0.92, 1.08),
 		spread: species.spread * scale * random.next(0.9, 1.1)
 	});
 	return botanicalPlantPayload(species, buffers, qualityName, seed);
 }
 
-/** Generates a deterministic cluster while preserving material-level batching. */
+/** Exposes deterministic patch placement without allocating plant geometry. */
+export function planBotanicalCluster(options = {}) {
+	return planBotanicalPatch(options);
+}
+
+/** Generates a deterministic cluster while preserving legacy radial placement by default. */
 export function generateBotanicalCluster(options = {}) {
-	const count = Math.max(1, Math.floor(options.count || 1));
-	const radius = Math.max(0, Number(options.radius) || 0);
-	const center = pointObject(options.position);
-	const seed = botanicalSeed(options.species, options.seed ?? 613, count, radius);
-	const random = new BotanicalRandom(seed);
+	const plan = planBotanicalPatch(options);
 	const merged = new Map();
-	for (let index = 0; index < count; index += 1) {
-		const plant = generateBotanicalPlant(clusterPlantOptions(
-			options,
-			center,
-			radius,
-			seed,
-			index,
-			count,
-			random
-		));
+	for (const placement of plan.placements) {
+		const plant = generateBotanicalPlant({
+			...options,
+			seed: placement.seed,
+			position: placement.position,
+			scale: placement.scale
+		});
 		mergeBotanicalParts(merged, plant.parts);
 	}
 	const parts = [...merged.values()].map(finalizeBotanicalPart);
+	const instances = plan.placements.length;
 	return {
 		speciesId: getBotanicalSpecies(options.species || 'daisy').id,
-		seed,
+		seed: plan.seed,
 		quality: options.quality || 'high',
-		instances: count,
+		instances,
 		parts,
-		stats: summarizeBotanicalParts(parts, count)
-	};
-}
-
-function clusterPlantOptions(options, center, radius, seed, index, count, random) {
-	const angle = index * 2.399 + random.next(-0.18, 0.18);
-	const distance = radius * Math.sqrt((index + 0.5) / count) * random.next(0.82, 1.08);
-	return {
-		...options,
-		seed: botanicalSeed(seed, index),
-		position: {
-			x: center.x + Math.cos(angle) * distance,
-			y: center.y,
-			z: center.z + Math.sin(angle) * distance
-		}
+		stats: summarizeBotanicalParts(parts, instances)
 	};
 }
 

@@ -1,0 +1,91 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Malchus overlays and transient guidance with separate boot, modal, prompt, and HUD layers inside Peruta Run only.
+ * The Awtsmoos reveals each message in a bounded vessel while the road remains free to shine;
+ * Awtsmoos.com keeps loading above all, completion above play, and status below modal depth by deliberate design.
+ */
+
+.peruta-run-route .center-panel {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: min(420px, calc(100vw - var(--peruta-safe-left) - var(--peruta-safe-right) - 20px));
+	max-height: calc(100dvh - var(--peruta-safe-top) - var(--peruta-safe-bottom) - 20px);
+	padding: clamp(20px, 6vw, 30px);
+	overflow: auto;
+	overscroll-behavior: contain;
+	transform: translate(-50%, -50%);
+	border: 1px solid rgba(255, 223, 137, 0.38);
+	border-radius: 26px;
+	background: linear-gradient(150deg, rgba(7, 27, 42, 0.94), rgba(4, 16, 27, 0.88));
+	box-shadow: 0 26px 70px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+	backdrop-filter: blur(18px);
+	text-align: center;
+}
+
+.peruta-run-route #loading-panel {
+	z-index: var(--peruta-layer-boot);
+}
+
+.peruta-run-route .game-over-panel {
+	z-index: var(--peruta-layer-modal);
+}
+
+.peruta-run-route .center-panel[hidden] {
+	display: none;
+}
+
+.peruta-run-route .center-panel h1,
+.peruta-run-route .center-panel h2 {
+	margin: 8px 0;
+	letter-spacing: 0.08em;
+}
+
+.peruta-run-route .center-panel p {
+	margin: 8px 0 0;
+	color: #d9e7e7;
+}
+
+.peruta-run-route .brand-mark {
+	color: var(--peruta-gold);
+	font-size: clamp(2rem, 9vw, 2.6rem);
+	text-shadow: 0 0 24px rgba(255, 214, 109, 0.42);
+}
+
+.peruta-run-route .status-pill {
+	position: absolute;
+	top: 130px;
+	left: 50%;
+	z-index: var(--peruta-layer-prompt);
+	max-width: min(430px, calc(100vw - var(--peruta-safe-left) - var(--peruta-safe-right) - 20px));
+	padding: 7px 13px;
+	overflow: hidden;
+	transform: translateX(-50%);
+	border: 1px solid rgba(190, 235, 229, 0.14);
+	border-radius: 999px;
+	background: rgba(5, 20, 32, 0.72);
+	box-shadow: 0 8px 26px rgba(0, 0, 0, 0.18);
+	color: #eaf4ef;
+	font-size: 0.78rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	backdrop-filter: blur(10px);
+	pointer-events: none;
+}
+
+.peruta-run-route .desktop-hint {
+	position: absolute;
+	left: 50%;
+	bottom: var(--peruta-safe-bottom);
+	z-index: var(--peruta-layer-hud);
+	max-width: calc(100vw - 32px);
+	margin: 0;
+	transform: translateX(-50%);
+	color: rgba(255, 248, 221, 0.72);
+	font-size: 0.72rem;
+	text-align: center;
+	white-space: nowrap;
+	pointer-events: none;
+}

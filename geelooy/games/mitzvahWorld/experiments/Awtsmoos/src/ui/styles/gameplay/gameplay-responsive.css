@@ -1,0 +1,57 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos remains infinite while portrait and landscape exchange their measure;
+ * Awtsmoos.com keeps every gameplay vessel inside safe bounds and removes motion when motion is not pleasure.
+ */
+
+@media (max-width: 650px) {
+	.Awtsmoos-gameplay:is(.Awtsmoos-quest-log, .Awtsmoos-torah-library) {
+		inset: var(--gp-safe-top) var(--gp-safe-right) var(--gp-safe-bottom) var(--gp-safe-left);
+	}
+
+	.Awtsmoos-gameplay.Awtsmoos-quest-tracker {
+		top: calc(var(--gp-safe-top) + 58px);
+		right: var(--gp-safe-right);
+		width: min(56vw, 310px);
+	}
+
+	.Awtsmoos-gameplay.Awtsmoos-minimap {
+		right: var(--gp-safe-right);
+		bottom: calc(var(--gp-safe-bottom) + 68px);
+		width: min(150px, 42vw);
+	}
+
+	#mitzvah-world-root .Awtsmoos-status-dock {
+		left: var(--gp-safe-left);
+		bottom: calc(var(--gp-safe-bottom) + 68px);
+		width: min(310px, calc(100vw - var(--gp-safe-left) - var(--gp-safe-right)));
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.Awtsmoos-gameplay.Awtsmoos-quest-tracker {
+		max-height: 32dvh;
+	}
+
+	.Awtsmoos-gameplay.Awtsmoos-minimap {
+		width: min(132px, 24vw);
+	}
+
+	#mitzvah-world-root .Awtsmoos-npc-dialogue section {
+		max-height: calc(100dvh - var(--gp-safe-top) - var(--gp-safe-bottom));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.Awtsmoos-gameplay *,
+	.Awtsmoos-gameplay *::before,
+	.Awtsmoos-gameplay *::after,
+	#mitzvah-world-root .Awtsmoos-npc-dialogue,
+	#mitzvah-world-root .Awtsmoos-npc-dialogue * {
+		animation: none;
+		transition: none;
+		scroll-behavior: auto;
+	}
+}

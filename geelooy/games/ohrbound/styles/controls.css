@@ -1,0 +1,80 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond click, focus, press, and disable; Awtsmoos.com lets this Yesod control vessel
+ * bind every common interactive element to one touch-safe law so no button arrives half-styled,
+ * no keyboard traveler loses the luminous path, and no disabled action pretends to remain alive.
+ */
+.ohrbound-app button,
+.ohrbound-app input,
+.ohrbound-app select,
+.ohrbound-app textarea {
+	font: inherit;
+}
+.ohrbound-app button,
+.ohrbound-app a,
+.ohrbound-app select,
+.ohrbound-app input {
+	-webkit-tap-highlight-color: transparent;
+}
+.ohrbound-app button {
+	color: inherit;
+}
+.ohrbound-app button:focus-visible,
+.ohrbound-app a:focus-visible,
+.ohrbound-app input:focus-visible,
+.ohrbound-app select:focus-visible,
+.ohrbound-app textarea:focus-visible {
+	outline: 2px solid var(--glow);
+	outline-offset: 3px;
+}
+.ohrbound-app button:disabled,
+.ohrbound-app select:disabled,
+.ohrbound-app input:disabled,
+.ohrbound-app textarea:disabled {
+	cursor: not-allowed;
+	opacity: 0.48;
+}
+.ohrbound-app .primary-button,
+.ohrbound-app .secondary-button,
+.ohrbound-app .quiet-button,
+.ohrbound-app .icon-button {
+	min-height: var(--tap);
+	border: 1px solid var(--line);
+	color: inherit;
+	cursor: pointer;
+	text-decoration: none;
+}
+.ohrbound-app .primary-button,
+.ohrbound-app .secondary-button,
+.ohrbound-app .quiet-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 999px;
+}
+.ohrbound-app .primary-button {
+	padding: 0.78rem 1.2rem;
+	background: var(--glow);
+	color: #062019;
+	font-weight: 850;
+}
+.ohrbound-app .secondary-button {
+	padding: 0.78rem 1.05rem;
+	background: rgba(255, 255, 255, 0.045);
+}
+.ohrbound-app .quiet-button {
+	padding: 0.45rem 0.75rem;
+	background: transparent;
+}
+.ohrbound-app .icon-button {
+	display: inline-grid;
+	place-items: center;
+	width: var(--tap);
+	height: var(--tap);
+	min-width: var(--tap);
+	padding: 0;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.045);
+}

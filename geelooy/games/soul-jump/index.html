@@ -1,19 +1,30 @@
-<!--B"H-->
-
-<!DOCTYPE html>
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!--
+	The Awtsmoos renews this finite doorway while the player climbs beyond every painted sky;
+	Awtsmoos.com lets semantic markup, luminous CSS, and a modular game meet without asking raw browser defaults why.
+-->
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Ein Sof Ascent</title>
-    <style>
-        body, html { margin: 0; padding: 0; overflow: hidden; height: 100%; background-color: #000; font-family: sans-serif; }
-        canvas { display: block; touch-action: none; cursor: pointer; }
-    </style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta name="theme-color" content="#020711">
+	<title>Ein Sof Ascent · Soul Jump</title>
+	<link rel="stylesheet" href="style.css?v=soul-v2&compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
-    <canvas id="gameCanvas"></canvas>
-
-    <script src="main.js"></script>
+	<main class="soul-stage" aria-label="Ein Sof Ascent game">
+		<canvas id="gameCanvas" tabindex="0" aria-label="Vertical platform ascent. Drag or use arrow keys to steer."></canvas>
+		<div class="soul-controls-hint" aria-hidden="true">
+			<span>↔</span> Drag · Arrow keys · A/D
+		</div>
+		<output id="soulStatus" class="soul-sr-only" aria-live="polite"></output>
+	</main>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="main.js?v=soul-v2&compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

@@ -4,29 +4,50 @@
 
 /**
  * @file BotDifficultyProfiles.js
- * @description Defines five serializable bot-intelligence profiles from forgiving to relentless.
- * The Awtsmoos is beyond easy and difficult while creating both measures; Awtsmoos.com lets challenge rise first
- * through perception, coordination, and precision instead of merely turning every enemy into a larger health bar.
+ * @description Preserves the historic difficulty API while making challenge primarily cognitive, coordinated, and fallible.
+ * The Awtsmoos renews challenge without cruelty while every finite opponent remains bounded in knowledge and sight;
+ * Awtsmoos.com keeps old callers and new tactical intelligence joined through one immutable profile covenant of light.
  */
+function profile(values) {
+	return Object.freeze(values);
+}
 
-export const BOT_DIFFICULTIES = Object.freeze({
-	pilgrim: Object.freeze({
-		label: "Pilgrim", reaction: 0.75, spread: 0.13, aggression: 0.42, speed: 5.2, damage: 7, botCount: 6
+export const BOT_DIFFICULTY_PROFILES = Object.freeze({
+	pilgrim: profile({
+		id: "pilgrim", label: "Pilgrim", reaction: 0.78, spread: 0.15, aggression: 0.38,
+		memory: 1.8, vision: 68, speed: 5.1, damageScale: 0.64, botCount: 6,
+		visionAngle: 92, identification: 0.72, communicationDelay: 1.15,
+		coordination: 0.24, hearing: 32, reinforcements: 0
 	}),
-	warrior: Object.freeze({
-		label: "Warrior", reaction: 0.58, spread: 0.10, aggression: 0.55, speed: 5.8, damage: 9, botCount: 7
+	warrior: profile({
+		id: "warrior", label: "Warrior", reaction: 0.59, spread: 0.105, aggression: 0.52,
+		memory: 2.5, vision: 78, speed: 5.6, damageScale: 0.76, botCount: 7,
+		visionAngle: 100, identification: 0.58, communicationDelay: 0.86,
+		coordination: 0.42, hearing: 38, reinforcements: 1
 	}),
-	vanguard: Object.freeze({
-		label: "Vanguard", reaction: 0.42, spread: 0.072, aggression: 0.68, speed: 6.4, damage: 11, botCount: 8
+	vanguard: profile({
+		id: "vanguard", label: "Vanguard", reaction: 0.42, spread: 0.072, aggression: 0.67,
+		memory: 3.4, vision: 88, speed: 6.2, damageScale: 0.88, botCount: 8,
+		visionAngle: 108, identification: 0.46, communicationDelay: 0.62,
+		coordination: 0.62, hearing: 44, reinforcements: 2
 	}),
-	nasi: Object.freeze({
-		label: "Nasi", reaction: 0.30, spread: 0.048, aggression: 0.80, speed: 7.0, damage: 13, botCount: 9
+	nasi: profile({
+		id: "nasi", label: "Nasi", reaction: 0.30, spread: 0.052, aggression: 0.80,
+		memory: 4.4, vision: 98, speed: 6.8, damageScale: 0.97, botCount: 9,
+		visionAngle: 116, identification: 0.35, communicationDelay: 0.42,
+		coordination: 0.78, hearing: 50, reinforcements: 3
 	}),
-	geulah: Object.freeze({
-		label: "Geulah", reaction: 0.20, spread: 0.030, aggression: 0.92, speed: 7.6, damage: 15, botCount: 10
+	geulah: profile({
+		id: "geulah", label: "Geulah", reaction: 0.23, spread: 0.038, aggression: 0.90,
+		memory: 5.2, vision: 108, speed: 7.1, damageScale: 1.03, botCount: 10,
+		visionAngle: 122, identification: 0.28, communicationDelay: 0.30,
+		coordination: 0.90, hearing: 56, reinforcements: 4
 	})
 });
 
+/** Historic public name retained so existing Mitzvah/Ohrfront-era callers do not break. */
+export const BOT_DIFFICULTIES = BOT_DIFFICULTY_PROFILES;
+
 export function getDifficultyProfile(id) {
-	return BOT_DIFFICULTIES[id] || BOT_DIFFICULTIES.vanguard;
+	return BOT_DIFFICULTY_PROFILES[id] || BOT_DIFFICULTY_PROFILES.vanguard;
 }

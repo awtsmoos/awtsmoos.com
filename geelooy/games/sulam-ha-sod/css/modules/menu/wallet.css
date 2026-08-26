@@ -1,0 +1,79 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews every counted coin while remaining beyond quantity and sum;
+ * Awtsmoos.com arranges wallet rows and modal totals so value is readable wherever players come.
+ */
+.marketWallet {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+	gap: 9px;
+}
+
+.walletRow {
+	display: grid;
+	grid-template-columns: auto auto 1fr;
+	grid-template-areas: 'coin count label' 'coin note note';
+	gap: 2px 7px;
+	align-items: center;
+	text-align: left;
+	background: #ffffff10;
+	border: 1px solid #ffffff25;
+	border-radius: 16px;
+	padding: 10px;
+}
+
+.walletRow i {
+	grid-area: coin;
+	width: 34px;
+	height: 34px;
+	border-radius: 999px;
+	display: grid;
+	place-items: center;
+	background: linear-gradient(135deg, #fff, var(--gold));
+	color: #321400;
+	font-style: normal;
+	font-weight: 1000;
+	box-shadow: 0 0 14px #ffd36a66;
+}
+
+.walletRow b {
+	grid-area: count;
+	font-size: 20px;
+	color: #fff;
+}
+
+.walletRow em {
+	grid-area: label;
+	font-style: normal;
+	color: var(--gold);
+	font-weight: 900;
+}
+
+.walletRow small {
+	grid-area: note;
+	color: #d8cfff;
+	font-size: 11px;
+	line-height: 1.25;
+}
+
+.walletRow.shefa i {
+	background: linear-gradient(135deg, var(--cyan), var(--pink));
+	color: #fff;
+}
+
+.coinModal .coinRows {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 8px 12px;
+	text-align: left;
+}
+
+.coinModal .coinRows b {
+	color: var(--gold);
+}
+
+.coinModal .coinRows span {
+	color: #eee2ff;
+}

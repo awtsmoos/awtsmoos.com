@@ -2,106 +2,89 @@
 // Boruch Hashem
 // Blessed is He
 /**
-	* The Awtsmoos lets Awtsmoos.com share one future language without stealing the native motion of each product vessel.
-	* These witnesses guard visible-first reveal, tactile common controls, semantic SVG signs, native card choreography, and lean performance.
-	*/
+ * The Awtsmoos gives every changing surface a truthful witness; Awtsmoos.com should never call glow "quality" unless scope, access, lifecycle, and restraint can testify.
+ * These compact contracts guard the future system itself without rewriting or assuming ownership of page families carrying unrelated active work.
+ */
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
 /**
-	* Reveals one source vessel relative to this contract so assertions remain tied to the repository itself.
-	* @param {string} ohrPath Relative project path whose current source must testify.
-	* @returns {string} Current source text from Awtsmoos.com.
-	*/
+ * Reads one repository source relative to this contract.
+ * @param {string} ohrPath Relative path whose current contents must testify.
+ * @returns {string} Current UTF-8 source.
+ */
 function revealSource(ohrPath) {
 	return readFileSync(new URL(ohrPath, import.meta.url), "utf8");
 }
 
 const styleIndex = revealSource("../../style/future-system/index.css");
-const surfaces = revealSource("../../style/future-system/surfaces.css");
-const motion = revealSource("../../style/future-system/motion.css");
+const tokens = revealSource("../../style/future-system/tokens.css");
+const accessibility = revealSource("../../style/future-system/accessibility.css");
 const interaction = revealSource("../../style/future-system/interaction.css");
-const iconMotion = revealSource("../../style/future-system/icon-motion.css");
+const motion = revealSource("../../style/future-system/motion.css");
 const performance = revealSource("../../style/future-system/performance.css");
 const iconRenderer = revealSource("./FutureIconRenderer.js");
 const pointerAura = revealSource("./FuturePointerAura.js");
+const revealController = revealSource("./FutureRevealController.js");
+const yesodController = revealSource("./YesodFutureController.js");
 const coordinator = revealSource("./index.js");
-const appCardStyle = revealSource("../../apps/styles/cards.css");
-const gameCardStyle = revealSource("../../games/styles/cards-shell.css");
-const games = revealSource("../../games/index.html");
-const apps = revealSource("../../apps/index.html");
-const wallet = revealSource("../../apps/wallet/index.html");
-const about = revealSource("../../about/index.html");
-const socialStyle = revealSource("../../social-hub/style.css");
-const os = revealSource("../../os/index.html");
-const torah = revealSource("../../mawgawl/sefarim/index.html");
 
-test("future style manifest stays modular and ships future-004", () => {
-	for (const moduleName of ["tokens.css", "atmosphere.css", "surfaces.css", "motion.css", "interaction.css", "icon-motion.css", "performance.css"]) {
-		assert.match(styleIndex, new RegExp(moduleName.replace(".", "\\.") + "\\?v=future-004"));
-	}
+test("future-006 manifest is modular and explicit", () => {
+	const modules = [
+		"tokens", "integrity", "accessibility", "atmosphere", "surfaces", "motion",
+		"interaction", "icon-motion", "performance", "particles", "disclosure"
+	];
+	modules.forEach((moduleName) => {
+		assert.match(styleIndex, new RegExp(`${moduleName}\\.css\\?v=future-006`));
+	});
 });
 
-test("reveal remains visible-first and reduced-motion safe", () => {
-	assert.match(motion, /\[data-future-reveal\][\s\S]*opacity:\s*\.84/);
-	assert.doesNotMatch(motion, /\[data-future-reveal\][\s\S]{0,180}opacity:\s*0\s*;/);
-	assert.match(motion, /prefers-reduced-motion:\s*reduce/);
+test("local tokens own touch, focus, motion, and stacking contracts", () => {
+	assert.match(tokens, /body\[data-future-page\]/);
+	assert.match(tokens, /--future-touch:\s*44px/);
+	assert.match(tokens, /--future-focus:/);
+	assert.match(tokens, /--future-layer-overlay:/);
+	assert.match(tokens, /--future-layer-dialog:/);
 });
 
-test("shared tactile interaction owns common controls but not product cards", () => {
-	assert.match(interaction, /:active[\s\S]*scale:\s*\.985/);
-	assert.match(interaction, /:focus-visible/);
-	assert.match(interaction, /data-future-action/);
-	assert.doesNotMatch(interaction, /\.g-app-card|\.gameCard/);
+test("interaction is touch-safe, keyboard-visible, and reduced-motion safe", () => {
+	assert.match(interaction, /@media \(hover: hover\) and \(pointer: fine\)/);
+	assert.match(interaction, /:active/);
+	assert.match(interaction, /aria-expanded="true"/);
+	assert.match(interaction, /prefers-reduced-motion:\s*reduce/);
+	assert.match(accessibility, /:focus-visible/);
+	assert.match(accessibility, /aria-busy="true"/);
 });
 
-test("Apps and Games keep their native card choreography", () => {
-	assert.match(appCardStyle, /\.g-app-card:hover[\s\S]*transform:\s*translateY\(-3px\)/);
-	assert.match(gameCardStyle, /\.gameCard:hover[\s\S]*transform:\s*translateY\(-2px\)/);
-	assert.match(gameCardStyle, /transition:[\s\S]*transform \.18s ease/);
+test("reveal stays visible-first and scopes readiness to the opted-in body", () => {
+	assert.match(motion, /opacity:\s*\.84/);
+	assert.doesNotMatch(motion, /opacity:\s*0\s*;/);
+	assert.match(revealController, /resolveFutureBody\(\)/);
+	assert.match(revealController, /IntersectionObserver" in window/);
+	assert.match(revealController, /future-motion-ready/);
+	assert.match(revealController, /disconnect\(\)/);
 });
 
-test("semantic icons render as svg and only micro-move on interaction", () => {
-	assert.match(iconRenderer, /createElementNS\("http:\/\\/www\.w3\.org\/2000\/svg", "svg"\)/);
+test("pointer aura attaches only where precise hover exists and reconnects safely", () => {
+	assert.match(pointerAura, /extends YesodFutureController/);
+	assert.match(pointerAura, /hover: hover/);
+	assert.match(pointerAura, /pointer: fine/);
+	assert.match(pointerAura, /signal:\s*gevurahSignal/);
+	assert.match(yesodController, /new AbortController\(\)/);
+	assert.match(yesodController, /gevurahAbort\?\.abort\(\)/);
+});
+
+test("coordinator is data-driven and keeps public ready compatibility", () => {
+	assert.match(coordinator, /tiferesControllers\s*=\s*\[/);
+	assert.match(coordinator, /keiliController\.connect\(ohrRoot\)/);
+	assert.match(coordinator, /keiliController\.disconnect\?\.\(\)/);
+	assert.match(coordinator, /dataset\.futureSystem\s*=\s*"ready"/);
+});
+
+test("shared system stays CSS-SVG-first and avoids animation engines", () => {
+	assert.match(iconRenderer, /createElementNS\("http:\/\/www\.w3\.org\/2000\/svg", "svg"\)/);
 	assert.match(iconRenderer, /aria-hidden/);
-	assert.match(iconMotion, /data-future-icon="send"/);
-	assert.match(iconMotion, /data-future-icon="wallet"/);
-	assert.doesNotMatch(iconMotion, /@keyframes|animation:/);
-	assert.match(coordinator, /new FutureIconRenderer\(\)\.connect\(\)/);
-});
-
-test("pointer aura owns a child layer instead of stealing hero pseudos", () => {
-	assert.match(pointerAura, /future-aura-layer/);
-	assert.match(surfaces, /> \.future-aura-layer/);
-	assert.doesNotMatch(surfaces, /\[data-future-aura\]::before/);
-});
-
-test("long catalogs use browser-native visibility containment", () => {
-	assert.match(performance, /data-future-page="games"\] \.gamesCatalog/);
-	assert.match(performance, /data-future-page="apps"\] \[data-app-grid\]/);
 	assert.match(performance, /content-visibility:\s*auto/);
-});
-
-test("primary hubs ship future-004 CSS with stable future-002 JS", () => {
-	for (const [name, source] of Object.entries({ games, apps, wallet, about })) {
-		assert.match(source, /\/style\/future-system\/index\.css\?v=future-004/, name + " future CSS");
-		assert.match(source, /\/scripts\/future-system\/index\.js\?v=future-002/, name + " stable future JS");
-		assert.match(source, new RegExp('data-future-page=\"' + name + '\"'));
-		assert.match(source, /data-future-icon=/);
-	}
-});
-
-test("shared surfaces may glow native cards without owning their motion", () => {
-	assert.match(surfaces, /data-future-page="games"\] \.gameCard/);
-	assert.match(surfaces, /data-future-page="apps"\] \.g-app-card/);
-});
-
-test("shared system stays CSS-SVG-first while mature route systems stay independent", () => {
-	const sharedSource = styleIndex + "\n" + coordinator;
-	assert.doesNotMatch(sharedSource, /requestAnimationFrame|WebGL|THREE\.|procedural/i);
-	assert.match(socialStyle, /\/style\/future-system\/index\.css\?v=future-004/);
-	assert.match(socialStyle, /hub-future-009/);
-	assert.doesNotMatch(os, /future-system/);
-	assert.doesNotMatch(torah, /future-system/);
+	assert.doesNotMatch(styleIndex + coordinator, /requestAnimationFrame|WebGL|THREE\.|procedural/i);
 });

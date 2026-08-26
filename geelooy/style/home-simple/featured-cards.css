@@ -4,7 +4,7 @@ Blessed is He
 Each featured card is a small keli: distinct light, shared structure, and one honest
 path deeper into Awtsmoos.com—solid enough to stand without blur or glass.
 */
-.featured-card {
+body[data-geelooy-route="home"] .featured-card {
 	--featured-accent: 112, 190, 255;
 	position: relative;
 	isolation: isolate;
@@ -22,12 +22,12 @@ path deeper into Awtsmoos.com—solid enough to stand without blur or glass.
 	transition: border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 
-.featured-card > * {
+body[data-geelooy-route="home"] .featured-card > * {
 	position: relative;
-	z-index: 1;
+	z-index: var(--home-local-content);
 }
 
-.featured-card::after {
+body[data-geelooy-route="home"] .featured-card::after {
 	position: absolute;
 	right: 0;
 	bottom: 0;
@@ -39,14 +39,14 @@ path deeper into Awtsmoos.com—solid enough to stand without blur or glass.
 	pointer-events: none;
 }
 
-.featured-number {
+body[data-geelooy-route="home"] .featured-number {
 	color: rgba(var(--featured-accent), .72);
 	font-size: .58rem;
 	font-weight: 850;
 	letter-spacing: .1em;
 }
 
-.featured-symbol {
+body[data-geelooy-route="home"] .featured-symbol {
 	display: grid;
 	place-items: center;
 	width: 2.75rem;
@@ -59,59 +59,59 @@ path deeper into Awtsmoos.com—solid enough to stand without blur or glass.
 	font-weight: 900;
 }
 
-.featured-card > div {
+body[data-geelooy-route="home"] .featured-card > div {
 	grid-column: 1 / -1;
 	align-self: end;
 }
 
-.featured-card h3 {
+body[data-geelooy-route="home"] .featured-card h3 {
 	margin: .35rem 0 .45rem;
 	font-size: 1.1rem;
 	letter-spacing: -.035em;
 }
 
-.featured-card p {
+body[data-geelooy-route="home"] .featured-card p {
 	margin: 0;
 	color: #96a5ba;
 	font-size: .72rem;
 	line-height: 1.5;
 }
 
-.featured-card > b {
+body[data-geelooy-route="home"] .featured-card > b {
 	color: rgba(var(--featured-accent), .9);
 	font-size: .9rem;
 }
 
-.featured-card:hover {
+body[data-geelooy-route="home"] .featured-card:hover {
 	border-color: rgba(var(--featured-accent), .76);
 	background: #10243b;
 	box-shadow: 0 24px 58px rgba(0, 0, 0, .34);
 	transform: translateY(-4px);
 }
 
-.featured-card:focus-visible {
+body[data-geelooy-route="home"] .featured-card:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 3px;
 }
 
-.featured-card--torah {
+body[data-geelooy-route="home"] .featured-card--torah {
 	--featured-accent: 99, 178, 255;
 }
 
-.featured-card--apps {
+body[data-geelooy-route="home"] .featured-card--apps {
 	--featured-accent: 104, 220, 160;
 }
 
-.featured-card--games {
+body[data-geelooy-route="home"] .featured-card--games {
 	--featured-accent: 245, 121, 164;
 }
 
-.featured-card--os {
+body[data-geelooy-route="home"] .featured-card--os {
 	--featured-accent: 148, 126, 255;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.featured-card {
+	body[data-geelooy-route="home"] .featured-card {
 		transition: none;
 	}
 }

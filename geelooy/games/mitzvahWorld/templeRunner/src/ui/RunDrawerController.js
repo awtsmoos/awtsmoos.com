@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file RunDrawerController.js
- * @description Owns accessible retractable advanced UI state without leaking pointer or Escape intent into gameplay.
+ * @description Owns accessible retractable advanced UI state, offscreen inertness, focus restoration, and Escape behavior without leaking hidden controls into the keyboard path.
  * The Awtsmoos renews hidden and revealed knowledge while one gate decides when Binah may enter sight;
- * Awtsmoos.com keeps the drawer closed to touch until invited, then returns focus gently when it leaves the light.
+ * Awtsmoos.com keeps closed detail truly unreachable, then restores focus gently when the drawer leaves the light.
  */
 
 export class BinahRunDrawerController {
@@ -37,7 +37,7 @@ export class BinahRunDrawerController {
 		this.elements.document?.removeEventListener?.("keydown", this.boundKeyDown);
 	}
 
-	/** Opens advanced run detail without changing game state. */
+	/** Opens advanced run detail without changing gameplay state. */
 	open() {
 		if (this.opened) return;
 		this.opened = true;
@@ -45,23 +45,36 @@ export class BinahRunDrawerController {
 		this.elements.drawerClose.focus({ preventScroll: true });
 	}
 
-	/** @param {boolean} restoreFocus Whether menu focus should return. */
+	/**
+	 * Closes advanced detail and prevents focus from remaining inside an offscreen inert panel.
+	 * @param {boolean} restoreFocus Whether focus should return to the drawer trigger.
+	 */
 	close(restoreFocus = true) {
-		if (!this.opened) return;
+		if (!this.opened) {
+			this.reflect();
+			return;
+		}
+		const activeElement = this.elements.document?.activeElement;
+		const focusWasInside = Boolean(
+			activeElement
+			&& this.elements.drawer.contains(activeElement)
+		);
 		this.opened = false;
 		this.reflect();
 		if (restoreFocus) {
 			this.elements.drawerToggle.focus({ preventScroll: true });
+			return;
+		}
+		if (focusWasInside && typeof activeElement.blur === "function") {
+			activeElement.blur();
 		}
 	}
 
 	/** Toggles advanced run detail. */
 	toggle() {
-		if (this.opened) {
-			this.close();
-			return;
-		}
-		this.open();
+		this.opened
+			? this.close()
+			: this.open();
 	}
 
 	/** @param {KeyboardEvent} event Document keyboard event. */
@@ -72,7 +85,7 @@ export class BinahRunDrawerController {
 		this.close();
 	}
 
-	/** Reflects open state through CSS and accessibility attributes. */
+	/** Reflects visual, pointer, keyboard, and accessibility state from one source of truth. */
 	reflect() {
 		this.elements.shell.dataset.drawer = this.opened
 			? "open"
@@ -81,10 +94,15 @@ export class BinahRunDrawerController {
 			"aria-expanded",
 			String(this.opened)
 		);
+		this.elements.drawerToggle.setAttribute(
+			"aria-label",
+			this.opened ? "Close run details" : "Open run details"
+		);
 		this.elements.drawer.setAttribute(
 			"aria-hidden",
 			String(!this.opened)
 		);
+		this.elements.drawer.inert = !this.opened;
 		this.elements.drawerBackdrop.setAttribute(
 			"aria-hidden",
 			String(!this.opened)

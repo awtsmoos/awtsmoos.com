@@ -1,0 +1,78 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets a wide documentation map become a quiet mobile path; Awtsmoos.com turns the nav rail
+ * into a retractable drawer and search into a thumb-reachable command without covering the document beneath.
+ */
+@media (max-width: 51.25rem) {
+	body[data-geelooy-route="docs"] .topbar {
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 10px;
+		padding-inline: max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-right));
+	}
+
+	body[data-geelooy-route="docs"] .search-launch {
+		position: fixed;
+		z-index: var(--docs-layer-search);
+		inset-inline: max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-right));
+		inset-block-end: max(14px, env(safe-area-inset-bottom));
+		inline-size: auto;
+		box-shadow: var(--shadow);
+	}
+
+	body[data-geelooy-route="docs"] .app-shell {
+		display: block;
+	}
+
+	body[data-geelooy-route="docs"] .nav-rail {
+		position: fixed;
+		z-index: var(--docs-layer-drawer);
+		inset-block: var(--topbar) 0;
+		inset-inline-start: 0;
+		inline-size: min(330px, 88dvw);
+		max-inline-size: calc(100dvw - 24px);
+		transform: translateX(-103%);
+		background: var(--bg-soft);
+		box-shadow: var(--shadow);
+		transition: transform .2s ease;
+	}
+
+	body[data-geelooy-route="docs"] .nav-rail[data-open="true"] {
+		transform: translateX(0);
+	}
+
+	body[data-geelooy-route="docs"] .main-stage {
+		padding: 30px 18px calc(94px + env(safe-area-inset-bottom));
+	}
+
+	body[data-geelooy-route="docs"] .mobile-only {
+		display: inline-flex;
+	}
+
+	body[data-geelooy-route="docs"] .stat-strip {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	body[data-geelooy-route="docs"] .brand small {
+		display: none;
+	}
+}
+
+@media (max-width: 32.5rem) {
+	body[data-geelooy-route="docs"] .top-actions .icon-button:not(.mobile-only) {
+		padding-inline: 9px;
+	}
+
+	body[data-geelooy-route="docs"] .hero h1 {
+		font-size: clamp(2.25rem, 15vw, 3.6rem);
+	}
+
+	body[data-geelooy-route="docs"] :where(.card-grid, .stat-strip) {
+		grid-template-columns: 1fr;
+	}
+
+	body[data-geelooy-route="docs"] .dialog-shell {
+		border-radius: 20px;
+	}
+}

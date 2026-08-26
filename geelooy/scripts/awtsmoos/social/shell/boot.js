@@ -1,119 +1,56 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
  * @module GeelooyUnifiedShellBoot
  * @description
- * The Awtsmoos reveals one jeweled horizon around every eligible main route.
- * Home, Spaces, Ikar, Mail, Profile, Apps, and Games receive the same crown
- * without duplicate headers or page-scale animation on Awtsmoos.com.
+ * The Awtsmoos reveals one shared horizon without confusing entry with orchestration.
+ * Awtsmoos.com keeps this public doorway small: scheduling enters here, while the
+ * Tiferes coordinator carries the actual lifecycle through explicit documented vessels.
+ *
+ * PUBLIC CONTRACT: `bootGeelooyShell(root)` remains the stable external boot function.
  */
-import { bindAppCommand } from './appCommand.js';
-import { currentAppRoute } from './appRoutes.js';
-import { ensureAppShell } from './appShell.js';
-import { ensureToastRegion } from './notifications.js';
-import { applyPerformanceProfile } from './performanceProfile.js';
 import { isShellEligible } from './routeEligibility.js';
-import { bindScrollMemory } from './scrollMemory.js';
-const STYLE_HREF = '/style/geelooy-app/index.css?v=interface-dark-012';
-const STYLE_SELECTOR = 'link[href*="/style/geelooy-app/index.css"]';
-const ROUTE_OUTLET_SELECTOR = '[data-geelooy-route-outlet]';
-const SHELL_GENERATION = 'speed-001';
-/** Boots shared identity without replacing native route content. */
-export function bootGeelooyShell(root = document) {
-	if (!canRevealShell(root)) {
-		return null;
-	}
-	applyPerformanceProfile(root);
-	ensureStylesheet(root);
-	applyRouteIdentity(root);
-	root.documentElement.classList.add('geelooy-route-ready');
-	root.documentElement.dataset.geelooyShellGeneration = SHELL_GENERATION;
-	root.body.classList.add('geelooy-app-shell');
-	root.body.classList.remove('geelooy-spectral-shell');
-	const malchusShell = ensureAppShell(root);
-	bindAppCommand(root);
-	bindScrollMemory();
-	ensureToastRegion();
-	startOptionalNavigation(root);
-	return malchusShell;
+import { TiferesShellRevelation } from './revelation/ShellRevelation.js';
+
+/**
+ * Boots shared identity without replacing native route content.
+ * @param {Document} malchusDocument Document receiving the shared application shell.
+ * @returns {Element|null} Manifested shell element, or null when the route is ineligible.
+ * @throws {Error} Propagates required shell dependency failures for browser-level visibility.
+ */
+export function bootGeelooyShell(malchusDocument = document) {
+	const tiferesRevelation = new TiferesShellRevelation(malchusDocument);
+	return tiferesRevelation.reveal();
 }
 
-function canRevealShell(root) {
-	if (!root.documentElement || !root.body) {
-		return false;
-	}
-	return isShellEligible(root.location?.pathname);
-}
-
-/** Loads hybrid navigation only when a route outlet explicitly exists. */
-async function startOptionalNavigation(root) {
-	if (!root.querySelector(ROUTE_OUTLET_SELECTOR)) {
-		return null;
-	}
-	try {
-		const { startAppNavigation } = await import('../navigation/appNavigation.js');
-		return startAppNavigation(root);
-	} catch (error) {
-		console.warn('B"H optional Geelooy navigation stayed native.', error);
-		return null;
-	}
-}
-
-function applyRouteIdentity(root) {
-	if (root.body.dataset.geelooyRoute) {
-		return;
-	}
-	const route = currentAppRoute(root.location?.pathname);
-	root.body.dataset.geelooyRoute = revealRouteThemeName(route);
-}
-
-function revealRouteThemeName(route) {
-	if (route.href === '/') {
-		return 'home';
-	}
-	if (route.href === '/mawgawl/sefarim') {
-		return 'search';
-	}
-	if (route.create) {
-		return 'create';
-	}
-	return route.href.split('/').filter(Boolean).at(-1) || 'home';
-}
-
-function ensureStylesheet(root) {
-	const existing = root.querySelector(STYLE_SELECTOR);
-	const expectedHref = new URL(STYLE_HREF, root.baseURI).href;
-	if (existing) {
-		harmonizeExistingStylesheet(existing, expectedHref);
-		return;
-	}
-	const link = root.createElement('link');
-	link.rel = 'stylesheet';
-	link.href = STYLE_HREF;
-	link.dataset.geelooyAppStyle = 'true';
-	root.head.append(link);
-}
-
-function harmonizeExistingStylesheet(existing, expectedHref) {
-	if (existing.href !== expectedHref) {
-		existing.href = STYLE_HREF;
-	}
-	existing.dataset.geelooyAppStyle = 'true';
-}
-
+/**
+ * Schedules shell revelation after DOM creation when document loading is incomplete.
+ * @returns {void} Registers one DOMContentLoaded listener or boots immediately.
+ */
 function scheduleShellBoot() {
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', revealShellAfterCreation, { once: true });
+		document.addEventListener(
+			'DOMContentLoaded',
+			revealShellAfterCreation,
+			{ once: true }
+		);
 		return;
 	}
 	bootGeelooyShell();
 }
 
+/**
+ * Reveals the shell after DOMContentLoaded without duplicating scheduling policy.
+ * @returns {void} Delegates to the stable public boot function.
+ */
 function revealShellAfterCreation() {
 	bootGeelooyShell();
 }
 
-if (typeof document !== 'undefined' && isShellEligible(document.location?.pathname)) {
+if (
+	typeof document !== 'undefined'
+	&& isShellEligible(document.location?.pathname)
+) {
 	scheduleShellBoot();
 }

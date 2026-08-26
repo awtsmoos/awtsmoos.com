@@ -1,0 +1,45 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets one stream wear compact, comfortable, or immersive garments without changing its soul;
+ * Awtsmoos.com gives density one owner so card rhythm can evolve without tangling mode-control roles.
+ */
+.social-hub-document .publicDiscovery__density {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	font-size: .78rem;
+	font-weight: 720;
+}
+
+.social-hub-document .publicDiscovery__density select {
+	box-sizing: border-box;
+	min-block-size: 44px;
+	border-radius: 12px;
+	padding-inline: 9px;
+}
+
+.social-hub-document .publicDiscovery__list[data-density="compact"] {
+	gap: 8px;
+}
+
+.social-hub-document .publicDiscovery__list[data-density="compact"] .awtsmoosFeedCard {
+	padding: 12px;
+	gap: 8px;
+}
+
+.social-hub-document .publicDiscovery__list[data-density="compact"] .awtsmoosFeedExcerpt {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.social-hub-document .publicDiscovery__list[data-density="immersive"] .awtsmoosFeedCard {
+	padding: clamp(20px, 5vw, 34px);
+	border-radius: 26px;
+}
+
+.social-hub-document .publicDiscovery__list[data-density="immersive"] .awtsmoosFeedTitle {
+	font-size: clamp(1.3rem, 4vw, 2rem);
+}

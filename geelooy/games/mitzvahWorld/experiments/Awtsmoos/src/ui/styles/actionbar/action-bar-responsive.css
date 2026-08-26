@@ -1,0 +1,76 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps the same deed while finite screens exchange size and orientation;
+ * Awtsmoos.com compresses layout without overlap, preserves touch targets, and honors reduced motion.
+ */
+
+@media (hover: hover) {
+	.Mitzvah-combat-host .Mitzvah-layout-lock:hover:not(:disabled) {
+		transform: translateY(-1px);
+		border-color: var(--ab-gold-bright);
+		filter: brightness(1.1);
+	}
+}
+
+.Mitzvah-combat-host .Mitzvah-layout-lock:active:not(:disabled) {
+	transform: translateY(1px) scale(0.97);
+}
+
+.Mitzvah-combat-host .Mitzvah-layout-lock:focus-visible {
+	outline: 2px solid var(--ab-focus);
+	outline-offset: 2px;
+}
+
+.Mitzvah-combat-host .Mitzvah-layout-lock:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+@media (max-width: 800px) {
+	.Mitzvah-combat-host {
+		--ab-safe-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+		width: min(98vw, 620px);
+	}
+
+	.Mitzvah-combat-host .Mitzvah-action-grid {
+		grid-template-columns: repeat(6, minmax(44px, 1fr));
+	}
+
+	.Mitzvah-combat-host .Mitzvah-combat-frame {
+		gap: 4px;
+		padding: 5px;
+		border-radius: 10px;
+	}
+
+	.Mitzvah-combat-host .Mitzvah-enemy-casts {
+		bottom: calc(100% + 88px);
+		width: min(94vw, 460px);
+	}
+
+	.Mitzvah-combat-host .Mitzvah-enemy-cast:nth-child(n + 3) {
+		display: none;
+	}
+}
+
+@media (max-width: 420px) {
+	.Mitzvah-combat-host {
+		width: calc(100vw - 8px);
+	}
+
+	.Mitzvah-combat-host .Mitzvah-action-grid {
+		grid-template-columns: repeat(6, minmax(42px, 1fr));
+		gap: 3px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.Mitzvah-combat-host *,
+	.Mitzvah-combat-host *::before,
+	.Mitzvah-combat-host *::after {
+		animation: none;
+		transition: none;
+		scroll-behavior: auto;
+	}
+}

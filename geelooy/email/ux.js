@@ -2,69 +2,94 @@
 //Boruch Hashem
 //Blessed is He
 /**
- * @class MailWorkspaceUx
- * @description The Awtsmoos hears intent before the key is pressed; Awtsmoos.com lets keyboard, connection, and transient panels answer in the right order so power never becomes confusion.
+ * @module MailWorkspaceUx
+ * @description The Awtsmoos hears intention before the keystroke arrives; Awtsmoos.com keeps shortcuts, focus, and connectivity inside the Mail vessel so global browser signals never become global UI state.
  */
-export class MailWorkspaceUx {
-	constructor(panels = null) {
-		this.panels = panels;
-		this.boundKeyDown = event => this.onKeyDown(event);
+import { MailRootVessel } from './ui/foundations/MailRootVessel.js';
+
+export class MailWorkspaceUx extends MailRootVessel {
+	/**
+	 * Creates the Mail-wide UX conductor around an optional transient-panel controller.
+	 * @param {object|null} [gevurahPanels] Controller exposing closeTransient when panels exist.
+	 * @param {ParentNode|null} [malchusRoot] Optional explicit Mail root for tests or embeds.
+	 */
+	constructor(gevurahPanels = null, malchusRoot = null) {
+		super(malchusRoot);
+		this.gevurahPanels = gevurahPanels;
+		this.yesodConnected = false;
+		this.boundKeyDown = yesodEvent => this.onKeyDown(yesodEvent);
 		this.boundOnline = () => this.updateConnection(true);
 		this.boundOffline = () => this.updateConnection(false);
 	}
 
-	/** Connects global Mail affordances and paints the initial network state. */
+	/**
+	 * Connects browser signals once while preserving Mail-local DOM ownership.
+	 * @returns {MailWorkspaceUx} This controller for fluent boot composition.
+	 */
 	connect() {
+		if (this.yesodConnected) return this;
 		document.addEventListener('keydown', this.boundKeyDown);
 		window.addEventListener('online', this.boundOnline);
 		window.addEventListener('offline', this.boundOffline);
+		this.yesodConnected = true;
 		this.updateConnection(navigator.onLine);
 		return this;
 	}
 
-	/** Removes every global listener owned by this controller. */
+	/** Removes exactly the listeners created by connect so hot reloads never multiply behavior. */
 	disconnect() {
+		if (!this.yesodConnected) return;
 		document.removeEventListener('keydown', this.boundKeyDown);
 		window.removeEventListener('online', this.boundOnline);
 		window.removeEventListener('offline', this.boundOffline);
+		this.yesodConnected = false;
 	}
 
-	/** Routes power shortcuts without stealing keystrokes from editable surfaces. */
-	onKeyDown(event) {
-		if (event.key === 'Escape') {
-			if (this.panels?.closeTransient?.()) {
-				event.preventDefault();
+	/**
+	 * Routes keyboard intent in priority order: transient closure, editable safety, search, compose.
+	 * @param {KeyboardEvent} yesodEvent Keyboard event dispatched by the document.
+	 */
+	onKeyDown(yesodEvent) {
+		if (yesodEvent.key === 'Escape') {
+			if (this.gevurahPanels?.closeTransient?.()) {
+				yesodEvent.preventDefault();
 				return;
 			}
-			document.activeElement?.blur?.();
+			this.blurMailFocus();
 			return;
 		}
-		if (isEditableTarget(event.target)) return;
-		if (event.key === '/') {
-			event.preventDefault();
-			document.querySelector('.search-input')?.focus();
+		if (this.isEditableTarget(yesodEvent.target)) return;
+		if (yesodEvent.key === '/') {
+			yesodEvent.preventDefault();
+			this.focusInMalchus('.mail-search-input');
 			return;
 		}
-		if (event.key.toLowerCase() === 'c' && !event.metaKey && !event.ctrlKey && !event.altKey) {
-			event.preventDefault();
-			document.querySelector('.fab-compose')?.click();
+		const chochmahCompose = yesodEvent.key.toLowerCase() === 'c';
+		const gevurahModified = yesodEvent.metaKey || yesodEvent.ctrlKey || yesodEvent.altKey;
+		if (chochmahCompose && !gevurahModified) {
+			yesodEvent.preventDefault();
+			this.findInMalchus('.fab-compose')?.click?.();
 		}
 	}
 
-	/** Mirrors connectivity into both semantic status and the existing offline skin. */
-	updateConnection(isOnline) {
-		const status = document.querySelector('[data-mail-connection]');
-		document.body.classList.toggle('offline', !isOnline);
-		if (!status) return;
-		status.dataset.state = isOnline ? 'online' : 'offline';
-		status.textContent = isOnline ? 'Online' : 'Offline';
-		status.setAttribute('aria-label', isOnline
-			? 'Mail is online'
-			: 'Mail is offline');
+	/** Blurs focus only when the active element belongs to this Mail root. */
+	blurMailFocus() {
+		const tiferesActive = document.activeElement;
+		if (!tiferesActive || !this.malchusRoot?.contains?.(tiferesActive)) return;
+		tiferesActive.blur?.();
 	}
-}
 
-function isEditableTarget(target) {
-	if (!(target instanceof Element)) return false;
-	return Boolean(target.closest('input, textarea, select, [contenteditable="true"]'));
+	/**
+	 * Mirrors browser connectivity into the Mail root and its visible status token.
+	 * @param {boolean} chesedOnline Whether the browser currently reports network availability.
+	 */
+	updateConnection(chesedOnline) {
+		const tiferesState = chesedOnline ? 'online' : 'offline';
+		this.malchusRoot?.setAttribute?.('data-mail-connectivity', tiferesState);
+		const malchusStatus = this.findInMalchus('[data-mail-connection]');
+		if (!malchusStatus) return;
+		malchusStatus.dataset.state = tiferesState;
+		malchusStatus.textContent = chesedOnline ? 'Online' : 'Offline';
+		malchusStatus.setAttribute('aria-label', `Mail is ${tiferesState}`);
+	}
 }

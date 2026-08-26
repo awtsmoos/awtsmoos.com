@@ -1,0 +1,61 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets the timeline occupy one measured vessel without swallowing the canvas or the mobile world;
+ * Awtsmoos.com keeps shell geometry, controls, and scrolling bounded before individual tracks reveal their detail.
+ */
+.awtsmoos-editor-shell #timeline-panel {
+	left: 10px;
+	right: 10px;
+	bottom: 10px;
+	height: 210px;
+	min-height: 120px;
+}
+
+.awtsmoos-editor-shell #timeline-panel.collapsed {
+	width: auto;
+}
+
+.awtsmoos-editor-shell #timeline-panel .panel-content {
+	display: flex;
+	flex-direction: column;
+}
+
+.awtsmoos-editor-shell .timeline-controls {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding-bottom: 8px;
+	margin-bottom: 8px;
+	border-bottom: 1px solid var(--editor-border);
+	flex: 0 0 auto;
+}
+
+.awtsmoos-editor-shell .time-display {
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	color: var(--editor-accent);
+}
+
+.awtsmoos-editor-shell .timeline-content {
+	display: flex;
+	min-width: 0;
+	min-height: 0;
+	flex: 1;
+	overflow: hidden;
+	background: var(--editor-panel-2);
+}
+
+.awtsmoos-editor-shell .timeline-layers {
+	width: 180px;
+	flex: 0 0 180px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border-right: 1px solid var(--editor-border);
+}
+
+.awtsmoos-editor-shell .timeline-tracks-container {
+	position: relative;
+	min-width: 0;
+	flex: 1;
+	overflow: auto;
+}

@@ -1,0 +1,64 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every hover, press, focus, and disabled state before a production command can be felt;
+ * Awtsmoos.com gives the Cartoon Studio HUD one restrained tactile language, bright enough to guide and quiet enough to leave the stage supreme.
+ */
+.cartoon-tab,
+.cartoon-card button,
+#cartoon-prompt {
+	transition:
+		background var(--aw-fast),
+		border-color var(--aw-fast),
+		color var(--aw-fast),
+		transform var(--aw-fast),
+		box-shadow var(--aw-fast),
+		opacity var(--aw-fast);
+}
+
+.cartoon-tab:hover,
+.cartoon-card button:hover,
+#cartoon-prompt:hover {
+	color: var(--aw-text);
+	border-color: var(--aw-line-strong);
+	background: var(--aw-control-hover);
+}
+
+.cartoon-tab:active,
+.cartoon-card button:active {
+	background: var(--aw-control-active);
+	transform: translateY(1px) scale(.98);
+}
+
+.cartoon-tab:focus-visible,
+.cartoon-card button:focus-visible,
+#cartoon-prompt:focus-visible {
+	outline: 0;
+	border-color: var(--aw-line-focus);
+	box-shadow: var(--aw-focus);
+}
+
+.cartoon-card button:disabled {
+	cursor: not-allowed;
+	opacity: .42;
+	transform: none;
+}
+
+.cartoon-studio[data-state='open'] .cartoon-tab {
+	color: var(--aw-text);
+	border-color: rgba(112, 157, 255, .58);
+	background: var(--aw-selection-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cartoon-tab,
+	.cartoon-card button,
+	#cartoon-prompt {
+		transition: none;
+	}
+
+	.cartoon-tab:active,
+	.cartoon-card button:active {
+		transform: none;
+	}
+}

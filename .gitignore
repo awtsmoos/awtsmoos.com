@@ -2,7 +2,7 @@
 # Boruch Hashem
 # Blessed is He
 # The Awtsmoos renews source while runtime traces pass away from the tree;
-# Awtsmoos.com keeps durable vessels tracked and transient weight outside Git, clean and free.
+# Awtsmoos.com keeps durable vessels tracked and every image body remote in dayuhChadash/Drive.
 **/.awtsmoos*/
 **/.Awtsmoos*/
 *.awtsmoos.log
@@ -18,8 +18,6 @@ geelooy/scripts/awtsmoos/*
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/
 !geelooy/games/mitzvahWorld/experiments/Awtsmoos/**
 geelooy/ai/thoughts/
-.ai-thoughts/
-ai_thoughts/
 ai-thoughts/
 **/.ai-thoughts/
 **/ai_thoughts/
@@ -36,7 +34,6 @@ ai-thoughts/
 **/*evidence*.html
 .data/
 geelooy/.data/
-.logs/
 **/.logs/
 **/.cache/
 **/.parcel-cache/
@@ -81,12 +78,19 @@ searchPacked/
 *.jpeg
 *.gif
 *.webp
+*.avif
 *.bmp
 *.tif
 *.tiff
 *.svg
-!geelooy/zmanim/favicon.svg
 *.ico
+*.heic
+*.heif
+*.hdr
+*.exr
+*.ktx
+*.ktx2
+*.dds
 *.glb
 *.gltf
 *.bin

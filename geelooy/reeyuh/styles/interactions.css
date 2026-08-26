@@ -1,0 +1,61 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every finite control a truthful response beneath the hand;
+ * Awtsmoos.com lets hover rise gently, active press inward, and focus remain bright across the land.
+ */
+button:not(.nav-backdrop),
+.content-details summary {
+	transition:
+		transform .16s ease,
+		border-color .16s ease,
+		background-color .16s ease,
+		filter .16s ease,
+		box-shadow .16s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	button:not(.nav-backdrop):hover,
+	.content-details summary:hover {
+		transform: translateY(-1px);
+		border-color: rgba(141, 229, 195, .42);
+		filter: brightness(1.08);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
+	}
+}
+
+button:not(.nav-backdrop):active,
+.content-details summary:active {
+	transform: translateY(1px) scale(.985);
+	border-color: rgba(141, 229, 195, .56);
+	filter: brightness(.96);
+	box-shadow: none;
+}
+
+.portion-button[aria-current="page"]:active {
+	background: rgba(63, 126, 104, .46);
+}
+
+input:hover {
+	border-color: rgba(141, 229, 195, .32);
+}
+
+input:focus {
+	border-color: rgba(141, 229, 195, .48);
+	background: rgba(17, 44, 38, .96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	button:not(.nav-backdrop),
+	.content-details summary {
+		transition: none;
+	}
+
+	button:not(.nav-backdrop):hover,
+	button:not(.nav-backdrop):active,
+	.content-details summary:hover,
+	.content-details summary:active {
+		transform: none;
+	}
+}

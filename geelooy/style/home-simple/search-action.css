@@ -1,0 +1,59 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos turns a question into chosen motion; Awtsmoos.com gives the submit vessel clear rest, hover, focus, press, disabled, and searching states without visual excess.
+*/
+body[data-geelooy-route="home"] .shortcut-key {
+	display: grid;
+	place-items: center;
+	width: 1.65rem;
+	height: 1.65rem;
+	border: 1px solid #27384c;
+	border-radius: .48rem;
+	background: #0d1727;
+	color: #7f91a8;
+	font-size: .66rem;
+	font-weight: 800;
+}
+
+body[data-geelooy-route="home"] .search button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .72rem;
+	min-width: 7rem;
+	height: 3rem;
+	padding: 0 1rem;
+	border: 1px solid #e7f3ff;
+	border-radius: .88rem;
+	background: linear-gradient(180deg, #fbfdff, #d9e6f6);
+	box-shadow: 0 10px 24px rgba(88, 143, 211, .2);
+	color: #081320;
+	cursor: pointer;
+	font-size: .72rem;
+	font-weight: 880;
+	letter-spacing: .01em;
+	transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+body[data-geelooy-route="home"] .search button:hover,
+body[data-geelooy-route="home"] .search button:focus-visible {
+	background: #fff;
+	box-shadow: 0 13px 30px rgba(103, 171, 235, .26);
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 3px;
+	transform: translateY(-1px);
+}
+
+body[data-geelooy-route="home"] .search button:active {
+	transform: scale(.97);
+}
+
+body[data-geelooy-route="home"] .search button:disabled {
+	cursor: progress;
+	opacity: .7;
+}
+
+body[data-geelooy-route="home"] .search.is-searching .search-button-arrow {
+	animation: search-flight .75s ease-in-out infinite alternate;
+}

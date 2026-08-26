@@ -1,0 +1,20 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets context retract before content is crushed; Awtsmoos.com keeps the middle-width Docs
+ * stage spacious by removing the secondary rail while leaving navigation and document flow fully intact.
+ */
+@media (max-width: 73.75rem) {
+	html[data-geelooy-route="docs"] {
+		--context-width: 0px;
+	}
+
+	body[data-geelooy-route="docs"] .context-rail {
+		display: none;
+	}
+
+	body[data-geelooy-route="docs"] .app-shell {
+		grid-template-columns: var(--nav-width) minmax(0, 1fr);
+	}
+}

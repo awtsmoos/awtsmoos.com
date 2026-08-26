@@ -1,85 +1,101 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
+
 /**
- * The Awtsmoos lets one intention enter through keyboard or touch; Awtsmoos.com
- * translates both vessels into the same original dx and dy movement state.
+ * The Awtsmoos turns key and fingertip into one finite intention; Awtsmoos.com keeps movement, pause, and return in a single disciplined translation.
  */
-import { player, playerSpeed } from './world.js';
+export class AdventureInput {
+	constructor(world, options = {}) {
+		this.world = world;
+		this.onRestart = options.onRestart || (() => world.restart());
+		this.onPause = options.onPause || (() => world.togglePause());
+		this.held = new Set();
+		this.keyDirections = new Map([
+			['ArrowUp', 'up'], ['w', 'up'], ['W', 'up'],
+			['ArrowDown', 'down'], ['s', 'down'], ['S', 'down'],
+			['ArrowLeft', 'left'], ['a', 'left'], ['A', 'left'],
+			['ArrowRight', 'right'], ['d', 'right'], ['D', 'right']
+		]);
+		this.bind();
+	}
 
-const keyDirections = new Map([
-	['ArrowUp', 'up'],
-	['w', 'up'],
-	['W', 'up'],
-	['ArrowDown', 'down'],
-	['s', 'down'],
-	['S', 'down'],
-	['ArrowLeft', 'left'],
-	['a', 'left'],
-	['A', 'left'],
-	['ArrowRight', 'right'],
-	['d', 'right'],
-	['D', 'right']
-]);
-const heldDirections = new Set();
+	bind() {
+		document.addEventListener('keydown', event => this.keyDown(event));
+		document.addEventListener('keyup', event => this.keyUp(event));
+		document.querySelectorAll('[data-direction]').forEach(button => this.bindDirectionButton(button));
+		document.getElementById('pauseButton')?.addEventListener('click', () => this.onPause());
+		document.getElementById('restartButton')?.addEventListener('click', () => this.restart());
+		document.getElementById('overlayRestart')?.addEventListener('click', () => this.restart());
+		window.addEventListener('blur', () => this.clear());
+		document.addEventListener('visibilitychange', () => {
+			if (document.hidden) this.clear();
+		});
+	}
 
-/** Reconcile all currently held directions into the original player velocity. */
-function syncVelocity() {
-	const horizontal = Number(heldDirections.has('right')) - Number(heldDirections.has('left'));
-	const vertical = Number(heldDirections.has('down')) - Number(heldDirections.has('up'));
-	player.dx = horizontal * playerSpeed;
-	player.dy = vertical * playerSpeed;
-}
-
-/** Set or clear one directional intention. */
-function setDirection(direction, active) {
-	if (active) heldDirections.add(direction);
-	else heldDirections.delete(direction);
-	syncVelocity();
-}
-
-/** Release every held direction when focus leaves the game. */
-function clearDirections() {
-	heldDirections.clear();
-	syncVelocity();
-	document.querySelectorAll('.dpad-button.is-active').forEach(button => button.classList.remove('is-active'));
-}
-
-/** Bind keyboard arrows/WASD plus pointer-safe D-pad controls. */
-export function bindMovementControls() {
-	document.addEventListener('keydown', event => {
-		const direction = keyDirections.get(event.key);
+	keyDown(event) {
+		if (event.repeat && ['p', 'P', 'r', 'R'].includes(event.key)) return;
+		if (event.key === 'p' || event.key === 'P') {
+			event.preventDefault();
+			this.onPause();
+			return;
+		}
+		if (event.key === 'r' || event.key === 'R') {
+			event.preventDefault();
+			this.restart();
+			return;
+		}
+		const direction = this.keyDirections.get(event.key);
 		if (!direction) return;
 		event.preventDefault();
-		setDirection(direction, true);
-	});
-	document.addEventListener('keyup', event => {
-		const direction = keyDirections.get(event.key);
+		this.held.add(direction);
+		this.syncVelocity();
+	}
+
+	keyUp(event) {
+		const direction = this.keyDirections.get(event.key);
 		if (!direction) return;
-		setDirection(direction, false);
-	});
-	document.querySelectorAll('.dpad-button').forEach(button => {
+		this.held.delete(direction);
+		this.syncVelocity();
+	}
+
+	bindDirectionButton(button) {
 		const direction = button.dataset.direction;
 		button.addEventListener('pointerdown', event => {
 			event.preventDefault();
 			button.setPointerCapture?.(event.pointerId);
 			button.classList.add('is-active');
-			setDirection(direction, true);
+			this.held.add(direction);
+			this.syncVelocity();
 		});
 		const release = event => {
 			button.classList.remove('is-active');
-			setDirection(direction, false);
+			this.held.delete(direction);
+			this.syncVelocity();
 			if (button.hasPointerCapture?.(event.pointerId)) button.releasePointerCapture(event.pointerId);
 		};
 		button.addEventListener('pointerup', release);
 		button.addEventListener('pointercancel', release);
 		button.addEventListener('lostpointercapture', () => {
-			button.classList.remove('is-active');
-			setDirection(direction, false);
+			this.held.delete(direction);
+			this.syncVelocity();
 		});
-	});
-	window.addEventListener('blur', clearDirections);
-	document.addEventListener('visibilitychange', () => {
-		if (document.hidden) clearDirections();
-	});
+	}
+
+	syncVelocity() {
+		const speed = this.world.config.playerSpeed;
+		this.world.player.dx = (Number(this.held.has('right')) - Number(this.held.has('left'))) * speed;
+		this.world.player.dy = (Number(this.held.has('down')) - Number(this.held.has('up'))) * speed;
+	}
+
+	clear() {
+		this.held.clear();
+		document.querySelectorAll('.dpad-button.is-active').forEach(button => button.classList.remove('is-active'));
+		this.syncVelocity();
+	}
+
+	restart() {
+		this.clear();
+		this.onRestart();
+	}
 }

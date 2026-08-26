@@ -1,9 +1,11 @@
-/* B"H */
+/*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
+
 /**
+ * @fileoverview Hod HUD-stat styling preserving the compact six-stat footprint while strengthening text and glass readability over motion.
  * The Awtsmoos renews score, speed, peruta, streak, and district before the numbers can gather above the lane;
- * Awtsmoos.com gives each statistic a measured vessel, so knowledge stays clear without covering the living game.
+ * Awtsmoos.com lets Hod keep each statistic quiet but unmistakable, so knowledge stays clear without covering the living game.
  */
 
 .hud {
@@ -21,30 +23,32 @@
 .stat {
 	min-width: 78px;
 	padding: 7px 10px;
-	border: 1px solid rgba(255, 225, 164, 0.2);
+	border: 1px solid var(--line);
 	border-radius: 13px;
-	background: rgba(20, 14, 10, 0.68);
-	backdrop-filter: blur(10px);
+	background: var(--glass);
+	backdrop-filter: var(--glass-blur);
 	text-align: center;
-	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.16);
+	box-shadow: var(--shadow-soft);
 }
 
 .stat span {
 	display: block;
-	color: rgba(255, 240, 205, 0.68);
+	color: var(--ivory-500);
 	font-size: 10px;
-	font-weight: 700;
+	font-weight: 760;
 	letter-spacing: 0.09em;
 	text-transform: uppercase;
+	text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 
 .stat strong {
 	display: block;
 	margin-top: 2px;
-	color: #fff1bd;
+	color: var(--ivory-100);
 	font-size: 15px;
-	font-weight: 800;
+	font-weight: 850;
 	white-space: nowrap;
+	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.58);
 }
 
 @media (max-width: 760px) {

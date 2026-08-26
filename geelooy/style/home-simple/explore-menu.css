@@ -1,13 +1,13 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lowers a broad constellation from the top of Awtsmoos.com; the chamber is deep and solid, its edges bright, its order visible without frosting the world behind it.
+The Awtsmoos lowers a broad constellation from the top of Awtsmoos.com; the chamber is deep and solid, while a closed doorway leaves no hidden geometry wandering beyond the world.
 */
-.world-panel {
+body[data-geelooy-route="home"] .world-panel {
 	position: absolute;
 	top: calc(100% + .5rem);
 	left: 50%;
-	z-index: 820;
+	z-index: var(--home-layer-launcher);
 	width: min(1120px, calc(100vw - 32px));
 	max-height: calc(100dvh - 92px - env(safe-area-inset-bottom));
 	padding: 1rem;
@@ -18,10 +18,17 @@ The Awtsmoos lowers a broad constellation from the top of Awtsmoos.com; the cham
 	box-shadow: 0 30px 84px rgba(0, 0, 0, .68);
 	transform: translateX(-50%);
 	transform-origin: top center;
+}
+
+body[data-geelooy-route="home"] .world-launcher:not([open]) > .world-panel {
+	display: none;
+}
+
+body[data-geelooy-route="home"] .world-launcher[open] > .world-panel {
 	animation: world-panel-arrival .2s ease-out;
 }
 
-.world-panel-heading {
+body[data-geelooy-route="home"] .world-panel-heading {
 	display: flex;
 	align-items: end;
 	justify-content: space-between;
@@ -30,13 +37,13 @@ The Awtsmoos lowers a broad constellation from the top of Awtsmoos.com; the cham
 	border-bottom: 1px solid #17314b;
 }
 
-.world-panel-heading > div {
+body[data-geelooy-route="home"] .world-panel-heading > div {
 	display: grid;
 	gap: .18rem;
 }
 
-.world-panel-heading small,
-.world-panel-heading > span {
+body[data-geelooy-route="home"] .world-panel-heading small,
+body[data-geelooy-route="home"] .world-panel-heading > span {
 	color: #8799b2;
 	font-size: .62rem;
 	font-weight: 800;
@@ -44,16 +51,16 @@ The Awtsmoos lowers a broad constellation from the top of Awtsmoos.com; the cham
 	text-transform: uppercase;
 }
 
-.world-panel-heading strong {
+body[data-geelooy-route="home"] .world-panel-heading strong {
 	font-size: clamp(1.25rem, 2vw, 1.8rem);
 	letter-spacing: -.035em;
 }
 
-.world-panel::-webkit-scrollbar {
+body[data-geelooy-route="home"] .world-panel::-webkit-scrollbar {
 	width: 10px;
 }
 
-.world-panel::-webkit-scrollbar-thumb {
+body[data-geelooy-route="home"] .world-panel::-webkit-scrollbar-thumb {
 	border: 3px solid transparent;
 	border-radius: 999px;
 	background: #355b79;
@@ -73,7 +80,7 @@ The Awtsmoos lowers a broad constellation from the top of Awtsmoos.com; the cham
 }
 
 @media (max-width: 680px) {
-	.world-panel {
+	body[data-geelooy-route="home"] .world-panel {
 		top: calc(100% + .4rem);
 		width: calc(100vw - 16px);
 		max-height: calc(100dvh - 78px - env(safe-area-inset-bottom));
@@ -81,17 +88,17 @@ The Awtsmoos lowers a broad constellation from the top of Awtsmoos.com; the cham
 		border-radius: 1.05rem;
 	}
 
-	.world-panel-heading {
+	body[data-geelooy-route="home"] .world-panel-heading {
 		padding: .15rem .15rem .7rem;
 	}
 
-	.world-panel-heading > span {
+	body[data-geelooy-route="home"] .world-panel-heading > span {
 		display: none;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.world-panel {
+	body[data-geelooy-route="home"] .world-launcher[open] > .world-panel {
 		animation: none;
 	}
 }

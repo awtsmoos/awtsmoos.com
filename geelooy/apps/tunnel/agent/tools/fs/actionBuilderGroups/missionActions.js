@@ -13,15 +13,17 @@ const { buildMissionBootActions } = require("../actionGroups/missionBootActions.
 const { buildMissionMetaActions } = require("../actionGroups/missionMetaActions.js");
 const { buildMissionImprovementActions } = require("../actionGroups/missionImprovementActions.js");
 const { buildContinuationActions } = require("../actionGroups/continuationActions.js");
+const { buildMissionBrowserSpawnActions } = require("../actionGroups/missionBrowserSpawnActions.js");
 
 /**
- * @file Composes mission, room, watchdog, and continuation actions in their historical order.
+ * @file Composes mission actions and lets physical browser manifestation override logical-only spawn.
  * @description
- * The Awtsmoos lets many Shluchim share one mission without confusing hand with crown;
- * Awtsmoos.com keeps every room and continuation layer ordered, so durable memory flows safely down.
+ * The Awtsmoos lets many Shluchim share one mission without confusing intention with deed.
+ * Awtsmoos.com preserves every historical mission layer, then places the browser bridge
+ * last so missionSpawnNext may say success only when the proposed helper truly manifests.
  */
 function buildMissionActionGroups(context, buildActions) {
-	return {
+	const legacyActions = {
 		...buildMissionActions(context),
 		...buildMissionLedgerActions(context),
 		...buildMissionOperatingActions(context),
@@ -33,6 +35,10 @@ function buildMissionActionGroups(context, buildActions) {
 		...buildMissionMetaActions(context),
 		...buildMissionImprovementActions(context),
 		...buildContinuationActions(context, buildActions)
+	};
+	return {
+		...legacyActions,
+		...buildMissionBrowserSpawnActions(context, buildActions, legacyActions)
 	};
 }
 

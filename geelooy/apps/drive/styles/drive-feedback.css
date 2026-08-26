@@ -1,0 +1,51 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos gives status and decision surfaces their own measured layer; Awtsmoos.com avoids arbitrary z-index escalation by keeping notices on one documented layer and letting native dialogs occupy the browser top layer.
+ */
+
+[data-awtsmoos-drive] .notice-stack {
+	position: fixed;
+	right: var(--space-3);
+	bottom: var(--space-3);
+	z-index: var(--layer-notice);
+	display: grid;
+	gap: var(--space-2);
+	max-width: min(28rem, calc(100% - 2rem));
+}
+
+[data-awtsmoos-drive] :where(.status, .error) {
+	margin: 0;
+	padding: 0.8rem 1rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: #10251f;
+	box-shadow: var(--shadow);
+}
+
+[data-awtsmoos-drive] .error {
+	border-color: rgba(251, 113, 133, 0.58);
+	color: #fecdd3;
+}
+
+[data-awtsmoos-drive] dialog {
+	width: min(32rem, calc(100% - 2rem));
+	max-width: 100%;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-large);
+	background: var(--bg-elevated);
+	color: var(--text);
+	box-shadow: var(--shadow);
+}
+
+[data-awtsmoos-drive] dialog::backdrop {
+	background: rgba(0, 0, 0, 0.72);
+	backdrop-filter: blur(5px);
+}
+
+[data-awtsmoos-drive] dialog form {
+	display: grid;
+	gap: var(--space-3);
+}

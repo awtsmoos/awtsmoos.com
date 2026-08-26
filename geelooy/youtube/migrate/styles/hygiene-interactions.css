@@ -1,0 +1,81 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets each advanced migration door reveal depth without becoming a raw browser disclosure;
+Awtsmoos.com gives summary, open state, keyboard focus, universal pressure, fine-pointer hover, narrow wrapping, and reduced-motion truth one bounded interaction vessel.
+*/
+.migrationCard[data-future-disclosure] > summary {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .75rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	cursor: pointer;
+	transition:
+		transform 140ms cubic-bezier(.2, .8, .2, 1),
+		background-color 170ms ease,
+		border-color 170ms ease,
+		box-shadow 170ms ease;
+}
+
+.migrationCard[data-future-disclosure] > summary > * {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.migrationCard[data-future-disclosure] > summary :where(
+	strong,
+	.summaryMeta
+) {
+	overflow-wrap: anywhere;
+}
+
+.migrationCard[data-future-disclosure][open] > summary {
+	background: rgb(116 201 255 / 5%);
+	box-shadow: inset 0 -1px rgb(116 201 255 / 8%);
+}
+
+.migrationCard[data-future-disclosure] > summary:focus-visible {
+	outline: 2px solid #8cddff;
+	outline-offset: -2px;
+}
+
+.migrationCard[data-future-disclosure] > summary:active {
+	transform: translateY(1px) scale(.992);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.migrationCard[data-future-disclosure] > summary:hover {
+		background: rgb(116 201 255 / 4%);
+		box-shadow: inset 0 0 0 1px rgb(116 201 255 / 9%);
+		transform: translateY(-1px);
+	}
+}
+
+@media (max-width: 26rem) {
+	.migrationCard[data-future-disclosure] > summary {
+		grid-template-columns: 1fr;
+	}
+
+	.summaryMeta {
+		display: block;
+		justify-self: start;
+		max-inline-size: 100%;
+		white-space: normal;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.migrationCard[data-future-disclosure] > summary {
+		transition: none;
+		transform: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.migrationCard[data-future-disclosure] > summary {
+		box-shadow: none;
+	}
+}

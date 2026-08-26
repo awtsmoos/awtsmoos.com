@@ -1,0 +1,29 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond hue, measure, and layer; Awtsmoos.com lets this Bina vessel name
+ * the finite visual constants that every Ohrbound surface receives without owning them.
+ * One covenant of tokens prevents stray colors and accidental z-index wars from multiplying in the night.
+ */
+.ohrbound-app {
+	color-scheme: dark;
+	--ink: #f5f8ff;
+	--muted: #9cabc2;
+	--panel: rgba(10, 22, 40, 0.84);
+	--panel-strong: rgba(8, 19, 35, 0.96);
+	--line: rgba(164, 201, 255, 0.16);
+	--line-bright: rgba(145, 232, 220, 0.34);
+	--glow: #79ead1;
+	--glow-blue: #74c8ff;
+	--gold: #ffd86a;
+	--danger: #ff7382;
+	--radius: 18px;
+	--tap: 44px;
+	--layer-world: 0;
+	--layer-hint: 12;
+	--layer-touch: 18;
+	--layer-hud: 20;
+	--layer-drawer: 80;
+	--layer-toast: 90;
+}

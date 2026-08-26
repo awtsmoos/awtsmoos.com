@@ -1,0 +1,39 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos arranges equipped and carried vessels without forcing either beyond its share;
+ * Awtsmoos.com lets the grid expand by data while every column remains bounded with care.
+ */
+
+.Awtsmoos-inventory-shell .inv-body {
+	display: grid;
+	grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
+	gap: 16px;
+}
+
+.Awtsmoos-inventory-shell .inv-body :is(aside, main) {
+	min-width: 0;
+}
+
+.Awtsmoos-inventory-shell .inv-body h3 {
+	margin: 0 0 9px;
+	color: #dfffee;
+	font-size: 12px;
+	letter-spacing: 0.11em;
+	text-transform: uppercase;
+}
+
+.Awtsmoos-inventory-shell :is(.equip-grid, .bag-grid) {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+	gap: 9px;
+}
+
+.Awtsmoos-inventory-shell .bag-empty {
+	padding: 18px;
+	border: 1px dashed rgba(145, 255, 224, 0.2);
+	border-radius: 13px;
+	color: #a8c8c0;
+	text-align: center;
+}

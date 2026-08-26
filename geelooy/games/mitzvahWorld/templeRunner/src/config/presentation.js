@@ -1,12 +1,17 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @file presentation.js
- * @description Defines input, camera, feedback, and visual-response tuning without changing gameplay truth.
- * The Awtsmoos renews touch, sight, and sound before the runner can feel their glow;
- * Awtsmoos.com keeps presentation measured so every device receives a clear and gentle flow.
+ * @fileoverview Tiferes presentation tuning for input, camera, feedback, and backward-compatible Temple material colors.
+ * RESPONSIBILITY: expose stable immutable presentation constants while semantic readability roles live in their focused catalog.
+ * NON-RESPONSIBILITY: this file never mutates camera state, creates native materials, advances gameplay, or imports a renderer.
+ * OROS/KEILIM: touch, sight, sound, and color are ohr; measured constants are Tiferes kelim balancing speed with readable form.
+ * The Awtsmoos renews every sensation before the runner can call one frame fast or bright;
+ * Awtsmoos.com lets Tiferes measure the vessels so energetic play remains comfortable and clear in sight.
  */
+
+import { READABILITY_COLORS } from "./readabilityColors.js";
 
 export const INPUT_CONFIG = Object.freeze({
 	swipeFraction: 0.035,
@@ -21,18 +26,35 @@ export const INPUT_CONFIG = Object.freeze({
 });
 
 export const CAMERA_CONFIG = Object.freeze({
-	baseFov: 56,
-	maxFov: 65,
+	baseFov: 55,
+	maxFov: 59,
+	minFov: 54,
+	maxPortraitFov: 61,
 	baseY: 4.85,
-	baseZ: 8.9,
+	baseZ: 8.75,
 	pitch: -0.22,
-	laneFollow: 0.13,
-	jumpFollow: 0.09,
-	slideDip: 0.2,
-	maxRoll: 0.045,
-	positionEase: 6.2,
-	fovEase: 4.7,
-	landingImpulse: 0.14,
+	laneFollow: 0.46,
+	laneDeadZone: 0.06,
+	jumpThreshold: 0.24,
+	jumpFollow: 0.34,
+	slideDip: 0.14,
+	maxRoll: 0.034,
+	laneRollStrength: 0.008,
+	turnRoll: 0.026,
+	xEase: 9.4,
+	yRiseEase: 7.2,
+	yFallEase: 5.7,
+	zEase: 4.8,
+	fovEase: 5.2,
+	landingImpulse: 0.07,
+	landingDecay: 13,
+	speedZ: 0.22,
+	portraitZ: 1.25,
+	wideZ: -0.32,
+	portraitFov: 1.8,
+	wideFov: -0.45,
+	minAspect: 0.58,
+	maxAspect: 2.2,
 	turnYaw: Math.PI / 2
 });
 
@@ -54,17 +76,17 @@ export const FEEDBACK_CONFIG = Object.freeze({
 });
 
 export const WORLD_COLORS = Object.freeze({
-	stone: [0.58, 0.44, 0.29, 1],
-	stoneLight: [0.76, 0.62, 0.42, 1],
-	stoneDark: [0.34, 0.24, 0.16, 1],
-	wood: [0.38, 0.19, 0.08, 1],
-	cloth: [0.56, 0.16, 0.1, 1],
-	leaf: [0.18, 0.35, 0.18, 1],
-	leafLight: [0.3, 0.5, 0.24, 1],
-	gold: [0.95, 0.62, 0.12, 1],
-	goldLight: [1, 0.84, 0.32, 1],
-	bronze: [0.62, 0.3, 0.08, 1],
-	shield: [0.28, 0.72, 0.88, 1],
-	magnet: [0.74, 0.4, 0.14, 1],
-	double: [0.98, 0.72, 0.12, 1]
+	stone: READABILITY_COLORS.architectureBase,
+	stoneLight: READABILITY_COLORS.architectureLight,
+	stoneDark: READABILITY_COLORS.architectureShadow,
+	wood: READABILITY_COLORS.woodBase,
+	cloth: READABILITY_COLORS.duckHazard,
+	leaf: READABILITY_COLORS.foliageDark,
+	leafLight: READABILITY_COLORS.foliageLight,
+	gold: READABILITY_COLORS.rewardAccent,
+	goldLight: READABILITY_COLORS.rewardHighlight,
+	bronze: READABILITY_COLORS.bronzeBase,
+	shield: READABILITY_COLORS.defensiveAccent,
+	magnet: READABILITY_COLORS.utilityAccent,
+	double: READABILITY_COLORS.rewardHighlight
 });

@@ -1,0 +1,56 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets command power remain visible when motion, contrast, or transparency must become simpler;
+Awtsmoos.com removes decorative movement without removing focus, pressure truth, borders, or the reachable exit from the creator command vessel.
+*/
+.creatorCommandLauncher,
+.creatorPaletteClose {
+	transition:
+		transform 140ms cubic-bezier(.2, .8, .2, 1),
+		border-color 160ms ease,
+		background-color 160ms ease,
+		box-shadow 160ms ease;
+}
+
+.creatorCommandLauncher:focus-visible,
+.creatorPaletteClose:focus-visible {
+	border-color: #8ce9ef;
+	outline: 3px solid rgb(116 216 223 / 16%);
+	outline-offset: 2px;
+}
+
+.creatorCommandLauncher:active,
+.creatorPaletteClose:active {
+	transform: translateY(1px) scale(.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.creatorCommandLauncher:hover,
+	.creatorPaletteClose:hover {
+		border-color: #74d8df;
+		background: #19303a;
+		box-shadow: 0 .65rem 1.6rem rgb(0 0 0 / 18%);
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.creatorCommandLauncher,
+	.creatorPaletteClose,
+	.creatorCommand {
+		transition: none;
+		transform: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.creatorPalette,
+	.creatorCommand,
+	.creatorCommandLauncher,
+	.creatorPaletteClose {
+		border: 1px solid ButtonText;
+		box-shadow: none;
+	}
+}

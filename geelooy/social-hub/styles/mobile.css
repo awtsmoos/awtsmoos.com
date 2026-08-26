@@ -1,71 +1,63 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos is beyond wide and narrow, while Awtsmoos.com lets every Social chamber breathe when the viewport becomes a phone;
- * this Chesed-like garment owns page and content responsiveness only, leaving the fixed mobile navigation covenant to its dedicated vessel of light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives phone layout a content law without seizing the crown that belongs to mobile-header;
+ * Awtsmoos.com lets workspace, grids, composer, toast, and form rows contract while shell identity stays clearer.
  */
-
 @media (max-width: 62.4375rem) {
-	body {
+	.social-hub-document {
 		padding-bottom: calc(5.4rem + var(--safe-bottom));
 	}
 
-	.desktopRail {
+	.social-hub-document .desktopRail {
 		display: none;
 	}
 
-	.hubShell {
+	.social-hub-document .hubShell {
 		display: block;
 	}
 
-	.workspace {
-		padding: .75rem;
+	.social-hub-document .workspace {
+		padding: .55rem .75rem .75rem;
 	}
 
-	.heroRift {
+	.social-hub-document .heroRift {
 		grid-template-columns: 1fr;
-		min-height: 0;
+		min-block-size: 0;
 		padding: var(--space-4);
 		text-align: center;
 	}
 
-	.pulseOrb {
-		width: min(10rem, 48vw);
+	.social-hub-document .pulseOrb {
+		inline-size: min(10rem, 48vw);
 	}
 
-	:where(.targetGrid, .twoColumnFields, .privacyGrid, .categoryGrid) {
+	.social-hub-document :where(.targetGrid, .twoColumnFields, .privacyGrid, .categoryGrid) {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
-	.commentComposer > label:first-child textarea {
-		min-height: 9rem;
+	.social-hub-document .commentComposer > label:first-child textarea {
+		min-block-size: 9rem;
 	}
 
-	.promotionPanel {
+	.social-hub-document .promotionPanel {
 		position: static;
 	}
 
-	.hubStatus {
-		right: .7rem;
-		bottom: calc(5.7rem + var(--safe-bottom));
-		left: .7rem;
-		max-width: none;
+	.social-hub-document .hubStatus {
+		z-index: var(--hub-layer-toast);
+		inset-inline: .7rem;
+		inset-block-end: calc(5.7rem + var(--safe-bottom));
+		max-inline-size: none;
 	}
 }
 
 @media (max-width: 34rem) {
-	:where(.targetGrid, .twoColumnFields, .privacyGrid, .categoryGrid) {
+	.social-hub-document :where(.targetGrid, .twoColumnFields, .privacyGrid, .categoryGrid) {
 		grid-template-columns: 1fr;
 	}
 
-	.hubHeader,
-	.identityCluster,
-	.contextRibbon,
-	.actionRow,
-	.filterRow,
-	.mediaActions {
+	.social-hub-document :where(.actionRow, .filterRow, .mediaActions) {
 		align-items: stretch;
 		flex-direction: column;
 	}

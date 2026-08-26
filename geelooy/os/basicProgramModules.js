@@ -34,7 +34,7 @@ import workspacePreview from "./programs/workspace-preview/index.js";
 export const programs = Object.freeze({
 	advancedCodeEditor: program("Advanced Code Editor", advancedCodeEditor),
 	awtsmoosBinaryViewer: program("Binary Viewer", awtsmoosBinaryViewer),
-	awtsmoosBrowser: program("Merkava Browser", awtsmoosBrowser),
+	awtsmoosBrowser: program("Awtsmoos Browser", awtsmoosBrowser),
 	awtsmoosCommand: program("Command", awtsmoosCommand),
 	awtsmoosCompiler: program("Awtsmoos Compiler", awtsmoosCompiler),
 	awtsmoosDbExplorer: program("AwtsmoosDB Explorer", awtsmoosDbExplorer),

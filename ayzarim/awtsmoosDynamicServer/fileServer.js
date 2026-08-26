@@ -4,13 +4,14 @@
 
 /**
  * @file fileServer.js
- * @description Orchestrates templates, static representations, compact modules, and explicit bundles.
- * The Awtsmoos lets one path reveal HTML, bytes, Brotli, gzip, or a folded module without confusion;
- * Awtsmoos.com preserves status checks, MIME truth, validators, templates, and old query modes.
+ * @description Orchestrates templates, static representations, cached CompactJS, compact CSS, and explicit bundles.
+ * The Awtsmoos lets one path reveal HTML, bytes, Brotli, gzip, or a folded dependency river without confusion;
+ * Awtsmoos.com preserves status checks, MIME truth, validators, templates, and warm compact memory while each changed source renews the whole union.
  */
 
 const { errorMessage } = require('./utils.js');
-const { compileCompactModule } = require('./compactJs/compiler.js');
+const { compileCachedCompactModule } = require('./compactJs/cache.js');
+const { compileCompactStylesheet } = require('./compactCss/compiler.js');
 const { maybeSendBundle } = require('./zipBundles/bundleRoute.js');
 const {
 	prepareIdentityContent,
@@ -18,49 +19,67 @@ const {
 } = require('./static/FileResponseContent.js');
 const {
 	getRequestParams,
+	isCssContentType,
 	isJavaScriptContentType,
+	shouldCompileCompactCss,
 	shouldCompileCompactJs
 } = require('./static/FileResponseModes.js');
-const {
-	readStaticAsset
-} = require('./static/StaticAssetRepresentation.js');
+const { readStaticAsset } = require('./static/StaticAssetRepresentation.js');
 
 async function doFileResponse(context) {
-	const dependencies = context.dependencies;
-	const { request, response } = dependencies;
+	const { request, response } = context.dependencies;
 	try {
-		if (await maybeSendBundle(context)) return;
+		if (await maybeSendBundle(context)) {
+			return;
+		}
 		if (request.method === 'GET' && request.isAwtsmoosFileStatusRequest) {
 			return sendFileStatus(context);
 		}
-		let content;
-		if (shouldCompileCompactJs(context)) {
-			content = await compileCompactModule({
-				entryFile: context.filePath,
-				fs: dependencies.fs,
-				rootDir: dependencies.parentPath
-			});
-		} else {
-			const asset = await readStaticAsset(context);
-			if (asset.handled) return;
-			if (asset.encoding !== 'identity') {
-				setProperContent(context, asset.content, context.contentType, true);
-				response.end(asset.content);
-				return;
-			}
-			content = await prepareIdentityContent(context, asset.content);
+		const content = await resolveResponseContent(context);
+		if (content === HANDLED_RESPONSE) {
+			return;
 		}
-		content = setProperContent(
+		const proper = setProperContent(
 			context,
 			content,
 			context.contentType,
 			context.isBinary
 		);
-		response.end(content);
+		response.end(proper);
 	} catch (errors) {
 		console.error(errors);
 		return errorMessage(context, errors);
 	}
+}
+
+const HANDLED_RESPONSE = Symbol('handled-response');
+
+async function resolveResponseContent(context) {
+	const dependencies = context.dependencies;
+	if (shouldCompileCompactJs(context)) {
+		return compileCachedCompactModule({
+			entryFile: context.filePath,
+			fs: dependencies.fs,
+			rootDir: dependencies.parentPath
+		});
+	}
+	if (shouldCompileCompactCss(context)) {
+		return compileCompactStylesheet({
+			entryFile: context.filePath,
+			fs: dependencies.fs,
+			rootDir: dependencies.parentPath
+		});
+	}
+	const asset = await readStaticAsset(context);
+	if (asset.handled) {
+		return HANDLED_RESPONSE;
+	}
+	if (asset.encoding !== 'identity') {
+		setProperContent(context, asset.content, context.contentType, true);
+		context.dependencies.response.end(asset.content);
+		return HANDLED_RESPONSE;
+	}
+	return prepareIdentityContent(context, asset.content);
 }
 
 async function sendFileStatus(context) {
@@ -80,6 +99,8 @@ async function sendFileStatus(context) {
 }
 
 module.exports = doFileResponse;
-module.exports.shouldCompileCompactJs = shouldCompileCompactJs;
-module.exports.isJavaScriptContentType = isJavaScriptContentType;
 module.exports.getRequestParams = getRequestParams;
+module.exports.isCssContentType = isCssContentType;
+module.exports.isJavaScriptContentType = isJavaScriptContentType;
+module.exports.shouldCompileCompactCss = shouldCompileCompactCss;
+module.exports.shouldCompileCompactJs = shouldCompileCompactJs;

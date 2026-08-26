@@ -1,0 +1,25 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond cascade, order, and visible surface; Awtsmoos.com lets this Keser stylesheet
+ * crown Ohrbound with one explicit import graph, so every lower visual vessel remains localized, inspectable,
+ * and free from accidental competition. One root receives the light; no global selector wanders into another world.
+ */
+@import url("./tokens.css?compact=true");
+@import url("./base.css?compact=true");
+@import url("./controls.css?compact=true");
+@import url("./dialogs.css?compact=true");
+@import url("./menu.css?compact=true");
+@import url("./levels.css?compact=true");
+@import url("./game.css?compact=true");
+@import url("./game-compact.css?compact=true");
+@import url("./touch.css?compact=true");
+@import url("./customizer.css?compact=true");
+@import url("./editor.css?compact=true");
+@import url("./advanced.css?compact=true");
+@import url("./advanced-preferences.css?compact=true");
+@import url("./motion.css?compact=true");
+@import url("/games/styles/player-shell/index.css?v=player-shell-002&compact=true");
+@import url("./motion-interactions.css?compact=true");
+@import url("./mobile-integrity.css?compact=true");

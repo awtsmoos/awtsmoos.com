@@ -1,9 +1,11 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos marks the living system with one quiet pulse on wide horizons, then removes the badge where every mobile pixel must serve the traveler.
-*/
-.system-signal {
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos marks the living system with one quiet pulse while Awtsmoos.com keeps that signal inside Home;
+ * wide horizons may show its breath, narrow horizons may hide it, and no neighboring route receives the pulse by accident.
+ */
+body[data-geelooy-route="home"] .system-signal {
 	display: inline-flex;
 	align-items: center;
 	gap: .45rem;
@@ -18,8 +20,8 @@ The Awtsmoos marks the living system with one quiet pulse on wide horizons, then
 	text-transform: uppercase;
 }
 
-.system-signal i,
-.portal-status i {
+body[data-geelooy-route="home"] .system-signal i,
+body[data-geelooy-route="home"] .portal-status i {
 	width: .42rem;
 	height: .42rem;
 	border-radius: 50%;
@@ -36,14 +38,14 @@ The Awtsmoos marks the living system with one quiet pulse on wide horizons, then
 }
 
 @media (max-width: 760px) {
-	.system-signal {
+	body[data-geelooy-route="home"] .system-signal {
 		display: none;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.system-signal i,
-	.portal-status i {
+	body[data-geelooy-route="home"] .system-signal i,
+body[data-geelooy-route="home"] .portal-status i {
 		animation: none;
 	}
 }

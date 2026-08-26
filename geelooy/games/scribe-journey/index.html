@@ -1,4 +1,7 @@
 <!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos renews every path of the Scribe before foot, word, or spark can appear; Awtsmoos.com gives those many journeys a clear entrance so mystery can deepen without making orientation disappear. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,175 +10,13 @@
 	<meta name="theme-color" content="#07131a">
 	<title>The Scribe's Journey: Echoes of Ein Sof</title>
 	<link rel="icon" href="data:,">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body data-game-mode="main-menu">
-	<main id="game-shell">
-		<section id="gameContainer" aria-label="The Scribe's Journey game">
-			<header id="world-hud" aria-live="polite">
-				<div class="hud-location">
-					<span class="hud-kicker">CURRENT PATH</span>
-					<strong id="location-name">Malkuth Village</strong>
-				</div>
-				<div class="hud-time"><span aria-hidden="true">✦</span><span id="status-time">12:00</span></div>
-				<div class="hud-quest">
-					<span class="hud-kicker">ACTIVE THREAD</span>
-					<strong id="quest-chip">Seek the hidden spark</strong>
-				</div>
-				<output id="coordinate-readout" aria-label="Current map, coordinates, and direction">malkuth_village · 0, 0 · down</output>
-			</header>
-
-			<div id="world-viewport">
-				<canvas id="gameCanvas" class="is-visible" aria-label="Exploration world"></canvas>
-				<div class="world-vignette" aria-hidden="true"></div>
-			</div>
-
-			<div id="context-rail" aria-live="polite">
-				<span class="context-key">E</span>
-				<span id="context-prompt">Explore. Speak. Reveal the hidden spark.</span>
-			</div>
-
-			<aside id="global-chat-box" aria-label="World Echoes activity feed">
-				<button class="chat-header" id="chat-header" type="button">
-					<span>World Echoes</span><span id="chat-toggle">[-]</span>
-				</button>
-				<p class="chat-status">Travelers of the simulated world; no fake humans.</p>
-				<div id="chat-messages"></div>
-			</aside>
-
-			<section id="dialogue-box" aria-live="assertive">
-				<div id="dialogue-text"></div>
-				<div id="dialogue-choices"></div>
-				<div id="dialogue-continue-indicator" class="continue-indicator">PRESS E / SPACE</div>
-			</section>
-
-			<section id="battle-screen" class="menu-screen" aria-label="Battle">
-				<div class="battle-area">
-					<article id="opponent-display" class="battle-musag-display">
-						<div class="musag-stats"><h4 id="opponent-name"></h4><span id="opponent-level"></span></div>
-						<div class="health-bar"><div id="opponent-hp-bar" class="health-bar-inner"></div></div>
-						<div id="opponent-emoji" class="musag-emoji"></div>
-					</article>
-					<article id="player-display" class="battle-musag-display">
-						<div class="musag-stats"><h4 id="player-name"></h4><span id="player-level"></span></div>
-						<div class="health-bar"><div id="player-hp-bar" class="health-bar-inner"></div></div>
-						<div class="kavanah-bar"><div id="player-kavanah-bar" class="kavanah-bar-inner"></div></div>
-						<div id="player-emoji" class="musag-emoji"></div>
-					</article>
-				</div>
-				<div class="battle-ui-box modal-content">
-					<div id="battle-log"></div><div id="battle-menu-container"></div>
-					<div id="battle-log-continue-indicator" class="continue-indicator">▼</div>
-				</div>
-			</section>
-
-			<section id="main-menu" class="menu-screen is-visible" aria-labelledby="game-title">
-				<div class="title-sigil" aria-hidden="true">א</div>
-				<p class="eyebrow">A MONSTER JOURNEY THROUGH THE SEFIROT</p>
-				<h1 class="title-logo" id="game-title">The Scribe's Journey</h1>
-				<p class="subtitle-logo">Echoes of Ein Sof</p>
-				<div class="title-actions">
-					<button class="menu-button primary-button" data-action="newGame">Begin Anew</button>
-					<button class="menu-button" data-action="loadGame" id="main-menu-load-game-button">Continue Chronicle</button>
-					<button class="menu-button quiet-button" data-action="settings-screen">Settings</button>
-				</div>
-				<p class="version-copy">Poemmon Edition · Kabbalah Adventure</p>
-			</section>
-
-			<section id="gameMenu" class="menu-screen" aria-label="Chronicle menu">
-				<div class="modal-content menu-ledger">
-					<h2>Chronicle</h2>
-					<div class="menu-grid">
-						<button class="menu-button" data-action="resume">Resume</button>
-						<button class="menu-button" data-action="inventory-screen">Satchel</button>
-						<button class="menu-button" data-action="shem-screen">Shem</button>
-						<button class="menu-button" data-action="crafting-screen">Tikkun</button>
-						<button class="menu-button" data-action="quest-log-screen">Tasks</button>
-						<button class="menu-button" data-action="bestiary-screen">Bestiary</button>
-						<button class="menu-button" data-action="mitzvah-screen">Mitzvah Tank</button>
-						<button class="menu-button" data-action="gates-screen">50 Gates</button>
-						<button class="menu-button" data-action="gates37-screen">37 Wisdom Gates</button>
-						<button class="menu-button" data-action="player-quest-screen">Quest Board</button>
-						<button class="menu-button" data-action="features-screen">Features</button>
-						<button class="menu-button" data-action="saveGame" id="game-menu-save-game-button">Inscribe</button>
-						<button class="menu-button" data-action="exportGame">Export Chronicle</button>
-						<button class="menu-button" data-action="settings-screen">Settings</button>
-					</div>
-					<button class="modal-action-button" data-action="main-menu">Return to Title</button>
-				</div>
-			</section>
-
-			<section id="settings-screen" class="menu-screen" aria-labelledby="settings-title">
-				<div class="modal-content settings-ledger">
-					<div class="settings-heading">
-						<div><p class="eyebrow">COMFORT AND CLARITY</p><h2 id="settings-title">Settings</h2></div>
-						<button class="modal-action-button compact-button" data-action="close-settings">Close</button>
-					</div>
-					<p class="settings-intro">These preferences are stored separately from your Chronicle.</p>
-					<form id="settings-form">
-						<fieldset class="settings-group">
-							<legend>Motion and atmosphere</legend>
-							<label class="setting-toggle"><span><strong>Reduced motion</strong><small>Limits particles, shake, and animated transitions.</small></span><input type="checkbox" data-setting="reducedMotion"></label>
-							<label class="setting-toggle"><span><strong>Screen shake</strong><small>Allows impact movement during intense moments.</small></span><input type="checkbox" data-setting="screenShake"></label>
-							<label class="setting-toggle"><span><strong>Weather effects</strong><small>Shows rain and ambient weather particles.</small></span><input type="checkbox" data-setting="weatherEffects"></label>
-							<label class="setting-range"><span><strong>Particle density</strong><small>Controls decorative sparks and weather.</small></span><input type="range" min="0" max="2" step="0.25" data-setting="particleDensity"><output data-setting-output="particleDensity">100%</output></label>
-						</fieldset>
-
-						<fieldset class="settings-group">
-							<legend>Display and readability</legend>
-							<label class="setting-toggle"><span><strong>High contrast</strong><small>Strengthens borders, text, and focus indicators.</small></span><input type="checkbox" data-setting="highContrast"></label>
-							<label class="setting-toggle"><span><strong>Show coordinates</strong><small>Displays map, tile position, and facing direction.</small></span><input type="checkbox" data-setting="showCoordinates"></label>
-							<label class="setting-range"><span><strong>Interface scale</strong><small>Scales menus and readable shell text.</small></span><input type="range" min="0.85" max="1.25" step="0.05" data-setting="uiScale"><output data-setting-output="uiScale">100%</output></label>
-						</fieldset>
-
-						<fieldset class="settings-group">
-							<legend>Touch controls</legend>
-							<label class="setting-toggle"><span><strong>Left-handed layout</strong><small>Swaps joystick and action-button sides.</small></span><input type="checkbox" data-setting="leftHanded"></label>
-							<label class="setting-toggle"><span><strong>Haptics</strong><small>Allows brief vibration on touch controls.</small></span><input type="checkbox" data-setting="haptics"></label>
-							<label class="setting-range"><span><strong>Control scale</strong><small>Changes touch-target size.</small></span><input type="range" min="0.8" max="1.25" step="0.05" data-setting="touchScale"><output data-setting-output="touchScale">100%</output></label>
-							<label class="setting-range"><span><strong>Control opacity</strong><small>Changes touch-control visibility.</small></span><input type="range" min="0.45" max="1" step="0.05" data-setting="touchOpacity"><output data-setting-output="touchOpacity">82%</output></label>
-							<label class="setting-range"><span><strong>Joystick sensitivity</strong><small>Adjusts how far the thumb must move.</small></span><input type="range" min="0.5" max="1.5" step="0.1" data-setting="joystickSensitivity"><output data-setting-output="joystickSensitivity">1</output></label>
-						</fieldset>
-					</form>
-
-					<div class="chronicle-tools" aria-labelledby="chronicle-tools-title">
-						<h3 id="chronicle-tools-title">Chronicle recovery</h3>
-						<p>Export a validated portable copy or import one you previously created.</p>
-						<div class="button-row">
-							<button class="menu-button" data-action="exportGame">Export Chronicle</button>
-							<label class="menu-button file-button" for="chronicle-import-input">Import Chronicle</label>
-							<input id="chronicle-import-input" class="visually-hidden" type="file" accept="application/json,.json">
-						</div>
-					</div>
-					<p id="settings-status" class="settings-status" role="status" aria-live="polite"></p>
-					<div class="settings-footer">
-						<button class="menu-button quiet-button" data-action="resetSettings">Reset Settings</button>
-						<button class="modal-action-button" data-action="close-settings">Done</button>
-					</div>
-				</div>
-			</section>
-
-			<section id="gemach-screen" class="menu-screen">
-				<div class="modal-content"><h3>Gemach of Loving Kindness</h3><div class="balance-row"><span>Pockets <strong id="gemach-player-money">0</strong>p</span><span>Account <strong id="gemach-balance">0</strong>p</span></div><div class="button-row"><button class="menu-button" data-action="gemachAction" data-type="deposit" data-amount="10">Deposit 10</button><button class="menu-button" data-action="gemachAction" data-type="withdraw" data-amount="10">Withdraw 10</button></div><button class="modal-action-button" data-action="close-gemach">Exit</button></div>
-			</section>
-			<section id="inventory-screen" class="menu-screen"><div class="modal-content"><h3>Satchel</h3><div id="inventory-list" class="scroll-panel"></div><div id="player-money-display"></div><button class="modal-action-button" data-action="close-inventory">Close</button></div></section>
-			<section id="quest-log-screen" class="menu-screen"><div class="modal-content"><h3>Tasks of the Scribe</h3><div id="quest-log-list" class="scroll-panel"></div><button class="modal-action-button" data-action="close-questlog">Close</button></div></section>
-			<section id="otzar-screen" class="menu-screen"></section>
-			<div id="toast-container" aria-live="polite"></div>
-		</section>
-
-		<div id="desktop-help"><span><kbd>WASD</kbd> Move</span><span><kbd>Shift</kbd> Sprint</span><span><kbd>E</kbd> Act</span><span><kbd>Esc</kbd> Chronicle</span></div>
-		<div id="mobile-controls" aria-label="Mobile controls">
-			<div id="joystick-pad" class="joystick-pad" role="application" aria-label="Movement joystick">
-				<button id="control-up" class="control-button joy-up" tabindex="-1" aria-hidden="true">▲</button>
-				<button id="control-left" class="control-button joy-left" tabindex="-1" aria-hidden="true">◀</button>
-				<button id="control-right" class="control-button joy-right" tabindex="-1" aria-hidden="true">▶</button>
-				<button id="control-down" class="control-button joy-down" tabindex="-1" aria-hidden="true">▼</button>
-				<div id="joystick-thumb" class="joystick-thumb">✦</div>
-			</div>
-			<button id="action-button" type="button"><span id="context-action-label">ACT</span><small>SPARK</small></button>
-		</div>
-	</main>
-	<script type="module" src="js/main.js"></script>
+	<div data-scribe-root></div>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="./bootstrap.js?v=20260824-ux-1&compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

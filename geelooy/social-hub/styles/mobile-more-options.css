@@ -1,0 +1,78 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives each quieter route a distinct vessel while remaining One beyond every road;
+ * Awtsmoos.com lets touch, focus, pressure, and hover reveal choice without cluttering the primary horizon.
+ */
+.social-hub-document .mobileMoreSheet__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .45rem;
+	min-inline-size: 0;
+}
+
+.social-hub-document .mobileMoreSheet__grid :is(.routeButton, .communicationLink) {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: .65rem;
+	min-inline-size: 0;
+	min-block-size: 3.35rem;
+	padding: .55rem .65rem;
+	border: 1px solid transparent;
+	border-radius: .95rem;
+	background: rgb(255 255 255 / 3%);
+	text-align: start;
+	transition: transform 120ms cubic-bezier(.2, .8, .2, 1), border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.social-hub-document .mobileMoreSheet__grid :is(.routeLabel, .communicationLink > *) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.social-hub-document .mobileMoreSheet__grid .routeLabel {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.social-hub-document .mobileMoreSheet__grid .routeButton[data-active="true"] {
+	border-color: var(--line-hot);
+	background: var(--surface-strong);
+	color: var(--ink);
+	box-shadow: inset 0 0 0 1px rgb(126 239 255 / 8%);
+}
+
+.social-hub-document .mobileMoreSheet__grid :is(.routeButton, .communicationLink):focus-visible {
+	border-color: var(--line-hot);
+	outline: 3px solid rgb(126 239 255 / 18%);
+	outline-offset: 2px;
+}
+
+.social-hub-document .mobileMoreSheet__grid :is(.routeButton, .communicationLink):active {
+	transform: translateY(1px) scale(.98);
+}
+
+.social-hub-document .mobileMoreSheet__grid :is(.routeButton:disabled, .routeButton[aria-disabled="true"], .communicationLink[aria-disabled="true"]) {
+	cursor: not-allowed;
+	filter: saturate(.35);
+	opacity: .48;
+	pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .mobileMoreSheet__grid :is(.routeButton, .communicationLink):hover {
+		border-color: var(--line-hot);
+		background: var(--surface-strong);
+		box-shadow: 0 .55rem 1.4rem rgb(0 0 0 / 14%);
+		transform: translateY(-1px);
+	}
+}
+
+@media (max-width: 25rem) {
+	.social-hub-document .mobileMoreSheet__grid {
+		grid-template-columns: 1fr;
+	}
+}

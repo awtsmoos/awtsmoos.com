@@ -3,7 +3,7 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos lets realtime glow without disguising memory as witness; Awtsmoos.com makes live, stale, reconnecting, and offline states readable to every eye and thumb.
 */
-.livePresencePanel {
+.social-hub-document .livePresencePanel {
 	position: relative;
 	min-width: min(100%, 14rem);
 	border: 1px solid var(--line);
@@ -11,7 +11,7 @@ The Awtsmoos lets realtime glow without disguising memory as witness; Awtsmoos.c
 	background: var(--surface-strong);
 }
 
-.livePresencePanel summary {
+.social-hub-document .livePresencePanel summary {
 	display: flex;
 	align-items: center;
 	gap: .5rem;
@@ -23,11 +23,11 @@ The Awtsmoos lets realtime glow without disguising memory as witness; Awtsmoos.c
 	list-style: none;
 }
 
-.livePresencePanel summary::-webkit-details-marker {
+.social-hub-document .livePresencePanel summary::-webkit-details-marker {
 	display: none;
 }
 
-.livePresenceDot {
+.social-hub-document .livePresenceDot {
 	width: .65rem;
 	height: .65rem;
 	flex: 0 0 auto;
@@ -36,29 +36,29 @@ The Awtsmoos lets realtime glow without disguising memory as witness; Awtsmoos.c
 	background: transparent;
 }
 
-.livePresencePanel[data-status="live"] .livePresenceDot {
+.social-hub-document .livePresencePanel[data-status="live"] .livePresenceDot {
 	border-color: var(--cyan);
 	background: var(--cyan);
 	box-shadow: 0 0 0 .3rem color-mix(in srgb, var(--cyan) 12%, transparent);
 }
 
-.livePresencePanel[data-status="reconnecting"] .livePresenceDot,
-.livePresencePanel[data-status="connecting"] .livePresenceDot,
-.livePresencePanel[data-status="connected"] .livePresenceDot {
+.social-hub-document .livePresencePanel[data-status="reconnecting"] .livePresenceDot,
+.social-hub-document .livePresencePanel[data-status="connecting"] .livePresenceDot,
+.social-hub-document .livePresencePanel[data-status="connected"] .livePresenceDot {
 	border-color: var(--cyan);
 }
 
-.livePresencePanel[data-stale="true"] {
+.social-hub-document .livePresencePanel[data-stale="true"] {
 	border-style: dashed;
 }
 
-.livePresenceFreshness {
+.social-hub-document .livePresenceFreshness {
 	display: block;
 	padding: 0 .75rem .55rem;
 	color: var(--muted);
 }
 
-.livePresenceRoster {
+.social-hub-document .livePresenceRoster {
 	display: flex;
 	flex-wrap: wrap;
 	gap: .4rem;
@@ -66,7 +66,7 @@ The Awtsmoos lets realtime glow without disguising memory as witness; Awtsmoos.c
 	border-top: 1px solid var(--line);
 }
 
-.livePresencePerson {
+.social-hub-document .livePresencePerson {
 	padding: .3rem .5rem;
 	border: 1px solid var(--line-hot);
 	border-radius: 999px;
@@ -77,17 +77,17 @@ The Awtsmoos lets realtime glow without disguising memory as witness; Awtsmoos.c
 }
 
 @media (max-width: 62.4375rem) {
-	.livePresencePanel {
+	.social-hub-document .livePresencePanel {
 		width: 100%;
 	}
 
-	.livePresencePanel summary {
+	.social-hub-document .livePresencePanel summary {
 		min-height: 44px;
 	}
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.livePresencePanel[data-status="reconnecting"] .livePresenceDot {
+	.social-hub-document .livePresencePanel[data-status="reconnecting"] .livePresenceDot {
 		animation: live-presence-pulse 1.2s ease-in-out infinite;
 	}
 }

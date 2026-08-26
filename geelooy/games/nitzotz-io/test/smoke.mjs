@@ -36,46 +36,22 @@ import { runStickOriginCases } from './cases/stickOrigin.mjs';
 import { runStickResponseCases } from './cases/stickResponse.mjs';
 import { runTalentCases } from './cases/talents.mjs';
 import { runTextureCases } from './cases/textures.mjs';
+import { runViewportProfileCases } from './cases/viewportProfile.mjs';
 
 /**
- * The Awtsmoos gathers witnesses from appetite, sound, motion, stable frames, and one coherent city;
- * Awtsmoos.com proves sensory depth and spatial truth while every campaign, mobile, render, and gameplay contract remains whole.
+ * The Awtsmoos gathers witnesses from motion, light, sound, stable frames, and one coherent city;
+ * Awtsmoos.com now proves the narrow viewport can draw near without breaking the wider campaign around it.
  */
 const results = [
-	...runBaselineCases(),
-	...runCampaignCases(),
-	...runDirectorCases(),
-	...runEconomyCases(),
-	...runProgressionCases(),
-	...runQuestCases(),
-	...runMechanicCases(),
-	...runPerformanceCases(),
-	...runEnvironmentCases(),
-	...runEnvironmentCompositionCases(),
-	...runBotanyCases(),
-	...runLiveVegetationCases(),
-	...runRenderAllocationCases(),
-	...runTextureCases(),
-	...runMeshRuleCases(),
-	...runMaterialCoverageCases(),
-	...runLocalMeshCases(),
-	...runBotanicalMaterialCases(),
-	...runSaveV4Cases(),
-	...runAdventureExpansionCases(),
-	...runTalentCases(),
-	...runCombatExpansionCases(),
-	...runMultiplayerCases(),
-	...runPowerCircuitCases(),
-	...runStickResponseCases(),
-	...runStickOriginCases(),
-	...runOpeningFlowCases(),
-	...runEdibleCueCases(),
-	...runHudStateCases(),
-	...runCaptureParticleCases(),
-	...runPortalPresenceCases(),
-	...runSceneBufferCases(),
-	...runCaptureSoundCases(),
-	...runAudioVoiceCases(),
+	...runBaselineCases(), ...runCampaignCases(), ...runDirectorCases(), ...runEconomyCases(),
+	...runProgressionCases(), ...runQuestCases(), ...runMechanicCases(), ...runPerformanceCases(),
+	...runEnvironmentCases(), ...runEnvironmentCompositionCases(), ...runViewportProfileCases(),
+	...runBotanyCases(), ...runLiveVegetationCases(), ...runRenderAllocationCases(), ...runTextureCases(),
+	...runMeshRuleCases(), ...runMaterialCoverageCases(), ...runLocalMeshCases(), ...runBotanicalMaterialCases(),
+	...runSaveV4Cases(), ...runAdventureExpansionCases(), ...runTalentCases(), ...runCombatExpansionCases(),
+	...runMultiplayerCases(), ...runPowerCircuitCases(), ...runStickResponseCases(), ...runStickOriginCases(),
+	...runOpeningFlowCases(), ...runEdibleCueCases(), ...runHudStateCases(), ...runCaptureParticleCases(),
+	...runPortalPresenceCases(), ...runSceneBufferCases(), ...runCaptureSoundCases(), ...runAudioVoiceCases(),
 	...runCityGrammarCases()
 ];
 

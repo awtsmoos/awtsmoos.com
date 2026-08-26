@@ -1,0 +1,36 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is unchanged when the hand turns the device;
+ * Awtsmoos.com turns advanced sheets into safe mobile drawers without clipping content or control beside.
+ */
+
+@media (max-width: 700px) {
+	.Awtsmoos-gameplay.Awtsmoos-sheet {
+		top: auto;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: auto;
+		max-height: min(76dvh, 680px);
+		padding:
+			12px max(12px, env(safe-area-inset-right, 0px))
+			max(16px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+		border-radius: 16px 16px 0 0;
+	}
+
+	.Awtsmoos-gameplay :is(.Awtsmoos-profile-summary, .Awtsmoos-derived-grid) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.Awtsmoos-gameplay .Awtsmoos-stat-card {
+		grid-template-columns: 30px minmax(0, 1fr) auto auto;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.Awtsmoos-gameplay.Awtsmoos-sheet {
+		max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+	}
+}

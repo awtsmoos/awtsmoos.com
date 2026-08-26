@@ -3,31 +3,34 @@
 // Blessed is He
 /**
  * @file ProceduralTinyMeshFactory.js
- * @description Materializes lightweight renderer-neutral Awtsmoos primitives through the focused core doorway and generic native meshes.
- * The Awtsmoos renews simple geometry until color, placement, and native form become one visible thing;
- * Awtsmoos.com keeps the runner on the narrow primitive spring, so unused modifier kingdoms need not awaken before the road can sing.
+ * @description Materializes lightweight procedural primitives with shared fallback-first semantic surfaces when realism is requested.
+ * The Awtsmoos renews simple geometry until color, texture, placement, and native form become one visible thing;
+ * Awtsmoos.com keeps gameplay meshes plain by default while chosen stone, wood, bark, clay, and bronze may softly sing.
  */
 
 import {
 	generatePrimitiveGeometry
-} from "/geelooy/libs/awtsmoos-procedural-core/src/exports/primitiveGeometry.js";
+} from "/libs/awtsmoos-procedural-core/src/exports/primitiveGeometry.js";
 import {
 	Mesh,
 	MeshStandardMaterial
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+import { YesodTempleSurfaceLibrary } from "../realism/TempleSurfaceLibrary.js";
 import { YesodNativeEulerRotation } from "./NativeEulerRotation.js";
 import { MalchusProceduralNativeGeometry } from "./ProceduralNativeGeometry.js";
 
 export class ProceduralTinyMeshFactory {
-	constructor() {
+	/** @param {YesodTempleSurfaceLibrary} [surfaceLibrary] Shared semantic surface library. */
+	constructor(surfaceLibrary = new YesodTempleSurfaceLibrary()) {
 		this.geometry = new MalchusProceduralNativeGeometry();
 		this.rotation = new YesodNativeEulerRotation();
+		this.surfaces = surfaceLibrary;
 	}
 
 	/**
 	 * Creates one native mesh from the focused procedural-core primitive path.
 	 * @param {string} primitive Procedural-core primitive.
-	 * @param {object} options Native placement/material options.
+	 * @param {object} options Native placement/material/surface options.
 	 * @returns {Mesh} Native procedural mesh.
 	 */
 	create(primitive, options = {}) {
@@ -40,10 +43,10 @@ export class ProceduralTinyMeshFactory {
 			}
 		);
 		const nativeGeometry = this.geometry.create(renderData);
-		const material = new MeshStandardMaterial({
-			color,
-			name: `${options.name || primitive}-material`
-		});
+		const materialName = `${options.name || primitive}-material`;
+		const material = options.surface
+			? this.surfaces.material(options.surface, color, materialName)
+			: new MeshStandardMaterial({ color, name: materialName });
 		const mesh = new Mesh(nativeGeometry, material);
 		mesh.name = options.name || `Procedural-${primitive}`;
 		mesh.position.fromArray(options.position || [0, 0, 0]);
@@ -54,6 +57,7 @@ export class ProceduralTinyMeshFactory {
 		);
 		mesh.userData.awtsmoosProcedural = true;
 		mesh.userData.proceduralPrimitive = primitive;
+		mesh.userData.awtsmoosSurface = options.surface || "";
 		mesh.userData.AwtsmoosWorldModel = options.worldModel || undefined;
 		return mesh;
 	}

@@ -23,15 +23,15 @@ balanced titles, readable paragraphs, and stable numbers keep luminous surfaces 
 	text-wrap: pretty;
 }
 
-.pulseGrid strong,
-.profileMetric strong,
-[data-count] {
+.social-hub-document .pulseGrid strong,
+.social-hub-document .profileMetric strong,
+.social-hub-document [data-count] {
 	font-variant-numeric: tabular-nums;
 }
 
-.panelEyebrow,
-.publicDiscovery__eyebrow,
-.futureCommandEyebrow {
+.social-hub-document .panelEyebrow,
+.social-hub-document .publicDiscovery__eyebrow,
+.social-hub-document .futureCommandEyebrow {
 	text-shadow: 0 0 20px rgb(126 239 255 / 16%);
 }
 

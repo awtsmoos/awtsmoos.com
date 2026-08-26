@@ -1,42 +1,45 @@
-<!-- B"H -->
-<!-- Boruch Hashem -->
-<!-- Blessed is He -->
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews the living city every instant, and this interface reveals only the next useful spark instead of covering the world in noise.
+Awtsmoos.com lets motion remain the hero: the HUD becomes a compass, the menu becomes a doorway, and every old gameplay vessel keeps its name and choice.
+-->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="theme-color" content="#07121a">
+	<meta name="description" content="Play Nitzotz.io, a living city arena where you gather smaller forms, grow through districts, and reveal new challenges.">
 	<title>Nitzotz.io — Gather. Grow. Reveal.</title>
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%2307121a' stroke='%23ffdf6c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='12' fill='%237edcff'/%3E%3C/svg%3E">
-	<link rel="stylesheet" href="./style.css?v=20260821_gameplay_3">
+	<link rel="stylesheet" href="./style.css?v=20260824_ux_2&compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
-	<!-- The Awtsmoos renews the metropolis each instant; Awtsmoos.com reveals only the information the hand asks to hold. -->
 	<canvas id="game" aria-label="Nitzotz.io living city arena"></canvas>
-	<header class="hud" aria-live="polite">
+	<header class="hud" aria-label="Arena status">
 		<div class="brand-row">
-			<div class="brand"><b>Nitzotz.io</b><span id="levelText">District 1</span></div>
-			<div class="hud-actions">
-				<button id="hudToggleBtn" class="mini-button hud-toggle" type="button" aria-label="Compact HUD">⌃</button>
+			<div class="brand"><span class="brand-kicker">Living city arena</span><b>Nitzotz.io</b><span id="levelText">District 1</span></div>
+			<div class="hud-actions" aria-label="Arena controls">
+				<button id="hudToggleBtn" class="mini-button hud-toggle" type="button" aria-label="Toggle compact HUD">⌃</button>
 				<button id="pauseBtn" class="mini-button" type="button" aria-label="Pause and open menu">Ⅱ</button>
 			</div>
 		</div>
-		<div class="primary-stats">
+		<div class="primary-stats" aria-label="Primary stats">
 			<div class="stat mass-stat"><small>MASS</small><strong id="massText">25</strong></div>
 			<div class="stat rank-stat"><small>RANK</small><strong id="rankText">1/5</strong></div>
 			<div class="stat timer"><small>TIME</small><strong id="timeText">100</strong></div>
 		</div>
-		<section class="mission">
+		<section class="mission" aria-label="Current objective">
 			<div class="mission-main"><small id="sefText">Malchus</small><strong id="objectiveText">Gather what fits. Grow.</strong></div>
 			<span id="progressText">25 / 390</span>
-			<meter id="sparkMeter" min="0" max="1" value="0"></meter>
+			<meter id="sparkMeter" min="0" max="1" value="0" aria-label="District progress"></meter>
 			<div class="bonus-line"><b id="bonusText">Clear the district</b><span id="bonusProgressText">0 / 16</span></div>
 		</section>
-		<p id="message">Touch anywhere and move.</p>
+		<p id="message" aria-live="polite">Touch anywhere and move.</p>
 		<div id="resourceRail" class="compat-telemetry" hidden>
-			<span id="armorText">1/1</span><span id="perutahText">0</span>
-			<span id="shlichusText">ARENA PATH</span><span id="peerText">0 LIVE</span>
+			<span id="armorText">1/1</span><span id="perutahText">0</span><span id="shlichusText">ARENA PATH</span><span id="peerText">0 LIVE</span>
 		</div>
 		<div class="compat-telemetry" hidden>
 			<span id="modeText"></span><span id="eventText"></span><span id="bossText"></span><span id="rivalText"></span>
@@ -44,71 +47,73 @@
 			<span id="powerText"></span><span id="districtText"></span>
 		</div>
 	</header>
-	<aside class="right-rail" aria-label="secondary arena information">
+	<aside class="right-rail" aria-label="Arena intelligence">
+		<div class="rail-label"><span>Live intelligence</span><b>ARENA</b></div>
 		<section class="leaderboard-card"><h2>Ranking</h2><div id="leaderboard"></div></section>
-		<canvas id="map" aria-label="arena minimap"></canvas>
+		<canvas id="map" aria-label="Arena minimap"></canvas>
 	</aside>
-	<section id="overlay" class="overlay">
+	<section id="overlay" class="overlay" aria-label="Nitzotz game menu">
 		<div class="overlay-panel">
+			<nav class="overlay-nav" aria-label="Game navigation"><a href="../">← All games</a><span>Awtsmoos Original</span></nav>
 			<div class="overlay-hero">
-				<p class="eyebrow">B'H · GATHER · GROW · REVEAL</p>
-				<h1 id="overlayTitle">Malchus Courtyard</h1>
-				<div id="overlayStars" class="stars">☆☆☆</div>
+				<p class="eyebrow">B'H · GATHER · GROW · REVEAL</p><h1 id="overlayTitle">Malchus Courtyard</h1>
+				<div id="overlayStars" class="stars" aria-label="District rating">☆☆☆</div>
 				<p id="overlayText">Move through the city. Consume smaller things. Grow large enough for what comes next.</p>
-				<div class="campaign-ledger">
-					<span id="campaignSummary">0 / 200 DISTRICTS</span>
-					<span id="campaignSpark">0 SPARKS · 0₽</span>
-				</div>
 			</div>
 			<div class="hero-actions">
-				<button id="startBtn" class="button primary" type="button">PLAY</button>
-				<button id="restartBtn" class="button ghost" type="button">RESTART</button>
+				<button id="startBtn" class="button primary" type="button">PLAY</button><button id="restartBtn" class="button ghost" type="button">RESTART</button>
 			</div>
+			<section class="quick-start" aria-label="Quick start controls">
+				<div class="quick-start__heading"><span>Quick start</span><strong>Move first. Grow fast. Let deeper systems wait.</strong></div>
+				<div class="quick-start__grid">
+					<div class="quick-start__item"><div><kbd>WASD</kbd><span>or arrows</span></div><p>Steer and follow the active objective.</p></div>
+					<div class="quick-start__item"><div><kbd>SPACE</kbd><span>surge</span></div><p>Burst when positioning or pressure matters.</p></div>
+					<div class="quick-start__item"><div><kbd>ESC</kbd><span>or P</span></div><p>Pause without losing your place.</p></div>
+				</div>
+				<p class="quick-start__touch"><b>Touch:</b> drag on the city to steer. Use SURGE when it appears.</p>
+				<div class="quick-start__route" aria-label="Round flow">
+					<span>Follow objective</span><i aria-hidden="true">→</i><span>Grow mass</span><i aria-hidden="true">→</i>
+					<span>Climb rank</span><i aria-hidden="true">→</i><span>Reveal district</span>
+				</div>
+			</section>
+			<div class="campaign-ledger"><span id="campaignSummary">0 / 200 DISTRICTS</span><span id="campaignSpark">0 SPARKS · 0₽</span></div>
+			<p class="overlay-guidance">Play is the default path. Open below only to tune performance, modes, progression, or rooms.</p>
 			<details class="game-options">
-				<summary>Advanced</summary>
+				<summary><span>Settings, modes & progression</span><small>Optional depth</small></summary>
 				<div class="option-stack">
-					<section class="quick-tuning">
-						<h2>Quick tuning</h2>
-						<div class="settings">
-							<button data-perf="low" class="button chip" type="button"><b>Smooth</b><span>faster</span></button>
-							<button data-perf="medium" class="button chip" type="button"><b>Balanced</b><span>default</span></button>
-							<button data-perf="high" class="button chip" type="button"><b>Extreme</b><span>denser</span></button>
-							<button id="hapticBtn" class="button chip" type="button"><b>Haptics</b><span>touch</span></button>
-							<button id="postfxBtn" class="button chip" type="button"><b>PostFX</b><span>cinematic</span></button>
-						</div>
-					</section>
-					<details class="advanced-group">
-						<summary>Play style</summary>
-						<section class="mode-gate" aria-label="arena mode">
-							<div class="mode-heading"><div><small>MODE</small><strong id="modeDescription">Classic Revelation</strong></div><button id="modeCycleBtn" class="button ghost" type="button">CYCLE</button></div>
-							<div id="modeSelect" class="mode-select"></div>
-						</section>
-					</details>
-					<details class="advanced-group">
-						<summary>Shlichus & talents</summary>
-						<section><div id="adventureBrief" class="shlichus-grid"></div><div id="talentGrid" class="talent-grid"></div></section>
-					</details>
-					<details class="advanced-group">
-						<summary>Districts</summary>
-						<section><div id="chapterSelect" class="chapter-select"></div><div id="levelSelect" class="level-select"></div></section>
-					</details>
-					<details class="advanced-group">
-						<summary>Upgrades & quests</summary>
-						<section><div id="shopGrid" class="shop-grid"></div><div id="questList" class="quest-list"></div></section>
-					</details>
-					<details class="advanced-group">
-						<summary>Local room</summary>
-						<section class="room-panel">
-							<p id="roomStatus">LOCAL ROOM READY</p>
-							<div class="room-controls"><input id="roomInput" maxlength="12" value="malchus" aria-label="local room name"><button id="roomBtn" class="button ghost" type="button">JOIN</button></div>
-						</section>
-					</details>
+					<section class="quick-tuning"><h2>Quick tuning</h2><div class="settings">
+						<button data-perf="low" class="button chip" type="button"><b>Smooth</b><span>faster</span></button>
+						<button data-perf="medium" class="button chip" type="button"><b>Balanced</b><span>default</span></button>
+						<button data-perf="high" class="button chip" type="button"><b>Extreme</b><span>denser</span></button>
+						<button id="hapticBtn" class="button chip" type="button"><b>Haptics</b><span>touch</span></button>
+						<button id="postfxBtn" class="button chip" type="button"><b>PostFX</b><span>cinematic</span></button>
+					</div></section>
+					<details class="advanced-group"><summary>Play style</summary><section class="mode-gate" aria-label="Arena mode">
+						<div class="mode-heading"><div><small>MODE</small><strong id="modeDescription">Classic Revelation</strong></div>
+							<button id="modeCycleBtn" class="button ghost" type="button">CYCLE</button></div>
+						<div id="modeSelect" class="mode-select"></div>
+					</section></details>
+					<details class="advanced-group"><summary>Shlichus & talents</summary><section>
+						<div id="adventureBrief" class="shlichus-grid"></div><div id="talentGrid" class="talent-grid"></div>
+					</section></details>
+					<details class="advanced-group"><summary>Districts</summary><section>
+						<div id="chapterSelect" class="chapter-select"></div><div id="levelSelect" class="level-select"></div>
+					</section></details>
+					<details class="advanced-group"><summary>Upgrades & quests</summary><section>
+						<div id="shopGrid" class="shop-grid"></div><div id="questList" class="quest-list"></div>
+					</section></details>
+					<details class="advanced-group"><summary>Local room</summary><section class="room-panel"><p id="roomStatus">LOCAL ROOM READY</p>
+						<div class="room-controls"><input id="roomInput" maxlength="12" value="malchus" aria-label="Local room name">
+							<button id="roomBtn" class="button ghost" type="button">JOIN</button></div>
+					</section></details>
 				</div>
 			</details>
 		</div>
 	</section>
 	<div id="stick" aria-hidden="true"><i></i></div>
 	<button id="pulse" type="button" aria-hidden="true" tabindex="-1"><b>SURGE</b><span id="pulseState">READY</span></button>
-	<script type="module" src="./js/main.js?v=20260821_gameplay_3"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="./js/main.js?v=20260821_gameplay_3&compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

@@ -1,48 +1,34 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * Each appendage descends as a semantic chain. The Awtsmoos lets Awtsmoos.com
- * form a foot, hand, fin, wing, branch, or tentacle from the same honest law.
+ * @file compileLimbBones.js
+ * @description Compiles semantic articulated appendages into real parented Yetzirah bones.
+ * The Awtsmoos gives every limb a root around the transported spine, never a false global side;
+ * Awtsmoos.com lets one continuous skin follow many living chains, each free to dance in its own tide.
  */
+
 import { createYetzirahBone } from "./boneFactory.js";
+import { resolveLimbAttachmentFrame } from "./LimbAttachmentFrame.js";
 import {
 	addVector,
 	normalizeVector,
 	scaleVector
 } from "../shared/creatureValue.js";
 
-function radialAnchor(creature, limb, section) {
-	const radialLimbs = creature.limbs.filter(
-		(entry) => Number.isInteger(entry.radialIndex)
-	);
-	const angle = limb.radialIndex * Math.PI * 2 / Math.max(1, radialLimbs.length);
-	return [
-		section.position[0] + Math.cos(angle) * section.ellipticalRadius[0],
-		section.position[1],
-		section.position[2] + Math.sin(angle) * section.ellipticalRadius[1]
-	];
-}
-
-/** Resolves the stable Briah anchor for one limb. */
+/** Resolves the stable Briah root shared by bone synthesis and continuous flesh assembly. */
 export function resolveLimbAnchor(creature, limb) {
-	const section = creature.body.sections.find(
-		(entry) => entry.id === limb.parentAnatomicalAnchor?.axialSectionId
-	) || creature.body.sections[0];
-	if (Number.isInteger(limb.radialIndex)) {
-		return radialAnchor(creature, limb, section);
-	}
-	const side = limb.side === "left" ? -1 : limb.side === "right" ? 1 : 0;
-	return [
-		section.position[0] + side * section.ellipticalRadius[0],
-		section.position[1],
-		section.position[2]
-	];
+	return resolveLimbAttachmentFrame(creature, limb).position;
 }
 
 /**
- * Compiles one arbitrary semantic limb chain.
- * Complexity: O(g). Stable IDs survive when segment IDs survive.
+ * Compiles one arbitrary semantic limb chain into a real bone hierarchy.
+ * @param {Object} creature - Authoritative Briah creature document.
+ * @param {Object} limb - Semantic limb chain with ordered segments.
+ * @param {Map<string,string>} sectionBoneIds - Body-section to parent-bone identity map.
+ * @returns {Object[]} Ordered Yetzirah bones for this limb.
+ * @complexity O(g), where g is the limb segment count.
  */
 export function compileLimbBones(creature, limb, sectionBoneIds) {
 	let head = resolveLimbAnchor(creature, limb);

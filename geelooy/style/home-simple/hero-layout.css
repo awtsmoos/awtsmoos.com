@@ -4,26 +4,26 @@ Blessed is He
 The Awtsmoos orders the homepage of Awtsmoos.com like light entering vessels in sequence:
 wonder first, search next, then practical doors revealed as the traveler scrolls into deeper space.
 */
-.home {
+body[data-geelooy-route="home"] .home {
 	display: grid;
 	place-items: start center;
 	width: 100%;
 	padding: 14px 16px 6px;
 }
 
-.hero {
+body[data-geelooy-route="home"] .hero {
 	display: grid;
 	gap: .82rem;
 	width: min(1240px, 100%);
 }
 
-.dance-shell {
+body[data-geelooy-route="home"] .dance-shell {
 	order: 1;
 	min-width: 0;
 	will-change: transform;
 }
 
-.action-panel {
+body[data-geelooy-route="home"] .action-panel {
 	order: 2;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
@@ -31,26 +31,26 @@ wonder first, search next, then practical doors revealed as the traveler scrolls
 	gap: .75rem;
 }
 
-.portal-shortcuts {
+body[data-geelooy-route="home"] .portal-shortcuts {
 	order: 3;
 }
 
-.portal-status {
+body[data-geelooy-route="home"] .portal-status {
 	order: 4;
 }
 
-.direct-navigation {
+body[data-geelooy-route="home"] .direct-navigation {
 	order: 5;
 }
 
-.search-paths {
+body[data-geelooy-route="home"] .search-paths {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
 	gap: .42rem;
 }
 
-.search-paths a {
+body[data-geelooy-route="home"] .search-paths a {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -65,8 +65,8 @@ wonder first, search next, then practical doors revealed as the traveler scrolls
 	transition: border-color .18s ease, color .18s ease, background .18s ease, transform .18s ease;
 }
 
-.search-paths a:hover,
-.search-paths a:focus-visible {
+body[data-geelooy-route="home"] .search-paths a:hover,
+body[data-geelooy-route="home"] .search-paths a:focus-visible {
 	border-color: rgba(130, 205, 255, .38);
 	background: rgba(83, 143, 201, .1);
 	color: #e9f5ff;
@@ -76,26 +76,26 @@ wonder first, search next, then practical doors revealed as the traveler scrolls
 }
 
 @media (max-width: 800px) {
-	.action-panel {
+	body[data-geelooy-route="home"] .action-panel {
 		grid-template-columns: 1fr;
 	}
 
-	.search-paths {
+	body[data-geelooy-route="home"] .search-paths {
 		justify-content: center;
 		flex-wrap: wrap;
 	}
 }
 
 @media (max-width: 680px) {
-	.home {
+	body[data-geelooy-route="home"] .home {
 		padding: 8px 8px calc(82px + env(safe-area-inset-bottom));
 	}
 
-	.hero {
+	body[data-geelooy-route="home"] .hero {
 		gap: .65rem;
 	}
 
-	.search-paths a {
+	body[data-geelooy-route="home"] .search-paths a {
 		min-height: 44px;
 		padding: .5rem .72rem;
 	}

@@ -1,0 +1,112 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives the chamber one responsive vessel; Awtsmoos.com keeps the full world visible while the phone changes shape and size.
+*/
+:root {
+	color-scheme: dark;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	background: #020711;
+	--adventure-safe-bottom: max(12px, env(safe-area-inset-bottom));
+	--adventure-edge: rgba(109, 204, 255, 0.38);
+	--adventure-surface: rgba(4, 15, 31, 0.78);
+	--adventure-text: #eef8ff;
+	--adventure-muted: #8fa9c3;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	width: 100%;
+	min-height: 100%;
+	margin: 0;
+	background: #020711;
+	overscroll-behavior: none;
+}
+
+body {
+	min-height: 100dvh;
+	overflow-x: hidden;
+	background:
+		radial-gradient(circle at 14% 10%, rgba(52, 181, 255, 0.15), transparent 32%),
+		radial-gradient(circle at 86% 82%, rgba(142, 103, 255, 0.13), transparent 34%),
+		#020711;
+	color: var(--adventure-text);
+}
+
+.adventure-app {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto auto;
+	gap: 10px;
+	width: min(100%, 860px);
+	min-height: 100dvh;
+	margin: 0 auto;
+	padding: max(10px, env(safe-area-inset-top)) 12px var(--adventure-safe-bottom);
+}
+
+.adventure-playfield {
+	display: grid;
+	place-items: center;
+	min-height: 0;
+}
+
+.canvas-shell {
+	position: relative;
+	width: min(100%, 760px, calc((100dvh - 268px) * 4 / 3));
+	aspect-ratio: 4 / 3;
+	min-width: 250px;
+	overflow: hidden;
+	border: 1px solid var(--adventure-edge);
+	border-radius: 24px;
+	background: #040b16;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.46), 0 0 34px rgba(75, 190, 255, 0.12);
+}
+
+#gameCanvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+}
+
+#gameCanvas:focus-visible {
+	outline: 3px solid #9eeaff;
+	outline-offset: -4px;
+}
+
+@media (max-width: 430px) {
+	.adventure-app {
+		gap: 8px;
+		padding-inline: 8px;
+	}
+
+	.canvas-shell {
+		border-radius: 18px;
+	}
+}
+
+@media (max-height: 620px) and (orientation: landscape) {
+	.adventure-app {
+		grid-template-columns: minmax(0, 1fr) 184px;
+		grid-template-rows: auto 1fr auto;
+		max-width: 100%;
+	}
+
+	.adventure-hud,
+	.objective-strip,
+	.adventure-playfield {
+		grid-column: 1;
+	}
+
+	.adventure-controls {
+		grid-column: 2;
+		grid-row: 1 / -1;
+	}
+
+	.canvas-shell {
+		width: min(100%, calc((100dvh - 150px) * 4 / 3));
+	}
+}

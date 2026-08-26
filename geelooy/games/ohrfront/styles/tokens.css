@@ -1,0 +1,36 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews color, spacing, depth, and safe boundary while no token rules another world in sight.
+Awtsmoos.com lets Ohrfront contain its own visual covenant so every finite layer remains local, measured, and right.
+*/
+.ohrfront-app {
+	--ohr-bg: #070b0d;
+	--ohr-panel: rgba(7, 12, 14, 0.82);
+	--ohr-panel-strong: rgba(5, 9, 10, 0.94);
+	--ohr-line: rgba(191, 211, 205, 0.2);
+	--ohr-line-strong: rgba(191, 211, 205, 0.46);
+	--ohr-text: #edf4f0;
+	--ohr-muted: #96a8a2;
+	--ohr-energy: #79e7ec;
+	--ohr-warm: #c7af7d;
+	--ohr-danger: #e37b6c;
+	--ohr-health: #b5c99a;
+	--ohr-radius-sm: 3px;
+	--ohr-radius-md: 7px;
+	--ohr-edge: clamp(14px, 2.2vw, 30px);
+	--ohr-safe-top: max(var(--ohr-edge), env(safe-area-inset-top));
+	--ohr-safe-right: max(var(--ohr-edge), env(safe-area-inset-right));
+	--ohr-safe-bottom: max(var(--ohr-edge), env(safe-area-inset-bottom));
+	--ohr-safe-left: max(var(--ohr-edge), env(safe-area-inset-left));
+	--ohr-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--ohr-ease: cubic-bezier(0.2, 0.72, 0.22, 1);
+	--ohr-fast: 120ms;
+	--ohr-normal: 220ms;
+	--ohr-z-world: 0;
+	--ohr-z-hud: 20;
+	--ohr-z-hud-panel: 24;
+	--ohr-z-feedback: 30;
+	--ohr-z-dialog: 60;
+	--ohr-z-startup: 90;
+}

@@ -4,55 +4,99 @@
 
 /**
  * @file MinimalMeadowFrameScheduler.js
- * @description Keeps real paint frames alive while timer fallbacks sustain slow or hidden worlds.
- * The Awtsmoos renews time without multiplying it; Awtsmoos.com never cancels a delayed paint
- * merely because simulation needed an interim step on a slow phone or backgrounded browser tab.
+ * @description Owns resilient paint and timer-backed simulation cadence so one subsystem exception cannot permanently stop a playable world.
+ * RESPONSIBILITY: preserve one pending animation frame, sustain fallback ticks, calculate delta time, and always re-arm cadence while running.
+ * NON-RESPONSIBILITY: diagnostics state, gameplay, rendering, and input semantics belong to focused neighboring vessels.
+ * The Awtsmoos renews time beyond every broken finite callback; Awtsmoos.com lets the next pulse still arrive,
+ * so one failed texture, actor, or frame may be witnessed and repaired without extinguishing the living drive.
  */
+
+import { MinimalMeadowFrameSchedulerState } from './MinimalMeadowFrameSchedulerState.js';
 
 const FALLBACK_FRAME_MILLISECONDS = 50;
 
+/** Creates one resilient frame scheduler with animation-frame paint and timer simulation rescue. */
 export function createMinimalMeadowFrameScheduler(environment, advance) {
 	const clock = () => environment.performance?.now?.() || Date.now();
 	const requestFrame = environment.requestAnimationFrame?.bind(environment);
 	const cancelFrame = environment.cancelAnimationFrame?.bind(environment);
 	const setTimer = environment.setTimeout?.bind(environment) || globalThis.setTimeout;
 	const clearTimer = environment.clearTimeout?.bind(environment) || globalThis.clearTimeout;
-	let cycle = 0;
+	const state = new MinimalMeadowFrameSchedulerState();
 	let frameId = null;
-	let timerId = null;
-	let running = false;
 	let lastTime = clock();
-	let source = 'starting';
+	let timerId = null;
 
+	/** Starts one new paint cycle while keeping exactly one fallback timer beside it. */
 	function scheduleCycle() {
-		if (!running) return;
-		const token = ++cycle;
+		if (!state.running) {
+			return;
+		}
+		const token = state.beginCycle();
 		frameId = requestFrame?.(time => runFrame(time, token)) ?? null;
-		timerId = setTimer?.(() => runFallback(token), FALLBACK_FRAME_MILLISECONDS) ?? null;
+		scheduleFallback(token);
 	}
 
+	/** Arms the timer rescue for the current paint-cycle token. */
+	function scheduleFallback(token) {
+		if (!state.accepts(token)) {
+			return;
+		}
+		timerId = setTimer?.(
+			() => runFallback(token),
+			FALLBACK_FRAME_MILLISECONDS
+		) ?? null;
+	}
+
+	/** Advances one paint frame and creates the next cycle even after delegated failure. */
 	function runFrame(timeValue, token) {
-		if (!running || token !== cycle) return;
-		if (timerId !== null) clearTimer?.(timerId);
-		timerId = null;
+		if (!state.accepts(token)) {
+			return;
+		}
+		clearFallback();
 		frameId = null;
-		source = 'animation-frame';
-		advance(timeValue, source);
-		scheduleCycle();
+		runAdvance(timeValue, 'animation-frame');
+		if (state.accepts(token)) {
+			scheduleCycle();
+		}
 	}
 
+	/** Advances simulation between paints while preserving the pending animation frame. */
 	function runFallback(token) {
-		if (!running || token !== cycle) return;
-		source = 'timer-fallback';
-		advance(clock(), source);
-		timerId = setTimer?.(() => runFallback(token), FALLBACK_FRAME_MILLISECONDS) ?? null;
+		if (!state.accepts(token)) {
+			return;
+		}
+		timerId = null;
+		runAdvance(clock(), 'timer-fallback');
+		scheduleFallback(token);
 	}
 
-	function stopScheduled() {
-		if (frameId !== null) cancelFrame?.(frameId);
-		if (timerId !== null) clearTimer?.(timerId);
-		frameId = null;
+	/** Contains escaped delegated errors so scheduling ownership always survives. */
+	function runAdvance(timeValue, source) {
+		state.beginAdvance(timeValue, source);
+		try {
+			advance(timeValue, source);
+			state.recordSuccess();
+		} catch (error) {
+			state.recordFailure(error);
+		}
+	}
+
+	/** Clears the timer rescue without disturbing a pending paint request. */
+	function clearFallback() {
+		if (timerId !== null) {
+			clearTimer?.(timerId);
+		}
 		timerId = null;
+	}
+
+	/** Cancels both clock sources during an explicit stop. */
+	function stopScheduled() {
+		if (frameId !== null) {
+			cancelFrame?.(frameId);
+		}
+		clearFallback();
+		frameId = null;
 	}
 
 	return {
@@ -62,16 +106,19 @@ export function createMinimalMeadowFrameScheduler(environment, advance) {
 			lastTime = now;
 			return delta;
 		},
-		diagnostics: () => ({ cycle, framePending: frameId !== null, running, source }),
+		diagnostics() {
+			return state.diagnostics(frameId !== null, timerId !== null);
+		},
 		start() {
-			if (running) return;
-			running = true;
+			if (state.running) {
+				return;
+			}
+			state.start();
 			lastTime = clock();
 			scheduleCycle();
 		},
 		stop() {
-			running = false;
-			cycle += 1;
+			state.stop();
 			stopScheduled();
 		}
 	};

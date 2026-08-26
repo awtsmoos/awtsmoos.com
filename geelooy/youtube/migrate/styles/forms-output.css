@@ -1,0 +1,43 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets long commands and migration evidence remain readable without becoming a horizontal wound across the page;
+Awtsmoos.com keeps output internally scrollable, progress bounded, and error truth visible while the surrounding mobile vessel never widens.
+*/
+.commandOutput {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	min-block-size: 78px;
+	max-block-size: 240px;
+	padding: 14px;
+	overflow: auto;
+	overscroll-behavior: contain;
+	border: 1px solid rgb(151 177 220 / 12%);
+	border-radius: 14px;
+	background: #05070c;
+	color: #d7e8ff;
+	white-space: pre-wrap;
+	word-break: break-word;
+	overflow-wrap: anywhere;
+}
+
+progress {
+	inline-size: 100%;
+	max-inline-size: 100%;
+	margin-block-start: 14px;
+	accent-color: #74c9ff;
+}
+
+[data-tone="error"] {
+	color: #ffb4ae;
+}
+
+.statusLine,
+.summaryMeta,
+.futureDisclosureBody p {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	overflow-wrap: anywhere;
+}

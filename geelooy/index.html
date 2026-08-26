@@ -2,10 +2,10 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos opens Awtsmoos.com as a living world renewed from nothing at every instant:
-Torah shines as a first doorway, while creation, play, giving, and building unfold from that living source.
+Torah shines as the first doorway, while creation, play, giving, and building unfold from that living source.
 -->
 <!doctype html>
-<html lang="en">
+<html lang="en" data-geelooy-route="home">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -14,16 +14,18 @@ Torah shines as a first doorway, while creation, play, giving, and building unfo
 	<title>Awtsmoos — Torah, Creation & Living Worlds</title>
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 	<link rel="preload" as="image" href="https://awtsmoos.com/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg">
-	<link rel="stylesheet" href="/style/home-simple/base.css?v=26">
-	<link rel="stylesheet" href="/style/home-simple/components.css?v=31">
+	<link rel="stylesheet" href="/style/home-simple/base.css?v=home-local-001">
+	<link rel="stylesheet" href="/style/home-simple/components.css?v=home-local-001">
 </head>
-<body>
+<body data-geelooy-route="home">
 	<canvas class="particle-sky" data-particle-sky data-particle-status="connecting" aria-hidden="true"></canvas>
 	<div class="ambient-glow" aria-hidden="true"></div>
 	<button class="explore-backdrop" type="button" data-menu-backdrop tabindex="-1" aria-label="Close the worlds launcher" aria-hidden="true" disabled></button>
 	<header class="site-header">
 		<div class="header-rail">
-			<a class="brand" href="/" aria-label="Awtsmoos home"><span class="brand-mark" aria-hidden="true">א</span><span class="brand-copy"><strong>Awtsmoos</strong><small>Torah · Create · Give · Build</small></span></a>
+			<a class="brand" href="/" aria-label="Awtsmoos home">
+				<span class="brand-mark" aria-hidden="true">א</span><span class="brand-copy"><strong>Awtsmoos</strong><small>Torah · Create · Give · Build</small></span>
+			</a>
 			<div class="system-signal" aria-label="Awtsmoos system online"><i></i><span>Living system</span></div>
 			<details class="world-launcher" data-menu-root>
 				<summary class="launcher-button" data-menu-button aria-controls="world-panel" aria-expanded="false"><span class="launcher-glyph" aria-hidden="true"></span><span>Worlds</span></summary>
@@ -41,7 +43,8 @@ Torah shines as a first doorway, while creation, play, giving, and building unfo
 		<section class="hero" aria-labelledby="hero-title">
 			<div class="dance-shell" data-parallax><div class="dance-frame" data-pointer-light>
 				<img class="hero-image" src="https://awtsmoos.com/api/social/aliases/abarbanel/fileSystem/readFile?path=awtsmoosImages%2Fhomepage%2Fawtsmoos-home-hero.jpg" width="1024" height="1024" alt="The historical luminous rainbow world of Awtsmoos" decoding="async" fetchpriority="high">
-				<div class="banner-shade" aria-hidden="true"></div><div class="hero-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+				<div class="banner-shade" aria-hidden="true"></div>
+				<div class="hero-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
 				<div class="banner-copy">
 					<p class="eyebrow"><span></span>B"H · Everything begins from nothing.</p>
 					<h1 id="hero-title">Learn Torah. Create. Build.</h1>
@@ -83,6 +86,6 @@ Torah shines as a first doorway, while creation, play, giving, and building unfo
 	</main>
 	<nav class="mobile-dock" aria-label="Primary mobile navigation"><a href="/" aria-current="page"><span>⌂</span><small>Home</small></a><a data-world-id="torah" href="/heichelos/ikar"><span>ת</span><small>Torah</small></a><a data-world-id="spaces" href="/heichelos"><span>∞</span><small>Heichelos</small></a><a data-world-id="feed" href="/social-hub/"><span>◌</span><small>Social</small></a><a data-world-id="profile" href="/profile"><span>●</span><small>Profile</small></a></nav>
 	<footer class="site-footer"><p>Awtsmoos.com — renewed every instant.</p><div><a data-world-id="about" href="/about">About</a><a data-world-id="contact" href="/contact/">Contact</a></div></footer>
-	<script type="module" src="/scripts/home-simple/index.js?v=28"></script>
+	<script type="module" src="/scripts/home-simple/index.js?v=28&compact=true"></script>
 </body>
 </html>

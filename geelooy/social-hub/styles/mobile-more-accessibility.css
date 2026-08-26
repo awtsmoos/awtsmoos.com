@@ -1,0 +1,33 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos needs no blur, motion, or color to remain present;
+ * Awtsmoos.com therefore lets the More sheet retain hierarchy and truth when sensory ornament must become quiet.
+ */
+@media (prefers-reduced-transparency: reduce) {
+	.social-hub-document .mobileMoreSheet::backdrop {
+		backdrop-filter: none;
+	}
+
+	.social-hub-document .mobileMoreSheet__surface {
+		background: var(--surface-strong);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .mobileMoreSheet__surface {
+		animation: none;
+	}
+
+	.social-hub-document :is(.mobileMoreSheet__close, .mobileMoreSheet__grid .routeButton, .mobileMoreSheet__grid .communicationLink) {
+		transition: none;
+		transform: none !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.social-hub-document :is(.mobileMoreSheet__surface, .mobileMoreSheet__grid .routeButton, .mobileMoreSheet__grid .communicationLink, .mobileMoreSheet__close) {
+		box-shadow: none;
+	}
+}

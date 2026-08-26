@@ -1,0 +1,102 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets learning become a visible path instead of a hidden prerequisite; Awtsmoos.com gives each track,
+ * progress measure, and step a calm bounded vessel whose geometry remains useful from wide study to narrow glass.
+ */
+body[data-geelooy-route="docs"] .learn-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: -16px 0 28px;
+}
+
+body[data-geelooy-route="docs"] .learn-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+	gap: 16px;
+	padding-bottom: 44px;
+}
+
+body[data-geelooy-route="docs"] .learn-track {
+	min-inline-size: 0;
+	padding: 20px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: linear-gradient(160deg, var(--surface), color-mix(in srgb, var(--surface-strong) 82%, transparent));
+}
+
+body[data-geelooy-route="docs"] .learn-track-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+body[data-geelooy-route="docs"] .learn-track h2 {
+	margin: 14px 0 7px;
+	font: 650 1.35rem var(--font-serif);
+}
+
+body[data-geelooy-route="docs"] .learn-track > p {
+	min-height: 3.2em;
+	margin: 0 0 14px;
+	color: var(--muted);
+	line-height: 1.55;
+}
+
+body[data-geelooy-route="docs"] .learn-progress {
+	height: 5px;
+	margin-bottom: 15px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: var(--line);
+}
+
+body[data-geelooy-route="docs"] .learn-progress::before {
+	display: block;
+	width: var(--progress, 0%);
+	height: 100%;
+	background: var(--accent);
+	content: "";
+	transition: width .2s ease;
+}
+
+body[data-geelooy-route="docs"] .learn-steps {
+	display: grid;
+	gap: 8px;
+}
+
+body[data-geelooy-route="docs"] .learn-step {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 4px 9px;
+	align-items: center;
+	min-inline-size: 0;
+	padding: 10px;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	background: var(--bg-soft);
+}
+
+body[data-geelooy-route="docs"] .learn-step code {
+	grid-column: 2;
+	color: var(--faint);
+	font-size: .68rem;
+	word-break: break-word;
+}
+
+body[data-geelooy-route="docs"] .task-card .secondary-button {
+	margin-top: 16px;
+}
+
+@media (max-width: 38.75rem) {
+	body[data-geelooy-route="docs"] .learn-grid {
+		grid-template-columns: 1fr;
+	}
+
+	body[data-geelooy-route="docs"] .learn-track > p {
+		min-height: 0;
+	}
+}

@@ -3,7 +3,7 @@
 /* Blessed is He */
 /**
  * The Awtsmoos renews each interface transition while Hod keeps motion attached only to meaning;
- * Awtsmoos.com lets numbers breathe and overlays arrive gently without moving the road beneath the seeing.
+ * Awtsmoos.com lets numbers breathe, reward moments arrive once, and power sheen stay subtle without moving the road beneath the seeing.
  */
 
 .run-rail,
@@ -28,6 +28,11 @@
 .status-pill,
 .power-up-status {
 	animation-name: status-enter;
+	transition:
+		border-color var(--motion-fast) var(--ease-soft),
+		background var(--motion-fast) var(--ease-soft),
+		color var(--motion-fast) var(--ease-soft),
+		box-shadow var(--motion-fast) var(--ease-soft);
 }
 
 .game-over-card {
@@ -55,4 +60,13 @@
 	);
 	animation: power-sheen 2.8s var(--ease-soft) infinite;
 	pointer-events: none;
+}
+
+.power-up-status[data-power="shield"]::after {
+	background: linear-gradient(
+		105deg,
+		transparent 25%,
+		rgba(255, 224, 138, 0.14),
+		transparent 70%
+	);
 }

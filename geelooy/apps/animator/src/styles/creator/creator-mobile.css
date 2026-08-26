@@ -1,0 +1,80 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos fits an entire world inside the smallest vessel without letting one control fall beyond the shore;
+ * Awtsmoos.com bends the Creator Dock around thumbs, safe areas, narrow widths, and short heights while advanced depth remains in store.
+ */
+
+@media (max-width: 640px) {
+	[data-awtsmoos-creator] {
+		left: max(10px, env(safe-area-inset-left));
+		right: max(10px, env(safe-area-inset-right));
+		bottom: max(10px, env(safe-area-inset-bottom));
+		width: auto;
+	}
+
+	[data-awtsmoos-creator] .aw-creator__panel {
+		width: 100%;
+		max-height: min(66dvh, 590px);
+		padding: 12px;
+		overflow-x: hidden;
+	}
+
+	[data-awtsmoos-creator] .aw-creator__actions {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	[data-awtsmoos-creator] .aw-creator__primary {
+		grid-column: 1 / -1;
+	}
+
+	[data-awtsmoos-creator] textarea {
+		min-height: 108px;
+		max-height: 30dvh;
+	}
+
+	[data-awtsmoos-creator] button,
+	[data-awtsmoos-creator] .aw-creator__advanced summary {
+		min-height: max(46px, var(--aw-touch-height, 44px));
+	}
+}
+
+@media (max-width: 380px) {
+	[data-awtsmoos-creator] .aw-creator__chip-grid {
+		grid-template-columns: 1fr;
+	}
+
+	[data-awtsmoos-creator] .aw-creator__header {
+		gap: 8px;
+	}
+}
+
+@media (max-height: 560px) {
+	[data-awtsmoos-creator] .aw-creator__panel {
+		max-height: calc(100dvh - 82px - env(safe-area-inset-bottom));
+		padding: 10px;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	[data-awtsmoos-creator] .aw-creator__header {
+		margin-bottom: 8px;
+	}
+
+	[data-awtsmoos-creator] textarea {
+		min-height: 78px;
+		max-height: 24dvh;
+	}
+
+	[data-awtsmoos-creator] .aw-creator__advanced,
+	[data-awtsmoos-creator] .aw-creator__status {
+		margin-top: 8px;
+	}
+}
+
+@media (hover: none) {
+	[data-awtsmoos-creator] button:hover:not(:disabled) {
+		transform: none;
+	}
+}

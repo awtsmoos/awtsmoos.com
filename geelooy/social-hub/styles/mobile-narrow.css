@@ -1,58 +1,36 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos is beyond narrow glass and expanded chamber, while Awtsmoos.com lets dense Social content unfold into one readable mobile column;
- * this Gevurah garment owns narrow content compression only, leaving navigation geometry to the dedicated mobile dock vessel in light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets dense Social content become one readable column while the crown keeps its compact throne;
+ * Awtsmoos.com narrows forms, cards, and media here, leaving identity and ribbon geometry to mobile-header alone.
  */
-
-@media (max-width: 560px) {
-	.targetGrid,
-	.twoColumnFields,
-	.privacyGrid,
-	.categoryGrid,
-	.pulseGrid,
-	.quickActionGrid,
-	.cardGrid,
-	.referenceMap {
+@media (max-width: 35rem) {
+	.social-hub-document :where(.targetGrid, .twoColumnFields, .privacyGrid, .categoryGrid, .pulseGrid, .quickActionGrid, .cardGrid, .referenceMap) {
 		grid-template-columns: 1fr;
 	}
 
-	.identityCluster,
-	.mediaActions,
-	.actionRow,
-	.filterRow {
+	.social-hub-document :where(.mediaActions, .actionRow, .filterRow) {
 		align-items: stretch;
 		flex-direction: column;
 	}
 
-	.brandCluster h1 {
-		font-size: 1.55rem;
+	.social-hub-document .brandCluster h1 {
+		font-size: 1.2rem;
 	}
 
-	.contextRibbon span,
-	.contextRibbon strong {
-		white-space: nowrap;
-	}
-
-	.workspace {
+	.social-hub-document .workspace {
 		padding-inline: .55rem;
 	}
 
-	.workspacePanel,
-	.panelIntro,
-	.commentComposer,
-	.promotionPanel,
-	.referenceComposer {
+	.social-hub-document :where(.workspacePanel, .panelIntro, .commentComposer, .promotionPanel, .referenceComposer) {
 		border-radius: 1.05rem;
 	}
 
-	.heroRift {
+	.social-hub-document .heroRift {
 		padding: 1rem;
 	}
 
-	.commentMediaQueue {
+	.social-hub-document .commentMediaQueue {
 		grid-template-columns: 1fr;
 	}
 }

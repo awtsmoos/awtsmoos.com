@@ -1,10 +1,12 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos reshapes the searching constellation for narrow horizons, preserving touch, text, and dock clearance without hiding a path.
-*/
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos reshapes the searching constellation for narrow horizons while Awtsmoos.com keeps touch, text, and dock clearance
+ * inside the Home vessel; every result remains reachable without a fixed panel wandering beyond the living glass.
+ */
 @media (max-width: 680px) {
-	.omnibox-panel {
+	body[data-geelooy-route="home"] .omnibox-panel {
 		position: fixed;
 		top: auto;
 		right: .5rem;
@@ -14,43 +16,43 @@ The Awtsmoos reshapes the searching constellation for narrow horizons, preservin
 		border-radius: 1.1rem;
 	}
 
-	.omnibox-option {
+	body[data-geelooy-route="home"] .omnibox-option {
 		grid-template-columns: auto minmax(0, 1fr) auto;
 		min-height: 56px;
 		padding: .48rem .55rem;
 	}
 
-	.omnibox-badge {
+	body[data-geelooy-route="home"] .omnibox-badge {
 		display: none;
 	}
 
-	.omnibox-arrow {
+	body[data-geelooy-route="home"] .omnibox-arrow {
 		font-size: .72rem;
 	}
 }
 
 @media (max-width: 430px) {
-	.omnibox-heading {
+	body[data-geelooy-route="home"] .omnibox-heading {
 		padding-inline: .4rem;
 	}
 
-	.omnibox-symbol {
+	body[data-geelooy-route="home"] .omnibox-symbol {
 		width: 2.15rem;
 		height: 2.15rem;
 	}
 
-	.omnibox-copy strong {
+	body[data-geelooy-route="home"] .omnibox-copy strong {
 		font-size: .72rem;
 	}
 
-	.omnibox-copy small {
+	body[data-geelooy-route="home"] .omnibox-copy small {
 		font-size: .6rem;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.omnibox-panel,
-	.omnibox-option {
+	body[data-geelooy-route="home"] .omnibox-panel,
+body[data-geelooy-route="home"] .omnibox-option {
 		animation: none;
 		transition: none;
 	}

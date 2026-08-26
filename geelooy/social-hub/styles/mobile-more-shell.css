@@ -1,0 +1,113 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers quieter roads into one bounded mobile chamber; Awtsmoos.com lets the sheet
+ * rise like measured light, deep yet never spilling beyond its route-owned surface or layer covenant.
+ */
+.social-hub-document .mobileMoreSheet {
+	box-sizing: border-box;
+	inline-size: min(calc(100vw - 1rem), 36rem);
+	max-inline-size: calc(100vw - 1rem);
+	max-block-size: calc(100dvh - max(1rem, env(safe-area-inset-top)) - max(1rem, env(safe-area-inset-bottom)));
+	margin: auto auto max(.5rem, env(safe-area-inset-bottom));
+	padding: 0;
+	overflow: visible;
+	border: 0;
+	background: transparent;
+	color: var(--ink);
+}
+
+.social-hub-document .mobileMoreSheet::backdrop {
+	background: rgb(0 4 14 / 72%);
+	backdrop-filter: blur(7px);
+}
+
+.social-hub-document .mobileMoreSheet__surface {
+	display: grid;
+	gap: 1rem;
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	max-block-size: inherit;
+	padding: 1rem;
+	overflow-x: clip;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--line-hot);
+	border-radius: 1.4rem;
+	background: linear-gradient(160deg, rgb(9 20 38 / 98%), rgb(6 12 27 / 98%));
+	box-shadow: 0 28px 72px rgb(0 0 0 / 48%);
+	animation: malchus-mobile-sheet-rise 190ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.social-hub-document .mobileMoreSheet__header {
+	position: sticky;
+	z-index: var(--hub-layer-raised);
+	inset-block-start: -.1rem;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .75rem;
+	min-inline-size: 0;
+	padding-block: .1rem .4rem;
+	background: linear-gradient(180deg, rgb(9 20 38 / 99%) 78%, transparent);
+}
+
+.social-hub-document :is(.mobileMoreSheet__header h2, .mobileMoreSheet__group h3) {
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.social-hub-document .mobileMoreSheet__group {
+	display: grid;
+	gap: .55rem;
+	min-inline-size: 0;
+}
+
+.social-hub-document .mobileMoreSheet__group h3 {
+	color: var(--muted);
+	font-size: .72rem;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+}
+
+.social-hub-document .mobileMoreSheet :where(button, a) {
+	max-inline-size: 100%;
+	min-block-size: 44px;
+}
+
+.social-hub-document .mobileMoreSheet__close {
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	border: 1px solid var(--line-hot);
+	border-radius: 999px;
+	background: rgb(126 239 255 / 6%);
+	color: inherit;
+	transition: transform 140ms ease, background-color 170ms ease, box-shadow 170ms ease;
+}
+
+.social-hub-document .mobileMoreSheet__close:focus-visible {
+	outline: 2px solid #7eefff;
+	outline-offset: 2px;
+}
+
+.social-hub-document .mobileMoreSheet__close:active {
+	transform: translateY(1px) scale(.96);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .mobileMoreSheet__close:hover {
+		background: rgb(126 239 255 / 12%);
+		box-shadow: 0 6px 18px rgb(126 239 255 / 9%);
+		transform: translateY(-1px);
+	}
+}
+
+@media (max-width: 25rem) {
+	.social-hub-document .mobileMoreSheet {
+		inline-size: auto;
+		max-inline-size: none;
+		margin-inline: max(.4rem, env(safe-area-inset-left)) max(.4rem, env(safe-area-inset-right));
+	}
+}

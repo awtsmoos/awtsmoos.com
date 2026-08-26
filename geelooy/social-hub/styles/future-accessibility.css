@@ -1,25 +1,25 @@
-/* B"H
-Boruch Hashem
-Blessed is He
-
-The Awtsmoos gives every person a path;
-Awtsmoos.com removes decorative motion and glass when perception or hardware asks for a quieter craft.
-*/
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos asks no person to endure decorative motion, transparency, or hidden contrast to reach the same truth;
+ * Awtsmoos.com keeps every adaptation beneath its own route root so accessibility cannot become an accidental global override.
+ */
 @media (prefers-reduced-motion: reduce) {
 	.social-hub-document::before,
-	.social-hub-document::after,
-	.workspacePanel:not([hidden]),
-	.pulseOrb,
-	.pulseOrb span,
-	.hubStatus:not([hidden]),
-	.hubStatus[data-kind="working"]::before,
-	[aria-busy="true"] > .futureBusyOrb,
-	.futureCommandPalette,
-	.futureCoordinates .targetGrid {
+.social-hub-document::after,
+.social-hub-document .workspacePanel:not([hidden]),
+.social-hub-document .pulseOrb,
+.social-hub-document .pulseOrb span,
+.social-hub-document .hubStatus:not([hidden]),
+.social-hub-document .hubStatus[data-kind="working"]::before,
+.social-hub-document [aria-busy="true"] > .futureBusyOrb,
+.social-hub-document .futureCommandPalette,
+.social-hub-document .futureCoordinates .targetGrid {
 		animation: none !important;
 	}
 
-	:where(
+	.social-hub-document :where(
 		.riftCard,
 		.pulseGrid article,
 		.quickActionGrid > *,
@@ -27,28 +27,29 @@ Awtsmoos.com removes decorative motion and glass when perception or hardware ask
 		.routeButton,
 		.routeIcon,
 		.futureCommandTrigger,
-		.futureCommandOption
-	),
-	.social-hub-document :where(button, [role="button"]) {
+		.futureCommandOption,
+		button,
+		[role="button"]
+	) {
 		transform: none !important;
 	}
 
-	.primaryButton::after,
-	.publicFeedCard__open::after,
-	.publicDiscovery__lookup button::after {
+	.social-hub-document :where(.primaryButton::after, .publicFeedCard__open::after, .publicDiscovery__lookup button::after) {
 		display: none;
 	}
 }
 
 @media (prefers-contrast: more) {
-	.hubHeader,
-	.contextRibbon,
-	.panelIntro,
-	.heroRift,
-	.publicDiscovery,
-	.riftCard,
-	.publicFeedCard,
-	.futureCommandPalette {
+	.social-hub-document :where(
+		.hubHeader,
+		.contextRibbon,
+		.panelIntro,
+		.heroRift,
+		.publicDiscovery,
+		.riftCard,
+		.publicFeedCard,
+		.futureCommandPalette
+	) {
 		border-color: currentColor;
 		background-image: none;
 	}
@@ -56,37 +57,21 @@ Awtsmoos.com removes decorative motion and glass when perception or hardware ask
 
 @media (forced-colors: active) {
 	.social-hub-document::before,
-	.social-hub-document::after,
-	.routeNavigation .routeButton::before,
-	.pulseOrb span {
+.social-hub-document::after,
+.social-hub-document .routeNavigation .routeButton::before,
+.social-hub-document .pulseOrb span {
 		display: none;
 	}
 }
 
 @supports not (backdrop-filter: blur(1px)) {
-	.hubHeader,
-	.contextRibbon,
-	.desktopRail,
-	.mobileDock,
-	.panelIntro,
-	.heroRift,
-	.publicDiscovery,
-	.futureCommandPalette,
-	.futureCommandTrigger {
+	.social-hub-document :where(.hubHeader, .contextRibbon, .desktopRail, .mobileDock, .panelIntro, .heroRift, .publicDiscovery, .futureCommandPalette, .futureCommandTrigger) {
 		background-color: rgb(6 13 28 / 97%);
 	}
 }
 
 @media (prefers-reduced-transparency: reduce) {
-	.hubHeader,
-	.contextRibbon,
-	.desktopRail,
-	.mobileDock,
-	.panelIntro,
-	.heroRift,
-	.publicDiscovery,
-	.futureCommandPalette,
-	.futureCommandTrigger {
+	.social-hub-document :where(.hubHeader, .contextRibbon, .desktopRail, .mobileDock, .panelIntro, .heroRift, .publicDiscovery, .futureCommandPalette, .futureCommandTrigger) {
 		background-color: rgb(6 13 28 / 98%);
 		backdrop-filter: none;
 	}

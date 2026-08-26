@@ -1,8 +1,8 @@
 <!--B"H
 Boruch Hashem
 Blessed is He
-Awtsmoos Sheets lets immense spreadsheet power fold into calm contextual vessels around one precise grid of light.
-Awtsmoos.com keeps advanced actions near without forcing every tool to remain visible in ordinary sight.
+The Awtsmoos gives this spreadsheet one complete visual vessel whose style, motion, depth, and commands remain bounded in light.
+Awtsmoos.com keeps every public controller hook stable while one localized root protects the host document and neighboring apps from styling fight.
 -->
 <!doctype html>
 <html lang="en">
@@ -12,33 +12,29 @@ Awtsmoos.com keeps advanced actions near without forcing every tool to remain vi
 	<meta name="theme-color" content="#f8fbfa">
 	<title>Awtsmoos Sheets</title>
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23137c53'/%3E%3Cpath d='M17 17h30v30H17zM27 17v30M37 17v30M17 27h30M17 37h30' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
-	<link rel="stylesheet" href="../shared/visual/ambientParticles.css?v=sheets-006">
-	<link rel="stylesheet" href="./css/tokens.css">
-	<link rel="stylesheet" href="./css/motion.css">
-	<link rel="stylesheet" href="./css/shell.css?v=sheets-006">
-	<link rel="stylesheet" href="./css/controls.css">
-	<link rel="stylesheet" href="./css/futuristic.css">
-	<link rel="stylesheet" href="./css/chromeDisclosure.css?v=sheets-006">
-	<link rel="stylesheet" href="./css/contextBar.css?v=sheets-006">
-	<link rel="stylesheet" href="./css/menus.css">
-	<link rel="stylesheet" href="./css/dialogs.css">
-	<link rel="stylesheet" href="./css/panels.css">
-	<link rel="stylesheet" href="./css/grid.css">
-	<link rel="stylesheet" href="./css/presence.css">
-	<link rel="stylesheet" href="./css/tabs.css">
-	<link rel="stylesheet" href="./css/responsive.css?v=sheets-006">
+	<link rel="stylesheet" href="../shared/visual/ambientParticles.css?v=sheets-009">
+	<link rel="stylesheet" href="./css/app.css?v=sheets-009">
 </head>
-<body>
+<body class="awtsmoos-sheets-app">
 	<div class="app-shell" id="appShell">
 		<header class="app-bar">
 			<div class="brand-mark" aria-hidden="true">A</div>
 			<div class="document-identity">
 				<input id="documentTitle" class="document-title" value="Untitled workbook" aria-label="Workbook title">
-				<div class="document-meta"><span id="saveState">Local draft</span><span id="connectionState">Connecting…</span></div>
+				<div class="document-meta">
+					<span id="saveState">Local draft</span>
+					<span id="connectionState">Connecting…</span>
+				</div>
 			</div>
 			<div id="presenceStrip" class="presence-strip" aria-label="People here"></div>
-			<button id="commandPaletteButton" class="quiet-button command-palette-trigger" title="Command palette"><span class="command-glyph" aria-hidden="true">⌘</span><span class="command-label">Actions</span></button>
-			<button id="chromeModeButton" class="quiet-button chrome-mode-button" type="button"><span class="chrome-mode-icon" aria-hidden="true">◫</span><span class="chrome-mode-label" data-chrome-label>Compact</span></button>
+			<button id="commandPaletteButton" class="quiet-button command-palette-trigger" title="Command palette">
+				<span class="command-glyph" aria-hidden="true">⌘</span>
+				<span class="command-label">Actions</span>
+			</button>
+			<button id="chromeModeButton" class="quiet-button chrome-mode-button" type="button">
+				<span class="chrome-mode-icon" aria-hidden="true">◫</span>
+				<span class="chrome-mode-label" data-chrome-label>Compact</span>
+			</button>
 			<button id="publicFilesButton" class="quiet-button">Explore</button>
 			<button id="shareButton" class="primary-button">Share</button>
 		</header>
@@ -54,8 +50,13 @@ Awtsmoos.com keeps advanced actions near without forcing every tool to remain vi
 			<button data-rich-command="format.strike" title="Strikethrough" aria-pressed="false"><s>S</s></button>
 			<label class="color-tool">Fill <input id="highlightPicker" type="color" value="#fff3a3"></label>
 			<label class="color-tool">Text <input id="textColorPicker" type="color" value="#1f2937"></label>
-			<select id="fontSizeSelect" aria-label="Font size"><option>10</option><option>12</option><option selected>14</option><option>16</option><option>18</option><option>24</option><option>32</option></select>
-			<select id="numberFormatSelect" aria-label="Number format"><option value="plain">Plain</option><option value="number">Number</option><option value="integer">Integer</option><option value="percent">Percent</option><option value="currency">Currency</option><option value="date">Date</option></select>
+			<select id="fontSizeSelect" aria-label="Font size">
+				<option>10</option><option>12</option><option selected>14</option><option>16</option><option>18</option><option>24</option><option>32</option>
+			</select>
+			<select id="numberFormatSelect" aria-label="Number format">
+				<option value="plain">Plain</option><option value="number">Number</option><option value="integer">Integer</option>
+				<option value="percent">Percent</option><option value="currency">Currency</option><option value="date">Date</option>
+			</select>
 			<span class="toolbar-divider"></span>
 			<button data-command="note">Note</button>
 			<button data-command="copy">Copy</button>
@@ -72,13 +73,19 @@ Awtsmoos.com keeps advanced actions near without forcing every tool to remain vi
 		<main class="workspace">
 			<section id="gridViewport" class="grid-viewport" aria-label="Workbook grid"></section>
 			<aside id="notesPanel" class="notes-panel" hidden>
-				<div class="panel-heading"><strong>Cell note</strong><button id="closeNotes" class="icon-button" aria-label="Close note">×</button></div>
+				<div class="panel-heading">
+					<strong>Cell note</strong>
+					<button id="closeNotes" class="icon-button" aria-label="Close note">×</button>
+				</div>
 				<div id="noteAddress" class="panel-kicker">A1</div>
 				<textarea id="noteInput" maxlength="4000" placeholder="Add context for collaborators…"></textarea>
 				<button id="saveNote" class="primary-button">Save note</button>
 			</aside>
 		</main>
-		<footer class="sheet-footer"><button id="addSheetButton" class="sheet-add" aria-label="Add sheet">＋</button><div id="sheetTabs" class="sheet-tabs"></div></footer>
+		<footer class="sheet-footer">
+			<button id="addSheetButton" class="sheet-add" aria-label="Add sheet">＋</button>
+			<div id="sheetTabs" class="sheet-tabs"></div>
+		</footer>
 	</div>
 	<input id="fileInput" type="file" accept=".csv,.tsv,text/csv,text/tab-separated-values" hidden>
 	<dialog id="shareDialog" class="sheet-dialog"></dialog>
@@ -88,6 +95,6 @@ Awtsmoos.com keeps advanced actions near without forcing every tool to remain vi
 	<dialog id="pasteSpecialDialog" class="sheet-dialog"></dialog>
 	<div id="menuPopover" class="menu-popover motion-pop" hidden></div>
 	<div id="toastRegion" class="toast-region" aria-live="polite"></div>
-	<script type="module" src="./js/main.js?v=sheets-006"></script>
+	<script type="module" src="./js/main.js?v=sheets-009"></script>
 </body>
 </html>

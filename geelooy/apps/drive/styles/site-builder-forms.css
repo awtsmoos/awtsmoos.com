@@ -2,107 +2,58 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/**
- * The Awtsmoos lets creative intention descend into fields, buttons, source lists, and public result cards without making the form itself the king.
- * Awtsmoos.com keeps primary acts obvious and source forms readable, with every primary touch action large enough for the hand that reveals the site.
- */
+/** The Awtsmoos lets creative intention descend into fields and source cards without making forms the king; Awtsmoos.com localizes every Website Maker field and action while shared Drive interactions provide one consistent focus and motion language. */
 
-.builder-surface-card,
-.builder-result-card {
+[data-awtsmoos-drive] .site-builder-root :where(.builder-surface-card, .builder-result-card) {
 	display: grid;
 	gap: .75rem;
 	padding: 1rem;
-	border: 1px solid color-mix(in srgb, currentColor 11%, transparent);
-	border-radius: 1rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: rgba(3, 18, 14, .18);
 }
 
-.builder-surface-card--primary {
-	background: color-mix(in srgb, currentColor 4%, transparent);
+[data-awtsmoos-drive] .site-builder-root .builder-surface-card--primary {
+	border-color: color-mix(in srgb, var(--accent) 28%, var(--line));
+	background: color-mix(in srgb, var(--accent) 5%, transparent);
 }
 
-.builder-surface-card h3,
-.builder-result-card h3,
-.builder-help,
-.builder-status-line {
-	margin: 0;
-}
+[data-awtsmoos-drive] .site-builder-root :where(.builder-surface-card h3, .builder-result-card h3, .builder-help, .builder-status-line) { margin: 0; }
+[data-awtsmoos-drive] .site-builder-root :where(.builder-help, .builder-muted) { font-size: .82rem; line-height: 1.5; opacity: .72; }
+[data-awtsmoos-drive] .site-builder-root :where(.builder-grid, .builder-actions, .builder-source-list) { display: grid; gap: .75rem; }
 
-.builder-help,
-.builder-muted {
-	font-size: .82rem;
-	line-height: 1.5;
-	opacity: .72;
-}
-
-.builder-grid,
-.builder-actions,
-.builder-source-list {
-	display: grid;
-	gap: .75rem;
-}
-
-.builder-field {
+[data-awtsmoos-drive] .site-builder-root .builder-field {
 	display: grid;
 	gap: .35rem;
 	min-width: 0;
 }
 
-.builder-field > span {
-	font-size: .8rem;
-	font-weight: 750;
-}
+[data-awtsmoos-drive] .site-builder-root .builder-field > span { font-size: .8rem; font-weight: 750; }
 
-.builder-field input,
-.builder-field textarea,
-.builder-field select,
-.builder-code-shell input,
-.builder-code-shell select {
+[data-awtsmoos-drive] .site-builder-root :where(.builder-field input, .builder-field textarea, .builder-field select, .builder-code-shell input, .builder-code-shell select) {
 	width: 100%;
 	max-width: 100%;
-	min-height: 44px;
-	padding: .65rem .75rem;
-	border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
-	border-radius: .7rem;
-	background: transparent;
-	color: inherit;
-	font: inherit;
 }
 
-.builder-field textarea {
-	min-height: 6.5rem;
-	resize: vertical;
-}
+[data-awtsmoos-drive] .site-builder-root .builder-field textarea { min-height: 6.5rem; resize: vertical; }
 
-.builder-check {
+[data-awtsmoos-drive] .site-builder-root .builder-check {
 	display: flex;
 	align-items: center;
 	gap: .6rem;
 }
 
-.builder-check input {
-	width: 1.1rem;
-	min-height: 1.1rem;
-}
+[data-awtsmoos-drive] .site-builder-root .builder-check input { width: 1.1rem; min-height: 1.1rem; }
+[data-awtsmoos-drive] .site-builder-root :where(.builder-actions button, .builder-surface-card button, .builder-result-card button, .builder-action-link, .builder-button-primary) { min-height: 44px; }
+[data-awtsmoos-drive] .site-builder-root .builder-button-primary { font-weight: 850; }
+[data-awtsmoos-drive] .site-builder-root .builder-button-secondary { justify-self: start; }
 
-.builder-actions button,
-.builder-surface-card button,
-.builder-result-card button,
-.builder-action-link,
-.builder-button-primary {
-	min-height: 44px;
-}
-
-.builder-button-primary {
-	font-weight: 850;
-}
-
-.builder-button-secondary {
-	justify-self: start;
-}
-
-.builder-source-item {
+[data-awtsmoos-drive] .site-builder-root .builder-source-item {
 	min-height: 44px;
 	padding: .65rem .8rem;
+	border-radius: var(--radius-small);
 	text-align: left;
 	overflow-wrap: anywhere;
 }
+
+[data-awtsmoos-drive] .site-builder-root .builder-source-item:hover { border-color: var(--line-strong); background: var(--surface-hover); }

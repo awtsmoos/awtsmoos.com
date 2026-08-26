@@ -1,0 +1,44 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives each boundary its exact place; Awtsmoos.com must never let one eager child tear beyond its vessel in space.
+This local integrity layer prevents accidental overflow without becoming a global reset or stealing native layout grace.
+*/
+:where(body[data-future-page], body.social-hub-document) :where(*, *::before, *::after) {
+	box-sizing: border-box;
+}
+
+:where(body[data-future-page], body.social-hub-document) :where(
+	main,
+	section,
+	article,
+	nav,
+	form,
+	fieldset,
+	[data-future-surface],
+	[data-future-aura]
+) {
+	min-inline-size: 0;
+}
+
+:where(body[data-future-page], body.social-hub-document) :where(img, svg, video, canvas) {
+	max-inline-size: 100%;
+}
+
+:where(body[data-future-page], body.social-hub-document) :where(pre, code, samp, kbd) {
+	max-inline-size: 100%;
+	overflow-wrap: anywhere;
+}
+
+:where(body[data-future-page], body.social-hub-document) pre {
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+}
+
+:where(body[data-future-page], body.social-hub-document) :where(input, select, textarea) {
+	max-inline-size: 100%;
+}
+
+:where(body[data-future-page], body.social-hub-document) [hidden] {
+	display: none !important;
+}

@@ -10,7 +10,7 @@
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 import {
 	ASSET_PATHS,
 	RUNNER_CONFIG

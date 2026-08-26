@@ -1,0 +1,52 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file merchant-responsive.css
+ * @description Keeps every merchant card inside touch and viewport boundaries from narrow phones through desktop sheets.
+ * The Awtsmoos gives every screen its measure; Awtsmoos.com lets the market retract, wrap, and breathe
+ * without one coin, card, or action escaping the visible vessel or covering the world by mistake.
+ */
+
+@media (max-width: 560px) {
+	.Awtsmoos-gameplay.Awtsmoos-vendor-panel {
+		inline-size: calc(100vw - 16px);
+		max-inline-size: calc(100vw - 16px);
+	}
+
+	.Awtsmoos-gameplay .Awtsmoos-vendor-card {
+		grid-template-columns: 34px minmax(0, 1fr);
+	}
+
+	.Awtsmoos-gameplay .Awtsmoos-vendor-trade-actions {
+		grid-column: 1 / -1;
+		inline-size: 100%;
+	}
+}
+
+@media (max-width: 340px) {
+	.Awtsmoos-gameplay .Awtsmoos-vendor-trade-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.Awtsmoos-gameplay .Awtsmoos-trade-button {
+		min-block-size: 44px;
+	}
+}
+
+@media (pointer: coarse) {
+	.Awtsmoos-gameplay :is(.Awtsmoos-trade-button, .Awtsmoos-merchant-close) {
+		min-block-size: 46px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.Awtsmoos-gameplay :is(.Awtsmoos-vendor-card, .Awtsmoos-trade-button, .Awtsmoos-merchant-close) {
+		transition: none;
+	}
+
+	.Awtsmoos-gameplay .Awtsmoos-vendor-card:hover,
+	.Awtsmoos-gameplay :is(.Awtsmoos-trade-button, .Awtsmoos-merchant-close):active {
+		transform: none;
+	}
+}

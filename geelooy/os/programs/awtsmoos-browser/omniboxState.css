@@ -1,0 +1,64 @@
+/* B"H */
+/*
+ * Hod gives the omnibox truthful testimony about how a page is being manifested.
+ * Mode and progress state live apart from geometry so runtime truth can evolve without
+ * tangling the address layout or creating a second owner for the same visual concern.
+ */
+
+.awtsmoos-browser-host .awtsmoos-browser-mode-badge[data-mode="embedded"] {
+	border-color: rgba(111, 216, 166, 0.28);
+	background: rgba(111, 216, 166, 0.09);
+	color: #a8f0ca;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-mode-badge[data-mode="native"] {
+	border-color: rgba(130, 182, 255, 0.3);
+	background: rgba(130, 182, 255, 0.1);
+	color: var(--browser-accent-strong);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-mode-badge[data-mode="fallback"],
+.awtsmoos-browser-host .awtsmoos-browser-mode-badge[data-mode="error"] {
+	border-color: rgba(255, 154, 170, 0.3);
+	background: rgba(255, 154, 170, 0.09);
+	color: #ffc2cc;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-progress {
+	position: absolute;
+	z-index: var(--browser-z-progress);
+	inset-inline-start: 0;
+	inset-block-end: -1px;
+	inline-size: 0;
+	block-size: 2px;
+	opacity: 0;
+	background: linear-gradient(90deg, #5da2ff, #c7e5ff, #8c99ff);
+	box-shadow: 0 0 14px rgba(130, 182, 255, 0.72);
+	transform-origin: left;
+	transition: inline-size var(--browser-smooth), opacity var(--browser-fast);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-progress[data-state="loading"],
+.awtsmoos-browser-host .awtsmoos-browser-progress.is-loading {
+	inline-size: 74%;
+	opacity: 1;
+	animation: awtsmoos-browser-progress-pulse 1.4s ease-in-out infinite alternate;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-progress[data-state="complete"] {
+	inline-size: 100%;
+	opacity: 0;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-progress[data-state="error"] {
+	inline-size: 100%;
+	opacity: 1;
+	background: var(--browser-danger);
+}
+
+@keyframes awtsmoos-browser-progress-pulse {
+	to {
+		filter: brightness(1.28);
+		transform: scaleX(1.06);
+	}
+}

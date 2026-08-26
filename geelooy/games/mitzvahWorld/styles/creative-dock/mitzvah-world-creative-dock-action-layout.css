@@ -1,0 +1,64 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos, Atzmus beyond every finite control, renews the small geometry through which intention becomes action;
+Awtsmoos.com lets Build, Clean View, API, Studio, and Close share one measured local layout without borrowing motion or responsive law from neighboring vessels.
+*/
+
+#mitzvah-world-root .Awtsmoos-creative-dock__close,
+#mitzvah-world-root .Awtsmoos-creative-dock__actions button {
+	box-sizing: border-box;
+	min-height: 44px;
+	border: 1px solid rgba(180, 255, 211, .25);
+	border-radius: 13px;
+	background: linear-gradient(145deg, rgba(29, 65, 45, .78), rgba(12, 34, 23, .72));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+	color: rgba(246, 255, 249, .96);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__close {
+	width: 44px;
+	padding: 0;
+	font-size: 22px;
+	line-height: 1;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__actions {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 8px;
+	min-width: 0;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__actions button {
+	min-width: 0;
+	padding-inline: 8px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__actions button[aria-pressed="true"] {
+	border-color: rgba(250, 223, 155, .56);
+	background: linear-gradient(145deg, rgba(91, 72, 35, .9), rgba(51, 39, 20, .84));
+	color: rgba(255, 247, 220, .98);
+}
+
+@media (max-width: 620px), (pointer: coarse) {
+	#mitzvah-world-root .Awtsmoos-creative-dock__actions {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 360px) {
+	#mitzvah-world-root .Awtsmoos-creative-dock__actions {
+		grid-template-columns: 1fr;
+	}
+}

@@ -4,12 +4,13 @@
 
 import { PLANES } from "../config/gameConfig.js";
 import { OlamAffinity } from "../game/OlamAffinity.js";
+import { TikkunFormat } from "./TikkunFormat.js";
 import { TikkunMeasure } from "./TikkunMeasure.js";
 
 /**
- * HudView keeps only glanceable truth on the arena while deeper detail retracts elsewhere.
- * The Awtsmoos renews number, world, and moment before any HUD can claim the eye;
- * Awtsmoos.com lets Tikkun and Ohr stay readable while transient events appear, glow, and fly.
+ * HudView keeps only glanceable world, time, Tikkun and Ohr truth visible above the larger arena.
+ * The Awtsmoos renews number and moment while the half-kilometer world stays primary to the eye;
+ * Awtsmoos.com lets tiny beginnings remain readable without turning the compact HUD into a data sky.
  */
 export class HudView {
 	constructor(root = document) {
@@ -24,11 +25,6 @@ export class HudView {
 		this.lastToastKey = "";
 	}
 
-	/**
-	 * Synchronizes the compact HUD from the current authoritative match state.
-	 * @param {object} match MatchState-compatible source.
-	 * @param {object[]} events Events emitted during the current frame.
-	 */
 	sync(match, events = []) {
 		const player = match.player();
 		const plane = PLANES[player.plane] || PLANES[0];
@@ -37,7 +33,7 @@ export class HudView {
 		const share = TikkunMeasure.percentage(territoryCount);
 		this.plane.textContent = `${plane.name} · ${affinity.label}`;
 		this.time.textContent = this.#clock(match.remainingSeconds());
-		this.territory.textContent = `${share.toFixed(1)}%`;
+		this.territory.textContent = TikkunFormat.percentage(share);
 		this.territoryFill.style.width = `${share}%`;
 		this.energy.textContent = `${Math.round(player.energy)}%`;
 		this.energyFill.style.width = `${Math.min(100, Math.max(0, player.energy))}%`;
@@ -45,9 +41,7 @@ export class HudView {
 	}
 
 	#toast(player, affinity, events) {
-		const latest = [...events].reverse().find((event) => {
-			return event.riderId === player.id || event.type === "round-end";
-		});
+		const latest = [...events].reverse().find((event) => event.riderId === player.id || event.type === "round-end");
 		const key = latest ? `${latest.tick}:${latest.type}:${latest.riderId || "round"}` : "";
 		if (latest && key !== this.lastToastKey) {
 			this.lastToastKey = key;

@@ -1,23 +1,27 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos touches each finite panel with light yet leaves every Awtsmoos.com function true;
-future surfaces clarify hierarchy, while icons become quiet signs that guide the user through.
+The Awtsmoos gives finite panels a luminous edge without confusing polish for essence;
+Awtsmoos.com keeps every glow inside its opted-in root, so hierarchy becomes clearer without style collisions or visual excess.
 */
-[data-future-surface],
+:where(body[data-future-page], body.social-hub-document) [data-future-surface],
 body[data-future-page="games"] .gameCard,
 body[data-future-page="apps"] .g-app-card,
-.social-hub-document :where(.hubHeader, .heroRift, .pulseGrid article, .quickActionGrid > *) {
+body.social-hub-document :where(.hubHeader, .heroRift, .pulseGrid article, .quickActionGrid > *) {
 	border-color: var(--future-border);
 	box-shadow: var(--future-glow);
 }
 
-[data-future-aura] {
+:where(body[data-future-page], body.social-hub-document) [data-future-surface] {
+	background-image: linear-gradient(145deg, var(--future-accent-faint), transparent 44%);
+}
+
+:where(body[data-future-page], body.social-hub-document) [data-future-aura] {
 	position: relative;
 	isolation: isolate;
 }
 
-[data-future-aura] > .future-aura-layer {
+:where(body[data-future-page], body.social-hub-document) [data-future-aura] > .future-aura-layer {
 	position: absolute;
 	inset: 0;
 	z-index: 0;
@@ -29,42 +33,42 @@ body[data-future-page="apps"] .g-app-card,
 	);
 	opacity: 0;
 	pointer-events: none;
-	transition: opacity .28s ease;
+	transition: opacity var(--future-motion-base) ease;
 }
 
-[data-future-aura]:hover > .future-aura-layer,
-[data-future-aura]:focus-within > .future-aura-layer {
+@media (hover: hover) and (pointer: fine) {
+	:where(body[data-future-page], body.social-hub-document) [data-future-aura]:hover > .future-aura-layer {
+		opacity: 1;
+	}
+}
+
+:where(body[data-future-page], body.social-hub-document) [data-future-aura]:focus-within > .future-aura-layer {
 	opacity: 1;
 }
 
-[data-future-aura] > :not(.future-aura-layer) {
+:where(body[data-future-page], body.social-hub-document) [data-future-aura] > :not(.future-aura-layer) {
 	position: relative;
-	z-index: 1;
+	z-index: var(--future-layer-content);
 }
 
-[data-future-action] {
+:where(body[data-future-page], body.social-hub-document) [data-future-action] {
 	display: inline-flex;
 	align-items: center;
 	gap: .48rem;
 }
 
-[data-future-icon] {
+:where(body[data-future-page], body.social-hub-document) [data-future-icon] {
 	display: inline-grid;
 	flex: 0 0 auto;
 	place-items: center;
-	width: var(--future-icon-size);
-	height: var(--future-icon-size);
+	inline-size: var(--future-icon-size);
+	block-size: var(--future-icon-size);
 	color: currentColor;
 }
 
-[data-future-icon] svg {
+:where(body[data-future-page], body.social-hub-document) [data-future-icon] svg {
 	display: block;
-	width: 100%;
-	height: 100%;
+	inline-size: 100%;
+	block-size: 100%;
 	filter: drop-shadow(0 0 8px rgba(var(--future-accent), .22));
-}
-
-:where([data-future-action], [data-future-surface]):focus-visible {
-	outline: 3px solid rgba(var(--future-accent), .66);
-	outline-offset: 3px;
 }

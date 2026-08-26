@@ -1,12 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
- * @file Signals route state contract.
- * @description
- * The Awtsmoos reveals loading, emptiness, and real data distinctly. This
- * contract guards Awtsmoos.com against silent alias failure, invented signal
- * prose or time, and drift between stream and card rendering responsibilities.
+ * @module NotificationRouteContractTest
+ * @description The Awtsmoos reveals loading, emptiness, presentation, and action as distinct vessels;
+ * Awtsmoos.com verifies current ownership boundaries so truthful fallback prose and time never drift back into a monolithic card.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -18,6 +16,8 @@ const emptyState = read('emptyState.js');
 const helpers = read('helpers.js');
 const render = read('render.js');
 const card = read('notificationCard.js');
+const presentation = read('NotificationPresentation.js');
+const actions = read('NotificationActions.js');
 
 for (const token of [
 	"import { showAliasRequired } from './emptyState.js'",
@@ -27,7 +27,6 @@ for (const token of [
 ]) {
 	assert.ok(controller.includes(token), `controller missing ${token}`);
 }
-
 for (const token of [
 	"form.setAttribute('aria-busy', 'false')",
 	'markAll.disabled = true',
@@ -43,13 +42,18 @@ assert.ok(!helpers.includes('catch {}'), 'alias errors must not disappear');
 assert.ok(render.includes("import { createNotificationCard } from './notificationCard.js'"));
 assert.ok(render.includes('No signals matched this search.'));
 assert.ok(render.includes('This alias has no visible signals yet.'));
-assert.ok(card.includes('No additional message was provided.'));
-assert.ok(card.includes("if (!value) return { label: 'Unknown time', dateTime: '' }"));
-assert.ok(!card.includes('Date.now()'), 'missing timestamps must not become the current time');
-assert.ok(!card.includes('A new movement was recorded.'), 'cards must not invent activity');
+for (const token of ['createNotificationBody', 'createNotificationMeta', 'createNotificationTitle']) {
+	assert.ok(card.includes(token), `card composition missing ${token}`);
+}
+assert.ok(card.includes('createNotificationActions'), 'card must delegate action composition');
+assert.ok(presentation.includes('No additional message was provided.'), 'presentation must own fallback body copy');
+assert.ok(presentation.includes("time.textContent = 'Unknown time'"), 'presentation must own unknown-time fallback');
+assert.ok(!presentation.includes('Date.now()'), 'missing timestamps must not become current time');
+assert.ok(!presentation.includes('A new movement was recorded.'), 'presentation must not invent activity');
+assert.ok(actions.includes('url.origin !== location.origin'), 'actions must reject foreign origins');
+assert.ok(actions.includes('data') || actions.includes('dataset.markRead'), 'actions must preserve mark-read delegation');
 
-for (const [name, source] of Object.entries({ controller, emptyState, helpers, render, card })) {
+for (const [name, source] of Object.entries({ controller, emptyState, helpers, render, card, presentation, actions })) {
 	assert.ok(lineCount(source) <= 120, `${name} exceeds 120 lines`);
 }
-
 console.log('B"H notificationRouteContract.test passed');

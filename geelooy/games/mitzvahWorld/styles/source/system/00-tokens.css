@@ -1,0 +1,55 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos, Atzmus beyond hue, distance, motion, and layer, recreates every finite design token before the eye can name it.
+Awtsmoos.com lets one local root gather those tokens so every panel may be distinct without becoming a rival kingdom of accidental values.
+*/
+
+#mitzvah-world-root {
+	--mw-accent: #72efbd;
+	--mw-accent-strong: #b7ffe3;
+	--mw-accent-warm: #f7d77a;
+	--mw-danger: #ff776f;
+	--mw-text-primary: #f3fff9;
+	--mw-text-muted: #b9d7ca;
+	--mw-text-dim: #7fa496;
+	--mw-border-soft: rgba(157, 255, 215, 0.2);
+	--mw-border-strong: rgba(171, 255, 222, 0.5);
+	--mw-surface-deep: rgba(4, 16, 13, 0.94);
+	--mw-surface-panel: rgba(8, 27, 21, 0.9);
+	--mw-surface-control: rgba(19, 55, 43, 0.88);
+	--mw-surface-control-hover: rgba(27, 75, 58, 0.94);
+	--mw-surface-control-active: rgba(10, 42, 32, 0.98);
+	--mw-shadow-control: 0 12px 28px rgba(0, 0, 0, 0.3);
+	--mw-shadow-panel: 0 22px 64px rgba(0, 0, 0, 0.46);
+	--mw-focus-ring: 0 0 0 3px rgba(114, 239, 189, 0.24);
+	--mw-radius-xs: 8px;
+	--mw-radius-sm: 11px;
+	--mw-radius-md: 16px;
+	--mw-radius-lg: 22px;
+	--mw-control-min: 44px;
+	--mw-motion-fast: 120ms;
+	--mw-motion-normal: 190ms;
+	--mw-motion-slow: 320ms;
+	--mw-ease-out: cubic-bezier(0.16, 0.8, 0.24, 1);
+	--mw-safe-top: max(10px, env(safe-area-inset-top));
+	--mw-safe-right: max(10px, env(safe-area-inset-right));
+	--mw-safe-bottom: max(10px, env(safe-area-inset-bottom));
+	--mw-safe-left: max(10px, env(safe-area-inset-left));
+	--mw-z-world: 0;
+	--mw-z-ambient: 5;
+	--mw-z-hud: 20;
+	--mw-z-status: 30;
+	--mw-z-controls: 40;
+	--mw-z-notice: 45;
+	--mw-z-floating: 50;
+	--mw-z-shell: 60;
+	--mw-z-overlay: 70;
+	--mw-z-modal: 80;
+	--mw-z-dialog: 90;
+	--mw-z-boot: 100;
+	--mw-z-failure: 110;
+	--awt-shell-z: var(--mw-z-shell);
+	color-scheme: dark;
+}

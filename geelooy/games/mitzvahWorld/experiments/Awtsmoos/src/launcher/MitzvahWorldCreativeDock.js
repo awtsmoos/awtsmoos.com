@@ -4,69 +4,93 @@
 
 /**
  * @file MitzvahWorldCreativeDock.js
- * @description Coordinates one retractable advanced-control capsule without owning action or markup internals.
- * The Awtsmoos lets hidden powers gather beneath one star, then close when the player returns to road and sky;
- * Awtsmoos.com keeps advanced tools one deliberate tap away, never a permanent wall before the eye.
+ * @description Composes one retractable control capsule from view, modal actions, live-builder action, and listener lifecycle vessels.
+ * The Awtsmoos, Atzmus beyond every control path, unifies many powers without becoming their mixture;
+ * Awtsmoos.com lets Build, Clean View, API, Movie Studio, and audio deepen beneath one star while each responsibility remains a small readable chapter.
  */
 
-import { isEditableTarget } from '../input/InputTargetPolicy.js';
 import { MitzvahWorldCreativeDockActions } from './MitzvahWorldCreativeDockActions.js';
+import { MitzvahWorldCreativeDockBindings } from './MitzvahWorldCreativeDockBindings.js';
+import { MitzvahWorldCreativeDockBuilderAction } from './MitzvahWorldCreativeDockBuilderAction.js';
 import { MitzvahWorldCreativeDockView } from './MitzvahWorldCreativeDockView.js';
 
 /**
- * Installs the closed-by-default direct-world command capsule.
- * @param {Document} documentValue Active document.
- * @param {object} environment Browser-like environment.
- * @returns {object} Retractable advanced-control controller.
+ * Installs or returns the one closed-by-default direct-world command capsule.
+ * @param {Document} [documentKli=globalThis.document] Active Mitzvah World document.
+ * @param {object} [environmentKli=globalThis] Browser-like environment publishing the live game runtime.
+ * @returns {Readonly<object>} Stable controller used by optional creator, audio, API, and presentation systems.
  */
 export function installMitzvahWorldCreativeDock(
-	documentValue = globalThis.document,
-	environment = globalThis
+	documentKli = globalThis.document,
+	environmentKli = globalThis
 ) {
-	const existing = documentValue?.querySelector?.('[data-awtsmoos-creative-dock]');
-	if (existing?.awtsmoosController) {
-		return existing.awtsmoosController;
+	const existingKli = documentKli?.querySelector?.('[data-awtsmoos-creative-dock]');
+	if (existingKli?.awtsmoosController) {
+		return existingKli.awtsmoosController;
 	}
-	const view = new MitzvahWorldCreativeDockView(documentValue);
-	const actions = new MitzvahWorldCreativeDockActions(view, documentValue, environment);
-	const onToggle = () => view.toggle();
-	const onClose = () => view.close();
-	const onClean = () => actions.toggleCleanView();
-	const onStudio = () => actions.openStudio();
-	const onKeyDown = event => {
-		if (
-			event.key === 'Escape'
-			&& view.root.dataset.open === 'true'
-			&& !isEditableTarget(event.target)
-		) {
-			event.preventDefault();
-			view.close();
-			view.toggleButton.focus?.({ preventScroll: true });
-		}
-	};
-	view.toggleButton.addEventListener('click', onToggle);
-	view.closeButton.addEventListener('click', onClose);
-	view.cleanButton.addEventListener('click', onClean);
-	view.studioButton.addEventListener('click', onStudio);
-	environment.addEventListener?.('keydown', onKeyDown);
-	const controller = {
-		audioHost: view.audioHost,
-		clean: onClean,
-		close: () => view.close(),
-		dock: view.root,
-		open: () => view.open(),
-		openStudio: onStudio,
-		toggle: onToggle,
-		destroy() {
-			environment.removeEventListener?.('keydown', onKeyDown);
-			view.toggleButton.removeEventListener('click', onToggle);
-			view.closeButton.removeEventListener('click', onClose);
-			view.cleanButton.removeEventListener('click', onClean);
-			view.studioButton.removeEventListener('click', onStudio);
-			actions.destroy();
-			view.destroy();
-		}
-	};
-	view.root.awtsmoosController = controller;
-	return controller;
+	const viewKli = new MitzvahWorldCreativeDockView(documentKli);
+	const actionKli = new MitzvahWorldCreativeDockActions(
+		viewKli,
+		documentKli,
+		environmentKli
+	);
+	const builderTiferes = new MitzvahWorldCreativeDockBuilderAction(
+		viewKli,
+		documentKli,
+		environmentKli
+	);
+	const bindingHod = new MitzvahWorldCreativeDockBindings(
+		viewKli,
+		actionKli,
+		builderTiferes,
+		environmentKli
+	);
+	const controllerMalchus = createDockController(
+		viewKli,
+		actionKli,
+		builderTiferes,
+		bindingHod
+	);
+	viewKli.root.awtsmoosController = controllerMalchus;
+	return controllerMalchus;
+}
+
+/**
+ * Creates the narrow public controller while implementation classes remain private to composition.
+ * @param {MitzvahWorldCreativeDockView} viewKli Dock presentation vessel.
+ * @param {MitzvahWorldCreativeDockActions} actionKli Modal action vessel.
+ * @param {MitzvahWorldCreativeDockBuilderAction} builderTiferes Live-builder transition vessel.
+ * @param {MitzvahWorldCreativeDockBindings} bindingHod Listener lifecycle vessel.
+ * @returns {Readonly<object>} Frozen stable controller facade.
+ */
+function createDockController(viewKli, actionKli, builderTiferes, bindingHod) {
+	return Object.freeze({
+		apiButton: viewKli.apiButton,
+		apiHost: viewKli.apiHost,
+		audioHost: viewKli.audioHost,
+		buildButton: viewKli.buildButton,
+		clean: () => actionKli.toggleCleanView(),
+		close: () => viewKli.close(),
+		dock: viewKli.root,
+		open: () => viewKli.open(),
+		openApi: () => actionKli.openApi(),
+		openBuilder: () => builderTiferes.open(),
+		openStudio: () => actionKli.openStudio(),
+		toggle: () => viewKli.toggle(),
+		destroy: () => destroyDock(viewKli, actionKli, builderTiferes, bindingHod)
+	});
+}
+
+/**
+ * Tears down listeners, creator ownership, modal subviews, presentation state, and DOM in dependency-safe order.
+ * @param {MitzvahWorldCreativeDockView} viewKli Dock presentation vessel.
+ * @param {MitzvahWorldCreativeDockActions} actionKli Modal action vessel.
+ * @param {MitzvahWorldCreativeDockBuilderAction} builderTiferes Live-builder owner.
+ * @param {MitzvahWorldCreativeDockBindings} bindingHod Listener lifecycle vessel.
+ */
+function destroyDock(viewKli, actionKli, builderTiferes, bindingHod) {
+	bindingHod.destroy();
+	builderTiferes.destroy();
+	actionKli.destroy();
+	viewKli.destroy();
 }

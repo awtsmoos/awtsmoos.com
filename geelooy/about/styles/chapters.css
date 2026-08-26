@@ -1,0 +1,96 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos hides no truth, yet lets each chapter rest until attention gives it room to rise;
+Awtsmoos.com uses native disclosure so mobile stays quiet while deeper paths remain one deliberate touch before the eyes.
+*/
+.about-page__intro {
+	margin-top: 1rem;
+	padding: clamp(1rem, 4vw, 1.75rem);
+}
+.about-page__intro h2 {
+	margin: 0;
+	font-size: clamp(1.45rem, 5vw, 2.2rem);
+	letter-spacing: -.03em;
+}
+.about-page__chapters {
+	display: grid;
+	gap: .7rem;
+	margin-top: 1rem;
+}
+.about-page__chapter {
+	min-width: 0;
+	border: 1px solid var(--about-line);
+	border-radius: 1.1rem;
+	background: rgba(12, 18, 29, .76);
+	overflow: clip;
+	transition: border-color var(--about-fast), background var(--about-fast), transform var(--about-fast), box-shadow var(--about-fast);
+}
+.about-page__chapter:hover {
+	border-color: rgba(156, 221, 255, .28);
+	background: rgba(17, 24, 38, .9);
+	transform: translateY(-1px);
+}
+.about-page__chapter[open] {
+	border-color: rgba(156, 221, 255, .34);
+	background: rgba(18, 26, 41, .94);
+	box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, .18);
+}
+.about-page__chapter summary {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: .75rem;
+	align-items: center;
+	min-height: 3.8rem;
+	padding: .75rem .9rem;
+	color: #f4f8ff;
+	cursor: pointer;
+	list-style: none;
+	transition: color var(--about-fast), background var(--about-fast), transform var(--about-fast);
+}
+.about-page__chapter summary::-webkit-details-marker {
+	display: none;
+}
+.about-page__chapter summary > span:first-child {
+	color: var(--about-accent);
+	font-size: .7rem;
+	font-weight: 850;
+	letter-spacing: .08em;
+}
+.about-page__chapter summary > span:last-child {
+	color: var(--about-muted);
+	font-size: 1rem;
+	transition: transform var(--about-fast), color var(--about-fast);
+}
+.about-page__chapter summary:is(:hover, :focus-visible) {
+	background: rgba(255, 255, 255, .035);
+	color: #ffffff;
+}
+.about-page__chapter summary:focus-visible {
+	outline: .16rem solid var(--about-accent);
+	outline-offset: -.18rem;
+}
+.about-page__chapter summary:active {
+	transform: scale(.995);
+}
+.about-page__chapter[open] summary > span:last-child {
+	transform: rotate(45deg);
+	color: var(--about-accent);
+}
+.about-page__chapter p {
+	max-width: 70ch;
+	margin: 0;
+	padding: .1rem .9rem 1rem 3rem;
+	color: var(--about-muted);
+	line-height: 1.7;
+	overflow-wrap: anywhere;
+}
+@media (min-width: 46rem) {
+	.about-page__hero {
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: end;
+	}
+	.about-page__actions {
+		justify-content: flex-end;
+	}
+}

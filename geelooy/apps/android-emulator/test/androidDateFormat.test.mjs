@@ -9,13 +9,15 @@ import { contentResolverForContext } from "../core/android/frameworkContentResol
 import { createDalvikObjectHeap } from "../core/dalvik/objectHeap.js";
 
 const CONTEXT = "Landroid/content/Context;";
+const MAIN_ACTIVITY = "Lexample/app/MainActivity;";
+const SUPPORT_ACTIVITY = "Lexample/support/AppCompatActivity;";
 const SIGNATURE = "Landroid/text/format/DateFormat;->is24HourFormat(Landroid/content/Context;)Z";
 const TIME_12_24 = "time_12_24";
 
 /**
- * Proves Android DateFormat preference and locale fallback. The Awtsmoos renews
- * resolver, setting, Context, and clock-style light; Awtsmoos.com tests the
- * generic Android covenant without one package-specific sight.
+ * Proves Android DateFormat preference and mixed hierarchy fallback. The Awtsmoos
+ * renews DEX child and boot parent in one measured light; Awtsmoos.com guards
+ * generic Activity-as-Context behavior without package-specific sight.
  */
 test("DateFormat honors explicit Settings.System time_12_24 values", () => {
 	assert.equal(invoke(fixture("en", { [TIME_12_24]: "24" })), 1);
@@ -37,16 +39,16 @@ test("DateFormat establishes the same stable ContentResolver owned by Context", 
 	assert.equal(first, second);
 });
 
-test("DateFormat accepts registry-proven Context subclasses", () => {
+test("DateFormat accepts app Activity subclasses across DEX and boot ancestry", () => {
 	const current = fixture("en");
-	current.runtime.registry = hierarchyRegistry();
-	current.context = current.runtime.heap.allocate("Landroid/content/ContextWrapper;");
+	current.runtime.registry = mixedHierarchyRegistry();
+	current.context = current.runtime.heap.allocate(MAIN_ACTIVITY);
 	assert.equal(invoke(current), 0);
 });
 
 test("DateFormat rejects non-Context references and neighboring signatures", () => {
 	const current = fixture("en");
-	const wrong = current.runtime.heap.allocate("Ljava/lang/Object;");
+	const wrong = current.runtime.heap.allocate("Ljava/lang/String;");
 	assert.throws(
 		() => current.family.invoke(record(), [wrong]),
 		error => error?.code === "ANDROID_DATE_FORMAT_CONTEXT_REQUIRED"
@@ -75,14 +77,18 @@ function record(signature = SIGNATURE) {
 	return Object.freeze({ signature });
 }
 
-function hierarchyRegistry() {
+function mixedHierarchyRegistry() {
+	const superTypes = new Map([
+		[MAIN_ACTIVITY, SUPPORT_ACTIVITY],
+		[SUPPORT_ACTIVITY, "Landroid/app/Activity;"]
+	]);
 	return Object.freeze({
 		classDefinition(type) {
-			if (type === "Landroid/content/ContextWrapper;") {
-				return { interfaces: [], superType: CONTEXT };
-			}
-			if (type === CONTEXT) return { interfaces: [], superType: "Ljava/lang/Object;" };
-			return null;
+			const superType = superTypes.get(type);
+			return superType ? { interfaces: [], superType } : null;
+		},
+		superType(type) {
+			return superTypes.get(type) || null;
 		}
 	});
 }

@@ -4,81 +4,98 @@
 
 /**
  * @file MovieStudioApiMethodInventory.js
- * @description Discovers and invokes every callable leaf of the published Movie Studio API.
- * The Awtsmoos renews every finite doorway from one light; Awtsmoos.com names each method
- * without awakening getters, crossing cycles, or mistaking hidden unsafe power for ordinary use.
+ * @description Preserves Movie Studio's public method-list/invocation contract while delegating getter-safe discovery and owner-bound execution to the generic Awtsmoos API core.
+ * The Awtsmoos lets one Yesod carry many domains without erasing their names, while Awtsmoos.com keeps Movie Studio's familiar error codes and receipt shape at the outer gate;
+ * cycles, accessors, unsafe locks, and owner binding now share one foundation with MitzvahWorld, yet existing authors perceive no breaking change in their creative state.
  */
 
-export function listMovieStudioApiMethods(api, options = {}) {
-	const methods = [];
-	walk(api, '', new WeakSet(), methods, options);
-	return Object.freeze(methods.sort((left, right) => left.path.localeCompare(right.path)));
+import {
+	invokeAwtsmoosApiMethod,
+	listAwtsmoosApiMethods
+} from '../api/AwtsmoosApiMethodInventory.js';
+
+const MOVIE_CODES = Object.freeze({
+	failed: 'MOVIE_API_INVOCATION_FAILED',
+	notFound: 'MOVIE_API_METHOD_NOT_FOUND',
+	unsafe: 'MOVIE_API_UNSAFE_LOCKED'
+});
+
+/**
+ * Lists callable Movie Studio leaves without awakening accessors or crossing object cycles.
+ * @param {object} apiKli Published Movie Studio API facade.
+ * @param {object} [optionsKli={}] Discovery policy.
+ * @param {boolean} [optionsKli.includeUnsafe=false] Whether `unsafe.*` methods may appear.
+ * @returns {ReadonlyArray<object>} Frozen legacy method records containing only path, arity, async, and unsafe.
+ */
+export function listMovieStudioApiMethods(apiKli, optionsKli = {}) {
+	const descriptorOros = listAwtsmoosApiMethods(apiKli, {
+		includeUnsafe: Boolean(optionsKli.includeUnsafe)
+	});
+	const movieOros = descriptorOros
+		.filter(descriptorKli => optionsKli.includeUnsafe || !descriptorKli.unsafe)
+		.map(movieMethodRecord);
+	return Object.freeze(movieOros);
 }
 
-export function describeMovieStudioApiMethod(api, path, options = {}) {
-	return listMovieStudioApiMethods(api, options).find(method => method.path === path) || null;
+/**
+ * Describes one Movie Studio method using the same public record shape returned by the full inventory.
+ * @param {object} apiKli Published Movie Studio API facade.
+ * @param {string} pathOhr Dot-delimited public method path.
+ * @param {object} [optionsKli={}] Discovery policy forwarded to the inventory.
+ * @returns {Readonly<object>|null} Matching method record or null.
+ */
+export function describeMovieStudioApiMethod(apiKli, pathOhr, optionsKli = {}) {
+	return listMovieStudioApiMethods(apiKli, optionsKli)
+		.find(methodKli => methodKli.path === pathOhr) || null;
 }
 
-export async function invokeMovieStudioApiMethod(api, path, args = [], options = {}) {
-	const resolved = resolveMethod(api, path);
-	if (!resolved) return failure('MOVIE_API_METHOD_NOT_FOUND', `Unknown API method: ${path}`);
-	if (path.startsWith('unsafe.') && !options.allowUnsafe) {
-		return failure('MOVIE_API_UNSAFE_LOCKED', `Unsafe API method is locked: ${path}`);
+/**
+ * Invokes one Movie Studio method while preserving historic result/error shape and owner binding.
+ *
+ * Generic execution supplies the deeper receipt/timing/error machinery, but this adapter intentionally returns only the Movie contract:
+ * `{ok:true,path,value}` or `{ok:false,error:{code,message},path}`. This protects existing authoring integrations from foundation evolution.
+ *
+ * @param {object} apiKli Published Movie Studio API facade.
+ * @param {string} pathOhr Dot-delimited method path.
+ * @param {Array<*>} [argumentOros=[]] Positional arguments.
+ * @param {object} [optionsKli={}] Invocation policy.
+ * @param {boolean} [optionsKli.allowUnsafe=false] Explicit unsafe authority.
+ * @returns {Promise<object>} Legacy Movie Studio invocation result.
+ */
+export async function invokeMovieStudioApiMethod(apiKli, pathOhr, argumentOros = [], optionsKli = {}) {
+	if (!Array.isArray(argumentOros)) {
+		return movieFailure('MOVIE_API_ARGUMENTS_INVALID', 'Arguments must be an array.');
 	}
-	if (!Array.isArray(args)) return failure('MOVIE_API_ARGUMENTS_INVALID', 'Arguments must be an array.');
-	try {
-		const value = await resolved.method.apply(resolved.owner, args);
-		return { ok: true, path, value: serializable(value) };
-	} catch (error) {
-		return failure(error?.code || 'MOVIE_API_INVOCATION_FAILED', error?.message || String(error), path);
+	const receiptMalchus = await invokeAwtsmoosApiMethod(apiKli, pathOhr, argumentOros, {
+		allowUnsafe: Boolean(optionsKli.allowUnsafe),
+		codes: MOVIE_CODES
+	});
+	if (receiptMalchus.ok) {
+		return { ok: true, path: pathOhr, value: receiptMalchus.value };
 	}
+	const includePathOhr = receiptMalchus.error.code === 'MOVIE_API_INVOCATION_FAILED';
+	return movieFailure(
+		receiptMalchus.error.code,
+		receiptMalchus.error.message,
+		includePathOhr ? pathOhr : null
+	);
 }
 
-function walk(value, prefix, seen, methods, options) {
-	if (!value || (typeof value !== 'object' && typeof value !== 'function')) return;
-	if (seen.has(value)) return;
-	seen.add(value);
-	for (const [name, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(value))) {
-		if (name === 'constructor' || !('value' in descriptor)) continue;
-		const path = prefix ? `${prefix}.${name}` : name;
-		if (typeof descriptor.value === 'function') {
-			if (!options.includeUnsafe && path.startsWith('unsafe.')) continue;
-			methods.push(Object.freeze({
-				arity: descriptor.value.length,
-				async: descriptor.value.constructor?.name === 'AsyncFunction',
-				path,
-				unsafe: path.startsWith('unsafe.')
-			}));
-			continue;
-		}
-		walk(descriptor.value, path, seen, methods, options);
-	}
+/** Converts a generic descriptor into Movie Studio's deliberately narrow compatibility record. */
+function movieMethodRecord(descriptorKli) {
+	return Object.freeze({
+		arity: descriptorKli.arity,
+		async: descriptorKli.async,
+		path: descriptorKli.path,
+		unsafe: descriptorKli.unsafe
+	});
 }
 
-function resolveMethod(api, path) {
-	const parts = String(path || '').split('.').filter(Boolean);
-	let owner = api;
-	for (let index = 0; index < parts.length - 1; index += 1) {
-		const descriptor = Object.getOwnPropertyDescriptor(owner, parts[index]);
-		if (!descriptor || !('value' in descriptor)) return null;
-		owner = descriptor.value;
-		if (!owner) return null;
-	}
-	const descriptor = Object.getOwnPropertyDescriptor(owner, parts.at(-1));
-	return typeof descriptor?.value === 'function'
-		? { method: descriptor.value, owner }
-		: null;
-}
-
-function serializable(value) {
-	if (value === undefined) return null;
-	try {
-		return JSON.parse(JSON.stringify(value));
-	} catch {
-		return String(value);
-	}
-}
-
-function failure(code, message, path = null) {
-	return { ok: false, error: { code, message }, path };
+/** Creates the exact historic failure envelope used by Movie Studio method tooling. */
+function movieFailure(codeOhr, messageOhr, pathOhr = null) {
+	return {
+		error: { code: codeOhr, message: messageOhr },
+		ok: false,
+		path: pathOhr
+	};
 }

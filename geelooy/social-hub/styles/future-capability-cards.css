@@ -1,0 +1,88 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond icon, title, and deed; Awtsmoos.com lets one capability
+ * card reveal one road with one clear action, while restrained futuristic motion
+ * makes hierarchy felt without turning the Pulse into competing visual noise.
+ */
+.social-hub-document .futureCapabilityCard {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .7rem;
+	min-inline-size: 0;
+	padding: .72rem;
+	border: 1px solid rgb(126 235 255 / 14%);
+	border-radius: 1rem;
+	background: rgb(8 18 36 / 68%);
+	transition:
+		transform var(--keter-fast) var(--tiferes-spring),
+		border-color var(--keter-normal) var(--tiferes-ease),
+		background var(--keter-normal) var(--tiferes-ease);
+}
+.social-hub-document .futureCapabilityCard__icon {
+	display: grid;
+	inline-size: 2rem;
+	block-size: 2rem;
+	place-items: center;
+	border-radius: .7rem;
+	background: var(--chesed-cyan);
+}
+.social-hub-document .futureCapabilityCard__copy {
+	min-inline-size: 0;
+}
+.social-hub-document .futureCapabilityCard__tier {
+	font-size: .62rem;
+	font-weight: 800;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+	opacity: .52;
+}
+.social-hub-document .futureCapabilityCard__title,
+.social-hub-document .futureCapabilityCard__description {
+	margin: 0;
+}
+.social-hub-document .futureCapabilityCard__title {
+	font-size: .92rem;
+}
+.social-hub-document .futureCapabilityCard__description {
+	margin-block-start: .18rem;
+	font-size: .74rem;
+	line-height: 1.45;
+	opacity: .7;
+}
+.social-hub-document .futureCapabilityCard__open {
+	min-block-size: 44px;
+	padding-inline: .72rem;
+	border: 1px solid var(--yesod-edge);
+	border-radius: .72rem;
+	background: rgb(126 235 255 / 9%);
+	color: inherit;
+	font: inherit;
+	font-weight: 780;
+	cursor: pointer;
+	transition:
+		transform var(--keter-fast) var(--tiferes-spring),
+		background var(--keter-normal) var(--tiferes-ease),
+		border-color var(--keter-normal) var(--tiferes-ease);
+}
+.social-hub-document .futureCapabilityCard__open:focus-visible {
+	outline: 2px solid rgb(126 235 255 / 88%);
+	outline-offset: 3px;
+}
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .futureCapabilityCard:hover {
+		transform: translateY(-2px);
+		border-color: var(--yesod-edge-hot);
+		background: rgb(12 27 52 / 78%);
+	}
+	.social-hub-document .futureCapabilityCard__open:hover {
+		transform: translateY(-1px);
+		background: rgb(126 235 255 / 16%);
+		border-color: var(--yesod-edge-hot);
+	}
+}
+.social-hub-document .futureCapabilityCard__open:active {
+	transform: scale(.97);
+}

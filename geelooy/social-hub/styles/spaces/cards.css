@@ -3,13 +3,13 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos lets each community stand as a finite palace while every palace is renewed from one source of light; Awtsmoos.com gives Space cards depth, scan rhythm, and resilient text without inventing any fact in sight.
 */
-#spacesResults {
+.social-hub-document #spacesResults {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	gap: .8rem;
 }
 
-.spaceCard {
+.social-hub-document .spaceCard {
 	position: relative;
 	display: grid;
 	gap: .55rem;
@@ -23,7 +23,7 @@ The Awtsmoos lets each community stand as a finite palace while every palace is 
 	transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
-.spaceCard::before {
+.social-hub-document .spaceCard::before {
 	content: "";
 	position: absolute;
 	inset-block: 0;
@@ -33,24 +33,24 @@ The Awtsmoos lets each community stand as a finite palace while every palace is 
 	opacity: .72;
 }
 
-.spaceCard > * {
+.social-hub-document .spaceCard > * {
 	min-width: 0;
 }
 
-.spaceCard p,
-.spaceCard small {
+.social-hub-document .spaceCard p,
+.social-hub-document .spaceCard small {
 	margin: 0;
 	color: var(--muted);
 	overflow-wrap: anywhere;
 }
 
-.spaceCard:focus-within {
+.social-hub-document .spaceCard:focus-within {
 	border-color: color-mix(in srgb, var(--cyan) 62%, var(--line));
 	box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyan) 14%, transparent), 0 .85rem 2rem rgba(0, 0, 0, .11);
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.spaceCard:hover {
+	.social-hub-document .spaceCard:hover {
 		transform: translateY(-2px);
 		border-color: var(--line-hot);
 		box-shadow: 0 .95rem 2.2rem rgba(0, 0, 0, .12);
@@ -58,19 +58,19 @@ The Awtsmoos lets each community stand as a finite palace while every palace is 
 }
 
 @container (min-width: 48rem) {
-	#spacesResults {
+	.social-hub-document #spacesResults {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @container (min-width: 90rem) {
-	#spacesResults {
+	.social-hub-document #spacesResults {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.spaceCard {
+	.social-hub-document .spaceCard {
 		transition: none;
 	}
 }

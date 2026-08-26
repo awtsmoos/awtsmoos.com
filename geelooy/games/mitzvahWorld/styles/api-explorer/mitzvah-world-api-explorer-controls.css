@@ -1,0 +1,134 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives every advanced choice a responsive finite edge while Awtsmoos.com lets touch, mouse, keyboard, loading, and disability reveal the same command with dignity;
+fields remain calm, buttons glow only by intent, active motion stays brief, and no interaction state is left unstyled beneath the hidden observatory's canopy.
+*/
+
+.Awtsmoos-api-explorer__field {
+	display: grid;
+	gap: 5px;
+	min-width: 0;
+	color: rgba(196, 226, 207, .76);
+	font-size: 10px;
+	font-weight: 760;
+	letter-spacing: .035em;
+}
+
+.Awtsmoos-api-explorer :is(input, select, textarea, button) {
+	max-width: 100%;
+	box-sizing: border-box;
+	border: 1px solid rgba(181, 255, 211, .22);
+	border-radius: 12px;
+	background: linear-gradient(145deg, rgba(17, 45, 29, .74), rgba(7, 23, 14, .68));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .045);
+	color: rgba(244, 255, 248, .96);
+	font: inherit;
+	outline: none;
+	transition:
+		transform 110ms ease,
+		border-color 130ms ease,
+		background 130ms ease,
+		box-shadow 130ms ease,
+		opacity 130ms ease;
+}
+
+.Awtsmoos-api-explorer :is(input, select, textarea) {
+	width: 100%;
+	min-width: 0;
+	padding: 9px 10px;
+	font-size: 11px;
+	font-weight: 560;
+	line-height: 1.4;
+}
+
+.Awtsmoos-api-explorer textarea {
+	resize: vertical;
+	min-height: 72px;
+	max-height: min(180px, 24dvh);
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.Awtsmoos-api-explorer :is(button, select) {
+	min-height: 42px;
+	touch-action: manipulation;
+}
+
+.Awtsmoos-api-explorer button {
+	padding: 0 12px;
+	font-weight: 760;
+	cursor: pointer;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.Awtsmoos-api-explorer__back {
+	min-width: 58px;
+}
+
+.Awtsmoos-api-explorer__execute {
+	min-width: 96px;
+	border-color: rgba(137, 255, 180, .34) !important;
+	background: linear-gradient(145deg, rgba(35, 101, 59, .9), rgba(12, 48, 27, .84)) !important;
+	box-shadow: 0 8px 24px rgba(4, 22, 10, .18), inset 0 1px 0 rgba(255, 255, 255, .075) !important;
+}
+
+.Awtsmoos-api-explorer__command-row {
+	display: grid;
+	grid-template-columns: minmax(96px, .42fr) minmax(0, 1fr);
+	align-items: center;
+	gap: 9px;
+}
+
+.Awtsmoos-api-explorer__command-row output {
+	min-width: 0;
+	color: rgba(193, 225, 204, .76);
+	font-size: 10px;
+	overflow-wrap: anywhere;
+}
+
+.Awtsmoos-api-explorer :is(input, select, textarea):focus-visible,
+.Awtsmoos-api-explorer button:focus-visible {
+	border-color: rgba(190, 255, 214, .88);
+	box-shadow: 0 0 0 3px rgba(120, 255, 166, .15), inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+
+.Awtsmoos-api-explorer button:active:not(:disabled) {
+	transform: translateY(1px) scale(.975);
+	background: linear-gradient(145deg, rgba(29, 77, 47, .94), rgba(9, 31, 18, .9));
+}
+
+.Awtsmoos-api-explorer :is(input, select, textarea):active:not(:disabled) {
+	border-color: rgba(173, 255, 204, .52);
+}
+
+.Awtsmoos-api-explorer :is(button, input, select, textarea):disabled {
+	cursor: not-allowed;
+	opacity: .46;
+	filter: saturate(.55);
+}
+
+.Awtsmoos-api-explorer button[data-loading="true"] {
+	cursor: progress;
+	animation: AwtsmoosApiLoadingPulse 880ms ease-in-out infinite alternate;
+}
+
+@media (hover: hover) {
+	.Awtsmoos-api-explorer button:hover:not(:disabled) {
+		border-color: rgba(191, 255, 215, .62);
+		background: linear-gradient(145deg, rgba(38, 91, 57, .88), rgba(12, 39, 23, .82));
+		box-shadow: 0 8px 24px rgba(0, 0, 0, .16), inset 0 1px 0 rgba(255, 255, 255, .08);
+		transform: translateY(-1px);
+	}
+
+	.Awtsmoos-api-explorer :is(input, select, textarea):hover:not(:disabled) {
+		border-color: rgba(184, 255, 211, .42);
+		background: linear-gradient(145deg, rgba(21, 53, 34, .8), rgba(8, 27, 16, .74));
+	}
+}
+
+@keyframes AwtsmoosApiLoadingPulse {
+	from { opacity: .62; }
+	to { opacity: 1; }
+}

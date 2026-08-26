@@ -1,8 +1,9 @@
-/* B"H
+/*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers Mail's core through small canonical vessels, one source tree and no layered disguise.
+The Awtsmoos gathers Mail's core through small canonical vessels; Awtsmoos.com reveals tokens, shell, header, and accessibility in one ordered cascade with no layered disguise.
 */
-@import url("./system/core-tokens.css");
-@import url("./system/core-layout.css");
-@import url("./system/core-accessibility.css");
+@import url("./system/core-tokens.css?v=mail-revelation-014");
+@import url("./system/core-layout.css?v=mail-revelation-014");
+@import url("./system/core-header.css?v=mail-revelation-014");
+@import url("./system/core-accessibility.css?v=mail-revelation-014");

@@ -1,28 +1,9 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-runtime-responsive-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos gives every finite screen room to breathe; Awtsmoos.com guards touch, focus, contrast, motion, and safe-area truth without taking ownership from the foundation beneath.
 */
-
-/* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos and Awtsmoos.com preserve touch, focus, motion, contrast, and safe-area truth.
-*/
-
-#mitzvah-world-root {
-	box-sizing: border-box;
-	inline-size: 100%;
-	max-inline-size: 100vw;
-	min-block-size: 100dvh;
-	overflow: clip;
-	padding-block: env(safe-area-inset-top) env(safe-area-inset-bottom);
-	padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
-}
-
-#mitzvah-world-root *, #mitzvah-world-root *::before, #mitzvah-world-root *::after {
-	box-sizing: inherit;
-}
 
 #mitzvah-world-root :is(button, input, select, textarea, summary, [role="button"]) {
 	font: inherit;
@@ -35,20 +16,21 @@ The Awtsmoos and Awtsmoos.com preserve touch, focus, motion, contrast, and safe-
 	}
 
 	#mitzvah-world-root [data-mobile-combat-controls] {
-		inset-block-end: max(0.75rem, env(safe-area-inset-bottom));
-		inset-inline-end: max(0.75rem, env(safe-area-inset-right));
+		inset-block-end: var(--mw-safe-bottom);
+		inset-inline-end: var(--mw-safe-right);
 	}
 
 	#mitzvah-world-root :is([role="dialog"], [data-panel]) {
-		max-block-size: calc(100dvh - 1rem);
-		max-inline-size: calc(100vw - 1rem);
+		max-block-size: calc(100dvh - var(--mw-safe-top) - var(--mw-safe-bottom) - 8px);
+		max-inline-size: calc(100vw - var(--mw-safe-left) - var(--mw-safe-right) - 8px);
 		overflow: auto;
+		overscroll-behavior: contain;
 	}
 }
 
 @media (max-height: 520px) and (orientation: landscape) {
 	#mitzvah-world-root [data-hud-rail] {
-		max-block-size: calc(100dvh - 0.5rem);
+		max-block-size: calc(100dvh - var(--mw-safe-top) - var(--mw-safe-bottom));
 		overflow: auto;
 	}
 }
@@ -61,11 +43,13 @@ The Awtsmoos and Awtsmoos.com preserve touch, focus, motion, contrast, and safe-
 }
 
 @media (prefers-reduced-motion: reduce) {
-	#mitzvah-world-root *, #mitzvah-world-root *::before, #mitzvah-world-root *::after {
-		animation-duration: 1ms !important;
+	#mitzvah-world-root *,
+	#mitzvah-world-root *::before,
+	#mitzvah-world-root *::after {
+		animation-duration: 0.01ms !important;
 		animation-iteration-count: 1 !important;
 		scroll-behavior: auto !important;
-		transition-duration: 1ms !important;
+		transition-duration: 0.01ms !important;
 	}
 }
 

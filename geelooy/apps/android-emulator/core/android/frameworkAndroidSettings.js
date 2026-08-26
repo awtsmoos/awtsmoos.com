@@ -8,20 +8,22 @@ import { readGuestText } from "./guestText.js";
 
 const CONTENT_RESOLVER = "Landroid/content/ContentResolver;";
 const GET_FLOAT = "Landroid/provider/Settings$Global;->getFloat(Landroid/content/ContentResolver;Ljava/lang/String;F)F";
-const GET_URI = "Landroid/provider/Settings$Global;->getUriFor(Ljava/lang/String;)Landroid/net/Uri;";
+const GET_GLOBAL_URI = "Landroid/provider/Settings$Global;->getUriFor(Ljava/lang/String;)Landroid/net/Uri;";
 const GET_SYSTEM_INT = "Landroid/provider/Settings$System;->getInt(Landroid/content/ContentResolver;Ljava/lang/String;I)I";
+const GET_SYSTEM_URI = "Landroid/provider/Settings$System;->getUriFor(Ljava/lang/String;)Landroid/net/Uri;";
 const GLOBAL_URI = "content://settings/global";
+const SYSTEM_URI = "content://settings/system";
 const URI_VALUE_FIELD = "android:uri:value";
 const DECIMAL_FLOAT = /^[+-]?(?:(?:\d+(?:\.\d*)?)|(?:\.\d+))(?:[eE][+-]?\d+)?[fFdD]?$/;
 const DECIMAL_INTEGER = /^[+-]?\d+$/;
 const MIN_INT = -2147483648;
 const MAX_INT = 2147483647;
-const METHODS = new Set([GET_FLOAT, GET_URI, GET_SYSTEM_INT]);
+const METHODS = new Set([GET_FLOAT, GET_GLOBAL_URI, GET_SYSTEM_INT, GET_SYSTEM_URI]);
 
 /**
  * Reveals measured Android settings behavior without application prophecy.
- * The Awtsmoos renews key, resolver, value, and fallback in one living flow;
- * Awtsmoos.com shares raw setting truth while typed public contracts still glow.
+ * The Awtsmoos renews table, key, resolver, value, and Uri in one living flow;
+ * Awtsmoos.com keeps Global and System distinct while shared Android contracts glow.
  */
 export function createFrameworkAndroidSettingsMethods(runtime) {
 	return Object.freeze({
@@ -29,8 +31,11 @@ export function createFrameworkAndroidSettingsMethods(runtime) {
 			return METHODS.has(record.signature);
 		},
 		invoke(record, args) {
-			if (record.signature === GET_URI) {
-				return globalUri(runtime, readGuestText(runtime, args[0]));
+			if (record.signature === GET_GLOBAL_URI) {
+				return settingUri(runtime, GLOBAL_URI, readGuestText(runtime, args[0]));
+			}
+			if (record.signature === GET_SYSTEM_URI) {
+				return settingUri(runtime, SYSTEM_URI, readGuestText(runtime, args[0]));
 			}
 			if (record.signature === GET_FLOAT) {
 				validateResolver(runtime, args[0]);
@@ -47,14 +52,14 @@ export function createFrameworkAndroidSettingsMethods(runtime) {
 	});
 }
 
-/** Creates the stable observer URI already measured for Settings.Global. */
-function globalUri(runtime, encodedName) {
+/** Creates a stable observer Uri beneath one measured Android settings table. */
+function settingUri(runtime, baseUri, encodedName) {
 	const reference = runtime.heap.allocate(URI);
-	runtime.heap.setField(reference, URI_VALUE_FIELD, `${GLOBAL_URI}/${encodedName}`);
+	runtime.heap.setField(reference, URI_VALUE_FIELD, `${baseUri}/${encodedName}`);
 	return reference;
 }
 
-/** Preserves existing measured Global float parsing and runtime fallback behavior. */
+/** Preserves measured Global float parsing and runtime fallback behavior. */
 function storedFloat(value, fallback) {
 	if (value === undefined || value === null) return fallback;
 	const text = String(value).trim();

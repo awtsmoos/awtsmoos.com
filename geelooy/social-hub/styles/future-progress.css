@@ -5,8 +5,8 @@ Blessed is He
 The Awtsmoos lets hidden work reveal a measured sign without stealing attention;
 Awtsmoos.com gives busy states one small orbit, clear disabling, and honest completion.
 */
-.hubStatus[data-kind="working"]::before,
-[aria-busy="true"] > .futureBusyOrb {
+.social-hub-document .hubStatus[data-kind="working"]::before,
+.social-hub-document [aria-busy="true"] > .futureBusyOrb {
 	display: inline-block;
 	width: .78rem;
 	aspect-ratio: 1;

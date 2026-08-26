@@ -1,0 +1,62 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the traveler one crown and one hidden corridor beneath;
+ * Awtsmoos.com keeps bar and drawer bounded by safe areas, with no accidental layer underneath.
+ */
+
+.Awtsmoos-menu .Awtsmoos-menu-bar {
+	position: sticky;
+	top: 0;
+	z-index: var(--menu-z-bar);
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	min-height: var(--menu-bar-height);
+	padding: var(--menu-safe-top) var(--menu-safe-right) 10px var(--menu-safe-left);
+	border-bottom: 1px solid var(--menu-line);
+	background: rgba(3, 11, 10, 0.8);
+	backdrop-filter: blur(18px) saturate(1.15);
+}
+
+.Awtsmoos-menu .Awtsmoos-menu-bar h1 {
+	min-width: 0;
+	margin: 0;
+	overflow: hidden;
+	font: 600 clamp(20px, 4vw, 34px) Georgia, serif;
+	letter-spacing: 0.035em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.Awtsmoos-menu .Awtsmoos-menu-bar output {
+	min-width: 0;
+	margin-left: auto;
+	overflow: hidden;
+	color: var(--menu-gold-bright);
+	font-size: 13px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.Awtsmoos-menu .Awtsmoos-menu-drawer {
+	position: fixed;
+	top: var(--menu-bar-height);
+	bottom: 0;
+	left: 0;
+	z-index: var(--menu-z-drawer);
+	width: min(300px, calc(100vw - var(--menu-safe-right) - 24px));
+	padding: 18px 18px var(--menu-safe-bottom) var(--menu-safe-left);
+	overflow: auto;
+	overscroll-behavior: contain;
+	border-right: 1px solid var(--menu-line);
+	background: rgba(4, 13, 12, 0.97);
+	box-shadow: 18px 0 60px rgba(0, 0, 0, 0.45);
+	transform: translateX(-104%);
+	transition: transform 180ms ease;
+}
+
+.Awtsmoos-menu[data-drawer="true"] .Awtsmoos-menu-drawer {
+	transform: translateX(0);
+}

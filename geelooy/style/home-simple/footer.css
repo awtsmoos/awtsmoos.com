@@ -1,9 +1,9 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos leaves a calm human shoreline beneath Awtsmoos.com: a final breath, two clear paths, and no ornamental clutter.
+The Awtsmoos leaves a calm human shoreline beneath Awtsmoos.com: a final breath and intentional paths whose quiet size still answers a real thumb.
 */
-.site-footer {
+body[data-geelooy-route="home"] .site-footer {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -15,22 +15,44 @@ The Awtsmoos leaves a calm human shoreline beneath Awtsmoos.com: a final breath,
 	font-size: .66rem;
 }
 
-.site-footer p {
+body[data-geelooy-route="home"] .site-footer p {
 	margin: 0;
 }
 
-.site-footer div {
+body[data-geelooy-route="home"] .site-footer div {
 	display: flex;
-	gap: 1rem;
+	gap: .3rem;
 }
 
-.site-footer a {
+body[data-geelooy-route="home"] .site-footer a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	padding-inline: .45rem;
+	border-radius: .55rem;
 	color: #6f8099;
-	transition: color .18s ease;
+	transition: background .18s ease, color .18s ease, transform .18s ease;
 }
 
-.site-footer a:hover,
-.site-footer a:focus-visible {
+body[data-geelooy-route="home"] .site-footer a:hover {
+	background: rgba(112, 170, 220, .08);
 	color: #e4f1ff;
-	outline: none;
+}
+
+body[data-geelooy-route="home"] .site-footer a:focus-visible {
+	background: rgba(112, 170, 220, .08);
+	color: #e4f1ff;
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+body[data-geelooy-route="home"] .site-footer a:active {
+	background: rgba(112, 170, 220, .13);
+	transform: scale(.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .site-footer a {
+		transition: none;
+	}
 }

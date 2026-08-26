@@ -1,32 +1,31 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every width without asking one viewport to imitate another;
+Awtsmoos.com keeps mobile the foundation, then adds density only when the vessel can
+carry it. Safe areas remain respected and no control must flee beyond the glass.
+*/
 
-/**
- * The Awtsmoos renews wide and narrow product vessels without changing their
- * identity. Awtsmoos.com keeps discovery, hero hierarchy, and navigation usable
- * on smaller screens so the portfolio remains a doorway rather than a wall.
- */
-
-@media (max-width: 760px) {
-	.apps-hero,
-	.apps-section-heading,
-	.g-app-filter {
-		grid-template-columns: 1fr;
+@media (max-width: 479px) {
+	body[data-geelooy-route="apps"] .apps-filter-disclosure > summary {
+		align-items: flex-start;
+		flex-wrap: wrap;
 	}
 
-	.apps-hero-actions {
-		flex-direction: column;
-	}
-
-	.apps-hero-actions > a {
-		width: 100%;
-		text-align: center;
+	body[data-geelooy-route="apps"] .apps-result-pill {
+		max-inline-size: 100%;
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.g-app-card {
-		transition: none;
+@media (min-width: 720px) {
+	body[data-geelooy-route="apps"] .apps-filter-disclosure {
+		top: calc(env(safe-area-inset-top) + 64px);
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	body[data-geelooy-route="apps"] .apps-filter-disclosure {
+		background: var(--g-surface);
+		backdrop-filter: none;
 	}
 }

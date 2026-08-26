@@ -2,7 +2,7 @@
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos gathers every style river into one ordered sea;
- * Awtsmoos.com lets the final social garment own what users see.
+ * Awtsmoos.com lets the final localized garment own what readers see.
  */
 @import url("./ideal/reborn/tokens.css");
 @import url("./ideal/reborn/shell.css");
@@ -24,6 +24,7 @@
 @import url("./ideal/reborn/details.css");
 @import url("./ideal/reborn/actions.css");
 @import url("./ideal/reborn/button-hover.css");
+@import url("./ideal/reborn/command-palette.css?v=reader-command-001");
 @import url("./ideal/reborn/mobile-sidebar-reset.css");
 @import url("./ideal/reborn/live-mobile-corrections.css");
 @import url("./ideal/reborn/sidebar-viewport-seal.css");

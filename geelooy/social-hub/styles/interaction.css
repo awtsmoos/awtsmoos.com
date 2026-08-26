@@ -1,41 +1,47 @@
-/* B"H */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos joins comment, reference, privacy, media, and action without confusing their vessels;
+ * Awtsmoos.com keeps every interactive grid inside Social Hub so focused deeds remain clear, bounded, and conflict-free.
+ */
 /* Boruch Hashem */
 /* Blessed is He */
 
-.targetGrid,
-.twoColumnFields,
-.privacyGrid,
-.categoryGrid {
+.social-hub-document .targetGrid,
+.social-hub-document .twoColumnFields,
+.social-hub-document .privacyGrid,
+.social-hub-document .categoryGrid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
 	gap: 0.75rem;
 }
 
-.targetGrid {
+.social-hub-document .targetGrid {
 	margin-bottom: 1rem;
 }
 
-.commentComposer,
-.promotionPanel,
-.referenceComposer {
+.social-hub-document .commentComposer,
+.social-hub-document .promotionPanel,
+.social-hub-document .referenceComposer {
 	margin: 1rem 0;
 	padding: clamp(1rem, 2.5vw, 1.5rem);
 }
 
-.commentComposer > label:first-child textarea {
+.social-hub-document .commentComposer > label:first-child textarea {
 	min-height: 12rem;
 	font-size: 1rem;
 	line-height: 1.6;
 }
 
-.mediaActions,
-.actionRow,
-.filterRow {
+.social-hub-document .mediaActions,
+.social-hub-document .actionRow,
+.social-hub-document .filterRow {
 	flex-wrap: wrap;
 	margin-top: 1rem;
 }
 
-.fileButton {
+.social-hub-document .fileButton {
 	position: relative;
 	display: inline-flex;
 	min-height: 2.8rem;
@@ -49,7 +55,7 @@
 	cursor: pointer;
 }
 
-.fileButton input {
+.social-hub-document .fileButton input {
 	position: absolute;
 	width: 1px;
 	height: 1px;
@@ -57,23 +63,23 @@
 	clip: rect(0 0 0 0);
 }
 
-.referenceComposer {
+.social-hub-document .referenceComposer {
 	border: 1px solid var(--line);
 	border-radius: var(--radius);
 	background: rgb(7 12 30 / 62%);
 }
 
-.referenceComposer summary {
+.social-hub-document .referenceComposer summary {
 	color: var(--violet);
 	font-weight: 780;
 }
 
-.referenceComposer[open] summary {
+.social-hub-document .referenceComposer[open] summary {
 	margin-bottom: 1rem;
 }
 
-#targetCoordinate,
-.canonicalCoordinate {
+.social-hub-document #targetCoordinate,
+.social-hub-document .canonicalCoordinate {
 	display: inline-block;
 	padding: 0.45rem 0.65rem;
 	border: 1px solid rgb(158 247 255 / 18%);
@@ -83,7 +89,7 @@
 	overflow-wrap: anywhere;
 }
 
-.promotionPanel pre {
+.social-hub-document .promotionPanel pre {
 	max-height: 28rem;
 	overflow: auto;
 	padding: 0.8rem;

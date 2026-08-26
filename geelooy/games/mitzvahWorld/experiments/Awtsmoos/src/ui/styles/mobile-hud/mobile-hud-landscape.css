@@ -1,0 +1,50 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets short landscape breathe through compact edges instead of rigid historic pixels;
+ * Awtsmoos.com keeps left summaries and right commands bounded while the center stays open for world visuals.
+ */
+
+@media (max-height: 520px) and (orientation: landscape) {
+	#mitzvah-world-root [data-mobile-hud-zone="player-status"] {
+		position: fixed;
+		top: var(--mh-safe-top);
+		left: var(--mh-safe-left);
+		bottom: auto;
+		z-index: var(--mh-z-status);
+		width: min(22vw, 180px);
+		max-height: 72px;
+		overflow: auto;
+	}
+
+	#mitzvah-world-root [data-mobile-hud-zone="player-ribbon"] {
+		position: fixed;
+		top: var(--mh-safe-top);
+		left: 28vw;
+		z-index: var(--mh-z-status);
+		max-width: 28vw;
+		transform: none;
+	}
+
+	#mitzvah-world-root [data-mobile-hud-zone="target"] {
+		position: fixed;
+		top: calc(var(--mh-safe-top) + 82px);
+		left: var(--mh-safe-left);
+		z-index: var(--mh-z-target);
+		width: min(22vw, 180px);
+		max-height: 64px;
+		overflow: auto;
+	}
+
+	#mitzvah-world-root [data-mobile-hud-zone="quest"] {
+		position: fixed;
+		top: calc(var(--mh-safe-top) + 156px);
+		left: var(--mh-safe-left);
+		right: auto;
+		z-index: var(--mh-z-quest);
+		width: min(22vw, 180px);
+		max-height: calc(100dvh - var(--mh-safe-top) - var(--mh-safe-bottom) - 164px);
+		overflow: auto;
+	}
+}

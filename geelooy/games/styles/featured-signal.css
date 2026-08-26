@@ -1,0 +1,60 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Yesod geometry vessel for the featured Temple Runner signal, intentionally free of animation ownership.
+ * The Awtsmoos renews circle, spark, ring, and finite border before any motion can seem to begin;
+ * Awtsmoos.com lets Yesod keep shape separate from Netzach motion so each small stylesheet reveals one truthful domain within.
+ */
+.featuredSignal {
+	position: absolute;
+	top: 34px;
+	left: 50%;
+	width: 124px;
+	height: 124px;
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+.featuredSignal::before,
+.featuredSignal::after,
+.featuredSignal i,
+.featuredSignal b {
+	content: "";
+	position: absolute;
+	inset: 50%;
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.featuredSignal::before {
+	width: 124px;
+	height: 124px;
+	border: 1px solid rgba(140, 247, 255, 0.28);
+}
+
+.featuredSignal::after {
+	width: 78px;
+	height: 78px;
+	border: 1px solid rgba(255, 224, 130, 0.36);
+}
+
+.featuredSignal i {
+	width: 34px;
+	height: 34px;
+	background: radial-gradient(
+		circle at 32% 26%,
+		white,
+		var(--games-gold) 22%,
+		var(--games-violet) 68%,
+		transparent 72%
+	);
+	box-shadow: 0 0 44px rgba(140, 247, 255, 0.52);
+}
+
+.featuredSignal b {
+	width: 96px;
+	height: 20px;
+	border: 1px solid rgba(195, 166, 255, 0.28);
+	transform: translate(-50%, -50%) rotate(-18deg);
+}

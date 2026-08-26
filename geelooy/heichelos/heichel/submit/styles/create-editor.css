@@ -1,0 +1,23 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos lets rich creation grow without widening the page; Awtsmoos.com keeps editor media, sections, and advanced depth inside one responsive column. */
+.editor-wrapper { min-inline-size:0; padding:.6rem; }
+.content-editor { min-inline-size:0; min-block-size:16rem; max-inline-size:100%; padding:1rem; overflow-wrap:anywhere; border:1px solid var(--create-line); border-radius:.9rem; outline:none; background:#fff; line-height:1.6; }
+.content-editor:empty::before { color:#94a3b8; content:attr(data-placeholder); }
+.content-editor :where(img,audio,video,iframe) { display:block; max-inline-size:100%; margin:.65rem 0; border-radius:.75rem; }
+.editor-toolbar,
+.editor-toolbar-container,
+.toolbar-slot { display:flex; flex-wrap:wrap; gap:.4rem; min-inline-size:0; max-inline-size:100%; margin:.4rem 0; }
+.simple-advanced-drawer,
+.collapsible-section { min-inline-size:0; max-inline-size:100%; overflow:clip; }
+.simple-advanced-drawer summary,
+.collapsible-header { min-block-size:44px; max-inline-size:100%; cursor:pointer; font-weight:750; }
+.sections-area,
+.sub-sections-area { display:grid; gap:.7rem; min-inline-size:0; margin:.8rem 0; }
+.section,
+.sub-section { display:grid; gap:.55rem; min-inline-size:0; max-inline-size:100%; padding:.85rem; border:1px solid var(--create-line); border-radius:.9rem; background:#f8fafc; }
+.section :where(h3,p),
+.sub-section :where(h4,p) { margin:0; overflow-wrap:anywhere; }
+.subsection-manager { display:grid; gap:.5rem; min-inline-size:0; }
+@media (max-width:45rem) { .content-editor { min-block-size:12rem; } }

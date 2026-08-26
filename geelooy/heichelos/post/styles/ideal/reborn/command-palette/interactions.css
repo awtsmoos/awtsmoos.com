@@ -1,0 +1,76 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets every touch answer with measured light;
+ * Awtsmoos.com owns only distinct state selectors here, never a base selector twice.
+ */
+.post-reader-localized-context .command-palette-overlay.visible {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+	transition-delay: 0s;
+}
+
+.post-reader-localized-context .command-palette-overlay.visible .command-palette {
+	transform: none;
+}
+
+.post-reader-localized-context .command-palette-item[aria-selected="true"] {
+	border-color: rgb(57 215 238 / 42%);
+	background: rgb(57 215 238 / 11%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.post-reader-localized-context .command-palette-item:hover {
+		transform: translateY(-1px);
+		border-color: rgb(246 201 108 / 34%);
+		background: rgb(246 201 108 / 8%);
+	}
+}
+
+.post-reader-localized-context .command-palette-item:active {
+	transform: scale(.985);
+}
+
+.post-reader-localized-context :where(.command-palette-input, .command-palette-item):focus-visible {
+	outline: 2px solid var(--awt-cyan);
+	outline-offset: -2px;
+}
+
+.post-reader-localized-context .command-palette-item:disabled {
+	cursor: not-allowed;
+	opacity: .45;
+	transform: none;
+}
+
+.post-reader-localized-context .awtsmoos-command-search-hit {
+	animation: awtsmoos-command-search-reveal 1.8s ease-out both;
+}
+
+@keyframes awtsmoos-command-search-reveal {
+	0%, 45% {
+		box-shadow: 0 0 0 .3rem rgb(57 215 238 / 34%);
+	}
+	100% {
+		box-shadow: none;
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.post-reader-localized-context .command-palette-overlay:not(.awt-force-transparency) {
+		background: rgb(0 4 12 / 96%);
+		backdrop-filter: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context .command-palette-overlay:not(.awt-force-motion),
+	.post-reader-localized-context .command-palette:not(.awt-force-motion),
+	.post-reader-localized-context .command-palette-item:not(.awt-force-motion) {
+		transition: none;
+	}
+
+	.post-reader-localized-context .awtsmoos-command-search-hit:not(.awt-force-motion) {
+		animation: none;
+	}
+}

@@ -1,74 +1,71 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/*
-	The page foundation carries canvas, type, controls, and the first layer of light.
-	The Awtsmoos renews every boundary while Awtsmoos.com reveals the vessel.
-*/
-:root {
+/**
+ * The Awtsmoos lets the flagship own one finite battlefield without styling the world around it;
+ * Awtsmoos.com seals canvas, typography, controls, and overflow inside #gameShell alone.
+ */
+#gameShell {
+	position: fixed;
+	inset: 0;
+	isolation: isolate;
+	inline-size: 100%;
+	block-size: 100%;
+	margin: 0;
+	overflow: hidden;
 	color-scheme: dark;
 	font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-	background: #05030d;
-	color: #fff7d7;
+	color: var(--merkava-ink);
+	background: radial-gradient(circle at 50% 20%, #271551, var(--merkava-bg) 65%);
 }
 
-* {
+#gameShell,
+#gameShell * {
 	box-sizing: border-box;
 }
 
-html,
-body,
-#gameShell {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	overflow: hidden;
-}
-
-body {
-	background: radial-gradient(circle at 50% 20%, #271551, #05030d 65%);
-}
-
-button,
-input,
-select {
+#gameShell :is(button, input, select) {
 	font: inherit;
 }
 
-button {
-	border: 1px solid rgba(255, 226, 132, 0.42);
+#gameShell button {
+	min-block-size: var(--merkava-control);
+	border: 1px solid var(--merkava-border-bright);
 	border-radius: 0.8rem;
-	padding: 0.75rem 1rem;
-	background: rgba(32, 18, 65, 0.92);
-	color: #fff7d7;
+	padding: 0.7rem 1rem;
+	background: rgba(32, 18, 65, 0.94);
+	color: var(--merkava-ink);
 	font-weight: 800;
 	letter-spacing: 0.04em;
 	cursor: pointer;
 }
 
-button:disabled {
+#gameShell button:disabled {
 	opacity: 0.42;
 	cursor: not-allowed;
 }
 
-button.primary {
+#gameShell button.primary {
+	border-color: #fff2b6;
 	background: linear-gradient(135deg, #f2ad2c, #ffdf77);
 	color: #211006;
-	border-color: #fff2b6;
 }
 
-button.danger {
+#gameShell button.danger {
 	border-color: rgba(255, 80, 100, 0.65);
 	color: #ffb2bd;
 }
 
-#gameCanvas {
+#gameShell > #gameCanvas {
+	position: absolute;
+	inset: 0;
 	display: block;
-	width: 100%;
-	height: 100%;
+	inline-size: 100%;
+	block-size: 100%;
+	z-index: var(--merkava-layer-canvas);
 	touch-action: none;
 }
 
-.hidden {
+#gameShell .hidden {
 	display: none !important;
 }

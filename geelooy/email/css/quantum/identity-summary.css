@@ -1,51 +1,51 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos lets Mail echo the current alias without multiplying dropdowns.
- * One canonical profile doorway remains interactive while every Awtsmoos.com
- * Mail chamber keeps identity visible, luminous, and actionable.
- */
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets identity shine without becoming clutter; Awtsmoos.com gives the current alias one bounded, touchable doorway whose motion is gentle, whose focus is visible, and whose light never leaks into another page.
+*/
 .geelooy-mail-document [data-mail-identity-summary] {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
-	gap: 0.7rem;
-	padding: 0.72rem;
-	border: 1px solid rgba(96, 228, 255, 0.28);
-	border-radius: 0.9rem 0.35rem 0.9rem 0.35rem;
-	background: linear-gradient(145deg, rgba(10, 29, 51, 0.92), rgba(31, 15, 61, 0.92));
-	box-shadow: inset 0 1px rgba(255, 255, 255, 0.08), 0 12px 28px rgba(0, 0, 0, 0.2);
+	gap: .7rem;
+	inline-size: 100%;
+	min-inline-size: 0;
+	padding: .72rem;
+	border: 1px solid rgba(96, 228, 255, .28);
+	border-radius: .9rem .35rem;
+	background: linear-gradient(145deg, rgba(10, 29, 51, .92), rgba(31, 15, 61, .92));
+	box-shadow: inset 0 1px rgba(255, 255, 255, .08), 0 12px 28px rgba(0, 0, 0, .2);
 }
 
-.mail-identity-summary-symbol {
+.geelooy-mail-document .mail-identity-summary-symbol {
 	display: grid;
-	width: 2.65rem;
-	height: 2.65rem;
 	place-items: center;
-	border: 1px solid rgba(255, 255, 255, 0.16);
-	border-radius: 0.9rem 0.35rem 0.9rem 0.35rem;
-	background: linear-gradient(145deg, rgba(60, 236, 255, 0.22), rgba(139, 92, 255, 0.3), rgba(255, 72, 203, 0.2));
-	box-shadow: 0 0 24px rgba(60, 236, 255, 0.16);
+	inline-size: 2.65rem;
+	block-size: 2.65rem;
+	border: 1px solid rgba(255, 255, 255, .16);
+	border-radius: .9rem .35rem;
+	background: linear-gradient(145deg, rgba(60, 236, 255, .22), rgba(139, 92, 255, .3), rgba(255, 72, 203, .2));
+	box-shadow: 0 0 24px rgba(60, 236, 255, .16);
 	font-size: 1.2rem;
 }
 
-.mail-identity-summary-copy {
+.geelooy-mail-document .mail-identity-summary-copy {
 	display: grid;
-	min-width: 0;
-	gap: 0.15rem;
+	min-inline-size: 0;
+	gap: .15rem;
 }
 
-.mail-identity-summary-copy small {
+.geelooy-mail-document .mail-identity-summary-copy small {
 	color: var(--mail-dim, #9fb0cc);
-	font-size: 0.76rem;
+	font-size: .76rem;
 	font-weight: 760;
-	letter-spacing: 0.04em;
+	letter-spacing: .04em;
 	text-transform: uppercase;
 }
 
-.mail-identity-summary-value {
+.geelooy-mail-document .mail-identity-summary-value {
 	overflow: hidden;
+	min-inline-size: 0;
 	color: var(--mail-fg, #eef7ff);
 	font-size: 1rem;
 	font-weight: 900;
@@ -53,32 +53,53 @@
 	white-space: nowrap;
 }
 
-.mail-identity-summary-action {
+.geelooy-mail-document .mail-identity-summary-action {
 	display: inline-grid;
-	min-height: 2.75rem;
 	place-items: center;
-	padding-inline: 0.78rem;
-	border: 1px solid rgba(96, 228, 255, 0.32);
-	border-radius: 0.72rem;
-	background: rgba(96, 228, 255, 0.09);
+	min-block-size: 48px;
+	padding-inline: .9rem;
+	border: 1px solid rgba(96, 228, 255, .32);
+	border-radius: .72rem;
+	background: rgba(96, 228, 255, .09);
 	color: #c8f8ff;
-	font-size: 0.82rem;
+	font: inherit;
+	font-size: .82rem;
 	font-weight: 850;
 	text-decoration: none;
+	touch-action: manipulation;
+	transition:
+		transform 140ms cubic-bezier(.2, .8, .2, 1),
+		border-color 150ms ease,
+		background-color 150ms ease,
+		box-shadow 170ms ease;
 }
 
-.mail-identity-summary-action:focus-visible {
-	box-shadow: 0 0 0 3px rgba(96, 228, 255, 0.26);
-	outline: 2px solid transparent;
+.geelooy-mail-document .mail-identity-summary-action:focus-visible {
+	outline: 2px solid #73efff;
+	outline-offset: 3px;
+	box-shadow: 0 0 0 4px rgba(96, 228, 255, .2);
 }
 
-.mail-identity-summary-compact {
+.geelooy-mail-document .mail-identity-summary-action:active {
+	transform: translateY(1px) scale(.98);
+}
+
+.geelooy-mail-document .mail-identity-summary-compact {
 	grid-template-columns: auto minmax(0, 1fr);
 }
 
-.mail-identity-summary-compact .mail-identity-summary-action {
+.geelooy-mail-document .mail-identity-summary-compact .mail-identity-summary-action {
 	grid-column: 1 / -1;
-	width: 100%;
+	inline-size: 100%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.geelooy-mail-document .mail-identity-summary-action:hover {
+		border-color: rgba(115, 239, 255, .58);
+		background: rgba(96, 228, 255, .15);
+		box-shadow: 0 10px 26px rgba(0, 0, 0, .18), 0 0 24px rgba(96, 228, 255, .1);
+		transform: translateY(-1px);
+	}
 }
 
 @media (max-width: 430px) {
@@ -86,8 +107,14 @@
 		grid-template-columns: auto minmax(0, 1fr);
 	}
 
-	.mail-identity-summary-action {
+	.geelooy-mail-document .mail-identity-summary-action {
 		grid-column: 1 / -1;
-		width: 100%;
+		inline-size: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-mail-document .mail-identity-summary-action {
+		transition-duration: 1ms;
 	}
 }

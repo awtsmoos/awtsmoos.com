@@ -1,0 +1,126 @@
+/* B"H — page manifestation remains contained inside the trusted browser host. */
+.awtsmoos-browser-host .awtsmoos-browser-viewport {
+	position: relative;
+	display: grid;
+	min-inline-size: 0;
+	min-block-size: 0;
+	overflow: hidden;
+	background: #f4f5f7;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-page-host,
+.awtsmoos-browser-host .awtsmoos-browser-developer-stage {
+	position: relative;
+	inline-size: 100%;
+	block-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 0;
+	overflow: hidden;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-page-host {
+	display: grid;
+	place-items: stretch;
+	color: #202531;
+	background:
+		radial-gradient(circle at 50% 30%, rgba(126, 147, 255, 0.09), transparent 38%),
+		#f7f8fa;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-embedded-frame {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 0;
+	max-inline-size: 100%;
+	max-block-size: 100%;
+	border: 0;
+	background: #fff;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-empty-state {
+	align-self: center;
+	justify-self: center;
+	display: grid;
+	justify-items: center;
+	gap: 9px;
+	inline-size: min(90%, 440px);
+	padding: 28px 22px;
+	text-align: center;
+	animation: awtsmoos-browser-empty-reveal 360ms var(--awtsmoos-browser-ease) both;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-empty-mark {
+	display: grid;
+	place-items: center;
+	inline-size: 58px;
+	block-size: 58px;
+	border: 1px solid rgba(61, 76, 151, 0.14);
+	border-radius: 18px;
+	color: #35406f;
+	background: rgba(255, 255, 255, 0.78);
+	box-shadow: 0 14px 40px rgba(38, 48, 92, 0.11);
+	font-size: 26px;
+	font-weight: 800;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-empty-title {
+	margin: 6px 0 0;
+	color: #171c27;
+	font-size: clamp(20px, 6vw, 30px);
+	line-height: 1.1;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-empty-subtitle {
+	margin: 0;
+	max-inline-size: 34ch;
+	color: #687083;
+	font-size: 13px;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-page-host.is-loading .awtsmoos-browser-empty-state {
+	opacity: 0.54;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-page-host.is-error::after {
+	content: attr(data-error-message);
+	position: absolute;
+	inset-inline: 14px;
+	inset-block-end: 14px;
+	padding: 10px 12px;
+	border: 1px solid rgba(173, 58, 58, 0.18);
+	border-radius: 12px;
+	color: #8b2d2d;
+	background: rgba(255, 242, 242, 0.96);
+	box-shadow: 0 12px 30px rgba(74, 26, 26, 0.12);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-developer-stage {
+	background: #020305;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-gl,
+.awtsmoos-browser-host .awtsmoos-browser-text {
+	position: absolute;
+	inset: 0;
+	inline-size: 100%;
+	block-size: 100%;
+	max-inline-size: 100%;
+	max-block-size: 100%;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-text {
+	pointer-events: none;
+}
+
+@keyframes awtsmoos-browser-empty-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(0.985);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}

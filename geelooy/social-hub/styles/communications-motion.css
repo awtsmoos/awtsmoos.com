@@ -4,75 +4,75 @@ Blessed is He
 The Awtsmoos moves without needing motion, yet Awtsmoos.com may let finite transitions whisper where attention has gone; every flourish yields when the user asks the vessel to be still.
 */
 
-.hubMessageCard,
-.hubRequestCard,
-.hubMessagesMetric,
-.hubConversationSurface {
+.social-hub-document .hubMessageCard,
+.social-hub-document .hubRequestCard,
+.social-hub-document .hubMessagesMetric,
+.social-hub-document .hubConversationSurface {
 	animation: hub-comms-reveal 220ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
-.hubMessageCard:nth-child(2),
-.hubRequestCard:nth-child(2) {
+.social-hub-document .hubMessageCard:nth-child(2),
+.social-hub-document .hubRequestCard:nth-child(2) {
 	animation-delay: 35ms;
 }
 
-.hubMessageCard:nth-child(3),
-.hubRequestCard:nth-child(3) {
+.social-hub-document .hubMessageCard:nth-child(3),
+.social-hub-document .hubRequestCard:nth-child(3) {
 	animation-delay: 70ms;
 }
 
-.hubMessageOpen:focus-visible,
-.hubRequestActions button:focus-visible,
-.hubPrivateRequestComposer :is(input, select, button):focus-visible,
-.hubConversationBack:focus-visible,
-.hubConversationControls button:focus-visible {
+.social-hub-document .hubMessageOpen:focus-visible,
+.social-hub-document .hubRequestActions button:focus-visible,
+.social-hub-document .hubPrivateRequestComposer :is(input, select, button):focus-visible,
+.social-hub-document .hubConversationBack:focus-visible,
+.social-hub-document .hubConversationControls button:focus-visible {
 	outline: 3px solid color-mix(in srgb, var(--accent, var(--line-hot)) 62%, transparent);
 	outline-offset: 3px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.hubMessageCard:hover,
-	.hubRequestCard:hover,
-	.hubMessagesMetric:hover {
+	.social-hub-document .hubMessageCard:hover,
+.social-hub-document .hubRequestCard:hover,
+.social-hub-document .hubMessagesMetric:hover {
 		transform: translateY(-2px);
 		border-color: var(--line-hot);
 		box-shadow: 0 .9rem 2.1rem rgba(0, 0, 0, .12);
 	}
 
-	.hubRequestActions button:hover,
-	.hubPrivateRequestComposer button:hover,
-	.hubConversationBack:hover,
-	.hubConversationControls button:hover {
+	.social-hub-document .hubRequestActions button:hover,
+.social-hub-document .hubPrivateRequestComposer button:hover,
+.social-hub-document .hubConversationBack:hover,
+.social-hub-document .hubConversationControls button:hover {
 		transform: translateY(-1px);
 		border-color: var(--accent, var(--line-hot));
 	}
 }
 
 @media (max-width: 42rem) {
-	.hubMessagesRegion {
+	.social-hub-document .hubMessagesRegion {
 		padding: .72rem;
 		border-radius: 1rem;
 	}
 
-	.hubMessagesMetric {
+	.social-hub-document .hubMessagesMetric {
 		min-height: 4.7rem;
 	}
 
-	.hubConversationSurface {
+	.social-hub-document .hubConversationSurface {
 		border-inline: 0;
 		border-bottom: 0;
 		border-radius: 1rem 1rem 0 0;
 		min-height: calc(100dvh - 10.5rem);
 	}
 
-	.hubConversationHeader {
+	.social-hub-document .hubConversationHeader {
 		padding-inline: .72rem;
 	}
 
-	.hubMessageOpen,
-	.hubRequestActions button,
-	.hubConversationBack,
-	.hubConversationControls button {
+	.social-hub-document .hubMessageOpen,
+.social-hub-document .hubRequestActions button,
+.social-hub-document .hubConversationBack,
+.social-hub-document .hubConversationControls button {
 		min-height: 3rem;
 	}
 }
@@ -85,10 +85,10 @@ The Awtsmoos moves without needing motion, yet Awtsmoos.com may let finite trans
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.hubMessageCard,
-	.hubRequestCard,
-	.hubMessagesMetric,
-	.hubConversationSurface {
+	.social-hub-document .hubMessageCard,
+.social-hub-document .hubRequestCard,
+.social-hub-document .hubMessagesMetric,
+.social-hub-document .hubConversationSurface {
 		animation: none;
 		transition: none;
 	}

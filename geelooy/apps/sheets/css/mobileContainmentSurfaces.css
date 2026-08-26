@@ -1,0 +1,52 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets every temporary Sheet surface remain bounded when advanced power rises over the working light;
+Awtsmoos.com keeps containment beneath one app root while JavaScript owns exact placement, ending specificity wars in sight.
+*/
+.awtsmoos-sheets-app .sheet-dialog {
+	max-width: calc(100dvw - 16px);
+	max-height: calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+	box-sizing: border-box;
+	overflow: auto;
+}
+
+.awtsmoos-sheets-app .command-dialog {
+	overflow: hidden;
+}
+
+.awtsmoos-sheets-app .menu-popover {
+	max-width: calc(100dvw - 16px);
+	max-height: min(70dvh, 520px);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.awtsmoos-sheets-app .notes-panel {
+	box-sizing: border-box;
+	max-width: calc(100% - 16px);
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+
+.awtsmoos-sheets-app .toast-region,
+.awtsmoos-sheets-app .toast {
+	max-width: calc(100dvw - 20px);
+	box-sizing: border-box;
+}
+
+.awtsmoos-sheets-app .sheet-dialog input,
+.awtsmoos-sheets-app .sheet-dialog select,
+.awtsmoos-sheets-app .sheet-dialog textarea {
+	max-width: 100%;
+	min-width: 0;
+}
+
+@media (max-width: 760px) {
+	.awtsmoos-sheets-app .notes-panel {
+		left: max(8px, env(safe-area-inset-left));
+		right: max(8px, env(safe-area-inset-right));
+		bottom: max(8px, env(safe-area-inset-bottom));
+	}
+}

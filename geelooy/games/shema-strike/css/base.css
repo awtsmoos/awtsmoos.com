@@ -1,74 +1,11 @@
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
-/* The dark field waits; Awtsmoos.com gives it color anew while accessibility keeps revelation available through more than one sensory path. */
-:root {
-	color-scheme: dark;
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	background: #05050d;
-	--gold: #ffd36a;
-	--cyan: #76f7ff;
-	--violet: #9c7dff;
-	--ink: #060612;
-	--panel: rgba(12, 13, 30, 0.92);
-}
-* { box-sizing: border-box; }
-html, body {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	overflow: hidden;
-	background: radial-gradient(circle at 50% 30%, #22205a 0%, #090917 42%, #030308 100%);
-}
-body {
-	display: grid;
-	place-items: center;
-	touch-action: none;
-	user-select: none;
-}
-button, select, input { font: inherit; }
-button {
-	font-weight: 800;
-	letter-spacing: 0.05em;
-	color: #f8f8ff;
-	background: linear-gradient(180deg, #2a2c55, #13152d);
-	border: 1px solid rgba(255, 255, 255, 0.24);
-	border-radius: 12px;
-	padding: 0.85rem 1.1rem;
-	cursor: pointer;
-	transition: transform 120ms ease, filter 120ms ease, border-color 120ms ease;
-}
-button:hover, button:focus-visible, select:focus-visible, input:focus-visible {
-	transform: translateY(-2px);
-	filter: brightness(1.18);
-	border-color: var(--cyan);
-	outline: 3px solid var(--cyan);
-	outline-offset: 2px;
-}
-button:disabled { opacity: 0.42; cursor: not-allowed; transform: none; }
-button.primary {
-	color: #090913;
-	background: linear-gradient(135deg, var(--gold), #fff4b0 48%, #7ff7ff);
-	border-color: white;
-	box-shadow: 0 0 24px rgba(118, 247, 255, 0.24);
-}
-#game-shell {
-	position: relative;
-	width: min(100vw, calc(100vh * 16 / 9));
-	height: min(100vh, calc(100vw * 9 / 16));
-	overflow: hidden;
-	background: #05050e;
-	border: 1px solid rgba(255, 255, 255, 0.18);
-	box-shadow: 0 28px 90px rgba(0, 0, 0, 0.72), 0 0 70px rgba(94, 70, 255, 0.2);
-}
-#game-canvas { display: block; width: 100%; height: 100%; background: #070713; }
-.hidden { display: none !important; }
-.high-contrast { --gold: #fff06a; --cyan: #7fffff; --panel: #000000; }
-.high-contrast button, .high-contrast .hud-block, .high-contrast .hud-center { border-width: 3px; }
-.reduced-motion *, .reduced-motion *::before, .reduced-motion *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-.reduced-flash #game-canvas { filter: saturate(0.9) contrast(1.05); }
-[dir="rtl"] .hud-riches { justify-self: start; text-align: left; }
-@media (max-aspect-ratio: 4 / 5) { #game-shell { width: 100vw; height: 100vh; } }
-@media (prefers-reduced-motion: reduce) {
-	*, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-}
+/**
+ * The Awtsmoos gathers Shema Strike's foundational visual vessels without crowding them together;
+ * Awtsmoos.com lets foundation, controls, surface, and accessibility each reveal one clean law forever.
+ */
+@import url("./base/foundation.css");
+@import url("./base/controls.css");
+@import url("./base/surface.css");
+@import url("./base/accessibility.css");

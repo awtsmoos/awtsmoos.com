@@ -1,101 +1,98 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-:focus-visible {
-	outline: 0.18rem solid var(--cyan);
-	outline-offset: 0.18rem;
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every soul a path through the interface without demanding one mode of sight or motion;
+ * Awtsmoos.com keeps focus, contrast, touch, and reduced-motion laws inside the Hub's own boundary,
+ * so accessibility becomes exact kindness rather than a global cascade decree.
+ */
+.social-hub-document :focus-visible {
+	outline: .18rem solid var(--cyan);
+	outline-offset: .18rem;
 }
 
-button:disabled,
-input:disabled,
-select:disabled,
-textarea:disabled {
+.social-hub-document :where(button, input, select, textarea):disabled {
 	cursor: not-allowed;
-	opacity: 0.52;
+	opacity: .52;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
+	.social-hub-document *,
+.social-hub-document *::before,
+.social-hub-document *::after {
 		scroll-behavior: auto !important;
 		animation-duration: 1ms !important;
 		animation-iteration-count: 1 !important;
 		transition-duration: 1ms !important;
 	}
 
-	.cosmos span,
-	.pulseOrb,
-	.pulseOrb span,
-	.riftCard::before,
-	.pulseGrid article::before,
-	.quickActionGrid > *::before {
+	.social-hub-document :where(
+		.cosmos span,
+		.pulseOrb,
+		.pulseOrb span,
+		.riftCard::before,
+		.pulseGrid article::before,
+		.quickActionGrid > *::before
+	) {
 		animation: none !important;
 	}
 
-	.riftCard:hover,
-	.quickActionGrid > *:hover {
+	.social-hub-document :where(.riftCard:hover, .quickActionGrid > *:hover) {
 		transform: none;
 	}
 }
 
 @media (prefers-contrast: more) {
-	:root {
+	.social-hub-document {
 		--muted: #d1dcf5;
 		--line: rgb(220 235 255 / 58%);
 	}
 
-	.riftCard,
-	.panelIntro,
-	.heroRift,
-	.activityCard,
-	.commentMediaCard {
+	.social-hub-document :where(.riftCard, .panelIntro, .heroRift, .activityCard, .commentMediaCard) {
 		background: #080c20;
 	}
 }
 
 @media (forced-colors: active) {
-	:root {
+	.social-hub-document {
 		forced-color-adjust: auto;
 	}
 
-	.cosmos,
-	body::before,
-	body::after,
-	.riftCard::before,
-	.pulseGrid article::before,
-	.quickActionGrid > *::before {
+	.social-hub-document::before,
+.social-hub-document::after,
+.social-hub-document :where(
+		.cosmos,
+		.riftCard::before,
+		.pulseGrid article::before,
+		.quickActionGrid > *::before
+	) {
 		display: none;
 	}
 
-	.riftCard,
-	.panelIntro,
-	.heroRift,
-	.desktopRail,
-	.mobileDock,
-	.contextRibbon,
-	.hubHeader,
-	button,
-	input,
-	select,
-	textarea,
-	a {
+	.social-hub-document :where(
+		.riftCard,
+		.panelIntro,
+		.heroRift,
+		.desktopRail,
+		.mobileDock,
+		.contextRibbon,
+		.hubHeader,
+		button,
+		input,
+		select,
+		textarea,
+		a
+	) {
 		border: 1px solid CanvasText;
 	}
 
-	.routeNavigation button[data-active="true"] {
-		outline: 0.2rem solid Highlight;
+	.social-hub-document :where(.routeNavigation button[data-active="true"]) {
+		outline: .2rem solid Highlight;
 	}
 }
 
 @media (pointer: coarse) {
-	button,
-	a,
-	input,
-	select,
-	summary,
-	.fileButton {
-		min-height: 2.9rem;
+	.social-hub-document :where(button, a, input, select, summary, .fileButton) {
+		min-block-size: 2.9rem;
 	}
 }

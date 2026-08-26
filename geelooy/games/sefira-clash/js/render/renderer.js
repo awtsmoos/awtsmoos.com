@@ -35,11 +35,19 @@ import {
 import { drawUi } from './ui.js';
 import { drawHeldWeapons, drawWeapons } from './weapons.js';
 
-export function draw(ctx, state, width, height) {
+/**
+ * Paints one complete frame after renewing camera truth for every camera-dependent layer.
+ * @param {CanvasRenderingContext2D} ctx Visible render context.
+ * @param {object} state Current simulation truth.
+ * @param {number} width Finite viewport width.
+ * @param {number} height Finite viewport height.
+ * @param {object} perf Runtime performance profile.
+ */
+export function draw(ctx, state, width, height, perf = {}) {
 	ctx.clearRect(0, 0, width, height);
-	drawBackground(ctx, state.map, width, height);
-	drawExpeditionBackdrop(ctx, state, width, height);
 	updateCamera(state, width, height);
+	drawBackground(ctx, state.map, state.camera, width, height, perf);
+	drawExpeditionBackdrop(ctx, state, width, height);
 	const zoom = state.camera.zoom || 1;
 	const view = makeRenderView(state.camera, width, height, 300, zoom);
 	ctx.save();
@@ -64,10 +72,7 @@ function drawWorldLayers(ctx, state, view) {
 	drawObjective(ctx, state.objective);
 	drawPowerups(ctx, visibleRenderPoints(state.powerups || [], view));
 	drawWeapons(ctx, visibleRenderPoints(state.weapons || [], view));
-	drawHeldWeapons(
-		ctx,
-		state.fighters.filter(fighter => !fighter.hidden)
-	);
+	drawHeldWeapons(ctx, state.fighters.filter(fighter => !fighter.hidden));
 	drawFighters(ctx, visibleRenderPoints(state.fighters, view));
 	drawParticles(ctx, visibleRenderPoints(state.particles, view));
 }

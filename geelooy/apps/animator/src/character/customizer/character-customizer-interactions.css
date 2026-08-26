@@ -1,0 +1,103 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews every invitation to hover, focus, press, unfold, or rest;
+ * Awtsmoos.com lets Character Lab answer touch with finite motion, clear focus, and no ornamental animation left running without purpose.
+ */
+.character-lab-toggle,
+.character-customizer button,
+.character-customizer input,
+.character-customizer select,
+.character-customizer textarea,
+.character-advanced summary {
+	transition:
+		background var(--aw-fast),
+		border-color var(--aw-fast),
+		color var(--aw-fast),
+		transform var(--aw-fast),
+		box-shadow var(--aw-fast),
+		opacity var(--aw-fast);
+}
+
+.character-lab-toggle:hover,
+.character-customizer button:hover,
+.character-customizer input:hover,
+.character-customizer select:hover,
+.character-customizer textarea:hover,
+.character-advanced summary:hover {
+	border-color: var(--aw-line-strong);
+	color: var(--aw-text);
+	background: var(--aw-control-hover);
+}
+
+.character-lab-toggle:active,
+.character-customizer button:active,
+.character-advanced summary:active {
+	background: var(--aw-control-active);
+	transform: translateY(1px) scale(.985);
+}
+
+.character-lab-toggle:focus-visible,
+.character-customizer button:focus-visible,
+.character-customizer input:focus-visible,
+.character-customizer select:focus-visible,
+.character-customizer textarea:focus-visible,
+.character-advanced summary:focus-visible {
+	outline: 0;
+	border-color: var(--aw-line-focus);
+	box-shadow: var(--aw-focus);
+}
+
+.character-customizer button:disabled,
+.character-customizer input:disabled,
+.character-customizer select:disabled,
+.character-customizer textarea:disabled {
+	cursor: not-allowed;
+	opacity: .42;
+	transform: none;
+}
+
+.character-advanced summary i {
+	transition: transform var(--aw-normal);
+}
+
+.character-advanced[open] summary i {
+	transform: rotate(90deg);
+}
+
+.character-customizer[data-open='true'] .character-lab-card {
+	animation: character-lab-reveal var(--aw-normal) ease-out;
+}
+
+@keyframes character-lab-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(.99);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.character-lab-toggle,
+	.character-customizer button,
+	.character-customizer input,
+	.character-customizer select,
+	.character-customizer textarea,
+	.character-advanced summary,
+	.character-advanced summary i {
+		transition: none;
+	}
+
+	.character-customizer[data-open='true'] .character-lab-card {
+		animation: none;
+	}
+
+	.character-lab-toggle:active,
+	.character-customizer button:active,
+	.character-advanced summary:active {
+		transform: none;
+	}
+}

@@ -2,36 +2,51 @@
 //Boruch Hashem
 //Blessed is He
 
+import { ApiEnvelope } from './ApiEnvelope.js';
+import { DomemTransportFoundation } from './ApiTransportFoundation.js';
+import { SocialApiError } from './SocialApiError.js';
+
 /**
  * @class ApiTransport
+ * @extends DomemTransportFoundation
  * @description
- * JSON and native multipart requests cross one same-origin boundary with readable
- * failures. The Awtsmoos gives every request its inward destination while
- * Awtsmoos.com keeps encoding and response evidence separate from feature methods.
+ * The Awtsmoos lets legacy success and modern data envelopes reveal one truth through a structured gate;
+ * Awtsmoos.com keeps public request semantics stable while errors, timeouts, and metadata gain an intelligible state.
  */
-
-export class ApiTransport {
-	constructor(fetcher = globalThis.fetch.bind(globalThis)) {
-		this.fetcher = fetcher;
+export class ApiTransport extends DomemTransportFoundation {
+	/**
+	 * Sends one API request and returns exactly the normalized domain data expected by existing callers.
+	 * @param {string} url - Same-origin API path.
+	 * @param {object} options - Method, JSON body, FormData, keepalive, timeout, headers, or AbortSignal.
+	 * @returns {Promise<unknown>} Legacy `success` or modern `data` payload.
+	 */
+	async request(url, options = {}) {
+		const malchusResponse = await this.fetchResponse(url, options);
+		const keterPayload = await this.readJsonPayload(malchusResponse);
+		const binahEnvelope = ApiEnvelope.normalize(keterPayload, malchusResponse.status);
+		if (binahEnvelope.error) {
+			throw binahEnvelope.error;
+		}
+		if (!malchusResponse.ok) {
+			throw ApiEnvelope.error({ error: {} }, malchusResponse.status);
+		}
+		return binahEnvelope.data;
 	}
 
-	async request(url, options = {}) {
-		const response = await this.fetcher(url, {
-			method: options.method || 'GET',
-			headers: options.body ? { 'content-type': 'application/json' } : undefined,
-			body: options.formData
-				|| (options.body ? JSON.stringify(options.body) : undefined),
-			keepalive: options.keepalive || false
-		});
-		let result;
+	/**
+	 * Reads JSON without allowing malformed server output to collapse into an unstructured browser exception.
+	 * @param {Response} malchusResponse - Native response produced by the transport foundation.
+	 * @returns {Promise<object>} Parsed response envelope.
+	 */
+	async readJsonPayload(malchusResponse) {
 		try {
-			result = await response.json();
-		} catch {
-			throw new Error(`Unreadable server response (${response.status}).`);
+			return await malchusResponse.json();
+		} catch (binahFailure) {
+			throw new SocialApiError(`Unreadable server response (${malchusResponse.status}).`, {
+				code: 'UNREADABLE_RESPONSE',
+				status: malchusResponse.status,
+				cause: binahFailure
+			});
 		}
-		if (!response.ok || result.error) {
-			throw new Error(result.error?.message || `Request failed (${response.status}).`);
-		}
-		return result.success;
 	}
 }

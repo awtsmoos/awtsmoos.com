@@ -1,0 +1,35 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets information contract without disappearing from relationship; Awtsmoos.com gives each HUD vessel a tiny recovery star instead of leaving an invisible rectangle across the meadow.
+*/
+
+#mitzvah-world-root [data-awtsmoos-hud-id] {
+	position: fixed;
+}
+
+#mitzvah-world-root [data-awtsmoos-minimized="true"] {
+	inline-size: 32px;
+	block-size: 32px;
+	min-inline-size: 32px;
+	min-block-size: 32px;
+	padding: 0;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-xs);
+	background: var(--mw-surface-deep);
+	overflow: visible;
+}
+
+#mitzvah-world-root [data-awtsmoos-minimized="true"] > :not(.Awtsmoos-hud-minimize) {
+	display: none;
+}
+
+#mitzvah-world-root .Awtsmoos-hud-minimize:hover:not(:disabled) {
+	border-color: var(--mw-accent-warm);
+	background: rgba(62, 49, 24, 0.96);
+}
+
+#mitzvah-world-root .Awtsmoos-hud-minimize:focus-visible {
+	box-shadow: 0 0 0 3px rgba(247, 215, 122, 0.22);
+}

@@ -4,34 +4,39 @@
 
 /**
  * @file JumpButton.js
- * @description Turns touch or Space into one clean jump while keeping focus, press state, and teardown reliable.
- * The Awtsmoos lifts the traveler without stealing a writer's space or leaving a ghostly key behind;
- * Awtsmoos.com lets touch and keyboard share one simple vessel, then return every listener to quiet mind.
+ * @description Owns touch jump intent and delegates global Space lifecycle to a focused keyboard binding module.
+ * The Awtsmoos lifts the traveler through one rising edge while Awtsmoos.com keeps touch, keyboard, presentation, and cleanup in their proper vessels of light;
+ * every real DOM Jump host receives one measured shore, while portable test vessels remain valid without pretending browser-only dataset APIs are always in sight.
  */
 
-import { isEditableTarget } from './InputTargetPolicy.js';
 import {
 	createJumpButtonElement,
 	createJumpHostElement,
 	setJumpButtonPressed
 } from './JumpButtonElements.js';
+import { JumpButtonKeyboard } from './JumpButtonKeyboard.js';
 
-/** Owns jump intent while presentation state stays semantic and DOM-portable. */
+/** Owns touch jump intent while keyboard and layout concerns remain delegated. */
 export class JumpButton {
 	constructor(host, environment = globalThis) {
 		this.environment = environment;
 		this.ownsHost = !host;
 		this.host = host || createJumpHostElement(environment.document);
+		markJumpHost(this.host);
 		this.held = false;
 		this.queued = false;
 		this.button = createJumpButtonElement(environment.document);
 		this.onPointerDown = event => this.pointerDown(event);
 		this.onPointerRelease = event => this.pointerRelease(event);
-		this.onKeyDown = event => this.keyDown(event);
-		this.onKeyUp = event => this.keyUp(event);
 		this.onBlur = () => this.release();
 		this.host.append(this.button);
-		this.bind();
+		this.bindPointer();
+		this.keyboard = new JumpButtonKeyboard(
+			this.host,
+			this.environment,
+			() => this.queueFromPress(),
+			() => this.release()
+		);
 	}
 
 	/** Consumes exactly one queued jump edge. */
@@ -41,14 +46,12 @@ export class JumpButton {
 		return queued;
 	}
 
-	/** Binds pointer and global keyboard lifecycle listeners. */
-	bind() {
+	/** Binds pointer and blur lifecycle listeners owned by this controller. */
+	bindPointer() {
 		this.button.addEventListener('pointerdown', this.onPointerDown);
 		this.button.addEventListener('pointerup', this.onPointerRelease);
 		this.button.addEventListener('pointercancel', this.onPointerRelease);
 		this.button.addEventListener('lostpointercapture', this.onPointerRelease);
-		this.environment.addEventListener?.('keydown', this.onKeyDown);
-		this.environment.addEventListener?.('keyup', this.onKeyUp);
 		this.environment.addEventListener?.('blur', this.onBlur);
 	}
 
@@ -65,22 +68,6 @@ export class JumpButton {
 			this.button.releasePointerCapture?.(event.pointerId);
 		}
 		this.release();
-	}
-
-	/** Lets Space jump only when the player is not typing into editable UI. */
-	keyDown(event) {
-		if (event.code !== 'Space' || isEditableTarget(event.target)) {
-			return;
-		}
-		event.preventDefault();
-		this.queueFromPress();
-	}
-
-	/** Releases held Space while preserving any already queued jump edge. */
-	keyUp(event) {
-		if (event.code === 'Space') {
-			this.release();
-		}
 	}
 
 	/** Queues only the rising edge so a held button cannot spam jumps. */
@@ -104,14 +91,19 @@ export class JumpButton {
 		this.button.removeEventListener('pointerup', this.onPointerRelease);
 		this.button.removeEventListener('pointercancel', this.onPointerRelease);
 		this.button.removeEventListener('lostpointercapture', this.onPointerRelease);
-		this.environment.removeEventListener?.('keydown', this.onKeyDown);
-		this.environment.removeEventListener?.('keyup', this.onKeyUp);
 		this.environment.removeEventListener?.('blur', this.onBlur);
+		this.keyboard.destroy();
 		this.release();
 		this.queued = false;
 		this.button.remove();
 		if (this.ownsHost) {
 			this.host.remove();
 		}
+	}
+}
+
+function markJumpHost(host) {
+	if (host?.dataset) {
+		host.dataset.directHudZone = 'jump';
 	}
 }

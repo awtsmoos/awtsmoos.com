@@ -1,0 +1,70 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives conversation and optional knowledge temporary chambers without permanent overlay clutter; Awtsmoos.com lets every modal share one bounded grammar while retaining its own voice.
+*/
+
+#mitzvah-world-root :is(.Awtsmoos-npc-dialogue, .Awtsmoos-meadow-menu) {
+	position: fixed;
+	inset: 0;
+	z-index: var(--mw-z-dialog);
+	display: none;
+	place-items: center;
+	padding: var(--mw-safe-top) var(--mw-safe-right) var(--mw-safe-bottom) var(--mw-safe-left);
+	background: rgba(1, 7, 7, 0.68);
+	pointer-events: none;
+}
+
+#mitzvah-world-root :is(.Awtsmoos-npc-dialogue, .Awtsmoos-meadow-menu)[data-open="true"] {
+	display: grid;
+	pointer-events: auto;
+}
+
+#mitzvah-world-root :is(.Awtsmoos-npc-dialogue, .Awtsmoos-meadow-menu) section {
+	inline-size: min(520px, calc(100dvw - var(--mw-safe-left) - var(--mw-safe-right) - 12px));
+	max-block-size: calc(100dvh - var(--mw-safe-top) - var(--mw-safe-bottom) - 12px);
+	overflow: auto;
+	padding: 16px;
+	border: 1px solid var(--mw-border-strong);
+	border-radius: var(--mw-radius-md);
+	background: var(--mw-surface-deep);
+	box-shadow: var(--mw-shadow-panel);
+	pointer-events: auto;
+	animation: mw-dialog-arrive var(--mw-motion-normal) var(--mw-ease-out) both;
+}
+
+#mitzvah-world-root :is(.Awtsmoos-npc-dialogue, .Awtsmoos-meadow-menu) header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding-block-end: 10px;
+	border-block-end: 1px solid var(--mw-border-soft);
+}
+
+#mitzvah-world-root :is(.Awtsmoos-npc-dialogue, .Awtsmoos-meadow-menu) button {
+	min-block-size: 42px;
+	padding: 9px 12px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-xs);
+	background: var(--mw-surface-control);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	#mitzvah-world-root :is(.Awtsmoos-npc-dialogue, .Awtsmoos-meadow-menu) button:hover:not(:disabled) {
+		border-color: var(--mw-border-strong);
+		background: var(--mw-surface-control-hover);
+	}
+}
+
+@keyframes mw-dialog-arrive {
+	from {
+		opacity: 0;
+		transform: translateY(12px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}

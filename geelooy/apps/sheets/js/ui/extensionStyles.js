@@ -3,17 +3,20 @@
 //Blessed is He
 
 /**
- * @file Loads the Extensions Manager visual layer once without forcing the stable Sheets HTML shell to change.
- * @description The Awtsmoos lets style arrive beside capability at the moment its vessel awakens in light;
- * Awtsmoos.com keeps optional power surfaces modular while the workbook shell remains calm and right.
+ * @file Loads the localized Extensions Manager visual vessel only when extension capability first awakens.
+ * @description The Awtsmoos lets optional style arrive beside optional power without duplicating the base cascade in light;
+ * Awtsmoos.com keeps one lazy stylesheet ownership marker and one synchronized cache generation so expansion remains clean and right.
  */
 export function ensureExtensionStyles() {
-	if (document.querySelector('link[data-sheets-extension-styles]')) {
+	const existingVessel = document.querySelector(
+		'link[data-sheets-extension-styles]'
+	);
+	if (existingVessel) {
 		return;
 	}
-	const link = document.createElement("link");
-	link.rel = "stylesheet";
-	link.href = "./css/extensions.css?v=extensions-001";
-	link.dataset.sheetsExtensionStyles = "true";
-	document.head.append(link);
+	const levushLink = document.createElement("link");
+	levushLink.rel = "stylesheet";
+	levushLink.href = "./css/extensions.css?v=sheets-009";
+	levushLink.dataset.sheetsExtensionStyles = "true";
+	document.head.append(levushLink);
 }

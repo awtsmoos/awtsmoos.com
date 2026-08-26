@@ -1,0 +1,72 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps every mobile doorway whole while visual copy folds into quiet light;
+ * Awtsmoos.com lets the shared header own every child, preserve every action, and keep each thumb target bright.
+ */
+@media (max-width: 30rem) {
+	.geelooy-app-shell .g-unusual-header {
+		gap: .25rem;
+	}
+
+	.geelooy-app-shell .g-header-actions {
+		flex: 0 0 auto;
+		inline-size: max-content;
+		max-inline-size: 100%;
+		min-inline-size: 0;
+		gap: .125rem;
+	}
+
+	.geelooy-app-shell .g-header-action {
+		flex: 0 0 44px;
+		inline-size: 44px;
+		min-inline-size: 44px;
+		max-inline-size: 44px;
+		min-block-size: 44px;
+	}
+
+	.geelooy-app-shell .universal-chat-header-launcher {
+		overflow: hidden;
+		padding: 0;
+		font-size: 0;
+		line-height: 0;
+	}
+
+	.geelooy-app-shell .universal-chat-header-launcher::before {
+		content: "●";
+		font-size: .82rem;
+		line-height: 1;
+	}
+
+	.geelooy-app-shell .g-header-profile,
+	.geelooy-app-shell .profile-trigger {
+		flex: 0 0 44px;
+		inline-size: 44px;
+		min-inline-size: 44px;
+		max-inline-size: 44px;
+		block-size: 44px;
+		min-block-size: 44px;
+	}
+
+	.geelooy-app-shell .profile-trigger {
+		gap: 0;
+		padding: 0;
+	}
+
+	.geelooy-app-shell .profile-trigger-copy {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.geelooy-app-shell .profile-trigger-chevron {
+		display: none;
+	}
+}

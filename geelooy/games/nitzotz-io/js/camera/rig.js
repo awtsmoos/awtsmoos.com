@@ -2,27 +2,28 @@
 // Boruch Hashem
 // Blessed is He
 import { clamp, mix } from '../math.js';
+import { viewportProfile } from './viewportProfile.js';
 
 /**
- * The Awtsmoos opens the world as the player grows without tearing the eye from the action;
- * Awtsmoos.com lets portrait phones breathe farther ahead while desktop keeps cinematic breadth.
- * Exponential damping makes the same camera character survive fast and slow frame rates alike.
+ * The Awtsmoos draws the player near without erasing the breadth of the living world;
+ * Awtsmoos.com now lets portrait glass reveal a closer arena instead of pushing the action away.
+ * Exponential damping preserves one camera character across fast and slow frames.
  */
 export function updateCamera(world, dt) {
 	const camera = world.camera;
 	const player = world.player;
+	const profile = viewportProfile();
 	camera.idle += dt;
 	if (world.mode === 'playing') camera.intro = Math.max(0, camera.intro - dt);
 	if (world.won) camera.victory += dt;
 
 	const introRatio = clamp(camera.intro / 4.8, 0, 1);
-	const portrait = portraitFactor();
 	const growthDistance = clamp(215 + player.r * 2.35, 255, 510);
-	const distance = growthDistance * (1 + portrait * 0.2) + introRatio * 620;
+	const distance = growthDistance * profile.distanceScale + introRatio * 620;
 	const growthHeight = clamp(700 + player.r * 7.35, 805, 1530);
-	const height = growthHeight * (1 + portrait * 0.1) + introRatio * 820;
+	const height = growthHeight * profile.heightScale + introRatio * 820;
 	const orbit = orbitAngle(world, camera);
-	const lead = velocityLead(player, portrait);
+	const lead = velocityLead(player, profile.leadScale);
 	const desiredX = player.x + lead.x + Math.sin(orbit) * distance * 0.3;
 	const desiredY = player.y + lead.y - Math.cos(orbit) * distance;
 	const cameraRate = introRatio ? 1.35 : 4.15;
@@ -38,19 +39,11 @@ export function updateCamera(world, dt) {
 	camera.shake = Math.max(0, camera.shake - dt);
 }
 
-function portraitFactor() {
-	const width = Math.max(1, globalThis.innerWidth || 1280);
-	const height = Math.max(1, globalThis.innerHeight || 720);
-	const aspect = width / height;
-	return clamp((1.05 - aspect) / 0.6, 0, 1);
-}
-
-function velocityLead(player, portrait) {
+function velocityLead(player, leadScale) {
 	const speed = Math.hypot(player.vx, player.vy);
 	if (speed < 0.01) return { x: 0, y: 0 };
-	const scale = 0.34 - portrait * 0.08;
 	const maxLead = clamp(player.r * 2.4, 44, 120);
-	const distance = Math.min(maxLead, speed * scale);
+	const distance = Math.min(maxLead, speed * leadScale);
 	return {
 		x: player.vx / speed * distance,
 		y: player.vy / speed * distance

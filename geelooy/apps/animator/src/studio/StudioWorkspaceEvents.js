@@ -4,21 +4,26 @@
 
 import { StudioAuthoringCommands as Authoring } from './authoring/StudioAuthoringCommands.js';
 import { StudioProceduralCommands as Procedural } from './procedural/StudioProceduralCommands.js';
+import { StudioVectorPathStyleService as VectorPath } from './vector/StudioVectorPathStyleService.js';
 import { StudioWorkspaceCommands as Workspace } from './StudioWorkspaceCommands.js';
 
 /**
  * @module StudioWorkspaceEvents
  * @description
- * The Awtsmoos renews each gesture before button, field, seed, keyframe, or touch can become project intention;
- * Awtsmoos.com keeps DOM events as a thin shell around explicit commands so manual and generated art share one truthful dimension.
+ * The Awtsmoos renews each gesture before tool, path, seed, keyframe, or touch becomes project intention;
+ * Awtsmoos.com keeps DOM events thin so every visible control points into one truthful authored document.
  */
 export class StudioWorkspaceEvents {
-	/** Creates the HtmlSpec event map for one professional Studio workspace controller. */
+	/** Creates the declarative event map for one professional Studio workspace. */
 	static create(controller) {
 		const store = controller.store;
 		const openLeftPanel = (panel) => {
 			Workspace.setPanel(store, panel);
 			controller.openMobilePanel('editor');
+		};
+		const createOnce = (callback) => {
+			controller.penTool?.deactivate();
+			return callback();
 		};
 		return {
 			switchLeftPanel: (event) => Workspace.setPanel(store, event.currentTarget.dataset.panel),
@@ -52,12 +57,22 @@ export class StudioWorkspaceEvents {
 			randomizeProceduralSeed: () => Procedural.randomizeSeed(store),
 			resetProcedural: () => Procedural.reset(store),
 			freezeProcedural: () => Procedural.freeze(store),
+			togglePenTool: () => controller.penTool?.toggle(),
+			finishPenPath: () => controller.penTool?.finish(),
+			cancelPenPath: () => controller.penTool?.cancel(),
+			updateVectorPathStroke: (event) => VectorPath.stroke(store, event.target.value),
+			updateVectorPathWidth: (event) => VectorPath.width(store, event.target.value),
+			updateVectorPathCap: (event) => VectorPath.cap(store, event.target.value),
+			updateVectorPathJoin: (event) => VectorPath.join(store, event.target.value),
+			toggleVectorPathClosed: (event) => VectorPath.closed(store, event.target.checked),
+			toggleVectorPathFill: (event) => VectorPath.fillEnabled(store, event.target.checked),
+			updateVectorPathFill: (event) => VectorPath.fill(store, event.target.value),
 			toggleVisible: () => Workspace.toggle(store, 'visible'),
 			toggleLocked: () => Workspace.toggle(store, 'locked'),
-			addRectangle: () => Authoring.addRectangle(store),
-			addEllipse: () => Authoring.addEllipse(store),
-			addText: () => Authoring.addText(store),
-			addNature: (event) => Authoring.addNature(store, event.currentTarget.dataset.natureKind),
+			addRectangle: () => createOnce(() => Authoring.addRectangle(store)),
+			addEllipse: () => createOnce(() => Authoring.addEllipse(store)),
+			addText: () => createOnce(() => Authoring.addText(store)),
+			addNature: (event) => createOnce(() => Authoring.addNature(store, event.currentTarget.dataset.natureKind)),
 			addStudioKeyframe: () => Authoring.addKeyframe(store),
 			duplicateSelected: () => Authoring.duplicate(store),
 			removeSelected: () => Authoring.remove(store),

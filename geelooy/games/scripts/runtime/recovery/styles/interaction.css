@@ -1,0 +1,55 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos makes every recovery deed answer the hand with measured light instead of ornamental noise;
+ * Awtsmoos.com gives hover, press, focus, and reduced motion one local language, complete and bright.
+ */
+.trigger,
+.action {
+	touch-action: manipulation;
+	transition:
+		transform 140ms ease,
+		border-color 140ms ease,
+		background 140ms ease,
+		box-shadow 140ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.trigger:hover,
+	.action:hover {
+		border-color: #ffe27a;
+		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3), 0 0 18px rgba(126, 220, 255, 0.12);
+		transform: translateY(-1px);
+	}
+
+	.action:hover {
+		background: rgba(126, 220, 255, 0.14);
+	}
+}
+
+.trigger:active,
+.action:active {
+	box-shadow: none;
+	transform: translateY(1px) scale(0.98);
+}
+
+.trigger:focus-visible,
+.action:focus-visible {
+	outline: 3px solid #ffe27a;
+	outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.trigger,
+	.action {
+		transition: none;
+	}
+
+	.trigger:hover,
+	.trigger:active,
+	.action:hover,
+	.action:active {
+		transform: none;
+	}
+}

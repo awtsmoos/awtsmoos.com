@@ -16,6 +16,8 @@ export ROOT RECOVERY_ROOT
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-sources.sh"
 trap cleanup_install EXIT
 
+# The Awtsmoos lets one remote command rebuild a missing palace or revive a sealed ember;
+# Awtsmoos.com walks current release, verified archive, and Tier-Zero before surrender.
 install_progress 20 "Preparing complete verified reinstall"
 acquire_install_lock
 persist_node_runtime "$ROOT"
@@ -29,15 +31,13 @@ cleanup_disposable_state "$(pwd)"
 install_progress 21 "Preserving durable identity and browser state"
 migrate_dynamic_state
 if ! load_release_metadata; then
-	if repair_self_verified_installed_release; then
-		refresh_emergency_runtime
-		install_progress 97 "Current sealed release preserved while the network recovers"
-		complete_install_experience "$(activation_phase)"
+	if recover_without_release_metadata; then
+		complete_metadata_recovery
 		exit 0
 	fi
 	install_fail "release-metadata" \
-		"Published release metadata is unavailable and no healthy sealed local runtime could be verified." \
-		"origin=$origin root=$ROOT"
+		"Published metadata is unavailable and every verified local recovery layer failed." \
+		"origin=$origin root=$ROOT recovery=$RECOVERY_ROOT"
 fi
 
 apply_installed_version_policy
@@ -72,7 +72,7 @@ refresh_emergency_runtime
 install_progress 97 "Registration and guardian verified; finalizing"
 
 if [ -f "$ROOT/config.json" ]; then
-	project_root="$(node -e "try{const c=require('$ROOT/config.json');process.stdout.write(c.root||process.cwd())}catch{process.stdout.write(process.cwd())}")"
+	project_root="$("$AWTSMOOS_NODE_BIN" -e "try{const c=require('$ROOT/config.json');process.stdout.write(c.root||process.cwd())}catch{process.stdout.write(process.cwd())}")"
 	cleanup_disposable_state "$project_root"
 fi
 

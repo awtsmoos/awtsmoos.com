@@ -1,0 +1,75 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every player a different vessel of sight, motion, hand, and focus;
+ * Awtsmoos.com makes those differences first-class, so the interface can reveal rather than obscure us.
+ */
+.overlay :is(button, input, select, summary):focus-visible,
+#pauseBtn:focus-visible,
+#hudToggleBtn:focus-visible,
+#pulse:focus-visible {
+	outline: 3px solid #9ee8ff;
+	outline-offset: 3px;
+}
+
+.overlay button,
+.overlay summary,
+#pauseBtn,
+#hudToggleBtn,
+#pulse {
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}
+
+.overlay button:not(:disabled):hover,
+#pauseBtn:hover,
+#hudToggleBtn:hover {
+	filter: brightness(1.1);
+}
+
+.overlay button:disabled {
+	cursor: not-allowed;
+}
+
+.hero-actions .primary {
+	font-weight: 950;
+	letter-spacing: 0.015em;
+}
+
+#overlayText {
+	color: #e6efff;
+}
+
+.game-options > summary {
+	border-radius: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.overlay *,
+	.hud *,
+	#stick *,
+	#pulse * {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+@media (prefers-contrast: more) {
+	.quick-start,
+	.quick-start__item,
+	.overlay-panel,
+	.stat,
+	.mini-button {
+		border-color: currentColor;
+	}
+
+	#overlayText,
+	.quick-start__item span,
+	.quick-start__item p,
+	.quick-start__touch {
+		color: white;
+	}
+}

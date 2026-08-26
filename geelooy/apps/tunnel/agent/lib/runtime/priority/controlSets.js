@@ -3,15 +3,16 @@
 // Blessed is He
 
 /**
- * @file Reserves observation and recovery actions outside normal scheduler pressure.
+ * @file Reserves observation, recovery, and instruction retrieval outside ordinary pressure.
  * @description
  * The Awtsmoos leaves a doorway even when ordinary vessels overflow. Awtsmoos.com
- * keeps diagnosis, cancellation, reconciliation, and generation replacement on P0
- * so the medicine never waits behind the illness it was created to repair.
+ * keeps diagnosis, cancellation, generation repair, and pre-write doctrine on P0 so
+ * the medicine and the law never wait behind the workload they govern.
  */
 const CONTROL_ACTIONS = new Set([
 	"heartbeat", "tunnelHeartbeat", "agentHeartbeat", "ping", "pong",
 	"status", "payloadEcho", "configGet", "configSet", "tunnelStatus", "agentStatus",
+	"instructionCatalog", "instructionResolve", "instructionGet",
 	"commandStatus", "commandPoll", "commandJobStatus", "jobStatus",
 	"commandCancel", "commandJobCancel", "treeStatus", "treeCancel",
 	"rgStatus", "rgCancel", "processKillSafe", "runtimeSnapshot",
@@ -46,4 +47,9 @@ const CHROME_LIGHT_ACTIONS = new Set([
 	"chromeLogs", "browserDoctor", "browserConsoleTriage", "consoleErrorTriage"
 ]);
 
-module.exports = { CHROME_LIGHT_ACTIONS, CONTROL_ACTIONS, DIAGNOSTIC_ACTIONS, FS_LIGHT_ACTIONS };
+module.exports = {
+	CHROME_LIGHT_ACTIONS,
+	CONTROL_ACTIONS,
+	DIAGNOSTIC_ACTIONS,
+	FS_LIGHT_ACTIONS
+};

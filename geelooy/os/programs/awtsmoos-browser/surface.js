@@ -11,9 +11,9 @@
  * the page receives the center, the controls receive their place, and neither trades truth.
  */
 
-import { createBrowserAdvancedPanel } from "./browserAdvancedPanel.js";
-import { createBrowserChrome } from "./browserChrome.js";
-import { createBrowserViewport } from "./browserViewport.js";
+import { createBrowserAdvancedPanel } from "./browserAdvancedPanel.js?compact=true";
+import { createBrowserChrome } from "./browserChrome.js?compact=true";
+import { createBrowserViewport } from "./browserViewport.js?compact=true";
 
 /**
  * Composes the complete Awtsmoos Browser application surface.
@@ -52,12 +52,7 @@ export function createBrowserSurface(documentObject = document) {
 	};
 }
 
-/**
- * Creates truthful host-owned testimony about the browser execution boundary.
- *
- * @param {Document} documentObject Host document receiving the testimony.
- * @returns {HTMLParagraphElement} The boundary explanation shown in advanced tools.
- */
+/** Creates truthful host-owned testimony about the browser execution boundary. */
 function createBoundary(documentObject) {
 	return createElement(
 		documentObject,
@@ -67,15 +62,7 @@ function createBoundary(documentObject) {
 	);
 }
 
-/**
- * Creates a host-owned DOM element with optional visible text.
- *
- * @param {Document} documentObject Host document that owns the element.
- * @param {string} tagName DOM tag name.
- * @param {string} className CSS class list.
- * @param {string} [text=""] Optional visible text.
- * @returns {HTMLElement} The created element.
- */
+/** Creates a host-owned DOM element with optional visible text. */
 function createElement(documentObject, tagName, className, text = "") {
 	const element = documentObject.createElement(tagName);
 	element.className = className;

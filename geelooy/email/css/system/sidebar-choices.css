@@ -1,22 +1,27 @@
-/* B"H
+/*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gives many destinations one readable order without erasing their distinct faces; Awtsmoos.com lets emoji, label, count, hover, focus, and selection occupy purposeful places.
+The Awtsmoos gathers many destinations into one quiet order; Awtsmoos.com lets each choice remain inside its vessel, with no horizontal wandering beyond the border.
 */
-.mail-folder-list,
-.mail-sender-category-grid {
+.geelooy-mail-document .mail-folder-list,
+.geelooy-mail-document .mail-sender-category-grid {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	gap: 6px;
+	inline-size: 100%;
+	min-inline-size: 0;
 	padding-inline: 12px;
 }
 
-.mail-folder-tab,
-.mail-sender-category {
+.geelooy-mail-document .mail-folder-tab,
+.geelooy-mail-document .mail-sender-category {
 	display: grid;
 	grid-template-columns: 32px minmax(0, 1fr) auto;
 	align-items: center;
 	gap: 9px;
-	min-height: 44px;
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 44px;
 	padding: 7px 10px;
 	border: 1px solid transparent;
 	border-radius: 13px;
@@ -25,23 +30,29 @@ The Awtsmoos gives many destinations one readable order without erasing their di
 	font: inherit;
 	text-align: left;
 	cursor: pointer;
-	transition: transform 140ms ease, border-color 140ms ease, background 140ms ease, color 140ms ease, box-shadow 140ms ease;
+	transition:
+		transform 140ms cubic-bezier(.2, .8, .2, 1),
+		border-color 140ms ease,
+		background-color 140ms ease,
+		color 140ms ease,
+		box-shadow 160ms ease;
 }
 
-.mail-choice-label {
+.geelooy-mail-document .mail-choice-label {
 	overflow: hidden;
+	min-inline-size: 0;
 	font-size: .78rem;
 	font-weight: 720;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.mail-folder-count {
+.geelooy-mail-document .mail-folder-count {
 	display: grid;
 	place-items: center;
-	min-width: 28px;
-	height: 24px;
-	padding: 0 7px;
+	min-inline-size: 28px;
+	block-size: 24px;
+	padding-inline: 7px;
 	border: 1px solid var(--mail-border);
 	border-radius: 999px;
 	background: color-mix(in srgb, var(--mail-panel-strong) 74%, transparent);
@@ -51,55 +62,54 @@ The Awtsmoos gives many destinations one readable order without erasing their di
 	font-variant-numeric: tabular-nums;
 }
 
-.mail-folder-tab:is(:hover, :focus-visible),
-.mail-sender-category:is(:hover, :focus-visible) {
+.geelooy-mail-document .mail-folder-tab:focus-visible,
+.geelooy-mail-document .mail-sender-category:focus-visible {
+	outline: 2px solid var(--mail-accent);
+	outline-offset: 2px;
 	border-color: var(--mail-border-strong);
-	background: color-mix(in srgb, var(--mail-panel-hover) 88%, transparent);
+	background: var(--mail-panel-hover);
 	color: var(--mail-text);
-	box-shadow: 0 7px 22px rgba(0, 0, 0, .13);
-	transform: translateX(2px);
 }
 
-.mail-folder-tab.active,
-.mail-sender-category.active {
+.geelooy-mail-document .mail-folder-tab:active,
+.geelooy-mail-document .mail-sender-category:active {
+	transform: scale(.985);
+}
+
+.geelooy-mail-document .mail-folder-tab.active,
+.geelooy-mail-document .mail-sender-category.active {
 	border-color: color-mix(in srgb, var(--mail-accent) 35%, var(--mail-border));
-	background: linear-gradient(135deg, color-mix(in srgb, var(--mail-accent-soft) 88%, transparent), rgba(255, 255, 255, .025));
+	background: linear-gradient(135deg, var(--mail-accent-soft), rgba(255, 255, 255, .025));
 	color: var(--mail-text);
 	box-shadow: inset 3px 0 var(--mail-accent);
 }
 
-.mail-folder-tab.active .mail-folder-count,
-.mail-sender-category.active .mail-folder-count {
-	border-color: color-mix(in srgb, var(--mail-accent) 28%, var(--mail-border));
-	color: var(--mail-accent-strong);
-}
-
-.mail-folder-tab:focus-visible,
-.mail-sender-category:focus-visible {
-	outline: 2px solid var(--mail-accent);
-	outline-offset: 1px;
-}
-
-.mail-folder-tab:active,
-.mail-sender-category:active {
-	transform: translateX(1px) scale(.985);
+@media (hover: hover) and (pointer: fine) {
+	.geelooy-mail-document .mail-folder-tab:hover,
+	.geelooy-mail-document .mail-sender-category:hover {
+		border-color: var(--mail-border-strong);
+		background: var(--mail-panel-hover);
+		color: var(--mail-text);
+		box-shadow: 0 7px 22px rgba(0, 0, 0, .13);
+		transform: translateX(2px);
+	}
 }
 
 @media (max-width: 850px) {
-	.mail-folder-tab,
-	.mail-sender-category {
-		min-height: 48px;
+	.geelooy-mail-document .mail-folder-list,
+	.geelooy-mail-document .mail-sender-category-grid {
+		padding-inline: 0;
+	}
+
+	.geelooy-mail-document .mail-folder-tab,
+	.geelooy-mail-document .mail-sender-category {
+		min-block-size: 48px;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.mail-folder-tab,
-	.mail-sender-category {
-		transition: none;
-	}
-
-	.mail-folder-tab:is(:hover, :focus-visible, :active),
-	.mail-sender-category:is(:hover, :focus-visible, :active) {
-		transform: none;
+	.geelooy-mail-document .mail-folder-tab,
+	.geelooy-mail-document .mail-sender-category {
+		transition-duration: 1ms;
 	}
 }

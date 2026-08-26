@@ -1,0 +1,93 @@
+/* B"H */
+/*
+ * The Awtsmoos gives the browser one sealed visual vessel before ornament appears.
+ * Every law below begins at `.awtsmoos-browser-host`; no selector can style Geelooy
+ * outside this browser instance, and every stacking level is named rather than guessed.
+ */
+
+.awtsmoos-browser-host {
+	--browser-bg: #070a11;
+	--browser-panel: rgba(15, 19, 30, 0.965);
+	--browser-panel-soft: rgba(25, 31, 47, 0.82);
+	--browser-surface: rgba(255, 255, 255, 0.072);
+	--browser-surface-hover: rgba(255, 255, 255, 0.12);
+	--browser-surface-active: rgba(255, 255, 255, 0.095);
+	--browser-border: rgba(255, 255, 255, 0.11);
+	--browser-border-strong: rgba(130, 182, 255, 0.38);
+	--browser-text: #f7f9fd;
+	--browser-muted: #97a4b8;
+	--browser-accent: #82b6ff;
+	--browser-accent-strong: #c5e1ff;
+	--browser-danger: #ff9aaa;
+	--browser-radius-xs: 8px;
+	--browser-radius-sm: 11px;
+	--browser-radius: 16px;
+	--browser-radius-lg: 22px;
+	--browser-shadow: 0 24px 72px rgba(0, 0, 0, 0.38);
+	--browser-ring: 0 0 0 3px rgba(130, 182, 255, 0.15);
+	--browser-fast: 120ms cubic-bezier(0.2, 0.8, 0.2, 1);
+	--browser-smooth: 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+	--browser-z-viewport: 0;
+	--browser-z-drawer: 20;
+	--browser-z-chrome: 30;
+	--browser-z-progress: 40;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	inline-size: 100%;
+	block-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 0;
+	overflow: hidden;
+	isolation: isolate;
+	contain: layout paint style;
+	background: var(--browser-bg);
+	color: var(--browser-text);
+	font: 500 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	overscroll-behavior: contain;
+	color-scheme: dark;
+}
+
+.awtsmoos-browser-host,
+.awtsmoos-browser-host :where(*) {
+	box-sizing: border-box;
+}
+
+.awtsmoos-browser-host :where(button, input, textarea) {
+	max-inline-size: 100%;
+	font: inherit;
+	color: inherit;
+}
+
+.awtsmoos-browser-host :where(button) {
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}
+
+.awtsmoos-browser-host :where([hidden]) {
+	display: none !important;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-body {
+	position: relative;
+	z-index: var(--browser-z-viewport);
+	display: flex;
+	flex: 1 1 auto;
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 0;
+	overflow: hidden;
+	background: #0b0f18;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-boundary {
+	margin: 0;
+	padding: 12px;
+	border: 1px solid var(--browser-border);
+	border-radius: var(--browser-radius-sm);
+	background: rgba(130, 182, 255, 0.06);
+	color: var(--browser-muted);
+	font-size: 12px;
+	line-height: 1.55;
+	overflow-wrap: anywhere;
+}

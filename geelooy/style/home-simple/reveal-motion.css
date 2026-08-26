@@ -4,16 +4,16 @@ Blessed is He
 The Awtsmoos reveals Awtsmoos.com without making revelation a hostage to motion:
 the words and doors remain visible, while scroll and pointer light add depth like a quiet glow.
 */
-.dance-frame,
-.featured-card {
+body[data-geelooy-route="home"] .dance-frame,
+body[data-geelooy-route="home"] .featured-card {
 	position: relative;
 }
 
-.dance-frame::before,
-.featured-card::before {
+body[data-geelooy-route="home"] .dance-frame::before,
+body[data-geelooy-route="home"] .featured-card::before {
 	position: absolute;
 	inset: 0;
-	z-index: 1;
+	z-index: var(--home-local-content);
 	border-radius: inherit;
 	background: radial-gradient(
 		420px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
@@ -26,14 +26,14 @@ the words and doors remain visible, while scroll and pointer light add depth lik
 	transition: opacity .28s ease;
 }
 
-.dance-frame[data-pointer-light]:hover::before,
-.featured-card[data-pointer-light]:hover::before,
-.dance-frame[data-pointer-light]:focus-within::before,
-.featured-card[data-pointer-light]:focus-visible::before {
+body[data-geelooy-route="home"] .dance-frame[data-pointer-light]:hover::before,
+body[data-geelooy-route="home"] .featured-card[data-pointer-light]:hover::before,
+body[data-geelooy-route="home"] .dance-frame[data-pointer-light]:focus-within::before,
+body[data-geelooy-route="home"] .featured-card[data-pointer-light]:focus-visible::before {
 	opacity: 1;
 }
 
-.has-reveal-motion [data-reveal] {
+body[data-geelooy-route="home"] .has-reveal-motion [data-reveal] {
 	opacity: .76;
 	filter: blur(1.4px) saturate(.96);
 	transform: translateY(12px) scale(.996);
@@ -44,29 +44,29 @@ the words and doors remain visible, while scroll and pointer light add depth lik
 	transition-delay: calc(var(--reveal-order, 0) * 34ms);
 }
 
-.has-reveal-motion [data-reveal].is-revealed {
+body[data-geelooy-route="home"] .has-reveal-motion [data-reveal].is-revealed {
 	opacity: 1;
 	filter: none;
 	transform: none;
 }
 
-.portal-shortcuts a,
-.direct-navigation a,
-.featured-card {
+body[data-geelooy-route="home"] .portal-shortcuts a,
+body[data-geelooy-route="home"] .direct-navigation a,
+body[data-geelooy-route="home"] .featured-card {
 	will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.dance-frame::before,
-	.featured-card::before {
+	body[data-geelooy-route="home"] .dance-frame::before,
+body[data-geelooy-route="home"] .featured-card::before {
 		display: none;
 	}
 
-	.has-reveal-motion [data-reveal],
-	.has-reveal-motion [data-reveal].is-revealed,
-	.portal-shortcuts a,
-	.direct-navigation a,
-	.featured-card {
+	body[data-geelooy-route="home"] .has-reveal-motion [data-reveal],
+body[data-geelooy-route="home"] .has-reveal-motion [data-reveal].is-revealed,
+body[data-geelooy-route="home"] .portal-shortcuts a,
+body[data-geelooy-route="home"] .direct-navigation a,
+body[data-geelooy-route="home"] .featured-card {
 		opacity: 1;
 		filter: none;
 		transform: none;

@@ -1,0 +1,67 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets every searchable creator road become a complete tactile vessel;
+Awtsmoos.com gives active selection, keyboard focus, universal pressure, fine-pointer lift, disabled truth, and internal list scrolling without widening the page.
+*/
+.creatorCommandList {
+	display: grid;
+	gap: .35rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	overflow-x: clip;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.creatorCommand {
+	justify-content: flex-start;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	min-height: 48px;
+	padding: .65rem .75rem;
+	border: 1px solid transparent;
+	border-radius: 12px;
+	color: #dbe8ed;
+	background: #14222b;
+	text-align: left;
+	overflow-wrap: anywhere;
+	transition:
+		transform 140ms cubic-bezier(.2, .8, .2, 1),
+		border-color 160ms ease,
+		background-color 160ms ease,
+		box-shadow 160ms ease,
+		opacity 160ms ease;
+}
+
+.creatorCommand[data-active="true"] {
+	border-color: #74d8df;
+	background: #1a3038;
+	box-shadow: inset 0 0 0 1px rgb(116 216 223 / 8%);
+}
+
+.creatorCommand:focus-visible {
+	border-color: #8ce9ef;
+	outline: 3px solid rgb(116 216 223 / 16%);
+	outline-offset: 2px;
+}
+
+.creatorCommand:active {
+	transform: translateY(1px) scale(.985);
+}
+
+.creatorCommand:disabled {
+	cursor: not-allowed;
+	opacity: .46;
+	transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.creatorCommand:not(:disabled):hover {
+		border-color: rgb(116 216 223 / 42%);
+		background: #19303a;
+		box-shadow: 0 .55rem 1.4rem rgb(0 0 0 / 16%);
+		transform: translateY(-1px);
+	}
+}

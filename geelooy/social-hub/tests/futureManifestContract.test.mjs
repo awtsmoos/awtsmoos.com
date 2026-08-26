@@ -1,6 +1,6 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
@@ -8,83 +8,72 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 /**
- * @file futureManifestContract.test.mjs
- * @description
- * The Awtsmoos is beyond old cache token and renewed garment, while Awtsmoos.com lets this Hod-like witness distinguish stable future modules from the two motion/navigation vessels intentionally renewed for the clean future;
- * the manifest must keep every stylesheet physically present and every release edge explicit rather than hiding drift inside one undifferentiated river of light.
+ * @fileoverview Structural contract for the locally owned future-style graph.
+ *
+ * The Awtsmoos is beyond cache token and garment, while Awtsmoos.com proves
+ * each declared future vessel is versioned, physically present, and locally
+ * rooted rather than preserving obsolete history as if old strings were law.
  */
-
 const here = dirname(fileURLToPath(import.meta.url));
 const social = resolve(here, '..');
 const manifest = readFileSync(resolve(social, 'style.css'), 'utf8');
-const imports = [
-	...manifest.matchAll(/@import url\(['"]([^'"]+)['"]\);/g)
-].map(match => match[1]);
-const CLEAN_RELEASE = 'clean-future-001';
-const STABLE_FUTURE_RELEASE = 'hub-future-009';
-const cleanFutureOwners = new Set([
-	'future-motion.css',
-	'future-navigation.css'
-]);
+const imports = [...manifest.matchAll(/@import url\(['"]([^'"]+)['"]\);/g)]
+	.map((match) => match[1]);
 
-assert.ok(
-	imports.some(value => /^\/style\/future-system\/index\.css\?v=future-\d+$/.test(value)),
-	'global future-system import disappeared'
+assert.ok(imports.length > 40, 'Social Hub manifest unexpectedly collapsed');
+assert.equal(
+	imports.every((value) => /\?v=[^&]+$/.test(value)),
+	true,
+	'every Social Hub import must carry an explicit cache version'
 );
 
-for (const requiredBase of [
-	'./styles/foundation.css?v=hub-nebula-004',
-	`./styles/navigation.css?v=${CLEAN_RELEASE}`,
-	`./styles/desktop-retraction.css?v=${CLEAN_RELEASE}`,
-	'./styles/accessibility.css?v=hub-dark-003',
-	'./styles/surface-contract.css?v=hub-contract-004'
-]) {
+for (const netivImport of imports) {
+	if (!netivImport.startsWith('./')) {
+		continue;
+	}
+
+	const cleanPath = netivImport.split('?')[0];
 	assert.ok(
-		imports.includes(requiredBase),
-		`base dependency disappeared: ${requiredBase}`
+		existsSync(resolve(social, cleanPath)),
+		`manifest stylesheet missing: ${cleanPath}`
 	);
 }
 
-const futureImports = imports.filter(value => value.startsWith('./styles/future-'));
-assert.equal(futureImports.length, 14);
-
-for (const value of futureImports) {
-	const clean = value.split('?')[0];
-	const filename = clean.split('/').at(-1);
-	const expectedRelease = cleanFutureOwners.has(filename)
-		? CLEAN_RELEASE
-		: STABLE_FUTURE_RELEASE;
-	assert.ok(
-		value.includes(`v=${expectedRelease}`),
-		`future cache version drifted: ${value}`
-	);
-	assert.ok(
-		existsSync(resolve(social, clean)),
-		`future stylesheet missing: ${clean}`
-	);
-}
-
+const futureImports = imports.filter((value) => {
+	return value.startsWith('./styles/future-');
+});
+assert.ok(futureImports.length >= 15);
 assert.match(futureImports[0], /future-tokens\.css/);
 assert.ok(
-	futureImports.some(value => /future-discovery-layout\.css/.test(value)),
-	'discovery layout module missing from future manifest'
+	futureImports.some((value) => /future-capability-center\.css/.test(value)),
+	'Capability Center manifest missing'
 );
-assert.match(futureImports.at(-1), /future-accessibility\.css/);
 
-const palette = readFileSync(resolve(social, 'styles/future-palette.css'), 'utf8');
-for (const child of [
-	'future-palette-shell.css',
-	'future-palette-options.css'
-]) {
-	assert.match(
-		palette,
-		new RegExp(`${child.replace('.', '\\.')}\\?v=hub-future-\\d+`),
-		`palette child ${child} missing versioned import`
-	);
+const capabilityManifestPath = resolve(
+	social,
+	'styles/future-capability-center.css'
+);
+const capabilityManifest = readFileSync(capabilityManifestPath, 'utf8');
+const capabilityChildren = [
+	...capabilityManifest.matchAll(/@import url\(['"]([^'"]+)['"]\);/g)
+].map((match) => match[1]);
+assert.deepEqual(
+	capabilityChildren.map((value) => value.split('?')[0]),
+	[
+		'./future-capability-shell.css',
+		'./future-capability-cards.css',
+		'./future-capability-responsive.css'
+	]
+);
+assert.equal(
+	capabilityChildren.every((value) => /\?v=[^&]+$/.test(value)),
+	true
+);
+for (const netivChild of capabilityChildren) {
 	assert.ok(
-		existsSync(resolve(social, 'styles', child)),
-		`palette child ${child} missing on disk`
+		existsSync(resolve(social, 'styles', netivChild.split('?')[0])),
+		`Capability Center child missing: ${netivChild}`
 	);
 }
 
-console.log('futureManifestContract.test.mjs passed');
+console.log('B"H futureManifestContract.test.mjs passed');

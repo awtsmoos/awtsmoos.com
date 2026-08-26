@@ -1,0 +1,86 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos renews hover, press, focus, and expansion before one advanced control answers the hand;
+ * Awtsmoos.com gives every drawer interaction the same restrained motion grammar, so desktop and touch both understand.
+ */
+
+.drawer-header button,
+.settings-list label,
+.settings-list input[type="checkbox"],
+.diagnostics-panel summary {
+	transition:
+		transform var(--motion-fast) var(--ease-out),
+		background var(--motion-fast) var(--ease-soft),
+		border-color var(--motion-fast) var(--ease-soft),
+		color var(--motion-fast) var(--ease-soft),
+		box-shadow var(--motion-fast) var(--ease-soft),
+		opacity var(--motion-fast) var(--ease-soft);
+}
+
+.drawer-header button:focus-visible,
+.settings-list input[type="checkbox"]:focus-visible,
+.diagnostics-panel summary:focus-visible {
+	outline: 2px solid var(--cyan-300);
+	outline-offset: 2px;
+}
+
+.settings-list label:focus-within {
+	background: rgba(91, 203, 231, 0.055);
+	box-shadow: inset 0 0 0 1px rgba(111, 220, 246, 0.16);
+}
+
+.drawer-header button:active {
+	transform: scale(0.9);
+	border-color: var(--line-strong);
+	background: rgba(255, 224, 138, 0.13);
+	color: var(--gold-300);
+}
+
+.settings-list label:active {
+	transform: translateY(1px);
+	background: rgba(91, 203, 231, 0.06);
+}
+
+.settings-list input[type="checkbox"]:active {
+	transform: scale(0.94);
+}
+
+.diagnostics-panel summary:active {
+	transform: translateY(1px);
+	background: rgba(91, 203, 231, 0.06);
+	color: var(--cyan-300);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.drawer-header button:hover {
+		border-color: var(--line-strong);
+		background: rgba(255, 224, 138, 0.08);
+		color: var(--gold-300);
+	}
+
+	.settings-list label:hover {
+		background: rgba(255, 255, 255, 0.035);
+		color: var(--ivory-100);
+	}
+
+	.settings-list input[type="checkbox"]:hover {
+		border-color: var(--line-strong);
+		box-shadow:
+			inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+			0 0 16px rgba(255, 224, 138, 0.08);
+	}
+
+	.settings-list input[type="checkbox"]:checked:hover {
+		border-color: var(--cyan-300);
+		box-shadow:
+			inset 0 0 0 1px rgba(185, 239, 255, 0.1),
+			0 0 20px rgba(91, 203, 231, 0.16);
+	}
+
+	.diagnostics-panel summary:hover {
+		background: rgba(91, 203, 231, 0.045);
+		color: var(--cyan-300);
+	}
+}

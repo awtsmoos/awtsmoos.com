@@ -1,12 +1,8 @@
-<!DOCTYPE html>
 <!-- B"H -->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!--
-	The Awtsmoos creates the world anew at every instant. This page is the
-	outer vessel through which Ohr HaGnuz reveals its existing maps, missions,
-	companions, learning paths, debates, skills, and hidden roads.
--->
+<!-- The Awtsmoos renews every concealed road and spark before the traveler can see; Awtsmoos.com gives Ohr HaGnuz an outer witness first, so hidden light can fail honestly or unfold freely. -->
+<!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -15,12 +11,13 @@
 	<meta name="description" content="Ohr HaGnuz — an original top-down Torah adventure of hidden sparks, living roads, skills, companions, and PaRDeS mastery.">
 	<title>B&quot;H — Ohr HaGnuz: The Concealed Frontier</title>
 	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305070d'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='42' fill='%23ffe082'%3E%D7%90%3C/text%3E%3C/svg%3E">
-	<link rel="stylesheet" href="./src/design/revelation/tokens.css">
-	<link rel="stylesheet" href="./src/design/revelation/shell.css">
-	<link rel="stylesheet" href="./src/design/revelation/hud.css">
-	<link rel="stylesheet" href="./src/design/revelation/controls.css">
-	<link rel="stylesheet" href="./src/design/revelation/panels.css">
-	<link rel="stylesheet" href="./src/design/revelation/responsive.css">
+	<link rel="stylesheet" href="./src/design/revelation/tokens.css?compact=true">
+	<link rel="stylesheet" href="./src/design/revelation/shell.css?compact=true">
+	<link rel="stylesheet" href="./src/design/revelation/hud.css?compact=true">
+	<link rel="stylesheet" href="./src/design/revelation/controls.css?compact=true">
+	<link rel="stylesheet" href="./src/design/revelation/panels.css?compact=true">
+	<link rel="stylesheet" href="./src/design/revelation/responsive.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body data-hud-collapsed="false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 	<main id="game-shell" aria-label="Ohr HaGnuz adventure world">
@@ -37,6 +34,9 @@
 			</div>
 		</div>
 	</main>
-	<script type="module" src="./src/index.js"></script>
+	<script type="module" src="./src/tiferet/revelation/BootSentinel.js?compact=true"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="./src/index.js?compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

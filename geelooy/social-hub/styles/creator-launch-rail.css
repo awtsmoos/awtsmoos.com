@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos lets post, moving image, voice, verse, branch, poll, and live creation pass beneath one finger;
 Awtsmoos.com gives each canonical road a fast snap, a quiet spark, and no expensive per-card blur.
 */
-.creatorLaunchRail {
+.social-hub-document .creatorLaunchRail {
 	display: flex;
 	gap: .46rem;
 	max-inline-size: 100%;
@@ -17,11 +17,11 @@ Awtsmoos.com gives each canonical road a fast snap, a quiet spark, and no expens
 	-webkit-overflow-scrolling: touch;
 }
 
-.creatorLaunchRail::-webkit-scrollbar {
+.social-hub-document .creatorLaunchRail::-webkit-scrollbar {
 	display: none;
 }
 
-.creatorLaunchButton {
+.social-hub-document .creatorLaunchButton {
 	position: relative;
 	display: grid;
 	flex: 0 0 4.85rem;
@@ -44,7 +44,7 @@ Awtsmoos.com gives each canonical road a fast snap, a quiet spark, and no expens
 		box-shadow 170ms ease;
 }
 
-.creatorLaunchButton span {
+.social-hub-document .creatorLaunchButton span {
 	display: grid;
 	width: 1.65rem;
 	aspect-ratio: 1;
@@ -54,40 +54,40 @@ Awtsmoos.com gives each canonical road a fast snap, a quiet spark, and no expens
 	transition: transform 170ms cubic-bezier(.2, .8, .2, 1);
 }
 
-.creatorLaunchButton strong {
+.social-hub-document .creatorLaunchButton strong {
 	font-size: .7rem;
 }
 
-.creatorLaunchButton:is(:hover, :focus-visible) {
+.social-hub-document .creatorLaunchButton:is(:hover, :focus-visible) {
 	border-color: rgb(126 239 255 / 48%);
 	background: rgb(126 239 255 / 7%);
 	box-shadow: 0 0 1.15rem rgb(82 218 255 / 8%);
 	transform: translate3d(0, -2px, 0);
 }
 
-.creatorLaunchButton:is(:hover, :focus-visible) span {
+.social-hub-document .creatorLaunchButton:is(:hover, :focus-visible) span {
 	transform: scale(1.06);
 }
 
-.creatorLaunchButton:active {
+.social-hub-document .creatorLaunchButton:active {
 	transform: scale(.97);
 }
 
 @media (min-width: 40.01rem) {
-	.creatorLaunchButton {
+	.social-hub-document .creatorLaunchButton {
 		flex-basis: 5.2rem;
 		min-block-size: 4.35rem;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.creatorLaunchButton {
+	.social-hub-document .creatorLaunchButton {
 		transition-duration: .01ms;
 	}
 
-	.creatorLaunchButton:is(:hover, :focus-visible),
-	.creatorLaunchButton:is(:hover, :focus-visible) span,
-	.creatorLaunchButton:active {
+	.social-hub-document .creatorLaunchButton:is(:hover, :focus-visible),
+.social-hub-document .creatorLaunchButton:is(:hover, :focus-visible) span,
+.social-hub-document .creatorLaunchButton:active {
 		transform: none;
 	}
 }

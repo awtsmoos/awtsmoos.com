@@ -2,35 +2,51 @@
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
 
-# Mitzvah World — Verified Handoff
+# Mitzvah World — Verified AI Handoff
 
 > The Awtsmoos renews the living valley while each maintainer receives a truthful map;
-> Awtsmoos.com keeps source, compact light, Drive garments, and browser evidence in one clear path.
+> Awtsmoos.com keeps source, compact light, remote garments, materials, and evidence on one discoverable path.
 
-## Public Route
+## Start here
 
-- URL: `/games/mitzvahWorld/`
+- Public route: `/games/mitzvahWorld/`
 - Route shell: `geelooy/games/mitzvahWorld/index.html`
 - Compact entry: `experiments/Awtsmoos/src/mitzvah-world.compact.js`
 - Source launcher: `experiments/Awtsmoos/src/launcher/MinimalSharedMeadowPage.js`
 - Runtime diagnostics: `globalThis.AwtsmoosMitzvahWorld`
+- Texture/material guide: `docs/TEXTURE_MATERIAL_DISCOVERY.md`
+- Remote asset policy: repository `docs/REMOTE_ASSET_POLICY.md`
 
-## Runtime Boundary
+## Texture discovery
+
+Do **not** search for local texture files or add image binaries to Git.
+
+The canonical runtime texture API is:
+
+`experiments/Awtsmoos/src/assets/RemoteTextureCatalog.js`
+
+Use `remoteTextureAgentCatalog()` or `remoteTextureRecords()` first. The current canonical set contains **125 remote filenames**: 35 ground, 33 architecture, 24 craft, and 33 trees. Human-readable mirrors live in the four `docs/TEXTURE_NAMES_*.md` files.
+
+The trusted texture root is owned by `RemoteTextureTransport.js`. Full-resolution and tree textures use different remote collections; the GLB model namespace is not a texture namespace.
+
+For common semantic material roles and physical metadata, prefer the shared Procedural Core material registry before hardcoding a MitzvahWorld filename.
+
+## Runtime boundary
 
 - `createMinimalMeadowRuntime.js` creates the visible fallback runtime.
 - `MinimalMeadowFeatureScheduler.js` installs inventory, equipment, combat, quests, recovery, streaming, and essential UI inside the compact graph.
 - `MinimalMeadowFeatureBundle.js` is loaded through a source-aware deferred URL for rich world and visual hydration.
 - Essential readiness must never await rich hydration.
 
-## CompactJS Build
+## CompactJS build
 
-Run from the repository root:
+From repository root:
 
 ```bash
 node scripts/mitzvah-world/buildCompactRuntime.mjs
 ```
 
-Never hand-edit `mitzvah-world.compact.js`. After rebuilding, run:
+Never hand-edit `mitzvah-world.compact.js`. After rebuilding:
 
 ```bash
 node ayzarim/awtsmoosDynamicServer/tests/compactJs.test.js
@@ -38,32 +54,19 @@ node ayzarim/awtsmoosDynamicServer/tests/compactJs.mitzvahFeature.test.js
 node ayzarim/awtsmoosDynamicServer/tests/compactJs.mitzvahWorldRuntime.test.js
 ```
 
-## Model Delivery
+## Model delivery
 
-Canonical GLBs are not Git runtime media. They are public, immutable Awtsmoos Drive objects beneath:
+Canonical GLBs are remote immutable Awtsmoos Drive objects beneath:
 
 `https://awtsmoos.com/sites/firebase_drive_migration/assets/mitzvah-world/models/`
 
-The semantic identities, byte counts, and SHA-256 values live in `RemoteModelRecords.js`. Do not restore mutable `/games/.../assets/models/` browser URLs.
+Semantic identities, byte counts, and SHA-256 values live in `RemoteModelRecords.js`. Do not restore mutable `/games/.../assets/models/` browser URLs.
 
-## Verified Production Evidence
+## Maintenance guardrails
 
-On 2026-08-02:
-
-- Public compact bundle: `5,270,667` bytes.
-- SHA-256: `8b48043f1342856772d8c96b61d410aa2b86c47a77b17fc3736b939b1cd0b5f3`.
-- Fresh isolated Chrome reached `playable` with all six essential systems present.
-- A real `KeyW` input moved the player `1.89` world units.
-- Nineteen GLBs totaling `4,752,884` bytes were public and hash-verified.
-
-Detailed evidence:
-
-- `.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/14_FINAL_COMPLETION_EVIDENCE.md`
-- `.ai-thoughts/2026-07-31-0018-mitzvah-world-compactjs-recovery/15_COMPLETION_GATE_CLOSED.md`
-
-## Maintenance Guardrails
-
-- Preserve exact-file commits; unrelated local work may coexist in the repository.
+- Preserve exact-file commits; unrelated local work may coexist.
+- Keep all image bodies in Drive/dayuhChadash remote storage, never Git or source data URIs.
 - Keep essential bootstrap statically folded and rich hydration deferred.
-- Keep deferred import URLs source-aware in both readable and compact modes.
+- Keep deferred imports source-aware in readable and compact modes.
+- Update canonical source records first, then regenerate human docs/catalog mirrors.
 - Verify public bytes, browser state, console, network, and movement before declaring completion.

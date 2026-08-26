@@ -1,0 +1,108 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives command a finite chamber, bounded and bright;
+ * Awtsmoos.com gives each base selector one owner, keeping cascade conflict out of sight.
+ */
+.post-reader-localized-context #command-palette-container {
+	position: relative;
+	z-index: var(--z-command-palette);
+}
+
+.post-reader-localized-context .command-palette-overlay {
+	position: fixed;
+	z-index: var(--z-command-palette);
+	inset: 0;
+	display: grid;
+	place-items: start center;
+	box-sizing: border-box;
+	padding:
+		max(4.5rem, calc(env(safe-area-inset-top) + 3rem))
+		max(.75rem, env(safe-area-inset-right))
+		max(.75rem, env(safe-area-inset-bottom))
+		max(.75rem, env(safe-area-inset-left));
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	background: rgb(0 4 12 / 72%);
+	backdrop-filter: blur(16px) saturate(125%);
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity 180ms ease, visibility 0s linear 180ms;
+}
+
+.post-reader-localized-context .command-palette {
+	display: grid;
+	grid-template-rows: auto auto minmax(0, 1fr);
+	inline-size: min(42rem, 100%);
+	max-inline-size: 100%;
+	max-block-size: min(72dvh, 38rem);
+	overflow: hidden;
+	border: 1px solid rgb(246 201 108 / 28%);
+	border-radius: 1.4rem;
+	background: linear-gradient(180deg, rgb(5 11 20 / 98%), rgb(2 7 18 / 98%));
+	box-shadow: 0 1.8rem 5rem rgb(0 0 0 / 58%);
+	transform: translateY(-.45rem) scale(.985);
+	transition: transform 180ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.post-reader-localized-context .command-palette-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	padding: .9rem 1rem .65rem;
+	border-block-end: 1px solid var(--awt-line);
+}
+
+.post-reader-localized-context .command-palette-head :where(h2, small) {
+	margin: 0;
+}
+
+.post-reader-localized-context .command-palette-head small,
+.post-reader-localized-context .command-palette-item small,
+.post-reader-localized-context .command-palette-empty {
+	color: var(--awt-muted);
+}
+
+.post-reader-localized-context .command-palette-input {
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 3.25rem;
+	padding: .8rem 1rem;
+	border: 0;
+	border-block-end: 1px solid var(--awt-line);
+	background: rgb(255 255 255 / 4%);
+	color: var(--awt-text);
+	font: 700 max(16px, 1rem)/1.3 var(--font-ui);
+	outline: 0;
+}
+
+.post-reader-localized-context .command-palette-list {
+	display: grid;
+	gap: .35rem;
+	min-block-size: 0;
+	padding: .5rem;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.post-reader-localized-context .command-palette-item {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: .75rem;
+	min-inline-size: 0;
+	min-block-size: 46px;
+	padding: .7rem .8rem;
+	border: 1px solid transparent;
+	border-radius: .85rem;
+	background: transparent;
+	color: var(--awt-text);
+	text-align: start;
+	cursor: pointer;
+	transition:
+		transform 150ms ease,
+		background-color 180ms ease,
+		border-color 180ms ease;
+}

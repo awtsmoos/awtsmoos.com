@@ -1,0 +1,82 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos turns a quiet card into responsive action without confusing motion with meaning;
+ * Awtsmoos.com gives every Profile card control touch depth, keyboard light, and retractable tools,
+ * so advanced choices remain present but never crowd the simple first view.
+ */
+.geelooy-profile-shell :where(.profileCardAction) {
+	display: grid;
+	gap: .12rem;
+	align-content: center;
+	min-inline-size: 0;
+	min-block-size: 46px;
+	padding: .58rem .7rem;
+	overflow-wrap: anywhere;
+	border: 1px solid var(--social-line, rgb(148 163 184 / 18%));
+	border-radius: .8rem;
+	background: var(--social-soft, color-mix(in srgb, CanvasText 5%, Canvas));
+	color: inherit;
+	font: inherit;
+	text-align: start;
+	text-decoration: none;
+	cursor: pointer;
+	transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.geelooy-profile-shell :where(.profileCardAction--primary) {
+	border-color: color-mix(in srgb, #7c5cff 43%, transparent);
+	background: color-mix(in srgb, #7c5cff 10%, Canvas);
+}
+
+.geelooy-profile-shell :where(.profileCardAction small) {
+	font-size: .7rem;
+	opacity: .62;
+}
+
+.geelooy-profile-shell :where(.profileCardTools) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	border-radius: .9rem;
+}
+
+.geelooy-profile-shell :where(.profileCardTools__grid) {
+	display: grid;
+	gap: .45rem;
+	min-inline-size: 0;
+}
+
+.geelooy-profile-shell :where(.profileCardTools .awtsmoosDisclosure__summary) {
+	min-block-size: 44px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.geelooy-profile-shell :where(.profileCardAction:hover) {
+		transform: translateY(-1px);
+		border-color: color-mix(in srgb, #7c5cff 38%, var(--social-line));
+		box-shadow: 0 8px 22px rgb(15 23 42 / 7%);
+	}
+}
+
+.geelooy-profile-shell :where(.profileCardAction:active) {
+	transform: scale(.98);
+}
+
+.geelooy-profile-shell :where(.profileCardAction:focus-visible) {
+	outline: 2px solid var(--social-focus, #67e8f9);
+	outline-offset: 2px;
+}
+
+@media (min-width: 45rem) {
+	.geelooy-profile-shell :where(.profileCardTools__grid) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-profile-shell :where(.profileCardAction) {
+		animation: none;
+		transition: none;
+	}
+}

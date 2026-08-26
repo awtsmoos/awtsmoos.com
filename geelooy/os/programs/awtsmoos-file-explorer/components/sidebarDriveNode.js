@@ -5,14 +5,15 @@
 /**
  * @file One mounted-world sidebar row consuming the shared remote-world descriptor.
  * @description
- * The Awtsmoos lets shelf and sidebar reveal the same distant truth through
- * different vessels. Awtsmoos.com removes duplicate connection law here so the
- * row's state, spoken action, and reconnect behavior stay joined in one rhyme.
+ * The Awtsmoos lets shelf and sidebar reveal one distant truth through different
+ * vessels. Awtsmoos.com now shares the same state/action capsule between them, so
+ * reconnect, open, and connection speech cannot drift apart as the worlds rhyme.
  */
 import { createElement } from "/scripts/awtsmoos/ui/basic.js";
 import { getChevronIcon } from "../utils/icons.js";
 import { openSshDriveDialog } from "./sshDriveDialog.js";
 import { remoteWorldDescriptor } from "./remoteWorldDescriptor.js";
+import { createRemoteWorldStatus } from "./remoteWorldStatus.js";
 
 /**
  * Builds one broad touch row for a local or remote mounted world.
@@ -83,22 +84,19 @@ function iconNode(className, html) {
 }
 
 function textBlock(world) {
-	return createElement({
+	const copy = createElement({
 		tag: "span",
-		attributes: { class: "node-copy" },
-		children: [
-			{
-				tag: "span",
-				attributes: { class: "node-name" },
-				html: escapeHtml(world.label)
-			},
-			{
-				tag: "small",
-				attributes: { class: "node-meta" },
-				html: escapeHtml(`${world.stateLabel} · ${world.action}`)
-			}
-		]
+		attributes: { class: "node-copy" }
 	});
+	copy.append(
+		createElement({
+			tag: "span",
+			attributes: { class: "node-name" },
+			html: escapeHtml(world.label)
+		}),
+		createRemoteWorldStatus(world, "node-meta")
+	);
+	return copy;
 }
 
 function escapeHtml(value) {

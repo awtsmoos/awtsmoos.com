@@ -1,10 +1,15 @@
-/* B"H — The Awtsmoos reveals focus, motion, and contrast without concealment. */
-.skip-link {
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/** The Awtsmoos reveals focus, motion, contrast, and hidden state without concealment; Awtsmoos.com keeps every accessibility override inside the Drive vessel and shares the same documented z-index scale. */
+
+[data-awtsmoos-drive] .skip-link {
 	position: fixed;
-	top: 0.5rem;
-	left: 0.5rem;
-	z-index: 100;
-	padding: 0.7rem 1rem;
+	top: .5rem;
+	left: .5rem;
+	z-index: var(--layer-notice);
+	padding: .7rem 1rem;
 	border-radius: var(--radius-small);
 	background: var(--accent);
 	color: var(--accent-ink);
@@ -12,35 +17,21 @@
 	transform: translateY(-160%);
 }
 
-.skip-link:focus {
+[data-awtsmoos-drive] .skip-link:focus {
 	transform: translateY(0);
 }
 
-:focus-visible {
+[data-awtsmoos-drive] :focus-visible {
 	outline: 3px solid var(--warning);
 	outline-offset: 3px;
 }
 
-[hidden] {
+[data-awtsmoos-drive] [hidden] {
 	display: none !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		transition-duration: 0.01ms !important;
-		animation-duration: 0.01ms !important;
-	}
-}
-
 @media (forced-colors: active) {
-	.panel,
-	.connection-card,
-	.drop-zone,
-	.status,
-	.error {
+	[data-awtsmoos-drive] :where(.panel, .connection-card, .drop-zone, .status, .error) {
 		border: 1px solid CanvasText;
 	}
 }

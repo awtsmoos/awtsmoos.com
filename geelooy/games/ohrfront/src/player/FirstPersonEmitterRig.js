@@ -4,72 +4,84 @@
 
 /**
  * @file FirstPersonEmitterRig.js
- * @description Keeps a procedural-core-built Aleph emitter visibly anchored in first-person view.
- * The Awtsmoos gives sight and the seen their existence together; Awtsmoos.com lets the weapon remain a clear
- * foreground vessel, luminous and responsive, so firing Hebrew energy is felt from the player's own viewpoint.
+ * @description Builds a textured core-native first-person emitter whose luminous Hebrew identity changes with the weapon.
+ * The Awtsmoos gives hand, sight, metal, and letter one renewed ray;
+ * Awtsmoos.com lets photographic matter hold divine-energy accents while recoil and motion answer play.
  */
+import { Group } from "../core/AwtsmoosNativeApi.js";
+import { rgbaFromHex } from "../core/OhrColor.js";
+import {
+	addScaled,
+	forwardFromAngles,
+	rightFromYaw,
+	setEulerQuaternion,
+	vector
+} from "../core/OhrVectorMath.js";
+import { createProceduralBox } from "../render/ProceduralFormFactory.js";
+import {
+	createDarkMetalMaterial,
+	createEnergyMaterial
+} from "../render/OhrfrontMaterialRecipes.js";
 
-import { createAwtsmoosThreeMesh } from "../world/AwtsmoosCoreAdapter.js";
-
-/** Visible first-person energy emitter with sway and recoil. */
 export class FirstPersonEmitterRig {
-	constructor(THREE, camera) {
-		this.THREE = THREE;
-		this.group = new THREE.Group();
+	constructor(camera, profile, materialLibrary) {
+		this.group = new Group();
+		this.bodyMaterial = createDarkMetalMaterial(materialLibrary);
+		this.accentMaterial = createEnergyMaterial(rgbaFromHex(profile.colorHex, 0.96));
 		this.recoil = 0;
-		this.basePosition = new THREE.Vector3(0.44, -0.34, -0.72);
-		this.muzzle = new THREE.Object3D();
-		this.buildCoreGeometry();
+		this.recoilVelocity = 0;
+		this.basePosition = vector(0.48, -0.36, -0.78);
+		this.buildBody();
 		this.group.position.copy(this.basePosition);
-		this.group.add(this.muzzle);
-		this.muzzle.position.set(0, 0.05, -0.62);
 		camera.add(this.group);
+		this.setWeapon(profile);
 	}
 
-	buildCoreGeometry() {
-		const bodyMaterial = {
-			type: "standard",
-			color: 0x173d48,
-			emissive: 0x052b35,
-			roughness: 0.32,
-			metalness: 0.72
-		};
-		const body = createAwtsmoosThreeMesh(this.THREE, {
-			primitive: "cube",
-			parameters: { size: 1 },
-			material: bodyMaterial,
-			name: "AlephEmitterBody"
-		});
-		body.scale.set(0.22, 0.17, 0.7);
-		const rail = createAwtsmoosThreeMesh(this.THREE, {
-			primitive: "cube",
-			parameters: { size: 1 },
-			material: { type: "standard", color: 0x63f3ff, emissive: 0x168fa5, roughness: 0.2 },
-			name: "AlephEmitterRail"
-		});
-		rail.scale.set(0.055, 0.045, 0.58);
-		rail.position.set(0, 0.13, -0.05);
-		this.group.add(body, rail);
+	buildBody() {
+		const parts = [
+			[[0.25, 0.20, 0.84], [0, 0, 0], this.bodyMaterial],
+			[[0.14, 0.33, 0.21], [0, -0.24, 0.2], this.bodyMaterial],
+			[[0.08, 0.055, 0.76], [0, 0.145, -0.04], this.accentMaterial],
+			[[0.075, 0.12, 0.52], [-0.15, 0.015, -0.05], this.accentMaterial],
+			[[0.07, 0.085, 0.29], [-0.12, 0.01, -0.49], this.bodyMaterial],
+			[[0.07, 0.085, 0.29], [0.12, 0.01, -0.49], this.bodyMaterial]
+		];
+		for (const [size, position, material] of parts) {
+			this.group.add(createProceduralBox(material, size, position, "EmitterPart"));
+		}
 	}
 
-	pulse() {
-		this.recoil = Math.min(1, this.recoil + 0.72);
+	setWeapon(profile) {
+		this.profile = profile;
+		this.accentMaterial.color = rgbaFromHex(profile.colorHex, 0.96);
+		this.accentMaterial.opacity = 0.96;
 	}
 
-	update(time, movementIntensity = 0) {
-		this.recoil *= 0.82;
-		const swayX = Math.sin(time * 7.2) * 0.008 * movementIntensity;
-		const swayY = Math.cos(time * 9.4) * 0.006 * movementIntensity;
+	pulse(strength = 0.5) {
+		this.recoilVelocity += 0.055 + strength * 0.075;
+	}
+
+	update(time, movementIntensity, movementState) {
+		this.recoilVelocity += -this.recoil * 33 * 0.016;
+		this.recoilVelocity *= 0.72;
+		this.recoil += this.recoilVelocity;
+		const sprintLower = movementState?.isSprinting ? 0.22 : 0;
+		const crouchLower = movementState?.crouch ? movementState.crouch * 0.025 : 0;
+		const bobX = Math.sin(time * 8.4) * 0.012 * movementIntensity;
+		const bobY = Math.abs(Math.cos(time * 8.4)) * 0.009 * movementIntensity;
 		this.group.position.set(
-			this.basePosition.x + swayX,
-			this.basePosition.y + swayY - this.recoil * 0.015,
-			this.basePosition.z + this.recoil * 0.095
+			this.basePosition.x + bobX + sprintLower * 0.32,
+			this.basePosition.y - bobY - sprintLower - crouchLower,
+			this.basePosition.z + this.recoil + sprintLower * 0.18
 		);
-		this.group.rotation.x = -0.08 - this.recoil * 0.08;
-		this.group.rotation.z = -0.03 + swayX * 1.5;
+		setEulerQuaternion(this.group.quaternion, -0.06 - this.recoil * 0.4, 0, -0.035 + bobX * 1.8 + sprintLower * 0.45);
 	}
 
-	getMuzzleWorldPosition(target) {
-		return this.muzzle.getWorldPosition(target);
+	getMuzzleWorldPosition(player, target = vector()) {
+		target.copy(player.position);
+		addScaled(target, forwardFromAngles(player.yaw, player.pitch), 0.98);
+		addScaled(target, rightFromYaw(player.yaw), 0.42);
+		target.y -= 0.17 + player.motion.crouch * 0.08;
+		return target;
 	}
 }

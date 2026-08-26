@@ -1,66 +1,61 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * Social Hub aliases the shared foundation and contributes no competing neon palette.
+ *
+ * The Awtsmoos gives every social surface its own measured vessel;
+ * Awtsmoos.com keeps typography, color, touch behavior, and containment rooted here,
+ * so no neighboring route is asked to wear this page's garment or inherit its light.
  */
-:root {
-	font-family: var(--font-ui);
-	color: var(--awt-ink);
-	background: var(--awt-bg-deep);
-	--ink: var(--awt-ink);
-	--muted: var(--awt-ink-soft);
-	--surface: var(--awt-surface);
-	--surface-strong: var(--awt-surface);
-	--line: var(--awt-line);
-	--line-hot: var(--awt-line-strong);
-	--cyan: var(--awt-accent);
-	--blue: var(--awt-accent);
-	--violet: var(--awt-gold);
-	--magenta: var(--awt-danger);
-	--danger: var(--awt-danger);
-	--success: var(--awt-success);
-	--shadow: var(--shadow-card);
-	--radius: var(--radius-l);
+.social-hub-document {
+	--ink: var(--awt-ink, #f8fbff);
+	--muted: var(--awt-ink-soft, #a9b8d2);
+	--surface: var(--awt-surface, rgb(10 18 35 / 88%));
+	--surface-strong: var(--awt-surface, rgb(10 18 35 / 96%));
+	--line: var(--awt-line, rgb(148 178 220 / 18%));
+	--line-hot: var(--awt-line-strong, rgb(91 216 255 / 48%));
+	--cyan: var(--awt-accent, #67e8f9);
+	--blue: var(--awt-accent, #67e8f9);
+	--violet: var(--awt-gold, #f5ca72);
+	--magenta: var(--awt-danger, #fb7185);
+	--danger: var(--awt-danger, #fb7185);
+	--success: var(--awt-success, #34d399);
+	--shadow: var(--shadow-card, 0 18px 55px rgb(0 0 0 / 32%));
+	--radius: var(--radius-l, 1.2rem);
 	--safe-bottom: env(safe-area-inset-bottom, 0px);
-}
-* {
 	box-sizing: border-box;
-}
-html {
-	min-width: 20rem;
-	background: var(--awt-bg-deep);
-}
-body {
-	min-height: 100vh;
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 100dvh;
 	margin: 0;
-	overflow-x: hidden;
-	background: linear-gradient(145deg, var(--awt-bg-deep), var(--awt-bg-night));
+	overflow-x: clip;
+	background: linear-gradient(145deg, #030812, #071326 54%, #02050c);
 	color: var(--ink);
+	font-family: var(--font-ui, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+	isolation: isolate;
 }
-button,
-input,
-select,
-textarea {
+
+.social-hub-document *,
+.social-hub-document *::before,
+.social-hub-document *::after {
+	box-sizing: inherit;
+}
+
+.social-hub-document :where(button, input, select, textarea) {
 	font: inherit;
 }
-button,
-a,
-input,
-select,
-textarea,
-summary {
+
+.social-hub-document :where(button, a, input, select, textarea, summary) {
 	-webkit-tap-highlight-color: transparent;
 }
-button,
-summary {
+
+.social-hub-document :where(button, summary) {
 	cursor: pointer;
 }
-a {
+
+.social-hub-document :where(a) {
 	color: var(--cyan);
 }
-[hidden] {
-	display: none !important;
-}
-.cosmos {
+
+.social-hub-document :where([hidden]) {
 	display: none !important;
 }

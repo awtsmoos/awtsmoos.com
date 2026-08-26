@@ -4,70 +4,66 @@
 
 @import url('./site-builder-readiness.css');
 @import url('./site-builder-forms.css');
-@import url('./site-builder-preview.css');
 @import url('./site-builder-advanced.css');
 
 /**
- * The Awtsmoos clothes real editable source in one calm studio while every pane remains a distinct truthful vessel.
- * Awtsmoos.com now gives the builder a quiet architectural frame so readiness and creative action can shine without dashboard noise.
+ * The Awtsmoos clothes editable source in one calm studio; Awtsmoos.com gives Website Maker a dual Drive-and-builder root so no future editor, dock, pane, or generic builder class can collide outside its own vessel.
  */
 
-.builder-studio,
-.builder-pane,
-.builder-pane > *,
-.builder-code-shell,
-.builder-preview-shell {
+[data-awtsmoos-drive] .site-builder-root :where(.builder-studio, .builder-pane, .builder-pane > *, .builder-code-shell, .builder-preview-shell) {
 	min-width: 0;
 }
 
-.builder-studio {
+[data-awtsmoos-drive] .site-builder-root .builder-studio {
 	display: grid;
 	gap: 1rem;
 	width: min(100%, 72rem);
 	margin: 0 auto;
 }
 
-.builder-intro {
+[data-awtsmoos-drive] .site-builder-root .builder-intro {
 	display: grid;
 	gap: .55rem;
 	padding: clamp(1.1rem, 3vw, 1.65rem);
-	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
-	border-radius: 1.35rem;
-	background: color-mix(in srgb, var(--panel, #fff) 94%, currentColor 6%);
+	border: 1px solid var(--line);
+	border-radius: var(--radius-large);
+	background: linear-gradient(145deg, var(--surface-soft), rgba(110, 231, 183, .025));
 }
 
-.builder-intro h1,
-.builder-intro p {
+[data-awtsmoos-drive] .site-builder-root :where(.builder-intro h1, .builder-intro p) {
 	margin: 0;
 }
 
-.builder-intro h1 {
+[data-awtsmoos-drive] .site-builder-root .builder-intro h1 {
+	max-width: 20ch;
 	font-size: clamp(1.55rem, 4vw, 2.35rem);
 	line-height: 1.08;
+	letter-spacing: -.035em;
 }
 
-.builder-intro-copy {
+[data-awtsmoos-drive] .site-builder-root .builder-intro-copy {
 	max-width: 62ch;
 	line-height: 1.6;
 	opacity: .8;
 }
 
-.builder-kicker {
+[data-awtsmoos-drive] .site-builder-root .builder-kicker {
+	color: var(--accent);
 	font-size: .75rem;
-	font-weight: 800;
+	font-weight: 850;
 	letter-spacing: .13em;
 	text-transform: uppercase;
 }
 
-.builder-pane {
-	border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
-	border-radius: 1.15rem;
-	background: var(--panel, #fff);
+[data-awtsmoos-drive] .site-builder-root .builder-pane {
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: var(--surface);
 	overflow: clip;
 	scroll-margin-top: 5rem;
 }
 
-.builder-pane > summary {
+[data-awtsmoos-drive] .site-builder-root .builder-pane > summary {
 	display: flex;
 	align-items: center;
 	min-height: 54px;
@@ -76,32 +72,27 @@
 	cursor: pointer;
 }
 
-.builder-pane[open] > summary {
-	border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+[data-awtsmoos-drive] .site-builder-root .builder-pane > summary:hover {
+	background: var(--surface-hover);
 }
 
-.builder-pane-body {
+[data-awtsmoos-drive] .site-builder-root .builder-pane > summary:focus-visible {
+	background: var(--surface-hover);
+	box-shadow: inset var(--focus-ring);
+	outline: none;
+}
+
+[data-awtsmoos-drive] .site-builder-root .builder-pane[open] > summary {
+	border-bottom: 1px solid var(--line);
+	background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+
+[data-awtsmoos-drive] .site-builder-root .builder-pane-body {
 	display: grid;
 	gap: 1rem;
 	padding: 1rem;
 }
 
-.builder-preview-shell,
-.builder-code-shell {
-	width: 100%;
-}
-
-.builder-preview-frame {
-	display: block;
-	width: 100%;
-	min-height: 28rem;
-	border: 0;
-	background: #fff;
-}
-
-.builder-code-editor {
-	width: 100%;
-	min-height: 22rem;
-	resize: vertical;
-	font: .9rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-}
+[data-awtsmoos-drive] .site-builder-root :where(.builder-preview-shell, .builder-code-shell) { width: 100%; }
+[data-awtsmoos-drive] .site-builder-root .builder-preview-frame { display: block; width: 100%; min-height: 28rem; border: 0; background: #fff; }
+[data-awtsmoos-drive] .site-builder-root .builder-code-editor { width: 100%; min-height: 22rem; resize: vertical; font: .9rem/1.55 var(--mono); }

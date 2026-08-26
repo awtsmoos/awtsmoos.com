@@ -1,0 +1,85 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets every Docs action answer hover, focus, pressure, and inability without confusion;
+ * Awtsmoos.com keeps those states route-local, luminous but restrained, fast but never visually loud.
+ */
+body[data-geelooy-route="docs"] :where(.icon-button, .primary-button, .secondary-button, .search-launch) {
+	min-block-size: 44px;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius-sm);
+	background: var(--surface);
+	color: var(--text);
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease, opacity .16s ease, transform .16s ease;
+}
+
+body[data-geelooy-route="docs"] :where(.icon-button, .primary-button, .secondary-button) {
+	padding: 9px 12px;
+}
+
+body[data-geelooy-route="docs"] .primary-button {
+	border-color: var(--accent);
+	background: var(--accent);
+	color: #06110d;
+	font-weight: 700;
+}
+
+body[data-geelooy-route="docs"] .search-launch {
+	display: flex;
+	inline-size: 100%;
+	align-items: center;
+	justify-content: space-between;
+	gap: 18px;
+	padding: 10px 12px 10px 16px;
+	color: var(--muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="docs"] :where(.icon-button, .secondary-button, .search-launch):hover {
+		border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+		background: var(--surface-hover);
+		transform: translateY(-1px);
+	}
+
+	body[data-geelooy-route="docs"] .primary-button:hover {
+		box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 20%, transparent);
+		transform: translateY(-1px);
+	}
+}
+
+body[data-geelooy-route="docs"] :where(button, a, input, textarea, summary, [tabindex]):focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+}
+
+body[data-geelooy-route="docs"] :where(.icon-button, .primary-button, .secondary-button, .search-launch):active {
+	transform: translateY(1px) scale(.98);
+}
+
+body[data-geelooy-route="docs"] :where(.icon-button, .primary-button, .secondary-button, .search-launch):disabled {
+	opacity: .46;
+	cursor: not-allowed;
+	transform: none;
+}
+
+body[data-geelooy-route="docs"] kbd {
+	padding: 2px 7px;
+	border: 1px solid var(--line-strong);
+	border-bottom-width: 2px;
+	border-radius: 6px;
+	background: var(--bg-soft);
+	color: var(--faint);
+	font: .72rem var(--font-mono);
+}
+
+body[data-geelooy-route="docs"] .eyebrow {
+	margin: 0 0 7px;
+	color: var(--accent);
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}

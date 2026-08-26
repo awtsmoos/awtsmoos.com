@@ -1,30 +1,75 @@
-<!--B"H-->
-<!DOCTYPE html>
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!--
+	The Awtsmoos renews player, road, choice, and screen in every instant of the run.
+	Awtsmoos.com receives a clean vessel: simple at first glance, expandable when deeper mastery has begun.
+-->
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>The Rebbe's Runner</title>
-    <link rel="stylesheet" href="style.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#07101f">
+	<title>Rebbe Runner — Run With Kavanah</title>
+	<link rel="stylesheet" href="./style.css">
 </head>
-<body>
-    <div id="gameContainer">
-        <h1>The Rebbe's Runner</h1>
-        <canvas id="gameCanvas"></canvas>
-        <div id="instructions">
-            <p class="desktop-only">Press 'Space' to Jump</p>
-            <p class="mobile-only">Tap the Screen to Jump</p>
-        </div>
-        <div id="startScreen">
-            <p>Help the Chossid on the path to Geulah!</p>
-            <p>Press Space or Tap to Begin</p>
-        </div>
-        <div id="gameOverScreen" style="display:none;">
-            <p>Oy Vey! A temporary concealment.</p>
-            <p>Press Space or Tap to Try Again</p>
-        </div>
-    </div>
-    <script src="assets.js" defer></script>
-    <script src="game.js" defer></script>
+<body class="rebbe-runner">
+	<main class="rebbe-runner__app" id="rebbe-runner-app">
+		<header class="rebbe-runner__header">
+			<div class="rebbe-runner__identity">
+				<span class="rebbe-runner__eyebrow">RUN WITH KAVANAH</span>
+				<h1 class="rebbe-runner__title">Rebbe Runner</h1>
+				<p class="rebbe-runner__stage" data-hud="stage">Dawn of Kavanah</p>
+			</div>
+			<details class="rebbe-runner__drawer">
+				<summary>Run systems</summary>
+				<div class="rebbe-runner__drawer-body">
+					<p><strong>Jump:</strong> Space / ↑ / W</p>
+					<p><strong>Slide:</strong> ↓ / S</p>
+					<p><strong>Pause:</strong> P / Esc</p>
+					<p>Chain sparks for combo score. Shield blocks a hit. Magnet draws sparks. Calm slows the world.</p>
+				</div>
+			</details>
+		</header>
+
+		<section class="rebbe-runner__hud" aria-label="Run status">
+			<div class="rebbe-runner__stat"><span>Score</span><strong data-hud="score">00000</strong></div>
+			<div class="rebbe-runner__stat"><span>Best</span><strong data-hud="best">00000</strong></div>
+			<div class="rebbe-runner__stat"><span>Hearts</span><strong data-hud="hearts">♥♥♥</strong></div>
+			<div class="rebbe-runner__stat"><span>Combo</span><strong data-hud="combo">—</strong></div>
+		</section>
+
+		<section class="rebbe-runner__mission" aria-live="polite">
+			<span class="rebbe-runner__mission-label">Next revelation</span>
+			<strong data-hud="objective">650m until City of Focus</strong>
+			<span data-hud="blessing">No active shefa</span>
+		</section>
+
+		<section class="rebbe-runner__arena" aria-label="Runner game">
+			<div class="rebbe-runner__canvas-shell">
+				<canvas id="rebbe-runner-canvas" class="rebbe-runner__canvas" width="960" height="540" aria-label="Rebbe Runner gameplay canvas"></canvas>
+				<div class="rebbe-runner__overlay" data-overlay>
+					<div class="rebbe-runner__overlay-card">
+						<span class="rebbe-runner__pulse" aria-hidden="true"></span>
+						<h2 data-overlay-title>Run with Kavanah</h2>
+						<p data-overlay-copy>Jump, double-jump, slide, gather sparks, and keep the combo alive.</p>
+						<button class="rebbe-runner__button rebbe-runner__button--primary" type="button" data-action="primary">Begin run</button>
+					</div>
+				</div>
+				<p class="rebbe-runner__boot-error" data-boot-error hidden role="alert"></p>
+			</div>
+
+			<div class="rebbe-runner__controls" aria-label="Game controls">
+				<button class="rebbe-runner__button rebbe-runner__button--move" type="button" data-action="slide"><span>Slide</span><small>↓</small></button>
+				<button class="rebbe-runner__button rebbe-runner__button--jump" type="button" data-action="jump"><span>Jump</span><small>↑</small></button>
+				<button class="rebbe-runner__button rebbe-runner__button--ghost" type="button" data-action="pause"><span>Pause</span><small>P</small></button>
+			</div>
+		</section>
+	</main>
+
+	<script src="/games/scripts/runtime/index.js"></script>
+	<script type="module" src="./js/main.js"></script>
+	<script src="/games/scripts/player-shell/index.js"></script>
 </body>
 </html>

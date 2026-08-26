@@ -1,0 +1,71 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives the living search a calm finite shell while renewing field, placeholder, and focus every instant in time;
+ * Awtsmoos.com keeps geometry and text ownership here so pressure actions may remain a separate, readable rhyme.
+ */
+.g-header-search,
+.geelooy-search {
+	position: relative;
+	display: grid;
+	grid-template-columns: 44px minmax(0, 1fr) 44px;
+	align-items: center;
+	gap: .48rem;
+	min-inline-size: 0;
+	min-block-size: 3.55rem;
+	padding: .38rem .42rem .38rem .48rem;
+	border: 1px solid rgba(124, 226, 240, .34);
+	border-radius: 999px;
+	background: linear-gradient(135deg, #0e1c2f, #1c1438);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .08), 0 .7rem 1.8rem rgba(0, 0, 0, .22);
+	color: var(--g-text, #f5f7fb);
+}
+
+.g-header-search::before {
+	position: absolute;
+	inset: -1px;
+	z-index: -1;
+	border-radius: inherit;
+	background: linear-gradient(100deg, rgba(60, 236, 255, .36), transparent 34%, rgba(255, 72, 203, .3));
+	content: "";
+	opacity: .42;
+}
+
+.g-header-search[data-open="true"],
+.g-header-search:focus-within {
+	border-color: rgba(124, 226, 240, .74);
+	box-shadow: inset 0 1px rgba(255, 255, 255, .1), 0 0 0 3px rgba(60, 236, 255, .14), 0 .9rem 2rem rgba(0, 0, 0, .26);
+}
+
+.g-header-search input {
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 44px;
+	padding: .65rem .8rem;
+	border: 1px solid rgba(255, 255, 255, .12) !important;
+	border-radius: 999px !important;
+	background: rgba(4, 13, 25, .58) !important;
+	box-shadow: inset 0 1px rgba(255, 255, 255, .035) !important;
+	color: var(--g-text, #f5f7fb);
+	font-size: max(1rem, 16px);
+	font-weight: 700;
+	outline: 0;
+	transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease !important;
+}
+
+.g-header-search input::placeholder {
+	color: #b8c5da;
+	opacity: 1;
+}
+
+.g-header-search input:focus-visible {
+	border-color: rgba(124, 226, 240, .72) !important;
+	background: rgba(9, 23, 39, .9) !important;
+	box-shadow: 0 0 0 3px rgba(124, 226, 240, .14) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-header-search input {
+		transition: none !important;
+	}
+}

@@ -3,9 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos renews one supervisor log, one canonical child, and one exit record.
-# Awtsmoos.com refuses anonymous termination while installer/service transitions carry
-# the private stop marker before asking the guardian to release its living child.
+# The Awtsmoos renews one guardian and one child while a rescue ember may remain;
+# Awtsmoos.com never snuffs the emergency bridge before primary ACK has a name.
 supervisor_log() {
 	local event="$1"
 	local detail="${2:-}"
@@ -20,13 +19,12 @@ supervisor_alive() {
 supervisor_command_contains() {
 	local pid="$1"
 	local expected="$2"
-	supervisor_alive "$pid" &&
-		ps -p "$pid" -o command= 2>/dev/null | grep -Fq "$expected"
+	supervisor_alive "$pid" && ps -p "$pid" -o command= 2>/dev/null | grep -Fq "$expected"
 }
 
 supervisor_agent_command() {
 	local pid="$1"
-	supervisor_command_contains "$pid" "$ROOT/main.js" ||
+	supervisor_command_contains "$pid" "$ROOT/main.js" || \
 		supervisor_command_contains "$pid" "$ROOT/awtsmoos-agent-launcher.cjs"
 }
 
@@ -39,7 +37,6 @@ finish_supervisor() {
 	supervisor_log "marked_supervisor_stop_accepted" \
 		"pid=$$ childPid=${CHILD_PID:-missing}"
 	stop_managed_child
-	stop_emergency_runtime 2>/dev/null || true
 	cleanup_supervisor
 	exit 0
 }
@@ -65,6 +62,7 @@ adopt_existing_agent() {
 	unset AWTSMOOS_ACTIVATION_ID 2>/dev/null || true
 	printf '%s\n' "$CHILD_PID" > "$PID_FILE"
 	supervisor_log "$event" "pid=$CHILD_PID activation=adopted_unbound"
+	retire_emergency_after_primary_registration "$CHILD_PID" &
 }
 
 start_new_agent() {
@@ -77,7 +75,6 @@ start_new_agent() {
 	else
 		unset AWTSMOOS_COMMAND_MAX_ACTIVE 2>/dev/null || true
 	fi
-	stop_emergency_runtime 2>/dev/null || true
 	stop_supervisor_legacy_processes
 	existing="$(reconcile_agent_processes)"
 	if supervisor_agent_command "$existing"; then
@@ -92,6 +89,7 @@ start_new_agent() {
 	printf '%s\n' "$CHILD_PID" > "$PID_FILE"
 	supervisor_log "agent_started" \
 		"pid=$CHILD_PID recoveryTier=${AWTSMOOS_RECOVERY_TIER:-5} node=$AWTSMOOS_NODE_BIN"
+	retire_emergency_after_primary_registration "$CHILD_PID" &
 }
 
 record_child_exit() {

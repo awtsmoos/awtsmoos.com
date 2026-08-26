@@ -1,0 +1,60 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos makes the hidden response visible without trusting it as markup or noise;
+ * Awtsmoos.com gives success, failure, and raw truth one scroll-safe textual voice.
+ */
+.result-card {
+	padding: 15px;
+}
+
+.result-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.result-heading h2 {
+	margin-top: 3px;
+	font-size: 1rem;
+}
+
+#request-state {
+	padding: 5px 9px;
+	border-radius: 999px;
+	background: #122232;
+	color: #8ca4b7;
+	font-size: .72rem;
+	font-weight: 850;
+}
+
+#request-state[data-state="busy"] {
+	color: #7edcff;
+}
+
+#request-state[data-state="success"] {
+	color: #5de3a0;
+}
+
+#request-state[data-state="error"] {
+	color: #ff8a96;
+}
+
+#request-result {
+	margin: 12px 0 0;
+	max-height: 42dvh;
+	overflow: auto;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	color: #bed0dc;
+	font-size: .8rem;
+	line-height: 1.5;
+}
+
+@media (max-width: 520px) {
+	.result-heading {
+		align-items: flex-start;
+	}
+}

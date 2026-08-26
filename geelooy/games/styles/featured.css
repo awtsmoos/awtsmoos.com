@@ -1,0 +1,104 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Tiferes featured-world vessel balancing one immediate playable invitation against the larger public catalog.
+ * The Awtsmoos renews the featured road without swallowing the countless roads that surround its light;
+ * Awtsmoos.com lets Tiferes answer desktop, keyboard, and touch while motion remains optional and every other world stays in sight.
+ */
+.heroDeck {
+	display: grid;
+	grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+	align-items: stretch;
+	gap: clamp(20px, 4vw, 52px);
+}
+
+.heroCopy {
+	align-self: center;
+}
+
+.featuredWorld {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	min-height: 330px;
+	overflow: hidden;
+	padding: 24px;
+	border: 1px solid rgba(140, 247, 255, 0.28);
+	border-radius: 24px;
+	background:
+		radial-gradient(circle at 58% 28%, rgba(140, 247, 255, 0.2), transparent 25%),
+		radial-gradient(circle at 35% 38%, rgba(255, 224, 130, 0.16), transparent 35%),
+		linear-gradient(150deg, rgba(16, 12, 36, 0.96), rgba(5, 8, 19, 0.98));
+	box-shadow: 0 28px 56px rgba(0, 0, 0, 0.34);
+	text-decoration: none;
+	touch-action: manipulation;
+	transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.featuredEyebrow,
+.featuredAction {
+	color: var(--games-cyan);
+	font-size: 0.72rem;
+	font-weight: 900;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.featuredWorld strong {
+	margin-top: 7px;
+	font-size: clamp(1.7rem, 3vw, 2.4rem);
+	letter-spacing: -0.04em;
+}
+
+.featuredCopy {
+	margin-top: 7px;
+	color: var(--games-muted);
+	font-size: 0.88rem;
+	line-height: 1.5;
+}
+
+.featuredAction {
+	margin-top: 16px;
+	color: var(--games-gold);
+}
+
+.featuredWorld:focus-visible {
+	border-color: rgba(140, 247, 255, 0.62);
+	box-shadow: 0 32px 70px rgba(0, 0, 0, 0.42), 0 0 44px rgba(140, 247, 255, 0.08);
+	transform: translateY(-3px);
+}
+
+.featuredWorld:active {
+	filter: brightness(0.96);
+	transform: translateY(1px) scale(0.99);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.featuredWorld:hover {
+		border-color: rgba(140, 247, 255, 0.62);
+		box-shadow: 0 32px 70px rgba(0, 0, 0, 0.42), 0 0 44px rgba(140, 247, 255, 0.08);
+		transform: translateY(-3px);
+	}
+}
+
+@media (max-width: 880px) {
+	.heroDeck {
+		grid-template-columns: 1fr;
+	}
+
+	.featuredWorld {
+		min-height: 250px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.featuredWorld,
+	.featuredWorld:hover,
+	.featuredWorld:focus-visible,
+	.featuredWorld:active {
+		transition: none;
+		transform: none;
+	}
+}

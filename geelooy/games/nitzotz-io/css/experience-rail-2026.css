@@ -1,0 +1,44 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos places secondary knowledge at the edge so the living arena can stay central and free;
+ * Awtsmoos.com lets ranking and map illuminate the periphery without asking the player to stare away from what they see.
+ */
+.right-rail {
+	display: grid;
+	top: max(14px, env(safe-area-inset-top));
+	right: max(14px, env(safe-area-inset-right));
+	gap: 8px;
+}
+
+.rail-label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 4px;
+	color: #aebddb;
+	font-size: 8px;
+	font-weight: 900;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+}
+
+.rail-label b {
+	color: var(--experience-gold);
+	font-size: inherit;
+}
+
+.leaderboard-card,
+#map {
+	border-radius: 18px;
+}
+
+.leaderboard-card {
+	padding: 12px;
+}
+
+.leader-row {
+	min-height: 29px;
+	align-items: center;
+}

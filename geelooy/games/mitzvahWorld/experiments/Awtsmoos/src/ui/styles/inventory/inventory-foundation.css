@@ -1,0 +1,45 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the Bag one named layer and safe boundary without global decree;
+ * Awtsmoos.com keeps the shell inert when closed and fully bounded when deliberate vision is free.
+ */
+
+.Awtsmoos-inventory-shell {
+	--inv-safe-top: max(8px, env(safe-area-inset-top, 0px));
+	--inv-safe-right: max(8px, env(safe-area-inset-right, 0px));
+	--inv-safe-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+	--inv-safe-left: max(8px, env(safe-area-inset-left, 0px));
+	--inv-z-shell: 980;
+	--inv-z-backdrop: 0;
+	--inv-z-panel: 1;
+	--inv-z-actions: 4;
+	--inv-line: rgba(134, 255, 224, 0.24);
+	--inv-gold: #ffd884;
+	--inv-text: #effff9;
+	position: fixed;
+	inset: 0;
+	z-index: var(--inv-z-shell);
+	display: grid;
+	place-items: center;
+	pointer-events: none;
+}
+
+.Awtsmoos-inventory-shell[data-modal-active="true"] {
+	pointer-events: auto;
+}
+
+.Awtsmoos-inventory-shell .Awtsmoos-inventory-backdrop {
+	position: absolute;
+	inset: 0;
+	z-index: var(--inv-z-backdrop);
+	background: rgba(0, 7, 12, 0.82);
+	backdrop-filter: blur(10px) saturate(1.08);
+	pointer-events: auto;
+}
+
+.Awtsmoos-inventory-shell .Awtsmoos-inventory-backdrop[hidden],
+.Awtsmoos-inventory-shell .Awtsmoos-inventory-panel[data-open="false"] {
+	display: none;
+}

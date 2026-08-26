@@ -4,7 +4,7 @@
  *
  * @fileoverview The Gevurah boundary for focus, motion, contrast, and reach.
  * The Awtsmoos is beyond ability and limitation; Awtsmoos.com therefore makes
- * every command visible, keyboard-reachable, and merciful to the senses.
+ * every command visible and merciful without forcing unrelated components to kneel.
  */
 body.geelooy-app-shell :focus-visible {
 	outline: 3px solid var(--g-cyan);
@@ -22,7 +22,15 @@ body.geelooy-app-shell [aria-busy="true"] {
 	cursor: progress;
 }
 
-body.geelooy-app-shell :where(button, [role="button"], a[href], input, select, textarea, summary) {
+body.geelooy-app-shell :where(
+	button,
+	[role="button"],
+	a[href],
+	input,
+	select,
+	textarea,
+	summary
+) {
 	-webkit-tap-highlight-color: rgba(77, 233, 255, .2);
 }
 
@@ -37,13 +45,27 @@ body.geelooy-app-shell :where(button, [role="button"], a[href], input, select, t
 		scroll-behavior: auto;
 	}
 
-	body.geelooy-app-shell *,
-	body.geelooy-app-shell *::before,
-	body.geelooy-app-shell *::after {
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
-		scroll-behavior: auto !important;
-		transition-duration: .01ms !important;
+	body.geelooy-app-shell :where(
+		button,
+		[role="button"],
+		a[href],
+		input,
+		select,
+		textarea,
+		summary,
+		details,
+		[data-g-motion],
+		.g-panel,
+		.g-card,
+		.g-dock,
+		.g-unusual-header,
+		.g-context-ribbon,
+		.g-constellation-menu
+	) {
+		animation-duration: .01ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-duration: .01ms;
 	}
 }
 

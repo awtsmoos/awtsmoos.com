@@ -1,5 +1,25 @@
 /* B"H */
-.awt-comment-tree { display: grid; gap: 10px; }
-.awt-comment { border-left: 2px solid var(--awt-border); padding: 10px 0 10px 14px; }
-.awt-comment strong { color: var(--awt-accent); }
-.awt-comment p { margin: 6px 0 0; color: var(--awt-muted); }
+/** The Awtsmoos lets recursive discussion deepen without pushing a narrow screen sideways. */
+.awtsmoos-social-root .awt-comment-tree {
+	display: grid;
+	gap: .65rem;
+	min-inline-size: 0;
+}
+
+.awtsmoos-social-root .awt-comment {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: .65rem 0 .65rem clamp(.45rem, 2vw, .9rem);
+	border-inline-start: 2px solid var(--awt-border);
+}
+
+.awtsmoos-social-root .awt-comment strong {
+	overflow-wrap: anywhere;
+	color: var(--awt-accent);
+}
+
+.awtsmoos-social-root .awt-comment p {
+	margin: .4rem 0 0;
+	overflow-wrap: anywhere;
+	color: var(--awt-muted);
+}

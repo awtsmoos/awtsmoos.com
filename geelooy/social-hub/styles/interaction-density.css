@@ -6,29 +6,29 @@
  * Awtsmoos.com lets advanced social vessels fold, while the present deed remains near the hand.
  */
 
-.interactionPanel,
-.activityPanel,
-.profilePanel,
-.referencesPanel,
-.privacyPanel {
+.social-hub-document .interactionPanel,
+.social-hub-document .activityPanel,
+.social-hub-document .profilePanel,
+.social-hub-document .referencesPanel,
+.social-hub-document .privacyPanel {
 	min-height: 0;
 }
 
-.interactionPanel .panelIntro {
+.social-hub-document .interactionPanel .panelIntro {
 	margin-bottom: .7rem;
 }
 
-.commentComposer,
-.referenceComposer {
+.social-hub-document .commentComposer,
+.social-hub-document .referenceComposer {
 	margin-block: .7rem;
 	padding: clamp(.8rem, 1.8vw, 1.1rem);
 }
 
-.commentComposer > label:first-child textarea {
+.social-hub-document .commentComposer > label:first-child textarea {
 	min-height: 8rem;
 }
 
-.hub-disclosure {
+.social-hub-document .hub-disclosure {
 	background: rgb(2 5 15 / 38%);
 	border: 1px solid var(--line);
 	border-radius: var(--radius);
@@ -36,7 +36,7 @@
 	overflow: clip;
 }
 
-.hub-disclosure > summary {
+.social-hub-document .hub-disclosure > summary {
 	align-items: center;
 	cursor: pointer;
 	display: flex;
@@ -48,42 +48,42 @@
 	padding: .72rem .9rem;
 }
 
-.hub-disclosure > summary::-webkit-details-marker {
+.social-hub-document .hub-disclosure > summary::-webkit-details-marker {
 	display: none;
 }
 
-.hub-disclosure > summary::after {
+.social-hub-document .hub-disclosure > summary::after {
 	color: var(--muted);
 	content: "＋";
 	font-weight: 900;
 }
 
-.hub-disclosure[open] > summary {
+.social-hub-document .hub-disclosure[open] > summary {
 	border-bottom: 1px solid var(--line);
 	color: var(--cyan);
 }
 
-.hub-disclosure[open] > summary::after {
+.social-hub-document .hub-disclosure[open] > summary::after {
 	content: "−";
 }
 
-.hub-disclosure > :not(summary) {
+.social-hub-document .hub-disclosure > :not(summary) {
 	margin: 0;
 }
 
-.hub-disclosure--promotion .promotionPanel {
+.social-hub-document .hub-disclosure--promotion .promotionPanel {
 	border: 0;
 	box-shadow: none;
 	margin: 0;
 }
 
-.hub-disclosure--results > :not(summary),
-.hub-disclosure--privacy > :not(summary) {
+.social-hub-document .hub-disclosure--results > :not(summary),
+.social-hub-document .hub-disclosure--privacy > :not(summary) {
 	padding: .75rem;
 }
 
-.activityTimeline,
-.referenceMap {
+.social-hub-document .activityTimeline,
+.social-hub-document .referenceMap {
 	max-height: min(62dvh, 44rem);
 	min-height: 0;
 	overflow: auto;
@@ -91,7 +91,7 @@
 	scrollbar-gutter: stable;
 }
 
-.profilePanel .cardGrid {
+.social-hub-document .profilePanel .cardGrid {
 	max-height: min(38dvh, 20rem);
 	min-height: 0;
 	overflow: auto;
@@ -99,17 +99,17 @@
 	scrollbar-gutter: stable;
 }
 
-.privacyGrid,
-.categoryGrid {
+.social-hub-document .privacyGrid,
+.social-hub-document .categoryGrid {
 	gap: .55rem;
 }
 
 @media (max-width: 640px) {
-	.commentComposer > label:first-child textarea {
+	.social-hub-document .commentComposer > label:first-child textarea {
 		min-height: 6.5rem;
 	}
 
-	.profilePanel .cardGrid {
+	.social-hub-document .profilePanel .cardGrid {
 		max-height: 18rem;
 	}
 }

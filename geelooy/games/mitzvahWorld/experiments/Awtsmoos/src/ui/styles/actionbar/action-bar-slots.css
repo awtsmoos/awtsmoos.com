@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals many deeds through one measured lattice of readiness and restraint;
+ * Awtsmoos.com gives every slot rest, hover, focus, press, empty, unavailable, and drag state.
+ */
+
+.Mitzvah-combat-host .Mitzvah-action-slot {
+	--ability-a: #527d79;
+	--ability-b: #142a2c;
+	position: relative;
+	display: grid;
+	place-items: center;
+	isolation: isolate;
+	min-width: 0;
+	aspect-ratio: 1;
+	overflow: hidden;
+	padding: 0;
+	border: 1px solid rgba(231, 198, 119, 0.62);
+	border-radius: 8px;
+	background:
+		linear-gradient(145deg, rgba(255, 255, 255, 0.16), transparent 34%),
+		radial-gradient(circle at 50% 42%, var(--ability-a), var(--ability-b) 72%);
+	box-shadow: inset 0 0 0 2px rgba(8, 7, 5, 0.54);
+	color: #fff8df;
+	font-family: ui-sans-serif, system-ui, sans-serif;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition:
+		filter 120ms ease,
+		opacity 120ms ease,
+		transform 120ms ease,
+		border-color 120ms ease;
+}
+
+@media (hover: hover) {
+	.Mitzvah-combat-host .Mitzvah-action-slot:hover:not(.is-unavailable, .is-empty) {
+		filter: brightness(1.16) saturate(1.08);
+		transform: translateY(-2px);
+	}
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot:active:not(.is-unavailable, .is-empty) {
+	transform: translateY(0) scale(0.96);
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot:focus-visible {
+	outline: 3px solid var(--ab-focus);
+	outline-offset: 2px;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot.is-empty {
+	border-color: rgba(190, 172, 131, 0.25);
+	background: linear-gradient(145deg, rgba(72, 68, 58, 0.42), rgba(13, 15, 14, 0.78));
+	cursor: default;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot.is-unavailable {
+	opacity: 0.56;
+	filter: grayscale(0.84);
+	cursor: not-allowed;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-slot.is-dragging {
+	opacity: 0.42;
+	transform: scale(0.92);
+}
+
+.Mitzvah-combat-host .Mitzvah-slot-glyph {
+	grid-area: 1 / 1;
+	z-index: 1;
+	direction: rtl;
+	font: 800 clamp(14px, 1.7vw, 24px)/1 Georgia, "Times New Roman", serif;
+	letter-spacing: -0.06em;
+	text-shadow: 0 2px 3px rgba(0, 0, 0, 0.85);
+}

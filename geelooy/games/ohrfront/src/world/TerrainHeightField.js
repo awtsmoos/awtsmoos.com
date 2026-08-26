@@ -4,48 +4,31 @@
 
 /**
  * @file TerrainHeightField.js
- * @description Owns the deterministic Har HaOhr ground law shared by rendering, movement, bots, and objectives.
- * The Awtsmoos renews every ridge from nothing each instant; Awtsmoos.com gives that boundless renewal one
- * reproducible seed so every visible hill and every collision answer speak the same measured truth.
+ * @description Defines one smooth deterministic Har HaOhr ground law for rendering, movement, AI, and objectives.
+ * The Awtsmoos renews every ridge without discontinuity; Awtsmoos.com keeps one reproducible height covenant so
+ * the visible mountain, the player's foot, and the bot's navigation never argue about where the earth exists.
  */
-
 export const HAR_HAOHR_SEED = 613;
-export const HAR_HAOHR_HALF_SIZE = 210;
+export const HAR_HAOHR_HALF_SIZE = 220;
 
-/**
- * Produces a stable pseudo-random value in [-1, 1] without mutable state.
- * @param {number} value Coordinate-derived scalar.
- * @param {number} seed Campaign seed.
- * @returns {number} Stable signed noise sample.
- */
-function signedHash(value, seed) {
-	const wave = Math.sin(value * 12.9898 + seed * 78.233) * 43758.5453;
-	return (wave - Math.floor(wave)) * 2 - 1;
-}
-
-/**
- * Samples the continuous battlefield height at an X/Z position.
- * @param {number} x World X.
- * @param {number} z World Z.
- * @param {number} seed Deterministic campaign seed.
- * @returns {number} World-space ground height.
- */
+/** Samples smooth multi-frequency battlefield height. */
 export function sampleHarHaOhrHeight(x, z, seed = HAR_HAOHR_SEED) {
-	const broadRidges = Math.sin((x + seed) * 0.021) * 10;
-	const valleyFold = Math.cos((z - seed) * 0.018) * 8;
-	const crossedStone = Math.sin((x + z) * 0.041) * 4.5;
-	const distantRoll = Math.cos((x - z) * 0.012) * 6;
-	const grain = signedHash(x * 0.045 + z * 0.037, seed) * 1.5;
-	const centralPass = Math.exp(-(x * x + z * z) / 6200) * -7;
-	return broadRidges + valleyFold + crossedStone + distantRoll + grain + centralPass;
+	const phase = seed * 0.0017;
+	const ridge = Math.sin(x * 0.019 + phase) * 10.5;
+	const valley = Math.cos(z * 0.017 - phase * 1.4) * 8.2;
+	const cross = Math.sin((x + z) * 0.036 + phase * 2.2) * 4.1;
+	const roll = Math.cos((x - z) * 0.011 - phase * 1.8) * 5.6;
+	const detail = Math.sin(x * 0.071 + z * 0.049 + phase * 4.3) * 1.8;
+	const pass = -8.5 * Math.exp(-(x * x + z * z) / 7800);
+	const northRidge = 5.5 * Math.exp(-((z + 105) * (z + 105)) / 1500) * Math.sin(x * 0.026);
+	return ridge + valley + cross + roll + detail + pass + northRidge;
 }
 
-/**
- * Clamps a horizontal coordinate to the playable terrain square.
- * @param {number} value Coordinate to constrain.
- * @returns {number} Playable coordinate.
- */
+/** Keeps an entity inside the generated battlefield with a collision-safe margin. */
 export function clampToHarHaOhr(value) {
-	const margin = 8;
-	return Math.max(-HAR_HAOHR_HALF_SIZE + margin, Math.min(HAR_HAOHR_HALF_SIZE - margin, value));
+	const margin = 9;
+	return Math.max(
+		-HAR_HAOHR_HALF_SIZE + margin,
+		Math.min(HAR_HAOHR_HALF_SIZE - margin, value)
+	);
 }

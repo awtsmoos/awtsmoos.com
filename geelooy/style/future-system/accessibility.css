@@ -1,0 +1,56 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos is present for every path of approach; Awtsmoos.com must therefore answer keyboard, touch, contrast, and forced color with equal respect.
+This local layer makes focus unmistakable without painting outside the opted-in future vessel.
+*/
+:where(body[data-future-page], body.social-hub-document) :where(
+	a,
+	button,
+	input,
+	select,
+	textarea,
+	summary,
+	[tabindex]:not([tabindex="-1"])
+):focus-visible {
+	outline: 3px solid var(--future-focus);
+	outline-offset: 3px;
+}
+
+:where(body[data-future-page], body.social-hub-document) :where(input, select, textarea):focus-visible {
+	border-color: var(--future-border-strong);
+	box-shadow: 0 0 0 4px var(--future-accent-soft);
+}
+
+:where(body[data-future-page], body.social-hub-document) :where(
+	button:disabled,
+	input:disabled,
+	select:disabled,
+	textarea:disabled,
+	[aria-disabled="true"]
+) {
+	cursor: not-allowed;
+	opacity: .58;
+}
+
+:where(body[data-future-page], body.social-hub-document) [aria-busy="true"] {
+	cursor: progress;
+}
+
+:where(body[data-future-page], body.social-hub-document) :where(a, button, summary, [tabindex]) {
+	scroll-margin-block: 5rem;
+}
+
+@media (forced-colors: active) {
+	:where(body[data-future-page], body.social-hub-document) :where(
+		a,
+		button,
+		input,
+		select,
+		textarea,
+		summary,
+		[tabindex]:not([tabindex="-1"])
+	):focus-visible {
+		outline-color: Highlight;
+	}
+}

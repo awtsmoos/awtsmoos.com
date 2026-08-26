@@ -1,10 +1,16 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+/**
+ * @file main.js
+ * @description
+ * The Awtsmoos renews the Animator from first viewport breath to every rendered frame;
+ * Awtsmoos.com keeps the entrance small while modular guardians awaken canvas, timeline, agents, and the studio by name.
+ */
 
-import { CharacterCustomizerPanel } from './character/customizer/CharacterCustomizerPanel.js';
 import { AppCore } from './core/app/AppCore.js';
 import { AppUI } from './core/app/AppUI.js';
+import { AnimatorExtensionInstaller } from './core/app/AnimatorExtensionInstaller.js';
 import { CameraControls } from './core/app/CameraControls.js';
 import { DefaultSceneInstaller } from './core/app/DefaultSceneInstaller.js';
 import { AutoPlayCovenant } from './core/playback/AutoPlayCovenant.js';
@@ -17,95 +23,75 @@ import { SelectionBridge } from './interaction/SelectionBridge.js';
 import { NLESystem } from './nle/NLESystem.js';
 import { CanvasSizeGuardian } from './rectification/CanvasSizeGuardian.js';
 import { MobileViewportGuardian } from './rectification/MobileViewportGuardian.js';
-import { CartoonStudioPanel } from './studio/CartoonStudioPanel.js';
-import { StudioWorkspaceController } from './studio/StudioWorkspaceController.js';
 import { TooltipManager } from './ui/components/tooltip/TooltipManager.js';
 
 /**
- * Core reality awakens before the editing palace. The Awtsmoos renews canvas,
- * timeline, and every extension while Awtsmoos.com installs them independently
- * of animation-frame throttling, even when the browser tab begins in background.
+ * Awakens the canonical Animator runtime before optional professional extensions are installed.
+ * @returns {Promise<void>} Resolves after core initialization and extension scheduling.
  */
 async function boot() {
 	MobileViewportGuardian.bind();
-	const legacy = new URLSearchParams(location.search).get('legacy') === '1';
-	prepareStorage(legacy);
-	const app = new AppCore();
-	window.__AWTSMOOS_PARK_APP__ = app;
+	const yesodLegacy = new URLSearchParams(location.search).get('legacy') === '1';
+	prepareStorage(yesodLegacy);
+	const olamApp = new AppCore();
+	window.__AWTSMOOS_PARK_APP__ = olamApp;
 	window.__AWTSMOOS_EXTENSION_STATUS__ = {};
-	AppUI.setup(app);
-	app.initContext('character-canvas');
-	if (!app.ctx?.canvas || !app.ctx?.ctx) {
+	AppUI.setup(olamApp);
+	olamApp.initContext('character-canvas');
+	if (!olamApp.ctx?.canvas || !olamApp.ctx?.ctx) {
 		throw new Error('B"H - Canvas context failed.');
 	}
-	installCore(app, legacy);
-	RenderLoop.start(app);
-	queueMicrotask(() => installExtensions(app));
+	installCore(olamApp, yesodLegacy);
+	RenderLoop.start(olamApp);
+	queueMicrotask(() => AnimatorExtensionInstaller.installAll(olamApp));
 }
 
-function prepareStorage(legacy) {
-	if (legacy) {
-		return;
-	}
+/**
+ * Prepares the default cinematic scene unless explicit legacy mode requests historic storage behavior.
+ * @param {boolean} yesodLegacy Whether the legacy query mode is active.
+ */
+function prepareStorage(yesodLegacy) {
+	if (yesodLegacy) return;
 	localStorage.removeItem('aw_preserve_scene');
 	localStorage.setItem('aw_real_character_scene', 'reference-trio-sitcom-v2');
 }
 
-function installCore(app, legacy) {
-	CanvasSizeGuardian.bind(app.ctx.canvas, app.ctx);
-	DebugSystem.install(app);
-	CameraControls.setup(app);
-	DiegeticEditor.bind(app.ctx.canvas, app.state);
-	SelectionBridge.bind(app);
+/**
+ * Installs the shared editor, camera, selection, NLE, and playback systems in their historic order.
+ * @param {object} olamApp Running Animator application.
+ * @param {boolean} yesodLegacy Whether default-scene replacement must be suppressed.
+ */
+function installCore(olamApp, yesodLegacy) {
+	CanvasSizeGuardian.bind(olamApp.ctx.canvas, olamApp.ctx);
+	DebugSystem.install(olamApp);
+	CameraControls.setup(olamApp);
+	DiegeticEditor.bind(olamApp.ctx.canvas, olamApp.state);
+	SelectionBridge.bind(olamApp);
 	ToastManager.init();
 	TooltipManager.init();
-	const sequence = DefaultSceneInstaller.install(app, {
-		force: !legacy,
-		legacy
+	const sederSequence = DefaultSceneInstaller.install(olamApp, {
+		force: !yesodLegacy,
+		legacy: yesodLegacy
 	});
-	app.director.play(sequence, 0);
-	AutoPlayCovenant.resume(app);
-	app.nle = NLESystem.install(app);
-	bindRuach(app);
+	olamApp.director.play(sederSequence, 0);
+	AutoPlayCovenant.resume(olamApp);
+	olamApp.nle = NLESystem.install(olamApp);
+	bindRuach(olamApp);
 }
 
-function bindRuach(app) {
+/**
+ * Defers audio-interface awakening until the first trusted pointer gesture and then removes itself.
+ * @param {object} olamApp Running Animator application.
+ */
+function bindRuach(olamApp) {
 	const awakenRuach = () => {
-		RuachInterface.awaken(app.state);
-		app.ctx.canvas.removeEventListener('pointerdown', awakenRuach);
+		RuachInterface.awaken(olamApp.state);
+		olamApp.ctx.canvas.removeEventListener('pointerdown', awakenRuach);
 	};
-	app.ctx.canvas.addEventListener('pointerdown', awakenRuach, {
+	olamApp.ctx.canvas.addEventListener('pointerdown', awakenRuach, {
 		once: true,
 		passive: true
 	});
-}
-
-function installExtensions(app) {
-	safeInstall('characterLab', () => CharacterCustomizerPanel.install(app));
-	safeInstall('cartoonStudio', () => CartoonStudioPanel.install(app));
-	safeInstall('professionalStudio', () => {
-		if (!app.nle?.store) {
-			throw new Error('The shared NLE store is unavailable.');
-		}
-		new StudioWorkspaceController(app, app.nle).install();
-	});
-	console.log(
-		'B"H - [main] Professional studio extension pass complete.',
-		window.__AWTSMOOS_EXTENSION_STATUS__
-	);
-}
-
-function safeInstall(name, install) {
-	try {
-		install();
-		window.__AWTSMOOS_EXTENSION_STATUS__[name] = { ok: true };
-	} catch (error) {
-		window.__AWTSMOOS_EXTENSION_STATUS__[name] = {
-			ok: false,
-			message: error?.message || String(error)
-		};
-		console.error(`B"H - ${name} failed to install.`, error);
-	}
 }
 
 if (document.readyState === 'loading') {

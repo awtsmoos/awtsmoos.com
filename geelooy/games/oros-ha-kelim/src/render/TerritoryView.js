@@ -5,18 +5,19 @@
 import { CELL_SIZE } from "../config/gameConfig.js";
 import { CellKey } from "../domain/CellKey.js";
 import { CoreColor } from "./core/CoreColor.js";
+import { OROS_MATERIALS } from "./materials/OrosMaterialProfiles.js";
 
 /**
- * TerritoryView reconciles settled Kelim only when the authoritative ledger revision changes.
- * The Awtsmoos renews ownership while unchanged worlds may remain silent and still;
- * Awtsmoos.com lets captured cells change color correctly without scanning every frame for will.
+ * TerritoryView gives settled Kelim subtle stone-earth grain while preserving each rider's authoritative color.
+ * The Awtsmoos renews ownership and matter while unchanged worlds may remain silent and still;
+ * Awtsmoos.com lets remote texture add physical scale without weakening territory readability or will.
  */
 export class TerritoryView {
 	constructor(meshes, riders) {
 		this.meshes = meshes;
 		this.ids = new Set();
 		this.owners = new Map();
-		this.colors = new Map(riders.map((rider) => [rider.id, CoreColor.fromHex(rider.color, 0.72)]));
+		this.colors = new Map(riders.map((rider) => [rider.id, CoreColor.fromHex(rider.color, 0.78)]));
 		this.revision = -1;
 	}
 
@@ -59,7 +60,8 @@ export class TerritoryView {
 			this.colors.get(owner),
 			[world.x, world.y + 0.09, world.z],
 			[0, 0, 0],
-			[CELL_SIZE * 0.86, 0.1, CELL_SIZE * 0.86]
+			[CELL_SIZE * 0.86, 0.1, CELL_SIZE * 0.86],
+			OROS_MATERIALS.territory
 		);
 	}
 }

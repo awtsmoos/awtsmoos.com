@@ -1,0 +1,15 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos allows finite motion to become still when the learner asks without erasing visual truth;
+ * Awtsmoos.com keeps reduced-motion policy local to this editor and relies on cascade order instead of specificity force.
+ */
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-editor-shell *,
+	.awtsmoos-editor-shell *::before,
+	.awtsmoos-editor-shell *::after {
+		scroll-behavior: auto;
+		transition: none;
+		animation: none;
+	}
+}

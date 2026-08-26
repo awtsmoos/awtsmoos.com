@@ -1,69 +1,107 @@
-/*B"H*/
-/* Boruch Hashem */
-/* Blessed is He */
-/**
- * The Awtsmoos renews every gesture before hover or pressure can be named;
- * Awtsmoos.com gives each actionable vessel a tactile answer while lean devices keep only the cheapest useful motion framed.
- */
-
-#root :is(button, [role="button"], .thread-item, a[href]) {
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets every Mail action answer within its own chamber; Awtsmoos.com gives touch, hover, focus, and rest a luminous rhythm that never leaks beyond the page.
+*/
+.geelooy-mail-document :where(
+	button,
+	[role="button"],
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"],
+	summary,
+	.thread-item
+):not(.mail-sidebar-backdrop) {
 	-webkit-tap-highlight-color: transparent;
-}
-
-#root :is(button, [role="button"], .thread-item) {
-	transform-origin: center;
+	touch-action: manipulation;
 	transition:
-		transform 120ms ease-out,
-		border-color 170ms ease,
-		background-color 170ms ease,
-		box-shadow 190ms ease,
-		color 170ms ease;
+		transform 120ms cubic-bezier(.2, .8, .2, 1),
+		border-color 150ms ease,
+		background-color 150ms ease,
+		box-shadow 170ms ease,
+		color 150ms ease,
+		opacity 150ms ease;
 }
 
-#root :is(button, [role="button"], .thread-item):focus-visible,
-#root a[href]:focus-visible {
-	outline: 2px solid var(--mail-accent);
+.geelooy-mail-document :where(
+	button,
+	[role="button"],
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"],
+	summary,
+	.thread-item
+):not(.mail-sidebar-backdrop):focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--mail-accent) 80%, white);
 	outline-offset: 3px;
+	box-shadow:
+		0 0 0 2px rgba(4, 7, 18, .72),
+		0 0 0 6px color-mix(in srgb, var(--mail-accent) 24%, transparent);
 }
 
-#root :is(button, [role="button"], .thread-item):active:not(:disabled) {
-	transform: scale(.975);
+.geelooy-mail-document :where(
+	button,
+	[role="button"],
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"],
+	summary,
+	.thread-item
+):not(.mail-sidebar-backdrop):not(:disabled):not([aria-disabled="true"]):active {
+	transform: translateY(1px) scale(.975);
+	transition-duration: 55ms;
 }
 
-#root button:disabled,
-#root [aria-disabled="true"] {
+.geelooy-mail-document :where(
+	button:disabled,
+	input:disabled,
+	[role="button"][aria-disabled="true"],
+	.thread-item[aria-disabled="true"]
+) {
+	opacity: .48;
 	cursor: not-allowed;
-	filter: saturate(.6);
+	transform: none;
+	box-shadow: none;
+}
+
+.geelooy-mail-document .thread-item[aria-current="true"],
+.geelooy-mail-document .thread-item.active,
+.geelooy-mail-document .thread-item.selected {
+	border-color: color-mix(in srgb, var(--mail-accent) 42%, transparent);
+	background: color-mix(in srgb, var(--mail-accent) 13%, transparent);
+	box-shadow: inset 3px 0 var(--mail-accent);
 }
 
 @media (hover: hover) and (pointer: fine) {
-	#root :is(button, [role="button"], .thread-item):hover:not(:disabled) {
-		border-color: var(--mail-border-strong);
-		box-shadow: 0 10px 26px rgba(0, 0, 0, .16), 0 0 0 1px rgba(184, 210, 251, .045);
+	.geelooy-mail-document :where(
+		button,
+		[role="button"],
+		input[type="button"],
+		input[type="submit"],
+		input[type="reset"],
+		summary,
+		.thread-item
+	):not(.mail-sidebar-backdrop):not(:disabled):not([aria-disabled="true"]):hover {
 		transform: translateY(-1px);
+		border-color: color-mix(in srgb, currentColor 20%, transparent);
+		box-shadow: 0 10px 24px rgba(0, 0, 0, .16);
 	}
 
-	#root a[href]:hover {
-		color: var(--mail-accent-strong);
-	}
-}
-
-@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
-	html[data-g-performance="lean"] #root :is(button, [role="button"], .thread-item) {
-		transition:
-			transform 90ms ease-out,
-			border-color 120ms ease,
-			background-color 120ms ease,
-			color 120ms ease !important;
+	.geelooy-mail-document .thread-item:hover {
+		background: color-mix(in srgb, var(--mail-accent) 8%, transparent);
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	#root :is(button, [role="button"], .thread-item) {
-		transition: none !important;
-	}
-
-	#root :is(button, [role="button"], .thread-item):is(:hover, :active) {
-		transform: none;
+	.geelooy-mail-document :where(
+		button,
+		[role="button"],
+		input[type="button"],
+		input[type="submit"],
+		input[type="reset"],
+		summary,
+		.thread-item
+	) {
+		transition-duration: 1ms;
 	}
 }

@@ -1,23 +1,29 @@
-/* B"H */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets image, voice, and moving picture accompany a social deed without escaping its vessel;
+ * Awtsmoos.com bounds each media card to Social Hub, preserving responsive space while upload states remain visible and calm.
+ */
 /* Boruch Hashem */
 /* Blessed is He */
 
-.commentMediaQueue {
+.social-hub-document .commentMediaQueue {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 	gap: 0.75rem;
 	margin-top: 1rem;
 }
 
-.commentMediaCard {
+.social-hub-document .commentMediaCard {
 	display: grid;
 	grid-template-rows: minmax(10rem, 1fr) auto;
 	padding: 0.65rem;
 }
 
-.commentMediaCard img,
-.commentMediaCard video,
-.commentMediaCard audio {
+.social-hub-document .commentMediaCard img,
+.social-hub-document .commentMediaCard video,
+.social-hub-document .commentMediaCard audio {
 	width: 100%;
 	max-height: 18rem;
 	border-radius: 0.9rem;
@@ -25,32 +31,32 @@
 	object-fit: contain;
 }
 
-.commentMediaCard audio {
+.social-hub-document .commentMediaCard audio {
 	align-self: center;
 	min-height: 4rem;
 }
 
-.mediaDetails {
+.social-hub-document .mediaDetails {
 	display: grid;
 	gap: 0.5rem;
 	padding-top: 0.7rem;
 }
 
-.mediaStatus {
+.social-hub-document .mediaStatus {
 	color: var(--muted);
 	font-size: 0.76rem;
 	text-transform: capitalize;
 }
 
-.commentMediaCard[data-status="uploading"] {
+.social-hub-document .commentMediaCard[data-status="uploading"] {
 	border-color: var(--cyan);
 	box-shadow: 0 0 2rem rgb(158 247 255 / 12%);
 }
 
-.commentMediaCard[data-status="uploaded"] {
+.social-hub-document .commentMediaCard[data-status="uploaded"] {
 	border-color: rgb(135 255 197 / 32%);
 }
 
-.commentMediaCard[data-status="failed"] {
+.social-hub-document .commentMediaCard[data-status="failed"] {
 	border-color: var(--danger);
 }

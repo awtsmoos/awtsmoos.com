@@ -4,19 +4,18 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { spawn } = require("node:child_process");
 const { installFixture } = require("./runtimeFixtureInstall.cjs");
 const Processes = require("./runtimeFixtureProcesses.cjs");
+const Start = require("./runtimeFixtureStart.cjs");
 
 const DEFAULT_REGISTRATION_TIMEOUT_SECONDS = 12;
 const DEFAULT_FIXTURE_WAIT_MS = 45000;
 
 /**
- * @file Owns one isolated predecessor under an explicit portable supervisor.
+ * @file Owns one isolated predecessor and guarantees teardown even when birth fails.
  * @description
- * The Awtsmoos renews registered identity, fresh receipt, guardian, and teardown.
- * Awtsmoos.com accepts a fixture only when its exact tunnel ID and process remain
- * alive, then proves every exact-root child has ended before deleting its world.
+ * The Awtsmoos does not leave a test guardian wandering when its receipt never shines;
+ * Awtsmoos.com binds startup failure to exact-root cleanup before control returns its lines.
  */
 class RuntimeFixture {
 	constructor(repositoryRoot, temporaryRoot) {
@@ -32,32 +31,25 @@ class RuntimeFixture {
 	}
 
 	async start() {
-		this.supervisor = spawn(
-			path.join(this.runtimeRoot, "awtsmoos-supervisor.sh"),
-			[this.runtimeRoot],
-			{
-				env: {
-					...process.env,
-					AWTSMOOS_INSTALL_ROOT: this.runtimeRoot,
-					AWTSMOOS_RECOVERY_ROOT: this.recoveryRoot,
-					AWTSMOOS_SERVICE_MODE: "portable",
-					AWTSMOOS_REGISTRATION_TIMEOUT_SECONDS: String(
-						DEFAULT_REGISTRATION_TIMEOUT_SECONDS
-					)
-				},
-				stdio: "ignore",
-				detached: true
-			}
+		this.supervisor = Start.spawnFixtureSupervisor(
+			this,
+			DEFAULT_REGISTRATION_TIMEOUT_SECONDS
 		);
-		this.supervisor.unref();
-		await this.waitForAgent();
+		try {
+			await this.waitForAgent();
+		} catch (error) {
+			await this.stop().catch(() => {});
+			throw error;
+		}
 	}
 
 	async waitForAgent(timeoutMs = DEFAULT_FIXTURE_WAIT_MS) {
 		const startedAt = Date.now();
 		while (Date.now() - startedAt < timeoutMs) {
 			const receipt = this.readReceipt();
-			if (receipt && this.receiptIsLive(receipt)) return receipt.pid;
+			if (receipt && this.receiptIsLive(receipt)) {
+				return receipt.pid;
+			}
 			await new Promise(resolve => setTimeout(resolve, 200));
 		}
 		throw new Error(`fixture_agent_registration_timeout:${timeoutMs}`);
@@ -75,16 +67,21 @@ class RuntimeFixture {
 	}
 
 	receiptIsLive(receipt) {
-		if (
-			receipt.state !== "registered" ||
-			!Number(receipt.pid) ||
-			receipt.tunnelId !== "tun_transaction_fixture" ||
-			receipt.tunnelName !== "awt-transaction-rollback-test"
-		) return false;
+		if (receipt.state !== "registered" || !Number(receipt.pid)) {
+			return false;
+		}
+		if (receipt.tunnelId !== "tun_transaction_fixture") {
+			return false;
+		}
+		if (receipt.tunnelName !== "awt-transaction-rollback-test") {
+			return false;
+		}
 		const timestamp = Date.parse(
 			receipt.lastServerMessageAt || receipt.updatedAt || ""
 		);
-		if (!Number.isFinite(timestamp) || Date.now() - timestamp > 5000) return false;
+		if (!Number.isFinite(timestamp) || Date.now() - timestamp > 5000) {
+			return false;
+		}
 		try {
 			process.kill(Number(receipt.pid), 0);
 			return true;

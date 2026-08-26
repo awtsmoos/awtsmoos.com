@@ -1,33 +1,88 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets discovery contract and expand without losing truth; Awtsmoos.com
+keeps labels visible, controls thumb-safe, and every finite field bounded to Apps.
+Search should feel immediate on a phone and spacious only when width invites it.
+*/
 
-/**
- * The Awtsmoos renews every search and category choice beyond the finite control.
- * Awtsmoos.com keeps portfolio discovery here so finding a tool never depends on
- * hidden shell behavior or on scanning twelve cards by eye.
- */
-
-.g-app-filter {
-	display: grid;
-	grid-template-columns: minmax(0, 1.6fr) minmax(180px, 0.4fr);
-	gap: var(--g-space-3);
-	margin-bottom: var(--g-space-4);
+body[data-geelooy-route="apps"] .apps-filter-disclosure {
+	position: relative;
+	z-index: var(--apps-layer-filter);
+	margin-block: 16px 0;
 }
 
-.g-app-filter input,
-.g-app-filter select {
-	width: 100%;
-	min-height: 48px;
+body[data-geelooy-route="apps"] .apps-filter-disclosure > summary {
+	min-inline-size: 0;
+}
+
+body[data-geelooy-route="apps"] .apps-filter-disclosure > summary > span:first-child {
+	display: grid;
+	gap: 3px;
+	min-inline-size: 0;
+}
+
+body[data-geelooy-route="apps"] .apps-filter-disclosure > summary small {
+	color: var(--g-text-muted);
+	font-size: var(--g-font-size-xs);
+	font-weight: 500;
+	line-height: 1.35;
+}
+
+body[data-geelooy-route="apps"] .apps-result-pill {
+	flex: 0 0 auto;
+	max-inline-size: 44%;
+	padding: 5px 9px;
+	border: 1px solid var(--g-border);
+	border-radius: var(--g-radius-pill);
+	color: var(--g-accent-2);
+	background: color-mix(in srgb, var(--g-accent), transparent 91%);
+	font-size: var(--g-font-size-xs);
+	font-variant-numeric: tabular-nums;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+body[data-geelooy-route="apps"] .g-app-filter {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 8px;
+	min-inline-size: 0;
+}
+
+body[data-geelooy-route="apps"] .g-app-filter label {
+	margin-block-start: 6px;
+	color: var(--g-text-muted);
+	font-size: var(--g-font-size-xs);
+	font-weight: 700;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+}
+
+body[data-geelooy-route="apps"] .g-app-filter :where(input, select) {
+	inline-size: 100%;
+	min-inline-size: 0;
+	min-block-size: 48px;
 	border: 1px solid var(--g-border);
 	border-radius: var(--g-radius-md);
-	padding: 0 var(--g-space-4);
+	padding-inline: var(--g-space-4);
 	color: var(--g-text);
 	background: var(--g-surface-2);
 }
 
-.g-app-filter input:focus-visible,
-.g-app-filter select:focus-visible {
-	outline: 3px solid var(--g-accent);
-	outline-offset: 3px;
+@media (min-width: 720px) {
+	body[data-geelooy-route="apps"] .apps-filter-disclosure {
+		position: sticky;
+		top: calc(env(safe-area-inset-top) + 64px);
+	}
+
+	body[data-geelooy-route="apps"] .g-app-filter {
+		grid-template-columns: minmax(0, 1.6fr) minmax(180px, .4fr);
+		column-gap: var(--g-space-3);
+	}
+
+	body[data-geelooy-route="apps"] .g-app-filter label {
+		grid-row: 1;
+	}
 }

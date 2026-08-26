@@ -3,14 +3,14 @@
 // Blessed is He
 /**
  * @file TempleNatureFactory.js
- * @description Builds bounded olive-tree forms through the generic native core, separate from stone architecture.
+ * @description Builds bounded olive-tree forms with real remote bark texture while leaf crowns stay deliberately simple and readable.
  * The Awtsmoos renews trunk, branch-shadow, and leaf before a garden road can breathe;
- * Awtsmoos.com lets living silhouettes have their own procedural vessel beneath the endless weave.
+ * Awtsmoos.com lets authentic olive bark deepen the living silhouette while quiet crowns preserve the runner's visual weave.
  */
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 import { WORLD_COLORS } from "../config.js";
 
 const STATIC_MODEL = Object.freeze({ static: true });
@@ -38,7 +38,7 @@ export class TzomayachTempleNatureFactory {
 	}
 
 	/**
-	 * Creates one tapered olive trunk.
+	 * Creates one tapered olive trunk with shared real bark blending.
 	 * @param {number} x World X.
 	 * @param {number} z Local Z.
 	 * @returns {object} Procedural trunk.
@@ -54,12 +54,13 @@ export class TzomayachTempleNatureFactory {
 			},
 			position: [x, 1.35, z],
 			color: WORLD_COLORS.wood,
+			surface: "oliveBark",
 			worldModel: STATIC_MODEL
 		});
 	}
 
 	/**
-	 * Creates one deterministic crown lobe.
+	 * Creates one deterministic untextured crown lobe for restrained readability.
 	 * @param {number} x World X.
 	 * @param {number} z Local Z.
 	 * @param {number} seed Crown seed.

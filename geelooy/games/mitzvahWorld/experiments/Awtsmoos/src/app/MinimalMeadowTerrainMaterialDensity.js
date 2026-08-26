@@ -4,26 +4,32 @@
 
 /**
  * @file MinimalMeadowTerrainMaterialDensity.js
- * @description Keeps full source pixels while layering macro, micro, slope, moisture, and triplanar mixing.
- * The Awtsmoos gives every blade a visible measure and every seam another scale of truth;
- * Awtsmoos.com preserves native images while soil, moss, grass, shoulder, and stone interpenetrate cleanly.
+ * @description Builds ecological terrain density while separating immutable recipe evidence from mutable runtime image bindings.
+ * RESPONSIBILITY: derive density/mixing, install hydratable runtime layers, and return detached frozen diagnostics.
+ * NON-RESPONSIBILITY: this module does not fetch images, schedule residency, render shaders, or own texture-policy construction.
+ * The Awtsmoos gives every blade its measure while no frozen description may imprison arriving light;
+ * Awtsmoos.com keeps evidence still and runtime vessels open, so grass and stone may hydrate bright.
  */
 
 import {
 	minimalMeadowDensityLayer,
 	minimalMeadowDensityPlan,
-	minimalMeadowDensityPolicy,
 	minimalMeadowLayerDefinitions,
 	minimalMeadowSourceWorldUnits
 } from './MinimalMeadowTerrainDensityLayers.js';
 import {
 	applyMinimalMeadowTerrainMixing
 } from './MinimalMeadowTerrainMixingPolicy.js';
+import {
+	createMinimalMeadowRoadTexturePolicy,
+	createMinimalMeadowTerrainTexturePolicy
+} from './MinimalMeadowTerrainTexturePolicy.js';
 
+/** Configures one live terrain material while returning immutable density evidence. */
 export function configureMinimalTerrainDensity(material, sources, size, mobile) {
 	const profile = minimalMeadowTerrainDensityProfile(mobile);
-	const main = minimalMeadowDensityPlan(sources.main, size, mobile, profile.grass);
-	const road = minimalMeadowDensityPlan(sources.path, size, mobile, profile.road);
+	const main = densityPlan(sources.main, size, mobile, profile.grass);
+	const road = densityPlan(sources.path, size, mobile, profile.road);
 	Object.assign(material, {
 		anisotropy: main.anisotropy,
 		mapImage: sources.main,
@@ -40,30 +46,31 @@ export function configureMinimalTerrainDensity(material, sources, size, mobile) 
 		size,
 		texelsPerWorld: profile.detail
 	};
-	material.textureLayers = minimalMeadowLayerDefinitions(sources)
-		.map(definition => enrichedLayer(definition, context, mixing));
-	material.texturePolicy = {
-		...minimalMeadowDensityPolicy(main, profile.grass, 'terrain-base'),
-		fullSourceCoverage: true,
+	material.textureLayers = minimalMeadowLayerDefinitions(sources).map(definition => {
+		return createRuntimeTerrainLayer(definition, context, mixing);
+	});
+	material.texturePolicy = createMinimalMeadowTerrainTexturePolicy(
+		main,
+		profile,
 		mixing,
-		repetitionPolicy: 'macro-micro-native-frequency-ecological-blend',
-		worldSize: size
-	};
-	material.mixTexturePolicy = {
-		...minimalMeadowDensityPolicy(road, profile.road, 'cobblestone-road-center'),
-		fullSourceCoverage: true,
-		triplanar: mixing.triplanar,
-		worldSize: size
-	};
+		size
+	);
+	material.mixTexturePolicy = createMinimalMeadowRoadTexturePolicy(
+		road,
+		profile,
+		mixing,
+		size
+	);
 	return Object.freeze({
 		...main,
-		layerReports: Object.freeze(material.textureLayers.map(layerReport)),
+		layerReports: Object.freeze(material.textureLayers.map(createLayerReport)),
 		mixing,
 		profile,
 		sourceWorldUnits: minimalMeadowSourceWorldUnits(main)
 	});
 }
 
+/** Returns the immutable density profile shared by runtime and diagnostics. */
 export function minimalMeadowTerrainDensityProfile(mobile = false) {
 	return Object.freeze({
 		detail: mobile ? 38 : 52,
@@ -73,9 +80,10 @@ export function minimalMeadowTerrainDensityProfile(mobile = false) {
 	});
 }
 
-function enrichedLayer(definition, context, mixing) {
+/** Creates a mutable runtime layer whose image slot may be hydrated after boot. */
+function createRuntimeTerrainLayer(definition, context, mixing) {
 	const layer = minimalMeadowDensityLayer(definition, context);
-	return Object.freeze({
+	return {
 		...layer,
 		blend: Object.freeze({
 			detailRepeat: mixing.detail.repeatMultiplier,
@@ -83,11 +91,13 @@ function enrichedLayer(definition, context, mixing) {
 			normalStrength: mixing.detail.normalStrength,
 			roughnessStrength: mixing.detail.roughnessStrength,
 			warpStrength: mixing.noise.warpStrength
-		})
-	});
+		}),
+		image: definition.image || layer.image || null
+	};
 }
 
-function layerReport(layer) {
+/** Creates immutable evidence detached from the mutable runtime binding. */
+function createLayerReport(layer) {
 	return Object.freeze({
 		blend: layer.blend,
 		repeatAcrossWorld: Object.freeze([...layer.density.repeat]),
@@ -99,4 +109,9 @@ function layerReport(layer) {
 		wetness: layer.wetness,
 		zones: Object.freeze([...layer.zones])
 	});
+}
+
+/** Delegates one bounded density plan through the existing density authority. */
+function densityPlan(image, size, mobile, target) {
+	return minimalMeadowDensityPlan(image, size, mobile, target);
 }

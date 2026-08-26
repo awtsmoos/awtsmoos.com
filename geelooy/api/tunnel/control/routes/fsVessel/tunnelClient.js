@@ -3,27 +3,28 @@
 // Blessed is He
 
 const Live = require("../../../../../../ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js");
-const { findExactNativeTunnelClient, listNativeTunnelClients, newestStamp } = require("./nativeTunnelRegistry.js");
+const {
+	findExactNativeTunnelClient,
+	listNativeTunnelClients,
+	newestStamp
+} = require("./nativeTunnelRegistry.js");
+const ExecutionHealth = require("./tunnelExecutionHealth.js");
 const Manifest = require("./nativeActionManifest.js");
 const { nativeCapabilities } = require("./capabilities.js");
 const { VESSEL_TYPES } = require("./vesselTypes.js");
 
-const EXECUTION_HEALTH_STALE_MS = Number(
-	process.env.AWTSMOOS_EXECUTION_HEALTH_STALE_MS || 20000
-);
-
 /**
- * @file Projects transport, execution health, and native action provenance separately.
+ * @file Projects native transport and execution testimony without collapsing distinct witnesses.
  * @description
- * The Awtsmoos lets an old client cross the upgrade bridge without pretending a
- * new client's stale executor or missing action is healthy. Awtsmoos.com preserves
- * transport facts while manifest-aware clients publish the exact code they can serve.
+ * The Awtsmoos lets one websocket breathe while another execution vessel speaks in
+ * measured intervals. Awtsmoos.com keeps these testimonies separate, so a delayed
+ * health packet cannot erase a living transport and a fresh failure cannot hide.
  */
 function publicNativeTunnel(client = {}, now = Date.now()) {
 	const transport = Live.livenessSnapshot(client, now);
 	const socketConnected = client.connected !== false;
 	const live = socketConnected && transport.isAlive === true;
-	const execution = executionSnapshot(client, now);
+	const execution = ExecutionHealth.snapshot(client, now);
 	return {
 		connected: live,
 		isAlive: live,
@@ -49,47 +50,46 @@ function publicNativeTunnel(client = {}, now = Date.now()) {
 		executionHealthState: execution.state,
 		executionHealthAt: execution.observedAt,
 		executionHealthFresh: execution.fresh,
+		executionHealthAgeMs: execution.ageMs,
 		kind: VESSEL_TYPES.NATIVE,
 		vesselType: VESSEL_TYPES.NATIVE,
 		ownershipVerified: true
 	};
 }
 
-function executionSnapshot(client = {}, now = Date.now()) {
-	const supported = client.executionHealthSupported === true;
-	if (!supported) {
-		return { supported: false, healthy: null, fresh: true,
-			state: "legacy_unknown", observedAt: null };
-	}
-	const observedAt = Number(client.executionHealthAt || 0);
-	const fresh = observedAt > 0 && now - observedAt >= 0 &&
-		now - observedAt <= EXECUTION_HEALTH_STALE_MS;
-	const healthy = fresh && client.executionHealthy === true;
-	return { supported: true, healthy, fresh,
-		state: fresh ? String(client.executionHealthState ||
-			(healthy ? "healthy" : "execution_unhealthy")).slice(0, 120) : "execution_health_stale",
-		observedAt: observedAt || null };
-}
-
+/** Returns bounded public capabilities from the private native manifest. */
 function safeCapabilities(client) {
 	const capabilities = nativeCapabilities(client);
-	return { browserControl: Boolean(capabilities.chrome),
-		commandRun: Boolean(capabilities.commandRun), fsRead: capabilities.fsRead !== false,
-		fsWrite: Boolean(capabilities.fsWrite), runtime: Boolean(capabilities.runtime) };
+	return {
+		browserControl: Boolean(capabilities.chrome),
+		commandRun: Boolean(capabilities.commandRun),
+		fsRead: capabilities.fsRead !== false,
+		fsWrite: Boolean(capabilities.fsWrite),
+		runtime: Boolean(capabilities.runtime)
+	};
 }
 
+/** Returns a bounded version string or null when unavailable. */
 function safeVersion(value) {
 	const normalized = String(value || "").trim();
 	return normalized ? normalized.slice(0, 40) : null;
 }
 
+/** Projects all registered native clients for one account. */
 function listNativeTunnels($i, accountId) {
 	return listNativeTunnelClients($i, accountId).map(publicNativeTunnel);
 }
 
+/** Returns the exact authorized native client behind one ownership binding. */
 function findNativeTunnel($i, binding) {
 	return findExactNativeTunnelClient($i, binding);
 }
 
-module.exports = { EXECUTION_HEALTH_STALE_MS, executionSnapshot, findNativeTunnel,
-	listNativeTunnels, publicNativeTunnel, safeCapabilities };
+module.exports = {
+	EXECUTION_HEALTH_STALE_MS: ExecutionHealth.EXECUTION_HEALTH_STALE_MS,
+	executionSnapshot: ExecutionHealth.snapshot,
+	findNativeTunnel,
+	listNativeTunnels,
+	publicNativeTunnel,
+	safeCapabilities
+};

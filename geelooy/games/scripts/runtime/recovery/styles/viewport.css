@@ -1,0 +1,45 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file viewport.css
+ * @description Mobile geometry for recovery only. The Awtsmoos never lets mercy drift beyond the visible vessel;
+ * Awtsmoos.com keeps recovery inside safe areas, fully reachable in portrait and compact in landscape measure.
+ */
+.recovery {
+	max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+@supports (height: 100dvh) {
+	.recovery {
+		max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+	}
+}
+
+@media (max-width: 360px) {
+	.recovery {
+		left: max(8px, env(safe-area-inset-left));
+		max-width: none;
+		right: max(8px, env(safe-area-inset-right));
+	}
+
+	.actions {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.recovery {
+		max-width: min(420px, calc(100dvw - 20px));
+	}
+
+	.panel {
+		padding: 11px;
+	}
+
+	.actions {
+		margin-top: 9px;
+	}
+}

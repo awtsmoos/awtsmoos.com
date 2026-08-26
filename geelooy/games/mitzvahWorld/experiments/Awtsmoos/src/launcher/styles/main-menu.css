@@ -1,0 +1,14 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers many garments into one localized doorway without making them collide;
+ * Awtsmoos.com composes foundation, navigation, content, details, interaction, and responsive depth side by side.
+ */
+
+@import url("./main-menu-foundation.css");
+@import url("./main-menu-navigation.css");
+@import url("./main-menu-content.css");
+@import url("./main-menu-details.css");
+@import url("./main-menu-interactions.css");
+@import url("./main-menu-responsive.css");

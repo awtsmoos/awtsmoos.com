@@ -8,13 +8,14 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Ultimate Chess AI</title>
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="ui/chess-polish.css">
-	<link rel="stylesheet" href="ui/chess-mobile.css">
-	<link rel="stylesheet" href="ui/chess-accessibility.css">
-	<link rel="stylesheet" href="online/online.css">
-	<link rel="stylesheet" href="social/panel.css">
-	<link rel="stylesheet" href="social/menu.css">
+	<link rel="stylesheet" href="style.css?compact=true">
+	<link rel="stylesheet" href="ui/chess-polish.css?compact=true">
+	<link rel="stylesheet" href="ui/chess-mobile.css?compact=true">
+	<link rel="stylesheet" href="ui/chess-accessibility.css?compact=true">
+	<link rel="stylesheet" href="online/online.css?compact=true">
+	<link rel="stylesheet" href="social/panel.css?compact=true">
+	<link rel="stylesheet" href="social/menu.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
 	<div id="bh-fuse">B"H</div>
@@ -103,10 +104,12 @@
 	</div>
 
 	<script src="ui/engine-worker-route.js"></script>
-	<script src="ui/canvas-stability.js" type="module"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script src="ui/canvas-stability.js?compact=true" type="module"></script>
 	<script src="social/legacy-observer.js"></script>
-	<script src="main.js" type="module"></script>
-	<script src="online/bootstrap.js" type="module"></script>
+	<script src="main.js?compact=true" type="module"></script>
+	<script src="online/bootstrap.js?compact=true" type="module"></script>
 	<script src="/register.js"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

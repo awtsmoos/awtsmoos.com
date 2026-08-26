@@ -1,0 +1,51 @@
+/* B"H — chrome compositor: imports focused scoped modules only. */
+@import url("./tabs.css");
+@import url("./navigation.css");
+
+.awtsmoos-browser-host .awtsmoos-browser-toolbar {
+	position: relative;
+	z-index: var(--awtsmoos-browser-layer-chrome);
+	display: grid;
+	gap: 6px;
+	padding: 7px 8px 8px;
+	border-block-end: 1px solid var(--awtsmoos-browser-line);
+	background: linear-gradient(180deg, rgba(25, 31, 44, 0.96), rgba(14, 18, 27, 0.94));
+	backdrop-filter: blur(20px) saturate(135%);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-progress {
+	position: absolute;
+	inset-inline: 0;
+	inset-block-end: 0;
+	block-size: 2px;
+	pointer-events: none;
+	overflow: hidden;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-progress::after {
+	content: "";
+	display: block;
+	inline-size: 38%;
+	block-size: 100%;
+	background: linear-gradient(90deg, transparent, var(--awtsmoos-browser-accent), transparent);
+	transform: translateX(-130%);
+	opacity: 0;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-progress.is-loading::after {
+	opacity: 1;
+	animation: awtsmoos-browser-progress-flow 1.05s linear infinite;
+}
+
+@keyframes awtsmoos-browser-progress-flow {
+	to {
+		transform: translateX(360%);
+	}
+}
+
+@media (min-width: 640px) {
+	.awtsmoos-browser-host .awtsmoos-browser-toolbar {
+		padding-inline: 10px;
+	}
+}

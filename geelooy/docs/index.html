@@ -1,93 +1,76 @@
-<!-- B"H -->
-<!-- Boruch Hashem -->
-<!-- Blessed is He — The Awtsmoos lets Awtsmoos.com reveal documentation as a searchable, teachable, source-backed living map. -->
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos reveals source as a living map, while Awtsmoos.com lets every search, rail, explorer, and question remain inside one quiet documentation vessel whose depth opens only when requested.
+-->
 <!doctype html>
-<html lang="en">
+<html lang="en" data-geelooy-route="docs">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 	<meta name="color-scheme" content="dark light">
 	<meta name="description" content="B'H — Learn, search, explore every API, project boundary, and Data/Security/Realtime system in Awtsmoos.com.">
+	<meta name="theme-color" content="#07110f">
 	<title>Awtsmoos Documentation</title>
 	<link rel="icon" href="data:,">
-	<link rel="stylesheet" href="./styles/tokens.css">
-	<link rel="stylesheet" href="./styles/shell.css">
-	<link rel="stylesheet" href="./styles/rails.css">
-	<link rel="stylesheet" href="./styles/components.css">
-	<link rel="stylesheet" href="./styles/dialogs.css">
-	<link rel="stylesheet" href="./styles/content.css">
-	<link rel="stylesheet" href="./styles/learning.css">
-	<link rel="stylesheet" href="./styles/api-explorer.css">
-	<link rel="stylesheet" href="./styles/api-route-list.css">
-	<link rel="stylesheet" href="./styles/api-evidence.css">
-	<link rel="stylesheet" href="./styles/project-explorer.css">
-	<link rel="stylesheet" href="./styles/project-list.css">
-	<link rel="stylesheet" href="./styles/project-evidence.css">
-	<link rel="stylesheet" href="./styles/system-explorer.css">
-	<link rel="stylesheet" href="./styles/system-list.css">
-	<link rel="stylesheet" href="./styles/system-evidence.css">
-	<link rel="stylesheet" href="./styles/markdown.css">
-	<link rel="stylesheet" href="./styles/responsive.css">
-	<script type="module" src="./modules/app.mjs"></script>
+	<link rel="stylesheet" href="./styles/tokens.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/shell.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/rails.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/components.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/dialogs.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/content.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/learning.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/api-explorer.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/api-route-list.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/api-evidence.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/project-explorer.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/project-list.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/project-evidence.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/system-explorer.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/system-list.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/system-evidence.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/markdown.css?v=docs-local-001">
+	<link rel="stylesheet" href="./styles/responsive.css?v=docs-local-001">
+	<script type="module" src="./modules/app.mjs?v=docs-runtime-001"></script>
 </head>
-<body>
+<body data-geelooy-route="docs">
 	<a class="skip-link" href="#main-content">Skip to documentation</a>
 	<header class="topbar">
 		<a class="brand" href="./" data-home-link>
 			<span class="brand-mark" aria-hidden="true">א</span>
 			<span><strong>Awtsmoos</strong><small>Documentation</small></span>
 		</a>
-		<button class="search-launch" type="button" data-command-open aria-label="Search documentation">
-			<span>Search documentation</span><kbd>⌘ K</kbd>
-		</button>
+		<button class="search-launch" type="button" data-command-open aria-label="Search documentation"><span>Search documentation</span><kbd>⌘ K</kbd></button>
 		<div class="top-actions">
 			<button class="icon-button" type="button" data-ask-open aria-label="Ask the documentation">Ask</button>
 			<button class="icon-button" type="button" data-theme-toggle aria-label="Toggle color theme">Theme</button>
-			<button class="icon-button mobile-only" type="button" data-nav-toggle aria-label="Open navigation">Menu</button>
+			<button class="icon-button mobile-only" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">Menu</button>
 		</div>
 	</header>
 	<div class="app-shell">
-		<aside class="nav-rail" data-nav-rail aria-label="Documentation navigation">
-			<div class="rail-intro">
-				<p class="eyebrow">B&quot;H · Living map</p>
-				<p>Learn first. Explore evidence next. Source remains authority.</p>
-			</div>
+		<aside class="nav-rail" data-nav-rail aria-label="Documentation navigation" data-open="false">
+			<div class="rail-intro"><p class="eyebrow">B&quot;H · Living map</p><p>Learn first. Explore evidence next. Source remains authority.</p></div>
 			<nav data-navigation></nav>
 		</aside>
 		<main id="main-content" class="main-stage" tabindex="-1">
-			<div class="loading-card" data-loading>
-				<span class="pulse-orb" aria-hidden="true"></span>
-				<p>Gathering the documentation constellation…</p>
-			</div>
+			<div class="loading-card" data-loading><span class="pulse-orb" aria-hidden="true"></span><p>Gathering the documentation constellation…</p></div>
 			<section data-view-root hidden></section>
 		</main>
 		<aside class="context-rail" data-context-rail aria-label="Document context"><div data-context-content></div></aside>
 	</div>
 	<dialog class="command-dialog" data-command-dialog>
 		<form method="dialog" class="dialog-shell" data-command-form>
-			<div class="dialog-head">
-				<div><p class="eyebrow">Search the whole repository map</p><h2>Find documentation</h2></div>
-				<button class="icon-button" value="cancel" aria-label="Close search">Esc</button>
-			</div>
-			<label class="search-field">
-				<span class="sr-only">Search documentation</span>
-				<input type="search" autocomplete="off" placeholder="Try: tunnel relay, category:API, kind:generated" data-search-input>
-			</label>
+			<div class="dialog-head"><div><p class="eyebrow">Search the whole repository map</p><h2>Find documentation</h2></div><button class="icon-button" value="cancel" aria-label="Close search">Esc</button></div>
+			<label class="search-field"><span class="sr-only">Search documentation</span><input type="search" autocomplete="off" placeholder="Try: tunnel relay, category:API, kind:generated" data-search-input></label>
 			<div class="search-help">Filters: <code>category:API</code> <code>kind:manual</code> <code>path:tunnel</code></div>
 			<div class="search-results" data-search-results role="listbox"></div>
 		</form>
 	</dialog>
 	<dialog class="ask-dialog" data-ask-dialog>
 		<form method="dialog" class="dialog-shell ask-shell" data-ask-form>
-			<div class="dialog-head">
-				<div><p class="eyebrow">Retrieval first · AI optional</p><h2>Ask the docs</h2></div>
-				<button class="icon-button" value="cancel" aria-label="Close Ask">Esc</button>
-			</div>
+			<div class="dialog-head"><div><p class="eyebrow">Retrieval first · AI optional</p><h2>Ask the docs</h2></div><button class="icon-button" value="cancel" aria-label="Close Ask">Esc</button></div>
 			<label class="ask-field"><span>Question</span><textarea rows="3" placeholder="How does Mission Room admission work?" data-ask-input></textarea></label>
-			<div class="ask-actions">
-				<button class="primary-button" type="button" data-ask-search>Find grounded passages</button>
-				<button class="secondary-button" type="button" data-ask-ai>Enhance with GPT</button>
-			</div>
+			<div class="ask-actions"><button class="primary-button" type="button" data-ask-search>Find grounded passages</button><button class="secondary-button" type="button" data-ask-ai>Enhance with GPT</button></div>
 			<div class="ask-status" data-ask-status aria-live="polite"></div>
 			<div class="ask-answer" data-ask-answer></div>
 		</form>

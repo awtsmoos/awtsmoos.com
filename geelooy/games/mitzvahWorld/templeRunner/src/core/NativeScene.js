@@ -1,32 +1,33 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @file NativeScene.js
- * @description Keeps camera and scene graph on the light native runtime path while revealing the heavier WebGL renderer only during startup.
- * The Awtsmoos renews sight before every pixel may become a view;
- * Awtsmoos.com keeps the renderer reusable yet lazy, so the first browser breath stays swift and true.
+ * @fileoverview Malchus native-scene vessel keeping camera and graph on Awtsmoos Procedural Core while revealing the native renderer lazily.
+ * RESPONSIBILITY: own native scene/camera/renderer lifecycle, warm-deep clear color, viewport aspect, quaternion rotation, and rendering.
+ * NON-RESPONSIBILITY: this scene never computes game-specific follow targets or changes gameplay; it owns only the focused Awtsmoos procedural-core native rendering boundary.
+ * OROS/KEILIM: scene possibility is ohr; native camera, viewport, and renderer are Malchus kelim receiving the visible world with clarity.
+ * The Awtsmoos renews sight before every pixel, aspect, and quaternion may become a view;
+ * Awtsmoos.com lets Malchus reveal the native vessel lazily so each browser breath remains swift and true.
  */
 
 import {
 	PerspectiveCamera,
 	Scene
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
-import { CAMERA_CONFIG } from "../config.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+import {
+	CAMERA_CONFIG,
+	READABILITY_COLORS
+} from "../config.js";
 
-const NATIVE_RENDERER_API = "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/renderer.js";
+const NATIVE_RENDERER_API = "/libs/awtsmoos-procedural-core/src/adapters/native/renderer.js";
 
 export class NativeTempleScene {
 	/** @param {HTMLCanvasElement} canvas Native render target. */
 	constructor(canvas) {
 		this.canvas = canvas;
 		this.scene = new Scene();
-		this.camera = new PerspectiveCamera(
-			CAMERA_CONFIG.baseFov,
-			1,
-			0.08,
-			260
-		);
+		this.camera = new PerspectiveCamera(CAMERA_CONFIG.baseFov, 1, 0.08, 260);
 		this.renderer = null;
 		this.boundResize = () => this.resize();
 	}
@@ -35,12 +36,8 @@ export class NativeTempleScene {
 	async create() {
 		const nativeRendererApi = await import(NATIVE_RENDERER_API);
 		this.renderer = nativeRendererApi.createNativeRenderer(this.canvas);
-		this.renderer.setClearColor(0.055, 0.025, 0.012, 1);
-		this.camera.position.set(
-			0,
-			CAMERA_CONFIG.baseY,
-			CAMERA_CONFIG.baseZ
-		);
+		this.renderer.setClearColor(...READABILITY_COLORS.backgroundClear);
+		this.camera.position.set(0, CAMERA_CONFIG.baseY, CAMERA_CONFIG.baseZ);
 		this.setRotation(CAMERA_CONFIG.pitch, 0, 0);
 		this.resize();
 		window.addEventListener("resize", this.boundResize);
@@ -49,25 +46,23 @@ export class NativeTempleScene {
 
 	/** Keeps viewport and perspective proportions bound to the visible canvas. */
 	resize() {
-		const width = Math.max(
-			1,
-			this.canvas.clientWidth || window.innerWidth
-		);
-		const height = Math.max(
-			1,
-			this.canvas.clientHeight || window.innerHeight
-		);
+		const width = Math.max(1, this.canvas.clientWidth || window.innerWidth);
+		const height = Math.max(1, this.canvas.clientHeight || window.innerHeight);
 		this.camera.aspect = width / height;
 		this.camera.updateProjectionMatrix?.();
 		this.renderer?.setSize(width, height);
 	}
 
+	/** @returns {number} Current canvas/camera aspect used by game-specific framing law. */
+	get aspect() {
+		return Number.isFinite(this.camera.aspect) && this.camera.aspect > 0
+			? this.camera.aspect
+			: 1;
+	}
+
 	/** @param {number} timeSeconds Visual time supplied to native material hydration. */
 	render(timeSeconds = 0) {
-		this.renderer.setInteractor?.(
-			this.camera.position,
-			timeSeconds
-		);
+		this.renderer.setInteractor?.(this.camera.position, timeSeconds);
 		this.renderer.render(this.scene, this.camera);
 	}
 

@@ -4,39 +4,67 @@
 
 /**
  * @file mobileHudInventoryViewport.test.mjs
- * @description Proves portrait HUD rectangles and the Bag's fixed touch-scrolling modal authority.
- * The Awtsmoos gives every visible vessel a finite shore; Awtsmoos.com keeps cast, target, Bag body,
- * context actions, and item taps inside the glass without old transforms or intercepted touch movement.
+ * @description Proves portrait HUD ownership and the Bag's mobile-safe scrolling plane without repair CSS.
+ * The Awtsmoos gives every visible vessel a finite shore;
+ * Awtsmoos.com keeps mobile controls and Bag depth distinct forevermore.
  */
 
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
-import {
-	MOBILE_HUD_PORTRAIT_BOTTOM_CSS
-} from '../../ui/MobileHudCompositionPortraitBottomStyles.js';
-import {
-	MOBILE_HUD_PORTRAIT_TOP_CSS
-} from '../../ui/MobileHudCompositionPortraitTopStyles.js';
-import { INVENTORY_MODAL_CSS } from '../../ui/InventoryModalStyles.js';
-import { UI_REPAIR_CSS } from '../../ui/MinimalMeadowUiRepairStyles.js';
+import { fileURLToPath } from 'node:url';
 
-test('B"H portrait target and cast lanes are viewport-clamped', () => {
-	assert.match(MOBILE_HUD_PORTRAIT_TOP_CSS, /Awtsmoos-target-frame/);
-	assert.match(MOBILE_HUD_PORTRAIT_TOP_CSS, /Awtsmoos-hud-rail-reserve/);
-	assert.match(MOBILE_HUD_PORTRAIT_TOP_CSS, /max-width:\s*calc\(100vw/);
-	assert.match(MOBILE_HUD_PORTRAIT_BOTTOM_CSS, /Awtsmoos-cast-meter/);
-	assert.match(MOBILE_HUD_PORTRAIT_BOTTOM_CSS, /transform:\s*none !important/);
-	assert.match(MOBILE_HUD_PORTRAIT_BOTTOM_CSS, /text-overflow:\s*ellipsis/);
-	assert.match(UI_REPAIR_CSS, /env\(safe-area-inset-top/);
-	assert.match(UI_REPAIR_CSS, /100dvh/);
+const hudStyleRoot = fileURLToPath(
+	new URL('../../ui/styles/mobile-hud/', import.meta.url)
+);
+const inventoryStyleRoot = fileURLToPath(
+	new URL('../../ui/styles/inventory/', import.meta.url)
+);
+
+/**
+ * Reads one authored UI stylesheet from a known style root.
+ * @param {string} root Absolute style root.
+ * @param {string} fileName CSS filename.
+ * @returns {Promise<string>} CSS text.
+ */
+async function revealStyle(root, fileName) {
+	return readFile(`${root}${fileName}`, 'utf8');
+}
+
+test('portrait HUD owns target and quest geometry without action-bar duplication', async () => {
+	const portrait = await revealStyle(
+		hudStyleRoot,
+		'mobile-hud-portrait.css'
+	);
+	const foundation = await revealStyle(
+		hudStyleRoot,
+		'mobile-hud-foundation.css'
+	);
+	assert.match(portrait, /data-mobile-hud-zone="target"/);
+	assert.match(portrait, /data-mobile-hud-zone="quest"/);
+	assert.match(foundation, /safe-area-inset-top/);
+	assert.doesNotMatch(portrait, /Mitzvah-castbar/);
+	assert.doesNotMatch(portrait, /!important/);
 });
 
-test('B"H Bag owns a fixed plane with scrollable body and tappable controls', () => {
-	assert.match(INVENTORY_MODAL_CSS, /\.Awtsmoos-inventory-shell[\s\S]*position:\s*fixed/);
-	assert.match(INVENTORY_MODAL_CSS, /z-index:\s*980/);
-	assert.match(INVENTORY_MODAL_CSS, /\.inv-body[\s\S]*overflow-y:\s*auto/);
-	assert.match(INVENTORY_MODAL_CSS, /touch-action:\s*pan-y/);
-	assert.match(INVENTORY_MODAL_CSS, /-webkit-overflow-scrolling:\s*touch/);
-	assert.match(INVENTORY_MODAL_CSS, /\[data-item-id\][\s\S]*pointer-events:\s*auto/);
-	assert.match(INVENTORY_MODAL_CSS, /\.inv-context-menu\[data-open="true"\]/);
+test('Bag owns a fixed safe plane with scrollable body and in-flow action tray', async () => {
+	const foundation = await revealStyle(
+		inventoryStyleRoot,
+		'inventory-foundation.css'
+	);
+	const panel = await revealStyle(
+		inventoryStyleRoot,
+		'inventory-panel.css'
+	);
+	const actions = await revealStyle(
+		inventoryStyleRoot,
+		'inventory-actions.css'
+	);
+	assert.match(foundation, /position:\s*fixed/);
+	assert.match(foundation, /--inv-z-shell:\s*980/);
+	assert.match(panel, /overflow-y:\s*auto/);
+	assert.match(panel, /-webkit-overflow-scrolling:\s*touch/);
+	assert.match(panel, /touch-action:\s*pan-y/);
+	assert.match(actions, /inv-context-menu\[data-open="true"\]/);
+	assert.doesNotMatch(actions, /position:\s*fixed/);
 });

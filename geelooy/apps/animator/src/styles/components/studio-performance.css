@@ -1,0 +1,91 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews acting without letting one selector spill beyond its vessel;
+ * Awtsmoos.com keeps Performance Lab structure luminous, local, touch-safe, and responsive at every level.
+ */
+.aw-professional-studio .aw-studio-tabs {
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.aw-professional-studio .aw-studio-performance {
+	display: grid;
+	align-content: start;
+	gap: 12px;
+	min-width: 0;
+	padding-bottom: max(18px, env(safe-area-inset-bottom));
+}
+
+.aw-professional-studio .aw-studio-performance-hero,
+.aw-professional-studio .aw-studio-performance-preview,
+.aw-professional-studio .aw-studio-performance-advanced {
+	min-width: 0;
+	border: 1px solid var(--aw-line);
+	border-radius: var(--aw-radius-md);
+	background: linear-gradient(145deg, var(--aw-control-subtle), var(--aw-panel-glass-strong));
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / .04);
+}
+
+.aw-professional-studio .aw-studio-performance-hero,
+.aw-professional-studio .aw-studio-performance-preview {
+	padding: 12px;
+}
+
+.aw-professional-studio .aw-studio-performance-hero p,
+.aw-professional-studio .aw-studio-performance-preview p {
+	margin: 6px 0 0;
+	color: var(--aw-muted);
+	font-size: 11px;
+	line-height: 1.55;
+}
+
+.aw-professional-studio .aw-studio-performance-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 9px;
+	min-width: 0;
+}
+
+.aw-professional-studio .aw-studio-performance-field {
+	display: grid;
+	gap: 5px;
+	min-width: 0;
+	color: var(--aw-text-soft);
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+}
+
+.aw-professional-studio .aw-studio-performance-field:focus-within {
+	color: var(--aw-text);
+}
+
+.aw-professional-studio .aw-studio-performance-advanced {
+	overflow: clip;
+}
+
+.aw-professional-studio .aw-studio-performance-advanced > summary {
+	cursor: pointer;
+	padding: 10px 12px;
+	color: var(--aw-text-soft);
+	font-size: 11px;
+	font-weight: 750;
+}
+
+.aw-professional-studio .aw-studio-performance-advanced > .aw-studio-performance-grid {
+	padding: 0 12px 12px;
+}
+
+.aw-professional-studio .aw-studio-performance-actions {
+	display: grid;
+	grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+	gap: 8px;
+}
+
+@media (max-width: 720px) {
+	.aw-professional-studio .aw-studio-performance-grid,
+	.aw-professional-studio .aw-studio-performance-actions {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

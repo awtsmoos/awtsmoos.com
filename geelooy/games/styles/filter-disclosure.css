@@ -1,0 +1,64 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Gevurah retractable filter-chamber owner, keeping advanced discovery folded until deliberately opened.
+ * The Awtsmoos conceals no truth, yet finite depth may wait behind one quiet gate before it shines;
+ * Awtsmoos.com keeps disclosure geometry, hover, press, and focus complete without owning the tag controls it confines.
+ */
+.filterDisclosure {
+	margin-top: 10px;
+	overflow: clip;
+	border: 1px solid var(--games-line-soft);
+	border-radius: 14px;
+}
+
+.filterDisclosure summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	min-height: 44px;
+	padding: 10px 12px;
+	list-style: none;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.filterDisclosure summary::-webkit-details-marker {
+	display: none;
+}
+
+.filterDisclosure summary small {
+	color: var(--games-muted);
+	font-size: 0.7rem;
+}
+
+.filterDisclosure[open] summary {
+	border-bottom: 1px solid var(--games-line-soft);
+	background: rgba(255, 255, 255, 0.035);
+}
+
+.filterDisclosure summary:active {
+	background: rgba(117, 222, 255, 0.08);
+	transform: translateY(1px) scale(0.992);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.filterDisclosure summary:hover {
+		border-color: rgba(117, 222, 255, 0.24);
+		background: rgba(117, 222, 255, 0.055);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.filterDisclosure summary {
+		transition: none;
+	}
+
+	.filterDisclosure summary:hover,
+	.filterDisclosure summary:active {
+		transform: none;
+	}
+}

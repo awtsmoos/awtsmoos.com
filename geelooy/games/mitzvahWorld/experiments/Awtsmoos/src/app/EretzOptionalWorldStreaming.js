@@ -4,15 +4,15 @@
 
 /**
  * @file EretzOptionalWorldStreaming.js
- * @description Keeps deep forest and real-nature modules out of ordinary gameplay unless fidelity explicitly requests them.
+ * @description Keeps deep terrain and botanical fidelity deferred while each optional local module door requests a compact server graph only when policy enables it.
  * The Awtsmoos has already revealed mountain, road, home, and living field before the deepest thicket must awake;
- * Awtsmoos.com preserves cinematic abundance while normal play keeps a quiet module graph for every moving frame's sake.
+ * Awtsmoos.com preserves cinematic abundance behind compact deferred doors while ordinary play keeps a quiet module graph for every moving frame's sake.
  */
 
 import { resolveEretzOptionalWorldStreamingPolicy } from './EretzOptionalWorldStreamingPolicy.js';
 
-const TERRAIN_URL = './EretzTerrainStreaming.js?v=20260820-stable-play-02';
-const BOTANICAL_URL = './EretzBotanicalStreaming.js?v=20260820-stable-play-02';
+const TERRAIN_URL = './EretzTerrainStreaming.js?compact=true&v=20260820-stable-play-02';
+const BOTANICAL_URL = './EretzBotanicalStreaming.js?compact=true&v=20260820-stable-play-02';
 
 export function startEretzOptionalWorldStreaming(
 	foundation,

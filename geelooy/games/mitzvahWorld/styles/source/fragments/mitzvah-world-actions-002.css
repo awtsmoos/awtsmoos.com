@@ -1,50 +1,122 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-actions-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos hides depth until it is needed; Awtsmoos.com keeps keys, focus, minimap, and metadata quiet at rest, precise in use, and fully bounded inside the living world.
 */
 
-#mitzvah-world-root #mitzvah-world-root .Mitzvah-slot-key {
-	padding: 2px !important;
-	font-size: 7px !important;
+#mitzvah-world-root .Mitzvah-slot-key {
+	padding: 2px 4px;
+	border-radius: 5px;
+	background: rgba(255, 255, 255, 0.06);
+	color: var(--mw-text-muted);
+	font-size: 8px;
+	line-height: 1.1;
 }
 
-#mitzvah-world-root #mitzvah-world-root .Mitzvah-action-meta {
-	grid-template-columns: 1fr auto !important;
-	min-height: 12px !important;
+#mitzvah-world-root .Mitzvah-action-meta {
+	grid-template-columns: minmax(0, 1fr) auto;
+	min-height: 14px;
+	color: var(--mw-text-muted);
 }
 
-#mitzvah-world-root #mitzvah-world-root .Mitzvah-focus-track {
-	height: 6px !important;
+#mitzvah-world-root .Mitzvah-focus-track {
+	height: 6px;
+	overflow: hidden;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
 }
 
-#mitzvah-world-root #mitzvah-world-root .Mitzvah-focus-label {
-	font-size: 8px !important;
+#mitzvah-world-root .Mitzvah-focus-track > * {
+	max-width: 100%;
+	border-radius: inherit;
 }
 
-#mitzvah-world-root #mitzvah-world-root .Mitzvah-layout-lock {
-	min-height: 20px !important;
-	padding: 3px 6px !important;
-	font-size: 8px !important;
+#mitzvah-world-root .Mitzvah-focus-label {
+	font-size: 9px;
+	line-height: 1.2;
 }
 
-#mitzvah-world-root #mitzvah-world-root .Awtsmoos-minimap {
-	right: max(10px, env(safe-area-inset-right)) !important;
-	bottom: max(10px, env(safe-area-inset-bottom)) !important;
-	z-index: 680 !important;
-	width: 136px !important;
-	border-radius: 11px !important;
-	background: rgba(5, 17, 15, 0.94) !important;
-	opacity: 1 !important;
+#mitzvah-world-root .Mitzvah-layout-lock {
+	min-height: 24px;
+	padding: 4px 7px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: 7px;
+	background: var(--mw-surface-control);
+	color: var(--mw-text-muted);
+	font-size: 9px;
+	transition: border-color var(--mw-motion-fast) ease, background var(--mw-motion-fast) ease, color var(--mw-motion-fast) ease;
 }
 
-#mitzvah-world-root #mitzvah-world-root .Awtsmoos-minimap header {
-	padding: 5px 7px !important;
-	font-size: 10px !important;
+#mitzvah-world-root .Awtsmoos-minimap {
+	position: fixed;
+	right: var(--mw-safe-right);
+	bottom: var(--mw-safe-bottom);
+	z-index: var(--mw-z-status);
+	width: min(146px, calc(100vw - var(--mw-safe-left) - var(--mw-safe-right)));
+	max-height: min(42vh, 260px);
+	overflow: hidden;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-md);
+	background: var(--mw-surface-deep);
+	box-shadow: var(--mw-shadow-control);
+	opacity: 1;
+	transition: opacity var(--mw-motion-normal) ease, transform var(--mw-motion-normal) var(--mw-ease-out), border-color var(--mw-motion-fast) ease;
 }
 
-#mitzvah-world-root #mitzvah-world-root .Awtsmoos-minimap header button {
-	min-height: 24px !important;
-	padding: 3px 6px !important;
-	font-size: 9px !important;
+#mitzvah-world-root .Awtsmoos-minimap header {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	padding: 6px 7px;
+	color: var(--mw-text-muted);
+	font-size: 10px;
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button {
+	min-width: 32px;
+	min-height: 32px;
+	margin-left: auto;
+	padding: 4px 7px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: 8px;
+	background: var(--mw-surface-control);
+	color: var(--mw-text-primary);
+	cursor: pointer;
+	transition: transform var(--mw-motion-fast) var(--mw-ease-out), background var(--mw-motion-fast) ease, border-color var(--mw-motion-fast) ease, box-shadow var(--mw-motion-fast) ease;
+}
+
+@media (hover: hover) {
+	#mitzvah-world-root .Awtsmoos-minimap header button:hover:not(:disabled) {
+		border-color: var(--mw-border-strong);
+		background: var(--mw-surface-control-hover);
+		transform: translateY(-1px);
+	}
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button:focus-visible {
+	outline: none;
+	border-color: var(--mw-accent-strong);
+	box-shadow: var(--mw-focus-ring);
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button:active:not(:disabled) {
+	transform: scale(0.95);
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button:disabled {
+	cursor: not-allowed;
+	opacity: 0.46;
+}
+
+#mitzvah-world-root .Awtsmoos-minimap[data-collapsed="true"] {
+	transform: translateX(calc(100% - 42px));
+	opacity: 0.76;
+}
+
+@media (max-width: 520px) {
+	#mitzvah-world-root .Awtsmoos-minimap {
+		width: min(124px, 34vw);
+	}
 }

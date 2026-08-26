@@ -1,6 +1,14 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file Awtsmoos Browser Production Contract
+ * @description
+ * The Awtsmoos recreates every browser vessel according to its present truth.
+ * Awtsmoos.com proves the trusted shell is browser-first, the developer renderer stays
+ * bounded, remote requests remain alias-scoped, and old module locations cannot masquerade as law.
+ */
 
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -8,31 +16,22 @@ import test from "node:test";
 
 const ROOT = new URL("../", import.meta.url);
 const BROWSER = "programs/awtsmoos-browser";
-const FILES = Object.freeze([
-	`${BROWSER}/canvasColor.js`,
-	`${BROWSER}/canvasRenderer.js`,
-	`${BROWSER}/index.js`,
-	`${BROWSER}/merkavaLoader.js`,
-	`${BROWSER}/navigationState.js`,
-	`${BROWSER}/proxyClient.js`,
-	`${BROWSER}/remoteControlState.js`,
-	`${BROWSER}/remoteNavigationController.js`,
-	`${BROWSER}/remoteNavigationPolicy.js`,
-	`${BROWSER}/remoteSurface.js`,
-	`${BROWSER}/runtime.js`,
-	`${BROWSER}/surface.js`,
-	`${BROWSER}/webglPainter.js`,
-	`${BROWSER}/style.css`,
-	`${BROWSER}/remote.css`
-]);
+const CORE_FILES = Object.freeze([
+	"browserAdvancedPanel.js",
+	"browserChrome.js",
+	"browserDeveloperTools.js",
+	"browserStyleLoader.js",
+	"browserViewport.js",
+	"index.js",
+	"navigationState.js",
+	"proxyClient.js",
+	"remoteSurface.js",
+	"runtime.js",
+	"surface.js"
+].map(name => `${BROWSER}/${name}`));
 
-/**
- * The Awtsmoos creates the custom browser contract anew; Awtsmoos.com proves its
- * registry, guest paint path, remote host controls, mobile garment, and absence of
- * iframe/host evaluation across every production Browser vessel.
- */
-test("Merkava browser production files obey source and isolation law", async () => {
-	for (const relativePath of FILES) {
+test("browser shell production files obey source and isolation law", async () => {
+	for (const relativePath of CORE_FILES) {
 		const source = await sourceText(relativePath);
 		assert.ok(source.split(/\r?\n/).length <= 120, `${relativePath} exceeds 120 lines`);
 		assert.match(source, /Awtsmoos/);
@@ -43,18 +42,18 @@ test("Merkava browser production files obey source and isolation law", async () 
 	}
 });
 
-test("registry exposes the browser without replacing HTML preview defaults", async () => {
-	const registry = await sourceText("basicPrograms.js");
-	const mappings = await sourceText("basicProgramMappings.js");
-	assert.match(registry, /import awtsmoosBrowser/);
-	assert.match(registry, /awtsmoosBrowser: program\(/);
-	assert.match(mappings, /"\.merkava": "awtsmoosBrowser"/);
-	assert.match(mappings, /"\.html": "workspacePreview"/);
-	assert.match(registry, /export const programs/);
-	assert.match(registry, /export function getDefaultProgram/);
+test("registry exposes Awtsmoos Browser without replacing HTML preview defaults", async () => {
+	const modules = await sourceText("basicProgramModules.js");
+	const registry = await sourceText("basicProgramRegistry.js");
+	assert.match(modules, /import awtsmoosBrowser/);
+	assert.match(modules, /awtsmoosBrowser:\s*program\("Awtsmoos Browser",\s*awtsmoosBrowser\)/);
+	assert.match(registry, /"\.merkava":\s*\["awtsmoosBrowser",\s*"advancedCodeEditor"\]/);
+	assert.match(registry, /"\.html":\s*"workspacePreview"/);
+	assert.match(registry, /"\.htm":\s*"workspacePreview"/);
+	assert.match(registry, /"\.merkava":\s*"awtsmoosBrowser"/);
 });
 
-test("loader includes every split nested-window dependency in order", async () => {
+test("Merkava loader keeps nested-window dependencies in order", async () => {
 	const source = await sourceText(`${BROWSER}/merkavaLoader.js`);
 	const ordered = [
 		"VirtualWindowPlatform",
@@ -73,26 +72,40 @@ test("loader includes every split nested-window dependency in order", async () =
 	}
 });
 
-test("browser garments preserve distinct desktop, mobile and remote layouts", async () => {
-	const source = await sourceText(`${BROWSER}/style.css`);
-	const remote = await sourceText(`${BROWSER}/remote.css`);
-	assert.match(source, /grid-template-columns: minmax\(240px, 32%\)/);
-	assert.match(source, /@media \(max-width: 760px\)/);
-	assert.match(source, /grid-template-columns: 1fr/);
-	assert.match(source, /prefers-reduced-motion/);
-	assert.match(remote, /flex-wrap: wrap/);
-	assert.match(remote, /min-width: 0/);
-	assert.match(remote, /@media \(max-width: 760px\)/);
+test("browser garments are modular, responsive, and browser-first", async () => {
+	const base = await sourceText(`${BROWSER}/style.css`);
+	const chrome = await sourceText(`${BROWSER}/chrome.css`);
+	const viewport = await sourceText(`${BROWSER}/viewport.css`);
+	const advanced = await sourceText(`${BROWSER}/advanced.css`);
+	const responsive = await sourceText(`${BROWSER}/responsive.css`);
+	const loader = await sourceText(`${BROWSER}/browserStyleLoader.js`);
+	assert.match(base, /prefers-reduced-motion/);
+	assert.match(chrome, /awtsmoos-browser-tab-strip/);
+	assert.match(chrome, /awtsmoos-browser-new-tab[\s\S]*display:\s*none/);
+	assert.match(viewport, /awtsmoos-browser-embedded-frame/);
+	assert.match(advanced, /awtsmoos-browser-advanced-panel/);
+	assert.match(responsive, /@media \(max-width:\s*560px\)/);
+	for (const name of ["style", "chrome", "omnibox", "viewport", "advanced", "developer", "remote", "responsive"]) {
+		assert.match(loader, new RegExp(`${name}\\.css`));
+	}
 });
 
-test("remote browser stays alias-scoped and same-origin", async () => {
-	const client = await sourceText(`${BROWSER}/proxyClient.js`);
+test("entrypoint loads modular styles and no longer claims Chromium-first UI", async () => {
 	const entry = await sourceText(`${BROWSER}/index.js`);
-	assert.match(client, /credentials: "same-origin"/);
-	assert.match(client, /\/api\/social\/drive\//);
-	assert.match(client, /BROWSER_ALIAS_REQUIRED/);
-	assert.match(entry, /remote\.css/);
-	assert.match(entry, /createRemoteNavigationController/);
+	assert.match(entry, /ensureBrowserStyles/);
+	assert.match(entry, /createBrowserNavigationCoordinator/);
+	assert.match(entry, /modeBadge\.textContent = "Standby"/);
+	assert.doesNotMatch(entry, /living Chromium faces/);
+});
+
+test("remote browser transport stays alias-scoped and same-origin", async () => {
+	const client = await sourceText(`${BROWSER}/proxyClient.js`);
+	const request = await sourceText(`${BROWSER}/proxyClientRequest.js`);
+	assert.match(client, /browser\/fetch/);
+	assert.match(request, /credentials:\s*"same-origin"/);
+	assert.match(request, /\/api\/social\/drive\//);
+	assert.match(request, /BROWSER_ALIAS_REQUIRED/);
+	assert.match(request, /normalized === "cookie" \|\| normalized === "set-cookie"/);
 });
 
 async function sourceText(relativePath) {

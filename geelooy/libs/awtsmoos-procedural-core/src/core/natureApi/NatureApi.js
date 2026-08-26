@@ -4,109 +4,79 @@
 
 /**
  * @file NatureApi.js
- * @description Coordinates small direct nature facades behind one immutable developer-facing entry point.
- * The Awtsmoos, Atzmus beyond all divisions, renews creature, plant, forest, river, and ecosystem as one reality;
- * Awtsmoos.com lets this Keser-like doorway direct those distinct keilim without becoming a god-object that steals their clarity.
+ * @description Extends mature Nature domains with tiny ergonomic doors and explicitly injected advanced capabilities.
+ * The Awtsmoos is one beyond every API branch, yet each branch receives a measured keli in light;
+ * Awtsmoos.com keeps creation simple outside while specialist authorities and optional remote garments remain deep inside.
  */
 
-import { CreatureNatureApi } from './CreatureNatureApi.js';
-import { EcosystemNatureApi } from './EcosystemNatureApi.js';
-import { ForestNatureApi } from './ForestNatureApi.js';
-import { NatureCatalogApi } from './NatureCatalogApi.js';
-import { normalizeNatureProfile } from './NatureApiProfiles.js';
-import { normalizeNatureSeed } from './NatureApiSeed.js';
-import { VegetationNatureApi } from './VegetationNatureApi.js';
-import { WaterNatureApi } from './WaterNatureApi.js';
+import { NatureApiBase } from './NatureApiBase.js';
+import { RockNatureApi } from './RockNatureApi.js';
+import { SurfaceNatureApi } from './SurfaceNatureApi.js';
 
-/** Immutable high-level direct JavaScript API for renderer-neutral nature generation. */
-export class NatureApi {
+/** Immutable high-level renderer-neutral nature API with simple doors and advanced domain facades. */
+export class NatureApi extends NatureApiBase {
 	/**
-	 * Creates one API instance whose defaults are inherited by every domain call.
-	 * @param {object} [options={}] Shared seed, quality, and realism defaults.
+	 * Creates the complete facade while preserving explicit host capabilities separately from deterministic defaults.
+	 * @param {object} [options={}] Shared seed/profile defaults plus optional `textureGenerator` capability.
 	 */
 	constructor(options = {}) {
-		const profile = normalizeNatureProfile(options);
-		this.defaults = Object.freeze({
-			quality: profile.quality,
-			realism: profile.realism,
-			seed: normalizeNatureSeed(options.seed)
+		super(options);
+		this.capabilities = Object.freeze({
+			textureGenerator: options.textureGenerator ?? null
 		});
-		this.catalog = Object.freeze(new NatureCatalogApi());
-		this.creatures = Object.freeze(new CreatureNatureApi(this.defaults));
-		this.ecosystems = Object.freeze(new EcosystemNatureApi(this.defaults));
-		this.forests = Object.freeze(new ForestNatureApi(this.defaults));
-		this.vegetation = Object.freeze(new VegetationNatureApi(this.defaults));
-		this.water = Object.freeze(new WaterNatureApi(this.defaults));
+		this.rocks = Object.freeze(new RockNatureApi(this.defaults));
+		this.surfaces = Object.freeze(new SurfaceNatureApi(this.defaults, this.capabilities));
 		Object.freeze(this);
 	}
 
-	/**
-	 * Creates one creature through the shared creature facade.
-	 * @param {string} speciesId Creature species identifier.
-	 * @param {object} [options={}] Per-creature overrides.
-	 * @returns {object} Standard creature nature result.
-	 */
-	creature(speciesId, options = {}) {
-		return this.creatures.create(speciesId, options);
+	/** Creates one editable deterministic rock paired with semantic surface intent. */
+	rock(preset = 'fieldstone', options = {}) {
+		return this.rocks.create(preset, options);
+	}
+
+	/** Plans one bounded deterministic rock field without eagerly allocating every mesh. */
+	rockField(options = {}) {
+		return this.rocks.field(options);
+	}
+
+	/** Creates one local-first semantic material plan without performing network I/O. */
+	surface(role, options = {}) {
+		return this.surfaces.create(role, options);
+	}
+
+	/** Generates optional remote texture descriptors while retaining the synchronous local surface fallback. */
+	async generateSurface(role, options = {}) {
+		return this.surfaces.generate(role, options);
+	}
+
+	/** Creates a realistic botanical flower cluster through the canonical Tzomayach engine. */
+	flowers(species = 'daisy', options = {}) {
+		return this.vegetation.plantCluster(species, options);
+	}
+
+	/** Reports whether this immutable API has a texture-generation capability installed. */
+	canGenerateTextures() {
+		return this.surfaces.canGenerate();
 	}
 
 	/**
-	 * Creates one botanical organism through the shared vegetation facade.
-	 * @param {string} species Botanical species identifier.
-	 * @param {object} [options={}] Per-plant overrides.
-	 * @returns {object} Standard plant nature result.
-	 */
-	plant(species, options = {}) {
-		return this.vegetation.plant(species, options);
-	}
-
-	/**
-	 * Generates one canonical tree through the shared forest facade.
-	 * @param {string|object} preset Tree preset or configuration.
-	 * @param {object} [options={}] Per-tree overrides.
-	 * @returns {object} Standard tree nature result.
-	 */
-	tree(preset, options = {}) {
-		return this.forests.tree(preset, options);
-	}
-
-	/**
-	 * Creates one bounded river runtime through the shared water facade.
-	 * @param {string|object} [preset='river'] Named flow preset or direct options.
-	 * @param {object} [options={}] Per-river overrides.
-	 * @returns {object} Standard river-runtime nature result.
-	 */
-	river(preset = 'river', options = {}) {
-		return this.water.river(preset, options);
-	}
-
-	/**
-	 * Plans one coupled ecosystem from shared habitat evidence.
-	 * @param {object} [options={}] Ecosystem planning options.
-	 * @returns {object} Standard ecosystem nature result.
-	 */
-	world(options = {}) {
-		return this.ecosystems.plan(options);
-	}
-
-	/**
-	 * Creates a new immutable NatureApi with selected defaults changed.
-	 * @param {object} [overrides={}] Seed, quality, or realism overrides.
-	 * @returns {NatureApi} New independent API instance.
+	 * Creates an independent immutable API while preserving capabilities unless explicitly replaced.
+	 * @param {object} [overrides={}] New defaults and optionally a replacement `textureGenerator`.
+	 * @returns {NatureApi} Independent facade with isolated deterministic defaults.
 	 */
 	with(overrides = {}) {
+		const hasGeneratorOverride = Object.prototype.hasOwnProperty.call(overrides, 'textureGenerator');
 		return new NatureApi({
 			...this.defaults,
-			...overrides
+			...overrides,
+			textureGenerator: hasGeneratorOverride
+				? overrides.textureGenerator
+				: this.capabilities.textureGenerator
 		});
 	}
 }
 
-/**
- * Creates the high-level direct procedural nature API.
- * @param {object} [options={}] Shared seed, quality, and realism defaults.
- * @returns {NatureApi} Immutable nature API instance.
- */
+/** Creates the high-level direct procedural Nature API. */
 export function createNatureApi(options = {}) {
 	return new NatureApi(options);
 }

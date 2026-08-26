@@ -1,52 +1,90 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/*
-	The Awtsmoos renews each choice before the hand can press or steer;
-	Awtsmoos.com gives every top control a focused vessel, bright and clear.
-*/
-.top-controls {
+/**
+ * @fileoverview Netzach quick-action and restart styling scoped entirely to Peruta Run with complete pointer, press, focus, and disabled feedback.
+ * The Awtsmoos renews intention before the hand can pause, restart, hover, focus, or press;
+ * Awtsmoos.com gives every remaining quick action a large, luminous, uncluttered address.
+ */
+
+.peruta-run-route .top-controls {
 	position: absolute;
-	left: 50%;
-	top: max(72px, calc(env(safe-area-inset-top) + 62px));
-	z-index: 18;
+	top: var(--peruta-safe-top);
+	right: var(--peruta-safe-right);
+	z-index: var(--peruta-layer-controls);
 	display: flex;
 	gap: 7px;
-	transform: translateX(-50%);
 }
 
-.top-controls button,
-.game-over-panel button {
-	border: 1px solid rgba(255, 227, 143, 0.38);
+.peruta-run-route .top-controls button,
+.peruta-run-route .game-over-panel button {
+	min-width: 48px;
+	min-height: 48px;
+	border: 1px solid var(--peruta-line);
 	border-radius: 14px;
-	background: rgba(8, 30, 45, 0.78);
+	background: linear-gradient(145deg, rgba(13, 42, 58, 0.92), rgba(6, 25, 39, 0.84));
 	color: #fff8dd;
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+	box-shadow:
+		0 8px 24px rgba(0, 0, 0, 0.22),
+		inset 0 1px 0 rgba(255, 255, 255, 0.05);
 	backdrop-filter: blur(12px);
 	cursor: pointer;
-}
-
-.top-controls button {
-	width: 44px;
-	height: 40px;
-	font-weight: 800;
 	touch-action: manipulation;
+	transition:
+		transform 130ms ease,
+		border-color 130ms ease,
+		background 130ms ease,
+		box-shadow 130ms ease,
+		filter 130ms ease;
 }
 
-.top-controls button:active,
-.game-over-panel button:active {
-	transform: translateY(1px) scale(0.96);
-	background: rgba(84, 66, 22, 0.86);
+.peruta-run-route .top-controls button {
+	display: grid;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	padding: 0;
+	font-size: 1rem;
+	font-weight: 850;
 }
 
-.game-over-panel button {
+@media (hover: hover) and (pointer: fine) {
+	.peruta-run-route .top-controls button:hover,
+	.peruta-run-route .game-over-panel button:hover {
+		transform: translateY(-2px);
+		border-color: rgba(255, 229, 151, 0.72);
+		filter: brightness(1.08);
+		box-shadow:
+			0 12px 30px rgba(0, 0, 0, 0.28),
+			0 0 22px rgba(255, 214, 109, 0.1);
+	}
+}
+
+.peruta-run-route .top-controls button:active,
+.peruta-run-route .game-over-panel button:active {
+	transform: translateY(1px) scale(0.94);
+	border-color: rgba(255, 225, 138, 0.86);
+	background: rgba(84, 66, 22, 0.88);
+}
+
+.peruta-run-route .top-controls button:focus-visible,
+.peruta-run-route .game-over-panel button:focus-visible {
+	outline: none;
+	box-shadow:
+		0 0 0 3px rgba(255, 214, 109, 0.26),
+		0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.peruta-run-route .top-controls button:disabled,
+.peruta-run-route .game-over-panel button:disabled {
+	opacity: 0.45;
+	cursor: default;
+	transform: none;
+	filter: none;
+}
+
+.peruta-run-route .game-over-panel button {
 	margin-top: 20px;
 	padding: 11px 22px;
-	font-weight: 800;
-}
-
-@media (max-width: 800px) {
-	.top-controls {
-		top: 70px;
-	}
+	font-weight: 850;
 }

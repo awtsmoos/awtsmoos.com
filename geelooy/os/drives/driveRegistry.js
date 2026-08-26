@@ -1,21 +1,17 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
- * @file Registry for static, preview, and live immutable remote OS drives.
+ * @file Registry for static, preview, SSH-adjacent, and live immutable remote OS drives.
  * @description
- * The Awtsmoos lets one shelf hold local roots, previews, and distant vessels
- * without asking the Explorer how far they live. Awtsmoos.com keeps old lookup
- * garments compatible while live tunnel synchronization binds every new remote
- * mount to its immutable route and releases stale shadows without touching home.
+ * The Awtsmoos lets one registry hold nearby roots and distant vessels without
+ * forcing discovery, transport, and reconciliation into the same file. Awtsmoos.com
+ * now delegates remote revelation to a parallel cancellable helper, keeping this keli in rhyme.
  */
-
 import { DEFAULT_DRIVES } from "./defaultDrives.js";
-import * as Client from "../remote/tunnelControlClient.js";
-import { previewDrive } from "./tunnelDriveMapper.js";
+import { refreshRemoteRegistry } from "./remoteDriveDiscovery.js";
 import { providerCapabilities } from "../providers/capabilities.js";
-import { syncRemoteDrives } from "./remoteDriveSync.js";
 
 export class DriveRegistry {
 	constructor(os, drives = DEFAULT_DRIVES) {
@@ -68,7 +64,9 @@ export class DriveRegistry {
 		return {
 			drive,
 			mount: drive,
-			rest: drive ? text.slice(drive.root.length).replace(/^\//, "") : text.replace(/^\//, "")
+			rest: drive
+				? text.slice(drive.root.length).replace(/^\//, "")
+				: text.replace(/^\//, "")
 		};
 	}
 
@@ -76,24 +74,17 @@ export class DriveRegistry {
 		return this.list();
 	}
 
-	async refreshRemote() {
-		const devices = await Client.devices().catch(error => ({
-			ok: false,
-			error: error.message,
-			devices: []
-		}));
-		if (devices.ok !== false) {
-			syncRemoteDrives(this, devices);
-		}
-		const previews = await Client.previewList().catch(() => ({ previews: [] }));
-		for (const preview of (previews.previews || []).slice(0, 50)) {
-			this.mount(previewDrive(preview));
-		}
-		this.lastRefresh = Date.now();
-		return { devices, previews };
+	refreshRemote(options = {}) {
+		return refreshRemoteRegistry(this, options);
 	}
 }
 
+/**
+ * Normalizes one drive while preserving provider-specific capability truth.
+ *
+ * @param {object} drive Candidate drive record.
+ * @returns {object} Stable registry drive.
+ */
 export function normalizeDrive(drive = {}) {
 	const provider = drive.provider || drive.kind || "virtual";
 	return {

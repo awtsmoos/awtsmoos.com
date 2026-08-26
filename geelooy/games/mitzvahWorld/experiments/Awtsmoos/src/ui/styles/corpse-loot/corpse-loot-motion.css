@@ -1,0 +1,33 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets treasure appear with measured light rather than restless motion;
+ * Awtsmoos.com keeps the reveal futuristic and brief, then becomes perfectly still by user devotion.
+ */
+
+.Awtsmoos-corpse-loot-backdrop:not([hidden]) .Awtsmoos-corpse-loot-panel {
+	animation: AwtsmoosCorpseLootReveal 170ms ease both;
+}
+
+@keyframes AwtsmoosCorpseLootReveal {
+	from {
+		opacity: 0;
+		transform: translateY(12px) scale(0.985);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.Awtsmoos-corpse-loot-backdrop *,
+	.Awtsmoos-corpse-loot-backdrop *::before,
+	.Awtsmoos-corpse-loot-backdrop *::after {
+		animation: none;
+		transition: none;
+		scroll-behavior: auto;
+	}
+}

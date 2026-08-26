@@ -5,17 +5,15 @@
 @import url('./layout-controls.css');
 
 /**
- * The Awtsmoos arranges browser, workshop, and public world in one measured map while no child is allowed to force its parent beyond the visible vessel.
- * Awtsmoos.com gives every major grid a zero-minimum track, so wide source, controls, and testimony may wrap or scroll locally without widening the whole page.
+ * The Awtsmoos arranges browser, workshop, and public world in one measured map while no child may force its parent beyond the visible vessel; Awtsmoos.com scopes the entire geometry to Drive so identical class names elsewhere remain untouched.
  */
 
-.site-header,
-.app-shell {
+[data-awtsmoos-drive] :where(.site-header, .app-shell) {
 	width: min(calc(100% - 2rem), var(--content));
 	margin-inline: auto;
 }
 
-.site-header {
+[data-awtsmoos-drive] .site-header {
 	display: grid;
 	grid-template-columns: minmax(0, 1.4fr) minmax(19rem, 0.65fr);
 	gap: var(--space-5);
@@ -23,29 +21,28 @@
 	padding: clamp(2rem, 7vw, 6rem) 0 var(--space-5);
 }
 
-.brand-block > p:last-child {
+[data-awtsmoos-drive] .brand-block > p:last-child {
 	max-width: 52ch;
 	margin: 0;
 	color: var(--muted);
 	font-size: 1.05rem;
 }
 
-.app-shell {
+[data-awtsmoos-drive] .app-shell {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-4);
 	padding-bottom: 7rem;
 }
 
-.overview-grid {
+[data-awtsmoos-drive] .overview-grid {
 	display: grid;
 	grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
 	gap: var(--space-4);
 	min-width: 0;
 }
 
-.panel,
-.connection-card {
+[data-awtsmoos-drive] :where(.panel, .connection-card) {
 	min-width: 0;
 	border: 1px solid var(--line);
 	border-radius: var(--radius-large);
@@ -54,17 +51,17 @@
 	backdrop-filter: blur(20px);
 }
 
-.panel {
+[data-awtsmoos-drive] .panel {
 	padding: clamp(1rem, 2.5vw, 2rem);
 }
 
-.connection-card {
+[data-awtsmoos-drive] .connection-card {
 	display: grid;
 	gap: var(--space-3);
 	padding: var(--space-4);
 }
 
-.panel-heading {
+[data-awtsmoos-drive] .panel-heading {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--space-2);
@@ -74,8 +71,7 @@
 	margin-bottom: var(--space-4);
 }
 
-.kicker,
-.eyebrow {
+[data-awtsmoos-drive] :where(.kicker, .eyebrow) {
 	width: 100%;
 	margin-bottom: var(--space-1);
 	color: var(--accent);

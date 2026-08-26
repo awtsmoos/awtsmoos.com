@@ -1,0 +1,89 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * @fileoverview The Awtsmoos lets processing and selection become visible without
+ * conquering the component that carries them. Awtsmoos.com reveals active intention
+ * through local tokens, gentle light, and no forceful cascade fight.
+ */
+body.geelooy-app-shell {
+	--g-state-selected-border: rgba(60, 236, 255, .68);
+	--g-state-selected-text: #ffffff;
+	--g-state-unsaved-border: rgba(255, 209, 102, .66);
+}
+
+body.geelooy-app-shell :where(
+	[aria-busy="true"],
+	[data-state="processing"],
+	.is-loading
+) {
+	position: relative;
+	isolation: isolate;
+	cursor: progress;
+}
+
+body.geelooy-app-shell :where(
+	[aria-busy="true"],
+	[data-state="processing"],
+	.is-loading
+)::after {
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: linear-gradient(105deg, transparent 20%, rgba(60, 236, 255, .14), rgba(255, 72, 203, .12), transparent 78%);
+	background-size: 220% 100%;
+	content: "";
+	pointer-events: none;
+	animation: g-processing-scan 1.6s linear infinite;
+}
+
+body.geelooy-app-shell :where(
+	[aria-pressed="true"],
+	[aria-selected="true"],
+	[data-state="selected"]
+) {
+	border-color: var(--g-state-selected-border);
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), var(--g-glow);
+	color: var(--g-state-selected-text);
+}
+
+body.geelooy-app-shell :where(
+	[aria-pressed="true"],
+	[aria-selected="true"],
+	[data-state="selected"]
+)::before {
+	opacity: 1;
+}
+
+body.geelooy-app-shell :where([aria-expanded="true"], details[open]) {
+	border-color: color-mix(in srgb, var(--g-magenta) 64%, var(--g-cyan));
+}
+
+body.geelooy-app-shell [data-unsaved="true"] {
+	border-color: var(--g-state-unsaved-border);
+	box-shadow: 0 0 0 3px rgba(255, 209, 102, .1), 0 0 28px rgba(255, 122, 69, .14);
+}
+
+body.geelooy-app-shell [data-unsaved="true"]::after {
+	content: " • unsaved";
+	color: var(--g-warning);
+	font: 800 .72rem/1 var(--g-mono);
+	letter-spacing: .04em;
+}
+
+@keyframes g-processing-scan {
+	from {
+		background-position: 140% 0;
+	}
+
+	to {
+		background-position: -120% 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.geelooy-app-shell :where([aria-busy="true"], [data-state="processing"], .is-loading)::after {
+		animation: none;
+		background-position: 50% 0;
+	}
+}

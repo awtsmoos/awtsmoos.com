@@ -2,11 +2,14 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gathers advanced garments through one narrow gate while Awtsmoos.com keeps each concern in its rightful place;
-core form, control skin, responsive law, and accessibility remain separate vessels so optional power never becomes cascading waste.
+The Awtsmoos gathers advanced garments through one narrow gate while Awtsmoos.com gives geometry, controls, motion, responsive disclosure, accessibility, and live Creator Mode their separate place;
+one retractable vessel may grow in depth without becoming a tangled stylesheet, while the independent creator rail arrives through one explicit import and never leaks beyond its own localized root.
 */
 
+@import url("./creative-dock/mitzvah-world-creative-dock-layout.css");
 @import url("./creative-dock/mitzvah-world-creative-dock-core.css");
+@import url("./creative-dock/mitzvah-world-creative-dock-motion.css");
 @import url("./creative-dock/mitzvah-world-creative-dock-controls.css");
 @import url("./creative-dock/mitzvah-world-creative-dock-responsive.css");
 @import url("./creative-dock/mitzvah-world-creative-dock-accessibility.css");
+@import url("./mitzvah-world-creator-rail.css");

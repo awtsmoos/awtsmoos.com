@@ -1,0 +1,45 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is unchanged while every finite viewport changes measure;
+ * Awtsmoos.com lets the doorway contract gracefully without clipping controls, text, or treasure.
+ */
+
+@media (max-width: 620px) {
+	.Awtsmoos-menu .Awtsmoos-menu-bar output {
+		display: none;
+	}
+
+	.Awtsmoos-menu .Awtsmoos-menu-content {
+		padding-top: 28px;
+	}
+
+	.Awtsmoos-menu .Awtsmoos-player-name {
+		flex-direction: column;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.Awtsmoos-menu {
+		--menu-bar-height: calc(48px + var(--menu-safe-top));
+	}
+
+	.Awtsmoos-menu .Awtsmoos-menu-content {
+		padding-top: 20px;
+	}
+
+	.Awtsmoos-menu .Awtsmoos-menu-hero h2 {
+		font-size: clamp(32px, 8vw, 54px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.Awtsmoos-menu .Awtsmoos-menu-drawer,
+	.Awtsmoos-menu button,
+	.Awtsmoos-menu input,
+	.Awtsmoos-menu .Awtsmoos-menu-action {
+		animation: none;
+		transition: none;
+	}
+}

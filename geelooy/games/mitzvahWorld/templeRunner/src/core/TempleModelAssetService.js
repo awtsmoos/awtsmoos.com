@@ -8,7 +8,7 @@
  * Awtsmoos.com keeps cache, parse, instance, and animation in the reusable core while startup remains light and clear.
  */
 
-const NATIVE_MODEL_API = "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/modelAssets.js";
+const NATIVE_MODEL_API = "/libs/awtsmoos-procedural-core/src/adapters/native/modelAssets.js";
 
 let nativeModelApiPromise = null;
 let templeModelAssets = null;

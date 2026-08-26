@@ -1,85 +1,122 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews the chamber before character light may enter;
+ * Awtsmoos.com keeps Character Lab absent when closed, modal when revealed, and bounded inside one calm professional vessel.
+ */
+.character-customizer[hidden] {
+	display: none !important;
+}
 
-/** The Awtsmoos renews the outer theater of the Awtsmoos.com Character Lab. */
 .character-customizer {
 	position: fixed;
-	z-index: 70;
-	right: 18px;
 	top: 74px;
-	font: 13px/1.35 Inter, system-ui, sans-serif;
-	color: #f8fafc;
+	right: 12px;
+	z-index: var(--aw-z-modal);
+	pointer-events: auto;
+	font: 12px var(--aw-font);
+	color: var(--aw-text);
 }
 
 .character-lab-toggle {
-	border: 1px solid #a78bfa;
-	background: linear-gradient(135deg, #312e81, #7c3aed);
-	color: #ffffff;
+	min-height: var(--aw-control-height);
+	padding: 7px 11px;
+	border: 1px solid var(--aw-line-strong);
 	border-radius: 999px;
-	padding: 10px 16px;
-	font-weight: 800;
-	box-shadow: 0 10px 30px #0008;
+	color: var(--aw-text-soft);
+	background: var(--aw-panel-glass);
+	box-shadow: var(--aw-shadow-soft);
+	backdrop-filter: blur(12px);
+}
+
+.aw-professional-studio .character-customizer:not([data-open='true']) {
+	display: none;
 }
 
 .character-lab-card {
 	display: none;
-	width: min(1040px, calc(100vw - 36px));
-	height: min(780px, calc(100vh - 100px));
-	background: #090d18f5;
-	border: 1px solid #475569;
-	border-radius: 18px;
-	box-shadow: 0 30px 90px #000c;
+	grid-template-rows: auto minmax(0, 1fr);
+	width: min(1020px, calc(100vw - 24px));
+	height: min(760px, calc(100vh - 98px));
+	min-height: 0;
+	border: 1px solid var(--aw-line-strong);
+	border-radius: var(--aw-radius-lg);
 	overflow: hidden;
+	background: var(--aw-panel-glass-strong);
+	box-shadow: var(--aw-shadow);
+	backdrop-filter: blur(18px);
 }
 
 .character-customizer[data-open='true'] .character-lab-card {
-	display: block;
+	display: grid;
 }
 
 .character-customizer[data-open='true'] .character-lab-toggle {
 	display: none;
 }
 
-.character-lab-card > header {
+.character-lab-header {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
-	padding: 14px 18px;
-	background: linear-gradient(90deg, #172554, #4c1d95);
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 50px;
+	padding: 8px 10px 8px 14px;
+	border-bottom: 1px solid var(--aw-line);
+	background: rgba(255, 255, 255, .02);
 }
 
-.character-lab-card header div {
+.character-lab-header > div {
 	display: grid;
+	min-width: 0;
+	gap: 2px;
 }
 
-.character-lab-card header small {
-	color: #c4b5fd;
+.character-lab-header b {
+	font-size: 13px;
+	letter-spacing: .01em;
 }
 
-.character-lab-card header button {
-	font-size: 24px;
-	background: transparent;
-	border: 0;
-	color: #ffffff;
+.character-lab-header small {
+	overflow: hidden;
+	color: var(--aw-muted);
+	font-size: 9px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.character-lab-header button {
+	flex: 0 0 auto;
+	width: var(--aw-control-height);
+	height: var(--aw-control-height);
+	border: 1px solid var(--aw-line);
+	border-radius: var(--aw-radius-sm);
+	color: var(--aw-text-soft);
+	background: var(--aw-control-subtle);
+	font-size: 20px;
+	line-height: 1;
+}
+
+.character-lab-scroll {
+	min-height: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
 }
 
 .character-lab-layout {
 	display: grid;
-	grid-template-columns: minmax(480px, 1fr) 360px;
-	height: calc(100% - 60px);
+	grid-template-columns: minmax(0, 1.35fr) minmax(280px, .85fr);
+	gap: 12px;
+	padding: 12px;
 }
 
-.character-controls {
-	overflow: auto;
-	padding: 14px;
+.character-controls,
+.character-lab-layout aside {
+	min-width: 0;
 }
 
-.character-lab-card aside {
-	overflow: auto;
-	padding: 14px;
-	background: #0f172a;
+.character-lab-layout aside {
 	display: grid;
-	gap: 10px;
 	align-content: start;
+	gap: 10px;
 }

@@ -2,107 +2,22 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos conducts many public doorways through one quiet homepage;
- * Awtsmoos.com keeps visible navigation sparse while search and retractable constellations reveal the whole field.
+ * @file index.js
+ * @description
+ * The Awtsmoos renews every Home system through one quiet beginning; Awtsmoos.com
+ * keeps its browser entry deliberately tiny so CompactJS can fold a richly modular
+ * graph while the source remains readable, documented, and easy to evolve.
  */
-import createProfileDropdown from "/scripts/awtsmoos/social/profileDropdown.js?v=5";
-import { AmbientParallax } from "./ambient.js";
-import { CONSTELLATION_CATALOG, CONSTELLATION_GROUPS } from "./constellation-catalog.js";
-import { ConstellationRenderer } from "./constellation-renderer.js";
-import { ConstellationStyleLoader } from "./constellation-style-loader.js";
-import { IntentPrefetch } from "./intent-prefetch.js";
-import { KeyboardShortcuts } from "./keyboard-shortcuts.js";
-import { LauncherFilter } from "./launcher-filter.js";
-import { MenuController } from "./menu.js";
-import { OmniboxController } from "./omnibox-controller.js";
-import { OmniboxHistory } from "./omnibox-history.js";
-import { OmniboxRecorder } from "./omnibox-recorder.js";
-import { OmniboxRenderer } from "./omnibox-renderer.js";
-import { ParticleSky } from "./particles.js";
-import { PointerLight } from "./pointer-light.js";
-import { RevealController } from "./reveal-controller.js";
-import { SearchController } from "./search.js";
-import { WorldLauncherOpener } from "./world-launcher-opener.js";
+import { HomeTiferesRuntime } from "./HomeTiferesRuntime.js";
 
-const canvasElement = document.querySelector("[data-particle-sky]");
-const menuElement = document.querySelector("[data-menu-root]");
-const menuButton = document.querySelector("[data-menu-button]");
-const openWorldsButton = document.querySelector("[data-open-worlds]");
-const omniboxElement = document.querySelector("[data-omnibox-root]");
-const parallaxElement = document.querySelector("[data-parallax]");
-const profileMount = document.querySelector("[data-profile-mount]");
-const revealElements = [...document.querySelectorAll("[data-reveal]")];
-const pointerLightElements = [...document.querySelectorAll("[data-pointer-light]")];
-const searchElement = document.querySelector("form[role='search']");
-const searchInput = searchElement?.querySelector("input[type='search']");
-
-let filterController = null;
-let historyController = null;
-let omniboxController = null;
-
-ConstellationStyleLoader.ensure();
-
-if (menuElement) {
-	new ConstellationRenderer(
-		menuElement,
-		CONSTELLATION_CATALOG,
-		CONSTELLATION_GROUPS
-	).render();
-	new MenuController(menuElement).connect();
-	new WorldLauncherOpener(menuElement, openWorldsButton).connect();
-	filterController = new LauncherFilter(menuElement).connect();
+/**
+ * Boots the Home route against the current document.
+ *
+ * @returns {HomeTiferesRuntime} Connected Home runtime.
+ * @sideEffects Connects the page-lifetime Home controllers represented by the runtime.
+ */
+function revealHomeTiferes() {
+	return new HomeTiferesRuntime(document).connect();
 }
 
-if (canvasElement) {
-	new ParticleSky(canvasElement).connect();
-}
-
-if (omniboxElement) {
-	historyController = new OmniboxHistory();
-	const recorder = new OmniboxRecorder(historyController).connect();
-	const renderer = new OmniboxRenderer(omniboxElement);
-	omniboxController = new OmniboxController(
-		omniboxElement,
-		{
-			catalog: CONSTELLATION_CATALOG,
-			history: historyController,
-			menuRoot: menuElement,
-			recorder,
-			renderer
-		}
-	).connect();
-	new IntentPrefetch(omniboxElement).connect();
-}
-
-if (parallaxElement) {
-	new AmbientParallax(parallaxElement).connect();
-}
-
-if (searchElement) {
-	new SearchController(
-		searchElement,
-		{
-			history: historyController,
-			omnibox: omniboxController
-		}
-	).connect();
-}
-
-if (revealElements.length > 0) {
-	new RevealController(revealElements).connect();
-}
-
-if (pointerLightElements.length > 0) {
-	new PointerLight(pointerLightElements).connect();
-}
-
-new KeyboardShortcuts({
-	searchInput,
-	menuRoot: menuElement,
-	menuButton,
-	filterController
-}).connect();
-
-if (profileMount) {
-	createProfileDropdown(profileMount);
-}
+revealHomeTiferes();

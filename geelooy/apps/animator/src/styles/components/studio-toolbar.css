@@ -1,26 +1,27 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos renews deliberate studio commands; Awtsmoos.com keeps project,
- * timecode, editing modes, Character Lab, and export compact above the stage.
+ * The Awtsmoos renews every command before project, timecode, history, and export can share one rail;
+ * Awtsmoos.com keeps the top deck compact and tactile so the stage remains sovereign beneath its measured veil.
  */
 .aw-studio-toolbar {
 	position: relative;
 	display: grid;
-	grid-template-columns: minmax(130px, 1fr) auto minmax(320px, auto);
-	gap: 8px 12px;
+	grid-template-columns: minmax(150px, .7fr) auto minmax(0, 2fr);
+	gap: 7px 12px;
 	align-items: center;
-	padding: 7px 9px;
+	padding: 6px 8px;
 	border: 1px solid var(--aw-line-strong);
 	border-radius: var(--aw-radius-md);
-	background: rgba(16, 21, 32, 0.94);
-	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
-	backdrop-filter: blur(12px);
+	background: var(--aw-panel-glass);
+	box-shadow: var(--aw-shadow-soft);
+	backdrop-filter: blur(14px) saturate(1.1);
 }
 
 .aw-studio-project-title {
 	display: grid;
 	min-width: 0;
+	gap: 1px;
 }
 
 .aw-studio-project-title strong,
@@ -30,22 +31,29 @@
 	white-space: nowrap;
 }
 
+.aw-studio-project-title strong {
+	font-size: 11px;
+	font-weight: 720;
+}
+
 .aw-studio-project-title small,
 .aw-studio-timecode small {
 	color: var(--aw-muted);
-	font-size: 9px;
+	font-size: 8px;
+	letter-spacing: .04em;
 }
 
 .aw-studio-timecode {
 	white-space: nowrap;
-	font: 14px var(--aw-mono);
+	color: var(--aw-text-soft);
+	font: 13px var(--aw-mono);
 	font-variant-numeric: tabular-nums;
 }
 
 .aw-studio-toolbar-actions {
 	display: flex;
 	justify-content: flex-end;
-	gap: 5px;
+	gap: 4px;
 	min-width: 0;
 }
 
@@ -56,15 +64,15 @@
 	border: 1px solid var(--aw-line);
 	border-radius: var(--aw-radius-sm);
 	color: var(--aw-text-soft);
-	background: var(--aw-control);
+	background: var(--aw-control-subtle);
 	cursor: pointer;
 	white-space: nowrap;
-	transition: background var(--aw-fast), color var(--aw-fast);
 }
 
 .aw-studio-toolbar button:hover,
 .aw-studio-panel button:hover {
 	color: var(--aw-text);
+	border-color: var(--aw-line-strong);
 	background: var(--aw-control-hover);
 }
 
@@ -77,35 +85,8 @@
 .aw-studio-export-button,
 .aw-studio-primary {
 	color: #fff !important;
+	border-color: rgba(142, 180, 255, .62) !important;
 	background: #3f6fc2 !important;
-}
-
-.aw-studio-export-status {
-	position: absolute;
-	top: calc(100% + 3px);
-	left: 50%;
-	max-width: 90%;
-	overflow: hidden;
-	padding: 2px 7px;
-	border-radius: 999px;
-	color: var(--aw-muted);
-	background: rgba(16, 21, 32, 0.88);
-	font-size: 9px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	transform: translateX(-50%);
-}
-
-.aw-studio-export-status.status-idle {
-	display: none;
-}
-
-.aw-studio-export-status.status-complete {
-	color: var(--aw-success);
-}
-
-.aw-studio-export-status.status-error {
-	color: var(--aw-danger);
 }
 
 .aw-professional-studio .character-lab-toggle {

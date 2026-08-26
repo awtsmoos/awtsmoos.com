@@ -2,31 +2,32 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos renews color, spacing, glass, and motion before any interface vessel can shine;
- * Awtsmoos.com keeps one quiet token language so mobile and desktop reveal the same disciplined design.
+ * @fileoverview Tiferes route-local tokens for contrast, safe areas, motion, touch geometry, and semantic layer ownership.
+ * The Awtsmoos renews color and depth before one interface vessel can shine;
+ * Awtsmoos.com keeps every token inside Temple Runner so no neighboring page inherits a shadow, radius, or z-line.
  */
 
-:root {
+#game-shell {
 	--ink-950: #0d0907;
 	--ink-900: #140e0b;
 	--ink-850: #1a120e;
 	--ivory-100: #fff9e8;
-	--ivory-300: #f5dfb2;
-	--ivory-500: #c9ae7b;
+	--ivory-300: #f7e5c0;
+	--ivory-500: #dec79a;
 	--gold-300: #ffe08a;
 	--gold-500: #d99d3f;
 	--cyan-300: #b9efff;
 	--cyan-500: #5bcbe7;
 	--green-300: #d8f3b0;
 	--danger-300: #ffb2a6;
-	--glass: rgba(18, 12, 9, 0.66);
-	--glass-strong: rgba(18, 12, 9, 0.86);
-	--glass-soft: rgba(28, 18, 12, 0.48);
-	--line: rgba(255, 226, 158, 0.18);
-	--line-strong: rgba(255, 226, 158, 0.38);
-	--line-cyan: rgba(111, 220, 246, 0.46);
-	--shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.2);
-	--shadow-deep: 0 24px 72px rgba(0, 0, 0, 0.44);
+	--glass: rgba(16, 11, 9, 0.78);
+	--glass-strong: rgba(14, 9, 8, 0.92);
+	--glass-soft: rgba(24, 16, 12, 0.62);
+	--line: rgba(255, 226, 158, 0.28);
+	--line-strong: rgba(255, 226, 158, 0.52);
+	--line-cyan: rgba(111, 220, 246, 0.62);
+	--shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.3);
+	--shadow-deep: 0 24px 72px rgba(0, 0, 0, 0.52);
 	--radius-small: 12px;
 	--radius-medium: 17px;
 	--radius-large: 24px;
@@ -40,17 +41,27 @@
 	--safe-right: max(10px, env(safe-area-inset-right));
 	--safe-bottom: max(10px, env(safe-area-inset-bottom));
 	--safe-left: max(10px, env(safe-area-inset-left));
+	--layer-world: 0;
+	--layer-ambient: 2;
+	--layer-hud: 10;
+	--layer-controls: 20;
+	--layer-prompt: 30;
+	--layer-drawer-backdrop: 40;
+	--layer-drawer: 42;
+	--layer-modal: 60;
+	--layer-boot: 70;
 }
 
 @supports (backdrop-filter: blur(1px)) {
-	:root {
+	#game-shell {
 		--glass-blur: blur(14px) saturate(1.08);
 	}
 }
 
 @supports not (backdrop-filter: blur(1px)) {
-	:root {
+	#game-shell {
 		--glass-blur: none;
-		--glass: rgba(18, 12, 9, 0.88);
+		--glass: rgba(16, 11, 9, 0.94);
+		--glass-soft: rgba(20, 13, 10, 0.88);
 	}
 }

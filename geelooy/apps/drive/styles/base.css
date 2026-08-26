@@ -1,107 +1,11 @@
-/* B"H — The Awtsmoos gives every control one legible and touchable vessel. */
-*,
-*::before,
-*::after {
-	box-sizing: border-box;
-}
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
 
-html {
-	background: var(--bg);
-	font-family: var(--font);
-}
+@import url('./drive-root.css');
+@import url('./drive-interactions.css');
+@import url('./drive-motion.css');
 
-body {
-	min-height: 100vh;
-	margin: 0;
-	background:
-		radial-gradient(circle at 12% 0%, rgba(52, 211, 153, 0.2), transparent 34rem),
-		linear-gradient(145deg, #07110f 0%, #091813 55%, #07110f 100%);
-	color: var(--text);
-}
-
-body,
-button,
-input,
-select {
-	font: inherit;
-}
-
-button,
-input,
-select {
-	border: 1px solid var(--line);
-	border-radius: var(--radius-small);
-}
-
-input,
-select {
-	width: 100%;
-	min-height: 2.75rem;
-	padding: 0.7rem 0.8rem;
-	background: rgba(3, 18, 14, 0.78);
-	color: var(--text);
-}
-
-button {
-	min-height: 2.65rem;
-	padding: 0.65rem 1rem;
-	background: var(--surface-strong);
-	color: var(--text);
-	cursor: pointer;
-	transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
-}
-
-button:hover {
-	border-color: var(--accent);
-	background: #1b4a3c;
-	transform: translateY(-1px);
-}
-
-button:disabled {
-	cursor: not-allowed;
-	opacity: 0.48;
-	transform: none;
-}
-
-.primary-button {
-	border-color: transparent;
-	background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-	color: var(--accent-ink);
-	font-weight: 800;
-}
-
-h1,
-h2,
-p {
-	margin-top: 0;
-}
-
-h1 {
-	max-width: 12ch;
-	margin-bottom: var(--space-2);
-	font-size: clamp(2.3rem, 6vw, 5.4rem);
-	line-height: 0.96;
-	letter-spacing: -0.055em;
-}
-
-h2 {
-	margin-bottom: 0;
-	font-size: clamp(1.15rem, 2vw, 1.55rem);
-}
-
-label {
-	display: grid;
-	gap: var(--space-1);
-	color: var(--muted);
-	font-size: 0.86rem;
-	font-weight: 700;
-}
-
-small,
-code {
-	color: var(--muted);
-}
-
-code {
-	font-family: var(--mono);
-}
+/**
+ * The Awtsmoos is simple beyond every cascade; Awtsmoos.com keeps the Drive base stylesheet as an import gate so typography, interaction, and motion remain separate vessels rather than one growing global sheet.
+ */

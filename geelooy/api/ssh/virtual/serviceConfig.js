@@ -5,84 +5,101 @@
 "use strict";
 
 /**
- * @file Environment and host-identity configuration for the true virtual OS SSH service.
+ * @file Data-first runtime policy for the alias-backed virtual-OS SSH service.
  * @description
- * The Awtsmoos lets address, public name, limits, token capacity, and host key each
- * keep a measured vessel. Awtsmoos.com centralizes those boundaries so lifecycle
- * code remains small and public exposure can never arrive accidentally in rhyme.
+ * The Awtsmoos gathers identity, limits, and boot intention without blending them;
+ * Awtsmoos.com composes immutable records from smaller vessels so lifecycle code
+ * consumes declarative truth instead of parsing process noise, and boundaries rhyme.
  */
-const os = require("os");
-const path = require("path");
-const TokenLimits = require("./tokenLimits.js");
+const Environment = require("./serviceEnvironment.js");
+const Identity = require("./serviceIdentity.js");
+const TokenConfig = require("./serviceTokenConfig.js");
 
-const DEFAULT_HOST = "127.0.0.1";
-const DEFAULT_PORT = 2223;
+/**
+ * Reveals whether boot should expose virtual SSH and which listener it should own.
+ *
+ * @returns {{enabled:boolean,listener:object,publicHost:string}} Frozen boot policy record.
+ */
+function bootPolicy() {
+	const yesodListener = listenerOptions();
+	return Object.freeze({
+		enabled: Environment.hasPublicVirtualSshLight(),
+		listener: yesodListener,
+		publicHost: Identity.revealPublicHost(yesodListener.host)
+	});
+}
 
+/**
+ * Builds immutable TCP listener configuration from the measured environment.
+ *
+ * @returns {{host:string,port:number,maxConnections:number}} Listener configuration.
+ */
 function listenerOptions() {
-	return {
-		host: process.env.VIRTUAL_SSH_HOST || DEFAULT_HOST,
-		port: numberEnv("VIRTUAL_SSH_PORT", DEFAULT_PORT),
-		maxConnections: numberEnv("VIRTUAL_SSH_MAX_CONNECTIONS", 64)
-	};
+	return Object.freeze({
+		host: Identity.revealBindHost(),
+		port: Identity.revealListenerPort(),
+		maxConnections: Environment.revealPositiveMeasure("VIRTUAL_SSH_MAX_CONNECTIONS", 64)
+	});
 }
 
-function serverOptions(backend, onError) {
+/**
+ * Builds custom SSH server limits and host-key identity around one backend.
+ *
+ * @param {object} chochmahBackend Authenticated shell and SFTP backend.
+ * @param {Function} gevurahOnError Listener error observer owned by process composition.
+ * @returns {object} Constructor configuration for AwtsmoosSshServer.
+ */
+function serverOptions(chochmahBackend, gevurahOnError) {
 	return {
-		backend,
-		fakeSshHostKeyPath: hostKeyPath(),
-		maxConnections: numberEnv("VIRTUAL_SSH_MAX_CONNECTIONS", 64),
-		idleMs: numberEnv("VIRTUAL_SSH_IDLE_MS", 30 * 60 * 1000),
-		maxConnectionsPerWindow: numberEnv("VIRTUAL_SSH_CONNECTIONS_PER_MINUTE", 60),
+		backend: chochmahBackend,
+		fakeSshHostKeyPath: Identity.revealHostKeyPath(),
+		maxConnections: listenerOptions().maxConnections,
+		idleMs: Environment.revealPositiveMeasure("VIRTUAL_SSH_IDLE_MS", 30 * 60 * 1000),
+		maxConnectionsPerWindow: Environment.revealPositiveMeasure("VIRTUAL_SSH_CONNECTIONS_PER_MINUTE", 60),
 		connectionWindowMs: 60 * 1000,
-		onError
+		onError: gevurahOnError
 	};
 }
 
-function tokenTtlMs() {
-	return numberEnv("VIRTUAL_SSH_TOKEN_TTL_MS", TokenLimits.DEFAULT_TTL_MS);
-}
-
-function tokenMaxRecords() {
-	return numberEnv(
-		"VIRTUAL_SSH_TOKEN_MAX_RECORDS",
-		TokenLimits.DEFAULT_MAX_RECORDS
-	);
-}
-
+/**
+ * Reveals the public hostname advertised in HTTP access grants.
+ *
+ * @param {string} boundHost Host reported by the active TCP listener.
+ * @returns {string} Publicly usable hostname selected by identity policy.
+ */
 function publicHost(boundHost) {
-	return process.env.VIRTUAL_SSH_PUBLIC_HOST || boundHost || DEFAULT_HOST;
+	return Identity.revealPublicHost(boundHost);
 }
 
+/**
+ * Reveals the configured virtual SSH TCP port for status responses and probes.
+ *
+ * @returns {number} Positive configured port.
+ */
 function configuredPort() {
-	return numberEnv("VIRTUAL_SSH_PORT", DEFAULT_PORT);
+	return Identity.revealListenerPort();
 }
 
+/**
+ * Reports whether explicit environment configuration requests boot-time exposure.
+ *
+ * @returns {boolean} True when public virtual SSH was deliberately configured.
+ */
 function isPubliclyConfigured() {
-	return Boolean(process.env.VIRTUAL_SSH_HOST || process.env.VIRTUAL_SSH_PUBLIC_HOST);
+	return Environment.hasPublicVirtualSshLight();
 }
 
-function hostKeyPath() {
-	return process.env.VIRTUAL_SSH_HOST_KEY_PATH || path.join(
-		os.homedir(),
-		".awtsmoos",
-		"virtual-ssh",
-		"host-key-rsa.pem"
-	);
+/** @returns {number} Measured access-token lifetime in milliseconds. */
+function tokenTtlMs() {
+	return TokenConfig.revealTokenLifetime();
 }
 
-function numberEnv(name, fallback) {
-	const value = Number(process.env[name]);
-	return Number.isFinite(value) && value > 0
-		? Math.floor(value)
-		: fallback;
+/** @returns {number} Measured maximum active token-record count. */
+function tokenMaxRecords() {
+	return TokenConfig.revealTokenCapacity();
 }
 
 module.exports = {
-	configuredPort,
-	isPubliclyConfigured,
-	listenerOptions,
-	publicHost,
-	serverOptions,
-	tokenMaxRecords,
-	tokenTtlMs
+	bootPolicy, configuredPort, isPubliclyConfigured, listenerOptions, publicHost,
+	serverOptions, tokenMaxRecords, tokenTtlMs
 };

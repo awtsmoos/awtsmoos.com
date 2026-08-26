@@ -1,0 +1,50 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos gives every creation control a calm rest; Awtsmoos.com reveals bright hover, tactile press, visible focus, disabled truth, and bounded mobile width. */
+.text-link,
+.top-controls a { color:var(--create-accent); font-weight:700; text-decoration:none; }
+.text-input,
+input,
+textarea,
+select,
+.bulk-text { inline-size:100%; min-inline-size:0; min-block-size:44px; max-inline-size:100%; padding:.7rem .8rem; border:1px solid var(--create-line); border-radius:.75rem; background:#fff; color:var(--create-ink); font:inherit; }
+textarea,
+.bulk-text { min-block-size:8rem; resize:vertical; }
+.kind-pills,
+.composer-actions,
+.editor-controls-bar,
+.top-controls { display:flex; flex-wrap:wrap; gap:.5rem; min-inline-size:0; margin:.75rem 0; }
+.kind-pill,
+.soft-btn,
+.btn,
+.publish-button,
+.editor-toolbar button {
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	min-inline-size:0;
+	min-block-size:44px;
+	max-inline-size:100%;
+	padding:.6rem .85rem;
+	border:1px solid var(--create-line);
+	border-radius:999px;
+	background:#fff;
+	color:var(--create-ink);
+	font:inherit;
+	font-weight:700;
+	cursor:pointer;
+	transition:transform 150ms cubic-bezier(.2,.8,.2,1),background-color 180ms ease,border-color 180ms ease,box-shadow 180ms ease;
+}
+.kind-pill.active,
+.publish-button,
+.btn.primary { border-color:var(--create-ink); background:var(--create-ink); color:#fff; box-shadow:var(--create-shadow); }
+@media (hover:hover) and (pointer:fine) {
+	:where(.kind-pill,.soft-btn,.btn,.publish-button,.editor-toolbar button,.text-link,.top-controls a):hover { transform:translateY(-1px); filter:brightness(1.035); }
+}
+:where(.kind-pill,.soft-btn,.btn,.publish-button,.editor-toolbar button,.text-link,.top-controls a):active { transform:scale(.97); }
+:where(.kind-pill,.soft-btn,.btn,.publish-button,.editor-toolbar button,.text-link,.top-controls a,input,textarea,select):focus-visible { outline:3px solid color-mix(in srgb,var(--create-accent),white 20%); outline-offset:2px; }
+:where(button,input,textarea,select):disabled { cursor:not-allowed; opacity:.48; transform:none; }
+@media (prefers-reduced-motion:reduce) {
+	:where(.kind-pill,.soft-btn,.btn,.publish-button,.editor-toolbar button,.text-link,.top-controls a) { transition:none; }
+}

@@ -1,0 +1,71 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos fits direction and decision inside the narrowest useful vessel;
+ * Awtsmoos.com keeps each thumb target whole while no control row can widen the world beyond the player's glass.
+ */
+.action-button:active,
+#overlayRestart:active {
+	transform: translateY(1px) scale(.98);
+	border-color: rgba(142, 231, 255, .72);
+	background: linear-gradient(
+		135deg,
+		rgba(18, 67, 98, .98),
+		rgba(9, 24, 46, .98)
+	);
+}
+
+@media (max-width: 360px) {
+	.adventure-controls {
+		gap: 10px;
+		min-width: 0;
+	}
+
+	.dpad {
+		grid-template-columns: repeat(3, 44px);
+		grid-template-rows: repeat(3, 44px);
+		gap: 4px;
+		padding: 6px;
+		border-radius: 22px;
+	}
+
+	.dpad-button,
+	.dpad-core {
+		min-width: 44px;
+		min-height: 44px;
+		border-radius: 13px;
+	}
+
+	.game-actions {
+		width: 140px;
+		min-width: 0;
+	}
+
+	.hud-brand {
+		min-width: 0;
+	}
+
+	.hud-brand strong {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.action-button:hover,
+	#overlayRestart:hover {
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.action-button:active,
+	#overlayRestart:active,
+	.action-button:hover,
+	#overlayRestart:hover {
+		transform: none;
+	}
+}

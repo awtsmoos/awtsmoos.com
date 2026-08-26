@@ -1,0 +1,86 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets each remembered draft remain one bounded shard of yesterday instead of a sprawling wall;
+Awtsmoos.com keeps titles truncating, metadata readable, actions reachable, and repeated history cheap enough to scroll on a phone.
+*/
+.draftRecoveryHint,
+.draftRecoveryCard time,
+.draftRecoveryEmpty {
+	color: var(--composer-text-muted);
+	font-size: .75rem;
+	line-height: 1.45;
+}
+
+.draftRecoveryList {
+	display: grid;
+	gap: .55rem;
+	min-inline-size: 0;
+	margin-block: .9rem;
+}
+
+.draftRecoveryCard {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: .75rem;
+	align-items: center;
+	min-inline-size: 0;
+	padding: .72rem;
+	border: 1px solid var(--composer-border-soft);
+	border-radius: .9rem;
+	background: var(--composer-surface-1);
+	content-visibility: auto;
+	contain-intrinsic-size: auto 4.6rem;
+}
+
+.draftRecoveryCard > div {
+	display: grid;
+	gap: .18rem;
+	min-inline-size: 0;
+}
+
+.draftRecoveryCard strong {
+	overflow: hidden;
+	max-inline-size: 100%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.draftRecoveryCard button,
+.draftRecoveryDialog header button,
+.draftRecoveryDialog footer button {
+	min-block-size: 2.75rem;
+	max-inline-size: 100%;
+	transition:
+		transform 140ms cubic-bezier(.2, .8, .2, 1),
+		border-color 180ms ease,
+		background-color 180ms ease,
+		box-shadow 180ms ease;
+}
+
+.draftRecoveryCard button:active,
+.draftRecoveryDialog header button:active,
+.draftRecoveryDialog footer button:active {
+	transform: translateY(1px) scale(.98);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.draftRecoveryCard button:hover,
+	.draftRecoveryDialog header button:hover,
+	.draftRecoveryDialog footer button:hover {
+		border-color: color-mix(in srgb, var(--composer-cyan) 38%, var(--composer-border));
+		box-shadow: 0 .55rem 1.4rem rgb(0 0 0 / 14%);
+		transform: translateY(-1px);
+	}
+}
+
+@media (max-width: 24rem) {
+	.draftRecoveryCard {
+		grid-template-columns: 1fr;
+	}
+
+	.draftRecoveryCard button {
+		justify-self: start;
+	}
+}

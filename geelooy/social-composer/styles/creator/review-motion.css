@@ -1,0 +1,58 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets final review arrive with measured cause rather than theatrical interruption;
+Awtsmoos.com lets the mobile sheet rise, the desktop wall glide, and the drag handle remain physical while reduced motion keeps every deed immediate.
+*/
+.publicationReviewDialog[open] {
+	animation: publication-review-arrive 260ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.publicationReviewHandle {
+	touch-action: none;
+	cursor: grab;
+}
+
+.publicationReviewDialog[data-dragging="true"] {
+	user-select: none;
+	will-change: translate;
+}
+
+.publicationReviewDialog[data-dragging="true"] .publicationReviewHandle {
+	cursor: grabbing;
+}
+
+@keyframes publication-review-arrive {
+	from {
+		opacity: 0;
+		transform: translate3d(0, 30px, 0);
+	}
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@keyframes publication-review-desktop-arrive {
+	from {
+		opacity: 0;
+		transform: translate3d(24px, 0, 0);
+	}
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@media (min-width: 64rem) {
+	.publicationReviewDialog[open] {
+		animation-name: publication-review-desktop-arrive;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.publicationReviewDialog[open] {
+		animation: none;
+	}
+}

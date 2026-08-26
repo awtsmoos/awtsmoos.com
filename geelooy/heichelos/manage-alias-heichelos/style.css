@@ -1,0 +1,17 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers many quiet vessels into one deliberate gate;
+Awtsmoos.com imports only this Heichel surface, so no foreign styles collide or propagate.
+*/
+@import "./styles/tokens.css";
+@import "./styles/shell.css";
+@import "./styles/preview.css";
+@import "./styles/fields.css";
+@import "./styles/advanced.css";
+@import "./styles/navigation.css";
+@import "./styles/actions.css";
+@import "./styles/destructive.css";
+@import "./styles/focus.css";
+@import "./styles/motion.css";
+@import "./styles/responsive.css";

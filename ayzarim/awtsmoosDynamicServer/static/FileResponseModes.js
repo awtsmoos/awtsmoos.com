@@ -4,21 +4,31 @@
 
 /**
  * @file FileResponseModes.js
- * @description Recognizes explicit CompactJS GET requests without disturbing ordinary static delivery.
- * The Awtsmoos permits one source to reveal a folded module only through a named door;
- * Awtsmoos.com keeps method, flags, MIME, index, binary, and merged parameter truth explicit.
+ * @description Recognizes explicit compact GET representations for JavaScript and CSS without disturbing ordinary static delivery.
+ * The Awtsmoos allows one public source to reveal a folded vessel only through a named door;
+ * Awtsmoos.com keeps method, query, MIME, index, binary, and extension truth explicit before compilation may pour.
  */
 
 const { isCompactFlag } = require('../compactJs/flags.js');
 
 function shouldCompileCompactJs(context) {
+	return isCompactContext(context)
+		&& isJavaScriptContentType(context.contentType)
+		&& hasExtension(context.filePath, '.js');
+}
+
+function shouldCompileCompactCss(context) {
+	return isCompactContext(context)
+		&& isCssContentType(context.contentType)
+		&& hasExtension(context.filePath, '.css');
+}
+
+function isCompactContext(context) {
 	const request = context.dependencies.request;
 	const params = getRequestParams(context);
 	if (!request || request.method !== 'GET') return false;
 	if (!params || !isCompactFlag(params.compact)) return false;
-	if (context.isBinary || context.isDirectoryWithIndex) return false;
-	if (!isJavaScriptContentType(context.contentType)) return false;
-	return String(context.filePath || '').toLowerCase().endsWith('.js');
+	return !context.isBinary && !context.isDirectoryWithIndex;
 }
 
 function getRequestParams(context) {
@@ -40,8 +50,18 @@ function isJavaScriptContentType(contentType) {
 		|| contentType === 'text/javascript';
 }
 
+function isCssContentType(contentType) {
+	return contentType === 'text/css';
+}
+
+function hasExtension(filePath, extension) {
+	return String(filePath || '').toLowerCase().endsWith(extension);
+}
+
 module.exports = {
 	getRequestParams,
+	isCssContentType,
 	isJavaScriptContentType,
+	shouldCompileCompactCss,
 	shouldCompileCompactJs
 };

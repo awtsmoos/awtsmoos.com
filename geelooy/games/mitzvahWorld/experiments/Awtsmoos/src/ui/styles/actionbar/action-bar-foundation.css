@@ -1,0 +1,100 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives each deed one measured foundation while every future action remains possible;
+ * Awtsmoos.com keeps geometry, named layers, focus, and controls local to the combat vessel.
+ */
+
+.Mitzvah-combat-host {
+	--ab-gold: #e3b85e;
+	--ab-gold-bright: #ffe6a2;
+	--ab-focus: #c9ffff;
+	--ab-safe-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+	--ab-z-root: 830;
+	--ab-z-feedback: 6;
+	--ab-z-tooltip: 8;
+	position: fixed;
+	left: 50%;
+	bottom: var(--ab-safe-bottom);
+	z-index: var(--ab-z-root);
+	width: min(94vw, 940px);
+	transform: translateX(-50%);
+	pointer-events: none;
+	contain: layout style;
+}
+
+.Mitzvah-combat-host [hidden] {
+	display: none;
+}
+
+.Mitzvah-combat-host .Mitzvah-combat-frame {
+	position: relative;
+	display: grid;
+	gap: 5px;
+	padding: 7px;
+	border: 1px solid rgba(227, 184, 94, 0.52);
+	border-radius: 12px;
+	background:
+		linear-gradient(180deg, rgba(255, 226, 157, 0.09), transparent 28%),
+		linear-gradient(135deg, rgba(18, 21, 19, 0.96), rgba(46, 28, 17, 0.96));
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), inset 0 0 0 2px rgba(0, 0, 0, 0.42);
+	pointer-events: auto;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-grid {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 5px;
+}
+
+.Mitzvah-combat-host .Mitzvah-action-grid[data-rows="2"] {
+	grid-template-rows: repeat(2, auto);
+}
+
+.Mitzvah-combat-host .Mitzvah-action-meta {
+	display: grid;
+	grid-template-columns: minmax(120px, 1fr) auto;
+	align-items: center;
+	gap: 8px;
+	min-height: 15px;
+}
+
+.Mitzvah-combat-host .Mitzvah-focus-track {
+	position: relative;
+	height: 8px;
+	overflow: hidden;
+	border: 1px solid rgba(108, 217, 220, 0.32);
+	border-radius: 999px;
+	background: rgba(2, 13, 15, 0.78);
+}
+
+.Mitzvah-combat-host .Mitzvah-focus-fill {
+	height: 100%;
+	background: linear-gradient(90deg, #3d8e93, #b6ffff 76%, #f5df92);
+	box-shadow: 0 0 8px rgba(119, 241, 245, 0.5);
+	transform: scaleX(var(--focus-ratio, 1));
+	transform-origin: left center;
+}
+
+.Mitzvah-combat-host .Mitzvah-focus-label {
+	position: absolute;
+	left: 8px;
+	top: -2px;
+	color: #d8fbf8;
+	font: 700 10px/1.1 ui-sans-serif, system-ui, sans-serif;
+	letter-spacing: 0.04em;
+	text-shadow: 0 1px 2px #000;
+}
+
+.Mitzvah-combat-host .Mitzvah-layout-lock {
+	min-height: 30px;
+	padding: 5px 9px;
+	border: 1px solid rgba(227, 184, 94, 0.38);
+	border-radius: 8px;
+	background: rgba(18, 16, 12, 0.74);
+	color: #ead9b4;
+	font: 700 10px/1 system-ui, sans-serif;
+	cursor: pointer;
+	transition: transform 120ms ease, border-color 120ms ease, filter 120ms ease;
+}

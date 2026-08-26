@@ -1,63 +1,60 @@
 /*B"H*/
 /*Boruch Hashem*/
 /*Blessed is He*/
+@layer oros.hud {
+	.oros-app #hud-core {
+		position: absolute;
+		top: var(--oros-safe-top);
+		left: var(--oros-safe-left);
+		display: flex;
+		align-items: center;
+		gap: 9px;
+		max-width: calc(100dvw - 78px);
+		pointer-events: none;
+		z-index: var(--oros-z-hud);
+	}
 
-/**
- * The Awtsmoos renews glance and measure before a HUD can ask for attention;
- * Awtsmoos.com keeps only world, time, and transient truth in this quiet upper dimension.
- */
-#hud-core {
-	position: fixed;
-	top: max(12px, env(safe-area-inset-top));
-	left: max(12px, env(safe-area-inset-left));
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	z-index: 5;
-	pointer-events: none;
-}
+	.oros-app :is(.hud-world, .hud-time) {
+		border: 1px solid var(--oros-line);
+		background: var(--oros-glass);
+		box-shadow: var(--oros-shadow);
+		backdrop-filter: blur(12px);
+	}
 
-.hud-world,
-.hud-time {
-	border: 1px solid var(--line);
-	background: var(--glass);
-	box-shadow: var(--shadow);
-	backdrop-filter: blur(12px);
-}
+	.oros-app .hud-world {
+		display: grid;
+		gap: 2px;
+		min-width: 0;
+		padding: 8px 11px;
+		border-radius: 12px;
+	}
 
-.hud-world {
-	display: grid;
-	gap: 2px;
-	padding: 8px 11px;
-	border-radius: 12px;
-}
+	.oros-app .hud-world strong,
+	.oros-app .hud-time {
+		font-size: 0.75rem;
+	}
 
-.hud-world strong {
-	font-size: 12px;
-	letter-spacing: 0.02em;
-}
+	.oros-app .hud-time {
+		padding: 9px 11px;
+		border-radius: 999px;
+		font-weight: 850;
+		font-variant-numeric: tabular-nums;
+	}
 
-.hud-time {
-	padding: 9px 11px;
-	border-radius: 999px;
-	font-size: 12px;
-	font-weight: 850;
-	font-variant-numeric: tabular-nums;
-}
-
-#hud-toast {
-	position: fixed;
-	top: max(64px, calc(env(safe-area-inset-top) + 58px));
-	left: 50%;
-	max-width: min(82vw, 420px);
-	margin: 0;
-	padding: 8px 12px;
-	border: 1px solid var(--line);
-	border-radius: 999px;
-	background: rgba(2, 10, 17, 0.72);
-	color: rgba(239, 252, 255, 0.84);
-	font-size: 11px;
-	text-align: center;
-	pointer-events: none;
-	z-index: 6;
+	.oros-app #hud-toast {
+		position: absolute;
+		top: calc(var(--oros-safe-top) + 54px);
+		left: 50%;
+		max-width: min(82dvw, 420px);
+		margin: 0;
+		padding: 8px 12px;
+		border: 1px solid var(--oros-line);
+		border-radius: 999px;
+		background: rgba(2, 10, 17, 0.78);
+		font-size: 0.68rem;
+		text-align: center;
+		pointer-events: none;
+		transform: translateX(-50%);
+		z-index: var(--oros-z-hud);
+	}
 }

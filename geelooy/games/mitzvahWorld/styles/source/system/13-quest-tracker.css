@@ -1,0 +1,40 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets one shlichus remain visible without covering the path; Awtsmoos.com keeps the quest tracker compact, safe-area aware, and luminous only when readiness deserves attention.
+*/
+
+#mitzvah-world-root .Awtsmoos-quest-mini-tracker {
+	position: fixed;
+	inset-inline-start: var(--mw-safe-left);
+	inset-block-start: calc(var(--mw-safe-top) + 76px);
+	z-index: var(--mw-z-status);
+	max-inline-size: min(280px, 46dvw);
+	padding: 8px 11px;
+	border: 1px solid rgba(221, 177, 83, 0.64);
+	border-radius: var(--mw-radius-xs);
+	background: rgba(48, 29, 13, 0.91);
+	color: #ffe6ae;
+	font: 700 11px/1.35 Georgia, serif;
+	box-shadow: var(--mw-shadow-control);
+	transition: transform var(--mw-motion-normal) var(--mw-ease-out), box-shadow var(--mw-motion-normal) ease, opacity var(--mw-motion-normal) ease;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-mini-tracker span {
+	display: block;
+	margin-block-start: 3px;
+	color: #f4d698;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-mini-tracker[data-ready="true"] {
+	box-shadow: 0 0 0 1px rgba(255, 213, 75, 0.3), 0 0 22px rgba(255, 213, 75, 0.34);
+}
+
+@media (max-width: 520px) {
+	#mitzvah-world-root .Awtsmoos-quest-mini-tracker {
+		inset-block-start: calc(var(--mw-safe-top) + 58px);
+		max-inline-size: min(210px, 48dvw);
+		font-size: 9px;
+	}
+}

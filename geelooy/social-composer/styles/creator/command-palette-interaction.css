@@ -1,0 +1,50 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets the command vessel answer hand and keyboard without changing its place.
+ * Awtsmoos.com keeps hover, active, focus, disabled, and reduced-motion truth in one interaction-only garment.
+ */
+.creatorCommandLauncher,
+.creatorPaletteClose {
+	transition:
+		transform 150ms cubic-bezier(.2, .8, .2, 1),
+		filter 180ms ease,
+		background-color 180ms ease,
+		box-shadow 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.creatorCommandLauncher:hover,
+	.creatorPaletteClose:hover {
+		transform: translateY(-1px);
+		filter: brightness(1.06);
+	}
+}
+
+.creatorCommandLauncher:active,
+.creatorPaletteClose:active {
+	transform: scale(.97);
+}
+
+.creatorCommandLauncher:focus-visible,
+.creatorPaletteClose:focus-visible,
+.creatorPaletteShell input:focus-visible {
+	outline: 2px solid var(--composer-cyan);
+	outline-offset: 2px;
+}
+
+.creatorCommandLauncher:disabled,
+.creatorPaletteClose:disabled {
+	cursor: not-allowed;
+	opacity: .48;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.creatorCommandLauncher,
+	.creatorPaletteClose {
+		transition: none;
+		transform: none;
+	}
+}

@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalSharedMeadowPage.js
- * @description Keeps one tiny documented gate valid in browsers, compact builds, and Node.
- * The Awtsmoos reveals one address from every vessel and shore;
- * Awtsmoos.com lets source and compact gates find the same living door.
+ * @description Resolves page, runtime, and session launcher doors with canonical compact-first query identity.
+ * The Awtsmoos gives every finite doorway one ordered name while Awtsmoos.com gathers each local graph before the browser crosses the sea;
+ * compact truth comes first, version truth follows, and page boot remains small enough that advanced chambers wait until the player calls them to be.
  */
 
 const BUILD_VERSION = '20260814-direct-audio-02';
@@ -18,42 +18,34 @@ const PAGE_BOOT_URL = launcherModuleUrl('bootMitzvahWorldPage.js');
 const RUNTIME_BOOT_URL = launcherModuleUrl('MinimalSharedMeadowRuntimePage.js');
 const SESSION_MODE_URL = launcherModuleUrl('MitzvahWorldSessionMode.js');
 
-export async function bootCanonicalMitzvahWorldPage(
+/** Boots the canonical MitzvahWorld page once through the compact page launcher. */
+export async function bootMinimalSharedMeadowPage(
 	documentValue = document,
 	environment = globalThis
 ) {
-	const { ensureMitzvahWorldPageBoot } = await import(PAGE_BOOT_URL);
-	return ensureMitzvahWorldPageBoot(documentValue, environment);
+	const module = await import(PAGE_BOOT_URL);
+	return module.ensureMitzvahWorldPageBoot(documentValue, environment);
 }
 
-export async function bootMinimalSharedMeadow(
-	documentValue = document,
-	environment = globalThis,
-	dependencies = {}
+/** Boots only the shared meadow runtime for embedded or test surfaces. */
+export async function bootMinimalSharedMeadowRuntimePage(
+	hosts,
+	options = {},
+	environment = globalThis
 ) {
-	const runtimeModule = await import(RUNTIME_BOOT_URL);
-	const sessionMode = await resolveSessionMode(environment);
-	return runtimeModule.bootMinimalSharedMeadowRuntimePage(
-		documentValue,
-		environment,
-		{ ...dependencies, sessionMode }
-	);
+	const module = await import(RUNTIME_BOOT_URL);
+	return module.bootMinimalSharedMeadowRuntimePage(hosts, options, environment);
 }
 
-async function resolveSessionMode(environment) {
-	const { mitzvahWorldSessionMode } = await import(SESSION_MODE_URL);
-	const parameters = new URLSearchParams(environment.location?.search || '');
-	return mitzvahWorldSessionMode(parameters);
+/** Resolves the public route/session mode with the same compact launcher boundary. */
+export async function resolveMinimalSharedMeadowSessionMode(search = '') {
+	const module = await import(SESSION_MODE_URL);
+	return module.resolveMitzvahWorldSessionMode(search);
 }
 
 function launcherModuleUrl(fileName) {
 	const moduleUrl = new URL(fileName, LAUNCHER_BASE);
+	moduleUrl.searchParams.set('compact', 'true');
 	moduleUrl.searchParams.set('v', BUILD_VERSION);
 	return moduleUrl.href;
-}
-
-if (typeof document !== 'undefined' && globalThis.AwtsmoosDisableAutoBoot !== true) {
-	void bootCanonicalMitzvahWorldPage().catch(error => {
-		console.error('[MitzvahWorld] canonical boot failed.', error);
-	});
 }

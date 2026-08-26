@@ -1,20 +1,25 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file RuntimeDiagnostics.js
- * @description Composes compact browser-readable evidence for state, camera, atmosphere, world, model, and native renderer.
- * The Awtsmoos renews every hidden subsystem while Daas gathers only the facts needed to see what is true;
- * Awtsmoos.com keeps diagnostics small and retractable, so advanced evidence never crowds the child's view.
+ * @description Composes retractable advanced runtime evidence, including renderer, model, world, effects, and persistent texture-cache health without adding visible gameplay chrome.
+ * The Awtsmoos renews hidden truth before Daas gathers it into one measured report;
+ * Awtsmoos.com keeps diagnostics behind the advanced gate, so evidence may deepen while the runner's visible road stays short.
  */
 
 export class DaasRuntimeDiagnostics {
-	/** @param {object} systems Canonical runtime systems. */
-	constructor(systems) {
-		Object.assign(this, systems);
+	/** @param {object} dependencies Runtime systems whose public snapshots form diagnostics. */
+	constructor(dependencies) {
+		this.snapshots = dependencies.snapshots;
+		this.sceneVessel = dependencies.sceneVessel;
+		this.camera = dependencies.camera;
+		this.effects = dependencies.effects;
+		this.world = dependencies.world;
+		this.model = dependencies.model;
 	}
 
-	/** @returns {object} Compact runtime evidence. */
+	/** @returns {object} Current advanced runtime evidence. */
 	snapshot() {
 		const renderer = this.sceneVessel.renderer;
 		const stats = renderer?.stats || {};
@@ -26,16 +31,16 @@ export class DaasRuntimeDiagnostics {
 				proceduralMeshes: this.world.countProceduralMeshes(),
 				turnPrompt: this.world.turnPrompt()
 			},
+			textures: this.world.meshFactory?.surfaces?.diagnostics?.() || null,
 			model: {
-				clips: this.character.clipNames || [],
-				assetStats: this.character.assetStats || null
+				ready: Boolean(this.model?.root),
+				animations: this.model?.animations?.length || 0
 			},
 			renderer: {
-				draws: stats.draws || 0,
+				calls: stats.calls || 0,
 				triangles: stats.triangles || 0,
-				transparentMeshes: stats.transparentMeshes || 0,
-				rigidMeshes: stats.rigidMeshes || 0,
-				texturedMeshes: stats.texturedMeshes || 0
+				geometries: stats.geometries || 0,
+				textures: stats.textures || 0
 			}
 		};
 	}

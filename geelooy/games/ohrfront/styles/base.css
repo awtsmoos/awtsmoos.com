@@ -1,0 +1,74 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews viewport and canvas while the interface remains one bounded vessel instead of leaking into the page.
+Awtsmoos.com lets Ohrfront own only itself: fixed, isolated, contained, and safe within every visible ray.
+*/
+.ohrfront-app {
+	position: fixed;
+	inset: 0;
+	isolation: isolate;
+	contain: layout paint style;
+	overflow: clip;
+	min-width: 0;
+	min-height: 0;
+	background: var(--ohr-bg);
+	color: var(--ohr-text);
+	font-family: var(--ohr-font);
+	font-synthesis: none;
+	-webkit-font-smoothing: antialiased;
+}
+
+.ohrfront-app,
+.ohrfront-app * {
+	box-sizing: border-box;
+}
+
+.ohrfront-app .ohr-world,
+.ohrfront-app .ohrfront-native-canvas {
+	position: absolute;
+	inset: 0;
+	z-index: var(--ohr-z-world);
+	display: block;
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	max-height: 100%;
+	overflow: hidden;
+}
+
+.ohrfront-app .ohr-is-hidden {
+	display: none;
+}
+
+.ohrfront-app .ohr-startup {
+	position: absolute;
+	inset: 0;
+	z-index: var(--ohr-z-startup);
+	display: grid;
+	place-content: center;
+	gap: 14px;
+	padding: var(--ohr-safe-top) var(--ohr-safe-right) var(--ohr-safe-bottom) var(--ohr-safe-left);
+	text-align: center;
+	letter-spacing: 0.18em;
+	background: radial-gradient(circle at 50% 44%, rgba(24, 53, 55, 0.28), transparent 34%), var(--ohr-bg);
+}
+
+.ohrfront-app .ohr-startup__glyph {
+	font: 500 clamp(48px, 8vw, 72px)/1 Georgia, serif;
+	color: var(--ohr-energy);
+	text-shadow: 0 0 28px rgba(121, 231, 236, 0.42);
+}
+
+.ohrfront-app .ohr-startup__message {
+	max-width: min(44rem, 82vw);
+	font-size: 10px;
+	font-weight: 650;
+	line-height: 1.6;
+	color: var(--ohr-muted);
+	overflow-wrap: anywhere;
+}
+
+.ohrfront-app .ohr-startup.ohr-is-error .ohr-startup__message {
+	color: var(--ohr-danger);
+}

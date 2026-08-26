@@ -4,7 +4,7 @@ Blessed is He
 The Awtsmoos opens direct roads without fog: Torah, play, creation, treasury,
 workspace, code, community, and purpose stand as crisp paths on Awtsmoos.com.
 */
-.direct-navigation {
+body[data-geelooy-route="home"] .direct-navigation {
 	display: grid;
 	grid-template-columns: repeat(8, minmax(0, 1fr));
 	gap: .4rem;
@@ -16,7 +16,7 @@ workspace, code, community, and purpose stand as crisp paths on Awtsmoos.com.
 	box-shadow: 0 12px 30px rgba(0, 0, 0, .24);
 }
 
-.direct-navigation a {
+body[data-geelooy-route="home"] .direct-navigation a {
 	display: grid;
 	grid-template-columns: 2rem minmax(0, 1fr);
 	align-items: center;
@@ -30,7 +30,7 @@ workspace, code, community, and purpose stand as crisp paths on Awtsmoos.com.
 	transition: transform .16s ease, border-color .16s ease, background .16s ease, color .16s ease;
 }
 
-.direct-navigation a > span {
+body[data-geelooy-route="home"] .direct-navigation a > span {
 	display: grid;
 	width: 2rem;
 	height: 2rem;
@@ -41,56 +41,56 @@ workspace, code, community, and purpose stand as crisp paths on Awtsmoos.com.
 	font-size: .95rem;
 }
 
-.direct-navigation b {
+body[data-geelooy-route="home"] .direct-navigation b {
 	display: grid;
 	min-width: 0;
 	gap: .1rem;
 }
 
-.direct-navigation strong,
-.direct-navigation small {
+body[data-geelooy-route="home"] .direct-navigation strong,
+body[data-geelooy-route="home"] .direct-navigation small {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.direct-navigation strong {
+body[data-geelooy-route="home"] .direct-navigation strong {
 	color: #eef5ff;
 	font-size: .72rem;
 }
 
-.direct-navigation small {
+body[data-geelooy-route="home"] .direct-navigation small {
 	color: #7487a2;
 	font-size: .55rem;
 	font-weight: 650;
 }
 
-.direct-navigation a:hover {
+body[data-geelooy-route="home"] .direct-navigation a:hover {
 	border-color: #4c9ccb;
 	background: #102840;
 	color: #fff;
 	transform: translateY(-2px);
 }
 
-.direct-navigation a:focus-visible {
+body[data-geelooy-route="home"] .direct-navigation a:focus-visible {
 	outline: 3px solid var(--focus-ring);
 	outline-offset: 2px;
 }
 
 @media (max-width: 980px) {
-	.direct-navigation {
+	body[data-geelooy-route="home"] .direct-navigation {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
 
 @media (max-width: 680px) {
-	.direct-navigation {
+	body[data-geelooy-route="home"] .direct-navigation {
 		display: none;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.direct-navigation a {
+	body[data-geelooy-route="home"] .direct-navigation a {
 		transition: none;
 	}
 }

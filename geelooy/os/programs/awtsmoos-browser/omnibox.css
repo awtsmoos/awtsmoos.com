@@ -1,0 +1,83 @@
+/* B"H — omnibox, trust, and execution testimony stay host-owned. */
+.awtsmoos-browser-host .awtsmoos-browser-omnibox {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 7px;
+	min-inline-size: 0;
+	min-block-size: 38px;
+	padding-inline: 10px 7px;
+	border: 1px solid var(--awtsmoos-browser-line);
+	border-radius: 14px;
+	background: rgba(5, 8, 14, 0.62);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+	transition:
+		border-color var(--awtsmoos-browser-speed) ease,
+		box-shadow var(--awtsmoos-browser-speed) ease,
+		background var(--awtsmoos-browser-speed) ease;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-omnibox:hover {
+	background: rgba(8, 12, 20, 0.78);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-omnibox:focus-within {
+	border-color: rgba(174, 190, 255, 0.48);
+	background: rgba(7, 10, 18, 0.92);
+	box-shadow: 0 0 0 3px rgba(139, 159, 255, 0.1), 0 10px 30px rgba(0, 0, 0, 0.16);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-address {
+	min-inline-size: 0;
+	inline-size: 100%;
+	border: 0;
+	outline: 0;
+	color: var(--awtsmoos-browser-ink);
+	background: transparent;
+	caret-color: var(--awtsmoos-browser-accent-strong);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-address::placeholder {
+	color: rgba(181, 190, 209, 0.52);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-address::selection {
+	color: #0c1020;
+	background: var(--awtsmoos-browser-accent-strong);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-trust {
+	color: var(--awtsmoos-browser-accent);
+	font-size: 12px;
+	transition: transform var(--awtsmoos-browser-speed-fast) var(--awtsmoos-browser-ease);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-omnibox:focus-within .awtsmoos-browser-trust {
+	transform: scale(1.12);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-mode-badge {
+	max-inline-size: 84px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 3px 7px;
+	border: 1px solid rgba(174, 190, 255, 0.14);
+	border-radius: 999px;
+	color: var(--awtsmoos-browser-accent-strong);
+	background: rgba(126, 147, 255, 0.1);
+	font-size: 10px;
+	font-weight: 750;
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-mode-badge[data-mode="native"] {
+	color: #bde7ff;
+	border-color: rgba(133, 207, 255, 0.2);
+	background: rgba(82, 163, 217, 0.12);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-mode-badge[data-mode="error"] {
+	color: var(--awtsmoos-browser-danger);
+	border-color: rgba(255, 159, 159, 0.2);
+	background: rgba(255, 90, 90, 0.08);
+}

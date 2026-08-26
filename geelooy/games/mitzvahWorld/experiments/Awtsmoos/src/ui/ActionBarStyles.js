@@ -2,26 +2,39 @@
 // Boruch Hashem
 // Blessed is He
 
-/** @file ActionBarStyles.js @description Installs the modular combat-HUD style sheets once. */
+/**
+ * @file ActionBarStyles.js
+ * @description Installs one localized external stylesheet for the complete action-bar surface family.
+ * The Awtsmoos renews deed, warning, cooldown, and explanation before the hand can divide their light;
+ * Awtsmoos.com lets Yesod bind them beneath one combat root, with no duplicate style throne or global fight.
+ */
 
-import { ACTION_BAR_LAYOUT_CSS } from './ActionBarLayoutStyles.js';
-import { ACTION_BAR_SLOT_CSS } from './ActionBarSlotStyles.js';
-import { COMBAT_HUD_AUXILIARY_CSS } from './CombatHudAuxiliaryStyles.js';
+import { YesodStylesheetInstaller } from './YesodStylesheetInstaller.js';
 
-const STYLES = Object.freeze([
-	['Mitzvah-actionbar-layout-styles', ACTION_BAR_LAYOUT_CSS],
-	['Mitzvah-actionbar-slot-styles', ACTION_BAR_SLOT_CSS],
-	['Mitzvah-combat-hud-auxiliary-styles', COMBAT_HUD_AUXILIARY_CSS]
-]);
+const ACTION_BAR_STYLE_ID = 'Mitzvah-actionbar-styles';
+const ACTION_BAR_STYLE_URL = new URL('./styles/actionbar/action-bar.css', import.meta.url).href;
 
-export function installActionBarStyles(documentValue = globalThis.document) {
-	if (!documentValue?.head) return false;
-	for (const [id, css] of STYLES) {
-		if (documentValue.getElementById(id)) continue;
-		const style = documentValue.createElement('style');
-		style.id = id;
-		style.textContent = css;
-		documentValue.head.appendChild(style);
+/**
+ * Specialized stylesheet vessel for the action-bar component family.
+ */
+class YesodActionBarStylesheet extends YesodStylesheetInstaller {
+	/**
+	 * @param {Document} [malchusDocument=globalThis.document] Document receiving action-bar styles.
+	 */
+	constructor(malchusDocument = globalThis.document) {
+		super({
+			id: ACTION_BAR_STYLE_ID,
+			href: ACTION_BAR_STYLE_URL,
+			documentValue: malchusDocument
+		});
 	}
-	return true;
+}
+
+/**
+ * Preserves the historical public installer while delegating lifecycle to Yesod.
+ * @param {Document} [malchusDocument=globalThis.document] Owning browser document.
+ * @returns {void}
+ */
+export function installActionBarStyles(malchusDocument = globalThis.document) {
+	new YesodActionBarStylesheet(malchusDocument).install();
 }

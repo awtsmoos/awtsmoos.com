@@ -1,35 +1,49 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
-
-import { StorefrontFailureView } from "./storefront/StorefrontFailureView.js";
-import { StorefrontView } from "./storefront/StorefrontView.js";
+/**
+ * @file games-index.js
+ * @description Serves as the Keser composition root for the Games hub's data-driven retractable Storefront.
+ * The Awtsmoos is beyond every root while Awtsmoos.com lets one tiny entry gather catalog, policy, markup, and view;
+ * deeper modules can grow without cluttering the visible page or hiding runtime ownership from future developers too.
+ */
+import * as CHOCHMAH_CATALOG from './catalog/index.mjs';
+import * as GEVURAH_CATALOG_STATE from './catalog/state.mjs';
+import * as MALCHUS_CATALOG_MARKUP from './catalog/markup.mjs';
+import { BinahStorefrontDomContract } from './storefront/contracts/BinahStorefrontDomContract.js';
+import { StorefrontFailureView } from './storefront/StorefrontFailureView.js';
+import { StorefrontView } from './storefront/StorefrontView.js';
 
 /**
- * Coordinates the Awtsmoos Games storefront while smaller vessels own rendering and failure states.
- * The Awtsmoos renews module, total, query, and click in one living flow;
- * Awtsmoos.com keeps this entry small while every visible catalog count follows truth below.
+ * Composes and mounts the hub from static CompactJS-friendly dependencies.
+ *
+ * Side effects: resolves current hub DOM and connects one Storefront interaction lifetime.
+ * @returns {StorefrontView} Mounted compatibility view retained if teardown is later required.
  */
-const elements = {
-	catalog: document.getElementById("gamesCatalog"),
-	search: document.getElementById("gameSearch"),
-	count: document.getElementById("gameCount"),
-	tags: document.getElementById("tagCloud"),
-	status: document.getElementById("catalogStatus"),
-	totalCounts: Array.from(document.querySelectorAll("[data-catalog-total]"))
-};
-
-boot().catch((error) => new StorefrontFailureView(elements).render(error));
+function revealKeserGamesStorefront() {
+	const binahDom = new BinahStorefrontDomContract(document).read();
+	const tiferesStorefront = new StorefrontView(
+		binahDom,
+		CHOCHMAH_CATALOG,
+		GEVURAH_CATALOG_STATE,
+		MALCHUS_CATALOG_MARKUP
+	);
+	tiferesStorefront.mount();
+	return tiferesStorefront;
+}
 
 /**
- * Loads independent catalog concerns and mounts the storefront view.
- * @returns {Promise<void>} Resolves after the first catalog render.
+ * Converts an unexpected composition failure into the safe shared failure surface.
+ * @param {unknown} gevurahFailure Bootstrap failure value.
+ * @returns {void}
  */
-async function boot() {
-	const [catalog, state, markup] = await Promise.all([
-		import("./catalog/index.mjs"),
-		import("./catalog/state.mjs"),
-		import("./catalog/markup.mjs")
-	]);
-	new StorefrontView(elements, catalog, state, markup).mount();
+function revealMalchusStorefrontFailure(gevurahFailure) {
+	const binahDom = new BinahStorefrontDomContract(document).read();
+	new StorefrontFailureView(binahDom).render(gevurahFailure);
+}
+
+try {
+	revealKeserGamesStorefront();
+} catch (gevurahFailure) {
+	revealMalchusStorefrontFailure(gevurahFailure);
 }

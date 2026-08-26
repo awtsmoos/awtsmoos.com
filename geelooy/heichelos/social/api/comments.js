@@ -1,27 +1,38 @@
 // B"H
-/**
- * @module CommentsApi
- * @description
- * Chapter 90: The reply is not a footnote; it is a branch of thunder.
- * Comments can be fetched, listed as replies, threaded, created, replied to,
- * updated, removed, and inspected for assets through separate tested gates.
- */
-export function createCommentsApi(client) {
-    const comment = id => '/comments/' + encodeURIComponent(id);
-    return {
-        get: id => client.get(comment(id)),
-        tree: id => client.get(comment(id) + '/tree'),
-        replies: (id, query) => client.get(withQuery(comment(id) + '/replies', query)),
-        assets: id => client.get(comment(id) + '/assets'),
-        reply: (id, body) => client.post(comment(id) + '/replies', body),
-        create: body => client.post('/comments', body),
-        update: (id, body) => client.put(comment(id), body),
-        remove: id => client.delete(comment(id))
-    };
+import { YesodEndpointService } from './YesodEndpointService.js';
+
+/** TiferesCommentsApi keeps reply depth and root discussion under one balanced contract. */
+export class TiferesCommentsApi extends YesodEndpointService {
+	comment(id) { return `/comments/${this.identity(id)}`; }
+
+	/** @param {string} id @returns {Promise<object>} Comment envelope. */
+	get(id) { return this.yesodClient.get(this.comment(id)); }
+
+	/** @param {string} id @returns {Promise<object>} Comment tree. */
+	tree(id) { return this.yesodClient.get(`${this.comment(id)}/tree`); }
+
+	/** @param {string} id @param {object} query @returns {Promise<object>} Reply list. */
+	replies(id, query = {}) {
+		return this.yesodClient.get(this.query(`${this.comment(id)}/replies`, query));
+	}
+
+	/** @param {string} id @returns {Promise<object>} Comment assets. */
+	assets(id) { return this.yesodClient.get(`${this.comment(id)}/assets`); }
+
+	/** @param {string} id @param {object} body @returns {Promise<object>} Reply creation envelope. */
+	reply(id, body) { return this.yesodClient.post(`${this.comment(id)}/replies`, body); }
+
+	/** @param {object} body @returns {Promise<object>} Root comment creation envelope. */
+	create(body) { return this.yesodClient.post('/comments', body); }
+
+	/** @param {string} id @param {object} body @returns {Promise<object>} Updated comment envelope. */
+	update(id, body) { return this.yesodClient.put(this.comment(id), body); }
+
+	/** @param {string} id @returns {Promise<object>} Removal envelope. */
+	remove(id) { return this.yesodClient.delete(this.comment(id)); }
 }
 
-function withQuery(path, query = {}) {
-    const entries = Object.entries(query || {}).filter(([, value]) => value !== undefined && value !== null);
-    const params = new URLSearchParams(entries);
-    return params.size ? path + '?' + params : path;
+/** @param {object} client @returns {TiferesCommentsApi} Comments service. */
+export function createCommentsApi(client) {
+	return new TiferesCommentsApi(client);
 }

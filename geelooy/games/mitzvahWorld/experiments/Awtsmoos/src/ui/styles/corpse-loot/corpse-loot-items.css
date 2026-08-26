@@ -1,0 +1,83 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos distinguishes finite rarity without confusing color with essence;
+ * Awtsmoos.com binds rarity to semantic data so every row remains styled without inline presence.
+ */
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-list {
+	display: grid;
+	gap: 10px;
+	padding: 14px;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-row {
+	--loot-rarity: #b8c5c2;
+	display: grid;
+	grid-template-columns: 54px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 12px;
+	min-width: 0;
+	padding: 12px;
+	border: 1px solid color-mix(in srgb, var(--loot-rarity) 68%, #20312f);
+	border-left: 5px solid var(--loot-rarity);
+	border-radius: 15px;
+	background: linear-gradient(145deg, rgba(23, 42, 37, 0.95), rgba(12, 23, 24, 0.95));
+	box-shadow: inset 0 0 18px color-mix(in srgb, var(--loot-rarity) 12%, transparent);
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-row[data-rarity="uncommon"] {
+	--loot-rarity: #77dc91;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-row[data-rarity="rare"] {
+	--loot-rarity: #6eb5ff;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-row[data-rarity="epic"] {
+	--loot-rarity: #c98cff;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-row[data-rarity="quest"] {
+	--loot-rarity: #ffd36b;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-icon {
+	display: grid;
+	place-items: center;
+	width: 52px;
+	height: 52px;
+	border: 1px solid var(--loot-rarity);
+	border-radius: 12px;
+	background: #21180d;
+	font-size: 30px;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-name {
+	min-width: 0;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-name b,
+.Awtsmoos-corpse-loot-backdrop .loot-item-name small,
+.Awtsmoos-corpse-loot-backdrop .loot-item-name em {
+	display: block;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-name b {
+	color: var(--loot-rarity);
+	font-size: 16px;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-name small {
+	color: #a9beb8;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-item-name em {
+	color: #dacda8;
+	font-size: 12px;
+	font-style: normal;
+}

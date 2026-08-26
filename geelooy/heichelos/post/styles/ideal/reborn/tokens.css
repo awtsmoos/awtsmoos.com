@@ -1,58 +1,74 @@
 /* B"H
- * Chapter 23: Legacy tokens remain, but they stop wearing the live shell's crown.
+ * Boruch Hashem
+ * Blessed is He
  *
- * The Awtsmoos lets this compatibility vessel keep variables for old comment
- * and inline action modules. It no longer owns the exact reader shell selector,
- * so the post reader has one clear ruler over each visible surface.
+ * The Awtsmoos lets this compatibility vessel keep the reader's old names without wearing
+ * the universe's :root crown. Awtsmoos.com gives every token to the localized reader alone,
+ * and one named layer ladder prevents floating vessels from fighting for impossible heights.
  */
-
-:root {
-    --font-ui: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-content: "Frank Ruhl Libre", Cardo, Georgia, serif;
-    --z-reader: 1;
-    --z-header: 80;
-    --z-controls: 140;
-    --z-sidebar: 260;
-    --z-popover: 320;
-    --awt-bg: #050b14;
-    --awt-bg-2: #081321;
-    --awt-panel: rgba(7, 14, 27, .97);
-    --awt-panel-2: rgba(17, 27, 47, .94);
-    --awt-card: rgba(255, 255, 255, .055);
-    --awt-line: rgba(191, 203, 226, .14);
-    --awt-line-hot: rgba(247, 205, 112, .48);
-    --awt-text: #f8fbff;
-    --awt-muted: #c4cce0;
-    --awt-dim: #8792aa;
-    --awt-gold: #f6c96c;
-    --awt-gold-bright: #ffe8a3;
-    --awt-cyan: #39d7ee;
-    --awt-violet: #8b5cf6;
-    --awt-magenta: #d946ef;
-    --awt-green: #10b981;
-    --awt-red: #fb7185;
-    --inline-bg-deep: #030814;
-    --inline-bg-glass: rgba(8, 16, 31, .96);
-    --inline-bg-blue: rgba(10, 30, 54, .92);
-    --inline-edge-gold: #f4c56b;
-    --inline-edge-violet: #9b5cff;
-    --inline-edge-pink: #f472b6;
-    --inline-text-white: #fffdf5;
-    --inline-text-blue: #dbeafe;
-    --inline-pill-bg: rgba(34, 23, 69, .72);
-    --inline-shadow-purple: rgba(139, 92, 246, .38);
-    --awt-radius-sm: 12px;
-    --awt-radius: 18px;
-    --awt-radius-lg: 26px;
-    --awt-safe-bottom: env(safe-area-inset-bottom, 0px);
-    --awt-safe-top: env(safe-area-inset-top, 0px);
-    --awt-reader-bottom-space: 112px;
-    --awt-header-space: 54px;
-    --awt-sidebar-height: min(72dvh, 620px);
+.post-reader-localized-context {
+	--font-ui: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--font-content: "Frank Ruhl Libre", Cardo, Georgia, serif;
+	--z-reader: 1;
+	--z-header: 80;
+	--z-controls: 140;
+	--z-sidebar: 260;
+	--z-popover: 320;
+	--z-command-palette: 380;
+	--z-modal: 440;
+	--awt-bg: #050b14;
+	--awt-bg-2: #081321;
+	--awt-panel: rgb(7 14 27 / 97%);
+	--awt-panel-2: rgb(17 27 47 / 94%);
+	--awt-card: rgb(255 255 255 / 5.5%);
+	--awt-line: rgb(191 203 226 / 14%);
+	--awt-line-hot: rgb(247 205 112 / 48%);
+	--awt-text: #f8fbff;
+	--awt-muted: #c4cce0;
+	--awt-dim: #8792aa;
+	--awt-gold: #f6c96c;
+	--awt-gold-bright: #ffe8a3;
+	--awt-cyan: #39d7ee;
+	--awt-violet: #8b5cf6;
+	--awt-magenta: #d946ef;
+	--awt-green: #10b981;
+	--awt-red: #fb7185;
+	--inline-bg-deep: #030814;
+	--inline-bg-glass: rgb(8 16 31 / 96%);
+	--inline-bg-blue: rgb(10 30 54 / 92%);
+	--inline-edge-gold: #f4c56b;
+	--inline-edge-violet: #9b5cff;
+	--inline-edge-pink: #f472b6;
+	--inline-text-white: #fffdf5;
+	--inline-text-blue: #dbeafe;
+	--inline-pill-bg: rgb(34 23 69 / 72%);
+	--inline-shadow-purple: rgb(139 92 246 / 38%);
+	--awt-radius-sm: 12px;
+	--awt-radius: 18px;
+	--awt-radius-lg: 26px;
+	--awt-safe-bottom: env(safe-area-inset-bottom, 0px);
+	--awt-safe-top: env(safe-area-inset-top, 0px);
+	--awt-reader-bottom-space: 112px;
+	--awt-header-space: 54px;
+	--awt-sidebar-height: min(72dvh, 620px);
 }
 
-.post-reader-localized-context :where(*) { box-sizing: border-box; }
-.post-reader-localized-context :is(button, input, select, textarea) { font-family: var(--font-ui); }
-.post-reader-localized-context :where(button) { touch-action: manipulation; }
-.post-reader-localized-context :is(.hidden, [hidden]) { display: none !important; }
-.post-reader-localized-context.awtsmoos-reader-vision:where(:not(.awtsmoos-token-polish-off)) { --awt-polish-touch-size: 44px; }
+.post-reader-localized-context :where(*) {
+	box-sizing: border-box;
+}
+
+.post-reader-localized-context :is(button, input, select, textarea) {
+	font-family: var(--font-ui);
+}
+
+.post-reader-localized-context :where(button) {
+	touch-action: manipulation;
+}
+
+.post-reader-localized-context :is(.hidden, [hidden]) {
+	display: none !important;
+}
+
+.post-reader-localized-context.awtsmoos-reader-vision:where(:not(.awtsmoos-token-polish-off)) {
+	--awt-polish-touch-size: 44px;
+}

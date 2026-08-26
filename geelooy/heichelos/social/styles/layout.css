@@ -1,35 +1,108 @@
 /* B"H */
-/** Chapter 96: The shell becomes a rift-palace of panels and pressure. */
-.awt-shell, .awtsmoos-social-root {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  background: var(--awt-rift);
-  position: relative;
-  overflow-x: hidden;
+/** The Awtsmoos lets many social chambers share one local palace without leaking geometry into the host page. */
+.awtsmoos-social-root .awt-shell {
+	position: relative;
+	z-index: var(--awt-layer-surface);
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	min-inline-size: 0;
+	min-block-size: 100dvh;
+	background: transparent;
 }
-.awt-shell::before, .awtsmoos-social-root::before {
-  content: "";
-  position: absolute;
-  inset: -20%;
-  background: linear-gradient(135deg, rgba(69,183,176,.12), transparent 38%, rgba(215,179,90,.08));
-  opacity: 1;
-  filter: blur(54px);
+
+.awtsmoos-social-root::before {
+	position: absolute;
+	z-index: var(--awt-layer-ambient);
+	inset: 0;
+	pointer-events: none;
+	content: "";
+	background: linear-gradient(135deg, rgba(69,183,176,.12), transparent 38%, rgba(215,179,90,.08));
+	filter: blur(54px);
 }
-.awt-topbar, .awt-sidebar, .awt-main, .awt-rail {
-  position: relative;
-  z-index: 1;
-  border: 1px solid var(--awt-border);
-  background: rgba(13, 17, 20, .72);
-  backdrop-filter: blur(18px) saturate(1.1);
-  box-shadow: var(--awt-shadow-brutal);
+
+.awtsmoos-social-root :where(.awt-topbar, .awt-sidebar, .awt-main, .awt-rail) {
+	position: relative;
+	z-index: var(--awt-layer-surface);
+	min-inline-size: 0;
+	border: 1px solid var(--awt-border);
+	background: rgba(13,17,20,.72);
+	box-shadow: var(--awt-shadow-brutal);
+	backdrop-filter: blur(18px) saturate(1.1);
 }
-.awt-topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 18px; }
-.awt-topbar nav, .awt-card-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.awt-topbar a, .awt-card-actions a { color: var(--awt-text); text-decoration: none; }
-.awt-layout, .awt-grid { display: grid; grid-template-columns: minmax(144px, 190px) minmax(0, 1fr) minmax(220px, 300px); gap: 14px; padding: 14px; align-items: start; }
-.awt-sidebar, .awt-rail, .awt-main { border-radius: var(--awt-radius-lg); padding: 14px; min-width: 0; }
-.awt-rail { display: grid; gap: 10px; position: sticky; top: 12px; }
-.awt-main { display: grid; gap: 14px; }
-@media (max-width: 980px) { .awt-layout, .awt-grid { grid-template-columns: 1fr; padding: 10px; } .awt-rail { position: static; } .awt-rail.left { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .awt-topbar { align-items: flex-start; flex-direction: column; } .awt-rail.left { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.awtsmoos-social-root .awt-topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: .75rem 1rem;
+}
+
+.awtsmoos-social-root :where(.awt-topbar nav, .awt-card-actions) {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .5rem;
+	min-inline-size: 0;
+}
+
+.awtsmoos-social-root :where(.awt-topbar a, .awt-card-actions a) {
+	max-inline-size: 100%;
+	color: var(--awt-text);
+	text-decoration: none;
+}
+
+.awtsmoos-social-root :where(.awt-layout, .awt-grid) {
+	display: grid;
+	grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr) minmax(13rem, 18rem);
+	align-items: start;
+	gap: .9rem;
+	min-inline-size: 0;
+	padding: .9rem;
+}
+
+.awtsmoos-social-root :where(.awt-sidebar, .awt-rail, .awt-main) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: .9rem;
+	border-radius: var(--awt-radius-lg);
+}
+
+.awtsmoos-social-root .awt-rail {
+	position: sticky;
+	z-index: var(--awt-layer-sticky);
+	inset-block-start: max(.75rem, env(safe-area-inset-top));
+	display: grid;
+	gap: .65rem;
+}
+
+.awtsmoos-social-root .awt-main {
+	display: grid;
+	gap: .9rem;
+}
+
+@media (max-width: 61.25rem) {
+	.awtsmoos-social-root :where(.awt-layout, .awt-grid) {
+		grid-template-columns: minmax(0, 1fr);
+		padding: .65rem;
+	}
+
+	.awtsmoos-social-root .awt-rail {
+		position: static;
+	}
+
+	.awtsmoos-social-root .awt-rail.left {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 35rem) {
+	.awtsmoos-social-root .awt-topbar {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.awtsmoos-social-root .awt-rail.left {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

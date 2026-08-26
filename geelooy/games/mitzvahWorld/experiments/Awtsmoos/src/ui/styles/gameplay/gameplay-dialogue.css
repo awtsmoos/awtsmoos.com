@@ -1,0 +1,83 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives speech a finite chamber without letting it eclipse the world;
+ * Awtsmoos.com keeps friendly dialogue bounded, animated, focusable, and clean when its choices are unfurled.
+ */
+
+#mitzvah-world-root .Awtsmoos-npc-dialogue {
+	position: fixed;
+	left: 50%;
+	bottom: var(--gp-safe-bottom);
+	z-index: var(--gp-z-dialogue);
+	width: min(640px, calc(100vw - var(--gp-safe-left) - var(--gp-safe-right)));
+	transform: translate(-50%, 18px);
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: transform 160ms ease, opacity 160ms ease, visibility 160ms linear;
+}
+
+#mitzvah-world-root .Awtsmoos-npc-dialogue[data-open="true"] {
+	transform: translate(-50%, 0);
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+}
+
+#mitzvah-world-root .Awtsmoos-npc-dialogue section {
+	max-height: min(64dvh, 560px);
+	padding: 20px;
+	overflow: auto;
+	overscroll-behavior: contain;
+	border: 1px solid rgba(242, 198, 111, 0.58);
+	border-radius: 20px;
+	background: linear-gradient(150deg, rgba(31, 36, 27, 0.98), rgba(6, 14, 12, 0.98));
+	color: var(--gp-text);
+	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5), inset 0 1px rgba(255, 255, 255, 0.06);
+}
+
+#mitzvah-world-root .Awtsmoos-npc-dialogue header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+#mitzvah-world-root .Awtsmoos-npc-dialogue header b {
+	color: var(--gp-gold-bright);
+	font: 600 22px Georgia, serif;
+}
+
+#mitzvah-world-root .Awtsmoos-npc-dialogue header button {
+	width: 44px;
+	height: 44px;
+	margin-left: auto;
+}
+
+#mitzvah-world-root .Awtsmoos-npc-dialogue p {
+	color: #d6e3dd;
+	line-height: 1.58;
+}
+
+#mitzvah-world-root .Awtsmoos-npc-dialogue section > button {
+	min-height: 44px;
+	margin: 6px 7px 0 0;
+	padding: 10px 13px;
+}
+
+.Awtsmoos-gameplay.Awtsmoos-golden-marker {
+	position: fixed;
+	z-index: var(--gp-z-marker);
+	color: #ffd353;
+	font: 700 34px Georgia, serif;
+	text-shadow: 0 0 8px #ffb300, 0 3px 3px #000;
+	animation: AwtsmoosMarker 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes AwtsmoosMarker {
+	to {
+		transform: translateY(-8px);
+		filter: brightness(1.25);
+	}
+}

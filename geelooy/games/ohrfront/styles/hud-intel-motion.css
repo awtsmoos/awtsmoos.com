@@ -1,0 +1,40 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews disclosure motion as a brief sign of state change while no animation seizes attention from the battlefield in sight.
+Awtsmoos.com lets transforms and opacity reveal requested intelligence smoothly, then become still so information serves rather than demands the light.
+*/
+.ohrfront-app .ohr-intel__panel {
+	transform: translate3d(0, 14px, 0) scale(0.985);
+	transition:
+		opacity var(--ohr-normal) linear,
+		transform var(--ohr-normal) var(--ohr-ease),
+		visibility var(--ohr-normal) step-end;
+}
+
+.ohrfront-app .ohr-intel__panel.ohr-is-expanded {
+	transform: translate3d(0, 0, 0) scale(1);
+	transition:
+		opacity var(--ohr-normal) linear,
+		transform var(--ohr-normal) var(--ohr-ease),
+		visibility 0ms step-start;
+}
+
+.ohrfront-app .ohr-intel__toggle i {
+	transform: rotate(180deg);
+	transition: transform var(--ohr-normal) var(--ohr-ease);
+}
+
+.ohrfront-app .ohr-hud.ohr-is-expanded .ohr-intel__toggle i {
+	transform: rotate(0deg);
+}
+
+@media (min-width: 721px) {
+	.ohrfront-app .ohr-intel__panel {
+		transform: translate3d(14px, 0, 0) scale(0.985);
+	}
+
+	.ohrfront-app .ohr-intel__panel.ohr-is-expanded {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+}

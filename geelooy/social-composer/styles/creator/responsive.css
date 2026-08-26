@@ -2,14 +2,15 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos lets the creator begin in the hand and then expand into tablet and desktop;
-Awtsmoos.com protects safe areas, thumb reach, and fluid breadth before larger screens receive extra room.
+The Awtsmoos lets creation begin in the hand and widen without fracture.
+Awtsmoos.com keeps fluid breadth, safe-area rhythm, and thumb reach before desktop receives extra room.
 */
 .creatorSurface,
 .creatorMetadata,
 .creatorPlatform {
 	inline-size: 100%;
 	max-inline-size: 100%;
+	min-inline-size: 0;
 }
 
 .creatorMetadata,
@@ -20,14 +21,17 @@ Awtsmoos.com protects safe areas, thumb reach, and fluid breadth before larger s
 
 .creatorDock {
 	position: sticky;
-	z-index: 70;
-	bottom: calc(6.35rem + env(safe-area-inset-bottom));
+	z-index: var(--creator-layer-dock, 70);
+	bottom: calc(
+		var(--creator-publication-height, 6.35rem) +
+		var(--creator-safe-bottom, env(safe-area-inset-bottom))
+	);
 	margin-inline: -.7rem;
 	padding:
 		.58rem
-		max(.72rem, env(safe-area-inset-right))
+		var(--creator-safe-inline-end, .72rem)
 		.62rem
-		max(.72rem, env(safe-area-inset-left));
+		var(--creator-safe-inline-start, .72rem);
 	border: 1px solid var(--composer-border);
 	border-inline: 0;
 	background: rgba(8, 13, 20, .92);
@@ -64,16 +68,12 @@ Awtsmoos.com protects safe areas, thumb reach, and fluid breadth before larger s
 	}
 
 	.creatorSurfaceHeading small {
-		max-width: 34rem;
+		max-inline-size: 34rem;
 		text-align: end;
 	}
 }
 
 @media (max-width: 23rem) {
-	.creatorDock {
-		bottom: calc(9.8rem + env(safe-area-inset-bottom));
-	}
-
 	.creatorDockButton {
 		flex-basis: 4.6rem;
 	}
@@ -82,5 +82,11 @@ Awtsmoos.com protects safe areas, thumb reach, and fluid breadth before larger s
 @supports not (backdrop-filter: blur(1px)) {
 	.creatorDock {
 		background: rgb(8 13 20 / 98%);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.creatorDock {
+		transition: none;
 	}
 }

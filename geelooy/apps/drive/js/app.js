@@ -5,99 +5,12 @@
 /**
  * @module DriveApp
  * @description
- * The Awtsmoos coordinates identity, files, sites, durable project intent, and the Website Maker as one visible world;
- * Awtsmoos.com refreshes server testimony without destroying editor state, while each sub-vessel keeps its own failure boundary clear.
+ * The Awtsmoos is simple before every composed world; Awtsmoos.com keeps this entrypoint equally simple, revealing one Malchus application vessel whose internal Sefiros each own a single responsibility.
  */
 
-import { getProjectPlan, getSiteStatus, getUsage, listEntries, listSites } from './api.js';
-import { copyPublicLink, routeEntryAction } from './actions.js';
-import { installWebsiteMakerLifecycle } from './builder/studioLifecycle.js';
-import { installConnectionControls } from './connectionControls.js';
-import { installControls } from './controlBindings.js';
-import { installDialogFocusReturn } from './dialogs.js';
-import { applyEmbeddedMode } from './embed.js';
-import { installForms } from './formBindings.js';
-import { renderProjectPlatform } from './projectPlatform.js';
-import { publicUrl, renderEntries, renderPagination, renderUsage, showError, showStatus } from './render.js';
-import { installSiteControls, renderSiteStatus } from './siteControls.js';
-import { driveState, setEntries, setSite, setSites, updateFilters } from './state.js';
-import { uploadFiles } from './uploads.js';
+import { MalchusDriveApplication } from './orchestration/MalchusDriveApplication.js';
 
-const websiteMaker = installWebsiteMakerLifecycle({
-	status: showStatus,
-	error: showError,
-	refresh
-});
+/** The mounted Drive composition root, exported on window only through browser module state and not as a credential-bearing global API. */
+const malchusDriveApplication = new MalchusDriveApplication();
 
-async function refresh() {
-	try {
-		showStatus('Loading Drive, publications, durable intent, and Project Testimony…');
-		const [entries, usage, siteResult, sitesResult, projectResult] = await Promise.all([
-			listEntries(),
-			getUsage(),
-			getSiteStatus(),
-			listSites(),
-			getProjectPlan()
-		]);
-		setEntries(entries);
-		setSite(siteResult.site);
-		setSites(sitesResult);
-		renderEntries(driveState.entries, handleEntryAction);
-		renderUsage(usage);
-		renderSiteStatus(driveState.site, driveState.sites);
-		renderProjectPlatform(driveState, projectResult.project, refresh);
-		renderPagination(driveState.page, driveState.page > 1, Boolean(driveState.nextCursor));
-		await websiteMaker.refresh(driveState);
-		showStatus(`Loaded ${driveState.entries.length} entries · ${driveState.sites.length} sites · Project Testimony v${projectResult.project.version}.`);
-	} catch (error) {
-		showError(error);
-	}
-}
-
-async function handleEntryAction(action, entry) {
-	try {
-		if (action === 'link') {
-			await copyPublicLink(entry.path);
-			showStatus(`Copied ${publicUrl(entry.path)}`);
-			return;
-		}
-		const handled = routeEntryAction(action, entry, openDirectory);
-		if (!handled && entry.type === 'file') {
-			window.open(publicUrl(entry.path), '_blank', 'noopener');
-		}
-	} catch (error) {
-		showError(error);
-	}
-}
-
-function openDirectory(path) {
-	driveState.currentPath = path;
-	document.querySelector('#current-path').value = path;
-	updateFilters({});
-	refresh();
-}
-
-async function handleUploads(files) {
-	const progressElement = document.querySelector('#upload-progress');
-	showStatus(`Streaming ${files.length} file(s)…`);
-	const result = await uploadFiles(files, driveState.currentPath, progress => {
-		progressElement.value = progress.totalBytes
-			? (progress.transferredBytes / progress.totalBytes) * 100
-			: 100;
-		showStatus(`${progress.uploaded}/${progress.total} uploaded · ${progress.path}`);
-	});
-	if (result.failed.length) {
-		showError(new Error(`${result.failed.length} upload(s) failed.`));
-	}
-	await refresh();
-}
-
-applyEmbeddedMode();
-installDialogFocusReturn();
-installConnectionControls();
-installSiteControls(refresh, showError, showStatus);
-installForms(refresh, showError);
-installControls(refresh, handleUploads, openDirectory);
-renderSiteStatus(null, []);
-renderProjectPlatform(driveState, null, refresh);
-showStatus('Enter an alias. Your current Awtsmoos session is selected by default.');
+malchusDriveApplication.mount();

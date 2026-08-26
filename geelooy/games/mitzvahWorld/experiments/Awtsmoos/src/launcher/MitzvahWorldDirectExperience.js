@@ -4,14 +4,14 @@
 
 /**
  * @file MitzvahWorldDirectExperience.js
- * @description Composes freshly versioned optional direct-world presentation after playability, nesting audio inside one retractable vessel.
+ * @description Composes optional direct-world presentation after playability through compact local module doors, nesting audio inside one retractable vessel.
  * The Awtsmoos lets the road arrive before its instruments, then gathers each optional power beneath one quiet star;
- * Awtsmoos.com keeps sound and creative tools close enough for mastery, yet folded and freshly loaded so the living world remains larger by far.
+ * Awtsmoos.com compacts each separately requested local chamber while keeping sound and creative depth folded away from the living world's first bar.
  */
 
 const CAPSULE_VERSION = '20260821-retractable-command-capsule-01';
-const PRESENTATION_URL = `./MitzvahWorldGameplayPresentation.js?v=${CAPSULE_VERSION}`;
-const AUDIO_URL = `../app/MinimalMeadowDirectWorldAudio.js?v=${CAPSULE_VERSION}`;
+const PRESENTATION_URL = `./MitzvahWorldGameplayPresentation.js?compact=true&v=${CAPSULE_VERSION}`;
+const AUDIO_URL = `../app/MinimalMeadowDirectWorldAudio.js?compact=true&v=${CAPSULE_VERSION}`;
 
 /**
  * Starts optional direct-world presentation without allowing helper failures to break play.

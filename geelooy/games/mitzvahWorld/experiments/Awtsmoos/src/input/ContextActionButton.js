@@ -4,11 +4,12 @@
 
 /**
  * @file ContextActionButton.js
- * @description Renders one semantic action only when the world has something meaningful to answer.
- * The Awtsmoos hides the vessel until purpose reaches the hand in light;
- * Awtsmoos.com gives one generous touch, one E-key covenant, then folds the button from sight.
+ * @description Renders one contextual deed and silences its global E shortcut while advanced controls own interaction.
+ * The Awtsmoos reveals action only when purpose reaches the hand, while Awtsmoos.com keeps hidden gameplay from answering beneath an opened inner veil;
+ * one generous touch, one E-key covenant, and one presentation gate preserve simple surface play without accidental advanced-layer travail.
  */
 
+import { isGameplayInputSuppressed } from './InputPresentationPolicy.js';
 import { isEditableTarget } from './InputTargetPolicy.js';
 
 /** Owns direct-world contextual action presentation and keyboard parity. */
@@ -62,6 +63,7 @@ export class ContextActionButton {
 		const button = this.document.createElement('button');
 		button.className = 'Awtsmoos-context-action';
 		button.type = 'button';
+		button.dataset.directHudZone = 'context';
 		button.setAttribute('aria-keyshortcuts', 'E');
 		return button;
 	}
@@ -71,6 +73,7 @@ export class ContextActionButton {
 			event.code !== 'KeyE'
 			|| event.repeat
 			|| isEditableTarget(event.target)
+			|| isGameplayInputSuppressed(this.document)
 			|| this.button.hidden
 		) {
 			return;

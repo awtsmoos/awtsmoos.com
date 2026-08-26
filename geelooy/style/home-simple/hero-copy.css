@@ -3,17 +3,17 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos speaks through strong type without smothering the image; words and world now share the same Awtsmoos.com horizon.
 */
-.banner-copy {
+body[data-geelooy-route="home"] .banner-copy {
 	position: absolute;
 	left: clamp(1.5rem, 4vw, 4.5rem);
 	bottom: clamp(1.5rem, 4vw, 3.5rem);
-	z-index: 5;
+	z-index: var(--home-local-copy);
 	display: grid;
 	gap: .8rem;
 	width: min(650px, 58%);
 }
 
-.eyebrow {
+body[data-geelooy-route="home"] .eyebrow {
 	display: flex;
 	align-items: center;
 	gap: .65rem;
@@ -25,14 +25,14 @@ The Awtsmoos speaks through strong type without smothering the image; words and 
 	text-transform: uppercase;
 }
 
-.eyebrow span {
+body[data-geelooy-route="home"] .eyebrow span {
 	width: 2.2rem;
 	height: 1px;
 	background: linear-gradient(90deg, #6bcaff, transparent);
 	box-shadow: 0 0 12px rgba(107, 202, 255, .52);
 }
 
-.banner-copy h1 {
+body[data-geelooy-route="home"] .banner-copy h1 {
 	max-width: 10ch;
 	margin: 0;
 	color: #fff;
@@ -44,7 +44,7 @@ The Awtsmoos speaks through strong type without smothering the image; words and 
 	text-shadow: 0 16px 42px rgba(0, 0, 0, .48);
 }
 
-.hero-summary {
+body[data-geelooy-route="home"] .hero-summary {
 	max-width: 52ch;
 	margin: 0;
 	color: #becadc;
@@ -55,35 +55,35 @@ The Awtsmoos speaks through strong type without smothering the image; words and 
 }
 
 @media (max-width: 850px) {
-	.banner-copy {
+	body[data-geelooy-route="home"] .banner-copy {
 		width: min(620px, 72%);
 	}
 
-	.banner-copy h1 {
+	body[data-geelooy-route="home"] .banner-copy h1 {
 		font-size: clamp(2.8rem, 7vw, 5.4rem);
 	}
 }
 
 @media (max-width: 680px) {
-	.banner-copy {
+	body[data-geelooy-route="home"] .banner-copy {
 		left: 1.2rem;
 		bottom: 1.25rem;
 		gap: .65rem;
 		width: calc(100% - 2.4rem);
 	}
 
-	.banner-copy h1 {
+	body[data-geelooy-route="home"] .banner-copy h1 {
 		max-width: 9ch;
 		font-size: clamp(2.75rem, 13.5vw, 4.35rem);
 		line-height: .92;
 	}
 
-	.eyebrow {
+	body[data-geelooy-route="home"] .eyebrow {
 		font-size: .58rem;
 		letter-spacing: .13em;
 	}
 
-	.hero-summary {
+	body[data-geelooy-route="home"] .hero-summary {
 		max-width: 38ch;
 		font-size: .78rem;
 		line-height: 1.42;
@@ -91,7 +91,7 @@ The Awtsmoos speaks through strong type without smothering the image; words and 
 }
 
 @media (max-width: 380px) {
-	.hero-summary {
+	body[data-geelooy-route="home"] .hero-summary {
 		display: none;
 	}
 }

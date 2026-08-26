@@ -1,94 +1,88 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 
-const path = require("path");
+const {
+	parseCrn,
+	withCompactFlag
+} = require("./crn.js");
+const { resolveCrn } = require("./crnResolver.js");
 
 /**
- * B"H
- * Chapter 403: The compact river learned a boundary. Game-local vessels may
- * merge into one flame, but public vendor heavens such as three.module.js must
- * remain their own ESM scrolls. When those giant scrolls were swallowed, their
- * final `export` stayed inside a function chamber and mobile Chrome cried:
- * Unexpected token 'export'. The Awtsmoos now marks those public libraries as
- * external, so the compact bundle imports them at the top level only.
+ * @file Preserves the historic CompactJS path API while Canonical Resource Names become its deeper source of truth.
+ * @description The Awtsmoos lets old callers keep their familiar doorway while a clearer canonical vessel now carries the light;
+ * Awtsmoos.com upgrades classification, resolution, and compact request emission without breaking the public path contract right.
  */
-const PUBLIC_EXTERNAL_PREFIXES = Object.freeze([
-  "/games/scripts/build/",
-  "/scripts/build/"
-]);
+const PUBLIC_EXTERNAL_PREFIXES = [
+	"/games/scripts/build/",
+	"/scripts/build/"
+];
 
-/** @param {string} source @returns {boolean} */
+/** Returns whether CompactJS may fold this authored reference into the local public module graph. */
 function isLocalImport(source) {
-  if (isPublicExternalImport(source)) return false;
-  return isRelativeImport(source) || isPublicRootImport(source);
+	return parseResource(source).local;
 }
 
-/** @param {string} source @returns {boolean} */
+/** Preserves the historic relative-reference predicate. */
 function isRelativeImport(source) {
-  const value = String(source || "");
-  return value.startsWith("./") || value.startsWith("../");
+	return parseResource(source).kind === "relative";
 }
 
-/** @param {string} source @returns {boolean} */
+/** Preserves the historic browser-public-root predicate while excluding protocol-relative URLs. */
 function isPublicRootImport(source) {
-  const clean = cleanImportSource(source);
-  return clean.startsWith("/") && !clean.startsWith("//");
+	return parseResource(source).kind === "public-root";
 }
 
-/** @param {string} source @returns {boolean} */
+/** Preserves the explicit external-vendor boundary used by existing three/build imports. */
 function isPublicExternalImport(source) {
-  const clean = cleanImportSource(source);
-  return PUBLIC_EXTERNAL_PREFIXES.some(prefix => clean.startsWith(prefix));
+	const crn = parseResource(source);
+	return crn.kind === "public-root" && !crn.local;
 }
 
-/**
- * B"H
- * Resolves one compactable local chamber with browser URL semantics. Browsers
- * clamp excessive `..` traversal at the public `/` root; the filesystem must
- * mirror that rule rather than escape the configured directory or leave a
- * relative import stranded inside generated compact output.
- *
- * @param {object} options Resolution options.
- * @param {string} options.fromFile Absolute importing file path.
- * @param {string} options.source Import source.
- * @param {string} options.rootDir Absolute public root directory.
- * @returns {string|null} Absolute resolved file path, or null when unsafe.
- */
-function resolveLocalImport({ fromFile, source, rootDir }) {
-  if (!isLocalImport(source)) return null;
-  const root = path.resolve(rootDir);
-  const importingDirectory = path.dirname(path.resolve(fromFile));
-  const importerRelative = path.relative(root, importingDirectory);
-  if (escapesRoot(importerRelative)) return null;
-
-  const cleaned = cleanImportSource(source);
-  const publicBase = isPublicRootImport(cleaned)
-    ? "/"
-    : `/${slash(importerRelative)}/`;
-  const publicPath = path.posix.resolve(publicBase, cleaned);
-  const raw = path.resolve(root, publicPath.slice(1));
-  const resolved = path.extname(raw) ? raw : `${raw}.js`;
-  const relative = path.relative(root, resolved);
-  return escapesRoot(relative) ? null : resolved;
+/** Resolves one local resource and returns only its filesystem path for backwards compatibility. */
+function resolveLocalImport(options) {
+	return resolveLocalCrn(options)?.filePath || null;
 }
 
-function escapesRoot(relative) {
-  return relative.startsWith("..") || path.isAbsolute(relative);
+/** Resolves one local resource into its full canonical filesystem/browser identity. */
+function resolveLocalCrn(options) {
+	return resolveCrn({
+		...options,
+		publicExternalPrefixes: PUBLIC_EXTERNAL_PREFIXES
+	});
 }
 
-function slash(value) {
-  return String(value || "").split(path.sep).join("/");
-}
-
-/** @param {string} source @returns {string} */
+/** Removes only request decorations while preserving the authored resource pathname exactly. */
 function cleanImportSource(source) {
-  return String(source || "").split("?")[0].split("#")[0];
+	return parseResource(source).pathname;
+}
+
+/** Adds compact=true exactly once when the reference is eligible local JavaScript. */
+function compactImportSource(source) {
+	return withCompactFlag(
+		parseResource(source),
+		{
+			publicExternalPrefixes: PUBLIC_EXTERNAL_PREFIXES
+		}
+	);
+}
+
+/** Parses with the one repository-wide CompactJS external-prefix policy. */
+function parseResource(source) {
+	return parseCrn(source, {
+		publicExternalPrefixes: PUBLIC_EXTERNAL_PREFIXES
+	});
 }
 
 module.exports = {
-  cleanImportSource,
-  isLocalImport,
-  isPublicExternalImport,
-  isPublicRootImport,
-  isRelativeImport,
-  resolveLocalImport
+	PUBLIC_EXTERNAL_PREFIXES,
+	cleanImportSource,
+	compactImportSource,
+	isLocalImport,
+	isPublicExternalImport,
+	isPublicRootImport,
+	isRelativeImport,
+	parseResource,
+	resolveLocalCrn,
+	resolveLocalImport
 };

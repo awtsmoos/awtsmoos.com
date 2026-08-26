@@ -1,19 +1,11 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets a vast spreadsheet fold into smaller garments while every command remains near in light.
-Awtsmoos.com gives Focus, Compact, and Full one quiet switch so the grid grows wider in attention, not in might.
+
+The Awtsmoos lets a vast spreadsheet fold into smaller garments while every command remains near in light;
+Awtsmoos.com keeps Focus, Compact, and Full rooted inside one app vessel so disclosure never becomes a global rite.
 */
-.app-shell {
-	position: relative;
-	z-index: 1;
-}
-
-.app-shell [hidden] {
-	display: none !important;
-}
-
-.chrome-mode-button {
+.awtsmoos-sheets-app .chrome-mode-button {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
@@ -23,60 +15,65 @@ Awtsmoos.com gives Focus, Compact, and Full one quiet switch so the grid grows w
 	white-space: nowrap;
 }
 
-.chrome-mode-icon {
+.awtsmoos-sheets-app .chrome-mode-icon {
 	display: inline-grid;
 	width: 18px;
 	height: 18px;
 	place-items: center;
 	font-size: 13px;
+	transition: transform var(--motion-fast) var(--ease-direct);
 }
 
-.chrome-mode-label,
-.command-label {
+.awtsmoos-sheets-app .chrome-mode-label,
+.awtsmoos-sheets-app .command-label {
 	font-size: 11px;
 	font-weight: 700;
-	letter-spacing: .02em;
+	letter-spacing: 0.02em;
 }
 
-.chrome-mode-button[data-chrome-mode="focus"] .chrome-mode-icon {
-	transform: scale(.82);
+.awtsmoos-sheets-app .chrome-mode-button[data-chrome-mode="focus"] .chrome-mode-icon {
+	transform: scale(0.82);
 }
 
-.chrome-mode-button[data-chrome-mode="full"] {
-	background: rgba(19, 124, 83, .08);
-	border-color: rgba(19, 124, 83, .15);
+.awtsmoos-sheets-app .chrome-mode-button[data-chrome-mode="full"] {
+	background: rgba(19, 124, 83, 0.08);
+	border-color: rgba(19, 124, 83, 0.15);
 }
 
-.command-palette-trigger {
+.awtsmoos-sheets-app .chrome-mode-button[aria-expanded="true"] {
+	box-shadow: inset 0 0 0 1px rgba(19, 124, 83, 0.12);
+}
+
+.awtsmoos-sheets-app .command-palette-trigger {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
 }
 
-.command-glyph {
+.awtsmoos-sheets-app .command-glyph {
 	font-size: 15px;
 	line-height: 1;
 }
 
-.app-shell[data-chrome-mode="focus"] .app-bar,
-.app-shell[data-chrome-mode="compact"] .app-bar {
+.awtsmoos-sheets-app .app-shell[data-chrome-mode="focus"] .app-bar,
+.awtsmoos-sheets-app .app-shell[data-chrome-mode="compact"] .app-bar {
 	box-shadow: 0 1px 0 var(--glass-border);
 }
 
 @media (min-width: 761px) {
-	.command-label {
+	.awtsmoos-sheets-app .command-label {
 		display: none;
 	}
 }
 
 @media (max-width: 760px) {
-	.chrome-mode-label {
+	.awtsmoos-sheets-app .chrome-mode-label {
 		display: none;
 	}
 
-	.chrome-mode-button,
-	.command-palette-trigger,
-	#shareButton {
+	.awtsmoos-sheets-app .chrome-mode-button,
+	.awtsmoos-sheets-app .command-palette-trigger,
+	.awtsmoos-sheets-app #shareButton {
 		min-width: 44px;
 		min-height: 44px;
 	}

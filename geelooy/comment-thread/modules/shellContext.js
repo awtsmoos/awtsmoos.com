@@ -3,57 +3,48 @@
 //Blessed is He
 /**
  * @module CommentThreadShellContext
- * @description The Awtsmoos keeps conversation attached to its true birthplace while Awtsmoos.com
- * lets human context lead and machine coordinates remain available without taking over the place.
+ * @description
+ * Tiferes assembles conversation identity from smaller vessels without swallowing them.
+ * The Awtsmoos unites every coordinate beyond division; Awtsmoos.com lets vocabulary,
+ * ancestry, details, and navigation join here while each remains independently expandable.
  */
+import {
+	revealThreadActions,
+	revealThreadBreadcrumbs,
+	revealThreadDetails
+} from './ThreadContextCoordinates.js';
+import {
+	revealHumanLabel,
+	revealStateLabel
+} from './ThreadContextVocabulary.js';
 
-export function createCommentThreadShellContext(config) {
-	const blocked = config.missingRead.length > 0;
-	const state = blocked ? 'blocked' : config.canWrite ? 'writable' : 'read-only';
+/**
+ * Builds the route-context description consumed by the shared shell ribbon.
+ * @param {object} binahConfig Parsed Comment Thread coordinates and write capabilities.
+ * @returns {object} Context describing identity, state, ancestry, details, and safe actions.
+ */
+export function createCommentThreadShellContext(binahConfig) {
+	const gevurahBlocked = binahConfig.missingRead.length > 0;
+	const tiferesState = gevurahBlocked
+		? 'blocked'
+		: binahConfig.canWrite
+			? 'writable'
+			: 'read-only';
 	return {
-		title: config.title || 'Conversation',
-		type: config.kind ? `${label(config.kind)} discussion` : 'Conversation thread',
-		state,
-		stateLabel: stateLabel(state),
-		parent: { label: 'Spaces', href: '/heichelos' },
-		breadcrumbs: breadcrumbs(config),
-		details: blocked ? [`Missing ${config.missingRead.join(' and ')}`] : details(config),
-		actions: actions(config, blocked)
+		title: binahConfig.title || 'Conversation',
+		type: binahConfig.kind
+			? `${revealHumanLabel(binahConfig.kind)} discussion`
+			: 'Conversation thread',
+		state: tiferesState,
+		stateLabel: revealStateLabel(tiferesState),
+		parent: {
+			label: 'Spaces',
+			href: '/heichelos'
+		},
+		breadcrumbs: revealThreadBreadcrumbs(binahConfig),
+		details: gevurahBlocked
+			? [`Missing ${binahConfig.missingRead.join(' and ')}`]
+			: revealThreadDetails(binahConfig),
+		actions: revealThreadActions(binahConfig, gevurahBlocked)
 	};
-}
-
-function breadcrumbs(config) {
-	if (!config.heichelId) return [];
-	return [{ label: config.heichelId, href: heichelHref(config.heichelId) }];
-}
-
-function details(config) {
-	return [
-		config.postId ? `Post ${config.postId}` : '',
-		config.seriesId ? `Series ${config.seriesId}` : '',
-		config.aliasId ? `Writing as @${config.aliasId}` : 'No writing alias',
-		config.verseSection ? `Verse ${config.verseSection}` : '',
-		config.subsectionId ? `Part ${config.subsectionId}` : ''
-	].filter(Boolean);
-}
-
-function actions(config, blocked) {
-	if (blocked) return [{ label: 'Browse spaces', href: '/heichelos' }];
-	const output = [{ label: 'Open Heichel', href: heichelHref(config.heichelId) }];
-	if (!config.canWrite) output.push({ label: 'Choose alias', href: '/profile' });
-	return output;
-}
-
-function stateLabel(state) {
-	if (state === 'blocked') return 'Post context required';
-	if (state === 'writable') return 'Replies available';
-	return 'Reading only';
-}
-
-function label(value) {
-	return String(value || '').replace(/^./, letter => letter.toUpperCase());
-}
-
-function heichelHref(heichelId) {
-	return `/heichelos/${encodeURIComponent(heichelId)}`;
 }

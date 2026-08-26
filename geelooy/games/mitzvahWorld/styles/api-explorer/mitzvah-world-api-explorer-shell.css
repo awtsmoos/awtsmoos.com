@@ -1,0 +1,107 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos hides an ocean of command knowledge inside one finite advanced chamber while Awtsmoos.com gives hierarchy, glass, and readable receipts their quiet shell;
+this file owns no viewport coordinates, so the observatory may grow in depth while the parent retractable sheet alone decides where every finite edge will dwell.
+*/
+
+.Awtsmoos-api-explorer {
+	min-width: 0;
+	display: grid;
+	gap: 11px;
+	padding-top: 12px;
+	border-top: 1px solid rgba(179, 255, 209, .14);
+	color: rgba(244, 255, 248, .96);
+	font: 600 12px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	animation: AwtsmoosApiExplorerReveal 180ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.Awtsmoos-api-explorer[hidden] {
+	display: none;
+}
+
+.Awtsmoos-api-explorer > *,
+.Awtsmoos-api-explorer__header > *,
+.Awtsmoos-api-explorer__field > * {
+	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.Awtsmoos-api-explorer__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.Awtsmoos-api-explorer__title {
+	display: grid;
+	gap: 2px;
+}
+
+.Awtsmoos-api-explorer__title small {
+	color: rgba(167, 225, 187, .68);
+	font-size: 9px;
+	font-weight: 800;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+.Awtsmoos-api-explorer__title strong {
+	font-size: 14px;
+	font-weight: 760;
+	letter-spacing: -.01em;
+}
+
+.Awtsmoos-api-explorer__descriptor {
+	min-height: 42px;
+	padding: 9px 10px;
+	border: 1px solid rgba(178, 255, 208, .13);
+	border-radius: 12px;
+	background:
+		linear-gradient(135deg, rgba(41, 103, 66, .12), transparent 68%),
+		rgba(4, 17, 10, .36);
+	color: rgba(216, 239, 224, .82);
+	overflow-wrap: anywhere;
+}
+
+.Awtsmoos-api-explorer__result {
+	min-width: 0;
+	max-width: 100%;
+	min-height: 90px;
+	max-height: min(220px, 28dvh);
+	margin: 0;
+	padding: 10px;
+	border: 1px solid rgba(171, 255, 204, .13);
+	border-radius: 12px;
+	background: rgba(2, 10, 6, .54);
+	color: rgba(216, 249, 226, .88);
+	font: 520 10.5px/1.48 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	white-space: pre-wrap;
+	overflow: auto;
+	overscroll-behavior: contain;
+	word-break: break-word;
+}
+
+.Awtsmoos-api-explorer__result[data-result="success"] {
+	border-color: rgba(130, 255, 173, .25);
+}
+
+.Awtsmoos-api-explorer__result[data-result="failure"] {
+	border-color: rgba(255, 178, 155, .28);
+	color: rgba(255, 222, 211, .9);
+}
+
+@keyframes AwtsmoosApiExplorerReveal {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(.985);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}

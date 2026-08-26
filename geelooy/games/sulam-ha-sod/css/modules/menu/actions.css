@@ -1,0 +1,62 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets each finite choice answer touch, focus, hover, and press in measured light;
+ * Awtsmoos.com removes browser-default skin so every menu action belongs completely to Sulam's sight.
+ */
+.menuActions {
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	flex-wrap: wrap;
+	margin: 14px 0;
+}
+
+.menu button {
+	appearance: none;
+	-webkit-appearance: none;
+	border: 0;
+	border-radius: 999px;
+	padding: 13px 22px;
+	font-size: 16px;
+	font-weight: 1000;
+	background: linear-gradient(135deg, var(--gold), var(--pink));
+	color: #18071f;
+	box-shadow: 0 14px 40px #0009, 0 0 30px #ff6ad555;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: transform .14s ease, filter .14s ease, box-shadow .14s ease, border-color .14s ease;
+}
+
+.menu button:focus-visible {
+	outline: 3px solid var(--cyan);
+	outline-offset: 3px;
+}
+
+.menu button:active:not(:disabled) {
+	filter: brightness(.96);
+	transform: translateY(1px) scale(.98);
+	box-shadow: 0 8px 24px #0008, 0 0 22px #9df7ff44;
+}
+
+.menu button:disabled {
+	opacity: .45;
+	filter: grayscale(1);
+	cursor: not-allowed;
+	transform: none;
+}
+
+.menu .ghost {
+	background: #ffffff18;
+	color: #fff;
+	border: 1px solid #ffffff55;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.menu button:hover:not(:disabled) {
+		filter: brightness(1.12);
+		transform: translateY(-2px);
+		box-shadow: 0 16px 42px #0009, 0 0 34px #9df7ff44;
+	}
+}

@@ -1,0 +1,52 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets every deliberate control answer focus, hover, and press with distinct light;
+ * Awtsmoos.com keeps animation restrained so state is obvious without pushing neighboring vessels out of sight.
+ */
+button {
+	appearance: none;
+	-webkit-appearance: none;
+	font-weight: 800;
+	letter-spacing: 0.05em;
+	color: #f8f8ff;
+	background: linear-gradient(180deg, #2a2c55, #13152d);
+	border: 1px solid rgba(255, 255, 255, 0.24);
+	border-radius: 12px;
+	padding: 0.85rem 1.1rem;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: transform 120ms ease, filter 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+:is(button, select, input):focus-visible {
+	border-color: var(--cyan);
+	outline: 3px solid var(--cyan);
+	outline-offset: 2px;
+}
+
+button:active {
+	filter: brightness(0.94);
+	transform: translateY(1px) scale(0.98);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	button:hover {
+		filter: brightness(1.18);
+		transform: translateY(-2px);
+	}
+}
+
+button:disabled {
+	opacity: 0.42;
+	cursor: not-allowed;
+	transform: none;
+}
+
+button.primary {
+	color: #090913;
+	background: linear-gradient(135deg, var(--gold), #fff4b0 48%, #7ff7ff);
+	border-color: white;
+	box-shadow: 0 0 24px rgba(118, 247, 255, 0.24);
+}

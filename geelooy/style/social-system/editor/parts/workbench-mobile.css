@@ -1,11 +1,20 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos folds governance for narrow vessels without hiding its power;
- * Awtsmoos.com keeps summaries thumb-sized, descriptions brief, and motion optional.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos folds governance for narrow vessels without hiding its power.
+ * Awtsmoos.com keeps summaries thumb-sized, descriptions concise, and every opened body inside the phone's true inline measure.
  */
 @media (max-width: 42rem) {
+	.editor-workbench-guide,
+	.editor-workbench-section,
+	.editor-workbench-body,
+	.editor-advanced-settings,
+	.editor-advanced-body {
+		min-inline-size: 0;
+		max-inline-size: 100%;
+	}
+
 	.editor-workbench-section {
 		border-radius: 1rem;
 	}
@@ -29,21 +38,14 @@
 
 	.editor-workbench-body {
 		padding: 0 .7rem .75rem;
+		overflow-wrap: anywhere;
 	}
 
 	.editor-advanced-summary {
 		padding: .65rem .7rem;
 	}
-}
 
-@media (prefers-reduced-motion: reduce) {
-	.editor-workbench-chevron,
-	.editor-advanced-glyph {
-		transition: none;
-	}
-
-	.editor-workbench-body,
 	.editor-advanced-body {
-		animation: none;
+		overflow-wrap: anywhere;
 	}
 }

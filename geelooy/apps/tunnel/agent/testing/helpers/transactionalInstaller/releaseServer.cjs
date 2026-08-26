@@ -1,7 +1,7 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-const fs = require("node:fs");
+
 const http = require("node:http");
 const path = require("node:path");
 const InstallerComponents = require(
@@ -9,24 +9,43 @@ const InstallerComponents = require(
 );
 const Sources = require("../../../../../../api/tunnel/install/tools/zipSources.js");
 const Writer = require("../../../../../../api/tunnel/install/tools/zipWriter.js");
+const Descriptor = require("./releaseDescriptor.cjs");
+const Routes = require("./releaseServerRoutes.cjs");
 
-/** Serves exact repository installer, helper, descriptor, manifest, and ZIP bytes. */
+/**
+ * @file Owns the disposable transactional release server state and lifecycle.
+ * @description
+ * The Awtsmoos holds source, bundle, sockets, and provenance in one guarded sphere;
+ * Awtsmoos.com keeps the historical respond seam so tests may witness every route clear.
+ */
 class ReleaseServer {
 	constructor(repositoryRoot, mutateEntry = entry => entry) {
 		this.repositoryRoot = path.resolve(repositoryRoot);
-		this.downloadsRoot = path.join(this.repositoryRoot, "geelooy/apps/tunnel/downloads");
+		this.downloadsRoot = path.join(
+			this.repositoryRoot,
+			"geelooy/apps/tunnel/downloads"
+		);
 		this.source = Sources.descriptor(this.repositoryRoot);
-		this.entries = this.source.entries.map(entry => mutateEntry({
-			path: entry.path,
-			data: Buffer.from(entry.data)
-		})).filter(Boolean);
+		this.entries = this.source.entries
+			.map(entry => mutateEntry({
+				path: entry.path,
+				data: Buffer.from(entry.data)
+			}))
+			.filter(Boolean);
 		this.bundle = Writer.buildZip(this.entries);
 		this.bundleSha256 = Sources.hash(this.bundle);
 		this.installerComponents = InstallerComponents.buildInstallerComponents();
 		this.requestCounts = new Map();
 		this.sockets = new Set();
-		this.server = http.createServer((request, response) => this.respond(request, response));
+		this.server = http.createServer((request, response) => {
+			this.respond(request, response);
+		});
 		this.server.on("connection", socket => this.trackSocket(socket));
+	}
+
+	/** Preserves the test interception seam while delegating route truth. */
+	respond(request, response) {
+		return Routes.respond(this, request, response);
 	}
 
 	async start() {
@@ -38,12 +57,19 @@ class ReleaseServer {
 	}
 
 	async close(timeoutMs = 2000) {
-		if (!this.server.listening) return;
+		if (!this.server.listening) {
+			return;
+		}
 		const closed = new Promise(resolve => this.server.close(resolve));
 		this.server.closeIdleConnections?.();
-		for (const socket of this.sockets) socket.destroy();
+		for (const socket of this.sockets) {
+			socket.destroy();
+		}
 		this.server.closeAllConnections?.();
-		await Promise.race([closed, new Promise(resolve => setTimeout(resolve, timeoutMs))]);
+		await Promise.race([
+			closed,
+			new Promise(resolve => setTimeout(resolve, timeoutMs))
+		]);
 	}
 
 	trackSocket(socket) {
@@ -51,76 +77,13 @@ class ReleaseServer {
 		socket.once("close", () => this.sockets.delete(socket));
 	}
 
-	respond(request, response) {
-		const requestPath = new URL(request.url, "http://localhost").pathname;
-		this.requestCounts.set(
-			requestPath,
-			(this.requestCounts.get(requestPath) || 0) + 1
-		);
-		if (requestPath === "/api/tunnel/install/unix") {
-			const bootstrap = fs.readFileSync(
-				path.join(this.downloadsRoot, "unix.sh"),
-				"utf8"
-			).replace(
-				"__AWTSMOOS_INSTALLER_COMPONENTS_SHA256__",
-				this.installerComponents.sha256
-			);
-			return this.send(response, 200, bootstrap, "text/plain");
-		}
-		if (
-			requestPath
-			=== "/api/tunnel/install/installer-components.tar.gz"
-		) {
-			return this.send(
-				response,
-				200,
-				this.installerComponents.buffer,
-				"application/gzip"
-			);
-		}
-		if (requestPath === "/apps/tunnel/agent/manifest.txt") {
-			return this.send(response, 200, this.sourceManifest(), "text/plain");
-		}
-		if (requestPath === "/api/tunnel/install/bundle-manifest") {
-			return this.send(response, 200, JSON.stringify(this.descriptor()), "application/json");
-		}
-		if (requestPath === "/api/tunnel/install/agent.zip") {
-			return this.send(response, 200, this.bundle, "application/zip");
-		}
-		const prefix = "/apps/tunnel/downloads/";
-		if (requestPath.startsWith(prefix)) {
-			const name = requestPath.slice(prefix.length);
-			if (path.basename(name) === name) return this.download(response, name);
-		}
-		this.send(response, 404, "not found\n", "text/plain");
-	}
-
-	download(response, name) {
-		const sourcePath = path.join(this.downloadsRoot, name);
-		if (!fs.existsSync(sourcePath)) return this.send(response, 404, "not found\n", "text/plain");
-		return this.send(response, 200, fs.readFileSync(sourcePath), "text/plain");
-	}
-
 	descriptor() {
-		return {
-			ok: true,
-			version: this.source.version,
-			files: this.entries.length,
-			manifestSha256: this.source.manifestSha256,
-			bundles: [{
-				name: "agent",
-				url: "/api/tunnel/install/agent.zip",
-				sha256: this.bundleSha256,
-				bytes: this.bundle.length
-			}]
-		};
-	}
-
-	sourceManifest() {
-		return fs.readFileSync(path.join(
-			this.repositoryRoot,
-			"geelooy/apps/tunnel/agent/manifest.txt"
-		));
+		return Descriptor.buildReleaseDescriptor(
+			this.source,
+			this.entries,
+			this.bundle,
+			this.bundleSha256
+		);
 	}
 
 	requestCount(requestPath) {
@@ -128,9 +91,14 @@ class ReleaseServer {
 	}
 
 	send(response, status, body, contentType) {
-		response.writeHead(status, { "Content-Type": contentType, "Connection": "close" });
+		response.writeHead(status, {
+			"Content-Type": contentType,
+			"Connection": "close"
+		});
 		response.end(body);
 	}
 }
 
-module.exports = { ReleaseServer };
+module.exports = {
+	ReleaseServer
+};

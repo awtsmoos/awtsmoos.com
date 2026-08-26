@@ -2,34 +2,39 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
+ * @fileoverview Malchus thumb-control tray styling owned only by live movement/action controls, never by unrelated overlays.
  * The Awtsmoos renews each thumb-bound action while the tray remains centered beneath the road;
- * Awtsmoos.com keeps layout transform permanent and lets interaction motion happen without shifting the load.
+ * Awtsmoos.com lets Malchus keep the controls light in footprint, strong in contrast, and free from cross-component cascade load.
  */
 
 .controls {
 	position: absolute;
 	left: 50%;
 	bottom: var(--safe-bottom);
-	z-index: 11;
+	z-index: var(--layer-controls);
 	display: flex;
 	gap: 7px;
 	padding: 5px;
 	transform: translateX(-50%);
 	border: 1px solid var(--line);
 	border-radius: 21px;
-	background: rgba(16, 11, 8, 0.6);
+	background: var(--glass);
 	backdrop-filter: var(--glass-blur);
 	box-shadow: var(--shadow-soft);
 	opacity: 1;
-	transition:
-		opacity var(--motion-medium) var(--ease-soft),
-		filter var(--motion-fast) var(--ease-soft);
+	transition: opacity var(--motion-medium) var(--ease-soft), filter var(--motion-fast) var(--ease-soft);
 }
 
-.controls button,
-.game-over button {
-	border: 1px solid rgba(255, 226, 158, 0.16);
-	background: rgba(255, 255, 255, 0.035);
+.controls button {
+	display: grid;
+	place-items: center;
+	width: 62px;
+	height: 58px;
+	padding: 4px;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.07);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
 	color: var(--ivory-300);
 	font-weight: 850;
 	cursor: pointer;
@@ -41,32 +46,31 @@
 		color var(--motion-fast) var(--ease-soft);
 }
 
-.controls button {
-	display: grid;
-	place-items: center;
-	width: 62px;
-	height: 58px;
-	padding: 4px;
-	border-radius: 16px;
-}
-
 .controls button b {
 	font-size: 21px;
 	line-height: 1;
+	text-shadow: 0 1px 10px rgba(0, 0, 0, 0.58);
 }
 
 .controls button span {
+	color: var(--ivory-500);
 	font-size: 8px;
+	font-weight: 760;
 	letter-spacing: 0.08em;
 	line-height: 1;
 	text-transform: uppercase;
 }
 
-.controls button:active,
-.game-over button:active {
+.controls button:focus-visible {
+	outline: 2px solid var(--gold-300);
+	outline-offset: 2px;
+	border-color: var(--line-strong);
+}
+
+.controls button:active {
 	transform: scale(0.93);
 	border-color: var(--line-strong);
-	background: rgba(255, 224, 138, 0.1);
+	background: rgba(255, 224, 138, 0.14);
 	color: var(--gold-300);
 }
 

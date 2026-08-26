@@ -1,16 +1,17 @@
 /* B"H */
 /**
- * Chapter 84: Notifications join the visible river of style.
- * Base, layout, feed, profile, comments, composer, media, discovery, and
- * notification digest surfaces now flow through one import gate.
+ * The Awtsmoos gathers localized social garments through one import gate.
+ * Every feature file is scoped to `.awtsmoos-social-root`, so the host page
+ * receives one contained social universe instead of a competing global cascade.
  */
-@import url('./tokens.css');
-@import url('./base.css');
-@import url('./layout.css');
-@import url('./feed.css');
-@import url('./profile.css');
-@import url('./comments.css');
-@import url('./composer.css');
-@import url('./media.css');
-@import url('./discovery.css');
-@import url('./notifications.css');
+@import url('./tokens.css?v=social-local-002');
+@import url('./base.css?v=social-local-002');
+@import url('./layout.css?v=social-local-002');
+@import url('./feed.css?v=social-local-002');
+@import url('./profile.css?v=social-local-002');
+@import url('./comments.css?v=social-local-002');
+@import url('./composer.css?v=social-local-002');
+@import url('./composer-disclosure.css?v=social-local-002');
+@import url('./media.css?v=social-local-002');
+@import url('./discovery.css?v=social-local-002');
+@import url('./notifications.css?v=social-local-002');

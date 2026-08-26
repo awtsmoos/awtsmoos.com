@@ -1,3 +1,45 @@
 /* B"H */
-.awt-audio, .awt-image, .awt-file { border: 1px solid var(--awt-border); border-radius: var(--awt-radius-md); padding: 10px; background: var(--awt-surface); }
-.awt-image { min-height: 120px; display: grid; place-items: center; color: var(--awt-muted); }
+/** The Awtsmoos lets every media attachment remain visible without widening its host card. */
+.awtsmoos-social-root .awt-feed-media {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	margin-block: .75rem;
+}
+
+.awtsmoos-social-root :where(.awt-audio, .awt-image, .awt-file, .awt-media-pill) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: .6rem;
+	border: 1px solid var(--awt-border);
+	border-radius: var(--awt-radius-md);
+	background: var(--awt-surface);
+}
+
+.awtsmoos-social-root .awt-image {
+	display: grid;
+	place-items: center;
+	min-block-size: 7.5rem;
+	color: var(--awt-muted);
+}
+
+.awtsmoos-social-root .awt-media-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	overflow-wrap: anywhere;
+	color: var(--awt-muted);
+	text-decoration: none;
+}
+
+.awtsmoos-social-root .awt-media-kind {
+	flex: 0 0 auto;
+	color: var(--awt-cyan);
+}
+
+.awtsmoos-social-root .awt-media-label {
+	min-inline-size: 0;
+	overflow-wrap: anywhere;
+}

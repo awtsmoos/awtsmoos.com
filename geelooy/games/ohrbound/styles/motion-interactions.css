@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos renews each deliberate gesture before hover, press, or focus can remain; Awtsmoos.com gives Ohrbound's own controls a restrained luminous reply without spilling style into another game. */
+.ohrbound-app :is(.app-shell, .advanced-overlay, .focus-dialog) :is(
+	button,
+	a,
+	select,
+	input,
+	.level-card,
+	.world-tab,
+	.character-card
+) {
+	transition:
+		transform 150ms cubic-bezier(.2, .8, .2, 1),
+		background-color 150ms ease,
+		border-color 150ms ease,
+		box-shadow 150ms ease,
+		opacity 150ms ease,
+		color 150ms ease;
+}
+.ohrbound-app .advanced-sheet {
+	transition:
+		transform 180ms cubic-bezier(.2, .8, .2, 1),
+		opacity 150ms ease;
+}
+.ohrbound-app :is(.app-shell, .advanced-overlay, .focus-dialog) :is(
+	button:not(:disabled),
+	a,
+	.level-card,
+	.world-tab,
+	.character-card,
+	.advanced-actions button
+):active {
+	transform: scale(0.965);
+}
+.ohrbound-app :is(.app-shell, .advanced-overlay, .focus-dialog) :is(select, input):active {
+	border-color: var(--line-bright);
+}
+.ohrbound-app .focus-dialog .dialog-heading button:active {
+	background: rgba(121, 234, 209, 0.12);
+}
+@media (hover: hover) and (pointer: fine) {
+	.ohrbound-app :is(.app-shell, .advanced-overlay, .focus-dialog) :is(button:not(:disabled), a):hover {
+		border-color: var(--line-bright);
+	}
+	.ohrbound-app .app-shell .brand-mark:hover {
+		color: var(--glow);
+		text-shadow: 0 0 18px rgba(121, 234, 209, 0.2);
+	}
+	.ohrbound-app :is(.app-shell, .focus-dialog) :is(.primary-button, .quick-play-button):hover {
+		transform: translateY(-2px);
+		box-shadow: 0 16px 38px rgba(55, 225, 196, 0.18);
+	}
+	.ohrbound-app :is(.app-shell, .advanced-overlay, .focus-dialog) :is(
+		.secondary-button,
+		.quiet-button,
+		.icon-button,
+		.hud-button,
+		.world-tab,
+		.dialog-heading button
+	):hover {
+		transform: translateY(-1px);
+		background-color: rgba(255, 255, 255, 0.075);
+	}
+	.ohrbound-app :is(.app-shell, .advanced-overlay, .focus-dialog) :is(
+		.level-card,
+		.character-card,
+		.advanced-actions button
+	):hover {
+		transform: translateY(-3px);
+		border-color: var(--line-bright);
+		box-shadow: 0 14px 38px rgba(0, 0, 0, 0.24);
+	}
+	.ohrbound-app .app-shell :is(
+		.editor-actions button,
+		.editor-header button,
+		[data-editor-palette] button,
+		.touch-actions button
+	):hover {
+		transform: translateY(-1px);
+		border-color: var(--line-bright);
+	}
+	.ohrbound-app :is(.app-shell, .advanced-overlay, .focus-dialog) :is(select, input):hover {
+		border-color: var(--line-bright);
+	}
+}

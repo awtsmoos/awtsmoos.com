@@ -1,74 +1,88 @@
-/* B"H
+/*B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos draws a whole world through a narrow frame; Awtsmoos.com keeps every transition lucid and every destination the same.
+The Awtsmoos reveals one Mail chamber without exiling another beyond the horizon; Awtsmoos.com keeps inactive panes inside the vessel, unseen and untouchable, while gentle depth replaces off-screen illusion.
 */
 @media (max-width: 850px) {
-	.mail-civilization-shell {
+	.geelooy-mail-document .mail-civilization-shell {
 		grid-template-rows: auto minmax(0, 1fr) auto;
-		height: 100dvh;
-		min-height: 100dvh;
+		block-size: 100dvh;
+		min-block-size: 100dvh;
 		overflow: hidden;
 	}
 
-	.mail-civilization-status {
-		grid-template-columns: 1fr auto;
-		min-height: 58px;
+	.geelooy-mail-document .mail-civilization-status {
+		grid-template-columns: minmax(0, 1fr) auto;
+		min-block-size: 58px;
 		padding: max(8px, env(safe-area-inset-top)) 13px 8px;
 	}
 
-	.mail-header-shortcuts,
-	.mail-civilization-brand small {
+	.geelooy-mail-document .mail-header-shortcuts,
+	.geelooy-mail-document .mail-civilization-brand small {
 		display: none;
 	}
 
-	.app-container {
+	.geelooy-mail-document .app-container {
 		position: relative;
 		display: block;
-		min-height: 0;
+		min-inline-size: 0;
+		min-block-size: 0;
 		overflow: hidden;
 		isolation: isolate;
 	}
 
-	.sidebar,
-	.chat-area {
+	.geelooy-mail-document :is(.sidebar, .chat-area) {
 		position: absolute;
 		inset: 0;
-		width: 100%;
-		min-height: 0;
-		transition: transform .22s ease, opacity .18s ease;
+		inline-size: 100%;
+		min-inline-size: 0;
+		min-block-size: 0;
+		transition:
+			opacity 180ms ease,
+			transform 220ms cubic-bezier(.2, .8, .2, 1),
+			visibility 0s linear 220ms;
 	}
 
-	.sidebar {
+	.geelooy-mail-document .sidebar {
 		z-index: 1;
-		border-right: 0;
-		transform: translateX(0);
+		visibility: visible;
+		pointer-events: auto;
+		opacity: 1;
+		transform: translateX(0) scale(1);
 	}
 
-	.chat-area {
+	.geelooy-mail-document .chat-area {
 		z-index: 2;
-		transform: translateX(102%);
+		visibility: hidden;
+		pointer-events: none;
+		opacity: 0;
+		transform: translateX(2%) scale(.992);
 		box-shadow: -24px 0 70px rgba(0, 0, 0, .28);
 	}
 
-	.app-container.view-chat .sidebar {
+	.geelooy-mail-document .app-container.view-chat .sidebar {
+		visibility: hidden;
 		pointer-events: none;
 		opacity: 0;
-		transform: translateX(-16%);
+		transform: translateX(-2%) scale(.992);
 	}
 
-	.app-container.view-chat .chat-area {
-		transform: translateX(0);
+	.geelooy-mail-document .app-container.view-chat .chat-area {
+		visibility: visible;
+		pointer-events: auto;
+		opacity: 1;
+		transform: translateX(0) scale(1);
+		transition-delay: 0s;
 	}
 
-	.back-button {
+	.geelooy-mail-document .back-button {
 		display: grid;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) and (max-width: 850px) {
-	.sidebar,
-	.chat-area {
-		transition: none;
+	.geelooy-mail-document :is(.sidebar, .chat-area) {
+		transition-duration: 1ms;
+		transform: none;
 	}
 }

@@ -1,88 +1,87 @@
 /* B"H
- * Chapter 300: The shell keeps beauty; the browser keeps the river.
+ * Boruch Hashem
+ * Blessed is He
  *
- * The Awtsmoos breathes through native page scroll. This file paints the night
- * vessel and refuses nested page traps or synthetic motion.
+ * The Awtsmoos breathes through the browser's native river while this reader owns only itself;
+ * Awtsmoos.com paints one bounded night vessel, keeps sticky layers in a named local hierarchy,
+ * and refuses to seize html or body merely because a chapter wants a beautiful sky.
  */
-
-html,
-body {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 100% !important;
-    height: auto !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    touch-action: pan-y !important;
-    background: var(--awt-bg) !important;
-    scroll-behavior: smooth !important;
-    -webkit-font-smoothing: antialiased !important;
-}
-
-body { margin: 0 !important; color: var(--awt-text) !important; font-family: var(--font-ui) !important; }
-
 .all.post-reader-localized-context.awtsmoos-reader-vision {
-    position: relative !important;
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 100dvh !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow-x: clip !important;
-    overflow-y: visible !important;
-    isolation: isolate !important;
-    touch-action: pan-y !important;
-    background:
-        radial-gradient(circle at 78% 0%, rgba(244,197,107,.16), transparent 25rem),
-        radial-gradient(circle at 8% 12%, rgba(57,215,238,.10), transparent 22rem),
-        linear-gradient(180deg, #060a12, #0b1020 38%, #050810) !important;
+	position: relative !important;
+	display: block !important;
+	box-sizing: border-box !important;
+	inline-size: 100% !important;
+	max-inline-size: 100% !important;
+	min-block-size: 100dvh !important;
+	block-size: auto !important;
+	max-block-size: none !important;
+	margin: 0 !important;
+	overflow-x: clip !important;
+	overflow-y: visible !important;
+	background:
+		radial-gradient(circle at 78% 0%, rgb(244 197 107 / 16%), transparent 25rem),
+		radial-gradient(circle at 8% 12%, rgb(57 215 238 / 10%), transparent 22rem),
+		linear-gradient(180deg, #060a12, #0b1020 38%, #050810) !important;
+	color: var(--awt-text) !important;
+	font-family: var(--font-ui) !important;
+	-webkit-font-smoothing: antialiased !important;
+	isolation: isolate !important;
+	touch-action: pan-y !important;
 }
 
 .post-reader-localized-context > .awtsmoos-integrated-header {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: var(--z-header) !important;
-    min-height: var(--awt-header-space) !important;
-    overflow: clip !important;
-    backdrop-filter: blur(14px) saturate(125%) !important;
+	position: sticky !important;
+	z-index: var(--z-header) !important;
+	top: 0 !important;
+	min-block-size: var(--awt-header-space) !important;
+	overflow: clip !important;
+	backdrop-filter: blur(14px) saturate(125%) !important;
 }
 
 .post-reader-localized-context > .main,
 .post-reader-localized-context .scroll-view-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: calc(100dvh - var(--awt-header-space)) !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow-x: clip !important;
-    overflow-y: visible !important;
-    touch-action: pan-y !important;
+	inline-size: 100% !important;
+	max-inline-size: 100% !important;
+	min-block-size: calc(100dvh - var(--awt-header-space)) !important;
+	block-size: auto !important;
+	max-block-size: none !important;
+	overflow-x: clip !important;
+	overflow-y: visible !important;
+	touch-action: pan-y !important;
 }
 
 .post-reader-localized-context > .main {
-    position: static !important;
-    display: block !important;
-    padding-bottom: calc(var(--awt-reader-bottom-space) + var(--awt-safe-bottom)) !important;
+	position: static !important;
+	display: block !important;
+	padding-block-end: calc(var(--awt-reader-bottom-space) + var(--awt-safe-bottom)) !important;
 }
 
 .post-reader-localized-context .scroll-view-wrapper {
-    position: relative !important;
-    z-index: var(--z-reader) !important;
-    padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem) !important;
-    transform: translateZ(0) !important;
+	position: relative !important;
+	z-index: var(--z-reader) !important;
+	padding: 1rem clamp(.75rem, 4vw, 1.5rem) calc(var(--awt-reader-bottom-space) + 2rem) !important;
+	transform: translateZ(0) !important;
 }
 
 .post-reader-localized-context #realPost.content {
-    display: block !important;
-    width: 100% !important;
-    max-width: 920px !important;
-    min-height: 125dvh !important;
-    height: auto !important;
-    margin: 0 auto !important;
-    overflow-x: clip !important;
-    overflow-y: visible !important;
+	display: block !important;
+	inline-size: 100% !important;
+	max-inline-size: 920px !important;
+	min-block-size: 125dvh !important;
+	block-size: auto !important;
+	margin-inline: auto !important;
+	overflow-x: clip !important;
+	overflow-y: visible !important;
 }
 
-@media (min-width: 901px) { .post-reader-localized-context .scroll-view-wrapper { padding-inline: clamp(2rem, 7vw, 8rem) !important; } }
-@media (prefers-reduced-motion: reduce) { html, body { scroll-behavior: auto !important; } }
+@media (min-width: 56.3125rem) {
+	.post-reader-localized-context .scroll-view-wrapper {
+		padding-inline: clamp(2rem, 7vw, 8rem) !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context {
+		scroll-behavior: auto !important;
+	}
+}

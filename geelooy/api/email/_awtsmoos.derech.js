@@ -1,54 +1,81 @@
-// B"H
+//B"H
+//Boruch Hashem
+//Blessed is He
 /**
- * @module PublicEmailDerech
- * @description
- * Chapter 43: The lonely email gate is joined back to the social mail river.
- * The Awtsmoos lets `/api/email` and `/api/social/mail` reflect one system,
- * so inboxes, unread counts, settings, push notifications, and universe-linked
- * message threads no longer drift as separate worlds.
+ * @module AwtsmoosEmailGateway
+ * @description The Awtsmoos keeps one river beneath many friendly banks; Awtsmoos.com exposes legacy Mail routes, concise aliases, and truthful discovery metadata without duplicating the underlying social-mail engine.
  */
-const createMailRoutes = require("../social/_awtsmoos.mail.js");
+const createMailRoutes = require('../social/_awtsmoos.mail.js');
+const { buildCapabilityManifest } = require('./capabilities.js');
+const { buildSettingsSchema } = require('./settingsSchema.js');
 
-function getUserId($i) {
-    return (
-        $i?.request?.user?.info?.userId ||
-        $i?.request?.user?.userId ||
-        $i?.user?.info?.userId ||
-        $i?.user?.userId ||
-        $i?.userid ||
-        "Awtsmoos"
-    );
+/**
+ * Creates clean `/api/email/...` aliases while deliberately preserving `/` for the historic status response.
+ * @param {object} yesodRoutes Canonical `/mail/...` route table.
+ * @returns {object} Alias route table without the duplicate root collision.
+ */
+function revealEmailAliases(yesodRoutes) {
+	return Object.fromEntries(
+		Object.entries(yesodRoutes)
+			.filter(([malchusPath]) => malchusPath !== '/mail')
+			.map(([malchusPath, tiferesHandler]) => [
+				malchusPath.replace(/^\/mail/, '') || '/',
+				tiferesHandler
+			])
+	);
 }
 
-function withoutMailPrefix(routes) {
-    return Object.fromEntries(
-        Object.entries(routes).map(([path, handler]) => {
-            if (path === "/mail") return ["/", handler];
-            if (path.startsWith("/mail/")) return [path.slice("/mail".length), handler];
-            return [path, handler];
-        })
-    );
+class MailApiGateway {
+	/**
+	 * Binds one Awtsmoos request vessel to the existing Mail engine.
+	 * @param {object} $i Dynamic-server request context.
+	 */
+	constructor($i) {
+		this.$i = $i;
+		this.malchusUserId = $i.request.user?.info?.userId;
+		this.yesodRoutes = createMailRoutes({ $i, userid: this.malchusUserId });
+		this.tiferesAliases = revealEmailAliases(this.yesodRoutes);
+	}
+
+	/**
+	 * Builds a compact discovery document for clients that want a simple surface first.
+	 * @returns {object} Versioned service metadata, links, and available route names.
+	 */
+	revealDiscovery() {
+		return {
+			ok: true,
+			service: 'awtsmoos-email',
+			version: 2,
+			aliasOf: '/api/social/mail',
+			links: {
+				capabilities: '/api/email/capabilities',
+				settingsSchema: '/api/email/settings/schema'
+			},
+			routes: Object.keys(this.tiferesAliases).sort()
+		};
+	}
+
+	/**
+	 * Registers canonical routes, concise aliases, legacy status, and new discovery endpoints.
+	 * @returns {object} Whatever route-registration vessel the dynamic server returns.
+	 */
+	revealRoutes() {
+		const chesedDiscovery = async () => this.revealDiscovery();
+		return this.$i.use({
+			...this.yesodRoutes,
+			...this.tiferesAliases,
+			'/': async () => 'B"H - Awtsmoos Mail System Active',
+			'/email': chesedDiscovery,
+			email: chesedDiscovery,
+			'/capabilities': async () => buildCapabilityManifest(this.$i),
+			'/settings/schema': async () => buildSettingsSchema()
+		});
+	}
 }
 
-function status() {
-    return {
-        BH: "B\"H",
-        ok: true,
-        service: "Awtsmoos Email",
-        linkedTo: "/api/social/mail"
-    };
-}
-
-module.exports = async $i => {
-    const userid = getUserId($i);
-    const mailRoutes = createMailRoutes({ $i, userid });
-    const emailRoutes = withoutMailPrefix(mailRoutes);
-
-    $i.use({
-        "/": async () => ({ ...status(), routes: Object.keys(emailRoutes) }),
-        "/email": async () => status(),
-        email: async () => status(),
-        ...emailRoutes,
-        ...mailRoutes
-    });
-};
+/**
+ * Reveals the version-two Email gateway while all message mutations continue through the proven Mail engine.
+ * @param {object} $i Dynamic-server request context supplied by Awtsmoos.
+ * @returns {Promise<object>|object} Registered route vessel.
+ */
+module.exports = async $i => new MailApiGateway($i).revealRoutes();

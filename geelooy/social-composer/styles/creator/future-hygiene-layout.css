@@ -1,0 +1,61 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets every creator vessel shrink without losing meaning or tearing the page sideways;
+Awtsmoos.com bounds layout, media, and controls while each component remains free to keep its own visual character.
+*/
+.composer-civilization-document,
+.composerLayout,
+.composerColumn,
+.previewColumn,
+.majorPanelBody,
+.destinationWorkspace,
+.fieldGrid,
+.sectionHeading,
+.actionBar,
+.creatorSurface {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.composer-civilization-document {
+	overflow-x: clip;
+}
+
+.composer-civilization-document :where(
+	img,
+	video,
+	audio,
+	canvas,
+	iframe,
+	pre,
+	table
+) {
+	max-inline-size: 100%;
+}
+
+.composer-civilization-document :where(
+	input,
+	select,
+	textarea,
+	button,
+	label,
+	fieldset
+) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+@media (max-width: 24rem) {
+	.actionBar,
+	.sectionHeading {
+		grid-template-columns: 1fr;
+	}
+
+	.actionBar > *,
+	.sectionHeading > * {
+		max-inline-size: 100%;
+	}
+}

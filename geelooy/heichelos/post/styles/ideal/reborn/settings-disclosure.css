@@ -1,0 +1,82 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos opens advanced appearance only when invited, never crowding the simple floor;
+ * Awtsmoos.com gives this disclosure one owner for rest, hover, focus, motion, and the turning door.
+ */
+.post-reader-localized-context .reader-advanced-settings {
+	padding: 0 !important;
+	border: 1px solid rgba(255, 255, 255, .11) !important;
+	border-radius: 20px !important;
+	background: linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .025)) !important;
+	overflow: clip;
+}
+
+.post-reader-localized-context .reader-advanced-settings > summary {
+	list-style: none;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 10px;
+	align-items: center;
+	min-block-size: 54px;
+	padding: 14px;
+	color: #fffdf5;
+	font: 900 .98rem/1.2 var(--font-ui);
+	cursor: pointer;
+	user-select: none;
+	transition: background var(--reader-settings-motion), color var(--reader-settings-motion), transform var(--reader-settings-motion);
+}
+
+.post-reader-localized-context .reader-advanced-settings > summary::-webkit-details-marker {
+	display: none;
+}
+
+.post-reader-localized-context .reader-advanced-settings > summary::after {
+	content: "+";
+	display: grid;
+	place-items: center;
+	inline-size: 32px;
+	block-size: 32px;
+	border: 1px solid rgba(246, 201, 108, .3);
+	border-radius: 999px;
+	color: var(--inline-edge-gold, #f6c96c);
+	font-size: 1.3rem;
+	transition: transform var(--reader-settings-motion), border-color var(--reader-settings-motion);
+}
+
+.post-reader-localized-context .reader-advanced-settings[open] > summary::after {
+	transform: rotate(45deg);
+}
+
+.post-reader-localized-context .reader-advanced-settings > summary small {
+	color: var(--inline-text-blue, #cbd5e1);
+	font: 750 .76rem/1.2 var(--font-ui);
+}
+
+@media (hover: hover) {
+	.post-reader-localized-context .reader-advanced-settings > summary:hover {
+		background: rgba(91, 221, 255, .08);
+	}
+
+	.post-reader-localized-context .reader-advanced-settings > summary:hover::after {
+		border-color: rgba(91, 221, 255, .6);
+	}
+}
+
+.post-reader-localized-context .reader-advanced-settings > summary:active {
+	transform: scale(.99);
+	background: rgba(91, 221, 255, .12);
+}
+
+.post-reader-localized-context .reader-advanced-settings > summary:focus-visible {
+	outline: 3px solid rgba(91, 221, 255, .9) !important;
+	outline-offset: 3px !important;
+	box-shadow: 0 0 0 6px rgba(91, 221, 255, .14) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context .reader-advanced-settings > summary,
+	.post-reader-localized-context .reader-advanced-settings > summary::after {
+		transition-duration: 0.001ms !important;
+	}
+}

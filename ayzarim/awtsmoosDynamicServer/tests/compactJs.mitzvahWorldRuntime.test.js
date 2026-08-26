@@ -4,9 +4,9 @@
 
 /**
  * @file compactJs.mitzvahWorldRuntime.test.js
- * @description Proves the tiny first-control gate and deferred chunks own their intended runtime surfaces.
- * The Awtsmoos keeps remote garments outside the opening breath while every later chamber remains exact;
- * Awtsmoos.com guards launch URLs, chunk doors, model authority, creative separation, and syntax.
+ * @description Proves the tiny first-control gate and deferred chunks preserve current MitzvahWorld runtime, model, and procedural-tree authority.
+ * The Awtsmoos keeps remote garments outside the opening breath while later chambers gather exactly when their service is due;
+ * Awtsmoos.com guards compact doors, canonical GLBs, procedural structural trees, creative separation, and syntax without reviving an obsolete tree-model view.
  */
 
 const assert = require('assert');
@@ -23,11 +23,11 @@ const chunkContracts = Object.freeze([
 ]);
 const remoteMarkers = Object.freeze([
 	'chossid.glb',
-	'PineTree_3.glb',
 	'Flower_4_Clump.glb',
 	'Bush_Large_Flowers.glb',
 	'Rock_2.glb'
 ]);
+const obsoleteStructuralTreeModels = /PineTree|NormalTree/;
 
 async function run() {
 	const repoRoot = path.resolve(__dirname, '../../..');
@@ -40,24 +40,31 @@ async function run() {
 		'PAGE_BOOT_URL',
 		'RUNTIME_BOOT_URL',
 		'MinimalSharedMeadowRuntimePage.js'
-	]) assert.match(main, new RegExp(escapePattern(marker)));
+	]) {
+		assert.match(main, new RegExp(escapePattern(marker)));
+	}
 	assert.doesNotMatch(main, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
 	assert.doesNotMatch(main, /MovieRenderRuntime/);
 	verifySyntax(main, 'main');
 	for (const [name, exportedName] of chunkContracts) {
-		const chunk = source(path.join(
-			sourceRoot,
-			`mitzvah-world-${name}.compact.js`
-		));
-		assert.match(chunk, new RegExp(exportedName));
-		assert.match(chunk, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
-		for (const marker of remoteMarkers) {
-			assert.match(chunk, new RegExp(escapePattern(marker)));
-		}
-		assert.doesNotMatch(chunk, /MovieRenderRuntime/);
-		verifySyntax(chunk, name);
+		verifyDeferredChunk(sourceRoot, name, exportedName);
 	}
 	console.log("B'H Mitzvah World generated runtime test passed");
+}
+
+function verifyDeferredChunk(sourceRoot, name, exportedName) {
+	const chunk = source(path.join(
+		sourceRoot,
+		`mitzvah-world-${name}.compact.js`
+	));
+	assert.match(chunk, new RegExp(exportedName));
+	assert.match(chunk, new RegExp(escapePattern(DRIVE_MODEL_ROOT)));
+	for (const marker of remoteMarkers) {
+		assert.match(chunk, new RegExp(escapePattern(marker)));
+	}
+	assert.doesNotMatch(chunk, obsoleteStructuralTreeModels);
+	assert.doesNotMatch(chunk, /MovieRenderRuntime/);
+	verifySyntax(chunk, name);
 }
 
 function source(filePath) {

@@ -1,0 +1,77 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos, Atzmus beyond glass and glow, renews the living world before Creator Mode receives one visible vessel;
+Awtsmoos.com lets that vessel remain quiet, bounded, translucent, and reversible, with every color and motion rooted beneath MitzvahWorld instead of leaking into the valley.
+*/
+
+#mitzvah-world-root .Awtsmoos-creator-rail {
+	--Awtsmoos-creator-layer: var(--mw-z-dialog, 80);
+	--Awtsmoos-creator-border: rgba(177, 255, 219, .25);
+	--Awtsmoos-creator-glow: rgba(103, 255, 172, .16);
+	--Awtsmoos-creator-text: rgba(246, 255, 250, .96);
+	--Awtsmoos-creator-muted: rgba(190, 218, 201, .72);
+	--Awtsmoos-creator-surface: rgba(5, 18, 12, .9);
+	--Awtsmoos-creator-ease: cubic-bezier(.2, .8, .2, 1);
+	box-sizing: border-box;
+	font: 600 12px/1.3 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: var(--Awtsmoos-creator-text);
+	isolation: isolate;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail,
+#mitzvah-world-root .Awtsmoos-creator-rail *,
+#mitzvah-world-root .Awtsmoos-creator-rail *::before,
+#mitzvah-world-root .Awtsmoos-creator-rail *::after {
+	box-sizing: border-box;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	min-width: 0;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail__header > div:first-child {
+	display: grid;
+	gap: 1px;
+	min-width: 0;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail__header small,
+#mitzvah-world-root .Awtsmoos-creator-rail__status,
+#mitzvah-world-root .Awtsmoos-creator-rail__palette small {
+	color: var(--Awtsmoos-creator-muted);
+	overflow-wrap: anywhere;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail__header strong {
+	font-size: 14px;
+	overflow-wrap: anywhere;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail__body {
+	display: grid;
+	gap: 9px;
+	min-width: 0;
+	min-height: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail__status {
+	display: grid;
+	gap: 3px;
+	min-height: 30px;
+	padding-top: 8px;
+	border-top: 1px solid rgba(177, 255, 219, .1);
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail__status output {
+	color: rgba(225, 255, 238, .9);
+	overflow-wrap: anywhere;
+}

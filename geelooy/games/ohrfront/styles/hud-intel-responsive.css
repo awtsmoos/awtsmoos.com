@@ -1,0 +1,44 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews one intelligence vessel through narrow portrait, wide desktop, and short landscape without duplicated interface form.
+Awtsmoos.com lets responsive geometry transform the same DOM from mobile sheet into side rail while overlap and off-screen drift lose their claim.
+*/
+@media (max-width: 720px) {
+	.ohrfront-app .ohr-vitals,
+	.ohrfront-app .ohr-weapon {
+		transition: opacity var(--ohr-normal) linear, transform var(--ohr-normal) var(--ohr-ease);
+	}
+
+	.ohrfront-app .ohr-hud.ohr-is-expanded .ohr-vitals,
+	.ohrfront-app .ohr-hud.ohr-is-expanded .ohr-weapon {
+		opacity: 0;
+		transform: translate3d(0, 8px, 0);
+	}
+}
+
+@media (min-width: 721px) {
+	.ohrfront-app .ohr-intel__toggle {
+		top: var(--ohr-safe-top);
+	}
+
+	.ohrfront-app .ohr-intel__panel {
+		top: calc(var(--ohr-safe-top) + 52px);
+		right: var(--ohr-safe-right);
+		bottom: auto;
+		left: auto;
+		width: min(17rem, calc(100% - var(--ohr-safe-left) - var(--ohr-safe-right)));
+		max-height: min(50vh, 22rem);
+		margin-inline: 0;
+	}
+}
+
+@media (max-height: 480px) and (min-width: 721px) {
+	.ohrfront-app .ohr-intel__panel {
+		max-height: min(48vh, 11rem);
+	}
+
+	.ohrfront-app .ohr-intel__header small {
+		display: none;
+	}
+}

@@ -1,64 +1,103 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos is beyond typed draft, microphone action, send state, and visual viewport, while Awtsmoos.com lets one compact composer remain reachable above the mobile dock without hiding unsent intent;
- * this Malchus-like garment owns core text-composer geometry and feedback only, leaving reply and voice states to their focused neighboring vessels of light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos keeps the private-message mouth near the living conversation without covering the mobile dock;
+ * Awtsmoos.com lets the draft grow only as needed, while reply and voice vessels remain clear, touchable, and unlocked.
  */
-
-.hubConversationComposer--rich {
+.social-hub-document .hubConversationComposer--rich {
 	position: sticky;
-	z-index: 4;
-	bottom: 0;
+	bottom: .65rem;
+	z-index: 8;
 	display: grid;
-	gap: .42rem;
-	min-width: 0;
-	padding: .62rem 0 calc(.62rem + env(safe-area-inset-bottom));
-	background: color-mix(in srgb, var(--surface) 96%, transparent);
-	backdrop-filter: blur(16px);
+	gap: .45rem;
+	padding: .55rem;
+	border: 1px solid rgba(96, 165, 250, .28);
+	border-radius: 1rem;
+	background: color-mix(in srgb, var(--hub-panel, #0d1526) 94%, transparent);
+	box-shadow: 0 1rem 2.5rem rgba(2, 8, 23, .3);
+	backdrop-filter: blur(18px);
 }
 
-.hubConversationComposer__textRow {
+.social-hub-document .hubConversationComposer__textRow {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto auto;
 	gap: .4rem;
 	align-items: end;
+	min-inline-size: 0;
 }
 
-.hubConversationComposer__textRow textarea {
-	width: 100%;
-	min-height: 46px;
-	max-height: 9rem;
-	resize: vertical;
-	font: inherit;
-	font-size: 1rem;
+.social-hub-document .hubConversationComposer__textRow .hubComposerField {
+	min-inline-size: 0;
 }
 
-.hubConversationComposer__textRow > button {
-	min-width: 46px;
-	min-height: 46px;
+.social-hub-document .hubConversationComposer__textRow textarea.hubComposerField__input {
+	box-sizing: border-box;
+	min-block-size: 46px;
+	max-block-size: 9rem;
+	resize: none;
+	overflow-y: auto;
 }
 
-.hubConversationComposer__hint,
-.hubConversationComposer__status {
-	margin: 0;
-	color: var(--muted);
+.social-hub-document .hubConversationComposer__textRow :where(button, .hubIconButton) {
+	inline-size: 48px;
+	min-inline-size: 48px;
+	block-size: 48px;
+	min-block-size: 48px;
+	padding: 0;
+	border-radius: 999px;
+}
+
+.social-hub-document .hubConversationComposer__hint {
+	justify-self: end;
+	color: var(--hub-muted, #9fb0c8);
 	font-size: .72rem;
 }
 
-.hubConversationComposer__status[data-tone="error"] {
-	color: #ff9bb4;
+.social-hub-document .hubConversationVoiceComposer {
+	display: grid;
+	grid-template-columns: auto auto minmax(0, 1fr) repeat(3, auto);
+	gap: .4rem;
+	align-items: center;
+	min-inline-size: 0;
 }
 
-@media (max-width: 42rem) {
-	.hubConversationComposer--rich {
-		bottom: calc(4.9rem + env(safe-area-inset-bottom));
-		padding-bottom: .45rem;
+.social-hub-document .hubConversationVoiceComposer[hidden],
+.social-hub-document .hubConversationReplyComposer[hidden] {
+	display: none;
+}
+
+.social-hub-document .hubConversationVoiceComposer audio {
+	inline-size: 100%;
+	min-inline-size: 0;
+}
+
+@media (max-width: 620px) {
+	.social-hub-document .hubConversationComposer--rich {
+		position: fixed;
+		inset-inline: max(.55rem, env(safe-area-inset-left)) max(.55rem, env(safe-area-inset-right));
+		bottom: calc(4.7rem + env(safe-area-inset-bottom));
+		z-index: 8;
+		max-inline-size: calc(100vw - 1.1rem - env(safe-area-inset-left) - env(safe-area-inset-right));
+		margin: 0 auto;
+		padding: .45rem;
+		border-radius: .9rem;
 	}
 
-	.hubConversationComposer__textRow > button {
-		min-width: 48px;
-		min-height: 48px;
+	.social-hub-document .hubConversationComposer__textRow textarea.hubComposerField__input {
+		min-block-size: 46px;
+		max-block-size: 6rem;
+		padding-block: .45rem;
+	}
+
+	.social-hub-document .hubConversationComposer__hint {
+		display: none;
+	}
+
+	.social-hub-document .hubConversationVoiceComposer {
+		grid-template-columns: 1fr auto auto;
+	}
+
+	.social-hub-document .hubConversationVoiceComposer audio {
+		grid-column: 1 / -1;
 	}
 }

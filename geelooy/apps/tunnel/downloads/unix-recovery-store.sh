@@ -3,17 +3,19 @@
 # Boruch Hashem
 # Blessed is He
 
-# The external recovery store survives replacement of the live runtime. The
-# Awtsmoos renews rescue tools outside the failing tree; Awtsmoos.com preserves
-# verified archives and mirrors one checked fallback under every historic name.
-
+# The Awtsmoos keeps verified archives and rescue tools outside the replaceable live tree;
+# Awtsmoos.com stores exact Node-aware recovery vessels so a broken PATH cannot erase what can be.
 runtime_probe_compatible() {
 	local runtime_root="$1"
+	local node_bin="$(recovery_node_bin 2>/dev/null || true)"
+	if [ -z "$node_bin" ]; then
+		return 1
+	fi
 	if [ -f "$runtime_root/scripts/install-probe.cjs" ]; then
-		node "$runtime_root/scripts/install-probe.cjs" "$runtime_root" >/dev/null 2>&1
+		"$node_bin" "$runtime_root/scripts/install-probe.cjs" "$runtime_root" >/dev/null 2>&1
 		return $?
 	fi
-	node - "$runtime_root" <<'NODE' >/dev/null 2>&1
+	"$node_bin" - "$runtime_root" <<'NODE' >/dev/null 2>&1
 const path = require("node:path");
 const root = process.argv[2];
 require(path.join(root, "lib", "local-api.js"));
@@ -23,21 +25,22 @@ NODE
 
 install_rescue_runtime() {
 	local recovery_bin="$RECOVERY_ROOT/bin"
-	local canonical
-	local compatibility
-	local canonical_hash
-	local compatibility_hash
+	local canonical=""
+	local compatibility=""
+	local canonical_hash=""
+	local compatibility_hash=""
+	local pair=""
 	mkdir -p "$recovery_bin"
 	for pair in \
 		"unix-recovery-rescue.sh:awtsmoos-recovery-rescue.sh" \
 		"unix-recovery-validation.sh:awtsmoos-recovery-validation.sh" \
+		"unix-recovery-identity.sh:awtsmoos-recovery-identity.sh" \
 		"unix-recovery-candidates.sh:awtsmoos-recovery-candidates.sh" \
 		"awtsmoos-tunnel-client.js:awtsmoos-legacy-tunnel-client.js" \
 		"awtsmoos-tunnel-client.js:legacy-tunnel-client.js"; do
 		local source_name="${pair%%:*}"
 		local target_name="${pair##*:}"
-		cp -p "$AWTSMOOS_INSTALL_RUNTIME/$source_name" \
-			"$recovery_bin/$target_name"
+		cp -p "$AWTSMOOS_INSTALL_RUNTIME/$source_name" "$recovery_bin/$target_name"
 		chmod +x "$recovery_bin/$target_name"
 	done
 	canonical="$recovery_bin/awtsmoos-legacy-tunnel-client.js"
@@ -57,14 +60,16 @@ install_rescue_runtime() {
 
 archive_known_good_runtime() {
 	local reason="${1:-known_good_before_activation}"
-	local version
-	local stamp
-	local identifier
+	local version=""
+	local stamp=""
+	local identifier=""
 	local versions_root="$RECOVERY_ROOT/versions"
-	local temporary
-	local destination
-	local file_list
-	[ -f "$ROOT/main.js" ] || return 0
+	local temporary=""
+	local destination=""
+	local file_list=""
+	if [ ! -f "$ROOT/main.js" ]; then
+		return 0
+	fi
 	if ! runtime_probe_compatible "$ROOT"; then
 		install_event "archive" "skipped" \
 			"Current runtime did not pass the compatibility probe." "$ROOT"
@@ -77,14 +82,13 @@ archive_known_good_runtime() {
 	destination="$versions_root/$identifier"
 	file_list="$temporary/files.txt"
 	mkdir -p "$temporary"
-	write_archive_file_list "$file_list" || {
+	if ! write_archive_file_list "$file_list"; then
 		rm -rf "$temporary"
 		return 1
-	}
+	fi
 	if ! tar -cf "$temporary/runtime.tar" -C "$ROOT" -T "$file_list"; then
 		rm -rf "$temporary"
-		install_event "archive" "failed" \
-			"Could not create the known-good archive." "$ROOT"
+		install_event "archive" "failed" "Could not create the known-good archive." "$ROOT"
 		return 1
 	fi
 	write_archive_metadata "$temporary" "$version" "$reason"

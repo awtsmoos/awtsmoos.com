@@ -1,45 +1,9 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- *
- * The Awtsmoos stacks the inner command masthead beneath the shared mobile
- * crown while the active profile remains visible above Awtsmoos.com.
+ * The Awtsmoos joins three narrow-screen vessels without giving any selector two thrones;
+ * Awtsmoos.com keeps brand, identity, and context ownership separate while this doorway only joins.
  */
-@media (max-width: 999px) {
-	.hubHeader {
-		align-items: stretch;
-		flex-direction: column;
-		margin-inline: .65rem;
-		padding: .9rem;
-	}
-
-	.brandCluster {
-		align-items: flex-start;
-	}
-
-	.brandSigil {
-		inline-size: 2.8rem;
-		block-size: 2.8rem;
-	}
-
-	.identityCluster {
-		align-items: stretch;
-	}
-
-	.identityCluster label {
-		flex: 1;
-	}
-
-	.contextRibbon {
-		top: calc(var(--g-header-h) + .85rem);
-		justify-content: flex-start;
-		overflow-x: auto;
-		flex-wrap: nowrap;
-		margin-inline: .65rem;
-		scrollbar-width: none;
-	}
-
-	.contextRibbon::-webkit-scrollbar {
-		display: none;
-	}
-}
+@import url("./mobile-header-brand.css");
+@import url("./mobile-header-identity.css");
+@import url("./mobile-header-ribbon.css");

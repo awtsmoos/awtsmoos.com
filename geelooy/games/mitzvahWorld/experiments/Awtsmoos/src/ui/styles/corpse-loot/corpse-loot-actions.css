@@ -1,0 +1,90 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos turns choice into deed through complete states rather than unfinished buttons;
+ * Awtsmoos.com gives Take, Leave, Loot All, and Close rest, hover, focus, press, and disabled truth.
+ */
+
+.Awtsmoos-corpse-loot-backdrop :is(.loot-close, .loot-take, .loot-leave, .loot-all) {
+	min-height: 46px;
+	border-radius: 12px;
+	font: 850 14px/1 ui-sans-serif, system-ui, sans-serif;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition:
+		transform 120ms ease,
+		border-color 120ms ease,
+		filter 120ms ease,
+		box-shadow 120ms ease;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-close {
+	width: 46px;
+	height: 46px;
+	padding: 0;
+	border: 1px solid #9e573f;
+	background: #3e1716;
+	color: #ffd9c5;
+	font-size: 24px;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-take {
+	min-width: 94px;
+	padding: 8px 13px;
+	border: 1px solid #e5c56d;
+	background: linear-gradient(180deg, #3f8053, #225139);
+	color: white;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-panel-footer {
+	position: sticky;
+	bottom: 0;
+	z-index: var(--loot-z-sticky);
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 14px;
+	border-top: 1px solid rgba(220, 177, 88, 0.28);
+	background: rgba(7, 16, 18, 0.98);
+}
+
+.Awtsmoos-corpse-loot-backdrop :is(.loot-leave, .loot-all) {
+	min-height: 50px;
+	padding: 10px 18px;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-leave {
+	border: 1px solid #596f68;
+	background: #172421;
+	color: #d7e3df;
+}
+
+.Awtsmoos-corpse-loot-backdrop .loot-all {
+	border: 1px solid #f2d174;
+	background: linear-gradient(180deg, #8a5c1d, #54330f);
+	color: #fff1bd;
+}
+
+@media (hover: hover) {
+	.Awtsmoos-corpse-loot-backdrop :is(.loot-close, .loot-take, .loot-leave, .loot-all):hover:not(:disabled) {
+		transform: translateY(-2px);
+		filter: brightness(1.12);
+		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+	}
+}
+
+.Awtsmoos-corpse-loot-backdrop :is(.loot-close, .loot-take, .loot-leave, .loot-all):active:not(:disabled) {
+	transform: translateY(1px) scale(0.96);
+}
+
+.Awtsmoos-corpse-loot-backdrop :is(.loot-close, .loot-take, .loot-leave, .loot-all):focus-visible {
+	outline: 3px solid #fff0ad;
+	outline-offset: 2px;
+}
+
+.Awtsmoos-corpse-loot-backdrop :is(.loot-close, .loot-take, .loot-leave, .loot-all):disabled {
+	opacity: 0.44;
+	cursor: not-allowed;
+	filter: grayscale(0.55);
+}

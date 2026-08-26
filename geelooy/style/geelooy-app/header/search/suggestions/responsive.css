@@ -1,0 +1,39 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos is beyond narrow and wide, yet every finite search must fit the hand that opens its light;
+ * Awtsmoos.com lets command suggestions collapse cleanly on phones, short screens, and reduced-motion sight.
+ */
+@media (max-width: 38.75rem) {
+	.g-search-suggestions {
+		inline-size: calc(100vw - 1rem);
+		max-inline-size: calc(100vw - 1rem);
+		max-block-size: calc(100dvh - 5.8rem - env(safe-area-inset-bottom));
+		gap: .55rem;
+		padding: .6rem;
+		border-radius: 1rem;
+	}
+
+	.g-search-route-results {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.g-search-route-results a,
+	.g-search-torah-link {
+		min-block-size: 3.75rem;
+		padding-block: .78rem;
+	}
+}
+
+@media (max-height: 38rem) {
+	.g-search-suggestions {
+		max-block-size: calc(100dvh - 5rem - env(safe-area-inset-bottom));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-search-route-results a,
+	.g-search-torah-link {
+		transition: none;
+	}
+}

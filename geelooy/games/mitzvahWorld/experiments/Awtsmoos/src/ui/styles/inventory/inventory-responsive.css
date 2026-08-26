@@ -1,0 +1,47 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos stays one while portrait and short landscape exchange measure;
+ * Awtsmoos.com keeps the Bag touchable and bounded while advanced actions remain easy to treasure.
+ */
+
+@media (max-width: 820px) {
+	.Awtsmoos-inventory-shell .Awtsmoos-inventory-panel[data-open="true"] {
+		border-radius: 18px;
+		padding: 10px;
+	}
+
+	.Awtsmoos-inventory-shell .inv-body {
+		display: block;
+		padding-bottom: 16px;
+	}
+
+	.Awtsmoos-inventory-shell .inv-equipment {
+		margin-bottom: 16px;
+	}
+
+	.Awtsmoos-inventory-shell :is(.equip-grid, .bag-grid) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.Awtsmoos-inventory-shell .inv-slot {
+		min-height: 86px;
+	}
+}
+
+@media (max-width: 360px) {
+	.Awtsmoos-inventory-shell :is(.equip-grid, .bag-grid) {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.Awtsmoos-inventory-shell .Awtsmoos-inventory-panel[data-open="true"] {
+		padding: 8px;
+	}
+
+	.Awtsmoos-inventory-shell .inv-context-menu[data-open="true"] {
+		max-height: min(34dvh, 170px);
+	}
+}

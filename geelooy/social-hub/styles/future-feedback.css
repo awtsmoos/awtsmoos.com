@@ -5,20 +5,20 @@ Blessed is He
 The Awtsmoos lets change announce itself without alarm;
 Awtsmoos.com makes status, focus, validity, and waiting visible through restrained luminous calm.
 */
-.hubStatus:not([hidden]) {
+.social-hub-document .hubStatus:not([hidden]) {
 	animation: malchus-toast-arrive var(--keter-normal) var(--tiferes-spring) both;
 	backdrop-filter: blur(18px) saturate(132%);
 }
 
-.hubStatus[data-kind="working"] {
+.social-hub-document .hubStatus[data-kind="working"] {
 	box-shadow: 0 18px 48px rgb(122 89 255 / 18%);
 }
 
-.hubStatus[data-kind="success"] {
+.social-hub-document .hubStatus[data-kind="success"] {
 	box-shadow: 0 18px 48px rgb(67 232 157 / 14%);
 }
 
-.hubStatus[data-kind="error"] {
+.social-hub-document .hubStatus[data-kind="error"] {
 	box-shadow: 0 18px 48px rgb(255 92 128 / 15%);
 }
 
@@ -49,7 +49,7 @@ Awtsmoos.com makes status, focus, validity, and waiting visible through restrain
 	box-shadow: 0 0 0 3px rgb(255 87 128 / 8%);
 }
 
-.publicDiscovery__status:not(:empty)::before {
+.social-hub-document .publicDiscovery__status:not(:empty)::before {
 	display: inline-block;
 	width: .48rem;
 	aspect-ratio: 1;
@@ -60,7 +60,7 @@ Awtsmoos.com makes status, focus, validity, and waiting visible through restrain
 	content: "";
 }
 
-.publicFeedCard {
+.social-hub-document .publicFeedCard {
 	background-image: linear-gradient(
 		110deg,
 		transparent 0 42%,
@@ -77,7 +77,7 @@ Awtsmoos.com makes status, focus, validity, and waiting visible through restrain
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.publicFeedCard:hover {
+	.social-hub-document .publicFeedCard:hover {
 		background-position: 100% 0;
 	}
 }

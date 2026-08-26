@@ -1,0 +1,107 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives each interface edge a boundary so infinity does not become overflow;
+ * Awtsmoos.com keeps command surfaces, media, controls, sheets, and safe areas inside one local vessel,
+ * revealing depth when summoned while preserving a quiet mobile-first horizon.
+ */
+.social-hub-document,
+.social-hub-document :where(
+	.socialHubShell,
+	.socialHubMain,
+	.routePanel,
+	.publicDiscovery,
+	.futureCommandShell
+) {
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.social-hub-document {
+	overflow-x: clip;
+}
+
+.social-hub-document :where(
+	img,
+	video,
+	audio,
+	canvas,
+	iframe,
+	pre,
+	table
+) {
+	max-inline-size: 100%;
+}
+
+.social-hub-document :where(
+	input,
+	select,
+	textarea,
+	button,
+	label,
+	fieldset
+) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.social-hub-document :where(.futureCommandPalette) {
+	box-sizing: border-box;
+	max-inline-size: calc(
+		100dvw
+		- max(.5rem, env(safe-area-inset-left))
+		- max(.5rem, env(safe-area-inset-right))
+	);
+	max-block-size: calc(
+		100dvh
+		- max(.5rem, env(safe-area-inset-top))
+		- max(.5rem, env(safe-area-inset-bottom))
+	);
+	overflow: hidden;
+}
+
+.social-hub-document :where(
+	.futureCommandShell,
+	.futureCommandList,
+	.futureCommandOption,
+	.futureCoordinates,
+	.futureCoordinates .targetGrid,
+	.mobileMoreSheet,
+	.mobileMoreSheet__surface
+) {
+	min-inline-size: 0;
+	max-inline-size: 100%;
+}
+
+.social-hub-document :where(.futureCommandList) {
+	overflow-x: clip;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.social-hub-document :where(.futureCommandOption strong, .futureCommandOption span) {
+	min-inline-size: 0;
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 24rem) {
+	.social-hub-document :where(.futureCommandShell) {
+		padding-inline:
+			max(.7rem, env(safe-area-inset-left))
+			max(.7rem, env(safe-area-inset-right));
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.social-hub-document :where(.futureCommandPalette, .mobileDock) {
+		backdrop-filter: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.social-hub-document :where(.futureCommandPalette, .mobileDock, .mobileMoreSheet__surface) {
+		box-shadow: none;
+	}
+}

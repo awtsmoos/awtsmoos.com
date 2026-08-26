@@ -1,80 +1,86 @@
-<!--B"H-->
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos renews every rung, coin, gate, and climb of the hidden road; Awtsmoos.com keeps Sulam HaSod readable, so mystery can deepen without becoming a burdened load. -->
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-  <meta name="theme-color" content="#07030f">
-  <title>Sulam HaSod</title>
-  <link rel="stylesheet" href="./css/game.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+	<meta name="theme-color" content="#07030f">
+	<title>Sulam HaSod</title>
+	<link rel="stylesheet" href="./css/game.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
-  <main class="shell">
-    <canvas id="game" width="960" height="540" aria-label="Sulam HaSod platformer canvas"></canvas>
+	<main class="shell">
+		<canvas id="game" width="960" height="540" aria-label="Sulam HaSod platformer canvas"></canvas>
 
-    <section class="hud glass" aria-label="game status overlay">
-      <div class="hudButtons">
-        <button id="actionsBtn" class="hamburger" aria-label="Actions menu" aria-haspopup="true" aria-expanded="false"><span></span><span></span><span></span></button>
-      </div>
-      <div id="actionsMenu" class="actionsMenu glass" hidden>
-        <button id="mainMenuAction">Main Menu</button>
-        <button id="fullscreenBtn">Fullscreen</button>
-        <button id="webcamBtn">Enable Webcam Bubble</button>
-        <label class="zoomRow" for="cameraZoom"><span>Camera Zoom</span><output id="cameraZoomValue">100%</output><input id="cameraZoom" type="range" min="0.75" max="1.55" step="0.05" value="1"></label>
-      </div>
-      <div class="hudMain">
-        <div class="titleRow"><b>Sulam HaSod</b><span id="levelName"> —</span><span id="difficulty" class="pill">D1</span></div>
-        <div class="runMeter" aria-label="route progress"><span class="meterLabel">Route</span><div class="progressShell"><i id="progressFill"></i><em id="progressText">0%</em></div></div>
-        <div class="coinOrb" id="coinRing" style="--coinPct:0" aria-label="mandatory coin progress"><strong id="coinText">0/0</strong></div>
-        <div class="keyBadge locked" id="keyBadge" aria-label="key status"><i></i><span>No key</span></div>
-        <div class="walletCluster" aria-label="wallet totals"><div class="shefaPills" id="shefaPills"></div><button id="coinHelpBtn" class="coinHelp" aria-label="coin values help">?</button></div>
-        <span id="stats" class="stats">Locked · 0/0 coins</span>
-      </div>
-    </section>
+		<section class="hud glass" aria-label="game status overlay">
+			<div class="hudButtons">
+				<button id="actionsBtn" class="hamburger" aria-label="Actions menu" aria-haspopup="true" aria-expanded="false"><span></span><span></span><span></span></button>
+			</div>
+			<div id="actionsMenu" class="actionsMenu glass" hidden>
+				<button id="mainMenuAction">Main Menu</button>
+				<button id="fullscreenBtn">Fullscreen</button>
+				<button id="webcamBtn">Enable Webcam Bubble</button>
+				<label class="zoomRow" for="cameraZoom"><span>Camera Zoom</span><output id="cameraZoomValue">100%</output><input id="cameraZoom" type="range" min="0.75" max="1.55" step="0.05" value="1"></label>
+			</div>
+			<div class="hudMain">
+				<div class="titleRow"><b>Sulam HaSod</b><span id="levelName"> —</span><span id="difficulty" class="pill">D1</span></div>
+				<div class="runMeter" aria-label="route progress"><span class="meterLabel">Route</span><div class="progressShell"><i id="progressFill"></i><em id="progressText">0%</em></div></div>
+				<div class="coinOrb" id="coinRing" style="--coinPct:0" aria-label="mandatory coin progress"><strong id="coinText">0/0</strong></div>
+				<div class="keyBadge locked" id="keyBadge" aria-label="key status"><i></i><span>No key</span></div>
+				<div class="walletCluster" aria-label="wallet totals"><div class="shefaPills" id="shefaPills"></div><button id="coinHelpBtn" class="coinHelp" aria-label="coin values help">?</button></div>
+				<span id="stats" class="stats">Locked · 0/0 coins</span>
+			</div>
+		</section>
 
-    <section id="menu" class="menu glass">
-      <p class="eyebrow">B"H · Living Kabbalistic Dream Platformer</p>
-      <h1>Sulam HaSod</h1>
-      <p id="menuStatus">Choose a chamber, study the coins, unlock the next gate, or enter the Shefa shop.</p>
-      <div class="menuActions"><button id="playBtn">Continue</button><button id="levelsTab" class="ghost">Levels</button><button id="shopTab" class="ghost">Shop</button><button id="instructionsBtn" class="ghost">Help</button></div>
-      <article id="instructions" class="instructions" hidden>
-        <b>How to play</b><br>
-        Desktop: ← → or A/D to move, Space/W to jump.<br>
-        Mobile: hold Left or Right, then tap Jump. The hit zones extend upward.<br>
-        Coins collected inside a level are unbanked until the door is finished. Leaving to the menu forfeits the run purse.<br>
-        Actions: ☰ opens Main Menu, Fullscreen, Webcam Bubble, and Camera Zoom. Webcam asks for video only.
-      </article>
-      <section class="menuPanel"><h2>Level Selector</h2><div id="levelGrid" class="levelGrid"></div></section>
-      <section class="menuPanel marketPanel">
-        <div class="marketHeader"><h2>Shefa Shop</h2><p id="shopShefa" class="shopShefa">Shefa 0</p></div>
-        <div class="marketUnlock"><div><b>Paid Gate Unlock</b><span id="marketNext">Next paid unlock: —</span></div><button id="marketUnlock">Unlock</button></div>
-        <div id="marketWallet" class="marketWallet" aria-label="coin wallet breakdown"></div>
-        <div id="shopGrid" class="shopGrid"></div>
-      </section>
-    </section>
+		<section id="menu" class="menu glass">
+			<p class="eyebrow">B"H · Living Kabbalistic Dream Platformer</p>
+			<h1>Sulam HaSod</h1>
+			<p id="menuStatus">Choose a chamber, study the coins, unlock the next gate, or enter the Shefa shop.</p>
+			<div class="menuActions"><button id="playBtn">Continue</button><button id="levelsTab" class="ghost">Levels</button><button id="shopTab" class="ghost">Shop</button><button id="instructionsBtn" class="ghost">Help</button></div>
+			<article id="instructions" class="instructions" hidden>
+				<b>How to play</b><br>
+				Desktop: ← → or A/D to move, Space/W to jump.<br>
+				Mobile: hold Left or Right, then tap Jump. The hit zones extend upward.<br>
+				Coins collected inside a level are unbanked until the door is finished. Leaving to the menu forfeits the run purse.<br>
+				Actions: ☰ opens Main Menu, Fullscreen, Webcam Bubble, and Camera Zoom. Webcam asks for video only.
+			</article>
+			<section class="menuPanel"><h2>Level Selector</h2><div id="levelGrid" class="levelGrid"></div></section>
+			<section class="menuPanel marketPanel">
+				<div class="marketHeader"><h2>Shefa Shop</h2><p id="shopShefa" class="shopShefa">Shefa 0</p></div>
+				<div class="marketUnlock"><div><b>Paid Gate Unlock</b><span id="marketNext">Next paid unlock: —</span></div><button id="marketUnlock">Unlock</button></div>
+				<div id="marketWallet" class="marketWallet" aria-label="coin wallet breakdown"></div>
+				<div id="shopGrid" class="shopGrid"></div>
+			</section>
+		</section>
 
-    <section id="exitConfirm" class="confirmModal glass" hidden>
-      <h2>Exit to Main Menu?</h2>
-      <p id="exitLossText">Unbanked level coins will be lost.</p>
-      <div><button id="confirmExitBtn">Yes, forfeit run</button><button id="cancelExitBtn" class="ghost">Keep climbing</button></div>
-    </section>
+		<section id="exitConfirm" class="confirmModal glass" hidden>
+			<h2>Exit to Main Menu?</h2>
+			<p id="exitLossText">Unbanked level coins will be lost.</p>
+			<div><button id="confirmExitBtn">Yes, forfeit run</button><button id="cancelExitBtn" class="ghost">Keep climbing</button></div>
+		</section>
 
-    <section id="successBurst" class="successBurst" hidden>
-      <div class="starSeal"><i></i><i></i><i></i></div>
-      <b id="successTitle">Level Complete</b>
-      <span id="successBonus">Bonus +0 Shefa</span>
-    </section>
+		<section id="successBurst" class="successBurst" hidden>
+			<div class="starSeal"><i></i><i></i><i></i></div>
+			<b id="successTitle">Level Complete</b>
+			<span id="successBonus">Bonus +0 Shefa</span>
+		</section>
 
-    <section class="touch" aria-label="mobile controls"><div class="movePad" aria-label="movement controls"><button id="leftBtn" class="moveBtn leftBtn">Left</button><button id="rightBtn" class="moveBtn rightBtn">Right</button></div><button id="jump" class="jump">Jump</button></section>
+		<section class="touch" aria-label="mobile controls"><div class="movePad" aria-label="movement controls"><button id="leftBtn" class="moveBtn leftBtn">Left</button><button id="rightBtn" class="moveBtn rightBtn">Right</button></div><button id="jump" class="jump">Jump</button></section>
 
-    <aside id="coinModal" class="coinModal glass" hidden>
-      <button id="coinClose" class="coinClose">×</button>
-      <h2>Talmudic Coin Ladder</h2>
-      <p>Breakfast-table version: small coins stack into larger measures. In game, Shefa is the shop currency.</p>
-      <div class="coinRows"><b>פ Perutah</b><span>1 Shefa · tiny copper spark</span><b>ד Dinar</b><span>5 Shefa · silver ring</span><b>ס Sela</b><span>20 Shefa · strong gate coin</span><b>מ Maneh</b><span>100 Shefa · royal pink crown</span></div>
-      <p class="coinNote">Collect every real coin in a level to unlock the door. Fake coins look tempting and punish greed.</p>
-    </aside>
-  </main>
-  <script type="module" src="./js/main.js"></script>
+		<aside id="coinModal" class="coinModal glass" hidden>
+			<button id="coinClose" class="coinClose">×</button>
+			<h2>Talmudic Coin Ladder</h2>
+			<p>Breakfast-table version: small coins stack into larger measures. In game, Shefa is the shop currency.</p>
+			<div class="coinRows"><b>פ Perutah</b><span>1 Shefa · tiny copper spark</span><b>ד Dinar</b><span>5 Shefa · silver ring</span><b>ס Sela</b><span>20 Shefa · strong gate coin</span><b>מ Maneh</b><span>100 Shefa · royal pink crown</span></div>
+			<p class="coinNote">Collect every real coin in a level to unlock the door. Fake coins look tempting and punish greed.</p>
+		</aside>
+	</main>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="./js/main.js?compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

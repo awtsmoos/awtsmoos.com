@@ -1,19 +1,32 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- * Decision controls separate ordinary, primary, and destructive outcomes visibly.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets consequence remain visible without crowding judgment.
+ * Awtsmoos.com keeps every decision reachable, distinct, wrapped, and above the phone edge,
+ * so advanced governance stays powerful without becoming a wall of competing controls.
  */
 .decisionPanel {
-	margin-top: var(--space-4);
+	margin-block-start: var(--space-4);
 	padding: var(--space-4);
+	min-inline-size: 0;
 }
+
 .decisionActions {
-	margin-top: var(--space-4);
+	display: flex;
+	flex-wrap: wrap;
+	gap: .55rem;
+	margin-block-start: var(--space-4);
+	min-inline-size: 0;
 }
+
 .decisionActions button {
 	flex: 1 1 8rem;
-	min-height: 44px;
+	min-inline-size: 0;
+	min-block-size: 44px;
+	max-inline-size: 100%;
 }
+
 .decisionActions [data-review-action="approve"],
 .decisionActions [data-review-action="publish"],
 .decisionActions [data-review-action="schedule"] {
@@ -21,37 +34,66 @@
 	background: color-mix(in srgb, var(--awt-success) 9%, var(--surface));
 	color: var(--awt-success);
 }
+
 .decisionActions [data-review-action="changes"],
 .decisionActions [data-review-action="triage"] {
 	border-color: color-mix(in srgb, var(--awt-warning) 40%, var(--line));
 	background: color-mix(in srgb, var(--awt-warning) 9%, var(--surface));
 	color: var(--awt-warning);
 }
+
 .statusMessage {
 	position: sticky;
 	z-index: var(--z-sticky);
-	bottom: max(1rem, env(safe-area-inset-bottom));
-	max-width: 50rem;
+	inset-block-end: max(.75rem, env(safe-area-inset-bottom));
+	box-sizing: border-box;
+	inline-size: min(100%, 50rem);
+	max-inline-size: calc(
+		100vw - max(1rem, env(safe-area-inset-left)) - max(1rem, env(safe-area-inset-right))
+	);
 	margin: var(--space-4) auto;
 	padding: .8rem 1rem;
+	overflow-wrap: anywhere;
 	border: 1px solid var(--line);
 	border-radius: var(--radius-m);
 	background: var(--surface);
 	box-shadow: var(--shadow-float);
 	color: var(--muted);
 }
+
 .statusMessage[data-kind="error"] {
 	border-color: color-mix(in srgb, var(--danger) 44%, var(--line));
 	background: color-mix(in srgb, var(--danger) 8%, var(--surface));
 	color: var(--danger);
 }
+
 .statusMessage[data-kind="success"] {
 	border-color: color-mix(in srgb, var(--awt-success) 44%, var(--line));
 	background: color-mix(in srgb, var(--awt-success) 8%, var(--surface));
 	color: var(--awt-success);
 }
+
 .statusMessage[data-kind="working"] {
 	border-color: color-mix(in srgb, var(--awt-warning) 44%, var(--line));
 	background: color-mix(in srgb, var(--awt-warning) 8%, var(--surface));
 	color: var(--awt-warning);
+}
+
+@media (max-width: 28rem) {
+	.decisionActions {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.decisionActions button {
+		inline-size: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.statusMessage,
+	.decisionActions button {
+		transition: none;
+		animation: none;
+	}
 }

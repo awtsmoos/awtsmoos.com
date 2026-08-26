@@ -1,89 +1,82 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos is beyond word, speaker, scroll, and visible bubble, while Awtsmoos.com lets bounded private history breathe as a calm conversation instead of a technical log;
- * this Tiferes-like garment owns message-list and canonical message-card rhythm only, leaving composer, reply, and voice states to focused neighboring vessels of light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos keeps the message river internally scrollable so conversation history never stretches the whole world;
+ * Awtsmoos.com reserves a clear lower shore for the mobile composer, letting the newest words rise above its pearl.
  */
-
-.hubConversationMessages {
+.social-hub-document .hubConversationMessages {
 	display: grid;
 	align-content: start;
-	gap: .55rem;
-	min-width: 0;
-	min-height: 0;
-	max-height: min(58dvh, 44rem);
-	overflow-y: auto;
+	gap: .65rem;
+	min-inline-size: 0;
+	max-block-size: min(58dvh, 44rem);
+	padding: .4rem .15rem .75rem;
 	overflow-x: clip;
+	overflow-y: auto;
 	overscroll-behavior: contain;
-	padding: .2rem .15rem .9rem;
+	scrollbar-gutter: stable;
+	scroll-padding-block: .75rem;
 }
 
-.hubConversationMessage {
-	--reply-swipe-x: 0px;
+.social-hub-document .hubConversationMessage {
 	display: grid;
-	gap: .38rem;
-	width: min(88%, 38rem);
-	min-width: 0;
-	padding: .7rem .78rem;
-	border: 1px solid var(--line);
-	border-radius: 1rem 1rem 1rem .36rem;
-	background: var(--surface-strong);
-	transform: translateX(var(--reply-swipe-x));
-	transition:
-		transform 160ms ease,
-		border-color 160ms ease,
-		background-color 160ms ease;
+	gap: .35rem;
+	min-inline-size: 0;
+	max-inline-size: min(82%, 42rem);
+	padding: .75rem .85rem;
+	border: 1px solid rgba(148, 163, 184, .15);
+	border-radius: 1rem 1rem 1rem .35rem;
+	background: rgba(15, 23, 42, .68);
+	box-shadow: 0 .55rem 1.5rem rgba(2, 8, 23, .16);
+	overflow-wrap: anywhere;
 }
 
-.hubConversationMessage.is-mine {
+.social-hub-document .hubConversationMessage[data-own="true"] {
 	justify-self: end;
-	border-color: color-mix(in srgb, var(--cyan) 34%, var(--line));
-	border-radius: 1rem 1rem .36rem 1rem;
-	background: color-mix(in srgb, var(--cyan) 7%, var(--surface-strong));
+	border-color: rgba(96, 165, 250, .3);
+	border-radius: 1rem 1rem .35rem 1rem;
+	background: linear-gradient(145deg, rgba(37, 99, 235, .26), rgba(59, 130, 246, .12));
 }
 
-.hubConversationMessage__header {
+.social-hub-document .hubConversationMessage__meta {
 	display: flex;
-	align-items: baseline;
-	gap: .55rem;
-	justify-content: space-between;
-	color: var(--muted);
-	font-size: .74rem;
+	flex-wrap: wrap;
+	gap: .35rem .55rem;
+	align-items: center;
+	color: var(--hub-muted, #9fb0c8);
+	font-size: .72rem;
 }
 
-.hubConversationMessage__header strong {
-	color: var(--ink);
-	font-size: .78rem;
-}
-
-.hubConversationMessage__body {
+.social-hub-document .hubConversationMessage__body {
 	margin: 0;
 	white-space: pre-wrap;
-	overflow-wrap: anywhere;
-	line-height: 1.48;
+	word-break: break-word;
 }
 
-.hubConversationReplyAction {
-	justify-self: start;
-	min-height: 36px;
-	padding: .3rem .55rem;
-	border: 0;
-	border-radius: .6rem;
-	background: transparent;
-	color: var(--muted);
-	font: inherit;
-	font-size: .78rem;
-	cursor: pointer;
+.social-hub-document .hubConversationMessage__reply {
+	padding: .55rem .65rem;
+	border-inline-start: 3px solid rgba(96, 165, 250, .58);
+	border-radius: .55rem;
+	background: rgba(15, 23, 42, .5);
+	color: var(--hub-muted, #b5c2d4);
+	font-size: .82rem;
 }
 
-@media (max-width: 42rem) {
-	.hubConversationMessages {
-		max-height: none;
+.social-hub-document .hubConversationMessage audio {
+	inline-size: min(100%, 24rem);
+	max-inline-size: 100%;
+}
+
+@media (max-width: 620px) {
+	.social-hub-document .hubConversationMessages {
+		max-block-size: min(46dvh, 24rem);
+		padding-block-end: 7rem;
+		scroll-padding-block-end: 7rem;
+		-webkit-overflow-scrolling: touch;
 	}
 
-	.hubConversationMessage {
-		width: min(92%, 36rem);
+	.social-hub-document .hubConversationMessage {
+		max-inline-size: 92%;
+		padding: .65rem .72rem;
 	}
 }

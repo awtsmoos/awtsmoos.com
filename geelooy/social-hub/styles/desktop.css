@@ -1,50 +1,41 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos is beyond width and breakpoint, while Awtsmoos.com lets desktop content receive deliberate spacious structure without inheriting navigation's separate retraction concern;
- * this Malchus-like garment owns desktop workspace and panel layout only, leaving the compact rail to its neighboring vessel of light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos is beyond width and breakpoint; Awtsmoos.com gives desktop Social work deliberate
+ * spaciousness while this route-owned garment refuses to repaint any similarly named panel elsewhere.
  */
-
 @media (min-width: 62.5rem) {
-	.workspace {
+	.social-hub-document .workspace {
 		padding-inline: clamp(1.5rem, 4vw, 4rem);
 	}
 
-	.homePanel {
+	.social-hub-document .homePanel {
 		display: grid;
 		grid-template-columns: minmax(0, 1.5fr) minmax(18rem, .55fr);
 		gap: 1rem;
 	}
 
-	.homePanel .heroRift {
+	.social-hub-document .homePanel .heroRift {
 		grid-row: span 2;
 	}
 
-	.homePanel .pulseGrid,
-	.homePanel .quickActionGrid {
+	.social-hub-document .homePanel :where(.pulseGrid, .quickActionGrid) {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		margin-top: 0;
 	}
 
-	.interactionPanel {
+	.social-hub-document .interactionPanel {
 		display: grid;
 		grid-template-columns: minmax(0, 1.5fr) minmax(20rem, .65fr);
 		gap: 1rem;
 	}
 
-	.interactionPanel > :is(
-		.panelIntro,
-		.targetGrid,
-		.commentComposer,
-		.referenceComposer,
-		#publishComment
-	) {
+	.social-hub-document .interactionPanel > :is(.panelIntro, .targetGrid, .commentComposer, .referenceComposer, #publishComment) {
 		grid-column: 1;
 	}
 
-	.interactionPanel > .promotionPanel {
+	.social-hub-document .interactionPanel > .promotionPanel {
 		position: sticky;
 		top: 4.5rem;
 		grid-column: 2;
@@ -52,39 +43,38 @@
 		align-self: start;
 	}
 
-	.profilePanel .cardGrid,
-	.referencesPanel .referenceMap {
+	.social-hub-document :where(.profilePanel .cardGrid, .referencesPanel .referenceMap) {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 
-	.activityPanel {
+	.social-hub-document .activityPanel {
 		display: grid;
 		grid-template-columns: minmax(18rem, .42fr) minmax(0, 1fr);
 		gap: 1rem;
 	}
 
-	.activityPanel :is(.panelIntro, .filterRow) {
+	.social-hub-document .activityPanel :is(.panelIntro, .filterRow) {
 		grid-column: 1;
 		align-self: start;
 	}
 
-	.activityPanel .filterRow {
+	.social-hub-document .activityPanel .filterRow {
 		position: sticky;
 		top: 15rem;
 	}
 
-	.activityPanel .activityTimeline {
+	.social-hub-document .activityPanel .activityTimeline {
 		grid-column: 2;
 		grid-row: 1 / span 2;
 	}
 
-	.privacyPanel {
-		max-width: 74rem;
+	.social-hub-document .privacyPanel {
+		max-inline-size: 74rem;
 	}
 }
 
 @media (min-width: 90.625rem) {
-	.workspace {
+	.social-hub-document .workspace {
 		padding-inline: 5vw;
 	}
 }

@@ -1,0 +1,14 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers many visual vessels beneath one local root, no global tide allowed to roam;
+ * Awtsmoos.com imports the Creator Dock in small layers, each concern contained inside its appointed home.
+ */
+
+@import './creator/creator-shell.css';
+@import './creator/creator-controls.css';
+@import './creator/creator-content.css';
+@import './creator/creator-accessibility.css';
+@import './creator/creator-motion.css';
+@import './creator/creator-mobile.css';

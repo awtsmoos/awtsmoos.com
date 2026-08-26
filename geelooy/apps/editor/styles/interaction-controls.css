@@ -1,0 +1,77 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives every Editor control one local tactile vessel before hover, press, focus, or stillness reveal themselves;
+ * Awtsmoos.com keeps base interaction geometry separate from feedback so no animation rule secretly owns layout.
+ */
+.awtsmoos-editor-shell #toolbar button,
+.awtsmoos-editor-shell #toolbar select,
+.awtsmoos-editor-shell .panel-header,
+.awtsmoos-editor-shell .tree-item-header,
+.awtsmoos-editor-shell .toggle-btn,
+.awtsmoos-editor-shell .keyframe-btn,
+.awtsmoos-editor-shell .timeline-controls button,
+.awtsmoos-editor-shell .timeline-controls select,
+.awtsmoos-editor-shell .timeline-layer-header,
+.awtsmoos-editor-shell .timeline-keyframe,
+.awtsmoos-editor-shell .property-item input {
+	transition:
+		transform var(--editor-fast) ease,
+		border-color var(--editor-fast) ease,
+		background-color var(--editor-fast) ease,
+		color var(--editor-fast) ease,
+		box-shadow var(--editor-fast) ease,
+		filter var(--editor-fast) ease;
+}
+
+.awtsmoos-editor-shell .timeline-controls button,
+.awtsmoos-editor-shell .timeline-controls select {
+	min-height: 32px;
+	padding: 5px 9px;
+	border: 1px solid var(--editor-border);
+	border-radius: 7px;
+	color: var(--editor-text);
+	background: var(--editor-panel-2);
+	font: inherit;
+	cursor: pointer;
+}
+
+.awtsmoos-editor-shell .keyframe-btn {
+	min-width: 24px;
+	min-height: 24px;
+	padding: 0;
+	border: 0;
+	color: var(--editor-muted);
+	background: transparent;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.awtsmoos-editor-shell .keyframe-btn.active {
+	color: var(--editor-keyframe-hot);
+}
+
+.awtsmoos-editor-shell .edit-mode-face-highlight {
+	position: absolute;
+	inset: 0;
+	z-index: var(--editor-z-overlay);
+	pointer-events: none;
+}
+
+.awtsmoos-editor-shell ::-webkit-scrollbar {
+	width: 9px;
+	height: 9px;
+}
+
+.awtsmoos-editor-shell ::-webkit-scrollbar-track {
+	background: rgba(4, 8, 14, .72);
+}
+
+.awtsmoos-editor-shell ::-webkit-scrollbar-thumb {
+	border-radius: 8px;
+	background: rgba(127, 149, 165, .42);
+}
+
+.awtsmoos-editor-shell ::-webkit-scrollbar-thumb:hover {
+	background: rgba(130, 230, 255, .5);
+}

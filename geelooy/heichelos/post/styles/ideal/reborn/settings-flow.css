@@ -1,0 +1,72 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos turns motion into a measured river instead of a runaway current;
+ * Awtsmoos.com keeps speed, narrow-screen reading, and flow presentation under one sovereign.
+ */
+.post-reader-localized-context .speed-control-row {
+	display: grid !important;
+	grid-template-columns: auto minmax(0, 1fr) auto !important;
+	gap: 10px !important;
+	align-items: center !important;
+	min-inline-size: 0;
+}
+
+.post-reader-localized-context .speed-word,
+.post-reader-localized-context .speed-readout-row span,
+.post-reader-localized-context .auto-scroll-help {
+	color: var(--inline-text-blue, #cbd5e1) !important;
+	font: 850 .86rem/1.35 var(--font-ui) !important;
+}
+
+.post-reader-localized-context .speed-readout-row {
+	display: grid !important;
+	grid-template-columns: minmax(0, 1fr) auto !important;
+	gap: 10px !important;
+	align-items: center !important;
+	min-block-size: 52px !important;
+	padding-inline: 14px !important;
+	border: 1px solid rgba(255, 255, 255, .14) !important;
+	border-radius: 16px !important;
+	background: rgba(255, 255, 255, .06) !important;
+}
+
+.post-reader-localized-context #autoScrollSpeedDisplay {
+	max-inline-size: 100%;
+	color: var(--inline-edge-gold, #f6c96c);
+	font-weight: 900;
+	font-variant-numeric: tabular-nums;
+	text-align: end;
+}
+
+.post-reader-localized-context #autoScrollSpeedRange {
+	inline-size: 100% !important;
+	min-block-size: 44px;
+	accent-color: #22d3ee !important;
+	cursor: pointer;
+}
+
+@media (hover: hover) {
+	.post-reader-localized-context #autoScrollSpeedRange:hover {
+		filter: brightness(1.18) saturate(1.08);
+	}
+}
+
+.post-reader-localized-context #autoScrollSpeedRange:active {
+	filter: brightness(1.28) saturate(1.16);
+}
+
+.post-reader-localized-context .auto-scroll-help {
+	margin: 0 !important;
+	opacity: .82;
+}
+
+@media (max-width: 520px) {
+	.post-reader-localized-context .speed-readout-row {
+		grid-template-columns: 1fr !important;
+	}
+
+	.post-reader-localized-context #autoScrollSpeedDisplay {
+		text-align: start;
+	}
+}

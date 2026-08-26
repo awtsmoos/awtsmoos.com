@@ -1,15 +1,13 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-/**
- * The Awtsmoos is beyond road and destination, while Awtsmoos.com lets Social navigation remain stable enough to trust and quiet enough to disappear behind the work;
- * this Netzach-like garment owns rail and route geometry, reserving motion and breakpoint retraction for neighboring vessels of light.
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos is beyond road and destination, while Awtsmoos.com lets Social navigation remain stable
+ * enough to trust and quiet enough to disappear behind the work; this route owns its rail layer explicitly.
  */
-
-.desktopRail {
+.social-hub-document .desktopRail {
 	position: sticky;
-	z-index: var(--z-sticky);
+	z-index: var(--hub-layer-rail);
 	top: calc(var(--g-header-h) + 4.6rem);
 	display: flex;
 	min-block-size: calc(100vh - var(--g-header-h) - 4.6rem);
@@ -21,12 +19,12 @@
 	box-shadow: 10px 0 28px rgba(0, 0, 0, .16);
 }
 
-.routeNavigation {
+.social-hub-document .routeNavigation {
 	display: grid;
 	gap: .34rem;
 }
 
-.routeNavigation button {
+.social-hub-document .routeNavigation button {
 	display: grid;
 	inline-size: 100%;
 	min-block-size: 48px;
@@ -37,7 +35,7 @@
 	text-align: start;
 }
 
-.routeIcon {
+.social-hub-document .routeIcon {
 	display: grid;
 	inline-size: 2.2rem;
 	block-size: 2.2rem;
@@ -49,24 +47,24 @@
 	font-size: 1rem;
 }
 
-.routeNavigation button[data-active="true"] .routeIcon {
+.social-hub-document .routeNavigation button[data-active="true"] .routeIcon {
 	border-color: rgba(126, 239, 255, .42);
 	background: rgba(126, 239, 255, .1);
 }
 
-.routeLabel {
+.social-hub-document .routeLabel {
 	overflow: hidden;
 	font-weight: 760;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.railFooter {
+.social-hub-document .railFooter {
 	display: grid;
 	gap: .3rem;
 	padding: .55rem;
 }
 
-.mobileDock {
+.social-hub-document .mobileDock {
 	display: none;
 }

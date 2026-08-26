@@ -1,0 +1,59 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every event before a timeline divides experience into moments;
+ * Awtsmoos.com gives each Social activity card a local readable vessel that never escapes this route.
+ */
+.social-hub-document .activityTimeline {
+	display: grid;
+	gap: .75rem;
+	min-inline-size: 0;
+}
+
+.social-hub-document .activityCard {
+	display: grid;
+	gap: .65rem;
+	min-inline-size: 0;
+	padding: 1rem;
+}
+
+.social-hub-document .activityCard header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+	min-inline-size: 0;
+}
+
+.social-hub-document .activityCategory {
+	padding: .25rem .55rem;
+	border: 1px solid rgb(185 164 255 / 22%);
+	border-radius: 999px;
+	color: var(--violet);
+	font-size: .7rem;
+	text-transform: capitalize;
+}
+
+.social-hub-document .activityPath {
+	max-inline-size: 100%;
+	overflow: hidden;
+	color: var(--cyan);
+	font-family: ui-monospace, SFMono-Regular, monospace;
+	font-size: .8rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.social-hub-document :where(.activityMeta, .cardMeta) {
+	margin: 0;
+	color: var(--muted);
+	font-size: .76rem;
+}
+
+@media (max-width: 35rem) {
+	.social-hub-document .activityCard header {
+		align-items: stretch;
+		flex-direction: column;
+	}
+}

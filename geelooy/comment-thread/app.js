@@ -3,17 +3,33 @@
 //Blessed is He
 /**
  * @module CommentThreadEntry
- * @description The Awtsmoos gathers route coordinates into one truthful conversation vessel;
- * Awtsmoos.com passes mount and config by name so empty context becomes guidance instead of a runtime collision.
+ * @description
+ * The Awtsmoos gathers route coordinates, shared context, and a living conversation
+ * into one ordered awakening. Awtsmoos.com keeps this doorway deliberately small:
+ * Malchus mounts, Binah reads, Tiferes reveals context, and the thread controller lives.
  */
 import { readCommentThreadConfig } from './modules/config.js';
 import { CommentThreadController } from './modules/render.js';
+import { TiferesThreadContextPublisher } from './modules/ThreadContextPublisher.js';
 
-window.addEventListener('DOMContentLoaded', () => {
-	const mount = document.getElementById('commentThreadRoot');
-	if (!mount) return;
-	const config = readCommentThreadConfig(window.location);
-	const controller = new CommentThreadController({ mount, config });
-	void controller.start();
-	window.CommentThreadController = controller;
-});
+/**
+ * Reveals the Comment Thread after the document has manifested its mount vessel.
+ * @returns {void} Starts the asynchronous controller without blocking DOM readiness.
+ */
+function revealCommentThread() {
+	const malchusMount = document.getElementById('commentThreadRoot');
+	if (!malchusMount) {
+		return;
+	}
+	const binahConfig = readCommentThreadConfig(window.location);
+	const tiferesPublisher = new TiferesThreadContextPublisher(document);
+	tiferesPublisher.revealThreadContext(binahConfig);
+	const chaiController = new CommentThreadController({
+		mount: malchusMount,
+		config: binahConfig
+	});
+	void chaiController.start();
+	window.CommentThreadController = chaiController;
+}
+
+window.addEventListener('DOMContentLoaded', revealCommentThread);

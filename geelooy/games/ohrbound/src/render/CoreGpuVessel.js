@@ -8,9 +8,9 @@ import { CoreShaderVessel } from "./CoreShaderVessel.js";
 
 /**
  * @file CoreGpuVessel.js
- * @description Keeps the direct Procedural Core doorway responsive to device quality.
- * The Awtsmoos renews screen and camera before one triangle appears; Awtsmoos.com
- * lets finite pixels expand or contract while the underlying world remains clear.
+ * @description Keeps Procedural Core responsive while exposing measured viewport and world light.
+ * The Awtsmoos renews screen, camera, darkness, and radiance before one triangle appears;
+ * Awtsmoos.com gives each finite world its atmosphere while the camera receives truthful sight parameters clear.
  */
 export class CoreGpuVessel {
 	constructor(containerId) {
@@ -29,25 +29,51 @@ export class CoreGpuVessel {
 			shadowsEnabled: false,
 			shadowSystem: null
 		};
-		this.cameraPosition = [0, 4, 15];
+		this.cameraPosition = [0, 4, 10];
 		this.pixelRatioCap = 1.45;
+		this.lighting = {
+			ambient: [0.18, 0.28, 0.42],
+			directional: [1, 0.9, 0.66],
+			direction: [-0.35, 0.82, 0.45]
+		};
 		this.gl.enable(this.gl.DEPTH_TEST);
-		this.gl.clearColor(0.006, 0.015, 0.035, 1);
+		this.applyTheme(null);
 		this.resize();
 	}
 
-	/** Changes the maximum render density without recreating the WebGL context. */
+	/** Applies world clear color and lighting without recreating camera, shader, or textures. */
+	applyTheme(theme) {
+		const clear = theme?.clear || [0.006, 0.015, 0.035, 1];
+		this.lighting = {
+			ambient: theme?.ambient || [0.18, 0.28, 0.42],
+			directional: theme?.directional || [1, 0.9, 0.66],
+			direction: theme?.lightDirection || [-0.35, 0.82, 0.45]
+		};
+		this.gl.clearColor(...clear);
+	}
+
+	/** Changes maximum render density without recreating the WebGL context. */
 	setPixelRatioCap(value) {
 		this.pixelRatioCap = Math.max(0.75, Math.min(2, Number(value) || 1.45));
 		this.resize();
 	}
 
-	/** Keeps backing-store pixels aligned with the selected quality and CSS size. */
+	/** Returns CSS viewport dimensions plus the real core-camera field of view. */
+	viewport() {
+		return {
+			width: Math.max(1, this.canvas.clientWidth),
+			height: Math.max(1, this.canvas.clientHeight),
+			fov: this.camera.state.fov
+		};
+	}
+
+	/** Keeps backing-store pixels aligned with selected quality and CSS size. */
 	resize() {
+		const viewport = this.viewport();
 		const deviceRatio = globalThis.devicePixelRatio || 1;
 		const pixelRatio = Math.min(this.pixelRatioCap, deviceRatio);
-		const width = Math.max(1, Math.floor(this.canvas.clientWidth * pixelRatio));
-		const height = Math.max(1, Math.floor(this.canvas.clientHeight * pixelRatio));
+		const width = Math.max(1, Math.floor(viewport.width * pixelRatio));
+		const height = Math.max(1, Math.floor(viewport.height * pixelRatio));
 		if (this.canvas.width !== width || this.canvas.height !== height) {
 			this.canvas.width = width;
 			this.canvas.height = height;
@@ -70,10 +96,10 @@ export class CoreGpuVessel {
 			projectionMatrix: this.camera.getProjection(),
 			viewMatrix: this.camera.getView(),
 			worldModelMatrix,
-			lightDir: [-0.35, 0.82, 0.45],
+			lightDir: this.lighting.direction,
 			globalShaderVars: {
-				uAmbientLightColor: [0.18, 0.28, 0.42],
-				uDirectionalLightColor: [1, 0.9, 0.66]
+				uAmbientLightColor: this.lighting.ambient,
+				uDirectionalLightColor: this.lighting.directional
 			},
 			isWireframePass: false
 		};

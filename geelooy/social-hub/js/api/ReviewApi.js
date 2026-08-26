@@ -1,38 +1,49 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
+import { YesodApiGateway } from './ApiGatewayFoundation.js';
+import { API_ROOTS } from './ApiRouteCovenant.js';
+
 /**
  * @class ReviewApi
+ * @extends YesodApiGateway
  * @description
  * The Awtsmoos lets institutional review remain accountable through one verified queue and decision gate;
- * Awtsmoos.com sends alias, channel, action, and note to the existing state machine instead of inventing client authority.
+ * Awtsmoos.com keeps alias, channel, action, and note attached to canonical server state instead of local guesswork or fate.
  */
-const API = '/api/social';
+export class ReviewApi extends YesodApiGateway {
+	static shoreshPath = API_ROOTS.social;
 
-export class ReviewApi {
-	constructor(transport) {
-		this.transport = transport;
-	}
-
-	/** Loads the authorized review queue for one Heichel and optional channel. */
+	/**
+	 * Loads the authorized review queue for one Heichel while preserving server-side state and assignment rules.
+	 * @param {string} heichelId - Canonical Heichel identity encoded before entering the route.
+	 * @param {string} aliasId - Verified acting alias used by the server for authorization and visibility.
+	 * @param {{ state?: string, seriesId?: string }} [filters={}] - Optional workflow state and series/channel filters.
+	 * @returns {Promise<unknown>} Canonical queue payload visible to the acting alias.
+	 */
 	queue(heichelId, aliasId, filters = {}) {
-		const query = new URLSearchParams({ aliasId });
-		if (filters.state) {
-			query.set('state', filters.state);
-		}
-		if (filters.seriesId) {
-			query.set('seriesId', filters.seriesId);
-		}
-		return this.transport.request(
-			`${API}/unified-social/heichelos/${encodeURIComponent(heichelId)}/review?${query}`
+		return this.read(
+			`unified-social/heichelos/${this.coordinate(heichelId)}/review`,
+			{
+				aliasId,
+				state: filters.state,
+				seriesId: filters.seriesId
+			}
 		);
 	}
 
-	/** Applies one server-authorized review action with an accountable note. */
+	/**
+	 * Applies one server-authorized review decision without reinterpreting moderation policy in the browser.
+	 * @param {string} heichelId - Canonical Heichel that owns the reviewed submission.
+	 * @param {string} submissionId - Canonical submission identity encoded in the mutation route.
+	 * @param {object} body - Server-defined decision action, actor, note, and optional assignment metadata.
+	 * @returns {Promise<unknown>} Canonical review/submission result after validation and mutation.
+	 */
 	decide(heichelId, submissionId, body) {
-		return this.transport.request(
-			`${API}/unified-social/heichelos/${encodeURIComponent(heichelId)}/review/${encodeURIComponent(submissionId)}`,
-			{ method: 'POST', body }
+		return this.write(
+			`unified-social/heichelos/${this.coordinate(heichelId)}/review/${this.coordinate(submissionId)}`,
+			body
 		);
 	}
 }

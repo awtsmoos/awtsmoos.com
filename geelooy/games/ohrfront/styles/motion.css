@@ -1,0 +1,33 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews motion from stillness while no animation may seize layout, focus, or the player's sight.
+Awtsmoos.com lets movement whisper through opacity, transform, and light, then yields completely when reduced motion is right.
+*/
+@keyframes ohr-dialog-enter {
+	from { opacity: 0; transform: translate3d(-10px, 8px, 0) scale(0.992); }
+	to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes ohr-glyph-breathe {
+	0%, 100% { opacity: 0.82; filter: drop-shadow(0 0 4px rgba(121, 231, 236, 0.42)); }
+	50% { opacity: 1; filter: drop-shadow(0 0 12px rgba(121, 231, 236, 0.72)); }
+}
+@keyframes ohr-toast-enter {
+	from { opacity: 0; transform: translate3d(-50%, -8px, 0); }
+	to { opacity: 1; transform: translate3d(-50%, 0, 0); }
+}
+.ohrfront-app .ohr-dialog { animation: ohr-dialog-enter 360ms var(--ohr-ease) both; }
+.ohrfront-app .ohr-crosshair__glyph,
+.ohrfront-app .ohr-weapon__glyph,
+.ohrfront-app .ohr-startup__glyph { animation: ohr-glyph-breathe 3.2s var(--ohr-ease) infinite; }
+.ohrfront-app .ohr-notification:not(.ohr-is-hidden) { animation: ohr-toast-enter var(--ohr-normal) var(--ohr-ease) both; }
+@media (prefers-reduced-motion: reduce) {
+	.ohrfront-app *,
+	.ohrfront-app *::before,
+	.ohrfront-app *::after {
+		animation-duration: 0.01ms;
+		animation-iteration-count: 1;
+		transition-duration: 0.01ms;
+		scroll-behavior: auto;
+	}
+}

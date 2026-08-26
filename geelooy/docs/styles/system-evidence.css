@@ -1,49 +1,54 @@
-/* B"H */
-/** The Awtsmoos lets system evidence remain modest: names, sources, registrations, and lexical events invite inspection without becoming secret values or protocol guarantees. */
-.system-risk-grid,
-.system-evidence-grid {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets systems speak through observed contracts and evidence; Awtsmoos.com keeps every source-copy
+ * and project doorway fully interactive without turning proof into louder furniture than the architecture it qualifies.
+ */
+body[data-geelooy-route="docs"] :where(.system-risk-grid, .system-evidence-grid) {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 12px;
 }
-.system-risk-card,
-.system-evidence-block,
-.system-evidence-warning {
+
+body[data-geelooy-route="docs"] :where(.system-risk-card, .system-evidence-block, .system-evidence-warning) {
 	border: 1px solid var(--line);
 	border-radius: 12px;
 	background: var(--bg-soft);
 }
-.system-risk-card,
-.system-evidence-block {
+
+body[data-geelooy-route="docs"] :where(.system-risk-card, .system-evidence-block) {
 	padding: 14px;
 }
-.system-risk-card h3,
-.system-evidence-block h3 {
+
+body[data-geelooy-route="docs"] :where(.system-risk-card h3, .system-evidence-block h3) {
 	margin: 0 0 8px;
 	font-size: .84rem;
 }
-.system-risk-card p,
-.system-evidence-block p,
-.system-evidence-block li,
-.system-evidence-warning p {
+
+body[data-geelooy-route="docs"] :where(.system-risk-card p, .system-evidence-block p, .system-evidence-block li, .system-evidence-warning p) {
 	color: var(--muted);
 	font-size: .78rem;
 	line-height: 1.5;
 }
-.system-evidence-grid {
+
+body[data-geelooy-route="docs"] .system-evidence-grid {
 	margin-top: 18px;
 }
-.system-evidence-block ul {
+
+body[data-geelooy-route="docs"] .system-evidence-block ul {
 	margin: 0;
 	padding-left: 18px;
 }
-.system-evidence-block li + li {
+
+body[data-geelooy-route="docs"] .system-evidence-block li + li {
 	margin-top: 5px;
 }
-.source-copy,
-.system-project-link {
+
+body[data-geelooy-route="docs"] :where(.source-copy, .system-project-link) {
 	display: block;
 	width: 100%;
+	min-block-size: 36px;
 	padding: 7px 0;
 	border: 0;
 	background: transparent;
@@ -53,24 +58,41 @@
 	text-align: left;
 	word-break: break-word;
 	cursor: pointer;
+	touch-action: manipulation;
+	transition: color .14s ease, opacity .14s ease, transform .14s ease;
 }
-.source-copy:hover,
-.system-project-link:hover {
-	text-decoration: underline;
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="docs"] :where(.source-copy, .system-project-link):hover {
+		color: var(--accent);
+		text-decoration: underline;
+	}
 }
-.system-evidence-warning {
+
+body[data-geelooy-route="docs"] :where(.source-copy, .system-project-link):active {
+	transform: scale(.99);
+}
+
+body[data-geelooy-route="docs"] :where(.source-copy, .system-project-link):disabled {
+	opacity: .46;
+	cursor: not-allowed;
+	transform: none;
+}
+
+body[data-geelooy-route="docs"] .system-evidence-warning {
 	grid-column: 1 / -1;
 	display: flex;
 	gap: 10px;
 	align-items: start;
 	padding: 13px;
 }
-.system-evidence-warning p {
+
+body[data-geelooy-route="docs"] .system-evidence-warning p {
 	margin: 0;
 }
-@media (max-width: 640px) {
-	.system-risk-grid,
-	.system-evidence-grid {
+
+@media (max-width: 40rem) {
+	body[data-geelooy-route="docs"] :where(.system-risk-grid, .system-evidence-grid) {
 		grid-template-columns: 1fr;
 	}
 }

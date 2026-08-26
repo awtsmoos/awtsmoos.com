@@ -1,78 +1,48 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos renews every search, result, and doorway while Awtsmoos.com lets
- * a large catalog remain calm to scan. Discovery stays close to the user's hand:
- * compact cards, visible result truth, and a sticky filter that never hides focus.
- */
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every search result without making the result counter a throne;
+Awtsmoos.com keeps the catalog responsive, truthful, and contained while the native
+disclosure owns stickiness above. Each visible card remains a doorway, not a wall.
+*/
 
-.apps-catalog-meta {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--g-space-3);
-	margin: calc(var(--g-space-2) * -1) 0 var(--g-space-3);
-	color: var(--g-text-muted);
-	font-size: var(--g-font-size-sm);
+body[data-geelooy-route="apps"] [data-app-grid] {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+	gap: clamp(12px, 2.5vw, 18px);
+	min-inline-size: 0;
+	align-items: stretch;
 }
 
-.apps-catalog-meta strong {
-	color: var(--g-text);
+body[data-geelooy-route="apps"] [data-app-grid][aria-busy="true"] {
+	min-block-size: 180px;
 }
 
-.g-app-filter {
-	position: sticky;
-	top: calc(env(safe-area-inset-top) + 64px);
-	z-index: 6;
-	padding: var(--g-space-3);
-	border: 1px solid var(--g-border);
+body[data-geelooy-route="apps"] :where([data-app-empty], .g-state) {
+	max-inline-size: 100%;
+	overflow-wrap: anywhere;
+}
+
+body[data-geelooy-route="apps"] [data-app-empty] {
+	margin-block: 18px;
+	padding: 18px;
+	border: 1px dashed color-mix(in srgb, var(--g-border), var(--g-accent) 18%);
 	border-radius: var(--g-radius-lg);
-	background: color-mix(in srgb, var(--g-surface), transparent 8%);
-	box-shadow: 0 18px 50px rgb(0 0 0 / 20%);
-	backdrop-filter: blur(18px);
+	color: var(--g-text-muted);
+	background: color-mix(in srgb, var(--g-surface), transparent 24%);
+	text-align: center;
 }
 
-.g-app-card {
-	min-height: 220px;
-	content-visibility: auto;
-	contain-intrinsic-size: 220px;
-}
-
-.g-app-card:focus-visible {
-	outline: 3px solid var(--g-accent);
-	outline-offset: 4px;
-	transform: translateY(-2px);
-}
-
-.g-app-card[hidden] {
+body[data-geelooy-route="apps"] [data-app-empty][hidden] {
 	display: none;
 }
 
-[data-app-result-status] {
-	font-variant-numeric: tabular-nums;
+body[data-geelooy-route="apps"] .apps-filter-disclosure[open] {
+	box-shadow: 0 20px 64px rgb(0 0 0 / 16%);
 }
 
-@media (max-width: 720px) {
-	.g-app-filter {
-		top: calc(env(safe-area-inset-top) + 56px);
-		grid-template-columns: 1fr;
-	}
-
-	.apps-catalog-meta {
-		align-items: flex-start;
-		flex-direction: column;
-	}
-
-	.g-app-card {
-		min-height: 0;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.g-app-card,
-	.g-app-card:hover,
-	.g-app-card:focus-visible {
-		transform: none;
+@media (min-width: 1080px) {
+	body[data-geelooy-route="apps"] [data-app-grid] {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }

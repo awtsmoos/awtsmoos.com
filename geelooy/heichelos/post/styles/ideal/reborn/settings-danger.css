@@ -1,0 +1,56 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos marks destructive reset with clarity, restraint, and one unmistakable gate;
+ * Awtsmoos.com keeps its hover, focus, press, and reduced-motion behavior under one owner's fate.
+ */
+.post-reader-localized-context .reset-section {
+	padding: 14px 18px !important;
+	border-top: 1px solid rgba(255, 255, 255, .11) !important;
+	background: rgba(0, 0, 0, .22) !important;
+}
+
+.post-reader-localized-context .danger-outline {
+	all: unset !important;
+	box-sizing: border-box !important;
+	display: grid !important;
+	place-items: center !important;
+	inline-size: 100% !important;
+	min-block-size: 52px !important;
+	border: 1px solid rgba(244, 63, 94, .38) !important;
+	border-radius: 16px !important;
+	background: rgba(244, 63, 94, .14) !important;
+	color: #fecdd3 !important;
+	font: 950 1rem/1 var(--font-ui) !important;
+	cursor: pointer !important;
+	transition: transform var(--reader-settings-motion), border-color var(--reader-settings-motion), background var(--reader-settings-motion), box-shadow var(--reader-settings-motion) !important;
+}
+
+@media (hover: hover) {
+	.post-reader-localized-context .danger-outline:hover {
+		transform: translateY(-2px) !important;
+		border-color: rgba(251, 113, 133, .72) !important;
+		background: rgba(244, 63, 94, .2) !important;
+		box-shadow: 0 14px 30px rgba(80, 7, 22, .24) !important;
+	}
+}
+
+.post-reader-localized-context .danger-outline:active {
+	transform: translateY(1px) scale(.98) !important;
+}
+
+.post-reader-localized-context .danger-outline:focus-visible {
+	outline: 3px solid rgba(251, 113, 133, .95) !important;
+	outline-offset: 3px !important;
+	box-shadow: 0 0 0 6px rgba(244, 63, 94, .16) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context .danger-outline {
+		transition-duration: 0.001ms !important;
+	}
+
+	.post-reader-localized-context .danger-outline:hover {
+		transform: none !important;
+	}
+}

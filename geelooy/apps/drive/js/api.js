@@ -5,90 +5,91 @@
 /**
  * @module DriveApi
  * @description
- * The Awtsmoos lets files, sites, durable projects, and Project Testimony speak through small resource verbs;
- * Awtsmoos.com keeps transport authority in one vessel while this module names the creator's intentions.
+ * The Awtsmoos is simple before every resource boundary; Awtsmoos.com keeps this module as a stable named-function facade while files, projects, and sites now live in focused class-based resource vessels beneath a frozen Daas registry.
  */
 
-import { driveState, currentCursor } from './state.js';
-import { encodeDrivePath } from './path.js';
-import { API_ROOT, aliasSegment, assertConnected, authenticationHeaders, request } from './apiTransport.js';
+import { driveApiRegistry } from './api/DaasDriveApiRegistry.js';
+import { API_ROOT, assertConnected, authenticationHeaders, request } from './apiTransport.js';
 
-export { API_ROOT, assertConnected, authenticationHeaders, request };
+export {
+	API_ROOT,
+	assertConnected,
+	authenticationHeaders,
+	driveApiRegistry,
+	request
+};
 
+/** Returns the current filtered/paginated Drive entry list. */
 export function listEntries() {
-	const query = new URLSearchParams({
-		path: driveState.currentPath,
-		search: driveState.filters.search,
-		type: driveState.filters.type,
-		visibility: driveState.filters.visibility,
-		includeTrash: String(driveState.filters.includeTrash),
-		sort: driveState.filters.sort,
-		direction: driveState.filters.direction,
-		limit: '50'
-	});
-	const cursor = currentCursor();
-	if (cursor) query.set('cursor', cursor);
-	return request(`/drive/${aliasSegment()}/entries?${query}`);
+	return driveApiRegistry.entries.list();
 }
 
+/** Returns Project Testimony for the current Drive root. */
 export function getProjectPlan() {
-	const query = new URLSearchParams({ rootPath: driveState.currentPath });
-	return request(`/drive/${aliasSegment()}/project?${query}`);
+	return driveApiRegistry.projects.plan();
 }
 
+/** Lists durable project records. */
 export function listProjects() {
-	return request(`/drive/${aliasSegment()}/projects`);
+	return driveApiRegistry.projects.list();
 }
 
-export function saveProject(projectId, values) {
-	return request(`/drive/${aliasSegment()}/projects/${encodeURIComponent(projectId)}`, { method: 'PUT', body: values });
+/** Saves one durable project record. */
+export function saveProject(yesodProjectId, chesedValues) {
+	return driveApiRegistry.projects.save(yesodProjectId, chesedValues);
 }
 
-export function deleteProject(projectId) {
-	return request(`/drive/${aliasSegment()}/projects/${encodeURIComponent(projectId)}`, { method: 'DELETE' });
+/** Deletes one durable project record. */
+export function deleteProject(yesodProjectId) {
+	return driveApiRegistry.projects.remove(yesodProjectId);
 }
 
+/** Returns storage usage for the connected alias. */
 export function getUsage() {
-	return request(`/drive/${aliasSegment()}/usage`);
+	return driveApiRegistry.entries.usage();
 }
 
+/** Returns primary canonical site status. */
 export function getSiteStatus() {
-	return request(`/drive/${aliasSegment()}/site`);
+	return driveApiRegistry.sites.status();
 }
 
+/** Lists canonical site mappings. */
 export function listSites() {
-	return request(`/drive/${aliasSegment()}/sites`);
+	return driveApiRegistry.sites.list();
 }
 
-export function saveSite(siteId, values) {
-	return request(`/drive/${aliasSegment()}/sites/${encodeURIComponent(siteId)}`, { method: 'PUT', body: values });
+/** Saves one canonical site mapping. */
+export function saveSite(yesodSiteId, chesedValues) {
+	return driveApiRegistry.sites.save(yesodSiteId, chesedValues);
 }
 
-export function deleteSite(siteId) {
-	return request(`/drive/${aliasSegment()}/sites/${encodeURIComponent(siteId)}`, { method: 'DELETE' });
+/** Deletes one canonical site mapping. */
+export function deleteSite(yesodSiteId) {
+	return driveApiRegistry.sites.remove(yesodSiteId);
 }
 
-export function createEntry(values) {
-	return request(`/drive/${aliasSegment()}/entries`, { method: 'POST', body: values });
+/** Creates one Drive entry. */
+export function createEntry(chesedValues) {
+	return driveApiRegistry.entries.create(chesedValues);
 }
 
-export function updateEntry(path, values) {
-	return request(entryUrl(path), { method: 'PUT', body: values });
+/** Updates one Drive entry. */
+export function updateEntry(yesodPath, gevurahValues) {
+	return driveApiRegistry.entries.update(yesodPath, gevurahValues);
 }
 
-export function performAction(action, values) {
-	return request(`/drive/${aliasSegment()}/actions/${action}`, { method: 'POST', body: values });
+/** Performs one named Drive entry action. */
+export function performAction(gevurahAction, chesedValues) {
+	return driveApiRegistry.entries.action(gevurahAction, chesedValues);
 }
 
-export function publicUrl(path) {
-	return `${location.origin}${API_ROOT}/drive/public/${aliasSegment()}/${encodeDrivePath(path)}`;
+/** Builds the canonical public file URL. */
+export function publicUrl(yesodPath) {
+	return driveApiRegistry.entries.publicUrl(yesodPath);
 }
 
-export function siteUrl(site = null) {
-	const route = site?.project?.publication?.route || site?.canonicalUrl || `/sites/${aliasSegment()}/`;
-	return new URL(route, location.origin).href;
-}
-
-function entryUrl(path) {
-	return `/drive/${aliasSegment()}/entry/${encodeDrivePath(path)}`;
+/** Builds the canonical absolute site URL. */
+export function siteUrl(malchusSite = null) {
+	return driveApiRegistry.sites.siteUrl(malchusSite);
 }

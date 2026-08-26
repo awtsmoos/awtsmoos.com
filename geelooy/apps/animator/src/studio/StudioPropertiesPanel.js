@@ -6,13 +6,14 @@ import { StudioLayerActions } from './panels/StudioLayerActions.js';
 import { StudioProceduralPropertiesView } from './panels/StudioProceduralPropertiesView.js';
 import { StudioPropertyList } from './panels/StudioPropertyList.js';
 import { StudioTransformView } from './panels/StudioTransformView.js';
+import { StudioVectorPathPropertiesView } from './panels/StudioVectorPathPropertiesView.js';
 import { studioEntityEmoji } from './panels/StudioEntityEmoji.js';
 
 /**
  * @module StudioPropertiesPanel
  * @description
- * The Awtsmoos renews the selected object before transform, procedural seed, layer control, or metadata can be named;
- * Awtsmoos.com keeps this inspector as a small Tiferes coordinator so generated and manual art share one professional place.
+ * The Awtsmoos renews the selected object before transform, path style, procedural seed, or layer control can be named;
+ * Awtsmoos.com keeps one focused inspector where manual and generated art share a calm professional editing place.
  */
 export class StudioPropertiesPanel {
 	/** Returns the complete right-side inspector specification. */
@@ -25,11 +26,12 @@ export class StudioPropertiesPanel {
 		};
 	}
 
-	/** Returns focused inspector sections in professional editing order. */
+	/** Returns focused inspector sections in editing priority order. */
 	static sections(entity) {
 		return [
 			this.header(entity),
 			StudioTransformView.render(entity),
+			StudioVectorPathPropertiesView.render(entity),
 			StudioProceduralPropertiesView.render(entity),
 			StudioLayerActions.render(entity),
 			StudioPropertyList.section('🙂 Face system', entity.properties?.face),
@@ -38,7 +40,7 @@ export class StudioPropertiesPanel {
 		];
 	}
 
-	/** Returns selected object identity without destructive controls mixed into the title row. */
+	/** Returns selected object identity without mixing destructive actions into the title row. */
 	static header(entity) {
 		return {
 			tag: 'header',
@@ -60,19 +62,19 @@ export class StudioPropertiesPanel {
 		};
 	}
 
-	/** Returns the currently selected entity from the unified Studio document. */
+	/** Returns the selected canonical Studio entity. */
 	static selected(state) {
 		return state.studioDocument?.entities?.find((entity) => {
 			return entity.id === state.selectedEntityId;
 		}) || null;
 	}
 
-	/** Returns empty inspector guidance when no layer is selected. */
+	/** Guides selection without presenting unavailable editing features. */
 	static empty() {
 		return [{
 			tag: 'div',
 			attrs: { className: 'aw-studio-empty' },
-			text: '🎯 Select a layer, character, prop, camera, or generated object to edit it.'
+			text: '🎯 Select a layer, character, prop, camera, path, or generated object to edit it.'
 		}];
 	}
 }

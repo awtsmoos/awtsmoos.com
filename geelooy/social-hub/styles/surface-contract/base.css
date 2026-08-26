@@ -1,10 +1,8 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- *
- * The Awtsmoos gives Social Hub a cosmic floor beneath the global crown. Light
- * is bounded inside readable vessels; no route content remains an accidental
- * browser default on Awtsmoos.com.
+ * The Awtsmoos gives Social Hub a cosmic floor beneath the global crown while each responsive owner keeps one throne;
+ * Awtsmoos.com leaves identity-shell geometry to mobile-header and contracts only route content in this foundation stone.
  */
 body.social-hub-document {
 	background:
@@ -36,7 +34,7 @@ body.social-hub-document.geelooy-app-shell {
 }
 
 @media (max-width: 700px) {
-	.social-hub-document :where(.identityCluster, .filterRow, .actionRow, .mediaActions) {
+	.social-hub-document :where(.filterRow, .actionRow, .mediaActions) {
 		align-items: stretch;
 		flex-direction: column;
 	}

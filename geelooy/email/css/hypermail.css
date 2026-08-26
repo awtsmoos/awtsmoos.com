@@ -1,14 +1,11 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos gathers Mail's final authority through focused identity and
- * touch vessels. Every button, modal, state, and reduced-motion path remains
- * readable and immediate throughout Awtsmoos.com.
- */
-
-@import "./quantum/identity-summary.css?v=mail-dark-004";
-@import "./quantum/touch-targets.css?v=mail-dark-004";
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gathers Mail's final local vessels without confusing their ownership; Awtsmoos.com lets identity, touch, and semantic tone enter through one quiet gate while every component keeps its own geometry and motion.
+*/
+@import "./quantum/identity-summary.css?v=mail-dark-005";
+@import "./quantum/identity-modal.css?v=mail-dark-005";
+@import "./quantum/touch-targets.css?v=mail-dark-005";
 
 .geelooy-mail-document :is(
 	.mail-quantum-frame,
@@ -19,92 +16,34 @@
 	color-scheme: dark;
 }
 
-.geelooy-mail-document input::placeholder,
-.geelooy-mail-document textarea::placeholder {
-	color: var(--mail-dim);
+.geelooy-mail-document :where(
+	input,
+	textarea
+)::placeholder {
+	color: var(--mail-dim, #9fb0cc);
 	opacity: 1;
 }
 
-.geelooy-mail-document button:disabled {
-	cursor: not-allowed;
-	opacity: .58;
-}
-
 .geelooy-mail-document .sentiment-danger {
-	border-color: rgba(255, 84, 112, .55) !important;
+	border-color: rgba(255, 84, 112, .55);
 }
 
 .geelooy-mail-document .sentiment-positive {
-	border-color: rgba(66, 245, 179, .38) !important;
+	border-color: rgba(66, 245, 179, .38);
 }
 
 .geelooy-mail-document .sentiment-curious {
-	border-style: dashed !important;
-}
-
-.geelooy-mail-document .identity-modal-card {
-	display: grid;
-	gap: .9rem;
-	max-inline-size: min(92vw, 32rem);
-	border: 1px solid rgba(50, 231, 255, .22);
-	border-radius: 1rem;
-	background: #0e1824;
-	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .34);
-}
-
-.geelooy-mail-document .identity-modal-copy {
-	margin: 0;
-	color: var(--mail-dim);
-	line-height: 1.55;
+	border-style: dashed;
 }
 
 .geelooy-mail-document .mail-sidebar-identity {
 	display: grid;
 	gap: .7rem;
 	inline-size: 100%;
+	min-inline-size: 0;
 }
 
 .geelooy-mail-document .mail-sidebar-header {
 	align-items: stretch;
-}
-
-body.geelooy-mail-document.geelooy-app-shell button {
-	min-inline-size: 44px !important;
-	min-block-size: 44px !important;
-}
-
-body.geelooy-mail-document.geelooy-app-shell :is(
-	.mail-folder-tab,
-	.mail-sender-category,
-	.mode-tab,
-	.ctx-item
-) {
-	block-size: auto !important;
-	min-block-size: 44px !important;
-	padding-block: .62rem;
-}
-
-body.geelooy-mail-document.geelooy-app-shell :is(
-	.icon-btn,
-	.win-ctrl,
-	.close-modal,
-	.mail-toolbar-button,
-	.chat-header button,
-	.composer-actions button
-) {
-	inline-size: 44px !important;
-	block-size: 44px !important;
-	min-inline-size: 44px !important;
-	min-block-size: 44px !important;
-	padding: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.geelooy-mail-document *,
-	.geelooy-mail-document *::before,
-	.geelooy-mail-document *::after {
-		animation: none !important;
-		scroll-behavior: auto !important;
-		transition: none !important;
-	}
+	min-inline-size: 0;
 }

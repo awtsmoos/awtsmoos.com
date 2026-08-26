@@ -1,0 +1,81 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets intention become visible through hover, focus, press, selection, and rest without making motion louder than the work;
+Awtsmoos.com keeps every interaction state inside Sheets, giving professional tactile light while disabled controls remain quiet and still.
+*/
+.awtsmoos-sheets-app .document-title {
+	border-radius: 10px;
+}
+
+.awtsmoos-sheets-app .document-title:hover:not(:disabled) {
+	background: rgba(19, 124, 83, 0.045);
+}
+
+.awtsmoos-sheets-app .document-title:focus-visible,
+.awtsmoos-sheets-app #formulaInput:focus-visible {
+	background: white;
+	box-shadow: var(--glow-active);
+}
+
+.awtsmoos-sheets-app .toolbar > button,
+.awtsmoos-sheets-app .toolbar > label,
+.awtsmoos-sheets-app .command-capsule {
+	background: rgba(255, 255, 255, 0.68);
+	border: 1px solid transparent;
+	border-radius: 10px;
+}
+
+.awtsmoos-sheets-app .toolbar > button:hover:not(:disabled),
+.awtsmoos-sheets-app .command-capsule:hover:not(:disabled),
+.awtsmoos-sheets-app .quiet-button:hover:not(:disabled),
+.awtsmoos-sheets-app .icon-button:hover:not(:disabled) {
+	background: rgba(19, 124, 83, 0.07);
+	border-color: rgba(19, 124, 83, 0.14);
+	box-shadow: 0 5px 18px rgba(15, 118, 110, 0.07);
+	transform: translateY(-1px);
+}
+
+.awtsmoos-sheets-app .toolbar > button:focus-visible,
+.awtsmoos-sheets-app .command-capsule:focus-visible,
+.awtsmoos-sheets-app .primary-button:focus-visible,
+.awtsmoos-sheets-app .quiet-button:focus-visible,
+.awtsmoos-sheets-app .icon-button:focus-visible {
+	box-shadow: var(--glow-active);
+}
+
+.awtsmoos-sheets-app .toolbar > button:active:not(:disabled),
+.awtsmoos-sheets-app .command-capsule:active:not(:disabled),
+.awtsmoos-sheets-app .primary-button:active:not(:disabled),
+.awtsmoos-sheets-app .quiet-button:active:not(:disabled),
+.awtsmoos-sheets-app .icon-button:active:not(:disabled) {
+	transform: translateY(1px) scale(0.985);
+}
+
+.awtsmoos-sheets-app .toolbar > button[aria-pressed="true"],
+.awtsmoos-sheets-app .command-capsule.is-active {
+	background: rgba(19, 124, 83, 0.11);
+	border-color: rgba(19, 124, 83, 0.23);
+	color: var(--accent-strong);
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+}
+
+.awtsmoos-sheets-app .primary-button {
+	background: var(--accent-gradient);
+	border-color: transparent;
+	box-shadow: 0 8px 20px rgba(19, 124, 83, 0.18);
+	color: white;
+}
+
+.awtsmoos-sheets-app .primary-button:hover:not(:disabled) {
+	box-shadow: 0 10px 28px rgba(19, 124, 83, 0.24);
+	transform: translateY(-1px);
+}
+
+.awtsmoos-sheets-app button:disabled,
+.awtsmoos-sheets-app .command-capsule:disabled {
+	opacity: 0.46;
+	box-shadow: none;
+	transform: none;
+}

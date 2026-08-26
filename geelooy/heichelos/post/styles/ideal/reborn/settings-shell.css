@@ -1,0 +1,76 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives the settings chamber one bounded layer and one measured frame;
+ * Awtsmoos.com keeps its desktop, mobile, and reduced-motion behavior under one owner's name.
+ */
+.post-reader-localized-context {
+	--reader-layer-settings: calc(var(--z-sidebar, 3000) + 20);
+	--reader-settings-motion: 180ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.post-reader-localized-context .typography-details {
+	position: fixed !important;
+	z-index: var(--reader-layer-settings) !important;
+	inset-inline: max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-right)) !important;
+	bottom: calc(var(--awt-reader-bottom-space, 86px) + 18px + env(safe-area-inset-bottom)) !important;
+	inline-size: auto !important;
+	max-inline-size: 680px !important;
+	max-block-size: min(78dvh, 620px) !important;
+	margin-inline: auto !important;
+	display: flex !important;
+	flex-direction: column !important;
+	overflow: hidden !important;
+	border: 1px solid rgba(246, 201, 108, .34) !important;
+	border-radius: 28px !important;
+	background:
+		radial-gradient(circle at 16% 0%, rgba(139, 92, 246, .28), transparent 18rem),
+		radial-gradient(circle at 94% 18%, rgba(14, 165, 233, .12), transparent 13rem),
+		linear-gradient(180deg, rgba(7, 13, 27, .98), rgba(3, 8, 18, .99)) !important;
+	box-shadow: 0 26px 80px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+	color: #fffdf5 !important;
+	opacity: 1 !important;
+	transform: translateY(0) scale(1) !important;
+	transition: opacity var(--reader-settings-motion), transform var(--reader-settings-motion) !important;
+	scrollbar-gutter: stable both-edges;
+}
+
+.post-reader-localized-context .typography-details.hidden-details {
+	opacity: 0 !important;
+	pointer-events: none !important;
+	transform: translateY(16px) scale(.985) !important;
+}
+
+.post-reader-localized-context .typography-content {
+	display: grid !important;
+	gap: 14px !important;
+	padding: 18px !important;
+	overflow-y: auto !important;
+	overflow-x: clip !important;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 520px) {
+	.post-reader-localized-context .typography-details {
+		inset-inline: max(10px, env(safe-area-inset-left)) max(10px, env(safe-area-inset-right)) !important;
+		bottom: calc(var(--awt-reader-bottom-space, 86px) + 8px + env(safe-area-inset-bottom)) !important;
+		max-block-size: 72dvh !important;
+		border-radius: 22px !important;
+	}
+
+	.post-reader-localized-context .typography-content {
+		gap: 10px !important;
+		padding: 12px !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.post-reader-localized-context .typography-details {
+		transition-duration: 0.001ms !important;
+	}
+
+	.post-reader-localized-context .typography-details.hidden-details {
+		transform: none !important;
+	}
+}

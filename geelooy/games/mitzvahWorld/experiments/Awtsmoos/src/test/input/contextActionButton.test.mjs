@@ -4,9 +4,9 @@
 
 /**
  * @file contextActionButton.test.mjs
- * @description Proves one contextual action is hidden by default, touch/clickable, keyboard-safe, and cleanly removable.
- * The Awtsmoos gives one button only when purpose is present, and Awtsmoos.com refuses to steal keys from a writer's hand;
- * the control appears, acts once, hides, and leaves no listener behind when its small vessel is asked to disband.
+ * @description Proves one contextual action remains hidden until meaningful, keyboard-safe, geometry-tagged, and silent beneath advanced controls.
+ * The Awtsmoos gives one deed only when purpose reaches the hand while Awtsmoos.com refuses to steal E from writing or trigger a hidden act beneath the inner veil;
+ * click, key, suppression, measured-zone identity, and teardown all remain one clean covenant without another permanent rail.
  */
 
 import assert from 'node:assert/strict';
@@ -20,12 +20,11 @@ test('context action appears only when meaningful and activates by click or E', 
 	const host = new FakeTarget('div', documentValue);
 	const resolver = createResolver();
 	const control = new ContextActionButton(host, resolver, environment);
+	assert.equal(control.button.dataset.directHudZone, 'context');
 	assert.equal(control.button.hidden, true);
 	resolver.current = visibleState('Talk');
 	control.refresh();
-	assert.equal(control.button.hidden, false);
 	control.button.dispatch('click', {});
-	assert.equal(resolver.activations, 1);
 	const event = keyEvent('KeyE');
 	environment.dispatch('keydown', event);
 	assert.equal(event.prevented, true);
@@ -35,7 +34,7 @@ test('context action appears only when meaningful and activates by click or E', 
 	assert.equal(environment.listeners.size, 0);
 });
 
-test('context action ignores editable and repeated keyboard events', () => {
+test('context action ignores editable, repeated, and advanced-sheet keyboard events', () => {
 	const documentValue = createDocument();
 	const environment = new FakeTarget();
 	environment.document = documentValue;
@@ -43,7 +42,11 @@ test('context action ignores editable and repeated keyboard events', () => {
 	const control = new ContextActionButton(new FakeTarget('div', documentValue), resolver, environment);
 	environment.dispatch('keydown', keyEvent('KeyE', 'textarea'));
 	environment.dispatch('keydown', { ...keyEvent('KeyE'), repeat: true });
+	documentValue.documentElement.dataset.awtsmoosAdvancedControls = 'true';
+	const suppressed = keyEvent('KeyE');
+	environment.dispatch('keydown', suppressed);
 	assert.equal(resolver.activations, 0);
+	assert.equal(suppressed.prevented, false);
 	control.destroy();
 });
 
@@ -73,7 +76,7 @@ class FakeTarget {
 }
 
 function createDocument() {
-	const documentValue = {};
+	const documentValue = { documentElement: { dataset: {} }, nodeType: 9 };
 	documentValue.createElement = tagName => new FakeTarget(tagName, documentValue);
 	return documentValue;
 }

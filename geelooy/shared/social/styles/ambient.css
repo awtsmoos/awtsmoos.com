@@ -1,7 +1,7 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos glimmers behind creation; Awtsmoos.com keeps this GPU light beneath text, touch, contrast, and human attention. */
+/** The Awtsmoos glimmers behind creation; Awtsmoos.com keeps GPU light beneath current social vessels, never above human attention. */
 .awtsmoosSocialAmbient {
 	position: fixed;
 	inset: 0;
@@ -11,16 +11,19 @@
 	pointer-events: none;
 	user-select: none;
 	touch-action: none;
-	opacity: .11;
+	opacity: .1;
 	filter: saturate(.82) brightness(.86);
 }
 .awtsmoosSocialExperience :where(
 	.publicDiscovery,
 	#commentThreadRoot,
 	.comment-thread-root,
+	.geelooy-profile-shell,
 	.profileHub,
+	.notifications-workspace,
 	.notificationsShell,
-	.heichel-page
+	.heichel-page,
+	[data-heichel-render-root]
 ) {
 	position: relative;
 	z-index: 1;
@@ -29,19 +32,19 @@
 	content: '';
 	position: fixed;
 	inset: 0;
-	z-index: -1;
+	z-index: 0;
 	pointer-events: none;
 	background:
-		radial-gradient(circle at 18% 16%, color-mix(in srgb, #7c5cff 9%, transparent), transparent 34%),
-		radial-gradient(circle at 78% 72%, color-mix(in srgb, #2fd7c4 7%, transparent), transparent 36%);
+		radial-gradient(circle at 18% 16%, color-mix(in srgb, #7c5cff 8%, transparent), transparent 34%),
+		radial-gradient(circle at 78% 72%, color-mix(in srgb, #2fd7c4 6%, transparent), transparent 36%);
 }
 @media (max-width: 620px) {
 	.awtsmoosSocialAmbient {
-		opacity: .075;
+		opacity: .07;
 	}
 }
 @media (prefers-reduced-motion: reduce) {
 	.awtsmoosSocialAmbient {
-		opacity: .055;
+		opacity: .05;
 	}
 }

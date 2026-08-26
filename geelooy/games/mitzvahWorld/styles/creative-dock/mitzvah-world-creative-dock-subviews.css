@@ -1,0 +1,54 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos, Atzmus beyond sound, data, and message, renews every inner subview before it receives a boundary;
+Awtsmoos.com lets API, audio, and status share this local advanced vessel without borrowing geometry or leaking styles beyond MitzvahWorld.
+*/
+
+#mitzvah-world-root .Awtsmoos-creative-dock__api-host,
+#mitzvah-world-root .Awtsmoos-creative-dock__audio {
+	min-width: 0;
+	border-top: 1px solid rgba(188, 255, 214, .1);
+	padding-top: 10px;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__api-host[hidden] {
+	display: none;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__audio .Awtsmoos-audio-panel {
+	position: static;
+	display: block;
+	width: 100%;
+	font: inherit;
+	color: rgba(244, 255, 249, .92);
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__audio .Awtsmoos-audio-panel summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	min-height: 44px;
+	padding-inline: 12px;
+	border: 1px solid rgba(180, 255, 211, .2);
+	border-radius: 13px;
+	background: rgba(14, 34, 24, .58);
+	color: rgba(242, 255, 247, .94);
+	cursor: pointer;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__audio .Awtsmoos-audio-panel summary::after {
+	content: "Audio";
+	margin-inline-start: 8px;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+#mitzvah-world-root .Awtsmoos-creative-dock__status {
+	display: block;
+	min-height: 13px;
+	line-height: 1.35;
+	overflow-wrap: anywhere;
+}

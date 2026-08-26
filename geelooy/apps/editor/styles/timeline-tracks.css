@@ -1,0 +1,102 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives time marks, tracks, and keyframes finite places without letting motion escape its vessel;
+ * Awtsmoos.com keeps every ruler and animation point localized inside the Editor timeline's own measured world.
+ */
+.awtsmoos-editor-shell .timeline-ruler {
+	position: sticky;
+	top: 0;
+	z-index: 3;
+	height: 22px;
+	border-bottom: 1px solid var(--editor-border);
+	background: rgba(45, 57, 76, .98);
+	cursor: ew-resize;
+}
+
+.awtsmoos-editor-shell .timeline-ruler-marks {
+	position: relative;
+	height: 100%;
+}
+
+.awtsmoos-editor-shell .timeline-tick {
+	position: absolute;
+	bottom: 0;
+	width: 1px;
+	background: var(--editor-muted);
+}
+
+.awtsmoos-editor-shell .timeline-tick.major {
+	height: 8px;
+}
+
+.awtsmoos-editor-shell .timeline-tick.minor {
+	height: 4px;
+}
+
+.awtsmoos-editor-shell .timeline-tick-label {
+	position: absolute;
+	top: 2px;
+	transform: translateX(-50%);
+	color: var(--editor-text);
+	font-size: 10px;
+}
+
+.awtsmoos-editor-shell .timeline-layer-header,
+.awtsmoos-editor-shell .timeline-track-header {
+	display: flex;
+	align-items: center;
+	height: 28px;
+	padding: 0 6px;
+	border-bottom: 1px solid var(--editor-border);
+	user-select: none;
+}
+
+.awtsmoos-editor-shell .timeline-layer-header {
+	font-weight: 700;
+	background: var(--editor-panel-2);
+	cursor: pointer;
+}
+
+.awtsmoos-editor-shell .timeline-track-header {
+	padding-left: 28px;
+	background: var(--editor-panel);
+}
+
+.awtsmoos-editor-shell .timeline-layer-track-bg,
+.awtsmoos-editor-shell .timeline-track-row {
+	position: relative;
+	height: 28px;
+	border-bottom: 1px solid var(--editor-border);
+}
+
+.awtsmoos-editor-shell .timeline-track-row {
+	height: 24px;
+}
+
+.awtsmoos-editor-shell .timeline-layer-track-bg {
+	background: rgba(70, 86, 108, .35);
+}
+
+.awtsmoos-editor-shell .timeline-keyframe {
+	position: absolute;
+	top: 50%;
+	z-index: 2;
+	width: 10px;
+	height: 10px;
+	transform: translate(-50%, -50%) rotate(45deg);
+	border: 1px solid var(--editor-bg);
+	border-radius: 2px;
+	background: var(--editor-keyframe);
+	cursor: pointer;
+}
+
+.awtsmoos-editor-shell .timeline-cursor {
+	position: absolute;
+	top: 0;
+	z-index: var(--editor-z-cursor);
+	width: 2px;
+	height: 100%;
+	background: var(--editor-active);
+	pointer-events: none;
+}

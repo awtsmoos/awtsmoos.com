@@ -4,11 +4,10 @@
 
 /**
  * @file publicMaterialImageLoader.test.mjs
- * @description Proves direct, bitmap, object-URL, evidence, and cleanup image paths.
- * The Awtsmoos reveals pixels through the shortest truthful doorway; Awtsmoos.com verifies one
- * stalled browser image path cannot erase terrain while typed fallback evidence remains exact.
+ * @description Proves the current fetch-first decoder contract, bitmap/object-URL fallbacks, evidence, and cleanup.
+ * The Awtsmoos reveals pixels through verified bytes before direct recovery needs to rise;
+ * Awtsmoos.com keeps this older suite aligned with production truth so duplicated tests no longer contradict one another's eyes.
  */
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
@@ -24,10 +23,11 @@ import {
 	tickingClock
 } from '../support/PublicMaterialImageLoaderTestDoubles.mjs';
 
-test('decodes the canonical URL directly before attempting a fetch', async () => {
+test('verified fetched bytes decode through ImageBitmap before direct Image recovery', async () => {
 	let fetches = 0;
 	const record = await loadPublicMaterialImage('https://example.test/stone.jpg', 1000, {
 		ImageClass: successfulImageClass(),
+		createImageBitmapFunction: successfulBitmapFunction(),
 		fetchFunction: async () => {
 			fetches += 1;
 			return response('image/png');
@@ -35,10 +35,10 @@ test('decodes the canonical URL directly before attempting a fetch', async () =>
 		now: tickingClock()
 	});
 	assert.equal(record.ok, true);
-	assert.equal(record.method, 'direct-image-url');
-	assert.equal(record.width, 2048);
-	assert.equal(record.height, 1024);
-	assert.equal(fetches, 0);
+	assert.equal(record.method, 'blob-image-bitmap');
+	assert.equal(record.width, 313);
+	assert.equal(record.height, 313);
+	assert.equal(fetches, 1);
 });
 
 test('decodes fetched blobs through ImageBitmap before object URLs', async () => {
@@ -58,12 +58,10 @@ test('decodes fetched blobs through ImageBitmap before object URLs', async () =>
 	});
 	assert.equal(record.ok, true);
 	assert.equal(record.method, 'blob-image-bitmap');
-	assert.equal(record.width, 313);
-	assert.equal(record.height, 313);
 	assert.equal(objectUrls, 0);
 });
 
-test('falls back to object URL images and revokes the temporary URL', async () => {
+test('falls back to object URL images when bitmap decode is unavailable', async () => {
 	const revoked = [];
 	const record = await loadPublicMaterialImage('https://example.test/grass.png', 1000, {
 		ImageClass: directFailsBlobSucceedsImageClass(),
@@ -80,7 +78,7 @@ test('falls back to object URL images and revokes the temporary URL', async () =
 	assert.deepEqual(revoked, ['blob:grass']);
 });
 
-test('serializable evidence preserves typed failure details', async () => {
+test('serializable evidence preserves definitive non-image failure details', async () => {
 	const record = await loadPublicMaterialImage('https://example.test/not-image', 1000, {
 		ImageClass: failingImageClass(),
 		fetchFunction: async () => response('text/html'),
@@ -89,6 +87,6 @@ test('serializable evidence preserves typed failure details', async () => {
 	const evidence = serializableImageRecord(record);
 	assert.equal(evidence.ok, false);
 	assert.equal(evidence.stage, 'content-type');
-	assert.equal(evidence.attempts[0].method, 'direct-image-url');
+	assert.equal(evidence.attempts[0].method, 'network');
 	assert.equal(evidence.attempts.at(-1).error, 'non-image-content-type');
 });

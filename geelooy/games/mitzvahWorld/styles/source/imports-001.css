@@ -2,19 +2,16 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gathers every localized garment into one ordered revelation of style;
-Awtsmoos.com keeps each fragment named and bounded, so new light may enter without making the cascade wild.
+The Awtsmoos gathers each garment in lawful order; Awtsmoos.com lets foundations precede refinements, geometry precede interaction, and semantic state precede motion so the cascade never needs to shout.
 */
 
-@import url("./fragments/emergency-meadow-001.css");
-@import url("./fragments/mitzvah-world-actions-001.css");
-@import url("./fragments/mitzvah-world-actions-002.css");
-@import url("./fragments/mitzvah-world-api-explorer-001.css");
+@import url("./fragments/mitzvah-world-foundation-002.css");
 @import url("./fragments/mitzvah-world-combat-001.css");
 @import url("./fragments/mitzvah-world-combat-002.css");
 @import url("./fragments/mitzvah-world-combat-003.css");
-@import url("./fragments/mitzvah-world-corrections-001.css");
-@import url("./fragments/mitzvah-world-corrections-002.css");
+@import url("./fragments/mitzvah-world-actions-001.css");
+@import url("./fragments/mitzvah-world-action-interactions-001.css");
+@import url("./fragments/mitzvah-world-actions-002.css");
 @import url("./fragments/mitzvah-world-game-rail-001.css");
 @import url("./fragments/mitzvah-world-glyphs-001.css");
 @import url("./fragments/mitzvah-world-houses-001.css");
@@ -26,18 +23,14 @@ Awtsmoos.com keeps each fragment named and bounded, so new light may enter witho
 @import url("./fragments/mitzvah-world-direct-action-001.css");
 @import url("./fragments/mitzvah-world-meadow-menu-001.css");
 @import url("./fragments/mitzvah-world-menu-shell-001.css");
-@import url("./fragments/mitzvah-world-mobile-integration-001.css");
-@import url("./fragments/mitzvah-world-mobile-integration-002.css");
 @import url("./fragments/mitzvah-world-mobile-001.css");
 @import url("./fragments/mitzvah-world-mobile-jump-001.css");
 @import url("./fragments/mitzvah-world-panels-001.css");
 @import url("./fragments/mitzvah-world-quest-001.css");
-@import url("./fragments/mitzvah-world-responsive-001.css");
-@import url("./fragments/mitzvah-world-responsive-002.css");
-@import url("./fragments/mitzvah-world-responsive-003.css");
 @import url("./fragments/mitzvah-world-runtime-responsive-001.css");
 @import url("./fragments/mitzvah-world-runtime-states-001.css");
-@import url("./fragments/mitzvah-world-shell-001.css");
-@import url("./fragments/mitzvah-world-shell-002.css");
+@import url("./fragments/mitzvah-world-runtime-motion-001.css");
 @import url("./fragments/mitzvah-world-status-001.css");
 @import url("./fragments/mitzvah-world-status-002.css");
+@import url("./fragments/mitzvah-world-runtime-mounts-002.css");
+@import url("./fragments/mitzvah-world-direct-layout-001.css");

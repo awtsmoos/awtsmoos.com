@@ -1,0 +1,41 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos turns context into one horizontal river instead of five vertical walls before the feed;
+ * Awtsmoos.com keeps alias, destination, privacy, and route title touchable while hidden presence details recede.
+ */
+@media (max-width: 62.4375rem) {
+	.social-hub-document .contextRibbon {
+		position: sticky;
+		top: var(--g-header-h, 0px);
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: flex-start;
+		gap: .45rem;
+		margin: 0 .65rem .4rem;
+		padding: .35rem .4rem;
+		overflow-x: auto;
+		overflow-y: hidden;
+		overscroll-behavior-inline: contain;
+		scrollbar-width: none;
+	}
+
+	.social-hub-document .contextRibbon > * {
+		flex: 0 0 auto;
+		inline-size: auto;
+		min-inline-size: max-content;
+		max-inline-size: min(78vw, 18rem);
+		min-block-size: 40px;
+		white-space: nowrap;
+	}
+
+	.social-hub-document .contextRibbon > details {
+		display: none;
+	}
+
+	.social-hub-document .contextRibbon::-webkit-scrollbar {
+		display: none;
+	}
+}

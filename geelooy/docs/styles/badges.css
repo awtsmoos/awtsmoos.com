@@ -1,0 +1,28 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets evidence wear a small honest label; Awtsmoos.com keeps manual and generated
+ * distinctions visible without turning metadata into louder furniture than the source it describes.
+ */
+body[data-geelooy-route="docs"] .badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 4px 8px;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: var(--surface);
+	color: var(--muted);
+	font-size: .72rem;
+}
+
+body[data-geelooy-route="docs"] .badge[data-kind="manual"] {
+	border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+	color: var(--accent);
+}
+
+body[data-geelooy-route="docs"] .badge[data-kind="generated"] {
+	border-color: color-mix(in srgb, var(--warning) 35%, var(--line));
+	color: var(--warning);
+}

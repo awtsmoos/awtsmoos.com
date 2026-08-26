@@ -1,0 +1,74 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos reveals a tree of finite objects while every branch remains inside one named Editor vessel;
+ * Awtsmoos.com keeps hierarchy readable, touchable, and locally styled without leaking tree rules into another page.
+ */
+.awtsmoos-editor-shell #object-tree-panel {
+	top: 68px;
+	left: 10px;
+	width: 248px;
+	height: calc(50% - 78px);
+	min-height: 156px;
+}
+
+.awtsmoos-editor-shell .object-tree,
+.awtsmoos-editor-shell .object-tree ul {
+	margin: 0;
+	padding-left: 0;
+	list-style: none;
+}
+
+.awtsmoos-editor-shell .object-tree-children {
+	padding-left: 14px;
+}
+
+.awtsmoos-editor-shell .tree-item-header {
+	display: flex;
+	align-items: center;
+	min-height: 28px;
+	padding: 4px 6px;
+	border-radius: 7px;
+	cursor: pointer;
+}
+
+.awtsmoos-editor-shell .tree-item-header.selected {
+	color: white;
+	background: var(--editor-selected);
+}
+
+.awtsmoos-editor-shell .tree-item-header.active {
+	color: white;
+	background: var(--editor-active);
+}
+
+.awtsmoos-editor-shell .toggle-btn {
+	width: 22px;
+	height: 22px;
+	margin-right: 2px;
+	padding: 0;
+	border: 0;
+	color: var(--editor-muted);
+	background: transparent;
+	font: 16px/1 ui-monospace, monospace;
+	cursor: pointer;
+}
+
+.awtsmoos-editor-shell .toggle-placeholder {
+	width: 22px;
+	margin-right: 2px;
+	flex: 0 0 22px;
+}
+
+.awtsmoos-editor-shell .icon {
+	margin-right: 5px;
+	user-select: none;
+}
+
+.awtsmoos-editor-shell .item-name {
+	min-width: 0;
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

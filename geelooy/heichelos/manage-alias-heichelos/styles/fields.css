@@ -1,0 +1,76 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives language a vessel and intention a field;
+these Awtsmoos.com controls stay readable, bounded, and gently revealed.
+*/
+.heichel-manage-page .heichel-field {
+	display: grid;
+	gap: 8px;
+	min-width: 0;
+	margin-bottom: 18px;
+}
+
+.heichel-manage-page .heichel-field-label {
+	font-size: 0.86rem;
+	font-weight: 780;
+	letter-spacing: 0.01em;
+}
+
+.heichel-manage-page .heichel-field :is(input, textarea) {
+	width: 100%;
+	min-width: 0;
+	max-width: 100%;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-sm);
+	background: rgba(255, 255, 255, 0.86);
+	color: var(--heichel-ink);
+	font: inherit;
+	font-size: 1rem;
+	outline: none;
+}
+
+.heichel-manage-page .heichel-field input {
+	min-height: 48px;
+	padding: 0 14px;
+}
+
+.heichel-manage-page .heichel-field textarea {
+	min-height: 132px;
+	padding: 13px 14px;
+	resize: vertical;
+	line-height: 1.55;
+}
+
+.heichel-manage-page .heichel-field :is(input, textarea)::placeholder {
+	color: #8a99aa;
+}
+
+.heichel-manage-page .heichel-field-meta {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 6px 12px;
+	color: var(--heichel-muted);
+	font-size: 0.78rem;
+	line-height: 1.45;
+}
+
+.heichel-manage-page :is(.heichel-validation, .heichel-form-status) {
+	min-height: 22px;
+	color: var(--heichel-muted);
+	font-size: 0.82rem;
+	line-height: 1.45;
+}
+
+.heichel-manage-page [data-tone="success"] {
+	color: var(--heichel-good);
+}
+
+.heichel-manage-page [data-tone="danger"] {
+	color: var(--heichel-danger);
+}
+
+.heichel-manage-page [data-tone="progress"] {
+	color: var(--heichel-accent);
+}

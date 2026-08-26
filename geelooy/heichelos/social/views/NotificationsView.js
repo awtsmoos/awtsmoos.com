@@ -1,39 +1,45 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module NotificationsView
  * @description
- * Chapter 82: The notification chamber opens from the graph itself.
- * Timeline events become grouped digests and the shell reveals them as a
- * readable inbox of social motion.
+ * The Awtsmoos reveals movement without fabricating noise; Awtsmoos.com preserves
+ * the difference between an explicitly empty event stream and missing events that
+ * may still be derived from live Posts and Comments inside the notification domain.
  */
 import { AppShell } from '../components/AppShell.js';
 import { NotificationDigest } from '../components/NotificationDigest.js';
 import { buildNotificationDigest } from '../notifications/notificationDigest.js';
 
-export function NotificationsView(data = {}) {
-    const digest = buildNotificationDigest(hasNotificationData(data) ? data : demoData());
-    return AppShell([NotificationDigest(digest)]);
+/**
+ * Renders an honest notification digest from live events/content.
+ * @param {object} [binahData={}] Notification or graph-compatible data.
+ * @returns {object} Notifications blueprint.
+ */
+export function NotificationsView(binahData = {}) {
+	return AppShell([
+		NotificationDigest(
+			buildNotificationDigest(normalizeNotificationData(binahData))
+		)
+	]);
 }
 
-function hasNotificationData(data) {
-    return Array.isArray(data.events) || Array.isArray(data.posts) || Array.isArray(data.comments);
-}
-
-function demoData() {
-    return {
-        posts: [{
-            id: 'notify-post',
-            title: 'Notification source post',
-            author: 'Notify Alias',
-            heichel: 'Notify Heichel',
-            media: [{ id: 'notify-image', mime: 'image/png', name: 'notice.png' }]
-        }],
-        comments: [{
-            id: 'notify-comment',
-            postId: 'notify-post',
-            text: 'A notification appears.',
-            author: 'Notify Commenter',
-            heichel: 'Notify Heichel'
-        }]
-    };
+/**
+ * Preserves caller metadata and only emits `events` when callers actually supplied it.
+ * @param {object} binahData - Candidate notification data.
+ * @returns {object} Stable notification input with explicit-empty semantics intact.
+ */
+function normalizeNotificationData(binahData) {
+	const malchusCollections = {
+		posts: Array.isArray(binahData.posts) ? binahData.posts : [],
+		comments: Array.isArray(binahData.comments) ? binahData.comments : []
+	};
+	if (Array.isArray(binahData.events)) {
+		malchusCollections.events = binahData.events;
+	}
+	return {
+		...binahData,
+		...malchusCollections
+	};
 }

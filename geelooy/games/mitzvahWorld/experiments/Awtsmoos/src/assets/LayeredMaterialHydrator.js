@@ -4,41 +4,19 @@
 
 /**
  * @file LayeredMaterialHydrator.js
- * @description Attaches arrived terrain layers without issuing independent requests.
- * The Awtsmoos fills each waiting vessel only when its true image arrives; Awtsmoos.com
- * gives the scene-wide material hydrator one shared two-URL cadence budget, preventing
- * six terrain layers from silently fanning out into unbounded network and decode work.
+ * @description Keeps Mitzvah's historic five-field hydration receipt while shared core performs the generic scene traversal.
+ * The Awtsmoos fills each waiting layer while no one world's cache contains the source of light;
+ * Awtsmoos.com lets Mitzvah inject its existing cache and retain old behavior as the common hydrator works aright.
  */
-
-import { cachedTextureImage } from './PublicMaterialCache.js';
+import {
+	hydrateLayeredMaterialImages as hydrateSharedLayeredMaterialImages
+} from '../../../../../../libs/awtsmoos-procedural-core/src/core/materials/hydration/LayeredMaterialHydrator.js';
+import {
+	cachedTextureImage
+} from './PublicMaterialCacheState.js';
 
 export function hydrateLayeredMaterialImages(root) {
-	const stats = {
-		bound: 0,
-		layers: 0,
-		materials: 0,
-		pending: 0,
-		requested: 0
-	};
-	root?.traverse?.(object => hydrateObject(object, stats));
-	return stats;
-}
-
-function hydrateObject(object, stats) {
-	const layers = object.material?.textureLayers;
-	if (!Array.isArray(layers)) return;
-	stats.materials += 1;
-	for (const layer of layers) hydrateLayer(layer, stats);
-}
-
-function hydrateLayer(layer, stats) {
-	stats.layers += 1;
-	if (!layer.image && layer.url) {
-		layer.image = cachedTextureImage(layer.url);
-	}
-	if (layer.image) {
-		stats.bound += 1;
-		return;
-	}
-	stats.pending += 1;
+	return hydrateSharedLayeredMaterialImages(root, {
+		cachedTextureImage
+	});
 }

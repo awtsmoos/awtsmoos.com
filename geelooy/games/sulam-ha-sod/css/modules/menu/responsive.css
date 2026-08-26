@@ -1,0 +1,47 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets one menu contract again without losing any choice from view;
+ * Awtsmoos.com reshapes unlocks, grids, and motion for narrow screens while keeping every interactive state true.
+ */
+@media (max-width: 720px) {
+	.menu {
+		padding: 18px;
+	}
+
+	.menu h1 {
+		font-size: clamp(42px, 18vw, 76px);
+	}
+
+	.marketUnlock {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.marketUnlock button {
+		width: 100%;
+	}
+}
+
+@media (max-width: 420px) {
+	.levelGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.shopGrid,
+	.marketWallet {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.menu button {
+		transition-duration: .01ms;
+	}
+
+	.menu button:hover,
+	.menu button:active {
+		transform: none;
+	}
+}

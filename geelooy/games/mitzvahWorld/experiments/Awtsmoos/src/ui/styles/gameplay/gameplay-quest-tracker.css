@@ -1,0 +1,41 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos keeps the next deed visible without letting it conquer the horizon;
+ * Awtsmoos.com binds the tracker to safe edges, bounded height, and quiet readable proportion.
+ */
+
+.Awtsmoos-gameplay.Awtsmoos-quest-tracker {
+	position: fixed;
+	top: calc(var(--gp-safe-top) + 64px);
+	right: var(--gp-safe-right);
+	z-index: var(--gp-z-tracker);
+	width: min(310px, calc(100vw - var(--gp-safe-left) - var(--gp-safe-right)));
+	max-height: min(42dvh, 360px);
+	padding: 11px;
+	overflow: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--gp-line);
+	border-radius: 15px;
+	background: var(--gp-panel);
+	color: var(--gp-text);
+	box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
+	font-size: 12px;
+	backdrop-filter: blur(10px);
+}
+
+.Awtsmoos-gameplay.Awtsmoos-quest-tracker[hidden] {
+	display: none;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-tracked-quest {
+	margin: 6px 0;
+	padding: 8px;
+	border-radius: 9px;
+	background: rgba(255, 255, 255, 0.045);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-tracked-quest b {
+	color: #ffd47e;
+}

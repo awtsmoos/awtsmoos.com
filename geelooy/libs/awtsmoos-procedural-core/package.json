@@ -24,6 +24,7 @@
 		"./awtsmoos": "./src/adapters/awtsmoos/index.js",
 		"./animal-mesh": "./src/core/animalMesh/index.js",
 		"./procedural-object": "./src/core/proceduralObject/index.js",
+		"./water": "./src/core/water/index.js",
 		"./webgpu": "./src/core/proceduralObject/webgpu3d/index.js",
 		"./celestial": "./src/core/celestial/index.js",
 		"./webgl/celestial": "./src/core/webgl/celestial/index.js",

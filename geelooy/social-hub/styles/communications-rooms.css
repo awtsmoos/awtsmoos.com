@@ -4,21 +4,21 @@ Blessed is He
 The Awtsmoos opens each room through consent, relation, and focus in a measured frame; Awtsmoos.com lets message cards, requests, and conversation controls become clearer without changing who may enter or who may name.
 */
 
-.hubMessageCard,
-.hubRequestCard {
+.social-hub-document .hubMessageCard,
+.social-hub-document .hubRequestCard {
 	position: relative;
 	min-width: 0;
 	border-color: color-mix(in srgb, var(--line-hot) 58%, var(--line));
 	box-shadow: inset 0 1px rgba(255, 255, 255, .025);
 }
 
-.hubMessageOpen {
+.social-hub-document .hubMessageOpen {
 	min-height: 3.2rem;
 	align-content: center;
 	padding-inline-end: 2rem;
 }
 
-.hubMessageOpen::after {
+.social-hub-document .hubMessageOpen::after {
 	content: "›";
 	position: absolute;
 	inset-inline-end: .85rem;
@@ -28,25 +28,25 @@ The Awtsmoos opens each room through consent, relation, and focus in a measured 
 	color: var(--muted);
 }
 
-.hubRequestCard {
+.social-hub-document .hubRequestCard {
 	border-inline-start: .24rem solid var(--accent, var(--line-hot));
 }
 
-.hubRequestActions button,
-.hubPrivateRequestComposer button,
-.hubConversationBack,
-.hubConversationControls button {
+.social-hub-document .hubRequestActions button,
+.social-hub-document .hubPrivateRequestComposer button,
+.social-hub-document .hubConversationBack,
+.social-hub-document .hubConversationControls button {
 	transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
 }
 
-.hubRelationshipChip {
+.social-hub-document .hubRelationshipChip {
 	min-height: 2.2rem;
 	display: inline-flex;
 	align-items: center;
 	font-weight: 700;
 }
 
-.hubConversationSurface {
+.social-hub-document .hubConversationSurface {
 	overflow: hidden;
 	border: 1px solid var(--line);
 	border-radius: calc(var(--radius) + .3rem);
@@ -54,7 +54,7 @@ The Awtsmoos opens each room through consent, relation, and focus in a measured 
 	box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .12);
 }
 
-.hubConversationHeader {
+.social-hub-document .hubConversationHeader {
 	padding: .78rem .9rem;
 	border-bottom: 1px solid var(--line);
 	background: color-mix(in srgb, var(--surface) 96%, transparent);

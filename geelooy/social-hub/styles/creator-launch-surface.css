@@ -5,7 +5,7 @@ Blessed is He
 The Awtsmoos lets new creation shine beside conversation without confusing their covenants;
 Awtsmoos.com begins with the hand-sized gateway, then lets larger screens breathe without losing one clear invitation.
 */
-.creatorLaunch {
+.social-hub-document .creatorLaunch {
 	position: relative;
 	display: grid;
 	gap: .68rem;
@@ -25,7 +25,7 @@ Awtsmoos.com begins with the hand-sized gateway, then lets larger screens breath
 	animation: creator-launch-arrive 320ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
-.creatorLaunch::before {
+.social-hub-document .creatorLaunch::before {
 	position: absolute;
 	z-index: -1;
 	inset: -45% 38% 50% -20%;
@@ -35,28 +35,28 @@ Awtsmoos.com begins with the hand-sized gateway, then lets larger screens breath
 	pointer-events: none;
 }
 
-.creatorLaunchHeading {
+.social-hub-document .creatorLaunchHeading {
 	display: grid;
 	gap: .24rem;
 }
 
-.creatorLaunchHeading h3,
-.creatorLaunchHeading p {
+.social-hub-document .creatorLaunchHeading h3,
+.social-hub-document .creatorLaunchHeading p {
 	margin: 0;
 }
 
-.creatorLaunchHeading h3 {
+.social-hub-document .creatorLaunchHeading h3 {
 	font-size: clamp(1rem, 4.8vw, 1.28rem);
 	letter-spacing: -.018em;
 }
 
-.creatorLaunchHeading p {
+.social-hub-document .creatorLaunchHeading p {
 	max-width: 54rem;
 	color: var(--muted);
 	line-height: 1.45;
 }
 
-.creatorLaunchEyebrow {
+.social-hub-document .creatorLaunchEyebrow {
 	color: var(--cyan);
 	font-size: .68rem;
 	font-weight: 850;
@@ -64,7 +64,7 @@ Awtsmoos.com begins with the hand-sized gateway, then lets larger screens breath
 	text-transform: uppercase;
 }
 
-.creatorLaunchContext {
+.social-hub-document .creatorLaunchContext {
 	margin: 0;
 	color: var(--muted);
 	font-size: .74rem;
@@ -72,7 +72,7 @@ Awtsmoos.com begins with the hand-sized gateway, then lets larger screens breath
 }
 
 @media (min-width: 40.01rem) {
-	.creatorLaunch {
+	.social-hub-document .creatorLaunch {
 		margin: 1rem 0;
 		padding: clamp(.95rem, 2.2vw, 1.25rem);
 		border-radius: 1.15rem;

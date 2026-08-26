@@ -1,0 +1,104 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gathers changing numbers into a quiet compass at the rim;
+ * Awtsmoos.com keeps the player inside the city while mass, rank, time, and mission stay legible but slim.
+ */
+.hud {
+	top: max(12px, env(safe-area-inset-top));
+	left: max(12px, env(safe-area-inset-left));
+	width: min(700px, calc(100vw - 272px));
+	gap: 9px;
+}
+
+.brand-row {
+	min-height: 58px;
+	padding: 8px 9px 8px 14px;
+	border-radius: 19px;
+}
+
+.brand {
+	display: grid;
+	grid-template-columns: auto auto;
+	align-items: end;
+	column-gap: 9px;
+}
+
+.brand-kicker {
+	grid-column: 1 / -1;
+	color: var(--experience-cyan);
+	font-size: 7px;
+	font-weight: 950;
+	letter-spacing: 0.15em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.brand b {
+	font-size: clamp(17px, 2vw, 22px);
+	letter-spacing: -0.04em;
+}
+
+.brand #levelText {
+	align-self: center;
+	color: #b9c8e8;
+	font-size: 9px;
+	font-weight: 850;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.hud-actions {
+	display: flex;
+	gap: 6px;
+}
+
+.mini-button {
+	display: grid;
+	place-items: center;
+	width: 42px;
+	height: 42px;
+	padding: 0;
+	border-radius: 13px;
+	background: rgba(255, 255, 255, 0.055);
+	color: white;
+}
+
+.primary-stats {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 7px;
+	width: min(430px, 100%);
+}
+
+.stat {
+	min-height: 63px;
+	padding: 9px 12px;
+	border-radius: 17px;
+}
+
+.stat small {
+	color: #9caccd;
+	font-size: 7px;
+	letter-spacing: 0.13em;
+}
+
+.stat strong {
+	font-size: clamp(18px, 2.5vw, 24px);
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -0.035em;
+}
+
+.mass-stat strong {
+	color: var(--experience-gold);
+}
+
+.rank-stat strong {
+	color: var(--experience-cyan);
+}
+
+.mission {
+	width: min(500px, 100%);
+	padding: 11px 13px;
+	border-radius: 18px;
+}

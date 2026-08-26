@@ -1,0 +1,70 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals each alias and heichel as a bounded vessel with room to breathe;
+ * Awtsmoos.com keeps identity copy, avatars, and narrow-screen geometry beneath the Profile shell,
+ * where long names may wrap and small screens may contract without breaking the surrounding world.
+ */
+.geelooy-profile-shell :where(.social-alias-card, .social-heichel-card) {
+	display: grid;
+	gap: .7rem;
+	box-sizing: border-box;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: .85rem;
+	overflow: clip;
+	border: 1px solid var(--social-line, rgb(148 163 184 / 18%));
+	border-radius: 1.2rem;
+	background: color-mix(in srgb, Canvas 95%, currentColor 5%);
+	box-shadow: 0 10px 34px rgb(15 23 42 / 5.5%);
+}
+
+.geelooy-profile-shell :where(.alias-command-head) {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: .65rem;
+	align-items: start;
+	min-inline-size: 0;
+}
+
+.geelooy-profile-shell :where(.alias-avatar) {
+	display: grid;
+	place-items: center;
+	inline-size: 46px;
+	block-size: 46px;
+	border-radius: .9rem;
+	background: color-mix(in srgb, #7c5cff 14%, Canvas);
+	font-weight: 860;
+}
+
+.geelooy-profile-shell :where(.alias-copy, .profileHeichelIdentity) {
+	display: grid;
+	gap: .18rem;
+	min-inline-size: 0;
+}
+
+.geelooy-profile-shell :where(.alias-copy, .profileHeichelIdentity) :where(h3, p, a) {
+	min-inline-size: 0;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.geelooy-profile-shell :where(.alias-copy p, .profileHeichelIdentity p) {
+	font-size: .82rem;
+	line-height: 1.45;
+	opacity: .68;
+}
+
+@media (max-width: 24rem) {
+	.geelooy-profile-shell :where(.alias-command-head) {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.geelooy-profile-shell :where(.social-alias-card, .social-heichel-card) {
+		animation: none;
+		transition: none;
+	}
+}

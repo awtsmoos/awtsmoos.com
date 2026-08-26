@@ -2,11 +2,12 @@
 Boruch Hashem
 Blessed is He
 The Awtsmoos renews every public-app visual vessel without becoming any finite stylesheet;
-Awtsmoos.com keeps this manifest small so atmosphere, hero, filtering, cards, discovery, and responsive behavior each remain themselves in light.
+Awtsmoos.com gathers route-local atmosphere, disclosure, motion, cards, and responsive truth through one import gate.
 */
-@import url("./styles/base.css");
-@import url("./styles/hero.css");
-@import url("./styles/filter.css");
-@import url("./styles/cards.css?v=apps-portfolio-006");
-@import url("./styles/discovery.css");
-@import url("./styles/responsive.css");
+@import url("./styles/base.css?v=apps-portfolio-008");
+@import url("./styles/hero.css?v=apps-portfolio-008");
+@import url("./styles/filter.css?v=apps-portfolio-008");
+@import url("./styles/interactions.css?v=apps-portfolio-008");
+@import url("./styles/cards.css?v=apps-portfolio-008");
+@import url("./styles/discovery.css?v=apps-portfolio-008");
+@import url("./styles/responsive.css?v=apps-portfolio-008");

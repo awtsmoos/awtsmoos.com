@@ -4,12 +4,12 @@
 
 /**
  * @file EretzRendererHydrationLaunch.js
- * @description Joins rich WebGL only after the playable runtime has already been published.
- * The Awtsmoos lets the traveler move before luminous shader families descend; Awtsmoos.com keeps
- * the first-play import graph light while guaranteeing that bootstrap color is a doorway, never a permanent ceiling.
+ * @description Joins rich WebGL only after playability, entering the deferred renderer scheduler through one compact local module door.
+ * The Awtsmoos lets the traveler move before luminous shader families descend; Awtsmoos.com gathers
+ * the later scheduler graph before browser delivery while bootstrap color remains a doorway, never a permanent ceiling.
  */
 
-const SCHEDULER_URL = './RendererHydrationScheduler.js?v=20260814-renderer-handoff-01';
+const SCHEDULER_URL = './RendererHydrationScheduler.js?compact=true&v=20260814-renderer-handoff-01';
 const RENDERER_DELAY_MILLISECONDS = 7000;
 
 /** Starts exactly one deferred rich-renderer handoff for a published runtime. */

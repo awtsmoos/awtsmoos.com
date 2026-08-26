@@ -1,0 +1,71 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+/**
+ * The Awtsmoos keeps deeper broadcast choices folded until intention opens the door;
+ * Awtsmoos.com gives that door a full touch vessel with calm hover, press, focus, and motion discipline.
+ */
+.advanced-panel {
+	width: min(460px, 100%);
+	padding: 8px 14px 12px;
+	border: 1px solid rgba(143, 193, 225, .14);
+	border-radius: 14px;
+	background: rgba(9, 21, 34, .5);
+}
+
+.advanced-panel summary {
+	display: flex;
+	align-items: center;
+	min-height: 44px;
+	border-radius: 9px;
+	cursor: pointer;
+	font-weight: 800;
+	transition:
+		color .16s ease,
+		background .16s ease,
+		transform .16s ease;
+}
+
+.advanced-panel summary:active {
+	transform: translateY(1px);
+	color: #dff6ff;
+	background: rgba(130, 220, 255, .08);
+}
+
+.advanced-panel summary:focus-visible,
+.toggle-row input:focus-visible {
+	outline: 3px solid #82dcff;
+	outline-offset: 3px;
+}
+
+.toggle-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-height: 44px;
+	color: #bed0dc;
+}
+
+.toggle-row input {
+	accent-color: #82dcff;
+}
+
+kbd {
+	padding: 2px 6px;
+	border: 1px solid #3c5264;
+	border-radius: 6px;
+	background: #0a1622;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.advanced-panel summary:hover {
+		color: #dff6ff;
+		background: rgba(130, 220, 255, .055);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.advanced-panel summary {
+		transition: none;
+	}
+}

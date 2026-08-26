@@ -1,45 +1,39 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 /**
  * @module DiscoveryView
  * @description
- * Chapter 75: The hidden graph becomes a public plaza.
- * The Awtsmoos draws posts, comments, media, heichelos, series, aliases, and
- * timeline events into one discovery surface where relation is visible.
+ * The Awtsmoos reveals a living graph without inventing a parallel reality;
+ * Awtsmoos.com lets Malchus render only supplied relation data while graph-domain
+ * builders remain in their own modules and the view owns no ranking logic.
  */
 import { AppShell } from '../components/AppShell.js';
 import { DiscoveryPanel } from '../components/DiscoveryPanel.js';
 import { buildSocialGraph } from '../graph/socialGraph.js';
 import { buildDiscovery } from '../graph/discovery.js';
 
-export function DiscoveryView(data = {}) {
-    const graph = buildSocialGraph(hasGraphData(data) ? data : demoData());
-    const discovery = buildDiscovery(graph);
-    return AppShell([DiscoveryPanel(discovery)]);
+/**
+ * Renders discovery from live graph-compatible records.
+ * @param {object} [binahData={}] Raw posts/comments and optional metadata.
+ * @returns {object} Social discovery blueprint.
+ */
+export function DiscoveryView(binahData = {}) {
+	const malchusGraph = buildSocialGraph(normalizeDiscoveryData(binahData));
+	return AppShell([
+		DiscoveryPanel(buildDiscovery(malchusGraph))
+	]);
 }
 
-function hasGraphData(data) {
-    return Array.isArray(data.posts) || Array.isArray(data.comments);
-}
-
-function demoData() {
-    return {
-        posts: [{
-            id: 'discovery-post',
-            title: 'Discovery awakens',
-            author: 'Explorer Alias',
-            heichel: 'Discovery Heichel',
-            seriesId: 'Discovery Series',
-            createdAt: '2026-06-18T12:00:00.000Z',
-            media: [{ id: 'discovery-image', mime: 'image/png', name: 'light.png' }]
-        }],
-        comments: [{
-            id: 'discovery-comment',
-            postId: 'discovery-post',
-            text: 'The graph can now be seen.',
-            author: 'Comment Explorer',
-            heichel: 'Discovery Heichel',
-            seriesId: 'Discovery Series',
-            createdAt: '2026-06-18T12:05:00.000Z'
-        }]
-    };
+/**
+ * Preserves caller metadata while guaranteeing graph collections are arrays.
+ * @param {object} binahData Candidate discovery data.
+ * @returns {object} Graph-ready social data.
+ */
+function normalizeDiscoveryData(binahData) {
+	return {
+		...binahData,
+		posts: Array.isArray(binahData.posts) ? binahData.posts : [],
+		comments: Array.isArray(binahData.comments) ? binahData.comments : []
+	};
 }

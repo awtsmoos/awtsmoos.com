@@ -1,0 +1,77 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets every finite control answer hover, press, focus, and stillness without spectacle;
+ * Awtsmoos.com keeps motion brief and professional so interaction clarifies the vessel rather than becoming an obstacle.
+ */
+.cover-button,
+.advanced-controls summary,
+.cover-field input,
+.advanced-grid input,
+.cover-field input[type="file"]::file-selector-button {
+	transition:
+		transform .16s ease,
+		border-color .16s ease,
+		background-color .16s ease,
+		box-shadow .16s ease,
+		filter .16s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.cover-button:not(:disabled):hover,
+	.advanced-controls summary:hover,
+	.cover-field input[type="file"]::file-selector-button:hover {
+		transform: translateY(-1px);
+		border-color: rgba(130, 230, 255, .58);
+		filter: brightness(1.08);
+	}
+
+	.cover-field input:hover,
+	.advanced-grid input:hover {
+		border-color: rgba(130, 230, 255, .38);
+		background: rgba(130, 230, 255, .04);
+	}
+}
+
+.cover-button:not(:disabled):active,
+.advanced-controls summary:active,
+.cover-field input[type="file"]::file-selector-button:active {
+	transform: translateY(1px) scale(.985);
+	filter: brightness(.96);
+}
+
+.cover-field input:active,
+.advanced-grid input:active {
+	border-color: rgba(130, 230, 255, .56);
+}
+
+.cover-button:focus-visible,
+.advanced-controls summary:focus-visible,
+.cover-field input:focus-visible,
+.advanced-grid input:focus-visible {
+	outline: 3px solid var(--cover-accent);
+	outline-offset: 3px;
+}
+
+.cover-button-primary:not(:disabled):hover {
+	box-shadow: 0 10px 28px rgba(80, 164, 220, .2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cover-button,
+	.advanced-controls summary,
+	.cover-field input,
+	.advanced-grid input,
+	.cover-field input[type="file"]::file-selector-button {
+		transition: none;
+	}
+
+	.cover-button:hover,
+	.cover-button:active,
+	.advanced-controls summary:hover,
+	.advanced-controls summary:active,
+	.cover-field input[type="file"]::file-selector-button:hover,
+	.cover-field input[type="file"]::file-selector-button:active {
+		transform: none;
+	}
+}

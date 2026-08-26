@@ -1,0 +1,103 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every boundary before interface takes form; Awtsmoos.com gives Mitzvah World one isolated futuristic vessel whose layers, motion, and safe edges remain measured through every storm.
+*/
+
+#mitzvah-world-root {
+	--mw-safe-top: max(12px, env(safe-area-inset-top, 0px));
+	--mw-safe-right: max(12px, env(safe-area-inset-right, 0px));
+	--mw-safe-bottom: max(14px, env(safe-area-inset-bottom, 0px));
+	--mw-safe-left: max(12px, env(safe-area-inset-left, 0px));
+	--mw-surface-deep: rgba(3, 15, 13, 0.94);
+	--mw-surface-panel: rgba(6, 24, 20, 0.84);
+	--mw-surface-control: rgba(229, 255, 247, 0.08);
+	--mw-surface-control-hover: rgba(133, 255, 211, 0.16);
+	--mw-border-soft: rgba(151, 255, 213, 0.24);
+	--mw-border-strong: rgba(147, 255, 211, 0.52);
+	--mw-text-primary: #f4ffff;
+	--mw-text-muted: rgba(218, 245, 237, 0.72);
+	--mw-accent: #75f5bf;
+	--mw-accent-strong: #b4ffdd;
+	--mw-danger: #ff7187;
+	--mw-focus-ring: 0 0 0 3px rgba(117, 245, 191, 0.28);
+	--mw-shadow-panel: 0 16px 48px rgba(0, 0, 0, 0.28);
+	--mw-shadow-control: 0 8px 24px rgba(0, 0, 0, 0.24);
+	--mw-radius-sm: 9px;
+	--mw-radius-md: 14px;
+	--mw-radius-lg: 18px;
+	--mw-control-min: 44px;
+	--mw-motion-fast: 130ms;
+	--mw-motion-normal: 190ms;
+	--mw-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+	--mw-z-world: 0;
+	--mw-z-hud: 20;
+	--mw-z-status: 30;
+	--mw-z-floating: 40;
+	--mw-z-overlay: 60;
+	--mw-z-dialog: 80;
+	--mw-z-boot: 90;
+	--mw-z-critical: 100;
+	position: fixed;
+	inset: 0;
+	isolation: isolate;
+	width: 100%;
+	max-width: 100vw;
+	height: 100dvh;
+	margin: 0;
+	overflow: hidden;
+	overflow: clip;
+	background: #07130f;
+	color: var(--mw-text-primary);
+	color-scheme: dark;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+#mitzvah-world-root,
+#mitzvah-world-root *,
+#mitzvah-world-root *::before,
+#mitzvah-world-root *::after {
+	box-sizing: border-box;
+}
+
+#mitzvah-world-root canvas,
+#mitzvah-world-root #emergency-meadow {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+}
+
+#mitzvah-world-root canvas {
+	z-index: var(--mw-z-world);
+}
+
+#mitzvah-world-root .world-card {
+	width: min(360px, calc(100vw - var(--mw-safe-left) - var(--mw-safe-right) - 8px));
+	max-width: 100%;
+	max-height: calc(100dvh - var(--mw-safe-top) - var(--mw-safe-bottom) - 16px);
+	overflow: auto;
+	overscroll-behavior: contain;
+	padding: 12px 14px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-lg);
+	background: var(--mw-surface-panel);
+	box-shadow: var(--mw-shadow-panel);
+	backdrop-filter: blur(16px) saturate(1.08);
+}
+
+@supports not (height: 100dvh) {
+	#mitzvah-world-root {
+		height: 100vh;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root {
+		--mw-motion-fast: 0.01ms;
+		--mw-motion-normal: 0.01ms;
+	}
+}

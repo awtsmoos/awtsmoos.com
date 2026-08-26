@@ -1,0 +1,102 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets filters reveal one current from many possible social histories;
+ * Awtsmoos.com keeps controls, privacy choices, and legal roads locally focused, touchable, and bounded.
+ */
+.social-hub-document .activityControls {
+	display: grid;
+	grid-template-columns: minmax(9rem, .75fr) minmax(10rem, 1fr) minmax(9rem, 1fr) auto auto;
+	gap: .5rem;
+	align-items: end;
+	min-inline-size: 0;
+}
+
+.social-hub-document :where(.privacyGrid, .categoryGrid) {
+	margin-block-end: 1rem;
+	padding: 1rem;
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	background: rgb(8 13 31 / 62%);
+}
+
+.social-hub-document :where(.categoryGrid, .privacyGrid) label {
+	display: flex;
+	min-block-size: 3rem;
+	align-items: center;
+	gap: .55rem;
+	padding: .55rem;
+	border: 1px solid rgb(158 247 255 / 8%);
+	border-radius: .75rem;
+	background: rgb(15 22 50 / 45%);
+	transition: border-color 140ms ease, background-color 140ms ease, transform 140ms var(--tiferes-ease);
+}
+
+.social-hub-document :where(.categoryGrid, .privacyGrid) label:focus-within {
+	border-color: var(--yesod-edge-hot);
+	background: rgb(60 236 255 / 8%);
+}
+
+.social-hub-document :where(.categoryGrid, .privacyGrid) label:active {
+	transform: scale(.985);
+}
+
+.social-hub-document :where(.categoryGrid, .privacyGrid) input[type="checkbox"] {
+	inline-size: 1.1rem;
+	block-size: 1.1rem;
+	min-block-size: 0;
+	accent-color: var(--cyan);
+}
+
+.social-hub-document .legalLinks {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .8rem;
+	margin-block-start: 1.2rem;
+}
+
+.social-hub-document .legalLinks a {
+	padding: .6rem .85rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	text-decoration: none;
+	transition: border-color 140ms ease, background-color 140ms ease, transform 140ms var(--tiferes-ease);
+}
+
+.social-hub-document .legalLinks a:focus-visible {
+	border-color: var(--yesod-edge-hot);
+	outline: 2px solid rgb(126 239 255 / 18%);
+	outline-offset: 2px;
+}
+
+.social-hub-document .legalLinks a:active {
+	transform: scale(.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document :where(.categoryGrid, .privacyGrid) label:hover,
+	.social-hub-document .legalLinks a:hover {
+		border-color: rgb(126 239 255 / 34%);
+		background: rgb(60 236 255 / 7%);
+	}
+}
+
+@media (max-width: 56.25rem) {
+	.social-hub-document .activityControls {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 35rem) {
+	.social-hub-document .activityControls {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document :where(.categoryGrid, .privacyGrid) label,
+	.social-hub-document .legalLinks a {
+		transition: none;
+	}
+}

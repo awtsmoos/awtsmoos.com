@@ -1,43 +1,38 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/** The Awtsmoos lets reaction, reply, share, and semantic relation live near each voice; Awtsmoos.com keeps them thumb-clear. */
+/** The Awtsmoos lets reaction, reply, share, and relation live near each voice; Awtsmoos.com keeps every action rail bounded, tactile, and readable through recursive depth. */
 .comment-card {
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	outline: none;
-	transition: box-shadow 160ms ease, transform 160ms ease;
+	transition: box-shadow 160ms ease, transform 160ms ease, border-color 160ms ease;
 }
-.comment-card:focus {
-	box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 22%, transparent);
-}
-.commentRelationList {
-	display: flex;
-	gap: 6px;
-	flex-wrap: wrap;
-}
+.comment-card:focus-visible { box-shadow: 0 0 0 3px color-mix(in srgb,currentColor 22%,transparent); }
+.commentRelationList { display: flex; gap: .4rem; flex-wrap: wrap; min-inline-size: 0; }
 .commentRelationChip {
 	display: inline-flex;
 	align-items: center;
-	min-height: 28px;
-	padding: 4px 9px;
+	min-inline-size: 0;
+	min-block-size: 30px;
+	max-inline-size: 100%;
+	padding: .3rem .58rem;
+	overflow-wrap: anywhere;
 	border-radius: 999px;
-	background: color-mix(in srgb, CanvasText 8%, Canvas);
+	background: color-mix(in srgb,CanvasText 8%,Canvas);
 	font-size: .72rem;
 	font-weight: 760;
 	text-transform: capitalize;
 }
-.comment-card > .awtsmoosUniversalActionRail {
-	margin-top: 8px;
+.comment-card > .awtsmoosUniversalActionRail { margin-block-start: .5rem; min-inline-size: 0; max-inline-size: 100%; }
+.threadReferencePicker .awtsmoosRelationshipPicker { display: grid; gap: .35rem; min-inline-size: 0; }
+.threadReferencePicker .awtsmoosRelationshipPicker select { min-inline-size: 0; min-block-size: 44px; max-inline-size: 100%; border-radius: .65rem; }
+.comment-tools { display: flex; flex-wrap: wrap; gap: .35rem; min-inline-size: 0; max-inline-size: 100%; }
+.comment-tools :where(button,a) { min-inline-size: 0; min-block-size: 44px; max-inline-size: 100%; }
+@media (hover:hover) and (pointer:fine) {
+	.comment-tools :where(button,a):hover,
+	.commentRelationChip:hover { transform: translateY(-1px); filter: brightness(1.04); }
 }
-.threadReferencePicker .awtsmoosRelationshipPicker {
-	display: grid;
-	gap: 5px;
-}
-.threadReferencePicker .awtsmoosRelationshipPicker select {
-	min-height: 44px;
-	border-radius: 10px;
-}
-@media (prefers-reduced-motion: reduce) {
-	.comment-card {
-		transition: none;
-	}
-}
+.comment-tools :where(button,a):active { transform: scale(.97); }
+.comment-tools :where(button,a):focus-visible { outline: 2px solid var(--social-focus,#67e8f9); outline-offset: 2px; }
+@media (prefers-reduced-motion:reduce) { .comment-card, .comment-tools :where(button,a), .commentRelationChip { transition: none; animation: none; } }

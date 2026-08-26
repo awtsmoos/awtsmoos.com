@@ -1,0 +1,45 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets color enter a hidden chamber without spilling into the simple reader floor;
+ * Awtsmoos.com gives tincture layout and its mobile contraction one owner and no more.
+ */
+.post-reader-localized-context .reader-advanced-content {
+	display: grid;
+	gap: 12px;
+	padding: 0 14px 14px;
+	border-top: 1px solid rgba(255, 255, 255, .08);
+}
+
+.post-reader-localized-context .reader-advanced-content > .control-label {
+	padding-top: 14px;
+}
+
+.post-reader-localized-context .color-picker-grid {
+	display: grid !important;
+	grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+	gap: 10px !important;
+}
+
+.post-reader-localized-context .color-control {
+	display: grid !important;
+	gap: 6px !important;
+	min-inline-size: 0;
+}
+
+.post-reader-localized-context .color-control label {
+	color: var(--inline-text-blue, #cbd5e1) !important;
+	font: 800 .82rem/1 var(--font-ui) !important;
+}
+
+.post-reader-localized-context input[type="color"].ink-pot {
+	padding: 4px !important;
+	overflow: hidden !important;
+	cursor: pointer;
+}
+
+@media (max-width: 520px) {
+	.post-reader-localized-context .color-picker-grid {
+		grid-template-columns: 1fr !important;
+	}
+}

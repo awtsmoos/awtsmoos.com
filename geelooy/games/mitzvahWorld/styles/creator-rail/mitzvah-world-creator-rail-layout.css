@@ -1,0 +1,68 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos, Atzmus beyond place and boundary, renews every safe edge before one creator vessel can inhabit the screen;
+Awtsmoos.com keeps this rail mobile-first, locally layered, bounded by safe areas, and away from lower movement controls so no element drifts beyond its appointed world.
+*/
+
+#mitzvah-world-root .Awtsmoos-creator-rail {
+	position: fixed;
+	z-index: var(--Awtsmoos-creator-layer);
+	top: max(64px, calc(env(safe-area-inset-top, 0px) + 56px));
+	right: max(8px, env(safe-area-inset-right, 0px));
+	width: min(332px, calc(100dvw - 16px));
+	max-width: calc(100dvw - 16px);
+	max-height: min(48dvh, 520px);
+	padding: 11px;
+	border: 1px solid var(--Awtsmoos-creator-border);
+	border-radius: 18px;
+	background:
+		radial-gradient(circle at 100% 0%, rgba(84, 255, 158, .09), transparent 42%),
+		linear-gradient(155deg, var(--Awtsmoos-creator-surface), rgba(3, 12, 8, .84));
+	box-shadow: 0 20px 58px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .055);
+	backdrop-filter: blur(18px) saturate(1.16);
+	overflow: hidden;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transform: translate3d(12px, -6px, 0) scale(.97);
+	transform-origin: top right;
+	transition: opacity 150ms ease, transform 180ms var(--Awtsmoos-creator-ease), visibility 0s linear 180ms;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail[data-open="true"] {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+	transform: translate3d(0, 0, 0) scale(1);
+	transition-delay: 0s;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail[data-collapsed="true"] {
+	width: min(286px, calc(100dvw - 16px));
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail[data-collapsed="true"] .Awtsmoos-creator-rail__body {
+	display: none;
+}
+
+#mitzvah-world-root .Awtsmoos-creator-rail__body {
+	max-height: calc(min(48dvh, 520px) - 50px);
+	margin-top: 10px;
+	padding-right: 2px;
+}
+
+@media (min-width: 760px) {
+	#mitzvah-world-root .Awtsmoos-creator-rail {
+		top: max(76px, calc(env(safe-area-inset-top, 0px) + 68px));
+		right: max(16px, calc(env(safe-area-inset-right, 0px) + 12px));
+		width: clamp(320px, 28vw, 370px);
+		max-width: min(370px, calc(100dvw - 32px));
+		max-height: min(68dvh, 680px);
+	}
+
+	#mitzvah-world-root .Awtsmoos-creator-rail__body {
+		max-height: calc(min(68dvh, 680px) - 52px);
+	}
+}

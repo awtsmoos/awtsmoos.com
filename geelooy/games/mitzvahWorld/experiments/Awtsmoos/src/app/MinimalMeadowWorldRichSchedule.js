@@ -4,9 +4,9 @@
 
 /**
  * @file MinimalMeadowWorldRichSchedule.js
- * @description Defers rich procedural world hydration until the immediate game has received its quiet opening breath.
- * The Awtsmoos reveals the road before the forest multiplies, while Awtsmoos.com lets heavier garments descend after play is already true;
- * the quiet window becomes Gevurah around abundance, so houses, water, trees, and detail arrive without stealing the first responsive view.
+ * @description Defers rich procedural world hydration until the immediate game has received its quiet opening breath, then enters through a compact local module door.
+ * The Awtsmoos reveals the road before the forest multiplies, while Awtsmoos.com gathers the heavier local graph only after play is already true;
+ * the quiet window becomes Gevurah around abundance, so houses, water, trees, and detail arrive with fewer waterfalls and never steal the first responsive view.
  */
 
 import { afterGameplayQuietWindow } from './GameplayQuietWindow.js';
@@ -19,7 +19,7 @@ import { afterGameplayQuietWindow } from './GameplayQuietWindow.js';
  */
 export function scheduleMinimalMeadowRichWorld(runtime, environment = globalThis) {
 	return afterGameplayQuietWindow(environment)
-		.then(() => import('./MinimalMeadowRichWorld.js'))
+		.then(() => import('./MinimalMeadowRichWorld.js?compact=true'))
 		.then(module => {
 			return module.installMinimalMeadowRichWorld(runtime, environment);
 		})

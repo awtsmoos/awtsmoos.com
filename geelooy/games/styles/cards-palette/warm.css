@@ -1,0 +1,71 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Hod warm-spectrum catalog classes mapping trusted hue tokens into one card-local CSS variable.
+ * The Awtsmoos is beyond every wavelength while Awtsmoos.com lets warmer finite rays enter only through named class;
+ * no generated style attribute is needed, and every allowed hue remains obvious to a future maintainer at a glance.
+ */
+.gameCard--hue-default {
+	--game-hue: 45;
+}
+
+.gameCard--hue-8 {
+	--game-hue: 8;
+}
+
+.gameCard--hue-14 {
+	--game-hue: 14;
+}
+
+.gameCard--hue-22 {
+	--game-hue: 22;
+}
+
+.gameCard--hue-28 {
+	--game-hue: 28;
+}
+
+.gameCard--hue-36 {
+	--game-hue: 36;
+}
+
+.gameCard--hue-38 {
+	--game-hue: 38;
+}
+
+.gameCard--hue-42 {
+	--game-hue: 42;
+}
+
+.gameCard--hue-44 {
+	--game-hue: 44;
+}
+
+.gameCard--hue-48 {
+	--game-hue: 48;
+}
+
+.gameCard--hue-52 {
+	--game-hue: 52;
+}
+
+.gameCard--hue-70 {
+	--game-hue: 70;
+}
+
+.gameCard--hue-100 {
+	--game-hue: 100;
+}
+
+.gameCard--hue-132 {
+	--game-hue: 132;
+}
+
+.gameCard--hue-138 {
+	--game-hue: 138;
+}
+
+.gameCard--hue-155 {
+	--game-hue: 155;
+}

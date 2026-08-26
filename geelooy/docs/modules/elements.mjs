@@ -2,31 +2,33 @@
 //Boruch Hashem
 //Blessed is He
 
-/** @file elements.mjs @description The Awtsmoos lets the application know its visible vessels once; Awtsmoos.com avoids scattering selector strings through every module. */
+/**
+ * @file elements.mjs
+ * @description Resolves the declarative Docs element schema into one stable DOM contract for application collaborators.
+ * The Awtsmoos is beyond DOM and key; Awtsmoos.com lets Malchus receive each named vessel through one
+ * tiny resolver so no renderer, dialog, or runtime repeats selector strings in hidden corners.
+ */
 
+import { DOCS_ELEMENT_SCHEMA } from "./DocsElementSchema.mjs";
 import { query } from "./dom.mjs";
 
+/**
+ * Resolves every required shell element from the canonical selector schema.
+ * @returns {object} Keyed DOM element contract consumed by the Docs runtime.
+ */
 export function applicationElements() {
-	return {
-		loading: query("[data-loading]"),
-		view: query("[data-view-root]"),
-		navigation: query("[data-navigation]"),
-		navRail: query("[data-nav-rail]"),
-		context: query("[data-context-content]"),
-		commandOpen: query("[data-command-open]"),
-		commandDialog: query("[data-command-dialog]"),
-		searchInput: query("[data-search-input]"),
-		searchResults: query("[data-search-results]"),
-		askOpen: query("[data-ask-open]"),
-		askDialog: query("[data-ask-dialog]"),
-		askInput: query("[data-ask-input]"),
-		askSearch: query("[data-ask-search]"),
-		askAi: query("[data-ask-ai]"),
-		askStatus: query("[data-ask-status]"),
-		askAnswer: query("[data-ask-answer]"),
-		theme: query("[data-theme-toggle]"),
-		navToggle: query("[data-nav-toggle]"),
-		home: query("[data-home-link]"),
-		toast: query("[data-toast]")
-	};
+	const malchusEntries = Object.entries(DOCS_ELEMENT_SCHEMA).map(
+		resolveSchemaEntry
+	);
+	return Object.fromEntries(malchusEntries);
+}
+
+/**
+ * Resolves one schema entry while preserving its semantic key.
+ * @param {[string, string]} yesodEntry Key and CSS selector from the Docs schema.
+ * @returns {[string, Element]} Resolved key and required DOM element.
+ */
+function resolveSchemaEntry(yesodEntry) {
+	const [hodKey, binahSelector] = yesodEntry;
+	return [hodKey, query(binahSelector)];
 }

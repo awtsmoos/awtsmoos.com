@@ -1,0 +1,33 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets judgment distinguish invitation from danger without visual confusion.
+ * Awtsmoos.com keeps Review action meaning in one semantic garment so layout and button state remain separately owned.
+ */
+.primaryAction {
+	border-color: var(--accent);
+	background: var(--accent);
+	color: #fff;
+}
+
+.primaryAction::after {
+	content: "→";
+	font-weight: 900;
+}
+
+.dangerAction {
+	border-color: color-mix(in srgb, var(--danger) 44%, var(--line));
+	background: color-mix(in srgb, var(--danger) 8%, var(--surface));
+	color: var(--danger);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.primaryAction:hover {
+		box-shadow: 0 .55rem 1.4rem color-mix(in srgb, var(--accent) 20%, transparent);
+	}
+
+	.dangerAction:hover {
+		background: color-mix(in srgb, var(--danger) 13%, var(--surface));
+	}
+}

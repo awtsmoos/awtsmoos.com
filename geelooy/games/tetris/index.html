@@ -1,61 +1,67 @@
 <!-- B"H -->
-<!DOCTYPE html>
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos renews every falling vessel before one line can meet another in time; Awtsmoos.com keeps Tikkun's choices clear, so descent becomes rectification through rhythm and rhyme. -->
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Tikkun HaOlam - The Final Rectification</title>
-    <link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+	<title>Tikkun HaOlam - The Final Rectification</title>
+	<link rel="stylesheet" href="style.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
-    <canvas id="background-canvas"></canvas>
-    
-    <div id="main-menu">
-        <div id="menu-title">TIKKUN</div>
-        <button class="menu-button" id="play-single">Begin Tikkun</button>
-        <button class="menu-button" id="play-pvai">Tikkun vs Golem</button>
-        <button class="menu-button" id="play-aivai">Witness Golems</button>
-    </div>
+	<canvas id="background-canvas"></canvas>
 
-    <div id="game-screen" class="hidden">
-        <!-- Player 1 Container -->
-        <div class="player-container" id="p1-container">
-            <div class="game-board-container">
-                <!-- CHANGE: Title is now INSIDE the board container -->
-                <div class="player-title" id="p1-title">PLAYER 1</div>
-                <canvas id="p1-canvas"></canvas>
-                <div class="hud">
-                    <div class="hud-stats">
-                        <div>Score:<span id="p1-score">0</span></div>
-                        <div>Level:<span id="p1-level">1</span></div>
-                        <div>Lines:<span id="p1-lines">0</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+	<div id="main-menu">
+		<div id="menu-title">TIKKUN</div>
+		<button class="menu-button" id="play-single">Begin Tikkun</button>
+		<button class="menu-button" id="play-pvai">Tikkun vs Golem</button>
+		<button class="menu-button" id="play-aivai">Witness Golems</button>
+	</div>
 
-        <!-- CHANGE: New shared controls area for the Descend button -->
-        <div id="shared-controls" class="hidden">
-            <button class="action-button" id="descend-button">Descend</button>
-        </div>
+	<div id="game-screen" class="hidden">
+		<!-- Player 1 Container -->
+		<div class="player-container" id="p1-container">
+			<div class="game-board-container">
+				<!-- CHANGE: Title is now INSIDE the board container -->
+				<div class="player-title" id="p1-title">PLAYER 1</div>
+				<canvas id="p1-canvas"></canvas>
+				<div class="hud">
+					<div class="hud-stats">
+						<div>Score:<span id="p1-score">0</span></div>
+						<div>Level:<span id="p1-level">1</span></div>
+						<div>Lines:<span id="p1-lines">0</span></div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <!-- Player 2 Container -->
-        <div class="player-container" id="p2-container">
-            <div class="game-board-container">
-                <!-- CHANGE: Title is now INSIDE the board container -->
-                <div class="player-title" id="p2-title">GOLEM</div>
-                <canvas id="p2-canvas"></canvas>
-                <div class="hud">
-                    <div class="hud-stats">
-                        <div>Score:<span id="p2-score">0</span></div>
-                        <div>Level:<span id="p2-level">1</span></div>
-                        <div>Lines:<span id="p2-lines">0</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+		<!-- CHANGE: New shared controls area for the Descend button -->
+		<div id="shared-controls" class="hidden">
+			<button class="action-button" id="descend-button">Descend</button>
+		</div>
 
-    <script src="main.js" defer></script>
+		<!-- Player 2 Container -->
+		<div class="player-container" id="p2-container">
+			<div class="game-board-container">
+				<!-- CHANGE: Title is now INSIDE the board container -->
+				<div class="player-title" id="p2-title">GOLEM</div>
+				<canvas id="p2-canvas"></canvas>
+				<div class="hud">
+					<div class="hud-stats">
+						<div>Score:<span id="p2-score">0</span></div>
+						<div>Level:<span id="p2-level">1</span></div>
+						<div>Lines:<span id="p2-lines">0</span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="main.js" defer></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

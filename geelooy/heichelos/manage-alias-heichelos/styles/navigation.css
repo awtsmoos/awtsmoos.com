@@ -1,0 +1,58 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every journey a doorway without stealing the page's center;
+Awtsmoos.com keeps nearby routes reachable, calm, and safe for thumb or pointer.
+*/
+.heichel-manage-page :is(.heichel-back, .heichel-route-dock a) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	border: 1px solid var(--heichel-line);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.7);
+	color: var(--heichel-ink);
+	font-size: 0.86rem;
+	font-weight: 720;
+	text-decoration: none;
+}
+
+.heichel-manage-page .heichel-back {
+	width: fit-content;
+	margin-bottom: 22px;
+	padding: 0 14px;
+}
+
+.heichel-manage-page .heichel-route-dock {
+	display: flex;
+	gap: 8px;
+	margin-top: 20px;
+	padding-bottom: 2px;
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+	scrollbar-width: none;
+}
+
+.heichel-manage-page .heichel-route-dock::-webkit-scrollbar {
+	display: none;
+}
+
+.heichel-manage-page .heichel-route-dock a {
+	flex: 0 0 auto;
+	padding: 0 13px;
+}
+
+.heichel-manage-page .heichel-route-dock a[aria-current="page"] {
+	border-color: rgba(36, 95, 229, 0.2);
+	background: rgba(36, 95, 229, 0.09);
+	color: var(--heichel-accent);
+}
+
+@media (hover: hover) {
+	.heichel-manage-page :is(.heichel-back, .heichel-route-dock a):hover {
+		border-color: rgba(36, 95, 229, 0.3);
+		color: var(--heichel-accent);
+		box-shadow: 0 10px 24px rgba(30, 62, 110, 0.1);
+	}
+}

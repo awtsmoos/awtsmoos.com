@@ -1,21 +1,21 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/*
-	Arithmetic, warnings, notifications, and fatal truth receive visible garments.
-	The Awtsmoos is beyond feedback while Awtsmoos.com reveals each finite sign.
-*/
-#gateLabels {
-	position: fixed;
+/**
+ * The Awtsmoos lets warning, arithmetic, notice, and fatal truth appear without global leakage;
+ * Awtsmoos.com keeps every finite sign inside named Merkava layers and explicit motion contracts.
+ */
+#gameShell #gateLabels {
+	position: absolute;
 	inset: 0;
-	z-index: 3;
+	z-index: var(--merkava-layer-labels);
 	pointer-events: none;
 	overflow: hidden;
 }
 
-.gate-label {
+#gameShell .gate-label {
 	position: absolute;
-	min-width: 3.2rem;
+	min-inline-size: 3.2rem;
 	padding: 0.38rem 0.5rem;
 	border: 1px solid currentColor;
 	border-radius: 0.65rem;
@@ -29,41 +29,49 @@
 	will-change: transform, opacity, left, top;
 }
 
-.gate-label.positive {
+#gameShell .gate-label.positive {
 	color: #42f2ea;
 }
 
-.gate-label.negative {
-	color: #ff4966;
+#gameShell .gate-label.negative {
+	color: var(--merkava-danger);
 }
 
-.notification {
-	position: fixed;
+#gameShell .notification {
+	position: absolute;
 	left: 50%;
 	bottom: max(7rem, env(safe-area-inset-bottom));
-	z-index: 12;
+	z-index: var(--merkava-layer-notice);
+	max-inline-size: min(90%, 32rem);
 	padding: 0.65rem 1rem;
-	border-radius: 999px;
-	background: rgba(11, 7, 31, 0.9);
 	border: 1px solid rgba(255, 222, 112, 0.45);
+	border-radius: 999px;
+	background: rgba(11, 7, 31, 0.94);
 	font-weight: 900;
+	text-align: center;
 	transform: translate(-50%, 2rem);
 	opacity: 0;
-	transition: 180ms ease;
+	transition:
+		transform var(--merkava-motion-medium) ease,
+		opacity var(--merkava-motion-medium) ease;
 	pointer-events: none;
 }
 
-.notification.visible {
+#gameShell .notification.visible {
 	transform: translate(-50%, 0);
 	opacity: 1;
 }
 
-.fatal-error {
-	position: fixed;
-	inset: auto 1rem 1rem;
-	z-index: 30;
+#gameShell .fatal-error {
+	position: absolute;
+	inset: auto 1rem max(1rem, env(safe-area-inset-bottom));
+	z-index: var(--merkava-layer-fatal);
 	display: none;
+	max-block-size: 50dvh;
+	overflow: auto;
 	padding: 1rem;
+	border: 1px solid rgba(255, 115, 135, 0.56);
+	border-radius: var(--merkava-radius-md);
 	white-space: pre-wrap;
 	background: #310812;
 	color: #ffd6dc;

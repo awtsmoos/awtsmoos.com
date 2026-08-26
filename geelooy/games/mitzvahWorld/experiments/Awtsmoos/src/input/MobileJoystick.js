@@ -4,9 +4,9 @@
 
 /**
  * @file MobileJoystick.js
- * @description Composes a floating touch surface with focus-scoped keyboard movement and lifecycle-safe reset.
- * The Awtsmoos turns touch and arrows toward one road without stale drift;
- * Awtsmoos.com lets the thumb arrive anywhere in its generous field and still find the gift.
+ * @description Composes a floating touch surface, marks its measured movement zone, and resets cleanly across lifecycle changes.
+ * The Awtsmoos turns touch and arrows toward one road while Awtsmoos.com gives the thumb field one named shore in the mobile sea;
+ * movement may float within its generous vessel, yet geometry, accessibility, and verification now agree where that vessel must be.
  */
 
 import { MobileJoystickKeyboard } from './MobileJoystickKeyboard.js';
@@ -16,6 +16,7 @@ import {
 	zeroJoystickVector
 } from './MobileJoystickVector.js';
 
+/** Owns mobile movement input while the shared layout layer owns coordinates. */
 export class MobileJoystick {
 	constructor(host) {
 		this.host = host;
@@ -31,6 +32,7 @@ export class MobileJoystick {
 
 	build() {
 		this.host.className = 'Awtsmoos-mobile-joystick';
+		this.host.dataset.directHudZone = 'movement';
 		this.host.setAttribute('role', 'group');
 		this.host.setAttribute('aria-label', 'Movement touch area');
 		this.host.innerHTML = '<div data-joystick-ring><i data-joystick-knob></i></div>';
@@ -40,15 +42,15 @@ export class MobileJoystick {
 		this.ring.setAttribute('role', 'group');
 		this.ring.setAttribute('aria-roledescription', 'floating directional joystick');
 		this.ring.setAttribute('aria-keyshortcuts', 'ArrowUp ArrowDown ArrowLeft ArrowRight');
-		this.keyboard = new MobileJoystickKeyboard(this.ring, vector => {
-			if (this.surface.pointerId === null) this.setVector(vector);
-		});
 		this.surface = new MobileJoystickPointerSurface(
 			this.host,
 			this.ring,
 			this.knob,
 			vector => this.setVector(vector)
 		);
+		this.keyboard = new MobileJoystickKeyboard(this.ring, vector => {
+			if (this.surface.pointerId === null) this.setVector(vector);
+		});
 		this.bindLifecycle();
 		this.setVector(zeroJoystickVector());
 	}

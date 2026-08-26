@@ -1,0 +1,43 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos contains endless pathways without demanding they all be visible at once;
+ * Awtsmoos.com folds advanced choices into deliberate disclosure, so mastery can deepen without taxing the first glance.
+ */
+.game-options {
+	border-top: 1px solid rgba(255, 255, 255, 0.09);
+	padding-top: 8px;
+}
+
+.game-options > summary,
+.advanced-group > summary {
+	border: 1px solid rgba(255, 255, 255, 0.11);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.025);
+	cursor: pointer;
+	list-style: none;
+}
+
+.game-options > summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 13px 15px;
+}
+
+.game-options > summary small {
+	color: #8492ad;
+	font-size: 8px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.option-stack {
+	padding-top: 12px;
+}
+
+.advanced-group > summary {
+	padding: 12px 14px;
+}

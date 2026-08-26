@@ -1,0 +1,16 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Yesod low-specificity focus fallback for every keyboard-reachable Games-hub control.
+ * The Awtsmoos is visible to keyboard, hand, and eye while Awtsmoos.com gives each reachable doorway one coherent ring;
+ * component-specific focus decoration may add depth above this zero-specificity fallback without creating a cascade sting.
+ */
+.gamesShell :where(a, button, input, summary):focus-visible {
+	outline: 3px solid var(--games-cyan);
+	outline-offset: 3px;
+}
+
+.skipLink:focus-visible {
+	z-index: 1000;
+}

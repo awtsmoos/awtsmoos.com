@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals a complete arena even when the screen becomes a narrow vessel;
+ * Awtsmoos.com protects thumb, notch, objective, and motion so mobile play stays intentional rather than accidental.
+ */
+@media (max-width: 760px), (pointer: coarse) {
+	.hud {
+		top: max(8px, env(safe-area-inset-top));
+		left: max(8px, env(safe-area-inset-left));
+		width: calc(100vw - 16px - env(safe-area-inset-left) - env(safe-area-inset-right));
+		gap: 6px;
+	}
+
+	.brand-row {
+		min-height: 52px;
+		padding: 6px 7px 6px 11px;
+		border-radius: 16px;
+	}
+
+	.brand-kicker {
+		display: none;
+	}
+
+	.brand {
+		grid-template-columns: auto;
+	}
+
+	.brand #levelText {
+		font-size: 8px;
+	}
+
+	.mini-button {
+		width: 44px;
+		height: 44px;
+	}
+
+	.primary-stats {
+		width: min(100%, 330px);
+		gap: 5px;
+	}
+
+	.stat {
+		min-height: 52px;
+		padding: 7px 9px;
+		border-radius: 14px;
+	}
+
+	.stat strong {
+		font-size: 18px;
+	}
+
+	.mission {
+		width: min(330px, 100%);
+		padding: 9px 10px;
+	}
+
+	.right-rail {
+		display: none;
+	}
+
+	#stick {
+		width: 116px;
+		height: 116px;
+	}
+
+	#pulse {
+		width: 86px;
+		height: 86px;
+	}
+}
+
+@media (max-height: 540px) and (orientation: landscape) {
+	.hud {
+		width: min(500px, calc(100vw - 160px));
+	}
+
+	.mission,
+	#message {
+		display: none;
+	}
+
+	.primary-stats {
+		width: 300px;
+	}
+}

@@ -4,37 +4,48 @@
 
 /**
  * @file PrimitiveMaterialFactory.js
- * @description Binds local images to primitives and opens one imported live-nature scheduler.
- * The Awtsmoos clothes each finite surface while one module awakening calls root and bloom;
- * Awtsmoos.com preserves authored strata, batching, and final GPU truth in the rendered room.
+ * @description Binds canonical remote images, authored texture layers, and world-space mix law to generated primitives.
+ * The Awtsmoos clothes each finite surface through one truthful vessel while Awtsmoos.com lets stone weather into stone and timber reveal grain;
+ * authored strata remain sovereign, fallback recipes fill only silence, and every hydrated image still travels through the shared non-blocking chain.
  */
 
 import { MeshStandardMaterial } from '../../../../light-three-gltf/tiny-runtime.js';
 import { cachedTextureImage } from '../../assets/PublicMaterialCache.js';
 import { isSameOriginMaterialUrl } from '../../assets/ProductionMaterialUrlPolicy.js';
-import { TEXTURE_PURPOSES, TEXTURE_URLS } from '../../assets/TextureCatalog.js';
 import { scheduleLiveRealNatureBridge } from '../nature/LiveRealNatureScheduler.js';
 import { colorArray } from './PrimitiveGeometryFactory.js';
+import { withPrimitiveFallbackSurfaceRecipe } from './PrimitiveFallbackSurfaceRecipe.js';
 import { createPrimitiveTexturePolicy } from './PrimitiveTexturePolicy.js';
 
 scheduleImportedNatureBridge();
 
+/**
+ * Creates one standard material whose texture fields are ready for the tiny renderer's real GPU mix path.
+ * @param {object} definition Procedural primitive definition.
+ * @param {number} uvUnitsPerWorld Physical UV density supplied by geometry.
+ * @returns {MeshStandardMaterial} Hydratable runtime material.
+ */
 export function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
-	const textureUrl = textureUrlFor(definition);
-	const mapImage = definition.mapImage || cachedTextureImage(textureUrl) || null;
-	const mixImage = definition.mixImage
-		|| cachedTextureImage(definition.mixTextureUrl)
-		|| null;
+	const resolved = withPrimitiveFallbackSurfaceRecipe(definition);
+	const textureUrl = textureUrlFor(resolved);
+	const mapImage = resolved.mapImage || cachedTextureImage(textureUrl) || null;
+	const mixImage = resolved.mixImage || cachedTextureImage(resolved.mixTextureUrl) || null;
 	const material = new MeshStandardMaterial({
-		alphaCutoff: definition.alphaCutoff ?? 0.5,
-		alphaMode: definition.alphaMode || (definition.transparent ? 'BLEND' : 'OPAQUE'),
-		color: colorArray(definition.color),
-		doubleSided: Boolean(definition.doubleSided),
-		name: definition.id,
-		opacity: definition.opacity ?? 1,
-		transparent: Boolean(definition.transparent)
+		alphaCutoff: resolved.alphaCutoff ?? 0.5,
+		alphaMode: resolved.alphaMode || (resolved.transparent ? 'BLEND' : 'OPAQUE'),
+		color: colorArray(resolved.color),
+		doubleSided: Boolean(resolved.doubleSided),
+		name: resolved.id,
+		opacity: resolved.opacity ?? 1,
+		transparent: Boolean(resolved.transparent)
 	});
-	Object.assign(material, {
+	Object.assign(material, materialFields(resolved, textureUrl, mapImage, mixImage, uvUnitsPerWorld));
+	Object.assign(material, layeredFields(resolved));
+	return material;
+}
+
+function materialFields(definition, textureUrl, mapImage, mixImage, uvUnitsPerWorld) {
+	return {
 		alphaCutoff: definition.alphaCutoff ?? 0.5,
 		alphaMode: definition.alphaMode || (definition.transparent ? 'BLEND' : 'OPAQUE'),
 		anisotropy: definition.anisotropy ?? 3,
@@ -43,6 +54,8 @@ export function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 		mapImage,
 		mapRepeat: definition.mapRepeat || [1, 1],
 		mixImage,
+		mixPatchScale: definition.mixPatchScale ?? 0,
+		mixPatchSharpness: definition.mixPatchSharpness ?? 0.58,
 		mixRepeat: definition.mixRepeat || definition.mapRepeat || [1, 1],
 		mixStrength: definition.mixStrength ?? 0,
 		mixTextureUrl: definition.mixTextureUrl || mixImage?.dataset?.publicUrl || null,
@@ -51,13 +64,13 @@ export function createPrimitiveMaterial(definition, uvUnitsPerWorld) {
 		texturePolicy: materialPolicy(definition, textureUrl, mapImage, uvUnitsPerWorld),
 		textureUrl,
 		transparent: Boolean(definition.transparent)
-	});
-	Object.assign(material, layeredFields(definition));
-	return material;
+	};
 }
 
 function layeredFields(definition) {
-	if (!Array.isArray(definition.textureLayers) || !definition.textureLayers.length) return {};
+	if (!Array.isArray(definition.textureLayers) || !definition.textureLayers.length) {
+		return {};
+	}
 	return {
 		materialStack: definition.materialStack || null,
 		textureLayers: definition.textureLayers.map(layer => ({
@@ -71,7 +84,7 @@ function materialPolicy(definition, textureUrl, mapImage, uvUnitsPerWorld) {
 	return {
 		...createPrimitiveTexturePolicy(definition, uvUnitsPerWorld),
 		...(definition.texturePolicy || {}),
-		fallbackApplied: !definition.textureUrl && !definition.mapImage,
+		fallbackApplied: Boolean(definition.texturePolicy?.fallbackSurfaceRecipe),
 		publicFirebase: definition.texturePolicy?.publicFirebase ?? false,
 		realMapImage: Boolean(mapImage),
 		sameOrigin: isSameOriginMaterialUrl(textureUrl)
@@ -83,19 +96,7 @@ function textureUrlFor(definition) {
 		|| definition.mapImage?.dataset?.publicUrl
 		|| definition.mapImage?.dataset?.url
 		|| definition.mapImage?.src
-		|| fallbackTexture(definition);
-}
-
-function fallbackTexture(definition) {
-	const id = String(definition.id || '').toLowerCase();
-	if (/water|lake|stream/.test(id)) return TEXTURE_URLS.water.shallowRiver;
-	if (/grass|bush|flower|reed/.test(id)) return TEXTURE_URLS.terrain.grass7;
-	if (/stone|well|cobble/.test(id)) return TEXTURE_URLS.stone.cobblestone;
-	if (id.includes('roof')) return TEXTURE_URLS.roof.tile2;
-	if (/gold|coin|lamp/.test(id)) return TEXTURE_URLS.metals.gold2;
-	if (/sign|scroll|mezuza/.test(id)) return TEXTURE_PURPOSES.mezuzaScroll;
-	if (/dirt|soil|garden/.test(id)) return TEXTURE_URLS.terrain.tilledSoil;
-	return TEXTURE_URLS.wood.planks1;
+		|| null;
 }
 
 function scheduleImportedNatureBridge() {

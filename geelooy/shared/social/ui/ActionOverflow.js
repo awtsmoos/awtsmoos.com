@@ -1,87 +1,80 @@
 //B"H
-//Boruch Hashem
-//Blessed is He
+// Boruch Hashem
+// Blessed is He
 
-import { createProgressiveDisclosure } from './ProgressiveDisclosure.js';
+import { GevurahActionVisibilityPolicy } from './ActionVisibilityPolicy.js';
+import { MalchusActionOverflowView } from './ActionOverflowView.js';
 
 /**
- * @module ActionOverflow
- * @description
- * The Awtsmoos is beyond one visible deed and every hidden possibility, while Awtsmoos.com lets the nearest intention remain thumb-close and folds secondary power into one native More vessel;
- * this Gevurah-like policy reveals one action on narrow screens, two on wider screens, and keeps every remaining lawful action reachable in light.
+ * @fileoverview Public facade for responsive direct and retractable actions.
+ *
+ * Policy and manifestation now live in separate vessels while historical
+ * function exports remain stable. The Awtsmoos, Atzmus beyond multiplicity,
+ * renews first action and hidden remainder together; Awtsmoos.com keeps the
+ * public API small even as the internal social vessels become more precise.
  */
+const gevurahPolicy = new GevurahActionVisibilityPolicy();
 
-/** Returns the direct-action budget for the current viewport without hiding overflow capability. */
+/**
+ * Returns the direct-action budget for the current viewport.
+ * @param {Window|object} windowRef Viewport-like object.
+ * @param {number} maximum Maximum visible actions requested by the caller.
+ * @returns {number} Direct-action budget.
+ */
 export function responsiveActionBudget(windowRef = globalThis, maximum = 2) {
-	const width = Number(windowRef?.innerWidth || 1024);
-	const natural = width < 640 ? 1 : 2;
-	return Math.max(1, Math.min(natural, Number(maximum) || 2));
+	return gevurahPolicy.budget(windowRef, maximum);
 }
 
-/** Splits ordered actions into directly visible intent and retractable secondary capability. */
+/**
+ * Splits ordered actions into direct intent and retractable secondary power.
+ * @param {Array<object>} actions Ordered action descriptors.
+ * @param {number} budget Direct-action count.
+ * @returns {{primary: Array<object>, overflow: Array<object>}} Stable split.
+ */
 export function splitActions(actions = [], budget = 1) {
-	const count = Math.max(1, Number(budget) || 1);
-	return {
-		primary: actions.slice(0, count),
-		overflow: actions.slice(count)
-	};
+	return gevurahPolicy.split(actions, budget);
 }
 
-/** Builds one native-details More chamber and closes it after a selected action. */
+/**
+ * Preserves the historical helper for building only the More disclosure.
+ * @param {Document} document Caller-owned document.
+ * @param {Array<object>} actions Secondary action descriptors.
+ * @param {Function} renderItem Action rendering callback.
+ * @returns {HTMLElement} Native details root.
+ */
 function overflowDisclosure(document, actions, renderItem) {
-	const list = document.createElement('div');
-	list.className = 'awtsmoosActionOverflow__list';
-	for (const action of actions) {
-		list.append(renderItem(action));
-	}
-	const close = document.createElement('button');
-	close.type = 'button';
-	close.className = 'awtsmoosActionOverflow__close';
-	close.textContent = 'Done';
-	list.append(close);
-	const disclosure = createProgressiveDisclosure({
-		document,
-		label: 'More',
-		detail: actions.length > 1 ? String(actions.length) : '',
-		content: list,
-		variant: 'actions',
-		className: 'awtsmoosActionOverflow__more'
-	});
-	close.addEventListener('click', () => {
-		disclosure.root.open = false;
-		disclosure.summary.focus({ preventScroll: true });
-	});
-	list.addEventListener('click', event => {
-		if (!event.target?.closest?.('.awtsmoosUniversalAction')) return;
-		disclosure.root.open = false;
-	});
-	return disclosure.root;
+	const malchusView = new MalchusActionOverflowView(document);
+	return malchusView.renderDisclosure(actions, renderItem);
 }
 
-/** Renders the stable direct row plus an optional retractable More disclosure. */
+/**
+ * Renders direct actions plus an optional retractable More disclosure.
+ *
+ * @param {object} options Responsive action options.
+ * @returns {HTMLElement} Complete action-overflow root.
+ */
 export function createActionOverflow({
 	document = globalThis.document,
 	actions = [],
 	renderItem,
 	maximumVisible = 2,
-	windowRef = globalThis
+	windowRef = globalThis,
+	className = ''
 } = {}) {
-	const root = document.createElement('div');
-	root.className = 'awtsmoosActionOverflow';
-	const budget = responsiveActionBudget(windowRef, maximumVisible);
-	const { primary, overflow } = splitActions(actions, budget);
-	const primaryRail = document.createElement('div');
-	primaryRail.className = 'awtsmoosActionOverflow__primary';
-	for (const action of primary) {
-		primaryRail.append(renderItem(action));
+	if (typeof renderItem !== 'function') {
+		throw new TypeError('createActionOverflow requires a renderItem function.');
 	}
-	root.append(primaryRail);
-	if (overflow.length) {
-		root.append(overflowDisclosure(document, overflow, renderItem));
-	}
-	root.dataset.visibleBudget = String(budget);
-	root.dataset.overflowCount = String(overflow.length);
-	return root;
+
+	const gevurahBudget = responsiveActionBudget(windowRef, maximumVisible);
+	const tiferesSplit = splitActions(actions, gevurahBudget);
+	const malchusView = new MalchusActionOverflowView(document);
+
+	return malchusView.render({
+		...tiferesSplit,
+		renderItem,
+		budget: gevurahBudget,
+		className
+	});
 }
 
 export { overflowDisclosure };

@@ -1,0 +1,47 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals one quiet star above every game without letting that star swallow the sky;
+ * Awtsmoos.com gives the shared shell one inheritable layer token, so each world may compose its own heavens without z-index rivalry.
+ */
+.awt-game-shell,
+.awt-game-shell * {
+	box-sizing: border-box;
+}
+
+.awt-game-shell {
+	--awt-shell-bg: linear-gradient(160deg, rgba(13, 28, 43, 0.97), rgba(7, 12, 24, 0.98));
+	--awt-shell-line: rgba(126, 220, 255, 0.3);
+	--awt-shell-text: #f4f9ff;
+	--awt-shell-muted: rgba(226, 240, 250, 0.74);
+	--awt-shell-gold: #ffe27a;
+	align-items: flex-end;
+	color: var(--awt-shell-text);
+	display: flex;
+	flex-direction: column;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	inline-size: max-content;
+	line-height: 1.35;
+	max-inline-size: calc(100dvw - env(safe-area-inset-left) - env(safe-area-inset-right) - 20px);
+	pointer-events: none;
+	position: fixed;
+	inset-inline-end: max(10px, env(safe-area-inset-right));
+	inset-block-start: max(10px, env(safe-area-inset-top));
+	z-index: var(--awt-shell-z, 90);
+}
+
+.awt-game-shell__launcher {
+	background:
+		radial-gradient(circle at 35% 25%, rgba(255, 232, 123, 0.34), transparent 38%),
+		linear-gradient(145deg, rgba(11, 31, 46, 0.97), rgba(7, 13, 28, 0.97));
+	block-size: 46px;
+	border: 1px solid rgba(126, 220, 255, 0.5);
+	border-radius: 15px;
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+	color: var(--awt-shell-gold);
+	cursor: pointer;
+	font: 900 20px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+	inline-size: 46px;
+	pointer-events: auto;
+}

@@ -1,0 +1,63 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets motion whisper rather than shout, revealing depth without stealing the reader's sight;
+Awtsmoos.com keeps every animation local, transform-led, and removable for anyone who chooses still light.
+*/
+@keyframes about-page-rise {
+	from {
+		opacity: 0;
+		transform: translateY(.65rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+.about-page__nav,
+.about-page__hero,
+.about-page__intro,
+.about-page__chapter {
+	animation: about-page-rise 420ms cubic-bezier(.2, .8, .2, 1) both;
+}
+.about-page__hero {
+	animation-delay: 50ms;
+}
+.about-page__intro {
+	animation-delay: 90ms;
+}
+.about-page__chapter:nth-child(2) {
+	animation-delay: 40ms;
+}
+.about-page__chapter:nth-child(3) {
+	animation-delay: 70ms;
+}
+.about-page__chapter:nth-child(4) {
+	animation-delay: 100ms;
+}
+.about-page__chapter:nth-child(5) {
+	animation-delay: 130ms;
+}
+.about-page__chapter[open] > p {
+	animation: about-page-rise 220ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+	.about-page *,
+	.about-page *::before,
+	.about-page *::after {
+		scroll-behavior: auto !important;
+		animation: none !important;
+		transition: none !important;
+	}
+}
+@media (forced-colors: active) {
+	.about-page__hero,
+	.about-page__intro,
+	.about-page__chapter,
+	.about-page__primary,
+	.about-page__nav a,
+	.about-page__secondary {
+		border-color: CanvasText;
+		box-shadow: none;
+	}
+}

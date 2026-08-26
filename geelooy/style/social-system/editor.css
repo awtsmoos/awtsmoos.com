@@ -6,10 +6,11 @@
  * Awtsmoos.com gathers shared layout and states from the parent system, then editor-specific parts reveal their work aright.
  */
 @import url("./layout.css?v=editor-revelation-002");
-@import url("./editor/parts/forms.css?v=editor-revelation-002");
-@import url("./editor/parts/cards.css?v=editor-revelation-002");
+@import url("./editor/parts/forms.css?v=editor-revelation-003");
+@import url("./editor/parts/cards.css?v=editor-revelation-003");
+@import url("./editor/parts/card-interactions.css?v=editor-revelation-003");
 @import url("./editor/parts/workbench-core.css?v=editor-revelation-002");
-@import url("./editor/parts/workbench-disclosure.css?v=editor-revelation-002");
-@import url("./editor/parts/workbench-mobile.css?v=editor-revelation-002");
+@import url("./editor/parts/workbench-disclosure.css?v=editor-revelation-003");
+@import url("./editor/parts/workbench-mobile.css?v=editor-revelation-003");
 @import url("./states.css?v=editor-revelation-002");
-@import url("./editor/parts/actions.css?v=editor-revelation-002");
+@import url("./editor/parts/actions.css?v=editor-revelation-003");

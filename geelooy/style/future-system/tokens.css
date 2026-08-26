@@ -1,18 +1,44 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lends each Awtsmoos.com route a distinct ray while one future covenant holds the frame;
-color changes by vessel, yet clarity, focus, and luminous depth remain the same.
+The Awtsmoos is beyond every color and measure, yet Awtsmoos.com receives finite
+oros through bounded keilim: each opted-in future surface owns its tokens, so light
+may differ by route without one page quietly repainting another page's night.
 */
-:where(body[data-future-page], body.social-hub-document) {
+
+:where(body[data-future-page], body.social-hub-document, body[data-future-particles]) {
+	color-scheme: dark;
 	--future-accent: 89 218 255;
+	--future-accent-color: rgb(var(--future-accent));
 	--future-accent-soft: rgba(var(--future-accent), .14);
 	--future-accent-faint: rgba(var(--future-accent), .07);
 	--future-border: rgba(var(--future-accent), .28);
 	--future-border-strong: rgba(var(--future-accent), .54);
+	--future-focus: rgba(var(--future-accent), .78);
+	--future-line: var(--future-border);
+	--future-line-strong: var(--future-border-strong);
+	--future-panel: rgba(7, 17, 34, .94);
+	--future-panel-strong: rgba(4, 10, 24, .98);
 	--future-glow: 0 20px 70px rgba(var(--future-accent), .12);
+	--future-glow-strong: 0 24px 84px rgba(var(--future-accent), .2);
+	--future-radius-sm: 12px;
 	--future-radius: 22px;
+	--future-radius-lg: var(--future-radius);
+	--future-touch: 44px;
 	--future-icon-size: 1.05rem;
+	--future-layer-particles: -1;
+	--future-layer-atmosphere: 0;
+	--future-layer-content: 1;
+	--future-layer-raised: 10;
+	--future-layer-sticky: 20;
+	--future-layer-overlay: 40;
+	--future-layer-dialog: 50;
+	--future-motion-fast: 160ms;
+	--future-motion-medium: 260ms;
+	--future-motion-slow: 520ms;
+	--future-motion-base: var(--future-motion-medium);
+	--future-ease: cubic-bezier(.2, .72, .2, 1);
+	--future-ease-out: var(--future-ease);
 }
 
 body[data-future-page="games"] {
@@ -33,4 +59,8 @@ body[data-future-page="about"] {
 
 body.social-hub-document {
 	--future-accent: 90 201 255;
+}
+
+body[data-future-page="youtube"] {
+	--future-particle-rgb: 132 153 255;
 }

@@ -1,0 +1,25 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets review, recovery, and command sheets rise from one safe world without touching the notch or leaking into hidden width;
+Awtsmoos.com adds only final visual-viewport bounds while each sheet keeps its own geometry, color, motion, and semantic controls.
+*/
+.publicationReviewDialog,
+.draftRecoveryDialog,
+.creatorCommandDialog {
+	box-sizing: border-box;
+	inline-size: min(
+		100%,
+		calc(
+			100dvw
+			- env(safe-area-inset-left)
+			- env(safe-area-inset-right)
+		)
+	);
+	max-inline-size: calc(
+		100dvw
+		- env(safe-area-inset-left)
+		- env(safe-area-inset-right)
+	);
+}

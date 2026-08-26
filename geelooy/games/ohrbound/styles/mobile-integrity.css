@@ -1,0 +1,96 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos is beyond every boundary while this finite viewport needs exact containment; Awtsmoos.com keeps each panel, dialog, scroll region, and control wholly inside the user's sight. */
+.ohrbound-app,
+.ohrbound-app .app-shell {
+	width: 100%;
+	max-width: 100%;
+}
+.ohrbound-app .app-shell,
+.ohrbound-app .menu-pane,
+.ohrbound-app .menu-content,
+.ohrbound-app .levels-panel,
+.ohrbound-app .editor-pane,
+.ohrbound-app .game-pane {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+.ohrbound-app .topbar > *,
+.ohrbound-app .topbar-tools > *,
+.ohrbound-app .hero > *,
+.ohrbound-app .section-heading > *,
+.ohrbound-app .game-hud > *,
+.ohrbound-app .editor-toolbar > *,
+.ohrbound-app .advanced-heading > * {
+	min-width: 0;
+}
+.ohrbound-app img,
+.ohrbound-app svg,
+.ohrbound-app canvas,
+.ohrbound-app video,
+.ohrbound-app button,
+.ohrbound-app input,
+.ohrbound-app select,
+.ohrbound-app textarea {
+	max-width: 100%;
+}
+.ohrbound-app .advanced-overlay,
+.ohrbound-app .game-pane {
+	contain: layout paint;
+}
+.ohrbound-app .advanced-overlay[data-open="false"] .advanced-sheet {
+	pointer-events: none;
+}
+.ohrbound-app [data-editor-palette],
+.ohrbound-app .editor-grid-scroll {
+	-webkit-overflow-scrolling: touch;
+}
+.ohrbound-app .focus-dialog[open] {
+	max-inline-size: calc(100vw - 1rem);
+	max-block-size: calc(100dvh - 1rem);
+}
+.ohrbound-app:has(.focus-dialog[open]) {
+	overflow: hidden;
+}
+.ohrbound-app .toast {
+	inset-inline-start: 50%;
+}
+@media (max-width: 560px) {
+	.ohrbound-app .focus-dialog[open] {
+		position: fixed;
+		inset: auto 0 max(0.5rem, env(safe-area-inset-bottom));
+		width: calc(100vw - 1rem);
+		max-width: calc(100vw - 1rem);
+		max-height: calc(100dvh - max(1rem, env(safe-area-inset-top)) - max(1rem, env(safe-area-inset-bottom)));
+		margin: 0 auto;
+		border-radius: 24px;
+	}
+	.ohrbound-app .menu-pane,
+	.ohrbound-app .editor-pane {
+		padding-inline: max(0.65rem, env(safe-area-inset-left));
+	}
+	.ohrbound-app .toast {
+		width: calc(100vw - 1rem);
+		max-width: calc(100vw - 1rem);
+		text-align: center;
+	}
+}
+@media (max-width: 360px) {
+	.ohrbound-app .primary-button,
+	.ohrbound-app .secondary-button,
+	.ohrbound-app .quiet-button {
+		padding-inline: 0.8rem;
+	}
+}
+@media (orientation: landscape) and (max-height: 520px) {
+	.ohrbound-app .game-hud {
+		top: max(0.35rem, env(safe-area-inset-top));
+	}
+	.ohrbound-app .game-hint {
+		display: none;
+	}
+	.ohrbound-app .focus-dialog[open] {
+		max-height: calc(100dvh - 0.5rem);
+	}
+}

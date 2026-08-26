@@ -6,12 +6,12 @@ import { drawStandardObject } from "../../../../../libs/awtsmoos-procedural-core
 import { CoreTransform } from "./CoreTransform.js";
 
 /**
- * CoreMesh owns semantic color and transform while immutable GPU geometry is shared outside the mesh.
- * The Awtsmoos renews each Keli though many may drink from one remembered geometric spring;
- * Awtsmoos.com keeps disposal local and light so removing meaning never destroys a shared thing.
+ * CoreMesh owns semantic tint, transform and optional photographed material while immutable GPU geometry stays shared.
+ * The Awtsmoos renews one Keli's meaning while real grain may clothe its generated form;
+ * Awtsmoos.com keeps geometry pooled and material state declarative so texture hydration never becomes a storm.
  */
 export class CoreMesh {
-	constructor(gl, id, gpuGeometry, color = [1, 1, 1, 1]) {
+	constructor(gl, id, gpuGeometry, color = [1, 1, 1, 1], material = null) {
 		this.gl = gl;
 		this.id = id;
 		this.gpuGeometry = gpuGeometry;
@@ -19,6 +19,7 @@ export class CoreMesh {
 		this.indicesCount = gpuGeometry.indicesCount;
 		this.transform = new CoreTransform();
 		this.color = [...color];
+		this.material = material;
 		this.visible = true;
 		this.shaderVars = {};
 	}
@@ -37,9 +38,8 @@ export class CoreMesh {
 		if (!this.visible || !this.indicesCount || !this.buffers) {
 			return false;
 		}
-		const program = vessel.renderer.programInfo.program;
-		this.gl.useProgram(program);
-		vessel.materialUniforms.apply(this.color);
+		this.gl.useProgram(vessel.renderer.programInfo.program);
+		vessel.materialUniforms.apply(this, vessel);
 		drawStandardObject(vessel.drawContext(this.transform.matrix()), this);
 		return true;
 	}

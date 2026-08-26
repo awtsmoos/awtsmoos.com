@@ -3,7 +3,8 @@
 # Boruch Hashem
 # Blessed is He
 
-# The Awtsmoos orders each installer vessel before activation; Awtsmoos.com lets readiness evidence flow in its proper place.
+# The Awtsmoos orders each installer vessel before activation and repair;
+# Awtsmoos.com sources identity, archives, late grace, and continuity before danger can bare.
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-node-runtime.sh"
 activate_node_runtime "$ROOT" || exit 1
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-cleanup.sh"
@@ -26,12 +27,19 @@ source "$AWTSMOOS_INSTALL_RUNTIME/unix-project-root-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-project-root-compat.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-service-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-readiness.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-late-readiness.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-emergency-continuity.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-success-values.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-success.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-version-policy.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-legacy-fallback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-process-control.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-install-resume.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-fast-repair-health.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-fast-repair.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-validation.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-identity.sh"
+source "$AWTSMOOS_INSTALL_RUNTIME/unix-metadata-fallback.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-package-stage.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-archive-list.sh"
 source "$AWTSMOOS_INSTALL_RUNTIME/unix-recovery-retention.sh"

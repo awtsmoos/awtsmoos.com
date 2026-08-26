@@ -1,0 +1,68 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives attention one finite target without letting that target own the whole sky; Awtsmoos.com keeps health, status, and collapse bounded in the status tier at every viewport width.
+*/
+
+#mitzvah-world-root .Awtsmoos-target-frame {
+	position: fixed;
+	inset-block-start: calc(var(--mw-safe-top) + 4px);
+	inset-inline-start: 50%;
+	z-index: var(--mw-z-status);
+	display: none;
+	align-items: stretch;
+	inline-size: min(430px, calc(100dvw - var(--mw-safe-left) - var(--mw-safe-right) - 20px));
+	max-inline-size: 100%;
+	transform: translateX(-50%);
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame[data-visible="true"] {
+	display: flex;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame[data-collapsed="true"] section {
+	display: none;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame section {
+	flex: 1;
+	min-inline-size: 0;
+	padding: 10px 13px;
+	border: 1px solid rgba(255, 96, 125, 0.34);
+	border-radius: var(--mw-radius-sm);
+	background: rgba(25, 5, 22, 0.95);
+	box-shadow: var(--mw-shadow-control);
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame header b {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#mitzvah-world-root .Awtsmoos-target-frame header small {
+	margin-inline-start: auto;
+	color: #ffb98f;
+}
+
+#mitzvah-world-root .Awtsmoos-target-health {
+	block-size: 10px;
+	margin: 8px 0;
+	overflow: hidden;
+	border-radius: 999px;
+	background: #280d15;
+}
+
+#mitzvah-world-root .Awtsmoos-target-health i {
+	display: block;
+	block-size: 100%;
+	background: linear-gradient(90deg, #7b0018, #ff3d32);
+	transition: inline-size var(--mw-motion-normal) ease;
+}

@@ -1,68 +1,88 @@
-/* B"H */
-/** The Awtsmoos lets context stand beside content; Awtsmoos.com keeps both rails readable and naturally scrollable. */
-.nav-rail,
-.context-rail {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets context stand beside content without squeezing the page; Awtsmoos.com gives Docs
+ * two natural scroll rails, a calm main stage, and navigation states equally legible by touch, pointer, or key.
+ */
+body[data-geelooy-route="docs"] :where(.nav-rail, .context-rail) {
 	position: sticky;
 	top: var(--topbar);
 	align-self: start;
-	height: calc(100vh - var(--topbar));
+	min-inline-size: 0;
+	block-size: calc(100dvh - var(--topbar));
+	overflow-x: clip;
 	overflow-y: auto;
+	overscroll-behavior: contain;
 	padding: 22px 18px 40px;
-	border-right: 1px solid var(--line);
+	border-inline-end: 1px solid var(--line);
 }
-.context-rail {
-	border-right: 0;
-	border-left: 1px solid var(--line);
+
+body[data-geelooy-route="docs"] .context-rail {
+	border-inline: 1px 0;
 }
-.rail-intro {
+
+body[data-geelooy-route="docs"] .rail-intro {
 	padding: 4px 6px 18px;
 	color: var(--muted);
 	font-size: .86rem;
 	line-height: 1.5;
 }
-.main-stage {
-	min-width: 0;
+
+body[data-geelooy-route="docs"] .main-stage {
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	padding: clamp(26px, 5vw, 64px);
 	outline: none;
 }
-.main-stage > section {
-	width: min(100%, 1120px);
-	margin: 0 auto;
+
+body[data-geelooy-route="docs"] .main-stage > section {
+	inline-size: min(100%, 1120px);
+	min-inline-size: 0;
+	margin-inline: auto;
 }
-.loading-card {
+
+body[data-geelooy-route="docs"] .loading-card {
 	display: flex;
+	min-block-size: 50vh;
 	align-items: center;
 	justify-content: center;
 	gap: 14px;
-	min-height: 50vh;
 	color: var(--muted);
 }
-.pulse-orb {
-	width: 12px;
-	height: 12px;
+
+body[data-geelooy-route="docs"] .pulse-orb {
+	inline-size: 12px;
+	block-size: 12px;
 	border-radius: 999px;
 	background: var(--accent);
 	box-shadow: 0 0 0 0 var(--accent-soft);
-	animation: pulse 1.8s ease infinite;
+	animation: docs-pulse 1.8s ease infinite;
 }
-@keyframes pulse {
+
+@keyframes docs-pulse {
 	50% {
 		box-shadow: 0 0 0 13px transparent;
 		opacity: .65;
 	}
 }
-.nav-section {
-	margin: 0 0 24px;
+
+body[data-geelooy-route="docs"] .nav-section {
+	margin-block: 0 24px;
 }
-.nav-section h2 {
+
+body[data-geelooy-route="docs"] .nav-section h2 {
 	margin: 0 6px 8px;
 	color: var(--faint);
 	font-size: .68rem;
 	letter-spacing: .12em;
 	text-transform: uppercase;
 }
-.nav-link {
+
+body[data-geelooy-route="docs"] .nav-link {
 	display: flex;
+	min-block-size: 44px;
+	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
 	padding: 8px 9px;
@@ -70,13 +90,26 @@
 	color: var(--muted);
 	font-size: .83rem;
 	text-decoration: none;
+	transition: background-color .14s ease, color .14s ease, transform .14s ease;
 }
-.nav-link:hover,
-.nav-link[aria-current="page"] {
+
+body[data-geelooy-route="docs"] .nav-link[aria-current="page"] {
 	background: var(--accent-soft);
 	color: var(--text);
 }
-.nav-count {
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-geelooy-route="docs"] .nav-link:hover {
+		background: var(--accent-soft);
+		color: var(--text);
+	}
+}
+
+body[data-geelooy-route="docs"] .nav-link:active {
+	transform: translateX(2px) scale(.99);
+}
+
+body[data-geelooy-route="docs"] .nav-count {
 	color: var(--faint);
 	font-variant-numeric: tabular-nums;
 }

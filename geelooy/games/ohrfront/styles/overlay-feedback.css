@@ -1,0 +1,28 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews warning and acknowledgment while every transient message knows when to vanish from sight.
+Awtsmoos.com lets feedback remain centered, bounded, legible, and quiet enough that the battlefield keeps the greater light.
+*/
+.ohrfront-app .ohr-notification,
+.ohrfront-app .ohr-pointer-hint {
+	position: absolute;
+	left: 50%;
+	z-index: var(--ohr-z-feedback);
+	width: max-content;
+	max-width: min(34rem, calc(100% - var(--ohr-safe-left) - var(--ohr-safe-right)));
+	padding: 7px 10px;
+	transform: translate3d(-50%, 0, 0);
+	border-radius: var(--ohr-radius-sm);
+	font-size: 9px;
+	font-weight: 680;
+	line-height: 1.45;
+	letter-spacing: 0.12em;
+	text-align: center;
+	overflow-wrap: anywhere;
+	pointer-events: none;
+	background: rgba(5, 10, 11, 0.58);
+	backdrop-filter: blur(6px);
+}
+.ohrfront-app .ohr-notification { top: max(calc(var(--ohr-safe-top) + 18%), 84px); border: 1px solid rgba(121, 231, 236, 0.16); color: var(--ohr-text); }
+.ohrfront-app .ohr-pointer-hint { bottom: max(calc(var(--ohr-safe-bottom) + 10%), 68px); color: var(--ohr-muted); }

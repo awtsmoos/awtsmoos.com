@@ -4,84 +4,47 @@
 
 /**
  * @file ClothingMerchantPanel.js
- * @description Presents Reb Shlomo's real stock through the player's authoritative inventory.
- * The Awtsmoos joins coin and clothing beneath honest measure; Awtsmoos.com shows ownership,
- * affordability, Chochmah, Daas, Gevurah, Malchus, and slot before a Peruta changes hands.
+ * @description Specializes the shared merchant foundation for Reb Shlomo's garment economy and spiritual attribute display.
+ * The Awtsmoos clothes finite form without becoming the garment; Awtsmoos.com lets one small subclass reveal
+ * Chochmah, Daas, Gevurah, and Malchus while inherited trade law guards every Peruta beneath the market light.
  */
 
 import { INVENTORY_CATALOG } from '../gameplay/InventoryCatalog.js';
 import { CLOTHING_MERCHANT_NAME, CLOTHING_MERCHANT_STOCK } from './ClothingMerchantCatalog.js';
+import { MerchantPanelBase } from './MerchantPanelBase.js';
 
-export class ClothingMerchantPanel {
-	constructor(store, options = {}) {
-		this.store = store;
-		this.document = options.document || globalThis.document;
-		this.onBuy = options.onBuy || ((itemId, quantity) => store.buy(itemId, quantity));
-		this.root = this.document.createElement('section');
-		this.root.className = 'Awtsmoos-sheet Awtsmoos-vendor-panel Awtsmoos-clothing-merchant Awtsmoos-gameplay';
-		this.root.hidden = true;
-		this.document.body.appendChild(this.root);
-		this.unsubscribe = store.onChange(() => this.render());
-		this.render();
+/** Tailor specialization over the reusable merchant lifecycle. */
+export class ClothingMerchantPanel extends MerchantPanelBase {
+	/** Creates Reb Shlomo's scoped two-way garment sheet. */
+	constructor(storeYesod, optionsChesed = {}) {
+		super(storeYesod, {
+			...optionsChesed,
+			identity: {
+				eyebrow: 'Market Quarter',
+				title: `🧵 ${CLOTHING_MERCHANT_NAME}`,
+				walletHint: 'Buy garments · sell optional clothing'
+			},
+			rootClass: 'Awtsmoos-clothing-merchant'
+		});
 	}
 
-	setOpen(open) {
-		this.root.hidden = !Boolean(open);
-		if (!this.root.hidden) this.render();
+	/** Returns immutable tailor stock identities. */
+	stockIds() {
+		return CLOTHING_MERCHANT_STOCK;
 	}
 
-	toggle() {
-		this.setOpen(this.root.hidden);
+	/** Reveals garment slot plus spiritual attributes in one compact data line. */
+	itemDetail(itemId) {
+		const binah = INVENTORY_CATALOG[itemId];
+		return `${binah.slot} · Chochmah ${binah.spiritual.chochmah} · Daas ${binah.spiritual.daas} · Gevurah ${binah.spiritual.gevurah} · Malchus ${binah.spiritual.malchus}`;
 	}
 
-	render() {
-		const state = this.store.snapshot();
-		const perutas = state.items.find(item => item.itemId === 'perutas')?.quantity || 0;
-		this.root.innerHTML = panelMarkup(perutas);
-		this.root.querySelector('[data-close]').addEventListener('click', () => this.setOpen(false));
-		this.root.querySelector('[data-items]').replaceChildren(
-			...CLOTHING_MERCHANT_STOCK.map(id => garmentCard(this.document, id, state, perutas))
-		);
-		this.root.querySelectorAll('[data-buy]').forEach(button =>
-			button.addEventListener('click', () => this.buy(button.dataset.buy))
-		);
-	}
-
-	async buy(itemId) {
-		try {
-			await this.onBuy(itemId, 1);
-			this.render();
-		} catch (error) {
-			this.root.querySelector('[data-message]').textContent = String(
-				error?.message || error
-			).replaceAll('_', ' ').toLowerCase();
-		}
-	}
-
+	/** Returns compact runtime evidence for readiness and debugging surfaces. */
 	diagnostics() {
-		return {
+		return Object.freeze({
 			open: !this.root.hidden,
 			perutas: this.store.quantity('perutas'),
 			stock: CLOTHING_MERCHANT_STOCK.length
-		};
+		});
 	}
-
-	destroy() {
-		this.unsubscribe();
-		this.root.remove();
-	}
-}
-
-function panelMarkup(perutas) {
-	return `<header class="Awtsmoos-sheet-header"><div><small>Market Quarter</small><h2>🧵 ${CLOTHING_MERCHANT_NAME}</h2></div><button data-close aria-label="Close tailor">×</button></header><p class="Awtsmoos-wallet">🪙 ${perutas} Perutas · earned through real play and demon loot</p><div class="Awtsmoos-vendor-grid" data-items></div><p class="Awtsmoos-panel-message" data-message></p>`;
-}
-
-function garmentCard(documentValue, itemId, state, perutas) {
-	const item = INVENTORY_CATALOG[itemId];
-	const owned = state.items.some(stack => stack.itemId === itemId);
-	const disabled = owned || perutas < item.price;
-	const card = documentValue.createElement('article');
-	card.className = 'Awtsmoos-vendor-card';
-	card.innerHTML = `<span>${item.icon}</span><div><b>${item.name}</b><small>${item.slot} · Chochmah ${item.spiritual.chochmah} · Daas ${item.spiritual.daas} · Gevurah ${item.spiritual.gevurah} · Malchus ${item.spiritual.malchus}</small></div><button data-buy="${itemId}" ${disabled ? 'disabled' : ''}>${owned ? 'Owned' : `${item.price} 🪙`}</button>`;
-	return card;
 }

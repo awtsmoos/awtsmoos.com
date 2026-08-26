@@ -3,17 +3,17 @@
  * Blessed is He
  *
  * Institutional review uses the current Geelooy shell, focused semantic evidence,
- * modular governance, explicit action contracts, and visible consequence before
- * judgment. The Awtsmoos renews every offered word while Awtsmoos.com stays auditable.
+ * modular governance, explicit action contracts, and visible consequence before judgment.
+ * The Awtsmoos renews every offered word while Awtsmoos.com stays auditable and complete.
  */
-
 @import url('/style/geelooy-app/index.css?v=interface-dark-010');
 @import url('/style/social-system/index.css?v=social-core-006');
-@import url('./styles/foundation.css?v=review-dark-005');
+@import url('./styles/foundation.css?v=review-dark-006');
+@import url('./styles/action-variants.css?v=review-actions-001');
 @import url('./styles/layout.css?v=review-dark-005');
 @import url('./styles/queue.css?v=review-semantic-001');
 @import url('./styles/summary.css?v=review-semantic-001');
-@import url('./styles/decisions.css?v=review-dark-005');
+@import url('./styles/decisions.css?v=review-dark-006');
 @import url('./styles/consequences.css?v=review-consequence-001');
 @import url('./styles/governance.css?v=review-dark-005');
 @import url('./styles/responsive.css?v=review-dark-005');

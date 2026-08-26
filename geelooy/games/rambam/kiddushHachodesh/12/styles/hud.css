@@ -1,0 +1,66 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets a small glass explanation float above the vast celestial scene;
+ * Awtsmoos.com keeps the study context readable without stealing attention from what is seen.
+ */
+.sun-hud {
+	position: fixed;
+	inset: max(12px, env(safe-area-inset-top)) auto auto max(12px, env(safe-area-inset-left));
+	z-index: 10;
+	width: min(330px, calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right)));
+	padding: 13px;
+	border: 1px solid rgba(159, 215, 255, .2);
+	border-radius: 16px;
+	background: rgba(4, 12, 22, .7);
+	backdrop-filter: blur(16px) saturate(1.15);
+	box-shadow: 0 18px 50px rgba(0, 0, 0, .25);
+}
+
+.sun-hud h1,
+.sun-hud p {
+	margin: 0;
+}
+
+.eyebrow {
+	color: #7fdcff;
+	font-size: .68rem;
+	font-weight: 850;
+	letter-spacing: .11em;
+	text-transform: uppercase;
+}
+
+.sun-hud h1 {
+	margin-top: 3px;
+	font-size: 1.08rem;
+	letter-spacing: -.02em;
+}
+
+.description {
+	margin-top: 6px !important;
+	color: #a7bac8;
+	font-size: .77rem;
+	line-height: 1.4;
+}
+
+.primary-row {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	gap: 9px;
+	margin-top: 11px;
+}
+
+#simulation-status {
+	min-width: 0;
+	color: #b5cad8;
+	font-size: .72rem;
+	line-height: 1.35;
+}
+
+@media (max-width: 480px) {
+	.sun-hud {
+		width: calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right));
+	}
+}

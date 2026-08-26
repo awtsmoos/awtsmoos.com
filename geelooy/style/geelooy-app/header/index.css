@@ -1,12 +1,14 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos reveals one futuristic crown through frame, search, profile,
- * constellation, and mobile vessels across every main Awtsmoos.com page.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Kesser gateway composing the global Awtsmoos header from focused shell, search, menu, profile, and mobile packing vessels.
+ * The Awtsmoos renews every header chamber before one imported garment can seem to stand alone;
+ * Awtsmoos.com lets Kesser join wide and narrow horizons while each small stylesheet keeps one responsibility known.
  */
 @import "./shell.css?v=header-dark-010";
-@import "./search.css?v=header-dark-010";
-@import "./menu.css?v=header-dark-010";
+@import "./search.css?v=header-dark-011";
+@import "./menu.css?v=header-dark-011";
 @import "./profile-crown.css?v=header-dark-010";
 @import "./mobile.css?v=header-dark-010";
+@import "./mobile-compact-actions.css?v=header-mobile-compact-001";

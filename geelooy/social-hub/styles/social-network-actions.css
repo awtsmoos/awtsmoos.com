@@ -1,79 +1,81 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets network navigation and guarded relationship action remain reachable without blur or oversized chrome.
-*/
-.networkAlias,
-.networkContext,
-.profileFollowButton,
-.publicFeedCard__profile {
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets network navigation and guarded relationship action remain reachable without oversized chrome;
+ * Awtsmoos.com roots every follow and profile action in Social Hub, where focus, touch, and intent stay locally revealed.
+ */
+.social-hub-document .networkAlias,
+.social-hub-document .networkContext,
+.social-hub-document .profileFollowButton,
+.social-hub-document .publicFeedCard__profile {
 	min-height: 44px;
 	border-radius: 999px;
 	font: inherit;
 	font-size: .78rem;
 }
 
-.networkAlias,
-.profileFollowButton,
-.publicFeedCard__profile {
+.social-hub-document .networkAlias,
+.social-hub-document .profileFollowButton,
+.social-hub-document .publicFeedCard__profile {
 	border: 1px solid rgba(121, 212, 255, .28);
 	background: rgba(76, 180, 255, .09);
 	color: #c9efff;
 	cursor: pointer;
 }
 
-.networkAlias,
-.networkContext,
-.profileFollowButton {
+.social-hub-document .networkAlias,
+.social-hub-document .networkContext,
+.social-hub-document .profileFollowButton {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	padding: 0 13px;
 }
 
-.networkContext {
+.social-hub-document .networkContext {
 	border: 1px solid rgba(139, 180, 255, .13);
 	color: var(--muted, #aeb8c8);
 }
 
-.profileFollowHost {
+.social-hub-document .profileFollowHost {
 	display: flex;
 	align-items: center;
 	min-height: 46px;
 	margin: 10px 0 12px;
 }
 
-.profileFollowButton {
+.social-hub-document .profileFollowButton {
 	font-weight: 850;
 }
 
-.profileFollowMessage {
+.social-hub-document .profileFollowMessage {
 	margin: 0;
 	color: var(--muted, #aeb8c8);
 	font-size: .78rem;
 	line-height: 1.5;
 }
 
-.publicFeedCard__profile {
+.social-hub-document .publicFeedCard__profile {
 	display: inline-flex;
 	align-items: center;
 	padding: 0 11px;
 	margin: 0 0 7px;
 }
 
-.networkAlias:hover,
-.networkAlias:focus-visible,
-.profileFollowButton:hover,
-.profileFollowButton:focus-visible,
-.publicFeedCard__profile:hover,
-.publicFeedCard__profile:focus-visible {
+.social-hub-document .networkAlias:hover,
+.social-hub-document .networkAlias:focus-visible,
+.social-hub-document .profileFollowButton:hover,
+.social-hub-document .profileFollowButton:focus-visible,
+.social-hub-document .publicFeedCard__profile:hover,
+.social-hub-document .publicFeedCard__profile:focus-visible {
 	border-color: #79d4ff;
 	background: rgba(76, 180, 255, .15);
 }
 
 @media (max-width: 700px) {
-	.networkAlias,
-	.networkContext {
+	.social-hub-document .networkAlias,
+.social-hub-document .networkContext {
 		width: 100%;
 		border-radius: 12px;
 	}

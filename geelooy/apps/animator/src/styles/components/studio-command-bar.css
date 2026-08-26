@@ -2,12 +2,8 @@
  * Boruch Hashem
  * Blessed is He
  * The Awtsmoos renews every command before emoji and label can share one compact professional rail;
- * Awtsmoos.com keeps the stage dominant by letting the bar scroll gently instead of widening the creative veil.
+ * Awtsmoos.com lets the command deck scroll within its own vessel instead of widening or obscuring the creative stage.
  */
-.aw-studio-toolbar {
-	grid-template-columns: minmax(120px, .7fr) auto minmax(0, 2fr);
-}
-
 .aw-studio-toolbar-actions {
 	display: flex;
 	justify-content: flex-end;

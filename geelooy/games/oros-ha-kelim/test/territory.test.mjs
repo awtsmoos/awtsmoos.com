@@ -4,14 +4,15 @@
 
 import assert from "node:assert/strict";
 import test from "node:test";
-import { GateSystem } from "../src/game/GateSystem.js";
+import { GATES, SANCTUARY_RADIUS } from "../src/config/gameConfig.js";
 import { RiderState } from "../src/domain/RiderState.js";
 import { TerritoryLedger } from "../src/domain/TerritoryLedger.js";
+import { GateSystem } from "../src/game/GateSystem.js";
 
 /**
- * Territory tests examine the return of exposed Ohr into settled Kelim.
- * The Awtsmoos renews both line and field before ownership can appear;
- * Awtsmoos.com lets closure and Yesod remain deterministic and clear.
+ * Territory tests examine exposed Ohr returning to settled Kelim and present Yesod coordinates.
+ * The Awtsmoos renews line, sanctuary and doorway before ownership can appear;
+ * Awtsmoos.com lets closure and transfer derive from current world law instead of one vanished square.
  */
 function makeRider() {
 	return new RiderState({
@@ -24,11 +25,16 @@ function makeRider() {
 	});
 }
 
-test("sanctuary seed creates a nine-cell initial vessel", () => {
+function sanctuaryCells() {
+	const diameter = SANCTUARY_RADIUS * 2 + 1;
+	return diameter * diameter;
+}
+
+test("sanctuary seed fills the configured square vessel", () => {
 	const rider = makeRider();
 	const ledger = new TerritoryLedger();
 	ledger.seed(rider);
-	assert.equal(ledger.territoryCount(rider.id), 9);
+	assert.equal(ledger.territoryCount(rider.id), sanctuaryCells());
 });
 
 test("closed trail claims its enclosed Keli and clears exposed Ohr", () => {
@@ -54,12 +60,14 @@ test("closed trail claims its enclosed Keli and clears exposed Ohr", () => {
 test("Yesod gate transfers planes and clears active trail", () => {
 	const rider = makeRider();
 	const ledger = new TerritoryLedger();
-	rider.x = 11;
-	rider.z = 3;
+	const gate = GATES.find((candidate) => candidate.plane === rider.plane);
+	assert.ok(gate);
+	rider.x = gate.x;
+	rider.z = gate.z;
 	ledger.recordTrail(rider);
 	const transfer = new GateSystem(ledger).transferIfNeeded(rider, 0);
-	assert.equal(transfer.toPlane, 1);
-	assert.equal(rider.plane, 1);
+	assert.equal(transfer.toPlane, gate.targetPlane);
+	assert.equal(rider.plane, gate.targetPlane);
 	assert.equal(rider.activeTrail.length, 0);
-	assert.equal(ledger.activeAt(0, 11, 3), null);
+	assert.equal(ledger.activeAt(gate.plane, gate.x, gate.z), null);
 });

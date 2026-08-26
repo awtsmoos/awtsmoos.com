@@ -1,0 +1,79 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+@layer oros.controls {
+	.oros-app :is(button, select, summary, input) {
+		transition: transform var(--oros-fast) var(--oros-ease), border-color var(--oros-fast) ease, background-color var(--oros-fast) ease, box-shadow var(--oros-fast) ease, opacity var(--oros-fast) ease, filter var(--oros-fast) ease;
+	}
+
+	.oros-app :is(button, summary, select) {
+		cursor: pointer;
+	}
+
+	.oros-app :is(button, select, summary, input):focus-visible {
+		outline: 2px solid var(--oros-cyan);
+		outline-offset: 3px;
+		box-shadow: 0 0 0 5px rgba(156, 236, 255, 0.15), var(--oros-glow);
+	}
+
+	.oros-app :is(.primary-button, .touch-button, #advanced-toggle, #advanced-close):active {
+		transform: translateY(1px) scale(0.96);
+		filter: brightness(1.16);
+	}
+
+	.oros-app #advanced-close {
+		width: 40px;
+		height: 40px;
+		border: 1px solid transparent;
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.06);
+		font-size: 1.45rem;
+	}
+
+	.oros-app .ride-details summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		width: fit-content;
+		min-height: 44px;
+		color: var(--oros-cyan);
+		list-style: none;
+	}
+
+	.oros-app .ride-details summary::after {
+		content: "⌄";
+		transition: transform var(--oros-medium) var(--oros-ease);
+	}
+
+	.oros-app .ride-details[open] summary::after {
+		transform: rotate(180deg);
+	}
+
+	.oros-app .switch-row:has(input:checked) {
+		border-color: rgba(156, 236, 255, 0.38);
+		background: rgba(79, 199, 229, 0.08);
+	}
+
+	.oros-app :is(button, select):disabled {
+		cursor: not-allowed;
+		opacity: 0.48;
+		filter: saturate(0.5);
+	}
+
+	@media (hover: hover) {
+		.oros-app :is(.primary-button, .touch-button, #advanced-toggle, #advanced-close):hover {
+			transform: translateY(-2px);
+			border-color: rgba(156, 236, 255, 0.72);
+			box-shadow: 0 0 0 1px rgba(156, 236, 255, 0.18), 0 16px 42px rgba(0, 0, 0, 0.34), 0 0 24px rgba(156, 236, 255, 0.12);
+		}
+		.oros-app .settings-grid select:hover,
+		.oros-app .ride-details summary:hover {
+			border-color: rgba(156, 236, 255, 0.52);
+			color: #ffffff;
+		}
+		.oros-app .switch-row:hover {
+			background: rgba(156, 236, 255, 0.06);
+		}
+	}
+}

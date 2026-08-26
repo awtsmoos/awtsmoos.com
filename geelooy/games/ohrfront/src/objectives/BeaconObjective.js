@@ -4,75 +4,90 @@
 
 /**
  * @file BeaconObjective.js
- * @description Manifests three capture beacons and advances the Har HaOhr campaign objective from player proximity.
- * The Awtsmoos renews traveler, place, and purpose every instant; Awtsmoos.com gives that meeting a finite beacon
- * whose ring fills with light until three separate points reveal one completed path across the battlefield.
+ * @description Runs ordered Aleph-Shin-Lamed captures across textured native beacon architecture and visible energy state.
+ * The Awtsmoos renews traveler, place, letter, and purpose at every measured gate;
+ * Awtsmoos.com lets three physical stations answer in sequence so the campaign has direction, memory, and fate.
  */
+import { distanceFlat } from "../core/OhrVectorMath.js";
+import { createBeaconForm } from "./BeaconFormFactory.js";
 
-import { sampleHarHaOhrHeight } from "../world/TerrainHeightField.js";
-
-const BEACON_COORDINATES = Object.freeze([
-	[-72, 76],
-	[8, 2],
-	[82, -72]
+const BEACON_DATA = Object.freeze([
+	Object.freeze({ glyph: "א", x: -78, z: 74 }),
+	Object.freeze({ glyph: "ש", x: 8, z: 2 }),
+	Object.freeze({ glyph: "ל", x: 82, z: -72 })
 ]);
 
-/** Three-stage capture objective for the first campaign node. */
-export class BeaconObjective {
-	constructor(THREE, scene) {
-		this.THREE = THREE;
-		this.scene = scene;
-		this.beacons = BEACON_COORDINATES.map((coordinates, index) => this.createBeacon(coordinates, index));
-		this.onComplete = () => {};
-		this.completed = false;
-	}
+const COLORS = Object.freeze({
+	dormant: [0.22, 0.43, 0.48, 0.18],
+	active: [0.34, 0.93, 1.0, 0.6],
+	captured: [0.54, 1.0, 0.7, 0.82]
+});
 
-	createBeacon([x, z], index) {
-		const group = new this.THREE.Group();
-		const base = new this.THREE.Mesh(
-			new this.THREE.CylinderGeometry(3.6, 4.4, 1.1, 12),
-			new this.THREE.MeshStandardMaterial({ color: 0x27444d, metalness: 0.5, roughness: 0.45 })
-		);
-		const beamMaterial = new this.THREE.MeshBasicMaterial({ color: 0x46dff4, transparent: true, opacity: 0.34 });
-		const beam = new this.THREE.Mesh(new this.THREE.CylinderGeometry(0.72, 1.3, 11, 12), beamMaterial);
-		beam.position.y = 5.6;
-		const ring = new this.THREE.Mesh(
-			new this.THREE.TorusGeometry(5.2, 0.18, 8, 40),
-			new this.THREE.MeshBasicMaterial({ color: 0x8df8ff })
-		);
-		ring.rotation.x = Math.PI / 2;
-		ring.position.y = 0.72;
-		group.add(base, beam, ring);
-		group.position.set(x, sampleHarHaOhrHeight(x, z) + 0.55, z);
-		group.name = `LightBeacon_${index + 1}`;
-		this.scene.add(group);
-		return { group, beam, ring, progress: 0, captured: false };
+export class BeaconObjective {
+	constructor(scene, glyphFactory, materialLibrary) {
+		this.beacons = BEACON_DATA.map((data, index) => (
+			createBeaconForm(scene, glyphFactory, materialLibrary, data, index)
+		));
+		this.activeIndex = 0;
+		this.completed = false;
+		this.onCapture = () => {};
+		this.onComplete = () => {};
+		this.updateBeaconVisuals();
 	}
 
 	update(delta, playerPosition) {
 		if (this.completed) return;
-		for (const beacon of this.beacons) {
-			if (beacon.captured) continue;
-			const horizontal = playerPosition.clone().setY(0).distanceTo(beacon.group.position.clone().setY(0));
-			if (horizontal < 8.5) beacon.progress = Math.min(1, beacon.progress + delta / 1.9);
-			else beacon.progress = Math.max(0, beacon.progress - delta * 0.2);
-			beacon.ring.scale.setScalar(1 + beacon.progress * 0.24);
-			beacon.beam.material.opacity = 0.28 + beacon.progress * 0.5;
-			if (beacon.progress >= 1) this.capture(beacon);
-		}
-		if (this.capturedCount === this.beacons.length) {
+		const beacon = this.activeBeacon;
+		const distance = distanceFlat(playerPosition, beacon.group.position);
+		if (distance < 8.7) beacon.progress = Math.min(1, beacon.progress + delta / 1.55);
+		else beacon.progress = Math.max(0, beacon.progress - delta * 0.24);
+		const width = 0.85 + beacon.progress * 1.25;
+		beacon.beam.scale.x = width;
+		beacon.beam.scale.z = width;
+		beacon.energy.opacity = 0.5 + beacon.progress * 0.42;
+		if (beacon.progress >= 1) this.captureActive();
+	}
+
+	captureActive() {
+		if (this.completed) return;
+		const beacon = this.activeBeacon;
+		beacon.progress = 1;
+		beacon.captured = true;
+		this.onCapture(beacon, this.activeIndex);
+		this.activeIndex += 1;
+		if (this.activeIndex >= this.beacons.length) {
 			this.completed = true;
+			this.updateBeaconVisuals();
 			this.onComplete();
+			return;
+		}
+		this.updateBeaconVisuals();
+	}
+
+	updateBeaconVisuals() {
+		for (let index = 0; index < this.beacons.length; index += 1) {
+			const beacon = this.beacons[index];
+			const color = beacon.captured
+				? COLORS.captured
+				: index === this.activeIndex ? COLORS.active : COLORS.dormant;
+			beacon.energy.color = [...color];
+			beacon.energy.opacity = color[3];
 		}
 	}
 
-	capture(beacon) {
-		beacon.captured = true;
-		beacon.beam.material.color.setHex(0x8dffaf);
-		beacon.ring.material.color.setHex(0xeaffc1);
+	get activeBeacon() {
+		return this.beacons[Math.min(this.activeIndex, this.beacons.length - 1)];
 	}
 
 	get capturedCount() {
 		return this.beacons.filter(beacon => beacon.captured).length;
+	}
+
+	get totalProgress() {
+		return (this.capturedCount + (this.completed ? 0 : this.activeBeacon.progress)) / this.beacons.length;
+	}
+
+	get objectiveLabel() {
+		return this.completed ? "HAR HAOHR SECURED" : `SECURE BEACON ${this.activeBeacon.glyph}`;
 	}
 }

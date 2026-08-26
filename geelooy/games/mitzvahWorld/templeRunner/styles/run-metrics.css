@@ -2,15 +2,16 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
+ * @fileoverview Malchus score, peruta, and streak rail using the route-owned HUD layer and bounded metric geometry.
  * The Awtsmoos renews score, peruta, and streak while the road remains wider than every number;
- * Awtsmoos.com keeps Malchus at the edge of sight, luminous enough to know and quiet enough to wonder.
+ * Awtsmoos.com keeps Malchus at the edge of sight, letting multiplier light deepen only when a real streak has begun.
  */
 
 .run-rail {
 	position: absolute;
 	top: var(--safe-top);
 	left: var(--safe-left);
-	z-index: 8;
+	z-index: var(--layer-hud);
 	display: flex;
 	align-items: stretch;
 	gap: 5px;
@@ -18,11 +19,7 @@
 	padding: 4px;
 	border: 1px solid var(--line);
 	border-radius: var(--radius-medium);
-	background: linear-gradient(
-		140deg,
-		rgba(30, 20, 13, 0.78),
-		rgba(13, 9, 7, 0.58)
-	);
+	background: linear-gradient(140deg, rgba(30, 20, 13, 0.78), rgba(13, 9, 7, 0.58));
 	backdrop-filter: var(--glass-blur);
 	box-shadow: var(--shadow-soft);
 	pointer-events: none;
@@ -46,8 +43,12 @@
 	background: var(--line);
 }
 
-.run-metric span {
+.run-metric span,
+.run-metric strong {
 	display: block;
+}
+
+.run-metric span {
 	color: var(--ivory-500);
 	font-size: 9px;
 	font-weight: 800;
@@ -57,7 +58,6 @@
 }
 
 .run-metric strong {
-	display: block;
 	margin-top: 3px;
 	color: var(--ivory-100);
 	font-size: 15px;
@@ -71,6 +71,26 @@
 	color: var(--gold-300);
 	font-size: 18px;
 	text-shadow: 0 0 16px rgba(255, 202, 91, 0.18);
+}
+
+#multiplier-value {
+	transition: color var(--motion-fast) var(--ease-soft), text-shadow var(--motion-fast) var(--ease-soft), filter var(--motion-fast) var(--ease-soft);
+}
+
+#multiplier-value[data-tier="2"] {
+	color: #ffd778;
+	text-shadow: 0 0 14px rgba(255, 211, 111, 0.24);
+}
+
+#multiplier-value[data-tier="3"] {
+	color: var(--gold-300);
+	text-shadow: 0 0 10px rgba(255, 224, 138, 0.34), 0 0 22px rgba(255, 184, 76, 0.16);
+}
+
+#multiplier-value[data-tier="4"] {
+	color: var(--cyan-300);
+	filter: brightness(1.08);
+	text-shadow: 0 0 10px rgba(111, 220, 246, 0.42), 0 0 22px rgba(255, 202, 91, 0.18);
 }
 
 @media (max-width: 390px) {

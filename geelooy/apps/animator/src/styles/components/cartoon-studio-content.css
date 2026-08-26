@@ -1,0 +1,70 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews each shot chip, meter, list, and JSON trace before production detail can be read;
+ * Awtsmoos.com keeps HUD content legible and compact while the shell remains a separate quiet vessel beside the stage.
+ */
+.cartoon-meter,
+.cartoon-bin {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.cartoon-meter {
+	margin-bottom: 9px;
+	color: var(--aw-muted);
+}
+
+.cartoon-meter i {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--aw-success);
+}
+
+.cartoon-bin {
+	flex-wrap: wrap;
+}
+
+.cartoon-bin span {
+	padding: 5px 8px;
+	border: 1px solid var(--aw-line);
+	border-radius: 999px;
+	background: var(--aw-control-subtle);
+}
+
+.cartoon-shotlist {
+	display: grid;
+	gap: 7px;
+	margin: 0;
+	padding-left: 18px;
+}
+
+.cartoon-shotlist li em {
+	display: block;
+	color: #9ed2ff;
+	font-style: normal;
+	font-size: 10px;
+}
+
+.cartoon-shotlist li small {
+	display: block;
+	color: var(--aw-muted);
+}
+
+.cartoon-json {
+	max-height: 280px;
+	overflow: auto;
+	padding: 9px;
+	border-radius: var(--aw-radius-md);
+	color: #cfe8ff;
+	background: rgba(0, 0, 0, .24);
+	white-space: pre-wrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.cartoon-card {
+		transition: none;
+	}
+}

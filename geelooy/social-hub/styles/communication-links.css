@@ -14,7 +14,7 @@
  * renews both source and destination in each instant; Awtsmoos.com lets Mail, Signals, and creation remain named without becoming estranged.
  */
 
-.communicationLink {
+.social-hub-document .communicationLink {
 	display: flex;
 	align-items: center;
 	gap: .65rem;
@@ -33,18 +33,18 @@
 		transform var(--keter-fast) var(--tiferes-spring);
 }
 
-.communicationLink:is(:hover, :focus-visible) {
+.social-hub-document .communicationLink:is(:hover, :focus-visible) {
 	border-color: var(--line-hot);
 	background: var(--surface-strong);
 	color: var(--ink);
 	transform: translateY(-1px);
 }
 
-.communicationLink .routeIcon {
+.social-hub-document .communicationLink .routeIcon {
 	flex: 0 0 auto;
 }
 
-.communicationLink .routeLabel {
+.social-hub-document .communicationLink .routeLabel {
 	min-width: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;

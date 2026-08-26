@@ -1,0 +1,107 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos makes state visible without drowning play; Awtsmoos.com gives score and purpose a quiet luminous stay.
+*/
+.adventure-hud {
+	display: grid;
+	grid-template-columns: minmax(150px, 1fr) minmax(0, 2fr);
+	gap: 10px;
+	align-items: stretch;
+}
+
+.hud-brand,
+.hud-metrics,
+.objective-strip {
+	border: 1px solid rgba(120, 207, 255, 0.22);
+	background: var(--adventure-surface);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 14px 34px rgba(0, 0, 0, 0.22);
+}
+
+.hud-brand {
+	display: grid;
+	gap: 4px;
+	padding: 11px 13px;
+	border-radius: 18px;
+}
+
+.hud-kicker,
+.overlay-kicker {
+	color: #74d8ff;
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.hud-brand strong {
+	font-size: clamp(13px, 3.5vw, 17px);
+}
+
+.hud-metrics {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	border-radius: 18px;
+	overflow: hidden;
+}
+
+.hud-metrics span {
+	display: grid;
+	place-content: center;
+	gap: 3px;
+	min-width: 0;
+	padding: 8px 5px;
+	text-align: center;
+}
+
+.hud-metrics span + span {
+	border-left: 1px solid rgba(120, 207, 255, 0.12);
+}
+
+.hud-metrics small {
+	color: var(--adventure-muted);
+	font-size: 9px;
+	font-weight: 750;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.hud-metrics b {
+	overflow: hidden;
+	font-size: clamp(11px, 3vw, 14px);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.objective-strip {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	min-height: 42px;
+	padding: 9px 13px;
+	border-radius: 16px;
+	color: #cfeeff;
+	font-size: 13px;
+	font-weight: 650;
+}
+
+.objective-orb {
+	width: 9px;
+	height: 9px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: #83e8ff;
+	box-shadow: 0 0 14px #83e8ff;
+}
+
+@media (max-width: 560px) {
+	.adventure-hud {
+		grid-template-columns: 1fr;
+	}
+
+	.hud-brand {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+}

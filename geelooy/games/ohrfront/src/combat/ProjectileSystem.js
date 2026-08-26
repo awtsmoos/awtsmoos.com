@@ -4,80 +4,60 @@
 
 /**
  * @file ProjectileSystem.js
- * @description Advances luminous Hebrew energy with continuous segment collision against terrain, cover, bots, and player.
- * The Awtsmoos renews every point between muzzle and impact, so Awtsmoos.com does not let a fast letter tunnel
- * through reality: each simulation step remembers the path it crossed and asks what truthful meeting occurred.
+ * @description Preserves the historical void-return projectile API while composing Gevurah impact law with Netzach procession internally.
+ * The Awtsmoos joins boundary and persistence without becoming divided by either finite name;
+ * Awtsmoos.com keeps callers stable while specialized inner vessels carry geometry, impact arbitration, and luminous projectile continuity.
  */
+import { GevurahImpactResolver } from "./projectiles/GevurahImpactResolver.js";
+import { NetzachProjectileProcession } from "./projectiles/NetzachProjectileProcession.js";
 
-import { sampleHarHaOhrHeight } from "../world/TerrainHeightField.js";
-
-function distanceToSegment(point, start, end, THREE) {
-	const segment = end.clone().sub(start);
-	const lengthSquared = Math.max(0.000001, segment.lengthSq());
-	const time = Math.max(0, Math.min(1, point.clone().sub(start).dot(segment) / lengthSquared));
-	const closest = start.clone().add(segment.multiplyScalar(time));
-	return closest.distanceTo(point);
-}
-
-/** Shared projectile simulation for player and bot Hebrew-energy fire. */
 export class ProjectileSystem {
-	constructor(THREE, scene, collisionWorld, glyphFactory) {
-		this.THREE = THREE;
-		this.scene = scene;
-		this.collisionWorld = collisionWorld;
-		this.glyphFactory = glyphFactory;
-		this.projectiles = [];
-		this.bots = null;
-		this.player = null;
+	/**
+	 * Creates the stable projectile facade around focused scene/collision/glyph/effect dependencies.
+	 * @param {object} malchusScene - Native scene used for glyph manifestation.
+	 * @param {object} gevurahCollisionWorld - Static collision boundary.
+	 * @param {object} malchusGlyphFactory - Hebrew projectile-glyph factory.
+	 * @param {object|null} malchusEffects - Optional impact-effect authority.
+	 * @param {object} yesodCamera - Camera used for glyph orientation.
+	 */
+	constructor(malchusScene, gevurahCollisionWorld, malchusGlyphFactory, malchusEffects, yesodCamera) {
+		this.gevurahImpactResolver = new GevurahImpactResolver(gevurahCollisionWorld);
+		this.netzachProcession = new NetzachProjectileProcession(malchusScene, malchusGlyphFactory, malchusEffects, yesodCamera, this.gevurahImpactResolver);
 		this.onPlayerHitBot = () => {};
+		this.onPlayerDamaged = () => {};
 	}
 
-	setCombatants(player, bots) {
-		this.player = player;
-		this.bots = bots;
+	/** Connects current player/bot combatants to dynamic impact resolution without returning a value. */
+	setCombatants(malchusPlayer, tiferesBots) {
+		this.gevurahImpactResolver.setCombatants(malchusPlayer, tiferesBots);
 	}
 
-	spawn(owner, start, direction, profile) {
-		const sprite = this.glyphFactory.createSprite(profile.glyph, profile.color);
-		sprite.position.copy(start);
-		this.scene.add(sprite);
-		this.projectiles.push({
-			owner,
-			sprite,
-			velocity: direction.clone().normalize().multiplyScalar(profile.speed),
-			damage: profile.damage,
-			ttl: 4.5
+	/**
+	 * Spawns one projectile while preserving the original public `undefined` return contract.
+	 * @param {string} yesodOwner - Projectile owner id.
+	 * @param {object} chochmahStartPoint - World-space origin.
+	 * @param {object} chochmahDirection - Travel direction.
+	 * @param {object} chochmahProfile - Weapon profile.
+	 * @returns {void}
+	 * @sideEffects Registers and manifests one projectile through the Netzach procession.
+	 */
+	spawn(yesodOwner, chochmahStartPoint, chochmahDirection, chochmahProfile) {
+		this.netzachProcession.spawn(yesodOwner, chochmahStartPoint, chochmahDirection, chochmahProfile);
+	}
+
+	/** Advances the projectile procession and forwards historical impact callbacks. */
+	update(netzachDelta, netzachElapsedTime) {
+		this.netzachProcession.update(netzachDelta, netzachElapsedTime, {
+			onPlayerHitBot: this.onPlayerHitBot,
+			onPlayerDamaged: this.onPlayerDamaged
 		});
 	}
 
-	update(delta, elapsed) {
-		for (let index = this.projectiles.length - 1; index >= 0; index -= 1) {
-			const projectile = this.projectiles[index];
-			const previous = projectile.sprite.position.clone();
-			const next = previous.clone().addScaledVector(projectile.velocity, delta);
-			projectile.ttl -= delta;
-			let impacted = projectile.ttl <= 0;
-			impacted ||= next.y <= sampleHarHaOhrHeight(next.x, next.z) + 0.22;
-			impacted ||= this.collisionWorld.segmentHitsStatic(previous, next);
-			if (!impacted && projectile.owner === "player" && this.bots) {
-				impacted = this.bots.hitSegment(previous, next, projectile.damage);
-				if (impacted) this.onPlayerHitBot();
-			}
-			if (!impacted && projectile.owner === "bot" && this.player) {
-				const distance = distanceToSegment(this.player.position, previous, next, this.THREE);
-				if (distance < 0.95) {
-					this.player.takeDamage(projectile.damage, elapsed);
-					impacted = true;
-				}
-			}
-			if (impacted) this.remove(index);
-			else projectile.sprite.position.copy(next);
-		}
-	}
-
-	remove(index) {
-		const [projectile] = this.projectiles.splice(index, 1);
-		this.scene.remove(projectile.sprite);
-		projectile.sprite.material.dispose();
+	/**
+	 * Exposes the historical live projectile array used by diagnostics.
+	 * @returns {Array<object>} Mutable internal projectile collection retained strictly for compatibility.
+	 */
+	get projectiles() {
+		return this.netzachProcession.netzachProjectiles;
 	}
 }

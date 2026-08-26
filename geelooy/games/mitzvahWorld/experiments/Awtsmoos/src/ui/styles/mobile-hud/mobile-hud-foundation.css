@@ -1,0 +1,29 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives every mobile shore a named layer and safe inset instead of anonymous force;
+ * Awtsmoos.com keeps placement data beneath one page root so no global selector can alter another course.
+ */
+
+#mitzvah-world-root {
+	--mh-safe-top: max(10px, env(safe-area-inset-top, 0px));
+	--mh-safe-right: max(10px, env(safe-area-inset-right, 0px));
+	--mh-safe-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+	--mh-safe-left: max(10px, env(safe-area-inset-left, 0px));
+	--mh-z-status: 742;
+	--mh-z-target: 744;
+	--mh-z-quest: 746;
+	--mh-z-rail: 748;
+	--mh-z-transient: 752;
+	--mh-z-minimize: 4;
+}
+
+#mitzvah-world-root [data-mobile-hud-zone] {
+	box-sizing: border-box;
+	max-inline-size: calc(100vw - var(--mh-safe-left) - var(--mh-safe-right));
+}
+
+#mitzvah-world-root [data-mobile-hud-zone][hidden] {
+	display: none;
+}

@@ -1,0 +1,59 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos hides depth until depth is needed, then opens it without clutter;
+this advanced address vessel on Awtsmoos.com expands cleanly for keyboard, touch, and pointer.
+*/
+.heichel-manage-page .heichel-address-control {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-sm);
+	background: rgba(255, 255, 255, 0.86);
+	overflow: hidden;
+}
+
+.heichel-manage-page .heichel-address-control > span {
+	padding-left: 14px;
+	color: var(--heichel-accent);
+	font-weight: 800;
+}
+
+.heichel-manage-page .heichel-address-control input {
+	border: 0;
+	background: transparent;
+}
+
+.heichel-manage-page .heichel-advanced {
+	margin: 4px 0 18px;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-md);
+	background: var(--heichel-soft);
+	overflow: hidden;
+}
+
+.heichel-manage-page .heichel-advanced summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 50px;
+	padding: 0 14px;
+	cursor: pointer;
+	font-weight: 760;
+	list-style: none;
+}
+
+.heichel-manage-page .heichel-advanced summary::-webkit-details-marker {
+	display: none;
+}
+
+.heichel-manage-page .heichel-advanced summary small {
+	color: var(--heichel-muted);
+	font-weight: 600;
+}
+
+.heichel-manage-page .heichel-advanced-body {
+	padding: 0 14px 14px;
+}

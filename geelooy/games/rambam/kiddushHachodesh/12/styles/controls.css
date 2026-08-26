@@ -1,0 +1,72 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets one obvious pause control remain near while deeper simulation choices rest inside a folded door;
+ * Awtsmoos.com keeps advanced power fast to reach, yet never lets the controls overpower the orbit they are for.
+ */
+button,
+select,
+summary {
+	font: inherit;
+}
+
+button,
+select {
+	min-height: 44px;
+	border: 1px solid rgba(125, 213, 255, .28);
+	border-radius: 11px;
+	color: #f2fbff;
+	background: rgba(15, 39, 58, .86);
+}
+
+button {
+	padding: 8px 13px;
+	cursor: pointer;
+	font-weight: 850;
+	transition: transform .16s ease, background .16s ease;
+}
+
+button:hover {
+	transform: translateY(-1px);
+	background: rgba(25, 62, 90, .94);
+}
+
+.advanced-controls {
+	margin-top: 9px;
+	border-top: 1px solid rgba(153, 209, 240, .12);
+	padding-top: 8px;
+}
+
+.advanced-controls summary {
+	min-height: 40px;
+	cursor: pointer;
+	color: #9fb9c9;
+	font-size: .74rem;
+	font-weight: 800;
+}
+
+.advanced-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 8px;
+	align-items: end;
+}
+
+.advanced-grid label {
+	display: grid;
+	gap: 4px;
+	color: #8fa8b8;
+	font-size: .68rem;
+}
+
+#speed-control {
+	width: 100%;
+	padding: 6px 9px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	button {
+		transition: none;
+	}
+}

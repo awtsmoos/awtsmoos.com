@@ -2,117 +2,118 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos is no less present on a narrow screen than a wide one; Awtsmoos.com folds abundance into a calm row of light,
-while Actions and interface density keep every advanced vessel one gesture near without making the phone feel tight.
+The Awtsmoos is no less present on a narrow screen than a wide one; Awtsmoos.com folds abundance into a calm local vessel of light,
+while every responsive rule remains beneath the Sheets root so touch, safe areas, and reduced motion never disturb a neighboring site.
 */
 @media (max-width: 760px) {
-	:root {
+	.awtsmoos-sheets-app {
 		--cell-width: 104px;
 		--cell-height: 34px;
 		--row-head-width: 42px;
 	}
 
-	.app-bar {
+	.awtsmoos-sheets-app .app-bar {
 		gap: 4px;
 		min-height: 58px;
 		padding: max(7px, env(safe-area-inset-top)) 7px 7px;
 	}
 
-	.brand-mark {
+	.awtsmoos-sheets-app .brand-mark {
 		width: 34px;
 		height: 34px;
 		flex: 0 0 34px;
 	}
 
-	.document-identity {
+	.awtsmoos-sheets-app .document-identity {
 		min-width: 60px;
 	}
 
-	.document-meta,
-	#publicFilesButton,
-	.presence-strip {
+	.awtsmoos-sheets-app .document-meta,
+	.awtsmoos-sheets-app #publicFilesButton,
+	.awtsmoos-sheets-app .presence-strip {
 		display: none;
 	}
 
-	.document-title {
+	.awtsmoos-sheets-app .document-title {
 		width: 100%;
 		padding-inline: 4px;
 		font-size: 13.5px;
 	}
 
-	#shareButton {
+	.awtsmoos-sheets-app #shareButton {
 		padding-inline: 10px;
 	}
 
-	.toolbar {
+	.awtsmoos-sheets-app .toolbar {
 		padding-inline: 8px;
 		scrollbar-width: none;
 	}
 
-	.toolbar::-webkit-scrollbar {
+	.awtsmoos-sheets-app .toolbar::-webkit-scrollbar {
 		display: none;
 	}
 
-	.formula-bar {
+	.awtsmoos-sheets-app .formula-bar {
 		padding-inline: 8px;
 	}
 
-	.notes-panel {
+	.awtsmoos-sheets-app .notes-panel {
 		position: absolute;
 		inset: auto 8px 8px 8px;
-		z-index: 20;
+		z-index: var(--z-floating);
 		width: auto;
-		max-height: 60%;
+		max-height: min(60%, calc(100dvh - 96px));
+		overflow: auto;
 		border: 1px solid var(--border);
 		border-radius: var(--radius);
 		box-shadow: var(--shadow);
 	}
 
-	.notes-panel textarea {
+	.awtsmoos-sheets-app .notes-panel textarea {
 		min-height: 120px;
 	}
 
-	.sheet-footer {
+	.awtsmoos-sheets-app .sheet-footer {
 		padding-bottom: max(4px, env(safe-area-inset-bottom));
 	}
 
-	.toast-region {
-		left: 10px;
-		right: 10px;
+	.awtsmoos-sheets-app .toast-region {
+		left: max(10px, env(safe-area-inset-left));
+		right: max(10px, env(safe-area-inset-right));
 		bottom: calc(54px + env(safe-area-inset-bottom));
 	}
 
-	.toast {
+	.awtsmoos-sheets-app .toast {
 		max-width: none;
 	}
 }
 
 @media (max-width: 420px) {
-	.brand-mark {
+	.awtsmoos-sheets-app .brand-mark {
 		width: 30px;
 		height: 30px;
 		flex-basis: 30px;
 	}
 
-	.app-bar {
+	.awtsmoos-sheets-app .app-bar {
 		gap: 3px;
 	}
 
-	.document-title {
+	.awtsmoos-sheets-app .document-title {
 		font-size: 13px;
 	}
 
-	#shareButton {
+	.awtsmoos-sheets-app #shareButton {
 		min-width: 52px;
 		padding-inline: 8px;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
+	.awtsmoos-sheets-app *,
+	.awtsmoos-sheets-app *::before,
+	.awtsmoos-sheets-app *::after {
 		scroll-behavior: auto !important;
-		transition: none !important;
+		transition-duration: 1ms !important;
 	}
 }

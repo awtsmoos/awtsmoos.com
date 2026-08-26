@@ -5,28 +5,46 @@
 /**
  * @module RemoteBrowserSurface
  * @description
- * The Awtsmoos gives remote navigation a visible host-owned control strip.
- * Awtsmoos.com keeps alias authority, cookie-jar identity, navigation, and peruta
- * testimony outside guest markup so remote pages can never counterfeit these controls.
+ * The Awtsmoos gives every host control its truthful vessel. Awtsmoos.com keeps
+ * navigation beside the omnibox while session machinery rests inside Advanced;
+ * the common road stays clear, the deeper gates stay near, and trusted chrome
+ * remains beyond every guest page that might try to imitate what users revere.
  */
 
-export function createRemoteBrowserSurface(browserSurface, documentObject = document) {
-	const toolbar = browserSurface.root.querySelector(".awtsmoos-browser-toolbar");
-	if (!toolbar) throw surfaceError("BROWSER_TOOLBAR_NOT_FOUND");
-	const row = element(documentObject, "div", "awtsmoos-browser-remote");
-	const alias = input(documentObject, "awtsmoos-browser-remote-input", "Alias", "Alias ID");
-	const jar = input(documentObject, "awtsmoos-browser-remote-input", "Jar", "Cookie jar ID");
+/**
+ * Mounts navigation and session controls into their trusted browser regions.
+ *
+ * @param {Object} malchusSurface Composed browser surface exposing trusted mounts.
+ * @param {Document} hodDocument Host document used to manifest controls.
+ * @returns {Object} Stable control contract consumed by navigation orchestration.
+ */
+export function createRemoteBrowserSurface(malchusSurface, hodDocument = document) {
+	const tiferesNavigation = requireMount(
+		malchusSurface.navigationActions,
+		"BROWSER_NAVIGATION_ACTIONS_NOT_FOUND"
+	);
+	const yesodSession = requireMount(
+		malchusSurface.sessionPanel,
+		"BROWSER_SESSION_PANEL_NOT_FOUND"
+	);
+	const back = createAction(hodDocument, "←", "Back", "back");
+	const forward = createAction(hodDocument, "→", "Forward", "forward");
+	const reload = createAction(hodDocument, "↻", "Reload", "reload");
+	const go = createAction(hodDocument, "Go", "Open address", "go");
+	tiferesNavigation.append(back, forward, reload, go);
+
+	const netzachSession = createElement(hodDocument, "div", "awtsmoos-browser-remote-session");
+	const alias = createInput(hodDocument, "Alias", "Alias ID");
+	const jar = createInput(hodDocument, "Jar", "Cookie jar ID");
 	jar.value = "default";
-	const back = button(documentObject, "←", "Back");
-	const forward = button(documentObject, "→", "Forward");
-	const reload = button(documentObject, "↻", "Reload");
-	const go = button(documentObject, "Go", "Fetch remote page");
-	const clearJar = button(documentObject, "Clear jar", "Clear remote cookie jar");
-	const status = element(documentObject, "div", "awtsmoos-browser-remote-status");
-	status.textContent = "Remote mode idle · alias required";
-	row.append(alias, jar, back, forward, reload, go, clearJar, status);
-	toolbar.append(row);
+	const clearJar = createAction(hodDocument, "Clear jar", "Clear remote cookie jar", "clear-jar");
+	const status = createElement(hodDocument, "div", "awtsmoos-browser-remote-status");
+	status.textContent = "Session idle · alias required";
+	netzachSession.append(alias, jar, clearJar);
+	yesodSession.append(netzachSession, status);
+
 	return {
+		address: malchusSurface.address,
 		alias,
 		back,
 		clearJar,
@@ -34,34 +52,76 @@ export function createRemoteBrowserSurface(browserSurface, documentObject = docu
 		go,
 		jar,
 		reload,
-		row,
+		row: netzachSession,
 		status
 	};
 }
 
-function input(documentObject, className, placeholder, label) {
-	const value = element(documentObject, "input", className);
-	value.type = "text";
-	value.placeholder = placeholder;
-	value.setAttribute("aria-label", label);
-	return value;
+/**
+ * Creates a host-owned session input without leaking state into guest content.
+ * @param {Document} hodDocument Host document owning the field.
+ * @param {string} placeholder Visible field hint.
+ * @param {string} label Accessible field purpose.
+ * @returns {HTMLInputElement} Configured text input.
+ */
+function createInput(hodDocument, placeholder, label) {
+	const binahInput = createElement(hodDocument, "input", "awtsmoos-browser-remote-input");
+	binahInput.type = "text";
+	binahInput.placeholder = placeholder;
+	binahInput.setAttribute("aria-label", label);
+	return binahInput;
 }
 
-function button(documentObject, text, label) {
-	const value = element(documentObject, "button", "awtsmoos-browser-remote-button", text);
-	value.type = "button";
-	value.setAttribute("aria-label", label);
-	return value;
+/**
+ * Creates one trusted navigation or session action.
+ * @param {Document} hodDocument Host document owning the action.
+ * @param {string} text Visible action text.
+ * @param {string} label Accessible action label.
+ * @param {string} action Stable host action identifier.
+ * @returns {HTMLButtonElement} Configured button.
+ */
+function createAction(hodDocument, text, label, action) {
+	const gevurahAction = createElement(
+		hodDocument,
+		"button",
+		"awtsmoos-browser-remote-button",
+		text
+	);
+	gevurahAction.type = "button";
+	gevurahAction.dataset.action = action;
+	gevurahAction.setAttribute("aria-label", label);
+	return gevurahAction;
 }
 
-function element(documentObject, tagName, className) {
-	const value = documentObject.createElement(tagName);
-	value.className = className;
-	return value;
+/**
+ * Verifies a trusted mount before controls are manifested.
+ * @param {HTMLElement} yesodMount Candidate mount vessel.
+ * @param {string} errorCode Stable invariant error code.
+ * @returns {HTMLElement} Verified mount vessel.
+ * @throws {Error} When the required host mount is absent.
+ */
+function requireMount(yesodMount, errorCode) {
+	if (!yesodMount?.append) {
+		const gevurahError = new Error(errorCode);
+		gevurahError.code = errorCode;
+		throw gevurahError;
+	}
+	return yesodMount;
 }
 
-function surfaceError(code) {
-	const error = new Error(code);
-	error.code = code;
-	return error;
+/**
+ * Manifests one trusted DOM vessel without importing global UI state.
+ * @param {Document} hodDocument Host document owning the element.
+ * @param {string} tagName DOM tag name.
+ * @param {string} className Localized browser class list.
+ * @param {string} [text=""] Optional visible text.
+ * @returns {HTMLElement} Manifested host element.
+ */
+function createElement(hodDocument, tagName, className, text = "") {
+	const malchusElement = hodDocument.createElement(tagName);
+	malchusElement.className = className;
+	if (text) {
+		malchusElement.textContent = text;
+	}
+	return malchusElement;
 }

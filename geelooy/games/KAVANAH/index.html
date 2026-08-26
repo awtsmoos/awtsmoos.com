@@ -10,7 +10,8 @@
 	<meta name="theme-color" content="#000000">
 	<title>KAVANAH</title>
 	<link rel="icon" href="data:,">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
 	<canvas id="gameCanvas"></canvas>
@@ -63,6 +64,8 @@
 		<button id="back-button" type="button">Back</button>
 	</div>
 
-	<script src="js/main.js" type="module"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script src="js/main.js?compact=true" type="module"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

@@ -2,8 +2,8 @@
 // Boruch Hashem
 // Blessed is He
 /**
- * The Awtsmoos unites many small vessels into one quiet creative engine;
- * Awtsmoos.com composes panels, hydrates memory, then marks readiness so no consumer mistakes visible markup for a fully awakened app.
+ * The Awtsmoos gathers many small vessels into one awakened studio without top-level delay;
+ * Awtsmoos.com boots, hydrates memory, and reveals readiness through an async doorway the compact server may safely relay.
  */
 import { EIN_SOF_PANEL_DEFINITIONS } from "./EinSofPanelDefinitions.js";
 import { EinSofPanelRenderer } from "./EinSofPanelRenderer.js";
@@ -17,43 +17,52 @@ import { MalchusPreview } from "./MalchusPreview.js";
 import { YesodRenderCoordinator } from "./YesodRenderCoordinator.js";
 import { PERSISTED_CONTROLS } from "./OhrControlManifest.js";
 
-const panelMount = document.getElementById("controlPanels");
-if (!panelMount) {
-	throw new Error("Missing Ein Sof control panel mount.");
+void bootstrapEinSof();
+
+/**
+ * Awakens the studio, then marks readiness only after persisted memory settles.
+ * @returns {Promise<void>} Resolves after storage hydration or its recoverable failure.
+ */
+async function bootstrapEinSof() {
+	const panelMount = document.getElementById("controlPanels");
+	if (!panelMount) {
+		throw new Error("Missing Ein Sof control panel mount.");
+	}
+
+	new EinSofPanelRenderer(
+		panelMount,
+		EIN_SOF_PANEL_DEFINITIONS
+	).render();
+
+	const dom = KliEinSofDom.collect();
+	const randomization = new TiferesRandomization(dom).connect();
+	new GevurahStudioDrawer(dom).connect();
+	const downloads = new HodDownloadManager(dom).connect();
+	const preview = new MalchusPreview(dom).connect();
+	const collector = new NetzachSettingsCollector(randomization);
+	const store = new ChesedSettingsStore(randomization);
+
+	new YesodRenderCoordinator({
+		dom,
+		settingsCollector: collector,
+		downloads,
+		preview
+	}).connect();
+
+	bindRangeOutputs();
+	bindPersistence(dom, store);
+
+	try {
+		await store.connect();
+	} catch (error) {
+		console.warn("Ein Sof settings storage is unavailable.", error);
+	} finally {
+		document.documentElement.dataset.einSofReady = "true";
+		document.dispatchEvent(new CustomEvent("einsofready"));
+	}
 }
 
-new EinSofPanelRenderer(
-	panelMount,
-	EIN_SOF_PANEL_DEFINITIONS
-).render();
-
-const dom = KliEinSofDom.collect();
-const randomization = new TiferesRandomization(dom).connect();
-new GevurahStudioDrawer(dom).connect();
-const downloads = new HodDownloadManager(dom).connect();
-const preview = new MalchusPreview(dom).connect();
-const collector = new NetzachSettingsCollector(randomization);
-const store = new ChesedSettingsStore(randomization);
-
-new YesodRenderCoordinator({
-	dom,
-	settingsCollector: collector,
-	downloads,
-	preview
-}).connect();
-
-bindRangeOutputs();
-bindPersistence();
-
-try {
-	await store.connect();
-} catch (error) {
-	console.warn("Ein Sof settings storage is unavailable.", error);
-} finally {
-	document.documentElement.dataset.einSofReady = "true";
-	document.dispatchEvent(new CustomEvent("einsofready"));
-}
-
+/** Connects each range input to its visible numeric output. */
 function bindRangeOutputs() {
 	document.querySelectorAll('input[type="range"]').forEach(input => {
 		const output = document.getElementById(`${input.id}Value`);
@@ -69,7 +78,12 @@ function bindRangeOutputs() {
 	});
 }
 
-function bindPersistence() {
+/**
+ * Keeps the explicit settings manifest synchronized with user changes.
+ * @param {KliEinSofDom} dom Collected interface vessels.
+ * @param {ChesedSettingsStore} store Persistent settings service.
+ */
+function bindPersistence(dom, store) {
 	PERSISTED_CONTROLS.forEach(id => {
 		const control = document.getElementById(id);
 		control?.addEventListener("input", () => store.scheduleSave());

@@ -4,9 +4,9 @@
 
 /**
  * @file main.js
- * @description Composes play, identity, creation, touch, cosmetics, and quiet power.
- * The Awtsmoos renews every module from one source; Awtsmoos.com joins their oros
- * here without letting optional chrome, device type, or garment become the game's core.
+ * @description Serves only as Ohrbound's composition root: infrastructure, browser vessels, domain coordinators, then start.
+ * The Awtsmoos creates every dependency before dependency can claim necessity; Awtsmoos.com lets this Keter root
+ * arrange Yesod persistence, Bina preference, Tiferes play, Hod presentation, and Malchus browser form without owning their laws.
  */
 import { HttpClient } from "./network/HttpClient.js";
 import { AwtsmoosIdentityGateway } from "./network/AwtsmoosIdentityGateway.js";
@@ -33,86 +33,66 @@ import { CreatorFlow } from "./app/CreatorFlow.js";
 import { GameLoop } from "./app/GameLoop.js";
 import { OhrboundApp } from "./app/OhrboundApp.js";
 import { OhrboundBrowserBindings } from "./app/OhrboundBrowserBindings.js";
+import { MalchusBrowserVessel } from "./app/browser/MalchusBrowserVessel.js";
 
-const http = new HttpClient();
-const cloud = new OhrboundCloudRepository(http);
-const identityGateway = new AwtsmoosIdentityGateway(http);
-const accountGateway = new AwtsmoosAccountGateway();
-const progress = new ProgressRepository(new LocalSaveRepository(), cloud);
-const appearanceRepository = new AppearanceRepository();
-const appearance = new CharacterAppearance(appearanceRepository.load());
-const experience = ExperienceBootstrap.create();
-const input = new InputState();
-const probe = new RuntimeProbe();
-const shell = new GameShell(document);
-const renderer = new WorldRenderer(
-	"ohrbound-render-host",
-	appearance.read(),
-	experience.read()
-);
-let app;
-
-const levelSelect = new LevelSelectView(
-	document.querySelector("[data-levels]"),
-	level => app.launch(level)
-);
-const accountDialog = new AccountDialog(
-	document.querySelector("#account-dialog"),
-	(username, password) => app.signIn(username, password)
-);
-const identityView = new IdentityView(
-	document.querySelector("[data-identity]"),
-	() => accountDialog.open()
-);
-const characterCustomizer = new CharacterCustomizer(
-	document.querySelector("#character-dialog"),
-	appearance,
-	appearanceRepository,
-	renderer
-);
-const creator = new CreatorFlow(
-	document.querySelector("[data-pane='editor']"),
-	shell,
-	cloud,
-	() => app.identity,
-	{
-		test: level => app.launch(level),
-		close: () => app.showMenu(),
-		published: () => app.reloadCommunity()
-	}
-);
-app = new OhrboundApp({
-	shell,
-	renderer,
-	hud: new HudView(document),
-	identityView,
-	levelSelect,
-	identityGateway,
-	accountGateway,
-	progress,
-	communityService: new CommunityService(cloud),
-	loop: new GameLoop(input, probe),
-	probe
+const malchusBrowser = new MalchusBrowserVessel(document);
+const yesodHttpClient = new HttpClient();
+const yesodCloudRepository = new OhrboundCloudRepository(yesodHttpClient);
+const yesodIdentityGateway = new AwtsmoosIdentityGateway(yesodHttpClient);
+const yesodAccountGateway = new AwtsmoosAccountGateway();
+const yesodProgressRepository = new ProgressRepository(new LocalSaveRepository(), yesodCloudRepository);
+const yesodAppearanceRepository = new AppearanceRepository();
+const malchusAppearance = new CharacterAppearance(yesodAppearanceRepository.load());
+const binaExperience = ExperienceBootstrap.create();
+const yesodInputState = new InputState();
+const hodRuntimeProbe = new RuntimeProbe();
+const malchusShell = new GameShell({
+	menuPane: malchusBrowser.reveal("menuPane"),
+	gamePane: malchusBrowser.reveal("gamePane"),
+	editorPane: malchusBrowser.reveal("editorPane"),
+	toast: malchusBrowser.reveal("toast"),
+	body: malchusBrowser.body()
 });
-const experienceUi = new ExperienceUi({
-	preferences: experience,
-	renderer,
-	drawer: document.querySelector("[data-advanced-drawer]"),
-	hud: document.querySelector("[data-game-hud]"),
-	quickPlayButton: document.querySelector("[data-quick-play]"),
+const tiferesRenderer = new WorldRenderer("ohrbound-render-host", malchusAppearance.read(), binaExperience.read());
+let tiferesApp;
+
+const hodLevelSelect = new LevelSelectView(malchusBrowser.reveal("levelsRoot"), malchusLevel => tiferesApp.launch(malchusLevel));
+const gevurahAccountDialog = new AccountDialog(malchusBrowser.reveal("accountDialog"), (yesodUsername, gevurahPassword) => tiferesApp.signIn(yesodUsername, gevurahPassword));
+const hodIdentityView = new IdentityView(malchusBrowser.reveal("identityRoot"), () => gevurahAccountDialog.open());
+const hodCharacterCustomizer = new CharacterCustomizer(malchusBrowser.reveal("characterDialog"), malchusAppearance, yesodAppearanceRepository, tiferesRenderer);
+const tiferesCreator = new CreatorFlow(malchusBrowser.reveal("editorPane"), malchusShell, yesodCloudRepository, () => tiferesApp.identity, {
+	test: malchusLevel => tiferesApp.launch(malchusLevel),
+	close: () => tiferesApp.showMenu(),
+	published: () => tiferesApp.reloadCommunity()
+});
+
+tiferesApp = new OhrboundApp({
+	shell: malchusShell,
+	renderer: tiferesRenderer,
+	hud: new HudView({ title: malchusBrowser.reveal("hudTitle"), sparks: malchusBrowser.reveal("hudSparks"), time: malchusBrowser.reveal("hudTime") }),
+	identityView: hodIdentityView,
+	levelSelect: hodLevelSelect,
+	identityGateway: yesodIdentityGateway,
+	accountGateway: yesodAccountGateway,
+	progress: yesodProgressRepository,
+	communityService: new CommunityService(yesodCloudRepository),
+	loop: new GameLoop(yesodInputState, hodRuntimeProbe),
+	probe: hodRuntimeProbe
+});
+
+const hodExperienceUi = new ExperienceUi({
+	preferences: binaExperience,
+	stateRoot: malchusBrowser.body(),
+	renderer: tiferesRenderer,
+	drawer: malchusBrowser.reveal("advancedDrawer"),
+	hud: malchusBrowser.reveal("gameHud"),
+	quickPlayButton: malchusBrowser.reveal("quickPlayButton"),
 	levels: BUILT_IN_LEVELS,
-	progressRepository: progress,
-	launch: level => app.launch(level),
-	customize: () => characterCustomizer.open(),
-	create: () => creator.open()
+	progressRepository: yesodProgressRepository,
+	launch: malchusLevel => tiferesApp.launch(malchusLevel),
+	customize: () => hodCharacterCustomizer.open(),
+	create: () => tiferesCreator.open()
 });
 
-new OhrboundBrowserBindings({
-	input,
-	experienceUi,
-	experience,
-	app
-}).attach();
-app.start().catch(error => {
-	shell.message(error.message || "Ohrbound could not start.", "error");
-});
+new OhrboundBrowserBindings({ input: yesodInputState, experienceUi: hodExperienceUi, experience: binaExperience, renderer: tiferesRenderer, app: tiferesApp, browser: malchusBrowser }).attach();
+tiferesApp.start().catch(gevurahError => malchusShell.message(gevurahError.message || "Ohrbound could not start.", "error"));

@@ -1,17 +1,18 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
+import { StudioPenCreateView } from './StudioPenCreateView.js';
+
 /**
  * @module StudioCreateView
  * @description
- * The Awtsmoos renews every blank stage before hand-made vector and seeded living form can emerge;
- * Awtsmoos.com keeps creation explicit and editable so generated nature becomes normal artwork rather than a sealed image surge.
+ * The Awtsmoos renews every blank stage before hand-made vector, Pen path, or seeded living form can emerge;
+ * Awtsmoos.com groups real creation powers into calm professional vessels so every button reveals editable project substance.
  */
-
-/** Renders manual vector and deterministic procedural creation commands. */
 export class StudioCreateView {
-	/** @returns {Object} The Create panel specification. */
-	static render() {
+	/** Returns the Create panel with manual, Pen, and deterministic procedural authoring. */
+	static render(state = {}) {
 		return {
 			tag: 'div',
 			attrs: { className: 'aw-studio-scroll aw-studio-create' },
@@ -21,6 +22,7 @@ export class StudioCreateView {
 					this.button('🟠 Ellipse', 'addEllipse'),
 					this.button('🔤 Text', 'addText')
 				]),
+				StudioPenCreateView.render(state),
 				this.section('🌱 Procedural nature', [
 					this.natureButton('🌳 Tree', 'tree'),
 					this.natureButton('🥕 Vegetable', 'vegetable'),
@@ -31,13 +33,13 @@ export class StudioCreateView {
 				{
 					tag: 'p',
 					attrs: { className: 'aw-studio-note' },
-					text: 'Procedural objects preserve their seed and remain editable, selectable, animatable layers.'
+					text: 'Everything created here becomes a normal selectable, animatable, serializable project layer.'
 				}
 			]
 		};
 	}
 
-	/** @returns {Object} A compact grouped create-tool section. */
+	/** Creates one compact authoring group with a stable semantic heading. */
 	static section(title, children) {
 		return {
 			tag: 'section',
@@ -49,7 +51,7 @@ export class StudioCreateView {
 		};
 	}
 
-	/** @returns {Object} One manual creation action. */
+	/** Creates one manual vector action. */
 	static button(text, action) {
 		return {
 			tag: 'button',
@@ -59,7 +61,7 @@ export class StudioCreateView {
 		};
 	}
 
-	/** @returns {Object} One seeded procedural creation action. */
+	/** Creates one seeded procedural authoring action. */
 	static natureButton(text, kind) {
 		return {
 			tag: 'button',

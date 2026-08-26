@@ -2,66 +2,90 @@
 //Boruch Hashem
 //Blessed is He
 
-import { TILE_CATALOG } from "../config/tileCatalog.js";
+import { MalchusDomFactory } from "../ui/dom/MalchusDomFactory.js";
+import { YesodSelectorRegistry } from "../ui/dom/YesodSelectorRegistry.js";
+import { EditorPaletteView } from "./view/EditorPaletteView.js";
+import { EditorGridView } from "./view/EditorGridView.js";
 
 /**
  * @file EditorView.js
- * @description Renders the creator palette, grid, validation, and bounded actions.
- * The Awtsmoos turns possibility into form without exhaustion; Awtsmoos.com lets
- * every click reveal a tile while undo, test, export, and publish remain near at hand.
+ * @description Coordinates Creator DOM intent while palette/grid projection live in focused data-driven collaborators.
+ * The Awtsmoos turns possibility into form without exhaustion; Awtsmoos.com lets this Tiferes view bind a few
+ * deliberate intents while Hod describes symbols, Malchus describes cells, and the controller alone owns editing law.
  */
 export class EditorView {
-	constructor(root, controller, callbacks = {}) {
-		this.root = root;
-		this.controller = controller;
-		this.callbacks = callbacks;
-		this.palette = root.querySelector("[data-editor-palette]");
-		this.grid = root.querySelector("[data-editor-grid]");
-		this.status = root.querySelector("[data-editor-status]");
-		this.title = root.querySelector("[data-editor-title]");
-		this.mode = root.querySelector("[data-editor-mode]");
-		this.bind();
+	constructor(yesodRoot, tiferesController, binaCallbacks = {}) {
+		this.yesodRoot = yesodRoot;
+		this.tiferesController = tiferesController;
+		this.binaCallbacks = binaCallbacks;
+		this.yesodSelectors = new YesodSelectorRegistry(yesodRoot);
+		this.malchusDomFactory = new MalchusDomFactory(yesodRoot.ownerDocument);
+		this.resolveMalchusVessels();
+		this.hodPaletteView = new EditorPaletteView(this.malchusDomFactory, this.malchusPalette);
+		this.malchusGridView = new EditorGridView(this.malchusDomFactory, this.malchusGrid);
+		this.bindCreatorCovenant();
 	}
 
-	bind() {
-		this.palette.innerHTML = Object.entries(TILE_CATALOG).map(([symbol, tile]) => `<button type="button" data-symbol="${symbol}" title="${tile.name}">${symbol === "." ? "·" : symbol}</button>`).join("");
-		this.palette.addEventListener("click", event => event.target.dataset.symbol && this.controller.select(event.target.dataset.symbol));
-		this.grid.addEventListener("pointerdown", event => this.paintEvent(event));
-		this.root.querySelector("[data-editor-undo]").onclick = () => this.controller.undo();
-		this.root.querySelector("[data-editor-redo]").onclick = () => this.controller.redo();
-		this.root.querySelector("[data-editor-test]").onclick = () => this.callbacks.test?.(this.controller.document.level());
-		this.root.querySelector("[data-editor-publish]").onclick = () => this.callbacks.publish?.(this.controller.document.level());
-		this.root.querySelector("[data-editor-close]").onclick = () => this.callbacks.close?.();
-		this.root.querySelector("[data-editor-export]").onclick = () => this.export();
-		this.root.querySelector("[data-editor-import]").onclick = () => this.import();
-		this.title.onchange = () => this.controller.metadata({ title: this.title.value });
-		this.mode.onchange = () => this.controller.metadata({ mode: this.mode.value });
-		this.controller.onChange(state => this.render(state));
+	/** Resolves required Creator elements once so missing markup fails at construction. @returns {void} */
+	resolveMalchusVessels() {
+		this.malchusPalette = this.yesodSelectors.requireOne("[data-editor-palette]", "Creator palette");
+		this.malchusGrid = this.yesodSelectors.requireOne("[data-editor-grid]", "Creator grid");
+		this.hodStatus = this.yesodSelectors.requireOne("[data-editor-status]", "Creator status");
+		this.malchusTitle = this.yesodSelectors.requireOne("[data-editor-title]", "Creator title");
+		this.malchusMode = this.yesodSelectors.requireOne("[data-editor-mode]", "Creator mode");
 	}
 
-	paintEvent(event) {
-		const cell = event.target.closest("[data-x]");
-		if (cell) this.controller.paint(Number(cell.dataset.x), Number(cell.dataset.y));
+	/** Binds delegated paint/palette intent and bounded Creator commands exactly once. @returns {void} */
+	bindCreatorCovenant() {
+		this.malchusPalette.addEventListener("click", netzachEvent => this.choosePaletteSymbol(netzachEvent));
+		this.malchusGrid.addEventListener("pointerdown", netzachEvent => this.paintMalchusCellFromPointer(netzachEvent));
+		for (const [malchusSelector, netzachIntent] of this.commandBindings()) this.yesodSelectors.requireOne(malchusSelector).addEventListener("click", netzachIntent);
+		this.malchusTitle.addEventListener("change", () => this.tiferesController.metadata({ title: this.malchusTitle.value }));
+		this.malchusMode.addEventListener("change", () => this.tiferesController.metadata({ mode: this.malchusMode.value }));
+		this.tiferesController.onChange(tiferesState => this.revealCreatorState(tiferesState));
 	}
 
-	render({ document, selected, validation }) {
-		this.title.value = document.title;
-		this.mode.value = document.mode;
-		this.palette.querySelectorAll("button").forEach(button => button.classList.toggle("selected", button.dataset.symbol === selected));
-		this.grid.style.setProperty("--editor-width", document.rows[0].length);
-		this.grid.innerHTML = document.rows.flatMap((row, y) => [...row].map((symbol, x) => `<button type="button" data-x="${x}" data-y="${y}" data-symbol="${symbol}">${symbol === "." ? "" : symbol}</button>`)).join("");
-		this.status.textContent = validation.ok ? "Gate is valid and ready to test." : validation.errors.join(" " );
-		this.status.dataset.kind = validation.ok ? "success" : "error";
+	/** Returns declarative command-selector pairs rather than scattering listener assignment. @returns {Array<[string, Function]>} */
+	commandBindings() {
+		return [
+			["[data-editor-undo]", () => this.tiferesController.undo()], ["[data-editor-redo]", () => this.tiferesController.redo()],
+			["[data-editor-test]", () => this.binaCallbacks.test?.(this.tiferesController.document.level())], ["[data-editor-publish]", () => this.binaCallbacks.publish?.(this.tiferesController.document.level())],
+			["[data-editor-close]", () => this.binaCallbacks.close?.()], ["[data-editor-export]", () => this.copyGateScroll()], ["[data-editor-import]", () => this.receiveGateScroll()]
+		];
 	}
 
-	export() {
-		navigator.clipboard?.writeText(this.controller.exportJson());
-		this.status.textContent = "Level JSON copied to the clipboard.";
+	/** Chooses a palette symbol from one delegated click event. @param {Event} netzachEvent @returns {void} */
+	choosePaletteSymbol(netzachEvent) {
+		const malchusSymbol = netzachEvent.target.closest("[data-symbol]")?.dataset.symbol;
+		if (malchusSymbol !== undefined) this.tiferesController.select(malchusSymbol);
 	}
 
-	import() {
-		const text = globalThis.prompt("Paste Ohrbound level JSON:");
-		if (!text) return;
-		try { this.controller.importJson(text); } catch (error) { this.status.textContent = error.message; this.status.dataset.kind = "error"; }
+	/** Paints one grid coordinate from delegated pointer intent. @param {PointerEvent} netzachEvent @returns {void} */
+	paintMalchusCellFromPointer(netzachEvent) {
+		const malchusCell = netzachEvent.target.closest("[data-x]");
+		if (malchusCell) this.tiferesController.paint(Number(malchusCell.dataset.x), Number(malchusCell.dataset.y));
+	}
+
+	/** Projects controller state into metadata, palette, grid, and validation status. @param {object} tiferesState @returns {void} */
+	revealCreatorState({ document: malchusDocument, selected: tiferesSelectedSymbol, validation: gevurahValidation }) {
+		this.malchusTitle.value = malchusDocument.title;
+		this.malchusMode.value = malchusDocument.mode;
+		this.hodPaletteView.reveal(tiferesSelectedSymbol);
+		this.malchusGridView.reveal(malchusDocument.rows);
+		this.hodStatus.textContent = gevurahValidation.ok ? "Gate is valid and ready to test." : gevurahValidation.errors.join(" ");
+		this.hodStatus.dataset.kind = gevurahValidation.ok ? "success" : "error";
+	}
+
+	/** Copies the current serialized gate into the clipboard when available. @returns {void} */
+	copyGateScroll() {
+		navigator.clipboard?.writeText(this.tiferesController.exportJson());
+		this.hodStatus.textContent = "Level JSON copied to the clipboard.";
+	}
+
+	/** Receives serialized gate data through the bounded browser prompt and reports parsing errors visibly. @returns {void} */
+	receiveGateScroll() {
+		const malchusScroll = globalThis.prompt("Paste Ohrbound level JSON:");
+		if (!malchusScroll) return;
+		try { this.tiferesController.importJson(malchusScroll); } catch (gevurahError) { this.hodStatus.textContent = gevurahError.message; this.hodStatus.dataset.kind = "error"; }
 	}
 }

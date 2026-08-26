@@ -1,0 +1,27 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is not dependent on translucent glow when the operating system asks for stronger sight;
+ * Awtsmoos.com returns surfaces to native contrast boundaries while every playable doorway remains bright.
+ */
+@media (forced-colors: active) {
+	.heroPanel,
+	.discoveryPanel,
+	.featuredWorld,
+	.quickLaunch a,
+	.gameCard,
+	.searchWrap,
+	.tag {
+		border: 1px solid CanvasText;
+		forced-color-adjust: auto;
+	}
+
+	.featuredSignal {
+		display: none;
+	}
+
+	:where(a, button, input, summary):focus-visible {
+		outline: 3px solid Highlight;
+	}
+}

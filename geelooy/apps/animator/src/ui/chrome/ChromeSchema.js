@@ -1,63 +1,54 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file ChromeSchema.js
  * @description
- * ============================================================================
- * CHAPTER: THE DATA TABLE OF RETRACTABLE VESSELS
- * ============================================================================
- *
- * UI should not be a pile of random buttons. It should be a data map: stage,
- * editor, time, properties, play, hide. Each vessel has a name, an icon, an
- * action, and a panel. From this table the desktop rail and mobile dock are
- * born without duplicated logic.
- *
- * The Awtsmoos creates multiplicity from unity. This schema is a tiny mirror:
- * many buttons, one source; many panels, one controller; many gestures, one
- * intention.
+ * The Awtsmoos renews every responsive command before symbol, label, and deed can meet;
+ * Awtsmoos.com lets Stage, Edit, Timeline, Properties, Playback, and Hide speak one semantic emoji language from one data vessel.
  */
-
 export const CHROME_ACTIONS = [
-  {
-    id: 'stage',
-    label: 'Stage',
-    icon: '◉',
-    panel: 'stage',
-    title: 'Show only the living canvas'
-  },
-  {
-    id: 'editor',
-    label: 'Edit',
-    icon: '✎',
-    panel: 'editor',
-    title: 'Open or close the editor/sidebar'
-  },
-  {
-    id: 'time',
-    label: 'Time',
-    icon: '▰',
-    panel: 'time',
-    title: 'Open or close the timeline'
-  },
-  {
-    id: 'props',
-    label: 'Props',
-    icon: '◇',
-    panel: 'props',
-    title: 'Open or close properties'
-  },
-  {
-    id: 'play',
-    label: 'Play',
-    icon: '▶',
-    panel: 'play',
-    title: 'Play or pause the scene'
-  },
-  {
-    id: 'hide',
-    label: 'Hide',
-    icon: '⌄',
-    panel: 'hide',
-    title: 'Retract all UI'
-  }
+	{
+		id: 'stage',
+		label: 'Stage',
+		icon: '🎨',
+		panel: 'stage',
+		title: 'Show the creative stage'
+	},
+	{
+		id: 'editor',
+		label: 'Edit',
+		icon: '✏️',
+		panel: 'editor',
+		title: 'Open or close editing tools'
+	},
+	{
+		id: 'time',
+		label: 'Timeline',
+		icon: '🗓️',
+		panel: 'time',
+		title: 'Open or close the timeline'
+	},
+	{
+		id: 'props',
+		label: 'Properties',
+		icon: '⚙️',
+		panel: 'props',
+		title: 'Open or close properties'
+	},
+	{
+		id: 'play',
+		label: 'Play',
+		icon: '▶️',
+		panel: 'play',
+		title: 'Play or pause the scene'
+	},
+	{
+		id: 'hide',
+		label: 'Hide',
+		icon: '🙈',
+		panel: 'hide',
+		title: 'Retract creative interface panels'
+	}
 ];

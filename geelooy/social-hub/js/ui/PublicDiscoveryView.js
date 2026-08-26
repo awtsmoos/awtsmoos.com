@@ -4,16 +4,18 @@
 /**
  * @class PublicDiscoveryView
  * @description The Awtsmoos lets public discovery remain simple while Awtsmoos.com preserves every useful path;
- * the composition root owns lookup, feed, empty state, and updates while its header lives in one focused retractable vessel.
+ * the composition root owns lookup, feed, visible emptiness, and quiet live announcements while its header remains retractable and clear.
  */
 import { createPublicDiscoveryHeader } from './PublicDiscoveryHeader.js';
 
 export class PublicDiscoveryView {
+	/** @param {Document} root DOM vessel. @param {Record<string, Function>} handlers Public discovery actions. */
 	constructor(root, handlers = {}) {
 		this.root = root;
 		this.handlers = handlers;
 	}
 
+	/** @param {string} density Initial feed density. @returns {HTMLElement|null} Mounted discovery section. */
 	mount(density = 'comfortable') {
 		const home = this.root.querySelector('[data-panel="home"]');
 		if (!home) return null;
@@ -34,6 +36,7 @@ export class PublicDiscoveryView {
 		return this.section;
 	}
 
+	/** @returns {HTMLFormElement} Public alias lookup form. */
 	lookup() {
 		const form = this.root.createElement('form');
 		form.className = 'publicDiscovery__lookup';
@@ -53,18 +56,21 @@ export class PublicDiscoveryView {
 		return form;
 	}
 
+	/** @returns {HTMLElement} Feed region with a screen-reader live status and visible list. */
 	feed() {
 		const region = this.root.createElement('div');
 		region.className = 'publicDiscovery__feed';
 		this.status = this.root.createElement('p');
 		this.status.className = 'publicDiscovery__status';
 		this.status.setAttribute('aria-live', 'polite');
+		this.status.setAttribute('role', 'status');
 		this.list = this.root.createElement('div');
 		this.list.className = 'publicDiscovery__list';
 		region.append(this.status, this.list);
 		return region;
 	}
 
+	/** @param {string} mode Active feed mode. */
 	renderMode(mode) {
 		for (const button of this.tabs?.querySelectorAll('[data-feed-mode]') || []) {
 			const active = button.dataset.feedMode === mode;
@@ -73,12 +79,21 @@ export class PublicDiscoveryView {
 		}
 	}
 
+	/** @param {string} density Active density preference. */
 	renderDensity(density) {
 		if (this.list) this.list.dataset.density = density;
 		if (this.density && this.density.value !== density) this.density.value = density;
 		if (this.preferences?.detail) this.preferences.detail.textContent = density;
 	}
 
+	/** @param {string} mode Feed mode. @returns {string} Concise live-region announcement. */
+	emptyAnnouncement(mode) {
+		if (mode === 'questions') return 'Questions feed has no public items.';
+		if (mode === 'answers') return 'Answers feed has no public items.';
+		return 'Public feed has no items.';
+	}
+
+	/** @param {string} mode Empty feed mode. */
 	renderEmpty(mode) {
 		this.list.replaceChildren();
 		const empty = this.root.createElement('div');
@@ -93,6 +108,6 @@ export class PublicDiscoveryView {
 		copy.textContent = 'Switch modes, open a known alias, or publish from your own alias when ready.';
 		empty.append(title, copy);
 		this.list.append(empty);
-		this.status.textContent = title.textContent;
+		this.status.textContent = this.emptyAnnouncement(mode);
 	}
 }

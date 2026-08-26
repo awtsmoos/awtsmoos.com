@@ -1,0 +1,65 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives shlichus a parchment garment while remaining beyond ink and reward; Awtsmoos.com keeps that garment cinematic but safely bounded, scrollable, and fully interactive from keyboard or touch.
+*/
+
+#mitzvah-world-root .Awtsmoos-quest-parchment-backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: var(--mw-z-dialog);
+	display: none;
+	place-items: center;
+	padding: var(--mw-safe-top) var(--mw-safe-right) var(--mw-safe-bottom) var(--mw-safe-left);
+	background: rgba(8, 5, 3, 0.68);
+	pointer-events: none;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-parchment-backdrop[data-open="true"] {
+	display: grid;
+	pointer-events: auto;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-parchment {
+	position: relative;
+	inline-size: min(610px, calc(100dvw - var(--mw-safe-left) - var(--mw-safe-right) - 12px));
+	max-block-size: calc(100dvh - var(--mw-safe-top) - var(--mw-safe-bottom) - 12px);
+	overflow: auto;
+	padding: clamp(24px, 5vw, 48px);
+	border: 8px double #7d4d23;
+	border-radius: 18px 9px 20px 10px;
+	background: radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.34), transparent 28%), linear-gradient(135deg, #ead49a, #c99d58 56%, #e6c67e);
+	box-shadow: var(--mw-shadow-panel), inset 0 0 38px rgba(78, 37, 10, 0.32);
+	color: #351d0c;
+	font-family: Georgia, serif;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-parchment :is(button, [data-close]) {
+	min-block-size: 42px;
+	padding: 9px 14px;
+	border: 1px solid #633716;
+	border-radius: 8px;
+	background: #5b3017;
+	color: #ffe7ad;
+	font: 800 14px/1.2 Georgia, serif;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	#mitzvah-world-root .Awtsmoos-quest-parchment :is(button, [data-close]):hover:not(:disabled) {
+		background: #74411f;
+		transform: translateY(-1px);
+	}
+}
+
+#mitzvah-world-root .Awtsmoos-quest-parchment :is(button, [data-close]):focus-visible {
+	outline-color: #633716;
+	box-shadow: 0 0 0 3px rgba(99, 55, 22, 0.24);
+}

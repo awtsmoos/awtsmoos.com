@@ -1,47 +1,85 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews invitation and direction while Awtsmoos.com keeps this hero
+quiet on the smallest screen, then lets the vessel widen only when space is real.
+The glow stays contained; the words stay readable; no finite track escapes the field.
+*/
 
-/**
- * The Awtsmoos renews invitation, navigation, and economic restraint before any
- * app is opened. Awtsmoos.com gives this hero one focused vessel so the promise
- * of useful local tools and honest future server services remains unmistakable.
- */
-
-.apps-hero {
+body[data-geelooy-route="apps"] .apps-hero {
 	display: grid;
-	grid-template-columns: minmax(0, 1.5fr) minmax(250px, 0.6fr);
+	grid-template-columns: minmax(0, 1fr);
 	gap: clamp(20px, 4vw, 48px);
 	align-items: end;
+	min-inline-size: 0;
 }
 
-.apps-hero h1 {
-	font-size: clamp(3rem, 8vw, 6.5rem);
-	line-height: 0.9;
-	letter-spacing: -0.055em;
+body[data-geelooy-route="apps"] .apps-hero h1 {
+	max-inline-size: 12ch;
+	margin-inline: 0;
+	font-size: clamp(2.8rem, 15vw, 6.5rem);
+	line-height: .9;
+	letter-spacing: -.055em;
+	text-wrap: balance;
+	overflow-wrap: anywhere;
 }
 
-.apps-hero-actions {
-	display: flex;
-	flex-wrap: wrap;
+body[data-geelooy-route="apps"] .apps-hero-actions {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	gap: 10px;
-	margin-top: 22px;
+	margin-block-start: 22px;
 }
 
-.apps-economy-note {
+body[data-geelooy-route="apps"] .apps-hero-actions > a {
+	justify-content: center;
+	min-block-size: 48px;
+	max-inline-size: 100%;
+	text-align: center;
+}
+
+body[data-geelooy-route="apps"] .apps-economy-note {
+	position: relative;
+	isolation: isolate;
+	overflow: clip;
+	min-inline-size: 0;
 	padding: 20px;
 	border: 1px solid var(--g-border);
 	border-radius: var(--g-radius-lg);
 	background: color-mix(in srgb, var(--g-surface-2), transparent 8%);
 }
 
-.apps-economy-note strong {
+body[data-geelooy-route="apps"] .apps-economy-note::before {
+	position: absolute;
+	inset: -55% 38% auto -16%;
+	z-index: -1;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: radial-gradient(circle, color-mix(in srgb, var(--g-accent-2) 12%, transparent), transparent 70%);
+	content: "";
+	pointer-events: none;
+}
+
+body[data-geelooy-route="apps"] .apps-economy-note strong {
 	display: block;
 	color: var(--g-accent-2);
 }
 
-.apps-economy-note p {
+body[data-geelooy-route="apps"] .apps-economy-note p {
 	margin: 8px 0 0;
 	color: var(--g-text-muted);
-	line-height: 1.5;
+	line-height: 1.55;
+}
+
+@media (min-width: 640px) {
+	body[data-geelooy-route="apps"] .apps-hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+	}
+}
+
+@media (min-width: 860px) {
+	body[data-geelooy-route="apps"] .apps-hero {
+		grid-template-columns: minmax(0, 1.5fr) minmax(250px, .6fr);
+	}
 }

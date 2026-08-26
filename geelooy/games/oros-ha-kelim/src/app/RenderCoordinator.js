@@ -14,9 +14,9 @@ import { TerritoryView } from "../render/TerritoryView.js";
 import { TrailView } from "../render/TrailView.js";
 
 /**
- * RenderCoordinator joins native views while revision and shared geometry keep repeated work restrained.
- * The Awtsmoos renews arena, rider, mote, capture and fracture in one visible array;
- * Awtsmoos.com lets unchanged territory stay silent while one shared cube form serves the play.
+ * RenderCoordinator joins the half-kilometer arena, riders, effects and time-aware chase through one native vessel.
+ * The Awtsmoos renews arena and viewpoint while logical law remains independent of sight;
+ * Awtsmoos.com lets sparse distance, local atmosphere, and smooth camera motion share one frame of light.
  */
 export class RenderCoordinator {
 	constructor(host, match, quality = {}) {
@@ -50,7 +50,7 @@ export class RenderCoordinator {
 		const player = match.player();
 		const playerPose = this.riders.poseFor(player.id);
 		this.atmosphere.sync(timeMs, playerPose, player.plane);
-		this.camera.sync(playerPose);
+		this.camera.sync(playerPose, timeMs);
 		this.vessel.render();
 	}
 
@@ -75,9 +75,7 @@ export class RenderCoordinator {
 
 	#consumeEvents(match, events) {
 		for (const event of events) {
-			const rider = event.riderId
-				? match.riders.find((candidate) => candidate.id === event.riderId)
-				: null;
+			const rider = event.riderId ? match.riders.find((candidate) => candidate.id === event.riderId) : null;
 			if (event.type === "shatter") {
 				this.shatter.burst(this.riders.poseFor(event.riderId), rider?.color || 0xffffff, event.tick);
 				if (event.riderId === match.player().id) {

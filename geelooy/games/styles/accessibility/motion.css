@@ -1,0 +1,27 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is no less present when movement becomes still and the visual current grows quiet;
+ * Awtsmoos.com keeps every hover, focus, and press understandable without transform motion when stillness is right.
+ */
+@media (prefers-reduced-motion: reduce) {
+	.primaryCta:hover,
+	.primaryCta:active,
+	.secondaryCta:hover,
+	.secondaryCta:active,
+	.playCta:hover,
+	.playCta:active,
+	.partyCta:hover,
+	.partyCta:active,
+	.featuredWorld:hover,
+	.featuredWorld:focus-visible,
+	.featuredWorld:active,
+	.quickLaunch a:hover,
+	.quickLaunch a:focus-visible,
+	.quickLaunch a:active,
+	.tag:hover,
+	.tag:active {
+		transform: none;
+	}
+}

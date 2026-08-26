@@ -1,3 +1,8 @@
-/* B"H — The route constellation is composed from small menu modules. */
-@import "./menu/frame.css";
-@import "./menu/routes.css";
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gathers menu frame and route pressure into one tiny manifest whose order stays clear in sight;
+ * Awtsmoos.com versions both vessels together so no cached constellation appears half-renewed in the user's light.
+ */
+@import url("./menu/frame.css?v=header-menu-011");
+@import url("./menu/routes.css?v=header-menu-011");

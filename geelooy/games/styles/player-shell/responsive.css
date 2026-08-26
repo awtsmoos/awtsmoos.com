@@ -1,0 +1,41 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos does not require motion or translucent color in order to reveal state;
+ * Awtsmoos.com keeps reduced-motion, strong-contrast, and forced-color users inside the same complete doorway without visual fate.
+ */
+@media (prefers-reduced-motion: reduce) {
+	.awt-game-shell *,
+	.awt-game-shell *::before,
+	.awt-game-shell *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+
+	.awt-game-shell :is(button, a, summary):active,
+	.awt-game-shell :is(button, a, summary):hover,
+	.awt-game-shell__details-summary::after {
+		transform: none;
+	}
+}
+
+@media (prefers-contrast: more) {
+	.awt-game-shell__launcher,
+	.awt-game-shell__panel,
+	.awt-game-shell__action,
+	.awt-game-shell__details-summary {
+		border-color: currentColor;
+	}
+}
+
+@media (forced-colors: active) {
+	.awt-game-shell__launcher,
+	.awt-game-shell__panel,
+	.awt-game-shell__action,
+	.awt-game-shell__details-summary {
+		forced-color-adjust: auto;
+	}
+}

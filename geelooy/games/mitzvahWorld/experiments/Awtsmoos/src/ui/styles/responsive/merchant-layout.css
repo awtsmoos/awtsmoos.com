@@ -1,0 +1,100 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file merchant-layout.css
+ * @description Owns merchant dimensions, wallet, cards, typography, and overflow-safe composition without interaction-state responsibilities.
+ * The Awtsmoos gives every market vessel a measured boundary; Awtsmoos.com keeps icon, copy, coin,
+ * and grid inside the visible world while another focused vessel carries motion and interaction light.
+ */
+
+.Awtsmoos-gameplay.Awtsmoos-vendor-panel {
+	--merchant-border: color-mix(in srgb, #71d9b0 38%, #263d35);
+	--merchant-buy: #5de0a9;
+	--merchant-sell: #ffbd72;
+	--merchant-surface: rgba(12, 25, 21, 0.96);
+	--merchant-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+	inline-size: min(560px, calc(100vw - 24px));
+	max-inline-size: calc(100vw - 24px);
+	overflow-x: clip;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-merchant-header,
+.Awtsmoos-gameplay .Awtsmoos-merchant-heading,
+.Awtsmoos-gameplay .Awtsmoos-merchant-copy,
+.Awtsmoos-gameplay .Awtsmoos-vendor-trade-actions {
+	min-inline-size: 0;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-merchant-heading h2,
+.Awtsmoos-gameplay .Awtsmoos-merchant-heading small,
+.Awtsmoos-gameplay .Awtsmoos-merchant-copy :is(b, small) {
+	overflow-wrap: anywhere;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-wallet {
+	display: flex;
+	align-items: baseline;
+	gap: 6px;
+	flex-wrap: wrap;
+	padding: 9px 11px;
+	border: 1px solid rgba(255, 207, 116, 0.28);
+	border-radius: 10px;
+	background: linear-gradient(135deg, rgba(72, 49, 17, 0.88), rgba(29, 27, 16, 0.82));
+	color: #ffe2a2;
+	font-weight: 760;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-wallet small {
+	flex-basis: 100%;
+	color: rgba(255, 232, 180, 0.74);
+	font-weight: 560;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-vendor-grid {
+	display: grid;
+	gap: 8px;
+	max-inline-size: 100%;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-vendor-card {
+	display: grid;
+	grid-template-columns: 38px minmax(0, 1fr) minmax(148px, auto);
+	align-items: center;
+	gap: 9px;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: 9px;
+	border: 1px solid var(--merchant-border);
+	border-radius: 12px;
+	background: linear-gradient(145deg, var(--merchant-surface), rgba(10, 19, 17, 0.9));
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.035);
+}
+
+.Awtsmoos-gameplay .Awtsmoos-merchant-icon {
+	font-size: 24px;
+	text-align: center;
+	filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.Awtsmoos-gameplay .Awtsmoos-merchant-copy small {
+	display: block;
+	color: #b9c9c2;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-merchant-copy .Awtsmoos-merchant-owned {
+	margin-block-start: 3px;
+	color: #82d8b5;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-vendor-trade-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 6px;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-panel-message {
+	min-block-size: 20px;
+	margin-block-end: 0;
+	color: #ffca76;
+}

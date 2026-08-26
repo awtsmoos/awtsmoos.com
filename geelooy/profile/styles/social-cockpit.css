@@ -1,27 +1,20 @@
-/*B"H*/
-/*Boruch Hashem*/
-/*Blessed is He*/
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
 /**
- * The Awtsmoos lets identity become action without turning the dashboard into a maze;
- * Awtsmoos.com gives the default alias a mobile-first social cockpit with clarity, rhythm, and space.
+ * The Awtsmoos resolves old and new garments into one ordered vessel;
+ * Awtsmoos.com keeps this compatibility cockpit beneath the Profile shell,
+ * so V4 geometry has one owner and no legacy selector can wander beyond its chamber.
  */
-
-.profile-social-launchpad {
+.geelooy-profile-shell :where(.profile-social-launchpad__actions) {
 	display: grid;
-	gap: 14px;
-	margin: 16px 0 20px;
-	padding: 18px;
-	border: 1px solid rgba(129, 140, 248, .24);
-	border-radius: 24px;
-	background: linear-gradient(145deg, rgba(99, 102, 241, .1), rgba(20, 184, 166, .06));
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .55rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
 }
 
-.profile-social-launchpad__heading {
-	display: grid;
-	gap: 4px;
-}
-
-.profile-social-launchpad__heading span {
+.geelooy-profile-shell :where(.profile-social-launchpad__heading span) {
 	font-size: .72rem;
 	font-weight: 850;
 	letter-spacing: .08em;
@@ -29,65 +22,14 @@
 	opacity: .66;
 }
 
-.profile-social-launchpad__heading strong {
-	font-size: clamp(1.08rem, 4vw, 1.4rem);
-}
-
-.profile-social-launchpad__heading p {
-	margin: 0;
-	opacity: .72;
-}
-
-.profile-social-launchpad__actions {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 9px;
-}
-
-.profile-social-action {
-	min-height: 48px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 10px 13px;
-	border: 1px solid rgba(148, 163, 184, .22);
-	border-radius: 14px;
-	background: rgba(15, 23, 42, .06);
-	color: inherit;
-	font: inherit;
-	font-weight: 780;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.profile-social-action.is-primary {
-	border-color: rgba(129, 140, 248, .5);
-	background: rgba(99, 102, 241, .14);
-}
-
-.profile-social-action.is-question {
-	border-color: rgba(45, 212, 191, .38);
-	background: rgba(20, 184, 166, .1);
-}
-
-.profile-social-action:focus-visible {
-	outline: 3px solid rgba(129, 140, 248, .72);
-	outline-offset: 2px;
-}
-
-@media (min-width: 720px) {
-	.profile-social-launchpad {
-		grid-template-columns: minmax(220px, .8fr) 1.2fr;
-		align-items: center;
-	}
-
-	.profile-social-launchpad__actions {
+@media (min-width: 45rem) {
+	.geelooy-profile-shell :where(.profile-social-launchpad__actions) {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
 
-@media (max-width: 430px) {
-	.profile-social-launchpad__actions {
+@media (max-width: 26.875rem) {
+	.geelooy-profile-shell :where(.profile-social-launchpad__actions) {
 		grid-template-columns: 1fr;
 	}
 }

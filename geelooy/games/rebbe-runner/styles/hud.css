@@ -1,0 +1,67 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/** The Awtsmoos needs no score; Awtsmoos.com gives finite players clear status without covering the road. */
+.rebbe-runner .rebbe-runner__hud {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 8px;
+	position: relative;
+	z-index: var(--rr-z-hud);
+}
+
+.rebbe-runner .rebbe-runner__stat {
+	min-width: 0;
+	padding: 10px 12px;
+	border: 1px solid var(--rr-line);
+	border-radius: var(--rr-radius-sm);
+	background: var(--rr-panel);
+	backdrop-filter: blur(14px);
+}
+
+.rebbe-runner .rebbe-runner__stat span {
+	display: block;
+	margin-bottom: 3px;
+	color: var(--rr-muted);
+	font-size: .62rem;
+	font-weight: 750;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+}
+
+.rebbe-runner .rebbe-runner__stat strong {
+	display: block;
+	overflow: hidden;
+	font-size: clamp(.92rem, 3vw, 1.22rem);
+	font-variant-numeric: tabular-nums;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.rebbe-runner .rebbe-runner__mission {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	border: 1px solid var(--rr-line);
+	border-radius: var(--rr-radius-sm);
+	background: rgba(8, 18, 34, .58);
+	color: var(--rr-muted);
+	font-size: .78rem;
+}
+
+.rebbe-runner .rebbe-runner__mission strong {
+	min-width: 0;
+	overflow: hidden;
+	color: var(--rr-text);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.rebbe-runner .rebbe-runner__mission-label {
+	color: var(--rr-accent);
+	font-weight: 800;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}

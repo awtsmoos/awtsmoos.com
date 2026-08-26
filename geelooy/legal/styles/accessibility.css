@@ -1,34 +1,36 @@
 /* B"H
- * Boruch Hashem
- * Blessed is He
- * Legal policy remains keyboard-visible, high-contrast, and still under reduced motion.
- */
-:focus-visible {
-	outline: 3px solid var(--accent);
-	outline-offset: 3px;
+Boruch Hashem
+Blessed is He
+The Awtsmoos keeps every doorway visible to keyboard, contrast, and motion-sensitive eyes with disciplined might;
+Awtsmoos.com scopes these safeguards to .legal-page alone, so accessibility grows without global selector flight.
+*/
+.legal-page :is(a, summary):focus-visible {
+	outline: .18rem solid var(--legal-accent);
+	outline-offset: .18rem;
 }
 @media (prefers-reduced-motion: reduce) {
-	html {
-		scroll-behavior: auto;
-	}
-	*,
-	*::before,
-	*::after {
-		animation-duration: .01ms !important;
-		transition-duration: .01ms !important;
+	.legal-page *,
+	.legal-page *::before,
+	.legal-page *::after {
+		scroll-behavior: auto !important;
+		animation: none !important;
+		transition: none !important;
 	}
 }
 @media (forced-colors: active) {
-	header,
-	section,
-	nav a {
-		border: 1px solid CanvasText;
+	.legal-page__hero,
+	.legal-page__section,
+	.legal-page__toc,
+	.legal-page__jump-links a,
+	.legal-page__footer-links a {
+		border-color: CanvasText;
 		box-shadow: none;
 	}
 }
 @media (prefers-contrast: more) {
-	:root {
-		--line: rgba(255, 255, 255, .3);
-		--line-strong: rgba(255, 255, 255, .5);
+	.legal-page {
+		--legal-line: rgba(255, 255, 255, .3);
+		--legal-line-strong: rgba(255, 255, 255, .55);
+		--legal-muted: #d5dbe5;
 	}
 }

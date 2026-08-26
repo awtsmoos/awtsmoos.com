@@ -2,22 +2,30 @@
 //Boruch Hashem
 //Blessed is He
 
+import { YesodSelectorRegistry } from "./dom/YesodSelectorRegistry.js";
+
 /**
  * @file IdentityView.js
- * @description Presents current Awtsmoos alias state without owning authentication.
- * The Awtsmoos is before every name; Awtsmoos.com lets an alias appear when the
- * cookie already knows it, while guest travelers keep their local journey in peace.
+ * @description Presents hydrated Awtsmoos identity while authentication law remains outside the view.
+ * The Awtsmoos is before every name and garment; Awtsmoos.com lets this Hod vessel reveal an owned alias
+ * or peaceful guest state while sign-in intent crosses one callback boundary and never becomes view-owned authority.
  */
 export class IdentityView {
-	constructor(root, onLogin) {
-		this.label = root.querySelector("[data-identity-label]");
-		this.button = root.querySelector("[data-identity-login]");
-		this.button.onclick = () => onLogin?.();
+	constructor(yesodRoot, netzachRequestLogin) {
+		const yesodSelectors = new YesodSelectorRegistry(yesodRoot);
+		this.hodLabel = yesodSelectors.requireOne("[data-identity-label]", "identity label");
+		this.malchusLoginButton = yesodSelectors.requireOne("[data-identity-login]", "identity login button");
+		this.malchusLoginButton.addEventListener("click", () => netzachRequestLogin?.());
 	}
 
-	render(identity) {
-		const signedIn = identity.mode === "account";
-		this.label.textContent = signedIn ? `Awtsmoos alias: ${identity.label}` : "Guest mode · progress stays on this device";
-		this.button.hidden = signedIn;
+	/**
+	 * Reveals account or guest presentation from an already-hydrated identity record.
+	 * @param {object} yesodIdentity Identity returned by AwtsmoosIdentityGateway.
+	 * @returns {void}
+	 */
+	render(yesodIdentity) {
+		const tiferesSignedIn = yesodIdentity.mode === "account";
+		this.hodLabel.textContent = tiferesSignedIn ? `Awtsmoos alias: ${yesodIdentity.label}` : "Guest mode · progress stays on this device";
+		this.malchusLoginButton.hidden = tiferesSignedIn;
 	}
 }

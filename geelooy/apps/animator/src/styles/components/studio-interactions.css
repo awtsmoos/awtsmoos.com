@@ -1,65 +1,106 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Awtsmoos renews every press, focus, busy state, and reduced-motion choice before interaction can be felt;
- * Awtsmoos.com keeps tactile response consistent so professional controls remain clear beneath mouse, keyboard, and touch dealt.
+ * The Awtsmoos renews every hover, press, focus, selection, and warning before the artist can feel a control;
+ * Awtsmoos.com gives interaction one tactile language so mouse, keyboard, and touch reveal the same truthful state.
  */
 .aw-studio-toolbar button,
 .aw-studio-panel button,
 .aw-studio-tab,
-.aw-studio-create-button {
+.aw-studio-create-button,
+.aw-studio-asset,
+.aw-studio-tree-row {
 	transition:
 		background var(--aw-fast),
 		border-color var(--aw-fast),
 		color var(--aw-fast),
 		transform var(--aw-fast),
-		box-shadow var(--aw-fast);
+		box-shadow var(--aw-fast),
+		opacity var(--aw-fast);
 }
 
 .aw-studio-toolbar button:active,
 .aw-studio-panel button:active,
 .aw-studio-tab:active,
-.aw-studio-create-button:active {
-	transform: translateY(1px) scale(.97);
+.aw-studio-create-button:active,
+.aw-studio-asset:active,
+.aw-studio-tree-row:active {
+	transform: translateY(1px) scale(.98);
 }
 
 .aw-studio-toolbar button:disabled,
-.aw-studio-panel button:disabled {
+.aw-studio-panel button:disabled,
+.aw-studio-tab:disabled {
 	cursor: not-allowed;
-	opacity: .48;
+	opacity: .42;
 	transform: none;
+}
+
+.aw-studio-toolbar button[aria-pressed='true'],
+.aw-studio-panel button[aria-pressed='true'] {
+	color: var(--aw-text);
+	border-color: rgba(112, 157, 255, .62);
+	background: var(--aw-selection-soft);
 }
 
 .aw-studio-panel input:focus-visible,
 .aw-studio-panel textarea:focus-visible,
+.aw-studio-panel select:focus-visible,
 .aw-studio-search:focus-visible {
-	border-color: rgba(133, 160, 255, .72);
+	border-color: var(--aw-line-focus);
 	box-shadow: var(--aw-focus);
 }
 
 .aw-studio-tab.active,
 .aw-studio-asset.selected,
-.aw-studio-tree-row.selected {
+.aw-studio-tree-row.selected,
+.aw-studio-create-button.selected {
 	color: var(--aw-text);
 }
 
 .aw-studio-danger:hover,
 .aw-studio-danger:focus-visible {
-	border-color: rgba(255, 111, 135, .72) !important;
+	border-color: rgba(255, 128, 147, .72) !important;
 	background: rgba(125, 41, 61, .28) !important;
 }
 
 .aw-studio-create-button:hover,
-.aw-studio-create-button:focus-visible {
-	border-color: rgba(119, 149, 255, .58);
-	background: rgba(78, 97, 186, .28);
+.aw-studio-create-button:focus-visible,
+.aw-studio-asset:hover,
+.aw-studio-tree-row:hover {
+	border-color: var(--aw-line-strong);
+}
+
+.aw-studio-panel [aria-busy='true'],
+.aw-studio-toolbar [aria-busy='true'] {
+	cursor: progress;
+	border-color: rgba(240, 189, 101, .45);
+}
+
+.aw-studio-panel [aria-invalid='true'] {
+	border-color: var(--aw-danger);
+}
+
+.aw-studio-panel [data-state='success'] {
+	border-color: rgba(100, 213, 161, .5);
+}
+
+.aw-studio-panel [data-state='drag-over'] {
+	border-color: var(--aw-selection);
+	background: var(--aw-selection-soft);
+}
+
+#character-canvas[data-studio-tool='pen'] {
+	cursor: crosshair;
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.aw-studio-toolbar button,
 	.aw-studio-panel button,
 	.aw-studio-tab,
-	.aw-studio-create-button {
+	.aw-studio-create-button,
+	.aw-studio-asset,
+	.aw-studio-tree-row {
 		transition: none;
 	}
 
@@ -70,7 +111,9 @@
 	.aw-studio-toolbar button:active,
 	.aw-studio-panel button:active,
 	.aw-studio-tab:active,
-	.aw-studio-create-button:active {
+	.aw-studio-create-button:active,
+	.aw-studio-asset:active,
+	.aw-studio-tree-row:active {
 		transform: none;
 	}
 }

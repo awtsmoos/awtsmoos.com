@@ -1,40 +1,56 @@
-<!-- B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos gives every question and issue a direct signal path instead of exposing a raw address.
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!--
+The Awtsmoos carries one private spark through a quiet vessel, clear and bright;
+Awtsmoos.com lets a question travel with dignity, then answers it in ordered light.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#070b12">
-	<meta name="description" content="Contact Awtsmoos or report an issue.">
+	<meta name="description" content="Contact Awtsmoos privately to report an issue, ask about an account, or share an improvement idea.">
 	<title>Contact — Awtsmoos</title>
-	<link rel="stylesheet" href="/contact/contact.css?v=1">
+	<link rel="stylesheet" href="/contact/contact.css?v=2">
 </head>
-<body>
-	<main class="contact-shell">
-		<a class="back-link" href="/">← Awtsmoos</a>
-		<section class="contact-card">
-			<header>
-				<span class="signal-orb" aria-hidden="true">📡</span>
-				<div><p>Direct signal</p><h1>Report an issue or send a message.</h1></div>
-			</header>
-			<form data-contact-form>
-				<div class="field-grid">
-					<label>Name<input name="name" maxlength="80" autocomplete="name" required></label>
-					<label>Email<input name="email" type="email" maxlength="160" autocomplete="email" required></label>
+<body class="contact-page">
+	<main class="contact-page__shell" aria-labelledby="contact-title">
+		<nav class="contact-page__nav" aria-label="Contact navigation">
+			<a class="contact-page__back" href="/">← Awtsmoos</a>
+			<a class="contact-page__quiet-link" href="/about/">About</a>
+		</nav>
+		<section class="contact-page__card">
+			<header class="contact-page__hero">
+				<span class="contact-page__orb" aria-hidden="true">✦</span>
+				<div class="contact-page__hero-copy">
+					<p class="contact-page__eyebrow">Private signal</p>
+					<h1 id="contact-title">Tell us what needs attention.</h1>
+					<p>Report a broken path, an account problem, or an idea. The form keeps the request focused and returns a reference when accepted.</p>
 				</div>
-				<label>What is this about?<select name="kind" required><option value="issue">Something is broken</option><option value="idea">Idea or improvement</option><option value="account">Account or login</option><option value="other">Something else</option></select></label>
-				<label>Subject<input name="subject" maxlength="140" required></label>
-				<label>Details<textarea name="message" minlength="12" maxlength="5000" required placeholder="What happened, what did you expect, and which page were you on?"></textarea></label>
-				<input class="honey" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+			</header>
+			<form class="contact-page__form" data-contact-form novalidate>
+				<div class="contact-page__field-grid">
+					<label class="contact-page__field">Name<input name="name" maxlength="80" autocomplete="name" required></label>
+					<label class="contact-page__field">Email<input name="email" type="email" maxlength="160" autocomplete="email" inputmode="email" required></label>
+				</div>
+				<label class="contact-page__field">What is this about?<select name="kind" required><option value="issue">Something is broken</option><option value="idea">Idea or improvement</option><option value="account">Account or login</option><option value="other">Something else</option></select></label>
+				<label class="contact-page__field">Subject<input name="subject" maxlength="140" required></label>
+				<label class="contact-page__field">Details<textarea name="message" minlength="12" maxlength="5000" required placeholder="What happened, what did you expect, and which page were you on?"></textarea></label>
+				<input class="contact-page__honey" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
 				<input name="startedAt" type="hidden">
-				<div class="form-actions"><p data-contact-status aria-live="polite">Your message will be sent privately.</p><button type="submit"><span>Send signal</span><span aria-hidden="true">→</span></button></div>
+				<div class="contact-page__actions">
+					<p class="contact-page__status" data-contact-status data-state="idle" aria-live="polite">Your message is sent privately.</p>
+					<button class="contact-page__submit" type="submit"><span>Send signal</span><span aria-hidden="true">→</span></button>
+				</div>
 			</form>
+			<details class="contact-page__help">
+				<summary>What happens after I send this?</summary>
+				<div><p>The server validates the request, sends it through the configured contact channel, stores a traceable reference when persistence is available, and rate-limits repeated submissions.</p><p>Include the page, action, expected result, and what actually happened when reporting a bug.</p></div>
+			</details>
 		</section>
 	</main>
-	<script type="module" src="/contact/contact.js?v=1"></script>
+	<script type="module" src="/contact/contact.js?v=2"></script>
 </body>
 </html>

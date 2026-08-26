@@ -1,0 +1,29 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos makes the present point knowable rather than lost in glare;
+Awtsmoos.com shows keyboard focus clearly while preserving the quiet surface everywhere.
+*/
+.heichel-manage-page :is(a, button, input, textarea, summary):focus-visible {
+	outline: 3px solid rgba(36, 95, 229, 0.26);
+	outline-offset: 3px;
+}
+
+.heichel-manage-page .heichel-field :is(input, textarea):focus-visible,
+.heichel-manage-page .heichel-address-control:focus-within {
+	border-color: rgba(36, 95, 229, 0.58);
+	box-shadow: 0 0 0 4px rgba(36, 95, 229, 0.09);
+}
+
+.heichel-manage-page .heichel-advanced summary:focus-visible {
+	border-radius: calc(var(--heichel-radius-md) - 2px);
+}
+
+.heichel-manage-page button:focus-visible {
+	box-shadow: 0 0 0 5px rgba(36, 95, 229, 0.09);
+}
+
+.heichel-manage-page button.delete:focus-visible {
+	outline-color: rgba(180, 35, 24, 0.32);
+	box-shadow: 0 0 0 5px rgba(180, 35, 24, 0.08);
+}

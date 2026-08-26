@@ -1,108 +1,51 @@
-<div id="BH">B"H</div>
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos reveals Torah through a quiet reader whose deeper paths appear only when sought; Awtsmoos.com keeps the actual library near without crowding the learner's thought. -->
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Shulchan Aruch Viewer</title>
-    <link rel="stylesheet" type="text/css" href="../style/bh.css">
-    <link rel="stylesheet" type="text/css" href="../style/toyr.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>Reeyuh · Shulchan Aruch Reader</title>
+	<link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
-    <div class="reeyuh">
-    <div id="side-panel"></div>
-    <div id="content-panel"></div>
-</div>
-    <script>
-        //<?Awtsmoos
-            if($_POST.wow == "well") {
-                olam.replace = JSON.stringify({
-                    hi: "there!"
-                })
-            }
-        //?>
-        let sidePanel = document.querySelector('#side-panel');
-        let contentPanel = document.querySelector('#content-panel');
+	//<?Awtsmoos
+	if($_POST.wow == "well") {
+		olam.replace = JSON.stringify({
+			hi: "there!"
+		})
+	}
+	//?>
+	<div id="BH" aria-hidden="true">B"H</div>
+	<div id="reeyuh-shell" data-nav-open="false">
+		<header class="reader-header">
+			<div class="reader-title">
+				<p>Reeyuh · Torah reader</p>
+				<h1>Shulchan Aruch</h1>
+				<p id="reader-status" class="reader-status" role="status" aria-live="polite">Preparing library…</p>
+			</div>
+			<button id="nav-toggle" class="nav-trigger" type="button" aria-controls="reeyuh-navigator" aria-expanded="false">Browse sections</button>
+		</header>
 
-        function generateHebrewNumber(number) {
-            var hebrewDigits = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י", "כ", "ל", "מ", "נ", "ס", "ע", "פ", "צ", "ק", "ר", "ש", "ת"];
-            if (number < 1 || number > 400) {
-                console.log('Number out of range');
-                return '';
-            }
+		<div class="reader-layout">
+			<aside id="reeyuh-navigator" class="navigator" aria-label="Shulchan Aruch sections">
+				<input id="portion-search" class="navigator-search" type="search" placeholder="Search sections…" aria-label="Search sections">
+				<nav id="portion-list" class="portion-list" aria-label="Available sections"></nav>
+			</aside>
+			<button id="nav-backdrop" class="nav-backdrop" type="button" aria-label="Close section browser" hidden></button>
 
-            let hundreds = Math.floor(number / 100);
-            let tens = Math.floor((number - hundreds * 100) / 10);
-            let ones = number % 10;
-
-            return (hundreds > 0 ? hebrewDigits[hundreds - 1] : '')
-                + (tens > 0 ? hebrewDigits[tens + 9] : '')
-                + (ones > 0 ? hebrewDigits[ones - 1] : '');
-        }
-
-        for (let i = 1; i <= 200; i++) {
-            let link = document.createElement('a');
-            link.href = '#';
-            link.textContent = generateHebrewNumber(i);
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                fetch(`./reeyuh`, {
-                    method: "POST",
-                    headers: {
-                        "content-type":
-                        "application/x-www-form-urlencoded"
-                    },
-                    body: "hi=there&wow=well"
-                })
-                    .then(response => response.json())
-                    .then(data => showContent(data));
-            });
-            sidePanel.appendChild(link);
-        }
-
-        function showContent(data) {
-            contentPanel.innerHTML = data//'';
-            return;
-            let h1 = document.createElement('h1');
-            h1.textContent = data.siman;
-            contentPanel.appendChild(h1);
-
-            data.shulchanAruch.forEach(section => {
-                let h2 = document.createElement('h2');
-                h2.textContent = section.shaym;
-                contentPanel.appendChild(h2);
-
-                section.tochen.forEach(paragraph => {
-                    let p = document.createElement('p');
-                    p.textContent = paragraph;
-                    p.classList.add('animate');
-                    contentPanel.appendChild(p);
-                });
-            });
-
-            if (data.commentaries) {
-                data.commentaries.forEach(section => {
-                    let h2 = document.createElement('h2');
-                    h2.textContent = section.shaym;
-                    contentPanel.appendChild(h2);
-
-                    section.tochen.forEach(subsection => {
-                        let h3 = document.createElement('h3');
-                        h3.textContent = subsection.shaym;
-                        contentPanel.appendChild(h3);
-
-                        subsection.tochen.forEach(paragraph => {
-                            let p = document.createElement('p');
-                            p.textContent = paragraph;
-                            p.classList.add('animate');
-                            contentPanel.appendChild(p);
-                        });
-                    });
-                });
-            }
-        }
-    </script>
+			<main class="reader-main">
+				<section class="reader-surface" aria-labelledby="current-title">
+					<h2 id="current-title" class="current-heading">Shulchan Aruch</h2>
+					<div id="content-output" class="content-output">
+						<p class="content-empty">Connecting to the Sefarim library…</p>
+					</div>
+				</section>
+			</main>
+		</div>
+	</div>
+	<script type="module" src="./js/app.js"></script>
 </body>
-
 </html>

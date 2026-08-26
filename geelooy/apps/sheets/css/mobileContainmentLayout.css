@@ -1,0 +1,88 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets the Sheets shell yield without breaking when the visible vessel becomes narrow and slight;
+Awtsmoos.com constrains only its own app root and descendants, so no host document inherits overflow law or responsive might.
+*/
+.awtsmoos-sheets-app {
+	max-width: 100%;
+	overflow: hidden;
+}
+
+.awtsmoos-sheets-app .app-shell,
+.awtsmoos-sheets-app .app-bar,
+.awtsmoos-sheets-app .document-identity,
+.awtsmoos-sheets-app .workspace,
+.awtsmoos-sheets-app .sheet-footer,
+.awtsmoos-sheets-app .sheet-tabs,
+.awtsmoos-sheets-app .context-bar,
+.awtsmoos-sheets-app .toolbar,
+.awtsmoos-sheets-app .formula-bar {
+	min-width: 0;
+}
+
+.awtsmoos-sheets-app .sheet-tabs {
+	flex: 1 1 auto;
+	max-width: 100%;
+	overscroll-behavior-inline: contain;
+}
+
+.awtsmoos-sheets-app .sheet-add {
+	flex: 0 0 auto;
+}
+
+.awtsmoos-sheets-app .sheet-tab {
+	max-width: min(220px, 72%);
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.awtsmoos-sheets-app .toolbar,
+.awtsmoos-sheets-app .context-bar,
+.awtsmoos-sheets-app .menu-rail,
+.awtsmoos-sheets-app .sheet-tabs,
+.awtsmoos-sheets-app .formula-chip-row {
+	overscroll-behavior-inline: contain;
+}
+
+.awtsmoos-sheets-app .toolbar select,
+.awtsmoos-sheets-app .toolbar input,
+.awtsmoos-sheets-app .formula-bar input {
+	max-width: 100%;
+	min-width: 0;
+}
+
+@media (max-width: 760px) {
+	.awtsmoos-sheets-app .app-bar {
+		padding-left: max(7px, env(safe-area-inset-left));
+		padding-right: max(7px, env(safe-area-inset-right));
+	}
+
+	.awtsmoos-sheets-app .document-identity {
+		flex: 1 1 72px;
+	}
+
+	.awtsmoos-sheets-app #commandPaletteButton,
+	.awtsmoos-sheets-app #chromeModeButton,
+	.awtsmoos-sheets-app #shareButton {
+		flex: 0 0 auto;
+	}
+}
+
+@media (max-width: 420px) {
+	.awtsmoos-sheets-app .command-label,
+	.awtsmoos-sheets-app .chrome-mode-label {
+		display: none;
+	}
+
+	.awtsmoos-sheets-app #commandPaletteButton,
+	.awtsmoos-sheets-app #chromeModeButton {
+		min-width: 44px;
+		padding-inline: 7px;
+	}
+
+	.awtsmoos-sheets-app .document-title {
+		text-overflow: ellipsis;
+	}
+}

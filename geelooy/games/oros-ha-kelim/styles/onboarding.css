@@ -1,0 +1,73 @@
+/*B"H*/
+/*Boruch Hashem*/
+/*Blessed is He*/
+@layer oros.overlay {
+	.oros-app .intro-card {
+		display: grid;
+		gap: 15px;
+	}
+
+	.oros-app .intro-stats {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 7px;
+	}
+
+	.oros-app .intro-stats span {
+		padding: 6px 9px;
+		border: 1px solid rgba(126, 240, 255, 0.18);
+		border-radius: 999px;
+		background: rgba(4, 19, 30, 0.62);
+		font-size: 0.72rem;
+		letter-spacing: 0.04em;
+	}
+
+	.oros-app .mission-steps {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 8px;
+	}
+
+	.oros-app .mission-step {
+		min-width: 0;
+		padding: 11px;
+		border: 1px solid rgba(126, 240, 255, 0.14);
+		border-radius: 14px;
+		background: rgba(2, 13, 22, 0.66);
+	}
+
+	.oros-app .mission-step :is(b, span) {
+		display: block;
+	}
+
+	.oros-app .mission-step b {
+		margin-bottom: 5px;
+		font-size: 0.8rem;
+	}
+
+	.oros-app .mission-step span,
+	.oros-app .instruction-columns p {
+		font-size: 0.7rem;
+		line-height: 1.46;
+		color: rgba(223, 245, 255, 0.76);
+	}
+
+	.oros-app .instruction-columns {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 14px;
+		padding-top: 10px;
+	}
+
+	.oros-app .instruction-columns h3,
+	.oros-app .instruction-columns p {
+		margin: 4px 0;
+	}
+
+	@media (max-width: 620px) {
+		.oros-app .mission-steps,
+		.oros-app .instruction-columns {
+			grid-template-columns: 1fr;
+		}
+	}
+}

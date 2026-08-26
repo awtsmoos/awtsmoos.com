@@ -1,56 +1,66 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets public feed cards reveal message and doorway while private dashboard furniture waits for a real active alias.
-*/
-.publicDiscovery__feed {
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives feed truth one visible card and one hidden live whisper instead of repeating the same light twice;
+ * Awtsmoos.com keeps public state, cards, context, and profile doors inside Social Hub with quiet accessible advice.
+ */
+.social-hub-document .publicDiscovery__feed {
 	margin-top: 14px;
 }
 
-.publicDiscovery__status,
-.publicFeedCard__identity,
-.publicFeedCard__context,
-.profilePostContext {
+.social-hub-document .publicDiscovery__status {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.social-hub-document .publicFeedCard__identity,
+.social-hub-document .publicFeedCard__context,
+.social-hub-document .profilePostContext {
 	color: var(--muted, #aeb8c8);
 	font-size: .78rem;
 }
 
-.publicDiscovery__list {
+.social-hub-document .publicDiscovery__list {
 	display: grid;
 	gap: 10px;
 	margin-top: 8px;
 }
 
-.publicDiscoveryEmpty,
-.publicFeedCard {
+.social-hub-document .publicDiscoveryEmpty,
+.social-hub-document .publicFeedCard {
 	padding: 16px;
 	border: 1px solid rgba(139, 180, 255, .14);
 	border-radius: 16px;
 	background: rgba(255, 255, 255, .025);
 }
 
-.publicDiscoveryEmpty h3,
-.publicFeedCard h3 {
+.social-hub-document .publicDiscoveryEmpty h3,
+.social-hub-document .publicFeedCard h3 {
 	margin: 0;
 }
 
-.publicDiscoveryEmpty p,
-.publicFeedCard__excerpt {
+.social-hub-document .publicDiscoveryEmpty p,
+.social-hub-document .publicFeedCard__excerpt {
 	margin: 8px 0 12px;
 	line-height: 1.5;
 }
 
-.publicFeedCard__identity,
-.publicFeedCard__context {
+.social-hub-document .publicFeedCard__identity,
+.social-hub-document .publicFeedCard__context {
 	margin: 0 0 6px;
 }
 
-.publicFeedCard__open,
-.publicDiscoveryEmpty a {
+.social-hub-document .publicFeedCard__open,
+.social-hub-document .publicDiscoveryEmpty a {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 44px;
+	min-block-size: 44px;
 	padding: 0 14px;
 	border-radius: 12px;
 	background: linear-gradient(135deg, #9fdfff, #d7f2ff);
@@ -59,16 +69,16 @@ The Awtsmoos lets public feed cards reveal message and doorway while private das
 	text-decoration: none;
 }
 
-.publicFeedCard__open {
+.social-hub-document .publicFeedCard__open {
 	margin-top: 10px;
 }
 
-.profileCardPrimaryAction {
+.social-hub-document .profileCardPrimaryAction {
 	font-weight: 900;
 }
 
-[data-panel="home"][data-identity-active="false"] .heroRift,
-[data-panel="home"][data-identity-active="false"] .pulseGrid,
-[data-panel="home"][data-identity-active="false"] .quickActionGrid {
+.social-hub-document [data-panel="home"][data-identity-active="false"] .heroRift,
+.social-hub-document [data-panel="home"][data-identity-active="false"] .pulseGrid,
+.social-hub-document [data-panel="home"][data-identity-active="false"] .quickActionGrid {
 	display: none;
 }

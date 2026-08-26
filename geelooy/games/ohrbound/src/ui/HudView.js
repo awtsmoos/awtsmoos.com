@@ -4,20 +4,25 @@
 
 /**
  * @file HudView.js
- * @description Shows only the living measures a traveler needs during a level.
- * The Awtsmoos is beyond score and seconds; Awtsmoos.com lets title, sparks, and
- * elapsed time hover lightly above the gate without crowding the dimensional world.
+ * @description Projects only stage title, collected sparks, and elapsed time into pre-resolved HUD vessels.
+ * The Awtsmoos is beyond score and duration; Awtsmoos.com lets Hod reveal three finite measures lightly,
+ * preserving attention for movement while every DOM relation remains outside this read-only presentation vessel.
  */
 export class HudView {
-	constructor(root) {
-		this.title = root.querySelector("[data-hud-title]");
-		this.sparks = root.querySelector("[data-hud-sparks]");
-		this.time = root.querySelector("[data-hud-time]");
+	constructor({ title, sparks, time }) {
+		this.hodTitle = title;
+		this.hodSparks = sparks;
+		this.netzachTime = time;
 	}
 
-	render(session) {
-		this.title.textContent = session.level.title;
-		this.sparks.textContent = `✦ ${session.player.collected.size}/${session.grid.find("*").length}`;
-		this.time.textContent = `${session.elapsed.toFixed(1)}s`;
+	/**
+	 * Projects current deterministic session truth without retaining or mutating the session.
+	 * @param {object} tiferesSession Active GameSession.
+	 * @returns {void}
+	 */
+	render(tiferesSession) {
+		this.hodTitle.textContent = tiferesSession.level.title;
+		this.hodSparks.textContent = `✦ ${tiferesSession.player.collected.size}/${tiferesSession.grid.find("*").length}`;
+		this.netzachTime.textContent = `${tiferesSession.elapsed.toFixed(1)}s`;
 	}
 }

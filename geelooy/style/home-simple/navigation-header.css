@@ -1,0 +1,47 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives the upper rail an exact finite order while Awtsmoos.com keeps brand, worlds, signal, and identity inside one mobile-safe crown.
+*/
+body[data-geelooy-route="home"] .header-rail {
+	display: grid;
+	grid-template-areas: "brand signal worlds profile";
+	grid-template-columns: minmax(0, 1fr) auto auto auto;
+	align-items: center;
+	gap: .55rem;
+	min-height: 58px;
+	padding: .5rem .62rem .5rem .72rem;
+	border: 1px solid rgba(149, 201, 255, .14);
+	border-radius: 1.15rem;
+	background: linear-gradient(135deg, rgba(10, 18, 33, .97), rgba(5, 10, 20, .95));
+	box-shadow: 0 20px 60px rgba(0, 0, 0, .26), inset 0 1px rgba(255, 255, 255, .04);
+}
+
+body[data-geelooy-route="home"] .system-signal {
+	grid-area: signal;
+}
+
+body[data-geelooy-route="home"] .world-launcher {
+	grid-area: worlds;
+	justify-self: end;
+}
+
+@media (max-width: 760px) {
+	body[data-geelooy-route="home"] .header-rail {
+		grid-template-areas: "brand worlds profile";
+		grid-template-columns: minmax(0, 1fr) auto auto;
+	}
+
+	body[data-geelooy-route="home"] .system-signal {
+		display: none;
+	}
+}
+
+@media (max-width: 430px) {
+	body[data-geelooy-route="home"] .header-rail {
+		min-height: 54px;
+		gap: .35rem;
+		padding: .38rem .42rem;
+		border-radius: .95rem;
+	}
+}

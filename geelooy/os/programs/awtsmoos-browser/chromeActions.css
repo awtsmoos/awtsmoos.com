@@ -1,0 +1,72 @@
+/* B"H */
+/*
+ * The Awtsmoos gives the trusted chrome's actions their own measured vessel.
+ * Hover, press, focus, disability, and wide-screen refinement live here alone,
+ * leaving tab geometry in a separate module and preventing one crowded stylesheet.
+ */
+
+.awtsmoos-browser-host .awtsmoos-browser-menu {
+	flex: 0 0 38px;
+	inline-size: 38px;
+	block-size: 38px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: var(--browser-radius-sm);
+	background: transparent;
+	color: var(--browser-muted);
+	font-size: 19px;
+	cursor: pointer;
+	transition: transform var(--browser-fast), background var(--browser-fast),
+		border-color var(--browser-fast), color var(--browser-fast), box-shadow var(--browser-fast);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-wordmark {
+	display: none;
+	margin-inline-start: auto;
+	padding-inline: 4px;
+	color: var(--browser-muted);
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+@media (hover: hover) {
+	.awtsmoos-browser-host .awtsmoos-browser-menu:hover {
+		border-color: var(--browser-border);
+		background: var(--browser-surface-hover);
+		color: var(--browser-text);
+		transform: translateY(-1px);
+	}
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-menu:active {
+	transform: translateY(1px) scale(0.96);
+	background: var(--browser-surface-active);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-menu:focus-visible {
+	outline: 0;
+	border-color: var(--browser-accent);
+	box-shadow: var(--browser-ring);
+}
+
+.awtsmoos-browser-host .awtsmoos-browser-menu:disabled {
+	opacity: 0.38;
+	cursor: default;
+	transform: none;
+}
+
+@media (min-width: 620px) {
+	.awtsmoos-browser-host .awtsmoos-browser-toolbar {
+		padding-inline: 8px;
+	}
+
+	.awtsmoos-browser-host .awtsmoos-browser-tab {
+		max-inline-size: min(240px, 40vw);
+	}
+
+	.awtsmoos-browser-host .awtsmoos-browser-wordmark {
+		display: inline-flex;
+	}
+}

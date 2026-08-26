@@ -1,17 +1,21 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-
-const NEAR_PLANE = 8;
-const FAR_PLANE = 8200;
+import { fieldOfViewForAspect } from '../camera/viewportProfile.js';
+import { writePerspectiveView } from './projectionWriter.js';
 
 /**
- * The Awtsmoos lets the same sixteen-number vessel receive a fresh world-view every frame;
- * Awtsmoos.com preserves the camera law while scalar basis math removes every temporary hot-path container.
+ * The Awtsmoos lets finite camera direction reveal a world without crowding its vessel;
+ * Awtsmoos.com shares one viewport covenant while the matrix writer receives a clean measured basis.
+ * @param {{width:number,height:number}} canvas Visible render surface.
+ * @param {object} camera Camera position, target, and optional shake.
+ * @param {object} player Player fallback target.
+ * @param {Array<number>|Float32Array} target Reusable sixteen-value matrix vessel.
+ * @returns {Array<number>|Float32Array} The same target after projection is written.
  */
 export function writeViewProjection(canvas, camera, player, target) {
 	const aspect = canvas.width / Math.max(1, canvas.height);
-	const fov = fieldOfView(aspect);
+	const fieldOfView = fieldOfViewForAspect(aspect);
 	const shake = camera.shake
 		? Math.sin(performance.now() * 0.04) * camera.shake * 20
 		: 0;
@@ -21,92 +25,54 @@ export function writeViewProjection(canvas, camera, player, target) {
 	const centerX = finite(camera.targetX, player.x);
 	const centerY = finite(camera.targetZ, player.z);
 	const centerZ = finite(camera.targetY, player.y);
-	let zx = eyeX - centerX;
-	let zy = eyeY - centerY;
-	let zz = eyeZ - centerZ;
-	const zLength = Math.hypot(zx, zy, zz) || 1;
-	zx /= zLength;
-	zy /= zLength;
-	zz /= zLength;
-	const xLength = Math.hypot(zz, zx) || 1;
-	const xx = zz / xLength;
-	const xz = -zx / xLength;
-	const yx = zy * xz;
-	const yy = zz * xx - zx * xz;
-	const yz = -zy * xx;
-	writePerspectiveView(
-		target,
-		fov,
+	const basis = cameraBasis(eyeX, eyeY, eyeZ, centerX, centerY, centerZ);
+	writePerspectiveView(target, {
+		fieldOfView,
 		aspect,
 		eyeX,
 		eyeY,
 		eyeZ,
-		xx,
-		xz,
-		yx,
-		yy,
-		yz,
-		zx,
-		zy,
-		zz
-	);
+		...basis
+	});
 	return target;
 }
 
-/** Compatibility wrapper preserves the original owned plain-array return contract. */
+/** Compatibility wrapper preserves a new owned plain-array matrix for legacy callers. */
 export function viewProjection(canvas, camera, player) {
 	return writeViewProjection(canvas, camera, player, Array(16));
 }
 
-function writePerspectiveView(
-	target,
-	fov,
-	aspect,
-	eyeX,
-	eyeY,
-	eyeZ,
-	xx,
-	xz,
-	yx,
-	yy,
-	yz,
-	zx,
-	zy,
-	zz
-) {
-	const f = 1 / Math.tan(fov / 2);
-	const nf = 1 / (NEAR_PLANE - FAR_PLANE);
-	const fa = f / aspect;
-	const q = (FAR_PLANE + NEAR_PLANE) * nf;
-	const qn = 2 * FAR_PLANE * NEAR_PLANE * nf;
-	const tx = -(xx * eyeX + xz * eyeZ);
-	const ty = -(yx * eyeX + yy * eyeY + yz * eyeZ);
-	const tz = -(zx * eyeX + zy * eyeY + zz * eyeZ);
-	target[0] = fa * xx;
-	target[1] = f * yx;
-	target[2] = q * zx;
-	target[3] = -zx;
-	target[4] = 0;
-	target[5] = f * yy;
-	target[6] = q * zy;
-	target[7] = -zy;
-	target[8] = fa * xz;
-	target[9] = f * yz;
-	target[10] = q * zz;
-	target[11] = -zz;
-	target[12] = fa * tx;
-	target[13] = f * ty;
-	target[14] = q * tz + qn;
-	target[15] = -tz;
+/** Reveal an orthonormal camera basis without allocating vector helper arrays. */
+function cameraBasis(eyeX, eyeY, eyeZ, centerX, centerY, centerZ) {
+	let forwardX = eyeX - centerX;
+	let forwardY = eyeY - centerY;
+	let forwardZ = eyeZ - centerZ;
+	const forwardLength = Math.hypot(forwardX, forwardY, forwardZ) || 1;
+	forwardX /= forwardLength;
+	forwardY /= forwardLength;
+	forwardZ /= forwardLength;
+	const sideLength = Math.hypot(forwardZ, forwardX) || 1;
+	const sideX = forwardZ / sideLength;
+	const sideZ = -forwardX / sideLength;
+	return {
+		sideX,
+		sideZ,
+		upX: forwardY * sideZ,
+		upY: forwardZ * sideX - forwardX * sideZ,
+		upZ: -forwardY * sideX,
+		forwardX,
+		forwardY,
+		forwardZ
+	};
 }
 
-function fieldOfView(aspect) {
-	if (aspect > 1.7) return Math.PI / 3.75;
-	if (aspect < 0.8) return Math.PI / 2.75;
-	return Math.PI / 3.25;
-}
-
+/** Return a finite input, falling back only when the primary value cannot represent geometry. */
 function finite(value, fallback = 0) {
-	if (Number.isFinite(value)) return value;
-	return Number.isFinite(fallback) ? fallback : 0;
+	if (Number.isFinite(value)) {
+		return value;
+	}
+	if (Number.isFinite(fallback)) {
+		return fallback;
+	}
+	return 0;
 }

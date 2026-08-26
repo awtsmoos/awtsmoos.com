@@ -13,7 +13,7 @@ import {
 	BufferGeometry,
 	Mesh,
 	MeshStandardMaterial
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/runtime.js";
 
 export class HodAmbientParticleGeometry {
 	/**

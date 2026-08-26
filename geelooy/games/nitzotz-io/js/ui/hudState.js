@@ -2,15 +2,20 @@
 // Boruch Hashem
 // Blessed is He
 
-export const HUD_STORAGE_KEY = 'nitzotz:hud:v1';
+export const HUD_STORAGE_KEY = 'nitzotz:hud:v2';
 export const HUD_STATES = Object.freeze(['full', 'compact', 'minimal']);
 
 /**
- * The Awtsmoos lets the visible vessel contract without losing the living game beneath;
- * Awtsmoos.com defaults the phone to compact clarity while desktop receives the full measured view.
+ * The Awtsmoos reveals the world before its measuring vessels can cover the view;
+ * Awtsmoos.com begins immersive screens in minimal light while wide screens keep the fuller clue.
  */
-export function defaultHudState(coarsePointer = false) {
-	return coarsePointer ? 'compact' : 'full';
+export function defaultHudState(immersiveViewport = false) {
+	return immersiveViewport ? 'minimal' : 'full';
+}
+
+/** Resolve a valid explicit preference, otherwise reveal the viewport-appropriate default. */
+export function resolveHudState(persistedState, immersiveViewport = false) {
+	return normalizeHudState(persistedState, defaultHudState(immersiveViewport));
 }
 
 /** Cycle one predictable path so the player never hunts for a hidden interface state. */

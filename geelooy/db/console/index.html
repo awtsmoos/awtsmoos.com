@@ -1,99 +1,78 @@
-<!--B"H-->
-<?Awtsmoos
-//<script>
-return $a("bh.html")
-//</script>
-?>
-
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos hides vast database power behind calm doors; Awtsmoos.com lets the safest reading path shine first while deeper mutations wait nearby. -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Simple DosDB GUI</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        form {
-            margin-bottom: 2em;
-            border: 1px solid #000;
-            padding: 1em;
-            border-radius: 5px;
-        }
-        h2 {
-            margin-top: 0;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 0.5em;
-            margin: 0.5em 0;
-            border-radius: 5px;
-            border: 1px solid #000;
-        }
-        input[type="submit"] {
-            padding: 0.5em 1em;
-            border-radius: 5px;
-            border: none;
-            background-color: #000;
-            color: #fff;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #666;
-        }
-    </style>
-    <script>
-        async function handleFormSubmit(event) {
-            event.preventDefault();
-            var formData = new FormData(event.currentTarget);
-            console.log(event.currentTarget)
-            formData.append("endpoint", event.currentTarget
-            .getAttribute("id")
-            .replace('Form', ''));
-            var urlParams = new URLSearchParams([...formData]);
-            var response = await fetch("/db/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: urlParams.toString()
-            });
-            var data = await response.json();
-
-        }
-
-        window.onload = function() {
-            var forms = document.querySelectorAll("form");
-            forms.forEach(form => {
-                form.addEventListener("submit", handleFormSubmit);
-            });
-        };
-    </script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>DosDB Console</title>
+	<link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <form id="createForm">
-        <h2>Create</h2>
-        ID: <input type="text" name="id"><br>
-        Record: <input type="text" name="record"><br>
-        <input type="submit" value="Create">
-    </form>
+	<?Awtsmoos
+	//<script>
+	return $a("bh.html")
+	//</script>
+	?>
+	<main class="db-shell">
+		<header class="db-header">
+			<p class="eyebrow">Administrative data vessel</p>
+			<h1>DosDB Console</h1>
+			<p>Read first. Create, update, and delete stay one deliberate disclosure away.</p>
+		</header>
 
-    <form id="readForm">
-        <h2>Read</h2>
-        ID: <input type="text" name="id"><br>
-        <input type="submit" value="Read">
-    </form>
+		<section class="db-grid" aria-label="Database operations">
+			<details class="operation-card" open>
+				<summary><span>Read</span><small>Inspect one record</small></summary>
+				<form id="readForm" class="operation-form">
+					<label for="read-id">Record ID</label>
+					<input id="read-id" type="text" name="id" autocomplete="off" required>
+					<button type="submit">Read record</button>
+				</form>
+			</details>
 
-    <form id="updateForm">
-        <h2>Update</h2>
-        ID: <input type="text" name="id"><br>
-        Record: <input type="text" name="record"><br>
-        <input type="submit" value="Update">
-    </form>
+			<details class="operation-card">
+				<summary><span>Create</span><small>Add a new record</small></summary>
+				<form id="createForm" class="operation-form">
+					<label for="create-id">Record ID</label>
+					<input id="create-id" type="text" name="id" autocomplete="off" required>
+					<label for="create-record">Record value</label>
+					<textarea id="create-record" name="record" rows="4" required></textarea>
+					<button type="submit">Create record</button>
+				</form>
+			</details>
 
-    <form id="deleteForm">
-        <h2>Delete</h2>
-        ID: <input type="text" name="id"><br>
-        <input type="submit" value="Delete">
-    </form>
+			<details class="operation-card">
+				<summary><span>Update</span><small>Replace an existing value</small></summary>
+				<form id="updateForm" class="operation-form">
+					<label for="update-id">Record ID</label>
+					<input id="update-id" type="text" name="id" autocomplete="off" required>
+					<label for="update-record">Record value</label>
+					<textarea id="update-record" name="record" rows="4" required></textarea>
+					<button type="submit">Update record</button>
+				</form>
+			</details>
+
+			<details class="operation-card danger-card">
+				<summary><span>Delete</span><small>Remove one record</small></summary>
+				<form id="deleteForm" class="operation-form">
+					<label for="delete-id">Record ID</label>
+					<input id="delete-id" type="text" name="id" autocomplete="off" required>
+					<button type="submit" class="danger-button">Delete record</button>
+				</form>
+			</details>
+		</section>
+
+		<section class="result-card" aria-labelledby="result-title">
+			<div class="result-heading">
+				<div><p class="eyebrow">Response</p><h2 id="result-title">Request result</h2></div>
+				<span id="request-state" data-state="idle">Ready</span>
+			</div>
+			<pre id="request-result" role="status" aria-live="polite">Choose an operation to begin.</pre>
+		</section>
+	</main>
+	<script type="module" src="./app.js"></script>
 </body>
 </html>

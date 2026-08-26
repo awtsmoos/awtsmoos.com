@@ -1,117 +1,88 @@
-/* B"H
- * The Awtsmoos reveals one project through measured cards.
- * Awtsmoos.com keeps dense platform truth readable without compressing its source.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@import url('./project-platform-cards.css');
+
+/**
+ * The Awtsmoos reveals one project through measured testimony; Awtsmoos.com keeps the Project Platform hero, boundaries, actions, and links rooted to Drive while capability cards live in their own expandable style vessel.
  */
 
-.project-platform {
+[data-awtsmoos-drive] .project-platform {
 	display: grid;
 	gap: 1rem;
 }
 
-.project-platform__hero {
+[data-awtsmoos-drive] .project-platform__hero {
 	display: grid;
-	gap: 0.25rem;
+	gap: .3rem;
 }
 
-.project-platform__hero h2,
-.project-stage h3 {
+[data-awtsmoos-drive] .project-platform__hero h2 {
 	margin: 0;
 }
 
-.project-platform__eyebrow {
-	font-size: 0.72rem;
-	font-weight: 800;
-	letter-spacing: 0.12em;
-	opacity: 0.68;
-}
-
-.project-platform__stages {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-	gap: 0.8rem;
-}
-
-.project-stage {
-	display: grid;
-	align-content: start;
-	gap: 0.55rem;
-}
-
-.project-stage h3 {
-	font-size: 0.86rem;
+[data-awtsmoos-drive] .project-platform__eyebrow {
+	font-size: .72rem;
+	font-weight: 850;
+	letter-spacing: .12em;
+	opacity: .68;
 	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	opacity: 0.72;
 }
 
-.project-capability {
+[data-awtsmoos-drive] .project-platform__stages {
 	display: grid;
-	gap: 0.35rem;
-	padding: 0.8rem;
-	border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
-	border-radius: 14px;
-	background: color-mix(in srgb, var(--panel, #111827) 94%, transparent);
+	grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+	gap: .8rem;
 }
 
-.project-capability p {
+[data-awtsmoos-drive] .project-platform__boundary {
 	margin: 0;
-	font-size: 0.82rem;
-	line-height: 1.4;
-	opacity: 0.8;
+	padding: .8rem 1rem;
+	border-inline-start: 3px solid var(--warning);
+	border-radius: var(--radius-small);
+	background: color-mix(in srgb, var(--warning) 8%, transparent);
+	font-size: .82rem;
 }
 
-.project-capability small {
-	opacity: 0.58;
-}
-
-.project-capability__state {
-	justify-self: start;
-	padding: 0.18rem 0.45rem;
-	border-radius: 999px;
-	font-size: 0.62rem;
-	font-weight: 900;
-	letter-spacing: 0.07em;
-	background: color-mix(in srgb, currentColor 10%, transparent);
-}
-
-.project-capability--blocked {
-	opacity: 0.68;
-}
-
-.project-capability--ready .project-capability__state {
-	color: #20a464;
-}
-
-.project-capability--limited .project-capability__state {
-	color: #d99000;
-}
-
-.project-platform__boundary {
-	margin: 0;
-	padding: 0.8rem 1rem;
-	border-inline-start: 3px solid #d99000;
-	border-radius: 8px;
-	background: color-mix(in srgb, #d99000 8%, transparent);
-	font-size: 0.82rem;
-}
-
-.project-platform__actions {
+[data-awtsmoos-drive] .project-platform__actions {
 	display: flex;
-	gap: 0.6rem;
+	gap: .6rem;
 	flex-wrap: wrap;
 }
 
-.project-platform__link {
+[data-awtsmoos-drive] .project-platform__link {
 	display: inline-flex;
-	padding: 0.55rem 0.75rem;
-	border: 1px solid currentColor;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: .55rem .8rem;
+	border: 1px solid var(--line);
 	border-radius: 999px;
-	font-size: 0.8rem;
-	font-weight: 700;
+	color: inherit;
+	font-size: .8rem;
+	font-weight: 750;
 	text-decoration: none;
 }
 
-.project-platform__empty {
+[data-awtsmoos-drive] .project-platform__link:hover {
+	border-color: var(--line-strong);
+	background: var(--surface-hover);
+	transform: translateY(-1px);
+}
+
+[data-awtsmoos-drive] .project-platform__link:focus-visible {
+	border-color: var(--accent);
+	box-shadow: var(--focus-ring);
+	outline: none;
+}
+
+[data-awtsmoos-drive] .project-platform__link:active {
+	background: var(--surface-active);
+	transform: scale(.985);
+}
+
+[data-awtsmoos-drive] .project-platform__empty {
 	margin: 0;
-	opacity: 0.72;
+	opacity: .72;
 }

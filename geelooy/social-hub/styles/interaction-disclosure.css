@@ -1,15 +1,17 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
  * The Awtsmoos holds exact coordinates without forcing them into every glance;
- * Awtsmoos.com lets destination meaning lead while canonical controls remain one disclosure away.
+ * Awtsmoos.com lets human meaning lead while expert coordinates remain one calm disclosure away.
  */
-.target-human-summary {
+.social-hub-document .target-human-summary {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr);
 	align-items: center;
 	gap: .7rem;
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	margin: 1rem 0 .7rem;
 	padding: .85rem 1rem;
 	border: 1px solid rgb(158 247 255 / 28%);
@@ -18,56 +20,75 @@
 	box-shadow: inset 0 1px rgb(255 255 255 / 6%);
 }
 
-.target-human-summary strong {
+.social-hub-document .target-human-summary strong {
 	color: var(--cyan);
 	font-size: .72rem;
 	letter-spacing: .08em;
 	text-transform: uppercase;
 }
 
-.target-human-summary span {
-	min-width: 0;
+.social-hub-document .target-human-summary span {
+	min-inline-size: 0;
 	color: var(--text, #edf7ff);
 	overflow-wrap: anywhere;
 }
 
-.target-advanced {
-	margin-bottom: 1rem;
+.social-hub-document .target-advanced {
+	max-inline-size: 100%;
+	margin-block-end: 1rem;
+	overflow: clip;
 	border: 1px solid var(--line);
 	border-radius: var(--radius);
 	background: rgb(2 5 15 / 38%);
 }
 
-.target-advanced > summary {
-	min-height: 44px;
+.social-hub-document .target-advanced > summary {
+	min-block-size: 44px;
 	padding: .8rem 1rem;
 	color: var(--muted);
 	font-weight: 760;
 	cursor: pointer;
+	transition: color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
 }
 
-.target-advanced[open] > summary {
-	border-bottom: 1px solid var(--line);
+.social-hub-document .target-advanced > summary:focus-visible {
+	outline: 2px solid var(--cyan);
+	outline-offset: -3px;
+	box-shadow: inset 0 0 0 1px rgb(126 239 255 / 14%);
+}
+
+.social-hub-document .target-advanced > summary:active {
+	background: rgb(126 239 255 / 7%);
+}
+
+.social-hub-document .target-advanced[open] > summary {
+	border-block-end: 1px solid var(--line);
 	color: var(--cyan);
 }
 
-.target-advanced-guidance {
+.social-hub-document .target-advanced-guidance {
 	margin: .85rem 1rem 0;
 	color: var(--muted);
 	font-size: .82rem;
 	line-height: 1.55;
 }
 
-.target-advanced .targetGrid {
+.social-hub-document .target-advanced .targetGrid {
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	margin: .85rem;
 }
 
-@media (max-width: 640px) {
-	.target-human-summary {
-		grid-template-columns: 1fr;
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .target-advanced > summary:hover {
+		background: rgb(126 239 255 / 5%);
+		color: var(--cyan);
 	}
+}
 
-	.target-advanced .targetGrid {
+@media (max-width: 40rem) {
+	.social-hub-document .target-human-summary,
+.social-hub-document .target-advanced .targetGrid {
 		grid-template-columns: 1fr;
 	}
 }

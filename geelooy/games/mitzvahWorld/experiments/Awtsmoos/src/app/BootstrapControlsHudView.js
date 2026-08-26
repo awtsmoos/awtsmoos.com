@@ -4,9 +4,9 @@
 
 /**
  * @file BootstrapControlsHudView.js
- * @description Owns only the compact journey-card DOM so orchestration remains free of markup concerns.
- * The Awtsmoos gives the story a small translucent vessel while the valley remains the greater view;
- * Awtsmoos.com lets one objective breathe above the road, then renews its words without rebuilding what is true.
+ * @description Owns only the compact journey-card DOM and marks it as the measured objective zone for direct mobile composition.
+ * The Awtsmoos gives the story a small translucent vessel while Awtsmoos.com gives that vessel one named shore above the road;
+ * words may renew without rebuilding DOM, and layout verification may measure the same objective the player actually beholds.
  */
 
 const HUD_ID = 'AwtsmoosBootstrapControls';
@@ -21,6 +21,7 @@ export class BootstrapControlsHudView {
 		this.gameRoot = gameRoot;
 		this.document = documentValue;
 		this.root = this.findOrCreateRoot();
+		this.root.dataset.directHudZone = 'objective';
 		this.nodes = this.resolveNodes();
 	}
 

@@ -1,15 +1,14 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-
 /**
- * The Awtsmoos is beyond motion and stillness, while Awtsmoos.com lets shared Social controls remain physically trustworthy and reveal state through edge, contrast, and focus instead of floating away;
- * this Keter-like foundation owns motion tokens and accessibility truth only, leaving component-specific choreography to smaller vessels of light.
+ * The Awtsmoos is beyond edge, layer, and motion; Awtsmoos.com gives every
+ * shared social control one locally rooted system for focus, safe area, motion,
+ * and finite z-order so no component wins by accidental escalation.
  */
-
 .awtsmoosSocialExperience {
 	--social-motion-fast: 140ms;
-	--social-motion-base: 180ms;
+	--social-motion-base: 190ms;
 	--social-motion-slow: 240ms;
 	--social-ease: cubic-bezier(.2,.8,.2,1);
 	--social-radius-sm: 10px;
@@ -18,22 +17,50 @@
 	--social-line: color-mix(in srgb, CanvasText 13%, transparent);
 	--social-soft: color-mix(in srgb, CanvasText 6%, Canvas);
 	--social-strong: color-mix(in srgb, CanvasText 11%, Canvas);
+	--social-focus: color-mix(in srgb, #6de8ff 76%, CanvasText 24%);
+	--social-safe-inline-start: max(.65rem, env(safe-area-inset-left));
+	--social-safe-inline-end: max(.65rem, env(safe-area-inset-right));
+	--social-safe-block-start: max(.65rem, env(safe-area-inset-top));
+	--social-safe-block-end: max(.65rem, env(safe-area-inset-bottom));
+	--social-safe-inline: var(--social-safe-inline-start);
+	--social-safe-bottom: var(--social-safe-block-end);
+	--social-z-base: 0;
+	--social-z-raised: 10;
+	--social-z-popover: 30;
+	--social-z-sheet: 40;
+	--social-z-modal: 50;
 }
-
-.awtsmoosSocialExperience :where(button, a, summary, input, select, textarea):focus-visible {
-	outline: 2px solid color-mix(in srgb, currentColor 76%, transparent);
-	outline-offset: 3px;
+.awtsmoosSocialExperience :where(button, a, summary, input, select, textarea) {
+	box-sizing: border-box;
+	max-inline-size: 100%;
 }
-
 .awtsmoosSocialExperience :where(button, a, summary) {
 	-webkit-tap-highlight-color: transparent;
 	transition:
+		transform var(--social-motion-fast) var(--social-ease),
 		background-color var(--social-motion-base) var(--social-ease),
 		border-color var(--social-motion-base) var(--social-ease),
 		opacity var(--social-motion-fast) linear,
 		box-shadow var(--social-motion-base) var(--social-ease);
 }
-
+.awtsmoosSocialExperience :where(button, a, summary, input, select, textarea):focus-visible {
+	outline: 2px solid var(--social-focus);
+	outline-offset: 3px;
+}
+.awtsmoosSocialExperience :where(button, [role='button']):disabled {
+	cursor: not-allowed;
+	opacity: .48;
+	transform: none;
+}
+@media (hover: hover) and (pointer: fine) {
+	.awtsmoosSocialExperience :where(button:not(:disabled), a, summary):hover {
+		filter: brightness(1.045);
+	}
+}
+.awtsmoosSocialExperience :where(button:not(:disabled), a, summary):active {
+	transform: scale(.985);
+	filter: brightness(.96);
+}
 @media (prefers-reduced-motion: reduce) {
 	.awtsmoosSocialExperience *,
 	.awtsmoosSocialExperience *::before,
@@ -44,9 +71,9 @@
 		animation-iteration-count: 1 !important;
 	}
 }
-
-@media (prefers-contrast: more) {
+@media (forced-colors: active) {
 	.awtsmoosSocialExperience {
-		--social-line: color-mix(in srgb, CanvasText 34%, transparent);
+		--social-line: CanvasText;
+		--social-focus: Highlight;
 	}
 }

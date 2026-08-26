@@ -1,0 +1,100 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets essential fields remain simple while advanced measure waits behind one quiet fold;
+ * Awtsmoos.com keeps every input complete, touchable, and bounded so no unfinished control escapes the mold.
+ */
+.creator-card {
+	padding: 18px;
+}
+
+.cover-form {
+	display: grid;
+	gap: 14px;
+}
+
+.cover-field {
+	display: grid;
+	gap: 6px;
+	min-width: 0;
+}
+
+.cover-field label,
+.advanced-label {
+	color: #dce9f2;
+	font-size: .78rem;
+	font-weight: 800;
+	letter-spacing: .02em;
+}
+
+.cover-field input,
+.advanced-grid input {
+	width: 100%;
+	min-height: 46px;
+	padding: 10px 12px;
+	border: 1px solid var(--cover-border);
+	border-radius: 12px;
+	outline: none;
+	color: var(--cover-text);
+	background: rgba(255, 255, 255, .035);
+}
+
+.cover-field input[type="file"] {
+	padding: 7px;
+	color: var(--cover-muted);
+}
+
+.cover-field input[type="file"]::file-selector-button {
+	min-height: 32px;
+	margin-right: 10px;
+	padding: 6px 10px;
+	border: 1px solid rgba(130, 230, 255, .24);
+	border-radius: 8px;
+	color: var(--cover-text);
+	background: rgba(130, 230, 255, .08);
+	cursor: pointer;
+}
+
+.advanced-controls {
+	border-top: 1px solid rgba(135, 221, 255, .1);
+	padding-top: 4px;
+}
+
+.advanced-controls summary {
+	display: flex;
+	align-items: center;
+	min-height: 44px;
+	cursor: pointer;
+	color: var(--cover-muted);
+	font-size: .8rem;
+	font-weight: 800;
+	list-style: none;
+}
+
+.advanced-controls summary::-webkit-details-marker {
+	display: none;
+}
+
+.advanced-controls summary::after {
+	content: "+";
+	margin-left: auto;
+	color: var(--cover-accent);
+	font-size: 1.1rem;
+}
+
+.advanced-controls[open] summary::after {
+	content: "−";
+}
+
+.advanced-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	padding: 4px 0 10px;
+}
+
+.advanced-grid label {
+	display: grid;
+	gap: 6px;
+	min-width: 0;
+}

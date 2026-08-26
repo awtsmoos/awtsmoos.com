@@ -5,16 +5,16 @@ Blessed is He
 The Awtsmoos lets identity, destination, privacy, and pulse remain many names around one present act;
 Awtsmoos.com gives the context ribbon hierarchy and mobile continuity so orientation stays exact.
 */
-.contextRibbon {
+.social-hub-document .contextRibbon {
 	scroll-snap-type: x proximity;
 	scrollbar-width: none;
 }
 
-.contextRibbon::-webkit-scrollbar {
+.social-hub-document .contextRibbon::-webkit-scrollbar {
 	display: none;
 }
 
-.contextRibbon > * {
+.social-hub-document .contextRibbon > * {
 	flex: 0 0 auto;
 	scroll-snap-align: start;
 	transition:
@@ -23,9 +23,9 @@ Awtsmoos.com gives the context ribbon hierarchy and mobile continuity so orienta
 		box-shadow var(--keter-normal) ease;
 }
 
-.contextRibbon > strong,
-.contextRibbon > [aria-current="true"],
-.contextRibbon > [data-active="true"] {
+.social-hub-document .contextRibbon > strong,
+.social-hub-document .contextRibbon > [aria-current="true"],
+.social-hub-document .contextRibbon > [data-active="true"] {
 	border-color: var(--yesod-edge-hot);
 	background: linear-gradient(
 		120deg,
@@ -39,7 +39,7 @@ Awtsmoos.com gives the context ribbon hierarchy and mobile continuity so orienta
 }
 
 @media (max-width: 48rem) {
-	.contextRibbon {
+	.social-hub-document .contextRibbon {
 		justify-content: flex-start;
 		overflow-x: auto;
 		overscroll-behavior-inline: contain;

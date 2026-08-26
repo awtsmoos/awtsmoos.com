@@ -12,7 +12,8 @@ promotional victory reward after the human result is already complete.
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<meta name="theme-color" content="#000000">
 	<title>Pong · Awtsmoos Games</title>
-	<link rel="stylesheet" href="./style.css?v=pong-reward-001">
+	<link rel="stylesheet" href="./style.css?v=pong-reward-001&compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
 	<canvas id="pongCanvas" aria-label="Pong game canvas"></canvas>
@@ -24,6 +25,8 @@ promotional victory reward after the human result is already complete.
 	<script src="./js/match-update.js"></script>
 	<script src="./js/result.js"></script>
 	<script src="./js/main.js"></script>
-	<script type="module" src="./js/wallet-reward.mjs"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="./js/wallet-reward.js?compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

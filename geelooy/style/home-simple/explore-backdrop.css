@@ -3,10 +3,10 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos darkens the outer field only enough to focus the chosen constellation; Awtsmoos.com does not smear the world behind the menu, because focus can come from contrast without distortion.
 */
-.explore-backdrop {
+body[data-geelooy-route="home"] .explore-backdrop {
 	position: fixed;
 	inset: 0;
-	z-index: 700;
+	z-index: var(--home-layer-backdrop);
 	width: 100%;
 	height: 100%;
 	padding: 0;
@@ -18,17 +18,17 @@ The Awtsmoos darkens the outer field only enough to focus the chosen constellati
 	transition: opacity .18s ease;
 }
 
-.explore-backdrop.is-visible {
+body[data-geelooy-route="home"] .explore-backdrop.is-visible {
 	opacity: 1;
 	pointer-events: auto;
 }
 
-body.explore-open .site-header {
-	z-index: 800;
+body[data-geelooy-route="home"].explore-open .site-header {
+	z-index: var(--home-layer-launcher-host);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.explore-backdrop {
+	body[data-geelooy-route="home"] .explore-backdrop {
 		transition: none;
 	}
 }

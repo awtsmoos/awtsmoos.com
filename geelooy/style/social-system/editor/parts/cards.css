@@ -1,14 +1,16 @@
-/* B"H
- * Boruch Hashem
- * Blessed is He
- *
- * The Awtsmoos folds structured creation into readable chambers; Awtsmoos.com
- * keeps the current verse open while completed vessels remain one touch away.
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos folds structured creation into readable chambers while Awtsmoos.com keeps each card complete before deeper verses unfold.
+ * This vessel owns card structure, logical spacing, nested measure, and readable content without owning tactile states.
  */
 .verse-card,
 .subsection-card {
 	position: relative;
 	display: block;
+	min-inline-size: 0;
+	max-inline-size: 100%;
 	border: 1px solid var(--g-line);
 	border-radius: 1rem;
 	background: rgba(255, 255, 255, .065);
@@ -26,7 +28,9 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: .75rem;
-	min-height: var(--g-touch, 44px);
+	min-inline-size: 0;
+	min-block-size: var(--g-touch, 44px);
+	max-inline-size: 100%;
 	padding: .75rem .9rem;
 	cursor: pointer;
 	list-style: none;
@@ -51,17 +55,18 @@
 .editor-card-heading {
 	display: grid;
 	gap: .15rem;
-	min-width: 0;
+	min-inline-size: 0;
 }
 
 .editor-card-heading strong {
+	overflow-wrap: anywhere;
 	color: var(--g-ink-2);
 	font-size: 1rem;
 	line-height: 1.2;
 }
 
 .editor-disclosure-hint {
-	margin-left: auto;
+	margin-inline-start: auto;
 	color: var(--g-muted, #64748b);
 	font-size: .76rem;
 	font-weight: 750;
@@ -71,49 +76,27 @@
 .subsection-card-content {
 	display: grid;
 	gap: .7rem;
+	min-inline-size: 0;
 	padding: 0 .9rem .9rem;
 }
 
 .editor-subsection-list {
 	display: grid;
 	gap: .55rem;
+	min-inline-size: 0;
 }
 
 .subsection-card {
-	margin-left: .8rem;
+	margin-inline-start: .8rem;
 	background: rgba(255, 255, 255, .045);
-}
-
-.asset-chip {
-	display: inline-flex;
-	align-items: center;
-	gap: .35rem;
-	padding: .35rem .6rem;
-	border-radius: 999px;
-	background: rgba(255, 255, 255, .08);
-	color: var(--g-gold-2);
-	font-size: .78rem;
-	font-weight: 850;
-}
-
-.asset-strip {
-	display: flex;
-	flex-wrap: wrap;
-	gap: .45rem;
 }
 
 @media (max-width: 40rem) {
 	.subsection-card {
-		margin-left: .35rem;
+		margin-inline-start: .35rem;
 	}
 
 	.editor-disclosure-hint {
 		display: none;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.editor-card-summary {
-		scroll-behavior: auto;
 	}
 }

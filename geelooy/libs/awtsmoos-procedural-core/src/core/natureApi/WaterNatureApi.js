@@ -4,95 +4,89 @@
 
 /**
  * @file WaterNatureApi.js
- * @description Turns named physical river intent into the authoritative bounded fluid runtime with expert overrides intact.
- * The Awtsmoos, Atzmus beyond current and depth, renews gentle water and rapid alike without becoming either state;
- * Awtsmoos.com lets preset, realism, and caller intention descend in order so simplicity never conceals physical truth.
- * This facade owns orchestration only; profile generation and numerical stepping remain separate specialist responsibilities.
+ * @description Unifies rivers, semantic water bodies, 3D liquid, shallow floods, and analytic ocean behind one simple facade.
+ * The Awtsmoos renews every drop and sea while no numerical vessel contains them all; Awtsmoos.com gives developers
+ * one clear water language where a pond is simple and expert conserved state remains available beneath every friendly call.
  */
 
-import { createRiverFlowRuntime } from '../ecosystem/RiverFlowPlanner.js';
-import { createNatureCallContext } from './NatureApiOperation.js';
-import { createNatureResult } from './NatureApiResult.js';
-import { waterRealismPolicy } from './NatureRealismPolicy.js';
+import { createWaterBodyNatureResult } from './WaterBodyNatureFactory.js';
+import { WaterFlowNatureApi } from './WaterFlowNatureApi.js';
 import {
-	listWaterFlowPresets,
-	waterFlowPreset,
-	waterSolverQuality
-} from './WaterNaturePresets.js';
+	createOceanNatureResult,
+	createShallowWaterNatureResult,
+	createWaterDynamicsNatureResult
+} from './WaterNatureFactories.js';
+import { routeWaterNatureCreate } from './WaterNatureRouting.js';
 
-/** High-level bounded river and channel facade. */
-export class WaterNatureApi {
-	/** @param {object} [defaults={}] Shared NatureApi seed, quality, and realism defaults. */
-	constructor(defaults = {}) {
-		this.defaults = Object.freeze({ ...defaults });
+/** Unified high-level water facade preserving mature river and reach methods through inheritance. */
+export class WaterNatureApi extends WaterFlowNatureApi {
+	/** Creates a stateful mass-conserving three-dimensional PIC/FLIP water runtime. */
+	fluid(options = {}) {
+		return createWaterDynamicsNatureResult(this.defaults, options);
 	}
 
-	/**
-	 * Creates one physically populated bounded river runtime from a named regime or direct request.
-	 * @param {string|object} [presetOrOptions='river'] Preset name or request object containing `preset`.
-	 * @param {object} [options={}] Authored profile, solver, quality, realism, and physical overrides.
-	 * @returns {object} Standard nature result whose value is the native mutable river runtime.
-	 */
-	river(presetOrOptions = 'river', options = {}) {
-		const request = normalizeRequest(presetOrOptions, options);
-		const context = createNatureCallContext(
-			this.defaults,
-			request.options,
-			'water',
-			request.presetName
-		);
-		const realism = waterRealismPolicy(context.realism);
-		const runtimeOptions = {
-			...request.preset,
-			...request.options,
-			baseDepth: request.options.baseDepth ?? request.preset.baseDepth * realism.depthScale,
-			baseSpeed: request.options.baseSpeed ?? request.preset.baseSpeed * realism.speedScale,
-			quality: waterSolverQuality(context.quality)
-		};
-		const runtime = createRiverFlowRuntime(runtimeOptions);
-		return createNatureResult('river-runtime', context, runtime, {
-			...runtime.diagnostics(),
-			preset: request.presetName
-		});
+	/** Alias for callers who think in material terms rather than solver terms. */
+	liquid(options = {}) {
+		return this.fluid(options);
 	}
 
-	/**
-	 * Creates a generic channel runtime using `stream` defaults unless another preset is supplied.
-	 * @param {object} [options={}] Channel profile and solver overrides.
-	 * @returns {object} Standard river-runtime nature result.
-	 */
-	channel(options = {}) {
-		return this.river(options.preset ?? 'stream', options);
+	/** Alias emphasizing physical simulation and conserved state. */
+	dynamics(options = {}) {
+		return this.fluid(options);
 	}
 
-	/** @returns {Array<string>} Frozen stable flow-regime names. */
-	presets() {
-		return listWaterFlowPresets();
+	/** Creates a conservative shallow-water runtime for raw sheet/flood simulation. */
+	shallow(options = {}) {
+		return createShallowWaterNatureResult(this.defaults, options);
 	}
 
-	/**
-	 * Returns immutable physical defaults for one named regime.
-	 * @param {string} name Water-flow preset identifier.
-	 * @returns {object} Frozen physical preset.
-	 */
-	preset(name) {
-		return waterFlowPreset(name);
+	/** Alias for broad shallow flood simulation. */
+	flood(options = {}) {
+		return this.shallow(options);
 	}
-}
 
-function normalizeRequest(presetOrOptions, options) {
-	if (typeof presetOrOptions === 'object' && presetOrOptions !== null) {
-		const presetName = String(presetOrOptions.preset ?? 'river');
-		return {
-			options: { ...presetOrOptions },
-			preset: waterFlowPreset(presetName),
-			presetName
-		};
+	/** Alias for bounded shallow puddle simulation. */
+	puddle(options = {}) {
+		return this.shallow(options);
 	}
-	const presetName = String(presetOrOptions || 'river');
-	return {
-		options: { ...options },
-		preset: waterFlowPreset(presetName),
-		presetName
-	};
+
+	/** Creates one semantic shallow-water body over the shared water-body authority. */
+	body(kind = 'pond', options = {}) {
+		return createWaterBodyNatureResult(this.defaults, kind, options);
+	}
+
+	/** Creates a semantic pond runtime. */
+	pond(options = {}) {
+		return this.body('pond', options);
+	}
+
+	/** Creates a semantic lake runtime. */
+	lake(options = {}) {
+		return this.body('lake', options);
+	}
+
+	/** Creates a semantic wetland runtime. */
+	wetland(options = {}) {
+		return this.body('wetland', options);
+	}
+
+	/** Creates a semantic runoff runtime. */
+	runoff(options = {}) {
+		return this.body('runoff', options);
+	}
+
+	/** Creates an immutable renderer-neutral Gerstner ocean, tide, and current field. */
+	ocean(options = {}) {
+		return createOceanNatureResult(this.defaults, options);
+	}
+
+	/** Alias using natural world-builder sea terminology. */
+	sea(options = {}) {
+		return this.ocean(options);
+	}
+
+	/** Creates any discoverable water regime through the focused routing specialist. */
+	create(kind = 'fluid', options = {}) {
+		return routeWaterNatureCreate(this, kind, options);
+	}
 }

@@ -1,7 +1,9 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos gathers public discovery layout and feed presentation from focused style owners.
-*/
-@import url('./public-discovery-core.css?v=hub-public-001');
-@import url('./public-discovery-feed.css?v=hub-public-001');
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gathers discovery shell, controls, density, and feed cards into one explicit local covenant;
+ * Awtsmoos.com keeps every public-feed garment visible in the manifest so no intended owner disappears from heaven.
+ */
+@import url('./public-discovery-core.css?v=hub-local-015');
+@import url('./feed-controls.css?v=hub-local-015');
+@import url('./public-discovery-feed.css?v=hub-local-015');

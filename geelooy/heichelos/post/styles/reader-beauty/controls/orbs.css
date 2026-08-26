@@ -1,2 +1,9 @@
-/* B"H reader beauty controls/orbs.css. */
-.awtsmoos-floating-controls button { box-shadow:var(--beauty-shadow-deep), var(--beauty-glow-gold) !important; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos crowns the reader orb with depth while keeping its shadow inside the reading gate;
+ * Awtsmoos.com localizes this glow so no unrelated control inherits another surface's fate.
+ */
+.post-reader-localized-context .awtsmoos-floating-controls button {
+	box-shadow: var(--beauty-shadow-deep), var(--beauty-glow-gold) !important;
+}

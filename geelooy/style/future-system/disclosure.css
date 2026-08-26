@@ -1,59 +1,65 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-
-The Awtsmoos lets advanced chambers close without becoming hidden knowledge or decorative clutter;
-Awtsmoos.com gives native summaries generous touch, visible focus, and quiet motion so power unfolds only when summoned.
+The Awtsmoos hides no truth behind ornament; Awtsmoos.com may fold advanced chambers only so the first view remains calm and clear.
+Native details keep knowledge reachable, while focus, motion, touch, and expansion stay visibly near.
 */
-
-details[data-future-disclosure] {
+:where(body[data-future-page], body.social-hub-document) details[data-future-disclosure] {
 	border: 1px solid color-mix(in srgb, var(--future-line) 72%, transparent);
 	border-radius: var(--future-radius-lg);
 	background: color-mix(in srgb, var(--future-panel) 94%, transparent);
 	overflow: clip;
 }
 
-details[data-future-disclosure] > summary {
+:where(body[data-future-page], body.social-hub-document) details[data-future-disclosure] > summary {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 12px;
-	min-height: 48px;
+	min-block-size: var(--future-touch);
 	padding: 12px 14px;
 	cursor: pointer;
 	list-style: none;
 	user-select: none;
+	transition:
+		background-color var(--future-motion-base) ease,
+		color var(--future-motion-base) ease;
 }
 
-details[data-future-disclosure] > summary::-webkit-details-marker {
+:where(body[data-future-page], body.social-hub-document) details[data-future-disclosure] > summary::-webkit-details-marker {
 	display: none;
 }
 
-details[data-future-disclosure] > summary::after {
+:where(body[data-future-page], body.social-hub-document) details[data-future-disclosure] > summary::after {
 	content: "⌄";
 	font-size: 18px;
 	line-height: 1;
-	opacity: 0.62;
+	opacity: .62;
 	transform: rotate(0deg);
-	transition: transform 180ms ease, opacity 180ms ease;
+	transition: transform var(--future-motion-base) ease, opacity var(--future-motion-base) ease;
 }
 
-details[data-future-disclosure][open] > summary::after {
-	opacity: 0.92;
+:where(body[data-future-page], body.social-hub-document) details[data-future-disclosure][open] > summary {
+	background: var(--future-accent-faint);
+}
+
+:where(body[data-future-page], body.social-hub-document) details[data-future-disclosure][open] > summary::after {
+	opacity: .92;
 	transform: rotate(180deg);
 }
 
-details[data-future-disclosure] > summary:focus-visible {
-	outline: 2px solid var(--future-accent);
-	outline-offset: -3px;
-}
-
-.futureDisclosureBody {
+:where(body[data-future-page], body.social-hub-document) .futureDisclosureBody {
 	padding: 0 14px 14px;
-	animation: futureDisclosureReveal 180ms ease both;
+	animation: future-disclosure-reveal var(--future-motion-base) ease both;
 }
 
-@keyframes futureDisclosureReveal {
+@media (hover: hover) and (pointer: fine) {
+	:where(body[data-future-page], body.social-hub-document) details[data-future-disclosure] > summary:hover {
+		background: var(--future-accent-faint);
+	}
+}
+
+@keyframes future-disclosure-reveal {
 	from {
 		opacity: 0;
 		transform: translateY(-4px);
@@ -65,8 +71,8 @@ details[data-future-disclosure] > summary:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-	details[data-future-disclosure] > summary::after,
-	.futureDisclosureBody {
+	:where(body[data-future-page], body.social-hub-document) details[data-future-disclosure] > summary::after,
+	:where(body[data-future-page], body.social-hub-document) .futureDisclosureBody {
 		animation: none;
 		transition: none;
 	}

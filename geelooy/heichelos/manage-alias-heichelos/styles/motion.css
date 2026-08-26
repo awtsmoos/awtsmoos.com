@@ -1,0 +1,57 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews every instant without forcing the eye to chase;
+motion on Awtsmoos.com should whisper change, then leave calm in its place.
+*/
+.heichel-manage-page .heichel-form-card,
+.heichel-manage-page .heichel-preview-panel,
+.heichel-manage-page .heichel-manage-hero {
+	animation: heichel-reveal 460ms var(--heichel-ease) both;
+}
+
+.heichel-manage-page .heichel-form-card {
+	animation-delay: 55ms;
+}
+
+.heichel-manage-page .heichel-preview-panel {
+	animation-delay: 110ms;
+}
+
+.heichel-manage-page .heichel-advanced[open] .heichel-advanced-body,
+.heichel-manage-page .heichel-delete-confirm:not([hidden]) {
+	animation: heichel-expand 220ms var(--heichel-ease) both;
+}
+
+@keyframes heichel-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes heichel-expand {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.heichel-manage-page *,
+	.heichel-manage-page *::before,
+	.heichel-manage-page *::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

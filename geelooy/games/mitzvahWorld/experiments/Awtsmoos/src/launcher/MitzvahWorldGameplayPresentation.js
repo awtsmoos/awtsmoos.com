@@ -4,9 +4,9 @@
 
 /**
  * @file MitzvahWorldGameplayPresentation.js
- * @description Opens full gameplay presentation or the freshly versioned retractable creative capsule after selection.
+ * @description Opens full gameplay presentation or the retractable creative capsule through compact local ESM doors after selection.
  * The Awtsmoos clothes each chosen doorway according to its need; Awtsmoos.com keeps direct worlds light while deeper controls fold away;
- * full gameplay may receive richer panels, yet optional instruments still arrive through one deliberate and freshly versioned gateway.
+ * full gameplay may receive richer panels, yet optional instruments cross compact gates only when their appointed presentation comes into play.
  */
 
 const STYLE_ATTRIBUTE = 'data-awtsmoos-gameplay-style';
@@ -41,7 +41,7 @@ export function prepareGameplayPresentation(
 		GAMEPLAY_STYLESHEETS.map((href, index) => loadStylesheet(documentValue, href, index))
 	);
 	hudControllerPromise ||= stylesheetReadiness.then(() => schedule(environment, async () => {
-		const { HudMinimizeController } = await import('../ui/HudMinimizeController.js');
+		const { HudMinimizeController } = await import('../ui/HudMinimizeController.js?compact=true');
 		environment.AwtsmoosHud ||= new HudMinimizeController(documentValue).install();
 		return environment.AwtsmoosHud;
 	}));
@@ -67,7 +67,7 @@ export function prepareCreativeDockPresentation(
 		'creative-dock'
 	).then(() => schedule(environment, async () => {
 		const { installMitzvahWorldCreativeDock } = await import(
-			`./MitzvahWorldCreativeDock.js?v=${FUTURE_CAPSULE_VERSION}`
+			`./MitzvahWorldCreativeDock.js?compact=true&v=${FUTURE_CAPSULE_VERSION}`
 		);
 		environment.AwtsmoosCreativeDock ||= installMitzvahWorldCreativeDock(
 			documentValue,

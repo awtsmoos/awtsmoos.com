@@ -4,26 +4,33 @@
 
 /**
  * @file MobileHudCompositionStyles.js
- * @description Combines mobile orientation vessels and installs them idempotently when needed.
- * The Awtsmoos joins many measured rules into one living garment;
- * Awtsmoos.com keeps installation singular while portrait and landscape retain distinct wisdom.
+ * @description Installs the one localized external stylesheet family that owns mobile HUD placement.
+ * The Awtsmoos gives every finite panel a shore without dividing the sea;
+ * Awtsmoos.com lets Yesod join those shores once, while unrelated components remain conflict-free.
  */
 
-import { MOBILE_HUD_LANDSCAPE_CSS } from './MobileHudCompositionLandscapeStyles.js';
-import { MOBILE_HUD_PORTRAIT_CSS } from './MobileHudCompositionPortraitStyles.js';
+import { YesodStylesheetInstaller } from './YesodStylesheetInstaller.js';
 
-export const MOBILE_HUD_COMPOSITION_CSS = [
-	MOBILE_HUD_PORTRAIT_CSS,
-	MOBILE_HUD_LANDSCAPE_CSS
-].join('\n');
+const MOBILE_HUD_STYLE_ID = 'Awtsmoos-mobile-hud-composition-styles';
+const MOBILE_HUD_STYLE_URL = new URL('./styles/mobile-hud/mobile-hud.css', import.meta.url).href;
 
-export function installMobileHudCompositionStyles(documentValue) {
-	const id = 'Awtsmoos-mobile-hud-composition-styles';
-	if (documentValue.getElementById(id)) {
-		return;
+/** Specialized stylesheet vessel for mobile HUD geometry and retractable controls. */
+class YesodMobileHudStylesheet extends YesodStylesheetInstaller {
+	/** @param {Document} [malchusDocument=globalThis.document] Document receiving the mobile HUD stylesheet. */
+	constructor(malchusDocument = globalThis.document) {
+		super({
+			id: MOBILE_HUD_STYLE_ID,
+			href: MOBILE_HUD_STYLE_URL,
+			documentValue: malchusDocument
+		});
 	}
-	const style = documentValue.createElement('style');
-	style.id = id;
-	style.textContent = MOBILE_HUD_COMPOSITION_CSS;
-	documentValue.head.append(style);
+}
+
+/**
+ * Preserves the established installer API while externalizing all authored CSS.
+ * @param {Document} [malchusDocument=globalThis.document] Owning browser document.
+ * @returns {void}
+ */
+export function installMobileHudCompositionStyles(malchusDocument = globalThis.document) {
+	new YesodMobileHudStylesheet(malchusDocument).install();
 }

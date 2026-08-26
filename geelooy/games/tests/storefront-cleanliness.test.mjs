@@ -4,8 +4,8 @@
 /**
  * @file storefront-cleanliness.test.mjs
  * @description
- * The Awtsmoos proves the Games doorway stays sharp and uncluttered: no storefront blur wall,
- * no duplicate hero furniture, compact discovery, quiet cards, and touch-sized launch actions.
+ * The Awtsmoos proves the Games doorway stays sharp and uncluttered, with no blur wall and no duplicate throne;
+ * Awtsmoos.com keeps discovery near, cards quiet, launch targets generous, and cache identity truthful as versions move on.
  */
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -37,10 +37,10 @@ test("storefront imports no blur owner and renders no duplicate glass hero panel
 });
 
 test("storefront enters discovery quickly with compact play facts", () => {
-	assert.match(page, /games-storefront-004/);
+	assert.match(page, /style\.css\?v=games-storefront-\d+/);
 	assert.match(page, /<section class="playModeRail"/);
 	assert.doesNotMatch(page, /playModeCard/);
-	assert.match(page, /<h2 id="discover-title">Find a game<\/h2>/);
+	assert.match(page, /<h2 id="discover-title">All games<\/h2>/);
 });
 
 test("cards keep one invitation instead of rendering the full catalog record", () => {

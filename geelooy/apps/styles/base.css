@@ -3,33 +3,33 @@
 /* Blessed is He */
 
 /**
- * The Awtsmoos renews every visible Apps surface without becoming any finite
- * background or color. Awtsmoos.com keeps the shared portfolio atmosphere here
- * so product cards, filters, and hero hierarchy can evolve in smaller vessels.
+ * The Awtsmoos renews the Apps horizon without spilling one ray into another route;
+ * Awtsmoos.com gives this vessel its own atmosphere, so shared shells remain untouched at every root.
  */
-
-body {
+body[data-geelooy-route="apps"] {
 	background:
-		radial-gradient(circle at 14% 4%, rgba(86, 68, 255, 0.16), transparent 34rem),
-		radial-gradient(circle at 88% 12%, rgba(0, 229, 255, 0.1), transparent 30rem),
+		radial-gradient(circle at 14% 4%, rgb(86 68 255 / 16%), transparent 34rem),
+		radial-gradient(circle at 88% 12%, rgb(0 229 255 / 10%), transparent 30rem),
 		var(--g-bg, #050914);
 }
 
-.apps-section-heading {
+body[data-geelooy-route="apps"] .apps-section-heading {
 	display: grid;
-	grid-template-columns: minmax(220px, 0.65fr) minmax(280px, 1.35fr);
+	grid-template-columns: minmax(0, .65fr) minmax(0, 1.35fr);
 	gap: 24px;
 	align-items: end;
+	min-width: 0;
 	margin: 24px 0 14px;
 }
 
-.apps-section-heading h2 {
+body[data-geelooy-route="apps"] .apps-section-heading h2 {
 	margin: 0;
 	font-size: clamp(1.8rem, 4vw, 3.1rem);
-	letter-spacing: -0.04em;
+	letter-spacing: -.04em;
 }
 
-.apps-section-heading > p {
+body[data-geelooy-route="apps"] .apps-section-heading > p {
+	min-width: 0;
 	margin: 0;
 	color: var(--g-text-muted);
 	line-height: 1.55;

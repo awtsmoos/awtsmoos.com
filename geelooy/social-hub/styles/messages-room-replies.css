@@ -7,8 +7,8 @@
  * this Yesod-like garment owns reply preview, selected-source, swipe, and jump-highlight states only, never transport or draft truth in light.
  */
 
-.hubConversationReplyPreview,
-.hubConversationReplyComposer {
+.social-hub-document .hubConversationReplyPreview,
+.social-hub-document .hubConversationReplyComposer {
 	display: grid;
 	gap: .2rem;
 	min-width: 0;
@@ -20,21 +20,21 @@
 	color: var(--ink);
 }
 
-button.hubConversationReplyPreview {
+.social-hub-document button.hubConversationReplyPreview {
 	width: 100%;
 	font: inherit;
 	text-align: start;
 	cursor: pointer;
 }
 
-.hubConversationReplyPreview strong,
-.hubConversationReplyComposer strong {
+.social-hub-document .hubConversationReplyPreview strong,
+.social-hub-document .hubConversationReplyComposer strong {
 	font-size: .72rem;
 	color: var(--cyan);
 }
 
-.hubConversationReplyPreview span,
-.hubConversationReplyComposer span {
+.social-hub-document .hubConversationReplyPreview span,
+.social-hub-document .hubConversationReplyComposer span {
 	display: block;
 	overflow: hidden;
 	color: var(--muted);
@@ -43,20 +43,20 @@ button.hubConversationReplyPreview {
 	white-space: nowrap;
 }
 
-.hubConversationReplyPreview.is-unavailable {
+.social-hub-document .hubConversationReplyPreview.is-unavailable {
 	opacity: .72;
 }
 
-.hubConversationReplyComposer {
+.social-hub-document .hubConversationReplyComposer {
 	grid-template-columns: minmax(0, 1fr) auto;
 	align-items: center;
 }
 
-.hubConversationReplyComposer > div {
+.social-hub-document .hubConversationReplyComposer > div {
 	min-width: 0;
 }
 
-.hubConversationReplyCancel {
+.social-hub-document .hubConversationReplyCancel {
 	min-width: 40px;
 	min-height: 40px;
 	border: 0;
@@ -68,25 +68,25 @@ button.hubConversationReplyPreview {
 	cursor: pointer;
 }
 
-.hubConversationMessage[data-reply-swiping="true"] {
+.social-hub-document .hubConversationMessage[data-reply-swiping="true"] {
 	border-color: var(--cyan);
 	box-shadow: 0 8px 26px rgb(60 211 255 / 10%);
 }
 
-.hubConversationMessage[data-reply-source-active="true"] {
+.social-hub-document .hubConversationMessage[data-reply-source-active="true"] {
 	border-color: var(--cyan);
 	background: color-mix(in srgb, var(--cyan) 11%, var(--surface-strong));
 	box-shadow: 0 0 0 2px rgb(80 216 255 / 12%);
 }
 
-.hubConversationReplyAction:is(:hover, :focus-visible),
-.hubConversationReplyCancel:is(:hover, :focus-visible) {
+.social-hub-document .hubConversationReplyAction:is(:hover, :focus-visible),
+.social-hub-document .hubConversationReplyCancel:is(:hover, :focus-visible) {
 	background: color-mix(in srgb, var(--cyan) 9%, transparent);
 	color: var(--ink);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.hubConversationMessage {
+	.social-hub-document .hubConversationMessage {
 		transition: none;
 	}
 }

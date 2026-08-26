@@ -1,0 +1,51 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets one compact command doorway answer keyboard, mouse, and thumb without a sticky illusion;
+Awtsmoos.com keeps focus visible everywhere, pressure tactile everywhere, and hover exclusive to a true fine pointer.
+*/
+.social-hub-document .futureCommandTrigger {
+	min-height: 44px;
+	max-inline-size: 100%;
+	padding: .62rem .9rem;
+	border: 1px solid var(--yesod-edge-hot);
+	border-radius: 999px;
+	background: rgb(7 17 34 / 74%);
+	box-shadow:
+		0 8px 24px rgb(0 0 0 / 22%),
+		var(--yesod-inset);
+	color: #dffaff;
+	font-weight: 820;
+	white-space: nowrap;
+	transition:
+		transform var(--keter-fast) var(--tiferes-spring),
+		border-color var(--keter-normal) ease,
+		box-shadow var(--keter-normal) ease;
+}
+
+.social-hub-document .futureCommandTrigger:focus-visible {
+	border-color: #a9f3ff;
+	outline: 3px solid rgb(126 239 255 / 18%);
+	outline-offset: 2px;
+	box-shadow: 0 10px 28px rgb(43 190 255 / 14%);
+}
+
+.social-hub-document .futureCommandTrigger:active {
+	transform: translateY(1px) scale(.98);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.social-hub-document .futureCommandTrigger:hover {
+		border-color: #a9f3ff;
+		box-shadow: 0 10px 28px rgb(43 190 255 / 14%);
+		transform: translateY(-1px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.social-hub-document .futureCommandTrigger {
+		transition: none;
+		transform: none !important;
+	}
+}

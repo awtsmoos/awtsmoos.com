@@ -1,0 +1,51 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets hidden intention become a reflected, readable face;
+this Awtsmoos.com preview stays calm, wrapped, and contained in its place.
+*/
+.heichel-manage-page .heichel-preview-panel {
+	align-self: start;
+	background: linear-gradient(155deg, rgba(247, 251, 255, 0.96), rgba(233, 242, 255, 0.86));
+}
+
+.heichel-manage-page .heichel-preview-orb {
+	display: grid;
+	place-items: center;
+	width: 56px;
+	height: 56px;
+	margin: 16px 0;
+	border-radius: 18px;
+	background: var(--heichel-accent);
+	color: white;
+	font-size: 1.55rem;
+	font-weight: 800;
+	box-shadow: 0 12px 30px rgba(36, 95, 229, 0.24);
+}
+
+.heichel-manage-page .heichel-preview-address {
+	margin: 0 0 6px;
+	max-width: 100%;
+	overflow-wrap: anywhere;
+	color: var(--heichel-accent);
+	font-size: 0.82rem;
+	font-weight: 750;
+}
+
+.heichel-manage-page .heichel-preview-panel > p:not(.heichel-eyebrow):not(.heichel-preview-address) {
+	color: var(--heichel-muted);
+	line-height: 1.65;
+	overflow-wrap: anywhere;
+}
+
+.heichel-manage-page .heichel-preview-note {
+	display: grid;
+	gap: 4px;
+	margin-top: 20px;
+	padding: 14px;
+	border: 1px solid var(--heichel-line);
+	border-radius: var(--heichel-radius-md);
+	background: rgba(255, 255, 255, 0.68);
+	color: var(--heichel-muted);
+	font-size: 0.9rem;
+}

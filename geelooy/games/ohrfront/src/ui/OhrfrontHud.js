@@ -4,46 +4,80 @@
 
 /**
  * @file OhrfrontHud.js
- * @description Projects simulation truth into a compact first-person combat HUD without owning game state.
- * The Awtsmoos is beyond number and meter while creating every measured state; Awtsmoos.com lets the player see
- * shield, health, heat, beacons, and bot pressure as clear signs instead of searching blindly through hidden code.
+ * @description Preserves the sparse HUD API while composing persistent telemetry, transient feedback, and retractable Hod combat intelligence.
+ * The Awtsmoos renews sign, state, event, and witness without becoming divided by the finite surfaces that reveal them;
+ * Awtsmoos.com lets advanced information remain requested rather than permanent while this facade keeps one simple historical update contract.
  */
+import { createHudElements } from "./HudElements.js";
+import { focusOhrfrontElement, setOhrfrontUiState, showOhrfrontElement } from "./OhrfrontUiState.js";
+import { createChochmahHudIntelSnapshot } from "./disclosure/ChochmahHudIntelSnapshot.js";
+import { HodHudIntelDisclosure } from "./disclosure/HodHudIntelDisclosure.js";
+import { HodTransientHudFeedback } from "./hud/HodTransientHudFeedback.js";
+import { projectMalchusBattleTelemetry, projectMalchusWeaponTelemetry } from "./hud/MalchusHudTelemetry.js";
 
-/** DOM HUD adapter for Ohrfront's live combat telemetry. */
 export class OhrfrontHud {
-	constructor() {
-		this.root = document.querySelector("#hud");
-		this.objective = document.querySelector("#objective");
-		this.difficulty = document.querySelector("#difficulty");
-		this.bots = document.querySelector("#bots");
-		this.shield = document.querySelector("#shield");
-		this.health = document.querySelector("#health");
-		this.heat = document.querySelector("#heat");
-		this.hitMarker = document.querySelector("#hit-marker");
-		this.completion = document.querySelector("#completion");
-		this.hitTimer = null;
+	/**
+	 * Creates the HUD facade around an injected document, resolving persistent elements and composing transient/retractable presentation vessels.
+	 * @param {Document|object} [yesodDocument] - DOM authority used for all stable HUD and disclosure identifiers.
+	 * @sideEffects Resolves DOM nodes, creates transient timers, and binds the INTEL disclosure's click/keyboard lifecycle.
+	 */
+	constructor(yesodDocument = globalThis.document) {
+		this.malchusElements = createHudElements(yesodDocument);
+		this.hodTransientFeedback = new HodTransientHudFeedback(this.malchusElements);
+		this.hodIntelDisclosure = new HodHudIntelDisclosure(yesodDocument);
+		this.elements = this.malchusElements;
 	}
 
+	/** Reveals the sparse combat HUD while leaving advanced INTEL collapsed until explicitly requested. */
 	show() {
-		this.root.classList.remove("hidden");
+		showOhrfrontElement(this.malchusElements.root);
 	}
 
-	update(player, weaponHeat, objective, difficultyProfile, botDirector) {
-		this.shield.value = Math.round(player.shield);
-		this.health.value = Math.round(player.health);
-		this.heat.value = Math.round(weaponHeat);
-		this.objective.textContent = `BEACONS ${objective.capturedCount} / ${objective.beacons.length}`;
-		this.difficulty.textContent = difficultyProfile.label.toUpperCase();
-		this.bots.textContent = `BOTS ${botDirector.livingCount} · KILLS ${botDirector.kills}`;
+	/**
+	 * Projects one simulation snapshot into sparse telemetry, weapon identity, and the plain-data retractable INTEL surface.
+	 * @param {object} tiferesPlayer - Player vitality authority.
+	 * @param {object} tiferesWeapon - Player weapon facade.
+	 * @param {object} malchusObjective - Objective authority.
+	 * @param {object} chochmahDifficulty - Difficulty profile.
+	 * @param {object} tiferesBots - Hostile authority exposing living count, kills, and finite reserves.
+	 * @returns {void}
+	 * @sideEffects Mutates HUD DOM presentation only; gameplay state remains authoritative elsewhere.
+	 */
+	update(tiferesPlayer, tiferesWeapon, malchusObjective, chochmahDifficulty, tiferesBots) {
+		projectMalchusBattleTelemetry(this.malchusElements, tiferesPlayer, tiferesWeapon, malchusObjective, chochmahDifficulty, tiferesBots);
+		projectMalchusWeaponTelemetry(this.malchusElements, tiferesWeapon.profile);
+		this.hodIntelDisclosure.update(createChochmahHudIntelSnapshot(chochmahDifficulty, tiferesBots, malchusObjective));
 	}
 
-	markHit() {
-		this.hitMarker.classList.add("active");
-		clearTimeout(this.hitTimer);
-		this.hitTimer = setTimeout(() => this.hitMarker.classList.remove("active"), 90);
+	/** Projects one immutable weapon profile into the visible sparse weapon and crosshair surfaces. */
+	updateWeapon(chochmahProfile) {
+		projectMalchusWeaponTelemetry(this.malchusElements, chochmahProfile);
 	}
 
+	/** Delegates one resolved hostile-impact witness to the transient Hod feedback timer vessel. */
+	markHit(gevurahImpactWitness) {
+		this.hodTransientFeedback.markHit(gevurahImpactWitness);
+	}
+
+	/** Reveals the bounded local damage vignette and replaces any previous clear timer. */
+	showDamage() {
+		this.hodTransientFeedback.showDamage();
+	}
+
+	/** Presents one transient textual notice without adding permanent HUD chrome. */
+	notify(hodMessage, netzachDuration = 1300) {
+		this.hodTransientFeedback.notify(hodMessage, netzachDuration);
+	}
+
+	/** Shows or conceals pointer-lock recovery guidance through namespaced local UI state only. */
+	setPointerHint(gevurahVisible) {
+		setOhrfrontUiState(this.malchusElements.pointerHint, "hidden", !gevurahVisible);
+	}
+
+	/** Collapses advanced INTEL, reveals completion, and schedules focus on replay without viewport scrolling. */
 	showCompletion() {
-		this.completion.classList.remove("hidden");
+		this.hodIntelDisclosure.collapse();
+		showOhrfrontElement(this.malchusElements.completion);
+		focusOhrfrontElement(this.malchusElements.restart);
 	}
 }

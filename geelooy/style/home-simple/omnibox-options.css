@@ -3,7 +3,7 @@ Boruch Hashem
 Blessed is He
 Each omnibox option is a small native doorway: clear label, quiet meaning, visible type, and one arrow toward the chosen Awtsmoos.com world.
 */
-.omnibox-option {
+body[data-geelooy-route="home"] .omnibox-option {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr) auto auto;
 	align-items: center;
@@ -16,15 +16,15 @@ Each omnibox option is a small native doorway: clear label, quiet meaning, visib
 	transition: background .14s ease, border-color .14s ease, transform .14s ease;
 }
 
-.omnibox-option:hover,
-.omnibox-option.is-active {
+body[data-geelooy-route="home"] .omnibox-option:hover,
+body[data-geelooy-route="home"] .omnibox-option.is-active {
 	border-color: rgba(117, 201, 255, .16);
 	background: linear-gradient(90deg, rgba(90, 169, 229, .13), rgba(122, 92, 217, .055));
 	outline: none;
 	transform: translateX(2px);
 }
 
-.omnibox-symbol {
+body[data-geelooy-route="home"] .omnibox-symbol {
 	display: grid;
 	place-items: center;
 	width: 2.35rem;
@@ -37,13 +37,13 @@ Each omnibox option is a small native doorway: clear label, quiet meaning, visib
 	font-weight: 900;
 }
 
-.omnibox-copy {
+body[data-geelooy-route="home"] .omnibox-copy {
 	display: grid;
 	gap: .12rem;
 	min-width: 0;
 }
 
-.omnibox-copy strong {
+body[data-geelooy-route="home"] .omnibox-copy strong {
 	overflow: hidden;
 	font-size: .76rem;
 	letter-spacing: -.01em;
@@ -51,7 +51,7 @@ Each omnibox option is a small native doorway: clear label, quiet meaning, visib
 	white-space: nowrap;
 }
 
-.omnibox-copy small {
+body[data-geelooy-route="home"] .omnibox-copy small {
 	overflow: hidden;
 	color: #788aa3;
 	font-size: .64rem;
@@ -59,7 +59,7 @@ Each omnibox option is a small native doorway: clear label, quiet meaning, visib
 	white-space: nowrap;
 }
 
-.omnibox-badge {
+body[data-geelooy-route="home"] .omnibox-badge {
 	padding: .28rem .42rem;
 	border-radius: 999px;
 	background: rgba(255, 255, 255, .045);
@@ -69,7 +69,7 @@ Each omnibox option is a small native doorway: clear label, quiet meaning, visib
 	white-space: nowrap;
 }
 
-.omnibox-arrow {
+body[data-geelooy-route="home"] .omnibox-arrow {
 	color: #7899b6;
 	font-size: .78rem;
 }

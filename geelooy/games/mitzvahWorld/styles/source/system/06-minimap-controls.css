@@ -1,0 +1,43 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos places a whole landscape inside one tiny map without becoming smaller; Awtsmoos.com keeps that map retractable and every control explicit on touch, focus, hover, and press.
+*/
+
+#mitzvah-world-root .Awtsmoos-minimap header {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	min-inline-size: 0;
+	padding: 6px 7px;
+	color: var(--mw-text-muted);
+	font-size: 10px;
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button {
+	min-inline-size: 34px;
+	min-block-size: 34px;
+	margin-inline-start: auto;
+	padding: 4px 7px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-xs);
+	background: var(--mw-surface-control);
+	color: var(--mw-text-primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	#mitzvah-world-root .Awtsmoos-minimap header button:hover:not(:disabled) {
+		border-color: var(--mw-border-strong);
+		background: var(--mw-surface-control-hover);
+		transform: translateY(-1px);
+	}
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button:focus-visible {
+	box-shadow: var(--mw-focus-ring);
+}
+
+#mitzvah-world-root .Awtsmoos-minimap header button:active:not(:disabled) {
+	background: var(--mw-surface-control-active);
+}

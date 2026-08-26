@@ -4,17 +4,12 @@
 
 /**
  * @file MovieRemoteTextureCatalog.js
- * @description Exposes the proven production texture catalog as deterministic JSON for AI-authored worlds.
- * The Awtsmoos is beyond bark and stone, water and wall, yet each finite surface may reveal a faithful hue;
- * Awtsmoos.com gives the agent real remote identities and URLs so the world is built from served texture truth, not guessed blue.
+ * @description Adapts the shared production texture catalog into the immutable Movie Studio agent snapshot contract.
+ * The Awtsmoos is beyond bark and stone, yet one truth should serve game and cinema alike;
+ * Awtsmoos.com lets Movie Studio inherit the same 125 remote identities so no second catalog may drift through the night.
  */
 
-import {
-	REMOTE_TEXTURE_FILENAMES,
-	remoteFullResolutionTextureUrl,
-	remoteTreeTextureUrl
-} from '../assets/RemoteTextureCatalog.js';
-import { REMOTE_TEXTURE_ROOT } from '../assets/RemoteTextureTransport.js';
+import { remoteTextureAgentCatalog } from '../assets/RemoteTextureCatalog.js';
 import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
 
 /**
@@ -22,28 +17,10 @@ import { createMovieProjectSnapshot } from './MovieProjectSnapshot.js';
  * @returns {object} Serializable production catalog grouped by semantic family.
  */
 export function movieRemoteTextureCatalog() {
-	const families = {};
-	let total = 0;
-	for (const [family, filenames] of Object.entries(REMOTE_TEXTURE_FILENAMES)) {
-		families[family] = filenames.map(filename => {
-			total += 1;
-			return {
-				family,
-				filename,
-				id: `${family}:${filename}`,
-				url: textureUrl(family, filename)
-			};
-		});
-	}
+	const catalog = remoteTextureAgentCatalog();
 	return createMovieProjectSnapshot({
-		families,
-		root: REMOTE_TEXTURE_ROOT,
-		total
+		families: catalog.families,
+		root: catalog.root,
+		total: catalog.total
 	});
-}
-
-function textureUrl(family, filename) {
-	return family === 'trees'
-		? remoteTreeTextureUrl(filename)
-		: remoteFullResolutionTextureUrl(filename);
 }

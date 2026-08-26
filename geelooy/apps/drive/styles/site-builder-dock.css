@@ -2,18 +2,13 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/**
- * The Awtsmoos gives five gates to one studio and Awtsmoos.com now reveals them as a path instead of five competing tabs.
- * The mobile stepper stays reachable above the safe area while desktop gains a calm sticky rail whose state can be read without color alone.
- */
+/** The Awtsmoos gives five gates to one Website Maker; Awtsmoos.com keeps the mobile dock inside the Drive layer scale and the desktop rail sticky without arbitrary stacking or selectors escaping the owning builder root. */
 
-.site-main {
-	padding-bottom: 7.25rem;
-}
+[data-awtsmoos-drive] .site-main { padding-bottom: 7.25rem; }
 
-.builder-dock {
+[data-awtsmoos-drive] .site-builder-root .builder-dock {
 	position: fixed;
-	z-index: 30;
+	z-index: var(--layer-sticky);
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -21,12 +16,12 @@
 	grid-template-columns: repeat(5, minmax(0, 1fr));
 	gap: .2rem;
 	padding: .4rem max(.4rem, env(safe-area-inset-right)) calc(.4rem + env(safe-area-inset-bottom)) max(.4rem, env(safe-area-inset-left));
-	border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent);
-	background: color-mix(in srgb, var(--panel, #fff) 95%, transparent);
+	border-top: 1px solid var(--line);
+	background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
 	backdrop-filter: blur(18px);
 }
 
-.builder-step {
+[data-awtsmoos-drive] .site-builder-root .builder-step {
 	display: grid;
 	justify-items: center;
 	gap: .1rem;
@@ -34,68 +29,30 @@
 	min-height: 50px;
 	padding: .4rem .15rem;
 	border: 1px solid transparent;
-	border-radius: .75rem;
+	border-radius: var(--radius-small);
 	background: transparent;
 	color: inherit;
 }
 
-.builder-step__number {
-	font-size: .62rem;
-	font-weight: 800;
-	opacity: .55;
+[data-awtsmoos-drive] .site-builder-root .builder-step:hover { border-color: var(--line-strong); background: var(--surface-hover); }
+[data-awtsmoos-drive] .site-builder-root .builder-step:active { background: var(--surface-active); }
+[data-awtsmoos-drive] .site-builder-root .builder-step__number { font-size: .62rem; font-weight: 800; opacity: .55; }
+[data-awtsmoos-drive] .site-builder-root .builder-step__label { font-size: .73rem; }
+[data-awtsmoos-drive] .site-builder-root .builder-step__copy { display: none; }
+
+[data-awtsmoos-drive] .site-builder-root .builder-step.is-active {
+	border-color: var(--accent);
+	background: color-mix(in srgb, var(--accent) 10%, transparent);
+	color: var(--accent);
 }
 
-.builder-step__label {
-	font-size: .73rem;
-}
-
-.builder-step__copy {
-	display: none;
-}
-
-.builder-step.is-active {
-	border-color: color-mix(in srgb, currentColor 22%, transparent);
-	background: color-mix(in srgb, currentColor 8%, transparent);
-}
-
-.builder-step[data-step-state='done'] .builder-step__number::after {
-	content: ' ✓';
-}
-
-.builder-step[data-step-state='locked'] {
-	opacity: .48;
-}
+[data-awtsmoos-drive] .site-builder-root .builder-step[data-step-state='done'] .builder-step__number::after { content: ' ✓'; }
+[data-awtsmoos-drive] .site-builder-root .builder-step[data-step-state='locked'] { opacity: .48; }
 
 @media (min-width: 900px) {
-	.site-main {
-		padding-bottom: 1.5rem;
-	}
-
-	.builder-dock {
-		position: sticky;
-		top: .5rem;
-		bottom: auto;
-		padding: .45rem;
-		border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
-		border-radius: 1rem;
-	}
-
-	.builder-step {
-		grid-template-columns: auto 1fr;
-		grid-template-rows: auto auto;
-		justify-items: start;
-		text-align: left;
-		padding: .6rem .7rem;
-	}
-
-	.builder-step__number {
-		grid-row: 1 / 3;
-		align-self: center;
-	}
-
-	.builder-step__copy {
-		display: block;
-		font-size: .68rem;
-		opacity: .62;
-	}
+	[data-awtsmoos-drive] .site-main { padding-bottom: 1.5rem; }
+	[data-awtsmoos-drive] .site-builder-root .builder-dock { position: sticky; top: .5rem; bottom: auto; padding: .45rem; border: 1px solid var(--line); border-radius: var(--radius-medium); }
+	[data-awtsmoos-drive] .site-builder-root .builder-step { grid-template-columns: auto 1fr; grid-template-rows: auto auto; justify-items: start; padding: .6rem .7rem; text-align: left; }
+	[data-awtsmoos-drive] .site-builder-root .builder-step__number { grid-row: 1 / 3; align-self: center; }
+	[data-awtsmoos-drive] .site-builder-root .builder-step__copy { display: block; font-size: .68rem; opacity: .62; }
 }

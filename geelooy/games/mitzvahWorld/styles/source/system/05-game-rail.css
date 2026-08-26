@@ -1,0 +1,79 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives optional deeds one retractable rail; Awtsmoos.com keeps every button reachable by finger, keyboard, and pointer without forcing labels to exist only inside hover.
+*/
+
+#mitzvah-world-root .Awtsmoos-game-rail-host {
+	position: fixed;
+	inset-block-start: 50%;
+	inset-inline-end: var(--mw-safe-right);
+	z-index: var(--mw-z-controls);
+	max-block-size: calc(100dvh - var(--mw-safe-top) - var(--mw-safe-bottom));
+	transform: translateY(-50%);
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail {
+	display: grid;
+	gap: 6px;
+	overflow: auto;
+	padding: 6px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-md);
+	background: var(--mw-surface-deep);
+	box-shadow: var(--mw-shadow-control);
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail button {
+	inline-size: 50px;
+	min-block-size: 46px;
+	padding: 5px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-sm);
+	background: var(--mw-surface-control);
+	color: var(--mw-text-primary);
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail button span {
+	display: block;
+	font-size: 18px;
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail button small {
+	display: block;
+	color: var(--mw-text-muted);
+	font-size: 8px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	#mitzvah-world-root .Awtsmoos-game-rail button:hover:not(:disabled) {
+		border-color: var(--mw-border-strong);
+		background: var(--mw-surface-control-hover);
+		transform: translateY(-1px);
+	}
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail button:focus-visible {
+	border-color: var(--mw-accent-strong);
+	box-shadow: var(--mw-focus-ring);
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail button:active:not(:disabled) {
+	background: var(--mw-surface-control-active);
+}
+
+#mitzvah-world-root .Awtsmoos-game-rail[data-collapsed="true"] > :not([data-rail-collapse]) {
+	display: none;
+}
+
+#mitzvah-world-root .Awtsmoos-player-hud-shell {
+	position: fixed;
+	inset-block-start: var(--mw-safe-top);
+	inset-inline-start: var(--mw-safe-left);
+	z-index: var(--mw-z-hud);
+}
+
+#mitzvah-world-root .Awtsmoos-player-hud-shell[data-collapsed="true"] #npcTarget {
+	display: none;
+}

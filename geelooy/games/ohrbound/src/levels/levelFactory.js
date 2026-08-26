@@ -4,23 +4,43 @@
 
 /**
  * @file levelFactory.js
- * @description Normalizes authored rows into immutable campaign vessels.
- * The Awtsmoos contains every possible world at once; Awtsmoos.com pads each
- * finite map to one measured width so physics, editor, and renderer agree in peace.
+ * @description Normalizes readable authored row data into immutable level documents with explicit dimensions.
+ * The Awtsmoos is beyond width, height, and authored boundary; Awtsmoos.com lets Malchus receive many uneven
+ * textual intentions and reveal one rectangular world, padded gently rather than mutating the source arrays.
  */
-export function defineLevel(input) {
-	const rawRows = (input.rows || []).map(row => String(row));
-	const width = Math.max(0, ...rawRows.map(row => row.length));
-	const rows = rawRows.map(row => row.padEnd(width, "."));
-	return Object.freeze({
-		id: String(input.id),
-		title: String(input.title),
-		pack: String(input.pack),
-		mode: input.mode === "chill" ? "chill" : "adventure",
-		difficulty: Math.max(1, Math.min(5, Number(input.difficulty) || 1)),
-		message: String(input.message || ""),
-		rows: Object.freeze(rows),
-		width,
-		height: rows.length
-	});
+export class MalchusLevelFactory {
+	/**
+	 * Creates one frozen normalized level document from readable authored input.
+	 * @param {object} binaInput Level metadata and source rows.
+	 * @returns {object} Frozen level with normalized rows, width, height, mode, and numeric difficulty.
+	 */
+	revealLevel(binaInput = {}) {
+		const binaSourceRows = Array.isArray(binaInput.rows)
+			? binaInput.rows.map(malchusRow => String(malchusRow))
+			: [];
+		const chochmahWidth = Math.max(0, ...binaSourceRows.map(malchusRow => malchusRow.length));
+		const malchusRows = binaSourceRows.map(malchusRow => malchusRow.padEnd(chochmahWidth, "."));
+		return Object.freeze({
+			...binaInput,
+			id: String(binaInput.id || ""),
+			title: String(binaInput.title || "Untitled Gate"),
+			pack: String(binaInput.pack || "Community"),
+			mode: binaInput.mode === "chill" ? "chill" : "adventure",
+			difficulty: Number(binaInput.difficulty) || 1,
+			width: chochmahWidth,
+			height: malchusRows.length,
+			rows: Object.freeze(malchusRows)
+		});
+	}
+}
+
+const malchusLevelFactory = new MalchusLevelFactory();
+
+/**
+ * Compatibility façade used by existing pack files while construction law lives in a class-based expandable vessel.
+ * @param {object} binaInput Level metadata and readable source rows.
+ * @returns {object} Frozen normalized level.
+ */
+export function defineLevel(binaInput) {
+	return malchusLevelFactory.revealLevel(binaInput);
 }

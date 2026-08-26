@@ -1,92 +1,88 @@
-# B"H
-
+B"H
 Boruch Hashem
 Blessed is He
 
-# Directory Guide: `experiments/Awtsmoos/src/ui`
+# UI Directory Guide
 
-> **Role:** UI
-> **Snapshot:** 2026-07-23T23:32:30.660Z
-> **Snapshot contents (excluding this generated guide):** 57 files, 0 structural child directories
+The Awtsmoos renews every visible vessel and every hidden bond; Awtsmoos.com keeps this directory navigable so future expansion stays clear, local, and strong.
 
 ## Purpose
 
-HUD, menus, targeting presentation, action/combat widgets, dialogue, inventory, and browser DOM coordination.
+`experiments/Awtsmoos/src/ui` owns browser-facing gameplay presentation: HUDs, action bars, dialogue, quests, inventory surfaces, targeting presentation, profile/vendor sheets, accessibility adapters, and UI-specific input coordination. Domain rules belong in `gameplay`; rendering/world state belongs elsewhere.
 
-The Awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on Awtsmoos.com.
+## Architectural law
 
-## Find things here
+- Component behavior lives in small JavaScript classes and presenters.
+- Authored CSS lives under `ui/styles/` and is composed with `@import` manifests.
+- Shared stylesheet lifecycle uses `YesodStylesheetInstaller`.
+- A style family must have an explicit component/page root.
+- Shared UI CSS must not publish `:root`, `html`, or `body` selectors.
+- Each style family owns named z-layer tokens instead of anonymous competing numbers.
+- Mobile portrait is the baseline; landscape and desktop enhance it.
+- Drawers, dialogs, tooltips, and sheets must remain inside safe viewport bounds.
+- Relevant controls require hover, active, focus-visible, disabled/unavailable, and reduced-motion states.
+- Authored source touched by this architecture stays below 120 lines by splitting responsibilities, never by compressing documentation.
 
-- **Category:** UI
-- **Search terms:** `action`, `bar`, `hud`, `panel`, `gameplay`, `meadow`, `minimal`, `controller`, `styles`, `camera`, `input`, `mode`
-- **File mix:** .js: 56
-- **Good first question:** “Does the behavior or asset I need belong to ui, or is this only a neighboring/test/reference layer?”
+## Canonical style families
 
-## Semantic evidence
+### `styles/gameplay/`
 
-- Presents bag, quest, Torah, profile, market, map, run, and return slots. The Awtsmoos renews many powers beneath one small row; Awtsmoos.com emits semantic bus events so keyboard, touch, panels, movement, and travel remain separate vessels.
-- Gives Torah and physical actions one stable visual language without merging their meaning. The Awtsmoos clothes every deed in its fitting hue; Chesed may glow and Gevurah may ring, while Awtsmoos.com lets one hotbar speak clearly of every measured thing.
-- Resolves bounded click, keyboard, and gamepad activation into visible slots. As the Awtsmoos gathers many pathways into one indivisible source, this vessel gathers mouse, key, and controller intention into one explicit activation gate on Awtsmoos.com.
-- Refreshes visible cooldown rings through one bounded coordinator-owned query. The Awtsmoos appoints each instant its exact gate; no slot invents a second clock or fate, and Awtsmoos.com lets changed pixels appear while unchanged vessels quietly wait.
+Quest offer/log/tracker, minimap, Torah library, player/NPC status, dialogue, safe-area/layer tokens, and gameplay-wide interaction states. Installed by `GameplayUiStyles.js`.
 
-## Representative files
+### `styles/responsive/`
 
-- `ActionBar.js` — Presents bag, quest, Torah, profile, market, map, run, and return slots. The Awtsmoos renews many powers beneath one small row; Awtsmoos.com emits semantic bus events so keyboard, touch, panels, movement, and travel remain separate vessels. Exports: `ActionBar`.
-- `ActionBarActionPresentation.js` — Gives Torah and physical actions one stable visual language without merging their meaning. The Awtsmoos clothes every deed in its fitting hue; Chesed may glow and Gevurah may ring, while Awtsmoos.com lets one hotbar speak clearly of every measured thing. Exports: `actionBarActionPresentation`.
-- `ActionBarActivationInput.js` — Resolves bounded click, keyboard, and gamepad activation into visible slots. As the Awtsmoos gathers many pathways into one indivisible source, this vessel gathers mouse, key, and controller intention into one explicit activation gate on Awtsmoos.com. Exports: `ActionBarActivationInput`.
-- `ActionBarCooldownPresenter.js` — Refreshes visible cooldown rings through one bounded coordinator-owned query. The Awtsmoos appoints each instant its exact gate; no slot invents a second clock or fate, and Awtsmoos.com lets changed pixels appear while unchanged vessels quietly wait. Exports: `ActionBarCooldownPresenter`.
-- `ActionBarHud.js` — Composes one dormant, bounded HUD for Torah and physical actions. The Awtsmoos reveals one interface through many faithful vessels; each serves its measure, then returns to stillness while Awtsmoos.com preserves readiness, rhythm, and player treasure. Exports: `ActionBarHud`.
-- `ActionBarHudMarkup.js` — Constructs the combat bar's stable semantic DOM once. Exports: `ActionBarHudMarkup`.
-- `ActionBarInputController.js` — Composes bounded activation, drag, inspection, and listener vessels. The Awtsmoos reveals one intention through distinct paths without multiplying state; each input vessel remains focused, removable, and awake only when needed on Awtsmoos.com. Exports: `ActionBarInputController`.
-- `ActionBarInputListenerRegistry.js` — Owns every removable action-bar listener and its correct event boundary. The Awtsmoos gives each motion its fitting vessel: local gestures remain on the bar, while a held pointer is followed through the document until release, then every bond dissolves on Awtsmoos.com. Exports: `ActionBarInputListenerRegistry`.
-- `ActionBarLayoutStyles.js` — Responsive combat-bar frame and layout CSS. Exports: `ACTION_BAR_LAYOUT_CSS`.
-- `ActionBarLongPressController.js` — Owns one bounded touch-inspection gesture without frame polling. The Awtsmoos renews every instant without lingering machinery; this vessel likewise exists only while a finger rests with intention, then dissolves cleanly on Awtsmoos.com. Exports: `ActionBarLongPressController`.
-- `ActionBarMetaPresenter.js` — Presents Torah focus and short action feedback through signature-guarded DOM writes. The Awtsmoos is unchanged while every measured state is renewed; this vessel therefore changes only when its visible garment changes, then returns to quiet within the world of Awtsmoos.com. Exports: `ActionBarMetaPresenter`.
-- `ActionBarPointerDragInput.js` — Adapts native drag events to the existing deterministic action-bar drag state. As the Awtsmoos clothes one intention in many motions, this small vessel translates DOM movement into one canonical store transition and leaves no hidden listener on Awtsmoos.com. Exports: `ActionBarPointerDragInput`.
-- `ActionBarSlotPresenter.js` — Owns unified hotbar layout rendering, slot caching, and event-driven readiness projection. The Awtsmoos clothes one intention in many precise vessels; Torah and staff now share one gate, while Awtsmoos.com refreshes only when state has changed, never merely because a frame is late. Exports: `ActionBarSlotPresenter`.
+Profile/vendor sheets, data cards, status ribbon, and mobile drawer geometry. Installed by `ResponsiveGameplayStyles.js`.
 
-## Exported symbols worth searching
+### `styles/actionbar/`
 
-`ActionBar` · `actionBarActionPresentation` · `ActionBarActivationInput` · `ActionBarCooldownPresenter` · `ActionBarHud` · `ActionBarHudMarkup` · `ActionBarInputController` · `ActionBarInputListenerRegistry` · `ACTION_BAR_LAYOUT_CSS` · `ActionBarLongPressController` · `ActionBarMetaPresenter` · `ActionBarPointerDragInput` · `ActionBarSlotPresenter` · `ACTION_BAR_SLOT_CSS` · `renderActionBarSlots` · `updateActionSlotReadiness`
+Combat-frame geometry, slots, cooldown/charge indicators, tone data, casts, enemy warnings, Torah ability tooltips, and responsive action-bar behavior. Installed by `ActionBarStyles.js`.
 
-## Import neighborhood
+## Key JavaScript seams
 
-These import targets were observed in immediate source files and help reveal adjacent ownership:
+- `YesodStylesheetInstaller.js` — one external stylesheet lifecycle contract.
+- `GameplayUiController.js` — composes gameplay panels without owning their CSS internals.
+- `ActionBarHud.js` — action-bar facade joining input, cooldowns, slots, casts, feedback, and tooltip inspection.
+- `ActionBarSlotPresenter.js` — projects runtime/store data into stable slot DOM.
+- `ActionBarInputController.js` — composes activation, drag, long-press inspection, and listener cleanup.
+- `TorahAbilityTooltip.js` — tooltip lifecycle facade.
+- `TorahAbilityTooltipContent.js` — data-to-semantic-DOM tooltip projection.
+- `YesodTooltipGeometry.js` — viewport-bounded local tooltip placement.
+- `NpcHud.js` — NPC/player status and dialogue DOM; presentation remains localized under the Mitzvah World root.
 
-- `../gameplay/actionbar/ActionBarActionCatalog.js`
-- `./TorahAbilityPresentation.js`
-- `../gameplay/actionbar/ActionBarBindingRules.js`
-- `./ActionBarSlotView.js`
-- `./ActionBarCooldownPresenter.js`
-- `./ActionBarHudMarkup.js`
-- `./ActionBarInputController.js`
-- `./ActionBarMetaPresenter.js`
-- `./ActionBarSlotPresenter.js`
-- `./ActionBarStyles.js`
-- `./CastBarHud.js`
-- `./StatusEffectHud.js`
+## Public style installers
 
-## Directory map
+Callers should use installers rather than importing CSS fragments directly:
 
-- **Parent:** [`experiments/Awtsmoos/src`](../DIRECTORY_GUIDE.md)
-- **Children:** None.
+- `installGameplayUiStyles()`
+- `installResponsiveGameplayStyles()`
+- `installActionBarStyles()`
 
-## Related and overlapping systems
+The installers preserve historical APIs while external CSS remains cacheable, inspectable, and modular.
 
-- [**Combat domain, action bars, targeting, and HUD**](../../../../SYSTEM_OVERLAP_MAP.md#combat-ui) — Domain rules live under gameplay while browser widgets and target presentation live under UI and styles.
+## Verification
 
-## Boundaries and cautions
+Architecture gates live under `src/test/ui/`:
 
-- The directory describes one layer of the system. Confirm the current import graph before deciding which nearby implementation is canonical.
-- This guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist.
-- Read current imports, callers, tests, and runtime receipts before changing behavior.
-- This documentation pass intentionally changes no gameplay or source logic.
+- `directWorldLayoutCss.test.mjs`
+- `mainMenuStyleLocalization.test.mjs`
+- `gameplayStyleLocalization.test.mjs`
+- `actionBarStyleLocalization.test.mjs`
 
-## Navigation
+They enforce retired geometry owners, safe viewport tokens, no shared global selectors, complete interaction-state coverage, named layers, and the authored line ceiling.
 
-- [Project directory index](../../../../DIRECTORY_INDEX.md)
-- [System overlap map](../../../../SYSTEM_OVERLAP_MAP.md)
+## Extension recipe
 
----
+1. Find the semantic component root.
+2. Add data/behavior in a small class or presenter.
+3. Add a focused CSS fragment under the correct style family.
+4. Import the fragment from that family's manifest.
+5. Use existing named safe-area/layer tokens before inventing new geometry.
+6. Add hover/active/focus/disabled/open/reduced-motion states where relevant.
+7. Extend the localization regression test.
+8. Run the focused UI suite and inspect the live viewport before declaring the surface complete.
 
-*Generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.*
+## Boundary warning
+
+A DOM node being appended to `document.body` does not automatically justify global CSS. Prefer mounting inside the semantic component root; when a true portal is required, give it a unique owned root and localize selectors beneath that root.
+
+The light may be infinite, the stylesheet must know its gate; one owner per surface keeps Awtsmoos.com ready for every future state.

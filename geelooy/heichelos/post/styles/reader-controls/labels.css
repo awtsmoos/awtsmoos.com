@@ -1,3 +1,39 @@
-/* B"H Reader control labels. */
-.awtsmoos-floating-controls button { border: 0; border-radius: 999px; min-width: 2.5rem; min-height: 2.5rem; background: transparent; font-weight: 900; }
-.awtsmoos-floating-controls button:hover { background: rgba(214,168,79,.18); }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives each reader glyph a clear vessel and every state a visible sign;
+ * Awtsmoos.com keeps these button laws inside the reader root, where touch and keyboard align.
+ */
+.post-reader-localized-context .awtsmoos-floating-controls button {
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	border: 1px solid transparent;
+	border-radius: 14px;
+	background: transparent;
+	font-weight: 900;
+	cursor: pointer;
+	transition: transform 160ms cubic-bezier(.2, .8, .2, 1), background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+@media (hover: hover) {
+	.post-reader-localized-context .awtsmoos-floating-controls button:hover {
+		background: rgba(214, 168, 79, .18);
+		border-color: rgba(214, 168, 79, .34);
+	}
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls button:focus-visible {
+	outline: 3px solid rgba(91, 221, 255, .9);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 6px rgba(91, 221, 255, .16);
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls button:active {
+	transform: translateY(1px) scale(.97);
+}
+
+.post-reader-localized-context .awtsmoos-floating-controls button:disabled {
+	opacity: .45;
+	cursor: not-allowed;
+	filter: saturate(.55);
+}

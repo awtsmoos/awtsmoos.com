@@ -1,0 +1,112 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives every room action a bounded handhold, responsive to hover, focus, press, and restraint in light;
+Awtsmoos.com keeps fields and buttons local to Social Hub governance, never styling another page by accidental right.
+*/
+.social-hub-document .hubRoomInvite {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: .5rem;
+	min-width: 0;
+}
+.social-hub-document :is(
+	.hubRoomInvite input,
+	.hubRoomPolicyGrid select,
+	.hubRoomInvite button,
+	.hubRoomLeave button,
+	.hubRoomBlockButton
+) {
+	min-width: 0;
+	min-height: 44px;
+	border: 1px solid var(--line-hot);
+	border-radius: .75rem;
+	background: var(--surface-strong);
+	color: var(--ink);
+	font: inherit;
+	transition:
+		border-color 150ms ease,
+		background 150ms ease,
+		box-shadow 150ms ease,
+		transform 150ms ease,
+		opacity 150ms ease;
+}
+.social-hub-document :is(.hubRoomInvite input, .hubRoomPolicyGrid select) {
+	width: 100%;
+	padding: .6rem .7rem;
+}
+.social-hub-document :is(
+	.hubRoomInvite button,
+	.hubRoomLeave button,
+	.hubRoomBlockButton
+) {
+	padding: .58rem .78rem;
+	font-weight: 760;
+	cursor: pointer;
+}
+.social-hub-document :is(
+	.hubRoomInvite input,
+	.hubRoomPolicyGrid select,
+	.hubRoomInvite button,
+	.hubRoomLeave button,
+	.hubRoomBlockButton
+):hover {
+	border-color: color-mix(in srgb, var(--line-hot) 70%, var(--ink));
+	background: color-mix(in srgb, var(--surface-strong) 92%, var(--ink) 8%);
+}
+.social-hub-document :is(
+	.hubRoomInvite input,
+	.hubRoomPolicyGrid select,
+	.hubRoomInvite button,
+	.hubRoomLeave button,
+	.hubRoomBlockButton
+):focus-visible {
+	outline: 2px solid var(--accent, #8bdcec);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent, #8bdcec) 18%, transparent);
+}
+.social-hub-document :is(
+	.hubRoomInvite button,
+	.hubRoomLeave button,
+	.hubRoomBlockButton
+):active {
+	transform: translateY(1px) scale(.985);
+}
+.social-hub-document :is(
+	.hubRoomInvite button,
+	.hubRoomLeave button,
+	.hubRoomBlockButton,
+	.hubRoomPolicyGrid select
+):disabled {
+	opacity: .48;
+	cursor: not-allowed;
+	transform: none;
+}
+.social-hub-document .hubRoomLeave {
+	border-top: 1px solid var(--line);
+	padding-top: .6rem;
+}
+.social-hub-document .hubRoomLeave summary {
+	min-height: 44px;
+	padding: .55rem 0;
+	color: var(--muted);
+	font-size: .8rem;
+	font-weight: 720;
+	cursor: pointer;
+}
+.social-hub-document .hubRoomLeave summary:is(:hover, :focus-visible) {
+	color: var(--ink);
+}
+.social-hub-document .hubRoomLeave summary:active {
+	transform: translateX(1px);
+}
+.social-hub-document .hubRoomLeave button,
+.social-hub-document .hubRoomBlockButton {
+	border-color: color-mix(in srgb, #ff8f8f 44%, var(--line));
+}
+@media (max-width: 34rem) {
+	.social-hub-document .hubRoomInvite,
+.social-hub-document .hubRoomPolicyGrid label {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

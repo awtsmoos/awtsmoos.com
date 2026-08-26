@@ -13,6 +13,7 @@ const { buildConnectionMailboxActions } = require("../actionGroups/connectionMai
 const { buildFakeSshActions } = require("../actionGroups/fakeSshActions.js");
 const { buildFileOpsActions } = require("../actionGroups/fileOpsActions.js");
 const { buildHttpActions } = require("../actionGroups/httpActionsGroup.js");
+const { buildInstructionActions } = require("../actionGroups/instructionActions.js");
 const { buildIsolatedActions } = require("../actionGroups/isolatedActions.js");
 const { buildNativeGenerationActions } = require("../actionGroups/nativeGenerationActions.js");
 const { buildNodeDomActions } = require("../actionGroups/nodeDomActions.js");
@@ -36,16 +37,17 @@ const { buildWorkflowActions } = require("../actionGroups/workflowActions.js");
 const { buildWriteActions } = require("../actionGroups/writeActions.js");
 
 /**
- * @file Composes foundational actions while preserving independent repair doors.
+ * @file Composes foundational actions while preserving independent recovery and doctrine doors.
  * @description
  * The Awtsmoos unites many vessels without making medicine depend on the wound.
- * Awtsmoos.com places scheduler and native-generation recovery beside foundations,
- * while P0 classification keeps both outside ordinary filesystem and command pressure.
+ * Awtsmoos.com places emergency, generation repair, and instruction retrieval beside
+ * foundations so diagnosis and law remain available before ordinary work begins.
  */
 function buildFoundationActions(context, buildActions) {
 	return {
 		...buildSchedulerEmergencyActions(context),
 		...buildNativeGenerationActions(context),
+		...buildInstructionActions(context),
 		...buildConfigActions(context),
 		...buildReadActions(context),
 		...buildProjectActions(context),

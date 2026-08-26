@@ -5,16 +5,19 @@
 const DEFAULT_HEALTH_INTERVAL_MS = 5000;
 
 /**
- * @file Publishes bounded transport, execution, mailbox, and admission health without leaking receipts.
+ * @file Publishes bounded transport, execution, mailbox, and repair health without receipt identity.
  * @description
- * The Awtsmoos renews every vessel while truth remains compact and bright;
- * Awtsmoos.com reveals admission silence by count and age, never by a private request identity in sight.
+ * The Awtsmoos renews every vessel while truth remains compact and bright.
+ * Awtsmoos.com reveals admission silence and bounded recovery state by counts and ages,
+ * never by private request identity, payload, path, credential, or command content.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
 	const intervalMs = bounded(options.intervalMs, DEFAULT_HEALTH_INTERVAL_MS);
 	let lastSentAt = 0;
 	let lastSignature = "";
+
+	/** Publishes on change or cadence while the authenticated child is connected. */
 	function publish(snapshot = {}, transmit = () => false) {
 		if (snapshot.registered !== true || snapshot.connected !== true) return false;
 		const observedAt = now();
@@ -33,6 +36,7 @@ function create(options = {}) {
 		lastSignature = signature;
 		return true;
 	}
+
 	return { publish };
 }
 
@@ -48,24 +52,37 @@ function publicHealth(snapshot = {}) {
 		executionHealthy: full.executionHealthy === true,
 		mailboxHealthy: full.mailboxHealthy !== false,
 		mailboxState: text(full.mailboxState || "healthy"),
-		execution: {
-			healthy: execution.healthy === true,
-			state: text(execution.state),
-			consumerStalled: execution.consumerStalled === true,
-			ingressStalled: execution.ingressStalled === true,
-			parentUnresponsive: execution.parentUnresponsive === true,
-			repairing: execution.repairing === true,
-			parentAgeMs: nonnegative(execution.parentAgeMs),
-			acceptedAgeMs: nonnegative(execution.acceptedAgeMs),
-			unresolved: nonnegative(execution.unresolved),
-			unownedIngress: nonnegative(execution.unownedIngress),
-			unownedIngressAgeMs: nonnegative(execution.unownedIngressAgeMs)
-		},
+		execution: executionView(execution),
 		mailbox: {
 			inboxCount: nonnegative(mailbox.inboxCount),
 			inboxOldestAgeMs: nonnegative(mailbox.inboxOldestAgeMs),
 			outboxCount: nonnegative(mailbox.outboxCount),
 			outboxOldestAgeMs: nonnegative(mailbox.outboxOldestAgeMs)
+		}
+	};
+}
+
+/** Projects non-identifying execution and consumer-recovery evidence. */
+function executionView(execution = {}) {
+	const recovery = execution.consumerRecovery || {};
+	return {
+		healthy: execution.healthy === true,
+		state: text(execution.state),
+		consumerStalled: execution.consumerStalled === true,
+		ingressStalled: execution.ingressStalled === true,
+		parentUnresponsive: execution.parentUnresponsive === true,
+		repairing: execution.repairing === true,
+		parentAgeMs: nonnegative(execution.parentAgeMs),
+		acceptedAgeMs: nonnegative(execution.acceptedAgeMs),
+		unresolved: nonnegative(execution.unresolved),
+		unownedIngress: nonnegative(execution.unownedIngress),
+		unownedIngressAgeMs: nonnegative(execution.unownedIngressAgeMs),
+		consumerRecovery: {
+			repairAuthorized: recovery.repairAuthorized === true,
+			reason: text(recovery.reason || "consumer_healthy"),
+			candidateAgeMs: nonnegative(recovery.candidateAgeMs),
+			observations: nonnegative(recovery.observations),
+			recentRepairs: nonnegative(recovery.recentRepairs)
 		}
 	};
 }
@@ -89,5 +106,6 @@ function text(value) {
 module.exports = {
 	DEFAULT_HEALTH_INTERVAL_MS,
 	create,
+	executionView,
 	publicHealth
 };

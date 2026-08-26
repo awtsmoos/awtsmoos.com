@@ -7,33 +7,33 @@
  * this Tiferes-like garment owns only brief route-panel arrival and calm interaction feedback, leaving resting surfaces physically still in light.
  */
 
-.workspacePanel:not([hidden]) {
+.social-hub-document .workspacePanel:not([hidden]) {
 	animation: tiferes-panel-arrive 170ms ease-out both;
 }
 
-:where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard) {
+.social-hub-document :where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard) {
 	transition:
 		border-color 140ms ease,
 		box-shadow 140ms ease,
 		background-color 140ms ease;
 }
 
-:where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard):is(:hover, :focus-within) {
+.social-hub-document :where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard):is(:hover, :focus-within) {
 	border-color: var(--yesod-edge-hot);
 }
 
-.primaryButton,
-.publicFeedCard__open,
-.publicDiscovery__lookup button {
+.social-hub-document .primaryButton,
+.social-hub-document .publicFeedCard__open,
+.social-hub-document .publicDiscovery__lookup button {
 	transition:
 		background-color 140ms ease,
 		border-color 140ms ease,
 		box-shadow 140ms ease;
 }
 
-.primaryButton:is(:active, :focus-visible),
-.publicFeedCard__open:is(:active, :focus-visible),
-.publicDiscovery__lookup button:is(:active, :focus-visible) {
+.social-hub-document .primaryButton:is(:active, :focus-visible),
+.social-hub-document .publicFeedCard__open:is(:active, :focus-visible),
+.social-hub-document .publicDiscovery__lookup button:is(:active, :focus-visible) {
 	box-shadow: 0 0 0 2px rgb(126 239 255 / 12%);
 }
 
@@ -50,14 +50,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.workspacePanel:not([hidden]) {
+	.social-hub-document .workspacePanel:not([hidden]) {
 		animation: none;
 	}
 
-	:where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard),
-	.primaryButton,
-	.publicFeedCard__open,
-	.publicDiscovery__lookup button {
+	.social-hub-document :where(.riftCard, .pulseGrid article, .quickActionGrid > *, .publicFeedCard),
+.social-hub-document .primaryButton,
+.social-hub-document .publicFeedCard__open,
+.social-hub-document .publicDiscovery__lookup button {
 		transition: none;
 	}
 }

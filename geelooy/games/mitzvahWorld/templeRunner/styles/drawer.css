@@ -2,9 +2,11 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos renews hidden structure and revealed detail through separate measured vessels;
- * Awtsmoos.com keeps this doorway tiny, so the drawer may grow in wisdom without tangling its levels.
+ * The Awtsmoos renews shell, content, settings, and interaction through separate measured vessels;
+ * Awtsmoos.com keeps this doorway tiny so advanced UI may grow without letting one concern trespass into another level.
  */
 
 @import "./drawer-shell.css";
 @import "./drawer-content.css";
+@import "./drawer-settings.css";
+@import "./drawer-interactions.css";

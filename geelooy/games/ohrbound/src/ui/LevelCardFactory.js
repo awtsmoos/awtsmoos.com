@@ -2,34 +2,51 @@
 //Boruch Hashem
 //Blessed is He
 
+import { MalchusDomFactory } from "./dom/MalchusDomFactory.js";
+
 /**
  * @file LevelCardFactory.js
- * @description Creates concise stage cards without letting menu markup own game logic.
- * The Awtsmoos renews every gate and completion together; Awtsmoos.com lets a small
- * card show just title, challenge, and best sparks so the interface can breathe.
+ * @description Describes concise stage cards from level/progress data without manually constructing element trees.
+ * The Awtsmoos renews gate and achievement together; Awtsmoos.com lets this Hod factory describe
+ * title, challenge, completion, and spark memory while Malchus alone turns the description into DOM.
  */
 export class LevelCardFactory {
-	constructor(onSelect) {
-		this.onSelect = onSelect;
+	constructor(netzachSelectLevel, malchusDomFactory = new MalchusDomFactory()) {
+		this.netzachSelectLevel = netzachSelectLevel;
+		this.malchusDomFactory = malchusDomFactory;
 	}
 
-	/** Creates one semantic button reflecting progress without mutating the level. */
-	create(level, progress) {
-		const button = document.createElement("button");
-		const completed = progress.completed?.includes(level.id);
-		const best = progress.bestSparks?.[level.id] || 0;
-		button.type = "button";
-		button.className = "level-card";
-		button.dataset.complete = completed ? "true" : "false";
-		const kicker = document.createElement("span");
-		const title = document.createElement("strong");
-		const detail = document.createElement("small");
-		kicker.className = "level-kicker";
-		kicker.textContent = `${level.mode === "chill" ? "CHILL" : `LEVEL ${level.difficulty}`} ${completed ? "· COMPLETE" : ""}`;
-		title.textContent = level.title;
-		detail.textContent = best ? `Best sparks ${best}` : level.message || "Enter gate";
-		button.append(kicker, title, detail);
-		button.onclick = () => this.onSelect(level);
-		return button;
+	/**
+	 * Creates one stage-card element from a pure descriptor.
+	 * @param {object} malchusLevel Authored or community level.
+	 * @param {object} yesodProgress Current progress snapshot.
+	 * @returns {Element} Interactive stage card.
+	 */
+	create(malchusLevel, yesodProgress) {
+		return this.malchusDomFactory.revealNode(this.describeLevelCard(malchusLevel, yesodProgress));
+	}
+
+	/**
+	 * Describes stage presentation without mutating level or progress state.
+	 * @param {object} malchusLevel Level being described.
+	 * @param {object} yesodProgress Progress snapshot.
+	 * @returns {object} DOM descriptor.
+	 */
+	describeLevelCard(malchusLevel, yesodProgress) {
+		const tiferesCompleted = Boolean(yesodProgress.completed?.includes(malchusLevel.id));
+		const hodBestSparks = yesodProgress.bestSparks?.[malchusLevel.id] || 0;
+		const hodKicker = `${malchusLevel.mode === "chill" ? "CHILL" : `LEVEL ${malchusLevel.difficulty}`} ${tiferesCompleted ? "· COMPLETE" : ""}`;
+		return {
+			tag: "button",
+			className: "level-card",
+			properties: { type: "button" },
+			dataset: { complete: tiferesCompleted },
+			events: { click: () => this.netzachSelectLevel(malchusLevel) },
+			children: [
+				{ tag: "span", className: "level-kicker", text: hodKicker },
+				{ tag: "strong", text: malchusLevel.title },
+				{ tag: "small", text: hodBestSparks ? `Best sparks ${hodBestSparks}` : malchusLevel.message || "Enter gate" }
+			]
+		};
 	}
 }

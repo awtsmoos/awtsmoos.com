@@ -7,72 +7,101 @@ import { EditorHistory } from "./EditorHistory.js";
 
 /**
  * @file EditorController.js
- * @description Coordinates palette actions, history, metadata, and safe import/export.
- * The Awtsmoos is beyond controller and controlled; Awtsmoos.com keeps editor intent
- * in one small vessel so the DOM may change without rewriting the rules of creation.
+ * @description Owns Creator intent, reversible document history, validation projection, and safe import/export boundaries.
+ * The Awtsmoos is beyond chooser and chosen; Awtsmoos.com lets this Tiferes controller join mutable document law
+ * to a small set of observable intents while DOM, cloud transport, and gameplay remain outside its finite chamber.
  */
 export class EditorController {
-	constructor(document = new EditorDocument()) {
-		this.document = document;
-		this.history = new EditorHistory();
-		this.selected = "#";
-		this.listeners = new Set();
-		this.history.push(document.snapshot());
+	constructor(malchusDocument = new EditorDocument()) {
+		this.malchusDocument = malchusDocument;
+		this.yesodHistory = new EditorHistory();
+		this.tiferesSelectedSymbol = "#";
+		this.hodListeners = new Set();
+		this.yesodHistory.push(malchusDocument.snapshot());
 	}
 
-	onChange(listener) {
-		this.listeners.add(listener);
-		listener(this.state());
-		return () => this.listeners.delete(listener);
+	/**
+	 * Subscribes to projected Creator state and immediately reveals the current state once.
+	 * @param {Function} hodListener Observer receiving immutable-by-convention state snapshots.
+	 * @returns {Function} Unsubscribe function.
+	 */
+	onChange(hodListener) {
+		this.hodListeners.add(hodListener);
+		hodListener(this.state());
+		return () => this.hodListeners.delete(hodListener);
 	}
 
-	select(symbol) {
-		this.selected = symbol;
-		this.emit();
+	/** Selects one authored tile symbol without mutating the level document. @param {string} malchusSymbol @returns {void} */
+	select(malchusSymbol) {
+		this.tiferesSelectedSymbol = malchusSymbol;
+		this.revealStateToListeners();
 	}
 
-	paint(x, y) {
-		if (!this.document.paint(x, y, this.selected)) return;
-		this.commit();
+	/** Paints one tile and commits history only when document state actually changes. @param {number} malchusX @param {number} malchusY @returns {void} */
+	paint(malchusX, malchusY) {
+		if (!this.malchusDocument.paint(malchusX, malchusY, this.tiferesSelectedSymbol)) return;
+		this.commitDocumentState();
 	}
 
-	metadata(values) {
-		this.document.metadata(values);
-		this.commit();
+	/** Applies metadata through EditorDocument invariants and records a reversible snapshot. @param {object} binaValues @returns {void} */
+	metadata(binaValues) {
+		this.malchusDocument.metadata(binaValues);
+		this.commitDocumentState();
 	}
 
+	/** Restores the previous history snapshot when available. @returns {void} */
 	undo() {
-		const snapshot = this.history.undo();
-		if (snapshot) { this.document.restore(snapshot); this.emit(); }
+		this.restoreHistorySnapshot(this.yesodHistory.undo());
 	}
 
+	/** Restores the next history snapshot when available. @returns {void} */
 	redo() {
-		const snapshot = this.history.redo();
-		if (snapshot) { this.document.restore(snapshot); this.emit(); }
+		this.restoreHistorySnapshot(this.yesodHistory.redo());
 	}
 
-	importJson(text) {
-		const candidate = new EditorDocument(JSON.parse(text));
-		const validation = candidate.validate();
-		if (!validation.ok) throw new Error(validation.errors.join(" "));
-		this.document = candidate;
-		this.commit();
+	/**
+	 * Parses, validates, and adopts serialized Creator data only after all document invariants pass.
+	 * @param {string} malchusScroll Serialized JSON document.
+	 * @returns {void}
+	 * @throws {Error} When JSON or level validation fails; current document remains untouched.
+	 */
+	importJson(malchusScroll) {
+		const binaCandidateDocument = new EditorDocument(JSON.parse(malchusScroll));
+		const gevurahValidation = binaCandidateDocument.validate();
+		if (!gevurahValidation.ok) throw new Error(gevurahValidation.errors.join(" "));
+		this.malchusDocument = binaCandidateDocument;
+		this.commitDocumentState();
 	}
 
+	/** Serializes one stable document snapshot for clipboard/export. @returns {string} Pretty-printed JSON. */
 	exportJson() {
-		return JSON.stringify(this.document.snapshot(), null, 2);
+		return JSON.stringify(this.malchusDocument.snapshot(), null, 2);
 	}
 
-	commit() {
-		this.history.push(this.document.snapshot());
-		this.emit();
+	/** Records the current document snapshot and announces projected state. @returns {void} */
+	commitDocumentState() {
+		this.yesodHistory.push(this.malchusDocument.snapshot());
+		this.revealStateToListeners();
 	}
 
+	/** Restores one optional history snapshot without creating another history entry. @param {object|null} yesodSnapshot @returns {void} */
+	restoreHistorySnapshot(yesodSnapshot) {
+		if (!yesodSnapshot) return;
+		this.malchusDocument.restore(yesodSnapshot);
+		this.revealStateToListeners();
+	}
+
+	/** Projects the controller's observable state without exposing history mutation authority. @returns {object} */
 	state() {
-		return { document: this.document, selected: this.selected, validation: this.document.validate() };
+		return { document: this.malchusDocument, selected: this.tiferesSelectedSymbol, validation: this.malchusDocument.validate() };
 	}
 
-	emit() {
-		for (const listener of this.listeners) listener(this.state());
+	/** Notifies every current listener from one freshly projected state value. @returns {void} */
+	revealStateToListeners() {
+		const malchusState = this.state();
+		for (const hodListener of this.hodListeners) hodListener(malchusState);
 	}
+
+	/** Compatibility accessor preserving previous public property expectations. @returns {EditorDocument} */
+	get document() { return this.malchusDocument; }
 }

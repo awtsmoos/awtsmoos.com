@@ -1,0 +1,82 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets every deliberate hand movement receive a measured response; Awtsmoos.com gives Drive controls one shared hover, focus, active, and disabled covenant without leaking a single rule beyond the Drive root.
+ */
+
+[data-awtsmoos-drive] :where(button, input, select, textarea) {
+	border: 1px solid var(--line);
+	border-radius: var(--radius-small);
+	transition:
+		border-color var(--motion-fast) var(--ease-out),
+		background-color var(--motion-fast) var(--ease-out),
+		box-shadow var(--motion-fast) var(--ease-out),
+		color var(--motion-fast) var(--ease-out),
+		transform var(--motion-fast) var(--ease-out);
+}
+
+[data-awtsmoos-drive] :where(input, select, textarea) {
+	width: 100%;
+	min-height: 44px;
+	padding: 0.7rem 0.8rem;
+	background: rgba(3, 18, 14, 0.78);
+	color: var(--text);
+}
+
+[data-awtsmoos-drive] :where(input, select, textarea):hover {
+	border-color: color-mix(in srgb, var(--accent) 48%, var(--line));
+	background: rgba(5, 28, 22, 0.84);
+}
+
+[data-awtsmoos-drive] :where(input, select, textarea):focus-visible {
+	border-color: var(--accent);
+	box-shadow: var(--focus-ring);
+	outline: none;
+}
+
+[data-awtsmoos-drive] button {
+	min-height: 44px;
+	padding: 0.65rem 1rem;
+	background: var(--surface-strong);
+	color: var(--text);
+	cursor: pointer;
+}
+
+[data-awtsmoos-drive] button:hover {
+	border-color: var(--line-strong);
+	background: var(--surface-hover);
+	box-shadow: var(--shadow-lift);
+	transform: translateY(-1px);
+}
+
+[data-awtsmoos-drive] button:focus-visible {
+	border-color: var(--accent);
+	box-shadow: var(--focus-ring);
+	outline: none;
+}
+
+[data-awtsmoos-drive] button:active {
+	background: var(--surface-active);
+	box-shadow: none;
+	transform: translateY(0) scale(0.985);
+}
+
+[data-awtsmoos-drive] button:disabled {
+	cursor: not-allowed;
+	opacity: 0.46;
+	box-shadow: none;
+	transform: none;
+}
+
+[data-awtsmoos-drive] .primary-button {
+	border-color: transparent;
+	background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+	color: var(--accent-ink);
+	font-weight: 850;
+}
+
+[data-awtsmoos-drive] .primary-button:hover {
+	background: linear-gradient(135deg, #8af0c8, var(--accent-strong));
+}

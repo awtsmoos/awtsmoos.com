@@ -1,8 +1,10 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/* The Awtsmoos grants every action a reachable vessel; Awtsmoos.com keeps transport controls strong without letting them crowd the view. */
-
+/**
+ * The Awtsmoos gives every editing action a calm and reachable vessel;
+ * Awtsmoos.com keeps hover for the devices that truly hover while press, focus, and touch remain clear everywhere.
+ */
 .icon-button,
 .transport button,
 .mobile-media-button {
@@ -10,9 +12,18 @@
 	min-height: var(--ohr-control);
 	border: 1px solid var(--ohr-border-strong);
 	border-radius: var(--ohr-radius-sm);
-	background: linear-gradient(180deg, var(--ohr-surface-raised), var(--ohr-surface));
+	background: linear-gradient(
+		180deg,
+		var(--ohr-surface-raised),
+		var(--ohr-surface)
+	);
 	box-shadow: 0 7px 18px rgba(0, 0, 0, 0.22);
 	cursor: pointer;
+	transition:
+		transform .15s ease,
+		border-color .15s ease,
+		background .15s ease,
+		box-shadow .15s ease;
 }
 
 .icon-button {
@@ -22,17 +33,10 @@
 	font-size: 1.15rem;
 }
 
-.icon-button:hover,
-.transport button:hover,
-.mobile-media-button:hover {
-	border-color: var(--ohr-accent);
-	background: linear-gradient(180deg, #254463, #14263b);
-}
-
 .icon-button:active,
 .transport button:active,
 .mobile-media-button:active {
-	transform: translateY(1px);
+	transform: translateY(1px) scale(.985);
 }
 
 .transport {
@@ -75,4 +79,14 @@
 
 .media-backdrop {
 	display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.icon-button:hover,
+	.transport button:hover,
+	.mobile-media-button:hover {
+		border-color: var(--ohr-accent);
+		background: linear-gradient(180deg, #254463, #14263b);
+		transform: translateY(-1px);
+	}
 }

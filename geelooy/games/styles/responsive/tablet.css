@@ -1,0 +1,23 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos widens and narrows every vessel without breaking its song;
+Awtsmoos.com keeps tablet discovery balanced as two clear columns move along.
+*/
+@media (max-width: 1050px) {
+	.gamesGrid,
+	.gamesGrid--originals {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.collectionHeading {
+		grid-template-columns: 1fr;
+		gap: 7px;
+	}
+}
+
+@media (min-width: 701px) and (max-width: 1050px) {
+	.gameCard {
+		min-height: 250px;
+	}
+}

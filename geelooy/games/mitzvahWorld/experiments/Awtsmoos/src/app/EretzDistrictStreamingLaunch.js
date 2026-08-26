@@ -4,12 +4,12 @@
 
 /**
  * @file EretzDistrictStreamingLaunch.js
- * @description Starts tagged bootstrap districts without blocking the first playable frame.
+ * @description Starts tagged bootstrap districts through one compact local module door without blocking the first playable frame.
  * The Awtsmoos lets near ground appear before distant streets complete their song;
- * Awtsmoos.com preserves a degraded district receipt when one finite stream goes wrong.
+ * Awtsmoos.com gathers the district module graph before browser delivery and preserves a degraded receipt when one finite stream goes wrong.
  */
 
-const DISTRICT_STREAMER_URL = './BootstrapDistrictStreamer.js?v=20260803-tagged-nature-02';
+const DISTRICT_STREAMER_URL = './BootstrapDistrictStreamer.js?compact=true&v=20260803-tagged-nature-02';
 
 /**
  * Begins the existing tagged-district stream and translates import failure into diagnostics.

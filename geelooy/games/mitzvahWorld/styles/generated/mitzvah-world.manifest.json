@@ -6,98 +6,56 @@
 		"globalLeakage": [],
 		"overrides": [
 			{
-				"key": "root|#mitzvah-world-root|font-family",
-				"next": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-				"previous": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif"
-			},
-			{
-				"key": "root|#mitzvah-world-root|background",
-				"next": "#07140b",
-				"previous": "#6eaed0"
-			},
-			{
-				"key": "root|#mitzvah-world-root .Awtsmoos-menu-boot|background",
-				"next": "#06100a",
-				"previous": "radial-gradient(circle at 50% 20%, rgba(64, 142, 103, .26), transparent 42%), rgba(4, 15, 9, .88)"
-			},
-			{
-				"key": "root|#mitzvah-world-root #jump|right",
-				"next": "max(18px, calc(env(safe-area-inset-right) + 14px))",
-				"previous": "max(20px, env(safe-area-inset-right))"
-			},
-			{
-				"key": "root|#mitzvah-world-root #jump|bottom",
-				"next": "max(22px, calc(env(safe-area-inset-bottom) + 18px))",
-				"previous": "max(28px, env(safe-area-inset-bottom))"
-			},
-			{
-				"key": "root|#mitzvah-world-root #jump|width",
-				"next": "68px",
-				"previous": "70px"
-			},
-			{
-				"key": "root|#mitzvah-world-root #jump|height",
-				"next": "68px",
-				"previous": "70px"
-			},
-			{
 				"key": "root|#mitzvah-world-root|overflow",
 				"next": "clip",
 				"previous": "hidden"
 			},
 			{
-				"key": "root|#mitzvah-world-root|overflow",
-				"next": "hidden",
-				"previous": "clip"
+				"key": "root|#mitzvah-world-root .Awtsmoos-menu-boot|z-index",
+				"next": "var(--mw-z-overlay)",
+				"previous": "1000"
 			},
 			{
-				"key": "root|#mitzvah-world-root|background",
-				"next": "#06100a",
-				"previous": "#07140b"
+				"key": "root|#mitzvah-world-root .Awtsmoos-menu-boot|padding",
+				"next": "var(--mw-safe-top) var(--mw-safe-right) var(--mw-safe-bottom) var(--mw-safe-left)",
+				"previous": "max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left))"
 			},
 			{
-				"key": "root|#mitzvah-world-root|color",
-				"next": "var(--Awtsmoos-text)",
-				"previous": "#f4ffff"
+				"key": "root|#mitzvah-world-root .Awtsmoos-menu-boot|background",
+				"next": "radial-gradient(circle at 50% 42%, rgba(117, 245, 191, 0.1), rgba(3, 15, 13, 0.94) 58%)",
+				"previous": "radial-gradient(circle at 50% 20%, rgba(64, 142, 103, .26), transparent 42%), rgba(4, 15, 9, .88)"
 			},
 			{
-				"key": "root|#mitzvah-world-root #jump|right",
-				"next": "max(18px, env(safe-area-inset-right))",
-				"previous": "max(18px, calc(env(safe-area-inset-right) + 14px))"
+				"key": "root|#mitzvah-world-root .Awtsmoos-context-action|max-width",
+				"next": "min(240px, calc(100vw - var(--mw-safe-left) - var(--mw-safe-right) - 24px))",
+				"previous": "min(190px, calc(100vw - 32px))"
 			},
 			{
-				"key": "root|#mitzvah-world-root #jump|bottom",
-				"next": "max(88px, calc(env(safe-area-inset-bottom) + 76px))",
-				"previous": "max(22px, calc(env(safe-area-inset-bottom) + 18px))"
+				"key": "root|#mitzvah-world-root .Awtsmoos-context-action|transition",
+				"next": "opacity var(--mw-motion-normal) ease, visibility var(--mw-motion-normal) ease",
+				"previous": "transform 130ms ease, border-color 130ms ease, background 130ms ease, box-shadow 130ms ease"
 			},
 			{
-				"key": "root|#mitzvah-world-root #jump|width",
-				"next": "76px",
-				"previous": "68px"
+				"key": "root|#mitzvah-world-root .Awtsmoos-control-receipt|transition",
+				"next": "opacity var(--mw-motion-normal) ease, visibility var(--mw-motion-normal) ease",
+				"previous": "opacity 140ms ease, visibility 140ms linear, transform 140ms ease"
 			},
 			{
-				"key": "root|#mitzvah-world-root #jump|height",
-				"next": "76px",
-				"previous": "68px"
-			},
-			{
-				"key": "root|#mitzvah-world-root #jump|pointer-events",
-				"next": "none",
-				"previous": "auto"
+				"key": "root|#mitzvah-world-root .Awtsmoos-creative-dock :is(button, summary):focus-visible|outline",
+				"next": "2px solid rgba(198, 255, 218, .96)",
+				"previous": "2px solid rgba(188, 255, 211, .94)"
 			}
 		],
 		"zIndexConflicts": []
 	},
 	"files": [
-		"styles/source/fragments/emergency-meadow-001.css",
-		"styles/source/fragments/mitzvah-world-actions-001.css",
-		"styles/source/fragments/mitzvah-world-actions-002.css",
-		"styles/source/fragments/mitzvah-world-api-explorer-001.css",
+		"styles/source/fragments/mitzvah-world-foundation-002.css",
 		"styles/source/fragments/mitzvah-world-combat-001.css",
 		"styles/source/fragments/mitzvah-world-combat-002.css",
 		"styles/source/fragments/mitzvah-world-combat-003.css",
-		"styles/source/fragments/mitzvah-world-corrections-001.css",
-		"styles/source/fragments/mitzvah-world-corrections-002.css",
+		"styles/source/fragments/mitzvah-world-actions-001.css",
+		"styles/source/fragments/mitzvah-world-action-interactions-001.css",
+		"styles/source/fragments/mitzvah-world-actions-002.css",
 		"styles/source/fragments/mitzvah-world-game-rail-001.css",
 		"styles/source/fragments/mitzvah-world-glyphs-001.css",
 		"styles/source/fragments/mitzvah-world-houses-001.css",
@@ -109,45 +67,58 @@
 		"styles/source/fragments/mitzvah-world-direct-action-001.css",
 		"styles/source/fragments/mitzvah-world-meadow-menu-001.css",
 		"styles/source/fragments/mitzvah-world-menu-shell-001.css",
-		"styles/source/fragments/mitzvah-world-mobile-integration-001.css",
-		"styles/source/fragments/mitzvah-world-mobile-integration-002.css",
 		"styles/source/fragments/mitzvah-world-mobile-001.css",
 		"styles/source/fragments/mitzvah-world-mobile-jump-001.css",
 		"styles/source/fragments/mitzvah-world-panels-001.css",
 		"styles/source/fragments/mitzvah-world-quest-001.css",
-		"styles/source/fragments/mitzvah-world-responsive-001.css",
-		"styles/source/fragments/mitzvah-world-responsive-002.css",
-		"styles/source/fragments/mitzvah-world-responsive-003.css",
 		"styles/source/fragments/mitzvah-world-runtime-responsive-001.css",
 		"styles/source/fragments/mitzvah-world-runtime-states-001.css",
-		"styles/source/fragments/mitzvah-world-shell-001.css",
-		"styles/source/fragments/mitzvah-world-shell-002.css",
+		"styles/source/fragments/mitzvah-world-runtime-motion-001.css",
 		"styles/source/fragments/mitzvah-world-status-001.css",
 		"styles/source/fragments/mitzvah-world-status-002.css",
+		"styles/source/fragments/mitzvah-world-runtime-mounts-002.css",
+		"styles/source/fragments/mitzvah-world-direct-layout-001.css",
 		"styles/source/imports-001.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-layout.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-core.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-motion.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-action-layout.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-action-states.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-subviews.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-controls.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-responsive.css",
+		"styles/creative-dock/mitzvah-world-creative-dock-accessibility.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-core.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-layout.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-controls.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-states.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-responsive.css",
+		"styles/creator-rail/mitzvah-world-creator-rail-accessibility.css",
+		"styles/mitzvah-world-creator-rail.css",
+		"styles/mitzvah-world-creative-dock.css",
 		"styles/source/mitzvah-world.css"
 	],
-	"inputBytes": 71319,
-	"outputBytes": 53708,
+	"inputBytes": 95269,
+	"outputBytes": 74180,
 	"stateCoverage": {
 		"missing": [],
 		"ready": true
 	},
 	"representations": {
 		"brotli": {
-			"bytes": 8785,
+			"bytes": 10953,
 			"encoding": "br",
-			"sha256": "4630b0faf41ec63f5c70a1a5e8a58f5d7c2d1d78df22da50b988f7953d444bc6"
+			"sha256": "e7d82c1d274c66d1a87acaec04373b8df3d483bc0163361911ba6b6d8cbc1865"
 		},
 		"gzip": {
-			"bytes": 10206,
+			"bytes": 12786,
 			"encoding": "gzip",
-			"sha256": "c108df5d5347e41397213e46181a8ccd65643e8942b83b4e6a020cf3c542bdc7"
+			"sha256": "3fac03619b43311a6327e381f1f66efc1c66cdf64002c39aeaeec0c1aefc25dd"
 		},
 		"identity": {
-			"bytes": 53709,
+			"bytes": 74181,
 			"encoding": "identity",
-			"sha256": "78e19092085591c86c2e993f506d0dd7d9d0bc8adc562ade478fa87adfa33890"
+			"sha256": "3f43c9126d19c6d3c9112ad9263229f98054bc6097f4dd4365062d8776f75872"
 		}
 	}
 }

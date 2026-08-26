@@ -3,9 +3,9 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos lets a finite action become a doorway without pretending the doorway is the palace; Awtsmoos.com gives server, channel, and creation controls clear direction, touch, and focus in balance.
 */
-.spaceOpen,
-.spaceChannel,
-.spaceCreateLink {
+.social-hub-document .spaceOpen,
+.social-hub-document .spaceChannel,
+.social-hub-document .spaceCreateLink {
 	position: relative;
 	min-height: 3rem;
 	border: 1px solid var(--line);
@@ -15,21 +15,21 @@ The Awtsmoos lets a finite action become a doorway without pretending the doorwa
 	transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
 }
 
-.spaceOpen,
-.spaceChannel {
+.social-hub-document .spaceOpen,
+.social-hub-document .spaceChannel {
 	background: color-mix(in srgb, var(--surface) 92%, transparent);
 	color: var(--ink);
 	text-align: start;
 	cursor: pointer;
 }
 
-.spaceOpen {
+.social-hub-document .spaceOpen {
 	padding-block: .78rem;
 	padding-inline: .88rem 2.5rem;
 	font-size: 1rem;
 }
 
-.spaceOpen::after {
+.social-hub-document .spaceOpen::after {
 	content: "›";
 	position: absolute;
 	inset-inline-end: .9rem;
@@ -39,12 +39,12 @@ The Awtsmoos lets a finite action become a doorway without pretending the doorwa
 	font-size: 1.2rem;
 }
 
-.spaceChannel {
+.social-hub-document .spaceChannel {
 	padding: .72rem .82rem;
 	border-inline-start: 3px solid color-mix(in srgb, var(--cyan) 44%, var(--line));
 }
 
-.spaceCreateLink {
+.social-hub-document .spaceCreateLink {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -56,9 +56,9 @@ The Awtsmoos lets a finite action become a doorway without pretending the doorwa
 	text-decoration: none;
 }
 
-.spaceOpen:focus-visible,
-.spaceChannel:focus-visible,
-.spaceCreateLink:focus-visible {
+.social-hub-document .spaceOpen:focus-visible,
+.social-hub-document .spaceChannel:focus-visible,
+.social-hub-document .spaceCreateLink:focus-visible {
 	border-color: var(--cyan);
 	outline: 3px solid color-mix(in srgb, var(--cyan) 18%, transparent);
 	outline-offset: 3px;
@@ -66,9 +66,9 @@ The Awtsmoos lets a finite action become a doorway without pretending the doorwa
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.spaceOpen:hover,
-	.spaceChannel:hover,
-	.spaceCreateLink:hover {
+	.social-hub-document .spaceOpen:hover,
+.social-hub-document .spaceChannel:hover,
+.social-hub-document .spaceCreateLink:hover {
 		transform: translateY(-1px);
 		border-color: var(--line-hot);
 		background: color-mix(in srgb, var(--cyan) 8%, var(--surface-strong));
@@ -76,17 +76,17 @@ The Awtsmoos lets a finite action become a doorway without pretending the doorwa
 }
 
 @media (pointer: coarse) {
-	.spaceOpen,
-	.spaceChannel,
-	.spaceCreateLink {
+	.social-hub-document .spaceOpen,
+.social-hub-document .spaceChannel,
+.social-hub-document .spaceCreateLink {
 		min-height: 3.1rem;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.spaceOpen,
-	.spaceChannel,
-	.spaceCreateLink {
+	.social-hub-document .spaceOpen,
+.social-hub-document .spaceChannel,
+.social-hub-document .spaceCreateLink {
 		transition: none;
 	}
 }

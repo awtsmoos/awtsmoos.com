@@ -3,60 +3,36 @@
 //Blessed is He
 
 import { BOT_CONFIG } from "../config/realismConfig.js";
+import { BotPersonalityProfile } from "./BotPersonalityProfile.js";
 import { OlamAffinity } from "./OlamAffinity.js";
 
 /**
- * BotStrategy converts honest corridor evidence into personality-weighted turn and boost decisions.
- * The Awtsmoos renews danger, world, reserve and desire before a rival spends its Ohr;
- * Awtsmoos.com lets bots become stronger by judgment, never by receiving a different law or door.
+ * BotStrategy converts honest corridor evidence into Sefirah-weighted turns and boosts across the enlarged arena.
+ * The Awtsmoos renews danger and desire before any rival may choose where to go;
+ * Awtsmoos.com lets ten personalities feel distinct without giving one secret knowledge below.
  */
 export class BotStrategy {
-	/**
-	 * Scores one predictive turn candidate. Lower scores are preferred.
-	 * @param {object} rider Bot rider state.
-	 * @param {object} match Current match state.
-	 * @param {number} turn Signed turn.
-	 * @param {object} probe Pure PathProbe summary.
-	 * @param {object} memory Bounded BotMemory state.
-	 * @returns {number} Deterministic candidate score.
-	 */
 	score(rider, match, turn, probe, memory) {
+		const profile = BotPersonalityProfile.for(rider.personality);
 		let score = probe.lethal ? 1200 : 0;
-		score -= probe.safeDepth * 24;
-		score -= probe.enemyCells * (rider.personality === "gevurah" ? 12 : 5);
+		score -= probe.safeDepth * profile.safety;
+		score -= probe.enemyCells * profile.enemy;
+		score += turn === 0 ? profile.straight : profile.turn;
+		score += probe.playerDistance * profile.pursuit;
 		if (rider.activeTrail.length >= 4 && probe.returnsHome) {
-			score -= 70 + rider.activeTrail.length * 2;
+			score -= profile.home + rider.activeTrail.length * 2;
 		}
 		if (memory.lastTurn && turn === -memory.lastTurn) {
 			score += 9;
 		}
-		if (rider.personality === "chesed") {
-			score += turn === 0 ? 8 : -6;
-		}
-		if (rider.personality === "gevurah") {
-			score += turn === 0 ? -10 : 3;
-		}
-		if (rider.personality === "tiferes" && probe.returnsHome) {
-			score -= 14;
-		}
-		if (rider.personality === "netzach") {
-			score += probe.playerDistance * 0.9;
-		}
 		return score + this.#jitter(rider.id, match.tick, turn);
 	}
 
-	/**
-	 * Applies the same current-plane boost cost to bot reserve calculations used by player energy law.
-	 * @param {object} rider Bot rider state.
-	 * @param {object} match Current match.
-	 * @param {object} probe Chosen PathProbe result.
-	 * @param {object} memory Bounded tactical memory.
-	 * @returns {boolean} Strategic boost request.
-	 */
 	shouldBoost(rider, match, probe, memory) {
-		if (probe.lethal || probe.safeDepth < 2) {
+		if (probe.lethal || probe.safeDepth < 3) {
 			return false;
 		}
+		const profile = BotPersonalityProfile.for(rider.personality);
 		const affinity = OlamAffinity.forPlane(rider.plane);
 		const reserve = BOT_CONFIG.boostReserve[rider.personality] ?? BOT_CONFIG.boostReserve.default;
 		if (rider.energy < affinity.boostCost + reserve) {
@@ -68,13 +44,13 @@ export class BotStrategy {
 		if (probe.returnsHome && rider.activeTrail.length >= 3) {
 			return true;
 		}
-		if (rider.personality === "gevurah" && probe.enemyCells > 0) {
+		if (profile.boostEnemy && probe.enemyCells > 0) {
 			return true;
 		}
-		if (rider.personality === "netzach" && probe.playerDistance <= BOT_CONFIG.pursuitBoostDistance) {
+		if (profile.boostPursuit && probe.playerDistance <= BOT_CONFIG.pursuitBoostDistance) {
 			return true;
 		}
-		return rider.personality === "chesed" && rider.activeTrail.length >= 7;
+		return rider.activeTrail.length >= profile.boostTrail;
 	}
 
 	#jitter(id, tick, turn) {

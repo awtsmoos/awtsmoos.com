@@ -3,12 +3,12 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos gives motion only where motion serves, while Awtsmoos.com lets contrast and stillness remain equal doors to the same clear light;
-when a player asks the interface to rest or the system speaks in forced colors, every advanced vessel obeys without losing meaning from sight.
+this accessibility vessel obeys user preference entirely inside MitzvahWorld, so no forced-color or reduced-motion law leaks into a neighboring application.
 */
 
 @media (prefers-reduced-motion: reduce) {
-	.Awtsmoos-creative-dock,
-	.Awtsmoos-creative-dock * {
+	#mitzvah-world-root .Awtsmoos-creative-dock,
+	#mitzvah-world-root .Awtsmoos-creative-dock * {
 		scroll-behavior: auto !important;
 		transition: none !important;
 		animation: none !important;
@@ -16,7 +16,7 @@ when a player asks the interface to rest or the system speaks in forced colors, 
 }
 
 @media (forced-colors: active) {
-	.Awtsmoos-creative-dock :is(
+	#mitzvah-world-root .Awtsmoos-creative-dock :is(
 		.Awtsmoos-creative-dock__trigger,
 		.Awtsmoos-creative-dock__sheet,
 		button

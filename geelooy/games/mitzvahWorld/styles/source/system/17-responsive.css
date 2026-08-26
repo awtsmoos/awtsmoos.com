@@ -1,0 +1,54 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives every finite screen room to breathe; Awtsmoos.com guards touch, focus, contrast, safe areas, and reduced motion without making accessibility another global stylesheet.
+*/
+
+@media (pointer: coarse), (max-width: 760px) {
+	#mitzvah-world-root :is(button, input, select, textarea, summary, [role="button"]) {
+		min-block-size: var(--mw-control-min);
+		min-inline-size: var(--mw-control-min);
+	}
+
+	#mitzvah-world-root :is([role="dialog"], [data-panel]) {
+		max-block-size: calc(100dvh - var(--mw-safe-top) - var(--mw-safe-bottom) - 8px);
+		max-inline-size: calc(100dvw - var(--mw-safe-left) - var(--mw-safe-right) - 8px);
+		overflow: auto;
+		overscroll-behavior: contain;
+	}
+
+	#mitzvah-world-root .Awtsmoos-creative-dock__sheet {
+		inset-inline: var(--mw-safe-left) var(--mw-safe-right);
+		inline-size: auto;
+		border-radius: var(--mw-radius-lg);
+	}
+
+	#mitzvah-world-root .inv-body {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	#mitzvah-world-root [data-hud-rail] {
+		max-block-size: calc(100dvh - var(--mw-safe-top) - var(--mw-safe-bottom));
+		overflow: auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root *,
+	#mitzvah-world-root *::before,
+	#mitzvah-world-root *::after {
+		animation: none;
+		scroll-behavior: auto;
+		transition-duration: 0.01ms;
+	}
+}
+
+@media (prefers-contrast: more), (forced-colors: active) {
+	#mitzvah-world-root :is(button, input, select, textarea, [role="dialog"], [data-panel]) {
+		border-width: 2px;
+		border-color: currentColor;
+	}
+}

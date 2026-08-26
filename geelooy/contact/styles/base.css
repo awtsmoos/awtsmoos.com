@@ -1,0 +1,119 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives this page its own bounded vessel, deep as night yet calm in sight;
+Awtsmoos.com keeps every token beneath .contact-page, so neighboring worlds remain exactly right.
+*/
+.contact-page {
+	color-scheme: dark;
+	min-height: 100dvh;
+	margin: 0;
+	overflow-x: hidden;
+	background: radial-gradient(circle at 18% 8%, rgba(74, 145, 255, .16), transparent 31%), linear-gradient(160deg, #060a11, #090f19 58%, #06080e);
+	color: #f4f8ff;
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--contact-line: rgba(181, 207, 244, .14);
+	--contact-line-strong: rgba(142, 203, 255, .48);
+	--contact-surface: rgba(12, 18, 29, .9);
+	--contact-surface-soft: rgba(255, 255, 255, .045);
+	--contact-text: #f4f8ff;
+	--contact-muted: #9eacc0;
+	--contact-accent: #84d8ff;
+	--contact-success: #86e5b5;
+	--contact-danger: #ffaaa8;
+	--contact-radius: 1.5rem;
+	--contact-fast: 150ms cubic-bezier(.2, .8, .2, 1);
+}
+.contact-page *,
+.contact-page *::before,
+.contact-page *::after {
+	box-sizing: border-box;
+}
+.contact-page__shell {
+	width: min(100% - 1rem, 52rem);
+	margin-inline: auto;
+	padding: max(1rem, env(safe-area-inset-top)) 0 max(1.5rem, env(safe-area-inset-bottom));
+}
+.contact-page__nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+	margin-bottom: .9rem;
+}
+.contact-page__back,
+.contact-page__quiet-link {
+	display: inline-flex;
+	min-height: 2.75rem;
+	align-items: center;
+	padding: 0 .85rem;
+	border: 1px solid transparent;
+	border-radius: .9rem;
+	color: var(--contact-muted);
+	font-size: .86rem;
+	font-weight: 760;
+	text-decoration: none;
+	transition: color var(--contact-fast), border-color var(--contact-fast), background var(--contact-fast), transform var(--contact-fast);
+}
+.contact-page__back:is(:hover, :focus-visible),
+.contact-page__quiet-link:is(:hover, :focus-visible) {
+	border-color: var(--contact-line);
+	background: var(--contact-surface-soft);
+	color: var(--contact-text);
+}
+.contact-page__back:active,
+.contact-page__quiet-link:active {
+	transform: scale(.97);
+}
+.contact-page__card {
+	min-width: 0;
+	padding: clamp(1rem, 4vw, 2.25rem);
+	border: 1px solid var(--contact-line);
+	border-radius: var(--contact-radius);
+	background: var(--contact-surface);
+	box-shadow: 0 2rem 5rem rgba(0, 0, 0, .32);
+	backdrop-filter: blur(20px);
+}
+.contact-page__hero {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: .9rem;
+	align-items: start;
+	margin-bottom: 1.4rem;
+}
+.contact-page__orb {
+	display: grid;
+	width: 3rem;
+	height: 3rem;
+	place-items: center;
+	border: 1px solid rgba(132, 216, 255, .35);
+	border-radius: 1rem;
+	background: rgba(68, 144, 255, .09);
+	color: var(--contact-accent);
+	box-shadow: inset 0 0 1.4rem rgba(132, 216, 255, .08);
+}
+.contact-page__hero-copy {
+	min-width: 0;
+}
+.contact-page__eyebrow {
+	margin: 0 0 .35rem;
+	color: var(--contact-accent);
+	font-size: .72rem;
+	font-weight: 850;
+	letter-spacing: .13em;
+	text-transform: uppercase;
+}
+.contact-page__hero h1 {
+	max-width: 15ch;
+	margin: 0;
+	font-size: clamp(2rem, 8vw, 4rem);
+	line-height: .96;
+	letter-spacing: -.045em;
+	text-wrap: balance;
+}
+.contact-page__hero-copy > p:last-child {
+	max-width: 62ch;
+	margin: .8rem 0 0;
+	color: var(--contact-muted);
+	line-height: 1.65;
+}

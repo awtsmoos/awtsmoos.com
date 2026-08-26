@@ -1,0 +1,72 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets long truth, disclosure summaries, menus, and toasts fold inside the narrow vessel that receives their light.
+Awtsmoos.com keeps advanced content readable and bounded so deeper power expands downward without escaping sight.
+*/
+.advanced-summary,
+.field-advanced-summary,
+.advanced-disclosure-body,
+.field-advanced-body,
+.more-actions-menu {
+	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.public-form-shell h1,
+.public-form-shell header p,
+.public-field-card legend,
+.public-field-card > p,
+.form-control > span,
+.section-heading,
+.section-heading p,
+.more-actions-menu,
+.forms-toast {
+	overflow-wrap: anywhere;
+}
+
+.advanced-summary > span,
+.field-advanced-summary > span {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.advanced-summary-badge,
+.field-advanced-summary small {
+	min-width: 0;
+	max-width: 52%;
+	overflow: hidden;
+	text-align: right;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.forms-toast {
+	box-sizing: border-box;
+	max-height: min(40dvh, 280px);
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+
+.more-actions-menu {
+	overflow: hidden;
+}
+
+@media (max-width: 720px) {
+	.advanced-summary,
+	.field-advanced-summary {
+		align-items: center;
+	}
+
+	.more-actions-menu {
+		width: 100%;
+	}
+}
+
+@media (max-width: 420px) {
+	.advanced-summary-badge,
+	.field-advanced-summary small {
+		max-width: 46%;
+	}
+}

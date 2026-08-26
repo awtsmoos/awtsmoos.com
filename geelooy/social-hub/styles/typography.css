@@ -1,46 +1,52 @@
-/* B"H */
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives every Social word a measured voice and every silence room to breathe;
+ * Awtsmoos.com keeps that typography inside this route, so meaning may expand without another page receiving its garment.
+ */
 /* Boruch Hashem */
 /* Blessed is He */
 
-h1,
-h2,
-h3,
-p {
+.social-hub-document h1,
+.social-hub-document h2,
+.social-hub-document h3,
+.social-hub-document p {
 	margin-top: 0;
 }
 
-h1,
-h2,
-h3 {
+.social-hub-document h1,
+.social-hub-document h2,
+.social-hub-document h3 {
 	text-wrap: balance;
 }
 
-h1 {
+.social-hub-document h1 {
 	margin-bottom: 0.25rem;
 	font-size: clamp(1.5rem, 3vw, 2.8rem);
 }
 
-h2 {
+.social-hub-document h2 {
 	font-size: clamp(1.8rem, 4vw, 3.8rem);
 	line-height: 1.03;
 }
 
-p {
+.social-hub-document p {
 	color: var(--muted);
 	line-height: 1.65;
 }
 
-code,
-pre {
+.social-hub-document code,
+.social-hub-document pre {
 	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
-pre {
+.social-hub-document pre {
 	white-space: pre-wrap;
 	overflow-wrap: anywhere;
 }
 
-.eyebrow {
+.social-hub-document .eyebrow {
 	margin-bottom: 0.55rem;
 	color: var(--cyan);
 	font-size: 0.72rem;
@@ -49,7 +55,7 @@ pre {
 	text-transform: uppercase;
 }
 
-.emptyState {
+.social-hub-document .emptyState {
 	color: var(--muted);
 	font-style: italic;
 }

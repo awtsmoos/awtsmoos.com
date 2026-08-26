@@ -1,0 +1,67 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews rest, approach, focus, action, and disability while no control remains visually half-created in sight.
+Awtsmoos.com lets the INTEL gate answer every relevant interaction with restrained futuristic precision instead of noisy permanent light.
+*/
+.ohrfront-app .ohr-intel__toggle {
+	transition:
+		transform var(--ohr-fast) var(--ohr-ease),
+		border-color var(--ohr-fast) linear,
+		background-color var(--ohr-fast) linear,
+		box-shadow var(--ohr-fast) linear,
+		color var(--ohr-fast) linear,
+		opacity var(--ohr-fast) linear;
+}
+
+.ohrfront-app .ohr-intel__toggle:hover:not(:disabled) {
+	border-color: rgba(121, 231, 236, 0.6);
+	color: var(--ohr-text);
+	background: rgba(10, 23, 24, 0.92);
+	box-shadow: 0 0 0 1px rgba(121, 231, 236, 0.08), 0 10px 28px rgba(0, 0, 0, 0.24);
+}
+
+.ohrfront-app .ohr-intel__toggle:focus-visible {
+	outline: 2px solid var(--ohr-energy);
+	outline-offset: 3px;
+	border-color: var(--ohr-energy);
+	color: var(--ohr-text);
+	box-shadow: 0 0 0 5px rgba(121, 231, 236, 0.14);
+}
+
+.ohrfront-app .ohr-intel__toggle:active:not(:disabled) {
+	transform: translate3d(0, 1px, 0) scale(0.985);
+	background: rgba(15, 31, 32, 0.98);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+}
+
+.ohrfront-app .ohr-intel__toggle:disabled {
+	cursor: not-allowed;
+	opacity: 0.45;
+	filter: saturate(0.5);
+}
+
+.ohrfront-app .ohr-hud.ohr-is-expanded .ohr-intel__toggle {
+	border-color: rgba(121, 231, 236, 0.72);
+	color: var(--ohr-text);
+	background: rgba(10, 28, 29, 0.94);
+}
+
+@media (pointer: coarse) {
+	.ohrfront-app .ohr-intel__toggle {
+		min-height: 48px;
+		padding-block: 11px;
+	}
+}
+
+@media (prefers-contrast: more) {
+	.ohrfront-app .ohr-intel__toggle,
+	.ohrfront-app .ohr-intel__panel {
+		border-color: var(--ohr-text);
+	}
+
+	.ohrfront-app .ohr-intel__toggle:focus-visible {
+		outline-width: 3px;
+		box-shadow: none;
+	}
+}

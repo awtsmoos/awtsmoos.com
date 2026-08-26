@@ -1,115 +1,12 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets a command sheet appear as a focused instrument, not permanent clutter;
-Awtsmoos.com gives keyboard and thumb the same searchable creator current with accessible structure.
+
+The Awtsmoos gathers creator command search from small complete vessels instead of one crowded stylesheet.
+Awtsmoos.com separates shell geometry, interaction, option states, responsive sheet behavior, and accessibility so keyboard, mouse, and thumb never fight in the cascade.
 */
-.creatorCommandLauncher {
-	position: fixed;
-	z-index: 34;
-	right: max(16px, env(safe-area-inset-right));
-	bottom: max(16px, env(safe-area-inset-bottom));
-	min-height: 46px;
-	padding-inline: .9rem;
-	border: 1px solid #4b6a78;
-	border-radius: 14px;
-	color: #eaf8fb;
-	background: #13212a;
-	box-shadow: 0 14px 38px rgb(0 0 0 / 30%);
-}
-.creatorPalette {
-	width: min(640px, calc(100% - 2rem));
-	max-height: min(76vh, 700px);
-	padding: 0;
-	border: 1px solid #405b69;
-	border-radius: 22px;
-	color: #f3f8fa;
-	background: #101b23;
-}
-.creatorPalette::backdrop {
-	background: rgb(0 5 9 / 68%);
-}
-.creatorPaletteShell {
-	display: grid;
-	gap: .75rem;
-	max-height: inherit;
-	padding: 1rem;
-	overflow: hidden;
-	overscroll-behavior: contain;
-}
-.creatorPaletteShell header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
-}
-.creatorPaletteShell input {
-	min-height: 48px;
-	border: 1px solid #36505d;
-	border-radius: 13px;
-	padding: .7rem .85rem;
-	color: inherit;
-	background: #091319;
-	font: inherit;
-}
-.creatorPaletteClose {
-	width: 46px;
-	min-height: 46px;
-	border-radius: 50%;
-	color: inherit;
-	background: #1b2b34;
-}
-.creatorPaletteGrab {
-	display: none;
-	min-height: 18px;
-	border: 0;
-	background: transparent;
-}
-.creatorCommandList {
-	display: grid;
-	gap: .35rem;
-	overflow: auto;
-}
-.creatorCommand {
-	justify-content: flex-start;
-	min-height: 48px;
-	border: 1px solid transparent;
-	border-radius: 12px;
-	padding: .65rem .75rem;
-	color: #dbe8ed;
-	background: #14222b;
-	text-align: left;
-}
-.creatorCommand[data-active="true"] {
-	border-color: #74d8df;
-	background: #1a3038;
-}
-@media (max-width: 620px) {
-	.creatorPalette {
-		width: 100%;
-		max-width: none;
-		max-height: 82dvh;
-		margin: auto 0 0;
-		border-width: 1px 0 0;
-		border-radius: 24px 24px 0 0;
-	}
-	.creatorPaletteShell {
-		padding-bottom: max(1rem, env(safe-area-inset-bottom));
-	}
-	.creatorPaletteGrab {
-		display: block;
-	}
-}
-@media (prefers-reduced-motion: reduce) {
-	.creatorCommandLauncher,
-	.creatorCommand {
-		transition: none;
-	}
-}
-@media (forced-colors: active) {
-	.creatorPalette,
-	.creatorCommand,
-	.creatorCommandLauncher {
-		border: 1px solid ButtonText;
-	}
-}
+@import url("./command-palette-shell.css?v=creator-commands-003");
+@import url("./command-palette-interaction.css?v=creator-commands-003");
+@import url("./command-palette-options.css?v=creator-commands-002");
+@import url("./command-palette-responsive.css?v=creator-commands-002");
+@import url("./command-palette-accessibility.css?v=creator-commands-002");

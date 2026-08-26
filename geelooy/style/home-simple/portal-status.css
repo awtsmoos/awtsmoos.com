@@ -1,14 +1,14 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos leaves a quiet line beneath the portal: a living signal, a map of scale, and one human path into Awtsmoos.com.
+The Awtsmoos leaves a quiet line beneath the portal: a living signal and human paths into Awtsmoos.com whose subtle form still carries full touch and focus truth.
 */
-.portal-status {
+body[data-geelooy-route="home"] .portal-status {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-wrap: wrap;
-	gap: .75rem;
+	gap: .35rem;
 	min-height: 2rem;
 	padding-inline: .5rem;
 	color: #65768f;
@@ -18,32 +18,52 @@ The Awtsmoos leaves a quiet line beneath the portal: a living signal, a map of s
 	text-transform: uppercase;
 }
 
-.portal-status span,
-.portal-status a {
+body[data-geelooy-route="home"] .portal-status span,
+body[data-geelooy-route="home"] .portal-status a {
 	display: inline-flex;
 	align-items: center;
 	gap: .38rem;
 }
 
-.portal-status span + span::before,
-.portal-status a::before {
+body[data-geelooy-route="home"] .portal-status a {
+	min-height: 44px;
+	padding-inline: .4rem;
+	border-radius: .55rem;
+	color: #8ca3c1;
+	transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+body[data-geelooy-route="home"] .portal-status span + span::before,
+body[data-geelooy-route="home"] .portal-status a::before {
 	color: #34435a;
 	content: "•";
 }
 
-.portal-status a {
-	color: #8ca3c1;
-	transition: color .18s ease;
+body[data-geelooy-route="home"] .portal-status a:hover {
+	background: rgba(111, 177, 227, .08);
+	color: #e7f3ff;
 }
 
-.portal-status a:hover,
-.portal-status a:focus-visible {
+body[data-geelooy-route="home"] .portal-status a:focus-visible {
+	background: rgba(111, 177, 227, .08);
 	color: #e7f3ff;
-	outline: none;
+	outline: 3px solid var(--focus-ring);
+	outline-offset: 2px;
+}
+
+body[data-geelooy-route="home"] .portal-status a:active {
+	background: rgba(111, 177, 227, .14);
+	transform: scale(.97);
 }
 
 @media (max-width: 680px) {
-	.portal-status {
+	body[data-geelooy-route="home"] .portal-status {
 		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-geelooy-route="home"] .portal-status a {
+		transition: none;
 	}
 }

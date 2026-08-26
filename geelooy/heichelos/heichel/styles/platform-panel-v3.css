@@ -1,66 +1,69 @@
 /*B"H*/
 /*Boruch Hashem*/
 /*Blessed is He*/
-/** The Awtsmoos contains operational depth behind one quiet threshold; Awtsmoos.com keeps Platform powerful, mobile, and out of the way. */
+/** The Awtsmoos contains operational depth behind one quiet threshold; Awtsmoos.com keeps Advanced powerful, bounded, tactile, and clear of mobile navigation. */
 .awtsmoos-platform-panel {
 	position: fixed;
-	right: 14px;
-	bottom: max(14px, env(safe-area-inset-bottom));
 	z-index: 90;
-	width: min(420px, calc(100vw - 28px));
+	inset-inline-end: max(.85rem, env(safe-area-inset-right));
+	inset-block-end: max(.85rem, env(safe-area-inset-bottom));
+	box-sizing: border-box;
+	inline-size: min(26.25rem, calc(100vw - 1.7rem));
+	max-inline-size: calc(100vw - 1.7rem);
+	max-block-size: calc(100dvh - max(1.7rem, env(safe-area-inset-top)) - max(1.7rem, env(safe-area-inset-bottom)));
 	border: 1px solid var(--social-line, rgba(148,163,184,.22));
-	border-radius: 22px;
-	background: color-mix(in srgb, Canvas 91%, transparent);
-	box-shadow: 0 18px 70px rgba(0,0,0,.22);
+	border-radius: 1.35rem;
+	background: color-mix(in srgb, Canvas 93%, transparent);
+	box-shadow: 0 20px 72px rgba(0,0,0,.24);
 	backdrop-filter: blur(18px) saturate(120%);
 }
 .awtsmoos-platform-panel:not([open]) {
-	width: auto;
-	max-width: calc(100vw - 28px);
+	inline-size: auto;
+	max-inline-size: calc(100vw - 1.7rem);
 	border-radius: 999px;
 }
 .awtsmoos-platform-panel > .awtsmoosDisclosure__summary {
-	min-width: 112px;
+	min-inline-size: 7rem;
+	min-block-size: 46px;
 }
 .awtsmoos-platform-body {
 	display: grid;
-	gap: 12px;
-	max-height: min(72vh, 680px);
+	gap: .75rem;
+	min-inline-size: 0;
+	max-block-size: min(68dvh, 42rem);
+	padding-inline: .15rem;
 	overflow: auto;
-	padding-inline: 2px;
+	overscroll-behavior: contain;
 }
-.awtsmoos-platform-body header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
-}
-.awtsmoos-platform-body header > div {
-	display: grid;
-	gap: 2px;
-}
+.awtsmoos-platform-body header,
 .awtsmoos-platform-search {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
-	gap: 7px;
+	gap: .45rem;
+	min-inline-size: 0;
+}
+.awtsmoos-platform-body header {
+	grid-template-columns: minmax(0,1fr) auto;
+	align-items: center;
+}
+.awtsmoos-platform-search {
+	grid-template-columns: minmax(0,1fr) auto;
 }
 .awtsmoos-platform-search input,
 .awtsmoos-platform-search button,
 .awtsmoos-platform-action {
-	min-height: 44px;
-	border-radius: 13px;
+	min-inline-size: 0;
+	min-block-size: 44px;
+	border: 1px solid var(--social-line, currentColor);
+	border-radius: .8rem;
 	font: inherit;
 }
 .awtsmoos-platform-search input {
-	min-width: 0;
-	padding: 9px 11px;
-	border: 1px solid var(--social-line, currentColor);
+	padding: .58rem .7rem;
 	background: Canvas;
 	color: CanvasText;
 }
 .awtsmoos-platform-search button,
 .awtsmoos-platform-action {
-	border: 1px solid var(--social-line, currentColor);
 	background: var(--social-soft, color-mix(in srgb, CanvasText 6%, Canvas));
 	color: inherit;
 	font-weight: 740;
@@ -68,47 +71,33 @@
 }
 .awtsmoos-platform-actions {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: 7px;
+	grid-template-columns: repeat(4,minmax(0,1fr));
+	gap: .45rem;
 }
-.awtsmoos-platform-actions--advanced {
-	grid-template-columns: repeat(2, minmax(0, 1fr));
+.awtsmoos-platform-actions--advanced { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.awtsmoos-platform-output { min-block-size: 5.25rem; padding-block-start: .5rem; border-block-start: 1px solid var(--social-line,currentColor); }
+.awtsmoos-platform-list { display: grid; gap: .4rem; min-inline-size: 0; }
+.awtsmoos-platform-card { min-inline-size: 0; padding: .58rem .65rem; overflow-wrap: anywhere; border-radius: .75rem; background: var(--social-soft,color-mix(in srgb,CanvasText 6%,Canvas)); font-size: .8rem; }
+.awtsmoos-platform-error { color: #dc2626; }
+@media (hover:hover) and (pointer:fine) {
+	.awtsmoos-platform-search button:hover,
+	.awtsmoos-platform-action:hover { transform: translateY(-1px); background: var(--social-strong,color-mix(in srgb,CanvasText 10%,Canvas)); }
 }
-.awtsmoos-platform-output {
-	min-height: 84px;
-	padding-top: 8px;
-	border-top: 1px solid var(--social-line, currentColor);
-}
-.awtsmoos-platform-list {
-	display: grid;
-	gap: 6px;
-}
-.awtsmoos-platform-card {
-	padding: 9px 10px;
-	border-radius: 12px;
-	background: var(--social-soft, color-mix(in srgb, CanvasText 6%, Canvas));
-	font-size: .8rem;
-}
-.awtsmoos-platform-error {
-	color: #dc2626;
-}
-@media (max-width: 620px) {
+.awtsmoos-platform-search button:active,
+.awtsmoos-platform-action:active { transform: scale(.97); }
+.awtsmoos-platform-search :focus-visible,
+.awtsmoos-platform-action:focus-visible { outline: 2px solid var(--social-focus,#67e8f9); outline-offset: 2px; }
+@media (max-width:38.75rem) {
 	.awtsmoos-platform-panel {
-		left: 10px;
-		right: 10px;
-		bottom: max(10px, env(safe-area-inset-bottom));
-		width: auto;
+		inset-inline: max(.6rem,env(safe-area-inset-left)) max(.6rem,env(safe-area-inset-right));
+		inset-block-end: calc(5rem + max(.6rem,env(safe-area-inset-bottom)));
+		inline-size: auto;
+		max-inline-size: none;
+		max-block-size: calc(100dvh - 6.5rem - max(1rem,env(safe-area-inset-top)) - max(.6rem,env(safe-area-inset-bottom)));
 	}
-	.awtsmoos-platform-panel:not([open]) {
-		left: auto;
-		width: auto;
-	}
-	.awtsmoos-platform-actions {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
+	.awtsmoos-platform-panel:not([open]) { inset-inline-start: auto; inline-size: auto; }
+	.awtsmoos-platform-body { max-block-size: min(60dvh,32rem); }
+	.awtsmoos-platform-actions { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
-@media (prefers-reduced-motion: reduce) {
-	.awtsmoos-platform-panel {
-		backdrop-filter: none;
-	}
-}
+@media (prefers-reduced-transparency:reduce) { .awtsmoos-platform-panel { backdrop-filter: none; background: Canvas; } }
+@media (prefers-reduced-motion:reduce) { .awtsmoos-platform-panel *, .awtsmoos-platform-panel *::before { transition: none; animation: none; } }

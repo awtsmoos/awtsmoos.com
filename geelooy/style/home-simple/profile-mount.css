@@ -3,9 +3,9 @@ Boruch Hashem
 Blessed is He
 The Awtsmoos gives identity one compact crown and one viewport-bounded chamber, preventing the profile vessel from swallowing the Awtsmoos.com mobile header.
 */
-.profile-mount {
+body[data-geelooy-route="home"] .profile-mount {
 	position: relative;
-	z-index: 5000;
+	z-index: var(--home-layer-profile);
 	grid-area: profile;
 	justify-self: end;
 	width: max-content;
@@ -13,14 +13,14 @@ The Awtsmoos gives identity one compact crown and one viewport-bounded chamber, 
 	max-width: 190px;
 }
 
-.profile-mount .awtsmoosDrop,
-.profile-mount .loggedIn,
-.profile-mount .notLoggedIn {
+body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop,
+body[data-geelooy-route="home"] .profile-mount .loggedIn,
+body[data-geelooy-route="home"] .profile-mount .notLoggedIn {
 	width: max-content;
 	max-width: 100%;
 }
 
-.profile-mount .profile-trigger {
+body[data-geelooy-route="home"] .profile-mount .profile-trigger {
 	width: auto;
 	min-width: 42px;
 	max-width: 190px;
@@ -28,17 +28,17 @@ The Awtsmoos gives identity one compact crown and one viewport-bounded chamber, 
 	padding-block: 4px;
 }
 
-.profile-mount .awtsmoosDrop {
-	z-index: 5000;
+body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop {
+	z-index: var(--home-layer-profile);
 }
 
-.profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
+body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
 	position: fixed !important;
 	top: max(4.75rem, calc(env(safe-area-inset-top) + 4.35rem)) !important;
 	right: max(.75rem, env(safe-area-inset-right)) !important;
 	bottom: auto !important;
 	left: auto !important;
-	z-index: 5200;
+	z-index: var(--home-layer-profile-dialog);
 	align-content: start;
 	width: min(25rem, calc(100vw - 1.5rem)) !important;
 	min-width: 0 !important;
@@ -47,27 +47,27 @@ The Awtsmoos gives identity one compact crown and one viewport-bounded chamber, 
 	overscroll-behavior: contain;
 }
 
-.profile-mount .awtsmoos-dropdown-backdrop {
+body[data-geelooy-route="home"] .profile-mount .awtsmoos-dropdown-backdrop {
 	position: fixed;
 	inset: 0;
-	z-index: 5100;
+	z-index: var(--home-layer-profile-backdrop);
 }
 
-body[data-awtsmoos-profile-open="true"] {
+body[data-geelooy-route="home"][data-awtsmoos-profile-open="true"] {
 	overflow: hidden;
 }
 
 @media (max-width: 760px) {
-	.profile-mount,
-	.profile-mount .awtsmoosDrop,
-	.profile-mount .loggedIn,
-	.profile-mount .notLoggedIn {
+	body[data-geelooy-route="home"] .profile-mount,
+body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop,
+body[data-geelooy-route="home"] .profile-mount .loggedIn,
+body[data-geelooy-route="home"] .profile-mount .notLoggedIn {
 		width: 42px;
 		min-width: 42px;
 		max-width: 42px;
 	}
 
-	.profile-mount .profile-trigger {
+	body[data-geelooy-route="home"] .profile-mount .profile-trigger {
 		width: 42px;
 		min-width: 42px;
 		max-width: 42px;
@@ -76,14 +76,14 @@ body[data-awtsmoos-profile-open="true"] {
 		padding: 4px;
 	}
 
-	.profile-mount .profile-trigger-copy,
-	.profile-mount .profile-chevron {
+	body[data-geelooy-route="home"] .profile-mount .profile-trigger-copy,
+body[data-geelooy-route="home"] .profile-mount .profile-chevron {
 		display: none;
 	}
 }
 
 @media (max-width: 680px) {
-	.profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
+	body[data-geelooy-route="home"] .profile-mount .awtsmoosDrop .dropdown-content:not(.alias-switcher) {
 		top: max(4.35rem, calc(env(safe-area-inset-top) + 4.1rem)) !important;
 		right: max(.5rem, env(safe-area-inset-right)) !important;
 		bottom: max(.5rem, env(safe-area-inset-bottom)) !important;

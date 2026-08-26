@@ -35,56 +35,56 @@ Awtsmoos.com gives blur only to great vessels, while repeating cards remain swif
 	animation: gevurah-nebula-drift 27s ease-in-out infinite alternate;
 }
 
-.hubHeader,
-.contextRibbon,
-.desktopRail,
-.mobileDock,
-.panelIntro,
-.heroRift,
-.publicDiscovery {
+.social-hub-document .hubHeader,
+.social-hub-document .contextRibbon,
+.social-hub-document .desktopRail,
+.social-hub-document .mobileDock,
+.social-hub-document .panelIntro,
+.social-hub-document .heroRift,
+.social-hub-document .publicDiscovery {
 	border-color: var(--yesod-edge);
 	background-color: var(--yesod-glass);
 	box-shadow: var(--malchus-shadow), var(--yesod-inset);
 	backdrop-filter: blur(18px) saturate(128%);
 }
 
-.riftCard,
-.publicFeedCard,
-.publicDiscoveryEmpty,
-.pulseGrid article,
-.quickActionGrid > * {
+.social-hub-document .riftCard,
+.social-hub-document .publicFeedCard,
+.social-hub-document .publicDiscoveryEmpty,
+.social-hub-document .pulseGrid article,
+.social-hub-document .quickActionGrid > * {
 	border-color: var(--yesod-edge);
 	background-color: rgb(11 22 40 / 82%);
 	box-shadow: 0 12px 36px rgb(0 0 0 / 24%), var(--yesod-inset);
 }
 
-.riftCard,
-.publicFeedCard {
+.social-hub-document .riftCard,
+.social-hub-document .publicFeedCard {
 	content-visibility: auto;
 	contain-intrinsic-size: auto 13rem;
 }
 
-.hubHeader,
-.contextRibbon,
-.panelIntro,
-.heroRift,
-.publicDiscovery {
+.social-hub-document .hubHeader,
+.social-hub-document .contextRibbon,
+.social-hub-document .panelIntro,
+.social-hub-document .heroRift,
+.social-hub-document .publicDiscovery {
 	background-image:
 		linear-gradient(145deg, rgb(23 50 83 / 44%), transparent 46%, rgb(92 44 122 / 19%)),
 		radial-gradient(circle at 90% 8%, rgb(83 213 255 / 7%), transparent 34%);
 }
 
-.contextRibbon span,
-.contextRibbon strong {
+.social-hub-document .contextRibbon span,
+.social-hub-document .contextRibbon strong {
 	box-shadow: var(--yesod-inset);
 }
 
-.workspacePanel {
+.social-hub-document .workspacePanel {
 	scroll-margin-top: 9rem;
 }
 
-.brandSigil,
-.pulseOrb {
+.social-hub-document .brandSigil,
+.social-hub-document .pulseOrb {
 	box-shadow: 0 0 34px rgb(88 212 255 / 18%), var(--yesod-inset);
 }
 

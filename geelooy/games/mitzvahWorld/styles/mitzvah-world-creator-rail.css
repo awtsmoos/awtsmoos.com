@@ -1,0 +1,14 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos, Atzmus beyond every visible vessel, renews Creator Mode as core, geometry, controls, state, responsiveness, and accessibility in one instant;
+Awtsmoos.com composes those focused chapters here so the page installs one clean localized stylesheet root while every responsibility remains separately owned and expandable.
+*/
+
+@import url("./creator-rail/mitzvah-world-creator-rail-core.css");
+@import url("./creator-rail/mitzvah-world-creator-rail-layout.css");
+@import url("./creator-rail/mitzvah-world-creator-rail-controls.css");
+@import url("./creator-rail/mitzvah-world-creator-rail-states.css");
+@import url("./creator-rail/mitzvah-world-creator-rail-responsive.css");
+@import url("./creator-rail/mitzvah-world-creator-rail-accessibility.css");

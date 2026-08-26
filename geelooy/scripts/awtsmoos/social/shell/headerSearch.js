@@ -1,103 +1,90 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @module GeelooyHeaderSearch
  * @description
- * The Awtsmoos opens one global lens whose ordinary submission reaches the Torah
- * library while route suggestions remain beside the living source search.
+ * The Awtsmoos joins one visible lens, one truthful route model, and one Torah doorway in a living stream;
+ * Awtsmoos.com keeps lifecycle separate from view construction and key motion so mobile clarity never becomes a crowded dream.
  */
 
+import { bindHeaderSearchKeyboard } from './headerSearchKeyboard.js';
 import { renderSearchSuggestions } from './headerSearchSuggestions.js';
+import { createHeaderSearchView } from './headerSearchView.js';
 
+/**
+ * Creates and binds the one canonical search/command doorway used by the shared Geelooy shell.
+ * @param {Document} root - Document whose crown receives the living search vessel.
+ * @returns {HTMLFormElement} The fully bound search form.
+ */
 export function createHeaderSearch(root = document) {
-	const form = root.createElement('form');
-	form.className = 'g-header-search geelooy-search';
-	form.action = '/mawgawl/sefarim';
-	form.method = 'get';
-	form.dataset.headerSearch = 'true';
-	form.setAttribute('role', 'search');
-	const orb = button(root, 'g-search-orb', 'Open search portal', '⌕');
-	orb.type = 'button';
-	const input = root.createElement('input');
-	input.type = 'search';
-	input.name = 'q';
-	input.autocomplete = 'off';
-	input.placeholder = 'Search Torah and Geelooy…';
-	input.setAttribute('aria-label', 'Search Torah sources and Geelooy routes');
-	const submit = button(root, 'g-search-submit', 'Search Torah library', '↵');
-	submit.type = 'submit';
-	const suggestions = root.createElement('section');
-	suggestions.className = 'g-search-suggestions';
-	suggestions.hidden = true;
-	suggestions.setAttribute('aria-label', 'Search suggestions');
-	form.append(orb, input, submit, suggestions);
-	bindSearch(form, input, orb, suggestions);
-	return form;
+	const view = createHeaderSearchView(root);
+	bindSearchLifecycle(view);
+	return view.form;
 }
 
+/**
+ * Focuses the existing global search so compatibility command triggers never create a duplicate system.
+ * @returns {boolean} Whether the canonical search doorway exists on the page.
+ */
 export function focusHeaderSearch() {
 	const form = document.querySelector('[data-header-search]');
 	const input = form?.querySelector('input[type="search"]');
-	if (!form || !input) return false;
-	openSearch(form, input);
+	const suggestions = form?.querySelector('.g-search-suggestions');
+	const orb = form?.querySelector('.g-search-orb');
+	if (!form || !input || !suggestions || !orb) return false;
+	openSearch({ form, input, suggestions, orb });
 	return true;
 }
 
-function bindSearch(form, input, orb, suggestions) {
+/**
+ * Binds open, close, rendering, submission, pointer-away, and keyboard lifecycle without owning element construction.
+ */
+function bindSearchLifecycle(view) {
+	const { form, input, orb, suggestions } = view;
 	const render = () => renderSearchSuggestions(suggestions, input.value);
-	orb.addEventListener('click', () => openSearch(form, input));
+	const open = () => openSearch(view);
+	const close = () => closeSearch(view);
+	orb.addEventListener('click', open);
 	input.addEventListener('focus', () => {
-		form.dataset.open = 'true';
+		setOpenState(view, true);
 		render();
 	});
 	input.addEventListener('input', render);
 	form.addEventListener('submit', event => {
 		if (input.value.trim()) return;
 		event.preventDefault();
-		openSearch(form, input);
+		open();
 	});
-	document.addEventListener('pointerdown', event => {
-		if (!form.contains(event.target)) closeSearch(form, suggestions);
+	form.ownerDocument.addEventListener('pointerdown', event => {
+		if (!form.contains(event.target)) close();
 	});
-	document.addEventListener('keydown', event => {
-		handleShortcut(event, form, input, suggestions);
-	});
+	bindHeaderSearchKeyboard({ form, input, suggestions, onOpen: open, onClose: close });
 }
 
-function handleShortcut(event, form, input, suggestions) {
-	const typing = event.target instanceof HTMLInputElement
-		|| event.target instanceof HTMLTextAreaElement
-		|| event.target?.isContentEditable;
-	if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-		event.preventDefault();
-		openSearch(form, input);
-	}
-	if (event.key === '/' && !typing) {
-		event.preventDefault();
-		openSearch(form, input);
-	}
-	if (event.key === 'Escape' && form.dataset.open === 'true') {
-		closeSearch(form, suggestions);
-	}
+/**
+ * Opens the search, refreshes canonical suggestions, and returns focus to the real field after layout settles.
+ */
+function openSearch(view) {
+	setOpenState(view, true);
+	renderSearchSuggestions(view.suggestions, view.input.value);
+	requestAnimationFrame(() => view.input.focus());
 }
 
-function openSearch(form, input) {
-	form.dataset.open = 'true';
-	requestAnimationFrame(() => input.focus());
-	input.dispatchEvent(new Event('input'));
+/**
+ * Closes only this search surface, preserving every unrelated app route, sheet, and conversation state.
+ */
+function closeSearch(view) {
+	setOpenState(view, false);
+	view.suggestions.hidden = true;
 }
 
-function closeSearch(form, suggestions) {
-	form.dataset.open = 'false';
-	suggestions.hidden = true;
-}
-
-function button(root, className, label, text) {
-	const element = root.createElement('button');
-	element.className = className;
-	element.setAttribute('aria-label', label);
-	element.textContent = text;
-	return element;
+/**
+ * Keeps DOM visibility and accessibility disclosure state synchronized from one finite boolean.
+ */
+function setOpenState({ form, input, orb }, open) {
+	form.dataset.open = String(open);
+	input.setAttribute('aria-expanded', String(open));
+	orb.setAttribute('aria-expanded', String(open));
 }

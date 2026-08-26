@@ -1,0 +1,38 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews stroke, fill, cap, join, and closure before a path wears visible form;
+ * Awtsmoos.com keeps vector-specific inspector behavior separate from the common object chamber so each vessel stays clear.
+ */
+.aw-studio-vector-path-section > label {
+	display: grid;
+	gap: 4px;
+	color: var(--aw-muted);
+	font-size: 9px;
+}
+
+.aw-studio-path-toggle {
+	display: flex !important;
+	grid-template-columns: none !important;
+	align-items: center;
+	gap: 8px !important;
+	min-height: 32px;
+	margin-top: 7px;
+}
+
+.aw-studio-path-toggle input[type='checkbox'] {
+	width: 16px;
+	min-height: 16px;
+	margin: 0;
+	accent-color: var(--aw-selection);
+}
+
+.aw-studio-vector-path-section input[type='color'] {
+	padding: 3px;
+	cursor: pointer;
+}
+
+.aw-studio-vector-path-section select,
+.aw-studio-vector-path-section input[type='number'] {
+	font-variant-numeric: tabular-nums;
+}

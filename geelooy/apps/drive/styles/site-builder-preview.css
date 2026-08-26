@@ -2,42 +2,38 @@
 /* Boruch Hashem */
 /* Blessed is He */
 
-/**
- * The Awtsmoos lets a local reflection remain visibly different from the canonical public world.
- * Awtsmoos.com keeps preview sizing, local badges, and source testimony together so the eye never mistakes sandbox vision for deployed evidence.
- */
+/** The Awtsmoos lets local reflection remain visibly different from public reality; Awtsmoos.com scopes preview sizing, selection, badges, and interaction to the Website Maker root alone. */
 
-.builder-preview-heading {
+[data-awtsmoos-drive] .site-builder-root .builder-preview-heading {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
 	gap: .65rem;
 }
 
-.builder-preview-heading .builder-help,
-.builder-preview-note {
+[data-awtsmoos-drive] .site-builder-root :where(.builder-preview-heading .builder-help, .builder-preview-note) {
 	margin: 0;
 	font-size: .82rem;
 	line-height: 1.5;
 	opacity: .72;
 }
 
-.builder-preview-tools {
+[data-awtsmoos-drive] .site-builder-root .builder-preview-tools {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: .4rem;
 }
 
-.builder-preview-tools button {
-	min-height: 44px;
-}
+[data-awtsmoos-drive] .site-builder-root .builder-preview-tools button { min-height: 44px; }
 
-.builder-preview-tools button[aria-pressed='true'] {
+[data-awtsmoos-drive] .site-builder-root .builder-preview-tools button[aria-pressed='true'] {
+	border-color: var(--accent);
+	background: color-mix(in srgb, var(--accent) 11%, transparent);
+	color: var(--accent);
 	font-weight: 850;
-	background: color-mix(in srgb, currentColor 8%, transparent);
 }
 
-.builder-badge {
+[data-awtsmoos-drive] .site-builder-root .builder-badge {
 	padding: .25rem .55rem;
 	border: 1px solid currentColor;
 	border-radius: 999px;
@@ -45,6 +41,7 @@
 	font-weight: 800;
 }
 
-.builder-badge--local {
-	background: color-mix(in srgb, #f59e0b 8%, transparent);
+[data-awtsmoos-drive] .site-builder-root .builder-badge--local {
+	background: color-mix(in srgb, var(--warning) 8%, transparent);
+	color: var(--warning);
 }

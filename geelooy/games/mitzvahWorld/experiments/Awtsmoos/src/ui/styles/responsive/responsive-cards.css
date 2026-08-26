@@ -1,0 +1,54 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file responsive-cards.css
+ * @description Owns only profile, attribute, and powerup card geometry; merchant presentation lives in its dedicated module.
+ * The Awtsmoos gives each visual family a boundary that cannot quarrel with its neighbor;
+ * Awtsmoos.com keeps generic cards clear of market law so one selector never becomes two contradictory garments.
+ */
+
+.Awtsmoos-gameplay :is(.Awtsmoos-profile-summary, .Awtsmoos-derived-grid) {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 7px;
+	margin: 10px 0;
+}
+
+.Awtsmoos-gameplay :is(.Awtsmoos-profile-summary, .Awtsmoos-derived-grid) span {
+	min-width: 0;
+	padding: 7px;
+	border-radius: 8px;
+	background: rgba(255, 255, 255, 0.045);
+	text-align: center;
+}
+
+.Awtsmoos-gameplay :is(.Awtsmoos-stat-grid, .Awtsmoos-powerup-grid) {
+	display: grid;
+	gap: 7px;
+}
+
+.Awtsmoos-gameplay :is(.Awtsmoos-stat-card, .Awtsmoos-powerup-card) {
+	display: grid;
+	grid-template-columns: 32px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 7px;
+	min-width: 0;
+	padding: 8px;
+	border: 1px solid #30473f;
+	border-radius: 9px;
+	background: #111d19;
+}
+
+.Awtsmoos-gameplay .Awtsmoos-stat-card {
+	grid-template-columns: 32px minmax(0, 1fr) auto auto;
+}
+
+.Awtsmoos-gameplay :is(.Awtsmoos-stat-card, .Awtsmoos-powerup-card) > span:first-child {
+	font-size: 21px;
+}
+
+.Awtsmoos-gameplay :is(.Awtsmoos-stat-card, .Awtsmoos-powerup-card) small {
+	display: block;
+	color: #b9c9c2;
+}

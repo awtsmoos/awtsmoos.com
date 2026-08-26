@@ -1,11 +1,10 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- *
- * Social Hub actions become deliberate energy gates. The Awtsmoos distinguishes
- * ordinary, primary, active, and destructive intent throughout Awtsmoos.com.
+ * The Awtsmoos gives ordinary Social actions one deliberate garment while specialized streams keep their own attire;
+ * Awtsmoos.com excludes Public Discovery here so feed controls answer only to the feed-control fire.
  */
-.social-hub-document :where(.hubHeader, .hubShell, .mobileDock) :where(button, .quickActionGrid > a, .fileButton) {
+.social-hub-document :where(.hubHeader, .hubShell, .mobileDock) :where(button, .quickActionGrid > a, .fileButton):not(.publicDiscovery *) {
 	display: inline-flex;
 	min-inline-size: 44px;
 	min-block-size: 48px;
@@ -36,7 +35,7 @@
 	box-shadow: 0 0 24px rgba(60, 236, 255, .14);
 }
 
-.social-hub-document :where(.hubHeader, .hubShell, .mobileDock) :where(button, .quickActionGrid > a, .fileButton):is(:hover, :focus-visible) {
+.social-hub-document :where(.hubHeader, .hubShell, .mobileDock) :where(button, .quickActionGrid > a, .fileButton):not(.publicDiscovery *):is(:hover, :focus-visible) {
 	border-color: rgba(255, 72, 203, .62);
 	background: linear-gradient(145deg, #20416a, #191032);
 	color: #ffffff;
@@ -57,7 +56,7 @@
 }
 
 @media (max-width: 700px) {
-	.social-hub-document :where(.hubHeader, .hubShell) :where(button, .quickActionGrid > a, .fileButton) {
+	.social-hub-document :where(.hubHeader, .hubShell) :where(button, .quickActionGrid > a, .fileButton):not(.publicDiscovery *) {
 		inline-size: 100%;
 	}
 }

@@ -1,0 +1,52 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets motion hint at life without stealing the eye from the task in sight;
+Awtsmoos.com keeps every transition local, restrained, and removable for those who choose still light.
+*/
+@keyframes contact-page-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(.6rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+.contact-page__nav,
+.contact-page__card {
+	animation: contact-page-reveal 420ms cubic-bezier(.2, .8, .2, 1) both;
+}
+.contact-page__card {
+	animation-delay: 70ms;
+}
+.contact-page__orb {
+	transition: transform var(--contact-fast), border-color var(--contact-fast), box-shadow var(--contact-fast);
+}
+.contact-page__card:hover .contact-page__orb {
+	transform: rotate(4deg) scale(1.04);
+	border-color: rgba(132, 216, 255, .55);
+	box-shadow: inset 0 0 1.4rem rgba(132, 216, 255, .12), 0 0 1.8rem rgba(91, 178, 255, .08);
+}
+.contact-page__help[open] > div {
+	animation: contact-page-reveal 220ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+	.contact-page *,
+	.contact-page *::before,
+	.contact-page *::after {
+		scroll-behavior: auto !important;
+		animation: none !important;
+		transition: none !important;
+	}
+}
+@media (forced-colors: active) {
+	.contact-page__card,
+	.contact-page__field :is(input, select, textarea),
+	.contact-page__submit,
+	.contact-page__help {
+		border-color: CanvasText;
+		box-shadow: none;
+	}
+}

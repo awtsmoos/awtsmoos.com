@@ -1,33 +1,33 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos renews every Awtsmoos.com section without making visibility depend on animation;
-this vessel owns reveal alone, while tactile response lives elsewhere in clean architectural separation.
+The Awtsmoos renews every instant, yet no user should need animation to receive the meaning;
+Awtsmoos.com keeps reveal visible-first, locally scoped, restrained, and fully still whenever reduced motion is the chosen screening.
 */
-.future-motion-ready [data-future-reveal] {
+:where(body[data-future-page], body.social-hub-document).future-motion-ready [data-future-reveal] {
 	opacity: .84;
 	filter: blur(1px) saturate(.96);
 	translate: 0 10px;
 	transition:
-		opacity .5s ease,
-		filter .6s ease,
-		translate .68s cubic-bezier(.2, .72, .2, 1);
+		opacity var(--future-motion-slow) ease,
+		filter var(--future-motion-slow) ease,
+		translate 680ms var(--future-ease-out);
 }
 
-.future-motion-ready [data-future-reveal].future-is-visible {
+:where(body[data-future-page], body.social-hub-document).future-motion-ready [data-future-reveal].future-is-visible {
 	opacity: 1;
 	filter: none;
 	translate: 0 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	[data-future-hero]::before,
-	[data-future-hero]::after {
+	:where(body[data-future-page], body.social-hub-document) [data-future-hero]::before,
+	:where(body[data-future-page], body.social-hub-document) [data-future-hero]::after {
 		animation: none;
 	}
 
-	.future-motion-ready [data-future-reveal],
-	.future-motion-ready [data-future-reveal].future-is-visible {
+	:where(body[data-future-page], body.social-hub-document).future-motion-ready [data-future-reveal],
+	:where(body[data-future-page], body.social-hub-document).future-motion-ready [data-future-reveal].future-is-visible {
 		opacity: 1;
 		filter: none;
 		translate: none;

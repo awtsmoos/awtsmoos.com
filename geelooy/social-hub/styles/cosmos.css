@@ -1,8 +1,13 @@
-/* B"H */
-/* Boruch Hashem */
-/* Blessed is He */
-
-body {
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos turns distance into a quiet field without placing spectacle above meaning;
+ * Awtsmoos.com keeps this optional atmosphere inside the Hub stacking context,
+ * where light can drift beneath content and never trespass into another route.
+ */
+.social-hub-document {
+	position: relative;
 	background:
 		radial-gradient(circle at 8% 8%, rgb(26 85 210 / 28%), transparent 32rem),
 		radial-gradient(circle at 92% 12%, rgb(160 57 215 / 24%), transparent 34rem),
@@ -10,16 +15,16 @@ body {
 		linear-gradient(145deg, #03040c, #080b20 48%, #02030a);
 }
 
-body::before,
-body::after {
+.social-hub-document::before,
+.social-hub-document::after {
 	position: fixed;
+	z-index: 0;
 	inset: 0;
 	content: '';
 	pointer-events: none;
 }
 
-body::before {
-	z-index: -3;
+.social-hub-document::before {
 	background-image:
 		linear-gradient(rgb(255 255 255 / 2.8%) 1px, transparent 1px),
 		linear-gradient(90deg, rgb(255 255 255 / 2.8%) 1px, transparent 1px);
@@ -27,73 +32,56 @@ body::before {
 	mask-image: radial-gradient(circle at center, black, transparent 86%);
 }
 
-body::after {
-	z-index: -2;
+.social-hub-document::after {
 	background:
-		conic-gradient(from 0.15turn at 20% 30%, transparent, rgb(86 108 255 / 9%), transparent 35%),
-		conic-gradient(from 0.65turn at 76% 70%, transparent, rgb(239 95 255 / 8%), transparent 40%);
+		conic-gradient(from .15turn at 20% 30%, transparent, rgb(86 108 255 / 9%), transparent 35%),
+		conic-gradient(from .65turn at 76% 70%, transparent, rgb(239 95 255 / 8%), transparent 40%);
 	filter: blur(3rem);
 }
 
-.cosmos {
+.social-hub-document :where(.socialHubShell) {
+	position: relative;
+	z-index: 1;
+}
+
+.social-hub-document :where(.cosmos) {
 	position: fixed;
-	z-index: -1;
+	z-index: 0;
 	inset: 0;
-	overflow: hidden;
+	overflow: clip;
 	pointer-events: none;
 }
 
-.cosmos span {
+.social-hub-document :where(.cosmos span) {
 	position: absolute;
-	width: clamp(16rem, 38vw, 42rem);
+	inline-size: clamp(16rem, 38vw, 42rem);
 	aspect-ratio: 1;
 	border: 1px solid rgb(158 247 255 / 12%);
 	border-radius: 50%;
 	background: radial-gradient(circle at 35% 35%, rgb(158 247 255 / 12%), transparent 62%);
-	filter: blur(0.2rem);
 	mix-blend-mode: screen;
 }
 
-.cosmos span:nth-child(1) {
+.social-hub-document :where(.cosmos span:nth-child(1)) {
 	top: -12rem;
 	left: -8rem;
-	animation: driftOne 28s ease-in-out infinite alternate;
+	animation: hubCosmosDriftOne 28s ease-in-out infinite alternate;
 }
 
-.cosmos span:nth-child(2) {
+.social-hub-document :where(.cosmos span:nth-child(2)) {
 	top: 16%;
 	right: -18rem;
-	animation: driftTwo 36s ease-in-out infinite alternate;
+	animation: hubCosmosDriftTwo 36s ease-in-out infinite alternate;
 }
 
-.cosmos span:nth-child(3) {
-	bottom: -18rem;
-	left: 30%;
-	animation: driftOne 42s ease-in-out infinite alternate-reverse;
-}
-
-.cosmos span:nth-child(4) {
-	top: 45%;
-	left: 18%;
-	width: 12rem;
-	animation: pulseHalo 9s ease-in-out infinite;
-}
-
-@keyframes driftOne {
+@keyframes hubCosmosDriftOne {
 	to {
 		transform: translate3d(14vw, 8vh, 0) rotate(18deg) scale(1.12);
 	}
 }
 
-@keyframes driftTwo {
+@keyframes hubCosmosDriftTwo {
 	to {
-		transform: translate3d(-18vw, 14vh, 0) rotate(-22deg) scale(0.92);
-	}
-}
-
-@keyframes pulseHalo {
-	50% {
-		opacity: 0.35;
-		transform: scale(1.6);
+		transform: translate3d(-18vw, 14vh, 0) rotate(-22deg) scale(.92);
 	}
 }

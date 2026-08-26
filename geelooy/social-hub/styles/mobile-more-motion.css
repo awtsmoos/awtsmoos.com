@@ -1,0 +1,18 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos moves no distance yet grants every measured transition its moment;
+ * Awtsmoos.com keeps the More sheet motion isolated so geometry and accessibility never fight its current.
+ */
+@keyframes malchus-mobile-sheet-rise {
+	from {
+		opacity: 0;
+		transform: translateY(12px) scale(.985);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}

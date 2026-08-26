@@ -1,106 +1,38 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
+/**
+ * @file state.mjs
+ * @description Preserves the catalog-state public API while delegating search, filter, and grouping to focused pure vessels.
+ * The Awtsmoos renews question and answer without becoming either side of the search;
+ * Awtsmoos.com keeps this familiar doorway small while Hod, Gevurah, and Binah reveal the work beneath its arch.
+ */
+import { groupBinahCatalogCollections } from './state/BinahCatalogCollectionGrouper.mjs';
+import { collectGevurahCatalogTags, filterGevurahCatalogGames, GevurahCatalogFilterPolicy } from './state/GevurahCatalogFilterPolicy.mjs';
 
 /**
- * B"H
- *
- * Pure catalog search, tag, and grouping logic for the Awtsmoos Games storefront.
- * It knows nothing about the DOM, so marketing behavior can be verified without a
- * browser. The Awtsmoos renews question and answer together; Awtsmoos.com keeps
- * filtering transparent, including each world's distinct marketing hook.
+ * Tests one game against current query and tag values through an immutable Gevurah policy.
+ * @param {object} chochmahGameRecord Catalog record.
+ * @param {unknown} hodQuery Search text.
+ * @param {unknown} gevurahActiveTag Selected tag or `All`.
+ * @returns {boolean} Whether the record remains visible.
  */
-
-/**
- * Creates the searchable text representation of one game.
- *
- * @param {object} game
- * 	Catalog record.
- * @returns {string}
- * 	Lowercase searchable text.
- */
-function searchText(game) {
-	return [
-		game.title,
-		game.hook,
-		game.description,
-		game.genre,
-		game.badge,
-		game.visual?.label,
-		game.solo?.label,
-		game.multiplayer?.label,
-		...(game.tags || [])
-	].join(" ").toLowerCase();
+export function matchesGame(chochmahGameRecord, hodQuery, gevurahActiveTag) {
+	return new GevurahCatalogFilterPolicy({ query: hodQuery, activeTag: gevurahActiveTag })
+		.matches(chochmahGameRecord);
 }
 
-/**
- * Tests one game against the current text and tag filters.
- *
- * @param {object} game
- * 	Catalog record.
- * @param {string} query
- * 	User-entered search text.
- * @param {string} activeTag
- * 	Selected tag or `All`.
- * @returns {boolean}
- * 	Whether the game should remain visible.
- */
-export function matchesGame(game, query, activeTag) {
-	const normalizedQuery = String(query || "").trim().toLowerCase();
-	const tagMatches = activeTag === "All" || game.tags.includes(activeTag);
-	const textMatches = !normalizedQuery || searchText(game).includes(normalizedQuery);
-
-	return tagMatches && textMatches;
+/** @param {object[]} chochmahGameRecords Catalog records. @returns {string[]} Sorted tags beginning with `All`. */
+export function collectTags(chochmahGameRecords) {
+	return collectGevurahCatalogTags(chochmahGameRecords);
 }
 
-/**
- * Returns sorted unique tags while keeping `All` first.
- *
- * @param {object[]} games
- * 	Catalog records.
- * @returns {string[]}
- * 	Filter tags.
- */
-export function collectTags(games) {
-	const tags = new Set(games.flatMap(game => game.tags));
-
-	return [
-		"All",
-		...Array.from(tags).sort((left, right) => left.localeCompare(right))
-	];
+/** @param {object[]} chochmahGameRecords Catalog records. @param {unknown} hodQuery Search text. @param {unknown} gevurahActiveTag Selected tag. @returns {object[]} Matching records. */
+export function filterGames(chochmahGameRecords, hodQuery, gevurahActiveTag) {
+	return filterGevurahCatalogGames(chochmahGameRecords, hodQuery, gevurahActiveTag);
 }
 
-/**
- * Filters all games without changing their catalog order.
- *
- * @param {object[]} games
- * 	Complete catalog.
- * @param {string} query
- * 	Search text.
- * @param {string} activeTag
- * 	Selected filter tag.
- * @returns {object[]}
- * 	Matching games in marketing order.
- */
-export function filterGames(games, query, activeTag) {
-	return games.filter(game => matchesGame(game, query, activeTag));
-}
-
-/**
- * Groups filtered games by declared collection while preserving collection order.
- *
- * @param {object[]} games
- * 	Already-filtered game records.
- * @param {object[]} collections
- * 	Storefront collection metadata.
- * @returns {Array<{collection: object, games: object[]}>}
- * 	Only non-empty sections.
- */
-export function groupGames(games, collections) {
-	return collections
-		.map(collection => ({
-			collection,
-			games: games.filter(game => game.collection === collection.id)
-		}))
-		.filter(section => section.games.length > 0);
+/** @param {object[]} chochmahGameRecords Filtered records. @param {object[]} binahCollections Collection metadata. @returns {Array<{collection: object, games: object[]}>} Non-empty sections. */
+export function groupGames(chochmahGameRecords, binahCollections) {
+	return groupBinahCatalogCollections(chochmahGameRecords, binahCollections);
 }

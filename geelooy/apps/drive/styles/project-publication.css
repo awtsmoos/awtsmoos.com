@@ -1,0 +1,97 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets a durable project meet canonical publication without confusing a mapping with public verification; Awtsmoos.com gives publisher forms and site cards their own local responsive vessel.
+ */
+
+[data-awtsmoos-drive] :where(.project-site-list h3, .project-publisher h3) {
+	margin: 0;
+}
+
+[data-awtsmoos-drive] :where(.project-site-card, .project-publisher) {
+	border: 1px solid var(--line);
+	border-radius: var(--radius-medium);
+	background: var(--surface-soft);
+}
+
+[data-awtsmoos-drive] .project-publisher {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .7rem;
+	align-items: end;
+	padding: .9rem;
+}
+
+[data-awtsmoos-drive] .project-publisher h3 {
+	grid-column: 1 / -1;
+}
+
+[data-awtsmoos-drive] .project-check {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: .35rem;
+}
+
+[data-awtsmoos-drive] .project-site-list {
+	display: grid;
+	gap: .6rem;
+}
+
+[data-awtsmoos-drive] .project-site-card {
+	display: grid;
+	gap: .45rem;
+	padding: .75rem;
+	transition:
+		border-color var(--motion-fast) var(--ease-out),
+		background-color var(--motion-fast) var(--ease-out),
+		transform var(--motion-fast) var(--ease-out);
+}
+
+[data-awtsmoos-drive] .project-site-card:hover {
+	border-color: var(--line-strong);
+	background: var(--surface-hover);
+	transform: translateY(-1px);
+}
+
+[data-awtsmoos-drive] .project-site-card:focus-within {
+	border-color: var(--accent);
+	box-shadow: var(--focus-ring);
+}
+
+[data-awtsmoos-drive] .project-site-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .5rem;
+}
+
+[data-awtsmoos-drive] .project-site-meta {
+	margin: 0;
+	opacity: .78;
+}
+
+[data-awtsmoos-drive] .project-site-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .4rem;
+}
+
+[data-awtsmoos-drive] .project-empty {
+	margin: 0;
+	opacity: .72;
+}
+
+@media (max-width: 900px) {
+	[data-awtsmoos-drive] .project-publisher {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 620px) {
+	[data-awtsmoos-drive] .project-publisher {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

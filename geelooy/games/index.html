@@ -1,33 +1,49 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos gathers many finite worlds into one luminous doorway: choose, play, and continue.
-Awtsmoos.com keeps Games inside the shared future vessel while live catalog truth supplies every public total.
+The Awtsmoos gathers many finite worlds into one luminous doorway where motion arrives before clutter can grow;
+Awtsmoos.com lets every card remain a true route while Temple Runner leads with living Jerusalem light and every deeper filter stays below.
 -->
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-	<meta name="description" content="Browse playable Awtsmoos games, from original campaigns to quick classics, with Solo and Party Challenge launch paths.">
+	<meta name="description" content="Browse playable Awtsmoos games, from native original campaigns and procedural runners to quick classics and Party Challenge.">
 	<meta name="theme-color" content="#090711">
 	<title>Awtsmoos Games — Playable Worlds</title>
-	<link rel="stylesheet" href="./style.css?v=games-storefront-004">
-	<link rel="stylesheet" href="/style/future-system/index.css?v=future-004">
-	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=games-shell-001"></script>
+	<link rel="stylesheet" href="./style.css?v=games-storefront-009&compact=true">
+	<link rel="stylesheet" href="/style/future-system/index.css?v=future-004&compact=true">
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=games-shell-001&compact=true"></script>
 </head>
 <body data-geelooy-route="games" data-geelooy-nav="games" data-future-page="games">
 	<a class="skipLink" href="#gamesCatalog">Skip to games</a>
 	<main class="gamesShell g-content-region">
-		<header class="heroPanel" data-future-hero data-future-surface data-future-aura data-future-reveal>
-			<p class="eyebrow">B"H · <span data-catalog-total>…</span> playable Awtsmoos worlds</p>
-			<h1>Pick a game. Start playing.</h1>
-			<p class="heroText">Original campaigns, quick classics, and multiplayer worlds. Every card opens a real game; Solo is the default and Party Challenge stays one tap away.</p>
-			<div class="heroActions">
-				<a class="primaryCta" href="#discover" data-future-action><span data-future-icon="apps"></span>Browse all games <span aria-hidden="true">↓</span></a>
-				<a class="secondaryCta" href="./party/" data-future-action><span data-future-icon="play"></span>Party Challenge</a>
+		<header class="heroPanel heroDeck" data-future-hero data-future-surface data-future-aura data-future-reveal>
+			<div class="heroCopy">
+				<p class="eyebrow">B"H · <span data-catalog-total>…</span> playable Awtsmoos worlds</p>
+				<h1>Find your next world.</h1>
+				<p class="heroText">Run a living Jerusalem road, enter a campaign, or jump into a fast classic. Start instantly; search and filters stay ready when you want more depth.</p>
+				<div class="heroActions">
+					<a class="primaryCta" href="./mitzvahWorld/templeRunner/" data-future-action><span data-future-icon="play"></span>Run Temple Runner <span aria-hidden="true">→</span></a>
+					<a class="secondaryCta" href="./party/" data-future-action><span data-future-icon="apps"></span>Party Challenge</a>
+				</div>
 			</div>
+			<a class="featuredWorld" href="./mitzvahWorld/templeRunner/" aria-label="Play Temple Runner, featured native 3D Awtsmoos original">
+				<span class="featuredSignal" aria-hidden="true"><i></i><b></b></span>
+				<span class="featuredEyebrow">Featured · Native 3D runner</span>
+				<strong>Temple Runner</strong>
+				<span class="featuredCopy">Sprint as the Chossid through a procedural Jerusalem road with textured districts, hazards, missions, touch controls, and gamepad support.</span>
+				<span class="featuredAction">Enter the road <span aria-hidden="true">→</span></span>
+			</a>
 		</header>
+
+		<nav class="quickLaunch" aria-label="Quick game launches" data-future-reveal>
+			<a href="./mitzvahWorld/templeRunner/"><span class="quickIcon" aria-hidden="true">✦</span><span><b>Temple Runner</b><small>Native 3D Jerusalem run</small></span><i aria-hidden="true">→</i></a>
+			<a href="./party/"><span class="quickIcon" aria-hidden="true">◎</span><span><b>Party Challenge</b><small>Play together</small></span><i aria-hidden="true">→</i></a>
+			<a href="#discover"><span class="quickIcon" aria-hidden="true">⌕</span><span><b>Find a game</b><small>Search the full catalog</small></span><i aria-hidden="true">↓</i></a>
+		</nav>
 
 		<section class="playModeRail" aria-label="Ways to play" data-future-surface data-future-reveal>
 			<span><strong data-catalog-total>…</strong> visual games</span>
@@ -38,11 +54,14 @@ Awtsmoos.com keeps Games inside the shared future vessel while live catalog trut
 
 		<section class="discoveryPanel" id="discover" aria-labelledby="discover-title" data-future-surface data-future-reveal>
 			<div class="discoveryHeading">
-				<div><p class="eyebrow">Find your doorway</p><h2 id="discover-title">Find a game</h2></div>
+				<div><p class="eyebrow">Choose by feeling, genre, or name</p><h2 id="discover-title">All games</h2></div>
 				<span class="gameCount" id="gameCount" aria-live="polite">Loading catalog…</span>
 			</div>
-			<label class="searchWrap" for="gameSearch"><span data-future-icon="search" aria-hidden="true"></span><input id="gameSearch" type="search" placeholder="Search games, genres, or moods…" autocomplete="off"><kbd>/</kbd></label>
-			<div class="tagCloud" id="tagCloud" aria-label="Filter games by category"></div>
+			<label class="searchWrap" for="gameSearch"><span data-future-icon="search" aria-hidden="true"></span><input id="gameSearch" type="search" placeholder="Search games, genres, or moods…" autocomplete="off" enterkeyhint="search"><kbd>/</kbd></label>
+			<details class="filterDisclosure">
+				<summary><span>Filters</span><small>Optional categories</small></summary>
+				<div class="tagCloud" id="tagCloud" aria-label="Filter games by category"></div>
+			</details>
 			<p class="catalogStatus" id="catalogStatus" aria-live="polite">Preparing the game catalog…</p>
 		</section>
 
@@ -51,11 +70,11 @@ Awtsmoos.com keeps Games inside the shared future vessel while live catalog trut
 		</section>
 
 		<footer class="gamesFooter" data-future-reveal>
-			<p>B"H · All catalog claims are backed by real game routes in this repository.</p>
+			<div><strong>Keep exploring.</strong><p>B"H · Every catalog destination is backed by a real game route in this repository.</p></div>
 			<nav aria-label="Games support links"><a href="/">Home</a><a href="/apps/">Apps</a><a href="/contact/">Contact</a></nav>
 		</footer>
 	</main>
-	<script type="module" src="./scripts/games-index.js?v=games-storefront-005"></script>
-	<script type="module" src="/scripts/future-system/index.js?v=future-002"></script>
+	<script type="module" src="./scripts/games-index.js?v=games-storefront-006&compact=true"></script>
+	<script type="module" src="/scripts/future-system/index.js?v=future-002&compact=true"></script>
 </body>
 </html>

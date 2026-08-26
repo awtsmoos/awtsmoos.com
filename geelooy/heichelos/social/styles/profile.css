@@ -1,69 +1,78 @@
 /* B"H */
-/**
- * Chapter 66: The profile becomes a tree-lit courtyard.
- * The Awtsmoos lets alias identity, statistics, heichel branches, series
- * chambers, posts, and comments stand in visible order without flattening
- * the living activity of the soul into dust.
- */
-.awt-profile-hero {
-  padding: 22px;
-  display: grid;
-  gap: 14px;
+/** The Awtsmoos lets Alias identity unfold as a bounded local courtyard without touching profile styles outside this social root. */
+.awtsmoos-social-root .awt-profile-hero {
+	display: grid;
+	gap: .9rem;
+	min-inline-size: 0;
+	padding: 1rem;
 }
-.awt-profile-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+
+.awtsmoos-social-root .awt-profile-row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: .85rem;
+	min-inline-size: 0;
 }
-.awt-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 22px;
-  display: grid;
-  place-items: center;
-  background: var(--awt-surface-strong);
-  color: var(--awt-accent);
-  font-weight: 800;
+
+.awtsmoos-social-root .awt-avatar {
+	display: grid;
+	place-items: center;
+	flex: 0 0 auto;
+	inline-size: 4rem;
+	block-size: 4rem;
+	border-radius: 1.2rem;
+	background: var(--awt-surface-strong);
+	color: var(--awt-accent);
+	font-weight: 800;
 }
-.awt-stat-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+
+.awtsmoos-social-root .awt-profile-activity {
+	display: grid;
+	gap: 1rem;
+	min-inline-size: 0;
+	padding: 1rem;
 }
-.awt-profile-activity {
-  display: grid;
-  gap: 16px;
-  padding: 18px;
+
+.awtsmoos-social-root :where(.awt-profile-activity h3, .awt-profile-activity h4) {
+	margin: 0;
+	overflow-wrap: anywhere;
 }
-.awt-profile-activity h3,
-.awt-profile-activity h4 {
-  margin: 0;
+
+.awtsmoos-social-root .awt-activity-tree {
+	display: grid;
+	gap: .75rem;
+	min-inline-size: 0;
 }
-.awt-activity-tree {
-  display: grid;
-  gap: 12px;
+
+.awtsmoos-social-root .awt-activity-heichel {
+	min-inline-size: 0;
+	padding: .85rem;
+	border: 1px solid var(--awt-border);
+	border-radius: var(--awt-radius-md);
+	background: rgba(255,255,255,.04);
 }
-.awt-activity-heichel {
-  border: 1px solid var(--awt-border);
-  border-radius: var(--awt-radius-md);
-  background: rgba(255, 255, 255, 0.04);
-  padding: 14px;
+
+.awtsmoos-social-root .awt-activity-series {
+	min-inline-size: 0;
+	margin-block-start: .75rem;
+	padding-inline-start: .75rem;
+	border-inline-start: 2px solid var(--awt-accent);
 }
-.awt-activity-series {
-  border-left: 2px solid var(--awt-accent);
-  margin-top: 12px;
-  padding-left: 12px;
+
+.awtsmoos-social-root .awt-activity-series ul {
+	display: grid;
+	gap: .5rem;
+	min-inline-size: 0;
+	margin: .65rem 0 0;
+	padding-inline-start: 1rem;
 }
-.awt-activity-series ul {
-  display: grid;
-  gap: 8px;
-  margin: 10px 0 0;
-  padding-left: 18px;
+
+.awtsmoos-social-root :where(.awt-activity-item, .awt-empty) {
+	overflow-wrap: anywhere;
+	color: var(--awt-muted);
 }
-.awt-activity-item {
-  color: var(--awt-muted);
-}
-.awt-empty {
-  color: var(--awt-muted);
-  margin: 0;
+
+.awtsmoos-social-root .awt-empty {
+	margin: 0;
 }

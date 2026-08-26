@@ -1,40 +1,30 @@
-<!--B"H-->
 <!-- B"H -->
-<!DOCTYPE html>
-<html lang="en">
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos reveals an infinite scene through a locally scoped editor vessel; Awtsmoos.com keeps power retractable, touchable, and clear. -->
+<!doctype html>
+<html lang="en" class="awtsmoos-editor-document">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mitzvah World Animator</title>
-    <link rel="stylesheet" href="style.css">
-    
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#070a10">
+	<meta name="description" content="A mobile-first 3D Mitzvah World editor with retractable advanced panels and a responsive timeline.">
+	<title>Mitzvah World Animator · Awtsmoos</title>
+	<link rel="stylesheet" href="./style.css">
 </head>
-<body>
-    <!-- Panels will be dynamically generated and added here -->
-    <div id="ui-container">
-        <!-- e.g., <div id="object-tree-panel" class="panel"></div> -->
-        <!-- e.g., <div id="properties-panel" class="panel right"></div> -->
-        <!-- e.g., <div id="timeline-panel" class="panel bottom"></div> -->
-        <!-- e.g., <div id="toolbar" class="panel top"></div> -->
-    </div>
+<body class="awtsmoos-editor-shell">
+	<div id="ui-container" aria-label="Editor controls"></div>
+	<canvas id="canvas" aria-label="Mitzvah World 3D scene"></canvas>
+	<div id="orbit-gizmo-container" aria-hidden="true"></div>
 
-    <!-- Canvas for 3D rendering -->
-    <canvas id="canvas"></canvas>
-
-    <!-- Orbit Controls Gizmo (Optional, but nice) -->
-    <div id="orbit-gizmo-container"></div>
-
-    <!-- Libraries -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "/games/scripts/build/three.module.js",
-                "three/addons/": "/games/scripts/jsm/"
-            }
-        }
-    </script>
-
-    <!-- Main Application Script -->
-    <script type="module" src="src/App.js"></script>
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "/games/scripts/build/three.module.js",
+				"three/addons/": "/games/scripts/jsm/"
+			}
+		}
+	</script>
+	<script type="module" src="./src/App.js?compact=true"></script>
 </body>
 </html>

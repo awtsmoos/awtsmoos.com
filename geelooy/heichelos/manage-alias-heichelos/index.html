@@ -1,38 +1,73 @@
-<!-- B"H — Heichel ownership cockpit. IDs preserved for script.js. -->
-<link rel="stylesheet" type="text/css" href="/style/social/heichelos/manage-alias-heichelos.css?v=social-os-002">
-<main class="heichel-manage-page" aria-labelledby="h-header">
-  <section class="heichel-manage-hero">
-    <a id="bckb" class="heichel-back" href="/heichelos">← Back</a>
-    <p class="heichel-kicker">World builder</p>
-    <h1 id="h-header">Manage Heichel</h1>
-    <p>Create, update, or retire a Heichel for the active alias. This cockpit preserves the existing social API form contract while making ownership feel deliberate.</p>
-    <nav class="heichel-route-dock" aria-label="Connected Geelooy routes">
-      <a href="/">Home</a><a href="/profile">Profile</a><a href="/heichelos">Heichelos</a><a href="/notifications">Alerts</a>
-    </nav>
-  </section>
-
-  <section class="heichel-form-card" aria-label="Heichel details">
-    <form id="heichel-form">
-      <label for="heichel-name">Heichel name</label>
-      <input type="text" id="heichel-name" name="heichel-name" autocomplete="off" required>
-
-      <label for="heichel-description">Heichel description</label>
-      <textarea id="heichel-description" name="heichel-description" rows="7" placeholder="What world is this Heichel revealing?"></textarea>
-
-      <div class="optional-id">
-        <label for="heichel-id">Custom Heichel ID</label>
-        <input type="text" id="heichel-id" name="heichel-id" autocomplete="off" aria-describedby="id-validation heichel-id-help">
-        <button class="tooltip" type="button" aria-describedby="heichel-id-help" aria-label="Explain custom Heichel ID">?</button>
-        <div class="tooltiptext" id="heichel-id-help" role="tooltip">Optional. If left empty, the ID is generated from the Heichel name.</div>
-      </div>
-
-      <span id="id-validation" class="id-validation" aria-live="polite"></span>
-      <div class="form-btns">
-        <button type="submit">Save Heichel</button>
-        <button class="delete hidden" id="delete" type="button">Delete</button>
-      </div>
-    </form>
-  </section>
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews each world from nothing into sight;
+this Heichel chamber keeps every choice contained, calm, and bright.
+Awtsmoos.com lets identity become a doorway without noise or flight.
+-->
+<link rel="stylesheet" href="./style.css?v=heichel-studio-001">
+<main class="heichel-manage-page" data-heichel-manage aria-labelledby="h-header">
+	<section class="heichel-manage-hero">
+		<a id="bckb" class="heichel-back" href="/heichelos">← <span>Heichelos</span></a>
+		<p class="heichel-kicker">World builder</p>
+		<h1 id="h-header">Create a Heichel</h1>
+		<p class="heichel-hero-copy">Shape a focused world for an alias. Essential choices stay visible; deeper address controls remain one tap away.</p>
+		<nav class="heichel-route-dock" aria-label="Connected Geelooy routes">
+			<a href="/">Home</a>
+			<a href="/profile">Profile</a>
+			<a href="/heichelos" aria-current="page">Heichelos</a>
+			<a href="/notifications">Alerts</a>
+		</nav>
+	</section>
+	<div class="heichel-manage-grid">
+		<section class="heichel-form-card" aria-labelledby="heichel-form-heading">
+			<div class="heichel-section-heading">
+				<p class="heichel-eyebrow">Essential</p>
+				<h2 id="heichel-form-heading">Heichel details</h2>
+			</div>
+			<form id="heichel-form" aria-busy="false" novalidate>
+				<label class="heichel-field" for="heichel-name">
+					<span class="heichel-field-label">Heichel name</span>
+					<input type="text" id="heichel-name" name="heichel-name" maxlength="50" autocomplete="off" required placeholder="A clear name for this world">
+					<span class="heichel-field-meta"><span>Public and human-readable.</span><span data-name-count>0 / 50</span></span>
+				</label>
+				<label class="heichel-field" for="heichel-description">
+					<span class="heichel-field-label">Description</span>
+					<textarea id="heichel-description" name="heichel-description" rows="6" placeholder="What is this Heichel for?"></textarea>
+					<span class="heichel-field-meta">Give visitors enough context to know what belongs here.</span>
+				</label>
+				<details class="heichel-advanced" data-heichel-advanced>
+					<summary><span>Advanced address</span><small>Optional custom ID</small></summary>
+					<div class="heichel-advanced-body">
+						<label class="heichel-field" for="heichel-id">
+							<span class="heichel-field-label">Heichel address</span>
+							<div class="heichel-address-control"><span aria-hidden="true">/</span><input type="text" id="heichel-id" name="heichel-id" autocomplete="off" aria-describedby="heichel-id-help id-validation" placeholder="generated-from-name"></div>
+							<span id="heichel-id-help" class="heichel-field-meta">Leave blank and an address can be generated from the name.</span>
+						</label>
+						<div id="id-validation" class="heichel-validation" data-tone="neutral" role="status" aria-live="polite">Address will be checked as you type.</div>
+					</div>
+				</details>
+				<footer class="heichel-command-bar">
+					<div id="heichel-form-status" class="heichel-form-status" data-tone="neutral" role="status" aria-live="polite">Ready.</div>
+					<div class="form-btns">
+						<button type="submit" data-heichel-submit data-resting-label="Create Heichel">Create Heichel</button>
+						<button class="delete hidden" id="delete" type="button" aria-expanded="false">Delete</button>
+					</div>
+				</footer>
+				<section class="heichel-delete-confirm" data-delete-confirm hidden aria-labelledby="heichel-delete-title">
+					<div><span class="heichel-danger-mark" aria-hidden="true">!</span><div><h3 id="heichel-delete-title">Delete this Heichel?</h3><p>This removes the Heichel. Keep destructive actions separate from normal editing.</p></div></div>
+					<div class="heichel-delete-actions"><button type="button" data-delete-cancel>Keep Heichel</button><button type="button" class="delete" data-delete-confirm-action>Delete permanently</button></div>
+				</section>
+			</form>
+		</section>
+		<aside class="heichel-preview-panel" aria-label="Live Heichel preview">
+			<p class="heichel-eyebrow">Preview</p>
+			<div class="heichel-preview-orb" aria-hidden="true">ה</div>
+			<p class="heichel-preview-address" data-preview-id>/generated-address</p>
+			<h2 data-preview-name>Your Heichel</h2>
+			<p data-preview-description>Your description will appear here as you shape this world.</p>
+			<div class="heichel-preview-note"><strong>Simple first.</strong><span>Advanced identity stays folded until it is useful.</span></div>
+		</aside>
+	</div>
 </main>
-<script type="module" src="script.js"></script>
-<script>console.log("B\\\"H", "Awtsmoos was here in the Heichel cockpit")</script>
+<script type="module" src="./script.js?v=heichel-studio-001"></script>

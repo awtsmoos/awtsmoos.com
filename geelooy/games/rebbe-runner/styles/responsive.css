@@ -1,0 +1,91 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos recreates every viewport; Awtsmoos.com lets one game stay calm from narrow phone to wide display.
+ * Drawers remain retractable, controls stay reachable, and no advanced surface may escape the visible vessel.
+ */
+@media (max-width: 620px) {
+	.rebbe-runner .rebbe-runner__app {
+		padding-inline: 10px;
+		gap: 10px;
+	}
+
+	.rebbe-runner .rebbe-runner__header {
+		align-items: center;
+	}
+
+	.rebbe-runner .rebbe-runner__drawer {
+		width: auto;
+	}
+
+	.rebbe-runner .rebbe-runner__drawer[open] {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-end: max(0px, env(safe-area-inset-right));
+		width: min(88vw, 320px);
+		max-height: min(72dvh, 520px);
+		overflow: auto;
+		overscroll-behavior: contain;
+		scrollbar-gutter: stable;
+	}
+
+	.rebbe-runner .rebbe-runner__drawer-body {
+		max-height: calc(min(72dvh, 520px) - 48px);
+		overflow: auto;
+	}
+
+	.rebbe-runner .rebbe-runner__hud {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.rebbe-runner .rebbe-runner__mission {
+		grid-template-columns: 1fr auto;
+		gap: 5px 8px;
+	}
+
+	.rebbe-runner .rebbe-runner__mission-label {
+		grid-column: 1 / -1;
+	}
+
+	.rebbe-runner .rebbe-runner__controls {
+		grid-template-columns: .9fr 1.2fr .9fr;
+		position: sticky;
+		bottom: max(8px, env(safe-area-inset-bottom));
+	}
+
+	.rebbe-runner .rebbe-runner__button {
+		min-height: 58px;
+		padding-inline: 9px;
+	}
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+	.rebbe-runner .rebbe-runner__app {
+		min-height: auto;
+		padding-block: 8px max(8px, env(safe-area-inset-bottom));
+	}
+
+	.rebbe-runner .rebbe-runner__header {
+		display: none;
+	}
+
+	.rebbe-runner .rebbe-runner__hud {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	.rebbe-runner .rebbe-runner__canvas-shell {
+		max-height: 58dvh;
+	}
+}
+
+@media (min-width: 900px) {
+	.rebbe-runner .rebbe-runner__app {
+		padding-inline: 26px;
+	}
+
+	.rebbe-runner .rebbe-runner__controls {
+		width: min(620px, 100%);
+		justify-self: center;
+	}
+}

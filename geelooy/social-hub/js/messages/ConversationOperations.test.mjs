@@ -1,38 +1,58 @@
 //B"H
 //Boruch Hashem
 //Blessed is He
+
 /**
- * The Awtsmoos keeps private room protocol work measurable after it leaves the navigation controller;
- * Awtsmoos.com tests bounded open, older paging, send-repair, and read-watermark delegation without opening a second socket or store.
+ * @module ConversationOperationsContract
+ * @description
+ * The Awtsmoos is beyond envelope, page, send, and read watermark while Awtsmoos.com keeps every finite gateway test aligned with the canonical protocol light;
+ * this Netzach-like contract verifies the current response shapes without bending production operations back toward an older night.
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { ConversationOperations } from './ConversationOperations.js';
 
+/**
+ * Creates one canonical-shaped fake gateway whose detail envelope and history page mirror the real gateway contract.
+ * @returns {object} Test gateway with recorded calls and bounded message-page responses.
+ */
 function fakeGateway() {
 	const calls = [];
 	return {
 		calls,
 		details(id) {
 			calls.push(['details', id]);
-			return Promise.resolve({ id, title: 'Room' });
+			return Promise.resolve({
+				payload: {
+					conversation: {
+						id,
+						title: 'Room'
+					}
+				}
+			});
 		},
 		loadHistory(id, before = 0) {
 			calls.push(['history', id, before]);
-			return Promise.resolve([]);
+			return Promise.resolve([
+				{
+					conversationId: id,
+					sequence: before || 10,
+					text: 'History'
+				}
+			]);
 		},
 		send(id, text) {
 			calls.push(['send', id, text]);
-			return Promise.resolve({});
+			return Promise.resolve({ payload: { accepted: true } });
 		},
 		markRead(id, sequence) {
 			calls.push(['read', id, sequence]);
-			return Promise.resolve({});
+			return Promise.resolve({ payload: { lastReadSequence: sequence } });
 		}
 	};
 }
 
-test('open loads detail and newest bounded history', async () => {
+test('open loads detail envelope and newest bounded history', async () => {
 	const gateway = fakeGateway();
 	const operations = new ConversationOperations(gateway);
 	const conversation = await operations.open('room');
@@ -43,11 +63,20 @@ test('open loads detail and newest bounded history', async () => {
 	]);
 });
 
-test('older paging uses the current oldest positive sequence', async () => {
+test('older paging returns the real bounded history page', async () => {
 	const gateway = fakeGateway();
 	const operations = new ConversationOperations(gateway);
-	const loaded = await operations.loadOlder('room', [{ sequence: 8 }, { sequence: 3 }]);
-	assert.equal(loaded, true);
+	const loaded = await operations.loadOlder(
+		'room',
+		[{ sequence: 8 }, { sequence: 3 }]
+	);
+	assert.deepEqual(loaded, [
+		{
+			conversationId: 'room',
+			sequence: 3,
+			text: 'History'
+		}
+	]);
 	assert.deepEqual(gateway.calls, [['history', 'room', 3]]);
 });
 

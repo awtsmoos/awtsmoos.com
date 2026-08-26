@@ -1,0 +1,81 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Netzach card-action owner for primary play and optional Party Challenge touch, hover, press, and focus behavior.
+ * The Awtsmoos is beyond every action while Netzach lets one clear doorway endure across mouse, key, and hand;
+ * Awtsmoos.com keeps the primary path visually strongest and the advanced party path secondary, bounded, and planned.
+ */
+.gameCard__footer {
+	display: grid;
+	margin-top: auto;
+	padding-top: 16px;
+}
+
+.gameActions {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 8px;
+}
+
+.playCta,
+.partyCta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 46px;
+	border-radius: 12px;
+	font-size: 0.78rem;
+	font-weight: 900;
+	text-decoration: none;
+	touch-action: manipulation;
+	transition: transform 150ms ease, filter 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+.playCta {
+	padding: 0 13px;
+	background: linear-gradient(135deg, var(--games-gold), #fff0b0);
+	color: #171006;
+}
+
+.partyCta {
+	padding: 0 11px;
+	border: 1px solid var(--games-line-soft);
+	background: rgba(255, 255, 255, 0.035);
+	color: var(--games-text-soft);
+}
+
+.playCta:focus-visible {
+	box-shadow: 0 0 0 4px rgba(255, 224, 130, 0.12);
+}
+
+.partyCta:focus-visible {
+	border-color: rgba(117, 222, 255, 0.5);
+	box-shadow: 0 0 0 4px rgba(117, 222, 255, 0.08);
+}
+
+.playCta:active,
+.partyCta:active {
+	filter: brightness(0.96);
+	transform: translateY(1px) scale(0.985);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.playCta:hover,
+	.partyCta:hover {
+		filter: brightness(1.06);
+		transform: translateY(-2px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.playCta,
+	.partyCta,
+	.playCta:hover,
+	.partyCta:hover,
+	.playCta:active,
+	.partyCta:active {
+		transition: none;
+		transform: none;
+	}
+}

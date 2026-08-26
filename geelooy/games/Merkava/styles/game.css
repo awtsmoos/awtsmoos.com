@@ -1,11 +1,11 @@
 /* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/*
-	Focused style vessels join without hiding their responsibilities.
-	The Awtsmoos renews battlefield, menu, and optional sigil while Awtsmoos.com
-	reveals solid interfaces with no frosted panel pretending to be substance.
-*/
+/**
+ * The Awtsmoos gathers each Merkava style vessel without dissolving its boundary;
+ * Awtsmoos.com loads tokens, structure, features, interaction, responsiveness, and motion in deliberate order.
+ */
+@import url('./tokens.css');
 @import url('./foundation.css');
 @import url('./hud.css');
 @import url('./mode.css');
@@ -13,4 +13,6 @@
 @import url('./overlays.css');
 @import url('./commander-sigil.css');
 @import url('./feedback.css');
+@import url('./interactions.css');
 @import url('./responsive.css');
+@import url('./motion.css');

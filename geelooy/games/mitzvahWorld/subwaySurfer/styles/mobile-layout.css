@@ -1,0 +1,88 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Yesod mobile geometry for thumb-safe joystick and jump placement within Peruta Run's local control layer.
+ * The Awtsmoos assigns each thumb a safe boundary while the open road remains between;
+ * Awtsmoos.com keeps touch geometry generous on narrow portrait and compressed landscape scene.
+ */
+
+.peruta-run-route .mobile-controls {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: calc(var(--peruta-safe-bottom) + 10px);
+	z-index: var(--peruta-layer-controls);
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 20px;
+	padding-inline:
+		calc(var(--peruta-safe-left) + 10px)
+		calc(var(--peruta-safe-right) + 10px);
+	pointer-events: none;
+}
+
+.peruta-run-route .joystick,
+.peruta-run-route .jump-button {
+	flex: 0 0 auto;
+	pointer-events: auto;
+	touch-action: none;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.peruta-run-route .joystick {
+	position: relative;
+	width: clamp(104px, 31vw, 124px);
+	height: clamp(104px, 31vw, 124px);
+}
+
+.peruta-run-route .jump-button {
+	width: clamp(88px, 25vw, 100px);
+	height: clamp(88px, 25vw, 100px);
+}
+
+@media (pointer: fine) and (min-width: 801px) {
+	.peruta-run-route .mobile-controls {
+		display: none;
+	}
+}
+
+@media (max-width: 800px), (pointer: coarse) {
+	.peruta-run-route .desktop-hint {
+		display: none;
+	}
+
+	.peruta-run-route .status-pill {
+		top: calc(var(--peruta-safe-top) + 58px);
+	}
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+	.peruta-run-route .mobile-controls {
+		bottom: calc(var(--peruta-safe-bottom) + 4px);
+		padding-inline:
+			calc(var(--peruta-safe-left) + 6px)
+			calc(var(--peruta-safe-right) + 6px);
+	}
+
+	.peruta-run-route .joystick {
+		width: 88px;
+		height: 88px;
+	}
+
+	.peruta-run-route .joystick-knob {
+		width: 42px;
+		height: 42px;
+	}
+
+	.peruta-run-route .jump-button {
+		width: 76px;
+		height: 76px;
+	}
+
+	.peruta-run-route .status-pill {
+		top: calc(var(--peruta-safe-top) + 54px);
+	}
+}

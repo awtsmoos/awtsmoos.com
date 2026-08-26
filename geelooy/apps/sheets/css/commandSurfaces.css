@@ -1,0 +1,118 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets formulas, paste choices, and advanced command dialogs share one bounded vessel of depth and light;
+Awtsmoos.com keeps every transient surface inside the Sheets root, viewport, and interaction covenant so power never escapes sight.
+*/
+.awtsmoos-sheets-app .command-dialog {
+	width: min(720px, calc(100dvw - 24px));
+	max-width: calc(100dvw - 24px);
+	max-height: min(720px, calc(100dvh - 40px));
+	padding: 0;
+	overflow: hidden;
+}
+
+.awtsmoos-sheets-app .formula-library-list {
+	display: grid;
+	gap: 4px;
+	max-height: min(560px, calc(100dvh - 170px));
+	overflow: auto;
+	overscroll-behavior: contain;
+	padding: 8px;
+}
+
+.awtsmoos-sheets-app .formula-card,
+.awtsmoos-sheets-app .paste-special-option {
+	border: 1px solid transparent;
+	border-radius: 12px;
+	background: transparent;
+	color: var(--text);
+}
+
+.awtsmoos-sheets-app .formula-card:hover:not(:disabled),
+.awtsmoos-sheets-app .paste-special-option:hover:not(:disabled) {
+	background: rgba(19, 124, 83, 0.055);
+	border-color: rgba(19, 124, 83, 0.1);
+	transform: translateY(-1px);
+}
+
+.awtsmoos-sheets-app .formula-card:focus-visible,
+.awtsmoos-sheets-app .paste-special-option:focus-visible {
+	background: rgba(19, 124, 83, 0.065);
+	border-color: rgba(19, 124, 83, 0.2);
+	box-shadow: var(--glow-active);
+}
+
+.awtsmoos-sheets-app .formula-card:active:not(:disabled),
+.awtsmoos-sheets-app .paste-special-option:active:not(:disabled) {
+	transform: translateY(1px) scale(0.99);
+}
+
+.awtsmoos-sheets-app .formula-card:disabled,
+.awtsmoos-sheets-app .paste-special-option:disabled {
+	opacity: 0.44;
+	transform: none;
+}
+
+.awtsmoos-sheets-app .formula-chip-row {
+	display: flex;
+	gap: 6px;
+	overflow-x: auto;
+	overscroll-behavior-inline: contain;
+	padding: 8px 14px;
+}
+
+.awtsmoos-sheets-app .formula-chip {
+	flex: 0 0 auto;
+	min-height: 32px;
+	padding: 5px 9px;
+	border: 1px solid rgba(19, 124, 83, 0.13);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.75);
+	color: var(--text);
+}
+
+.awtsmoos-sheets-app .formula-chip:hover:not(:disabled),
+.awtsmoos-sheets-app .formula-chip:focus-visible,
+.awtsmoos-sheets-app .formula-chip.is-active {
+	background: rgba(19, 124, 83, 0.11);
+	border-color: rgba(19, 124, 83, 0.22);
+	color: var(--accent-strong);
+}
+
+.awtsmoos-sheets-app .formula-chip:active:not(:disabled) {
+	transform: translateY(1px) scale(0.985);
+}
+
+.awtsmoos-sheets-app .paste-special-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+	padding: 12px;
+}
+
+.awtsmoos-sheets-app .paste-special-option {
+	padding: 12px;
+	text-align: left;
+}
+
+@media (max-width: 620px) {
+	.awtsmoos-sheets-app .command-dialog {
+		width: calc(100dvw - 12px);
+		max-width: calc(100dvw - 12px);
+		max-height: min(82dvh, 720px);
+		margin-bottom: max(6px, env(safe-area-inset-bottom));
+		border-radius: 18px 18px 12px 12px;
+	}
+
+	.awtsmoos-sheets-app .formula-card,
+	.awtsmoos-sheets-app .formula-chip,
+	.awtsmoos-sheets-app .paste-special-option {
+		min-height: 44px;
+	}
+
+	.awtsmoos-sheets-app .paste-special-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

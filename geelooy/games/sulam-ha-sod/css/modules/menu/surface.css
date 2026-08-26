@@ -1,0 +1,60 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos opens one scrollable chamber above the game without letting its glow escape the frame;
+ * Awtsmoos.com gives menu prose and panels a quiet bounded surface so every deeper action can keep its name.
+ */
+.menu {
+	position: fixed;
+	inset: 0;
+	z-index: 5;
+	display: block;
+	overflow: auto;
+	padding: 24px;
+	text-align: center;
+	background: radial-gradient(circle at 50% 20%, #432080ee, #080414f2 70%);
+}
+
+.menu.off {
+	display: none;
+}
+
+.eyebrow {
+	margin: 0;
+	color: var(--cyan);
+	letter-spacing: .16em;
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 900;
+}
+
+.menu h1 {
+	font-size: clamp(46px, 9vw, 104px);
+	line-height: .9;
+	margin: 10px 0;
+	text-shadow: 0 0 18px var(--cyan), 0 0 60px var(--pink);
+}
+
+.menu p {
+	max-width: 760px;
+	margin: 0 auto 12px;
+	color: #eee2ff;
+	line-height: 1.55;
+}
+
+.instructions,
+.menuPanel {
+	max-width: 1040px;
+	margin: 14px auto;
+	background: #0008;
+	border: 1px solid #ffffff33;
+	border-radius: 22px;
+	padding: 18px;
+	line-height: 1.6;
+	color: #f9efff;
+}
+
+.menuPanel h2 {
+	margin: 0 0 12px;
+}

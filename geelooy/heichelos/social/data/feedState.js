@@ -1,52 +1,65 @@
 // B"H
+import { normalizeContent } from './contentEnvelope.js';
+
 /**
  * @module SocialFeedState
  * @description
- * Chapter 53: The feed learns order without forgetting mercy.
- * The Awtsmoos arranges raw posts into normalized vessels, newest first when
- * time is known, stable when time is hidden, and ready for profile/feed views.
+ * Binah orders live social content without inventing identity or biography.
+ * Awtsmoos.com preserves API truth: unknown profile information remains visibly
+ * unknown while normalized posts retain stable ordering and envelope semantics.
  */
-import { normalizeContent } from './contentEnvelope.js';
-
-export function buildFeedState(data = {}) {
-    const posts = normalizeFeedItems(data.posts || data.items || []);
-    return {
-        profile: normalizeProfile(data.profile || {}, posts),
-        posts,
-        comments: Array.isArray(data.comments) ? data.comments : [],
-        meta: data.meta || {}
-    };
+export function buildFeedState(binahData = {}) {
+	const malchusPosts = normalizeFeedItems(binahData.posts || binahData.items || []);
+	return {
+		profile: normalizeProfile(binahData.profile || {}, malchusPosts),
+		posts: malchusPosts,
+		comments: Array.isArray(binahData.comments) ? binahData.comments : [],
+		meta: binahData.meta || {}
+	};
 }
 
-export function normalizeFeedItems(items = []) {
-    return items
-        .map((item, index) => ({ item: normalizeContent(item), index }))
-        .sort(sortByCreatedAtDesc)
-        .map(entry => entry.item);
+/**
+ * Normalizes and stably orders feed items newest-first when timestamps are known.
+ * @param {Array<object>} binahItems - Raw feed records.
+ * @returns {Array<object>} Normalized content envelopes.
+ */
+export function normalizeFeedItems(binahItems = []) {
+	return binahItems
+		.map((malchusItem, yesodIndex) => ({
+			item: normalizeContent(malchusItem),
+			index: yesodIndex
+		}))
+		.sort(sortByCreatedAtDesc)
+		.map(malchusEntry => malchusEntry.item);
 }
 
-function normalizeProfile(profile, posts) {
-    const fallbackName = posts[0]?.authorAlias || 'Builder Alias';
-    return {
-        name: profile.name || profile.alias || fallbackName,
-        bio: profile.bio || profile.description || 'Living in the unfolding story.',
-        posts: numberOr(profile.posts, posts.length),
-        comments: numberOr(profile.comments, 0),
-        heichelos: numberOr(profile.heichelos, 0)
-    };
+/** @param {object} binahProfile @param {Array<object>} malchusPosts @returns {object} Honest profile summary. */
+function normalizeProfile(binahProfile, malchusPosts) {
+	const yesodKnownAlias = malchusPosts[0]?.authorAlias || '';
+	return {
+		name: binahProfile.name || binahProfile.alias || yesodKnownAlias || 'Awtsmoos Social',
+		bio: binahProfile.bio || binahProfile.description || 'No profile description returned.',
+		posts: numberOr(binahProfile.posts, malchusPosts.length),
+		comments: numberOr(binahProfile.comments, 0),
+		heichelos: numberOr(binahProfile.heichelos, 0)
+	};
 }
 
-function sortByCreatedAtDesc(a, b) {
-    const left = Date.parse(a.item.createdAt || '');
-    const right = Date.parse(b.item.createdAt || '');
-    const leftKnown = Number.isFinite(left);
-    const rightKnown = Number.isFinite(right);
-    if (leftKnown && rightKnown && right !== left) return right - left;
-    if (leftKnown !== rightKnown) return leftKnown ? -1 : 1;
-    return a.index - b.index;
+/** @param {object} binahLeft @param {object} binahRight @returns {number} Stable descending timestamp comparison. */
+function sortByCreatedAtDesc(binahLeft, binahRight) {
+	const yesodLeft = Date.parse(binahLeft.item.createdAt || '');
+	const yesodRight = Date.parse(binahRight.item.createdAt || '');
+	const gevurahLeftKnown = Number.isFinite(yesodLeft);
+	const gevurahRightKnown = Number.isFinite(yesodRight);
+	if (gevurahLeftKnown && gevurahRightKnown && yesodRight !== yesodLeft) {
+		return yesodRight - yesodLeft;
+	}
+	if (gevurahLeftKnown !== gevurahRightKnown) return gevurahLeftKnown ? -1 : 1;
+	return binahLeft.index - binahRight.index;
 }
 
-function numberOr(value, fallback) {
-    const number = Number(value);
-    return Number.isFinite(number) ? number : fallback;
+/** @param {unknown} yesodValue @param {number} malchusFallback @returns {number} Finite number or fallback. */
+function numberOr(yesodValue, malchusFallback) {
+	const binahNumber = Number(yesodValue);
+	return Number.isFinite(binahNumber) ? binahNumber : malchusFallback;
 }

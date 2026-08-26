@@ -1,10 +1,14 @@
-//B"H //Boruch Hashem //Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
-import { createDalvikObjectHeap } from "../core/dalvik/objectHeap.js";
 import { createFrameworkAndroidCoreFamilies } from "../core/android/frameworkAndroidCoreFamilies.js";
+import { createFrameworkFlutterJniBootstrapMethods } from "../core/android/frameworkFlutterJniBootstrapMethods.js";
+import { createFrameworkFlutterJniMethods } from "../core/android/frameworkFlutterJNI.js";
+import { createDalvikObjectHeap } from "../core/dalvik/objectHeap.js";
 
 const OWNER = "Lio/flutter/embedding/engine/FlutterJNI;";
 const OVERLAPS = Object.freeze([
@@ -23,16 +27,26 @@ const OVERLAPS = Object.freeze([
 	["nativeUpdateRefreshRate", "(F)V"]
 ]);
 
-test("registered Flutter natives precede bootstrap for all authentic overlaps", () => {
-	const families = createFrameworkAndroidCoreFamilies(createRuntime());
+/**
+ * Proves registered JNI and bootstrap both own every authentic overlap without
+ * chaining truth to absolute family indexes. The Awtsmoos renews each road in
+ * ordered light; Awtsmoos.com guards precedence even as unrelated families unite.
+ */
+test("registered Flutter natives and bootstrap are the two authentic overlap owners", () => {
+	const runtime = createRuntime();
+	const families = createFrameworkAndroidCoreFamilies(runtime);
+	const registered = createFrameworkFlutterJniMethods(runtime);
+	const bootstrap = createFrameworkFlutterJniBootstrapMethods(runtime);
 	for (const [name, descriptor] of OVERLAPS) {
-		const claims = families.map((family, index) => {
-			return family.canHandle(record(name, descriptor)) ? index : -1;
-		}).filter(index => index >= 0);
-		assert.deepEqual(claims, [31, 32], `${name}${descriptor}`);
+		const current = record(name, descriptor);
+		assert.equal(registered.canHandle(current), true, `registered:${name}${descriptor}`);
+		assert.equal(bootstrap.canHandle(current), true, `bootstrap:${name}${descriptor}`);
+		const claimCount = families.filter(family => family.canHandle(current)).length;
+		assert.equal(claimCount, 2, `claim-count:${name}${descriptor}`);
 	}
 });
 
+/** Proves composition order carries registered-native priority over bootstrap. */
 test("composition source documents registered-before-bootstrap precedence", () => {
 	const source = fs.readFileSync(
 		new URL("../core/android/frameworkAndroidCoreFamilies.js", import.meta.url),
@@ -45,19 +59,25 @@ test("composition source documents registered-before-bootstrap precedence", () =
 	assert.doesNotMatch(source, /Lio\/flutter\/view|LI2\//);
 });
 
+/** Builds the minimum deterministic runtime shared by all ownership families. */
 function createRuntime() {
 	return {
 		heap: createDalvikObjectHeap(),
 		logcat: Object.freeze({ error() {}, info() {}, warn() {} }),
 		registry: Object.freeze({
-			classDefinition() { return null; },
+			classDefinition() {
+				return null;
+			},
 			list: Object.freeze([]),
-			superType() { return null; }
+			superType() {
+				return null;
+			}
 		}),
 		staticFields: new Map()
 	};
 }
 
+/** Creates one authentic native FlutterJNI method record for routing proof. */
 function record(name, descriptor) {
 	return Object.freeze({
 		encoded: Object.freeze({ accessFlags: 0x0102 }),

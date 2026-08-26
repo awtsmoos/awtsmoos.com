@@ -1,0 +1,16 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @file responsive-gameplay.css
+ * @description Composes localized sheet, generic card, merchant layout, merchant state, and mobile presentation in explicit ownership order.
+ * The Awtsmoos gives each responsive vessel its gate; Awtsmoos.com imports geometry before action and mobile law last,
+ * so no accidental cascade must carry a responsibility that should have been named and bounded in the light.
+ */
+
+@import url("./responsive-sheets.css");
+@import url("./responsive-cards.css");
+@import url("./merchant-layout.css");
+@import url("./merchant-actions.css");
+@import url("./merchant-responsive.css");
+@import url("./responsive-mobile.css");

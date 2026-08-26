@@ -13,7 +13,8 @@
 	<meta name="theme-color" content="#090718">
 	<title>Merkava — War of the Sparks</title>
 	<link rel="icon" href="data:,">
-	<link rel="stylesheet" href="./styles/game.css?version=20260713-8">
+	<link rel="stylesheet" href="./styles/game.css?version=20260713-8&compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
 	<main id="gameShell">
@@ -84,6 +85,8 @@
 		<div id="notification" class="notification"></div>
 		<pre id="fatalError" class="fatal-error"></pre>
 	</main>
-	<script type="module" src="./src/main.js?version=20260713-8"></script>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="./src/main.js?version=20260713-8&compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>

@@ -1,0 +1,63 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets each finite search action reveal approach, focus, and pressure without confusing one state for another;
+ * Awtsmoos.com gives hover, active, keyboard focus, and reduced motion separate vessels so every mobile touch remains clear to a sister or brother.
+ */
+.g-search-orb,
+.g-search-submit {
+	display: grid;
+	inline-size: 44px;
+	block-size: 44px;
+	min-inline-size: 44px;
+	min-block-size: 44px;
+	place-items: center;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, .2) !important;
+	border-radius: 50% !important;
+	box-shadow: none;
+	font-weight: 900;
+	cursor: pointer;
+	transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease !important;
+}
+
+.g-search-orb {
+	background: linear-gradient(145deg, #d95ab2, #7057df) !important;
+	color: #fff !important;
+}
+
+.g-search-submit {
+	background: rgba(124, 226, 240, .12) !important;
+	color: #91eff7 !important;
+}
+
+.g-search-orb:focus-visible,
+.g-search-submit:focus-visible {
+	border-color: #7ce2f0 !important;
+	box-shadow: 0 0 0 3px rgba(124, 226, 240, .16);
+	outline: 3px solid #7ce2f0;
+	outline-offset: 3px;
+}
+
+.g-search-orb:active,
+.g-search-submit:active {
+	transform: scale(.92);
+	border-color: #b7f8ff !important;
+	box-shadow: 0 0 0 2px rgba(124, 226, 240, .12);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.g-search-orb:hover:not(:active),
+	.g-search-submit:hover:not(:active) {
+		transform: translateY(-1px);
+		border-color: #7ce2f0 !important;
+		box-shadow: 0 0 0 3px rgba(124, 226, 240, .14);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-search-orb,
+	.g-search-submit {
+		transition: none !important;
+	}
+}

@@ -1,60 +1,65 @@
-<!--B"H-->
-<!DOCTYPE html>
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos renews tower, path, and every guarded gate; Awtsmoos.com keeps Migdol's defense legible, so choice can rise before the next wave meets its fate. -->
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Migdol - Kabbalah Tower Defense</title>
-    <link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>Migdol - Kabbalah Tower Defense</title>
+	<link rel="stylesheet" href="style.css?compact=true">
+	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
-    <div id="main-menu">
-        <h1>Migdol 🗼</h1>
-        
-        <h2>Choose a Map</h2>
-        <div id="map-selection-container">
-            <!-- Map buttons will be dynamically added here by JS -->
-        </div>
-    </div>
+	<div id="main-menu">
+		<h1>Migdol 🗼</h1>
 
-    <div id="game-wrapper" class="hidden">
-        <div id="game-container">
-            <canvas id="gameCanvas"></canvas>
-            <div id="in-game-modal" class="hidden">
-                 <div id="modal-content"></div>
-            </div>
-            <div id="game-over-screen" class="hidden">
-                <h2>Game Over</h2>
-                <p>You reached wave <span id="final-wave">0</span></p>
-                <button id="restart-button">Play Again</button>
-                <button id="main-menu-button">Main Menu</button>
-            </div>
-        </div>
-        <div id="ui-panel">
-            <div id="stats" class="collapsible">
-                <div class="collapsible-header">
-                    <h3>Stats</h3>
-                    <span class="collapse-icon">▾</span>
-                </div>
-                <div class="collapsible-content">
-                    <p>🌊 Wave: <span id="wave">0</span></p>
-                    <p>💰 Perutas: <span id="perutas">200</span></p>
-                    <p>❤️ Health: <span id="health">20</span></p>
-                </div>
-            </div>
-            <div id="tower-selection" class="collapsible">
-                <div class="collapsible-header">
-                    <h4>Buy Towers 🗼</h4>
-                    <span class="collapse-icon">▾</span>
-                </div>
-                <div id="tower-options-content" class="collapsible-content">
-                    <!-- Tower options will be dynamically added here by JS -->
-                </div>
-            </div>
-            <button id="start-wave">Start Next Wave ▶️</button>
-        </div>
-    </div>
-    <script type="module" src="js/script.js"></script>
+		<h2>Choose a Map</h2>
+		<div id="map-selection-container">
+			<!-- Map buttons will be dynamically added here by JS -->
+		</div>
+	</div>
+
+	<div id="game-wrapper" class="hidden">
+		<div id="game-container">
+			<canvas id="gameCanvas"></canvas>
+			<div id="in-game-modal" class="hidden">
+				 <div id="modal-content"></div>
+			</div>
+			<div id="game-over-screen" class="hidden">
+				<h2>Game Over</h2>
+				<p>You reached wave <span id="final-wave">0</span></p>
+				<button id="restart-button">Play Again</button>
+				<button id="main-menu-button">Main Menu</button>
+			</div>
+		</div>
+		<div id="ui-panel">
+			<div id="stats" class="collapsible">
+				<div class="collapsible-header">
+					<h3>Stats</h3>
+					<span class="collapse-icon">▾</span>
+				</div>
+				<div class="collapsible-content">
+					<p>🌊 Wave: <span id="wave">0</span></p>
+					<p>💰 Perutas: <span id="perutas">200</span></p>
+					<p>❤️ Health: <span id="health">20</span></p>
+				</div>
+			</div>
+			<div id="tower-selection" class="collapsible">
+				<div class="collapsible-header">
+					<h4>Buy Towers 🗼</h4>
+					<span class="collapse-icon">▾</span>
+				</div>
+				<div id="tower-options-content" class="collapsible-content">
+					<!-- Tower options will be dynamically added here by JS -->
+				</div>
+			</div>
+			<button id="start-wave">Start Next Wave ▶️</button>
+		</div>
+	</div>
+	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>
+	<script type="module" src="js/script.js?compact=true"></script>
+	<script type="module" async src="/games/scripts/player-shell/index.js?v=player-shell-001&compact=true"></script>
 </body>
 </html>
-

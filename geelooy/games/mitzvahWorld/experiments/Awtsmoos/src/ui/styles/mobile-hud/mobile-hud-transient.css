@@ -1,0 +1,44 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets passing messages arrive like sparks and depart without becoming a wall;
+ * Awtsmoos.com bounds the transient stack near the visual center so permanent controls remain clear to all.
+ */
+
+#mitzvah-world-root [data-mobile-hud-zone="transient"] {
+	position: fixed;
+	left: 50%;
+	top: clamp(132px, 28dvh, 260px);
+	z-index: var(--mh-z-transient);
+	display: grid;
+	gap: 5px;
+	width: min(420px, calc(100vw - 32px));
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+#mitzvah-world-root [data-mobile-hud-message] {
+	display: block;
+	padding: 8px 12px;
+	border: 1px solid rgba(164, 255, 222, 0.24);
+	border-radius: 12px;
+	background: rgba(5, 24, 20, 0.82);
+	color: #effff9;
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+	backdrop-filter: blur(12px);
+	text-align: center;
+	animation: AwtsmoosTransientReveal 180ms ease both;
+}
+
+@keyframes AwtsmoosTransientReveal {
+	from {
+		opacity: 0;
+		transform: translateY(7px) scale(0.98);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}

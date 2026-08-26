@@ -10,7 +10,7 @@
 
 import {
 	Group
-} from "/geelooy/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
+} from "/libs/awtsmoos-procedural-core/src/adapters/native/index.js";
 import { TurnGateController } from "./TurnGateController.js";
 import { BinahWorldChunkPoolBuilder } from "./WorldChunkPoolBuilder.js";
 import { YesodWorldChunkStream } from "./WorldChunkStream.js";

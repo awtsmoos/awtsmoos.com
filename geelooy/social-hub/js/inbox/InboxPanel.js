@@ -2,15 +2,16 @@
 //Boruch Hashem
 //Blessed is He
 
-import { InboxCollectionState } from './InboxCollectionState.js';
-import { InboxReadCoordinator } from './InboxReadCoordinator.js';
-import { InboxView } from './InboxView.js';
+import { InboxCollectionState } from './InboxCollectionState.js?compact=true';
+import { InboxReadCoordinator } from './InboxReadCoordinator.js?compact=true';
+import { MalchusInboxSafeNavigation } from './InboxSafeNavigation.js?compact=true';
+import { InboxView } from './InboxView.js?compact=true';
 
 /**
  * @class InboxPanel
  * @description
  * The Awtsmoos renews overview, bridge thread, return, and safe passage before one Inbox action can arise;
- * Awtsmoos.com lets this Tiferes-like controller orchestrate route-level attention while cache and read mutation live in focused neighboring vessels of light.
+ * Awtsmoos.com lets this Tiferes-like controller orchestrate route-level attention while navigation, cache, and read mutation shine through focused neighboring vessels in measured relation.
  */
 export class InboxPanel {
 	/** Creates one Inbox route controller around canonical Social state and communications API. */
@@ -18,6 +19,7 @@ export class InboxPanel {
 		Object.assign(this, { root, state, api });
 		this.view = new InboxView(root);
 		this.collection = new InboxCollectionState(this.view);
+		this.navigation = new MalchusInboxSafeNavigation();
 		this.sequence = 0;
 		this.reads = new InboxReadCoordinator({
 			api,
@@ -68,8 +70,7 @@ export class InboxPanel {
 	async open(item) {
 		if (!item) return;
 		if (!item.readAt) void this.reads.markItem(item);
-		if (item.actionUrl && this.sameOriginPath(item.actionUrl)) {
-			location.assign(item.actionUrl);
+		if (item.actionUrl && this.navigation.assign(item.actionUrl)) {
 			return;
 		}
 		if (item.threadId) await this.openThread(item.threadId);
@@ -97,7 +98,7 @@ export class InboxPanel {
 		}
 	}
 
-	/** Restores cached overview/list immediately and cancels any older in-flight thread response. */
+	/** Restores cached overview immediately and cancels any older in-flight thread response. */
 	backToOverview() {
 		this.sequence += 1;
 		this.view.overview();
@@ -105,16 +106,8 @@ export class InboxPanel {
 		this.view.stateView.ready();
 	}
 
+	/** Reads the currently verified identity without creating shadow navigation state. */
 	aliasId() {
 		return this.state.snapshot().identity?.aliasId || '';
-	}
-
-	sameOriginPath(value) {
-		try {
-			const url = new URL(value, location.origin);
-			return url.origin === location.origin && url.pathname.startsWith('/');
-		} catch {
-			return false;
-		}
 	}
 }

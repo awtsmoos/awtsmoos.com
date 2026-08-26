@@ -1,13 +1,97 @@
 /* B"H */
-/** Chapter 97: Feed cards become thunder tablets. */
-.awt-feed, .awt-feed-list { display: grid; gap: 12px; }
-.awt-card, .awt-post-card { position: relative; overflow: hidden; border: 1px solid var(--awt-border); border-radius: var(--awt-radius-lg); background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025)); box-shadow: var(--awt-shadow-brutal); padding: 16px; transform-style: preserve-3d; }
-.awt-card::before, .awt-post-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(69,183,176,.12), transparent 38%, rgba(215,179,90,.1)); opacity: .42; pointer-events: none; }
-.awt-card:hover, .awt-post-card:hover { transform: translateY(-2px); border-color: rgba(69,183,176,.38); }
-.awt-card-head, .awt-card-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-.awt-post-title { margin: 0; font-size: clamp(1.2rem, 2vw, 2rem); background: var(--awt-gradient-brutal); -webkit-background-clip: text; color: transparent; }
-.awt-post-summary { color: var(--awt-muted); line-height: 1.65; }
-.awt-stat-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.awt-card h3 { margin: 10px 0 6px; font-size: 1.05rem; }
-.awt-card p { color: var(--awt-muted); line-height: 1.55; margin: 0 0 12px; }
-.awt-empty-state { color: var(--awt-muted); }
+/** The Awtsmoos lets each feed revelation stand luminous without escaping the local social root. */
+.awtsmoos-social-root :where(.awt-feed, .awt-feed-list) {
+	display: grid;
+	gap: .75rem;
+	min-inline-size: 0;
+}
+
+.awtsmoos-social-root :where(.awt-card, .awt-post-card) {
+	position: relative;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	padding: 1rem;
+	overflow: clip;
+	border: 1px solid var(--awt-border);
+	border-radius: var(--awt-radius-lg);
+	background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
+	box-shadow: var(--awt-shadow-brutal);
+	transform-style: preserve-3d;
+	transition:
+		transform 160ms cubic-bezier(.2,.8,.2,1),
+		border-color 180ms ease,
+		box-shadow 180ms ease;
+}
+
+.awtsmoos-social-root :where(.awt-card, .awt-post-card)::before {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	content: "";
+	background: linear-gradient(90deg, rgba(69,183,176,.12), transparent 38%, rgba(215,179,90,.1));
+	opacity: .42;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.awtsmoos-social-root :where(.awt-card, .awt-post-card):hover {
+		border-color: rgba(69,183,176,.38);
+		box-shadow: 0 1rem 2.5rem rgba(0,0,0,.24);
+		transform: translateY(-2px);
+	}
+}
+
+.awtsmoos-social-root :where(.awt-card, .awt-post-card):active {
+	transform: scale(.995);
+}
+
+.awtsmoos-social-root :where(.awt-card-head, .awt-card-actions) {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: .65rem;
+	min-inline-size: 0;
+}
+
+.awtsmoos-social-root .awt-post-title {
+	margin: 0;
+	overflow-wrap: anywhere;
+	background: var(--awt-gradient-brutal);
+	-webkit-background-clip: text;
+	color: transparent;
+	font-size: clamp(1.2rem, 5vw, 2rem);
+}
+
+.awtsmoos-social-root .awt-post-summary {
+	overflow-wrap: anywhere;
+	color: var(--awt-muted);
+	line-height: 1.65;
+}
+
+.awtsmoos-social-root .awt-stat-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+	min-inline-size: 0;
+}
+
+.awtsmoos-social-root .awt-card h3 {
+	margin: .65rem 0 .4rem;
+	overflow-wrap: anywhere;
+	font-size: 1.05rem;
+}
+
+.awtsmoos-social-root .awt-card p {
+	margin: 0 0 .75rem;
+	overflow-wrap: anywhere;
+	color: var(--awt-muted);
+	line-height: 1.55;
+}
+
+.awtsmoos-social-root .awt-empty-state {
+	color: var(--awt-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-social-root :where(.awt-card, .awt-post-card) { transition: none; }
+}

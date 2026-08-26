@@ -1,51 +1,51 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- *
- * Each constellation card speaks through loud emoji and separated plain text.
+ * The Awtsmoos lets each route become visible without confusing hover, current place, keyboard focus, or physical press;
+ * Awtsmoos.com gives the constellation complete interaction language so no card feels half-styled or less.
  */
 .g-constellation-route {
 	position: relative;
 	display: grid;
 	grid-template-columns: 3rem minmax(0, 1fr);
 	align-items: center;
-	gap: 0.75rem;
-	min-height: 4.75rem;
-	padding: 0.75rem;
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	gap: .75rem;
+	min-inline-size: 0;
+	min-block-size: 4.75rem;
+	padding: .75rem;
+	border: 1px solid rgba(255, 255, 255, .1);
 	border-radius: 1rem;
 	background: #10182a;
-	transition: transform 150ms var(--g-ease), border-color 150ms var(--g-ease), background 150ms var(--g-ease);
+	transition: transform 150ms var(--g-ease), border-color 150ms var(--g-ease), background-color 150ms var(--g-ease), box-shadow 150ms var(--g-ease);
 }
 
-.g-constellation-route:hover,
 .g-constellation-route[aria-current="page"] {
-	border-color: rgba(60, 236, 255, 0.46);
+	border-color: rgba(60, 236, 255, .62);
 	background: #16284a;
-	transform: translateY(-2px);
+	box-shadow: inset .2rem 0 #3cecff;
 }
 
 .g-constellation-route[data-main-route="true"] {
 	grid-column: 1 / -1;
-	min-height: 5.75rem;
-	border-color: rgba(95, 232, 255, 0.62);
+	min-block-size: 5.75rem;
+	border-color: rgba(95, 232, 255, .62);
 	background: linear-gradient(115deg, #0d4055, #392a84 56%, #6f1e61);
 }
 
 .g-constellation-icon {
 	display: grid;
-	width: 3rem;
-	height: 3rem;
+	inline-size: 3rem;
+	block-size: 3rem;
 	place-items: center;
-	border-radius: 0.95rem;
+	border-radius: .95rem;
 	background: linear-gradient(145deg, #183f58, #3b2c76 58%, #601d55);
 	font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
 	font-size: 1.45rem;
 }
 
 .g-constellation-route[data-main-route="true"] .g-constellation-icon {
-	width: 3.6rem;
-	height: 3.6rem;
+	inline-size: 3.6rem;
+	block-size: 3.6rem;
 	background: linear-gradient(135deg, #20d5f4, #7350ff 52%, #ff3aa9);
 	font-size: 1.8rem;
 }
@@ -54,10 +54,11 @@
 .g-constellation-route strong,
 .g-constellation-route small {
 	display: block;
+	min-inline-size: 0;
 }
 
 .g-constellation-copy {
-	min-width: 0;
+	overflow-wrap: anywhere;
 }
 
 .g-constellation-route strong {
@@ -66,8 +67,37 @@
 }
 
 .g-constellation-route small {
-	margin-top: 0.22rem;
+	margin-top: .22rem;
 	color: var(--g-muted);
-	font-size: 0.76rem;
+	font-size: .76rem;
 	line-height: 1.35;
+	overflow-wrap: anywhere;
+}
+
+.g-constellation-route:focus-visible {
+	border-color: #3cecff;
+	outline: 3px solid #3cecff;
+	outline-offset: 3px;
+	background: #16284a;
+	box-shadow: 0 0 0 2px rgba(60, 236, 255, .12);
+}
+
+.g-constellation-route:active {
+	transform: translateY(0) scale(.985);
+	border-color: #9af6ff;
+	background: #1a3054;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.g-constellation-route:hover:not(:active) {
+		transform: translateY(-2px);
+		border-color: rgba(60, 236, 255, .46);
+		background: #16284a;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.g-constellation-route {
+		transition: none;
+	}
 }

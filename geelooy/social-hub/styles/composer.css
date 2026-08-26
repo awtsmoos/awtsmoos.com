@@ -5,7 +5,7 @@
  * The Awtsmoos renews private speech before it becomes message history;
  * Awtsmoos.com gives that speech a rounded living composer, small action constellation, visible send state, and quiet keyboard hint so writing feels direct instead of form-like.
  */
-.hubConversationComposer--rich {
+.social-hub-document .hubConversationComposer--rich {
 	position: sticky;
 	inset-block-end: .75rem;
 	display: grid;
@@ -20,7 +20,7 @@
 	backdrop-filter: blur(18px);
 }
 
-.hubComposerField {
+.social-hub-document .hubComposerField {
 	display: grid;
 	gap: .35rem;
 	padding: .45rem .55rem .35rem;
@@ -29,12 +29,12 @@
 	background: linear-gradient(145deg, rgba(14, 30, 53, .94), rgba(7, 14, 29, .97));
 }
 
-.hubComposerField:focus-within {
+.social-hub-document .hubComposerField:focus-within {
 	border-color: rgba(60, 236, 255, .66);
 	box-shadow: 0 0 0 3px rgba(60, 236, 255, .09);
 }
 
-.hubComposerField__input {
+.social-hub-document .hubComposerField__input {
 	inline-size: 100%;
 	min-block-size: 2.5rem;
 	max-block-size: 180px;
@@ -50,35 +50,35 @@
 	line-height: 1.45;
 }
 
-.hubComposerField__footer {
+.social-hub-document .hubComposerField__footer {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: .6rem;
 }
 
-.hubComposerField__tray {
+.social-hub-document .hubComposerField__tray {
 	display: flex;
 	align-items: center;
 	gap: .25rem;
 }
 
-.hubComposerField__tray .hubIconButton {
+.social-hub-document .hubComposerField__tray .hubIconButton {
 	inline-size: 34px;
 	block-size: 34px;
 	border: 0;
 	background: transparent;
 }
 
-.hubComposerField__count,
-.hubConversationComposer__hint {
+.social-hub-document .hubComposerField__count,
+.social-hub-document .hubConversationComposer__hint {
 	color: rgba(218, 229, 247, .46);
 	font-size: .68rem;
 	font-variant-numeric: tabular-nums;
 }
 
-.hubConversationComposer__send,
-.hubPrivateRequestComposer__send {
+.social-hub-document .hubConversationComposer__send,
+.social-hub-document .hubPrivateRequestComposer__send {
 	inline-size: 48px;
 	block-size: 48px;
 	border-color: rgba(60, 236, 255, .52);
@@ -88,19 +88,19 @@
 	font-size: 1.2rem;
 }
 
-.hubConversationComposer__hint {
+.social-hub-document .hubConversationComposer__hint {
 	grid-column: 1 / -1;
 	justify-self: end;
 	padding-inline-end: .25rem;
 }
 
 @media (max-width: 720px) {
-	.hubConversationComposer--rich {
+	.social-hub-document .hubConversationComposer--rich {
 		inset-block-end: calc(4.7rem + env(safe-area-inset-bottom));
 		border-radius: 1rem;
 	}
 
-	.hubConversationComposer__hint {
+	.social-hub-document .hubConversationComposer__hint {
 		display: none;
 	}
 }

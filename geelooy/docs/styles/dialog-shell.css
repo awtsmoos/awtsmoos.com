@@ -1,0 +1,88 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos lets focused inquiry rise without erasing the map beneath; Awtsmoos.com keeps each
+ * native dialog bounded by viewport, safe area, and explicit scroll ownership rather than hidden overflow accidents.
+ */
+body[data-geelooy-route="docs"] dialog {
+	max-inline-size: 100dvw;
+	max-block-size: 100dvh;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
+}
+
+body[data-geelooy-route="docs"] dialog::backdrop {
+	background: rgb(0 8 6 / 64%);
+	backdrop-filter: blur(7px);
+}
+
+body[data-geelooy-route="docs"] .dialog-shell {
+	display: grid;
+	grid-template-rows: auto auto auto minmax(0, 1fr);
+	inline-size: min(760px, calc(100dvw - 28px));
+	max-inline-size: calc(100dvw - 28px);
+	max-block-size: min(780px, calc(100dvh - 32px));
+	margin: 0;
+	overflow: hidden;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius-lg);
+	background: var(--bg-soft);
+	box-shadow: var(--shadow);
+	color: var(--text);
+}
+
+body[data-geelooy-route="docs"] .dialog-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	min-inline-size: 0;
+	padding: 20px 22px 14px;
+}
+
+body[data-geelooy-route="docs"] .dialog-head h2 {
+	margin: 0;
+	font-size: 1.2rem;
+}
+
+body[data-geelooy-route="docs"] :where(.search-field, .ask-field) {
+	display: block;
+	padding-inline: 22px;
+}
+
+body[data-geelooy-route="docs"] :where(.search-field input, .ask-field textarea) {
+	inline-size: 100%;
+	min-inline-size: 0;
+	padding: 14px 16px;
+	border: 1px solid var(--line-strong);
+	border-radius: 12px;
+	background: var(--surface-strong);
+	color: var(--text);
+}
+
+body[data-geelooy-route="docs"] .ask-field span {
+	display: block;
+	margin-block-end: 7px;
+	color: var(--muted);
+	font-size: .8rem;
+}
+
+body[data-geelooy-route="docs"] .ask-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 9px;
+	padding: 14px 22px;
+}
+
+body[data-geelooy-route="docs"] .sr-only {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
