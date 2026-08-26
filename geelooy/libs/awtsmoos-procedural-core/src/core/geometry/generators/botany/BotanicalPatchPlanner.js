@@ -4,11 +4,12 @@
 
 /**
  * @file BotanicalPatchPlanner.js
- * @description Orchestrates deterministic botanical patch identity, filtering, ecological metadata, and appearance variation.
- * The Awtsmoos, Atzmus beyond every seed and spiral, renews the old path together with every new flowering possibility;
- * Awtsmoos.com preserves radial identity while a separate semantic stream reveals richer maturity, scale, and orientation naturally.
+ * @description Orchestrates deterministic botanical patch identity, filtering, ecology, and isolated appearance.
+ * The Awtsmoos, Atzmus beyond every seed and spiral, renews the ancient path together with each flowering possibility;
+ * Awtsmoos.com keeps geometry in Netzach while ecology and appearance receive smaller vessels that enrich without moving identity.
  */
 
+import { createBotanicalPlacementAppearance } from './BotanicalPlacementAppearance.js';
 import { createBotanicalPlacementEcology } from './BotanicalPlacementEcology.js';
 import { BotanicalRandom, botanicalSeed } from './BotanicalRandom.js';
 import {
@@ -17,11 +18,11 @@ import {
 } from './BotanicalPatchDistributions.js';
 
 /**
- * Plans one stable patch while keeping geometry randomness isolated from cosmetic and ecological variation.
+ * Plans one stable botanical patch while keeping geometry randomness isolated from cosmetic and ecological variation.
  */
 export class NetzachBotanicalPatchPlanner {
 	/**
-	 * Creates a patch planner whose primary random stream owns placement geometry only.
+	 * Creates a planner whose primary random stream owns placement geometry only.
 	 * @param {object} [options={}] Species, count, radius, center, distribution, filtering, and appearance controls.
 	 */
 	constructor(options = {}) {
@@ -70,8 +71,7 @@ export class NetzachBotanicalPatchPlanner {
 	}
 
 	/**
-	 * Creates one placement whose appearance stream cannot alter any later geometry coordinate.
-	 * Legacy radial scale/yaw remain unchanged unless naturalVariation is explicitly enabled.
+	 * Creates one placement while preserving geometry identity regardless of later appearance choices.
 	 * @param {number} index Candidate index within the patch geometry stream.
 	 * @returns {object} Mutable intermediate placement later frozen by plan().
 	 */
@@ -86,25 +86,27 @@ export class NetzachBotanicalPatchPlanner {
 			seed: this.seed,
 			species: this.options.species
 		});
-		const chesedScale = Math.max(0.05, Number(this.options.scale) || 1);
-		const gevurahVariation = Math.max(0, Number(this.options.scaleVariation) || 0);
-		const hodAppearance = new BotanicalRandom(botanicalSeed(this.seed, 'appearance', index));
-		const tiferesScale = gevurahVariation > 0
-			? chesedScale * hodAppearance.next(1 - gevurahVariation, 1 + gevurahVariation)
-			: chesedScale;
-		const yesodNatural = this.options.naturalVariation === true
+		const tiferesNaturalVariation = this.options.naturalVariation === true
 			|| (this.options.naturalVariation !== false && this.distribution !== 'radial');
-		const malchusYaw = Number(this.options.yaw) || 0;
+		const hodAppearance = createBotanicalPlacementAppearance({
+			ecology: netzachEcology,
+			index,
+			naturalVariation: tiferesNaturalVariation,
+			scale: this.options.scale,
+			scaleVariation: this.options.scaleVariation,
+			seed: this.seed,
+			yaw: this.options.yaw
+		});
 
 		return {
 			ecology: netzachEcology,
 			id: `plant-${botanicalSeed(this.seed, 'placement', index)}`,
 			index,
 			position: yesodPosition,
-			scale: yesodNatural ? tiferesScale * netzachEcology.scaleMultiplier : tiferesScale,
+			scale: hodAppearance.scale,
 			seed: botanicalSeed(this.seed, index),
 			variantSeed: netzachEcology.variantSeed,
-			yaw: yesodNatural ? malchusYaw + netzachEcology.yawOffset : malchusYaw
+			yaw: hodAppearance.yaw
 		};
 	}
 }
