@@ -4,17 +4,17 @@
 
 /**
  * @file moduleUrlTransform.js
- * @description Preserves absolute import.meta.url identity when CompactJS carries readable modules into a generated browser garment.
- * The Awtsmoos is beyond path and place while every finite module still needs one truthful face;
- * Awtsmoos.com joins a canonical public path to a stable runtime origin so bootstrap light can enter the world with grace.
+ * @description Preserves absolute import.meta.url identity without constructing nested browser URL objects.
+ * The Awtsmoos is beyond path and place while each finite module still receives one truthful face;
+ * Awtsmoos.com joins origin to canonical path as plain light, so source may shape that string into a URL with grace.
  */
 
 const path = require("path");
 
-const FALLBACK_RUNTIME_ORIGIN = "https://awtsmoos.local/";
+const FALLBACK_RUNTIME_ORIGIN = "https://awtsmoos.local";
 
 /**
- * @description Rewrites every import.meta.url into a stable absolute runtime URL expression.
+ * @description Rewrites every import.meta.url into a stable absolute runtime URL string expression.
  * @param {string} source Transformed module body source.
  * @param {string} browserUrl Canonical root-relative public resource pathname.
  * @returns {string} Source whose module URL references remain absolute at runtime.
@@ -29,32 +29,27 @@ function rewriteImportMetaUrl(source, browserUrl) {
 }
 
 /**
- * @description Creates generated JavaScript that resolves one public path from a stable browser origin.
+ * @description Creates generated JavaScript that concatenates stable origin and canonical root-relative module path.
  * @param {string} browserUrl Canonical root-relative public resource pathname.
- * @returns {string} Parenthesized expression yielding an absolute URL string.
+ * @returns {string} Parenthesized expression yielding one absolute URL string without invoking URL.
  */
 function runtimeBrowserUrlExpression(browserUrl) {
 	const publicPath = JSON.stringify(browserUrl);
 	const fallback = JSON.stringify(FALLBACK_RUNTIME_ORIGIN);
 	const runtimeOrigin = runtimeOriginExpression(fallback);
 
-	return `(
-		new URL(
-			${publicPath},
-			${runtimeOrigin}
-		).href
-	)`.replace(/\n\s*/g, " ");
+	return `(${runtimeOrigin} + ${publicPath})`;
 }
 
 /**
- * @description Creates generated JavaScript that rejects opaque origins and falls back to a real absolute base.
+ * @description Creates generated JavaScript that rejects opaque origins and falls back to a real absolute origin.
  * @param {string} fallbackJson JSON-encoded fallback origin.
  * @returns {string} Parenthesized runtime-origin expression.
  */
 function runtimeOriginExpression(fallbackJson) {
 	return `(
 		globalThis.location?.origin && globalThis.location.origin !== "null"
-			? globalThis.location.origin + "/"
+			? globalThis.location.origin
 			: ${fallbackJson}
 	)`.replace(/\n\s*/g, " ");
 }
