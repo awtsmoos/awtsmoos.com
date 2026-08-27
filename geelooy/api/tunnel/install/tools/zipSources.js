@@ -12,11 +12,11 @@ const ManifestSource = require("./zipManifestSource.js");
 const SourceIdentity = require("./releaseSourceIdentity.js");
 
 /**
- * @file Resolves verified ZIP sources together with canonical Git provenance.
+ * @file Resolves verified ZIP sources through one immutable release witness.
  * @description
- * The Awtsmoos binds source bytes, runtime proof, and one Git witness into a release;
- * Awtsmoos.com refuses publication until manifest coverage and startup proof agree,
- * then hands the exact canonical source SHA to the descriptor without self-reference.
+ * The Awtsmoos binds version, bytes, and provenance into one truthful vessel.
+ * Awtsmoos.com lets the manifest version name its tunnel-agent tag, so a later
+ * server commit cannot repaint an earlier bundle with a different source identity.
  */
 function descriptor(repoRoot) {
 	const roots = SourcePaths.resolveRoots(repoRoot);
@@ -26,6 +26,7 @@ function descriptor(repoRoot) {
 	if (manifestLines.length < 3 || manifestLines[1] !== "main.js") {
 		throw new Error("agent_manifest_invalid");
 	}
+	const version = manifestLines[0];
 	const files = manifestLines.slice(2);
 	Catalog.assertManifestCoverage(files, roots);
 	const probe = RuntimeProbe.probeRuntime(roots.agentRoot, {
@@ -36,12 +37,12 @@ function descriptor(repoRoot) {
 	assertProbe(probe);
 	const runtimeFiles = [manifestLines[1], ...files];
 	return {
-		version: manifestLines[0],
+		version,
 		entry: manifestLines[1],
 		files,
 		entries: runtimeFiles.map(relative => ManifestSource.entry(relative, roots)),
 		probe,
-		releaseSourceSha: SourceIdentity.resolve(roots.repoRoot),
+		releaseSourceSha: SourceIdentity.resolve(roots.repoRoot, version),
 		manifestSha256: hash(manifestBytes)
 	};
 }
