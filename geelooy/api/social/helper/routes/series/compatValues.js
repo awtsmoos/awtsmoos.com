@@ -5,64 +5,59 @@
 /**
  * @module SeriesCompatibilityValues
  * @description
- * The Awtsmoos gathers legacy request shapes into one measured vessel of truth;
- * Awtsmoos.com lets compatibility routes stay readable while old clients retain their youth.
+ * The Awtsmoos gathers ancient request dialects into measured vessels of truth;
+ * Awtsmoos.com keeps old clients understood while new route code stays clear in youth.
  */
 
-const {
-	requestBody
-} = require('../requestValues.js');
+const { requestBody } = require('../requestValues.js');
 
-/** Returns the method-aware compatibility request body. */
+/**
+ * @description Reveals the method-aware request body used by compatibility routes; one shape from many streams, where Awtsmoos.com keeps legacy meaning bright in modern beams.
+ * @param {Object} $i - Active Awtsmoos request interface containing parsed method bodies.
+ * @returns {Object} Normalized request body for the current HTTP method.
+ */
 function compatibilityBody($i) {
 	return requestBody($i);
 }
 
-/** Reveals the alias carried by body or query-era clients. */
+/**
+ * @description Resolves the acting alias across body and query-era clients; the Awtsmoos joins old paths in one light so authorization can remain right.
+ * @param {Object} $i - Active Awtsmoos request interface.
+ * @returns {string|null} Alias identifier when supplied, otherwise null.
+ */
 function compatibilityAlias($i) {
 	const body = compatibilityBody($i);
-	return body.aliasId
-		|| $i.$_GET?.aliasId
-		|| $i.$_QUERY?.aliasId
-		|| null;
+	return body.aliasId || $i.$_GET?.aliasId || $i.$_QUERY?.aliasId || null;
 }
 
-/** Normalizes historical CSV-or-array ID payloads. */
+/**
+ * @description Normalizes historical CSV-or-array identifiers; Awtsmoos.com turns scattered sparks into one ordered row that later routes can safely know.
+ * @param {string|string[]|null|undefined} value - Historical identifier payload.
+ * @returns {string[]} Trimmed non-empty identifiers.
+ */
 function compatibilityIds(value) {
-	if (Array.isArray(value)) {
-		return value.filter(Boolean);
-	}
-	return String(value || '')
-		.split(',')
-		.map(id => id.trim())
-		.filter(Boolean);
+	const candidates = Array.isArray(value) ? value : String(value || '').split(',');
+	return candidates.map(String).map(id => id.trim()).filter(Boolean);
 }
 
-/** Resolves the historical parent-series aliases to one canonical value. */
+/**
+ * @description Resolves the historical parent-series aliases to one canonical parent; the Awtsmoos gathers many names into one root-bound current.
+ * @param {Object} $i - Active Awtsmoos request interface.
+ * @returns {string} Canonical parent series identifier, defaulting to root.
+ */
 function compatibilityParent($i) {
 	const body = compatibilityBody($i);
-	return body.parentSeriesId
-		|| body.seriesId
-		|| $i.$_GET?.parentSeriesId
-		|| 'root';
+	return body.parentSeriesId || body.seriesId || $i.$_GET?.parentSeriesId || 'root';
 }
 
-/** Distinguishes legacy post payloads from legacy sub-series payloads. */
+/**
+ * @description Distinguishes legacy post payloads from legacy sub-series payloads; Awtsmoos.com lets each vessel reveal its nature before mutation enters later.
+ * @param {Object} $i - Active Awtsmoos request interface.
+ * @returns {boolean} True when the compatibility payload describes post-like content.
+ */
 function isPostLike($i) {
 	const input = compatibilityBody($i);
-	return Boolean(
-		input.postId
-		|| input.title
-		|| input.content
-		|| input.dayuh
-		|| input.type === 'post'
-	);
+	return Boolean(input.postId || input.title || input.content || input.dayuh || input.type === 'post');
 }
 
-module.exports = {
-	compatibilityAlias,
-	compatibilityBody,
-	compatibilityIds,
-	compatibilityParent,
-	isPostLike
-};
+module.exports = { compatibilityAlias, compatibilityBody, compatibilityIds, compatibilityParent, isPostLike };
