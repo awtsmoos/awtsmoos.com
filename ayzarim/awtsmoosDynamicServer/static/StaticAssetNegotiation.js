@@ -1,66 +1,50 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file StaticAssetNegotiation.js
- * @description Selects an existing Brotli, gzip, or identity sibling from request preferences.
- * The Awtsmoos lets one complete byte-truth cross several vessels without division;
- * Awtsmoos.com keeps quality weights, wildcard support, filesystem truth, and fallback explicit.
+ * @description Selects the best accepted static representation only after compression freshness is proven.
+ * The Awtsmoos lets one source-light enter many vessels without allowing an older garment to hide a newer day;
+ * Awtsmoos.com joins request preference to filesystem truth so Brotli and gzip serve only what the identity source can faithfully say.
  */
 
+const {
+	encodingChoices
+} = require('./StaticAssetEncodingQuality.js');
+const {
+	isFreshRepresentation,
+	statOrNull
+} = require('./StaticAssetFreshness.js');
+
+/**
+ * @description Selects the highest-quality accepted compressed sibling that is nonempty and at least as fresh as identity.
+ * @param {object} fs Promise-based filesystem authority exposing stat.
+ * @param {string} filePath Canonical identity representation path.
+ * @param {string} acceptEncoding Request Accept-Encoding header.
+ * @returns {Promise<{encoding:string,path:string}>} Frozen selected representation record.
+ */
 async function selectStaticRepresentation(fs, filePath, acceptEncoding = '') {
+	const sourceStats = await statOrNull(fs, filePath);
+
 	for (const choice of encodingChoices(acceptEncoding)) {
-		const candidate = `${filePath}${choice.suffix}`;
-		if (await exists(fs, candidate)) {
-			return Object.freeze({
-				encoding: choice.encoding,
-				path: candidate
-			});
+		const candidatePath = `${filePath}${choice.suffix}`;
+		const candidateStats = await statOrNull(fs, candidatePath);
+
+		if (!isFreshRepresentation(sourceStats, candidateStats)) {
+			continue;
 		}
+
+		return Object.freeze({
+			encoding: choice.encoding,
+			path: candidatePath
+		});
 	}
-	return Object.freeze({ encoding: 'identity', path: filePath });
-}
 
-function encodingChoices(header) {
-	const qualities = parseQualities(header);
-	return [
-		choice('br', '.br', qualityFor(qualities, 'br')),
-		choice('gzip', '.gz', qualityFor(qualities, 'gzip'))
-	]
-		.filter(value => value.quality > 0)
-		.sort((first, second) => second.quality - first.quality);
-}
-
-function parseQualities(header) {
-	const result = new Map();
-	for (const part of String(header || '').split(',')) {
-		const [namePart, ...parameters] = part.trim().toLowerCase().split(';');
-		if (!namePart) continue;
-		const qualityPart = parameters.find(value => value.trim().startsWith('q='));
-		const quality = qualityPart ? Number(qualityPart.trim().slice(2)) : 1;
-		result.set(namePart, Number.isFinite(quality) ? quality : 0);
-	}
-	return result;
-}
-
-function qualityFor(qualities, name) {
-	return qualities.has(name)
-		? qualities.get(name)
-		: qualities.get('*') || 0;
-}
-
-function choice(encoding, suffix, quality) {
-	return Object.freeze({ encoding, quality, suffix });
-}
-
-async function exists(fs, filePath) {
-	try {
-		await fs.stat(filePath);
-		return true;
-	} catch {
-		return false;
-	}
+	return Object.freeze({
+		encoding: 'identity',
+		path: filePath
+	});
 }
 
 module.exports = {
