@@ -1,63 +1,87 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file MitzvahWorldLauncher.js
- * @description Keeps MitzvahWorld's first route decision tiny while exporting transport helpers without recreating compiler-local aliases.
- * The Awtsmoos renews the threshold before the palace, so the first visible doorway need not carry every room;
- * Awtsmoos.com lets the menu answer with lightning speed while each named ohr keeps one vessel, one binding, and one bloom.
+ * @description Routes one selected Mitzvah World doorway while forwarding canonical boot progress into the page-owned veil.
+ * The Awtsmoos renews only the chosen entrance; Awtsmoos.com lets local study remain silent on static localhost,
+ * shared worlds retain explicit realtime intent, and the one visible boot veil hears the same progress as the world it covers.
  */
 
 import {
-	createMitzvahWorldLaunchContext
-} from './MitzvahWorldLaunchContext.js';
+	createMitzvahWorldModeLoaders,
+	hasMovieRequest
+} from './MitzvahWorldModeLoaders.js?v=20260814-direct-audio-02';
 import {
-	createLazyMitzvahWorldMenuHandlers,
-	loadMitzvahWorldDeferredRuntime
-} from './MitzvahWorldDeferredRuntimeLoader.js';
-import {
-	requestedMitzvahWorldRoute
-} from './MitzvahWorldRouteQuery.js';
+	createMitzvahWorldRouteHandlers
+} from './MitzvahWorldRouteHandlers.js?v=20260803-tagged-nature-03';
+import { mitzvahWorldSessionMode } from './MitzvahWorldSessionMode.js';
 
-const MAIN_MENU_URL = './MainMenu.js?v=20260813-local-population-01';
-
-/**
- * @description Launches one requested route while keeping menu bootstrap free of heavyweight mode capability.
- * @param {object} hosts Canonical game host elements.
- * @param {string} search Current location search string.
- * @param {object} dependencies Optional injected launcher authorities.
- * @returns {Promise<*>} Menu element or launched route diagnostics.
- */
+/** Launches exactly one selected route and forwards direct-world progress when supplied by the canonical page boot. */
 export async function launchMitzvahWorld(
 	hosts,
 	search = globalThis.location?.search || '',
 	dependencies = {}
 ) {
-	const context = createMitzvahWorldLaunchContext(hosts, search, dependencies);
-	const route = requestedMitzvahWorldRoute(context.parameters);
-
-	if (route !== 'menu') {
-		const runtime = await loadMitzvahWorldDeferredRuntime(dependencies);
-		return runtime.launchDeferredMitzvahWorldRoute(context, route);
+	const parameters = new URLSearchParams(search);
+	const environment = dependencies.environment || globalThis;
+	const modes = dependencies.modeLoaders
+		|| createMitzvahWorldModeLoaders(environment);
+	const revealHosts = dependencies.setGameHostsVisible || setGameHostsVisible;
+	const realtimeUrl = resolveRealtimeUrl(parameters, environment);
+	const routes = createMitzvahWorldRouteHandlers({
+		environment,
+		hosts,
+		modes,
+		parameters,
+		realtimeUrl,
+		revealHosts
+	});
+	if (parameters.get('mode') === 'materials') {
+		revealHosts(hosts, false);
+		return modes.materials(hosts);
 	}
-
-	const menuModule = dependencies.showMainMenu
-		? null
-		: await import(MAIN_MENU_URL);
+	if (parameters.get('mode') === 'world') {
+		const selection = Object.freeze({
+			onProgress: dependencies.onProgress
+		});
+		return mitzvahWorldSessionMode(parameters) === 'singleplayer'
+			? routes.openSinglePlayer(selection)
+			: routes.openMultiplayer(selection);
+	}
+	if (parameters.get('mode') === 'platform') return routes.openPlatform();
+	if (parameters.get('mode') === 'mission-movie') return routes.openVillageMovie();
+	if (hasMovieRequest(parameters)) return routes.openMovie(search);
+	const menuModule = await import('./MainMenu.js?v=20260813-local-population-01');
 	const renderMenu = dependencies.showMainMenu || menuModule.showMainMenu;
-
-	return renderMenu(hosts, createLazyMitzvahWorldMenuHandlers(context), {
-		WebSocketClass: context.environment.WebSocket,
-		environment: context.environment,
-		realtimeUrl: context.realtimeUrl
+	return renderMenu(hosts, routes.menu, {
+		WebSocketClass: environment.WebSocket,
+		environment,
+		realtimeUrl
 	});
 }
 
-export {
-	inferRealtimeUrl,
-	resolveRealtimeUrl,
-	setGameHostsVisible
-} from './MitzvahWorldLaunchContext.js';
+export function setGameHostsVisible(hosts, visible) {
+	for (const host of Object.values(hosts || {})) {
+		if (host?.style) host.style.visibility = visible ? '' : 'hidden';
+	}
+}
+
+export function resolveRealtimeUrl(parameters, environment = globalThis) {
+	if (parameters?.has?.('realtimeUrl')) return parameters.get('realtimeUrl') || null;
+	if (environment.AwtsmoosRealtimeUrl) return environment.AwtsmoosRealtimeUrl;
+	return inferRealtimeUrl(environment.location);
+}
+
+export function inferRealtimeUrl(locationValue = globalThis.location) {
+	if (!locationValue?.host || !/^https?:$/.test(locationValue.protocol || '')) return null;
+	if (isStaticLocalPreview(locationValue)) return null;
+	return `${locationValue.protocol === 'https:' ? 'wss:' : 'ws:'}//${locationValue.host}`;
+}
+
+function isStaticLocalPreview(locationValue) {
+	return ['127.0.0.1', 'localhost', '::1'].includes(locationValue.hostname || '');
+}
 
 export default launchMitzvahWorld;
