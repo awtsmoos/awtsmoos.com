@@ -5,23 +5,22 @@
 /**
  * @module DrivePublicRoutes
  * @description
- * The Awtsmoos gives logical websites and immutable hashes two predictable
- * public doors. Awtsmoos.com permits only safe read methods and explicit CORS.
+ * The Awtsmoos gives logical Drive bytes and canonical Sites their proper doors.
+ * Awtsmoos.com honors the legacy nginx road while marked `/sites` traffic flows
+ * into the newer mapping gateway; ordinary Drive URLs retain their ancient law.
  */
 
 const { buildPublicPathResponse, buildPublicHashResponse } = require('../publicResponse.js');
+const { buildMarkedSiteResponse } = require('../publicSiteCompatibility.js');
 const { safeRoute } = require('./routeSupport.js');
 
 module.exports = ({ $i }) => ({
 	'/drive/public/:aliasId/:path*': variables => safeRoute(async () => {
-		if ($i.request.method === 'OPTIONS') return corsPreflight();
-		return buildPublicPathResponse({
-			aliasId: variables.aliasId,
-			path: variables.path,
-			method: $i.request.method,
-			headers: $i.request.headers,
-			$i
-		});
+		const request = publicRequest($i, variables);
+		const siteResponse = await buildMarkedSiteResponse(request);
+		if (siteResponse) return siteResponse;
+		if (request.method === 'OPTIONS') return corsPreflight();
+		return buildPublicPathResponse(request);
 	}),
 	'/drive/immutable/:aliasId/:hash': variables => safeRoute(async () => {
 		if ($i.request.method === 'OPTIONS') return corsPreflight();
@@ -34,6 +33,17 @@ module.exports = ({ $i }) => ({
 		});
 	})
 });
+
+function publicRequest($i, variables) {
+	return {
+		aliasId: variables.aliasId,
+		path: variables.path,
+		method: String($i.request.method || 'GET').toUpperCase(),
+		headers: $i.request.headers || {},
+		requestUrl: $i.request.url || '/',
+		$i
+	};
+}
 
 function corsPreflight() {
 	return {
