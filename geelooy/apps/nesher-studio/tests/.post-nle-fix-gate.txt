@@ -1,0 +1,103 @@
+B"H POST NLE FIX GATE
+       8 styles/timeline.css
+      49 styles/timeline-layout.css
+      85 styles/timeline-tracks.css
+      43 styles/timeline-commands.css
+      29 styles/responsive-mobile-pages.css
+      75 styles/responsive-short-timeline.css
+      28 tests/068_nle_command_geometry_contract_smoke.mjs
+     317 total
+B"H recursive no-scroll style contract passed across 40 CSS vessels
+B"H ten-mode adaptive GPU Audio Lab smoke passed
+B"H bounded NLE command geometry contract passed
+{"ok":true,"assets":1,"scenes":2,"sequences":2}
+B"H timeline model smoke passed
+B"H export queue smoke passed
+B"H project serializer smoke passed
+B"H timeline editing smoke passed
+B"H nle timeline commands smoke passed
+B"H nle render smoke passed
+B"H export negotiator smoke passed
+B"H audio visualizer smoke passed
+B"H visualizer routing and features smoke passed
+B"H encoding benchmark smoke passed
+B"H visualizer source family smoke passed
+B"H visualizer audio features smoke passed
+B"H live stream health smoke passed
+B"H NLE track commands smoke passed
+B"H encoding recommendation smoke passed
+B"H active no forbidden recorder guard passed
+B"H browser confidence layer smoke passed
+B"H mocked generic HLS controller smoke passed
+B"H benchmark compact view smoke passed
+B"H Hebrew visualizer models smoke passed
+B"H NLE advanced commands smoke passed
+B"H encoding smoke mode compact smoke passed
+B"H stage crop transform smoke passed
+B"H NLE UI commands smoke passed
+B"H fixed viewport recording, deck, and audio DOM contract passed
+B"H recording state machine smoke passed
+B"H recursive no-scroll style contract passed across 40 CSS vessels
+B"H ten-mode adaptive GPU Audio Lab smoke passed
+B"H Nesher confidence layer passed 29 smokes and all line gates
+PASS 011_project_model_smoke.mjs
+PASS 012_source_render_timeline_smoke.mjs
+PASS 013_audio_graph_smoke.mjs
+PASS 014_bin_effects_color_titles_smoke.mjs
+PASS 015_export_stream_responsive_smoke.mjs
+PASS 016_webcodecs_managers_smoke.mjs
+PASS 017_hls_ffprobe_cleanup_smoke.mjs
+PASS 018_bounded_stress_suite.mjs
+PASS 019_resolution_presets_smoke.mjs
+PASS 020_recording_audio_sources_smoke.mjs
+PASS 021_manual_profiles_smoke.mjs
+PASS 022_aspect_ratio_controls_smoke.mjs
+PASS 023_manual_audio_source_smoke.mjs
+PASS 024_layer_and_crop_smoke.mjs
+PASS 025_sefiros_and_container_smoke.mjs
+PASS 026_mediabunny_hls_split_smoke.mjs
+PASS 027_timeline_model_smoke.mjs
+PASS 028_bin_asset_model_smoke.mjs
+PASS 029_export_queue_smoke.mjs
+PASS 030_project_serializer_smoke.mjs
+PASS 031_public_api_compat_smoke.mjs
+PASS 032_no_forbidden_recorder_guard.mjs
+PASS 033_audio_drift_tracker_smoke.mjs
+PASS 034_export_presets_smoke.mjs
+PASS 035_recording_core_smoke.mjs
+PASS 036_worker_messages_smoke.mjs
+PASS 037_audio_encoding_profiles_smoke.mjs
+PASS 038_container_support_smoke.mjs
+PASS 039_timeline_editing_smoke.mjs
+PASS 040_ui_inspector_smoke.mjs
+PASS 041_video_frame_pump_import_smoke.mjs
+PASS 042_nle_timeline_commands_smoke.mjs
+PASS 043_nle_render_smoke.mjs
+PASS 044_export_negotiator_smoke.mjs
+PASS 045_audio_visualizer_smoke.mjs
+PASS 045_recording_runtime_plan_smoke.mjs
+PASS 046_visualizer_routing_features_smoke.mjs
+PASS 047_encoding_benchmark_smoke.mjs
+PASS 048_visualizer_source_family_smoke.mjs
+PASS 049_visualizer_audio_features_smoke.mjs
+PASS 050_live_stream_health_smoke.mjs
+PASS 051_nle_tracks_commands_smoke.mjs
+PASS 052_encoding_recommendation_smoke.mjs
+PASS 053_no_media_recorder_guard_smoke.mjs
+PASS 054_browser_confidence_layer_smoke.mjs
+PASS 055_mock_generic_hls_controller_smoke.mjs
+PASS 056_benchmark_compact_view_smoke.mjs
+PASS 057_hebrew_visualizer_models_smoke.mjs
+PASS 058_nle_advanced_commands_smoke.mjs
+PASS 059_encoding_smoke_mode_compact_smoke.mjs
+PASS 060_stage_crop_transform_smoke.mjs
+PASS 061_nle_ui_commands_smoke.mjs
+PASS 062_recording_dom_contract_smoke.mjs
+PASS 063_recording_state_machine_smoke.mjs
+PASS 064_local_webm_muxer_stress.mjs
+PASS 065_local_webm_real_ffprobe_smoke.mjs
+PASS 066_style_visual_contract_smoke.mjs
+PASS 067_gpu_audio_lab_smoke.mjs
+PASS 068_nle_command_geometry_contract_smoke.mjs
+SUMMARY total=59 passed=59 failed=0 timeout=0
+POST_NLE_GATE=PASS

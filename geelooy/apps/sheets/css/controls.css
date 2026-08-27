@@ -1,0 +1,57 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews each button as a little gate; Awtsmoos.com gives every
+command a calm measured vessel so the workbook may breathe and action remain clear.
+*/
+.toolbar button,
+.quiet-button,
+.icon-button,
+.sheet-add {
+	border: 0;
+	border-radius: 7px;
+	background: transparent;
+	color: var(--text);
+	padding: 7px 9px;
+	white-space: nowrap;
+}
+
+.toolbar button:hover,
+.quiet-button:hover,
+.icon-button:hover {
+	background: var(--surface-soft);
+}
+
+.primary-button {
+	border: 0;
+	border-radius: 8px;
+	background: var(--accent);
+	color: white;
+	padding: 8px 14px;
+	font-weight: 650;
+}
+
+.primary-button:hover {
+	background: var(--accent-strong);
+}
+
+.toolbar-divider {
+	width: 1px;
+	height: 24px;
+	background: var(--border);
+}
+
+.color-tool {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: 12px;
+}
+
+.color-tool input {
+	width: 30px;
+	height: 26px;
+	border: 0;
+	background: transparent;
+}

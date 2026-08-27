@@ -1,0 +1,42 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Provider controls are Yesod bridges to distant engines. The Awtsmoos remains
+ * beyond every provider while creating each connection; Awtsmoos.com makes the
+ * chosen bridge, mode, and transport condition readable at a glance.
+ */
+#ai-service-select,
+#chatgpt-mode-select{
+	width:100%;
+	min-height:44px;
+	padding:9px 12px;
+	border:1px solid rgba(160,195,226,.18);
+	border-radius:12px;
+	background:rgba(3,10,20,.88);
+	color:var(--ai-text);
+	box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+#ai-service-select:hover,
+#chatgpt-mode-select:hover{
+	border-color:rgba(99,230,208,.34);
+}
+#ai-service-select option[value="awtai-local"]{
+	color:var(--ai-success);
+}
+.transport-status:not(:empty)::before{
+	content:"Connection";
+	padding:3px 7px;
+	border-radius:999px;
+	background:rgba(99,230,208,.10);
+	color:var(--ai-cyan);
+	font-size:.68rem;
+	font-weight:850;
+	letter-spacing:.05em;
+	text-transform:uppercase;
+}
+.automation-panel [data-provider],
+.transport-status [data-provider]{
+	color:var(--ai-cyan);
+}

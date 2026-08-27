@@ -1,0 +1,44 @@
+/*B"H*/
+/*
+  Chapter 237: The Diff Shelf Opened Like A Small Codex Gate.
+  Green letters show known additions. Red letters show known removals. Unknown
+  removals stay zero instead of lying; the Awtsmoos lets the UI confess exactly
+  what it knows and no more.
+*/
+.file-change-review{
+  margin:.85rem .15rem .1rem;
+  border:1px solid rgba(124,244,210,.24);
+  border-radius:14px;
+  background:linear-gradient(135deg,rgba(5,25,31,.82),rgba(7,13,26,.92));
+  overflow:hidden;
+}
+.file-change-review-head{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  flex-wrap:wrap;
+  padding:.62rem .8rem;
+  border-bottom:1px solid rgba(124,244,210,.16);
+  color:#dffcff;
+  font-size:.86rem;
+}
+.file-change-review-head b{letter-spacing:.04em;text-transform:uppercase}
+.file-change-list{display:grid;gap:.25rem;padding:.55rem}
+.file-change-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto auto auto;
+  gap:.55rem;
+  align-items:center;
+  padding:.48rem .55rem;
+  border-radius:10px;
+  background:rgba(255,255,255,.035);
+}
+.file-change-row code{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:#d9e9ff;
+}
+.file-change-actions{color:#9db8c8;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.diff-plus{color:#77ff9e;font-weight:900;text-shadow:0 0 10px rgba(119,255,158,.25)}
+.diff-minus{color:#ff7f7f;font-weight:900;text-shadow:0 0 10px rgba(255,127,127,.22)}

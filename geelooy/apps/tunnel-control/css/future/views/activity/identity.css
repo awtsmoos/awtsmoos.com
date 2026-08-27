@@ -1,0 +1,55 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews account and session; Awtsmoos.com makes the active login boundary visible without exposing credentials. */
+
+.awt-activity-identity {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: 0.55rem;
+	padding: 0.7rem;
+	border: 1px solid color-mix(in srgb, var(--awt-accent, #7dffca) 14%, transparent);
+	border-radius: 1rem;
+	background: rgb(0 0 0 / 10%);
+}
+
+.awt-activity-identity__item {
+	display: grid;
+	gap: 0.18rem;
+	min-width: 0;
+	padding: 0.45rem 0.55rem;
+	border-radius: 0.72rem;
+	background: rgb(255 255 255 / 3%);
+}
+
+.awt-activity-identity__label,
+.awt-activity-identity__value {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.awt-activity-identity__label {
+	font-size: 0.64rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--awt-muted, #aebbc5);
+}
+
+.awt-activity-identity__value {
+	font-size: 0.76rem;
+	color: var(--awt-text, #f7fbff);
+}
+
+@media (max-width: 70rem) {
+	.awt-activity-identity {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 38rem) {
+	.awt-activity-identity {
+		grid-template-columns: 1fr;
+	}
+}

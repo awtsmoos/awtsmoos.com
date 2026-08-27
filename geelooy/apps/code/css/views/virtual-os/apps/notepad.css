@@ -1,0 +1,35 @@
+
+/* B"H */
+
+.vos-notepad-app {
+    display: flex;
+    flex-direction: column;
+    background: #f4f1df;
+    color: #151515;
+}
+
+.vos-notepad-toolbar {
+    background: linear-gradient(180deg, #fff8c4, #e5d98f);
+    border-bottom: 1px solid #b6a950;
+}
+
+.vos-notepad-textarea {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    resize: none;
+    box-sizing: border-box;
+    border: 0;
+    outline: none;
+    padding: 14px;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #fffbea,
+            #fffbea 27px,
+            #d9edff 28px
+        );
+    color: #111;
+    line-height: 28px;
+    font-family: var(--font-code, monospace);
+}

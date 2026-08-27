@@ -1,0 +1,175 @@
+/* B"H - Layout Architecture */
+
+#app-root {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    width: 100vw;
+    background: var(--bg-app);
+    overflow: hidden;
+}
+
+/* --- Viewport & Containers --- */
+.view-viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    flex: 1;
+    min-height: 0;
+}
+
+.view-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-app);
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- INSPECTOR FLEX LAYOUT --- */
+#viewInspector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    background: var(--border-base);
+    height: 100%;
+    width: 100%;
+    overflow-y: auto; 
+}
+
+.insp-col {
+    background: var(--bg-app);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; 
+    padding: var(--gap-std);
+    gap: var(--gap-std);
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.insp-col:nth-child(1) { flex-basis: 320px; min-width: 280px; } 
+.insp-col:nth-child(2) { flex-basis: 500px; min-width: 320px; flex-grow: 2; } 
+.insp-col:nth-child(3) { flex-basis: 320px; min-width: 280px; } 
+
+
+/* --- CHAT LAYOUT --- */
+#viewChat {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0; 
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chat-history {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    width: 100%;
+}
+
+.chat-content-width {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.chat-input-wrapper {
+    flex-shrink: 0;
+    width: 100%;
+    padding: 20px;
+    background: var(--bg-app);
+    border-top: 1px solid var(--border-base);
+    display: flex;
+    justify-content: center;
+}
+
+.chat-input-container {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start; /* Align top for tall textarea */
+    background: var(--bg-input);
+    border: 1px solid var(--border-highlight);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.chat-input-container:focus-within {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25), 0 4px 25px rgba(0,0,0,0.4);
+}
+
+#chatInput {
+    resize: vertical;
+    height: auto;
+    min-height: 150px !important; /* B"H - FORCE TALL HEIGHT */
+    max-height: 60vh;
+    overflow-y: auto;
+    background: transparent;
+    border: none;
+    padding: 4px 0;
+    font-size: 16px;
+    line-height: 1.6;
+    flex: 1;
+    outline: none;
+    color: var(--text-primary);
+    transition: height 0.15s ease-out;
+}
+
+
+/* --- CONSOLE SIDEBAR --- */
+.console-sidebar {
+    background: #09090b;
+    border-left: 1px solid var(--border-base);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 450px;
+    overflow: hidden;
+}
+
+.console-sidebar.collapsed {
+    width: 0;
+    padding: 0;
+    border-left-color: transparent;
+}
+
+.console-sidebar > * {
+    min-width: 420px; 
+}
+
+/* --- MOBILE --- */
+@media (max-width: 1024px) {
+    #app-root { grid-template-rows: auto 1fr; }
+    #viewInspector { flex-direction: column; flex-wrap: nowrap; }
+    .insp-col { flex-basis: auto !important; min-height: 0; border-bottom: 1px solid var(--border-base); }
+    
+    .console-sidebar {
+        position: absolute; top: 0; right: 0; bottom: 0; width: 90%; max-width: 450px; z-index: 50;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.5); transform: translateX(0);
+    }
+    .console-sidebar.collapsed { transform: translateX(100%); width: 90%; border-left-color: var(--border-base); }
+}

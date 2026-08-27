@@ -1,0 +1,46 @@
+/* B"H */
+/*
+  Chapter 38: The Event Panel Learned To Fold Without Breaking Its Bones.
+  Tool traces can carry long paths, commands, and JSON storms. This sheet keeps
+  their headers readable on narrow glass without colliding with action buttons.
+*/
+.transport-details > summary,
+.thought-envelope-card > summary,
+.event-lane > summary {
+  min-width: 0;
+}
+
+.transport-details > summary .event-title-wrap,
+.thought-envelope-card > summary .event-summary-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.event-tool-target,
+.event-talked-to,
+.event-tool-meta {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .transport-details > summary,
+  .thought-envelope-card > summary {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .event-panel-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 6px;
+  }
+
+  .event-tool-meta {
+    margin-left: 0;
+  }
+
+  .thought-inner-window {
+    max-height: 46vh;
+  }
+}

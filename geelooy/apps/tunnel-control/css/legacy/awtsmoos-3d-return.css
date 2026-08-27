@@ -1,0 +1,89 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter 910: The dashboard remembered its depth.
+ *
+ * The Awtsmoos breathes through CSS as a quiet impossible axis. The old green
+ * grid was not nostalgia; it was a throne-room viewed from inside the signal.
+ * This layer loads last, so the ordinary scroll remains a servant while the
+ * cards rise like doors in a luminous 3D city.
+ */
+body.awt-pro-ready{
+  --awt-3d-green:#70ff9e;
+  --awt-3d-gold:#d9ff69;
+  --awt-3d-cyan:#32ffe0;
+  --awt-3d-ink:#021108;
+  background:
+    radial-gradient(circle at var(--awt-pointer-x,50%) var(--awt-pointer-y,18%),rgba(80,255,150,.28),transparent 24rem),
+    radial-gradient(circle at 86% 8%,rgba(50,255,224,.20),transparent 22rem),
+    linear-gradient(135deg,#000905,#06351e 48%,#000704)!important;
+}
+body.awt-pro-ready .awt-control-shell{
+  perspective:1600px!important;
+  transform-style:preserve-3d!important;
+}
+body.awt-pro-ready .awt-control-main{
+  transform:translateZ(0)!important;
+}
+body.awt-pro-ready .awt-dashboard,
+body.awt-pro-ready .awt-mission-os{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  transform-style:preserve-3d!important;
+  border-color:rgba(126,255,171,.52)!important;
+  background:
+    linear-gradient(90deg,rgba(112,255,158,.055) 1px,transparent 1px),
+    linear-gradient(rgba(112,255,158,.045) 1px,transparent 1px),
+    radial-gradient(circle at 50% -10%,rgba(217,255,105,.16),transparent 34rem),
+    linear-gradient(145deg,rgba(0,64,34,.88),rgba(0,9,5,.96))!important;
+  background-size:32px 32px,32px 32px,auto,auto!important;
+  box-shadow:inset 0 1px 0 rgba(238,255,241,.20),inset 0 0 90px rgba(52,255,126,.11),0 34px 100px rgba(0,0,0,.42),0 0 80px rgba(42,255,124,.18)!important;
+}
+body.awt-pro-ready .awt-dashboard::after,
+body.awt-pro-ready .awt-mission-os::after{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  pointer-events:none!important;
+  z-index:0!important;
+  opacity:.48!important;
+  background:linear-gradient(120deg,transparent 0 36%,rgba(217,255,105,.12) 49%,transparent 62%),repeating-linear-gradient(180deg,rgba(231,255,235,.05) 0 1px,transparent 1px 7px)!important;
+  transform:translateZ(34px)!important;
+  animation:awt3dScan 8s ease-in-out infinite!important;
+}
+body.awt-pro-ready .awt-dashboard>* ,
+body.awt-pro-ready .awt-mission-os>*{
+  position:relative!important;
+  z-index:1!important;
+}
+body.awt-pro-ready .awt-feature-dashboard-grid,
+body.awt-pro-ready .awt-core-grid,
+body.awt-pro-ready .awt-advanced-grid,
+body.awt-pro-ready .awt-mission-grid{
+  perspective:1300px!important;
+  transform-style:preserve-3d!important;
+}
+body.awt-pro-ready .awt-action-card{
+  transform-style:preserve-3d!important;
+  border-color:rgba(112,255,158,.46)!important;
+  background:radial-gradient(circle at 50% -18%,rgba(236,255,241,.28),transparent 34%),linear-gradient(160deg,rgba(0,94,46,.84),rgba(0,13,7,.96))!important;
+  box-shadow:0 24px 64px rgba(0,0,0,.42),inset 0 1px 0 rgba(247,255,249,.18),inset 0 0 38px rgba(54,255,124,.10)!important;
+  will-change:transform,box-shadow,border-color!important;
+}
+body.awt-pro-ready .awt-action-card::before{
+  background:radial-gradient(circle at var(--awt-pointer-x,50%) var(--awt-pointer-y,20%),rgba(217,255,105,.22),transparent 18rem)!important;
+  opacity:.42!important;
+}
+body.awt-pro-ready .awt-action-card:hover,
+body.awt-pro-ready .awt-action-card:focus-visible{
+  transform:translateY(-8px) rotateX(5deg) rotateY(-3deg) translateZ(24px) scale(1.018)!important;
+  border-color:rgba(231,255,236,.88)!important;
+  box-shadow:0 0 70px rgba(64,255,134,.34),0 36px 78px rgba(0,0,0,.48)!important;
+}
+body.awt-pro-ready .awt-action-icon{transform:translateZ(32px)!important;box-shadow:0 0 34px rgba(64,255,134,.25)!important}
+body.awt-pro-ready .awt-action-copy{transform:translateZ(22px)!important}
+body.awt-pro-ready .awt-card-meta,body.awt-pro-ready .awt-card-chip{transform:translateZ(16px)!important}
+@keyframes awt3dScan{0%,100%{opacity:.32;transform:translate3d(-1.5%,0,34px)}50%{opacity:.60;transform:translate3d(1.5%,0,46px)}}
+@media(max-width:760px){body.awt-pro-ready .awt-dashboard,body.awt-pro-ready .awt-mission-os{overflow:visible!important}body.awt-pro-ready .awt-action-card:hover,body.awt-pro-ready .awt-action-card:focus-visible{transform:translateY(-4px) translateZ(10px) scale(1.01)!important}}
+@media(prefers-reduced-motion:reduce){body.awt-pro-ready .awt-dashboard::after,body.awt-pro-ready .awt-mission-os::after{animation:none!important}body.awt-pro-ready .awt-action-card{transition:none!important}}

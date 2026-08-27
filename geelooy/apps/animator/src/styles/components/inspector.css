@@ -1,0 +1,363 @@
+/* B"H - Property inspector. */
+.inspector-content { display: grid; gap: 12px; padding: 14px; }
+.inspector-title { margin: 0; color: var(--aw-hot); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+.inspector-field { display: grid; gap: 4px; }
+.inspector-label { color: var(--aw-muted); font-size: 10px; font-weight: 800; letter-spacing: 0.08em; }
+.inspector-input { width: 100%; min-height: 32px; padding: 7px 8px; border: 1px solid var(--aw-line-strong); border-radius: 8px; background: rgba(0,0,0,0.35); color: var(--aw-text); font: 12px var(--aw-mono); }
+.inspector-action { width: 100%; margin-top: 4px; }
+.inspector-delete { border-color: rgba(255, 100, 120, 0.42); color: #ffb8c2; }
+.inspector-empty { margin: 0; padding: 16px; color: var(--aw-muted); font-size: 11px; }
+
+/* B"H - Shared history and small inspector utilities. */
+.history-title { color: var(--aw-hot); }
+.history-undo-button { width: 100%; margin-top: 10px; }
+.history-undo-button.is-disabled { opacity: 0.5; }
+
+/* B"H - Shared history and small inspector utilities. */
+.history-title { color: var(--aw-hot); }
+.history-undo-button { width: 100%; margin-top: 10px; }
+.history-undo-button.is-disabled { opacity: 0.5; }
+
+/* B"H - Manifest inspector controls without inline presentation. */
+.inspector-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.inspector-header-title {
+  margin: 0;
+  color: var(--aw-hot);
+  font-size: 0.8rem;
+}
+
+.inspector-info-row {
+  color: var(--aw-muted);
+  font-size: 0.6rem;
+}
+
+.manifest-inspector-input-row,
+.manifest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.manifest-inspector-input-row {
+  padding: 0.5rem;
+  border-radius: 4px;
+  background: rgba(10, 10, 15, 0.92);
+}
+
+.manifest-inspector-input-label,
+.manifest-row-label,
+.manifest-field-label {
+  color: #ccc;
+  font-size: 0.6rem;
+  font-weight: 800;
+}
+
+.manifest-inspector-number-input {
+  width: 80px;
+  padding: 0.2rem 0.5rem;
+  border: 0;
+  background: #222;
+  color: #fff;
+  font-family: var(--aw-mono);
+  text-align: right;
+}
+
+.manifest-section-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.65rem;
+}
+
+.manifest-section-title-warn { color: #ffbd5c; }
+.manifest-range-input { width: 100px; }
+.manifest-speech-section,
+.manifest-json-section { margin-top: 1rem; }
+.manifest-field-label { display: block; margin-bottom: 0.3rem; color: var(--aw-muted); }
+
+.manifest-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  border: 1px solid var(--aw-line-strong);
+  border-radius: 4px;
+  background: #0a0a0f;
+  color: #fff;
+  font-family: var(--aw-mono);
+  font-size: 0.7rem;
+  resize: vertical;
+}
+
+.manifest-speech-textarea { height: 60px; }
+.manifest-json-summary { color: #777; cursor: pointer; font-size: 0.6rem; }
+.manifest-json-textarea { height: 80px; margin-top: 0.5rem; background: #050505; color: #888; font-size: 0.6rem; }
+
+.manifest-quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.manifest-quick-actions-title {
+  grid-column: span 2;
+  margin-bottom: 0.5rem;
+  color: var(--aw-muted);
+  font-size: 0.6rem;
+}
+
+.tohu-button {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-color: #ff0000;
+  background: #330000;
+  color: #ff5555;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+  font-family: var(--aw-mono);
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+/* B"H - Manifest inspector controls without inline presentation. */
+.inspector-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.inspector-header-title {
+  margin: 0;
+  color: var(--aw-hot);
+  font-size: 0.8rem;
+}
+
+.inspector-info-row {
+  color: var(--aw-muted);
+  font-size: 0.6rem;
+}
+
+.manifest-inspector-input-row,
+.manifest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.manifest-inspector-input-row {
+  padding: 0.5rem;
+  border-radius: 4px;
+  background: rgba(10, 10, 15, 0.92);
+}
+
+.manifest-inspector-input-label,
+.manifest-row-label,
+.manifest-field-label {
+  color: #ccc;
+  font-size: 0.6rem;
+  font-weight: 800;
+}
+
+.manifest-inspector-number-input {
+  width: 80px;
+  padding: 0.2rem 0.5rem;
+  border: 0;
+  background: #222;
+  color: #fff;
+  font-family: var(--aw-mono);
+  text-align: right;
+}
+
+.manifest-section-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.65rem;
+}
+
+.manifest-section-title-warn { color: #ffbd5c; }
+.manifest-range-input { width: 100px; }
+.manifest-speech-section,
+.manifest-json-section { margin-top: 1rem; }
+.manifest-field-label { display: block; margin-bottom: 0.3rem; color: var(--aw-muted); }
+
+.manifest-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  border: 1px solid var(--aw-line-strong);
+  border-radius: 4px;
+  background: #0a0a0f;
+  color: #fff;
+  font-family: var(--aw-mono);
+  font-size: 0.7rem;
+  resize: vertical;
+}
+
+.manifest-speech-textarea { height: 60px; }
+.manifest-json-summary { color: #777; cursor: pointer; font-size: 0.6rem; }
+.manifest-json-textarea { height: 80px; margin-top: 0.5rem; background: #050505; color: #888; font-size: 0.6rem; }
+
+.manifest-quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.manifest-quick-actions-title {
+  grid-column: span 2;
+  margin-bottom: 0.5rem;
+  color: var(--aw-muted);
+  font-size: 0.6rem;
+}
+
+.tohu-button {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-color: #ff0000;
+  background: #330000;
+  color: #ff5555;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+  font-family: var(--aw-mono);
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+/* B"H - Velocity graph preview. */
+.graph-editor-panel {
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #0a0a0f;
+}
+
+.graph-editor-title {
+  margin: 0 0 10px;
+  color: #00ffcc;
+  font-size: 10px;
+}
+
+.graph-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+  border: 1px solid #222;
+  background: #111;
+}
+
+.graph-curve-preview {
+  position: absolute;
+  inset: 10%;
+  border-right: 2px solid #ff0055;
+  border-bottom: 2px solid #ff0055;
+  border-bottom-right-radius: 100%;
+  box-shadow: 2px 2px 10px rgba(255, 0, 85, 0.3);
+}
+
+.graph-handle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+.graph-handle-start {
+  left: 10%;
+  bottom: 10%;
+  transform: translate(-50%, 50%);
+}
+
+.graph-handle-end {
+  top: 10%;
+  right: 10%;
+  transform: translate(50%, -50%);
+}
+
+.graph-editor-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  color: #666;
+  font-size: 8px;
+}
+
+/* B"H - Velocity graph preview. */
+.graph-editor-panel {
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #0a0a0f;
+}
+
+.graph-editor-title {
+  margin: 0 0 10px;
+  color: #00ffcc;
+  font-size: 10px;
+}
+
+.graph-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+  border: 1px solid #222;
+  background: #111;
+}
+
+.graph-curve-preview {
+  position: absolute;
+  inset: 10%;
+  border-right: 2px solid #ff0055;
+  border-bottom: 2px solid #ff0055;
+  border-bottom-right-radius: 100%;
+  box-shadow: 2px 2px 10px rgba(255, 0, 85, 0.3);
+}
+
+.graph-handle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+.graph-handle-start {
+  left: 10%;
+  bottom: 10%;
+  transform: translate(-50%, 50%);
+}
+
+.graph-handle-end {
+  top: 10%;
+  right: 10%;
+  transform: translate(50%, -50%);
+}
+
+.graph-editor-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  color: #666;
+  font-size: 8px;
+}

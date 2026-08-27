@@ -1,0 +1,51 @@
+[62660:1500834:0721/002342.244854:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[62660:1500834:0721/002342.245925:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[62660:1500834:0721/002342.288400:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[62660:1500834:0721/002342.288787:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[62660:1500834:0721/002343.267705:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+Trying to load the allocator multiple times. This is *not* supported.
+[62807:1501691:0721/002359.436308:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake-all --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[62807:1501691:0721/002359.436693:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 48409, parent pid: 62644
+[62807:1501691:0721/002359.446001:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater): 141631684608B (131.905GiB) / 250790436864B (233.567GiB)
+[62807:1501691:0721/002359.446221:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/): 141631684608B (131.905GiB) / 250790436864B (233.567GiB)
+[62807:1501691:0721/002359.447023:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[62809:1501695:0721/002359.471187:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --crash-handler --database=/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/Crashpad --url=https://clients2.google.com/cr/report --annotation=prod=Update4 --annotation=ver=150.0.7863.0 --handshake-fd=6 --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[62809:1501695:0721/002359.471617:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 48409, parent pid: 1
+[62809:1501695:0721/002359.478757:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater): 141631684608B (131.905GiB) / 250790436864B (233.567GiB)
+[62809:1501695:0721/002359.478820:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/): 141631684608B (131.905GiB) / 250790436864B (233.567GiB)
+[62809:1501695:0721/002359.479017:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[62807:1501691:0721/002359.482182:VERBOSE1:chrome/updater/crash_reporter.cc:124] Crash handler launched and ready.
+[62807:1501691:0721/002359.484974:VERBOSE1:chrome/updater/crash_client.cc:108] Found 0 completed crash reports
+[62807:1501691:0721/002359.485145:VERBOSE1:chrome/updater/crash_client.cc:132] Found 0 pending crash reports
+[62807:1501691:0721/002359.485318:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /Users/awtsmoos/Library/Application Support/Google/RLZ/Crashpad/settings.dat: No such file or directory (2)
+[62807:1501691:0721/002359.485419:VERBOSE1:chrome/updater/updater.cc:105] Crash reporting initialized.
+[62807:1501703:0721/002359.492392:VERBOSE1:chrome/updater/app/app_wakeall.cc:58] Launching `/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake`
+[62810:1501707:0721/002359.515677:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[62810:1501707:0721/002359.516291:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 48409, parent pid: 62807
+[62810:1501707:0721/002359.520605:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater): 141631684608B (131.905GiB) / 250790436864B (233.567GiB)
+[62810:1501707:0721/002359.520651:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/): 141631684608B (131.905GiB) / 250790436864B (233.567GiB)
+[62810:1501707:0721/002359.520820:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[62812:1501711:0721/002359.553806:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --crash-handler --database=/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/Crashpad --url=https://clients2.google.com/cr/report --annotation=prod=Update4 --annotation=ver=150.0.7863.0 --handshake-fd=6 --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[62812:1501711:0721/002359.554262:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 48409, parent pid: 1
+[62812:1501711:0721/002359.562018:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater): 141631684608B (131.905GiB) / 250790436864B (233.567GiB)
+[62812:1501711:0721/002359.562140:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/m2/19fzy8_n0w9_hfhxrgbwqbs40000gn/T/): 141631684608B (131.905GiB) / 250790436864B (233.567GiB)
+[62812:1501711:0721/002359.562591:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[62810:1501707:0721/002359.564950:VERBOSE1:chrome/updater/crash_reporter.cc:124] Crash handler launched and ready.
+[62810:1501707:0721/002359.567289:VERBOSE1:chrome/updater/crash_client.cc:108] Found 0 completed crash reports
+[62810:1501707:0721/002359.567452:VERBOSE1:chrome/updater/crash_client.cc:132] Found 0 pending crash reports
+[62810:1501707:0721/002359.567620:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /Users/awtsmoos/Library/Application Support/Google/RLZ/Crashpad/settings.dat: No such file or directory (2)
+[62810:1501707:0721/002359.567716:VERBOSE1:chrome/updater/updater.cc:105] Crash reporting initialized.
+[62810:1501707:0721/002359.571441:VERBOSE1:chrome/updater/ipc/update_service_internal_proxy_mojo.cc:61] Run
+[62810:1501707:0721/002416.394883:VERBOSE1:chrome/updater/app/app.cc:52] Shutdown: 0
+[62810:1501707:0721/002416.398210:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[62810:1501707:0721/002416.398338:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--wake) returned 0.
+[62807:1501703:0721/002416.493780:VERBOSE1:chrome/updater/app/app_wakeall.cc:68] `/Users/awtsmoos/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake` exited 0
+[62807:1501691:0721/002416.494502:VERBOSE1:chrome/updater/app/app.cc:52] Shutdown: 0
+[62807:1501691:0721/002416.498064:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[62807:1501691:0721/002416.498121:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--wake-all) returned 0.
+[62812:1501711:0721/002426.405803:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[62812:1501711:0721/002426.406022:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--crash-handler) returned 0.
+[62809:1501695:0721/002426.409760:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[62809:1501695:0721/002426.409847:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--crash-handler) returned 0.
+[62644:1500664:0721/002636.727639:ERROR:content/browser/gpu/gpu_process_host.cc:1089] GPU process exited unexpectedly: exit_code=15
+[62644:1500664:0721/002636.735531:ERROR:content/browser/network_service_instance_impl.cc:721] Network service crashed or was terminated, restarting service.

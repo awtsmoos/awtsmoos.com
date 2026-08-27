@@ -1,0 +1,58 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews ownership and proof; Awtsmoos.com speaks each state in words, shape, and contrast rather than color alone. */
+
+.awt-device-access-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: none;
+	max-width: 100%;
+	padding: 0.28rem 0.52rem;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	font-size: 0.64rem;
+	font-weight: 850;
+	letter-spacing: 0.05em;
+	line-height: 1.2;
+	text-transform: uppercase;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.awt-device-access-badge.is-verified {
+	color: var(--awt-accent, #7dffca);
+	background: color-mix(in srgb, var(--awt-accent, #7dffca) 10%, transparent);
+}
+
+.awt-device-access-badge.is-shared {
+	color: var(--awt-warning, #ffcf70);
+	background: color-mix(in srgb, var(--awt-warning, #ffcf70) 10%, transparent);
+}
+
+.awt-device-access-badge.is-unverified {
+	color: var(--awt-danger, #ff7c8c);
+	background: color-mix(in srgb, var(--awt-danger, #ff7c8c) 12%, transparent);
+}
+
+.awt-device-security-banner {
+	grid-column: 1 / -1;
+	border-color: color-mix(in srgb, var(--awt-danger, #ff7c8c) 45%, transparent) !important;
+	background:
+		linear-gradient(135deg, color-mix(in srgb, var(--awt-danger, #ff7c8c) 14%, transparent), transparent 54%),
+		color-mix(in srgb, var(--awt-panel, #101820) 88%, transparent) !important;
+}
+
+.awt-device-security-banner .mini-card__header strong {
+	color: color-mix(in srgb, var(--awt-danger, #ff7c8c) 82%, white);
+}
+
+.awt-device-security-banner .mini-card__body > span:first-child {
+	color: var(--awt-text, #f7fbff);
+	font-weight: 700;
+}
+
+#targetVesselSelect[data-security-state="blocked"] {
+	border-color: var(--awt-danger, #ff7c8c);
+}

@@ -1,0 +1,70 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-wallet-fe2266bf",
+	"path": "geelooy/apps/wallet",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Wallet — Send, Buy & Own",
+	"entries": [
+		"index.html",
+		"main.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/wallet/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-wallet-fe2266bf.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 33,
+		"tests": 1,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 35,
+	"symbolSummary": {
+		"files": 18,
+		"classes": 1,
+		"functions": 62,
+		"exports": 31,
+		"samples": [
+			"refreshWallet",
+			"beginCheckout",
+			"bootWallet",
+			"async",
+			"clearCheckoutQuery",
+			"processCheckoutReturn",
+			"startPayPalCheckout",
+			"decodeWalletResponse",
+			"getWalletJson",
+			"postWalletJson",
+			"networkFailure",
+			"renderCoins"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/wallet",
+			"file": "geelooy/apps/wallet/index.html",
+			"title": "Awtsmoos Wallet — Send, Buy & Own",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

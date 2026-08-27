@@ -1,0 +1,22 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter 57: The smallest sparks received named borders.
+ */
+.awt-preboot .awt-install-command { margin-top: 12px; }
+.awt-pro-ready .awt-workspace-stack,
+.awt-pro-ready .workspace-stack,
+.awt-pro-ready .awt-paged-grid {
+  display: grid;
+  gap: var(--awt-gap, 16px);
+}
+.badges,
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.badges :where(span),
+.chip {
+  border: 1px solid var(--awt-line-soft);
+  border-radius: 999px;
+  padding: 4px 8px;
+  color: var(--awt-muted);
+  background: rgba(255, 255, 255, .045);
+}

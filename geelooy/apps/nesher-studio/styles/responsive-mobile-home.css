@@ -1,0 +1,63 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos folds the home constellation into six visible doors; Awtsmoos.com keeps its hero, cards, and status strip readable inside one phone viewport.
+*/
+@media (max-width: 700px) {
+	.page-hero {
+		padding: 7px 10px;
+	}
+
+	.page-hero h2 {
+		font-size: 1.55rem;
+	}
+
+	.page-hero p {
+		font-size: .66rem;
+	}
+
+	.home-aurora {
+		display: none;
+	}
+
+	.studio-home {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-rows: repeat(3, minmax(0, 1fr));
+		gap: 5px;
+	}
+
+	.home-tile {
+		padding: 7px;
+		gap: 5px;
+	}
+
+	.tile-copy strong {
+		font-size: .9rem;
+	}
+
+	.tile-copy em {
+		font-size: .57rem;
+		line-height: 1.15;
+	}
+
+	.metric-strip {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 4px;
+	}
+
+	.metric-strip div {
+		padding: 4px 5px;
+	}
+
+	.metric-strip span {
+		font-size: .48rem;
+	}
+
+	.metric-strip strong {
+		font-size: .72rem;
+	}
+
+	.metric-strip p {
+		display: none;
+	}
+}

@@ -1,0 +1,40 @@
+/* B"H */
+/**
+ * B"H — One cascade, one visual constitution. The future design system owns
+ * tokens, reset, shell, feature views, controls, motion, and responsive behavior.
+ * The final normal-scroll contract remains last because the control room is one
+ * humane document, not a maze of nested locked viewports.
+ */
+@import url("./future/index.css");
+@import url("./final-normal-scroll.css");
+/* B"H — explicit account-bound local device approval. */
+.awt-pairing-page {
+	min-height: 100vh;
+	display: grid;
+	place-items: center;
+	padding: 24px;
+	background: radial-gradient(circle at 20% 0%, #173d38 0, #071411 48%, #030807 100%);
+	color: #f2fff9;
+}
+.awt-pairing-card {
+	width: min(620px, 100%);
+	padding: clamp(28px, 6vw, 56px);
+	border: 1px solid rgba(133, 255, 205, .3);
+	border-radius: 28px;
+	background: rgba(5, 20, 17, .92);
+	box-shadow: 0 30px 90px rgba(0, 0, 0, .5);
+}
+.awt-pairing-card h1 { margin: 12px 0; font-size: clamp(2rem, 6vw, 3.5rem); }
+.awt-pairing-card p { color: #b9d9cc; line-height: 1.65; }
+.awt-pairing-code {
+	margin: 28px 0;
+	padding: 18px;
+	border-radius: 16px;
+	background: #001d16;
+	color: #8fffd4;
+	font: 700 clamp(1.4rem, 7vw, 2.4rem)/1 ui-monospace, monospace;
+	letter-spacing: .14em;
+	text-align: center;
+}
+.awt-pairing-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.awt-pairing-status { min-height: 1.6em; }

@@ -1,0 +1,116 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets project truth breathe through measured space, visible state, and explicit action.
+*/
+.project-workspace {
+	display: grid;
+	gap: 1rem;
+	margin-top: 1rem;
+}
+.project-intro {
+	display: grid;
+	gap: .35rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--border);
+}
+.project-intro h3,
+.project-site-list h3,
+.project-publisher h3 {
+	margin: 0;
+}
+.project-stage-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: .7rem;
+}
+.project-stage {
+	display: grid;
+	gap: .45rem;
+	padding: .8rem;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: var(--surface-2);
+}
+.project-capability,
+.project-site-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .5rem;
+}
+.project-capability span:first-child {
+	text-transform: capitalize;
+}
+.project-state {
+	padding: .2rem .45rem;
+	border-radius: 999px;
+	font-size: .72rem;
+	border: 1px solid var(--border);
+	background: var(--surface);
+}
+.project-state[data-state="ready"] {
+	border-color: var(--success);
+}
+.project-state[data-state="draft"],
+.project-state[data-state="requested"] {
+	border-color: var(--warning);
+}
+.project-state[data-state="unattached"],
+.project-state[data-state="available"] {
+	opacity: .72;
+}
+.project-publisher {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .7rem;
+	align-items: end;
+	padding: .9rem;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+.project-publisher h3 {
+	grid-column: 1 / -1;
+}
+.project-check {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: .35rem;
+}
+.project-site-list {
+	display: grid;
+	gap: .6rem;
+}
+.project-site-card {
+	display: grid;
+	gap: .45rem;
+	padding: .75rem;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+.project-site-meta {
+	margin: 0;
+	opacity: .78;
+}
+.project-site-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .4rem;
+}
+.project-empty {
+	margin: 0;
+	opacity: .72;
+}
+@media (max-width: 900px) {
+	.project-stage-grid,
+	.project-publisher {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+@media (max-width: 620px) {
+	.project-stage-grid,
+	.project-publisher {
+		grid-template-columns: 1fr;
+	}
+}

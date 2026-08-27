@@ -1,0 +1,40 @@
+<!--B"H-->
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mitzvah World Animator</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <!-- Panels will be dynamically generated and added here -->
+    <div id="ui-container">
+        <!-- e.g., <div id="object-tree-panel" class="panel"></div> -->
+        <!-- e.g., <div id="properties-panel" class="panel right"></div> -->
+        <!-- e.g., <div id="timeline-panel" class="panel bottom"></div> -->
+        <!-- e.g., <div id="toolbar" class="panel top"></div> -->
+    </div>
+
+    <!-- Canvas for 3D rendering -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Orbit Controls Gizmo (Optional, but nice) -->
+    <div id="orbit-gizmo-container"></div>
+
+    <!-- Libraries -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "/games/scripts/build/three.module.js",
+                "three/addons/": "/games/scripts/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Main Application Script -->
+    <script type="module" src="src/App.js"></script>
+</body>
+</html>

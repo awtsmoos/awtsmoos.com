@@ -1,0 +1,32 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews hierarchy, transform, and external testimony beside the scene.
+Awtsmoos.com makes selection and evidence tactile without covering the viewport.
+*/
+.panel { min-width: 0; min-height: 0; padding: 13px; overflow: auto; background: var(--studio-panel); }
+.outliner-panel { border-right: 1px solid var(--studio-border); }
+.inspector-panel { border-left: 1px solid var(--studio-border); }
+.panel h2 { margin: 4px 0 10px; color: var(--studio-muted); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+.outliner { display: grid; gap: 5px; }
+.outliner button {
+	display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: 8px;
+	width: 100%; min-height: 38px; padding: 5px 8px; border: 1px solid transparent;
+	border-radius: var(--studio-radius-sm); color: var(--studio-text); background: transparent;
+	text-align: left; cursor: pointer;
+}
+.outliner button:hover { background: var(--studio-panel-soft); }
+.outliner button[aria-selected="true"] { border-color: var(--studio-border-bright); background: rgb(92 238 218 / 12%); }
+.object-icon { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 8px; background: rgb(113 156 255 / 13%); }
+.object-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.inspector { display: grid; gap: 11px; margin-bottom: 22px; }
+.field-group { display: grid; gap: 6px; }
+.field-group > span { color: var(--studio-muted); font-size: 11px; }
+.vector-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+.vector-fields label { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px; color: var(--studio-muted); font-size: 10px; }
+.vector-fields input { width: 100%; min-width: 0; height: 31px; padding: 0 6px; border: 1px solid var(--studio-border); border-radius: 7px; color: var(--studio-text); background: rgb(255 255 255 / 5%); }
+.evidence { display: grid; gap: 8px; }
+.evidence-card { padding: 9px; border: 1px solid var(--studio-border); border-radius: var(--studio-radius-sm); background: var(--studio-panel-soft); }
+.evidence-card strong { display: block; margin-bottom: 4px; font-size: 12px; }
+.evidence-card small { color: var(--studio-muted); line-height: 1.45; word-break: break-word; }
+.studio[data-state="error"] .viewport-shell { outline: 2px solid var(--studio-danger); outline-offset: -2px; }

@@ -1,0 +1,67 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!--
+	The Awtsmoos renews every local machine and every remote request in one instant.
+	Awtsmoos.com lets callback-capable and headless external AI clients ask through
+	distinct OAuth garments while the human keeps authority over every local vessel.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="color-scheme" content="dark light">
+	<meta name="description" content="Awtsmoos Tunnel Control connects compatible external AI clients through PKCE callback OAuth or headless Device Authorization, then immutable tunnel discovery.">
+	<title>Awtsmoos Tunnel Control</title>
+	<link rel="stylesheet" href="./css/app.css">
+	<script type="module" src="./js/app.js"></script>
+</head>
+<body class="awt-gated awt-preboot">
+	<section class="awt-login-gate" aria-labelledby="awt-preboot-title">
+		<div class="awt-login-card">
+			<div class="awt-mini-kicker">B&quot;H Tunnel Control</div>
+			<h1 id="awt-preboot-title">Awtsmoos Tunnel Control is opening</h1>
+			<p>Any external AI can use the universal <code>external-agent</code> client. Prefer PKCE callback authorization when possible; headless agents can use OAuth Device Authorization and ask the human to enter a short code here.</p>
+			<div class="awt-login-actions" aria-label="Tunnel Control actions">
+				<a class="button-link primary awt-primary-link" href="/login">Login</a>
+				<a class="button-link" href="/api/oauth/device">Enter Device Code</a>
+				<button class="button-link" type="button" data-awt-command="irm https://awtsmoos.com/api/tunnel/install/windows | iex">Windows install command</button>
+				<button class="button-link" type="button" data-awt-command="curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash">Mac / Linux install command</button>
+			</div>
+			<div class="awt-login-actions" aria-label="Agent and developer links">
+				<a class="button-link" href="/api/tunnel/control/docs#external-agent">External AI / Agent API</a>
+				<a class="button-link" href="/api/tunnel/control/docs#device-login">Headless AI Guide</a>
+				<a class="button-link" href="/.well-known/oauth-authorization-server">OAuth Metadata</a>
+				<a class="button-link" href="/api/tunnel/control/agent-manifest">Agent Manifest</a>
+				<a class="button-link" href="/api/tunnel/control/docs">API Docs</a>
+				<a class="button-link" href="/api/tunnel/control/openapi">OpenAPI</a>
+				<a class="button-link" href="/api/tunnel/control/bootstrap">Agent Bootstrap</a>
+				<a class="button-link" href="/apps/code">Code Editor</a>
+				<a class="button-link" href="/os">Virtual OS</a>
+			</div>
+			<pre id="awt-install-command" class="awt-install-command" hidden aria-live="polite"></pre>
+			<noscript>
+				<p>JavaScript is required for copy buttons. Mac / Linux: curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash</p>
+			</noscript>
+		</div>
+	</section>
+	<script>
+		document.addEventListener("click", async event => {
+			const button = event.target.closest("[data-awt-command]");
+			if (!button) {
+				return;
+			}
+			const command = button.getAttribute("data-awt-command") || "";
+			const box = document.getElementById("awt-install-command");
+			if (box) {
+				box.hidden = false;
+				box.textContent = `${command}\n\nCopy and paste this line into your terminal.`;
+			}
+			try {
+				await navigator.clipboard?.writeText(command);
+			} catch (error) {}
+		});
+	</script>
+</body>
+</html>

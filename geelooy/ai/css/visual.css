@@ -1,0 +1,81 @@
+/*B"H
+  Chapter 3: The glass city becomes a sliding 2D merkava.
+  Every hover is a small orbit, every active press a descent, every panel a
+  disciplined vessel. Selectors stay shallow so the system does not fight itself.
+*/
+:root {
+  --ai-motion-fast: 150ms;
+  --ai-motion: 320ms;
+  --ai-motion-slow: 640ms;
+  --ai-panel-glass: rgba(10, 22, 35, .78);
+  --ai-glass-line: rgba(177, 220, 255, .16);
+}
+:focus-visible { outline: 3px solid rgba(126, 212, 255, .36); outline-offset: 2px; }
+.sidebar, .main, .automation-panel {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.035), transparent 28%),
+    linear-gradient(180deg, var(--ai-panel-glass), rgba(4, 10, 18, .94));
+  border-color: var(--ai-glass-line);
+}
+.chat-box, .conversation-list, .automation-panel, .automation-panel > :not(.panel-topbar) { scrollbar-width: thin; scrollbar-color: rgba(126,212,255,.45) transparent; }
+.chat-box::-webkit-scrollbar, .conversation-list::-webkit-scrollbar, .automation-panel::-webkit-scrollbar { width: 10px; height: 10px; }
+.chat-box::-webkit-scrollbar-thumb, .conversation-list::-webkit-scrollbar-thumb, .automation-panel::-webkit-scrollbar-thumb {
+  border-radius: 99px; background: linear-gradient(180deg, rgba(47,240,160,.55), rgba(31,111,235,.65));
+}
+.message-shell { animation: aiRise var(--ai-motion) ease both; }
+.message { position: relative; isolation: isolate; }
+.message::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  background: radial-gradient(circle at 22% 0%, rgba(255,255,255,.16), transparent 34%);
+  opacity: .72; pointer-events: none;
+}
+.message.is-loading { min-width: min(360px, 86vw); }
+.message-loading { color: rgba(190, 238, 255, .95); }
+.message.is-loading::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(90deg, transparent, rgba(126,212,255,.16), transparent);
+  transform: translateX(-110%); animation: aiSheen 1.25s infinite;
+}
+.message-offload {
+  width: 100%; text-align: left; color: #c9e8ff;
+  border-style: solid; background:
+    linear-gradient(135deg, rgba(47,240,160,.12), rgba(31,111,235,.14)),
+    rgba(3,8,14,.72);
+}
+.message-offload::before { content: "↯ "; color: var(--ai-good); }
+.is-offloaded .message { box-shadow: inset 0 0 0 1px rgba(47,240,160,.16), 0 14px 34px rgba(0,0,0,.22); }
+.conversation-list li.is-loading, .conversation-list li.is-error { white-space: normal; cursor: default; color: var(--ai-muted); }
+.conversation-list li.is-loading { animation: aiPulseCard 1.15s infinite ease-in-out; }
+.conversation-list li.is-error { border-color: rgba(255,104,116,.42); color: #ffc2c8; }
+.conversation-list li[data-gizmo]::after {
+  content: "GPT";
+  float: right;
+  padding: 1px 7px;
+  border-radius: 999px;
+  color: #caffea;
+  background: rgba(47,240,160,.14);
+  border: 1px solid rgba(47,240,160,.25);
+  font-size: .7rem;
+}
+button, select, textarea, .conversation-list li, .message-offload, .event-group {
+  transition: transform var(--ai-motion-fast) ease, border-color var(--ai-motion-fast) ease, box-shadow var(--ai-motion-fast) ease, filter var(--ai-motion-fast) ease;
+}
+button:hover, .attach-button:hover, .message-offload:hover, .event-group:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,.24); }
+button:active, .conversation-list li:active, .message-offload:active { transform: translateY(1px) scale(.99); }
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  pointer-events: none;
+  border-radius: 30px;
+  background: linear-gradient(115deg, transparent 0 30%, rgba(126,212,255,.06) 42%, transparent 55% 100%);
+  transform: translateX(-80%);
+  animation: aiPageSlide var(--ai-motion-slow) ease both;
+}
+@keyframes aiRise { from { opacity: 0; transform: translateY(10px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes aiSheen { to { transform: translateX(110%); } }
+@keyframes aiPulseCard { 0%,100% { opacity: .52; } 50% { opacity: 1; } }
+@keyframes aiPageSlide { to { transform: translateX(80%); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

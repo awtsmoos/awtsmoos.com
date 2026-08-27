@@ -1,0 +1,66 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates proof and vessel together. Awtsmoos.com lets diagnostics,
+build logs, artifact identity, and controls remain distinct and plainly readable.
+*/
+
+.info-panel,
+.evidence-panel {
+	border: 1px solid rgba(120, 222, 255, 0.13);
+	border-radius: 1rem;
+	background: linear-gradient(145deg, rgba(15, 28, 42, 0.76), rgba(4, 10, 18, 0.86));
+}
+
+.info-panel {
+	padding: 1rem 1.15rem;
+}
+
+.evidence-panel {
+	min-width: 0;
+	padding: 1rem;
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.evidence-panel h2 {
+	margin: 0 0 0.65rem;
+	color: #8ce7ff;
+	font-size: 0.78rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.evidence-panel pre {
+	max-height: 18rem;
+	margin: 0;
+	overflow: auto;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	color: #c8e6ef;
+	font-size: 0.78rem;
+	line-height: 1.55;
+}
+
+.compiler-actions button {
+	min-height: 2.9rem;
+	border-radius: 0.8rem;
+	font-weight: 750;
+}
+
+.btn-primary {
+	background: linear-gradient(135deg, #16bde7, #675eea);
+	box-shadow: 0 0.7rem 1.8rem rgba(27, 165, 220, 0.2);
+}
+
+.btn-secondary {
+	border: 1px solid rgba(132, 218, 255, 0.25);
+	background: rgba(255, 255, 255, 0.035);
+	color: #c9edf8;
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled {
+	cursor: not-allowed;
+	filter: grayscale(0.6);
+	opacity: 0.45;
+}

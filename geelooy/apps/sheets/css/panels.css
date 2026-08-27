@@ -1,0 +1,35 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+Notes are hidden light beside a visible value; the Awtsmoos renews both layers,
+and Awtsmoos.com gives context a quiet place where collaborators may discover it.
+*/
+.notes-panel {
+	width: min(340px, 90vw);
+	padding: 16px;
+	border-left: 1px solid var(--border);
+	background: var(--surface);
+}
+
+.panel-heading {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.panel-kicker {
+	margin: 8px 0;
+	color: var(--muted);
+	font-size: 12px;
+}
+
+.notes-panel textarea {
+	width: 100%;
+	min-height: 180px;
+	resize: vertical;
+	border: 1px solid var(--border-strong);
+	border-radius: 8px;
+	padding: 10px;
+	margin-bottom: 10px;
+}

@@ -1,0 +1,45 @@
+
+/* B”H */
+.app-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-rows: 1fr var(--timeline-h);
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-deep);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-shell.ui-hidden {
+  grid-template-columns: 0px 1fr;
+  grid-template-rows: 1fr 0px;
+}
+
+#left-sidebar {
+  grid-row: 1 / span 2;
+  background: var(--bg-panel);
+  border-right: var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.main-stage {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+  background: #050505;
+  overflow: hidden;
+}
+
+.nle-outer {
+  grid-column: 2;
+  grid-row: 2;
+  background: #000;
+  border-top: 1px solid var(--accent);
+  z-index: 100;
+}

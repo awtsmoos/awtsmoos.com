@@ -1,0 +1,8 @@
+B"H viewport focused results
+PASS 040_ui_inspector_smoke.mjs 0.11s :: B"H ui inspector smoke passed
+PASS 043_nle_render_smoke.mjs 0.31s :: B"H nle render smoke passed
+PASS 045_audio_visualizer_smoke.mjs 0.31s :: B"H audio visualizer smoke passed
+PASS 054_browser_confidence_layer_smoke.mjs 0.61s :: B"H browser confidence layer smoke passed
+PASS 062_recording_dom_contract_smoke.mjs 0.59s :: B"H fixed viewport recording, deck, and audio DOM contract passed
+PASS 066_style_visual_contract_smoke.mjs 0.38s :: B"H fixed no-scroll transition and GPU style contract passed across 9 CSS modules
+PASS 067_gpu_audio_lab_smoke.mjs 0.18s :: B"H ten-mode adaptive GPU Audio Lab smoke passed

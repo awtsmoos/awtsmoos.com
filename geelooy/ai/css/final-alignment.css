@@ -1,0 +1,84 @@
+/* B"H */
+/*
+  Chapter 13: The Interface Became a Measured Merkavah.
+  Every rail, chip, bubble, and scrollbar is aligned into quiet order: the
+  cockpit no longer drips system sparks into the visible conversation.
+*/
+.container, .main, .chat-panel, .chat-box {
+  min-width: 0;
+}
+.chat-box {
+  gap: 12px;
+  padding-bottom: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34,211,238,.55) rgba(2,6,23,.5);
+}
+.chat-box::-webkit-scrollbar,
+.right-panel-body::-webkit-scrollbar,
+.event-code-block::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.chat-box::-webkit-scrollbar-thumb,
+.right-panel-body::-webkit-scrollbar-thumb,
+.event-code-block::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: linear-gradient(180deg, #22d3ee, #2563eb);
+}
+.message-shell {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+}
+.message-shell.event-only {
+  margin-block: 2px;
+}
+.message {
+  box-shadow: 0 18px 48px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.transport-details {
+  max-width: min(980px, 100%);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(2,6,23,.86), rgba(8,47,73,.28));
+}
+.transport-details > summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(125,211,252,.12);
+}
+.event-chip-row { gap: 8px; }
+.event-chip {
+  min-height: 28px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(15,23,42,.8), rgba(8,47,73,.42));
+}
+.event-field {
+  min-height: 38px;
+  align-items: center;
+}
+.event-field > div {
+  min-width: 0;
+  color: rgba(226,241,255,.82);
+  overflow-wrap: anywhere;
+}
+#right-rail, .right-rail, .collapse-rail {
+  align-items: center;
+}
+.automation-status {
+  text-transform: lowercase;
+}
+.input-area .attachment-tray,
+#attachment-tray {
+  max-width: 100%;
+  overflow-x: auto;
+}
+#send-button {
+  min-width: 76px;
+  min-height: 58px;
+  border-radius: 18px;
+  font-weight: 900;
+  box-shadow: 0 18px 42px rgba(14,165,233,.28);
+}

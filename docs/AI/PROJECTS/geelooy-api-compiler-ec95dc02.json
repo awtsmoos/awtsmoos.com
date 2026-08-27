@@ -1,0 +1,67 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-compiler-ec95dc02",
+	"path": "geelooy/api/compiler",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/compiler",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/compiler/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-compiler-ec95dc02.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 8,
+		"tests": 1,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 10,
+	"symbolSummary": {
+		"files": 8,
+		"classes": 0,
+		"functions": 29,
+		"exports": 14,
+		"samples": [
+			"authorizeCompilerRequest",
+			"isAllowedOrigin",
+			"failure",
+			"compilerRequestBody",
+			"REQUEST_BYTES",
+			"bodyError",
+			"compilerBackends",
+			"compilerBuild",
+			"compilerRebbeApk",
+			"requestCancellation",
+			"errorResponse",
+			"statusFor"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/apps/rebbe",
+			"count": 1,
+			"examples": "geelooy/api/compiler/core/rebbeApkHandler.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,19 @@
+/* B"H */
+@layer awt.views {
+  .awt-response-focus {
+    border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+    border-radius: 16px;
+    margin: 10px 0;
+    padding: 12px;
+  }
+  .awt-response-focus small {
+    display: block;
+    letter-spacing: .14em;
+    opacity: .68;
+  }
+  .awt-response-focus strong {
+    display: block;
+    margin: 5px 0;
+  }
+  .awt-response-focus code { white-space: normal; }
+}

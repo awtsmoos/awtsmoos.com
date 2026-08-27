@@ -1,0 +1,55 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the caption studio one restrained local visual language.
+ */
+
+:root {
+	--studio-bg: #070b12;
+	--studio-bg-soft: #0b111a;
+	--studio-panel: #101925;
+	--studio-panel-soft: #152130;
+	--studio-panel-strong: #1a2939;
+	--studio-text: #f4f7fb;
+	--studio-muted: #b5c1d1;
+	--studio-faint: #8d9cb0;
+	--studio-line: rgba(255, 255, 255, .12);
+	--studio-line-strong: rgba(255, 255, 255, .22);
+	--studio-cyan: #61cbd9;
+	--studio-cyan-soft: rgba(97, 203, 217, .14);
+	--studio-magenta: #d36eaa;
+	--studio-success: #65d6a2;
+	--studio-warning: #f0bd68;
+	--studio-danger: #ff7f9c;
+	--studio-focus: #82e2ed;
+	--studio-radius-s: .68rem;
+	--studio-radius-m: .86rem;
+	--studio-radius-l: 1.1rem;
+	--studio-shadow: 0 1rem 2.8rem rgba(0, 0, 0, .3);
+	--studio-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	color-scheme: dark;
+}
+
+body {
+	margin: 0;
+	background: linear-gradient(145deg, #060a11, var(--studio-bg-soft) 62%, #111321);
+	color: var(--studio-text);
+	font-family: var(--studio-font);
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}

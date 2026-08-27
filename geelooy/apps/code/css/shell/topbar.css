@@ -1,0 +1,7 @@
+/* B"H — topbar containment: every tool receives a bounded vessel. */
+.top-panel{overflow:visible;min-width:0}.menu-bar{box-sizing:border-box;min-width:0;overflow:visible;isolation:isolate}.menu-bar .icon-button{flex:0 0 auto}
+#custom-menu-container{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;min-width:0}
+#global-console-btn,#global-ai-chat-btn,#global-refresh-preview-btn{order:80;width:38px;height:38px;padding:0;flex:0 0 auto;border-radius:12px;background:rgba(255,255,255,.025)}
+#awtsmoos-account-panel{order:90}.tab-bar-wrapper,.tab-bar{min-width:0}
+@media(max-width:760px){.menu-bar{gap:5px;padding-inline:8px}.menu-bar .icon-button{width:38px;height:38px;padding:0}#global-console-btn,#global-ai-chat-btn,#global-refresh-preview-btn{width:34px;height:34px}}
+@media(max-width:540px){#global-ai-chat-btn{display:none}}

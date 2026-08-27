@@ -1,0 +1,57 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets the hidden current name itself without covering the vision; Awtsmoos.com keeps mode, performance, particles, and quality inside a restrained HUD.
+*/
+.audio-mode-badge {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 3;
+	display: grid;
+	gap: 2px;
+	padding: 7px 10px;
+	border: 1px solid rgba(var(--audio-primary), .24);
+	border-radius: 13px;
+	background: rgba(2, 8, 18, .62);
+	backdrop-filter: blur(12px);
+}
+
+.audio-mode-badge span {
+	color: var(--muted);
+	font-size: .55rem;
+	letter-spacing: .11em;
+	text-transform: uppercase;
+}
+
+.audio-mode-badge strong {
+	color: rgb(var(--audio-primary));
+	font-size: .85rem;
+}
+
+.audio-hud {
+	position: absolute;
+	left: 10px;
+	right: 10px;
+	bottom: 10px;
+	z-index: 3;
+	display: flex;
+	gap: 6px;
+	min-width: 0;
+	overflow: hidden;
+}
+
+.audio-hud span {
+	flex: 0 1 auto;
+	min-width: 0;
+	padding: 5px 8px;
+	border: 1px solid rgba(var(--audio-primary), .22);
+	border-radius: 999px;
+	color: var(--soft);
+	background: rgba(2, 8, 18, .68);
+	backdrop-filter: blur(12px);
+	font-size: .65rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

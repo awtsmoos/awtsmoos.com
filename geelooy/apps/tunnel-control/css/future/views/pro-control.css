@@ -1,0 +1,124 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter 40: Controls became adaptive glass instruments.
+ *
+ * The Awtsmoos lets icons, chips, pane headings, action catalogs, and mobile
+ * navigation share one picture-language while remaining responsible under
+ * narrow Android glass.
+ */
+.awt-svg-icon { width: 1.35rem; height: 1.35rem; color: currentColor; filter: drop-shadow(0 0 10px color-mix(in srgb, currentColor 34%, transparent)); }
+.awt-icon-emoji { display: inline-grid; place-items: center; }
+
+.awt-card-meta,
+.awt-pane-badges,
+.awt-dashboard-tabs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.awt-card-chip,
+.awt-filter-tab,
+.awt-workspace-status,
+#actionDetailBadge {
+  border: 1px solid var(--awt-line-soft);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--awt-muted);
+  background: rgba(255, 255, 255, .045);
+  font-size: .70rem;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+
+.awt-card-chip.is-safe,
+.awt-card-chip.is-status,
+.awt-card-chip.is-secure { color: var(--awt-green); background: rgba(47, 231, 122, .11); }
+.awt-card-chip.is-advanced,
+.awt-card-chip.is-browser,
+.awt-card-chip.is-live { color: var(--awt-gold); background: rgba(255, 182, 74, .11); }
+.awt-card-chip.is-group { color: var(--awt-blue); background: rgba(40, 124, 255, .12); }
+
+.awt-filter-tab {
+  cursor: pointer;
+  min-height: 38px;
+  padding-inline: 14px;
+}
+
+.awt-filter-tab.active {
+  color: #fff;
+  border-color: rgba(40, 124, 255, .46);
+  background: rgba(40, 124, 255, .42);
+  box-shadow: 0 10px 24px rgba(40, 124, 255, .18);
+}
+
+.awt-pane-heading,
+.awt-workspace-toolbar,
+.awt-action-toolbar,
+.awt-detail-head { display: grid; gap: 10px; }
+.awt-pane-heading { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--awt-line-soft); }
+.awt-pane-heading-top,
+.awt-workspace-toolbar,
+.awt-detail-head { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+.awt-pane-title-mark { display: inline-flex; align-items: center; gap: 9px; }
+.awt-pane-icon { width: 38px; height: 38px; border-radius: 14px; background: rgba(40,124,255,.12); }
+.awt-pane-icon.is-files { color: var(--awt-green); background: rgba(47,231,122,.12); }
+.awt-pane-icon.is-automation { color: var(--awt-icon-orange); background: rgba(255,141,58,.12); }
+.awt-pane-icon.is-ai { color: var(--awt-icon-pink); background: rgba(255,77,141,.12); }
+.awt-pane-icon.is-system { color: var(--awt-icon-purple); background: rgba(140,104,255,.12); }
+.awt-pane-heading h2,
+.awt-detail-head h3 { margin: 0; letter-spacing: -.035em; }
+.awt-pane-heading p,
+.awt-muted-line { margin: 0; color: var(--awt-muted); }
+
+.awt-workspace-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 12px;
+  border: 1px solid var(--awt-line-soft);
+  border-radius: var(--awt-radius-3);
+  background: rgba(4, 12, 24, .92);
+  backdrop-filter: blur(16px) saturate(130%);
+}
+
+.awt-back-button { justify-self: start; }
+.awt-action-catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px; }
+.awt-action-option { min-height: 112px; display: grid; gap: 8px; align-content: start; padding: 14px; border: 1px solid var(--awt-line-soft); border-radius: var(--awt-radius-3); color: var(--awt-ink); background: var(--awt-card-bg); text-align: left; cursor: pointer; }
+.awt-action-option.active,
+.awt-action-option:hover,
+.awt-action-option:focus-visible { border-color: rgba(94, 220, 255, .35); background: rgba(18, 48, 84, .82); }
+.awt-action-option span,
+.awt-action-option small { color: var(--awt-muted); line-height: 1.35; }
+.awt-action-detail[hidden],
+.awt-action-option[hidden] { display: none !important; }
+.awt-output-details { border: 1px solid var(--awt-line-soft); border-radius: var(--awt-radius-3); background: rgba(255, 255, 255, .035); overflow: hidden; }
+.awt-output-details summary { padding: 12px 14px; cursor: pointer; font-weight: 900; }
+.awt-output-details pre,
+.pane pre,
+.awt-workspace-body pre { max-height: 340px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+label.is-muted { opacity: .46; }
+.awt-pane-stack > .pane:not(.active) { display: none !important; }
+.awt-pane-stack > .pane.active { display: grid; gap: 14px; }
+
+@media (max-width: 760px) {
+  .awt-control-shell { grid-template-columns: 1fr; padding: 10px; padding-bottom: 92px; }
+  .awt-control-side { position: fixed; inset: auto 10px 10px 10px; z-index: 220; max-height: 68px; display: flex; align-items: center; justify-content: space-between; overflow-x: auto; overflow-y: hidden; border-radius: 24px; padding: 8px 10px; background: rgba(4, 12, 24, .96) !important; }
+  .awt-brand-block,
+  .awt-runtime-switcher,
+  .awt-rail-status,
+  .awt-user-chip { display: none !important; }
+  .awt-side-tabs { display: flex; gap: 8px; }
+  .awt-home-button,
+  .awt-nav-button { width: auto; min-width: 54px; min-height: 50px; grid-template-columns: 1fr; place-items: center; padding: 8px 10px; border-radius: 16px; }
+  .awt-home-button strong,
+  .awt-nav-copy { display: none; }
+  .awt-nav-icon .awt-svg-icon,
+  .awt-home-button .awt-svg-icon { width: 24px; height: 24px; }
+  .awt-workspace-toolbar,
+  .awt-pane-heading-top,
+  .awt-detail-head { grid-template-columns: 1fr; }
+}

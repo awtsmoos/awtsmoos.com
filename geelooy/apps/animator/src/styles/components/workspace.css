@@ -1,0 +1,76 @@
+/* B"H - Legacy drag/drop workspace without inline styles. */
+.legacy-workspace-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.legacy-workspace-toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid var(--aw-line);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.legacy-workspace-spacer { flex: 1; }
+
+.legacy-workspace-count {
+  color: var(--aw-muted);
+  font-size: 10px;
+}
+
+.legacy-workspace-dropzone,
+.workspace-dropzone {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: 12px;
+}
+
+.workspace-dropzone.drag-over {
+  outline: 2px dashed var(--aw-hot);
+  outline-offset: -6px;
+}
+
+.legacy-dropped-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.legacy-shard-item {
+  padding: 8px;
+  font-size: 10px;
+  cursor: default;
+}
+
+.block-icon {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 999px;
+}
+
+.block-label,
+.time-display {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.legacy-shard-icon { background: var(--aw-hot); }
+.legacy-shard-label { color: var(--aw-hot); }
+.legacy-shard-arrow { opacity: 0.5; }
+.legacy-shard-value { color: var(--aw-text); }
+
+.aw-overlay-probed {
+  outline: 1px dashed rgba(255, 255, 0, 0.55);
+  outline-offset: -1px;
+}

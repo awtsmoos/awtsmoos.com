@@ -1,0 +1,97 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en" class="theme-vivid-dark">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+	<meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+	<title>Awtsmoos Code</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+	<link href="css/app.css" rel="stylesheet">
+</head>
+<body>
+	<div id="visual-layer" class="visual-layer">
+		<canvas id="canvas-bg"></canvas>
+		<canvas id="canvas-ui"></canvas>
+	</div>
+	<div class="app-container">
+		<aside class="sidebar" id="sidebar">
+			<header class="sidebar-header">
+				<span>Explorer</span>
+				<div style="display:flex;gap:4px">
+					<button id="sidebar-search-btn" title="Search" class="icon-button"><svg class="svg-icon"><use href="#icon-search"></use></svg></button>
+					<button id="sidebar-collapse-btn" title="Collapse" class="icon-button"><svg class="svg-icon"><use href="#icon-arrow-left"></use></svg></button>
+				</div>
+			</header>
+			<div class="sidebar-sub-header" style="padding:0 10px 5px;display:flex;justify-content:space-between;border-bottom:1px solid var(--color-border)">
+				<button id="file-commander-btn" title="File Commander" class="icon-button"><svg class="svg-icon"><use href="#icon-folder"></use></svg></button>
+				<button id="add-workspace-btn" title="Add Workspace" class="icon-button"><svg class="svg-icon"><use href="#icon-plus"></use></svg></button>
+			</div>
+			<div id="workspaces-container" class="workspaces-container"></div>
+		</aside>
+		<div id="sidebar-resizer" class="sidebar-resizer"></div>
+		<header class="top-panel">
+			<div class="menu-bar" style="display:flex;align-items:center;width:100%;gap:8px">
+				<button class="icon-button" id="sidebar-toggle-btn" title="Toggle Explorer"><svg class="svg-icon"><use href="#icon-sidebar"></use></svg></button>
+				<button class="icon-button" id="main-menu-btn" title="Main Menu"><svg class="svg-icon"><use href="#icon-menu"></use></svg></button>
+				<div id="custom-menu-container"></div>
+				<div style="flex:1"></div>
+				<button class="icon-button" id="tunnel-console-btn" title="Live tunnel agents" aria-label="Live tunnel agents" aria-expanded="false">
+					<svg class="svg-icon"><use href="#icon-laptop"></use></svg><span data-agent-count>0</span>
+				</button>
+				<div id="awtsmoos-account-panel" class="awtsmoos-account-panel" aria-live="polite"></div>
+			</div>
+			<div class="tab-bar-wrapper">
+				<div id="tab-bar" class="tab-bar"></div>
+				<button id="tab-manager-btn" class="icon-button" title="Open, hide, restore, and close tabs"><svg class="svg-icon"><use href="#icon-list"></use></svg></button>
+			</div>
+		</header>
+		<main class="main-content">
+			<section class="editor-area">
+				<canvas id="canvas-overlay" class="editor-canvas"></canvas>
+				<canvas id="minimap-canvas" class="minimap-canvas"></canvas>
+				<div id="hud-stats" class="hud-stats"></div>
+				<div id="previewer" class="hidden"></div>
+				<div id="devtools-wrapper" class="hidden"></div>
+				<div id="hex-editor-wrapper" class="hidden"></div>
+				<div id="zip-editor-wrapper" class="hidden"></div>
+				<div id="vibe-editor-wrapper" class="hidden"></div>
+				<div id="vibe-manager-wrapper" class="hidden"></div>
+				<div id="file-commander-wrapper" class="hidden"></div>
+				<div id="terminal-wrapper" class="hidden"></div>
+				<div id="browser-wrapper" class="hidden"></div>
+				<div id="virtual-os-wrapper" class="hidden"></div>
+				<div id="editor-wrapper" class="hidden">
+					<div id="line-numbers">1</div>
+					<textarea id="editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" rows="1"></textarea>
+				</div>
+				<div id="data-altar-container" class="hidden"></div>
+				<div id="find-replace-panel">
+					<div class="fr-row"><div class="find-input-container"><input type="text" id="find-input" placeholder="Find"></div></div>
+					<div class="fr-row"><input type="text" id="replace-input" placeholder="Replace"></div>
+				</div>
+				<div id="empty-editor-message" class="empty-editor-message"><h2>Awtsmoos Code</h2><p>Open the public GPT or start this tab as a browser tunnel.</p></div>
+			</section>
+		</main>
+		<footer class="status-bar"><div id="status-left"></div><div id="status-right"></div></footer>
+	</div>
+	<div id="loading-overlay" class="loading-overlay"><span>Processing...</span></div>
+	<div id="toast-container"></div>
+	<div id="main-menu"></div>
+	<div id="context-menu"></div>
+	<div id="selection-menu" class="selection-menu-bar"></div>
+	<div id="graph-nav-overlay" class="graph-nav-overlay hidden">
+		<button id="graph-nav-close" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
+		<canvas id="graph-canvas"></canvas>
+	</div>
+	<div id="tab-manager-overlay" class="tab-manager-overlay hidden"></div>
+	<div id="generic-dialog" class="dialog-overlay"></div>
+	<div id="code-welcome-wrapper" class="code-welcome-wrapper" hidden></div>
+	<aside id="tunnel-console-wrapper" class="code-tunnel-console" hidden aria-label="Live browser tunnel agents and missions"></aside>
+	<script type="module" src="js/main.js?compact=true"></script>
+	<script src="/register.js"></script>
+</body>
+</html>

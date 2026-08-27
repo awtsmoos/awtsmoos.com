@@ -1,0 +1,28 @@
+/* B"H */
+@keyframes awtGridDrift { from { background-position: 0 0, 0 0, 0 0; } to { background-position: 48px 48px, -48px 48px, 0 0; } }
+@keyframes awtGateRise { from { opacity: 0; transform: translateY(26px) scale(.985); filter: blur(16px); } 70% { opacity: 1; filter: blur(0); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+@keyframes awtDashboardIn { from { opacity: 0; transform: translateY(22px) scale(.985); filter: blur(14px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+@keyframes awtWorkspaceRise { from { opacity: 0; transform: translate3d(0, 32px, 0) scale(.982); filter: blur(14px); } 65% { opacity: 1; filter: blur(0); } to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0); } }
+@keyframes awtPaneMaterialize { from { opacity: 0; transform: translateX(34px) scale(.985); filter: blur(12px); } to { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); } }
+@keyframes awtSignalSweep { from { transform: translateX(-140%) skewX(-16deg); opacity: 0; } 35% { opacity: .8; } to { transform: translateX(190%) skewX(-16deg); opacity: 0; } }
+@keyframes awtIconPulse { 0%,100% { filter: drop-shadow(0 0 0 rgba(119,236,255,0)); transform: scale(1); } 50% { filter: drop-shadow(0 0 12px rgba(119,236,255,.45)); transform: scale(1.06); } }
+body::before { animation: awtGridDrift 34s linear infinite; }
+.awt-login-card, .awt-mode-card { animation: awtGateRise .72s var(--awt-ease) both; }
+.awt-dashboard { animation: awtDashboardIn .66s var(--awt-ease) both; }
+.awt-workspace-mode .awt-workspace-stage { animation: awtWorkspaceRise .58s var(--awt-ease) both; }
+.awt-pane-stack > [data-pane].active { animation: awtPaneMaterialize .46s var(--awt-ease) both; }
+.awt-nav-button::after, .awt-home-button::after, .awt-action-card::after,
+.awt-control-shell :where(button):not(.awt-nav-button):not(.awt-home-button):not(.awt-action-card)::after,
+.awt-login-gate :where(button, .button-link)::after {
+  content: "";
+  position: absolute;
+  inset: -55% auto -55% -40%;
+  width: 42%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
+  transform: translateX(-140%) skewX(-16deg);
+  pointer-events: none;
+}
+.awt-nav-button:hover::after, .awt-home-button:hover::after, .awt-action-card:hover::after,
+.awt-control-shell :where(button):not(.awt-nav-button):not(.awt-home-button):not(.awt-action-card):hover::after,
+.awt-login-gate :where(button, .button-link):hover::after { animation: awtSignalSweep .78s ease; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

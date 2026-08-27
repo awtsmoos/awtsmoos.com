@@ -1,0 +1,68 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-soul-jump-0c3378cb",
+	"path": "geelooy/games/soul-jump",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Ein Sof Ascent",
+	"entries": [
+		"index.html",
+		"main.js"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-soul-jump-0c3378cb.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 2,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 2,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 6,
+		"functions": 11,
+		"exports": 0,
+		"samples": [
+			"Player",
+			"BackgroundParticle",
+			"Platform",
+			"Enemy",
+			"Powerup",
+			"Particle",
+			"getEventX",
+			"startDrag",
+			"onDrag",
+			"endDrag",
+			"startGame",
+			"generatePlatforms"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/soul-jump",
+			"file": "geelooy/games/soul-jump/index.html",
+			"title": "Ein Sof Ascent",
+			"scripts": 1,
+			"styles": 0
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,1617 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../css/legacy-pages.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expressive Stick Figure Animator</title>
+<style id="mainStylesheet">
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    margin: 0;
+    padding: 15px;
+    background-color: #DFE6E9; /* Lighter, cooler background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #2D3436;
+    line-height: 1.5;
+}
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    width: 96%;
+    max-width: 1000px;
+}
+h1, h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.3em; color: #34495e;}
+
+textarea#jsonInput {
+    width: calc(100% - 22px);
+    min-height: 180px;
+    margin-bottom: 12px;
+    padding: 10px;
+    border: 1px solid #BCCCDC;
+    border-radius: 5px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 0.9em;
+    resize: vertical;
+    box-sizing: border-box;
+}
+.button-group {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.button-group button, .button-group label {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498DB; /* Calmer blue */
+    color: white;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: background-color 0.15s ease, transform 0.08s ease;
+}
+.button-group button:hover, .button-group label:hover {
+    background-color: #2980B9;
+}
+.button-group button:active, .button-group label:active {
+    transform: translateY(1px);
+}
+.button-group input[type="file"] { display: none; }
+
+#status {
+    margin-top: 12px;
+    color: #636E72;
+    text-align: center;
+    font-size: 0.85em;
+    min-height: 1.2em; /* Prevent layout shift */
+}
+canvas#animationCanvas {
+    border: 1px solid #BCCCDC;
+    display: block;
+    margin: 20px auto;
+    background-color: #F0F8FF;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    border-radius: 6px;
+    touch-action: none; /* For potential future pan/zoom controls */
+}
+.playback-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+#progressBarContainer {
+    flex-grow: 1;
+    height: 12px;
+    background-color: #D1D8DE;
+    border-radius: 6px;
+    margin: 0 8px;
+    cursor: pointer;
+    overflow: hidden;
+    min-width: 200px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.08);
+}
+#progressBar {
+    width: 0%;
+    height: 100%;
+    background-color: #3498DB;
+    border-radius: 6px;
+    transition: width 0.05s linear;
+}
+#currentTimeDisplay, #totalTimeDisplay {
+    margin: 0 8px;
+    font-variant-numeric: tabular-nums;
+    color: #4A5568; /* Darker gray */
+    font-size: 0.9em;
+    background-color: #F7FAFC;
+    padding: 4px 7px;
+    border-radius: 4px;
+    border: 1px solid #E2E8F0;
+}
+.hidden { display: none !important; }
+
+/* Exported player minimal style overrides */
+.exported-body {
+    justify-content: center;
+    min-height: 100vh;
+    padding-top: 20px;
+}
+.exported-h1 { margin-bottom: 10px; font-size: 1.6em; }
+</style>
+</head>
+<body>
+    <div class="container" id="inputContainer">
+        <h1>Expressive Stick Figure Animator</h1>
+        <h2>Load Animation Data</h2>
+        <textarea id="jsonInput" placeholder="Paste JSON animation data here..."></textarea>
+        <div class="button-group">
+            <label for="jsonFileUpload">Upload JSON File</label>
+            <input type="file" id="jsonFileUpload" accept=".json">
+            <button id="loadJsonBtn">Load Animation</button>
+        </div>
+        <div id="status">Load JSON to begin. See console (F12) for speech synthesis voices.</div>
+    </div>
+
+    <canvas id="animationCanvas" width="800" height="600"></canvas>
+
+    <div class="container playback-controls hidden" id="playbackControlsContainer">
+        <div class="button-group">
+            <button id="playPauseBtn">Play</button>
+            <button id="restartBtn">Restart</button>
+        </div>
+        <span id="currentTimeDisplay">0:00.00</span>
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
+        <span id="totalTimeDisplay">0:00.00</span>
+        <div class="button-group">
+             <button id="exportBtn">Export Standalone HTML</button>
+        </div>
+    </div>
+
+<script id="mainAnimationScript">
+class Animator {
+    constructor(canvasElement, uiElements) {
+        this.canvas = canvasElement;
+        this.ctx = this.canvas.getContext('2d');
+        this.ui = uiElements;
+
+        this.animationData = null;
+        this.currentTime = 0;
+        this.totalDuration = 0;
+        this.isPlaying = false;
+        this.animationFrameId = null;
+        this.sceneFps = 30;
+        this.lastTimestamp = 0;
+
+        this.charactersState = {};
+        this.objectsState = {};
+        this.cameraState = {
+            x: 0, y: 0, zoom: 1,
+            targetX: 0, targetY: 0, targetZoom: 1,
+            focusEntities: [],
+            panSpeed: 0.08,
+            lerpCompleteThreshold: 0.05,
+            minZoom: 0.3, // Prevent extreme zoom out
+            maxZoom: 5.0   // Prevent extreme zoom in
+        };
+
+        // Character drawing constants
+        this.FIGURE_BASE_HEIGHT = 100;
+        this.STICK_THICKNESS_BASE = 2.5;
+        this.HEAD_RADIUS_F = 0.12;
+        this.NECK_LENGTH_F = 0.03;
+        this.BODY_LENGTH_F = 0.35;
+        this.SHOULDER_WIDTH_F = 0.15;
+        this.ARM_UPPER_F = 0.22;
+        this.ARM_LOWER_F = 0.22;
+        this.HIP_WIDTH_F = 0.12;
+        this.LEG_UPPER_F = 0.25;
+        this.LEG_LOWER_F = 0.25;
+
+        this.speechBubbleConfig = {
+            fontFamily: "Arial, sans-serif",
+            fontSizeScreen: 16, // Font size in screen pixels (fixed)
+            paddingScreen: 12,
+            marginScreen: { top: 15, side: 5 }, // From character head
+            pointerHeightScreen: 15,
+            pointerWidthScreen: 20,
+            lineHeightFactor: 1.3,
+            maxWidthScreenFactor: 0.4, // Max width of bubble as factor of canvas width
+            minWidthScreen: 120,
+            cornerRadiusScreen: 10,
+            bgColor: "rgba(255, 255, 255, 0.95)",
+            borderColor: "rgba(60, 60, 60, 0.9)",
+            textColor: "#1A202C", // Darker text
+            shadow: { offsetX: 2, offsetY: 2, blur: 4, color: "rgba(0,0,0,0.1)" }
+        };
+
+        // Speech Synthesis
+        this.speechSynthesis = window.speechSynthesis;
+        this.speechQueue = [];
+        this.isSpeaking = false;
+        this.availableVoices = [];
+        if (this.speechSynthesis) {
+            this.speechSynthesis.onvoiceschanged = () => {
+                this.availableVoices = this.speechSynthesis.getVoices();
+                console.log("Available TTS voices:", this.availableVoices.map(v => ({name: v.name, lang: v.lang})));
+                if (this.ui.statusDiv && !this.animationData) { // Only update if no animation loaded yet
+                    this.ui.statusDiv.textContent = `TTS voices loaded (${this.availableVoices.length}). Load JSON to begin.`;
+                }
+            };
+            // Trigger loading voices, as onvoiceschanged might not fire on all browsers without it
+            this.availableVoices = this.speechSynthesis.getVoices();
+             if (this.availableVoices.length > 0 && this.ui.statusDiv && !this.animationData) {
+                 console.log("Available TTS voices (initial check):", this.availableVoices.map(v => ({name: v.name, lang: v.lang})));
+                 this.ui.statusDiv.textContent = `TTS voices available (${this.availableVoices.length}). Load JSON to begin.`;
+             }
+        } else {
+            console.warn("Speech Synthesis not supported by this browser.");
+            if (this.ui.statusDiv && !this.animationData) this.ui.statusDiv.textContent = "Speech Synthesis not supported. Load JSON to begin.";
+        }
+
+
+        this._bindUIEvents();
+        this._checkForEmbeddedData();
+    }
+
+    _bindUIEvents() { /* Same as before */
+        this.ui.loadJsonBtn.addEventListener('click', () => this.loadJsonFromTextarea());
+        this.ui.jsonFileUpload.addEventListener('change', (e) => this.loadJsonFromFile(e));
+        this.ui.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
+        this.ui.restartBtn.addEventListener('click', () => this.restartAnimation());
+        this.ui.exportBtn.addEventListener('click', () => this.exportAnimation());
+        this.ui.progressBarContainer.addEventListener('click', (e) => this.seekAnimation(e));
+    }
+    _checkForEmbeddedData() { /* Same as before */
+        var embeddedDataScript = document.getElementById('animationDataJson');
+        if (embeddedDataScript && embeddedDataScript.textContent) {
+            try {
+                var jsonData = JSON.parse(embeddedDataScript.textContent);
+                this.loadAnimation(jsonData);
+                this.ui.inputContainer.classList.add('hidden');
+                if (this.animationData) {
+                    document.body.classList.add('exported-body');
+                    var h1 = document.querySelector('h1');
+                    if(h1) h1.classList.add('exported-h1');
+                    this.play();
+                }
+            } catch (e) {
+                console.error("Error loading embedded JSON:", e);
+                this.ui.statusDiv.textContent = "Error loading embedded animation data: " + e.message;
+            }
+        }
+    }
+    loadJsonFromTextarea() { /* Same as before */
+        try {
+            var jsonData = JSON.parse(this.ui.jsonInput.value);
+            this.loadAnimation(jsonData);
+        } catch (e) {
+            this.ui.statusDiv.textContent = "Error parsing JSON: " + e.message;
+            console.error("JSON Parse Error:", e);
+        }
+    }
+    loadJsonFromFile(event) { /* Same as before */
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    var jsonData = JSON.parse(e.target.result);
+                    this.ui.jsonInput.value = e.target.result;
+                    this.loadAnimation(jsonData);
+                } catch (err) {
+                    this.ui.statusDiv.textContent = "Error parsing JSON file: " + err.message;
+                    console.error("JSON File Parse Error:", err);
+                }
+            };
+            reader.readAsText(file);
+        }
+    }
+
+    loadAnimation(data) {
+        if (!data || !data.scene || !data.characters || !data.timeline) {
+            this.ui.statusDiv.textContent = "Invalid JSON: Missing scene, characters, or timeline.";
+            return;
+        }
+        this.animationData = data;
+        this.currentTime = 0;
+        this.isPlaying = false;
+        if (this.speechSynthesis) this.speechSynthesis.cancel(); // Stop any ongoing speech
+        this.speechQueue = [];
+        this.isSpeaking = false;
+        this.ui.playPauseBtn.textContent = "Play";
+        if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+
+        this.canvas.width = this.animationData.scene.width || 800;
+        this.canvas.height = this.animationData.scene.height || 600;
+        this.canvas.style.backgroundColor = this.animationData.scene.backgroundColor || "#F0F8FF";
+        this.sceneFps = this.animationData.scene.fps || 30;
+
+        this.cameraState = { // Reset camera
+            ...this.cameraState, // Keep minZoom, maxZoom, panSpeed etc.
+            x: this.canvas.width / 2, y: this.canvas.height / 2, zoom: 1,
+            targetX: this.canvas.width / 2, targetY: this.canvas.height / 2, targetZoom: 1,
+            focusEntities: null,
+        };
+
+        this.charactersState = {};
+        this.animationData.characters.forEach(charDef => {
+            this.charactersState[charDef.id] = {
+                ...charDef,
+                x: charDef.initialPosition.x,
+                y: charDef.initialPosition.y,
+                targetX: charDef.initialPosition.x,
+                targetY: charDef.initialPosition.y,
+                pose: 'idle',
+                expression: charDef.appearance?.expression || 'neutral', // Default expression
+                facing: charDef.facing || 'right',
+                dialogueText: null,
+                dialogueEndTime: 0,
+                dialogueIsTTS: false, // Track if current dialogue uses TTS
+                actionEndTime: 0,
+                currentAction: null,
+                currentActionEvent: null,
+                size: charDef.size || 1.0,
+                color: charDef.color || 'black',
+                posePhase: 0,
+                layer: charDef.layer || 'characterLevel',
+                appearance: { // Ensure appearance object exists with defaults
+                    hairStyle: charDef.appearance?.hairStyle || 'none',
+                    hairColor: charDef.appearance?.hairColor || '#4A3B31',
+                    eyeColor: charDef.appearance?.eyeColor || 'white',
+                    pupilColor: charDef.appearance?.pupilColor || 'black',
+                    hat: charDef.appearance?.hat || 'none',
+                    hatColor: charDef.appearance?.hatColor || '#607D8B',
+                    beard: charDef.appearance?.beard || 'none',
+                    beardColor: charDef.appearance?.beardColor || charDef.appearance?.hairColor || '#4A3B31',
+                    mouth: {
+                        restingWidthFactor: charDef.appearance?.mouth?.restingWidthFactor || 0.04,
+                        restingOpenFactor: charDef.appearance?.mouth?.restingOpenFactor || 0.005,
+                        talkingWidthFactor: charDef.appearance?.mouth?.talkingWidthFactor || 0.05,
+                        talkingOpenFactor: charDef.appearance?.mouth?.talkingOpenFactor || 0.025,
+                        color: charDef.appearance?.mouth?.color || charDef.color || 'black'
+                    }
+                }
+            };
+        });
+
+        this.objectsState = {}; // Same as before
+        if (this.animationData.objects && this.animationData.assets && this.animationData.assets.objectBlueprints) {
+            this.animationData.objects.forEach(objInstance => {
+                var blueprint = this.animationData.assets.objectBlueprints[objInstance.blueprintId];
+                if (blueprint) {
+                    this.objectsState[objInstance.id] = {
+                        ...objInstance, blueprint,
+                        x: objInstance.position.x, y: objInstance.position.y,
+                        rotation: objInstance.rotation || 0,
+                        scale: typeof objInstance.scale === 'number' ? {x: objInstance.scale, y: objInstance.scale} : (objInstance.scale || {x:1, y:1}),
+                        layer: objInstance.layer || 'characterLevel'
+                    };
+                } else { console.warn(`Blueprint ${objInstance.blueprintId} not found for object ${objInstance.id}`); }
+            });
+        }
+
+
+        this.totalDuration = 0; // Same as before
+        this.animationData.timeline.forEach(event => {
+            var eventEnd = event.time + (event.duration || 0);
+            if (eventEnd > this.totalDuration) this.totalDuration = eventEnd;
+        });
+        if (this.totalDuration === 0 && this.animationData.timeline.length > 0) this.totalDuration = 0.1;
+        else if (this.totalDuration === 0) this.totalDuration = 1;
+
+        this.ui.statusDiv.textContent = `Animation loaded. Duration: ${this.formatTime(this.totalDuration)}. Characters: ${this.animationData.characters.length}. Objects: ${Object.keys(this.objectsState).length}.`;
+        this.ui.playbackControlsContainer.classList.remove('hidden');
+        this.updateTimelineUI();
+        this.resetStateToTime(0);
+        this.drawScene();
+    }
+
+    resetStateToTime(time) { // Significantly more complex due to expressions and TTS state
+        this.animationData.characters.forEach(charDef => { // Reset to initial definition
+            var appearance = charDef.appearance || {};
+            this.charactersState[charDef.id] = {
+                ...this.charactersState[charDef.id], // Keep existing things like color, size, full appearance obj
+                x: charDef.initialPosition.x, y: charDef.initialPosition.y,
+                targetX: charDef.initialPosition.x, targetY: charDef.initialPosition.y,
+                pose: 'idle', expression: appearance.expression || 'neutral',
+                facing: charDef.facing || 'right',
+                dialogueText: null, dialogueEndTime: 0, dialogueIsTTS: false,
+                actionEndTime: 0, currentAction: null, currentActionEvent: null, posePhase: 0,
+            };
+        });
+        // Reset camera state similarly (already partially done in loadAnimation)
+        // Default camera or latest camera event before 'time'
+        let initialCameraApplied = false;
+        this.animationData.timeline.filter(e => e.type === 'camera' && e.time <= time)
+            .sort((a,b) => b.time - a.time)
+            .forEach(event => {
+                if (!initialCameraApplied) {
+                    this.cameraState.focusEntities = event.focusOn ? (Array.isArray(event.focusOn) ? event.focusOn : [event.focusOn]) : null;
+                    this.cameraState.targetZoom = Math.min(this.cameraState.maxZoom, Math.max(this.cameraState.minZoom, event.zoom || 1.0));
+                    if (event.panTarget) {
+                        this.cameraState.targetX = event.panTarget.x;
+                        this.cameraState.targetY = event.panTarget.y;
+                    }
+                    initialCameraApplied = true;
+                }
+            });
+        if (!initialCameraApplied) { // Default camera
+            this.cameraState.targetX = this.canvas.width / 2;
+            this.cameraState.targetY = this.canvas.height / 2;
+            this.cameraState.targetZoom = 1.0;
+            this.cameraState.focusEntities = null;
+        }
+
+
+        var sortedTimeline = [...this.animationData.timeline].sort((a, b) => a.time - b.time);
+        for (var event of sortedTimeline) {
+            if (event.time > time) continue;
+            var character = event.characterId ? this.charactersState[event.characterId] : null;
+            var eventIsCurrentlyActive = event.time <= time && time < event.time + (event.duration || 0); // Use 0 duration if undefined
+            var eventHasPassed = event.time + (event.duration || 0) <= time;
+
+            switch (event.type) {
+                case 'action':
+                    if (character) {
+                        if (event.facing) character.facing = event.facing;
+                        if (event.action === 'expression' && (eventIsCurrentlyActive || eventHasPassed)) {
+                            character.expression = event.expression || character.expression;
+                             // Expression action might not have a duration, it sets a state.
+                             // Or if it does, it's temporary. For seek, just apply if it happened.
+                            character.actionEndTime = Math.max(character.actionEndTime, event.time + (event.duration || 0.01)); // Tiny duration if none
+                        } else if (event.action !== 'expression') {
+                             if (event.time + (event.duration || 0) >= character.actionEndTime) { // If this action is the latest or overlaps
+                                character.currentAction = event.action;
+                                character.currentActionEvent = event;
+                                character.actionEndTime = event.time + (event.duration || 0);
+                            }
+                            if (event.action === 'walk' && event.targetPosition) {
+                                if (eventHasPassed) {
+                                    character.x = event.targetPosition.x; character.y = event.targetPosition.y;
+                                    character.targetX = event.targetPosition.x; character.targetY = event.targetPosition.y;
+                                } else if (eventIsCurrentlyActive) {
+                                    var timeIntoWalk = time - event.time;
+                                    var walkProgress = Math.min(1, timeIntoWalk / (event.duration || 1));
+                                    // Simplified: assumes walk starts from current known position for seeking.
+                                    // More accurate would trace back previous walk segment's end.
+                                    // This is computationally heavy for a simple seek.
+                                    // For now, find LAST position set by a walk event before this one.
+                                    let prevX = character.initialPosition.x, prevY = character.initialPosition.y;
+                                    for(let i = sortedTimeline.indexOf(event) -1; i >= 0; i--){
+                                        var prevE = sortedTimeline[i];
+                                        if(prevE.characterId === event.characterId && prevE.type === 'action' && prevE.action === 'walk' && prevE.targetPosition){
+                                            prevX = prevE.targetPosition.x;
+                                            prevY = prevE.targetPosition.y;
+                                            break;
+                                        }
+                                    }
+                                    character.x = prevX + (event.targetPosition.x - prevX) * walkProgress;
+                                    character.y = prevY + (event.targetPosition.y - prevY) * walkProgress;
+                                    character.targetX = event.targetPosition.x; character.targetY = event.targetPosition.y;
+                                    character.pose = 'walk';
+                                }
+                            } else if (eventIsCurrentlyActive) {
+                                character.pose = event.action;
+                            }
+                        }
+                         // If time is past this action's end time, and it was the current action
+                        if (time >= character.actionEndTime && character.currentAction === event.action && event.action !== 'expression') {
+                           if (character.dialogueText && time < character.dialogueEndTime) character.pose = 'talk';
+                           else character.pose = 'idle';
+                           character.currentAction = null; character.currentActionEvent = null;
+                        }
+                    }
+                    break;
+                case 'dialogue':
+                    if (character) {
+                        if (event.facing) character.facing = event.facing;
+                        var dialogueEventEndTime = event.time + (event.duration || 0); // Default JSON duration
+
+                        if (dialogueEventEndTime >= character.dialogueEndTime || eventIsCurrentlyActive) { // This dialogue is relevant
+                            character.dialogueEndTime = dialogueEventEndTime; // Base end time on JSON
+                            character.dialogueIsTTS = !!event.speak;
+
+                            if (eventIsCurrentlyActive) {
+                                character.dialogueText = event.text;
+                                if (character.pose !== 'walk') character.pose = 'talk';
+                            } else if (eventHasPassed) {
+                                character.dialogueText = null;
+                            }
+                        }
+                        if (time >= character.dialogueEndTime && !character.dialogueIsTTS) { // If JSON duration passed and not TTS
+                            character.dialogueText = null;
+                            if (character.pose === 'talk' && !character.currentAction) character.pose = 'idle';
+                        }
+                        // TTS duration is handled by the speech end event, not directly here for seek.
+                        // For seek, we assume TTS would have finished if JSON duration has passed.
+                    }
+                    break;
+                case 'camera': // already handled by initial camera setup for seek
+                    break;
+            }
+        }
+
+        Object.values(this.charactersState).forEach(char => { // Final state cleanup
+            if (!char.currentAction && (!char.dialogueText || time >= char.dialogueEndTime) && time >= char.actionEndTime) {
+                char.pose = 'idle';
+            }
+        });
+
+        this._updateCameraTarget(true);
+        this.cameraState.x = this.cameraState.targetX;
+        this.cameraState.y = this.cameraState.targetY;
+        this.cameraState.zoom = this.cameraState.targetZoom;
+        if (this.speechSynthesis) this.speechSynthesis.cancel(); // Stop any TTS during seek
+        this.speechQueue = []; this.isSpeaking = false;
+    }
+
+    togglePlayPause() { /* Same as before */
+        if (!this.animationData) return;
+        this.isPlaying = !this.isPlaying;
+        this.ui.playPauseBtn.textContent = this.isPlaying ? "Pause" : "Play";
+        if (this.isPlaying) {
+            if (this.currentTime >= this.totalDuration && this.totalDuration > 0) {
+                this.currentTime = 0; this.resetStateToTime(0);
+            }
+            this.lastTimestamp = performance.now();
+            this._processSpeechQueue(); // Resume TTS queue if paused
+            this.animationLoop();
+        } else {
+            if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+            if (this.speechSynthesis) this.speechSynthesis.pause(); // Pause TTS
+        }
+    }
+    play() { /* Same as before, added TTS resume */
+        if (!this.animationData || this.isPlaying) return;
+        this.isPlaying = true;
+        this.ui.playPauseBtn.textContent = "Pause";
+        if (this.currentTime >= this.totalDuration && this.totalDuration > 0) {
+            this.currentTime = 0; this.resetStateToTime(0);
+        }
+        this.lastTimestamp = performance.now();
+        if (this.speechSynthesis && this.speechSynthesis.paused) this.speechSynthesis.resume();
+        this._processSpeechQueue();
+        this.animationLoop();
+    }
+    pause() { /* Same as before, added TTS pause */
+        if (!this.isPlaying) return;
+        this.isPlaying = false;
+        this.ui.playPauseBtn.textContent = "Play";
+        if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+        if (this.speechSynthesis && this.speechSynthesis.speaking) this.speechSynthesis.pause();
+    }
+    restartAnimation() { /* Same as before, added TTS cancel */
+        if (!this.animationData) return;
+        this.currentTime = 0;
+        this.isPlaying = false;
+        this.ui.playPauseBtn.textContent = "Play";
+        if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+        if (this.speechSynthesis) this.speechSynthesis.cancel();
+        this.speechQueue = []; this.isSpeaking = false;
+        this.resetStateToTime(0);
+        this.updateTimelineUI();
+        this.drawScene();
+    }
+    seekAnimation(event) { /* Same as before, TTS is handled in resetStateToTime */
+        if (!this.animationData || this.totalDuration === 0) return;
+        var progressBarRect = this.ui.progressBarContainer.getBoundingClientRect();
+        var seekRatio = Math.max(0, Math.min(1, (event.clientX - progressBarRect.left) / progressBarRect.width));
+        this.currentTime = this.totalDuration * seekRatio;
+
+        var wasPlaying = this.isPlaying;
+        if (this.isPlaying) this.pause(); // Pause first to stop updates and TTS
+
+        this.resetStateToTime(this.currentTime); // This now also cancels TTS
+
+        if (wasPlaying) this.play(); // Resuming play will re-evaluate TTS needs
+        else this.drawScene();
+
+        this.updateTimelineUI();
+    }
+
+    animationLoop(timestamp) { /* Same as before */
+        if (!this.isPlaying) return;
+        var deltaTime = (timestamp - this.lastTimestamp) / 1000 || 0;
+        this.lastTimestamp = timestamp;
+        this.currentTime += deltaTime;
+        if (this.currentTime >= this.totalDuration) {
+            this.currentTime = this.totalDuration; this.pause();
+        }
+        this._updateState(deltaTime);
+        this.drawScene();
+        this.updateTimelineUI();
+        if (this.isPlaying) {
+            this.animationFrameId = requestAnimationFrame((ts) => this.animationLoop(ts));
+        }
+    }
+
+    _updateState(deltaTime) {
+        if (!this.animationData) return;
+        // Process timeline events
+        this.animationData.timeline.forEach(event => {
+            var character = event.characterId ? this.charactersState[event.characterId] : null;
+            var eventIsStarting = this.currentTime >= event.time && (this.currentTime - deltaTime) < event.time;
+            var eventIsActive = this.currentTime >= event.time && this.currentTime < event.time + (event.duration || 0.01);
+            var eventJsonEndTime = event.time + (event.duration || (event.type === 'dialogue' && event.speak ? 9999 : 0.01) ); // If TTS, JSON duration is min
+            var eventIsEnding = this.currentTime >= eventJsonEndTime && (this.currentTime - deltaTime) < eventJsonEndTime;
+
+            if (event.type === 'action' && character) {
+                if (eventIsStarting || eventIsActive) {
+                    if (event.action === 'expression') {
+                        character.expression = event.expression || character.expression;
+                    } else {
+                        character.currentAction = event.action;
+                        character.currentActionEvent = event;
+                        character.actionEndTime = eventJsonEndTime;
+                        if (event.facing) character.facing = event.facing;
+                        if (event.action !== 'walk') character.pose = event.action;
+                    }
+                } else if (eventIsEnding && character.currentAction === event.action && event.action !== 'expression') {
+                    if (character.dialogueText && this.currentTime < character.dialogueEndTime) character.pose = 'talk';
+                    else character.pose = 'idle';
+                    character.currentAction = null; character.currentActionEvent = null;
+                    if (event.action === 'walk' && event.targetPosition) { // Snap
+                        character.x = event.targetPosition.x; character.y = event.targetPosition.y;
+                    }
+                }
+            } else if (event.type === 'dialogue' && character) {
+                if (eventIsStarting) { // Only trigger on start
+                    character.dialogueText = event.text;
+                    character.dialogueIsTTS = !!event.speak;
+                    character.dialogueEndTime = eventJsonEndTime; // Base on JSON duration initially
+                    if (event.facing) character.facing = event.facing;
+                    if (character.pose !== 'walk') character.pose = 'talk';
+
+                    if (event.speak && this.speechSynthesis) {
+                        var utterance = new SpeechSynthesisUtterance(event.text);
+                        if (event.voiceSettings) {
+                            if(event.voiceSettings.lang){
+                                var voice = this.availableVoices.find(v => v.lang === event.voiceSettings.lang || v.name === event.voiceSettings.lang);
+                                if(voice) utterance.voice = voice; else console.warn(`TTS voice/lang '${event.voiceSettings.lang}' not found.`);
+                            }
+                            utterance.rate = event.voiceSettings.rate || 1.0;
+                            utterance.pitch = event.voiceSettings.pitch || 1.0;
+                        }
+                        // Add to queue instead of speaking directly
+                        this.speechQueue.push({ utterance, charId: event.characterId, originalJsonEndTime: eventJsonEndTime });
+                        this._processSpeechQueue();
+                    }
+                }
+                // Check if dialogue JSON duration has passed AND it's not a TTS that's still going
+                if (this.currentTime >= character.dialogueEndTime && !character.isSpeakingTTS && character.dialogueText === event.text) {
+                    character.dialogueText = null;
+                    character.dialogueIsTTS = false; // Clear TTS flag
+                    if (character.pose === 'talk' && !character.currentAction) character.pose = 'idle';
+                }
+
+            } else if (event.type === 'camera') { /* Same as before */
+                 if (eventIsStarting || eventIsActive) {
+                    this.cameraState.focusEntities = event.focusOn ? (Array.isArray(event.focusOn) ? event.focusOn : [event.focusOn]) : null;
+                    this.cameraState.targetZoom = Math.min(this.cameraState.maxZoom, Math.max(this.cameraState.minZoom, event.zoom || 1.0));
+                    if (event.panTarget) {
+                        this.cameraState.targetX = event.panTarget.x;
+                        this.cameraState.targetY = event.panTarget.y;
+                    }
+                }
+            }
+        });
+
+        Object.values(this.charactersState).forEach(char => { // Update positions and pose phases
+            if (char.currentAction === 'walk' && char.currentActionEvent && char.currentActionEvent.targetPosition) { /* ... walk interpolation logic as before ... */
+                char.pose = 'walk';
+                var event = char.currentActionEvent;
+                var timeIntoWalk = this.currentTime - event.time;
+                var walkProgress = Math.min(1, timeIntoWalk / (event.duration||1));
+                let startX = char.initialPosition.x, startY = char.initialPosition.y;
+                 // Find last actual position before this walk event for smoother interpolation start.
+                let lastKnownX = char.initialPosition.x;
+                let lastKnownY = char.initialPosition.y;
+                let lastEventEndTime = 0;
+
+                this.animationData.timeline.filter(e => e.characterId === char.id && e.type === 'action' && e.action === 'walk' && e.targetPosition && (e.time + (e.duration||0)) <= event.time)
+                    .forEach(prevWalk => {
+                        if ((prevWalk.time + (prevWalk.duration||0)) > lastEventEndTime) {
+                            lastKnownX = prevWalk.targetPosition.x;
+                            lastKnownY = prevWalk.targetPosition.y;
+                            lastEventEndTime = prevWalk.time + (prevWalk.duration||0);
+                        }
+                    });
+                // If the character's current position IS NOT the start of THIS walk segment, use lastKnownX/Y
+                // This is tricky because current char.x/y could be from a *previous* frame of *this* walk.
+                // A simpler approach: if timeIntoWalk is small, start from where it was at event.time
+                if (timeIntoWalk > deltaTime) { // If not the very first frame of the walk
+                    // Interpolate from its position at the start of *this* walk segment
+                    // To get that, we need to find its position at event.time.
+                    // This logic gets complex when seeking / jumping. For playing, it's simpler.
+                    // The `resetStateToTime` handles the complex case for seek.
+                    // During normal play, deltaTime update is fine.
+                    // The code below will effectively use the previous frame's char.x/y as start if this is not the first frame of walking.
+                     // But for the *first* frame of a walk, we need the char's pos *before* this walk started.
+                    if(timeIntoWalk <= deltaTime + 0.01 && timeIntoWalk >= deltaTime - 0.01) { // If it's the very first update tick FOR THIS WALK
+                        startX = lastKnownX; // Use the end of the previous walk, or initial.
+                        startY = lastKnownY;
+                    } else { // It's an ongoing walk, use its position from the previous frame.
+                        startX = char.x - ((event.targetPosition.x - lastKnownX) / (event.duration||1)) * (timeIntoWalk - deltaTime) + ((event.targetPosition.x - lastKnownX) / (event.duration||1)) * (timeIntoWalk - deltaTime) * (1-walkProgress);
+                        startY = char.y - ((event.targetPosition.y - lastKnownY) / (event.duration||1)) * (timeIntoWalk - deltaTime) + ((event.targetPosition.y - lastKnownY) / (event.duration||1)) * (timeIntoWalk - deltaTime) * (1-walkProgress);
+                        // This is getting too complex. For continuous play, it's simpler:
+                        // just update from current char.x/y towards target based on deltaTime proportion of remaining duration.
+                        var remainingDuration = (event.time + (event.duration||1)) - this.currentTime;
+                        if (remainingDuration > 0) {
+                            var speedX = (event.targetPosition.x - char.x) / remainingDuration;
+                            var speedY = (event.targetPosition.y - char.y) / remainingDuration;
+                            char.x += speedX * deltaTime;
+                            char.y += speedY * deltaTime;
+                        } else { // Snap if somehow overshot or duration is zero
+                            char.x = event.targetPosition.x;
+                            char.y = event.targetPosition.y;
+                        }
+
+                    }
+                } else { // If it's the first frame of this walk (timeIntoWalk approx deltaTime)
+                     startX = lastKnownX;
+                     startY = lastKnownY;
+                     char.x = startX + (event.targetPosition.x - startX) * walkProgress;
+                     char.y = startY + (event.targetPosition.y - startY) * walkProgress;
+                }
+
+
+                char.targetX = event.targetPosition.x; char.targetY = event.targetPosition.y;
+            }
+            if (char.pose === 'walk' || char.pose === 'talk' || char.isSpeakingTTS) {
+                char.posePhase = (char.posePhase + deltaTime * 7) % 2; // Faster phase for more anim
+            }
+             // If a character is flagged as `isSpeakingTTS`, ensure pose is 'talk' (unless walking)
+            if (char.isSpeakingTTS && char.pose !== 'walk') {
+                char.pose = 'talk';
+            }
+        });
+
+        this._updateCameraTarget();
+        // Smooth camera movement (same as before)
+        if (Math.abs(this.cameraState.targetX - this.cameraState.x) > this.cameraState.lerpCompleteThreshold ||
+            Math.abs(this.cameraState.targetY - this.cameraState.y) > this.cameraState.lerpCompleteThreshold) {
+            this.cameraState.x += (this.cameraState.targetX - this.cameraState.x) * this.cameraState.panSpeed;
+            this.cameraState.y += (this.cameraState.targetY - this.cameraState.y) * this.cameraState.panSpeed;
+        } else { this.cameraState.x = this.cameraState.targetX; this.cameraState.y = this.cameraState.targetY; }
+        if (Math.abs(this.cameraState.targetZoom - this.cameraState.zoom) > this.cameraState.lerpCompleteThreshold / 100) {
+             this.cameraState.zoom += (this.cameraState.targetZoom - this.cameraState.zoom) * this.cameraState.panSpeed;
+        } else { this.cameraState.zoom = this.cameraState.targetZoom; }
+        this.cameraState.zoom = Math.min(this.cameraState.maxZoom, Math.max(this.cameraState.minZoom, this.cameraState.zoom)); // Clamp zoom
+
+    }
+
+    _processSpeechQueue() {
+        if (this.isSpeaking || this.speechQueue.length === 0 || !this.speechSynthesis || !this.isPlaying) {
+            return;
+        }
+        this.isSpeaking = true;
+        var { utterance, charId, originalJsonEndTime } = this.speechQueue.shift();
+        var character = this.charactersState[charId];
+
+        if (character) {
+            character.isSpeakingTTS = true; // Mark character as currently speaking via TTS
+            if (character.pose !== 'walk') character.pose = 'talk'; // Ensure talking pose
+        }
+
+        utterance.onend = () => {
+            this.isSpeaking = false;
+            if (character) {
+                character.isSpeakingTTS = false;
+                // If current time is past JSON end time, clear dialogue text & reset pose
+                if (this.currentTime >= originalJsonEndTime) {
+                    character.dialogueText = null;
+                    if (character.pose === 'talk' && !character.currentAction) {
+                        character.pose = 'idle';
+                    }
+                }
+                 // Update dialogueEndTime to reflect actual speech end if it's longer
+                character.dialogueEndTime = Math.max(character.dialogueEndTime, this.currentTime);
+            }
+            this._processSpeechQueue(); // Process next in queue
+        };
+        utterance.onerror = (event) => {
+            console.error('SpeechSynthesisUtterance.onerror', event);
+            this.isSpeaking = false;
+            if (character) character.isSpeakingTTS = false;
+            this._processSpeechQueue();
+        };
+        this.speechSynthesis.speak(utterance);
+    }
+
+
+    _updateCameraTarget(immediate = false) {
+        if (!this.animationData) return;
+        let focusBounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity, defined: false };
+        let currentTargetZoom = this.cameraState.targetZoom;
+
+        if (this.cameraState.focusEntities && this.cameraState.focusEntities.length > 0) {
+            this.cameraState.focusEntities.forEach(entityId => {
+                var character = this.charactersState[entityId];
+                var object = this.objectsState[entityId];
+                let entityWorldMinX, entityWorldMinY, entityWorldMaxX, entityWorldMaxY;
+
+                if (character) {
+                    var charHeight = this.FIGURE_BASE_HEIGHT * character.size;
+                    entityWorldMinX = character.x - charHeight * 0.4; // Wider bounds for char
+                    entityWorldMaxX = character.x + charHeight * 0.4;
+                    entityWorldMinY = character.y - charHeight;
+                    entityWorldMaxY = character.y;
+
+                    if (character.dialogueText && (this.currentTime < character.dialogueEndTime || character.isSpeakingTTS)) {
+                        // Estimate speech bubble screen rect and convert to world coords to include in bounds
+                        var bubbleMetrics = this._calculateSpeechBubbleScreenMetrics(character);
+                        if (bubbleMetrics) {
+                            // Convert screen bubble bounds to world bounds
+                            var [worldBubbleMinX, worldBubbleMinY] = this._screenToWorld(bubbleMetrics.screenX, bubbleMetrics.screenY);
+                            var [worldBubbleMaxX, worldBubbleMaxY] = this._screenToWorld(bubbleMetrics.screenX + bubbleMetrics.widthScreen, bubbleMetrics.screenY + bubbleMetrics.heightScreen + bubbleMetrics.pointerHeightScreen);
+
+                            entityWorldMinX = Math.min(entityWorldMinX, worldBubbleMinX, worldBubbleMaxX);
+                            entityWorldMaxX = Math.max(entityWorldMaxX, worldBubbleMinX, worldBubbleMaxX);
+                            entityWorldMinY = Math.min(entityWorldMinY, worldBubbleMinY, worldBubbleMaxY);
+                            // Y for bubbles is tricky as they are above. maxY not affected unless bubble is huge.
+                        }
+                    }
+                } else if (object && object.blueprint) { // Simplified object bounds
+                    let objWidth = 50 * (object.scale.x || 1); let objHeight = 50 * (object.scale.y || 1);
+                    var firstComp = object.blueprint.components[0];
+                    if(firstComp) {
+                        if(firstComp.type === 'rectangle') { objWidth = firstComp.width * object.scale.x; objHeight = firstComp.height * object.scale.y;}
+                        else if(firstComp.type === 'circle') { objWidth = objHeight = firstComp.radius * 2 * object.scale.x; }
+                    }
+                    var originX = object.blueprint.origin?.x || 0; var originY = object.blueprint.origin?.y || 0;
+                    entityWorldMinX = object.x - originX * object.scale.x - objWidth/2;
+                    entityWorldMaxX = object.x - originX * object.scale.x + objWidth/2;
+                    entityWorldMinY = object.y - originY * object.scale.y - objHeight; // From top if origin is bottom
+                    entityWorldMaxY = object.y - originY * object.scale.y;
+                }
+
+                if (entityWorldMinX !== undefined) {
+                    focusBounds.minX = Math.min(focusBounds.minX, entityWorldMinX);
+                    focusBounds.minY = Math.min(focusBounds.minY, entityWorldMinY);
+                    focusBounds.maxX = Math.max(focusBounds.maxX, entityWorldMaxX);
+                    focusBounds.maxY = Math.max(focusBounds.maxY, entityWorldMaxY);
+                    focusBounds.defined = true;
+                }
+            });
+
+            if (focusBounds.defined) {
+                this.cameraState.targetX = (focusBounds.minX + focusBounds.maxX) / 2;
+                this.cameraState.targetY = (focusBounds.minY + focusBounds.maxY) / 2;
+                var paddingWorld = 80 / this.cameraState.zoom; // Keep padding consistent on screen by making it larger in world when zoomed out
+                var bboxWidth = Math.max(50, focusBounds.maxX - focusBounds.minX) + paddingWorld * 2; // Min width to prevent extreme zoom on tiny things
+                var bboxHeight = Math.max(50, focusBounds.maxY - focusBounds.minY) + paddingWorld * 2;
+                var zoomToFitWidth = this.canvas.width / bboxWidth;
+                var zoomToFitHeight = this.canvas.height / bboxHeight;
+                currentTargetZoom = Math.min(this.cameraState.targetZoom, zoomToFitWidth, zoomToFitHeight);
+            } else { /* Default to scene center if no valid entities */
+                if (!this.cameraState.targetX) { // Check if panTarget from event is active
+                     this.cameraState.targetX = this.canvas.width / 2 / this.cameraState.targetZoom;
+                     this.cameraState.targetY = this.canvas.height / 2 / this.cameraState.targetZoom;
+                }
+            }
+        } else if (!this.animationData.timeline.some(e => e.type === 'camera' && e.panTarget && this.currentTime >= e.time && this.currentTime < e.time + (e.duration||0.01))) {
+            this.cameraState.targetX = this.canvas.width / 2 / this.cameraState.targetZoom;
+            this.cameraState.targetY = this.canvas.height / 2 / this.cameraState.targetZoom;
+        }
+        this.cameraState.targetZoom = Math.min(this.cameraState.maxZoom, Math.max(this.cameraState.minZoom, currentTargetZoom));
+
+        if (immediate) {
+            this.cameraState.x = this.cameraState.targetX;
+            this.cameraState.y = this.cameraState.targetY;
+            this.cameraState.zoom = this.cameraState.targetZoom;
+        }
+    }
+
+
+    drawScene() {
+        if (!this.animationData) return;
+        this.ctx.fillStyle = this.canvas.style.backgroundColor;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // World-space drawing (entities)
+        this.ctx.save();
+        this.ctx.translate(this.canvas.width / 2, this.canvas.height / 2);
+        this.ctx.scale(this.cameraState.zoom, this.cameraState.zoom);
+        this.ctx.translate(-this.cameraState.x, -this.cameraState.y);
+
+        var layerOrder = ['background', 'characterLevel', 'foreground'];
+        var entitiesToDraw = [];
+        Object.values(this.objectsState).forEach(obj => entitiesToDraw.push({ type: 'object', entity: obj, y: obj.y, layer: obj.layer || 'characterLevel' }));
+        Object.values(this.charactersState).forEach(char => entitiesToDraw.push({ type: 'character', entity: char, y: char.y, layer: char.layer || 'characterLevel' }));
+        entitiesToDraw.sort((a, b) => {
+            var layerIndexA = layerOrder.indexOf(a.layer); var layerIndexB = layerOrder.indexOf(b.layer);
+            if (layerIndexA !== layerIndexB) return layerIndexA - layerIndexB;
+            return a.y - b.y;
+        });
+        entitiesToDraw.forEach(item => {
+            if (item.type === 'character') this._drawCharacter(item.entity);
+            else if (item.type === 'object') this._drawObjectInstance(item.entity);
+        });
+        this.ctx.restore(); // End world-space drawing
+
+        // Screen-space drawing (speech bubbles on top of everything)
+        this.ctx.save(); // New save for screen-space elements
+        Object.values(this.charactersState).forEach(char => {
+            if (char.dialogueText && (this.currentTime < char.dialogueEndTime || char.isSpeakingTTS)) {
+                this._drawSpeechBubbleScreenSpace(char);
+            }
+        });
+        this.ctx.restore();
+    }
+
+
+    // --- Character Drawing & Poses (with face, hair, accessories) ---
+    _getCharacterPoseDetails(char) { // More detailed poses
+        var H = this.FIGURE_BASE_HEIGHT * char.size;
+        var p = { // anchor points for body parts, relative to char.y (feet)
+            hipCenterY: char.y - (this.LEG_UPPER_F + this.LEG_LOWER_F) * H,
+            neckBaseY: char.y - (this.LEG_UPPER_F + this.LEG_LOWER_F + this.BODY_LENGTH_F) * H,
+            headCenterY: char.y - (this.LEG_UPPER_F + this.LEG_LOWER_F + this.BODY_LENGTH_F + this.NECK_LENGTH_F + this.HEAD_RADIUS_F) * H,
+            shoulderY: char.y - (this.LEG_UPPER_F + this.LEG_LOWER_F + this.BODY_LENGTH_F * 0.9) * H,
+        };
+
+        var facingSign = (char.facing === 'left') ? -1 : 1;
+        var phase = Math.floor(char.posePhase); // 0 or 1
+
+        let pose = { // Structure to hold all points
+            head: { x: char.x, y: p.headCenterY, r: this.HEAD_RADIUS_F * H },
+            body: { x1: char.x, y1: p.hipCenterY, x2: char.x, y2: p.neckBaseY },
+            l_arm: { sx: char.x - this.SHOULDER_WIDTH_F * H * facingSign, sy: p.shoulderY, ex:0, ey:0, hx:0, hy:0 },
+            r_arm: { sx: char.x + this.SHOULDER_WIDTH_F * H * facingSign, sy: p.shoulderY, ex:0, ey:0, hx:0, hy:0 },
+            l_leg: { hx: char.x - this.HIP_WIDTH_F * H * facingSign, hy: p.hipCenterY, kx:0, ky:0, fx:0, fy:0 },
+            r_leg: { hx: char.x + this.HIP_WIDTH_F * H * facingSign, hy: p.hipCenterY, kx:0, ky:0, fx:0, fy:0 },
+            headTilt: 0 // degrees
+        };
+
+        var A_U = this.ARM_UPPER_F * H; var A_L = this.ARM_LOWER_F * H;
+        var L_U = this.LEG_UPPER_F * H; var L_L = this.LEG_LOWER_F * H;
+
+        // Base Idle
+        pose.l_arm.ex = pose.l_arm.sx - 0.05*A_U*facingSign; pose.l_arm.ey = pose.l_arm.sy + 0.95*A_U;
+        pose.l_arm.hx = pose.l_arm.ex - 0.05*A_L*facingSign; pose.l_arm.hy = pose.l_arm.ey + 0.95*A_L;
+        pose.r_arm.ex = pose.r_arm.sx + 0.05*A_U*facingSign; pose.r_arm.ey = pose.r_arm.sy + 0.95*A_U;
+        pose.r_arm.hx = pose.r_arm.ex + 0.05*A_L*facingSign; pose.r_arm.hy = pose.r_arm.ey + 0.95*A_L;
+        pose.l_leg.kx = pose.l_leg.hx + 0.02*L_U*facingSign; pose.l_leg.ky = pose.l_leg.hy + L_U;
+        pose.l_leg.fx = pose.l_leg.kx; pose.l_leg.fy = pose.l_leg.ky + L_L;
+        pose.r_leg.kx = pose.r_leg.hx - 0.02*L_U*facingSign; pose.r_leg.ky = pose.r_leg.hy + L_U;
+        pose.r_leg.fx = pose.r_leg.kx; pose.r_leg.fy = pose.r_leg.ky + L_L;
+
+        let bobOffset = 0;
+        var walkBobAmount = 0.02 * H;
+
+        switch (char.pose) {
+            case 'walk':
+                bobOffset = (phase === 0 ? walkBobAmount : -walkBobAmount * 0.5);
+                var walkAngleLegFwd = 35 * Math.PI/180; var walkAngleLegBack = 25 * Math.PI/180;
+                var walkAngleArmFwd = 30 * Math.PI/180; var walkAngleArmBack = 20 * Math.PI/180;
+                var kneeBendFwd = 0.3; var kneeBendBack = 0.1;
+
+                if (phase === 0) { // Left leg forward
+                    pose.l_leg.kx = pose.l_leg.hx + L_U * Math.sin(walkAngleLegFwd*kneeBendFwd) * facingSign;
+                    pose.l_leg.ky = pose.l_leg.hy + L_U * Math.cos(walkAngleLegFwd*kneeBendFwd);
+                    pose.l_leg.fx = pose.l_leg.kx + L_L * Math.sin(walkAngleLegFwd) * facingSign;
+                    pose.l_leg.fy = pose.l_leg.ky + L_L * Math.cos(walkAngleLegFwd);
+
+                    pose.r_leg.kx = pose.r_leg.hx - L_U * Math.sin(walkAngleLegBack*kneeBendBack) * facingSign;
+                    pose.r_leg.ky = pose.r_leg.hy + L_U * Math.cos(walkAngleLegBack*kneeBendBack);
+                    pose.r_leg.fx = pose.r_leg.kx - L_L * Math.sin(walkAngleLegBack) * facingSign;
+                    pose.r_leg.fy = pose.r_leg.ky + L_L * Math.cos(walkAngleLegBack);
+
+                    pose.r_arm.ex = pose.r_arm.sx + A_U * Math.sin(walkAngleArmFwd*0.5) * facingSign; pose.r_arm.ey = pose.r_arm.sy + A_U * Math.cos(walkAngleArmFwd*0.5);
+                    pose.r_arm.hx = pose.r_arm.ex + A_L * Math.sin(walkAngleArmFwd) * facingSign; pose.r_arm.hy = pose.r_arm.ey + A_L * Math.cos(walkAngleArmFwd);
+                    pose.l_arm.ex = pose.l_arm.sx - A_U * Math.sin(walkAngleArmBack*0.5) * facingSign; pose.l_arm.ey = pose.l_arm.sy + A_U * Math.cos(walkAngleArmBack*0.5);
+                    pose.l_arm.hx = pose.l_arm.ex - A_L * Math.sin(walkAngleArmBack) * facingSign; pose.l_arm.hy = pose.l_arm.ey + A_L * Math.cos(walkAngleArmBack);
+                } else { // Right leg forward
+                    pose.r_leg.kx = pose.r_leg.hx + L_U * Math.sin(walkAngleLegFwd*kneeBendFwd) * facingSign;
+                    pose.r_leg.ky = pose.r_leg.hy + L_U * Math.cos(walkAngleLegFwd*kneeBendFwd);
+                    pose.r_leg.fx = pose.r_leg.kx + L_L * Math.sin(walkAngleLegFwd) * facingSign;
+                    pose.r_leg.fy = pose.r_leg.ky + L_L * Math.cos(walkAngleLegFwd);
+
+                    pose.l_leg.kx = pose.l_leg.hx - L_U * Math.sin(walkAngleLegBack*kneeBendBack) * facingSign;
+                    pose.l_leg.ky = pose.l_leg.hy + L_U * Math.cos(walkAngleLegBack*kneeBendBack);
+                    pose.l_leg.fx = pose.l_leg.kx - L_L * Math.sin(walkAngleLegBack) * facingSign;
+                    pose.l_leg.fy = pose.l_leg.ky + L_L * Math.cos(walkAngleLegBack);
+
+                    pose.l_arm.ex = pose.l_arm.sx + A_U * Math.sin(walkAngleArmFwd*0.5) * facingSign; pose.l_arm.ey = pose.l_arm.sy + A_U * Math.cos(walkAngleArmFwd*0.5);
+                    pose.l_arm.hx = pose.l_arm.ex + A_L * Math.sin(walkAngleArmFwd) * facingSign; pose.l_arm.hy = pose.l_arm.ey + A_L * Math.cos(walkAngleArmFwd);
+                    pose.r_arm.ex = pose.r_arm.sx - A_U * Math.sin(walkAngleArmBack*0.5) * facingSign; pose.r_arm.ey = pose.r_arm.sy + A_U * Math.cos(walkAngleArmBack*0.5);
+                    pose.r_arm.hx = pose.r_arm.ex - A_L * Math.sin(walkAngleArmBack) * facingSign; pose.r_arm.hy = pose.r_arm.ey + A_L * Math.cos(walkAngleArmBack);
+                }
+                // Apply bob to all Y positions
+                ['head', 'body', 'l_arm', 'r_arm', 'l_leg', 'r_leg'].forEach(key => {
+                    var part = pose[key];
+                    if (part.y) part.y -= bobOffset; if (part.y1) part.y1 -= bobOffset; if (part.y2) part.y2 -= bobOffset;
+                    if (part.sy) part.sy -= bobOffset; if (part.ey) part.ey -= bobOffset; if (part.hy) part.hy -= bobOffset;
+                });
+                break;
+            case 'talk':
+                pose.headTilt = (phase === 0 ? -3 : 2) * facingSign; // Slight head tilt
+                var talkArmAngle = 20 * Math.PI/180; var talkElbowAngle = 40 * Math.PI/180;
+                if (phase === 0) {
+                    pose.r_arm.ex = pose.r_arm.sx + A_U * Math.sin(talkArmAngle) * facingSign; pose.r_arm.ey = pose.r_arm.sy + A_U * Math.cos(talkArmAngle) - 0.1*A_U;
+                    pose.r_arm.hx = pose.r_arm.ex + A_L * Math.sin(talkElbowAngle) * facingSign; pose.r_arm.hy = pose.r_arm.ey + A_L * Math.cos(talkElbowAngle);
+                } else {
+                    pose.r_arm.ex = pose.r_arm.sx + A_U * Math.sin(talkArmAngle*0.5) * facingSign; pose.r_arm.ey = pose.r_arm.sy + A_U * Math.cos(talkArmAngle*0.5);
+                    pose.r_arm.hx = pose.r_arm.ex + A_L * Math.sin(talkElbowAngle*1.2) * facingSign; pose.r_arm.hy = pose.r_arm.ey + A_L * Math.cos(talkElbowAngle*1.2) - 0.1*A_L;
+                }
+                break;
+            case 'wave': /* Same as before */
+                pose.r_arm.ex = pose.r_arm.sx + 0.1*A_U*facingSign; pose.r_arm.ey = pose.r_arm.sy - 0.6*A_U;
+                pose.r_arm.hx = pose.r_arm.ex + 0.3*A_L*facingSign; pose.r_arm.hy = pose.r_arm.ey - 0.5*A_L;
+                break;
+            case 'point': /* Same as before, logic for target is in _updateState */
+                let pointTargetX = char.x + 150 * facingSign; let pointTargetY = pose.r_arm.sy;
+                var event = char.currentActionEvent;
+                if (event && event.target) {
+                    if (typeof event.target === 'string') {
+                        var targetEntity = this.charactersState[event.target] || this.objectsState[event.target];
+                        if (targetEntity) {
+                            pointTargetX = targetEntity.x;
+                            pointTargetY = targetEntity.y - (targetEntity.size ? this.FIGURE_BASE_HEIGHT * targetEntity.size * 0.5 : 20) ; // Aim mid-body/object
+                        }
+                    } else if (typeof event.target === 'object' && event.target.x !== undefined) {
+                        pointTargetX = event.target.x; pointTargetY = event.target.y;
+                    }
+                }
+                var dx = pointTargetX - pose.r_arm.sx; var dy = pointTargetY - pose.r_arm.sy;
+                var angle = Math.atan2(dy, dx);
+                pose.r_arm.ex = pose.r_arm.sx + A_U * Math.cos(angle); pose.r_arm.ey = pose.r_arm.sy + A_U * Math.sin(angle);
+                pose.r_arm.hx = pose.r_arm.ex + A_L * Math.cos(angle); pose.r_arm.hy = pose.r_arm.ey + A_L * Math.sin(angle);
+                break;
+            case 'think':
+                pose.headTilt = -10 * facingSign;
+                pose.r_arm.ex = pose.r_arm.sx + 0.2*A_U*facingSign; pose.r_arm.ey = pose.r_arm.sy + 0.3*A_U;
+                pose.r_arm.hx = pose.r_arm.ex + 0.1*A_L*facingSign; pose.r_arm.hy = pose.r_arm.ey - 0.4*A_L; // Hand to chin
+                pose.l_arm.ex = pose.l_arm.sx - 0.1*A_U*facingSign; pose.l_arm.ey = pose.l_arm.sy + A_U; // Left arm down
+                pose.l_arm.hx = pose.l_arm.ex; pose.l_arm.hy = pose.l_arm.ey + A_L;
+                break;
+            case 'shrug':
+                pose.l_arm.sy -= 0.1*H; pose.r_arm.sy -= 0.1*H; // Shoulders up
+                pose.l_arm.ex = pose.l_arm.sx - 0.3*A_U*facingSign; pose.l_arm.ey = pose.l_arm.sy + 0.8*A_U;
+                pose.l_arm.hx = pose.l_arm.ex - 0.2*A_L*facingSign; pose.l_arm.hy = pose.l_arm.ey + 0.6*A_L; // Palms slightly up
+                pose.r_arm.ex = pose.r_arm.sx + 0.3*A_U*facingSign; pose.r_arm.ey = pose.r_arm.sy + 0.8*A_U;
+                pose.r_arm.hx = pose.r_arm.ex + 0.2*A_L*facingSign; pose.r_arm.hy = pose.r_arm.ey + 0.6*A_L;
+                break;
+        }
+        return pose;
+    }
+
+    _drawCharacter(char) {
+        var d = this._getCharacterPoseDetails(char);
+        var ctx = this.ctx;
+        var lineW = Math.max(1, this.STICK_THICKNESS_BASE * char.size);
+        ctx.strokeStyle = char.color; ctx.fillStyle = char.color;
+        ctx.lineWidth = lineW; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+
+        // Body & Limbs (same as before, using points from 'd')
+        ctx.beginPath(); ctx.moveTo(d.body.x1, d.body.y1); ctx.lineTo(d.body.x2, d.body.y2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(d.l_arm.sx, d.l_arm.sy); ctx.lineTo(d.l_arm.ex, d.l_arm.ey); ctx.lineTo(d.l_arm.hx, d.l_arm.hy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(d.r_arm.sx, d.r_arm.sy); ctx.lineTo(d.r_arm.ex, d.r_arm.ey); ctx.lineTo(d.r_arm.hx, d.r_arm.hy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(d.body.x2, d.body.y2); ctx.lineTo(d.l_arm.sx, d.l_arm.sy); ctx.stroke(); // Neck to shoulder
+        ctx.beginPath(); ctx.moveTo(d.body.x2, d.body.y2); ctx.lineTo(d.r_arm.sx, d.r_arm.sy); ctx.stroke(); // Neck to shoulder
+        ctx.beginPath(); ctx.moveTo(d.l_leg.hx, d.l_leg.hy); ctx.lineTo(d.l_leg.kx, d.l_leg.ky); ctx.lineTo(d.l_leg.fx, d.l_leg.fy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(d.r_leg.hx, d.r_leg.hy); ctx.lineTo(d.r_leg.kx, d.r_leg.ky); ctx.lineTo(d.r_leg.fx, d.r_leg.fy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(d.body.x1, d.body.y1); ctx.lineTo(d.l_leg.hx, d.l_leg.hy); ctx.stroke(); // Hip to hip socket
+        ctx.beginPath(); ctx.moveTo(d.body.x1, d.body.y1); ctx.lineTo(d.r_leg.hx, d.r_leg.hy); ctx.stroke(); // Hip to hip socket
+
+        // Head and Features
+        ctx.save();
+        ctx.translate(d.head.x, d.head.y);
+        ctx.rotate(d.headTilt * Math.PI / 180); // Apply head tilt
+
+        // Main Head Circle
+        ctx.beginPath(); ctx.arc(0, 0, d.head.r, 0, Math.PI * 2);
+        ctx.fillStyle = char.color; ctx.fill();
+        // If stroke for head is desired (e.g. different color), add it here
+        // ctx.strokeStyle = "somecolor"; ctx.lineWidth = lineW*0.5; ctx.stroke();
+
+        this._drawCharacterFace(char, d.head.r); // Pass head radius for scaling features
+        this._drawCharacterHair(char, d.head.r);
+        this._drawCharacterAccessories(char, d.head.r); // Hat, beard
+
+        ctx.restore(); // Restore from head-local transformations
+    }
+
+    _drawCharacterFace(char, headR) {
+        var ctx = this.ctx;
+        var app = char.appearance;
+        var facingSign = (char.facing === 'left') ? -1 : 1;
+        var eyeR = headR * 0.15;
+        var pupilR = eyeR * 0.5;
+        var eyeOffsetX = headR * 0.3 * facingSign;
+        var eyeOffsetY = -headR * 0.15; // Slightly above center
+        var eyebrowOffsetY = eyeOffsetY - eyeR * 1.8;
+        var eyebrowLength = headR * 0.3;
+        var eyebrowAngleBase = char.facing === 'left' ? 160 : 20; // Degrees
+
+        // Eyes
+        ctx.fillStyle = app.eyeColor || 'white';
+        ctx.beginPath(); ctx.arc(eyeOffsetX - headR*0.15*facingSign, eyeOffsetY, eyeR, 0, Math.PI*2); ctx.fill(); // Left eye (char's left)
+        ctx.beginPath(); ctx.arc(eyeOffsetX + headR*0.15*facingSign, eyeOffsetY, eyeR, 0, Math.PI*2); ctx.fill(); // Right eye
+
+        // Pupils - can be shifted slightly by expression later
+        let pupilShiftX = 0; // e.g. for looking
+        if (char.expression === 'surprised') pupilShiftX = pupilR * 0.2 * facingSign;
+        ctx.fillStyle = app.pupilColor || 'black';
+        ctx.beginPath(); ctx.arc(eyeOffsetX - headR*0.15*facingSign + pupilShiftX, eyeOffsetY, pupilR, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(eyeOffsetX + headR*0.15*facingSign + pupilShiftX, eyeOffsetY, pupilR, 0, Math.PI*2); ctx.fill();
+
+        // Eyebrows
+        ctx.strokeStyle = app.hairColor || 'black'; // Eyebrows usually match hair
+        ctx.lineWidth = Math.max(1, headR * 0.05);
+        let eyebrowAngleOffset = 0;
+        switch(char.expression) {
+            case 'happy': eyebrowAngleOffset = -15; break;
+            case 'sad': eyebrowAngleOffset = 20; break;
+            case 'angry': eyebrowAngleOffset = char.facing === 'left' ? 25 : -25; break; // Slant inwards
+            case 'surprised': eyebrowOffsetY -= eyeR * 0.3; eyebrowAngleOffset = -10; break; // Raised
+        }
+        // Left eyebrow (char's left)
+        ctx.beginPath();
+        ctx.arc(eyeOffsetX - headR*0.15*facingSign, eyebrowOffsetY, eyebrowLength*0.8, (eyebrowAngleBase - 15 + eyebrowAngleOffset) * Math.PI/180, (eyebrowAngleBase + 15 + eyebrowAngleOffset) * Math.PI/180, char.facing === 'left');
+        ctx.stroke();
+        // Right eyebrow
+        ctx.beginPath();
+        ctx.arc(eyeOffsetX + headR*0.15*facingSign, eyebrowOffsetY, eyebrowLength*0.8, (eyebrowAngleBase - 15 + eyebrowAngleOffset) * Math.PI/180, (eyebrowAngleBase + 15 + eyebrowAngleOffset) * Math.PI/180, char.facing === 'left');
+        ctx.stroke();
+
+
+        // Mouth
+        var mouthY = headR * 0.35;
+        var mouthCfg = app.mouth;
+        let mouthWidth = headR * (char.pose === 'talk' || char.isSpeakingTTS ? mouthCfg.talkingWidthFactor : mouthCfg.restingWidthFactor);
+        let mouthOpen = headR * (char.pose === 'talk' || char.isSpeakingTTS ? mouthCfg.talkingOpenFactor : mouthCfg.restingOpenFactor);
+        if (char.expression === 'surprised') { mouthWidth *=0.7; mouthOpen *=3; }
+        if (char.expression === 'happy') { mouthWidth *=1.2; }
+        if (char.expression === 'sad') { mouthOpen *= -0.5; } // Slight frown curve
+
+        ctx.strokeStyle = mouthCfg.color || char.color;
+        ctx.lineWidth = Math.max(1, headR * 0.04);
+        ctx.beginPath();
+        ctx.moveTo(eyeOffsetX - mouthWidth * facingSign, mouthY - mouthOpen/2);
+        ctx.quadraticCurveTo(eyeOffsetX, mouthY + mouthOpen, eyeOffsetX + mouthWidth * facingSign, mouthY - mouthOpen/2);
+        ctx.stroke();
+    }
+
+    _drawCharacterHair(char, headR) {
+        var ctx = this.ctx;
+        var app = char.appearance;
+        if (app.hairStyle === 'none') return;
+
+        ctx.fillStyle = app.hairColor || '#333';
+        ctx.strokeStyle = app.hairColor || '#333';
+        ctx.lineWidth = Math.max(1, headR * 0.08);
+        var facingSign = (char.facing === 'left') ? -1 : 1;
+
+        switch (app.hairStyle) {
+            case 'round_cap':
+                ctx.beginPath();
+                ctx.arc(0, -headR * 0.1, headR * 0.9, Math.PI, 0); // Simpler half circle on top
+                ctx.closePath();
+                ctx.fill();
+                break;
+            case 'short_spiky':
+                for (let i = 0; i < 5; i++) {
+                    var angle = Math.PI + (i * Math.PI / 4) - Math.PI / 8;
+                    ctx.beginPath();
+                    ctx.moveTo(0,0); // Center of head as base for spikes
+                    ctx.lineTo(Math.cos(angle) * headR * 1.1, Math.sin(angle) * headR * 1.1 - headR*0.1);
+                    ctx.lineTo(Math.cos(angle + Math.PI/16) * headR * 0.9, Math.sin(angle + Math.PI/16) * headR * 0.9 - headR*0.1);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                break;
+            case 'side_part_right': // Hair parted to character's right (sweeps left on screen if facing right)
+                ctx.beginPath();
+                ctx.moveTo(-headR * 0.7 * facingSign, -headR * 0.8); // Part start
+                ctx.quadraticCurveTo(headR * 0.1 * facingSign, -headR * 1.2, headR * 0.8 * facingSign, -headR * 0.5); // Top sweep
+                ctx.quadraticCurveTo(headR * 1.1 * facingSign, headR * 0.1, headR * 0.5 * facingSign, headR * 0.7); // Side
+                ctx.quadraticCurveTo(-headR * 0.5 * facingSign, headR * 0.6, -headR * 0.7 * facingSign, -headR * 0.8); // Back to part
+                ctx.closePath();
+                ctx.fill();
+                break;
+             case 'side_part_left': // Hair parted to character's left
+                ctx.beginPath();
+                ctx.moveTo(headR * 0.7 * facingSign, -headR * 0.8); // Part start (opposite side)
+                ctx.quadraticCurveTo(-headR * 0.1 * facingSign, -headR * 1.2, -headR * 0.8 * facingSign, -headR * 0.5); // Top sweep
+                ctx.quadraticCurveTo(-headR * 1.1 * facingSign, headR * 0.1, -headR * 0.5 * facingSign, headR * 0.7); // Side
+                ctx.quadraticCurveTo(headR * 0.5 * facingSign, headR * 0.6, headR * 0.7 * facingSign, -headR * 0.8); // Back to part
+                ctx.closePath();
+                ctx.fill();
+                break;
+        }
+    }
+
+    _drawCharacterAccessories(char, headR) {
+        var ctx = this.ctx;
+        var app = char.appearance;
+        var facingSign = (char.facing === 'left') ? -1 : 1;
+        // Beard / Mustache (drawn before hat if hat overlaps)
+        if (app.beard !== 'none') {
+            ctx.fillStyle = app.beardColor || app.hairColor;
+            var mouthY = headR * 0.35; // From face func
+            var eyeOffsetX = headR * 0.3 * facingSign; // From face func
+            switch(app.beard) {
+                case 'goatee':
+                    ctx.beginPath();
+                    ctx.moveTo(eyeOffsetX - headR*0.1*facingSign, mouthY + headR*0.05);
+                    ctx.lineTo(eyeOffsetX, mouthY + headR*0.3);
+                    ctx.lineTo(eyeOffsetX + headR*0.1*facingSign, mouthY + headR*0.05);
+                    ctx.closePath();
+                    ctx.fill();
+                    // Mustache part
+                    ctx.fillRect(eyeOffsetX - headR*0.2*facingSign, mouthY - headR*0.15, headR*0.4, headR*0.1);
+                    break;
+                case 'full_beard':
+                    ctx.beginPath();
+                    ctx.arc(0, headR*0.1, headR*0.8, 0.2*Math.PI, 0.8*Math.PI);
+                    ctx.closePath();
+                    ctx.fill();
+                    // Mustache
+                    ctx.fillRect(eyeOffsetX - headR*0.3*facingSign, mouthY - headR*0.15, headR*0.6, headR*0.15);
+                    break;
+            }
+        }
+
+        // Hat
+        if (app.hat !== 'none') {
+            ctx.fillStyle = app.hatColor || 'gray';
+            var hatBaseY = -headR * 0.7; // Top of head area
+            switch(app.hat) {
+                case 'cap':
+                    ctx.beginPath(); // Main cap body
+                    ctx.arc(0, hatBaseY + headR*0.15, headR*0.8, Math.PI, 0);
+                    ctx.fill();
+                    ctx.beginPath(); // Brim
+                    ctx.ellipse(headR*0.4*facingSign, hatBaseY + headR*0.1, headR*0.5, headR*0.2, 0, 0, Math.PI*2);
+                    ctx.fill();
+                    break;
+                case 'tophat':
+                    ctx.fillRect(-headR*0.5, hatBaseY - headR*0.8, headR, headR*0.9); // Crown
+                    ctx.fillRect(-headR*0.8, hatBaseY, headR*1.6, headR*0.2); // Brim
+                    break;
+            }
+        }
+    }
+
+    // --- Speech Bubble Drawing (Screen Space) ---
+    _calculateSpeechBubbleScreenMetrics(character) {
+        var text = character.dialogueText;
+        if (!text) return null;
+        var cfg = this.speechBubbleConfig;
+
+        // Convert character's head top-center to screen coordinates
+        var headAnchorYWorld = character.y - (this.FIGURE_BASE_HEIGHT * character.size);
+        var [charScreenX, charScreenHeadTopY] = this._worldToScreen(character.x, headAnchorYWorld);
+
+        this.ctx.font = `${cfg.fontSizeScreen}px ${cfg.fontFamily}`; // Use fixed screen font size
+        this.ctx.textAlign = 'left';
+        this.ctx.textBaseline = 'top';
+
+        var maxWidthBubble = Math.max(cfg.minWidthScreen, this.canvas.width * cfg.maxWidthScreenFactor);
+        var lines = this._wrapTextScreen(text, maxWidthBubble); // Special wrap for screen text
+        if (!lines.length) return null;
+
+        var textBlockHeight = lines.length * (cfg.fontSizeScreen * cfg.lineHeightFactor);
+        var textBlockWidth = Math.max(...lines.map(line => this.ctx.measureText(line).width));
+
+        var bubbleWidthScreen = textBlockWidth + 2 * cfg.paddingScreen;
+        var bubbleHeightScreen = textBlockHeight + 2 * cfg.paddingScreen;
+
+        // Initial position above character head
+        let bubbleScreenX = charScreenX - bubbleWidthScreen / 2;
+        let bubbleScreenY = charScreenHeadTopY - cfg.marginScreen.top - bubbleHeightScreen - cfg.pointerHeightScreen;
+
+        // Attempt to keep bubble on screen
+        var canvasPadding = 10; // Padding from canvas edges
+        if (bubbleScreenX < canvasPadding) bubbleScreenX = canvasPadding;
+        if (bubbleScreenX + bubbleWidthScreen > this.canvas.width - canvasPadding) {
+            bubbleScreenX = this.canvas.width - canvasPadding - bubbleWidthScreen;
+        }
+        if (bubbleScreenY < canvasPadding) { // If too high (e.g. char near top), try placing below or to side
+            bubbleScreenY = charScreenHeadTopY + cfg.marginScreen.top + cfg.pointerHeightScreen; // Below head
+            if (bubbleScreenY + bubbleHeightScreen > this.canvas.height - canvasPadding) { // Still off screen?
+                // Try to the side (more complex, needs different pointer)
+                // For now, just let it clip if it's impossible.
+                 bubbleScreenY = Math.max(canvasPadding, charScreenHeadTopY - cfg.marginScreen.top - bubbleHeightScreen - cfg.pointerHeightScreen); // Revert to above and clip top
+            }
+        }
+
+
+        return {
+            lines, text,
+            charScreenX, charScreenHeadTopY, // Screen anchor point for pointer
+            screenX: bubbleScreenX, screenY: bubbleScreenY,
+            widthScreen: bubbleWidthScreen, heightScreen: bubbleHeightScreen,
+            pointerHeightScreen: cfg.pointerHeightScreen,
+            pointerWidthScreen: cfg.pointerWidthScreen,
+            paddingScreen: cfg.paddingScreen,
+            cornerRadiusScreen: cfg.cornerRadiusScreen,
+            cfg
+        };
+    }
+
+    _drawSpeechBubbleScreenSpace(character) {
+        var m = this._calculateSpeechBubbleScreenMetrics(character);
+        if (!m) return;
+        var ctx = this.ctx; // Already in screen space context
+
+        ctx.save(); // Save before applying shadow or other bubble-specific styles
+        if (m.cfg.shadow) {
+            ctx.shadowOffsetX = m.cfg.shadow.offsetX;
+            ctx.shadowOffsetY = m.cfg.shadow.offsetY;
+            ctx.shadowBlur = m.cfg.shadow.blur;
+            ctx.shadowColor = m.cfg.shadow.color;
+        }
+
+        // Bubble Background
+        ctx.fillStyle = m.cfg.bgColor;
+        ctx.strokeStyle = m.cfg.borderColor;
+        ctx.lineWidth = 1.5; // Fixed line width for screen space
+
+        // Draw rounded rectangle (paths are in screen coordinates)
+        ctx.beginPath();
+        ctx.moveTo(m.screenX + m.cornerRadiusScreen, m.screenY);
+        ctx.lineTo(m.screenX + m.widthScreen - m.cornerRadiusScreen, m.screenY);
+        ctx.quadraticCurveTo(m.screenX + m.widthScreen, m.screenY, m.screenX + m.widthScreen, m.screenY + m.cornerRadiusScreen);
+        ctx.lineTo(m.screenX + m.widthScreen, m.screenY + m.heightScreen - m.cornerRadiusScreen);
+        ctx.quadraticCurveTo(m.screenX + m.widthScreen, m.screenY + m.heightScreen, m.screenX + m.widthScreen - m.cornerRadiusScreen, m.screenY + m.heightScreen);
+        ctx.lineTo(m.screenX + m.cornerRadiusScreen, m.screenY + m.heightScreen);
+        ctx.quadraticCurveTo(m.screenX, m.screenY + m.heightScreen, m.screenX, m.screenY + m.heightScreen - m.cornerRadiusScreen);
+        ctx.lineTo(m.screenX, m.screenY + m.cornerRadiusScreen);
+        ctx.quadraticCurveTo(m.screenX, m.screenY, m.screenX + m.cornerRadiusScreen, m.screenY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.shadowColor = 'transparent'; // Turn off shadow for stroke if desired, or stroke first
+        ctx.stroke();
+        ctx.restore(); // Restore from shadow state for pointer and text
+
+        // Draw pointer
+        // Pointer aims from bubble's bottom center towards charScreenX, charScreenHeadTopY
+        ctx.fillStyle = m.cfg.bgColor; // Match bubble fill
+        ctx.strokeStyle = m.cfg.borderColor;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        var pointerBaseY = m.screenY + m.heightScreen;
+        // Calculate pointer's X position on the bubble's edge, clamping it
+        let pointerBubbleAttachX = m.charScreenX;
+        if (pointerBubbleAttachX < m.screenX + m.pointerWidthScreen / 2) {
+            pointerBubbleAttachX = m.screenX + m.pointerWidthScreen / 2;
+        } else if (pointerBubbleAttachX > m.screenX + m.widthScreen - m.pointerWidthScreen / 2) {
+            pointerBubbleAttachX = m.screenX + m.widthScreen - m.pointerWidthScreen / 2;
+        }
+
+        ctx.moveTo(pointerBubbleAttachX - m.pointerWidthScreen / 2, pointerBaseY);
+        ctx.lineTo(pointerBubbleAttachX + m.pointerWidthScreen / 2, pointerBaseY);
+        ctx.lineTo(m.charScreenX, Math.min(this.canvas.height - 5, m.charScreenHeadTopY - m.cfg.marginScreen.top * 0.5)); // Point towards character, ensure not off bottom
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Draw Text (already set ctx.font in _calculateSpeechBubbleScreenMetrics)
+        ctx.fillStyle = m.cfg.textColor;
+        ctx.font = `${m.cfg.fontSizeScreen}px ${m.cfg.fontFamily}`;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        m.lines.forEach((line, i) => {
+            var lineWidth = ctx.measureText(line).width;
+            var lineX = m.screenX + m.paddingScreen + ((m.widthScreen - 2 * m.paddingScreen - lineWidth) / 2); // Centered
+            ctx.fillText(line, lineX, m.screenY + m.paddingScreen + i * (m.cfg.fontSizeScreen * m.cfg.lineHeightFactor));
+        });
+    }
+
+    _wrapTextScreen(text, maxWidthScreen) { // For screen-space text
+        var words = text.split(' '); var lines = [];
+        if (!words.length) return lines;
+        let currentLine = words[0];
+        for (let i = 1; i < words.length; i++) {
+            var word = words[i];
+            var testLine = currentLine + " " + word;
+            if (this.ctx.measureText(testLine).width < maxWidthScreen || currentLine === "") {
+                currentLine = testLine;
+            } else { lines.push(currentLine); currentLine = word; }
+        }
+        lines.push(currentLine); return lines;
+    }
+
+    _worldToScreen(worldX, worldY) {
+        var screenX = (worldX - this.cameraState.x) * this.cameraState.zoom + this.canvas.width / 2;
+        var screenY = (worldY - this.cameraState.y) * this.cameraState.zoom + this.canvas.height / 2;
+        return [screenX, screenY];
+    }
+    _screenToWorld(screenX, screenY) {
+        var worldX = (screenX - this.canvas.width / 2) / this.cameraState.zoom + this.cameraState.x;
+        var worldY = (screenY - this.canvas.height / 2) / this.cameraState.zoom + this.cameraState.y;
+        return [worldX, worldY];
+    }
+
+
+    // --- Object & Component Drawing (with arc support) ---
+    _drawObjectInstance(objInstance) { /* Same as before */
+        if (!objInstance.blueprint || !objInstance.blueprint.components) return;
+        var ctx = this.ctx; ctx.save();
+        ctx.translate(objInstance.x, objInstance.y);
+        ctx.rotate((objInstance.rotation || 0) * Math.PI / 180);
+        ctx.scale(objInstance.scale.x, objInstance.scale.y);
+        if (objInstance.blueprint.origin) {
+             ctx.translate(-objInstance.blueprint.origin.x, -objInstance.blueprint.origin.y);
+        }
+        objInstance.blueprint.components.forEach(comp => this._drawComponent(comp));
+        ctx.restore();
+    }
+    _drawComponent(comp) {
+        var ctx = this.ctx; ctx.save();
+        ctx.translate(comp.x || 0, comp.y || 0);
+        if (comp.rotation) ctx.rotate(comp.rotation * Math.PI / 180);
+        var scaleX = (comp.scale && comp.scale.x !== undefined) ? comp.scale.x : (typeof comp.scale === 'number' ? comp.scale : 1);
+        var scaleY = (comp.scale && comp.scale.y !== undefined) ? comp.scale.y : (typeof comp.scale === 'number' ? comp.scale : 1);
+        ctx.scale(scaleX, scaleY);
+
+        ctx.beginPath();
+        let bounds = { x:0, y:0, width:0, height:0 };
+
+        switch (comp.type) {
+            case 'rectangle': /* same */
+                bounds = { x: 0, y: 0, width: comp.width, height: comp.height };
+                ctx.rect(0, 0, comp.width, comp.height);
+                break;
+            case 'circle': // MODIFIED for arcs
+                var startAngle = (comp.startAngle || 0) * Math.PI / 180;
+                var endAngle = (comp.endAngle === undefined ? 360 : comp.endAngle) * Math.PI / 180; // Default to full circle
+                var isArc = (comp.endAngle !== undefined && comp.startAngle !== comp.endAngle);
+
+                bounds = { x: -comp.radius, y: -comp.radius, width: comp.radius*2, height: comp.radius*2 }; // Approx for texture
+                if (isArc && comp.fillMethod === 'sector') ctx.moveTo(0,0); // For pie-slice fill
+                ctx.arc(0, 0, comp.radius, startAngle, endAngle, comp.anticlockwise || false);
+                if (isArc && comp.fillMethod === 'sector') ctx.closePath(); // Close path for pie-slice fill
+                break;
+            case 'triangle': /* same */
+                if (comp.points && comp.points.length === 3) {
+                    ctx.moveTo(comp.points[0].x, comp.points[0].y); ctx.lineTo(comp.points[1].x, comp.points[1].y); ctx.lineTo(comp.points[2].x, comp.points[2].y);
+                    ctx.closePath();
+                    let minX = Math.min(comp.points[0].x, comp.points[1].x, comp.points[2].x); let minY = Math.min(comp.points[0].y, comp.points[1].y, comp.points[2].y);
+                    bounds = {x: minX, y: minY, width: Math.max(comp.points[0].x, comp.points[1].x, comp.points[2].x)-minX, height: Math.max(comp.points[0].y, comp.points[1].y, comp.points[2].y)-minY};
+                }
+                break;
+            case 'line': break;
+        }
+
+        if (comp.fill && comp.type !== 'line') {
+            if (typeof comp.fill === 'string') { ctx.fillStyle = comp.fill; ctx.fill(); }
+            else if (typeof comp.fill === 'object') { ctx.save(); ctx.clip(); this._drawProceduralTexture(comp.fill, bounds); ctx.restore(); }
+        }
+        if (comp.stroke || comp.type === 'line') {
+            ctx.strokeStyle = comp.stroke || (comp.fill && typeof comp.fill === 'string' ? comp.fill : '#000');
+            ctx.lineWidth = (comp.strokeWidth || 1) / Math.min(scaleX, scaleY); // Adjust for component scale
+             if (comp.type === 'line') { ctx.beginPath(); ctx.moveTo(comp.x1 || 0, comp.y1 || 0); ctx.lineTo(comp.x2 || 0, comp.y2 || 0); }
+            else if (comp.type === 'circle' && comp.endAngle !== undefined && comp.startAngle !== comp.endAngle && comp.fillMethod !== 'sector') {
+                 // If it's an open arc and not a sector, we might not want to closePath before stroke
+                 // The current arc drawing does not explicitly close for non-sector stroke, which is usually fine
+            }
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+    _drawProceduralTexture(textureConfig, bounds) { /* Same as before */
+        var ctx = this.ctx; var { type, color1 = '#000', color2 = 'transparent', ...params } = textureConfig;
+        ctx.save(); ctx.translate(bounds.x, bounds.y);
+        switch (type) {
+            case 'dotted':
+                ctx.fillStyle = color2; ctx.fillRect(0, 0, bounds.width, bounds.height); ctx.fillStyle = color1;
+                var dS = params.dotSize || 3; var sp = params.spacing || 8;
+                for (let x = 0; x < bounds.width; x += sp) for (let y = 0; y < bounds.height; y += sp) { ctx.beginPath(); ctx.arc(x+dS/2,y+dS/2,dS/2,0,Math.PI*2); ctx.fill(); }
+                break;
+            case 'striped':
+                var sW = params.stripeWidth || 5; var horiz = params.angle && Math.abs(Math.sin(params.angle*Math.PI/180)) > 0.5;
+                ctx.fillStyle = color1; ctx.fillRect(0,0,bounds.width,bounds.height); ctx.fillStyle = color2;
+                if (horiz) for (let y=0;y<bounds.height;y+=sW*2) ctx.fillRect(0,y,bounds.width,sW);
+                else for (let x=0;x<bounds.width;x+=sW*2) ctx.fillRect(x,0,sW,bounds.height);
+                break;
+            case 'checkerboard':
+                var sqS = params.squareSize || 10;
+                for (let r=0;r*sqS<bounds.height;r++) for (let c=0;c*sqS<bounds.width;c++) { ctx.fillStyle=(r+c)%2===0?color1:color2; ctx.fillRect(c*sqS,r*sqS,sqS,sqS); }
+                break;
+            case 'grid':
+                ctx.fillStyle = params.backgroundColor || color2; ctx.fillRect(0,0,bounds.width,bounds.height);
+                ctx.strokeStyle = params.lineColor || color1; ctx.lineWidth = params.lineWidth || 0.5;
+                var sX = params.spacingX || 10; var sY = params.spacingY || 10;
+                for (let x=0;x<=bounds.width;x+=sX) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,bounds.height); ctx.stroke(); }
+                for (let y=0;y<=bounds.height;y+=sY) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(bounds.width,y); ctx.stroke(); }
+                break;
+        }
+        ctx.restore();
+    }
+
+    updateTimelineUI() { /* Same as before */
+        this.ui.currentTimeDisplay.textContent = this.formatTime(this.currentTime);
+        this.ui.totalTimeDisplay.textContent = this.formatTime(this.totalDuration);
+        this.ui.progressBar.style.width = this.totalDuration > 0 ? (this.currentTime / this.totalDuration * 100) + "%" : "0%";
+    }
+    formatTime(seconds) { /* Same as before (with decimals) */
+        var mins = Math.floor(seconds / 60); var secs = Math.floor(seconds % 60);
+        var decs = Math.floor((seconds * 100) % 100);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}.${decs < 10 ? '0':''}${decs}`;
+    }
+
+    exportAnimation() { // Improved reliability for finding script and style
+        if (!this.animationData) { alert("No animation data loaded."); return; }
+        var jsonString = JSON.stringify(this.animationData, null, 2);
+
+        // Get main script content by its ID
+        var playerScriptElement = document.getElementById('mainAnimationScript');
+        if (!playerScriptElement) { alert("Error: Main animation script not found."); return; }
+        var playerScriptContent = playerScriptElement.textContent;
+
+        // Get CSS content by its ID
+        var stylesheetElement = document.getElementById('mainStylesheet');
+        if (!stylesheetElement) { alert("Error: Main stylesheet not found."); return; }
+        var cssContent = stylesheetElement.textContent;
+        var endScript="<" + "/script>" //problems 
+        // with templates and html parser
+        var exportHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Playback</title>
+    <style id="mainStylesheet">
+    ${cssContent}
+    /* Additional specific styles for player might go here if needed */
+    .exported-body #inputContainer { display: none !important; } /* Ensure input is hidden */
+    </style>
+</head>
+<body>
+    <!-- Title for player mode can be static or dynamic -->
+    <h1 class="exported-h1">Animation Playback</h1>
+    <canvas id="animationCanvas"></canvas>
+    <div class="container playback-controls" id="playbackControlsContainer">
+        <div class="button-group">
+            <button id="playPauseBtn">Play</button>
+            <button id="restartBtn">Restart</button>
+        </div>
+        <span id="currentTimeDisplay">0:00.00</span>
+        <div id="progressBarContainer"><div id="progressBar"></div></div>
+        <span id="totalTimeDisplay">0:00.00</span>
+        <!-- Export button is not needed in player, but keep element for script compatibility if referenced -->
+        <div class="button-group hidden"><button id="exportBtn"></button></div>
+    </div>
+
+    <!-- Hidden input container for script compatibility, but truly hidden -->
+    <div class="container hidden" id="inputContainer">
+        <textarea id="jsonInput"></textarea>
+        <input type="file" id="jsonFileUpload"><button id="loadJsonBtn"></button>
+        <div id="status"></div>
+    </div>
+
+    <script id="animationDataJson" type="application/json">${jsonString}${endScript}
+    <script id="mainAnimationScript">${playerScriptContent}${endScript}
+</body>
+</html>`;
+
+        var blob = new Blob([exportHTML], { type: 'text/html' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'animation_playback_v3.html';
+        document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+        this.ui.statusDiv.textContent = "Animation exported successfully!";
+    }
+} // End of Animator Class
+
+document.addEventListener('DOMContentLoaded', () => { /* Same as before */
+    var uiElements = {
+        jsonInput: document.getElementById('jsonInput'), jsonFileUpload: document.getElementById('jsonFileUpload'),
+        loadJsonBtn: document.getElementById('loadJsonBtn'), statusDiv: document.getElementById('status'),
+        animationCanvas: document.getElementById('animationCanvas'),
+        playbackControlsContainer: document.getElementById('playbackControlsContainer'),
+        playPauseBtn: document.getElementById('playPauseBtn'), restartBtn: document.getElementById('restartBtn'),
+        exportBtn: document.getElementById('exportBtn'), currentTimeDisplay: document.getElementById('currentTimeDisplay'),
+        totalTimeDisplay: document.getElementById('totalTimeDisplay'),
+        progressBarContainer: document.getElementById('progressBarContainer'), progressBar: document.getElementById('progressBar'),
+        inputContainer: document.getElementById('inputContainer')
+    };
+    window.animatorInstance = new Animator(uiElements.animationCanvas, uiElements);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews the living control room; Awtsmoos.com gives its light a calm, bounded account vessel. */
+
+.awt-activity-panel {
+	--activity-border: color-mix(in srgb, var(--awt-accent, #7dffca) 26%, transparent);
+	--activity-surface: color-mix(in srgb, var(--awt-panel, #101820) 88%, transparent);
+	display: grid;
+	gap: clamp(1rem, 2vw, 1.5rem);
+	margin-block: clamp(1.5rem, 3vw, 2.75rem);
+	padding: clamp(1rem, 2.5vw, 1.75rem);
+	border: 1px solid var(--activity-border);
+	border-radius: clamp(1rem, 2vw, 1.5rem);
+	background:
+		linear-gradient(135deg, color-mix(in srgb, var(--awt-accent, #7dffca) 8%, transparent), transparent 44%),
+		var(--activity-surface);
+	box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 18%);
+	isolation: isolate;
+}
+
+.awt-activity-panel__header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.awt-activity-panel__header h2 {
+	margin: 0.2rem 0 0.45rem;
+	font-size: clamp(1.5rem, 3vw, 2.4rem);
+	line-height: 1.05;
+}
+
+.awt-activity-panel__header p {
+	max-width: 70ch;
+	margin: 0;
+	color: var(--awt-muted, #aebbc5);
+}
+
+.awt-activity-eyebrow {
+	display: block;
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--awt-accent, #7dffca);
+}
+
+.awt-activity-panel__grid {
+	display: grid;
+	grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1.7fr);
+	gap: clamp(1rem, 2vw, 1.4rem);
+	align-items: start;
+}
+
+.awt-activity-status {
+	flex: none;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--awt-muted, #aebbc5);
+}
+
+.awt-activity-status.is-connected {
+	color: var(--awt-accent, #7dffca);
+}
+
+.awt-activity-status.is-error,
+.awt-activity-status.is-reconnecting {
+	color: var(--awt-warning, #ffcf70);
+}

@@ -1,0 +1,116 @@
+/Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruwm7lr_c31e1921def6/meta.json
+/Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruwm7lr_c31e1921def6/stderr.txt
+--- CONTENTS ---
+### /Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruwm7lr_c31e1921def6/stderr.txt
+Traceback (most recent call last):
+  File "/tmp/nesher_controlled_audit.py", line 319, in <module>
+    summary[name] = audit_viewport(name, width, height, mobile, 9450 + index, gpu)
+                    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nesher_controlled_audit.py", line 261, in audit_viewport
+    client.call('Page.navigate', {'url': f"http://127.0.0.1:{os.environ['SERVER_PORT']}/"})
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nesher_controlled_audit.py", line 119, in call
+    message = json.loads(self.socket.receive_text())
+                         ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/nesher_controlled_audit.py", line 73, in receive_text
+    first, second = self.read_exact(2)
+                    ~~~~~~~~~~~~~~~^^^
+  File "/tmp/nesher_controlled_audit.py", line 45, in read_exact
+    chunk = self.connection.recv(max(4096, length - len(self.buffer)))
+TimeoutError: timed out
+### /Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruwm7lr_c31e1921def6/meta.json
+{
+  "schemaVersion": 2,
+  "revision": 5,
+  "jobId": "cmdjob_mruwm7lr_c31e1921def6",
+  "workerId": "worker_mruwm7lr_644f7fdf90",
+  "receiptId": "receipt_mruwm7lr_3b4ad725d4",
+  "command": "set -eu\nAPP='/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio'\nPORT=8788\nCHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'\nSCRIPT='/tmp/nesher_controlled_audit.py'\ncd \"$APP\"\npython3 -m http.server \"$PORT\" --bind 127.0.0.1 > tests/.controlled-audit-server.log 2>&1 &\nSERVER_PID=$!\ncleanup() {\n\tkill \"$SERVER_PID\" 2>/dev/null || true\n\tpkill -f 'user-data-dir=/tmp/nesher-controlled-' 2>/dev/null || true\n\tpkill -f 'http.server 8788' 2>/dev/null || true\n\trm -rf /tmp/nesher-controlled-* \"$SCRIPT\"\n}\ntrap cleanup EXIT INT TERM\nfor attempt in $(seq 1 100); do\n\tcurl -fsS \"http://127.0.0.1:$PORT/\" >/dev/null 2>&1 && break\n\tsleep .1\ndone\ncat > \"$SCRIPT\" <<'PY'\n# B\"H\n# Boruch Hashem\n# Blessed is He\n# The Awtsmoos reveals browser geometry through bounded messages; Awtsmoos.com is measured without allowing any audit process to become an endless corridor.\nimport base64\nimport json\nimport os\nimport secrets\nimport signal\nimport socket\nimport struct\nimport subprocess\nimport time\nimport urllib.parse\nimport urllib.request\nfrom pathlib import Path\n\n\nclass WebSocketClient:\n\tdef __init__(self, url):\n\t\tparsed = urllib.parse.urlsplit(url)\n\t\tself.connection = socket.create_connection((parsed.hostname, parsed.port), timeout=25)\n\t\tself.buffer = b''\n\t\tkey = base64.b64encode(secrets.token_bytes(16)).decode()\n\t\tquery = f'?{parsed.query}' if parsed.query else ''\n\t\trequest = (\n\t\t\tf'GET {parsed.path}{query} HTTP/1.1\\r\\n'\n\t\t\tf'Host: {parsed.hostname}:{parsed.port}\\r\\n'\n\t\t\t'Upgrade: websocket\\r\\n'\n\t\t\t'Connection: Upgrade\\r\\n'\n\t\t\tf'Sec-WebSocket-Key: {key}\\r\\n'\n\t\t\t'Sec-WebSocket-Version: 13\\r\\n'\n\t\t\t'Origin: http://127.0.0.1\\r\\n\\r\\n'\n\t\t)\n\t\tself.connection.sendall(request.encode())\n\t\tresponse = b''\n\t\twhile b'\\r\\n\\r\\n' not in response:\n\t\t\tresponse += self.connection.recv(4096)\n\t\theaders, self.buffer = response.split(b'\\r\\n\\r\\n', 1)\n\t\tif b' 101 ' not in headers.split(b'\\r\\n', 1)[0]:\n\t\t\traise RuntimeError(f'WebSocket upgrade failed: {headers[:200]!r}')\n\n\tdef read_exact(self, length):\n\t\twhile len(self.buffer) < length:\n\t\t\tchunk = self.connection.recv(max(4096, length - len(self.buffer)))\n\t\t\tif not chunk:\n\t\t\t\traise RuntimeError('Chrome closed the DevTools socket.')\n\t\t\tself.buffer += chunk\n\t\tresult, self.buffer = self.buffer[:length], self.buffer[length:]\n\t\treturn result\n\n\tdef send_frame(self, opcode, payload=b''):\n\t\tmask = secrets.token_bytes(4)\n\t\theader = bytearray([0x80 | opcode])\n\t\tlength = len(payload)\n\t\tif length < 126:\n\t\t\theader.append(0x80 | length)\n\t\telif length < 65536:\n\t\t\theader.append(0xFE)\n\t\t\theader.extend(struct.pack('!H', length))\n\t\telse:\n\t\t\theader.append(0xFF)\n\t\t\theader.extend(struct.pack('!Q', length))\n\t\tmasked = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))\n\t\tself.connection.sendall(bytes(header) + mask + masked)\n\n\tdef send_text(self, text):\n\t\tself.send_frame(1, text.encode())\n\n\tdef receive_text(self):\n\t\tparts = []\n\t\twhile True:\n\t\t\tfirst, second = self.read_exact(2)\n\t\t\topcode = first & 15\n\t\t\tlength = second & 127\n\t\t\tif length == 126:\n\t\t\t\tlength = struct.unpack('!H', self.read_exact(2))[0]\n\t\t\telif length == 127:\n\t\t\t\tlength = struct.unpack('!Q', self.read_exact(8))[0]\n\t\t\tmask = self.read_exact(4) if second & 128 else None\n\t\t\tpayload = self.read_exact(length)\n\t\t\tif mask:\n\t\t\t\tpayload = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))\n\t\t\tif opcode == 8:\n\t\t\t\traise RuntimeError('Chrome closed the DevTools socket.')\n\t\t\tif opcode == 9:\n\t\t\t\tself.send_frame(10, payload)\n\t\t\t\tcontinue\n\t\t\tif opcode in (0, 1):\n\t\t\t\tparts.append(payload)\n\t\t\t\tif first & 128:\n\t\t\t\t\treturn b''.join(parts).decode()\n\n\nclass DevToolsClient:\n\tdef __init__(self, port):\n\t\tdeadline = time.time() + 20\n\t\ttarget = None\n\t\twhile time.time() < deadline:\n\t\t\ttry:\n\t\t\t\ttargets = json.load(urllib.request.urlopen(f'http://127.0.0.1:{port}/json/list', timeout=1))\n\t\t\t\ttarget = next((item for item in targets if item.get('type') == 'page'), None)\n\t\t\t\tif target:\n\t\t\t\t\tbreak\n\t\t\texcept Exception:\n\t\t\t\tpass\n\t\t\ttime.sleep(.05)\n\t\tif not target:\n\t\t\traise RuntimeError(f'No Chrome page target on port {port}.')\n\t\tself.socket = WebSocketClient(target['webSocketDebuggerUrl'])\n\t\tself.sequence = 0\n\t\tself.events = []\n\n\tdef call(self, method, params=None):\n\t\tself.sequence += 1\n\t\tidentifier = self.sequence\n\t\tself.socket.send_text(json.dumps({'id': identifier, 'method': method, 'params': params or {}}))\n\t\twhile True:\n\t\t\tmessage = json.loads(self.socket.receive_text())\n\t\t\tif message.get('id') == identifier:\n\t\t\t\tif 'error' in message:\n\t\t\t\t\traise RuntimeError(message['error'])\n\t\t\t\treturn message.get('result', {})\n\t\t\tself.events.append(message)\n\n\tdef evaluate(self, expression):\n\t\tresult = self.call('Runtime.evaluate', {\n\t\t\t'expression': expression,\n\t\t\t'returnByValue': True,\n\t\t\t'userGesture': True,\n\t\t})\n\t\tif result.get('exceptionDetails'):\n\t\t\traise RuntimeError(result['exceptionDetails'])\n\t\treturn result.get('result', {}).get('value')\n\n\nAUDIT_EXPRESSION = r'''(() => {\n\tconst transitionClasses = ['is-active', 'is-entering', 'is-leaving', 'from-left', 'from-right', 'to-left', 'to-right'];\n\tconst overflows = (element) => Boolean(element) && (element.scrollWidth > element.clientWidth + 1 || element.scrollHeight > element.clientHeight + 1);\n\tconst normalize = (name) => document.querySelectorAll('[data-studio-page]').forEach((page) => {\n\t\tpage.classList.remove(...transitionClasses);\n\t\tconst active = page.dataset.studioPage === name;\n\t\tpage.hidden = !active;\n\t\tpage.inert = !active;\n\t\tif (active) page.classList.add('is-active');\n\t});\n\tconst pageReports = ['home', 'stage', 'audio', 'sources', 'live', 'setup', 'nle'].map((name) => {\n\t\tnormalize(name);\n\t\tconst page = document.querySelector(`[data-studio-page=\"${name}\"]`);\n\t\tconst critical = [page, ...page.querySelectorAll('.stage-workspace,.audio-lab-grid,.source-deck,.nle-deck,.timeline-real')];\n\t\tconst pageOverflow = critical.filter(overflows).map((element) => element.id || String(element.className));\n\t\tconst deckOverflow = [];\n\t\tfor (const deck of page.querySelectorAll('[data-workspace-deck]')) {\n\t\t\tfor (const button of deck.querySelectorAll(':scope > [data-deck-tabs] [data-deck-target]')) {\n\t\t\t\tbutton.click();\n\t\t\t\tconst stack = deck.querySelector(':scope > [data-deck-stack]');\n\t\t\t\tconst panel = stack?.querySelector('.deck-panel.active');\n\t\t\t\tif ([deck, stack, panel].some(overflows)) {\n\t\t\t\t\tdeckOverflow.push(`${deck.dataset.workspaceDeck}/${button.dataset.deckTarget}`);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn {\n\t\t\tname,\n\t\t\tactiveCount: document.querySelectorAll('.workspace-page.is-active').length,\n\t\t\tpageOverflow,\n\t\t\tdeckOverflow,\n\t\t};\n\t});\n\tnormalize('audio');\n\tdocument.querySelector('[data-workspace-deck=\"audioControls\"] [data-deck-target=\"looks\"]')?.click();\n\tconst modes = [...document.querySelectorAll('.preset-card')].map((button) => {\n\t\tbutton.click();\n\t\treturn document.querySelector('#audioLabModeName')?.textContent || '';\n\t});\n\tconst immersiveButton = document.querySelector('#audioLabImmersive');\n\tif (!document.querySelector('#audioLabSection').classList.contains('is-immersive')) immersiveButton.click();\n\tconst rack = document.querySelector('.audio-control-rack');\n\tconst rackStyle = getComputedStyle(rack);\n\tconst roots = [document.documentElement, document.body, document.querySelector('#appRoot'), document.querySelector('.nesher-shell'), document.querySelector('#studioPage'), document.querySelector('#topNav')];\n\tconst scrollbarElements = [...document.querySelectorAll('*')].filter((element) => {\n\t\tconst style = getComputedStyle(element);\n\t\treturn ['auto', 'scroll'].includes(style.overflowX) || ['auto', 'scroll'].includes(style.overflowY);\n\t}).map((element) => element.id || String(element.className));\n\tconst canvas = document.querySelector('#audioLabCanvas');\n\treturn {\n\t\tviewport: [innerWidth, innerHeight],\n\t\tpageReports,\n\t\trootOverflow: roots.filter(overflows).map((element) => element.id || String(element.className)),\n\t\tscrollbarElements,\n\t\tpresetCount: modes.length,\n\t\tuniqueModes: [...new Set(modes)].length,\n\t\tcanvasBox: [canvas.clientWidth, canvas.clientHeight],\n\t\twebgl2: Boolean(canvas.getContext('webgl2')),\n\t\timmersive: {\n\t\t\tactive: document.querySelector('#audioLabSection').classList.contains('is-immersive'),\n\t\t\tgridOverflow: overflows(document.querySelector('.audio-lab-grid')),\n\t\t\trackWidth: rack.getBoundingClientRect().width,\n\t\t\topacity: rackStyle.opacity,\n\t\t\tpointerEvents: rackStyle.pointerEvents,\n\t\t},\n\t};\n})()'''\n\n\ndef launch_chrome(chrome, port, profile, gpu):\n\tcommand = [\n\t\tchrome,\n\t\t'--headless=new',\n\t\t'--no-first-run',\n\t\t'--no-default-browser-check',\n\t\t'--disable-background-networking',\n\t\t'--disable-background-timer-throttling',\n\t\t'--disable-backgrounding-occluded-windows',\n\t\t'--disable-renderer-backgrounding',\n\t\t'--disable-default-apps',\n\t\t'--disable-extensions',\n\t\t'--disable-sync',\n\t\t'--remote-allow-origins=*',\n\t\t'--remote-debugging-address=127.0.0.1',\n\t\tf'--remote-debugging-port={port}',\n\t\tf'--user-data-dir={profile}',\n\t\t'about:blank',\n\t]\n\tif gpu:\n\t\tcommand[1:1] = ['--disable-gpu-sandbox', '--enable-unsafe-swiftshader', '--use-gl=angle', '--use-angle=swiftshader']\n\telse:\n\t\tcommand.insert(1, '--disable-gpu')\n\treturn subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)\n\n\ndef stop_process(process):\n\ttry:\n\t\tos.killpg(process.pid, signal.SIGTERM)\n\texcept ProcessLookupError:\n\t\treturn\n\ttry:\n\t\tprocess.wait(timeout=3)\n\texcept subprocess.TimeoutExpired:\n\t\tos.killpg(process.pid, signal.SIGKILL)\n\t\tprocess.wait(timeout=3)\n\n\ndef audit_viewport(name, width, height, mobile, port, gpu):\n\tprofile = f'/tmp/nesher-controlled-{name}'\n\tprocess = launch_chrome(os.environ['CHROME'], port, profile, gpu)\n\ttry:\n\t\tclient = DevToolsClient(port)\n\t\tclient.call('Runtime.enable')\n\t\tclient.call('Page.enable')\n\t\tclient.call('Network.enable')\n\t\tclient.call('Log.enable')\n\t\tclient.call('Emulation.setDeviceMetricsOverride', {\n\t\t\t'width': width,\n\t\t\t'height': height,\n\t\t\t'deviceScaleFactor': 1,\n\t\t\t'mobile': mobile,\n\t\t\t'screenWidth': width,\n\t\t\t'screenHeight': height,\n\t\t})\n\t\tclient.call('Page.navigate', {'url': f\"http://127.0.0.1:{os.environ['SERVER_PORT']}/\"})\n\t\tdeadline = time.time() + 30\n\t\twhile time.time() < deadline:\n\t\t\tready = client.evaluate(\"document.readyState==='complete'&&document.querySelectorAll('[data-studio-page]').length===7&&document.querySelectorAll('#audioLabPreset option').length===10&&document.querySelectorAll('.preset-card').length===10\")\n\t\t\tif ready:\n\t\t\t\tbreak\n\t\t\ttime.sleep(.05)\n\t\telse:\n\t\t\traise RuntimeError(f'{name}: application did not reach complete UI state')\n\t\treport = client.evaluate(AUDIT_EXPRESSION)\n\t\tconsole_errors = [event for event in client.events if event.get('method') == 'Runtime.exceptionThrown']\n\t\tconsole_errors += [event for event in client.events if event.get('method') == 'Log.entryAdded' and event.get('params', {}).get('entry', {}).get('level') == 'error']\n\t\tfailed_pages = [page for page in report['pageReports'] if page['activeCount'] != 1 or page['pageOverflow'] or page['deckOverflow']]\n\t\tpassed = (\n\t\t\tnot failed_pages\n\t\t\tand not report['rootOverflow']\n\t\t\tand not report['scrollbarElements']\n\t\t\tand report['presetCount'] == 10\n\t\t\tand report['uniqueModes'] == 10\n\t\t\tand all(value > 0 for value in report['canvasBox'])\n\t\t\tand report['immersive']['active']\n\t\t\tand not report['immersive']['gridOverflow']\n\t\t\tand report['immersive']['rackWidth'] <= 1\n\t\t\tand report['immersive']['opacity'] == '0'\n\t\t\tand report['immersive']['pointerEvents'] == 'none'\n\t\t\tand not console_errors\n\t\t)\n\t\tif gpu and not report['webgl2']:\n\t\t\tpassed = False\n\t\tif not passed:\n\t\t\traise RuntimeError(f'{name}: {json.dumps({\"report\": report, \"consoleErrors\": console_errors})}')\n\t\treturn {\n\t\t\t'viewport': report['viewport'],\n\t\t\t'pages': 7,\n\t\t\t'pageFailures': 0,\n\t\t\t'rootOverflow': 0,\n\t\t\t'scrollbars': [],\n\t\t\t'presets': 10,\n\t\t\t'uniqueModes': 10,\n\t\t\t'canvasBox': report['canvasBox'],\n\t\t\t'webgl2': report['webgl2'],\n\t\t\t'immersiveRackWidth': report['immersive']['rackWidth'],\n\t\t\t'consoleErrors': 0,\n\t\t}\n\tfinally:\n\t\tstop_process(process)\n\n\napp = Path(os.environ['APP'])\nviewports = [\n\t('desktop', 1200, 683, False, False),\n\t('phone_portrait', 390, 844, True, False),\n\t('phone_landscape', 844, 390, True, False),\n\t('short_desktop', 1024, 600, False, False),\n\t('desktop_gpu', 1200, 683, False, True),\n]\nsummary = {}\nfor index, (name, width, height, mobile, gpu) in enumerate(viewports):\n\tsummary[name] = audit_viewport(name, width, height, mobile, 9450 + index, gpu)\n(app / 'tests/.final-controlled-browser-audit.txt').write_text(\n\t'B\"H FINAL CONTROLLED BROWSER AUDIT\\n' + json.dumps(summary, indent=2) + '\\n',\n\tencoding='utf-8',\n)\nprint(json.dumps(summary, indent=2))\nPY\nAPP=\"$APP\" CHROME=\"$CHROME\" SERVER_PORT=\"$PORT\" python3 \"$SCRIPT\"\ncat tests/.final-controlled-browser-audit.txt",
+  "cwd": "/Users/awtsmoos/Documents",
+  "shell": "/bin/sh",
+  "timeoutMs": 300000,
+  "deadlineAt": "2026-07-21T17:10:02.465Z",
+  "leaseExpiresAt": "2026-07-21T17:10:02.465Z",
+  "status": "failed",
+  "startedAt": "2026-07-21T17:05:02.465Z",
+  "updatedAt": "2026-07-21T17:06:03.101Z",
+  "stdoutChars": 0,
+  "stderrChars": 989,
+  "processIdentity": {
+    "pid": 92070,
+    "processGroupId": 92070,
+    "birthToken": "0e28c04ec3ed9cb54ad69c84852d528d245c8e21ddc00f94033509458ac92b83",
+    "platform": "darwin",
+    "observedAt": "2026-07-21T17:05:02.660Z"
+  },
+  "cleanup": null,
+  "correlation": {
+    "tunnelName": "awt-awtsmoos-16364",
+    "requestedTunnelName": "awt-awtsmoos-16364",
+    "controlRequestId": "req_1784653502996_cf3sd6msud"
+  },
+  "worker": {
+    "tunnelName": "awt-awtsmoos-16364",
+    "requestedTunnelName": "awt-awtsmoos-16364",
+    "workerId": "worker_mruwm7lr_644f7fdf90",
+    "jobId": "cmdjob_mruwm7lr_c31e1921def6",
+    "controlRequestId": "req_1784653502996_cf3sd6msud",
+    "startedAt": "2026-07-21T17:05:02.465Z",
+    "protocol": "awtsmoos-worker-v1",
+    "kind": "subprocess",
+    "state": "failed",
+    "pid": 92070,
+    "processGroupId": 92070,
+    "birthToken": "0e28c04ec3ed9cb54ad69c84852d528d245c8e21ddc00f94033509458ac92b83",
+    "platform": "darwin",
+    "isolation": "process-group-stdio-stream-files",
+    "timeoutMs": 300000,
+    "heartbeatAt": "2026-07-21T17:06:03.082Z",
+    "finishedAt": "2026-07-21T17:06:03.082Z",
+    "exitCode": 1,
+    "detached": false,
+    "cancelable": true
+  },
+  "receipt": {
+    "receiptId": "receipt_mruwm7lr_3b4ad725d4",
+    "jobId": "cmdjob_mruwm7lr_c31e1921def6",
+    "workerId": "worker_mruwm7lr_644f7fdf90",
+    "action": "commandStart",
+    "requestAction": "commandRun",
+    "actualAction": "commandStart",
+    "controlRequestId": "req_1784653502996_cf3sd6msud",
+    "state": "failed",
+    "createdAt": "2026-07-21T17:05:02.465Z",
+    "safeToReplay": false,
+    "updatedAt": "2026-07-21T17:06:03.082Z",
+    "pid": 92070,
+    "processGroupId": 92070,
+    "birthToken": "0e28c04ec3ed9cb54ad69c84852d528d245c8e21ddc00f94033509458ac92b83",
+    "heartbeatAt": "2026-07-21T17:05:02.465Z",
+    "exitCode": 1,
+    "signal": null
+  },
+  "storage": {
+    "backend": "device-file",
+    "outsideProject": true,
+    "folder": "/Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruwm7lr_c31e1921def6"
+  },
+  "ownerId": "req_1784653502996_cf3sd6msud",
+  "commandHash": "258ba031ebf440dd18200301545f9ae01990dfe17c582a757d23e195fdbacb2c",
+  "queue": {
+    "ownerId": "req_1784653502996_cf3sd6msud",
+    "queuedAt": "2026-07-21T17:05:02.465Z"
+  },
+  "pid": 92070,
+  "processGroupId": 92070,
+  "platform": "darwin",
+  "birthToken": "0e28c04ec3ed9cb54ad69c84852d528d245c8e21ddc00f94033509458ac92b83",
+  "heartbeatAt": "2026-07-21T17:05:28.954Z",
+  "exitCode": 1,
+  "signal": null,
+  "finishedAt": "2026-07-21T17:06:03.082Z",
+  "cost": {
+    "wallMs": 60617,
+    "outputBytes": 0
+  }
+}

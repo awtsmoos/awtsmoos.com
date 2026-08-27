@@ -1,0 +1,96 @@
+/*B"H
+  Chapter 14: The Embedded River Stopped Wasting Breath.
+
+  The Awtsmoos keeps /apps/code AI chat-first. The empty chamber now shows an
+  invitation card, while composer and suggestions sit low without making the
+  rest of the pane feel broken.
+*/
+body.is-awtsmoos-embedded-ai{background:#020611}
+body.is-awtsmoos-embedded-ai .mobile-app-crown,
+body.is-awtsmoos-embedded-ai .mobile-bottom-dock,
+body.is-awtsmoos-embedded-ai .desktop-shell-left,
+body.is-awtsmoos-embedded-ai .desktop-shell-right{display:none!important}
+body.is-awtsmoos-embedded-ai .container{
+  display:grid;
+  width:100vw;
+  height:100dvh;
+  padding:0;
+  gap:0;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-areas:"main"!important;
+  background:linear-gradient(180deg,#050b18,#020611);
+  overflow:hidden;
+}
+body.is-awtsmoos-embedded-ai #left-resizer,
+body.is-awtsmoos-embedded-ai #right-resizer,
+body.is-awtsmoos-embedded-ai #composer-resizer,
+body.is-awtsmoos-embedded-ai .sidebar,
+body.is-awtsmoos-embedded-ai .automation-panel{display:none!important}
+body.is-awtsmoos-embedded-ai .main{
+  grid-area:main;
+  position:relative;
+  inset:auto;
+  width:100%;
+  max-width:none;
+  height:100dvh;
+  min-width:0;
+  min-height:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  grid-template-areas:"control" "chat" "composer";
+  transform:none;
+  opacity:1;
+  pointer-events:auto;
+  filter:none;
+  overflow:hidden;
+}
+body.is-awtsmoos-embedded-ai .transport-status{grid-area:control;min-height:0;max-height:0;margin:0;padding:0;border:0;opacity:0;overflow:hidden}
+body.is-awtsmoos-embedded-ai .mobile-control-center{
+  grid-area:control;
+  display:block;
+  margin:10px 12px 6px;
+  border:1px solid rgba(148,163,184,.16);
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(10,18,32,.88),rgba(4,9,20,.94));
+  box-shadow:0 14px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.045);
+  overflow:hidden;
+}
+body.is-awtsmoos-embedded-ai .mobile-control-center summary{min-height:44px;display:grid;grid-template-columns:14px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 12px;list-style:none;cursor:pointer}
+body.is-awtsmoos-embedded-ai .mobile-control-center summary::-webkit-details-marker{display:none}
+body.is-awtsmoos-embedded-ai .mobile-control-center strong{display:inline;color:#f8fbff;font-size:14px;margin-right:8px}
+body.is-awtsmoos-embedded-ai .mobile-control-center em{color:#9fb0c8;font-style:normal;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.is-awtsmoos-embedded-ai .mobile-control-provider-name{max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.is-awtsmoos-embedded-ai .mobile-control-body{display:grid;grid-template-columns:minmax(220px,1fr) auto auto;gap:8px;padding:0 10px 10px}
+body.is-awtsmoos-embedded-ai .mobile-control-body label{display:grid;gap:5px;color:#9fb0c8;font-size:11px;font-weight:900}
+body.is-awtsmoos-embedded-ai .mobile-control-provider,
+body.is-awtsmoos-embedded-ai .mobile-control-body button{min-height:34px;border:1px solid rgba(125,211,252,.18);border-radius:12px;background:rgba(2,8,20,.72);color:#e6fbff;font-weight:900;padding:6px 9px}
+body.is-awtsmoos-embedded-ai .mobile-control-dot{width:11px;height:11px;border-radius:999px;background:#fbbf24;box-shadow:0 0 16px rgba(251,191,36,.50)}
+body.is-awtsmoos-embedded-ai .mobile-control-dot[data-state="ready"]{background:#4ade80;box-shadow:0 0 0 7px rgba(74,222,128,.10),0 0 18px rgba(74,222,128,.34)}
+body.is-awtsmoos-embedded-ai .mobile-control-dot[data-state="missing"]{background:#fb7185;box-shadow:0 0 0 7px rgba(251,113,133,.10),0 0 18px rgba(251,113,133,.34)}
+body.is-awtsmoos-embedded-ai .chat-box{
+  grid-area:chat;
+  min-height:0;
+  width:100%;
+  padding:18px clamp(18px,4vw,54px) 176px;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  background:radial-gradient(circle at 50% 0,rgba(124,58,237,.08),transparent 38%),linear-gradient(180deg,rgba(4,9,20,.30),rgba(2,6,17,.70));
+}
+body.is-awtsmoos-embedded-ai .message,
+body.is-awtsmoos-embedded-ai .bubble{max-width:min(920px,86%);font-size:15px;line-height:1.62;border-color:rgba(148,163,184,.15);border-radius:24px;background:linear-gradient(180deg,rgba(13,24,42,.95),rgba(6,13,26,.97));box-shadow:0 14px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.045);color:#e6edf7}
+body.is-awtsmoos-embedded-ai .user-message,
+body.is-awtsmoos-embedded-ai .message.user{align-self:flex-end;background:linear-gradient(135deg,rgba(74,35,145,.94),rgba(39,32,74,.96));border-color:rgba(168,85,247,.24);color:#f8f5ff}
+body.is-awtsmoos-embedded-ai .input-area{grid-area:composer;position:absolute;left:clamp(12px,3vw,44px);right:clamp(12px,3vw,44px);bottom:14px;display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:10px;align-items:end;padding:10px;min-height:68px;border:1px solid rgba(148,163,184,.18);border-radius:22px;background:rgba(3,8,17,.97);box-shadow:0 18px 46px rgba(0,0,0,.50),inset 0 1px 0 rgba(255,255,255,.045);backdrop-filter:blur(18px);z-index:80}
+body.is-awtsmoos-embedded-ai #message-input{min-height:48px;max-height:128px;resize:none;border-radius:16px;padding:12px 14px;font-size:15px;background:rgba(11,21,38,.94);border:1px solid rgba(148,163,184,.18);color:#f8fafc}
+body.is-awtsmoos-embedded-ai #send-button{min-height:48px;border-radius:16px;font-size:0;background:linear-gradient(135deg,#7c3aed,#5b21b6);border:1px solid rgba(196,181,253,.30);box-shadow:0 12px 28px rgba(124,58,237,.30)}
+body.is-awtsmoos-embedded-ai #send-button::after{content:"➤";font-size:22px}
+body.is-awtsmoos-embedded-ai .mobile-suggestion-rail{position:absolute;left:clamp(14px,3vw,46px);right:clamp(14px,3vw,46px);bottom:92px;display:flex;gap:8px;overflow:auto;padding:2px 0 4px;z-index:78;scrollbar-width:none}
+body.is-awtsmoos-embedded-ai .mobile-suggestion-rail::-webkit-scrollbar{display:none}
+body.is-awtsmoos-embedded-ai .mobile-suggestion-rail button{flex:0 0 auto;min-height:34px;padding:7px 12px;border:1px solid rgba(192,132,252,.26);border-radius:999px;background:rgba(21,13,43,.72);color:#d8b4fe;font-weight:850}
+body.is-awtsmoos-embedded-ai .attachment-tools{position:absolute;right:clamp(20px,4vw,58px);bottom:92px;z-index:79;border-radius:999px;background:rgba(2,8,20,.72);backdrop-filter:blur(12px)}

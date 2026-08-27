@@ -1,0 +1,52 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives measured sound a visible pulse; Awtsmoos.com renders range accents and four frequency meters while leaving preset composition to its neighboring vessel.
+*/
+.audio-control-rack output {
+	float: right;
+	color: var(--cyan);
+}
+
+.audio-control-rack input[type="range"] {
+	min-height: 28px;
+	padding: 0;
+	accent-color: rgb(var(--audio-primary));
+}
+
+.frequency-meters {
+	display: grid;
+	gap: 8px;
+	align-content: center;
+	min-height: 0;
+}
+
+.frequency-meters div {
+	display: grid;
+	grid-template-columns: 52px 1fr;
+	align-items: center;
+	gap: 8px;
+	color: var(--muted);
+	font-size: .67rem;
+}
+
+.frequency-meters div::after {
+	grid-column: 2;
+	grid-row: 1;
+	height: 7px;
+	content: "";
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .08);
+}
+
+.frequency-meters i {
+	grid-column: 2;
+	grid-row: 1;
+	z-index: 1;
+	width: 0;
+	height: 7px;
+	border-radius: 999px;
+	background: linear-gradient(90deg, rgb(var(--audio-primary)), rgb(var(--audio-secondary)));
+	box-shadow: 0 0 12px rgba(var(--audio-primary), .45);
+	transition: width 60ms linear;
+}

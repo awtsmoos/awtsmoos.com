@@ -1,0 +1,22 @@
+/* B"H */
+@layer awt.views {
+  .awt-obedience-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  }
+  .awt-obedience-card {
+    border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+    border-radius: 18px;
+    padding: 14px;
+  }
+  .awt-obedience-card span {
+    display: block;
+    font-size: .75rem;
+    letter-spacing: .12em;
+    opacity: .7;
+    text-transform: uppercase;
+  }
+  .awt-obedience-card strong { display: block; margin: 6px 0; }
+  .awt-obedience-card p { margin: 0; opacity: .75; }
+}

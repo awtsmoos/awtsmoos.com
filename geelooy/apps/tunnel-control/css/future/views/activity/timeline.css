@@ -1,0 +1,54 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews every deed in order; Awtsmoos.com gives the live timeline a bounded readable vessel. */
+
+.awt-activity-timeline {
+	min-width: 0;
+	border: 1px solid color-mix(in srgb, var(--awt-muted, #aebbc5) 16%, transparent);
+	border-radius: 1rem;
+	background: color-mix(in srgb, var(--awt-panel, #101820) 78%, transparent);
+	overflow: hidden;
+}
+
+.awt-activity-timeline__header {
+	display: flex;
+	align-items: start;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.95rem 1rem;
+	border-bottom: 1px solid color-mix(in srgb, var(--awt-muted, #aebbc5) 14%, transparent);
+}
+
+.awt-activity-timeline__header h3 {
+	margin: 0.15rem 0 0;
+	font-size: 1rem;
+}
+
+.awt-activity-timeline__status {
+	margin: 0;
+	font-size: 0.72rem;
+	color: var(--awt-muted, #aebbc5);
+	text-align: right;
+}
+
+.awt-activity-timeline__list {
+	display: grid;
+	gap: 0;
+	max-height: 45rem;
+	overflow: auto;
+	scrollbar-gutter: stable;
+}
+
+.awt-activity-timeline__gap,
+.awt-activity-timeline__empty {
+	margin: 0;
+	padding: 1rem;
+	font-size: 0.8rem;
+	color: var(--awt-muted, #aebbc5);
+}
+
+.awt-activity-timeline__gap {
+	background: color-mix(in srgb, var(--awt-warning, #ffcf70) 10%, transparent);
+	color: var(--awt-warning, #ffcf70);
+}

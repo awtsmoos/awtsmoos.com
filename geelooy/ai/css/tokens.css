@@ -1,0 +1,64 @@
+/*B"H*/
+:root {
+  --ai-bg: #030713;
+  --ai-bg-2: #071222;
+  --ai-panel: rgba(8, 17, 31, 0.82);
+  --ai-panel-2: rgba(15, 29, 50, 0.74);
+  --ai-glass: rgba(255, 255, 255, 0.06);
+  --ai-border: rgba(151, 205, 255, 0.16);
+  --ai-border-hot: rgba(121, 225, 255, 0.58);
+  --ai-text: #f5fbff;
+  --ai-muted: #a9bad0;
+  --ai-faint: #68788c;
+  --ai-user: linear-gradient(135deg, #1d7cff, #35d6ff);
+  --ai-assistant: linear-gradient(145deg, rgba(13, 24, 43, .95), rgba(4, 9, 18, .98));
+  --ai-tool: #b281ff;
+  --ai-thinking: #66e7b4;
+  --ai-status: #ffd166;
+  --ai-raw: #8ea4c8;
+  --ai-good: #2ff0a0;
+  --ai-warn: #ffd166;
+  --ai-bad: #ff5d7a;
+  --ai-glow: 0 22px 90px rgba(46, 164, 255, 0.22);
+  --ai-hot-glow: 0 0 38px rgba(84, 222, 255, .20);
+  --ai-radius: 24px;
+  --ai-radius-sm: 15px;
+  --ai-gap: 14px;
+  --ai-sidebar: clamp(238px, 21vw, 344px);
+  --ai-right: clamp(228px, 20vw, 330px);
+  --ai-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  color: var(--ai-text);
+  background: var(--ai-bg);
+  font-family: var(--ai-font);
+  text-rendering: geometricPrecision;
+}
+body::before, body::after {
+  content: "";
+  position: fixed;
+  pointer-events: none;
+  inset: -25%;
+}
+body::before {
+  background:
+    radial-gradient(circle at 7% 10%, rgba(47, 240, 160, .14), transparent 24%),
+    radial-gradient(circle at 88% 16%, rgba(42, 141, 255, .20), transparent 29%),
+    radial-gradient(circle at 50% 100%, rgba(178, 129, 255, .13), transparent 30%),
+    linear-gradient(135deg, #02050d, #0a1626 48%, #030611);
+}
+body::after {
+  opacity: .18;
+  background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at center, black, transparent 70%);
+}
+button, select, textarea { font: inherit; }
+button, select { color: var(--ai-text); }
+::selection { background: rgba(83, 216, 255, .36); }

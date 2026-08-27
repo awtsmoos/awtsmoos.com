@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-mitzvah-pushkuh-8cd09b5d",
+	"path": "geelooy/apps/mitzvah-pushkuh",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Mitzvah Pushkuh · Garden of Sparks",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/mitzvah-pushkuh/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-mitzvah-pushkuh-8cd09b5d.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 140,
+		"tests": 7,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 2
+	},
+	"totalFiles": 150,
+	"symbolSummary": {
+		"files": 131,
+		"classes": 0,
+		"functions": 361,
+		"exports": 181,
+		"samples": [
+			"setRitual",
+			"setFilter",
+			"refresh",
+			"async",
+			"plant",
+			"open",
+			"mutate",
+			"relightSelected",
+			"persist",
+			"seed",
+			"bindGarden",
+			"startGarden"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/mitzvah-pushkuh",
+			"file": "geelooy/apps/mitzvah-pushkuh/index.html",
+			"title": "Mitzvah Pushkuh · Garden of Sparks",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

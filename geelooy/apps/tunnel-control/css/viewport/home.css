@@ -1,0 +1,104 @@
+/* B"H */
+/**
+ * The Awtsmoos clears the landing field until only application doors remain.
+ * Awtsmoos.com keeps the launcher in the final unlayered covenant, above generic
+ * button and div defaults that once dissolved its grid into an accidental line.
+ */
+.awt-dashboard {
+	width: 100%;
+	height: 100%;
+	min-width: 0;
+	min-height: 0;
+	display: grid;
+	place-items: center;
+	padding: clamp(10px, 2vw, 24px);
+	background: radial-gradient(circle at 12% 0, rgba(47, 231, 122, .07), transparent 28%), radial-gradient(circle at 88% 4%, rgba(40, 124, 255, .11), transparent 32%), var(--awt-main-bg);
+	overflow: hidden;
+}
+
+.awt-launcher-grid {
+	width: min(100%, 1120px);
+	max-height: 100%;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+	gap: clamp(8px, 1.4vw, 16px);
+	place-content: center;
+	overflow: hidden;
+}
+
+.awt-launcher-tile {
+	min-width: 0;
+	min-height: 88px;
+	display: grid;
+	grid-template-rows: auto minmax(2.2em, auto);
+	gap: 7px;
+	place-items: center;
+	padding: clamp(7px, 1.2vw, 13px);
+	border: 1px solid rgba(125, 184, 255, .16);
+	border-radius: 20px;
+	color: var(--awt-ink);
+	background: linear-gradient(150deg, rgba(18, 41, 72, .76), rgba(8, 20, 37, .86));
+	box-shadow: 0 12px 28px rgba(0, 0, 0, .18);
+	cursor: pointer;
+	transition: transform var(--awt-fast), border-color var(--awt-fast), background var(--awt-fast);
+}
+
+.awt-launcher-tile:hover,
+.awt-launcher-tile:focus-visible {
+	transform: translateY(-3px);
+	border-color: rgba(94, 220, 255, .55);
+	background: linear-gradient(150deg, rgba(26, 58, 98, .9), rgba(10, 28, 51, .94));
+}
+
+.awt-launcher-tile:focus-visible {
+	outline: 3px solid rgba(94, 220, 255, .7);
+	outline-offset: 3px;
+}
+
+.awt-launcher-icon {
+	display: grid;
+	place-items: center;
+	width: clamp(40px, 5vw, 58px);
+	height: clamp(40px, 5vw, 58px);
+	border-radius: 18px;
+	color: var(--awt-icon-blue);
+	background: rgba(40, 124, 255, .13);
+}
+
+.awt-launcher-icon svg {
+	width: 60%;
+	height: 60%;
+}
+
+.awt-launcher-label {
+	max-width: 100%;
+	display: -webkit-box;
+	overflow: hidden;
+	font-size: clamp(.68rem, 1vw, .82rem);
+	line-height: 1.1;
+	text-align: center;
+	overflow-wrap: anywhere;
+	white-space: normal;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.awt-launcher-tile.is-ai .awt-launcher-icon {
+	color: #8df0c1;
+	background: rgba(47, 231, 122, .12);
+}
+
+.awt-launcher-tile.is-automation .awt-launcher-icon {
+	color: #9bd7ff;
+	background: rgba(52, 143, 255, .15);
+}
+
+.awt-launcher-tile.is-files .awt-launcher-icon {
+	color: #ffd182;
+	background: rgba(255, 184, 77, .12);
+}
+
+.awt-launcher-tile.is-system .awt-launcher-icon {
+	color: #c7a8ff;
+	background: rgba(162, 105, 255, .13);
+}

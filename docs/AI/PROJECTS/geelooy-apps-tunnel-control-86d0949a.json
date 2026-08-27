@@ -1,0 +1,102 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-tunnel-control-86d0949a",
+	"path": "geelooy/apps/tunnel-control",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Tunnel Control",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/tunnel-control/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-control-86d0949a.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 409,
+		"tests": 49,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 5
+	},
+	"totalFiles": 465,
+	"symbolSummary": {
+		"files": 320,
+		"classes": 11,
+		"functions": 1375,
+		"exports": 675,
+		"samples": [
+			"TARGETS",
+			"regenerateDocument",
+			"regenerateTarget",
+			"renderScopeTail",
+			"run",
+			"async",
+			"detectLogin",
+			"me",
+			"device",
+			"myDevice",
+			"devices",
+			"activeDevice"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 2,
+			"examples": "geelooy/apps/tunnel-control/js/runtime/mesh/runtimeAdapters.js; geelooy/apps/tunnel-control/js/runtime/mesh/virtualFilesystem.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel-control/gpt/generate-oauth-scopes.cjs"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/os",
+			"count": 3,
+			"examples": "geelooy/os/programs/connected-node-server/tunnelClient.js; geelooy/os/programs/peruta-usage/api.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/tunnel-control",
+			"file": "geelooy/apps/tunnel-control/index.html",
+			"title": "Awtsmoos Tunnel Control",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/apps/tunnel-control/tests/activity-preview",
+			"file": "geelooy/apps/tunnel-control/tests/activity-preview/index.html",
+			"title": "Tunnel Activity Visual Proof",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/apps/tunnel-control/tests/device-security-preview",
+			"file": "geelooy/apps/tunnel-control/tests/device-security-preview/index.html",
+			"title": "Verified Device Security Preview",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

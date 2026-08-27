@@ -1,0 +1,58 @@
+/*B"H
+  Chapter 80: The Buttons Stood On A Cliff Of Their Own.
+  Long headers may flow like thunder into another line, but the three chrome
+  buttons remain a fixed rail, untouched by the title's hunger.
+*/
+.transport-details > summary,
+.thought-envelope-card > summary,
+.thought-envelope-events > summary {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 0.55rem;
+}
+
+.transport-details,
+.thought-envelope-card {
+  position: relative;
+}
+
+.transport-details > .event-panel-actions,
+.thought-envelope-card > .event-panel-actions {
+  position: absolute;
+  inset-block-start: 0.55rem;
+  inset-inline-end: 0.55rem;
+  z-index: 5;
+}
+
+.transport-details > summary,
+.thought-envelope-card > summary {
+  padding-inline-end: 6.8rem !important;
+}
+
+.event-summary-title,
+.event-title-wrap {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.event-panel-actions {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  flex: 0 0 auto;
+  min-width: max-content;
+  align-self: start;
+  grid-column: 2;
+}
+
+.event-panel-actions button {
+  width: 1.85rem !important;
+  height: 1.85rem !important;
+  min-width: 1.85rem !important;
+  min-height: 1.85rem !important;
+  flex: 0 0 1.85rem !important;
+  line-height: 1;
+}

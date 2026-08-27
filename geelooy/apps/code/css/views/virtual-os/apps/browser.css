@@ -1,0 +1,98 @@
+
+/* B"H */
+
+.vos-browser-app,
+.browser-runtime {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    background: #000;
+    color: var(--vos-text);
+    font-family: var(--font-code, monospace);
+}
+
+.vos-browser-toolbar,
+.browser-runtime-toolbar {
+    min-height: 40px;
+    display: grid;
+    grid-template-columns: auto auto auto 1fr auto auto;
+    gap: 6px;
+    align-items: center;
+    padding: 6px;
+    border-bottom: 1px solid rgba(0,246,255,0.26);
+    background: rgba(9, 18, 36, 0.95);
+}
+
+.vos-browser-address,
+.browser-runtime-address {
+    width: 100%;
+}
+
+.vos-browser-frame-wrap,
+.browser-runtime-frame-wrap {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    background: #02050a;
+}
+
+.vos-browser-app.has-console .vos-browser-frame-wrap,
+.browser-runtime.has-console .browser-runtime-frame-wrap {
+    grid-template-columns: 1fr minmax(220px, 32%);
+}
+
+.vos-browser-frame,
+.browser-runtime-frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #fff;
+}
+
+.vos-browser-console,
+.browser-runtime-console {
+    display: none;
+    border-left: 1px solid rgba(0,246,255,0.28);
+    background: #030711;
+    color: #c8ffd8;
+    overflow: auto;
+    font-size: 11px;
+}
+
+.vos-browser-app.has-console .vos-browser-console,
+.browser-runtime.has-console .browser-runtime-console {
+    display: block;
+}
+
+.vos-browser-console-head,
+.browser-runtime-console-head {
+    padding: 7px;
+    background: rgba(0,246,255,0.1);
+    color: var(--vos-cyan);
+    border-bottom: 1px solid rgba(0,246,255,0.22);
+    font-weight: 900;
+}
+
+.vos-browser-console-lines,
+.browser-runtime-console-lines {
+    padding: 8px;
+    white-space: pre-wrap;
+}
+
+.vos-browser-console-line,
+.browser-runtime-console-line {
+    margin-bottom: 5px;
+    line-height: 1.35;
+}
+
+.vos-browser-console-line.error,
+.browser-runtime-console-line.error {
+    color: #ff9c9c;
+}
+
+.vos-browser-console-line.warn,
+.browser-runtime-console-line.warn {
+    color: #ffe78a;
+}

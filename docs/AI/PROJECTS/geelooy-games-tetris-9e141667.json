@@ -1,0 +1,68 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-tetris-9e141667",
+	"path": "geelooy/games/tetris",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Tikkun HaOlam - The Final Rectification",
+	"entries": [
+		"index.html",
+		"main.js"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-tetris-9e141667.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 8,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 8,
+	"symbolSummary": {
+		"files": 6,
+		"classes": 10,
+		"functions": 9,
+		"exports": 0,
+		"samples": [
+			"AIEngine",
+			"Effect",
+			"Shard",
+			"CharacterParticle",
+			"LightningBolt",
+			"EffectsEngine",
+			"Starfield",
+			"SeededRandom",
+			"GameInstance",
+			"BackgroundFX",
+			"startGame",
+			"initCanvasesAndWorker"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/tetris",
+			"file": "geelooy/games/tetris/index.html",
+			"title": "Tikkun HaOlam - The Final Rectification",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { createTimeline, addClip, splitClip, trimClip, rippleDeleteClip, timelineSummary } from '../modules/nle/timeline.js';
+const timeline = createTimeline({ tracks:[{ id:'video-1', name:'Video 1', kind:'video', clips:[] }] });
+const clip = addClip(timeline, { id:'c1', duration:8 });
+trimClip(timeline, 'c1', { duration:6 });
+const pair = splitClip(timeline, 'c1', 3);
+assert.equal(pair.length, 2);
+rippleDeleteClip(timeline, pair[0].id);
+assert.equal(timelineSummary(timeline).clips, 1);
+console.log('B"H nle timeline commands smoke passed');

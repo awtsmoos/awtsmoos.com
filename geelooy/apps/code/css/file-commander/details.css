@@ -1,0 +1,60 @@
+
+/* B"H - FILE COMMANDER DETAILS VIEW */
+
+.fc-sort-bar {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1.5fr;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg-secondary);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-size: 0.9em;
+    cursor: pointer;
+    user-select: none;
+}
+.fc-sort-bar div:hover {
+    color: var(--neon-cyan);
+}
+
+.fc-content.details-view {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.fc-content.details-view .fc-item {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1.5fr;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding: 8px 16px;
+    border-radius: 0;
+    border-bottom: 1px solid var(--color-bg-secondary);
+    height: 40px;
+}
+
+.fc-content.details-view .fc-item .fc-icon {
+    display: none; /* Hide large icon in details */
+}
+
+.fc-content.details-view .fc-col-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.fc-content.details-view .fc-col-name svg {
+    font-size: 1.2em;
+    color: var(--color-text-tertiary);
+}
+
+.fc-content.details-view .fc-col-size,
+.fc-content.details-view .fc-col-date {
+    font-family: var(--font-code);
+    font-size: 0.85em;
+    color: var(--color-text-tertiary);
+}

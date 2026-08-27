@@ -1,0 +1,91 @@
+/*B"H
+  Chapter 319: The Menu Learned The Difference Between Cloud And River.
+
+  Desktop may open the tab chooser as a small cloud. Mobile keeps the chooser in
+  normal flow. The Awtsmoos forbids the menu from becoming a ghost over fields.
+*/
+#automation-panel .right-menu{
+  position:relative;
+  z-index:20;
+  margin:12px 12px 0;
+}
+#automation-panel .right-menu>summary{
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 14px;
+  list-style:none;
+  border:1px solid rgba(74,222,222,.36);
+  border-radius:16px;
+  cursor:pointer;
+  background:linear-gradient(135deg,rgba(8,18,34,.94),rgba(10,32,52,.88));
+  color:#f0fbff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+#automation-panel .right-menu>summary::-webkit-details-marker{display:none}
+#automation-panel .hamburger-bars{
+  font-size:1.2rem;
+  line-height:1;
+}
+#automation-panel .right-menu-current{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+#automation-panel .right-menu>summary::after{
+  content:"›";
+  margin-left:auto;
+}
+#automation-panel .right-tabs{
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+  z-index:60;
+  width:min(360px,calc(100vw - 38px));
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+  padding:10px;
+  border:1px solid rgba(74,222,222,.28);
+  border-radius:16px;
+  background:rgba(3,11,24,.96);
+  box-shadow:0 22px 50px rgba(0,0,0,.42);
+}
+#automation-panel .right-menu:not([open]) .right-tabs{display:none}
+#automation-panel .right-tabs button{
+  min-height:42px;
+  padding:0 12px;
+  text-align:left;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+@media(max-width:900px){
+  #automation-panel .right-menu{
+    z-index:6;
+    margin:10px 10px 0;
+  }
+  #automation-panel .right-menu[open]{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  #automation-panel .right-menu>summary{
+    flex:0 0 auto;
+  }
+  #automation-panel .right-tabs{
+    position:static;
+    inset:auto;
+    z-index:auto;
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
+    box-shadow:none;
+  }
+  #automation-panel .right-tabs button{
+    min-height:44px;
+    white-space:normal;
+  }
+}

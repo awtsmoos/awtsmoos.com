@@ -1,0 +1,97 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-public-72540595",
+	"path": "geelooy/public",
+	"type": "project",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/public",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/public/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-public-72540595.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 8,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 9,
+		"other": 0
+	},
+	"totalFiles": 17,
+	"symbolSummary": null,
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/public/virtual-os-games/crystal-1780372754759",
+			"file": "geelooy/public/virtual-os-games/crystal-1780372754759/index.html",
+			"title": "Crystal Critters",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/public/virtual-os-games/crystal-1780372758361",
+			"file": "geelooy/public/virtual-os-games/crystal-1780372758361/index.html",
+			"title": "Crystal Critters",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/public/virtual-os-games/crystal-1780373501785-improved",
+			"file": "geelooy/public/virtual-os-games/crystal-1780373501785-improved/index.html",
+			"title": "Crystal Critters: Awakened Cave",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/public/virtual-os-games/crystal-1780373505136-improved",
+			"file": "geelooy/public/virtual-os-games/crystal-1780373505136-improved/index.html",
+			"title": "Crystal Critters: Awakened Cave",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/public/virtual-os-games/crystal-1780373765713-swarm-v2",
+			"file": "geelooy/public/virtual-os-games/crystal-1780373765713-swarm-v2/index.html",
+			"title": "Crystal Critters: Thumb-Safe Swarm",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/public/virtual-os-games/crystal-1780373769185-swarm-v2",
+			"file": "geelooy/public/virtual-os-games/crystal-1780373769185-swarm-v2/index.html",
+			"title": "Crystal Critters: Thumb-Safe Swarm",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/public/virtual-os-games/crystal-1780374109835-clean-mobile",
+			"file": "geelooy/public/virtual-os-games/crystal-1780374109835-clean-mobile/index.html",
+			"title": "Crystal Critters: Clean Mobile",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/public/virtual-os-games/crystal-1780374112967-clean-mobile",
+			"file": "geelooy/public/virtual-os-games/crystal-1780374112967-clean-mobile/index.html",
+			"title": "Crystal Critters: Clean Mobile",
+			"scripts": 0,
+			"styles": 0
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

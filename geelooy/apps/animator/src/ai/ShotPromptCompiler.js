@@ -1,0 +1,2 @@
+// B"H
+export class ShotPromptCompiler { static compile(text = '') { const t = String(text).toLowerCase(); return { autoShot: true, shotIntent: t.includes('food') || t.includes('object') || t.includes('apple') ? 'foodAction' : t.includes('reaction') ? 'reaction' : t.includes('group') ? 'group' : t.includes('dramatic') ? 'emotion' : 'dialogue', angleIntent: t.includes('power') ? 'power' : t.includes('confus') ? 'confusion' : 'clarity', movementIntent: t.includes('push') || t.includes('dramatic') ? 'pushIn' : t.includes('follow') ? 'follow' : 'static' }; } }

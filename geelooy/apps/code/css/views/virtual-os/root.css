@@ -1,0 +1,68 @@
+
+/* B"H */
+
+#virtual-os-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: #030711;
+}
+
+#virtual-os-wrapper:not(.hidden) {
+    display: block;
+    visibility: visible;
+}
+
+.virtual-os-root {
+    --vos-bg-main:
+        radial-gradient(circle at 18% 12%, rgba(0, 246, 255, 0.18), transparent 24%),
+        radial-gradient(circle at 78% 22%, rgba(255, 0, 212, 0.16), transparent 28%),
+        radial-gradient(circle at 50% 90%, rgba(122, 92, 255, 0.22), transparent 42%),
+        linear-gradient(135deg, #07101f, #050713 52%, #10051e);
+    --vos-panel: rgba(7, 13, 28, 0.95);
+    --vos-panel-soft: rgba(10, 21, 42, 0.74);
+    --vos-border: rgba(0, 246, 255, 0.38);
+    --vos-border-strong: rgba(0, 246, 255, 0.72);
+    --vos-text: #e8f7ff;
+    --vos-muted: rgba(232, 247, 255, 0.62);
+    --vos-cyan: #00f6ff;
+    --vos-magenta: #ff4dff;
+    --vos-green: #00ff9c;
+    --vos-yellow: #ccff00;
+    --vos-danger: #ff6b91;
+    --vos-radius: 11px;
+    --vos-taskbar-height: 42px;
+    --vos-titlebar-height: 34px;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    overflow: hidden;
+    color: var(--vos-text);
+    isolation: isolate;
+    background: var(--vos-bg-main);
+}
+
+.virtual-os-stage {
+    position: absolute;
+    inset: 0 0 var(--vos-taskbar-height) 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.virtual-os-windows {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.virtual-os-windows > * {
+    pointer-events: auto;
+}

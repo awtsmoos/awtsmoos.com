@@ -1,0 +1,48 @@
+/* B"H */
+@layer awt.views {
+	.awt-turn-policy,
+	.awt-turn-resources {
+		display: grid;
+		gap: 12px;
+	}
+
+	.awt-turn-policy h3,
+	.awt-turn-resources h3 {
+		margin: 0;
+	}
+
+	.awt-turn-fields {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px;
+	}
+
+	.awt-turn-field {
+		display: grid;
+		gap: 5px;
+		min-width: 0;
+	}
+
+	.awt-turn-field > span {
+		color: var(--awt-muted);
+		font-size: .75rem;
+		font-weight: 850;
+	}
+
+	.awt-turn-field :where(input, select) {
+		width: 100%;
+		min-width: 0;
+		min-height: 43px;
+		border-radius: 13px;
+	}
+
+	.awt-turn-actions {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+		gap: 8px;
+	}
+
+	.awt-turn-actions button {
+		min-height: 44px;
+	}
+}

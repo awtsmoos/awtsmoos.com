@@ -1,0 +1,110 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is no smaller on a narrow screen; Awtsmoos.com lets the same
+ * writing light enter a touch-sized vessel without making menus, notes, or sharing cover the words.
+ */
+@media (max-width: 680px) {
+	.docs-app {
+		grid-template-rows: auto auto 1fr;
+	}
+
+	.app-bar {
+		min-height: 54px;
+		padding: 7px 9px;
+		gap: 6px;
+	}
+
+	.brand span:last-child,
+	.status-cluster,
+	.presence,
+	.app-bar .icon-action {
+		display: none;
+	}
+
+	.document-title {
+		min-width: 0;
+		padding: 7px 6px;
+		font-size: 14px;
+	}
+
+	.command-shell {
+		top: 54px;
+	}
+
+	.menu-bar {
+		padding: 3px 8px 1px;
+	}
+
+	.formatting-toolbar {
+		gap: 6px;
+		padding: 5px 8px 8px;
+	}
+
+	.formatting-toolbar button,
+	.formatting-toolbar select,
+	.menu-bar > button {
+		min-height: 42px;
+	}
+
+	.formatting-toolbar select[data-doc-command="format.block"] {
+		max-width: 110px;
+	}
+
+	.page-stage {
+		padding: 0 0 calc(28px + env(safe-area-inset-bottom));
+		background: var(--docs-surface);
+	}
+
+	.document-canvas {
+		min-height: calc(100vh - 142px);
+		padding: 34px 20px 100px;
+		border: 0;
+		box-shadow: none;
+		font-size: 16px;
+	}
+
+	.document-canvas h1 {
+		font-size: 1.85rem;
+	}
+
+	.side-panel {
+		position: fixed;
+		inset: 54px 0 0;
+		z-index: 65;
+		width: 100%;
+		padding: 14px max(14px, env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom));
+		border-left: 0;
+		background: var(--docs-surface);
+	}
+
+	.selection-toolbar {
+		max-width: calc(100vw - 16px);
+		overflow-x: auto;
+	}
+
+	.share-dialog,
+	.quick-dialog {
+		width: calc(100vw - 16px);
+		max-height: calc(100vh - 24px);
+		margin-bottom: max(8px, env(safe-area-inset-bottom));
+	}
+
+	.dialog-card {
+		padding: 18px;
+	}
+
+	.share-link-row,
+	.invite-row {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.toast-region {
+		right: 10px;
+		bottom: calc(10px + env(safe-area-inset-bottom));
+		width: calc(100vw - 20px);
+	}
+}

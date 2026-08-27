@@ -1,0 +1,55 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+@import url("./menus.css");
+@import url("./selection-toolbar.css");
+
+/**
+ * The Awtsmoos gives many garments to one word; Awtsmoos.com keeps only frequent
+ * formatting visible, while advanced choices remain nearby without crowding the writing path.
+ */
+.formatting-toolbar {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	overflow-x: auto;
+	padding: 5px 12px 8px;
+	scrollbar-width: thin;
+}
+
+.formatting-toolbar button,
+.formatting-toolbar select {
+	min-height: 36px;
+	padding: 6px 9px;
+	border: 1px solid var(--docs-border);
+	border-radius: 8px;
+	background: var(--docs-surface);
+	color: var(--docs-ink);
+	white-space: nowrap;
+}
+
+.formatting-toolbar button:hover,
+.formatting-toolbar select:hover {
+	border-color: var(--docs-border-strong);
+	background: var(--docs-surface-soft);
+}
+
+.formatting-toolbar button:disabled,
+.formatting-toolbar select:disabled,
+.docs-menu button:disabled {
+	opacity: 0.42;
+	cursor: not-allowed;
+}
+
+.tool-separator {
+	flex: 0 0 1px;
+	width: 1px;
+	height: 24px;
+	margin: 0 2px;
+	background: var(--docs-border);
+}
+
+.formatting-toolbar select[data-doc-command="format.block"] {
+	min-width: 108px;
+}

@@ -1,0 +1,61 @@
+B"H final numbered test sweep
+total=58
+pass=58 fail=0 timeout=0 elapsed=43.54s
+PASS	0.48s	011_project_model_smoke.mjs	{"ok":true,"assets":1,"scenes":2,"sequences":2}
+PASS	0.68s	012_source_render_timeline_smoke.mjs	{"ok":true,"frames":3,"drawCalls":42,"clips":1,"markers":1}
+PASS	0.35s	013_audio_graph_smoke.mjs	{"ok":true,"sources":1,"peak":0.2,"limited":0.98,"waveform":2}
+PASS	0.78s	014_bin_effects_color_titles_smoke.mjs	{"ok":true,"assets":1,"proxies":1,"cues":1,"hist":1}
+PASS	0.98s	015_export_stream_responsive_smoke.mjs	{"ok":true,"exports":2,"streamSegments":1,"mode":"mobile"}
+PASS	0.62s	016_webcodecs_managers_smoke.mjs	{"ok":true,"videoStatus":"unavailable","audioStatus":"unavailable","packets":1}
+PASS	2.67s	017_hls_ffprobe_cleanup_smoke.mjs	{"ok":true,"playlistLines":9,"availability":{"ffprobe":true,"ffmpeg":true},"tmpDirRemoved":true}
+PASS	1.41s	018_bounded_stress_suite.mjs	{"ok":true,"count":10,"maxMs":309,"totalFrames":170,"reports":[{"id":"001_scene_stress","ok":true,"ms":309,"rendered":24,"drawCalls":7776,"clips":9,"mixPeak":0.1,"exports":1,"segments":1,"poolClosed":8},{"id":"002_audio_stress","ok":true,"ms":4,"rendered":8,"drawCalls":352,"clips":5,"mixPeak":0.1,"exports":1,"segments":1,"poolClosed":8},{"id":"003_export_stress","ok":true,"ms":53,"rendered":10,"drawCalls":840,"clips":11,"mixPeak":0.1,"exports":1,"segments":1,"poolClosed":8},{"id":"004_stream_stress","ok":true,"ms":3,"rendered":12,"drawCalls":1008,"clips":7,"mixPeak":0.1,"exports":1,"segments":1,"poolClosed":8},{"id":"005_memory_leak","ok":true,"ms":3,"rendered":18,"drawCalls":2952,"clips":13,"mixPeak":0.1,"exports":1,"segments":1,"poolClosed":8},{"id":"006_gc_stress","ok":true,"ms":3,"rendered":20,"drawCalls":4080,"clips":13,"mixPeak":0.1,"exports":1,"segments":1,"poolClosed":8},{"id":"007_webcodecs_stress","ok":true,"ms":3,"rendered":16,"drawCalls":1984,"clips":13,"mixPeak":0.1,"exports":1,"segments":1,"poolClosed":8},{"id":"008_provider_stress","ok":true,"ms":132,"rendered":12,"drawCalls":1008,"clips":9,"mixPeak":0.1,"exports":1,"segments":1,"poolClosed":8},{"id":"009_multicam_stress","ok":true,"ms":5,"rendered":20,"drawCalls":4880,"clips":17,"mixPeak":0.1,"exports":1,"segments":1,"poolClosed":8},{"id":"010_everything","ok":true,"ms":20,"rendered":30,"drawCalls":12120,"clips":25,"mixPeak":0.1,"exports":1,"segments":1,"poolClosed":8}]}
+PASS	0.80s	019_resolution_presets_smoke.mjs	{"ok":true,"presets":7,"custom":"custom"}
+PASS	0.81s	020_recording_audio_sources_smoke.mjs	{"ok":true,"audioSources":1,"description":"1 audio track from Webcam + Mic"}
+PASS	0.63s	021_manual_profiles_smoke.mjs	{"ok":true,"defaultProfile":"speed-vp8","profiles":4}
+PASS	0.76s	022_aspect_ratio_controls_smoke.mjs	{"ok":true,"locked":"16:9"}
+PASS	0.56s	023_manual_audio_source_smoke.mjs	{"ok":true,"mode":"direct","sampleRate":44100}
+PASS	1.20s	024_layer_and_crop_smoke.mjs	{"ok":true,"order":["a","b","c"],"crop":{"sx":100,"sy":100,"sw":600,"sh":350}}
+PASS	0.60s	025_sefiros_and_container_smoke.mjs	{"ok":true,"sefirah":"keter","codec":"vp8,opus"}
+PASS	0.40s	026_mediabunny_hls_split_smoke.mjs	{"ok":true,"exports":6,"version":"1.46.0"}
+PASS	0.58s	027_timeline_model_smoke.mjs	B"H timeline model smoke passed
+PASS	1.05s	028_bin_asset_model_smoke.mjs	B"H bin asset model smoke passed
+PASS	0.98s	029_export_queue_smoke.mjs	B"H export queue smoke passed
+PASS	0.48s	030_project_serializer_smoke.mjs	B"H project serializer smoke passed
+PASS	0.85s	031_public_api_compat_smoke.mjs	B"H public api compatibility smoke passed
+PASS	0.84s	032_no_forbidden_recorder_guard.mjs	B"H forbidden recorder guard passed
+PASS	0.42s	033_audio_drift_tracker_smoke.mjs	B"H audio drift tracker smoke passed
+PASS	0.70s	034_export_presets_smoke.mjs	B"H export presets smoke passed
+PASS	0.38s	035_recording_core_smoke.mjs	B"H recording core smoke passed
+PASS	0.51s	036_worker_messages_smoke.mjs	B"H worker messages smoke passed
+PASS	0.75s	037_audio_encoding_profiles_smoke.mjs	B"H audio encoding profiles smoke passed
+PASS	0.82s	038_container_support_smoke.mjs	B"H container support smoke passed
+PASS	1.06s	039_timeline_editing_smoke.mjs	B"H timeline editing smoke passed
+PASS	0.75s	040_ui_inspector_smoke.mjs	B"H ui inspector smoke passed
+PASS	0.75s	041_video_frame_pump_import_smoke.mjs	B"H video frame pump import smoke passed
+PASS	0.70s	042_nle_timeline_commands_smoke.mjs	B"H nle timeline commands smoke passed
+PASS	0.71s	043_nle_render_smoke.mjs	B"H nle render smoke passed
+PASS	0.49s	044_export_negotiator_smoke.mjs	B"H export negotiator smoke passed
+PASS	1.15s	045_audio_visualizer_smoke.mjs	B"H audio visualizer smoke passed
+PASS	0.70s	045_recording_runtime_plan_smoke.mjs	B"H recording runtime plan smoke passed
+PASS	1.15s	046_visualizer_routing_features_smoke.mjs	B"H visualizer routing and features smoke passed
+PASS	0.65s	047_encoding_benchmark_smoke.mjs	B"H encoding benchmark smoke passed
+PASS	0.34s	048_visualizer_source_family_smoke.mjs	B"H visualizer source family smoke passed
+PASS	0.44s	049_visualizer_audio_features_smoke.mjs	B"H visualizer audio features smoke passed
+PASS	0.33s	050_live_stream_health_smoke.mjs	B"H live stream health smoke passed
+PASS	0.74s	051_nle_tracks_commands_smoke.mjs	B"H NLE track commands smoke passed
+PASS	0.82s	052_encoding_recommendation_smoke.mjs	B"H encoding recommendation smoke passed
+PASS	1.57s	053_no_media_recorder_guard_smoke.mjs	B"H active no forbidden recorder guard passed
+PASS	1.79s	054_browser_confidence_layer_smoke.mjs	B"H browser confidence layer smoke passed
+PASS	0.46s	055_mock_generic_hls_controller_smoke.mjs	B"H mocked generic HLS controller smoke passed
+PASS	0.59s	056_benchmark_compact_view_smoke.mjs	B"H benchmark compact view smoke passed
+PASS	0.16s	057_hebrew_visualizer_models_smoke.mjs	B"H Hebrew visualizer models smoke passed
+PASS	0.55s	058_nle_advanced_commands_smoke.mjs	B"H NLE advanced commands smoke passed
+PASS	0.20s	059_encoding_smoke_mode_compact_smoke.mjs	B"H encoding smoke mode compact smoke passed
+PASS	0.15s	060_stage_crop_transform_smoke.mjs	B"H stage crop transform smoke passed
+PASS	0.74s	061_nle_ui_commands_smoke.mjs	B"H NLE UI commands smoke passed
+PASS	0.63s	062_recording_dom_contract_smoke.mjs	B"H fixed viewport recording, deck, and audio DOM contract passed
+PASS	0.36s	063_recording_state_machine_smoke.mjs	B"H recording state machine smoke passed
+PASS	0.39s	064_local_webm_muxer_stress.mjs	B"H local WebM muxer stress passed: 63198 bytes
+PASS	2.22s	065_local_webm_real_ffprobe_smoke.mjs	B"H local WebM real ffprobe smoke passed [{"codec":"vp8","width":160,"height":90,"duration":1.5,"size":30353,"frames":18},{"codec":"vp8","width":192,"height":108,"duration":1.2,"size":25953,"frames":18},{"codec":"vp9","width":160,"height":90,"duration":1,"size":10005,"frames":10}]
+PASS	0.31s	066_style_visual_contract_smoke.mjs	B"H recursive no-scroll style contract passed across 31 CSS vessels
+PASS	0.54s	067_gpu_audio_lab_smoke.mjs	B"H ten-mode adaptive GPU Audio Lab smoke passed

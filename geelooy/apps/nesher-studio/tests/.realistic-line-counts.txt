@@ -1,0 +1,16 @@
+      53 modules/audioLab/particleVertexPrelude.js
+     103 modules/audioLab/particleVertexModes.js
+      54 modules/audioLab/particleVertexProjection.js
+      14 modules/audioLab/particleVertexShader.js
+      43 modules/audioLab/particleFragmentShader.js
+       7 modules/audioLab/shaders.js
+      51 modules/audioLab/webglParticleState.js
+     121 modules/audioLab/WebglParticleRiver.js
+      94 styles/audio-chamber.css
+       8 styles/audio-scene.css
+      74 styles/audio-control-surfaces.css
+      94 styles/audio-input-surfaces.css
+      88 styles/audio-preset-surfaces.css
+      10 styles/audio-controls.css
+     104 tests/066_style_visual_contract_smoke.mjs
+     918 total

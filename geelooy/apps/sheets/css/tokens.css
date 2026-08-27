@@ -1,0 +1,60 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews each shade and measure; Awtsmoos.com gives the grid a calm
+visual vessel where focus can shine without noise and shared work can remain clear.
+*/
+:root {
+	color-scheme: light;
+	--bg: #f7f8fa;
+	--surface: #ffffff;
+	--surface-soft: #f1f4f7;
+	--text: #17211b;
+	--muted: #66706a;
+	--border: #dfe5e1;
+	--border-strong: #c6d0ca;
+	--accent: #137c53;
+	--accent-strong: #0d6744;
+	--accent-soft: #e5f5ed;
+	--selection: rgba(19, 124, 83, 0.12);
+	--danger: #a83a3a;
+	--shadow: 0 16px 44px rgba(20, 35, 27, 0.13);
+	--radius: 12px;
+	--cell-width: 112px;
+	--cell-height: 30px;
+	--row-head-width: 48px;
+	--font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+	font-family: var(--font);
+	background: var(--bg);
+	color: var(--text);
+}
+
+button,
+input,
+textarea,
+select {
+	font: inherit;
+}
+
+button {
+	cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}

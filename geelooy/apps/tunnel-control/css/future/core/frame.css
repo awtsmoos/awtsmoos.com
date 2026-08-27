@@ -1,0 +1,12 @@
+/* B"H */
+.awt-control-shell, .awt-login-gate { isolation: isolate; }
+.awt-control-shell *, .awt-login-gate * { min-width: 0; }
+.awt-control-shell :where(h1,h2,h3,h4,p), .awt-login-gate :where(h1,h2,h3,h4,p) { margin-block-start: 0; }
+.awt-control-shell :where(p,li,small,label), .awt-login-gate :where(p,li,small,label) { color: var(--awt-muted); line-height: 1.58; }
+.awt-mini-kicker {
+  color: #bfeeff;
+  font-size: .72rem;
+  font-weight: 950;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}

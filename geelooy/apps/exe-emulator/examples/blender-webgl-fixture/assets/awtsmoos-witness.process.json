@@ -1,0 +1,50 @@
+{
+	"schema_version": "2.0.0",
+	"production_runtime": {
+		"external_libraries": false,
+		"external_tools_required": false,
+		"network_origin_policy": "same-origin-only"
+	},
+	"verification_tool": {
+		"name": "Blender",
+		"version": "3.6.7",
+		"role": "verification-only",
+		"runtime_required": false
+	},
+	"create_command": {
+		"duration_ms": 6799,
+		"return_code": 0,
+		"signal_number": null,
+		"stderr_truncated": false,
+		"stdout_truncated": false,
+		"timed_out": false
+	},
+	"reopen_command": {
+		"duration_ms": 2192,
+		"return_code": 0,
+		"signal_number": null,
+		"stderr_truncated": false,
+		"stdout_truncated": false,
+		"timed_out": false
+	},
+	"blend": {
+		"byte_length": 150084,
+		"format": "blend",
+		"name": "awtsmoos-witness.blend",
+		"sha256": "d84770fd0b7e95ef53eb916c4c75c6a6d860aef03fc18d1741b7821ba76a1a85"
+	},
+	"preview": {
+		"byte_length": 308003,
+		"format": "png",
+		"name": "awtsmoos-witness.png",
+		"sha256": "9dd8b48e6244175863c3f631a847cfd5bd5ab8d5638469f07c7150a241a71cdd"
+	},
+	"glb": {
+		"byte_length": 58108,
+		"format": "glb",
+		"name": "awtsmoos-witness.glb",
+		"sha256": "86d28d5a7f7693b81afe230bdaec5ad4f401a79ec5fa043adcd504f8f528b358"
+	},
+	"metadata_name": "awtsmoos-witness.scene.json",
+	"reopen_name": "awtsmoos-witness.reopen.json"
+}

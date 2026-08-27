@@ -1,0 +1,86 @@
+[
+  {
+    "id": "cup_d1",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/01-cup_d1.aiff",
+    "voice": "Alex",
+    "start": 3000,
+    "duration": 3300
+  },
+  {
+    "id": "cup_d2",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/02-cup_d2.aiff",
+    "voice": "Fred",
+    "start": 6800,
+    "duration": 3000
+  },
+  {
+    "id": "cup_d3",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/03-cup_d3.aiff",
+    "voice": "Samantha",
+    "start": 10300,
+    "duration": 3000
+  },
+  {
+    "id": "cup_d4",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/04-cup_d4.aiff",
+    "voice": "Alex",
+    "start": 15000,
+    "duration": 3100
+  },
+  {
+    "id": "cup_d5",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/05-cup_d5.aiff",
+    "voice": "Fred",
+    "start": 18500,
+    "duration": 2800
+  },
+  {
+    "id": "cup_d6",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/06-cup_d6.aiff",
+    "voice": "Samantha",
+    "start": 21800,
+    "duration": 3200
+  },
+  {
+    "id": "cup_d7",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/07-cup_d7.aiff",
+    "voice": "Alex",
+    "start": 29000,
+    "duration": 3000
+  },
+  {
+    "id": "cup_d8",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/08-cup_d8.aiff",
+    "voice": "Fred",
+    "start": 32500,
+    "duration": 3100
+  },
+  {
+    "id": "cup_d9",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/09-cup_d9.aiff",
+    "voice": "Samantha",
+    "start": 36500,
+    "duration": 3200
+  },
+  {
+    "id": "cup_d10",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/10-cup_d10.aiff",
+    "voice": "Alex",
+    "start": 42000,
+    "duration": 3100
+  },
+  {
+    "id": "cup_d11",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/11-cup_d11.aiff",
+    "voice": "Fred",
+    "start": 48000,
+    "duration": 3000
+  },
+  {
+    "id": "cup_d12",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/realistic-action-minute/audio/12-cup_d12.aiff",
+    "voice": "Samantha",
+    "start": 53500,
+    "duration": 3700
+  }
+]

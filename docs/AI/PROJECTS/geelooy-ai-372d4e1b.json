@@ -1,0 +1,104 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-ai-372d4e1b",
+	"path": "geelooy/ai",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Awtsmoos AI",
+	"entries": [
+		"index.html",
+		"index.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/ai/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-ai-372d4e1b.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 649,
+		"tests": 152,
+		"assets": 2,
+		"generated": 0,
+		"docs": 4,
+		"other": 304
+	},
+	"totalFiles": 1111,
+	"symbolSummary": {
+		"files": 469,
+		"classes": 149,
+		"functions": 1703,
+		"exports": 840,
+		"samples": [
+			"AwtsmoosGPTify",
+			"IndexedDBHandler",
+			"withTimeout",
+			"fallbackKey",
+			"fallbackObject",
+			"saveFallbackObject",
+			"fallbackWrite",
+			"fallbackRead",
+			"fallbackRows",
+			"fallbackDelete",
+			"fallbackClear",
+			"fallbackStoreNames"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 2,
+			"examples": "geelooy/ai/central/index.js; geelooy/ai/central/streamClient.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/ai/js/render/event-ui/codeHighlight.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/apps/code",
+			"count": 3,
+			"examples": "geelooy/apps/code/js/code-chat/oracle.js; geelooy/apps/code/js/vibe/api/multimodal-adapter.js"
+		},
+		{
+			"project": "geelooy/shared",
+			"count": 2,
+			"examples": "geelooy/shared/awtsmoos-runtime/actions.js; geelooy/shared/awtsmoos-runtime/agent-core.js"
+		}
+	],
+	"externalDependencies": [
+		{
+			"dependency": "namespace",
+			"count": 1,
+			"examples": "geelooy/ai/js/render/normalizer/toolNameResolver.js"
+		}
+	],
+	"publicEntries": [
+		{
+			"url": "/ai",
+			"file": "geelooy/ai/index.html",
+			"title": "Awtsmoos AI",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/ai/animation",
+			"file": "geelooy/ai/animation/index.html",
+			"title": "Expressive Stick Figure Animator",
+			"scripts": 0,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

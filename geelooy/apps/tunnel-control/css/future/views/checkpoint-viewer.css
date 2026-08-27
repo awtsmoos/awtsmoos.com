@@ -1,0 +1,98 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos lets checkpoint words reveal structure while source and metadata remain visible testimony beneath every rendered garment. */
+
+.mission-checkpoint-viewer {
+	display: grid;
+	gap: 12px;
+	margin-top: 10px;
+	padding: 14px;
+	border: 1px solid color-mix(in srgb, var(--awt-border, #6f8fb2) 55%, transparent);
+	border-radius: 16px;
+	background: color-mix(in srgb, var(--awt-surface, #102235) 82%, transparent);
+}
+
+.mission-checkpoint-viewer header {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 8px;
+	align-items: baseline;
+}
+
+.mission-checkpoint-viewer header code {
+	font-size: .75rem;
+	opacity: .72;
+}
+
+.mission-checkpoint__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+}
+
+.mission-checkpoint__actions button {
+	padding: 6px 9px;
+	border: 1px solid color-mix(in srgb, var(--awt-border, #6f8fb2) 55%, transparent);
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--awt-surface, #102235) 74%, transparent);
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.mission-checkpoint__actions button:hover,
+.mission-checkpoint__actions button:focus-visible {
+	border-color: var(--awt-accent, #8fe7ff);
+	outline: none;
+}
+
+.mission-checkpoint__status {
+	min-height: 1.2em;
+	font-size: .78rem;
+	color: var(--awt-accent, #8fe7ff);
+}
+
+.mission-checkpoint__content {
+	display: grid;
+	gap: 9px;
+	min-width: 0;
+}
+
+.mission-checkpoint__content h1,
+.mission-checkpoint__content h2,
+.mission-checkpoint__content h3,
+.mission-checkpoint__content h4,
+.mission-checkpoint__content h5,
+.mission-checkpoint__content h6,
+.mission-checkpoint__content p,
+.mission-checkpoint__content blockquote {
+	margin: 0;
+}
+
+.mission-checkpoint__content blockquote {
+	padding-left: 12px;
+	border-left: 3px solid var(--awt-accent, #8fe7ff);
+	opacity: .88;
+}
+
+.mission-checkpoint__content pre {
+	max-width: 100%;
+	overflow: auto;
+	padding: 12px;
+	border-radius: 10px;
+	background: color-mix(in srgb, #020a12 88%, transparent);
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.mission-checkpoint__content code {
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.mission-checkpoint__content a {
+	color: var(--awt-accent, #8fe7ff);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+}

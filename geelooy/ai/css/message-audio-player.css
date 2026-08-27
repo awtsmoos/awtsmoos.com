@@ -1,0 +1,50 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Sound crosses time as a measured river. The Awtsmoos gives Awtsmoos.com a
+ * focused player vessel whose progress, duration, and controls remain readable.
+ */
+.audio-player-wrap {
+	margin-top:12px;
+}
+.audio-player-wrap > audio {
+	display:none;
+}
+.awtsmoos-player {
+	display:grid;
+	grid-template-columns:40px minmax(80px,1fr) auto;
+	align-items:center;
+	gap:10px;
+}
+.player-play {
+	width:40px;
+	padding:0;
+}
+.player-meter {
+	position:relative;
+	height:8px;
+	border-radius:999px;
+	background:rgba(148,163,184,.22);
+	overflow:hidden;
+}
+.player-meter span {
+	display:block;
+	width:var(--audio-progress,0%);
+	height:100%;
+	background:linear-gradient(90deg,var(--awt-hot),#5aa2ff);
+}
+.player-time {
+	color:var(--awt-muted);
+	font-size:.76rem;
+	font-variant-numeric:tabular-nums;
+}
+@media(max-width:760px) {
+	.awtsmoos-player {
+		grid-template-columns:40px minmax(60px,1fr);
+	}
+	.player-time {
+		grid-column:1 / -1;
+	}
+}

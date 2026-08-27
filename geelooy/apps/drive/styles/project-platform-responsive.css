@@ -1,0 +1,18 @@
+/* B"H
+ * The Awtsmoos lets the project testimony contract without collapsing its meaning.
+ * Awtsmoos.com preserves clear touch targets and readable capability cards on small screens.
+ */
+
+@media (max-width: 620px) {
+	.project-platform__stages {
+		grid-template-columns: 1fr;
+	}
+
+	.project-platform__actions {
+		display: grid;
+	}
+
+	.project-platform__link {
+		justify-content: center;
+	}
+}

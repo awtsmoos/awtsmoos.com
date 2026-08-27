@@ -1,0 +1,114 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives the caption studio a contained rail and honest preview.
+ */
+.caption-studio-document {
+	min-block-size: 100dvh;
+}
+.app-container {
+	display: grid;
+	grid-template-columns: minmax(20rem, 28rem) minmax(0, 1fr);
+	gap: 1rem;
+	inline-size: min(calc(100% - 1.5rem), 96rem);
+	min-block-size: 100dvh;
+	margin: 0 auto;
+	padding: .75rem 0;
+}
+.studio-panel {
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	min-inline-size: 0;
+	max-block-size: calc(100dvh - 1.5rem);
+	overflow: hidden;
+	border: 1px solid var(--studio-line-strong);
+	border-radius: var(--studio-radius-l);
+	background: var(--studio-panel);
+	box-shadow: var(--studio-shadow);
+}
+.studio-header {
+	display: grid;
+	gap: .8rem;
+	padding: 1rem;
+	border-bottom: 1px solid var(--studio-line);
+	background: #111b28;
+}
+.logo-area {
+	position: relative;
+	min-inline-size: 0;
+}
+.logo-area p,
+.logo-area h1 {
+	margin: 0;
+}
+.logo-area p {
+	color: var(--studio-cyan);
+	font-size: .72rem;
+	font-weight: 900;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+.logo-area h1 {
+	margin-block-start: .22rem;
+	font-size: 1.55rem;
+	line-height: 1;
+	letter-spacing: -.035em;
+}
+.version {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-end: 0;
+	color: var(--studio-faint);
+	font-size: .7rem;
+	font-weight: 800;
+}
+.header-actions {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) repeat(3, auto);
+	gap: .45rem;
+	align-items: end;
+}
+.scroll-area {
+	min-inline-size: 0;
+	padding: 1rem;
+	overflow: auto;
+	overscroll-behavior: contain;
+	scrollbar-width: thin;
+}
+#actions-footer {
+	display: grid;
+	gap: .7rem;
+	padding: .9rem 1rem max(.9rem, env(safe-area-inset-bottom));
+	border-top: 1px solid var(--studio-line);
+	background: #0c141f;
+}
+#preview-wrapper {
+	position: relative;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	min-inline-size: 0;
+	min-block-size: calc(100dvh - 1.5rem);
+	overflow: hidden;
+	border: 1px solid var(--studio-line-strong);
+	border-radius: var(--studio-radius-l);
+	background: #02050a;
+	box-shadow: var(--studio-shadow);
+}
+#mobile-preview-header {
+	display: none;
+}
+#preview-container {
+	position: relative;
+	display: grid;
+	min-inline-size: 0;
+	min-block-size: 0;
+	place-items: center;
+	overflow: hidden;
+	background: #02050a;
+}
+#previewCanvas,
+#outputVideo {
+	max-inline-size: 100%;
+	max-block-size: 100%;
+	object-fit: contain;
+}

@@ -1,0 +1,55 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# Generated Project Atlas 46–90
+
+Observed project/directory boundaries with classified file counts and local documentation status.
+
+| Path | Type | Files | Source | Tests | Assets | Generated | Local docs | Entries | Title |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| geelooy/apps/bookCoverMaker | app | 1 | 1 | 0 | 0 | 0 | — | index.html | Book Cover Generator |
+| geelooy/apps/broadcaster | app | 3 | 3 | 0 | 0 | 0 | — | index.html | — |
+| geelooy/apps/byteViewer | app | 4 | 3 | 0 | 0 | 0 | — | index.html | Hex Viewer of the Awtsmoos |
+| geelooy/apps/captions | app | 68 | 64 | 0 | 0 | 0 | geelooy/apps/captions/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Ein Sof Engine [Quantum Core v2.5] |
+| geelooy/apps/code | app | 1099 | 1055 | 40 | 1 | 0 | geelooy/apps/code/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Awtsmoos Code |
+| geelooy/apps/compiler | app | 79 | 77 | 1 | 0 | 0 | geelooy/apps/compiler/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Awtsmoos Compiler |
+| geelooy/apps/csv | app | 5 | 5 | 0 | 0 | 0 | — | index.html | Awtsmoos Native Grid |
+| geelooy/apps/drive | app | 24 | 23 | 0 | 0 | 0 | geelooy/apps/drive/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Awtsmoos Drive |
+| geelooy/apps/editor | app | 40 | 39 | 0 | 0 | 0 | geelooy/apps/editor/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Mitzvah World Animator |
+| geelooy/apps/exe-emulator | app | 417 | 271 | 133 | 1 | 9 | geelooy/apps/exe-emulator/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Awtsmoos EXE Emulator |
+| geelooy/apps/gpt-api-pulse-garden | app | 1 | 1 | 0 | 0 | 0 | — | index.html | Awtsmoos Pulse Garden |
+| geelooy/apps/lyric-sync | app | 4 | 4 | 0 | 0 | 0 | — | index.html | Lyric Sync Engine |
+| geelooy/apps/merkava-native-browser | app | 79 | 60 | 0 | 0 | 10 | geelooy/apps/merkava-native-browser/DOCUMENTATION.md | package.json, DOCUMENTATION.md | — |
+| geelooy/apps/mitzvah-pushkuh | app | 150 | 140 | 7 | 0 | 0 | geelooy/apps/mitzvah-pushkuh/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Mitzvah Pushkuh · Garden of Sparks |
+| geelooy/apps/nesher-studio | app | 542 | 416 | 117 | 0 | 0 | geelooy/apps/nesher-studio/DOCUMENTATION.md | index.html, main.js, DOCUMENTATION.md | 🦅 Nesher Studio |
+| geelooy/apps/pdf-to-img | app | 1 | 1 | 0 | 0 | 0 | — | index.html | High-Res PDF to Image Converter |
+| geelooy/apps/piano | app | 60 | 59 | 0 | 0 | 0 | geelooy/apps/piano/DOCUMENTATION.md | index.html, main.js, DOCUMENTATION.md | Awtsmoos Web Synthesizer - Ultimate |
+| geelooy/apps/rebbe | app | 126 | 125 | 0 | 0 | 0 | geelooy/apps/rebbe/DOCUMENTATION.md | index.html, main.js, DOCUMENTATION.md | AWTSMOOS ARCHIVE // OMEGA |
+| geelooy/apps/scripts | app | 8 | 8 | 0 | 0 | 0 | — | — | — |
+| geelooy/apps/styles | app | 5 | 5 | 0 | 0 | 0 | — | — | — |
+| geelooy/apps/tests | app | 1 | 0 | 1 | 0 | 0 | — | — | — |
+| geelooy/apps/transcribe | app | 2 | 2 | 0 | 0 | 0 | — | index.html | AssemblyAI Transcription |
+| geelooy/apps/tunnel | app | 1860 | 1173 | 651 | 0 | 0 | geelooy/apps/tunnel/DOCUMENTATION.md | index.html, DOCUMENTATION.md, README.md, readme.md | Awtsmoos Tunnel Console |
+| geelooy/apps/tunnel-control | app | 465 | 409 | 49 | 0 | 0 | geelooy/apps/tunnel-control/DOCUMENTATION.md | index.html, DOCUMENTATION.md, README.md, readme.md | Awtsmoos Tunnel Control |
+| geelooy/apps/video-editor | app | 2 | 2 | 0 | 0 | 0 | — | index.html | Awtsmoos Video Editor - Chapter 7 Revised |
+| geelooy/apps/virtual-os-stress-light-counter | app | 1 | 1 | 0 | 0 | 0 | — | index.html | Light Counter |
+| geelooy/apps/wallet | app | 18 | 17 | 0 | 0 | 0 | geelooy/apps/wallet/DOCUMENTATION.md | index.html, main.js, DOCUMENTATION.md | Awtsmoos Wallet — Perutah Treasury |
+| geelooy/apps/watermark-remover | app | 1 | 1 | 0 | 0 | 0 | — | index.html | SVG Mask Alpha Brute-Force |
+| geelooy/awtai-db | public | 3 | 3 | 0 | 0 | 0 | — | index.html, app.js | AWTAI-DB GGUF Converter |
+| geelooy/ayin | public | 1 | 1 | 0 | 0 | 0 | — | index.html | Real Awtsmoos Recorder |
+| geelooy/browser-test | project | 2 | 1 | 1 | 0 | 0 | — | — | — |
+| geelooy/comment-thread | public | 12 | 10 | 1 | 0 | 0 | geelooy/comment-thread/DOCUMENTATION.md | index.html, app.js, DOCUMENTATION.md | Comment Thread — Geelooy |
+| geelooy/contact | public | 3 | 3 | 0 | 0 | 0 | — | index.html | Contact — Awtsmoos |
+| geelooy/control | public | 3 | 3 | 0 | 0 | 0 | — | index.html, app.js | Code Control Panel |
+| geelooy/css | project | 1 | 1 | 0 | 0 | 0 | — | — | — |
+| geelooy/db | public | 9 | 7 | 0 | 0 | 0 | geelooy/db/DOCUMENTATION.md | index.html, DOCUMENTATION.md | — |
+| geelooy/docs | public | 1470 | 0 | 0 | 0 | 0 | geelooy/docs/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Awtsmoos Documentation |
+| geelooy/donate | public | 1 | 1 | 0 | 0 | 0 | — | index.html | — |
+| geelooy/editor | public | 1 | 1 | 0 | 0 | 0 | — | index.html | — |
+| geelooy/email | public | 113 | 109 | 2 | 0 | 0 | geelooy/email/DOCUMENTATION.md | index.html, index.js, DOCUMENTATION.md | Mail — Geelooy |
+| geelooy/entity-view | public | 2 | 2 | 0 | 0 | 0 | — | index.html, app.js | Entity Universe |
+| geelooy/fetch | public | 1 | 1 | 0 | 0 | 0 | — | index.html | — |
+| geelooy/game | public | 1 | 1 | 0 | 0 | 0 | — | index.html | Opening Mitzvah World… |
+| geelooy/games | public | 8071 | 6312 | 1365 | 1 | 57 | geelooy/games/DOCUMENTATION.md | index.html, DOCUMENTATION.md | Awtsmoos Games — 25 Visual Worlds, Solo & Multiplayer |
+| geelooy/games/KAVANAH | game | 12 | 11 | 0 | 0 | 0 | geelooy/games/KAVANAH/DOCUMENTATION.md | index.html, DOCUMENTATION.md | KAVANAH |

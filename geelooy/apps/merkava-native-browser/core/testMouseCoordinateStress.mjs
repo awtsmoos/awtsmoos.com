@@ -1,0 +1,22 @@
+// B"H
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const { PersistentBrowserRuntime } = require('../../../scripts/awtsmoos/MerkavaExecutor/merkava-browser/PersistentBrowserRuntime.js');
+const rt = new PersistentBrowserRuntime();
+rt.pushHtml('<body><button id=left style="width:80px;height:40px">Left</button><button id=right style="width:90px;height:40px">Right</button></body>', true);
+const seen = [];
+rt.window.document.querySelector('#left').addEventListener('mousemove', ev => seen.push(['left-move', ev.clientX, ev.clientY]));
+rt.window.document.querySelector('#right').addEventListener('mousedown', ev => seen.push(['right-down', ev.clientX, ev.clientY]));
+rt.window.document.querySelector('#right').addEventListener('click', ev => seen.push(['right-click', ev.clientX, ev.clientY]));
+rt.frame({ width: 300, height: 120 });
+const hover = rt.pointer('pointermove', 30, 20);
+const down = rt.pointer('pointerdown', 30, 60);
+const up = rt.pointer('pointerup', 30, 60);
+if (!hover.target.includes('button#left')) throw new Error('hover hit wrong target: ' + hover.target);
+if (!down.target.includes('button#right')) throw new Error('down hit wrong target: ' + down.target);
+if (!up.target.includes('button#right')) throw new Error('up hit wrong target: ' + up.target);
+if (!seen.some(row => row[0] === 'left-move' && row[1] === 30 && row[2] === 20)) throw new Error('mousemove did not carry real coordinates: ' + JSON.stringify(seen));
+if (!seen.some(row => row[0] === 'right-down' && row[1] === 30 && row[2] === 60)) throw new Error('mousedown did not carry real coordinates: ' + JSON.stringify(seen));
+if (!seen.some(row => row[0] === 'right-click' && row[1] === 30 && row[2] === 60)) throw new Error('click did not fire with real coordinates: ' + JSON.stringify(seen));
+console.log(rt.report().log);
+console.log(JSON.stringify({ ok: true, seen, hover: hover.target, down: down.target, up: up.target }, null, 2));

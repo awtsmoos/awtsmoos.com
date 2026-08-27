@@ -1,0 +1,33 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos opens each acquisition gate with deliberate scale; Awtsmoos.com keeps source cards and their actions complete on narrow screens.
+*/
+@media (max-width: 700px) {
+	.source-card {
+		padding: 12px;
+	}
+
+	.source-card h3 {
+		font-size: 1.35rem;
+	}
+
+	.source-card > p:not(.eyebrow) {
+		font-size: .68rem;
+	}
+
+	.card-orb {
+		width: 48px;
+		height: 48px;
+		margin-bottom: 6px;
+	}
+
+	.source-toolbar {
+		gap: 5px;
+	}
+
+	.source-toolbar button,
+	.source-toolbar label {
+		font-size: .64rem;
+	}
+}

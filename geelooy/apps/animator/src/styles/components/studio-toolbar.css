@@ -1,0 +1,113 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews deliberate studio commands; Awtsmoos.com keeps project,
+ * timecode, editing modes, Character Lab, and export compact above the stage.
+ */
+.aw-studio-toolbar {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(130px, 1fr) auto minmax(320px, auto);
+	gap: 8px 12px;
+	align-items: center;
+	padding: 7px 9px;
+	border: 1px solid var(--aw-line-strong);
+	border-radius: var(--aw-radius-md);
+	background: rgba(16, 21, 32, 0.94);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+	backdrop-filter: blur(12px);
+}
+
+.aw-studio-project-title {
+	display: grid;
+	min-width: 0;
+}
+
+.aw-studio-project-title strong,
+.aw-studio-project-title small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.aw-studio-project-title small,
+.aw-studio-timecode small {
+	color: var(--aw-muted);
+	font-size: 9px;
+}
+
+.aw-studio-timecode {
+	white-space: nowrap;
+	font: 14px var(--aw-mono);
+	font-variant-numeric: tabular-nums;
+}
+
+.aw-studio-toolbar-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 5px;
+	min-width: 0;
+}
+
+.aw-studio-toolbar button,
+.aw-studio-panel button {
+	min-height: var(--aw-control-height);
+	padding-inline: 9px;
+	border: 1px solid var(--aw-line);
+	border-radius: var(--aw-radius-sm);
+	color: var(--aw-text-soft);
+	background: var(--aw-control);
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background var(--aw-fast), color var(--aw-fast);
+}
+
+.aw-studio-toolbar button:hover,
+.aw-studio-panel button:hover {
+	color: var(--aw-text);
+	background: var(--aw-control-hover);
+}
+
+.aw-studio-toolbar button:focus-visible,
+.aw-studio-panel button:focus-visible {
+	outline: 0;
+	box-shadow: var(--aw-focus);
+}
+
+.aw-studio-export-button,
+.aw-studio-primary {
+	color: #fff !important;
+	background: #3f6fc2 !important;
+}
+
+.aw-studio-export-status {
+	position: absolute;
+	top: calc(100% + 3px);
+	left: 50%;
+	max-width: 90%;
+	overflow: hidden;
+	padding: 2px 7px;
+	border-radius: 999px;
+	color: var(--aw-muted);
+	background: rgba(16, 21, 32, 0.88);
+	font-size: 9px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	transform: translateX(-50%);
+}
+
+.aw-studio-export-status.status-idle {
+	display: none;
+}
+
+.aw-studio-export-status.status-complete {
+	color: var(--aw-success);
+}
+
+.aw-studio-export-status.status-error {
+	color: var(--aw-danger);
+}
+
+.aw-professional-studio .character-lab-toggle {
+	display: none;
+}

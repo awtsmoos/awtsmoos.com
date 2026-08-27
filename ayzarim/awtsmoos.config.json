@@ -1,0 +1,27 @@
+{
+    "B\"H":"Boruch Hashem",
+    "public": "geelooy",
+    "templateDir": "templates",
+    "secret":"../../dayuh/extra/info/secret.json",
+    
+    "logFile": "../../firebase-key.json",
+    "template": {
+        "replaceInside": {
+            " $a":" await getT",
+            "\t$a":"\tawait getT",
+            "\n$a":"\nawait getT",
+			"$ra":"return await getT",
+            "$fa":"await fetchAwtsmoos"	
+        },
+        "replaceRoot": {
+            
+          
+            "<?<script>":"<?Awtsmoos",
+            "<script awts>":"<?Awtsmoos",
+            "</script>?>":"?>"
+			
+        }
+    }, 
+    
+    "dbPath": "../../dayuhChadash"
+}

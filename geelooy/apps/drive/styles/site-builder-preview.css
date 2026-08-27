@@ -1,0 +1,51 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos lets code become visible in a bounded frame without confusing the reflection for publication.
+ * Awtsmoos.com changes only the preview vessel width; the same real source remains beneath every device mode.
+ */
+
+.builder-preview-tools {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .5rem;
+}
+
+.builder-preview-tools button {
+	min-height: 44px;
+}
+
+.builder-preview-shell {
+	min-width: 0;
+	width: 100%;
+	margin-inline: auto;
+	transition: max-width .2s ease;
+}
+
+.builder-preview-shell[data-preview-mode="mobile"] {
+	max-width: 390px;
+}
+
+.builder-preview-shell[data-preview-mode="tablet"] {
+	max-width: 768px;
+}
+
+.builder-preview-shell[data-preview-mode="desktop"] {
+	max-width: 100%;
+}
+
+.builder-preview-frame {
+	display: block;
+	width: 100%;
+	min-height: 28rem;
+	border: 1px solid var(--line, #d9d9d9);
+	border-radius: .8rem;
+	background: #fff;
+}
+
+.builder-preview-note {
+	margin: 0;
+	overflow-wrap: anywhere;
+}

@@ -1,0 +1,1092 @@
+openapi: 3.1.0
+info:
+  title: Awtsmoos Tunnel Control GPT Actions
+  version: 7.1.0-generated
+  description: B'H. Read responseFocus. Answer multipleChoiceSelfInterrogation before unrelated actions. ChatGPT URL workflow: when given a ChatGPT conversation URL, prefer action=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Do not manually recreate wait loops. Website-agent workflow: use aiAgentSpawnWebsiteMission with parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt to create a same-room child. Report progress and evidence through websiteAgentMissionMessage. Mark complete=true only with evidence.
+servers:
+  - url: https://awtsmoos.com
+paths:
+  /api/tunnel/control/bootstrap:
+    get:
+      operationId: awtsmoosBootstrap
+      summary: Get setup instructions.
+      security: []
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+  /api/tunnel/control/my-device:
+    get:
+      operationId: awtsmoosMyDevice
+      summary: Discover active connected tunnel.
+      security: [{ OAuth2: [profile, tunnel.read] }]
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+  /api/tunnel/control/fs/{tunnelName}:
+    get:
+      operationId: awtsmoosTunnelAction
+      summary: B'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first.
+      description: B'H. Run one tunnel action. Obey responseFocus; answer multipleChoiceSelfInterrogation first. ChatGPT URL workflow: when given a ChatGPT conversation URL, prefer action=chatgptSeasonSaveAndContinue. It registers the URL, verifies navigation, waits for the visible conversation to be idle, prunes heavy DOM, sends through the visible UI, waits for completion, journals, and writes receipts. Do not manually recreate wait loops. Website-agent workflow: use aiAgentSpawnWebsiteMission with parentWebsiteMissionId, parentAgentId, requestKey, role, scope, and childPrompt to create a same-room child. Report progress and evidence through websiteAgentMissionMessage. Mark complete=true only with evidence.
+      security: [{ OAuth2: [profile, tunnel.read, tunnel.write, tunnel.command, tunnel.browser, tunnel.mission, tunnel.room, tunnel.admin] }]
+      parameters:
+        - { name: tunnelName, in: path, required: true, schema: { type: string } }
+        - name: action
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - absoluteImportMapper
+              - abstractionLeakTrace
+              - actionAliasResolver
+              - actionBatch
+              - actionHistoryDiff
+              - actionHistoryExplain
+              - actionHistoryGarbageCollect
+              - actionHistoryGet
+              - actionHistoryList
+              - actionHistoryPatch
+              - actionHistoryPin
+              - actionHistoryReplace
+              - actionHistoryReplay
+              - actionHistorySearch
+              - actionHistoryUnpin
+              - actionSchemaTrace
+              - actionStream
+              - actionTimeline
+              - affectedComponents
+              - affectedRoutes
+              - affectedTests
+              - agent
+              - agentActionStream
+              - agentDoctor
+              - agentSelfTest
+              - agentVersionSkewCheck
+              - aiAgentConfigSet
+              - aiAgentList
+              - aiAgentMessage
+              - aiAgentRemoveProviderKey
+              - aiAgentSetProviderKey
+              - aiAgentSpawnNovel
+              - aiAgentSpawnTask
+              - aiAgentSpawnWebsiteMission
+              - aiAgentTaskList
+              - aiAgentTaskResult
+              - aiAgentTaskStatus
+              - aiAgentWebsiteMissionStatus
+              - aiCommandBatch
+              - aiContextPack
+              - aiTemplateGet
+              - aiTemplateList
+              - aiTemplateRender
+              - aiTemplateRun
+              - aiWorkflowLang
+              - aiWorkflowRun
+              - apiContractCheck
+              - apiContractDiscover
+              - apiSmokeTest
+              - applyPatch
+              - appModeMatrix
+              - architectureScore
+              - assertAction
+              - astOutline
+              - astParserHealth
+              - asyncTaskCancel
+              - asyncTaskOutputPage
+              - asyncTaskStart
+              - asyncTaskStatus
+              - asyncTaskWait
+              - autonomousBackgroundAgents
+              - awtsmoosCapabilities
+              - awtsmoosCommandTree
+              - awtsmoosMyDevice
+              - awtsmoosOsBrowse
+              - awtsmoosRuntimeBrowse
+              - batchDryRun
+              - batchShapeValidator
+              - blastRadiusAnalysis
+              - browserActionStream
+              - browserConsoleTriage
+              - browserDoctor
+              - browserInspect
+              - browserReplay
+              - browserTrace
+              - bugReproPack
+              - buildRunner
+              - bulk
+              - bulkDebugPayload
+              - bulkSearch
+              - bulkWrite
+              - bulkWriteIfHashes
+              - bundleTrace
+              - capabilityParityAudit
+              - changeImpactGraph
+              - chatgptAutoContinueWhenIdle
+              - chatgptAutoPilotSession
+              - chatgptContinuationAuto
+              - chatgptContinuationConclusion
+              - chatgptContinuationStart
+              - chatgptContinuationStatus
+              - chatgptContinuationStop
+              - chatgptContinuationTick
+              - chatgptContinueConversation
+              - chatgptCurrentConversation
+              - chatgptHourLoopMenu
+              - chatgptHourLoopPromote
+              - chatgptHourLoopStart
+              - chatgptHourLoopStatus
+              - chatgptHourLoopStop
+              - chatgptHourLoopStress
+              - chatgptHourLoopTick
+              - chatgptListConversations
+              - chatgptListSessions
+              - chatgptLogin
+              - chatgptMessage
+              - chatgptNewConversation
+              - chatgptOpenLogin
+              - chatgptOptimizeDom
+              - chatgptRegisterConversationUrl
+              - chatgptRegisterSession
+              - chatgptSaveCurrentSeason
+              - chatgptSeasonSaveAndContinue
+              - chatgptSendMessage
+              - chatgptSessionAuto
+              - chatgptSessionConclusion
+              - chatgptSessionContinue
+              - chatgptSessionDoctor
+              - chatgptSessionStatus
+              - chatgptSessionStop
+              - chatgptStatus
+              - chatgptWebsiteLogout
+              - chromeAccessibilitySnapshot
+              - chromeClick
+              - chromeClosePage
+              - chromeCloseTabs
+              - chromeCookieDelete
+              - chromeCookies
+              - chromeCookieSet
+              - chromeDoctor
+              - chromeEval
+              - chromeEvalSlim
+              - chromeFind
+              - chromeLaunch
+              - chromeLogs
+              - chromeNavigate
+              - chromeNetwork
+              - chromeNewPage
+              - chromeRunScript
+              - chromeScreenshot
+              - chromeSessionExport
+              - chromeSessionImport
+              - chromeSnapshot
+              - chromeSnapshotScoped
+              - chromeStatus
+              - chromeStop
+              - chromeStorage
+              - chromeStorageDelete
+              - chromeStorageSet
+              - chromeTargetAcquire
+              - chromeTargetRelease
+              - chromeTargets
+              - chromeTargetSelector
+              - chromeTestUrl
+              - chromeType
+              - chromeUseHttpCookies
+              - chromeWaitForSelector
+              - command
+              - commandBatch
+              - commandCancel
+              - commandFailureClassifier
+              - commandIntentClassifier
+              - commandJobCancel
+              - commandJobOutputPage
+              - commandJobStatus
+              - commandJobWait
+              - commandMemoryDelete
+              - commandMemoryFork
+              - commandMemoryGet
+              - commandMemoryList
+              - commandMemoryPatch
+              - commandMemoryRun
+              - commandMemorySave
+              - commandOutputPage
+              - commandPoll
+              - commandPresetDelete
+              - commandPresetGet
+              - commandPresetList
+              - commandPresetRun
+              - commandPresetSave
+              - commandRun
+              - commandStart
+              - commandStatus
+              - commandTreeCancel
+              - commandTreeDryRun
+              - commandTreeExplain
+              - commandTreeLoad
+              - commandTreeReplay
+              - commandTreeResume
+              - commandTreeRun
+              - commandTreeSave
+              - commandTreeStatus
+              - commandTreeValidate
+              - commandTreeVisualize
+              - commandWait
+              - conditionExpressionTester
+              - configDriftScan
+              - configGet
+              - configSet
+              - connectedFiles
+              - consoleErrorTriage
+              - contextPack
+              - continueMustCallNext
+              - copyFile
+              - copyTree
+              - coverageRunner
+              - credentialLeakRisk
+              - crossSurfaceToolDocs
+              - ctxPathProbe
+              - deadCommentDetector
+              - deadExportScan
+              - deleteFile
+              - deleteTree
+              - dependencyBlindSpotScan
+              - dependencyCycleCheck
+              - dependencyDiff
+              - dependencyDoctor
+              - dependencyGraph
+              - dependencyInstallPlan
+              - dependencyRiskScan
+              - dependencyVulnPlan
+              - destructiveIntentGate
+              - detectAbstractionLeaks
+              - detectConceptClusters
+              - detectDeadConcepts
+              - docsGeneratedFreshness
+              - doctorAll
+              - domDomRenderLab
+              - duplicateBasenames
+              - duplicateConceptScan
+              - emptyDir
+              - endpointDiscovery
+              - endpointMethodProbe
+              - ensureFile
+              - envDoctor
+              - envFileAudit
+              - environmentVirtualizer
+              - ephemeralDelete
+              - ephemeralList
+              - ephemeralMeta
+              - ephemeralPage
+              - ephemeralSearch
+              - errorCluster
+              - failedActionMemory
+              - failingTestTriage
+              - fakeSshAuth
+              - fakeSshClose
+              - fakeSshExec
+              - fakeSshHelp
+              - fakeSshMounts
+              - fakeSshRead
+              - fakeSshResolve
+              - fakeSshServerPlan
+              - fakeSshServerStatus
+              - fakeSshSession
+              - fakeSshSftpList
+              - fakeSshSftpMkdir
+              - fakeSshSftpRead
+              - fakeSshSftpRemove
+              - fakeSshSftpStat
+              - fakeSshSftpWrite
+              - fileHashes
+              - fileTreeDiff
+              - find
+              - findFiles
+              - finishAndContinue
+              - forEachActionBatch
+              - fsActionStream
+              - fsPermissionEnvelope
+              - functionPatchDryRun
+              - generateRepairPlan
+              - generateTestUniverse
+              - getContext
+              - getPostMismatchScan
+              - gitBranchDoctor
+              - gitConflictExplainer
+              - gitDiffSmart
+              - gitDoctor
+              - gitIgnoreDoctor
+              - gitIgnoreHygiene
+              - gitMergeDoctor
+              - gitPatchSummary
+              - gitRemoteHealth
+              - gitSafeCommitPlan
+              - gitStashPlan
+              - gitStatusDeep
+              - goalCompiler
+              - grep
+              - handoffPack
+              - hashGuardAdvisor
+              - httpCookieDelete
+              - httpCookieJarList
+              - httpCookies
+              - httpCookieSet
+              - httpDownload
+              - httpJson
+              - httpRequest
+              - httpSessionClear
+              - httpTrace
+              - httpUseChromeCookies
+              - imageWrite
+              - importResolverExplain
+              - inferArchitecture
+              - inferBusinessRules
+              - insertAfterFunction
+              - insertAfterScope
+              - insertBeforeFunction
+              - insertBeforeScope
+              - inspectHumanConfusion
+              - inspectRenderStorms
+              - installPlan
+              - installScriptParityCheck
+              - intentDriftDetector
+              - interactionRecorder
+              - interactionReplayDiff
+              - isolatedCleanup
+              - isolatedHtmlTest
+              - isolatedJsTest
+              - isolatedNodeCheck
+              - isolatedToolRepairPlan
+              - jsdocCoverageScan
+              - jsonFormat
+              - jsonValidate
+              - largeFiles
+              - largeFileSplitPlanner
+              - lastActionReplay
+              - lastFailureExplain
+              - lazyContextPack
+              - lintRunner
+              - list
+              - liveAgentVersionCompare
+              - localVsPublicRouteDiff
+              - lockfileDoctor
+              - logSearch
+              - logTail
+              - macroExplain
+              - macroPatch
+              - macroRecordStart
+              - macroRecordStop
+              - macroReplay
+              - md
+              - merkavaCommandTree
+              - merkavaParserSmoke
+              - merkavaRenderLab
+              - merkavaVsChromeDiff
+              - merkavaWorkflowRun
+              - microPatchPlanner
+              - minimalReproGenerator
+              - missionActionStream
+              - missionAddTask
+              - missionAgentAudit
+              - missionAgentClaim
+              - missionAgentComplete
+              - missionAgentDelegate
+              - missionAgentHeartbeat
+              - missionAgentMessage
+              - missionAgentRespond
+              - missionAgentSync
+              - missionAnswer
+              - missionAttachJob
+              - missionAuto
+              - missionAutopilot
+              - missionAwareClassify
+              - missionAwareClear
+              - missionAwareContract
+              - missionAwareStatus
+              - missionAwareUse
+              - missionBootResume
+              - missionBoredomCheck
+              - missionBrainstorm
+              - missionCheckpoint
+              - missionCheckpointAdd
+              - missionChunkPlan
+              - missionCollaborationUserMessage
+              - missionCompleteTask
+              - missionCompletionGate
+              - missionConstitution
+              - missionContinueOneHour
+              - missionContinueUntilGate
+              - missionContinuity
+              - missionCourt
+              - missionCycle
+              - missionDaemonRecover
+              - missionDaemonStart
+              - missionDaemonStatus
+              - missionDaemonStop
+              - missionDaemonTick
+              - missionDeadmanStatus
+              - missionDiscover
+              - missionEarlyFinalAttempt
+              - missionEmergencyEnd
+              - missionEmergencyReconcile
+              - missionEmergencyStart
+              - missionEntropy
+              - missionEvidence
+              - missionEvidenceDebt
+              - missionEvidenceRecord
+              - missionExecuteNext8
+              - missionExpand
+              - missionFamilies
+              - missionFilesToTouch
+              - missionFinalize
+              - missionGet
+              - missionGraph
+              - missionHandoffGenerate
+              - missionHeartbeat
+              - missionImprovementDashboard
+              - missionImprovementPlan
+              - missionInnovationLedger
+              - missionLease
+              - missionLeaseClaim
+              - missionLeaseHeartbeat
+              - missionLeaseRenew
+              - missionLedgerCreate
+              - missionLedgerList
+              - missionLedgerStatus
+              - missionList
+              - missionLoopCheckpoint
+              - missionLoopPulse
+              - missionLoopQueue
+              - missionLoopSeed
+              - missionLoopWatchdog
+              - missionMetadataStatus
+              - missionNext
+              - missionNext8Plan
+              - missionNextPlan
+              - missionNoveltyScore
+              - missionOathAccept
+              - missionOsAddNode
+              - missionOsConstitution
+              - missionOsCycleCheck
+              - missionOsKeepGoing
+              - missionOsNext
+              - missionOsPrompt
+              - missionOsReceipt
+              - missionOsReleaseCourt
+              - missionOsSeed
+              - missionOsStatus
+              - missionOsSteer
+              - missionOsUpdateNode
+              - missionPlanDelta
+              - missionPostCompletion
+              - missionProjectDiscover
+              - missionProjectInvite
+              - missionProjectJoin
+              - missionProjectStatus
+              - missionProtocolAnswer
+              - missionProtocolFinalizeCheck
+              - missionProtocolNext
+              - missionProtocolReview
+              - missionProtocolSimulate
+              - missionProtocolStage
+              - missionProtocolStart
+              - missionProtocolStatus
+              - missionQuestion
+              - missionQueueAdd
+              - missionQueueComplete
+              - missionQueueStatus
+              - missionRecovery
+              - missionRefrigerate
+              - missionRepeatBetter
+              - missionReport
+              - missionResourceStatus
+              - missionReviewNext8Step
+              - missionRoleRotate
+              - missionRoomAcceptSplit
+              - missionRoomBrainstorm
+              - missionRoomClaimFile
+              - missionRoomClaimTask
+              - missionRoomCreate
+              - missionRoomCreateSubMissions
+              - missionRoomDiscoverAgents
+              - missionRoomFileConflicts
+              - missionRoomFindActive
+              - missionRoomHandoffPack
+              - missionRoomHeartbeat
+              - missionRoomInbox
+              - missionRoomInnovationLedger
+              - missionRoomInviteAgent
+              - missionRoomJoin
+              - missionRoomLiveStatus
+              - missionRoomLoopCourt
+              - missionRoomLoopPulse
+              - missionRoomLoopStatus
+              - missionRoomMergeCourt
+              - missionRoomMergeReports
+              - missionRoomMessage
+              - missionRoomProposeSplit
+              - missionRoomRealChatSimulate
+              - missionRoomRecoverInterrupt
+              - missionRoomRecoverStaleAgent
+              - missionRoomReleaseFile
+              - missionRoomReplay
+              - missionRoomSchedulerResume
+              - missionRoomSchedulerRun
+              - missionRoomSchedulerStatus
+              - missionRoomSelfImprovePulse
+              - missionRoomSettings
+              - missionRoomSimulate
+              - missionRoomStatus
+              - missionRoomSummit
+              - missionRoomTrustScore
+              - missionRoomUserMessage
+              - missionRoomWakeAgent
+              - missionRoomWatchdog
+              - missionSelfImproveCourt
+              - missionSelfImprovePulse
+              - missionSelfImproveRunBounded
+              - missionSelfImproveSchedulerResume
+              - missionSelfImproveSchedulerRun
+              - missionSelfImproveSchedulerStatus
+              - missionSelfImproveStart
+              - missionSelfImproveStatus
+              - missionSelfMailDraft
+              - missionSimulateNext
+              - missionSnapshotTake
+              - missionSpawnNext
+              - missionStart
+              - missionStepBrainstorm
+              - missionStepDelta
+              - missionStepExecute
+              - missionStepPlan
+              - missionStepReview
+              - missionStopAuditList
+              - missionSupervise
+              - missionTakeoverClaim
+              - missionThaw
+              - missionTimeline
+              - missionTransactionPlan
+              - missionTurnDrain
+              - missionTurnOnce
+              - missionTurnPause
+              - missionTurnResume
+              - missionTurnSet
+              - missionTurnStatus
+              - missionTurnStop
+              - missionVerify
+              - missionWatchdogRecover
+              - missionWatchdogStatus
+              - missionWatchdogTick
+              - mkdirp
+              - modelToolCompatibility
+              - moduleGraphCompleteness
+              - moveFile
+              - moveTree
+              - mutationPatchTest
+              - networkDoctor
+              - networkFailureTriage
+              - networkReplaySummary
+              - nodeCheckFile
+              - nodeCheckFiles
+              - nodeCheckMany
+              - nodeDoctor
+              - nodeDomClick
+              - nodeDomConsole
+              - nodeDomDiff
+              - nodeDomEval
+              - nodeDomNetworkMock
+              - nodeDomQuery
+              - nodeDomRoute
+              - nodeDomRun
+              - nodeDomSnapshot
+              - nodeDomStorage
+              - nodeDomSubmit
+              - nodeDomTest
+              - nodeDomType
+              - nodePackageScripts
+              - nodeRequire
+              - nodeResolve
+              - nodeVersionCompatibility
+              - nodeVersionDoctor
+              - npmScriptExplain
+              - npmScriptMatrix
+              - oauthDoctor
+              - oauthStateDoctor
+              - openApiAgentDiff
+              - openApiRegenerator
+              - openApiValidate
+              - openRoot
+              - orchestrationGraph
+              - outdatedDependencyScan
+              - packageInfo
+              - packageManagerDoctor
+              - packageScriptRunner
+              - parallelActionBatch
+              - pathDoctor
+              - payloadEcho
+              - payloadShapeInfer
+              - perfBudgetCheck
+              - permissionDoctor
+              - placeholderDetector
+              - policyGuard
+              - portDoctor
+              - portFind
+              - portKillSafe
+              - portList
+              - powershellCompatibilityCheck
+              - previewActionResult
+              - previewBranchMatrix
+              - previewBuildRunner
+              - previewCollection
+              - previewCreate
+              - previewExposeLocalServer
+              - previewFile
+              - previewFolder
+              - previewList
+              - previewLiveCommand
+              - previewPage
+              - previewReceiptAttach
+              - previewReceiptList
+              - previewReceiptVerify
+              - previewRevoke
+              - previewSettingsGet
+              - previewSettingsSet
+              - probeCoverageMap
+              - processDoctor
+              - processFind
+              - processKillSafe
+              - processList
+              - projectOverview
+              - providerCapabilityMatrix
+              - read
+              - read64
+              - readBytes
+              - readLines
+              - readManyLines
+              - recentFiles
+              - regexFallbackDetector
+              - releasePack
+              - remoteDesktopAnswer
+              - remoteDesktopAsk
+              - remoteDesktopAuditLog
+              - remoteDesktopBookmark
+              - remoteDesktopBrowserPeerScript
+              - remoteDesktopCapabilityMatrix
+              - remoteDesktopChromeFramePlan
+              - remoteDesktopChromeFramePush
+              - remoteDesktopChromeScreenshotPush
+              - remoteDesktopConsentStatus
+              - remoteDesktopCreateSession
+              - remoteDesktopDenyConsent
+              - remoteDesktopEngineRoadmap
+              - remoteDesktopExport
+              - remoteDesktopFeatureCatalog
+              - remoteDesktopFrameLatest
+              - remoteDesktopFramePush
+              - remoteDesktopFutureCatalog
+              - remoteDesktopGrantConsent
+              - remoteDesktopGrantInput
+              - remoteDesktopHeartbeat
+              - remoteDesktopHelperSkeletons
+              - remoteDesktopIceCandidate
+              - remoteDesktopInputEvent
+              - remoteDesktopNativeHelperPlan
+              - remoteDesktopOffer
+              - remoteDesktopPause
+              - remoteDesktopPeerConnectionPlan
+              - remoteDesktopPeerStateTemplate
+              - remoteDesktopPermissionContract
+              - remoteDesktopPermissionProfile
+              - remoteDesktopPlatformCapabilities
+              - remoteDesktopPolicy
+              - remoteDesktopResume
+              - remoteDesktopRevoke
+              - remoteDesktopRisk
+              - remoteDesktopScreenshotSourcePlan
+              - remoteDesktopSessionList
+              - remoteDesktopSessionNote
+              - remoteDesktopSessionSummary
+              - remoteDesktopSignalSummary
+              - remoteDesktopUniversalGraph
+              - remoteDesktopUniversalRoadmap
+              - remoteDesktopUniversalVision
+              - remoteDriveBrowse
+              - remoteDriveList
+              - remoteDriveMount
+              - remoteDriveRead
+              - remoteDriveSearch
+              - remoteDriveStat
+              - remoteDriveTree
+              - remoteDriveUnmount
+              - remoteNativeDesktopAuthPlan
+              - remoteNativeDesktopKeyboard
+              - remoteNativeDesktopPlan
+              - remoteNativeDesktopPointer
+              - remoteNativeDesktopProtocols
+              - remoteNativeDesktopRenderScene
+              - remoteNativeDesktopRfbSetScene
+              - remoteNativeDesktopRfbStart
+              - remoteNativeDesktopRfbStatus
+              - remoteNativeDesktopRfbStop
+              - remoteNativeDesktopSampleScene
+              - renderModeMatrix
+              - repairPatchSuggester
+              - replaceFunction
+              - replaceFunctionBody
+              - replaceMethod
+              - replaceRange
+              - replaceScope
+              - replaceScopeBody
+              - replaceSymbol
+              - repoDoctor
+              - restoreSnapshotPlan
+              - retryAction
+              - reviewPack
+              - rg
+              - rgCancel
+              - rgPage
+              - rgStart
+              - rgStatus
+              - rgStream
+              - rgSummary
+              - roomActionStream
+              - rootBrowse
+              - roots
+              - rootSelect
+              - routeAudit
+              - routeContextPack
+              - routeExecutorGraph
+              - runtime
+              - runtimeContractRegistry
+              - runtimeEngineMatrix
+              - runtimeEntityGraph
+              - runtimeIntrospectionStream
+              - runtimeOptionEcho
+              - runtimeSnapshot
+              - runtimeSnapshotCompare
+              - runtimeWorkflow
+              - safeEnvTemplate
+              - safeInstall
+              - safePathExplain
+              - sandboxHealthCheck
+              - sandboxRootDoctor
+              - schemaRoundTripTest
+              - scriptDiscovery
+              - secretScan
+              - securityHeadersCheck
+              - selectString
+              - selfHealingCommandRegistry
+              - selfHealPreview
+              - semanticCache
+              - semanticDiff
+              - semanticEditPreview
+              - semanticMerge
+              - semanticPackageGenerator
+              - semanticPipeline
+              - semanticRefactor
+              - semanticSearchRuntime
+              - serverHealthProbe
+              - serverRestart
+              - serverStart
+              - serverStop
+              - shareAudit
+              - shareCreate
+              - shareGet
+              - shareList
+              - sharePreviewCommandJob
+              - sharePreviewFile
+              - sharePreviewFolder
+              - sharePreviewServer
+              - shareRevoke
+              - shareRevokeAll
+              - shellCommand
+              - shellSyntaxTranslator
+              - simulateFailure
+              - simulateRuntime
+              - simulateRuntimeProviders
+              - snapshotBeforeAfter
+              - snapshotWorkspace
+              - stackTraceExplain
+              - stat
+              - stateTimeMachine
+              - staticServerList
+              - staticServerLogs
+              - staticServerStart
+              - staticServerStop
+              - superviseRuntime
+              - symbolContextPack
+              - symbolOutline
+              - symbolResolutionTrace
+              - syntaxCheck
+              - taskAppendOutput
+              - taskComplete
+              - taskFail
+              - taskOutputPage
+              - taskStart
+              - taskStatus
+              - templateFork
+              - templateFromAction
+              - templateFromHistory
+              - templatePatchRun
+              - templatePromote
+              - testDiscovery
+              - testFailureExplainer
+              - testMatrix
+              - testMatrixRunner
+              - testRunner
+              - testRuntimeOnce
+              - textStats
+              - toolCallFuzzer
+              - toolManifestGenerator
+              - toolManifestValidate
+              - toolNameCollisionScan
+              - toolStressMatrix
+              - toolSurfaceDiff
+              - toolUsageTelemetry
+              - touch
+              - transportMethodProbe
+              - tree
+              - treeCancel
+              - treePage
+              - treeStart
+              - treeStatus
+              - treeStream
+              - treeSummary
+              - tunnelDoctor
+              - tunnelLivenessTimeline
+              - typecheckRunner
+              - universalAppManifest
+              - uploadImage
+              - virtualDomDiff
+              - virtualDomScreenshot
+              - virtualDomSnapshot
+              - virtualDomTest
+              - virtualOsGraphDelete
+              - virtualOsGraphDiff
+              - virtualOsGraphGet
+              - virtualOsGraphHistory
+              - virtualOsGraphPathLookup
+              - virtualOsGraphReferences
+              - virtualOsGraphReset
+              - virtualOsGraphSample
+              - virtualOsGraphSearch
+              - virtualOsGraphStatus
+              - virtualOsGraphSubscribe
+              - virtualOsGraphTransaction
+              - virtualOsGraphTraverse
+              - virtualOsGraphUnsubscribe
+              - virtualOsGraphUpsert
+              - virtualOsGraphWatchers
+              - virtualOsGraphWatchPoll
+              - waitForPort
+              - waitForUrl
+              - watchTestOnce
+              - websiteAgentMissionForget
+              - websiteAgentMissionList
+              - websiteAgentMissionMessage
+              - websiteAgentMissionStart
+              - websiteAgentMissionStatus
+              - websiteAgentMissionStop
+              - windowsExeSmokeTest
+              - workerActionStream
+              - workflowGet
+              - workflowList
+              - workflowRun
+              - workflowStepLinter
+              - workflowValidate
+              - workspaceDoctor
+              - write
+              - writeIfHash
+              - writeImage
+              - writePayloadSizer
+              - yamlValidate
+        - { name: p, in: query, schema: { type: string } }
+        - { name: path, in: query, schema: { type: string } }
+        - { name: cwd, in: query, schema: { type: string } }
+        - { name: root, in: query, schema: { type: string } }
+        - { name: content, in: query, schema: { type: string } }
+        - { name: content64, in: query, schema: { type: string } }
+        - { name: find, in: query, schema: { type: string } }
+        - { name: find64, in: query, schema: { type: string } }
+        - { name: replace, in: query, schema: { type: string } }
+        - { name: replace64, in: query, schema: { type: string } }
+        - { name: query, in: query, schema: { type: string } }
+        - { name: query64, in: query, schema: { type: string } }
+        - { name: command, in: query, schema: { type: string } }
+        - { name: command64, in: query, schema: { type: string } }
+        - { name: text, in: query, schema: { type: string } }
+        - { name: text64, in: query, schema: { type: string } }
+        - { name: goal, in: query, schema: { type: string } }
+        - { name: goal64, in: query, schema: { type: string } }
+        - { name: params, in: query, schema: { type: string } }
+        - { name: params64, in: query, schema: { type: string } }
+        - { name: actions, in: query, schema: { type: string } }
+        - { name: actions64, in: query, schema: { type: string } }
+        - { name: actionsJson, in: query, schema: { type: string } }
+        - { name: actionsJson64, in: query, schema: { type: string } }
+        - { name: writes, in: query, schema: { type: string } }
+        - { name: writes64, in: query, schema: { type: string } }
+        - { name: files, in: query, schema: { type: string } }
+        - { name: files64, in: query, schema: { type: string } }
+        - { name: paths, in: query, schema: { type: string } }
+        - { name: paths64, in: query, schema: { type: string } }
+        - { name: tree, in: query, schema: { type: string } }
+        - { name: tree64, in: query, schema: { type: string } }
+        - { name: vars, in: query, schema: { type: string } }
+        - { name: vars64, in: query, schema: { type: string } }
+        - { name: url, in: query, schema: { type: string } }
+        - { name: conversationUrl, in: query, schema: { type: string } }
+        - { name: chatgptUrl, in: query, schema: { type: string } }
+        - { name: sessionId, in: query, schema: { type: string } }
+        - { name: chatgptSessionId, in: query, schema: { type: string } }
+        - { name: conversationId, in: query, schema: { type: string } }
+        - { name: selector, in: query, schema: { type: string } }
+        - { name: targetVessel, in: query, schema: { type: string } }
+        - { name: vessel, in: query, schema: { type: string } }
+        - { name: fallback, in: query, schema: { type: string } }
+        - { name: routeReference, in: query, schema: { type: string } }
+        - { name: treeId, in: query, schema: { type: string } }
+        - { name: outputId, in: query, schema: { type: string } }
+        - { name: jobId, in: query, schema: { type: string } }
+        - { name: taskId, in: query, schema: { type: string } }
+        - { name: actionId, in: query, schema: { type: string } }
+        - { name: processKey, in: query, schema: { type: string } }
+        - { name: receiptId, in: query, schema: { type: string } }
+        - { name: workerId, in: query, schema: { type: string } }
+        - { name: stream, in: query, schema: { type: string } }
+        - { name: controlRequestId, in: query, schema: { type: string } }
+        - { name: originalControlRequestId, in: query, schema: { type: string } }
+        - { name: clientRequestId, in: query, schema: { type: string } }
+        - { name: requestedAction, in: query, schema: { type: string } }
+        - { name: requestAction, in: query, schema: { type: string } }
+        - { name: resumeToken, in: query, schema: { type: string } }
+        - { name: continuationPrompt, in: query, schema: { type: string } }
+        - { name: continuationPrompt64, in: query, schema: { type: string } }
+        - { name: multipleChoiceAnswer, in: query, schema: { type: string } }
+        - { name: choice, in: query, schema: { type: string } }
+        - { name: answer, in: query, schema: { type: string } }
+        - { name: missionId, in: query, schema: { type: string } }
+        - { name: websiteMissionId, in: query, schema: { type: string } }
+        - { name: parentWebsiteMissionId, in: query, schema: { type: string } }
+        - { name: parentMissionId, in: query, schema: { type: string } }
+        - { name: projectRoot, in: query, schema: { type: string } }
+        - { name: logicalAgentId, in: query, schema: { type: string } }
+        - { name: agentSessionId, in: query, schema: { type: string } }
+        - { name: agentId, in: query, schema: { type: string } }
+        - { name: parentAgentId, in: query, schema: { type: string } }
+        - { name: agentName, in: query, schema: { type: string } }
+        - { name: claimId, in: query, schema: { type: string } }
+        - { name: delegationId, in: query, schema: { type: string } }
+        - { name: requestKey, in: query, schema: { type: string } }
+        - { name: spawnRequestKey, in: query, schema: { type: string } }
+        - { name: provider, in: query, schema: { type: string } }
+        - { name: providerId, in: query, schema: { type: string } }
+        - { name: model, in: query, schema: { type: string } }
+        - { name: apiKey, in: query, schema: { type: string } }
+        - { name: apiKey64, in: query, schema: { type: string } }
+        - { name: message, in: query, schema: { type: string } }
+        - { name: message64, in: query, schema: { type: string } }
+        - { name: prompt, in: query, schema: { type: string } }
+        - { name: prompt64, in: query, schema: { type: string } }
+        - { name: childPrompt, in: query, schema: { type: string } }
+        - { name: system, in: query, schema: { type: string } }
+        - { name: system64, in: query, schema: { type: string } }
+        - { name: profile, in: query, schema: { type: string } }
+        - { name: role, in: query, schema: { type: string } }
+        - { name: scope, in: query, schema: { type: string } }
+        - { name: kind, in: query, schema: { type: string } }
+        - { name: evidence, in: query, schema: { type: string } }
+        - { name: reportId, in: query, schema: { type: string } }
+        - { name: next, in: query, schema: { type: string } }
+        - { name: findings, in: query, schema: { type: string } }
+        - { name: references, in: query, schema: { type: string } }
+        - { name: reason, in: query, schema: { type: string } }
+        - { name: offsetChars, in: query, schema: { type: integer, default: 0 } }
+        - { name: offsetBytes, in: query, schema: { type: integer, default: 0 } }
+        - { name: maxInlineChars, in: query, schema: { type: integer, default: 12000 } }
+        - { name: pageChars, in: query, schema: { type: integer, default: 12000 } }
+        - { name: maxChars, in: query, schema: { type: integer, default: 12000 } }
+        - { name: maxBytes, in: query, schema: { type: integer, default: 24000 } }
+        - { name: totalMaxChars, in: query, schema: { type: integer, default: 24000 } }
+        - { name: maxFiles, in: query, schema: { type: integer, default: 5 } }
+        - { name: depth, in: query, schema: { type: integer, default: 2 } }
+        - { name: limit, in: query, schema: { type: integer, default: 150 } }
+        - { name: timeoutMs, in: query, schema: { type: integer, default: 240000 } }
+        - { name: waitTimeoutMs, in: query, schema: { type: integer, default: 25000 } }
+        - { name: budgetPerutas, in: query, schema: { type: integer, default: 0 } }
+        - { name: ttlSeconds, in: query, schema: { type: integer, default: 3600 } }
+        - { name: page, in: query, schema: { type: integer, default: 1 } }
+        - { name: pageSize, in: query, schema: { type: integer, default: 50 } }
+        - { name: port, in: query, schema: { type: integer, default: 9222 } }
+        - { name: pollIntervalMs, in: query, schema: { type: integer, default: 7000 } }
+        - { name: leaseMs, in: query, schema: { type: integer, default: 3600000 } }
+        - { name: maxTurns, in: query, schema: { type: integer, default: 40 } }
+        - { name: batchTurns, in: query, schema: { type: integer, default: 1 } }
+        - { name: keepTurns, in: query, schema: { type: integer, default: 24 } }
+        - { name: keepTabs, in: query, schema: { type: integer, default: 1 } }
+        - { name: settleMs, in: query, schema: { type: integer, default: 2500 } }
+        - { name: allowWrite, in: query, schema: { type: boolean } }
+        - { name: allowCommands, in: query, schema: { type: boolean } }
+        - { name: allowSecrets, in: query, schema: { type: boolean } }
+        - { name: enableLocalHttpProxy, in: query, schema: { type: boolean } }
+        - { name: regex, in: query, schema: { type: boolean, default: false } }
+        - { name: replaceAll, in: query, schema: { type: boolean, default: true } }
+        - { name: dryRun, in: query, schema: { type: boolean, default: true } }
+        - { name: confirm, in: query, schema: { type: boolean, default: false } }
+        - { name: optional, in: query, schema: { type: boolean, default: false } }
+        - { name: continueOnError, in: query, schema: { type: boolean, default: false } }
+        - { name: asyncCommand, in: query, schema: { type: boolean, default: false } }
+        - { name: background, in: query, schema: { type: boolean, default: false } }
+        - { name: inlineOutput, in: query, schema: { type: boolean, default: true } }
+        - { name: guidanceDebug, in: query, schema: { type: boolean, default: false } }
+        - { name: debugGuidance, in: query, schema: { type: boolean, default: false } }
+        - { name: blockOnUserMessage, in: query, schema: { type: boolean, default: true } }
+        - { name: allowContinue, in: query, schema: { type: boolean, default: false } }
+        - { name: optimizeDom, in: query, schema: { type: boolean, default: true } }
+        - { name: closeOldTabs, in: query, schema: { type: boolean, default: false } }
+        - { name: complete, in: query, schema: { type: boolean, default: false } }
+      responses:
+        "200": { description: OK. Read responseFocus first., content: { application/json: { schema: { $ref: "#/components/schemas/AnyResponse" } } } }
+  /api/tunnel/control/preview/{tunnelName}:
+    get:
+      operationId: awtsmoosPreviewProxy
+      summary: Fetch preview through tunnel.
+      security: [{ OAuth2: [profile, tunnel.read] }]
+      parameters:
+        - { name: tunnelName, in: path, required: true, schema: { type: string } }
+        - { name: url, in: query, schema: { type: string } }
+        - { name: maxChars, in: query, schema: { type: integer, default: 500000 } }
+      responses:
+        "200": { description: Preview response body }
+components:
+  schemas:
+    AnyResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        ok: { type: boolean }
+        error: { type: string }
+        action: { type: string }
+        jobId: { type: string }
+        content: { type: string }
+        responseFocus: { type: object, additionalProperties: true }
+        awtsmoosNext: { type: object, additionalProperties: true }
+        multipleChoiceSelfInterrogation: { type: object, additionalProperties: true }
+        allCapsPrompt: { type: string }
+        acceptedAnswerFormat: { type: string }
+        mustContinue: { type: boolean }
+        mustCallNext: { type: object, additionalProperties: true }
+        finalAnswerAllowed: { type: boolean }
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://awtsmoos.com/api/oauth/start
+          tokenUrl: https://awtsmoos.com/api/oauth/token
+          scopes:
+            profile: Basic identity access.
+            tunnel.read: Read tunnel state.
+            tunnel.write: Modify authorized files.
+            tunnel.command: Execute command diagnostics.
+            tunnel.browser: Browser automation.
+            tunnel.mission: Coordinate mission lifecycle.
+            tunnel.room: Read and publish shared-room messages.
+            tunnel.admin: Administrative tunnel operations.

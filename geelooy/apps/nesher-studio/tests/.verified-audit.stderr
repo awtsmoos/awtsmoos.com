@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/tmp/nesher_geometry.py", line 70, in <module>
+    'desktop': audit_viewport('desktop', 9402, 1200, 683, False),
+               ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/nesher_geometry.py", line 48, in audit_viewport
+    devtools.call('Page.navigate', {'url': f"http://127.0.0.1:{os.environ['SERVER_PORT']}/?audit={name}"})
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/nesher_cdp.py", line 85, in call
+    message = json.loads(self.socket.receive())
+                         ~~~~~~~~~~~~~~~~~~~^^
+  File "/private/tmp/nesher_cdp.py", line 55, in receive
+    first, second = self.exact(2)
+                    ~~~~~~~~~~^^^
+  File "/private/tmp/nesher_cdp.py", line 31, in exact
+    chunk = self.connection.recv(length - len(data))
+TimeoutError: timed out

@@ -1,0 +1,113 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives the human word a deliberate launch chamber.
+ * Awtsmoos.com preserves clarity, keyboard speed, focus, and delivery state
+ * inside a composer native to the living mission mesh.
+ */
+@layer awt.views {
+	.awt-agent-composer {
+		display: grid;
+		gap: 8px;
+		padding: 11px;
+		border: 1px solid rgba(255, 255, 255, .07);
+		border-radius: 16px;
+		background: rgba(255, 255, 255, .025);
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+	}
+
+	.awt-agent-composer-label {
+		font-size: .65rem;
+		font-weight: 800;
+		letter-spacing: .1em;
+		text-transform: uppercase;
+		color: rgba(215, 234, 252, .55);
+	}
+
+	.awt-agent-direct-input {
+		width: 100%;
+		min-height: 96px;
+		padding: 12px 13px;
+		border: 1px solid rgba(255, 255, 255, .08);
+		border-radius: 13px;
+		resize: vertical;
+		background: rgba(2, 9, 21, .72);
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, .025);
+		color: rgba(242, 249, 255, .92);
+		font: inherit;
+		font-size: .86rem;
+		line-height: 1.55;
+		transition:
+			border-color 180ms ease,
+			box-shadow 180ms ease,
+			background 180ms ease;
+	}
+
+	.awt-agent-direct-input::placeholder {
+		color: rgba(202, 222, 242, .34);
+	}
+
+	.awt-agent-direct-input:focus {
+		outline: none;
+		border-color: rgb(var(--agent-cyan) / .46);
+		background: rgba(3, 12, 27, .9);
+		box-shadow:
+			0 0 0 3px rgb(var(--agent-cyan) / .075),
+			inset 0 1px 0 rgba(255, 255, 255, .035);
+	}
+
+	.awt-agent-composer-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+	}
+
+	.awt-agent-composer-hint {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		font-size: .62rem;
+		color: rgba(205, 225, 245, .42);
+	}
+
+	.awt-agent-composer-hint kbd {
+		padding: 2px 5px;
+		border: 1px solid rgba(255, 255, 255, .09);
+		border-radius: 5px;
+		background: rgba(255, 255, 255, .04);
+		font: inherit;
+		font-weight: 750;
+		color: rgba(235, 246, 255, .7);
+	}
+
+	.awt-agent-send {
+		position: relative;
+		min-width: 150px;
+		padding: 10px 15px;
+		border: 1px solid rgb(var(--agent-cyan) / .35);
+		border-radius: 11px;
+		overflow: hidden;
+		background: linear-gradient(
+			135deg,
+			rgb(var(--agent-cyan) / .22),
+			rgb(var(--agent-violet) / .2)
+		);
+		box-shadow:
+			0 10px 24px rgb(var(--agent-cyan) / .08),
+			inset 0 1px 0 rgba(255, 255, 255, .12);
+		color: white;
+		font-weight: 800;
+	}
+
+	.awt-agent-send:hover:not(:disabled) {
+		transform: translateY(-1px);
+		box-shadow: 0 14px 30px rgb(var(--agent-cyan) / .13);
+	}
+
+	.awt-agent-send:disabled {
+		cursor: progress;
+		opacity: .58;
+	}
+}

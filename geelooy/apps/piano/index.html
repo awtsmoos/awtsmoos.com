@@ -1,0 +1,130 @@
+﻿<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Awtsmoos Web Synthesizer - Ultimate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="start-screen"><button id="start-button">Start Synthesizer</button></div>
+    <div id="app-container">
+        <div id="keyboard-container"></div>
+        <div id="top-scrollbars-container">
+            <div id="custom-scrollbar-container" class="custom-scrollbar-container"><div id="custom-scrollbar-thumb" class="custom-scrollbar-thumb"></div></div>
+        </div>
+        <div id="middle-scrollbar-container">
+            <div id="custom-scrollbar-container-top" class="custom-scrollbar-container"><div id="custom-scrollbar-thumb-top" class="custom-scrollbar-thumb"></div></div>
+        </div>
+        <div id="left-ui-container">
+            <div class="menu-icon"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+            <div id="settings-bar">
+                <div class="settings-wrapper">
+                    <div class="settings-content">
+                        <label>Master Vol:</label><input type="range" id="master-volume-slider" min="0.1" max="1.0" step="0.05" value="0.7">
+                        <label>Preset:</label><select id="sound-preset-select"></select>
+                        <label>Wave:</label><select id="waveform-select"></select>
+                        <label>Start:</label><select id="octave-select"><option value="0" selected>C0</option><option value="1">C1</option><option value="2">C2</option><option value="3">C3</option><option value="4">C4</option></select>
+                        <label>Width:</label><input type="range" id="key-width-slider" min="60" max="240" step="10" value="130">
+                        <br>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="play-chords-checkbox"> Play Chords</label>
+                            <label><input type="checkbox" id="auto-bass-checkbox"> Auto-Bass (B"H)</label>
+                            <label id="always-dual-label"><input type="checkbox" id="always-dual-checkbox"> Always Dual View</label>
+                            <label id="independent-scroll-label" class="hidden-ui"><input type="checkbox" id="independent-scroll-checkbox"> Independent Scroll</label>
+                            <label><input type="checkbox" id="desktop-keys-checkbox" checked> Show Keys (Desktop)</label>
+                        </div>
+                        <br>
+                        <button id="advanced-synth-toggle">Main Synth Settings</button>
+                        <button id="chord-settings-toggle">Chord Settings</button>
+                        <button id="audio-io-toggle">Audio I/O</button>
+                        <button id="restore-defaults-button" style="background-color: #6c757d;">Defaults</button>
+                    </div>
+                    <div id="visual-effects-menu" class="nested-menu settings-content">
+                        <div class="setting-item">
+                            <label for="myFPS">FPS:</label><input id="myFPS" type="number" min="8" max="30" step="1" value="24">
+                            <label for="effect-route-select">Effects Where:</label><select id="effect-route-select" class="control-select"><option value="both" selected>Realtime + Video</option><option value="realtime">Realtime Only</option><option value="video">Video Only</option><option value="none">Neither</option></select><label for="effect-select">Visual Effect:</label>
+                            <select id="effect-select" class="control-select">
+                                <option value="explosion" selected>Explosion (Live Assist)</option>
+                                <option value="touchpoint">Touch Point (Lightweight)</option>
+                            </select>
+                        </div>
+                        <h4>Particle Types</h4>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="enable-hebrew" checked> Hebrew</label>
+                            <label><input type="checkbox" id="enable-emojis" checked> Emojis</label>
+                            <label><input type="checkbox" id="enable-sparks" checked> Sparks</label>
+                            <label><input type="checkbox" id="enable-bubbles" checked> Bubbles</label>
+                        </div>
+                        <br>
+                        <h4>Particle Physics</h4>
+                        <label>Density:</label><input type="range" id="particle-density" min="1" max="50" step="1" value="10">
+                        <label>Speed:</label><input type="range" id="particle-speed" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <label>Size Var:</label><input type="range" id="particle-size" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <label>Lifespan:</label><input type="range" id="particle-lifespan" min="0.5" max="2.0" step="0.1" value="0.8">
+                        <br>
+                        <h4>Lightning</h4>
+                        <label>Amount:</label><input type="range" id="lightning-amount" min="0" max="1.0" step="0.05" value="0.15">
+                    </div>
+                    <div id="chord-settings-menu" class="nested-menu settings-content">
+                        <label>Mode:</label><select id="chord-mode-select"><option value="auto" selected>Auto-Detect</option><option value="major">Major</option><option value="minor">Minor</option></select>
+                        <label>Octave:</label><select id="chord-octave-select"><option value="auto" selected>Auto</option><option value="-1">1 Octave Below</option><option value="0">Current Octave</option><option value="1">1 Octave Above</option></select>
+                        <br>
+                        <label>Chord Wave:</label><select id="chord-waveform-select"></select>
+                        <h4>Auto-Bass Settings</h4>
+                        <label>Bass Wave:</label><select id="bass-waveform-select"></select>
+                    </div>
+                    <div id="audio-io-menu" class="nested-menu settings-content">
+                        <button id="record-audio-button">Record Audio</button>
+                        <button id="record-video-button">Record Video</button>
+                        <button id="record-sheet-button">Record Sheet</button>
+                        <button id="record-text-button">Record Text</button>
+                        <br>
+                        <button id="mic-button">Enable Mic</button>
+                        <label>Mic Vol:</label><input type="range" id="mic-volume-slider" min="0" max="2" step="0.05" value="1.0" disabled>
+                        <label><input type="checkbox" id="mic-playback-checkbox" checked> Hear Self</label>
+                        <div id="video-progress" style="width:100%; margin-top:10px; color:#ffc107; font-weight:bold;"></div>
+                        <button id="visual-effects-toggle">Visual Effects</button>
+                    </div>
+                    <div id="advanced-synth-menu" class="nested-menu settings-content">
+                        <h4>Amplitude (Volume) ADSR</h4>
+                        <label>Attack:</label><input type="range" id="attack-slider" min="0.01" max="1" step="0.01" value="0.015">
+                        <label>Decay:</label><input type="range" id="decay-slider" min="0.01" max="1" step="0.01" value="0.34">
+                        <label>Sustain:</label><input type="range" id="sustain-slider" min="0" max="1" step="0.01" value="0.62">
+                        <label>Release:</label><input type="range" id="release-slider" min="0.1" max="2" step="0.01" value="0.86">
+                        <br>
+                        <h4>Oscillator 2 & Detune</h4>
+                        <label>Wave 2:</label><select id="waveform2-select"></select>
+                        <label>Mix:</label><input type="range" id="osc-mix-slider" min="0" max="1" step="0.01" value="0.50">
+                        <label>Detune (cents):</label><input type="range" id="detune-slider" min="-1200" max="1200" step="1" value="10">
+                        <br>
+                        <h4>Pitch Envelope</h4>
+                        <label>Pitch Depth (cents):</label><input type="range" id="pitch-depth-slider" min="0" max="100" step="1" value="14">
+                        <label>Pitch Attack (sec):</label><input type="range" id="pitch-attack-slider" min="0.001" max="0.5" step="0.001" value="0.006">
+                        <br>
+                        <h4>Filter & Effects</h4>
+                        <label>Cutoff:</label><input type="range" id="filter-cutoff-slider" min="100" max="20000" step="10" value="7600">
+                        <label>Resonance:</label><input type="range" id="filter-q-slider" min="0" max="20" step="0.1" value="6.4">
+                        <br>
+                        <label>LFO Rate:</label><input type="range" id="lfo-rate-slider" min="0.1" max="20" step="0.1" value="3.2">
+                        <label>LFO Depth:</label><input type="range" id="lfo-depth-slider" min="0" max="8000" step="10" value="280">
+                        <br>
+                        <label>Effect Mode:</label><select id="effect-mode-select"></select>
+                        <label>Chorus:</label><input type="range" id="chorus-slider" min="0" max="1" step="0.01" value="0.46">
+                        <label>Delay:</label><input type="range" id="delay-slider" min="0" max="1" step="0.01" value="0.07">
+                        <label>Delay Time:</label><input type="range" id="delay-time-slider" min="0.05" max="0.9" step="0.01" value="0.24">
+                        <label>Delay Feedback:</label><input type="range" id="delay-feedback-slider" min="0" max="0.85" step="0.01" value="0.14">
+                        <label>Saturation:</label><input type="range" id="saturation-slider" min="1" max="4" step="0.01" value="1.72">
+                        <label>Reverb:</label><input type="range" id="reverb-slider" min="0" max="1" step="0.01" value="0.28">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sheet-music-container" style="display: none;"></div>
+    <script src="sheetRender.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
+

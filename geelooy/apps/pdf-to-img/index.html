@@ -1,0 +1,468 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High-Res PDF to Image Converter</title>
+    <!-- PDF.js Library  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>  
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Drop Zone */
+        .drop-zone {
+            background: var(--surface);
+            border: 2px dashed var(--border);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drop-zone.drag-over {
+            border-color: var(--primary);
+            background-color: #eef2ff;
+            transform: scale(1.01);
+        }
+
+        .drop-zone i {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .drop-zone.drag-over i {
+            color: var(--primary);
+        }
+
+        .drop-zone h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .drop-zone p {
+            color: var(--text-light);
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0 20px 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .controls.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .stats {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background-color: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn.processing {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Grid Layout */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        .file-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+            position: relative;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-wrapper {
+            width: 100%;
+            height: 200px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preview-wrapper canvas {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .file-info {
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-meta {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin-top: 20px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--success);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Hidden elements */
+        #hidden-canvas { display: none; }
+        #file-input { display: none; }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>PDF to Hi-Res Image</h1>
+            <p class="subtitle">Drop files below. Maximum resolution. No stretching.</p>
+        </header>
+
+        <div class="drop-zone" id="drop-zone">
+            <i class="fa-regular fa-file-pdf"></i>
+            <h3>Drag & Drop PDFs here</h3>
+            <p>or click to browse</p>
+            <input type="file" id="file-input" multiple accept="application/pdf">
+        </div>
+
+        <div class="controls" id="controls">
+            <div class="stats" id="status-text">0 files loaded</div>
+            <button class="btn" id="convert-btn">
+                <i class="fa-solid fa-bolt"></i> Convert & Download
+            </button>
+        </div>
+
+        <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="file-grid" id="file-grid">
+            <!-- Items injected here -->
+        </div>
+    </div>
+
+    <!-- Hidden canvas for heavy lifting -->
+    <canvas id="hidden-canvas"></canvas>
+
+    <script>
+        // Setup PDF.js Worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileGrid = document.getElementById('file-grid');
+        const controls = document.getElementById('controls');
+        const statusText = document.getElementById('status-text');
+        const convertBtn = document.getElementById('convert-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const hiddenCanvas = document.getElementById('hidden-canvas');
+        const ctx = hiddenCanvas.getContext('2d');
+
+        // Store loaded PDF data
+        let pdfQueue = [];
+
+        // --- Event Listeners ---
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        convertBtn.addEventListener('click', startConversion);
+
+        // --- Core Logic ---
+
+        async function handleFiles(files) {
+            if (!files.length) return;
+
+            for (let file of files) {
+                if (file.type !== 'application/pdf') continue;
+                
+                // Read file
+                const arrayBuffer = await file.arrayBuffer();
+                
+                try {
+                    // Load PDF document
+                    const loadingTask = pdfjsLib.getDocument(arrayBuffer);
+                    const pdf = await loadingTask.promise;
+                    
+                    const id = Date.now() + Math.random().toString(36).substr(2, 9);
+                    
+                    const pdfData = {
+                        id: id,
+                        file: file,
+                        pdfObj: pdf,
+                        numPages: pdf.numPages,
+                        fileName: file.name.replace('.pdf', '')
+                    };
+
+                    pdfQueue.push(pdfData);
+                    
+                    // Render UI Card
+                    await createCard(pdfData);
+                    
+                } catch (error) {
+                    console.error("Error loading PDF", error);
+                    alert(`Could not load ${file.name}`);
+                }
+            }
+
+            updateControls();
+        }
+
+        async function createCard(data) {
+            const div = document.createElement('div');
+            div.className = 'file-card';
+            div.id = `card-${data.id}`;
+
+            // Create canvas for thumbnail (Page 1 only)
+            const canvas = document.createElement('canvas');
+            const page = await data.pdfObj.getPage(1);
+            
+            // Thumbnail Scale (Low res for UI)
+            const viewport = page.getViewport({ scale: 0.5 });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            await page.render({
+                canvasContext: canvas.getContext('2d'),
+                viewport: viewport
+            }).promise;
+
+            div.innerHTML = `
+                <div class="preview-wrapper">
+                    <!-- Canvas appended below -->
+                </div>
+                <div class="file-info">${data.fileName}</div>
+                <div class="file-meta">
+                    <span>${data.numPages} Pages</span>
+                    <span style="color:var(--primary)">Ready</span>
+                </div>
+            `;
+            
+            div.querySelector('.preview-wrapper').appendChild(canvas);
+            fileGrid.appendChild(div);
+        }
+
+        function updateControls() {
+            if (pdfQueue.length > 0) {
+                controls.classList.add('visible');
+                const totalPages = pdfQueue.reduce((acc, item) => acc + item.numPages, 0);
+                statusText.textContent = `${pdfQueue.length} Files (${totalPages} Total Pages)`;
+            }
+        }
+
+        // --- Conversion Logic ---
+
+        async function startConversion() {
+            if (pdfQueue.length === 0) return;
+
+            convertBtn.disabled = true;
+            convertBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Processing...`;
+            progressContainer.style.display = 'block';
+
+            let totalPagesProcessed = 0;
+            const globalTotalPages = pdfQueue.reduce((acc, item) => acc + item.numPages, 0);
+
+            // Process Queue
+            for (const item of pdfQueue) {
+                const pdf = item.pdfObj;
+
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    
+                    // High Res Scale (3.0 = ~300 DPI for standard docs)
+                    // This ensures max resolution without crashing browser memory
+                    const viewport = page.getViewport({ scale: 3.0 });
+
+                    hiddenCanvas.width = viewport.width;
+                    hiddenCanvas.height = viewport.height;
+
+                    // Render to hidden canvas
+                    await page.render({
+                        canvasContext: ctx,
+                        viewport: viewport
+                    }).promise;
+
+                    // Convert to image blob
+                    const blob = await new Promise(resolve => hiddenCanvas.toBlob(resolve, 'image/png'));
+                    
+                    // Download
+                    downloadBlob(blob, `${item.fileName}_page-${pageNum}.png`);
+
+                    // Update Progress
+                    totalPagesProcessed++;
+                    const pct = (totalPagesProcessed / globalTotalPages) * 100;
+                    progressBar.style.width = `${pct}%`;
+
+                    // Small delay to prevent browser freezing/blocking downloads
+                    await new Promise(r => setTimeout(r, 200));
+                }
+            }
+
+            // Reset
+            convertBtn.disabled = false;
+            convertBtn.innerHTML = `<i class="fa-solid fa-check"></i> Done!`;
+            setTimeout(() => {
+                convertBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Convert & Download`;
+                progressBar.style.width = '0%';
+                progressContainer.style.display = 'none';
+            }, 3000);
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+/* B"H */
+@layer awt.responsive {
+	@media (max-width: 980px) {
+		.awt-turn-presets {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		.awt-turn-body {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 680px) {
+		.awt-turn-control {
+			padding: 13px;
+			border-radius: 20px;
+		}
+
+		.awt-turn-head {
+			grid-template-columns: 1fr;
+		}
+
+		.awt-turn-state {
+			min-width: 0;
+		}
+
+		.awt-turn-presets {
+			display: flex;
+			overflow-x: auto;
+			scroll-snap-type: x proximity;
+			padding-bottom: 4px;
+		}
+
+		.awt-turn-preset {
+			flex: 0 0 155px;
+			scroll-snap-align: start;
+		}
+
+		.awt-turn-fields,
+		.awt-turn-metrics {
+			grid-template-columns: 1fr;
+		}
+
+		.awt-turn-danger {
+			grid-template-columns: 1fr;
+		}
+
+		.awt-turn-danger .button-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	@media (max-width: 420px) {
+		.awt-turn-actions,
+		.awt-turn-danger .button-row {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.awt-turn-progress span { transition: none; }
+	}
+}

@@ -1,0 +1,68 @@
+RUNTIME_DIR=/Users/awtsmoos/work/awtsmoos.com/ai_thoughts/2026-07-16_1804_rebbe_responsa_lifecycle_runtime_continuation/2026-08-13_201211_simd_floating_minmax_runtime_shards
+FAILED_SHARD=11
+FAILED_STATUS={"shard":"11","exitCode":1,"fileCount":32,"tests":100,"passed":99,"failed":1,"skipped":0}
+--- FAILURE CONTEXT ---
+219-(Use `node --trace-warnings ...` to show where the warning was created)
+220-✔ network URLs redact query credentials and userinfo (3.77807ms)
+221-✔ network headers redact credentials and preserve safe values (7.401341ms)
+222-✔ nested JSON secrets are recursively redacted (0.424673ms)
+223-✖ Android production and compiler vessels obey architectural law (3158.278512ms)
+224-✔ runtime keeps incomplete Android layers explicit (15.407482ms)
+225-ℹ tests 100
+226-ℹ suites 0
+227-ℹ pass 99
+228-ℹ fail 1
+229-ℹ cancelled 0
+230-ℹ skipped 0
+231-ℹ todo 0
+232-ℹ duration_ms 29054.103655
+233-
+234-✖ failing tests:
+235-
+236-test at test/sourceContract.test.mjs:31:1
+237-✖ Android production and compiler vessels obey architectural law (3158.278512ms)
+238-  AssertionError [ERR_ASSERTION]: geelooy/apps/android-emulator/core/native/aarch64DecodeSimdFloatingMinMax.js
+239-      at TestContext.<anonymous> (file:///Users/awtsmoos/work/awtsmoos.com/geelooy/apps/android-emulator/test/sourceContract.test.mjs:39:10)
+240-      at async Test.run (node:internal/test_runner/test:1313:7)
+241-      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+242-    generatedMessage: false,
+243:    code: 'ERR_ASSERTION',
+244-    actual: '//B"H\n//Boruch Hashem\n//Blessed is He\n\nimport { aarch64Bits } from "./aarch64InstructionBits.js";\n\nconst FAMILY_MASK = 0xbf20cc00;\nconst FAMILY_VALUE = 0x0e20c400;\n\n/** Decodes vector FMAXNM/FMINNM/FMAX/FMIN over legal S and D arrangements. */\nexport function decodeAarch64SimdFloatingMinMax(word) {\n\tconst normalized = Number(word) >>> 0;\n\tif (((normalized & FAMILY_MASK) >>> 0) !== FAMILY_VALUE) return null;\n\tconst operation = aarch64Bits(normalized, 12, 2);\n\tif (operation !== 0 && operation !== 3) return null;\n\tconst vectorBit = aarch64Bits(normalized, 30, 1);\n\tconst type = aarch64Bits(normalized, 22, 1);\n\tif (vectorBit === 0 && type === 1) return null;\n\tconst elementWidth = type === 0 ? 32 : 64;\n\tconst width = vectorBit === 1 ? 128 : 64;\n\tconst minimum = aarch64Bits(normalized, 23, 1) === 1;\n\tconst numeric = operation === 0;\n\treturn Object.freeze({\n\t\tdestination: aarch64Bits(normalized, 0, 5),\n\t\telementWidth,\n\t\tfamily: "simd-floating-minmax",\n\t\tlaneCount: width / elementWidth,\n\t\tmnemonic: `${minimum ? "fmin" : "fmax"}${numeric ? "nm" : ""}`,\n\t\tsecondSource: aarch64Bits(normalized, 16, 5),\n\t\tsource: aarch64Bits(normalized, 5, 5),\n\t\twidth\n\t});\n}\n',
+245-    expected: /Awtsmoos/,
+246-    operator: 'match',
+247-    diff: 'simple'
+248-  }
+--- SHARD FILES ---
+test/aarch64ConditionalCompareMachine.test.mjs
+test/aarch64FloatingArithmetic.test.mjs
+test/aarch64Machine.test.mjs
+test/aarch64OneSourceBitExecution.test.mjs
+test/aarch64SimdGeneralInsertDecode.test.mjs
+test/aarch64VariableShift.test.mjs
+test/apkManifestComponents.test.mjs
+test/dalvikBootAwareCatchHandlers.test.mjs
+test/dalvikReferenceBranchIdentity.test.mjs
+test/flutterJniGetArrayLength.test.mjs
+test/flutterPlatformMessageArguments.test.mjs
+test/frameworkAndroidUtilityFamilies.test.mjs
+test/frameworkFlutterNativeArguments.test.mjs
+test/frameworkJavaAbstractMapHashMapDispatch.test.mjs
+test/frameworkJavaExecutorCoreTimeout.test.mjs
+test/frameworkJavaPublicFieldQuery.test.mjs
+test/frameworkJavaUnsafeArrayBaseOffset.test.mjs
+test/guestNetwork.test.mjs
+test/jniGuestReferences.test.mjs
+test/nativeAndroidLogHandlers.test.mjs
+test/nativeCString.test.mjs
+test/nativeDescriptorFcntlHandler.test.mjs
+test/nativeEglDisplayState.test.mjs
+test/nativeGlesIntegerQueries.test.mjs
+test/nativeLibcMemchrHandlers.test.mjs
+test/nativeLinuxSyscallHandlers.test.mjs
+test/nativeProcessEnvironment.test.mjs
+test/nativePthreadKeyState.test.mjs
+test/nativeQsortHandlers.test.mjs
+test/nativeSparseMemoryOwnership.test.mjs
+test/networkRedaction.test.mjs
+test/sourceContract.test.mjs
+--- ACTIVE TESTERS ---

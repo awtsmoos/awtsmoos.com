@@ -1,0 +1,437 @@
+{
+  "generatedAt": "2026-07-14T17:03:45.953Z",
+  "nativeTimeoutMs": 2400,
+  "hardSuiteTimeoutMs": 25000,
+  "maxNativeLaunches": 8,
+  "maxCases": 8,
+  "results": [
+    {
+      "name": "standard-console",
+      "mode": "console",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/standard-console.exe",
+      "bytes": 1024,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-console",
+          "message": "Executed the guarded compiler-generated x64 instruction subset.",
+          "executionClass": "instruction-subset-emulation",
+          "completeCpuEmulation": false,
+          "runtime": {
+            "steps": 45,
+            "halted": true
+          }
+        },
+        "lines": [
+          "Awtsmoos PE loader: validated headers and mapped sections.",
+          "Subsystem: windows-console",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=512",
+          "IAT 0x1078 -> KERNEL32.dll!GetStdHandle",
+          "IAT 0x1080 -> KERNEL32.dll!WriteFile",
+          "IAT 0x1088 -> KERNEL32.dll!Sleep",
+          "IAT 0x1090 -> KERNEL32.dll!ExitProcess",
+          "B\"H generated console test\r\n",
+          "Sleep(1500) skipped in virtual time."
+        ],
+        "windows": [],
+        "draws": []
+      },
+      "native": {
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/standard-console.exe EACCES",
+        "killedByHarness": false,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "standard-gui",
+      "mode": "gui",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/standard-gui.exe",
+      "bytes": 1024,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-gui",
+          "message": "Executed the guarded compiler-generated x64 instruction subset.",
+          "executionClass": "instruction-subset-emulation",
+          "completeCpuEmulation": false,
+          "runtime": {
+            "steps": 23,
+            "halted": true
+          }
+        },
+        "lines": [
+          "Awtsmoos PE loader: validated headers and mapped sections.",
+          "Subsystem: windows-gui",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=512",
+          "IAT 0x1058 -> KERNEL32.dll!ExitProcess",
+          "IAT 0x1068 -> USER32.dll!MessageBoxA"
+        ],
+        "windows": [
+          {
+            "title": "Awtsmoos GUI",
+            "body": "B\"H generated GUI test"
+          }
+        ],
+        "draws": []
+      },
+      "native": {
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/standard-gui.exe EACCES",
+        "killedByHarness": false,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-hello",
+      "mode": "asm",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-hello.exe",
+      "bytes": 1024,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-gui",
+          "message": "Executed the guarded compiler-generated x64 instruction subset.",
+          "executionClass": "instruction-subset-emulation",
+          "completeCpuEmulation": false,
+          "runtime": {
+            "steps": 23,
+            "halted": true
+          }
+        },
+        "lines": [
+          "Awtsmoos PE loader: validated headers and mapped sections.",
+          "Subsystem: windows-gui",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=512",
+          "IAT 0x1050 -> USER32.dll!MessageBoxA",
+          "IAT 0x1060 -> KERNEL32.dll!ExitProcess"
+        ],
+        "windows": [
+          {
+            "title": "B\"H",
+            "body": "Welcome to Awtsmoos ASM!"
+          }
+        ],
+        "draws": []
+      },
+      "native": {
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-hello.exe EACCES",
+        "killedByHarness": false,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-loop",
+      "mode": "asm",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-loop.exe",
+      "bytes": 1024,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-console",
+          "message": "Executed the guarded compiler-generated x64 instruction subset.",
+          "executionClass": "instruction-subset-emulation",
+          "completeCpuEmulation": false,
+          "runtime": {
+            "steps": 163,
+            "halted": true
+          }
+        },
+        "lines": [
+          "Awtsmoos PE loader: validated headers and mapped sections.",
+          "Subsystem: windows-console",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=512",
+          "IAT 0x1078 -> KERNEL32.dll!GetStdHandle",
+          "IAT 0x1080 -> KERNEL32.dll!WriteFile",
+          "IAT 0x1088 -> KERNEL32.dll!Sleep",
+          "IAT 0x1090 -> KERNEL32.dll!ExitProcess",
+          ".",
+          "Sleep(200) skipped in virtual time.",
+          ".",
+          "Sleep(200) skipped in virtual time.",
+          ".",
+          "Sleep(200) skipped in virtual time.",
+          ".",
+          "Sleep(200) skipped in virtual time.",
+          ".",
+          "Sleep(200) skipped in virtual time."
+        ],
+        "windows": [],
+        "draws": []
+      },
+      "native": {
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-loop.exe EACCES",
+        "killedByHarness": false,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-file",
+      "mode": "asm",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-file.exe",
+      "bytes": 1024,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-console",
+          "message": "Executed the guarded compiler-generated x64 instruction subset.",
+          "executionClass": "instruction-subset-emulation",
+          "completeCpuEmulation": false,
+          "runtime": {
+            "steps": 71,
+            "halted": true
+          }
+        },
+        "lines": [
+          "Awtsmoos PE loader: validated headers and mapped sections.",
+          "Subsystem: windows-console",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=512",
+          "IAT 0x10d0 -> KERNEL32.dll!CreateFileA",
+          "IAT 0x10d8 -> KERNEL32.dll!WriteFile",
+          "IAT 0x10e0 -> KERNEL32.dll!CloseHandle",
+          "IAT 0x10e8 -> KERNEL32.dll!ExitProcess"
+        ],
+        "windows": [],
+        "draws": []
+      },
+      "native": {
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-file.exe EACCES",
+        "killedByHarness": false,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-window",
+      "mode": "asm",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-window.exe",
+      "bytes": 1536,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-gui",
+          "message": "Rendered recognized Win32 display behavior semantically.",
+          "executionClass": "semantic-simulation",
+          "completeCpuEmulation": false,
+          "runtime": {
+            "mode": "semantic-simulation",
+            "executionClass": "semantic-simulation",
+            "completeCpuEmulation": false,
+            "reason": "Unsupported opcode 0x0 at 0x10ed",
+            "title": "B\"H - Native Window",
+            "body": "Compiler-generated Win32 window represented semantically."
+          }
+        },
+        "lines": [
+          "Awtsmoos PE loader: validated headers and mapped sections.",
+          "Subsystem: windows-gui",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=1024",
+          "IAT 0x1198 -> KERNEL32.dll!GetModuleHandleA",
+          "IAT 0x11a0 -> KERNEL32.dll!ExitProcess",
+          "IAT 0x11b0 -> USER32.dll!RegisterClassA",
+          "IAT 0x11b8 -> USER32.dll!CreateWindowExA",
+          "IAT 0x11c0 -> USER32.dll!ShowWindow",
+          "IAT 0x11c8 -> USER32.dll!UpdateWindow",
+          "IAT 0x11d0 -> USER32.dll!GetMessageA",
+          "IAT 0x11d8 -> USER32.dll!TranslateMessage",
+          "IAT 0x11e0 -> USER32.dll!DispatchMessageA",
+          "IAT 0x11e8 -> USER32.dll!DefWindowProcA",
+          "IAT 0x11f0 -> USER32.dll!PostQuitMessage",
+          "Semantic simulation boundary: Unsupported opcode 0x0 at 0x10ed"
+        ],
+        "windows": [
+          {
+            "title": "B\"H - Native Window",
+            "body": "Awtsmoos virtual Win32 application"
+          },
+          {
+            "title": "B\"H - Native Window",
+            "body": "Compiler-generated Win32 window represented semantically."
+          }
+        ],
+        "draws": []
+      },
+      "native": {
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-window.exe EACCES",
+        "killedByHarness": false,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-draw",
+      "mode": "asm",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-draw.exe",
+      "bytes": 2048,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-gui",
+          "message": "Rendered recognized Win32 display behavior semantically.",
+          "executionClass": "semantic-simulation",
+          "completeCpuEmulation": false,
+          "runtime": {
+            "mode": "semantic-simulation",
+            "executionClass": "semantic-simulation",
+            "completeCpuEmulation": false,
+            "reason": "Unsupported opcode 0x0 at 0x10ed",
+            "title": "B\"H - Drawing",
+            "body": "B\"H - Awtsmoos Generated This!"
+          }
+        },
+        "lines": [
+          "Awtsmoos PE loader: validated headers and mapped sections.",
+          "Subsystem: windows-gui",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=1536",
+          "IAT 0x12c0 -> KERNEL32.dll!GetModuleHandleA",
+          "IAT 0x12c8 -> KERNEL32.dll!ExitProcess",
+          "IAT 0x12d8 -> GDI32.dll!GetStockObject",
+          "IAT 0x12e0 -> GDI32.dll!SetBkMode",
+          "IAT 0x12e8 -> GDI32.dll!SetTextColor",
+          "IAT 0x12f0 -> GDI32.dll!SelectObject",
+          "IAT 0x12f8 -> GDI32.dll!TextOutA",
+          "IAT 0x1300 -> GDI32.dll!SetPixel",
+          "IAT 0x1310 -> USER32.dll!RegisterClassA",
+          "IAT 0x1318 -> USER32.dll!CreateWindowExA",
+          "IAT 0x1320 -> USER32.dll!ShowWindow",
+          "IAT 0x1328 -> USER32.dll!GetMessageA",
+          "IAT 0x1330 -> USER32.dll!TranslateMessage",
+          "IAT 0x1338 -> USER32.dll!DispatchMessageA",
+          "IAT 0x1340 -> USER32.dll!DefWindowProcA",
+          "IAT 0x1348 -> USER32.dll!PostQuitMessage",
+          "IAT 0x1350 -> USER32.dll!BeginPaint",
+          "IAT 0x1358 -> USER32.dll!EndPaint",
+          "IAT 0x1360 -> USER32.dll!FillRect",
+          "GDI TextOutA simulation: B\"H - Awtsmoos Generated This!",
+          "GDI SetPixel simulation: diagonal pixel line.",
+          "Semantic simulation boundary: Unsupported opcode 0x0 at 0x10ed"
+        ],
+        "windows": [
+          {
+            "title": "B\"H - Drawing",
+            "body": "Awtsmoos virtual Win32 application"
+          },
+          {
+            "title": "B\"H - Drawing",
+            "body": "B\"H - Awtsmoos Generated This!"
+          }
+        ],
+        "draws": [
+          {
+            "type": "text",
+            "text": "B\"H - Awtsmoos Generated This!",
+            "x": 50,
+            "y": 50
+          },
+          {
+            "type": "pixel-line"
+          }
+        ]
+      },
+      "native": {
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-draw.exe EACCES",
+        "killedByHarness": false,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "asm-triangle",
+      "mode": "asm",
+      "exePath": "/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-triangle.exe",
+      "bytes": 3072,
+      "emulated": {
+        "ok": true,
+        "result": {
+          "mode": "windows-gui",
+          "message": "Rendered recognized Win32 display behavior semantically.",
+          "executionClass": "semantic-simulation",
+          "completeCpuEmulation": false,
+          "runtime": {
+            "mode": "semantic-simulation",
+            "executionClass": "semantic-simulation",
+            "completeCpuEmulation": false,
+            "reason": "Unsupported opcode 0xc at 0x1190",
+            "title": "B\"H - Rotating Triangle",
+            "body": "Compiler-generated Win32 window represented semantically."
+          }
+        },
+        "lines": [
+          "Awtsmoos PE loader: validated headers and mapped sections.",
+          "Subsystem: windows-gui",
+          "ImageBase: 0x140000000",
+          "EntryRVA: 0x1000",
+          ".text RVA=0x1000 RAW=2560",
+          "IAT 0x1628 -> KERNEL32.dll!GetModuleHandleA",
+          "IAT 0x1630 -> KERNEL32.dll!ExitProcess",
+          "IAT 0x1640 -> USER32.dll!RegisterClassA",
+          "IAT 0x1648 -> USER32.dll!CreateWindowExA",
+          "IAT 0x1650 -> USER32.dll!ShowWindow",
+          "IAT 0x1658 -> USER32.dll!GetMessageA",
+          "IAT 0x1660 -> USER32.dll!LoadCursorA",
+          "IAT 0x1668 -> USER32.dll!TranslateMessage",
+          "IAT 0x1670 -> USER32.dll!DispatchMessageA",
+          "IAT 0x1678 -> USER32.dll!DefWindowProcA",
+          "IAT 0x1680 -> USER32.dll!PostQuitMessage",
+          "IAT 0x1688 -> USER32.dll!GetDC",
+          "IAT 0x1690 -> USER32.dll!ReleaseDC",
+          "IAT 0x1698 -> USER32.dll!InvalidateRect",
+          "IAT 0x16a0 -> USER32.dll!SetTimer",
+          "IAT 0x16b0 -> GDI32.dll!CreateCompatibleDC",
+          "IAT 0x16b8 -> GDI32.dll!CreateDIBSection",
+          "IAT 0x16c0 -> GDI32.dll!SelectObject",
+          "IAT 0x16c8 -> GDI32.dll!BitBlt",
+          "IAT 0x16d0 -> GDI32.dll!DeleteObject",
+          "IAT 0x16d8 -> GDI32.dll!DeleteDC",
+          "GDI bitmap simulation: triangle pipeline.",
+          "Semantic simulation boundary: Unsupported opcode 0xc at 0x1190"
+        ],
+        "windows": [
+          {
+            "title": "B\"H - Rotating Triangle",
+            "body": "Awtsmoos virtual Win32 application"
+          },
+          {
+            "title": "B\"H - Rotating Triangle",
+            "body": "Compiler-generated Win32 window represented semantically."
+          }
+        ],
+        "draws": [
+          {
+            "type": "triangle"
+          }
+        ]
+      },
+      "native": {
+        "ok": false,
+        "error": "spawn /Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/exe-emulator/tests/generated/asm-triangle.exe EACCES",
+        "killedByHarness": false,
+        "stdout": "",
+        "stderr": ""
+      }
+    }
+  ]
+}

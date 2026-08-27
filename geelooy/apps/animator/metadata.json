@@ -1,0 +1,5 @@
+{
+  "name": "Awtsmoos Park Engine",
+  "description": "A clean cartoon 2D animation engine powered by the Awtsmoos, with default autoplay, retractable mobile and desktop UI chrome, stable character assembly, readable expressions, and friendly stage-first controls.",
+  "requestFramePermissions": []
+}

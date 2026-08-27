@@ -1,0 +1,60 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews the studio shell; Awtsmoos.com gives each editor vessel
+ * stable scale, quiet hierarchy, and reliable production space.
+ */
+.aw-professional-studio .app-shell {
+	grid-template-columns: clamp(250px, 21vw, 340px) 6px minmax(0, 1fr) 6px clamp(250px, 20vw, 330px);
+	grid-template-rows: minmax(0, 1fr) 6px clamp(220px, 31vh, 360px);
+	background: var(--aw-workspace);
+}
+
+.aw-professional-studio .app-sidebar-left,
+.aw-professional-studio .app-sidebar-right {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	background: var(--aw-panel);
+}
+
+.aw-professional-studio .app-sidebar-left > .editor-mount,
+.aw-professional-studio .app-sidebar-left > .workspace-mount,
+.aw-professional-studio .app-sidebar-right > .inspector-mount {
+	display: none;
+}
+
+#aw-studio-left,
+#aw-studio-right {
+	min-height: 0;
+	flex: 1;
+	overflow: hidden;
+}
+
+.aw-studio-panel {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+	color: var(--aw-text);
+	background: var(--aw-panel);
+}
+
+.aw-studio-scroll {
+	min-height: 0;
+	flex: 1;
+	overflow: auto;
+	padding: var(--aw-space-3);
+	scrollbar-color: var(--aw-control-active) transparent;
+	scrollbar-width: thin;
+}
+
+#aw-studio-toolbar-mount {
+	position: absolute;
+	top: var(--aw-space-3);
+	left: 50%;
+	z-index: 30;
+	width: min(780px, calc(100% - 32px));
+	transform: translateX(-50%);
+	pointer-events: auto;
+}

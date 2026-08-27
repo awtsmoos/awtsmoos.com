@@ -1,0 +1,263 @@
+/*B"H
+  Chapter 340: The Chat River Hid Nothing By Force.
+
+  The Awtsmoos gives each vessel one chamber. This file owns the chat river:
+  transport banner, message bubbles, audio offers, countdown, live-follow, and
+  scroll behavior. It uses cascade order, not forceful declarations.
+*/
+.transport-status{
+  min-height:var(--awt-transport-min);
+  padding:var(--awt-transport-pad);
+  font-size:var(--awt-transport-size);
+  border-bottom:1px solid rgba(148,163,184,.16);
+  color:var(--awt-soft);
+  background:linear-gradient(135deg,rgba(9,21,37,.96),rgba(4,10,21,.90));
+  overflow:auto;
+  position:relative;
+  z-index:4;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.transport-status:empty{display:none}
+.transport-status strong{color:var(--awt-text)}
+.transport-status a,
+.transport-status button{
+  min-height:34px;
+  border:1px solid var(--awt-line);
+  border-radius:11px;
+  background:rgba(8,19,33,.96);
+  color:var(--awt-text);
+  padding:7px 10px;
+  font-weight:850;
+  text-decoration:none;
+}
+.chat-box{
+  min-height:0;
+  overflow:auto;
+  padding:var(--awt-chat-pad);
+  display:flex;
+  flex-direction:column;
+  gap:var(--awt-chat-gap);
+  scrollbar-gutter:stable;
+  background:radial-gradient(circle at 50% 0,rgba(34,230,196,.07),transparent 36%),linear-gradient(180deg,rgba(2,6,17,.12),rgba(2,6,17,.45));
+  overscroll-behavior:contain;
+  scroll-behavior:auto;
+}
+.message-shell{
+  width:100%;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.message-shell.end-flow{align-items:flex-end}
+.message-shell.start-flow{align-items:flex-start}
+.message,
+.bubble{
+  max-width:var(--awt-message-max);
+  border:1px solid var(--awt-line-soft);
+  border-radius:var(--awt-message-radius);
+  padding:var(--awt-message-pad);
+  background:linear-gradient(135deg,rgba(15,31,52,.94),rgba(7,17,31,.96));
+  box-shadow:var(--awt-shadow-md),var(--awt-inset);
+  overflow-wrap:anywhere;
+  position:relative;
+  color:var(--awt-soft);
+}
+.assistant-message,
+.message.assistant{align-self:flex-start}
+.user-message,
+.message.user{
+  align-self:flex-end;
+  background:linear-gradient(135deg,rgba(20,184,166,.94),rgba(37,99,235,.90));
+  border-color:rgba(167,243,208,.32);
+  color:white;
+}
+.message .content,
+.message-content{
+  line-height:1.56;
+  color:var(--awt-soft);
+}
+.message p{margin:.3rem 0 .75rem}
+.message p:last-child{margin-bottom:0}
+.event-text,
+.event-markdown-rendered,
+.md-code,
+pre,
+code{
+  max-width:100%;
+  overflow-wrap:anywhere;
+  white-space:pre-wrap;
+}
+pre,
+.md-code{
+  overflow:auto;
+  border-radius:15px;
+  background:#040914;
+  border:1px solid rgba(148,163,184,.18);
+  padding:13px;
+  color:#d8eefc;
+}
+.render-loading{
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:var(--awt-muted);
+  font-weight:900;
+}
+.render-loading i{
+  width:12px;
+  height:12px;
+  border-radius:999px;
+  background:var(--awt-hot);
+  box-shadow:0 0 24px var(--awt-hot);
+  animation:awtPulse 1.2s infinite ease-in-out;
+}
+.render-loading.idle{
+  border:1px solid var(--awt-line-soft);
+  border-radius:18px;
+  padding:16px 18px;
+  background:rgba(8,19,33,.76);
+}
+.automation-countdown{
+  border-color:rgba(34,230,196,.38);
+  color:#e6fff9;
+}
+.chat-bottom-sentinel{
+  height:1px;
+  scroll-margin-bottom:1rem;
+}
+.message-window-spacer[hidden],
+.message-window-spacer:disabled{display:none}
+.message-window-spacer{
+  align-self:center;
+  width:min(100%,520px);
+  border:1px dashed var(--awt-line-strong);
+  border-radius:999px;
+  background:rgba(5,18,31,.88);
+  color:#dff8ff;
+  padding:8px 12px;
+  font-weight:900;
+  cursor:pointer;
+}
+.live-follow-button{
+  position:fixed;
+  right:clamp(.85rem,2.2vw,1.6rem);
+  bottom:clamp(5.5rem,12vh,7.75rem);
+  z-index:120;
+  display:none;
+  align-items:center;
+  gap:.45rem;
+  padding:.62rem .9rem;
+  border-radius:999px;
+  border:1px solid rgba(34,211,238,.38);
+  background:linear-gradient(135deg,rgba(8,47,73,.94),rgba(2,6,23,.92));
+  color:#e0fbff;
+  font-weight:950;
+  letter-spacing:.02em;
+  box-shadow:0 18px 50px rgba(0,0,0,.34),0 0 28px rgba(34,211,238,.16);
+  backdrop-filter:blur(14px);
+  cursor:pointer;
+}
+.live-follow-button.is-visible{
+  display:inline-flex;
+  animation:liveFollowPulse 1.7s ease-in-out infinite;
+}
+.chat-box[data-live-follow="paused"]::after{
+  content:"Scroll paused — use ↓ Jump to bottom";
+  position:sticky;
+  bottom:.65rem;
+  z-index:20;
+  display:block;
+  width:max-content;
+  max-width:calc(100% - 2rem);
+  margin:.6rem auto 0;
+  padding:.48rem .78rem;
+  border:1px solid rgba(250,204,21,.35);
+  border-radius:999px;
+  background:linear-gradient(135deg,rgba(113,63,18,.88),rgba(2,6,23,.82));
+  color:#fef3c7;
+  font-size:.78rem;
+  font-weight:900;
+  pointer-events:none;
+}
+.audio-offer{
+  max-width:var(--awt-message-max);
+  display:grid;
+  gap:10px;
+  margin-top:-2px;
+  padding:12px;
+  border:1px solid rgba(34,211,238,.18);
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(8,19,33,.62),rgba(3,8,17,.50));
+  box-shadow:var(--awt-inset);
+}
+.audio-offer-head{
+  display:flex;
+  gap:8px;
+  align-items:baseline;
+  flex-wrap:wrap;
+  color:var(--awt-soft);
+}
+.audio-offer-head strong{
+  color:var(--awt-text);
+  letter-spacing:.01em;
+}
+.audio-offer-actions{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(138px,1fr));
+  gap:8px;
+}
+.audio-offer-actions button,
+.audio-offer button{
+  min-height:40px;
+  border:1px solid var(--awt-line-soft);
+  border-radius:14px;
+  background:linear-gradient(135deg,rgba(15,31,52,.96),rgba(7,17,31,.98));
+  color:var(--awt-soft);
+  padding:8px 11px;
+  font-weight:900;
+  box-shadow:var(--awt-inset);
+  text-align:center;
+}
+.audio-offer-actions button:hover,
+.audio-offer button:hover{
+  border-color:var(--awt-line-strong);
+  color:var(--awt-text);
+  box-shadow:var(--awt-ring);
+}
+.audio-offer :is(audio,.audio-progress){width:100%;max-width:100%}
+.audio-offer [data-audio-action="pause"],
+.audio-offer .pause{
+  width:42px;
+  min-width:42px;
+  height:38px;
+  border-radius:12px;
+  display:inline-grid;
+  place-items:center;
+}
+.audio-status,
+.audio-offer-status{
+  color:var(--awt-soft);
+  font-weight:850;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+@keyframes awtPulse{
+  0%,100%{transform:scale(.82);opacity:.55}
+  50%{transform:scale(1.15);opacity:1}
+}
+@keyframes liveFollowPulse{
+  50%{box-shadow:0 18px 50px rgba(0,0,0,.34),0 0 42px rgba(34,211,238,.28)}
+}
+@media(max-width:760px){
+  .message{max-width:100%;width:100%}
+  .message-shell.end-flow,
+  .message-shell.start-flow{align-items:stretch}
+  .live-follow-button{right:.8rem;bottom:5.8rem;padding:.58rem .78rem;font-size:.84rem}
+  .audio-offer{max-width:100%}
+  .audio-offer-actions{grid-template-columns:1fr 1fr}
+}

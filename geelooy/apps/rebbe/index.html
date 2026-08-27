@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWTSMOOS ARCHIVE // OMEGA</title>
+    <link rel="stylesheet" href="styles/core.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/ui.css">
+    <link rel="stylesheet" href="styles/studio.css">
+</head>
+<body>
+    <header>
+        <div class="logo">AWTSMOOS <span>ARCHIVE</span></div>
+        <div class="tools">
+            <button class="tool-btn" id="btn-share" title="Share Link">
+                <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+            </button>
+            <button class="tool-btn" id="btn-search" title="Search Archive">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </button>
+            <button class="tool-btn" id="btn-term-toggle" title="Toggle Terminal">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM7.5 17l-1.41-1.41L9.67 12 6.09 8.41 7.5 7l5 5-5 5zm5 0h6v-2h-6v2z"/></svg>
+            </button>
+            <button class="tool-btn" id="btn-settings" title="System Settings">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L3.15 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.04.64.09.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="col open" id="col-years">
+            <div class="col-head">TIMELINE</div>
+            <div class="col-list" id="list-years"></div>
+        </div>
+        <div class="col" id="col-folders">
+            <div class="col-head">
+                <button class="btn-back mobile-only" id="back-folders">←</button>
+                EVENTS
+            </div>
+            <div class="col-list" id="list-folders"></div>
+        </div>
+        <div class="col" id="col-tracks">
+            <div class="col-head">
+                <button class="btn-back mobile-only" id="back-tracks">←</button>
+                <span id="header-tracks-title">AUDIO DATA</span>
+            </div>
+            <div class="col-list" id="list-tracks"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="controls">
+            <div class="ctrl-btn" id="btn-prev">
+                <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+            </div>
+            <div class="ctrl-btn" id="btn-play">
+                <svg viewBox="0 0 24 24" id="icon-play"><path d="M8 5v14l11-7z"/></svg>
+                <svg viewBox="0 0 24 24" id="icon-pause" class="hidden"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </div>
+            <div class="ctrl-btn" id="btn-next">
+                <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            </div>
+            <div class="ctrl-btn" id="btn-slice" title="Open Studio">
+                <svg viewBox="0 0 24 24"><path d="M17.41 15.41L20 18l-6 6-6-6 2.59-2.59L12 16.83V7a5 5 0 0 0-5-5H5v2h2a3 3 0 0 1 3 3v9.83l1.41-1.42L17.41 15.41z"/></svg>
+            </div>
+        </div>
+        <div class="info">
+            <div class="track-title" id="player-track-title">AWAITING INPUT</div>
+            <div class="progress-container" id="player-seeker">
+                <div class="progress-fill" id="player-fill"></div>
+            </div>
+            <div class="time-display">
+                <span id="player-time">00:00 / 00:00</span>
+                <span style="color:var(--c-cyan);">MP3 // VBR</span>
+            </div>
+        </div>
+    </footer>
+
+    <div id="terminal-wrap" class="hidden">
+        <div class="term-head">SYSTEM LOG</div>
+        <div id="terminal"></div>
+    </div>
+
+    <!-- INSANE LOADING OVERLAY -->
+    <div id="loading-overlay" class="hidden">
+        <div class="loader-core">
+            <div class="ring r1"></div>
+            <div class="ring r2"></div>
+            <div class="ring r3"></div>
+            <div class="core-text">LOADING</div>
+            <div class="core-sub" id="loader-text">ACCESSING MAINFRAME...</div>
+        </div>
+    </div>
+
+    <!-- OVERLAY & MODALS -->
+    <div id="overlay-layer" class="hidden">
+        
+        <!-- SEARCH MODAL -->
+        <div class="modal hidden" id="modal-search">
+            <h2>SEARCH ARCHIVE</h2>
+            <input type="text" id="inp-search" placeholder="ENTER KEYWORDS..." class="cyber-input">
+            <div class="search-res" id="search-results"></div>
+            <div style="text-align:right;">
+                <button class="modal-btn modal-close">CANCEL</button>
+            </div>
+        </div>
+
+        <!-- SETTINGS MODAL -->
+        <div class="modal hidden" id="modal-settings">
+            <h2>SYSTEM CONFIG</h2>
+            <div style="padding:10px; border:1px solid #333;">
+                <div style="margin-bottom:5px; font-weight:bold; color:#888;">DATABASE MANAGEMENT</div>
+                <p style="font-size:12px; color:#666; margin-bottom:10px;">Purge local audio files and search indexes.</p>
+                <button class="modal-btn danger" id="btn-action-clear" style="width:100%">PURGE ALL DATA</button>
+            </div>
+            <div style="text-align:right; margin-top:20px;">
+                <button class="modal-btn modal-close">CLOSE</button>
+            </div>
+        </div>
+
+        <!-- VIDEO GEN MODAL -->
+        <div class="modal hidden" id="modal-video">
+            <h2>VIDEO GEN</h2>
+            <div class="modal-body" style="padding:0">
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <div style="flex:1">
+                        <label style="font-size:12px; color:#888;">START (s)</label>
+                        <input type="number" id="vid-start" value="0" class="cyber-input">
+                    </div>
+                    <div style="flex:1">
+                         <label style="font-size:12px; color:#888;">DURATION (s)</label>
+                         <input type="number" id="vid-duration" value="15" class="cyber-input">
+                    </div>
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label style="font-size:12px; color:#888;">RESOLUTION</label>
+                    <select id="vid-res" class="cyber-input">
+                        <option value="portrait">PORTRAIT (9:16)</option>
+                        <option value="landscape">LANDSCAPE (16:9)</option>
+                        <option value="square">SQUARE (1:1)</option>
+                    </select>
+                </div>
+                
+                <div id="vid-status-text" style="color:var(--c-cyan); font-weight:bold; margin-bottom:5px;">READY</div>
+                <div style="width:100%; height:8px; background:#111; margin-bottom:20px; border:1px solid #333;">
+                    <div id="vid-progress-fill" style="height:100%; width:0%; background:var(--c-magenta);"></div>
+                </div>
+                
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <button class="modal-btn" id="btn-generate-analyze" style="background:var(--c-cyan); color:black;">OPEN STUDIO</button>
+                    <button class="modal-btn" id="btn-download-audio">DL AUDIO SLICE</button>
+                    <button class="modal-btn modal-close">CANCEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STUDIO MODAL -->
+        <div class="modal hidden" id="modal-studio">
+            <div class="studio-top">
+                <div class="studio-props" id="studio-props">
+                    <!-- JS Injects Here -->
+                </div>
+                <div class="studio-preview-wrapper" id="studio-preview-wrapper">
+                    <canvas id="studio-preview-canvas"></canvas>
+                    <div class="studio-stat" id="studio-status">READY</div>
+                    <div class="studio-help-hint">DRAG TO PAN • SCROLL TO ZOOM</div>
+                </div>
+            </div>
+            
+            <!-- RESIZER -->
+            <div id="studio-resizer" title="Drag to resize"></div>
+
+            <div class="studio-bottom" id="studio-bottom">
+                 <div class="studio-toolbar">
+                     <button class="modal-btn mobile-only" id="btn-toggle-props" style="background:#222; border:1px solid #444; color:#ccc;">PROPS</button>
+                     <div class="mobile-only" style="width:1px; height:20px; background:#333; margin:0 5px;"></div>
+                     
+                     <button class="modal-btn" id="st-play" style="min-width:60px;">▶</button>
+                     <button class="modal-btn" id="st-stop">◼</button>
+                     <button class="modal-btn" id="st-split" title="Split">✂</button>
+                     <button class="modal-btn danger" id="st-delete" title="Delete">✖</button>
+                     
+                     <div style="width:1px; height:20px; background:#333; margin:0 5px;"></div>
+                     
+                     <div style="display:flex; flex-direction:column; justify-content:center; gap:2px;">
+                         <input type="range" id="st-zoom" min="10" max="300" value="100" style="width:70px; height:4px;" title="Zoom">
+                     </div>
+
+                     <div style="width:1px; height:20px; background:#333; margin:0 5px;"></div>
+
+                     <button class="modal-btn" id="st-detect-beats">BEATS</button>
+                     <button class="modal-btn" id="st-gen-caps">CAPS</button>
+                     <button class="modal-btn" id="st-gen-img">IMG</button>
+                     <label class="modal-btn" style="cursor:pointer;" title="Import">
+                         IMP <input type="file" id="st-upload" hidden>
+                     </label>
+                     <div style="flex:1"></div>
+                     <button class="modal-btn danger" id="st-export">EXPORT</button>
+                     <button class="modal-btn" id="btn-minimize" title="Minimize">_</button>
+                     <button class="modal-btn modal-close" id="btn-close-studio">EXIT</button>
+                 </div>
+                 <div class="timeline-header">
+                     <div class="track-head">TRACKS</div>
+                     <div class="ruler-container" id="timeline-ruler"></div>
+                 </div>
+                 <div class="timeline-tracks" id="timeline-tracks">
+                     <!-- Tracks Injected Here -->
+                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MINIMIZED STUDIO FAB -->
+    <div id="studio-fab" class="hidden">
+        <span style="font-size:20px;">⚡</span> STUDIO ACTIVE
+    </div>
+    
+    <div id="ctx-menu" class="hidden" style="position:fixed; background:#000; border:1px solid var(--c-cyan); padding:10px; z-index:500; box-shadow:0 0 10px rgba(0,255,255,0.2);"></div>
+    <canvas id="matrix-bg" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none; opacity:0.1;"></canvas>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

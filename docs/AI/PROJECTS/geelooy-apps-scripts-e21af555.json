@@ -1,0 +1,57 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-scripts-e21af555",
+	"path": "geelooy/apps/scripts",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "geelooy/apps/scripts",
+	"entries": [],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-scripts-e21af555.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 8,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 8,
+	"symbolSummary": {
+		"files": 8,
+		"classes": 1,
+		"functions": 7,
+		"exports": 8,
+		"samples": [
+			"cardSearchText",
+			"categoryMatches",
+			"applyFilters",
+			"defineApp",
+			"PUBLIC_APPS",
+			"MEDIA_APPS",
+			"renderAppCard",
+			"renderAppCatalog",
+			"name",
+			"textElement",
+			"SYSTEM_APPS",
+			"UTILITY_APPS"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

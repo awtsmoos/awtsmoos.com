@@ -1,0 +1,114 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos is beyond question and answer; Awtsmoos.com gives each small
+ * structured choice a clear dialog vessel instead of throwing the writer into browser prompts.
+ */
+.share-dialog,
+.quick-dialog {
+	width: min(92vw, 520px);
+	padding: 0;
+	border: 0;
+	border-radius: 16px;
+	box-shadow: 0 26px 86px rgba(21, 31, 58, 0.26);
+}
+
+.share-dialog::backdrop,
+.quick-dialog::backdrop {
+	background: rgba(16, 24, 40, 0.44);
+	backdrop-filter: blur(3px);
+}
+
+.dialog-card {
+	display: grid;
+	gap: 15px;
+	padding: 22px;
+}
+
+.dialog-heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.dialog-heading h2 {
+	margin: 0;
+	font-size: 20px;
+	letter-spacing: -0.02em;
+}
+
+.dialog-heading button {
+	width: 34px;
+	height: 34px;
+	border: 0;
+	border-radius: 8px;
+	background: transparent;
+	font-size: 21px;
+}
+
+.dialog-card label,
+.quick-field {
+	display: grid;
+	gap: 7px;
+	font-size: 13px;
+	font-weight: 650;
+}
+
+.dialog-card input,
+.dialog-card select {
+	width: 100%;
+	min-height: 42px;
+	padding: 9px 11px;
+	border: 1px solid var(--docs-border-strong);
+	border-radius: 9px;
+	background: white;
+	color: var(--docs-ink);
+}
+
+[data-quick-fields] {
+	display: grid;
+	gap: 12px;
+}
+
+.dialog-actions,
+.share-link-row,
+.invite-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.dialog-actions {
+	justify-content: flex-end;
+}
+
+.dialog-actions > button:not(.primary-action),
+.share-link-row button,
+.invite-row button {
+	min-height: 42px;
+	padding: 8px 12px;
+	border: 1px solid var(--docs-border);
+	border-radius: 9px;
+	background: var(--docs-surface-soft);
+	white-space: nowrap;
+}
+
+.share-help {
+	margin: 0;
+	color: var(--docs-muted);
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.share-link-row input,
+.invite-row input {
+	min-width: 0;
+	flex: 1;
+}
+
+.wide {
+	width: 100%;
+}

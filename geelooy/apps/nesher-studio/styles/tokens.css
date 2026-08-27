@@ -1,0 +1,30 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives measure to color, timing, touch, and geometry; Awtsmoos.com receives a compact alphabet for one responsive viewport.
+*/
+:root {
+	--bg: #02040a;
+	--panel: rgba(7, 14, 29, 0.94);
+	--panel-soft: rgba(13, 25, 48, 0.82);
+	--card: rgba(17, 31, 57, 0.86);
+	--glass: rgba(7, 15, 31, 0.68);
+	--line: rgba(117, 148, 202, 0.3);
+	--line-hot: rgba(117, 255, 229, 0.62);
+	--ink: #f6f9ff;
+	--soft: #cad8f2;
+	--muted: #8ea4ca;
+	--cyan: #75ffe5;
+	--blue: #6b9dff;
+	--violet: #b58cff;
+	--gold: #ffd36a;
+	--red: #ff567e;
+	--green: #68ffb7;
+	--radius: clamp(14px, 1.7vw, 24px);
+	--touch: clamp(34px, 4.2vh, 44px);
+	--gap: clamp(6px, 0.8vw, 12px);
+	--header-height: clamp(54px, 7.4vh, 76px);
+	--nav-height: clamp(58px, 8.2vh, 78px);
+	--transition: 340ms cubic-bezier(.2, .8, .2, 1);
+	--shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
+}

@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "updatedAt": "2026-07-14T22:35:48.967Z",
+  "progress": 1,
+  "error": null,
+  "filename": "the-strategy-meeting-that-walked-away-webcodecs.webm",
+  "codec": "VP9",
+  "bytes": 10540786,
+  "frameCount": 1440,
+  "duration": 120000,
+  "width": 640,
+  "height": 360,
+  "fps": 12,
+  "mediaDurationSeconds": 120,
+  "mediaWidth": 640,
+  "mediaHeight": 360,
+  "path": "/Users/awtsmoos/Movies/AwtsmoosAnimatorExports/2026-07-14-webcodecs/the-strategy-meeting-that-walked-away-webcodecs.webm",
+  "bytesOnDisk": 10540786,
+  "createdAt": "2026-07-14T22:35:48.966Z",
+  "pipeline": "WebCodecs VideoEncoder + custom WebM EBML muxer",
+  "ffmpegUsed": false
+}

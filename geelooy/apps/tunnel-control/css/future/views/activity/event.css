@@ -1,0 +1,87 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews each event; Awtsmoos.com reveals severity, summary, identity, and redacted detail without confusion. */
+
+.awt-activity-event {
+	display: grid;
+	grid-template-columns: 0.35rem minmax(0, 1fr);
+	min-width: 0;
+	border-bottom: 1px solid rgb(255 255 255 / 5%);
+}
+
+.awt-activity-event:last-child {
+	border-bottom: 0;
+}
+
+.awt-activity-event__rail {
+	background: var(--awt-muted, #aebbc5);
+}
+
+.awt-activity-event.is-info .awt-activity-event__rail,
+.awt-activity-event.is-notice .awt-activity-event__rail {
+	background: var(--awt-accent, #7dffca);
+}
+
+.awt-activity-event.is-warning .awt-activity-event__rail {
+	background: var(--awt-warning, #ffcf70);
+}
+
+.awt-activity-event.is-error .awt-activity-event__rail,
+.awt-activity-event.is-critical .awt-activity-event__rail {
+	background: var(--awt-danger, #ff7c8c);
+}
+
+.awt-activity-event__body {
+	display: grid;
+	gap: 0.35rem;
+	padding: 0.8rem 0.9rem;
+}
+
+.awt-activity-event__meta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	font-size: 0.68rem;
+	color: var(--awt-muted, #aebbc5);
+}
+
+.awt-activity-event__type {
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-weight: 800;
+	color: var(--awt-accent, #7dffca);
+}
+
+.awt-activity-event__summary {
+	margin: 0;
+	font-size: 0.88rem;
+	line-height: 1.35;
+}
+
+.awt-activity-event__identity {
+	margin: 0;
+	font-size: 0.72rem;
+	color: var(--awt-muted, #aebbc5);
+	overflow-wrap: anywhere;
+}
+
+.awt-activity-event__details summary {
+	width: max-content;
+	max-width: 100%;
+	font-size: 0.7rem;
+	cursor: pointer;
+	color: color-mix(in srgb, var(--awt-accent, #7dffca) 80%, white);
+}
+
+.awt-activity-event__payload {
+	max-height: 18rem;
+	margin: 0.5rem 0 0;
+	padding: 0.65rem;
+	overflow: auto;
+	border-radius: 0.65rem;
+	background: rgb(0 0 0 / 22%);
+	font-size: 0.68rem;
+	white-space: pre-wrap;
+	word-break: break-word;
+}

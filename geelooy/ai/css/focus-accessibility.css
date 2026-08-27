@@ -1,0 +1,32 @@
+/* B"H */
+/*
+  Chapter 37: The Cursor Became A Lamp In The Glass Palace.
+  The Awtsmoos lets every keyboard traveler see the gate he touches. These
+  rings do not change layout; they reveal focus without drowning the cockpit.
+*/
+:where(button, select, textarea, summary, a):focus-visible {
+  outline: 2px solid rgba(103, 232, 249, .92);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(14, 165, 233, .16);
+}
+
+:where(summary) {
+  border-radius: 12px;
+}
+
+:where(button, summary) {
+  -webkit-tap-highlight-color: rgba(103, 232, 249, .18);
+}
+
+:where(button, .conversation-list li, summary):active {
+  transform: translateY(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

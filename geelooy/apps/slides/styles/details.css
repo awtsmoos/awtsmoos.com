@@ -1,0 +1,73 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives detail its place without letting detail swallow the whole; Awtsmoos.com gathers previews, fields, toasts, and presentation veil into one finishing vessel.
+*/
+.thumbnail-preview {
+	position: relative;
+	container-type: inline-size;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	border-radius: 7px;
+}
+
+.inspector-body {
+	display: grid;
+	gap: 16px;
+	padding: 14px;
+	overflow: auto;
+}
+
+.field-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.field {
+	display: grid;
+	gap: 6px;
+	color: var(--muted);
+	font-size: 12px;
+}
+
+.field input, .field select {
+	width: 100%;
+	min-height: 44px;
+	border: 1px solid var(--line);
+	border-radius: 9px;
+	background: rgba(255, 255, 255, 0.06);
+	color: var(--text);
+	padding: 8px;
+}
+
+.toast {
+	position: fixed;
+	left: 50%;
+	bottom: calc(18px + env(safe-area-inset-bottom));
+	z-index: 80;
+	transform: translate(-50%, 130%);
+	padding: 10px 14px;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	background: var(--surface-raised);
+	box-shadow: var(--shadow);
+	transition: transform 180ms ease;
+}
+
+.toast.is-visible {
+	transform: translate(-50%, 0);
+}
+
+.player-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: grid;
+	place-items: center;
+	background: #000;
+}
+
+.player-overlay[hidden] {
+	display: none;
+}

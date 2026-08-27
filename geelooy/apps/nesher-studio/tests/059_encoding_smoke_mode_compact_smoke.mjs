@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import { SMOKE_BENCHMARK_SCENARIOS, smokeScenarioFromState } from '../modules/encodingBenchmark/benchmarkScenarios.js';
+import { verifyEncodingCapability } from '../modules/encodingBenchmark/benchmarkCapability.js';
+import { formatCompactBenchmarkRecommendation } from '../modules/encodingBenchmark/benchmarkCompactView.js';
+import { buildBenchmarkRecommendation, isRealtimeSuitable } from '../modules/encodingBenchmark/benchmarkRecommendation.js';
+assert.ok(SMOKE_BENCHMARK_SCENARIOS.every(s => s.seconds <= .25 && s.width <= 256));
+assert.equal(smokeScenarioFromState({ width:999, height:999, fps:60 }).fps, 15);
+const fast = { id:'fast', label:'Fast smoke', supported:true, encodeFps:60, realtimeFactor:5, mbps:1, width:256, height:144, fps:12, codec:'vp8', bytes:10, chunks:1 };
+const slow = { id:'slow', label:'Slow smoke', supported:true, encodeFps:8, realtimeFactor:.66, mbps:1, width:256, height:144, fps:12, codec:'vp8', bytes:10, chunks:1 };
+const detail = buildBenchmarkRecommendation([slow, fast]);
+assert.equal(detail.best.id, 'fast'); assert.equal(isRealtimeSuitable(slow), false);
+const compact = formatCompactBenchmarkRecommendation({ recommendationDetail:detail });
+assert.match(compact, /realtime yes/); assert.match(compact, /realtime no/);
+const probe = await verifyEncodingCapability(SMOKE_BENCHMARK_SCENARIOS[0]);
+assert.equal(typeof probe.supported, 'boolean'); assert.equal(probe.scenarioId, 'smoke-vp8-160p');
+console.log('B"H encoding smoke mode compact smoke passed');

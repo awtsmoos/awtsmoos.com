@@ -1,0 +1,3 @@
+/* B"H */
+export function createHlsExporter(input = {}) { return { kind:'HlsExporter', playlist:'index.m3u8', segmentType:input.segmentType || 'mpeg-ts', targetDuration:input.targetDuration || 2, maxSegments:input.maxSegments || 6 }; }
+export function buildMediaPlaylist(segments = [], options = {}) { const target = options.targetDuration || Math.ceil(Math.max(1, ...segments.map(s => s.duration || 1))); return ['#EXTM3U','#EXT-X-VERSION:3',`#EXT-X-TARGETDURATION:${target}`,'#EXT-X-MEDIA-SEQUENCE:0',...segments.flatMap(s => [`#EXTINF:${Number(s.duration || target).toFixed(3)},`, s.name]), options.end ? '#EXT-X-ENDLIST' : ''].filter(Boolean).join('\n'); }

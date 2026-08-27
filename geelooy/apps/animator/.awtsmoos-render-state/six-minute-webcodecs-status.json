@@ -1,0 +1,22 @@
+{
+  "status": "complete",
+  "updatedAt": "2026-07-15T05:00:39.876Z",
+  "progress": 1,
+  "error": null,
+  "filename": "the-beacon-that-broke-the-city-webcodecs.webm",
+  "codec": "VP9",
+  "bytes": 56264737,
+  "frameCount": 4320,
+  "duration": 360000,
+  "width": 640,
+  "height": 360,
+  "fps": 12,
+  "mediaDurationSeconds": 360,
+  "mediaWidth": 640,
+  "mediaHeight": 360,
+  "path": "/Users/awtsmoos/Movies/AwtsmoosAnimatorExports/2026-07-14-six-minute-action/the-beacon-that-broke-the-city-webcodecs.webm",
+  "bytesOnDisk": 56264737,
+  "createdAt": "2026-07-15T05:00:39.874Z",
+  "pipeline": "WebCodecs VideoEncoder + custom WebM EBML muxer",
+  "ffmpegUsed": false
+}

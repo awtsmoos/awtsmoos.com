@@ -1,0 +1,7 @@
+{
+  "ok": true,
+  "session": "stream-mqoakz4x-b7a71097",
+  "segmentCount": 2,
+  "playlist": "#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:2\n#EXT-X-MEDIA-SEQUENCE:0\n#EXTINF:2.000,\nseg-000000.ts\n#EXTINF:2.000,\nseg-000001.ts\n",
+  "finalPlaylist": "#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:2\n#EXT-X-MEDIA-SEQUENCE:0\n#EXTINF:2.000,\nseg-000000.ts\n#EXTINF:2.000,\nseg-000001.ts\n#EXT-X-ENDLIST\n"
+}

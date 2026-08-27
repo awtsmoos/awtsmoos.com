@@ -1,0 +1,72 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews every row; Awtsmoos.com keeps verified vessel identity readable without exposing machine internals. */
+
+.awt-vessel-table-card {
+	grid-column: 1 / -1;
+}
+
+.awt-vessel-table-scroll {
+	width: 100%;
+	overflow-x: auto;
+	border: 1px solid color-mix(in srgb, var(--awt-muted, #aebbc5) 16%, transparent);
+	border-radius: 0.85rem;
+	scrollbar-gutter: stable;
+}
+
+.awt-vessel-table {
+	width: 100%;
+	min-width: 42rem;
+	border-collapse: collapse;
+	font-size: 0.76rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.awt-vessel-table th,
+.awt-vessel-table td {
+	padding: 0.68rem 0.75rem;
+	border-bottom: 1px solid rgb(255 255 255 / 6%);
+	text-align: left;
+	vertical-align: top;
+	overflow-wrap: anywhere;
+}
+
+.awt-vessel-table th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: color-mix(in srgb, var(--awt-panel, #101820) 94%, black);
+	font-size: 0.65rem;
+	font-weight: 850;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--awt-muted, #aebbc5);
+}
+
+.awt-vessel-table tbody tr:last-child td,
+.awt-vessel-table > tr:last-child td {
+	border-bottom: 0;
+}
+
+.awt-vessel-table tr:hover td {
+	background: color-mix(in srgb, var(--awt-accent, #7dffca) 5%, transparent);
+}
+
+.awt-mode-overview {
+	grid-column: span 2;
+}
+
+#targetVesselSelect {
+	min-height: 2.75rem;
+	border: 1px solid color-mix(in srgb, var(--awt-accent, #7dffca) 34%, transparent);
+	border-radius: 0.8rem;
+	background: color-mix(in srgb, var(--awt-panel, #101820) 92%, transparent);
+	color: var(--awt-text, #f7fbff);
+	font-weight: 700;
+}
+
+#targetVesselSelect:focus-visible {
+	outline: 2px solid var(--awt-accent, #7dffca);
+	outline-offset: 3px;
+}

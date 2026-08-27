@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Nesher Studio Capture Bridge",
+  "version": "0.0.1",
+  "description": "B'H prototype bridge for active tab capture into Nesher Studio.",
+  "permissions": ["tabCapture", "activeTab", "tabs", "offscreen"],
+  "host_permissions": ["<all_urls>"],
+  "action": { "default_title": "Nesher Capture" },
+  "background": { "service_worker": "service-worker.js" }
+}

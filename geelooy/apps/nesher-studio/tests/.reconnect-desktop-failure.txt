@@ -1,0 +1,110 @@
+### /Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruwqvub_6970b5a790b3/stderr.txt
+Traceback (most recent call last):
+  File "/tmp/nesher_reconnect_audit.py", line 160, in <module>
+    client.call('Runtime.enable')
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/nesher_reconnect_audit.py", line 119, in call
+    message = json.loads(self.socket.receive_text())
+                         ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/nesher_reconnect_audit.py", line 65, in receive_text
+    first, second = self.exact(2)
+                    ~~~~~~~~~~^^^
+  File "/tmp/nesher_reconnect_audit.py", line 37, in exact
+    chunk = self.connection.recv(max(4096, length - len(self.buffer)))
+TimeoutError: timed out
+### /Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruwqvub_6970b5a790b3/meta.json
+{
+  "schemaVersion": 2,
+  "revision": 6,
+  "jobId": "cmdjob_mruwqvub_6970b5a790b3",
+  "workerId": "worker_mruwqvub_22a36fd9e4",
+  "receiptId": "receipt_mruwqvub_ea884d051b",
+  "command": "set -eu\nAPP='/Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/apps/nesher-studio'\nPORT=8789\nCHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'\ncd \"$APP\"\npython3 -m http.server \"$PORT\" --bind 127.0.0.1 > tests/.reconnect-audit-server.log 2>&1 &\nSERVER_PID=$!\ncleanup(){ kill \"$SERVER_PID\" 2>/dev/null||true; pkill -f 'user-data-dir=/tmp/nesher-reconnect-desktop' 2>/dev/null||true; pkill -f 'http.server 8789' 2>/dev/null||true; rm -rf /tmp/nesher-reconnect-desktop /tmp/nesher_reconnect_audit.py; }\ntrap cleanup EXIT INT TERM\nfor attempt in $(seq 1 80); do curl -fsS \"http://127.0.0.1:$PORT/\" >/dev/null 2>&1&&break;sleep .1;done\ncat > /tmp/nesher_reconnect_audit.py <<'PY'\n# B\"H\n# Boruch Hashem\n# Blessed is He\n# The Awtsmoos lets navigation cross one socket and measurement awaken through another; Awtsmoos.com remains the same page while the audit vessel is renewed.\nimport base64\nimport json\nimport os\nimport secrets\nimport signal\nimport socket\nimport struct\nimport subprocess\nimport time\nimport urllib.parse\nimport urllib.request\nfrom pathlib import Path\n\n\nclass WebSocket:\n\tdef __init__(self, url):\n\t\tparsed = urllib.parse.urlsplit(url)\n\t\tself.connection = socket.create_connection((parsed.hostname, parsed.port), timeout=20)\n\t\tself.buffer = b''\n\t\tkey = base64.b64encode(secrets.token_bytes(16)).decode()\n\t\tquery = f'?{parsed.query}' if parsed.query else ''\n\t\trequest = f'GET {parsed.path}{query} HTTP/1.1\\r\\nHost: {parsed.hostname}:{parsed.port}\\r\\nUpgrade: websocket\\r\\nConnection: Upgrade\\r\\nSec-WebSocket-Key: {key}\\r\\nSec-WebSocket-Version: 13\\r\\nOrigin: http://127.0.0.1\\r\\n\\r\\n'\n\t\tself.connection.sendall(request.encode())\n\t\tresponse = b''\n\t\twhile b'\\r\\n\\r\\n' not in response:\n\t\t\tresponse += self.connection.recv(4096)\n\t\theaders, self.buffer = response.split(b'\\r\\n\\r\\n', 1)\n\t\tif b' 101 ' not in headers.split(b'\\r\\n', 1)[0]:\n\t\t\traise RuntimeError(headers[:200])\n\n\tdef exact(self, length):\n\t\twhile len(self.buffer) < length:\n\t\t\tchunk = self.connection.recv(max(4096, length - len(self.buffer)))\n\t\t\tif not chunk:\n\t\t\t\traise RuntimeError('WebSocket closed.')\n\t\t\tself.buffer += chunk\n\t\tresult, self.buffer = self.buffer[:length], self.buffer[length:]\n\t\treturn result\n\n\tdef send_frame(self, opcode, payload=b''):\n\t\tmask = secrets.token_bytes(4)\n\t\theader = bytearray([128 | opcode])\n\t\tlength = len(payload)\n\t\tif length < 126:\n\t\t\theader.append(128 | length)\n\t\telif length < 65536:\n\t\t\theader.append(254)\n\t\t\theader.extend(struct.pack('!H', length))\n\t\telse:\n\t\t\theader.append(255)\n\t\t\theader.extend(struct.pack('!Q', length))\n\t\tmasked = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))\n\t\tself.connection.sendall(bytes(header) + mask + masked)\n\n\tdef send_text(self, text):\n\t\tself.send_frame(1, text.encode())\n\n\tdef receive_text(self):\n\t\tparts = []\n\t\twhile True:\n\t\t\tfirst, second = self.exact(2)\n\t\t\topcode = first & 15\n\t\t\tlength = second & 127\n\t\t\tif length == 126:\n\t\t\t\tlength = struct.unpack('!H', self.exact(2))[0]\n\t\t\telif length == 127:\n\t\t\t\tlength = struct.unpack('!Q', self.exact(8))[0]\n\t\t\tmask = self.exact(4) if second & 128 else None\n\t\t\tpayload = self.exact(length)\n\t\t\tif mask:\n\t\t\t\tpayload = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))\n\t\t\tif opcode == 8:\n\t\t\t\traise RuntimeError('Chrome closed WebSocket.')\n\t\t\tif opcode == 9:\n\t\t\t\tself.send_frame(10, payload)\n\t\t\t\tcontinue\n\t\t\tif opcode in (0, 1):\n\t\t\t\tparts.append(payload)\n\t\t\t\tif first & 128:\n\t\t\t\t\treturn b''.join(parts).decode()\n\n\tdef close(self):\n\t\tself.connection.close()\n\n\ndef page_target(port):\n\tdeadline = time.time() + 20\n\twhile time.time() < deadline:\n\t\ttry:\n\t\t\ttargets = json.load(urllib.request.urlopen(f'http://127.0.0.1:{port}/json/list', timeout=1))\n\t\t\ttarget = next((item for item in targets if item.get('type') == 'page'), None)\n\t\t\tif target:\n\t\t\t\treturn target\n\t\texcept Exception:\n\t\t\tpass\n\t\ttime.sleep(.05)\n\traise RuntimeError('Page target missing.')\n\n\nclass DevTools:\n\tdef __init__(self, port):\n\t\tself.socket = WebSocket(page_target(port)['webSocketDebuggerUrl'])\n\t\tself.sequence = 0\n\t\tself.events = []\n\n\tdef send_without_wait(self, method, params=None):\n\t\tself.sequence += 1\n\t\tself.socket.send_text(json.dumps({'id': self.sequence, 'method': method, 'params': params or {}}))\n\n\tdef call(self, method, params=None):\n\t\tself.sequence += 1\n\t\tidentifier = self.sequence\n\t\tself.socket.send_text(json.dumps({'id': identifier, 'method': method, 'params': params or {}}))\n\t\twhile True:\n\t\t\tmessage = json.loads(self.socket.receive_text())\n\t\t\tif message.get('id') == identifier:\n\t\t\t\tif 'error' in message:\n\t\t\t\t\traise RuntimeError(message['error'])\n\t\t\t\treturn message.get('result', {})\n\t\t\tself.events.append(message)\n\n\tdef evaluate(self, expression):\n\t\tresult = self.call('Runtime.evaluate', {'expression': expression, 'returnByValue': True, 'userGesture': True})\n\t\tif result.get('exceptionDetails'):\n\t\t\traise RuntimeError(result['exceptionDetails'])\n\t\treturn result.get('result', {}).get('value')\n\n\napp = Path(os.environ['APP'])\nchrome = os.environ['CHROME']\nprocess = subprocess.Popen([\n\tchrome,\n\t'--disable-gpu',\n\t'--headless=new',\n\t'--no-first-run',\n\t'--no-default-browser-check',\n\t'--disable-background-networking',\n\t'--disable-default-apps',\n\t'--disable-extensions',\n\t'--disable-sync',\n\t'--remote-allow-origins=*',\n\t'--remote-debugging-address=127.0.0.1',\n\t'--remote-debugging-port=9460',\n\t'--user-data-dir=/tmp/nesher-reconnect-desktop',\n\t'about:blank',\n], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)\ntry:\n\tfirst = DevTools(9460)\n\tfirst.call('Runtime.enable')\n\tfirst.call('Page.enable')\n\tfirst.call('Emulation.setDeviceMetricsOverride', {'width': 1200, 'height': 683, 'deviceScaleFactor': 1, 'mobile': False, 'screenWidth': 1200, 'screenHeight': 683})\n\tfirst.send_without_wait('Page.navigate', {'url': f\"http://127.0.0.1:{os.environ['SERVER_PORT']}/\"})\n\tfirst.socket.close()\n\ttime.sleep(1)\n\tclient = DevTools(9460)\n\tclient.call('Runtime.enable')\n\tdeadline = time.time() + 30\n\twhile time.time() < deadline:\n\t\tready = client.evaluate(\"document.readyState==='complete'&&document.querySelectorAll('[data-studio-page]').length===7&&document.querySelectorAll('.preset-card').length===10\")\n\t\tif ready:\n\t\t\tbreak\n\t\ttime.sleep(.05)\n\telse:\n\t\traise RuntimeError('Desktop application did not boot after reconnect.')\n\treport = client.evaluate(r'''(() => {\n\t\tconst transitionClasses=['is-active','is-entering','is-leaving','from-left','from-right','to-left','to-right'];\n\t\tconst overflow=e=>Boolean(e)&&(e.scrollWidth>e.clientWidth+1||e.scrollHeight>e.clientHeight+1);\n\t\tconst normalize=name=>document.querySelectorAll('[data-studio-page]').forEach(page=>{page.classList.remove(...transitionClasses);const active=page.dataset.studioPage===name;page.hidden=!active;page.inert=!active;if(active)page.classList.add('is-active')});\n\t\tconst pages=['home','stage','audio','sources','live','setup','nle'].map(name=>{normalize(name);const page=document.querySelector(`[data-studio-page=\"${name}\"]`);const critical=[page,...page.querySelectorAll('.stage-workspace,.audio-lab-grid,.source-deck,.nle-deck,.timeline-real')];const pageOverflow=critical.filter(overflow).map(e=>e.id||String(e.className));const deckOverflow=[];for(const deck of page.querySelectorAll('[data-workspace-deck]')){for(const button of deck.querySelectorAll(':scope > [data-deck-tabs] [data-deck-target]')){button.click();const stack=deck.querySelector(':scope > [data-deck-stack]');const panel=stack?.querySelector('.deck-panel.active');if([deck,stack,panel].some(overflow))deckOverflow.push(`${deck.dataset.workspaceDeck}/${button.dataset.deckTarget}`)}}return{name,activeCount:document.querySelectorAll('.workspace-page.is-active').length,pageOverflow,deckOverflow}});\n\t\treturn{viewport:[innerWidth,innerHeight],pages,rootOverflow:[document.documentElement,document.body,document.querySelector('#appRoot'),document.querySelector('.nesher-shell'),document.querySelector('#studioPage'),document.querySelector('#topNav')].filter(overflow).map(e=>e.id||String(e.className)),scrollbars:[...document.querySelectorAll('*')].filter(e=>{const s=getComputedStyle(e);return['auto','scroll'].includes(s.overflowX)||['auto','scroll'].includes(s.overflowY)}).map(e=>e.id||String(e.className))};\n\t})()''')\n\tfailed = [page for page in report['pages'] if page['activeCount'] != 1 or page['pageOverflow'] or page['deckOverflow']]\n\tif failed or report['rootOverflow'] or report['scrollbars']:\n\t\traise RuntimeError(json.dumps(report))\n\t(app / 'tests/.reconnect-desktop-audit.json').write_text(json.dumps(report, indent=2), encoding='utf-8')\n\tprint(json.dumps(report, indent=2))\nfinally:\n\ttry:\n\t\tos.killpg(process.pid, signal.SIGTERM)\n\texcept ProcessLookupError:\n\t\tpass\n\ttry:\n\t\tprocess.wait(timeout=3)\n\texcept subprocess.TimeoutExpired:\n\t\tos.killpg(process.pid, signal.SIGKILL)\n\t\tprocess.wait(timeout=3)\nPY\nAPP=\"$APP\" CHROME=\"$CHROME\" SERVER_PORT=\"$PORT\" python3 /tmp/nesher_reconnect_audit.py",
+  "cwd": "/Users/awtsmoos/Documents",
+  "shell": "/bin/sh",
+  "timeoutMs": 120000,
+  "deadlineAt": "2026-07-21T17:10:40.500Z",
+  "leaseExpiresAt": "2026-07-21T17:10:40.500Z",
+  "status": "failed",
+  "startedAt": "2026-07-21T17:08:40.500Z",
+  "updatedAt": "2026-07-21T17:09:43.749Z",
+  "stdoutChars": 0,
+  "stderrChars": 618,
+  "processIdentity": {
+    "pid": 6875,
+    "processGroupId": 6875,
+    "birthToken": "d0f1b9fa4bfc4571d5d77eccc3d91fffbc33dcb6ccd9935b4089983f99109361",
+    "platform": "darwin",
+    "observedAt": "2026-07-21T17:08:40.834Z"
+  },
+  "cleanup": null,
+  "correlation": {
+    "tunnelName": "awt-awtsmoos-16364",
+    "requestedTunnelName": "awt-awtsmoos-16364",
+    "controlRequestId": "req_1784653694892_i1n8aiquua"
+  },
+  "worker": {
+    "tunnelName": "awt-awtsmoos-16364",
+    "requestedTunnelName": "awt-awtsmoos-16364",
+    "workerId": "worker_mruwqvub_22a36fd9e4",
+    "jobId": "cmdjob_mruwqvub_6970b5a790b3",
+    "controlRequestId": "req_1784653694892_i1n8aiquua",
+    "startedAt": "2026-07-21T17:08:40.500Z",
+    "protocol": "awtsmoos-worker-v1",
+    "kind": "subprocess",
+    "state": "failed",
+    "pid": 6875,
+    "processGroupId": 6875,
+    "birthToken": "d0f1b9fa4bfc4571d5d77eccc3d91fffbc33dcb6ccd9935b4089983f99109361",
+    "platform": "darwin",
+    "isolation": "process-group-stdio-stream-files",
+    "timeoutMs": 120000,
+    "heartbeatAt": "2026-07-21T17:09:43.556Z",
+    "finishedAt": "2026-07-21T17:09:43.556Z",
+    "exitCode": 1,
+    "detached": false,
+    "cancelable": true
+  },
+  "receipt": {
+    "receiptId": "receipt_mruwqvub_ea884d051b",
+    "jobId": "cmdjob_mruwqvub_6970b5a790b3",
+    "workerId": "worker_mruwqvub_22a36fd9e4",
+    "action": "commandStart",
+    "requestAction": "commandRun",
+    "actualAction": "commandStart",
+    "controlRequestId": "req_1784653694892_i1n8aiquua",
+    "state": "failed",
+    "createdAt": "2026-07-21T17:08:40.500Z",
+    "safeToReplay": false,
+    "updatedAt": "2026-07-21T17:09:43.556Z",
+    "pid": 6875,
+    "processGroupId": 6875,
+    "birthToken": "d0f1b9fa4bfc4571d5d77eccc3d91fffbc33dcb6ccd9935b4089983f99109361",
+    "heartbeatAt": "2026-07-21T17:08:40.500Z",
+    "exitCode": 1,
+    "signal": null
+  },
+  "storage": {
+    "backend": "device-file",
+    "outsideProject": true,
+    "folder": "/Users/awtsmoos/.awtsmoos-tunnel/device-state/awt-awtsmoos-16364-3af070df92ef/.Awtsmoos/command-jobs/cmdjob_mruwqvub_6970b5a790b3"
+  },
+  "ownerId": "req_1784653694892_i1n8aiquua",
+  "commandHash": "b5c142a1b75eadb8f909c3406d43e16d3c46533fda12f5d38648257f62a7283d",
+  "queue": {
+    "ownerId": "req_1784653694892_i1n8aiquua",
+    "queuedAt": "2026-07-21T17:08:40.500Z"
+  },
+  "pid": 6875,
+  "processGroupId": 6875,
+  "platform": "darwin",
+  "birthToken": "d0f1b9fa4bfc4571d5d77eccc3d91fffbc33dcb6ccd9935b4089983f99109361",
+  "heartbeatAt": "2026-07-21T17:09:10.917Z",
+  "exitCode": 1,
+  "signal": null,
+  "finishedAt": "2026-07-21T17:09:43.556Z",
+  "cost": {
+    "wallMs": 63056,
+    "outputBytes": 0
+  }
+}

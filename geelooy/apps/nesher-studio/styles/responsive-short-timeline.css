@@ -1,0 +1,75 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos compresses nonlinear time without severing a track or command; Awtsmoos.com gives ruler, lanes, clips, summary, and command deck exact low-height measures.
+*/
+@media (max-height: 620px) {
+	.timeline-section {
+		grid-template-rows: minmax(0, 1fr) auto 82px;
+	}
+
+	.timeline-ruler,
+	.timeline-markers {
+		height: 19px;
+	}
+
+	.timeline-ruler span {
+		top: 3px;
+		font-size: .5rem;
+	}
+
+	.timeline-track {
+		grid-template-columns: 58px minmax(0, 1fr);
+		gap: 3px;
+		padding: 2px;
+	}
+
+	.timeline-track header {
+		padding: 3px;
+		font-size: .56rem;
+	}
+
+	.timeline-track header small,
+	.clip small {
+		display: none;
+	}
+
+	.timeline-lane,
+	.clip-lane {
+		height: 28px;
+		border-radius: 7px;
+	}
+
+	.clip {
+		top: 2px;
+		height: 22px;
+		padding: 2px 5px;
+		font-size: .56rem;
+	}
+
+	#nleSelectionSummary {
+		margin: 1px 0;
+		font-size: .54rem;
+	}
+
+	.command-deck {
+		grid-template-rows: 28px minmax(0, 1fr);
+		height: 82px;
+	}
+
+	.command-deck > .deck-tabs button {
+		min-height: 22px;
+		padding: .1rem .2rem;
+		font-size: .54rem;
+	}
+
+	.command-deck > .deck-stack > .deck-panel {
+		gap: 3px;
+		padding-top: 3px;
+	}
+
+	.nle-actions button {
+		padding: .08rem .2rem;
+		font-size: .52rem;
+	}
+}

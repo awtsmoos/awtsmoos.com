@@ -1,0 +1,177 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter: The compute treasury glowed like a coin-table in the Beis Midrash.
+ */
+.awt-compute-pane {
+  --coin-gold: rgba(255, 212, 92, .92);
+  --coin-copper: rgba(255, 139, 78, .88);
+  --coin-blue: rgba(88, 196, 255, .82);
+}
+
+.awt-compute-head h2 {
+  letter-spacing: -.055em;
+}
+
+.awt-compute-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 15%, rgba(255, 213, 90, .18), transparent 30%),
+    radial-gradient(circle at 90% 20%, rgba(90, 190, 255, .14), transparent 32%),
+    linear-gradient(135deg, rgba(20, 14, 42, .94), rgba(10, 30, 54, .82));
+}
+
+.awt-compute-hero > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 14px;
+  align-items: center;
+}
+
+.awt-coin-orbit {
+  grid-row: span 2;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #1b1201;
+  font-size: 2.2rem;
+  font-weight: 1000;
+  background:
+    radial-gradient(circle at 35% 25%, #fff6b8, var(--coin-gold) 40%, #b77215 74%, #4b2603 100%);
+  box-shadow: inset 0 4px 10px rgba(255,255,255,.4), 0 18px 38px rgba(255, 194, 72, .22);
+}
+
+#computeBalance {
+  font-size: clamp(1.7rem, 4vw, 3.4rem);
+  line-height: 1;
+}
+
+.awt-compute-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  gap: 14px;
+}
+
+.awt-pack-grid,
+.awt-coin-results,
+.awt-coin-ladder {
+  display: grid;
+  gap: 10px;
+}
+
+.awt-pack-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.awt-pack-card,
+.awt-coin-card,
+.awt-ladder-coin {
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 20px;
+  padding: 14px;
+  background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
+  box-shadow: 0 16px 42px rgba(0,0,0,.18);
+}
+
+.awt-pack-card {
+  position: relative;
+  min-height: 190px;
+  display: grid;
+  gap: 7px;
+  overflow: hidden;
+}
+
+.awt-pack-card::after {
+  content: "פּ";
+  position: absolute;
+  right: -14px;
+  bottom: -30px;
+  color: rgba(255, 218, 91, .16);
+  font-size: 8rem;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.awt-pack-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.awt-pack-card span {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: rgba(255, 216, 100, .13);
+  color: var(--coin-gold);
+  font-size: .72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.awt-pack-card strong {
+  font-size: 2rem;
+}
+
+.awt-pack-card b {
+  color: var(--coin-blue);
+}
+
+.awt-pack-card a {
+  width: fit-content;
+  align-self: end;
+  border-radius: 999px;
+  padding: 9px 12px;
+  color: white;
+  text-decoration: none;
+  font-weight: 900;
+  background: linear-gradient(135deg, rgba(255, 180, 63, .9), rgba(255, 84, 134, .82));
+}
+
+.awt-coin-results {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.awt-coin-card strong,
+.awt-ladder-coin b {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.awt-coin-card small,
+.awt-ladder-coin small,
+.awt-ladder-coin span {
+  display: block;
+  color: rgba(232,242,255,.68);
+  line-height: 1.35;
+}
+
+.awt-coin-ladder {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.awt-ladder-coin {
+  background:
+    linear-gradient(135deg, rgba(255, 218, 91, .09), rgba(255,255,255,.025)),
+    radial-gradient(circle at top right, rgba(93, 199, 255, .12), transparent 40%);
+}
+
+.awt-ladder-coin strong {
+  color: var(--coin-gold);
+  font-size: 1.3rem;
+}
+
+@media (max-width: 900px) {
+  .awt-compute-grid,
+  .awt-compute-hero {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

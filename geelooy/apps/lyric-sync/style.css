@@ -1,0 +1,442 @@
+/*B"H*/
+
+:root {
+    --primary-bg: #121212;
+    --secondary-bg: #1e1e1e;
+    --primary-text: #ffffff;
+    --accent-color: #1DB954;
+    --border-color: #2c2c2c;
+
+    /* Default style properties that will be updated by JS */
+    --lyrics-font-size: 28px;
+    --lyrics-font-color: #FFFFFF;
+    --lyrics-highlight-color: #FFFF00;
+    --lyrics-text-align: center;
+    
+    
+    --lyrics-font-size: 48px;
+    --lyrics-font-color: #FFFFFF;
+    --lyrics-text-align: center;
+    --lyrics-box-bg-color: rgba(0, 0, 0, 0.2);
+    --lyrics-text-shadow: 0px 0px 5px #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: var(--secondary-bg);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+header {
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+header h1 {
+    color: var(--accent-color);
+    margin-bottom: 0.25rem;
+}
+
+.input-section {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+}
+
+.file-input-wrapper {
+    background-color: var(--primary-bg);
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    transition: border-color 0.3s;
+}
+
+.file-input-wrapper:hover {
+    border-color: var(--accent-color);
+}
+
+.file-input-wrapper label {
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.file-input-wrapper i {
+    margin-right: 0.5rem;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.file-input-wrapper span {
+    display: block;
+    font-size: 0.8rem;
+    color: #aaa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.textarea-wrapper {
+    grid-column: 1 / -1;
+}
+
+.textarea-wrapper label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+#vtt-text-input {
+    width: 100%;
+    background: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem;
+    color: var(--primary-text);
+    font-family: monospace;
+    resize: vertical;
+}
+
+#lyrics-display-wrapper {
+    background-color: #000;
+    border-radius: 8px;
+    padding: 2rem 1rem;
+    min-height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#lyrics-display {
+    width: 100%;
+    font-size: var(--lyrics-font-size);
+    color: var(--lyrics-font-color);
+    text-align: var(--lyrics-text-align);
+    line-height: 1.5;
+    font-weight: bold;
+}
+
+#lyrics-display .active-cue {
+    color: var(--lyrics-highlight-color);
+    transition: color 0.2s ease-in-out;
+}
+
+.controls-section {
+    margin-top: 1rem;
+}
+
+.custom-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.control-btn {
+    background: var(--accent-color);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+}
+
+.progress-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#progress-bar {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #444;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+#progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#progress-bar::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.settings-panel {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.settings-panel summary {
+    font-weight: bold;
+    cursor: pointer;
+    list-style: none; /* For Firefox */
+}
+.settings-panel summary::-webkit-details-marker {
+    display: none; /* For Chrome/Safari */
+}
+
+.settings-panel summary i {
+    margin-right: 0.5rem;
+}
+
+.settings-content {
+    padding-top: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.setting {
+    display: flex;
+    flex-direction: column;
+}
+
+.setting label {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.setting input[type="range"], .setting select, .setting input[type="color"] {
+    width: 100%;
+    padding: 0.25rem;
+}
+.setting input[type="color"] {
+    -webkit-appearance: none;
+    border: none;
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    background: none;
+}
+.setting input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+.setting input[type="color"]::-webkit-color-swatch {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    body {
+        padding: 0.5rem;
+    }
+    .app-container {
+        padding: 1rem;
+    }
+    .input-section {
+        grid-template-columns: 1fr;
+    }
+    .custom-controls {
+        flex-direction: column;
+    }
+    .progress-container {
+        width: 100%;
+    }
+}
+
+
+
+/* NEW STYLES FOR EXPORT UI */
+.settings-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 1.5rem 0;
+}
+
+.settings-title {
+    text-align: center;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.setting input[type="number"],
+.setting textarea {
+    background: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    color: var(--primary-text);
+    width: 100%;
+}
+
+.setting.full-width {
+    grid-column: 1 / -1;
+}
+
+.export-button {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.export-button:hover {
+    background-color: #1aa34a;
+}
+
+.export-button i {
+    margin-right: 0.75rem;
+}
+
+/* NEW STYLES FOR PROGRESS OVERLAY */
+#export-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    color: white;
+    text-align: center;
+}
+
+#export-overlay.hidden {
+    display: none;
+}
+
+.export-status-box {
+    background: var(--secondary-bg);
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+}
+
+.export-status-box h3 {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+#export-status {
+    margin-bottom: 1.5rem;
+    min-height: 20px;
+}
+
+.progress-bar-container {
+    width: 300px;
+    height: 10px;
+    background-color: #444;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#export-progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: var(--accent-color);
+    border-radius: 5px;
+    transition: width 0.2s linear;
+}
+
+
+
+
+/* --- PREVIEW AREA STYLES --- */
+#lyrics-display-wrapper {
+    background-color: #000;
+    border-radius: 8px;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* For positioning canvas */
+    overflow: hidden;
+}
+
+#waveform-preview-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#lyrics-display-box {
+    width: 90%;
+    max-width: 1200px;
+    background-color: var(--lyrics-box-bg-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    z-index: 2;
+    position: relative;
+}
+
+#lyrics-display {
+    width: 100%;
+    font-size: var(--lyrics-font-size);
+    color: var(--lyrics-font-color);
+    text-align: var(--lyrics-text-align);
+    line-height: 1.4;
+    font-weight: bold;
+    font-family: 'Heebo', sans-serif;
+    text-shadow: var(--lyrics-text-shadow);
+    /* Note: Text border is applied via canvas, not CSS, to match the video */
+}
+

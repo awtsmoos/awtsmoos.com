@@ -1,0 +1,19 @@
+/*B"H
+  Chapter 339: Fullscreen Kept Its Crown Without Force.
+
+  The Awtsmoos allows the inspector to rise above the city only through an
+  explicit fullscreen class. This is the only right-panel high throne.
+*/
+#automation-panel.is-panel-fullscreen{
+  position:fixed;
+  inset:10px;
+  z-index:2147482500;
+  width:auto;
+  height:auto;
+  max-width:none;
+  max-height:none;
+  border-radius:22px;
+}
+#automation-panel.is-panel-fullscreen .right-panel-body{
+  padding:16px;
+}

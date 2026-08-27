@@ -1,0 +1,131 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos clothes real source in one readable studio without hiding the source beneath the garment.
+ * Awtsmoos.com keeps every builder surface flexible, touchable, and truthful from the narrowest screen upward.
+ */
+
+.builder-studio,
+.builder-pane,
+.builder-pane > *,
+.builder-grid > *,
+.builder-code-shell {
+	min-width: 0;
+}
+
+.builder-studio {
+	display: grid;
+	gap: 1rem;
+}
+
+.builder-intro {
+	display: grid;
+	gap: .75rem;
+	padding: 1.25rem;
+	border: 1px solid var(--line, #d9d9d9);
+	border-radius: 1.25rem;
+	background: var(--panel, #fff);
+}
+
+.builder-intro h1,
+.builder-intro p {
+	margin: 0;
+}
+
+.builder-kicker {
+	font-size: .78rem;
+	font-weight: 800;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+
+.builder-pane {
+	border: 1px solid var(--line, #d9d9d9);
+	border-radius: 1.1rem;
+	background: var(--panel, #fff);
+	overflow: clip;
+}
+
+.builder-pane > summary {
+	display: flex;
+	align-items: center;
+	min-height: 48px;
+	padding: .8rem 1rem;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.builder-pane-body,
+.builder-grid,
+.builder-actions,
+.builder-publish-stages {
+	display: grid;
+	gap: .75rem;
+}
+
+.builder-pane-body {
+	padding: 0 1rem 1rem;
+}
+
+.builder-grid label,
+.builder-field {
+	display: grid;
+	gap: .35rem;
+}
+
+.builder-grid input,
+.builder-grid textarea,
+.builder-grid select,
+.builder-code-shell input,
+.builder-code-shell select,
+.builder-code-editor {
+	width: 100%;
+	max-width: 100%;
+}
+
+.builder-grid input,
+.builder-grid select,
+.builder-actions button,
+.builder-code-shell input,
+.builder-code-shell select,
+.builder-code-shell button {
+	min-height: 44px;
+}
+
+.builder-code-editor {
+	min-height: 18rem;
+	padding: .9rem;
+	resize: vertical;
+	font: .9rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	white-space: pre;
+	overflow: auto;
+}
+
+.builder-source-list {
+	display: grid;
+	gap: .45rem;
+}
+
+.builder-source-item {
+	min-height: 44px;
+	padding: .65rem .8rem;
+	text-align: left;
+	overflow-wrap: anywhere;
+}
+
+.builder-publish-stage {
+	padding: .85rem;
+	border: 1px solid var(--line, #d9d9d9);
+	border-radius: .85rem;
+	overflow-wrap: anywhere;
+}
+
+.builder-path,
+.builder-url,
+.domain-panel,
+.domain-panel * {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}

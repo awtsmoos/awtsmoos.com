@@ -1,0 +1,117 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Awtsmoos Animator — Production Canvas MP4 Proof</title>
+	<style>
+		html, body { margin: 0; min-height: 100%; background: #f7f2e8; color: #202124; font: 15px/1.5 system-ui, sans-serif; }
+		main { max-width: 760px; margin: 36px auto; padding: 28px; border: 2px solid #292a2c; border-radius: 24px; background: #fffdf8; }
+		.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+		.card { padding: 12px; border: 1px solid #bdb5a7; border-radius: 12px; background: #f7f2e8; }
+		.card b { display: block; font-size: 22px; color: #7b2f21; }
+		progress { width: 100%; height: 22px; }
+		.status { min-height: 48px; padding: 12px; border-left: 4px solid #52633a; background: #edf1e7; }
+		.ok { border-color: #238636; background: #e8f5e9; }
+		.error { border-color: #b42318; background: #fce8e6; }
+		#production-app { position: fixed; left: -20000px; top: 0; width: 1536px; height: 864px; border: 0; }
+	</style>
+</head>
+<body>
+	<main>
+		<p>B"H · The Awtsmoos renews one production canvas as encoded time.</p>
+		<h1>Three Opinions And A Cup Of Tea</h1>
+		<p>Awtsmoos.com · production ImageBitmap · Piano MediaBunny H.264/AAC MP4</p>
+		<div class="grid">
+			<div class="card"><b>3</b>characters</div><div class="card"><b>1536×864</b>canvas</div>
+			<div class="card"><b>24</b>fps</div><div class="card"><b>0</b>voice files</div>
+		</div>
+		<p id="status" class="status">Loading the production Animator…</p>
+		<progress id="progress" max="100" value="0"></progress>
+		<p><button id="start" disabled>Render Production MP4</button></p>
+	</main>
+	<iframe id="production-app" src="/geelooy/apps/animator/index.html?referenceTrioProof=1"></iframe>
+	<script type="module">
+		import { ReferenceTrioMovie } from '/geelooy/apps/animator/src/scenes/ReferenceTrioMovie.js';
+		import { AnimatorBrowserExportController } from '/geelooy/apps/animator/src/studio/export/browser/AnimatorBrowserExportController.js';
+		import { AnimatorProductionFrameSource } from '/geelooy/apps/animator/src/studio/export/browser/AnimatorProductionFrameSource.js';
+
+		const status = document.getElementById('status');
+		const progress = document.getElementById('progress');
+		const start = document.getElementById('start');
+		const frame = document.getElementById('production-app');
+		const query = new URLSearchParams(location.search);
+		const durationMs = Number(query.get('durationMs')) || 120000;
+		window.__AWTSMOOS_BROWSER_EXPORT__ = { state: 'loading', durationMs };
+
+		function updateState(value) {
+			window.__AWTSMOOS_BROWSER_EXPORT__ = { ...window.__AWTSMOOS_BROWSER_EXPORT__, ...value, durationMs };
+		}
+
+		function downloadBlob(blob, fileName) {
+			const link = document.createElement('a');
+			link.href = URL.createObjectURL(blob);
+			link.download = fileName;
+			link.click();
+			setTimeout(() => URL.revokeObjectURL(link.href), 2000);
+		}
+
+		async function savePreview(frameSource) {
+			await frameSource.prepare(1536, 864);
+			const bitmap = await frameSource.capture(0, 1536, 864);
+			const canvas = document.createElement('canvas');
+			canvas.width = 1536;
+			canvas.height = 864;
+			canvas.getContext('2d').drawImage(bitmap, 0, 0);
+			bitmap.close();
+			const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+			downloadBlob(blob, 'reference-trio-preview-frame-000.png');
+			return blob.size;
+		}
+
+		async function waitForProduction() {
+			for (let attempt = 0; attempt < 300; attempt += 1) {
+				if (frame.contentWindow?.__AWTSMOOS_PARK_APP__?.director && frame.contentDocument?.querySelector('#character-canvas')) {
+					start.disabled = false;
+					status.textContent = 'Production Animator ready.';
+					updateState({ state: 'ready' });
+					if (query.get('autostart') === '1') renderMovie();
+					return;
+				}
+				await new Promise(resolve => setTimeout(resolve, 50));
+			}
+			throw new Error('Production Animator did not load.');
+		}
+
+		async function renderMovie() {
+			start.disabled = true;
+			updateState({ state: 'rendering', percent: 0, completedFrames: 0 });
+			try {
+				const frameSource = new AnimatorProductionFrameSource(frame.contentWindow);
+				const previewBytes = await savePreview(frameSource);
+				const result = await AnimatorBrowserExportController.export(ReferenceTrioMovie.create(), {
+					durationMs, frameSource,
+					fileName: durationMs < 120000 ? 'reference-trio-browser-proof.mp4' : 'reference-trio-browser.mp4',
+					onStatus: message => { status.textContent = message; updateState({ statusMessage: message }); },
+					onProgress: value => { progress.value = value.percent; updateState({ state: 'rendering', ...value }); }
+				});
+				progress.value = 100;
+				status.className = 'status ok';
+				status.textContent = `Complete: ${result.blob.size.toLocaleString()} production MP4 bytes.`;
+				updateState({ state: 'complete', percent: 100, previewBytes, bytes: result.blob.size, type: result.blob.type, fileName: result.fileName, durationSeconds: result.durationSeconds, frameCount: result.frameCount, voiceClipCount: result.voiceClips.length, capabilities: result.capabilities, codecPath: result.codecPath });
+			} catch (error) {
+				status.className = 'status error';
+				status.textContent = error.stack || error.message;
+				updateState({ state: 'error', error: error.stack || error.message });
+				start.disabled = false;
+			}
+		}
+
+		start.addEventListener('click', renderMovie);
+		waitForProduction().catch(error => updateState({ state: 'error', error: error.stack || error.message }));
+	</script>
+</body>
+</html>

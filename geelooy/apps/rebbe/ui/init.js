@@ -1,0 +1,9 @@
+//B"H
+import { openModal } from './modals.js';import { updatePlayIcon } from './player.js';import { SearchPanel } from './browser/search-panel.js';import state from '../modules/state.js';
+export function initUI(cb){mountPlayerPolishStyles();mountDateSearch(cb);mountBookshelfShell();bindButtons(cb);bindCloseLayer(cb);document.addEventListener('click',e=>{const b=e.target.closest('.modal-close');if(!b||b.id==='btn-close-studio')return;closeAll(cb);});}
+function bindButtons(cb){const $=id=>document.getElementById(id);let b;if(b=$('btn-play'))b.onclick=e=>{e.stopPropagation();cb.onPlayPause();updatePlayIcon(cb.isPlaying());};if(b=$('btn-search'))b.onclick=()=>openModal('modal-search');if(b=$('btn-bookshelf'))b.onclick=()=>cb.onOpenBookshelf?.();}
+function mountDateSearch(cb){new SearchPanel(cb).mount(document.getElementById('modal-search'));}
+function mountBookshelfShell(){}
+function mountPlayerPolishStyles(){if(document.getElementById('reb-ui-polish'))return;const s=document.createElement('style');s.id='reb-ui-polish';s.textContent='.modal-close{cursor:pointer!important;border:1px solid #00f3ff!important;background:#021014!important;color:#fff!important;border-radius:12px!important;padding:8px 12px!important;font-weight:900!important}.modal-close:hover{background:#00f3ff!important;color:#000!important;box-shadow:0 0 18px rgba(0,243,255,.5)}';document.head.appendChild(s);}
+function bindCloseLayer(cb){const overlay=document.getElementById('overlay-layer');if(overlay)overlay.onclick=e=>{if(e.target===overlay)closeAll(cb);};}
+function closeAll(cb){const studio=document.getElementById('modal-studio');if(studio&&!studio.classList.contains('hidden')&&cb?.onCloseStudio){cb.onCloseStudio();return;}document.querySelectorAll('.modal').forEach(m=>m.classList.add('hidden'));document.getElementById('overlay-layer')?.classList.add('hidden');}

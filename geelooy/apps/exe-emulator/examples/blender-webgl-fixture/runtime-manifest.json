@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0.0",
+  "externalLibraries": false,
+  "externalToolsRuntimeRequired": false,
+  "networkPolicy": "same-origin-only",
+  "sourceManifest": "source-manifest.json",
+  "entrypoints": {"html": "index.html", "script": "js/main.js", "stylesheet": "styles/app.css"},
+  "assets": {
+    "awtsmoos-witness.glb": {"byteLength": 58108, "contentType": "model/gltf-binary", "sha256": "86d28d5a7f7693b81afe230bdaec5ad4f401a79ec5fa043adcd504f8f528b358"},
+    "awtsmoos-witness.png": {"byteLength": 308003, "contentType": "image/png", "sha256": "9dd8b48e6244175863c3f631a847cfd5bd5ab8d5638469f07c7150a241a71cdd"},
+    "awtsmoos-witness.process.json": {"byteLength": 1266, "contentType": "application/json", "sha256": "ac5e97ff3123d63d83180acdfae70116fb1c66b74804bc3a152db87bf5a14a28"},
+    "awtsmoos-witness.reopen.json": {"byteLength": 530, "contentType": "application/json", "sha256": "5d720de5592fb6b83e51e272aa98fbd950479fc719cb99f42d15bead6be03b18"},
+    "awtsmoos-witness.scene.json": {"byteLength": 2869, "contentType": "application/json", "sha256": "224d2766f8d73fce987288df46a933e32467b598186055dde9230b01d0b133f4"}
+  }
+}

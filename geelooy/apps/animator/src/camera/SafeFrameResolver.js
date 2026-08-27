@@ -1,0 +1,3 @@
+// B"H
+import { CanvasMetricStore } from '../rectification/CanvasMetricStore.js';
+export class SafeFrameResolver { static resolve(ctx = {}) { const m = CanvasMetricStore.read(ctx); const width = Math.max(1, m.pixelWidth || ctx.canvas?.width || globalThis.innerWidth || 800); const height = Math.max(1, m.pixelHeight || ctx.canvas?.height || globalThis.innerHeight || 600); const dpr = Math.max(1, m.dpr || globalThis.devicePixelRatio || 1); const mobile = width <= 900 || height > width; return { width, height, mobile, dpr, top: 10 * dpr, bottom: height - (mobile ? 130 : 80) * dpr, actorTop: (mobile ? 58 : 34) * dpr, actorBottom: height - (mobile ? 158 : 100) * dpr, centerX: width / 2, centerY: height * 0.5 }; } }

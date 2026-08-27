@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+const webm = await import('../modules/recording/webmMuxerFactory.js');
+const recorder = await import('../modules/webcodecs/webmRecorder.js');
+const hls = await import('../modules/webcodecs/hlsTsStreamer.js');
+await import('../../piano/modules/recorder.js');
+assert.equal(typeof webm.createWebmMuxer, 'function');
+assert.equal(typeof webm.finalizeWebmTarget, 'function');
+assert.equal(typeof webm.codecString, 'function');
+assert.equal(typeof recorder.startWebCodecsWebmRecorder, 'function');
+assert.equal(typeof hls.startHlsTsStream, 'function');
+console.log('B"H public api compatibility smoke passed');

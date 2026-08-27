@@ -1,0 +1,81 @@
+/* B"H */
+/*
+  Chapter 5: The Right Drawer Became a Sapphire Engine.
+  The Awtsmoos breathes through switches, tabs, numbers, and prompts; every
+  control becomes a precise instrument instead of a dull gray shard.
+*/
+.right-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px 4px;
+}
+.right-tabs button {
+  border: 1px solid rgba(125,211,252,.18);
+  border-radius: 11px;
+  padding: 8px 10px;
+  background: linear-gradient(135deg, rgba(15,23,42,.72), rgba(8,47,73,.42));
+  color: #dff8ff;
+  font-weight: 850;
+  cursor: pointer;
+}
+.right-tabs button.active {
+  color: #05131f;
+  border-color: rgba(103,232,249,.7);
+  background: linear-gradient(135deg, #67e8f9, #34d399);
+  box-shadow: 0 0 24px rgba(34,211,238,.24);
+}
+.right-panel-body {
+  padding: 14px;
+}
+.right-panel-body h2 {
+  margin: 0 0 12px;
+  color: #f0fdff;
+  letter-spacing: -.02em;
+}
+.panel-note {
+  margin: 0 0 14px;
+  color: rgba(226,246,255,.72);
+  line-height: 1.45;
+}
+.automation-field {
+  display: grid;
+  gap: 7px;
+  margin: 10px 0;
+  color: #c7e7f5;
+  font-weight: 750;
+}
+.automation-field input:not([type="checkbox"]) {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(125,211,252,.2);
+  border-radius: 13px;
+  background: rgba(2,6,23,.72);
+  color: #effdff;
+  padding: 11px 12px;
+  outline: none;
+}
+.automation-field input:not([type="checkbox"]):focus {
+  border-color: rgba(34,211,238,.8);
+  box-shadow: 0 0 0 3px rgba(34,211,238,.14);
+}
+.automation-field input[type="checkbox"] {
+  width: 19px;
+  height: 19px;
+  accent-color: #22d3ee;
+}
+.event-filter {
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  padding: 11px 12px;
+  margin: 0;
+}
+.automation-status {
+  margin-top: 14px;
+  border: 1px solid rgba(52,211,153,.24);
+  border-radius: 999px;
+  padding: 9px 12px;
+  color: #bbf7d0;
+  background: rgba(6,78,59,.18);
+  font-weight: 850;
+}

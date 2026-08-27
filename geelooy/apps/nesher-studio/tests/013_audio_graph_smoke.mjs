@@ -1,0 +1,26 @@
+/* B"H */
+import assert from 'node:assert/strict';
+import { createAudioGraph, addAudioSource, renderAudioMix, getAudioBus } from '../modules/audio/AudioGraph.js';
+import { setBusGain } from '../modules/audio/AudioBus.js';
+import { measureSamples, meterDb } from '../modules/audio/AudioMeter.js';
+import { createNoiseGate, applyNoiseGate } from '../modules/audio/NoiseGate.js';
+import { createCompressor, applyCompressor } from '../modules/audio/Compressor.js';
+import { extractWaveform } from '../modules/audio/AudioWaveform.js';
+import { createAudioSync, applySyncOffset } from '../modules/audio/AudioSync.js';
+const graph = createAudioGraph();
+addAudioSource(graph, { id:'mic-a', busId:'master' });
+setBusGain(getAudioBus(graph, 'master'), .5);
+const mixed = renderAudioMix(graph, { master:[.4, -.4, .2] });
+assert.deepEqual(mixed, [.2, -.2, .1]);
+const limited = renderAudioMix(graph, { master:[2, -2] });
+assert.deepEqual(limited, [.98, -.98]);
+const gated = applyNoiseGate([.001, .1], createNoiseGate({ threshold:.01 }));
+assert.deepEqual(gated, [0, .1]);
+const compressed = applyCompressor([.25, 1], createCompressor({ threshold:.5, ratio:2 }));
+assert.equal(compressed[1], .75);
+const meter = measureSamples(mixed);
+assert.equal(meter.peak, .2);
+assert.ok(meterDb(meter.rms) < 0);
+assert.equal(extractWaveform([0, .5, -.25, 1], 2).peaks.length, 2);
+assert.equal(applySyncOffset(1, createAudioSync({ offsetMs:250 })), 1.25);
+console.log(JSON.stringify({ ok:true, sources:graph.sources.length, peak:meter.peak, limited:limited[0], waveform:2 }));

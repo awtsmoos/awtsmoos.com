@@ -1,0 +1,340 @@
+﻿
+/* B"H */
+
+:root { 
+    --white-key-width: 160px; 
+    --main-bg: #000;
+    --ui-bg: rgba(40, 40, 40, 0.85);
+    --ui-border: 1px solid rgba(80, 80, 80, 0.5);
+    --primary-color: #007bff;
+    --white-key-color: white;
+    --black-key-color: black;
+    --active-white-key: #ccc;
+    --active-black-key: #444;
+}
+
+/* General Reset and Body Setup */
+body, html { 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    overflow: hidden; 
+    user-select: none; 
+    -webkit-user-select: none; 
+    height: 100%; 
+    width: 100%; 
+    background-color: var(--main-bg); 
+    color: white;
+}
+#start-screen { 
+    position: absolute; 
+    top: 0; left: 0; right: 0; bottom: 0; 
+    background-color: #1a1a1a; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 200; 
+}
+#start-button { 
+    padding: 20px 40px; 
+    font-size: 2em; 
+    color: white; 
+    background-color: var(--primary-color); 
+    border: none; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+    transition: background-color 0.2s;
+}
+#start-button:hover { background-color: #0056b3; }
+
+#app-container { 
+    display: none; 
+    flex-direction: column; 
+    height: 100%; 
+    width: 100%; 
+}
+#keyboard-container { 
+    flex-grow: 1; 
+    overflow: hidden; 
+    position: relative; 
+    display: flex; 
+    flex-direction: column; 
+}
+.keyboard-row { 
+    flex: 1; 
+    position: relative; 
+    overflow: hidden; 
+}
+
+/* --- UI & MENU --- */
+#top-scrollbars-container { 
+    position: absolute; 
+    top: 5px; 
+    left: 0; 
+    width: 100%; 
+    z-index: 101; 
+    padding: 0 10px; 
+    box-sizing: border-box; 
+    pointer-events: none; 
+}
+#left-ui-container { 
+    position: absolute; 
+    top: 25px; 
+    left: 20px; 
+    z-index: 102; 
+    display: flex; 
+    flex-direction: row; 
+    align-items: flex-start; 
+}
+.menu-icon { 
+    cursor: pointer; 
+    background-color: var(--ui-bg); 
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); 
+    border: var(--ui-border); 
+    border-radius: 12px; 
+    padding: 10px; 
+    width: 50px; 
+    height: 50px; 
+    box-sizing: border-box; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    transition: background-color 0.2s;
+}
+.menu-icon:hover { background-color: rgba(60, 60, 60, 0.85); }
+.menu-icon .bar { 
+    width: 30px; 
+    height: 4px; 
+    background-color: white; 
+    margin: 4px 0; 
+    border-radius: 2px; 
+}
+
+#settings-bar { 
+    margin-top: 2px; 
+    background-color: var(--ui-bg); 
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); 
+    color: white; 
+    max-height: 0; 
+    width: fit-content; 
+    overflow-y: scroll; 
+    overflow-x:hidden; 
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out, border-width 0.4s ease-in-out; 
+    border: 0 solid rgba(80, 80, 80, 0.5); 
+    border-radius: 10px; 
+    padding: 0 15px; 
+    box-sizing: border-box; 
+    display:none; 
+}
+#settings-bar.expanded { 
+    max-height: calc(100vh - 100px); 
+    max-width: 80vw; 
+    padding: 15px; 
+    display: block; 
+    border-width: 1px; 
+}
+
+.settings-content { 
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: center; 
+    gap: 10px 15px; 
+    padding-bottom: 5px;
+}
+.settings-content h4 {
+    width: 100%;
+    margin: 5px 0;
+    padding-top: 5px;
+    border-top: 1px dashed #555;
+}
+
+.nested-menu { 
+    border-top: 1px solid #555; 
+    padding-top: 0; /* Changed from 15px to 0 for better transition */
+    max-height: 0; 
+    opacity: 0; 
+    overflow: hidden; 
+    transition: max-height 0.4s ease-out, opacity 0.4s ease-out; 
+    display:none;
+}
+.nested-menu.visible { 
+    display: block; 
+    max-height: 350px; 
+    opacity: 1; 
+    overflow-y: scroll;
+    padding-top: 15px;
+}
+.settings-content label { 
+    white-space: nowrap; 
+    color: #eee; 
+    font-size: 0.9em; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 5px;
+}
+.settings-content button, .settings-content select, .settings-content input[type="range"] { 
+    padding: 5px 10px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    background-color: #555; 
+    color: white; 
+}
+.settings-content select { padding-right: 25px; } /* Space for dropdown arrow */
+.settings-content button { 
+    background-color: var(--primary-color); 
+    transition: background-color 0.2s;
+}
+.settings-content button:hover { background-color: #0056b3; }
+#record-button.recording, #mic-button.mic-active { background-color: #dc3545; }
+.settings-content input[type="checkbox"] { 
+    width: 16px; 
+    height: 16px; 
+    accent-color: var(--primary-color);
+}
+.hidden-ui { display: none !important; }
+
+/* --- SCROLLBAR --- */
+.custom-scrollbar-container { 
+    width: 100%; 
+    height: 15px; 
+    background-color: rgba(68, 68, 68, 0.8); 
+    cursor: default; 
+    touch-action: none; 
+    position: relative; 
+    border-radius: 7px; 
+    overflow: hidden; 
+    display: none; 
+    pointer-events: auto; 
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+.custom-scrollbar-thumb { 
+    height: 100%; 
+    background-color: var(--primary-color); 
+    position: absolute; 
+    left: 0; 
+    cursor: grab; 
+    border-radius: 7px; 
+    transition: background-color 0.1s;
+}
+.custom-scrollbar-thumb:active { cursor: grabbing; background-color: #0056b3; }
+
+#middle-scrollbar-container { 
+    position: absolute; 
+    width: 100%; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    z-index: 50; 
+    display: none; 
+    padding: 5px 10px; 
+    box-sizing: border-box; 
+    pointer-events: none; 
+}
+
+/* --- KEYBOARD --- */
+.piano-keyboard { 
+    position: absolute; 
+    height: 100%; 
+    left: 0; 
+    will-change: transform; 
+    transition: transform 0.05s ease-out; /* Smooth scroll transition */
+}
+.key { 
+    position: absolute; 
+    box-sizing: border-box; 
+    display: flex; 
+    justify-content: center; 
+    font-size: 1em; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: background-color 0.05s ease; 
+    border: 1px solid #111; 
+    touch-action: none; 
+    border-radius: 0 0 6px 6px; 
+    user-select: none;
+}
+.white-key { 
+    width: var(--white-key-width); 
+    height: 100%; 
+    background-color: var(--white-key-color); 
+    z-index: 1; 
+    color: #333; 
+    align-items: flex-end; 
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+}
+.white-key.active { background-color: var(--active-white-key); }
+.black-key { 
+    width: calc(var(--white-key-width) * 0.6); 
+    height: 60%; 
+    background-color: var(--black-key-color); 
+    color: white; 
+    z-index: 2; 
+    align-items: flex-end; 
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+.black-key.active { background-color: var(--active-black-key); }
+.key-label { 
+    padding-bottom: 8px; 
+    pointer-events: none; 
+}
+.key-shortcut {
+    position: absolute;
+    bottom: 35px; /* Above note name */
+    font-size: 0.8em;
+    opacity: 0.7;
+    color: #007bff;
+    pointer-events: none;
+    font-weight: normal;
+    background: rgba(255,255,255,0.7);
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+.black-key .key-shortcut {
+    color: #ffc107;
+    background: rgba(0,0,0,0.6);
+    bottom: 25px;
+}
+
+
+/* Find this existing rule */
+#record-button.recording, #mic-button.mic-active { background-color: #dc3545; }
+
+/* And add the new button's ID to it */
+#record-button.recording, #record-sheet-button.recording, #mic-button.mic-active { background-color: #dc3545; }
+
+
+
+/* Scrollbar Fixes for Mobile */
+#settings-bar::-webkit-scrollbar { width: 8px; }
+#settings-bar::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+#settings-bar::-webkit-scrollbar-thumb:hover { background: #555; }
+
+/* B"H live realtime fantasy effects */
+#live-effect-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9998;
+}
+.live-effect-particle {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    animation: liveParticleDrift 1.05s ease-out forwards;
+    will-change: transform, opacity;
+    text-shadow: 0 1px 2px rgba(0,0,0,.45);
+}
+.live-effect-particle.note { font-size: 30px; color: white; }
+.live-effect-particle.hebrew { color: #7ffcff; }
+.live-effect-particle.touch { color: #00ffff; font-size: 54px; }
+@keyframes liveParticleDrift {
+    from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    to { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.55); }
+}

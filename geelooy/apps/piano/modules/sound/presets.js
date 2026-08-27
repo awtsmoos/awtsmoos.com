@@ -1,0 +1,30 @@
+﻿/* B"H
+GSN Cardboard-style patches: sources, AMP ENV, ENV1 filter, ENV2 pitch, LFO, wet effects.
+*/
+import { getEffectMode } from '../effects/effectPresets.js';
+const BASE = { wave1:'sawtooth', wave2:'square', chordWave:'sawtooth', bassWave:'triangle', attack:.004, decay:.2, sustain:.48, release:.42, oscMix:.36, detuneCents:9, filterType:'lowpass', filterCutoff:820, filterQ:9, env1FilterMult:4.2, env1Decay:.22, env2PitchCents:18, env2Decay:.09, lfoRate:3.2, lfoToFilter:75, stereoSpread:.38, driftCents:1.2, saturationDrive:2.45, effectMode:'gsnCardboard', chorusSend:.34, delaySend:.16, delayTime:.23, delayFeedback:.3, reverbSend:.32, sourceGain:1.08, noiseGain:.024, outputTrim:1 };
+const rows = [
+['awtsmoos-dream-electric','GSN Cardboard Source',{}],
+['awtsmoos-main-wet-keys','GSN Wet Env Lead',{filterCutoff:680,filterQ:12,env1FilterMult:5.7,env1Decay:.28,env2PitchCents:26,noiseGain:.04,delaySend:.22,reverbSend:.4,chorusSend:.42,saturationDrive:2.85}],
+['awtsmoos-cardboard-wet','GSN Squelchy Bass',{wave1:'square',wave2:'sawtooth',filterCutoff:460,filterQ:16,oscMix:.43,noiseGain:.045,env1FilterMult:7.2,env1Decay:.35,env2PitchCents:32,lfoToFilter:110,delaySend:.15}],
+['awtsmoos-deep-rhodes','Env Electric Keys',{wave1:'triangle',wave2:'sawtooth',filterCutoff:1180,filterQ:4,oscMix:.2,detuneCents:5,env1FilterMult:2.4,env2PitchCents:5,noiseGain:.01,chorusSend:.58,reverbSend:.44,saturationDrive:1.7}],
+['awtsmoos-velvet-wurli','Driven Env Wurli',{wave1:'square',wave2:'triangle',filterCutoff:1320,filterQ:6,oscMix:.27,detuneCents:4,env1FilterMult:2.9,env2PitchCents:7,saturationDrive:3.1,chorusSend:.28}],
+['websynth-8op-fm-glass','Clean Glass Source',{wave1:'sine',wave2:'triangle',filterCutoff:3200,filterQ:2,oscMix:.5,detuneCents:2,noiseGain:0,env1FilterMult:1.2,env2PitchCents:0,saturationDrive:1.15,chorusSend:.22,reverbSend:.38}],
+['bitcrush-chip-lab','Square Env Chip',{wave1:'square',wave2:'square',filterCutoff:1800,filterQ:12,oscMix:.5,detuneCents:0,noiseGain:.018,env1FilterMult:3.8,env2PitchCents:12,saturationDrive:3.7,release:.16}],
+['acid-filter-lab','Acid ENV1 Filter',{wave1:'sawtooth',wave2:'square',filterCutoff:540,filterQ:18,oscMix:.28,env1FilterMult:9,env1Decay:.16,env2PitchCents:20,lfoRate:5.5,lfoToFilter:150,saturationDrive:3.6}],
+['warm-rhodes-cloud','Warm Env Cloud',{wave1:'triangle',wave2:'sine',filterCutoff:1450,filterQ:3,oscMix:.24,detuneCents:3,env1FilterMult:1.8,env2PitchCents:3,chorusSend:.62,reverbSend:.48,saturationDrive:1.45}],
+['hoover-rave-cloud','Detuned Source Stack',{wave1:'sawtooth',wave2:'sawtooth',filterCutoff:1700,filterQ:5,oscMix:.5,detuneCents:24,env1FilterMult:2.6,env2PitchCents:10,chorusSend:.5,delaySend:.18,saturationDrive:2.6}],
+['granular-clouds','Noise Env Pad',{wave1:'triangle',wave2:'sawtooth',filterCutoff:900,filterQ:8,oscMix:.12,noiseGain:.11,attack:.05,release:1.4,env1FilterMult:2.1,env1Decay:.8,env2PitchCents:0,reverbSend:.65,delaySend:.22}]
+];
+export const SOUND_PRESETS = Object.fromEntries(rows.map(([id,label,patch]) => [id,{...BASE,...patch,id,label}]));
+export const PREMIUM_PRESET = SOUND_PRESETS['awtsmoos-dream-electric'];
+export const SOUND_PRESET_LIST = Object.values(SOUND_PRESETS);
+export function getSoundPreset(id){return SOUND_PRESETS[id] || PREMIUM_PRESET;}
+export function readPresetFromElements(elements){
+    const base=getSoundPreset(elements.soundPresetSelect?.value), mode=getEffectMode(elements.effectModeSelect?.value || base.effectMode);
+    return {...base,...mode,wave1:elements.waveformSelect?.value||base.wave1,wave2:elements.waveform2Select?.value||base.wave2,chordWave:elements.chordWaveformSelect?.value||base.chordWave,bassWave:elements.bassWaveformSelect?.value||base.bassWave,attack:num(elements.attackSlider,base.attack),decay:num(elements.decaySlider,base.decay),sustain:num(elements.sustainSlider,base.sustain),release:num(elements.releaseSlider,base.release),oscMix:num(elements.oscMixSlider,base.oscMix),detuneCents:num(elements.detuneSlider,base.detuneCents),filterCutoff:num(elements.filterCutoffSlider,base.filterCutoff),filterQ:num(elements.filterQSlider,base.filterQ),lfoRate:num(elements.lfoRateSlider,base.lfoRate),lfoToFilter:(num(elements.lfoDepthSlider,base.lfoToFilter/100)/100)*900,chorusSend:num(elements.chorusSlider,base.chorusSend??mode.chorusSend),delaySend:num(elements.delaySlider,base.delaySend??mode.delaySend),delayTime:num(elements.delayTimeSlider,base.delayTime??mode.delayTime),delayFeedback:num(elements.delayFeedbackSlider,base.delayFeedback??mode.delayFeedback),saturationDrive:num(elements.saturationSlider,base.saturationDrive??mode.saturationDrive),reverbSend:num(elements.reverbSlider,base.reverbSend??mode.reverbSend)};
+}
+export function applyPresetToElements(elements,preset){
+    set(elements.waveformSelect,preset.wave1); set(elements.waveform2Select,preset.wave2); set(elements.chordWaveformSelect,preset.chordWave); set(elements.bassWaveformSelect,preset.bassWave); set(elements.attackSlider,preset.attack); set(elements.decaySlider,preset.decay); set(elements.sustainSlider,preset.sustain); set(elements.releaseSlider,preset.release); set(elements.oscMixSlider,preset.oscMix); set(elements.detuneSlider,preset.detuneCents); set(elements.pitchDepthSlider,preset.env2PitchCents); set(elements.pitchAttackSlider,preset.env2Decay); set(elements.filterCutoffSlider,preset.filterCutoff); set(elements.filterQSlider,preset.filterQ); set(elements.lfoRateSlider,preset.lfoRate); set(elements.lfoDepthSlider,(preset.lfoToFilter||0)/9); const mode=getEffectMode(preset.effectMode); set(elements.effectModeSelect,mode.id); set(elements.chorusSlider,preset.chorusSend??mode.chorusSend); set(elements.delaySlider,preset.delaySend??mode.delaySend); set(elements.delayTimeSlider,preset.delayTime??mode.delayTime); set(elements.delayFeedbackSlider,preset.delayFeedback??mode.delayFeedback); set(elements.saturationSlider,preset.saturationDrive??mode.saturationDrive); set(elements.reverbSlider,preset.reverbSend??mode.reverbSend);
+}
+function num(el,fallback){return parseFloat(el?.value ?? fallback);} function set(el,value){if(el&&value!==undefined)el.value=String(value);}

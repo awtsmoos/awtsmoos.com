@@ -1,0 +1,227 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * B"H
+ *
+ * The operator should never have to memorize a constellation of unlabeled icons.
+ * This final viewport vessel gives desktop a readable application rail, mobile a
+ * safe-area command dock, and every live room enough space for identity and chat.
+ */
+
+@media (min-width: 761px) {
+	.awt-control-main {
+		grid-template-columns: 184px minmax(0, 1fr);
+		gap: 12px !important;
+		padding: 12px !important;
+	}
+
+	.awt-app-navigation {
+		padding: 10px;
+		border-radius: 22px;
+		background:
+			linear-gradient(180deg, rgba(14, 34, 59, .95), rgba(5, 14, 28, .98));
+		box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+	}
+
+	.awt-navigation-grid {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: none;
+		grid-auto-rows: minmax(42px, auto);
+		align-content: start;
+		padding-right: 3px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		scrollbar-gutter: stable;
+	}
+
+	.awt-navigation-button {
+		grid-template-columns: 30px minmax(0, 1fr);
+		justify-items: start;
+		gap: 9px;
+		padding: 7px 9px;
+		text-align: left;
+	}
+
+	.awt-navigation-grid .awt-navigation-label {
+		position: static;
+		width: auto;
+		height: auto;
+		clip: auto;
+		clip-path: none;
+		overflow: hidden;
+		font-size: .72rem;
+		font-weight: 750;
+		line-height: 1.15;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
+
+.awt-workspace-stage {
+	border: 1px solid rgba(115, 168, 224, .13);
+	border-radius: 20px;
+	background:
+		radial-gradient(circle at 100% 0, rgba(40, 124, 255, .09), transparent 34%),
+		rgba(4, 12, 24, .74);
+	box-shadow: 0 26px 70px rgba(0, 0, 0, .24);
+}
+
+.awt-workspace-toolbar {
+	border-radius: 20px 20px 0 0;
+	background:
+		linear-gradient(90deg, rgba(15, 35, 61, .96), rgba(7, 18, 34, .96));
+}
+
+.awt-pane-content {
+	scroll-behavior: smooth;
+}
+
+.awt-pane-content :where(
+	button,
+	input,
+	select,
+	textarea,
+	a.button,
+	.button
+) {
+	min-height: 42px;
+}
+
+.awt-pane-content :where(
+	.card,
+	.panel,
+	.mini-card,
+	details,
+	form
+) {
+	border-color: rgba(128, 181, 236, .15);
+	box-shadow: 0 12px 34px rgba(0, 0, 0, .14);
+}
+
+.awt-room-message {
+	box-shadow: 0 10px 28px rgba(0, 0, 0, .16);
+}
+
+.awt-room-message:not(.is-user) {
+	border-top-left-radius: 5px;
+}
+
+.awt-room-message.is-user {
+	border-top-right-radius: 5px;
+	background:
+		linear-gradient(145deg, rgba(40, 124, 255, .25), rgba(40, 124, 255, .11));
+}
+
+.awt-room-member,
+.awt-room-file,
+.awt-room-chip {
+	min-height: 34px;
+	line-height: 1.2;
+}
+
+.awt-activity-timeline__header {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background: rgba(10, 24, 36, .94);
+	backdrop-filter: blur(14px);
+}
+
+.awt-activity-presence__copy,
+.awt-activity-presence__copy strong,
+.awt-activity-presence__copy span {
+	min-width: 0;
+}
+
+@media (max-width: 760px) {
+	.awt-control-main {
+		grid-template-rows: minmax(0, 1fr) calc(64px + env(safe-area-inset-bottom));
+		padding:
+			6px
+			max(6px, env(safe-area-inset-right))
+			max(6px, env(safe-area-inset-bottom))
+			max(6px, env(safe-area-inset-left)) !important;
+	}
+
+	.awt-app-navigation {
+		border-radius: 18px;
+		background: rgba(5, 15, 29, .96);
+		box-shadow: 0 -12px 34px rgba(0, 0, 0, .24);
+	}
+
+	.awt-navigation-grid {
+		bottom: calc(72px + env(safe-area-inset-bottom));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		padding: 9px;
+		border-radius: 22px;
+		box-shadow: 0 -24px 80px rgba(0, 0, 0, .6);
+	}
+
+	.awt-navigation-grid .awt-navigation-button {
+		min-height: 72px;
+	}
+
+	.awt-workspace-stage {
+		border-radius: 16px;
+	}
+
+	.awt-workspace-toolbar {
+		border-radius: 16px 16px 0 0;
+	}
+
+	.awt-pane-content {
+		padding: 10px 8px 18px;
+		scroll-padding-bottom: 84px;
+	}
+
+	.awt-pane-content :where(button, a.button, .button) {
+		min-height: 46px;
+	}
+
+	.awt-activity-presence__copy strong,
+	.awt-activity-presence__copy span {
+		overflow: visible;
+		text-overflow: clip;
+		white-space: normal;
+		overflow-wrap: anywhere;
+	}
+
+	.awt-activity-event__meta {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: .25rem;
+	}
+
+	.awt-room-composer {
+		padding-bottom: max(10px, env(safe-area-inset-bottom));
+	}
+}
+
+@media (max-width: 390px) {
+	.awt-navigation-grid {
+		left: 4px;
+		right: 4px;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		max-height: 74dvh;
+	}
+
+	.awt-navigation-grid .awt-navigation-button {
+		min-height: 64px;
+	}
+
+	.awt-activity-panel {
+		padding: .7rem;
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.awt-app-navigation,
+	.awt-workspace-stage,
+	.awt-workspace-toolbar,
+	.awt-room-composer,
+	.awt-activity-timeline__header {
+		background: #071322;
+		backdrop-filter: none;
+	}
+}

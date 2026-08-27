@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews every screen size; Awtsmoos.com lets the living control room remain truthful, readable, and touchable. */
+
+@media (max-width: 70rem) {
+	.awt-activity-toolbar {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.awt-activity-toolbar__filters {
+		grid-template-columns: repeat(3, minmax(8rem, 1fr));
+	}
+
+	.awt-activity-toolbar__actions {
+		justify-content: flex-start;
+	}
+}
+
+@media (max-width: 52rem) {
+	.awt-activity-panel__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.awt-activity-presence {
+		position: static;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.awt-activity-summary {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 38rem) {
+	.awt-activity-panel {
+		padding: 0.8rem;
+		border-radius: 1rem;
+	}
+
+	.awt-activity-panel__header,
+	.awt-activity-timeline__header {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.awt-activity-timeline__status {
+		text-align: left;
+	}
+
+	.awt-activity-toolbar__filters,
+	.awt-activity-presence,
+	.awt-activity-summary {
+		grid-template-columns: 1fr;
+	}
+
+	.awt-activity-toolbar__actions {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.awt-activity-button {
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awt-activity-panel *,
+	.awt-activity-panel *::before,
+	.awt-activity-panel *::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

@@ -1,0 +1,137 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyric Sync Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&family=Teko:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Lyric Sync Engine</h1>
+            <p>Create dynamic lyric videos with generative effects</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <!-- B"H - NEW IMAGE INPUT -->
+                <div class="file-input-wrapper">
+                    <label for="image-input"><i class="fas fa-image"></i> Choose Background Image(s)</label>
+                    <input type="file" id="image-input" accept="image/*" multiple>
+                    <span id="image-file-name">No images chosen</span>
+                </div>
+                <div class="file-input-wrapper">
+                    <label for="audio-input"><i class="fas fa-music"></i> Choose Audio File</label>
+                    <input type="file" id="audio-input" accept="audio/*">
+                    <span id="audio-file-name">No file chosen</span>
+                </div>
+                <div class="file-input-wrapper">
+                    <label for="vtt-file-input"><i class="fas fa-file-alt"></i> Choose VTT File</label>
+                    <input type="file" id="vtt-file-input" accept=".vtt,text/vtt">
+                    <span id="vtt-file-name">No file chosen</span>
+                </div>
+                <div class="textarea-wrapper">
+                    <label for="vtt-text-input">... or paste VTT content here</label>
+                    <textarea id="vtt-text-input" rows="5" placeholder="WEBVTT..."></textarea>
+                </div>
+            </div>
+
+            <div id="lyrics-display">
+                <!-- Live preview will be handled by the audio player's timeupdate -->
+                <p>Your synchronized lyrics will appear here.</p>
+            </div>
+
+            <div class="controls-section">
+                <audio id="audio-player"></audio>
+                <div class="custom-controls">
+                    <button id="play-pause-btn" class="control-btn" aria-label="Play">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <div class="progress-container">
+                        <span id="current-time-display">0:00</span>
+                        <input type="range" id="progress-bar" value="0" min="0" step="0.1">
+                        <span id="duration-display">0:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <details class="settings-panel" open>
+                <summary><i class="fas fa-cog"></i> Customization Settings</summary>
+                
+                <h3 class="settings-title">Text & Font</h3>
+                <div class="settings-content">
+                    <div class="setting"><label for="font-size-slider">Font Size</label><input type="range" id="font-size-slider" min="12" max="150" value="48"></div>
+                    <div class="setting"><label for="font-color-picker">Font Color</label><input type="color" id="font-color-picker" value="#FFFFFF"></div>
+                    <div class="setting"><label for="text-align-select">Text Align</label><select id="text-align-select"><option value="center" selected>Center</option><option value="left">Left</option><option value="right">Right</option></select></div>
+                </div>
+
+                <hr class="settings-divider">
+                <h3 class="settings-title">Text Box</h3>
+                <div class="settings-content">
+                    <div class="setting"><label for="box-opacity-slider">Box Opacity</label><input type="range" id="box-opacity-slider" min="0" max="1" value="0.2" step="0.05"></div>
+                    <div class="setting"><label for="box-color-picker">Box Color</label><input type="color" id="box-color-picker" value="#000000"></div>
+                    <div class="setting"><label for="text-border-width">Border Width</label><input type="range" id="text-border-width" min="0" max="20" value="4"></div>
+                    <div class="setting"><label for="text-border-color">Border Color</label><input type="color" id="text-border-color" value="#000000"></div>
+                </div>
+
+                <hr class="settings-divider">
+                <h3 class="settings-title">Effects & Animation</h3>
+                <div class="settings-content">
+                    <div class="setting"><label for="particle-density">Particle Density</label><input type="range" id="particle-density" min="0" max="300" value="100"></div>
+                    <div class="setting"><label for="particle-size">Particle Base Size</label><input type="range" id="particle-size" min="5" max="50" value="20"></div>
+                    <div class="setting"><label for="particle-variation">Particle Size Variation</label><input type="range" id="particle-variation" min="0" max="50" value="15"></div>
+                    
+<div class="setting">
+    <label for="particle-speed">Particle Speed</label>
+    <input type="range" id="particle-speed" min="1" max="10" value="3" step="0.5">
+</div>
+<div class="setting">
+    <label for="particle-speed-variation">Speed Variation</label>
+    <input type="range" id="particle-speed-variation" min="0" max="10" value="2" step="0.5">
+</div>
+                    
+                    
+                    <div class="setting"><label for="waveform-height">Waveform Height (0=off)</label><input type="range" id="waveform-height" min="0" max="100" value="25"></div>
+                    <div class="setting"><label for="waveform-thickness">Waveform Thickness</label><input type="range" id="waveform-thickness" min="1" max="10" value="2"></div>
+                    <div class="setting full-width"><label for="custom-particles">Custom Particles (Emojis supported)</label><textarea id="custom-particles" rows="2">אבגדהוזחטיכלמנסעפצקרשת✨✡️🕊️🙏</textarea></div>
+                </div>
+
+                <!-- B"H - NEW EIN SOF ENGINE SETTINGS -->
+                <hr class="settings-divider">
+                <h3 class="settings-title">Ein Sof Effects (High Performance)</h3>
+                <div class="settings-content">
+                    <div class="setting"><label for="bloom-intensity">Bloom Intensity</label><input type="range" id="bloom-intensity" min="0" max="30" value="8"></div>
+                    <div class="setting"><label for="film-grain">Film Grain</label><input type="range" id="film-grain" min="0" max="50" value="15"></div>
+                    
+                </div>
+
+
+                <hr class="settings-divider">
+                <h3 class="settings-title">Video Export</h3>
+                <div class="settings-content">
+                    <div class="setting"><label for="resolution-width">Resolution Width</label><input type="number" id="resolution-width" value="1080"></div>
+                    <div class="setting"><label for="resolution-height">Resolution Height</label><input type="number" id="resolution-height" value="1920"></div>
+                    <div class="setting"><label for="max-duration">Max Duration (0 for full)</label><input type="number" id="max-duration" value="0" min="0"></div>
+                </div>
+                <button id="export-btn" class="export-button"><i class="fas fa-video"></i> Export Video</button>
+            </details>
+        </main>
+    </div>
+
+    <div id="export-overlay" class="hidden">
+        <div class="export-status-box">
+            <h3><i class="fas fa-cogs"></i> Rendering Video...</h3>
+            <p id="export-status">Initializing...</p>
+            <div class="progress-bar-container"><div id="export-progress-bar"></div></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+<script src="/register.js"></script>
+      
+</body>
+</html>

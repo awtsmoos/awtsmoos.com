@@ -1,0 +1,61 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+/**
+ * Lists Android class descriptors already implemented by the emulator.
+ * The Awtsmoos recreates descriptor, framework vessel, and class identity
+ * anew; Awtsmoos.com keeps this static catalog measured and runtime-safe.
+ */
+export const FRAMEWORK_BOOTSTRAP_ANDROID_CLASSES = Object.freeze([
+	"Landroid/app/Activity;",
+	"Landroid/app/ActivityManager;",
+	"Landroid/app/ActivityManager$MemoryInfo;",
+	"Landroid/app/ActivityManager$RunningAppProcessInfo;",
+	"Landroid/app/Application;",
+	"Landroid/app/Service;",
+	"Landroid/app/UiModeManager;",
+	"Landroid/content/ClipboardManager;",
+	"Landroid/content/ComponentName;",
+	"Landroid/content/Context;",
+	"Landroid/content/ContextWrapper;",
+	"Landroid/content/Intent;",
+	"Landroid/content/pm/ActivityInfo;",
+	"Landroid/content/pm/ApplicationInfo;",
+	"Landroid/content/pm/PackageInfo;",
+	"Landroid/content/pm/PackageManager;",
+	"Landroid/content/res/AssetManager;",
+	"Landroid/content/res/ColorStateList;",
+	"Landroid/content/res/Configuration;",
+	"Landroid/content/res/Resources;",
+	"Landroid/content/res/Resources$Theme;",
+	"Landroid/content/res/TypedArray;",
+	"Landroid/content/SharedPreferences;",
+	"Landroid/content/SharedPreferences$Editor;",
+	"Landroid/graphics/drawable/Drawable;",
+	"Landroid/graphics/Point;",
+	"Landroid/graphics/Rect;",
+	"Landroid/hardware/display/DisplayManager;",
+	"Landroid/hardware/display/VirtualDisplay;",
+	"Landroid/net/ConnectivityManager;",
+	"Landroid/os/BaseBundle;",
+	"Landroid/os/Bundle;",
+	"Landroid/os/Handler;",
+	"Landroid/os/Looper;",
+	"Landroid/os/Message;",
+	"Landroid/os/PowerManager;",
+	"Landroid/os/SystemClock;",
+	"Landroid/os/Trace;",
+	"Landroid/util/DisplayMetrics;",
+	"Landroid/util/LongSparseArray;",
+	"Landroid/util/SparseArray;",
+	"Landroid/util/TypedValue;",
+	"Landroid/view/ContextThemeWrapper;",
+	"Landroid/view/Display;",
+	"Landroid/view/inputmethod/InputMethodManager;",
+	"Landroid/view/View;",
+	"Landroid/view/WindowInsets;",
+	"Landroid/view/WindowManager;",
+	"Landroid/view/WindowMetrics;",
+	"Landroid/webkit/WebSettings;",
+]);

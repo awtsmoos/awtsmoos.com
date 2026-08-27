@@ -1,0 +1,38 @@
+/* B"H */
+@layer awt.views {
+	.awt-agent-command-deck {
+		display: grid;
+		gap: clamp(14px, 2vw, 22px);
+		padding: clamp(16px, 2.4vw, 28px);
+		border: 1px solid rgba(94, 220, 255, .2);
+		border-radius: clamp(22px, 3vw, 34px);
+		background: radial-gradient(circle at 8% 0%, rgba(47, 231, 122, .12), transparent 34%), radial-gradient(circle at 92% 12%, rgba(40, 124, 255, .16), transparent 36%), linear-gradient(145deg, rgba(10, 25, 45, .94), rgba(4, 12, 25, .88));
+		box-shadow: 0 34px 90px rgba(0, 0, 0, .36);
+	}
+
+	.awt-command-deck-head {
+		display: grid;
+		grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr);
+		gap: clamp(16px, 3vw, 38px);
+		align-items: end;
+	}
+
+	.awt-command-deck-head h3 {
+		margin: 5px 0 0;
+		max-width: 900px;
+		font-size: clamp(1.55rem, 3.3vw, 3.35rem);
+		line-height: .98;
+		letter-spacing: -.045em;
+	}
+
+	.awt-command-deck-head > p {
+		margin: 0;
+		max-width: 650px;
+	}
+
+	.awt-command-deck-grid {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		gap: clamp(10px, 1.4vw, 16px);
+	}
+}

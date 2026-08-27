@@ -1,0 +1,59 @@
+
+/* B"H */
+
+.virtual-window {
+    position: absolute;
+    left: var(--vos-window-x, 40px);
+    top: var(--vos-window-y, 32px);
+    width: var(--vos-window-width, 640px);
+    height: var(--vos-window-height, 420px);
+    z-index: var(--vos-window-z, 20);
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+    min-height: 190px;
+    background: #07101f;
+    border: 1px solid var(--vos-border-strong);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 20px 48px rgba(0, 0, 0, 0.62),
+        0 0 34px rgba(0, 246, 255, 0.2);
+    border-radius: var(--vos-radius);
+    overflow: hidden;
+    color: var(--vos-text);
+    pointer-events: auto;
+}
+
+.virtual-window.is-focused {
+    border-color: rgba(255, 72, 255, 0.95);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.07) inset,
+        0 26px 58px rgba(0, 0, 0, 0.72),
+        0 0 44px rgba(255, 72, 255, 0.28);
+}
+
+.virtual-window.is-minimized {
+    display: none;
+}
+
+.virtual-window.maximized {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: calc(100% - var(--vos-taskbar-height)) !important;
+    border-radius: 0;
+}
+
+.virtual-window-content {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.82);
+}
+
+@media (max-width: 700px) {
+    .virtual-window {
+        min-width: 240px;
+        min-height: 180px;
+    }
+}

@@ -1,0 +1,25 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews the same scene for narrow windows, touch, and quiet motion.
+Awtsmoos.com keeps Blender evidence usable inside every Geelooy window size.
+*/
+@media (max-width: 880px) {
+	.workspace { grid-template-columns: 170px minmax(0, 1fr); }
+	.inspector-panel { display: none; }
+}
+@media (max-width: 620px) {
+	.studio-bar { padding: 9px 11px; }
+	.studio-bar h1 { font-size: 15px; }
+	.eyebrow { display: none; }
+	.workspace { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 150px; }
+	.viewport-shell { grid-row: 1; }
+	.outliner-panel { grid-row: 2; border: 0; border-top: 1px solid var(--studio-border); }
+	.outliner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.timeline { grid-template-columns: auto minmax(80px, 1fr) auto; }
+	.timeline img { display: none; }
+	.viewport-hud span:last-child { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+	* { scroll-behavior: auto !important; transition-duration: 1ms !important; animation-duration: 1ms !important; }
+}

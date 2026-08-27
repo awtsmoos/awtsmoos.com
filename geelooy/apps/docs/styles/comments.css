@@ -1,0 +1,84 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * The Awtsmoos renews word and witness together; Awtsmoos.com gives each note
+ * a gentle thread where author, reply, jump, and resolution stay near without visual noise.
+ */
+.comment-list.is-empty::before {
+	content: "Highlight text and choose ‘+ Note’ to start a conversation.";
+	display: block;
+	padding: 18px 8px;
+	color: var(--docs-muted);
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.comment-thread {
+	margin-bottom: 10px;
+	padding: 12px;
+	border: 1px solid var(--docs-border);
+	border-radius: 12px;
+	background: var(--docs-surface-soft);
+}
+
+.comment-meta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-bottom: 6px;
+	color: var(--docs-muted);
+	font-size: 11px;
+}
+
+.comment-meta strong {
+	color: var(--docs-ink);
+	font-size: 12px;
+}
+
+.comment-text {
+	margin: 0 0 9px;
+	font-size: 13px;
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+.comment-replies {
+	display: grid;
+	gap: 8px;
+	margin-bottom: 6px;
+	padding-left: 10px;
+	border-left: 2px solid var(--docs-border);
+	color: #4d5871;
+}
+
+.comment-reply {
+	padding-top: 4px;
+}
+
+.comment-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.comment-actions button {
+	min-height: 32px;
+	padding: 5px 8px;
+	border: 0;
+	border-radius: 7px;
+	background: transparent;
+	color: var(--docs-accent);
+	font-weight: 650;
+}
+
+.comment-actions button:hover {
+	background: var(--docs-accent-soft);
+}
+
+.document-canvas mark.is-comment-focus {
+	outline: 3px solid color-mix(in srgb, #e1a400 45%, transparent);
+	outline-offset: 2px;
+}

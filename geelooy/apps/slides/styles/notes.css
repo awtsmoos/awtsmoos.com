@@ -1,0 +1,52 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets hidden speech rest beneath visible form; Awtsmoos.com gives speaker notes a retractable vessel so preparation can deepen without crowding the slide.
+*/
+.speaker-notes-panel {
+	border-top: 1px solid var(--line);
+	background: rgba(9, 10, 15, 0.72);
+}
+
+.speaker-notes-panel summary {
+	min-height: 44px;
+	display: flex;
+	align-items: center;
+	padding: 8px 14px;
+	color: var(--muted);
+	cursor: pointer;
+	user-select: none;
+}
+
+.speaker-notes-panel[open] summary {
+	color: var(--text);
+}
+
+.speaker-notes-panel textarea {
+	display: block;
+	width: calc(100% - 24px);
+	min-height: 92px;
+	max-height: 24vh;
+	margin: 0 12px 12px;
+	resize: vertical;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-sm);
+	background: rgba(255, 255, 255, 0.055);
+	color: var(--text);
+	padding: 12px;
+	font: inherit;
+	line-height: 1.45;
+	outline: 0;
+}
+
+.speaker-notes-panel textarea:focus {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px rgba(139, 124, 255, 0.12);
+}
+
+@media (min-width: 900px) {
+	.speaker-notes-panel textarea {
+		min-height: 108px;
+		max-height: 30vh;
+	}
+}

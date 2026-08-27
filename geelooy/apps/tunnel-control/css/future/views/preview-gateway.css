@@ -1,0 +1,190 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter: The Preview Gateway became the neon observatory behind the chat.
+ */
+.awt-preview-console {
+  --preview-cyan: rgba(100, 226, 255, .9);
+  --preview-gold: rgba(255, 214, 112, .92);
+  --preview-pink: rgba(255, 111, 183, .85);
+}
+
+.awt-preview-console .page-head h2 {
+  letter-spacing: -.055em;
+}
+
+.awt-preview-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, .85fr) minmax(0, 1.2fr) minmax(280px, .8fr);
+  gap: 14px;
+}
+
+.awt-preview-console .panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.awt-preview-console .panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top right, rgba(97, 217, 255, .12), transparent 38%),
+    linear-gradient(135deg, rgba(255,255,255,.04), transparent 42%);
+}
+
+.awt-preview-console .panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.awt-preview-settings {
+  border-color: rgba(255, 212, 112, .22) !important;
+}
+
+.awt-preview-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 16px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,.045);
+  color: rgba(238,247,255,.82);
+  font-weight: 800;
+}
+
+.awt-preview-toggle input {
+  width: 22px;
+  height: 22px;
+  accent-color: #74e4ff;
+}
+
+.awt-preview-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.awt-preview-stage iframe {
+  width: 100%;
+  min-height: clamp(360px, 58vh, 820px);
+  border: 1px solid rgba(116, 228, 255, .28);
+  border-radius: 10px;
+  background: white;
+}
+
+.awt-preview-card {
+  display: grid;
+  gap: 8px;
+  min-height: 170px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  padding: 16px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.025)),
+    radial-gradient(circle at top right, rgba(111, 227, 255, .12), transparent 40%);
+  box-shadow: 0 18px 54px rgba(0,0,0,.2);
+}
+
+.awt-preview-card span {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: rgba(116, 228, 255, .14);
+  color: var(--preview-cyan);
+  font-size: .7rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.awt-preview-card.is-public {
+  border-color: rgba(255, 214, 112, .34);
+  background:
+    linear-gradient(135deg, rgba(255, 214, 112, .13), rgba(255,255,255,.025)),
+    radial-gradient(circle at top right, rgba(255, 111, 183, .13), transparent 42%);
+}
+
+.awt-preview-card.is-one-time {
+  border-color: rgba(255, 111, 183, .34);
+}
+
+.awt-preview-card a,
+.awt-preview-card button {
+  width: fit-content;
+  align-self: end;
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: white;
+  text-decoration: none;
+  font-weight: 900;
+  background: linear-gradient(135deg, rgba(74, 153, 255, .9), rgba(143, 92, 255, .82));
+}
+
+.awt-preview-card button {
+  background: linear-gradient(135deg, rgba(255, 112, 128, .9), rgba(255, 170, 76, .82));
+  cursor: pointer;
+}
+
+.awt-preview-list-panel {
+  max-height: min(68vh, 760px);
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+.awt-conversation-history {
+  display: grid;
+  gap: 10px;
+  max-height: min(62vh, 700px);
+  overflow: auto;
+}
+
+.awt-conversation-card {
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  padding: 12px;
+  background: rgba(255,255,255,.045);
+}
+
+.awt-conversation-pick {
+  text-align: left;
+  border: 1px solid rgba(116, 228, 255, .28);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: rgba(116, 228, 255, .08);
+  color: #eef7ff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.awt-conversation-events {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.awt-conversation-events a {
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  padding: 6px 8px;
+  color: var(--preview-cyan);
+  text-decoration: none;
+  font-size: .78rem;
+}
+
+.awt-preview-console textarea {
+  min-height: 150px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@media (max-width: 920px) {
+  .awt-preview-grid {
+    grid-template-columns: 1fr;
+  }
+}

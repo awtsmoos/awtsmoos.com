@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { createTimelineModel } from '../modules/timeline/TimelineModel.js';
+import { commandAddClip, commandSplitClip } from '../modules/timeline/TimelineCommands.js';
+import { trimClipEnd } from '../modules/timeline/TimelineTrim.js';
+const timeline = createTimelineModel();
+const clip = commandAddClip(timeline, 'v1', { id:'c1', duration:10 });
+trimClipEnd(clip, 8);
+const pair = commandSplitClip(timeline, 'c1', 4);
+assert.equal(pair.length, 2);
+assert.equal(timeline.tracks[0].clips.length, 2);
+console.log('B"H timeline editing smoke passed');

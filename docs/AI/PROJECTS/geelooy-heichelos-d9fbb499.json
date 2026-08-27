@@ -1,0 +1,95 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-heichelos-d9fbb499",
+	"path": "geelooy/heichelos",
+	"type": "project",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/heichelos",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/heichelos/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichelos-d9fbb499.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 858,
+		"tests": 119,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 2
+	},
+	"totalFiles": 980,
+	"symbolSummary": {
+		"files": 510,
+		"classes": 75,
+		"functions": 1976,
+		"exports": 920,
+		"samples": [
+			"queryMap",
+			"heichelFields",
+			"postFields",
+			"escapeAttribute",
+			"renderCanonicalPostRedirect",
+			"getHeichel",
+			"renderHeichelShell",
+			"renderGlobalSubmit",
+			"renderDelete",
+			"renderSubmit",
+			"renderPost",
+			"renderSeriesPost"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 7,
+			"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/logic/legend/centerSectionObserver.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/heichelos/manage-alias-heichelos",
+			"file": "geelooy/heichelos/manage-alias-heichelos/index.html",
+			"title": "",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/heichelos/settings/community",
+			"file": "geelooy/heichelos/settings/community/index.html",
+			"title": "Community Settings",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/heichelos/settings/community/moderation",
+			"file": "geelooy/heichelos/settings/community/moderation/index.html",
+			"title": "Community Moderation",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/heichelos/social/demo",
+			"file": "geelooy/heichelos/social/demo/index.html",
+			"title": "Awtsmoos Social Revamp Demo",
+			"scripts": 0,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

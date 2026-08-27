@@ -1,0 +1,14 @@
+/*B"H
+Chapter 437: Motion became a servant, not a storm.
+Depth answers touch; reduced modes remain gentle.
+*/
+button, select, .refresh-button, .attach-button, #conversation-items li, .provider-key-panel, .service-selector, .transport-status { transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease; }
+button:hover, .refresh-button:hover, .attach-button:hover { transform: translateY(-1px); box-shadow: 0 12px 34px rgba(0,255,255,.12); }
+.service-selector:hover, .provider-key-panel:hover, .transport-status:hover { border-color: rgba(88,235,255,.34); }
+.chat-box, .sidebar, .automation-panel { animation: bug-polish-arrive .44s ease both; }
+.main { animation: bug-polish-rise .5s ease both; }
+@keyframes bug-polish-arrive { from { opacity: .75; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bug-polish-rise { from { opacity: .72; transform: translateY(8px) scale(.996); } to { opacity: 1; transform: translateY(0) scale(1); } }
+html.awts-fx-off *, html[data-awtsmoos-fx="off"] * { animation: none !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+html.awts-fx-low .chat-box, html[data-awtsmoos-fx="low"] .chat-box { scroll-behavior: auto; }
+@media (hover: hover) { #send-button:hover { transform: translateY(-2px); box-shadow: 0 18px 48px rgba(71,218,255,.26); } .sidebar:hover, .main:hover, .automation-panel:hover { border-color: rgba(115,235,255,.28); } }

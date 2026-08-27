@@ -1,0 +1,104 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos gives each action a gentle vessel; Awtsmoos.com makes controls inviting enough to discover yet quiet enough to leave the slide in command.
+*/
+button, .live-pill {
+	min-height: 44px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-sm);
+	background: var(--surface-soft);
+	padding: 8px 12px;
+}
+
+button {
+	cursor: pointer;
+}
+
+button:hover, button:focus-visible {
+	border-color: var(--line-strong);
+	background: rgba(255, 255, 255, 0.1);
+	outline: 0;
+}
+
+button.primary {
+	border-color: transparent;
+	background: linear-gradient(135deg, #7766ff, #9b8fff);
+	font-weight: 700;
+}
+
+.icon-button, .small-button {
+	min-width: 44px;
+	padding-inline: 9px;
+}
+
+.live-pill {
+	display: inline-flex;
+	align-items: center;
+	min-height: 36px;
+	color: var(--muted);
+	white-space: nowrap;
+}
+
+.panel-heading, .panel-footer, .stage-footer, .insert-bar {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 12px;
+}
+
+.panel-heading, .stage-footer {
+	justify-content: space-between;
+}
+
+.panel-heading {
+	border-bottom: 1px solid var(--line);
+}
+
+.panel-footer {
+	margin-top: auto;
+	border-top: 1px solid var(--line);
+}
+
+.insert-bar {
+	overflow-x: auto;
+	border-bottom: 1px solid var(--line);
+	scrollbar-width: none;
+}
+
+.insert-bar button {
+	white-space: nowrap;
+}
+
+.stage-footer {
+	min-height: 50px;
+	border-top: 1px solid var(--line);
+	color: var(--muted);
+}
+
+.file-actions {
+	display: flex;
+	gap: 6px;
+}
+
+.thumbnail-list {
+	display: grid;
+	gap: 12px;
+	padding: 12px;
+	overflow: auto;
+}
+
+.thumbnail-card {
+	display: grid;
+	grid-template-columns: 26px minmax(0, 1fr);
+	gap: 8px;
+	align-items: start;
+	width: 100%;
+	background: transparent;
+	text-align: left;
+}
+
+.thumbnail-card.is-active {
+	border-color: var(--accent);
+	background: rgba(139, 124, 255, 0.1);
+}

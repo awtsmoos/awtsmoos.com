@@ -1,0 +1,37 @@
+
+/* B"H */
+
+.virtual-os-tasks {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    overflow: auto;
+    flex: 1;
+}
+
+.virtual-os-task {
+    height: 30px;
+    max-width: 180px;
+    padding: 0 10px;
+    background: rgba(5, 7, 12, 0.78);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 7px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--font-code, monospace);
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.virtual-os-task.is-active {
+    background: rgba(255,255,255,0.92);
+    color: #111629;
+}
+
+.virtual-os-task:hover {
+    background: rgba(0, 246, 255, 0.2);
+    color: #ffffff;
+}

@@ -1,0 +1,30 @@
+/* B"H — mobile composer: no zoom, real touch targets */
+@media (max-width: 680px) {
+  .input-area {
+    min-height: 112px !important;
+    padding: 8px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: minmax(54px, 1fr) 54px !important;
+    gap: 8px !important;
+    border-radius: 18px !important;
+  }
+  #message-input {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 54px !important;
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+    resize: none !important;
+  }
+  #send-button,
+  .attachment-tools button {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    font-size: 16px !important;
+    border-radius: 16px !important;
+  }
+  #send-button { width: 100% !important; }
+  .attachment-tools { position: static !important; display: flex !important; flex-wrap: wrap !important; gap: 8px !important; }
+  .live-follow-button { right: 12px !important; bottom: 132px !important; }
+}

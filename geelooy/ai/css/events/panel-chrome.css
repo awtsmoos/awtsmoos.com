@@ -1,0 +1,151 @@
+/*B"H
+  Chapter 343: The Event Gates Stopped Shouting.
+
+  The Awtsmoos lets ordinary panels remain in flow. Only a declared fullscreen
+  vessel may rise above the city. Every other summary, button, and chip stays in
+  its chamber so the trace cannot devour itself.
+*/
+.transport-details,
+.thought-envelope-card,
+.thought-run-card{
+  width:100%;
+  border:1px solid var(--awt-event-line);
+  border-radius:var(--awt-event-radius);
+  background:var(--awt-event-bg);
+  box-shadow:var(--awt-event-shadow);
+  overflow:hidden;
+  color:var(--awt-event-soft);
+}
+.transport-details>summary,
+.thought-envelope-card>summary,
+.thought-run-card>summary{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:54px;
+  padding:13px 15px;
+  list-style:none;
+  cursor:pointer;
+  color:#ecfeff;
+  background:linear-gradient(90deg,rgba(15,33,56,.98),rgba(4,11,24,.92));
+  position:relative;
+}
+.transport-details>summary::-webkit-details-marker,
+.thought-envelope-card>summary::-webkit-details-marker{display:none}
+.transport-details>summary::before,
+.thought-envelope-card>summary::before{
+  content:"▸";
+  color:var(--awt-event-cyan);
+  font-weight:950;
+  transition:transform .18s ease;
+  flex:0 0 auto;
+}
+.transport-details[open]>summary::before,
+.thought-envelope-card[open]>summary::before{transform:rotate(90deg)}
+.event-title-wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  flex:1 1 auto;
+  flex-wrap:wrap;
+  padding-right:4px;
+}
+.event-title-wrap b{
+  color:var(--awt-event-text);
+  font-weight:950;
+  letter-spacing:.01em;
+}
+.event-kind-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:4px 8px;
+  border:1px solid rgba(103,232,249,.28);
+  border-radius:999px;
+  background:rgba(14,165,233,.16);
+  color:#a5f3fc;
+  font-size:.72rem;
+  font-weight:950;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.event-tool-target,
+.event-talked-to,
+.event-brief{
+  min-width:0;
+  max-width:100%;
+  overflow-wrap:anywhere;
+  color:#bfdbfe;
+  font-size:.82rem;
+  font-weight:800;
+}
+.event-tool-target{
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(147,197,253,.18);
+  background:rgba(59,130,246,.12);
+  color:#dbeafe;
+}
+.event-talked-to{color:var(--awt-event-muted)}
+.event-tool-meta{
+  margin-left:0;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(52,211,153,.24);
+  color:#bbf7d0;
+  background:rgba(6,78,59,.22);
+  font-size:.72rem;
+  font-weight:900;
+}
+.event-panel-actions{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-left:auto;
+  flex:0 0 auto;
+  position:relative;
+  z-index:5;
+  pointer-events:auto;
+}
+.event-panel-actions button{
+  width:34px;
+  height:31px;
+  padding:0;
+  border:1px solid rgba(125,211,252,.30);
+  border-radius:11px;
+  background:rgba(2,6,23,.80);
+  color:#dff8ff;
+  font-size:14px;
+  font-weight:950;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 8px 18px rgba(0,0,0,.2);
+  cursor:pointer;
+}
+.event-panel-actions button:hover{
+  border-color:rgba(103,232,249,.72);
+  background:rgba(14,165,233,.30);
+  transform:translateY(-1px);
+}
+.event-panel-actions [data-panel-action="fullscreen"]{
+  background:linear-gradient(135deg,rgba(8,145,178,.9),rgba(37,99,235,.84));
+  border-color:rgba(165,243,252,.52);
+}
+.transport-details.is-maximized,
+.thought-envelope-card.is-maximized,
+.thought-run-card.is-maximized{
+  max-width:min(1100px,calc(100vw - 48px));
+  width:min(1100px,calc(100vw - 48px));
+  z-index:80;
+}
+.transport-details.is-fullscreen,
+.thought-envelope-card.is-fullscreen,
+.thought-run-card.is-fullscreen{
+  position:fixed;
+  inset:18px;
+  z-index:1000;
+  width:auto;
+  max-width:none;
+  max-height:none;
+  overflow:auto;
+}
+.has-event-fullscreen .chat-box{overflow:hidden}

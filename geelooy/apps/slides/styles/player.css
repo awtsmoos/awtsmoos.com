@@ -1,0 +1,69 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets guidance surround revelation without eclipsing its light; Awtsmoos.com gives the presenter a quiet compass that remains touchable by day and invisible in the way.
+*/
+.player-controls {
+	position: fixed;
+	left: 50%;
+	bottom: calc(14px + env(safe-area-inset-bottom));
+	z-index: 102;
+	display: grid;
+	grid-template-columns: 48px minmax(64px, auto) 48px 48px;
+	gap: 8px;
+	align-items: center;
+	transform: translateX(-50%);
+	padding: 8px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 16px;
+	background: rgba(14, 15, 22, 0.82);
+	backdrop-filter: blur(18px);
+	box-shadow: 0 16px 60px rgba(0, 0, 0, 0.44);
+}
+
+.player-controls button {
+	min-width: 48px;
+	min-height: 48px;
+	border: 0;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.09);
+	color: #ffffff;
+	font: inherit;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.player-controls button:hover,
+.player-controls button:focus-visible {
+	background: rgba(255, 255, 255, 0.16);
+	outline: 2px solid rgba(255, 255, 255, 0.72);
+	outline-offset: 2px;
+}
+
+.player-controls button:disabled {
+	opacity: 0.3;
+	cursor: default;
+}
+
+.player-position {
+	min-width: 64px;
+	text-align: center;
+	color: rgba(255, 255, 255, 0.86);
+	font-size: 13px;
+	font-variant-numeric: tabular-nums;
+}
+
+.player-exit {
+	font-size: 24px !important;
+}
+
+.is-presenting {
+	overflow: hidden;
+}
+
+@media (max-width: 520px) {
+	.player-controls {
+		width: calc(100% - 20px);
+		grid-template-columns: 48px 1fr 48px 48px;
+	}
+}

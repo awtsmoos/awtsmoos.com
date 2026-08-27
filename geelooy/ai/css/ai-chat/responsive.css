@@ -1,0 +1,102 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Responsive geometry is Binah measuring one intention into many screens. The
+ * Awtsmoos creates laptop, desktop, and ultrawide space anew; Awtsmoos.com
+ * keeps the conversation primary while side vessels remain honestly usable.
+ */
+@media(min-width:1300px){
+	.container{
+		grid-template-columns:
+			var(--ai-left-col,292px)
+			7px
+			minmax(560px,1fr)
+			7px
+			var(--ai-right-col,324px);
+		gap:10px;
+		padding:12px;
+	}
+	.input-area{
+		width:min(1080px,100%);
+		margin-inline:auto;
+	}
+}
+@media(min-width:1101px) and (max-width:1299px){
+	.container{
+		grid-template-columns:
+			var(--ai-left-col,240px)
+			6px
+			minmax(520px,1fr)
+			6px
+			var(--ai-right-col,270px);
+		gap:8px;
+		padding:9px;
+	}
+	body[data-sidebar-collapsed="true"] .container{
+		grid-template-columns:58px 6px minmax(520px,1fr) 6px var(--ai-right-col,270px);
+	}
+	body[data-automation-collapsed="true"] .container{
+		grid-template-columns:var(--ai-left-col,240px) 6px minmax(520px,1fr) 6px 58px;
+	}
+}
+@media(min-width:901px) and (max-width:1100px){
+	.container{
+		grid-template-columns:
+			var(--ai-left-col,200px)
+			5px
+			minmax(430px,1fr)
+			5px
+			var(--ai-right-col,220px);
+		gap:6px;
+		padding:7px;
+	}
+	body[data-sidebar-collapsed="true"] .container{
+		grid-template-columns:58px 5px minmax(430px,1fr) 5px var(--ai-right-col,220px);
+	}
+	body[data-automation-collapsed="true"] .container{
+		grid-template-columns:var(--ai-left-col,200px) 5px minmax(430px,1fr) 5px 58px;
+	}
+	.panel-title{
+		font-size:.84rem;
+	}
+	#automation-panel .right-panel-body,
+	.conversation-list{
+		padding:10px;
+	}
+}
+@media(min-width:1680px){
+	:root{
+		--awt-message-max:min(900px,90%);
+		--awt-chat-pad:36px clamp(32px,5vw,84px) 150px;
+	}
+	.container{
+		grid-template-columns:
+			var(--ai-left-col,320px)
+			8px
+			minmax(680px,1fr)
+			8px
+			var(--ai-right-col,360px);
+		padding:14px;
+	}
+}
+@media(max-height:720px) and (min-width:901px){
+	.panel-topbar,
+	.sidebar-header{
+		min-height:50px;
+		padding-block:7px;
+	}
+	.input-area{
+		padding-block:9px;
+	}
+	#message-input,
+	#send-button{
+		min-height:50px;
+	}
+}
+@media(min-resolution:1dppx) and (min-width:901px){
+	.container>*{
+		min-width:0;
+	}
+}

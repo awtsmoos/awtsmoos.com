@@ -1,0 +1,68 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter 63: The dashboard became a chlorophyll supernova.
+ *
+ * The Awtsmoos compresses the entrance into one impossible screen: no sidebar,
+ * no curtain, no pilgrimage downward. Every card is a reactor tile, every page
+ * button a gate, every pixel a green oath that clicks directly into a world.
+ */
+body.awt-pro-ready {
+  overflow: hidden;
+  --awt-grid-neon: #64ff9f;
+  --awt-grid-acid: #b6ff4d;
+  --awt-grid-teal: #00ffd5;
+  --awt-grid-fire: #effff1;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(104,255,151,.50), transparent 17rem),
+    radial-gradient(circle at 88% 14%, rgba(0,255,213,.34), transparent 24rem),
+    radial-gradient(circle at 50% 118%, rgba(182,255,77,.28), transparent 30rem),
+    linear-gradient(135deg, #001006, #004225 46%, #000c05);
+}
+body.awt-pro-ready::before { opacity: .70; filter: hue-rotate(92deg) saturate(2.1) contrast(1.08); animation: awtGreenFieldDrift 22s linear infinite; }
+body.awt-pro-ready .awt-control-shell { height: 100vh; min-height: 100vh; grid-template-columns: 1fr; padding: clamp(7px, 1vw, 14px); overflow: hidden; }
+body.awt-pro-ready:has(.awt-dashboard) .awt-control-side { display: none; }
+body.awt-pro-ready .awt-control-main { height: 100%; overflow: hidden; align-content: stretch; }
+body.awt-pro-ready .awt-dashboard {
+  height: 100%; min-height: 0; grid-template-rows: auto minmax(0, 1fr) auto; gap: clamp(8px, .9vw, 13px); overflow: hidden;
+  border-color: rgba(136,255,175,.66);
+  background:
+    linear-gradient(90deg, rgba(125,255,166,.06) 1px, transparent 1px),
+    linear-gradient(rgba(125,255,166,.05) 1px, transparent 1px),
+    radial-gradient(circle at var(--awt-pointer-x,50%) var(--awt-pointer-y,18%), rgba(0,255,153,.16), transparent 22rem),
+    linear-gradient(145deg, rgba(0,82,43,.92), rgba(0,12,6,.96)) !important;
+  background-size: 30px 30px, 30px 30px, auto, auto;
+  box-shadow: inset 0 1px 0 rgba(231,255,235,.22), inset 0 0 95px rgba(32,255,113,.13), 0 0 88px rgba(25,255,110,.30);
+}
+body.awt-pro-ready .awt-dashboard::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .42; background: repeating-linear-gradient(180deg, rgba(222,255,230,.05) 0 1px, transparent 1px 6px), linear-gradient(120deg, transparent 0 38%, rgba(182,255,77,.08) 50%, transparent 64%); animation: awtGridSheen 7s ease-in-out infinite; }
+body.awt-pro-ready .awt-dashboard-head { grid-template-areas: "kicker title metrics" "copy copy metrics"; grid-template-columns: auto minmax(0, 1fr) minmax(170px, .30fr); align-items: end; gap: 6px 13px; }
+body.awt-pro-ready .awt-dashboard-head h2 { font-size: clamp(2rem, 5.4vw, 6.2rem); color: var(--awt-grid-fire); letter-spacing: -.09em; text-shadow: 0 0 10px rgba(133,255,169,.52), 0 0 44px rgba(36,255,114,.45), 0 0 2px #fff; }
+body.awt-pro-ready .awt-dashboard-head p { max-width: 66ch; color: rgba(225,255,232,.80); }
+body.awt-pro-ready .awt-mini-kicker { color: #c8ffd4; text-shadow: 0 0 20px rgba(83,255,138,.48); }
+body.awt-pro-ready .awt-dashboard-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+body.awt-pro-ready .awt-metric { border-color: rgba(119,255,165,.34); background: rgba(0,0,0,.24); box-shadow: inset 0 0 26px rgba(75,255,132,.07); }
+body.awt-pro-ready .awt-feature-dashboard-grid { height: 100%; min-height: 0; overflow: hidden; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); gap: clamp(7px, .9vw, 13px); perspective: 1400px; }
+body.awt-pro-ready .awt-action-card {
+  min-height: 0; height: 100%; overflow: hidden; isolation: isolate; border-width: 1px; border-color: rgba(112,255,161,.48);
+  background:
+    radial-gradient(circle at 50% -12%, rgba(214,255,224,.34), transparent 36%),
+    radial-gradient(circle at 0% 115%, rgba(53,255,128,.22), transparent 46%),
+    linear-gradient(160deg, rgba(0,105,50,.84), rgba(0,16,8,.96));
+  box-shadow: 0 22px 58px rgba(0,0,0,.38), inset 0 1px 0 rgba(235,255,239,.18), inset 0 0 38px rgba(54,255,124,.10);
+  transform-style: preserve-3d;
+}
+body.awt-pro-ready .awt-action-card::after { content: ""; position: absolute; inset: -42%; z-index: 0; opacity: .16; background: conic-gradient(from 0deg, transparent, rgba(182,255,77,.26), rgba(0,255,213,.16), transparent 38%); animation: awtTileOrbit 10s linear infinite; transition: opacity .22s var(--awt-ease); }
+body.awt-pro-ready .awt-action-card:hover::after, body.awt-pro-ready .awt-action-card:focus-visible::after { opacity: .66; animation-duration: 2.8s; }
+body.awt-pro-ready .awt-action-card:hover, body.awt-pro-ready .awt-action-card:focus-visible { transform: translateY(-5px) rotateX(3deg) scale(1.022); border-color: rgba(218,255,227,.90); box-shadow: 0 0 64px rgba(44,255,120,.38), 0 32px 72px rgba(0,0,0,.43); }
+body.awt-pro-ready .awt-action-card > * { position: relative; z-index: 1; }
+body.awt-pro-ready .awt-action-icon { color: #e3ffe8; background: rgba(48,255,124,.20); box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 0 40px rgba(57,255,121,.34); }
+body.awt-pro-ready .awt-action-copy strong { color: #f7fff8; text-shadow: 0 0 20px rgba(98,255,150,.30); }
+body.awt-pro-ready .awt-action-copy span { color: rgba(223,255,232,.74); }
+body.awt-pro-ready .awt-page-controls { min-height: 42px; padding-top: 4px; border-top: 1px solid rgba(117,255,162,.26); }
+body.awt-pro-ready .awt-page-button, body.awt-pro-ready .awt-filter-tab { border-color: rgba(116,255,162,.42); background: rgba(0,0,0,.28); color: #e8ffed; box-shadow: inset 0 0 20px rgba(66,255,129,.08), 0 0 18px rgba(45,255,117,.08); }
+body.awt-pro-ready .awt-page-status { color: #cdffd8; font-weight: 950; letter-spacing: .09em; text-transform: uppercase; }
+@keyframes awtGreenFieldDrift { from { background-position: 0 0, 0 0, center; } to { background-position: 120px 60px, -120px -60px, center; } }
+@keyframes awtGridSheen { 0%,100% { opacity: .26; transform: translateX(-2%); } 50% { opacity: .52; transform: translateX(2%); } }
+@keyframes awtTileOrbit { to { transform: rotate(360deg); } }
+@media (max-width: 980px) { body.awt-pro-ready .awt-dashboard-head { grid-template-areas: "kicker" "title"; grid-template-columns: 1fr; } body.awt-pro-ready .awt-dashboard-head p, body.awt-pro-ready .awt-dashboard-metrics { display: none; } body.awt-pro-ready .awt-feature-dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 620px) { body.awt-pro-ready .awt-control-shell { padding: 6px; } body.awt-pro-ready .awt-dashboard { gap: 7px; padding: 9px; } body.awt-pro-ready .awt-dashboard-head h2 { font-size: clamp(1.7rem, 10vw, 2.8rem); } body.awt-pro-ready .awt-feature-dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } body.awt-pro-ready .awt-action-card { padding: 8px 6px; } body.awt-pro-ready .awt-action-copy span, body.awt-pro-ready .awt-card-meta { display: none; } }

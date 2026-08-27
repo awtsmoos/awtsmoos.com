@@ -1,0 +1,4 @@
+/* B"H - Performance monitor. */
+.perf-fps-low { color: #ff0055; }
+.perf-fps-warn { color: #ffd43b; }
+.perf-fps-good { color: #00ffcc; }

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="referrer" content="no-referrer">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'; font-src 'none'; media-src 'none'">
+	<title>Awtsmoos Blender Studio</title>
+	<link rel="stylesheet" href="./styles/app.css">
+</head>
+<body>
+	<!-- B"H · Boruch Hashem · Blessed is He -->
+	<main class="studio" data-state="loading">
+		<header class="studio-bar">
+			<div>
+				<span class="eyebrow">REPO-LOCAL GLB · NO EXTERNAL LIBRARIES</span>
+				<h1>Awtsmoos Blender Studio</h1>
+			</div>
+			<div class="bar-actions">
+				<button id="reset-view" type="button">Frame All</button>
+				<a href="./assets/awtsmoos-witness.glb" download>Download GLB</a>
+			</div>
+		</header>
+		<section class="workspace">
+			<aside class="panel outliner-panel">
+				<h2>Scene Collection</h2>
+				<div id="outliner" class="outliner" role="tree"></div>
+			</aside>
+			<section class="viewport-shell">
+				<canvas id="viewport" aria-label="WebGL viewport of the repo-local Blender-exported scene"></canvas>
+				<div class="viewport-hud">
+					<span id="viewport-status">Verifying bundled scene assets…</span>
+					<span>Drag orbit · wheel zoom · click object</span>
+				</div>
+			</section>
+			<aside class="panel inspector-panel">
+				<h2>Transform</h2>
+				<div id="inspector" class="inspector"></div>
+				<h2>Verification Evidence</h2>
+				<div id="evidence" class="evidence"></div>
+			</aside>
+		</section>
+		<footer class="timeline">
+			<button id="playback" type="button" aria-pressed="false">▶ Play</button>
+			<input id="frame" type="range" min="1" max="48" value="1" step="1">
+			<output id="frame-label" for="frame">Frame 1 / 48</output>
+			<img id="verified-preview" alt="Integrity-verified preview bundled inside the repository">
+		</footer>
+	</main>
+	<script type="module" src="./js/main.js"></script>
+</body>
+</html>

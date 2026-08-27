@@ -1,0 +1,65 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-youtube-oauth-status-529fa78f69",
+	"route": "/api/youtube/oauth/status",
+	"source": "geelooy/api/youtube/routes/table.js",
+	"discoveryKind": "route-table",
+	"family": {
+		"mount": "/api/youtube",
+		"title": "YouTube",
+		"manual": "docs/TUTORIALS/API/YOUTUBE.md"
+	},
+	"derech": {
+		"source": "geelooy/api/youtube/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/youtube"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-youtube-oauth-status-529fa78f69.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-youtube-44e720e9a3",
+			"route": "/api/youtube"
+		},
+		{
+			"id": "api-youtube-a-8c1cdc043d",
+			"route": "/api/youtube/:a"
+		},
+		{
+			"id": "api-youtube-a-b-0f1bfdc710",
+			"route": "/api/youtube/:a/:b"
+		},
+		{
+			"id": "api-youtube-a-b-c-02c6f58285",
+			"route": "/api/youtube/:a/:b/:c"
+		},
+		{
+			"id": "api-youtube-auth-callback-9c2556106d",
+			"route": "/api/youtube/auth/callback"
+		},
+		{
+			"id": "api-youtube-auth-logout-e16d771492",
+			"route": "/api/youtube/auth/logout"
+		},
+		{
+			"id": "api-youtube-auth-start-c2f5a58fbd",
+			"route": "/api/youtube/auth/start"
+		},
+		{
+			"id": "api-youtube-auth-status-10475f963f",
+			"route": "/api/youtube/auth/status"
+		}
+	]
+}

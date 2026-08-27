@@ -1,0 +1,83 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos renews attention and choice; Awtsmoos.com makes every filter and control explicit, bounded, and accessible. */
+
+.awt-activity-toolbar {
+	display: flex;
+	align-items: end;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.85rem;
+	border: 1px solid color-mix(in srgb, var(--awt-accent, #7dffca) 14%, transparent);
+	border-radius: 1rem;
+	background: rgb(0 0 0 / 10%);
+}
+
+.awt-activity-toolbar__filters {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(7rem, 1fr));
+	gap: 0.6rem;
+	flex: 1;
+}
+
+.awt-activity-toolbar__field {
+	display: grid;
+	gap: 0.3rem;
+	min-width: 0;
+}
+
+.awt-activity-toolbar__field > span {
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--awt-muted, #aebbc5);
+}
+
+.awt-activity-toolbar input,
+.awt-activity-toolbar select {
+	width: 100%;
+	min-height: 2.35rem;
+	padding: 0.48rem 0.62rem;
+	border: 1px solid color-mix(in srgb, var(--awt-muted, #aebbc5) 25%, transparent);
+	border-radius: 0.72rem;
+	background: color-mix(in srgb, var(--awt-panel, #101820) 84%, transparent);
+	color: var(--awt-text, #f7fbff);
+}
+
+.awt-activity-toolbar input:focus-visible,
+.awt-activity-toolbar select:focus-visible,
+.awt-activity-button:focus-visible {
+	outline: 2px solid var(--awt-accent, #7dffca);
+	outline-offset: 2px;
+}
+
+.awt-activity-toolbar__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	justify-content: flex-end;
+}
+
+.awt-activity-button {
+	min-height: 2.35rem;
+	padding: 0.48rem 0.72rem;
+	border: 1px solid color-mix(in srgb, var(--awt-accent, #7dffca) 32%, transparent);
+	border-radius: 0.72rem;
+	background: color-mix(in srgb, var(--awt-accent, #7dffca) 9%, transparent);
+	color: var(--awt-text, #f7fbff);
+	font: inherit;
+	font-size: 0.78rem;
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.awt-activity-button:hover {
+	background: color-mix(in srgb, var(--awt-accent, #7dffca) 16%, transparent);
+}
+
+.awt-activity-button:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}

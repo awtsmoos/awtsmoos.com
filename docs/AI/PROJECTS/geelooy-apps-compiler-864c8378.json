@@ -1,0 +1,91 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-compiler-864c8378",
+	"path": "geelooy/apps/compiler",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Compiler",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/compiler/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-compiler-864c8378.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 77,
+		"tests": 1,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 79,
+	"symbolSummary": {
+		"files": 71,
+		"classes": 5,
+		"functions": 139,
+		"exports": 90,
+		"samples": [
+			"CodeBuilder",
+			"emitData",
+			"emitRipData",
+			"emitFlow",
+			"emitAsm",
+			"dispatchInstruction",
+			"emitMath",
+			"parseOperand",
+			"emitStack",
+			"emitMemBytes",
+			"source",
+			"ASM_EXAMPLES"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 9,
+			"examples": "geelooy/apps/compiler/embed/osCompilerChannel.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js; geelooy/apps/compiler/ui/nativeBuildClient.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 3,
+			"examples": "geelooy/apps/compiler/compiler.js; geelooy/apps/compiler/compiler_c.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 3,
+			"examples": "geelooy/scripts/awtsmoos/compiling/cpp/compiler.js"
+		},
+		{
+			"project": "geelooy/apps/code",
+			"count": 2,
+			"examples": "geelooy/apps/code/js/actions/commands/build-native-project.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/compiler",
+			"file": "geelooy/apps/compiler/index.html",
+			"title": "Awtsmoos Compiler",
+			"scripts": 1,
+			"styles": 5
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

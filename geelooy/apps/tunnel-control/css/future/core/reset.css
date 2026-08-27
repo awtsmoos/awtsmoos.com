@@ -1,0 +1,43 @@
+/* B"H */
+*, *::before, *::after { box-sizing: border-box; }
+html { min-height: 100%; background: var(--awt-bg-0); text-size-adjust: 100%; }
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: var(--awt-font);
+  color: var(--awt-ink);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(47, 134, 255, .16), transparent 30rem),
+    radial-gradient(circle at 94% 4%, rgba(143, 109, 255, .14), transparent 32rem),
+    linear-gradient(135deg, #020612, #071426 48%, #030712);
+}
+body::before, body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+body::before {
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(116,169,222,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(116,169,222,.028) 1px, transparent 1px),
+    radial-gradient(circle at var(--awt-pointer-x, 50%) var(--awt-pointer-y, 24%), rgba(84,216,255,.08), transparent 18rem);
+  background-size: 54px 54px, 54px 54px, auto;
+  mask-image: radial-gradient(circle at 50% 20%, black 0 56%, transparent 86%);
+}
+body::after {
+  z-index: -1;
+  opacity: .12;
+  mix-blend-mode: screen;
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,.025) 0 1px, transparent 1px 6px);
+}
+button, input, select, textarea { font: inherit; }
+button { color: inherit; }
+a { color: var(--awt-cyan); text-decoration: none; }
+pre, code, kbd { font-family: var(--awt-mono); }
+pre, code { white-space: pre-wrap; overflow-wrap: anywhere; }
+img, svg, canvas { max-width: 100%; }
+::selection { background: rgba(84,216,255,.30); color: white; }
+:focus-visible { outline: 2px solid var(--awt-cyan); outline-offset: 4px; }

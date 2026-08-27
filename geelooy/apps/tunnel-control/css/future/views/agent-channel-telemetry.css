@@ -1,0 +1,89 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos reveals each agent's event testimony without drowning its face.
+ * Awtsmoos.com condenses activity, failure, latest action, and transport into a
+ * precise telemetry band beneath identity.
+ */
+@layer awt.views {
+	.awt-agent-telemetry {
+		position: relative;
+		display: grid;
+		grid-template-columns: .8fr .8fr 1.4fr;
+		gap: 6px;
+	}
+
+	.awt-agent-telemetry-cell {
+		display: grid;
+		gap: 4px;
+		min-width: 0;
+		padding: 9px;
+		border: 1px solid rgba(255, 255, 255, .055);
+		border-radius: 11px;
+		background: rgba(255, 255, 255, .022);
+	}
+
+	.awt-agent-telemetry-cell small {
+		font-size: .58rem;
+		letter-spacing: .09em;
+		text-transform: uppercase;
+		color: rgba(210, 230, 250, .42);
+	}
+
+	.awt-agent-telemetry-cell strong {
+		overflow: hidden;
+		font-size: .76rem;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.awt-agent-channel.has-failures .awt-agent-telemetry-cell:nth-child(2) {
+		border-color: rgb(var(--agent-gold) / .22);
+		background: rgb(var(--agent-gold) / .055);
+	}
+
+	.awt-agent-channel-footer {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		padding-top: 2px;
+	}
+
+	.awt-agent-transport-label,
+	.awt-agent-open-channel {
+		font-size: .65rem;
+	}
+
+	.awt-agent-transport-label {
+		max-width: 58%;
+		color: rgba(203, 224, 245, .48);
+	}
+
+	.awt-agent-open-channel {
+		font-weight: 750;
+		color: rgb(var(--agent-cyan));
+		transition: transform 180ms ease, color 180ms ease;
+	}
+
+	.awt-agent-channel:hover .awt-agent-open-channel,
+	.awt-agent-channel.is-selected .awt-agent-open-channel {
+		transform: translateX(3px);
+		color: rgb(189 244 255);
+	}
+
+	.awt-agent-channel[data-transport="dual"] .awt-agent-transport-label::before,
+	.awt-agent-channel[data-transport="account"] .awt-agent-transport-label::before,
+	.awt-agent-channel[data-transport="room"] .awt-agent-transport-label::before {
+		content: "";
+		display: inline-block;
+		width: 6px;
+		aspect-ratio: 1;
+		margin-right: 6px;
+		border-radius: 50%;
+		background: rgb(var(--agent-green));
+		box-shadow: 0 0 10px rgb(var(--agent-green) / .75);
+	}
+}

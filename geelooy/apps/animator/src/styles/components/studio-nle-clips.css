@@ -1,0 +1,84 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews clip relationships; Awtsmoos.com makes mute, lock,
+ * selection, trim affordances, lane rhythm, and playhead hierarchy visible.
+ */
+.aw-professional-studio .aw-nle-track-name,
+.aw-professional-studio .aw-nle-lane {
+	height: 35px;
+	border-bottom: 1px solid var(--aw-line);
+}
+
+.aw-professional-studio .aw-nle-track-name {
+	display: flex;
+	align-items: center;
+	padding: 0 9px;
+	overflow: hidden;
+	color: var(--aw-text-soft);
+	font-size: 10px;
+	text-overflow: ellipsis;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.aw-professional-studio .aw-nle-track-name.is-muted {
+	color: var(--aw-muted);
+	opacity: 0.58;
+}
+
+.aw-professional-studio .aw-nle-track-name.is-locked,
+.aw-professional-studio .aw-nle-lane.is-locked {
+	background-color: rgba(240, 189, 101, 0.05);
+}
+
+.aw-professional-studio .aw-nle-lane {
+	position: relative;
+	background-color: var(--aw-panel-inset);
+	background-image: linear-gradient(90deg, var(--aw-line) 1px, transparent 1px);
+	background-size: 72px 100%;
+}
+
+.aw-professional-studio .aw-nle-clip {
+	top: 4px;
+	height: 27px;
+	overflow: hidden;
+	border: 1px solid rgba(181, 203, 245, 0.28);
+	border-radius: var(--aw-radius-sm);
+	color: #f7f9ff;
+	background: #385f96;
+	box-shadow: 0 3px 9px rgba(0, 0, 0, 0.24);
+	text-overflow: ellipsis;
+}
+
+.aw-professional-studio .aw-nle-clip::before,
+.aw-professional-studio .aw-nle-clip::after {
+	position: absolute;
+	top: 5px;
+	bottom: 5px;
+	width: 3px;
+	border-radius: 2px;
+	background: rgba(255, 255, 255, 0.45);
+	content: "";
+}
+
+.aw-professional-studio .aw-nle-clip::before {
+	left: 3px;
+}
+
+.aw-professional-studio .aw-nle-clip::after {
+	right: 3px;
+}
+
+.aw-professional-studio .aw-nle-clip.selected {
+	outline: 2px solid var(--aw-selection);
+	outline-offset: 1px;
+	box-shadow: 0 0 0 4px var(--aw-selection-soft);
+}
+
+.aw-professional-studio .aw-nle-playhead {
+	top: 0;
+	width: 2px;
+	background: var(--aw-playhead);
+	box-shadow: 0 0 8px rgba(255, 88, 120, 0.62);
+}

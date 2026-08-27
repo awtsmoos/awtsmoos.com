@@ -1,0 +1,77 @@
+<!-- B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos opens each Awtsmoos.com tool as a distinct vessel while one account,
+one Wallet, and one wider product constellation holds them together. The catalog
+below reveals every browser application that actually ships with a doorway today.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<meta name="description" content="Browse every browser application currently shipped on Awtsmoos.com: documents, media, code, utilities, system tools, chat, and more.">
+	<meta name="theme-color" content="#050914">
+	<title>Awtsmoos Apps — Every Browser Tool</title>
+	<link rel="stylesheet" href="/style/geelooy-app/index.css?v=extreme-005">
+	<link rel="stylesheet" href="/style/geelooy-app/shell/hybrid-navigation.css?v=extreme-005">
+	<link rel="stylesheet" href="./style.css?v=apps-portfolio-005">
+</head>
+<body data-geelooy-route="apps">
+	<main class="g-page geelooy-content-region g-page-stack" aria-labelledby="apps-title" data-geelooy-route-outlet data-route-id="apps">
+		<section class="g-panel g-page-hero apps-hero">
+			<div>
+				<p class="g-kicker">B"H · Everything you can open here</p>
+				<h1 id="apps-title">Find the right vessel.</h1>
+				<p>Every browser app with a real doorway is listed below. Search by title, purpose, route name, or familiar language like “document creator.”</p>
+				<div class="apps-hero-actions">
+					<a class="g-button g-button-primary" href="./docs/">Create a document</a>
+					<a class="g-button" href="/os">Open Awtsmoos OS</a>
+					<a class="g-button" href="./wallet/">Open Wallet</a>
+				</div>
+			</div>
+			<aside class="apps-economy-note">
+				<strong>Real tools, real routes.</strong>
+				<p>Native-only experiments without a browser entrypoint stay out of this launcher. Existing browser applications stay visible.</p>
+			</aside>
+		</section>
+
+		<form class="g-app-filter" role="search" data-app-filter>
+			<label class="g-sr-only" for="app-search">Search applications</label>
+			<input id="app-search" name="q" type="search" placeholder="Search docs, video, compiler, chat, tunnel…" autocomplete="off" spellcheck="false">
+			<label class="g-sr-only" for="app-category">App category</label>
+			<select id="app-category" name="category">
+				<option value="">All categories</option>
+				<option value="productivity">Productivity</option>
+				<option value="create">Create</option>
+				<option value="media">Media</option>
+				<option value="editor">Editors</option>
+				<option value="studio">Studios</option>
+				<option value="developer">Developer</option>
+				<option value="communication">Communication</option>
+				<option value="system">System</option>
+			</select>
+		</form>
+
+		<div class="apps-catalog-meta">
+			<div><strong>Browser applications</strong> · live inventory, not a curated subset</div>
+			<div data-app-result-status role="status" aria-live="polite">Loading app count…</div>
+		</div>
+
+		<section class="apps-section-heading" aria-labelledby="all-tools-title">
+			<div>
+				<p class="g-kicker">Discover & launch</p>
+				<h2 id="all-tools-title">All available browser tools.</h2>
+			</div>
+			<p>Use search for intent and aliases; use categories when you want to browse a smaller neighborhood.</p>
+		</section>
+
+		<section class="g-grid" data-app-grid aria-live="polite" aria-busy="true" aria-label="Available applications">
+			<p class="g-state">Loading the application catalog…</p>
+		</section>
+		<p class="g-state" data-app-empty hidden>No apps match those filters. Try another name, purpose, or category.</p>
+	</main>
+	<script type="module" src="./scripts/apps-filter.js?v=apps-portfolio-005"></script>
+	<script type="module" src="/scripts/awtsmoos/social/shell/boot.js?v=extreme-005"></script>
+</body>
+</html>

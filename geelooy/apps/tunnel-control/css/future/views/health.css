@@ -1,0 +1,108 @@
+/* B"H */
+
+.awt-health-panel {
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 24px;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  box-shadow: 0 18px 60px rgba(0,0,0,.22);
+}
+
+.awt-health-head,
+.awt-mission-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.awt-health-head h3 {
+  margin: 4px 0 0;
+  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+}
+
+.awt-health-head > strong {
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,.1);
+  white-space: nowrap;
+}
+
+.awt-health-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+}
+
+.awt-health-card,
+.awt-mission-strip article {
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 18px;
+  padding: 14px;
+  background: rgba(8, 12, 24, .42);
+}
+
+.awt-health-card {
+  display: grid;
+  gap: 6px;
+  min-height: 116px;
+}
+
+.awt-health-card strong,
+.awt-mission-strip strong {
+  font-size: .98rem;
+}
+
+.awt-health-card span {
+  font-weight: 800;
+}
+
+.awt-health-card small,
+.awt-mission-strip span {
+  opacity: .76;
+  line-height: 1.35;
+}
+
+.awt-health-card.is-good {
+  border-color: rgba(71, 230, 156, .45);
+  background: linear-gradient(135deg, rgba(71, 230, 156, .14), rgba(8, 12, 24, .42));
+}
+
+.awt-health-card.is-warn {
+  border-color: rgba(255, 210, 102, .45);
+  background: linear-gradient(135deg, rgba(255, 210, 102, .14), rgba(8, 12, 24, .42));
+}
+
+.awt-health-card.is-bad {
+  border-color: rgba(255, 105, 105, .48);
+  background: linear-gradient(135deg, rgba(255, 105, 105, .14), rgba(8, 12, 24, .42));
+}
+
+.awt-mission-strip {
+  align-items: stretch;
+  margin: 14px 0;
+}
+
+.awt-mission-strip article {
+  flex: 1 1 0;
+  display: grid;
+  gap: 5px;
+}
+
+.awt-mission-strip b {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,.12);
+}
+
+@media (max-width: 780px) {
+  .awt-health-head,
+  .awt-mission-strip {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

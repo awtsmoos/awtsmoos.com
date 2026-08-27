@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import { createTimeline, selectedClip } from '../modules/nle/timeline.js';
+import { addTimelineMarker, duplicateSelectedClip, setSelectedClipFades, snapSelectedClip, timelineCommandSummary, toggleSelectedClipDisabled, toggleSelectedClipMute } from '../modules/nle/timelineCommands.js';
+const timeline = createTimeline();
+const first = selectedClip(timeline);
+const copy = duplicateSelectedClip(timeline);
+assert.notEqual(copy.id, first.id); assert.equal(copy.start, first.start + first.duration);
+const faded = setSelectedClipFades(timeline, .75, .5);
+assert.equal(faded.fadeIn, .75); assert.equal(faded.fadeOut, .5);
+assert.equal(toggleSelectedClipMute(timeline).muted, true);
+assert.equal(toggleSelectedClipDisabled(timeline).disabled, true);
+const snapped = snapSelectedClip(timeline, 'previous');
+assert.equal(snapped.start, first.start + first.duration);
+const marker = addTimelineMarker(timeline, { label:'Bass hit' });
+assert.equal(marker.label, 'Bass hit'); assert.equal(timeline.markers.length, 1);
+assert.match(timelineCommandSummary(timeline), /muted|disabled|fade|markers 1/);
+console.log('B"H NLE advanced commands smoke passed');

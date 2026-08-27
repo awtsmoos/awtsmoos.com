@@ -1,0 +1,70 @@
+<!--B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos clothes source in truthful executable vessels; Awtsmoos.com keeps
+native, WebAssembly, inspected, and simulated evidence visibly distinct.
+--><!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Awtsmoos Compiler</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="native.css">
+	<link rel="stylesheet" href="evidence.css">
+	<link rel="stylesheet" href="responsive.css">
+	<link rel="stylesheet" href="accessibility.css">
+</head>
+<body class="app-body">
+	<div class="bh-corner-left">B"H</div>
+	<div class="bh-corner-right">ב״ה</div>
+	<main class="compiler-card native-compiler-card">
+		<header class="card-header">
+			<h1 class="app-title">Awtsmoos Compiler</h1>
+			<p class="app-subtitle">Exact target triples, guarded native backends, validated bytes, and honest unavailable states.</p>
+		</header>
+		<section class="card-content compiler-grid">
+			<div class="input-group wide">
+				<label class="input-label">Language and application mode</label>
+				<div class="mode-selector">
+					<label class="radio-label"><input type="radio" name="appMode" value="console"><span>Console subset</span></label>
+					<label class="radio-label"><input type="radio" name="appMode" value="gui"><span>GUI subset</span></label>
+					<label class="radio-label"><input type="radio" name="appMode" value="asm"><span>Assembly subset</span></label>
+					<label class="radio-label"><input type="radio" name="appMode" value="c" checked><span>C</span></label>
+					<label class="radio-label"><input type="radio" name="appMode" value="cpp"><span>C++</span></label>
+				</div>
+			</div>
+			<div class="input-group"><label for="compilerPlatform" class="input-label">Platform</label><select id="compilerPlatform" class="input-field"></select></div>
+			<div class="input-group"><label for="compilerArchitecture" class="input-label">Architecture</label><select id="compilerArchitecture" class="input-field"></select></div>
+			<div class="input-group wide"><label for="compilerTarget" class="input-label">Exact target identity</label><select id="compilerTarget" class="input-field"></select><p id="backendState" class="backend-state">Discovering backends…</p></div>
+			<div class="input-group"><label for="buildMode" class="input-label">Build configuration</label><select id="buildMode" class="input-field"><option value="debug">Debug</option><option value="release">Release</option></select></div>
+			<div class="input-group"><label for="optimization" class="input-label">Optimization</label><select id="optimization" class="input-field"><option value="0">O0</option><option value="1">O1</option><option value="2">O2</option><option value="3">O3</option><option value="s">Os</option></select></div>
+			<div class="input-group"><label for="packaging" class="input-label">Packaging</label><select id="packaging" class="input-field"><option value="artifact">Artifact only</option><option value="tar.gz">tar.gz (backend-gated)</option><option value="app-bundle">.app bundle (backend-gated)</option></select></div>
+			<div class="input-group"><label for="signing" class="input-label">Signing</label><select id="signing" class="input-field"><option value="none">None</option><option value="ad-hoc">macOS ad-hoc</option><option value="configured-identity">Configured identity</option></select></div>
+			<div class="input-group"><label for="emulator" class="input-label">Run preference</label><select id="emulator" class="input-field"><option value="auto">Automatic match</option><option value="windows">Windows emulator</option><option value="macho">Mach-O inspection</option><option value="elf">ELF inspection</option><option value="wasm">WebAssembly runtime</option><option value="awtsmoos">Awtsmoos simulated</option><option value="inspect">Inspect only</option></select></div>
+			<div class="input-group"><label for="outputName" class="input-label">Output filename</label><input id="outputName" class="input-field" placeholder="Derived from project"></div>
+			<div id="standardInputGroup" class="input-group wide hidden"><label for="userText" class="input-label">Message or window title</label><input id="userText" class="input-field" value="Hello World from Awtsmoos!" autocomplete="off"></div>
+			<div id="sourceInputGroup" class="input-group wide">
+				<div class="source-header"><label id="sourceLabel" for="sourceEditor" class="input-label">C project source</label><select id="sourceExampleSelect" class="input-field"></select></div>
+				<textarea id="sourceEditor" class="source-editor asm-editor" spellcheck="false"></textarea>
+			</div>
+			<div class="info-panel wide"><p class="info-title">Target truth</p><ul id="infoList" class="info-list"></ul></div>
+			<div class="compiler-actions wide">
+				<button id="compileBtn" class="btn-primary">Build and download</button>
+				<button id="runBtn" class="btn-primary">Build and run in OS</button>
+				<button id="stopBtn" class="btn-secondary">Stop build</button>
+				<button id="cleanBtn" class="btn-secondary">Clean view</button>
+				<button id="rebuildBtn" class="btn-secondary">Rebuild</button>
+			</div>
+			<div id="status" class="status-msg hidden wide" role="status"></div>
+			<section class="evidence-grid wide" aria-label="Build evidence">
+				<article class="evidence-panel"><h2>Diagnostics</h2><pre id="diagnosticsPanel">No diagnostics.</pre></article>
+				<article class="evidence-panel"><h2>Build log</h2><pre id="buildLogPanel">No build log.</pre></article>
+				<article class="evidence-panel"><h2>Artifact explorer</h2><pre id="artifactPanel">No artifact.</pre></article>
+			</section>
+		</section>
+		<footer class="card-footer">Native bytes are validated from headers; unavailable toolchains never produce renamed simulations.</footer>
+	</main>
+	<script type="module" src="script.js"></script>
+</body>
+</html>

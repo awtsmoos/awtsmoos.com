@@ -1,0 +1,108 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos lets message direction, time, body, and delivery state remain
+ * distinct without breaking the unity of the channel. Awtsmoos.com gives the
+ * conversation a readable rhythm from first empty orbit through final response.
+ */
+@layer awt.views {
+	.awt-agent-direct-log {
+		display: grid;
+		gap: 8px;
+		max-height: 340px;
+		padding: 4px;
+		overflow: auto;
+		scrollbar-width: thin;
+		scrollbar-color: rgb(var(--agent-cyan) / .24) transparent;
+	}
+
+	.awt-agent-direct-message {
+		display: grid;
+		gap: 7px;
+		max-width: min(88%, 720px);
+		margin: 0;
+		padding: 11px 12px;
+		border: 1px solid rgba(255, 255, 255, .06);
+		border-radius: 14px 14px 14px 4px;
+		background: rgba(255, 255, 255, .04);
+	}
+
+	.awt-agent-direct-message.is-outgoing {
+		justify-self: end;
+		border-color: rgb(var(--agent-cyan) / .14);
+		border-radius: 14px 14px 4px 14px;
+		background: rgb(var(--agent-cyan) / .07);
+	}
+
+	.awt-agent-direct-message.is-sending {
+		opacity: .7;
+	}
+
+	.awt-agent-direct-message.is-failed {
+		border-color: rgba(255, 116, 116, .28);
+		background: rgba(160, 35, 45, .08);
+	}
+
+	.awt-agent-message-meta {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		color: rgba(205, 225, 245, .46);
+		font-size: .62rem;
+	}
+
+	.awt-agent-message-meta strong {
+		color: rgba(235, 246, 255, .82);
+	}
+
+	.awt-agent-message-meta time {
+		margin-left: auto;
+	}
+
+	.awt-agent-message-body {
+		margin: 0;
+		color: rgba(239, 248, 255, .88);
+		font-size: .82rem;
+		line-height: 1.5;
+		overflow-wrap: anywhere;
+	}
+
+	.awt-agent-message-state {
+		font-size: .58rem;
+		letter-spacing: .08em;
+		text-transform: uppercase;
+		color: rgba(205, 225, 245, .4);
+	}
+
+	.awt-agent-chat-error {
+		margin: 0;
+		padding: 9px 11px;
+		border: 1px solid rgba(255, 116, 116, .24);
+		border-radius: 11px;
+		background: rgba(160, 35, 45, .1);
+		color: rgb(255 176 181);
+		font-size: .76rem;
+	}
+
+	.awt-agent-conversation-empty {
+		display: grid;
+		place-items: center;
+		gap: 5px;
+		padding: 28px 15px;
+		text-align: center;
+	}
+
+	.awt-agent-conversation-empty strong {
+		color: rgba(236, 246, 255, .78);
+	}
+
+	.awt-agent-conversation-empty small {
+		color: rgba(205, 225, 245, .42);
+	}
+
+	.awt-agent-empty-orbit {
+		font-size: 1.4rem;
+		color: rgb(var(--agent-violet));
+	}
+}

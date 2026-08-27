@@ -1,0 +1,66 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Focus is the visible path of intention. The Awtsmoos creates the traveler and
+ * the road together; Awtsmoos.com keeps that road bright for keyboard, touch,
+ * high-contrast, reduced-motion, and enlarged-text journeys.
+ */
+:where(button,select,textarea,input,a,[tabindex]):focus-visible{
+	outline:2px solid var(--ai-cyan);
+	outline-offset:2px;
+	box-shadow:var(--ai-focus);
+}
+@media(prefers-reduced-motion:no-preference){
+	button,
+	#conversation-items li,
+	.message,
+	.mobile-app-crown,
+	.mobile-bottom-dock,
+	.sidebar,
+	.automation-panel{
+		transition:
+			transform var(--ai-motion-fast) ease,
+			border-color var(--ai-motion-fast) ease,
+			box-shadow var(--ai-motion-fast) ease,
+			background-color var(--ai-motion-fast) ease,
+			opacity var(--ai-motion-medium) ease;
+	}
+	.render-loading i{
+		animation:awtsmoosAiPulse 1.4s ease-in-out infinite;
+	}
+}
+@keyframes awtsmoosAiPulse{
+	0%,
+	100%{
+		opacity:.5;
+		transform:scale(.86);
+	}
+	50%{
+		opacity:1;
+		transform:scale(1.12);
+	}
+}
+@media(prefers-reduced-motion:reduce){
+	*,
+	*::before,
+	*::after{
+		animation-duration:.001ms;
+		animation-iteration-count:1;
+		transition-duration:.001ms;
+		scroll-behavior:auto;
+	}
+}
+@media(forced-colors:active){
+	button,
+	input,
+	select,
+	textarea,
+	.message,
+	.sidebar,
+	.main,
+	.automation-panel{
+		border:1px solid CanvasText;
+	}
+}

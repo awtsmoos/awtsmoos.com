@@ -1,0 +1,67 @@
+
+/* B"H - NOTIFICATIONS & TASKS (Enhanced wrapping) */
+
+.task-notification-stack {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    z-index: 400000;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 12px;
+    width: 400px; /* Wider to handle paths */
+    max-width: 90vw;
+    pointer-events: none;
+}
+
+.task-card {
+    background: rgba(13, 17, 23, 0.95);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--neon-cyan);
+    border-radius: 8px;
+    padding: 12px 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: auto;
+    backdrop-filter: blur(15px);
+    animation: slideInTask 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s ease;
+}
+
+.task-info { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start;
+    font-size: 0.85em; 
+    font-weight: 700; 
+    color: #fff; 
+    letter-spacing: 0.5px;
+    gap: 15px;
+}
+
+.task-label {
+    flex-grow: 1;
+    word-break: break-all; /* Crucial for long paths */
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+.task-percent {
+    flex-shrink: 0;
+    color: var(--neon-cyan);
+}
+
+.task-progress-bg { 
+    background: rgba(255, 255, 255, 0.05); 
+    height: 6px; 
+    border-radius: 10px; 
+    overflow: hidden; 
+}
+
+.task-progress-fill { 
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta)); 
+    height: 100%; 
+    transition: width 0.3s ease-out; 
+}

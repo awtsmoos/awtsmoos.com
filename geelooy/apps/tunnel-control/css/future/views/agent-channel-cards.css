@@ -1,0 +1,121 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos gives each agent-vessel a tactile operational boundary.
+ * Awtsmoos.com makes selection, focus, depth, and live responsiveness visible
+ * while identity and telemetry remain in their own small style vessels.
+ */
+@layer awt.views {
+	.awt-agent-channel-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+		gap: 12px;
+		perspective: 1100px;
+	}
+
+	.awt-agent-channel {
+		position: relative;
+		display: grid;
+		gap: 14px;
+		min-width: 0;
+		padding: 16px;
+		border: 1px solid rgba(255, 255, 255, .075);
+		border-radius: 20px;
+		overflow: hidden;
+		background:
+			linear-gradient(145deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .012)),
+			rgba(6, 16, 34, .8);
+		box-shadow:
+			0 18px 38px rgba(0, 0, 0, .24),
+			inset 0 1px 0 rgba(255, 255, 255, .055);
+		color: inherit;
+		text-align: left;
+		transform: translateZ(0);
+		transition:
+			transform 220ms ease,
+			border-color 220ms ease,
+			box-shadow 220ms ease;
+	}
+
+	.awt-agent-channel::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(circle at 12% 0%, rgb(var(--agent-violet) / .14), transparent 42%),
+			linear-gradient(120deg, transparent 34%, rgba(255, 255, 255, .045), transparent 66%);
+		pointer-events: none;
+	}
+
+	.awt-agent-channel:hover {
+		transform: translateY(-4px);
+		border-color: rgb(var(--agent-cyan) / .28);
+		box-shadow:
+			0 24px 54px rgba(0, 0, 0, .34),
+			0 0 0 1px rgb(var(--agent-cyan) / .055) inset;
+	}
+
+	.awt-agent-channel:focus-visible {
+		outline: 2px solid rgb(var(--agent-cyan));
+		outline-offset: 4px;
+	}
+
+	.awt-agent-channel.is-selected {
+		border-color: rgb(var(--agent-cyan) / .54);
+		background:
+			linear-gradient(145deg, rgb(var(--agent-cyan) / .11), rgb(var(--agent-violet) / .07)),
+			rgba(6, 17, 37, .92);
+		box-shadow:
+			0 24px 58px rgba(0, 0, 0, .38),
+			0 0 34px rgb(var(--agent-cyan) / .09);
+	}
+
+	.awt-agent-channel.is-selected::after {
+		content: "";
+		position: absolute;
+		inset: auto 16px 0;
+		height: 2px;
+		background: linear-gradient(
+			90deg,
+			transparent,
+			rgb(var(--agent-cyan)),
+			transparent
+		);
+		box-shadow: 0 0 16px rgb(var(--agent-cyan));
+	}
+
+	.awt-agent-channel.is-subagent {
+		border-inline-start: 3px solid rgb(var(--agent-violet) / .72);
+		background:
+			radial-gradient(circle at 0 50%, rgb(var(--agent-violet) / .14), transparent 44%),
+			linear-gradient(145deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .012)),
+			rgba(6, 16, 34, .82);
+	}
+
+	.awt-agent-channel[data-agent-depth="2"],
+	.awt-agent-channel[data-agent-depth="3"],
+	.awt-agent-channel[data-agent-depth="4"],
+	.awt-agent-channel[data-agent-depth="5"],
+	.awt-agent-channel[data-agent-depth="6"],
+	.awt-agent-channel[data-agent-depth="7"],
+	.awt-agent-channel[data-agent-depth="8"] {
+		border-inline-start-color: rgb(var(--agent-cyan) / .68);
+	}
+
+	.awt-agent-channel > details {
+		position: relative;
+		z-index: 1;
+		min-width: 0;
+		padding: 9px 11px;
+		border: 1px solid rgba(255, 255, 255, .08);
+		border-radius: 13px;
+		background: rgba(0, 0, 0, .13);
+	}
+
+	.awt-agent-channel > details > summary {
+		cursor: pointer;
+		font-weight: 700;
+		color: rgb(var(--agent-cyan));
+	}
+}

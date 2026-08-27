@@ -1,0 +1,334 @@
+/*B"H*/
+
+:root {
+    /* Pro Audio Palette */
+    --bg-core: #0f0f0f;       /* Deepest background */
+    --bg-panel: #181818;      /* Toolbar/Header background */
+    --bg-surface: #252525;    /* Button surfaces */
+    --bg-highlight: #333333;  /* Hover states */
+    
+    --accent-primary: #7c4dff; /* Deep Purple */
+    --accent-active: #b388ff;  /* Light Purple */
+    --accent-record: #ff5252;  /* Red for playhead/record */
+    --accent-success: #00e676; /* Green for export */
+    
+    --text-primary: #ffffff;
+    --text-secondary: #aaaaaa;
+    --text-muted: #666666;
+    
+    --border-subtle: #333333;
+    
+    /* Layout Constants */
+    --header-height: 56px;
+    --toolbar-height: 84px; /* Tall enough for thumbs */
+}
+
+/* 1. Global Reset & Layout Foundation */
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* Remove blue tap box on mobile */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-core);
+    color: var(--text-primary);
+    
+    /* CRITICAL: Locks the app to the screen size. No scrolling the page itself. */
+    height: 100vh; 
+    height: 100dvh; /* Adapts to mobile URL bars */
+    width: 100vw;
+    overflow: hidden; 
+    overscroll-behavior: none; /* Prevents "rubber banding" refresh on mobile */
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* 2. Main App Grid */
+.app-container {
+    display: grid;
+    /* Header | Timeline (Flexible) | Toolbar (Fixed) */
+    grid-template-rows: var(--header-height) 1fr var(--toolbar-height);
+    height: 100%;
+    width: 100%;
+}
+
+/* 3. Header Styling */
+header {
+    background-color: var(--bg-panel);
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 100;
+}
+
+header h1 {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Header Buttons (Add / Export) */
+.header-controls {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 4px; /* Pro aesthetic: slight rounding, not pill */
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn.primary {
+    background-color: var(--bg-surface);
+    color: var(--accent-active);
+    border: 1px solid var(--accent-primary);
+}
+
+.btn.primary:active {
+    background-color: var(--accent-primary);
+    color: #fff;
+}
+
+.btn.success {
+    background-color: var(--accent-success);
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
+}
+
+.btn:disabled {
+    opacity: 0.3;
+    filter: grayscale(1);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* 4. The Workspace (Canvas Area) */
+.editor-workspace {
+    position: relative;
+    background-color: var(--bg-core);
+    width: 100%;
+    height: 100%; /* Fills the middle grid row */
+    overflow: hidden;
+    /* Add a subtle grid texture pattern */
+    background-image: 
+        linear-gradient(var(--bg-panel) 1px, transparent 1px),
+        linear-gradient(90deg, var(--bg-panel) 1px, transparent 1px);
+    background-size: 100px 100px;
+}
+
+#timeline-container {
+    width: 100%;
+    height: 100%;
+}
+
+canvas {
+    display: block; /* Removes bottom scrollbar ghosting */
+    touch-action: none; /* Crucial for JS drag handling */
+}
+
+/* 5. The "Control Deck" (Toolbar) */
+.toolbar {
+    background-color: var(--bg-panel);
+    border-top: 1px solid var(--border-subtle);
+    display: grid;
+    /* Left Controls | Main Transport | Zoom/Right */
+    grid-template-columns: 1fr auto 1fr; 
+    align-items: center;
+    padding: 0 16px;
+    
+    /* Safe Area for iPhone Home Bar */
+    padding-bottom: env(safe-area-inset-bottom); 
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+    z-index: 100;
+}
+
+/* Grouping containers */
+.tool-controls { justify-self: start; display: flex; gap: 8px; }
+.transport-controls { justify-self: center; display: flex; align-items: center; gap: 24px; }
+.zoom-controls { justify-self: end; display: flex; align-items: center; gap: 8px; }
+
+/* 6. Iconic Buttons (Play, Split, etc) */
+.icon-btn {
+    appearance: none;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.15s, transform 0.1s;
+    
+    /* Desktop sizing */
+    width: 44px;
+    height: 44px;
+}
+
+.icon-btn:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.icon-btn:active {
+    transform: scale(0.92);
+    background-color: rgba(255,255,255,0.2);
+}
+
+/* Specialized Buttons */
+#split-btn { color: var(--text-primary); }
+#delete-btn { color: var(--text-muted); }
+#delete-btn:hover { color: var(--accent-record); }
+
+#play-pause-btn {
+    width: 64px;
+    height: 64px;
+    background-color: var(--accent-primary);
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
+}
+
+#play-pause-btn:active {
+    background-color: var(--accent-active);
+    transform: scale(0.95);
+}
+
+/* 7. Sliders & Inputs */
+input[type="range"] {
+    -webkit-appearance: none;
+    background: transparent;
+    width: 100px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+    margin-top: -4px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    background: var(--bg-highlight);
+    border-radius: 2px;
+}
+
+/* 8. Overlays & Utils */
+#status-bar {
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    background: rgba(0,0,0,0.5);
+    color: var(--text-secondary);
+    pointer-events: none;
+    z-index: 50;
+    backdrop-filter: blur(4px);
+}
+
+#loading-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255,255,255,0.1);
+    border-top-color: var(--accent-primary);
+    border-radius: 50%;
+    animation: spin 0.8s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite;
+    margin-bottom: 16px;
+}
+
+.hidden { display: none !important; }
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* =========================================
+   MOBILE / RESPONSIVE OVERRIDES
+   ========================================= */
+/* =========================================
+   MOBILE / RESPONSIVE OVERRIDES
+   ========================================= */
+@media (max-width: 768px) {
+    .app-container {
+        grid-template-rows: 50px 1fr auto; /* Auto height for toolbar */
+    }
+    
+    header { padding: 0 12px; }
+
+    .header-controls .btn span { display: none; } /* Icon only header buttons */
+    .header-controls .btn { padding: 8px 12px; }
+
+    /* SCROLLABLE TOOLBAR LOGIC */
+    .toolbar {
+        display: flex;
+        flex-wrap: nowrap;          /* Force single line */
+        overflow-x: auto;           /* Enable horizontal scroll */
+        justify-content: flex-start; 
+        gap: 20px;
+        padding: 15px 15px;         /* More padding for touch */
+        padding-bottom: max(15px, env(safe-area-inset-bottom));
+        
+        /* Hide scrollbar visually but keep functionality */
+        -ms-overflow-style: none;  
+        scrollbar-width: none;  
+        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    }
+    
+    .toolbar::-webkit-scrollbar { 
+        display: none; 
+    }
+
+    /* Prevent groups from squashing */
+    .transport-controls, 
+    .tool-controls, 
+    .zoom-controls { 
+        flex-shrink: 0; 
+        display: flex;
+        gap: 15px;
+    }
+
+    /* Bring back Zoom controls (scroll to right to see them) */
+    .zoom-controls { 
+        display: flex !important; 
+        padding-left: 15px;
+        border-left: 1px solid #333;
+    }
+
+    /* Adjust button sizes for touch */
+    .icon-btn { width: 50px; height: 50px; background: var(--bg-surface); }
+    #play-pause-btn { width: 60px; height: 60px; }
+}

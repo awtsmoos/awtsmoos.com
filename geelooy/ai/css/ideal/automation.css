@@ -1,0 +1,7 @@
+/*B"H
+  Chapter 316: The Old Automation Scroll Became Silent.
+
+  The Awtsmoos removes phantom ownership. Automation panel styling now belongs
+  only to `css/right-panel/*`; this file remains as a named historical gate in
+  the cascade so import order stays stable while selector conflict disappears.
+*/

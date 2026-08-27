@@ -1,0 +1,103 @@
+/*B"H
+  Chapter 15: Empty Space Became A Nebula Gate.
+
+  The Awtsmoos fills the silent chat chamber with a calm launch card. It is not
+  more chrome; it is purpose inside the void, lit by violet depth and cyan
+  remembrance.
+*/
+.ai-empty-state{
+  align-self:center;
+  justify-self:center;
+  width:min(760px,92%);
+  margin:auto;
+  padding:32px;
+  border:1px solid rgba(192,132,252,.22);
+  border-radius:32px;
+  background:
+    radial-gradient(circle at 52% 0,rgba(192,132,252,.24),transparent 42%),
+    radial-gradient(circle at 50% 100%,rgba(34,211,197,.12),transparent 44%),
+    linear-gradient(180deg,rgba(12,22,40,.78),rgba(5,11,22,.92));
+  box-shadow:0 28px 86px rgba(0,0,0,.48),0 0 64px rgba(88,28,135,.20),inset 0 1px 0 rgba(255,255,255,.05);
+  text-align:center;
+  color:#eaf5ff;
+  backdrop-filter:blur(24px) saturate(1.25);
+  -webkit-backdrop-filter:blur(24px) saturate(1.25);
+  position:relative;
+  overflow:hidden;
+}
+.ai-empty-state::before{
+  content:"";
+  position:absolute;
+  inset:18% -18% -35%;
+  background:radial-gradient(ellipse at center,rgba(124,58,237,.30),transparent 60%);
+  filter:blur(28px);
+  opacity:.65;
+  pointer-events:none;
+}
+.ai-empty-state>*{position:relative;z-index:1}
+.ai-empty-state[hidden]{display:none!important}
+.ai-empty-orb{
+  width:64px;
+  height:64px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 16px;
+  border-radius:24px;
+  color:#e9d5ff;
+  border:1px solid rgba(192,132,252,.38);
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,255,255,.22),transparent 35%),
+    linear-gradient(135deg,rgba(34,211,197,.18),rgba(124,58,237,.32));
+  box-shadow:0 0 42px rgba(124,58,237,.30),0 0 24px rgba(34,211,197,.14);
+  font-size:26px;
+}
+.ai-empty-state h1{
+  margin:0 0 9px;
+  font-size:clamp(26px,4vw,46px);
+  line-height:1;
+  letter-spacing:.035em;
+}
+.ai-empty-state p{
+  margin:0 auto 20px;
+  max-width:560px;
+  color:#b8c4d8;
+  line-height:1.58;
+}
+.ai-empty-prompts{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+}
+.ai-empty-prompts button{
+  min-height:38px;
+  padding:8px 14px;
+  border:1px solid rgba(192,132,252,.30);
+  border-radius:999px;
+  background:rgba(21,13,43,.72);
+  color:#e9d5ff;
+  font-weight:850;
+  box-shadow:0 12px 28px rgba(88,28,135,.20),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.ai-empty-prompts button:hover{
+  border-color:rgba(34,211,197,.38);
+  transform:translateY(-1px);
+}
+body.is-awtsmoos-embedded-ai .ai-empty-state{
+  width:min(860px,88%);
+  padding:28px;
+}
+@media(max-width:900px){
+  .ai-empty-state{
+    width:calc(100% - 24px);
+    padding:24px 16px;
+  }
+  .ai-empty-prompts{
+    overflow:auto;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    scrollbar-width:none;
+  }
+  .ai-empty-prompts::-webkit-scrollbar{display:none}
+  .ai-empty-prompts button{flex:0 0 auto}
+}

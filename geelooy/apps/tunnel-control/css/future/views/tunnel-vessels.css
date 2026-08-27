@@ -1,0 +1,118 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos gives each verified vessel a visible route, health song, capability garment, and safe cross-app doorway without exposing raw inventory. */
+
+.awt-vessel-detail {
+	display: grid;
+	gap: 10px;
+	padding: 14px;
+	border: 1px solid color-mix(in srgb, var(--awt-border, #6f8fb2) 55%, transparent);
+	border-radius: 16px;
+	background: color-mix(in srgb, var(--awt-surface, #102235) 82%, transparent);
+}
+
+.awt-vessel-detail + .awt-vessel-detail {
+	margin-top: 10px;
+}
+
+.awt-vessel-detail.is-selected {
+	border-color: color-mix(in srgb, var(--awt-accent, #8fe7ff) 75%, transparent);
+	box-shadow: 0 0 0 1px color-mix(in srgb, var(--awt-accent, #8fe7ff) 20%, transparent);
+}
+
+.awt-vessel-detail__heading {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 8px;
+	align-items: baseline;
+}
+
+.awt-vessel-detail__heading span {
+	font-size: .76rem;
+	font-weight: 700;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	opacity: .72;
+}
+
+.awt-vessel-detail code {
+	display: block;
+	padding: 8px 10px;
+	border-radius: 9px;
+	background: color-mix(in srgb, #030b14 85%, transparent);
+	color: #9fe9ff;
+	overflow-wrap: anywhere;
+}
+
+.awt-vessel-detail p {
+	margin: 0;
+	line-height: 1.5;
+}
+
+.awt-vessel-health {
+	display: grid;
+	gap: 3px;
+	padding: 9px 10px;
+	border: 1px solid color-mix(in srgb, var(--awt-border, #6f8fb2) 50%, transparent);
+	border-radius: 11px;
+	background: color-mix(in srgb, var(--awt-surface, #102235) 68%, transparent);
+}
+
+.awt-vessel-health strong {
+	font-size: .82rem;
+}
+
+.awt-vessel-health span {
+	font-size: .78rem;
+	line-height: 1.45;
+	opacity: .8;
+}
+
+.awt-vessel-health.is-healthy,
+.awt-vessel-health.is-virtual {
+	border-color: color-mix(in srgb, var(--awt-accent, #8fe7ff) 55%, transparent);
+}
+
+.awt-vessel-health.is-degraded,
+.awt-vessel-health.is-probing {
+	border-style: dashed;
+}
+
+.awt-vessel-health.is-offline {
+	opacity: .68;
+}
+
+.awt-vessel-capabilities,
+.awt-vessel-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.awt-vessel-capabilities span,
+.awt-vessel-actions a {
+	padding: 4px 8px;
+	border: 1px solid color-mix(in srgb, var(--awt-border, #6f8fb2) 50%, transparent);
+	border-radius: 999px;
+	font-size: .76rem;
+	background: color-mix(in srgb, var(--awt-surface, #102235) 70%, transparent);
+}
+
+.awt-vessel-actions a {
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.awt-vessel-actions a:hover,
+.awt-vessel-actions a:focus-visible {
+	border-color: var(--awt-accent, #8fe7ff);
+	outline: none;
+}
+
+.awt-vessel-table td:nth-child(3),
+.awt-vessel-table th:nth-child(3) {
+	max-width: 260px;
+	overflow-wrap: anywhere;
+}

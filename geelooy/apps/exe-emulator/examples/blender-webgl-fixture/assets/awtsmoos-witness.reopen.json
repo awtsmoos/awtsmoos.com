@@ -1,0 +1,30 @@
+{
+  "blend": {
+    "cameraCount": 1,
+    "lightCount": 3,
+    "meshCount": 3,
+    "names": [
+      "Awtsmoos Ground",
+      "Fill Light",
+      "Key Light",
+      "Luminous Sphere",
+      "Renewed Cube",
+      "Rim Light",
+      "Witness Camera"
+    ],
+    "objectCount": 7
+  },
+  "blenderVersion": "3.6.7",
+  "glb": {
+    "cameraCount": 0,
+    "lightCount": 0,
+    "meshCount": 3,
+    "names": [
+      "Awtsmoos Ground",
+      "Luminous Sphere",
+      "Renewed Cube"
+    ],
+    "objectCount": 3
+  },
+  "schemaVersion": "1.0.0"
+}

@@ -1,0 +1,93 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-social-0cd2dc86",
+	"path": "geelooy/api/social",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/social",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/social/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-social-0cd2dc86.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1038,
+		"tests": 148,
+		"assets": 0,
+		"generated": 0,
+		"docs": 5,
+		"other": 1
+	},
+	"totalFiles": 1192,
+	"symbolSummary": {
+		"files": 532,
+		"classes": 11,
+		"functions": 2574,
+		"exports": 2151,
+		"samples": [
+			"metadata",
+			"requireLogin",
+			"ownershipResponse",
+			"createAliasSafely",
+			"deleteAliasSafely",
+			"aliasEntityRoute",
+			"needs",
+			"targetFromBody",
+			"method",
+			"input",
+			"json",
+			"query"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "ayzarim/DosDB",
+			"count": 33,
+			"examples": "geelooy/api/social/helper/comments/aliasIndex/PackedIndexStore.js; geelooy/api/social/helper/comments/canonicalCommentSource.js; geelooy/api/social/helper/comments/commentAwtsmoosDbBridge.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/sites",
+			"count": 5,
+			"examples": "geelooy/sites/siteGateway.js; geelooy/sites/siteResolution.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 2,
+			"examples": "geelooy/api/tunnel/control/routes/osFs/listRead.js; geelooy/api/tunnel/control/routes/osFs/writeOps.js"
+		},
+		{
+			"project": "ayzarim/email",
+			"count": 1,
+			"examples": "ayzarim/email/awtsmoosEmailIngress.js"
+		},
+		{
+			"project": "geelooy/api/email",
+			"count": 1,
+			"examples": "geelooy/api/email/_awtsmoos.derech.js"
+		},
+		{
+			"project": "geelooy/api/wallet",
+			"count": 1,
+			"examples": "geelooy/api/wallet/core/transferIdentity.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

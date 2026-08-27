@@ -1,0 +1,267 @@
+/* B"H */
+/* STUDIO NLE STYLES - PREMIERE EXTREME EDITION */
+
+#modal-studio { 
+    background: #121212; 
+    border: 1px solid #333;
+    box-shadow: 0 0 100px rgba(0,0,0,0.9);
+    display: flex; flex-direction: column;
+    width: 98vw; height: 96vh;
+    padding: 0; overflow: hidden;
+    font-family: 'Segoe UI', sans-serif; /* Professional Font */
+}
+
+/* --- TOP SECTION --- */
+.studio-top { 
+    flex: 60; 
+    display: flex; min-height: 200px; 
+    border-bottom: 2px solid #000;
+    overflow: hidden;
+    position: relative;
+    background: #1a1a1a;
+}
+
+/* RESIZER */
+#studio-resizer {
+    height: 6px;
+    background: #080808;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+    cursor: ns-resize;
+    flex-shrink: 0;
+    z-index: 100;
+    display: flex; justify-content: center; align-items: center;
+}
+#studio-resizer:hover { background: var(--c-cyan); height: 6px; }
+
+/* PREVIEW AREA */
+.studio-preview-wrapper { 
+    flex: 1; background: #0f0f0f; position: relative; 
+    display: flex; align-items: center; justify-content: center; 
+    overflow: hidden; 
+}
+
+#studio-preview-canvas { 
+    box-shadow: 0 0 50px rgba(0,0,0,0.5); 
+    border: 1px solid #333; 
+    cursor: grab;
+}
+#studio-preview-canvas:active { cursor: grabbing; }
+
+.studio-stat { 
+    position: absolute; top: 15px; left: 15px;
+    background: rgba(0,0,0,0.5); color: #fff; 
+    padding: 4px 8px; font-size: 12px; font-weight: bold;
+    border-left: 3px solid var(--c-cyan);
+    pointer-events: none; z-index: 100; font-family: monospace;
+}
+
+.studio-help-hint {
+    position: absolute; top: 15px; right: 15px;
+    color: #666; font-size: 10px; pointer-events: none;
+}
+
+/* PROPERTIES PANEL */
+.studio-props { 
+    width: 320px; border-right: 1px solid #000; 
+    background: #181818; display: flex; flex-direction: column; 
+    z-index: 50; flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.prop-tabs { 
+    display: flex; border-bottom: 1px solid #000; 
+    background: #222; height: 36px; flex-shrink: 0; 
+}
+.tab-btn { 
+    flex: 1; background: #222; color: #888; 
+    cursor: pointer; border: none; font-weight: 600; font-size: 11px;
+    border-bottom: 2px solid transparent; transition: 0.2s;
+    text-transform: uppercase;
+}
+.tab-btn:hover { color: #eee; background: #2a2a2a; }
+.tab-btn.active { color: var(--c-cyan); background: #181818; border-bottom-color: var(--c-cyan); }
+
+.prop-inner-content { 
+    padding: 15px; flex: 1; overflow-y: auto; 
+    display: flex; flex-direction: column; gap: 15px; 
+}
+/* Scrollbar for props */
+.prop-inner-content::-webkit-scrollbar { width: 6px; }
+.prop-inner-content::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+
+.prop-group { display: flex; flex-direction: column; gap: 6px; }
+.prop-group label { font-size: 10px; color: #888; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; }
+
+/* INPUTS */
+.cyber-input {
+    background: #080808; border: 1px solid #333; 
+    color: #ddd; padding: 8px; font-size: 12px; 
+    width: 100%; font-family: monospace; border-radius: 3px;
+}
+.cyber-input:focus { border-color: var(--c-cyan); outline: none; }
+
+/* BUTTONS */
+.btn-tool, .modal-btn {
+    background: #2a2a2a; 
+    border: 1px solid #333; 
+    color: #ccc;
+    padding: 6px 12px; 
+    font-size: 11px; 
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.1s;
+    text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center;
+}
+.btn-tool:hover, .modal-btn:hover {
+    background: #333; border-color: #666; color: #fff;
+}
+.btn-tool:active { transform: translateY(1px); }
+
+.btn-danger, .modal-btn.danger { border-color: #522; color: #f55; background: #2a1a1a; }
+.btn-danger:hover { background: #f00; color: #fff; border-color: #f00; }
+
+.full-width { width: 100%; }
+
+/* --- TIMELINE AREA --- */
+.studio-bottom { 
+    flex: 40; 
+    background: #141414; 
+    display: flex; flex-direction: column; 
+    position: relative; min-height: 200px; 
+}
+
+/* TOOLBAR */
+.studio-toolbar {
+    height: 44px; background: #1a1a1a; border-top: 1px solid #333; border-bottom: 1px solid #000;
+    display: flex; align-items: center; padding: 0 10px; gap: 8px;
+    overflow-x: auto; flex-shrink: 0;
+}
+.studio-toolbar .btn-tool { height: 28px; padding: 0 10px; }
+
+/* TIMELINE HEADER */
+.timeline-header { height: 28px; background: #111; display: flex; border-bottom: 1px solid #333; position: relative; flex-shrink: 0; }
+.track-head { 
+    width: 140px; background: #181818; border-right: 1px solid #333; 
+    display: flex; align-items: center; justify-content: center; 
+    font-size: 10px; color: #666; flex-shrink: 0; font-weight: bold;
+}
+.ruler-container { flex: 1; position: relative; overflow: hidden; background: #111; cursor: text; }
+.ruler-mark { 
+    position: absolute; height: 100%; border-left: 1px solid #333; 
+    color: #555; font-size: 9px; padding-left: 4px; top: 0; pointer-events: none;
+}
+.ruler-mark.major { color: #888; border-left: 1px solid #555; font-weight: bold; }
+
+#scrub-trigger {
+    position: absolute; top: 0; left: 140px; width: calc(100% - 140px); height: 100%;
+    z-index: 100; cursor: ew-resize;
+}
+
+.timeline-tracks { flex: 1; overflow: auto; position: relative; background: #0a0a0a; }
+
+/* TRACKS */
+.nle-track { 
+    min-height: 60px; margin-bottom: 1px; background: #111; 
+    border-bottom: 1px solid #000; display: flex; position: relative; 
+}
+.track-label { 
+    width: 140px; background: #1a1a1a; 
+    border-right: 1px solid #333;
+    color: #888; font-size: 10px; display: flex; flex-direction: column;
+    justify-content: center; padding: 0 8px; gap: 4px;
+    flex-shrink: 0; position: sticky; left: 0; z-index: 30; 
+}
+
+.track-lane { position: absolute; left: 140px; top: 0; height: 100%; }
+
+/* CLIPS */
+.nle-block { 
+    position: absolute; height: 80%; top: 10%; 
+    cursor: pointer; overflow: visible; border-radius: 2px; 
+    border: 1px solid transparent; 
+    font-size: 10px; font-weight: bold; color: #eee;
+    touch-action: none; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.nle-block:hover { border-color: #fff; z-index: 20; filter: brightness(1.1); }
+.nle-block.selected { border: 1px solid #fff; box-shadow: 0 0 0 1px #fff; z-index: 25; }
+
+.audio-block { background: #1a4d2e; border-color: #2a6d3e; }
+.media-block { background: #4d1a3e; border-color: #6d2a5e; }
+.caption-block { background: #1a3e4d; border-color: #2a5e6d; }
+.effect-block { background: #333; border-color: #666; border-style:dashed; } 
+
+.block-content { padding: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+
+/* TRIM HANDLES */
+.trim-handle {
+    position: absolute; top: 0; bottom: 0; width: 10px; 
+    background: rgba(0,0,0,0.2); z-index: 30;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.1s;
+}
+.nle-block:hover .trim-handle, .nle-block.selected .trim-handle { opacity: 1; }
+.trim-handle.left { left: 0; cursor: w-resize; border-right: 1px solid rgba(255,255,255,0.3); }
+.trim-handle.right { right: 0; cursor: e-resize; border-left: 1px solid rgba(255,255,255,0.3); }
+.trim-handle:hover { background: var(--c-cyan); }
+
+/* PLAYHEAD */
+.timeline-playhead { 
+    position: absolute; top: 0; width: 1px; 
+    background: #f00; z-index: 100; pointer-events: none; 
+    left: 140px;
+    /* Height set by JS to scrollHeight */
+}
+.timeline-playhead::before {
+    content: ''; position: absolute; top: -10px; left: -5px;
+    border-left: 5px solid transparent; border-right: 5px solid transparent;
+    border-top: 10px solid #f00;
+}
+
+/* FAB */
+#studio-fab {
+    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+    background: #000; border: 2px solid var(--c-magenta);
+    padding: 10px 20px; color: var(--c-magenta); font-weight: bold;
+    cursor: pointer; box-shadow: 0 0 20px rgba(255,0,85,0.5);
+    display: flex; align-items: center; gap: 10px;
+}
+
+/* MOBILE OPTIMIZATIONS */
+.mobile-only { display: none; }
+
+@media (max-width: 768px) {
+    #modal-studio { width: 100vw; height: 100vh; border: none; border-radius: 0; }
+    
+    .mobile-only { display: flex; }
+    
+    /* Responsive Top */
+    .studio-top { flex-direction: column; flex: auto; min-height: 35vh; }
+    
+    /* Drawer for Properties */
+    .studio-props { 
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        border: none; background: rgba(10,10,10,0.98); 
+        transform: translateX(-100%); z-index: 200;
+    }
+    .studio-props.open { transform: translateX(0); }
+    
+    .studio-preview-wrapper { flex: 1; border-bottom: 1px solid #333; }
+    
+    /* Compact Toolbar */
+    .studio-toolbar { padding: 0 5px; gap: 5px; height: 40px; }
+    .studio-toolbar .btn-tool { font-size: 9px; padding: 0 8px; height: 26px; }
+    
+    /* Compact Timeline */
+    .track-head, .track-label { width: 60px; font-size: 9px; padding: 0 2px; }
+    .timeline-playhead { left: 60px; }
+    .track-lane { left: 60px; }
+    #scrub-trigger { left: 60px; width: calc(100% - 60px); }
+    
+    .nle-track { min-height: 40px; }
+    .nle-block { top: 5%; height: 90%; font-size: 9px; }
+}

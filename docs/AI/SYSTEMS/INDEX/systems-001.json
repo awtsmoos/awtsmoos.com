@@ -1,0 +1,24 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"provenance": "generated-system-file-index",
+	"systems": [
+		"RECORDS/database-root-resolution.json",
+		"RECORDS/dosdb-filesystem.json",
+		"RECORDS/awtsmoos-binary-json.json",
+		"RECORDS/awtsmoosdb-virtualfs.json",
+		"RECORDS/social-packed-storage.json",
+		"RECORDS/persistence-path-contracts.json",
+		"RECORDS/parallel-awtsmoosdb.json",
+		"RECORDS/session-authentication.json",
+		"RECORDS/oauth-bearer-identity.json",
+		"RECORDS/tunnel-control-identity.json",
+		"RECORDS/authorization-resource-ownership.json",
+		"RECORDS/secrets-runtime-config.json",
+		"RECORDS/realtime-identity-admission.json",
+		"RECORDS/websocket-upgrade-session.json",
+		"RECORDS/realtime-application-routing.json",
+		"RECORDS/mission-room-admission.json",
+		"RECORDS/tunnel-relay.json",
+		"RECORDS/realtime-application-events.json"
+	]
+}

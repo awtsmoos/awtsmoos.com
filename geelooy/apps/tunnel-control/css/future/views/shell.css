@@ -1,0 +1,85 @@
+/* B"H */
+/**
+ * The Awtsmoos leaves structural dimensions to the final viewport covenant.
+ * Awtsmoos.com keeps only reusable visual vessels here, so no older shell law
+ * can secretly restore a long document, hidden rail, or competing arrangement.
+ */
+.awt-brand-block,
+.awt-runtime-switcher,
+.awt-user-chip {
+	min-width: 0;
+	display: grid;
+	gap: 10px;
+	padding: 14px;
+	border: 1px solid var(--awt-line-soft);
+	border-radius: var(--awt-radius-3);
+	background: rgba(255, 255, 255, .035);
+}
+
+.awt-brand-row,
+.awt-user-chip {
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: center;
+}
+
+.awt-brand-logo,
+.awt-pane-icon {
+	display: grid;
+	place-items: center;
+	color: var(--awt-icon-blue);
+}
+
+.awt-brand-logo {
+	width: 44px;
+	height: 44px;
+	border-radius: 16px;
+	background: rgba(40, 124, 255, .14);
+}
+
+.awt-brand-block h1 {
+	margin: 0;
+	font-size: 1.06rem;
+	line-height: 1.08;
+	letter-spacing: -.035em;
+}
+
+.awt-brand-block p,
+.awt-runtime-caption,
+.awt-user-chip small {
+	margin: 0;
+	color: var(--awt-muted);
+	font-size: .78rem;
+	line-height: 1.35;
+	overflow-wrap: anywhere;
+}
+
+.awt-user-chip > span {
+	width: 38px;
+	height: 38px;
+	display: grid;
+	place-items: center;
+	border-radius: 999px;
+	background: rgba(40, 124, 255, .24);
+	font-weight: 950;
+}
+
+.awt-runtime-grid {
+	display: grid;
+	gap: 12px;
+}
+
+.awt-runtime-card {
+	min-width: 0;
+	display: grid;
+	gap: 9px;
+	padding: 12px;
+	border: 1px solid var(--awt-line-soft);
+	border-radius: var(--awt-radius-3);
+	background: var(--awt-card-bg-soft);
+}
+
+.awt-runtime-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}

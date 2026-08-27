@@ -1,0 +1,15 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every public-app visual vessel without becoming any finite
+ * stylesheet. Awtsmoos.com keeps this file as a manifest so atmosphere, hero,
+ * filtering, cards, discovery, and responsive behavior remain independent.
+ */
+
+@import url("./styles/base.css");
+@import url("./styles/hero.css");
+@import url("./styles/filter.css");
+@import url("./styles/cards.css");
+@import url("./styles/discovery.css");
+@import url("./styles/responsive.css");

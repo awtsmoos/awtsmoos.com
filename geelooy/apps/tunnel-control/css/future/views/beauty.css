@@ -1,0 +1,115 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter 415: Beauty Stopped Blocking The Road.
+ *
+ * The Awtsmoos draws a living command skin: ribbon, pulse, palette, graph,
+ * constellation, mission focus, and timeline. Yet every heavenly overlay must
+ * know bittul: when hidden, it is truly hidden, and when opened, it gives the
+ * traveler a close door, not a wall.
+ */
+.awt-beauty-layer {
+  position: fixed;
+  right: clamp(10px, 1.3vw, 18px);
+  top: clamp(10px, 1.3vw, 18px);
+  width: min(390px, calc(100vw - 20px));
+  max-height: calc(100vh - 20px);
+  display: grid;
+  gap: 10px;
+  overflow: auto;
+  padding: 10px;
+  border: 1px solid rgba(120, 220, 255, .18);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(5, 16, 32, .78), rgba(5, 12, 24, .62));
+  box-shadow: 0 28px 80px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter: blur(18px);
+  z-index: 60;
+}
+
+.awt-beauty-layer h3,
+.awt-beauty-palette h3 { margin: 0; font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; color: var(--awt-gold); }
+.awt-beauty-layer section { min-width: 0; display: grid; gap: 8px; padding: 10px; border: 1px solid rgba(255,255,255,.08); border-radius: 18px; background: rgba(255,255,255,.04); }
+
+.awt-health-ribbon { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.awt-health-chip { min-width: 0; display: grid; gap: 2px; padding: 8px; border-radius: 14px; background: rgba(255,255,255,.04); }
+.awt-health-chip span { color: var(--awt-gold); }
+.awt-health-chip[data-state="good"] span { color: var(--awt-green); }
+.awt-health-chip strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .72rem; }
+.awt-health-chip small { color: var(--awt-muted); font-size: .64rem; }
+
+.awt-quick-actions,
+.awt-favorites-list,
+.awt-spotlight-list { display: flex !important; flex-wrap: wrap; gap: 7px; }
+.awt-quick-action,
+.awt-favorite-pill,
+.awt-suggestion,
+.awt-map-node,
+.awt-spotlight-row,
+.awt-command-item {
+  border: 1px solid rgba(113, 214, 255, .18);
+  border-radius: 999px;
+  padding: 8px 10px;
+  color: var(--awt-ink);
+  background: rgba(40, 124, 255, .12);
+  cursor: pointer;
+}
+.awt-command-item,
+.awt-spotlight-row { border-radius: 14px; display: grid; gap: 3px; text-align: left; }
+.awt-command-item small,
+.awt-spotlight-row small { color: var(--awt-muted); }
+
+.awt-activity-pulse { height: 54px; display: flex !important; align-items: end; gap: 4px; }
+.awt-activity-pulse i { flex: 1; height: var(--h); min-height: 8px; border-radius: 999px; background: linear-gradient(180deg, var(--awt-gold), rgba(40,124,255,.42)); transition: height .35s ease; }
+
+.awt-event-list,
+.awt-timeline-list { display: grid; gap: 6px; max-height: 190px; overflow: auto; }
+.awt-event-card,
+.awt-timeline-row,
+.awt-thinking-row { display: grid; gap: 3px; padding: 8px; border-radius: 12px; background: rgba(0,0,0,.16); }
+.awt-event-card small,
+.awt-timeline-row span,
+.awt-thinking-row span { color: var(--awt-muted); font-size: .72rem; }
+
+.awt-map-group { border-radius: 12px; background: rgba(0,0,0,.12); padding: 6px; }
+.awt-map-group summary { cursor: pointer; color: var(--awt-ink); font-weight: 800; }
+.awt-map-node { width: 100%; margin-top: 5px; text-align: left; }
+
+.awt-graph-nodes,
+.awt-stars { min-height: 126px; position: relative; border-radius: 18px; background: radial-gradient(circle at 50% 50%, rgba(54,195,255,.18), transparent 62%); }
+.awt-graph-nodes span,
+.awt-stars span { position: relative; display: inline-grid; place-items: center; margin: 7px; min-width: 70px; min-height: 34px; border-radius: 999px; background: rgba(255,255,255,.07); color: var(--awt-ink); font-size: .72rem; }
+.awt-stars span::before { content: "✦"; color: var(--awt-gold); margin-right: 4px; }
+
+.awt-beauty-palette {
+  position: fixed;
+  inset: 8vh auto auto 50%;
+  transform: translateX(-50%);
+  width: min(620px, calc(100vw - 24px));
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid rgba(113,214,255,.24);
+  border-radius: 22px;
+  background: rgba(5, 14, 30, .94);
+  box-shadow: 0 30px 90px rgba(0,0,0,.45);
+  z-index: 90;
+}
+.awt-beauty-palette.is-hidden { display: none !important; }
+.awt-command-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.awt-command-close { border-radius: 999px; padding: 7px 10px; }
+.awt-beauty-input,
+.awt-spotlight-input { width: 100%; min-height: 42px; border-radius: 14px; border: 1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.2); color: var(--awt-ink); padding: 10px 12px; }
+.awt-beauty-results { display: grid; gap: 7px; }
+
+body::before { animation: awtMeshDrift 28s linear infinite; }
+body.awt-mission-mode .awt-control-side,
+body.awt-mission-mode .awt-beauty-layer section:not(.awt-health-ribbon):not(.awt-quick-actions):not(.awt-agent-thinking) { display: none; }
+body.awt-mission-mode .awt-beauty-layer { width: min(330px, calc(100vw - 20px)); }
+body.awt-mission-mode .awt-control-main { filter: saturate(1.15); }
+
+@keyframes awtMeshDrift { from { background-position: 0 0, 0 0, center; } to { background-position: 96px 48px, -96px -48px, center; } }
+
+@media (max-width: 900px) {
+  .awt-beauty-layer { position: relative; inset: auto; width: auto; max-height: none; margin: 10px; z-index: 4; }
+  .awt-health-ribbon { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

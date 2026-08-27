@@ -1,0 +1,114 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives each caption setting a calm semantic chamber.
+ */
+
+fieldset {
+	position: relative;
+	min-inline-size: 0;
+	margin: 0 0 1rem;
+	padding: 1rem;
+	border: 1px solid var(--studio-line);
+	border-radius: var(--studio-radius-m);
+	background: #0d1621;
+}
+
+legend {
+	padding: 0 .45rem;
+	color: var(--studio-cyan);
+	font-size: .82rem;
+	font-weight: 900;
+	letter-spacing: .08em;
+	text-transform: uppercase;
+}
+
+.row {
+	display: flex;
+	gap: .7rem;
+	min-inline-size: 0;
+}
+
+.row + .row,
+.row + .form-group,
+.form-group + .row,
+.form-group + .form-group,
+.tabs + .form-group,
+.tabs + div,
+div + .file-label,
+.file-label + .file-label,
+.control-group + .control-group,
+.slider-group + .form-group {
+	margin-block-start: .75rem;
+}
+
+.half {
+	flex: 1 1 0;
+	min-inline-size: 0;
+}
+
+.form-group,
+.file-label,
+.control-group,
+.slider-group,
+.preset-field,
+#preset-name-field {
+	display: grid;
+	gap: .38rem;
+	min-inline-size: 0;
+	color: var(--studio-muted);
+	font-size: .78rem;
+	font-weight: 800;
+	letter-spacing: .02em;
+}
+
+.form-group > span,
+.file-label > span,
+.preset-field > span,
+#preset-name-field > span {
+	display: inline-flex;
+	align-items: center;
+	gap: .38rem;
+}
+
+.form-group > span::before,
+.file-label > span::before {
+	inline-size: .38rem;
+	block-size: .38rem;
+	border-radius: 50%;
+	background: var(--studio-cyan);
+	content: "";
+}
+
+.control-group label,
+.slider-group label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: .75rem;
+}
+
+.value-display {
+	padding: .2rem .42rem;
+	border-radius: 999px;
+	background: var(--studio-cyan-soft);
+	color: #a5ecf3;
+	font-size: .72rem;
+}
+
+.status-text {
+	margin: .5rem 0 0;
+	color: var(--studio-faint);
+	font-size: .78rem;
+	line-height: 1.45;
+}
+
+.hidden-control,
+.hidden {
+	display: none !important;
+}
+
+#translation-caption-field:not(.hidden-control) {
+	margin-block-start: .75rem;
+}

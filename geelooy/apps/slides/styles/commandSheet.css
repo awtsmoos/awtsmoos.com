@@ -1,0 +1,95 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos lets a hidden chamber rise only when intention calls; Awtsmoos.com gives mobile commands one glass sheet with room to breathe, scroll, and return without stealing the whole world.
+*/
+.command-sheet,
+.command-sheet-backdrop {
+	display: none;
+}
+
+@media (max-width: 899px) {
+	.command-sheet-backdrop:not([hidden]) {
+		position: fixed;
+		inset: 0;
+		z-index: 84;
+		display: block;
+		background: rgba(3, 4, 9, 0.58);
+		backdrop-filter: blur(4px);
+	}
+
+	.command-sheet:not([hidden]) {
+		position: fixed;
+		left: 8px;
+		right: 8px;
+		bottom: calc(82px + env(safe-area-inset-bottom));
+		z-index: 86;
+		display: grid;
+		grid-template-rows: auto auto minmax(0, 1fr);
+		max-height: min(68dvh, 590px);
+		min-height: 250px;
+		overflow: hidden;
+		border: 1px solid rgba(255, 255, 255, 0.14);
+		border-radius: 24px;
+		background: rgba(17, 18, 29, 0.96);
+		backdrop-filter: blur(28px);
+		box-shadow: 0 28px 80px rgba(0, 0, 0, 0.58);
+	}
+
+	.command-sheet-handle {
+		width: 42px;
+		height: 4px;
+		margin: 9px auto 2px;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.22);
+	}
+
+	.command-sheet-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		padding: 8px 12px 10px;
+	}
+
+	.command-sheet-title {
+		margin: 0;
+		font-size: 18px;
+		letter-spacing: -0.02em;
+	}
+
+	.command-sheet-close {
+		display: grid;
+		width: 42px;
+		height: 42px;
+		place-items: center;
+		border-radius: 13px;
+	}
+
+	.command-sheet-body {
+		display: grid;
+		gap: 18px;
+		padding: 4px 12px 18px;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+
+	.command-sheet-section h3 {
+		margin: 0 0 8px;
+		color: var(--muted);
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 0.09em;
+	}
+
+	.command-sheet-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 8px;
+	}
+
+	.is-presenting .command-sheet,
+	.is-presenting .command-sheet-backdrop {
+		display: none !important;
+	}
+}

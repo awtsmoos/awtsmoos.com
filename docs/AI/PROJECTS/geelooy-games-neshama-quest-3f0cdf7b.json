@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-neshama-quest-3f0cdf7b",
+	"path": "geelooy/games/neshama-quest",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Neshama Quest",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-neshama-quest-3f0cdf7b.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 7,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 7,
+	"symbolSummary": {
+		"files": 5,
+		"classes": 5,
+		"functions": 4,
+		"exports": 0,
+		"samples": [
+			"Entity",
+			"Neshama",
+			"Klipah",
+			"Game",
+			"InputHandler",
+			"generateFullMaze",
+			"createPerfectMaze",
+			"addLoopsToMaze",
+			"addSideTunnels"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/neshama-quest",
+			"file": "geelooy/games/neshama-quest/index.html",
+			"title": "Neshama Quest",
+			"scripts": 5,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

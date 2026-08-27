@@ -1,0 +1,47 @@
+/* B"H */
+/**
+ * B"H
+ * Chapter 42: Motion became restrained and alive.
+ *
+ * The Awtsmoos removes brittle 3D tilt and leaves a professional lift, focused
+ * blue active states, category glows, and enough response to feel dynamic.
+ */
+.awt-nav-button:hover,
+.awt-home-button:hover,
+.awt-control-shell :where(button):not(.awt-nav-button):not(.awt-home-button):not(.awt-action-card):hover,
+.awt-login-gate :where(button, .button-link):hover,
+.button-link:hover {
+  transform: translateY(-1px);
+  border-color: var(--awt-line-hot);
+  box-shadow: 0 16px 34px rgba(0,0,0,.26), 0 0 24px rgba(94,220,255,.10), inset 0 1px 0 rgba(255,255,255,.10);
+  filter: saturate(1.08);
+}
+
+.awt-nav-button:active,
+.awt-home-button:active,
+.awt-control-shell :where(button):active,
+.awt-login-gate :where(button, .button-link):active,
+.button-link:active {
+  transform: translateY(0) scale(.985);
+}
+
+.awt-nav-button.active,
+.awt-action-card.active,
+.awt-control-shell [aria-selected="true"] {
+  border-color: rgba(40,124,255,.36);
+  background: rgba(40,124,255,.18);
+  box-shadow: 0 0 0 1px rgba(40,124,255,.10), 0 0 28px rgba(40,124,255,.12), inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+.awt-action-card:hover::before { opacity: 1; }
+.awt-action-card:active { transform: translateY(-1px) scale(.992); }
+.awt-action-card.active .awt-action-icon,
+.awt-nav-button.active .awt-nav-icon { animation: awtIconPulse 1.7s ease-in-out infinite; }
+.awt-control-shell :where([disabled], .disabled, [aria-disabled="true"]) { opacity: .48; cursor: not-allowed; filter: grayscale(.45); }
+.awt-control-shell :where(.success, .ok, [data-state="success"]) { border-color: rgba(47,231,122,.45); color: var(--awt-green); }
+.awt-control-shell :where(.danger, .error, [data-state="error"]) { border-color: rgba(255,85,115,.45); color: var(--awt-red); }
+.awt-control-shell :where(.warning, [data-state="warning"]) { border-color: rgba(255,182,74,.45); color: var(--awt-gold); }
+.awt-login-card:hover,
+.awt-workspace-stage:hover,
+.awt-dashboard:hover,
+.awt-control-side:hover { box-shadow: var(--awt-shadow-soft), 0 0 40px rgba(94,220,255,.07), inset 0 1px 0 rgba(255,255,255,.08); }

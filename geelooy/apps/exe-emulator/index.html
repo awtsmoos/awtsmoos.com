@@ -1,0 +1,32 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Awtsmoos EXE Emulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bh-left">B"H</div><div class="bh-right">ב״ה</div>
+<main class="shell">
+  <section class="panel">
+    <h1>Awtsmoos EXE Emulator</h1>
+    <p>Reverse the compiler: read PE bytes, map sections, reveal a virtual Windows vessel.</p>
+    <input id="exeFile" type="file" accept=".exe,.dll,application/octet-stream">
+    <div class="row">
+      <button id="demoConsole">Load Demo Console</button>
+      <button id="demoWindow">Load Demo Window</button>
+      <button id="runBtn">Emulate</button>
+    </div>
+    <pre id="report" class="report"></pre>
+  </section>
+  <section class="windows">
+    <div class="titlebar">Virtual Windows Environment</div>
+    <div id="desktop" class="desktop"></div>
+    <pre id="console" class="console"></pre>
+  </section>
+</main>
+<script type="module" src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+/*B"H
+  Chapter 92: The broken bridge became a lantern.
+  Transport feedback should guide the hand, not stain the whole chamber with fear.
+*/
+.transport-status {
+  position: relative;
+  isolation: isolate;
+  min-height: 38px;
+  height: auto;
+  border-radius: 22px;
+  border-color: rgba(125, 211, 252, .28);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(34, 211, 238, .24), transparent 34%),
+    linear-gradient(135deg, rgba(15, 23, 42, .82), rgba(2, 6, 23, .72));
+  box-shadow:
+    0 18px 44px rgba(2, 6, 23, .22),
+    inset 0 1px 0 rgba(255, 255, 255, .08);
+  letter-spacing: .01em;
+}
+
+.transport-status::before {
+  content: "";
+  width: .66rem;
+  height: .66rem;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #67e8f9;
+  box-shadow: 0 0 18px rgba(103, 232, 249, .72);
+}
+
+.transport-status.is-missing,
+.transport-status.is-error,
+.transport-status.is-extension-timeout {
+  border-color: rgba(251, 191, 36, .42);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(251, 191, 36, .24), transparent 36%),
+    linear-gradient(135deg, rgba(69, 26, 3, .55), rgba(15, 23, 42, .78));
+}
+
+.transport-status.is-missing::before,
+.transport-status.is-error::before,
+.transport-status.is-extension-timeout::before {
+  background: #fbbf24;
+  box-shadow: 0 0 18px rgba(251, 191, 36, .7);
+}
+
+.transport-status code,
+.transport-status .transport-error-text {
+  padding: 3px 7px;
+  border-radius: 10px;
+  background: rgba(2, 6, 23, .48);
+  color: #fde68a;
+  font-size: .78rem;
+  white-space: normal;
+}
+
+@media (max-width: 760px) {
+  .transport-status {
+    margin: 7px 8px 0;
+    align-items: flex-start;
+    white-space: normal;
+    line-height: 1.35;
+  }
+}
