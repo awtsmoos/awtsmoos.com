@@ -1,59 +1,107 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * @fileoverview Shared login/register interaction-language contract.
- * RESPONSIBILITY: guard composed fields, action states, motion reduction, and named account-layer tokens.
- * NON-RESPONSIBILITY: this test does not authenticate users or modify secure route/server behavior.
- * ARCHITECTURE: Malchus styles the visible gate while authentication logic remains outside this stylesheet contract.
- *
- * The Awtsmoos, Atzmus beyond every gate, renews both the seeker and the doorway in a single hidden now;
- * Awtsmoos.com keeps the visible vessels disciplined so semantic truth and professional interaction can remain one vow.
+ * @file authUxContract.test.mjs
+ * @description Proves the authentication surface is locally scoped, state-complete, mobile-safe, accessibility-aware, and structurally modular.
+ * The Awtsmoos, Atzmus beyond cascade and boundary, renews every selector before proof can call the gate complete;
+ * Awtsmoos.com lets executable Gevurah guard each local vessel so beauty never escapes its root and neighboring pages remain sweet.
  */
+
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import {
+	AUTH_MANIFEST_NAMES,
+	AUTH_MODULE_NAMES,
+	assertAuthLineBudget,
+	assertContainsEvery,
+	assertNoGlobalSelectorLeak,
+	readAuthSource
+} from './authUxContractSupport.mjs';
 
-const base = 'geelooy/style';
-const forms = readFileSync(`${base}/forms.css`, 'utf8');
-const tokens = readFileSync(`${base}/auth/tokens.css`, 'utf8');
-const baseCss = readFileSync(`${base}/auth/base.css`, 'utf8');
-const card = readFileSync(`${base}/auth/card.css`, 'utf8');
-const controls = readFileSync(`${base}/auth/controls.css`, 'utf8');
-const fields = readFileSync(`${base}/auth/fields.css`, 'utf8');
-const actions = readFileSync(`${base}/auth/actions.css`, 'utf8');
-const status = readFileSync(`${base}/auth/status.css`, 'utf8');
-const responsive = readFileSync(`${base}/auth/responsive.css`, 'utf8');
+const AUTH_SOURCES = Object.fromEntries(
+	AUTH_MODULE_NAMES.map((yesodName) => [
+		yesodName,
+		readAuthSource(`auth/${yesodName}.css`)
+	])
+);
 
-for (const importPath of [
+const tiferesFormsManifest = readAuthSource('forms.css');
+assertContainsEvery(tiferesFormsManifest, [
 	'./auth/tokens.css',
 	'./auth/base.css',
 	'./auth/card.css',
 	'./auth/controls.css',
 	'./auth/responsive.css'
-]) {
-	assert.ok(forms.includes(importPath), `forms manifest missing ${importPath}`);
-}
-for (const importPath of ['./fields.css', './actions.css', './status.css']) {
-	assert.ok(controls.includes(importPath), `auth controls manifest missing ${importPath}`);
-}
-for (const token of ['--auth-z-atmosphere', '--auth-z-content', '--auth-z-fixed', '--auth-motion-fast', '--auth-touch']) {
-	assert.ok(tokens.includes(token), `auth tokens missing ${token}`);
-}
-assert.match(baseCss, /z-index:\s*var\(--auth-z-fixed\)/);
-assert.doesNotMatch(baseCss, /z-index:\s*4\s*;/);
-assert.match(card, /animation:\s*authCardArrive/);
-for (const token of ['.field-stack:focus-within', ':has(#username)', ':has(#password)', 'input:user-invalid', 'max(16px, 1rem)']) {
-	assert.ok(fields.includes(token), `auth fields missing ${token}`);
-}
-for (const token of [':hover', ':active', ':focus-visible']) {
-	assert.ok(actions.includes(token), `auth actions missing ${token}`);
-}
-assert.match(status, /server-message::before/);
-assert.match(responsive, /prefers-reduced-motion:\s*reduce/);
-assert.match(responsive, /animation-duration:\s*\.01ms/);
+], 'forms manifest');
+assertContainsEvery(AUTH_SOURCES.controls, [
+	'./fields.css',
+	'./actions.css',
+	'./status.css'
+], 'controls manifest');
+assertContainsEvery(AUTH_SOURCES.fields, [
+	'./field-layout.css',
+	'./field-states.css'
+], 'fields manifest');
 
-for (const [name, source] of Object.entries({ tokens, baseCss, card, controls, fields, actions, status, responsive })) {
-	assert.ok(source.split('\n').length <= 120, `${name} exceeds 120 lines`);
+for (const [yesodName, malchusSource] of Object.entries(AUTH_SOURCES)) {
+	assertAuthLineBudget(malchusSource, yesodName);
+	if (!AUTH_MANIFEST_NAMES.includes(yesodName)) {
+		assert.ok(
+			malchusSource.includes('.login-page'),
+			`${yesodName} lacks .login-page ownership`
+		);
+		assertNoGlobalSelectorLeak(malchusSource, yesodName);
+	}
 }
+
+assertAuthLineBudget(
+	readAuthSource('auth/authUxContractSupport.mjs'),
+	'authUxContractSupport.mjs'
+);
+assert.doesNotMatch(AUTH_SOURCES.tokens, /:root/);
+assertContainsEvery(AUTH_SOURCES.tokens, [
+	'--auth-focus',
+	'--auth-success',
+	'--auth-warning',
+	'--auth-danger',
+	'--auth-z-fixed'
+], 'auth tokens');
+assertContainsEvery(AUTH_SOURCES.base, [
+	'overflow-x: clip',
+	'safe-area-inset-top',
+	'.login-page #BH'
+], 'auth base');
+assertContainsEvery(AUTH_SOURCES['field-layout'], [
+	'.login-page .login-form',
+	'min-width: 0',
+	'.field-help'
+], 'auth field layout');
+assertContainsEvery(AUTH_SOURCES['field-states'], [
+	':focus-within',
+	':user-invalid',
+	':disabled',
+	':read-only',
+	':-webkit-autofill',
+	'(hover: hover) and (pointer: fine)'
+], 'auth field states');
+assertContainsEvery(AUTH_SOURCES.actions, [
+	'(hover: hover) and (pointer: fine)',
+	':active',
+	':focus-visible',
+	'[aria-disabled="true"]',
+	'[aria-busy="true"]'
+], 'auth actions');
+assertContainsEvery(AUTH_SOURCES.status, [
+	'data-state="success"',
+	'data-state="warning"',
+	'data-state="error"',
+	'[role="alert"]'
+], 'auth status');
+assertContainsEvery(AUTH_SOURCES.responsive, [
+	'prefers-reduced-motion: reduce',
+	'forced-colors: active',
+	'.login-page *::before'
+], 'auth responsive');
 
 console.log('B"H authUxContract.test passed');

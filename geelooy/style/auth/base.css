@@ -2,32 +2,34 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos, Atzmus beyond every atmosphere, renews the account gate behind each finite pixel and line;
- * Awtsmoos.com keeps background, fixed jewel, and content on named layers so accidental z-index wars decline.
+ * The Awtsmoos, Atzmus beyond atmosphere and boundary, renews the account gate behind every finite line;
+ * Awtsmoos.com gives this page its own background, sizing, safe-area jewel, and z-layer covenant so neighboring routes remain entirely their own design.
  */
 
-* {
+.login-page,
+.login-page *,
+.login-page *::before,
+.login-page *::after {
 	box-sizing: border-box;
 }
 
-html {
-	min-height: 100%;
-	background: var(--auth-bg);
-	-webkit-text-size-adjust: 100%;
-}
-
-body {
+.login-page {
+	min-width: 0;
 	min-height: 100vh;
+	min-height: 100svh;
 	margin: 0;
+	overflow-x: clip;
 	background:
-		radial-gradient(circle at 16% 12%, rgba(75, 213, 255, .15), transparent 24rem),
-		radial-gradient(circle at 84% 18%, rgba(155, 99, 255, .2), transparent 28rem),
+		radial-gradient(circle at 14% 8%, rgba(75, 213, 255, .16), transparent 25rem),
+		radial-gradient(circle at 86% 16%, rgba(155, 99, 255, .2), transparent 29rem),
+		radial-gradient(circle at 50% 104%, rgba(223, 84, 255, .1), transparent 30rem),
 		linear-gradient(160deg, #050914, #091225 58%, #080b18);
 	color: var(--auth-text);
 	font-family: var(--auth-font);
+	-webkit-text-size-adjust: 100%;
 }
 
-body::before {
+.login-page::before {
 	position: fixed;
 	z-index: var(--auth-z-atmosphere);
 	inset: 0;
@@ -36,11 +38,11 @@ body::before {
 		linear-gradient(90deg, rgba(164, 190, 255, .035) 1px, transparent 1px);
 	background-size: 2.5rem 2.5rem;
 	content: "";
-	mask-image: linear-gradient(to bottom, black, transparent 76%);
+	mask-image: linear-gradient(to bottom, black, transparent 78%);
 	pointer-events: none;
 }
 
-#BH {
+.login-page #BH {
 	position: fixed;
 	z-index: var(--auth-z-fixed);
 	top: max(1rem, env(safe-area-inset-top));
@@ -55,4 +57,6 @@ body::before {
 	background: var(--auth-panel-strong);
 	box-shadow: 0 16px 44px rgba(0, 0, 0, .35);
 	font-weight: 900;
+	letter-spacing: -.02em;
+	backdrop-filter: blur(18px) saturate(135%);
 }

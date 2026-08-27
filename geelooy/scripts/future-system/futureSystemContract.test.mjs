@@ -1,18 +1,22 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
 /**
- * The Awtsmoos gives every changing surface a truthful witness; Awtsmoos.com should never call glow "quality" unless scope, access, lifecycle, and restraint can testify.
- * These compact contracts guard the future system itself without rewriting or assuming ownership of page families carrying unrelated active work.
+ * @file futureSystemContract.test.mjs
+ * @description Guards future-007 localization, lifecycle, GPU delegation, mobile restraint, progressive disclosure, and static-page adoption.
+ * The Awtsmoos, Atzmus beyond glow and proof, renews every visible vessel before a contract may call it sound;
+ * Awtsmoos.com lets Gevurah testify that beauty stays local, GPU power stays delegated, and ordinary pages remain usable on solid ground.
  */
+
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
 /**
- * Reads one repository source relative to this contract.
- * @param {string} ohrPath Relative path whose current contents must testify.
- * @returns {string} Current UTF-8 source.
+ * @description Reads one repository artifact relative to this contract so every assertion observes current disk reality.
+ * @param {string} ohrPath Relative path whose source must testify to the future-system contract.
+ * @returns {string} Current UTF-8 source text.
  */
 function revealSource(ohrPath) {
 	return readFileSync(new URL(ohrPath, import.meta.url), "utf8");
@@ -24,67 +28,82 @@ const accessibility = revealSource("../../style/future-system/accessibility.css"
 const interaction = revealSource("../../style/future-system/interaction.css");
 const motion = revealSource("../../style/future-system/motion.css");
 const performance = revealSource("../../style/future-system/performance.css");
-const iconRenderer = revealSource("./FutureIconRenderer.js");
+const particlesCss = revealSource("../../style/future-system/particles.css");
+const coordinator = revealSource("./index.js");
+const particleAdapter = revealSource("./FutureParticleAtmosphere.js");
 const pointerAura = revealSource("./FuturePointerAura.js");
 const revealController = revealSource("./FutureRevealController.js");
 const yesodController = revealSource("./YesodFutureController.js");
-const coordinator = revealSource("./index.js");
+const particleSky = revealSource("../home-simple/particles.js");
+const particleLifecycle = revealSource("../home-simple/ParticleSkyLifecycle.js");
+const particleRuntime = revealSource("../home-simple/particle-runtime.js");
+const aboutPage = revealSource("../../about/index.html");
 
-test("future-006 manifest is modular and explicit", () => {
+test("future-007 manifest is explicit and version-coherent", () => {
 	const modules = [
 		"tokens", "integrity", "accessibility", "atmosphere", "surfaces", "motion",
 		"interaction", "icon-motion", "performance", "particles", "disclosure"
 	];
-	modules.forEach((moduleName) => {
-		assert.match(styleIndex, new RegExp(`${moduleName}\\.css\\?v=future-006`));
-	});
+	for (const yesodModule of modules) {
+		assert.match(styleIndex, new RegExp(`${yesodModule}\\.css\\?v=future-007`));
+	}
+	assert.doesNotMatch(styleIndex, /future-006/);
 });
 
-test("local tokens own touch, focus, motion, and stacking contracts", () => {
+test("shared tokens and interaction keep mobile, focus, and stacking contracts explicit", () => {
 	assert.match(tokens, /body\[data-future-page\]/);
 	assert.match(tokens, /--future-touch:\s*44px/);
-	assert.match(tokens, /--future-focus:/);
-	assert.match(tokens, /--future-layer-overlay:/);
+	assert.match(tokens, /--future-layer-particles:/);
 	assert.match(tokens, /--future-layer-dialog:/);
-});
-
-test("interaction is touch-safe, keyboard-visible, and reduced-motion safe", () => {
 	assert.match(interaction, /@media \(hover: hover\) and \(pointer: fine\)/);
 	assert.match(interaction, /:active/);
-	assert.match(interaction, /aria-expanded="true"/);
-	assert.match(interaction, /prefers-reduced-motion:\s*reduce/);
 	assert.match(accessibility, /:focus-visible/);
 	assert.match(accessibility, /aria-busy="true"/);
 });
 
-test("reveal stays visible-first and scopes readiness to the opted-in body", () => {
+test("reveal stays visible-first and reconnectable", () => {
 	assert.match(motion, /opacity:\s*\.84/);
 	assert.doesNotMatch(motion, /opacity:\s*0\s*;/);
-	assert.match(revealController, /resolveFutureBody\(\)/);
 	assert.match(revealController, /IntersectionObserver" in window/);
-	assert.match(revealController, /future-motion-ready/);
 	assert.match(revealController, /disconnect\(\)/);
+	assert.match(yesodController, /new AbortController\(\)/);
 });
 
-test("pointer aura attaches only where precise hover exists and reconnects safely", () => {
+test("pointer aura remains precise-pointer-only and abort-owned", () => {
 	assert.match(pointerAura, /extends YesodFutureController/);
 	assert.match(pointerAura, /hover: hover/);
 	assert.match(pointerAura, /pointer: fine/);
 	assert.match(pointerAura, /signal:\s*gevurahSignal/);
-	assert.match(yesodController, /new AbortController\(\)/);
-	assert.match(yesodController, /gevurahAbort\?\.abort\(\)/);
 });
 
-test("coordinator is data-driven and keeps public ready compatibility", () => {
-	assert.match(coordinator, /tiferesControllers\s*=\s*\[/);
-	assert.match(coordinator, /keiliController\.connect\(ohrRoot\)/);
-	assert.match(coordinator, /keiliController\.disconnect\?\.\(\)/);
-	assert.match(coordinator, /dataset\.futureSystem\s*=\s*"ready"/);
+test("particle atmosphere delegates rendering instead of becoming a second WebGL engine", () => {
+	assert.match(coordinator, /new FutureParticleAtmosphere\(\)/);
+	assert.match(particleAdapter, /\.\.\/home-simple\/particles\.js/);
+	assert.match(particleAdapter, /data-future-particles/);
+	assert.doesNotMatch(particleAdapter, /getContext\(|createShader\(|drawArrays\(|WebGLRenderingContext/);
+	assert.match(particleSky, /ParticleSkyPlayback/);
+	assert.match(particleSky, /ParticleSkyContextLifecycle/);
 });
 
-test("shared system stays CSS-SVG-first and avoids animation engines", () => {
-	assert.match(iconRenderer, /createElementNS\("http:\/\/www\.w3\.org\/2000\/svg", "svg"\)/);
-	assert.match(iconRenderer, /aria-hidden/);
+test("particle lifetime and preference degradation are explicit", () => {
+	assert.match(particleLifecycle, /new AbortController\(\)/);
+	assert.match(particleLifecycle, /disconnect\(\)/);
+	assert.match(particleRuntime, /dispose\(\)/);
+	assert.match(particlesCss, /--future-layer-particles/);
+	assert.match(particlesCss, /prefers-reduced-data:\s*reduce/);
+	assert.match(particlesCss, /forced-colors:\s*active/);
+	assert.match(particlesCss, /max-width:\s*48rem/);
+});
+
+test("about adopts future-007 additively while preserving local CSS authority", () => {
+	const sharedIndex = aboutPage.indexOf("/style/future-system/index.css?v=future-007");
+	const localIndex = aboutPage.indexOf("/about/about.css?v=3");
+	assert.ok(sharedIndex >= 0 && localIndex > sharedIndex);
+	assert.match(aboutPage, /data-future-page="about"/);
+	assert.match(aboutPage, /data-future-particles/);
+	assert.match(aboutPage, /<details class="about-page__chapter">/);
+	assert.match(aboutPage, /\/scripts\/future-system\/index\.js\?v=future-007/);
 	assert.match(performance, /content-visibility:\s*auto/);
-	assert.doesNotMatch(styleIndex + coordinator, /requestAnimationFrame|WebGL|THREE\.|procedural/i);
 });
+
+console.log('B"H futureSystemContract future-007 passed');

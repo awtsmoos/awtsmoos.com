@@ -1,14 +1,31 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
-// The Awtsmoos conducts the GPU sky through birth, stillness, loss, and restoration, while focused vessels own runtime and time.
+
+/**
+ * @file particles.js
+ * @description Assembles focused particle collaborators and owns only connection and teardown for one adaptive sky.
+ * The Awtsmoos, Atzmus beyond every separate vessel, renews pointer, runtime, playback, and context in a single living now;
+ * Awtsmoos.com lets this Tiferes coordinator join them without stealing their boundaries, so every page receives quiet light without a monolithic vow.
+ */
 
 import { ParticleAnimator } from "./particle-animator.js";
 import { ParticlePointer } from "./particle-pointer.js";
 import { ParticleQualityPolicy } from "./particle-quality.js";
 import { ParticleRuntime } from "./particle-runtime.js";
+import { ParticleSkyContextLifecycle } from "./ParticleSkyContextLifecycle.js";
+import { ParticleSkyLifecycle } from "./ParticleSkyLifecycle.js";
+import { ParticleSkyPlayback } from "./ParticleSkyPlayback.js";
 
+/**
+ * @class ParticleSky
+ * @description Assembles particle specialists, then exposes an idempotent connect/disconnect boundary to pages and adapters.
+ */
 export class ParticleSky {
+	/**
+	 * @description Creates one adaptive sky around an existing canvas without starting listeners, animation, or GPU work.
+	 * @param {HTMLCanvasElement} canvasElement Rendering canvas owned by the surrounding page or future-system adapter.
+	 */
 	constructor(canvasElement) {
 		this.canvasElement = canvasElement;
 		this.qualityPolicy = new ParticleQualityPolicy();
@@ -19,97 +36,69 @@ export class ParticleSky {
 			pointer: this.pointer,
 			profile: this.profile,
 			drawHandler: frameState => this.runtime?.draw(frameState),
-			degradeHandler: timestamp => this.degrade(timestamp)
+			degradeHandler: timestamp => this.playback.degrade(timestamp)
 		});
 		this.runtime = new ParticleRuntime(canvasElement, this.profile, this.animator);
-		this.resizeFrame = 0;
+		this.playback = new ParticleSkyPlayback({
+			canvasElement,
+			animator: this.animator,
+			runtime: this.runtime,
+			qualityPolicy: this.qualityPolicy,
+			getProfile: () => this.profile,
+			setProfile: profile => { this.profile = profile; }
+		});
+		this.contextLifecycle = new ParticleSkyContextLifecycle({
+			runtime: this.runtime,
+			animator: this.animator,
+			getProfile: () => this.profile,
+			start: () => this.playback.start(),
+			fail: () => this.disconnect("error"),
+			setStatus: status => this.playback.setStatus(status)
+		});
+		this.lifecycle = new ParticleSkyLifecycle(canvasElement, {
+			resize: () => this.runtime.resize(),
+			visibility: () => this.playback.handleVisibility(),
+			contextLost: event => this.contextLifecycle.handleLoss(event),
+			contextRestored: () => this.contextLifecycle.handleRestoration()
+		});
 	}
 
+	/**
+	 * @description Idempotently discovers GPU capability, binds one listener lifetime, builds the scene, and starts motion only when policy permits it.
+	 * @returns {ParticleSky} This coordinator, including graceful unavailable and error states instead of throwing through the page.
+	 */
 	connect() {
+		this.disconnect();
 		try {
 			if (!this.runtime.createContext()) {
-				this.setStatus("unavailable");
+				this.playback.setStatus("unavailable");
 				return this;
 			}
-
-			this.pointer.connect();
-			this.connectEvents();
+			const yesodSignal = this.lifecycle.connect();
+			this.pointer.connect(yesodSignal);
 			this.runtime.rebuildScene("building");
 			this.runtime.resize();
 			this.animator.drawStatic();
-			this.profile.isStatic ? this.setStatus("static") : this.start();
+			this.profile.isStatic
+				? this.playback.setStatus("static")
+				: this.playback.start();
 		} catch (error) {
 			console.warn("Awtsmoos WebGL sky disabled:", error);
-			this.setStatus("error");
+			this.disconnect("error");
 		}
-
 		return this;
 	}
 
-	connectEvents() {
-		addEventListener("resize", () => this.scheduleResize(), { passive: true });
-		document.addEventListener("visibilitychange", () => this.handleVisibility());
-		this.canvasElement.addEventListener("webglcontextlost", event => this.handleContextLost(event));
-		this.canvasElement.addEventListener("webglcontextrestored", () => this.handleContextRestored());
-	}
-
-	scheduleResize() {
-		if (this.resizeFrame) {
-			return;
-		}
-
-		this.resizeFrame = requestAnimationFrame(() => {
-			this.resizeFrame = 0;
-			this.runtime.resize();
-		});
-	}
-
-	handleVisibility() {
-		if (document.hidden) {
-			this.animator.stop();
-			this.setStatus("paused");
-			return;
-		}
-
-		if (!this.profile.isStatic) {
-			this.start();
-		}
-	}
-
-	handleContextLost(event) {
-		event.preventDefault();
+	/**
+	 * @description Stops animation, aborts browser listeners, cancels deferred work, and disposes GPU resources without removing the canvas.
+	 * @param {string} [status="stopped"] Final machine-readable lifecycle state published to the canvas.
+	 * @returns {ParticleSky} This reusable coordinator after deterministic teardown.
+	 */
+	disconnect(status = "stopped") {
 		this.animator.stop();
-		this.runtime.releaseLostScene();
-		this.setStatus("lost");
-	}
-
-	handleContextRestored() {
-		try {
-			this.runtime.createContext();
-			this.runtime.rebuildScene("restoring");
-			this.runtime.resize();
-			this.animator.drawStatic();
-			this.profile.isStatic ? this.setStatus("static") : this.start();
-		} catch (error) {
-			console.warn("Awtsmoos WebGL restoration failed:", error);
-			this.setStatus("error");
-		}
-	}
-
-	start() {
-		this.setStatus(this.profile.tier === "low" ? "degraded" : "running");
-		this.animator.start();
-	}
-
-	degrade(timestamp) {
-		this.profile = this.qualityPolicy.downgrade(this.profile);
-		this.runtime.updateProfile(this.profile);
-		this.runtime.rebuildScene("degraded");
-		this.runtime.resize();
-		this.animator.drawStatic(timestamp);
-	}
-
-	setStatus(status) {
-		this.canvasElement.dataset.particleStatus = status;
+		this.lifecycle.disconnect();
+		this.runtime.dispose();
+		this.playback.setStatus(status);
+		return this;
 	}
 }

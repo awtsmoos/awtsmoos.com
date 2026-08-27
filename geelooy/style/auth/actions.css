@@ -2,17 +2,16 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos, Atzmus beyond movement, lets every account action reveal intention through measured response;
- * Awtsmoos.com keeps primary and secondary paths tactile, keyboard-visible, and calm rather than loud or compressed.
+ * The Awtsmoos, Atzmus beyond movement and intention, renews each account action before hand or keyboard can awaken the way;
+ * Awtsmoos.com lets primary and secondary paths glow with focus, press, busy, and disabled truth while hover belongs only where a real pointer may play.
  */
 
-.login-form button,
-.login-card > button,
-.login-card .g-button {
+.login-page :is(.login-form button, .login-card > button, .login-card .g-button) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
+	min-width: 0;
 	min-height: 3.35rem;
 	margin-top: .2rem;
 	padding: .8rem 1rem;
@@ -26,36 +25,39 @@
 	transition:
 		transform var(--auth-motion-fast) var(--auth-ease),
 		filter var(--auth-motion-fast) var(--auth-ease),
-		box-shadow var(--auth-motion-fast) var(--auth-ease);
+		box-shadow var(--auth-motion-fast) var(--auth-ease),
+		opacity var(--auth-motion-fast) var(--auth-ease);
 }
 
-.login-form button:hover,
-.login-card > button:hover,
-.login-card .g-button:hover {
-	transform: translateY(-1px);
-	filter: brightness(1.07);
-	box-shadow: 0 20px 44px rgba(91, 125, 255, .3);
-}
-
-.login-form button:active,
-.login-card > button:active,
-.login-card .g-button:active {
+.login-page :is(.login-form button, .login-card > button, .login-card .g-button):active:not(:disabled) {
 	transform: translateY(0) scale(.985);
 	box-shadow: 0 10px 26px rgba(91, 125, 255, .2);
 }
 
-.login-form button:focus-visible,
-.login-card > button:focus-visible,
-.login-card .g-button:focus-visible,
-.secondary-link:focus-visible {
-	outline: 2px solid var(--auth-cyan);
+.login-page :is(.login-form button, .login-card > button, .login-card .g-button, .secondary-link):focus-visible {
+	outline: 2px solid var(--auth-focus);
 	outline-offset: 3px;
+	box-shadow: var(--auth-focus-ring);
 }
 
-.secondary-link {
+.login-page :is(.login-form button, .login-card > button, .login-card .g-button):is(:disabled, [aria-disabled="true"]),
+.login-page .login-form[aria-busy="true"] button {
+	cursor: not-allowed;
+	filter: saturate(.5) brightness(.86);
+	opacity: .58;
+	transform: none;
+	box-shadow: none;
+}
+
+.login-page .login-form[aria-busy="true"] button {
+	cursor: progress;
+}
+
+.login-page .secondary-link {
 	display: inline-flex;
 	align-items: center;
 	gap: .45rem;
+	max-width: 100%;
 	min-height: var(--auth-touch);
 	margin-bottom: 1rem;
 	padding: .5rem .72rem;
@@ -65,24 +67,46 @@
 	color: var(--auth-cyan);
 	font-size: .82rem;
 	font-weight: 800;
+	line-height: 1.3;
 	text-decoration: none;
+	overflow-wrap: anywhere;
 	transition:
 		transform var(--auth-motion-fast) var(--auth-ease),
 		border-color var(--auth-motion-fast) var(--auth-ease),
-		background var(--auth-motion-fast) var(--auth-ease);
+		background var(--auth-motion-fast) var(--auth-ease),
+		color var(--auth-motion-fast) var(--auth-ease);
 }
 
-.secondary-link::after {
+.login-page .secondary-link::after {
 	content: "↗";
 	opacity: .7;
+	transition: transform var(--auth-motion-fast) var(--auth-ease);
 }
 
-.secondary-link:hover {
-	transform: translateY(-1px);
-	border-color: var(--auth-line-strong);
-	background: rgba(75, 213, 255, .06);
-}
-
-.secondary-link:active {
+.login-page .secondary-link:active {
 	transform: scale(.985);
+}
+
+.login-page .secondary-link[aria-disabled="true"] {
+	cursor: not-allowed;
+	opacity: .5;
+	pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.login-page :is(.login-form button, .login-card > button, .login-card .g-button):hover:not(:disabled):not([aria-disabled="true"]) {
+		transform: translateY(-1px);
+		filter: brightness(1.07);
+		box-shadow: 0 20px 44px rgba(91, 125, 255, .3);
+	}
+
+	.login-page .secondary-link:hover {
+		transform: translateY(-1px);
+		border-color: var(--auth-line-strong);
+		background: rgba(75, 213, 255, .06);
+	}
+
+	.login-page .secondary-link:hover::after {
+		transform: translate(.08rem, -.08rem);
+	}
 }

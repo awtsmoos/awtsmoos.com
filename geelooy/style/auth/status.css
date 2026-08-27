@@ -2,15 +2,15 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos, Atzmus beyond success and failure, lets feedback remain a servant of the human rather than a wall;
- * Awtsmoos.com gives server messages a quiet status vessel whose words remain legible, bounded, and accessible to all.
+ * The Awtsmoos, Atzmus beyond success and failure, renews every message before the gate can call a moment complete;
+ * Awtsmoos.com gives information, warning, error, and success distinct local garments so feedback stays quiet, bounded, accessible, and sweet.
  */
 
-.server-message,
-#serverMessage {
+.login-page :is(.server-message, #serverMessage) {
 	position: relative;
-	margin-top: .85rem;
-	padding: .8rem .9rem .8rem 2.75rem;
+	min-width: 0;
+	margin-top: .9rem;
+	padding: .82rem .92rem .82rem 2.8rem;
 	border: 1px solid var(--auth-line);
 	border-radius: var(--auth-control-radius);
 	background: rgba(255, 255, 255, .035);
@@ -18,17 +18,20 @@
 	font-size: .84rem;
 	line-height: 1.5;
 	overflow-wrap: anywhere;
+	transition:
+		border-color var(--auth-motion-fast) var(--auth-ease),
+		background var(--auth-motion-fast) var(--auth-ease),
+		color var(--auth-motion-fast) var(--auth-ease);
 }
 
-.server-message::before,
-#serverMessage::before {
+.login-page :is(.server-message, #serverMessage)::before {
 	position: absolute;
-	top: .72rem;
-	left: .72rem;
+	top: .74rem;
+	left: .74rem;
 	display: grid;
-	place-items: center;
 	width: 1.45rem;
 	height: 1.45rem;
+	place-items: center;
 	border-radius: .48rem;
 	background: rgba(75, 213, 255, .09);
 	color: var(--auth-cyan);
@@ -36,15 +39,47 @@
 	font-weight: 900;
 }
 
-.server-message:empty,
-#serverMessage:empty {
+.login-page :is(.server-message, #serverMessage):empty {
 	display: none;
 }
 
-.login-form[aria-busy="true"] button,
-.login-form button:disabled {
+.login-page :is(.server-message, #serverMessage)[data-state="success"] {
+	border-color: color-mix(in srgb, var(--auth-success) 45%, transparent);
+	background: color-mix(in srgb, var(--auth-success) 7%, transparent);
+	color: color-mix(in srgb, var(--auth-success) 72%, white);
+}
+
+.login-page :is(.server-message, #serverMessage)[data-state="success"]::before {
+	background: color-mix(in srgb, var(--auth-success) 13%, transparent);
+	color: var(--auth-success);
+	content: "✓";
+}
+
+.login-page :is(.server-message, #serverMessage)[data-state="warning"] {
+	border-color: color-mix(in srgb, var(--auth-warning) 45%, transparent);
+	color: var(--auth-warning);
+}
+
+.login-page :is(.server-message, #serverMessage)[data-state="warning"]::before {
+	color: var(--auth-warning);
+	content: "!";
+}
+
+.login-page :is(.server-message, #serverMessage):is([data-state="error"], [role="alert"]) {
+	border-color: color-mix(in srgb, var(--auth-danger) 52%, transparent);
+	background: color-mix(in srgb, var(--auth-danger) 7%, transparent);
+	color: color-mix(in srgb, var(--auth-danger) 78%, white);
+}
+
+.login-page :is(.server-message, #serverMessage):is([data-state="error"], [role="alert"])::before {
+	color: var(--auth-danger);
+	content: "×";
+}
+
+.login-page .login-form[aria-busy="true"] {
 	cursor: progress;
-	filter: saturate(.62);
-	opacity: .72;
-	transform: none;
+}
+
+.login-page .login-form[aria-busy="true"] .field-stack {
+	filter: saturate(.82);
 }

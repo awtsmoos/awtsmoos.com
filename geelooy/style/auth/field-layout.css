@@ -1,0 +1,95 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos, Atzmus beyond vessel and letter, renews each field's shape before a single human value can dwell inside;
+ * Awtsmoos.com keeps label, icon, input, and help in one local Yesod layout so later states may move independently without widening the cascade tide.
+ */
+
+.login-page .login-form {
+	display: grid;
+	gap: .78rem;
+	width: 100%;
+	min-width: 0;
+	margin: 0;
+}
+
+.login-page .field-stack {
+	position: relative;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: .28rem .7rem;
+	width: 100%;
+	min-width: 0;
+	padding: .7rem .76rem .57rem;
+	border: 1px solid var(--auth-line);
+	border-radius: var(--auth-control-radius);
+	background: var(--auth-field);
+	transition:
+		transform var(--auth-motion-fast) var(--auth-ease),
+		border-color var(--auth-motion-fast) var(--auth-ease),
+		background var(--auth-motion-fast) var(--auth-ease),
+		box-shadow var(--auth-motion-fast) var(--auth-ease);
+}
+
+.login-page .field-stack::before {
+	grid-row: 1 / span 2;
+	display: grid;
+	width: 2.15rem;
+	height: 2.15rem;
+	margin-top: .05rem;
+	place-items: center;
+	border-radius: .68rem;
+	background: rgba(75, 213, 255, .09);
+	color: var(--auth-cyan);
+	content: "◇";
+	font-weight: 900;
+	transition: transform var(--auth-motion-fast) var(--auth-ease);
+}
+
+.login-page .field-stack:has(#username)::before {
+	content: "@";
+}
+
+.login-page .field-stack:has(#password)::before {
+	content: "✦";
+}
+
+.login-page .field-stack label {
+	grid-column: 2;
+	margin: 0;
+	color: var(--auth-text);
+	font-size: .72rem;
+	font-weight: 850;
+	letter-spacing: .035em;
+	text-transform: uppercase;
+}
+
+.login-page .field-stack :is(input[type="text"], input[type="password"], input[type="email"]) {
+	grid-column: 2;
+	width: 100%;
+	min-width: 0;
+	min-height: 2.3rem;
+	padding: .25rem 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--auth-text);
+	caret-color: var(--auth-cyan);
+	font: max(16px, 1rem) var(--auth-font);
+}
+
+.login-page .field-stack input::placeholder {
+	color: color-mix(in srgb, var(--auth-muted) 62%, transparent);
+}
+
+.login-page .field-stack .field-help {
+	grid-column: 1 / -1;
+	margin: .2rem 0 0;
+	padding-top: .48rem;
+	border-top: 1px solid rgba(164, 190, 255, .09);
+	color: var(--auth-muted);
+	font-size: .76rem;
+	line-height: 1.45;
+	overflow-wrap: anywhere;
+}

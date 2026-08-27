@@ -2,55 +2,103 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos, Atzmus beyond width and height, reveals one account gate through every finite screen;
- * Awtsmoos.com keeps short phones compact, landscape usable, and reduced-motion journeys quiet and clean.
+ * The Awtsmoos, Atzmus beyond width, motion, and contrast, renews one account gate through every finite screen;
+ * Awtsmoos.com keeps short phones bounded, landscape usable, forced colors legible, and reduced-motion journeys serene.
  */
 
 @media (max-width: 30rem) {
-	.login-shell {
+	.login-page .login-shell {
 		place-items: start center;
 		padding: max(4rem, env(safe-area-inset-top)) .7rem max(.8rem, env(safe-area-inset-bottom));
 	}
 
-	.login-card {
+	.login-page .login-card {
 		padding: 1.05rem;
 		border-radius: 1.2rem;
 	}
 
-	.login-subtitle {
+	.login-page .login-subtitle {
 		margin-block: .7rem .8rem;
 		font-size: .9rem;
 	}
 
-	.field-stack {
-		padding: .58rem .65rem .5rem;
+	.login-page .field-stack {
+		padding: .6rem .66rem .52rem;
 	}
 
-	.field-stack .field-help {
+	.login-page .field-stack .field-help {
 		font-size: .72rem;
+	}
+
+	.login-page .secondary-link {
+		width: 100%;
+		justify-content: space-between;
+	}
+}
+
+@media (max-width: 22rem) {
+	.login-page .login-card {
+		padding-inline: .82rem;
+	}
+
+	.login-page .field-stack {
+		grid-template-columns: 1fr;
+	}
+
+	.login-page .field-stack::before {
+		display: none;
+	}
+
+	.login-page .field-stack :is(label, input, .field-help) {
+		grid-column: 1;
 	}
 }
 
 @media (max-height: 38rem) and (orientation: landscape) {
-	.login-shell {
+	.login-page .login-shell {
 		min-height: auto;
 		place-items: start center;
-		padding-block: 1rem;
+		padding-block: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-bottom));
 		padding-left: max(4rem, env(safe-area-inset-left));
+		padding-right: max(1rem, env(safe-area-inset-right));
 	}
 
-	.login-card {
+	.login-page .login-card {
 		width: min(100%, 38rem);
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
+	.login-page,
+	.login-page *,
+	.login-page *::before,
+	.login-page *::after {
 		animation-duration: .01ms !important;
 		animation-iteration-count: 1 !important;
 		transition-duration: .01ms !important;
 		scroll-behavior: auto !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.login-page .login-card,
+	.login-page .field-stack,
+	.login-page .secondary-link,
+	.login-page :is(.server-message, #serverMessage) {
+		border: 1px solid CanvasText;
+		background: Canvas;
+		color: CanvasText;
+		box-shadow: none;
+	}
+
+	.login-page :is(.login-form button, .login-card > button, .login-card .g-button) {
+		border: 1px solid ButtonText;
+		background: ButtonFace;
+		color: ButtonText;
+	}
+
+	.login-page :is(.login-form button, .secondary-link, input):focus-visible {
+		outline: 2px solid Highlight;
+		outline-offset: 3px;
 	}
 }

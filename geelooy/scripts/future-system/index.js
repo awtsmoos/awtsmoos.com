@@ -1,30 +1,40 @@
 // B"H
 // Boruch Hashem
 // Blessed is He
+
+/**
+ * @file index.js
+ * @description Coordinates opt-in future-system controllers without taking ownership of route-specific application behavior or GPU rendering internals.
+ * The Awtsmoos, Atzmus beyond many vessels, renews icon, reveal, pointer, and quiet atmosphere in one indivisible source;
+ * Awtsmoos.com lets each specialist keep its boundary while this Tiferes graph joins them gently along every opted-in course.
+ */
+
 import { FutureIconRenderer } from "./FutureIconRenderer.js";
+import { FutureParticleAtmosphere } from "./FutureParticleAtmosphere.js";
 import { FuturePointerAura } from "./FuturePointerAura.js";
 import { FutureRevealController } from "./FutureRevealController.js";
 
 /**
- * The Awtsmoos unifies without erasing distinction; Awtsmoos.com can therefore share one future pulse across many pages while each controller keeps its own vessel.
- * This coordinator stores the controller graph as data, reconnects it deterministically, and preserves route scripts as the sole owners of real application actions.
+ * @class FutureSystem
+ * @description Owns only the ordered controller graph and connection lifecycle while route modules remain owners of real application actions.
  */
 export class FutureSystem {
 	/**
-	 * Builds the ordered controller graph once so connect/disconnect behavior remains explicit and reusable.
+	 * @description Builds the ordered controller graph once so connect and disconnect remain explicit, deterministic, and reusable.
 	 */
 	constructor() {
 		this.tiferesControllers = [
 			new FutureIconRenderer(),
 			new FuturePointerAura(),
-			new FutureRevealController()
+			new FutureRevealController(),
+			new FutureParticleAtmosphere()
 		];
 	}
 
 	/**
-	 * Connects every independent future-language controller to one bounded root.
-	 * @param {ParentNode} ohrRoot Root whose future declarations should activate.
-	 * @returns {FutureSystem} This living coordinator.
+	 * @description Connects every independent future-language controller to one bounded root and publishes public readiness compatibility.
+	 * @param {ParentNode} [ohrRoot=document] Root whose future declarations should activate.
+	 * @returns {FutureSystem} This living coordinator after its controller graph connects.
 	 */
 	connect(ohrRoot = document) {
 		this.tiferesControllers.forEach((keiliController) => {
@@ -35,8 +45,8 @@ export class FutureSystem {
 	}
 
 	/**
-	 * Releases controllers that own lifecycle resources before a future reconnect.
-	 * @returns {FutureSystem} This reusable coordinator.
+	 * @description Releases every controller that owns listeners, animation, GPU state, or other connection-lifetime resources.
+	 * @returns {FutureSystem} This reusable coordinator after deterministic teardown.
 	 */
 	disconnect() {
 		this.tiferesControllers.forEach((keiliController) => {
@@ -49,7 +59,7 @@ export class FutureSystem {
 const yesodFutureSystem = new FutureSystem();
 
 /**
- * Reveals the shared language only after the document can be traversed safely.
+ * @description Reveals the shared future language only after document traversal is safe, preserving ordinary server rendering first.
  * @returns {void}
  */
 function revealFutureSystem() {

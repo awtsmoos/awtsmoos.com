@@ -1,36 +1,65 @@
 /* B"H
-Boruch Hashem
-Blessed is He
-The Awtsmoos lets a sparse field whisper behind the page without entering its semantic or pointer world;
-Awtsmoos.com keeps every particle fixed, inert, locally layered, and disposable so content remains sovereign as futures unfurl.
-*/
-body[data-future-particles] {
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos, Atzmus beyond depth and glow, renews every luminous point before background or content can divide;
+ * Awtsmoos.com lets quiet WebGL atmosphere remain a local, pointer-inert vessel beneath the page, fading whenever capability or preference says hide.
+ */
+
+body[data-future-page][data-future-particles] {
+	--future-particle-opacity: .3;
 	isolation: isolate;
-	--future-particle-rgb: 92 213 233;
 }
 
-body[data-future-particles] .futureParticleField {
+body[data-future-page][data-future-particles] .futureParticleField {
 	position: fixed;
+	z-index: var(--future-layer-particles);
 	inset: 0;
-	z-index: var(--future-layer-backdrop);
-	inline-size: 100%;
-	block-size: 100%;
-	pointer-events: none;
+	display: block;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
 	contain: strict;
-	opacity: .56;
-	mix-blend-mode: screen;
+	opacity: var(--future-particle-opacity);
+	pointer-events: none;
+	user-select: none;
+	transition: opacity var(--future-duration-slow) var(--future-ease-standard);
 }
 
-body[data-future-page="composer"] .futureParticleField {
-	opacity: .38;
+body[data-future-page][data-future-particles]
+	.futureParticleField:is(
+		[data-particle-status="unavailable"],
+		[data-particle-status="error"],
+		[data-particle-status="stopped"]
+	) {
+	opacity: 0;
 }
 
-body[data-future-page="youtube"] {
-	--future-particle-rgb: 132 153 255;
+body[data-future-page="about"][data-future-particles] {
+	--future-particle-opacity: .24;
 }
 
-@media (prefers-reduced-motion: reduce), (forced-colors: active), (prefers-reduced-data: reduce) {
-	body[data-future-particles] .futureParticleField {
+body[data-future-page="apps"][data-future-particles] {
+	--future-particle-opacity: .2;
+}
+
+@media (max-width: 48rem) {
+	body[data-future-page][data-future-particles] {
+		--future-particle-opacity: .18;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-future-page][data-future-particles] .futureParticleField {
+		transition: none;
+	}
+}
+
+@media (prefers-reduced-data: reduce), (forced-colors: active) {
+	body[data-future-page][data-future-particles] .futureParticleField {
 		display: none;
 	}
 }

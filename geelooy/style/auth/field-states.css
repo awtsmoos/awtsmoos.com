@@ -1,0 +1,63 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos, Atzmus beyond focus and error, renews every field-state before browser, keyboard, or hand can reveal the sign;
+ * Awtsmoos.com gives hover, focus, autofill, invalidity, readonly, and disabled truth a separate local Gevurah garment so layout remains clean and fine.
+ */
+
+.login-page .field-stack:focus-within {
+	border-color: var(--auth-focus);
+	background: var(--auth-field-strong);
+	box-shadow: var(--auth-focus-ring);
+}
+
+.login-page .field-stack:focus-within::before {
+	transform: scale(1.06) rotate(-3deg);
+}
+
+.login-page .field-stack input:is(:disabled, [aria-disabled="true"]) {
+	cursor: not-allowed;
+	opacity: .58;
+}
+
+.login-page .field-stack:has(input:is(:disabled, [aria-disabled="true"])) {
+	border-style: dashed;
+	filter: saturate(.7);
+	opacity: .8;
+}
+
+.login-page .field-stack:has(input:read-only:not([type="password"])) {
+	border-color: rgba(164, 190, 255, .26);
+	background: rgba(8, 14, 28, .72);
+}
+
+.login-page .field-stack:has(input:user-invalid) {
+	border-color: color-mix(in srgb, var(--auth-danger) 72%, transparent);
+	box-shadow: 0 0 0 3px rgba(255, 100, 132, .09);
+}
+
+.login-page .field-stack:has(input:user-valid:not(:placeholder-shown)) {
+	border-color: color-mix(in srgb, var(--auth-success) 34%, var(--auth-line));
+}
+
+.login-page .field-stack input:-webkit-autofill,
+.login-page .field-stack input:-webkit-autofill:hover,
+.login-page .field-stack input:-webkit-autofill:focus {
+	-webkit-text-fill-color: var(--auth-text);
+	box-shadow: 0 0 0 1000px #08111f inset;
+	caret-color: var(--auth-cyan);
+	transition: background-color 9999s ease-out 0s;
+}
+
+.login-page .field-stack input:focus-visible {
+	caret-color: var(--auth-focus);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.login-page .field-stack:hover {
+		transform: translateY(-1px);
+		border-color: var(--auth-line-strong);
+		background: rgba(8, 15, 28, .82);
+	}
+}

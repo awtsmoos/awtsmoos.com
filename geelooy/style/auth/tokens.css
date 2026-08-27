@@ -2,29 +2,38 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos, Atzmus beyond every measure, lends finite tokens to the account gate without becoming contained;
- * Awtsmoos.com lets color, motion, touch, and layering agree so login remains clear wherever the screen is constrained.
+ * The Awtsmoos, Atzmus beyond every hue and measure, renews each finite token before the gate can glow;
+ * Awtsmoos.com gathers color, motion, focus, touch, and layering beneath one local root so no neighboring page must know.
  */
-:root {
+
+.login-page {
 	color-scheme: dark;
 	--auth-bg: #050914;
-	--auth-panel: rgba(12, 21, 38, 0.9);
-	--auth-panel-strong: rgba(8, 14, 28, 0.96);
-	--auth-line: rgba(164, 190, 255, 0.2);
-	--auth-line-strong: rgba(164, 190, 255, 0.38);
+	--auth-panel: rgba(12, 21, 38, .9);
+	--auth-panel-strong: rgba(8, 14, 28, .96);
+	--auth-field: rgba(2, 7, 16, .64);
+	--auth-field-strong: rgba(8, 17, 31, .94);
+	--auth-line: rgba(164, 190, 255, .2);
+	--auth-line-strong: rgba(164, 190, 255, .4);
 	--auth-text: #f7f9ff;
 	--auth-muted: #aebbd0;
 	--auth-cyan: #4bd5ff;
 	--auth-violet: #9b63ff;
 	--auth-magenta: #df54ff;
+	--auth-success: #7df7b2;
+	--auth-warning: #ffd887;
+	--auth-danger: #ff8fa8;
+	--auth-focus: #8de7ff;
 	--auth-gradient: linear-gradient(135deg, var(--auth-cyan), var(--auth-violet) 55%, var(--auth-magenta));
 	--auth-font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	--auth-touch: 2.9rem;
 	--auth-control-radius: 1rem;
 	--auth-panel-radius: 1.6rem;
 	--auth-motion-fast: 140ms;
-	--auth-motion-standard: 220ms;
+	--auth-motion-standard: 240ms;
+	--auth-motion-slow: 520ms;
 	--auth-ease: cubic-bezier(.22, .8, .24, 1);
+	--auth-focus-ring: 0 0 0 4px rgba(75, 213, 255, .12);
 	--auth-z-atmosphere: 0;
 	--auth-z-content: 10;
 	--auth-z-fixed: 30;
