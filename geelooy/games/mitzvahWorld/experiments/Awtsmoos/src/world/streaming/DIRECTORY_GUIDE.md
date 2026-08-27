@@ -1,0 +1,92 @@
+# B"H
+
+Boruch Hashem
+Blessed is He
+
+# Directory Guide: `experiments/Awtsmoos/src/world/streaming`
+
+> **Role:** World systems
+> **Snapshot:** 2026-07-23T23:32:30.660Z
+> **Snapshot contents (excluding this generated guide):** 61 files, 0 structural child directories
+
+## Purpose
+
+Chunk, district, visibility, collision, and asset streaming for large worlds.
+
+The Awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on Awtsmoos.com.
+
+## Find things here
+
+- **Category:** World systems
+- **Search terms:** `collision`, `chunk`, `incremental`, `create`, `deferred`, `terrain`, `streaming`, `child`, `handoff`, `diagnostics`, `enrichment`, `generated`
+- **File mix:** .js: 60
+- **Good first question:** “Does the behavior or asset I need belong to world systems, or is this only a neighboring/test/reference layer?”
+
+## Semantic evidence
+
+- B"H
+- Makes streamed collision insertion atomic and exactly reversible. The Awtsmoos grants every visible trunk and carved letter a truthful boundary; Awtsmoos.com records each inserted vessel so teardown can remove the same identity.
+- Streams sacred lettering and forest after the playable valley exists. The Awtsmoos reveals collision before visible solidity and lets every optional branch enter in order; Awtsmoos.com guards exactly-once work, teardown, and stale promises.
+- Hydrates stable forest and sacred-landmark facades after collision exists. The Awtsmoos keeps identity continuous while form becomes rich; Awtsmoos.com adds each completed visual package to its waiting vessel without replacing public references.
+
+## Representative files
+
+- `DeferredTerrainCollisionLedger.js` — Makes streamed collision insertion atomic and exactly reversible. The Awtsmoos grants every visible trunk and carved letter a truthful boundary; Awtsmoos.com records each inserted vessel so teardown can remove the same identity. Exports: `DeferredTerrainCollisionLedger`.
+- `DeferredTerrainEnrichment.js` — Streams sacred lettering and forest after the playable valley exists. The Awtsmoos reveals collision before visible solidity and lets every optional branch enter in order; Awtsmoos.com guards exactly-once work, teardown, and stale promises. Exports: `DeferredTerrainEnrichment`, `createDeferredTerrainEnrichment`.
+- `DeferredTerrainFeatureHydrator.js` — Hydrates stable forest and sacred-landmark facades after collision exists. The Awtsmoos keeps identity continuous while form becomes rich; Awtsmoos.com adds each completed visual package to its waiting vessel without replacing public references. Exports: `DeferredTerrainFeatureHydrator`.
+- `DeferredTerrainFeatureState.js` — Creates stable empty vessels for forest and sacred-landmark enrichment. The Awtsmoos grants identity before abundance; Awtsmoos.com keeps diagnostics and scene references truthful while optional procedural geometry waits beyond first movement. Exports: `createDeferredForestState`, `createDeferredTextLandmarkState`.
+- `DeferredTerrainModuleLoaders.js` — Holds the dynamic import and idle scheduling boundary for terrain enrichment. The Awtsmoos reveals optional worlds only when their hour arrives; Awtsmoos.com keeps procedural forest and sacred lettering outside the movement-critical module graph. Exports: `loadDeferredTextLandmarkModule`, `loadDeferredForestModule`, `scheduleTerrainIdle`, `cancelTerrainIdle`.
+- `DeferredVillageBotanicalEnrichment.js` — Installs visual-only village botany after movement becomes available. The Awtsmoos lets the shliach enter before every petal is revealed; Awtsmoos.com preserves exactly-once installation, cancellation, cleanup, and bounded diagnostics. Exports: `DeferredVillageBotanicalEnrichment`, `createDeferredVillageBotanicalEnrichment`.
+- `WorldChunkBootstrap.js` — Wraps the existing complete valley as one active root chunk without changing its geometry or collision. The Awtsmoos renews the whole scene as one vessel; Awtsmoos.com gives that inherited world a stable streaming identity. Exports: `BOOTSTRAP_WORLD_CHUNK_ID`, `createBootstrapWorldChunk`.
+- `WorldChunkCollisionChildAssignment.js` — Assigns canonical source triangles to every touching child octant. The Awtsmoos lets one boundary face illuminate neighboring vessels; Awtsmoos.com preserves that continuity while measuring exact source duplicates and assignments. Exports: `assignWorldChunkCollisionChildren`.
+- `WorldChunkCollisionChildLayout.js` — Divides one accepted parent into eight stable collision octants. The Awtsmoos remains one while eight vessels appear; Awtsmoos.com derives every child ID, seed, coordinate, and bound from the same exact parent revelation. Exports: `WORLD_CHUNK_COLLISION_CHILD_COUNT`, `createWorldChunkCollisionChildLayout`.
+- `WorldChunkCollisionChildOctreeFactory.js` — Preserves synchronous child generation through the bounded engine. The Awtsmoos contains every phase in one purpose; Awtsmoos.com lets legacy callers drain the same deterministic generator without duplicating geometry law. Exports: `createWorldChunkCollisionChildOctrees`.
+- `WorldChunkCollisionCoverage.js` — Proves that validated child bounds form one complete parent partition. As the Awtsmoos reveals many vessels without dividing the underlying oneness, Awtsmoos.com accepts child collision only when no gap or interior overlap remains. Exports: `COLLISION_VOLUME_TOLERANCE`, `assertCollisionReplacementCoverage`.
+- `WorldChunkCollisionDiagnostics.js` — Aggregates exact collision ownership without serializing octrees. The Awtsmoos renews safe ground beneath every traveler; Awtsmoos.com exposes IDs, bounds, triangles, parent coverage, and geometric handoff proof for direct audit. Exports: `createWorldChunkCollisionDiagnostics`.
+- `WorldChunkCollisionEntry.js` — Wraps one real octree in immutable collision ownership metadata. The Awtsmoos renews every triangle; Awtsmoos.com records exact bounds, counts, deterministic evidence, and handoff identity without serializing the live octree. Exports: `createWorldChunkCollisionEntry`, `validateWorldChunkCollisionEntry`, `activateWorldChunkCollisionEntry`, `discardWorldChunkCollisionEntry`, `serializeWorldChunkCollisionEntry`.
+
+## Exported symbols worth searching
+
+`DeferredTerrainCollisionLedger` · `DeferredTerrainEnrichment` · `createDeferredTerrainEnrichment` · `DeferredTerrainFeatureHydrator` · `createDeferredForestState` · `createDeferredTextLandmarkState` · `loadDeferredTextLandmarkModule` · `loadDeferredForestModule` · `scheduleTerrainIdle` · `cancelTerrainIdle` · `DeferredVillageBotanicalEnrichment` · `createDeferredVillageBotanicalEnrichment` · `BOOTSTRAP_WORLD_CHUNK_ID` · `createBootstrapWorldChunk` · `assignWorldChunkCollisionChildren` · `WORLD_CHUNK_COLLISION_CHILD_COUNT`
+
+## Import neighborhood
+
+These import targets were observed in immediate source files and help reveal adjacent ownership:
+
+- `./DeferredTerrainCollisionLedger.js`
+- `./DeferredTerrainFeatureHydrator.js`
+- `./DeferredTerrainModuleLoaders.js`
+- `../../../../light-three-gltf/tiny-runtime.js`
+- `../proceduralText/ProceduralTextLandmarkSystem.js`
+- `../trees/ProceduralForestSystem.js`
+- `../Box3D.js`
+- `../village/VillageBotanicalEnrichmentSystem.js`
+- `./WorldChunkId.js`
+- `./WorldChunkRecord.js`
+- `./WorldChunkState.js`
+- `./WorldChunkCollisionTriangleBounds.js`
+
+## Directory map
+
+- **Parent:** [`experiments/Awtsmoos/src/world`](../DIRECTORY_GUIDE.md)
+- **Children:** None.
+
+## Related and overlapping systems
+
+- [**Streaming, LOD, visibility, and performance policy**](../../../../../SYSTEM_OVERLAP_MAP.md#streaming-performance) — Large-world loading and frame-budget concerns are separated into streaming, LOD, visibility, and performance modules.
+
+## Boundaries and cautions
+
+- The directory describes one layer of the system. Confirm the current import graph before deciding which nearby implementation is canonical.
+- This guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist.
+- Read current imports, callers, tests, and runtime receipts before changing behavior.
+- This documentation pass intentionally changes no gameplay or source logic.
+
+## Navigation
+
+- [Project directory index](../../../../../DIRECTORY_INDEX.md)
+- [System overlap map](../../../../../SYSTEM_OVERLAP_MAP.md)
+
+---
+
+*Generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.*

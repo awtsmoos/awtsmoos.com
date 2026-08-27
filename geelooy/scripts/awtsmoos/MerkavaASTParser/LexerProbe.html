@@ -1,0 +1,398 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merkava Lexer Scrying Mirror</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,700;1,400&family=Roboto+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --dark-bg: #0b0c10;
+            --main-bg: #1a1a1d;
+            --text-color: #c5c6c7;
+            --primary: #66fcf1;
+            --secondary: #45a29e;
+            --error: #ff6b6b;
+            --glow: 0 0 8px hsla(177, 97%, 70%, 0.5);
+            --border-radius: 6px;
+        }
+
+        html { box-sizing: border-box; }
+        *, *:before, *:after { box-sizing: inherit; }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 1rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--secondary);
+        }
+
+        h1 {
+            font-family: 'Crimson Text', serif;
+            color: var(--primary);
+            text-shadow: var(--glow);
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        h3 {
+            font-family: 'Crimson Text', serif;
+            font-style: italic;
+            font-weight: 400;
+            color: var(--text-color);
+            margin: 0.25rem 0 0;
+            font-size: 1.2rem;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            gap: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            background-color: var(--dark-bg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--secondary);
+        }
+
+        .button {
+            background-color: var(--primary);
+            color: var(--dark-bg);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            font-family: 'Roboto Mono', monospace;
+            border-radius: var(--border-radius);
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .button svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--dark-bg);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .button:hover:not(:disabled) {
+            background-color: var(--secondary);
+            color: var(--dark-bg);
+            box-shadow: var(--glow);
+            transform: translateY(-2px);
+        }
+
+        .button:disabled {
+            background-color: #3a3f44;
+            color: #888;
+            cursor: not-allowed;
+        }
+        .button:disabled svg {
+            fill: #888;
+        }
+
+        .status-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--secondary);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none; /* Hidden by default */
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #status { font-style: italic; color: var(--secondary); text-align: center; }
+        #status.error { color: var(--error); font-weight: bold; }
+
+        .io-container {
+            display: flex;
+            gap: 1.5rem;
+            flex-grow: 1;
+            flex-direction: column;
+        }
+
+        @media (min-width: 1024px) {
+            .io-container { flex-direction: row; }
+        }
+
+        .io-box {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 400px;
+            max-height: 75vh;
+        }
+
+        .io-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        label { font-size: 1.1rem; color: var(--primary); }
+
+        textarea, pre {
+            background-color: var(--dark-bg);
+            border: 1px solid var(--secondary);
+            color: var(--text-color);
+            padding: 1rem;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            border-radius: var(--border-radius);
+            width: 100%;
+            height: 100%;
+            resize: none;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        pre {
+            white-space: pre; /* Use pre for better performance with long lines */
+            overflow: auto;
+        }
+
+        /* Custom Scrollbar Styling */
+        textarea::-webkit-scrollbar,
+        pre::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        textarea::-webkit-scrollbar-track,
+        pre::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+        textarea::-webkit-scrollbar-thumb,
+        pre::-webkit-scrollbar-thumb {
+            background-color: var(--secondary);
+            border-radius: 20px;
+            border: 3px solid var(--dark-bg);
+        }
+        textarea::-webkit-scrollbar-thumb:hover,
+        pre::-webkit-scrollbar-thumb:hover {
+            background-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>B"H The Scrying Mirror</h1>
+        <h3>Witnessing the Golem's Thoughts</h3>
+    </header>
+
+    <main class="container">
+        <div class="controls">
+            <button id="probe-btn" class="button">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                Begin the Probe
+            </button>
+            <button id="stop-btn" class="button" disabled>
+                <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                Halt the Probe
+            </button>
+            <div class="status-container">
+                <div id="loader" class="loader"></div>
+                <p id="status">Ready for the revelation.</p>
+            </div>
+        </div>
+
+        <div class="io-container">
+            <div class="io-box">
+                <div class="io-box-header">
+                    <label for="js-input">The Emanation</label>
+                </div>
+                <textarea id="js-input" spellcheck="false" placeholder="Paste the full, corrected Lexer.js source code here..."></textarea>
+            </div>
+            <div class="io-box">
+                <div class="io-box-header">
+                    <label for="token-output">The Scroll of Truth</label>
+                    <button id="copy-btn" class="button" disabled>
+                        <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        Copy Output
+                    </button>
+                </div>
+                <pre id="token-output"></pre>
+            </div>
+        </div>
+    </main>
+
+    <script src="constants.js"></script>
+    <script src="Lexer.js"></script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const jsInput = document.getElementById('js-input');
+    const tokenOutput = document.getElementById('token-output');
+    const probeButton = document.getElementById('probe-btn');
+    const stopButton = document.getElementById('stop-btn');
+    const copyButton = document.getElementById('copy-btn');
+    const statusEl = document.getElementById('status');
+    const loaderEl = document.getElementById('loader');
+    
+    let isProbing = false;
+    let animationFrameId = null;
+
+    const setUIState = (state) => {
+        switch(state) {
+            case 'probing':
+                probeButton.disabled = true;
+                stopButton.disabled = false;
+                copyButton.disabled = true;
+                loaderEl.style.display = 'block';
+                tokenOutput.textContent = '';
+                tokenOutput.classList.remove('error');
+                statusEl.textContent = 'The Golem is contemplating...';
+                statusEl.classList.remove('error');
+                break;
+            case 'stopped':
+                probeButton.disabled = false;
+                stopButton.disabled = true;
+                copyButton.disabled = tokenOutput.textContent.length === 0;
+                loaderEl.style.display = 'none';
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                break;
+            case 'error':
+                probeButton.disabled = false;
+                stopButton.disabled = true;
+                copyButton.disabled = false;
+                loaderEl.style.display = 'none';
+                statusEl.classList.add('error');
+                tokenOutput.classList.add('error');
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                break;
+        }
+    };
+
+    const runProbe = () => {
+        if (!window.Lexer) {
+            statusEl.textContent = "FATAL: The Lexer class could not be found.";
+            setUIState('error');
+            return;
+        }
+        const sourceCode = jsInput.value;
+        if (!sourceCode) {
+            statusEl.textContent = "The scroll is blank. Provide an emanation to probe.";
+            return;
+        }
+
+        const lexer = new Lexer(sourceCode);
+        let tokenCount = 0;
+        isProbing = true;
+        setUIState('probing');
+        
+        const processChunk = () => {
+            if (!isProbing) {
+                statusEl.textContent = "The probe was halted by the mystic.";
+                setUIState('stopped');
+                return;
+            }
+
+            try {
+                const tokensInChunk = 100;
+                let chunkOutput = '';
+                for (let i = 0; i < tokensInChunk; i++) {
+                    const token = lexer.nextToken();
+                    tokenCount++;
+
+                    // --- THIS IS THE GREAT RECTIFICATION OF THE MIRROR ---
+                    // The mirror is now paranoid. It no longer assumes the token is perfect.
+                    // It checks for the token's very existence and the nature of its soul (type).
+                    if (!token || typeof token.type !== 'string') {
+                        const badTokenStr = JSON.stringify(token, null, 2);
+                        chunkOutput += `[${String(tokenCount).padStart(5, '0')}] L:???? C:???? T:--- CORRUPTED TOKEN ---\n${badTokenStr}\n`;
+                        statusEl.textContent = `A corrupted token was perceived! The probe continues...`;
+                        // We do not stop; we record the corruption and continue, to see if there are more.
+                        continue; 
+                    }
+                    // --- END OF THE RECTIFICATION ---
+
+                    const literal = (token.literal || '').toString().replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+                    chunkOutput += `[${String(tokenCount).padStart(5, '0')}] L:${String(token.line).padEnd(4)} C:${String(token.column).padEnd(4)} T:${token.type.padEnd(22)} Lit: "${literal}"\n`;
+
+                    if (token.type === 'EOF') {
+                        statusEl.textContent = `Probe Complete. ${tokenCount} tokens perceived. The vessel is whole.`;
+                        isProbing = false;
+                        setUIState('stopped');
+                        break; 
+                    }
+                }
+                
+                tokenOutput.append(chunkOutput);
+                tokenOutput.scrollTop = tokenOutput.scrollHeight;
+
+                if (isProbing) {
+                    statusEl.textContent = `Perceiving... ${tokenCount} tokens so far.`;
+                    animationFrameId = requestAnimationFrame(processChunk);
+                }
+
+            } catch (e) {
+                statusEl.textContent = "A CATASTROPHIC SHEVIRAH OCCURRED!";
+                tokenOutput.append(`\n--- THE GOLEM'S MIND SHATTERED ---\n${e.stack}`);
+                tokenOutput.scrollTop = tokenOutput.scrollHeight;
+                setUIState('error');
+            }
+        };
+        
+        animationFrameId = requestAnimationFrame(processChunk);
+    };
+    
+    const stopProbe = () => isProbing = false;
+
+    const copyOutputToClipboard = () => {
+        if (!tokenOutput.textContent) return;
+        navigator.clipboard.writeText(tokenOutput.textContent).then(() => {
+            const originalText = copyButton.innerHTML;
+            copyButton.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg> Copied!`;
+            setTimeout(() => { copyButton.innerHTML = originalText; }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+            alert('Could not copy to clipboard. See console for details.');
+        });
+    };
+
+    probeButton.addEventListener('click', runProbe);
+    stopButton.addEventListener('click', stopProbe);
+    copyButton.addEventListener('click', copyOutputToClipboard);
+    setUIState('stopped');
+});
+
+    </script>
+</body>
+</html>

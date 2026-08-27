@@ -1,0 +1,103 @@
+/*B"H*/
+
+
+
+.screen {
+    /* Base layout for all screens */
+    width: 100%;
+    height: 100%;
+    display: flex; /* Use flex for centering content */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Animation properties */
+    opacity: 1; /* Start at full opacity */
+    visibility: visible; /* Start visible */
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+}
+
+.screen.hidden {
+    /* This is how we will now hide screens */
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* === END: Replacement block === */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background-color: #1a1a1a;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.menu-container, #main-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 15px;
+}
+
+h1 {
+    font-size: 4em;
+    margin-bottom: 20px;
+    color: #4CAF50;
+}
+
+button {
+    background-color: #4CAF50;
+    border: 2px solid #45a049;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.3s, transform 0.1s;
+    min-width: 250px;
+}
+
+button:hover {
+    background-color: #5dc460;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#game-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+canvas {
+    display: block;
+    background-color: #121212;
+}
+
+#game-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#resign-btn {
+    background-color: #f44336;
+    border-color: #d32f2f;
+}
+#resign-btn:hover {
+    background-color: #e57373;
+}

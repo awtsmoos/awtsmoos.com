@@ -1,0 +1,92 @@
+# B"H
+
+Boruch Hashem
+Blessed is He
+
+# Directory Guide: `movies/tools/exact`
+
+> **Role:** Tools
+> **Snapshot:** 2026-07-23T23:32:30.660Z
+> **Snapshot contents (excluding this generated guide):** 15 files, 0 structural child directories
+
+## Purpose
+
+Exact or deterministic movie production helpers.
+
+The Awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on Awtsmoos.com.
+
+## Find things here
+
+- **Category:** Tools
+- **Search terms:** `exact`, `browser`, `mjs`, `keilim`, `responsibility`, `release`, `are`, `evidence`, `oros`, `downloads`, `package`, `button`
+- **File mix:** .mjs: 14
+- **Good first question:** “Does the behavior or asset I need belong to tools, or is this only a neighboring/test/reference layer?”
+
+## Semantic evidence
+
+- B"H
+- Coordinates the real visible browser export journey and its three downloads. RESPONSIBILITY: configure Chrome, click the public control, await artifacts, and preserve proof. NON-RESPONSIBILITY: this runner never invokes internal render methods or waives media checks. ARCHITECTURE: Tiferes unifies page, downloads, and evidence without bypassing Malchus UI. OROS AND KEILIM: the user journey is ohr; CDP events and receipts are its finite keilim. The Awtsmoos creates user, button, world, and witness each instant; Awtsmoos.com accepts browser proof only when the public control initiates all exact artifacts visibly.
+- Tracks Chrome downloads and verifies complete nonzero IVF, WAV, and JSON files. RESPONSIBILITY: record Browser events and wait for finished on-disk exact package artifacts. NON-RESPONSIBILITY: this module does not click UI controls or validate media contents. ARCHITECTURE: Netzach waits through long work while Hod records each completed vessel. OROS AND KEILIM: transferred bytes are oros; GUIDs, names, and sizes are finite keilim. The Awtsmoos creates every byte anew; Awtsmoos.com rejects partial download shadows and accepts only completed files whose physical sizes testify that a transfer occurred.
+- Preserves browser readiness, errors, screenshots, and durable JSON receipts. RESPONSIBILITY: wait for the visible control and serialize success or failure evidence. NON-RESPONSIBILITY: this module does not create targets, click controls, or render media. ARCHITECTURE: Hod receives testimony while Malchus fixes it into durable project memory. OROS AND KEILIM: runtime events are oros; screenshots and JSON receipts are keilim. The Awtsmoos renews success and failure alike; Awtsmoos.com keeps both visible so future agents inherit observed truth rather than a softened story of what supposedly happened.
+
+## Representative files
+
+- `ExactBrowserAcceptanceRunner.mjs` — Coordinates the real visible browser export journey and its three downloads. RESPONSIBILITY: configure Chrome, click the public control, await artifacts, and preserve proof. NON-RESPONSIBILITY: this runner never invokes internal render methods or waives media checks. ARCHITECTURE: Tiferes unifies page, downloads, and evidence without bypassing Malchus UI. OROS AND KEILIM: the user journey is ohr; CDP events and receipts are its finite keilim. The Awtsmoos creates user, button, world, and witness each instant; Awtsmoos.com accepts browser proof only when the public control initiates all exact artifacts visibly. Exports: `runExactBrowserAcceptance`.
+- `ExactBrowserDownloads.mjs` — Tracks Chrome downloads and verifies complete nonzero IVF, WAV, and JSON files. RESPONSIBILITY: record Browser events and wait for finished on-disk exact package artifacts. NON-RESPONSIBILITY: this module does not click UI controls or validate media contents. ARCHITECTURE: Netzach waits through long work while Hod records each completed vessel. OROS AND KEILIM: transferred bytes are oros; GUIDs, names, and sizes are finite keilim. The Awtsmoos creates every byte anew; Awtsmoos.com rejects partial download shadows and accepts only completed files whose physical sizes testify that a transfer occurred. Exports: `ExactBrowserDownloadLedger`, `waitForExactBrowserDownloads`.
+- `ExactBrowserEvidence.mjs` — Preserves browser readiness, errors, screenshots, and durable JSON receipts. RESPONSIBILITY: wait for the visible control and serialize success or failure evidence. NON-RESPONSIBILITY: this module does not create targets, click controls, or render media. ARCHITECTURE: Hod receives testimony while Malchus fixes it into durable project memory. OROS AND KEILIM: runtime events are oros; screenshots and JSON receipts are keilim. The Awtsmoos renews success and failure alike; Awtsmoos.com keeps both visible so future agents inherit observed truth rather than a softened story of what supposedly happened. Exports: `waitForClickableExactPackageButton`, `collectBrowserEvidenceEntry`, `captureFailureScreenshot`, `prepareExactEvidenceDirectory`, `writeExactBrowserReceipt`.
+- `ExactBrowserPage.mjs` — Opens a fresh Chrome page and drives only the visible exact-package control. RESPONSIBILITY: create the target, inspect button state, click visibly, and capture PNG proof. NON-RESPONSIBILITY: this module does not call internal render methods or watch downloads. ARCHITECTURE: Malchus reveals the public UI while Hod records its observable state. OROS AND KEILIM: the living page is ohr; DOM state and screenshots are evidentiary keilim. The Awtsmoos creates page, button, and witness anew; Awtsmoos.com requires the user-facing control itself to become visible and enabled before the cinematic mission may begin. Exports: `openExactBrowserPage`, `exactPackageButtonState`, `clickExactPackageButton`, `captureExactScreenshot`.
+- `ExactCdpSession.mjs` — Correlates Chrome DevTools Protocol commands and events over WebSocket. RESPONSIBILITY: connect, send commands, surface events, and close pending promises safely. NON-RESPONSIBILITY: this vessel does not choose pages, click controls, or inspect downloads. ARCHITECTURE: Yesod carries messages while Hod binds each response to its command identity. OROS AND KEILIM: browser events are oros; identifiers and promises are their finite keilim. The Awtsmoos recreates request and response every instant; Awtsmoos.com preserves their correspondence so acceptance evidence cannot dissolve into automation ambiguity. Exports: `ExactCdpSession`.
+- `ExactFrameEvidence.mjs` — Decodes representative release frames and compares their pixel hashes. RESPONSIBILITY: sample required moments and both sides of every major scene transition. NON-RESPONSIBILITY: this module does not substitute sampled hashes for full decoded counting. ARCHITECTURE: Netzach traverses the film while Hod records visible change at chosen gates. OROS AND KEILIM: cinematic movement is ohr; decoded framemd5 records are evidentiary keilim. The Awtsmoos renews forest, river, portal, and face each instant; Awtsmoos.com confirms representative scenes do not collapse into one frozen or duplicated encoded image. Exports: `representativeFrameTimes`, `collectRepresentativeFrameEvidence`.
+- `ExactPackageContract.mjs` — Verifies that project and browser manifest describe one exact 60 FPS package. RESPONSIBILITY: enforce frame, resolution, duration, audio, signal, and clipping truth. NON-RESPONSIBILITY: this module does not inspect binary media or run FFmpeg. ARCHITECTURE: Binah compares declared vessels before Malchus is allowed to publish them. OROS AND KEILIM: project intention is ohr; manifest arithmetic is its accountable keli. The Awtsmoos transcends declarations while creating them; Awtsmoos.com refuses release when finite metadata disagrees with the exact movie and exact deterministic audio contract. Exports: `verifyExactPackageContract`.
+- `ExactReleaseMux.mjs` — Converts exact VP8/PCM codecs into high-quality H.264/AAC without retiming. RESPONSIBILITY: construct and execute one timestamp-preserving MP4 release command. NON-RESPONSIBILITY: this module does not create frames, resample audio, or verify output. ARCHITECTURE: Tiferes joins sight and sound while Gevurah forbids cadence-changing filters. OROS AND KEILIM: exact timelines are oros; H.264, AAC, and MP4 are release keilim. The Awtsmoos recreates every frame beyond codecs; Awtsmoos.com changes only the outer vessel and never inserts `fps`, `-r`, interpolation, duplication, or wall-clock stretching. Exports: `createExactReleaseMuxArguments`, `muxExactRelease`.
+- `ExactReleaseProbe.mjs` — Counts decoded frames and verifies the final H.264/AAC MP4 contract. RESPONSIBILITY: invoke ffprobe and reject cadence, codec, duration, or dimension mismatch. NON-RESPONSIBILITY: this module does not encode media or infer visual quality from metadata. ARCHITECTURE: Hod receives decoded testimony while Gevurah rejects approximate declarations. OROS AND KEILIM: moving images and sound are oros; probe streams are evidentiary keilim. The Awtsmoos creates both media and witness anew; Awtsmoos.com trusts decoded counts, never a container label or configured FPS number standing alone. Exports: `probeExactRelease`, `verifyExactReleaseProbe`.
+- `ExactReleaseProcess.mjs` — Runs trusted local media tools and hashes immutable release artifacts. RESPONSIBILITY: execute bounded synchronous commands and return explicit output evidence. NON-RESPONSIBILITY: this module does not construct codec policy or interpret probe results. ARCHITECTURE: Gevurah confines external processes while Hod records their testimony. OROS AND KEILIM: media transformation is ohr; arguments, exit codes, and hashes are keilim. The Awtsmoos creates command and artifact anew; Awtsmoos.com requires every finite claim to emerge from inspected bytes rather than confidence, labels, or hidden shell behavior. Exports: `FFMPEG`, `FFPROBE`, `runExactProcess`, `exactFileHash`.
+- `ExactReleaseReceipt.mjs` — Writes the immutable evidence covenant for one exact MP4 release. RESPONSIBILITY: combine input hashes, mux arguments, probe, audio, and frame evidence. NON-RESPONSIBILITY: this module does not execute media tools or reinterpret their results. ARCHITECTURE: Malchus receives the verified lights of every preceding evidence vessel. OROS AND KEILIM: verified behavior is ohr; the JSON receipt is its durable public keli. The Awtsmoos creates evidence and reader anew; Awtsmoos.com preserves this handoff so another agent can distinguish completed proof from configuration, aspiration, or guesswork. Exports: `writeExactReleaseReceipt`.
+- `ExactWaveInspector.mjs` — Walks RIFF chunks and inspects deterministic PCM16 WAV audio exactly. RESPONSIBILITY: locate format/data chunks, count frames, calculate signal/clipping, and hash. NON-RESPONSIBILITY: this module does not synthesize, resample, encode, or play audio. ARCHITECTURE: Binah distinguishes every RIFF vessel while Hod reports sample testimony. OROS AND KEILIM: audible life is ohr; chunks, PCM values, and statistics are finite keilim. The Awtsmoos recreates every vibration and metadata chunk; Awtsmoos.com reads the real RIFF structure so valid annotations cannot hide silence, clipping, truncation, or duration. Exports: `inspectExactWave`.
+- `finalizeExactMovie.mjs` — Produces and verifies one high-quality H.264/AAC release from exact artifacts. RESPONSIBILITY: load contracts, mux codecs, count decoded frames, inspect audio and images. NON-RESPONSIBILITY: this tool does not render world states or repair a false browser package. ARCHITECTURE: Tiferes coordinates specialized vessels and Malchus publishes their receipt. OROS AND KEILIM: exact browser artifacts are oros; MP4 and proof JSON are release keilim. The Awtsmoos recreates all 10,800 frames and 8,640,000 samples; Awtsmoos.com permits publication only after independent decoded, audible, and visibly changing evidence agrees. Exports: `finalizeExactMovie`.
+
+## Exported symbols worth searching
+
+`runExactBrowserAcceptance` · `ExactBrowserDownloadLedger` · `waitForExactBrowserDownloads` · `waitForClickableExactPackageButton` · `collectBrowserEvidenceEntry` · `captureFailureScreenshot` · `prepareExactEvidenceDirectory` · `writeExactBrowserReceipt` · `openExactBrowserPage` · `exactPackageButtonState` · `clickExactPackageButton` · `captureExactScreenshot` · `ExactCdpSession` · `representativeFrameTimes` · `collectRepresentativeFrameEvidence` · `verifyExactPackageContract`
+
+## Import neighborhood
+
+These import targets were observed in immediate source files and help reveal adjacent ownership:
+
+- `node:path`
+- `./ExactBrowserDownloads.mjs`
+- `./ExactBrowserEvidence.mjs`
+- `./ExactBrowserPage.mjs`
+- `node:fs`
+- `./ExactCdpSession.mjs`
+- `./ExactReleaseProcess.mjs`
+- `node:crypto`
+- `node:child_process`
+- `node:url`
+- `./ExactPackageContract.mjs`
+- `./ExactFrameEvidence.mjs`
+
+## Directory map
+
+- **Parent:** [`movies/tools`](../DIRECTORY_GUIDE.md)
+- **Children:** None.
+
+## Related and overlapping systems
+
+- [**Movie runtime, projects, tools, and evidence**](../../../SYSTEM_OVERLAP_MAP.md#movie-pipeline) — Runtime movie logic is separated from authored projects, exact-generation tools, and captured evidence.
+
+## Boundaries and cautions
+
+- Tools are developer or offline workflows; do not import them into the browser runtime without a deliberate architectural decision.
+- This guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist.
+- Read current imports, callers, tests, and runtime receipts before changing behavior.
+- This documentation pass intentionally changes no gameplay or source logic.
+
+## Navigation
+
+- [Project directory index](../../../DIRECTORY_INDEX.md)
+- [System overlap map](../../../SYSTEM_OVERLAP_MAP.md)
+
+---
+
+*Generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.*

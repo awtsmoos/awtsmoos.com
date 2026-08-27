@@ -1,0 +1,72 @@
+{
+	"version": 1,
+	"title": "The First Step — A Chossid Enters the House",
+	"duration": 30,
+	"fps": 24,
+	"resolution": { "width": 960, "height": 540 },
+	"seed": 613,
+	"render": { "fileName": "chossid-journey-30s.webm", "videoBitsPerSecond": 4200000 },
+	"tracks": [
+		{
+			"id": "scene", "type": "scene", "clips": [
+				{ "id": "outdoor", "start": 0, "duration": 15, "label": "Forest Road", "grade": "#8fd6b4", "transition": "fade" },
+				{ "id": "doorway", "start": 15, "duration": 4, "label": "The Threshold", "grade": "#ffd27d", "transition": "cut" },
+				{ "id": "interior", "start": 19, "duration": 11, "label": "Inside the House", "grade": "#9eb8ff", "transition": "crossfade" }
+			]
+		},
+		{
+			"id": "player-performance", "type": "actor", "target": "player", "clips": [
+				{ "start": 0, "duration": 4, "action": "move", "animation": "walk", "from": { "x": 46, "z": -27 }, "to": { "x": 55, "z": -35 }, "easing": "easeInOutCubic" },
+				{ "start": 4, "duration": 3, "action": "move", "animation": "run", "from": { "x": 55, "z": -35 }, "to": { "x": 61, "z": -35 }, "easing": "easeOutQuad" },
+				{ "start": 7, "duration": 4, "action": "talk", "animation": "talk", "at": { "x": 61, "z": -35 }, "face": "npc" },
+				{ "start": 11, "duration": 4, "action": "move", "animation": "run", "from": { "x": 61, "z": -35 }, "to": { "x": 58, "z": -39 }, "easing": "easeInOutQuad" },
+				{ "start": 15, "duration": 4, "action": "move", "animation": "walk", "from": { "x": 58, "z": -39 }, "to": { "x": 58, "z": -49 }, "easing": "smoothstep" },
+				{ "start": 19, "duration": 4, "action": "move", "animation": "run", "from": { "x": 58, "z": -49 }, "to": { "x": 63, "z": -58 }, "easing": "easeInOutCubic" },
+				{ "start": 23, "duration": 3, "action": "jump", "animation": "jump", "from": { "x": 63, "z": -58 }, "to": { "x": 66, "z": -61 }, "height": 2.6, "easing": "easeInOutQuad" },
+				{ "start": 26, "duration": 4, "action": "move", "animation": "walk", "from": { "x": 66, "z": -61 }, "to": { "x": 67, "z": -69 }, "easing": "smootherstep" }
+			]
+		},
+		{
+			"id": "npc-performance", "type": "actor", "target": "npc", "clips": [
+				{ "start": 0, "duration": 7, "action": "pose", "animation": "idle", "at": { "x": 64, "z": -35 }, "face": "player" },
+				{ "start": 7, "duration": 5, "action": "talk", "animation": "talk", "at": { "x": 64, "z": -35 }, "face": "player" },
+				{ "start": 12, "duration": 18, "action": "pose", "animation": "idle", "at": { "x": 64, "z": -35 }, "face": "player" }
+			]
+		},
+		{
+			"id": "front-door", "type": "door", "target": "Awtsmoos-main-house-front-door", "clips": [
+				{ "start": 12, "duration": 3, "from": 0, "to": 1, "easing": "easeInOutCubic" },
+				{ "start": 15, "duration": 15, "from": 1, "to": 1 }
+			]
+		},
+		{
+			"id": "camera-cuts", "type": "camera", "clips": [
+				{ "start": 0, "duration": 4, "shot": "establishing", "from": { "position": { "x": 35, "y": 10, "z": -16 }, "target": { "x": 51, "y": 2, "z": -31 } }, "to": { "position": { "x": 44, "y": 8, "z": -24 }, "target": { "x": 55, "y": 2, "z": -35 } }, "easing": "smootherstep" },
+				{ "start": 4, "duration": 3, "shot": "sideTracking", "from": { "position": { "x": 55, "y": 4, "z": -25 }, "targetActor": "player" }, "to": { "position": { "x": 61, "y": 4, "z": -25 }, "targetActor": "player" } },
+				{ "start": 7, "duration": 4, "shot": "twoShot", "from": { "position": { "x": 68, "y": 4.8, "z": -27 }, "target": { "x": 62.5, "y": 2.2, "z": -35 } }, "to": { "position": { "x": 66, "y": 4.2, "z": -29 }, "target": { "x": 62.5, "y": 2.2, "z": -35 } }, "easing": "easeInOutQuad" },
+				{ "start": 11, "duration": 4, "shot": "heroLowAngle", "from": { "position": { "x": 51, "y": 2.1, "z": -34 }, "targetActor": "player" }, "to": { "position": { "x": 53, "y": 2.4, "z": -38 }, "targetActor": "player" } },
+				{ "start": 15, "duration": 4, "shot": "followThroughDoor", "from": { "position": { "x": 64, "y": 4.2, "z": -34 }, "targetActor": "player" }, "to": { "position": { "x": 63, "y": 4, "z": -44 }, "targetActor": "player" }, "easing": "smoothstep" },
+				{ "start": 19, "duration": 4, "shot": "interiorTracking", "from": { "position": { "x": 50, "y": 5, "z": -55 }, "targetActor": "player" }, "to": { "position": { "x": 57, "y": 4.5, "z": -61 }, "targetActor": "player" } },
+				{ "start": 23, "duration": 3, "shot": "jumpLowAngle", "from": { "position": { "x": 59, "y": 1.7, "z": -54 }, "targetActor": "player" }, "to": { "position": { "x": 61, "y": 2.1, "z": -58 }, "targetActor": "player" } },
+				{ "start": 26, "duration": 4, "shot": "craneUpEnding", "from": { "position": { "x": 70, "y": 5, "z": -60 }, "targetActor": "player" }, "to": { "position": { "x": 74, "y": 12, "z": -63 }, "targetActor": "player" }, "easing": "smootherstep" }
+			]
+		},
+		{
+			"id": "dialogue", "type": "dialogue", "clips": [
+				{ "start": 7.2, "duration": 1.8, "speaker": "Reb Mendel", "text": "Where are you going with such fire?" },
+				{ "start": 9, "duration": 2.2, "speaker": "Chossid", "text": "I am the first, and I am entering with joy." },
+				{ "start": 14, "duration": 1.5, "speaker": "Narrator", "text": "The door opens." },
+				{ "start": 26.3, "duration": 3.4, "speaker": "Narrator", "text": "Every step reveals another world." }
+			]
+		},
+		{
+			"id": "audio", "type": "audio", "clips": [
+				{ "start": 0, "duration": 30, "kind": "score", "frequency": 110, "volume": 0.045 },
+				{ "start": 7.2, "duration": 1.8, "kind": "speechTone", "frequency": 170, "volume": 0.09 },
+				{ "start": 9, "duration": 2.2, "kind": "speechTone", "frequency": 205, "volume": 0.09 },
+				{ "start": 14, "duration": 1.5, "kind": "door", "frequency": 72, "volume": 0.12 },
+				{ "start": 23, "duration": 3, "kind": "jump", "frequency": 260, "volume": 0.07 }
+			]
+		}
+	]
+}

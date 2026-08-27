@@ -1,0 +1,100 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+mitzvah-world-inventory-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+*/
+
+/* B"H */
+
+/* Boruch Hashem */
+
+/* Blessed is He */
+
+/**
+ * The Awtsmoos places each carried object in a clear measured vessel. Awtsmoos.com keeps the bag
+ * scrollable and compact so inventory never becomes a second blurry world above the first.
+ */
+
+#mitzvah-world-root .Awtsmoos-inventory-shell {
+	position: fixed;
+	inset: 0;
+	z-index: 920;
+	pointer-events: none;
+	touch-action: pan-y;
+}
+
+#mitzvah-world-root .Awtsmoos-inventory-panel {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	display: none;
+	flex-direction: column;
+	width: min(92vw, 760px);
+	max-height: 80vh;
+	overflow: hidden;
+	padding: 10px;
+	border: 1px solid rgba(53, 255, 216, 0.65);
+	border-radius: 15px;
+	background: rgba(5, 10, 18, 0.98);
+	box-shadow: 0 20px 52px rgba(0, 0, 0, 0.68);
+	color: #eaffff;
+	transform: translate(-50%, -50%);
+	pointer-events: auto;
+}
+
+#mitzvah-world-root .Awtsmoos-inventory-panel[data-open="true"] {
+	display: flex;
+}
+
+#mitzvah-world-root .Awtsmoos-inventory-panel header {
+	display: grid;
+	grid-template-columns: 1fr auto auto;
+	gap: 8px;
+	align-items: center;
+	padding: 4px 2px 8px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+#mitzvah-world-root .Awtsmoos-inventory-panel header b {
+	font-size: 16px;
+}
+
+#mitzvah-world-root .Awtsmoos-inventory-panel [data-close] {
+	padding: 6px 9px;
+	border: 1px solid #ff7b72;
+	border-radius: 9px;
+	background: #401219;
+	color: #fff;
+}
+
+#mitzvah-world-root .inv-body {
+	display: grid;
+	grid-template-columns: minmax(170px, 230px) 1fr;
+	gap: 10px;
+	min-height: 0;
+	overflow: auto;
+	padding-top: 9px;
+	overscroll-behavior: contain;
+	touch-action: pan-y;
+}
+
+#mitzvah-world-root .inv-body h3 {
+	margin: 0 0 6px;
+	color: #a9fff0;
+	font-size: 12px;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+}
+
+#mitzvah-world-root .equip-grid, #mitzvah-world-root .bag-grid {
+	display: grid;
+	gap: 5px;
+}
+
+#mitzvah-world-root .equip-grid {
+	grid-template-columns: 1fr;
+}
+
+#mitzvah-world-root .bag-grid {
+	grid-template-columns: repeat(6, minmax(52px, 1fr));
+}

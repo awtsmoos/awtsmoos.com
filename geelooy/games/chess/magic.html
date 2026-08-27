@@ -1,0 +1,242 @@
+<!--B"H-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B"H - Chess Engine Magic Number Forge</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #252526;
+            border: 1px solid #3c3c3c;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+        h1 {
+            color: #4ec9b0;
+            margin-top: 0;
+            border-bottom: 2px solid #4ec9b0;
+            padding-bottom: 0.5rem;
+            font-weight: 300;
+        }
+        p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+        #progress-container {
+            width: 100%;
+            background-color: #3c3c3c;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+            border: 1px solid #555;
+        }
+        #progress-bar {
+            width: 0%;
+            height: 30px;
+            background: linear-gradient(90deg, #4ec9b0, #2d7c71);
+            transition: width 0.3s ease-in-out;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            font-weight: bold;
+        }
+        #status-container {
+            padding: 1rem;
+            background: #2a2a2b;
+            border-radius: 5px;
+            border: 1px solid #3c3c3c;
+        }
+        #status {
+            font-size: 1.1em;
+            color: #9cdcfe;
+            min-height: 25px;
+            margin-bottom: 0.5rem;
+        }
+        #loop-counter {
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 1.2em;
+            color: #ce9178;
+            min-height: 25px;
+            font-weight: bold;
+        }
+        #results {
+            display: none;
+            margin-top: 2rem;
+        }
+        textarea {
+            width: 100%;
+            height: 400px;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #3c3c3c;
+            border-radius: 5px;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 14px;
+            padding: 1rem;
+            box-sizing: border-box;
+            white-space: pre;
+        }
+        .code-title {
+            text-align: left;
+            font-weight: bold;
+            color: #dcdcaa;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <h1>B"H - Magic Number Forge</h1>
+        <p>This tool runs your engine's logic in the background to find perfectly compatible magic numbers. The live counter below confirms that the process is actively working.</p>
+        
+        <div id="progress-container">
+            <div id="progress-bar">0%</div>
+        </div>
+        
+        <div id="status-container">
+            <div id="status">Initializing the forge...</div>
+            <div id="loop-counter">Current Attempts: 0</div>
+        </div>
+
+        <div id="results">
+            <h2 style="color: #569cd6;">Creation Complete!</h2>
+            <p>The following constants are guaranteed to work. Copy this entire block and replace the old `let bishopMagics;` and `let rookMagics;` declarations in `helpers.js`.</p>
+            <div class="code-title">helpers.js</div>
+            <textarea id="output" readonly></textarea>
+        </div>
+    </div>
+
+<script>
+    const progressBar = document.getElementById('progress-bar');
+    const statusText = document.getElementById('status');
+    const loopCounter = document.getElementById('loop-counter');
+    const resultsDiv = document.getElementById('results');
+    const outputTextArea = document.getElementById('output');
+
+    const workerCode = `
+        // --- All necessary functions are self-contained in the worker ---
+        const deBruijn64 = 0x03f79d71b4cb0a89n;
+        const lsb_64_table = [63,0,58,1,59,47,53,2,60,39,48,27,54,33,42,3,61,51,37,40,49,18,28,20,55,30,34,11,43,14,22,4,62,57,46,52,38,26,32,41,50,36,17,19,29,10,13,21,56,45,25,31,35,16,9,12,44,24,15,8,23,7,6,5];
+        function getLSBIndex(bb) { if(bb===0n)return -1; const i=Number(((((bb&-bb)*deBruijn64))&0xffffffffffffffffn)>>58n); return lsb_64_table[i]; }
+        function popBit(bb) { return bb & (bb-1n); }
+        function popcount(bb) { let c=0; while(bb>0n){bb&=(bb-1n);c++;} return c; }
+        function generateSliderAttacks(sq,isB,bl){ let a=0n; const r=sq>>3,f=sq&7; const d=isB?[[-1,-1],[-1,1],[1,-1],[1,1]]:[[-1,0],[1,0],[0,-1],[0,1]]; for(const[dr,dc]of d){let nr=r+dr,nc=f+dc; while(nr>=0&&nr<=7&&nc>=0&&nc<=7){const cS=1n<<BigInt(nr*8+nc);a|=cS; if((cS&bl)!==0n)break; nr+=dr;nc+=dc;}} return a;}
+        const random64=(()=>{let s=Date.now(); return()=>{s|=0;s=(s+0x6d2b79f5)|0;let t=Math.imul(s^(s>>>15),1|s);t=(t+Math.imul(t^(t>>>7),61|t))^t;const h=Math.imul(t^(t>>>14),s)|0;s=(s+0x6d2b79f5)|0;t=Math.imul(s^(s>>>15),1|s);t=(t+Math.imul(t^(t>>>7),61|t))^t;const l=Math.imul(t^(t>>>14),s)|0;return(BigInt(h)<<32n)|BigInt(l&0xFFFFFFFF);}})();
+
+        self.onmessage = function() {
+            const bishopMasks = Array(64).fill(0n), rookMasks = Array(64).fill(0n);
+            for(let s=0;s<64;s++){const r=s>>3,f=s&7; for(let i=r+1,j=f+1;i<7&&j<7;i++,j++)bishopMasks[s]|=1n<<BigInt(i*8+j); for(let i=r+1,j=f-1;i<7&&j>0;i++,j--)bishopMasks[s]|=1n<<BigInt(i*8+j); for(let i=r-1,j=f+1;i>0&&j<7;i--,j++)bishopMasks[s]|=1n<<BigInt(i*8+j); for(let i=r-1,j=f-1;i>0&&j>0;i--,j--)bishopMasks[s]|=1n<<BigInt(i*8+j); for(let i=r+1;i<7;i++)rookMasks[s]|=1n<<BigInt(i*8+f); for(let i=r-1;i>0;i--)rookMasks[s]|=1n<<BigInt(i*8+f); for(let i=f+1;i<7;i++)rookMasks[s]|=1n<<BigInt(r*8+i); for(let i=f-1;i>0;i--)rookMasks[s]|=1n<<BigInt(r*8+i);}
+
+            const bishopMagics = Array(64), rookMagics = Array(64);
+            const UPDATE_FREQUENCY = 100000; // Send an update every 100,000 attempts
+
+            for (let sq = 0; sq < 64; sq++) {
+                // Find Bishop Magic
+                const b_mask = bishopMasks[sq], b_bits = popcount(b_mask), b_size = 1 << b_bits;
+                const b_used = Array(b_size);
+                let b_attempts = 0;
+                while (true) {
+                    b_attempts++;
+                    if(b_attempts % UPDATE_FREQUENCY === 0) self.postMessage({type:'update', piece:'Bishop', square: sq, count: b_attempts});
+                    const magic = random64()&random64()&random64();
+                    if(popcount((b_mask*magic)&0xFF00000000000000n)<6) continue;
+                    let fail=false; b_used.fill(0n);
+                    for(let i=0;i<b_size;i++){let t=b_mask,bl=0n; for(let j=0;j<b_bits;j++){const l=getLSBIndex(t);t=popBit(t); if((i>>j)&1)bl|=(1n<<BigInt(l));} const idx=Number((bl*magic)>>BigInt(64-b_bits)); const attack=generateSliderAttacks(sq,true,bl); if(b_used[idx]===0n)b_used[idx]=attack; else if(b_used[idx]!==attack){fail=true;break;}}
+                    if(!fail){bishopMagics[sq]=magic;break;}
+                }
+
+                // Find Rook Magic
+                const r_mask = rookMasks[sq], r_bits = popcount(r_mask), r_size = 1 << r_bits;
+                const r_used = Array(r_size);
+                let r_attempts = 0;
+                while (true) {
+                    r_attempts++;
+                    if(r_attempts % UPDATE_FREQUENCY === 0) self.postMessage({type:'update', piece:'Rook', square: sq, count: r_attempts});
+                    const magic = random64()&random64()&random64();
+                    if(popcount((r_mask*magic)&0xFF00000000000000n)<6) continue;
+                    let fail=false; r_used.fill(0n);
+                    for(let i=0;i<r_size;i++){let t=r_mask,bl=0n; for(let j=0;j<r_bits;j++){const l=getLSBIndex(t);t=popBit(t); if((i>>j)&1)bl|=(1n<<BigInt(l));} const idx=Number((bl*magic)>>BigInt(64-r_bits)); const attack=generateSliderAttacks(sq,false,bl); if(r_used[idx]===0n)r_used[idx]=attack; else if(r_used[idx]!==attack){fail=true;break;}}
+                    if(!fail){rookMagics[sq]=magic;break;}
+                }
+                
+                self.postMessage({ type: 'progress', completedSquare: sq });
+            }
+            
+            self.postMessage({ type: 'complete', bishopMagics, rookMagics });
+        };
+    `;
+
+    const blob = new Blob([workerCode], { type: 'application/javascript' });
+    const worker = new Worker(URL.createObjectURL(blob));
+
+    worker.onmessage = (e) => {
+        const { type, ...data } = e.data;
+
+        if (type === 'update') {
+            loopCounter.textContent = `Current Attempts: ${data.count.toLocaleString()}`;
+            // The main status should also reflect which piece is being worked on
+            if (statusText.textContent.indexOf('Forging') === -1 || statusText.textContent.indexOf(`square ${data.square}`) === -1) {
+                 statusText.textContent = `B"H - Forging laws for ${data.piece} on square ${data.square}...`;
+            }
+        } else if (type === 'progress') {
+            const percent = Math.round(((data.completedSquare + 1) / 64) * 100);
+            progressBar.style.width = percent + '%';
+            progressBar.textContent = percent + '%';
+            
+            if (data.completedSquare < 63) {
+                 const nextSquare = data.completedSquare + 1;
+                 statusText.textContent = `B"H - Forging laws for Bishop on square ${nextSquare}...`;
+                 loopCounter.textContent = 'Current Attempts: 0'; // Reset for the next square
+            }
+        } else if (type === 'complete') {
+            progressBar.style.width = '100%';
+            progressBar.textContent = '100%';
+            statusText.textContent = 'B"H - The laws of creation are stable. The universe is forged.';
+            loopCounter.textContent = 'Process Complete.';
+            
+            const formatArray = (arrName, arr) => {
+                let str = `let ${arrName} = [\n`;
+                for (let i = 0; i < arr.length; i++) {
+                    if (i % 4 === 0) str += '  ';
+                    str += '0x' + arr[i].toString(16) + 'n,';
+                    if (i % 4 === 3 || i === arr.length - 1) str += '\n';
+                    else str += ' ';
+                }
+                str += '];';
+                return str;
+            };
+
+            const bishopString = formatArray('bishopMagics', data.bishopMagics);
+            const rookString = formatArray('rookMagics', data.rookMagics);
+            
+            outputTextArea.value = `// Generated on ${new Date().toUTCString()}\n// These numbers are guaranteed to be compatible with your engine's specific mask generation.\n\n${bishopString}\n\n${rookString}`;
+            resultsDiv.style.display = 'block';
+
+            worker.terminate();
+        }
+    };
+
+    worker.postMessage('start');
+</script>
+</body>
+</html>
+

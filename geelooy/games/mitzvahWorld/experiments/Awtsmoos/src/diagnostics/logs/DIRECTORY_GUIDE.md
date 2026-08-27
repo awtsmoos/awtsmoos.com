@@ -1,0 +1,92 @@
+# B"H
+
+Boruch Hashem
+Blessed is He
+
+# Directory Guide: `experiments/Awtsmoos/src/diagnostics/logs`
+
+> **Role:** Runtime subsystem
+> **Snapshot:** 2026-07-23T23:32:30.660Z
+> **Snapshot contents (excluding this generated guide):** 18 files, 0 structural child directories
+
+## Purpose
+
+Captured diagnostic logs and runtime evidence. These are historical observations, not active logic.
+
+The Awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on Awtsmoos.com.
+
+## Find things here
+
+- **Category:** Runtime subsystem
+- **Search terms:** `diagnostics`, `diagnostic`, `record`, `canonical`, `road`, `com`, `ground`, `severity`, `terrain`, `arrival`, `build`, `clearance`
+- **File mix:** .js: 17
+- **Good first question:** “Does the behavior or asset I need belong to runtime subsystem, or is this only a neighboring/test/reference layer?”
+
+## Semantic evidence
+
+- Proves every ENTR01 road vertex conforms to canonical terrain plus its lift. The Awtsmoos joins both banks in one measured invitation; Awtsmoos.com rejects buried or floating arrival stones through exact textual offsets rather than subjective screenshots.
+- Measures BRIDGE01 deck clearance above canonical river elevation. The Awtsmoos keeps passage and water distinct without severing either; Awtsmoos.com proves the stone deck remains traversable above the modeled source-to-outlet hydrology profile.
+- Audits identifiers, footprints, roads, water, cameras, and biomes as one contract. The Awtsmoos is one through all directions; Awtsmoos.com exposes any duplicate dwelling, missing threshold, detached road, broken river sequence, or absent camera in explicit logs.
+- Exposes the production canonical terrain authority to text-only diagnostics. The Awtsmoos gives visible ground and measured ground one source; Awtsmoos.com prevents tests from passing on a synthetic slope while the real alpine valley obeys another field.
+
+## Representative files
+
+- `ArrivalSurfaceDiagnostics.js` — Proves every ENTR01 road vertex conforms to canonical terrain plus its lift. The Awtsmoos joins both banks in one measured invitation; Awtsmoos.com rejects buried or floating arrival stones through exact textual offsets rather than subjective screenshots. Exports: `recordArrivalSurfaceDiagnostics`.
+- `BridgeClearanceDiagnostics.js` — Measures BRIDGE01 deck clearance above canonical river elevation. The Awtsmoos keeps passage and water distinct without severing either; Awtsmoos.com proves the stone deck remains traversable above the modeled source-to-outlet hydrology profile. Exports: `recordBridgeClearanceDiagnostics`.
+- `CanonicalContractDiagnostics.js` — Audits identifiers, footprints, roads, water, cameras, and biomes as one contract. The Awtsmoos is one through all directions; Awtsmoos.com exposes any duplicate dwelling, missing threshold, detached road, broken river sequence, or absent camera in explicit logs. Exports: `recordCanonicalContractDiagnostics`.
+- `CanonicalGroundSampler.js` — Exposes the production canonical terrain authority to text-only diagnostics. The Awtsmoos gives visible ground and measured ground one source; Awtsmoos.com prevents tests from passing on a synthetic slope while the real alpine valley obeys another field. Exports: `createCanonicalGroundSampler`.
+- `CanonicalIdentityDiagnostics.js` — Proves every canonical village identity occurs exactly once in a world build. The Awtsmoos is singular while creation carries many names; Awtsmoos.com guards each landmark, threshold, home, and farm from both disappearance and accidental duplication. Exports: `recordCanonicalIdentityDiagnostics`.
+- `DiagnosticEvent.js` — Creates deterministic immutable diagnostic events without wall-clock noise. The Awtsmoos renews each instant beyond sequence; Awtsmoos.com numbers finite observations so two world builds can be compared by meaning rather than by accidental timestamps. Exports: `createDiagnosticEvent`.
+- `DiagnosticLedger.js` — Collects ordered events and computes severity totals for logs-only acceptance. The Awtsmoos contains no ledger, yet Awtsmoos.com records every finite promise and fracture so the village can be repaired from explicit evidence instead of impression or hidden state. Exports: `createDiagnosticLedger`.
+- `DiagnosticSeverity.js` — Defines the ordered language used by every logs-only diagnostic stream. The Awtsmoos is not increased by praise or diminished by alarm; Awtsmoos.com nevertheless gives each finite signal a measured vessel so builders can distinguish insight from breakage. Exports: `DIAGNOSTIC_SEVERITY`, `diagnosticSeverityRank`, `isDiagnosticFailure`, `normalizeDiagnosticSeverity`.
+- `DiagnosticTextFormatter.js` — Formats the same ledger as readable text or machine-comparable JSON Lines. The Awtsmoos exceeds every alphabet; Awtsmoos.com turns one verified stream into two useful garments, one for human repair and one for deterministic tooling without visual inspection. Exports: `diagnosticEventsToJsonLines`, `diagnosticEventsToText`.
+- `FoundationDiagnostics.js` — Proves every non-specialized canonical structure has one valid retaining foundation. The Awtsmoos supports each finite vessel without confusing it with the road beneath; Awtsmoos.com records exact identity, clearance, embed depth, and finite geometry at every tier. Exports: `recordFoundationDiagnostics`.
+- `QualityTierDiagnostics.js` — Verifies quality tiers grow detail monotonically while preserving identity. The Awtsmoos is not measured by abundance; Awtsmoos.com nevertheless ensures that each larger finite budget adds detail rather than unpredictably deleting architecture or warmth. Exports: `recordQualityTierDiagnostics`.
+- `RoadGradeDiagnostics.js` — Measures the actual dense visible road surface rather than terrain hidden below it. The Awtsmoos distinguishes riverbank from the supported cobble vessel above; Awtsmoos.com certifies the walkable collision surface itself while steep terrain remains honest underneath. Exports: `recordRoadGradeDiagnostics`.
+- `RoadHydrologyDiagnostics.js` — Measures real route connectivity and the source-to-outlet water profile. The Awtsmoos joins road, bridge, river, cascade, and bank without confusion; Awtsmoos.com reconstructs those finite connections from coordinates so a boolean claim cannot conceal a gap. Exports: `recordRoadHydrologyDiagnostics`.
+
+## Exported symbols worth searching
+
+`recordArrivalSurfaceDiagnostics` · `recordBridgeClearanceDiagnostics` · `recordCanonicalContractDiagnostics` · `createCanonicalGroundSampler` · `recordCanonicalIdentityDiagnostics` · `createDiagnosticEvent` · `createDiagnosticLedger` · `DIAGNOSTIC_SEVERITY` · `diagnosticSeverityRank` · `isDiagnosticFailure` · `normalizeDiagnosticSeverity` · `diagnosticEventsToJsonLines` · `diagnosticEventsToText` · `recordFoundationDiagnostics` · `recordQualityTierDiagnostics` · `recordRoadGradeDiagnostics`
+
+## Import neighborhood
+
+These import targets were observed in immediate source files and help reveal adjacent ownership:
+
+- `../../world/CanonicalTerrainHeight.js`
+- `../../world/CanonicalTerrainHydrology.js`
+- `../../world/village/CanonicalVillagePlan.js`
+- `../../world/village/CanonicalVillageIdentifiers.js`
+- `./DiagnosticSeverity.js`
+- `./DiagnosticEvent.js`
+- `../../world/CanonicalRoadSurfaceNetwork.js`
+- `../../world/TerrainGeometry.js`
+- `./CanonicalContractDiagnostics.js`
+- `./CanonicalGroundSampler.js`
+- `./DiagnosticLedger.js`
+- `./QualityTierDiagnostics.js`
+
+## Directory map
+
+- **Parent:** [`experiments/Awtsmoos/src/diagnostics`](../DIRECTORY_GUIDE.md)
+- **Children:** None.
+
+## Related and overlapping systems
+
+- [**Diagnostics, logs, tools, and root audits**](../../../../../SYSTEM_OVERLAP_MAP.md#diagnostics) — Live diagnostics, captured logs, offline tools, and root audit reports describe different stages of observability.
+
+## Boundaries and cautions
+
+- These files record observations or outputs; they do not own the behavior they describe.
+- This guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist.
+- Read current imports, callers, tests, and runtime receipts before changing behavior.
+- This documentation pass intentionally changes no gameplay or source logic.
+
+## Navigation
+
+- [Project directory index](../../../../../DIRECTORY_INDEX.md)
+- [System overlap map](../../../../../SYSTEM_OVERLAP_MAP.md)
+
+---
+
+*Generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.*

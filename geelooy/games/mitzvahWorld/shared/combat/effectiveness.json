@@ -1,0 +1,72 @@
+{
+	"BH": "B\"H",
+	"boruchHashem": "Boruch Hashem",
+	"blessedIsHe": "Blessed is He",
+	"poem": "The Awtsmoos renews context before force and diagnostics after deed; Awtsmoos.com makes position, status, guard, and element the visible roots of need.",
+	"schemaVersion": 1,
+	"minimumMultiplier": 0.2,
+	"maximumMultiplier": 2.5,
+	"rules": [
+		{
+			"id": "target-resistance", "order": 10, "kind": "resistance",
+			"diagnostic": "target resistance", "source": "targetResistance"
+		},
+		{
+			"id": "guarded-physical", "order": 20, "kind": "tag-status",
+			"requiredActionTag": "melee", "excludedActionTag": "guard-break",
+			"requiredTargetTag": "guarded", "multiplier": 0.7,
+			"diagnostic": "guard reduced the physical impact"
+		},
+		{
+			"id": "guard-break", "order": 21, "kind": "tag-status",
+			"requiredActionTag": "guard-break", "requiredTargetTag": "guarded", "multiplier": 1.35,
+			"applyStatusId": "guard-broken", "diagnostic": "guard-break force opened the defense"
+		},
+		{
+			"id": "light-reveals-hidden", "order": 30, "kind": "element-status",
+			"elementId": "light-air", "requiredTargetTag": "hidden", "multiplier": 1.28,
+			"applyStatusId": "illuminated", "diagnostic": "light revealed concealed form"
+		},
+		{
+			"id": "earth-catches-airborne", "order": 31, "kind": "element-status",
+			"elementId": "earth-dust", "requiredTargetTag": "airborne", "multiplier": 1.3,
+			"criticalInteraction": true, "applyStatusId": "grounded", "diagnostic": "earth grounded an airborne target"
+		},
+		{
+			"id": "water-quenches-burning", "order": 32, "kind": "element-status",
+			"elementId": "water", "requiredStatusId": "burning", "multiplier": 1.18,
+			"removeStatusId": "burning", "applyStatusId": "soaked", "diagnostic": "water quenched burning letters"
+		},
+		{
+			"id": "fire-dampened-by-soak", "order": 33, "kind": "element-status",
+			"elementId": "fire", "requiredStatusId": "soaked", "multiplier": 0.72,
+			"diagnostic": "soaked target dampened fire"
+		},
+		{
+			"id": "earth-forms-binding-mud", "order": 34, "kind": "element-status",
+			"elementId": "earth-dust", "requiredStatusId": "soaked", "multiplier": 1.2,
+			"applyStatusId": "dust-bound", "diagnostic": "earth and water formed binding mud"
+		},
+		{
+			"id": "fire-spreads-on-illuminated", "order": 35, "kind": "element-status",
+			"elementId": "fire", "requiredStatusId": "illuminated", "multiplier": 1.12,
+			"applyStatusId": "burning", "diagnostic": "revealed letters gave fire a clear path"
+		},
+		{
+			"id": "flanking-pressure", "order": 40, "kind": "context-tag",
+			"requiredContextTag": "flanking", "multiplier": 1.14,
+			"diagnostic": "flanking position opened the target"
+		},
+		{
+			"id": "counter-cast", "order": 41, "kind": "context-tag",
+			"requiredContextTag": "counter-cast", "multiplier": 1.16,
+			"diagnostic": "timed counter met the hostile cast"
+		}
+	],
+	"insightTiers": {
+		"0": ["identity", "danger"],
+		"1": ["identity", "danger", "target", "element"],
+		"2": ["identity", "danger", "target", "element", "progress", "counterGuidance"],
+		"3": ["identity", "danger", "target", "element", "progress", "counterGuidance", "interruptResistance", "resistanceHint"]
+	}
+}

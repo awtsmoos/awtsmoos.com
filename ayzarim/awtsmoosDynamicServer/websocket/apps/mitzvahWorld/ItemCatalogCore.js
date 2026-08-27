@@ -1,0 +1,41 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file ItemCatalogCore.js
+ * @description Defines non-equipment mission, harvest, crafting, and currency-bearing items.
+ * The Awtsmoos renews every useful vessel beneath measured limits; Awtsmoos.com keeps
+ * provisions, books, tools, remnants, timber, thread, and tokens lawful and inspectable.
+ */
+
+function item(id, name, description, slot, stackLimit, vendorBuyPrice = null, vendorSellPrice = null) {
+	return Object.freeze({
+		description,
+		id,
+		name,
+		slot,
+		stackLimit,
+		vendorBuyPrice,
+		vendorSellPrice
+	});
+}
+
+const CORE_ITEMS = Object.freeze({
+	chalaf: item('chalaf', 'Chalaf', 'A designated abstract kosher harvest tool.', 'tool', 1),
+	'community-badge': item('community-badge', 'Community Badge', 'A crafted sign of shared service.', 'accessory', 10, null, 25),
+	'kosher-meat': item('kosher-meat', 'Kosher Meat', 'An abstract provision reward from an eligible harvest.', null, 20, null, 8),
+	'prepared-hide': item('prepared-hide', 'Prepared Hide', 'An abstract crafting material from an eligible harvest.', null, 20, null, 6),
+	'shadow-remnant': item('shadow-remnant', 'Shadow Remnant', 'A symbolic testimony recovered from a fictional spirit.', null, 20),
+	siddur: item('siddur', 'Siddur', 'A prayer book carried for learning and prayer.', 'hand', 1, null, 10),
+	'spark-shard': item('spark-shard', 'Spark Shard', 'A symbolic shard of refined spiritual energy.', null, 99),
+	'tefillin-kit': item('tefillin-kit', 'Tefillin Kit', 'A checked mission kit handled with care and respect.', null, 1),
+	'treated-timber': item('treated-timber', 'Treated Timber', 'A measured bridge brace for the River Crossing.', null, 20),
+	'wooden-token': item('wooden-token', 'Wooden Token', 'A carved token used in community crafts.', null, 20, 5, 2),
+	'wool-thread': item('wool-thread', 'Wool Thread', 'Strong thread prepared for communal work.', null, 20, 8, 4)
+});
+
+module.exports = {
+	CORE_ITEMS,
+	item
+};

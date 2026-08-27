@@ -1,0 +1,41 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ten Utterances - A Card Game Engine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main-menu">
+        <h1>The Utterances</h1>
+        <p>Choose a vessel for the light.</p>
+        <div id="game-list">
+            <button class="game-button" data-game="blackjack">Blackjack (The Reckoning)</button>
+            <button class="game-button" data-game="texasHoldem" disabled>Texas Hold'em (The Gathering) - In potentia</button>
+            <button class="game-button" data-game="war" disabled>War (The Sundering) - In potentia</button>
+            <button class="game-button" data-game="rummy" disabled>Rummy (The Unification) - In potentia</button>
+            <button class="game-button" data-game="poker" disabled>Five-Card Draw (The Concealment) - In potentia</button>
+            <button class="game-button" data-game="solitaire" disabled>Solitaire (The Meditation) - In potentia</button>
+        </div>
+        <div id="player-selection">
+            <label for="ai-players">Number of Opposing Emanations (1-4):</label>
+            <input type="number" id="ai-players" min="1" max="4" value="1">
+            <button id="start-game">Begin the Flow</button>
+        </div>
+    </div>
+    <div id="game-container" style="display: none;">
+        <canvas id="game-canvas"></canvas>
+        <div id="game-ui-container">
+            <div id="player-actions" class="ui-panel" style="display: none;">
+                <button id="hit-button">Request</button>
+                <button id="stand-button">Accept</button>
+            </div>
+            <div id="game-status" class="ui-panel"></div>
+        </div>
+    </div>
+    <!-- Use type="module" to allow for ES6 module imports -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

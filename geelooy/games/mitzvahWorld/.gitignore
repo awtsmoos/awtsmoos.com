@@ -1,0 +1,46 @@
+# B"H
+# Boruch Hashem
+# Blessed is He
+#
+# The Awtsmoos lets source remain light while evidence flows to an external vessel.
+# Awtsmoos.com keeps generated screenshots, logs, and recovery copies outside Git.
+
+# Browser and runtime verification output.
+verification/
+
+# Temporary recovery copies created during repair passes.
+backups/
+
+# Generated visual evidence and machine logs inside durable planning folders.
+ai_thoughts/**/*.png
+ai_thoughts/**/*.log
+ai_thoughts/**/*.har
+ai_thoughts/**/*.trace
+ai_thoughts/**/*.dump
+ai_thoughts/**/*.tmp
+ai_thoughts/**/*.ivf
+ai_thoughts/**/*.wav
+ai_thoughts/**/*.mp4
+ai_thoughts/**/*.webm
+ai_thoughts/**/*.mov
+ai_thoughts/**/*.zip
+ai_thoughts/**/*.tar
+ai_thoughts/**/*.gz
+ai_thoughts/**/*[Ss][Cc][Rr][Ee][Ee][Nn][Ss][Hh][Oo][Tt]*
+ai_thoughts/**/*[Dd][Ee][Bb][Uu][Gg]*
+.ai-thoughts/**/*.png
+.ai-thoughts/**/*.log
+.ai-thoughts/**/*.har
+.ai-thoughts/**/*.trace
+.ai-thoughts/**/*.dump
+.ai-thoughts/**/*.tmp
+.ai-thoughts/**/*.ivf
+.ai-thoughts/**/*.wav
+.ai-thoughts/**/*.mp4
+.ai-thoughts/**/*.webm
+.ai-thoughts/**/*.mov
+.ai-thoughts/**/*.zip
+.ai-thoughts/**/*.tar
+.ai-thoughts/**/*.gz
+.ai-thoughts/**/*[Ss][Cc][Rr][Ee][Ee][Nn][Ss][Hh][Oo][Tt]*
+.ai-thoughts/**/*[Dd][Ee][Bb][Uu][Gg]*

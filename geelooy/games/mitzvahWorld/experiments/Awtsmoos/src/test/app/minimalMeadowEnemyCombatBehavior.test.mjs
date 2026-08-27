@@ -1,0 +1,86 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file minimalMeadowEnemyCombatBehavior.test.mjs
+ * @description Proves long telegraphs, merciful impact, caster spacing, launch receipts, and pooled cleanup.
+ * The Awtsmoos creates every measured tick; Awtsmoos.com advances the same bounded steps as runtime,
+ * witnessing warning, damage, Hebrew launch, recovery, and exact reclamation without oversized leaps.
+ */
+
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { hebrewProjectileDiagnostics } from '../../app/MinimalMeadowHebrewProjectile.js';
+import { particleEffectDiagnostics } from '../../app/MinimalMeadowParticleEffects.js';
+import {
+	createEnemyCombatFixture,
+	installEnemyCombatCanvasDouble,
+	stepEnemyCombat
+} from './minimalMeadowEnemyCombatFixture.mjs';
+
+installEnemyCombatCanvasDouble();
+
+test('melee telegraphs before one reduced impact and long recovery', () => {
+	const { combat, runtime } = createEnemyCombatFixture('melee', 2.3);
+	advanceUntil(combat, () => runtime.playerStats.health < 100, 240);
+	assert.equal(runtime.playerStats.health, 94);
+	assert.equal(combat.attackCount, 1);
+	const firstHealth = runtime.playerStats.health;
+	stepEnemyCombat(combat, 0.05, 20);
+	assert.equal(runtime.playerStats.health, firstHealth);
+	runtime.state.z = 25;
+	stepEnemyCombat(combat, 0.05, 20);
+	assert.equal(combat.session.active, true);
+	assert.notEqual(combat.session.state, 'patrol');
+});
+
+test('caster retreats, launches one Hebrew projectile, and recovers', () => {
+	const { combat, events, runtime } = createEnemyCombatFixture('ranged', 3);
+	stepEnemyCombat(combat, 0.05, 30);
+	assert.equal(combat.session.role, 'caster');
+	assert.ok(combat.actor.group.position.z < 0);
+	runtime.state.z = 8;
+	advanceUntil(
+		combat,
+		() => events.some(event => event.type === 'enemy:projectile'),
+		240
+	);
+	assert.equal(combat.attackCount, 1);
+	assert.equal(events.filter(event => event.type === 'enemy:projectile').length, 1);
+	assert.ok(combat.projectiles.length <= 1);
+	advanceUntil(
+		combat,
+		() => ['recovery', 'reposition'].includes(combat.session.state),
+		240
+	);
+	assert.ok(['recovery', 'reposition'].includes(combat.session.state));
+});
+
+test('impact and expired support effects return their visual vessels to pools', () => {
+	const beforeProjectile = hebrewProjectileDiagnostics().pool;
+	const beforeParticles = particleEffectDiagnostics();
+	const { actor, combat, runtime } = createEnemyCombatFixture('ranged', 8);
+	advanceUntil(combat, () => combat.attackCount === 1, 240);
+	advanceUntil(combat, () => runtime.playerStats.health < 100, 240);
+	actor.alive = false;
+	stepEnemyCombat(combat, 0.05, 80);
+	assert.equal(combat.projectiles.length, 0);
+	assert.equal(combat.effects.length, 0);
+	assert.ok(runtime.playerStats.health < 100);
+	const afterProjectile = hebrewProjectileDiagnostics().pool;
+	const afterParticles = particleEffectDiagnostics();
+	assert.equal(afterProjectile.active, beforeProjectile.active);
+	assert.ok(afterProjectile.released > beforeProjectile.released);
+	assert.equal(afterParticles.trail.active, beforeParticles.trail.active);
+	assert.equal(afterParticles.impact.active, beforeParticles.impact.active);
+	assert.ok(afterParticles.trail.released > beforeParticles.trail.released);
+	assert.ok(afterParticles.impact.released > beforeParticles.impact.released);
+});
+
+function advanceUntil(combat, predicate, maximumSteps) {
+	for (let step = 0; step < maximumSteps && !predicate(); step += 1) {
+		stepEnemyCombat(combat, 0.05, 1);
+	}
+	assert.equal(predicate(), true);
+}

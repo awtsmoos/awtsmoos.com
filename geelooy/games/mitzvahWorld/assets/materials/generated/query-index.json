@@ -1,0 +1,416 @@
+{
+  "records": [
+    {
+      "id": "awtsmoos-nature-chai-forest-textures-bark-bark001-1k-jpg-bark001-1k-jpg-color-jpg",
+      "tags": [
+        "timber"
+      ]
+    },
+    {
+      "id": "awtsmoos-nature-chai-forest-textures-ground-dirt-color-jpg",
+      "tags": [
+        "earth"
+      ]
+    },
+    {
+      "id": "awtsmoos-nature-chai-forest-textures-ground-grass-jpg",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "awtsmoos-nature-chai-forest-textures-leaves-ash-png",
+      "tags": []
+    },
+    {
+      "id": "awtsmoos-nature-chai-forest-textures-leaves-aspen-png",
+      "tags": []
+    },
+    {
+      "id": "awtsmoos-nature-chai-forest-textures-leaves-oak-png",
+      "tags": []
+    },
+    {
+      "id": "awtsmoos-nature-chai-forest-textures-leaves-pine-png",
+      "tags": []
+    },
+    {
+      "id": "awtsmoos-nature-ilanos-trees-sakura-petal-png",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "full-resolution-bluestone-1-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-cobblestone-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-copper-1-png",
+      "tags": [
+        "metal"
+      ]
+    },
+    {
+      "id": "full-resolution-cow-fur-1-png",
+      "tags": [
+        "fiber"
+      ]
+    },
+    {
+      "id": "full-resolution-dark-forest-floor-nonlight-png",
+      "tags": [
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-deer-fur-1-png",
+      "tags": [
+        "fiber"
+      ]
+    },
+    {
+      "id": "full-resolution-dirt-1-png",
+      "tags": [
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-dirt-2-png",
+      "tags": [
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-dirt-5-png",
+      "tags": [
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-dirt-6-png",
+      "tags": [
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-dirt-grass-1-png",
+      "tags": [
+        "botanical",
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-dirt-grass-2-png",
+      "tags": [
+        "botanical",
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-dirt-grass-3-png",
+      "tags": [
+        "botanical",
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-forest-floor-covered-with-leaves-png",
+      "tags": [
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-fox-fur-1-png",
+      "tags": [
+        "fiber"
+      ]
+    },
+    {
+      "id": "full-resolution-gold-2-png",
+      "tags": [
+        "metal"
+      ]
+    },
+    {
+      "id": "full-resolution-grass-1-png",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "full-resolution-grass-4-png",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "full-resolution-grass-5-png",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "full-resolution-grass-7-png",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "full-resolution-grass-8-png",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "full-resolution-horse-fur-1-png",
+      "tags": [
+        "fiber"
+      ]
+    },
+    {
+      "id": "full-resolution-leaf-1-png",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "full-resolution-leather-png",
+      "tags": [
+        "fiber"
+      ]
+    },
+    {
+      "id": "full-resolution-limestone-bricks-1-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-marsh-grass-png",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "full-resolution-oak-leaf-fall-png",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "full-resolution-oak-leaf-spring-png",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "full-resolution-oak-wood-1-png",
+      "tags": [
+        "timber"
+      ]
+    },
+    {
+      "id": "full-resolution-oak-wood-3-png",
+      "tags": [
+        "timber"
+      ]
+    },
+    {
+      "id": "full-resolution-parchment-png",
+      "tags": [
+        "fiber"
+      ]
+    },
+    {
+      "id": "full-resolution-polished-granite-rock-1-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-raveled-rope-png",
+      "tags": [
+        "fiber"
+      ]
+    },
+    {
+      "id": "full-resolution-red-brick-1-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-red-brick-2-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-red-brick-3-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-rusty-iron-png",
+      "tags": [
+        "metal"
+      ]
+    },
+    {
+      "id": "full-resolution-sand-1-png",
+      "tags": [
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-seamless-water-brighter-png",
+      "tags": [
+        "water"
+      ]
+    },
+    {
+      "id": "full-resolution-seamless-water-png",
+      "tags": [
+        "water"
+      ]
+    },
+    {
+      "id": "full-resolution-shallow-river-water-png",
+      "tags": [
+        "water"
+      ]
+    },
+    {
+      "id": "full-resolution-silver-1-png",
+      "tags": [
+        "metal"
+      ]
+    },
+    {
+      "id": "full-resolution-stone-1-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-stone-floor-2-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-tan-cloth-png",
+      "tags": [
+        "fiber"
+      ]
+    },
+    {
+      "id": "full-resolution-tiled-roof-1-png",
+      "tags": []
+    },
+    {
+      "id": "full-resolution-tiled-roof-2-png",
+      "tags": []
+    },
+    {
+      "id": "full-resolution-tiled-roof-3-smaller-tiles-png",
+      "tags": []
+    },
+    {
+      "id": "full-resolution-tiled-roof-4-png",
+      "tags": []
+    },
+    {
+      "id": "full-resolution-tilled-soil-png",
+      "tags": [
+        "earth"
+      ]
+    },
+    {
+      "id": "full-resolution-tree-bark-1-png",
+      "tags": [
+        "timber"
+      ]
+    },
+    {
+      "id": "full-resolution-water-not-seamless-png",
+      "tags": [
+        "water"
+      ]
+    },
+    {
+      "id": "full-resolution-weathered-red-bricks-1-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-weathered-fieldstone-rock-1-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-white-brick-1-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "full-resolution-wooden-oak-planks-1-png",
+      "tags": [
+        "timber"
+      ]
+    },
+    {
+      "id": "full-resolution-wooden-planked-floor-png",
+      "tags": [
+        "timber"
+      ]
+    },
+    {
+      "id": "full-resolution-yellow-brick-1-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "processed-botany-petal-soft-svg",
+      "tags": [
+        "botanical"
+      ]
+    },
+    {
+      "id": "various-rough-weathered-oak-wood-planks-png",
+      "tags": [
+        "timber"
+      ]
+    },
+    {
+      "id": "various-stone-retaining-wall-masonry-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "various-whitewashed-stone-png",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "id": "various-slate-roof-shingles-png",
+      "tags": []
+    }
+  ],
+  "schema": "awtsmoos-local-material-query-index/v1"
+}

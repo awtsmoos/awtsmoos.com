@@ -1,0 +1,168 @@
+
+=== Reproducible adapter source ===
+✔ B"H adapter source exports every declared runtime vessel (381.523632ms)
+✔ B"H nested ignore policy exposes only adapter JavaScript source (24.448165ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2908.569785
+=== Reproducible adapter source exit=0 ===
+
+=== Focused boot evidence tests ===
+(node:48138) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBootTimeline.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H timeline records ordered immutable stages (132.508909ms)
+(node:48139) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEssentialFeatureGate.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H essential gate returns a ready receipt (10.173182ms)
+✔ B"H essential gate exposes timeout stage and timeline (33.136105ms)
+(node:48140) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFeatureScheduler.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H essential receipt resolves before the rich importer (388.229458ms)
+✔ B"H rich failure preserves bootstrap play and records evidence (8.465409ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2998.35295
+=== Focused boot evidence tests exit=0 ===
+
+=== Existing source runtime contracts ===
+(node:48327) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/BootstrapFrameScheduler.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ animation frame wins and cancels its fallback timer (5.494885ms)
+✔ timer advances exactly once when animation frames are withheld (0.619162ms)
+(node:48328) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFrameScheduler.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H timer fallback preserves the pending animation frame (56.099765ms)
+(node:48329) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalMeadowReadiness.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H fallback readiness publishes honest Canvas2D identity (5.848496ms)
+✔ B"H WebGL readiness does not invoke optional hydration (1.94311ms)
+✔ B"H malformed feature receipts fail closed without throwing TypeError (3.044168ms)
+(node:48335) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/light-three-gltf/tiny-runtime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H exact terrain frequency derives from source pixels and world size (3.099069ms)
+✔ B"H essential features gate play while optional hydration stays detached (229.467459ms)
+✔ B"H staff begins in right hand and aims at selected target (3.62736ms)
+(node:48336) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/world/npc/FriendlyNpcScheduleRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ a schedule transition emits once and advances by bounded walking distance (108.797384ms)
+✔ arrival settles exactly on the anchor and exposes the appointed action (0.942645ms)
+✔ targeting and dialogue change schedule identity without moving the actor (4.880333ms)
+(node:48337) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/launcher/MinimalSharedMeadowReadinessFlow.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H readiness awaits bootstrap and ignores unresolved rich hydration (122.027002ms)
+✔ B"H route shell declares one embedded SVG icon and the compact entry (200.940368ms)
+✔ B"H embedded icon is self-contained, accessible, and script-free (54.713278ms)
+(node:48344) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldMinimapProjection.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ B"H historical map clamps the village radius to two through ninety-eight percent (2.078605ms)
+✔ B"H solo projection retains player, giver, and active objective markers (47.218854ms)
+✔ B"H multiplayer adds only connected remote peers and excludes local identity (2.838129ms)
+✔ B"H expansion preference defaults compact and survives denied storage (2.809548ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5260.515523
+=== Existing source runtime contracts exit=0 ===
+
+=== Pre-build CompactJS source graph ===
+[Merkava Parser] Detected Base Path: 
+B'H Mitzvah World compact runtime test passed
+=== Pre-build CompactJS source graph exit=0 ===
+
+=== Deterministic compact build ===
+[Merkava Parser] Detected Base Path: 
+{"BH":"B\"H","bytes":5309283,"targetFile":"/Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js"}
+=== Deterministic compact build exit=0 ===
+
+=== Generated compact syntax ===
+=== Generated compact syntax exit=0 ===
+
+=== Generated native boot contract ===
+✔ B"H production index eagerly loads only the compact entry (95.227268ms)
+✔ B"H compact graph folds essentials and preserves rich boundaries (234.312153ms)
+✔ B"H runtime begins measured essentials after one paint gate (101.319122ms)
+✔ B"H launcher conditionally owns mobile and API entries (2.592431ms)
+✔ B"H scheduler opens bootstrap play and defers rich installation (5.08818ms)
+✔ B"H watchdog exposes stable timeout evidence (0.895319ms)
+✔ B"H native facade remains an explicit-binding module contract (0.969139ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1866.229092
+=== Generated native boot contract exit=0 ===
+
+=== CompactJS compiler suite ===
+[Merkava Parser] Detected Base Path: 
+B'H compactJs focused suites passed
+=== CompactJS compiler suite exit=0 ===
+
+=== CompactJS feature graph ===
+[Merkava Parser] Detected Base Path: 
+B'H Mitzvah compact feature graph test passed
+=== CompactJS feature graph exit=0 ===
+
+=== CompactJS runtime graph ===
+[Merkava Parser] Detected Base Path: 
+B'H Mitzvah World compact runtime test passed
+=== CompactJS runtime graph exit=0 ===
+
+=== Artifact evidence ===
+ 5309283 /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js
+69bf4805d317936fb151df2a2fb4c8f5b4ebebd6d260736ffd9ed0dd48de0ab4  /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js
+
+=== Handwritten line ceilings ===
+      34 geelooy/libs/awtsmoos-procedural-core/src/adapters/awtsmoos/createAwtsmoosAdapterManifest.js
+      60 geelooy/libs/awtsmoos-procedural-core/src/adapters/awtsmoos/createAwtsmoosObjectRuntime.js
+       9 geelooy/libs/awtsmoos-procedural-core/src/adapters/awtsmoos/index.js
+      48 geelooy/libs/awtsmoos-procedural-core/src/adapters/awtsmoos/materializeGeometryArtifact.js
+      40 geelooy/libs/awtsmoos-procedural-core/test/awtsmoosAdapterSourceContract.test.mjs
+      58 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBootTimeline.js
+      72 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEssentialFeatureGate.js
+      84 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/createMinimalMeadowRuntime.js
+     119 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFeatureScheduler.js
+      39 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowBootTimeline.test.mjs
+      65 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowEssentialFeatureGate.test.mjs
+      79 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowFeatureScheduler.test.mjs
+     116 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowNativeBootContract.test.mjs
+      61 ayzarim/awtsmoosDynamicServer/tests/compactJs.mitzvahWorldRuntime.test.js
+     884 total
+
+B_H massive verification passed

@@ -1,0 +1,188 @@
+// B"H
+// --- The Sefirot and the Aleph-Bet of Syntax ---
+//constants.js
+(function(root, factory) {
+    if (typeof module === 'object' && module.exports) {
+        module.exports = factory();
+    } else {
+        root.MerkavahConstants = factory();
+    }
+}(typeof self !== 'undefined' ? self : this, function() {
+const TOKEN = {
+
+
+
+    EOF: 'EOF',
+    DELETE: 'DELETE',
+    VOID: 'VOID',
+    DEBUGGER: 'DEBUGGER',
+    LOGICAL_OR_ASSIGN: '||=',
+    LOGICAL_AND_ASSIGN: '&&=',
+    
+    BITWISE_AND: '&',
+    BITWISE_OR: '|',
+    BITWISE_XOR: '^',
+    BITWISE_NOT: '~',
+    LEFT_SHIFT: '<<',
+    RIGHT_SHIFT: '>>',
+    UNSIGNED_RIGHT_SHIFT: '>>>',
+    BITWISE_AND_ASSIGN: '&=',
+    BITWISE_OR_ASSIGN: '|=',
+    BITWISE_XOR_ASSIGN: '^=',
+    LEFT_SHIFT_ASSIGN: '<<=',
+    RIGHT_SHIFT_ASSIGN: '>>=',
+    UNSIGNED_RIGHT_SHIFT_ASSIGN: '>>>=',
+    
+    
+     ILLEGAL: 'ILLEGAL',
+    
+    MODULO: 'MODULO', // Add this
+	
+	MODULO_ASSIGN: '%=', // And this
+	EXPONENT_ASSIGN: '**=',
+
+    // Identifiers & Literals
+    IDENT: 'IDENT', NUMBER: 'NUMBER',
+    PRIVATE_IDENT: 'PRIVATE_IDENT',
+    
+     STRING: 'STRING',
+     
+     WITH: 'WITH',
+    TEMPLATE_HEAD: 'TEMPLATE_HEAD', TEMPLATE_MIDDLE: 'TEMPLATE_MIDDLE', TEMPLATE_TAIL: 'TEMPLATE_TAIL',
+
+    // Operators
+    ASSIGN: '=', PLUS: '+', MINUS: '-', BANG: '!', ASTERISK: '*', SLASH: '/',
+    LT: '<', GT: '>', EQ: '==', NOT_EQ: '!=', EQ_STRICT: '===', NOT_EQ_STRICT: '!==',
+    LTE: '<=', GTE: '>=',
+
+    // Delimiters
+    COMMA: ',', SEMICOLON: ';', COLON: ':', DOT: '.', QUESTION: '?',
+    LPAREN: '(', RPAREN: ')', LBRACE: '{', RBRACE: '}', LBRACKET: '[', RBRACKET: ']',
+
+    // Keywords
+    FUNCTION: 'FUNCTION', LET: 'LET', CONST: 'CONST', VAR: 'VAR', RETURN: 'RETURN',
+    IF: 'IF', ELSE: 'ELSE', FOR: 'FOR', WHILE: 'WHILE', DO: 'DO',
+    SWITCH: 'SWITCH', CASE: 'CASE', DEFAULT: 'DEFAULT', BREAK: 'BREAK', CONTINUE: 'CONTINUE',
+    TRUE: 'TRUE', FALSE: 'FALSE', NULL: 'NULL', THIS: 'THIS',
+    CLASS: 'CLASS', EXTENDS: 'EXTENDS', SUPER: 'SUPER',
+    NEW: 'NEW', IMPORT: 'IMPORT', EXPORT: 'EXPORT', FROM: 'FROM', AS: 'AS',
+    ASYNC: 'ASYNC', AWAIT: 'AWAIT', YIELD: 'YIELD',
+    TYPEOF: 'TYPEOF', INSTANCEOF: 'INSTANCEOF', IN: 'IN',
+    TRY: 'TRY', CATCH: 'CATCH', FINALLY: 'FINALLY', THROW: 'THROW',
+    
+    // Multi-character
+    ARROW: '=>', INCREMENT: '++', DECREMENT: '--', EXPONENT: '**',
+    AND: '&&', OR: '||', NULLISH_COALESCING: '??', OPTIONAL_CHAINING: '?.',
+    DOTDOTDOT: '...',
+
+    // Assignments
+    PLUS_ASSIGN: '+=', MINUS_ASSIGN: '-=', ASTERISK_ASSIGN: '*=', SLASH_ASSIGN: '/=',
+    EXPONENT_ASSIGN: '**=', NULLISH_ASSIGN: '??=',
+};
+
+const KEYWORDS = {
+    'function': TOKEN.FUNCTION, 'let': TOKEN.LET, 'const': TOKEN.CONST, 'var': TOKEN.VAR,
+    'return': TOKEN.RETURN, 'if': TOKEN.IF, 'else': TOKEN.ELSE, 'for': TOKEN.FOR,
+    'while': TOKEN.WHILE, 'do': TOKEN.DO, 'switch': TOKEN.SWITCH, 'case': TOKEN.CASE,
+    'default': TOKEN.DEFAULT, 'break': TOKEN.BREAK, 'continue': TOKEN.CONTINUE,
+    'true': TOKEN.TRUE, 'false': TOKEN.FALSE, 'null': TOKEN.NULL, 'this': TOKEN.THIS,
+    'class': TOKEN.CLASS, 'extends': TOKEN.EXTENDS, 'super': TOKEN.SUPER, 'new': TOKEN.NEW,
+    'import': TOKEN.IMPORT, 'export': TOKEN.EXPORT, 'from': TOKEN.FROM, 'as': TOKEN.AS,
+    'async': TOKEN.ASYNC, 'await': TOKEN.AWAIT, 'yield': TOKEN.YIELD,
+    'typeof': TOKEN.TYPEOF, 'instanceof': TOKEN.INSTANCEOF, 'in': TOKEN.IN,
+    'try': TOKEN.TRY, 'catch': TOKEN.CATCH, 'finally': TOKEN.FINALLY, 'throw': TOKEN.THROW,
+    'delete': TOKEN.DELETE,
+       
+    'void': TOKEN.VOID,
+    'debugger': TOKEN.DEBUGGER,
+    
+    'with': TOKEN.WITH, //the final frontier
+};
+
+// B"H
+// --- Start of Replacement for the PRECEDENCE object in constants.js ---
+
+const PRECEDENCE = {
+    LOWEST: 0,
+    SEQUENCE: 1,
+    ASSIGNMENT: 2,
+    CONDITIONAL: 3,
+    NULLISH: 4,
+    OR: 5,
+    AND: 6,
+    // --- NEW LEVELS ADDED ---
+    BITWISE_OR: 7,
+    BITWISE_XOR: 8,
+    BITWISE_AND: 9,
+    // --- END NEW LEVELS ---
+    EQUALITY: 10,                 // Renumbered from 7
+    COMPARISON: 11,               // Renumbered from 8
+    SHIFT: 12,                    // --- NEW LEVEL ADDED ---
+    SUM: 13,                      // Renumbered from 9
+    PRODUCT: 14,                  // Renumbered from 10
+    EXPONENT: 15,                 // Renumbered from 11
+    PREFIX: 16,                   // Renumbered from 12
+    POSTFIX: 17,                  // Renumbered from 13
+    CALL: 18,                     // Renumbered from 14
+    MEMBER: 19,                   // Renumbered from 15
+    NEW: 20,                      // Renumbered from 16
+};
+
+// B"H
+
+const PRECEDENCES = {
+
+	[TOKEN.VOID]: PRECEDENCE.PREFIX,
+    [TOKEN.DELETE]: PRECEDENCE.PREFIX, // <-- Add this line
+    [TOKEN.TYPEOF]: PRECEDENCE.PREFIX,
+    [TOKEN.COMMA]: PRECEDENCE.SEQUENCE,
+
+    // ALL Assignment operators have the same precedence.
+    [TOKEN.ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.PLUS_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.MINUS_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.ASTERISK_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.SLASH_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.EXPONENT_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.MODULO_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.NULLISH_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.LOGICAL_AND_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.LOGICAL_OR_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+  
+    [TOKEN.BITWISE_AND_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.BITWISE_OR_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.BITWISE_XOR_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.LEFT_SHIFT_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.RIGHT_SHIFT_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    [TOKEN.UNSIGNED_RIGHT_SHIFT_ASSIGN]: PRECEDENCE.ASSIGNMENT,
+    // --- 
+
+    [TOKEN.QUESTION]: PRECEDENCE.CONDITIONAL,
+    [TOKEN.NULLISH_COALESCING]: PRECEDENCE.NULLISH,
+    [TOKEN.OR]: PRECEDENCE.OR,
+    [TOKEN.AND]: PRECEDENCE.AND,
+    [TOKEN.BITWISE_OR]: PRECEDENCE.BITWISE_OR,
+    [TOKEN.BITWISE_XOR]: PRECEDENCE.BITWISE_XOR,
+    [TOKEN.BITWISE_AND]: PRECEDENCE.BITWISE_AND,
+    [TOKEN.EQ]: PRECEDENCE.EQUALITY, [TOKEN.EQ_STRICT]: PRECEDENCE.EQUALITY,
+    [TOKEN.NOT_EQ]: PRECEDENCE.EQUALITY, [TOKEN.NOT_EQ_STRICT]: PRECEDENCE.EQUALITY,
+    [TOKEN.LT]: PRECEDENCE.COMPARISON, [TOKEN.GT]: PRECEDENCE.COMPARISON,
+    [TOKEN.LTE]: PRECEDENCE.COMPARISON, [TOKEN.GTE]: PRECEDENCE.COMPARISON,
+    [TOKEN.IN]: PRECEDENCE.COMPARISON, [TOKEN.INSTANCEOF]: PRECEDENCE.COMPARISON,
+    [TOKEN.LEFT_SHIFT]: PRECEDENCE.SHIFT,
+    [TOKEN.RIGHT_SHIFT]: PRECEDENCE.SHIFT,
+    [TOKEN.UNSIGNED_RIGHT_SHIFT]: PRECEDENCE.SHIFT,
+    [TOKEN.PLUS]: PRECEDENCE.SUM, [TOKEN.MINUS]: PRECEDENCE.SUM,
+    [TOKEN.SLASH]: PRECEDENCE.PRODUCT, [TOKEN.ASTERISK]: PRECEDENCE.PRODUCT, [TOKEN.MODULO]: PRECEDENCE.PRODUCT,
+    [TOKEN.EXPONENT]: PRECEDENCE.EXPONENT,
+    [TOKEN.INCREMENT]: PRECEDENCE.POSTFIX,
+    [TOKEN.DECREMENT]: PRECEDENCE.POSTFIX,
+    [TOKEN.LPAREN]: PRECEDENCE.CALL,
+    [TOKEN.LBRACKET]: PRECEDENCE.MEMBER,
+    [TOKEN.DOT]: PRECEDENCE.MEMBER,
+    [TOKEN.OPTIONAL_CHAINING]: PRECEDENCE.MEMBER,
+    [TOKEN.TEMPLATE_HEAD]: PRECEDENCE.CALL,
+    [TOKEN.TEMPLATE_TAIL]: PRECEDENCE.CALL
+};
+return { TOKEN, KEYWORDS, PRECEDENCE, PRECEDENCES };
+}));

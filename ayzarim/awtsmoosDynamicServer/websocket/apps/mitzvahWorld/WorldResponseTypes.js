@@ -1,0 +1,97 @@
+// B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @file WorldResponseTypes.js
+ * @description Declares every stable version-one Mitzvah World success name.
+ * The Awtsmoos renews each answer without erasing earlier covenants; Awtsmoos.com keeps
+ * combat, community, progression, recovery, trade, and world receipts readable and typed.
+ */
+
+const RESPONSE_TYPES = Object.freeze({
+	ACTIVITY_COMPLETED: 'activity.completed',
+	ADVENTURE_ADVANCED: 'adventure.advanced',
+	ADVENTURE_LIST: 'adventure.list',
+	ADVENTURE_SNAPSHOT: 'adventure.snapshot',
+	ADVENTURE_STARTED: 'adventure.started',
+	BOT_COMMAND_ACCEPTED: 'bot.command.accepted',
+	BOT_REMOVED: 'bot.removed',
+	BOT_SPAWNED: 'bot.spawned',
+	BOT_TICKED: 'bot.ticked',
+	CHAT_CHANNELS: 'chat.channels',
+	CHAT_HISTORY: 'chat.history',
+	CHAT_MODERATION_SNAPSHOT: 'chat.moderation.snapshot',
+	CHAT_MODERATION_UPDATED: 'chat.moderation.updated',
+	CHAT_REPORTED: 'chat.reported',
+	CHAT_REPORT_ADJUDICATED: 'chat.report.adjudicated',
+	CHAT_REPORTS_REVIEW: 'chat.reports.review',
+	CHAT_SENT: 'chat.sent',
+	COMBAT_ATTACKED: 'combat.attacked',
+	COMBAT_DEFENDED: 'combat.defended',
+	COMBAT_SNAPSHOT: 'combat.snapshot',
+	COMBAT_TICKED: 'combat.ticked',
+	CRAFT_COMPLETED: 'craft.completed',
+	CRAFT_RECIPES: 'craft.recipes',
+	CREATURE_CARED: 'creature.cared',
+	CREATURE_SNAPSHOT: 'creature.snapshot',
+	ECONOMY_BALANCE: 'economy.balance',
+	ELITE_COMPLETED: 'elite.completed',
+	GUILD_CREATED: 'guild.created',
+	GUILD_INVITED: 'guild.invited',
+	GUILD_JOINED: 'guild.joined',
+	GUILD_KICKED: 'guild.kicked',
+	GUILD_LEFT: 'guild.left',
+	GUILD_SNAPSHOT: 'guild.snapshot',
+	HARVEST_COMPLETED: 'harvest.completed',
+	INPUT_ACCEPTED: 'player.input.accepted',
+	INSTANCE_ENTERED: 'instance.entered',
+	INSTANCE_LEFT: 'instance.left',
+	INSTANCE_SNAPSHOT: 'instance.snapshot',
+	LOOT_CLAIMED: 'loot.claimed',
+	MAIL_DELETED: 'mail.deleted',
+	MAIL_SENT: 'mail.sent',
+	MAIL_SNAPSHOT: 'mail.snapshot',
+	PARTY_CREATED: 'party.created',
+	PARTY_INVITED: 'party.invited',
+	PARTY_JOINED: 'party.joined',
+	PARTY_KICKED: 'party.kicked',
+	PARTY_LEFT: 'party.left',
+	PARTY_SNAPSHOT: 'party.snapshot',
+	PLAYER_ACTION_ACCEPTED: 'player.action.accepted',
+	PLAYER_CHAT_ACCEPTED: 'player.chat.accepted',
+	PLAYER_EMOTE_ACCEPTED: 'player.emote.accepted',
+	PLAYER_EQUIPMENT: 'player.equipment',
+	PLAYER_INTERACTION: 'player.interaction',
+	PLAYER_INVENTORY: 'player.inventory',
+	PLAYER_PROFILE: 'player.profile',
+	PLAYER_RESPAWNED: 'player.respawned',
+	PRESENCE_RESULT: 'presence.result',
+	PROGRESSION_SNAPSHOT: 'progression.snapshot',
+	QUEST_ABANDONED: 'quest.abandoned',
+	QUEST_ADVANCED: 'quest.advanced',
+	QUEST_SNAPSHOT: 'quest.snapshot',
+	QUEST_STARTED: 'quest.started',
+	REGION_TRANSITIONED: 'region.transitioned',
+	REWARD_CLAIMED: 'reward.claimed',
+	SERVER_TIME: 'server.time',
+	SESSION_REVOKED: 'session.revoked',
+	SESSION_ROTATED: 'session.rotated',
+	TRADE_ACCEPTED: 'trade.accepted',
+	TRADE_CANCELLED: 'trade.cancelled',
+	TRADE_CREATED: 'trade.created',
+	TRADE_OFFERED: 'trade.offered',
+	TRADE_SNAPSHOT: 'trade.snapshot',
+	VENDOR_BOUGHT: 'vendor.bought',
+	VENDOR_SOLD: 'vendor.sold',
+	WORLD_CENSUS: 'world.census',
+	WORLD_HEARTBEAT: 'world.heartbeat',
+	WORLD_JOINED: 'world.joined',
+	WORLD_LEFT: 'world.left',
+	WORLD_RESYNCED: 'world.resynced',
+	WORLD_SNAPSHOT: 'world.snapshot'
+});
+
+module.exports = {
+	RESPONSE_TYPES
+};

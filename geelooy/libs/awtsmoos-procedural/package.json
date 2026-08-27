@@ -1,0 +1,15 @@
+{
+  "name": "@awtsmoos/procedural",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "B\"H - raw-data procedural world geometry helpers for Awtsmoos games.",
+  "exports": {
+    ".": "./src/index.js",
+    "./debug": "./src/debug/index.js"
+  },
+  "scripts": {
+    "test": "node ./test/smoke.mjs"
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,146 @@
+{
+  "BH": "B\"H",
+  "elapsedMs": 11996,
+  "snapshot": {
+    "state": "playable",
+    "featureStage": "ready",
+    "richFeatureStage": "loading",
+    "featureReady": true,
+    "timeline": [
+      {
+        "details": {},
+        "elapsedMs": 0.1,
+        "stage": "runtime-starting"
+      },
+      {
+        "details": {},
+        "elapsedMs": 0.4,
+        "stage": "core-create-start"
+      },
+      {
+        "details": {},
+        "elapsedMs": 290.5,
+        "stage": "core-created"
+      },
+      {
+        "details": {},
+        "elapsedMs": 290.6,
+        "stage": "first-paint-wait"
+      },
+      {
+        "details": {
+          "timeoutMs": 12000
+        },
+        "elapsedMs": 291.1,
+        "stage": "essential-watchdog-armed"
+      },
+      {
+        "details": {},
+        "elapsedMs": 740.2,
+        "stage": "first-paint-observed"
+      },
+      {
+        "details": {},
+        "elapsedMs": 740.2,
+        "stage": "essential-schedule-start"
+      },
+      {
+        "details": {},
+        "elapsedMs": 740.5,
+        "stage": "essential-bootstrap-start"
+      },
+      {
+        "details": {},
+        "elapsedMs": 777.6,
+        "stage": "bootstrap-minimap-wait"
+      },
+      {
+        "details": {},
+        "elapsedMs": 1654,
+        "stage": "bootstrap-minimap-ready"
+      },
+      {
+        "details": {
+          "minimap": true,
+          "ready": true
+        },
+        "elapsedMs": 1654,
+        "stage": "essential-bootstrap-installed"
+      },
+      {
+        "details": {},
+        "elapsedMs": 1654.3,
+        "stage": "rich-import-start"
+      },
+      {
+        "details": {},
+        "elapsedMs": 1655.1,
+        "stage": "essential-ready"
+      },
+      {
+        "details": {
+          "timeoutMs": 12000
+        },
+        "elapsedMs": 1655.4,
+        "stage": "essential-watchdog-settled"
+      }
+    ],
+    "timelineStages": [
+      "runtime-starting",
+      "core-create-start",
+      "core-created",
+      "first-paint-wait",
+      "essential-watchdog-armed",
+      "first-paint-observed",
+      "essential-schedule-start",
+      "essential-bootstrap-start",
+      "bootstrap-minimap-wait",
+      "bootstrap-minimap-ready",
+      "essential-bootstrap-installed",
+      "rich-import-start",
+      "essential-ready",
+      "essential-watchdog-settled"
+    ],
+    "systems": {
+      "inventory": true,
+      "equipment": true,
+      "combat": true,
+      "quest": true,
+      "recovery": true,
+      "streaming": true
+    },
+    "minimapCount": 1,
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "movement": {
+    "after": {
+      "x": 0,
+      "y": 0,
+      "z": 1.26
+    },
+    "before": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "distance": 1.26,
+    "moved": true
+  },
+  "requests": {
+    "count": 131,
+    "richRequests": [
+      "http://127.0.0.1:8364/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js"
+    ],
+    "schedulerRequests": []
+  },
+  "errors": {
+    "exceptions": [],
+    "failed": [],
+    "fatalConsole": [],
+    "http": []
+  }
+}

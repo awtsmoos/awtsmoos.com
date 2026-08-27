@@ -1,0 +1,59 @@
+
+=== Generated compact syntax ===
+=== Generated compact syntax exit=0 ===
+
+=== Generated native boot contract ===
+✔ B"H production index eagerly loads only the compact entry (15.138276ms)
+✔ B"H compact graph folds essentials and preserves rich boundaries (502.004584ms)
+✔ B"H runtime begins measured essentials after one paint gate (27.848259ms)
+✔ B"H launcher conditionally owns mobile and API entries (0.858547ms)
+✔ B"H scheduler opens bootstrap play and defers rich installation (4.045076ms)
+✔ B"H watchdog exposes stable timeout evidence (1.439184ms)
+✔ B"H native facade remains an explicit-binding module contract (3.584297ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2591.691796
+=== Generated native boot contract exit=0 ===
+
+=== CompactJS compiler universe ===
+[Merkava Parser] Detected Base Path: 
+B'H compactJs focused suites passed
+=== CompactJS compiler universe exit=0 ===
+
+=== CompactJS Mitzvah feature graph ===
+[Merkava Parser] Detected Base Path: 
+B'H Mitzvah compact feature graph test passed
+=== CompactJS Mitzvah feature graph exit=0 ===
+
+=== CompactJS Mitzvah runtime graph ===
+[Merkava Parser] Detected Base Path: 
+B'H Mitzvah World compact runtime test passed
+=== CompactJS Mitzvah runtime graph exit=0 ===
+
+=== Artifact evidence ===
+ 5309283 /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js
+69bf4805d317936fb151df2a2fb4c8f5b4ebebd6d260736ffd9ed0dd48de0ab4  /Users/awtsmoos/work/awtsmoos-mitzvah-massive-lab/geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js
+
+=== Handwritten line ceilings ===
+      34 geelooy/libs/awtsmoos-procedural-core/src/adapters/awtsmoos/createAwtsmoosAdapterManifest.js
+      60 geelooy/libs/awtsmoos-procedural-core/src/adapters/awtsmoos/createAwtsmoosObjectRuntime.js
+       9 geelooy/libs/awtsmoos-procedural-core/src/adapters/awtsmoos/index.js
+      48 geelooy/libs/awtsmoos-procedural-core/src/adapters/awtsmoos/materializeGeometryArtifact.js
+      40 geelooy/libs/awtsmoos-procedural-core/test/awtsmoosAdapterSourceContract.test.mjs
+      58 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowBootTimeline.js
+      72 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowEssentialFeatureGate.js
+      84 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/createMinimalMeadowRuntime.js
+     119 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFeatureScheduler.js
+      39 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowBootTimeline.test.mjs
+      65 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowEssentialFeatureGate.test.mjs
+      79 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/app/minimalMeadowFeatureScheduler.test.mjs
+     116 geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/test/world/minimalMeadowNativeBootContract.test.mjs
+      61 ayzarim/awtsmoosDynamicServer/tests/compactJs.mitzvahWorldRuntime.test.js
+     884 total
+
+B_H remaining compiler verification passed

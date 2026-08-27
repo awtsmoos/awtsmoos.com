@@ -1,0 +1,585 @@
+{
+  "bh": "B\"H",
+  "generatedAt": "2026-07-21T04:54:56.550Z",
+  "sourceRoot": "/Users/awtsmoos/Documents/awtsmoos/docs/base/public",
+  "destinationRoot": "geelooy/games/mitzvahWorld/assets/materials/local",
+  "summary": {
+    "files": 71,
+    "bytes": 26221821,
+    "byTier": {
+      "half": 7,
+      "source": 6,
+      "quarter": 58
+    }
+  },
+  "records": [
+    {
+      "bytes": 36642,
+      "canonicalPath": "awtsmoos-nature/chai-forest/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg",
+      "destinationFilename": "awtsmoos-nature-chai-forest-textures-bark-bark001-1k-jpg-bark001-1k-jpg--296c0f5f.jpg",
+      "selectedRelativePath": "awtsmoos-nature/chai-forest-half/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg",
+      "sha256": "086af19c6a0ada5725e07186424167eb096dff93ec7ddde6d73fb0e3bf14a760",
+      "tier": "half"
+    },
+    {
+      "bytes": 59543,
+      "canonicalPath": "awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg",
+      "destinationFilename": "awtsmoos-nature-chai-forest-textures-ground-dirt-color-9f8372fe.jpg",
+      "selectedRelativePath": "awtsmoos-nature/chai-forest-half/textures/ground/dirt_color.jpg",
+      "sha256": "2d557bc16448ad66c32262de9997721b29a6fd5ecad459b674c1b2835aa3d718",
+      "tier": "half"
+    },
+    {
+      "bytes": 73613,
+      "canonicalPath": "awtsmoos-nature/chai-forest/textures/ground/grass.jpg",
+      "destinationFilename": "awtsmoos-nature-chai-forest-textures-ground-grass-f5733be1.jpg",
+      "selectedRelativePath": "awtsmoos-nature/chai-forest-half/textures/ground/grass.jpg",
+      "sha256": "00545589db3d2899728b5c064b953b3c005917d32f683edc45d121c67cb6d4f1",
+      "tier": "half"
+    },
+    {
+      "bytes": 94056,
+      "canonicalPath": "awtsmoos-nature/chai-forest/textures/leaves/ash.png",
+      "destinationFilename": "awtsmoos-nature-chai-forest-textures-leaves-ash-a2a45478.png",
+      "selectedRelativePath": "awtsmoos-nature/chai-forest-half/textures/leaves/ash.png",
+      "sha256": "5610178d655748e1780e0c6793e4c8a54868fc70e3d4f70ed9cda4619e07fdde",
+      "tier": "half"
+    },
+    {
+      "bytes": 100330,
+      "canonicalPath": "awtsmoos-nature/chai-forest/textures/leaves/aspen.png",
+      "destinationFilename": "awtsmoos-nature-chai-forest-textures-leaves-aspen-9b18519b.png",
+      "selectedRelativePath": "awtsmoos-nature/chai-forest-half/textures/leaves/aspen.png",
+      "sha256": "e221717ac8e15da50b775f4ccd5db52d80eedbbf24bd72022f864ce011187933",
+      "tier": "half"
+    },
+    {
+      "bytes": 106366,
+      "canonicalPath": "awtsmoos-nature/chai-forest/textures/leaves/oak.png",
+      "destinationFilename": "awtsmoos-nature-chai-forest-textures-leaves-oak-6fc9ef51.png",
+      "selectedRelativePath": "awtsmoos-nature/chai-forest-half/textures/leaves/oak.png",
+      "sha256": "177de3c3a1d323df9641c529e6061c1d82ac5557a1b30c7b3eee03af00d70ebd",
+      "tier": "half"
+    },
+    {
+      "bytes": 110708,
+      "canonicalPath": "awtsmoos-nature/chai-forest/textures/leaves/pine.png",
+      "destinationFilename": "awtsmoos-nature-chai-forest-textures-leaves-pine-0dc70930.png",
+      "selectedRelativePath": "awtsmoos-nature/chai-forest-half/textures/leaves/pine.png",
+      "sha256": "e02ed29b6e8a9b3db8a3b98a8057a5705a3ce75a8de126274cb0b5b2392de27f",
+      "tier": "half"
+    },
+    {
+      "bytes": 1821706,
+      "canonicalPath": "awtsmoos-nature/ilanos/trees/sakura petal.png",
+      "destinationFilename": "awtsmoos-nature-ilanos-trees-sakura-petal-9542c53e.png",
+      "selectedRelativePath": "awtsmoos-nature/ilanos/trees/sakura petal.png",
+      "sha256": "50ea896ce138d936ccf7ec670c7d72a652e5469b95123ad879eb143e6f6ce792",
+      "tier": "source"
+    },
+    {
+      "bytes": 155978,
+      "canonicalPath": "full-resolution/bluestone 1.png",
+      "destinationFilename": "full-resolution-bluestone-1-e5ff9c01.png",
+      "selectedRelativePath": "quarter-resolution/bluestone 1.png",
+      "sha256": "c92ecf667f4a2a11f8f162bf0990de957eef0d3eecfcdc6b8780c9db1cc4988b",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 200887,
+      "canonicalPath": "full-resolution/cobblestone.png",
+      "destinationFilename": "full-resolution-cobblestone-9961d4d5.png",
+      "selectedRelativePath": "quarter-resolution/cobblestone.png",
+      "sha256": "bdd9743de18bb3590cb29bd52088a2ba13c7df583980d378f26c3335e518d11e",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 187486,
+      "canonicalPath": "full-resolution/copper 1.png",
+      "destinationFilename": "full-resolution-copper-1-7caccc0d.png",
+      "selectedRelativePath": "quarter-resolution/copper 1.png",
+      "sha256": "f87b191d3aee7f45f71895e337796b12506c1b91b1100dde4655d8112fb5fca0",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 184658,
+      "canonicalPath": "full-resolution/cow fur 1.png",
+      "destinationFilename": "full-resolution-cow-fur-1-90616b26.png",
+      "selectedRelativePath": "quarter-resolution/cow fur 1.png",
+      "sha256": "b20739d7b5f06c3bc52f35c0ec7d0b5eb4288beaf104bb8a3ba3191a706a1e77",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 194484,
+      "canonicalPath": "full-resolution/dark forest floor nonlight.png",
+      "destinationFilename": "full-resolution-dark-forest-floor-nonlight-6cc0a6d7.png",
+      "selectedRelativePath": "quarter-resolution/dark forest floor nonlight.png",
+      "sha256": "65fc383fffd4a4449bd6b0774104e046cf705022f987b2d8f76faa88c5ad5551",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 190909,
+      "canonicalPath": "full-resolution/deer fur 1.png",
+      "destinationFilename": "full-resolution-deer-fur-1-9733fb85.png",
+      "selectedRelativePath": "quarter-resolution/deer fur 1.png",
+      "sha256": "8e47e1036c70dbd8822fa10f2823d363008ff5a3dc9315f9723cb76c52a9e881",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 191401,
+      "canonicalPath": "full-resolution/dirt 1.png",
+      "destinationFilename": "full-resolution-dirt-1-71bcb519.png",
+      "selectedRelativePath": "quarter-resolution/dirt 1.png",
+      "sha256": "58286cece616d20008f82c0645e981d7842dd6f08ed66afb9b17ce29fb21c937",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 184979,
+      "canonicalPath": "full-resolution/dirt 2.png",
+      "destinationFilename": "full-resolution-dirt-2-39d6c6e0.png",
+      "selectedRelativePath": "quarter-resolution/dirt 2.png",
+      "sha256": "ac8d890e2f97f57389fc86abc8ce77b82ffab09ac9dc141347dce016faaafda4",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 164693,
+      "canonicalPath": "full-resolution/dirt 5.png",
+      "destinationFilename": "full-resolution-dirt-5-19fbd9e5.png",
+      "selectedRelativePath": "quarter-resolution/dirt 5.png",
+      "sha256": "47b7b1eb5026c925c4afac17e713b0778d5c868963470efdd7a622fa93bb1f12",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 168729,
+      "canonicalPath": "full-resolution/dirt 6.png",
+      "destinationFilename": "full-resolution-dirt-6-494fae0c.png",
+      "selectedRelativePath": "quarter-resolution/dirt 6.png",
+      "sha256": "44047e403ebe9b72ee1fb352565b5e245cc202b6b7863214f60804d32f41fe3a",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 209738,
+      "canonicalPath": "full-resolution/dirt grass 1.png",
+      "destinationFilename": "full-resolution-dirt-grass-1-5b70d313.png",
+      "selectedRelativePath": "quarter-resolution/dirt grass 1.png",
+      "sha256": "30d66c900279acb47ab1d33066095cdf4189c1cf67a2d69467e8b6a7b441ed38",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 234550,
+      "canonicalPath": "full-resolution/dirt grass 2.png",
+      "destinationFilename": "full-resolution-dirt-grass-2-afb4ccc6.png",
+      "selectedRelativePath": "quarter-resolution/dirt grass 2.png",
+      "sha256": "b12c4a0d1a11fc379bd2d05d80bc5bfdf3829d60b22dcd9322d86d8bda6abc40",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 214777,
+      "canonicalPath": "full-resolution/dirt grass 3.png",
+      "destinationFilename": "full-resolution-dirt-grass-3-af64e2d9.png",
+      "selectedRelativePath": "quarter-resolution/dirt grass 3.png",
+      "sha256": "392923f9418ab2d2c07d6f068d4abd1ad18ddec99790cde17202ea617a5b6013",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 218326,
+      "canonicalPath": "full-resolution/forest floor covered with leaves.png",
+      "destinationFilename": "full-resolution-forest-floor-covered-with-leaves-74ab59aa.png",
+      "selectedRelativePath": "quarter-resolution/forest floor covered with leaves.png",
+      "sha256": "8d44335253dddb8b712c462c8b405dfd3e5bafb88a85b651fb286573f314e10b",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 213057,
+      "canonicalPath": "full-resolution/fox fur 1.png",
+      "destinationFilename": "full-resolution-fox-fur-1-e8e27ad4.png",
+      "selectedRelativePath": "quarter-resolution/fox fur 1.png",
+      "sha256": "a9e23ddab9eed495cc630a8d2dabf7cb6aac7d1f35444569658384a05f66115a",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 195174,
+      "canonicalPath": "full-resolution/gold 2.png",
+      "destinationFilename": "full-resolution-gold-2-ad185f8f.png",
+      "selectedRelativePath": "quarter-resolution/gold 2.png",
+      "sha256": "604647bc9cc7a5f0878035779ce937c81bdbe51cd6f5d43a1a7b1b72477650a5",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 243958,
+      "canonicalPath": "full-resolution/grass 1.png",
+      "destinationFilename": "full-resolution-grass-1-6e1d89a2.png",
+      "selectedRelativePath": "quarter-resolution/grass 1.png",
+      "sha256": "753cee044be9656b7eb29959834c5660bd187136cff40deef2a91be854b0ac66",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 229700,
+      "canonicalPath": "full-resolution/grass 4.png",
+      "destinationFilename": "full-resolution-grass-4-d9dd7789.png",
+      "selectedRelativePath": "quarter-resolution/grass 4.png",
+      "sha256": "800da51162d59cd1bf6470b6bff2ba7ebca57ddeb61f59e0bc7b421355238278",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 234744,
+      "canonicalPath": "full-resolution/grass 5.png",
+      "destinationFilename": "full-resolution-grass-5-c62e16b6.png",
+      "selectedRelativePath": "quarter-resolution/grass 5.png",
+      "sha256": "2a3ff1c983cb3d00a35900eb3a1fe90e1e260628ae0d2789f8f4688b457ee201",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 239603,
+      "canonicalPath": "full-resolution/grass 7.png",
+      "destinationFilename": "full-resolution-grass-7-880b7090.png",
+      "selectedRelativePath": "quarter-resolution/grass 7.png",
+      "sha256": "fed4bf804785427334d45aaea3a3e92b00b0e1b446bade609da01e46659bbcae",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 236865,
+      "canonicalPath": "full-resolution/grass 8.png",
+      "destinationFilename": "full-resolution-grass-8-c3f56f2d.png",
+      "selectedRelativePath": "quarter-resolution/grass 8.png",
+      "sha256": "eced8e35306a0f4b7e0f5a21c6371c30f6bdbe8f0b1d55ec73f0c9bfc3edd884",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 170646,
+      "canonicalPath": "full-resolution/horse fur 1.png",
+      "destinationFilename": "full-resolution-horse-fur-1-c2c1cf48.png",
+      "selectedRelativePath": "quarter-resolution/horse fur 1.png",
+      "sha256": "44f020e611210f6a105a4ffa6e4924048205c8839c4b23ed34653a055f2fa530",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 124309,
+      "canonicalPath": "full-resolution/leaf 1.png",
+      "destinationFilename": "full-resolution-leaf-1-44ec7a4c.png",
+      "selectedRelativePath": "quarter-resolution/leaf 1.png",
+      "sha256": "fdc54ca61cfe3de534587c54bb1a9ea7e4540e4c377ebe24712fbc9e8b28d094",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 165931,
+      "canonicalPath": "full-resolution/leather.png",
+      "destinationFilename": "full-resolution-leather-edbcec26.png",
+      "selectedRelativePath": "quarter-resolution/leather.png",
+      "sha256": "034f192b24d0818eac534ff48af9f05aa6a9d68c50a2e24120007dbd81488767",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 175896,
+      "canonicalPath": "full-resolution/limestone bricks 1.png",
+      "destinationFilename": "full-resolution-limestone-bricks-1-49f67f10.png",
+      "selectedRelativePath": "quarter-resolution/limestone bricks 1.png",
+      "sha256": "21cff95485c5cb8bfb56a1830372a5bfb59d4a54b40632f35bf5af0c39017065",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 203331,
+      "canonicalPath": "full-resolution/marsh grass.png",
+      "destinationFilename": "full-resolution-marsh-grass-1ba89d86.png",
+      "selectedRelativePath": "quarter-resolution/marsh grass.png",
+      "sha256": "2ecd29e9cf3bedc10efa5bef915854e4182e49340156079b2425f5cbc3bcdabe",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 129494,
+      "canonicalPath": "full-resolution/oak leaf fall.png",
+      "destinationFilename": "full-resolution-oak-leaf-fall-489b5c33.png",
+      "selectedRelativePath": "quarter-resolution/oak leaf fall.png",
+      "sha256": "9e9a565752ca0ae32a22d9cce2888a5f050bd545ff4742ecf7a7027f1a6bcf93",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 109156,
+      "canonicalPath": "full-resolution/oak leaf spring.png",
+      "destinationFilename": "full-resolution-oak-leaf-spring-125f0523.png",
+      "selectedRelativePath": "quarter-resolution/oak leaf spring.png",
+      "sha256": "fd5d81c3b5ab7bdc0e23624a55968b05b370c8f2db511bfa89fd4409b105f511",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 160139,
+      "canonicalPath": "full-resolution/oak wood 1.png",
+      "destinationFilename": "full-resolution-oak-wood-1-a10a0c8e.png",
+      "selectedRelativePath": "quarter-resolution/oak wood 1.png",
+      "sha256": "3fe15c778e40dca227e677f1736f0ef460a024788d5c993e7ff35631ddd6f373",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 159294,
+      "canonicalPath": "full-resolution/oak wood 3.png",
+      "destinationFilename": "full-resolution-oak-wood-3-cfbe44e8.png",
+      "selectedRelativePath": "quarter-resolution/oak wood 3.png",
+      "sha256": "d5d07de1149d1f567205553ff594fc75d91628d7badd8f8f38efba8d59b6af9c",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 152572,
+      "canonicalPath": "full-resolution/parchment.png",
+      "destinationFilename": "full-resolution-parchment-378d6477.png",
+      "selectedRelativePath": "quarter-resolution/parchment.png",
+      "sha256": "cdf6d9d78096b5f5468d460a1ef6bc477189c5727d7ee5bc6e602d0209231121",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 207547,
+      "canonicalPath": "full-resolution/polished granite Rock 1.png",
+      "destinationFilename": "full-resolution-polished-granite-rock-1-9ba5e9e3.png",
+      "selectedRelativePath": "quarter-resolution/polished granite Rock 1.png",
+      "sha256": "e1e8b9fa101df5b8af31342e020d69051a5247da9cad53364c84970085a77dad",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 187940,
+      "canonicalPath": "full-resolution/raveled rope.png",
+      "destinationFilename": "full-resolution-raveled-rope-977297a8.png",
+      "selectedRelativePath": "quarter-resolution/raveled rope.png",
+      "sha256": "cc35094bdf4f8e0dbcb58141ab31995618b434d96a7a6a76903ac2ce6a49cb69",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 176627,
+      "canonicalPath": "full-resolution/red brick 1.png",
+      "destinationFilename": "full-resolution-red-brick-1-1460bcae.png",
+      "selectedRelativePath": "quarter-resolution/red brick 1.png",
+      "sha256": "0f7c99e7743487968ed0e45b7978fb75522e214990d0159a3676dbbe5bfb1847",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 181950,
+      "canonicalPath": "full-resolution/red brick 2.png",
+      "destinationFilename": "full-resolution-red-brick-2-3d760ddb.png",
+      "selectedRelativePath": "quarter-resolution/red brick 2.png",
+      "sha256": "156e7b537233b88080c3df7eedab3f56d2005f1aade50dccb25f48d16157e268",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 198220,
+      "canonicalPath": "full-resolution/red brick 3.png",
+      "destinationFilename": "full-resolution-red-brick-3-3d6d5f88.png",
+      "selectedRelativePath": "quarter-resolution/red brick 3.png",
+      "sha256": "c0110578cea8d7767add331d22405f8635d555dc7e0b3ab93b38d47b958d269d",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 186005,
+      "canonicalPath": "full-resolution/rusty iron.png",
+      "destinationFilename": "full-resolution-rusty-iron-cac8d0be.png",
+      "selectedRelativePath": "quarter-resolution/rusty iron.png",
+      "sha256": "652d5ef32dbb6f0356528fd864cf22de51ef0bf2e18646767287d47218b4e098",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 170178,
+      "canonicalPath": "full-resolution/sand 1.png",
+      "destinationFilename": "full-resolution-sand-1-8c7b3f4e.png",
+      "selectedRelativePath": "quarter-resolution/sand 1.png",
+      "sha256": "b6376d0bf2de1794ac9dd3a1cc926e4a435f46b47d89d06ee27085d1910237cb",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 135721,
+      "canonicalPath": "full-resolution/seamless water brighter.png",
+      "destinationFilename": "full-resolution-seamless-water-brighter-719471d8.png",
+      "selectedRelativePath": "quarter-resolution/seamless water brighter.png",
+      "sha256": "8a943a9ffd4b74b3ef8bf7cf15bd27435d6ecb1ce7dc0a800f52531e43df7465",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 174223,
+      "canonicalPath": "full-resolution/seamless water.png",
+      "destinationFilename": "full-resolution-seamless-water-c51a1c07.png",
+      "selectedRelativePath": "quarter-resolution/seamless water.png",
+      "sha256": "2fbc770d348ca1bfd914b02bd7d103ff714724819ff1cbc8cc460e85ae42e8cb",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 219985,
+      "canonicalPath": "full-resolution/shallow river water.png",
+      "destinationFilename": "full-resolution-shallow-river-water-eb038302.png",
+      "selectedRelativePath": "quarter-resolution/shallow river water.png",
+      "sha256": "11b25577619c215f2f95a18992d2fd3bdd856600419a9c0e4b6c34a539209dab",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 162648,
+      "canonicalPath": "full-resolution/silver 1.png",
+      "destinationFilename": "full-resolution-silver-1-f10076e9.png",
+      "selectedRelativePath": "quarter-resolution/silver 1.png",
+      "sha256": "7e2ca45d511d2281a85e55ec293444a84dcd6c9a9cfeea91b9ede655afc85151",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 185977,
+      "canonicalPath": "full-resolution/stone 1.png",
+      "destinationFilename": "full-resolution-stone-1-695646f1.png",
+      "selectedRelativePath": "quarter-resolution/stone 1.png",
+      "sha256": "78c18450785524e17ea85ee6134a193af613314f50951c01f699cdaa2fce4345",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 170717,
+      "canonicalPath": "full-resolution/stone floor 2.png",
+      "destinationFilename": "full-resolution-stone-floor-2-84874ece.png",
+      "selectedRelativePath": "quarter-resolution/stone floor 2.png",
+      "sha256": "56bec158ef8482fd869c0a198ce12538a0d96f3f32cf64eab5e643d41aada113",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 199226,
+      "canonicalPath": "full-resolution/tan cloth.png",
+      "destinationFilename": "full-resolution-tan-cloth-a63124c4.png",
+      "selectedRelativePath": "quarter-resolution/tan cloth.png",
+      "sha256": "6d508ca3426b51fdf46661e4cdc00b70374dbbfc294a85c7b96620d70af5eced",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 200733,
+      "canonicalPath": "full-resolution/tiled roof 1.png",
+      "destinationFilename": "full-resolution-tiled-roof-1-30d67c62.png",
+      "selectedRelativePath": "quarter-resolution/tiled roof 1.png",
+      "sha256": "bbb8894994e972704026cf02ee1971310c1b517df9e30d5ef6d8678df5c4ced2",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 186367,
+      "canonicalPath": "full-resolution/tiled roof 2.png",
+      "destinationFilename": "full-resolution-tiled-roof-2-59ebcd8f.png",
+      "selectedRelativePath": "quarter-resolution/tiled roof 2.png",
+      "sha256": "92310c692f43ab2bc0db41d992a2c05bbe8fddaa0d24a8989f8acc2c8ddeaa8c",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 184773,
+      "canonicalPath": "full-resolution/tiled roof 3 smaller tiles.png",
+      "destinationFilename": "full-resolution-tiled-roof-3-smaller-tiles-c3921da5.png",
+      "selectedRelativePath": "quarter-resolution/tiled roof 3 smaller tiles.png",
+      "sha256": "e837934c107fe2895407dc8f2cd596a92f5f013d4b73ac41ba4967f6442a70b4",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 176930,
+      "canonicalPath": "full-resolution/tiled roof 4.png",
+      "destinationFilename": "full-resolution-tiled-roof-4-9f0f4049.png",
+      "selectedRelativePath": "quarter-resolution/tiled roof 4.png",
+      "sha256": "d4afde08910c789fbc4b50e278436f2ac8c7cbd97884e59924fd05145ec154f5",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 180207,
+      "canonicalPath": "full-resolution/tilled soil.png",
+      "destinationFilename": "full-resolution-tilled-soil-935ed0d6.png",
+      "selectedRelativePath": "quarter-resolution/tilled soil.png",
+      "sha256": "56e101ed227ebccf32aff6660b7d106458da0625590d6667e1ddeb0c0e3d944d",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 202526,
+      "canonicalPath": "full-resolution/tree bark 1.png",
+      "destinationFilename": "full-resolution-tree-bark-1-125dd442.png",
+      "selectedRelativePath": "quarter-resolution/tree bark 1.png",
+      "sha256": "f42d5affad1ef801a3ec0e30527be0fcd4332c0a3e3e31a8c8f875775e89d446",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 163255,
+      "canonicalPath": "full-resolution/water not seamless.png",
+      "destinationFilename": "full-resolution-water-not-seamless-2cb19fae.png",
+      "selectedRelativePath": "quarter-resolution/water not seamless.png",
+      "sha256": "7f8a1db0f402b84f6caceb0190958060ee1e26ec42638c6a697be66ccb521145",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 203972,
+      "canonicalPath": "full-resolution/weathered Red bricks 1.png",
+      "destinationFilename": "full-resolution-weathered-red-bricks-1-fec25330.png",
+      "selectedRelativePath": "quarter-resolution/weathered Red bricks 1.png",
+      "sha256": "4ddbb9377eb00c0c0f90dd184fb6e1ee7d3e09305f01d85710ba7a8e6439395c",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 191396,
+      "canonicalPath": "full-resolution/weathered fieldstone Rock 1.png",
+      "destinationFilename": "full-resolution-weathered-fieldstone-rock-1-5381a6b7.png",
+      "selectedRelativePath": "quarter-resolution/weathered fieldstone Rock 1.png",
+      "sha256": "6233d2dc50ee5723a94059070f29179b3b2c028f7d090ddbc3291551b224863d",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 192483,
+      "canonicalPath": "full-resolution/white brick 1.png",
+      "destinationFilename": "full-resolution-white-brick-1-1a6235a0.png",
+      "selectedRelativePath": "quarter-resolution/white brick 1.png",
+      "sha256": "f14166d625c9134c54ac84523214f641b5d1ff5ca23646527d5aca7d119bf2e8",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 152518,
+      "canonicalPath": "full-resolution/wooden oak planks 1.png",
+      "destinationFilename": "full-resolution-wooden-oak-planks-1-014b8df0.png",
+      "selectedRelativePath": "quarter-resolution/wooden oak planks 1.png",
+      "sha256": "18cbdf07b369715bb13261d71d8fbfd3d2aac87dcf5ce0bfea74f5b7af8c6755",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 166207,
+      "canonicalPath": "full-resolution/wooden planked floor.png",
+      "destinationFilename": "full-resolution-wooden-planked-floor-dab04132.png",
+      "selectedRelativePath": "quarter-resolution/wooden planked floor.png",
+      "sha256": "bd28756a3e8018d9ed5b86155a07dab704b3161e8b0745ae52299a073a16a033",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 202924,
+      "canonicalPath": "full-resolution/yellow brick 1.png",
+      "destinationFilename": "full-resolution-yellow-brick-1-70ebd4b1.png",
+      "selectedRelativePath": "quarter-resolution/yellow brick 1.png",
+      "sha256": "a5fbfe16b0cb2dda5f04ef70b876bd6ccde36973ace623b4286ff34ce7c1ec90",
+      "tier": "quarter"
+    },
+    {
+      "bytes": 782,
+      "canonicalPath": "processed/botany/petal-soft.svg",
+      "destinationFilename": "processed-botany-petal-soft-3a2e2015.svg",
+      "selectedRelativePath": "processed/botany/petal-soft.svg",
+      "sha256": "463c57b027086e2a070807c2b07b5831ab4fb5106eb507329841153a5f00b2e4",
+      "tier": "source"
+    },
+    {
+      "bytes": 3090322,
+      "canonicalPath": "various/Rough weathered oak wood planks.png",
+      "destinationFilename": "various-rough-weathered-oak-wood-planks-e943da6b.png",
+      "selectedRelativePath": "various/Rough weathered oak wood planks.png",
+      "sha256": "7ea38bdfc6c9d82b56eaca1e62bbb9a9c09cbda73292f8993bb3fcaf543e3b20",
+      "tier": "source"
+    },
+    {
+      "bytes": 3568006,
+      "canonicalPath": "various/Stone retaining wall masonry.png",
+      "destinationFilename": "various-stone-retaining-wall-masonry-d0b02f13.png",
+      "selectedRelativePath": "various/Stone retaining wall masonry.png",
+      "sha256": "2f0f55a3454935e8e0a4cc2491d7d545528d1783867fd2cf4a507c496b5c8b54",
+      "tier": "source"
+    },
+    {
+      "bytes": 3152353,
+      "canonicalPath": "various/Whitewashed stone.png",
+      "destinationFilename": "various-whitewashed-stone-4a865d52.png",
+      "selectedRelativePath": "various/Whitewashed stone.png",
+      "sha256": "8f455eaa5e664554b4530a425cfa3f5496810fbcf2a1b6f2490b20563a29316c",
+      "tier": "source"
+    },
+    {
+      "bytes": 3200675,
+      "canonicalPath": "various/slate roof shingles.png",
+      "destinationFilename": "various-slate-roof-shingles-17bb691c.png",
+      "selectedRelativePath": "various/slate roof shingles.png",
+      "sha256": "b31eab6913c61da769e347054bba2ca98e37f71c5df54a6897d4bb08b2c50c11",
+      "tier": "source"
+    }
+  ]
+}

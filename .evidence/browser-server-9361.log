@@ -1,0 +1,16 @@
+127.0.0.1 - - [02/Aug/2026 10:20:40] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [02/Aug/2026 10:20:41] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [02/Aug/2026 10:20:41] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [02/Aug/2026 10:20:42] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [02/Aug/2026 10:20:44] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [02/Aug/2026 10:20:47] "GET /geelooy/games/mitzvahWorld/index.html?massive=1785691247119 HTTP/1.1" 200 -
+127.0.0.1 - - [02/Aug/2026 10:20:47] "GET /geelooy/games/mitzvahWorld/styles/generated/mitzvah-world.production.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Aug/2026 10:20:47] "GET /geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/mitzvah-world.compact.js HTTP/1.1" 200 -
+127.0.0.1 - - [02/Aug/2026 10:20:50] code 404, message File not found
+127.0.0.1 - - [02/Aug/2026 10:20:50] "GET /games/mitzvahWorld/experiments/Awtsmoos/src/network/SharedChatClientFactory.js HTTP/1.1" 404 -
+127.0.0.1 - - [02/Aug/2026 10:20:50] code 404, message File not found
+127.0.0.1 - - [02/Aug/2026 10:20:50] "GET /games/mitzvahWorld/experiments/Awtsmoos/src/network/MitzvahWorldChatPanel.js HTTP/1.1" 404 -
+127.0.0.1 - - [02/Aug/2026 10:20:50] code 404, message File not found
+127.0.0.1 - - [02/Aug/2026 10:20:50] "GET /games/mitzvahWorld/experiments/Awtsmoos/src/ui/WorldMinimap.js HTTP/1.1" 404 -
+127.0.0.1 - - [02/Aug/2026 10:20:50] code 404, message File not found
+127.0.0.1 - - [02/Aug/2026 10:20:50] "GET /games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowFeatureBundle.js HTTP/1.1" 404 -

@@ -1,0 +1,56 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!--
+	The Awtsmoos recreates each tested point and each finite screen.
+	Awtsmoos.com receives this clear vessel where geometry can testify without compressed concealment.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>Mobile HUD input acceptance</title>
+	<link rel="stylesheet" href="../../../../../styles/mitzvah-world-inventory.css">
+	<link rel="stylesheet" href="../../../../../styles/mitzvah-world-game-rail.css">
+	<link rel="stylesheet" href="../../../../../styles/mitzvah-world-mobile.css">
+	<link rel="stylesheet" href="../../../../../styles/mitzvah-world-corrections.css">
+	<style>
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			overflow: hidden;
+		}
+
+		#AwtsmoosCanvas {
+			position: fixed;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		#mobileControls {
+			position: fixed;
+			inset: auto 0 0;
+			height: 172px;
+			pointer-events: none;
+		}
+
+		#joy {
+			pointer-events: auto;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="AwtsmoosCanvas"></canvas>
+	<section id="mobileControls">
+		<div id="joy"></div>
+	</section>
+	<div id="gameRail"></div>
+	<div id="inventory"></div>
+	<output id="acceptanceResult"></output>
+	<script type="module" src="./mobileHudInputAcceptance.js"></script>
+</body>
+</html>

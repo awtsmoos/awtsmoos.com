@@ -1,0 +1,1197 @@
+{
+  "records": [
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "awtsmoos-nature-chai-forest-textures-bark-bark001-1k-jpg-bark001-1k-jpg-color-jpg",
+      "kind": "image",
+      "name": "Bark001_1K-JPG_Color.jpg",
+      "path": "awtsmoos-nature/chai-forest/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg",
+      "resolution": "source",
+      "tags": [
+        "timber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/awtsmoos-nature-chai-forest-textures-bark-bark001-1k-jpg-bark001-1k-jpg--296c0f5f.svg?source=/awtsmoos-nature/chai-forest/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg",
+      "variants": {
+        "local": "awtsmoos-nature/chai-forest/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "awtsmoos-nature-chai-forest-textures-ground-dirt-color-jpg",
+      "kind": "image",
+      "name": "dirt_color.jpg",
+      "path": "awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg",
+      "resolution": "source",
+      "tags": [
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/awtsmoos-nature-chai-forest-textures-ground-dirt-color-9f8372fe.svg?source=/awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg",
+      "variants": {
+        "local": "awtsmoos-nature/chai-forest/textures/ground/dirt_color.jpg"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "awtsmoos-nature-chai-forest-textures-ground-grass-jpg",
+      "kind": "image",
+      "name": "grass.jpg",
+      "path": "awtsmoos-nature/chai-forest/textures/ground/grass.jpg",
+      "resolution": "source",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/awtsmoos-nature-chai-forest-textures-ground-grass-f5733be1.svg?source=/awtsmoos-nature/chai-forest/textures/ground/grass.jpg",
+      "variants": {
+        "local": "awtsmoos-nature/chai-forest/textures/ground/grass.jpg"
+      }
+    },
+    {
+      "alphaCapable": true,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "awtsmoos-nature-chai-forest-textures-leaves-ash-png",
+      "kind": "image",
+      "name": "ash.png",
+      "path": "awtsmoos-nature/chai-forest/textures/leaves/ash.png",
+      "resolution": "source",
+      "tags": [],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/awtsmoos-nature-chai-forest-textures-leaves-ash-a2a45478.svg?source=/awtsmoos-nature/chai-forest/textures/leaves/ash.png",
+      "variants": {
+        "local": "awtsmoos-nature/chai-forest/textures/leaves/ash.png"
+      }
+    },
+    {
+      "alphaCapable": true,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "awtsmoos-nature-chai-forest-textures-leaves-aspen-png",
+      "kind": "image",
+      "name": "aspen.png",
+      "path": "awtsmoos-nature/chai-forest/textures/leaves/aspen.png",
+      "resolution": "source",
+      "tags": [],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/awtsmoos-nature-chai-forest-textures-leaves-aspen-9b18519b.svg?source=/awtsmoos-nature/chai-forest/textures/leaves/aspen.png",
+      "variants": {
+        "local": "awtsmoos-nature/chai-forest/textures/leaves/aspen.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "awtsmoos-nature-chai-forest-textures-leaves-oak-png",
+      "kind": "image",
+      "name": "oak.png",
+      "path": "awtsmoos-nature/chai-forest/textures/leaves/oak.png",
+      "resolution": "source",
+      "tags": [],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/awtsmoos-nature-chai-forest-textures-leaves-oak-6fc9ef51.svg?source=/awtsmoos-nature/chai-forest/textures/leaves/oak.png",
+      "variants": {
+        "local": "awtsmoos-nature/chai-forest/textures/leaves/oak.png"
+      }
+    },
+    {
+      "alphaCapable": true,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "awtsmoos-nature-chai-forest-textures-leaves-pine-png",
+      "kind": "image",
+      "name": "pine.png",
+      "path": "awtsmoos-nature/chai-forest/textures/leaves/pine.png",
+      "resolution": "source",
+      "tags": [],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/awtsmoos-nature-chai-forest-textures-leaves-pine-0dc70930.svg?source=/awtsmoos-nature/chai-forest/textures/leaves/pine.png",
+      "variants": {
+        "local": "awtsmoos-nature/chai-forest/textures/leaves/pine.png"
+      }
+    },
+    {
+      "alphaCapable": true,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "awtsmoos-nature-ilanos-trees-sakura-petal-png",
+      "kind": "image",
+      "name": "sakura petal.png",
+      "path": "awtsmoos-nature/ilanos/trees/sakura petal.png",
+      "resolution": "source",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/awtsmoos-nature-ilanos-trees-sakura-petal-9542c53e.svg?source=/awtsmoos-nature/ilanos/trees/sakura%20petal.png",
+      "variants": {
+        "local": "awtsmoos-nature/ilanos/trees/sakura petal.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-bluestone-1-png",
+      "kind": "image",
+      "name": "bluestone 1.png",
+      "path": "full-resolution/bluestone 1.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-bluestone-1-e5ff9c01.svg?source=/full-resolution/bluestone%201.png",
+      "variants": {
+        "local": "full-resolution/bluestone 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-cobblestone-png",
+      "kind": "image",
+      "name": "cobblestone.png",
+      "path": "full-resolution/cobblestone.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-cobblestone-9961d4d5.svg?source=/full-resolution/cobblestone.png",
+      "variants": {
+        "local": "full-resolution/cobblestone.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-copper-1-png",
+      "kind": "image",
+      "name": "copper 1.png",
+      "path": "full-resolution/copper 1.png",
+      "resolution": "full",
+      "tags": [
+        "metal"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-copper-1-7caccc0d.svg?source=/full-resolution/copper%201.png",
+      "variants": {
+        "local": "full-resolution/copper 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-cow-fur-1-png",
+      "kind": "image",
+      "name": "cow fur 1.png",
+      "path": "full-resolution/cow fur 1.png",
+      "resolution": "full",
+      "tags": [
+        "fiber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-cow-fur-1-90616b26.svg?source=/full-resolution/cow%20fur%201.png",
+      "variants": {
+        "local": "full-resolution/cow fur 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-dark-forest-floor-nonlight-png",
+      "kind": "image",
+      "name": "dark forest floor nonlight.png",
+      "path": "full-resolution/dark forest floor nonlight.png",
+      "resolution": "full",
+      "tags": [
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-dark-forest-floor-nonlight-6cc0a6d7.svg?source=/full-resolution/dark%20forest%20floor%20nonlight.png",
+      "variants": {
+        "local": "full-resolution/dark forest floor nonlight.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-deer-fur-1-png",
+      "kind": "image",
+      "name": "deer fur 1.png",
+      "path": "full-resolution/deer fur 1.png",
+      "resolution": "full",
+      "tags": [
+        "fiber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-deer-fur-1-9733fb85.svg?source=/full-resolution/deer%20fur%201.png",
+      "variants": {
+        "local": "full-resolution/deer fur 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-dirt-1-png",
+      "kind": "image",
+      "name": "dirt 1.png",
+      "path": "full-resolution/dirt 1.png",
+      "resolution": "full",
+      "tags": [
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-dirt-1-71bcb519.svg?source=/full-resolution/dirt%201.png",
+      "variants": {
+        "local": "full-resolution/dirt 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-dirt-2-png",
+      "kind": "image",
+      "name": "dirt 2.png",
+      "path": "full-resolution/dirt 2.png",
+      "resolution": "full",
+      "tags": [
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-dirt-2-39d6c6e0.svg?source=/full-resolution/dirt%202.png",
+      "variants": {
+        "local": "full-resolution/dirt 2.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-dirt-5-png",
+      "kind": "image",
+      "name": "dirt 5.png",
+      "path": "full-resolution/dirt 5.png",
+      "resolution": "full",
+      "tags": [
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-dirt-5-19fbd9e5.svg?source=/full-resolution/dirt%205.png",
+      "variants": {
+        "local": "full-resolution/dirt 5.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-dirt-6-png",
+      "kind": "image",
+      "name": "dirt 6.png",
+      "path": "full-resolution/dirt 6.png",
+      "resolution": "full",
+      "tags": [
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-dirt-6-494fae0c.svg?source=/full-resolution/dirt%206.png",
+      "variants": {
+        "local": "full-resolution/dirt 6.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-dirt-grass-1-png",
+      "kind": "image",
+      "name": "dirt grass 1.png",
+      "path": "full-resolution/dirt grass 1.png",
+      "resolution": "full",
+      "tags": [
+        "botanical",
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-dirt-grass-1-5b70d313.svg?source=/full-resolution/dirt%20grass%201.png",
+      "variants": {
+        "local": "full-resolution/dirt grass 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-dirt-grass-2-png",
+      "kind": "image",
+      "name": "dirt grass 2.png",
+      "path": "full-resolution/dirt grass 2.png",
+      "resolution": "full",
+      "tags": [
+        "botanical",
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-dirt-grass-2-afb4ccc6.svg?source=/full-resolution/dirt%20grass%202.png",
+      "variants": {
+        "local": "full-resolution/dirt grass 2.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-dirt-grass-3-png",
+      "kind": "image",
+      "name": "dirt grass 3.png",
+      "path": "full-resolution/dirt grass 3.png",
+      "resolution": "full",
+      "tags": [
+        "botanical",
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-dirt-grass-3-af64e2d9.svg?source=/full-resolution/dirt%20grass%203.png",
+      "variants": {
+        "local": "full-resolution/dirt grass 3.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-forest-floor-covered-with-leaves-png",
+      "kind": "image",
+      "name": "forest floor covered with leaves.png",
+      "path": "full-resolution/forest floor covered with leaves.png",
+      "resolution": "full",
+      "tags": [
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-forest-floor-covered-with-leaves-74ab59aa.svg?source=/full-resolution/forest%20floor%20covered%20with%20leaves.png",
+      "variants": {
+        "local": "full-resolution/forest floor covered with leaves.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-fox-fur-1-png",
+      "kind": "image",
+      "name": "fox fur 1.png",
+      "path": "full-resolution/fox fur 1.png",
+      "resolution": "full",
+      "tags": [
+        "fiber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-fox-fur-1-e8e27ad4.svg?source=/full-resolution/fox%20fur%201.png",
+      "variants": {
+        "local": "full-resolution/fox fur 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-gold-2-png",
+      "kind": "image",
+      "name": "gold 2.png",
+      "path": "full-resolution/gold 2.png",
+      "resolution": "full",
+      "tags": [
+        "metal"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-gold-2-ad185f8f.svg?source=/full-resolution/gold%202.png",
+      "variants": {
+        "local": "full-resolution/gold 2.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-grass-1-png",
+      "kind": "image",
+      "name": "grass 1.png",
+      "path": "full-resolution/grass 1.png",
+      "resolution": "full",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-grass-1-6e1d89a2.svg?source=/full-resolution/grass%201.png",
+      "variants": {
+        "local": "full-resolution/grass 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-grass-4-png",
+      "kind": "image",
+      "name": "grass 4.png",
+      "path": "full-resolution/grass 4.png",
+      "resolution": "full",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-grass-4-d9dd7789.svg?source=/full-resolution/grass%204.png",
+      "variants": {
+        "local": "full-resolution/grass 4.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-grass-5-png",
+      "kind": "image",
+      "name": "grass 5.png",
+      "path": "full-resolution/grass 5.png",
+      "resolution": "full",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-grass-5-c62e16b6.svg?source=/full-resolution/grass%205.png",
+      "variants": {
+        "local": "full-resolution/grass 5.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-grass-7-png",
+      "kind": "image",
+      "name": "grass 7.png",
+      "path": "full-resolution/grass 7.png",
+      "resolution": "full",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-grass-7-880b7090.svg?source=/full-resolution/grass%207.png",
+      "variants": {
+        "local": "full-resolution/grass 7.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-grass-8-png",
+      "kind": "image",
+      "name": "grass 8.png",
+      "path": "full-resolution/grass 8.png",
+      "resolution": "full",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-grass-8-c3f56f2d.svg?source=/full-resolution/grass%208.png",
+      "variants": {
+        "local": "full-resolution/grass 8.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-horse-fur-1-png",
+      "kind": "image",
+      "name": "horse fur 1.png",
+      "path": "full-resolution/horse fur 1.png",
+      "resolution": "full",
+      "tags": [
+        "fiber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-horse-fur-1-c2c1cf48.svg?source=/full-resolution/horse%20fur%201.png",
+      "variants": {
+        "local": "full-resolution/horse fur 1.png"
+      }
+    },
+    {
+      "alphaCapable": true,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-leaf-1-png",
+      "kind": "image",
+      "name": "leaf 1.png",
+      "path": "full-resolution/leaf 1.png",
+      "resolution": "full",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-leaf-1-44ec7a4c.svg?source=/full-resolution/leaf%201.png",
+      "variants": {
+        "local": "full-resolution/leaf 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-leather-png",
+      "kind": "image",
+      "name": "leather.png",
+      "path": "full-resolution/leather.png",
+      "resolution": "full",
+      "tags": [
+        "fiber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-leather-edbcec26.svg?source=/full-resolution/leather.png",
+      "variants": {
+        "local": "full-resolution/leather.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-limestone-bricks-1-png",
+      "kind": "image",
+      "name": "limestone bricks 1.png",
+      "path": "full-resolution/limestone bricks 1.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-limestone-bricks-1-49f67f10.svg?source=/full-resolution/limestone%20bricks%201.png",
+      "variants": {
+        "local": "full-resolution/limestone bricks 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-marsh-grass-png",
+      "kind": "image",
+      "name": "marsh grass.png",
+      "path": "full-resolution/marsh grass.png",
+      "resolution": "full",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-marsh-grass-1ba89d86.svg?source=/full-resolution/marsh%20grass.png",
+      "variants": {
+        "local": "full-resolution/marsh grass.png"
+      }
+    },
+    {
+      "alphaCapable": true,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-oak-leaf-fall-png",
+      "kind": "image",
+      "name": "oak leaf fall.png",
+      "path": "full-resolution/oak leaf fall.png",
+      "resolution": "full",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-oak-leaf-fall-489b5c33.svg?source=/full-resolution/oak%20leaf%20fall.png",
+      "variants": {
+        "local": "full-resolution/oak leaf fall.png"
+      }
+    },
+    {
+      "alphaCapable": true,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-oak-leaf-spring-png",
+      "kind": "image",
+      "name": "oak leaf spring.png",
+      "path": "full-resolution/oak leaf spring.png",
+      "resolution": "full",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-oak-leaf-spring-125f0523.svg?source=/full-resolution/oak%20leaf%20spring.png",
+      "variants": {
+        "local": "full-resolution/oak leaf spring.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-oak-wood-1-png",
+      "kind": "image",
+      "name": "oak wood 1.png",
+      "path": "full-resolution/oak wood 1.png",
+      "resolution": "full",
+      "tags": [
+        "timber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-oak-wood-1-a10a0c8e.svg?source=/full-resolution/oak%20wood%201.png",
+      "variants": {
+        "local": "full-resolution/oak wood 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-oak-wood-3-png",
+      "kind": "image",
+      "name": "oak wood 3.png",
+      "path": "full-resolution/oak wood 3.png",
+      "resolution": "full",
+      "tags": [
+        "timber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-oak-wood-3-cfbe44e8.svg?source=/full-resolution/oak%20wood%203.png",
+      "variants": {
+        "local": "full-resolution/oak wood 3.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-parchment-png",
+      "kind": "image",
+      "name": "parchment.png",
+      "path": "full-resolution/parchment.png",
+      "resolution": "full",
+      "tags": [
+        "fiber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-parchment-378d6477.svg?source=/full-resolution/parchment.png",
+      "variants": {
+        "local": "full-resolution/parchment.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-polished-granite-rock-1-png",
+      "kind": "image",
+      "name": "polished granite Rock 1.png",
+      "path": "full-resolution/polished granite Rock 1.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-polished-granite-rock-1-9ba5e9e3.svg?source=/full-resolution/polished%20granite%20Rock%201.png",
+      "variants": {
+        "local": "full-resolution/polished granite Rock 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-raveled-rope-png",
+      "kind": "image",
+      "name": "raveled rope.png",
+      "path": "full-resolution/raveled rope.png",
+      "resolution": "full",
+      "tags": [
+        "fiber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-raveled-rope-977297a8.svg?source=/full-resolution/raveled%20rope.png",
+      "variants": {
+        "local": "full-resolution/raveled rope.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-red-brick-1-png",
+      "kind": "image",
+      "name": "red brick 1.png",
+      "path": "full-resolution/red brick 1.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-red-brick-1-1460bcae.svg?source=/full-resolution/red%20brick%201.png",
+      "variants": {
+        "local": "full-resolution/red brick 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-red-brick-2-png",
+      "kind": "image",
+      "name": "red brick 2.png",
+      "path": "full-resolution/red brick 2.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-red-brick-2-3d760ddb.svg?source=/full-resolution/red%20brick%202.png",
+      "variants": {
+        "local": "full-resolution/red brick 2.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-red-brick-3-png",
+      "kind": "image",
+      "name": "red brick 3.png",
+      "path": "full-resolution/red brick 3.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-red-brick-3-3d6d5f88.svg?source=/full-resolution/red%20brick%203.png",
+      "variants": {
+        "local": "full-resolution/red brick 3.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-rusty-iron-png",
+      "kind": "image",
+      "name": "rusty iron.png",
+      "path": "full-resolution/rusty iron.png",
+      "resolution": "full",
+      "tags": [
+        "metal"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-rusty-iron-cac8d0be.svg?source=/full-resolution/rusty%20iron.png",
+      "variants": {
+        "local": "full-resolution/rusty iron.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-sand-1-png",
+      "kind": "image",
+      "name": "sand 1.png",
+      "path": "full-resolution/sand 1.png",
+      "resolution": "full",
+      "tags": [
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-sand-1-8c7b3f4e.svg?source=/full-resolution/sand%201.png",
+      "variants": {
+        "local": "full-resolution/sand 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-seamless-water-brighter-png",
+      "kind": "image",
+      "name": "seamless water brighter.png",
+      "path": "full-resolution/seamless water brighter.png",
+      "resolution": "full",
+      "tags": [
+        "water"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-seamless-water-brighter-719471d8.svg?source=/full-resolution/seamless%20water%20brighter.png",
+      "variants": {
+        "local": "full-resolution/seamless water brighter.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-seamless-water-png",
+      "kind": "image",
+      "name": "seamless water.png",
+      "path": "full-resolution/seamless water.png",
+      "resolution": "full",
+      "tags": [
+        "water"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-seamless-water-c51a1c07.svg?source=/full-resolution/seamless%20water.png",
+      "variants": {
+        "local": "full-resolution/seamless water.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-shallow-river-water-png",
+      "kind": "image",
+      "name": "shallow river water.png",
+      "path": "full-resolution/shallow river water.png",
+      "resolution": "full",
+      "tags": [
+        "water"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-shallow-river-water-eb038302.svg?source=/full-resolution/shallow%20river%20water.png",
+      "variants": {
+        "local": "full-resolution/shallow river water.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-silver-1-png",
+      "kind": "image",
+      "name": "silver 1.png",
+      "path": "full-resolution/silver 1.png",
+      "resolution": "full",
+      "tags": [
+        "metal"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-silver-1-f10076e9.svg?source=/full-resolution/silver%201.png",
+      "variants": {
+        "local": "full-resolution/silver 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-stone-1-png",
+      "kind": "image",
+      "name": "stone 1.png",
+      "path": "full-resolution/stone 1.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-stone-1-695646f1.svg?source=/full-resolution/stone%201.png",
+      "variants": {
+        "local": "full-resolution/stone 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-stone-floor-2-png",
+      "kind": "image",
+      "name": "stone floor 2.png",
+      "path": "full-resolution/stone floor 2.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-stone-floor-2-84874ece.svg?source=/full-resolution/stone%20floor%202.png",
+      "variants": {
+        "local": "full-resolution/stone floor 2.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-tan-cloth-png",
+      "kind": "image",
+      "name": "tan cloth.png",
+      "path": "full-resolution/tan cloth.png",
+      "resolution": "full",
+      "tags": [
+        "fiber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-tan-cloth-a63124c4.svg?source=/full-resolution/tan%20cloth.png",
+      "variants": {
+        "local": "full-resolution/tan cloth.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-tiled-roof-1-png",
+      "kind": "image",
+      "name": "tiled roof 1.png",
+      "path": "full-resolution/tiled roof 1.png",
+      "resolution": "full",
+      "tags": [],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-tiled-roof-1-30d67c62.svg?source=/full-resolution/tiled%20roof%201.png",
+      "variants": {
+        "local": "full-resolution/tiled roof 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-tiled-roof-2-png",
+      "kind": "image",
+      "name": "tiled roof 2.png",
+      "path": "full-resolution/tiled roof 2.png",
+      "resolution": "full",
+      "tags": [],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-tiled-roof-2-59ebcd8f.svg?source=/full-resolution/tiled%20roof%202.png",
+      "variants": {
+        "local": "full-resolution/tiled roof 2.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-tiled-roof-3-smaller-tiles-png",
+      "kind": "image",
+      "name": "tiled roof 3 smaller tiles.png",
+      "path": "full-resolution/tiled roof 3 smaller tiles.png",
+      "resolution": "full",
+      "tags": [],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-tiled-roof-3-smaller-tiles-c3921da5.svg?source=/full-resolution/tiled%20roof%203%20smaller%20tiles.png",
+      "variants": {
+        "local": "full-resolution/tiled roof 3 smaller tiles.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-tiled-roof-4-png",
+      "kind": "image",
+      "name": "tiled roof 4.png",
+      "path": "full-resolution/tiled roof 4.png",
+      "resolution": "full",
+      "tags": [],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-tiled-roof-4-9f0f4049.svg?source=/full-resolution/tiled%20roof%204.png",
+      "variants": {
+        "local": "full-resolution/tiled roof 4.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-tilled-soil-png",
+      "kind": "image",
+      "name": "tilled soil.png",
+      "path": "full-resolution/tilled soil.png",
+      "resolution": "full",
+      "tags": [
+        "earth"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-tilled-soil-935ed0d6.svg?source=/full-resolution/tilled%20soil.png",
+      "variants": {
+        "local": "full-resolution/tilled soil.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-tree-bark-1-png",
+      "kind": "image",
+      "name": "tree bark 1.png",
+      "path": "full-resolution/tree bark 1.png",
+      "resolution": "full",
+      "tags": [
+        "timber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-tree-bark-1-125dd442.svg?source=/full-resolution/tree%20bark%201.png",
+      "variants": {
+        "local": "full-resolution/tree bark 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-water-not-seamless-png",
+      "kind": "image",
+      "name": "water not seamless.png",
+      "path": "full-resolution/water not seamless.png",
+      "resolution": "full",
+      "tags": [
+        "water"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-water-not-seamless-2cb19fae.svg?source=/full-resolution/water%20not%20seamless.png",
+      "variants": {
+        "local": "full-resolution/water not seamless.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-weathered-red-bricks-1-png",
+      "kind": "image",
+      "name": "weathered Red bricks 1.png",
+      "path": "full-resolution/weathered Red bricks 1.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-weathered-red-bricks-1-fec25330.svg?source=/full-resolution/weathered%20Red%20bricks%201.png",
+      "variants": {
+        "local": "full-resolution/weathered Red bricks 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-weathered-fieldstone-rock-1-png",
+      "kind": "image",
+      "name": "weathered fieldstone Rock 1.png",
+      "path": "full-resolution/weathered fieldstone Rock 1.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-weathered-fieldstone-rock-1-5381a6b7.svg?source=/full-resolution/weathered%20fieldstone%20Rock%201.png",
+      "variants": {
+        "local": "full-resolution/weathered fieldstone Rock 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-white-brick-1-png",
+      "kind": "image",
+      "name": "white brick 1.png",
+      "path": "full-resolution/white brick 1.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-white-brick-1-1a6235a0.svg?source=/full-resolution/white%20brick%201.png",
+      "variants": {
+        "local": "full-resolution/white brick 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-wooden-oak-planks-1-png",
+      "kind": "image",
+      "name": "wooden oak planks 1.png",
+      "path": "full-resolution/wooden oak planks 1.png",
+      "resolution": "full",
+      "tags": [
+        "timber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-wooden-oak-planks-1-014b8df0.svg?source=/full-resolution/wooden%20oak%20planks%201.png",
+      "variants": {
+        "local": "full-resolution/wooden oak planks 1.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-wooden-planked-floor-png",
+      "kind": "image",
+      "name": "wooden planked floor.png",
+      "path": "full-resolution/wooden planked floor.png",
+      "resolution": "full",
+      "tags": [
+        "timber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-wooden-planked-floor-dab04132.svg?source=/full-resolution/wooden%20planked%20floor.png",
+      "variants": {
+        "local": "full-resolution/wooden planked floor.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "full-resolution-yellow-brick-1-png",
+      "kind": "image",
+      "name": "yellow brick 1.png",
+      "path": "full-resolution/yellow brick 1.png",
+      "resolution": "full",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/full-resolution-yellow-brick-1-70ebd4b1.svg?source=/full-resolution/yellow%20brick%201.png",
+      "variants": {
+        "local": "full-resolution/yellow brick 1.png"
+      }
+    },
+    {
+      "alphaCapable": true,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "processed-botany-petal-soft-svg",
+      "kind": "image",
+      "name": "petal-soft.svg",
+      "path": "processed/botany/petal-soft.svg",
+      "resolution": "source",
+      "tags": [
+        "botanical"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/processed-botany-petal-soft-3a2e2015.svg?source=/processed/botany/petal-soft.svg",
+      "variants": {
+        "local": "processed/botany/petal-soft.svg"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "various-rough-weathered-oak-wood-planks-png",
+      "kind": "image",
+      "name": "Rough weathered oak wood planks.png",
+      "path": "various/Rough weathered oak wood planks.png",
+      "resolution": "source",
+      "tags": [
+        "timber"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/various-rough-weathered-oak-wood-planks-e943da6b.svg?source=/various/Rough%20weathered%20oak%20wood%20planks.png",
+      "variants": {
+        "local": "various/Rough weathered oak wood planks.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "various-stone-retaining-wall-masonry-png",
+      "kind": "image",
+      "name": "Stone retaining wall masonry.png",
+      "path": "various/Stone retaining wall masonry.png",
+      "resolution": "source",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/various-stone-retaining-wall-masonry-d0b02f13.svg?source=/various/Stone%20retaining%20wall%20masonry.png",
+      "variants": {
+        "local": "various/Stone retaining wall masonry.png"
+      }
+    },
+    {
+      "alphaCapable": true,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "various-whitewashed-stone-png",
+      "kind": "image",
+      "name": "Whitewashed stone.png",
+      "path": "various/Whitewashed stone.png",
+      "resolution": "source",
+      "tags": [
+        "stone"
+      ],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/various-whitewashed-stone-4a865d52.svg?source=/various/Whitewashed%20stone.png",
+      "variants": {
+        "local": "various/Whitewashed stone.png"
+      }
+    },
+    {
+      "alphaCapable": false,
+      "bytes": 0,
+      "extension": "svg",
+      "id": "various-slate-roof-shingles-png",
+      "kind": "image",
+      "name": "slate roof shingles.png",
+      "path": "various/slate roof shingles.png",
+      "resolution": "source",
+      "tags": [],
+      "url": "file:///Users/awtsmoos/Documents/awtsmoos/git/awtsmoos.com/geelooy/games/mitzvahWorld/assets/materials/generated/various-slate-roof-shingles-17bb691c.svg?source=/various/slate%20roof%20shingles.png",
+      "variants": {
+        "local": "various/slate roof shingles.png"
+      }
+    }
+  ],
+  "schema": "awtsmoos-material-catalog/v1"
+}

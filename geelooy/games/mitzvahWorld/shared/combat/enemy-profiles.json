@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H",
+	"boruchHashem": "Boruch Hashem",
+	"blessedIsHe": "Blessed is He",
+	"poem": "The Awtsmoos renews every creature without surrendering judgment to disguise; Awtsmoos.com preserves each living action deck while affinity gives new readable surprise.",
+	"schemaVersion": 1,
+	"profiles": {
+		"fox": {
+			"affinityId": "chochmah",
+			"resistances": { "light-air": 0.08, "fire": 0, "water": 0.05, "earth-dust": -0.08 },
+			"interruptResistance": 8,
+			"poise": 8,
+			"actionIds": ["beast-bite", "reposition-step"]
+		},
+		"wolf": {
+			"affinityId": "zeir-anpin",
+			"resistances": { "light-air": 0, "fire": -0.08, "water": 0.08, "earth-dust": 0.03 },
+			"interruptResistance": 12,
+			"poise": 14,
+			"actionIds": ["beast-bite", "warden-retreat"]
+		},
+		"dybbuk-shade": {
+			"affinityId": "chochmah",
+			"resistances": { "light-air": -0.18, "fire": 0.08, "water": 0, "earth-dust": 0.12 },
+			"interruptResistance": 14,
+			"poise": 10,
+			"actionIds": ["shadow-strike", "reposition-step"]
+		},
+		"fallen-seraph-husk": {
+			"affinityId": "binah",
+			"resistances": { "light-air": 0, "fire": 0.2, "water": -0.2, "earth-dust": 0.04 },
+			"interruptResistance": 24,
+			"poise": 24,
+			"actionIds": ["letter-bolt", "warden-retreat"]
+		},
+		"great-dybbuk": {
+			"affinityId": "zeir-anpin",
+			"resistances": { "light-air": -0.08, "fire": 0.12, "water": 0.18, "earth-dust": 0 },
+			"interruptResistance": 34,
+			"poise": 38,
+			"actionIds": ["shadow-strike", "summon-shades", "ritual-heal"]
+		},
+		"klipah-guardian": {
+			"affinityId": "malchus",
+			"resistances": { "light-air": 0.05, "fire": 0, "water": -0.08, "earth-dust": 0.22 },
+			"interruptResistance": 30,
+			"poise": 44,
+			"actionIds": ["guardian-slam", "stone-guard"]
+		},
+		"kedem-letter-warden": {
+			"affinityId": "malchus",
+			"resistances": { "light-air": 0.08, "fire": 0.08, "water": 0.08, "earth-dust": 0.14 },
+			"interruptResistance": 48,
+			"poise": 72,
+			"actionIds": ["warden-cleave", "stone-guard", "letter-wave", "summit-enrage", "summon-shades"],
+			"phaseAffinities": ["malchus", "chochmah", "binah", "zeir-anpin"]
+		}
+	}
+}

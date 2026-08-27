@@ -1,0 +1,74 @@
+# B"H
+
+Boruch Hashem
+Blessed is He
+
+# Directory Guide: `assets/materials/local`
+
+> **Role:** Assets
+> **Snapshot:** 2026-07-23T23:32:30.660Z
+> **Snapshot contents (excluding this generated guide):** 73 files, 2 structural child directories
+
+## Purpose
+
+Locally curated material assets that can be consumed without an external asset service.
+
+The Awtsmoos renews every path and every artifact from nothing at each instant; this guide is a finite navigation vessel for finding the code, data, tests, or evidence that currently appear here on Awtsmoos.com.
+
+## Find things here
+
+- **Category:** Assets
+- **Search terms:** `png`, `full`, `resolution`, `grass`, `forest`, `dirt`, `nature`, `chai`, `oak`, `textures`, `brick`, `jpg`
+- **File mix:** .png: 67 · .jpg: 3 · .json: 1 · .svg: 1
+- **Good first question:** “Does the behavior or asset I need belong to assets, or is this only a neighboring/test/reference layer?”
+
+## Semantic evidence
+
+- B"H
+
+## Representative files
+
+- `awtsmoos-nature-chai-forest-textures-bark-bark001-1k-jpg-bark001-1k-jpg--296c0f5f.jpg` — A .jpg artifact in this directory.
+- `awtsmoos-nature-chai-forest-textures-ground-dirt-color-9f8372fe.jpg` — A .jpg artifact in this directory.
+- `awtsmoos-nature-chai-forest-textures-ground-grass-f5733be1.jpg` — A .jpg artifact in this directory.
+- `awtsmoos-nature-chai-forest-textures-leaves-ash-a2a45478.png` — A .png artifact in this directory.
+- `awtsmoos-nature-chai-forest-textures-leaves-aspen-9b18519b.png` — A .png artifact in this directory.
+- `awtsmoos-nature-chai-forest-textures-leaves-oak-6fc9ef51.png` — A .png artifact in this directory.
+- `awtsmoos-nature-chai-forest-textures-leaves-pine-0dc70930.png` — A .png artifact in this directory.
+- `awtsmoos-nature-ilanos-trees-sakura-petal-9542c53e.png` — A .png artifact in this directory.
+- `full-resolution-bluestone-1-e5ff9c01.png` — A .png artifact in this directory.
+- `full-resolution-cobblestone-9961d4d5.png` — A .png artifact in this directory.
+- `full-resolution-copper-1-7caccc0d.png` — A .png artifact in this directory.
+- `full-resolution-cow-fur-1-90616b26.png` — A .png artifact in this directory.
+
+## Data keys observed
+
+`bh` · `generatedAt` · `sourceRoot` · `destinationRoot` · `summary` · `records`
+
+## Directory map
+
+- **Parent:** [`assets/materials`](../DIRECTORY_GUIDE.md)
+- **Children:**
+  - [`assets/materials/local/terrain`](terrain/DIRECTORY_GUIDE.md)
+  - [`assets/materials/local/world`](world/DIRECTORY_GUIDE.md)
+
+## Related and overlapping systems
+
+- [**Terrain, materials, and asset preparation**](../../../SYSTEM_OVERLAP_MAP.md#terrain-materials) — Terrain geometry, runtime material policy, loaders, source textures, processed materials, and catalogs are split across runtime and asset trees.
+- [**Vegetation, trees, and forest systems**](../../../SYSTEM_OVERLAP_MAP.md#vegetation) — Botany rules, tree generation, forest composition, grass, and source texture libraries overlap semantically but own different layers.
+
+## Boundaries and cautions
+
+- This directory owns files consumed by runtime systems, not the runtime policy that selects or interprets them.
+- This guide describes the repository snapshot; it does not declare an implementation canonical when multiple candidates exist.
+- Read current imports, callers, tests, and runtime receipts before changing behavior.
+- This documentation pass intentionally changes no gameplay or source logic.
+
+## Navigation
+
+- [Project directory index](../../../DIRECTORY_INDEX.md)
+- [System overlap map](../../../SYSTEM_OVERLAP_MAP.md)
+
+---
+
+*Generated from current directory structure, file types, filenames, leading module descriptions, exports, imports, and tests.*

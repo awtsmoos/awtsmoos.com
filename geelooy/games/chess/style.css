@@ -1,0 +1,319 @@
+/* B"H */
+/* =================================================================
+   --- ULTIMATE CHESS AI - MASTER STYLESHEET (v3.0) ---
+   ================================================================= */
+
+/* --- 1. GLOBAL RESET & FONT SETUP --- */
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Prevents all page scrolling */
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent; /* Removes blue tap highlight on mobile */
+}
+
+/* --- 2. THEME & MASTER LAYOUT --- */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e1e1e; /* Intense dark background */
+    color: #e0e0e0;
+}
+
+/* --- 3. UTILITY & SHARED CLASSES --- */
+.hidden {
+    display: none !important;
+}
+
+.menu {
+    display: none; /* All screens are hidden by default */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Uniform style for all primary buttons */
+.menu-button {
+    padding: 14px 28px;
+    font-size: 20px;
+    width: 280px;
+    max-width: 80%;
+    margin: 10px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+    color: white;
+    border: 1px solid #444;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 5px 5px 12px #0f0f0f, -5px -5px 12px #2d2d2d;
+    text-shadow: 1px 1px 2px #000;
+    flex-shrink: 0;
+}
+.menu-button:hover {
+    color: #e6c37f; /* Golden hover text */
+    border-color: #e6c37f;
+    box-shadow: 2px 2px 6px #0f0f0f, -2px -2px 6px #2d2d2d;
+    transform: translateY(-2px);
+}
+.menu-button:active {
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+    transform: translateY(1px);
+}
+
+/* --- 4. INDIVIDUAL SCREENS & CONTAINERS --- */
+
+/* B"H Inscription */
+#bh-fuse {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.4);
+    z-index: 1000;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Loading Screen */
+#loadingText {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #e0e0e0;
+}
+#progressBar {
+    width: 80%;
+    max-width: 300px;
+    height: 20px;
+    background-color: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px #000;
+}
+#progressBarFill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #c8a35f, #e6c37f); /* Golden progress bar */
+    transition: width 0.2s ease-in-out;
+}
+
+/* Main Game Container */
+#gameContainer {
+    display: flex; /* Use 'display: flex' to show */
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    justify-content: center; /* Center vertically */
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+
+#board-wrapper {
+    width: 95vw; /* Use viewport width */
+    max-width: 500px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Message & Captured Pieces Areas */
+#message {
+    height: 4.5em;
+    width: 95vw;
+    max-width: 500px;
+    margin: 10px 0;
+    padding: 6px;
+    box-sizing: border-box;
+    font-size: 1.1em;
+    font-weight: 500;
+    text-align: center;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    flex-shrink: 0;
+}
+.captured-pieces-container {
+    height: 90px;
+    width: 95vw;
+    max-width: 500px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-shrink: 0;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+/* Game Over Overlay */
+#gameOverOverlay {
+    position: fixed; /* Use fixed to cover the whole screen */
+    top: 0; left: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+}
+#gameOverText {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px #000;
+    color: #e6c37f;
+}
+
+/* Teachings Screen */
+#teachingsScreen {
+    background: radial-gradient(circle, #2c2a2a 0%, #121212 100%);
+    padding: 20px;
+    justify-content: space-between;
+}
+.teachings-content {
+    width: 100%;
+    max-width: 800px;
+    height: calc(100% - 100px);
+    display: flex;
+    flex-direction: column;
+}
+.teachings-title {
+    font-size: 2.8em;
+    color: #e6c37f;
+    text-shadow: 3px 3px 7px #000;
+    margin-bottom: 15px;
+    border-bottom: 2px solid rgba(230, 195, 127, 0.5);
+    padding-bottom: 10px;
+    font-variant: small-caps;
+    flex-shrink: 0;
+}
+#teachingsText {
+    flex-grow: 1;
+    overflow-y: auto;
+    font-size: 1.3em;
+    line-height: 1.8;
+    color: #ddd;
+    text-align: left;
+    white-space: pre-wrap;
+    padding-right: 15px;
+}
+#backToMenuButton {
+    align-self: center;
+    flex-shrink: 0;
+    margin-top: 15px;
+}
+
+/* Analysis Screen */
+#analysisScreen {
+    justify-content: center;
+    gap: 10px; /* Space between elements */
+}
+#openingNameDisplay {
+    height: 3em;
+    width: 95vw;
+    max-width: 500px;
+    font-size: 1.2em;
+    font-style: italic;
+    color: #e6c37f;
+    text-align: center;
+    text-shadow: 1px 1px 3px #000;
+    white-space: pre-wrap;
+    overflow: hidden;
+    word-wrap: normal;
+    hyphens: auto;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(230, 195, 127, 0.2);
+    padding-bottom: 1px;
+}
+#analysis-board-wrapper {
+    width: 95vw;
+    max-width: 500px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+#analysis-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95vw; /* Match the width of other elements */
+    max-width: 500px;
+    gap: 8px; /* Space between buttons */
+    margin-bottom: 10px;
+}
+
+
+#analysis-controls .menu-button {
+    width: auto; /* Let the content and padding define the width */
+    flex-grow: 1; /* Allow main buttons to grow and fill space */
+    margin: 0; /* Remove the default margin */
+    padding: 12px 10px; /* Reduce padding for a more compact button */
+    font-size: 16px; /* Make the font smaller */
+}
+
+
+#analysis-controls .nav-arrow {
+    flex-grow: 0; /* Prevent arrow buttons from growing */
+    width: 50px;  /* Set a fixed smaller width for arrows */
+    font-size: 24px;
+    padding: 8px 0;
+}
+
+#moveListContainer {
+    width: 95vw;
+    max-width: 500px;
+    height: 220px; /* Increased height significantly from 150px */
+    background-color: #1a1a1a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    overflow-y: auto;
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: 17px;
+    line-height: 1.7;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+}
+.move-text-item {
+    padding: 3px 10px;
+    margin: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    background-color: #2c2c2c;
+    color: #ccc;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+.move-text-item:hover {
+    background-color: #505050;
+    color: #fff;
+}
+.current-move {
+    background: linear-gradient(145deg, #e6c37f, #c8a35f) !important;
+    color: #121212 !important;
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(230, 195, 127, 0.5);
+}
+
+/* --- 5. CUSTOM SCROLLBARS FOR THEMED CONSISTENCY --- */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+    border: 2px solid #1a1a1a;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #e6c37f;
+}

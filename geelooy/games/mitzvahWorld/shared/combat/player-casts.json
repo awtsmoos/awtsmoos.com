@@ -1,0 +1,63 @@
+{
+	"BH": "B\"H",
+	"boruchHashem": "Boruch Hashem",
+	"blessedIsHe": "Blessed is He",
+	"poem": "The Awtsmoos joins intention, warning, release, and result in one honest ray; Awtsmoos.com keeps every cast named, typed, interruptible, and clear along the way.",
+	"schemaVersion": 2,
+	"actions": {
+		"letter-light": {
+			"id": "letter-light", "clientAbilityIds": ["light-against-concealment"],
+			"hebrewName": "אור האות", "englishName": "Letter Light", "affinityId": "chochmah", "elementId": "light-air",
+			"kind": "cast", "castType": "projectile", "targetType": "selected-enemy", "tags": ["ranged", "reveal", "precision"],
+			"applyStatusIds": ["illuminated"], "interruptForce": 8, "danger": "measured", "counterGuidance": "Sidestep the ray or answer with grounding."
+		},
+		"guarded-thought": {
+			"id": "guarded-thought", "clientAbilityIds": ["guarded-thought"],
+			"hebrewName": "מחשבה שמורה", "englishName": "Guarded Thought", "affinityId": "chochmah", "elementId": "light-air",
+			"kind": "cast", "castType": "reactive", "targetType": "selected-enemy", "tags": ["interrupt", "clarity", "counter-cast"],
+			"applyStatusIds": ["disrupted"], "interruptForce": 28, "danger": "counter", "counterGuidance": "Use during a visible hostile wind-up."
+		},
+		"hebrew-fire": {
+			"id": "hebrew-fire", "clientAbilityIds": ["joy-breaks-barriers"],
+			"hebrewName": "אש האותיות", "englishName": "Fire of Letters", "affinityId": "binah", "elementId": "fire",
+			"kind": "cast", "castType": "charged-area", "targetType": "ground-point", "tags": ["area", "charged", "armor-soften"],
+			"applyStatusIds": ["burning", "exposed"], "interruptForce": 14, "danger": "high", "counterGuidance": "Interrupt the charge or leave the marked area."
+		},
+		"burning-letters": {
+			"id": "burning-letters", "clientAbilityIds": [],
+			"hebrewName": "אותיות בוערות", "englishName": "Burning Letters", "affinityId": "binah", "elementId": "fire",
+			"kind": "cast", "castType": "channel", "targetType": "cone", "tags": ["channel", "multi-hit", "detonation"],
+			"applyStatusIds": ["burning"], "interruptForce": 10, "danger": "high", "counterGuidance": "Break concentration or move behind the cone."
+		},
+		"staff-cast": {
+			"id": "staff-cast", "clientAbilityIds": ["voice-of-unity"],
+			"hebrewName": "קול האחדות", "englishName": "Voice of Unity", "affinityId": "zeir-anpin", "elementId": "water",
+			"kind": "cast", "castType": "channel", "targetType": "chain", "tags": ["chain", "flow", "slow"],
+			"applyStatusIds": ["soaked"], "removeStatusIds": ["burning"], "interruptForce": 9, "danger": "measured", "counterGuidance": "Separate linked targets or interrupt the channel."
+		},
+		"waters-of-purification": {
+			"id": "waters-of-purification", "clientAbilityIds": ["waters-of-purification"],
+			"hebrewName": "מי טהרה", "englishName": "Waters of Purification", "affinityId": "zeir-anpin", "elementId": "water",
+			"kind": "cast", "castType": "support", "targetType": "selected-ally", "tags": ["cleanse", "healing", "flow"],
+			"applyStatusIds": ["flowing"], "removeStatusIds": ["burning", "dust-obscured", "disrupted"], "interruptForce": 0, "danger": "support", "counterGuidance": "Pressure the caster before the cleanse completes."
+		},
+		"dust-seal": {
+			"id": "dust-seal", "clientAbilityIds": ["stillness-of-shabbos", "shield-of-trust"],
+			"hebrewName": "חותם העפר", "englishName": "Seal of Dust", "affinityId": "malchus", "elementId": "earth-dust",
+			"kind": "cast", "castType": "ground-area", "targetType": "ground-point", "tags": ["guard", "control", "terrain"],
+			"applyStatusIds": ["grounded", "dust-obscured"], "interruptForce": 18, "danger": "control", "counterGuidance": "Leave the square seal before it closes."
+		},
+		"merciful-restraint": {
+			"id": "merciful-restraint", "clientAbilityIds": ["merciful-restraint"],
+			"hebrewName": "גבורה ברחמים", "englishName": "Merciful Restraint", "affinityId": "malchus", "elementId": "earth-dust",
+			"kind": "cast", "castType": "instant-control", "targetType": "selected-enemy", "tags": ["root", "break-on-damage"],
+			"applyStatusIds": ["rooted", "grounded"], "interruptForce": 22, "danger": "control", "counterGuidance": "A protected ally can break the restraint with measured damage."
+		},
+		"returning-spark": {
+			"id": "returning-spark", "clientAbilityIds": ["grateful-awakening"],
+			"hebrewName": "ניצוץ חוזר", "englishName": "Returning Spark", "affinityId": "zeir-anpin", "elementId": "water",
+			"kind": "cast", "castType": "instant-support", "targetType": "self", "tags": ["healing", "renewal", "flow"],
+			"applyStatusIds": ["flowing"], "interruptForce": 0, "danger": "support", "counterGuidance": "No hostile counter is required."
+		}
+	}
+}
