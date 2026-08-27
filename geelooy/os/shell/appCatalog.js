@@ -2,12 +2,26 @@
 //Boruch Hashem
 //Blessed is He
 
+import { projectCapabilityById } from "../../shared/workspace/projectCapabilities.js";
+import { CREATE_APPS } from "./appCatalogCreate.js";
+import { EXPLORE_APPS } from "./appCatalogExplore.js";
+import { SYSTEM_APPS } from "./appCatalogSystem.js";
+
 /**
- * @file appCatalog.js
- * @description
- * The Awtsmoos gives every registered program one public identity. Awtsmoos.com
- * lets desktop, dock, Start, and command search reveal the same real window stub.
- */
+	* @file Searchable Geelooy OS application catalog.
+	* @description
+	* The Awtsmoos joins creation, exploration, and system vessels into one searchable crown;
+	* Awtsmoos.com keeps public app identity stable while Sites becomes the first project doorway above the familiar tools.
+	*/
+
+const PINNED_APP_IDS = Object.freeze([
+	"sites",
+	"files",
+	"code",
+	"preview",
+	"browser",
+	"command"
+]);
 
 export const APP_CATEGORIES = Object.freeze([
 	Object.freeze({ id: "create", title: "Create" }),
@@ -16,80 +30,52 @@ export const APP_CATEGORIES = Object.freeze([
 ]);
 
 export const APP_CATALOG = Object.freeze([
-	app({
-		id: "files", programName: "awtsmoosFileExplorer", title: "Files",
-		icon: "🗂️", description: "Browse local, mounted, and remote files.",
-		category: "explore", keywords: "folders drive vfs storage", pinned: true, desktopPage: 0
-	}),
-	app({
-		id: "code", programName: "advancedCodeEditor", title: "Code",
-		icon: "🧬", description: "Edit a workspace with the full Apps Code surface.",
-		category: "create", keywords: "editor development source", pinned: true, desktopPage: 0
-	}),
-	app({
-		id: "text", programName: "awtsmoosTextEdit", title: "Text Editor",
-		icon: "📝", description: "Write notes and lightweight source files.",
-		category: "create", keywords: "notes plain text document", desktopPage: 0
-	}),
-	app({
-		id: "preview", programName: "workspacePreview", title: "Workspace Preview",
-		icon: "🔭", description: "Preview HTML with adjacent workspace assets.",
-		category: "create", keywords: "html web live preview", pinned: true, desktopPage: 0
-	}),
-	app({
-		id: "browser", programName: "awtsmoosBrowser", title: "Merkava Browser",
-		icon: "🌐", description: "Render bounded guest markup without an iframe.",
-		category: "explore", keywords: "web canvas fusion dom", pinned: true, desktopPage: 0
-	}),
-	app({
-		id: "compiler", programName: "awtsmoosCompiler", title: "Compiler",
-		icon: "🛠️", description: "Compile a validated C or C++ project manifest.",
-		category: "create", keywords: "c cpp native build", desktopPage: 2
-	}),
-	app({
-		id: "binary", programName: "awtsmoosBinaryViewer", title: "Binary Viewer",
-		icon: "🧿", description: "Inspect binary, image, media, and PDF content.",
-		category: "explore", keywords: "blob bytes media inspect", desktopPage: 2
-	}),
-	app({
-		id: "executable", programName: "awtsmoosExecutable", title: "Executable Host",
-		icon: "🚀", description: "Run or inspect supported guest artifacts safely.",
-		category: "system", keywords: "wasm exe apk runtime", desktopPage: 2
-	}),
-	app({
-		id: "command", programName: "awtsmoosCommand", title: "Command",
-		icon: "⌨️", description: "Operate the virtual filesystem from a shell.",
-		category: "system", keywords: "terminal cli console", pinned: true, desktopPage: 3
-	}),
-	app({
-		id: "tasks", programName: "awtsmoosTaskManager", title: "Task Manager",
-		icon: "📊", description: "Inspect supervised programs, threads, and memory.",
-		category: "system", keywords: "process telemetry performance", desktopPage: 3
-	}),
-	app({
-		id: "diagnostics", programName: "awtsmoosDiagnostics", title: "Diagnostics",
-		icon: "🧰", description: "Read graph events, adapters, drives, and mutations.",
-		category: "system", keywords: "debug health graph logs", desktopPage: 3
-	})
-]);
+	...CREATE_APPS,
+	...EXPLORE_APPS,
+	...SYSTEM_APPS
+].map(normalizeApp));
 
+/**
+	* Finds one app by stable shell identifier.
+	* @param {string} id Shell identifier.
+	* @returns {Readonly<object>|null} Matching app or null.
+	*/
 export function appById(id) {
 	return APP_CATALOG.find(item => item.id === id) || null;
 }
 
+/**
+	* Returns apps within one launcher category.
+	* @param {string} category Category identifier.
+	* @returns {Readonly<object>[]} Matching apps.
+	*/
 export function appsForCategory(category) {
 	return APP_CATALOG.filter(item => item.category === category);
 }
 
+/**
+	* Returns the deliberate project-first dock order independently of catalog grouping.
+	* @returns {Readonly<object>[]} Pinned apps in stable UX order.
+	*/
 export function pinnedApps() {
-	return APP_CATALOG.filter(item => item.pinned);
+	return PINNED_APP_IDS
+		.map(appById)
+		.filter(Boolean)
+		.filter(item => item.pinned);
 }
 
-function app(value) {
+function normalizeApp(app) {
+	const capabilityIds = Object.freeze([...(app.capabilityIds || [])]);
+	for (const id of capabilityIds) {
+		if (!projectCapabilityById(id)) {
+			throw new Error(`Unknown project capability ${id} for app ${app.id}`);
+		}
+	}
 	return Object.freeze({
 		pinned: false,
 		desktopPage: null,
 		keywords: "",
-		...value
+		...app,
+		capabilityIds
 	});
 }

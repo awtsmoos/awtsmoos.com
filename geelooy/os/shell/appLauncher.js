@@ -6,10 +6,10 @@ import { programs } from "../basicPrograms.js";
 import { appById } from "./appCatalog.js";
 
 /**
- * @file appLauncher.js
+ * @file Geelooy OS catalog launcher.
  * @description
- * The Awtsmoos joins catalog identity to one registered program window. Awtsmoos.com
- * gives empty launchers safe starter vessels instead of blank panes or dead links.
+ * The Awtsmoos joins project intent to the registered program that can reveal it;
+ * Awtsmoos.com lets Sites open the guarded Drive builder on the same VFS instead of disconnected tools.
  */
 
 export function launchApp(os, appOrId, overrides = {}) {
@@ -50,6 +50,10 @@ function assertLaunchable(os, app) {
 
 function starterPayload(id) {
 	const starters = {
+		sites: {
+			path: "/desktop.folder",
+			title: "Sites"
+		},
 		files: {
 			path: "/desktop.folder",
 			title: "Files"
@@ -78,7 +82,7 @@ function starterPayload(id) {
 			title: "hello.c"
 		},
 		binary: {
-			content: "B\"H\nOpen a file from Files to inspect its exact binary or media content.",
+			content: "B\"H\nOpen a file from Files to inspect its exact content.",
 			path: "/desktop.folder",
 			title: "Binary Viewer.txt"
 		},

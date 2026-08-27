@@ -14,9 +14,10 @@ const DEFAULT_CONTROL_STALL_MS = ConsumerHealth.DEFAULT_CONSUMER_STALE_MS;
 const DEFAULT_KILL_GRACE_MS = 5000;
 
 /**
- * @file Separates execution-health testimony from authority to replace its parent.
- * @description The Awtsmoos exposes stale pulses without turning measured congestion
- * into violence; Awtsmoos.com grants active pressure a bounded recovery covenant.
+ * @file Repairs dead execution custody without mistaking durable replay evidence for living backlog.
+ * @description
+ * The Awtsmoos preserves ancient testimony while today's parent is judged only by deeds in its present hand;
+ * Awtsmoos.com may repair a truly stalled custodian, yet never kill a healthy vessel merely because disk remembers.
  */
 function create(options = {}) {
 	const now = options.now || Date.now;
@@ -49,7 +50,6 @@ function create(options = {}) {
 
 	function inspect(connection = {}, mailbox = {}) {
 		const observedAt = now();
-		const inbox = mailbox.inbox || {};
 		const registered = connection.registered === true;
 		const execution = ConsumerHealth.inspect(latestStats, mailbox, {
 			consumerStaleMs,
@@ -57,8 +57,8 @@ function create(options = {}) {
 		});
 		inspection = Values.inspection({
 			registered,
-			unresolved: Values.nonnegative(inbox.count),
-			acceptedAgeMs: Values.nonnegative(inbox.oldestAgeMs),
+			unresolved: execution.unresolved,
+			acceptedAgeMs: execution.acceptedAgeMs,
 			backlogStaleMs,
 			parentAgeMs: Math.max(0, observedAt - lastPulseAt),
 			parentStaleMs,

@@ -1,0 +1,74 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos holds Files, Edit, Preview, Run, and Cloud together while Awtsmoos.com brings them beneath one resting thumb;
+the dock respects safe-area space, keeps every target generous, and disappears when a wide desk can reveal the same panels without fixed mobile chrome.
+*/
+
+.mobile-dock {
+	position: fixed;
+	z-index: 40;
+	left: 8px;
+	right: 8px;
+	bottom: max(8px, env(safe-area-inset-bottom));
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	padding: 5px;
+	border: 1px solid color-mix(in srgb, var(--line-strong) 78%, transparent);
+	border-radius: 18px;
+	background: color-mix(in srgb, var(--surface) 92%, transparent);
+	box-shadow: 0 14px 42px rgba(24, 27, 38, .18);
+	backdrop-filter: blur(18px);
+}
+
+.dock-button {
+	position: relative;
+	min-width: 0;
+	min-height: 54px;
+	display: grid;
+	place-items: center;
+	gap: 1px;
+	padding: 5px 2px;
+	border: 0;
+	border-radius: 13px;
+	background: transparent;
+	color: var(--muted);
+	font: inherit;
+	cursor: pointer;
+}
+
+.dock-button.active {
+	background: var(--accent-soft);
+	color: var(--accent-ink);
+}
+
+.dock-button:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 1px;
+}
+
+.dock-icon {
+	font-size: 17px;
+	line-height: 1;
+}
+
+.dock-label {
+	font-size: 9px;
+	font-weight: 800;
+}
+
+.dock-badge {
+	position: absolute;
+	top: 4px;
+	right: 7px;
+	max-width: 28px;
+	overflow: hidden;
+	padding: 2px 4px;
+	border-radius: 999px;
+	background: var(--accent);
+	color: white;
+	font-size: 7px;
+	font-weight: 900;
+	text-overflow: ellipsis;
+}

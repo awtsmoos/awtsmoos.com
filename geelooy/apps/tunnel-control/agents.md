@@ -1,32 +1,73 @@
 B"H
+Boruch Hashem
+Blessed is He
 
-# Awtsmoos Tunnel Control — AI Agent Instructions
+# Awtsmoos Tunnel Control — Universal AI Agent Instructions
 
-These instructions govern AI agents that operate the Tunnel Control application, action API, or OpenAPI/GPT surfaces.
+> The Awtsmoos renews visible browsers and silent daemons alike; Awtsmoos.com therefore teaches two consent paths, one token authority, and one immutable tunnel route, so no model confuses headless convenience with permission.
 
-## Canonical references
+These instructions govern any external AI client using Tunnel Control, OAuth, the action API, or OpenAPI. New clients should use `client_id=external-agent`.
 
+## Canonical discovery
+
+- OAuth metadata: <https://awtsmoos.com/.well-known/oauth-authorization-server>
+- Agent Manifest: <https://awtsmoos.com/api/tunnel/control/agent-manifest>
+- Device authorization endpoint: <https://awtsmoos.com/api/oauth/device-authorization>
+- Human device verification: <https://awtsmoos.com/api/oauth/device>
+- Agent bootstrap: <https://awtsmoos.com/api/tunnel/control/bootstrap>
 - Human docs: <https://awtsmoos.com/api/tunnel/control/docs>
-- Machine docs: <https://awtsmoos.com/api/tunnel/control/docs.json>
 - OpenAPI: <https://awtsmoos.com/api/tunnel/control/openapi>
-- Control panel: <https://awtsmoos.com/apps/tunnel-control/>
-- Tunnel runtime guide: [`../tunnel/README.md`](../tunnel/README.md)
-- Tunnel AI guide: [`../tunnel/agents.md`](../tunnel/agents.md)
+- Device discovery: <https://awtsmoos.com/api/tunnel/control/my-device>
 
-Read the live machine documentation or schema when payload shape is uncertain. Do not infer unsupported parameters from memory.
+Read live metadata, manifest, or OpenAPI whenever payload shape is uncertain. Do not infer unsupported fields from memory.
 
-## Device discovery
+## Mode A — PKCE callback authorization
 
-1. Authenticate with Awtsmoos.com when necessary.
-2. Discover connected tunnels automatically.
-3. When exactly one tunnel is connected, use its returned `tunnelName`.
-4. When none are connected, instruct the user to start or refresh the agent, then retry discovery.
-5. When several are connected, present the returned tunnel names and ask which one to use.
-6. Never fabricate a device, tunnel, route, project root, action result, worker, receipt, or job identifier.
+Prefer this when the AI can retain PKCE/state and receive or relay the browser callback code.
 
-## Start, refresh, and restart
+1. Generate and retain high-entropy `code_verifier` and `state`.
+2. Derive the S256 `code_challenge`.
+3. Open `/api/oauth/authorize` with `client_id=external-agent`, the fixed callback, scope, state, challenge, and `code_challenge_method=S256`.
+4. The first-party callback displays only authorization code and state.
+5. Reject the flow unless returned state exactly matches retained state.
+6. Exchange at `/api/oauth/token` with the original verifier and fixed callback.
+7. Store access/refresh tokens only in the AI client's secure credential store.
 
-Normal install, repair, refresh, and startup:
+## Mode B — Headless Device Authorization
+
+Use this when the AI cannot receive or relay the callback code.
+
+1. POST `client_id=external-agent` and optional `scope` to `/api/oauth/device-authorization`.
+2. Retain `device_code`, `expires_in`, and `interval`. Show the human `verification_uri` + `user_code`, or `verification_uri_complete`.
+3. Poll `/api/oauth/token` with:
+   - `grant_type=urn:ietf:params:oauth:grant-type:device_code`
+   - the returned `device_code`
+   - explicit `client_id=external-agent`
+4. Never poll faster than the current permitted interval.
+5. On `authorization_pending`, wait the interval and continue.
+6. On `slow_down`, honor the larger server delay before every subsequent poll.
+7. On `access_denied`, `expired_token`, `invalid_grant`, or another terminal OAuth error, stop polling.
+8. On success, store the returned access/refresh tokens securely and discard the device code.
+
+The human verification page requires Awtsmoos login, displays the short user code, client name, and scopes, and requires explicit approve/deny. It never receives or renders the machine device code, access token, or refresh token.
+
+## Compatibility clients
+
+- `grok` remains a public-agent compatibility client with PKCE callback and device authorization capability.
+- `chatgpt` retains its registered callback patterns and legacy behavior; device authorization is not silently enabled for it.
+- Named clients are compatibility garments, not requirements for new integrations.
+
+## After either OAuth mode
+
+1. Call `/api/tunnel/control/my-device` with `Authorization: Bearer <access_token>`.
+2. Use `routeReference`; if absent, use `tunnelId`.
+3. Pass that immutable value in the action schema field named `tunnelName`.
+4. Treat friendly `tunnelName` as display metadata only.
+5. If no tunnel is connected, ask the user to start/refresh the local agent and retry.
+6. If multiple tunnels are live, present immutable IDs plus labels and ask which one to use.
+7. Never fabricate a route, project root, worker, receipt, job, or action result.
+
+## Start or refresh the local tunnel
 
 ```bash
 curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash
@@ -36,103 +77,17 @@ curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | bash
 irm https://awtsmoos.com/api/tunnel/install/windows | iex
 ```
 
-Guaranteed forced restart:
-
-```bash
-curl -fsSL https://awtsmoos.com/api/tunnel/install/unix | AWTSMOOS_RESTART=1 bash
-```
-
-```powershell
-$env:AWTSMOOS_RESTART = '1'
-irm https://awtsmoos.com/api/tunnel/install/windows | iex
-Remove-Item Env:AWTSMOOS_RESTART -ErrorAction SilentlyContinue
-```
-
-On Unix, restart only the supervised child when no reinstall is needed:
-
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-kill "$(cat "$LIVE/agent.pid")"
-```
-
-The existing `config.json`, tunnel name, and project root must be preserved.
-
-## Capability check
-
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-cat "$LIVE/install-state.txt"
-test -f "$LIVE/scripts/recovery-control.cjs" \
-	&& echo 'Recovery controls available' \
-	|| echo 'Recovery controls unavailable'
-```
-
-Never issue tier or offline-restore commands unless the connected installed runtime contains those scripts. If they are absent, use the installer or forced restart, then verify again.
+Running the same installer again refreshes and starts an existing agent while preserving saved identity.
 
 ## Action discipline
 
-- Select and verify the intended tunnel before every write or command action.
-- Confirm returned project root and route identity when relevant.
-- Prefer read-only inspection before writes or commands.
-- Do not request secrets without explicit authorization and tunnel permission.
-- Never treat browser automation or local HTTP proxy access as an isolated remote sandbox.
-- Back up real project files before modification.
-- Rewrite complete files instead of fragile partial replacements.
+- After discovery, call `list p=.`, then `tree p=. depth=2 limit=150`, then read real files before mutation.
+- Verify immutable route and project root before writes or commands.
+- Grant/use only required OAuth scopes.
+- Treat filesystem, shell, browser automation, and local proxy access as access to the connected user's machine.
+- A durable command with `pending: true` is still alive: preserve its receipt and continue it instead of resubmitting the original command.
 - Verify results from actual files, commands, browser state, and tunnel responses.
 
-## Durable commands and pending responses
+## Security boundary
 
-A response with `pending: true` means the operation is still alive.
-
-- Do not submit the original command again.
-- Preserve the exact `controlRequestId` and returned retry payload.
-- Reuse the returned retry carrier exactly as documented by the active schema.
-- Once a receipt contains `jobId`, use `commandStatus`, `commandWait`, or `commandJobOutputPage`.
-- Keep `workerId`, `receiptId`, `command`, and `cwd` correlated with that job.
-- Treat correlation conflicts as evidence to inspect, not a reason to disable validation.
-
-## Recovery-enabled concurrency
-
-Logical command admission is unlimited by default. Physical subprocess execution is controlled by recovery levels:
-
-| Level | Workers |
-|---|---:|
-| 0 | 1 |
-| 1 | 1 |
-| 2 | 2 |
-| 3 | 4 |
-| 4 | 8 |
-| 5 | Adaptive production capacity |
-
-Do not describe Level 5 as unbounded process creation. Additional logical work remains queued durably and fairly.
-
-Run only when `scripts/recovery-control.cjs` exists:
-
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-node "$LIVE/scripts/recovery-control.cjs" status "$LIVE"
-node "$LIVE/scripts/recovery-control.cjs" check "$LIVE"
-node "$LIVE/scripts/recovery-control.cjs" set-tier "$LIVE" 2
-kill "$(cat "$LIVE/agent.pid")"
-```
-
-Return to Level 5 only after health and a basic command succeed:
-
-```bash
-node "$LIVE/scripts/recovery-control.cjs" set-tier "$LIVE" 5
-kill "$(cat "$LIVE/agent.pid")"
-```
-
-## Offline restoration
-
-Run only when both the restore CLI and selected package exist:
-
-```bash
-LIVE="$HOME/.awtsmoos-tunnel"
-RECOVERY="$HOME/.awtsmoos-tunnel-recovery"
-node "$LIVE/scripts/recovery-restore.cjs" "$LIVE" 2 "$RECOVERY"
-nohup bash "$LIVE/awtsmoos-supervisor.sh" "$LIVE" \
-	>> "$LIVE/agent-supervisor.log" 2>&1 </dev/null &
-```
-
-After restore, verify health, selected level, package checksums, preserved configuration identity, one read action, and one command action. Never edit immutable recovery archives in place.
+Universal support never means arbitrary redirect URIs or invisible device approval. Callback mode is bound by state + PKCE; headless mode is bound by short-lived device state, human login/consent, server poll cadence, expiry, denial, and one-time redemption. Both modes end at the same scoped OAuth token authority.

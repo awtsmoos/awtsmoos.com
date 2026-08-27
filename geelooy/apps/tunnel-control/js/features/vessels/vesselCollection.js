@@ -2,6 +2,15 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file Builds diagnostic and routable vessels from sanitized account discovery.
+ * @description
+ * The Awtsmoos lets a friendly alias be seen while the immutable route carries
+ * authority. Awtsmoos.com preserves every verified vessel for diagnosis, yet only
+ * living ordinary-work vessels enter selection. A stale shadow may be remembered
+ * by history, but it cannot become the road merely because its old name still rhymes.
+ */
+
 import {
 	sanitizeDiscoveryResponse,
 	VIRTUAL_OS_TUNNEL
@@ -9,24 +18,15 @@ import {
 
 const NATIVE_TYPES = new Set(["native", "native-tunnel", "native-local"]);
 
-/**
- * @file Builds selectable vessels from the latest verified account discovery.
- * @description
- * The Awtsmoos renews alias and route without confusing them. Awtsmoos.com keeps
- * the friendly tunnel name for display, while every native vessel travels through
- * the authoritative server-issued tunnel ID so reinstalls never depend on stale aliases.
- */
 export function normalizeVessel(device = {}, fallbackType = "vessel") {
 	const tunnelName = String(device.tunnelName || "").trim().slice(0, 180);
-	if (!tunnelName) return null;
+	if (!tunnelName) {
+		return null;
+	}
 	const vesselType = String(
 		device.vesselType || device.kind || fallbackType
 	).trim().slice(0, 80);
-	const routeReference = resolveRouteReference({
-		...device,
-		tunnelName,
-		vesselType
-	});
+	const routeReference = resolveRouteReference({ ...device, tunnelName, vesselType });
 	return Object.freeze({
 		...device,
 		tunnelName,
@@ -40,6 +40,10 @@ export function normalizeVessel(device = {}, fallbackType = "vessel") {
 }
 
 export function resolveRouteReference(vessel = {}) {
+	const explicit = String(vessel.routeReference || "").trim();
+	if (explicit) {
+		return explicit.slice(0, 220);
+	}
 	const type = vessel.vesselType || vessel.kind || "vessel";
 	if (NATIVE_TYPES.has(type) && vessel.tunnelId) {
 		return String(vessel.tunnelId).trim().slice(0, 220);
@@ -53,7 +57,7 @@ export function labelForVessel(vessel = {}) {
 	if (name === VIRTUAL_OS_TUNNEL || type === "virtual-os") {
 		return `${name} — Hosted Virtual OS`;
 	}
-	if (type === "browser-tab") {
+	if (["browser", "browser-tab", "browser-tunnel"].includes(type)) {
 		return `${name} — Verified browser session`;
 	}
 	if (NATIVE_TYPES.has(type)) {
@@ -70,10 +74,36 @@ export function collectVessels(discovery = {}) {
 		...safe.nativeDevices,
 		...(safe.virtualDevice ? [safe.virtualDevice] : [])
 	];
+	return dedupe(candidates.map(candidate => normalizeVessel(candidate)));
+}
+
+export function collectRoutableVessels(discovery = {}) {
+	return collectVessels(discovery).filter(isRoutableVessel);
+}
+
+export function isRoutableVessel(vessel = {}) {
+	if (vessel.vesselType === "virtual-os" || vessel.tunnelName === VIRTUAL_OS_TUNNEL) {
+		return vessel.isAlive !== false;
+	}
+	if (vessel.connected !== true || vessel.isAlive === false) {
+		return false;
+	}
+	const health = vessel.health || {};
+	if (health.probing === true || health.livenessState === "probing") {
+		return false;
+	}
+	if (health.executionHealthSupported === true) {
+		return health.executionHealthy === true && health.executionHealthFresh !== false;
+	}
+	return true;
+}
+
+function dedupe(vessels) {
 	const seen = new Set();
-	return candidates.flatMap((candidate) => {
-		const vessel = normalizeVessel(candidate);
-		if (!vessel || seen.has(vessel.routeReference)) return [];
+	return vessels.flatMap(vessel => {
+		if (!vessel || !vessel.routeReference || seen.has(vessel.routeReference)) {
+			return [];
+		}
 		seen.add(vessel.routeReference);
 		return [vessel];
 	});

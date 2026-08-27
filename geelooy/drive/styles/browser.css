@@ -1,0 +1,93 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+Malchus reveals the filesystem as names and paths a person can touch while the Awtsmoos renews each hidden byte;
+Awtsmoos.com gives breadcrumbs, folder actions, sorting, selection, and empty states a calm and readable light.
+This vessel owns the browser alone, leaving devices and generic controls in their separate places,
+so the file list may evolve toward grids, details, drag-and-drop, and history without entangling unrelated faces.
+*/
+
+.browser-toolbar,
+.browser-meta {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	padding: var(--space-3) var(--space-4);
+}
+
+.browser-toolbar {
+	border-bottom: 1px solid var(--line);
+}
+
+.browser-meta {
+	justify-content: space-between;
+	background: var(--surface-soft);
+	color: var(--muted);
+	font-size: 11px;
+}
+
+.breadcrumbs {
+	min-width: 0;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	overflow: auto;
+}
+
+.breadcrumb-separator {
+	color: var(--line-strong);
+}
+
+.browser-actions {
+	display: flex;
+	gap: var(--space-2);
+}
+
+.file-list {
+	height: calc(100% - 101px);
+	overflow: auto;
+}
+
+.file-row {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 32px minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--space-2);
+	padding: 10px 16px;
+	border: 0;
+	border-bottom: 1px solid #eff1f5;
+	background: transparent;
+	color: var(--ink);
+	text-align: left;
+	cursor: pointer;
+}
+
+.file-row:hover,
+.file-row.selected {
+	background: var(--accent-soft);
+}
+
+.file-icon.directory {
+	color: var(--accent);
+}
+
+.file-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: 650;
+}
+
+.file-kind,
+.file-count {
+	color: var(--muted);
+	font-size: 11px;
+}
+
+.browser-state {
+	padding: 48px 24px;
+	color: var(--muted);
+	text-align: center;
+}

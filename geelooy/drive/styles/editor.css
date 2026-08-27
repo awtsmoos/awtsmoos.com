@@ -1,0 +1,113 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+Binah gives letters form and Hod reflects them into sight while the Awtsmoos renews both source and vision;
+Awtsmoos.com keeps editor and preview as neighboring vessels joined by one deliberate creation decision.
+This file owns only the coding chamber and sandbox mirror, never status, cloud cards, or dialogs nearby,
+so a future richer editor engine can enter without dragging the whole Drive through the same sky.
+*/
+
+.editor-pane,
+.preview-pane {
+	min-height: 0;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+}
+
+.editor-toolbar,
+.preview-toolbar {
+	min-height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-3);
+	padding: var(--space-2) var(--space-4);
+	border-bottom: 1px solid var(--line);
+}
+
+.editor-title {
+	min-width: 0;
+}
+
+.editor-title strong,
+.editor-title span {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.editor-title strong {
+	font-size: 13px;
+}
+
+.editor-metadata,
+.preview-hint {
+	margin-top: 2px;
+	color: var(--muted);
+	font-size: 10px;
+}
+
+.editor-body,
+.preview-body {
+	position: relative;
+	min-height: 0;
+}
+
+.source-editor {
+	width: 100%;
+	height: 100%;
+	min-height: 260px;
+	resize: none;
+	padding: 18px;
+	border: 0;
+	background: #151824;
+	color: #e8ebf4;
+	font: 13px/1.6 var(--font-code);
+	tab-size: 4;
+}
+
+.source-editor:focus {
+	outline: 0;
+	box-shadow: inset 0 0 0 2px rgb(134 121 255 / 34%);
+}
+
+.preview-frame {
+	width: 100%;
+	height: 100%;
+	min-height: 260px;
+	border: 0;
+	background: white;
+}
+
+.editor-empty,
+.preview-empty {
+	height: 100%;
+	min-height: 260px;
+	display: grid;
+	place-content: center;
+	justify-items: center;
+	padding: 30px;
+	color: var(--muted);
+	text-align: center;
+}
+
+.editor-empty h3 {
+	margin: 8px 0 0;
+	color: var(--ink);
+	font-size: 15px;
+}
+
+.editor-empty p,
+.preview-empty p {
+	max-width: 360px;
+	margin: 8px 0 0;
+	font-size: 12px;
+	line-height: 1.55;
+}
+
+.empty-glyph {
+	font-size: 30px;
+	color: var(--accent);
+}

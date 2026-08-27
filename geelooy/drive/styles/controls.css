@@ -1,0 +1,93 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every control before decision becomes action; Awtsmoos.com gives each primary hand-target a generous, predictable vessel.
+*/
+
+.location-input,
+.search-input,
+.dialog-input {
+	width: 100%;
+	min-height: 44px;
+	padding: 0 12px;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius-small);
+	background: var(--surface-soft);
+	color: var(--ink);
+}
+
+.location-input:focus,
+.search-input:focus,
+.dialog-input:focus {
+	border-color: var(--accent);
+	background: var(--surface);
+}
+
+.button,
+.icon-button,
+.text-button,
+.breadcrumb-button {
+	border: 0;
+	cursor: pointer;
+	font-weight: 700;
+}
+
+.button {
+	min-height: 44px;
+	padding: 0 14px;
+	border-radius: 10px;
+	background: var(--surface-strong);
+	color: var(--ink);
+}
+
+.button.primary {
+	background: var(--accent);
+	color: white;
+	box-shadow: 0 5px 14px rgb(91 76 240 / 18%);
+}
+
+.button.quiet {
+	border: 1px solid var(--line);
+	background: var(--surface);
+}
+
+.button.danger {
+	background: var(--danger);
+	color: white;
+}
+
+.button.small {
+	min-height: 30px;
+	padding: 0 10px;
+	font-size: 11px;
+}
+
+.button:disabled,
+.icon-button:disabled {
+	cursor: not-allowed;
+	opacity: .48;
+}
+
+.icon-button {
+	width: 36px;
+	height: 36px;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	background: var(--surface-soft);
+	color: var(--ink);
+}
+
+.text-button {
+	padding: 0;
+	background: transparent;
+	color: var(--accent-ink);
+	font-size: 10px;
+}
+
+.breadcrumb-button {
+	padding: 5px 7px;
+	background: transparent;
+	color: var(--ink);
+	white-space: nowrap;
+}

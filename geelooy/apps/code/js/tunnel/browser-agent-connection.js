@@ -2,30 +2,33 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file Code browser-tunnel socket lifecycle independent of remembered preference.
+ * @description
+ * The Awtsmoos lets a socket rise and fall inside consent already granted for this
+ * runtime. Awtsmoos.com verifies the account before each fresh connection, waits for
+ * registration before declaring authority, ignores stale vessels, and reconnects only
+ * while the present Code tab still carries session or remembered runtime permission.
+ */
+
 import { State } from "../state.js";
 import { UI } from "../ui.js";
 import { BROWSER_PREVIEW_ACTIONS, COMMAND_ACTIONS, FS_ACTIONS } from "./browser-agent-capabilities.js";
 import { nextBrowserReconnectDelay } from "./browser-agent-backoff.js";
+import { ensureBrowserTunnelRuntimeConsent } from "./browser-agent-consent.js";
 import { codeBrowserRegistrationPacket } from "./browser-agent-packets.js";
 import {
 	beginBrowserTunnelRegistration,
 	clearBrowserTunnelRegistrationTimer
 } from "./browser-agent-registration.js";
 import { verifyBrowserTunnelSession } from "./browser-agent-session.js";
-import { persistBrowserTunnelState, websocketUrl } from "./browser-agent-state.js";
+import { websocketUrl } from "./browser-agent-state.js";
 
-/**
- * B"H
- * A socket is a vessel, while its server acknowledgement is living light. The
- * Awtsmoos renews both, and Awtsmoos.com ignores testimony from stale vessels.
- */
 export async function startBrowserTunnel(agent) {
 	if (agent.ws || agent.connecting) return agent.getStatus();
+	ensureBrowserTunnelRuntimeConsent();
 	const connectionEpoch = (agent.connectionEpoch || 0) + 1;
 	agent.connectionEpoch = connectionEpoch;
-	State.browserTunnel.enabled = true;
-	State.browserTunnel.autoStart = true;
-	persistBrowserTunnelState();
 	agent.connecting = true;
 	agent.setStatus("connecting");
 	try {
@@ -53,8 +56,7 @@ export async function startBrowserTunnel(agent) {
 export function stopBrowserTunnel(agent) {
 	agent.connectionEpoch = (agent.connectionEpoch || 0) + 1;
 	State.browserTunnel.enabled = false;
-	State.browserTunnel.autoStart = false;
-	persistBrowserTunnelState();
+	State.browserTunnel.consentMode = "disabled";
 	clearTimeout(agent.reconnectTimer);
 	clearBrowserTunnelRegistrationTimer(agent);
 	try {
@@ -64,7 +66,7 @@ export function stopBrowserTunnel(agent) {
 	agent.connecting = false;
 	State.browserTunnel.connectedAt = null;
 	agent.setStatus("idle");
-	agent.log("stopped", "Browser tunnel disabled.");
+	agent.log("stopped", "Current browser tunnel session stopped.");
 	return agent.getStatus();
 }
 
@@ -79,18 +81,13 @@ function onOpen(agent, ws) {
 	agent.connecting = false;
 	State.browserTunnel.connectedAt = null;
 	State.browserTunnel.lastError = "";
-	beginBrowserTunnelRegistration(
-		agent,
-		ws,
-		codeBrowserRegistrationPacket({
-			tunnelName: State.browserTunnel.tunnelName,
-			fsActions: [...FS_ACTIONS],
-			commandActions: [...COMMAND_ACTIONS],
-			previewActions: [...BROWSER_PREVIEW_ACTIONS],
-			userAgent: navigator.userAgent
-		}),
-		sendPacket
-	);
+	beginBrowserTunnelRegistration(agent, ws, codeBrowserRegistrationPacket({
+		tunnelName: State.browserTunnel.tunnelName,
+		fsActions: [...FS_ACTIONS],
+		commandActions: [...COMMAND_ACTIONS],
+		previewActions: [...BROWSER_PREVIEW_ACTIONS],
+		userAgent: navigator.userAgent
+	}), sendPacket);
 }
 
 function onClose(agent, ws) {
@@ -104,7 +101,7 @@ function onClose(agent, ws) {
 	agent.log("disconnected", "Browser tunnel socket closed.");
 	if (!reconnecting) return;
 	agent.reconnectTimer = setTimeout(
-		() => agent.start(),
+		() => startBrowserTunnel(agent),
 		nextBrowserReconnectDelay(agent)
 	);
 }

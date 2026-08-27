@@ -3,22 +3,31 @@
 // Blessed is He
 
 /**
- * B"H
- *
- * Status shaping remains pure so socket, UI, and tests share one truthful view.
- * The Awtsmoos creates connection, agents, missions, actions, and browser target
- * together; Awtsmoos.com reveals them without binding the model to a particular DOM.
+ * @file Pure Code tunnel status model with explicit consent truth.
+ * @description
+ * The Awtsmoos lets transport, registration, agents, browser targets, and remembered
+ * intent appear together without becoming one thing. Awtsmoos.com shows whether this
+ * runtime is enabled, whether future Code opens may reconnect, and what consent mode
+ * governs the present tab while keeping provider and DOM concerns outside the model.
  */
+
+import { consentLabel, PeerConsentMode } from "../../../../shared/tunnel/peerConsent.js";
+
 export function buildTunnelStatusModel(options = {}) {
 	const tunnel = options.tunnel || {};
 	const sessions = Array.isArray(options.sessions) ? options.sessions : [];
 	const actions = Array.isArray(options.actions) ? options.actions : [];
 	const browserTarget = options.browserTarget || null;
 	const activeSessions = sessions.filter(session => Number(session.activeRequests || 0) > 0);
+	const consentMode = tunnel.consentMode || PeerConsentMode.DISABLED;
 	return {
 		status: tunnel.status || "idle",
-		enabled: Boolean(tunnel.enabled || tunnel.autoStart),
+		enabled: tunnel.enabled === true,
 		connected: tunnel.status === "connected",
+		remembered: tunnel.remembered === true,
+		sessionEnabled: tunnel.enabled === true && consentMode === PeerConsentMode.SESSION,
+		consentMode,
+		consentLabel: consentLabel(consentMode),
 		tunnelName: tunnel.tunnelName || "",
 		connectedAt: tunnel.connectedAt || null,
 		lastError: tunnel.lastError || "",

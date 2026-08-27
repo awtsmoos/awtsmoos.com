@@ -7,11 +7,10 @@ const Values = require("./parent-consumer-health-values.js");
 const DEFAULT_CONSUMER_STALE_MS = 30000;
 
 /**
- * @file Separates dead-consumer repair from honest executor backpressure.
+ * @file Separates living parent custody from durable replay testimony.
  * @description
- * The Awtsmoos may reveal waiting because a worker is dead or because every worker
- * is faithfully busy. Awtsmoos.com marks both as not fully routable after a bound,
- * yet only the first authorizes consumer repair; saturation must drain, not restart.
+ * The Awtsmoos may preserve an ancient inbox witness while today's parent holds no stale deed at all;
+ * Awtsmoos.com judges execution by current custody, yet keeps legacy totals visible so evidence remains whole.
  */
 function inspect(stats = {}, mailbox = {}, options = {}) {
 	const consumerStaleMs = Values.bounded(
@@ -22,8 +21,9 @@ function inspect(stats = {}, mailbox = {}, options = {}) {
 	const inbox = mailbox.inbox || {};
 	const stages = Values.executionStages(stats.executionStages);
 	const executor = Values.executorSummary(stats.filesystemExecutor);
-	const unresolved = Values.nonnegative(inbox.count);
-	const acceptedAgeMs = Values.nonnegative(inbox.oldestAgeMs);
+	const custody = custodyEvidence(inbox);
+	const unresolved = custody.count;
+	const acceptedAgeMs = custody.oldestAgeMs;
 	const stalledLanes = Values.staleIdleLanes(stats.lanes, consumerStaleMs);
 	const stageWaiting = stages.waitingForConsumer > 0 &&
 		stages.oldestUnstartedAgeMs >= consumerStaleMs;
@@ -43,6 +43,8 @@ function inspect(stats = {}, mailbox = {}, options = {}) {
 		consumerStaleMs,
 		unresolved,
 		acceptedAgeMs,
+		durableUnresolved: Values.nonnegative(inbox.count),
+		custodyAware: custody.aware,
 		stageStalled,
 		stages,
 		stalledLanes,
@@ -52,12 +54,18 @@ function inspect(stats = {}, mailbox = {}, options = {}) {
 	};
 }
 
-/**
- * Names the bounded execution state without making restart policy implicit.
- * @param {boolean} stalled Consumer failed to advance with usable capacity.
- * @param {boolean} backpressured All workers busy while accepted work waits.
- * @returns {string} Stable execution health state.
- */
+/** Use generation-local custody when the mailbox exposes it; preserve compatibility otherwise. */
+function custodyEvidence(inbox) {
+	const aware = Number.isFinite(Number(inbox.parentCustodyCount));
+	return {
+		aware,
+		count: Values.nonnegative(aware ? inbox.parentCustodyCount : inbox.count),
+		oldestAgeMs: Values.nonnegative(
+			aware ? inbox.parentCustodyOldestAgeMs : inbox.oldestAgeMs
+		)
+	};
+}
+
 function healthState(stalled, backpressured) {
 	if (stalled) return "consumer_stalled";
 	if (backpressured) return "consumer_backpressured";
@@ -67,6 +75,7 @@ function healthState(stalled, backpressured) {
 module.exports = {
 	DEFAULT_CONSUMER_STALE_MS,
 	bounded: Values.bounded,
+	custodyEvidence,
 	executionStages: Values.executionStages,
 	executorSaturated: Values.executorSaturated,
 	executorSummary: Values.executorSummary,

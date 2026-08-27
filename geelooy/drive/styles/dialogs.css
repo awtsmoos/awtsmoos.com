@@ -1,0 +1,105 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+Gevurah asks before a boundary is crossed while the Awtsmoos renews freedom and consequence in one breath;
+Awtsmoos.com gives creation, publication, discard, and runtime-cleanup decisions one calm chamber instead of a browser prompt's sudden depth.
+This vessel owns modal geometry, labels, warnings, touch targets, and narrow-screen alignment alone,
+so every consequential choice remains accessible, contextual, and native to the Drive home.
+*/
+
+.drive-dialog {
+	width: min(440px, calc(100vw - 32px));
+	max-height: calc(100dvh - 32px);
+	padding: 0;
+	overflow: auto;
+	border: 1px solid var(--line);
+	border-radius: 18px;
+	background: var(--surface);
+	box-shadow: var(--shadow);
+}
+
+.drive-dialog::backdrop {
+	background: rgb(20 24 36 / 46%);
+	backdrop-filter: blur(4px);
+}
+
+.dialog-form {
+	display: grid;
+	gap: var(--space-4);
+	padding: var(--space-5);
+}
+
+.dialog-copy h2 {
+	margin: 0;
+	font-size: 20px;
+	line-height: 1.2;
+}
+
+.dialog-copy p,
+.dialog-warning {
+	margin: 6px 0 0;
+	color: var(--muted);
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.dialog-warning {
+	padding: 10px 12px;
+	border: 1px solid color-mix(in srgb, var(--danger) 26%, var(--line));
+	border-radius: 10px;
+	background: var(--danger-soft);
+	color: var(--danger);
+	font-weight: 700;
+}
+
+.dialog-fields,
+.dialog-field {
+	display: grid;
+	gap: 6px;
+}
+
+.dialog-fields {
+	grid-template-columns: 1fr 1fr;
+	gap: var(--space-3);
+}
+
+.dialog-field span {
+	font-size: 11px;
+	font-weight: 800;
+}
+
+.dialog-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: var(--space-2);
+}
+
+.dialog-actions .button {
+	min-height: 44px;
+}
+
+@media (max-width: 560px) {
+	.drive-dialog {
+		width: calc(100vw - 20px);
+		max-height: calc(100dvh - 20px);
+		border-radius: 14px;
+	}
+
+	.dialog-form {
+		padding: var(--space-4);
+	}
+
+	.dialog-fields {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.dialog-actions {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.dialog-actions .button {
+		width: 100%;
+	}
+}

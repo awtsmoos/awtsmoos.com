@@ -1,0 +1,63 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+Hod gives language to motion while the Awtsmoos renews every save, route, error, and successful return;
+Awtsmoos.com keeps that language quiet but constant, so the user always knows what the system has learned.
+This vessel owns only the live status rail and its busy, error, path, and dirty-state signs,
+leaving every larger panel free to create without duplicating operational lines.
+*/
+
+.status-bar,
+.status-primary,
+.status-secondary {
+	display: flex;
+	align-items: center;
+}
+
+.status-bar {
+	min-height: var(--status-height);
+	justify-content: space-between;
+	gap: var(--space-3);
+	padding: 0 var(--space-4);
+	border-top: 1px solid var(--line);
+	background: var(--surface);
+	color: var(--muted);
+	font-size: 10px;
+}
+
+.status-primary,
+.status-secondary {
+	gap: var(--space-2);
+}
+
+.status-dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--success);
+}
+
+.status-bar.has-error .status-dot {
+	background: var(--danger);
+}
+
+.status-bar.is-busy .status-dot {
+	background: var(--warning);
+}
+
+.status-secondary {
+	margin-left: auto;
+}
+
+.status-location {
+	max-width: 40vw;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.status-dirty {
+	color: var(--warning);
+	font-weight: 800;
+}

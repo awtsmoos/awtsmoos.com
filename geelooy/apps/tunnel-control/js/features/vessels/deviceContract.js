@@ -3,15 +3,19 @@
 // Blessed is He
 
 /**
- * @file Validates and projects native and browser device records.
+ * @file Validates and safely projects native and browser tunnel records.
  * @description
  * The Awtsmoos renews received JSON without making appearance into authority.
- * Awtsmoos.com accepts only explicit verified access fields and returns a narrow
- * immutable view that cannot carry roots, tools, limits, profiles, or secret flags.
+ * Awtsmoos.com preserves every established compatibility field while adding one
+ * bounded health vessel; roots, tools, mailbox internals, limits, and secrets stay
+ * concealed. Explicit death remains death, while an omitted legacy liveness field
+ * may not erase an explicitly connected verified vessel from the living world.
  */
 
+import { sanitizeDeviceHealth } from "./deviceHealth.js";
+
 export function isTrustedNativeDevice(device = {}) {
-	const type = String(device.vesselType || device.kind || "").toLowerCase();
+	const type = vesselType(device);
 	return ["native", "native-tunnel"].includes(type) &&
 		device.ownershipVerified === true &&
 		Number(device.pairingProofVersion) === 1 &&
@@ -23,8 +27,8 @@ export function isTrustedNativeDevice(device = {}) {
 }
 
 export function isTrustedBrowserDevice(device = {}) {
-	const type = String(device.vesselType || device.kind || "").toLowerCase();
-	return ["browser", "browser-tab"].includes(type) &&
+	const type = vesselType(device);
+	return ["browser", "browser-tab", "browser-tunnel"].includes(type) &&
 		device.ownershipVerified === true &&
 		Boolean(text(device.tunnelName)) &&
 		device.access === "owned";
@@ -36,7 +40,8 @@ export function sanitizeNativeDevice(device) {
 	}
 	return Object.freeze({
 		connected: device.connected === true,
-		isAlive: device.isAlive === true,
+		isAlive: device.isAlive !== false,
+		routeReference: text(device.routeReference || device.tunnelId),
 		tunnelId: text(device.tunnelId),
 		tunnelName: text(device.tunnelName),
 		deviceId: text(device.deviceId),
@@ -44,10 +49,11 @@ export function sanitizeNativeDevice(device) {
 		platform: text(device.platform) || "unknown",
 		agentVersion: text(device.agentVersion) || null,
 		capabilities: sanitizeCapabilities(device.capabilities),
+		health: sanitizeDeviceHealth(device),
 		access: device.access,
 		shared: device.access === "shared",
 		role: text(device.role) || "owner",
-		permissions: device.permissions.map(text).filter(Boolean),
+		permissions: sanitizePermissions(device.permissions),
 		permissionVersion: number(device.permissionVersion, 1),
 		revocationVersion: number(device.revocationVersion, 1),
 		ownershipVerified: true,
@@ -61,26 +67,28 @@ export function sanitizeBrowserDevice(device) {
 	if (!isTrustedBrowserDevice(device)) {
 		return null;
 	}
+	const tunnelName = text(device.tunnelName);
 	return Object.freeze({
 		connected: device.connected !== false,
 		isAlive: device.isAlive !== false,
+		routeReference: text(device.routeReference || device.tunnelId),
 		tunnelId: text(device.tunnelId),
-		tunnelName: text(device.tunnelName),
+		tunnelName,
 		deviceId: text(device.deviceId),
-		deviceName: text(device.deviceName) || "Browser session",
+		deviceName: text(device.deviceName) || tunnelName || "Browser session",
+		capabilities: sanitizeCapabilities(device.capabilities),
+		health: sanitizeDeviceHealth(device),
 		access: "owned",
 		shared: false,
 		role: "session",
-		permissions: Array.isArray(device.permissions)
-			? device.permissions.map(text).filter(Boolean)
-			: [],
+		permissions: sanitizePermissions(device.permissions),
 		ownershipVerified: true,
 		kind: "browser",
 		vesselType: "browser-tab"
 	});
 }
 
-function sanitizeCapabilities(value = {}) {
+export function sanitizeCapabilities(value = {}) {
 	return Object.freeze({
 		browserControl: value.browserControl === true,
 		commandRun: value.commandRun === true,
@@ -88,6 +96,14 @@ function sanitizeCapabilities(value = {}) {
 		fsWrite: value.fsWrite === true,
 		runtime: value.runtime === true
 	});
+}
+
+function sanitizePermissions(value) {
+	return Array.isArray(value) ? value.map(text).filter(Boolean) : [];
+}
+
+function vesselType(device) {
+	return String(device.vesselType || device.kind || "").toLowerCase();
 }
 
 export function text(value) {

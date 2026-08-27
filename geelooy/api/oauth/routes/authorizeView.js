@@ -2,7 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
+/**
+ * @file OAuth approval view and durable authorization URL builder.
+ * @description
+ * The Awtsmoos carries state through every doorway; Awtsmoos.com therefore
+ * preserves Grok's PKCE challenge through login and consent without revealing
+ * the verifier that belongs only to the external agent.
+ */
+
 const { fullUrlFor, localUrlFor } = require("../tools/urls.js");
+const { authorizeStyles } = require("./authorizeStyles.js");
 
 function escapeHtml(value) {
 	return String(value ?? "")
@@ -13,8 +22,17 @@ function escapeHtml(value) {
 }
 
 function isApproved(value) {
-	const normalized = String(value ?? "").trim().toLowerCase();
-	return ["1", "true", "yes", "y", "approve", "approved"].includes(normalized);
+	const normalized = String(value ?? "")
+		.trim()
+		.toLowerCase();
+	return [
+		"1",
+		"true",
+		"yes",
+		"y",
+		"approve",
+		"approved"
+	].includes(normalized);
 }
 
 function buildAuthorizeUrl(options) {
@@ -24,6 +42,8 @@ function buildAuthorizeUrl(options) {
 		redirect_uri: options.redirectUri,
 		scope: options.scope,
 		state: options.state || "",
+		code_challenge: options.codeChallenge || "",
+		code_challenge_method: options.codeChallengeMethod || "",
 		approve: options.approve || ""
 	});
 }
@@ -35,53 +55,25 @@ function loginUrl($i, nextPath) {
 }
 
 function approvalHtml(options) {
+	const pkceNotice = options.client.requirePkce
+		? "<p>PKCE S256 is required for this public agent client.</p>"
+		: "";
 	return `<!doctype html>
-<html>
+<html lang="en">
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="referrer" content="no-referrer">
 	<title>Approve Awtsmoos OAuth</title>
-	<style>
-		body {
-			margin: 0;
-			min-height: 100vh;
-			background: #071426;
-			color: #f7faff;
-			font-family: system-ui;
-			display: grid;
-			place-items: center;
-		}
-		main {
-			width: min(720px, calc(100vw - 32px));
-			background: #0d2037;
-			border: 1px solid rgba(125, 231, 255, .25);
-			border-radius: 24px;
-			padding: 32px;
-			box-shadow: 0 24px 80px rgba(0, 0, 0, .35);
-		}
-		p {
-			color: #b9cbe2;
-			line-height: 1.55;
-		}
-		a.button {
-			display: inline-flex;
-			padding: 12px 20px;
-			border-radius: 999px;
-			background: linear-gradient(135deg, #7de7ff, #41bcff);
-			color: #03131d;
-			font-weight: 800;
-			text-decoration: none;
-		}
-		pre {
-			white-space: pre-wrap;
-			word-break: break-word;
-		}
-	</style>
+	<style>${authorizeStyles()}</style>
 </head>
 <body>
 	<main>
-		<h1>B"H Allow Access?</h1>
+		<h1>B&quot;H Allow Access?</h1>
 		<p><b>${escapeHtml(options.client.name)}</b> wants OAuth access.</p>
 		<p>User: <code>${escapeHtml(options.userId)}</code></p>
 		<p>Scopes: <code>${escapeHtml(options.scope)}</code></p>
+		${pkceNotice}
 		<p><a class="button" href="${escapeHtml(options.approveUrl)}">Allow</a></p>
 		<pre>${escapeHtml(options.approveUrl)}</pre>
 	</main>
@@ -92,6 +84,7 @@ function approvalHtml(options) {
 module.exports = {
 	approvalHtml,
 	buildAuthorizeUrl,
+	escapeHtml,
 	isApproved,
 	loginUrl
 };

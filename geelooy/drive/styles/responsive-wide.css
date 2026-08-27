@@ -1,0 +1,79 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos expands one mobile-born builder into a studio; Awtsmoos.com preserves the same semantic panels, editor, preview, and disclosure state at every width.
+*/
+
+@media (min-width: 560px) {
+	.top-commands {
+		grid-template-columns: minmax(220px, 1.4fr) minmax(150px, .8fr) 44px;
+	}
+
+	.location-form,
+	.search-input,
+	.command-refresh {
+		grid-column: auto;
+	}
+}
+
+@media (min-width: 901px) {
+	#drive-app {
+		padding-bottom: 0;
+	}
+
+	.mobile-dock {
+		display: none;
+	}
+
+	.top-bar {
+		grid-template-columns: auto minmax(420px, 1fr);
+		align-items: center;
+		padding: 9px 12px;
+	}
+
+	.builder-workspace {
+		min-height: 0;
+		grid-template-columns: 240px minmax(420px, 1fr) 320px;
+		grid-template-areas:
+			"files builder cloud"
+			"devices preview domain"
+			"access editor runtime"
+			"platform platform platform";
+		align-content: stretch;
+		gap: var(--space-3);
+		padding: var(--space-3);
+	}
+
+	.panel-builder { grid-area: builder; }
+	.panel-preview { grid-area: preview; }
+	.panel-editor { grid-area: editor; }
+	.panel-cloud { grid-area: cloud; }
+	.panel-domain { grid-area: domain; }
+	.panel-files { grid-area: files; }
+	.panel-platform { grid-area: platform; }
+	.panel-devices { grid-area: devices; }
+	.panel-access { grid-area: access; }
+	.panel-runtime { grid-area: runtime; }
+
+	.retractable-panel[open] {
+		min-height: 0;
+		display: grid;
+		grid-template-rows: auto minmax(0, 1fr);
+	}
+
+	.retractable-panel[open] > .retractable-content {
+		min-height: 0;
+		overflow: auto;
+	}
+
+	.panel-summary {
+		min-height: 46px;
+	}
+}
+
+@media (min-width: 1260px) {
+	.builder-workspace {
+		grid-template-columns: 260px minmax(500px, 1fr) 340px;
+	}
+}

@@ -3,18 +3,24 @@
 // Blessed is He
 
 /**
- * The Awtsmoos gives the Geelooy OS tunnel one durable state vessel. Legacy
- * helpers and the class-based agent share the same Awtsmoos.com memory.
+ * @file Runtime-only state for the Geelooy OS Virtual OS browser peer.
+ * @description
+ * The Awtsmoos lets this living tab know whether it is enabled, connected, or
+ * reconnecting while remembered consent lives in a different vessel. Awtsmoos.com
+ * persists only the friendly name here; runtime authority and future permission are
+ * never written together by a single state mutation.
  */
 
+import { PeerConsentMode } from "../../shared/tunnel/peerConsent.js";
+
 const NAME_KEY = "awtsmoos.os.tunnel.name";
-const ENABLED_KEY = "awtsmoos.os.tunnel.enabled";
 
 export class VirtualOsTunnelState {
 	constructor(options = {}) {
 		this.ws = null;
 		this.name = options.name || rememberedName();
-		this.enabled = options.enabled ?? rememberedEnabled();
+		this.enabled = Boolean(options.enabled);
+		this.consentMode = options.consentMode || PeerConsentMode.DISABLED;
 		this.sessionId = options.sessionId || createSessionId();
 		this.connected = false;
 		this.lastError = "";
@@ -23,11 +29,15 @@ export class VirtualOsTunnelState {
 
 	setEnabled(enabled) {
 		this.enabled = Boolean(enabled);
-		storage()?.setItem(ENABLED_KEY, this.enabled ? "1" : "0");
 		if (!this.enabled) {
 			this.connected = false;
+			this.consentMode = PeerConsentMode.DISABLED;
 			this.phase = "disabled";
 		}
+	}
+
+	setConsentMode(mode) {
+		this.consentMode = mode || PeerConsentMode.DISABLED;
 	}
 
 	markConnecting() {
@@ -62,6 +72,7 @@ export class VirtualOsTunnelState {
 		return Object.freeze({
 			name: this.name,
 			enabled: this.enabled,
+			consentMode: this.consentMode,
 			sessionId: this.sessionId,
 			connected: this.connected,
 			lastError: this.lastError,
@@ -91,14 +102,8 @@ function rememberedName() {
 	return storage()?.getItem(NAME_KEY) || "virtual-os-browser";
 }
 
-function rememberedEnabled() {
-	return storage()?.getItem(ENABLED_KEY) === "1";
-}
-
 function createSessionId() {
-	const timePart = Date.now().toString(36);
-	const randomPart = Math.random().toString(36).slice(2, 9);
-	return `vos_${timePart}_${randomPart}`;
+	return `vos_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`;
 }
 
 function storage() {

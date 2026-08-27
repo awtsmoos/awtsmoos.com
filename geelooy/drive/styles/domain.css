@@ -1,0 +1,99 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives each hostname gate its own measured vessel; Awtsmoos.com never paints planning, proof, route, and HTTPS as one false switch.
+*/
+
+.domain-panel {
+	padding: 14px;
+}
+
+.domain-field {
+	display: grid;
+	gap: 5px;
+	margin-top: 9px;
+	color: var(--muted);
+	font-size: 10px;
+	font-weight: 800;
+}
+
+.domain-input {
+	width: 100%;
+	min-width: 0;
+	min-height: 44px;
+	padding: 9px 11px;
+	border: 1px solid var(--line-strong);
+	border-radius: 11px;
+	background: var(--surface-soft);
+	color: var(--ink);
+	font: inherit;
+}
+
+.domain-nameservers {
+	min-height: 92px;
+	resize: vertical;
+	font-family: var(--font-code);
+}
+
+.domain-plan-button {
+	width: 100%;
+	margin-top: 11px;
+}
+
+.domain-plan-output,
+.domain-stage-grid {
+	display: grid;
+	gap: 6px;
+	margin-top: 12px;
+}
+
+.domain-stage-grid {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	margin-top: 0;
+}
+
+.domain-stage,
+.domain-plan-row {
+	min-width: 0;
+	display: grid;
+	gap: 2px;
+	padding: 9px;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	background: var(--surface-soft);
+}
+
+.domain-stage strong,
+.domain-plan-row strong {
+	font-size: 9px;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+}
+
+.domain-stage span,
+.domain-plan-row span,
+.domain-empty,
+.domain-infra-note {
+	overflow-wrap: anywhere;
+	color: var(--muted);
+	font-size: 10px;
+	line-height: 1.5;
+}
+
+.domain-empty {
+	margin: 0;
+}
+
+.domain-infra-note {
+	margin-top: 12px;
+	padding: 9px;
+	border-radius: 10px;
+	background: color-mix(in srgb, var(--warning-soft, #fff5d9) 70%, var(--surface));
+}
+
+@media (min-width: 560px) {
+	.domain-stage-grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}

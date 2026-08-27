@@ -1,0 +1,84 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews the smallest builder before the widest studio; Awtsmoos.com begins with one website-making current,
+then lets Build, Preview, Code, Publish, Domain, and engineering vessels unfold only when space truly exists instead of forcing desktop rails into a pocket.
+*/
+
+#drive-app {
+	min-height: 100vh;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	padding-bottom: calc(72px + env(safe-area-inset-bottom));
+}
+
+.boot-message {
+	min-height: 100vh;
+	display: grid;
+	place-content: center;
+	gap: var(--space-2);
+	padding: var(--space-6);
+	color: var(--muted);
+	text-align: center;
+}
+
+.boot-message strong {
+	color: var(--ink);
+	font-size: 18px;
+}
+
+.drive-workspace {
+	min-width: 0;
+	display: grid;
+	align-content: start;
+	gap: var(--space-2);
+	padding: var(--space-2);
+}
+
+.panel {
+	min-width: 0;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-small);
+	overflow: hidden;
+}
+
+.device-rail,
+.project-rail {
+	min-height: 0;
+	padding: var(--space-4);
+}
+
+.panel-heading {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--space-3);
+	margin-bottom: var(--space-4);
+}
+
+.panel-heading.stacked {
+	display: block;
+}
+
+.panel-heading h2 {
+	margin: 2px 0 0;
+	font-size: 18px;
+}
+
+.panel-heading p {
+	margin: var(--space-2) 0 0;
+	color: var(--muted);
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.eyebrow {
+	color: var(--accent-ink);
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}

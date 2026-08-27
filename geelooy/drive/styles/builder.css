@@ -1,0 +1,120 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos reveals intention before markup while Awtsmoos.com keeps the builder close to real source;
+this base vessel gives brief, readiness, and next actions room to breathe without hiding the editable course.
+*/
+
+.builder-panel {
+	padding: 14px;
+}
+
+.builder-hero {
+	display: grid;
+	gap: 5px;
+}
+
+.builder-hero h2 {
+	margin: 0;
+	font-size: clamp(20px, 6vw, 30px);
+	letter-spacing: -.03em;
+}
+
+.builder-hero p,
+.builder-project-meta {
+	margin: 0;
+	color: var(--muted);
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.builder-project-meta {
+	font-family: var(--font-code);
+}
+
+.builder-brief-grid {
+	display: grid;
+	gap: 8px;
+	margin-top: 14px;
+}
+
+.builder-field {
+	display: grid;
+	gap: 5px;
+	color: var(--muted);
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+}
+
+.builder-input {
+	min-width: 0;
+	min-height: 44px;
+	padding: 0 11px;
+	border: 1px solid var(--line-strong);
+	border-radius: 11px;
+	background: var(--surface-soft);
+	color: var(--ink);
+	font: inherit;
+}
+
+.builder-source-status {
+	margin-top: 12px;
+}
+
+.builder-readiness {
+	display: grid;
+	gap: 4px;
+	padding: 11px;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: var(--surface-soft);
+}
+
+.builder-readiness.ready {
+	border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+	background: var(--accent-soft);
+}
+
+.builder-readiness span,
+.builder-agent-note span {
+	color: var(--muted);
+	font-size: 10px;
+	line-height: 1.5;
+}
+
+.builder-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 7px;
+	margin-top: 12px;
+}
+
+.builder-actions .button:first-child {
+	grid-column: 1 / -1;
+}
+
+.builder-agent-note {
+	display: grid;
+	gap: 3px;
+	margin-top: 12px;
+	padding: 10px;
+	border-radius: 11px;
+	background: color-mix(in srgb, var(--surface-soft) 74%, transparent);
+}
+
+@media (min-width: 640px) {
+	.builder-brief-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.builder-actions {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+	}
+
+	.builder-actions .button:first-child {
+		grid-column: auto;
+	}
+}

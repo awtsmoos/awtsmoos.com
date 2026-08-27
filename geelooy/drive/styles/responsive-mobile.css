@@ -1,0 +1,95 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives the narrow website builder dignity rather than leftovers; Awtsmoos.com enlarges every touch target and prevents source, DNS, or publication controls from becoming sideways roads,
+so 320px remains a deliberate creation surface where even advanced engineering drawers still receive a full human finger.
+*/
+
+@media (max-width: 900px) {
+	.button,
+	.icon-button,
+	.text-button,
+	.file-row,
+	.breadcrumb-button,
+	.drive-workspace .button.small,
+	.drive-workspace .access-input,
+	.site-preview-actions a {
+		min-height: 44px;
+	}
+
+	.breadcrumb-button {
+		min-width: 44px;
+		padding-inline: 10px;
+	}
+
+	.browser-toolbar {
+		align-items: center;
+		flex-wrap: wrap;
+	}
+
+	.breadcrumbs {
+		min-width: 0;
+		flex: 1 1 180px;
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+	}
+
+	.browser-actions {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 6px;
+	}
+
+	.editor-toolbar,
+	.section-title,
+	.runtime-actions,
+	.published-actions {
+		flex-wrap: wrap;
+	}
+
+	.runtime-actions .button {
+		flex: 1 1 120px;
+	}
+
+	.status-bar {
+		padding-inline: 10px;
+	}
+}
+
+@media (max-width: 430px) {
+	.brand small {
+		display: none;
+	}
+
+	.device-rail,
+	.project-rail,
+	.access-panel,
+	.runtime-panel {
+		padding: 12px;
+	}
+
+	.panel-heading h2 {
+		font-size: 16px;
+	}
+
+	.panel-summary {
+		grid-template-columns: 28px minmax(0, 1fr) auto 20px;
+		padding-inline: 9px;
+	}
+}
+
+@media (max-width: 350px) {
+	.dock-label {
+		font-size: 8px;
+	}
+
+	.browser-actions {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.browser-actions .primary {
+		grid-column: 1 / -1;
+	}
+}

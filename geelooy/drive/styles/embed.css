@@ -1,0 +1,40 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+When Drive lives inside Geelooy OS, the Awtsmoos renews the same workspace inside a desktop vessel;
+Awtsmoos.com removes redundant ecosystem chrome while leaving narrow-screen geometry to the shared mobile-first law and wide geometry to the normal desktop expansion.
+*/
+
+[data-drive-mode="os"] body {
+	background: var(--surface-soft);
+}
+
+[data-drive-mode="os"] .ecosystem-menu {
+	display: none;
+}
+
+[data-drive-mode="os"] .brand small {
+	display: none;
+}
+
+[data-drive-mode="os"] .drive-workspace {
+	padding: var(--space-2);
+	gap: var(--space-2);
+}
+
+[data-drive-mode="os"] .left-rail,
+[data-drive-mode="os"] .right-rail,
+[data-drive-mode="os"] .workspace-center,
+[data-drive-mode="os"] .creation-grid {
+	gap: var(--space-2);
+}
+
+@media (min-width: 901px) {
+	[data-drive-mode="os"] .top-bar {
+		position: static;
+		grid-template-columns: auto minmax(0, 1fr);
+		min-height: 58px;
+		padding-block: 8px;
+	}
+}
