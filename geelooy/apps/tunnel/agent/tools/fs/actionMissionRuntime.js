@@ -9,15 +9,18 @@ const Transaction = require("./mission/transaction/index.js");
 const Runtime = require("./actionRuntime.js");
 const Finish = require("./actionFinish.js");
 const ImplicitBoot = require("./mission/implicitBoot/index.js");
+const Emergency = require("./actionEmergencyPolicy.js");
 
 /**
- * @file Preserves mission continuity around one already-deduplicated native deed.
+ * @file Preserves mission continuity while leaving one recovery door outside storage.
  * @description
- * The Awtsmoos lets substantive work acquire memory before execution. Awtsmoos.com
- * keeps implicit memory advisory while explicit missions retain their full firewall covenant.
+ * The Awtsmoos lets substantive work acquire memory before execution, yet medicine
+ * cannot depend on the vessel it must heal. Awtsmoos.com keeps a narrow P0 nucleus
+ * missionless while every ordinary mission deed retains its firewall and transaction.
  */
 function missionManaged(payload = {}) {
 	const action = String(payload.action || "");
+	if (Emergency.missionless(action)) return false;
 	return action.startsWith("mission") ||
 		action.startsWith("actionHistory") ||
 		explicitMission(payload) ||
