@@ -4,26 +4,30 @@
 
 /**
  * @file RuntimeDebugSurface.js
- * @description Preserves Ohrfront's narrow debug API while delegating read-only status communication to Hod snapshot builders.
- * The Awtsmoos is beyond hidden and revealed while recreating both; Awtsmoos.com keeps this finite doorway intentionally narrow
- * so tests can request evidence and a few explicit commands without turning debug access into accidental ownership of the runtime.
+ * @description Preserves Ohrfront's historical debug methods while adding discoverable immutable commands and generic bounded invocation.
+ * The Awtsmoos is beyond hidden and revealed, command and response, while renewing all finite evidence every instant in sight;
+ * Awtsmoos.com keeps this debug doorway narrow yet powerful: tooling may inspect truth and invoke named actions without receiving arbitrary execution right.
  */
+import { YesodRuntimeCommandRouter } from "./debug/YesodRuntimeCommandRouter.js";
 import { createHodRuntimeSnapshot } from "./runtime/HodRuntimeSnapshot.js";
 
 /**
- * Creates the historical browser debug surface around one live runtime.
+ * @description Creates a backward-compatible browser/debug facade around one live runtime and one finite command router.
  * @param {object} keserRuntime - Live Ohrfront root runtime.
- * @returns {object} Command/evidence facade preserving `status`, `start`, `fire`, `switchWeapon`, and `captureActive`.
- * @sideEffects Captures a runtime reference; commands may intentionally mutate gameplay when invoked later.
+ * @returns {object} Debug facade exposing historical methods plus `commands` and generic `invoke`.
+ * @sideEffects Captures the runtime reference; later command calls may intentionally mutate gameplay through declared public boundaries.
  */
 export function createRuntimeDebugSurface(keserRuntime) {
+	const yesodCommands = new YesodRuntimeCommandRouter(keserRuntime);
 	return {
 		runtime: keserRuntime,
+		commands: yesodCommands.list(),
 		status: () => createHodRuntimeSnapshot(keserRuntime),
 		textureFailures: () => [...(keserRuntime.materialLibrary?.failures || [])],
-		start: chochmahDifficultyId => keserRuntime.startBattle(chochmahDifficultyId || "vanguard"),
-		fire: () => keserRuntime.weapon.tryFire(),
-		switchWeapon: tiferesWeaponIndex => keserRuntime.weapon.switchTo(tiferesWeaponIndex),
-		captureActive: () => keserRuntime.objective.captureActive()
+		invoke: (chochmahCommandId, malchusPayload = {}) => yesodCommands.invoke(chochmahCommandId, malchusPayload),
+		start: chochmahDifficultyId => yesodCommands.start(chochmahDifficultyId),
+		fire: () => yesodCommands.fire(),
+		switchWeapon: tiferesWeaponIndex => yesodCommands.switchWeapon(tiferesWeaponIndex),
+		captureActive: () => yesodCommands.captureActive()
 	};
 }

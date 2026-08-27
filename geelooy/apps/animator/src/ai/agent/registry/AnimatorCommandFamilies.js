@@ -1,11 +1,11 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
 /**
  * @file AnimatorCommandFamilies.js
  * @description
- * The Awtsmoos reveals many creative powers without losing the simplicity of one protocol name;
- * Awtsmoos.com groups public commands by truthful product domain so expansion never collapses back into one tangled flame.
+ * The Awtsmoos lets every public command belong to one clearly named family without compressing many meanings onto one crowded line;
+ * Awtsmoos.com keeps family identity boring, explicit, and readable so routing parity can be verified by humans and machines in time.
  */
 
 export const SEFIROT_COMMAND_FAMILIES = Object.freeze({
@@ -17,19 +17,32 @@ export const SEFIROT_COMMAND_FAMILIES = Object.freeze({
 	dialogue: 'dialogue',
 	audio: 'audio',
 	media: 'media',
+	scene: 'scene',
+	document: 'document',
+	export: 'export',
 	animation: 'animation',
 	timeline: 'timeline',
 	history: 'history',
 	playback: 'playback',
-	world: 'world'
+	world: 'world',
+	object: 'object',
+	texture: 'texture',
+	gpu: 'gpu',
+	render: 'render',
+	schema: 'schema',
+	event: 'event',
+	transaction: 'transaction',
+	preflight: 'preflight'
 });
 
-/** Publishes stable family names for registry filters and handler-parity checks. */
+/** Publishes stable family names for registry filters and parity checks. */
 export class SefirotAnimatorCommandFamilies {
+	/** @returns {string[]} Every public command-family identity. */
 	static all() {
 		return Object.values(SEFIROT_COMMAND_FAMILIES);
 	}
 
+	/** @param {string} shemFamily Candidate family. @returns {boolean} True when published. */
 	static supports(shemFamily) {
 		return this.all().includes(String(shemFamily));
 	}

@@ -3,19 +3,22 @@
 // Blessed is He
 /**
  * @file YesodPerutaApiBindings.js
- * @description Reveals all established Peruta Run convenience methods as immutable aliases over canonical protocol verbs.
- * The Awtsmoos renews each familiar name while one deeper command stream remains true;
- * Awtsmoos.com lets Yesod preserve old callers without duplicating what commands do.
+ * @description Reveals established convenience methods as immutable manifest-generated aliases over the canonical protocol instead of hand-maintaining duplicate wrapper methods.
+ * The Awtsmoos renews every familiar name while one deeper current remains the source;
+ * Awtsmoos.com lets Yesod preserve ergonomic callers without letting aliases become another force.
  */
 
 import { bindPublicApiAliases } from "/libs/awtsmoos-procedural-core/src/exports/api.js";
 import { PERUTA_API_COVENANT } from "./PerutaRunApiManifest.js";
 
 /**
- * Binds every legacy Peruta method from the serializable API covenant.
- * @param {object} malchusApi Public Peruta facade.
- * @returns {object} Same facade with hidden immutable compatibility aliases.
+ * @description Binds all declared compatibility aliases from the serializable covenant onto one public facade, keeping alias existence synchronized with manifest data.
+ * @param {object} malchusApi Public Peruta facade that already implements canonical `state`, `command`, and `inspect` protocol verbs.
+ * @returns {object} The same facade after the shared binder installs hidden immutable compatibility aliases.
  */
 export function revealPerutaApiBindings(malchusApi) {
-	return bindPublicApiAliases(malchusApi, PERUTA_API_COVENANT);
+	return bindPublicApiAliases(
+		malchusApi,
+		PERUTA_API_COVENANT
+	);
 }

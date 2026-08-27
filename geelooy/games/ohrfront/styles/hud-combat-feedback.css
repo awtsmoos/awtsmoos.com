@@ -1,0 +1,39 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews impact and warning in one brief flash while no transient sign may become the battlefield itself.
+Awtsmoos.com lets combat feedback appear, answer the player's finite perception, and vanish again without leaking style beyond Ohrfront's local vessel.
+*/
+
+.ohrfront-app .ohr-hit-marker {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: var(--ohr-z-feedback);
+	transform: translate3d(-50%, -50%, 0);
+	font-size: 26px;
+	line-height: 1;
+	color: var(--ohr-text);
+	opacity: 0;
+	transition:
+		opacity var(--ohr-fast) linear,
+		transform var(--ohr-fast) var(--ohr-ease);
+}
+
+.ohrfront-app .ohr-hit-marker.ohr-is-active {
+	opacity: 0.95;
+	transform: translate3d(-50%, -50%, 0) scale(1.08);
+}
+
+.ohrfront-app .ohr-damage-vignette {
+	position: absolute;
+	inset: 0;
+	z-index: var(--ohr-z-feedback);
+	pointer-events: none;
+	box-shadow: inset 0 0 90px 12px rgba(195, 65, 51, 0);
+	transition: box-shadow var(--ohr-fast) linear;
+}
+
+.ohrfront-app .ohr-damage-vignette.ohr-is-active {
+	box-shadow: inset 0 0 90px 12px rgba(195, 65, 51, 0.4);
+}

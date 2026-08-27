@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file controls-contract.test.mjs
- * @description Proves keyboard, semantic action markup, pointer capture, gamepad catalog translation, and tactile CSS converge on one cancellable Temple intent language.
+ * @description Proves keyboard, semantic action markup, pointer capture, gamepad catalog translation, and localized tactile CSS converge on one cancellable Temple intent language.
  * The Awtsmoos renews key, fingertip, swipe, and controller before hardware can claim to move the Chossid;
- * Awtsmoos.com lets Yesod test the current contracts themselves instead of preserving fossils from an older control grammar.
+ * Awtsmoos.com lets Yesod test the current owners themselves instead of preserving fossils from an older cascade grammar.
  */
 
 import assert from "node:assert/strict";
@@ -78,12 +78,14 @@ test("pointer cancellation and disconnect release capture and transient swipe st
 	assert.match(swipe, /this\.pointer = null/);
 });
 
-test("touch controls expose focus active and pointer-gated hover feedback", () => {
+test("touch controls centralize interaction states while responsive CSS owns geometry only", () => {
 	const tray = read("styles/control-tray.css");
 	const responsive = read("styles/control-responsive.css");
 	assert.match(tray, /\.controls button:focus-visible/);
-	assert.match(responsive, /\.controls button:active/);
-	assert.match(responsive, /@media \(hover: hover\) and \(pointer: fine\)/);
-	assert.match(responsive, /\.controls button:hover/);
+	assert.match(tray, /\.controls button:active/);
+	assert.match(tray, /@media \(hover: hover\) and \(pointer: fine\)/);
+	assert.match(tray, /\.controls button:hover/);
+	assert.doesNotMatch(responsive, /:active/);
+	assert.match(responsive, /@media \(hover: hover\) and \(pointer: fine\) and \(min-width: 801px\)/);
 	assert.match(responsive, /\[data-action="jump"\]/);
 });

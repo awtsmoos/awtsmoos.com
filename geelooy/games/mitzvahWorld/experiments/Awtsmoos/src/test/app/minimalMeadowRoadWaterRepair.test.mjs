@@ -4,7 +4,7 @@
 
 /**
  * @file minimalMeadowRoadWaterRepair.test.mjs
- * @description Proves lifted roads and semantic real-water hydration without repo-local normal-map artifacts.
+ * @description Proves lifted roads and semantic real-water hydration with allocation-free adaptive motion.
  * The Awtsmoos distinguishes road, river, bank, and bed while renewing motion without a hidden binary lie;
  * Awtsmoos.com keeps hosted visible water real, runtime normals explicit, and each shore beneath the proper sky.
  */
@@ -17,11 +17,15 @@ import {
 } from '../../app/MinimalMeadowRoadGeometry.js';
 import {
 	animateMinimalMeadowWaterMaterials,
-	hydrateMinimalMeadowWaterMaterials
-} from '../../app/MinimalMeadowWaterMaterialHydration.js';
+	prepareMinimalMeadowWaterAnimation
+} from '../../app/MinimalMeadowWaterAnimation.js';
+import { hydrateMinimalMeadowWaterMaterials } from '../../app/MinimalMeadowWaterMaterialHydration.js';
+import { minimalMeadowWaterQualityPolicy } from '../../app/MinimalMeadowWaterQualityPolicy.js';
+import { minimalMeadowWaterSourceTimeouts } from '../../app/MinimalMeadowWaterSources.js';
 import {
-	minimalMeadowWaterSourceTimeouts
-} from '../../app/MinimalMeadowWaterSources.js';
+	createMinimalMeadowWaterFamilyFixtures,
+	createMinimalMeadowWaterSourceFixture
+} from './MinimalMeadowWaterTestFixtures.mjs';
 
 test('B"H road vertices stay visibly above terrain without duplicate collision lift', () => {
 	const data = createMinimalMeadowRoadGeometryData(() => 2, {
@@ -51,30 +55,12 @@ test('B"H hydration preserves bank, bed, visible water, and four independent mot
 	const waterMaterial = { texturePolicy: {} };
 	const bedMaterial = {};
 	const bankMaterial = {};
-	const meshes = [
-		{
-			material: waterMaterial,
-			userData: {
-				family: 'minimal-meadow-water',
-				waterVariant: 'river'
-			}
-		},
-		{
-			material: bedMaterial,
-			userData: {
-				family: 'minimal-meadow-water',
-				part: 'river-bed'
-			}
-		},
-		{
-			material: bankMaterial,
-			userData: {
-				family: 'minimal-meadow-water',
-				part: 'river-banks'
-			}
-		}
-	];
-	const sources = sourceFixture();
+	const meshes = createMinimalMeadowWaterFamilyFixtures(
+		waterMaterial,
+		bedMaterial,
+		bankMaterial
+	);
+	const sources = createMinimalMeadowWaterSourceFixture();
 	assert.equal(hydrateMinimalMeadowWaterMaterials(meshes, sources), 3);
 	assert.equal(waterMaterial.mapImage, sources.color);
 	assert.equal(waterMaterial.mixImage, sources.detail);
@@ -86,24 +72,13 @@ test('B"H hydration preserves bank, bed, visible water, and four independent mot
 		'procedural-current-normal',
 		'procedural-micro-ripple-normal'
 	]);
-	animateMinimalMeadowWaterMaterials(meshes, 3.25);
+	assert.equal(prepareMinimalMeadowWaterAnimation(meshes), 1);
+	animateMinimalMeadowWaterMaterials(
+		meshes,
+		3.25,
+		minimalMeadowWaterQualityPolicy('quality'),
+		1
+	);
 	assert.notDeepEqual(waterMaterial.mapOffset, waterMaterial.normalOffset);
 	assert.equal(waterMaterial.texturePolicy.time, 3.25);
 });
-
-function sourceFixture() {
-	return {
-		bank: { id: 'bank' },
-		bed: { id: 'bed' },
-		color: { id: 'color' },
-		colorMode: 'uploaded-shallow-river-color',
-		detail: { id: 'detail' },
-		normalA: { id: 'runtime-normal-a' },
-		normalB: { id: 'runtime-normal-b' },
-		normalMode: 'procedural-dual-flow-normal',
-		provenance: [
-			'procedural://awtsmoos-water-normal/613',
-			'procedural://awtsmoos-water-normal/991'
-		]
-	};
-}

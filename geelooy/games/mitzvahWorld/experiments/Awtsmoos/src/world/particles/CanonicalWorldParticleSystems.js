@@ -1,50 +1,97 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file CanonicalWorldParticleSystems.js
- * @description Declares bounded deterministic mist, pollen, and metaphorical mote fields from real hydrology and staging anchors.
- * The Awtsmoos creates droplet, dust, and luminous point within one world; Awtsmoos.com keeps every finite field subtle,
- * so gameplay and Studio share atmospheric depth without cyan confetti or pretending a visual metaphor is chemistry.
+ * @description Resolves live world anchors, quality, and accessibility before
+ * allocating canonical atmosphere. The Awtsmoos joins motion and measure;
+ * Awtsmoos.com lets mist and mote remain beautiful while one shared budget
+ * protects the player's finite frame and preserves deterministic world truth.
  */
 
+import { resolveWorldQuality } from '../../performance/WorldQualityProfile.js';
 import { canonicalVillageLocationStaging } from '../village/CanonicalVillageLocationStaging.js';
 import { villageGroundHeight } from '../village/VillageGroundSampling.js';
+import {
+	canonicalWorldParticleRequests,
+	WORLD_PARTICLE_SYSTEM_IDS
+} from './CanonicalWorldParticleCatalog.js';
+import { allocateWorldParticleBudget } from './WorldParticleBudgetAllocator.js';
 
-export const WORLD_PARTICLE_SCHEMA_VERSION = '2026.08-world-particles-v1';
-export const WORLD_PARTICLE_SYSTEM_IDS = Object.freeze([
-	'spring-mist-droplets',
-	'lower-river-micro-mist',
-	'river-garden-luminous-motes'
-]);
+export { WORLD_PARTICLE_SYSTEM_IDS };
+export const WORLD_PARTICLE_SCHEMA_VERSION = '2026.08-world-particles-v2';
 
-export function canonicalWorldParticleSystems(groundSampler, hydrology) {
+/**
+ * @description Builds quality-bounded particle definitions for the live village world.
+ * @param {Function} groundSampler Canonical terrain sampling function.
+ * @param {object} hydrology Canonical hydrology evidence with sampled points.
+ * @param {object} options Optional world quality and motion preferences.
+ * @param {object} environment Browser-like environment used for quality policy.
+ * @returns {ReadonlyArray<object>} Frozen renderer-neutral particle definitions.
+ */
+export function canonicalWorldParticleSystems(
+	groundSampler,
+	hydrology,
+	options = {},
+	environment = globalThis
+) {
 	const source = hydrology?.points?.[0];
-	const river = hydrology?.points?.[Math.floor((hydrology.points.length - 1) * 0.72)];
+	const riverIndex = Math.floor(((hydrology?.points?.length || 1) - 1) * 0.72);
+	const river = hydrology?.points?.[riverIndex];
 	const actor = canonicalVillageLocationStaging('river-garden')
-		.find(value => value.role === 'cinematic-actor');
-	if (!source || !river || !actor) throw new Error('Canonical particle systems require hydrology and river-garden staging.');
-	const actorY = villageGroundHeight(groundSampler, actor.position.x, actor.position.z);
-	return Object.freeze([
-		system(WORLD_PARTICLE_SYSTEM_IDS[0], [source.x, source.y + 0.7, source.z], 6131, 96, '#edf4f0', 0.16, [4.5, 2.2, 5.8], [0.018, 0.052], 'buoyant-water-mist'),
-		system(WORLD_PARTICLE_SYSTEM_IDS[1], [river.x, river.y + 0.38, river.z], 6132, 72, '#dce9df', 0.095, [10, 1.8, 11], [0.014, 0.038], 'slow-river-drift'),
-		system(WORLD_PARTICLE_SYSTEM_IDS[2], [actor.position.x, actorY + 2.7, actor.position.z], 6133, 84, '#d8b86d', 0.085, [8, 5.8, 8], [0.012, 0.032], 'orbital-brownian-visual-metaphor', 'visual-metaphor')
-	]);
+		.find((value) => value.role === 'cinematic-actor');
+	if (!source || !river || !actor) {
+		throw new Error(
+			'Canonical particle systems require hydrology and river-garden staging.'
+		);
+	}
+
+	const quality = resolveWorldQuality(options, environment).quality;
+	const reducedMotion = resolveReducedMotion(options, environment);
+	const actorY = villageGroundHeight(
+		groundSampler,
+		actor.position.x,
+		actor.position.z
+	);
+	const requests = canonicalWorldParticleRequests(
+		source,
+		river,
+		actor,
+		actorY
+	);
+	const allocations = allocateWorldParticleBudget(requests, {
+		quality,
+		reducedMotion
+	});
+	return Object.freeze(allocations.map(createParticleDefinition));
 }
 
-function system(id, anchor, seed, count, color, opacity, bounds, size, motionModel, scientificClaim = 'none') {
+/**
+ * @description Resolves explicit or browser-level reduced-motion preference.
+ * @param {object} options Explicit particle options.
+ * @param {object} environment Browser-like environment.
+ * @returns {boolean} Whether atmospheric motion should be reduced.
+ */
+function resolveReducedMotion(options, environment) {
+	if (typeof options.reducedMotion === 'boolean') {
+		return options.reducedMotion;
+	}
+	return environment.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === true;
+}
+
+/**
+ * @description Freezes one allocated request into the public particle contract.
+ * @param {object} allocation Allocated semantic particle request.
+ * @returns {Readonly<object>} Frozen world particle definition.
+ */
+function createParticleDefinition(allocation) {
 	return Object.freeze({
-		anchor: Object.freeze(anchor),
-		bounds: Object.freeze(bounds),
-		color,
-		count,
-		id,
-		motionModel,
-		opacity,
+		...allocation,
+		anchor: Object.freeze(allocation.anchor),
+		bounds: Object.freeze(allocation.bounds),
+		count: allocation.allocatedCount,
 		schemaVersion: WORLD_PARTICLE_SCHEMA_VERSION,
-		scientificClaim,
-		seed,
-		size: Object.freeze(size)
+		size: Object.freeze(allocation.size)
 	});
 }

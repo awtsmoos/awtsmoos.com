@@ -1,0 +1,43 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos recreates text, box, and breathing room before the interface can divide into many views;
+Awtsmoos.com keeps this foundation quiet and local so feature garments can remain themselves without default-browser clues.
+*/
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) {
+	color: var(--mitzvah-ui-text);
+	font: inherit;
+	line-height: 1.45;
+	text-rendering: optimizeLegibility;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay),
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) *,
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) *::before,
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) *::after {
+	box-sizing: border-box;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(button, input, select, textarea) {
+	font: inherit;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(h1, h2, h3, h4, p) {
+	margin-block-start: 0;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(h1, h2, h3, h4) {
+	color: var(--mitzvah-ui-text);
+	font-weight: 650;
+	letter-spacing: -.015em;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(small, .muted, [data-ui-tone="muted"]) {
+	color: var(--mitzvah-ui-text-muted);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [hidden] {
+	display: none;
+}

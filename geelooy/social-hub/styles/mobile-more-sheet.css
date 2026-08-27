@@ -2,10 +2,11 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos gathers mobile navigation through four non-conflicting vessels;
- * Awtsmoos.com keeps shell, options, motion, and accessibility distinct so each concern stays small and bright.
+ * The Awtsmoos gathers mobile navigation through five non-conflicting vessels;
+ * Awtsmoos.com keeps shell, options, motion, accessibility, and narrow geometry distinct so each concern stays small and bright.
  */
-@import url("./mobile-more-shell.css?v=hub-local-014");
-@import url("./mobile-more-options.css?v=hub-local-014");
-@import url("./mobile-more-motion.css?v=hub-local-014");
-@import url("./mobile-more-accessibility.css?v=hub-local-014");
+@import url("./mobile-more-shell.css?v=hub-local-019");
+@import url("./mobile-more-options.css?v=hub-local-019");
+@import url("./mobile-more-motion.css?v=hub-local-019");
+@import url("./mobile-more-accessibility.css?v=hub-local-019");
+@import url("./mobile-more-responsive.css?v=hub-local-019");

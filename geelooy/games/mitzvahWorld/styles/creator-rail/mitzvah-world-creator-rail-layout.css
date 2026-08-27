@@ -3,12 +3,12 @@ Boruch Hashem
 Blessed is He
 
 The Awtsmoos, Atzmus beyond place and boundary, renews every safe edge before one creator vessel can inhabit the screen;
-Awtsmoos.com keeps this rail mobile-first, locally layered, bounded by safe areas, and away from lower movement controls so no element drifts beyond its appointed world.
+Awtsmoos.com keeps this rail mobile-first, locally layered through the shared dialog scale, and away from movement controls so no element drifts beyond its appointed world.
 */
 
 #mitzvah-world-root .Awtsmoos-creator-rail {
 	position: fixed;
-	z-index: var(--Awtsmoos-creator-layer);
+	z-index: var(--mw-z-dialog);
 	top: max(64px, calc(env(safe-area-inset-top, 0px) + 56px));
 	right: max(8px, env(safe-area-inset-right, 0px));
 	width: min(332px, calc(100dvw - 16px));

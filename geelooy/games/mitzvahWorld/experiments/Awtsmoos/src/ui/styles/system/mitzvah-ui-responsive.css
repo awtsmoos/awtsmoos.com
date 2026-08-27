@@ -1,0 +1,61 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos recreates screen, thumb, safe edge, and motion before device size can divide one traveler from another;
+Awtsmoos.com keeps mobile controls generous by semantic role, while native checkbox and radio rows receive their touch covenant in their own proper brother.
+*/
+
+@media (pointer: coarse) {
+	:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
+		button,
+		input[type="button"],
+		input[type="submit"],
+		input[type="reset"],
+		input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]),
+		select,
+		[data-ui="button"],
+		[data-ui="icon-button"],
+		[data-ui="input-button"],
+		[data-ui="field"],
+		[data-ui="file"],
+		[data-ui="range"],
+		[data-ui="select"]
+	) {
+		min-height: var(--mitzvah-ui-touch-height);
+	}
+}
+
+@media (max-width: 720px) {
+	:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui="sheet"] {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		bottom: 0;
+		left: 0;
+		margin: 0;
+		max-height: min(86dvh, 760px);
+		max-width: none;
+		padding-bottom: calc(var(--mitzvah-ui-space-4) + var(--mitzvah-ui-safe-bottom));
+		position: fixed;
+		right: 0;
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:where([data-mitzvah-ui], .Awtsmoos-gameplay) *,
+	:where([data-mitzvah-ui], .Awtsmoos-gameplay) *::before,
+	:where([data-mitzvah-ui], .Awtsmoos-gameplay) *::after {
+		animation-duration: .001ms;
+		animation-iteration-count: 1;
+		scroll-behavior: auto;
+		transition-duration: .001ms;
+	}
+}
+
+@media (forced-colors: active) {
+	:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(button, input, select, textarea, [data-ui]) {
+		border-color: CanvasText;
+		forced-color-adjust: auto;
+	}
+}

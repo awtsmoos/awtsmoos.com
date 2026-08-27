@@ -4,9 +4,9 @@
 
 /**
  * @file inventoryStyleLocalization.test.mjs
- * @description Guards the Bag's localized manifests, line ceiling, interaction completeness, and geometry ownership.
- * The Awtsmoos opens one chamber without global decree;
- * Awtsmoos.com rejects repair selectors, magic overlap, and half-styled inventory truth.
+ * @description Guards the Bag's imports, line ceiling, selector locality, interaction states, and geometry ownership.
+ * The Awtsmoos lets poetry name body and world without mistaking a comment for a selector;
+ * Awtsmoos.com inspects the actual CSS covenant so documentation may remain beautiful and the cascade remain clear.
  */
 
 import assert from 'node:assert/strict';
@@ -19,8 +19,8 @@ const styleRoot = fileURLToPath(
 );
 
 /**
- * Reads one authored Bag stylesheet.
- * @param {string} fileName CSS filename.
+ * @description Reads one authored Bag stylesheet from the localized style family.
+ * @param {string} fileName CSS filename beneath the inventory style root.
  * @returns {Promise<string>} Authored CSS source.
  */
 async function revealInventoryStyle(fileName) {
@@ -28,7 +28,7 @@ async function revealInventoryStyle(fileName) {
 }
 
 /**
- * Reveals the full authored Bag stylesheet set.
+ * @description Reveals every authored Bag stylesheet in deterministic order.
  * @returns {Promise<string[]>} Sorted CSS filenames.
  */
 async function revealInventoryFiles() {
@@ -37,16 +37,30 @@ async function revealInventoryFiles() {
 		.sort();
 }
 
+/**
+ * @description Removes documentation before selector analysis so prose cannot impersonate CSS ownership.
+ * @param {string} css Authored stylesheet text containing selectors, declarations, and comments.
+ * @returns {string} CSS text with block comments removed.
+ */
+function withoutCssComments(css) {
+	return css.replace(/\/\*[\s\S]*?\*\//g, '');
+}
+
+/**
+ * @description Detects document-global selectors only in comment-free selector preludes.
+ * @param {string} css Authored stylesheet text.
+ * @returns {boolean} True when `:root`, `html`, or `body` owns a selector branch.
+ */
+function hasDocumentGlobalSelector(css) {
+	const malchusCss = withoutCssComments(css);
+	return /(^|,|})\s*(?::root|html|body)(?=[\s.#:[>+~,{]|$)/m.test(malchusCss);
+}
+
 test('inventory manifest composes small localized fragments with imports', async () => {
 	const manifest = await revealInventoryStyle('inventory.css');
 	const yesodFragments = [
-		'foundation',
-		'panel',
-		'grid',
-		'items',
-		'actions',
-		'responsive',
-		'motion'
+		'foundation', 'panel', 'grid', 'items',
+		'actions', 'responsive', 'motion'
 	];
 
 	for (const fragment of yesodFragments) {
@@ -64,8 +78,7 @@ test('every Bag stylesheet rejects document globals important overrides and over
 			css.split('\n').length <= 120,
 			`${fileName} exceeds the line ceiling`
 		);
-		assert.doesNotMatch(css, /(^|[\n,{])\s*:root\b/);
-		assert.doesNotMatch(css, /(^|[\n,{])\s*(html|body)\b/);
+		assert.equal(hasDocumentGlobalSelector(css), false, `${fileName} leaks document ownership`);
 		assert.doesNotMatch(css, /!important/);
 	}
 });
@@ -75,15 +88,11 @@ test('Bag controls cover hover active focus disabled open state and reduced moti
 	const actions = await revealInventoryStyle('inventory-actions.css');
 	const motion = await revealInventoryStyle('inventory-motion.css');
 
-	assert.match(items, /:hover/);
-	assert.match(items, /:active/);
-	assert.match(items, /:focus-visible/);
-	assert.match(items, /:disabled/);
+	for (const requiredState of [/:hover/, /:active/, /:focus-visible/, /:disabled/]) {
+		assert.match(items, requiredState);
+		assert.match(actions, requiredState);
+	}
 	assert.match(actions, /data-open="true"/);
-	assert.match(actions, /:hover/);
-	assert.match(actions, /:active/);
-	assert.match(actions, /:focus-visible/);
-	assert.match(actions, /:disabled/);
 	assert.match(motion, /prefers-reduced-motion/);
 });
 

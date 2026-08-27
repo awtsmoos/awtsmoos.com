@@ -1,0 +1,10 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gathers calm layout, resource components, and mobile adaptation into one finite Portal garment;
+ * Awtsmoos.com keeps each responsibility separate beneath this entry so future refinement never demands a monolithic CSS apartment.
+ */
+@import "./styles/layout.css?v=portal-ui-003";
+@import "./styles/components.css?v=portal-ui-003";
+@import "./styles/responsive.css?v=portal-ui-003";

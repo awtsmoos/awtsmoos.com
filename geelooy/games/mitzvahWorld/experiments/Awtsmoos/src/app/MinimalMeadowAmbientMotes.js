@@ -1,29 +1,24 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MinimalMeadowAmbientMotes.js
- * @description Owns a tiny camera-relative WebGL mote field using shared geometry and shared atmospheric materials.
- * The Awtsmoos lets almost-nothing reveal depth between eye and meadow while Awtsmoos.com keeps each glimmer humble and slight;
- * a handful of meshes drift through the existing renderer, making the air feel alive without turning the valley into spectacle or light.
+ * @description Animates a fixed atmospheric pool while adaptive quality sheds cosmetic draw calls before gameplay work.
+ * The Awtsmoos makes each mote from nothing yet keeps the player's motion whole;
+ * Awtsmoos.com lets distant shimmer yield with grace when Gevurah guards the frame-time goal.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
-import { creatureSphereGeometry } from './MinimalMeadowCreatureGeometry.js';
-import { creaturePart } from './MinimalMeadowCreaturePart.js';
-import { createAmbientMoteMaterials } from './MinimalMeadowAmbientMoteMaterials.js';
+import { advanceAmbientMote } from './MinimalMeadowAmbientMoteLayout.js';
+import { buildMinimalMeadowAmbientMotePool } from './MinimalMeadowAmbientMotePool.js';
 import { ambientMoteQualityProfile } from './MinimalMeadowAmbientMoteQuality.js';
-import {
-	advanceAmbientMote,
-	ambientMoteSpec,
-	placeAmbientMote
-} from './MinimalMeadowAmbientMoteLayout.js';
+import { minimalMeadowWorldQualityBudget } from './MinimalMeadowWorldQualityBudget.js';
 
-/** Owns atmospheric mote creation, motion, diagnostics, and teardown. */
 export class MinimalMeadowAmbientMotes {
 	/**
-	 * @param {object} runtime Mitzvah World runtime.
+	 * @description Builds one fixed mote pool that can shed visibility without reconstruction.
+	 * @param {object} runtime MitzvahWorld runtime.
 	 * @param {object} environment Browser-like quality and motion environment.
 	 */
 	constructor(runtime, environment = globalThis) {
@@ -32,37 +27,65 @@ export class MinimalMeadowAmbientMotes {
 		this.anchor = { x: 0, y: 0, z: 0 };
 		this.group = new Group();
 		this.group.name = 'AwtsmoosAmbientMotes';
-		this.geometry = creatureSphereGeometry(5, 3);
-		this.materials = createAmbientMoteMaterials();
 		this.motes = [];
 		this.destroyed = false;
+		this.adaptiveLevel = '';
+		this.visibleCount = 0;
 		this.refreshAnchor();
-		this.build();
+		buildMinimalMeadowAmbientMotePool(this);
+		this.applyAdaptiveVisibility(minimalMeadowWorldQualityBudget(runtime));
 	}
 
-	/** Advances existing mote transforms without allocating replacement particles. */
+	/**
+	 * @description Advances only visible motes while retaining the full fixed pool for quality recovery.
+	 * @param {number} deltaSeconds Visual cadence delta.
+	 * @returns {void}
+	 */
 	update(deltaSeconds) {
 		if (this.destroyed || this.motes.length === 0) {
 			return;
 		}
+		this.applyAdaptiveVisibility(minimalMeadowWorldQualityBudget(this.runtime));
 		this.refreshAnchor();
-		for (const mote of this.motes) {
+		for (let index = 0; index < this.visibleCount; index += 1) {
+			const mote = this.motes[index];
 			advanceAmbientMote(mote.mesh, mote.spec, this.anchor, deltaSeconds);
 		}
 	}
 
-	/** Returns stable observability for performance and reduced-motion verification. */
+	/**
+	 * @description Applies deterministic cosmetic shedding only when the existing adaptive level changes.
+	 * @param {object} budget Frozen environmental quality receipt.
+	 * @returns {void}
+	 */
+	applyAdaptiveVisibility(budget) {
+		if (budget.level === this.adaptiveLevel) {
+			return;
+		}
+		this.adaptiveLevel = budget.level;
+		this.visibleCount = Math.min(
+			this.motes.length,
+			Math.ceil(this.motes.length * budget.ambientVisibleFraction)
+		);
+		for (let index = 0; index < this.motes.length; index += 1) {
+			this.motes[index].mesh.visible = index < this.visibleCount;
+		}
+	}
+
+	/** @description Returns atmospheric and adaptive-shedding evidence. @returns {object} Diagnostics receipt. */
 	diagnostics() {
 		return Object.freeze({
-			active: !this.destroyed && this.motes.length > 0,
+			active: !this.destroyed && this.visibleCount > 0,
 			count: this.motes.length,
-			drawCalls: this.motes.length,
+			drawCalls: this.visibleCount,
 			quality: this.profile.quality,
-			reducedMotion: this.profile.reducedMotion
+			reducedMotion: this.profile.reducedMotion,
+			runtimeQuality: this.adaptiveLevel,
+			visibleCount: this.visibleCount
 		});
 	}
 
-	/** Removes the owned group exactly once and releases retained mote references. */
+	/** @description Removes owned atmosphere once and releases retained mote references. @returns {void} */
 	destroy() {
 		if (this.destroyed) {
 			return;
@@ -70,31 +93,10 @@ export class MinimalMeadowAmbientMotes {
 		this.destroyed = true;
 		this.group.parent?.remove?.(this.group);
 		this.motes.length = 0;
+		this.visibleCount = 0;
 	}
 
-	build() {
-		for (let index = 0; index < this.profile.count; index += 1) {
-			this.addMote(index);
-		}
-		if (this.motes.length > 0) {
-			this.runtime.scene.add(this.group);
-		}
-	}
-
-	addMote(index) {
-		const spec = ambientMoteSpec(index, this.profile.count);
-		const mesh = creaturePart(
-			`ambient_mote_${index}`,
-			this.geometry,
-			this.materials[spec.family],
-			[0, 0, 0],
-			[spec.scale, spec.scale, spec.scale]
-		);
-		placeAmbientMote(mesh, spec, this.anchor);
-		this.group.add(mesh);
-		this.motes.push({ mesh, spec });
-	}
-
+	/** @description Refreshes the shared camera-relative anchor without replacing its object. @returns {void} */
 	refreshAnchor() {
 		const cameraPosition = this.runtime.camera?.position;
 		const state = this.runtime.state || {};

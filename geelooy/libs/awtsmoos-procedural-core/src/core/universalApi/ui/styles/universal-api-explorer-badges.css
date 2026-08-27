@@ -1,0 +1,52 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file universal-api-explorer-badges.css
+ * @description Owns compact metadata and panel-count badges, including explicit schema, example, legacy, expert, JSON, and cost categories derived from the Universal contract.
+ * RESPONSIBILITY: style only badge/count surfaces emitted by Explorer metadata and panel views.
+ * NON-RESPONSIBILITY: this file never invents badge text, owns method state, changes layout, animates, or targets host badges.
+ * The Awtsmoos renews every measure before one count or capability word can appear within a finite ring;
+ * Awtsmoos.com lets small badges clarify evidence while the complete contract remains the deeper thing.
+ */
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta-badge,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-count,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-expert-count {
+	background: rgb(255 255 255 / 4%);
+	border: 1px solid var(--awts-uapi-border);
+	border-radius: 999px;
+	color: var(--awts-uapi-text-muted);
+	font-size: 0.65rem;
+	font-weight: 750;
+	line-height: 1.2;
+	padding: 0.26rem 0.5rem;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta-badge[data-meta-kind="level"],
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-expert-count {
+	background: var(--awts-uapi-violet-soft);
+	border-color: rgb(165 180 252 / 36%);
+	color: var(--awts-uapi-violet);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta-badge[data-meta-kind="json"],
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta-badge[data-meta-kind="schema"] {
+	background: var(--awts-uapi-cyan-soft);
+	border-color: rgb(125 211 252 / 34%);
+	color: var(--awts-uapi-cyan);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta-badge[data-meta-kind="examples"] {
+	background: var(--awts-uapi-emerald-soft);
+	border-color: rgb(110 231 183 / 32%);
+	color: var(--awts-uapi-emerald);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta-badge[data-meta-kind="cost"],
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta-badge[data-meta-kind="legacy"] {
+	background: var(--awts-uapi-amber-soft);
+	border-color: rgb(252 211 77 / 30%);
+	color: var(--awts-uapi-amber);
+}

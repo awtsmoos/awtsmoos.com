@@ -1,0 +1,77 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews each resource shell before identity, status, or compatibility can take finite form;
+ * Awtsmoos.com keeps these surfaces calm, solid, and readable so universal data feels dependable rather than dressed for storm.
+ */
+
+.portal-resource,
+.portal-status,
+.portal-compatibility-note {
+	border: 1px solid var(--aw-ui-line);
+	border-radius: var(--aw-ui-radius-lg);
+	background: var(--aw-ui-surface);
+	box-shadow: var(--aw-ui-shadow);
+}
+
+.portal-resource {
+	display: grid;
+	gap: 1rem;
+	padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.portal-resource-header {
+	display: grid;
+	gap: .3rem;
+	padding-block-end: .9rem;
+	border-block-end: 1px solid var(--aw-ui-line);
+}
+
+.portal-kicker,
+.portal-resource-id,
+.portal-collection-count {
+	margin: 0;
+	color: var(--aw-ui-muted);
+	font-size: .86rem;
+	font-weight: 700;
+	letter-spacing: .02em;
+}
+
+.portal-resource-title,
+.portal-section-title {
+	margin: 0;
+	color: var(--aw-ui-text);
+}
+
+.portal-resource-title {
+	font-size: clamp(1.6rem, 4vw, 2.5rem);
+	line-height: 1.1;
+}
+
+.portal-section,
+.portal-inspector-section {
+	display: grid;
+	gap: .65rem;
+	min-width: 0;
+}
+
+.portal-section-title {
+	font-size: 1rem;
+}
+
+.portal-lead {
+	margin: 0;
+	color: var(--aw-ui-muted);
+	line-height: 1.55;
+}
+
+.portal-status,
+.portal-compatibility-note {
+	padding: .85rem 1rem;
+}
+
+.portal-compatibility-note {
+	margin-block-end: .75rem;
+	border-inline-start: 3px solid var(--aw-ui-warning);
+}

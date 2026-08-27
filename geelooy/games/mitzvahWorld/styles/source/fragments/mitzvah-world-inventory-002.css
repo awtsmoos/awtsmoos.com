@@ -1,12 +1,14 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-inventory-002.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos gives each carried item a small truthful chamber and each context choice a bounded local voice;
+Awtsmoos.com lets slots, details, and popovers remain tactile without creating another global stacking scale.
 */
 
 #mitzvah-world-root .inv-slot {
 	display: grid;
-	grid-template-columns: auto 1fr;
+	grid-template-columns: auto minmax(0, 1fr);
 	grid-template-rows: 1fr auto;
 	gap: 0 5px;
 	align-items: center;
@@ -16,7 +18,8 @@ mitzvah-world-inventory-002.css reveals localized style through the Awtsmoos and
 	border-radius: 9px;
 	background: rgba(255, 255, 255, 0.055);
 	text-align: left;
-	touch-action: pan-y;
+	touch-action: manipulation;
+	transition: transform var(--mw-motion-fast) var(--mw-ease-out), border-color var(--mw-motion-fast) ease, background var(--mw-motion-fast) ease;
 }
 
 #mitzvah-world-root .inv-slot span {
@@ -41,6 +44,23 @@ mitzvah-world-inventory-002.css reveals localized style through the Awtsmoos and
 	border-style: dashed;
 }
 
+@media (hover: hover) {
+	#mitzvah-world-root .inv-slot:hover:not(:disabled) {
+		border-color: var(--mw-border-strong);
+		background: var(--mw-surface-control-hover);
+		transform: translateY(-1px);
+	}
+}
+
+#mitzvah-world-root .inv-slot:active:not(:disabled) {
+	transform: scale(0.98);
+}
+
+#mitzvah-world-root .inv-slot:focus-visible {
+	outline: none;
+	box-shadow: var(--mw-focus-ring);
+}
+
 #mitzvah-world-root .item-card {
 	min-height: 76px;
 	margin-top: 8px;
@@ -52,14 +72,16 @@ mitzvah-world-inventory-002.css reveals localized style through the Awtsmoos and
 
 #mitzvah-world-root .inv-context-menu {
 	position: fixed;
-	z-index: 940;
+	z-index: var(--mw-z-dialog);
 	display: none;
-	width: min(210px, 78vw);
+	width: min(210px, calc(var(--mw-viewport-inline) - 8px));
+	max-height: min(320px, var(--mw-viewport-block));
+	overflow: auto;
 	padding: 9px;
 	border: 1px solid #ffd166;
 	border-radius: 11px;
 	background: rgba(8, 12, 18, 0.98);
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.58);
+	box-shadow: var(--mw-shadow-panel);
 	pointer-events: auto;
 }
 

@@ -4,11 +4,10 @@
 
 /**
  * @file minimalMeadowOptionalEntries.test.mjs
- * @description Proves unopened desktop tools create no imports while touch and API requests stay exact.
- * The Awtsmoos keeps unused garments outside the first doorway; Awtsmoos.com verifies conditional
- * mobile care, explicit exploration, one stylesheet, and one module promise per optional entry.
+ * @description Proves unopened desktop tools create no imports while touch and explicit API requests stay exact, lazy, and idempotently mounted through the real module contract.
+ * The Awtsmoos keeps unused garments outside the first doorway; Awtsmoos.com verifies conditional mobile care and one explicit observatory promise,
+ * so tests imitate the actual named installer instead of a fictional module shape and optional loading remains both lightweight before use and truthful after the gate is opened.
  */
-
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
@@ -16,22 +15,24 @@ import {
 	minimalMeadowOptionalEntryPlan
 } from '../../launcher/MinimalMeadowOptionalEntries.js';
 
+/** Proves an ordinary desktop session imports neither optional graph. */
 test('B"H ordinary desktop defers both optional entry graphs', () => {
-	const environment = environmentFixture();
-	const imports = [];
-	const documentValue = documentFixture();
-	const receipt = installMinimalMeadowOptionalEntries({
-		documentValue,
-		environment,
-		importer: specifier => imports.push(specifier),
+	const keterEnvironment = environmentFixture();
+	const chochmahImports = [];
+	const binahDocument = documentFixture();
+	const gevurahReceipt = installMinimalMeadowOptionalEntries({
+		documentValue: binahDocument,
+		environment: keterEnvironment,
+		importer: (specifierOhr) => chochmahImports.push(specifierOhr),
 		parameters: new URLSearchParams('')
 	});
-	assert.deepEqual(receipt.plan, { apiExplorer: false, mobile: false });
-	assert.deepEqual(imports, []);
-	assert.equal(documentValue.documentElement.dataset.awtsmoosApiExplorer, 'deferred');
-	assert.equal(documentValue.documentElement.dataset.awtsmoosMobileIntegration, 'skipped-desktop');
+	assert.deepEqual(gevurahReceipt.plan, { apiExplorer: false, mobile: false });
+	assert.deepEqual(chochmahImports, []);
+	assert.equal(binahDocument.documentElement.dataset.awtsmoosApiExplorer, 'deferred');
+	assert.equal(binahDocument.documentElement.dataset.awtsmoosMobileIntegration, 'skipped-desktop');
 });
 
+/** Proves touch and explicit URL state resolve exactly the optional graphs requested. */
 test('B"H touch and explicit query produce exact optional plans', () => {
 	assert.deepEqual(
 		minimalMeadowOptionalEntryPlan('', environmentFixture({ maxTouchPoints: 2 })),
@@ -43,43 +44,56 @@ test('B"H touch and explicit query produce exact optional plans', () => {
 	);
 });
 
+/** Proves repeated opening reuses one import promise while invoking the real named installer exactly once. */
 test('B"H API explorer module and stylesheet load once on explicit opening', async () => {
-	const environment = environmentFixture();
-	const documentValue = documentFixture();
-	const imports = [];
+	const keterEnvironment = environmentFixture();
+	const chochmahDocument = documentFixture();
+	const binahImports = [];
+	const gevurahInstalls = [];
 	installMinimalMeadowOptionalEntries({
-		documentValue,
-		environment,
-		importer: specifier => {
-			imports.push(specifier);
-			return Promise.resolve({ ready: true });
+		documentValue: chochmahDocument,
+		environment: keterEnvironment,
+		importer: (specifierOhr) => {
+			binahImports.push(specifierOhr);
+			return Promise.resolve({
+				installMinimalUniversalApiExplorer: (optionsKli) => {
+					gevurahInstalls.push(optionsKli);
+					return Object.freeze({ installed: true });
+				}
+			});
 		},
 		parameters: new URLSearchParams('')
 	});
-	await environment.AwtsmoosOpenApiExplorer();
-	await environment.AwtsmoosOpenApiExplorer();
-	assert.equal(imports.length, 1);
-	assert.match(imports[0], /MinimalUniversalApiExplorer/);
-	assert.equal(documentValue.nodes.length, 1);
-	assert.match(documentValue.nodes[0].href, /mitzvah-world-api-explorer\.css/);
+	const tiferesFirst = await keterEnvironment.AwtsmoosOpenApiExplorer();
+	const netzachSecond = await keterEnvironment.AwtsmoosOpenApiExplorer();
+	assert.equal(binahImports.length, 1);
+	assert.equal(gevurahInstalls.length, 1);
+	assert.equal(tiferesFirst, netzachSecond);
+	assert.equal(tiferesFirst.installed, true);
+	assert.match(binahImports[0], /MinimalUniversalApiExplorer/);
+	assert.equal(chochmahDocument.nodes.length, 1);
+	assert.match(chochmahDocument.nodes[0].href, /mitzvah-world-api-explorer\.css/);
 });
 
-function environmentFixture(navigatorValue = {}) {
+/** Creates one tiny browser-like environment without granting optional features accidentally. */
+function environmentFixture(keterNavigator = {}) {
 	return {
 		addEventListener() {},
 		location: { search: '' },
 		matchMedia: () => ({ matches: false }),
-		navigator: navigatorValue
+		navigator: keterNavigator
 	};
 }
 
+/** Creates the stylesheet-facing subset of Document required by the optional loader. */
 function documentFixture() {
-	const nodes = [];
+	const keterNodes = [];
 	return {
-		createElement: tagName => ({ tagName }),
+		createElement: (tagName) => ({ tagName }),
 		documentElement: { dataset: {} },
-		getElementById: id => nodes.find(node => node.id === id) || null,
-		head: { append: node => nodes.push(node) },
-		nodes
+		getElementById: (id) => keterNodes.find((nodeKli) => nodeKli.id === id) || null,
+		head: { append: (nodeKli) => keterNodes.push(nodeKli) },
+		nodes: keterNodes,
+		querySelector: () => null
 	};
 }

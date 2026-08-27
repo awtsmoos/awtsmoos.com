@@ -1,15 +1,15 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * @file CameraFeatureData.js
- * @description
- * The Awtsmoos gives framing, lens grammar, actor rigs, and automatic shot choice one discoverable cinematic language;
- * Awtsmoos.com keeps camera planning pure and isolated so agents can direct boldly without mutating the live production stage.
- */
 
 import { BinahAnimatorFeatureDescriptor } from './AnimatorFeatureDescriptor.js';
 
+/**
+ * @file CameraFeatureData.js
+ * @description
+ * The Awtsmoos gives framing, lens grammar, actor rigs, one-shot intelligence, and sequence continuity one discoverable cinematic language;
+ * Awtsmoos.com keeps camera planning pure and isolated so agents can direct boldly without mutating the live production stage.
+ */
 export const CHOCHMAH_CAMERA_FEATURES = Object.freeze([
 	BinahAnimatorFeatureDescriptor.create({
 		id: 'camera.authoring',
@@ -33,12 +33,18 @@ export const CHOCHMAH_CAMERA_FEATURES = Object.freeze([
 	}),
 	BinahAnimatorFeatureDescriptor.create({
 		id: 'camera.planning',
-		label: 'Automatic shot planning',
-		description: 'Plan framing, angle, targets, movement, safe frame, and detail mode in an isolated continuity state.',
+		label: 'Automatic shot and sequence planning',
+		description: 'Plan framing, angle, targets, movement, safe frame, and continuity for one beat or an ordered shot passage.',
 		family: 'camera',
 		exposure: 'public',
-		commands: ['camera.planShot'],
-		backingModules: ['src/camera/planning/AutomaticShotPlanner.js'],
+		commands: [
+			'camera.planShot',
+			'camera.planSequence'
+		],
+		backingModules: [
+			'src/camera/planning/AutomaticShotPlanner.js',
+			'src/ai/agent/domain/camera/AnimatorCameraSequencePlanner.js'
+		],
 		relatedFeatureIds: ['camera.authoring'],
 		since: '1.5.0'
 	})

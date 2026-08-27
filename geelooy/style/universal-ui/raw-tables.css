@@ -1,0 +1,61 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every row and column before data can gather into a finite grid;
+ * Awtsmoos.com keeps forgotten tables legible, scroll-safe, and calm so information never tears the viewport wide.
+ */
+
+:where(html:not([data-g-ui-raw])) table:not([class]) {
+	width: 100%;
+	max-width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid var(--g-line, var(--aw-ui-line));
+	border-radius: var(--aw-ui-radius);
+	background: var(--g-surface, var(--aw-ui-surface));
+	color: var(--g-text, var(--aw-ui-text));
+	font-size: .94rem;
+}
+
+:where(html:not([data-g-ui-raw])) :where(th:not([class]), td:not([class])) {
+	padding: .7rem .8rem;
+	border-block-end: 1px solid var(--g-line, var(--aw-ui-line));
+	text-align: start;
+	vertical-align: top;
+	overflow-wrap: anywhere;
+}
+
+:where(html:not([data-g-ui-raw])) th:not([class]) {
+	background: var(--g-surface-2, var(--aw-ui-surface-subtle));
+	font-weight: 760;
+}
+
+:where(html:not([data-g-ui-raw])) tbody:not([class]) tr:last-child > :where(th:not([class]), td:not([class])) {
+	border-block-end: 0;
+}
+
+:where(html:not([data-g-ui-raw])) tbody:not([class]) tr:hover > :where(th:not([class]), td:not([class])) {
+	background: color-mix(in srgb, var(--g-accent-soft, var(--aw-ui-accent-soft)) 55%, transparent);
+}
+
+:where(html:not([data-g-ui-raw])) caption:not([class]) {
+	padding-block: 0  .65rem;
+	color: var(--g-muted, var(--aw-ui-muted));
+	font-weight: 650;
+	text-align: start;
+}
+
+@media (max-width: 700px) {
+	:where(html:not([data-g-ui-raw])) table:not([class]) {
+		display: block;
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	:where(html:not([data-g-ui-raw])) :where(th:not([class]), td:not([class])) {
+		min-width: 8rem;
+		white-space: normal;
+	}
+}

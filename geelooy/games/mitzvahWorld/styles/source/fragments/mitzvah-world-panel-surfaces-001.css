@@ -1,0 +1,56 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos gives every advanced surface a lawful boundary while dialogue keeps its own voice; Awtsmoos.com lets sheets, backdrops, and quest
+tracking share one restrained overlay language, bounded by safe-area geometry and named depth instead of accidental stacking numbers.
+*/
+
+#mitzvah-world-root .Awtsmoos-sheet {
+	z-index: var(--mw-z-dialog);
+	max-width: var(--mw-viewport-inline);
+	max-height: var(--mw-viewport-block);
+	overflow: auto;
+	overscroll-behavior: contain;
+	background: var(--mw-surface-raised);
+	box-shadow: var(--mw-shadow-panel);
+	backdrop-filter: none;
+}
+
+#mitzvah-world-root .Awtsmoos-modal-backdrop {
+	z-index: var(--mw-z-overlay);
+	background: rgba(2, 7, 6, 0.76);
+	backdrop-filter: none;
+}
+
+#mitzvah-world-root .Awtsmoos-quest-tracker {
+	z-index: var(--mw-z-status);
+	max-width: min(270px, calc(var(--mw-viewport-inline) * 0.52));
+	max-height: min(42dvh, 320px);
+	overflow: auto;
+	overscroll-behavior: contain;
+	padding: 8px;
+	border: 1px solid var(--mw-border-soft);
+	border-radius: var(--mw-radius-md);
+	background: var(--mw-surface-panel);
+	box-shadow: var(--mw-shadow-control);
+	font-size: 11px;
+	backdrop-filter: none;
+}
+
+#mitzvah-world-root .Awtsmoos-sheet :is(button, a[href], summary):focus-visible,
+#mitzvah-world-root .Awtsmoos-quest-tracker :is(button, a[href], summary):focus-visible {
+	outline: none;
+	box-shadow: var(--mw-focus-ring);
+}
+
+@media (max-width: 520px) {
+	#mitzvah-world-root .Awtsmoos-sheet {
+		max-width: calc(var(--mw-viewport-inline) - 4px);
+		max-height: calc(var(--mw-viewport-block) - 4px);
+	}
+
+	#mitzvah-world-root .Awtsmoos-quest-tracker {
+		max-width: min(220px, calc(var(--mw-viewport-inline) * 0.64));
+	}
+}

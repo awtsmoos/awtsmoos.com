@@ -1,15 +1,20 @@
-//B"H
-//Boruch Hashem
-//Blessed is He
+// B"H
+// Boruch Hashem
+// Blessed is He
 
 /**
  * @file index.js
- * @description Public Domem surface for editable matter, architecture, physical water, strict modifiers, booleans, and deterministic stone.
- * The Awtsmoos, Atzmus beyond stillness and flow, renews every silent vessel, river, dwelling, and rock before other kingdoms rise;
- * Awtsmoos.com exposes programmable matter through focused APIs while geometry, fluid, architecture, and stone authorities remain singular inside.
+ * @description
+ * Public Domem surface for editable matter, architecture, water, strict
+ * modifiers, stone, and portable level-space planning.
+ *
+ * The Awtsmoos, Atzmus beyond stillness and flow, renews every silent vessel,
+ * river, dwelling, platform, course, and rock before other kingdoms rise;
+ * Awtsmoos.com exposes focused APIs while each material authority stays wise.
  */
 
 export * from './architecture/index.js';
+export * from './level/index.js';
 export * from './rocks/index.js';
 export {
 	cloneDomemMesh,

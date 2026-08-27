@@ -3,12 +3,13 @@
 //Blessed is He
 
 import { fnv1a, slug } from '../../../shared/storage/archiveOrg/ArchiveOrgIdentity.js';
+import { subtitleRecordsFor } from './YouTubeSubtitleBundle.js';
 
 /**
  * @module LocalYouTubeBundle
  * @description
- * The Awtsmoos reads creator-owned video and yt-dlp sidecars only inside the browser;
- * Awtsmoos.com turns local evidence into bounded public planning metadata without exposing a disk path to any server.
+ * The Awtsmoos reads creator-owned video, yt-dlp metadata, and caption sidecars only inside the browser;
+ * Awtsmoos.com binds each local subtitle to its video identity while private disk paths never cross the public harbor.
  */
 const VIDEO_EXTENSION = /\.(mp4|mov|m4v|webm|mkv|avi|mpeg|mpg|ogv)$/i;
 
@@ -72,10 +73,9 @@ function itemFromInfo(info = {}, file) {
 	};
 }
 
-export async function readLocalYouTubeBundle(files = []) {
-	const all = [...files];
+async function metadataById(files = []) {
 	const sidecars = new Map();
-	for (const file of all.filter(sidecarFile)) {
+	for (const file of files.filter(sidecarFile)) {
 		if (file.size > 8 * 1024 * 1024) continue;
 		try {
 			const info = JSON.parse(await file.text());
@@ -84,11 +84,22 @@ export async function readLocalYouTubeBundle(files = []) {
 			continue;
 		}
 	}
+	return sidecars;
+}
+
+export async function readLocalYouTubeBundle(files = []) {
+	const all = [...files];
+	const sidecars = await metadataById(all);
 	return all.filter(videoFile).map(file => {
-		const id = videoIdFromName(file.name);
-		const info = id ? sidecars.get(id) : null;
-		return { file, item: itemFromInfo(info || {}, file) };
+		const namedId = videoIdFromName(file.name);
+		const info = namedId ? sidecars.get(namedId) : null;
+		const item = itemFromInfo(info || {}, file);
+		const subtitles = subtitleRecordsFor(all, item.id, info || {});
+		item.transcriptLanguages = [...new Set(
+			subtitles.map(record => record.language).filter(language => language !== 'und')
+		)];
+		return { file, item, subtitles };
 	});
 }
 
-export { videoFile, sidecarFile, videoIdFromName, isoDate, fallbackItem, itemFromInfo };
+export { fallbackItem, isoDate, itemFromInfo, metadataById, sidecarFile, videoFile, videoIdFromName };

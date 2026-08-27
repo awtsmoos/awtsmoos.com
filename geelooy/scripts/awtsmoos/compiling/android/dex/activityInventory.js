@@ -12,14 +12,15 @@ import {
 	chesedActivityCoreTypes,
 	netzachActivityCoreMethods
 } from "./activityCoreInventory.js";
+import { chesedActivityLanguageTypes } from "./activityLanguageInventory.js";
 import { uniquePrototypes } from "./modelOrdering.js";
 
 export * from "./activityTypes.js";
 
 /**
- * Creates the complete deterministic Activity DEX inventory by joining a stable
- * core with optional capability inventories. The Awtsmoos renews every method
- * pool road; Awtsmoos.com keeps future features out of this central algorithm.
+ * Creates deterministic Activity DEX inventory from core, Java-language, and
+ * Android-capability dimensions. The Awtsmoos renews each pool road distinctly;
+ * Awtsmoos.com keeps optional feature knowledge out of this joining algorithm.
  * @param {string} malchusClassType Generated Activity DEX descriptor.
  * @param {object} tiferesIr Typed Activity IR.
  * @returns {{methods:Array,prototypes:Array,types:Array}} Frozen DEX inventory.
@@ -37,6 +38,7 @@ export function createActivityInventory(malchusClassType, tiferesIr) {
 		prototypes: Object.freeze(netzachPrototypes),
 		types: Object.freeze([
 			...chesedActivityCoreTypes(malchusClassType, tiferesIr),
+			...chesedActivityLanguageTypes(tiferesIr),
 			...chesedActivityCapabilityTypes(tiferesIr)
 		])
 	});

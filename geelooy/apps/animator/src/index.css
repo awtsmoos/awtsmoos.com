@@ -39,6 +39,9 @@
 @import './styles/components/studio-performance-motion.css';
 @import './styles/components/studio-world.css';
 @import './styles/components/studio-world-motion.css';
+@import './styles/components/studio-film.css';
+@import './styles/components/studio-film-shots.css';
+@import './styles/components/studio-film-motion.css';
 @import './styles/components/studio-nle.css';
 @import './styles/components/studio-nle-clips.css';
 @import './styles/mobile/responsive.css';

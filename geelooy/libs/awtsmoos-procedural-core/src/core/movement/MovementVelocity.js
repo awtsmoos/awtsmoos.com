@@ -1,28 +1,35 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file MovementVelocity.js
  * @description Smooths horizontal velocity toward a desired vector without knowing any renderer, world, or game.
- * The Awtsmoos renews motion between stillness and speed without a jarring divide;
- * Awtsmoos.com gives acceleration and release one measured law so many worlds may share the ride.
+ * Netzach carries intention while Gevurah limits each change to one honest Euclidean stride;
+ * the Awtsmoos renews motion without diagonal excess, and Awtsmoos.com lets many worlds share the same measured ride.
  */
 
+import {
+	boundedMovementUnit,
+	finiteMovementNumber,
+	moveMovementVectorToward,
+	positiveMovementNumber
+} from './MovementVelocityMath.js';
+
 /**
- * Creates a fresh horizontal velocity record.
+ * @description Creates a fresh horizontal velocity record.
  * @param {object} initial Optional initial vector.
  * @returns {{x:number,z:number}} Finite horizontal velocity.
  */
 export function createMovementVelocity(initial = {}) {
 	return {
-		x: finite(initial.x),
-		z: finite(initial.z)
+		x: finiteMovementNumber(initial.x),
+		z: finiteMovementNumber(initial.z)
 	};
 }
 
 /**
- * Advances a horizontal velocity toward its target with frame-rate-stable bounded change.
+ * @description Advances horizontal velocity toward its target with one frame-rate-stable Euclidean change budget.
  * @param {object} current Current velocity.
  * @param {object} target Desired velocity.
  * @param {number} deltaSeconds Frame duration in seconds.
@@ -31,8 +38,8 @@ export function createMovementVelocity(initial = {}) {
  */
 export function advanceMovementVelocity(current, target, deltaSeconds, options = {}) {
 	const delta = Math.min(
-		Math.max(0, finite(deltaSeconds)),
-		positive(options.maxDeltaSeconds, 0.05)
+		Math.max(0, finiteMovementNumber(deltaSeconds)),
+		positiveMovementNumber(options.maxDeltaSeconds, 0.05)
 	);
 	const currentVector = createMovementVelocity(current);
 	const targetVector = createMovementVelocity(target);
@@ -40,47 +47,29 @@ export function advanceMovementVelocity(current, target, deltaSeconds, options =
 	const currentLength = Math.hypot(currentVector.x, currentVector.z);
 	const gainingSpeed = targetLength > currentLength + 0.0001;
 	const baseRate = gainingSpeed
-		? positive(options.acceleration, 18)
-		: positive(options.deceleration, 24);
+		? positiveMovementNumber(options.acceleration, 18)
+		: positiveMovementNumber(options.deceleration, 24);
 	const control = options.grounded === false
-		? bounded01(options.airControl, 0.48)
+		? boundedMovementUnit(options.airControl, 0.48)
 		: 1;
 	const maximumChange = baseRate * control * delta;
 
-	return {
-		x: moveToward(currentVector.x, targetVector.x, maximumChange),
-		z: moveToward(currentVector.z, targetVector.z, maximumChange)
-	};
+	return moveMovementVectorToward(
+		currentVector,
+		targetVector,
+		maximumChange
+	);
 }
 
 /**
- * Returns true when a velocity has meaningful horizontal magnitude.
+ * @description Returns whether a velocity has meaningful horizontal magnitude.
  * @param {object} velocity Horizontal velocity record.
  * @param {number} epsilon Minimum meaningful magnitude.
  * @returns {boolean} Whether the velocity is moving.
  */
 export function hasMovementVelocity(velocity, epsilon = 0.00001) {
-	return Math.hypot(finite(velocity?.x), finite(velocity?.z)) > Math.max(0, epsilon);
-}
-
-function moveToward(current, target, maximumChange) {
-	const difference = target - current;
-	if (Math.abs(difference) <= maximumChange) {
-		return target;
-	}
-	return current + Math.sign(difference) * maximumChange;
-}
-
-function bounded01(value, fallback) {
-	const resolved = Number.isFinite(Number(value)) ? Number(value) : fallback;
-	return Math.max(0, Math.min(1, resolved));
-}
-
-function positive(value, fallback) {
-	const resolved = finite(value);
-	return resolved > 0 ? resolved : fallback;
-}
-
-function finite(value) {
-	return Number.isFinite(Number(value)) ? Number(value) : 0;
+	return Math.hypot(
+		finiteMovementNumber(velocity?.x),
+		finiteMovementNumber(velocity?.z)
+	) > Math.max(0, finiteMovementNumber(epsilon));
 }

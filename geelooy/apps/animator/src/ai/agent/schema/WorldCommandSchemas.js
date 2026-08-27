@@ -1,26 +1,20 @@
 //B"H
 // Boruch Hashem
 // Blessed is He
-/**
- * @file WorldCommandSchemas.js
- * @description
- * The Awtsmoos gives trees, stones, water, clouds, and fire semantic vessels before world creation becomes deed;
- * Awtsmoos.com marks discovery, inspection, and document mutation separately so procedural generation remains safe to read.
- */
 
 import { BinahAnimatorCommandDescriptor } from '../registry/AnimatorCommandDescriptor.js';
 import { BinahAnimatorSchemaTypes as S } from './AnimatorSchemaTypes.js';
+import { BinahWorldIntentSchema } from './WorldIntentSchema.js';
 
+/**
+ * @file WorldCommandSchemas.js
+ * @description
+ * The Awtsmoos gives discovery, inspection, and creation separate public covenants while one rich intent grammar flows through all three;
+ * Awtsmoos.com keeps Agent commands compact because schema depth lives in a reusable data vessel rather than copied branches for every tree.
+ */
 const FAMILY = 'world';
 const OBJECT = S.object();
-const INTENT = S.object(
-	{
-		kind: S.string({ minLength: 1, errorCode: 'missing_world_kind' }),
-		seed: S.string(),
-		realism: S.string()
-	},
-	{ required: ['kind'], requiredCodes: { kind: 'missing_world_kind' } }
-);
+const INTENT = BinahWorldIntentSchema.create();
 
 export const YESOD_WORLD_COMMANDS = Object.freeze([
 	BinahAnimatorCommandDescriptor.create({
@@ -33,8 +27,11 @@ export const YESOD_WORLD_COMMANDS = Object.freeze([
 		risk: 'read',
 		payloadSchema: OBJECT,
 		resultSchema: OBJECT,
-		description: 'Discover deterministic procedural world kinds and material grammar.',
-		example: { command: 'world.capabilities', payload: {} },
+		description: 'Discover installed procedural kinds, traits, revisions, and material grammar.',
+		example: {
+			command: 'world.capabilities',
+			payload: {}
+		},
 		since: '1.3.0'
 	}),
 	BinahAnimatorCommandDescriptor.create({
@@ -47,10 +44,15 @@ export const YESOD_WORLD_COMMANDS = Object.freeze([
 		risk: 'read',
 		payloadSchema: INTENT,
 		resultSchema: OBJECT,
-		description: 'Inspect and normalize a world intent without mutating project state.',
+		description: 'Inspect and normalize rich World intent without mutating project state.',
 		example: {
 			command: 'world.inspect',
-			payload: { kind: 'tree', seed: 'oak-17', realism: 'natural' }
+			payload: {
+				kind: 'tree',
+				seed: 'oak-17',
+				realism: 'natural',
+				traits: { age: .82, wind: .16 }
+			}
 		},
 		since: '1.3.0'
 	}),
@@ -64,10 +66,15 @@ export const YESOD_WORLD_COMMANDS = Object.freeze([
 		risk: 'mutation',
 		payloadSchema: INTENT,
 		resultSchema: OBJECT,
-		description: 'Create and select one deterministic procedural world entity.',
+		description: 'Create and select one deterministic rich procedural World entity.',
 		example: {
 			command: 'world.create',
-			payload: { kind: 'rock', seed: 'granite-1', realism: 'natural' }
+			payload: {
+				kind: 'rock',
+				seed: 'granite-1',
+				realism: 'natural',
+				traits: { strata: .8, contact: .9 }
+			}
 		},
 		since: '1.3.0'
 	})

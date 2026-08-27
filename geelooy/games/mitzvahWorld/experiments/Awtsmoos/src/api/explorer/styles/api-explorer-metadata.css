@@ -1,0 +1,95 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos is beyond label, category, and measured cost, yet Awtsmoos.com lets professional metadata become quiet orientation rather than raw machinery;
+ * every selector remains inside this observatory, where grouped filters, badges, aliases, and counts reveal depth without leaking a single garment into the surrounding game.
+ */
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__filters {
+	display: grid;
+	grid-column: 1 / -1;
+	gap: var(--awts-api-gap-2);
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__catalog-head {
+	display: flex;
+	grid-column: 1 / -1;
+	align-items: end;
+	gap: var(--awts-api-gap-2);
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__field--grow {
+	flex: 1 1 auto;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__count {
+	flex: 0 0 auto;
+	padding: .48rem .62rem;
+	border: 1px solid var(--awts-api-border);
+	border-radius: 999px;
+	background: var(--awts-api-surface);
+	color: var(--awts-api-muted);
+	font-size: .7rem;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__descriptor {
+	display: grid;
+	gap: .48rem;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__descriptor-path {
+	justify-self: start;
+	max-inline-size: 100%;
+	overflow-wrap: anywhere;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__descriptor-summary,
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__descriptor-context {
+	margin: 0;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__descriptor-summary {
+	color: var(--awts-api-text);
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__descriptor-context {
+	color: var(--awts-api-muted);
+	font-size: .72rem;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__badges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .35rem;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__badge {
+	padding: .2rem .42rem;
+	border: 1px solid var(--awts-api-border);
+	border-radius: 999px;
+	background: rgb(100 220 255 / .055);
+	color: var(--awts-api-muted);
+	font-size: .66rem;
+	font-weight: 720;
+	letter-spacing: .015em;
+}
+
+[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__badge[data-kind="source"] {
+	border-color: var(--awts-api-border-strong);
+	color: var(--awts-api-accent);
+}
+
+[data-awtsmoos-api-explorer][data-executable="false"] .Awtsmoos-api-explorer__advanced {
+	opacity: .58;
+}
+
+@media (min-width: 46rem) {
+	[data-awtsmoos-api-explorer] .Awtsmoos-api-explorer__filters {
+		grid-template-columns: minmax(0, 1.25fr) minmax(10rem, .75fr);
+	}
+}

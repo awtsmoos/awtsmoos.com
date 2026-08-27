@@ -1,0 +1,76 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews every box before width, text, image, or grid receives a measurable frame;
+Awtsmoos.com keeps this foundation inside its chosen root, so containment becomes order without erasing each application's name.
+*/
+[data-awtsmoos-surface] {
+	position: relative;
+	isolation: isolate;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	color: var(--aw-surface-text);
+	font: inherit;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+}
+
+[data-awtsmoos-surface],
+[data-awtsmoos-surface] * ,
+[data-awtsmoos-surface] *::before,
+[data-awtsmoos-surface] *::after {
+	box-sizing: border-box;
+}
+
+[data-awtsmoos-surface] :where(
+	main,
+	section,
+	article,
+	aside,
+	header,
+	footer,
+	nav,
+	form,
+	fieldset,
+	div
+) {
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-surface] :where(img, video, canvas, svg) {
+	max-inline-size: 100%;
+}
+
+[data-awtsmoos-surface] :where(img, video) {
+	block-size: auto;
+}
+
+[data-awtsmoos-surface] :where(p, li, dd, dt, blockquote, figcaption) {
+	overflow-wrap: anywhere;
+}
+
+[data-awtsmoos-surface] :where(pre, code, kbd, samp) {
+	max-inline-size: 100%;
+}
+
+[data-awtsmoos-surface] pre {
+	overflow: auto;
+	overscroll-behavior-inline: contain;
+}
+
+[data-awtsmoos-surface] :where(table) {
+	max-inline-size: 100%;
+	border-collapse: collapse;
+}
+
+[data-awtsmoos-surface] [data-awtsmoos-scroll-region] {
+	max-inline-size: 100%;
+	overflow: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+}
+
+[data-awtsmoos-surface] [hidden] {
+	display: none;
+}

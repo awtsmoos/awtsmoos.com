@@ -1,182 +1,117 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file DoorInteractionController.js
- * @description Owns bounded pointer interaction, proximity validation, feedback, and cleanup for one door.
- * The Awtsmoos renews every entrance without multiplying listeners; Awtsmoos.com coalesces hover
- * work into one animation frame and lets only a nearby, visible, clickable doorway receive intention.
+ * @description Coordinates doorway context, geometric hit truth, semantic feedback, and command dispatch while pointer lifetime lives in its own surface vessel.
+ * Yesod joins intention to action after Binah has measured the hit and Hod has revealed the prompt; the Awtsmoos recreates traveler and threshold in one stream,
+ * while Awtsmoos.com keeps this coordinator narrow, documented, and free from listener machinery that belongs in a separate dream.
  */
 
-import { rayObb } from './DoorCollisionGeometry.js';
-import {
-	pointerRay,
-	screenBox
-} from './DoorProjectionGeometry.js';
-
-const DEFAULT_INTERACTION_DISTANCE = 4.5;
+import { DoorInteractionFeedback } from './DoorInteractionFeedback.js';
+import { DoorInteractionHitTest } from './DoorInteractionHitTest.js';
+import { DoorPointerSurface } from './DoorPointerSurface.js';
 
 export class DoorInteractionController {
+	/**
+	 * @description Creates one focused interaction coordinator around independent hit-test, feedback, and pointer-surface collaborators.
+	 * @param {object} door Canonical dynamic door exposing prompt, command, hover, and oriented-bound APIs.
+	 */
 	constructor(door) {
 		this.door = door;
 		this.context = {};
-		this.canvas = null;
-		this.camera = null;
-		this.hoverFrame = null;
-		this.pendingPointerEvent = null;
-		this.lastHitMode = 'none';
-		this.lastScreenBox = null;
-		this.lastHit = null;
-		this.onPointerMove = event => this.queueHover(event);
-		this.onPointerDown = event => this.handle(event, true);
+		this.hitTest = new DoorInteractionHitTest(door);
+		this.feedback = new DoorInteractionFeedback(door);
+		this.surface = new DoorPointerSurface(
+			event => this.handle(event, false),
+			event => this.handle(event, true)
+		);
 	}
 
+	/**
+	 * @description Replaces runtime interaction providers without coupling canonical door state to one bootstrap, renderer, or player implementation.
+	 * @param {object} context Runtime providers for player position, camera target, event bus, environment, canvas, and interaction-distance policy.
+	 * @returns {DoorInteractionController} This coordinator for fluent runtime assembly.
+	 */
 	setContext(context = {}) {
 		this.context = context;
 		return this;
 	}
 
+	/**
+	 * @description Installs one localized pointer surface after clearing prior feedback and listener ownership from any previous canvas/camera pair.
+	 * @param {HTMLCanvasElement} canvas Interactive render surface receiving doorway pointer events.
+	 * @param {object} camera Active world camera used only by the delegated geometric hit-test collaborator.
+	 * @returns {DoorInteractionController} This coordinator for fluent world installation.
+	 */
 	install(canvas, camera) {
 		this.uninstall();
-		this.canvas = canvas;
-		this.camera = camera;
-		canvas.addEventListener('pointermove', this.onPointerMove, { passive: true });
-		canvas.addEventListener('pointerdown', this.onPointerDown);
+		this.surface.install(
+			canvas,
+			camera,
+			this.context.environment || globalThis
+		);
 		return this;
 	}
 
+	/**
+	 * @description Releases transient hover/prompt/cursor feedback before relinquishing pointer listeners and pending visual-frame scheduling.
+	 * @returns {void}
+	 */
 	uninstall() {
-		if (this.canvas) {
-			this.canvas.removeEventListener('pointermove', this.onPointerMove);
-			this.canvas.removeEventListener('pointerdown', this.onPointerDown);
-			this.restoreCursor();
+		if (this.surface.canvas) {
+			this.feedback.clear(
+				this.surface.canvas,
+				this.context
+			);
 		}
-		if (this.hoverFrame != null) {
-			cancelAnimationFrame(this.hoverFrame);
-		}
-		this.hoverFrame = null;
-		this.pendingPointerEvent = null;
-		this.canvas = null;
-		this.camera = null;
+		this.surface.uninstall();
 	}
 
-	queueHover(event) {
-		if (event.pointerType !== 'mouse') {
-			return;
-		}
-		this.pendingPointerEvent = event;
-		if (this.hoverFrame != null) {
-			return;
-		}
-		this.hoverFrame = requestAnimationFrame(() => {
-			this.hoverFrame = null;
-			const pointerEvent = this.pendingPointerEvent;
-			this.pendingPointerEvent = null;
-			if (pointerEvent) {
-				this.handle(pointerEvent, false);
-			}
-		});
-	}
-
+	/**
+	 * @description Resolves one pointer sample through exact/fallback hit truth, publishes canonical prompt semantics, and dispatches one contained toggle action on click.
+	 * @param {PointerEvent} event Pointer event carrying screen coordinates, pointer type, and propagation controls.
+	 * @param {boolean} click Whether this sample may issue a door command instead of hover feedback only.
+	 * @returns {boolean} True when this doorway was the valid local target, regardless of whether command policy later accepts the requested action.
+	 */
 	handle(event, click) {
-		const found = this.hit(event, this.camera);
-		this.door.setHover(found && event.pointerType === 'mouse');
-		this.updateCursor(found);
-		this.publishPrompt(found);
+		const found = this.hitTest.hit(
+			event,
+			this.surface.camera,
+			this.surface.canvas,
+			this.context
+		);
+		this.feedback.update(
+			found,
+			event.pointerType,
+			this.surface.canvas,
+			this.context
+		);
 		if (!click || !found) {
-			return false;
+			return found;
 		}
-		event.preventDefault();
-		event.stopPropagation();
-		event.stopImmediatePropagation?.();
+		this.consumePointerEvent(event);
 		this.door.toggle('pointer');
 		return true;
 	}
 
-	hit(event, camera) {
-		this.resetEvidence();
-		if (!this.door.clickable() || !this.withinInteractionDistance()) {
-			return false;
-		}
-		const canvas = event.currentTarget || this.canvas || this.context.canvas;
-		if (!canvas || !camera) {
-			return false;
-		}
-		const ray = pointerRay(event, camera, canvas, this.context.getCameraTarget?.());
-		const rayHit = rayObb(ray, this.door.obb());
-		if (rayHit) {
-			this.lastHitMode = 'ray-current-pose';
-			this.lastHit = {
-				distance: rayHit.t,
-				state: this.door.state
-			};
-			return true;
-		}
-		const padding = this.door.state === 'open' ? 20 : 8;
-		const box = screenBox(
-			this.door.obb(),
-			camera,
-			canvas,
-			this.context.getCameraTarget?.(),
-			padding
-		);
-		this.lastScreenBox = box;
-		const inside = Boolean(box)
-			&& event.clientX >= box.x0
-			&& event.clientX <= box.x1
-			&& event.clientY >= box.y0
-			&& event.clientY <= box.y1;
-		if (inside) {
-			this.lastHitMode = 'screen-current-pose';
-		}
-		return inside;
+	/**
+	 * @description Stops a claimed doorway gesture from leaking into world-camera or unrelated gameplay pointer handlers after a confirmed local hit.
+	 * @param {PointerEvent} event Claimed pointer event whose browser/default and propagation behavior should be contained.
+	 * @returns {void}
+	 */
+	consumePointerEvent(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		event.stopImmediatePropagation?.();
 	}
 
-	withinInteractionDistance() {
-		const player = this.context.getPlayerPosition?.();
-		if (!player) {
-			return true;
-		}
-		const center = this.door.obb().center;
-		const maximum = Number(
-			this.context.maxInteractionDistance || DEFAULT_INTERACTION_DISTANCE
-		);
-		return Math.hypot(center.x - player.x, center.y - player.y, center.z - player.z) <= maximum;
-	}
-
-	updateCursor(found) {
-		if (!this.canvas) {
-			return;
-		}
-		this.canvas.style.cursor = found ? 'pointer' : '';
-	}
-
-	restoreCursor() {
-		if (this.canvas) {
-			this.canvas.style.cursor = '';
-		}
-	}
-
-	publishPrompt(found) {
-		this.context.bus?.emit?.('door:prompt', {
-			doorId: this.door.def.id,
-			state: this.door.state,
-			visible: Boolean(found)
-		});
-	}
-
-	resetEvidence() {
-		this.lastHitMode = 'none';
-		this.lastHit = null;
-		this.lastScreenBox = null;
-	}
-
+	/**
+	 * @description Returns immutable geometric evidence from the delegated hit-test vessel without exposing listener or feedback implementation state.
+	 * @returns {Readonly<object>} Last exact/fallback hit mode, ray evidence, and projected bounds.
+	 */
 	debug() {
-		return {
-			hitMode: this.lastHitMode,
-			lastHit: this.lastHit,
-			screenBox: this.lastScreenBox
-		};
+		return this.hitTest.debug();
 	}
 }

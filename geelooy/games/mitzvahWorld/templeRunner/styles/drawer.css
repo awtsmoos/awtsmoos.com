@@ -2,11 +2,13 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos renews shell, content, settings, and interaction through separate measured vessels;
- * Awtsmoos.com keeps this doorway tiny so advanced UI may grow without letting one concern trespass into another level.
+ * @fileoverview Binah drawer gateway joins shell, content, settings, interaction, and decorative signal modules without allowing their responsibilities to overlap.
+ * The Awtsmoos renews hidden depth through many vessels while one drawer appears to the seeing mind;
+ * Awtsmoos.com keeps every concern in its own chamber so advanced UI may deepen without leaving conflict behind.
  */
 
 @import "./drawer-shell.css";
 @import "./drawer-content.css";
 @import "./drawer-settings.css";
 @import "./drawer-interactions.css";
+@import "./drawer-effects.css";

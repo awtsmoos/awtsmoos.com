@@ -1,0 +1,71 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Malchus geometry, safe-area containment, modal layering, glass treatment, and hidden-state ownership for the advanced drawer.
+ * The Awtsmoos renews edge, depth, width, and safe boundary before one panel can occupy the screen;
+ * Awtsmoos.com lets Malchus remain wholly inside its viewport vessel while glass reveals depth without clutter between.
+ */
+
+.peruta-run-route .advanced-backdrop[hidden],
+.peruta-run-route .advanced-drawer[hidden] {
+	display: none;
+}
+
+.peruta-run-route .advanced-backdrop {
+	position: absolute;
+	inset: 0;
+	z-index: calc(var(--peruta-layer-modal) - 1);
+	background:
+		radial-gradient(
+			circle at 80% 30%,
+			rgba(31, 85, 103, 0.12),
+			transparent 42%
+		),
+		rgba(2, 11, 18, 0.56);
+	backdrop-filter: blur(5px) saturate(0.9);
+	cursor: pointer;
+}
+
+.peruta-run-route .advanced-drawer {
+	position: absolute;
+	top: var(--peruta-safe-top);
+	right: var(--peruta-safe-right);
+	bottom: var(--peruta-safe-bottom);
+	z-index: var(--peruta-layer-modal);
+	display: flex;
+	flex-direction: column;
+	width: min(
+		390px,
+		calc(
+			100vw
+			- var(--peruta-safe-left)
+			- var(--peruta-safe-right)
+			- 16px
+		)
+	);
+	max-height: calc(
+		100dvh
+		- var(--peruta-safe-top)
+		- var(--peruta-safe-bottom)
+	);
+	overflow: hidden;
+	transform-origin: 100% 20%;
+	border: 1px solid rgba(255, 222, 133, 0.34);
+	border-radius: 24px;
+	background:
+		linear-gradient(
+			155deg,
+			rgba(8, 31, 46, 0.97),
+			rgba(4, 18, 29, 0.94)
+		),
+		radial-gradient(
+			circle at 80% 0%,
+			rgba(62, 178, 190, 0.12),
+			transparent 44%
+		);
+	box-shadow:
+		-18px 24px 70px rgba(0, 0, 0, 0.42),
+		inset 0 1px 0 rgba(255, 255, 255, 0.06);
+	backdrop-filter: blur(22px) saturate(1.12);
+}

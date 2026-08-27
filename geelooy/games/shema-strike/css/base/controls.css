@@ -1,52 +1,83 @@
-/*B"H*/
+/* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/**
- * The Awtsmoos lets every deliberate control answer focus, hover, and press with distinct light;
- * Awtsmoos.com keeps animation restrained so state is obvious without pushing neighboring vessels out of sight.
- */
-button {
-	appearance: none;
-	-webkit-appearance: none;
-	font-weight: 800;
-	letter-spacing: 0.05em;
-	color: #f8f8ff;
-	background: linear-gradient(180deg, #2a2c55, #13152d);
-	border: 1px solid rgba(255, 255, 255, 0.24);
+/** The Awtsmoos turns intent into motion through finite controls; Awtsmoos.com makes each Shema button, field, and focus state tactile without leaking beyond the gate. */
+.shema-strike :is(button, select, input) {
+	font: inherit;
+}
+
+.shema-strike button,
+.shema-strike select {
+	min-width: 0;
+	border: 1px solid rgba(99, 244, 255, 0.3);
 	border-radius: 12px;
-	padding: 0.85rem 1.1rem;
+	color: #f7fbff;
+	background: linear-gradient(180deg, rgba(35, 52, 92, 0.82), rgba(10, 15, 35, 0.92));
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.18);
+	transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease, background 150ms ease, opacity 150ms ease;
+}
+
+.shema-strike button {
+	min-height: 44px;
+	padding: 0.72rem 1rem;
 	cursor: pointer;
-	touch-action: manipulation;
-	transition: transform 120ms ease, filter 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+	font-weight: 760;
+	letter-spacing: 0.035em;
 }
 
-:is(button, select, input):focus-visible {
-	border-color: var(--cyan);
-	outline: 3px solid var(--cyan);
-	outline-offset: 2px;
+.shema-strike select {
+	min-height: 40px;
+	padding: 0.56rem 2rem 0.56rem 0.72rem;
+	cursor: pointer;
 }
 
-button:active {
-	filter: brightness(0.94);
-	transform: translateY(1px) scale(0.98);
+.shema-strike button.primary {
+	border-color: rgba(255, 215, 106, 0.62);
+	color: #101426;
+	background: linear-gradient(135deg, #ffe28a, #65ecff);
+	box-shadow: 0 8px 30px rgba(99, 244, 255, 0.2);
+}
+
+.shema-strike button:is(.active, [aria-pressed="true"], [aria-selected="true"]) {
+	border-color: var(--shema-gold);
+	background: linear-gradient(180deg, rgba(91, 77, 39, 0.92), rgba(24, 30, 53, 0.96));
+	box-shadow: 0 0 0 1px rgba(255, 215, 106, 0.24), 0 0 24px rgba(255, 215, 106, 0.2);
+}
+
+.shema-strike :is(button, select, input):focus-visible {
+	outline: 2px solid var(--shema-focus);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 5px rgba(99, 244, 255, 0.16), 0 0 28px rgba(99, 244, 255, 0.16);
+}
+
+.shema-strike :is(.settings-grid label, .stage-choice):focus-within {
+	border-color: rgba(99, 244, 255, 0.5);
+	background: rgba(18, 31, 59, 0.82);
+}
+
+.shema-strike input[type="checkbox"] {
+	width: 1.05rem;
+	height: 1.05rem;
+	accent-color: var(--shema-cyan);
+	cursor: pointer;
+}
+
+.shema-strike :is(button, select, input):disabled {
+	cursor: not-allowed;
+	opacity: 0.46;
+	transform: none;
+	box-shadow: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
-	button:hover {
-		filter: brightness(1.18);
+	.shema-strike button:not(:disabled):hover,
+	.shema-strike select:not(:disabled):hover {
 		transform: translateY(-2px);
+		border-color: rgba(99, 244, 255, 0.72);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24), 0 0 24px rgba(99, 244, 255, 0.12);
 	}
 }
 
-button:disabled {
-	opacity: 0.42;
-	cursor: not-allowed;
-	transform: none;
-}
-
-button.primary {
-	color: #090913;
-	background: linear-gradient(135deg, var(--gold), #fff4b0 48%, #7ff7ff);
-	border-color: white;
-	box-shadow: 0 0 24px rgba(118, 247, 255, 0.24);
+.shema-strike button:not(:disabled):active {
+	transform: translateY(1px) scale(0.985);
 }

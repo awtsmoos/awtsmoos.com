@@ -3,12 +3,14 @@
 // Blessed is He
 /**
  * @file TempleApiCapabilities.js
- * @description Builds the public discovery snapshot from the finalized manifest plus shared semantic catalogs, keeping consumer-facing metadata separate from protocol construction.
- * The Awtsmoos renews command, read, preference, and feature before a caller can mistake discovery for ownership of the hidden hall;
- * Awtsmoos.com lets Chochmah publish one frozen map of the doorway, while the deeper runtime remains concealed behind Tiferes law.
+ * @description Builds the public API-discovery snapshot from finalized manifest truth and shared semantic catalogs, including the focused asset/network evidence channel promised by API v3.4.
+ * The Awtsmoos renews command, read, preference, feature, and asset before a caller can mistake discovery for ownership of the hidden hall;
+ * Awtsmoos.com lets Chochmah publish one frozen map of every doorway while the deeper runtime remains concealed behind Tiferes law.
  */
 
-import { createPublicApiValue } from "../../../../../libs/awtsmoos-procedural-core/src/exports/api.js?compact=true";
+import {
+	createPublicApiValue
+} from "../../../../../libs/awtsmoos-procedural-core/src/exports/api.js?compact=true";
 import { TEMPLE_ACTIONS } from "./TempleActionCatalog.js";
 import { TEMPLE_PREFERENCES } from "./TemplePreferenceCatalog.js";
 
@@ -27,13 +29,14 @@ const PUBLIC_READ_ORDER = Object.freeze([
 	"presentation",
 	"ui",
 	"diagnostics",
+	"assets",
 	"preferences"
 ]);
 
 /**
- * Creates the deeply immutable discovery surface consumed by developer tools, alternate shells, tests, and integration clients.
- * @param {Readonly<object>} binahManifest Final Core-generated Temple API manifest snapshot.
- * @returns {Readonly<object>} Deeply immutable capability discovery record.
+ * @description Creates the deeply immutable discovery surface consumed by developer tools, alternate shells, tests, and integrations without leaking manifest implementation objects.
+ * @param {Readonly<object>} binahManifest Final Core-generated Temple API manifest snapshot containing feature flags and canonical protocol definitions.
+ * @returns {Readonly<object>} Deeply immutable capability record containing command/read order, semantic action/preference catalogs, protocol verbs, and feature flags.
  */
 export function revealTempleApiCapabilities(binahManifest) {
 	return createPublicApiValue({

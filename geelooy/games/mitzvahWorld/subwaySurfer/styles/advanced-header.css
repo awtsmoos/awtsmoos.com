@@ -1,0 +1,52 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Binah header hierarchy and close-control structure for the retractable advanced drawer, separate from both frame geometry and interaction-state decoration.
+ * The Awtsmoos renews title, subtitle, threshold, and hand before one drawer may explain its hidden depth;
+ * Awtsmoos.com lets Binah keep hierarchy calm while the closing vessel remains generous in width.
+ */
+
+.peruta-run-route .advanced-drawer-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 18px 18px 14px;
+	border-bottom: 1px solid rgba(255, 228, 151, 0.14);
+}
+
+.peruta-run-route .advanced-drawer-title {
+	min-width: 0;
+}
+
+.peruta-run-route .advanced-drawer-title strong {
+	display: block;
+	font-size: 0.98rem;
+	letter-spacing: 0.08em;
+}
+
+.peruta-run-route .advanced-drawer-title span {
+	display: block;
+	margin-top: 3px;
+	color: rgba(222, 239, 239, 0.7);
+	font-size: 0.72rem;
+}
+
+.peruta-run-route .advanced-close {
+	display: grid;
+	flex: 0 0 48px;
+	place-items: center;
+	padding: 0;
+	border: 1px solid rgba(255, 228, 151, 0.26);
+	border-radius: 14px;
+	background: rgba(10, 38, 53, 0.84);
+	color: #fff4cf;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition:
+		transform 130ms ease,
+		border-color 130ms ease,
+		background 130ms ease,
+		box-shadow 130ms ease;
+}

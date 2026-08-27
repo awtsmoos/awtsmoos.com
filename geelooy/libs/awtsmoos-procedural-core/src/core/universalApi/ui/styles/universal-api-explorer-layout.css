@@ -1,78 +1,79 @@
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
+
 /**
- * The Awtsmoos contains all breadth without stealing a single handspan, while Awtsmoos.com gives this explorer a responsive local chamber that never forces its host off-screen;
- * panels disclose by need, editors and receipts scroll within bounded vessels, and the document remains free from accidental overlay or overflow.
+ * @file universal-api-explorer-layout.css
+ * @description Owns only outer Explorer shell, panel, method-card, and disclosure geometry so mobile-first structure stays stable without absorbing editor or state semantics.
+ * RESPONSIBILITY: root containment, shell spacing, panel grid, card surfaces, summaries, and panel-method stacking.
+ * NON-RESPONSIBILITY: this file never owns editor/result geometry, controls, hover/focus, semantic status, motion, breakpoints, or host-page layout.
+ * The Awtsmoos contains all breadth without wall, while each finite panel still receives a measured place;
+ * Awtsmoos.com lets the shell remain quiet and ordered, so deeper controls may open without pushing the host from space.
  */
 
 [data-awtsmoos-universal-api-explorer] {
-	display: grid;
-	gap: var(--awts-uapi-gap-3);
-	max-inline-size: 100%;
-	padding: clamp(.8rem, 3vw, 1.1rem);
+	background: linear-gradient(160deg, var(--awts-uapi-bg-abyss), var(--awts-uapi-bg-deep));
 	border: 1px solid var(--awts-uapi-border);
-	border-radius: var(--awts-uapi-radius-lg);
-	background: var(--awts-uapi-bg);
-	box-shadow: 0 18px 48px rgb(0 0 0 / .22);
-	isolation: isolate;
+	border-radius: var(--awts-uapi-radius-shell);
+	box-shadow: var(--awts-uapi-shadow-panel);
+	display: grid;
+	gap: var(--awts-uapi-space-5);
+	inline-size: min(100%, var(--awts-uapi-max-width));
+	margin-inline: auto;
+	max-inline-size: 100%;
 	overflow: clip;
+	padding: clamp(0.8rem, 3vw, 1.4rem);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__shell-header,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panels,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-methods {
+	display: grid;
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__shell-header {
+	gap: var(--awts-uapi-space-2);
 }
 
 [data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panels {
-	display: grid;
-	gap: var(--awts-uapi-gap-2);
-	min-inline-size: 0;
+	gap: var(--awts-uapi-space-3);
 }
 
 [data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel,
 [data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method {
-	min-inline-size: 0;
+	background: var(--awts-uapi-bg-panel);
 	border: 1px solid var(--awts-uapi-border);
-	border-radius: var(--awts-uapi-radius-md);
-	background: var(--awts-uapi-surface);
+	border-radius: var(--awts-uapi-radius-panel);
+	box-shadow: var(--awts-uapi-shadow-soft);
+	min-inline-size: 0;
 	overflow: clip;
 }
 
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-methods {
-	display: grid;
-	gap: var(--awts-uapi-gap-2);
-	padding: var(--awts-uapi-gap-2);
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method {
+	background: var(--awts-uapi-bg-method);
+	border-radius: var(--awts-uapi-radius-method);
 }
 
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-description {
-	margin: 0;
-	padding: 0 .8rem;
-	color: var(--awts-uapi-muted);
-	overflow-wrap: anywhere;
-}
-
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor,
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result {
-	inline-size: calc(100% - 1.6rem);
-	max-inline-size: calc(100% - 1.6rem);
-	margin: .7rem .8rem 0;
-}
-
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor {
-	min-block-size: 7rem;
-	max-block-size: min(36dvh, 22rem);
-	resize: vertical;
-}
-
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result {
-	min-block-size: 5rem;
-	max-block-size: min(32dvh, 20rem);
-	margin-block-end: .8rem;
-	overflow: auto;
-	overscroll-behavior: contain;
-	white-space: pre-wrap;
-	word-break: break-word;
-}
-
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-actions {
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-summary,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-summary {
+	align-items: center;
 	display: flex;
+	gap: var(--awts-uapi-space-2);
+	justify-content: space-between;
+	min-inline-size: 0;
+	padding: var(--awts-uapi-space-3) var(--awts-uapi-space-4);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-summary {
 	flex-wrap: wrap;
-	gap: var(--awts-uapi-gap-1);
-	padding: .7rem .8rem 0;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-name {
+	margin-inline-end: auto;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel-methods {
+	gap: var(--awts-uapi-space-3);
+	padding: 0 var(--awts-uapi-space-3) var(--awts-uapi-space-3);
 }

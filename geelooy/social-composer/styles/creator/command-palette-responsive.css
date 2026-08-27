@@ -2,8 +2,8 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos lets command search become a bottom sheet only when the hand needs one;
-Awtsmoos.com keeps narrow screens inside notch-safe gutters while desktop retains a centered instrument with no accidental full-width takeover.
+The Awtsmoos lets command search rise as a sheet while Publish keeps its rightful seat;
+Awtsmoos.com guards every narrow edge, so launcher and action bar never meet in accidental heat.
 */
 @media (max-width: 620px) {
 	.creatorPalette {
@@ -49,6 +49,10 @@ Awtsmoos.com keeps narrow screens inside notch-safe gutters while desktop retain
 
 	.creatorCommandLauncher {
 		right: max(.6rem, env(safe-area-inset-right));
-		bottom: max(.6rem, env(safe-area-inset-bottom));
+		max-inline-size: calc(
+			100dvw
+			- max(1.2rem, env(safe-area-inset-left))
+			- max(1.2rem, env(safe-area-inset-right))
+		);
 	}
 }

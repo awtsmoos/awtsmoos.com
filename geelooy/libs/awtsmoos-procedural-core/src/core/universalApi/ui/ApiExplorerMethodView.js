@@ -4,82 +4,67 @@
 
 /**
  * @file ApiExplorerMethodView.js
- * @description Composes one universal API method disclosure from focused DOM, session, action, and execution vessels.
- * RESPONSIBILITY: assemble semantic method markup, seed the JSON editor from registry examples, and connect actions to the canonical method session.
- * NON-RESPONSIBILITY: this vessel does not parse JSON, construct commands, reflect busy state, group panels, or inject CSS.
- * The Awtsmoos reveals one command through many ordered kelim, while Awtsmoos.com lets each concern keep its own bright name;
- * summary, editor, action, and receipt join without crowding, so modular beauty and executable truth remain the same flame.
+ * @description Composes one Universal API method disclosure from focused metadata, reversible editor, action, result, controller, and session vessels.
+ * RESPONSIBILITY: assemble semantic method markup, expose professional metadata, and connect the textarea-compatible editor shell to the canonical Universal method session.
+ * NON-RESPONSIBILITY: this vessel never parses JSON, performs execution, mutates registry definitions, serializes receipts, or owns CSS state rules.
+ * The Awtsmoos renews one command before summary, schema, simple form, raw JSON, action, and result may appear as ordered lights;
+ * Awtsmoos.com lets each smaller keli retain its task while the method card gathers simple access and complete expert control beneath one accessible night.
  */
-
-import { createApiExplorerElement } from "./ApiExplorerDom.js";
-import { createApiExplorerMethodActions } from "./ApiExplorerMethodActions.js";
-import { executeApiExplorerMethod } from "./ApiExplorerMethodExecution.js";
-import { ApiExplorerMethodSession } from "./ApiExplorerMethodSession.js";
+import { createApiExplorerElement } from './ApiExplorerDom.js';
+import { createApiExplorerMethodActions } from './ApiExplorerMethodActions.js';
+import { ApiExplorerMethodController } from './ApiExplorerMethodController.js';
+import { createApiExplorerMethodEditor } from './ApiExplorerMethodEditor.js';
+import { createApiExplorerMethodMetaView } from './ApiExplorerMethodMetaView.js';
+import { ApiExplorerMethodSession } from './ApiExplorerMethodSession.js';
+import { createApiExplorerResultView } from './ApiExplorerResultView.js';
 
 /**
- * Creates one progressively disclosed method card bound to the existing universal API executor.
- * @param {Document} documentKli DOM document that owns the explorer.
- * @param {object} apiKli Universal API object.
- * @param {object} methodKli Explorer method model.
- * @returns {HTMLElement} Fully wired semantic method disclosure.
+ * @description Creates one progressively disclosed method card whose visible metadata, reversible editor, actions, and result states all flow through the existing Universal API execution contract.
+ * @param {Document} documentKli DOM document that owns all Explorer elements created for this method.
+ * @param {object} apiKli Universal API object exposing the canonical `execute()` surface used by `ApiExplorerMethodSession`.
+ * @param {object} methodKli Detached immutable Explorer method model containing labels, schema, examples, metadata, and method id.
+ * @returns {HTMLElement} Fully wired local `<details>` method disclosure with summary, metadata, dual-mode editor, actions, and result region.
+ * @throws {TypeError} Propagates construction failures when required API, method, DOM, editor, controller, or session contracts are unavailable.
  */
 export function createApiExplorerMethodView(documentKli, apiKli, methodKli) {
 	const sessionYesod = new ApiExplorerMethodSession(apiKli, methodKli);
-	const detailsKli = createApiExplorerElement(documentKli, "details", {
-		className: "method",
+	const detailsKli = createApiExplorerElement(documentKli, 'details', {
 		attributes: {
-			"data-api-method": methodKli.id,
-			"data-expert": String(methodKli.expert)
-		}
+			'data-api-method': methodKli.id,
+			'data-expert': String(methodKli.expert),
+			'data-state': 'idle'
+		},
+		className: 'method'
 	});
-	const summaryKli = createApiExplorerElement(documentKli, "summary", {
-		className: "method-summary",
+	const summaryKli = createApiExplorerElement(documentKli, 'summary', {
+		className: 'method-summary',
 		text: methodKli.label
 	});
-	const descriptionKli = createApiExplorerElement(documentKli, "p", {
-		className: "method-description",
+	const descriptionKli = createApiExplorerElement(documentKli, 'p', {
+		className: 'method-description',
 		text: methodKli.description
 	});
-	const editorKli = createMethodEditor(documentKli, methodKli);
-	const outputKli = createApiExplorerElement(documentKli, "pre", {
-		className: "method-result",
-		attributes: {
-			"aria-live": "polite",
-			tabindex: "0"
-		},
-		text: "No result yet."
+	const metadataKli = createApiExplorerMethodMetaView(documentKli, methodKli);
+	const editorDaas = createApiExplorerMethodEditor(documentKli, methodKli);
+	const resultKli = createApiExplorerResultView(documentKli);
+	const controllerDaas = new ApiExplorerMethodController({
+		detailsKli,
+		editorKli: editorDaas,
+		resultKli,
+		sessionYesod
 	});
-	let actionKelim;
-	actionKelim = createApiExplorerMethodActions(
+	const actionsKli = createApiExplorerMethodActions(
 		documentKli,
-		(dryRunOhr) => executeApiExplorerMethod({
-			buttonKelim: actionKelim.buttons,
-			detailsKli,
-			dryRunOhr,
-			editorKli,
-			outputKli,
-			sessionYesod
-		})
+		controllerDaas.invoke.bind(controllerDaas)
 	);
+	controllerDaas.attachButtons(actionsKli.buttons);
 	detailsKli.append(
 		summaryKli,
 		descriptionKli,
-		editorKli,
-		actionKelim.root,
-		outputKli
+		metadataKli,
+		editorDaas.root,
+		actionsKli.root,
+		resultKli.root
 	);
 	return detailsKli;
-}
-
-/** Creates a JSON editor seeded from the registry's first example or an empty parameter object. */
-function createMethodEditor(documentKli, methodKli) {
-	const editorKli = createApiExplorerElement(documentKli, "textarea", {
-		className: "method-editor",
-		attributes: {
-			"aria-label": `${methodKli.label} parameters`,
-			spellcheck: "false"
-		}
-	});
-	editorKli.value = JSON.stringify(methodKli.examples?.[0] ?? {}, null, 2);
-	return editorKli;
 }

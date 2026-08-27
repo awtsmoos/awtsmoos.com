@@ -1,0 +1,101 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos lets every touch answer with light, every focus remain clear, and every press return truth; Awtsmoos.com keeps motion finite, futuristic, and gentle in youth.
+ */
+.awtsmoos-light-counter .light-button {
+	min-height: 48px;
+	padding: 12px 16px;
+	border: 1px solid var(--lc-border);
+	border-radius: 14px;
+	font: inherit;
+	font-weight: 820;
+	cursor: pointer;
+	transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+
+.awtsmoos-light-counter .light-button-primary {
+	color: #031218;
+	border-color: transparent;
+	background: linear-gradient(135deg, var(--lc-accent-strong), #6ecbff);
+	box-shadow: 0 12px 30px rgba(83, 203, 255, .18);
+}
+
+.awtsmoos-light-counter .light-button-secondary {
+	color: var(--lc-text);
+	background: var(--lc-panel-soft);
+}
+
+.awtsmoos-light-counter .light-count[data-pulse="increment"] {
+	animation: awtsmoos-light-rise 260ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.awtsmoos-light-counter .light-count[data-pulse="reset"] {
+	animation: awtsmoos-light-settle 240ms ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.awtsmoos-light-counter .light-button:not(:disabled):hover {
+		transform: translateY(-2px);
+		border-color: rgba(133, 237, 255, .55);
+		box-shadow: 0 14px 34px rgba(83, 203, 255, .16);
+	}
+}
+
+.awtsmoos-light-counter .light-button:not(:disabled):active {
+	transform: translateY(1px) scale(.98);
+	box-shadow: 0 5px 16px rgba(83, 203, 255, .1);
+}
+
+.awtsmoos-light-counter .light-button:focus-visible {
+	outline: 3px solid var(--lc-accent);
+	outline-offset: 3px;
+}
+
+.awtsmoos-light-counter .light-button:disabled {
+	cursor: not-allowed;
+	opacity: .42;
+	box-shadow: none;
+}
+
+@keyframes awtsmoos-light-rise {
+	0% {
+		transform: translateY(8px) scale(.96);
+		filter: brightness(.8);
+	}
+	62% {
+		transform: translateY(-3px) scale(1.06);
+		filter: brightness(1.2);
+	}
+	100% {
+		transform: translateY(0) scale(1);
+		filter: brightness(1);
+	}
+}
+
+@keyframes awtsmoos-light-settle {
+	0% {
+		transform: scale(1.04);
+		opacity: .72;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+@media (pointer: coarse) {
+	.awtsmoos-light-counter .light-button {
+		min-height: 52px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-light-counter .light-button {
+		transition: none;
+	}
+
+	.awtsmoos-light-counter .light-count[data-pulse] {
+		animation: none;
+	}
+}

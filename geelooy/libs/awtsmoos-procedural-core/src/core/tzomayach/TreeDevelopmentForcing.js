@@ -4,111 +4,99 @@
 
 /**
  * @file TreeDevelopmentForcing.js
- * @description Blends environmental development signals into the canonical tree generator's existing global-force vocabulary.
- * The Awtsmoos renews sun, gravity, wind, and branch in one indivisible now; Awtsmoos.com lets those apparent directions enter one bounded vector,
- * so Chessed may reach toward light while Gevurah keeps force finite and the canonical skeleton remains the sole tree beneath every LOD.
+ * @description Names biological force coefficients while vector arithmetic and resource evidence remain in smaller specialist vessels.
+ * The Awtsmoos renews sun, gravity, drought, wind, and branch in one indivisible now; Awtsmoos.com lets each pressure enter bounded law,
+ * so Chesed reaches toward light while Gevurah records weathered character and one canonical skeleton remains beneath all awe.
  */
 
-/** Combines preset force with light, gravity, wind, apical dominance, and crown competition. */
+import {
+	treeDevelopmentBounded,
+	treeDevelopmentFinite
+} from './TreeDevelopmentMath.js';
+import {
+	addTreeDevelopmentVectors,
+	normalizedTreeDevelopmentVector,
+	treeDevelopmentVectorLength,
+	weightedTreeDevelopmentVector
+} from './TreeDevelopmentVectorForcing.js';
+
+/**
+ * Combines preset force with light, gravity, crown competition, and wind through the canonical branch-force vocabulary.
+ * @param {object} [branch={}] Existing branch configuration.
+ * @param {object} [development={}] Canonical pre-skeleton development profile.
+ * @returns {Readonly<object>} Frozen normalized direction plus bounded force strength.
+ */
 export function createTreeDevelopmentForce(branch = {}, development = {}) {
-	const keterExisting = weightedVector(
+	const keterExisting = weightedTreeDevelopmentVector(
 		branch.force?.direction || { x: 0, y: 1, z: 0 },
-		finite(branch.force?.strength, 0)
+		treeDevelopmentFinite(branch.force?.strength, 0)
 	);
-	const chochmahLight = weightedVector(
+	const chochmahLight = weightedTreeDevelopmentVector(
 		development.lightDirection,
 		0.032 * development.phototropism
 	);
-	const binahGravity = weightedVector(
+	const binahGravity = weightedTreeDevelopmentVector(
 		{ x: 0, y: 1, z: 0 },
 		0.026 * development.gravitropism * (0.55 + development.apicalDominance * 0.45)
 	);
-	const gevurahCompetition = weightedVector(
+	const gevurahCompetition = weightedTreeDevelopmentVector(
 		{ x: 0, y: 1, z: 0 },
 		0.024 * development.spaceCompetition
 	);
-	const netzachWind = weightedVector(
+	const netzachWind = weightedTreeDevelopmentVector(
 		development.windDirection,
 		0.022 * development.windResponse
 	);
-	const tiferesVector = addVectors(
+	const tiferesVector = addTreeDevelopmentVectors(
 		keterExisting,
 		chochmahLight,
 		binahGravity,
 		gevurahCompetition,
 		netzachWind
 	);
-	const yesodStrength = clamp(vectorLength(tiferesVector), 0, 0.14);
-	const malchusDirection = normalizedVector(tiferesVector, { x: 0, y: 1, z: 0 });
+
 	return Object.freeze({
-		direction: Object.freeze(malchusDirection),
-		strength: yesodStrength
+		direction: Object.freeze(
+			normalizedTreeDevelopmentVector(tiferesVector, { x: 0, y: 1, z: 0 })
+		),
+		strength: treeDevelopmentBounded(
+			treeDevelopmentVectorLength(tiferesVector),
+			0,
+			0.14
+		)
 	});
 }
 
-/** Returns the developmental multiplier for branch divergence angle at one non-trunk level. */
+/**
+ * Returns branch-divergence scaling, preserving the historic formula exactly when explicit resource development is absent.
+ * @param {object} development Canonical development profile.
+ * @returns {number} Bounded branch-angle multiplier.
+ */
 export function treeDevelopmentAngleScale(development) {
-	return clamp(
-		1
+	const yesodHistoric = 1
 		+ development.edgeExposure * 0.16
 		- development.spaceCompetition * 0.18
-		- development.apicalDominance * 0.05,
-		0.72,
-		1.22
-	);
+		- development.apicalDominance * 0.05;
+	const hodResource = development.resources
+		? development.resources.shade * 0.08 - development.resources.waterStress * 0.06
+		: 0;
+	return treeDevelopmentBounded(yesodHistoric + hodResource, 0.72, 1.22);
 }
 
-/** Returns the developmental multiplier for branch irregularity and weather-shaped character. */
+/**
+ * Returns weather-shaped irregularity, adding drought/heat/shallow-soil character only for explicit resource intent.
+ * @param {object} development Canonical development profile.
+ * @returns {number} Bounded gnarliness multiplier.
+ */
 export function treeDevelopmentGnarlinessScale(development) {
-	return clamp(
-		0.9
+	const yesodHistoric = 0.9
 		+ development.windResponse * 0.34
 		+ (1 - development.vigor) * 0.16
-		+ development.age * 0.12,
-		0.82,
-		1.42
-	);
-}
-
-function weightedVector(value, weight) {
-	const vector = normalizedVector(value, { x: 0, y: 0, z: 0 });
-	return { x: vector.x * weight, y: vector.y * weight, z: vector.z * weight };
-}
-
-function addVectors(...vectors) {
-	return vectors.reduce((sum, vector) => ({
-		x: sum.x + vector.x,
-		y: sum.y + vector.y,
-		z: sum.z + vector.z
-	}), { x: 0, y: 0, z: 0 });
-}
-
-function normalizedVector(value, fallback) {
-	const vector = asVector(value, fallback);
-	const length = vectorLength(vector);
-	if (length < 1e-9) return { ...fallback };
-	return { x: vector.x / length, y: vector.y / length, z: vector.z / length };
-}
-
-function asVector(value, fallback) {
-	if (Array.isArray(value)) {
-		return { x: finite(value[0], 0), y: finite(value[1], 0), z: finite(value[2], 0) };
-	}
-	return {
-		x: finite(value?.x, fallback.x),
-		y: finite(value?.y, fallback.y),
-		z: finite(value?.z, fallback.z)
-	};
-}
-
-function vectorLength(vector) {
-	return Math.hypot(vector.x, vector.y, vector.z);
-}
-
-function finite(value, fallback) {
-	return Number.isFinite(Number(value)) ? Number(value) : fallback;
-}
-
-function clamp(value, minimum, maximum) {
-	return Math.max(minimum, Math.min(maximum, value));
+		+ development.age * 0.12;
+	const hodResource = development.resources
+		? development.resources.waterStress * 0.14
+			+ development.resources.heatStress * 0.08
+			+ (1 - development.resources.soilDepth) * 0.05
+		: 0;
+	return treeDevelopmentBounded(yesodHistoric + hodResource, 0.82, 1.52);
 }

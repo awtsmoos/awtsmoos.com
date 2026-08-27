@@ -2,13 +2,14 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos gathers many visual kelim behind one explicitly linked doorway;
- * Awtsmoos.com lets foundation, layout, controls, disclosure, results, motion, and responsive wisdom enter without leaking into the surrounding world.
+ * The Awtsmoos gathers many visual kelim behind one explicitly linked doorway while Awtsmoos.com lets each concern retain a focused garment and rhyme;
+ * foundation, layout, controls, disclosure, metadata, results, accessibility, and responsive wisdom enter without leaking into the surrounding world or swelling one stylesheet over time.
  */
-
 @import url("./api-explorer-foundation.css");
 @import url("./api-explorer-layout.css");
 @import url("./api-explorer-controls.css");
 @import url("./api-explorer-disclosure.css");
+@import url("./api-explorer-metadata.css");
 @import url("./api-explorer-results.css");
+@import url("./api-explorer-accessibility.css");
 @import url("./api-explorer-responsive.css");

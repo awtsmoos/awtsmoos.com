@@ -1,20 +1,20 @@
-//B"H
+// B"H
 // Boruch Hashem
 // Blessed is He
+
+import { ActorCameraFactory } from '../../../camera/factory/ActorCameraFactory.js';
+import { CameraRigRegistry } from '../../../camera/core/CameraRigRegistry.js';
+import { CinemaShotCatalog } from '../../../camera/library/CinemaShotCatalog.js';
+import { AutomaticShotPlanner } from '../../../camera/planning/AutomaticShotPlanner.js';
+import { YesodAnimatorCameraPlanningState } from './camera/AnimatorCameraPlanningState.js';
+import { BinahAnimatorCameraSequencePlanner } from './camera/AnimatorCameraSequencePlanner.js';
+
 /**
  * @file AnimatorCameraDomain.js
  * @description
- * The Awtsmoos lets a director explore lenses, rigs, targets, and automatic framing before changing one live camera;
- * Awtsmoos.com adapts existing cinematic intelligence into detached plans while continuity memory remains sealed inside its own drama.
+ * The Awtsmoos lets a director explore lenses, rigs, targets, one shot, or an entire continuity-aware sequence before changing one live camera;
+ * Awtsmoos.com adapts existing cinematic intelligence into detached plans while all temporary memory remains sealed inside its planning chamber.
  */
-
-import { ActorCameraFactory } from '../../../camera/factory/ActorCameraFactory.js';
-import { CinemaShotCatalog } from '../../../camera/library/CinemaShotCatalog.js';
-import { AutomaticShotPlanner } from '../../../camera/planning/AutomaticShotPlanner.js';
-import { CameraRigRegistry } from '../../../camera/core/CameraRigRegistry.js';
-import { YesodAnimatorCameraPlanningState } from './camera/AnimatorCameraPlanningState.js';
-
-/** Adapts stable camera grammar, rig factories, and automatic planning into pure Agent API results. */
 export class ChochmahAnimatorCameraDomain {
 	/** @returns {object} Compact camera-planning capability summary. */
 	capabilities() {
@@ -22,6 +22,8 @@ export class ChochmahAnimatorCameraDomain {
 			catalogSections: Object.keys(CinemaShotCatalog),
 			actorRigKinds: ['face', 'body', 'tracking'],
 			automaticShotPlanning: true,
+			sequencePlanning: true,
+			sequenceBeatLimit: BinahAnimatorCameraSequencePlanner.MAX_BEATS,
 			isolatedContinuity: true,
 			projectMutation: false
 		};
@@ -32,38 +34,39 @@ export class ChochmahAnimatorCameraDomain {
 		return structuredClone(CinemaShotCatalog);
 	}
 
-	/** @param {object} olamActors Actor map. @returns {object[]} Detached actor camera states. */
-	actorRigs(olamActors = {}) {
-		return ActorCameraFactory.createForActors(olamActors)
+	/** @param {object} actors Actor map. @returns {object[]} Detached actor camera states. */
+	actorRigs(actors = {}) {
+		return ActorCameraFactory.createForActors(actors)
 			.map((keliRig) => this.serializeRig(keliRig));
 	}
 
-	/** @param {object} keliScene Scene description. @returns {object[]} Detached scene camera states. */
-	sceneRigs(keliScene = {}) {
-		return new CameraRigRegistry(keliScene)
+	/** @param {object} scene Scene description. @returns {object[]} Detached scene camera states. */
+	sceneRigs(scene = {}) {
+		return new CameraRigRegistry(scene)
 			.list()
 			.map((keliRig) => this.serializeRig(keliRig));
 	}
 
-	/** @param {object} keliEvent Beat/shot event. @param {object} olamState Detached planning state. @param {object} keliSafe Safe-frame options. @returns {object} Plan plus isolated continuity state. */
-	planShot(keliEvent = {}, olamState = {}, keliSafe = {}) {
-		const yesodState = new YesodAnimatorCameraPlanningState(olamState);
-		const keliPlan = AutomaticShotPlanner.plan(
-			keliEvent,
-			yesodState,
-			{ safe: keliSafe }
-		);
+	/** @returns {object} One shot plan plus isolated continuity state. */
+	planShot(event = {}, state = {}, safe = {}) {
+		const yesodState = new YesodAnimatorCameraPlanningState(state);
+		const tiferesPlan = AutomaticShotPlanner.plan(event, yesodState, { safe });
 		return {
-			plan: structuredClone(keliPlan),
+			plan: structuredClone(tiferesPlan),
 			planningState: yesodState.snapshot()
 		};
 	}
 
-	/** @param {object} keliRig CameraRig-like object. @returns {object} Detached camera specification. */
-	serializeRig(keliRig) {
+	/** @returns {object} Ordered multi-shot plan with diversity summary and final isolated continuity state. */
+	planSequence(events = [], state = {}, safe = {}) {
+		return BinahAnimatorCameraSequencePlanner.plan(events, state, safe);
+	}
+
+	/** @param {object} rig CameraRig-like object. @returns {object} Detached camera specification. */
+	serializeRig(rig) {
 		return structuredClone({
-			...keliRig,
-			state: keliRig?.toState?.() ?? null
+			...rig,
+			state: rig?.toState?.() ?? null
 		});
 	}
 }

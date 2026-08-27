@@ -1,7 +1,7 @@
 <!--B"H-->
 <!-- Boruch Hashem -->
 <!-- Blessed is He -->
-<!-- The canvas is a vessel: at Awtsmoos.com each frame is renewed, and language opens more than one faithful road into play. -->
+<!-- The canvas is a vessel: at Awtsmoos.com each frame is renewed, while every local control remains bounded inside its own gate of light. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,78 +13,39 @@
 	<link rel="stylesheet" href="/games/styles/player-shell/index.css?v=player-shell-002&compact=true">
 </head>
 <body>
-	<main id="game-shell" aria-label="Shema Strike game">
+	<main id="game-shell" class="shema-strike" aria-label="Shema Strike game">
 		<canvas id="game-canvas" width="960" height="540"></canvas>
 		<section id="hud" class="hud hidden" aria-live="polite">
-			<div class="hud-block hud-life">
-				<span>KOACH</span>
-				<div class="meter"><i id="health-fill"></i></div>
-				<small id="health-label">100 / 100</small>
-			</div>
-			<div class="hud-center">
-				<strong id="stage-label">Gate 1</strong>
-				<span id="objective-label">Awaken the gate</span>
-			</div>
-			<div class="hud-block hud-riches">
-				<span>פרוטות</span>
-				<strong id="coin-label">0</strong>
-				<small id="combo-label">Unity ×1</small>
-			</div>
+			<div class="hud-block hud-life"><span>KOACH</span><div class="meter"><i id="health-fill"></i></div><small id="health-label">100 / 100</small></div>
+			<div class="hud-center"><strong id="stage-label">Gate 1</strong><span id="objective-label">Awaken the gate</span></div>
+			<div class="hud-block hud-riches"><span>פרוטות</span><strong id="coin-label">0</strong><small id="combo-label">Unity ×1</small></div>
 		</section>
-		<section id="start-overlay" class="overlay visible">
-			<div class="panel start-panel">
-				<p class="eyebrow">A 27-GATE CAMPAIGN</p>
-				<h1><span>שמע</span> STRIKE</h1>
-				<p class="lead" data-copy="lead"></p>
-				<div id="difficulty-grid" class="choice-grid"></div>
-				<div class="settings-grid" aria-label="Accessibility settings">
-					<label><span data-copy="language"></span><select id="language-select"><option value="en">English</option><option value="he">עברית</option></select></label>
-					<label><span data-copy="text"></span><select id="text-scale"><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></label>
-					<label><input id="reducedMotion" type="checkbox"><span data-copy="reducedMotion"></span></label>
-					<label><input id="reducedFlash" type="checkbox"><span data-copy="reducedFlash"></span></label>
-					<label><input id="reducedParticles" type="checkbox"><span data-copy="reducedParticles"></span></label>
-					<label><input id="highContrast" type="checkbox"><span data-copy="highContrast"></span></label>
-					<label><input id="timingAssist" type="checkbox"><span data-copy="timingAssist"></span></label>
-				</div>
-				<label class="stage-choice"><span data-copy="revisit"></span><select id="stage-select"></select></label>
-				<div class="start-actions">
-					<button id="continue-button" class="primary" data-copy="continue"></button>
-					<button id="new-button" data-copy="newGame"></button>
-				</div>
-				<p class="controls-copy" data-copy="controls"></p>
+		<section id="start-overlay" class="overlay visible"><div class="panel start-panel">
+			<p class="eyebrow">A 27-GATE CAMPAIGN</p><h1><span>שמע</span> STRIKE</h1><p class="lead" data-copy="lead"></p>
+			<div id="difficulty-grid" class="choice-grid"></div>
+			<div class="settings-grid" aria-label="Accessibility settings">
+				<label><span data-copy="language"></span><select id="language-select"><option value="en">English</option><option value="he">עברית</option></select></label>
+				<label><span data-copy="text"></span><select id="text-scale"><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></label>
+				<label><input id="reducedMotion" type="checkbox"><span data-copy="reducedMotion"></span></label>
+				<label><input id="reducedFlash" type="checkbox"><span data-copy="reducedFlash"></span></label>
+				<label><input id="reducedParticles" type="checkbox"><span data-copy="reducedParticles"></span></label>
+				<label><input id="highContrast" type="checkbox"><span data-copy="highContrast"></span></label>
+				<label><input id="timingAssist" type="checkbox"><span data-copy="timingAssist"></span></label>
 			</div>
-		</section>
-		<section id="pause-overlay" class="overlay">
-			<div class="panel compact-panel">
-				<p class="eyebrow">TIME FOLDS, THE WILL REMAINS</p>
-				<h2 data-copy="paused"></h2>
-				<button id="resume-button" class="primary" data-copy="resume"></button>
-				<button id="pause-shop-button" data-copy="market"></button>
-				<button id="menu-button" data-copy="menu"></button>
-			</div>
-		</section>
-		<section id="shop-overlay" class="overlay">
-			<div class="panel market-panel">
-				<header class="market-header">
-					<div><p class="eyebrow">THE NIGHT MARKET</p><h2>Forge the Vessel</h2></div>
-					<strong id="shop-coins">0 פרוטות</strong>
-				</header>
-				<nav class="market-tabs"><button data-shop-tab="weapons">Weapons</button><button data-shop-tab="armor">Armor</button></nav>
-				<div id="shop-grid" class="shop-grid"></div>
-				<footer><button id="heal-button">RESTORE KOACH</button><button id="leave-shop-button" class="primary">ENTER NEXT GATE</button></footer>
-			</div>
-		</section>
-		<section id="message-overlay" class="overlay">
-			<div class="panel compact-panel">
-				<p id="message-eyebrow" class="eyebrow">GATE COMPLETE</p>
-				<h2 id="message-title">Light Revealed</h2>
-				<p id="message-copy"></p>
-				<button id="message-button" class="primary">CONTINUE</button>
-			</div>
-		</section>
+			<label class="stage-choice"><span data-copy="revisit"></span><select id="stage-select"></select></label>
+			<div class="start-actions"><button type="button" id="continue-button" class="primary" data-copy="continue"></button><button type="button" id="new-button" data-copy="newGame"></button></div>
+			<p class="controls-copy" data-copy="controls"></p>
+		</div></section>
+		<section id="pause-overlay" class="overlay"><div class="panel compact-panel"><p class="eyebrow">TIME FOLDS, THE WILL REMAINS</p><h2 data-copy="paused"></h2><button type="button" id="resume-button" class="primary" data-copy="resume"></button><button type="button" id="pause-shop-button" data-copy="market"></button><button type="button" id="menu-button" data-copy="menu"></button></div></section>
+		<section id="shop-overlay" class="overlay"><div class="panel market-panel">
+			<header class="market-header"><div><p class="eyebrow">THE NIGHT MARKET</p><h2>Forge the Vessel</h2></div><strong id="shop-coins">0 פרוטות</strong></header>
+			<nav class="market-tabs"><button type="button" data-shop-tab="weapons" aria-pressed="true">Weapons</button><button type="button" data-shop-tab="armor" aria-pressed="false">Armor</button></nav>
+			<div id="shop-grid" class="shop-grid"></div><footer><button type="button" id="heal-button">RESTORE KOACH</button><button type="button" id="leave-shop-button" class="primary">ENTER NEXT GATE</button></footer>
+		</div></section>
+		<section id="message-overlay" class="overlay"><div class="panel compact-panel"><p id="message-eyebrow" class="eyebrow">GATE COMPLETE</p><h2 id="message-title">Light Revealed</h2><p id="message-copy"></p><button type="button" id="message-button" class="primary">CONTINUE</button></div></section>
 		<div id="touch-controls" class="touch-controls" aria-label="Touch controls">
-			<div class="touch-cluster"><button data-action="left" aria-label="Move left">◀</button><button data-action="right" aria-label="Move right">▶</button></div>
-			<div class="touch-cluster action-cluster"><button data-action="jump" aria-label="Jump">↑</button><button data-action="dash" aria-label="Dash">✦</button><button data-action="interact" aria-label="Interact">E</button><button data-action="attack" class="attack-touch" aria-label="Strike">ש</button></div>
+			<div class="touch-cluster"><button type="button" data-action="left" aria-label="Move left">◀</button><button type="button" data-action="right" aria-label="Move right">▶</button></div>
+			<div class="touch-cluster action-cluster"><button type="button" data-action="jump" aria-label="Jump">↑</button><button type="button" data-action="dash" aria-label="Dash">✦</button><button type="button" data-action="interact" aria-label="Interact">E</button><button type="button" data-action="attack" class="attack-touch" aria-label="Strike">ש</button></div>
 		</div>
 	</main>
 	<script type="module" src="/games/scripts/runtime/index.js?compact=true&v=runtime-001"></script>

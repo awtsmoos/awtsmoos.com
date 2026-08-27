@@ -1,65 +1,99 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
 /**
  * @file FluidChannelSampling.js
- * @description Reveals local river behavior without leaking mutable solver arrays.
- * The Awtsmoos conceals infinity within finite coordinates; Awtsmoos.com lets renderers,
- * audio and gameplay ask only for the current that belongs to one place in one instant.
+ * @description Reveals one semantic local river sample while all bilinear grid mathematics remain hidden in the focused sampling kernel.
+ * RESPONSIBILITY: preserve historical depth/current/foam/cascade fields, add sediment/erosion/deposition/turbidity/bank evidence, derive speed and surface displacement, and reuse a caller-supplied target without exposing mutable solver arrays.
+ * NON-RESPONSIBILITY: this vessel does not advance water, calculate interpolation weights, mutate state, derive vegetation suitability, change terrain, queue impulses, or create optical materials.
+ * The Awtsmoos conceals infinite renewal inside every finite coordinate, while Awtsmoos.com lets one clear sample carry only the testimony gameplay and ecology truly need;
+ * current, foam, mud, carving, settling, bank nearness, and curl become readable signs without giving callers the river's private numerical seed.
  */
 
-/** Bilinearly samples normalized downstream and bank-to-bank coordinates. */
-export function sampleFluidChannel(state, downstream, lateral, target = {}) {
-	const x = clamp01(downstream) * (state.sectionCount - 1);
-	const y = clamp01(lateral) * (state.laneCount - 1);
-	const x0 = Math.floor(x);
-	const x1 = Math.min(state.sectionCount - 1, x0 + 1);
-	const y0 = Math.floor(y);
-	const y1 = Math.min(state.laneCount - 1, y0 + 1);
-	const tx = x - x0;
-	const ty = y - y0;
-	target.depth = sample(state, state.depth, x0, x1, y0, y1, tx, ty);
-	target.restDepth = sample(state, state.restDepth, x0, x1, y0, y1, tx, ty);
-	target.flow = sample(state, state.flow, x0, x1, y0, y1, tx, ty);
-	target.crossFlow = sample(state, state.crossFlow, x0, x1, y0, y1, tx, ty);
-	target.foam = sample(state, state.foam, x0, x1, y0, y1, tx, ty);
-	target.cascade = sample(state, state.cascade, x0, x1, y0, y1, tx, ty);
+import {
+	fluidChannelSamplingCoordinates,
+	sampleFluidChannelField,
+	sampleOptionalFluidChannelField,
+	sampledFluidChannelVorticity
+} from "./FluidChannelSamplingKernel.js";
+
+/**
+ * @description Bilinearly samples normalized downstream and bank-to-bank coordinates into one reusable semantic water record, preserving all historical fields while adding transport and ecology evidence.
+ * @param {object} state Current channel state containing primary and optional transport typed-array fields.
+ * @param {number} downstream Normalized downstream coordinate in the inclusive range zero through one; out-of-range values are clamped by the sampling kernel.
+ * @param {number} lateral Normalized bank-to-bank coordinate in the inclusive range zero through one; zero and one represent opposite banks.
+ * @param {object} [target={}] Reusable mutable output object that is populated and returned to avoid mandatory allocation in high-frequency sampling paths.
+ * @param {object|null} [config=null] Optional physical channel configuration used for physically scaled vorticity and sediment-to-turbidity normalization; legacy sampling remains valid when absent.
+ * @returns {object} The same `target` object populated with depth, restDepth, flow, crossFlow, foam, cascade, sediment, erosion, deposition, speed, surfaceOffset, bankProximity, turbidity, and vorticity.
+ */
+export function sampleFluidChannel(
+	state,
+	downstream,
+	lateral,
+	target = {},
+	config = null
+) {
+	const coordinatesKli = fluidChannelSamplingCoordinates(
+		state,
+		downstream,
+		lateral
+	);
+	target.depth = sampleFluidChannelField(state, state.depth, coordinatesKli);
+	target.restDepth = sampleFluidChannelField(
+		state,
+		state.restDepth,
+		coordinatesKli
+	);
+	target.flow = sampleFluidChannelField(state, state.flow, coordinatesKli);
+	target.crossFlow = sampleFluidChannelField(
+		state,
+		state.crossFlow,
+		coordinatesKli
+	);
+	target.foam = sampleFluidChannelField(state, state.foam, coordinatesKli);
+	target.cascade = sampleFluidChannelField(
+		state,
+		state.cascade,
+		coordinatesKli
+	);
+	target.sediment = sampleOptionalFluidChannelField(
+		state,
+		state.sediment,
+		coordinatesKli
+	);
+	target.erosion = sampleOptionalFluidChannelField(
+		state,
+		state.erosion,
+		coordinatesKli
+	);
+	target.deposition = sampleOptionalFluidChannelField(
+		state,
+		state.deposition,
+		coordinatesKli
+	);
 	target.speed = Math.hypot(target.flow, target.crossFlow);
 	target.surfaceOffset = target.depth - target.restDepth;
-	target.vorticity = vorticity(state, Math.round(x), Math.round(y));
+	target.bankProximity = Math.abs(clamp01(lateral) * 2 - 1);
+	target.turbidity = clamp01(
+		target.sediment / Math.max(0.0001, config?.maxSediment || 1)
+	);
+	target.vorticity = sampledFluidChannelVorticity(
+		state,
+		config,
+		coordinatesKli
+	);
 	return target;
 }
 
-function sample(state, field, x0, x1, y0, y1, tx, ty) {
-	const a = field[x0 * state.laneCount + y0];
-	const b = field[x1 * state.laneCount + y0];
-	const c = field[x0 * state.laneCount + y1];
-	const d = field[x1 * state.laneCount + y1];
-	return mix(mix(a, b, tx), mix(c, d, tx), ty);
-}
-
-function vorticity(state, section, lane) {
-	const upstream = index(state, section - 1, lane);
-	const downstream = index(state, section + 1, lane);
-	const left = index(state, section, lane - 1);
-	const right = index(state, section, lane + 1);
-	const crossDerivative = (state.crossFlow[downstream] - state.crossFlow[upstream]) * 0.5;
-	const flowDerivative = (state.flow[right] - state.flow[left]) * 0.5;
-	return crossDerivative - flowDerivative;
-}
-
-function index(state, section, lane) {
-	const safeSection = Math.min(state.sectionCount - 1, Math.max(0, section));
-	const safeLane = Math.min(state.laneCount - 1, Math.max(0, lane));
-	return safeSection * state.laneCount + safeLane;
-}
-
-function mix(start, end, amount) {
-	return start + (end - start) * amount;
-}
-
-function clamp01(value) {
-	const number = Number(value);
-	return Number.isFinite(number) ? Math.min(1, Math.max(0, number)) : 0;
+/**
+ * @description Clamps one possibly non-finite scalar into the unit interval for derived semantic sample fields such as bank proximity and turbidity.
+ * @param {number} valueOhr Candidate scalar value.
+ * @returns {number} Finite scalar between zero and one inclusive.
+ */
+function clamp01(valueOhr) {
+	const numberOhr = Number(valueOhr);
+	return Number.isFinite(numberOhr)
+		? Math.min(1, Math.max(0, numberOhr))
+		: 0;
 }

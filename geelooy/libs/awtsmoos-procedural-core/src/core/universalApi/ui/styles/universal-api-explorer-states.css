@@ -1,68 +1,77 @@
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
+
 /**
- * The Awtsmoos is beyond success and failure, yet every finite method needs truthful signs of waiting, completion, and repair;
- * Awtsmoos.com lets state appear as restrained local light, so developers can read the deed without noise, ambiguity, or despair.
+ * @file universal-api-explorer-states.css
+ * @description Owns only command/disclosure/result semantic states while metadata badges and stylesheet diagnostics remain in separate focused layers.
+ * RESPONSIBILITY: map open, busy, success, error, validation, and loading data/ARIA state into local borders, status text, and cursor treatment.
+ * NON-RESPONSIBILITY: this file never owns metadata badge categories, transport diagnostics, geometry, motion, or generic host state.
+ * The Awtsmoos is beyond success and failure, yet finite deeds need honest signs within the interface's light;
+ * Awtsmoos.com lets text and restrained color testify together, so no hue alone is asked to carry right.
  */
 
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result {
-	padding: .78rem;
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel[open],
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[open] {
+	border-color: var(--awts-uapi-border-strong);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell {
+	background: var(--awts-uapi-bg-input);
 	border: 1px solid var(--awts-uapi-border);
-	border-radius: var(--awts-uapi-radius-sm);
-	background: rgb(1 6 13 / .72);
-	color: rgb(220 235 250 / .91);
-	font: 500 .74rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	border-radius: var(--awts-uapi-radius-control);
+	padding: var(--awts-uapi-space-2);
 }
 
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="busy"] {
-	border-color: rgb(99 221 255 / .34);
-	box-shadow: inset 3px 0 0 rgb(99 221 255 / .56);
-}
-
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="success"] {
-	border-color: rgb(108 232 168 / .3);
-	box-shadow: inset 3px 0 0 rgb(108 232 168 / .54);
-}
-
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="error"] {
-	border-color: rgb(255 126 146 / .32);
-	box-shadow: inset 3px 0 0 rgb(255 126 146 / .58);
-}
-
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor[aria-invalid="true"] {
-	border-color: var(--awts-uapi-danger);
-	box-shadow: 0 0 0 3px rgb(255 126 146 / .12);
-}
-
-[data-awtsmoos-universal-api-explorer] button[data-loading="true"] {
-	cursor: progress;
-	animation: awts-uapi-loading-pulse 900ms ease-in-out infinite alternate;
-}
-
-[data-awtsmoos-universal-api-explorer] details[open] {
-	border-color: rgb(99 221 255 / .25);
-}
-
-[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-expert="true"] > summary::before {
-	padding: .1rem .35rem;
-	border: 1px solid rgb(99 221 255 / .2);
-	border-radius: 999px;
-	background: var(--awts-uapi-accent-soft);
-	color: var(--awts-uapi-accent);
-	content: "Expert";
-	font-size: .64rem;
-	font-weight: 760;
-	letter-spacing: .07em;
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-status {
+	color: var(--awts-uapi-text-muted);
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
 	text-transform: uppercase;
 }
 
-@keyframes awts-uapi-loading-pulse {
-	from {
-		box-shadow: 0 0 0 0 rgb(99 221 255 / 0);
-	}
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result {
+	background: transparent;
+	color: var(--awts-uapi-text);
+	font-size: 0.76rem;
+	line-height: 1.55;
+	padding: var(--awts-uapi-space-2);
+}
 
-	to {
-		box-shadow: 0 0 0 4px rgb(99 221 255 / .11);
-	}
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="busy"],
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell[data-result-state="busy"] {
+	border-color: rgb(125 211 252 / 55%);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell[data-result-state="busy"] .Awtsmoos-universal-api-explorer__method-result-status {
+	color: var(--awts-uapi-cyan);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="success"],
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell[data-result-state="success"] {
+	border-color: rgb(110 231 183 / 48%);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell[data-result-state="success"] .Awtsmoos-universal-api-explorer__method-result-status {
+	color: var(--awts-uapi-emerald);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="error"],
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell[data-result-state="error"],
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor[aria-invalid="true"] {
+	border-color: rgb(253 164 175 / 60%);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell[data-result-state="error"] .Awtsmoos-universal-api-explorer__method-result-status {
+	color: var(--awts-uapi-danger);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor[aria-invalid="true"] {
+	box-shadow: 0 0 0 3px var(--awts-uapi-danger-soft);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button[data-loading="true"],
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__button-primary[data-loading="true"] {
+	cursor: progress;
 }

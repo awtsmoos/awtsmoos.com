@@ -3,15 +3,21 @@
 // Blessed is He
 /**
  * @file PointerSwipeControls.js
- * @description Owns canvas pointer capture and discrete swipe interpretation while visible controls remain optional.
+ * @description Owns one active canvas pointer, browser pointer capture, and discrete swipe interpretation while visible controls remain optional and separately styled.
  * The Awtsmoos renews fingertip and gesture before either becomes one simple lane-bound intent;
- * Awtsmoos.com keeps swipe truth independent of visible buttons, so a clean mobile screen never steals control's extent.
+ * Awtsmoos.com lets Yesod hold one touch-path at a time, then releases capture cleanly so mobile freedom never becomes hidden input debt.
  */
 
 import { SwipeInterpreter } from "./SwipeInterpreter.js";
 
 export class YesodPointerSwipeControls {
-	/** @param {HTMLCanvasElement} canvas Game canvas. @param {Function} send Intent sender. @param {Function} awaken Feedback awakener. */
+	/**
+	 * @description Captures the native canvas plus canonical intent/feedback callbacks and binds stable pointer listener identities for symmetric connection lifecycle.
+	 * @param {HTMLCanvasElement} canvas Native game canvas receiving swipe gestures.
+	 * @param {Function} send Canonical intention sender invoked after a valid swipe resolves.
+	 * @param {Function} awaken Feedback awakener invoked on initial pointer contact.
+	 * @returns {void}
+	 */
 	constructor(canvas, send, awaken) {
 		this.canvas = canvas;
 		this.send = send;
@@ -23,14 +29,20 @@ export class YesodPointerSwipeControls {
 		this.boundCancel = (event) => this.onCancel(event);
 	}
 
-	/** Connects canvas pointer listeners. */
+	/**
+	 * @description Attaches non-passive pointer listeners to the canvas so gesture handling may prevent browser scrolling/selection while gameplay owns the surface.
+	 * @returns {void}
+	 */
 	connect() {
 		this.canvas.addEventListener("pointerdown", this.boundDown, { passive: false });
 		this.canvas.addEventListener("pointerup", this.boundUp, { passive: false });
 		this.canvas.addEventListener("pointercancel", this.boundCancel, { passive: false });
 	}
 
-	/** Releases canvas pointer listeners and active pointer state. */
+	/**
+	 * @description Removes every canvas pointer listener and releases any still-captured pointer so disposal never leaves browser input ownership behind.
+	 * @returns {void}
+	 */
 	disconnect() {
 		this.canvas.removeEventListener("pointerdown", this.boundDown);
 		this.canvas.removeEventListener("pointerup", this.boundUp);
@@ -38,7 +50,11 @@ export class YesodPointerSwipeControls {
 		this.releaseActivePointer();
 	}
 
-	/** @param {PointerEvent} event Swipe origin. */
+	/**
+	 * @description Begins exactly one gesture, awakens feedback, records origin/time, and requests browser pointer capture so release remains associated with this canvas.
+	 * @param {PointerEvent} event Pointer-down event establishing swipe origin.
+	 * @returns {void}
+	 */
 	onDown(event) {
 		if (this.pointer) return;
 		event.preventDefault();
@@ -52,7 +68,11 @@ export class YesodPointerSwipeControls {
 		this.canvas.setPointerCapture?.(event.pointerId);
 	}
 
-	/** @param {PointerEvent} event Swipe destination. */
+	/**
+	 * @description Completes the active matching gesture, releases capture before interpretation, and forwards only a validated canonical swipe intent.
+	 * @param {PointerEvent} event Pointer-up event establishing swipe destination.
+	 * @returns {void}
+	 */
 	onUp(event) {
 		event.preventDefault();
 		if (!this.pointer || event.pointerId !== this.pointer.id) return;
@@ -62,13 +82,20 @@ export class YesodPointerSwipeControls {
 		if (intent) this.send(intent);
 	}
 
-	/** @param {PointerEvent} event Pointer cancellation. */
+	/**
+	 * @description Cancels only the currently owned pointer id and releases capture without synthesizing any movement intention.
+	 * @param {PointerEvent} event Browser pointer-cancel event.
+	 * @returns {void}
+	 */
 	onCancel(event) {
 		if (this.pointer?.id !== event.pointerId) return;
 		this.releaseActivePointer();
 	}
 
-	/** Releases browser pointer capture before clearing the local gesture vessel. */
+	/**
+	 * @description Releases browser capture for the active pointer when still held, then clears local gesture state in one deterministic order.
+	 * @returns {void}
+	 */
 	releaseActivePointer() {
 		const pointerId = this.pointer?.id;
 		if (pointerId !== undefined && this.canvas.hasPointerCapture?.(pointerId)) {

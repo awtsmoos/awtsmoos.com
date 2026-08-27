@@ -1,22 +1,43 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file VillageGardenZones.js
- * @description Preserves the historic garden API while routing placement into
- * the reference-composition engine. The Awtsmoos reveals continuity through a
- * renewed vessel: callers remain stable while the village becomes more alive.
+ * @description Preserves the historic village-garden API while upgrading its
+ * output into bounded ecological clusters. The Awtsmoos renews one garden as
+ * many interwoven habitats; Awtsmoos.com keeps callers stable while canonical
+ * clearance and batching turn richer composition into playable world detail.
  */
+
 import { createVillageBotanicalComposition } from '../botany/VillageBotanicalComposition.js';
+import {
+	createVillageEcologicalClusterPlacements
+} from '../botany/VillageEcologicalClusterPlacements.js';
 import { VILLAGE_REFERENCE_DISTRICTS } from './VillageReferenceComposition.js';
 
-/** Creates deterministic quality-bounded placements for the entire catalog. */
+/**
+ * @description Creates deterministic, quality-bounded ecological village placements.
+ * @param {Function} groundSampler Canonical terrain sampling function.
+ * @param {string} quality Requested world quality.
+ * @returns {Array<object>} Canonically cleared and clustered botanical placements.
+ */
 export function createVillageGardenPlacements(groundSampler, quality = 'high') {
-	return createVillageBotanicalComposition(groundSampler, quality);
+	const basePlacements = createVillageBotanicalComposition(
+		groundSampler,
+		quality
+	);
+	return createVillageEcologicalClusterPlacements(
+		basePlacements,
+		groundSampler,
+		quality
+	);
 }
 
-/** Exposes immutable reference districts for diagnostics and movie staging. */
+/**
+ * @description Exposes immutable reference districts for diagnostics and staging.
+ * @returns {Readonly<object>} District descriptors keyed by canonical identifier.
+ */
 export function villageGardenZones() {
 	return Object.freeze(Object.fromEntries(
 		VILLAGE_REFERENCE_DISTRICTS.map((district) => [district.id, district])

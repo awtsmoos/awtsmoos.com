@@ -1,0 +1,93 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets an archive road feel like a future instrument without hiding the practical work it must perform;
+Awtsmoos.com gives cards, privacy, status, and progress measured depth while every repeated surface stays opaque and warm.
+*/
+body {
+	background:
+		radial-gradient(circle at 16% -8%, rgb(79 132 255 / 14%), transparent 31rem),
+		radial-gradient(circle at 92% 22%, rgb(166 117 255 / 7%), transparent 27rem),
+		linear-gradient(#07090f, #080b12 70%, #07090f);
+}
+
+.migrationHeader h1 {
+	text-wrap: balance;
+	text-shadow: 0 1rem 3rem rgb(71 128 255 / 10%);
+}
+
+.migrationCard {
+	border-color: rgb(151 190 235 / 18%);
+	background:
+		linear-gradient(155deg, rgb(119 219 255 / 3%), transparent 44%),
+		#0d111a;
+	box-shadow:
+		0 1.2rem 3.2rem rgb(0 0 0 / 18%),
+		inset 0 1px rgb(255 255 255 / 4%);
+}
+
+.primaryMigrationCard {
+	position: relative;
+	overflow: clip;
+	border-color: rgb(119 219 255 / 27%);
+	background:
+		radial-gradient(circle at 0 0, rgb(119 219 255 / 8%), transparent 22rem),
+		linear-gradient(150deg, rgb(80 116 255 / 5%), transparent 46%),
+		#0e1420;
+}
+
+.primaryMigrationCard::before {
+	position: absolute;
+	inset: 0 10% auto;
+	block-size: 1px;
+	background: linear-gradient(90deg, transparent, #8cddff, #a983ff, transparent);
+	content: "";
+	opacity: .7;
+	pointer-events: none;
+}
+
+.migrationCard[open] {
+	border-color: rgb(119 219 255 / 25%);
+	box-shadow:
+		0 1.35rem 3.5rem rgb(0 0 0 / 20%),
+		inset 0 1px rgb(255 255 255 / 5%);
+}
+
+.privacyPill {
+	border-color: rgb(119 219 255 / 30%);
+	background: linear-gradient(135deg, rgb(119 219 255 / 8%), rgb(138 116 255 / 4%));
+	box-shadow: inset 0 1px rgb(255 255 255 / 4%);
+}
+
+.statusLine {
+	padding: .72rem .8rem;
+	border: 1px solid rgb(151 177 220 / 14%);
+	border-radius: .82rem;
+	background: #090e17;
+}
+
+progress {
+	block-size: .58rem;
+	border-radius: 999px;
+	overflow: hidden;
+	background: #070a10;
+}
+
+progress::-webkit-progress-bar {
+	background: #070a10;
+}
+
+progress::-webkit-progress-value {
+	background: linear-gradient(90deg, #69dfff, #7fa7ff, #a983ff);
+}
+
+progress::-moz-progress-bar {
+	background: linear-gradient(90deg, #69dfff, #7fa7ff, #a983ff);
+}
+
+@media (forced-colors: active) {
+	.primaryMigrationCard::before {
+		display: none;
+	}
+}

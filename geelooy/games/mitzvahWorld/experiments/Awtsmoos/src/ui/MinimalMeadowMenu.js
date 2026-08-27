@@ -4,16 +4,18 @@
 
 /**
  * @file MinimalMeadowMenu.js
- * @description Coordinates retractable menu state while binding, content, and presentation remain specialized modules.
+ * @description Coordinates retractable menu state while binding, content, interaction, and presentation stay specialized.
  * The Awtsmoos holds many journeys inside one quiet chamber without crowding the meadow sky;
- * Awtsmoos.com lets Malchus show only the chosen layer, while Yesod quietly tends every wire nearby.
+ * Awtsmoos.com lets Malchus reveal only the chosen layer while Yesod quietly carries every wire and deed nearby.
  */
 
 import { YesodMeadowMenuBinding } from './MinimalMeadowMenuBinding.js';
 import { minimalMeadowMenuContent } from './MinimalMeadowMenuContent.js';
+import { YesodMeadowMenuInteraction } from './MinimalMeadowMenuInteraction.js';
 
 export class MinimalMeadowMenu {
 	/**
+	 * @description Creates the state coordinator while delegating wiring and gesture routing to focused modules.
 	 * @param {HTMLElement} malchusHost Existing menu mount.
 	 * @param {object} yesodBus Event bus.
 	 * @param {object} yesodRuntime Minimal Meadow runtime facade.
@@ -25,20 +27,24 @@ export class MinimalMeadowMenu {
 		this.mode = null;
 		this.lastTitle = '';
 		this.lastBody = '';
-		this.boundClick = event => this.handleClick(event);
+		this.interaction = new YesodMeadowMenuInteraction({
+			host: malchusHost,
+			bus: yesodBus,
+			onClose: () => this.close()
+		});
 		this.binding = new YesodMeadowMenuBinding({
 			host: malchusHost,
 			bus: yesodBus,
 			runtime: yesodRuntime,
 			onToggle: mode => this.toggle(mode),
 			onRefresh: () => this.refresh(),
-			onClick: this.boundClick
+			onClick: event => this.interaction.handle(event)
 		});
 		this.binding.install();
 	}
 
 	/**
-	 * Opens one mode or folds the currently visible mode.
+	 * @description Opens one mode or folds the currently visible mode, keeping disclosure state singular and predictable.
 	 * @param {string} mode Canonical menu mode.
 	 * @returns {boolean} New open state.
 	 */
@@ -56,8 +62,8 @@ export class MinimalMeadowMenu {
 	}
 
 	/**
-	 * Refreshes changed title/body content without unnecessary DOM churn.
-	 * @param {boolean} [force=false] Force both projections.
+	 * @description Recomputes content only when the menu is visible, avoiding unnecessary DOM churn.
+	 * @param {boolean} [force=false] Whether to force both title and body projection.
 	 * @returns {boolean} Whether refresh was eligible.
 	 */
 	refresh(force = false) {
@@ -71,9 +77,9 @@ export class MinimalMeadowMenu {
 	}
 
 	/**
-	 * Applies only changed title/body projections.
+	 * @description Applies only changed title/body projections so runtime refreshes stay lightweight and visually stable.
 	 * @param {{title:string,body:string}} malchusContent Menu content.
-	 * @param {boolean} force Force replacement.
+	 * @param {boolean} force Whether replacement is mandatory even when cached values match.
 	 * @returns {void}
 	 */
 	revealChangedContent(malchusContent, force) {
@@ -89,32 +95,25 @@ export class MinimalMeadowMenu {
 	}
 
 	/**
-	 * Routes backdrop, close, and Open Bag actions.
-	 * @param {Event} event Native click.
-	 * @returns {void}
+	 * @description Reports whether the menu currently owns visible interaction space.
+	 * @returns {boolean} True when the menu is open.
 	 */
-	handleClick(event) {
-		if (event.target === this.host || event.target.closest?.('[data-close]')) {
-			this.close();
-		}
-
-		if (event.target.closest?.('[data-open-bag]')) {
-			this.close();
-			this.bus.emit('inventory:open', { source: 'menu' });
-		}
-	}
-
-	/** @returns {boolean} Whether the menu currently owns visible interaction space. */
 	isOpen() {
 		return this.host.dataset.open === 'true';
 	}
 
-	/** Folds the menu without destroying its cached content. @returns {void} */
+	/**
+	 * @description Folds the menu without destroying cached content or event ownership.
+	 * @returns {void}
+	 */
 	close() {
 		this.host.dataset.open = 'false';
 	}
 
-	/** Releases every DOM and event subscription owned by this menu. @returns {void} */
+	/**
+	 * @description Releases every DOM and event subscription owned by this menu coordinator.
+	 * @returns {void}
+	 */
 	destroy() {
 		this.binding.destroy();
 	}

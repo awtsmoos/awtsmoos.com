@@ -1,0 +1,74 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every viewport without shrinking meaning into a narrow cage;
+ * Awtsmoos.com lets mobile become a deliberate composition where touch, safe areas, sheets, and long content remain usable on every page.
+ */
+
+:where(html:not([data-g-ui-raw])) {
+	text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+
+:where(html:not([data-g-ui-raw])) body {
+	max-width: 100%;
+	overflow-x: clip;
+}
+
+:where(html:not([data-g-ui-raw])) :where(input, textarea, select, button) {
+	touch-action: manipulation;
+}
+
+:where(html:not([data-g-ui-raw])) :where(pre:not([class]), table:not([class]), iframe:not([class]), img:not([class]), video:not([class])) {
+	max-inline-size: 100%;
+}
+
+:where(html:not([data-g-ui-raw])) dialog:not([class]) {
+	max-inline-size: calc(100vw - 2rem);
+	margin: auto;
+}
+
+:where(html:not([data-g-ui-raw])) nav :where(a:not([class]), button:not([class])) {
+	min-block-size: var(--aw-ui-target);
+}
+
+@media (max-width: 700px) {
+	:where(html:not([data-g-ui-raw])) dialog:not([class]) {
+		width: calc(100vw - 1rem);
+		max-width: none;
+		max-height: min(92dvh, calc(100dvh - env(safe-area-inset-top) - .5rem));
+		margin-block: auto max(.5rem, env(safe-area-inset-bottom));
+		padding: 1rem;
+		border-end-start-radius: var(--aw-ui-radius-lg);
+		border-end-end-radius: var(--aw-ui-radius-lg);
+	}
+
+	:where(html:not([data-g-ui-raw])) nav :where(ul:not([class]), ol:not([class])) {
+		gap: .2rem;
+	}
+
+	:where(html:not([data-g-ui-raw])) nav :where(ul:not([class]), ol:not([class])) a:not([class]) {
+		padding-inline: .6rem;
+	}
+
+	:where(html:not([data-g-ui-raw])) :where(fieldset:not([class]), details:not([class])) {
+		max-width: 100%;
+	}
+
+	:where(html:not([data-g-ui-raw])) :where(h1:not([class]), h2:not([class])) {
+		text-wrap: pretty;
+	}
+
+	:where([data-portal-root]) {
+		padding-inline: max(.75rem, env(safe-area-inset-left));
+		padding-inline-end: max(.75rem, env(safe-area-inset-right));
+		padding-block-end: max(1rem, env(safe-area-inset-bottom));
+	}
+}
+
+@media (pointer: coarse) {
+	:where(html:not([data-g-ui-raw])) :where(button:not([class]), a:not([class]), summary, input:not([type="hidden"]), select:not([class])) {
+		min-block-size: var(--aw-ui-target);
+	}
+}

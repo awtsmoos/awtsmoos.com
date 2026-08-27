@@ -1,31 +1,35 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-houses-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos gives every threshold one quiet sentence and every sentence a measured place; Awtsmoos.com keeps house notices
+brief, mobile-safe, non-blocking, and inside the same floating language as the world they describe.
 */
-
-/* B"H */
-
-/* Boruch Hashem */
-
-/* Blessed is He */
-
-/** The Awtsmoos gives a threshold one quiet voice; Awtsmoos.com keeps notices mobile-safe and temporary. */
 
 #mitzvah-world-root .Awtsmoos-house-notice {
 	position: fixed;
 	left: 50%;
-	top: max(92px, calc(env(safe-area-inset-top) + 68px));
-	z-index: 940;
-	max-width: min(82vw, 520px);
+	top: calc(var(--mw-safe-top) + 68px);
+	z-index: var(--mw-z-floating);
+	max-width: min(520px, calc(var(--mw-viewport-inline) * 0.82));
 	padding: 9px 14px;
-	border: 1px solid rgba(238, 204, 126, .72);
-	border-radius: 9px;
-	background: linear-gradient(180deg, rgba(63, 35, 18, .94), rgba(30, 17, 9, .95));
-	box-shadow: 0 9px 28px rgba(0, 0, 0, .42);
+	border: 1px solid rgba(238, 204, 126, 0.72);
+	border-radius: var(--mw-radius-sm);
+	background: linear-gradient(180deg, rgba(63, 35, 18, 0.94), rgba(30, 17, 9, 0.95));
+	box-shadow: var(--mw-shadow-control);
 	color: #ffe9b6;
 	font: 700 12px/1.35 Georgia, serif;
 	text-align: center;
 	transform: translateX(-50%);
 	pointer-events: none;
+	transition: opacity var(--mw-motion-fast) ease, transform var(--mw-motion-fast) var(--mw-ease-out);
+}
+
+@media (max-width: 520px) {
+	#mitzvah-world-root .Awtsmoos-house-notice {
+		top: calc(var(--mw-safe-top) + 56px);
+		max-width: calc(var(--mw-viewport-inline) - 12px);
+		padding: 8px 11px;
+		font-size: 11px;
+	}
 }

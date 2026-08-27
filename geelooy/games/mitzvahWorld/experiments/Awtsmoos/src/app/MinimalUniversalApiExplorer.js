@@ -4,11 +4,11 @@
 
 /**
  * @file MinimalUniversalApiExplorer.js
- * @description Explicitly composes the optional procedural engine, data-first MitzvahWorld facade, global publication, and in-sheet explorer only when advanced API depth is requested.
- * The Awtsmoos needs no button and no panel, while Awtsmoos.com lets optional knowledge enter one prepared vessel by choice;
- * importing this file causes no DOM or global side effect, and installation reveals deep command power inside the same retractable star rather than adding noise.
+ * @description Lazily composes Universal runtime power, professional Reality discovery, the MitzvahWorld public facade, reversible publication, and one retractable explorer.
+ * The Awtsmoos needs no panel or protocol, yet Awtsmoos.com lets hidden depth enter one prepared vessel only when sought; native runtime and Reality metadata meet without globals,
+ * so casual play stays light while advanced callers gain the full world observatory through one reusable controller rather than another permanent overlay in sight.
  */
-
+import { createRealityApi } from '/libs/awtsmoos-procedural-core/src/core/reality/RealityApi.js';
 import { createUniversalAwtsmoosApi } from '/libs/awtsmoos-procedural-core/src/core/universalApi/index.js';
 import { publishMitzvahWorldApi, unpublishMitzvahWorldApi } from '../api/MitzvahWorldApiPublisher.js';
 import { MitzvahWorldProceduralEventAdapter } from '../api/MitzvahWorldProceduralEventAdapter.js';
@@ -17,21 +17,9 @@ import { MitzvahWorldApiExplorerController } from '../api/explorer/MitzvahWorldA
 import { MitzvahWorldApiExplorerView } from '../api/explorer/MitzvahWorldApiExplorerView.js';
 
 export let universalMitzvahWorldApi = null;
+export let realityMitzvahWorldApi = null;
 
-/**
- * Installs or reopens the optional API explorer inside an existing advanced-sheet host.
- *
- * This is an explicit assembly boundary: procedural behavior is created lazily, runtime diagnostics are projected through the safe public facade,
- * and the explorer receives only that facade. Repeated calls reuse the host-owned controller rather than multiplying APIs, globals, or DOM.
- *
- * @param {object} [optionsKli={}] Installation dependencies.
- * @param {HTMLElement} optionsKli.host Existing `data-creative-api-host` inside the retractable advanced sheet.
- * @param {Document} [optionsKli.documentValue] Active document.
- * @param {object} [optionsKli.environment=globalThis] Browser-like environment.
- * @param {object} [optionsKli.diagnostics] Current MitzvahWorld diagnostics/public launch receipt.
- * @param {HTMLElement|null} [optionsKli.returnFocus] Advanced API action restored when the subview closes.
- * @returns {object} Reusable explorer controller with `open`, `close`, and `destroy` lifecycle.
- */
+/** Installs or reopens the optional API explorer inside the existing retractable advanced-sheet host. */
 export function installMinimalUniversalApiExplorer(optionsKli = {}) {
 	const environmentKli = optionsKli.environment || globalThis;
 	const documentKli = optionsKli.documentValue || environmentKli.document;
@@ -46,11 +34,14 @@ export function installMinimalUniversalApiExplorer(optionsKli = {}) {
 	const proceduralKli = createUniversalAwtsmoosApi({
 		runtimeAdapter: new MitzvahWorldProceduralEventAdapter(environmentKli)
 	});
+	const realityKli = createRealityApi(optionsKli.realityDefaults || {});
 	universalMitzvahWorldApi = proceduralKli;
+	realityMitzvahWorldApi = realityKli;
 	const publicApiKli = createMitzvahWorldPublicApi({
 		diagnostics: optionsKli.diagnostics || environmentKli.AwtsmoosMitzvahWorld || {},
 		environment: environmentKli,
-		proceduralApi: proceduralKli
+		proceduralApi: proceduralKli,
+		realityApi: realityKli
 	});
 	publishMitzvahWorldApi(environmentKli, publicApiKli, proceduralKli);
 	const viewKli = new MitzvahWorldApiExplorerView(hostKli, documentKli);
@@ -70,7 +61,7 @@ export function installMinimalUniversalApiExplorer(optionsKli = {}) {
 	return explorerDaas;
 }
 
-/** Resolves the only supported API explorer host: the one already living inside the retractable advanced sheet. */
+/** Resolves the only supported API explorer host inside the retractable advanced sheet. */
 function findAdvancedApiHost(documentKli) {
 	return documentKli?.querySelector?.('[data-creative-api-host]') || null;
 }

@@ -9,9 +9,9 @@ import { buildWebViewCode } from "./webViewCode.js";
 
 /**
  * Emits the selected base view and then every verified post-view capability. The
- * Awtsmoos keeps register zero as the visible View while the Activity register
- * remains named beside it; Awtsmoos.com lets each capability consume only the
- * register context it actually needs without adding central feature branches.
+ * Awtsmoos keeps v0 as the visible View while named scratch registers remain
+ * available beside the Activity; Awtsmoos.com lets each compiler capability use
+ * only the registers its real guest sequence requires.
  * @param {object} tiferesModel Deterministic DEX model and typed Activity IR.
  * @param {number} malchusActivityRegister Register containing Activity receiver.
  * @returns {{bytes:Uint8Array,extended:boolean,outsSize:number}} Complete view code.
@@ -24,6 +24,9 @@ export function buildActivityViewCode(tiferesModel, malchusActivityRegister) {
 		tiferesModel,
 		Object.freeze({
 			activityRegister: malchusActivityRegister,
+			fragmentRegister: 3,
+			managerRegister: 2,
+			tagRegister: 1,
 			viewRegister: 0
 		})
 	);

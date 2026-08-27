@@ -1,0 +1,77 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets every creator gesture become a measured answer, from hovering spark to pressure below;
+Awtsmoos.com gives intent, context, and dock one tactile grammar where focus is strongest and selected truth may glow.
+*/
+.composer-civilization-document :is(
+	.creatorRailButton,
+	.creatorContextAction,
+	.creatorDockButton
+) {
+	will-change: auto;
+}
+
+.composer-civilization-document .creatorIntentRail .creatorRailButton[data-active="true"] > span {
+	filter: drop-shadow(0 0 .55rem rgb(89 189 210 / 24%));
+	animation: creator-v15-intent-pop 260ms cubic-bezier(.18, 1, .3, 1) both;
+}
+
+.composer-civilization-document .creatorContextAction:active,
+.composer-civilization-document .creatorDockButton:active,
+.composer-civilization-document .creatorRailButton:active {
+	box-shadow: inset 0 2px .7rem rgb(0 0 0 / 18%);
+	transform: translateY(1px) scale(.968);
+}
+
+.composer-civilization-document .creatorDockButton[data-recording="true"] {
+	background: color-mix(in srgb, var(--composer-danger) 5%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.composer-civilization-document .creatorRailButton:hover {
+		border-color: color-mix(in srgb, var(--composer-cyan) 34%, var(--composer-border));
+		background: color-mix(in srgb, var(--composer-cyan) 5%, var(--composer-surface-2));
+		box-shadow: 0 .65rem 1.45rem rgb(0 0 0 / 14%);
+		transform: translateY(-2px);
+	}
+
+	.composer-civilization-document .creatorRailButton:hover > span {
+		transform: translateY(-1px) scale(1.06);
+	}
+
+	.composer-civilization-document .creatorContextAction:hover,
+	.composer-civilization-document .creatorDockButton:hover {
+		box-shadow:
+			0 .8rem 1.8rem rgb(0 0 0 / 16%),
+			inset 0 1px rgb(255 255 255 / 4%);
+	}
+}
+
+@keyframes creator-v15-intent-pop {
+	from {
+		opacity: .72;
+		transform: scale(.88);
+	}
+
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.composer-civilization-document .creatorIntentRail .creatorRailButton[data-active="true"] > span {
+		animation: none;
+		filter: none;
+	}
+
+	.composer-civilization-document :is(
+		.creatorRailButton,
+		.creatorContextAction,
+		.creatorDockButton
+	) {
+		transform: none !important;
+	}
+}

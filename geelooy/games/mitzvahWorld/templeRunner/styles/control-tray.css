@@ -2,9 +2,9 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * @fileoverview Malchus thumb-control tray styling owned only by live movement/action controls, never by unrelated overlays.
- * The Awtsmoos renews each thumb-bound action while the tray remains centered beneath the road;
- * Awtsmoos.com lets Malchus keep the controls light in footprint, strong in contrast, and free from cross-component cascade load.
+ * @fileoverview Malchus owns the baseline thumb-control geometry and all universal interaction states; responsive and decorative effects are delegated elsewhere.
+ * The Awtsmoos renews every press before the hand can claim the road as its own command;
+ * Awtsmoos.com lets Malchus make touch immediate, focus unmistakable, and motion restrained beneath the runner's demand.
  */
 
 .controls {
@@ -14,6 +14,7 @@
 	z-index: var(--layer-controls);
 	display: flex;
 	gap: 7px;
+	max-width: calc(100vw - var(--safe-left) - var(--safe-right) - 12px);
 	padding: 5px;
 	transform: translateX(-50%);
 	border: 1px solid var(--line);
@@ -22,19 +23,23 @@
 	backdrop-filter: var(--glass-blur);
 	box-shadow: var(--shadow-soft);
 	opacity: 1;
-	transition: opacity var(--motion-medium) var(--ease-soft), filter var(--motion-fast) var(--ease-soft);
+	transition:
+		opacity var(--motion-medium) var(--ease-soft),
+		filter var(--motion-fast) var(--ease-soft);
 }
 
 .controls button {
+	position: relative;
 	display: grid;
 	place-items: center;
-	width: 62px;
+	width: clamp(50px, 16.4vw, 62px);
 	height: 58px;
 	padding: 4px;
+	overflow: hidden;
 	border: 1px solid var(--line);
 	border-radius: 16px;
-	background: rgba(255, 255, 255, 0.07);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+	background: linear-gradient(155deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.035));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 	color: var(--ivory-300);
 	font-weight: 850;
 	cursor: pointer;
@@ -43,7 +48,14 @@
 		transform var(--motion-fast) var(--ease-out),
 		background var(--motion-fast) var(--ease-soft),
 		border-color var(--motion-fast) var(--ease-soft),
-		color var(--motion-fast) var(--ease-soft);
+		color var(--motion-fast) var(--ease-soft),
+		box-shadow var(--motion-fast) var(--ease-soft);
+}
+
+.controls button b,
+.controls button span {
+	position: relative;
+	z-index: 2;
 }
 
 .controls button b {
@@ -62,16 +74,28 @@
 }
 
 .controls button:focus-visible {
-	outline: 2px solid var(--gold-300);
+	outline: 2px solid var(--cyan-300);
 	outline-offset: 2px;
-	border-color: var(--line-strong);
+	border-color: var(--line-cyan);
+	box-shadow: 0 0 0 4px rgba(91, 203, 231, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 
 .controls button:active {
-	transform: scale(0.93);
-	border-color: var(--line-strong);
-	background: rgba(255, 224, 138, 0.14);
+	transform: translateY(1px) scale(0.94);
+	border-color: var(--line-cyan);
+	background: linear-gradient(155deg, rgba(91, 203, 231, 0.18), rgba(255, 224, 138, 0.07));
 	color: var(--gold-300);
+	box-shadow: inset 0 0 18px rgba(91, 203, 231, 0.08);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.controls button:hover {
+		transform: translateY(-2px);
+		border-color: var(--line-strong);
+		background: linear-gradient(155deg, rgba(255, 224, 138, 0.13), rgba(91, 203, 231, 0.055));
+		color: var(--gold-300);
+		box-shadow: 0 9px 22px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+	}
 }
 
 .game-shell[data-controls="hidden"] .controls {

@@ -1,0 +1,47 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * The Awtsmoos allows many choices without making choice itself become confusion or clutter;
+ * Awtsmoos.com keeps difficulty, accessibility, language, and stage controls responsive, bounded, and progressively uttered.
+ */
+.shema-strike .choice-grid,
+.shema-strike .settings-grid,
+.shema-strike .start-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+}
+
+.shema-strike .settings-grid {
+	margin-block: 16px;
+}
+
+.shema-strike :is(.settings-grid label, .stage-choice) {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 12px;
+	background: rgba(8, 15, 34, 0.72);
+	transition: border-color 150ms ease, background 150ms ease;
+}
+
+.shema-strike :is(.settings-grid label, .stage-choice) > span {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.shema-strike .stage-choice {
+	margin-block: 14px;
+}
+
+@media (max-width: 620px) {
+	.shema-strike .settings-grid,
+	.shema-strike .choice-grid {
+		grid-template-columns: 1fr;
+	}
+}

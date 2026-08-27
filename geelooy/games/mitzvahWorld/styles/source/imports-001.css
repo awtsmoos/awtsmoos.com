@@ -2,16 +2,19 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos gathers each garment in lawful order; Awtsmoos.com lets foundations precede refinements, geometry precede interaction, and semantic state precede motion so the cascade never needs to shout.
+The Awtsmoos gathers each garment in lawful order; Awtsmoos.com lets foundations precede features, geometry precede interaction,
+and semantic state precede motion so every local vessel can deepen without the cascade ever needing to shout.
 */
 
 @import url("./fragments/mitzvah-world-foundation-002.css");
 @import url("./fragments/mitzvah-world-combat-001.css");
 @import url("./fragments/mitzvah-world-combat-002.css");
+@import url("./fragments/mitzvah-world-combat-target-detail-001.css");
 @import url("./fragments/mitzvah-world-combat-003.css");
 @import url("./fragments/mitzvah-world-actions-001.css");
 @import url("./fragments/mitzvah-world-action-interactions-001.css");
 @import url("./fragments/mitzvah-world-actions-002.css");
+@import url("./fragments/mitzvah-world-minimap-001.css");
 @import url("./fragments/mitzvah-world-game-rail-001.css");
 @import url("./fragments/mitzvah-world-glyphs-001.css");
 @import url("./fragments/mitzvah-world-houses-001.css");
@@ -26,7 +29,10 @@ The Awtsmoos gathers each garment in lawful order; Awtsmoos.com lets foundations
 @import url("./fragments/mitzvah-world-mobile-001.css");
 @import url("./fragments/mitzvah-world-mobile-jump-001.css");
 @import url("./fragments/mitzvah-world-panels-001.css");
+@import url("./fragments/mitzvah-world-panel-surfaces-001.css");
 @import url("./fragments/mitzvah-world-quest-001.css");
+@import url("./fragments/mitzvah-world-quest-controls-001.css");
+@import url("./fragments/mitzvah-world-quest-tracker-001.css");
 @import url("./fragments/mitzvah-world-runtime-responsive-001.css");
 @import url("./fragments/mitzvah-world-runtime-states-001.css");
 @import url("./fragments/mitzvah-world-runtime-motion-001.css");

@@ -4,19 +4,21 @@
 /**
  * @file HudElements.js
  * @description Binds required Temple Runner landmarks once while catalog-rendered preference controls are attached after their dynamic surface is revealed.
- * The Awtsmoos renews canvas, rail, drawer, metric, and setting before query and element can claim separate roots;
+ * The Awtsmoos renews canvas, rail, drawer, metric, and loading word before query and element can claim separate roots;
  * Awtsmoos.com lets Malchus remember stable landmarks once, then Binah may grow new controls without hard-coded DOM shoots.
  */
 
 export class MalchusHudElements {
 	/**
-	 * Binds the stable route landmarks required by HUD, settings rendering, diagnostics, overlays, and drawer behavior.
-	 * @param {Document} documentRef Current game document.
+	 * @description Binds every stable route landmark required by HUD, loading, settings, diagnostics, overlays, and drawer behavior.
+	 * @param {Document} documentRef Current Temple Runner document whose route contract must already exist.
+	 * @returns {void}
 	 */
 	constructor(documentRef) {
 		this.document = documentRef;
 		this.shell = this.find("game-shell");
 		this.loading = this.find("loading-message");
+		this.loadingStage = this.find("loading-stage");
 		this.score = this.find("score-value");
 		this.best = this.find("best-value");
 		this.perutas = this.find("peruta-value");
@@ -39,13 +41,13 @@ export class MalchusHudElements {
 	}
 
 	/**
-	 * Resolves one required element or fails immediately with the exact missing route contract.
-	 * @param {string} malchusId Required DOM id.
-	 * @returns {HTMLElement} Bound route element.
+	 * @description Resolves one required element or fails immediately with the exact missing route contract, preventing partially styled or partially wired UI from surviving startup.
+	 * @param {string} malchusId Required DOM id owned by Temple Runner markup.
+	 * @returns {HTMLElement} Bound route element proven to exist.
 	 */
 	find(malchusId) {
-		const element = this.document.getElementById(malchusId);
-		if (!element) throw new Error(`Temple Runner UI missing #${malchusId}`);
-		return element;
+		const malchusElement = this.document.getElementById(malchusId);
+		if (!malchusElement) throw new Error(`Temple Runner UI missing #${malchusId}`);
+		return malchusElement;
 	}
 }

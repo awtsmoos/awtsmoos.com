@@ -4,35 +4,49 @@
 
 /**
  * @file MinimalMeadowWaterSystem.js
- * @description Mounts immediate water, hydrates its real material stack, and reports live river/lake geometry plus flowing shader policy.
- * The Awtsmoos carries current before and after finite loading; Awtsmoos.com keeps uploaded color, dual normals,
- * carved surfaces, physical shader law, allocation-free motion, and evidence inside one mounted water authority.
+ * @description Mounts canonical river/lake presentation, hydrates materials, and applies adaptive allocation-free motion.
+ * The Awtsmoos carries one current through changing vessels; Awtsmoos.com keeps water alive, measured, and clear,
+ * so richer shimmer answers available frame-time without multiplying geometry, draw calls, or hidden fear.
  */
 
 import { Group } from '../../../light-three-gltf/tiny-runtime.js';
 import { createPrimitiveMesh } from '../world/Box3D.js';
-import { minimalMeadowWaterElevationEvidence } from './MinimalMeadowRiverBanksDiagnostics.js';
-import { MINIMAL_MEADOW_RIVER_SEGMENTS } from './MinimalMeadowRiverPath.js';
-import { createMinimalMeadowWaterDefinitions } from './MinimalMeadowWaterDefinitions.js';
 import {
 	animateMinimalMeadowWaterMaterials,
-	hydrateMinimalMeadowWaterMaterials
-} from './MinimalMeadowWaterMaterialHydration.js';
+	prepareMinimalMeadowWaterAnimation
+} from './MinimalMeadowWaterAnimation.js';
+import { minimalMeadowWaterDiagnostics } from './MinimalMeadowWaterDiagnostics.js';
+import { createMinimalMeadowWaterDefinitions } from './MinimalMeadowWaterDefinitions.js';
+import { hydrateMinimalMeadowWaterMaterials } from './MinimalMeadowWaterMaterialHydration.js';
+import { minimalMeadowWaterQualityFor } from './MinimalMeadowWaterQualityPolicy.js';
 import {
 	createMinimalMeadowWaterFallbackSources,
 	loadMinimalMeadowWaterSources
 } from './MinimalMeadowWaterSources.js';
-import { minimalMeadowMeshMetrics } from './MinimalMeadowWorldPopulationDiagnostics.js';
 
 export class MinimalMeadowWaterSystem {
+	/**
+	 * @description Reuses an existing water authority or creates the canonical minimal-meadow instance.
+	 * @param {object} runtime Active minimal-meadow runtime.
+	 * @returns {Promise<MinimalMeadowWaterSystem>} Mounted-ready water authority.
+	 */
 	static async create(runtime) {
-		if (runtime.water?.group) return runtime.water;
+		if (runtime.water?.group) {
+			return runtime.water;
+		}
 		const sources = createMinimalMeadowWaterFallbackSources(runtime.environment || globalThis);
 		const system = new MinimalMeadowWaterSystem(runtime, sources);
-		if (runtime.environment?.disablePublicAssets !== true) system.beginPublicHydration();
+		if (runtime.environment?.disablePublicAssets !== true) {
+			system.beginPublicHydration();
+		}
 		return system;
 	}
 
+	/**
+	 * @description Builds the six bounded water-family meshes and prepares stable animation buffers before gameplay updates.
+	 * @param {object} runtime Active runtime.
+	 * @param {object} sources Immediate fallback water sources.
+	 */
 	constructor(runtime, sources) {
 		this.runtime = runtime;
 		this.sources = sources;
@@ -44,11 +58,16 @@ export class MinimalMeadowWaterSystem {
 			return mesh;
 		});
 		this.clock = 0;
+		this.frameIndex = 0;
+		this.animatedSurfaces = 0;
+		this.preparedSurfaces = prepareMinimalMeadowWaterAnimation(this.meshes);
+		this.qualityPolicy = minimalMeadowWaterQualityFor(runtime);
 		this.hydratedMeshes = 0;
 		this.hydrationState = 'procedural-visible';
 		this.errors = [];
 	}
 
+	/** @description Begins non-blocking public material hydration. @returns {Promise<object>} Hydration promise. */
 	beginPublicHydration() {
 		this.hydrationState = 'loading-water-material-pack';
 		this.hydrationPromise = loadMinimalMeadowWaterSources(this.runtime.environment || globalThis)
@@ -57,6 +76,7 @@ export class MinimalMeadowWaterSystem {
 		return this.hydrationPromise;
 	}
 
+	/** @description Applies loaded water sources in place. @param {object} sources Hydrated source set. @returns {object} Applied source set. */
 	finishHydration(sources) {
 		this.sources = sources;
 		this.hydratedMeshes = hydrateMinimalMeadowWaterMaterials(this.meshes, sources);
@@ -64,56 +84,36 @@ export class MinimalMeadowWaterSystem {
 		return sources;
 	}
 
+	/** @description Preserves playable fallback water when public hydration fails. @param {Error} error Hydration failure. @returns {object} Existing fallback sources. */
 	failHydration(error) {
 		this.errors.push(error.message);
 		this.hydrationState = 'procedural-visible';
 		return this.sources;
 	}
 
+	/** @description Advances adaptive water motion while keeping steady-state update allocations at zero. @param {number} deltaSeconds Frame delta in seconds. @returns {void} */
 	update(deltaSeconds) {
 		this.clock += Math.max(0, Number(deltaSeconds) || 0);
-		animateMinimalMeadowWaterMaterials(this.meshes, this.clock);
+		this.frameIndex += 1;
+		this.qualityPolicy = minimalMeadowWaterQualityFor(this.runtime);
+		this.animatedSurfaces = animateMinimalMeadowWaterMaterials(
+			this.meshes,
+			this.clock,
+			this.qualityPolicy,
+			this.frameIndex
+		);
 	}
 
+	/** @description Returns on-demand evidence without adding work to the frame loop. @returns {object} Water diagnostic receipt. */
 	diagnostics() {
-		const metrics = minimalMeadowMeshMetrics(this.meshes);
-		const surfaces = this.meshes.filter(mesh => mesh.userData?.waterVariant);
-		const river = surfaces.find(mesh => mesh.userData.waterVariant === 'river');
-		const lake = surfaces.find(mesh => mesh.userData.waterVariant === 'lake');
-		const policy = surfaces[0]?.material?.texturePolicy || {};
-		return {
-			activeNormalSources: this.sources.activeNormalSources,
-			bankMeshes: 2,
-			bedMeshes: 2,
-			colorMode: this.sources.colorMode,
-			drawCalls: this.meshes.length,
-			elevations: minimalMeadowWaterElevationEvidence(),
-			errors: [...this.errors],
-			flowLayers: Number(policy.flowLayers || 0),
-			hostedColorReady: this.sources.hostedColorReady,
-			hydratedMeshes: this.hydratedMeshes,
-			hydrationState: this.hydrationState,
-			lakeVertices: vertexCount(lake),
-			materials: metrics.materials,
-			mounted: this.group.parent === this.runtime.scene,
-			normalMode: this.sources.normalMode,
-			physicalShader: policy.waterPhysical?.shader || null,
-			riverSegments: MINIMAL_MEADOW_RIVER_SEGMENTS,
-			riverVertices: vertexCount(river),
-			sceneObjects: 1 + this.meshes.length,
-			shader: policy.shader || null,
-			triangles: metrics.triangles,
-			updateAllocations: 0,
-			waterMeshes: surfaces.length
-		};
+		return minimalMeadowWaterDiagnostics(this);
 	}
 
+	/** @description Detaches the water group and clears canonical runtime ownership. @returns {void} */
 	destroy() {
 		this.group.parent?.remove(this.group);
-		if (this.runtime.water === this) this.runtime.water = null;
+		if (this.runtime.water === this) {
+			this.runtime.water = null;
+		}
 	}
-}
-
-function vertexCount(mesh) {
-	return Number(mesh?.geometry?.attributes?.position?.array?.length || 0) / 3;
 }

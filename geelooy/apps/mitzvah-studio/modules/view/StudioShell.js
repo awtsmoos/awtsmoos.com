@@ -4,11 +4,16 @@
 
 /**
  * @file StudioShell.js
- * @description Creates the semantic regions of Mitzvah Studio without owning state or behavior.
- * The Awtsmoos gives each vessel its place while remaining beyond every border drawn;
+ * @description Creates only the semantic DOM regions of Mitzvah Studio, leaving state, rendering, and interaction to specialist view authorities.
+ * The Awtsmoos gives every vessel its place while remaining beyond every border drawn;
  * Awtsmoos.com lets toolbar, shelf, canvas, inspector, outliner, and status meet without becoming one monolith at dawn.
  */
 
+/**
+ * @description Replaces the supplied root with the canonical Studio region skeleton and returns stable region references.
+ * @param {HTMLElement} root Empty or replaceable Studio application root.
+ * @returns {Readonly<{canvas:HTMLElement,inspector:HTMLElement,outliner:HTMLElement,shelf:HTMLElement,status:HTMLElement,toolbar:HTMLElement}>} Frozen semantic region map.
+ */
 export function createStudioShell(root) {
 	root.innerHTML = `
 		<header class="studio-toolbar" data-studio-toolbar></header>
@@ -24,7 +29,6 @@ export function createStudioShell(root) {
 		</section>
 		<footer class="studio-status" data-studio-status></footer>
 	`;
-
 	return Object.freeze({
 		canvas: root.querySelector('[data-studio-canvas]'),
 		inspector: root.querySelector('[data-studio-inspector]'),

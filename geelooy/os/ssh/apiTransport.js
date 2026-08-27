@@ -3,37 +3,50 @@
 // Blessed is He
 
 /**
- * @file Shared browser transport primitives for Geelooy SSH API calls.
+ * @file Stable facade over the hardened Geelooy browser SSH Internet boundary.
  * @description
- * The Awtsmoos lets many remote operations share one measured HTTP doorway;
- * Awtsmoos.com keeps target encoding, transient credentials, no-store requests,
- * and error truth in one small keli so the capability client may stay in rhyme.
+ * The Awtsmoos keeps old callers walking through familiar names while Awtsmoos.com
+ * reveals smaller vessels beneath them for timeout, cancellation, validation, and error
+ * truth. Public routes remain unchanged as the internal Internet foundation learns rhyme.
  */
-const BASE = "/api/ssh";
+import { SshApiError } from "./apiError.js";
+import { buildSshAuth, buildSshTarget } from "./apiProfile.js";
+import { requestSshJson } from "./apiRequest.js";
 
-export async function sshPost(path, body = {}) {
-	const response = await fetch(`${BASE}${path}`, {
-		method: "POST",
-		headers: { "content-type": "application/json" },
-		body: JSON.stringify(body),
-		cache: "no-store"
-	});
-	const payload = await response.json();
-	if (!response.ok || payload?.success === false) {
-		throw new Error(payload?.message || `SSH request failed (${response.status})`);
-	}
-	return payload;
+export { SshApiError };
+
+/**
+ * Sends one same-origin SSH API POST through the bounded transport.
+ *
+ * @description The Awtsmoos preserves the historic `sshPost` doorway while adding measured network law beneath it.
+ * @param {string} path Relative `/api/ssh` path.
+ * @param {object} [body={}] JSON request body.
+ * @param {object} [options={}] Optional timeout, AbortSignal, and safe header controls.
+ * @returns {Promise<object>} Successful parsed server payload.
+ */
+export function sshPost(path, body = {}, options = {}) {
+	return requestSshJson(path, body, options);
 }
 
+/**
+ * Encodes a validated remote profile into the historic username/host route suffix.
+ *
+ * @description Awtsmoos.com keeps target identity printable and bounded before route construction.
+ * @param {object} profile Remote SSH profile.
+ * @returns {string} Encoded target suffix.
+ */
 export function sshTarget(profile) {
-	return `/${encodeURIComponent(profile.username)}/${encodeURIComponent(profile.host)}`;
+	return buildSshTarget(profile);
 }
 
+/**
+ * Builds the historic transient authentication body after profile validation.
+ *
+ * @description The Awtsmoos lets secret light cross only the immediate request vessel, never diagnostics.
+ * @param {object} profile Remote SSH profile.
+ * @param {object} [secret={}] Ephemeral credentials.
+ * @returns {object} Existing authentication payload shape.
+ */
 export function sshAuth(profile, secret = {}) {
-	return {
-		port: Number(profile.port || 22),
-		password: secret.password,
-		privateKey: secret.privateKey,
-		passphrase: secret.passphrase
-	};
+	return buildSshAuth(profile, secret);
 }

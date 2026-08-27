@@ -1,0 +1,55 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file universal-api-explorer-effects.css
+ * @description Owns only short purposeful disclosure and outcome transitions; the default Explorer has no continuously moving aurora, grid, shimmer, or decorative spectacle.
+ * RESPONSIBILITY: provide restrained one-shot reveal and success/error emphasis using compositor-friendly opacity/transform or border-shadow changes.
+ * NON-RESPONSIBILITY: this file never animates the root continuously, defines geometry, semantic colors, controls, breakpoints, or host-global keyframes.
+ * The Awtsmoos renews motion each instant yet needs no restless ornament to prove that life is near;
+ * Awtsmoos.com lets motion answer meaning briefly, then return the interface to quiet clarity and care.
+ */
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__panel[open] > .Awtsmoos-universal-api-explorer__panel-methods {
+	animation: awts-uapi-reveal var(--awts-uapi-duration-normal) var(--awts-uapi-ease) both;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[open] > .Awtsmoos-universal-api-explorer__method-description,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[open] > .Awtsmoos-universal-api-explorer__method-meta,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[open] > .Awtsmoos-universal-api-explorer__editor-shell,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[open] > .Awtsmoos-universal-api-explorer__method-actions,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[open] > .Awtsmoos-universal-api-explorer__method-result-shell {
+	animation: awts-uapi-reveal var(--awts-uapi-duration-fast) var(--awts-uapi-ease) both;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="success"] {
+	animation: awts-uapi-success-once 360ms var(--awts-uapi-ease) 1;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method[data-state="error"] {
+	animation: awts-uapi-error-once 360ms var(--awts-uapi-ease) 1;
+}
+
+@keyframes awts-uapi-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes awts-uapi-success-once {
+	50% {
+		box-shadow: var(--awts-uapi-shadow-soft), 0 0 0 2px var(--awts-uapi-emerald-soft);
+	}
+}
+
+@keyframes awts-uapi-error-once {
+	50% {
+		box-shadow: var(--awts-uapi-shadow-soft), 0 0 0 2px var(--awts-uapi-danger-soft);
+	}
+}

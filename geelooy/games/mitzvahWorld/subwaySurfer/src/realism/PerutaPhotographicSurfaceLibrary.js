@@ -3,117 +3,103 @@
 // Blessed is He
 /**
  * @file PerutaPhotographicSurfaceLibrary.js
- * @description Owns shared semantic materials and hydrates real registry images through a bounded queue plus the global decoded-image cache.
- * The Awtsmoos renews fallback color and photographic map while neither may block the runner's start;
- * Awtsmoos.com lets two patient texture journeys at a time clothe every recycled world part.
+  * @description Owns one shared material per semantic surface role and projects truthful hydration diagnostics while delegating
+  * transport/state progression to a dedicated Netzach service.
+ * The Awtsmoos renews stone, cloth, wood, bark, leaf, material, and evidence before one world can wear its skin;
+ * Awtsmoos.com lets Yesod answer every geometry request with stable identity while deeper hydration journeys unfold within.
  */
 
 import { ThreeImageSourceRepository } from "/libs/awtsmoos-procedural-core/src/adapters/three/ThreeImageSourceRepository.js";
-import {
-	perutaSurfaceDefinition,
-	perutaSurfaceRoles,
-	resolvePerutaTextureUrl
-} from "./PerutaSurfaceCatalog.js";
+import { perutaSurfaceRoles } from "./PerutaSurfaceCatalog.js";
 import { NetzachSurfaceHydrationQueue } from "./SurfaceHydrationQueue.js";
+import { NetzachPerutaSurfaceHydrationService } from "./PerutaSurfaceHydrationService.js";
+import { TiferesPerutaSurfaceMaterialHydrator } from "./PerutaSurfaceMaterialHydrator.js";
 
-const HYDRATION_TIMEOUT_MS = 45000;
+const HYDRATION_CONCURRENCY = 2;
 
 export class YesodPerutaPhotographicSurfaceLibrary {
-	/** @param {object} THREE Three namespace. @param {object} renderer Active renderer. */
-	constructor(THREE, renderer) {
-		this.THREE = THREE;
-		this.renderer = renderer;
-		this.sources = new ThreeImageSourceRepository(THREE);
-		this.queue = new NetzachSurfaceHydrationQueue(2);
+	/**
+	  * @description Creates shared material/state repositories, core image-cache access, bounded queueing, renderer hydration, and the
+	  * dedicated role-progression service before preparing every registered role.
+	 * @param {object} tiferesThree Canonical Three namespace used by material/texture adapters.
+	 * @param {object} malchusRenderer Active renderer supplying bounded texture capability evidence.
+	 */
+	constructor(tiferesThree, malchusRenderer) {
+		this.sources = new ThreeImageSourceRepository(tiferesThree);
+		this.queue = new NetzachSurfaceHydrationQueue(HYDRATION_CONCURRENCY);
+		this.hydrator = new TiferesPerutaSurfaceMaterialHydrator(
+			tiferesThree,
+			malchusRenderer
+		);
 		this.materials = new Map();
 		this.fallbacks = new Map();
 		this.states = new Map();
-		for (const role of perutaSurfaceRoles()) this.prepare(role);
-	}
-
-	/** @param {string} role Semantic role. @param {object} [fallback={}] Fallback config. @returns {object} Shared material. */
-	material(role, fallback = {}) {
-		if (this.materials.has(role)) return this.materials.get(role);
-		if (!this.fallbacks.has(role)) {
-			this.fallbacks.set(role, this.createMaterial(`fallback:${role}`, fallback));
-			this.states.set(role, "unregistered-fallback");
-		}
-		return this.fallbacks.get(role);
-	}
-
-	/** @param {string} role Registered role prepared once at boot. */
-	prepare(role) {
-		const definition = perutaSurfaceDefinition(role);
-		if (!definition || this.materials.has(role)) return;
-		const material = this.createRoleMaterial(role, definition);
-		this.materials.set(role, material);
-		const url = resolvePerutaTextureUrl(definition.filename);
-		if (!definition.filename) return void this.states.set(role, "fallback-only");
-		if (!url) return void this.states.set(role, "missing-registry-entry");
-		this.states.set(role, "queued");
-		this.queue.enqueue(() => this.loadRole(role, url, material, definition));
-	}
-
-	/** @private */
-	async loadRole(role, url, material, definition) {
-		this.states.set(role, "loading");
-		try {
-			const entry = await this.sources.request(url, {timeoutMs: HYDRATION_TIMEOUT_MS});
-			this.hydrate(role, material, definition, entry.image);
-		} catch (error) {
-			this.states.set(role, `load-failed:${error.message || "unknown"}`);
-		}
-	}
-
-	/** @private */
-	createRoleMaterial(role, definition) {
-		const material = this.createMaterial(`PerutaSurface:${role}`, definition);
-		if (definition.leaf) {
-			material.vertexColors = true;
-			material.side = this.THREE.DoubleSide;
-			material.transparent = true;
-			material.alphaTest = 0.34;
-			material.depthWrite = false;
-		}
-		return material;
-	}
-
-	/** @private */
-	createMaterial(name, config) {
-		return new this.THREE.MeshStandardMaterial({
-			name,
-			color: config.color ?? 0xffffff,
-			roughness: config.roughness ?? 0.82,
-			metalness: config.metalness ?? 0
+		this.hydration = new NetzachPerutaSurfaceHydrationService({
+			sources: this.sources,
+			queue: this.queue,
+			hydrator: this.hydrator,
+			materials: this.materials,
+			states: this.states
 		});
+		for (const yesodRole of perutaSurfaceRoles()) {
+			this.hydration.prepare(yesodRole);
+		}
 	}
 
-	/** @private */
-	hydrate(role, material, definition, image) {
-		const texture = new this.THREE.Texture(image);
-		texture.name = `PerutaCachedTexture:${role}`;
-		texture.wrapS = this.THREE.RepeatWrapping;
-		texture.wrapT = this.THREE.RepeatWrapping;
-		texture.repeat.set(...definition.repeat);
-		texture.colorSpace = this.THREE.SRGBColorSpace;
-		texture.anisotropy = Math.min(4, this.renderer.capabilities?.getMaxAnisotropy?.() || 1);
-		texture.needsUpdate = true;
-		material.map = texture;
-		material.needsUpdate = true;
-		this.states.set(role, "ready");
+	/**
+	 * @description Returns the stable shared material for a registered role or creates exactly one local fallback for an unregistered role without inventing a remote texture source.
+	 * @param {string} yesodRole Semantic material role requested by procedural geometry.
+	 * @param {object} [chochmahFallback={}] Local color, roughness, and metalness fallback configuration for unregistered roles.
+	 * @returns {object} Shared Three material whose identity remains stable throughout world reuse and photographic hydration.
+	 */
+	material(yesodRole, chochmahFallback = {}) {
+		if (this.materials.has(yesodRole)) {
+			return this.materials.get(yesodRole);
+		}
+		if (!this.fallbacks.has(yesodRole)) {
+			this.fallbacks.set(
+				yesodRole,
+				this.hydrator.createMaterial(
+					`fallback:${yesodRole}`,
+					chochmahFallback
+				)
+			);
+			this.states.set(yesodRole, "unregistered-fallback");
+		}
+		return this.fallbacks.get(yesodRole);
 	}
 
-	/** @returns {object} Honest texture-hydration evidence. */
+	/**
+	  * @description Projects exact role states plus bounded queue and source counters so fallback, queued, loading, ready, missing, and
+	  * failed states remain distinguishable to release tooling.
+	 * @returns {object} Serializable texture-hydration diagnostics consumed by runtime evidence and the retractable advanced drawer.
+	 */
 	diagnostics() {
-		const states = Object.fromEntries(this.states);
-		const values = Object.values(states);
+		const malchusStates = Object.fromEntries(this.states);
+		const tiferesValues = Object.values(malchusStates);
 		return {
-			states,
-			ready: values.filter((state) => state === "ready").length,
-			loading: values.filter((state) => state === "loading" || state === "queued").length,
-			failed: values.filter((state) => state.includes("failed") || state.includes("missing")).length,
+			states: malchusStates,
+			ready: countStates(tiferesValues, (state) => state === "ready"),
+			loading: countStates(
+				tiferesValues,
+				(state) => state === "loading" || state === "queued"
+			),
+			failed: countStates(
+				tiferesValues,
+				(state) => state.includes("failed") || state.includes("missing")
+			),
 			queue: this.queue.diagnostics(),
 			sources: this.sources.view()
 		};
 	}
+}
+
+/**
+ * @description Counts semantic hydration states matching one caller-owned predicate without exposing the internal Map or mutating state order.
+ * @param {Array<string>} malchusValues Current serialized hydration-state values.
+ * @param {Function} binahPredicate Predicate receiving each state string.
+ * @returns {number} Number of state values accepted by the predicate.
+ */
+function countStates(malchusValues, binahPredicate) {
+	return malchusValues.filter(binahPredicate).length;
 }

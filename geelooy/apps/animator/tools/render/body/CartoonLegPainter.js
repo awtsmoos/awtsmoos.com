@@ -6,26 +6,36 @@ import { DirectionalShoePainter } from './DirectionalShoePainter.js';
 
 /**
  * Hip, knee, ankle, and planted shoe turn locomotion into believable weight.
- * The Awtsmoos renews stride and crouch; Awtsmoos.com keeps catches grounded,
- * stops braced, and seated poses anatomically readable from heel to head.
+ * The Awtsmoos renews contact then swing; Awtsmoos.com keeps stance feet low
+ * while passing feet lift, preventing the old uniform sinusoid from ruling the stride.
  */
 export class CartoonLegPainter {
-	static paint(canvas, x, ground, dimensions, phase, walk, color, pose, view = 'front') {
+	/** Paints both legs from an optional contact-aware runtime gait recipe. */
+	static paint(canvas, x, ground, dimensions, phase, walk, color, pose, view = 'front', locomotion = null) {
 		if (pose === 'seated') return this.seated(canvas, x, ground, dimensions, color, view);
 		const crouch = ['crouched', 'kneeling', 'catch_low'].includes(pose) ? 0.45 : 0;
-		const stride = Math.sin(phase) * (12 + walk * 16) * walk;
-		const lift = Math.max(0, Math.cos(phase)) * 14 * walk;
 		const hipY = ground - dimensions.legHeight * (1 - crouch * 0.22);
 		for (const side of [-1, 1]) {
+			const step = this.step(side, phase, walk, dimensions, locomotion);
 			const hipX = x + side * dimensions.bodyWidth * 0.18;
-			const footX = x + side * dimensions.bodyWidth * (0.2 + crouch * 0.12) - side * stride;
-			const footY = ground - this.footLift(side, phase, lift, walk);
-			const knee = this.knee(hipX, hipY, footX, footY, side, dimensions, crouch, walk);
+			const footX = x + side * dimensions.bodyWidth * (0.2 + crouch * 0.12) + step.x;
+			const footY = ground + step.y;
+			const knee = this.knee(hipX, hipY, footX, footY, side, dimensions, crouch, walk, step.contact);
 			this.segment(canvas, hipX, hipY, knee.x, knee.y, dimensions, color, true);
 			this.segment(canvas, knee.x, knee.y, footX, footY, dimensions, color, false);
 			canvas.circle(knee.x, knee.y, 5.2 * dimensions.scale, color);
 			DirectionalShoePainter.paint(canvas, footX, footY, dimensions, this.direction(view, side));
 		}
+	}
+
+	static step(side, phase, walk, dimensions, locomotion) {
+		const authored = side < 0 ? locomotion?.legs?.left : locomotion?.legs?.right;
+		if (authored) return authored;
+		const stride = Math.sin(phase) * (12 + walk * 16) * walk;
+		const lift = side > 0
+			? Math.max(0, Math.cos(phase)) * 14 * walk
+			: Math.max(0, -Math.cos(phase)) * 14 * walk;
+		return { x: -side * stride, y: -lift, contact: lift < dimensions.scale };
 	}
 
 	static seated(canvas, x, ground, dimensions, color, view) {
@@ -41,15 +51,12 @@ export class CartoonLegPainter {
 		}
 	}
 
-	static knee(hipX, hipY, footX, footY, side, dimensions, crouch, walk) {
+	static knee(hipX, hipY, footX, footY, side, dimensions, crouch, walk, contact) {
+		const swingFlex = contact ? 0 : dimensions.legHeight * 0.045 * walk;
 		return {
 			x: (hipX + footX) / 2 + side * dimensions.bodyWidth * (0.12 + crouch * 0.2),
-			y: hipY + (footY - hipY) * (0.48 + walk * 0.04) + crouch * 12 * dimensions.scale
+			y: hipY + (footY - hipY) * (0.48 + walk * 0.04) + crouch * 12 * dimensions.scale + swingFlex
 		};
-	}
-
-	static footLift(side, phase, lift, walk) {
-		return side > 0 ? lift : Math.max(0, -Math.cos(phase)) * 14 * walk;
 	}
 
 	static segment(canvas, x1, y1, x2, y2, dimensions, color, upper) {

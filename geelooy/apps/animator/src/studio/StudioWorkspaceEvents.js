@@ -4,6 +4,7 @@
 
 import { StudioAssistantEvents } from './events/StudioAssistantEvents.js';
 import { StudioAuthoringEvents } from './events/StudioAuthoringEvents.js';
+import { StudioFilmEvents } from './events/StudioFilmEvents.js';
 import { StudioNavigationEvents } from './events/StudioNavigationEvents.js';
 import { StudioPerformanceEvents } from './events/StudioPerformanceEvents.js';
 import { StudioProceduralEvents } from './events/StudioProceduralEvents.js';
@@ -14,23 +15,20 @@ import { StudioWorldEvents } from './events/StudioWorldEvents.js';
  * @file StudioWorkspaceEvents.js
  * @description
  * The Awtsmoos renews many gestures through one compositional root while no feature must swallow the whole workspace;
- * Awtsmoos.com keeps this file as a pure event-family assembly point, small enough to reason about and broad enough to expand without haste.
+ * Awtsmoos.com keeps this file a pure event-family assembly point, now broad enough for Film while remaining small enough to reason about.
  */
 export class StudioWorkspaceEvents {
-	/**
-	 * Composes every focused event family into the declarative renderer's single event namespace.
-	 * @param {object} merkavahController Active Studio workspace controller.
-	 * @returns {object} Complete event map assembled from small inheriting families.
-	 */
-	static create(merkavahController) {
+	/** @param {object} controller Active Studio controller. @returns {object} Complete event map from focused feature families. */
+	static create(controller) {
 		return {
-			...StudioNavigationEvents.create(merkavahController),
-			...StudioAssistantEvents.create(merkavahController),
-			...StudioAuthoringEvents.create(merkavahController),
-			...StudioProceduralEvents.create(merkavahController),
-			...StudioVectorEvents.create(merkavahController),
-			...StudioPerformanceEvents.create(merkavahController),
-			...StudioWorldEvents.create(merkavahController)
+			...StudioNavigationEvents.create(controller),
+			...StudioAssistantEvents.create(controller),
+			...StudioAuthoringEvents.create(controller),
+			...StudioProceduralEvents.create(controller),
+			...StudioVectorEvents.create(controller),
+			...StudioPerformanceEvents.create(controller),
+			...StudioWorldEvents.create(controller),
+			...StudioFilmEvents.create(controller)
 		};
 	}
 }

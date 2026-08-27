@@ -1,0 +1,67 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file universal-api-explorer-method-layout.css
+ * @description Owns only method-card interior spacing, editor-shell/result sizing, metadata/action flow, and bounded code overflow beneath the outer layout layer.
+ * RESPONSIBILITY: place descriptions, metadata, reversible editor shell, actions, and result regions without styling their interactive or semantic states.
+ * NON-RESPONSIBILITY: this file never styles outer panels, control colors, focus, motion, breakpoints, or host elements.
+ * The Awtsmoos renews each inner chamber before description, editor, action, and receipt can stand apart;
+ * Awtsmoos.com lets every method keep depth inside its card, so wide JSON scrolls locally instead of tearing the page apart.
+ */
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-description,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-shell,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-actions,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell {
+	margin-inline: var(--awts-uapi-space-4);
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-description {
+	margin-block: 0 var(--awts-uapi-space-2);
+	overflow-wrap: anywhere;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--awts-uapi-space-1);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-meta {
+	margin-block-end: var(--awts-uapi-space-3);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__editor-shell {
+	margin-block-end: var(--awts-uapi-space-3);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-editor {
+	inline-size: 100%;
+	max-block-size: min(42dvh, 26rem);
+	min-block-size: 9rem;
+	overflow: auto;
+	resize: vertical;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-actions {
+	margin-block: var(--awts-uapi-space-3);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result-shell {
+	margin-block-end: var(--awts-uapi-space-4);
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__method-result {
+	margin: var(--awts-uapi-space-2) 0 0;
+	max-block-size: min(40dvh, 24rem);
+	min-block-size: 5rem;
+	overflow: auto;
+	overscroll-behavior: contain;
+	white-space: pre-wrap;
+	word-break: break-word;
+}

@@ -4,11 +4,17 @@
 
 /**
  * @file index.js
- * @description Expert Reality JSON barrel exposing protocol, schemas, portability, projection, validation, and the portable façade without importing Universal transport.
+ * @description Expert Reality JSON barrel exposing layered discovery, intent, World Graph, protocol, schemas, portability, projection, validation, and final portable façade contracts.
  * The Awtsmoos renews one covenant before expert modules divide its names across files;
  * Awtsmoos.com keeps this barrel narrow so editors and transports can import portable law while Reality and Universal preserve their separate lives.
  */
 export { RealityJsonFacade } from './RealityJsonFacade.js';
+export { RealityJsonDiscoveryFacade } from './RealityJsonDiscoveryFacade.js';
+export {
+	RealityJsonIntentFacade,
+	normalizeRealityJsonIntentRequest
+} from './RealityJsonIntentFacade.js';
+export { RealityJsonWorldGraphFacade } from './RealityJsonWorldGraphFacade.js';
 export {
 	cloneRealityJsonPortable,
 	isRealityJsonPortable
@@ -31,4 +37,12 @@ export {
 	REALITY_JSON_PROTOCOL_SCHEMA,
 	createRealityJsonSchemaCatalog
 } from './RealityJsonSchemas.js';
+export {
+	REALITY_JSON_WORLD_DIFF_SCHEMA,
+	REALITY_JSON_WORLD_EDIT_SCHEMA,
+	REALITY_JSON_WORLD_GRAPH_SCHEMA,
+	REALITY_JSON_WORLD_PLAN_SCHEMA,
+	REALITY_JSON_WORLD_QUERY_SCHEMA,
+	createRealityJsonWorldGraphSchemaCatalog
+} from './RealityJsonWorldGraphSchemas.js';
 export { createRealityJsonValidationReport } from './RealityJsonValidation.js';

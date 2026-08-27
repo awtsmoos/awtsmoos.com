@@ -3,106 +3,86 @@
 // Blessed is He
 /**
  * @file PerutaFactory.js
- * @description Builds and animates the pooled multi-piece Peruta collectible through procedural-core-backed primitives with no authored reward geometry.
- * The Awtsmoos renews even copper and gold from nothing in each radiant beat;
- * Awtsmoos.com lets the humble peruta shimmer as a bright reward along the street.
+ * @description Orchestrates a quality-aware pooled Peruta whose mobile vessel spends one draw call while richer profiles reveal optional detail through a dedicated Ohr factory.
+ * The Awtsmoos renews copper, gold, shimmer, and restraint before one reward may flash beneath the sky;
+ * Awtsmoos.com lets Mamon remain instantly readable while optional beauty descends only where the vessel can carry it high.
  */
 
 import { OLAM_CONFIG, WORLD_COLORS } from "../config.js";
+import { OhrPerutaDetailFactory } from "./PerutaDetailFactory.js";
 
 export class MamonPerutaFactory {
-	/** @param {object} tiferesThree Three.js namespace. @param {object} yesodMeshFactory Procedural mesh vessel. */
-	constructor(tiferesThree, yesodMeshFactory) {
+	/**
+	 * @description Captures group ownership, procedural geometry, immutable quality policy, and an isolated optional-detail factory before any pooled collectible is created.
+	 * @param {object} tiferesThree Canonical Three namespace used for group ownership.
+	 * @param {object} yesodMeshFactory Shared procedural-core-backed primitive factory.
+	 * @param {Readonly<object>} tiferesProfile Active renderer quality profile controlling collectible ornament.
+	 */
+	constructor(tiferesThree, yesodMeshFactory, tiferesProfile) {
 		this.THREE = tiferesThree;
 		this.meshFactory = yesodMeshFactory;
+		this.profile = tiferesProfile;
+		this.details = new OhrPerutaDetailFactory(yesodMeshFactory);
 	}
 
-	/** @returns {object} Pooled group whose visible children all come through procedural core. */
+	/**
+	  * @description Creates one pooled reward group: one strong metallic disc on mobile, one additional rim on balanced, and one cinematic
+	  * sparkle only at the highest explicit quality.
+	 * @returns {object} Reusable Peruta group whose child geometry is entirely procedural-core-backed.
+	 */
 	create() {
 		const malchusRoot = new this.THREE.Group();
-		malchusRoot.name = "BetterPeruta";
+		malchusRoot.name = "QualityAwarePeruta";
 		malchusRoot.userData.kind = "peruta";
 		malchusRoot.userData.baseY = OLAM_CONFIG.perutaHeight;
 		malchusRoot.position.y = OLAM_CONFIG.perutaHeight;
-		malchusRoot.add(
-			this.createDisc(),
-			this.createOuterRing(),
-			this.createInnerRing(),
-			this.createGlint()
-		);
+		malchusRoot.add(this.createDisc());
+		if (this.profile.detailLevel >= 2) {
+			malchusRoot.add(this.details.createOuterRing());
+		}
+		if (this.profile.detailLevel >= 3) {
+			malchusRoot.add(this.details.createGlint());
+		}
 		return malchusRoot;
 	}
 
-	/** @returns {object} Main metallic procedural disc. */
+	/**
+	 * @description Creates the main circular metallic coin body with enough radial resolution for silhouette quality while preserving one-draw mobile rendering.
+	 * @returns {object} Metallic procedural cylinder rotated toward the runner.
+	 */
 	createDisc() {
 		return this.meshFactory.cylinder({
 			name: "PerutaDisc",
 			parameters: {
-				radiusTop: 0.31,
-				radiusBottom: 0.31,
+				radiusTop: 0.34,
+				radiusBottom: 0.34,
 				height: 0.09,
-				radialSegments: 20,
+				radialSegments: 18,
 				smooth: true
 			},
 			rotation: [Math.PI / 2, 0, 0],
 			material: {
 				color: WORLD_COLORS.gold,
-				metalness: 0.88,
-				roughness: 0.24,
-				emissive: 0x382000
+				metalness: 0.9,
+				roughness: 0.2,
+				emissive: 0x3f2500
 			},
 			castShadow: false
 		});
 	}
 
-	/** @returns {object} Bright procedural outer rim. */
-	createOuterRing() {
-		return this.createRing("PerutaOuterRing", 0.37, 0.055, WORLD_COLORS.goldLight, 0x4f3300);
-	}
-
-	/** @returns {object} Bronze procedural inner detail. */
-	createInnerRing() {
-		return this.createRing("PerutaInnerRing", 0.19, 0.025, WORLD_COLORS.bronze, 0x000000);
-	}
-
-	/** @private @returns {object} Shared low-cost torus reward detail. */
-	createRing(malchusName, yesodRadius, yesodTube, ohrColor, ohrEmissive) {
-		return this.meshFactory.torus({
-			name: malchusName,
-			parameters: {
-				radius: yesodRadius,
-				tube: yesodTube,
-				radialSegments: 7,
-				tubularSegments: 18,
-				smooth: true
-			},
-			rotation: [Math.PI / 2, 0, 0],
-			material: {
-				color: ohrColor,
-				metalness: 0.82,
-				roughness: 0.24,
-				emissive: ohrEmissive
-			},
-			castShadow: false
-		});
-	}
-
-	/** @returns {object} Small procedural sparkle that preserves reward readability at speed. */
-	createGlint() {
-		return this.meshFactory.icosphere({
-			name: "PerutaGlint",
-			parameters: {radius: 0.045, subdivisions: 1, smooth: true},
-			position: [0.17, 0.16, 0.08],
-			material: {color: 0xfff3b0, emissive: 0x9b6b18, roughness: 0.12},
-			castShadow: false,
-			receiveShadow: false
-		});
-	}
-
-	/** @param {object} malchusRoot Peruta group. @param {number} tiferesTime Running visual time. @param {number} yesodPhase Slot phase. */
+	/**
+	 * @description Animates only the pooled group transform, keeping reward shimmer allocation-free regardless of profile-selected child detail.
+	 * @param {object} malchusRoot Reusable Peruta group.
+	 * @param {number} tiferesTime Running visual time in seconds.
+	 * @param {number} yesodPhase Deterministic per-slot animation phase.
+	 * @returns {void}
+	 */
 	animate(malchusRoot, tiferesTime, yesodPhase) {
 		malchusRoot.rotation.y = tiferesTime * 3.4 + yesodPhase;
-		malchusRoot.rotation.x = Math.sin(tiferesTime * 1.7 + yesodPhase) * 0.12;
+		malchusRoot.rotation.x = Math.sin(
+			tiferesTime * 1.7 + yesodPhase
+		) * 0.12;
 		malchusRoot.position.y = malchusRoot.userData.baseY
 			+ Math.sin(tiferesTime * 4.2 + yesodPhase) * 0.08;
 	}

@@ -3,24 +3,28 @@
 // Blessed is He
 /**
  * @file MalchusPreferenceGate.js
- * @description Applies manifest-approved presentation configuration through the catalog-backed preference vessel without duplicating per-type rules in the public API layer.
- * The Awtsmoos renews each garment without changing the runner beneath its glow;
- * Awtsmoos.com lets Malchus pass declared values into one guarded store, keeping public configuration narrow and low.
+ * @description Applies manifest-approved presentation configuration through the single catalog-backed preference owner, preserving one validation/persistence path for UI, API, quality, and future shells.
+ * The Awtsmoos renews garment without changing the runner beneath its glow;
+ * Awtsmoos.com lets Malchus receive one declared value, then reflect it through a guarded store where rival preference laws cannot grow.
  */
 
-/** Canonical live configuration bridge for presentation-only Temple preferences. */
 export class MalchusPreferenceGate {
-	/** @param {object} malchusHud HUD controller exposing the guarded preference store. */
+	/**
+	 * @description Binds the HUD preference owner without copying its state, schema, persistence, or subscriber list into the public API layer.
+	 * @param {object} malchusHud Active HUD controller exposing the catalog-backed `preferences` vessel.
+	 * @returns {void}
+	 */
 	constructor(malchusHud) {
 		this.hud = malchusHud;
 	}
 
 	/**
-	 * Applies one manifest-validated configuration key through the catalog-backed preference store.
-	 * @param {string} yesodKey Canonical preference key.
-	 * @param {unknown} malchusValue Requested public value.
-	 * @param {object} binahDefinition Frozen configuration definition retained for diagnostics.
-	 * @returns {boolean} Whether the stored presentation preference changed.
+	 * @description Applies one manifest-validated configuration key through the canonical preference store after proving the manifest still declares an explicit value type.
+	 * @param {string} yesodKey Canonical preference key shared with generated settings and persistence.
+	 * @param {unknown} malchusValue Requested public value to normalize inside the preference owner.
+	 * @param {Readonly<object>} binahDefinition Frozen manifest configuration definition retained as protocol evidence.
+	 * @returns {boolean} Whether the normalized stored presentation preference changed.
+	 * @throws {TypeError} When a manifest configuration entry lacks its required declared type.
 	 */
 	configure(yesodKey, malchusValue, binahDefinition) {
 		if (!binahDefinition?.type) {

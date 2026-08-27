@@ -2,79 +2,55 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos hides a treasury behind one quiet star, yet every glow remains disciplined and clear;
-Awtsmoos.com lets this local vessel reveal advanced power through focus, touch, motion, and glass without spreading conflict anywhere near.
+The Awtsmoos hides a treasury behind one quiet star while structure remains distinct from interaction; Awtsmoos.com lets this core own
+only typography, surfaces, sheet geometry, and open-state composition while hover, focus, press, accessibility, and motion live in dedicated vessels.
 */
 
 #mitzvah-world-root .Awtsmoos-creative-dock {
+	color: rgba(244, 255, 249, 0.98);
 	font: 600 13px/1.25 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-	color: rgba(244, 255, 249, .98);
-	transition: opacity 140ms ease;
 }
 
 #mitzvah-world-root .Awtsmoos-creative-dock__trigger {
 	display: inline-flex;
 	align-items: center;
 	gap: 7px;
-	border: 1px solid rgba(180, 255, 211, .32);
+	border: 1px solid rgba(180, 255, 211, 0.32);
 	border-radius: 999px;
-	background: linear-gradient(145deg, rgba(9, 25, 17, .76), rgba(5, 15, 11, .58));
-	box-shadow: 0 10px 30px rgba(0, 0, 0, .16), inset 0 1px 0 rgba(255, 255, 255, .07);
+	background: linear-gradient(145deg, rgba(9, 25, 17, 0.76), rgba(5, 15, 11, 0.58));
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.07);
 	backdrop-filter: blur(12px) saturate(1.12);
-	color: rgba(245, 255, 249, .94);
+	color: rgba(245, 255, 249, 0.94);
 	font: inherit;
 	font-weight: 720;
 	pointer-events: auto;
 	cursor: pointer;
-	transition: transform 130ms ease, border-color 130ms ease, box-shadow 130ms ease, background 130ms ease;
 }
 
 #mitzvah-world-root .Awtsmoos-creative-dock__trigger > span:first-child {
+	color: rgba(179, 255, 206, 0.9);
 	font-size: 15px;
-	color: rgba(179, 255, 206, .9);
-	transition: transform 170ms cubic-bezier(.2, .8, .2, 1), color 140ms ease;
-}
-
-@media (hover: hover) {
-	#mitzvah-world-root .Awtsmoos-creative-dock__trigger:hover {
-		border-color: rgba(188, 255, 214, .58);
-		background: linear-gradient(145deg, rgba(13, 35, 23, .86), rgba(6, 20, 13, .66));
-		box-shadow: 0 14px 38px rgba(0, 0, 0, .22), 0 0 24px rgba(121, 255, 168, .08);
-		transform: translateY(-1px);
-	}
 }
 
 #mitzvah-world-root .Awtsmoos-creative-dock[data-open="true"] .Awtsmoos-creative-dock__trigger > span:first-child {
-	transform: rotate(45deg) scale(1.08);
 	color: rgba(205, 255, 222, 1);
-}
-
-#mitzvah-world-root .Awtsmoos-creative-dock__trigger:active,
-#mitzvah-world-root .Awtsmoos-creative-dock__actions button:active,
-#mitzvah-world-root .Awtsmoos-creative-dock__close:active {
-	transform: translateY(1px) scale(.98);
-}
-
-#mitzvah-world-root .Awtsmoos-creative-dock :is(button, summary):focus-visible {
-	outline: 2px solid rgba(188, 255, 211, .94);
-	outline-offset: 3px;
+	transform: rotate(45deg) scale(1.08);
 }
 
 #mitzvah-world-root .Awtsmoos-creative-dock__sheet {
 	display: grid;
 	gap: 12px;
 	padding: 14px;
-	border: 1px solid rgba(185, 255, 211, .24);
+	border: 1px solid rgba(185, 255, 211, 0.24);
 	border-radius: 20px;
-	background: linear-gradient(155deg, rgba(7, 22, 14, .94), rgba(4, 13, 9, .86));
-	box-shadow: 0 24px 70px rgba(0, 0, 0, .34), inset 0 1px 0 rgba(255, 255, 255, .06);
+	background: linear-gradient(155deg, rgba(7, 22, 14, 0.94), rgba(4, 13, 9, 0.86));
+	box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 	backdrop-filter: blur(18px) saturate(1.14);
 	opacity: 0;
 	visibility: hidden;
 	pointer-events: none;
-	transform: translateY(-8px) scale(.965);
+	transform: translateY(-8px) scale(0.965);
 	transform-origin: top right;
-	transition: opacity 150ms ease, transform 170ms cubic-bezier(.2, .8, .2, 1), visibility 0s linear 170ms;
 }
 
 #mitzvah-world-root .Awtsmoos-creative-dock[data-open="true"] .Awtsmoos-creative-dock__sheet {
@@ -82,7 +58,6 @@ Awtsmoos.com lets this local vessel reveal advanced power through focus, touch, 
 	visibility: visible;
 	pointer-events: auto;
 	transform: translateY(0) scale(1);
-	transition-delay: 0s;
 }
 
 #mitzvah-world-root .Awtsmoos-creative-dock__header {
@@ -100,14 +75,14 @@ Awtsmoos.com lets this local vessel reveal advanced power through focus, touch, 
 
 #mitzvah-world-root .Awtsmoos-creative-dock__header small,
 #mitzvah-world-root .Awtsmoos-creative-dock__status {
-	color: rgba(188, 215, 198, .68);
+	color: rgba(188, 215, 198, 0.68);
 	font-size: 10px;
-	letter-spacing: .04em;
+	letter-spacing: 0.04em;
 	overflow-wrap: anywhere;
 }
 
 #mitzvah-world-root .Awtsmoos-creative-dock__header strong {
 	font-size: 15px;
-	letter-spacing: -.01em;
+	letter-spacing: -0.01em;
 	overflow-wrap: anywhere;
 }

@@ -2,17 +2,16 @@
 // Boruch Hashem
 // Blessed is He
 
-import { StudioDocumentMutations } from '../authoring/StudioDocumentMutations.js';
-import { StudioNatureGeneratorV3 } from './StudioNatureGeneratorV3.js';
+import { StudioProceduralAlgorithmRevision } from './StudioProceduralAlgorithmRevision.js';
 import { StudioProceduralDescriptor } from './StudioProceduralDescriptor.js';
 import { StudioProceduralV3Descriptor } from './StudioProceduralV3Descriptor.js';
-import { StudioProceduralV3EntityService } from './StudioProceduralV3EntityService.js';
+import { StudioProceduralV3LifecycleMutation } from './StudioProceduralV3LifecycleMutation.js';
 
 /**
  * @file StudioProceduralV3LifecycleService.js
  * @description
- * The Awtsmoos renews one rich generated layer without breaking its identity, transform, or timeline references;
- * Awtsmoos.com lets v3 seed and parameters change through one undoable lifecycle while realism and material intent remain faithfully alive.
+ * The Awtsmoos renews seed and intent while the selected entity keeps one history and identity through every generation;
+ * Awtsmoos.com leaves document mutation to a focused service so this public lifecycle vessel remains small, readable, version-aware, and bright.
  */
 export class StudioProceduralV3LifecycleService {
 	/** @param {object} store Studio store. @returns {boolean} Regeneration result. */
@@ -20,18 +19,30 @@ export class StudioProceduralV3LifecycleService {
 		return this.update(store, (tiferesDescriptor) => tiferesDescriptor);
 	}
 
-	/** @param {object} store Store. @param {string} key Parameter key. @param {*} value Raw value. @returns {boolean} Update result. */
+	/**
+	 * Updates one historic generator parameter while preserving the descriptor's algorithm revision.
+	 * @param {object} store Canonical Studio store.
+	 * @param {string} key Parameter key.
+	 * @param {*} value Raw parameter value.
+	 * @returns {boolean} Update result.
+	 */
 	static updateParameter(store, key, value) {
 		return this.update(store, (tiferesDescriptor) => {
 			return StudioProceduralV3Descriptor.create(
 				tiferesDescriptor.kind,
 				tiferesDescriptor.seed,
-				{ ...tiferesDescriptor, params: { ...tiferesDescriptor.params, [key]: value } }
+				{
+					...tiferesDescriptor,
+					params: {
+						...tiferesDescriptor.params,
+						[key]: value
+					}
+				}
 			);
 		});
 	}
 
-	/** @param {object} store Store. @param {*} value Raw seed. @returns {boolean} Update result. */
+	/** @param {object} store Studio store. @param {*} value Raw seed. @returns {boolean} Update result. */
 	static updateSeed(store, value) {
 		return this.update(store, (tiferesDescriptor) => {
 			const yesodSeed = String(value || '').trim() || tiferesDescriptor.seed;
@@ -54,48 +65,31 @@ export class StudioProceduralV3LifecycleService {
 		});
 	}
 
-	/** @param {object} store Studio store. @returns {boolean} Parameter-reset result preserving seed and rich intent. */
+	/**
+	 * Resets bounded parameters and revision-two realism traits while preserving seed, material, and realism preset.
+	 * @param {object} store Canonical Studio store.
+	 * @returns {boolean} Reset result.
+	 */
 	static reset(store) {
 		return this.update(store, (tiferesDescriptor) => {
+			const keterRevision = StudioProceduralAlgorithmRevision.resolve(tiferesDescriptor);
+			const binahValue = {
+				...tiferesDescriptor,
+				params: {}
+			};
+			if (keterRevision === StudioProceduralAlgorithmRevision.CURRENT) {
+				binahValue.traits = {};
+			}
 			return StudioProceduralV3Descriptor.create(
 				tiferesDescriptor.kind,
 				tiferesDescriptor.seed,
-				{ ...tiferesDescriptor, params: {} }
+				binahValue
 			);
 		});
 	}
 
-	/** @param {object} store Studio store. @param {Function} mutate Descriptor mutation. @returns {boolean} Update result. */
+	/** @param {object} store Store. @param {Function} mutate Descriptor mutation. @returns {boolean} Update result. */
 	static update(store, mutate) {
-		const malchusEntity = this.selected(store);
-		const tiferesDescriptor = malchusEntity?.properties?.procedural;
-		if (Number(tiferesDescriptor?.version) !== StudioProceduralV3Descriptor.VERSION) {
-			return false;
-		}
-		return StudioDocumentMutations.updateSelected(store, (yesodEntity) => {
-			const binahDescriptor = mutate(tiferesDescriptor);
-			const chochmahGeneration = StudioNatureGeneratorV3.create(
-				binahDescriptor.kind,
-				binahDescriptor.seed,
-				binahDescriptor
-			);
-			return {
-				...yesodEntity,
-				properties: {
-					...(yesodEntity.properties || {}),
-					procedural: chochmahGeneration.descriptor,
-					proceduralGeneration: StudioProceduralV3EntityService.provenance(chochmahGeneration),
-					renderSpec: chochmahGeneration.geometry
-				}
-			};
-		});
-	}
-
-	/** @param {object} store Studio store. @returns {object|null} Selected entity. */
-	static selected(store) {
-		const binahState = store.get();
-		return (binahState.studioDocument?.entities || []).find((entity) => {
-			return entity.id === binahState.selectedEntityId;
-		}) || null;
+		return StudioProceduralV3LifecycleMutation.apply(store, mutate);
 	}
 }

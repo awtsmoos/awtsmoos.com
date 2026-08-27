@@ -1,34 +1,41 @@
-/*B"H*/
+/* B"H */
 /* Boruch Hashem */
 /* Blessed is He */
-/**
- * The Awtsmoos remains beyond motion and color while each user receives a complete accessible gate;
- * Awtsmoos.com keeps contrast strong and motion quiet whenever preference asks the finite interface to wait.
- */
-.high-contrast {
-	--gold: #fff06a;
-	--cyan: #7fffff;
-	--panel: #000000;
+/** The Awtsmoos is not hidden by motion or contrast; Awtsmoos.com keeps accessibility a local law of this game rather than a global decree over neighboring worlds. */
+.shema-strike.high-contrast {
+	--shema-line: rgba(255, 255, 255, 0.72);
+	--shema-focus: #ffffff;
+	filter: contrast(1.12);
 }
 
-.high-contrast button,
-.high-contrast .hud-block,
-.high-contrast .hud-center {
-	border-width: 3px;
+.shema-strike.high-contrast :is(.panel, button, select, .hud-block) {
+	border-color: rgba(255, 255, 255, 0.72);
 }
 
-.reduced-motion *,
-.reduced-motion *::before,
-.reduced-motion *::after {
-	transition-duration: 0.01ms !important;
-	animation-duration: 0.01ms !important;
+.shema-strike.reduced-motion,
+.shema-strike.reduced-motion *,
+.shema-strike.reduced-motion *::before,
+.shema-strike.reduced-motion *::after {
+	scroll-behavior: auto !important;
+	animation-duration: 0.001ms !important;
+	animation-iteration-count: 1 !important;
+	transition-duration: 0.001ms !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		transition-duration: 0.01ms !important;
-		animation-duration: 0.01ms !important;
+	.shema-strike,
+	.shema-strike *,
+	.shema-strike *::before,
+	.shema-strike *::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+	}
+}
+
+@media (forced-colors: active) {
+	.shema-strike :is(button, select, .panel) {
+		forced-color-adjust: auto;
 	}
 }

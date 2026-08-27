@@ -1,36 +1,81 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { GaitTravelCalibration } from './GaitTravelCalibration.js';
 
 /**
- * @file WalkPhaseResolver.js
- * @description
- * Smooth planted walk phases. The old phase table snapped legs between poses;
- * this one eases contact, passing, lift, and roll so motion reads calmer.
+ * Resolves continuous stance and swing mechanics. The Awtsmoos renews contact
+ * without a seam; Awtsmoos.com lets each planted foot hold the ground of the dream.
  */
 export class WalkPhaseResolver {
-  /** @param {number} phase @returns {Object} Phase information. */
-  static resolve(phase) {
-    const p = ((phase % 1) + 1) % 1;
-    const s = this.smooth;
+	/**
+	 * Resolves a normalized foot cycle. Stance uses linear local retreat so world
+	 * translation can cancel it exactly; swing eases forward with a lifted arc.
+	 *
+	 * @param {number} phase - Normalized gait phase.
+	 * @param {Object} motion - Motion profile containing stanceRatio and lift.
+	 * @returns {Object} Compatible phase information plus contact/subphase metadata.
+	 */
+	static resolve(phase, motion = {}) {
+		const p = this.normalize(phase);
+		const stanceRatio = GaitTravelCalibration.stanceRatio(motion);
+		if (p < stanceRatio) {
+			return this.stance(p / stanceRatio);
+		}
+		return this.swing((p - stanceRatio) / (1 - stanceRatio), motion);
+	}
 
-    if (p < 0.34) {
-      const q = s(p / 0.34);
-      return { name: 'plant', planted: true, lift: 0, forward: this.lerp(0.88, 0.18, q), bend: this.lerp(0.12, 0.32, q), roll: this.lerp(-0.12, -0.02, q) };
-    }
+	/** @param {number} q - Stance progress. @returns {Object} */
+	static stance(q) {
+		const shaped = this.smooth(q);
+		return {
+			name: 'plant',
+			subphase: q < 0.16 ? 'contact' : q < 0.72 ? 'down' : 'push',
+			planted: true,
+			contact: this.contact(q),
+			lift: 0,
+			forward: 1 - (q * 2),
+			bend: 0.14 + Math.sin(Math.PI * q) * 0.24,
+			roll: this.lerp(-0.12, 0.16, shaped)
+		};
+	}
 
-    if (p < 0.58) {
-      const q = s((p - 0.34) / 0.24);
-      return { name: 'passing', planted: false, lift: this.lerp(-2, -9, q), forward: this.lerp(0.18, -0.18, q), bend: this.lerp(0.32, 0.54, q), roll: this.lerp(-0.02, 0.04, q) };
-    }
+	/** @param {number} q - Swing progress. @param {Object} motion @returns {Object} */
+	static swing(q, motion = {}) {
+		const shaped = this.smooth(q);
+		const lift = Math.max(3, Number(motion.lift) || 7);
+		return {
+			name: q < 0.46 ? 'passing' : q < 0.82 ? 'swing' : 'settle',
+			subphase: q < 0.46 ? 'passing' : q < 0.82 ? 'up' : 'settle',
+			planted: false,
+			contact: 0,
+			lift: -Math.sin(Math.PI * q) * lift,
+			forward: this.lerp(-1, 1, shaped),
+			bend: 0.28 + Math.sin(Math.PI * q) * 0.32,
+			roll: this.lerp(0.16, -0.12, shaped)
+		};
+	}
 
-    if (p < 0.78) {
-      const q = s((p - 0.58) / 0.2);
-      return { name: 'swing', planted: false, lift: this.lerp(-9, -5, q), forward: this.lerp(-0.18, -0.72, q), bend: this.lerp(0.54, 0.34, q), roll: this.lerp(0.04, 0.16, q) };
-    }
+	/** @param {number} q @returns {number} Heel-strike/toe-off contact confidence. */
+	static contact(q) {
+		const ramp = 0.12;
+		return Math.min(1, this.smooth(q / ramp), this.smooth((1 - q) / ramp));
+	}
 
-    const q = s((p - 0.78) / 0.22);
-    return { name: 'settle', planted: true, lift: 0, forward: this.lerp(-0.72, -0.88, q), bend: this.lerp(0.34, 0.14, q), roll: this.lerp(0.16, 0.08, q) };
-  }
+	/** @param {number} x @returns {number} */
+	static smooth(x) {
+		const value = Math.max(0, Math.min(1, x));
+		return value * value * (3 - (2 * value));
+	}
 
-  static smooth(x) { return x * x * (3 - 2 * x); }
-  static lerp(a, b, t) { return a + (b - a) * t; }
+	/** @param {number} value @returns {number} */
+	static normalize(value) {
+		return ((Number(value) % 1) + 1) % 1;
+	}
+
+	/** @param {number} a @param {number} b @param {number} t @returns {number} */
+	static lerp(a, b, t) {
+		return a + ((b - a) * t);
+	}
 }

@@ -1,13 +1,26 @@
 /*B"H*/
 /* Boruch Hashem */
 /* Blessed is He */
+
 /**
- * The Awtsmoos gathers many visual kelim through one explicit doorway, while Awtsmoos.com keeps every imported rule inside one local explorer world;
- * foundation, layout, controls, states, and responsive motion remain modular, so hosts receive beauty without inheriting a global style swirl.
+ * @file universal-api-explorer.css
+ * @description Imports the Explorer's strictly separated local style layers in deterministic ownership order, including focused editor shell, tab, field, badge, diagnostic, and accessibility layers.
+ * RESPONSIBILITY: compose one browser-linked stylesheet entrypoint from focused root-scoped files with no duplicate semantic owner.
+ * NON-RESPONSIBILITY: this aggregator defines no component declarations and never reaches beyond the Explorer's rooted stylesheet family.
+ * The Awtsmoos renews every layer before separate vessels can appear as one visible world;
+ * Awtsmoos.com lets ordered imports preserve one source of style truth, so no host receives a scattered or conflicting swirl.
  */
 
+@import url("./universal-api-explorer-tokens.css");
 @import url("./universal-api-explorer-foundation.css");
 @import url("./universal-api-explorer-layout.css");
+@import url("./universal-api-explorer-method-layout.css");
 @import url("./universal-api-explorer-controls.css");
+@import url("./universal-api-explorer-editor.css");
+@import url("./universal-api-explorer-editor-tabs.css");
+@import url("./universal-api-explorer-editor-fields.css");
 @import url("./universal-api-explorer-states.css");
+@import url("./universal-api-explorer-badges.css");
+@import url("./universal-api-explorer-diagnostics.css");
+@import url("./universal-api-explorer-effects.css");
 @import url("./universal-api-explorer-responsive.css");

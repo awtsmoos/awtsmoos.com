@@ -3,40 +3,45 @@
 // Blessed is He
 /**
  * @file DaasReadGate.js
- * @description Resolves canonical Temple evidence channels while dedicated presentation and UI-discovery views compose cross-surface state without exposing owning subsystem references.
- * The Awtsmoos renews every observable fact before Daas may reveal its form;
- * Awtsmoos.com keeps reads narrow and non-mutating so diagnostics, presentation, and interface discovery never become a hidden storm.
+ * @description Resolves every manifest-declared Temple evidence channel through focused read-only views, including assets/network truth, without returning mutable runtime owners to public callers.
+ * The Awtsmoos renews state, garment, asset, and hidden diagnostic before Daas may gather one finite sign;
+ * Awtsmoos.com lets each read pass through a guarded window, so public knowledge grows deep while ownership stays behind the line.
  */
 
+import { DaasAssetReadView } from "./DaasAssetReadView.js";
 import { DaasTemplePresentationView } from "./TemplePresentationView.js";
 import { DaasTempleUiDiscoveryView } from "./TempleUiDiscoveryView.js";
 
 export class DaasReadGate {
 	/**
-	 * Binds authoritative runtime/HUD owners and composes dedicated read-only views for presentation and UI discovery.
-	 * @param {object} tiferesRuntime Active runtime.
-	 * @param {object} malchusHud HUD controller.
+	 * @description Binds the authoritative runtime/HUD owners and creates dedicated immutable-view composers instead of duplicating observable state inside the API layer.
+	 * @param {object} tiferesRuntime Active Temple runtime containing loop, character, surface, quality, and world owners.
+	 * @param {object} malchusHud Active HUD controller containing preferences and retractable disclosure state.
+	 * @returns {void}
 	 */
 	constructor(tiferesRuntime, malchusHud) {
 		this.runtime = tiferesRuntime;
 		this.hud = malchusHud;
+		this.assets = new DaasAssetReadView(tiferesRuntime);
 		this.presentation = new DaasTemplePresentationView(tiferesRuntime, malchusHud);
 		this.uiDiscovery = new DaasTempleUiDiscoveryView(malchusHud);
 	}
 
 	/**
-	 * Reads one manifest-validated evidence channel without exposing mutable owner references or requiring callers to parse internal manifests.
-	 * @param {string} chochmahName Canonical read id.
-	 * @param {object} tiferesDefinition Frozen read definition.
-	 * @returns {unknown} JSON-compatible runtime, presentation, or discovery evidence.
+	 * @description Reads one manifest-validated evidence channel, delegating composed views to their own modules and rejecting any schema source that lacks an explicit public implementation.
+	 * @param {string} chochmahName Canonical public read id used for diagnostics and precise contract errors.
+	 * @param {Readonly<object>} tiferesDefinition Frozen manifest read definition containing the internal source id.
+	 * @returns {unknown} Detached JSON-compatible state, diagnostics, assets, preferences, presentation, or UI-discovery evidence.
+	 * @throws {RangeError} When the manifest contains a read source this gate does not deliberately support.
 	 */
 	read(chochmahName, tiferesDefinition) {
-		const source = tiferesDefinition.source;
-		if (source === "state") return this.runtime.loop.getSnapshot();
-		if (source === "diagnostics") return this.runtime.loop.getDiagnostics();
-		if (source === "preferences") return this.hud.preferences.snapshot();
-		if (source === "presentation") return this.presentation.snapshot();
-		if (source === "ui") return this.uiDiscovery.snapshot();
-		throw new RangeError(`Unsupported Temple read source for ${chochmahName}: ${source}`);
+		const daasSource = tiferesDefinition.source;
+		if (daasSource === "state") return this.runtime.loop.getSnapshot();
+		if (daasSource === "diagnostics") return this.runtime.loop.getDiagnostics();
+		if (daasSource === "assets") return this.assets.snapshot();
+		if (daasSource === "preferences") return this.hud.preferences.snapshot();
+		if (daasSource === "presentation") return this.presentation.snapshot();
+		if (daasSource === "ui") return this.uiDiscovery.snapshot();
+		throw new RangeError(`Unsupported Temple read source for ${chochmahName}: ${daasSource}`);
 	}
 }

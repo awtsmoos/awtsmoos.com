@@ -5,7 +5,7 @@
  * @file GamepadControls.js
  * @description Converts one connected controller into edge-triggered Temple action ids, then resolves those ids through the same canonical catalog used by keyboard, touch, and public API.
  * The Awtsmoos renews stick and button before hardware can invent another language for the Chossid's way;
- * Awtsmoos.com lets Netzach map finite controller signs into shared Chochmah actions, keeping every device aligned today.
+ * Awtsmoos.com lets Netzach translate finite pressure into shared Chochmah action, so every device enters one covenant without semantic decay.
  */
 
 import { revealTempleInputIntent } from "../api/TempleActionCatalog.js";
@@ -14,14 +14,18 @@ import { INPUT_CONFIG } from "../config.js";
 const GAMEPAD_ACTION_IDS = Object.freeze(["left", "right", "jump", "slide", "pause"]);
 
 export class NetzachGamepadControls {
-	/** @param {object} hodInput Shared one-shot intent queue. */
+	/**
+	 * @description Captures the shared intent queue and initializes one remembered Boolean per supported gamepad action so held controls emit only rising edges.
+	 * @param {object} hodInput Shared frame-scoped intent queue exposing `request()`.
+	 * @returns {void}
+	 */
 	constructor(hodInput) {
 		this.input = hodInput;
 		this.previous = Object.fromEntries(GAMEPAD_ACTION_IDS.map((actionId) => [actionId, false]));
 	}
 
 	/**
-	 * Polls the first connected gamepad, reveals current action-id states, and emits only rising edges.
+	 * @description Polls the first connected gamepad, converts axes/buttons into canonical action-id states, and emits only newly pressed edges.
 	 * @returns {void}
 	 */
 	update() {
@@ -43,8 +47,8 @@ export class NetzachGamepadControls {
 	}
 
 	/**
-	 * Finds the first browser-reported connected controller without assuming a fixed gamepad index.
-	 * @returns {Gamepad|null} Connected controller or null.
+	 * @description Finds the first browser-reported connected controller without assuming stable index ownership between connection cycles.
+	 * @returns {Gamepad|null} First connected controller or null when none exists.
 	 */
 	findGamepad() {
 		const gamepads = navigator.getGamepads?.() || [];
@@ -55,8 +59,8 @@ export class NetzachGamepadControls {
 	}
 
 	/**
-	 * Emits only newly pressed action ids after translating each through the canonical runtime-intent catalog.
-	 * @param {Record<string, boolean>} current Current controller action-id states.
+	 * @description Emits only action ids that changed from false to true, translating each id through the canonical action catalog before entering the frame queue.
+	 * @param {Record<string, boolean>} current Current Boolean state for every supported gamepad action id.
 	 * @returns {void}
 	 */
 	emitEdges(current) {
@@ -68,7 +72,7 @@ export class NetzachGamepadControls {
 	}
 
 	/**
-	 * Clears remembered action edges when no controller remains connected or ownership resets.
+	 * @description Clears remembered edge state when no controller remains connected so a future reconnection begins from neutral truth.
 	 * @returns {void}
 	 */
 	resetEdges() {

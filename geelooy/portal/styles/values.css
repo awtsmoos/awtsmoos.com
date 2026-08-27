@@ -1,0 +1,66 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every finite value while Awtsmoos.com keeps facts, arbitrary objects, and status marks readable;
+ * specialized classed data never falls back to browser-default spacing merely because universal raw selectors correctly leave authored UI unconstrained.
+ */
+
+.portal-value-object,
+.portal-facts {
+	display: grid;
+	grid-template-columns: minmax(8rem, 14rem) minmax(0, 1fr);
+	gap: .45rem 1rem;
+	margin: 0;
+}
+
+.portal-value-object dt,
+.portal-facts dt {
+	font-weight: 760;
+}
+
+.portal-value-object dd,
+.portal-facts dd {
+	min-width: 0;
+	margin: 0;
+	color: var(--aw-ui-muted);
+	overflow-wrap: anywhere;
+}
+
+.portal-value-list {
+	margin: 0;
+	padding-inline-start: 1.4rem;
+}
+
+.portal-value-list > li {
+	margin-block: .35rem;
+	line-height: 1.5;
+}
+
+.portal-truncated,
+.portal-null {
+	color: var(--aw-ui-muted);
+	font-style: italic;
+}
+
+.portal-badge {
+	display: inline-flex;
+	min-height: 1.7rem;
+	align-items: center;
+	padding: .2rem .45rem;
+	border: 1px solid var(--aw-ui-line);
+	border-radius: 999px;
+	background: var(--aw-ui-surface-muted);
+	color: var(--aw-ui-text);
+	font-size: .84rem;
+	font-weight: 700;
+}
+
+.portal-empty {
+	margin: 0;
+	padding: 1rem;
+	border: 1px dashed var(--aw-ui-line-strong);
+	border-radius: var(--aw-ui-radius);
+	color: var(--aw-ui-muted);
+	text-align: center;
+}

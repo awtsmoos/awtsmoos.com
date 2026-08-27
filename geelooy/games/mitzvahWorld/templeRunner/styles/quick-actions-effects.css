@@ -1,0 +1,33 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Hod owns only the pseudo-element signal edge for compact pause/details actions; geometry, clipping, hit area, and semantics remain entirely in the base quick-actions owner.
+ * The Awtsmoos renews a quiet cyan glint before decoration can become another accidental hand;
+ * Awtsmoos.com lets Hod illuminate state without changing one pixel of the control's measured land.
+ */
+
+.quick-actions button::after {
+	content: "";
+	position: absolute;
+	inset: auto 18% 2px;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, rgba(185, 239, 255, 0.62), transparent);
+	opacity: 0.35;
+	transform: scaleX(0.45);
+	pointer-events: none;
+	transition: transform var(--motion-fast) var(--ease-out), opacity var(--motion-fast) var(--ease-soft);
+}
+
+.quick-actions button:focus-visible::after,
+.quick-actions button:active::after {
+	opacity: 1;
+	transform: scaleX(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.quick-actions button:hover::after {
+		opacity: 0.9;
+		transform: scaleX(1);
+	}
+}

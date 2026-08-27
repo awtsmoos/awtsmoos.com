@@ -4,61 +4,61 @@
 /**
  * @module PianoSampleLoader
  * @description
- * The Awtsmoos lets many simultaneous fingers ask for one immutable recording yet decodes it once;
- * Awtsmoos.com remembers successful promises, remembers failed URLs for the session, and prevents retry storms from beginning twice.
+ * The Awtsmoos lets many fingers ask for one immutable recording while Awtsmoos.com decodes it once;
+ * bounded memory, shared promises, and quiet failure quarantine keep future instruments spacious rather than immense at any cost.
  */
 
+import {
+	clearSampleBufferCacheState,
+	loadThroughSampleCache,
+	sampleBufferCacheSnapshot,
+	sampleCacheHasFailed
+} from './sampleBufferCache.js';
 import {
 	fetchDecodedSample,
 	sampleFetchError
 } from './sampleBufferFetch.js';
 
-const bufferPromises = new Map();
-const failedUrls = new Set();
-
 /**
- * @description Loads and decodes one manifest sample while coalescing concurrent requests for the same immutable URL.
+ * @description Loads and decodes one manifest sample while coalescing duplicate requests and bounding retained ready buffers.
  * @param {AudioContext} context - Active Web Audio context used for decoding.
  * @param {Object} sample - Manifest sample containing immutableUrl.
  * @param {Function} [fetcher=fetch] - Fetch-compatible transport used by browser or tests.
  * @returns {Promise<AudioBuffer>} Shared promise for the decoded audio buffer.
- * @throws {Error} Rejects when the URL is missing, previously failed this session, HTTP retrieval fails, or decoding fails.
  */
 export function loadSampleBuffer(context, sample, fetcher = fetch) {
 	const url = sample?.immutableUrl;
 
-	if (!url || failedUrls.has(url)) {
+	if (!url || sampleCacheHasFailed(url)) {
 		return Promise.reject(sampleFetchError('SAMPLE_UNAVAILABLE'));
 	}
 
-	if (!bufferPromises.has(url)) {
-		const promise = fetchDecodedSample(context, url, fetcher)
-			.catch((error) => {
-				bufferPromises.delete(url);
-				failedUrls.add(url);
-				throw error;
-			});
-
-		bufferPromises.set(url, promise);
-	}
-
-	return bufferPromises.get(url);
+	return loadThroughSampleCache(url, () => {
+		return fetchDecodedSample(context, url, fetcher);
+	});
 }
 
 /**
- * @description Clears decoded-promise and failure caches for deterministic tests or deliberate memory reclamation.
+ * @description Clears decoded-promise and failure caches for deterministic tests or deliberate page-level memory reclamation.
  * @returns {void}
  */
 export function clearSampleBufferCache() {
-	bufferPromises.clear();
-	failedUrls.clear();
+	clearSampleBufferCacheState();
 }
 
 /**
- * @description Reports whether an immutable URL has already failed in this page session, allowing diagnostics without exposing cache internals.
+ * @description Reports whether one immutable URL has already failed in this page session.
  * @param {string} url - Immutable sample URL to inspect.
  * @returns {boolean} True when the URL is quarantined from repeated loading attempts.
  */
 export function sampleUrlHasFailed(url) {
-	return failedUrls.has(url);
+	return sampleCacheHasFailed(url);
+}
+
+/**
+ * @description Exposes aggregate bounded-cache readiness for diagnostics without exposing AudioBuffer objects or internal promises.
+ * @returns {{entries:number,ready:number,pending:number,failed:number,limit:number}} Current sample-cache snapshot.
+ */
+export function getSampleBufferCacheStatus() {
+	return sampleBufferCacheSnapshot();
 }

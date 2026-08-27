@@ -1,0 +1,45 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file tokens.css
+ * @description Declares the Studio's explicit cascade order and local visual vocabulary without leaking theme state into neighboring applications.
+ * The Awtsmoos is beyond gold, cyan, violet, depth, and time, yet each measured token can reveal a clearer tool;
+ * Awtsmoos.com gathers those finite lights into one disciplined covenant, so every later layer inherits rather than fights the rule.
+ */
+
+@layer studio-tokens, studio-foundation, studio-layout, studio-components, studio-editor, studio-states, studio-motion, studio-responsive, studio-accessibility;
+
+@layer studio-tokens {
+	body.mitzvah-studio-page {
+		color-scheme: dark;
+		--studio-bg: #050811;
+		--studio-bg-deep: #02040a;
+		--studio-surface: rgba(10, 17, 30, .88);
+		--studio-surface-raised: rgba(18, 30, 48, .92);
+		--studio-surface-soft: rgba(255, 255, 255, .035);
+		--studio-line: rgba(158, 217, 255, .14);
+		--studio-line-strong: rgba(158, 217, 255, .34);
+		--studio-text: #f6f9ff;
+		--studio-muted: #9bb0c8;
+		--studio-gold: #f4d77b;
+		--studio-gold-strong: #ffe9a4;
+		--studio-cyan: #66e2ff;
+		--studio-cyan-soft: rgba(102, 226, 255, .14);
+		--studio-violet: #ad8cff;
+		--studio-danger: #ff8f9c;
+		--studio-success: #69e6ad;
+		--studio-radius-sm: 10px;
+		--studio-radius-md: 16px;
+		--studio-radius-lg: 22px;
+		--studio-shadow: 0 24px 70px rgba(0, 0, 0, .42);
+		--studio-shadow-soft: 0 12px 32px rgba(0, 0, 0, .24);
+		--studio-glow-cyan: 0 0 0 1px rgba(102, 226, 255, .08), 0 0 34px rgba(102, 226, 255, .08);
+		--studio-glow-gold: 0 0 28px rgba(244, 215, 123, .2);
+		--studio-fast: 120ms;
+		--studio-medium: 220ms;
+		--studio-slow: 480ms;
+		--studio-ease: cubic-bezier(.2, .8, .2, 1);
+	}
+}

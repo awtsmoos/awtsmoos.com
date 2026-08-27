@@ -4,9 +4,9 @@
 
 /**
  * @file DoorStateContract.js
- * @description Defines one public door-state vocabulary and prompt law for every canonical Eretz and house doorway.
- * Binah names closed, opening, open, closing, locked, and blocked while Chesed still lets a refused traveler receive a truthful sign;
- * the awtsmoos recreates threshold and intention before either receives a state, and Awtsmoos.com keeps door UX, API, and motion speaking one language in time.
+ * @description Defines the canonical door-state vocabulary and pure transition eligibility law without carrying UI wording, collision safety, or event publication.
+ * Binah names every threshold state while Gevurah decides which directions remain lawful; the Awtsmoos recreates state and possibility before either can divide,
+ * and Awtsmoos.com keeps this vocabulary pure enough that physics, API, UI, and diagnostics may all drink from the same tide.
  */
 
 export const DOOR_STATES = Object.freeze({
@@ -18,14 +18,22 @@ export const DOOR_STATES = Object.freeze({
 	OPENING: 'opening'
 });
 
-/** @param {object} definition Door definition. @returns {string} Initial canonical door state. */
+/**
+ * @description Chooses the first canonical state from immutable definition metadata so lock truth exists before any interaction surface is installed.
+ * @param {object} definition Door definition containing optional locked and initialProgress metadata.
+ * @returns {string} Canonical initial door state from DOOR_STATES.
+ */
 export function initialDoorState(definition = {}) {
 	return definition.locked === true
 		? DOOR_STATES.LOCKED
 		: DOOR_STATES.CLOSED;
 }
 
-/** @returns {boolean} Whether pointer/touch feedback should remain available. */
+/**
+ * @description Reveals whether a doorway should remain pointer/touch explainable, including locked and blocked states that must communicate refusal deliberately.
+ * @param {string} state Canonical state to evaluate.
+ * @returns {boolean} True when UI interaction feedback should remain available.
+ */
 export function doorStateIsInteractive(state) {
 	return [
 		DOOR_STATES.BLOCKED,
@@ -35,61 +43,46 @@ export function doorStateIsInteractive(state) {
 	].includes(state);
 }
 
-/** @returns {boolean} Whether an open command can change or reverse motion. */
+/**
+ * @description Determines whether an open command may begin opening or reverse an in-progress close without bypassing the separate locked-state policy.
+ * @param {string} state Canonical state to evaluate.
+ * @returns {boolean} True when an open command may change motion state.
+ */
 export function doorStateCanOpen(state) {
 	return state === DOOR_STATES.CLOSED
 		|| state === DOOR_STATES.CLOSING;
 }
 
-/** @returns {boolean} Whether a close command can change, retry, or reverse motion. */
+/**
+ * @description Determines whether a close command may begin closing, retry a blocked close, or reverse an in-progress opening motion.
+ * @param {string} state Canonical state to evaluate.
+ * @returns {boolean} True when a close command may enter safety evaluation or change motion state.
+ */
 export function doorStateCanClose(state) {
 	return state === DOOR_STATES.OPEN
 		|| state === DOOR_STATES.OPENING
 		|| state === DOOR_STATES.BLOCKED;
 }
 
-/** @returns {'open'|'close'|null} Natural toggle command for a canonical state. */
+/**
+ * @description Resolves the natural command behind a user-facing toggle while preserving explicit open/close APIs for deterministic automation.
+ * @param {string} state Canonical state whose natural toggle direction should be chosen.
+ * @returns {'open'|'close'|null} Natural command, or null when no canonical direction exists.
+ */
 export function doorToggleAction(state) {
-	if (state === DOOR_STATES.OPEN || state === DOOR_STATES.OPENING || state === DOOR_STATES.BLOCKED) {
+	if ([
+		DOOR_STATES.OPEN,
+		DOOR_STATES.OPENING,
+		DOOR_STATES.BLOCKED
+	].includes(state)) {
 		return 'close';
 	}
-	if (state === DOOR_STATES.CLOSED || state === DOOR_STATES.CLOSING || state === DOOR_STATES.LOCKED) {
+	if ([
+		DOOR_STATES.CLOSED,
+		DOOR_STATES.CLOSING,
+		DOOR_STATES.LOCKED
+	].includes(state)) {
 		return 'open';
 	}
 	return null;
-}
-
-/** @param {object} door Canonical dynamic door. @returns {Readonly<object>} UI/API prompt semantics. */
-export function doorPromptDescriptor(door) {
-	const state = door?.state || DOOR_STATES.CLOSED;
-	const descriptors = {
-		[DOOR_STATES.BLOCKED]: prompt('close', 'Doorway blocked', 'Move clear of the doorway to close it.'),
-		[DOOR_STATES.CLOSED]: prompt('open', 'Open door', 'Open this doorway.'),
-		[DOOR_STATES.CLOSING]: prompt(null, 'Closing door', 'The door is closing.'),
-		[DOOR_STATES.LOCKED]: prompt(null, 'Door locked', lockReason(door)),
-		[DOOR_STATES.OPEN]: prompt('close', 'Close door', 'Close this doorway.'),
-		[DOOR_STATES.OPENING]: prompt(null, 'Opening door', 'The door is opening.')
-	};
-	return Object.freeze({
-		...descriptors[state],
-		doorId: door?.def?.id || null,
-		state
-	});
-}
-
-function prompt(action, label, reason) {
-	return Object.freeze({
-		action,
-		enabled: Boolean(action),
-		label,
-		reason
-	});
-}
-
-function lockReason(door) {
-	return String(
-		door?.def?.lockedReason
-		|| door?.def?.lockReason
-		|| 'This door is locked.'
-	);
 }

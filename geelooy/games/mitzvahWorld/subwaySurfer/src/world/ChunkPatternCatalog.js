@@ -3,9 +3,9 @@
 // Blessed is He
 /**
  * @file ChunkPatternCatalog.js
- * @description Declares named, immutable Jewish-city runner rhythms using stable obstacle identities instead of fragile numeric variant positions.
- * The Awtsmoos renews challenge while every pattern leaves a readable path through lane, leap, or lowered frame;
- * Awtsmoos.com lets market, eruv, maintenance, transport, and community become one fair deterministic game.
+ * @description Declares fair immutable Jewish-city runner rhythms where every mandatory action remains physically achievable at maximum configured speed.
+ * The Awtsmoos renews challenge and escape before one lane can become fate or fear;
+ * Awtsmoos.com lets Gevurah sharpen the street while Tiferes keeps every demanded movement honest and clear.
  */
 
 import { PERUTA_OBSTACLE_IDS as IDS } from "../game/ObstacleVocabulary.js";
@@ -16,78 +16,88 @@ import {
 	perutaPlacement as peruta
 } from "./ChunkPatternRecords.js";
 
-const centerActionTrail = Object.freeze([
+const CENTER_ACTION_TRAIL = Object.freeze([
 	peruta(1, -6),
 	peruta(1, -3.2),
 	peruta(1, 2.7),
 	peruta(1, 5.8)
 ]);
 
+const CENTER_REWARD_TRAIL = laneTrail(1);
+
 export const PERUTA_CHUNK_PATTERNS = Object.freeze([
-	chunkPattern("calm-center", [], laneTrail(1)),
+	chunkPattern("calm-center", [], CENTER_REWARD_TRAIL),
 	chunkPattern(
 		"teach-market-supply-avoid",
 		[obstacle(IDS.MARKET_SUPPLY_WAGON, 0, 0)],
-		laneTrail(1)
+		CENTER_REWARD_TRAIL
 	),
 	chunkPattern(
 		"teach-produce-jump",
 		[obstacle(IDS.PRODUCE_HANDCART, 1, 0)],
-		centerActionTrail
+		CENTER_ACTION_TRAIL
 	),
 	chunkPattern(
 		"teach-eruv-maintenance-duck",
 		[obstacle(IDS.ERUV_MAINTENANCE_GATEWAY, 1, 0)],
-		centerActionTrail
+		CENTER_ACTION_TRAIL
 	),
 	chunkPattern(
 		"market-choice",
 		[obstacle(IDS.TIMBER_PALLET_BUNDLE, 0, -2.8), obstacle(IDS.MARKET_AWNING, 2, 3.8)],
-		laneTrail(1)
+		CENTER_REWARD_TRAIL
 	),
 	chunkPattern(
 		"eruv-service-choice",
 		[obstacle(IDS.ERUV_SERVICE_CART, 0, -1.8), obstacle(IDS.ERUV_MAINTENANCE_LADDER, 2, 3.6)],
-		laneTrail(1)
+		CENTER_REWARD_TRAIL
 	),
 	chunkPattern(
 		"community-center-duck",
 		[obstacle(IDS.COMMUNITY_CANOPY_BEAM, 1, 0)],
-		centerActionTrail
+		CENTER_ACTION_TRAIL
 	),
 	chunkPattern(
 		"community-outer-avoid",
 		[obstacle(IDS.FOLDING_CHAIR_RACK, 2, 0)],
-		laneTrail(1)
+		CENTER_REWARD_TRAIL
 	),
 	chunkPattern(
 		"maintenance-action-pair",
 		[obstacle(IDS.REPAIR_CRATES, 0, -3.2), obstacle(IDS.SCAFFOLD_BRACE, 2, 3.4)],
-		laneTrail(1)
+		CENTER_REWARD_TRAIL
 	),
 	chunkPattern(
 		"center-cable-jump",
 		[obstacle(IDS.CABLE_PROTECTOR_RAMP, 1, 0)],
-		centerActionTrail
+		CENTER_ACTION_TRAIL
 	),
 	chunkPattern(
 		"outer-transport-canyon",
 		[obstacle(IDS.STONE_UTILITY_CARRIAGE, 0, 0), obstacle(IDS.WATER_SERVICE_CARRIAGE, 2, 0)],
-		laneTrail(1)
+		CENTER_REWARD_TRAIL
 	),
 	chunkPattern(
-		"jump-then-duck",
-		[obstacle(IDS.ERUV_MAINTENANCE_LADDER, 1, -4.2), obstacle(IDS.TIMBER_LINTEL, 1, 4.2)],
-		Object.freeze([peruta(1, -6.2), peruta(1, -1.8), peruta(1, 1.7), peruta(1, 6.2)])
+		"forced-center-jump",
+		[
+			obstacle(IDS.ERUV_SERVICE_CART, 0, 0),
+			obstacle(IDS.CABLE_PROTECTOR_RAMP, 1, 0),
+			obstacle(IDS.FOLDING_CHAIR_RACK, 2, 0)
+		],
+		CENTER_ACTION_TRAIL
 	),
 	chunkPattern(
-		"duck-then-jump",
-		[obstacle(IDS.MARKET_AWNING, 1, -4.2), obstacle(IDS.CABLE_PROTECTOR_RAMP, 1, 4.2)],
-		Object.freeze([peruta(1, -6.2), peruta(1, -1.8), peruta(1, 1.7), peruta(1, 6.2)])
+		"forced-center-duck",
+		[
+			obstacle(IDS.STONE_UTILITY_CARRIAGE, 0, 0),
+			obstacle(IDS.ERUV_MAINTENANCE_GATEWAY, 1, 0),
+			obstacle(IDS.WATER_SERVICE_CARRIAGE, 2, 0)
+		],
+		CENTER_ACTION_TRAIL
 	),
 	chunkPattern(
 		"eruv-and-community-slalom",
 		[obstacle(IDS.ERUV_SERVICE_CART, 0, -3.2), obstacle(IDS.FOLDING_CHAIR_RACK, 2, 3.2)],
-		laneTrail(1)
+		CENTER_REWARD_TRAIL
 	)
 ]);

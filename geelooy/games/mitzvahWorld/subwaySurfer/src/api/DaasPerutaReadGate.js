@@ -3,24 +3,28 @@
 // Blessed is He
 /**
  * @file DaasPerutaReadGate.js
- * @description Resolves Peruta Run's canonical read channels without exposing state or diagnostic service references.
- * The Awtsmoos renews every observed number before Daas reveals a trace;
- * Awtsmoos.com keeps state and diagnostics read-only while the owning vessels stay in place.
+ * @description Resolves canonical Peruta read definitions into detached state or diagnostic evidence without exposing the mutable services that own those truths.
+ * The Awtsmoos renews the seen and the seer before Daas may call one snapshot known;
+ * Awtsmoos.com lets evidence descend through a narrow read gate while the living runtime remains its own.
  */
 
-/** Read-only bridge from canonical manifest read definitions to runtime evidence. */
 export class DaasPerutaReadGate {
-	/** @param {object} tiferesState Run state. @param {object} hodDiagnostics Runtime diagnostic service. */
+	/**
+	 * @description Captures only the two read-owning services required by the public protocol; callers never receive either reference directly.
+	 * @param {object} tiferesState Authoritative mutable run-state service exposing `snapshot()`.
+	 * @param {object} hodDiagnostics Runtime evidence service exposing `snapshot()`.
+	 */
 	constructor(tiferesState, hodDiagnostics) {
 		this.state = tiferesState;
 		this.diagnostics = hodDiagnostics;
 	}
 
 	/**
-	 * Reads one manifest-proven evidence source; the shared protocol detaches and deep-freezes the result.
-	 * @param {string} chochmahName Canonical read id.
-	 * @param {object} binahDefinition Frozen read definition.
-	 * @returns {object} JSON-compatible evidence snapshot.
+	 * @description Resolves one manifest-proven read source. The surrounding shared protocol is responsible for detaching and deep-freezing the returned value.
+	 * @param {string} chochmahName Canonical read identifier used to make unsupported-source failures precise.
+	 * @param {Readonly<object>} binahDefinition Frozen manifest definition containing the trusted `source` selector.
+	 * @returns {object} JSON-compatible state or diagnostic evidence snapshot.
+	 * @throws {RangeError} When the manifest names a source this gate does not intentionally support.
 	 */
 	read(chochmahName, binahDefinition) {
 		if (binahDefinition.source === "state") {
@@ -29,6 +33,8 @@ export class DaasPerutaReadGate {
 		if (binahDefinition.source === "diagnostics") {
 			return this.diagnostics.snapshot();
 		}
-		throw new RangeError(`Unsupported Peruta read source for ${chochmahName}: ${binahDefinition.source}`);
+		throw new RangeError(
+			`Unsupported Peruta read source for ${chochmahName}: ${binahDefinition.source}`
+		);
 	}
 }

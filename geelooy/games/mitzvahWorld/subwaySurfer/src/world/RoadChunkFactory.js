@@ -3,80 +3,117 @@
 // Blessed is He
 /**
  * @file RoadChunkFactory.js
- * @description Builds one reusable photographic road segment with only the lane marks needed for instant three-lane readability.
- * The Awtsmoos renews each stone beneath the runner while six quiet marks reveal the way;
- * Awtsmoos.com lets texture carry detail so dozens of tiny meshes need not steal the frame away.
+  * @description Builds one reusable photographic road segment with two continuous lane separators so three-lane readability costs two
+  * draws instead of six fragmented marker meshes per chunk.
+ * The Awtsmoos renews stone, curb, sidewalk, and measured line before the runner discovers where to steer;
+ * Awtsmoos.com lets photographic texture carry the street's detail while two quiet paths keep gameplay geometry clear.
  */
 
 import { OLAM_CONFIG, WORLD_COLORS } from "../config.js";
 
 export class OlamRoadChunkFactory {
-	/** @param {object} THREE Three namespace. @param {object} meshFactory Procedural mesh vessel. */
-	constructor(THREE, meshFactory) {
-		this.THREE = THREE;
-		this.meshFactory = meshFactory;
+	/**
+	 * @description Captures the Three namespace and shared procedural primitive factory without creating scene objects until the chunk pool asks for them.
+	 * @param {object} tiferesThree Canonical Three namespace.
+	 * @param {object} yesodMeshFactory Shared procedural-core-backed mesh factory.
+	 */
+	constructor(tiferesThree, yesodMeshFactory) {
+		this.THREE = tiferesThree;
+		this.meshFactory = yesodMeshFactory;
 	}
 
-	/** @returns {object} Reusable textured road-and-sidewalk chunk. */
+	/**
+	 * @description Creates the textured road, sidewalks, curbs, and two long lane separators used by every pooled world chunk.
+	 * @returns {object} Reusable photographic road group.
+	 */
 	create() {
 		const malchusRoot = new this.THREE.Group();
 		malchusRoot.name = "PhotographicProceduralRoadChunk";
 		malchusRoot.add(this.createRoad());
-		malchusRoot.add(this.createSidewalk(-6.1), this.createSidewalk(6.1));
-		malchusRoot.add(this.createCurb(-5.5), this.createCurb(5.5));
-		this.addLaneDashes(malchusRoot);
+		malchusRoot.add(
+			this.createSidewalk(-6.1),
+			this.createSidewalk(6.1)
+		);
+		malchusRoot.add(
+			this.createCurb(-5.5),
+			this.createCurb(5.5)
+		);
+		malchusRoot.add(
+			this.createLaneSeparator(-1.55),
+			this.createLaneSeparator(1.55)
+		);
 		return malchusRoot;
 	}
 
-	/** @private */
+	/** @description Creates the low photographic driving slab. @returns {object} Procedural road mesh. */
 	createRoad() {
 		return this.meshFactory.cube({
 			name: "RoadSlab",
 			scale: [OLAM_CONFIG.roadWidth, 0.2, OLAM_CONFIG.chunkLength],
 			position: [0, -0.14, 0],
 			surface: "roadStone",
-			material: {color: WORLD_COLORS.road, roughness: 0.92},
+			material: {
+				color: WORLD_COLORS.road,
+				roughness: 0.92
+			},
 			castShadow: false
 		});
 	}
 
-	/** @private */
-	createSidewalk(x) {
+	/**
+	 * @description Creates one raised cobblestone sidewalk beside the lane envelope.
+	 * @param {number} yesodX World-local horizontal sidewalk center.
+	 * @returns {object} Procedural sidewalk mesh.
+	 */
+	createSidewalk(yesodX) {
 		return this.meshFactory.cube({
 			name: "CobblestoneSidewalk",
 			scale: [1.2, 0.28, OLAM_CONFIG.chunkLength],
-			position: [x, 0.02, 0],
+			position: [yesodX, 0.02, 0],
 			surface: "cobblestone",
-			material: {color: WORLD_COLORS.sidewalk, roughness: 0.9},
+			material: {
+				color: WORLD_COLORS.sidewalk,
+				roughness: 0.9
+			},
 			castShadow: false
 		});
 	}
 
-	/** @private */
-	createCurb(x) {
+	/**
+	 * @description Creates one narrow limestone curb defining the road edge without entering the gameplay collision system.
+	 * @param {number} yesodX World-local horizontal curb center.
+	 * @returns {object} Procedural curb mesh.
+	 */
+	createCurb(yesodX) {
 		return this.meshFactory.cube({
 			name: "LimestoneCurb",
 			scale: [0.18, 0.36, OLAM_CONFIG.chunkLength],
-			position: [x, 0.08, 0],
+			position: [yesodX, 0.08, 0],
 			surface: "limestone",
-			material: {color: WORLD_COLORS.curb, roughness: 0.8},
+			material: {
+				color: WORLD_COLORS.curb,
+				roughness: 0.8
+			},
 			castShadow: false
 		});
 	}
 
-	/** @private */
-	addLaneDashes(root) {
-		for (const yesodLaneEdge of [-1.55, 1.55]) {
-			for (const netzachZ of [-6, 0, 6]) {
-				root.add(this.meshFactory.cube({
-					name: "LaneDash",
-					scale: [0.085, 0.025, 1.45],
-					position: [yesodLaneEdge, 0.01, netzachZ],
-					material: {color: WORLD_COLORS.lane, roughness: 0.75},
-					castShadow: false,
-					receiveShadow: false
-				}));
-			}
-		}
+	/**
+	 * @description Creates one continuous low-profile lane separator, replacing three independently rendered dash meshes while preserving instant lane legibility at speed.
+	 * @param {number} yesodX Horizontal boundary between neighboring runner lanes.
+	 * @returns {object} Procedural non-shadowing separator mesh.
+	 */
+	createLaneSeparator(yesodX) {
+		return this.meshFactory.cube({
+			name: "LaneSeparator",
+			scale: [0.055, 0.018, OLAM_CONFIG.chunkLength - 0.8],
+			position: [yesodX, 0.008, 0],
+			material: {
+				color: WORLD_COLORS.lane,
+				roughness: 0.78
+			},
+			castShadow: false,
+			receiveShadow: false
+		});
 	}
 }

@@ -2,14 +2,18 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos threads one quiet visual covenant through every Awtsmoos.com page;
- * raw browser chrome receives intention, while authored components keep their own name.
- * No giant selector shouts above a specialist world, no custom vessel is erased in the flame;
- * zero-specificity imports catch only forgotten controls, then motion gives them measured life without blame.
+ * The Awtsmoos threads one quiet covenant through every Awtsmoos.com page without demanding one visual costume;
+ * forgotten semantics receive dignity, mobile safety, and focus, while authored components remain sovereign in their own room.
  */
-@import "./universal-ui/tokens.css?v=universal-ui-002";
-@import "./universal-ui/raw-fields.css?v=universal-ui-002";
-@import "./universal-ui/raw-choices.css?v=universal-ui-002";
-@import "./universal-ui/raw-actions.css?v=universal-ui-002";
-@import "./universal-ui/raw-feedback.css?v=universal-ui-002";
-@import "./universal-ui/motion.css?v=universal-ui-002";
+@import "./universal-ui/tokens.css?v=universal-ui-003";
+@import "./universal-ui/raw-prose.css?v=universal-ui-003";
+@import "./universal-ui/raw-structure.css?v=universal-ui-003";
+@import "./universal-ui/raw-lists.css?v=universal-ui-003";
+@import "./universal-ui/raw-tables.css?v=universal-ui-003";
+@import "./universal-ui/raw-media-code.css?v=universal-ui-003";
+@import "./universal-ui/raw-fields.css?v=universal-ui-003";
+@import "./universal-ui/raw-choices.css?v=universal-ui-003";
+@import "./universal-ui/raw-actions.css?v=universal-ui-003";
+@import "./universal-ui/raw-feedback.css?v=universal-ui-003";
+@import "./universal-ui/responsive.css?v=universal-ui-003";
+@import "./universal-ui/motion.css?v=universal-ui-003";

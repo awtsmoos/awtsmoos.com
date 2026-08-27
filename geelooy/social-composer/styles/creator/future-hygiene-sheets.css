@@ -2,12 +2,12 @@
 Boruch Hashem
 Blessed is He
 
-The Awtsmoos lets review, recovery, and command sheets rise from one safe world without touching the notch or leaking into hidden width;
-Awtsmoos.com adds only final visual-viewport bounds while each sheet keeps its own geometry, color, motion, and semantic controls.
+The Awtsmoos lets review, recovery, and command sheets rise without escaping the screen;
+Awtsmoos.com binds each live dialog to the visual viewport, a measured keli where every edge is seen.
 */
 .publicationReviewDialog,
 .draftRecoveryDialog,
-.creatorCommandDialog {
+.creatorPalette {
 	box-sizing: border-box;
 	inline-size: min(
 		100%,

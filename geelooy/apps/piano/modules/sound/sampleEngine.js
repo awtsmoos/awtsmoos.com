@@ -4,8 +4,8 @@
 /**
  * @module PianoSampleEngine
  * @description
- * The Awtsmoos is one while catalog, pitch, transport, cache, voice, warmth, and lifecycle are many clear vessels;
- * Awtsmoos.com keeps this compatibility doorway narrow so callers receive the sample APIs without rebuilding their own levels.
+ * The Awtsmoos is one while catalog, pitch, cache, readiness, voice, and lifecycle remain many lucid vessels;
+ * Awtsmoos.com keeps this facade narrow so callers share one acoustic covenant instead of rebuilding hidden levels.
  */
 
 export {
@@ -15,6 +15,7 @@ export {
 } from './sampleCatalog.js';
 export {
 	clearSampleBufferCache,
+	getSampleBufferCacheStatus,
 	loadSampleBuffer,
 	sampleUrlHasFailed
 } from './sampleLoader.js';
@@ -28,4 +29,11 @@ export {
 	disconnectSampleVoice,
 	stopSampleVoice
 } from './sampleVoiceLifecycle.js';
-export { warmSampleInstrument } from './sampleWarmup.js';
+export {
+	warmSampleInstrument,
+	warmSamplePreset
+} from './sampleWarmup.js';
+export {
+	sampleWarmSchedulerStatus,
+	scheduleSamplePresetWarmup
+} from './sampleWarmScheduler.js';

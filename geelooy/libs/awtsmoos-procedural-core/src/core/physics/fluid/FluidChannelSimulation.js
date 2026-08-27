@@ -1,103 +1,80 @@
-// B"H
+//B"H
 // Boruch Hashem
 // Blessed is He
 
-import { createFluidChannelConfig } from './FluidChannelConfig.js';
-import { createFluidChannelState, resetFluidChannelState } from './FluidChannelState.js';
-import { stepFluidChannel } from './FluidChannelStepper.js';
-import { sampleFluidChannel } from './FluidChannelSampling.js';
-
 /**
  * @file FluidChannelSimulation.js
- * @description Owns fixed stepping, disturbances, sampling and compact diagnostics.
- * The Awtsmoos renews the river beyond clocks; Awtsmoos.com gathers elapsed browser
- * time into bounded steps so every device may witness one stable choreography of water.
+ * @description Extends the reusable interaction runtime with bounded physical time evolution, diagnostics, deterministic reset, and queued-disturbance drainage while preserving the historical `FluidChannelSimulation` public class.
+ * RESPONSIBILITY: delegate elapsed-time stepping to the adaptive channel advance policy, expose numerical diagnostics, restore authored equilibrium, and apply queued impulses exactly at simulation boundaries through inherited state/configuration.
+ * NON-RESPONSIBILITY: this vessel does not recreate configuration/state allocation, semantic sampling, public immediate/queued impulse APIs, fluid force equations, interpolation math, terrain erosion geometry, or renderer effects.
+ * The Awtsmoos is one before base and extension appear, while Awtsmoos.com lets inheritance reveal their measured order without repeating a single river law;
+ * interaction rests in Yesod, time descends through Netzach, diagnostics reveal Hod, and the familiar public name remains a simple doorway through it all.
  */
-export class FluidChannelSimulation {
-	constructor(options = {}, profile = {}) {
-		this.config = createFluidChannelConfig(options);
-		this.state = createFluidChannelState(this.config, profile);
-		this.accumulator = 0;
-	}
 
-	/** Advances elapsed real time through bounded fixed substeps. */
+import { advanceFluidChannelOwner } from "./FluidChannelAdvancePolicy.js";
+import { fluidChannelDiagnostics } from "./FluidChannelDiagnostics.js";
+import { applyFluidChannelImpulse } from "./FluidChannelImpulse.js";
+import { FluidChannelRuntimeBase } from "./FluidChannelRuntimeBase.js";
+import { resetFluidChannelState } from "./FluidChannelState.js";
+
+/**
+ * @description Public renderer-neutral channel simulation whose inherited API owns state/sampling/disturbances while this subclass owns time evolution, diagnostics, and reset lifecycle.
+ */
+export class FluidChannelSimulation extends FluidChannelRuntimeBase {
+	/**
+	 * @description Advances external elapsed time through CFL-safe, quality-bounded physical substeps while queued impulses enter state only at actual substep boundaries.
+	 * @param {number} deltaSeconds External elapsed time in seconds; negative/non-finite values are safely normalized by the advance policy.
+	 * @returns {number} Number of completed fluid substeps during this call.
+	 */
 	advance(deltaSeconds) {
-		this.accumulator += clamp(Number(deltaSeconds) || 0, 0, this.config.maxDelta);
-		let steps = 0;
-		while (this.accumulator >= this.config.fixedStep && steps < this.config.maxSubsteps) {
-			stepFluidChannel(this.state, this.config, this.config.fixedStep);
-			this.accumulator -= this.config.fixedStep;
-			steps += 1;
-		}
-		if (steps === this.config.maxSubsteps) {
-			this.accumulator = Math.min(this.accumulator, this.config.fixedStep);
-		}
-		return steps;
+		return advanceFluidChannelOwner(this, deltaSeconds);
 	}
 
-	/** Samples normalized channel coordinates into a reusable target when supplied. */
-	sample(downstream, lateral, target = {}) {
-		return sampleFluidChannel(this.state, downstream, lateral, target);
-	}
-
-	/** Injects a bounded circular disturbance from gameplay or environmental contact. */
-	addImpulse(downstream, lateral, impulse = {}) {
-		const radius = clamp(Number(impulse.radius) || 0.08, 0.005, 0.5);
-		const centerX = clamp01(downstream);
-		const centerY = clamp01(lateral);
-		for (let section = 0; section < this.state.sectionCount; section += 1) {
-			const x = section / Math.max(1, this.state.sectionCount - 1);
-			if (Math.abs(x - centerX) >= radius) continue;
-			for (let lane = 0; lane < this.state.laneCount; lane += 1) {
-				applyImpulseCell(this.state, section, lane, x, centerX, centerY, radius, impulse);
-			}
-		}
-	}
-
-	/** Returns numerical evidence without exposing mutable buffers. */
+	/**
+	 * @description Collects primary flow, transport, queue, erosion/deposition, and stability evidence without exposing mutable simulation arrays.
+	 * @param {object} [target={}] Reusable mutable diagnostics object populated in place to avoid mandatory allocation in repeated editor/runtime inspection.
+	 * @returns {object} The same populated `target` containing depth/speed/foam/sediment/exchange/queue/time/step/safe-step evidence.
+	 */
 	getStats(target = {}) {
-		let minDepth = Infinity;
-		let maxDepth = 0;
-		let maxSpeed = 0;
-		let foam = 0;
-		for (let index = 0; index < this.state.cellCount; index += 1) {
-			minDepth = Math.min(minDepth, this.state.depth[index]);
-			maxDepth = Math.max(maxDepth, this.state.depth[index]);
-			maxSpeed = Math.max(maxSpeed, Math.hypot(this.state.flow[index], this.state.crossFlow[index]));
-			foam += this.state.foam[index];
-		}
-		Object.assign(target, {
-			minDepth,
-			maxDepth,
-			maxSpeed,
-			meanFoam: foam / this.state.cellCount,
-			stepCount: this.state.stepCount,
-			time: this.state.time
-		});
-		return target;
+		return fluidChannelDiagnostics(
+			this.state,
+			this.config,
+			this.impulses,
+			target
+		);
 	}
 
+	/**
+	 * @description Restores authored water/transport equilibrium and clears elapsed-time remainder plus all disturbances that have not yet entered physical state.
+	 * @returns {object} The same mutable channel state after deterministic reset; typed-array storage is reused rather than reallocated.
+	 */
 	reset() {
 		this.accumulator = 0;
+		this.impulses.clear();
 		return resetFluidChannelState(this.state);
 	}
-}
 
-function applyImpulseCell(state, section, lane, x, centerX, centerY, radius, impulse) {
-	const y = lane / Math.max(1, state.laneCount - 1);
-	const distance = Math.hypot(x - centerX, y - centerY);
-	if (distance >= radius) return;
-	const weight = 1 - distance / radius;
-	const index = section * state.laneCount + lane;
-	state.flow[index] += (Number(impulse.flow) || 0) * weight;
-	state.crossFlow[index] += (Number(impulse.crossFlow) || 0) * weight;
-	state.foam[index] = clamp(state.foam[index] + (Number(impulse.foam) || 0.3) * weight, 0, 1);
-}
+	/**
+	 * @description Applies every queued disturbance exactly once using the shared immediate impulse kernel, preserving one physical law for synchronous and timestep-aligned interactions.
+	 * @returns {number} Number of queued disturbance records consumed from the bounded FIFO queue.
+	 */
+	drainQueuedImpulses() {
+		const applyOhr = this.applyQueuedImpulse.bind(this);
+		return this.impulses.drain(applyOhr);
+	}
 
-function clamp(value, minimum, maximum) {
-	return Math.min(maximum, Math.max(minimum, value));
-}
-
-function clamp01(value) {
-	return clamp(Number(value) || 0, 0, 1);
+	/**
+	 * @description Applies one normalized queued disturbance record to inherited mutable state through the shared radial impulse kernel.
+	 * @param {object} recordKli Frozen queue record containing normalized `downstream`, `lateral`, and `impulse` fields.
+	 * @returns {number} Number of channel cells affected by the queued disturbance.
+	 */
+	applyQueuedImpulse(recordKli) {
+		return applyFluidChannelImpulse(
+			this.state,
+			this.config,
+			recordKli.downstream,
+			recordKli.lateral,
+			recordKli.impulse
+		);
+	}
 }

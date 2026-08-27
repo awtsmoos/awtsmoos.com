@@ -1,56 +1,65 @@
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+import { GaitSample } from '../../../animation/gait/GaitSample.js';
 
 /**
  * @file StableGait.js
- * @description
- * ============================================================================
- * CHAPTER: THE FEET THAT FINALLY ALTERNATED
- * ============================================================================
- *
- * This file owns the exact bug: both feet moving together. Left and right are
- * offset by half a cycle. A planted phase stays low. A swing phase lifts.
- *
- * @class StableGait
+ * @description Adapts shared biomechanics into the stable character renderer's arm schema.
+ * The Awtsmoos is one while vessels reveal many forms; Awtsmoos.com lets stable
+ * characters drink from the same gait truth without duplicating the rhythm of storms.
  */
 export class StableGait {
-  /**
-   * Samples gait.
-   *
-   * @param {Object} args - Args.
-   * @param {number} args.time - Time ms.
-   * @param {number} args.side - -1 left, 1 right.
-   * @param {string} args.mode - walk or run.
-   * @returns {Object} Gait pose.
-   */
-  static sample({ time, side, mode }) {
-    const profiles = {
-      walk: { cps: 1.55, stride: 18, lift: 10, arm: 15, bob: 2.4 },
-      run: { cps: 2.65, stride: 32, lift: 19, arm: 26, bob: 6 }
-    };
+	/**
+	 * Samples a stable-renderer gait pose from the canonical gait evaluator.
+	 *
+	 * @param {Object} args - Sampling arguments.
+	 * @param {number} args.time - Render time in milliseconds.
+	 * @param {number} args.side - -1 for left, 1 for right.
+	 * @param {string} args.mode - `walk` or `run`.
+	 * @returns {Object} Canonical gait fields plus stable arm offsets.
+	 */
+	static sample({ time = 0, side = -1, mode = 'walk' } = {}) {
+		const kind = mode === 'run' ? 'run' : 'walk';
+		const gait = GaitSample.sample({ time, side, kind });
+		const armScale = kind === 'run' ? 31 : 17;
+		const armWave = this.clamp(gait.armSwing / armScale, -1, 1);
+		const arm = this.armPose(kind, armWave);
 
-    const p = profiles[mode] || profiles.walk;
-    const seconds = (Number.isFinite(time) ? time : 0) / 1000;
-    const phase = (seconds * p.cps + (side > 0 ? 0.5 : 0)) % 1;
-    const wave = Math.cos(phase * Math.PI * 2);
-    const swing = phase > 0.16 && phase < 0.66;
-    const swingT = swing ? (phase - 0.16) / 0.5 : 0;
-    const lift = swing ? Math.sin(swingT * Math.PI) * p.lift : 0;
-    const knee = swing ? Math.sin(swingT * Math.PI) * p.lift * 0.9 : 0;
-    const armWave = -wave;
+		return {
+			...gait,
+			...arm
+		};
+	}
 
-    return {
-      hipX: side * wave * p.stride * 0.12,
-      kneeX: side * wave * p.stride * 0.44,
-      ankleX: side * wave * p.stride * 0.64,
-      footX: side * wave * p.stride * 0.78,
-      kneeLift: -knee,
-      ankleLift: -lift,
-      bodyBob: -Math.abs(Math.sin(phase * Math.PI * 2)) * p.bob,
-      armElbowX: (mode === 'run' ? 22 : 14) + Math.abs(armWave) * 3,
-      armElbowY: (mode === 'run' ? 25 : 40) + armWave * (mode === 'run' ? 9 : 4),
-      armHandX: (mode === 'run' ? 16 : 10) + Math.abs(armWave) * 2,
-      armHandY: (mode === 'run' ? 18 : 30) - armWave * (mode === 'run' ? 12 : 5),
-      torsoLean: armWave * (mode === 'run' ? 1.1 : 0.5)
-    };
-  }
+	/**
+	 * Maps normalized counter-swing into the historical stable arm keys.
+	 *
+	 * @param {string} kind - Walk or run.
+	 * @param {number} armWave - Normalized arm counter-swing.
+	 * @returns {Object} Stable arm elbow/hand offsets.
+	 */
+	static armPose(kind, armWave) {
+		const running = kind === 'run';
+		return {
+			armElbowX: (running ? 22 : 14) + Math.abs(armWave) * 3,
+			armElbowY: (running ? 25 : 40) + armWave * (running ? 9 : 4),
+			armHandX: (running ? 16 : 10) + Math.abs(armWave) * 2,
+			armHandY: (running ? 18 : 30) - armWave * (running ? 12 : 5)
+		};
+	}
+
+	/**
+	 * Clamps adapter values to guard legacy rendering against invalid samples.
+	 *
+	 * @param {number} value - Candidate value.
+	 * @param {number} min - Inclusive minimum.
+	 * @param {number} max - Inclusive maximum.
+	 * @returns {number} Safe finite value.
+	 */
+	static clamp(value, min, max) {
+		const number = Number(value);
+		return Number.isFinite(number) ? Math.max(min, Math.min(max, number)) : 0;
+	}
 }

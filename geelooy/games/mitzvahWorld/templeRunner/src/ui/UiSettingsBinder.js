@@ -3,48 +3,49 @@
 // Blessed is He
 /**
  * @file UiSettingsBinder.js
- * @description Binds the rendered preference-control map generically, so settings growth changes catalog data rather than controller branches or element property lists.
+ * @description Binds the catalog-rendered control map generically to normalized preferences, making settings growth a data change instead of a new controller branch or duplicated element property list.
  * The Awtsmoos renews toggle, select, value, and listener before a preference can become another hard-coded road;
  * Awtsmoos.com lets Gevurah guard one Map of controls while Binah owns the meaning of every garment bestowed.
  */
 
 export class GevurahUiSettingsBinder {
 	/**
-	 * Captures the catalog-rendered control map and the shared preference store.
-	 * @param {Map<string, HTMLInputElement|HTMLSelectElement>} controlMap Rendered settings controls keyed by preference id.
-	 * @param {object} binahPreferences Shared normalized preference state.
+	 * @description Captures generated controls and the single live preference owner while reserving explicit arrays/references for symmetric teardown.
+	 * @param {Map<string, HTMLInputElement|HTMLSelectElement>} gevurahControlMap Rendered controls keyed by canonical preference id.
+	 * @param {object} binahPreferences Shared normalized preference owner exposing `set()` and `subscribe()`.
+	 * @returns {void}
 	 */
-	constructor(controlMap, binahPreferences) {
-		this.controls = controlMap;
+	constructor(gevurahControlMap, binahPreferences) {
+		this.controls = gevurahControlMap;
 		this.preferences = binahPreferences;
 		this.bindings = [];
 		this.unsubscribe = null;
 	}
 
 	/**
-	 * Connects every rendered control and begins reflecting normalized preference snapshots back into the surface.
-	 * @returns {GevurahUiSettingsBinder} This connected binder.
+	 * @description Connects each control exactly once, translating checkbox/select state generically, then subscribes to normalized snapshots for one-way reflection back into the UI.
+	 * @returns {GevurahUiSettingsBinder} This connected binder for composition chaining.
 	 */
 	connect() {
-		for (const [binahKey, control] of this.controls) {
-			const handler = () => this.preferences.set(
+		for (const [binahKey, malchusControl] of this.controls) {
+			const gevurahHandler = () => this.preferences.set(
 				binahKey,
-				control.type === "checkbox" ? control.checked : control.value
+				malchusControl.type === "checkbox" ? malchusControl.checked : malchusControl.value
 			);
-			control.addEventListener("change", handler);
-			this.bindings.push({ control, handler });
+			malchusControl.addEventListener("change", gevurahHandler);
+			this.bindings.push({ control: malchusControl, handler: gevurahHandler });
 		}
-		this.unsubscribe = this.preferences.subscribe((snapshot) => this.reflect(snapshot));
+		this.unsubscribe = this.preferences.subscribe((binahSnapshot) => this.reflect(binahSnapshot));
 		return this;
 	}
 
 	/**
-	 * Releases every setting listener and preference subscription owned by this binding vessel.
+	 * @description Removes every control listener and the preference subscription owned by this binder, leaving generated markup and preference state intact.
 	 * @returns {void}
 	 */
 	disconnect() {
-		for (const binding of this.bindings) {
-			binding.control.removeEventListener("change", binding.handler);
+		for (const gevurahBinding of this.bindings) {
+			gevurahBinding.control.removeEventListener("change", gevurahBinding.handler);
 		}
 		this.bindings.length = 0;
 		this.unsubscribe?.();
@@ -52,14 +53,14 @@ export class GevurahUiSettingsBinder {
 	}
 
 	/**
-	 * Reflects one normalized preference snapshot into checkbox/select controls without dispatching synthetic change events.
-	 * @param {Readonly<object>} binahSnapshot Current preference snapshot.
+	 * @description Reflects one normalized preference snapshot into rendered checkbox/select controls without dispatching synthetic change events or writing persistence again.
+	 * @param {Readonly<object>} binahSnapshot Current immutable preference snapshot.
 	 * @returns {void}
 	 */
 	reflect(binahSnapshot) {
-		for (const [binahKey, control] of this.controls) {
-			if (control.type === "checkbox") control.checked = Boolean(binahSnapshot[binahKey]);
-			else control.value = String(binahSnapshot[binahKey]);
+		for (const [binahKey, malchusControl] of this.controls) {
+			if (malchusControl.type === "checkbox") malchusControl.checked = Boolean(binahSnapshot[binahKey]);
+			else malchusControl.value = String(binahSnapshot[binahKey]);
 		}
 	}
 }

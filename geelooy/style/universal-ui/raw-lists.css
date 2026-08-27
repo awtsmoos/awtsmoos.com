@@ -1,0 +1,79 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos renews every ordered and unordered gathering before its marker can appear;
+ * Awtsmoos.com keeps content lists readable and navigation lists deliberate so no accidental browser default remains unclear.
+ */
+
+:where(html:not([data-g-ui-raw])) :where(ul:not([class]), ol:not([class])) {
+	margin-block: 0 1rem;
+	padding-inline-start: 1.45rem;
+}
+
+:where(html:not([data-g-ui-raw])) :where(ul:not([class]), ol:not([class])) > li {
+	margin-block: .32rem;
+	padding-inline-start: .18rem;
+	line-height: 1.55;
+	overflow-wrap: anywhere;
+}
+
+:where(html:not([data-g-ui-raw])) :where(ul:not([class]), ol:not([class])) > li::marker {
+	color: var(--g-muted, var(--aw-ui-muted));
+	font-weight: 700;
+}
+
+:where(html:not([data-g-ui-raw])) nav :where(ul:not([class]), ol:not([class])) {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .35rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+:where(html:not([data-g-ui-raw])) nav :where(ul:not([class]), ol:not([class])) > li {
+	margin: 0;
+	padding: 0;
+}
+
+:where(html:not([data-g-ui-raw])) nav :where(ul:not([class]), ol:not([class])) a:not([class]) {
+	display: inline-flex;
+	min-height: var(--aw-ui-target);
+	align-items: center;
+	padding: .5rem .7rem;
+	border-radius: var(--aw-ui-radius);
+	text-decoration: none;
+}
+
+:where(html:not([data-g-ui-raw])) nav :where(ul:not([class]), ol:not([class])) a:not([class]):is(:hover, :focus-visible) {
+	background: var(--g-accent-soft, var(--aw-ui-accent-soft));
+}
+
+:where(html:not([data-g-ui-raw])) dl:not([class]) {
+	display: grid;
+	grid-template-columns: minmax(8rem, max-content) minmax(0, 1fr);
+	gap: .45rem 1rem;
+	margin-block: 0 1rem;
+}
+
+:where(html:not([data-g-ui-raw])) dt:not([class]) {
+	font-weight: 750;
+}
+
+:where(html:not([data-g-ui-raw])) dd:not([class]) {
+	margin: 0;
+	color: var(--g-muted, var(--aw-ui-muted));
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+	:where(html:not([data-g-ui-raw])) dl:not([class]) {
+		grid-template-columns: 1fr;
+		gap: .2rem;
+	}
+
+	:where(html:not([data-g-ui-raw])) dd:not([class]) {
+		margin-block-end: .8rem;
+	}
+}

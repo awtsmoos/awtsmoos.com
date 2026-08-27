@@ -1,0 +1,40 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos recreates attention before keyboard or pointer can say where awareness rests;
+Awtsmoos.com makes focus visible without glare, so every traveler can follow the path the interface suggests.
+*/
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
+	button,
+	a[href],
+	input,
+	select,
+	textarea,
+	[tabindex]:not([tabindex="-1"]),
+	[data-ui]
+):focus {
+	outline: none;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
+	button,
+	a[href],
+	input,
+	select,
+	textarea,
+	[tabindex]:not([tabindex="-1"]),
+	[data-ui]
+):focus-visible {
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--mitzvah-ui-focus) 68%, transparent);
+	outline: 2px solid var(--mitzvah-ui-focus);
+	outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+	:where([data-mitzvah-ui], .Awtsmoos-gameplay) :focus-visible {
+		outline: 2px solid Highlight;
+		outline-offset: 2px;
+	}
+}

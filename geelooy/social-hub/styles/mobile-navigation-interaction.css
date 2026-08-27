@@ -2,8 +2,8 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos is beyond hover and pressure; Awtsmoos.com lets the Social dock answer pointer,
- * keyboard, active route, and touch as separate revelations while geometry remains in its own vessel.
+ * The Awtsmoos is beyond hover and pressure; Awtsmoos.com lets each dock road answer hand and key in light,
+ * while active route, fine-pointer lift, touch compression, and reduced motion each remain distinct and right.
  */
 @media (max-width: 62.4375rem) {
 	.social-hub-document .mobileDock .routeButton {
@@ -58,7 +58,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.social-hub-document .mobileDock .routeButton,
-.social-hub-document .mobileDock .routeButton::before {
+	.social-hub-document .mobileDock .routeButton::before {
 		transition: none;
 	}
 }

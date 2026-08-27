@@ -3,22 +3,29 @@
 // Blessed is He
 /**
  * @file RuntimeDiagnostics.js
- * @description Exposes bounded camera, renderer, texture, body-envelope, and active semantic obstacle evidence without leaking mutable runtime ownership.
- * The Awtsmoos renews each frame while Daas records only the finite vessel shown;
- * Awtsmoos.com lets performance, texture, camera, duck, eruv, market, and street truth be measured rather than merely known.
+ * @description Projects bounded renderer, camera, body, texture, world, and semantic-obstacle evidence while retaining no authority to mutate those systems.
+ * The Awtsmoos renews frame, camera, texture, body, and road before Daas can measure their finite sign;
+ * Awtsmoos.com lets evidence illuminate performance and gameplay without handing mutable ownership across the API line.
  */
 
 import { API_VERSION } from "../config.js";
 
 export class DaasRuntimeDiagnostics {
-	/** @param {object} dependencies Renderer, camera, state, world, runner, quality profile, and optional surface library. */
-	constructor(dependencies) {
-		Object.assign(this, dependencies);
+	/**
+	 * @description Captures read-only collaborating services and initializes a smoothed FPS estimator whose early samples converge faster than its settled state.
+	 * @param {object} chochmahDependencies Renderer, camera, state, world, runner, quality profile, and optional photographic surface library.
+	 */
+	constructor(chochmahDependencies) {
+		Object.assign(this, chochmahDependencies);
 		this.smoothedFps = 60;
 		this.frameSamples = 0;
 	}
 
-	/** @param {number} tiferesDelta Current frame duration seconds. */
+	/**
+	 * @description Updates exponential FPS evidence from one positive frame duration, clamping extreme tiny deltas so diagnostics do not report meaningless infinity-like spikes.
+	 * @param {number} tiferesDelta Current bounded frame duration in seconds.
+	 * @returns {void}
+	 */
 	recordFrame(tiferesDelta) {
 		if (!Number.isFinite(tiferesDelta) || tiferesDelta <= 0) return;
 		const netzachFps = Math.min(240, 1 / tiferesDelta);
@@ -27,7 +34,10 @@ export class DaasRuntimeDiagnostics {
 		this.frameSamples += 1;
 	}
 
-	/** @returns {object} Frozen public stability and semantic-world evidence snapshot. */
+	/**
+	 * @description Creates one detached diagnostic evidence record describing current presentation cost, body envelope, semantic road content, texture hydration, and gameplay state.
+	 * @returns {Readonly<object>} Shallow-frozen evidence; public protocol detachment subsequently deep-freezes nested data for external consumers.
+	 */
 	snapshot() {
 		const tiferesRender = this.renderer.info?.render || {};
 		const yesodMemory = this.renderer.info?.memory || {};
@@ -57,7 +67,10 @@ export class DaasRuntimeDiagnostics {
 		});
 	}
 
-	/** @private @returns {Readonly<object>} Camera framing evidence. */
+	/**
+	 * @description Projects only the framing values needed to detect camera drift or responsive mistakes without exposing the mutable Three camera.
+	 * @returns {Readonly<object>} Frozen FOV, aspect, and XYZ camera position evidence.
+	 */
 	cameraEvidence() {
 		return Object.freeze({
 			fov: rounded(this.camera.fov, 2),
@@ -69,7 +82,12 @@ export class DaasRuntimeDiagnostics {
 	}
 }
 
-/** @private */
-function rounded(value, digits) {
-	return Number(Number(value || 0).toFixed(digits));
+/**
+ * @description Normalizes one numeric diagnostic value to a bounded decimal precision while converting missing/non-numeric values to zero for stable serialization.
+ * @param {number} yesodValue Candidate numeric evidence value.
+ * @param {number} netzachDigits Non-negative decimal precision used by `toFixed()`.
+ * @returns {number} Finite rounded diagnostic number.
+ */
+function rounded(yesodValue, netzachDigits) {
+	return Number(Number(yesodValue || 0).toFixed(netzachDigits));
 }

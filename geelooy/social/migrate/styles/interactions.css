@@ -1,0 +1,119 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos lets every migration control answer hand, key, state, and time without visual debris;
+Awtsmoos.com gives hover its proper pointer, pressure its touch, and success or error a clear decree.
+*/
+body[data-future-page="migration"] :where(
+	button,
+	.buttonLike,
+	.sourceRail a,
+	.topbar a,
+	summary
+) {
+	transition:
+		transform 140ms cubic-bezier(.2, .8, .2, 1),
+		border-color 170ms ease,
+		background-color 170ms ease,
+		box-shadow 170ms ease,
+		opacity 170ms ease;
+}
+
+body[data-future-page="migration"] :where(
+	button,
+	.buttonLike,
+	summary
+):active {
+	transform: translateY(1px) scale(.985);
+}
+
+body[data-future-page="migration"] :where(
+	button,
+	.buttonLike,
+	a,
+	input,
+	select,
+	summary
+):focus-visible,
+body[data-future-page="migration"] .buttonLike:focus-within {
+	outline: 3px solid rgb(101 216 223 / 20%);
+	outline-offset: 2px;
+	border-color: var(--migrate-accent);
+}
+
+body[data-future-page="migration"] :where(
+	.sourceDisclosure,
+	.filterDisclosure,
+	.telemetryPanel
+)[open] > summary {
+	background: rgb(101 216 223 / 5%);
+}
+
+body[data-future-page="migration"] :where(
+	button,
+	.buttonLike
+):disabled {
+	cursor: not-allowed;
+	opacity: .45;
+	transform: none;
+}
+
+#migrationStatus[data-tone="success"] {
+	color: #9cf0c9;
+}
+
+#migrationStatus[data-tone="error"] {
+	color: #ff9daa;
+}
+
+#migrationStatus[data-tone="working"] {
+	color: #a7edf1;
+}
+
+#migrationProgress {
+	accent-color: var(--migrate-accent);
+}
+
+body[data-future-page="migration"] dialog[open] .sheet {
+	animation: migrate-sheet-arrive 190ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+@keyframes migrate-sheet-arrive {
+	from {
+		opacity: 0;
+		transform: translateY(8px) scale(.992);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body[data-future-page="migration"] :where(
+		button,
+		.buttonLike,
+		.sourceRail a,
+		.topbar a,
+		summary
+	):not(:disabled):hover {
+		border-color: color-mix(in srgb, var(--migrate-accent) 46%, var(--migrate-line));
+		box-shadow: 0 .65rem 1.8rem rgb(0 0 0 / 18%);
+		transform: translateY(-1px);
+	}
+
+	body[data-future-page="migration"] :where(input, select):hover {
+		border-color: color-mix(in srgb, var(--migrate-accent) 38%, var(--migrate-line));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body[data-future-page="migration"] :where(button, .buttonLike, a, summary),
+	body[data-future-page="migration"] dialog[open] .sheet {
+		animation: none;
+		transition: none;
+		transform: none !important;
+	}
+}

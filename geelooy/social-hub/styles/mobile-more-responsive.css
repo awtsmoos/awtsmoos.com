@@ -1,0 +1,24 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the narrowest screen a boundary without stealing a single road from view;
+ * Awtsmoos.com lets safe-area gutters become measured keilim, keeping every mobile choice whole and true.
+ */
+@media (max-width: 25rem) {
+	.social-hub-document .mobileMoreSheet {
+		inline-size: calc(
+			100dvw
+			- max(.4rem, env(safe-area-inset-left))
+			- max(.4rem, env(safe-area-inset-right))
+		);
+		max-inline-size: calc(
+			100dvw
+			- max(.4rem, env(safe-area-inset-left))
+			- max(.4rem, env(safe-area-inset-right))
+		);
+		margin-inline:
+			max(.4rem, env(safe-area-inset-left))
+			max(.4rem, env(safe-area-inset-right));
+	}
+}

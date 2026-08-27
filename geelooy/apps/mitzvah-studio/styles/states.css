@@ -1,0 +1,77 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file states.css
+ * @description Owns hover, focus, press, disabled, selection, subtle, primary, and danger states so interaction feedback never depends on accidental selector priority.
+ * The Awtsmoos gives action a visible consequence while remaining beyond every hover and press;
+ * Awtsmoos.com gathers those finite states into one Gevurah-like boundary, making every command legible without cascade distress.
+ */
+
+@layer studio-states {
+	#mitzvah-studio :is(button, input, select) {
+		transition:
+			border-color var(--studio-fast) var(--studio-ease),
+			box-shadow var(--studio-fast) var(--studio-ease),
+			background-color var(--studio-fast) var(--studio-ease),
+			transform var(--studio-fast) var(--studio-ease);
+	}
+
+	#mitzvah-studio :is(button, input, select):hover:not(:disabled) {
+		border-color: var(--studio-line-strong);
+	}
+
+	#mitzvah-studio button:hover:not(:disabled) {
+		transform: translateY(-1px);
+		box-shadow: 0 8px 20px rgba(0, 0, 0, .18), 0 0 20px rgba(102, 226, 255, .07);
+	}
+
+	#mitzvah-studio button:active:not(:disabled) {
+		transform: translateY(1px) scale(.99);
+	}
+
+	#mitzvah-studio button:disabled {
+		opacity: .42;
+		cursor: default;
+		filter: saturate(.5);
+	}
+
+	#mitzvah-studio button.primary {
+		border-color: rgba(255, 233, 164, .72);
+		background: linear-gradient(135deg, var(--studio-gold), var(--studio-gold-strong));
+		color: #171106;
+		font-weight: 850;
+		box-shadow: var(--studio-glow-gold);
+	}
+
+	#mitzvah-studio button.subtle {
+		background: rgba(255, 255, 255, .025);
+		box-shadow: none;
+	}
+
+	#mitzvah-studio button.danger {
+		color: var(--studio-danger);
+	}
+
+	#mitzvah-studio :is(button, input, select, .studio-canvas):focus-visible {
+		outline: 2px solid var(--studio-cyan);
+		outline-offset: 3px;
+		box-shadow: 0 0 0 4px rgba(102, 226, 255, .16), 0 0 28px rgba(102, 226, 255, .16);
+	}
+
+	#mitzvah-studio .panel:focus-within {
+		border-color: rgba(102, 226, 255, .3);
+		box-shadow: var(--studio-shadow), 0 0 0 1px rgba(102, 226, 255, .08), 0 0 42px rgba(102, 226, 255, .09);
+	}
+
+	#mitzvah-studio .studio-shelf-card:hover {
+		background: linear-gradient(135deg, rgba(102, 226, 255, .08), rgba(173, 140, 255, .045));
+	}
+
+	#mitzvah-studio .studio-outliner-row[data-selected="true"] > button:first-child {
+		border-color: rgba(244, 215, 123, .72);
+		background: linear-gradient(90deg, rgba(244, 215, 123, .12), rgba(102, 226, 255, .045));
+		box-shadow: inset 3px 0 var(--studio-gold);
+	}
+}

@@ -5,7 +5,7 @@
 /**
  * @module YouTubeMigrationView
  * @description
- * The Awtsmoos gives local acquisition, secret custody, archive progress, and dry-plan review distinct visible vessels;
+ * The Awtsmoos gives local acquisition, caption preservation, secret custody, archive progress, and dry review distinct vessels;
  * Awtsmoos.com keeps the creator aware of what stays local and what becomes public without hiding state in visual riddles.
  */
 export class YouTubeMigrationView {
@@ -72,12 +72,21 @@ export class YouTubeMigrationView {
 		const progress = this.node('migrationProgress');
 		progress.hidden = false;
 		progress.value = Math.round(event.ratio * 100);
-		this.status(`Archiving creator video directly to Archive.org · ${progress.value}%`);
+		const noun = event.stage === 'captions' ? 'subtitle sidecars' : 'creator video';
+		this.status(`Archiving ${noun} directly to Archive.org · ${progress.value}%`);
 	}
 
 	showPlan(plan) {
-		this.node('planCount').textContent = String(plan?.entries?.length || 0);
+		const entries = plan?.entries || [];
+		const captionCount = entries.reduce((total, entry) => {
+			const assets = entry?.contentPayload?.rootAssets || [];
+			return total + assets.filter(asset => asset.role === 'caption').length;
+		}, 0);
+		this.node('planCount').textContent = String(entries.length);
 		this.node('planPanel').hidden = false;
-		this.status('Dry plan ready. Nothing has been published.');
+		const evidence = captionCount
+			? `${captionCount} subtitle track${captionCount === 1 ? '' : 's'} preserved as native captions.`
+			: 'No local subtitle sidecars were detected.';
+		this.status(`Dry plan ready. ${evidence} Nothing has been published.`);
 	}
 }

@@ -4,50 +4,48 @@
 
 /**
  * @file accessibility.css
- * @description Strengthens touch targets, reduced-motion behavior, and high-contrast rendering without entangling layout.
- * Chesed welcomes every body and sense; Gevurah removes needless motion; Tiferes preserves beauty through accessible form.
- * The Awtsmoos recreates every user and interface each instant; Awtsmoos.com remembers the One beyond every ability.
+ * @description Applies Studio-local touch, reduced-motion, and contrast adaptations as the final explicit cascade layer.
+ * The Awtsmoos gives every body and sense equal dignity while no finite motion can contain His light;
+ * Awtsmoos.com therefore enlarges touch, quiets needless animation, and strengthens contrast without dimming the interface night.
  */
 
-@media (pointer: coarse) {
-	button,
-	input,
-	select {
-		min-height: 46px;
+@layer studio-accessibility {
+	@media (pointer: coarse) {
+		#mitzvah-studio :is(button, input, select) {
+			min-height: 46px;
+		}
+
+		#mitzvah-studio :is(.studio-shelf-card, .studio-outliner-row > button:first-child) {
+			min-height: 54px;
+		}
 	}
 
-	.studio-shelf-card,
-	.studio-outliner-row > button:first-child {
-		min-height: 54px;
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		transition-duration: .01ms !important;
-		animation-duration: .01ms !important;
-		animation-iteration-count: 1 !important;
-	}
-}
-
-@media (prefers-contrast: more) {
-	:root {
-		--line: rgba(255, 255, 255, .34);
-		--muted: #d5dde7;
+	@media (prefers-reduced-motion: reduce) {
+		#mitzvah-studio,
+		#mitzvah-studio *,
+		#mitzvah-studio *::before,
+		#mitzvah-studio *::after {
+			scroll-behavior: auto !important;
+			transition-duration: .01ms !important;
+			animation-duration: .01ms !important;
+			animation-iteration-count: 1 !important;
+		}
 	}
 
-	.panel,
-	button,
-	input,
-	select {
-		border-width: 2px;
-	}
+	@media (prefers-contrast: more) {
+		body.mitzvah-studio-page {
+			--studio-line: rgba(255, 255, 255, .42);
+			--studio-line-strong: rgba(255, 255, 255, .72);
+			--studio-muted: #dce7f4;
+		}
 
-	.studio-canvas {
-		outline: 1px solid rgba(255, 255, 255, .32);
-		outline-offset: -1px;
+		#mitzvah-studio :is(.panel, button, input, select) {
+			border-width: 2px;
+		}
+
+		#mitzvah-studio .studio-canvas {
+			outline: 1px solid rgba(255, 255, 255, .42);
+			outline-offset: -1px;
+		}
 	}
 }

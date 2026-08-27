@@ -1,0 +1,84 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/**
+ * @file universal-api-explorer-editor-fields.css
+ * @description Owns every schema-assisted Simple field row, label, primitive/select input, description, optional Clear action, focus treatment, and disabled treatment.
+ * RESPONSIBILITY: make all generated Simple-editor field elements visibly styled, touch-friendly, local, and keyboard legible.
+ * NON-RESPONSIBILITY: this file never builds field schemas, coerces values, patches JSON, styles execution buttons, or targets generic host inputs.
+ * The Awtsmoos renews value and absence before field, label, checkbox, number, word, or clear action can appear;
+ * Awtsmoos.com lets every small control receive a precise garment while the unknown expert JSON remains whole and near.
+ */
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-field {
+	align-items: center;
+	display: grid;
+	gap: var(--awts-uapi-space-1) var(--awts-uapi-space-2);
+	grid-template-columns: minmax(0, 1fr) auto;
+	min-inline-size: 0;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-label {
+	color: var(--awts-uapi-text-strong);
+	font-size: 0.8rem;
+	font-weight: 700;
+	grid-column: 1 / -1;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-input {
+	background: var(--awts-uapi-bg-input);
+	border: 1px solid var(--awts-uapi-border);
+	border-radius: var(--awts-uapi-radius-control);
+	color: var(--awts-uapi-text);
+	font: inherit;
+	inline-size: 100%;
+	min-block-size: 44px;
+	min-inline-size: 0;
+	padding: 0.65rem 0.75rem;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-input[type="checkbox"] {
+	accent-color: #3b82a9;
+	inline-size: 44px;
+	justify-self: start;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-description {
+	color: var(--awts-uapi-text-muted);
+	font-size: 0.72rem;
+	grid-column: 1 / -1;
+	margin: 0;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-clear {
+	background: transparent;
+	border: 1px solid var(--awts-uapi-border);
+	border-radius: 8px;
+	color: var(--awts-uapi-text-muted);
+	cursor: pointer;
+	font: inherit;
+	font-size: 0.74rem;
+	min-block-size: 44px;
+	padding-inline: 0.75rem;
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-input:focus-visible,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-clear:focus-visible {
+	border-color: var(--awts-uapi-cyan);
+	box-shadow: var(--awts-uapi-focus-ring);
+	outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-input:not(:disabled):hover,
+	[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-clear:not(:disabled):hover {
+		border-color: var(--awts-uapi-border-strong);
+	}
+}
+
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-clear:disabled,
+[data-awtsmoos-universal-api-explorer] .Awtsmoos-universal-api-explorer__simple-input:disabled {
+	cursor: not-allowed;
+	opacity: 0.48;
+}

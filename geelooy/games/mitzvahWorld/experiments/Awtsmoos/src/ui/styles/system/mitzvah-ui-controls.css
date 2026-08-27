@@ -1,0 +1,75 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos recreates hand, field, and button before browser defaults can become a foreign tongue;
+Awtsmoos.com gives ordinary scoped controls a calm baseline while specialized native inputs keep their own truthful song.
+*/
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
+	button,
+	input,
+	select,
+	textarea,
+	a[href],
+	[data-ui]
+) {
+	color: var(--mitzvah-ui-text);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
+	button,
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"],
+	[data-ui="button"],
+	[data-ui="icon-button"],
+	[data-ui="input-button"]
+) {
+	align-items: center;
+	background: var(--mitzvah-ui-surface-raised);
+	border: 1px solid var(--mitzvah-ui-border);
+	border-radius: var(--mitzvah-ui-radius-sm);
+	cursor: pointer;
+	display: inline-flex;
+	font-weight: 600;
+	gap: var(--mitzvah-ui-space-2);
+	justify-content: center;
+	min-height: var(--mitzvah-ui-control-height);
+	padding: 8px 14px;
+	transition: background var(--mitzvah-ui-duration-fast) var(--mitzvah-ui-ease), border-color var(--mitzvah-ui-duration-fast) var(--mitzvah-ui-ease), transform var(--mitzvah-ui-duration-fast) var(--mitzvah-ui-ease);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(
+	input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="image"]):not([type="hidden"]),
+	select,
+	textarea,
+	[data-ui="field"],
+	[data-ui="select"],
+	[data-ui="textarea"]
+) {
+	background: var(--mitzvah-ui-surface-muted);
+	border: 1px solid var(--mitzvah-ui-border);
+	border-radius: var(--mitzvah-ui-radius-sm);
+	min-height: var(--mitzvah-ui-control-height);
+	padding: 9px 12px;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(textarea, [data-ui="textarea"]) {
+	min-height: 96px;
+	resize: vertical;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where(a[href], [data-ui="link"]) {
+	color: var(--mitzvah-ui-primary-strong);
+	text-decoration-color: color-mix(in srgb, currentColor 50%, transparent);
+	text-underline-offset: .18em;
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where([data-ui="card"], [data-ui="dialog"], [data-ui="sheet"]) {
+	background: var(--mitzvah-ui-surface);
+	border: 1px solid var(--mitzvah-ui-border);
+	border-radius: var(--mitzvah-ui-radius-lg);
+	box-shadow: var(--mitzvah-ui-shadow);
+	color: var(--mitzvah-ui-text);
+}

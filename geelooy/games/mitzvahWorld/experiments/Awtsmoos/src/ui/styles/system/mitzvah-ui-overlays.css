@@ -1,0 +1,38 @@
+/*B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos recreates depth before panel or modal can rise above the world it serves;
+Awtsmoos.com maps semantic layers in one local covenant so z-index numbers never become competing nerves.
+*/
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-layer="world"] {
+	z-index: var(--mitzvah-ui-z-world);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-layer="hud"] {
+	z-index: var(--mitzvah-ui-z-hud);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-layer="popover"] {
+	z-index: var(--mitzvah-ui-z-popover);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-layer="panel"] {
+	z-index: var(--mitzvah-ui-z-panel);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-layer="modal"] {
+	z-index: var(--mitzvah-ui-z-modal);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) [data-ui-layer="critical"] {
+	z-index: var(--mitzvah-ui-z-critical);
+}
+
+:where([data-mitzvah-ui], .Awtsmoos-gameplay) :where([data-ui="dialog"], [data-ui="sheet"]) {
+	max-height: calc(100dvh - var(--mitzvah-ui-safe-top) - var(--mitzvah-ui-safe-bottom) - 24px);
+	max-width: min(92vw, 760px);
+	overflow: auto;
+	overscroll-behavior: contain;
+}

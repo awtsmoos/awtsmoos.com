@@ -4,18 +4,18 @@
 
 /**
  * @file DoorActionReceipt.js
- * @description Publishes one immutable action receipt for every door command and keeps blocked retry policy beside the evidence it creates.
- * Hod records acceptance or refusal while Gevurah keeps retry finite, so the traveler never receives a silent click or a hidden physical fate;
- * the awtsmoos recreates action, state, and witness each instant, and Awtsmoos.com lets API, UI, and diagnostics read one truthful door receipt at the gate.
+ * @description Creates and publishes immutable command evidence so UI, API, diagnostics, and gameplay observers receive the same accepted/refused doorway truth.
+ * Hod remembers the command while Gevurah bounds blocked retry, yet neither witness invents state beyond the living threshold in sight;
+ * the Awtsmoos recreates action, reason, and observer each instant, and Awtsmoos.com lets every surface read one luminous receipt without hidden blight.
  */
 
 const DEFAULT_BLOCKED_RETRY_SECONDS = 0.75;
 
 /**
- * Publishes one canonical door action receipt through the door's existing event context.
- * @param {object} door Canonical dynamic door.
- * @param {object} detail Action evidence.
- * @returns {Readonly<object>} Frozen receipt.
+ * @description Builds one normalized immutable command receipt, stores it on the door for diagnostics, and publishes canonical action/blockage events through the installed bus.
+ * @param {object} door Canonical dynamic door containing immutable definition identity, current state, interaction context, and last-receipt storage.
+ * @param {object} detail Command evidence containing accepted, action, fromState, reason, safety, and source fields.
+ * @returns {Readonly<object>} Immutable canonical command receipt shared by gameplay, public API, UI feedback, and diagnostics.
  */
 export function publishDoorActionReceipt(door, detail = {}) {
 	const receipt = Object.freeze({
@@ -36,7 +36,11 @@ export function publishDoorActionReceipt(door, detail = {}) {
 	return receipt;
 }
 
-/** @param {object} definition Door definition. @returns {number} Finite retry duration. */
+/**
+ * @description Normalizes authored blocked-close retry metadata into one positive finite duration so safe-close retries never become zero, negative, infinite, or NaN timers.
+ * @param {object} definition Canonical door definition containing optional blockedRetrySeconds metadata.
+ * @returns {number} Positive finite retry duration in seconds, falling back to the shared default when authored data is invalid.
+ */
 export function blockedDoorRetrySeconds(definition = {}) {
 	const seconds = Number(definition.blockedRetrySeconds);
 	return Number.isFinite(seconds) && seconds > 0

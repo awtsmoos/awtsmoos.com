@@ -1,21 +1,15 @@
 /* B"H
 Boruch Hashem
 Blessed is He
-mitzvah-world-glyphs-001.css reveals localized style through the Awtsmoos and Awtsmoos.com.
+
+The Awtsmoos gives each holy letter a flight that reveals impact without stealing touch from the player;
+Awtsmoos.com keeps glyph motion inside one floating visual layer, bounded by the world and quiet when motion is reduced.
 */
-
-/* B"H */
-
-/* Boruch Hashem */
-
-/* Blessed is He */
-
-/** The Awtsmoos bounds every red letter particle; Awtsmoos.com lets glyphs charge, fly, and burst without blocking play. */
 
 #mitzvah-world-root .Awtsmoos-combat-glyph-field {
 	position: fixed;
 	inset: 0;
-	z-index: 820;
+	z-index: var(--mw-z-floating);
 	overflow: hidden;
 	pointer-events: none;
 }
@@ -24,12 +18,12 @@ mitzvah-world-glyphs-001.css reveals localized style through the Awtsmoos and Aw
 	position: absolute;
 	left: 50%;
 	top: 52%;
-	font: 900 clamp(24px, 5vw, 58px)/1 serif;
 	color: #ff2f24;
+	font: 900 clamp(24px, 5vw, 58px)/1 serif;
 	text-shadow: 0 0 5px #fff1b8, 0 0 15px #ff1a0a, 0 0 32px #8d0000;
 	opacity: 0;
-	transform: translate(-50%, -50%) scale(.25) rotate(0deg);
-	animation: mw-AwtsmoosHebrewFlight 920ms cubic-bezier(.16,.72,.25,1) var(--glyph-delay) forwards;
+	transform: translate(-50%, -50%) scale(0.25) rotate(0deg);
+	animation: mw-AwtsmoosHebrewFlight 920ms cubic-bezier(0.16, 0.72, 0.25, 1) var(--glyph-delay) forwards;
 }
 
 #mitzvah-world-root .Awtsmoos-hebrew-particle[data-hostile="true"] {
@@ -46,18 +40,46 @@ mitzvah-world-glyphs-001.css reveals localized style through the Awtsmoos and Aw
 }
 
 @keyframes mw-AwtsmoosHebrewFlight {
-	0% { opacity: 0; transform: translate(-50%, -50%) scale(.2); }
-	24% { opacity: 1; }
-	100% { opacity: 0; transform: translate(calc(-50% + var(--glyph-x)), calc(-50% + var(--glyph-y))) scale(1.25) rotate(var(--glyph-turn)); }
+	0% {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.2);
+	}
+	24% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(calc(-50% + var(--glyph-x)), calc(-50% + var(--glyph-y))) scale(1.25) rotate(var(--glyph-turn));
+	}
 }
 
 @keyframes mw-AwtsmoosHebrewCharge {
-	0% { opacity: 0; transform: translate(calc(-50% + var(--glyph-x)), calc(-50% + var(--glyph-y))) scale(.18) rotate(var(--glyph-turn)); }
-	68% { opacity: 1; }
-	100% { opacity: 0; transform: translate(-50%, -50%) scale(.82); }
+	0% {
+		opacity: 0;
+		transform: translate(calc(-50% + var(--glyph-x)), calc(-50% + var(--glyph-y))) scale(0.18) rotate(var(--glyph-turn));
+	}
+	68% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.82);
+	}
 }
 
 @keyframes mw-AwtsmoosHebrewImpact {
-	0% { opacity: 1; transform: translate(-50%, -50%) scale(.3); }
-	100% { opacity: 0; transform: translate(calc(-50% + var(--glyph-x)), calc(-50% + var(--glyph-y))) scale(1.65) rotate(var(--glyph-turn)); }
+	0% {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(0.3);
+	}
+	100% {
+		opacity: 0;
+		transform: translate(calc(-50% + var(--glyph-x)), calc(-50% + var(--glyph-y))) scale(1.65) rotate(var(--glyph-turn));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#mitzvah-world-root .Awtsmoos-hebrew-particle {
+		animation-duration: 1ms;
+	}
 }

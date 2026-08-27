@@ -4,16 +4,13 @@
 /**
  * @module PianoSynthVoiceRuntime
  * @description
- * The Awtsmoos gives one note its beginning, optional recorded clothing, and measured return;
- * Awtsmoos.com keeps start and stop orchestration here so creation/control code never carries the network's concern.
+ * The Awtsmoos gives one note procedural light, recorded clothing, and measured return;
+ * Awtsmoos.com keeps performance orchestration small while the sample runtime guards the network's concern.
  */
 
 import { AudioState } from '../audio.js';
 import { elements } from '../ui.js';
-import {
-	attachSampleVoice,
-	warmSampleInstrument
-} from './sampleEngine.js';
+import { startRemoteSampleLayer } from './sampleVoiceRuntime.js';
 import { startVoiceCharacter } from './voiceCharacter.js';
 import { getADSR } from './synthVoiceControl.js';
 import { readVoiceRelease } from './synthVoiceSettings.js';
@@ -24,7 +21,7 @@ import {
 import { startVoicePerformance } from './voicePerformance.js';
 
 /**
- * @description Starts procedural character and envelope immediately, then begins nonblocking remote-sample attachment and bank warming when configured.
+ * @description Starts procedural character and envelope immediately, then delegates nonblocking remote realism to its focused runtime.
  * @param {Object} nodes - Silent synth voice created by createSynthNode.
  * @param {number} frequency - Fundamental frequency in hertz.
  * @param {string} [noteName=''] - Scientific pitch name used for sample selection and recording identity.
@@ -46,7 +43,6 @@ export function startSynth(nodes, frequency, noteName = '') {
 		nodes.velocity,
 		now
 	);
-
 	startVoicePerformance(
 		context,
 		nodes,
@@ -61,7 +57,7 @@ export function startSynth(nodes, frequency, noteName = '') {
 /**
  * @description Releases one voice with normal or panic timing and schedules complete procedural/sample disposal.
  * @param {Object} nodes - Active synth voice record.
- * @param {boolean} [fast=false] - Whether panic/voice stealing should use the fast release policy.
+ * @param {boolean} [fast=false] - Whether panic or voice stealing should use fast release policy.
  * @returns {void}
  */
 export function stopSynth(nodes, fast = false) {
@@ -82,31 +78,4 @@ export function stopSynth(nodes, fast = false) {
  */
 export function disposeSynth(nodes) {
 	disposeVoiceGraph(nodes);
-}
-
-/**
- * @description Begins optional remote realism without awaiting network work, then opportunistically warms sibling anchors for future notes.
- * @param {AudioContext} context - Active Web Audio context.
- * @param {Object} nodes - Active parent voice record.
- * @param {string} noteName - Played scientific pitch used for sample selection.
- * @param {number} startedAt - Parent note start time used to reject late sample attacks.
- * @returns {void}
- */
-function startRemoteSampleLayer(context, nodes, noteName, startedAt) {
-	const instrument = nodes.preset?.sampleInstrument;
-
-	if (!instrument || (nodes.preset.sampleMix || 0) <= 0) {
-		return;
-	}
-
-	nodes.sampleStatus = 'loading';
-	nodes.samplePromise = attachSampleVoice(
-		context,
-		nodes,
-		noteName,
-		nodes.preset,
-		startedAt
-	);
-
-	void warmSampleInstrument(context, instrument);
 }

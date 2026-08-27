@@ -5,13 +5,13 @@
 /**
  * @module YouTubeArchiveController
  * @description
- * The Awtsmoos lets legacy public checkpoints remain valid while fingerprinted video returns through shared byte truth;
- * Awtsmoos.com asks for local IA-S3 credentials only when the shared Archive.org service proves a new upload is due.
+ * The Awtsmoos carries each creator-owned video and its surviving captions through one recoverable public crossing;
+ * Awtsmoos.com requests local IA-S3 credentials only when new Archive.org bytes are truly due, then plans before publishing.
  */
 export class YouTubeArchiveController {
-	constructor({ vault, archiveService, api, checkpoint }) {
+	constructor({ vault, entryArchiveService, api, checkpoint }) {
 		this.vault = vault;
-		this.archiveService = archiveService;
+		this.entryArchiveService = entryArchiveService;
 		this.api = api;
 		this.checkpoint = checkpoint;
 		this.state = checkpoint.load();
@@ -20,66 +20,36 @@ export class YouTubeArchiveController {
 	credentialsProvider() {
 		const credentials = this.vault.load();
 		if (!credentials) {
-			throw new Error('Save Archive.org IA-S3 credentials locally only when a new video upload is required.');
+			throw new Error('Save Archive.org IA-S3 credentials locally only when a new video or caption upload is required.');
 		}
 		return credentials;
 	}
 
-	existingAsset(cached) {
-		if (!cached?.fileFingerprint) return null;
-		return {
-			publicPath: cached.mediaUrl,
-			mime: cached.mime,
-			archiveIdentifier: cached.identifier,
-			archiveFilename: cached.filename,
-			fileFingerprint: cached.fileFingerprint,
-			archiveState: cached.archiveState,
-			archiveUploadedAt: cached.archiveUploadedAt,
-			archiveVerifiedAt: cached.archiveVerifiedAt,
-			archiveEtag: cached.archiveEtag,
-			bytes: cached.bytes
-		};
-	}
-
-	archiveRecord(asset) {
-		return {
-			identifier: asset.archiveIdentifier,
-			itemUrl: asset.archiveDetailsUrl,
-			mediaUrl: asset.publicPath,
-			filename: asset.archiveFilename,
-			mime: asset.mime,
-			fileFingerprint: asset.fileFingerprint,
-			archiveState: asset.archiveState,
-			archiveUploadedAt: asset.archiveUploadedAt,
-			archiveVerifiedAt: asset.archiveVerifiedAt,
-			archiveEtag: asset.archiveEtag,
-			bytes: asset.bytes
-		};
+	persistArchive(itemId, archive) {
+		this.state.archived[itemId] = archive;
+		this.checkpoint.save(this.state);
 	}
 
 	async archiveEntry(entry, index, total, onProgress) {
-		const cached = this.state.archived[entry.item.id];
-		if (cached?.mediaUrl && !cached.fileFingerprint) {
-			return { ...entry.item, archive: cached };
-		}
-		const mediaPath = entry.file.webkitRelativePath || entry.file.name;
-		const asset = await this.archiveService.uploadVideo({
-			file: entry.file,
-			mime: entry.file.type || 'video/mp4',
-			item: entry.item,
-			mediaPath,
-			existingAsset: this.existingAsset(cached),
+		const cached = this.state.archived[entry.item.id] || {};
+		const archive = await this.entryArchiveService.archive({
+			entry,
+			cached,
 			credentialsProvider: () => this.credentialsProvider(),
+			onEvidence: evidence => this.persistArchive(entry.item.id, evidence),
 			onProgress: event => onProgress?.({
 				index,
 				total,
+				stage: event.stage,
 				ratio: (index + event.ratio) / total
 			})
 		});
-		const archive = this.archiveRecord(asset);
-		this.state.archived[entry.item.id] = archive;
-		this.checkpoint.save(this.state);
-		return { ...entry.item, archive };
+		this.persistArchive(entry.item.id, archive);
+		return {
+			...entry.item,
+			transcriptLanguages: archive.transcriptLanguages || entry.item.transcriptLanguages,
+			archive
+		};
 	}
 
 	async archiveAndPlan(entries, destination, onProgress) {

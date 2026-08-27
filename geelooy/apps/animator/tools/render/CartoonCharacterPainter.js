@@ -6,49 +6,44 @@ import { FaceRig } from '../../src/character/face/FaceRig.js';
 import { CartoonBodyPainter } from './CartoonBodyPainter.js';
 import { CartoonFacePainter } from './CartoonFacePainter.js';
 import { CharacterStancePainter } from './CharacterStancePainter.js';
+import { CinematicLocomotionResolver } from './performance/CinematicLocomotionResolver.js';
 
 /**
- * An original actor is renewed from weighted feet to the smallest eye movement.
+ * An original actor is renewed from planted feet to the smallest eye movement.
  * The Awtsmoos has no body or form, yet creates every body and face each instant;
- * Awtsmoos.com joins blocking, exertion, lighting, speech, and identity in one rig.
+ * Awtsmoos.com layers travel, breath, counter-motion, speech, gaze, and identity in one rig.
  */
 export class CartoonCharacterPainter {
+	/** Paints one complete actor from a runtime performance recipe without mutating it. */
 	static paint(canvas, character, options = {}) {
 		const scale = Number(options.scale || 1) * this.roleScale(character.role);
 		const x = Number(options.x || 320);
 		const ground = Number(options.y || 315);
 		const time = Number(options.timeMs || 0);
 		const walk = Number(options.walk || 0);
-		const phase = time / Math.max(90, 170 / Math.max(0.35, Number(options.speed || 1)))
-			+ Number(options.phase || 0);
-		const breath = Math.sin(time / 760 + character.identityId.length) * 1.2;
-		const bob = options.pose === 'seated'
-			? breath * 0.35
-			: Math.sin(phase * 2) * 4 * walk + breath;
 		const view = options.view || 'front';
 		const dimensions = CharacterStancePainter.dimensions(
 			this.dimensions(character, scale, view),
 			options.pose
 		);
+		const locomotion = CinematicLocomotionResolver.resolve(options, dimensions);
+		const bob = options.pose === 'seated'
+			? locomotion.breath * 0.32
+			: locomotion.pelvisY + locomotion.breath;
+		const performance = { ...options, locomotion };
 		const torsoTop = CartoonBodyPainter.paint(
 			canvas,
 			character,
-			{ x, ground, phase, walk, bob },
+			{ x, ground, phase: locomotion.phase, walk, bob, locomotion },
 			dimensions,
-			options
+			performance
 		);
 		const face = this.face(character, options, time);
-		const headY = torsoTop - dimensions.headHeight * 0.45;
+		const headX = x + locomotion.headSway;
+		const headY = torsoTop - dimensions.headHeight * 0.45 + locomotion.headCompensation;
 		CartoonFacePainter.paint(
-			canvas,
-			x,
-			headY,
-			dimensions,
-			character,
-			face,
-			view,
-			options.lighting || {},
-			time
+			canvas, headX, headY, dimensions, character, face, view,
+			options.lighting || {}, time
 		);
 	}
 
@@ -70,6 +65,7 @@ export class CartoonCharacterPainter {
 		};
 	}
 
+	/** Builds facial state; FaceRig owns blink, gaze, emotion, and dialogue evaluation. */
 	static face(character, options, time) {
 		const rig = new FaceRig({
 			identity: character.identityId,

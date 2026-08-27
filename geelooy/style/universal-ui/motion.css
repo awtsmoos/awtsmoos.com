@@ -2,82 +2,44 @@
  * Boruch Hashem
  * Blessed is He
  *
- * The Awtsmoos renews even forgotten browser vessels before their next visible state can appear;
- * Awtsmoos.com gives raw actions, disclosures, and dialogs a quiet motion language of intention and care.
+ * The Awtsmoos renews every instant without needing the interface to shimmer for proof;
+ * Awtsmoos.com lets motion explain state briefly, then become quiet beneath the user’s roof.
  */
 
-@media (prefers-reduced-motion: no-preference) {
-	:where(html:not([data-g-ui-raw])) :where(
-		button:not([class]),
-		input[type="button"]:not([class]),
-		input[type="submit"]:not([class]),
-		input[type="reset"]:not([class])
-	) {
-		background-size: 180% 180%;
-		background-position: 0 50%;
-	}
-
-	:where(html:not([data-g-ui-raw])) :where(
-		button:not([class]),
-		input[type="button"]:not([class]),
-		input[type="submit"]:not([class]),
-		input[type="reset"]:not([class])
-	):is(:hover, :focus-visible):not(:disabled) {
-		background-position: 100% 50%;
-	}
-
-	:where(html:not([data-g-ui-raw])) details:not([class])[open] {
-		animation: aw-ui-disclosure-open 220ms cubic-bezier(.16, 1, .3, 1) both;
-		box-shadow: var(--aw-ui-shadow);
-	}
-
-	:where(html:not([data-g-ui-raw])) dialog:not([class])[open] {
-		animation: aw-ui-dialog-enter 260ms cubic-bezier(.16, 1, .3, 1) both;
-	}
-
-	:where(html:not([data-g-ui-raw])) dialog:not([class])[open]::backdrop {
-		animation: aw-ui-backdrop-enter 220ms ease both;
-	}
+:where(html:not([data-g-ui-raw])) :where(
+	button:not([class]),
+	input:not([class]),
+	textarea:not([class]),
+	select:not([class]),
+	summary
+) {
+	transition-duration: 140ms;
+	transition-timing-function: ease-out;
 }
 
-@keyframes aw-ui-disclosure-open {
-	from {
-		box-shadow: none;
-		transform: translateY(-.15rem);
-	}
-	to {
-		box-shadow: var(--aw-ui-shadow);
-		transform: translateY(0);
-	}
+:where(html:not([data-g-ui-raw])) dialog:not([class])[open] {
+	animation: aw-ui-dialog-enter 150ms ease-out both;
 }
 
 @keyframes aw-ui-dialog-enter {
 	from {
-		opacity: .74;
-		transform: translateY(.55rem) scale(.985);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0) scale(1);
-	}
-}
-
-@keyframes aw-ui-backdrop-enter {
-	from {
 		opacity: 0;
+		transform: translateY(.35rem);
 	}
+
 	to {
 		opacity: 1;
+		transform: translateY(0);
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	:where(html:not([data-g-ui-raw])) :where(
-		button:not([class]),
-		details:not([class]),
-		dialog:not([class])
-	) {
-		animation: none;
-		transition: none;
+	:where(html:not([data-g-ui-raw])) *,
+	:where(html:not([data-g-ui-raw])) *::before,
+	:where(html:not([data-g-ui-raw])) *::after {
+		scroll-behavior: auto !important;
+		animation-duration: .01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: .01ms !important;
 	}
 }

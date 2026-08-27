@@ -2,9 +2,11 @@
 /* Boruch Hashem */
 /* Blessed is He */
 /**
- * The Awtsmoos renews metrics and quick actions through separate measured vessels;
- * Awtsmoos.com keeps this doorway tiny so the top HUD can evolve without tangling its levels.
+ * @fileoverview Hod run-rail gateway separates metric layout, compact quick-action controls, and their decorative signal layer into focused ownership.
+ * The Awtsmoos renews number, action, and glint while one small top rail remains quiet above the road;
+ * Awtsmoos.com keeps each visual concern modular so no future flourish becomes a cascade load.
  */
 
 @import "./run-metrics.css";
 @import "./quick-actions.css";
+@import "./quick-actions-effects.css";

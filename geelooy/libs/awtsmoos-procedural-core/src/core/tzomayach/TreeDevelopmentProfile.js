@@ -4,52 +4,79 @@
 
 /**
  * @file TreeDevelopmentProfile.js
- * @description Converts succession and environment intent into immutable structural and directional growth evidence.
- * The Awtsmoos, Atzmus beyond youth and old-growth, renews tree, sun, gravity, and wind in the same eternal now;
- * Awtsmoos.com lets those oros enter a measured profile while TreeGenerator remains the sole structural keli beneath every LOD.
+ * @description Reconciles succession, directional intent, and explicit resource causes into one immutable pre-skeleton development profile.
+ * The Awtsmoos, Atzmus beyond youth and drought, renews tree, sun, soil, gravity, and wind in one eternal now;
+ * Awtsmoos.com lets those oros enter measured vessels while one canonical skeleton remains the sole living tree beneath every LOD somehow.
  */
 
 import { createForestSuccessionProfile } from '../geometry/generators/tree/forestSuccession.js';
+import {
+	treeDevelopmentBounded,
+	treeDevelopmentUnit,
+	treeDevelopmentVector
+} from './TreeDevelopmentMath.js';
+import { createTreeResourceDevelopment } from './TreeResourceDevelopment.js';
+import { applyTreeResourceDevelopmentEffects } from './TreeResourceDevelopmentEffects.js';
 
-/** Creates one immutable tree-development profile from canonical succession and environment evidence. */
+/**
+ * Creates one immutable development profile whose resource effects activate only for explicitly supplied resource fields.
+ * @param {object} [input={}] Succession, age, vigor, competition, light, wind, and optional soil-resource intent.
+ * @returns {Readonly<object>} Canonical pre-skeleton development evidence.
+ */
 export function createTreeDevelopmentProfile(input = {}) {
 	const keterSuccession = createForestSuccessionProfile(input);
-	const chochmahAge = unit(input.age ?? keterSuccession.age);
-	const binahVigor = unit(input.vigor ?? keterSuccession.vigor);
-	const gevurahCompetition = unit(input.competition ?? keterSuccession.competition);
-	const tiferesEdge = unit(input.edgeExposure ?? keterSuccession.edgeExposure);
-	const netzachCrown = unit(chochmahAge * 0.62 + binahVigor * 0.38);
-	const hodFoliage = unit(chochmahAge * 0.48 + binahVigor * 0.52);
-	const yesodMortality = unit(
+	const chochmahAge = treeDevelopmentUnit(input.age ?? keterSuccession.age);
+	const binahVigor = treeDevelopmentUnit(input.vigor ?? keterSuccession.vigor);
+	const gevurahCompetition = treeDevelopmentUnit(input.competition ?? keterSuccession.competition);
+	const tiferesEdge = treeDevelopmentUnit(input.edgeExposure ?? keterSuccession.edgeExposure);
+	const yesodResources = createTreeResourceDevelopment(input);
+	const netzachCrown = treeDevelopmentUnit(chochmahAge * 0.62 + binahVigor * 0.38);
+	const hodFoliage = treeDevelopmentUnit(chochmahAge * 0.48 + binahVigor * 0.52);
+	const malchusMortality = treeDevelopmentUnit(
 		chochmahAge * 0.24
 		+ gevurahCompetition * 0.34
 		+ (1 - binahVigor) * 0.34
 		+ tiferesEdge * 0.08
 	);
-	const malchusApical = unit(0.9 - chochmahAge * 0.34 + binahVigor * 0.18 - gevurahCompetition * 0.1);
-	return Object.freeze({
+	const tiferesEffects = applyTreeResourceDevelopmentEffects({
+		branchMortality: malchusMortality,
+		crownScale: treeDevelopmentBounded(input.crownScale ?? keterSuccession.crownScale, 0.45, 1.35),
+		foliageMaturity: hodFoliage,
+		heightScale: treeDevelopmentBounded(input.heightScale ?? keterSuccession.heightScale, 0.4, 1.35),
+		phototropism: treeDevelopmentUnit(input.phototropism ?? 0.22 + binahVigor * 0.28 + tiferesEdge * 0.24),
+		trunkScale: treeDevelopmentBounded(input.trunkScale ?? keterSuccession.trunkScale, 0.45, 1.35)
+	}, yesodResources);
+	const malchusProfile = {
 		age: chochmahAge,
-		apicalDominance: malchusApical,
-		branchMortality: yesodMortality,
+		apicalDominance: treeDevelopmentUnit(0.9 - chochmahAge * 0.34 + binahVigor * 0.18 - gevurahCompetition * 0.1),
+		branchMortality: tiferesEffects.branchMortality,
 		competition: gevurahCompetition,
 		crownMaturity: netzachCrown,
-		crownScale: bounded(input.crownScale ?? keterSuccession.crownScale, 0.45, 1.35),
+		crownScale: tiferesEffects.crownScale,
 		edgeExposure: tiferesEdge,
-		foliageMaturity: hodFoliage,
-		gravitropism: unit(input.gravitropism ?? 0.38 + binahVigor * 0.32),
-		heightScale: bounded(input.heightScale ?? keterSuccession.heightScale, 0.4, 1.35),
-		lightDirection: vector(input.lightDirection ?? input.sunDirection, { x: 0, y: 1, z: 0 }),
-		phototropism: unit(input.phototropism ?? 0.22 + binahVigor * 0.28 + tiferesEdge * 0.24),
-		spaceCompetition: unit(input.spaceCompetition ?? gevurahCompetition * 0.72 + (1 - tiferesEdge) * 0.14),
+		foliageMaturity: tiferesEffects.foliageMaturity,
+		gravitropism: treeDevelopmentUnit(input.gravitropism ?? 0.38 + binahVigor * 0.32),
+		heightScale: tiferesEffects.heightScale,
+		lightDirection: treeDevelopmentVector(input.lightDirection ?? input.sunDirection, { x: 0, y: 1, z: 0 }),
+		phototropism: tiferesEffects.phototropism,
+		spaceCompetition: treeDevelopmentUnit(input.spaceCompetition ?? gevurahCompetition * 0.72 + (1 - tiferesEdge) * 0.14),
 		stage: String(input.stage ?? keterSuccession.stage),
-		trunkScale: bounded(input.trunkScale ?? keterSuccession.trunkScale, 0.45, 1.35),
+		trunkScale: tiferesEffects.trunkScale,
 		vigor: binahVigor,
-		windDirection: vector(input.windDirection, { x: 0, y: 0, z: 0 }),
-		windResponse: unit(input.windResponse ?? tiferesEdge * 0.38)
-	});
+		windDirection: treeDevelopmentVector(input.windDirection, { x: 0, y: 0, z: 0 }),
+		windResponse: treeDevelopmentUnit(input.windResponse ?? tiferesEdge * 0.38)
+	};
+	if (yesodResources) {
+		malchusProfile.resources = yesodResources;
+	}
+	return Object.freeze(malchusProfile);
 }
 
-/** Returns whether caller options contain ecological or directional development intent. */
+/**
+ * Reports whether high-level options contain pre-skeleton ecological, directional, or resource development intent.
+ * @param {object} [options={}] Tree creation options.
+ * @returns {boolean} True when development should be resolved before skeleton generation.
+ */
 export function hasTreeDevelopmentIntent(options = {}) {
 	return Boolean(
 		options.development
@@ -64,9 +91,15 @@ export function hasTreeDevelopmentIntent(options = {}) {
 	);
 }
 
-/** Resolves high-level options into canonical development evidence. */
+/**
+ * Merges environment beneath explicit development/succession values and resolves one canonical development profile.
+ * @param {object} [options={}] High-level tree options.
+ * @returns {Readonly<object>|null} Development profile or null when no intent exists.
+ */
 export function resolveTreeDevelopmentProfile(options = {}) {
-	if (!hasTreeDevelopmentIntent(options)) return null;
+	if (!hasTreeDevelopmentIntent(options)) {
+		return null;
+	}
 	const chochmahEnvironment = options.environment || {};
 	const binahSource = options.development ?? options.succession ?? options;
 	return createTreeDevelopmentProfile({
@@ -74,27 +107,4 @@ export function resolveTreeDevelopmentProfile(options = {}) {
 		...binahSource,
 		seed: binahSource.seed ?? options.seed
 	});
-}
-
-function vector(value, fallback) {
-	const source = Array.isArray(value)
-		? { x: value[0], y: value[1], z: value[2] }
-		: (value || fallback);
-	return Object.freeze({
-		x: finite(source.x, fallback.x),
-		y: finite(source.y, fallback.y),
-		z: finite(source.z, fallback.z)
-	});
-}
-
-function unit(value) {
-	return bounded(Number(value) || 0, 0, 1);
-}
-
-function bounded(value, minimum, maximum) {
-	return Math.max(minimum, Math.min(maximum, finite(value, minimum)));
-}
-
-function finite(value, fallback) {
-	return Number.isFinite(Number(value)) ? Number(value) : fallback;
 }

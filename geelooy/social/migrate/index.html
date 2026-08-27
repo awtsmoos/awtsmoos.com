@@ -2,8 +2,8 @@
 <!-- B"H
 Boruch Hashem
 Blessed is He
-The Awtsmoos lets old social history unfold through one clear river while advanced instruments wait in quiet chambers;
-Awtsmoos.com keeps local archives private, public actions explicit, and subtle depth behind the work instead of above it.
+The Awtsmoos lets old social history return through a clear local river, private and bright;
+Awtsmoos.com folds advanced help into quiet chambers while every public deed waits for explicit light.
 -->
 <html lang="en">
 <head>
@@ -12,7 +12,7 @@ Awtsmoos.com keeps local archives private, public actions explicit, and subtle d
 	<meta name="color-scheme" content="dark">
 	<title>Social Migration Studio · Awtsmoos</title>
 	<link rel="stylesheet" href="../../style/future-system/index.css?v=future-005">
-	<link rel="stylesheet" href="./style.css?v=future-ui-005">
+	<link rel="stylesheet" href="./style.css?v=future-ui-006">
 </head>
 <body data-future-page="migration" data-future-particles>
 	<header class="topbar">
@@ -41,12 +41,13 @@ Awtsmoos.com keeps local archives private, public actions explicit, and subtle d
 					<label>Source hint<select id="sourceHint"><option value="">Auto detect</option><option value="facebook">Facebook</option><option value="instagram">Instagram</option></select></label>
 					<div id="archiveDrop" class="dropZone"><strong>Drop ZIP, JSON, or HTML</strong><span>Nothing uploads when you choose it.</span></div>
 					<div class="buttonRow"><label class="buttonLike">Choose files<input id="archiveFiles" type="file" accept=".zip,.json,.html,.htm" multiple hidden></label><label class="buttonLike quietButton">Choose folder<input id="archiveFolder" type="file" webkitdirectory directory multiple hidden></label></div>
-					<progress id="migrationProgress" hidden></progress><p id="migrationStatus" class="status" aria-live="polite">No archive opened.</p>
+					<progress id="migrationProgress" hidden></progress>
+					<p id="migrationStatus" class="status" aria-live="polite">No archive opened.</p>
 				</div>
 				<details class="panel filterDisclosure" data-future-disclosure data-mobile-closed data-disclosure-key="migration.filters" open>
 					<summary><span><small>Optional</small><strong>Refine memories</strong></span><span class="summaryMeta">Search · type · year</span></summary>
 					<form id="migrationFilters" class="futureDisclosureBody filters">
-						<label class="searchField">Search history<input name="query" type="search" placeholder="Words from a memory"></label>
+						<label class="searchField">Search history<input name="query" type="search"></label>
 						<label>Source<select name="provider"><option value="all">All sources</option><option value="facebook">Facebook</option><option value="instagram">Instagram</option></select></label>
 						<label>Type<select name="type"><option value="all">All types</option><option>post</option><option>photo</option><option>video</option><option>reel</option><option>short</option><option>story</option><option>audio</option></select></label>
 						<label>Year<select name="year"><option value="all">All years</option></select></label>
@@ -61,16 +62,27 @@ Awtsmoos.com keeps local archives private, public actions explicit, and subtle d
 			<aside class="instrumentPanel" aria-label="Destination and review">
 				<details class="panel telemetryPanel" data-future-disclosure data-mobile-closed data-disclosure-key="migration.intelligence" open>
 					<summary><span><small>Optional</small><strong>Archive intelligence</strong></span><span class="summaryMeta"><b data-stat="selected">0</b> selected</span></summary>
-					<div class="futureDisclosureBody"><div class="telemetryHeading"><div id="selectionRing" class="selectionRing" role="img"><span data-stat="selected">0</span></div><strong><span data-stat="total">0</span> memories</strong></div><div class="statGrid"><div><span data-stat="providers">0 FB · 0 IG</span><small>Provider mix</small></div><div><span data-stat="confidence">0%</span><small>Confidence</small></div><div><span data-stat="json">0</span><small>JSON</small></div><div><span data-stat="html">0</span><small>HTML</small></div><div><span data-stat="coverage">Unknown</span><small>Dates</small></div><div><span data-stat="unknown">0</span><small>Unknown</small></div><div><span data-stat="images">0</span><small>Images</small></div><div><span data-stat="videos">0</span><small>Videos</small></div><div><span data-stat="audio">0</span><small>Audio</small></div></div><div id="yearDensity" class="yearDensity"></div><div class="recoveryLine">Recovered <b data-stat="recovered">0</b> · Uploaded <b data-stat="uploaded">0</b> · Published <b data-stat="published">0</b> · Retry <b data-stat="retries">0</b></div></div>
+					<div class="futureDisclosureBody">
+						<div class="telemetryHeading"><div id="selectionRing" class="selectionRing" role="img"><span data-stat="selected">0</span></div><strong><span data-stat="total">0</span> memories</strong></div>
+						<div class="statGrid"><div><span data-stat="providers">0 FB · 0 IG</span><small>Provider mix</small></div><div><span data-stat="confidence">0%</span><small>Confidence</small></div><div><span data-stat="json">0</span><small>JSON</small></div><div><span data-stat="html">0</span><small>HTML</small></div><div><span data-stat="coverage">Unknown</span><small>Dates</small></div><div><span data-stat="unknown">0</span><small>Unknown</small></div><div><span data-stat="images">0</span><small>Images</small></div><div><span data-stat="videos">0</span><small>Videos</small></div><div><span data-stat="audio">0</span><small>Audio</small></div></div>
+						<div id="yearDensity" class="yearDensity"></div>
+						<div class="recoveryLine">Recovered <b data-stat="recovered">0</b> · Uploaded <b data-stat="uploaded">0</b> · Published <b data-stat="published">0</b> · Retry <b data-stat="retries">0</b></div>
+					</div>
 				</details>
-				<form id="migrationDestination" class="panel destinationPanel"><p class="eyebrow">2 · Native destination</p><h2>Choose its home</h2><label>Alias<input name="aliasId" autocomplete="off" required placeholder="alias-id"></label><label>Heichel<input name="heichelId" autocomplete="off" required placeholder="heichel-id"></label><label>Series<input name="seriesId" autocomplete="off" value="root" placeholder="root"></label></form>
+				<form id="migrationDestination" class="panel destinationPanel"><p class="eyebrow">2 · Native destination</p><h2>Choose its home</h2><label>Alias<input name="aliasId" autocomplete="off" required></label><label>Heichel<input name="heichelId" autocomplete="off" required></label><label>Series<input name="seriesId" autocomplete="off" value="root"></label></form>
 				<section class="panel actionPanel"><p class="eyebrow">3 · Review</p><h2>Nothing publishes yet.</h2><button id="generatePlan" type="button">Generate dry plan</button><button id="retryFailures" class="quietButton" type="button" disabled>Retry failures</button><button id="clearCheckpoint" class="textButton" type="button">Clear local checkpoint</button></section>
 			</aside>
 		</div>
 	</main>
 	<dialog id="reviewSheet" data-future-sheet><div class="sheet"><button class="grab" data-sheet-handle aria-label="Drag down to close"></button><header><div><p class="eyebrow">Review & Publish</p><h2>Dry plan ready</h2></div><button data-sheet-close class="closeButton" aria-label="Close">×</button></header><ul id="reviewSummary"></ul><p>Import uploads only selected media, regenerates the plan with public paths, then publishes idempotently.</p><button id="beginImport" type="button">Begin import</button></div></dialog>
 	<dialog id="mediaSheet" data-future-sheet><div class="sheet"><button class="grab" data-sheet-handle aria-label="Drag down to close"></button><header><h2>Local media preview</h2><button data-sheet-close class="closeButton" aria-label="Close">×</button></header><div id="mediaPreviewHost" class="mediaPreview"></div></div></dialog>
-	<dialog id="tutorialSheet" data-future-sheet><div class="sheet tutorialSheet"><button class="grab" data-sheet-handle aria-label="Drag down to close"></button><header><h2>Official export paths</h2><button data-sheet-close class="closeButton" aria-label="Close">×</button></header><section><h3>Facebook</h3><p>Accounts Center → Your information and permissions → Export your information → Create export → choose Facebook profile → Export to device → choose content, date, format, and media quality → prefer All time + JSON.</p><a href="https://www.facebook.com/help/212802592074644" target="_blank" rel="noopener">Facebook export help</a></section><section><h3>Instagram</h3><p>Use Accounts Center → Export your information → Export to device → prefer All time + JSON.</p><a href="https://www.facebook.com/help/181231772500920" target="_blank" rel="noopener">Instagram export help</a></section><section><h3>YouTube</h3><p>Use Google Takeout for an archive or YouTube Studio for one owned video.</p><div class="linkRail"><a href="https://takeout.google.com/" target="_blank" rel="noopener">Google Takeout</a><a href="https://studio.youtube.com/" target="_blank" rel="noopener">YouTube Studio</a><a href="/youtube/migrate/">Advanced migration</a></div></section></div></dialog>
+	<dialog id="tutorialSheet" data-future-sheet>
+		<div class="sheet tutorialSheet"><button class="grab" data-sheet-handle aria-label="Drag down to close"></button><header><h2>Official export paths</h2><button data-sheet-close class="closeButton" aria-label="Close">×</button></header>
+			<section><h3>Facebook</h3><p>Accounts Center → Your information and permissions → Export your information → Create export → choose Facebook profile → Export to device → choose content, date, format, and media quality → prefer All time + JSON.</p><a href="https://www.facebook.com/help/212802592074644" target="_blank" rel="noopener">Facebook export help</a></section>
+			<section><h3>Instagram</h3><p>Accounts Center → Your information and permissions → Export your information → Create export → choose Instagram profile → Export to device → prefer All time + JSON.</p><a href="https://www.facebook.com/help/181231772500920" target="_blank" rel="noopener">Instagram export help</a></section>
+			<section><h3>YouTube</h3><p>Use Google Takeout for a whole archive or YouTube Studio → Content → video menu → Download for one owned video.</p><div class="linkRail"><a href="https://support.google.com/accounts/answer/3024190?hl=en" target="_blank" rel="noopener">Takeout help</a><a href="https://takeout.google.com/" target="_blank" rel="noopener">Google Takeout</a><a href="https://support.google.com/youtube/answer/56100?hl=en" target="_blank" rel="noopener">Studio download help</a><a href="https://studio.youtube.com/" target="_blank" rel="noopener">YouTube Studio</a><a href="/youtube/migrate/">Advanced migration</a></div></section>
+		</div>
+	</dialog>
 	<script type="module" src="./js/main.js?v=future-ui-005"></script>
 </body>
 </html>

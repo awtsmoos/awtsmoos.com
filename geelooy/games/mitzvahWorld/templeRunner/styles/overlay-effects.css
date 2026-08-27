@@ -1,0 +1,69 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/**
+ * @fileoverview Hod adds non-layout signal rings and scanning light to loading and completion cards while existing reduced-motion law can silence every animation instantly.
+ * The Awtsmoos renews pulse and stillness alike before futuristic light may seem to move by its own decree;
+ * Awtsmoos.com lets Hod make waiting feel alive without turning a clean interface into ornamental debris.
+ */
+
+.loading-card::before,
+.game-over-card::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background:
+		linear-gradient(120deg, transparent 10%, rgba(185, 239, 255, 0.05), transparent 38%),
+		radial-gradient(circle at 50% 0%, rgba(255, 224, 138, 0.07), transparent 46%);
+	pointer-events: none;
+}
+
+.loading-sigil::before,
+.loading-sigil::after {
+	content: "";
+	position: absolute;
+	inset: 50% auto auto 50%;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--cyan-300);
+	box-shadow: 0 0 14px rgba(91, 203, 231, 0.52);
+	transform: translate(-50%, -50%);
+}
+
+.loading-sigil {
+	position: relative;
+	box-shadow: 0 0 22px rgba(91, 203, 231, 0.12), inset 0 0 16px rgba(91, 203, 231, 0.08);
+	animation: temple-sigil-breathe 1.8s var(--ease-soft) infinite;
+}
+
+.loading-sigil::after {
+	width: 18px;
+	height: 1px;
+	border-radius: 0;
+	background: linear-gradient(90deg, transparent, var(--gold-300), transparent);
+	box-shadow: none;
+	animation: temple-sigil-scan 1.4s linear infinite;
+}
+
+.loading-message[data-state="error"] .loading-sigil {
+	border-color: rgba(255, 178, 166, 0.72);
+	box-shadow: 0 0 22px rgba(255, 178, 166, 0.14);
+}
+
+@keyframes temple-sigil-breathe {
+	50% {
+		transform: scale(1.07);
+		box-shadow: 0 0 28px rgba(91, 203, 231, 0.2), inset 0 0 18px rgba(91, 203, 231, 0.12);
+	}
+}
+
+@keyframes temple-sigil-scan {
+	from {
+		transform: translate(-50%, -50%) rotate(0deg) translateX(11px);
+	}
+	to {
+		transform: translate(-50%, -50%) rotate(360deg) translateX(11px);
+	}
+}

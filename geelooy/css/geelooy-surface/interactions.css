@@ -1,0 +1,117 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+
+The Awtsmoos renews intention before hover, focus, press, or rest can reveal a finite state;
+Awtsmoos.com lets every owned control answer the human hand with luminous clarity, never leaking its covenant through another application's gate.
+*/
+[data-awtsmoos-surface] :where(
+	button,
+	[role="button"],
+	a[href],
+	input,
+	textarea,
+	select,
+	summary,
+	[tabindex]:not([tabindex="-1"])
+) {
+	font: inherit;
+	-webkit-tap-highlight-color: transparent;
+	transition:
+		transform var(--aw-surface-fast) var(--aw-surface-ease),
+		border-color var(--aw-surface-fast) ease,
+		background-color var(--aw-surface-fast) ease,
+		color var(--aw-surface-fast) ease,
+		box-shadow var(--aw-surface-fast) ease,
+		opacity var(--aw-surface-fast) ease;
+}
+
+[data-awtsmoos-surface] :where(
+	button,
+	[role="button"],
+	input,
+	textarea,
+	select,
+	summary
+) {
+	min-block-size: var(--aw-surface-touch);
+	max-inline-size: 100%;
+}
+
+[data-awtsmoos-surface] :where(button, [role="button"], summary) {
+	cursor: pointer;
+}
+
+[data-awtsmoos-surface] :where(input, textarea, select) {
+	min-inline-size: 0;
+	border: 1px solid var(--aw-surface-border);
+	border-radius: var(--aw-surface-radius-sm);
+	background: var(--aw-surface-panel);
+	color: var(--aw-surface-text);
+	caret-color: var(--aw-surface-accent);
+}
+
+[data-awtsmoos-surface] :where(input, textarea, select)::placeholder {
+	color: var(--aw-surface-text-muted);
+	opacity: .78;
+}
+
+[data-awtsmoos-surface] a[href] {
+	color: inherit;
+	text-decoration-thickness: .08em;
+	text-underline-offset: .2em;
+}
+
+[data-awtsmoos-surface] :where(
+	button,
+	[role="button"],
+	a[href],
+	input,
+	textarea,
+	select,
+	summary,
+	[tabindex]:not([tabindex="-1"])
+):focus-visible {
+	outline: 2px solid var(--aw-surface-accent);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 4px var(--aw-surface-accent-soft);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	[data-awtsmoos-surface] :where(
+		button:not(:disabled),
+		[role="button"]:not([aria-disabled="true"]),
+		a[href],
+		summary,
+		[tabindex]:not([tabindex="-1"])
+	):hover {
+		color: var(--aw-surface-accent-strong);
+		filter: brightness(1.045);
+	}
+
+	[data-awtsmoos-surface] :where(input, textarea, select):hover {
+		border-color: var(--aw-surface-border-strong);
+		background: var(--aw-surface-panel-strong);
+	}
+}
+
+[data-awtsmoos-surface] :where(
+	button:not(:disabled),
+	[role="button"]:not([aria-disabled="true"]),
+	a[href],
+	summary
+):active {
+	transform: translateY(1px) scale(.985);
+}
+
+[data-awtsmoos-surface] :where(
+	button:disabled,
+	input:disabled,
+	textarea:disabled,
+	select:disabled,
+	[aria-disabled="true"]
+) {
+	cursor: not-allowed;
+	opacity: .46;
+	filter: saturate(.55);
+}

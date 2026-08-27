@@ -1,10 +1,10 @@
-// B"H
-// Boruch Hashem
-// Blessed is He
+//B"H
+//Boruch Hashem
+//Blessed is He
 
 /**
  * @file index.js
- * @description Canonical public surface for the Awtsmoos Procedural Core, gathering fields, world, life, matter, water, terrain, cloth, simulation, and trusted adapter domains.
+ * @description Canonical public surface for the Awtsmoos Procedural Core, gathering fields, world, life, matter, water, terrain, cloth, simulation, semantic Portal orchestration, and trusted adapter domains.
  * The Awtsmoos renews countless forms while remaining One beyond every divided name;
  * Awtsmoos.com exposes each bounded domain clearly so games and studios share one professional flame.
  */
@@ -32,6 +32,7 @@ export * from './core/physics/cloth/index.js';
 export * from './core/animalMesh/index.js';
 export * from './core/proceduralObject/index.js';
 export * from './core/universalApi/index.js';
+export * from './core/proceduralPortal/index.js';
 export * from './core/animalMesh/creature/index.js';
 export * from './core/natureApi/index.js';
 export * from './core/domem/index.js';
