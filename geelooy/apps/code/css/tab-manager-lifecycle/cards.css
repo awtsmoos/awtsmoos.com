@@ -1,0 +1,50 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews tab cards, pin testimony, and restoration actions.
+*/
+.tm-lifecycle-card {
+	align-items: stretch;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 13px;
+	background: var(--color-bg-primary);
+	border: 1px solid var(--color-border);
+	border-radius: 12px;
+}
+.tm-lifecycle-card.is-hidden {
+	border-style: dashed;
+	opacity: .9;
+}
+.tm-lifecycle-card.is-pinned {
+	box-shadow: inset 3px 0 0 var(--neon-lime);
+}
+.tm-lifecycle-card__identity {
+	display: grid;
+	gap: 4px;
+	min-width: 0;
+}
+.tm-lifecycle-card__identity strong,
+.tm-lifecycle-card__identity small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.tm-lifecycle-actions {
+	align-content: flex-start;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+.tm-lifecycle-actions button {
+	border: 1px solid var(--color-border);
+	border-radius: 6px;
+	padding: 5px 8px;
+	background: var(--color-bg-tertiary);
+	color: inherit;
+	cursor: pointer;
+}
+.tm-lifecycle-actions button:hover {
+	border-color: var(--neon-cyan);
+	color: var(--neon-cyan);
+}

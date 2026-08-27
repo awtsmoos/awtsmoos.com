@@ -1,0 +1,91 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews the live tunnel shell, status badge, and control surface.
+*/
+#tunnel-console-btn { position: relative; }
+#tunnel-console-btn [data-agent-count] {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	min-width: 16px;
+	height: 16px;
+	padding: 0 4px;
+	border-radius: 999px;
+	background: var(--neon-cyan, #61e8ff);
+	color: #03121d;
+	font-size: 10px;
+	font-weight: 900;
+	line-height: 16px;
+}
+#tunnel-console-btn[data-state="connected"] { color: var(--neon-lime, #9effc5); }
+.code-tunnel-console {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 26000;
+	width: min(760px, 96vw);
+	height: 100vh;
+	padding: 18px;
+	background: rgba(5, 13, 25, .98);
+	border-left: 1px solid rgba(97, 232, 255, .24);
+	box-shadow: -24px 0 80px rgba(0, 0, 0, .58);
+	color: #edfaff;
+	overflow: auto;
+	transform: translateX(102%);
+	transition: transform .2s ease;
+}
+.code-tunnel-console[hidden] { display: none; }
+.code-tunnel-console.is-open { display: block; transform: translateX(0); }
+.code-tunnel-console__header,
+.code-tunnel-console__header-actions,
+.code-tunnel-console__controls,
+.code-tunnel-console__summary {
+	display: flex;
+	align-items: center;
+}
+.code-tunnel-console__header {
+	justify-content: space-between;
+	gap: 16px;
+	position: sticky;
+	top: -18px;
+	z-index: 2;
+	padding: 16px 0;
+	background: rgba(5, 13, 25, .96);
+}
+.code-tunnel-console__header h2,
+.code-tunnel-panel h3 { margin: 0; }
+.code-tunnel-console__header-actions,
+.code-tunnel-console__controls { gap: 8px; }
+.code-tunnel-console button,
+.code-tunnel-console a {
+	border: 1px solid rgba(97, 232, 255, .28);
+	border-radius: 8px;
+	padding: 8px 10px;
+	background: rgba(25, 50, 75, .82);
+	color: inherit;
+	text-decoration: none;
+	cursor: pointer;
+}
+.code-tunnel-badge {
+	padding: 5px 9px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .08);
+	font-size: .75rem;
+	text-transform: uppercase;
+}
+.code-tunnel-badge[data-state="connected"] {
+	background: rgba(158, 255, 197, .14);
+	color: #9effc5;
+}
+.code-tunnel-console__summary { gap: 10px; margin: 8px 0 12px; }
+.code-tunnel-console__summary > div {
+	flex: 1;
+	min-width: 100px;
+	padding: 10px;
+	border: 1px solid rgba(151, 190, 216, .14);
+	border-radius: 10px;
+	background: rgba(255, 255, 255, .03);
+}
+.code-tunnel-console__summary small,
+.code-tunnel-console__summary strong { display: block; }

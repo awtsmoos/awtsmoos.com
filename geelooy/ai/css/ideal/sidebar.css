@@ -1,0 +1,157 @@
+/*B"H
+  Chapter 337: The Conversation Garden Stopped Shouting.
+
+  The Awtsmoos gives the sidebar one readable garden of rows. It owns list
+  rhythm, service selector, conversation rows, and small badges without forceful
+  declarations.
+*/
+.conversation-list{
+  min-height:0;
+  overflow:auto;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.conversation-list::before{
+  content:"AWTSMOOS AI";
+  font-size:var(--awt-brand-size);
+  letter-spacing:.16em;
+  color:var(--awt-hot);
+  font-weight:950;
+  margin:2px 2px 4px;
+}
+.conversation-list ul{
+  list-style:none;
+  margin:4px 0 0;
+  padding:0;
+  display:grid;
+  gap:8px;
+}
+.conversation-list ul::before{
+  content:"Conversations";
+  font-size:.78rem;
+  color:var(--awt-muted);
+  font-weight:950;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin:3px 2px;
+}
+.refresh-button,
+.conversation-page-gate button{
+  width:100%;
+  min-height:44px;
+  border:1px solid rgba(167,243,208,.28);
+  border-radius:15px;
+  background:linear-gradient(135deg,var(--awt-hot),var(--awt-blue) 76%,var(--awt-violet));
+  color:white;
+  font-weight:950;
+  box-shadow:0 18px 38px rgba(37,99,235,.22);
+}
+.refresh-button.new-chat::before{content:"＋ ";font-weight:950}
+.refresh-button:not(.new-chat){
+  background:rgba(13,29,49,.82);
+  color:var(--awt-soft);
+  border-color:var(--awt-line-soft);
+  box-shadow:var(--awt-inset);
+}
+.refresh-button:hover{filter:brightness(1.08)}
+.service-selector{
+  display:grid;
+  gap:7px;
+  padding:var(--awt-service-pad);
+  border:1px solid var(--awt-line-soft);
+  border-radius:17px;
+  background:linear-gradient(135deg,rgba(11,24,41,.88),rgba(5,13,26,.86));
+  box-shadow:var(--awt-inset);
+}
+.service-selector label{
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--awt-muted);
+  font-weight:950;
+}
+.service-selector select,
+.service-selector input{
+  width:100%;
+  min-height:40px;
+  border:1px solid var(--awt-line);
+  border-radius:13px;
+  background:var(--awt-input);
+  color:var(--awt-text);
+  padding:0 12px;
+}
+.chatgpt-mode-wrap{border-color:rgba(124,58,237,.24)}
+.conversation-list li{
+  min-height:var(--awt-row-min);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border:1px solid var(--awt-line-soft);
+  border-radius:var(--awt-row-radius);
+  background:linear-gradient(135deg,rgba(16,31,53,.90),rgba(7,17,31,.94));
+  color:var(--awt-soft);
+  overflow:hidden;
+  box-shadow:var(--awt-inset);
+  position:relative;
+}
+.conversation-list li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:12px;
+  bottom:12px;
+  width:3px;
+  border-radius:999px;
+  background:linear-gradient(var(--awt-hot),var(--awt-blue));
+  opacity:.75;
+}
+.conversation-list li:hover{
+  border-color:var(--awt-line-strong);
+  transform:translateY(-1px);
+  box-shadow:var(--awt-ring);
+}
+.conversation-title{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-weight:900;
+  color:var(--awt-text);
+}
+.is-loading,
+.is-empty{
+  justify-content:center;
+  text-align:center;
+  color:var(--awt-muted);
+  font-weight:850;
+}
+.conversation-page-gate{
+  background:transparent;
+  border:0;
+  padding:0;
+  min-height:0;
+}
+.conversation-stream-badge,
+.conversation-automation-badge{
+  flex:0 0 auto;
+  padding:4px 7px;
+  border-radius:999px;
+  font-size:.64rem;
+  font-weight:950;
+  text-transform:uppercase;
+}
+.conversation-stream-badge{
+  color:#dfffee;
+  background:rgba(34,230,196,.13);
+  border:1px solid rgba(34,230,196,.32);
+}
+.conversation-automation-badge{
+  color:#fff3c4;
+  background:rgba(251,191,36,.13);
+  border:1px solid rgba(251,191,36,.34);
+}
+body[data-sidebar-collapsed="true"] .sidebar .panel-topbar{justify-content:center}
+body[data-sidebar-collapsed="true"] .sidebar .panel-actions [data-panel-action="fullscreen"]{display:none}

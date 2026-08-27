@@ -1,0 +1,58 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-email-25d83d80",
+	"path": "geelooy/api/email",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/email",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/email/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-email-25d83d80.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 2,
+	"symbolSummary": {
+		"files": 1,
+		"classes": 0,
+		"functions": 3,
+		"exports": 0,
+		"samples": [
+			"getUserId",
+			"withoutMailPrefix",
+			"status"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/social",
+			"count": 1,
+			"examples": "geelooy/api/email/_awtsmoos.derech.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

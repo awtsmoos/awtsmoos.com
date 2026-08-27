@@ -1,0 +1,90 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# Generated API Caller Index 321–400
+
+Literal `/api/` references found outside the API source tree; test callers are labeled.
+
+| API literal | Caller source | Kind |
+| --- | --- | --- |
+| /api/social/search/tanach/hebrew?${parameters} | geelooy/mawgawl/sefarim/tanachApi.js | runtime |
+| /api/social/search/tanach/hebrew?${values} | geelooy/heichelos/post/functions/ui/context/relatedSearchApi.js | runtime |
+| /api/social/search/tanach/hebrew?${values} | geelooy/heichelos/post/functions/ui/context/tanachPanel.js | runtime |
+| /api/social/series | geelooy/heichelos/social/test/socialHyperGraphContract.test.mjs | test |
+| /api/social/series/series%201/posts | geelooy/heichelos/social/test/socialHyperGraphContract.test.mjs | test |
+| /api/social/series/series%201/reorder | geelooy/heichelos/social/test/socialHyperGraphContract.test.mjs | test |
+| /api/social/series/series%201/subseries | geelooy/heichelos/social/test/socialHyperGraphContract.test.mjs | test |
+| /api/social/timeline?actor=alias+one | geelooy/heichelos/social/test/socialApiContract.test.mjs | test |
+| /api/social/trending?limit=8 | geelooy/social-hub/tests/socialApiV2.test.mjs | test |
+| /api/social/unified-social | geelooy/social-composer/tests/fixture/BrowserFixtureInstaller.mjs | test |
+| /api/social/unified-social | geelooy/social-hub/js/api/GovernanceApi.js | runtime |
+| /api/social/unified-social/activity | geelooy/apps/universal-chat/MessagingActivityClient.js | runtime |
+| /api/social/unified-social/activity | geelooy/social-hub/js/api/ActivityApi.js | runtime |
+| /api/social/unified-social/destinations | geelooy/social-hub/js/api/DestinationApi.js | runtime |
+| /api/social/unified-social/heichelos/beit/invitations | geelooy/social-hub/js/api/GovernanceApi.test.mjs | test |
+| /api/social/unified-social/heichelos/beit/invitations/invite%20one/respond | geelooy/social-hub/js/api/GovernanceApi.test.mjs | test |
+| /api/social/unified-social/heichelos/beit/members/moshe%20levi | geelooy/social-hub/js/api/GovernanceApi.test.mjs | test |
+| /api/social/unified-social/heichelos/beit/review/submission%201 | geelooy/social-hub/js/api/CommunityCapabilities.test.mjs | test |
+| /api/social/unified-social/heichelos/beit%20alpha/governance?aliasId=yakov+yosef | geelooy/social-hub/js/api/GovernanceApi.test.mjs | test |
+| /api/social/unified-social/heichelos/beit%20alpha/review?aliasId=yakov&state=submitted&seriesId=torah%2Fweekly | geelooy/social-hub/js/api/CommunityCapabilities.test.mjs | test |
+| /api/social/unified-social/identity | geelooy/social-composer/tests/fixture/BrowserFixtureIdentityRoutes.mjs | test |
+| /api/social/unified-social/identity | geelooy/social-hub/tests/fixture/IdentityProfileRoutes.mjs | test |
+| /api/social/unified-social/publish | geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/api/social/helper/migrations/meta/MetaMigrationCapabilities.js | runtime |
+| /api/social/unified-social/publish | geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/js/publish/MigrationApi.js | runtime |
+| /api/social/unified-social/publish | geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/test/server-meta-api.test.cjs | test |
+| /api/social/unified-social/publish | geelooy/social/migrate/js/publish/MigrationApi.js | runtime |
+| /api/social/unified-social/publish | geelooy/social/migrate/test/server-meta-api.test.cjs | test |
+| /api/social${path} | geelooy/heichelos/settings/community/moderation/app.js | runtime |
+| /api/ssh | geelooy/os/ssh/apiTransport.js | runtime |
+| /api/start | geelooy/apps/tunnel/downloads/awtsmoos-local-app.js | runtime |
+| /api/status | geelooy/apps/tunnel/downloads/awtsmoos-local-app.js | runtime |
+| /api/stop | geelooy/apps/tunnel/downloads/awtsmoos-local-app.js | runtime |
+| /api/streaming/${connector} | geelooy/apps/nesher-studio/modules/streaming/streamingControl.js | runtime |
+| /api/streaming/${connector}/${action} | geelooy/apps/nesher-studio/modules/streaming/streamingControl.js | runtime |
+| /api/test | geelooy/apps/tunnel/downloads/awtsmoos-local-app.js | runtime |
+| /api/tunnel/control | geelooy/ai/central/endpointTunnelBridge.js | runtime |
+| /api/tunnel/control | geelooy/ai/tests/providerTunnelBridgeModes.test.mjs | test |
+| /api/tunnel/control/agent-manifest | geelooy/apps/tunnel-control/index.html | runtime |
+| /api/tunnel/control/agent-manifest | geelooy/apps/tunnel-control/js/shell/agentLinks.js | runtime |
+| /api/tunnel/control/api-keys | geelooy/apps/tunnel-control/js/api/controlKeys.js | runtime |
+| /api/tunnel/control/api-keys | geelooy/apps/tunnel-control/js/features/keys.js | runtime |
+| /api/tunnel/control/api-keys/create | geelooy/apps/tunnel-control/js/features/keys.js | runtime |
+| /api/tunnel/control/bank | geelooy/apps/code/js/session/account-panel.js | runtime |
+| /api/tunnel/control/bank | geelooy/os/startMenu.js | runtime |
+| /api/tunnel/control/bootstrap | geelooy/apps/tunnel-control/index.html | runtime |
+| /api/tunnel/control/bootstrap | geelooy/apps/tunnel-control/js/api/controlDevices.js | runtime |
+| /api/tunnel/control/conversations/list | geelooy/apps/tunnel-control/js/features/previewGateway.js | runtime |
+| /api/tunnel/control/conversations/register?${qs} | geelooy/apps/tunnel-control/js/features/previewGateway.js | runtime |
+| /api/tunnel/control/devices | geelooy/apps/tunnel-control/js/api/controlDevices.js | runtime |
+| /api/tunnel/control/devices | geelooy/apps/tunnel-control/js/platform/liveTunnelMesh.js | runtime |
+| /api/tunnel/control/devices | geelooy/os/remote/tunnelControlClient.js | runtime |
+| /api/tunnel/control/docs | geelooy/apps/tunnel-control/index.html | runtime |
+| /api/tunnel/control/docs | geelooy/apps/tunnel-control/js/shell/pageSpecs.js | runtime |
+| /api/tunnel/control/docs.json | geelooy/apps/tunnel-control/js/api/controlKeys.js | runtime |
+| /api/tunnel/control/docs.json | geelooy/apps/tunnel-control/js/shell/pageSpecs.js | runtime |
+| /api/tunnel/control/fs/ | geelooy/apps/tunnel-control/js/ui/api.js | runtime |
+| /api/tunnel/control/fs/ | geelooy/tests/unified-tunnel/tunnelFullActionRouteStress.test.mjs | test |
+| /api/tunnel/control/fs/auto | geelooy/apps/tunnel-control/js/api/test/targetVesselRouting.test.mjs | test |
+| /api/tunnel/control/fs/auto | geelooy/tests/unified-tunnel/tunnelFullActionRouteStress.test.mjs | test |
+| /api/tunnel/control/fs/awt-test | geelooy/apps/tunnel-control/js/api/test/buildFsUrl.test.mjs | test |
+| /api/tunnel/control/fs/awtsmoos-os | geelooy/apps/code/js/fs/test/awtsmoosOsProviderAdapter.test.mjs | test |
+| /api/tunnel/control/fs/awtsmoos-os | geelooy/shared/virtual-os/fs/test/hostedAwtsmoosAdapter.test.mjs | test |
+| /api/tunnel/control/fs/awtsmoos-virtual-os | geelooy/apps/tunnel-control/js/api/test/buildFsUrl.test.mjs | test |
+| /api/tunnel/control/fs/awtsmoos-virtual-os | geelooy/apps/tunnel-control/js/api/test/targetVesselRouting.test.mjs | test |
+| /api/tunnel/control/fs/awtsmoos-virtual-os | geelooy/scripts/awtsmoos/minimax-virtual-os-game/api-client.cjs | runtime |
+| /api/tunnel/control/fs/awtsmoos-virtual-os | geelooy/tests/unified-tunnel/tunnelFullActionRouteStress.test.mjs | test |
+| /api/tunnel/control/fs/native-one | geelooy/apps/tunnel-control/js/api/test/targetVesselRouting.test.mjs | test |
+| /api/tunnel/control/fs/tun_route | geelooy/os/tunnel/test/remoteWorkspace.test.mjs | test |
+| /api/tunnel/control/fs/tun%20one | geelooy/drive/test/credentialedFs.test.mjs | test |
+| /api/tunnel/control/fs/tun%20one | geelooy/os/remote/test/tunnelPayloadClient.test.mjs | test |
+| /api/tunnel/control/fs/TUNNEL_NAME | geelooy/apps/tunnel-control/js/features/missionRooms/inspector.js | runtime |
+| /api/tunnel/control/live-calls | geelooy/apps/tunnel-control/js/features/live.js | runtime |
+| /api/tunnel/control/live-calls/stream | geelooy/apps/tunnel-control/js/features/live.js | runtime |
+| /api/tunnel/control/live-calls/ws | geelooy/apps/tunnel-control/js/features/live.js | runtime |
+| /api/tunnel/control/me | geelooy/apps/code/js/session/inline-login.js | runtime |
+| /api/tunnel/control/me | geelooy/apps/code/js/tunnel/browser-agent-session.js | runtime |
+| /api/tunnel/control/me | geelooy/apps/code/js/tunnel/BrowserTunnelAgent.js | runtime |
+| /api/tunnel/control/me | geelooy/apps/tunnel-control/js/api/controlDevices.js | runtime |
+| /api/tunnel/control/me | geelooy/apps/tunnel-control/js/ui/status.js | runtime |
+| /api/tunnel/control/me | geelooy/apps/tunnel/js/browserPageTunnel.js | runtime |

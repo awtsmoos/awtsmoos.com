@@ -1,0 +1,8 @@
+B"H
+sha256=b941e9fd4386c44b5606d6d0ea6529c1600e2553ee5789c28a34cdcfbc75e0d2
+networkEntries=0
+runtimeExceptionCrossed=true
+runtimeExceptionCallCount=0
+errorCode=DALVIK_EXECUTION_UNSUPPORTED
+errorMessage=DALVIK_EXECUTION_UNSUPPORTED:throw:pc=296
+invokeSignature=LS1/f;->i()V

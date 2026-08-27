@@ -1,0 +1,236 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-scripts-1d55a5b0",
+	"path": "geelooy/scripts",
+	"type": "library",
+	"family": {
+		"id": "libraries",
+		"title": "Libraries and Tooling"
+	},
+	"title": "geelooy/scripts",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/scripts/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-scripts-1d55a5b0.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1431,
+		"tests": 113,
+		"assets": 0,
+		"generated": 0,
+		"docs": 6,
+		"other": 37
+	},
+	"totalFiles": 1587,
+	"symbolSummary": {
+		"files": 1375,
+		"classes": 389,
+		"functions": 4857,
+		"exports": 1925,
+		"samples": [
+			"AwtsmoosAPI",
+			"for",
+			"processText",
+			"causalLength",
+			"attend",
+			"applyRopePair",
+			"rotateHead",
+			"softmaxInPlace",
+			"convertGgufBytes",
+			"convertGgufFile",
+			"copyTensors",
+			"finalManifestBytes"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 38,
+			"examples": "geelooy/scripts/awtsmoos/compiling/native/asmImage.js; geelooy/scripts/awtsmoos/compiling/native/asmObjectData.js; geelooy/scripts/awtsmoos/compiling/native/c/frame.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel",
+			"count": 5,
+			"examples": "geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-directory-entry-env.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-helpers.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-url-puppeteer.cjs"
+		},
+		{
+			"project": "geelooy/apps/android-emulator",
+			"count": 3,
+			"examples": "geelooy/scripts/awtsmoos/compiling/android/apk/zipWriter.js; geelooy/scripts/awtsmoos/extracting/webview-apk/extract.js"
+		},
+		{
+			"project": "geelooy/apps/compiler",
+			"count": 3,
+			"examples": "geelooy/scripts/awtsmoos/compiling/cpp/compiler.js"
+		},
+		{
+			"project": "ayzarim/DosDB",
+			"count": 1,
+			"examples": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs"
+		},
+		{
+			"project": "geelooy/api/social",
+			"count": 1,
+			"examples": "geelooy/scripts/release-assets/seed-drive.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 1,
+			"examples": "geelooy/scripts/awtsmoos/minimax-virtual-os-game/seed-users.cjs"
+		},
+		{
+			"project": "geelooy/apps/app.js",
+			"count": 1,
+			"examples": "geelooy/scripts/awtsmoos/social/navigation/adapters/appsRoute.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/apps/merkava-native-browser",
+			"count": 44,
+			"examples": "geelooy/apps/merkava-native-browser/.inspect-md2.cjs; geelooy/apps/merkava-native-browser/.test-compile-webgl.cjs; geelooy/apps/merkava-native-browser/build-seed.mjs"
+		},
+		{
+			"project": "geelooy/apps/exe-emulator",
+			"count": 8,
+			"examples": "geelooy/apps/exe-emulator/examples/progressive/generatedArtifacts.mjs; geelooy/apps/exe-emulator/source/compileSourceArtifact.js; geelooy/apps/exe-emulator/source/nativeContainers.js"
+		},
+		{
+			"project": "geelooy/apps/compiler",
+			"count": 3,
+			"examples": "geelooy/apps/compiler/compiler.js; geelooy/apps/compiler/compiler_c.js; geelooy/apps/compiler/ui/browserArtifactBuilders.js"
+		},
+		{
+			"project": "geelooy/ai",
+			"count": 1,
+			"examples": "geelooy/ai/js/render/event-ui/codeHighlight.js"
+		},
+		{
+			"project": "geelooy/apps/rebbe",
+			"count": 1,
+			"examples": "geelooy/apps/rebbe/android/build.js"
+		},
+		{
+			"project": "geelooy/apps/slides",
+			"count": 1,
+			"examples": "geelooy/apps/slides/src/collab/PresenceSlidesTransport.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/agent/tools/fs/jsWriteVerifier.js"
+		},
+		{
+			"project": "geelooy/apps/universal-chat",
+			"count": 1,
+			"examples": "geelooy/apps/universal-chat/MessagingConversationActions.js"
+		},
+		{
+			"project": "geelooy/awtai-db",
+			"count": 1,
+			"examples": "geelooy/awtai-db/app.js"
+		},
+		{
+			"project": "geelooy/email",
+			"count": 1,
+			"examples": "geelooy/email/index.js"
+		},
+		{
+			"project": "geelooy/heichel-editor",
+			"count": 1,
+			"examples": "geelooy/heichel-editor/app.js"
+		},
+		{
+			"project": "geelooy/heichelos",
+			"count": 1,
+			"examples": "geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js"
+		}
+	],
+	"externalDependencies": [
+		{
+			"dependency": "react",
+			"count": 1,
+			"examples": "geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js"
+		},
+		{
+			"dependency": "ws",
+			"count": 1,
+			"examples": "geelooy/scripts/awtsmoos/extracting/webview-apk/cdpClient.js"
+		}
+	],
+	"publicEntries": [
+		{
+			"url": "/scripts/awtsmoos/compiling/pe",
+			"file": "geelooy/scripts/awtsmoos/compiling/pe/index.html",
+			"title": "Awtsmoos EXE Compiler",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/scripts/awtsmoos/MerkavaASTParser",
+			"file": "geelooy/scripts/awtsmoos/MerkavaASTParser/index.html",
+			"title": "Kabbalistic ES6 AST Parser",
+			"scripts": 1,
+			"styles": 0
+		},
+		{
+			"url": "/scripts/awtsmoos/MerkavaBeautifier",
+			"file": "geelooy/scripts/awtsmoos/MerkavaBeautifier/index.html",
+			"title": "Merkava Beautifier",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/scripts/awtsmoos/MerkavaExecutor",
+			"file": "geelooy/scripts/awtsmoos/MerkavaExecutor/index.html",
+			"title": "Merkava Executor — Runtime ID AST ECT",
+			"scripts": 7,
+			"styles": 1
+		},
+		{
+			"url": "/scripts/awtsmoos/MerkavaExecutor/.mode2-path-app",
+			"file": "geelooy/scripts/awtsmoos/MerkavaExecutor/.mode2-path-app/index.html",
+			"title": "",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/scripts/awtsmoos/tts",
+			"file": "geelooy/scripts/awtsmoos/tts/index.html",
+			"title": "Kokoro Forge - B\"H",
+			"scripts": 1,
+			"styles": 2
+		},
+		{
+			"url": "/scripts/awtsmoos/zip",
+			"file": "geelooy/scripts/awtsmoos/zip/index.html",
+			"title": "Awtsmoos Native Zip",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/scripts/tricks",
+			"file": "geelooy/scripts/tricks/index.html",
+			"title": "",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/scripts/tricks/jem",
+			"file": "geelooy/scripts/tricks/jem/index.html",
+			"title": "Awtsmoos Jemizier",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

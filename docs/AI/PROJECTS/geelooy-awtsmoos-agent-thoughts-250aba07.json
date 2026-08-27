@@ -1,0 +1,64 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-awtsmoos-agent-thoughts-250aba07",
+	"path": "geelooy/.awtsmoos-agent-thoughts",
+	"type": "evidence",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/.awtsmoos-agent-thoughts",
+	"entries": [],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-agent-thoughts-250aba07.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 21,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 179
+	},
+	"totalFiles": 200,
+	"symbolSummary": {
+		"files": 20,
+		"classes": 1,
+		"functions": 48,
+		"exports": 0,
+		"samples": [
+			"revealRepairedSearch",
+			"search",
+			"revealMoveCommand",
+			"historyHashes",
+			"legalBookChoice",
+			"handleCalculateMove",
+			"revealRootSearch",
+			"prepareHeuristics",
+			"searchRoot",
+			"revealSearchSupport",
+			"checkTime",
+			"isThreefold"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/.awtsmoos-agent-thoughts/2026-08-14_1212_chess-engine-careful-upgrade/baseline/ui",
+			"file": "geelooy/.awtsmoos-agent-thoughts/2026-08-14_1212_chess-engine-careful-upgrade/baseline/ui/index.html",
+			"title": "Ultimate Chess AI",
+			"scripts": 6,
+			"styles": 6
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

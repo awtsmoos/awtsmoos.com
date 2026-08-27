@@ -1,0 +1,10 @@
+/*B"H
+Chapter 435: The cockpit bends without breaking.
+No panel shall crush another; every narrow screen receives mercy.
+*/
+@media (min-width: 1000px) { .container { grid-template-columns: minmax(250px, 330px) 8px minmax(440px, 1fr) 8px minmax(280px, 370px); height: 100vh; } .main, .automation-panel { min-width: 0; } }
+@media (max-width: 1180px) { .container { grid-template-columns: minmax(230px, 290px) 6px minmax(390px, 1fr) 6px minmax(240px, 320px); } }
+@media (max-width: 999px) { body { overflow: auto; } .container { padding: 8px; height: calc(100vh - 72px); } .main { border-radius: 26px; min-height: 0; } .chat-box { padding: 14px; } .input-area { margin: 0 8px 86px; border-radius: 24px; } #send-button { min-width: 78px; min-height: 54px; } .sidebar, .automation-panel { max-width: min(92vw, 390px); } .mobile-bottom-dock { border: 1px solid rgba(110,232,255,.22); background: rgba(5,13,26,.93); backdrop-filter: blur(20px); box-shadow: 0 -18px 50px rgba(0,0,0,.34); } }
+@media (max-width: 640px) { .mobile-app-crown { backdrop-filter: blur(18px); background: rgba(5,12,24,.90); border-bottom: 1px solid rgba(96,233,255,.18); } .mobile-crown-brand { letter-spacing: .12em; } .chat-box { border-radius: 22px; padding: 12px; } .transport-status { font-size: .84rem; margin: 8px; } .input-area { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 9px; } #message-input { min-height: 58px; padding: 13px; border-radius: 18px; } #send-button { min-width: 64px; padding: 0 14px; border-radius: 18px; } .attachment-tools { margin: -78px 18px 86px auto; position: relative; z-index: 3; } .service-selector, .provider-key-panel, .chatgpt-bridge-card { border-radius: 18px; padding: 10px; } }
+@media (max-width: 430px) { .container { padding: 6px; } .chat-box:empty::before { min-height: 36vh; padding: 18px; } #send-button { min-width: 58px; font-size: .9rem; } .mobile-bottom-dock button { min-width: 0; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; scroll-behavior: auto !important; } }

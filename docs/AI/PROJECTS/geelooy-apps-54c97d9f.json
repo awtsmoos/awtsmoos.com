@@ -1,0 +1,50 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-54c97d9f",
+	"path": "geelooy/apps",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Awtsmoos Apps — Every Browser Tool & Game",
+	"entries": [
+		"index.html",
+		"app.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-54c97d9f.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 8210,
+		"tests": 1790,
+		"assets": 0,
+		"generated": 19,
+		"docs": 232,
+		"other": 74
+	},
+	"totalFiles": 10325,
+	"symbolSummary": null,
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps",
+			"file": "geelooy/apps/index.html",
+			"title": "Awtsmoos Apps — Every Browser Tool & Game",
+			"scripts": 3,
+			"styles": 4
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

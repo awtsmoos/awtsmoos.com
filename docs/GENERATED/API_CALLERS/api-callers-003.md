@@ -1,0 +1,90 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# Generated API Caller Index 161–240
+
+Literal `/api/` references found outside the API source tree; test callers are labeled.
+
+| API literal | Caller source | Kind |
+| --- | --- | --- |
+| /api/social/drive/alpha/domains/Site.Example/verify | geelooy/apps/drive/test/domainApi.test.mjs | test |
+| /api/social/drive/alpha/sites/home/domains/Site.Example | geelooy/apps/drive/test/domainApi.test.mjs | test |
+| /api/social/drive/asdf/browser/fetch | geelooy/os/test/awtsmoosBrowserMerkavaProxyTransport.test.mjs | test |
+| /api/social/drive/asdf/browser/jars | geelooy/os/test/awtsmoosBrowserProxyClient.test.mjs | test |
+| /api/social/drive/asdf/browser/jars/main | geelooy/os/test/awtsmoosBrowserProxyClient.test.mjs | test |
+| /api/social/drive/asdf/browser/sessions/ibs_123/targets/target-1/cookies | geelooy/os/test/awtsmoosBrowserInteractiveClient.test.mjs | test |
+| /api/social/drive/asdf/browser/sessions/ibs_123/targets/target%201/navigate | geelooy/os/test/awtsmoosBrowserInteractiveClient.test.mjs | test |
+| /api/social/drive/my%20alias/browser/fetch | geelooy/os/test/awtsmoosBrowserProxyClient.test.mjs | test |
+| /api/social/drive/my%20alias/sites | geelooy/drive/test/siteMappingClient.test.mjs | test |
+| /api/social/drive/my%20alias/sites/docs/runtime | geelooy/drive/test/siteRuntimeClient.test.mjs | test |
+| /api/social/editor/posts/drafts | geelooy/post-editor/modules/api.js | runtime |
+| /api/social/editor/posts/drafts | geelooy/post-editor/test/postEditorRouteContract.test.mjs | test |
+| /api/social/editor/posts/drafts/publish | geelooy/post-editor/modules/api.js | runtime |
+| /api/social/embeds/code-app-manifest | geelooy/heichelos/social/test/socialHyperGraphContract.test.mjs | test |
+| /api/social/embeds/iframe-app | geelooy/heichelos/social/test/socialHyperGraphContract.test.mjs | test |
+| /api/social/entities/batch | geelooy/shared/social/api/SocialKernelApi.js | runtime |
+| /api/social/entities/universe?type=post | geelooy/entity-view/app.js | runtime |
+| /api/social/entities/universe/${state.type}/${state.id} | geelooy/entity-view/app.js | runtime |
+| /api/social/entities/universe/${state.type}/${state.id}/children | geelooy/entity-view/app.js | runtime |
+| /api/social/entities/universe/${state.type}/${state.id}/dna | geelooy/entity-view/app.js | runtime |
+| /api/social/entities/universe/${state.type}/${state.id}/edges | geelooy/entity-view/app.js | runtime |
+| /api/social/entities/universe/${state.type}/${state.id}/fork | geelooy/entity-view/app.js | runtime |
+| /api/social/entities/universe/${state.type}/${state.id}/snapshot | geelooy/entity-view/app.js | runtime |
+| /api/social/entity | geelooy/shared/social/api/SocialKernelApi.js | runtime |
+| /api/social/entity/action/preview | geelooy/shared/social/api/SocialKernelApi.js | runtime |
+| /api/social/entity/capabilities | geelooy/shared/social/api/SocialKernelApi.js | runtime |
+| /api/social/entity/relations | geelooy/shared/social/api/SocialKernelApi.js | runtime |
+| /api/social/federation/import | geelooy/heichelos/heichel/modules/test/platformOpsApi.test.mjs | test |
+| /api/social/feed?limit=12 | geelooy/social-hub/tests/socialApiV2.test.mjs | test |
+| /api/social/feed?page=2 | geelooy/heichelos/social/test/socialApiContract.test.mjs | test |
+| /api/social/feed/home | geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs | test |
+| /api/social/feed/home | geelooy/tests/home-search-repair/ApiFixture.mjs | test |
+| /api/social/feed/home | geelooy/tests/premium-visual/HomeApiFixture.mjs | test |
+| /api/social/feed/home?limit=6 | geelooy/os/social/socialPanel.js | runtime |
+| /api/social/feed/trending | geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs | test |
+| /api/social/feed/trending?limit=3 | geelooy/scripts/awtsmoos/social/hub/api.js | runtime |
+| /api/social/feed/trending?limit=8 | geelooy/scripts/awtsmoos/social/hub/api.js | runtime |
+| /api/social/followers/alias/alice?limit=12 | geelooy/social-hub/tests/socialRelationshipsApi.test.mjs | test |
+| /api/social/follows/alice?limit=12 | geelooy/social-hub/tests/socialRelationshipsApi.test.mjs | test |
+| /api/social/follows/viewer | geelooy/social-hub/tests/socialRelationshipsApi.test.mjs | test |
+| /api/social/graph?heichel=h1 | geelooy/heichelos/social/test/socialApiContract.test.mjs | test |
+| /api/social/graph/references | geelooy/heichelos/heichel/modules/test/browserApiRequestShapes.test.mjs | test |
+| /api/social/heichelActions/generateHeichelId | geelooy/scripts/awtsmoos/social/addNewBtn.js | runtime |
+| /api/social/heichelos/ | geelooy/scripts/awtsmoos/social/feed/realIkarFeedContract.test.mjs | test |
+| /api/social/heichelos/${config.heichelId}/invites | geelooy/heichel-editor/modules/forms/inviteForm.js | runtime |
+| /api/social/heichelos/${config.heichelId}/posts/${config.postId} | geelooy/comment-thread/modules/api.js | runtime |
+| /api/social/heichelos/${config.heichelId}/posts/${config.postId}/comment-tree${suffix} | geelooy/comment-thread/modules/api.js | runtime |
+| /api/social/heichelos/${config.heichelId}/submissions/full | geelooy/heichel-editor/modules/forms/submissionForm.js | runtime |
+| /api/social/heichelos/${heichel}/series/${seriesId}/breadcrumb | geelooy/heichelos/post/logic/api.js | runtime |
+| /api/social/heichelos/${heichel}/series/${seriesId}/details | geelooy/heichelos/post/logic/api.js | runtime |
+| /api/social/heichelos/${heichel}/series/${seriesId}/post/${postId} | geelooy/heichelos/post/logic/api.js | runtime |
+| /api/social/heichelos/${heichelId}/${endpointType} | geelooy/heichelos/_awtsmoos.derech.js | runtime |
+| /api/social/heichelos/${heichelId}/post/${postId}/comments/ | geelooy/heichelos/post/ai/chat/save.js | runtime |
+| /api/social/heichelos/${heichelId}/post/${postId}/comments/ | geelooy/heichelos/post/comments/render/ai/input/branch.js | runtime |
+| /api/social/heichelos/${heichelId}/post/${postId}/comments/ | geelooy/heichelos/post/comments/render/ai/input/terminal.js | runtime |
+| /api/social/heichelos/${heichelID}/posts/details?${params} | geelooy/heichelos/heichel/logic/HeichelAPI.js | runtime |
+| /api/social/heichelos/${heichelID}/series/${series}/breadcrumb | geelooy/heichelos/heichel/logic/HeichelAPI.js | runtime |
+| /api/social/heichelos/${heichelID}/series/${series}/details | geelooy/heichelos/heichel/logic/HeichelAPI.js | runtime |
+| /api/social/heichelos/${heichelID}/series/${seriesId}/details | geelooy/heichelos/heichel/logic/HeichelAPI.js | runtime |
+| /api/social/heichelos/${id} | geelooy/heichelos/heichel/logic/HeichelAPI.js | runtime |
+| /api/social/heichelos/${safeHeichel}/post/${safePostId} | geelooy/heichelos/post/logic/core.js | runtime |
+| /api/social/heichelos/${safeHeichel}/series/${safeSeries}/breadcrumb | geelooy/heichelos/post/logic/core.js | runtime |
+| /api/social/heichelos/${safeHeichel}/series/${safeSeries}/details | geelooy/heichelos/post/logic/core.js | runtime |
+| /api/social/heichelos/${vars.heichel} | geelooy/heichelos/_awtsmoos.derech.js | runtime |
+| /api/social/heichelos/${window.post?.heichel?.id}/posts/${window.post?.id}/comment-tree | geelooy/heichelos/post/commentSection/submit.js | runtime |
+| /api/social/heichelos/${window.post?.heichel?.id}/submittedComments/${action} | geelooy/heichelos/post/comments/panel/approvals/data.js | runtime |
+| /api/social/heichelos/${window.post.heichel.id}/post/${window.post.id}/comments/ | geelooy/heichelos/post/ai/api.js | runtime |
+| /api/social/heichelos/${window.post.heichel.id}/post/${window.post.id}/comments/ | geelooy/heichelos/post/comments/actions/media.js | runtime |
+| /api/social/heichelos/${window.post.heichel.id}/post/${window.post.id}/comments/ | geelooy/heichelos/post/comments/actions/reply.js | runtime |
+| /api/social/heichelos/beit%20alpha/posts/details?seriesId=torah%2Fweekly | geelooy/social-hub/js/api/CommunityCapabilities.test.mjs | test |
+| /api/social/heichelos/discover?limit=100 | geelooy/heichelos/_awtsmoos.index.html | runtime |
+| /api/social/heichelos/discover?limit=3 | geelooy/scripts/awtsmoos/social/hub/api.js | runtime |
+| /api/social/heichelos/h%201/posts/p1/comment-tree | geelooy/heichelos/heichel/modules/test/browserApiRequestShapes.test.mjs | test |
+| /api/social/heichelos/h%201/posts/p1/comment-tree? | geelooy/heichelos/heichel/modules/test/browserApiRequestShapes.test.mjs | test |
+| /api/social/heichelos/h%201/posts/p1/comments/c1/replies | geelooy/heichelos/heichel/modules/test/browserApiRequestShapes.test.mjs | test |
+| /api/social/heichelos/ikar/series/%D7%AA%D7%A9%D7%A8%D7%99_meluket/post/post%2Fone/translations | geelooy/heichelos/post/test/translationAlignment.test.mjs | test |
+| /api/social/heichelos/ikar/series/root/posts/details | geelooy/tests/premium-visual/HomeApiFixture.mjs | test |
+| /api/social/heichelos/searchByAliasOwner/ | geelooy/heichelos/_awtsmoos.index.html | runtime |
+| /api/social/heichelos/searchByAliasOwner/ | geelooy/heichelos/heichel/modules/test/socialSpacesContract.test.mjs | test |
+| /api/social/heichelos/testHeichel/roles/editors | geelooy/heichelos/heichel/modules/test/socialLiveSmoke.test.mjs | test |

@@ -1,0 +1,44 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-text-timestamp-jobid-3d76712ed4",
+	"route": "/api/text/timestamp/:jobId",
+	"source": "geelooy/api/text/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/text",
+		"title": "Text Jobs",
+		"manual": "docs/TUTORIALS/API/TEXT.md"
+	},
+	"derech": {
+		"source": "geelooy/api/text/_awtsmoos.derech.js",
+		"status": "FAIL",
+		"issue": "Unexpected token ','",
+		"mount": "/api/text"
+	},
+	"dynamic": true,
+	"pathParameters": [
+		{
+			"name": "jobId",
+			"catchAll": false
+		}
+	],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"$_POST"
+	],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-text-timestamp-jobid-3d76712ed4.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-text-timestamp-jobid-result-b55642d5dc",
+			"route": "/api/text/timestamp/:jobId/result"
+		}
+	]
+}

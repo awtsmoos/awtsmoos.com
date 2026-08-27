@@ -1,0 +1,44 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews narrow screen, focus ring, error boundary, and quiet motion.
+Awtsmoos.com lets the Android vessel remain usable for every viewport and body.
+*/
+
+.code-android-emulator[data-state="error"] {
+	border-color: rgb(255 99 99 / 45%);
+}
+
+.code-android-emulator :focus-visible {
+	outline: 3px solid var(--accent-primary, #75a2ff);
+	outline-offset: 3px;
+}
+
+@media (max-width: 780px) {
+	.code-android-emulator {
+		inset: 0;
+		border: 0;
+		border-radius: 0;
+	}
+
+	.code-android-emulator__body {
+		grid-template-columns: 1fr;
+		overflow: auto;
+	}
+
+	.code-android-emulator__device {
+		min-height: 34rem;
+	}
+
+	.code-android-emulator__inspector {
+		min-height: 20rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.code-android-emulator,
+	.code-android-emulator * {
+		scroll-behavior: auto;
+		transition-duration: 0.01ms !important;
+	}
+}

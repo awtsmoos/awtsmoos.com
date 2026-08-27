@@ -1,0 +1,39 @@
+
+/* B"H */
+
+.virtual-window-titlebar {
+    height: var(--vos-titlebar-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0 8px 0 10px;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.08), transparent),
+        linear-gradient(90deg, #17284a, #111a39 55%, #301252);
+    color: var(--vos-cyan);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    border-bottom: 1px solid rgba(0, 246, 255, 0.28);
+}
+
+.virtual-window-titlebar:active {
+    cursor: grabbing;
+}
+
+.virtual-window-title {
+    font-weight: 900;
+    font-size: 12px;
+    letter-spacing: 0.45px;
+    font-family: var(--font-code, monospace);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+    .virtual-window-titlebar {
+        height: 40px;
+    }
+}

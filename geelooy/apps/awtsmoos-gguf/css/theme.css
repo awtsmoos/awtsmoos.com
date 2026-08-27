@@ -1,0 +1,40 @@
+
+/* B"H - Theme Variables */
+:root {
+    /* Backgrounds */
+    --bg-app: #0f0f11;       /* Very dark base */
+    --bg-panel: #18181b;     /* Slightly lighter panel */
+    --bg-surface: #27272a;   /* Surface elements */
+    --bg-highlight: #3f3f46; /* Hover states */
+    --bg-input: #121214;     /* Deep input bg */
+    
+    /* Borders */
+    --border-base: #2e2e32;
+    --border-highlight: #45454a;
+    
+    /* Text */
+    --text-primary: #ededef;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    --text-dim: #52525b;
+    
+    /* Accents */
+    --accent-primary: #6366f1; /* Indigo */
+    --accent-emerald: #10b981; /* Success */
+    --accent-blue: #3b82f6;    /* Info */
+    --accent-red: #ef4444;     /* Danger */
+    --accent-amber: #f59e0b;   /* Warning */
+    --accent-purple: #a855f7;  /* Special */
+
+    /* Spacing */
+    --gap-std: 1rem;
+    --gap-sm: 0.5rem;
+    
+    /* Dimensions */
+    --header-height: 60px;
+    --sidebar-width: 320px;
+    
+    /* Typography */
+    --font-mono: "JetBrains Mono", "Fira Code", monospace;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}

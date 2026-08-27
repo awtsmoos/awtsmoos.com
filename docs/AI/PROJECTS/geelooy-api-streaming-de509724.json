@@ -1,0 +1,61 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-streaming-de509724",
+	"path": "geelooy/api/streaming",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/streaming",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/streaming/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-streaming-de509724.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 14,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 3,
+		"other": 0
+	},
+	"totalFiles": 17,
+	"symbolSummary": {
+		"files": 14,
+		"classes": 0,
+		"functions": 32,
+		"exports": 34,
+		"samples": [
+			"dynamicRoutes",
+			"POST",
+			"action",
+			"clean",
+			"call",
+			"id",
+			"actions",
+			"create",
+			"status",
+			"connectorMap",
+			"youtube",
+			"accessToken"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

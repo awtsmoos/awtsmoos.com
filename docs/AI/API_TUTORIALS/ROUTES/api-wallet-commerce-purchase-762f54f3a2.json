@@ -1,0 +1,81 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-wallet-commerce-purchase-762f54f3a2",
+	"route": "/api/wallet/commerce/purchase",
+	"source": "geelooy/api/wallet/routes/table.js",
+	"discoveryKind": "route-table",
+	"family": {
+		"mount": "/api/wallet",
+		"title": "Wallet",
+		"manual": "docs/TUTORIALS/API/WALLET.md"
+	},
+	"derech": {
+		"source": "geelooy/api/wallet/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/wallet"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [
+		{
+			"literal": "/api/wallet/commerce/purchase",
+			"source": "geelooy/apps/wallet/scripts/commercePurchase.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/wallet/commerce/purchase",
+			"source": "geelooy/games/Merkava/src/commerce/CommanderSigilClient.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/wallet/commerce/purchase",
+			"source": "geelooy/games/sefira-clash/js/commerce/ArenaThemeClient.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 3,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wallet-commerce-purchase-762f54f3a2.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-wallet-balance-59097f364b",
+			"route": "/api/wallet/balance"
+		},
+		{
+			"id": "api-wallet-buy-mock-45ef52f2b5",
+			"route": "/api/wallet/buy/mock"
+		},
+		{
+			"id": "api-wallet-commerce-catalog-f9d5b627eb",
+			"route": "/api/wallet/commerce/catalog"
+		},
+		{
+			"id": "api-wallet-commerce-entitlements-31c234acf1",
+			"route": "/api/wallet/commerce/entitlements"
+		},
+		{
+			"id": "api-wallet-currency-8de1c94e4f",
+			"route": "/api/wallet/currency"
+		},
+		{
+			"id": "api-wallet-game-rewards-claim-abc370c4e1",
+			"route": "/api/wallet/game-rewards/claim"
+		},
+		{
+			"id": "api-wallet-me-c462e10539",
+			"route": "/api/wallet/me"
+		},
+		{
+			"id": "api-wallet-paypal-capture-df2c3232c6",
+			"route": "/api/wallet/paypal/capture"
+		}
+	]
+}

@@ -1,0 +1,77 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-zmanim-3ad5830d",
+	"path": "geelooy/zmanim",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Halachic Zmanim · Awtsmoos",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/zmanim/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-zmanim-3ad5830d.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 109,
+		"tests": 16,
+		"assets": 1,
+		"generated": 0,
+		"docs": 2,
+		"other": 0
+	},
+	"totalFiles": 128,
+	"symbolSummary": {
+		"files": 65,
+		"classes": 35,
+		"functions": 108,
+		"exports": 115,
+		"samples": [
+			"ZmanimApp",
+			"AwtsmoosZmanimCalendar",
+			"MALCHUS_CALENDAR_DAY_STYLES",
+			"parseIsoDate",
+			"toIsoDate",
+			"shiftDays",
+			"shiftMonths",
+			"monthLabel",
+			"monthGrid",
+			"isCurrentMonth",
+			"BinahCalendarRenderer",
+			"malchusTodayIsoDate"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 2,
+			"examples": "geelooy/zmanim/js/components/celestial-webgl.js; geelooy/zmanim/js/domain/celestial-zmanim.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/zmanim",
+			"file": "geelooy/zmanim/index.html",
+			"title": "Halachic Zmanim · Awtsmoos",
+			"scripts": 1,
+			"styles": 37
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

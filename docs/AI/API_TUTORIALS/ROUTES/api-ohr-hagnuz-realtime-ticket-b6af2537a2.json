@@ -1,0 +1,43 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-ohr-hagnuz-realtime-ticket-b6af2537a2",
+	"route": "/api/ohr-hagnuz/realtime-ticket",
+	"source": "geelooy/api/ohr-hagnuz/routes/table.js",
+	"discoveryKind": "route-table",
+	"family": {
+		"mount": "/api/ohr-hagnuz",
+		"title": "Ohr HaGnuz",
+		"manual": "docs/TUTORIALS/API/OHR_HAGNUZ.md"
+	},
+	"derech": {
+		"source": "geelooy/api/ohr-hagnuz/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/ohr-hagnuz"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [
+		{
+			"literal": "/api/ohr-hagnuz/realtime-ticket",
+			"source": "geelooy/games/ohr-hagnuz/tests/browser/SharedJourneyTestServer.mjs",
+			"kind": "test"
+		},
+		{
+			"literal": "/api/ohr-hagnuz/realtime-ticket?${parameters}",
+			"source": "geelooy/games/ohr-hagnuz/src/multiplayer/auth/SharedJourneyTicketClient.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 2,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-ohr-hagnuz-realtime-ticket-b6af2537a2.md",
+	"confidence": "unknown-method",
+	"related": []
+}

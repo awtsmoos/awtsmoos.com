@@ -1,0 +1,75 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-email-5712a013",
+	"path": "geelooy/email",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Awtsmoos Quantum Mail",
+	"entries": [
+		"index.html",
+		"index.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/email/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-email-5712a013.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 151,
+		"tests": 4,
+		"assets": 10,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 167,
+	"symbolSummary": {
+		"files": 54,
+		"classes": 5,
+		"functions": 228,
+		"exports": 131,
+		"samples": [
+			"smartParse",
+			"markdownToHtml",
+			"htmlToMarkdown",
+			"formatTime",
+			"bootMail",
+			"renderBootFailure",
+			"async",
+			"connectSocket",
+			"broadcastTyping",
+			"publishSocialMailEvent",
+			"threadKey",
+			"firstText"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/email/index.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/email",
+			"file": "geelooy/email/index.html",
+			"title": "Awtsmoos Quantum Mail",
+			"scripts": 2,
+			"styles": 6
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

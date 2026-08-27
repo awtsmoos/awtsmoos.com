@@ -1,0 +1,55 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# API Tutorial Routes 406–450
+
+Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas.
+
+| Route | Family | Method evidence | Health | Tutorial | Source |
+| --- | --- | --- | --- | --- | --- |
+| `/api/social/packed/read` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-packed-read-6fda421aef.md) | `geelooy/api/social/_awtsmoos.packed.js` |
+| `/api/social/packed/repair/posts/manifests` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-packed-repair-posts-manifests-c9973c1dbd.md) | `geelooy/api/social/_awtsmoos.packed.js` |
+| `/api/social/packed/snapshot` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-packed-snapshot-ab73d5717e.md) | `geelooy/api/social/_awtsmoos.packed.js` |
+| `/api/social/packed/stats` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-packed-stats-934e732562.md) | `geelooy/api/social/_awtsmoos.packed.js` |
+| `/api/social/people` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-people-e8a98e30b6.md) | `geelooy/api/social/_awtsmoos.publicDiscovery.js` |
+| `/api/social/permissions/compile` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-permissions-compile-24430fcc90.md) | `geelooy/api/social/_awtsmoos.platform.js` |
+| `/api/social/profile/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-alias-49d159e781.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profile/:alias/activity` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-alias-activity-68c2968223.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profile/:alias/comments` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-alias-comments-44cb67bbef.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profile/:alias/heichelos` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-alias-heichelos-a0ee3ceaf8.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profile/:alias/posts` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-alias-posts-764c43126d.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profile/:alias/series-tree` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-alias-series-tree-694be24b30.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profile/:alias/tree` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-alias-tree-f5df73f447.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profile/batch` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-batch-d0901ec204.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profile/feed` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-feed-1f79d5e7d1.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profile/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-meta-099ceacfec.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profile/templates` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profile-templates-d87befadb0.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profiles/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profiles-alias-21fdb8e9f9.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profiles/:alias/activity` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profiles-alias-activity-1417090d89.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profiles/:alias/analytics` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profiles-alias-analytics-142564eafe.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profiles/:alias/graph` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profiles-alias-graph-211c63b5e2.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profiles/:alias/history` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profiles-alias-history-0557225724.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profiles/:alias/living-card` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profiles-alias-living-card-774437b624.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/profiles/batch` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-profiles-batch-5de0c07546.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/radiance/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-radiance-meta-53e743354a.md) | `geelooy/api/social/_awtsmoos.radiance.js` |
+| `/api/social/radiance/rank` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-radiance-rank-4e4639ca4d.md) | `geelooy/api/social/_awtsmoos.radiance.js` |
+| `/api/social/reactions/:type/:id` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-reactions-type-id-7cd398a451.md) | `geelooy/api/social/_awtsmoos.reactions.js` |
+| `/api/social/recommendations/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-recommendations-alias-3c6f1dcb5d.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/relationships/:alias` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-relationships-alias-8faedef23c.md) | `geelooy/api/social/_awtsmoos.platform.js` |
+| `/api/social/relationships/:alias/:type/:target` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-relationships-alias-type-target-8948a67f7e.md) | `geelooy/api/social/_awtsmoos.platform.js` |
+| `/api/social/rich-social/meta` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-rich-social-meta-21911c924f.md) | `geelooy/api/social/_awtsmoos.richSocial.js` |
+| `/api/social/search` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-4097344227.md) | `geelooy/api/social/_awtsmoos.profile.js` |
+| `/api/social/search/exact/hebrew` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-exact-hebrew-390612668a.md) | `geelooy/api/social/helper/search/routes/exact.js` |
+| `/api/social/search/exact/hebrew/meta` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-exact-hebrew-meta-02e5c4815c.md) | `geelooy/api/social/helper/search/routes/exact.js` |
+| `/api/social/search/index` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-index-ebc6a24b75.md) | `geelooy/api/social/_awtsmoos.platform.js` |
+| `/api/social/search/query` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-query-5f4f799c10.md) | `geelooy/api/social/_awtsmoos.platform.js` |
+| `/api/social/search/rag/comments/:comment` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-rag-comments-comment-d0fa7fa822.md) | `geelooy/api/social/helper/search/routes/comments.js` |
+| `/api/social/search/rag/llama/status` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-rag-llama-status-d7a132696e.md) | `geelooy/api/social/helper/search/routes/library.js` |
+| `/api/social/search/rag/post-comments` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-rag-post-comments-4d2f7adfdf.md) | `geelooy/api/social/helper/search/routes/comments.js` |
+| `/api/social/search/readiness` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-readiness-921b95180b.md) | `geelooy/api/social/_awtsmoos.search.js` |
+| `/api/social/search/readiness/refresh` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-readiness-refresh-dc11d8a218.md) | `geelooy/api/social/_awtsmoos.search.js` |
+| `/api/social/search/tanach/hebrew` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-search-tanach-hebrew-62fabf11df.md) | `geelooy/api/social/helper/search/routes/tanach.js` |
+| `/api/social/social-summary` | Social | POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-social-summary-5deef0e555.md) | `geelooy/api/social/_awtsmoos.socialSummary.js` |
+| `/api/social/social-summary/batch` | Social | POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-social-summary-batch-00bb581853.md) | `geelooy/api/social/_awtsmoos.socialSummary.js` |
+| `/api/social/sync/op` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-sync-op-7c36e62aef.md) | `geelooy/api/social/_awtsmoos.platform.js` |

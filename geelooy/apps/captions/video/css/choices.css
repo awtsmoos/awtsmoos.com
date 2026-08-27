@@ -1,0 +1,115 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos gives every binary and categorical choice a full touch surface.
+ */
+.tabs {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .35rem;
+	padding: .28rem;
+	border: 1px solid var(--studio-line);
+	border-radius: .78rem;
+	background: #0a121c;
+}
+.tab,
+.toggle-switch,
+.toggle-card {
+	position: relative;
+	cursor: pointer;
+	user-select: none;
+}
+.tab {
+	display: grid;
+	min-block-size: 46px;
+	place-items: center;
+	padding: .6rem .7rem;
+	border: 1px solid transparent;
+	border-radius: .62rem;
+	color: var(--studio-muted);
+	font-size: .82rem;
+	font-weight: 800;
+	text-align: center;
+}
+.tab input,
+.toggle-card input {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	overflow: hidden;
+	opacity: 0;
+}
+.tab:has(input:checked) {
+	border-color: rgba(97, 203, 217, .48);
+	background: var(--studio-cyan-soft);
+	color: #a7edf4;
+}
+.tab:has(input:focus-visible),
+.toggle-card:has(input:focus-visible),
+.toggle-switch:has(input:focus-visible) {
+	outline: 3px solid var(--studio-focus);
+	outline-offset: 3px;
+}
+.toggle-switch {
+	display: flex;
+	align-items: center;
+	gap: .7rem;
+	min-block-size: 46px;
+	padding: .65rem .72rem;
+	border: 1px solid var(--studio-line);
+	border-radius: .72rem;
+	background: #121c29;
+	color: var(--studio-muted);
+	font-size: .82rem;
+	font-weight: 780;
+}
+.toggle-switch input {
+	inline-size: 1.3rem;
+	block-size: 1.3rem;
+	margin: 0;
+	accent-color: var(--studio-cyan);
+	flex: 0 0 auto;
+}
+.toggle-switch:has(input:checked) {
+	border-color: rgba(97, 203, 217, .42);
+	background: var(--studio-cyan-soft);
+	color: var(--studio-text);
+}
+.fx-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: .48rem;
+	margin-block-end: .85rem;
+}
+.toggle-card {
+	display: grid;
+	min-block-size: 54px;
+	place-items: center;
+	padding: .55rem .4rem;
+	border: 1px solid var(--studio-line);
+	border-radius: .68rem;
+	background: #111b28;
+	color: var(--studio-faint);
+	font-size: .76rem;
+	font-weight: 800;
+	text-align: center;
+}
+.toggle-card:has(input:checked) {
+	border-color: rgba(97, 203, 217, .5);
+	background: var(--studio-cyan-soft);
+	color: #b5f0f5;
+}
+.fieldset-randomize {
+	position: absolute;
+	inset-block-start: -.2rem;
+	inset-inline-end: .55rem;
+	min-block-size: 44px;
+	padding: .48rem .62rem;
+	border: 1px solid var(--studio-line);
+	border-radius: .62rem;
+	background: #152130;
+	color: var(--studio-muted);
+	font-size: .72rem;
+	font-weight: 800;
+	cursor: pointer;
+}

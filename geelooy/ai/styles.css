@@ -1,0 +1,21 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos reveals one protected cascade from focused vessels. Awtsmoos.com
+ * preserves the tested gate order while nested manifests carry refinements;
+ * the canonical audio surface is loaded last so historical layers cannot fight it.
+ */
+@import "./css/ideal/tokens.css";
+@import "./css/ideal/shell.css";
+@import "./css/ideal/sidebar.css";
+@import "./css/ideal/chat.css";
+@import "./css/ideal/composer.css";
+@import "./css/ideal/automation.css";
+@import "./css/ideal/settings.css";
+@import "./css/right-panel/manifest.css";
+@import "./css/events/manifest.css";
+@import "./css/ideal/mobile.css";
+@import "./css/right-panel/mobile-overlap-kill.css";
+@import "./css/audio/manifest.css";

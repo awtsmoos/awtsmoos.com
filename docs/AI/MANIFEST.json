@@ -1,0 +1,43 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-doc-discovery-v4",
+	"provenance": "generated-from-local-source-and-documentation",
+	"repository": "Awtsmoos.com",
+	"publicRoot": "geelooy",
+	"documentationRoot": "docs",
+	"learningRoot": "docs/LEARN",
+	"projectTutorialRoot": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS",
+	"generatedProjectTutorialIndex": "docs/GENERATED/PROJECT_TUTORIAL_INDEX.md",
+	"projectHumanGuide": "docs/TUTORIALS/PROJECTS/README.md",
+	"systemsManifest": "docs/AI/SYSTEMS/MANIFEST.json",
+	"generatedSystemTutorialIndex": "docs/GENERATED/SYSTEM_TUTORIAL_INDEX.md",
+	"systemHumanGuide": "docs/TUTORIALS/SYSTEMS/README.md",
+	"generatedEvidenceRoot": "docs/GENERATED",
+	"canonicalHumanStart": "docs/README.md",
+	"interactiveDocumentation": "/docs/",
+	"interactiveProjectExplorer": "/docs/?view=projects",
+	"interactiveSystemsExplorer": "/docs/?view=systems",
+	"publicPublicationManifest": "geelooy/docs/generated/manifest.json",
+	"apiTutorialManifest": "docs/AI/API_TUTORIALS/MANIFEST.json",
+	"generatedApiTutorialIndex": "docs/GENERATED/API_TUTORIAL_INDEX.md",
+	"aiStart": "docs/AI/README.md",
+	"regenerate": "node scripts/docs/generate-docs.js",
+	"validate": "node scripts/docs/validate-docs.js",
+	"projectCount": 179,
+	"projectIndexChunks": [
+		"projects-001.json",
+		"projects-002.json",
+		"projects-003.json"
+	],
+	"missingLocalDocumentationCount": 0,
+	"keyGeneratedIndexes": [
+		"docs/GENERATED/PROJECT_TUTORIAL_INDEX.md",
+		"docs/GENERATED/PROJECT_ATLAS.md",
+		"docs/GENERATED/SYSTEM_TUTORIAL_INDEX.md",
+		"docs/GENERATED/API_TUTORIAL_INDEX.md",
+		"docs/GENERATED/PROJECT_DEPENDENCIES.md",
+		"docs/GENERATED/PUBLIC_ENTRY_POINTS.md",
+		"docs/GENERATED/TEST_OWNERSHIP.md"
+	],
+	"navigationRule": "Human tutorial -> generated system/project/route evidence -> current source/callers/tests -> runtime verification."
+}

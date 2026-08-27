@@ -1,0 +1,95 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-code-e6aec26f",
+	"path": "geelooy/apps/code",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Code",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/code/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-code-e6aec26f.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1078,
+		"tests": 44,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 1
+	},
+	"totalFiles": 1125,
+	"symbolSummary": {
+		"files": 976,
+		"classes": 133,
+		"functions": 1048,
+		"exports": 1195,
+		"samples": [
+			"htmlContentSecurityPolicy",
+			"serveVirtualAsset",
+			"parseVirtualPath",
+			"loadRecord",
+			"openDatabase",
+			"getElementPath",
+			"resolvePath",
+			"safeSerialize",
+			"announceExistence",
+			"isLocal",
+			"logNetwork",
+			"fetchFromParent"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 19,
+			"examples": "geelooy/apps/code/js/actions/commands/compileProjectManifest.js; geelooy/apps/code/js/ai-studio/oracle.js; geelooy/apps/code/js/ai-studio/panel.js"
+		},
+		{
+			"project": "geelooy/apps/android-emulator",
+			"count": 4,
+			"examples": "geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/actions/commands/build-rebbe-apk.js"
+		},
+		{
+			"project": "geelooy/ai",
+			"count": 3,
+			"examples": "geelooy/apps/code/js/code-chat/oracle.js; geelooy/apps/code/js/vibe/api/multimodal-adapter.js"
+		},
+		{
+			"project": "scripts",
+			"count": 3,
+			"examples": "geelooy/apps/code/js/android/android-source-builder.js"
+		},
+		{
+			"project": "geelooy/apps/compiler",
+			"count": 2,
+			"examples": "geelooy/apps/code/js/actions/commands/build-native-project.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/code",
+			"file": "geelooy/apps/code/index.html",
+			"title": "Awtsmoos Code",
+			"scripts": 2,
+			"styles": 4
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

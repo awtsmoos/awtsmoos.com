@@ -1,0 +1,6 @@
+/* B”H */
+export class Geometry {
+  static lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+}

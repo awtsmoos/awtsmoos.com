@@ -1,0 +1,105 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-heichelos-d9fbb499",
+	"path": "geelooy/heichelos",
+	"type": "project",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/heichelos",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/heichelos/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichelos-d9fbb499.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 917,
+		"tests": 131,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 2
+	},
+	"totalFiles": 1051,
+	"symbolSummary": {
+		"files": 563,
+		"classes": 83,
+		"functions": 2150,
+		"exports": 1032,
+		"samples": [
+			"queryMap",
+			"heichelFields",
+			"postFields",
+			"escapeAttribute",
+			"renderCanonicalPostRedirect",
+			"getHeichel",
+			"renderHeichelShell",
+			"renderGlobalSubmit",
+			"renderDelete",
+			"renderSubmit",
+			"renderPost",
+			"renderSeriesPost"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 8,
+			"examples": "geelooy/heichelos/heichel/modules/legend/cardDepthObserver.js; geelooy/heichelos/heichel/modules/legend/heroScrollDepth.js; geelooy/heichelos/post/functions/ui/context/relatedSearchPanel.js"
+		},
+		{
+			"project": "geelooy/social-actions",
+			"count": 3,
+			"examples": "geelooy/heichelos/heichel/modules/ui/render/HeichelReactionAction.js; geelooy/heichelos/heichel/modules/ui/render/secondary-social-actions.js; geelooy/heichelos/heichel/modules/ui/render/social-action-urls.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/heichelos/heichel/modules/ui/blueprints/pending-profile-context.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/heichelos/manage-alias-heichelos",
+			"file": "geelooy/heichelos/manage-alias-heichelos/index.html",
+			"title": "",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/heichelos/settings/community",
+			"file": "geelooy/heichelos/settings/community/index.html",
+			"title": "Community Governance — Awtsmoos",
+			"scripts": 1,
+			"styles": 2
+		},
+		{
+			"url": "/heichelos/settings/community/moderation",
+			"file": "geelooy/heichelos/settings/community/moderation/index.html",
+			"title": "Community Moderation",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/heichelos/social/demo",
+			"file": "geelooy/heichelos/social/demo/index.html",
+			"title": "Awtsmoos Social Revamp Demo",
+			"scripts": 0,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

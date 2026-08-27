@@ -1,0 +1,24 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos gathers right-panel organs and shared interface refinements into
+ * one ordered river. Awtsmoos.com keeps the mobile overlap seal last, after the
+ * message, audio, and desktop vessels have all declared their measured bounds.
+ */
+@import "./tokens.css";
+@import "./shell.css";
+@import "./menu.css";
+@import "./sections.css";
+@import "./forms.css";
+@import "./toggles.css";
+@import "./actions.css";
+@import "./fullscreen.css";
+@import "./responsive.css";
+@import "../message-actions.css";
+@import "../message-actions-mobile.css";
+@import "../message-audio-options.css";
+@import "../message-audio-player.css";
+@import "../desktop-refinement.css";
+@import "./mobile-overlap-kill.css";

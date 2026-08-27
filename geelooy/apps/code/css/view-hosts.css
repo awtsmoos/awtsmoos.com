@@ -1,0 +1,55 @@
+/* B"H
+ * Chapter 11: The View Host Became Ocean.
+ *
+ * The Awtsmoos showed that the iframe had been widened, but its parent was a
+ * cup. These rules make every main view wrapper fill the editor-area like a
+ * true vessel, while hidden views still vanish completely.
+ */
+
+.editor-area > #previewer,
+.editor-area > #devtools-wrapper,
+.editor-area > #hex-editor-wrapper,
+.editor-area > #zip-editor-wrapper,
+.editor-area > #vibe-editor-wrapper,
+.editor-area > #vibe-manager-wrapper,
+.editor-area > #file-commander-wrapper,
+.editor-area > #terminal-wrapper,
+.editor-area > #browser-wrapper,
+.editor-area > #virtual-os-wrapper,
+.editor-area > #editor-wrapper,
+.editor-area > #data-altar-container {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    max-width: none !important;
+    height: 100% !important;
+    max-height: none !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden;
+}
+
+.editor-area > #browser-wrapper:not(.hidden) {
+    display: flex !important;
+    flex-direction: column;
+    background: #020611;
+    z-index: 120 !important;
+}
+
+.editor-area > #browser-wrapper.awtsmoos-browser-host-fill,
+.editor-area.awtsmoos-browser-editor-fill,
+.main-content.awtsmoos-browser-main-fill {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+}
+
+.editor-area.awtsmoos-browser-editor-fill > .editor-canvas,
+.editor-area.awtsmoos-browser-editor-fill > .minimap-canvas,
+.editor-area.awtsmoos-browser-editor-fill > .hud-stats {
+    pointer-events: none;
+}
+
+.editor-area > .hidden {
+    display: none !important;
+}

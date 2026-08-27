@@ -1,0 +1,55 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# Generated Public Entry Point Atlas 46–90
+
+Every discovered `index.html` beneath the Geelooy public root, with title and linked script/style evidence.
+
+| URL | Entry file | Title | Scripts | Script sample | Styles | Style sample |
+| --- | --- | --- | --- | --- | --- | --- |
+| /apps/tunnel/agent/tools/fs/testing/.tmp-runtime-actions-real | geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-runtime-actions-real/index.html | — | 1 | ./app.js | 0 | — |
+| /apps/universal-chat | geelooy/apps/universal-chat/index.html | Messages & Torah Chat \| Awtsmoos.com | 2 | app.js; /register.js | 1 | style.css |
+| /apps/video-editor | geelooy/apps/video-editor/index.html | Awtsmoos Video Editor - Chapter 7 Revised | 0 | — | 0 | — |
+| /apps/virtual-os-stress-light-counter | geelooy/apps/virtual-os-stress-light-counter/index.html | Light Counter | 0 | — | 0 | — |
+| /apps/wallet | geelooy/apps/wallet/index.html | Awtsmoos Wallet — Send, Buy & Own | 2 | ./main.js?v=wallet-currency-010; /scripts/future-system/index.js?v=future-002 | 2 | ./style.css?v=wallet-currency-010; /style/future-system/index.css?v=future-004 |
+| /apps/watermark-remover | geelooy/apps/watermark-remover/index.html | SVG Mask Alpha Brute-Force | 1 | https://cdn.jsdelivr.net/npm/canvg/dist/browser/canvg.min.js | 0 | — |
+| /awtai-db | geelooy/awtai-db/index.html | AWTAI-DB Model Foundry | 1 | ./app.js?v=awtai-revelation-001 | 2 | ../style/geelooy-app/index.css?v=awtai-revelation-001; ./style.css?v=awtai-revelation-001 |
+| /ayin | geelooy/ayin/index.html | Real Awtsmoos Recorder | 0 | — | 0 | — |
+| /comment-thread | geelooy/comment-thread/index.html | Comment Thread — Geelooy | 2 | /scripts/awtsmoos/social/shell/boot.js?v=extreme-005; /comment-thread/app.js?v=comments-004 | 2 | /style/geelooy-app/index.css?v=extreme-005; /style/social-system/comments.css?v=comments-003 |
+| /contact | geelooy/contact/index.html | Contact — Awtsmoos | 1 | /contact/contact.js?v=1 | 1 | /contact/contact.css?v=1 |
+| /control | geelooy/control/index.html | Code Control Panel | 1 | app.js | 1 | styles.css |
+| /db | geelooy/db/index.html | — | 0 | — | 0 | — |
+| /db/console | geelooy/db/console/index.html | Simple DosDB GUI | 0 | — | 0 | — |
+| /db/explorer | geelooy/db/explorer/index.html | AWTSMOOS DB INTERFACE - HYPERDRIVE EDITION | 1 | script.js | 2 | styles.css; https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&family=Turret+Road:wght@300;500;800&display=swap |
+| /docs | geelooy/docs/index.html | Awtsmoos Documentation | 1 | ./modules/app.mjs | 19 | data:,; ./styles/tokens.css; ./styles/shell.css; ./styles/rails.css |
+| /donate | geelooy/donate/index.html | — | 0 | — | 0 | — |
+| /drive | geelooy/drive/index.html | Geelooy Sites · Awtsmoos | 1 | ./app.js | 25 | ./styles/tokens.css; ./styles/controls.css; ./styles/topbar.css; ./styles/topbar-menu.css |
+| /editor | geelooy/editor/index.html | — | 2 | /scripts/awtsmoos/awtsmoosGPTify.js; /scripts/awtsmoosTamper.js | 0 | — |
+| /email | geelooy/email/index.html | Awtsmoos Quantum Mail | 2 | /scripts/awtsmoos/social/shell/boot.js?v=mail-revelation-013; ./index.js?v=mail-revelation-013 | 6 | /style/geelooy-app/index.css?v=mail-revelation-013; ./css/core.css?v=mail-revelation-013; ./css/sidebar.css?v=mail-revelation-013; ./css/chat.css?v=mail-revelation-013 |
+| /entity-view | geelooy/entity-view/index.html | Entity Universe | 1 | /entity-view/app.js | 2 | /style/social-system/entity/base.css; /style/social-system/entity/cards.css |
+| /fetch | geelooy/fetch/index.html | — | 0 | — | 0 | — |
+| /game | geelooy/game/index.html | Opening Mitzvah World… | 0 | — | 0 | — |
+| /games | geelooy/games/index.html | Awtsmoos Games — 25 Playable Worlds | 3 | /scripts/awtsmoos/social/shell/boot.js?v=games-shell-001; ./scripts/games-index.js?v=games-storefront-004; /scripts/future-system/index.js?v=future-002 | 2 | ./style.css?v=games-storefront-004; /style/future-system/index.css?v=future-004 |
+| /games/adventure | geelooy/games/adventure/index.html | Adventure Game | 0 | — | 0 | — |
+| /games/brick-blast | geelooy/games/brick-blast/index.html | Brick Blast | 1 | index.js | 4 | https://fonts.googleapis.com; https://fonts.gstatic.com; https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap; /index.css |
+| /games/cards | geelooy/games/cards/index.html | The Utterances — Blackjack on Awtsmoos | 1 | ./js/main.js | 1 | ./style.css?v=cards-solid-002 |
+| /games/chess | geelooy/games/chess/index.html | Ultimate Chess AI | 6 | ui/engine-worker-route.js; ui/canvas-stability.js; social/legacy-observer.js; main.js | 7 | style.css; ui/chess-polish.css; ui/chess-mobile.css; ui/chess-accessibility.css |
+| /games/chess/debug | geelooy/games/chess/debug/index.html | Awtsmoos Engine - Debugging Harness | 1 | debug_tool.js | 0 | — |
+| /games/city-of-light | geelooy/games/city-of-light/index.html | City of Light · The Complete Pilgrimage | 2 | ./js/main.js; /register.js | 1 | ./style.css |
+| /games/connect4 | geelooy/games/connect4/index.html | Connect 4 | 2 | main.js; /register.js | 1 | style.css |
+| /games/dove | geelooy/games/dove/index.html | Noah's Dove's 🕊️ Quest ❓ for Shalom | 1 | ./game.js | 1 | style.css |
+| /games/emojis | geelooy/games/emojis/index.html | Emoji War — Neon Caption Arcade | 1 | ./js/main.js?v=emoji-war-solid-004 | 1 | ./style.css?v=emoji-war-solid-004 |
+| /games/kabbalah-shooter | geelooy/games/kabbalah-shooter/index.html | Kabbalah Infinite — The Breaking of Vessels | 1 | ./main.js | 2 | ./style.css?v=kabbalah-solid-002; /index.css |
+| /games/KAVANAH | geelooy/games/KAVANAH/index.html | KAVANAH | 1 | js/main.js | 2 | data:,; style.css |
+| /games/Merkava | geelooy/games/Merkava/index.html | Merkava — War of the Sparks | 1 | ./src/main.js?version=20260713-8 | 2 | data:,; ./styles/game.css?version=20260713-8 |
+| /games/migdol | geelooy/games/migdol/index.html | Migdol - Kabbalah Tower Defense | 1 | js/script.js | 1 | style.css |
+| /games/mitzvahWorld | geelooy/games/mitzvahWorld/index.html | B&quot;H Mitzvah World — Restored River Valley | 1 | ./experiments/Awtsmoos/src/mitzvah-world.compact.js | 2 | data:image/svg+xml,%3Csvg%20xmlns=%22http%3A%2F%2Fwww.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ctitle%3EMitzvah%20World%3C/title%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%2307140b%22/%3E%3Ccircle%20cx=%2246%22%20cy=%2217%22%20r=%227%22%20fill=%22%23f4c95d%22/%3E%3Cpath%20d=%22M6%2043L22%2027L34%2039L44%2029L58%2043V58H6Z%22%20fill=%22%232f8a59%22/%3E%3Cpath%20d=%22M30%2035C38%2040%2024%2045%2033%2050C39%2054%2032%2058%2028%2062%22%20fill=%22none%22%20stroke=%22%2367c5e8%22%20stroke-width=%223%22%20stroke-linecap=%22round%22/%3E%3C/svg%3E; ./styles/generated/mitzvah-world.production.css |
+| /games/mitzvahWorld/subwaySurfer | geelooy/games/mitzvahWorld/subwaySurfer/index.html | Peruta Run — Mitzvah World | 1 | ./src/main.js | 4 | ./styles/base.css; ./styles/hud.css; ./styles/controls.css; ./styles/mobile.css |
+| /games/mitzvahWorld/templeRunner | geelooy/games/mitzvahWorld/templeRunner/index.html | Temple Run — Mitzvah World | 1 | ./src/main.js | 1 | ./styles/game.css |
+| /games/Nachash | geelooy/games/Nachash/index.html | Tikkun HaNachash | 2 | main.js; /register.js | 2 | style.css; https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap |
+| /games/neshama-quest | geelooy/games/neshama-quest/index.html | Neshama Quest | 5 | config.js; maze.js; entities.js; input.js | 1 | style.css |
+| /games/nitzotz-io | geelooy/games/nitzotz-io/index.html | Nitzotz.io — Shlichus Adventure Metropolis | 1 | ./js/main.js?v=20260714_shlichus_1 | 2 | data:image/svg+xml,%3Csvg xmlns=; ./style.css?v=20260714_shlichus_1 |
+| /games/ohr-hagnuz | geelooy/games/ohr-hagnuz/index.html | B&quot;H — Ohr HaGnuz: The Concealed Frontier | 1 | ./src/index.js | 7 | data:image/svg+xml,%3Csvg xmlns=; ./src/design/revelation/tokens.css; ./src/design/revelation/shell.css; ./src/design/revelation/hud.css |
+| /games/oros-ha-kelim | geelooy/games/oros-ha-kelim/index.html | Oros HaKelim · Awtsmoos.com | 1 | ./src/main.js | 3 | ./styles/game.css; ./styles/overlays.css; ./styles/controls.css |
+| /games/party | geelooy/games/party/index.html | Party Challenge — Awtsmoos Games | 1 | ./js/main.js?v=party-001 | 1 | ./style.css?v=party-001 |

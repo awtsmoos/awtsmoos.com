@@ -1,0 +1,46 @@
+/* B"H */
+/*
+  Chapter 17: The Thought Chamber Folded Its Wings.
+  Reasoning packets are no longer loose stones in the road; when revealed,
+  they gather into a single dark glass chamber with quiet controls.
+*/
+.event-kind-thinking {
+  max-width: min(900px, 100%);
+}
+.event-kind-thinking > summary {
+  background: linear-gradient(135deg, rgba(16,185,129,.16), rgba(14,165,233,.08));
+}
+.event-kind-thinking .event-summary-card {
+  border-color: rgba(52,211,153,.26);
+  background: radial-gradient(circle at top left, rgba(52,211,153,.12), transparent 42%), rgba(2,8,23,.78);
+}
+.event-kind-thinking .event-summary-title::before {
+  content: "✦ ";
+  color: #6ee7b7;
+}
+.event-tool-target {
+  color: #d9f99d;
+  font-size: .82rem;
+  font-weight: 800;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.event-panel-actions button {
+  display: grid;
+  place-items: center;
+  font-size: 0;
+  position: relative;
+}
+.event-panel-actions button::before {
+  font-size: 13px;
+  line-height: 1;
+}
+.event-panel-actions [data-panel-action="minimize"]::before { content: "−"; }
+.event-panel-actions [data-panel-action="maximize"]::before { content: "▣"; }
+.event-panel-actions [data-panel-action="fullscreen"]::before { content: "⤢"; }
+.event-panel-actions button {
+  background: linear-gradient(135deg, rgba(45,212,191,.9), rgba(37,99,235,.9));
+  border-color: rgba(165,243,252,.42);
+  color: white;
+  box-shadow: 0 8px 22px rgba(14,165,233,.24);
+}

@@ -1,0 +1,71 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-kabbalah-shooter-5fd11ab3",
+	"path": "geelooy/games/kabbalah-shooter",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Kabbalah Infinite — The Breaking of Vessels",
+	"entries": [
+		"index.html",
+		"main.js",
+		"package.json",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/kabbalah-shooter/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kabbalah-shooter-5fd11ab3.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 38,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 39,
+	"symbolSummary": {
+		"files": 35,
+		"classes": 32,
+		"functions": 16,
+		"exports": 61,
+		"samples": [
+			"CONFIG",
+			"HEBREW_LETTERS",
+			"COLORS",
+			"SPRITES",
+			"AudioSynth",
+			"SETTINGS",
+			"WEAPONS",
+			"SOUNDS",
+			"SCALES",
+			"SEFIROT",
+			"TRAITS",
+			"SPELLS"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/kabbalah-shooter",
+			"file": "geelooy/games/kabbalah-shooter/index.html",
+			"title": "Kabbalah Infinite — The Breaking of Vessels",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

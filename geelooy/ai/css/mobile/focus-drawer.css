@@ -1,0 +1,55 @@
+/* B"H
+  Chapter 2: The Narrow Glass Stopped Carrying Three Thrones.
+  On a phone, the chat is the living river. Conversations and automation become
+  summoned drawers instead of permanent height-hungry rails.
+*/
+@media (max-width: 680px) {
+  .container {
+    grid-template-rows: minmax(0, 1fr) !important;
+    grid-template-areas: "main" !important;
+    padding: max(4px, env(safe-area-inset-top)) 4px max(4px, env(safe-area-inset-bottom)) !important;
+    gap: 0 !important;
+  }
+
+  #left-resizer,
+  #right-resizer {
+    display: none !important;
+  }
+
+  .main {
+    border-radius: 14px !important;
+    grid-template-rows: minmax(34px, auto) minmax(0, 1fr) 10px minmax(96px, auto) !important;
+  }
+
+  .sidebar,
+  .automation-panel {
+    position: fixed !important;
+    left: 6px !important;
+    right: 6px !important;
+    bottom: calc(6px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-height: min(74dvh, 560px) !important;
+    z-index: 220 !important;
+    box-shadow: 0 -18px 70px rgba(0,0,0,.48), 0 0 0 1px rgba(125,211,252,.14) !important;
+    transform: translateY(calc(100% - 68px)) !important;
+    transition: transform .18s ease, max-height .18s ease, opacity .18s ease !important;
+  }
+
+  body:not([data-sidebar-collapsed="true"]) .sidebar,
+  body:not([data-automation-collapsed="true"]) .automation-panel {
+    transform: translateY(0) !important;
+  }
+
+  body:not([data-sidebar-collapsed="true"]) .automation-panel,
+  body:not([data-automation-collapsed="true"]) .sidebar {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body[data-sidebar-collapsed="true"] .conversation-list,
+  body[data-automation-collapsed="true"] .automation-panel > :not(.panel-topbar) {
+    display: block !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}

@@ -1,0 +1,75 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-pong-d3953f2b",
+	"path": "geelooy/games/pong",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Pong · Awtsmoos Games",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/pong/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-pong-d3953f2b.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 11,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 12,
+	"symbolSummary": {
+		"files": 9,
+		"classes": 0,
+		"functions": 22,
+		"exports": 0,
+		"samples": [
+			"createBall",
+			"bindPongControls",
+			"clampedPaddleY",
+			"getRandomEmoji",
+			"resizeCanvas",
+			"draw",
+			"formattedElapsedTime",
+			"gameLoop",
+			"createPongUpdater",
+			"update",
+			"increaseSpeedWithTime",
+			"handlePossiblePaddleCollision"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/games/scripts",
+			"count": 1,
+			"examples": "geelooy/games/pong/js/wallet-reward.mjs"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/pong",
+			"file": "geelooy/games/pong/index.html",
+			"title": "Pong · Awtsmoos Games",
+			"scripts": 9,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,59 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-platform-37340101",
+	"path": "geelooy/platform",
+	"type": "project",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/platform",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/platform/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-platform-37340101.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 89,
+		"tests": 19,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 0
+	},
+	"totalFiles": 110,
+	"symbolSummary": {
+		"files": 89,
+		"classes": 1,
+		"functions": 145,
+		"exports": 115,
+		"samples": [
+			"createAndroidRoundTripAdapter",
+			"requireFunction",
+			"createBundleArtifactAdapter",
+			"createCharacterAuthorityAdapter",
+			"createMovieCompilerAdapter",
+			"toMovieSource",
+			"createRadianceAdapter",
+			"normalizeTime",
+			"reasonsToSignals",
+			"createRichSocialAdapter",
+			"adaptTunnelReceipt",
+			"createQuarantineIfNeeded"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

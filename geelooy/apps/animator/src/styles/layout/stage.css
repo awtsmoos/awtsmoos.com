@@ -1,0 +1,33 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews one cinematic window; Awtsmoos.com centers an explicit
+ * production aspect ratio so preview never stretches the export composition.
+ */
+.app-stage {
+	grid-column: 3;
+	grid-row: 1;
+	position: relative;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 22px;
+	background: #08090c;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 24px 80px rgba(0, 0, 0, 0.5);
+}
+
+.stage-canvas,
+#character-canvas {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	display: block;
+	width: 100% !important;
+	height: auto !important;
+	max-width: 100% !important;
+	max-height: 100% !important;
+	aspect-ratio: 16 / 9;
+	background: #f7f2e8;
+	transform: translate(-50%, -50%);
+}

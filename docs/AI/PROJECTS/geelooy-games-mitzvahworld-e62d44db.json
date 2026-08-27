@@ -1,0 +1,111 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-mitzvahworld-e62d44db",
+	"path": "geelooy/games/mitzvahWorld",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "B&quot;H Mitzvah World — Restored River Valley",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/mitzvahWorld/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-mitzvahworld-e62d44db.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 2717,
+		"tests": 1015,
+		"assets": 0,
+		"generated": 54,
+		"docs": 9,
+		"other": 125
+	},
+	"totalFiles": 3920,
+	"symbolSummary": {
+		"files": 2647,
+		"classes": 587,
+		"functions": 8019,
+		"exports": 5110,
+		"samples": [
+			"publishState",
+			"publishVerificationFailure",
+			"createBootSnapshot",
+			"boundedBootCount",
+			"bootDebugEnabled",
+			"copyRecords",
+			"BootPhaseTracker",
+			"scheduleBootProgress",
+			"renderBootProgress",
+			"flushBootProgress",
+			"bootMessage",
+			"scheduleBootstrapCanonicalPlayerHydration"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 47,
+			"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js"
+		},
+		{
+			"project": "libs",
+			"count": 1,
+			"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowTreeCoreFacade.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 5,
+			"examples": "geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/modelAssets.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/nativeRuntime.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/renderer.js"
+		},
+		{
+			"project": "geelooy/social-composer",
+			"count": 4,
+			"examples": "geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js"
+		}
+	],
+	"externalDependencies": [
+		{
+			"dependency": "ws",
+			"count": 1,
+			"examples": "geelooy/games/mitzvahWorld/proof/BrowserProofCdpSupport.mjs"
+		}
+	],
+	"publicEntries": [
+		{
+			"url": "/games/mitzvahWorld",
+			"file": "geelooy/games/mitzvahWorld/index.html",
+			"title": "B&quot;H Mitzvah World — Restored River Valley",
+			"scripts": 1,
+			"styles": 2
+		},
+		{
+			"url": "/games/mitzvahWorld/subwaySurfer",
+			"file": "geelooy/games/mitzvahWorld/subwaySurfer/index.html",
+			"title": "Peruta Run — Mitzvah World",
+			"scripts": 1,
+			"styles": 4
+		},
+		{
+			"url": "/games/mitzvahWorld/templeRunner",
+			"file": "geelooy/games/mitzvahWorld/templeRunner/index.html",
+			"title": "Temple Run — Mitzvah World",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

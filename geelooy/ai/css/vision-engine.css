@@ -1,0 +1,114 @@
+/*B"H
+  Chapter 20: The Vision Engine Became Wise.
+
+  The Awtsmoos keeps the purple glass but removes the GPU storm. Broad blur,
+  heavy shadow stacks, and expensive recalculation are replaced with calmer
+  static gradients. High effects can be forced with `?awtsmoosFx=high`; off can
+  be forced with `?awtsmoosFx=off`.
+*/
+:root{
+  --vision-bg:#020611;
+  --vision-bg-2:#050b18;
+  --vision-card:rgba(8,18,34,.74);
+  --vision-card-strong:rgba(10,22,42,.90);
+  --vision-line:rgba(148,163,184,.16);
+  --vision-line-cyan:rgba(34,211,197,.24);
+  --vision-line-purple:rgba(168,85,247,.24);
+  --vision-cyan:#22d3c5;
+  --vision-green:#4ade80;
+  --vision-purple:#8b5cf6;
+  --vision-purple-2:#c084fc;
+  --vision-text:#f8fbff;
+  --vision-soft:#aebbd0;
+  --vision-muted:#71839a;
+  --vision-shadow-soft:0 10px 26px rgba(0,0,0,.26);
+  --vision-inset:inset 0 1px 0 rgba(255,255,255,.045);
+}
+html body{
+  color:var(--vision-text);
+  background:
+    radial-gradient(circle at 18% -8%,rgba(34,211,197,.12),transparent 32%),
+    radial-gradient(circle at 78% 4%,rgba(139,92,246,.16),transparent 36%),
+    linear-gradient(180deg,var(--vision-bg-2),var(--vision-bg));
+}
+body::before,body::after{content:"";position:fixed;pointer-events:none;z-index:-1}
+body::before{
+  inset:-12% -8% auto -8%;
+  height:48vh;
+  background:radial-gradient(ellipse at 68% 26%,rgba(168,85,247,.18),transparent 48%);
+  opacity:.72;
+}
+body::after{
+  left:12%;right:8%;bottom:-18%;height:38vh;
+  background:radial-gradient(ellipse at 50% 50%,rgba(88,28,135,.16),transparent 58%);
+  opacity:.62;
+}
+.container>.sidebar,.container>#automation-panel,.container>.main,.service-selector,.provider-key-panel,.transport-status,.mobile-control-center,.ai-empty-state,.input-area,.conversation-list li,.right-panel-card,.automation-panel .card,.desktop-shell-card,.desktop-shell-tunnel{
+  border-color:var(--vision-line)!important;
+  box-shadow:var(--vision-shadow-soft),var(--vision-inset);
+}
+body.awts-fx-high .container>.sidebar,body.awts-fx-high .container>#automation-panel,body.awts-fx-high .container>.main,body.awts-fx-high .service-selector,body.awts-fx-high .provider-key-panel,body.awts-fx-high .transport-status,body.awts-fx-high .mobile-control-center,body.awts-fx-high .ai-empty-state,body.awts-fx-high .input-area{
+  backdrop-filter:blur(12px) saturate(1.1);
+  -webkit-backdrop-filter:blur(12px) saturate(1.1);
+}
+.container>.main,body:not(.is-awtsmoos-embedded-ai) .main,body.is-awtsmoos-embedded-ai .main{
+  background:radial-gradient(circle at 50% 12%,rgba(139,92,246,.10),transparent 34%),linear-gradient(180deg,rgba(4,10,22,.90),rgba(2,6,17,.96))!important;
+}
+.container>.sidebar,.container>#automation-panel,body:not(.is-awtsmoos-embedded-ai) #sidebar,body:not(.is-awtsmoos-embedded-ai) #automation-panel{
+  background:linear-gradient(180deg,rgba(8,18,34,.88),rgba(3,8,17,.96))!important;
+}
+.refresh-button.new-chat,#send-button,body.is-awtsmoos-embedded-ai #send-button,body[data-mobile-scene] #send-button{
+  background:linear-gradient(135deg,#22d3c5,#3b82f6 46%,#7c3aed 88%)!important;
+  border-color:rgba(196,181,253,.30)!important;
+  box-shadow:0 10px 22px rgba(124,58,237,.22)!important;
+}
+.transport-status,.mobile-control-center{
+  background:linear-gradient(135deg,rgba(9,24,32,.84),rgba(7,14,28,.94))!important;
+  border-color:rgba(74,222,128,.22)!important;
+}
+.transport-status strong,.mobile-control-dot[data-state="ready"] + span strong{color:var(--vision-green)}
+.chat-box{
+  background:radial-gradient(circle at 50% 20%,rgba(124,58,237,.08),transparent 34%),linear-gradient(180deg,rgba(3,8,17,.26),rgba(3,8,17,.44))!important;
+}
+.message,.bubble,.assistant-message,.user-message{
+  border:1px solid var(--vision-line)!important;
+  border-radius:24px!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.24),var(--vision-inset)!important;
+}
+.assistant-message,.message.assistant,.bubble.assistant{background:linear-gradient(180deg,rgba(13,24,42,.88),rgba(5,12,25,.95))!important}
+.user-message,.message.user,.bubble.user{
+  background:linear-gradient(135deg,rgba(64,33,128,.90),rgba(29,21,56,.96))!important;
+  border-color:var(--vision-line-purple)!important;
+}
+.input-area,body:not(.is-awtsmoos-embedded-ai) .input-area,body.is-awtsmoos-embedded-ai .input-area,body[data-mobile-scene] .input-area{
+  background:linear-gradient(180deg,rgba(10,20,36,.88),rgba(4,9,20,.97))!important;
+  border-color:rgba(34,211,197,.22)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.34),var(--vision-inset)!important;
+}
+#message-input{background:rgba(5,14,28,.88)!important;border-color:rgba(148,163,184,.18)!important;color:var(--vision-text)!important}
+#message-input::placeholder{color:#8da0b8!important}
+.mobile-suggestion-rail button,.ai-empty-prompts button,body.is-awtsmoos-embedded-ai .mobile-suggestion-rail button{
+  background:rgba(21,13,43,.78)!important;
+  border-color:rgba(192,132,252,.28)!important;
+  color:#e9d5ff!important;
+  box-shadow:0 8px 18px rgba(88,28,135,.16),var(--vision-inset)!important;
+}
+.ai-empty-state{
+  background:radial-gradient(circle at 50% 0,rgba(192,132,252,.18),transparent 44%),linear-gradient(180deg,rgba(12,22,40,.82),rgba(5,11,22,.94))!important;
+  border-color:rgba(192,132,252,.22)!important;
+  box-shadow:0 16px 42px rgba(0,0,0,.34),var(--vision-inset)!important;
+}
+.ai-empty-orb{
+  background:linear-gradient(135deg,rgba(34,211,197,.16),rgba(124,58,237,.28))!important;
+  color:#e9d5ff!important;
+  border-color:rgba(192,132,252,.32)!important;
+  box-shadow:0 0 22px rgba(124,58,237,.18)!important;
+}
+.provider-key-panel,.service-selector{background:linear-gradient(180deg,rgba(12,22,40,.76),rgba(5,11,22,.90))!important}
+.provider-key-row button,.provider-key-row a,.service-selector select{background:rgba(5,14,28,.82)!important;border-color:rgba(148,163,184,.18)!important}
+body.is-awtsmoos-embedded-ai .mobile-control-center{max-width:min(980px,calc(100vw - 24px))}
+body.is-awtsmoos-embedded-ai .input-area,body.is-awtsmoos-embedded-ai .mobile-suggestion-rail{max-width:min(980px,calc(100vw - 28px));margin-inline:auto}
+body.awts-fx-off *,body.awts-fx-low *{animation:none!important;transition:none!important}
+body.awts-fx-off::before,body.awts-fx-off::after{display:none!important}
+@media(min-width:901px){body:not(.is-awtsmoos-embedded-ai) .container{background:linear-gradient(180deg,#050b18,#020611)!important}}
+@media(max-width:900px){.mobile-app-crown,.mobile-bottom-dock{background:linear-gradient(180deg,rgba(10,20,36,.92),rgba(4,9,20,.97))!important;border-color:rgba(148,163,184,.16)!important;box-shadow:0 10px 24px rgba(0,0,0,.30),var(--vision-inset)!important}}

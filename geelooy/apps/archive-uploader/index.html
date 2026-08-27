@@ -1,0 +1,81 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA//HYPER_UPLOADER</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="scanline"></div>
+    <div class="overlay"></div>
+
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <span class="glitch" data-text="ARCHIVE_ORG">ARCHIVE_ORG</span> // S3_LINK
+            </div>
+            <div class="stats-bar">
+                <div>QUEUE: <span id="queueCount">0</span></div>
+                <div>ACTIVE: <span id="activeCount">0</span></div>
+                <div>SUCCESS: <span id="successCount" class="text-green">0</span></div>
+                <div>ERRORS: <span id="errorCount" class="text-pink">0</span></div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Authentication Panel -->
+            <section id="authPanel" class="panel">
+                <div class="panel-header">>> AUTHENTICATION_PROTOCOL</div>
+                <div class="panel-body">
+                    <p class="instruction">ENTER CREDENTIALS FROM ARCHIVE.ORG/ACCOUNT/S3.PHP</p>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>ACCESS_KEY</label>
+                            <input type="text" id="accessKey" placeholder="IAS3 ACCESS KEY" autocomplete="off">
+                        </div>
+                        <div class="input-group">
+                            <label>SECRET_KEY</label>
+                            <input type="password" id="secretKey" placeholder="IAS3 SECRET KEY" autocomplete="off">
+                        </div>
+                    </div>
+                    <button id="btnInit" class="btn-primary">INITIALIZE_SYSTEM()</button>
+                </div>
+            </section>
+
+            <!-- Control Panel -->
+            <section id="controlPanel" class="panel hidden">
+                <div class="panel-header text-cyan">>> COMMAND_CENTER</div>
+                <div class="panel-body flex-row">
+                    <div class="status-indicator">
+                        <div class="led on"></div>
+                        <span>SYSTEM_ONLINE</span>
+                    </div>
+                    <div class="actions">
+                        <button id="btnSelectDir" class="btn-action">SELECT_SOURCE_DIRECTORY()</button>
+                        <button id="btnPurge" class="btn-danger">PURGE_KEYS()</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Console Output -->
+            <section class="console-wrapper">
+                <div class="console-header">
+                    <span>>> SYSTEM_LOG</span>
+                    <button id="btnClearLog" class="btn-xs">CLEAR</button>
+                </div>
+                <div id="consoleOutput" class="console-output">
+                    <div class="log-entry system">
+                        <span class="timestamp">[SYSTEM]</span>
+                        <span>WAITING_FOR_INPUT...</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

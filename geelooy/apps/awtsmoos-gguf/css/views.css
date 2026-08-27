@@ -1,0 +1,171 @@
+/* B"H - Views Styles */
+
+/* --- CHAT BUBBLES --- */
+.msg-row { display: flex; width: 100%; }
+.msg-row.user { justify-content: flex-end; }
+.msg-row.model { justify-content: flex-start; }
+
+.chat-bubble {
+    max-width: 85%;
+    padding: 14px 20px;
+    border-radius: 18px;
+    font-size: 15px;
+    line-height: 1.6;
+    position: relative;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.chat-bubble.user {
+    background-image: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+    border: 1px solid #4f46e5;
+}
+
+.chat-bubble.model {
+    background-image: linear-gradient(135deg, #3f3f46, #27272a);
+    color: var(--text-primary);
+    border-bottom-left-radius: 4px;
+    border: 1px solid var(--border-highlight);
+}
+
+/* --- MARKDOWN --- */
+.markdown-content * + * { margin-top: 0.75em; }
+.markdown-content p { margin: 0; }
+.markdown-content strong { color: var(--accent-emerald); font-weight: 600; }
+.markdown-content em { color: var(--accent-blue); font-style: italic; }
+.markdown-content ul, .markdown-content ol { padding-left: 2em; }
+.markdown-content li { margin-bottom: 0.25em; }
+.markdown-content pre {
+    background: var(--bg-input);
+    border: 1px solid var(--border-base);
+    border-radius: 8px;
+    padding: 1em;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: #d1d5db; 
+}
+.markdown-content code {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-base);
+    color: var(--accent-purple);
+    font-family: var(--font-mono);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+.markdown-content pre > code { background: transparent; border: none; padding: 0; font-size: 1em; }
+.markdown-content blockquote {
+    border-left: 3px solid var(--accent-amber);
+    padding-left: 1em; margin-left: 0; font-style: italic; color: var(--text-secondary);
+}
+
+#stream-cursor {
+    display: inline-block; width: 8px; height: 18px; background: var(--accent-emerald);
+    vertical-align: sub; margin-left: 2px; animation: blink 1s step-end infinite;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* --- CONSOLE --- */
+.log-entry {
+    font-family: var(--font-mono); font-size: 11px; padding: 4px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.03); display: flex; gap: 12px; line-height: 1.5;
+}
+.log-entry:hover { background: rgba(255,255,255,0.03); }
+.log-time { color: var(--text-dim); flex-shrink: 0; width: 65px; user-select: none; }
+.log-msg { white-space: pre-wrap; word-break: break-all; color: var(--text-secondary); flex: 1; }
+.log-error .log-msg { color: var(--accent-red); }
+.log-warn .log-msg { color: var(--accent-amber); }
+.log-accent .log-msg { color: var(--accent-blue); }
+.log-calc .log-msg { color: var(--accent-emerald); }
+.log-tensor .log-msg { color: var(--accent-purple); }
+
+/* --- TENSOR VISUALIZER --- */
+.tensor-row {
+    position: relative; display: flex; align-items: center; height: 32px;
+    border-bottom: 1px solid var(--border-base); padding: 0 12px;
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary);
+}
+.tensor-row:nth-child(even) { background: rgba(255,255,255,0.015); }
+.tensor-bg {
+    position: absolute; left: 0; top: 0; bottom: 0; background: rgba(99, 102, 241, 0.1);
+    z-index: 0; transition: width 0.5s ease-out;
+}
+.tensor-name { z-index: 1; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; color: var(--text-primary); }
+.tensor-info { z-index: 1; color: var(--text-muted); margin-left: 12px; }
+
+/* --- VOCAB GRID (B"H - STRICT GRID) --- */
+.vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 6px;
+    padding: 8px;
+    align-content: start;
+}
+
+.vocab-cell {
+    position: relative;
+    background-image: linear-gradient(145deg, var(--bg-surface), var(--bg-panel));
+    border: 1px solid var(--border-base);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
+    user-select: none;
+}
+
+.vocab-cell:hover {
+    color: var(--text-primary);
+    border-color: var(--border-highlight);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    z-index: 10;
+}
+
+.vocab-cell.highlight {
+    background-image: linear-gradient(145deg, var(--accent-amber), #d97706);
+    color: black;
+    font-weight: bold;
+    border-color: #f59e0b;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+}
+
+.vocab-id {
+    position: absolute; top: 2px; left: 4px; font-size: 9px; opacity: 0.5;
+}
+.vocab-word {
+    word-break: break-all; text-align: center; line-height: 1.2; padding: 2px; max-height: 80%; overflow: hidden;
+}
+
+/* --- VECTOR HEATMAP --- */
+.vector-heatmap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10px, 1fr));
+    gap: 1px;
+    background: #000;
+    padding: 4px;
+    border-radius: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--border-base);
+}
+
+.vec-cell {
+    aspect-ratio: 1/1;
+    border-radius: 1px;
+}
+.vec-cell:hover {
+    transform: scale(1.5); z-index: 10; border: 1px solid white; box-shadow: 0 0 5px white;
+}

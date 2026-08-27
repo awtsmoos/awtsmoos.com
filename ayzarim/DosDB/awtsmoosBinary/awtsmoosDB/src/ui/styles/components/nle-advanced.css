@@ -1,0 +1,66 @@
+
+/* B”H */
+/* 
+ * THE MISSING RECTIFICATION. 
+ * Re-creating the lost NLE Advanced Styles to prevent the 404 void.
+ */
+.nle-advanced-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #050507;
+  position: relative;
+}
+
+.nle-toolbar {
+  height: 44px;
+  background: #0a0a0f;
+  border-bottom: var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 1.5rem;
+}
+
+.nle-tracks-viewport {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background: #020204;
+}
+
+.nle-playhead {
+  position: absolute;
+  top: 0; bottom: 0; width: 2px;
+  background: var(--accent-alt);
+  box-shadow: 0 0 15px var(--accent-alt-glow);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.nle-track {
+  display: flex;
+  height: 50px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.nle-track-header {
+  width: 180px;
+  flex-shrink: 0;
+  background: #08080c;
+  border-right: var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: #555;
+  position: sticky;
+  left: 0;
+  z-index: 10;
+}
+
+.nle-track-lane {
+  flex: 1;
+  position: relative;
+}

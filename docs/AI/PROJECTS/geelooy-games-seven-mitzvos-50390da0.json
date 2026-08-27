@@ -1,0 +1,81 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-seven-mitzvos-50390da0",
+	"path": "geelooy/games/seven-mitzvos",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Seven Mitzvos · Living Material Worlds",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/seven-mitzvos/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-seven-mitzvos-50390da0.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 530,
+		"tests": 66,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 597,
+	"symbolSummary": {
+		"files": 454,
+		"classes": 281,
+		"functions": 597,
+		"exports": 659,
+		"samples": [
+			"AccessibilityProfileService",
+			"AccessibleStateProjector",
+			"population",
+			"describeAlert",
+			"InputBindingService",
+			"setPersonAction",
+			"updatePersonAction",
+			"personActionName",
+			"createState",
+			"applyPose",
+			"required",
+			"appTemplate"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/games/scripts",
+			"count": 16,
+			"examples": "geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js"
+		},
+		{
+			"project": "geelooy/libs",
+			"count": 12,
+			"examples": "geelooy/games/seven-mitzvos/js/materials/firebase-material-manifest.js; geelooy/games/seven-mitzvos/js/materials/seven-material-runtime.js; geelooy/games/seven-mitzvos/js/materials/stage-material-runtime.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/seven-mitzvos",
+			"file": "geelooy/games/seven-mitzvos/index.html",
+			"title": "Seven Mitzvos · Living Material Worlds",
+			"scripts": 1,
+			"styles": 8
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

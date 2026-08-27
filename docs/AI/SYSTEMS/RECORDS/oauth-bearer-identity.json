@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "oauth-bearer-identity",
+	"district": "security",
+	"title": "OAuth Bearer Identity",
+	"summary": "OAuth route/token surface and server-side use of verified bearer records as authoritative identity.",
+	"manuals": [
+		"docs/SECURITY/TRUST_BOUNDARIES.md",
+		"docs/TUTORIALS/API/OAUTH.md"
+	],
+	"projects": [
+		{
+			"projectId": "geelooy-api-oauth-98ffda8e",
+			"path": "geelooy/api/oauth",
+			"type": "api",
+			"title": "geelooy/api/oauth",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-oauth-98ffda8e.md"
+		},
+		{
+			"projectId": "geelooy-api-tunnel-df787c17",
+			"path": "geelooy/api/tunnel",
+			"type": "api",
+			"title": "geelooy/api/tunnel",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+		}
+	],
+	"sources": [
+		"geelooy/api/oauth/_awtsmoos.derech.js",
+		"geelooy/api/tunnel/control/core/auth.js"
+	],
+	"generatedEvidence": [
+		"docs/GENERATED/API_TUTORIAL_INDEX.md"
+	],
+	"tags": [
+		"identity",
+		"oauth",
+		"bearer",
+		"security"
+	],
+	"claimsBoundary": "A bearer token becomes identity only after server-side verification; request fields are not trusted substitutes.",
+	"changeRisk": "Token validation, expiry, issuer/subject, scope, or CORS behavior is security-sensitive.",
+	"environmentEvidence": [
+		{
+			"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+		},
+		{
+			"name": "AWTSMOOS_BINDING_RETENTION_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+		},
+		{
+			"name": "AWTSMOOS_DIR",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/oauth/core/serverSecret.js"
+		}
+	],
+	"realtimeApplications": [],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/oauth-bearer-identity.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/oauth-bearer-identity.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

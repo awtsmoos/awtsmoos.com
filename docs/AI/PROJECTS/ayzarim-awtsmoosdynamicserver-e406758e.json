@@ -1,0 +1,129 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+	"path": "ayzarim/awtsmoosDynamicServer",
+	"type": "runtime",
+	"family": {
+		"id": "runtime",
+		"title": "Runtime and Infrastructure"
+	},
+	"title": "ayzarim/awtsmoosDynamicServer",
+	"entries": [
+		"index.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"ayzarim/awtsmoosDynamicServer/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"docs/ARCHITECTURE.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 826,
+		"tests": 207,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 1035,
+	"symbolSummary": {
+		"files": 826,
+		"classes": 227,
+		"functions": 2248,
+		"exports": 2002,
+		"samples": [
+			"DependencyInjector",
+			"greet",
+			"TemplateObjectGenerator",
+			"fetchAwtsmoos",
+			"_getTemplateObject",
+			"fetchIt",
+			"checkRateLimit",
+			"recordUsage",
+			"estimateTokens",
+			"callGemini",
+			"result",
+			"data"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 11,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channel.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/channelSnapshot.js; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgradeFakes.cjs"
+		},
+		{
+			"project": "geelooy/api/social",
+			"count": 6,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js; ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js; ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/activityAdapter.js"
+		},
+		{
+			"project": "ayzarim/tools",
+			"count": 3,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+		},
+		{
+			"project": "ayzarim/email",
+			"count": 2,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+		},
+		{
+			"project": "geelooy/api/ohr-hagnuz",
+			"count": 2,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/AuthenticatedWorldTestHarness.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/ohrHagnuz/auth/GameTicketConsumer.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel",
+			"count": 2,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js"
+		},
+		{
+			"project": "ayzarim/awtsmoos.config.json",
+			"count": 1,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+		},
+		{
+			"project": "ayzarim/DosDB",
+			"count": 1,
+			"examples": "ayzarim/awtsmoosDynamicServer/server/deps.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/social",
+			"count": 5,
+			"examples": "geelooy/api/social/helper/drive/projectDatabaseService.js; geelooy/api/social/helper/drive/projectRuntimeMaterializer.js; geelooy/api/social/helper/drive/routes/projectHostingRoutes.js"
+		},
+		{
+			"project": "geelooy/api/projectHosting",
+			"count": 2,
+			"examples": "geelooy/api/projectHosting/planRoute.js; geelooy/api/projectHosting/runtimeRoutes.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 1,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/tunnelClient.js"
+		},
+		{
+			"project": "geelooy/sites",
+			"count": 1,
+			"examples": "geelooy/sites/hostedProjectProxy.js"
+		}
+	],
+	"externalDependencies": [
+		{
+			"dependency": "ws",
+			"count": 3,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/realtimeTestClient.js; ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/socketIntegrationFixture.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/realtimeTestClient.js"
+		}
+	],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

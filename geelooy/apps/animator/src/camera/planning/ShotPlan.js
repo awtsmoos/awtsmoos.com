@@ -1,0 +1,2 @@
+// B"H
+export class ShotPlan{static make(p={}){return{shotType:p.shotType||'mediumShot',x:p.x??0,y:p.y??128,zoom:p.zoom??1,rotation:p.rotation??0,angle:p.angle||{},movement:p.movement||{type:'static'},targets:p.targets||[],targetActors:p.targetActors||[],targetProps:p.targetProps||[],renderDetailMode:p.renderDetailMode||'normal',stagingMode:p.stagingMode||'balanced',reason:p.reason||'automatic',debug:p.debug||null};}}

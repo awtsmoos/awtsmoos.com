@@ -1,0 +1,25 @@
+
+/* B"H */
+
+.vos-task-manager-app {
+    background: #050b16;
+    overflow: auto;
+}
+
+.vos-task-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.vos-task-table th,
+.vos-task-table td {
+    border-bottom: 1px solid rgba(0,246,255,0.16);
+    padding: 8px;
+    text-align: left;
+}
+
+.vos-task-table th {
+    color: var(--vos-cyan);
+    background: rgba(0,246,255,0.08);
+}

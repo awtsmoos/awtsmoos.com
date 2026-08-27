@@ -1,0 +1,37 @@
+
+/* B"H - THE RADIANCE OF VARIABLES */
+:root {
+    --font-ui: 'Inter', sans-serif;
+    --font-code: 'Fira Code', monospace;
+    --timing-fast: 0.1s;
+    --timing-med: 0.25s;
+    --radius-sm: 4px;
+    --radius-md: 10px;
+    --shadow-color: rgba(0, 0, 0, 0.8);
+
+    /* --- EXTREME NEON RECTIFICATION --- */
+    --neon-cyan: #00f6ff;
+    --neon-magenta: #ff00ff;
+    --neon-lime: #a8ff00;
+    --neon-orange: #ffae57;
+    
+    --glow-cyan: 0 0 15px rgba(0, 246, 255, 0.6);
+    --glow-magenta: 0 0 15px rgba(255, 0, 255, 0.5);
+    --glow-lime: 0 0 15px rgba(168, 255, 0, 0.7);
+
+    --color-bg-deep: #05070a;      
+    --color-bg-primary: #0d0f14;   
+    --color-bg-secondary: #1a1d2b; 
+    --color-bg-tertiary: #2a2f45;  
+    --color-border: #383e5e;       
+    --color-border-accent: var(--neon-cyan);
+    
+    --color-bg-accent-translucent: rgba(0, 246, 255, 0.1); 
+    
+    --color-text-primary: #ffffff; 
+    --color-text-secondary: #c5d1ff; 
+    --color-text-tertiary: #8a96c3;   
+    
+    --color-accent-danger: #f75d65;
+    --color-backdrop: rgba(5, 7, 10, 0.8); 
+}

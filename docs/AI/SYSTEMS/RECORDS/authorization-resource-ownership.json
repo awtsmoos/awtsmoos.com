@@ -1,0 +1,61 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "authorization-resource-ownership",
+	"district": "security",
+	"title": "Authorization and Resource Ownership",
+	"summary": "Account-scoped ownership, explicit grants, permissions, and anti-enumeration behavior above authentication.",
+	"manuals": [
+		"docs/SECURITY/README.md",
+		"docs/SECURITY/TRUST_BOUNDARIES.md"
+	],
+	"projects": [
+		{
+			"projectId": "geelooy-api-tunnel-df787c17",
+			"path": "geelooy/api/tunnel",
+			"type": "api",
+			"title": "geelooy/api/tunnel",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+		},
+		{
+			"projectId": "geelooy-api-social-0cd2dc86",
+			"path": "geelooy/api/social",
+			"type": "api",
+			"title": "geelooy/api/social",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-social-0cd2dc86.md"
+		}
+	],
+	"sources": [
+		"geelooy/api/tunnel/control/core/tunnelSecurity/authorization.js"
+	],
+	"generatedEvidence": [],
+	"tags": [
+		"authorization",
+		"ownership",
+		"grants",
+		"permissions",
+		"security"
+	],
+	"claimsBoundary": "This packet demonstrates one inspected authorization boundary; it is not a repository-wide security audit.",
+	"changeRisk": "Ownership/grant resolution and information-disclosure behavior are high-impact security contracts.",
+	"environmentEvidence": [
+		{
+			"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+		},
+		{
+			"name": "AWTSMOOS_BINDING_RETENTION_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+		}
+	],
+	"realtimeApplications": [],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/authorization-resource-ownership.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/authorization-resource-ownership.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

@@ -1,0 +1,23 @@
+
+/* B"H */
+
+.virtual-window-resize-handle {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    right: 1px;
+    bottom: 1px;
+    cursor: nwse-resize;
+    touch-action: none;
+}
+
+.virtual-window-resize-handle::after {
+    content: "";
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid rgba(0,246,255,0.7);
+    border-bottom: 2px solid rgba(0,246,255,0.7);
+}

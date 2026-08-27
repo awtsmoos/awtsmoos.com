@@ -1,0 +1,43 @@
+/*B"H*/
+/*
+  Chapter 5: The Stream Kept Its Bones While Opening Its Scrolls.
+  Details, thoughts, commands, raw JSON, and code all breathe inside bounded
+  windows, so one expanded command cannot freeze the inner world in place.
+*/
+@media (max-width: 520px) {
+  .chat-box {
+    padding: 8px 8px 6px;
+  }
+
+  .message {
+    padding: 12px 13px;
+    border-radius: 17px;
+  }
+
+  .transport-details,
+  .thought-envelope-card,
+  .event-lane,
+  .event-summary-card,
+  .md-code-block {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .transport-details[open],
+  .thought-envelope-card[open],
+  .event-lane[open] {
+    max-height: min(58dvh, 520px);
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .event-lanes,
+  .thought-inner-window,
+  .event-text pre,
+  .event-raw pre,
+  .md-code {
+    max-height: min(46dvh, 420px);
+    overflow: auto;
+  }
+}

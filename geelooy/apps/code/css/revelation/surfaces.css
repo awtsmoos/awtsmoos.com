@@ -1,0 +1,108 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates explorer, editor, browser, terminal, and every tab anew.
+Awtsmoos.com gives all Apps Code surfaces coherent glass depth and focus.
+*/
+html, body {
+	background:
+		radial-gradient(circle at 12% 18%, rgba(77, 233, 220, 0.12), transparent 31%),
+		radial-gradient(circle at 84% 20%, rgba(183, 125, 255, 0.15), transparent 34%),
+		linear-gradient(145deg, #050713, #09122d 60%, #0c1534);
+}
+.app-container {
+	background: transparent;
+}
+.top-panel {
+	border-bottom: 1px solid var(--code-reveal-border);
+	background: linear-gradient(180deg, rgba(8, 14, 34, 0.95), rgba(8, 14, 34, 0.78));
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+	backdrop-filter: blur(22px) saturate(155%);
+}
+.menu-bar {
+	min-height: 46px;
+	padding-inline: 8px;
+}
+.sidebar {
+	border-right: 1px solid var(--code-reveal-border);
+	background: linear-gradient(180deg, rgba(9, 16, 39, 0.96), rgba(6, 11, 28, 0.92));
+	box-shadow: 12px 0 36px rgba(0, 0, 0, 0.18);
+	backdrop-filter: blur(20px);
+}
+.sidebar-header, .sidebar-sub-header {
+	color: var(--code-reveal-text);
+	background: rgba(255, 255, 255, 0.035);
+	border-color: var(--code-reveal-border) !important;
+}
+.main-content, .editor-area {
+	background: transparent;
+}
+.editor-area::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image:
+		linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+	background-size: 38px 38px;
+	mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+#editor-wrapper, #previewer, #terminal-wrapper, #browser-wrapper, #virtual-os-wrapper, #devtools-wrapper, #hex-editor-wrapper, #zip-editor-wrapper, #file-commander-wrapper, #vibe-editor-wrapper, #vibe-manager-wrapper {
+	border: 1px solid var(--code-reveal-border);
+	border-radius: var(--code-reveal-radius-md);
+	background: var(--code-reveal-panel);
+	box-shadow: var(--code-reveal-shadow);
+	overflow: hidden;
+	backdrop-filter: blur(18px) saturate(145%);
+}
+#editor {
+	color: var(--code-reveal-text);
+	background: rgba(4, 8, 22, 0.82);
+	caret-color: var(--code-reveal-cyan);
+}
+#line-numbers {
+	color: #7185ad;
+	background: rgba(4, 8, 22, 0.94);
+	border-right: 1px solid var(--code-reveal-border);
+}
+.tab-bar-wrapper {
+	border-top: 1px solid rgba(255, 255, 255, 0.035);
+	background: rgba(255, 255, 255, 0.025);
+}
+.tab, .tab-item {
+	border-color: transparent;
+	border-radius: 10px 10px 0 0;
+	color: var(--code-reveal-muted);
+	transition: color var(--code-reveal-fast), background var(--code-reveal-fast), border-color var(--code-reveal-fast);
+}
+.tab.active, .tab-item.active {
+	color: var(--code-reveal-text);
+	border-color: var(--code-reveal-border-active);
+	background: linear-gradient(180deg, rgba(77, 233, 220, 0.12), rgba(91, 140, 255, 0.08));
+}
+.icon-button {
+	border: 1px solid transparent;
+	border-radius: 10px;
+	color: var(--code-reveal-muted);
+	transition: transform var(--code-reveal-fast), color var(--code-reveal-fast), background var(--code-reveal-fast), border-color var(--code-reveal-fast);
+}
+.icon-button:hover {
+	transform: translateY(-1px);
+	color: var(--code-reveal-text);
+	border-color: var(--code-reveal-border-active);
+	background: rgba(77, 233, 220, 0.11);
+}
+.status-bar {
+	border-top: 1px solid var(--code-reveal-border);
+	color: var(--code-reveal-muted);
+	background: rgba(7, 12, 30, 0.94);
+	backdrop-filter: blur(18px);
+}
+.empty-editor-message {
+	color: var(--code-reveal-muted);
+}
+.empty-editor-message h2 {
+	color: var(--code-reveal-text);
+	text-shadow: 0 0 32px rgba(77, 233, 220, 0.32);
+}

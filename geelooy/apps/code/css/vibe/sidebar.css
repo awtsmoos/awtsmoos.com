@@ -1,0 +1,150 @@
+
+/* B"H - VIBE SIDEBAR (The Assets) */
+
+/* Header */
+.vibe-panel-header {
+    padding: 0 12px;
+    border-bottom: 1px solid var(--color-border);
+    font-weight: bold;
+    color: var(--neon-cyan);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.2);
+    flex-shrink: 0;
+    height: 42px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Tabs */
+.vibe-sidebar-tabs {
+    display: flex;
+    background: var(--color-bg-deep);
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.vibe-sb-tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.85em;
+    cursor: pointer;
+    color: var(--color-text-tertiary);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+    background: rgba(0,0,0,0.2);
+}
+.vibe-sb-tab.active {
+    color: var(--neon-cyan);
+    border-bottom-color: var(--neon-cyan);
+    font-weight: bold;
+    background: transparent;
+    text-shadow: 0 0 10px var(--glow-cyan);
+}
+.vibe-sb-tab.pulse { animation: text-pulse 1s infinite alternate; }
+
+/* Containers */
+.vibe-context-list, .vibe-stream-view, .vibe-manifest-view, .vibe-timeline-view {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px 0;
+    background: var(--color-bg-deep);
+    display: none;
+    position: relative;
+    min-height: 0; /* Flex fix */
+}
+
+/* Let JS dictate if they are flex or block when visible */
+.vibe-context-list.visible, .vibe-stream-view.visible { display: block; }
+
+/* Fix Tree Cutoff: Ensure container allows inner scroll */
+.vibe-context-list .workspace-tree {
+    min-width: 100%; 
+    width: fit-content; 
+    padding: 10px;
+    padding-right: 20px; 
+}
+
+/* Stream View Styling */
+.vibe-stream-view {
+    padding: 15px;
+    font-family: var(--font-code);
+    font-size: 0.85em;
+    color: var(--neon-lime);
+    white-space: pre-wrap; 
+    word-break: break-word; 
+    line-height: 1.5;
+    overflow-x: auto; 
+}
+
+/* Manifestation Cards */
+.vibe-manifest-card {
+    background: rgba(13, 17, 23, 0.95);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--neon-cyan);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    /* B"H - PREVENT FLEX BLOWOUT */
+    width: 100%;
+    min-width: 0;
+}
+
+.vibe-manifest-card:hover {
+    background: var(--color-bg-tertiary);
+    border-color: var(--neon-cyan);
+    transform: translateX(4px);
+}
+
+.vibe-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden; 
+}
+
+.vibe-card-path {
+    font-family: var(--font-code);
+    font-weight: 700;
+    color: var(--neon-cyan);
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.vibe-card-status {
+    font-size: 0.75em;
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+}
+
+.vibe-card-desc {
+    font-size: 0.8em;
+    color: var(--color-text-tertiary);
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vibe-settings-area {
+    padding: 10px;
+    border-top: 1px solid var(--color-border);
+    background-color: rgba(0,0,0,0.2);
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

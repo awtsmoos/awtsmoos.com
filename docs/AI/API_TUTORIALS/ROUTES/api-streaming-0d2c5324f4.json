@@ -1,0 +1,45 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-streaming-0d2c5324f4",
+	"route": "/api/streaming",
+	"source": "geelooy/api/streaming/routes/table.js",
+	"discoveryKind": "route-table",
+	"family": {
+		"mount": "/api/streaming",
+		"title": "Streaming",
+		"manual": "docs/TUTORIALS/API/STREAMING.md"
+	},
+	"derech": {
+		"source": "geelooy/api/streaming/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/streaming"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-streaming-0d2c5324f4.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-streaming-connector-a95136bcd4",
+			"route": "/api/streaming/:connector"
+		},
+		{
+			"id": "api-streaming-connector-action-d87f3b29ce",
+			"route": "/api/streaming/:connector/:action"
+		},
+		{
+			"id": "api-streaming-connector-6a59d84a9f",
+			"route": "/api/streaming/connector"
+		}
+	]
+}

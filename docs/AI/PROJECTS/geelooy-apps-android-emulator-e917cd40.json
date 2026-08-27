@@ -1,0 +1,86 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-android-emulator-e917cd40",
+	"path": "geelooy/apps/android-emulator",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "geelooy/apps/android-emulator",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/android-emulator/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-android-emulator-e917cd40.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 926,
+		"tests": 566,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 2
+	},
+	"totalFiles": 1495,
+	"symbolSummary": {
+		"files": 922,
+		"classes": 64,
+		"functions": 3825,
+		"exports": 2047,
+		"samples": [
+			"async",
+			"launchInitialActivity",
+			"dispatchActivityLifecycleCallbacks",
+			"callbackError",
+			"resolveLauncherMethods",
+			"lifecycleArguments",
+			"findInheritedMethod",
+			"findDirectMethod",
+			"activityError",
+			"registerActivityLifecycleCallback",
+			"unregisterActivityLifecycleCallback",
+			"snapshotActivityLifecycleCallbacks"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/apps/code",
+			"count": 4,
+			"examples": "geelooy/apps/code/js/actions/commands/build-android-apk.js; geelooy/apps/code/js/actions/commands/build-rebbe-apk.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 3,
+			"examples": "geelooy/scripts/awtsmoos/compiling/android/apk/zipWriter.js; geelooy/scripts/awtsmoos/extracting/webview-apk/extract.js"
+		},
+		{
+			"project": "geelooy/os",
+			"count": 2,
+			"examples": "geelooy/os/programs/awtsmoos-executable/android-web/apkWebDocument.js; geelooy/os/programs/awtsmoos-executable/browserRuntime.js"
+		},
+		{
+			"project": "geelooy/apps/exe-emulator",
+			"count": 1,
+			"examples": "geelooy/apps/exe-emulator/source/runSourceArtifact.js"
+		},
+		{
+			"project": "geelooy/shared",
+			"count": 1,
+			"examples": "geelooy/shared/compiling/native/apkIdentity.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

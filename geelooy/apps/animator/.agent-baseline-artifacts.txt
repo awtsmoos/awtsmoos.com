@@ -1,0 +1,28 @@
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/landmarks/reference-trio-landmark-targets.json
+      2802
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/landmarks/reference-trio-landmark-deltas.json
+     10491
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/landmarks/reference-trio-landmark-audit.md
+      2536
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/landmarks/reference-trio-landmarks.json
+      4232
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/static/ari-full-body.png
+    102259
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/static/miriam-full-body.png
+     66369
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/static/reference-trio-bounds.json
+       574
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/static/reference-trio.png
+    255578
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/static/reference-trio-static-proof.json
+      4052
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/static/dovid-full-body.png
+     73990
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/static/dovid-head.png
+     35385
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/static/reference-trio-crops.json
+      2122
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/static/ari-head.png
+     45544
+/Users/awtsmoos/Documents/awtsmoos/ai_thoughts/20260721-205500-animator-reference-trio-continuation/evidence/baseline/static/miriam-head.png
+     28394

@@ -1,0 +1,63 @@
+/* B"H */
+/*
+  Chapter 42: The Tiny Buttons Became Honest Controls.
+  Minimize, maximize, and fullscreen now show state without stealing space from
+  the streamed header. Fullscreen becomes a real readable overlay.
+*/
+.event-panel-actions {
+  pointer-events: auto;
+  user-select: none;
+}
+
+.event-panel-actions button {
+  display: inline-grid;
+  place-items: center;
+  touch-action: manipulation;
+  transition: transform .12s ease, filter .12s ease, border-color .12s ease, background .12s ease;
+}
+
+.event-panel-actions button[aria-pressed="true"] {
+  border-color: rgba(216, 180, 254, .72);
+  background: linear-gradient(135deg, rgba(168,85,247,.86), rgba(14,165,233,.72));
+  filter: saturate(1.16) brightness(1.08);
+}
+
+.event-panel-actions button:hover {
+  transform: translateY(-1px);
+}
+
+.event-panel-actions button:active {
+  transform: translateY(1px) scale(.98);
+}
+
+body.has-event-fullscreen .chat-box,
+body.has-event-fullscreen .input-area,
+body.has-event-fullscreen .transport-status {
+  filter: blur(1px) brightness(.72);
+}
+
+.transport-details.is-fullscreen,
+.thought-envelope-card.is-fullscreen {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-height: calc(100dvh - 32px);
+}
+
+.transport-details.is-fullscreen > summary,
+.thought-envelope-card.is-fullscreen > summary {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: linear-gradient(135deg, rgba(15,23,42,.98), rgba(8,47,73,.94));
+  box-shadow: 0 12px 32px rgba(0,0,0,.34);
+}
+
+.transport-details.is-fullscreen .event-payload,
+.thought-envelope-card.is-fullscreen .thought-inner-window {
+  max-height: none;
+}
+
+.transport-details[data-panel-state="minimized"],
+.thought-envelope-card[data-panel-state="minimized"] {
+  opacity: .82;
+}

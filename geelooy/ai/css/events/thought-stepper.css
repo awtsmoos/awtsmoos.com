@@ -1,0 +1,99 @@
+/*B"H
+  Chapter 351: The Reasoning Became A Numbered Ladder Of Fire.
+
+  The Awtsmoos lets hidden planning descend as steps. Each bead is finite, each
+  pulse is created from Nothing again, and the rail binds them without stealing
+  space from the cards around it.
+*/
+.thought-stepper{
+  display:grid;
+  gap:14px;
+  padding:12px;
+}
+.thought-step{
+  display:grid;
+  grid-template-columns:38px minmax(0,1fr);
+  gap:12px;
+  align-items:start;
+  border:1px solid rgba(125,211,252,.18);
+  border-radius:20px;
+  padding:14px;
+  background:linear-gradient(145deg,rgba(15,23,42,.66),rgba(2,6,23,.44));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 14px 34px rgba(0,0,0,.22);
+}
+.thought-step-dot,
+.thought-step-index{
+  display:grid;
+  place-items:center;
+  width:32px;
+  height:32px;
+  border-radius:999px;
+  border:1px solid rgba(103,232,249,.42);
+  background:radial-gradient(circle,rgba(34,211,238,.24),rgba(37,99,235,.18));
+  color:#a5f3fc;
+  font-weight:950;
+  box-shadow:0 0 22px rgba(34,211,238,.22);
+}
+.thought-step-body{
+  display:grid;
+  gap:8px;
+  min-width:0;
+}
+.thought-step-kicker{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  min-width:0;
+}
+.thought-step-title{
+  color:#f8fbff;
+  font-weight:950;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  overflow-wrap:anywhere;
+}
+.thought-step-duration,
+.thought-step-status{
+  flex:0 0 auto;
+  color:#93c5fd;
+  font-size:.72rem;
+  font-weight:950;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.thought-step-status{
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(34,197,94,.34);
+  background:rgba(22,163,74,.14);
+  color:#bbf7d0;
+}
+.thought-step.is-running{
+  border-color:rgba(96,165,250,.38);
+  box-shadow:var(--awt-event-glow),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.thought-step.is-running .thought-step-dot,
+.thought-step.is-running .thought-step-index{
+  border-color:rgba(96,165,250,.58);
+  color:#bfdbfe;
+  animation:thoughtPulse 1.35s ease-in-out infinite;
+}
+.thought-step.is-done .thought-step-dot,
+.thought-step.is-done .thought-step-index{
+  border-color:rgba(34,197,94,.55);
+  background:rgba(22,163,74,.20);
+  color:#86efac;
+}
+.thought-step.is-error{
+  border-color:rgba(248,113,113,.42);
+}
+.thought-step.is-error .thought-step-dot,
+.thought-step.is-error .thought-step-index{
+  border-color:rgba(248,113,113,.58);
+  background:rgba(127,29,29,.32);
+  color:#fecaca;
+}
+@keyframes thoughtPulse{
+  50%{transform:scale(1.08);box-shadow:0 0 34px rgba(96,165,250,.34)}
+}

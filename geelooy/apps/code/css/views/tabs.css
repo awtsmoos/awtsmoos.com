@@ -1,0 +1,83 @@
+
+/* B"H - TAB BAR */
+.tab-bar-wrapper {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    overflow: hidden;
+    background-color: var(--color-bg-primary);
+}
+.tab-bar { 
+    display: flex; 
+    overflow-x: auto; 
+    align-items: flex-end; 
+    flex-grow: 1;
+    scrollbar-width: none; /* Firefox */
+}
+.tab-bar::-webkit-scrollbar { display: none; } 
+
+.tab { 
+    display: inline-flex; align-items: center; padding: 0 12px;
+    height: 40px; max-width: 200px; 
+    border-right: 1px solid var(--color-border); 
+    cursor: pointer; position: relative;
+    color: var(--color-text-secondary); 
+    background:  var(--color-bg-primary);
+    transition: all var(--timing-fast) ease; 
+    user-select: none;
+    font-size: 0.9em;
+}
+.tab:hover { background-color: var(--color-bg-tertiary); color: var(--color-text-primary); }
+.tab.active { 
+    background-color: var(--color-bg-secondary); 
+    color: var(--color-text-primary); 
+    font-weight: 600;
+    border-bottom: 2px solid var(--neon-cyan);
+}
+.tab.pinned {
+    border-bottom: 2px solid var(--neon-lime);
+    background: rgba(168, 255, 0, 0.05);
+    min-width: 100px;
+}
+.tab.pinned .tab-pin-icon {
+    font-size: 0.8em;
+    margin-right: 6px;
+    filter: grayscale(0.5);
+}
+.tab.pinned.active .tab-pin-icon {
+    filter: grayscale(0);
+}
+
+.tab.dirty .tab-name::before { content: '● '; color: var(--neon-magenta); font-size: 0.8em; margin-right: 4px; }
+.tab.uncommitted .tab-name::before { content: '● '; color: var(--neon-lime); font-size: 0.8em; margin-right: 4px; }
+
+.tab-name { 
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+    padding-right: 24px; /* Space for close button */
+    pointer-events: none; 
+}
+
+.close-tab-btn { 
+    position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+    border-radius: 50%; width: 20px; height: 20px; 
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; color: var(--color-text-tertiary);
+    z-index: 10;
+    padding: 0 !important; /* Override button padding */
+}
+.close-tab-btn:hover { background-color: rgba(255,255,255,0.1); color: var(--color-accent-danger); }
+.close-tab-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+.tab.dragging { opacity: 0.4; background: var(--color-bg-tertiary); }
+.tab.drop-indicator::before {
+    content: ''; position: absolute; top: 0; left: -2px; 
+    width: 2px; height: 100%; background-color: var(--neon-cyan); 
+    z-index: 100;
+}
+
+#tab-manager-btn {
+    width: 40px; height: 40px; border-radius: 0; 
+    background: var(--color-bg-secondary);
+    border-left: 1px solid var(--color-border);
+}
+#tab-manager-btn:hover { background-color: var(--color-bg-tertiary); color: var(--neon-cyan); }

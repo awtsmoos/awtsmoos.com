@@ -1,0 +1,56 @@
+//B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @module HostedSitePublicationActions
+ * @description
+ * The Awtsmoos gives each publication deed its own vessel and trusted scope;
+ * Awtsmoos.com lets simple website publishing shine without confusing it with
+ * Drive mapping, while every mutation still passes the same authority rope.
+ */
+
+const PUBLISH_WEBSITE_ACTION = 'publishWebsite';
+const PUBLIC_ROOT_PUBLISH_FOLDER_ACTION = 'publicRootPublishFolder';
+const SITE_PUBLISH_BOOTSTRAP_ACTION = 'sitePublishBootstrap';
+const SITE_PUBLISH_FOLDER_ACTION = 'sitePublishFolder';
+const SITE_PUBLICATION_STATUS_ACTION = 'sitePublicationStatus';
+const SITE_UNPUBLISH_ACTION = 'siteUnpublish';
+
+const SITE_PUBLICATION_ACTIONS = Object.freeze([
+	PUBLISH_WEBSITE_ACTION,
+	PUBLIC_ROOT_PUBLISH_FOLDER_ACTION,
+	SITE_PUBLISH_BOOTSTRAP_ACTION,
+	SITE_PUBLISH_FOLDER_ACTION,
+	SITE_PUBLICATION_STATUS_ACTION,
+	SITE_UNPUBLISH_ACTION
+]);
+
+const SITE_PUBLICATION_WRITE_ACTIONS = Object.freeze([
+	PUBLISH_WEBSITE_ACTION,
+	PUBLIC_ROOT_PUBLISH_FOLDER_ACTION,
+	SITE_PUBLISH_BOOTSTRAP_ACTION,
+	SITE_PUBLISH_FOLDER_ACTION,
+	SITE_UNPUBLISH_ACTION
+]);
+
+function isSitePublicationAction(action) {
+	return SITE_PUBLICATION_ACTIONS.includes(String(action || ''));
+}
+
+function isSitePublicationWriteAction(action) {
+	return SITE_PUBLICATION_WRITE_ACTIONS.includes(String(action || ''));
+}
+
+module.exports = {
+	PUBLISH_WEBSITE_ACTION,
+	PUBLIC_ROOT_PUBLISH_FOLDER_ACTION,
+	SITE_PUBLICATION_ACTIONS,
+	SITE_PUBLICATION_STATUS_ACTION,
+	SITE_PUBLICATION_WRITE_ACTIONS,
+	SITE_PUBLISH_BOOTSTRAP_ACTION,
+	SITE_PUBLISH_FOLDER_ACTION,
+	SITE_UNPUBLISH_ACTION,
+	isSitePublicationAction,
+	isSitePublicationWriteAction
+};

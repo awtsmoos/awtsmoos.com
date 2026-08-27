@@ -1,0 +1,81 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-profile-d6f75c23",
+	"path": "geelooy/profile",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Profile — Geelooy",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/profile/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-profile-d6f75c23.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 33,
+		"tests": 4,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 39,
+	"symbolSummary": {
+		"files": 22,
+		"classes": 1,
+		"functions": 99,
+		"exports": 44,
+		"samples": [
+			"async",
+			"readAliasValues",
+			"setAliasStudioStatus",
+			"setAliasStudioBusy",
+			"saveAlias",
+			"deleteAlias",
+			"createAliasBody",
+			"readApiResult",
+			"getAliasStudioConfig",
+			"getAliasStudioRefs",
+			"readBootstrap",
+			"bindAliasDeletion"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/profile/auth.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/profile",
+			"file": "geelooy/profile/index.html",
+			"title": "Profile — Geelooy",
+			"scripts": 2,
+			"styles": 6
+		},
+		{
+			"url": "/profile/alias-manage",
+			"file": "geelooy/profile/alias-manage/index.html",
+			"title": "",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

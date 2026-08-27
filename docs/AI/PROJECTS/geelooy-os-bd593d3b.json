@@ -1,0 +1,95 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-os-bd593d3b",
+	"path": "geelooy/os",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Geelooy OS — Files, AwtsmoosDB, Runtime & Control",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/os/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-os-bd593d3b.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 648,
+		"tests": 79,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 729,
+	"symbolSummary": {
+		"files": 595,
+		"classes": 60,
+		"functions": 1887,
+		"exports": 1112,
+		"samples": [
+			"for",
+			"AwtsmoosDB",
+			"AwtsmoosOS",
+			"programIcon",
+			"programsByExtension",
+			"initialDefaultPrograms",
+			"programs",
+			"program",
+			"defaultPrograms",
+			"getDefaultProgram",
+			"Object",
+			"CivilizationOSClient"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 54,
+			"examples": "geelooy/os/programs/advanced-code-editor/compilerBridge.js; geelooy/os/programs/advanced-code-editor/embedConfiguration.js; geelooy/os/programs/advanced-code-editor/vfsBridge.js"
+		},
+		{
+			"project": "geelooy/apps/exe-emulator",
+			"count": 9,
+			"examples": "geelooy/os/programs/awtsmoos-executable/browserRuntime.js; geelooy/os/programs/awtsmoos-executable/index.js; geelooy/os/programs/awtsmoos-executable/nativeLifecycle.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel-control",
+			"count": 3,
+			"examples": "geelooy/os/programs/connected-node-server/tunnelClient.js; geelooy/os/programs/peruta-usage/api.js"
+		},
+		{
+			"project": "geelooy/apps/android-emulator",
+			"count": 2,
+			"examples": "geelooy/os/programs/awtsmoos-executable/android-web/apkWebDocument.js; geelooy/os/programs/awtsmoos-executable/browserRuntime.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/drive",
+			"count": 4,
+			"examples": "geelooy/drive/transport/credentialedFs.js; geelooy/drive/transport/tunnelDiscovery.js; geelooy/drive/transport/tunnelPublishing.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/os",
+			"file": "geelooy/os/index.html",
+			"title": "Geelooy OS — Files, AwtsmoosDB, Runtime & Control",
+			"scripts": 1,
+			"styles": 19
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

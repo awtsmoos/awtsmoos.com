@@ -1,0 +1,154 @@
+
+/* B"H - VIBE CORE LAYOUT */
+
+#vibe-editor-wrapper {
+    container-type: inline-size;
+    container-name: vibe-wrapper;
+    width: 100%;
+    height: 100%;
+    /* B"H - Critical Fix: Removed 'display: flex !important' which overrode the .hidden class and broke the entire editor layout. */
+}
+
+.vibe-container {
+    display: flex !important;
+    flex-direction: row; /* Default to side-by-side */
+    height: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important; /* Absolute prevention of horizontal blowout */
+    overflow: hidden !important;
+    position: relative;
+    --side-panel-width: 400px;
+    --chat-panel-height: 60%;
+    background-color: var(--color-bg-primary); /* Prevents void transparency */
+}
+
+.vibe-chat-panel {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    min-width: 250px !important; /* Prevent it from being squished into oblivion */
+    min-height: 0 !important;
+    flex: 1 1 0; /* Grow to take all remaining horizontal space */
+}
+
+.vibe-side-panel {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+    border-left: 1px solid var(--color-border);
+    min-width: 0 !important;
+    min-height: 0 !important;
+    flex: 0 1 var(--side-panel-width); /* CAN SHRINK to prevent horizontal overflow */
+    max-width: 100% !important;
+}
+
+#vibe-resizer-horizontal { display: none; }
+#vibe-resizer-vertical { display: block; }
+
+.vibe-panel-restore-btn {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    color: var(--color-text-tertiary);
+    transition: all 0.2s ease;
+    background: rgba(0,0,0,0.2);
+}
+
+.vibe-panel-restore-btn:hover {
+    background-color: var(--color-bg-tertiary);
+    color: var(--neon-cyan);
+}
+
+/* --- NARROW / VERTICAL MODE (Triggered dynamically by container width) --- */
+@container vibe-wrapper (max-width: 750px) {
+    .vibe-container { flex-direction: column !important; }
+    
+    .vibe-chat-panel { 
+        flex: 0 1 var(--chat-panel-height) !important; /* Fixed basis, can shrink */
+        min-height: 150px !important;
+        width: 100% !important;
+        min-width: 0 !important; /* Reset horizontal constraint */
+    }
+    
+    .vibe-side-panel { 
+        flex: 1 1 0 !important; /* Grow to fill the entire remaining vertical space */
+        width: 100% !important;
+        height: auto !important;
+        max-width: none !important;
+        border-left: none !important;
+        border-top: 1px solid var(--color-border);
+    }
+    
+    #vibe-resizer-vertical { display: none !important; }
+    #vibe-resizer-horizontal { display: block !important; }
+}
+
+/* Fallback for older browsers without container query support */
+@media (max-width: 750px) {
+    .vibe-container { flex-direction: column !important; }
+    .vibe-chat-panel { flex: 0 1 var(--chat-panel-height) !important; min-height: 150px !important; width: 100% !important; min-width: 0 !important; }
+    .vibe-side-panel { flex: 1 1 0 !important; width: 100% !important; height: auto !important; max-width: none !important; border-left: none !important; border-top: 1px solid var(--color-border); }
+    #vibe-resizer-vertical { display: none !important; }
+    #vibe-resizer-horizontal { display: block !important; }
+}
+
+/* --- MINIMIZED STATE OVERRIDES --- */
+.panel-minimized .vibe-side-panel { 
+    flex: 0 0 44px !important; 
+    width: 44px !important; 
+    min-width: 44px !important;
+}
+
+.panel-minimized .vibe-chat-panel { 
+    flex: 1 1 0 !important; /* Must expand to fill void */
+    height: auto !important; 
+    width: auto !important; 
+    min-width: 0 !important;
+}
+
+@container vibe-wrapper (max-width: 750px) {
+    .panel-minimized .vibe-side-panel { 
+        flex: 0 0 44px !important; 
+        height: 44px !important; 
+        width: 100% !important; 
+        min-height: 44px !important;
+        min-width: 0 !important;
+        border-left: none !important;
+        border-top: 1px solid var(--color-border);
+    }
+    .panel-minimized .vibe-chat-panel {
+        flex: 1 1 0 !important; /* Fills void vertically */
+        min-height: 0 !important;
+    }
+}
+
+@media (max-width: 750px) {
+    .panel-minimized .vibe-side-panel { flex: 0 0 44px !important; height: 44px !important; width: 100% !important; min-height: 44px !important; min-width: 0 !important; border-left: none !important; border-top: 1px solid var(--color-border); }
+    .panel-minimized .vibe-chat-panel { flex: 1 1 0 !important; min-height: 0 !important; }
+}
+
+/* Hide innards and resizers when minimized */
+.panel-minimized .vibe-panel-inner { display: none !important; }
+.panel-minimized .vibe-panel-restore-btn { display: flex !important; }
+.panel-minimized .vibe-resizer,
+.panel-minimized #vibe-resizer-horizontal,
+.panel-minimized #vibe-resizer-vertical { display: none !important; }
+
+/* --- MAXIMIZED STATE OVERRIDES --- */
+.panel-maximized .vibe-chat-panel { display: none !important; }
+.panel-maximized .vibe-side-panel { 
+    flex: 1 1 auto !important; 
+    width: 100% !important; 
+    height: 100% !important; 
+    max-width: none !important;
+    border: none !important;
+}
+.panel-maximized .vibe-resizer,
+.panel-maximized #vibe-resizer-horizontal,
+.panel-maximized #vibe-resizer-vertical { display: none !important; }

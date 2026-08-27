@@ -1,0 +1,98 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-exe-emulator-d3f8122b",
+	"path": "geelooy/apps/exe-emulator",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos EXE Emulator",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/exe-emulator/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-exe-emulator-d3f8122b.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 271,
+		"tests": 133,
+		"assets": 0,
+		"generated": 9,
+		"docs": 2,
+		"other": 1
+	},
+	"totalFiles": 416,
+	"symbolSummary": {
+		"files": 258,
+		"classes": 9,
+		"functions": 895,
+		"exports": 409,
+		"samples": [
+			"async",
+			"runAwtexePackage",
+			"expectedPayloadFormat",
+			"inspectUnknownBinary",
+			"createBinaryScanWindows",
+			"decodeBinaryWindow",
+			"boundedPositive",
+			"makeByteVessel",
+			"readAscii",
+			"drawCanvas2d",
+			"clearCanvas",
+			"drawText"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 8,
+			"examples": "geelooy/apps/exe-emulator/examples/progressive/generatedArtifacts.mjs; geelooy/apps/exe-emulator/source/compileSourceArtifact.js; geelooy/apps/exe-emulator/source/nativeContainers.js"
+		},
+		{
+			"project": "geelooy/shared",
+			"count": 8,
+			"examples": "geelooy/apps/exe-emulator/core/awtexeRuntime.js; geelooy/apps/exe-emulator/core/executableHost.js; geelooy/apps/exe-emulator/core/wasmGuiImports.js"
+		},
+		{
+			"project": "geelooy/apps/android-emulator",
+			"count": 1,
+			"examples": "geelooy/apps/exe-emulator/source/runSourceArtifact.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/os",
+			"count": 9,
+			"examples": "geelooy/os/programs/awtsmoos-executable/browserRuntime.js; geelooy/os/programs/awtsmoos-executable/index.js; geelooy/os/programs/awtsmoos-executable/nativeLifecycle.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/exe-emulator",
+			"file": "geelooy/apps/exe-emulator/index.html",
+			"title": "Awtsmoos EXE Emulator",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/apps/exe-emulator/examples/blender-webgl-fixture",
+			"file": "geelooy/apps/exe-emulator/examples/blender-webgl-fixture/index.html",
+			"title": "Awtsmoos Blender Studio",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

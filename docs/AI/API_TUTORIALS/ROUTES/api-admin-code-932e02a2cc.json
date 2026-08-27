@@ -1,0 +1,41 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-admin-code-932e02a2cc",
+	"route": "/api/admin/code",
+	"source": "geelooy/api/admin/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/admin",
+		"title": "Admin",
+		"manual": "docs/TUTORIALS/API/ADMIN.md"
+	},
+	"derech": {
+		"source": "geelooy/api/admin/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/admin"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"$_POST",
+		"identity"
+	],
+	"statuses": [],
+	"headers": [],
+	"callers": [
+		{
+			"literal": "/api/admin/code",
+			"source": "geelooy/control/app.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 1,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-admin-code-932e02a2cc.md",
+	"confidence": "unknown-method",
+	"related": []
+}

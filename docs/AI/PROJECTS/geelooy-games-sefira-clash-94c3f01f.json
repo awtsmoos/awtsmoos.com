@@ -1,0 +1,70 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-sefira-clash-94c3f01f",
+	"path": "geelooy/games/sefira-clash",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/sefira-clash/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sefira-clash-94c3f01f.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1337,
+		"tests": 41,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 2
+	},
+	"totalFiles": 1381,
+	"symbolSummary": {
+		"files": 1289,
+		"classes": 59,
+		"functions": 2762,
+		"exports": 1932,
+		"samples": [
+			"neutralInput",
+			"botReport",
+			"finiteFighter",
+			"summarizeSpectacle",
+			"round",
+			"assert",
+			"snap",
+			"sumDamage",
+			"aliveCount",
+			"summarize",
+			"length",
+			"checkCase"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/sefira-clash",
+			"file": "geelooy/games/sefira-clash/index.html",
+			"title": "Sefira Clash · Open World, Expedition, Co-op, Adventure &amp; VS",
+			"scripts": 2,
+			"styles": 9
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

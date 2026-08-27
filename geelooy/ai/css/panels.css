@@ -1,0 +1,14 @@
+/*B"H — panel modules */
+@import url("./panels/base.css");
+@import url("./panels/collapsed.css");
+@import url("./panels/resizers.css");
+@import url("./panels/windowing.css");
+
+@media (max-width: 940px) {
+  .sidebar .panel-topbar { padding-left: 60px; }
+  .automation-panel .panel-topbar { padding-right: 8px; }
+}
+@media (max-width: 680px) {
+  .sidebar .panel-topbar { padding-left: 56px; }
+  .panel-topbar { min-height: 46px; }
+}

@@ -1,0 +1,82 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-editor-5d2e9913",
+	"path": "geelooy/apps/editor",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Mitzvah World Animator",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/editor/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-editor-5d2e9913.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 39,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 40,
+	"symbolSummary": {
+		"files": 35,
+		"classes": 39,
+		"functions": 31,
+		"exports": 33,
+		"samples": [
+			"HeightMapGenerator",
+			"ObjectTreeManager",
+			"when",
+			"for",
+			"switchToTranslationMode",
+			"switchToRotationMode",
+			"switchToScalingMode",
+			"makeGrid",
+			"handleSimulatedClick",
+			"createObject",
+			"updateObjectTree",
+			"selectObjectTree"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [
+		{
+			"dependency": "three",
+			"count": 19,
+			"examples": "geelooy/apps/editor/src/App.js; geelooy/apps/editor/src/Core/Utils.js; geelooy/apps/editor/src/History/Commands/SubdivideFacesCommand.js"
+		}
+	],
+	"publicEntries": [
+		{
+			"url": "/apps/editor",
+			"file": "geelooy/apps/editor/index.html",
+			"title": "Mitzvah World Animator",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/apps/editor/old",
+			"file": "geelooy/apps/editor/old/index.html",
+			"title": "Mitzvah World Editor",
+			"scripts": 1,
+			"styles": 0
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

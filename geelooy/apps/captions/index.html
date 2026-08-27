@@ -1,0 +1,115 @@
+<!-- B"H -->
+<!-- Boruch Hashem -->
+<!-- Blessed is He -->
+<!-- The Awtsmoos conceals infinite visual power behind a quiet vessel; Awtsmoos.com lets each advanced light unfold only when the artist calls. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1, viewport-fit=cover"
+	>
+	<meta name="theme-color" content="#07101d">
+	<title>Ein Sof Caption Engine</title>
+	<link rel="stylesheet" href="./css/tokens.css">
+	<link rel="stylesheet" href="./css/base.css">
+	<link rel="stylesheet" href="./css/shell.css">
+	<link rel="stylesheet" href="./css/panels.css">
+	<link rel="stylesheet" href="./css/controls.css">
+	<link rel="stylesheet" href="./css/actions.css">
+	<link rel="stylesheet" href="./css/preview.css">
+	<link rel="stylesheet" href="./css/responsive.css">
+	<link rel="stylesheet" href="./css/motion.css">
+</head>
+<body>
+	<div id="einSofShell" class="ein-sof-shell">
+		<header class="topbar">
+			<div class="brand-lockup">
+				<span class="brand-mark" aria-hidden="true">∞</span>
+				<div>
+					<strong>Ein Sof</strong>
+					<small>Caption Engine · Quantum Core 2.5</small>
+				</div>
+			</div>
+			<button
+				id="studioToggle"
+				class="ghost-button"
+				type="button"
+				aria-controls="studioPanel"
+				aria-expanded="true"
+			>
+				Controls
+			</button>
+		</header>
+
+		<main
+			id="previewStage"
+			class="preview-stage"
+			aria-label="Generated caption preview"
+		>
+			<div class="preview-frame">
+				<canvas
+					id="previewCanvas"
+					width="1080"
+					height="1920"
+					aria-label="Ein Sof generated visual"
+				></canvas>
+				<div
+					id="processingStatus"
+					class="status-chip"
+					role="status"
+					aria-live="polite"
+					hidden
+				>
+					Ready
+				</div>
+			</div>
+		</main>
+
+		<button
+			id="studioBackdrop"
+			class="studio-backdrop"
+			type="button"
+			aria-label="Close controls"
+			hidden
+		></button>
+
+		<aside
+			id="studioPanel"
+			class="studio-panel"
+			aria-label="Caption engine controls"
+		>
+			<div class="studio-heading">
+				<div>
+					<span class="eyebrow">Studio</span>
+					<h1>Shape the vision</h1>
+				</div>
+				<button
+					id="studioClose"
+					class="icon-button"
+					type="button"
+					aria-label="Close controls"
+				>
+					×
+				</button>
+			</div>
+
+			<form id="controls" class="controls-form">
+				<div id="controlPanels"></div>
+				<div class="action-shelf">
+					<button
+						id="generateBtn"
+						class="generate-button"
+						type="button"
+					>
+						<span>Generate</span>
+						<small>Render & download visions</small>
+					</button>
+				</div>
+			</form>
+		</aside>
+	</div>
+	<script type="module" src="./js/app.js"></script>
+</body>
+</html>

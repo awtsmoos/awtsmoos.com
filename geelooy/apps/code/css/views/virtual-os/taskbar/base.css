@@ -1,0 +1,41 @@
+
+/* B"H */
+
+.virtual-os-taskbar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--vos-taskbar-height);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 9px;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.26), transparent 42%),
+        linear-gradient(90deg, #00c8ff, #765cff 45%, #e000ff);
+    color: #05070c;
+    font-family: var(--font-code, monospace);
+    font-weight: 900;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.46);
+    z-index: 9000;
+}
+
+.virtual-os-start {
+    height: 30px;
+    padding: 0 15px;
+    border: 0;
+    border-radius: 7px;
+    background: #05070c;
+    color: var(--vos-cyan);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 18px rgba(0,0,0,0.28);
+    font-family: var(--font-code, monospace);
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.virtual-os-start:hover {
+    color: #ffffff;
+    box-shadow: 0 0 22px rgba(0,246,255,0.38);
+}

@@ -1,0 +1,75 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-comment-thread-6cb34586",
+	"path": "geelooy/comment-thread",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Comment Thread — Geelooy",
+	"entries": [
+		"index.html",
+		"app.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/comment-thread/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-comment-thread-6cb34586.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 20,
+		"tests": 2,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 23,
+	"symbolSummary": {
+		"files": 18,
+		"classes": 3,
+		"functions": 44,
+		"exports": 18,
+		"samples": [
+			"async",
+			"uploadMalchusCommentAsset",
+			"createCommentReactionRail",
+			"createYesodContextPanel",
+			"coordinateField",
+			"textAreaField",
+			"YesodManifestStore",
+			"ManifestStore",
+			"createChesedMediaPicker",
+			"createHodReferencePicker",
+			"referenceManifest",
+			"textField"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/social-actions",
+			"count": 1,
+			"examples": "geelooy/comment-thread/modules/CommentReaction.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/comment-thread",
+			"file": "geelooy/comment-thread/index.html",
+			"title": "Comment Thread — Geelooy",
+			"scripts": 2,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

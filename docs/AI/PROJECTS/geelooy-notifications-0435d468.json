@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-notifications-0435d468",
+	"path": "geelooy/notifications",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Signals — Geelooy",
+	"entries": [
+		"index.html",
+		"app.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/notifications/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-notifications-0435d468.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 31,
+		"tests": 2,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 34,
+	"symbolSummary": {
+		"files": 15,
+		"classes": 0,
+		"functions": 53,
+		"exports": 27,
+		"samples": [
+			"createNotificationActions",
+			"markButton",
+			"safeActionLink",
+			"actionLabel",
+			"revealBinahNotificationContext",
+			"humanize",
+			"groupLabel",
+			"contextChips",
+			"entityKey",
+			"shorten",
+			"clean",
+			"findOrCreateNotificationGroup"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/notifications",
+			"file": "geelooy/notifications/index.html",
+			"title": "Signals — Geelooy",
+			"scripts": 3,
+			"styles": 3
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

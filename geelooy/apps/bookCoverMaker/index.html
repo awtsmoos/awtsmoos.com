@@ -1,0 +1,216 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Cover Generator</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #444;
+            text-shadow: 1px 1px 2px #aaa;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="number"],
+        input[type="file"],
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background: #4b79a1;
+            background: linear-gradient(to right, #283e51, #4b79a1);
+            color: #fff;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #283e51;
+        }
+
+        #canvasContainer {
+            margin-top: 20px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50%; /* Ensure the canvas container doesn't exceed 50% width */
+            display: flex;
+            justify-content: center; /* Center canvas horizontally */
+        }
+
+        canvas {
+            max-width: 100%; /* Ensure canvas doesn't exceed its container's width */
+            height: auto; /* Maintain canvas aspect ratio */
+        }
+    </style>
+</head>
+<body>
+    <h1>Book Cover Generator</h1>
+    <form id="coverForm">
+        <label for="width">Cover Width (inches):</label>
+        <input type="number" id="width" name="width" step="0.1" required>
+        <br>
+        <label for="height">Cover Height (inches):</label>
+        <input type="number" id="height" name="height" step="0.1" required>
+        <br>
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+        <br>
+        <label for="subtitle">Subtitle:</label>
+        <input type="text" id="subtitle" name="subtitle">
+        <br>
+        <label for="images">Select Images:</label>
+        <input type="file" id="images" name="images" accept="image/*" multiple required>
+        <br><br>
+        <button type="button" onclick="generateCover()">Generate Cover</button>
+    </form>
+    <br>
+    <div id="canvasContainer">
+        <canvas id="coverCanvas"></canvas>
+    </div>
+
+    <script>
+        function generateCover() {
+            const inchesToPixels = 96;
+            const widthInches = parseFloat(document.getElementById('width').value);
+            const heightInches = parseFloat(document.getElementById('height').value);
+            const width = widthInches * inchesToPixels;
+            const height = heightInches * inchesToPixels;
+            const title = document.getElementById('title').value;
+            const subtitle = document.getElementById('subtitle').value;
+            const imagesInput = document.getElementById('images');
+            const files = Array.from(imagesInput.files);
+
+            if (files.length === 0) {
+                alert("Please select at least one image.");
+                return;
+            }
+
+            const canvas = document.getElementById('coverCanvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, width, height);
+
+            const imageElements = [];
+            let imagesLoaded = 0;
+
+            files.forEach(file => {
+                const img = new Image();
+                img.onload = () => {
+                    imageElements.push(img);
+                    imagesLoaded++;
+                    if (imagesLoaded === files.length) {
+                        arrangeAndDrawImages(imageElements, width, height, ctx);
+                        drawText(ctx, title, subtitle, width, height);
+                        downloadCover(canvas);
+                    }
+                };
+                img.src = URL.createObjectURL(file);
+            });
+        }
+
+        function arrangeAndDrawImages(images, canvasWidth, canvasHeight, ctx) {
+            const maxImageWidth = canvasWidth / 3; // Max width for each image (adjust as needed)
+            const maxImageHeight = canvasHeight / 3; // Max height for each image (adjust as needed)
+            const padding = 20; // Padding between images
+            let x = padding;
+            let y = padding;
+            let rowHeight = 0;
+
+            images.forEach((img, index) => {
+                const scaleFactor = Math.min(maxImageWidth / img.width, maxImageHeight / img.height);
+                const scaledWidth = img.width * scaleFactor;
+                const scaledHeight = img.height * scaleFactor;
+
+                // Check if image exceeds row width
+                if (x + scaledWidth + padding > canvasWidth) {
+                    x = padding; // Reset x to start a new row
+                    y += rowHeight + padding; // Move y to the next row
+                    rowHeight = 0; // Reset row height for the new row
+                }
+
+                // Draw the image
+                ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
+
+                // Update x position for the next image in the row
+                x += scaledWidth + padding;
+
+                // Update the row height to the tallest image in the row
+                if (scaledHeight > rowHeight) {
+                    rowHeight = scaledHeight;
+                }
+            });
+        }
+
+        function drawText(ctx, title, subtitle, canvasWidth, canvasHeight) {
+            const x = canvasWidth * 3 / 4;
+            const yTitle = canvasHeight / 2 - 50;
+            const ySubtitle = canvasHeight / 2 + 50;
+
+            ctx.textAlign = 'center';
+
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 8;
+            ctx.font = 'bold 80px Georgia';
+            ctx.strokeText(title, x, yTitle);
+            ctx.fillStyle = 'white';
+            ctx.fillText(title, x, yTitle);
+
+            ctx.font = 'italic 50px Georgia';
+            ctx.strokeText(subtitle, x, ySubtitle);
+            ctx.fillText(subtitle, x, ySubtitle);
+        }
+
+        function downloadCover(canvas) {
+            const link = document.createElement('a');
+            link.download = 'book-cover.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>
+
+

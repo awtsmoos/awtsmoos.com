@@ -1,0 +1,248 @@
+<!--B"H-->
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../css/legacy-pages.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expressive Character Animator - Phoenix Engine v1.3 (Enhanced)</title>
+<style id="mainStylesheet">
+/* --- Basic Reset & Page Layout --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    margin: 0;
+    padding: 20px;
+    background-color: #ECEFF1; /* Light, neutral background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #37474F; /* Softer text color */
+    line-height: 1.6;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* --- Container for UI Elements --- */
+.container {
+    background-color: #FFFFFF;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 900px; /* Controls max width of UI sections */
+    box-sizing: border-box;
+}
+
+/* --- Headings --- */
+h1, h2 {
+    color: #263238; /* Darker heading color */
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+h1 { font-size: 2em; font-weight: 600; }
+h2 { font-size: 1.4em; color: #455A64; font-weight: 500; }
+
+/* --- Textarea for JSON Input --- */
+textarea#jsonInput {
+    width: 100%;
+    min-height: 200px;
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 1px solid #CFD8DC;
+    border-radius: 6px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 0.9em;
+    resize: vertical;
+    box-sizing: border-box;
+    background-color: #FAFAFA;
+}
+textarea#jsonInput:focus {
+    outline: none;
+    border-color: #5C6BC0; /* Indigo highlight */
+    box-shadow: 0 0 0 2px rgba(92, 107, 192, 0.2);
+}
+
+/* --- Button Group Styling --- */
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.button-group button, .button-group label.button-like {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #5C6BC0; /* Indigo primary */
+    color: white;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    text-align: center; /* Ensure text is centered in label-buttons */
+}
+.button-group button:hover, .button-group label.button-like:hover {
+    background-color: #3F51B5; /* Darker indigo */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+.button-group button:active, .button-group label.button-like:active {
+    transform: translateY(1px);
+    background-color: #303F9F; /* Even darker */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.button-group input[type="file"] { display: none; }
+
+/* --- Status Message --- */
+#status {
+    margin-top: 15px;
+    color: #546E7A;
+    text-align: center;
+    font-size: 0.9em;
+    min-height: 1.5em;
+    font-style: italic;
+}
+
+/* --- Canvas Styling --- */
+canvas#animationCanvas {
+    border: 1px solid #B0BEC5;
+    display: block;
+    margin: 0 auto 20px auto; /* Centered, with bottom margin before controls */
+    background-color: #FFFFFF; /* Default, scene can override */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    touch-action: none;
+    max-width: 100%; /* Responsive canvas */
+}
+
+/* --- Playback Controls Container --- */
+.playback-controls {
+    display: flex;
+    flex-direction: column; /* Stack button groups */
+    align-items: center;
+    gap: 15px;
+}
+.playback-controls .button-group {
+    width: 100%;
+    justify-content: center;
+}
+
+/* --- Timeline Indicator UI --- */
+#timelineIndicatorContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    background-color: #FAFAFA;
+    border: 1px solid #CFD8DC;
+    justify-content: center;
+    max-width: 900px; /* Match other UI containers */
+    width: 100%;
+    box-sizing: border-box;
+}
+.timeline-group-indicator {
+    padding: 5px 8px;
+    font-size: 0.8em;
+    background-color: #CFD8DC;
+    border-radius: 4px;
+    cursor: default; /* For now, not clickable for jump */
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    border: 1px solid transparent;
+}
+.timeline-group-indicator.active {
+    background-color: #7986CB; /* Lighter Indigo */
+    color: white;
+    font-weight: bold;
+    border-color: #5C6BC0;
+    transform: scale(1.05);
+}
+.timeline-group-indicator.completed {
+    background-color: #E0E0E0;
+    opacity: 0.7;
+}
+
+
+/* --- Utility Class for Hiding Elements --- */
+.hidden { display: none !important; }
+
+/* --- Styles for Exported Standalone HTML --- */
+body.exported-body {
+    justify-content: flex-start;
+    padding: 10px;
+    background-color: #37474F;
+}
+body.exported-body h1.exported-h1 {
+    margin-top: 10px; margin-bottom: 15px; font-size: 1.8em; color: #CFD8DC;
+}
+#inputContainer.hidden-exported, #exportBtn.hidden-exported { display: none !important; }
+
+#playbackControlsContainer.full-width-exported, #timelineIndicatorContainer.full-width-exported {
+    width: auto;
+    max-width: calc(100% - 20px);
+    padding: 15px;
+    margin-top: 10px;
+    background-color: rgba(236, 239, 241, 0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+#playbackControlsContainer.full-width-exported .button-group button {
+    background-color: #7986CB; color: #FFFFFF;
+}
+#playbackControlsContainer.full-width-exported .button-group button:hover { background-color: #5C6BC0; }
+</style>
+</head>
+<body>
+    <div class="container" id="inputContainer">
+        <h1>Expressive Character Animator</h1>
+        <h2>Phoenix Engine v1.3 - Enhanced</h2>
+        <textarea id="jsonInput" placeholder="Paste JSON animation data here. Check console for new feature examples in Animator.Data.js!"></textarea>
+        <div class="button-group">
+            <label for="jsonFileUpload" class="button-like">Upload JSON File</label>
+            <input type="file" id="jsonFileUpload" accept=".json,application/json">
+            <button id="loadJsonBtn">Load Animation</button>
+        </div>
+        <div id="status">Load JSON to begin. See console (F12) for speech synthesis voices.</div>
+    </div>
+
+    <canvas id="animationCanvas" width="800" height="600"></canvas>
+    
+    <!-- Timeline Indicator UI -->
+    <div id="timelineIndicatorContainer">
+        <!-- Indicators will be populated by JS -->
+    </div>
+
+    <div class="container playback-controls hidden" id="playbackControlsContainer">
+        <div class="button-group">
+            <button id="playStopBtn">Play</button>
+            <button id="restartBtn">Restart</button>
+        </div>
+        <div class="button-group">
+             <button id="exportBtn">Export Standalone HTML</button>
+        </div>
+    </div>
+
+
+    <script src="Animator.Data.js"></script>
+    <script src="Animator.Utils.js"></script>
+    
+    <script src="Animator.Speech.js"></script>
+    <script src="Animator.CharacterPipeline.js"></script>
+    <script src="Animator.ObjectPipeline.js"></script> <!-- NEW -->
+    <script src="Animator.SFX.js"></script> <!-- NEW -->
+    <script src="Animator.SceneDrawing.js"></script>
+
+    <script src="Animator.DataHandler.js"></script>
+    <script src="Animator.CameraControls.js"></script>
+    <script src="Animator.EventProcessor.js"></script>
+    <script src="Animator.StateManagement.js"></script>
+    
+    <script src="Animator.Core.js"></script>
+</body>
+</html>

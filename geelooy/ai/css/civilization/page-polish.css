@@ -1,0 +1,84 @@
+/* B"H
+ * Chapter 570: The AI desktop receives a final civilization skin: clearer focus,
+ * steadier surfaces, and responsive rails without disturbing its imported organs.
+ */
+:root {
+  --ai-civ-ring: 0 0 0 1px rgba(83,216,255,.16), 0 24px 80px rgba(0,0,0,.32), 0 0 42px rgba(83,216,255,.10);
+  --ai-civ-panel: linear-gradient(135deg, rgba(83,216,255,.075), rgba(178,129,255,.055));
+}
+button,
+[role="button"],
+a,
+summary {
+  touch-action: manipulation;
+}
+button:focus-visible,
+a:focus-visible,
+textarea:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 2px solid rgba(83,216,255,.85);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 7px rgba(83,216,255,.13);
+}
+.ai-shell,
+.desktop-shell,
+.chat-shell,
+.right-panel,
+.panel,
+.automation-cockpit,
+.event-cockpit {
+  scrollbar-gutter: stable;
+}
+.ai-shell [class*="panel"],
+.ai-shell [class*="card"],
+.right-panel [class*="section"],
+.event-region,
+.message,
+.thread,
+.conversation-row {
+  border-color: color-mix(in srgb, var(--ai-border-hot, #79e1ff) 34%, transparent);
+}
+.message:hover,
+.conversation-row:hover,
+.event-region:hover,
+.right-panel [class*="section"]:hover {
+  box-shadow: var(--ai-civ-ring);
+}
+.empty-state,
+.showcase-card,
+.automation-cockpit,
+.event-cockpit {
+  background: var(--ai-civ-panel), var(--ai-panel, rgba(8,17,31,.82));
+  backdrop-filter: blur(18px) saturate(1.14);
+}
+.live-text,
+.markdown-body,
+.message-content {
+  overflow-wrap: anywhere;
+  line-height: 1.58;
+}
+pre,
+code,
+.tool-terminal,
+.raw-json {
+  max-width: 100%;
+  overflow: auto;
+  border-radius: 14px;
+}
+@media (max-width: 860px) {
+  :root { --ai-gap: 10px; }
+  body { overscroll-behavior: none; }
+  .right-panel,
+  .sidebar,
+  .panel {
+    max-width: 100vw;
+  }
+  .message,
+  .event-region,
+  .showcase-card { border-radius: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}

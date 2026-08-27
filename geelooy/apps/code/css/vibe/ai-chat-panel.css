@@ -1,0 +1,139 @@
+/* B"H
+ * AI Chat Sidebar Repair
+ * Chapter 1: the Awtsmoos pours cyan rain through the narrow vessel. The
+ * panel becomes a calm river: header fixed, output breathing, composer anchored.
+ */
+
+.vibe-ai-chat-root {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    height: 100%;
+    min-height: 0;
+    padding: 12px;
+    gap: 12px;
+    background:
+        radial-gradient(circle at top left, rgba(0, 246, 255, 0.13), transparent 32%),
+        linear-gradient(180deg, rgba(8, 15, 25, 0.98), rgba(2, 6, 12, 0.98));
+}
+
+.vibe-ai-chat-header,
+.vibe-ai-chat-composer,
+.vibe-ai-chat-scroll {
+    border: 1px solid rgba(0, 246, 255, 0.22);
+    border-radius: 16px;
+    background: rgba(2, 8, 16, 0.76);
+    box-shadow: inset 0 0 18px rgba(0, 246, 255, 0.05), 0 12px 32px rgba(0, 0, 0, 0.28);
+}
+
+.vibe-ai-chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+    min-width: 0;
+}
+
+.vibe-ai-chat-title {
+    color: var(--neon-cyan);
+    font-weight: 900;
+    letter-spacing: 0.09em;
+    white-space: nowrap;
+    text-shadow: 0 0 12px rgba(0, 246, 255, 0.55);
+}
+
+.vibe-ai-chat-model {
+    min-width: 0;
+    max-width: 55%;
+    padding: 7px 9px;
+    border: 1px solid rgba(57, 255, 20, 0.28);
+    border-radius: 10px;
+    color: var(--neon-lime);
+    background: rgba(0, 0, 0, 0.68);
+    font-family: var(--font-code);
+    font-size: 11px;
+    outline: none;
+}
+
+.vibe-ai-chat-scroll {
+    min-height: 0;
+    overflow: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vibe-ai-chat-status {
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    line-height: 1.35;
+    opacity: 0.86;
+}
+
+.vibe-ai-chat-output {
+    flex: 1;
+    min-height: 120px;
+    color: #dffcff;
+    font-family: var(--font-code);
+    font-size: 12px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.vibe-ai-chat-composer {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vibe-ai-chat-prompt {
+    width: 100%;
+    min-height: 88px;
+    max-height: 180px;
+    resize: vertical;
+    padding: 12px;
+    border: 1px solid rgba(0, 246, 255, 0.25);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.42);
+    color: #ffffff;
+    font-family: var(--font-ui);
+    outline: none;
+}
+
+.vibe-ai-chat-prompt:focus,
+.vibe-ai-chat-model:focus {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 0 2px rgba(0, 246, 255, 0.12), 0 0 22px rgba(0, 246, 255, 0.18);
+}
+
+.vibe-ai-chat-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.vibe-ai-chat-send,
+.vibe-ai-chat-clear {
+    min-height: 34px;
+    padding: 7px 14px;
+    border-radius: 12px;
+}
+
+.vibe-ai-chat-empty {
+    height: 100%;
+    display: grid;
+    place-content: center;
+    gap: 10px;
+    padding: 28px;
+    text-align: center;
+    color: var(--neon-cyan);
+    background: radial-gradient(circle, rgba(0, 246, 255, 0.11), transparent 58%);
+}
+
+.vibe-ai-chat-empty-icon {
+    font-size: 36px;
+}

@@ -1,0 +1,20 @@
+
+/* B"H - VIBE MASTER CSS
+ * Chapter 1: the Awtsmoos gathers every stylesheet into one ordered river.
+ * Each import is a gate; the repaired AI Chat gate now enters with its own
+ * vessel so the sidebar no longer borrows cramped inline garments.
+ */
+@import url('layout.css');
+@import url('resizer.css');
+@import url('tabs.css');
+@import url('chat.css');
+@import url('sidebar.css');
+@import url('ai-chat-panel.css');
+@import url('chat-vessels.css');
+@import url('manager.css');
+@import url('model-limits.css');
+
+.is-resizing {
+    user-select: none !important;
+    cursor: col-resize !important;
+}

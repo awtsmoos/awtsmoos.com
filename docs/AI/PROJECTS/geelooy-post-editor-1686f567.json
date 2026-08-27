@@ -1,0 +1,75 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-post-editor-1686f567",
+	"path": "geelooy/post-editor",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Post Editor — Geelooy",
+	"entries": [
+		"index.html",
+		"app.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/post-editor/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-post-editor-1686f567.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 12,
+		"tests": 2,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 15,
+	"symbolSummary": {
+		"files": 11,
+		"classes": 1,
+		"functions": 27,
+		"exports": 13,
+		"samples": [
+			"async",
+			"savePostDraft",
+			"publishPostDraft",
+			"request",
+			"errorMessage",
+			"readPostEditorConfig",
+			"clean",
+			"createElement",
+			"saveEditorDraft",
+			"publishEditorPost",
+			"runEditorOperation",
+			"setStatus"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/post-editor/app.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/post-editor",
+			"file": "geelooy/post-editor/index.html",
+			"title": "Post Editor — Geelooy",
+			"scripts": 2,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

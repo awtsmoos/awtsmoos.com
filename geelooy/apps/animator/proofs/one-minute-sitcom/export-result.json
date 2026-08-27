@@ -1,0 +1,108 @@
+{
+  "ok": true,
+  "title": "The Emergency Backup Spoon",
+  "durationSeconds": 60,
+  "outputDirectory": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom",
+  "outputFile": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/the-emergency-backup-spoon.mp4",
+  "previewFile": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/the-emergency-backup-spoon-preview.mp4",
+  "frameCount": 720,
+  "frames": [
+    {
+      "timeMs": 1000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/frames/frame-01000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 3,
+      "bytes": 2401,
+      "sha256": "94bec6e37f6ff73242cde157bb6afd341d13c2fade38ef245218d1b41176e981",
+      "rawSha256": "a903e158d2003b81b8560ff02bc9f89ea04ce7b538b188f370981fbf10652105"
+    },
+    {
+      "timeMs": 5000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/frames/frame-05000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 40,
+      "bytes": 9011,
+      "sha256": "77cae1561e1e4190e0c32829aa7418bb13985218f13ad338a48923a8783bf571",
+      "rawSha256": "ad62aaa2cfafc66e593d39f44ef41e5f6a4c5582f68b3bfb46d841acf46bef20"
+    },
+    {
+      "timeMs": 22000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/frames/frame-22000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 54,
+      "bytes": 9921,
+      "sha256": "2d58f4a1155f9989adeaf3863f851a0ad6e4dfe7bea544a4dbd39937ac05d78c",
+      "rawSha256": "f121b44029ed108e5a5770e402c5ec5e8d723d20cf7e64dc7280034a318055c0"
+    },
+    {
+      "timeMs": 36000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/frames/frame-36000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 38,
+      "bytes": 7748,
+      "sha256": "ca82cbcd5ec7478d5e06286a2fe18eb6034048abedb1691a0495f9bc3117a430",
+      "rawSha256": "4b0d75c498a25c38da199592973c8b62dff714b83c95b39111a0e6a431be8f97"
+    },
+    {
+      "timeMs": 50000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/frames/frame-50000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 51,
+      "bytes": 9407,
+      "sha256": "0cbb8f3566a8b0d777e4d8d63e8f5819cbbb16f75fdf155882185b68e2101d73",
+      "rawSha256": "49b32da520d6892590d465ba1f089f2295bb90780018d2eeb20b80b6d37d112b"
+    },
+    {
+      "timeMs": 55000,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/frames/frame-55000ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 71,
+      "bytes": 11170,
+      "sha256": "80b6c51ce09da99d71ea25daf5dedac4f9162650c798f778076af9c74a58e246",
+      "rawSha256": "e19c97298131ef6bd91707cfcb9513a967e460615074099cc2f1571fac0129e9"
+    },
+    {
+      "timeMs": 58500,
+      "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/frames/frame-58500ms.png",
+      "width": 640,
+      "height": 360,
+      "uniqueColors": 3,
+      "bytes": 2189,
+      "sha256": "4b32795d957f25f7c65fbafce4ec65d567ca0a953d8268aeb5b9877fd6407680",
+      "rawSha256": "aec0469c70cb10c9221b1a5f69d0cbb7d625820be1ff60075af99b6df7817ec5"
+    }
+  ],
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 640,
+        "height": 360,
+        "r_frame_rate": "12/1"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0"
+      }
+    ],
+    "format": {
+      "duration": "60.000000",
+      "size": "1674561"
+    }
+  },
+  "hashes": {
+    "finalMovie": "8b222b3b0a60bf514c4844e7b0a6e8d5949c27f30adb5466ff90ef158ad78e17",
+    "previewMovie": "73e3da44d2f6b1739b9550cb941fe34e4e8b01ef0315c75791f28d02c8945f3d",
+    "productionPlan": "a47478c319224bfdbd7fc47fa465221682fc0734e23f662cb043934fd34d3971"
+  }
+}

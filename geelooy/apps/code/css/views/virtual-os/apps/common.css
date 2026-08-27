@@ -1,0 +1,87 @@
+
+/* B"H */
+
+.vos-app {
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+    color: var(--vos-text);
+    font-family: var(--font-code, monospace);
+}
+
+.vos-app-toolbar {
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px;
+    border-bottom: 1px solid rgba(0,246,255,0.25);
+    background: rgba(9, 18, 36, 0.92);
+}
+
+.vos-app-button {
+    min-height: 28px;
+    padding: 0 10px;
+    border: 1px solid rgba(0,246,255,0.4);
+    border-radius: 6px;
+    background: rgba(0, 246, 255, 0.08);
+    color: var(--vos-text);
+    cursor: pointer;
+    font-family: var(--font-code, monospace);
+    font-weight: 800;
+}
+
+.vos-app-button:hover {
+    background: rgba(0,246,255,0.18);
+}
+
+.vos-app-input {
+    min-height: 28px;
+    border: 1px solid rgba(0,246,255,0.35);
+    border-radius: 6px;
+    background: #020713;
+    color: var(--vos-text);
+    padding: 0 8px;
+    font-family: var(--font-code, monospace);
+}
+
+.vos-app-path {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--vos-cyan);
+    opacity: 0.92;
+    font-size: 11px;
+}
+
+.vos-app-body {
+    height: calc(100% - 51px);
+    min-height: 0;
+    overflow: auto;
+}
+
+.vos-empty {
+    padding: 16px;
+    color: var(--vos-cyan);
+}
+
+.vos-app-error {
+    height: 100%;
+    padding: 14px;
+    box-sizing: border-box;
+    overflow: auto;
+    color: #ffb0b0;
+    background: #18070a;
+    font-family: var(--font-code, monospace);
+}
+
+.vos-app-error-title {
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.vos-app-error-stack {
+    white-space: pre-wrap;
+    color: #ffd0d0;
+}

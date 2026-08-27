@@ -1,0 +1,55 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# API Tutorial Routes 136–180
+
+Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas.
+
+| Route | Family | Method evidence | Health | Tutorial | Source |
+| --- | --- | --- | --- | --- | --- |
+| `/api/social/drive/:aliasId/entries` | Social | GET, POST, PUT, DELETE, HEAD | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-entries-8c4c482d1b.md) | `geelooy/api/social/helper/drive/routes/entryRoutes.js` |
+| `/api/social/drive/:aliasId/entry/:path*` | Social | GET, POST, PUT, DELETE, HEAD | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-entry-path-c596a1bbaa.md) | `geelooy/api/social/helper/drive/routes/entryRoutes.js` |
+| `/api/social/drive/:aliasId/hosting/infrastructure` | Social | GET, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-hosting-infrastructure-7e3a7ac877.md) | `geelooy/api/social/helper/drive/routes/domainRoutes.js` |
+| `/api/social/drive/:aliasId/project` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-project-9d463f623e.md) | `geelooy/api/social/helper/drive/routes/projectPlanRoutes.js` |
+| `/api/social/drive/:aliasId/projects` | Social | GET, PUT | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-projects-b2b2d2cf42.md) | `geelooy/api/social/helper/drive/routes/projectRegistryRoutes.js` |
+| `/api/social/drive/:aliasId/projects/:projectId` | Social | GET, PUT | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-projects-projectid-8a05da0faa.md) | `geelooy/api/social/helper/drive/routes/projectRegistryRoutes.js` |
+| `/api/social/drive/:aliasId/projects/:projectId/database` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-projects-projectid-database-ea60ab77f9.md) | `geelooy/api/social/helper/drive/routes/projectHostingRoutes.js` |
+| `/api/social/drive/:aliasId/projects/:projectId/hosting` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-projects-projectid-hosting-c388ea85c4.md) | `geelooy/api/social/helper/drive/routes/projectHostingRoutes.js` |
+| `/api/social/drive/:aliasId/reconciliation` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-reconciliation-c059090ce4.md) | `geelooy/api/social/helper/drive/routes/reconciliationRoutes.js` |
+| `/api/social/drive/:aliasId/site` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-site-0cdc139da7.md) | `geelooy/api/social/helper/drive/routes/siteRoutes.js` |
+| `/api/social/drive/:aliasId/sites` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-sites-47244205c9.md) | `geelooy/api/social/helper/drive/routes/siteRoutes.js` |
+| `/api/social/drive/:aliasId/sites/:siteId` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-sites-siteid-e5078be672.md) | `geelooy/api/social/helper/drive/routes/siteRoutes.js` |
+| `/api/social/drive/:aliasId/sites/:siteId/domains/:hostname` | Social | GET, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-sites-siteid-domains-hostname-e72446e882.md) | `geelooy/api/social/helper/drive/routes/domainRoutes.js` |
+| `/api/social/drive/:aliasId/sites/:siteId/runtime` | Social | GET, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-sites-siteid-runtime-9a461875be.md) | `geelooy/api/social/helper/drive/routes/siteRuntimeRoutes.js` |
+| `/api/social/drive/:aliasId/stream/:path*` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-stream-path-22910a81a8.md) | `geelooy/api/social/helper/drive/routes/streamingRoutes.js` |
+| `/api/social/drive/:aliasId/usage` | Social | GET, POST, PUT, DELETE, HEAD | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-aliasid-usage-a34b403a9f.md) | `geelooy/api/social/helper/drive/routes/entryRoutes.js` |
+| `/api/social/drive/admin/service-aliases` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-admin-service-aliases-3e916be8d2.md) | `geelooy/api/social/helper/drive/routes/serviceAliasRoutes.js` |
+| `/api/social/drive/admin/service-aliases/:aliasId` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-admin-service-aliases-aliasid-c86e7851f3.md) | `geelooy/api/social/helper/drive/routes/serviceProvisioningRoutes.js` |
+| `/api/social/drive/immutable/:aliasId/:hash` | Social | OPTIONS | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-immutable-aliasid-hash-1fdb9c0f92.md) | `geelooy/api/social/helper/drive/routes/publicRoutes.js` |
+| `/api/social/drive/manager` | Social | HEAD | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-manager-95d66f57d8.md) | `geelooy/api/social/helper/drive/routes/managerRoutes.js` |
+| `/api/social/drive/manager/:assetPath*` | Social | HEAD | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-manager-assetpath-3e50141b36.md) | `geelooy/api/social/helper/drive/routes/managerRoutes.js` |
+| `/api/social/drive/public/:aliasId/:path*` | Social | OPTIONS | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-drive-public-aliasid-path-4d57168803.md) | `geelooy/api/social/helper/drive/routes/publicRoutes.js` |
+| `/api/social/editor/heichelos/:heichel/posts/:post/subsections/:subsection` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-editor-heichelos-heichel-posts-post-subsections-subse-ee52567415.md) | `geelooy/api/social/_awtsmoos.editor.js` |
+| `/api/social/editor/heichelos/:heichel/posts/:post/subsections/:subsection/delete-preview` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-editor-heichelos-heichel-posts-post-subsections-subse-55e02fff63.md) | `geelooy/api/social/_awtsmoos.editor.js` |
+| `/api/social/editor/heichelos/:heichel/posts/:post/verses/:verse` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-editor-heichelos-heichel-posts-post-verses-verse-6ebe866211.md) | `geelooy/api/social/_awtsmoos.editor.js` |
+| `/api/social/editor/heichelos/:heichel/posts/:post/verses/:verse/delete-preview` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-editor-heichelos-heichel-posts-post-verses-verse-dele-d8138824c5.md) | `geelooy/api/social/_awtsmoos.editor.js` |
+| `/api/social/editor/posts/drafts` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-editor-posts-drafts-29b6511d4e.md) | `geelooy/api/social/_awtsmoos.editor.js` |
+| `/api/social/editor/posts/drafts/:alias/:draft` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-editor-posts-drafts-alias-draft-63625d4c66.md) | `geelooy/api/social/_awtsmoos.editor.js` |
+| `/api/social/editor/posts/drafts/publish` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-editor-posts-drafts-publish-f4f52d09f8.md) | `geelooy/api/social/_awtsmoos.editor.js` |
+| `/api/social/entities/:heichel/:entity/comment-tree` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-heichel-entity-comment-tree-ad881de32c.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/entities/:heichel/:entity/comments/:comment/replies` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-heichel-entity-comments-comment-replies-6002225a92.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/entities/:heichel/:entity/comments/:comment/sections/:section/replies` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-heichel-entity-comments-comment-sections-sec-af6b37ccde.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/entities/batch` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-batch-0a6b5b82a5.md) | `geelooy/api/social/_awtsmoos.socialKernel.js` |
+| `/api/social/entities/universe` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-fd514e373c.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-910dcc0936.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id/children` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-children-d49a7c472a.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id/dna` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-dna-313f7df07f.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id/edges` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-edges-90d6a4bf8e.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id/fork` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-fork-b274afe17d.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id/range-reference/attach` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-range-reference-attach-d7fa4e6dc0.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id/range-reference/preview` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-range-reference-preview-e4a0e0bf4c.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entities/universe/:type/:id/snapshot` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entities-universe-type-id-snapshot-3ad129827f.md) | `geelooy/api/social/_awtsmoos.entities.js` |
+| `/api/social/entity` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entity-801bb169c5.md) | `geelooy/api/social/_awtsmoos.socialKernel.js` |
+| `/api/social/entity/action/preview` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entity-action-preview-34fb1ffcc3.md) | `geelooy/api/social/_awtsmoos.socialKernel.js` |
+| `/api/social/entity/activity/normalize` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-entity-activity-normalize-c1ffa07697.md) | `geelooy/api/social/_awtsmoos.socialKernel.js` |

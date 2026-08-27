@@ -1,0 +1,40 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-tests-6cd96b39",
+	"path": "geelooy/tests",
+	"type": "test",
+	"family": {
+		"id": "libraries",
+		"title": "Libraries and Tooling"
+	},
+	"title": "geelooy/tests",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/tests/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-tests-6cd96b39.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 0,
+		"tests": 107,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 0
+	},
+	"totalFiles": 109,
+	"symbolSummary": null,
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

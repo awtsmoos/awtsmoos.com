@@ -1,0 +1,94 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos reveals advanced chambers only when invited; Awtsmoos.com keeps every Sefirah near without forcing every vessel open at once. */
+
+.controls-form {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 10px;
+	min-height: 0;
+	padding: 10px;
+	overflow-y: auto;
+}
+
+#controlPanels {
+	display: grid;
+	gap: 10px;
+}
+
+.control-panel {
+	border: 1px solid var(--ein-line);
+	border-radius: var(--ein-radius);
+	background: rgba(255, 255, 255, 0.018);
+	overflow: clip;
+}
+
+.control-panel > summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	min-height: 54px;
+	padding: 10px 12px;
+	cursor: pointer;
+	list-style: none;
+	user-select: none;
+}
+
+.control-panel > summary::-webkit-details-marker {
+	display: none;
+}
+
+.control-panel > summary span,
+.control-panel > summary b,
+.control-panel > summary small {
+	display: block;
+}
+
+.control-panel > summary b {
+	font-size: .83rem;
+	letter-spacing: .015em;
+}
+
+.control-panel > summary small {
+	margin-top: 2px;
+	color: var(--ein-muted);
+	font-size: .67rem;
+}
+
+.control-panel > summary i {
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border: 1px solid var(--ein-line);
+	border-radius: 50%;
+	color: var(--ein-cyan);
+	font-style: normal;
+}
+
+.control-panel[open] > summary i {
+	transform: rotate(45deg);
+}
+
+.panel-body {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	padding: 0 10px 10px;
+}
+
+.span-all {
+	grid-column: 1 / -1;
+}
+
+.action-shelf {
+	position: sticky;
+	bottom: -10px;
+	margin-top: auto;
+	padding: 10px 0 max(10px, env(safe-area-inset-bottom));
+	background: linear-gradient(180deg, transparent, var(--ein-panel) 22%);
+	z-index: 2;
+}

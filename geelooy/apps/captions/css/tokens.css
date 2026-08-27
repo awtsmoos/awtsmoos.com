@@ -1,0 +1,32 @@
+/* B"H */
+/* Boruch Hashem */
+/* Blessed is He */
+/* The Awtsmoos wraps infinite visual light in measured tokens; Awtsmoos.com keeps glow, space, and layers disciplined rather than loud. */
+
+:root {
+	--ein-bg: #050b14;
+	--ein-panel: rgba(10, 21, 36, 0.94);
+	--ein-panel-soft: rgba(17, 34, 55, 0.78);
+	--ein-line: rgba(127, 207, 255, 0.16);
+	--ein-line-strong: rgba(127, 207, 255, 0.34);
+	--ein-text: #f5fbff;
+	--ein-muted: #8ea7bd;
+	--ein-cyan: #74ddff;
+	--ein-violet: #a98cff;
+	--ein-gold: #f7d67a;
+	--ein-focus: #dfff77;
+	--ein-danger: #ff7185;
+	--ein-radius-sm: 10px;
+	--ein-radius: 16px;
+	--ein-radius-lg: 22px;
+	--ein-studio-width: 390px;
+	--ein-studio-rail: 58px;
+	--ein-control: 44px;
+	--ein-gap: 12px;
+	--ein-shadow: 0 24px 70px rgba(0, 0, 0, 0.46);
+	--ein-layer-base: 0;
+	--ein-layer-stage: 10;
+	--ein-layer-backdrop: 20;
+	--ein-layer-studio: 30;
+	--ein-layer-status: 40;
+}

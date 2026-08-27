@@ -1,0 +1,228 @@
+/* B"H
+  Chapter 112: The Automation Panel Became A Circuit Of Living Sapphires.
+*/
+#automation-panel .right-panel-body {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(34,211,238,.16), transparent 32%),
+    radial-gradient(circle at 90% 15%, rgba(168,85,247,.14), transparent 36%),
+    linear-gradient(180deg, rgba(2,6,23,.38), rgba(2,6,23,.82));
+}
+
+#automation-panel h2 {
+  font-size: 1.22rem;
+  letter-spacing: -.035em;
+  text-shadow: 0 0 22px rgba(103,232,249,.24);
+}
+
+#automation-panel .automation-field {
+  position: relative;
+  padding: .72rem .78rem;
+  border: 1px solid rgba(125,211,252,.18);
+  border-radius: 1.05rem;
+  background: linear-gradient(135deg, rgba(15,23,42,.70), rgba(8,47,73,.22));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 10px 26px rgba(0,0,0,.18);
+}
+
+#automation-panel .automation-field:has(input[type="checkbox"]) {
+  grid-template-columns: 3.15rem minmax(0, 1fr);
+  align-items: center;
+  cursor: pointer;
+}
+
+#automation-panel .automation-field input[type="checkbox"] {
+  appearance: none;
+  width: 2.75rem !important;
+  height: 1.42rem !important;
+  margin: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,.38);
+  background: linear-gradient(180deg, rgba(30,41,59,.98), rgba(15,23,42,.98));
+  box-shadow: inset 0 2px 8px rgba(0,0,0,.42), 0 0 0 1px rgba(255,255,255,.025);
+  transition: border-color .16s ease, box-shadow .16s ease, background .16s ease;
+}
+
+#automation-panel .automation-field input[type="checkbox"]::before {
+  content: "";
+  display: block;
+  width: 1.02rem;
+  height: 1.02rem;
+  margin: .15rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+  box-shadow: 0 3px 10px rgba(0,0,0,.35);
+  transition: transform .16s ease, background .16s ease;
+}
+
+#automation-panel .automation-field input[type="checkbox"]:checked {
+  border-color: rgba(34,211,238,.78);
+  background: linear-gradient(135deg, rgba(14,165,233,.92), rgba(16,185,129,.88));
+  box-shadow: 0 0 24px rgba(34,211,238,.24), inset 0 1px 6px rgba(255,255,255,.22);
+}
+
+#automation-panel .automation-field input[type="checkbox"]:checked::before {
+  transform: translateX(1.28rem);
+  background: linear-gradient(135deg, #ffffff, #cffafe);
+}
+
+#automation-panel .automation-field input:not([type="checkbox"]),
+#automation-panel .automation-field textarea,
+#automation-panel .automation-field select {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  border: 1px solid rgba(125,211,252,.22);
+  border-radius: .95rem;
+  background: rgba(2,6,23,.74);
+  color: #effdff;
+  padding: .72rem .82rem;
+  outline: none;
+  line-height: 1.45;
+  box-shadow: inset 0 1px 8px rgba(0,0,0,.28);
+}
+
+#automation-panel .automation-field textarea {
+  min-height: 9.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .86rem;
+}
+
+#automation-panel .automation-field input:focus,
+#automation-panel .automation-field textarea:focus,
+#automation-panel .automation-field select:focus {
+  border-color: rgba(103,232,249,.86);
+  box-shadow: 0 0 0 3px rgba(34,211,238,.13), 0 0 28px rgba(34,211,238,.12), inset 0 1px 8px rgba(0,0,0,.25);
+}
+
+#automation-panel .automation-status {
+  border-radius: 1rem;
+  border: 1px solid rgba(52,211,153,.34);
+  background: linear-gradient(135deg, rgba(6,78,59,.35), rgba(8,47,73,.2)), rgba(2,6,23,.58);
+  color: #bbf7d0;
+  box-shadow: 0 0 28px rgba(16,185,129,.10), inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+#automation-panel .right-tabs button {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+}
+
+#automation-panel .right-tabs button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+  transform: translateX(-120%);
+}
+
+#automation-panel .right-tabs button:hover::after,
+#automation-panel .right-tabs button.active::after {
+  opacity: 1;
+  animation: automationSweep 1.6s ease infinite;
+}
+
+.automation-graph-panel,
+.automation-archive-panel {
+  display: grid;
+  gap: .9rem;
+}
+
+.graph-toolbar,
+.relay-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+}
+
+.graph-toolbar button,
+.relay-actions button {
+  border: 1px solid rgba(34,211,238,.28);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(14,165,233,.18), rgba(168,85,247,.18));
+  color: #e0fbff;
+  padding: .55rem .78rem;
+  box-shadow: 0 10px 24px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+.graph-toolbar button:hover,
+.relay-actions button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(125,211,252,.58);
+  box-shadow: 0 14px 32px rgba(34,211,238,.12), inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+.graph-canvas {
+  position: relative;
+  display: grid;
+  gap: .72rem;
+  padding: .8rem;
+  border: 1px solid rgba(125,211,252,.16);
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(rgba(125,211,252,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125,211,252,.055) 1px, transparent 1px),
+    rgba(2,6,23,.42);
+  background-size: 22px 22px;
+  box-shadow: inset 0 0 32px rgba(34,211,238,.045);
+}
+
+.graph-node {
+  position: relative;
+  display: grid;
+  gap: .35rem;
+  padding: .85rem .9rem .85rem 1.05rem;
+  border-radius: 1.05rem;
+  border: 1px solid rgba(148,163,184,.22);
+  background: linear-gradient(135deg, rgba(15,23,42,.9), rgba(8,47,73,.52));
+  box-shadow: 0 18px 36px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.graph-node::before {
+  content: "";
+  position: absolute;
+  inset-block: .75rem;
+  inset-inline-start: .48rem;
+  width: .2rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #22d3ee, #a78bfa);
+  box-shadow: 0 0 18px rgba(34,211,238,.4);
+}
+
+.graph-node strong {
+  color: #f8fdff;
+  font-size: .96rem;
+}
+
+.graph-node span,
+.graph-node code,
+.graph-node p {
+  color: rgba(226,232,240,.76);
+  font-size: .78rem;
+}
+
+.graph-node code {
+  width: fit-content;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  padding: .18rem .45rem;
+  border-radius: 999px;
+  border: 1px solid rgba(34,211,238,.18);
+  background: rgba(2,6,23,.62);
+}
+
+.graph-node-condition { border-color: rgba(250,204,21,.30); }
+.graph-node-condition::before { background: linear-gradient(180deg, #fde047, #fb7185); box-shadow: 0 0 18px rgba(250,204,21,.32); }
+.graph-node-send { border-color: rgba(34,211,238,.30); }
+.graph-node-stop { border-color: rgba(248,113,113,.32); }
+.graph-node-stop::before { background: linear-gradient(180deg, #fb7185, #ef4444); }
+.graph-node-archive { border-color: rgba(52,211,153,.30); }
+.graph-node-archive::before { background: linear-gradient(180deg, #34d399, #22d3ee); }
+
+.graph-json-field textarea {
+  min-height: 17rem !important;
+  tab-size: 2;
+  white-space: pre;
+}
+
+@keyframes automationSweep { to { transform: translateX(120%); } }

@@ -1,0 +1,62 @@
+
+/* B"H */
+
+.vos-terminal-app {
+    display: flex;
+    flex-direction: column;
+    background: #000;
+    color: #00ff9c;
+}
+
+.vos-terminal-head {
+    padding: 10px;
+    border-bottom: 1px solid rgba(0,255,156,0.25);
+    color: #00f6ff;
+    display: grid;
+    gap: 3px;
+}
+
+.vos-terminal-output {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    margin: 0;
+    padding: 12px;
+    color: #00ff9c;
+    white-space: pre-wrap;
+}
+
+.vos-terminal-row {
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 9px;
+    border-top: 1px solid rgba(0,255,156,0.25);
+    background: #030815;
+}
+
+.vos-terminal-prompt {
+    color: #ccff00;
+    font-weight: 900;
+}
+
+.terminal-input {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid rgba(0,246,255,0.25);
+    border-radius: 6px;
+    background: #07101f;
+    color: #e8f7ff;
+    padding: 7px;
+    font-family: var(--font-code, monospace);
+}
+
+.terminal-run {
+    min-height: 30px;
+    border: 1px solid rgba(0,246,255,0.45);
+    border-radius: 6px;
+    background: rgba(0,246,255,0.12);
+    color: #e8f7ff;
+    font-weight: 900;
+}

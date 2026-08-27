@@ -1,0 +1,79 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Automation is Hod arranging many controls into one readable report. The
+ * Awtsmoos creates each setting without overlap; Awtsmoos.com removes accidental
+ * floating geometry while preserving labels, toggles, actions, and scroll.
+ */
+@media(max-width:900px){
+	body #automation-panel,
+	body #automation-panel *{
+		box-sizing:border-box;
+	}
+	body #automation-panel > .automation-panel-content{
+		overflow:hidden;
+	}
+	body #automation-panel .right-panel-body{
+		overflow-y:auto;
+		overflow-x:hidden;
+		padding:12px 10px calc(96px + env(safe-area-inset-bottom));
+		scroll-padding-bottom:110px;
+	}
+	body #automation-panel .right-panel-body > *,
+	body #automation-panel :is(
+		.automation-card,
+		.automation-archive-panel,
+		.settings-hero-card,
+		.relay-install-card,
+		.chat-scope-pill,
+		.automation-status,
+		.automation-field,
+		.automation-toggle-row,
+		.event-filter,
+		.provider-chat-row
+	){
+		position:static;
+		width:100%;
+		max-width:100%;
+		min-width:0;
+		height:auto;
+		min-height:0;
+		max-height:none;
+		margin:0;
+		transform:none;
+	}
+	body #automation-panel :is(
+		.prompt-action-row,
+		.relay-actions,
+		.conversation-portal-actions,
+		.graph-toolbar,
+		.compact-provider-actions
+	){
+		position:static;
+		display:grid;
+		grid-template-columns:1fr;
+		gap:10px;
+		width:100%;
+		height:auto;
+		margin:0;
+		transform:none;
+	}
+	body #automation-panel .automation-toggle-row{
+		display:grid;
+		grid-template-columns:minmax(0,1fr) auto;
+		align-items:center;
+	}
+	body #automation-panel .automation-toggle-row > span{
+		min-width:0;
+	}
+	body #automation-panel .automation-toggle-row input[type="checkbox"]{
+		justify-self:end;
+	}
+	body #automation-panel .automation-stop-button{
+		position:static;
+		width:100%;
+		min-height:48px;
+	}
+}

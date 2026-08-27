@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" data-awtsmoos-build="audio-ux-complete-2026-08-13-01">
+<head>
+	<!--
+		B"H — Boruch Hashem — Blessed is He.
+		The Awtsmoos, Atzmus beyond every division, recreates screen, listener,
+		composer, and message as one reality. Awtsmoos.com is a visible vessel in
+		that renewal, where tools belong to their true place instead of floating
+		across another interface's life.
+	-->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<title>Awtsmoos AI</title>
+	<script>
+		window.__AWTSMOOS_AI_BUILD__ = "audio-ux-complete-2026-08-13-01";
+		(function revealMobileBootState() {
+			try {
+				const mobile = matchMedia("(max-width: 820px)").matches;
+				document.documentElement.dataset.mobileBoot = mobile ? "yes" : "no";
+			} catch (_error) {
+				document.documentElement.dataset.mobileBoot = "unknown";
+			}
+		})();
+	</script>
+	<link rel="stylesheet" href="styles.css?v=audio-ux-complete-2026-08-13-01">
+</head>
+<body>
+	<header class="mobile-app-crown" aria-label="Awtsmoos mobile header">
+		<button class="mobile-crown-menu" type="button" aria-label="Open chats">☰</button>
+		<div class="mobile-crown-brand"><span class="mobile-crown-mark">✺</span><span>AWTSMOOS</span></div>
+		<button class="mobile-crown-code" type="button" aria-label="Open tools">⌘</button>
+		<button class="mobile-crown-collapse" type="button" aria-label="Collapse header">⌃</button>
+	</header>
+	<div class="container">
+		<aside id="sidebar" class="sidebar">
+			<div class="conversation-list">
+				<button id="new-chat" class="refresh-button new-chat" type="button">New Chat</button>
+				<button id="refresh-conversations" class="refresh-button" type="button">Refresh</button>
+				<div class="service-selector">
+					<label for="ai-service-select">AI Service</label>
+					<select id="ai-service-select" aria-label="AI service">
+						<option value="minimax">MiniMax</option>
+						<option value="openrouter">OpenRouter</option>
+						<option value="groq">Groq</option>
+						<option value="deepseek">DeepSeek</option>
+						<option value="awtai-local">AwTai Local GGUF</option>
+						<option value="chatgpt">ChatGPT</option>
+						<option value="gemini">Gemini</option>
+					</select>
+				</div>
+				<div id="chatgpt-mode-wrap" class="service-selector chatgpt-mode-wrap">
+					<label for="chatgpt-mode-select">ChatGPT Vessel</label>
+					<select id="chatgpt-mode-select">
+						<option value="regular">Regular ChatGPT</option>
+						<option value="awtsmoos-vibe-coder">Awtsmoos Vibe Coder GPT</option>
+					</select>
+				</div>
+				<ul id="conversation-items"></ul>
+			</div>
+		</aside>
+		<div id="left-resizer" class="resize-bar" aria-hidden="true"></div>
+		<main class="main">
+			<div id="transport-status" class="transport-status" aria-live="polite"></div>
+			<div id="chat-box" class="chat-box" aria-live="polite"></div>
+			<div id="composer-resizer" class="composer-resizer" aria-hidden="true"></div>
+			<div class="input-area">
+				<div class="attachment-tools">
+					<label class="attach-button" for="attachment-input">＋ Image</label>
+					<div id="attachment-tray" class="attachment-tray"></div>
+				</div>
+				<textarea id="message-input" placeholder="Type your message…" aria-label="Message prompt"></textarea>
+				<button id="send-button" type="button">Send</button>
+				<input id="attachment-input" type="file" accept="image/*" multiple hidden>
+			</div>
+		</main>
+		<div id="right-resizer" class="resize-bar" aria-hidden="true"></div>
+		<aside id="automation-panel" class="automation-panel" aria-label="Automation pipeline settings"></aside>
+	</div>
+	<script type="module" src="index.js?v=audio-ux-complete-2026-08-13-01"></script>
+	<script type="module">
+		import { mountMobileChrome } from "./js/app/mobileChrome.js";
+		mountMobileChrome?.();
+	</script>
+	<nav class="mobile-bottom-dock" aria-label="Mobile rooms"><button class="mobile-nav-conversations" type="button"><span>▢</span><em>Chats</em></button><button class="mobile-nav-search" type="button"><span>⌕</span><em>Search</em></button><button class="mobile-nav-chat" type="button"><span>◌</span><em>AI Chat</em></button><button class="mobile-nav-automation" type="button"><span>⌘</span><em>Tools</em></button><button class="mobile-nav-settings" type="button"><span>⚙</span><em>Settings</em></button></nav>
+</body>
+</html>

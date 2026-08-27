@@ -1,0 +1,107 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews temporal structure; Awtsmoos.com aligns the toolbar,
+ * ruler, track headers, lanes, and inspector without drifting edited time.
+ */
+.aw-professional-studio .app-timeline {
+	border-radius: var(--aw-radius-md) var(--aw-radius-md) 0 0;
+	background: var(--aw-panel-inset);
+}
+
+.aw-professional-studio .app-timeline > :not(#aw-nle-mount) {
+	display: none !important;
+}
+
+.aw-professional-studio #aw-nle-mount {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+}
+
+.aw-professional-studio .aw-nle-shell {
+	position: static;
+	inset: auto;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	width: 100%;
+	height: 100%;
+	max-height: none;
+	border: 0;
+	border-radius: 0;
+	background: var(--aw-panel-inset);
+	box-shadow: none;
+}
+
+.aw-professional-studio .aw-nle-mode-compact,
+.aw-professional-studio .aw-nle-mode-expanded {
+	height: 100% !important;
+}
+
+.aw-professional-studio .aw-nle-toolbar {
+	min-height: 44px;
+	padding: 7px 10px;
+}
+
+.aw-professional-studio .aw-nle-editor-body {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) clamp(200px, 18vw, 280px);
+	min-height: 0;
+}
+
+.aw-professional-studio .aw-nle-timeline-grid {
+	display: grid;
+	grid-template-columns: 152px minmax(0, 1fr);
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.aw-professional-studio .aw-nle-tracks,
+.aw-professional-studio .aw-nle-clips {
+	min-height: 0;
+	overflow: auto;
+	scrollbar-color: var(--aw-control-active) transparent;
+	scrollbar-width: thin;
+}
+
+.aw-professional-studio .aw-nle-tracks {
+	border-right: 1px solid var(--aw-line-strong);
+	background: var(--aw-panel);
+}
+
+.aw-professional-studio .aw-nle-track-ruler,
+.aw-professional-studio .aw-nle-ruler {
+	position: relative;
+	height: 25px;
+	border-bottom: 1px solid var(--aw-line-strong);
+	background: var(--aw-panel-raised);
+}
+
+.aw-professional-studio .aw-nle-track-ruler {
+	padding: 7px 9px 0;
+	color: var(--aw-muted);
+	font-size: 9px;
+	letter-spacing: 0.08em;
+}
+
+.aw-professional-studio .aw-nle-ruler {
+	min-width: 100%;
+	overflow: hidden;
+}
+
+.aw-professional-studio .aw-nle-ruler-mark {
+	position: absolute;
+	top: 5px;
+	padding-left: 5px;
+	border-left: 1px solid var(--aw-line-strong);
+	color: var(--aw-muted);
+	font: 9px var(--aw-mono);
+}
+
+.aw-professional-studio .aw-nle-inspector {
+	min-width: 0;
+	overflow: auto;
+	border-left: 1px solid var(--aw-line-strong);
+	background: var(--aw-panel);
+}

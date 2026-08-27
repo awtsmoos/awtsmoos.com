@@ -1,0 +1,193 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "realtime-application-routing",
+	"district": "realtime",
+	"title": "Realtime Application Routing",
+	"summary": "The platform registry/router that selects versioned realtime applications and shares server state.",
+	"manuals": [
+		"docs/WEBSOCKETS/APPLICATIONS.md",
+		"docs/TUTORIALS/SYSTEMS/REALTIME_RUNTIME.md"
+	],
+	"projects": [
+		{
+			"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+			"path": "ayzarim/awtsmoosDynamicServer",
+			"type": "runtime",
+			"title": "ayzarim/awtsmoosDynamicServer",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+		}
+	],
+	"sources": [
+		"ayzarim/awtsmoosDynamicServer/websocket/apps/messageRouter.js",
+		"ayzarim/awtsmoosDynamicServer/websocket/apps/applicationDefinitions.js"
+	],
+	"generatedEvidence": [
+		"docs/GENERATED/WEBSOCKET_APPLICATIONS.md"
+	],
+	"tags": [
+		"websocket",
+		"application",
+		"router",
+		"versioning"
+	],
+	"claimsBoundary": "Registered application factories are source registration evidence, not proof that every app is active in every deployment.",
+	"changeRisk": "Application IDs, versions, registry selection, or legacy compatibility changes are protocol contracts.",
+	"environmentEvidence": [
+		{
+			"name": "AWTSMOOS_REGISTRATION_STRESS_COUNT",
+			"classification": "test/tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/registrationReplacementStress.test.cjs"
+		},
+		{
+			"name": "AWTSMOOS_RELAY_STRESS_COUNT",
+			"classification": "test/tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs"
+		},
+		{
+			"name": "AWTSMOOS_SEFIRA_PROFILE_PATH",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_COMPLETED_LIMIT",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestConsumerWatchdog.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
+			"classification": "path/storage",
+			"sources": 9,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_PENDING_TTL_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_QUARANTINE_LIMIT",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_RELAY_STATE_ROOT",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durablePaths.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatchWatchdog.js"
+		},
+		{
+			"name": "MW_LOAD_CLIENTS",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionLoadProbe.cjs"
+		}
+	],
+	"realtimeApplications": [
+		{
+			"id": "awtsmoos-core",
+			"versions": "1",
+			"factory": "createAwtsmoosCoreApplication"
+		},
+		{
+			"id": "awtsmoos-social",
+			"versions": "1",
+			"factory": "createAwtsmoosSocialApplication"
+		},
+		{
+			"id": "chess",
+			"versions": "1",
+			"factory": "createChessApplication"
+		},
+		{
+			"id": "geelooy-code",
+			"versions": "1",
+			"factory": "createGeelooyCodeApplication"
+		},
+		{
+			"id": "geelooy-docs",
+			"versions": "1",
+			"factory": "createGeelooyDocsApplication"
+		},
+		{
+			"id": "sheets",
+			"versions": "1",
+			"factory": "createSheetsApplication"
+		},
+		{
+			"id": "universal-chat",
+			"versions": "1",
+			"factory": "createUniversalChatApplication"
+		},
+		{
+			"id": "private-messaging",
+			"versions": "1",
+			"factory": "createPrivateMessagingApplication"
+		},
+		{
+			"id": "sefira-clash",
+			"versions": "1",
+			"factory": "createSefiraClashApplication"
+		},
+		{
+			"id": "mitzvah-world",
+			"versions": "1",
+			"factory": "createMitzvahWorldApplication"
+		},
+		{
+			"id": "ohr-hagnuz",
+			"versions": "1",
+			"factory": "createOhrHagnuzApplication"
+		},
+		{
+			"id": "scribe-journey",
+			"versions": "1, 2",
+			"factory": "createScribeJourneyApplication"
+		},
+		{
+			"id": "tunnel-activity",
+			"versions": "1",
+			"factory": "createTunnelActivityApplication"
+		},
+		{
+			"id": "shema-strike",
+			"versions": "1",
+			"factory": "createShemaStrikeApplication"
+		}
+	],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-application-routing.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/realtime-application-routing.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

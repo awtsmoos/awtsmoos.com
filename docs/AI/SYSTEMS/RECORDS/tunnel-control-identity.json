@@ -1,0 +1,56 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "tunnel-control-identity",
+	"district": "security",
+	"title": "Tunnel Control Identity",
+	"summary": "Tunnel Control resolves session, OAuth, or verified API-key identity into one authoritative account record.",
+	"manuals": [
+		"docs/SECURITY/TRUST_BOUNDARIES.md",
+		"docs/TUTORIALS/API/TUNNEL_CONTROL.md"
+	],
+	"projects": [
+		{
+			"projectId": "geelooy-api-tunnel-df787c17",
+			"path": "geelooy/api/tunnel",
+			"type": "api",
+			"title": "geelooy/api/tunnel",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-tunnel-df787c17.md"
+		}
+	],
+	"sources": [
+		"geelooy/api/tunnel/control/core/auth.js"
+	],
+	"generatedEvidence": [
+		"docs/GENERATED/API_TUTORIAL_INDEX.md"
+	],
+	"tags": [
+		"identity",
+		"api-key",
+		"oauth",
+		"session",
+		"tunnel"
+	],
+	"claimsBoundary": "The identity resolver rejects browser-supplied owner fields as authority; downstream permissions remain separate.",
+	"changeRisk": "Identity-source precedence, API-key verification, and account normalization directly affect authorization inputs.",
+	"environmentEvidence": [
+		{
+			"name": "AWTSMOOS_BINDING_HISTORY_PER_IDENTITY",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+		},
+		{
+			"name": "AWTSMOOS_BINDING_RETENTION_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "geelooy/api/tunnel/control/core/tunnelSecurity/bindingRetentionPolicy.js"
+		}
+	],
+	"realtimeApplications": [],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/tunnel-control-identity.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/tunnel-control-identity.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

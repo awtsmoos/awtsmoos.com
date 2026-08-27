@@ -1,0 +1,71 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "ayzarim-ssh-099c712a",
+	"path": "ayzarim/ssh",
+	"type": "infrastructure",
+	"family": {
+		"id": "runtime",
+		"title": "Runtime and Infrastructure"
+	},
+	"title": "ayzarim/ssh",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"ayzarim/ssh/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+		"docs/ARCHITECTURE.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/RUNTIME_AND_INFRASTRUCTURE.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-ssh-099c712a.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 47,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 48,
+	"symbolSummary": {
+		"files": 47,
+		"classes": 31,
+		"functions": 112,
+		"exports": 133,
+		"samples": [
+			"IGNORE",
+			"UNIMPLEMENTED",
+			"DEBUG",
+			"SERVICE_REQUEST",
+			"SERVICE_ACCEPT",
+			"KEXINIT",
+			"NEWKEYS",
+			"KEXDH_INIT",
+			"KEXDH_REPLY",
+			"USERAUTH_REQUEST",
+			"USERAUTH_FAILURE",
+			"USERAUTH_SUCCESS"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/ssh",
+			"count": 2,
+			"examples": "geelooy/api/ssh/lib/client.js; geelooy/api/ssh/virtual/service.js"
+		},
+		{
+			"project": "geelooy/apps/tunnel",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/agent/lib/fakeSsh/wireServer.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,22 @@
+
+/* B"H */
+@import url('./virtual-os/root.css');
+@import url('./virtual-os/wallpaper.css');
+@import url('./virtual-os/desktop/icons.css');
+@import url('./virtual-os/windows/base.css');
+@import url('./virtual-os/windows/titlebar.css');
+@import url('./virtual-os/windows/controls.css');
+@import url('./virtual-os/windows/resize.css');
+@import url('./virtual-os/taskbar/base.css');
+@import url('./virtual-os/taskbar/tasks.css');
+@import url('./virtual-os/start-menu/base.css');
+@import url('./virtual-os/start-menu/items.css');
+@import url('./virtual-os/apps/common.css');
+@import url('./virtual-os/apps/file-commander-window.css');
+@import url('./virtual-os/apps/browser.css');
+@import url('./virtual-os/apps/terminal.css');
+@import url('./virtual-os/apps/notepad.css');
+@import url('./virtual-os/apps/settings.css');
+@import url('./virtual-os/apps/task-manager.css');
+@import url('./virtual-os/apps/git-control.css');
+@import url('./virtual-os/diagnostics.css');

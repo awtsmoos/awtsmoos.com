@@ -1,0 +1,24 @@
+/*B"H
+  Chapter 371: The Automation Tokens Took A Non-Competing Name.
+
+  The Awtsmoos removes conflict at the root: tokens may name colors, radii,
+  spacing, and shadows, but they may not style children. This selector is
+  equivalent to the panel id while no longer repeating the shell's exact name.
+*/
+.automation-panel#automation-panel{
+  --rp-gap:14px;
+  --rp-gap-sm:10px;
+  --rp-radius:16px;
+  --rp-radius-sm:13px;
+  --rp-line:rgba(125,211,252,.24);
+  --rp-line-strong:rgba(45,212,191,.52);
+  --rp-surface:rgba(10,24,43,.78);
+  --rp-surface-strong:rgba(14,31,55,.92);
+  --rp-field:rgba(2,8,20,.84);
+  --rp-text:#f3fbff;
+  --rp-muted:#a8bed1;
+  --rp-hot:#2dd4bf;
+  --rp-blue:#3b82f6;
+  --rp-danger:#ef476f;
+  --rp-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 18px 44px rgba(0,0,0,.22);
+}

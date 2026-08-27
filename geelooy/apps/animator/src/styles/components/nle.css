@@ -1,0 +1,117 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews compact edited time; Awtsmoos.com keeps every action,
+ * track, clip, selection, and playhead legible without obscuring the canvas.
+ */
+#aw-nle-mount {
+	position: absolute;
+	inset: auto 10px calc(env(safe-area-inset-bottom, 0px) + 8px);
+	z-index: 80;
+	pointer-events: auto;
+}
+
+.aw-nle-shell {
+	width: 100%;
+	overflow: hidden;
+	border: 1px solid var(--aw-line-strong);
+	border-radius: var(--aw-radius-lg);
+	color: var(--aw-text);
+	background: var(--aw-panel);
+	box-shadow: var(--aw-shadow);
+	transition: height var(--aw-normal) ease, opacity var(--aw-normal) ease;
+}
+
+.aw-nle-toolbar {
+	display: flex;
+	align-items: center;
+	gap: var(--aw-space-1);
+	overflow-x: auto;
+	padding: 6px var(--aw-space-2);
+	border-bottom: 1px solid var(--aw-line);
+	background: var(--aw-panel-raised);
+	scrollbar-width: thin;
+}
+
+.aw-nle-btn {
+	min-height: 28px;
+	padding: 4px 8px;
+	border-color: var(--aw-line);
+	color: var(--aw-text-soft);
+	background: var(--aw-control);
+	font-size: 11px;
+	white-space: nowrap;
+}
+
+.aw-nle-btn:hover:not(:disabled),
+.aw-nle-btn.is-active {
+	color: var(--aw-text);
+	background: var(--aw-control-hover);
+}
+
+.aw-nle-btn:focus-visible {
+	outline: 0;
+	box-shadow: var(--aw-focus);
+}
+
+.aw-nle-btn:disabled {
+	opacity: 0.38;
+	cursor: not-allowed;
+}
+
+.aw-nle-play {
+	color: #fff;
+	background: #315a9b;
+}
+
+.aw-nle-zoom {
+	min-width: 28px;
+	padding-inline: 6px;
+	font-size: 15px;
+}
+
+.aw-nle-time {
+	margin-left: auto;
+	min-width: max-content;
+	color: var(--aw-muted);
+	font: 11px var(--aw-mono);
+	font-variant-numeric: tabular-nums;
+}
+
+.aw-nle-mode-collapsed {
+	height: 48px !important;
+}
+
+.aw-nle-mode-compact {
+	height: 126px !important;
+}
+
+.aw-nle-mode-expanded {
+	height: min(236px, 42vh) !important;
+}
+
+.aw-nle-collapsed-body {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	height: 24px;
+	overflow: hidden;
+	padding: 0 12px 7px;
+	color: var(--aw-muted);
+	font-size: 12px;
+}
+
+.aw-nle-collapsed-body strong {
+	min-width: max-content;
+	color: var(--aw-text);
+}
+
+.aw-nle-collapsed-body span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.aw-nle-mode-collapsed .aw-nle-toolbar {
+	border-bottom: 0;
+}

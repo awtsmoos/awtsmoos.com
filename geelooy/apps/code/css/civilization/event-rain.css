@@ -1,0 +1,27 @@
+/* B"H
+ * Chapter 555: Civilization events descend as clickable sparks over the Code Forge.
+ */
+.civilization-event-spark {
+  position: fixed;
+  z-index: 180;
+  pointer-events: auto;
+  border: 1px solid rgba(0,246,255,.28);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--neon-cyan);
+  background: rgba(2, 6, 14, .86);
+  box-shadow: var(--civ-shadow);
+  font: 900 11px/1 var(--font-code, monospace);
+  animation: civFall 7s linear forwards;
+  cursor: pointer;
+}
+.civilization-event-spark[data-priority="hot"] {
+  color: var(--neon-magenta);
+  border-color: var(--civ-border-hot);
+}
+@keyframes civFall {
+  from { transform: translateY(-20px) scale(.94); opacity: 0; }
+  8% { opacity: 1; }
+  88% { opacity: .9; }
+  to { transform: translateY(100vh) scale(1.05); opacity: 0; }
+}

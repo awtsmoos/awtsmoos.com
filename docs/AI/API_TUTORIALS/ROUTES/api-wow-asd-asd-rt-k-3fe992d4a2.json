@@ -1,0 +1,67 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-wow-asd-asd-rt-k-3fe992d4a2",
+	"route": "/api/wow/:asd/asd/:rt/k",
+	"source": "geelooy/api/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api",
+		"title": "API Root",
+		"manual": "docs/TUTORIALS/API/ROOT_API.md"
+	},
+	"derech": {
+		"source": "geelooy/api/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api"
+	},
+	"dynamic": true,
+	"pathParameters": [
+		{
+			"name": "asd",
+			"catchAll": false
+		},
+		{
+			"name": "rt",
+			"catchAll": false
+		}
+	],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"route-vars"
+	],
+	"statuses": [],
+	"headers": [
+		"Access-Control-Allow-Origin"
+	],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [
+		{
+			"name": "test",
+			"command": "npm run test:routes && npm run test:treasury && npm run test:treasury:full && npm run test:imported-style-ownership && npm run test:css-quality && npm run test:heichelos-quality && npm run test:profile-menu && npm run test:heichel-governance && npm run test:post-submissions && npm run test:comments && npm run test:api-keys && npm run test:graph && npm run test:social-content && npm run test:notifications && npm run test:social-packed && npm run test:packed-engine && npm run test:platform-ops && npm run test:platform-execution && npm run test:node-client && npm run test:dayuh-cutover"
+		},
+		{
+			"name": "test:dayuh-release",
+			"command": "npm run test:routes && npm run test:comments && npm run test:social-content && npm run test:social-packed && npm run test:packed-engine && node --test tools/dayuhChadashMaintenance/test/*.test.js && npm run test:dayuh-cutover"
+		},
+		{
+			"name": "test:routes",
+			"command": "node geelooy/api/social/test/routeCoverage.test.js"
+		}
+	],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-wow-asd-asd-rt-k-3fe992d4a2.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-even-asd-more-rt-k-0e23c6ff58",
+			"route": "/api/even/:asd/more/:rt/k"
+		},
+		{
+			"id": "api-what-are-you-doing-43227e74be",
+			"route": "/api/what/:are/you/:doing"
+		}
+	]
+}

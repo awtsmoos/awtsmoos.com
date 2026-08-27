@@ -1,0 +1,3284 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../css/legacy-pages.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expressive Stick Figure Animator - Ultra Revamp v2</title>
+<style id="mainStylesheet">
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    margin: 0;
+    padding: 15px;
+    background-color: #DFE6E9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #2D3436;
+    line-height: 1.5;
+}
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    width: 96%;
+    max-width: 1000px;
+}
+h1, h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.3em; color: #34495e;}
+
+textarea#jsonInput {
+    width: calc(100% - 22px);
+    min-height: 180px;
+    margin-bottom: 12px;
+    padding: 10px;
+    border: 1px solid #BCCCDC;
+    border-radius: 5px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 0.9em;
+    resize: vertical;
+    box-sizing: border-box;
+}
+.button-group {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.button-group button, .button-group label {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498DB;
+    color: white;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: background-color 0.15s ease, transform 0.08s ease;
+}
+.button-group button:hover, .button-group label:hover {
+    background-color: #2980B9;
+}
+.button-group button:active, .button-group label:active {
+    transform: translateY(1px);
+}
+.button-group input[type="file"] { display: none; }
+
+#status {
+    margin-top: 12px;
+    color: #636E72;
+    text-align: center;
+    font-size: 0.85em;
+    min-height: 1.2em;
+}
+canvas#animationCanvas {
+    border: 1px solid #BCCCDC;
+    display: block;
+    margin: 20px auto;
+    background-color: #F0F8FF;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    border-radius: 6px;
+    touch-action: none;
+}
+.playback-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.hidden { display: none !important; }
+
+.exported-body {
+    justify-content: center;
+    min-height: 100vh;
+    padding-top: 20px;
+}
+.exported-h1 { margin-bottom: 10px; font-size: 1.6em; }
+/* Exported player minimal style overrides */
+</style>
+</head>
+<body>
+    <div class="container" id="inputContainer">
+        <h1>Expressive Stick Figure Animator - Ultra Revamp v2</h1>
+        <h2>Load Animation Data</h2>
+        <textarea id="jsonInput" placeholder="Paste JSON animation data here..."></textarea>
+        <div class="button-group">
+            <label for="jsonFileUpload">Upload JSON File</label>
+            <input type="file" id="jsonFileUpload" accept=".json">
+            <button id="loadJsonBtn">Load Animation</button>
+        </div>
+        <div id="status">Load JSON to begin. See console (F12) for speech synthesis voices.</div>
+    </div>
+
+    <canvas id="animationCanvas" width="800" height="600"></canvas>
+
+    <div class="container playback-controls hidden" id="playbackControlsContainer">
+        <div class="button-group">
+            <button id="playStopBtn">Play</button>
+            <button id="restartBtn">Restart</button>
+        </div>
+        <div class="button-group">
+             <button id="exportBtn">Export Standalone HTML</button>
+        </div>
+    </div>
+
+<script id="mainAnimationScript">
+class Animator {
+    constructor(canvasElement, uiElements) {
+        this.canvas = canvasElement;
+        this.ctx = this.canvas.getContext('2d');
+        this.ui = uiElements;
+
+        this.animationData = null;
+        this.isPlaying = false;
+        this.animationFrameId = null;
+        this.lastTimestamp = 0;
+
+        this.eventTimeline = [];
+        this.currentEventGroupIndex = -1;
+        this.activeEventGroup = null;
+        this.activeEventGroupStatus = {};
+
+        this.charactersState = {};
+        this.objectsState = {};
+        this.cameraState = {
+            x: 0, y: 0, zoom: 1,
+            targetX: 0, targetY: 0, targetZoom: 1,
+            focusEntities: [],
+            panSpeed: 0.09,
+            lerpCompleteThreshold: 0.01,
+            zoomLerpCompleteThreshold: 0.0005,
+            minZoom: 0.1, maxZoom: 8.0
+        };
+
+        this.sceneLayers = [];
+        this.defaultLayerName = 'characterLevel';
+
+        // Figure Proportions (Constants)
+        this.FIGURE_BASE_HEIGHT = 100;
+        this.STICK_THICKNESS_BASE = 2.8;
+        this.HEAD_RADIUS_F = 0.12;
+        this.NECK_LENGTH_F = 0.03;
+        this.BODY_LENGTH_F = 0.35;
+        this.SHOULDER_WIDTH_F = 0.15; // Base shoulder width, modulated by facingMode
+        this.ARM_UPPER_F = 0.22;
+        this.ARM_LOWER_F = 0.22;
+        this.HIP_WIDTH_F = 0.12;    // Base hip width, modulated by facingMode
+        this.LEG_UPPER_F = 0.25;
+        this.LEG_LOWER_F = 0.25;
+        this.TZITZIT_LENGTH_F = 0.20;
+        this.TZITZIT_SWAY_BASE_AMP = 4;
+        this.TZITZIT_HIP_ANCHOR_X_FACTOR = 0.7;
+
+        // Behavior Constants
+        this.BLINK_DURATION = 0.18;
+        this.BLINK_INTERVAL_MIN = 2000; this.BLINK_INTERVAL_MAX = 5000;
+        this.DART_DURATION = 0.12;
+        this.DART_INTERVAL_MIN = 2500; this.DART_INTERVAL_MAX = 6000;
+        this.DART_MAX_SHIFT_FACTOR = 0.15;
+        this.IDLE_VARIATION_INTERVAL_MIN = 5000; this.IDLE_VARIATION_INTERVAL_MAX = 10000;
+        this.IDLE_TRANSITION_DURATION = 0.6;
+        this.POSE_TRANSITION_DURATION = 0.25;
+        this.EXPRESSION_TRANSITION_DURATION = 0.3;
+        this.ACCESSORY_SWAY_SPRING = 0.2;
+        this.ACCESSORY_SWAY_DAMPING = 0.85;
+        this.EXPRESSION_INTENSITY_FACTOR = 1.15;
+        this.TURN_ANIMATION_DURATION = 0.45; // Slightly longer for smoother turn
+
+        this.speechBubbleConfig = {
+            fontFamily: "Arial, sans-serif", fontSizeScreen: 14, paddingScreen: 8,
+            marginScreen: { top: 15, side: 5 }, pointerHeightScreen: 15, pointerWidthScreen: 20,
+            lineHeightFactor: 1.2, maxWidthScreenFactor: 0.30, minWidthScreen: 80,
+            cornerRadiusScreen: 8, bgColor: "rgba(255, 255, 255, 0.98)",
+            borderColor: "rgba(30, 30, 30, 0.95)", textColor: "#1A202C",
+            shadow: { offsetX: 1, offsetY: 1, blur: 3, color: "rgba(0,0,0,0.15)" }
+        };
+
+        this.availableTalkPoses = [
+            'talk_gesture1', 'talk_gesture2', 'talk_subtle', 'talk_emphatic_hands', 'talk_questioning_shrug', 'talk_listening_nod',
+            'talk_explaining_hands', 'talk_listening_attentive', 'talk_excited_bouncing', 'talk_skeptical_headtilt', 'talk_calm_hands_folded'
+        ];
+        this.availableIdlePoses = [
+            'idle_default', 'idle_hands_clasped_low', 'idle_slight_ponder', 'idle_arms_crossed', 'idle_hands_on_hips',
+            'idle_looking_around', 'idle_foot_tap_subtle'
+        ];
+        this.talkPoseCycleIndex = {};
+
+        this.speechSynthesis = window.speechSynthesis;
+        this.availableVoices = [];
+        if (this.speechSynthesis) {
+            const loadVoices = () => {
+                this.availableVoices = this.speechSynthesis.getVoices();
+                console.log("Available TTS voices:", this.availableVoices.map(v => ({name: v.name, lang: v.lang})));
+                if (this.ui.statusDiv && !this.animationData) {
+                    this.ui.statusDiv.textContent = `TTS voices loaded (${this.availableVoices.length}). Load JSON.`;
+                }
+            };
+            if (this.speechSynthesis.onvoiceschanged !== undefined) {
+                this.speechSynthesis.onvoiceschanged = loadVoices;
+            }
+            loadVoices(); // Call once immediately, in case voices are already loaded.
+        } else {
+            console.warn("Speech Synthesis not supported.");
+            if (this.ui.statusDiv && !this.animationData) this.ui.statusDiv.textContent = "Speech Synthesis not supported. Load JSON.";
+        }
+
+        this._defineMouthShapes(); // Define before poses, as poses might reference them
+        this._definePoses();
+        this._bindUIEvents();
+        this._checkForEmbeddedData();
+    }
+
+    _getDefaultBehaviorState() {
+        const now = performance.now();
+        return {
+            blinking: {
+                lastBlinkTime: now,
+                nextBlinkInterval: this.BLINK_INTERVAL_MIN + Math.random() * (this.BLINK_INTERVAL_MAX - this.BLINK_INTERVAL_MIN),
+                isBlinking: false, blinkProgress: 0,
+            },
+            eyeDarts: {
+                lastDartTime: now,
+                nextDartInterval: this.DART_INTERVAL_MIN + Math.random() * (this.DART_INTERVAL_MAX - this.DART_INTERVAL_MIN),
+                isDarting: false, dartPhase: 0, dartProgress: 0,
+                targetPupilShiftX: 0, targetPupilShiftY: 0,
+                currentPupilShiftX: 0, currentPupilShiftY: 0,
+                basePupilX: 0, basePupilY: 0,
+                currentMaxShiftFactor: this.DART_MAX_SHIFT_FACTOR,
+            },
+            idleBehavior: {
+                currentIdleVariation: this.availableIdlePoses[0],
+                nextIdleChangeTime: now + this.IDLE_VARIATION_INTERVAL_MIN + Math.random() * (this.IDLE_VARIATION_INTERVAL_MAX - this.IDLE_VARIATION_INTERVAL_MIN)
+            },
+            lookAt: {
+                targetId: null, targetCoords: null, isActive: false,
+                endTime: Infinity, currentHeadAngle: 0, targetHeadAngle: 0
+            },
+            accessorySway: {
+                angle: 0, velocity: 0, prevHeadTiltWorld: 0,
+                currentTzitzitSwayAmplitude: this.TZITZIT_SWAY_BASE_AMP * 0.2
+            },
+            mouth: {
+                currentShape: 'neutral', targetShape: 'neutral',
+                shapeTransitionProgress: 1,
+                lastShapeChangeTime: now,
+                // Slower cycle for general talking shapes, faster for phonemes if implemented
+                nextShapeChangeInterval: 120 + Math.random() * 180, 
+                animPhase: 0, // General animation phase for mouth movement
+                talkingShapes: ['neutral', 'slight_open', 'ah', 'o_small', 'ee', 's', 'fv', 'mbp', 'l_th'],
+                currentTalkingShapeIndex: 0,
+            },
+            emphasis: {
+                active: false,
+                originalExpression: 'neutral',
+                emphasisExpression: 'neutral',
+                endTime: 0,
+                intensity: 0
+            },
+            turning: {
+                isActive: false, progress: 0, duration: this.TURN_ANIMATION_DURATION,
+                startFacing: 'right', targetFacing: 'right',
+                startFacingMode: 'profile', // The character's inherent mode
+                visualFacingMode: 'profile', // What's visually rendered during turn
+                visualFacingSign: 1,         // Visual direction (-1 left, 1 right)
+                turnPhases: ['current_profile', 'current_threeQuarter', 'front', 'next_threeQuarter', 'next_profile'],
+            }
+        };
+    }
+
+    _bindUIEvents() {
+        this.ui.loadJsonBtn.addEventListener('click', () => this.loadJsonFromTextarea());
+        this.ui.jsonFileUpload.addEventListener('change', (e) => this.loadJsonFromFile(e));
+        this.ui.playStopBtn.addEventListener('click', () => this.togglePlayStop());
+        this.ui.restartBtn.addEventListener('click', () => this.restartAnimation());
+        this.ui.exportBtn.addEventListener('click', () => this.exportAnimation());
+    }
+
+    _checkForEmbeddedData() {
+        const embeddedDataScript = document.getElementById('animationDataJson');
+        if (embeddedDataScript && typeof embeddedDataScript.textContent === 'string' && embeddedDataScript.textContent.trim() !== "") {
+            try {
+                const jsonData = JSON.parse(embeddedDataScript.textContent);
+                this.loadAnimation(jsonData);
+                this.ui.inputContainer.classList.add('hidden');
+                if (this.animationData) {
+                    document.body.classList.add('exported-body');
+                    const h1 = document.querySelector('h1');
+                    if(h1) h1.classList.add('exported-h1');
+                     // Auto-play if specified in embedded data
+                    if (this.animationData.scene && this.animationData.scene.autoplay) {
+                        setTimeout(() => this.playAnimation(), 100); // Short delay for init
+                    }
+                }
+            } catch (e) {
+                console.error("Error loading embedded JSON:", e);
+                this.ui.statusDiv.textContent = "Error loading embedded animation data: " + e.message;
+            }
+        }
+    }
+
+    loadJsonFromTextarea() {
+        try {
+            const jsonData = JSON.parse(this.ui.jsonInput.value);
+            this.loadAnimation(jsonData);
+        } catch (e) {
+            this.ui.statusDiv.textContent = "Error parsing JSON: " + e.message;
+            console.error("JSON Parse Error:", e);
+        }
+    }
+
+    loadJsonFromFile(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    this.ui.jsonInput.value = e.target.result;
+                    this.loadAnimation(jsonData);
+                } catch (err) {
+                    this.ui.statusDiv.textContent = "Error parsing JSON file: " + err.message;
+                    console.error("JSON File Parse Error:", err);
+                }
+            };
+            reader.readAsText(file);
+        }
+    }
+
+    loadAnimation(data) {
+        if (!data || !data.scene || !data.characters || !data.timeline || !Array.isArray(data.timeline)) {
+            this.ui.statusDiv.textContent = "Invalid JSON: Missing scene, characters, or valid timeline array.";
+            return;
+        }
+        this.stopAnimation(); // Ensure any previous animation is fully stopped
+        this.animationData = data;
+
+        this.eventTimeline = this.animationData.timeline.map((group, groupIndex) =>
+            group.map((event, eventIndex) => ({ ...event, _instanceId: `g${groupIndex}_e${eventIndex}` }))
+        );
+
+        this.canvas.width = this.animationData.scene.width || 800;
+        this.canvas.height = this.animationData.scene.height || 600;
+        this.canvas.style.backgroundColor = this.animationData.scene.backgroundColor || "#F0F8FF";
+
+        this.sceneLayers = (this.animationData.scene.layers || [{ name: this.defaultLayerName, zIndex: 10, parallaxFactor: 1.0 }])
+            .sort((a,b) => a.zIndex - b.zIndex);
+        if (!this.sceneLayers.find(l => l.name === this.defaultLayerName)) {
+             this.sceneLayers.push({ name: this.defaultLayerName, zIndex: 10, parallaxFactor: 1.0 });
+             this.sceneLayers.sort((a,b) => a.zIndex - b.zIndex);
+        }
+
+        this.cameraState = {
+            ...this.cameraState, 
+            x: this.animationData.scene.initialCamera?.x ?? (this.canvas.width / 2), 
+            y: this.animationData.scene.initialCamera?.y ?? (this.canvas.height / 2), 
+            zoom: this.animationData.scene.initialCamera?.zoom ?? 1,
+            targetX: this.animationData.scene.initialCamera?.x ?? (this.canvas.width / 2), 
+            targetY: this.animationData.scene.initialCamera?.y ?? (this.canvas.height / 2), 
+            targetZoom: this.animationData.scene.initialCamera?.zoom ?? 1, 
+            focusEntities: null,
+        };
+        // Apply first camera event immediately if present
+        if(this.eventTimeline.length > 0 && this.eventTimeline[0].length > 0) {
+            this.eventTimeline[0].forEach(event => {
+                if (event.type === 'camera') this._applyCameraEvent(event, true); // Immediate application
+            });
+        }
+
+
+        this.charactersState = {};
+        this.animationData.characters.forEach(charDef => {
+            const appearance = charDef.appearance || {};
+            const mouthCfg = appearance.mouth || {};
+            this.charactersState[charDef.id] = {
+                ...charDef,
+                x: charDef.initialPosition.x, y: charDef.initialPosition.y,
+                startXForWalk: charDef.initialPosition.x, startYForWalk: charDef.initialPosition.y,
+                targetX: charDef.initialPosition.x, targetY: charDef.initialPosition.y,
+                
+                activePoseName: charDef.initialPose || 'idle_default',
+                previousPoseName: charDef.initialPose || 'idle_default',
+                poseTransitionProgress: 1.0,
+                poseTransitionDuration: this.POSE_TRANSITION_DURATION,
+
+                activeExpressionName: appearance.expression || 'neutral',
+                previousExpressionName: appearance.expression || 'neutral',
+                expressionTransitionProgress: 1.0,
+                expressionTransitionDuration: this.EXPRESSION_TRANSITION_DURATION,
+                
+                currentTalkPose: this.availableTalkPoses[0], // Default talk pose
+                facing: charDef.facing || 'right', 
+                facingMode: charDef.facingMode || 'profile',
+                dialogueText: null, isSpeakingTTS: false, currentActions: [],
+                posePhase: Math.random() * Math.PI * 2, 
+                swayPhase: Math.random() * Math.PI * 2,
+                layer: charDef.layer || this.defaultLayerName,
+                size: charDef.size || 1.0, 
+                color: charDef.color || 'black',
+                gender: charDef.gender || 'unknown',
+                behaviors: this._getDefaultBehaviorState(),
+                appearance: {
+                    hairStyle: appearance.hairStyle || 'none', 
+                    hairColor: appearance.hairColor || '#4A3B31',
+                    eyeColor: appearance.eyeColor || 'white', 
+                    pupilColor: appearance.pupilColor || 'black',
+                    hat: appearance.hat || (charDef.gender === 'male' ? 'yarmulke' : 'none'),
+                    hatColor: appearance.hatColor || (charDef.gender === 'male' && (appearance.hat === 'yarmulke' || !appearance.hat) ? '#222222' : '#607D8B'),
+                    hasTzitzit: appearance.hasTzitzit !== undefined ? appearance.hasTzitzit : (charDef.gender === 'male'),
+                    tzitzitColor: appearance.tzitzitColor || 'white',
+                    beard: appearance.beard || 'none', 
+                    beardColor: appearance.beardColor || appearance.hairColor || '#4A3B31',
+                    nose: appearance.nose !== undefined ? appearance.nose : true,
+                    mouth: { 
+                        color: mouthCfg.color || charDef.color || 'black',
+                        teethColor: mouthCfg.teethColor || '#FDFBF5', // Slightly off-white
+                        tongueColor: mouthCfg.tongueColor || '#E57373' // Soft red
+                    }
+                }
+            };
+            this.talkPoseCycleIndex[charDef.id] = 0;
+        });
+
+        this.objectsState = {};
+        if (this.animationData.objects && this.animationData.assets && this.animationData.assets.objectBlueprints) {
+             this.animationData.objects.forEach(objInstance => {
+                const blueprint = this.animationData.assets.objectBlueprints[objInstance.blueprintId];
+                if (blueprint) {
+                    this.objectsState[objInstance.id] = {
+                        ...objInstance, blueprint,
+                        x: objInstance.position.x, y: objInstance.position.y,
+                        rotation: objInstance.rotation || 0,
+                        scale: typeof objInstance.scale === 'number' ? {x: objInstance.scale, y: objInstance.scale} : (objInstance.scale || {x:1, y:1}),
+                        layer: objInstance.layer || this.defaultLayerName,
+                        isTargetedByLook: false
+                    };
+                } else {
+                    console.warn(`Blueprint with ID ${objInstance.blueprintId} not found for object ${objInstance.id}`);
+                }
+            });
+        }
+
+        this.ui.statusDiv.textContent = `Animation loaded. ${this.eventTimeline.length} event groups. Characters: ${this.animationData.characters.length}. Objects: ${Object.keys(this.objectsState).length}.`;
+        this.ui.playbackControlsContainer.classList.remove('hidden');
+        this.drawScene(); // Initial draw
+    }
+
+    _setPose(character, newPoseName, duration = this.POSE_TRANSITION_DURATION) {
+        if (!character) return;
+        if (typeof newPoseName !== 'string') {
+            console.warn(`Invalid pose name for character ${character.id}:`, newPoseName);
+            newPoseName = 'idle_default'; // Fallback
+        }
+        if (character.activePoseName === newPoseName && character.poseTransitionProgress >= 1) return;
+        
+        character.previousPoseName = character.activePoseName;
+        character.activePoseName = newPoseName;
+        character.poseTransitionProgress = 0;
+        character.poseTransitionDuration = duration > 0.01 ? duration : 0.01; // Ensure non-zero duration
+    }
+
+    _setExpression(character, newExpressionName, duration = this.EXPRESSION_TRANSITION_DURATION) {
+        if (!character) return;
+        if (typeof newExpressionName !== 'string') {
+            console.warn(`Invalid expression name for character ${character.id}:`, newExpressionName);
+            newExpressionName = 'neutral'; // Fallback
+        }
+        if (character.activeExpressionName === newExpressionName && !character.behaviors.emphasis.active && character.expressionTransitionProgress >=1) return;
+
+        character.previousExpressionName = character.activeExpressionName;
+        character.activeExpressionName = newExpressionName;
+        character.expressionTransitionProgress = 0;
+        character.expressionTransitionDuration = duration > 0.01 ? duration : 0.01; // Ensure non-zero duration
+    }
+
+    _resetCharacterStatesToInitial() {
+        if (!this.animationData || !this.animationData.characters) return;
+        this.animationData.characters.forEach(charDef => {
+            const charState = this.charactersState[charDef.id];
+            if (!charState) return;
+
+            charState.x = charDef.initialPosition.x; charState.y = charDef.initialPosition.y;
+            charState.startXForWalk = charDef.initialPosition.x; charState.startYForWalk = charDef.initialPosition.y;
+            charState.targetX = charDef.initialPosition.x; charState.targetY = charDef.initialPosition.y;
+            
+            this._setPose(charState, charDef.initialPose || 'idle_default', 0.01); // Fast transition
+            this._setExpression(charState, charDef.appearance?.expression || 'neutral', 0.01);
+
+            charState.dialogueText = null; charState.isSpeakingTTS = false; charState.currentActions = [];
+            charState.posePhase = Math.random() * Math.PI * 2; 
+            charState.swayPhase = Math.random() * Math.PI * 2;
+            charState.behaviors = this._getDefaultBehaviorState(); // Full reset
+            charState.facing = charDef.facing || 'right';
+            charState.facingMode = charDef.facingMode || 'profile';
+            this.talkPoseCycleIndex[charDef.id] = 0;
+        });
+        Object.values(this.objectsState).forEach(obj => obj.isTargetedByLook = false);
+
+        // Reset camera to initial or first event's state
+        this.cameraState.targetX = this.animationData.scene.initialCamera?.x ?? (this.canvas.width / 2);
+        this.cameraState.targetY = this.animationData.scene.initialCamera?.y ?? (this.canvas.height / 2);
+        this.cameraState.targetZoom = this.animationData.scene.initialCamera?.zoom ?? 1.0;
+        this.cameraState.focusEntities = null;
+
+        if(this.eventTimeline.length > 0 && this.eventTimeline[0].length > 0) {
+            this.eventTimeline[0].forEach(event => {
+                if (event.type === 'camera') this._applyCameraEvent(event, true); // Immediate
+            });
+        }
+        // Ensure current camera state matches target after reset
+        this.cameraState.x = this.cameraState.targetX;
+        this.cameraState.y = this.cameraState.targetY;
+        this.cameraState.zoom = this.cameraState.targetZoom;
+    }
+
+    togglePlayStop() {
+        if (!this.animationData) return;
+        if (this.isPlaying) {
+            this.stopAnimation();
+        } else {
+            this.playAnimation();
+        }
+    }
+
+    playAnimation() {
+        if (!this.animationData || this.isPlaying) return;
+        this.isPlaying = true;
+        this.ui.playStopBtn.textContent = "Stop";
+        
+        if (this.currentEventGroupIndex === -1 || this.currentEventGroupIndex >= this.eventTimeline.length) {
+            this.restartAnimationPrerequisites(); 
+        }
+        
+        this.lastTimestamp = performance.now();
+        this.processNextEventGroup(); // Start processing if not already in a group
+        if (!this.animationFrameId) { // Start loop if not already running (e.g., paused then played)
+            this.animationLoop();
+        }
+    }
+
+    stopAnimation() {
+        this.isPlaying = false;
+        this.ui.playStopBtn.textContent = "Play";
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+        }
+        if (this.speechSynthesis) this.speechSynthesis.cancel();
+        
+        // Don't clear activeEventGroup here, allow it to complete drawing if it was mid-update
+        // this.activeEventGroup = null; 
+        // this.activeEventGroupStatus = {};
+        Object.values(this.charactersState).forEach(c => {
+            if (c) c.isSpeakingTTS = false; // Stop TTS flag
+        });
+        this.drawScene(); // Draw one last frame in stopped state
+    }
+
+    restartAnimationPrerequisites() {
+        this.currentEventGroupIndex = -1;
+        this.activeEventGroup = null;
+        this.activeEventGroupStatus = {};
+        if (this.speechSynthesis) this.speechSynthesis.cancel();
+        this._resetCharacterStatesToInitial();
+    }
+
+    restartAnimation() {
+        if (!this.animationData) return;
+        const wasPlaying = this.isPlaying;
+        this.stopAnimation(); 
+        this.restartAnimationPrerequisites();
+        this.drawScene(); 
+        if (wasPlaying) { 
+             setTimeout(() => this.playAnimation(), 50); 
+        }
+    }
+
+    animationLoop() {
+        if (!this.isPlaying && (!this.activeEventGroup || Object.keys(this.activeEventGroupStatus).length === 0)) {
+            this.animationFrameId = null; // Ensure loop stops if nothing to do
+            return;
+        }
+        
+        const now = performance.now();
+        const deltaTime = (now - this.lastTimestamp) / 1000 || 0; // Guard against NaN or large jump
+        this.lastTimestamp = now;
+        
+        this._updateState(deltaTime, now); 
+        this.drawScene();
+        
+        this.animationFrameId = requestAnimationFrame(() => this.animationLoop());
+    }
+
+    _updateState(deltaTime, currentTimePerformance) {
+        if (!this.animationData) return;
+
+        if (this.activeEventGroup) {
+            let allCompletedInGroup = true;
+            for (const event of this.activeEventGroup) {
+                const status = this.activeEventGroupStatus[event._instanceId];
+                if (!status || status.completed) continue;
+
+                if (status.type === 'timed') {
+                    if (currentTimePerformance >= status.startTime + status.duration * 1000) {
+                        status.completed = true;
+                        this._finalizeEvent(event, currentTimePerformance); 
+                    }
+                }
+                if (!status.completed) allCompletedInGroup = false;
+            }
+            if (allCompletedInGroup) {
+                this._finalizeAndProceedFromGroup();
+            }
+        }
+        
+        this._updateDynamicElements(deltaTime, currentTimePerformance); 
+        this._cleanupExpiredNonBlockingStates(currentTimePerformance);
+    }
+
+    _finalizeAndProceedFromGroup() {
+        // Finalize any remaining aspects of the group if needed (e.g. if an event was cut short)
+        if (this.activeEventGroup) {
+             this.activeEventGroup.forEach(event => {
+                const status = this.activeEventGroupStatus[event._instanceId];
+                if (status && !status.completed) { // If any event was not formally completed
+                    this._finalizeEvent(event, performance.now());
+                    status.completed = true;
+                }
+            });
+        }
+
+        this.activeEventGroup = null; 
+        this.activeEventGroupStatus = {};
+        if (this.isPlaying) {
+            this.processNextEventGroup();
+        } else {
+             this.drawScene(); // Update scene if we stopped and group finished
+        }
+    }
+
+    processNextEventGroup() {
+        if (!this.isPlaying && this.currentEventGroupIndex !== -1) return; // Don't proceed if stopped unless it's the very first group
+
+        this.currentEventGroupIndex++;
+        if (this.currentEventGroupIndex >= this.eventTimeline.length) {
+            this.ui.statusDiv.textContent = "Animation finished.";
+            this.stopAnimation(); // Animation truly ends here
+            this.currentEventGroupIndex = -1; // Reset for next play
+            this._resetCharacterStatesToInitial(); // Optional: reset to start frame after finish
+            this.drawScene();
+            return;
+        }
+
+        this.activeEventGroup = this.eventTimeline[this.currentEventGroupIndex];
+        this.activeEventGroupStatus = {};
+        let groupHasPendingEvents = false;
+
+        if (!this.activeEventGroup || this.activeEventGroup.length === 0) { // Skip empty groups
+            this.processNextEventGroup();
+            return;
+        }
+        
+        this.ui.statusDiv.textContent = `Playing group ${this.currentEventGroupIndex + 1}/${this.eventTimeline.length}...`;
+
+        const groupStartTime = performance.now();
+        Object.values(this.objectsState).forEach(obj => { if(obj) obj.isTargetedByLook = false; }); // Reset look highlight
+
+        this.activeEventGroup.forEach(event => {
+            let eventDuration = event.duration || 0.01; 
+            if (event.type === 'dialogue' && !event.speak) {
+                eventDuration = event.duration || 1.0; 
+            } else if (event.type === 'lookAt') {
+                eventDuration = event.duration || 0.01; 
+            }
+
+            this.activeEventGroupStatus[event._instanceId] = {
+                completed: false,
+                type: (event.type === 'dialogue' && event.speak && this.speechSynthesis) ? 'tts' : 'timed',
+                startTime: groupStartTime, 
+                duration: eventDuration,
+                utterance: null
+            };
+            this._initiateEvent(event, groupStartTime); // This might complete some events immediately
+            if (this.activeEventGroupStatus[event._instanceId] && !this.activeEventGroupStatus[event._instanceId].completed) { 
+                 groupHasPendingEvents = true;
+            }
+        });
+        
+        if (!groupHasPendingEvents && this.activeEventGroup) { // All events in group completed instantly
+            this._finalizeAndProceedFromGroup();
+        }
+    }
+
+    _initiateEvent(event, groupStartTime) {
+        const character = event.characterId ? this.charactersState[event.characterId] : null;
+        const eventStatus = this.activeEventGroupStatus[event._instanceId];
+
+        if (!eventStatus) { // Should not happen if logic is correct
+            console.warn("Event status not found for ", event);
+            return;
+        }
+
+        switch (event.type) {
+            case 'action':
+                if (character) {
+                    if (event.facing && character.facing !== event.facing && !character.behaviors.turning.isActive) {
+                        character.behaviors.turning.isActive = true;
+                        character.behaviors.turning.progress = 0;
+                        character.behaviors.turning.duration = event.turnDuration || this.TURN_ANIMATION_DURATION;
+                        character.behaviors.turning.startFacing = character.facing;
+                        character.behaviors.turning.targetFacing = event.facing;
+                        character.behaviors.turning.startFacingMode = character.facingMode;
+                        // visualFacingMode and visualFacingSign will be updated by _updateTurningBehavior
+                    } else if (event.facing && !character.behaviors.turning.isActive) { // Apply if not turning
+                        character.facing = event.facing;
+                    }
+                    if (event.facingMode && !character.behaviors.turning.isActive) {
+                        character.facingMode = event.facingMode;
+                    }
+                    
+                    if (event.action === 'expression') {
+                        this._setExpression(character, event.expression || character.activeExpressionName, event.transitionDuration);
+                        character.currentActions.push({ ...event, startTime: eventStatus.startTime });
+                        eventStatus.completed = true; // Expressions are instant changes, duration handled by cleanup
+                    } else if (event.action === 'pose') {
+                        this._setPose(character, event.poseName || character.activePoseName, event.transitionDuration);
+                        eventStatus.completed = true; // Pose changes are instant, transition handled by char state
+                    } else { 
+                        this._setPose(character, event.action, event.transitionDuration);
+                        if ((event.action === 'walk' || event.action === 'run') && event.targetPosition) {
+                            character.startXForWalk = character.x;
+                            character.startYForWalk = character.y;
+                            character.targetX = event.targetPosition.x;
+                            character.targetY = event.targetPosition.y;
+                        }
+                        character.currentActions.push({ ...event, startTime: eventStatus.startTime, _instanceId: event._instanceId });
+                        // Walk/run completion is timed by eventStatus.duration
+                    }
+                } else { eventStatus.completed = true; }
+                break;
+
+            case 'dialogue':
+                if (character) {
+                     if (event.facing && character.facing !== event.facing && !character.behaviors.turning.isActive) {
+                        character.behaviors.turning.isActive = true;
+                        character.behaviors.turning.progress = 0;
+                        character.behaviors.turning.duration = event.turnDuration || this.TURN_ANIMATION_DURATION;
+                        character.behaviors.turning.startFacing = character.facing;
+                        character.behaviors.turning.targetFacing = event.facing;
+                        character.behaviors.turning.startFacingMode = character.facingMode;
+                    } else if (event.facing && !character.behaviors.turning.isActive) {
+                        character.facing = event.facing;
+                    }
+                    if (event.facingMode && !character.behaviors.turning.isActive) character.facingMode = event.facingMode;
+                    
+                    let dialogueText = event.text;
+                    let emphasisLevel = 0;
+                    const emphasisMatch = event.text.match(/\*\*(.*?)\*\*|\*(.*?)\*/);
+                    if (emphasisMatch) {
+                        if (emphasisMatch[1]) { dialogueText = emphasisMatch[1]; emphasisLevel = 2; }
+                        else if (emphasisMatch[2]) { dialogueText = emphasisMatch[2]; emphasisLevel = 1; }
+                        character.behaviors.emphasis.active = true;
+                        character.behaviors.emphasis.originalExpression = character.activeExpressionName;
+                        character.behaviors.emphasis.emphasisExpression = emphasisLevel === 2 ? 'focused' : 'subtle_emphasis';
+                        this._setExpression(character, character.behaviors.emphasis.emphasisExpression, 0.15);
+                        character.behaviors.emphasis.intensity = emphasisLevel;
+                    }
+                    character.dialogueText = dialogueText;
+
+                    if (event.talkPose) {
+                        character.currentTalkPose = event.talkPose;
+                    } else {
+                        this.talkPoseCycleIndex[event.characterId] = (this.talkPoseCycleIndex[event.characterId] + 1) % this.availableTalkPoses.length;
+                        character.currentTalkPose = this.availableTalkPoses[this.talkPoseCycleIndex[event.characterId]];
+                    }
+                    const currentPoseIsMotion = typeof character.activePoseName === 'string' && (character.activePoseName === 'walk' || character.activePoseName === 'run');
+                    const currentPoseIsTalk = typeof character.activePoseName === 'string' && character.activePoseName.startsWith('talk_');
+
+                    if (!currentPoseIsMotion && !currentPoseIsTalk) {
+                         this._setPose(character, 'talk'); // Generic 'talk' pose, which then uses currentTalkPose
+                    }
+
+
+                    if (event.speak && this.speechSynthesis) {
+                        character.isSpeakingTTS = true;
+                        const utterance = new SpeechSynthesisUtterance(dialogueText);
+                        eventStatus.utterance = utterance;
+
+                        if (event.voiceSettings) {
+                            if(event.voiceSettings.lang && this.availableVoices.length > 0){
+                                let voice = this.availableVoices.find(v => v.name === event.voiceSettings.lang || v.lang === event.voiceSettings.lang);
+                                if(voice) utterance.voice = voice; else console.warn(`TTS voice/lang '${event.voiceSettings.lang}' not found for "${event.text}". Using default.`);
+                            }
+                            utterance.rate = event.voiceSettings.rate || 1.0;
+                            utterance.pitch = event.voiceSettings.pitch || 1.0;
+                        }
+                        
+                        utterance.onend = () => {
+                            const charState = this.charactersState[event.characterId]; // Re-fetch, might have changed
+                            if (charState) {
+                                charState.isSpeakingTTS = false;
+                                charState.dialogueText = null; // Clear text bubble
+                                if (charState.behaviors.emphasis.active) {
+                                    this._setExpression(charState, charState.behaviors.emphasis.originalExpression, 0.2);
+                                    charState.behaviors.emphasis.active = false;
+                                }
+                                // Revert to idle only if no other active non-expression actions are ongoing
+                                const nonDialogueActions = charState.currentActions.some(act => act.action !== 'expression' && act.type !== 'dialogue');
+                                if (typeof charState.activePoseName === 'string' && charState.activePoseName.startsWith('talk_') && !nonDialogueActions && !charState.behaviors.turning.isActive) {
+                                    this._setPose(charState, charState.behaviors.idleBehavior.currentIdleVariation || 'idle_default');
+                                }
+                            }
+                            const status = this.activeEventGroupStatus[event._instanceId];
+                            if (status) status.completed = true; else console.warn("TTS onend: status not found for", event._instanceId);
+                            this._checkAndProceedIfGroupCompleted();
+                        };
+                        utterance.onerror = (e) => {
+                            console.error('SpeechSynthesisUtterance.onerror for instance', event._instanceId, e);
+                            const charState = this.charactersState[event.characterId];
+                            if (charState) { charState.isSpeakingTTS = false; charState.dialogueText = null; }
+                            if (charState && charState.behaviors.emphasis.active) {
+                                this._setExpression(charState, charState.behaviors.emphasis.originalExpression, 0.2);
+                                charState.behaviors.emphasis.active = false;
+                            }
+                            const status = this.activeEventGroupStatus[event._instanceId];
+                            if (status) status.completed = true; // Treat error as completion to not hang animation
+                            else console.warn("TTS onerror: status not found for", event._instanceId);
+                            this._checkAndProceedIfGroupCompleted();
+                        };
+                        this.speechSynthesis.speak(utterance);
+                    } else { // Not TTS, just timed text
+                        character.currentActions.push({ ...event, startTime: eventStatus.startTime, _instanceId: event._instanceId });
+                         if (character.behaviors.emphasis.active) {
+                            character.behaviors.emphasis.endTime = groupStartTime + (eventStatus.duration * 1000);
+                         }
+                         // Timed text completion handled by main _updateState loop
+                    }
+                } else { eventStatus.completed = true; }
+                break;
+
+            case 'camera':
+                this._applyCameraEvent(event, false); // Lerped change
+                eventStatus.completed = true; // Camera changes are "instant" in terms of event timeline
+                break;
+            case 'lookAt':
+                if (character) {
+                    character.behaviors.lookAt.targetId = event.targetId || null;
+                    character.behaviors.lookAt.targetCoords = event.targetCoords || null;
+                    character.behaviors.lookAt.isActive = true;
+                    
+                    if (event.targetId && this.objectsState[event.targetId]) {
+                        this.objectsState[event.targetId].isTargetedByLook = true;
+                    }
+
+                    if (event.duration && event.duration > 0.01) { // Timed lookAt
+                        character.behaviors.lookAt.endTime = groupStartTime + event.duration * 1000;
+                        // Completion handled by main _updateState loop
+                    } else { // Persistent lookAt until changed
+                        character.behaviors.lookAt.endTime = Infinity; 
+                        eventStatus.completed = true; // Event is "done", state persists
+                    }
+                } else { eventStatus.completed = true; }
+                break;
+            default:
+                 eventStatus.completed = true; // Unknown event types complete immediately
+        }
+    }
+
+    _applyCameraEvent(event, immediate = false) {
+        if (event.focusOn !== undefined) { // Can be null to clear focus
+            this.cameraState.focusEntities = event.focusOn ? (Array.isArray(event.focusOn) ? event.focusOn : [event.focusOn]) : null;
+        }
+        
+        if (event.zoom !== undefined) {
+            this.cameraState.targetZoom = Math.min(this.cameraState.maxZoom, Math.max(this.cameraState.minZoom, event.zoom));
+        }
+
+        if (event.panTarget) {
+            this.cameraState.targetX = event.panTarget.x;
+            this.cameraState.targetY = event.panTarget.y;
+            // If explicit pan, we might want to temporarily disable entity focus for panning
+            // For now, explicit pan overrides focus-based pan, but focus-based zoom might still occur
+        }
+        
+        this._updateCameraTarget(immediate); // Update target X/Y based on focus or pan, and zoom if focus-based
+        
+        if (immediate) {
+            this.cameraState.x = this.cameraState.targetX;
+            this.cameraState.y = this.cameraState.targetY;
+            this.cameraState.zoom = this.cameraState.targetZoom;
+        }
+    }
+
+    _finalizeEvent(event, currentTimePerformance) {
+        const character = event.characterId ? this.charactersState[event.characterId] : null;
+        if (character) {
+            // Filter out the specific action instance
+            character.currentActions = character.currentActions.filter(act => act._instanceId !== event._instanceId);
+
+            if (event.type === 'action' && event.action !== 'expression' && event.action !== 'pose') {
+                if ((event.action === 'walk' || event.action === 'run') && event.targetPosition) {
+                    // Ensure final position is met
+                    character.x = event.targetPosition.x; 
+                    character.y = event.targetPosition.y;
+                }
+                // Revert to idle only if this action was the primary non-dialogue/expression one and character is not turning or speaking
+                const otherMotionOrDialogue = character.currentActions.some(act => (act.action !== 'expression' && act.type !== 'dialogue') || act.type === 'dialogue');
+                if (!character.isSpeakingTTS && !character.behaviors.turning.isActive && !otherMotionOrDialogue) {
+                     // Only revert if the current pose IS the action that just finished
+                     if (typeof character.activePoseName === 'string' && character.activePoseName === event.action) { 
+                        this._setPose(character, character.behaviors.idleBehavior.currentIdleVariation || 'idle_default');
+                     }
+                }
+            } else if (event.type === 'dialogue' && !event.speak) { // Timed dialogue text finishes
+                if (character.dialogueText === event.text) { // Only clear if it's still this text
+                    character.dialogueText = null;
+                }
+                if (character.behaviors.emphasis.active && character.behaviors.emphasis.endTime <= currentTimePerformance) {
+                    this._setExpression(character, character.behaviors.emphasis.originalExpression);
+                    character.behaviors.emphasis.active = false;
+                }
+                // Similar check for reverting pose as above
+                const otherMotionOrDialogue = character.currentActions.some(act => (act.action !== 'expression' && act.type !== 'dialogue') || (act.type === 'dialogue' && act._instanceId !== event._instanceId));
+                if (typeof character.activePoseName === 'string' && character.activePoseName.startsWith('talk_') && !character.isSpeakingTTS && !character.behaviors.turning.isActive && !otherMotionOrDialogue) {
+                     this._setPose(character, character.behaviors.idleBehavior.currentIdleVariation || 'idle_default');
+                }
+            } else if (event.type === 'lookAt') { // This handles timed lookAt events
+                if (character.behaviors.lookAt.endTime <= currentTimePerformance && character.behaviors.lookAt.endTime !== Infinity) {
+                    character.behaviors.lookAt.isActive = false;
+                    if (event.targetId && this.objectsState[event.targetId]) {
+                        this.objectsState[event.targetId].isTargetedByLook = false;
+                    }
+                    character.behaviors.lookAt.targetId = null;
+                    character.behaviors.lookAt.targetCoords = null;
+                }
+            }
+        } else if (event.type === 'lookAt' && !character && event.targetId && this.objectsState[event.targetId]) {
+            // If lookAt was for a non-existent character but targeted an object
+            if (this.objectsState[event.targetId].isTargetedByLook) {
+                 this.objectsState[event.targetId].isTargetedByLook = false;
+            }
+        }
+    }
+    
+    _checkAndProceedIfGroupCompleted() {
+        if (!this.activeEventGroup) return; // Group might have already proceeded
+        let allCompleted = true;
+        for (const event of this.activeEventGroup) {
+            const status = this.activeEventGroupStatus[event._instanceId];
+            if (!status || !status.completed) {
+                allCompleted = false;
+                break;
+            }
+        }
+        if (allCompleted) {
+            this._finalizeAndProceedFromGroup();
+        }
+    }
+
+    _updateWalkInterpolation(character, actionEvent, deltaTime, currentTimePerformance) {
+        if (!character || !actionEvent.targetPosition) return;
+        const eventStatus = this.activeEventGroupStatus[actionEvent._instanceId];
+        if (!eventStatus || eventStatus.completed) {
+             if(actionEvent.targetPosition) { // Snap to final if somehow called after completion
+                character.x = actionEvent.targetPosition.x;
+                character.y = actionEvent.targetPosition.y;
+             }
+             return;
+        }
+
+        const duration = eventStatus.duration;
+        // Ensure timeIntoWalk doesn't exceed duration due to deltaTime variance
+        const timeIntoWalk = Math.min(duration, (currentTimePerformance - eventStatus.startTime)/1000); 
+        const walkProgress = duration > 0.001 ? Math.min(1, timeIntoWalk / duration) : 1; // Avoid div by zero
+        
+        character.x = character.startXForWalk + (actionEvent.targetPosition.x - character.startXForWalk) * walkProgress;
+        character.y = character.startYForWalk + (actionEvent.targetPosition.y - character.startYForWalk) * walkProgress;
+
+        // Update facing based on walk direction if not explicitly turning or facing set by event
+        if (!character.behaviors.turning.isActive && !actionEvent.facing) {
+            const dx = actionEvent.targetPosition.x - character.startXForWalk;
+            if (Math.abs(dx) > 1) { // Only change facing if significant horizontal movement
+                 character.facing = dx > 0 ? 'right' : 'left';
+            }
+        }
+    }
+
+    _updateBlinking(char, deltaTime, now) {
+        if (!char || !char.behaviors) return;
+        const blink = char.behaviors.blinking;
+        const activeExpr = this._getActiveExpression(char);
+
+        let blinkIntervalMultiplier = 1.0;
+        if (activeExpr && (activeExpr.name === 'surprised' || activeExpr.name === 'focused' || activeExpr.name === 'angry')) {
+            blinkIntervalMultiplier = 2.5;
+        } else if (char.isSpeakingTTS) {
+            blinkIntervalMultiplier = 1.8;
+        }
+        
+        if (blink.isBlinking) {
+            blink.blinkProgress += deltaTime / this.BLINK_DURATION; 
+            if (blink.blinkProgress >= 2) { // Full blink cycle (close + open)
+                blink.isBlinking = false; blink.blinkProgress = 0;
+                blink.lastBlinkTime = now;
+                blink.nextBlinkInterval = (this.BLINK_INTERVAL_MIN + Math.random() * (this.BLINK_INTERVAL_MAX - this.BLINK_INTERVAL_MIN)) * blinkIntervalMultiplier;
+            }
+        } else if (now > blink.lastBlinkTime + blink.nextBlinkInterval) {
+            if (activeExpr && activeExpr.eyeOpenF > 1.1 && activeExpr.name === 'surprised') { 
+                blink.lastBlinkTime = now; // Postpone
+            } else {
+                 blink.isBlinking = true; blink.blinkProgress = 0;
+            }
+        }
+    }
+
+    _updateEyeDarts(char, deltaTime, now) {
+        if (!char || !char.behaviors) return;
+        const darts = char.behaviors.eyeDarts;
+        const headR = this.FIGURE_BASE_HEIGHT * char.size * this.HEAD_RADIUS_F;
+        const eyeR = headR * 0.22; const pupilR = eyeR * 0.5;
+        const activeExpr = this._getActiveExpression(char);
+
+        let currentExpressionMaxShiftFactor = this.DART_MAX_SHIFT_FACTOR;
+        if (activeExpr) {
+            if (activeExpr.name === 'focused' || activeExpr.name === 'angry') currentExpressionMaxShiftFactor *= 0.3;
+            else if (activeExpr.name === 'surprised') currentExpressionMaxShiftFactor *= 0.5;
+        }
+        if (char.behaviors.lookAt.isActive) currentExpressionMaxShiftFactor *= 0.6;
+        darts.currentMaxShiftFactor = currentExpressionMaxShiftFactor;
+        
+        const maxShiftBase = pupilR * darts.currentMaxShiftFactor;
+        let maxShiftX = maxShiftBase;
+        let maxShiftY = maxShiftBase * 0.6; // Pupils dart more horizontally typically
+
+        if (char.behaviors.lookAt.isActive) {
+            // Head position in world space (approximate eye level)
+            const headWorldX = char.x; 
+            const headWorldY = char.y - (this.FIGURE_BASE_HEIGHT * char.size * (this.LEG_UPPER_F + this.LEG_LOWER_F + this.BODY_LENGTH_F + this.NECK_LENGTH_F));
+
+            let targetX, targetY;
+            if (char.behaviors.lookAt.targetId) {
+                const targetEntity = this.charactersState[char.behaviors.lookAt.targetId] || this.objectsState[char.behaviors.lookAt.targetId];
+                if (targetEntity) { 
+                    targetX = targetEntity.x; 
+                    // Estimate target's "eye level" or center
+                    const targetHeight = targetEntity.size ? (this.FIGURE_BASE_HEIGHT * (targetEntity.size || 1)) : (targetEntity.blueprint?.components[0]?.height * (targetEntity.scale?.y || 1) || 0);
+                    targetY = targetEntity.y - targetHeight * 0.7; 
+                }
+            } else if (char.behaviors.lookAt.targetCoords) {
+                targetX = char.behaviors.lookAt.targetCoords.x; targetY = char.behaviors.lookAt.targetCoords.y;
+            }
+
+            if (targetX !== undefined && targetY !== undefined) {
+                const dxWorld = targetX - headWorldX; 
+                const dyWorld = targetY - headWorldY;
+                
+                // Angle from character's head to target in world space
+                const angleToTargetWorld = Math.atan2(dyWorld, dxWorld);
+                
+                // Character's visual facing angle in world space (0 for right, PI for left)
+                const visualFacingAngleWorld = (char.behaviors.turning.isActive ? char.behaviors.turning.visualFacingSign : (char.facing === 'left' ? -1 : 1)) === 1 ? 0 : Math.PI;
+                
+                // Head's current tilt angle relative to its body/facing direction (from lookAt behavior)
+                const headTiltRelativeToFacingRad = char.behaviors.lookAt.currentHeadAngle * Math.PI / 180;
+                
+                // Total head pointing angle in world space
+                const totalHeadAngleWorld = visualFacingAngleWorld + headTiltRelativeToFacingRad;
+
+                // Angle of target relative to head's current pointing direction
+                let angleTargetRelativeToHead = angleToTargetWorld - totalHeadAngleWorld;
+                while (angleTargetRelativeToHead > Math.PI) angleTargetRelativeToHead -= 2 * Math.PI;
+                while (angleTargetRelativeToHead < -Math.PI) angleTargetRelativeToHead += 2 * Math.PI;
+
+                const lookDirX = Math.cos(angleTargetRelativeToHead);
+                const lookDirY = Math.sin(angleTargetRelativeToHead);
+
+                // Scale shift by how far off-center the target is, up to maxShift
+                darts.targetPupilShiftX = lookDirX * maxShiftBase * 1.8 + (Math.random() - 0.5) * maxShiftX * 0.1; 
+                darts.targetPupilShiftY = lookDirY * maxShiftBase * 1.0 + (Math.random() - 0.5) * maxShiftY * 0.1;
+            }
+        }
+
+        if (darts.isDarting) {
+            darts.dartProgress += deltaTime / this.DART_DURATION;
+            let easedProgress = 0.5 - 0.5 * Math.cos(darts.dartProgress * Math.PI); // Ease in-out
+
+            if (darts.dartProgress >= 1) { // Current dart phase finished
+                easedProgress = 1; darts.dartProgress = 0;
+                darts.currentPupilShiftX = darts.targetPupilShiftX; 
+                darts.currentPupilShiftY = darts.targetPupilShiftY;
+                darts.basePupilX = darts.targetPupilShiftX; // New base for next micro-dart
+                darts.basePupilY = darts.targetPupilShiftY;
+
+                if (char.behaviors.lookAt.isActive) { // If looking at, make smaller subsequent darts around target
+                     darts.targetPupilShiftX = darts.targetPupilShiftX * 0.8 + (Math.random() - 0.5) * maxShiftX * 0.2;
+                     darts.targetPupilShiftY = darts.targetPupilShiftY * 0.8 + (Math.random() - 0.5) * maxShiftY * 0.2;
+                } else { // Random new target for next dart
+                    darts.targetPupilShiftX = (Math.random() * 2 - 1) * maxShiftX;
+                    darts.targetPupilShiftY = (Math.random() * 2 - 1) * maxShiftY;
+                }
+                // This logic creates continuous darting. Let's use dartPhase to control start/stop of a single dart action.
+                // For simplicity, let's stick to the original dartPhase logic for now.
+                 if (darts.dartPhase === 0) { // Finished initial move to target
+                    darts.dartPhase = 1; // Now in "hold" or micro-adjustment phase
+                    // Set a new subtle target for the second part of the dart if not looking at specific target
+                    if (!char.behaviors.lookAt.isActive) {
+                        darts.targetPupilShiftX = darts.basePupilX + (Math.random() - 0.5) * maxShiftX * 0.3;
+                        darts.targetPupilShiftY = darts.basePupilY + (Math.random() - 0.5) * maxShiftY * 0.3;
+                    }
+                } else { // Finished second phase (micro-adjustment or hold)
+                    darts.isDarting = false; darts.lastDartTime = now;
+                    darts.nextDartInterval = (this.DART_INTERVAL_MIN + Math.random() * (this.DART_INTERVAL_MAX - this.DART_INTERVAL_MIN)) * (char.isSpeakingTTS ? 1.5 : 1);
+                }
+            }
+            if (darts.isDarting) { // Interpolate towards current targetPupilShift
+                 darts.currentPupilShiftX = darts.basePupilX + (darts.targetPupilShiftX - darts.basePupilX) * easedProgress;
+                 darts.currentPupilShiftY = darts.basePupilY + (darts.targetPupilShiftY - darts.basePupilY) * easedProgress;
+            }
+
+        } else if (now > darts.lastDartTime + darts.nextDartInterval) {
+            if (activeExpr && activeExpr.name !== 'surprised' && activeExpr.name !== 'focused' && !char.behaviors.blinking.isBlinking) {
+                darts.isDarting = true; darts.dartPhase = 0; darts.dartProgress = 0;
+                darts.basePupilX = darts.currentPupilShiftX; darts.basePupilY = darts.currentPupilShiftY;
+                if (!char.behaviors.lookAt.isActive) { // If not looking at something, pick a random dart target
+                    darts.targetPupilShiftX = (Math.random() * 2 - 1) * maxShiftX;
+                    darts.targetPupilShiftY = (Math.random() * 2 - 1) * maxShiftY;
+                } // If lookAt is active, targetPupilShiftX/Y is already being updated above.
+            } else {
+                darts.lastDartTime = now; // Postpone dart if surprised, focused, or blinking
+            }
+        }
+        // Clamp pupil shift to prevent them from exiting the eye whites too much
+        const maxActualShift = eyeR * 0.4;
+        darts.currentPupilShiftX = Math.max(-maxActualShift, Math.min(maxActualShift, darts.currentPupilShiftX));
+        darts.currentPupilShiftY = Math.max(-maxActualShift, Math.min(maxActualShift, darts.currentPupilShiftY));
+    }
+    
+    _updateIdleBehavior(char, deltaTime, now) {
+        if (!char || !char.behaviors) return;
+        const idleBehav = char.behaviors.idleBehavior;
+        
+        const basePoseName = (typeof char.activePoseName === 'string' && char.activePoseName.startsWith('idle_')) ? char.activePoseName : null;
+        
+        if (basePoseName && char.poseTransitionProgress >= 1 && !char.behaviors.turning.isActive) {
+            if (now >= idleBehav.nextIdleChangeTime) {
+                let newVariation;
+                do {
+                    newVariation = this.availableIdlePoses[Math.floor(Math.random() * this.availableIdlePoses.length)];
+                } while (newVariation === basePoseName && this.availableIdlePoses.length > 1); // Avoid same idle pose
+                
+                this._setPose(char, newVariation, this.IDLE_TRANSITION_DURATION);
+                idleBehav.currentIdleVariation = newVariation;
+                idleBehav.nextIdleChangeTime = now + this.IDLE_VARIATION_INTERVAL_MIN + Math.random() * (this.IDLE_VARIATION_INTERVAL_MAX - this.IDLE_VARIATION_INTERVAL_MIN);
+            }
+        } else if (!basePoseName || char.behaviors.turning.isActive) { // If not in idle or currently turning, reset timer
+             idleBehav.nextIdleChangeTime = now + this.IDLE_VARIATION_INTERVAL_MIN + Math.random() * (this.IDLE_VARIATION_INTERVAL_MAX - this.IDLE_VARIATION_INTERVAL_MIN);
+        }
+    }
+
+    _updateLookAtBehavior(char, deltaTime, now) {
+        if (!char || !char.behaviors) return;
+        const lookAt = char.behaviors.lookAt;
+        if (lookAt.isActive) {
+            if (now >= lookAt.endTime && lookAt.endTime !== Infinity) { // Timed lookAt ends
+                lookAt.isActive = false;
+                if (lookAt.targetId && this.objectsState[lookAt.targetId]) {
+                    this.objectsState[lookAt.targetId].isTargetedByLook = false;
+                }
+                lookAt.targetId = null;
+                lookAt.targetCoords = null;
+                // Head will gradually return to 0 via the 'else' block below
+                return; 
+            }
+
+            let targetX_world, targetY_world;
+            if (lookAt.targetId) {
+                const targetEntity = this.charactersState[lookAt.targetId] || this.objectsState[lookAt.targetId];
+                if (targetEntity) {
+                    targetX_world = targetEntity.x;
+                    const targetHeight = targetEntity.size ? (this.FIGURE_BASE_HEIGHT * (targetEntity.size || 1)) : (targetEntity.blueprint?.components[0]?.height * (targetEntity.scale?.y || 1) || 0);
+                    targetY_world = targetEntity.y - targetHeight * 0.7; // Approx eye/center height
+                } else { // Target disappeared
+                    lookAt.isActive = false; return;
+                }
+            } else if (lookAt.targetCoords) {
+                targetX_world = lookAt.targetCoords.x;
+                targetY_world = lookAt.targetCoords.y;
+            } else { // No valid target
+                lookAt.isActive = false; return;
+            }
+
+            const headWorldX = char.x; 
+            const headWorldY = char.y - (this.FIGURE_BASE_HEIGHT * char.size * (this.LEG_UPPER_F + this.LEG_LOWER_F + this.BODY_LENGTH_F + this.NECK_LENGTH_F));
+            
+            const dx = targetX_world - headWorldX;
+            const dy = targetY_world - headWorldY;
+            let angleToTargetWorldDeg = Math.atan2(dy, dx) * 180 / Math.PI;
+
+            // Determine character's current visual facing angle in degrees (0 for right, 180 for left)
+            let charVisualBaseAngleDeg = (char.behaviors.turning.isActive ? char.behaviors.turning.visualFacingSign : (char.facing === 'left' ? -1 : 1)) === 1 ? 0 : 180;
+
+            let relativeAngleDeg = angleToTargetWorldDeg - charVisualBaseAngleDeg;
+            // Normalize to +/- 180 range
+            while (relativeAngleDeg > 180) relativeAngleDeg -= 360;
+            while (relativeAngleDeg < -180) relativeAngleDeg += 360;
+            
+            const maxTurnAngle = 80; // Max head turn relative to body
+            lookAt.targetHeadAngle = Math.max(-maxTurnAngle, Math.min(maxTurnAngle, relativeAngleDeg));
+
+            const turnSpeedFactor = 0.12; 
+            let diff = lookAt.targetHeadAngle - lookAt.currentHeadAngle;
+            // Smoother interpolation if difference is large
+            if (Math.abs(diff) > 1) { // Only lerp if there's a notable difference
+                 lookAt.currentHeadAngle += diff * turnSpeedFactor;
+            } else {
+                 lookAt.currentHeadAngle = lookAt.targetHeadAngle; // Snap if very close
+            }
+        } else { // Not actively looking at something, return head to neutral
+            const returnSpeedFactor = 0.08;
+            lookAt.currentHeadAngle += (0 - lookAt.currentHeadAngle) * returnSpeedFactor;
+            if (Math.abs(lookAt.currentHeadAngle) < 0.1) lookAt.currentHeadAngle = 0; // Snap to zero
+        }
+    }
+    
+    _updateAccessorySway(char, currentHeadPoseTilt, deltaTime) { // currentHeadPoseTilt is tilt from pose, not lookAt
+        if (!char || !char.behaviors) return;
+        const sway = char.behaviors.accessorySway;
+        
+        // Sway is driven by the character's *pose-defined* head tilt, not the lookAt override
+        const headTiltDelta = currentHeadPoseTilt - sway.prevHeadTiltWorld;
+        sway.prevHeadTiltWorld = currentHeadPoseTilt;
+
+        const force = headTiltDelta * this.ACCESSORY_SWAY_SPRING * 0.1; // Reduced spring for less jitter
+        sway.velocity += force;
+        sway.velocity *= this.ACCESSORY_SWAY_DAMPING;
+        sway.angle += sway.velocity * deltaTime * 60; // Approx frame rate independence
+
+        sway.angle *= 0.95; // General damping on angle itself
+        if (Math.abs(sway.angle) < 0.01 && Math.abs(sway.velocity) < 0.01) {
+            sway.angle = 0; sway.velocity = 0;
+        }
+        
+        let currentPoseForSway = char.activePoseName;
+        if (typeof currentPoseForSway === 'string') {
+            if (currentPoseForSway === 'talk' && char.currentTalkPose) {
+                currentPoseForSway = char.currentTalkPose;
+            } else if (currentPoseForSway === 'idle' && char.behaviors.idleBehavior.currentIdleVariation) {
+                currentPoseForSway = char.behaviors.idleBehavior.currentIdleVariation;
+            }
+        } else {
+            currentPoseForSway = 'idle_default'; 
+        }
+
+        if (typeof currentPoseForSway === 'string') {
+            if (currentPoseForSway === 'walk' || currentPoseForSway === 'run' || currentPoseForSway.startsWith('talk_excited') || currentPoseForSway.startsWith('talk_emphatic')) {
+                sway.currentTzitzitSwayAmplitude = this.TZITZIT_SWAY_BASE_AMP;
+            } else if (currentPoseForSway.startsWith('talk_')) {
+                 sway.currentTzitzitSwayAmplitude = this.TZITZIT_SWAY_BASE_AMP * 0.5;
+            } else if (currentPoseForSway.startsWith('idle_')) {
+                sway.currentTzitzitSwayAmplitude = this.TZITZIT_SWAY_BASE_AMP * 0.3;
+                sway.angle *= 0.90; 
+                sway.velocity *= 0.85;
+            } else {
+                sway.currentTzitzitSwayAmplitude = this.TZITZIT_SWAY_BASE_AMP * 0.6;
+            }
+        } else {
+            sway.currentTzitzitSwayAmplitude = this.TZITZIT_SWAY_BASE_AMP * 0.6;
+        }
+    }
+
+    _updateMouthBehavior(char, deltaTime, now) {
+        if (!char || !char.behaviors) return;
+        const mouthBehav = char.behaviors.mouth;
+        const mouthUpdateInterval = 80 + Math.random() * 100; // Slightly slower, more deliberate changes
+
+        let isTalkingPoseActive = false;
+        if (typeof char.activePoseName === 'string') {
+           isTalkingPoseActive = char.activePoseName === 'talk' || char.activePoseName.startsWith("talk_");
+        }
+
+        if (char.isSpeakingTTS || (isTalkingPoseActive && char.dialogueText)) { // Animate mouth if TTS or if in talk pose with text
+            mouthBehav.animPhase = (mouthBehav.animPhase + deltaTime * 15) % 1; // General oscillation for dynamic factor
+
+            if (now > mouthBehav.lastShapeChangeTime + mouthBehav.nextShapeChangeInterval) {
+                mouthBehav.currentTalkingShapeIndex = (mouthBehav.currentTalkingShapeIndex + 1) % mouthBehav.talkingShapes.length;
+                let nextShapeKey = mouthBehav.talkingShapes[mouthBehav.currentTalkingShapeIndex];
+                
+                if (nextShapeKey === 'neutral' && Math.random() < 0.7 && mouthBehav.talkingShapes.length > 1) {
+                     mouthBehav.currentTalkingShapeIndex = (mouthBehav.currentTalkingShapeIndex + 1) % mouthBehav.talkingShapes.length;
+                     nextShapeKey = mouthBehav.talkingShapes[mouthBehav.currentTalkingShapeIndex];
+                }
+                // Ensure the shape exists in Animator.MOUTH_SHAPES
+                if (!Animator.MOUTH_SHAPES[nextShapeKey]) {
+                    console.warn(`Mouth shape key "${nextShapeKey}" not found. Defaulting to neutral.`);
+                    nextShapeKey = 'neutral';
+                }
+
+                mouthBehav.targetShape = nextShapeKey;
+                mouthBehav.shapeTransitionProgress = 0;
+                mouthBehav.lastShapeChangeTime = now;
+                mouthBehav.nextShapeChangeInterval = mouthUpdateInterval * (nextShapeKey === 'neutral' ? 1.5 : (Animator.MOUTH_SHAPES[nextShapeKey]?.durationFactor || 1.0) );
+            }
+        } else { 
+            const activeExpr = this._getActiveExpression(char);
+            // Use expression's default mouth shape, or fallback to neutral
+            mouthBehav.targetShape = (activeExpr && activeExpr.mouthDefaultShape && Animator.MOUTH_SHAPES[activeExpr.mouthDefaultShape]) ? activeExpr.mouthDefaultShape : 'neutral';
+            mouthBehav.animPhase = 0; // No general oscillation when not talking
+        }
+
+        if (mouthBehav.shapeTransitionProgress < 1) {
+            mouthBehav.shapeTransitionProgress = Math.min(1, mouthBehav.shapeTransitionProgress + deltaTime / 0.08); // Faster transition (80ms)
+            if (mouthBehav.shapeTransitionProgress >= 1) {
+                mouthBehav.currentShape = mouthBehav.targetShape;
+            }
+        } else {
+            mouthBehav.currentShape = mouthBehav.targetShape;
+        }
+    }
+
+    _updateTurningBehavior(char, deltaTime) {
+        if (!char || !char.behaviors) return;
+        const turn = char.behaviors.turning;
+        if (!turn.isActive) {
+            // Ensure visualFacing matches actual facing when not turning
+            turn.visualFacingMode = char.facingMode;
+            turn.visualFacingSign = (char.facing === 'left' ? -1 : 1);
+            return;
+        }
+
+        turn.progress += deltaTime / turn.duration;
+        if (turn.progress >= 1) {
+            turn.isActive = false;
+            turn.progress = 1; // Clamp to 1
+            char.facing = turn.targetFacing; // Actual facing updates at end of turn
+            // char.facingMode could also transition here if the turn implies a mode change. For now, it reverts to startFacingMode.
+            char.facingMode = turn.startFacingMode; // Or a targetFacingMode if specified in event
+            turn.visualFacingMode = char.facingMode;
+            turn.visualFacingSign = (char.facing === 'left' ? -1 : 1);
+            return; // Exit after completing turn
+        }
+
+        const p = turn.progress;
+        const numPhases = turn.turnPhases.length; // Should be 5
+        let phaseIndex = Math.floor(p * numPhases);
+        if (phaseIndex >= numPhases) phaseIndex = numPhases - 1;
+
+        const currentPhaseName = turn.turnPhases[phaseIndex];
+
+        // Determine visual facing mode and sign for drawing during the turn
+        if (turn.startFacingMode === 'profile') {
+            switch(currentPhaseName) {
+                case 'current_profile':      turn.visualFacingMode = 'profile';      turn.visualFacingSign = (turn.startFacing === 'left' ? -1 : 1); break;
+                case 'current_threeQuarter': turn.visualFacingMode = 'threeQuarter'; turn.visualFacingSign = (turn.startFacing === 'left' ? -1 : 1); break;
+                case 'front':                turn.visualFacingMode = 'front';        turn.visualFacingSign = 1; /* Front is usually symmetrical, sign for consistency */ break;
+                case 'next_threeQuarter':    turn.visualFacingMode = 'threeQuarter'; turn.visualFacingSign = (turn.targetFacing === 'left' ? -1 : 1); break;
+                case 'next_profile':         turn.visualFacingMode = 'profile';      turn.visualFacingSign = (turn.targetFacing === 'left' ? -1 : 1); break;
+                default: // Fallback, should not happen with 5 phases
+                    turn.visualFacingMode = turn.startFacingMode;
+                    turn.visualFacingSign = (turn.startFacing === 'left' ? -1 : 1);
+                    break;
+            }
+        } else if (turn.startFacingMode === 'front') { // E.g. turning from front-left to front-right, or front to profile
+             if (turn.targetFacing !== turn.startFacing) { // e.g. front-left to profile-right
+                // This needs more sophisticated phase mapping for front -> profile etc.
+                // Simplified: early phase uses start sign, later phase uses target sign.
+                // True front-to-profile needs its own phase set. For now, handle simple L/R shift for front.
+                if (p < 0.2) { // Briefly show current profile if it was front-but-facing
+                     turn.visualFacingMode = 'profile'; turn.visualFacingSign = (turn.startFacing === 'left' ? -1:1);
+                } else if (p < 0.4) {
+                     turn.visualFacingMode = 'threeQuarter'; turn.visualFacingSign = (turn.startFacing === 'left' ? -1:1);
+                } else if (p < 0.6) {
+                     turn.visualFacingMode = 'front'; turn.visualFacingSign = (turn.targetFacing === 'left' ? -1:1); // Shift visual sign mid-front
+                } else if (p < 0.8) {
+                     turn.visualFacingMode = 'threeQuarter'; turn.visualFacingSign = (turn.targetFacing === 'left' ? -1:1);
+                } else {
+                     turn.visualFacingMode = 'profile'; turn.visualFacingSign = (turn.targetFacing === 'left' ? -1:1);
+                }
+             } else { // front but just changing gaze direction (L/R) within front view
+                 turn.visualFacingMode = 'front';
+                 turn.visualFacingSign = (p < 0.5) ? (turn.startFacing === 'left' ? -1 : 1) : (turn.targetFacing === 'left' ? -1 : 1);
+             }
+        } else { // Default for threeQuarter or other modes: simple cross-fade visual sign
+            turn.visualFacingMode = turn.startFacingMode; // Keep mode for now
+            turn.visualFacingSign = (p < 0.5) ? (turn.startFacing === 'left' ? -1 : 1) : (turn.targetFacing === 'left' ? -1 : 1);
+        }
+    }
+
+    _updateDynamicElements(deltaTime, currentTimePerformance) {
+        const now = currentTimePerformance;
+        Object.values(this.charactersState).forEach(char => {
+            if (!char || !char.behaviors) return;
+
+            if (char.poseTransitionProgress < 1) {
+                char.poseTransitionProgress = Math.min(1, char.poseTransitionProgress + deltaTime / Math.max(0.01, char.poseTransitionDuration));
+            }
+            if (char.expressionTransitionProgress < 1) {
+                char.expressionTransitionProgress = Math.min(1, char.expressionTransitionProgress + deltaTime / Math.max(0.01, char.expressionTransitionDuration));
+            }
+
+            this._updateTurningBehavior(char, deltaTime);
+
+            char.currentActions.forEach(actEvent => {
+                 if (!actEvent) return;
+                 const eventStatus = this.activeEventGroupStatus[actEvent._instanceId];
+                if ( (typeof actEvent.action === 'string' && (actEvent.action === 'walk' || actEvent.action === 'run')) && 
+                     eventStatus && !eventStatus.completed) {
+                    this._updateWalkInterpolation(char, actEvent, deltaTime, now);
+                }
+            });
+
+            let poseSpeedFactor = 1.0;
+            let currentPoseForSpeed = char.activePoseName;
+            if (typeof currentPoseForSpeed === 'string') {
+                if (currentPoseForSpeed === 'talk' && char.currentTalkPose) currentPoseForSpeed = char.currentTalkPose;
+                else if (currentPoseForSpeed === 'idle' && char.behaviors.idleBehavior.currentIdleVariation) currentPoseForSpeed = char.behaviors.idleBehavior.currentIdleVariation;
+            } else {
+                currentPoseForSpeed = 'idle_default'; // Fallback
+            }
+            
+            if (typeof currentPoseForSpeed === 'string') {
+                if (currentPoseForSpeed === 'walk') poseSpeedFactor = 6;
+                else if (currentPoseForSpeed === 'run') poseSpeedFactor = 10;
+                else if (currentPoseForSpeed.startsWith('talk_')) poseSpeedFactor = 5;
+                else if (currentPoseForSpeed.startsWith('idle_')) poseSpeedFactor = 0.8;
+                else poseSpeedFactor = 4; // Default for other action poses
+
+                if (currentPoseForSpeed === 'talk_excited_bouncing') poseSpeedFactor *= 1.8;
+                if (currentPoseForSpeed === 'idle_foot_tap_subtle') poseSpeedFactor *= 2.5;
+            }
+
+
+            char.posePhase = (char.posePhase + deltaTime * poseSpeedFactor) % (Math.PI * 2);
+            char.swayPhase = (char.swayPhase + deltaTime * 1.8) % (Math.PI * 2);
+
+            this._updateBlinking(char, deltaTime, now);
+            this._updateEyeDarts(char, deltaTime, now);
+            this._updateIdleBehavior(char, deltaTime, now);
+            this._updateLookAtBehavior(char, deltaTime, now);
+            this._updateMouthBehavior(char, deltaTime, now);
+
+            const finalPoseDetails = this._getCharacterPoseDetails(char); // Get pose details AFTER updates
+            if (finalPoseDetails && finalPoseDetails.head) {
+                this._updateAccessorySway(char, finalPoseDetails.head.rawTilt, deltaTime);
+            }
+        });
+
+        this._updateCameraTarget(false); // Lerp camera
+        const camState = this.cameraState;
+        if (Math.abs(camState.targetX - camState.x) > camState.lerpCompleteThreshold ||
+            Math.abs(camState.targetY - camState.y) > camState.lerpCompleteThreshold) {
+            camState.x += (camState.targetX - camState.x) * camState.panSpeed;
+            camState.y += (camState.targetY - camState.y) * camState.panSpeed;
+        } else { camState.x = camState.targetX; camState.y = camState.targetY; }
+
+        if (Math.abs(camState.targetZoom - camState.zoom) > camState.zoomLerpCompleteThreshold) {
+             camState.zoom += (camState.targetZoom - camState.zoom) * camState.panSpeed;
+        } else { camState.zoom = camState.targetZoom; }
+        camState.zoom = Math.min(camState.maxZoom, Math.max(camState.minZoom, camState.zoom));
+    }
+    
+    _cleanupExpiredNonBlockingStates(currentTimePerformance) {
+        const now = currentTimePerformance;
+        Object.values(this.charactersState).forEach(char => {
+            if (!char || !char.behaviors) return;
+            // Filter currentActions for timed expressions or non-TTS dialogues
+            char.currentActions = char.currentActions.filter(act => {
+                if (!act) return false;
+                if (act.action === 'expression' && act.duration) {
+                    return now < (act.startTime + act.duration * 1000);
+                }
+                if (act.type === 'dialogue' && !act.speak && act.duration) {
+                     if (now >= (act.startTime + act.duration * 1000)) {
+                        if (char.dialogueText === act.text) char.dialogueText = null; 
+                         if (char.behaviors.emphasis.active && char.behaviors.emphasis.endTime <= now) {
+                            this._setExpression(char, char.behaviors.emphasis.originalExpression);
+                            char.behaviors.emphasis.active = false;
+                         }
+                        return false; // Remove action
+                     }
+                }
+                return true; // Keep action
+            });
+            // Handle emphasis tied to non-TTS dialogue specifically
+            if (char.behaviors.emphasis.active && !char.isSpeakingTTS && char.behaviors.emphasis.endTime && now >= char.behaviors.emphasis.endTime) {
+                this._setExpression(char, char.behaviors.emphasis.originalExpression);
+                char.behaviors.emphasis.active = false;
+            }
+        });
+    }
+
+    _updateCameraTarget(immediate = false) {
+        let explicitPanOverride = false;
+        let explicitZoomOverride = false;
+
+        // Check active camera events in the current group
+        if (this.activeEventGroup) {
+            for (let i = this.activeEventGroup.length - 1; i >= 0; i--) { // Check most recent camera event first
+                const event = this.activeEventGroup[i];
+                const status = this.activeEventGroupStatus[event._instanceId];
+                if (event.type === 'camera' && status && !status.completed) { // Only consider *active* camera events
+                    if (event.panTarget) explicitPanOverride = true;
+                    if (event.zoom !== undefined) explicitZoomOverride = true;
+                    // if an active camera event is found, its settings (already applied to targetX/Y/Zoom by _applyCameraEvent) take precedence
+                    break; 
+                }
+            }
+        }
+        
+        if (this.cameraState.focusEntities && this.cameraState.focusEntities.length > 0 && (!explicitPanOverride || !explicitZoomOverride)) {
+            let focusBounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity, count: 0 };
+            
+            this.cameraState.focusEntities.forEach(entityId => {
+                const character = this.charactersState[entityId];
+                const object = this.objectsState[entityId];
+                let entityWorldMinX, entityWorldMinY, entityWorldMaxX, entityWorldMaxY;
+
+                if (character) {
+                    const charHeight = this.FIGURE_BASE_HEIGHT * character.size;
+                    const charWidthApproximation = charHeight * 0.6; // Approx width for bounding box
+                    entityWorldMinX = character.x - charWidthApproximation * 0.5; 
+                    entityWorldMaxX = character.x + charWidthApproximation * 0.5;
+                    entityWorldMinY = character.y - charHeight;      
+                    entityWorldMaxY = character.y;                  
+                } else if (object && object.blueprint) {
+                    let objWidth = 100 * (object.scale?.x || 1); 
+                    let objHeight = 100 * (object.scale?.y || 1); 
+                    if (object.blueprint.components && object.blueprint.components.length > 0) {
+                        const mainComp = object.blueprint.components[0]; // Use first component for bounds
+                        if (mainComp.width && mainComp.height) { 
+                           objWidth = mainComp.width * (object.scale?.x || 1);
+                           objHeight = mainComp.height * (object.scale?.y || 1);
+                        } else if (mainComp.radius) { 
+                           objWidth = mainComp.radius * 2 * (object.scale?.x || 1);
+                           objHeight = mainComp.radius * 2 * (object.scale?.y || 1);
+                        }
+                    }
+                    // Object's x,y is its center
+                    entityWorldMinX = object.x - objWidth / 2; entityWorldMaxX = object.x + objWidth / 2;
+                    entityWorldMinY = object.y - objHeight / 2; entityWorldMaxY = object.y + objHeight / 2;
+                 }
+
+                if (entityWorldMinX !== undefined) { // Check if entity was found and bounds calculated
+                    focusBounds.minX = Math.min(focusBounds.minX, entityWorldMinX);
+                    focusBounds.minY = Math.min(focusBounds.minY, entityWorldMinY);
+                    focusBounds.maxX = Math.max(focusBounds.maxX, entityWorldMaxX);
+                    focusBounds.maxY = Math.max(focusBounds.maxY, entityWorldMaxY);
+                    focusBounds.count++;
+                }
+            });
+
+            if (focusBounds.count > 0) {
+                if (!explicitPanOverride) {
+                    this.cameraState.targetX = (focusBounds.minX + focusBounds.maxX) / 2;
+                    this.cameraState.targetY = (focusBounds.minY + focusBounds.maxY) / 2; // Center on Y too
+                }
+                
+                if (!explicitZoomOverride) {
+                    const paddingFactor = 0.25; // Increased padding
+                    const bboxWidth = Math.max(100, focusBounds.maxX - focusBounds.minX) * (1 + paddingFactor * 2); // Ensure min width
+                    const bboxHeight = Math.max(100, focusBounds.maxY - focusBounds.minY) * (1 + paddingFactor * 2); // Ensure min height
+                    
+                    const zoomToFitWidth = this.canvas.width / bboxWidth;
+                    const zoomToFitHeight = this.canvas.height / bboxHeight;
+                    let targetZoomVal = Math.min(zoomToFitWidth, zoomToFitHeight);
+                    this.cameraState.targetZoom = Math.min(this.cameraState.maxZoom, Math.max(this.cameraState.minZoom, targetZoomVal));
+                }
+            }
+        }
+        // If immediate, snap current camera to target (already handled by caller _applyCameraEvent)
+    }
+
+    drawScene() {
+        if (!this.animationData) {
+            // Draw a placeholder or clear if no data
+            this.ctx.fillStyle = this.canvas.style.backgroundColor || "#F0F8FF";
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            return;
+        }
+        this.ctx.fillStyle = this.canvas.style.backgroundColor || "#F0F8FF";
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        const entitiesToDraw = [];
+        Object.values(this.objectsState).forEach(obj => { if (obj) entitiesToDraw.push({ type: 'object', entity: obj, y: obj.y, layerName: obj.layer || this.defaultLayerName }); });
+        Object.values(this.charactersState).forEach(char => { if (char) entitiesToDraw.push({ type: 'character', entity: char, y: char.y, layerName: char.layer || this.defaultLayerName }); });
+        
+        this.sceneLayers.forEach(layerConfig => {
+            if (!layerConfig) return;
+            const entitiesInLayer = entitiesToDraw
+                .filter(item => item.layerName === layerConfig.name)
+                .sort((a, b) => a.y - b.y); // Y-sort within layer for pseudo-3D
+
+            this.ctx.save();
+            const parallax = layerConfig.parallaxFactor !== undefined ? layerConfig.parallaxFactor : 1.0;
+            const camX = this.cameraState.x;
+            const camY = this.cameraState.y;
+            const camZoom = this.cameraState.zoom;
+
+            // Standard transform: translate to screen center, scale by zoom, then translate by negated camera world pos (with parallax)
+            this.ctx.translate(this.canvas.width / 2, this.canvas.height / 2);
+            this.ctx.scale(camZoom, camZoom);
+            this.ctx.translate(-camX * parallax, -camY * parallax);
+            
+            entitiesInLayer.forEach(item => {
+                if (item.type === 'character') this._drawCharacter(item.entity);
+                else if (item.type === 'object') this._drawObjectInstance(item.entity);
+            });
+            this.ctx.restore();
+        });
+
+        // Draw speech bubbles on top of everything, in screen space (after all layers and restores)
+        this.ctx.save(); // New save for screen space drawing
+        Object.values(this.charactersState).forEach(char => {
+            if (char && char.dialogueText) { 
+                this._drawSpeechBubbleScreenSpace(char);
+            }
+        });
+        this.ctx.restore();
+    }
+    
+    _defineMouthShapes() {
+        Animator.MOUTH_SHAPES = {
+            'neutral':       { wF: 0.20, hF: 0.015, cF: 0, oval: false, teeth: false, tongue: false, durationFactor: 1.2 },
+            'slight_open':   { wF: 0.22, hF: 0.05,  cF: 0.1, oval: false, teeth: false, tongue: false, durationFactor: 1.0 },
+            'ah':            { wF: 0.18, hF: 0.20, cF: 0, oval: true,  teeth: false, tongue: 'full_subtle', durationFactor: 0.9 },
+            'o_small':       { wF: 0.12, hF: 0.12, cF: 0, oval: true,  teeth: false, tongue: false, durationFactor: 0.8 },
+            'o_large':       { wF: 0.22, hF: 0.28, cF: 0, oval: true,  teeth: false, tongue: false, durationFactor: 1.1 }, // For surprise
+            'ee':            { wF: 0.30, hF: 0.04, cF: 0.2, oval: false, teeth: 'both', tongue: false, durationFactor: 0.9 },
+            's':             { wF: 0.28, hF: 0.03, cF: 0, oval: false, teeth: 'both_close', tongue: false, durationFactor: 0.8 },
+            'fv':            { wF: 0.25, hF: 0.04, cF: -0.1,oval: false, teeth: 'upper_touch_lower_lip', tongue: false, durationFactor: 0.9 },
+            'mbp':           { wF: 0.26, hF: 0.01, cF: 0, oval: false, teeth: false, tongue: false, durationFactor: 0.7 }, // Lips pressed
+            'l_th':          { wF: 0.22, hF: 0.07, cF: 0, oval: false, teeth: 'upper_subtle', tongue: 'tip_visible', durationFactor: 0.9 },
+            'smile':         { wF: 0.32, hF: 0.05, cF: 0.8, oval: false, teeth: 'both_smile', tongue: false, durationFactor: 1.0 },
+            'frown_subtle':  { wF: 0.25, hF: 0.03, cF: -0.4,oval: false, teeth: false, tongue: false, durationFactor: 1.0 },
+            'frown_large':   { wF: 0.28, hF: 0.06, cF: -0.7,oval: false, teeth: false, tongue: false, durationFactor: 1.0 },
+        };
+    }
+
+
+    _definePoses() {
+        this.poseDefinitions = {
+            'idle_default': {
+                headTilt: (p, H, chr) => Math.sin(p * 0.75) * 2.8,
+                bodyX2Offset: (p, H, chr) => Math.sin(p * 0.65 + Math.PI) * H * 0.007,
+                bobOffset: (p, H, chr) => Math.sin(p * 0.5) * H * 0.01,
+                l_arm: { type: 'factors', exF: -0.08, eyF: 0.92, hxF: -0.08, hyF: 0.92 },
+                r_arm: { type: 'factors', exF: 0.08, eyF: 0.92, hxF: 0.08, hyF: 0.92 },
+                l_leg: { kxF: 0.02, kyF: 1.0, fxF: 0.0, fyF: 1.0 },
+                r_leg: { kxF: -0.02, kyF: 1.0, fxF: 0.0, fyF: 1.0 },
+            },
+            'idle_hands_clasped_low': {
+                headTilt: (p, H, chr) => Math.sin(p * 0.6) * 2.0,
+                bobOffset: (p, H, chr) => Math.sin(p * 0.4) * H * 0.008,
+                l_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.0, yF: 0.45 }, handOffset: { xF: -0.015, yF: 0 } }, // yF from hipCenter
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.0, yF: 0.45 }, handOffset: { xF: 0.015, yF: 0 } },
+            },
+            'idle_slight_ponder': {
+                headTilt: (p, H, chr) => -5 + Math.sin(p * 0.5) * 3,
+                bobOffset: (p, H, chr) => Math.sin(p * 0.3) * H * 0.005,
+                r_arm: { type: 'ik_target', targetId: 'head', targetPoint: 'chin', handOffsetDynamic: { xF: (phase)=>-0.02 + Math.sin(phase*0.4)*0.01, yF: -0.05 } },
+                l_arm: { type: 'factors', exF: -0.15, eyF: 0.9, hxF: -0.1, hyF: 0.85 },
+            },
+            'idle_arms_crossed': {
+                headTilt: (p, H, chr) => Math.sin(p * 0.5) * 1.5,
+                bobOffset: (p, H, chr) => Math.sin(p * 0.2) * H * 0.006,
+                l_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.15, yF: -0.25 }, handOffset: { xF: 0, yF: 0 } }, // yF from neckBase
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: -0.15, yF: -0.25 }, handOffset: { xF: 0, yF: 0 } },
+            },
+            'idle_hands_on_hips': {
+                headTilt: (p, H, chr) => Math.cos(p * 0.6) * 2.0,
+                bobOffset: (p, H, chr) => Math.cos(p * 0.3) * H * 0.007,
+                l_arm: { type: 'ik_target', targetId: 'body', targetPoint: 'hip_left', handOffset: { xF: -0.05, yF: 0.02 } },
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: 'hip_right', handOffset: { xF: 0.05, yF: 0.02 } },
+            },
+            'idle_looking_around': { // Head sweep driven by lookAt behavior, pose just provides base
+                headTilt: (p, H, chr) => Math.sin(p * 0.2) * 5, // Gentle base sway
+                bobOffset: (p, H, chr) => Math.sin(p * 0.2) * H * 0.008,
+            },
+            'idle_foot_tap_subtle': {
+                headTilt: (p, H, chr) => Math.sin(p * 0.75) * 2.0,
+                bobOffset: (p, H, chr) => Math.sin(p * 0.5) * H * 0.01,
+                r_leg: { // Right leg taps
+                    kxFDynamic: (phase, H, chr) => -0.02 + Math.sin(phase * 3) * 0.02, 
+                    kyFDynamic: (phase, H, chr) => 1.0 - Math.max(0, Math.sin(phase * 3)) * 0.06, 
+                    fxFDynamic: (phase, H, chr) => 0.0 + Math.sin(phase * 3) * 0.015,
+                    fyFDynamic: (phase, H, chr) => 1.0 - Math.max(0, Math.sin(phase * 3)) * 0.08,
+                },
+            },
+            'walk': {
+                bobOffset: (p, H, chr) => Math.abs(Math.sin(p * 0.5)) * H * 0.045,
+                headTilt: (p, H, chr) => Math.sin(p * 0.5) * 3.0,
+                bodyLean: (p, H, chr) => Math.sin(p * 0.5) * H * 0.01,
+            },
+            'run': {
+                bobOffset: (p, H, chr) => Math.abs(Math.sin(p * 0.5)) * H * 0.07,
+                headTilt: (p, H, chr) => (Math.sin(p * 0.5) * 2.0) - 5.0, // Leaning forward
+                bodyLean: (p, H, chr) => (Math.sin(p * 0.5) * H * 0.02) + H * 0.05, // More pronounced lean
+            },
+            'talk_gesture1': { 
+                bobOffset: (p, H, chr) => Math.sin(p) * H * 0.015,
+                headTilt: (p, H, chr) => (Math.sin(p*0.5*Math.PI) * 5 - 1.5),
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.2, yF: -0.15 }, 
+                         handOffsetDynamic: { xF: phase => Math.sin(phase*0.5*Math.PI)*0.05, yF: phase => Math.cos(phase*0.5*Math.PI)*0.05 } },
+            },
+            'talk_gesture2': { 
+                bobOffset: (p, H, chr) => Math.sin(p * 1.2) * H * 0.01,
+                headTilt: (p, H, chr) => Math.cos(p * 0.8) * 4,
+                l_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: -0.15, yF: -0.2 }, handOffsetDynamic: { xF:0, yF: phase => Math.sin(phase)*0.03 } },
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.15, yF: -0.2 }, handOffsetDynamic: { xF:0, yF: phase => Math.cos(phase)*0.03 } },
+            },
+            'talk_subtle': {
+                bobOffset: (p, H, chr) => Math.sin(p * 0.5) * H * 0.005,
+                headTilt: (p, H, chr) => Math.sin(p * 0.6) * 2.5,
+                l_arm: { type: 'factors', exF: -0.05, eyF: 0.95, hxF: -0.05, hyF: 0.95 },
+                r_arm: { type: 'factors', exF: 0.05, eyF: 0.95, hxF: 0.05, hyF: 0.95 },
+            },
+             'talk_emphatic_hands': {
+                bobOffset: (p, H, chr) => Math.abs(Math.sin(p * 1.5)) * H * 0.02,
+                headTilt: (p, H, chr) => Math.sin(p * 1.5) * 6,
+                l_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: -0.2, yF: -0.1 }, handOffsetDynamic: { xF: phase => Math.sin(phase*1.5)*0.05, yF: phase => Math.cos(phase*1.5 + Math.PI/2)*0.05 } },
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.2, yF: -0.1 }, handOffsetDynamic: { xF: phase => Math.cos(phase*1.5)*0.05, yF: phase => Math.sin(phase*1.5 + Math.PI/2)*0.05 } },
+            },
+            'talk_questioning_shrug': {
+                bobOffset: (p, H, chr) => (0.5 - Math.cos(p * Math.PI) * 0.5) * H * 0.03, 
+                headTilt: (p, H, chr) => 10 + Math.sin(p * Math.PI*0.5) * 8, 
+                l_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: -0.2, yF: 0.05 }, handOffsetDynamic: { xF:-0.05, yF: phase => (0.5 - Math.cos(phase * Math.PI) * 0.5)*0.1} },
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.2, yF: 0.05 }, handOffsetDynamic: { xF:0.05, yF: phase => (0.5 - Math.cos(phase * Math.PI) * 0.5)*0.1} },
+                shoulderOffsetYDynamic: (p, H, chr) => -(0.5 - Math.cos(p * Math.PI) * 0.5) * H * 0.05, // Shoulders lift
+            },
+            'talk_listening_nod': { // Nod driven by expression/behavior, pose is subtle
+                headTilt: (p, H, chr) => 2 + Math.sin(p * 0.3) * 3, 
+            },
+            'talk_explaining_hands': {
+                bobOffset: (p, H, chr) => Math.sin(p) * H * 0.01,
+                headTilt: (p, H, chr) => Math.cos(p * 0.7) * 3,
+                l_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: -0.20, yF: -0.15 }, handOffsetDynamic: { xF: phase => -0.02 + Math.sin(phase)*0.04, yF: phase => Math.cos(phase)*0.04 } },
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.20, yF: -0.15 }, handOffsetDynamic: { xF: phase => 0.02 + Math.cos(phase)*0.04, yF: phase => Math.sin(phase)*0.04 } },
+            },
+            'talk_listening_attentive': {
+                headTilt: (p, H, chr) => -5 + Math.sin(p * 0.3) * 2, // Slight, slow tilt
+                r_arm: { type: 'ik_target', targetId: 'head', targetPoint: 'chin_side', handOffset: { xF: 0.01, yF: -0.02 } },
+            },
+            'talk_excited_bouncing': {
+                bobOffset: (p, H, chr) => Math.abs(Math.sin(p * 1.8)) * H * 0.04, // Faster, larger bob
+                headTilt: (p, H, chr) => Math.sin(p * 1.8) * 6,
+                l_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: -0.1, yF: 0 }, handOffsetDynamic: { xF: phase => -0.05, yF: phase => Math.sin(phase*1.8)*0.1 } },
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.1, yF: 0 }, handOffsetDynamic: { xF: phase => 0.05, yF: phase => Math.cos(phase*1.8)*0.1 } },
+            },
+            'talk_skeptical_headtilt': { // Head tilt is primary, use expression 'skeptical' for brows
+                headTilt: (p, H, chr) => (char.facing === 'left' ? -1 : 1) * (20 + Math.sin(p*0.1)*2), 
+                l_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.15, yF: -0.25 }, handOffset: { xF: 0, yF: 0 } }, 
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: -0.15, yF: -0.25 }, handOffset: { xF: 0, yF: 0 } },
+            },
+            'talk_calm_hands_folded': {
+                headTilt: (p, H, chr) => Math.sin(p * 0.5) * 1.5,
+                l_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.0, yF: 0.35 }, handOffset: { xF: -0.015, yF: 0 } }, 
+                r_arm: { type: 'ik_target', targetId: 'body', targetPoint: { xF: 0.0, yF: 0.35 }, handOffset: { xF: 0.015, yF: 0 } },
+            },
+        };
+        // Ensure all poses have default limbs if not specified
+        const defaultIdle = this.poseDefinitions['idle_default'];
+        for (const poseName in this.poseDefinitions) {
+            const pDef = this.poseDefinitions[poseName];
+            if (!pDef.l_leg) pDef.l_leg = defaultIdle.l_leg;
+            if (!pDef.r_leg) pDef.r_leg = defaultIdle.r_leg;
+            if (!pDef.l_arm) pDef.l_arm = defaultIdle.l_arm;
+            if (!pDef.r_arm) pDef.r_arm = defaultIdle.r_arm;
+        }
+    }
+
+    _getCharacterPoseDetails(char) {
+        if (!char) return null;
+        const H = this.FIGURE_BASE_HEIGHT * char.size;
+        
+        // Use visual state from turning behavior if active, otherwise character's base state
+        const turningBehav = char.behaviors.turning;
+        const currentVisualFacingSign = turningBehav.isActive ? turningBehav.visualFacingSign : (char.facing === 'left' ? -1 : 1);
+        const currentVisualFacingMode = turningBehav.isActive ? turningBehav.visualFacingMode : char.facingMode;
+
+        const p_y_levels = {
+            hipCenterY: char.y - (this.LEG_UPPER_F + this.LEG_LOWER_F) * H,
+            neckBaseY: char.y - (this.LEG_UPPER_F + this.LEG_LOWER_F + this.BODY_LENGTH_F) * H,
+            headCenterY: char.y - (this.LEG_UPPER_F + this.LEG_LOWER_F + this.BODY_LENGTH_F + this.NECK_LENGTH_F + this.HEAD_RADIUS_F) * H,
+            shoulderY: char.y - (this.LEG_UPPER_F + this.LEG_LOWER_F + this.BODY_LENGTH_F * 0.9) * H, // Shoulder slightly below neck base top
+        };
+        
+        const facingModeFactors = { // [profile, threeQuarter, front]
+            shoulderWidth: [1.0, 0.75, 0.35], // How much of base width is visible
+            hipWidth:      [1.0, 0.65, 0.3],
+            limbXCompress: [0.7, 0.85, 1.0], // How much X-component of limbs is shown (less in profile due to foreshortening)
+        };
+        const facingModeIndex = currentVisualFacingMode === 'profile' ? 0 : (currentVisualFacingMode === 'threeQuarter' ? 1 : 2);
+
+        const shoulderWidthActual = this.SHOULDER_WIDTH_F * H * facingModeFactors.shoulderWidth[facingModeIndex];
+        const hipWidthActual = this.HIP_WIDTH_F * H * facingModeFactors.hipWidth[facingModeIndex];
+        const limbXCompression = facingModeFactors.limbXCompress[facingModeIndex];
+        
+        const p_origins = {
+            // Origins are relative to char.x (centerline)
+            l_arm_sx: char.x - shoulderWidthActual * 0.5 * currentVisualFacingSign,
+            l_arm_sy: p_y_levels.shoulderY,
+            r_arm_sx: char.x + shoulderWidthActual * 0.5 * currentVisualFacingSign,
+            r_arm_sy: p_y_levels.shoulderY,
+            l_leg_hx: char.x - hipWidthActual * 0.5 * currentVisualFacingSign,
+            l_leg_hy: p_y_levels.hipCenterY,
+            r_leg_hx: char.x + hipWidthActual * 0.5 * currentVisualFacingSign,
+            r_leg_hy: p_y_levels.hipCenterY,
+            head_center_x: char.x, // Base head X before lean/offsets
+            head_center_y: p_y_levels.headCenterY,
+            neck_base_x: char.x,
+            neck_base_y: p_y_levels.neckBaseY,
+            hip_center_x: char.x,
+            hip_center_y: p_y_levels.hipCenterY,
+        };
+        
+        const phase = char.posePhase;
+        
+        let activePName = char.activePoseName;
+        if (typeof activePName === 'string') {
+            if (activePName === 'talk' && char.currentTalkPose) activePName = char.currentTalkPose;
+            if (activePName === 'idle' && char.behaviors.idleBehavior.currentIdleVariation) activePName = char.behaviors.idleBehavior.currentIdleVariation;
+        } else { activePName = 'idle_default'; }
+        
+        let prevPName = char.previousPoseName;
+         if (typeof prevPName === 'string') {
+            if (prevPName === 'talk' && char.currentTalkPose) prevPName = char.currentTalkPose; // Use current talk if transitioning from generic talk
+            if (prevPName === 'idle' && char.behaviors.idleBehavior.currentIdleVariation) prevPName = char.behaviors.idleBehavior.currentIdleVariation;
+        } else { prevPName = 'idle_default'; }
+
+        // Ensure pose names are valid before fetching definitions
+        if (!this.poseDefinitions[activePName]) activePName = 'idle_default';
+        if (!this.poseDefinitions[prevPName]) prevPName = 'idle_default';
+
+        const sPoseDataCurrent = this._getSpecificPoseData(char, prevPName, H, p_origins, p_y_levels, currentVisualFacingSign, limbXCompression, phase, currentVisualFacingMode);
+        const sPoseDataTarget = this._getSpecificPoseData(char, activePName, H, p_origins, p_y_levels, currentVisualFacingSign, limbXCompression, phase, currentVisualFacingMode);
+        
+        const specificPoseData = this._interpolatePoseDetails(sPoseDataCurrent, sPoseDataTarget, char.poseTransitionProgress);        
+        
+        const shoulderOffsetY = specificPoseData.shoulderOffsetY || 0;
+        p_origins.l_arm_sy += shoulderOffsetY; // Apply dynamic shoulder offset
+        p_origins.r_arm_sy += shoulderOffsetY;
+        p_y_levels.neckBaseY += shoulderOffsetY; // Neck base also moves with shoulders for shrugs
+
+        let poseDefinedHeadTilt = specificPoseData.headTilt; // Tilt from pose definition
+        let finalHeadTiltWithLookAt = poseDefinedHeadTilt;
+        if (char.behaviors.lookAt.isActive) {
+            finalHeadTiltWithLookAt += char.behaviors.lookAt.currentHeadAngle;
+        }
+        finalHeadTiltWithLookAt = Math.max(-85, Math.min(85, finalHeadTiltWithLookAt)); // Clamp final visual tilt
+
+        // Body lean affects upper body points
+        const currentBodyLean = specificPoseData.bodyLean || 0;
+        const bodyTopX = p_origins.neck_base_x + currentBodyLean + (specificPoseData.bodyX2Offset || 0);
+
+        let pose = {
+            head: { x: bodyTopX, y: p_y_levels.headCenterY, r: this.HEAD_RADIUS_F * H, 
+                    headTilt: finalHeadTiltWithLookAt, rawTilt: poseDefinedHeadTilt /* Store pose tilt for accessory sway */ },
+            body: { x1: p_origins.hip_center_x, y1: p_y_levels.hipCenterY, 
+                    x2: bodyTopX, y2: p_y_levels.neckBaseY },
+            l_arm: { sx: p_origins.l_arm_sx + currentBodyLean, sy: p_origins.l_arm_sy, ...specificPoseData.l_arm },
+            r_arm: { sx: p_origins.r_arm_sx + currentBodyLean, sy: p_origins.r_arm_sy, ...specificPoseData.r_arm },
+            l_leg: { hx: p_origins.l_leg_hx, hy: p_origins.l_leg_hy, ...specificPoseData.l_leg },
+            r_leg: { hx: p_origins.r_leg_hx, hy: p_origins.r_leg_hy, ...specificPoseData.r_leg }
+        };
+
+        let bobOffset = typeof specificPoseData.bobOffset === 'number' ? specificPoseData.bobOffset : 0;
+        const partsToBob = [pose.head, pose.body, pose.l_arm, pose.r_arm, pose.l_leg, pose.r_leg];
+        partsToBob.forEach(part => {
+            if (!part) return;
+            for (const key in part) {
+                if ((key.endsWith('y') || key.endsWith('y1') || key.endsWith('y2') || 
+                     key.endsWith('sy') || key.endsWith('ey') || key.endsWith('hy') || 
+                     key.endsWith('ky') || key.endsWith('fy')) && typeof part[key] === 'number') {
+                    part[key] -= bobOffset; // Apply bobbing by subtracting offset
+                }
+            }
+        });
+        
+        return pose;
+    }
+
+    _getSpecificPoseData(char, poseName, H, p_origins, p_y_levels, facingSign, limbXCompress, phase, visualFacingMode) {
+        const A_U = this.ARM_UPPER_F * H; const A_L = this.ARM_LOWER_F * H;
+        const L_U = this.LEG_UPPER_F * H; const L_L = this.LEG_LOWER_F * H;
+        const { l_arm_sx, l_arm_sy, r_arm_sx, r_arm_sy, l_leg_hx, l_leg_hy, r_leg_hx, r_leg_hy } = p_origins;
+
+        let outputPoseData = { headTilt: 0, bobOffset: 0, bodyX2Offset: 0, bodyLean: 0, shoulderOffsetY:0, l_arm: {}, r_arm: {}, l_leg: {}, r_leg: {} };
+        
+        const pDef = this.poseDefinitions[poseName] || this.poseDefinitions['idle_default'];
+
+        const evalParam = (param, p, H_val, chr_val) => typeof param === 'function' ? param(p, H_val, chr_val) : param;
+
+        if (pDef.headTilt) outputPoseData.headTilt = evalParam(pDef.headTilt, phase, H, char); // Base tilt, facingSign applied later if needed by specific drawing
+        if (pDef.bobOffset) outputPoseData.bobOffset = evalParam(pDef.bobOffset, phase, H, char);
+        if (pDef.bodyX2Offset) outputPoseData.bodyX2Offset = evalParam(pDef.bodyX2Offset, phase, H, char) * facingSign;
+        if (pDef.bodyLean) outputPoseData.bodyLean = evalParam(pDef.bodyLean, phase, H, char) * facingSign;
+        if (pDef.shoulderOffsetYDynamic) outputPoseData.shoulderOffsetY = evalParam(pDef.shoulderOffsetYDynamic, phase, H, char);
+        else if (pDef.shoulderOffsetY) outputPoseData.shoulderOffsetY = pDef.shoulderOffsetY;
+
+        const currentBodyLean = outputPoseData.bodyLean || 0; // For IK targets relative to leaned body
+        const bodyCenterAllowance = H * 0.03 * (visualFacingMode === 'front' ? 0.1 : 1); // Smaller allowance in front view to prevent crossing
+
+        if (poseName === 'walk' || poseName === 'run') {
+            const isRunning = poseName === 'run';
+            const cycle = Math.sin(phase * 0.5); 
+            const absCycle = Math.abs(cycle);
+
+            let legAngleRange = isRunning ? { fwd: 75, back: 60, kneeLift: 65 } : { fwd: 60, back: 45, kneeLift: 45 };
+            let armAngleRange = isRunning ? { fwd: 75, back: 65 } : { fwd: 60, back: 50 };
+            
+            // Left Leg (advancing when cycle > 0)
+            let lLegAngleDeg = cycle * (cycle > 0 ? legAngleRange.fwd : legAngleRange.back);
+            let lKneeBendFactor = (isRunning ? 0.4 : 0.3) + absCycle * (isRunning ? 0.7 : 0.6); // More bend when leg is mid-swing
+            outputPoseData.l_leg.kx = l_leg_hx + L_U * Math.sin(lLegAngleDeg * Math.PI/180 * 0.6 * lKneeBendFactor) * facingSign * limbXCompress;
+            outputPoseData.l_leg.ky = l_leg_hy + L_U * Math.cos(lLegAngleDeg * Math.PI/180 * 0.6 * lKneeBendFactor);
+            outputPoseData.l_leg.fx = outputPoseData.l_leg.kx + L_L * Math.sin(lLegAngleDeg * Math.PI/180) * facingSign * limbXCompress;
+            outputPoseData.l_leg.fy = outputPoseData.l_leg.ky + L_L * Math.cos(lLegAngleDeg * Math.PI/180);
+
+            // Right Leg (advancing when cycle < 0)
+            let rLegAngleDeg = -cycle * (cycle < 0 ? legAngleRange.fwd : legAngleRange.back); // Opposite phase
+            let rKneeBendFactor = (isRunning ? 0.4 : 0.3) + absCycle * (isRunning ? 0.7 : 0.6);
+            outputPoseData.r_leg.kx = r_leg_hx + L_U * Math.sin(rLegAngleDeg * Math.PI/180 * 0.6 * rKneeBendFactor) * facingSign * limbXCompress;
+            outputPoseData.r_leg.ky = r_leg_hy + L_U * Math.cos(rLegAngleDeg * Math.PI/180 * 0.6 * rKneeBendFactor);
+            outputPoseData.r_leg.fx = outputPoseData.r_leg.kx + L_L * Math.sin(rLegAngleDeg * Math.PI/180) * facingSign * limbXCompress;
+            outputPoseData.r_leg.fy = outputPoseData.r_leg.ky + L_L * Math.cos(rLegAngleDeg * Math.PI/180);
+            
+            // Arms oppose legs: Right arm swings with Left leg
+            let rArmAngleDeg = cycle * (cycle > 0 ? armAngleRange.fwd : armAngleRange.back);
+            outputPoseData.r_arm.ex = r_arm_sx + A_U * Math.sin(rArmAngleDeg * Math.PI/180 * 0.7) * facingSign * limbXCompress;
+            outputPoseData.r_arm.ey = r_arm_sy + A_U * Math.cos(rArmAngleDeg * Math.PI/180 * 0.7);
+            outputPoseData.r_arm.hx = outputPoseData.r_arm.ex + A_L * Math.sin(rArmAngleDeg * Math.PI/180) * facingSign * limbXCompress;
+            outputPoseData.r_arm.hy = outputPoseData.r_arm.ey + A_L * Math.cos(rArmAngleDeg * Math.PI/180);
+            
+            let lArmAngleDeg = -cycle * (cycle < 0 ? armAngleRange.fwd : armAngleRange.back);
+            outputPoseData.l_arm.ex = l_arm_sx + A_U * Math.sin(lArmAngleDeg * Math.PI/180 * 0.7) * facingSign * limbXCompress;
+            outputPoseData.l_arm.ey = l_arm_sy + A_U * Math.cos(lArmAngleDeg * Math.PI/180 * 0.7);
+            outputPoseData.l_arm.hx = outputPoseData.l_arm.ex + A_L * Math.sin(lArmAngleDeg * Math.PI/180) * facingSign * limbXCompress;
+            outputPoseData.l_arm.hy = outputPoseData.l_arm.ey + A_L * Math.cos(lArmAngleDeg * Math.PI/180);
+
+        } else { // For non-walk/run poses
+            ['l_arm', 'r_arm'].forEach(limbKey => {
+                const armDef = pDef[limbKey];
+                if (!armDef) return;
+
+                const S_X = (limbKey === 'l_arm' ? l_arm_sx : r_arm_sx) + currentBodyLean; // Apply bodyLean to shoulder origin
+                const S_Y = limbKey === 'l_arm' ? l_arm_sy : r_arm_sy; // Shoulder Y already includes dynamic offset
+                const preferClockwiseBend = (limbKey === 'r_arm'); // Standard IK bend preference
+
+                if (armDef.type === 'ik_target') {
+                    let targetX_abs, targetY_abs;
+                    const targetEntityId = armDef.targetId;
+                    const targetPointDef = armDef.targetPoint;
+                    
+                    if (targetEntityId === 'body') { // Target relative to own body
+                        const refX = p_origins.hip_center_x + currentBodyLean; // IK target usually relative to hip or neck after lean
+                        const refY_hip = p_origins.hip_center_y;
+                        const refY_neck = p_origins.neck_base_y; // Neck Y already includes shoulder offset
+
+                        if (typeof targetPointDef === 'string') {
+                            if (targetPointDef === 'hip_left') { targetX_abs = p_origins.l_leg_hx + currentBodyLean; targetY_abs = p_origins.l_leg_hy; }
+                            else if (targetPointDef === 'hip_right') { targetX_abs = p_origins.r_leg_hx + currentBodyLean; targetY_abs = p_origins.r_leg_hy; }
+                            else { targetX_abs = refX; targetY_abs = refY_hip; } // Default to hip center
+                        } else { // {xF, yF} object
+                            targetX_abs = refX + evalParam(targetPointDef.xF, phase, H, char) * H * facingSign;
+                            // yF usually relative to neck for upper body targets, hip for lower
+                            const yBaseForTarget = (targetPointDef.yF < -0.1) ? refY_neck : refY_hip;
+                            targetY_abs = yBaseForTarget + evalParam(targetPointDef.yF, phase, H, char) * H;
+                        }
+                    } else if (targetEntityId === 'head') { // Target relative to own head
+                        targetX_abs = p_origins.head_center_x + currentBodyLean; // Head X already includes body lean
+                        targetY_abs = p_origins.head_center_y; // Head Y is absolute for now
+                        if (targetPointDef === 'chin') {
+                             targetY_abs += this.HEAD_RADIUS_F * H * 0.8;
+                        } else if (targetPointDef === 'chin_side') {
+                            targetX_abs += (this.HEAD_RADIUS_F * H * 0.3 * facingSign * limbXCompress);
+                            targetY_abs += this.HEAD_RADIUS_F * H * 0.7;
+                        }
+                    } else { // Default fallback if targetId is unknown (should not happen)
+                        targetX_abs = S_X + 0.1 * H * facingSign; targetY_abs = S_Y + 0.1 * H;
+                    }
+
+                    let handOffsetX = 0, handOffsetY = 0;
+                    const offsetDef = armDef.handOffset || armDef.handOffsetDynamic;
+                    if (offsetDef) {
+                        handOffsetX = evalParam(offsetDef.xF, phase, H, char) * H * facingSign;
+                        handOffsetY = evalParam(offsetDef.yF, phase, H, char) * H;
+                    }
+                    
+                    const handTargetX = targetX_abs + handOffsetX;
+                    const handTargetY = targetY_abs + handOffsetY;
+
+                    const armSolution = this._solveArmIK(S_X, S_Y, handTargetX, handTargetY, A_U, A_L, preferClockwiseBend, facingSign);
+                    outputPoseData[limbKey].ex = armSolution.elbow.x;
+                    outputPoseData[limbKey].ey = armSolution.elbow.y;
+                    outputPoseData[limbKey].hx = armSolution.hand.x;
+                    outputPoseData[limbKey].hy = armSolution.hand.y;
+
+                } else if (armDef.type === 'factors') { 
+                    outputPoseData[limbKey].ex = S_X + armDef.exF * A_U * facingSign * limbXCompress;
+                    outputPoseData[limbKey].ey = S_Y + armDef.eyF * A_U;
+                    outputPoseData[limbKey].hx = outputPoseData[limbKey].ex + armDef.hxF * A_L * facingSign * limbXCompress;
+                    outputPoseData[limbKey].hy = outputPoseData[limbKey].ey + armDef.hyF * A_L;
+                }
+                
+                // Prevent arms from crossing body unnaturaly in non-profile views
+                if (visualFacingMode !== 'profile') {
+                    const bodyCenterXWithLean = p_origins.hip_center_x + currentBodyLean;
+                    // Check elbow
+                    if ((outputPoseData[limbKey].ex - bodyCenterXWithLean) * facingSign < -bodyCenterAllowance) { // Left arm went too far right, or right arm too far left
+                           outputPoseData[limbKey].ex = bodyCenterXWithLean - bodyCenterAllowance * facingSign;
+                    }
+                    // Check hand
+                    if ((outputPoseData[limbKey].hx - bodyCenterXWithLean) * facingSign < -bodyCenterAllowance) {
+                           outputPoseData[limbKey].hx = bodyCenterXWithLean - bodyCenterAllowance * facingSign;
+                    }
+                }
+            });
+
+            ['l_leg', 'r_leg'].forEach(limbKey => {
+                const legDef = pDef[limbKey] || this.poseDefinitions.idle_default[limbKey];
+                if (!legDef) return;
+                const H_X = limbKey === 'l_leg' ? l_leg_hx : r_leg_hx;
+                const H_Y = limbKey === 'l_leg' ? l_leg_hy : r_leg_hy;
+                
+                const kxF = evalParam(legDef.kxF || legDef.kxFDynamic, phase, H, char);
+                const kyF = evalParam(legDef.kyF || legDef.kyFDynamic, phase, H, char);
+                const fxF = evalParam(legDef.fxF || legDef.fxFDynamic, phase, H, char);
+                const fyF = evalParam(legDef.fyF || legDef.fyFDynamic, phase, H, char);
+
+                outputPoseData[limbKey].kx = H_X + kxF * L_U * facingSign * limbXCompress;
+                outputPoseData[limbKey].ky = H_Y + kyF * L_U;
+                outputPoseData[limbKey].fx = outputPoseData[limbKey].kx + fxF * L_L * facingSign * limbXCompress;
+                outputPoseData[limbKey].fy = outputPoseData[limbKey].ky + fyF * L_L;
+            });
+        }
+        return outputPoseData;
+    }
+    
+    _interpolatePoseDetails(poseA, poseB, t) {
+        const interpolated = { headTilt: 0, bobOffset: 0, bodyX2Offset:0, bodyLean:0, shoulderOffsetY:0, l_arm: {}, r_arm: {}, l_leg: {}, r_leg: {} };
+        // Smoothstep for t for nicer transitions
+        const eased_t = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+        const lerp = (a, b, time) => {
+            if (a === undefined && b === undefined) return 0;
+            if (a === undefined) return b || 0;
+            if (b === undefined) return a || 0;
+            return a + (b - a) * time;
+        };
+
+        interpolated.headTilt = lerp(poseA.headTilt, poseB.headTilt, eased_t);
+        interpolated.bobOffset = lerp(poseA.bobOffset, poseB.bobOffset, eased_t);
+        interpolated.bodyX2Offset = lerp(poseA.bodyX2Offset, poseB.bodyX2Offset, eased_t);
+        interpolated.bodyLean = lerp(poseA.bodyLean, poseB.bodyLean, eased_t);
+        interpolated.shoulderOffsetY = lerp(poseA.shoulderOffsetY, poseB.shoulderOffsetY, eased_t);
+
+        ['l_arm', 'r_arm'].forEach(limbKey => {
+            ['ex', 'ey', 'hx', 'hy'].forEach(coordKey => {
+                interpolated[limbKey][coordKey] = lerp(poseA[limbKey]?.[coordKey], poseB[limbKey]?.[coordKey], eased_t);
+            });
+        });
+        ['l_leg', 'r_leg'].forEach(limbKey => {
+            ['kx', 'ky', 'fx', 'fy'].forEach(coordKey => {
+                interpolated[limbKey][coordKey] = lerp(poseA[limbKey]?.[coordKey], poseB[limbKey]?.[coordKey], eased_t);
+            });
+        });
+        return interpolated;
+    }
+
+    _solveArmIK(sx, sy, hx_target, hy_target, L1, L2, preferClockwiseBend, facingSign) {
+        let dx = hx_target - sx;
+        let dy = hy_target - sy;
+        let d_sq = dx * dx + dy * dy;
+        let d = Math.sqrt(d_sq);
+        const epsilon = 0.01; // Slightly larger epsilon for stability
+
+        let hx_actual = hx_target;
+        let hy_actual = hy_target;
+
+        if (d > L1 + L2 - epsilon) { // Target too far, extend fully
+            const ratio = (L1 + L2) / (d < epsilon ? epsilon : d); 
+            hx_actual = sx + dx * ratio;
+            hy_actual = sy + dy * ratio;
+            d = L1 + L2; // Update distance to clamped
+        } else if (d < Math.abs(L1 - L2) + epsilon) { // Target too close, fold along L1-L2 line
+             const min_reach_dist = Math.abs(L1 - L2);
+             if (d < epsilon && min_reach_dist < epsilon) { // Target at shoulder & L1~L2 (fully folded)
+                // Default bend: elbow slightly outward/backward based on facing
+                const defaultBendX = L1 * 0.1 * facingSign;
+                const defaultBendY = L1 * 0.9; // Slight bend downwards
+                return { elbow: { x: sx + defaultBendX, y: sy + defaultBendY }, hand: { x: sx, y: sy } };
+            }
+            const ratio = min_reach_dist / (d < epsilon ? epsilon : d);
+            hx_actual = sx + dx * ratio;
+            hy_actual = sy + dy * ratio;
+            d = min_reach_dist; 
+        }
+        
+        dx = hx_actual - sx; // Update dx, dy based on potentially clamped hand position
+        dy = hy_actual - sy;
+
+        if (d < epsilon) { // Hand is effectively at shoulder after clamping
+            const defaultBendX = L1 * 0.1 * facingSign;
+            const defaultBendY = L1 * 0.9 * (preferClockwiseBend ? 1 : -1); // Simple default bend
+            return { elbow: { x: sx + defaultBendX, y: sy + defaultBendY }, hand: { x: sx, y: sy } };
+        }
+
+        const a = (L1*L1 - L2*L2 + d*d) / (2 * d);
+        let h_sq = L1*L1 - a*a;
+        if (h_sq < 0) h_sq = 0; // Clamp due to precision for straight arms
+        const h = Math.sqrt(h_sq);
+
+        const p_mid_x = sx + a * (dx / d);
+        const p_mid_y = sy + a * (dy / d);
+        
+        // Bend direction: preferClockwiseBend (true for right arm) means elbow "outward" or "downward" from shoulder-hand line.
+        // The sign of 'h' determines which side of the shoulder-hand line the elbow goes.
+        // For right arm (CW): elbow_x = mid_x + h * dy/d, elbow_y = mid_y - h * dx/d
+        // For left arm (CCW): elbow_x = mid_x - h * dy/d, elbow_y = mid_y + h * dx/d
+        const bendDirSign = preferClockwiseBend ? 1 : -1; 
+        
+        // If facing left, the perceived "clockwise" might flip for the viewer if not careful.
+        // However, the IK is in world space, so `preferClockwiseBend` refers to the character's own right/left.
+        // Let's use a convention where positive bendDirSign means elbow goes "down" relative to horizontal shoulder-hand.
+        // This usually looks natural.
+        
+        const ex = p_mid_x + bendDirSign * h * (dy / d);
+        const ey = p_mid_y - bendDirSign * h * (dx / d);
+        
+        return { elbow: { x: ex, y: ey }, hand: { x: hx_actual, y: hy_actual } };
+    }
+
+
+    _drawCharacter(char) {
+        if (!char || !char.behaviors) return;
+        const d = this._getCharacterPoseDetails(char); 
+        if (!d) return; // Could not get pose details
+
+        const ctx = this.ctx;
+        const lineW = Math.max(1.5, this.STICK_THICKNESS_BASE * char.size);
+        ctx.strokeStyle = char.color; ctx.fillStyle = char.color;
+        ctx.lineWidth = lineW; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+
+        ctx.beginPath(); ctx.moveTo(d.body.x1, d.body.y1); ctx.lineTo(d.body.x2, d.body.y2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(d.l_leg.hx, d.l_leg.hy); ctx.lineTo(d.l_leg.kx, d.l_leg.ky); ctx.lineTo(d.l_leg.fx, d.l_leg.fy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(d.r_leg.hx, d.r_leg.hy); ctx.lineTo(d.r_leg.kx, d.r_leg.ky); ctx.lineTo(d.r_leg.fx, d.r_leg.fy); ctx.stroke();
+        
+        if (char.appearance.hasTzitzit) this._drawCharacterTzitzit(char, d);
+
+        ctx.beginPath(); ctx.moveTo(d.l_arm.sx, d.l_arm.sy); ctx.lineTo(d.l_arm.ex, d.l_arm.ey); ctx.lineTo(d.l_arm.hx, d.l_arm.hy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(d.r_arm.sx, d.r_arm.sy); ctx.lineTo(d.r_arm.ex, d.r_arm.ey); ctx.lineTo(d.r_arm.hx, d.r_arm.hy); ctx.stroke();
+
+        ctx.save();
+        ctx.translate(d.head.x, d.head.y);
+        ctx.rotate(d.head.headTilt * Math.PI / 180); // Apply final visual head tilt
+        ctx.beginPath(); ctx.arc(0, 0, d.head.r, 0, Math.PI * 2);
+        ctx.fillStyle = char.color; ctx.fill();
+        
+        const activeExpression = this._getActiveExpression(char);
+        // Use visual state from turning behavior or character's base state for drawing
+        const turningBehav = char.behaviors.turning;
+        const visualFacingMode = turningBehav.isActive ? turningBehav.visualFacingMode : char.facingMode;
+        const visualFacingSign = turningBehav.isActive ? turningBehav.visualFacingSign : (char.facing === 'left' ? -1 : 1);
+
+        this._drawCharacterFace(char, d.head.r, activeExpression, visualFacingMode, visualFacingSign); 
+        this._drawCharacterHair(char, d.head.r, visualFacingMode, visualFacingSign);
+        // Accessories sway with pose tilt (d.head.rawTilt), not full visual tilt
+        this._drawCharacterAccessories(char, d.head.r, d.head.rawTilt, visualFacingMode, visualFacingSign);
+        ctx.restore();
+    }
+
+    _drawCharacterTzitzit(char, poseDetails) {
+        const ctx = this.ctx;
+        const H = this.FIGURE_BASE_HEIGHT * char.size;
+        const tzitzitLength = this.TZITZIT_LENGTH_F * H;
+        const hipY = poseDetails.body.y1; 
+
+        const turningBehav = char.behaviors.turning;
+        const visualFacingMode = turningBehav.isActive ? turningBehav.visualFacingMode : char.facingMode;
+        const visualFacingSign = turningBehav.isActive ? turningBehav.visualFacingSign : (char.facing === 'left' ? -1 : 1);
+        
+        const facingModeFactors = { 'profile': 0.4, 'threeQuarter': 0.8, 'front': 1.0 };
+        const bodyActualWidthAtHip = this.HIP_WIDTH_F * H * (facingModeFactors[visualFacingMode] || 1.0);
+        const tzitzitAnchorOffset = bodyActualWidthAtHip * this.TZITZIT_HIP_ANCHOR_X_FACTOR * 0.5; // Reduced offset for less spread
+
+        const stringCount = 2; 
+        const spreadFromAnchor = H * 0.01;
+
+        const swayAmplitude = char.behaviors.accessorySway.currentTzitzitSwayAmplitude;
+        const baseSwayPhase = char.swayPhase; 
+
+        ctx.save();
+        ctx.strokeStyle = char.appearance.tzitzitColor || 'white';
+        ctx.lineWidth = Math.max(1, char.size * 1.2); 
+        ctx.lineCap = 'butt'; // Straighter ends for tzitzit strings
+
+        const bodyLeanEffect = poseDetails.bodyLean || 0; // This might be specific to upper body, adjust if hip lean is different
+
+        // Right side (character's right)
+        const rightSideAnchorX = poseDetails.body.x1 + tzitzitAnchorOffset * visualFacingSign + bodyLeanEffect;
+        for (let i = 0; i < stringCount; i++) {
+            ctx.beginPath();
+            const individualSwayPhase = baseSwayPhase + i * 0.5; 
+            const swayOffsetX = Math.sin(individualSwayPhase) * swayAmplitude * char.size * (0.8 + Math.random()*0.4);
+            const startX = rightSideAnchorX + ( (i - (stringCount-1)/2) * spreadFromAnchor * visualFacingSign );
+            ctx.moveTo(startX, hipY + H*0.01); 
+            const endX = startX + (swayOffsetX * visualFacingSign) + (Math.random()-0.5)*spreadFromAnchor*0.3*visualFacingSign;
+            ctx.lineTo(endX, hipY + tzitzitLength + (Math.random()-0.5)*H*0.02);
+            ctx.stroke();
+        }
+
+        // Left side (character's left)
+        const leftSideAnchorX = poseDetails.body.x1 - tzitzitAnchorOffset * visualFacingSign + bodyLeanEffect;
+        for (let i = 0; i < stringCount; i++) {
+            ctx.beginPath();
+            const individualSwayPhase = baseSwayPhase + i * 0.5 + Math.PI/4; 
+            const swayOffsetX = Math.sin(individualSwayPhase) * swayAmplitude * char.size * (0.8 + Math.random()*0.4);
+            const startX = leftSideAnchorX + ( (i - (stringCount-1)/2) * spreadFromAnchor * visualFacingSign );
+            ctx.moveTo(startX, hipY + H*0.01);
+            const endX = startX + (swayOffsetX * visualFacingSign) + (Math.random()-0.5)*spreadFromAnchor*0.3*visualFacingSign;
+            ctx.lineTo(endX, hipY + tzitzitLength + (Math.random()-0.5)*H*0.02);
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+    
+    _getExpressionDefinition(expressionName) {
+        const baseExpressions = {
+            'neutral': { eyebrowTilt: 0, eyebrowRaiseF: 0, eyeOpenF: 1.0, pupilSizeF: 1.0, mouthDefaultShape: 'neutral' },
+            'happy': { eyebrowTilt: -15, eyebrowRaiseF: -0.2, eyeOpenF: 0.85, pupilSizeF: 1.0, mouthDefaultShape: 'smile' },
+            'sad': { eyebrowTilt: 20, eyebrowRaiseF: 0.05, eyeOpenF: 0.8, pupilSizeF: 1.0, mouthDefaultShape: 'frown_subtle' },
+            'angry': { 
+                eyebrowTilt: (chr, vfm, vfs) => (vfm === 'front' ? (vfs > 0 ? -25: 25) : (vfs === -1 ? 30 : -30)), // Inner brows down
+                eyebrowRaiseF: 0.1, eyeOpenF: 0.7, pupilSizeF: 0.9, mouthDefaultShape: 'frown_large' 
+            },
+            'surprised': { eyebrowTilt: -10, eyebrowRaiseF: -0.45, eyeOpenF: 1.25, pupilSizeF: 0.75, mouthDefaultShape: 'o_large' },
+            'focused': { 
+                eyebrowTilt: (chr, vfm, vfs) => (vfm === 'front' ? (vfs > 0 ? -15: 15) : (vfs === -1 ? 15 : -15)),
+                eyebrowRaiseF: 0.05, eyeOpenF: 0.85, pupilSizeF: 0.9, mouthDefaultShape: 'neutral' 
+            },
+            'subtle_emphasis': { eyebrowTilt: -8, eyebrowRaiseF: -0.15, eyeOpenF: 1.05, pupilSizeF: 1.0, mouthDefaultShape: 'slight_open' },
+            'skeptical': { 
+                // One eyebrow up, one neutral or slightly down
+                eyebrowTilt: (chr, vfm, vfs) => (vfs === -1 ? -25 : 5), // e.g. Left up if facing left, or main side up
+                eyebrowRaiseF: (chr, vfm, vfs) => (vfs === -1 ? -0.35 : -0.05),
+                eyeOpenF: 0.9, pupilSizeF: 1.0, mouthDefaultShape: 'neutral' // Mouth can be asymmetric too, e.g. slight smirk
+            },
+        };
+        return baseExpressions[expressionName] || baseExpressions['neutral'];
+    }
+
+    _getActiveExpression(char) {
+        if (!char || !char.behaviors) return this._getExpressionDefinition('neutral'); // Safe fallback
+        const turningBehav = char.behaviors.turning;
+        const visualFacingMode = turningBehav.isActive ? turningBehav.visualFacingMode : char.facingMode;
+        const visualFacingSign = turningBehav.isActive ? turningBehav.visualFacingSign : (char.facing === 'left' ? -1 : 1);
+
+        const defA = this._getExpressionDefinition(char.previousExpressionName);
+        const defB = this._getExpressionDefinition(char.activeExpressionName);
+        const t = char.expressionTransitionProgress;
+        // Smoothstep for t
+        const eased_t = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+        const lerp = (a, b, time) => {
+            if (a === undefined && b === undefined) return 0;
+            if (a === undefined) return b || 0;
+            if (b === undefined) return a || 0;
+            return a + (b - a) * time;
+        };
+
+        let interpolated = { 
+            name: char.activeExpressionName, 
+            mouthDefaultShape: (eased_t < 0.5 ? defA.mouthDefaultShape : defB.mouthDefaultShape) || 'neutral' 
+        };
+
+        for (const key in defA) { // Iterate over keys of a base definition
+            if (key === 'mouthDefaultShape' || key === 'name') continue;
+
+            const valA_raw = defA[key];
+            const valB_raw = defB[key]; // B might not have all custom func keys if A is more complex
+            
+            const valA = typeof valA_raw === 'function' ? valA_raw(char, visualFacingMode, visualFacingSign) : valA_raw;
+            // Ensure B's value is also resolved if it's a function, or use A's resolved if B doesn't have the func
+            const valB = typeof valB_raw === 'function' ? valB_raw(char, visualFacingMode, visualFacingSign) : (valB_raw !== undefined ? valB_raw : valA) ; 
+            
+            interpolated[key] = lerp(valA, valB, eased_t);
+        }
+        return interpolated;
+    }
+
+
+    _drawCharacterFace(char, headR, activeExpression, visualFacingMode, visualFacingSign) {
+        const ctx = this.ctx;
+        this._drawEyes(char, headR, activeExpression, ctx, visualFacingMode, visualFacingSign);
+        this._drawEyebrows(char, headR, activeExpression, ctx, visualFacingMode, visualFacingSign);
+        this._drawMouthAndNose(char, headR, activeExpression, ctx, visualFacingMode, visualFacingSign);
+    }
+
+    _drawEyes(char, headR, expression, ctx, visualFacingMode, visualFacingSign) {
+        const app = char.appearance;
+        const blinkBehav = char.behaviors.blinking;
+        const dartBehav = char.behaviors.eyeDarts;
+        
+        let intensityFactor = 1.0;
+        if (char.behaviors.emphasis.active) intensityFactor = this.EXPRESSION_INTENSITY_FACTOR * (char.behaviors.emphasis.intensity / 1.5);
+
+        // fpf (feature perspective factor) for X offset and separation
+        const fpfMap = {'profile': 0.8, 'threeQuarter': 0.6, 'front': 0.45}; 
+        let xOffsetFactor = fpfMap[visualFacingMode] || 0.8;
+
+        const eyeR_base = headR * 0.22;
+        const pupilRBase = eyeR_base * 0.55; // Slightly larger pupils
+        const eyeYPos = -headR * 0.18; // Slightly higher eyes
+        
+        // Main eye X position based on head radius and facing mode
+        // In profile, eye is on contour. In 3/4 and front, it's offset from center.
+        let mainEyeX = headR * 0.33 * xOffsetFactor * visualFacingSign;
+        let farEyeX = 0;
+        let drawFarEye = false;
+
+        if (visualFacingMode === 'threeQuarter') {
+            mainEyeX = headR * 0.25 * visualFacingSign; // Closer eye more towards center
+            farEyeX = headR * 0.55 * visualFacingSign;  // Far eye further out, more compressed
+            drawFarEye = true;
+        } else if (visualFacingMode === 'front') {
+            const eyeSeparationFront = headR * 0.30;
+            mainEyeX = eyeSeparationFront * visualFacingSign;
+            farEyeX = -eyeSeparationFront * visualFacingSign; // Symmetrical
+            drawFarEye = true;
+        }
+        // If profile, mainEyeX is already set to be on the contour, no far eye.
+        // mainEyeX will be headR * 0.33 * 0.8 * visualFacingSign = headR * 0.264 * visualFacingSign
+
+        let pupilR = pupilRBase * expression.pupilSizeF;
+        let eyeOpenFactor = expression.eyeOpenF * intensityFactor;
+        
+        if (expression.name === 'surprised') pupilR *= Math.max(0.8, 1 / intensityFactor); 
+        if (expression.name === 'angry') eyeOpenFactor = Math.max(0.1, eyeOpenFactor / intensityFactor);
+        if (expression.name === 'sad') eyeOpenFactor = Math.max(0.1, eyeOpenFactor / intensityFactor);
+
+        if (blinkBehav.isBlinking) {
+            const currentBlinkPhase = blinkBehav.blinkProgress < 1 ? blinkBehav.blinkProgress : 2 - blinkBehav.blinkProgress;
+            eyeOpenFactor *= (1 - Math.sin(currentBlinkPhase * Math.PI * 0.5) * 0.99); // Nearly full close
+        }
+        eyeOpenFactor = Math.max(0.01, eyeOpenFactor); // Ensure eye is at least a slit
+
+        const finalPupilShiftX = dartBehav.currentPupilShiftX;
+        const finalPupilShiftY = dartBehav.currentPupilShiftY + (expression.name === 'sad' ? eyeR_base * 0.1 * intensityFactor : 0);
+
+        // Draw far eye first if visible
+        if (drawFarEye) {
+            ctx.fillStyle = this.adjustColor(app.eyeColor || 'white', (visualFacingMode === 'threeQuarter' ? -0.1 : -0.05) ); // Far eye slightly darker
+            const farEyeRadiusFactor = (visualFacingMode === 'threeQuarter') ? 0.80 : 0.95; // Far eye smaller in 3/4
+            const farEyeOpenFactor = eyeOpenFactor * ((visualFacingMode === 'threeQuarter') ? 0.85 : 0.95);
+            ctx.beginPath(); 
+            ctx.ellipse(farEyeX, eyeYPos, eyeR_base * farEyeRadiusFactor, eyeR_base * farEyeOpenFactor * farEyeRadiusFactor, 0, 0, Math.PI*2); 
+            ctx.fill();
+            if (farEyeOpenFactor > 0.1) {
+                ctx.fillStyle = this.adjustColor(app.pupilColor || 'black', -0.05);
+                ctx.beginPath(); 
+                ctx.arc(farEyeX + finalPupilShiftX * 0.7, eyeYPos + finalPupilShiftY, pupilR * farEyeRadiusFactor * 0.9, 0, Math.PI*2); 
+                ctx.fill();
+                 // Highlight for far eye
+                ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                const farHighlightR = pupilR * farEyeRadiusFactor * 0.9 * 0.3;
+                ctx.beginPath(); 
+                ctx.arc(farEyeX + finalPupilShiftX * 0.7 + pupilR * farEyeRadiusFactor * 0.9 *0.25, 
+                        eyeYPos + finalPupilShiftY - pupilR * farEyeRadiusFactor * 0.9 *0.25, 
+                        farHighlightR, 0, Math.PI*2); 
+                ctx.fill();
+            }
+        }
+        
+        // Draw main/front eye
+        ctx.fillStyle = app.eyeColor || 'white';
+        ctx.beginPath(); 
+        ctx.ellipse(mainEyeX, eyeYPos, eyeR_base, eyeR_base * eyeOpenFactor, 0, 0, Math.PI*2); 
+        ctx.fill();
+
+        if (eyeOpenFactor > 0.1) {
+            ctx.fillStyle = app.pupilColor || 'black';
+            ctx.beginPath(); 
+            ctx.arc(mainEyeX + finalPupilShiftX, eyeYPos + finalPupilShiftY, pupilR, 0, Math.PI*2); 
+            ctx.fill();
+            
+            // Main eye highlight
+            ctx.fillStyle = 'rgba(255,255,255,0.7)';
+            const highlightR = pupilR * 0.35;
+            ctx.beginPath(); 
+            ctx.arc(mainEyeX + finalPupilShiftX + pupilR*0.3, eyeYPos + finalPupilShiftY - pupilR*0.3, highlightR, 0, Math.PI*2); 
+            ctx.fill();
+        }
+    }
+
+    _drawEyebrows(char, headR, expression, ctx, visualFacingMode, visualFacingSign) {
+        const app = char.appearance;
+        
+        // Eyebrow positions relative to eye positions
+        const eyeR_base = headR * 0.22; // Reference for positioning
+        const eyeYPos = -headR * 0.18;  // Match eye Y
+        const fpfMap = {'profile': 0.8, 'threeQuarter': 0.6, 'front': 0.45};
+        let xOffsetFactor = fpfMap[visualFacingMode] || 0.8;
+
+        let mainEyeX = headR * 0.33 * xOffsetFactor * visualFacingSign;
+        let farEyeX = 0;
+        let drawFarBrow = false;
+
+        if (visualFacingMode === 'threeQuarter') {
+            mainEyeX = headR * 0.25 * visualFacingSign;
+            farEyeX = headR * 0.55 * visualFacingSign;
+            drawFarBrow = true;
+        } else if (visualFacingMode === 'front') {
+            const eyeSeparationFront = headR * 0.30;
+            mainEyeX = eyeSeparationFront * visualFacingSign;
+            farEyeX = -eyeSeparationFront * visualFacingSign;
+            drawFarBrow = true;
+        }
+
+        ctx.strokeStyle = app.hairColor || app.beardColor || char.color || 'black';
+        ctx.lineWidth = Math.max(1.5, headR * 0.085); // Slightly thicker eyebrows
+        
+        const eyebrowYBase = eyeYPos - eyeR_base * 1.1; // Base Y pos above eye line
+        const eyebrowLengthBase = headR * 0.32; 
+        
+        let eyebrowTilt = typeof expression.eyebrowTilt === 'function' ? expression.eyebrowTilt(char, visualFacingMode, visualFacingSign) : expression.eyebrowTilt;
+        let eyebrowRaise = (typeof expression.eyebrowRaiseF === 'function' ? expression.eyebrowRaiseF(char, visualFacingMode, visualFacingSign) : expression.eyebrowRaiseF) * eyeR_base;
+
+        if (drawFarBrow) {
+            const farBrowLengthFactor = (visualFacingMode === 'threeQuarter') ? 0.80 : 0.95;
+            let farTilt = eyebrowTilt;
+            // For asymmetric expressions like skeptical, or angry in front view, far brow might have different tilt.
+            if (expression.name === 'skeptical') { // Example: if main brow up, far brow less so or neutral
+                farTilt = (visualFacingSign === 1 ? 5 : -25); // Opposite effect for skeptical
+            } else if (visualFacingMode === 'front' && expression.name === 'angry'){
+                farTilt = -eyebrowTilt; // Angry front view, brows pinch inwards
+            }
+            this._drawOneEyebrow(ctx, farEyeX, eyebrowYBase + eyebrowRaise * 0.9, eyebrowLengthBase * farBrowLengthFactor, farTilt, visualFacingSign, visualFacingMode, true);
+        }
+        // Draw main/front eyebrow
+        this._drawOneEyebrow(ctx, mainEyeX, eyebrowYBase + eyebrowRaise, eyebrowLengthBase, eyebrowTilt, visualFacingSign, visualFacingMode, false);
+    }
+
+    _drawOneEyebrow(ctx, eyeCenterX, yBase, length, tiltDegrees, characterVisualSign, visualFacingMode, isFarSide) {
+        ctx.save();
+        ctx.translate(eyeCenterX, yBase);
+        
+        let finalTiltDegrees = tiltDegrees;
+        // In profile, tilt is straightforward. In 3/4 and front, tilt needs to consider perspective.
+        // If it's not front view, the tilt is relative to the character's facing direction.
+        if (visualFacingMode !== 'front') {
+            finalTiltDegrees *= characterVisualSign;
+        }
+        // If it IS front view, tiltDegrees is absolute (e.g. -15 is inner down for left brow if char facingSign is 1)
+
+        ctx.rotate(finalTiltDegrees * Math.PI / 180);
+        
+        ctx.beginPath();
+        ctx.moveTo(-length / 2, 0);
+        const curveIntensity = 0.15 * (1 + Math.abs(tiltDegrees) / 60); // More curve for stronger tilts
+        ctx.quadraticCurveTo(0, -length * curveIntensity * (tiltDegrees > 0 ? 1 : (tiltDegrees < 0 ? 0.5 : 0.2)) , length/2, 0); // Curve upwards mostly
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    _drawMouthAndNose(char, headR, expression, ctx, visualFacingMode, visualFacingSign) {
+        const app = char.appearance;
+        const mouthCharCfg = app.mouth; // Character's specific mouth colors
+        const eyeYPos = -headR * 0.18;
+        // Nose position
+        const noseBaseXOffset = headR * 0.40 * visualFacingSign; // Further out for profile
+        const noseYLine = -headR * 0.05; // Approx between eyes and mouth
+        
+        if (app.nose && visualFacingMode !== 'front') { // No nose in direct front view for this style
+            ctx.strokeStyle = this.adjustColor(char.color, -0.15);
+            ctx.lineWidth = Math.max(1, headR * 0.035);
+            ctx.beginPath();
+            const noseBridgeY = eyeYPos + headR * 0.1; // Start nose bridge near eye level
+            const noseTipY = headR * 0.20;
+            
+            let noseRootX = 0;
+            let noseTipX = 0;
+
+            if (visualFacingMode === 'profile') {
+                noseRootX = headR * 0.30 * visualFacingSign; // Start closer to "center"
+                noseTipX = headR * 0.45 * visualFacingSign;  // Tip at contour
+                ctx.moveTo(noseRootX, noseBridgeY);
+                ctx.quadraticCurveTo(noseTipX * 0.8, noseBridgeY + (noseTipY - noseBridgeY) * 0.4, noseTipX, noseTipY);
+                ctx.lineTo(noseTipX - headR * 0.04 * visualFacingSign, noseTipY + headR * 0.06); // Nostril indication
+            } else if (visualFacingMode === 'threeQuarter') {
+                noseRootX = headR * 0.15 * visualFacingSign;
+                noseTipX = headR * 0.30 * visualFacingSign;
+                ctx.moveTo(noseRootX, noseBridgeY);
+                ctx.quadraticCurveTo(noseTipX * 0.9, noseBridgeY + (noseTipY - noseBridgeY) * 0.5, noseTipX, noseTipY);
+            }
+            ctx.stroke();
+        }
+
+        // Mouth position
+        const mouthBaseX = headR * (visualFacingMode === 'profile' ? 0.30 : (visualFacingMode === 'threeQuarter' ? 0.15 : 0)) * visualFacingSign;
+        const mouthY = headR * 0.42; // Mouth Y position
+        
+        const mouthBehav = char.behaviors.mouth;
+        let baseShapeKey = mouthBehav.currentShape;
+        if (mouthBehav.shapeTransitionProgress < 1 && Animator.MOUTH_SHAPES[mouthBehav.targetShape]) { // Transitioning
+            baseShapeKey = mouthBehav.targetShape; 
+        }
+        if (!Animator.MOUTH_SHAPES[baseShapeKey]) baseShapeKey = 'neutral'; // Fallback
+
+        const mouthShapeDef = Animator.MOUTH_SHAPES[baseShapeKey];
+        
+        let intensity = 1.0;
+        if (char.behaviors.emphasis.active) intensity = this.EXPRESSION_INTENSITY_FACTOR;
+        if (expression.name === 'surprised') intensity *= 1.2;
+
+        // Dynamic animation for talking, if shape supports it (e.g. animFactor for height/width)
+        let animScalar = (char.isSpeakingTTS || ( (typeof char.activePoseName === 'string' && (char.activePoseName === 'talk' || char.activePoseName.startsWith("talk_"))) && char.dialogueText) ) 
+                       ? (0.5 + Math.sin(mouthBehav.animPhase * Math.PI * 2) * 0.5) : 0;
+        if (mouthShapeDef.noAnim) animScalar = 0;
+
+
+        ctx.strokeStyle = mouthCharCfg.color || char.color;
+        ctx.lineWidth = Math.max(1, headR * 0.045); // Slightly thicker mouth lines
+        ctx.fillStyle = mouthCharCfg.color || char.color; // Default fill for simple lines
+
+        let mouthWidth = headR * mouthShapeDef.wF * intensity * (1 + animScalar * (mouthShapeDef.wFAnimFactor || 0));
+        let mouthHeight = headR * mouthShapeDef.hF * intensity * (1 + animScalar * (mouthShapeDef.hFAnimFactor || 0));
+        let curveFactor = mouthShapeDef.cF * intensity;
+
+        // Perspective for mouth width
+        if (visualFacingMode === 'profile') mouthWidth *= 0.65;
+        else if (visualFacingMode === 'threeQuarter') mouthWidth *= 0.80;
+        
+        ctx.beginPath();
+        if (mouthShapeDef.oval) {
+            ctx.ellipse(mouthBaseX, mouthY + mouthHeight * 0.1, mouthWidth * 0.5, mouthHeight * 0.5, 0, 0, Math.PI * 2);
+            const fillStyle = (mouthShapeDef.tongue && mouthShapeDef.tongue !== 'none') ? mouthCharCfg.tongueColor : this.adjustColor(mouthCharCfg.color || char.color, 0.5);
+            ctx.fillStyle = fillStyle;
+            ctx.fill();
+        } else { // Path-based mouth
+            const yTop = mouthY - mouthHeight * 0.5;
+            const yBottom = mouthY + mouthHeight * 0.5;
+            const cpYOffset = curveFactor * headR * 0.1 * intensity;
+
+            ctx.moveTo(mouthBaseX - mouthWidth * 0.5, mouthY); // Start left corner
+            ctx.quadraticCurveTo(mouthBaseX, mouthY + cpYOffset + mouthHeight * 0.5, mouthBaseX + mouthWidth * 0.5, mouthY); // Bottom lip curve to right corner
+            
+            // If mouth has height (is open), draw top lip and close path
+            if (mouthHeight > headR * 0.015 || mouthShapeDef.teeth || mouthShapeDef.tongue) {
+                ctx.quadraticCurveTo(mouthBaseX, mouthY + cpYOffset - mouthHeight * 0.5, mouthBaseX - mouthWidth * 0.5, mouthY); // Top lip curve back to left corner
+                ctx.closePath();
+                
+                // Fill open mouth area
+                if (mouthShapeDef.tongue && mouthShapeDef.tongue !== 'none' && mouthShapeDef.tongue !== 'tip_visible') {
+                    ctx.fillStyle = mouthCharCfg.tongueColor; ctx.fill();
+                } else if (!mouthShapeDef.teeth) { // Fill if not showing teeth and not special tongue
+                     ctx.fillStyle = this.adjustColor(mouthCharCfg.color || char.color, 0.4); ctx.fill();
+                }
+            }
+        }
+        ctx.stroke(); 
+
+        // Draw Teeth
+        if (mouthShapeDef.teeth && mouthShapeDef.teeth !== 'none') {
+            ctx.fillStyle = mouthCharCfg.teethColor;
+            const teethH = Math.max(headR * 0.01, mouthHeight * 0.35); // Min teeth height
+            const teethYOffset = mouthHeight * 0.1; // Position teeth slightly inside mouth opening
+
+            if (mouthShapeDef.teeth === 'both' || mouthShapeDef.teeth === 'both_smile' || mouthShapeDef.teeth === 'both_close' || mouthShapeDef.teeth === 'upper_subtle' || mouthShapeDef.teeth === 'upper_touch_lower_lip') { // Upper teeth
+                ctx.fillRect(mouthBaseX - mouthWidth * 0.4, mouthY - teethH * 0.5 - teethYOffset * (mouthShapeDef.teeth === 'upper_touch_lower_lip'?0.3:1) , mouthWidth * 0.8, teethH);
+            }
+            if (mouthShapeDef.teeth === 'both' || mouthShapeDef.teeth === 'both_smile' || (mouthShapeDef.teeth === 'both_close' && mouthHeight > headR * 0.02) ) { // Lower teeth
+                 ctx.fillRect(mouthBaseX - mouthWidth * 0.35, mouthY + teethYOffset * 0.5, mouthWidth * 0.7, teethH * 0.8);
+            }
+        }
+        // Draw Tongue Tip
+        if (mouthShapeDef.tongue === 'tip_visible') {
+            ctx.fillStyle = mouthCharCfg.tongueColor;
+            ctx.beginPath();
+            const tongueTipY = mouthY + mouthHeight * 0.1; // Tip slightly below center line
+            ctx.ellipse(mouthBaseX, tongueTipY, mouthWidth*0.25, mouthHeight*0.3, 0, 0, Math.PI*2);
+            ctx.fill();
+        }
+    }
+
+    _drawCharacterHair(char, headR, visualFacingMode, visualFacingSign) {
+        const ctx = this.ctx;
+        const app = char.appearance;
+        if (!app.hairStyle || app.hairStyle === 'none' || !app.hairColor) return;
+        
+        const isHatBlockingHair = (app.hat === 'tophat' || app.hat === 'fedora');
+        if (isHatBlockingHair && app.hairStyle !== 'ponytail_stub' && !app.hairStyle.startsWith('side_part')) { // Allow some styles with hats
+             // return; // Simplified: most hair drawn, hat goes on top. Specific clipping might be needed.
+        }
+
+        ctx.fillStyle = app.hairColor;
+        ctx.strokeStyle = this.adjustColor(app.hairColor, -0.12); 
+        ctx.lineWidth = Math.max(1, headR * 0.035);
+        
+        // pf: perspective factor for X compression/width of hair mass
+        const pfMap = {'profile': 0.7, 'threeQuarter': 0.85, 'front': 1.0};
+        let pf = pfMap[visualFacingMode] || 1.0;
+        // xShift determines how much hair mass shifts to the "back" of head
+        let xShift = headR * 0.10 * (visualFacingMode === 'profile' ? 1 : (visualFacingMode === 'threeQuarter' ? 0.6 : 0)) * -visualFacingSign;
+        
+        ctx.save();
+        ctx.translate(xShift, 0); // Shift entire hair mass based on view
+
+        const hairTopYAnchor = -headR * 0.80; // Base Y where hair starts above head circle
+        const hairBaseRadius = headR * 1.0; // Hair generally extends slightly beyond head circle
+
+        switch (app.hairStyle) {
+            case 'round_cap':
+                ctx.beginPath();
+                // Arc covers top-back of head. Adjust start/end angles for perspective.
+                const capCoverageStartAngle = Math.PI * (1 - 0.1 * pf * visualFacingSign);
+                const capCoverageEndAngle = Math.PI * (0 + 0.1 * pf * visualFacingSign);
+                ctx.arc(0, hairTopYAnchor + headR * 0.25, hairBaseRadius * 0.9 * pf, capCoverageStartAngle, capCoverageEndAngle, visualFacingSign < 0);
+                ctx.closePath(); ctx.fill();
+                break;
+            case 'short_spiky':
+                ctx.save();
+                ctx.translate(0, hairTopYAnchor + headR * 0.15); // Spikes originate from slightly above head
+                const numSpikes = 7;
+                const spikeAngleCoverage = Math.PI * pf * 0.85; // Spikes cover less in profile
+                const angleStartOffset = Math.PI + (Math.PI - spikeAngleCoverage)/2;
+                for (let i = 0; i < numSpikes; i++) {
+                    let angle = angleStartOffset + (i * spikeAngleCoverage / (numSpikes -1 ));
+                    if(visualFacingSign < 0) angle = Math.PI - (angle - Math.PI); // Mirror for left facing
+
+                    // Avoid spikes covering face in profile/3Q
+                    if (visualFacingMode !== 'front' && visualFacingSign * Math.cos(angle) > (visualFacingMode === 'profile' ? 0.3 : 0.1) ) continue;
+
+                    let spikeLength = hairBaseRadius * (0.25 + Math.sin(i * 2.5 + char.posePhase * 0.15) * 0.06);
+                    let spikeOuterOffset = hairBaseRadius * (0.80 * pf); // Spikes closer to head in profile
+
+                    ctx.beginPath();
+                    ctx.moveTo(Math.cos(angle - 0.08) * spikeOuterOffset, Math.sin(angle - 0.08) * spikeOuterOffset * 0.8); // Thinner base
+                    ctx.lineTo(Math.cos(angle) * (spikeOuterOffset + spikeLength), Math.sin(angle) * (spikeOuterOffset + spikeLength) * 0.8);
+                    ctx.lineTo(Math.cos(angle + 0.08) * spikeOuterOffset, Math.sin(angle + 0.08) * spikeOuterOffset * 0.8);
+                    ctx.closePath(); ctx.fill();
+                }
+                ctx.restore();
+                break;
+            case 'side_part_right': 
+            case 'side_part_left':
+                const partSign = app.hairStyle === 'side_part_right' ? 1 : -1;
+                const sideHairTopY = hairTopYAnchor - headR * 0.1; // Part starts high
+                ctx.beginPath();
+                // Part line is more towards center in front view, shifted in profile/3Q
+                const partOriginX = headR * 0.3 * (visualFacingMode === 'front' ? partSign * 0.5 : (visualFacingMode === 'threeQuarter' ? partSign*0.2 : 0) );
+                
+                // Front sweep (bangs area)
+                const frontSweepX = headR * 0.7 * pf * visualFacingSign * partSign; // Direction of sweep
+                const frontSweepYEnd = hairTopYAnchor + headR * (visualFacingMode === 'profile' ? 0.6 : 0.9);
+                
+                ctx.moveTo(partOriginX, sideHairTopY); // Start of part
+                // Curve over top/front to create fringe
+                ctx.quadraticCurveTo(frontSweepX * 0.3, sideHairTopY - headR * 0.3, frontSweepX, frontSweepYEnd);
+                
+                // Side/back coverage
+                const backCoverageX = -headR * 0.8 * pf * visualFacingSign; // Back of head hair mass
+                const backCoverageY = hairTopYAnchor + headR * 1.5; // Lower back hair
+                ctx.quadraticCurveTo(frontSweepX * 0.8, backCoverageY * 0.8, backCoverageX, backCoverageY);
+                
+                // Curve back up to part origin
+                ctx.quadraticCurveTo(partOriginX * 0.5 - headR * 0.3 * visualFacingSign, sideHairTopY + headR, partOriginX, sideHairTopY);
+                ctx.closePath();
+                ctx.fill();
+                break;
+            case 'simple_bob':
+                ctx.beginPath();
+                const bobTopY = hairTopYAnchor + headR * 0.1;
+                // Arc over the top
+                ctx.arc(0, bobTopY, hairBaseRadius * 1.05 * pf, Math.PI * 1.05, Math.PI * -0.05);
+                
+                // Determine front and back points of bob "hemline"
+                // Front point should not obscure face
+                let frontHemXFactor = visualFacingMode === 'profile' ? 0.15 : (visualFacingMode === 'threeQuarter' ? 0.35 : 0.6);
+                const frontHemX = headR * frontHemXFactor * visualFacingSign;
+                // Back point provides volume at back of head
+                const backHemX = -headR * 0.7 * visualFacingSign * pf; 
+                const hemY = hairTopYAnchor + headR * 1.4; // Bob length
+
+                ctx.lineTo(frontHemX - xShift, hemY); // Counteract xShift for front edge to align with face
+                ctx.quadraticCurveTo(0, hemY + headR * 0.1, backHemX, hemY - headR*0.05); // Slightly curved hemline
+                ctx.closePath();
+                ctx.fill();
+                break;
+            case 'ponytail_stub':
+                // Basic cap of hair
+                ctx.beginPath(); 
+                ctx.arc(0, hairTopYAnchor + headR * 0.25, hairBaseRadius * 0.9 * pf, Math.PI, 0); // Covers top half
+                ctx.closePath(); ctx.fill();
+                
+                // Ponytail stub
+                ctx.beginPath();
+                const stubX = -headR * (0.55 + 0.15 * (1-pf)) * visualFacingSign; // Stub at back of head
+                const stubY = hairTopYAnchor + headR * 0.7;
+                ctx.ellipse(stubX, stubY, headR * 0.22 * pf, headR * 0.33, -15 * visualFacingSign * Math.PI/180, 0, Math.PI * 2);
+                ctx.fill();
+                break;
+        }
+        ctx.restore();
+    }
+
+    _drawCharacterAccessories(char, headR, rawHeadTilt, visualFacingMode, visualFacingSign) {
+        const ctx = this.ctx;
+        const app = char.appearance;
+        
+        // pf: perspective factor for X compression [profile, threeQuarter, front]
+        const pfMapHat = {'profile': 0.8, 'threeQuarter': 0.9, 'front': 1.0}; // Hats often look wider
+        const pfMapBeard = {'profile': 0.7, 'threeQuarter': 0.85, 'front': 1.0};
+
+        let hatPf = pfMapHat[visualFacingMode] || 1.0;
+        let beardPf = pfMapBeard[visualFacingMode] || 1.0;
+        
+        // xShift for accessories: more subtle, mainly for profile/3Q to suggest depth
+        let xShiftAcc = headR * 0.03 * (visualFacingMode === 'profile' ? 1 : (visualFacingMode === 'threeQuarter' ? 0.4:0)) * -visualFacingSign;
+        
+        // Use pose-defined head tilt (rawHeadTilt) for accessory sway reference, not the lookAt-modified tilt
+        const accessorySwayAngleRad = char.behaviors.accessorySway.angle * Math.PI / 180;
+
+        if (app.beard !== 'none' && app.beardColor) {
+            ctx.fillStyle = app.beardColor;
+            const mouthY = headR * 0.42; // Reference mouth Y
+            // Beard center slightly offset by perspective, more so in profile
+            const beardXCenter = headR * (visualFacingMode === 'profile' ? 0.25 : (visualFacingMode === 'threeQuarter' ? 0.1 : 0)) * visualFacingSign;
+            
+            ctx.save(); 
+            if (app.beard === 'full_beard') ctx.rotate(accessorySwayAngleRad * 0.3); // Full beard sways a bit
+            ctx.translate(xShiftAcc + beardXCenter, 0); // Apply shift and centering
+            
+            switch(app.beard) {
+                case 'goatee':
+                    ctx.beginPath();
+                    const goateeWidth = headR*0.12*beardPf;
+                    ctx.moveTo(-goateeWidth, mouthY + headR*0.03); // Start near mouth corner
+                    ctx.quadraticCurveTo(0, mouthY + headR*0.35*beardPf, goateeWidth, mouthY + headR*0.03);
+                    ctx.closePath(); ctx.fill();
+                    break;
+                case 'full_beard':
+                    ctx.beginPath();
+                    const beardTopWidth = headR * 0.35 * beardPf;
+                    const beardBottomWidth = headR * 0.25 * beardPf;
+                    const beardLength = headR * 0.5 * beardPf;
+                    
+                    ctx.moveTo(-beardTopWidth, mouthY - headR*0.1); // Sideburn start
+                    ctx.lineTo(beardTopWidth, mouthY - headR*0.1);   // Across upper lip/cheek
+                    ctx.quadraticCurveTo(beardTopWidth * 0.8, mouthY + beardLength * 0.7, beardBottomWidth * 0.5, mouthY + beardLength); // Right jawline
+                    ctx.quadraticCurveTo(0, mouthY + beardLength * 1.1, -beardBottomWidth * 0.5, mouthY + beardLength); // Chin bottom
+                    ctx.quadraticCurveTo(-beardTopWidth * 0.8, mouthY + beardLength * 0.7, -beardTopWidth, mouthY - headR*0.1); // Left jawline
+                    ctx.closePath(); ctx.fill();
+                    break;
+            }
+            ctx.restore();
+        }
+
+        if (app.hat !== 'none' && app.hatColor) {
+            ctx.fillStyle = app.hatColor;
+            ctx.strokeStyle = this.adjustColor(app.hatColor, -0.20); 
+            ctx.lineWidth = Math.max(1, headR * 0.025);
+            
+            ctx.save();
+            // Most hats sway with head, yarmulke less so or not at all
+            if (app.hat !== 'yarmulke') {
+                 ctx.rotate(accessorySwayAngleRad);
+            }
+            ctx.translate(xShiftAcc, 0); // Apply general accessory shift
+            
+            const hatBaseY = -headR * 0.85; // Where hat sits on head
+            switch(app.hat) {
+                case 'yarmulke': 
+                    ctx.beginPath();
+                    const yarmulkeRadius = headR * 0.50;
+                    const yarmulkeY = hatBaseY + headR*0.30;
+                    // Ellipse for perspective, more circular in front view
+                    ctx.ellipse(0, yarmulkeY, yarmulkeRadius * hatPf, yarmulkeRadius * (visualFacingMode==='front'? 0.9 : (visualFacingMode==='threeQuarter' ? 0.7 : 0.5)), 0, Math.PI, 0, visualFacingSign > 0);
+                    ctx.closePath();
+                    ctx.fill();
+                    if (app.hatColor !== 'black' && app.hatColor !== '#000000' && app.hatColor !== '#222222' && !app.hatColor.startsWith('#1')) ctx.stroke(); // Stroke if not very dark
+                    break;
+                case 'baseball_cap':
+                    const capCrownY = hatBaseY + headR*0.25;
+                    const capRadius = headR*0.75;
+                    ctx.beginPath(); 
+                    // Crown shape, slightly elliptical based on view
+                    ctx.arc(0, capCrownY, capRadius * hatPf, Math.PI * (1-0.02*hatPf*visualFacingSign), -Math.PI*0.02 * (1-0.02*hatPf*-visualFacingSign), visualFacingSign < 0); 
+                    ctx.fill(); ctx.stroke();
+                    
+                    // Brim
+                    ctx.save();
+                    ctx.fillStyle = app.hatColor; 
+                    let brimWidthFactor = visualFacingMode === 'front' ? 1.3 : (visualFacingMode === 'threeQuarter' ? 1.0 : 0.6);
+                    let brimHeightFactor = 0.45;
+                    let brimX = headR * 0.4 * hatPf * visualFacingSign * (visualFacingMode === 'profile' ? 0.9 : (visualFacingMode === 'threeQuarter' ? 1.1 : 0));
+                    let brimY = capCrownY + headR*0.15;
+
+                    ctx.beginPath(); 
+                    ctx.ellipse(brimX, brimY, capRadius*brimWidthFactor*0.5, capRadius*brimHeightFactor*0.5, visualFacingSign * (visualFacingMode === 'profile' ? 0 : (visualFacingMode === 'threeQuarter' ? 5 : 0)) * Math.PI/180, 0, Math.PI*2);
+                    ctx.fill(); ctx.stroke();
+                    ctx.restore();
+                    break;
+                 case 'fedora': // Or Tophat
+                 case 'tophat':
+                    const isTophat = app.hat === 'tophat';
+                    const brimBaseY = hatBaseY + headR * (isTophat ? 0.20 : 0.30);
+                    const brimWidth = headR * 1.05 * hatPf;
+                    const brimDepth = headR * (isTophat ? 0.25 : 0.35); // Shallower brim for tophat
+                    ctx.beginPath();
+                    ctx.ellipse(0, brimBaseY, brimWidth, brimDepth, 0, 0, Math.PI*2); // Brim
+                    ctx.fill(); ctx.stroke();
+                    
+                    // Crown
+                    const crownWidthFactor = isTophat ? 0.55 : 0.60;
+                    const crownHeightFactor = isTophat ? 1.0 : 0.8;
+                    const crownWidth = headR * crownWidthFactor * hatPf;
+                    const crownHeight = headR * crownHeightFactor;
+                    ctx.fillRect(-crownWidth/2, brimBaseY - crownHeight, crownWidth, crownHeight);
+                    ctx.strokeRect(-crownWidth/2, brimBaseY - crownHeight, crownWidth, crownHeight);
+                    
+                    // Hat Band
+                    const bandHeight = headR * 0.18;
+                    ctx.fillStyle = this.adjustColor(app.hatColor, -0.35); 
+                    ctx.fillRect(-crownWidth/2 * 1.02, brimBaseY - bandHeight, crownWidth * 1.04, bandHeight);
+                    break;
+            }
+            ctx.restore();
+        }
+    }
+
+    adjustColor(color, percent) {
+        if (!color || typeof color !== 'string' || !color.startsWith("#")) return color; 
+        try {
+            let num = parseInt(color.replace("#",""), 16);
+            let amt = Math.round(2.55 * percent * 10); // percent is -100 to 100
+            let R = (num >> 16) + amt;
+            let G = (num >> 8 & 0x00FF) + amt;
+            let B = (num & 0x0000FF) + amt;
+            R = Math.max(0, Math.min(255, R));
+            G = Math.max(0, Math.min(255, G));
+            B = Math.max(0, Math.min(255, B));
+            return "#" + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1).toUpperCase();
+        } catch (e) {
+            console.warn("Error adjusting color:", color, e);
+            return color; // Return original on error
+        }
+    }
+
+    _calculateSpeechBubbleScreenMetrics(character) {
+        const text = character.dialogueText;
+        if (!text || typeof text !== 'string' || text.trim() === "") return null;
+
+        const cfg = this.speechBubbleConfig;
+        const pose = this._getCharacterPoseDetails(character); 
+        if (!pose || !pose.head) return null; // Can't place bubble if no pose
+
+        const headScreenPos = this._worldToScreen(pose.head.x, pose.head.y - pose.head.r * 0.5); // Anchor slightly above head center
+        const charScreenX = headScreenPos[0];
+        const charScreenAnchorY = headScreenPos[1];
+
+        this.ctx.font = `${cfg.fontSizeScreen}px ${cfg.fontFamily}`;
+        this.ctx.textAlign = 'left'; this.ctx.textBaseline = 'top';
+
+        const maxWidthBubble = Math.max(cfg.minWidthScreen, this.canvas.width * cfg.maxWidthScreenFactor);
+        const lines = this._wrapTextScreen(text, maxWidthBubble);
+        if (!lines.length) return null;
+
+        let textBlockHeight = lines.length * (cfg.fontSizeScreen * cfg.lineHeightFactor);
+        if (lines.length === 1 && lines[0] === "") textBlockHeight = 0; // Handle empty string after wrapping
+        
+        let textBlockWidth = 0;
+        lines.forEach(line => { textBlockWidth = Math.max(textBlockWidth, this.ctx.measureText(line).width); });
+
+        const bubbleWidthScreen = textBlockWidth + 2 * cfg.paddingScreen;
+        const bubbleHeightScreen = textBlockHeight + 2 * cfg.paddingScreen;
+
+        let bubbleScreenX = charScreenX - bubbleWidthScreen / 2;
+        let bubbleScreenY = charScreenAnchorY - cfg.marginScreen.top - bubbleHeightScreen - cfg.pointerHeightScreen;
+        let pointerPointsUp = false; // Pointer points from bubble down to character head
+
+        const canvasPadding = 15; // Increased padding
+        if (bubbleScreenY < canvasPadding) { // Bubble too high, flip to be below character
+            bubbleScreenY = charScreenAnchorY + cfg.marginScreen.top + pose.head.r * this.cameraState.zoom * 0.2; 
+            pointerPointsUp = true; // Pointer points from bubble up to character head
+        }
+        // Ensure bubble (with pointer) doesn't go off bottom
+        if (bubbleScreenY + bubbleHeightScreen + (pointerPointsUp ? cfg.pointerHeightScreen : 0) > this.canvas.height - canvasPadding) {
+             bubbleScreenY = this.canvas.height - canvasPadding - bubbleHeightScreen - (pointerPointsUp ? cfg.pointerHeightScreen : 0);
+        }
+        // Ensure bubble (with pointer) doesn't go off top if flipped
+        if (pointerPointsUp && bubbleScreenY < canvasPadding + cfg.pointerHeightScreen) {
+            bubbleScreenY = canvasPadding + cfg.pointerHeightScreen;
+        }
+
+        // Horizontal constraints
+        if (bubbleScreenX < canvasPadding) bubbleScreenX = canvasPadding;
+        if (bubbleScreenX + bubbleWidthScreen > this.canvas.width - canvasPadding) {
+            bubbleScreenX = this.canvas.width - canvasPadding - bubbleWidthScreen;
+        }
+        
+        return {
+            lines, text,
+            charScreenX, charScreenAnchorY, 
+            screenX: bubbleScreenX, screenY: bubbleScreenY,
+            widthScreen: bubbleWidthScreen, heightScreen: bubbleHeightScreen,
+            pointerHeightScreen: cfg.pointerHeightScreen,
+            pointerWidthScreen: cfg.pointerWidthScreen,
+            paddingScreen: cfg.paddingScreen,
+            cornerRadiusScreen: cfg.cornerRadiusScreen,
+            pointerPointsUp: pointerPointsUp, // True if bubble is BELOW character, pointer aims UP
+            cfg
+        };
+    }
+    _drawSpeechBubbleScreenSpace(character) {
+        const m = this._calculateSpeechBubbleScreenMetrics(character);
+        if (!m) return;
+        const ctx = this.ctx;
+
+        ctx.save();
+        if (m.cfg.shadow && m.cfg.shadow.blur > 0) { 
+            ctx.shadowColor = m.cfg.shadow.color;
+            ctx.shadowBlur = m.cfg.shadow.blur;
+            ctx.shadowOffsetX = m.cfg.shadow.offsetX; 
+            ctx.shadowOffsetY = m.cfg.shadow.offsetY;
+        }
+
+        ctx.fillStyle = m.cfg.bgColor; ctx.strokeStyle = m.cfg.borderColor; ctx.lineWidth = 1.5;
+
+        // Draw main bubble rectangle with rounded corners
+        ctx.beginPath();
+        ctx.moveTo(m.screenX + m.cornerRadiusScreen, m.screenY);
+        ctx.lineTo(m.screenX + m.widthScreen - m.cornerRadiusScreen, m.screenY); // Top edge
+        ctx.quadraticCurveTo(m.screenX + m.widthScreen, m.screenY, m.screenX + m.widthScreen, m.screenY + m.cornerRadiusScreen); // Top-right corner
+        ctx.lineTo(m.screenX + m.widthScreen, m.screenY + m.heightScreen - m.cornerRadiusScreen); // Right edge
+        ctx.quadraticCurveTo(m.screenX + m.widthScreen, m.screenY + m.heightScreen, m.screenX + m.widthScreen - m.cornerRadiusScreen, m.screenY + m.heightScreen); // Bottom-right corner
+        ctx.lineTo(m.screenX + m.cornerRadiusScreen, m.screenY + m.heightScreen); // Bottom edge
+        ctx.quadraticCurveTo(m.screenX, m.screenY + m.heightScreen, m.screenX, m.screenY + m.heightScreen - m.cornerRadiusScreen); // Bottom-left corner
+        ctx.lineTo(m.screenX, m.screenY + m.cornerRadiusScreen); // Left edge
+        ctx.quadraticCurveTo(m.screenX, m.screenY, m.screenX + m.cornerRadiusScreen, m.screenY); // Top-left corner
+        ctx.closePath();
+        ctx.fill();
+        if (m.cfg.shadow && m.cfg.shadow.blur > 0) { // Clear shadow for stroke and pointer
+             ctx.shadowColor = 'transparent'; 
+             ctx.shadowBlur = 0; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+        }
+        ctx.stroke(); 
+
+        // Draw pointer
+        ctx.fillStyle = m.cfg.bgColor; // Pointer should match bubble fill
+        ctx.beginPath();
+        let pointerBaseY, pointerTipY_actual;
+        let pointerAttachX = m.charScreenX; // Ideal attachment point on bubble X-axis
+        
+        // Clamp pointerAttachX to be within bubble body (not on rounded corners)
+        const minAttachX = m.screenX + m.pointerWidthScreen / 2 + m.cornerRadiusScreen * 0.5;
+        const maxAttachX = m.screenX + m.widthScreen - m.pointerWidthScreen / 2 - m.cornerRadiusScreen * 0.5;
+        pointerAttachX = Math.max(minAttachX, Math.min(maxAttachX, pointerAttachX));
+
+        if (m.pointerPointsUp) { // Bubble is BELOW character, pointer aims UP
+            pointerBaseY = m.screenY; // Base of pointer is top edge of bubble
+            pointerTipY_actual = m.charScreenAnchorY; // Tip is at character's anchor
+            ctx.moveTo(pointerAttachX - m.pointerWidthScreen / 2, pointerBaseY);
+            ctx.lineTo(pointerAttachX + m.pointerWidthScreen / 2, pointerBaseY);
+            ctx.lineTo(m.charScreenX, pointerTipY_actual - m.pointerHeightScreen); // Point "upwards"
+        } else { // Bubble is ABOVE character, pointer aims DOWN
+            pointerBaseY = m.screenY + m.heightScreen; // Base of pointer is bottom edge of bubble
+            pointerTipY_actual = m.charScreenAnchorY;
+            ctx.moveTo(pointerAttachX - m.pointerWidthScreen / 2, pointerBaseY);
+            ctx.lineTo(pointerAttachX + m.pointerWidthScreen / 2, pointerBaseY);
+            ctx.lineTo(m.charScreenX, pointerTipY_actual + m.pointerHeightScreen); // Point "downwards"
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke(); // Stroke pointer too
+        ctx.restore(); // Restore from shadow-clearing state if any
+
+        // Draw text
+        ctx.fillStyle = m.cfg.textColor;
+        ctx.font = `${m.cfg.fontSizeScreen}px ${m.cfg.fontFamily}`;
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        m.lines.forEach((line, i) => {
+            if (line.trim() === "") return;
+            const lineWidth = ctx.measureText(line).width;
+            // Center text lines horizontally within the bubble
+            const lineX = m.screenX + (m.widthScreen - lineWidth) / 2; 
+            ctx.fillText(line, lineX, m.screenY + m.paddingScreen + i * (m.cfg.fontSizeScreen * m.cfg.lineHeightFactor));
+        });
+    }
+
+    _wrapTextScreen(text, maxWidthScreen) {
+        const words = text.split(' '); let lines = [];
+        if (!words.length || words[0] === "") return [""]; // Return empty line if no text
+        let currentLine = words[0];
+        for (let i = 1; i < words.length; i++) {
+            const word = words[i];
+            const testLine = currentLine + " " + word;
+            if (this.ctx.measureText(testLine).width < maxWidthScreen || currentLine === "") {
+                currentLine = testLine;
+            } else { lines.push(currentLine); currentLine = word; }
+        }
+        lines.push(currentLine); return lines;
+    }
+
+    _worldToScreen(worldX, worldY) {
+        const screenX = (worldX - this.cameraState.x) * this.cameraState.zoom + this.canvas.width / 2;
+        const screenY = (worldY - this.cameraState.y) * this.cameraState.zoom + this.canvas.height / 2;
+        return [screenX, screenY];
+    }
+
+    _drawObjectInstance(objInstance) {
+        if (!objInstance || !objInstance.blueprint) return;
+        const ctx = this.ctx;
+        ctx.save();
+        ctx.translate(objInstance.x, objInstance.y);
+        ctx.rotate(objInstance.rotation * Math.PI / 180);
+        const scaleX = objInstance.scale?.x ?? 1;
+        const scaleY = objInstance.scale?.y ?? 1;
+        ctx.scale(scaleX, scaleY);
+
+        objInstance.blueprint.components.forEach((comp, index) => {
+            if (!comp) return;
+            const effectiveComp = {...comp}; // Start with blueprint component
+            // Apply instance-level overrides
+            if (objInstance.fillColor !== undefined) effectiveComp.fillColor = objInstance.fillColor;
+            if (objInstance.strokeColor !== undefined) effectiveComp.strokeColor = objInstance.strokeColor;
+            if (objInstance.lineWidth !== undefined) effectiveComp.lineWidth = objInstance.lineWidth;
+            // Instance texture can override blueprint texture
+            if (objInstance.texture !== undefined) effectiveComp.texture = objInstance.texture;
+
+
+            this._drawComponent(effectiveComp); 
+            if (index === 0 && objInstance.isTargetedByLook) { // Highlight based on original component definition
+                this._drawObjectHighlight(comp); // Highlight original component shape/size
+            }
+        });
+        ctx.restore();
+    }
+    _drawObjectHighlight(comp) { // comp is the original blueprint component
+        const ctx = this.ctx;
+        ctx.save();
+        // Apply component's own transform if it has one (relative to object instance origin)
+        if (comp.x !== undefined && comp.y !== undefined) ctx.translate(comp.x, comp.y);
+        if (comp.rotation) ctx.rotate(comp.rotation * Math.PI / 180);
+        const compScaleX = comp.scale?.x ?? (typeof comp.scale === 'number' ? comp.scale : 1);
+        const compScaleY = comp.scale?.y ?? (typeof comp.scale === 'number' ? comp.scale : 1);
+        ctx.scale(compScaleX, compScaleY);
+
+
+        const highlightColor = "rgba(255, 255, 100, 0.5)"; // Brighter yellow highlight
+        const highlightLineWidth = Math.max(2, (comp.lineWidth || 1) + 5 / this.cameraState.zoom); // Make highlight thicker & scale-invariant
+        ctx.strokeStyle = highlightColor;
+        ctx.lineWidth = highlightLineWidth;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        // Draw highlight slightly larger than the component
+        const outset = highlightLineWidth / 2; 
+
+        switch (comp.shape) {
+            case 'rect':
+                ctx.strokeRect(-comp.width / 2 - outset, -comp.height / 2 - outset, comp.width + 2*outset, comp.height + 2*outset);
+                break;
+            case 'circle':
+                ctx.beginPath();
+                ctx.arc(0, 0, comp.radius + outset, 0, Math.PI * 2);
+                ctx.stroke();
+                break;
+            case 'path': // Path highlighting is complex, use AABB for now
+                if (comp.pathData && comp.pathData.length > 0) {
+                    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+                    comp.pathData.forEach(p => { 
+                        if (p.x !== undefined) { minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x); }
+                        if (p.y !== undefined) { minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y); }
+                        // Consider control points for curves for more accurate AABB if needed
+                    });
+                    if (isFinite(minX) && isFinite(minY) && isFinite(maxX) && isFinite(maxY)) {
+                        ctx.strokeRect(minX - outset, minY - outset, (maxX - minX) + 2*outset, (maxY - minY) + 2*outset);
+                    }
+                }
+                break;
+        }
+        ctx.restore();
+    }
+
+    _drawComponent(comp) { // comp here is the effective component with overrides
+        const ctx = this.ctx;
+        ctx.save();
+        if (comp.x !== undefined && comp.y !== undefined) ctx.translate(comp.x, comp.y);
+        if (comp.rotation) ctx.rotate(comp.rotation * Math.PI / 180);
+        const compScaleX = comp.scale?.x ?? (typeof comp.scale === 'number' ? comp.scale : 1);
+        const compScaleY = comp.scale?.y ?? (typeof comp.scale === 'number' ? comp.scale : 1);
+        ctx.scale(compScaleX, compScaleY);
+
+        ctx.fillStyle = comp.fillColor || 'gray'; 
+        ctx.strokeStyle = comp.strokeColor || 'black';
+        ctx.lineWidth = comp.lineWidth || 1;
+
+        let localBounds; // For texture drawing
+        switch (comp.shape) {
+            case 'rect':
+                const rectX = -comp.width / 2; const rectY = -comp.height / 2;
+                localBounds = {x: rectX, y: rectY, width: comp.width, height: comp.height};
+                if (comp.texture && comp.texture.type !== 'none') this._drawProceduralTexture(comp.texture, localBounds);
+                else if (comp.fillColor && comp.fillColor !== 'none') ctx.fillRect(rectX, rectY, comp.width, comp.height);
+                
+                if (comp.strokeColor && comp.strokeColor !== 'none' && comp.lineWidth > 0) ctx.strokeRect(rectX, rectY, comp.width, comp.height);
+                break;
+            case 'circle':
+                localBounds = {x: -comp.radius, y: -comp.radius, width: comp.radius*2, height: comp.radius*2};
+                ctx.beginPath(); ctx.arc(0, 0, comp.radius, 0, Math.PI * 2);
+                if (comp.texture && comp.texture.type !== 'none') { ctx.save(); ctx.clip(); this._drawProceduralTexture(comp.texture, localBounds); ctx.restore(); }
+                else if (comp.fillColor && comp.fillColor !== 'none') ctx.fill();
+                
+                if (comp.strokeColor && comp.strokeColor !== 'none' && comp.lineWidth > 0) ctx.stroke();
+                break;
+            case 'path':
+                if (comp.pathData && comp.pathData.length > 0) {
+                    ctx.beginPath();
+                    comp.pathData.forEach(p => {
+                        switch(p.cmd.toUpperCase()) {
+                            case 'M': ctx.moveTo(p.x, p.y); break;
+                            case 'L': ctx.lineTo(p.x, p.y); break;
+                            case 'Q': ctx.quadraticCurveTo(p.x1, p.y1, p.x, p.y); break;
+                            case 'C': ctx.bezierCurveTo(p.x1, p.y1, p.x2, p.y2, p.x, p.y); break;
+                            case 'A': ctx.arcTo(p.x1, p.y1, p.x2, p.y2, p.radius); break;
+                            case 'Z': ctx.closePath(); break;
+                        }
+                    });
+                    if (comp.fillColor && comp.fillColor !== 'none') ctx.fill();
+                    if (comp.strokeColor && comp.strokeColor !== 'none' && comp.lineWidth > 0) ctx.stroke();
+                }
+                break;
+        }
+        ctx.restore();
+    }
+
+    _drawProceduralTexture(textureConfig, bounds) {
+        const ctx = this.ctx;
+        if (!bounds || !textureConfig || textureConfig.type === 'none') return; 
+
+        ctx.save();
+        // Clip to the component's bounds before drawing texture
+        // This is important if the component shape is not a rect (e.g. circle)
+        // The caller (_drawComponent for circle) should set up clipping.
+        // For rects, fillRect will respect current transform.
+
+        const baseColor = textureConfig.baseColor || '#CCCCCC';
+        const patternColor = textureConfig.patternColor || '#AAAAAA';
+        
+        // Fill with base color first
+        ctx.fillStyle = baseColor;
+        ctx.fillRect(bounds.x, bounds.y, bounds.width, bounds.height); 
+
+        ctx.fillStyle = patternColor;
+        ctx.strokeStyle = patternColor; 
+
+        const density = Math.max(1, textureConfig.density || 10); // Ensure density is at least 1
+
+        switch (textureConfig.type) {
+            case 'stripes':
+                const stripeWidth = Math.max(1, bounds.width / (density * 2)); 
+                for (let i = 0; i < density * 2; i += 2) {
+                    ctx.fillRect(bounds.x + i * stripeWidth, bounds.y, stripeWidth, bounds.height);
+                }
+                break;
+            case 'dots':
+                const dotRadius = Math.max(1, Math.min(bounds.width, bounds.height) / (density * 3));
+                const spacingX = bounds.width / density;
+                const spacingY = bounds.height / density;
+                for (let i = 0; i < density; i++) {
+                    for (let j = 0; j < density; j++) {
+                        ctx.beginPath();
+                        ctx.arc(bounds.x + spacingX * (i + 0.5), bounds.y + spacingY * (j + 0.5), dotRadius, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+                break;
+            case 'checkered':
+                const cellWidth = bounds.width / density;
+                const cellHeight = bounds.height / density;
+                for (let i = 0; i < density; i++) {
+                    for (let j = 0; j < density; j++) {
+                        if ((i + j) % 2 === 0) { 
+                            ctx.fillRect(bounds.x + i * cellWidth, bounds.y + j * cellHeight, cellWidth, cellHeight);
+                        }
+                    }
+                }
+                break;
+        }
+        ctx.restore(); 
+    }
+
+    exportAnimation() {
+        if (!this.animationData) {
+            this.ui.statusDiv.textContent = "No animation data to export.";
+            return;
+        }
+        const htmlContent = document.documentElement.outerHTML;
+        
+        // Ensure main script is fully included
+        let finalHtml = htmlContent.replace(/<script id="mainAnimationScript">[\s\S]*?<\/script>/, 
+                                            `<script id="mainAnimationScript">${document.getElementById('mainAnimationScript').textContent.replace(/<\/script>/g, '<\\/script>')}<\/script>`);
+        
+        const animationDataString = JSON.stringify(this.animationData, null, 2).replace(/<\/script>/g, '<\\/script>');
+        const existingDataJson = /<script id="animationDataJson" type="application\/json">[\s\S]*?<\/script>/;
+
+        if (finalHtml.match(existingDataJson)) {
+            finalHtml = finalHtml.replace(existingDataJson, 
+                `<script id="animationDataJson" type="application/json">${animationDataString}<\/script>`);
+        } else {
+            finalHtml = finalHtml.replace('</body>', 
+                `<script id="animationDataJson" type="application/json">${animationDataString}<\/script>\n</body>`);
+        }
+        
+        const minimalStyleOverride = `
+        body.exported-body { justify-content: center; align-items: center; min-height: 100vh; padding-top: 20px; }
+        h1.exported-h1 { margin-bottom: 10px; font-size: 1.6em; }
+        #inputContainer { display: none !important; } 
+        #exportBtn { display: none !important; } 
+        #playbackControlsContainer { /* Optionally hide all controls or just export button */ }
+        `;
+        if (finalHtml.includes('/* Exported player minimal style overrides */')) { 
+             finalHtml = finalHtml.replace('/* Exported player minimal style overrides */', 
+                `/* Exported player minimal style overrides */\n${minimalStyleOverride}`);
+        } else if (finalHtml.includes('</style>')) { 
+            finalHtml = finalHtml.replace('</style>', `${minimalStyleOverride}\n</style>`);
+        }
+
+
+        const blob = new Blob([finalHtml], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'animation_export_revamp_v2.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+        this.ui.statusDiv.textContent = "Animation exported as HTML file.";
+    }
+} // End of Animator Class
+
+document.addEventListener('DOMContentLoaded', () => {
+    const uiElements = {
+        jsonInput: document.getElementById('jsonInput'), jsonFileUpload: document.getElementById('jsonFileUpload'),
+        loadJsonBtn: document.getElementById('loadJsonBtn'), statusDiv: document.getElementById('status'),
+        animationCanvas: document.getElementById('animationCanvas'),
+        playbackControlsContainer: document.getElementById('playbackControlsContainer'),
+        playStopBtn: document.getElementById('playStopBtn'), restartBtn: document.getElementById('restartBtn'),
+        exportBtn: document.getElementById('exportBtn'),
+        inputContainer: document.getElementById('inputContainer')
+    };
+    window.animatorInstance = new Animator(uiElements.animationCanvas, uiElements);
+});
+</script>
+</body>
+</html>

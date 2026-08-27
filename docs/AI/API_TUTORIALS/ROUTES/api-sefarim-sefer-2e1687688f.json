@@ -1,0 +1,53 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-sefarim-sefer-2e1687688f",
+	"route": "/api/sefarim/:sefer",
+	"source": "geelooy/api/sefarim/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/sefarim",
+		"title": "Sefarim",
+		"manual": "docs/TUTORIALS/API/SEFARIM.md"
+	},
+	"derech": {
+		"source": "geelooy/api/sefarim/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/sefarim"
+	},
+	"dynamic": true,
+	"pathParameters": [
+		{
+			"name": "sefer",
+			"catchAll": false
+		}
+	],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"route-vars",
+		"db"
+	],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-sefarim-sefer-2e1687688f.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-sefarim-6e405748c6",
+			"route": "/api/sefarim"
+		},
+		{
+			"id": "api-sefarim-sefer-section-section-b464ddf1a3",
+			"route": "/api/sefarim/:sefer/section/:section"
+		},
+		{
+			"id": "api-sefarim-sefer-section-section-sub-sub-8bc044022c",
+			"route": "/api/sefarim/:sefer/section/:section/sub/:sub"
+		}
+	]
+}

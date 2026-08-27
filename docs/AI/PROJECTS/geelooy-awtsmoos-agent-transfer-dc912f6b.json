@@ -1,0 +1,67 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-awtsmoos-agent-transfer-dc912f6b",
+	"path": "geelooy/.awtsmoos-agent-transfer",
+	"type": "project",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/.awtsmoos-agent-transfer",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/.awtsmoos-agent-transfer/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-agent-transfer-dc912f6b.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 79,
+		"tests": 14,
+		"assets": 0,
+		"generated": 0,
+		"docs": 4,
+		"other": 42
+	},
+	"totalFiles": 139,
+	"symbolSummary": {
+		"files": 65,
+		"classes": 32,
+		"functions": 101,
+		"exports": 98,
+		"samples": [
+			"postMigrationRoutes",
+			"normalizeSourceProvenance",
+			"normalizePlaylists",
+			"normalizeArchive",
+			"normalizeUrls",
+			"parse",
+			"cleanUrl",
+			"creatorIntent",
+			"CreatorExperience",
+			"KIND_MAP",
+			"metaContentKind",
+			"knownDate"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate",
+			"file": "geelooy/.awtsmoos-agent-transfer/social-future-20260821-v2/verified-stage/social/migrate/index.html",
+			"title": "Social Migration Studio · Awtsmoos",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,89 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-social-composer-5d72af7c",
+	"path": "geelooy/social-composer",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Create New Post — Geelooy",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/social-composer/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-social-composer-5d72af7c.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 317,
+		"tests": 28,
+		"assets": 0,
+		"generated": 0,
+		"docs": 9,
+		"other": 0
+	},
+	"totalFiles": 354,
+	"symbolSummary": {
+		"files": 200,
+		"classes": 81,
+		"functions": 452,
+		"exports": 323,
+		"samples": [
+			"createComposer",
+			"createWorkflow",
+			"createController",
+			"createCreatorAssembly",
+			"createDestinationAssembly",
+			"DraftAssembly",
+			"createDraftAssembly",
+			"createEditorAssembly",
+			"createReelAssembly",
+			"createReviewAssembly",
+			"installComposerAccessibility",
+			"hasAccessibleName"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/games/mitzvahWorld",
+			"count": 4,
+			"examples": "geelooy/social-composer/reel-studio/nle/NleAiProjectCodec.js; geelooy/social-composer/reel-studio/nle/NleMovieActionExecutor.js; geelooy/social-composer/reel-studio/nle/NleMoviePackage.js"
+		},
+		{
+			"project": "geelooy/shared",
+			"count": 4,
+			"examples": "geelooy/social-composer/js/creator/CreatorCommandCatalog.js; geelooy/social-composer/js/creator/CreatorCommandPalette.js; geelooy/social-composer/js/creator/CreatorIntentModel.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/social-composer",
+			"file": "geelooy/social-composer/index.html",
+			"title": "Create New Post — Geelooy",
+			"scripts": 2,
+			"styles": 1
+		},
+		{
+			"url": "/social-composer/reel-studio",
+			"file": "geelooy/social-composer/reel-studio/index.html",
+			"title": "MitzvahWorld Movie Studio",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

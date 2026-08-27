@@ -1,0 +1,86 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ * The Awtsmoos renews touch editing before finger and control can meet; Awtsmoos.com
+ * gives Studio drawers, procedural fields, and NLE commands a generous mobile vessel without crushing the stage beneath.
+ */
+@media (max-width: 780px) {
+	.aw-studio-toolbar-actions {
+		grid-column: 1 / -1;
+		justify-content: stretch;
+		overflow-x: auto;
+	}
+
+	.aw-studio-toolbar-actions button,
+	.aw-professional-studio .aw-nle-btn,
+	.aw-studio-panel button,
+	.aw-studio-panel input:not([type='range']),
+	.aw-studio-panel select {
+		min-height: var(--aw-touch-height);
+	}
+
+	.aw-studio-toolbar-actions button {
+		flex: 1;
+		padding: 6px 9px;
+		font-size: 10px;
+	}
+
+	.aw-professional-studio .aw-nle-btn {
+		flex: 0 0 auto;
+		min-width: var(--aw-touch-height);
+		padding: 6px 9px;
+		font-size: 10px;
+	}
+
+	.aw-professional-studio .aw-nle-zoom {
+		width: var(--aw-touch-height);
+		padding-inline: 0;
+		text-align: center;
+	}
+
+	.aw-studio-panel button {
+		padding-block: 8px;
+	}
+
+	.aw-studio-panel input,
+	.aw-studio-panel select {
+		font-size: 16px;
+	}
+
+	.aw-studio-export-button {
+		flex: 2 !important;
+	}
+
+	.aw-professional-studio .aw-nle-editor-body {
+		grid-template-columns: 1fr;
+	}
+
+	.aw-professional-studio .aw-nle-timeline-grid {
+		grid-template-columns: 104px minmax(0, 1fr);
+	}
+
+	.aw-professional-studio .aw-nle-inspector {
+		display: none;
+	}
+
+	.aw-professional-studio .aw-nle-track-name {
+		padding: 0 6px;
+		font-size: 8px;
+	}
+
+	.aw-studio-asset-grid,
+	.aw-studio-transform-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 430px) {
+	.aw-studio-project-title strong {
+		font-size: 10px;
+	}
+
+	.aw-studio-asset-grid,
+	.aw-studio-transform-grid {
+		grid-template-columns: 1fr;
+	}
+}

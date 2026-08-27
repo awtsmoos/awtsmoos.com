@@ -1,0 +1,60 @@
+[ {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@0e1f2fbe541be34886118f3d54cf53f7e12bf905/inspector.html?ws=127.0.0.1:9225/devtools/page/024AFBB61EEF89AFF2231F1FE9FF0A51",
+   "id": "024AFBB61EEF89AFF2231F1FE9FF0A51",
+   "title": "about:blank",
+   "type": "page",
+   "url": "about:blank",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9225/devtools/page/024AFBB61EEF89AFF2231F1FE9FF0A51"
+}, {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@0e1f2fbe541be34886118f3d54cf53f7e12bf905/inspector.html?ws=127.0.0.1:9225/devtools/page/5141E9B7E52B6CC5C0E41D1F32DD3281",
+   "faviconUrl": "http://127.0.0.1:5277/favicon.ico",
+   "id": "5141E9B7E52B6CC5C0E41D1F32DD3281",
+   "title": "B&quot;H Mitzvah World — Restored River Valley",
+   "type": "page",
+   "url": "http://127.0.0.1:5277/geelooy/games/mitzvahWorld/index.html?enemyAiAcceptance=20260724-0951",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9225/devtools/page/5141E9B7E52B6CC5C0E41D1F32DD3281"
+}, {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@0e1f2fbe541be34886118f3d54cf53f7e12bf905/inspector.html?ws=127.0.0.1:9225/devtools/page/9DE0F06EA3EE6B8B77C8D58A4EE73D07",
+   "id": "9DE0F06EA3EE6B8B77C8D58A4EE73D07",
+   "title": "about:blank",
+   "type": "page",
+   "url": "about:blank",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9225/devtools/page/9DE0F06EA3EE6B8B77C8D58A4EE73D07"
+}, {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@0e1f2fbe541be34886118f3d54cf53f7e12bf905/inspector.html?ws=127.0.0.1:9225/devtools/page/BE2C5C2FE81E2C2506A1D52C899FC502",
+   "id": "BE2C5C2FE81E2C2506A1D52C899FC502",
+   "title": "B&quot;H Mitzvah World — Restored River Valley",
+   "type": "page",
+   "url": "http://127.0.0.1:8080/games/mitzvahWorld/?houseAcceptance=20260724-0942",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9225/devtools/page/BE2C5C2FE81E2C2506A1D52C899FC502"
+}, {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@0e1f2fbe541be34886118f3d54cf53f7e12bf905/inspector.html?ws=127.0.0.1:9225/devtools/page/1D65942B94609C05C9A0AAECADE5E471",
+   "faviconUrl": "http://127.0.0.1:8879/favicon.ico",
+   "id": "1D65942B94609C05C9A0AAECADE5E471",
+   "title": "DMAT|c=1|u=1|t=0|v=0|r=0|b=0|f=none",
+   "type": "page",
+   "url": "http://127.0.0.1:8879/geelooy/games/mitzvahWorld/index.html?demonAcceptance=20260724-0933",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9225/devtools/page/1D65942B94609C05C9A0AAECADE5E471"
+}, {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@0e1f2fbe541be34886118f3d54cf53f7e12bf905/inspector.html?ws=127.0.0.1:9225/devtools/page/62287DCAE6ADC49D2D2CC2EC884EB0DE",
+   "id": "62287DCAE6ADC49D2D2CC2EC884EB0DE",
+   "title": "about:blank",
+   "type": "page",
+   "url": "about:blank",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9225/devtools/page/62287DCAE6ADC49D2D2CC2EC884EB0DE"
+}, {
+   "description": "",
+   "devtoolsFrontendUrl": "https://chrome-devtools-frontend.appspot.com/serve_rev/@0e1f2fbe541be34886118f3d54cf53f7e12bf905/inspector.html?ws=127.0.0.1:9225/devtools/page/CCAF3F839D65B76AE11CFE1BAAF2605A",
+   "faviconUrl": "http://127.0.0.1:5277/favicon.ico",
+   "id": "CCAF3F839D65B76AE11CFE1BAAF2605A",
+   "title": "127.0.0.1:5277",
+   "type": "page",
+   "url": "http://127.0.0.1:5277/",
+   "webSocketDebuggerUrl": "ws://127.0.0.1:9225/devtools/page/CCAF3F839D65B76AE11CFE1BAAF2605A"
+} ]

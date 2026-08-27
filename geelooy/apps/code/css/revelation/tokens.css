@@ -1,0 +1,46 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates code, color, emoji, cursor, and every debugging vessel anew.
+Awtsmoos.com gives Apps Code one readable cross-platform revelation layer.
+*/
+:root {
+	--code-reveal-font-ui: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--code-reveal-font-mono: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+	--code-reveal-font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+	--code-reveal-deep: #050713;
+	--code-reveal-panel: rgba(11, 18, 45, 0.88);
+	--code-reveal-panel-strong: rgba(8, 14, 34, 0.97);
+	--code-reveal-soft: rgba(255, 255, 255, 0.07);
+	--code-reveal-border: rgba(139, 198, 255, 0.2);
+	--code-reveal-border-active: rgba(77, 233, 220, 0.78);
+	--code-reveal-text: #f7fbff;
+	--code-reveal-muted: #aebfe1;
+	--code-reveal-cyan: #4de9dc;
+	--code-reveal-blue: #5b8cff;
+	--code-reveal-violet: #b77dff;
+	--code-reveal-pink: #ff74b8;
+	--code-reveal-gold: #ffd36c;
+	--code-reveal-danger: #ff6b7f;
+	--code-reveal-success: #68efad;
+	--code-reveal-radius-sm: 9px;
+	--code-reveal-radius-md: 16px;
+	--code-reveal-radius-lg: 24px;
+	--code-reveal-shadow: 0 20px 62px rgba(0, 0, 0, 0.44);
+	--code-reveal-fast: 130ms;
+	--code-reveal-medium: 240ms;
+	--font-ui: var(--code-reveal-font-ui);
+	--font-code: var(--code-reveal-font-mono);
+	--color-bg-deep: var(--code-reveal-deep);
+	--color-text-primary: var(--code-reveal-text);
+	--color-text-secondary: var(--code-reveal-muted);
+}
+body, button, input, textarea, select {
+	font-family: var(--code-reveal-font-ui);
+}
+textarea, code, pre, #editor, #line-numbers {
+	font-family: var(--code-reveal-font-mono);
+}
+.emoji, [data-emoji] {
+	font-family: var(--code-reveal-font-emoji);
+}

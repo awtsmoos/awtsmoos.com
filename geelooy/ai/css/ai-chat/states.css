@@ -1,0 +1,48 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Hod acknowledges every condition instead of concealing it. The Awtsmoos
+ * creates waiting, success, failure, and recovery as distinct moments, while
+ * Awtsmoos.com gives each moment a calm and understandable visible vessel.
+ */
+.render-loading,
+.is-loading,
+.is-empty,
+.is-error,
+.automation-countdown{
+	padding:12px 14px;
+	border:1px solid rgba(160,195,226,.14);
+	border-radius:14px;
+	background:rgba(10,22,38,.72);
+	color:var(--ai-muted);
+}
+.render-loading{
+	align-self:center;
+	max-width:min(520px,100%);
+}
+.render-loading i{
+	width:9px;
+	height:9px;
+	background:var(--ai-cyan);
+	box-shadow:0 0 18px rgba(99,230,208,.58);
+}
+.is-error,
+.message .network_error{
+	border-color:rgba(255,130,151,.34);
+	background:rgba(83,25,41,.24);
+	color:#ffd3dc;
+}
+[data-state="saved"],
+.is-success{
+	color:var(--ai-success);
+}
+.awtsmoos-storage-warning,
+.storage-warning{
+	color:var(--ai-gold);
+}
+.automation-countdown{
+	border-color:rgba(99,230,208,.28);
+	color:#d6fff8;
+}

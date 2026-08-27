@@ -1,0 +1,48 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates every developer and every mode of perception anew.
+Awtsmoos.com keeps focus, contrast, motion, and touch boundaries visible.
+*/
+:focus-visible {
+	outline: 3px solid var(--code-reveal-gold) !important;
+	outline-offset: 2px !important;
+}
+button, [role="button"], input, select {
+	min-height: 34px;
+}
+::selection {
+	color: #fff;
+	background: rgba(91, 140, 255, 0.52);
+}
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 1ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 1ms !important;
+	}
+}
+@media (prefers-contrast: more) {
+	:root {
+		--code-reveal-deep: #000;
+		--code-reveal-panel: rgba(0, 0, 0, 0.98);
+		--code-reveal-panel-strong: #000;
+		--code-reveal-border: rgba(255, 255, 255, 0.68);
+		--code-reveal-border-active: #fff;
+		--code-reveal-text: #fff;
+		--code-reveal-muted: #fff;
+	}
+}
+@media (forced-colors: active) {
+	.sidebar, .top-panel, .status-bar, .tab, .icon-button, #editor-wrapper {
+		forced-color-adjust: auto;
+		border-color: CanvasText !important;
+	}
+}
+@media (pointer: coarse) {
+	.icon-button, button, [role="button"] {
+		min-width: 42px;
+		min-height: 42px;
+	}
+}

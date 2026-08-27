@@ -1,0 +1,189 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "social-packed-storage",
+	"district": "data",
+	"title": "Social Packed Storage",
+	"summary": "Packed Social persistence, bridges, shards, snapshots, and migration helpers used around posts/comments/series.",
+	"manuals": [
+		"docs/DATA/README.md",
+		"docs/DATA/PATH_CONTRACTS.md"
+	],
+	"projects": [
+		{
+			"projectId": "geelooy-api-social-0cd2dc86",
+			"path": "geelooy/api/social",
+			"type": "api",
+			"title": "geelooy/api/social",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-social-0cd2dc86.md"
+		}
+	],
+	"sources": [
+		"geelooy/api/social/_awtsmoos.packed.js",
+		"geelooy/api/social/helper/packed/socialPacked.js",
+		"geelooy/api/social/helper/packed/awtsmoosDbFsBridge.js"
+	],
+	"generatedEvidence": [
+		"docs/GENERATED/PROJECT_TUTORIAL_INDEX.md"
+	],
+	"tags": [
+		"persistence",
+		"social",
+		"packed",
+		"migration"
+	],
+	"claimsBoundary": "Packed-engine files show implementation families; logical Social semantics still belong to Social handlers and manuals.",
+	"changeRisk": "Shard, manifest, snapshot, or migration changes can affect existing Social content.",
+	"environmentEvidence": [
+		{
+			"name": "AWTS_DB_ROOT",
+			"classification": "path/storage",
+			"sources": 3,
+			"exampleSources": "geelooy/api/social/helper/search/rag/paths.js; geelooy/api/social/helper/search/rag/test/catalogAndSidecar.test.js; geelooy/api/social/helper/search/rag/test/liveSearchProbe.js"
+		},
+		{
+			"name": "AWTS_RAG_STARTUP_WARMUP",
+			"classification": "runtime-config",
+			"sources": 2,
+			"exampleSources": "geelooy/api/social/helper/search/rag/ragStartupWarmup.js; geelooy/api/social/helper/search/rag/test/searchContracts.test.js"
+		},
+		{
+			"name": "AWTSMOOS_AI_ROOT",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/search/rag/paths.js"
+		},
+		{
+			"name": "AWTSMOOS_BOOK_EXPORT_ROOT",
+			"classification": "path/storage",
+			"sources": 2,
+			"exampleSources": "geelooy/api/social/helper/books/paths.js; geelooy/api/social/helper/books/test/bookResilience.test.js"
+		},
+		{
+			"name": "AWTSMOOS_BROWSER_ALLOW_NO_SANDBOX",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/drive/browser/interactiveChromeLauncher.js"
+		},
+		{
+			"name": "AWTSMOOS_BROWSER_HEADLESS",
+			"classification": "runtime-config",
+			"sources": 2,
+			"exampleSources": "geelooy/api/social/helper/drive/browser/interactiveChromeLauncher.js; geelooy/api/social/helper/drive/browser/interactiveChromeLauncher.test.js"
+		},
+		{
+			"name": "AWTSMOOS_BROWSER_PROFILE_ROOT",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/drive/browser/interactiveProfileStore.js"
+		},
+		{
+			"name": "AWTSMOOS_DB_PATH",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/series/directSeriesPrateem.js"
+		},
+		{
+			"name": "AWTSMOOS_DRIVE_ADMIN_USER_IDS",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/drive/adminAuthorization.js"
+		},
+		{
+			"name": "AWTSMOOS_ENABLE_COMMENT_BREADCRUMB_INDEX",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/comments/commentCreation.js"
+		},
+		{
+			"name": "AWTSMOOS_GIT_BIN",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/repositories/gitProcess.js"
+		},
+		{
+			"name": "AWTSMOOS_GIT_HTTP_BACKEND",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/repositories/gitProcess.js"
+		},
+		{
+			"name": "AWTSMOOS_IMPORTED_COMMENT_DATA_ROOT",
+			"classification": "path/storage",
+			"sources": 3,
+			"exampleSources": "geelooy/api/social/helper/comments/imported/bundleStore.js; geelooy/api/social/helper/comments/test/richImportedRoute.test.js; geelooy/api/social/helper/comments/test/translationBundles.test.js"
+		},
+		{
+			"name": "AWTSMOOS_LIKKUTEI_SICHOS_RAG_ROOT",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/search/rag/paths.js"
+		},
+		{
+			"name": "AWTSMOOS_PUBLIC_ORIGIN",
+			"classification": "runtime-config",
+			"sources": 3,
+			"exampleSources": "geelooy/api/social/helper/drive/siteCanonicalUrl.js; geelooy/api/social/helper/repositories/gitCloneService.js; geelooy/api/wallet/routes/paypalCreate.js"
+		},
+		{
+			"name": "AWTSMOOS_RAG_ROOT",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/search/rag/paths.js"
+		},
+		{
+			"name": "AWTSMOOS_REAL_SMOKE_DEBUG",
+			"classification": "test/tuning",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/apiKeys.js"
+		},
+		{
+			"name": "AWTSMOOS_SICHOS_KODESH_RAG_ROOT",
+			"classification": "test/tuning",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/search/rag/test/sichosKodeshCommentRows.test.js"
+		},
+		{
+			"name": "AWTSMOOS_SOCIAL_AWTSDB",
+			"classification": "test/tuning",
+			"sources": 2,
+			"exampleSources": "geelooy/api/social/helper/assets/test/assetCopy.test.mjs; geelooy/api/social/helper/awtsmoosDb/test/shardStore.test.js"
+		},
+		{
+			"name": "AWTSMOOS_TANACH_EMBED_PYTHON",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/search/rag/multilingualEmbedder.js"
+		},
+		{
+			"name": "AWTSMOOS_TANACH_INDEX",
+			"classification": "path/storage",
+			"sources": 3,
+			"exampleSources": "geelooy/api/social/helper/search/rag/storageInvariant.js; geelooy/api/social/helper/search/rag/test/storageInvariant.test.js; geelooy/api/social/helper/search/tanach/paths.js"
+		},
+		{
+			"name": "AWTSMOOS_TANACH_MODEL_PATH",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/search/rag/multilingualEmbedder.js"
+		},
+		{
+			"name": "CHROME_PATH",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/drive/browser/interactiveChromeLauncher.js"
+		},
+		{
+			"name": "EXACT_HEBREW_INDEX_DB",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "geelooy/api/social/helper/search/exactHebrewPaths.js"
+		}
+	],
+	"realtimeApplications": [],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/social-packed-storage.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/social-packed-storage.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

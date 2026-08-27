@@ -1,0 +1,68 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The phone speech gate must float above browser tides without covering the
+ * final answer. The Awtsmoos creates voice and vessel together; Awtsmoos.com
+ * preserves safe areas, thumb reach, growing text, and a clear send action.
+ */
+@media(max-width:900px){
+	body[data-mobile-scene] .input-area{
+		left:9px;
+		right:9px;
+		bottom:calc(8px + env(safe-area-inset-bottom));
+		grid-template-columns:minmax(0,1fr) 54px;
+		gap:8px;
+		min-height:68px;
+		padding:8px;
+		border:1px solid rgba(99,230,208,.26);
+		border-radius:20px;
+		background:rgba(3,9,18,.96);
+		box-shadow:0 16px 44px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.045);
+	}
+	body[data-mobile-scene] .input-area::before{
+		display:none;
+	}
+	body[data-mobile-scene] #message-input{
+		min-height:52px;
+		max-height:min(28dvh,132px);
+		padding:13px 14px;
+		border-radius:15px;
+		font-size:16px;
+		line-height:1.4;
+		resize:none;
+	}
+	body[data-mobile-scene] #send-button{
+		min-width:54px;
+		min-height:52px;
+		border-radius:15px;
+		font-size:0;
+		color:#06121b;
+	}
+	body[data-mobile-scene] #send-button::after{
+		content:"➤";
+		font-size:21px;
+	}
+	body[data-mobile-scene] .attachment-tools{
+		right:16px;
+		bottom:calc(84px + env(safe-area-inset-bottom));
+		max-width:calc(100vw - 32px);
+		padding:4px;
+		border:1px solid rgba(160,195,226,.12);
+		background:rgba(3,9,18,.86);
+	}
+	body[data-mobile-scene] .attach-button{
+		min-height:40px;
+		font-size:.82rem;
+	}
+}
+@media(max-height:640px) and (max-width:900px){
+	body[data-mobile-scene] #message-input{
+		max-height:84px;
+	}
+	body[data-mobile-scene] .chat-box{
+		padding-bottom:146px;
+		scroll-padding-bottom:190px;
+	}
+}

@@ -1,0 +1,70 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-tests-0a8f1d42",
+	"path": "geelooy/games/tests",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "geelooy/games/tests",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/tests/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-tests-0a8f1d42.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 0,
+		"tests": 16,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 17,
+	"symbolSummary": null,
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/tests/1",
+			"file": "geelooy/games/tests/1/index.html",
+			"title": "",
+			"scripts": 1,
+			"styles": 0
+		},
+		{
+			"url": "/games/tests/2",
+			"file": "geelooy/games/tests/2/index.html",
+			"title": "three.js - WebGPU - Compute Particles Rain",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/games/tests/3",
+			"file": "geelooy/games/tests/3/index.html",
+			"title": "",
+			"scripts": 4,
+			"styles": 1
+		},
+		{
+			"url": "/games/tests/tree",
+			"file": "geelooy/games/tests/tree/index.html",
+			"title": "Three.js Tree Swaying",
+			"scripts": 0,
+			"styles": 0
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

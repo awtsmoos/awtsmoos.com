@@ -1,0 +1,92 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-scripts-3467c7e0",
+	"path": "geelooy/games/scripts",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "geelooy/games/scripts",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/scripts/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scripts-3467c7e0.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 74,
+		"tests": 0,
+		"assets": 0,
+		"generated": 4,
+		"docs": 1,
+		"other": 2
+	},
+	"totalFiles": 81,
+	"symbolSummary": {
+		"files": 73,
+		"classes": 113,
+		"functions": 3381,
+		"exports": 55,
+		"samples": [
+			"UI",
+			"stands",
+			"MOTION_ADVENTURE_GAMES",
+			"MYSTIC_ADVENTURE_GAMES",
+			"ADVENTURE_GAMES",
+			"enrichGame",
+			"enrichGames",
+			"multiplayerCapability",
+			"NATIVE_MULTIPLAYER_GAME_IDS",
+			"visualCapability",
+			"WEBGL_GAMES",
+			"commercePlanFor"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/games/seven-mitzvos",
+			"count": 16,
+			"examples": "geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js"
+		},
+		{
+			"project": "geelooy/apps/scripts",
+			"count": 1,
+			"examples": "geelooy/apps/scripts/catalog/games.mjs"
+		},
+		{
+			"project": "geelooy/games/party",
+			"count": 1,
+			"examples": "geelooy/games/party/js/game-catalog.mjs"
+		},
+		{
+			"project": "geelooy/games/pong",
+			"count": 1,
+			"examples": "geelooy/games/pong/js/wallet-reward.mjs"
+		}
+	],
+	"externalDependencies": [
+		{
+			"dependency": "three",
+			"count": 3,
+			"examples": "geelooy/games/scripts/jsm/exporters/GLTFExporter.js; geelooy/games/scripts/jsm/loaders/DRACOLoader.js; geelooy/games/scripts/jsm/utils/SkeletonUtils.js"
+		},
+		{
+			"dependency": "srgb-linear",
+			"count": 1,
+			"examples": "geelooy/games/scripts/jsm/loaders/GLTFLoader.js"
+		}
+	],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

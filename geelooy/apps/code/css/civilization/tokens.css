@@ -1,0 +1,29 @@
+/* B"H
+ * Chapter 553: Civilization receives a neon garment woven from the existing
+ * Code Forge palette: cyan breath, magenta attention, lime completion.
+ */
+:root {
+  --civ-panel-bg: linear-gradient(135deg, rgba(0,246,255,.09), rgba(255,0,255,.06), rgba(168,255,0,.045));
+  --civ-glass-bg: rgba(2, 6, 14, .86);
+  --civ-border: rgba(0, 246, 255, .34);
+  --civ-border-hot: rgba(255, 0, 255, .55);
+  --civ-shadow: 0 0 28px rgba(0, 246, 255, .18), 0 18px 46px rgba(0,0,0,.55);
+  --civ-lime-shadow: 0 0 18px rgba(168,255,0,.28);
+}
+.civ-chip {
+  border: 1px solid var(--civ-border);
+  border-radius: 999px;
+  background: rgba(0,246,255,.08);
+  color: var(--neon-cyan);
+  font-family: var(--font-code, monospace);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  padding: 4px 8px;
+  text-transform: uppercase;
+}
+.civ-pulse { animation: civPulse 1.8s infinite alternate; }
+@keyframes civPulse {
+  from { box-shadow: 0 0 4px rgba(0,246,255,.2); }
+  to { box-shadow: 0 0 18px rgba(0,246,255,.55); }
+}

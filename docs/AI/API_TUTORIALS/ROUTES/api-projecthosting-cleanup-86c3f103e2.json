@@ -1,0 +1,63 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-projecthosting-cleanup-86c3f103e2",
+	"route": "/api/projectHosting/cleanup",
+	"source": "geelooy/api/projectHosting/runtimeRoutes.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/projectHosting",
+		"title": "/api/projectHosting",
+		"manual": "docs/API/README.md"
+	},
+	"derech": {
+		"source": "geelooy/api/projectHosting/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/projectHosting"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"$_GET"
+	],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-projecthosting-cleanup-86c3f103e2.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-projecthosting-827e82a6c0",
+			"route": "/api/projectHosting"
+		},
+		{
+			"id": "api-projecthosting-activity-685d6a80bb",
+			"route": "/api/projectHosting/activity"
+		},
+		{
+			"id": "api-projecthosting-materialize-04d0cae6e7",
+			"route": "/api/projectHosting/materialize"
+		},
+		{
+			"id": "api-projecthosting-restart-3328768971",
+			"route": "/api/projectHosting/restart"
+		},
+		{
+			"id": "api-projecthosting-start-15affd017d",
+			"route": "/api/projectHosting/start"
+		},
+		{
+			"id": "api-projecthosting-status-e49bd88d04",
+			"route": "/api/projectHosting/status"
+		},
+		{
+			"id": "api-projecthosting-stop-7e644b25e9",
+			"route": "/api/projectHosting/stop"
+		}
+	]
+}

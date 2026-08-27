@@ -1,0 +1,368 @@
+[
+  {
+    "id": "office_desk",
+    "kind": "desk",
+    "layer": "background",
+    "start": 0,
+    "duration": 60000,
+    "x": 132,
+    "y": 254,
+    "scale": 0.95,
+    "depth": 0.34,
+    "motion": {
+      "type": "static"
+    },
+    "state": {}
+  },
+  {
+    "id": "office_plant",
+    "kind": "plant",
+    "layer": "background",
+    "start": 0,
+    "duration": 60000,
+    "x": 52,
+    "y": 225,
+    "scale": 0.82,
+    "depth": 0.24,
+    "motion": {
+      "type": "static"
+    },
+    "state": {}
+  },
+  {
+    "id": "office_clock",
+    "kind": "wallClock",
+    "layer": "background",
+    "start": 0,
+    "duration": 60000,
+    "x": 382,
+    "y": 104,
+    "scale": 0.86,
+    "depth": 0.2,
+    "motion": {
+      "type": "static"
+    },
+    "state": {
+      "seconds": 48
+    }
+  },
+  {
+    "id": "office_laptop",
+    "kind": "laptop",
+    "layer": "midground",
+    "start": 0,
+    "duration": 60000,
+    "x": 210,
+    "y": 219,
+    "scale": 0.64,
+    "depth": 0.46,
+    "motion": {
+      "type": "static"
+    },
+    "state": {}
+  },
+  {
+    "id": "office_printer",
+    "kind": "printer",
+    "layer": "background",
+    "start": 0,
+    "duration": 48000,
+    "x": 548,
+    "y": 195,
+    "scale": 0.7,
+    "depth": 0.3,
+    "motion": {
+      "type": "static"
+    },
+    "state": {}
+  },
+  {
+    "id": "machine_base_a",
+    "kind": "coffeeMachine",
+    "layer": "background",
+    "start": 0,
+    "duration": 6500,
+    "x": 440,
+    "y": 176,
+    "scale": 0.8,
+    "depth": 0.38,
+    "motion": {
+      "type": "static"
+    },
+    "state": {
+      "text": "1 CUP"
+    }
+  },
+  {
+    "id": "machine_insert",
+    "kind": "coffeeMachine",
+    "layer": "foreground",
+    "start": 6500,
+    "duration": 3000,
+    "x": 278,
+    "y": 118,
+    "scale": 1.38,
+    "depth": 0.82,
+    "motion": {
+      "type": "flash"
+    },
+    "state": {
+      "text": "1 CUP"
+    }
+  },
+  {
+    "id": "machine_base_b",
+    "kind": "coffeeMachine",
+    "layer": "background",
+    "start": 9500,
+    "duration": 19500,
+    "x": 440,
+    "y": 176,
+    "scale": 0.8,
+    "depth": 0.38,
+    "motion": {
+      "type": "static"
+    },
+    "state": {
+      "text": "1 CUP"
+    }
+  },
+  {
+    "id": "machine_chaos",
+    "kind": "coffeeMachine",
+    "layer": "foreground",
+    "start": 29000,
+    "duration": 6000,
+    "x": 286,
+    "y": 120,
+    "scale": 1.36,
+    "depth": 0.82,
+    "motion": {
+      "type": "steam"
+    },
+    "state": {
+      "text": "ERROR",
+      "flash": true
+    }
+  },
+  {
+    "id": "machine_base_c",
+    "kind": "coffeeMachine",
+    "layer": "background",
+    "start": 35000,
+    "duration": 25000,
+    "x": 440,
+    "y": 176,
+    "scale": 0.8,
+    "depth": 0.38,
+    "motion": {
+      "type": "static"
+    },
+    "state": {
+      "text": "TEA?"
+    }
+  },
+  {
+    "id": "rolling_chair",
+    "kind": "chair",
+    "layer": "midground",
+    "start": 3000,
+    "duration": 12000,
+    "x": 250,
+    "y": 222,
+    "scale": 0.8,
+    "depth": 0.55,
+    "motion": {
+      "type": "roll",
+      "toX": 338,
+      "toY": 226
+    },
+    "state": {}
+  },
+  {
+    "id": "meeting_papers",
+    "kind": "papers",
+    "layer": "midground",
+    "start": 15000,
+    "duration": 14000,
+    "x": 248,
+    "y": 224,
+    "scale": 0.72,
+    "depth": 0.52,
+    "motion": {
+      "type": "static"
+    },
+    "state": {}
+  },
+  {
+    "id": "flying_papers",
+    "kind": "papers",
+    "layer": "foreground",
+    "start": 29000,
+    "duration": 10000,
+    "x": 250,
+    "y": 218,
+    "scale": 0.72,
+    "depth": 0.74,
+    "motion": {
+      "type": "flutter",
+      "toX": 410,
+      "toY": 150
+    },
+    "state": {}
+  },
+  {
+    "id": "calendar_insert",
+    "kind": "tablet",
+    "layer": "foreground",
+    "start": 22000,
+    "duration": 3500,
+    "x": 286,
+    "y": 132,
+    "scale": 1.18,
+    "depth": 0.84,
+    "motion": {
+      "type": "flash"
+    },
+    "state": {
+      "text": "MUG INVITED"
+    }
+  },
+  {
+    "id": "mug_waiting",
+    "kind": "mug",
+    "layer": "midground",
+    "start": 9500,
+    "duration": 19500,
+    "x": 475,
+    "y": 222,
+    "scale": 0.66,
+    "depth": 0.55,
+    "motion": {
+      "type": "static"
+    },
+    "state": {
+      "steam": true
+    }
+  },
+  {
+    "id": "mug_slide",
+    "kind": "mug",
+    "layer": "foreground",
+    "start": 35000,
+    "duration": 3800,
+    "x": 248,
+    "y": 242,
+    "scale": 0.72,
+    "depth": 0.78,
+    "motion": {
+      "type": "slide",
+      "toX": 480,
+      "toY": 244
+    },
+    "state": {}
+  },
+  {
+    "id": "mug_bounce",
+    "kind": "mug",
+    "layer": "foreground",
+    "start": 38800,
+    "duration": 4200,
+    "x": 480,
+    "y": 244,
+    "scale": 0.72,
+    "depth": 0.82,
+    "motion": {
+      "type": "bounce",
+      "toX": 362,
+      "toY": 168,
+      "height": 48
+    },
+    "state": {}
+  },
+  {
+    "id": "spoon_waiting",
+    "kind": "spoon",
+    "layer": "midground",
+    "start": 18500,
+    "duration": 16500,
+    "x": 316,
+    "y": 232,
+    "scale": 0.82,
+    "depth": 0.56,
+    "motion": {
+      "type": "static"
+    },
+    "state": {}
+  },
+  {
+    "id": "spoon_spin",
+    "kind": "spoon",
+    "layer": "foreground",
+    "start": 35000,
+    "duration": 6500,
+    "x": 316,
+    "y": 230,
+    "scale": 0.9,
+    "depth": 0.86,
+    "motion": {
+      "type": "spin",
+      "toX": 430,
+      "toY": 164,
+      "turns": 8
+    },
+    "state": {}
+  },
+  {
+    "id": "printer_active",
+    "kind": "printer",
+    "layer": "foreground",
+    "start": 48000,
+    "duration": 5500,
+    "x": 278,
+    "y": 120,
+    "scale": 1.28,
+    "depth": 0.82,
+    "motion": {
+      "type": "print",
+      "travel": 16
+    },
+    "state": {
+      "flash": true
+    }
+  },
+  {
+    "id": "coupon_output",
+    "kind": "coupon",
+    "layer": "foreground",
+    "start": 51500,
+    "duration": 6500,
+    "x": 382,
+    "y": 208,
+    "scale": 0.82,
+    "depth": 0.8,
+    "motion": {
+      "type": "slide",
+      "toX": 342,
+      "toY": 174
+    },
+    "state": {
+      "text": "FREE TEA"
+    }
+  },
+  {
+    "id": "phone_alert",
+    "kind": "phone",
+    "layer": "midground",
+    "start": 15000,
+    "duration": 8000,
+    "x": 190,
+    "y": 216,
+    "scale": 0.72,
+    "depth": 0.54,
+    "motion": {
+      "type": "flash"
+    },
+    "state": {}
+  }
+]

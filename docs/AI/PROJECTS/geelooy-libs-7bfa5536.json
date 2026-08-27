@@ -1,0 +1,96 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-libs-7bfa5536",
+	"path": "geelooy/libs",
+	"type": "library",
+	"family": {
+		"id": "libraries",
+		"title": "Libraries and Tooling"
+	},
+	"title": "geelooy/libs",
+	"entries": [
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/libs/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/LIBRARIES_AND_TOOLING.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-libs-7bfa5536.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 2098,
+		"tests": 138,
+		"assets": 0,
+		"generated": 0,
+		"docs": 20,
+		"other": 12
+	},
+	"totalFiles": 2268,
+	"symbolSummary": {
+		"files": 2093,
+		"classes": 458,
+		"functions": 2951,
+		"exports": 2782,
+		"samples": [
+			"makeGoldenProbe",
+			"inspectMesh",
+			"hashSeed",
+			"createRng",
+			"range",
+			"rng",
+			"v3",
+			"sub",
+			"cross",
+			"length",
+			"normalize",
+			"isFiniteVec3"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/games/mitzvahWorld",
+			"count": 5,
+			"examples": "geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/modelAssets.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/nativeRuntime.js; geelooy/libs/awtsmoos-procedural-core/src/adapters/mitzvahWorld/renderer.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/games/mitzvahWorld",
+			"count": 47,
+			"examples": "geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowCreatureMesh.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseAssembly.js; geelooy/games/mitzvahWorld/experiments/Awtsmoos/src/app/MinimalMeadowHouseDimensionPolicy.js"
+		},
+		{
+			"project": "geelooy/games/seven-mitzvos",
+			"count": 12,
+			"examples": "geelooy/games/seven-mitzvos/js/materials/firebase-material-manifest.js; geelooy/games/seven-mitzvos/js/materials/seven-material-runtime.js; geelooy/games/seven-mitzvos/js/materials/stage-material-runtime.js"
+		},
+		{
+			"project": "geelooy/games/oros-ha-kelim",
+			"count": 11,
+			"examples": "geelooy/games/oros-ha-kelim/src/render/core/CoreGeometryFactory.js; geelooy/games/oros-ha-kelim/src/render/core/CoreGpuVessel.js; geelooy/games/oros-ha-kelim/src/render/core/CoreMesh.js"
+		},
+		{
+			"project": "geelooy/games/Merkava",
+			"count": 2,
+			"examples": "geelooy/games/Merkava/src/render/createCoreMeshes.js; geelooy/games/Merkava/src/render/createEnemyMeshes.js"
+		},
+		{
+			"project": "geelooy/games/nitzotz-io",
+			"count": 2,
+			"examples": "geelooy/games/nitzotz-io/js/procedural/localMeshes.js; geelooy/games/nitzotz-io/js/webgl/meshUpload.js"
+		},
+		{
+			"project": "geelooy/zmanim",
+			"count": 2,
+			"examples": "geelooy/zmanim/js/components/celestial-webgl.js; geelooy/zmanim/js/domain/celestial-zmanim.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

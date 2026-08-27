@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-kavanah-e1949492",
+	"path": "geelooy/games/KAVANAH",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "KAVANAH",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/KAVANAH/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-kavanah-e1949492.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 15,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 16,
+	"symbolSummary": {
+		"files": 13,
+		"classes": 8,
+		"functions": 47,
+		"exports": 51,
+		"samples": [
+			"Otiot",
+			"Tzomeach",
+			"Chai",
+			"and",
+			"Entity",
+			"Particle",
+			"HEBREW_LETTERS",
+			"PLANT_EMOJIS",
+			"ANIMAL_EMOJIS",
+			"getPointerState",
+			"setupControls",
+			"clearPointer"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/KAVANAH",
+			"file": "geelooy/games/KAVANAH/index.html",
+			"title": "KAVANAH",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

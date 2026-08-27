@@ -1,0 +1,3 @@
+// B"H
+import { VirtualGraph as G } from '../../../../engine/graph/VirtualGraph.js';
+export class SoupPropRenderer { static build(p={}){const s=p.size||48;return G.group('prod_soup',null,[G.ellipse('bowl_shadow',0,s*.28,s*.9,s*.2,0,{fill:'rgba(0,0,0,.2)'}),G.ellipse('bowl_outer',0,0,s,s*.34,0,{fill:'#f8fbff',stroke:'#5b6b75',lineWidth:2.4}),G.ellipse('soup_surface',0,-2,s*.74,s*.22,0,{fill:'#d79b3b',stroke:'#9b612f',lineWidth:1.4}),G.circle('matzah_ball',{x:-s*.1,y:-4,radius:s*.18,fill:'#ead9a7',stroke:'#8b6f34',lineWidth:1}),...[-.45,.05,.35].map((k,i)=>G.circle(`herb_${i}`,{x:k*s,y:-4+(i%2)*4,radius:2.5,fill:'#317f38'})),G.path('spoon',[{type:'move',x:s*.32,y:-s*.15},{type:'line',x:s*.74,y:-s*.36}],{stroke:'#b7bdc6',lineWidth:3,lineCap:'round'})]);} }

@@ -1,0 +1,61 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-gpt-b0818377",
+	"path": "geelooy/api/gpt",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/gpt",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/gpt/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-gpt-b0818377.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 10,
+		"tests": 3,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 14,
+	"symbolSummary": {
+		"files": 10,
+		"classes": 1,
+		"functions": 31,
+		"exports": 20,
+		"samples": [
+			"authorizeGptRequest",
+			"isLoopbackOrigin",
+			"refusal",
+			"parseGptRequest",
+			"REQUEST_BYTES",
+			"ACTIONS",
+			"MODES",
+			"parseInput",
+			"optionalConversationKey",
+			"cleanRequiredString",
+			"optionalString",
+			"cleanString"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

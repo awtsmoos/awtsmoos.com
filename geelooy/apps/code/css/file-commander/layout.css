@@ -1,0 +1,118 @@
+
+/* B"H - FILE COMMANDER LAYOUT */
+
+#file-commander-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-bg-deep);
+}
+
+.file-commander-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(10, 12, 20, 0.85);
+    backdrop-filter: blur(15px);
+    z-index: 25000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.file-commander-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.fc-window {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-bg-deep);
+    border: 1px solid var(--color-border-accent);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 20px var(--glow-cyan);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: scaleUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.fc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.fc-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--neon-cyan);
+    letter-spacing: 1px;
+}
+
+.fc-toolbar {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 12px;
+    background-color: rgba(0,0,0,0.2);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.fc-breadcrumbs {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    font-family: var(--font-code);
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.fc-crumb {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.15s;
+    color: var(--color-text-secondary);
+}
+.fc-crumb:hover {
+    background-color: var(--color-bg-tertiary);
+    color: var(--neon-cyan);
+}
+.fc-sep {
+    color: var(--color-text-tertiary);
+    margin: 0 4px;
+}
+
+.fc-view-options {
+    display: flex;
+    gap: 4px;
+}
+.fc-view-options button.active {
+    background-color: var(--neon-cyan);
+    color: var(--color-bg-deep);
+}
+
+.fc-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 16px;
+    background-color: var(--color-bg-primary);
+}
+
+.fc-statusbar {
+    padding: 8px 16px;
+    background-color: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border);
+    font-size: 0.85em;
+    color: var(--color-text-tertiary);
+}

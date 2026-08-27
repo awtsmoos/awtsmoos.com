@@ -1,0 +1,80 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Mobile Malchus receives text without squeezing it into a desktop miniature.
+ * The Awtsmoos creates each word and the screen that bears it; Awtsmoos.com
+ * gives messages, navigation, and automation the full readable width they need.
+ */
+@media(max-width:900px){
+	body[data-mobile-scene] .chat-box{
+		padding:12px 12px 166px;
+		gap:13px;
+		scroll-padding-top:18px;
+		scroll-padding-bottom:212px;
+	}
+	body[data-mobile-scene] .message,
+	body[data-mobile-scene] .bubble,
+	body[data-mobile-scene] .assistant-message{
+		max-width:100%;
+		border-radius:17px;
+		padding:13px 14px;
+	}
+	body[data-mobile-scene] .user-message,
+	body[data-mobile-scene] .message.user{
+		max-width:88%;
+	}
+	body[data-mobile-scene] .message :is(p,li,blockquote,td,th),
+	body[data-mobile-scene] .message-content{
+		font-size:1rem;
+		line-height:1.62;
+	}
+	body[data-mobile-scene] .message pre,
+	body[data-mobile-scene] .message .md-code,
+	body[data-mobile-scene] .message table{
+		max-width:calc(100vw - 52px);
+	}
+	body[data-mobile-scene] .conversation-list{
+		padding:12px;
+		gap:10px;
+	}
+	body[data-mobile-scene] .conversation-list li{
+		min-height:56px;
+		padding:11px 12px 11px 15px;
+	}
+	body[data-mobile-scene] .conversation-title{
+		white-space:normal;
+		display:-webkit-box;
+		-webkit-line-clamp:2;
+		-webkit-box-orient:vertical;
+	}
+	body[data-mobile-scene] .service-selector :is(select,input),
+	body[data-mobile-scene] #automation-panel :is(input,select,textarea){
+		font-size:16px;
+	}
+	body[data-mobile-scene] #automation-panel .right-panel-body{
+		padding:12px 10px calc(104px + env(safe-area-inset-bottom));
+	}
+	body[data-mobile-scene] #automation-panel :is(
+		.automation-card,
+		.settings-hero-card,
+		.relay-install-card,
+		.automation-archive-panel
+	){
+		padding:13px;
+		border-radius:15px;
+	}
+	.message-action-root{
+		max-width:100%;
+	}
+}
+@media(max-width:360px){
+	body[data-mobile-scene] .message,
+	body[data-mobile-scene] .bubble{
+		padding:12px;
+	}
+	.mobile-bottom-dock em{
+		font-size:9px;
+	}
+}

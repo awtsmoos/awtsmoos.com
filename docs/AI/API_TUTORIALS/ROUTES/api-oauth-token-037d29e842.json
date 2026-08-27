@@ -1,0 +1,61 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-oauth-token-037d29e842",
+	"route": "/api/oauth/token",
+	"source": "geelooy/api/oauth/routes/table.js",
+	"discoveryKind": "route-table",
+	"family": {
+		"mount": "/api/oauth",
+		"title": "OAuth",
+		"manual": "docs/TUTORIALS/API/OAUTH.md"
+	},
+	"derech": {
+		"source": "geelooy/api/oauth/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/oauth"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-oauth-token-037d29e842.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-oauth-route-99d253c847",
+			"route": "/api/oauth/:route"
+		},
+		{
+			"id": "api-oauth-agent-callback-b4e6bf1061",
+			"route": "/api/oauth/agent-callback"
+		},
+		{
+			"id": "api-oauth-authorize-bdf605a5c6",
+			"route": "/api/oauth/authorize"
+		},
+		{
+			"id": "api-oauth-device-ff7c9e5d87",
+			"route": "/api/oauth/device"
+		},
+		{
+			"id": "api-oauth-device-authorization-c8c90e0df0",
+			"route": "/api/oauth/device-authorization"
+		},
+		{
+			"id": "api-oauth-metadata-323cb59001",
+			"route": "/api/oauth/metadata"
+		},
+		{
+			"id": "api-oauth-start-7c94ba48c1",
+			"route": "/api/oauth/start"
+		}
+	]
+}

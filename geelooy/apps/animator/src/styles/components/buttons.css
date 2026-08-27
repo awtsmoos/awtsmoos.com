@@ -1,0 +1,29 @@
+/* B"H - Shared button vessels. */
+.awtsmoos-chrome-btn,
+.btn-toggle,
+.timeline-toggle,
+.aw-nle-btn,
+.aw-nle-clip,
+.btn,
+.swatch {
+  border: 1px solid var(--aw-line-strong);
+  border-radius: 999px;
+  background: rgba(15, 18, 30, 0.82);
+  color: var(--aw-text);
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34);
+}
+
+.btn,
+.btn-toggle,
+.timeline-toggle {
+  min-height: 34px;
+  padding: 7px 10px;
+}
+
+.btn-primary,
+.awtsmoos-chrome-btn.active,
+.awtsmoos-chrome-btn.playing {
+  border-color: rgba(200, 214, 255, 0.7);
+  background: var(--aw-hot);
+}

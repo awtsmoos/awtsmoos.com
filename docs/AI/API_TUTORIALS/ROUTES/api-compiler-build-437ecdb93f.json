@@ -1,0 +1,47 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-compiler-build-437ecdb93f",
+	"route": "/api/compiler/build",
+	"source": "geelooy/api/compiler/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/compiler",
+		"title": "Compiler",
+		"manual": "docs/TUTORIALS/API/COMPILER.md"
+	},
+	"derech": {
+		"source": "geelooy/api/compiler/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/compiler"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [
+		{
+			"literal": "/api/compiler/build",
+			"source": "geelooy/apps/compiler/ui/nativeBuildClient.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 1,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-compiler-build-437ecdb93f.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-compiler-android-rebbe-8d84cca1d6",
+			"route": "/api/compiler/android/rebbe"
+		},
+		{
+			"id": "api-compiler-backends-8fe593f696",
+			"route": "/api/compiler/backends"
+		}
+	]
+}

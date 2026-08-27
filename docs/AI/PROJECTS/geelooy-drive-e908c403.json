@@ -1,0 +1,82 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-drive-e908c403",
+	"path": "geelooy/drive",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Geelooy Sites · Awtsmoos",
+	"entries": [
+		"index.html",
+		"app.js",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/drive/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-drive-e908c403.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 159,
+		"tests": 52,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 0
+	},
+	"totalFiles": 213,
+	"symbolSummary": {
+		"files": 132,
+		"classes": 30,
+		"functions": 448,
+		"exports": 222,
+		"samples": [
+			"initializeBuilder",
+			"installKeyboardCommands",
+			"installUnloadGuard",
+			"installTransportCleanup",
+			"builderAgentActions",
+			"builderAgentAction",
+			"action",
+			"capabilityStatusFor",
+			"reasonFor",
+			"GeelooyWebsiteBuilderApi",
+			"installWebsiteBuilderApi",
+			"unknownActionError"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/os",
+			"count": 4,
+			"examples": "geelooy/drive/transport/credentialedFs.js; geelooy/drive/transport/tunnelDiscovery.js; geelooy/drive/transport/tunnelPublishing.js"
+		},
+		{
+			"project": "geelooy/shared",
+			"count": 3,
+			"examples": "geelooy/drive/core/platformCapabilityBridge.js; geelooy/drive/transport/osWorkspace.js; geelooy/drive/ui/platformJourney.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/drive",
+			"file": "geelooy/drive/index.html",
+			"title": "Geelooy Sites · Awtsmoos",
+			"scripts": 1,
+			"styles": 25
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

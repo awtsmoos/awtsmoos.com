@@ -1,0 +1,493 @@
+[
+  {
+    "id": "ari_run_in",
+    "type": "action",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 2500,
+    "duration": 4200,
+    "payload": {
+      "action": "run",
+      "speed": 1.25,
+      "exertion": 0.72
+    },
+    "name": "cheerful-orthodox-speaker run",
+    "sequenceId": "cup_arrival"
+  },
+  {
+    "id": "ari_reach_machine",
+    "type": "gesture",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 4300,
+    "duration": 3600,
+    "payload": {
+      "gesture": "reach",
+      "intensity": 1
+    },
+    "name": "cheerful-orthodox-speaker reach",
+    "sequenceId": "cup_arrival"
+  },
+  {
+    "id": "dovid_chair_block",
+    "type": "gesture",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 6500,
+    "duration": 7200,
+    "payload": {
+      "gesture": "block",
+      "pose": "seated",
+      "intensity": 1
+    },
+    "name": "skeptical-orthodox-observer block",
+    "sequenceId": "cup_arrival"
+  },
+  {
+    "id": "dovid_rise",
+    "type": "action",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 13500,
+    "duration": 2600,
+    "payload": {
+      "action": "rise",
+      "speed": 0.72
+    },
+    "name": "skeptical-orthodox-observer rise",
+    "sequenceId": "cup_arrival"
+  },
+  {
+    "id": "rivky_pocket_watch",
+    "type": "gesture",
+    "characterId": "calm-orthodox-woman",
+    "start": 2500,
+    "duration": 15000,
+    "payload": {
+      "gesture": "right_hand_in_pocket",
+      "lockedContact": true
+    },
+    "name": "calm-orthodox-woman right_hand_in_pocket",
+    "sequenceId": "cup_arrival"
+  },
+  {
+    "id": "ari_open_case",
+    "type": "gesture",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 15000,
+    "duration": 7000,
+    "payload": {
+      "gesture": "open_palm_left",
+      "lean": 0.11
+    },
+    "name": "cheerful-orthodox-speaker open_palm_left",
+    "sequenceId": "cup_negotiation"
+  },
+  {
+    "id": "dovid_crossed_refusal",
+    "type": "gesture",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 16000,
+    "duration": 12500,
+    "payload": {
+      "gesture": "arms_crossed",
+      "lockedContact": true
+    },
+    "name": "skeptical-orthodox-observer arms_crossed",
+    "sequenceId": "cup_negotiation"
+  },
+  {
+    "id": "dovid_point_booking",
+    "type": "gesture",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 18500,
+    "duration": 3300,
+    "payload": {
+      "gesture": "point_right",
+      "intensity": 0.84
+    },
+    "name": "skeptical-orthodox-observer point_right",
+    "sequenceId": "cup_negotiation"
+  },
+  {
+    "id": "rivky_tablet_inspect",
+    "type": "gesture",
+    "characterId": "calm-orthodox-woman",
+    "start": 21000,
+    "duration": 5200,
+    "payload": {
+      "gesture": "inspect",
+      "prop": "forecastTablet",
+      "propSide": -1
+    },
+    "name": "calm-orthodox-woman inspect",
+    "sequenceId": "cup_negotiation"
+  },
+  {
+    "id": "rivky_present_mugs",
+    "type": "gesture",
+    "characterId": "calm-orthodox-woman",
+    "start": 24500,
+    "duration": 4200,
+    "payload": {
+      "gesture": "present",
+      "intensity": 0.8
+    },
+    "name": "calm-orthodox-woman present",
+    "sequenceId": "cup_negotiation"
+  },
+  {
+    "id": "ari_machine_recoil",
+    "type": "action",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 29000,
+    "duration": 4300,
+    "payload": {
+      "action": "dodge",
+      "gesture": "brace",
+      "lean": -0.14,
+      "exertion": 0.64
+    },
+    "name": "cheerful-orthodox-speaker dodge",
+    "sequenceId": "cup_chaos"
+  },
+  {
+    "id": "dovid_machine_block",
+    "type": "gesture",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 29500,
+    "duration": 4700,
+    "payload": {
+      "gesture": "block",
+      "lean": -0.08
+    },
+    "name": "skeptical-orthodox-observer block",
+    "sequenceId": "cup_chaos"
+  },
+  {
+    "id": "rivky_steam_cover",
+    "type": "gesture",
+    "characterId": "calm-orthodox-woman",
+    "start": 29500,
+    "duration": 4600,
+    "payload": {
+      "gesture": "open_palm_right",
+      "lean": -0.06
+    },
+    "name": "calm-orthodox-woman open_palm_right",
+    "sequenceId": "cup_chaos"
+  },
+  {
+    "id": "ari_mug_lunge",
+    "type": "action",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 35000,
+    "duration": 8000,
+    "payload": {
+      "action": "sprint",
+      "pose": "crouched",
+      "gesture": "catch_low",
+      "speed": 1.18,
+      "exertion": 0.92
+    },
+    "name": "cheerful-orthodox-speaker sprint",
+    "sequenceId": "cup_chaos"
+  },
+  {
+    "id": "dovid_spoon_catch",
+    "type": "gesture",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 36500,
+    "duration": 6800,
+    "payload": {
+      "gesture": "catch_high",
+      "prop": "spoon",
+      "propSide": 1,
+      "intensity": 1
+    },
+    "name": "skeptical-orthodox-observer catch_high",
+    "sequenceId": "cup_chaos"
+  },
+  {
+    "id": "rivky_mug_catch",
+    "type": "gesture",
+    "characterId": "calm-orthodox-woman",
+    "start": 37000,
+    "duration": 7200,
+    "payload": {
+      "gesture": "catch_low",
+      "prop": "mug",
+      "propSide": -1,
+      "intensity": 1
+    },
+    "name": "calm-orthodox-woman catch_low",
+    "sequenceId": "cup_chaos"
+  },
+  {
+    "id": "ari_balance_freeze",
+    "type": "gesture",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 42000,
+    "duration": 4200,
+    "payload": {
+      "gesture": "hold_mug",
+      "prop": "mug",
+      "propSide": 1,
+      "pose": "crouched",
+      "lockedContact": true
+    },
+    "name": "cheerful-orthodox-speaker hold_mug",
+    "sequenceId": "cup_chaos"
+  },
+  {
+    "id": "dovid_handoff",
+    "type": "gesture",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 45500,
+    "duration": 4300,
+    "payload": {
+      "gesture": "handoff",
+      "prop": "spoon",
+      "propSide": 1
+    },
+    "name": "skeptical-orthodox-observer handoff",
+    "sequenceId": "cup_chaos"
+  },
+  {
+    "id": "rivky_receive",
+    "type": "gesture",
+    "characterId": "calm-orthodox-woman",
+    "start": 45500,
+    "duration": 5200,
+    "payload": {
+      "gesture": "hold_mug",
+      "prop": "mug",
+      "propSide": -1,
+      "lockedContact": true
+    },
+    "name": "calm-orthodox-woman hold_mug",
+    "sequenceId": "cup_chaos"
+  },
+  {
+    "id": "ari_final_present",
+    "type": "gesture",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 51500,
+    "duration": 6200,
+    "payload": {
+      "gesture": "present",
+      "intensity": 0.72
+    },
+    "name": "cheerful-orthodox-speaker present",
+    "sequenceId": "cup_resolution"
+  },
+  {
+    "id": "dovid_final_cross",
+    "type": "gesture",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 51000,
+    "duration": 8500,
+    "payload": {
+      "gesture": "arms_crossed",
+      "lockedContact": true
+    },
+    "name": "skeptical-orthodox-observer arms_crossed",
+    "sequenceId": "cup_resolution"
+  },
+  {
+    "id": "rivky_coupon_present",
+    "type": "gesture",
+    "characterId": "calm-orthodox-woman",
+    "start": 52500,
+    "duration": 6500,
+    "payload": {
+      "gesture": "present",
+      "intensity": 0.7
+    },
+    "name": "calm-orthodox-woman present",
+    "sequenceId": "cup_resolution"
+  },
+  {
+    "id": "ari_alarm",
+    "type": "emotion",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 2500,
+    "duration": 11000,
+    "payload": {
+      "emotion": "alarm",
+      "gaze": [
+        0.72,
+        -0.12
+      ],
+      "intensity": 1.1
+    },
+    "name": "cheerful-orthodox-speaker alarm",
+    "sequenceId": "cup_arrival"
+  },
+  {
+    "id": "dovid_doubt",
+    "type": "emotion",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 2500,
+    "duration": 26500,
+    "payload": {
+      "emotion": "skepticism",
+      "gaze": [
+        -0.58,
+        0.06
+      ],
+      "intensity": 0.9
+    },
+    "name": "skeptical-orthodox-observer skepticism",
+    "sequenceId": "cup_arrival"
+  },
+  {
+    "id": "rivky_attention",
+    "type": "emotion",
+    "characterId": "calm-orthodox-woman",
+    "start": 2500,
+    "duration": 25000,
+    "payload": {
+      "emotion": "attention",
+      "gaze": [
+        -0.46,
+        -0.04
+      ],
+      "intensity": 0.72
+    },
+    "name": "calm-orthodox-woman attention",
+    "sequenceId": "cup_arrival"
+  },
+  {
+    "id": "ari_negotiates",
+    "type": "emotion",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 14500,
+    "duration": 14000,
+    "payload": {
+      "emotion": "concerned",
+      "gaze": [
+        0.58,
+        -0.02
+      ],
+      "intensity": 0.82
+    },
+    "name": "cheerful-orthodox-speaker concerned",
+    "sequenceId": "cup_arrival"
+  },
+  {
+    "id": "rivky_amused",
+    "type": "emotion",
+    "characterId": "calm-orthodox-woman",
+    "start": 20500,
+    "duration": 8200,
+    "payload": {
+      "emotion": "joy",
+      "gaze": [
+        -0.18,
+        0.02
+      ],
+      "intensity": 0.62
+    },
+    "name": "calm-orthodox-woman joy",
+    "sequenceId": "cup_negotiation"
+  },
+  {
+    "id": "trio_machine_focus_ari",
+    "type": "emotion",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 28500,
+    "duration": 11000,
+    "payload": {
+      "emotion": "alarm",
+      "gaze": [
+        0.82,
+        -0.16
+      ],
+      "intensity": 1.15
+    },
+    "name": "cheerful-orthodox-speaker alarm",
+    "sequenceId": "cup_negotiation"
+  },
+  {
+    "id": "trio_machine_focus_dovid",
+    "type": "emotion",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 28500,
+    "duration": 11000,
+    "payload": {
+      "emotion": "attention",
+      "gaze": [
+        0.62,
+        -0.12
+      ],
+      "intensity": 0.94
+    },
+    "name": "skeptical-orthodox-observer attention",
+    "sequenceId": "cup_negotiation"
+  },
+  {
+    "id": "trio_machine_focus_rivky",
+    "type": "emotion",
+    "characterId": "calm-orthodox-woman",
+    "start": 28500,
+    "duration": 11000,
+    "payload": {
+      "emotion": "focus",
+      "gaze": [
+        0.55,
+        -0.18
+      ],
+      "intensity": 0.96
+    },
+    "name": "calm-orthodox-woman focus",
+    "sequenceId": "cup_negotiation"
+  },
+  {
+    "id": "ari_relief",
+    "type": "emotion",
+    "characterId": "cheerful-orthodox-speaker",
+    "start": 41000,
+    "duration": 9000,
+    "payload": {
+      "emotion": "relief",
+      "gaze": [
+        0.22,
+        0.08
+      ],
+      "intensity": 0.82
+    },
+    "name": "cheerful-orthodox-speaker relief",
+    "sequenceId": "cup_chaos"
+  },
+  {
+    "id": "dovid_printer_attention",
+    "type": "emotion",
+    "characterId": "skeptical-orthodox-observer",
+    "start": 47000,
+    "duration": 7000,
+    "payload": {
+      "emotion": "attention",
+      "gaze": [
+        0.72,
+        -0.08
+      ],
+      "intensity": 0.78
+    },
+    "name": "skeptical-orthodox-observer attention",
+    "sequenceId": "cup_resolution"
+  },
+  {
+    "id": "rivky_final_joy",
+    "type": "emotion",
+    "characterId": "calm-orthodox-woman",
+    "start": 51500,
+    "duration": 8500,
+    "payload": {
+      "emotion": "joy",
+      "gaze": [
+        -0.2,
+        0
+      ],
+      "intensity": 0.88
+    },
+    "name": "calm-orthodox-woman joy",
+    "sequenceId": "cup_resolution"
+  }
+]

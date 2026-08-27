@@ -1,0 +1,70 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-piano-3e6c62e2",
+	"path": "geelooy/apps/piano",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Web Synthesizer - Ultimate",
+	"entries": [
+		"index.html",
+		"main.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/piano/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-piano-3e6c62e2.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 59,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 60,
+	"symbolSummary": {
+		"files": 57,
+		"classes": 1,
+		"functions": 255,
+		"exports": 126,
+		"samples": [
+			"populateSelects",
+			"fillSelect",
+			"fillWaveSelect",
+			"formatWaveName",
+			"startApp",
+			"bindChromeToggles",
+			"bindRecordingButtons",
+			"bindControlEvents",
+			"bindPresetControls",
+			"bindSynthControls",
+			"refreshActiveSound",
+			"applyEffectModeToElements"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/piano",
+			"file": "geelooy/apps/piano/index.html",
+			"title": "Awtsmoos Web Synthesizer - Ultimate",
+			"scripts": 2,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

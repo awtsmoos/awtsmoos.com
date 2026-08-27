@@ -1,0 +1,64 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos renews mission, agent, action, runtime, and browser-target testimony.
+*/
+.code-tunnel-console__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	margin-top: 14px;
+}
+.code-tunnel-panel {
+	min-height: 160px;
+	padding: 13px;
+	border: 1px solid rgba(151, 190, 216, .15);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, .03);
+}
+.code-tunnel-actions { grid-column: 1 / -1; }
+.code-agent-row,
+.code-mission-row,
+.code-action-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 4px 10px;
+	padding: 9px 0;
+	border-bottom: 1px solid rgba(255, 255, 255, .07);
+}
+.code-agent-row small,
+.code-mission-row small,
+.code-action-row small,
+.code-action-row time,
+.code-tunnel-empty,
+.code-runtime-list dd {
+	color: #94a9ba;
+	font-size: .78rem;
+}
+.code-action-row[data-state="failed"] { color: #ff9a9a; }
+.code-action-row__state {
+	font-size: .68rem;
+	text-transform: uppercase;
+}
+.code-runtime-list {
+	display: grid;
+	grid-template-columns: 130px 1fr;
+	gap: 7px 10px;
+}
+.code-runtime-list dt,
+.code-runtime-list dd { margin: 0; }
+.code-tunnel-error {
+	padding: 9px;
+	border: 1px solid rgba(255, 100, 100, .35);
+	border-radius: 8px;
+	color: #ffb0b0;
+}
+@media (max-width: 680px) {
+	.code-tunnel-console__grid { grid-template-columns: 1fr; }
+	.code-tunnel-actions { grid-column: auto; }
+	.code-tunnel-console__summary {
+		align-items: stretch;
+		flex-direction: column;
+	}
+	.code-runtime-list { grid-template-columns: 1fr; }
+}

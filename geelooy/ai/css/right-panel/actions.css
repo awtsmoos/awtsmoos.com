@@ -1,0 +1,71 @@
+/*B"H
+  Chapter 323: The Buttons Became A Clean Command Shelf.
+
+  The Awtsmoos gives actions a single rhythm: rows, buttons, destructive stop,
+  provider archive controls, and relay/install commands. No button floats over
+  a field; every command remains inside the inspector river.
+*/
+#automation-panel button,
+#automation-panel .provider-import-button{
+  min-height:42px;
+  border:1px solid var(--rp-line);
+  border-radius:14px;
+  background:linear-gradient(135deg,rgba(15,31,52,.96),rgba(7,17,31,.98));
+  color:var(--rp-text);
+  padding:9px 12px;
+  font-weight:900;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  cursor:pointer;
+}
+#automation-panel button:hover,
+#automation-panel .provider-import-button:hover{
+  border-color:var(--rp-line-strong);
+  box-shadow:0 0 20px rgba(45,212,191,.16),inset 0 1px 0 rgba(255,255,255,.08);
+}
+#automation-panel .prompt-action-row,
+#automation-panel .relay-actions,
+#automation-panel .conversation-portal-actions,
+#automation-panel .graph-toolbar,
+#automation-panel .compact-provider-actions,
+#automation-panel .relay-install-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:10px;
+  width:100%;
+  min-width:0;
+}
+#automation-panel .automation-stop-button{
+  width:100%;
+  border-color:rgba(248,113,113,.44);
+  background:linear-gradient(135deg,rgba(185,28,28,.96),rgba(127,29,29,.92));
+  color:white;
+  box-shadow:0 14px 34px rgba(185,28,28,.26),inset 0 1px 0 rgba(255,255,255,.12);
+}
+#automation-panel .provider-chat-row{
+  width:100%;
+  min-width:0;
+  padding:10px;
+  border:1px solid var(--rp-line);
+  border-radius:var(--rp-radius-sm);
+  background:var(--rp-surface);
+  color:var(--rp-text);
+}
+#automation-panel .provider-chat-title,
+#automation-panel .provider-chat-meta{
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+#automation-panel .relay-command,
+#automation-panel .install-command{
+  display:block;
+  width:100%;
+  min-width:0;
+  overflow:auto;
+  border:1px solid rgba(125,211,252,.18);
+  border-radius:14px;
+  background:#020817;
+  color:#dff8ff;
+  padding:10px;
+  font-family:var(--awt-code-font,monospace);
+  white-space:pre-wrap;
+}

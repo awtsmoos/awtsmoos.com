@@ -1,0 +1,41 @@
+/* B"H
+  Chapter 3: The Gate glows while the stream dust settles.
+  The Awtsmoos reveals timing as visible ceremony: waiting, settling, sending,
+  and armed states now have texture, pulse, and readable cockpit gravity.
+*/
+.automation-panel .automation-status {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  letter-spacing: .01em;
+}
+.automation-panel .automation-status::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .26;
+  background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,.24) 45%, transparent 70%);
+  transform: translateX(-120%);
+  animation: automation-status-sheen 4.8s ease-in-out infinite;
+  pointer-events: none;
+}
+.automation-panel .automation-field:has([data-auto="streamSettleMs"]) {
+  padding: 12px;
+  border: 1px solid rgba(167,139,250,.28);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(167,139,250,.18), transparent 38%),
+    linear-gradient(135deg, rgba(15,23,42,.82), rgba(30,41,59,.48));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 18px 42px rgba(15,23,42,.22);
+}
+.automation-panel .automation-field:has([data-auto="streamSettleMs"])::after {
+  content: "Prevents the next prompt from launching until the real stream has cooled.";
+  color: rgba(221,214,254,.78);
+  font-size: .78rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+@keyframes automation-status-sheen {
+  0%, 38% { transform: translateX(-120%); }
+  64%, 100% { transform: translateX(130%); }
+}

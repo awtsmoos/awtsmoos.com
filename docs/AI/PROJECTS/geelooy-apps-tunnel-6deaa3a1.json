@@ -1,0 +1,149 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-tunnel-6deaa3a1",
+	"path": "geelooy/apps/tunnel",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Tunnel Console",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/tunnel/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-tunnel-6deaa3a1.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 1449,
+		"tests": 820,
+		"assets": 0,
+		"generated": 0,
+		"docs": 10,
+		"other": 16
+	},
+	"totalFiles": 2295,
+	"symbolSummary": {
+		"files": 1371,
+		"classes": 33,
+		"functions": 6299,
+		"exports": 4910,
+		"samples": [
+			"buildIdentity",
+			"canonicalString",
+			"sameRequest",
+			"sha256",
+			"sortValue",
+			"required",
+			"clean",
+			"failure",
+			"TERMINAL",
+			"TRANSITIONS",
+			"isTerminal",
+			"transition"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "ayzarim/ssh",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/agent/lib/fakeSsh/wireServer.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/agent/tools/fs/jsWriteVerifier.js"
+		},
+		{
+			"project": "geelooy/shared",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/js/browserPageTunnel.js"
+		},
+		{
+			"project": "scripts",
+			"count": 1,
+			"examples": "geelooy/apps/tunnel/agent/rebuild-manifest.cjs"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 8,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/responseContractIdentity.js; geelooy/api/tunnel/control/routes/osFs/virtualAiAgents.js; geelooy/api/tunnel/install/tools/zipSources.js"
+		},
+		{
+			"project": "geelooy/scripts",
+			"count": 5,
+			"examples": "geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-directory-entry-env.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-helpers.cjs; geelooy/scripts/awtsmoos/MerkavaExecutor/.test-tunnel-simulate-runtime-url-puppeteer.cjs"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 2,
+			"examples": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/actionAliases.js; ayzarim/awtsmoosDynamicServer/zipBundles/sourceResolver.js"
+		}
+	],
+	"externalDependencies": [
+		{
+			"dependency": "yaml",
+			"count": 2,
+			"examples": "geelooy/apps/tunnel/agent/tools/fs/projectValidation.js"
+		}
+	],
+	"publicEntries": [
+		{
+			"url": "/apps/tunnel",
+			"file": "geelooy/apps/tunnel/index.html",
+			"title": "Awtsmoos Tunnel Console",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-all-actions-source-stress",
+			"file": "geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-all-actions-source-stress/index.html",
+			"title": "",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-connected-bulk-runtime-actors",
+			"file": "geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-connected-bulk-runtime-actors/index.html",
+			"title": "",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-connected-files-pagination-stress",
+			"file": "geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-connected-files-pagination-stress/index.html",
+			"title": "",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-connected-pagination",
+			"file": "geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-connected-pagination/index.html",
+			"title": "",
+			"scripts": 1,
+			"styles": 1
+		},
+		{
+			"url": "/apps/tunnel/agent/tools/fs/testing/.tmp-runtime-actions-real",
+			"file": "geelooy/apps/tunnel/agent/tools/fs/testing/.tmp-runtime-actions-real/index.html",
+			"title": "",
+			"scripts": 1,
+			"styles": 0
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,17 @@
+/*B"H
+Chapter 438: Details became readable vessels.
+Code, tables, media, and errors now sit in calm light.
+*/
+.chat-box pre, .chat-box code, .render-message pre, .render-message code { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; }
+.chat-box pre, .render-message pre { overflow: auto; border: 1px solid rgba(124,235,255,.16); background: rgba(1,7,15,.82); color: #e7fbff; border-radius: 18px; padding: 14px; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); }
+.chat-box code, .render-message code { border-radius: 8px; background: rgba(71,232,255,.10); padding: .12em .35em; }
+.chat-box pre code, .render-message pre code { background: transparent; padding: 0; }
+.chat-box a, .render-message a { color: #72ecff; text-decoration-thickness: .09em; text-underline-offset: .18em; }
+.chat-box blockquote, .render-message blockquote { margin: 12px 0; padding: 10px 14px; border-left: 3px solid rgba(101,235,255,.62); background: rgba(101,235,255,.07); border-radius: 12px; }
+.chat-box table, .render-message table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 14px; }
+.chat-box th, .chat-box td, .render-message th, .render-message td { border: 1px solid rgba(124,235,255,.14); padding: 9px 10px; }
+.chat-box th, .render-message th { background: rgba(124,235,255,.10); color: #f5fdff; }
+.chat-box img, .render-message img, .attachment-tray img { max-width: 100%; border-radius: 16px; border: 1px solid rgba(124,235,255,.18); box-shadow: 0 12px 36px rgba(0,0,0,.25); }
+.attachment-chip, .attachment-preview, .image-attachment { border: 1px solid rgba(124,235,255,.16); border-radius: 16px; background: rgba(8,18,34,.76); color: var(--bug-ink); }
+.error, [class*="error"] { --bug-error-border: rgba(255,109,154,.34); }
+.empty-state, .welcome-card, .showcase-card { border-color: rgba(124,235,255,.18) !important; background: linear-gradient(135deg, rgba(9,22,42,.78), rgba(8,13,28,.70)) !important; }

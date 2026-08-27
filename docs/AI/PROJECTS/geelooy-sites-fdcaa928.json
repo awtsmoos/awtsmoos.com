@@ -1,0 +1,87 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-sites-fdcaa928",
+	"path": "geelooy/sites",
+	"type": "project",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/sites",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/sites/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-sites-fdcaa928.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 23,
+		"tests": 11,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 35,
+	"symbolSummary": {
+		"files": 23,
+		"classes": 0,
+		"functions": 90,
+		"exports": 56,
+		"samples": [
+			"buildCustomDomainResponse",
+			"createCustomDomainHttpIngress",
+			"driveContext",
+			"rawRequestPath",
+			"writeGatewayResponse",
+			"customDomainHttpIngress",
+			"closeExternalHost",
+			"badPathResponse",
+			"RESERVED_SEGMENTS",
+			"assertDirectPublicPath",
+			"privatePathError",
+			"assertPublicSegment"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/social",
+			"count": 27,
+			"examples": "geelooy/sites/customDomainGateway.js; geelooy/sites/directSiteReadiness.js; geelooy/sites/directSiteResponse.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 5,
+			"examples": "geelooy/sites/directSiteReadiness.js; geelooy/sites/hostedFolderManifest.js; geelooy/sites/siteFolderPublication.js"
+		},
+		{
+			"project": "ayzarim/awtsmoosDynamicServer",
+			"count": 1,
+			"examples": "geelooy/sites/hostedProjectProxy.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/social",
+			"count": 1,
+			"examples": "geelooy/api/social/helper/drive/siteStatusService.js"
+		},
+		{
+			"project": "geelooy/api/tunnel",
+			"count": 1,
+			"examples": "geelooy/api/tunnel/control/routes/fsVessel/hostedVirtualOs/sitePublicationDispatcher.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,55 @@
+<!--!B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pro Audio Editor</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Material Icons for UI -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body> 
+    <div class="app-container">
+        <header>
+            <h1>B"H Pro Audio Editor</h1>
+            <div class="header-controls">
+                <button id="add-track-btn" class="btn primary"><span class="material-icons">add</span> Add Audio</button>
+                <input type="file" id="file-input" accept="audio/*" multiple hidden>
+                <button id="export-btn" class="btn success" disabled><span class="material-icons">save_alt</span> Export</button>
+            </div>
+        </header>
+
+        <div class="editor-workspace">
+            <div id="timeline-container">
+                <canvas id="timeline-canvas" touch-action="none"></canvas>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="transport-controls">
+                <button id="to-start-btn" class="icon-btn"><span class="material-icons">skip_previous</span></button>
+                <button id="play-pause-btn" class="icon-btn large"><span class="material-icons" id="play-icon">play_arrow</span></button>
+                <button id="stop-btn" class="icon-btn"><span class="material-icons">stop</span></button>
+            </div>
+            
+            <div class="tool-controls">
+                <button id="split-btn" class="icon-btn" title="Split Clip (Razor)"><span class="material-icons">content_cut</span></button>
+                <button id="delete-btn" class="icon-btn" title="Delete Selected"><span class="material-icons">delete</span></button>
+            </div>
+
+            <div class="zoom-controls">
+                <span class="material-icons small">zoom_out</span>
+                <input type="range" id="zoom-slider" min="10" max="1000" value="100">
+                <span class="material-icons small">zoom_in</span>
+            </div>
+        </div>
+        
+        <div id="status-bar">Ready</div>
+        <div id="loading-overlay" class="hidden"><div class="spinner"></div><span>Processing...</span></div>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="/register.js"></script>
+</body>
+</html>

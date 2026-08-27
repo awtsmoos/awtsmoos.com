@@ -1,0 +1,78 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos creates device, canvas, header, and luminous boundary anew.
+Awtsmoos.com gives Android execution a focused shell around its content.
+*/
+
+.code-android-emulator {
+	position: fixed;
+	inset: clamp(0.75rem, 3vw, 2rem);
+	z-index: 100000;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr);
+	min-width: 0;
+	min-height: 0;
+	color: var(--text-primary, #f5f7ff);
+	background:
+		radial-gradient(circle at 20% 0%, rgb(79 126 255 / 16%), transparent 38%),
+		linear-gradient(145deg, rgb(12 16 27 / 98%), rgb(7 10 18 / 98%));
+	border: 1px solid rgb(143 167 255 / 24%);
+	border-radius: clamp(1rem, 2vw, 1.5rem);
+	box-shadow: 0 2rem 6rem rgb(0 0 0 / 58%);
+	backdrop-filter: blur(24px) saturate(130%);
+	overflow: hidden;
+}
+
+.code-android-emulator__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.9rem 1rem;
+	border-bottom: 1px solid rgb(255 255 255 / 10%);
+	background: rgb(255 255 255 / 4%);
+}
+
+.code-android-emulator__title {
+	margin: 0;
+	font-size: 0.95rem;
+	letter-spacing: 0.04em;
+}
+
+.code-android-emulator__close {
+	min-height: 2.5rem;
+	padding-inline: 1rem;
+	border: 1px solid rgb(255 255 255 / 16%);
+	border-radius: 0.75rem;
+	color: inherit;
+	background: rgb(255 255 255 / 7%);
+	cursor: pointer;
+}
+
+.code-android-emulator__body {
+	display: grid;
+	grid-template-columns: minmax(18rem, 0.8fr) minmax(20rem, 1.2fr);
+	gap: clamp(1rem, 2vw, 1.5rem);
+	min-height: 0;
+	padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.code-android-emulator__device {
+	display: grid;
+	grid-template-rows: minmax(16rem, 1fr) auto;
+	min-height: 0;
+	padding: 0.65rem;
+	border: 1px solid rgb(255 255 255 / 12%);
+	border-radius: 1.25rem;
+	background: #03050a;
+	box-shadow: inset 0 0 0 0.35rem #111722;
+}
+
+.code-android-emulator__canvas {
+	width: 100%;
+	height: 100%;
+	min-height: 16rem;
+	border-radius: 0.8rem;
+	background: #080d17;
+}

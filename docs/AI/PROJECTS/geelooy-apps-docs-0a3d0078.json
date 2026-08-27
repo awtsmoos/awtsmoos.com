@@ -1,0 +1,57 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-docs-0a3d0078",
+	"path": "geelooy/apps/docs",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Awtsmoos Docs",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/docs/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-docs-0a3d0078.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 0,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 194,
+		"other": 0
+	},
+	"totalFiles": 194,
+	"symbolSummary": null,
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/docs",
+			"file": "geelooy/apps/docs/index.html",
+			"title": "Awtsmoos Docs",
+			"scripts": 1,
+			"styles": 12
+		},
+		{
+			"url": "/apps/docs/view",
+			"file": "geelooy/apps/docs/view/index.html",
+			"title": "Published Awtsmoos Docs",
+			"scripts": 1,
+			"styles": 4
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,82 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-rebbe-d2246f9f",
+	"path": "geelooy/apps/rebbe",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "AWTSMOOS ARCHIVE // OMEGA",
+	"entries": [
+		"index.html",
+		"main.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/rebbe/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-rebbe-d2246f9f.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 125,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 126,
+	"symbolSummary": {
+		"files": 117,
+		"classes": 8,
+		"functions": 588,
+		"exports": 261,
+		"samples": [
+			"async",
+			"collectRebbeAssets",
+			"collectDirectory",
+			"boundedNumber",
+			"assetError",
+			"buildRebbeResponsaApk",
+			"generateRebbeResponsaApk",
+			"REBBE_ANDROID_SOURCE",
+			"MainActivity",
+			"handleBack",
+			"handleNext",
+			"handlePrev"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/apps/rebbe/android/build.js"
+		}
+	],
+	"incomingDependencies": [
+		{
+			"project": "geelooy/api/compiler",
+			"count": 1,
+			"examples": "geelooy/api/compiler/core/rebbeApkHandler.js"
+		}
+	],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/rebbe",
+			"file": "geelooy/apps/rebbe/index.html",
+			"title": "AWTSMOOS ARCHIVE // OMEGA",
+			"scripts": 1,
+			"styles": 4
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

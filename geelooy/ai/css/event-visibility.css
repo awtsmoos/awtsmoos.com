@@ -1,0 +1,34 @@
+/* B"H */
+/*
+  Chapter 12: The Noise Bowed Back into Silence.
+  These rules are the second gate: even if an old rendered card remains in the
+  DOM, hidden system/tool/status kinds disappear until the sidebar summons them.
+*/
+html[data-hide-status] .event-kind-status,
+html[data-hide-status] .message-shell.event-only.kind-status,
+html[data-hide-hidden] .event-kind-hidden,
+html[data-hide-hidden] .message-shell.event-only.kind-hidden,
+html[data-hide-raw] .event-kind-raw,
+html[data-hide-raw] .message-shell.event-only.kind-raw,
+html[data-hide-code] .event-kind-code,
+html[data-hide-code] .message-shell.event-only.kind-code,
+html[data-hide-awtsmoos_tool] .event-kind-awtsmoos_tool,
+html[data-hide-awtsmoos_tool] .message-shell.event-only.kind-awtsmoos_tool,
+html[data-hide-agent_tool] .event-kind-agent_tool,
+html[data-hide-agent_tool] .message-shell.event-only.kind-agent_tool,
+html[data-hide-tool_call] .event-kind-tool_call,
+html[data-hide-tool_call] .message-shell.event-only.kind-tool_call,
+html[data-hide-tool_result] .event-kind-tool_result,
+html[data-hide-tool_result] .message-shell.event-only.kind-tool_result {
+  display: none !important;
+}
+.message-shell.event-only:empty {
+  display: none !important;
+}
+.event-record-badge {
+  margin: 4px 0 2px;
+  color: rgba(221,244,255,.78);
+  font-weight: 800;
+  letter-spacing: .01em;
+}
+.event-record-badge:empty { display: none; }

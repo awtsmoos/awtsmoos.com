@@ -1,0 +1,76 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-universal-chat-bcdbfa41",
+	"path": "geelooy/apps/universal-chat",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Messages & Torah Chat | Awtsmoos.com",
+	"entries": [
+		"index.html",
+		"app.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/universal-chat/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-universal-chat-bcdbfa41.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 150,
+		"tests": 22,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 173,
+	"symbolSummary": {
+		"files": 85,
+		"classes": 47,
+		"functions": 141,
+		"exports": 120,
+		"samples": [
+			"createActivityCard",
+			"chip",
+			"humanAction",
+			"safeClass",
+			"eventDate",
+			"MessagingActivityClient",
+			"groupActivityByDay",
+			"safeActivityHref",
+			"activityDuration",
+			"activityPreferenceLabels",
+			"activityDate",
+			"activityDayLabel"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/scripts",
+			"count": 1,
+			"examples": "geelooy/apps/universal-chat/MessagingConversationActions.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/universal-chat",
+			"file": "geelooy/apps/universal-chat/index.html",
+			"title": "Messages & Torah Chat | Awtsmoos.com",
+			"scripts": 2,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

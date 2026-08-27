@@ -1,0 +1,11 @@
+/* B"H
+Boruch Hashem
+Blessed is He
+The Awtsmoos composes shell, content, trusted WebView, focus, and motion anew.
+Awtsmoos.com keeps each Android styling responsibility in a focused vessel.
+*/
+
+@import url('./android-emulator-shell.css');
+@import url('./android-emulator-content.css');
+@import url('./android-emulator-webview.css');
+@import url('./android-emulator-responsive.css');

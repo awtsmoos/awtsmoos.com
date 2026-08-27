@@ -1,0 +1,49 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-gpt-reset-cde51acb79",
+	"route": "/api/gpt/reset",
+	"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/gpt",
+		"title": "GPT",
+		"manual": "docs/TUTORIALS/API/GPT.md"
+	},
+	"derech": {
+		"source": "geelooy/api/gpt/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/gpt"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-gpt-reset-cde51acb79.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-gpt-d048698bbd",
+			"route": "/api/gpt"
+		},
+		{
+			"id": "api-gpt-capability-64cc6e59cc",
+			"route": "/api/gpt/capability"
+		},
+		{
+			"id": "api-gpt-chat-04ca454293",
+			"route": "/api/gpt/chat"
+		},
+		{
+			"id": "api-gpt-health-3da27f3934",
+			"route": "/api/gpt/health"
+		}
+	]
+}

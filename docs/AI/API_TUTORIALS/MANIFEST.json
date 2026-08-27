@@ -1,0 +1,26 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-api-tutorial-discovery-v1",
+	"routeCount": 634,
+	"familyCount": 21,
+	"dynamicRouteCount": 358,
+	"unknownMethodCount": 410,
+	"routeIndexChunks": [
+		"routes-001.json",
+		"routes-002.json",
+		"routes-003.json",
+		"routes-004.json",
+		"routes-005.json",
+		"routes-006.json",
+		"routes-007.json",
+		"routes-008.json",
+		"routes-009.json",
+		"routes-010.json",
+		"routes-011.json",
+		"routes-012.json"
+	],
+	"routeRecordsRoot": "ROUTES/",
+	"manualCurriculumRoot": "docs/LEARN",
+	"generatedTutorialIndex": "docs/GENERATED/API_TUTORIAL_INDEX.md",
+	"navigationRule": "Begin with a human tutorial, use generated route evidence, then inspect current source/callers/tests before asserting behavior."
+}

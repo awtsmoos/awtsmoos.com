@@ -1,0 +1,55 @@
+B"H
+Boruch Hashem
+Blessed is He
+
+# API Tutorial Routes 226–270
+
+Each row links one discovered API route to generated teaching. Method/contract fields remain evidence, not invented schemas.
+
+| Route | Family | Method evidence | Health | Tutorial | Source |
+| --- | --- | --- | --- | --- | --- |
+| `/api/social/heichelos/:heichel/invites` | Social | GET, POST, PUT | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-invites-d482a31a45.md) | `geelooy/api/social/_awtsmoos.governance.js` |
+| `/api/social/heichelos/:heichel/invites/:invite/accept` | Social | GET, POST, PUT | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-invites-invite-accept-87d6d419a1.md) | `geelooy/api/social/_awtsmoos.governance.js` |
+| `/api/social/heichelos/:heichel/members` | Social | GET, POST, PUT | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-members-e86558d608.md) | `geelooy/api/social/_awtsmoos.governance.js` |
+| `/api/social/heichelos/:heichel/moderation` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-moderation-144c9c9bf3.md) | `geelooy/api/social/_awtsmoos.community.js` |
+| `/api/social/heichelos/:heichel/post/:post` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-post-post-23c2579b3b.md) | `geelooy/api/social/old/_awtsmoos.posts.js` |
+| `/api/social/heichelos/:heichel/post/:post/comments` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-post-post-comments-64ab00cd92.md) | `geelooy/api/social/old/_awtsmoos.comments-old.js` |
+| `/api/social/heichelos/:heichel/post/:post/comments/aliases` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-post-post-comments-aliases-3fdd7794b8.md) | `geelooy/api/social/old/_awtsmoos.comments-old.js` |
+| `/api/social/heichelos/:heichel/post/:post/comments/aliases/:alias` | Social | GET, POST, PUT, DELETE | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-post-post-comments-aliases-alias-b63f439095.md) | `geelooy/api/social/old/_awtsmoos.comments-old.js` |
+| `/api/social/heichelos/:heichel/post/:post/delete` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-post-post-delete-a82a92217c.md) | `geelooy/api/social/old/_awtsmoos.posts.js` |
+| `/api/social/heichelos/:heichel/posts` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-6e1a579204.md) | `geelooy/api/social/_awtsmoos.posts.js` |
+| `/api/social/heichelos/:heichel/posts` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-174b2ef709.md) | `geelooy/api/social/old/_awtsmoos.posts.js` |
+| `/api/social/heichelos/:heichel/posts/:post/comment-tree` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comment-tree-457e93390f.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/heichelos/:heichel/posts/:post/comments/:comment` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-2e695d3789.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/heichelos/:heichel/posts/:post/comments/:comment/reactions` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-reactio-f73743c7a2.md) | `geelooy/api/social/helper/comments/routes/reactions.js` |
+| `/api/social/heichelos/:heichel/posts/:post/comments/:comment/replies` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-replies-dfd07015ad.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/heichelos/:heichel/posts/:post/comments/:comment/sections/:section/replies` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-section-3a442c78d1.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/heichelos/:heichel/posts/:post/imported-comment-tree` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-imported-comment-tree-bae6abcb59.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/heichelos/:heichel/posts/:post/subsections/:subsection/comments` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-subsections-subsection-c-a9fffb7d14.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/heichelos/:heichel/posts/:post/verses/:verse/comments` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-verses-verse-comments-a3d19f4929.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/heichelos/:heichel/posts/details` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-details-95617aca89.md) | `geelooy/api/social/_awtsmoos.posts.js` |
+| `/api/social/heichelos/:heichel/posts/details` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-details-ef0576ec4a.md) | `geelooy/api/social/old/_awtsmoos.posts.js` |
+| `/api/social/heichelos/:heichel/questions/:question/comment-tree` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-questions-question-comment-tree-1cbaa90d84.md) | `geelooy/api/social/helper/comments/routes/rich.js` |
+| `/api/social/heichelos/:heichel/questions/:question/rich-answers` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-questions-question-rich-answers-3a7b849db1.md) | `geelooy/api/social/_awtsmoos.richSocial.js` |
+| `/api/social/heichelos/:heichel/review` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-review-12ae90bc11.md) | `geelooy/api/social/_awtsmoos.community.js` |
+| `/api/social/heichelos/:heichel/review/:review/approve` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-review-review-approve-70e81028e9.md) | `geelooy/api/social/_awtsmoos.community.js` |
+| `/api/social/heichelos/:heichel/review/:review/reject` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-review-review-reject-71afe598be.md) | `geelooy/api/social/_awtsmoos.community.js` |
+| `/api/social/heichelos/:heichel/roles/:role` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-roles-role-1bc2eb257e.md) | `geelooy/api/social/_awtsmoos.heichel.js` |
+| `/api/social/heichelos/:heichel/series` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-fcb7609068.md) | `geelooy/api/social/_awtsmoos.series.base.js` |
+| `/api/social/heichelos/:heichel/series` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-7e626a4e57.md) | `geelooy/api/social/old/_awtsmoos.series.js` |
+| `/api/social/heichelos/:heichel/series/:parentSeriesId/clearSubSeries/:seriesId` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-parentseriesid-clearsubserie-2aa347a65f.md) | `geelooy/api/social/_awtsmoos.series.base.js` |
+| `/api/social/heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-parentseriesid-deletesubseri-a51a4f3bb4.md) | `geelooy/api/social/_awtsmoos.series.base.js` |
+| `/api/social/heichelos/:heichel/series/:series` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-841f5b4ecd.md) | `geelooy/api/social/_awtsmoos.series.base.js` |
+| `/api/social/heichelos/:heichel/series/:series` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-dc0b04b13e.md) | `geelooy/api/social/_awtsmoos.series.js` |
+| `/api/social/heichelos/:heichel/series/:series` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-5f0c455b9f.md) | `geelooy/api/social/old/_awtsmoos.series.js` |
+| `/api/social/heichelos/:heichel/series/:series/alternateGroups` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-alternategroups-0c55c0d0ee.md) | `geelooy/api/social/_awtsmoos.series.js` |
+| `/api/social/heichelos/:heichel/series/:series/alternateGroups/details` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-alternategroups-detai-4e8c10bd30.md) | `geelooy/api/social/_awtsmoos.series.js` |
+| `/api/social/heichelos/:heichel/series/:series/books/html` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-books-html-0bbb787c87.md) | `geelooy/api/social/_awtsmoos.books.js` |
+| `/api/social/heichelos/:heichel/series/:series/books/jobs` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-books-jobs-5c9e6cc80c.md) | `geelooy/api/social/_awtsmoos.books.js` |
+| `/api/social/heichelos/:heichel/series/:series/books/jobs/:job` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-books-jobs-job-2cab491b01.md) | `geelooy/api/social/_awtsmoos.books.js` |
+| `/api/social/heichelos/:heichel/series/:series/books/jobs/:job/archive.zip` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-books-jobs-job-archiv-6958df4451.md) | `geelooy/api/social/_awtsmoos.books.js` |
+| `/api/social/heichelos/:heichel/series/:series/books/jobs/:job/files/:file` | Social | unknown | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-books-jobs-job-files--798626c0dc.md) | `geelooy/api/social/_awtsmoos.books.js` |
+| `/api/social/heichelos/:heichel/series/:series/breadcrumb` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-breadcrumb-bc2e086f96.md) | `geelooy/api/social/_awtsmoos.series.base.js` |
+| `/api/social/heichelos/:heichel/series/:series/breadcrumb` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-breadcrumb-4b3ef08f86.md) | `geelooy/api/social/old/_awtsmoos.series.js` |
+| `/api/social/heichelos/:heichel/series/:series/changePostsInSeries` | Social | GET | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-changepostsinseries-a5542b012c.md) | `geelooy/api/social/_awtsmoos.series.js` |
+| `/api/social/heichelos/:heichel/series/:series/changePostsInSeries` | Social | GET, POST | OK | [tutorial](../API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-changepostsinseries-51fdec3e66.md) | `geelooy/api/social/old/_awtsmoos.series.js` |

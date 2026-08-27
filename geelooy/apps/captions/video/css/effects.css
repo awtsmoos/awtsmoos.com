@@ -1,0 +1,95 @@
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos reveals progress without blur, glow loops, or ornamental delay.
+ */
+
+#status {
+	min-block-size: 1.35rem;
+	margin: 0;
+	color: var(--studio-muted);
+	font-size: .82rem;
+	font-weight: 760;
+	line-height: 1.4;
+}
+
+#status.success {
+	color: var(--studio-success);
+}
+
+#status.warning {
+	color: var(--studio-warning);
+}
+
+#status.error {
+	color: #ffc2cf;
+}
+
+#progressContainer {
+	inline-size: 100%;
+	block-size: .45rem;
+	overflow: hidden;
+	border: 1px solid var(--studio-line);
+	border-radius: 999px;
+	background: #1a2635;
+}
+
+#progressContainer[hidden] {
+	display: none;
+}
+
+#progressBar {
+	inline-size: 0;
+	block-size: 100%;
+	background: linear-gradient(90deg, var(--studio-cyan), var(--studio-magenta));
+	transition: width 180ms linear;
+}
+
+#render-overlay {
+	position: absolute;
+	inset: 0;
+	display: none;
+	place-content: center;
+	place-items: center;
+	gap: .8rem;
+	padding: 1rem;
+	background: rgba(2, 5, 10, .9);
+	color: var(--studio-text);
+	text-align: center;
+	z-index: 10;
+}
+
+#controls-wrapper.rendering + #preview-wrapper #render-overlay,
+.app-container.rendering #render-overlay,
+#controls-wrapper.rendering #render-overlay {
+	display: grid;
+}
+
+#controls-wrapper.rendering #controls {
+	pointer-events: none;
+	opacity: .55;
+}
+
+.render-mark {
+	display: grid;
+	inline-size: 4rem;
+	block-size: 4rem;
+	place-items: center;
+	border: 1px solid rgba(97, 203, 217, .42);
+	border-radius: 1rem;
+	background: var(--studio-cyan-soft);
+	color: #a7edf4;
+	font-weight: 900;
+}
+
+#render-overlay p {
+	margin: 0;
+	color: var(--studio-muted);
+	font-weight: 780;
+}
+
+#previewCanvas.hidden,
+#outputVideo.hidden {
+	display: none !important;
+}
