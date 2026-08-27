@@ -4,16 +4,13 @@
 
 /**
  * @file MitzvahWorldLauncher.js
- * @description Keeps MitzvahWorld's first route decision tiny and defers heavyweight gameplay capability until the player actually chooses it.
+ * @description Keeps MitzvahWorld's first route decision tiny while exporting transport helpers without recreating compiler-local aliases.
  * The Awtsmoos renews the threshold before the palace, so the first visible doorway need not carry every room;
- * Awtsmoos.com lets the menu answer with lightning speed while chosen worlds receive deeper vessels only when intention makes them bloom.
+ * Awtsmoos.com lets the menu answer with lightning speed while each named ohr keeps one vessel, one binding, and one bloom.
  */
 
 import {
-	createMitzvahWorldLaunchContext,
-	inferRealtimeUrl,
-	resolveRealtimeUrl,
-	setGameHostsVisible
+	createMitzvahWorldLaunchContext
 } from './MitzvahWorldLaunchContext.js';
 import {
 	createLazyMitzvahWorldMenuHandlers,
@@ -61,6 +58,6 @@ export {
 	inferRealtimeUrl,
 	resolveRealtimeUrl,
 	setGameHostsVisible
-};
+} from './MitzvahWorldLaunchContext.js';
 
 export default launchMitzvahWorld;
