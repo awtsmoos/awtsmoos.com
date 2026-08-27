@@ -3,7 +3,7 @@
 # Boruch Hashem
 # Blessed is He
 # The Awtsmoos reveals one canonical server beneath changing process garments;
-# Awtsmoos.com proves source, runtime, and the guarded virtual-SSH doorway before release light is committed in rhyme.
+# Awtsmoos.com proves source, process health, and the speaking SSH doorway before release light may rhyme.
 set -Eeuo pipefail
 
 expected="${1:-}"
@@ -14,6 +14,7 @@ source_override="$repo/ops/systemd/awtsmoos-immutable.conf"
 health_url="${AWTSMOOS_PRODUCTION_HEALTH_URL:-http://127.0.0.1:8080/}"
 extension_builder="$repo/geelooy/ai/scripts/buildServerExtensionZip.cjs"
 extension_artifact="$repo/geelooy/ai/relay/install/awtsmoos-server-extension.zip"
+ssh_verifier="$repo/scripts/production/verifyVirtualSshListener.cjs"
 backup="${TMPDIR:-/tmp}/awtsmoos-service-override.$$.bak"
 armed=0
 committed=0
@@ -45,7 +46,6 @@ require_environment() {
 }
 
 trap rollback EXIT
-
 [[ "$expected" =~ ^[0-9a-f]{40}$ ]] || fail invalid_expected_sha
 [ -d "$repo/.git" ] || fail canonical_repo_missing
 [ "$(git -C "$repo" branch --show-current)" = "main" ] || fail canonical_repo_not_main
@@ -57,7 +57,7 @@ trap rollback EXIT
 [ -d "$repo/users" ] || fail canonical_users_missing
 [ -d "$repo/geelooy/.data" ] || fail canonical_data_missing
 [ -f "$extension_builder" ] || fail extension_builder_missing
-
+[ -f "$ssh_verifier" ] || fail virtual_ssh_verifier_missing
 node "$extension_builder"
 [ -s "$extension_artifact" ] || fail extension_artifact_missing
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail extension_build_dirtied_repo
@@ -96,6 +96,7 @@ require_environment "VIRTUAL_SSH_MAX_CONNECTIONS=64"
 require_environment "VIRTUAL_SSH_CONNECTIONS_PER_MINUTE=60"
 require_environment "VIRTUAL_SSH_IDLE_MS=1800000"
 require_environment "VIRTUAL_SSH_TOKEN_TTL_MS=900000"
+node "$ssh_verifier" 127.0.0.1 2223 5000 || fail virtual_ssh_listener_not_ready
 [ "$(git -C "$repo" rev-parse HEAD)" = "$expected" ] || fail post_restart_head_mismatch
 [ -z "$(git -C "$repo" status --porcelain)" ] || fail post_restart_repo_dirty
 
