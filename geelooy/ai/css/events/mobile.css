@@ -1,0 +1,84 @@
+/*B"H
+  Chapter 365: Event Mobile Took A Contextual Name.
+
+  On mobile the Awtsmoos narrows the palace without crushing it. These rules are
+  body-scoped so desktop event ownership remains exact and mobile polish becomes
+  an explicit contextual refinement, not a duplicate selector claim.
+*/
+@media(max-width:760px){
+  body .event-region,
+  body .transport-details,
+  body .thought-envelope-card,
+  body .thought-run-card{
+    width:100%;
+    max-width:100%;
+  }
+  body .transport-details>summary,
+  body .thought-envelope-card>summary,
+  body .thought-run-card>summary{
+    align-items:flex-start;
+    flex-wrap:wrap;
+    padding:12px;
+  }
+  body .event-panel-actions{
+    margin-left:0;
+    padding-top:2px;
+  }
+  body .thought-run-orb{
+    width:30px;
+    height:30px;
+    flex-basis:30px;
+  }
+  body .thought-run-title-wrap{
+    padding-right:0;
+  }
+  body .thought-run-meta{
+    width:100%;
+    margin-left:42px;
+    padding-right:0;
+  }
+  body .thought-envelope-events,
+  body .thought-stepper-shell{
+    margin:10px 10px 12px 42px;
+    border-radius:18px;
+  }
+  body .event-chip-row,
+  body .file-change-row{
+    grid-template-columns:1fr;
+  }
+  body .event-tool-target,
+  body .event-talked-to,
+  body .event-brief{
+    font-size:.78rem;
+  }
+  body .thought-inner-window{
+    max-height:min(52vh,520px);
+    padding:10px;
+  }
+  body .thought-step{
+    grid-template-columns:30px minmax(0,1fr);
+    padding:10px;
+  }
+  body .thought-step-dot,
+  body .thought-step-index{
+    width:26px;
+    height:26px;
+  }
+  body .thought-step-kicker{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  body .tool-call-group-body,
+  body .tool-terminal-output{
+    padding:10px;
+  }
+  body .tool-terminal-command{
+    width:100%;
+  }
+  body .transport-details.is-fullscreen,
+  body .thought-envelope-card.is-fullscreen,
+  body .thought-run-card.is-fullscreen{
+    inset:8px;
+    border-radius:18px;
+  }
+}

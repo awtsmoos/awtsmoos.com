@@ -1,0 +1,61 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "websocket-upgrade-session",
+	"district": "realtime",
+	"title": "WebSocket Upgrade and Session",
+	"summary": "Upgrade-time identity/admission, handshake, client-session attachment, and connection activity.",
+	"manuals": [
+		"docs/WEBSOCKETS/README.md",
+		"docs/SECURITY/REALTIME_SECURITY.md"
+	],
+	"projects": [
+		{
+			"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+			"path": "ayzarim/awtsmoosDynamicServer",
+			"type": "runtime",
+			"title": "ayzarim/awtsmoosDynamicServer",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+		}
+	],
+	"sources": [
+		"ayzarim/awtsmoosDynamicServer/websocket/core/socketUpgrade.js"
+	],
+	"generatedEvidence": [
+		"docs/GENERATED/WEBSOCKET_APPLICATIONS.md"
+	],
+	"tags": [
+		"websocket",
+		"upgrade",
+		"identity",
+		"protocol"
+	],
+	"claimsBoundary": "Upgrade source establishes the handshake/session boundary; deployment reachability is not inferred.",
+	"changeRisk": "Handshake, identity, cookie, and admission changes can alter every realtime application.",
+	"environmentEvidence": [
+		{
+			"name": "AWTSMOOS_WS_MAX_MISSED_HEARTBEATS",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+		},
+		{
+			"name": "AWTSMOOS_WS_PROBE_GRACE_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+		},
+		{
+			"name": "AWTSMOOS_WS_STALE_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/core/clientLiveness.js"
+		}
+	],
+	"realtimeApplications": [],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/websocket-upgrade-session.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/websocket-upgrade-session.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

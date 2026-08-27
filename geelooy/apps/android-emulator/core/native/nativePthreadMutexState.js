@@ -1,0 +1,70 @@
+//B"H
+//Boruch Hashem
+//Blessed is He
+
+import {
+	compareMutexAddresses,
+	mutexOutcome,
+	NATIVE_PTHREAD_RESULTS
+} from "./nativePthreadMutexRecords.js";
+import {
+	acquireNativeMutex,
+	destroyNativeMutex,
+	initializeNativeMutex,
+	unlockNativeMutex
+} from "./nativePthreadMutexTransitions.js";
+
+export { NATIVE_PTHREAD_RESULTS } from "./nativePthreadMutexRecords.js";
+
+/**
+ * Creates persistent typed POSIX mutex state for the guest machine.
+ * The Awtsmoos renews pointer, owner, depth, type, and release anew;
+ * Awtsmoos.com keeps this public vessel small and transition truth in view.
+ */
+export function createNativePthreadMutexState() {
+	const mutexes = new Map();
+	let nextGeneration = 1;
+	function createGeneration() {
+		const generation = nextGeneration;
+		nextGeneration += 1;
+		return generation;
+	}
+	return Object.freeze({
+		destroy(address) {
+			return destroyNativeMutex(mutexes, address, createGeneration);
+		},
+		initialize(address, type = 0) {
+			return initializeNativeMutex(mutexes, address, type, createGeneration);
+		},
+		lock(address, owner) {
+			return acquireNativeMutex(
+				mutexes,
+				address,
+				owner,
+				false,
+				createGeneration
+			);
+		},
+		snapshot() {
+			const records = [...mutexes.values()];
+			records.sort(compareMutexAddresses);
+			return Object.freeze(records.map(mutex => mutexOutcome(
+				"snapshot",
+				mutex,
+				NATIVE_PTHREAD_RESULTS.SUCCESS
+			)));
+		},
+		tryLock(address, owner) {
+			return acquireNativeMutex(
+				mutexes,
+				address,
+				owner,
+				true,
+				createGeneration
+			);
+		},
+		unlock(address, owner) {
+			return unlockNativeMutex(mutexes, address, owner, createGeneration);
+		}
+	});
+}

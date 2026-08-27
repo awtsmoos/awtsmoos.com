@@ -1,0 +1,70 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-brick-blast-e1d8b393",
+	"path": "geelooy/games/brick-blast",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Brick Blast",
+	"entries": [
+		"index.html",
+		"index.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/brick-blast/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-brick-blast-e1d8b393.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 79,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 80,
+	"symbolSummary": {
+		"files": 75,
+		"classes": 17,
+		"functions": 93,
+		"exports": 86,
+		"samples": [
+			"PROVIDERS",
+			"async",
+			"fetchModels",
+			"generateLevel",
+			"handleFetchError",
+			"initAudio",
+			"playNote",
+			"playNextNote",
+			"playVictoryFanfare",
+			"playStarPing",
+			"getFrequency",
+			"playFrequency"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/brick-blast",
+			"file": "geelooy/games/brick-blast/index.html",
+			"title": "Brick Blast",
+			"scripts": 1,
+			"styles": 4
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

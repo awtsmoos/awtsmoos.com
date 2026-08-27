@@ -1,0 +1,72 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "dosdb-filesystem",
+	"district": "data",
+	"title": "DosDB Filesystem Storage",
+	"summary": "The legacy filesystem-oriented database layer and its compatibility surface.",
+	"manuals": [
+		"docs/DATA/DOSDB.md",
+		"docs/DATA/README.md"
+	],
+	"projects": [
+		{
+			"projectId": "ayzarim-dosdb-eaaa802e",
+			"path": "ayzarim/DosDB",
+			"type": "data",
+			"title": "ayzarim/DosDB",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md"
+		}
+	],
+	"sources": [
+		"ayzarim/DosDB/index.js"
+	],
+	"generatedEvidence": [
+		"docs/GENERATED/PROJECT_TUTORIAL_INDEX.md"
+	],
+	"tags": [
+		"persistence",
+		"filesystem",
+		"compatibility"
+	],
+	"claimsBoundary": "Project and source presence establish implementation location, not the complete physical format of every persisted record.",
+	"changeRisk": "Filesystem layout and compatibility behavior can be migration-sensitive.",
+	"environmentEvidence": [
+		{
+			"name": "AWTSMOOS_EMBED_MODE",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "ayzarim/DosDB/aiSearch/textEmbedRunner.js"
+		},
+		{
+			"name": "AWTSMOOS_EMBED_MODEL_ROOT",
+			"classification": "test/tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/ai_search_model_root_precedence_test.js"
+		},
+		{
+			"name": "AWTSMOOSDB_FAST_TEST",
+			"classification": "test/tuning",
+			"sources": 3,
+			"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/idle/fastGate.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/semantic_ai_dosdb_test.js"
+		},
+		{
+			"name": "AWTSMOOSDB_TEST_SCALE",
+			"classification": "test/tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js"
+		},
+		{
+			"name": "NODE_ENV",
+			"classification": "runtime-config",
+			"sources": 3,
+			"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/wallet/core/paypalEnvironment.js; geelooy/api/wallet/tests/paypalEnvironment.test.js"
+		}
+	],
+	"realtimeApplications": [],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/dosdb-filesystem.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/dosdb-filesystem.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

@@ -1,0 +1,89 @@
+
+// B"H
+/**
+ * @file lifecycle.js
+ * @description 
+ *  =============================================================================
+ *  THE OPENING AND CLOSING OF THE GATES
+ *  =============================================================================
+ *  This is where the DB wakes up. It reads the 64-byte Superblock, finds the 
+ *  Root Dictionary's VarInt coordinates, and breathes life into the LiveHandle.
+ *  
+ *  THE TIKKUN OF THE SUPERBLOCK:
+ *  In the dark era, saving the Genesis Root Pointer involved copying the *old* 
+ *  Superblock buffer, which accidentally wiped out the Allocator's newly advanced 
+ *  cursor. This caused the next creation to overwrite the Root Node itself, 
+ *  shattering the reality of the cache. 
+ *  We now ALWAYS read the fresh Superblock before sealing the coordinates.
+ */
+
+const constants = require('../../constants.js');
+const Dictionary = require('../../structure/dictionary/index.js');
+const HandleRegistry = require('../registry/handle.js');
+const SmartPointer = require('../../utils/smartPointer.js');
+const fs = require('fs');
+
+module.exports = {
+    /**
+     * @method open
+     * @description Awakens the Database from the disk.
+     */
+    open(db) {
+        db.pager.init(); 
+        db.allocator.init(); // Reads EOF cursor into the Allocator
+        
+        // Read the exact 64-byte Superblock from the very beginning of reality
+        let sb = db.pager.readExact(0, 64);
+        
+        // Bytes 8-15: Root Offset. Bytes 16-23: Root Length.
+        let rootOffset = sb.readBigUInt64BE(8);
+        let rootLength = sb.readBigUInt64BE(16);
+        let ptr = null;
+        
+        if (rootOffset === 0n) {
+            // Genesis. Create the root dictionary from nothingness.
+            ptr = (new Dictionary(db.allocator)).create(); 
+            
+            // The ptr returned is a microscopic VarInt Buffer. 
+            const dec = SmartPointer.decode(ptr);
+            
+            // B"H: THE TIKKUN. Read the FRESH Superblock so we do not crush the Allocator's cursor!
+            const freshSb = db.pager.readExact(0, 64);
+            const updateSb = Buffer.allocUnsafe(64);
+            freshSb.copy(updateSb);
+            
+            // Save the Root's coordinates into the Superblock for eternity
+            updateSb.writeBigUInt64BE(BigInt(dec.offset), 8);
+            updateSb.writeBigUInt64BE(BigInt(dec.length), 16);
+            db.pager.writeExact(0, updateSb);
+            
+            db.rootPtrRaw = ptr; 
+            db.pager.fsync(); 
+        } else {
+            // Resurrection. Restore the VarInt pointer from the Superblock coordinates.
+            ptr = SmartPointer.encode(constants.VAL_TYPE.DICTIONARY, Number(rootOffset), Number(rootLength));
+            db.rootPtrRaw = ptr;
+        }
+        
+        // Bind the physical pointer to the abstract Soul of the root object
+        const soul = HandleRegistry.getSoul(db.root);
+        if (soul) { 
+            soul.ptr = ptr; 
+            soul.type = constants.VAL_TYPE.DICTIONARY; 
+            soul.lastMutationCount = -1; 
+            soul.ensureResolved(true); 
+        }
+    },
+    
+    /**
+     * @method close
+     * @description Seals the Database back into the disk.
+     */
+    close(db) { 
+        if (typeof db.waitForIdle === 'function') db.waitForIdle();
+        db.pager.close(); 
+        
+        const physSize = fs.existsSync(db.pager.filePath) ? fs.statSync(db.pager.filePath).size : 0;
+        console.log(`[SIZE_REPORT] physical: ${physSize}, pure: ${physSize}`);
+    }
+};

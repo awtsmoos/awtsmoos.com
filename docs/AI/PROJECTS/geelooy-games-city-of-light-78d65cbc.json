@@ -1,0 +1,72 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-city-of-light-78d65cbc",
+	"path": "geelooy/games/city-of-light",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "City of Light · The Complete Pilgrimage",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/city-of-light/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-city-of-light-78d65cbc.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 67,
+		"tests": 11,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 0
+	},
+	"totalFiles": 80,
+	"symbolSummary": {
+		"files": 54,
+		"classes": 28,
+		"functions": 76,
+		"exports": 96,
+		"samples": [
+			"ABILITIES",
+			"abilityById",
+			"abilityList",
+			"ability",
+			"CAMPAIGN_CHAPTERS",
+			"chapterByNumber",
+			"chapterById",
+			"chapterPresentation",
+			"chaptersUnlockedThrough",
+			"CampaignProgress",
+			"clampChapter",
+			"nonNegative"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/city-of-light",
+			"file": "geelooy/games/city-of-light/index.html",
+			"title": "City of Light · The Complete Pilgrimage",
+			"scripts": 2,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

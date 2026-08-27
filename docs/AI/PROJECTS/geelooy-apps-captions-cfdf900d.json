@@ -1,0 +1,76 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-captions-cfdf900d",
+	"path": "geelooy/apps/captions",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "Ein Sof Engine [Quantum Core v2.5]",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/captions/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-captions-cfdf900d.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 64,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 3
+	},
+	"totalFiles": 68,
+	"symbolSummary": {
+		"files": 53,
+		"classes": 1,
+		"functions": 117,
+		"exports": 56,
+		"samples": [
+			"loadModule",
+			"reportInitialization",
+			"async",
+			"prepareBitmaps",
+			"getCaptionData",
+			"parseSimple",
+			"captionsFromFile",
+			"parseSrt",
+			"toSeconds",
+			"decodeAudio",
+			"configureSections",
+			"configurePreviewFocus"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/captions",
+			"file": "geelooy/apps/captions/index.html",
+			"title": "Ein Sof Engine [Quantum Core v2.5]",
+			"scripts": 0,
+			"styles": 0
+		},
+		{
+			"url": "/apps/captions/video",
+			"file": "geelooy/apps/captions/video/index.html",
+			"title": "Ein Sof Caption Studio — Geelooy",
+			"scripts": 1,
+			"styles": 8
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

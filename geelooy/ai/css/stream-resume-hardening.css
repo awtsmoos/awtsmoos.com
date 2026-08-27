@@ -1,0 +1,214 @@
+/* B"H
+  Chapter 91: The Stream Kept Its Hands While The Page Was Reborn.
+  These rules make active streamed event panels easier to open, safer to touch,
+  and less likely to hide their controls beneath a constantly changing header.
+*/
+.transport-details,
+.thought-envelope-card,
+.event-payload,
+.event-long,
+.event-object,
+.event-array,
+.thought-envelope-events {
+  overflow-wrap: anywhere;
+  scroll-margin-block: 1rem;
+}
+
+.transport-details > summary,
+.thought-envelope-card > summary,
+.event-payload > summary,
+.event-long > summary,
+.event-object > summary,
+.event-array > summary,
+.thought-envelope-events > summary {
+  min-height: 2.65rem;
+  align-content: center;
+  touch-action: manipulation;
+}
+
+.transport-details[open],
+.thought-envelope-card[open] {
+  contain: layout paint;
+}
+
+.transport-details > .event-panel-actions,
+.thought-envelope-card > .event-panel-actions {
+  backdrop-filter: blur(10px);
+  border-radius: 999px;
+  padding: .15rem;
+  background: rgba(15, 23, 42, .72);
+  box-shadow: 0 8px 24px rgba(0,0,0,.24);
+}
+
+.event-panel-actions button {
+  font-weight: 800;
+  outline-offset: 3px;
+}
+
+.transport-details[data-panel-state="minimized"] > summary,
+.thought-envelope-card[data-panel-state="minimized"] > summary {
+  opacity: .92;
+}
+
+.transport-details.is-maximized,
+.thought-envelope-card.is-maximized {
+  position: relative;
+  z-index: 60;
+  width: min(96vw, 1280px);
+  max-width: min(96vw, 1280px);
+  margin-inline: auto;
+  transform: translateX(calc((100% - min(96vw, 1280px)) / 2));
+  box-shadow: 0 26px 80px rgba(0,0,0,.42), 0 0 0 1px rgba(34,211,238,.22);
+}
+
+.transport-details.is-maximized > .event-lanes,
+.thought-envelope-card.is-maximized .thought-inner-window {
+  max-height: min(72vh, 900px);
+  overflow: auto;
+}
+
+.event-region,
+.thought-inner-window,
+.event-lanes {
+  content-visibility: auto;
+  contain-intrinsic-size: 320px;
+}
+
+.transport-details:not([open]) > :not(summary):not(.event-panel-actions),
+.thought-envelope-events:not([open]) > :not(summary),
+.event-raw-lazy:not([open]) > :not(summary) {
+  display: none !important;
+}
+
+.thought-inner-window,
+.event-lanes,
+.event-code-block {
+  scrollbar-gutter: stable both-edges;
+}
+
+.awtsmoos-audio-offer {
+  margin-block-start: .75rem;
+  padding: .85rem;
+  border: 1px solid rgba(34, 211, 238, .28);
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(8, 47, 73, .7), rgba(15, 23, 42, .88));
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .22);
+  display: grid;
+  gap: .65rem;
+}
+
+.audio-offer-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.audio-offer-head span,
+.audio-status {
+  color: var(--ai-muted);
+  font-size: .85rem;
+}
+
+.audio-offer-actions,
+.audio-settings {
+  display: flex;
+  gap: .45rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.awtsmoos-audio-offer button,
+.audio-settings select {
+  min-height: 2.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, .28);
+  background: rgba(15, 23, 42, .72);
+  color: var(--ai-text);
+  padding: .35rem .75rem;
+}
+
+.audio-player-wrap audio {
+  display: none;
+}
+
+.awtsmoos-player {
+  display: grid;
+  grid-template-columns: auto minmax(120px, 1fr) auto;
+  align-items: center;
+  gap: .65rem;
+  padding: .65rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(34, 211, 238, .22);
+  background: rgba(2, 6, 23, .46);
+}
+
+.player-play {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 !important;
+  display: inline-grid;
+  place-items: center;
+  font-weight: 900;
+}
+
+.player-meter {
+  height: .75rem;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, .25);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,.35);
+}
+
+.player-meter span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(34, 211, 238, .95), rgba(129, 140, 248, .95));
+  transition: width .12s linear;
+}
+
+.player-time {
+  min-width: 5.5rem;
+  text-align: end;
+  color: var(--ai-muted);
+  font-variant-numeric: tabular-nums;
+  font-size: .85rem;
+}
+
+.awtsmoos-audio-offer.is-audio-busy .audio-offer-head strong::after {
+  content: "";
+  display: inline-block;
+  width: .75rem;
+  height: .75rem;
+  margin-inline-start: .45rem;
+  border: 2px solid rgba(34, 211, 238, .35);
+  border-top-color: rgba(34, 211, 238, .95);
+  border-radius: 999px;
+  animation: awtsmoosAudioSpin .8s linear infinite;
+}
+
+@keyframes awtsmoosAudioSpin { to { transform: rotate(360deg); } }
+
+@media (max-width: 760px) {
+  .transport-details > summary,
+  .thought-envelope-card > summary {
+    padding-inline-end: 5.8rem !important;
+  }
+
+  .transport-details > .event-panel-actions,
+  .thought-envelope-card > .event-panel-actions {
+    inset-block-start: .38rem;
+    inset-inline-end: .38rem;
+    gap: .18rem;
+  }
+
+  .event-panel-actions button {
+    width: 1.65rem !important;
+    height: 1.65rem !important;
+    min-width: 1.65rem !important;
+    min-height: 1.65rem !important;
+  }
+}

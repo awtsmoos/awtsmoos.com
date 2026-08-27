@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-migdol-2c237fda",
+	"path": "geelooy/games/migdol",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Migdol - Kabbalah Tower Defense",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/migdol/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-migdol-2c237fda.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 11,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 12,
+	"symbolSummary": {
+		"files": 9,
+		"classes": 7,
+		"functions": 9,
+		"exports": 12,
+		"samples": [
+			"TILE_SIZE",
+			"MAPS",
+			"TOWER_TYPES",
+			"ENEMY_TYPES",
+			"GroundEffect",
+			"LetterParticle",
+			"Enemy",
+			"Projectile",
+			"Game",
+			"initializeMainMenu",
+			"startGame",
+			"returnToMainMenu"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/migdol",
+			"file": "geelooy/games/migdol/index.html",
+			"title": "Migdol - Kabbalah Tower Defense",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,340 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "realtime-application-events",
+	"district": "realtime",
+	"title": "Realtime Application and Event Evidence",
+	"summary": "Registered built-in application IDs/versions plus searchable lexical event/message strings from production WebSocket source.",
+	"manuals": [
+		"docs/WEBSOCKETS/APPLICATIONS.md",
+		"docs/WEBSOCKETS/README.md"
+	],
+	"projects": [
+		{
+			"projectId": "ayzarim-awtsmoosdynamicserver-e406758e",
+			"path": "ayzarim/awtsmoosDynamicServer",
+			"type": "runtime",
+			"title": "ayzarim/awtsmoosDynamicServer",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-awtsmoosdynamicserver-e406758e.md"
+		}
+	],
+	"sources": [
+		"ayzarim/awtsmoosDynamicServer/websocket/apps/applicationDefinitions.js",
+		"ayzarim/awtsmoosDynamicServer/websocket/apps/messageRouter.js"
+	],
+	"generatedEvidence": [
+		"docs/GENERATED/WEBSOCKET_APPLICATIONS.md",
+		"docs/GENERATED/WEBSOCKET_EVENT_INDEX.md"
+	],
+	"tags": [
+		"websocket",
+		"application",
+		"event",
+		"evidence"
+	],
+	"claimsBoundary": "Event/message literals are search clues only and never constitute a formal payload or protocol schema.",
+	"changeRisk": "Changing application IDs/versions or event semantics can break clients even when lexical strings still exist.",
+	"environmentEvidence": [
+		{
+			"name": "AWTSMOOS_REGISTRATION_STRESS_COUNT",
+			"classification": "test/tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/test/registrationReplacementStress.test.cjs"
+		},
+		{
+			"name": "AWTSMOOS_RELAY_STRESS_COUNT",
+			"classification": "test/tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay.concurrent-correlation.test.cjs"
+		},
+		{
+			"name": "AWTSMOOS_SEFIRA_PROFILE_PATH",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/ExpeditionProfileRepository.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_COMPLETED_LIMIT",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_CONSUMER_PROGRESS_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestAckHandler.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_CONTROL_STORE",
+			"classification": "path/storage",
+			"sources": 9,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomSocketIntegration.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/missionRoomUpgrade.test.cjs; ayzarim/awtsmoosDynamicServer/websocket/apps/missionRooms/upgradePolicy.test.cjs"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_PENDING_TTL_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_QUARANTINE_LIMIT",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_RELAY_MAX_SAFE_WAIT_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_RELAY_SAFE_WAIT_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/constants.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_RELAY_STATE_ROOT",
+			"classification": "path/storage",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/durablePaths.js"
+		},
+		{
+			"name": "AWTSMOOS_TUNNEL_REQUEST_ACCEPTANCE_MS",
+			"classification": "tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/requestDispatch.js"
+		},
+		{
+			"name": "MW_LOAD_CLIENTS",
+			"classification": "runtime-config",
+			"sources": 1,
+			"exampleSources": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/sessionLoadProbe.cjs"
+		}
+	],
+	"realtimeApplications": [
+		{
+			"id": "awtsmoos-core",
+			"versions": "1",
+			"factory": "createAwtsmoosCoreApplication"
+		},
+		{
+			"id": "awtsmoos-social",
+			"versions": "1",
+			"factory": "createAwtsmoosSocialApplication"
+		},
+		{
+			"id": "chess",
+			"versions": "1",
+			"factory": "createChessApplication"
+		},
+		{
+			"id": "universalChat",
+			"versions": "1",
+			"factory": "createUniversalChatApplication"
+		},
+		{
+			"id": "privateMessaging",
+			"versions": "1",
+			"factory": "createPrivateMessagingApplication"
+		},
+		{
+			"id": "sefira-clash",
+			"versions": "1",
+			"factory": "createSefiraClashApplication"
+		},
+		{
+			"id": "mitzvah-world",
+			"versions": "1",
+			"factory": "createMitzvahWorldApplication"
+		},
+		{
+			"id": "ohr-hagnuz",
+			"versions": "1",
+			"factory": "createOhrHagnuzApplication"
+		},
+		{
+			"id": "scribe-journey",
+			"versions": "1, 2",
+			"factory": "createScribeJourneyApplication"
+		},
+		{
+			"id": "tunnel-activity",
+			"versions": "1",
+			"factory": "createTunnelActivityApplication"
+		},
+		{
+			"id": "shema-strike",
+			"versions": "1",
+			"factory": "createShemaStrikeApplication"
+		}
+	],
+	"eventEvidence": [
+		{
+			"event": "ACK",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/aliasRouting.js"
+		},
+		{
+			"event": "awtsmoosMyDevice",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/tunnelRelay/envelopeErrors.js"
+		},
+		{
+			"event": "bossTelegraph",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/sefiraClash/CoopCombat.js"
+		},
+		{
+			"event": "bridge:lanterns",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/RiverCrossingService.js"
+		},
+		{
+			"event": "care",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatActionRequest.js"
+		},
+		{
+			"event": "chat",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/integrationGateway.js"
+		},
+		{
+			"event": "chat-accepted",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+		},
+		{
+			"event": "chess.chat.sent",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/socialHandlers.js"
+		},
+		{
+			"event": "chess.click.accepted",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/onlineGameHandlers.js"
+		},
+		{
+			"event": "chess.event.accepted",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/broadcastGameHandlers.js"
+		},
+		{
+			"event": "chess.game.finished.accepted",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/onlineGameHandlers.js"
+		},
+		{
+			"event": "chess.history.activity.accepted",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js"
+		},
+		{
+			"event": "chess.history.listed",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js"
+		},
+		{
+			"event": "chess.history.started",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js"
+		},
+		{
+			"event": "chess.media.signal.accepted",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/socialHandlers.js"
+		},
+		{
+			"event": "chess.media.state.accepted",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/socialHandlers.js"
+		},
+		{
+			"event": "chess.room.created",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js"
+		},
+		{
+			"event": "chess.room.joined",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js"
+		},
+		{
+			"event": "chess.room.listed",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js"
+		},
+		{
+			"event": "chess.room.watched",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHandlers.js"
+		},
+		{
+			"event": "contact-blocked",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+		},
+		{
+			"event": "data",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/scribeJourney/rawWebSocketTestClient.cjs"
+		},
+		{
+			"event": "defeat",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CombatDefeatRewards.js"
+		},
+		{
+			"event": "enrage",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/EnemyActionSupportRules.js"
+		},
+		{
+			"event": "friendship-accepted",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+		},
+		{
+			"event": "game.click",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js"
+		},
+		{
+			"event": "game.finished",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/historyHandlers.js"
+		},
+		{
+			"event": "game.finished",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/roomHistoryRecorder.js"
+		},
+		{
+			"event": "game.started",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/chess/standaloneHistoryRecorder.js"
+		},
+		{
+			"event": "group-created",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+		},
+		{
+			"event": "group-joined",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+		},
+		{
+			"event": "group-left",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+		},
+		{
+			"event": "group-role-changed",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/privateMessaging/meaningfulActivity.js"
+		},
+		{
+			"event": "guard",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/EnemyActionSupportRules.js"
+		},
+		{
+			"event": "harvest",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/AnimalHarvestService.js"
+		},
+		{
+			"event": "heal",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/EnemyActionSupportRules.js"
+		},
+		{
+			"event": "health.pong",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/awtsmoosCoreApplication.js"
+		},
+		{
+			"event": "library",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/universalChat/sourceNormalizer.js"
+		},
+		{
+			"event": "LIVE_PREVIEW",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/livePreview.js"
+		},
+		{
+			"event": "loot",
+			"source": "ayzarim/awtsmoosDynamicServer/websocket/apps/mitzvahWorld/CorpseLootService.js"
+		}
+	],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/realtime-application-events.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/realtime-application-events.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

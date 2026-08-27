@@ -1,0 +1,18 @@
+/*B"H
+Chapter 436: The right panel and transport oracle stopped looking like raw machinery.
+Warnings became legible lanterns instead of smoke.
+*/
+.automation-panel { border-radius: 28px; overflow: auto; padding: 12px; }
+.automation-panel h1, .automation-panel h2, .automation-panel h3 { color: #eefcff; letter-spacing: -.02em; }
+.automation-panel button, .automation-panel select, .automation-panel input, .automation-panel textarea { border-radius: 14px; border: 1px solid rgba(124,235,255,.18); background: rgba(3,11,22,.82); }
+.automation-panel section, .automation-panel .panel-card, .automation-panel [class*="card"] { border: 1px solid rgba(124,235,255,.14); background: linear-gradient(180deg, rgba(9,20,38,.82), rgba(5,12,23,.70)); border-radius: 20px; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); }
+.transport-status { position: relative; z-index: 2; margin: 12px 14px 0; border-radius: 22px; padding: 11px 14px; color: #eafcff; border: 1px solid rgba(124,235,255,.18); background: linear-gradient(135deg, rgba(8,22,40,.86), rgba(9,14,28,.76)); box-shadow: inset 0 0 0 1px rgba(90,255,238,.08); }
+.transport-status.ready { border-color: rgba(88,255,185,.34); background: linear-gradient(135deg, rgba(8,44,33,.78), rgba(7,18,33,.84)); }
+.transport-status.checking, .transport-status.feedback { border-color: rgba(88,220,255,.28); }
+.transport-status.error, .transport-status.is-private-network-blocked, .transport-status.is-relay-unreachable { border-color: rgba(255,190,105,.35); background: linear-gradient(135deg, rgba(68,39,13,.82), rgba(8,18,33,.86)); color: #fff3dc; }
+.transport-status b { color: #ffffff; }
+.transport-status span { color: rgba(244,252,255,.78); }
+.transport-status .transport-commands { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
+.transport-status .transport-commands button, .transport-status .transport-commands a, .transport-status .transport-commands code { border: 1px solid rgba(255,232,168,.22); border-radius: 999px; padding: 7px 10px; color: inherit; background: rgba(255,255,255,.06); text-decoration: none; }
+.mobile-app-crown, .mobile-bottom-dock { color: var(--bug-ink); }
+.mobile-app-crown button, .mobile-bottom-dock button { border: 1px solid rgba(124,235,255,.14); background: rgba(7,18,34,.74); border-radius: 16px; color: inherit; }

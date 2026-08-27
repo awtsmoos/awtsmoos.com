@@ -1,0 +1,500 @@
+{
+	"BH": "B\"H",
+	"routes": [
+		{
+			"id": "api-social-heichelos-heichel-aliases-alias-commentsactions-addco-3044a5abe7",
+			"route": "/api/social/heichelos/:heichel/aliases/:alias/commentsActions/addCommentIndexToAlias/comment/:comment",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-aliases-alias-commentsactions-addco-3044a5abe7.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-aliases-alias-commentsactions-addco-3044a5abe7.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-aliases-alias-commentsactions-updat-7db2caf6c2",
+			"route": "/api/social/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/indexing.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-aliases-alias-commentsactions-updat-7db2caf6c2.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-aliases-alias-commentsactions-updat-7db2caf6c2.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-aliases-alias-commentsactions-updat-4a7cc5a59e",
+			"route": "/api/social/heichelos/:heichel/aliases/:alias/commentsActions/updateAllCommentIndexes",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-aliases-alias-commentsactions-updat-4a7cc5a59e.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-aliases-alias-commentsactions-updat-4a7cc5a59e.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-answers-answer-comment-tree-c62f419e90",
+			"route": "/api/social/heichelos/:heichel/answers/:answer/comment-tree",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/rich.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-answers-answer-comment-tree-c62f419e90.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-answers-answer-comment-tree-c62f419e90.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comment-comment-09e529c6ab",
+			"route": "/api/social/heichelos/:heichel/comment/:comment",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/comment.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comment-comment-09e529c6ab.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comment-comment-09e529c6ab.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comment-comment-84c8cbcadc",
+			"route": "/api/social/heichelos/:heichel/comment/:comment",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comment-comment-84c8cbcadc.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comment-comment-84c8cbcadc.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comments-caf6d49b61",
+			"route": "/api/social/heichelos/:heichel/comments",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/comment.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comments-caf6d49b61.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-caf6d49b61.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comments-4da59e0dfc",
+			"route": "/api/social/heichelos/:heichel/comments",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comments-4da59e0dfc.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-4da59e0dfc.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comments-inseries-series-atpost-pos-ed0dc2968a",
+			"route": "/api/social/heichelos/:heichel/comments/inSeries/:series/atPost/:post/atComment/:comment/aliases",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/comment.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comments-inseries-series-atpost-pos-ed0dc2968a.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-inseries-series-atpost-pos-ed0dc2968a.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comments-inseries-series-atpost-pos-93c900d755",
+			"route": "/api/social/heichelos/:heichel/comments/inSeries/:series/atPost/:post/atComment/:comment/atAlias/:alias/atVerseSection/:verseSection",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/comment.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comments-inseries-series-atpost-pos-93c900d755.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-inseries-series-atpost-pos-93c900d755.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comments-search-f5579991ea",
+			"route": "/api/social/heichelos/:heichel/comments/search",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/search.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comments-search-f5579991ea.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-search-f5579991ea.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comments-search-lexical-90b8f23358",
+			"route": "/api/social/heichelos/:heichel/comments/search/lexical",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/search.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comments-search-lexical-90b8f23358.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-search-lexical-90b8f23358.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comments-search-stats-078cceaf1b",
+			"route": "/api/social/heichelos/:heichel/comments/search/stats",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/search.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comments-search-stats-078cceaf1b.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-search-stats-078cceaf1b.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comments-search-stress-fa78e0ea32",
+			"route": "/api/social/heichelos/:heichel/comments/search/stress",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/search.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comments-search-stress-fa78e0ea32.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-search-stress-fa78e0ea32.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-comments-search-vector-70dc1f4ba3",
+			"route": "/api/social/heichelos/:heichel/comments/search/vector",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/search.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-comments-search-vector-70dc1f4ba3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-comments-search-vector-70dc1f4ba3.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-deletecontentfromseries-1343d08abe",
+			"route": "/api/social/heichelos/:heichel/deleteContentFromSeries",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-deletecontentfromseries-1343d08abe.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-deletecontentfromseries-1343d08abe.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-deletecontentfromseries-aeb413f738",
+			"route": "/api/social/heichelos/:heichel/deleteContentFromSeries",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-deletecontentfromseries-aeb413f738.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-deletecontentfromseries-aeb413f738.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-deleteseries-seriesid-331fe5c8cb",
+			"route": "/api/social/heichelos/:heichel/deleteSeries/:seriesId",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.series.base.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-deleteseries-seriesid-331fe5c8cb.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-deleteseries-seriesid-331fe5c8cb.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-deleteseriesfromheichel-seriesid-ab143f090c",
+			"route": "/api/social/heichelos/:heichel/deleteSeriesFromHeichel/:seriesId",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-deleteseriesfromheichel-seriesid-ab143f090c.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-deleteseriesfromheichel-seriesid-ab143f090c.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-deleteseriesfromheichel-seriesid-7709602295",
+			"route": "/api/social/heichelos/:heichel/deleteSeriesFromHeichel/:seriesId",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-deleteseriesfromheichel-seriesid-7709602295.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-deleteseriesfromheichel-seriesid-7709602295.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-editors-e7b3ac43fa",
+			"route": "/api/social/heichelos/:heichel/editors",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.heichel.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-editors-e7b3ac43fa.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-editors-e7b3ac43fa.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-invites-d482a31a45",
+			"route": "/api/social/heichelos/:heichel/invites",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.governance.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-invites-d482a31a45.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-invites-d482a31a45.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-invites-invite-accept-87d6d419a1",
+			"route": "/api/social/heichelos/:heichel/invites/:invite/accept",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.governance.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-invites-invite-accept-87d6d419a1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-invites-invite-accept-87d6d419a1.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-members-e86558d608",
+			"route": "/api/social/heichelos/:heichel/members",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.governance.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-members-e86558d608.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-members-e86558d608.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-moderation-144c9c9bf3",
+			"route": "/api/social/heichelos/:heichel/moderation",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.community.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-moderation-144c9c9bf3.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-moderation-144c9c9bf3.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-post-post-23c2579b3b",
+			"route": "/api/social/heichelos/:heichel/post/:post",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-post-post-23c2579b3b.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-post-post-23c2579b3b.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-post-post-comments-64ab00cd92",
+			"route": "/api/social/heichelos/:heichel/post/:post/comments",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-post-post-comments-64ab00cd92.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-post-post-comments-64ab00cd92.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-post-post-comments-aliases-3fdd7794b8",
+			"route": "/api/social/heichelos/:heichel/post/:post/comments/aliases",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-post-post-comments-aliases-3fdd7794b8.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-post-post-comments-aliases-3fdd7794b8.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-post-post-comments-aliases-alias-b63f439095",
+			"route": "/api/social/heichelos/:heichel/post/:post/comments/aliases/:alias",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.comments-old.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-post-post-comments-aliases-alias-b63f439095.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-post-post-comments-aliases-alias-b63f439095.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-post-post-delete-a82a92217c",
+			"route": "/api/social/heichelos/:heichel/post/:post/delete",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-post-post-delete-a82a92217c.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-post-post-delete-a82a92217c.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-6e1a579204",
+			"route": "/api/social/heichelos/:heichel/posts",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-6e1a579204.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-6e1a579204.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-174b2ef709",
+			"route": "/api/social/heichelos/:heichel/posts",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-174b2ef709.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-174b2ef709.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-post-comment-tree-457e93390f",
+			"route": "/api/social/heichelos/:heichel/posts/:post/comment-tree",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/rich.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-post-comment-tree-457e93390f.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comment-tree-457e93390f.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-post-comments-comment-2e695d3789",
+			"route": "/api/social/heichelos/:heichel/posts/:post/comments/:comment",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/rich.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-2e695d3789.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-2e695d3789.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-post-comments-comment-reactio-f73743c7a2",
+			"route": "/api/social/heichelos/:heichel/posts/:post/comments/:comment/reactions",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/reactions.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-reactio-f73743c7a2.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-reactio-f73743c7a2.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-post-comments-comment-replies-dfd07015ad",
+			"route": "/api/social/heichelos/:heichel/posts/:post/comments/:comment/replies",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/rich.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-replies-dfd07015ad.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-replies-dfd07015ad.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-post-comments-comment-section-3a442c78d1",
+			"route": "/api/social/heichelos/:heichel/posts/:post/comments/:comment/sections/:section/replies",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/rich.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-section-3a442c78d1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-comments-comment-section-3a442c78d1.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-post-imported-comment-tree-bae6abcb59",
+			"route": "/api/social/heichelos/:heichel/posts/:post/imported-comment-tree",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/rich.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-post-imported-comment-tree-bae6abcb59.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-imported-comment-tree-bae6abcb59.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-post-subsections-subsection-c-a9fffb7d14",
+			"route": "/api/social/heichelos/:heichel/posts/:post/subsections/:subsection/comments",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/rich.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-post-subsections-subsection-c-a9fffb7d14.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-subsections-subsection-c-a9fffb7d14.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-post-verses-verse-comments-a3d19f4929",
+			"route": "/api/social/heichelos/:heichel/posts/:post/verses/:verse/comments",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/rich.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-post-verses-verse-comments-a3d19f4929.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-post-verses-verse-comments-a3d19f4929.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-details-95617aca89",
+			"route": "/api/social/heichelos/:heichel/posts/details",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-details-95617aca89.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-details-95617aca89.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-posts-details-ef0576ec4a",
+			"route": "/api/social/heichelos/:heichel/posts/details",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.posts.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-posts-details-ef0576ec4a.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-posts-details-ef0576ec4a.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-questions-question-comment-tree-1cbaa90d84",
+			"route": "/api/social/heichelos/:heichel/questions/:question/comment-tree",
+			"family": "/api/social",
+			"source": "geelooy/api/social/helper/comments/routes/rich.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-questions-question-comment-tree-1cbaa90d84.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-questions-question-comment-tree-1cbaa90d84.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-questions-question-rich-answers-3a7b849db1",
+			"route": "/api/social/heichelos/:heichel/questions/:question/rich-answers",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.richSocial.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-questions-question-rich-answers-3a7b849db1.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-questions-question-rich-answers-3a7b849db1.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-review-12ae90bc11",
+			"route": "/api/social/heichelos/:heichel/review",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.community.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-review-12ae90bc11.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-review-12ae90bc11.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-review-review-approve-70e81028e9",
+			"route": "/api/social/heichelos/:heichel/review/:review/approve",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.community.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-review-review-approve-70e81028e9.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-review-review-approve-70e81028e9.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-review-review-reject-71afe598be",
+			"route": "/api/social/heichelos/:heichel/review/:review/reject",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.community.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-review-review-reject-71afe598be.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-review-review-reject-71afe598be.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-roles-role-1bc2eb257e",
+			"route": "/api/social/heichelos/:heichel/roles/:role",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.heichel.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-roles-role-1bc2eb257e.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-roles-role-1bc2eb257e.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-series-fcb7609068",
+			"route": "/api/social/heichelos/:heichel/series",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.series.base.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-series-fcb7609068.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-fcb7609068.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-series-7e626a4e57",
+			"route": "/api/social/heichelos/:heichel/series",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-series-7e626a4e57.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-7e626a4e57.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-series-parentseriesid-clearsubserie-2aa347a65f",
+			"route": "/api/social/heichelos/:heichel/series/:parentSeriesId/clearSubSeries/:seriesId",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.series.base.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-series-parentseriesid-clearsubserie-2aa347a65f.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-parentseriesid-clearsubserie-2aa347a65f.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-series-parentseriesid-deletesubseri-a51a4f3bb4",
+			"route": "/api/social/heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.series.base.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-series-parentseriesid-deletesubseri-a51a4f3bb4.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-parentseriesid-deletesubseri-a51a4f3bb4.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-series-series-841f5b4ecd",
+			"route": "/api/social/heichelos/:heichel/series/:series",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.series.base.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-series-series-841f5b4ecd.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-841f5b4ecd.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-series-series-dc0b04b13e",
+			"route": "/api/social/heichelos/:heichel/series/:series",
+			"family": "/api/social",
+			"source": "geelooy/api/social/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-series-series-dc0b04b13e.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-dc0b04b13e.md"
+		},
+		{
+			"id": "api-social-heichelos-heichel-series-series-5f0c455b9f",
+			"route": "/api/social/heichelos/:heichel/series/:series",
+			"family": "/api/social",
+			"source": "geelooy/api/social/old/_awtsmoos.series.js",
+			"manual": "docs/TUTORIALS/API/SOCIAL.md",
+			"record": "ROUTES/api-social-heichelos-heichel-series-series-5f0c455b9f.json",
+			"tutorial": "docs/GENERATED/API_TUTORIALS/ROUTES/api-social-heichelos-heichel-series-series-5f0c455b9f.md"
+		}
+	]
+}

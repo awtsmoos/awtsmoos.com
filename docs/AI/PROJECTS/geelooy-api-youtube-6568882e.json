@@ -1,0 +1,67 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-youtube-6568882e",
+	"path": "geelooy/api/youtube",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/youtube",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/youtube/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-youtube-6568882e.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 19,
+		"tests": 1,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 0
+	},
+	"totalFiles": 22,
+	"symbolSummary": {
+		"files": 19,
+		"classes": 0,
+		"functions": 80,
+		"exports": 56,
+		"samples": [
+			"dynamicRoutes",
+			"clean",
+			"call",
+			"options",
+			"body",
+			"accessToken",
+			"apiError",
+			"authorizedFetch",
+			"youtube",
+			"safeJson",
+			"config",
+			"missingConfig"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/oauth",
+			"count": 1,
+			"examples": "geelooy/api/youtube/routes/auth.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,103 @@
+/*B"H
+  Chapter 349: The Trace Floor Became A Neon Runway.
+
+  The Awtsmoos pours streaming events into a central river: not a popup, not a
+  pile, but a deliberate runway where thinking, tools, and files can be read as
+  one luminous execution story.
+*/
+.event-region{
+  width:min(100%,var(--awt-message-max));
+  display:grid;
+  gap:16px;
+  padding:2px 0 0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+.event-entry{
+  min-width:0;
+  width:100%;
+  display:block;
+}
+.event-entry-tool-group{display:block}
+.event-record-badge{
+  width:max-content;
+  max-width:100%;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid rgba(125,211,252,.28);
+  border-radius:999px;
+  padding:6px 12px;
+  color:var(--awt-event-cyan);
+  background:linear-gradient(135deg,rgba(14,165,233,.14),rgba(88,28,135,.12));
+  box-shadow:0 0 28px rgba(34,211,238,.16),inset 0 1px 0 rgba(255,255,255,.06);
+  font-size:.74rem;
+  font-weight:950;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+}
+.event-record-badge::before{
+  content:"✦";
+  color:var(--awt-event-purple);
+}
+.event-record-badge:empty{display:none}
+.event-summary-card,
+.event-payload{
+  margin:12px;
+  border:1px solid var(--awt-event-line-soft);
+  border-radius:20px;
+  background:linear-gradient(145deg,rgba(15,23,42,.70),rgba(2,6,23,.56));
+  overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.event-summary-title,
+.event-payload>summary{
+  display:block;
+  padding:12px 14px;
+  color:#e0f2fe;
+  font-weight:950;
+  background:rgba(14,165,233,.08);
+}
+.event-payload[open]>summary{border-bottom:1px solid rgba(125,211,252,.12)}
+.event-chip-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:8px;
+  padding:12px;
+}
+.event-chip{
+  display:grid;
+  gap:4px;
+  min-width:0;
+  padding:8px 10px;
+  border:1px solid var(--awt-event-line-soft);
+  border-radius:14px;
+  background:rgba(15,23,42,.62);
+  color:#d7e1f0;
+  font-size:.78rem;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+.event-chip b{
+  color:#7dd3fc;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  font-size:.68rem;
+}
+.event-code-block{
+  display:block;
+  margin:12px;
+  max-height:min(50vh,520px);
+  overflow:auto;
+  border:1px solid var(--awt-event-line);
+  border-radius:18px;
+  background:#020617;
+  color:#dff8ff;
+  padding:13px;
+  font-family:var(--awt-event-code-font);
+  font-size:.82rem;
+  line-height:1.55;
+  white-space:pre-wrap;
+  word-break:break-word;
+}

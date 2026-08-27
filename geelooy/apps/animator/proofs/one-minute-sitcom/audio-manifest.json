@@ -1,0 +1,65 @@
+[
+  {
+    "id": "spoon_d1",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/audio/01-spoon_d1.aiff",
+    "voice": "Alex",
+    "start": 3000,
+    "duration": 4200
+  },
+  {
+    "id": "spoon_d2",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/audio/02-spoon_d2.aiff",
+    "voice": "Fred",
+    "start": 8200,
+    "duration": 3900
+  },
+  {
+    "id": "spoon_d3",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/audio/03-spoon_d3.aiff",
+    "voice": "Samantha",
+    "start": 13800,
+    "duration": 3600
+  },
+  {
+    "id": "spoon_d4",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/audio/04-spoon_d4.aiff",
+    "voice": "Alex",
+    "start": 20500,
+    "duration": 4300
+  },
+  {
+    "id": "spoon_d5",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/audio/05-spoon_d5.aiff",
+    "voice": "Fred",
+    "start": 26700,
+    "duration": 3800
+  },
+  {
+    "id": "spoon_d6",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/audio/06-spoon_d6.aiff",
+    "voice": "Samantha",
+    "start": 33200,
+    "duration": 3500
+  },
+  {
+    "id": "spoon_d7",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/audio/07-spoon_d7.aiff",
+    "voice": "Alex",
+    "start": 41500,
+    "duration": 3900
+  },
+  {
+    "id": "spoon_d8",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/audio/08-spoon_d8.aiff",
+    "voice": "Fred",
+    "start": 47800,
+    "duration": 3600
+  },
+  {
+    "id": "spoon_d9",
+    "file": "/Users/awtsmoos/work/awtsmoos.com/geelooy/apps/animator/proofs/one-minute-sitcom/audio/09-spoon_d9.aiff",
+    "voice": "Samantha",
+    "start": 53500,
+    "duration": 3400
+  }
+]

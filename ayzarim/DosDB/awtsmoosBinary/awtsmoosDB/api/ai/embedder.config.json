@@ -1,0 +1,19 @@
+{
+  "default": {
+    "source": "https://huggingface.co/ggml-org/bge-small-en-v1.5-Q8_0-GGUF/tree/main",
+    "file": "bge-small-en-v1.5-q8_0.gguf",
+    "name": "bge-small-en-v1.5-q8_0",
+    "dimensions": 384,
+    "pooling": "cls",
+    "maxTokens": 128,
+    "defaultRuntime": "llama-embedding",
+    "runnerPreference": [
+      "llama-embedding",
+      "awtsmoosdb-pure-js-direct-gguf",
+      "awtsmoosdb-direct-node-gguf-token-pooling",
+      "awtsmoosdb-direct-node-gguf-bert",
+      "awtsmoosdb-js-fallback"
+    ],
+    "notes": "Default AwtsmoosDB AI search runtime uses llama.cpp llama-embedding with raw output. Fallback remains available only as an explicit recovery path."
+  }
+}

@@ -1,0 +1,45 @@
+/*B"H
+  Chapter 372: The Automation Inspector Shell Kept One Name.
+
+  The Awtsmoos gives the panel a simple body: menu above, river below. This file
+  owns only shell layout and scroll ownership, using selector names that do not
+  repeat the token gate.
+*/
+#automation-panel{
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+}
+#automation-panel.automation-panel{
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+}
+#automation-panel>.panel-topbar{
+  position:relative;
+  z-index:3;
+}
+#automation-panel>.automation-panel-content{
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+}
+#automation-panel .right-panel-body{
+  min-width:0;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  color:var(--rp-text);
+  scrollbar-gutter:stable;
+}
+#automation-panel .right-panel-body>*{
+  flex:0 0 auto;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+}

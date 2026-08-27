@@ -1,0 +1,67 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-pong-d3953f2b",
+	"path": "geelooy/games/pong",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Pong Game",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-pong-d3953f2b.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 7,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 7,
+	"symbolSummary": {
+		"files": 5,
+		"classes": 0,
+		"functions": 15,
+		"exports": 0,
+		"samples": [
+			"createBall",
+			"getRandomEmoji",
+			"resizeCanvas",
+			"handlePaddleCollision",
+			"update",
+			"draw",
+			"gameLoop",
+			"createPaddle",
+			"createParticleExplosion",
+			"updateAndDrawParticles",
+			"drawNet",
+			"drawScore"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/pong",
+			"file": "geelooy/games/pong/index.html",
+			"title": "Pong Game",
+			"scripts": 5,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,56 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-awtsmoos-agent-thoughts-250aba07",
+	"path": "geelooy/.awtsmoos-agent-thoughts",
+	"type": "evidence",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "geelooy/.awtsmoos-agent-thoughts",
+	"entries": [],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-awtsmoos-agent-thoughts-250aba07.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 68,
+		"tests": 6,
+		"assets": 28,
+		"generated": 0,
+		"docs": 0,
+		"other": 309
+	},
+	"totalFiles": 411,
+	"symbolSummary": {
+		"files": 51,
+		"classes": 10,
+		"functions": 85,
+		"exports": 60,
+		"samples": [
+			"createTarget",
+			"captureMobile",
+			"captureViewport",
+			"captureRenders",
+			"wait",
+			"async",
+			"CdpClient",
+			"waitForDebugger",
+			"createPageTarget",
+			"auditViewport",
+			"runAudit",
+			"createLayoutExpression"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

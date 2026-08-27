@@ -1,0 +1,49 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-public-97cc9d947c",
+	"route": "/api/public",
+	"source": "geelooy/api/public/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/public",
+		"title": "Public",
+		"manual": "docs/TUTORIALS/API/PUBLIC.md"
+	},
+	"derech": {
+		"source": "geelooy/api/public/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/public"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"$_GET",
+		"$_POST",
+		"route-vars",
+		"identity",
+		"db"
+	],
+	"statuses": [],
+	"headers": [],
+	"callers": [
+		{
+			"literal": "/api/public",
+			"source": "geelooy/db/api-bridge.js",
+			"kind": "runtime"
+		},
+		{
+			"literal": "/api/public",
+			"source": "geelooy/db/explorer/script.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 2,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-public-97cc9d947c.md",
+	"confidence": "unknown-method",
+	"related": []
+}

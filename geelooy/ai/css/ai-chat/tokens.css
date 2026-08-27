@@ -1,0 +1,60 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * Color, space, type, and motion are keilim for the visible ohr. The Awtsmoos
+ * creates every distinction anew; Awtsmoos.com remembers that unity by giving
+ * the entire workspace one restrained, readable token language.
+ */
+:root{
+	--ai-chamber-bg:
+		radial-gradient(circle at 8% -8%,rgba(33,208,181,.16),transparent 30%),
+		radial-gradient(circle at 92% 0,rgba(92,106,255,.14),transparent 32%),
+		linear-gradient(155deg,#030711,#07101d 52%,#02050c);
+	--ai-panel:rgba(7,14,26,.92);
+	--ai-panel-raised:rgba(12,24,41,.94);
+	--ai-panel-soft:rgba(17,31,50,.72);
+	--ai-border:rgba(160,195,226,.18);
+	--ai-border-strong:rgba(71,222,196,.40);
+	--ai-text:#f4f8fc;
+	--ai-soft:#d7e3ef;
+	--ai-muted:#91a5ba;
+	--ai-dim:#6f8297;
+	--ai-cyan:#63e6d0;
+	--ai-blue:#6d8cff;
+	--ai-violet:#b08cff;
+	--ai-gold:#f3c969;
+	--ai-danger:#ff8297;
+	--ai-success:#72e6a5;
+	--ai-radius-sm:12px;
+	--ai-radius-md:18px;
+	--ai-radius-lg:24px;
+	--ai-space-1:4px;
+	--ai-space-2:8px;
+	--ai-space-3:12px;
+	--ai-space-4:16px;
+	--ai-space-5:20px;
+	--ai-space-6:28px;
+	--ai-shadow:0 22px 70px rgba(0,0,0,.38);
+	--ai-shadow-soft:0 10px 30px rgba(0,0,0,.24);
+	--ai-focus:0 0 0 3px rgba(99,230,208,.25),0 0 0 1px rgba(99,230,208,.72) inset;
+	--ai-motion-fast:150ms;
+	--ai-motion-medium:220ms;
+	--awt-bg-radial:var(--ai-chamber-bg);
+	--awt-text:var(--ai-text);
+	--awt-soft:var(--ai-soft);
+	--awt-muted:var(--ai-muted);
+	--awt-hot:var(--ai-cyan);
+	--awt-line:var(--ai-border);
+	--awt-line-soft:rgba(160,195,226,.13);
+	--awt-line-strong:var(--ai-border-strong);
+	--awt-input:rgba(4,11,21,.92);
+	--awt-main-radius:24px;
+	--awt-panel-radius:24px;
+	--awt-message-max:min(820px,94%);
+	--awt-message-radius:20px;
+	--awt-message-pad:15px 17px;
+	--awt-chat-gap:18px;
+	--awt-chat-pad:28px clamp(18px,3vw,42px) 146px;
+}

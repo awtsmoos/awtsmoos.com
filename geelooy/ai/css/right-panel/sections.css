@@ -1,0 +1,84 @@
+/*B"H
+  Chapter 320: The Inspector Cards Became Still Vessels.
+
+  The Awtsmoos gives cards beauty without motion tricks. This file owns labels,
+  notes, status pills, and section/card surfaces only.
+*/
+#automation-panel .panel-section-label{
+  display:block;
+  margin:0;
+  color:#c6f6ff;
+  font-size:.82rem;
+  line-height:1.35;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-weight:900;
+}
+#automation-panel .panel-note,
+#automation-panel p,
+#automation-panel small{
+  display:block;
+  margin:0;
+  color:var(--rp-muted);
+  line-height:1.45;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+#automation-panel .automation-card,
+#automation-panel .automation-archive-panel,
+#automation-panel .graph-node,
+#automation-panel .graph-canvas,
+#automation-panel .relay-install-card{
+  position:static;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width:100%;
+  min-width:0;
+  height:auto;
+  min-height:0;
+  max-height:none;
+  margin:0;
+  padding:14px;
+  overflow:visible;
+  transform:none;
+  border:1px solid var(--rp-line);
+  border-radius:var(--rp-radius);
+  background:linear-gradient(145deg,var(--rp-surface-strong),rgba(4,12,26,.96));
+  color:var(--rp-text);
+  box-shadow:var(--rp-shadow);
+}
+#automation-panel .chat-scope-pill,
+#automation-panel .automation-status{
+  position:static;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  width:100%;
+  min-width:0;
+  height:auto;
+  margin:0;
+  padding:12px 14px;
+  overflow-wrap:anywhere;
+  border:1px solid rgba(45,212,191,.24);
+  border-radius:var(--rp-radius);
+  background:rgba(45,212,191,.08);
+  color:#ddfff8;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+#automation-panel h3,
+#automation-panel h4,
+#automation-panel b{
+  display:block;
+  margin:0;
+  color:var(--rp-text);
+  line-height:1.3;
+  white-space:normal;
+}
+#automation-panel .automation-card::before,
+#automation-panel .automation-card::after,
+#automation-panel .relay-install-card::before,
+#automation-panel .relay-install-card::after{
+  content:none;
+  display:none;
+}

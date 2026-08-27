@@ -1,0 +1,72 @@
+
+// B"H
+
+/**
+ * @file structure/manifest/primitive/typeNames.js
+ * @chapter The Names Of The Smallest Vessels
+ * @description
+ * The primitive world must not guess.
+ * Each raw JavaScript spark needs one clear name before the binary body forms.
+ */
+
+const constants = require('../../../constants.js');
+
+const T = constants.VAL_TYPE;
+
+/**
+ * @constant TYPE_NAMES
+ * @description
+ * Human names for primitive storage types.
+ */
+const TYPE_NAMES = {
+  NULL: T.NULL,
+  UNDEFINED: T.UNDEFINED,
+  BOOLEAN: T.BOOLEAN,
+  BOOLEAN_TRUE: T.BOOLEAN_TRUE,
+  BOOLEAN_FALSE: T.BOOLEAN_FALSE,
+  SMALL_INT: T.SMALL_INT,
+  NUMBER: T.NUMBER,
+  DOUBLE_POS: T.DOUBLE_POS,
+  DOUBLE_NEG: T.DOUBLE_NEG,
+  UINT8: T.UINT8,
+  UINT16: T.UINT16,
+  UINT32: T.UINT32,
+  UINT64: T.UINT64,
+  INT8_NEG: T.INT8_NEG,
+  INT16_NEG: T.INT16_NEG,
+  INT32_NEG: T.INT32_NEG,
+  INT64_NEG: T.INT64_NEG,
+  NAN: T.NAN,
+  INFINITY: T.INFINITY,
+  NEG_INFINITY: T.NEG_INFINITY,
+  STRING: T.STRING,
+  STRING_OMNI: T.STRING_OMNI,
+  JSON: T.JSON,
+  DATE: T.DATE,
+  BIGINT: T.BIGINT,
+  BIGINT_POS: T.BIGINT_POS,
+  BIGINT_NEG: T.BIGINT_NEG,
+  BUFFER: T.BUFFER,
+  BUFFER_OMNI: T.BUFFER_OMNI,
+  ERROR: T.ERROR,
+  FUNCTION: T.FUNCTION,
+  SYMBOL: T.SYMBOL,
+  REGEXP: T.REGEXP,
+  ARRAY_BUFFER: T.ARRAY_BUFFER,
+  ARRAY_BUFFER_OMNI: T.ARRAY_BUFFER_OMNI,
+  TYPED_ARRAY: T.TYPED_ARRAY,
+  TYPED_ARRAY_OMNI: T.TYPED_ARRAY_OMNI,
+  ENCRYPTED: T.ENCRYPTED,
+  BLOB: T.BLOB,
+  TEXT: T.TEXT,
+  COMPACT_JSON: T.COMPACT_JSON,
+  NUMBER_ZERO: T.NUMBER_ZERO,
+
+  NUMBER_ONE: T.NUMBER_ONE,
+  NUMBER_NEG_ONE: T.NUMBER_NEG_ONE,
+  OPAQUE: T.OPAQUE,
+  PACKED_OBJECT: T.PACKED_OBJECT,
+  PACKED_ARRAY: T.PACKED_ARRAY
+};
+
+module.exports = TYPE_NAMES;

@@ -1,0 +1,67 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-rebbe-runner-775c456f",
+	"path": "geelooy/games/rebbe-runner",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "The Rebbe's Runner",
+	"entries": [
+		"index.html"
+	],
+	"humanDocumentation": [
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-rebbe-runner-775c456f.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 4,
+		"tests": 0,
+		"assets": 0,
+		"generated": 0,
+		"docs": 0,
+		"other": 0
+	},
+	"totalFiles": 4,
+	"symbolSummary": {
+		"files": 2,
+		"classes": 3,
+		"functions": 9,
+		"exports": 0,
+		"samples": [
+			"Player",
+			"Obstacle",
+			"Collectible",
+			"resizeCanvas",
+			"drawRoadLines",
+			"createBackground",
+			"init",
+			"drawBackground",
+			"animate",
+			"detectCollision",
+			"endGame",
+			"handleStart"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/rebbe-runner",
+			"file": "geelooy/games/rebbe-runner/index.html",
+			"title": "The Rebbe's Runner",
+			"scripts": 2,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": false,
+	"documentationCovered": false,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

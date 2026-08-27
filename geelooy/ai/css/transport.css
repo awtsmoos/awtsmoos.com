@@ -1,0 +1,36 @@
+/*B"H — transport is a header row, never an overlay */
+.transport-status {
+  min-width: 0;
+  margin: 8px 12px 0;
+  padding: 8px 12px;
+  height: 32px;
+  border: 1px solid rgba(126, 212, 255, .22);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(47,240,160,.10), rgba(31,111,235,.10));
+  color: #dff8ff;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+  font-size: .82rem;
+}
+.transport-status:empty { visibility: hidden; }
+.transport-status.is-extension,
+.transport-status.is-relay,
+.transport-status.is-ready { border-color: rgba(47,240,160,.35); }
+.transport-status.is-missing { border-color: rgba(255,209,102,.45); }
+.transport-status strong { color: white; flex: 0 0 auto; }
+.transport-status a,
+.transport-status button {
+  border: 1px solid rgba(126, 212, 255, .24);
+  border-radius: 999px;
+  background: rgba(1, 7, 14, .64);
+  color: #e6fbff;
+  text-decoration: none;
+  padding: 4px 8px;
+  cursor: pointer;
+}

@@ -1,0 +1,28 @@
+/*B"H
+  Chapter 20: The Atmosphere Became Still Enough To Breathe.
+
+  The Awtsmoos keeps stars as paint, not as a storm. Low/off modes perform no
+  animation and no blur. High mode may drift softly when explicitly requested.
+*/
+body .chat-box{position:relative}
+body .chat-box::before,body .chat-box::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0}
+body .chat-box>*{position:relative;z-index:1}
+body .chat-box::before{
+  background-image:
+    radial-gradient(circle at 10% 20%,rgba(255,255,255,.36) 0 1px,transparent 2px),
+    radial-gradient(circle at 80% 30%,rgba(192,132,252,.38) 0 1px,transparent 2px),
+    radial-gradient(circle at 60% 70%,rgba(34,211,197,.28) 0 1px,transparent 2px);
+  background-size:280px 280px,360px 360px,320px 320px;
+  opacity:.24;
+}
+body .chat-box::after{
+  background:radial-gradient(circle at 50% 58%,rgba(124,58,237,.10),transparent 34%);
+  opacity:.72;
+}
+body.awts-fx-high::before{animation:awtsNebulaDrift 34s ease-in-out infinite alternate}
+body.awts-fx-high::after{animation:awtsNebulaPulse 28s ease-in-out infinite alternate}
+body.awts-fx-high .chat-box::before{animation:awtsStars 90s linear infinite}
+body.awts-fx-off .chat-box::before,body.awts-fx-off .chat-box::after{display:none!important}
+@keyframes awtsStars{from{transform:translateY(0)}to{transform:translateY(-80px)}}
+@keyframes awtsNebulaDrift{from{transform:translate3d(-1%,0,0)}to{transform:translate3d(1%,1%,0)}}
+@keyframes awtsNebulaPulse{from{opacity:.50}to{opacity:.72}}

@@ -1,0 +1,88 @@
+/*B"H
+  Chapter 183: The Thought Palace Received Windows.
+  The Awtsmoos, without body or border, speaks every instant into the dark UI:
+  panels become chambers, summaries become gates, payloads become readable rivers.
+*/
+.event-region{
+  width:min(100%,var(--awt-message-max));
+  display:grid;
+  gap:14px;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+.event-entry{min-width:0;width:100%}
+.transport-details,.thought-envelope-card{
+  width:100%;
+  border:1px solid rgba(125,211,252,.24);
+  border-radius:24px;
+  background:radial-gradient(circle at 12% -10%,rgba(34,211,238,.16),transparent 34%),linear-gradient(145deg,rgba(8,20,38,.98),rgba(2,6,23,.94));
+  box-shadow:0 22px 54px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.07);
+  overflow:hidden;
+}
+.transport-details>summary,.thought-envelope-card>summary{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:54px;
+  padding:13px 15px;
+  list-style:none;
+  cursor:pointer;
+  color:#ecfeff;
+  background:linear-gradient(90deg,rgba(15,33,56,.98),rgba(4,11,24,.92));
+  position:relative;
+}
+.transport-details>summary::-webkit-details-marker,.thought-envelope-card>summary::-webkit-details-marker{display:none}
+.transport-details>summary::before,.thought-envelope-card>summary::before{
+  content:"▸";
+  color:#67e8f9;
+  font-weight:950;
+  transition:transform .18s ease;
+  flex:0 0 auto;
+}
+.transport-details[open]>summary::before,.thought-envelope-card[open]>summary::before{transform:rotate(90deg)}
+.event-title-wrap{display:flex!important;align-items:center;gap:8px;min-width:0;flex:1 1 auto;flex-wrap:wrap;padding-right:4px}
+.event-title-wrap b{color:#f8fbff;font-weight:950;letter-spacing:.01em}
+.event-kind-pill{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:1px solid rgba(103,232,249,.28);border-radius:999px;background:rgba(14,165,233,.16);color:#a5f3fc;font-size:.72rem;font-weight:950;text-transform:uppercase;letter-spacing:.08em}
+.event-tool-target,.event-talked-to,.event-brief{min-width:0;max-width:100%;overflow-wrap:anywhere;color:#bfdbfe;font-size:.82rem;font-weight:800}
+.event-tool-target{padding:3px 8px;border-radius:999px;background:rgba(59,130,246,.12);border:1px solid rgba(147,197,253,.18);color:#dbeafe}
+.event-talked-to{color:#94a3b8}.event-tool-meta{margin-left:0;padding:3px 8px;border-radius:999px;border:1px solid rgba(52,211,153,.24);color:#bbf7d0;background:rgba(6,78,59,.22);font-size:.72rem;font-weight:900}
+.event-panel-actions{display:inline-flex!important;align-items:center;gap:6px;margin-left:auto;flex:0 0 auto;position:relative;z-index:5;pointer-events:auto}
+.event-panel-actions button{width:34px;height:31px;padding:0;border:1px solid rgba(125,211,252,.30);border-radius:11px;background:rgba(2,6,23,.80);color:#dff8ff;font-size:14px;font-weight:950;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 8px 18px rgba(0,0,0,.2);cursor:pointer}
+.event-panel-actions button:hover{border-color:rgba(103,232,249,.72);background:rgba(14,165,233,.30);transform:translateY(-1px)}
+.event-panel-actions [data-panel-action="fullscreen"]{background:linear-gradient(135deg,rgba(8,145,178,.9),rgba(37,99,235,.84));border-color:rgba(165,243,252,.52)}
+.event-kind-thinking,.thought-envelope-card{border-color:rgba(192,132,252,.30);background:radial-gradient(circle at 96% -8%,rgba(168,85,247,.22),transparent 38%),linear-gradient(145deg,rgba(15,23,42,.98),rgba(4,8,20,.95))}
+.event-kind-awtsmoos_tool,.event-kind-agent_tool{border-color:rgba(34,211,238,.32)}
+.event-kind-awtsmoos_tool_result,.event-kind-tool_result{border-color:rgba(52,211,153,.32)}
+.event-kind-hidden{opacity:.9}.event-kind-hidden>summary{background:linear-gradient(90deg,rgba(51,65,85,.9),rgba(15,23,42,.9))}
+.thought-text-card{width:100%;margin:0;border:1px solid rgba(192,132,252,.28);border-radius:22px;background:radial-gradient(circle at 0 0,rgba(192,132,252,.18),transparent 42%),linear-gradient(145deg,rgba(16,24,43,.97),rgba(5,9,22,.95));box-shadow:0 18px 42px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06);color:#f8fbff;overflow:hidden}
+.thought-text-title{padding:12px 14px;color:#f0abfc;font-weight:950;letter-spacing:.12em;text-transform:uppercase;background:rgba(88,28,135,.16)}
+.thought-text-body{padding:14px;color:#e2e8f0;line-height:1.68}
+.thought-envelope-card{padding:0;position:relative}
+.thought-envelope-card>.event-panel-actions{position:absolute;right:14px;top:12px}
+.thought-envelope-events{margin:12px;border:1px solid rgba(125,211,252,.18);border-radius:20px;background:linear-gradient(145deg,rgba(2,6,23,.68),rgba(15,23,42,.38));overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.thought-envelope-events>summary{padding:12px 14px;color:#dff8ff;background:linear-gradient(90deg,rgba(14,165,233,.16),rgba(15,23,42,.68));font-weight:950;letter-spacing:.01em}
+.thought-inner-window{margin:0;padding:12px;display:grid;gap:12px;background:rgba(2,6,23,.30);max-height:min(58vh,620px);overflow:auto;scrollbar-width:thin}
+.thought-inner-event-vessel{border-radius:20px;background:rgba(15,23,42,.40);box-shadow:0 10px 30px rgba(0,0,0,.22)}
+.event-payload{margin:12px;border:1px solid rgba(125,211,252,.18);border-radius:20px;background:linear-gradient(145deg,rgba(1,8,18,.74),rgba(8,20,38,.52));overflow:hidden}
+.event-payload>summary{padding:12px 14px;color:#bae6fd;background:linear-gradient(90deg,rgba(8,47,73,.36),rgba(2,6,23,.34));font-weight:950;letter-spacing:.01em}
+.event-payload[open]>summary{border-bottom:1px solid rgba(125,211,252,.12)}
+.event-summary-card{margin:12px;border:1px solid rgba(125,211,252,.16);border-radius:20px;background:linear-gradient(145deg,rgba(15,23,42,.66),rgba(2,6,23,.48));overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.event-summary-title{display:block;padding:12px 14px;color:#e0f2fe;font-weight:950;background:rgba(14,165,233,.08)}
+.event-chip-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;padding:12px}
+.event-chip{display:grid;gap:4px;min-width:0;padding:8px 10px;border:1px solid rgba(148,163,184,.16);border-radius:14px;background:rgba(15,23,42,.62);color:#d7e1f0;font-size:.78rem;line-height:1.35;overflow-wrap:anywhere}
+.event-chip b{color:#7dd3fc;text-transform:uppercase;letter-spacing:.07em;font-size:.68rem}
+.event-code-block{display:block;margin:12px;max-height:min(50vh,520px);overflow:auto;border:1px solid rgba(125,211,252,.18);border-radius:18px;background:#020617;color:#dff8ff;padding:13px;font-size:.82rem;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.event-payload .event-code-block,.event-summary-card .event-code-block{margin:12px}
+.transport-details.is-maximized,.thought-envelope-card.is-maximized{max-width:min(1100px,calc(100vw - 48px));width:min(1100px,calc(100vw - 48px));z-index:80}
+.transport-details.is-fullscreen,.thought-envelope-card.is-fullscreen{position:fixed;inset:18px;z-index:1000;width:auto;max-width:none;max-height:none;overflow:auto}
+.has-event-fullscreen .chat-box{overflow:hidden}.chat-box[data-live-follow="paused"]::after{display:none}.live-follow-button{bottom:clamp(4.8rem,9vh,6.2rem)}
+@media(max-width:760px){
+  .event-region,.transport-details,.thought-envelope-card{width:100%;max-width:100%}
+  .transport-details>summary,.thought-envelope-card>summary{align-items:flex-start}
+  .event-panel-actions{margin-left:0;padding-top:2px}
+  .event-chip-row{grid-template-columns:1fr}
+  .event-tool-target,.event-talked-to,.event-brief{font-size:.78rem}
+  .transport-details.is-fullscreen,.thought-envelope-card.is-fullscreen{inset:8px;border-radius:18px}
+}

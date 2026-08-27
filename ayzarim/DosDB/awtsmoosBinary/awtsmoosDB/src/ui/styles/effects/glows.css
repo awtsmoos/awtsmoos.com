@@ -1,0 +1,18 @@
+
+/* B”H */
+.glow-text {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.glow-border {
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.pulse-glow {
+  animation: pulse-glow-anim 2s infinite alternate;
+}
+
+@keyframes pulse-glow-anim {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}

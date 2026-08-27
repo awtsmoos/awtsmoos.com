@@ -1,0 +1,42 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-email-email-21dde810a8",
+	"route": "/api/email/email",
+	"source": "geelooy/api/email/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/email",
+		"title": "Email",
+		"manual": "docs/TUTORIALS/API/EMAIL.md"
+	},
+	"derech": {
+		"source": "geelooy/api/email/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/email"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [
+		{
+			"name": "emailTest",
+			"command": "node ayzarim/email/emailTest.js"
+		}
+	],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-email-email-21dde810a8.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-email-f77f0430fe",
+			"route": "/api/email"
+		}
+	]
+}

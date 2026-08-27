@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-scribe-journey-e49e326e",
+	"path": "geelooy/games/scribe-journey",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "The Scribe's Journey: Echoes of Ein Sof",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/scribe-journey/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-scribe-journey-e49e326e.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 375,
+		"tests": 99,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 1
+	},
+	"totalFiles": 476,
+	"symbolSummary": {
+		"files": 362,
+		"classes": 12,
+		"functions": 551,
+		"exports": 536,
+		"samples": [
+			"amalekBeasts",
+			"binahBeasts",
+			"campaignBeasts",
+			"campaignChesedBinahBeasts",
+			"campaignChokhmahKeterBeasts",
+			"createCampaignMusag",
+			"createCampaignRoster",
+			"campaignHodNetzachBeasts",
+			"campaignMalkuthFinaleBeasts",
+			"campaignMalkuthYesodBeasts",
+			"campaignPostgameBeasts",
+			"campaignTiferetGevurahBeasts"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/scribe-journey",
+			"file": "geelooy/games/scribe-journey/index.html",
+			"title": "The Scribe's Journey: Echoes of Ein Sof",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

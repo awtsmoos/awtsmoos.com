@@ -1,0 +1,10 @@
+/* B"H — mobile vessel imports, kept last to override desktop shell */
+@import "./mobile/shell.css";
+@import "./mobile/panels.css";
+@import "./mobile/composer.css";
+@import "./mobile/panel-rails.css";
+@import "./mobile/prompt.css";
+@import "./mobile/surface-polish.css";
+@import "./mobile/focus-drawer.css";
+@import "./mobile/lightweight-feedback.css";
+@import "./mobile/drawer-overlay.css";

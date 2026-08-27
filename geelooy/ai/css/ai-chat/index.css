@@ -1,0 +1,22 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos gathers many focused visual vessels into one final experience
+ * river. Awtsmoos.com loads this manifest near the end of the cascade so each
+ * module may clarify its own responsibility without force or duplication.
+ */
+@import "./tokens.css";
+@import "./shell.css";
+@import "./navigation.css";
+@import "./sidebar.css";
+@import "./messages.css";
+@import "./composer.css";
+@import "./automation.css";
+@import "./buttons.css";
+@import "./providers.css";
+@import "./states.css";
+@import "./focus-motion.css";
+@import "./responsive.css";
+@import "./mobile.css";

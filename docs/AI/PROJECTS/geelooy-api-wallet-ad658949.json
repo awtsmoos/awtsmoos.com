@@ -1,0 +1,67 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-api-wallet-ad658949",
+	"path": "geelooy/api/wallet",
+	"type": "api",
+	"family": {
+		"id": "apis",
+		"title": "API Projects"
+	},
+	"title": "geelooy/api/wallet",
+	"entries": [
+		"_awtsmoos.derech.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/api/wallet/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APIS.md",
+		"docs/API/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APIS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-api-wallet-ad658949.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 54,
+		"tests": 13,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 68,
+	"symbolSummary": {
+		"files": 54,
+		"classes": 0,
+		"functions": 99,
+		"exports": 120,
+		"samples": [
+			"dynamicRoutes",
+			"POST",
+			"normalizeAmount",
+			"normalizeWalletBuckets",
+			"syncWalletBalance",
+			"creditWalletBucket",
+			"debitWalletBuckets",
+			"getCommerceAccount",
+			"APP_CREATOR_SERVICE_SKUS",
+			"APP_SERVICE_SKUS",
+			"APP_SYSTEM_SERVICE_SKUS",
+			"APP_UTILITY_SERVICE_SKUS"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/api/social",
+			"count": 1,
+			"examples": "geelooy/api/wallet/core/transferIdentity.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

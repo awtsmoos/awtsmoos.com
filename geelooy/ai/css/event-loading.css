@@ -1,0 +1,51 @@
+/* B"H */
+/* Chapter 33: The Loading Sparks Danced Before the Gate. */
+.event-hydration-loading,
+.chat-load-state {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  margin: 8px;
+  padding: 12px 14px 12px 42px;
+  border: 1px solid rgba(126, 212, 255, .22);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(14,165,233,.12), rgba(16,185,129,.08));
+  color: #dff8ff;
+  overflow: hidden;
+}
+.event-hydration-loading::before,
+.chat-load-state::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  margin-top: -8px;
+  border: 2px solid rgba(255,255,255,.22);
+  border-top-color: #67e8f9;
+  border-radius: 50%;
+  animation: aiSpin .75s linear infinite;
+}
+.event-hydration-loading::after,
+.chat-load-state::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.10), transparent);
+  animation: aiSheen 1.4s ease-in-out infinite;
+}
+.chat-load-state.is-error {
+  border-color: rgba(248,113,113,.55);
+  background: linear-gradient(135deg, rgba(127,29,29,.32), rgba(15,23,42,.88));
+}
+.chat-load-state.is-error::before {
+  content: "!";
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(248,113,113,.65);
+  color: #fecaca;
+  animation: none;
+}
+@keyframes aiSheen { to { transform: translateX(100%); } }

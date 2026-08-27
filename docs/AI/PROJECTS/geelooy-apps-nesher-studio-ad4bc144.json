@@ -1,0 +1,70 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-apps-nesher-studio-ad4bc144",
+	"path": "geelooy/apps/nesher-studio",
+	"type": "app",
+	"family": {
+		"id": "apps",
+		"title": "Applications"
+	},
+	"title": "🦅 Nesher Studio",
+	"entries": [
+		"index.html",
+		"main.js",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/apps/nesher-studio/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/APPS.md",
+		"docs/APPS/README.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/APPS.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-apps-nesher-studio-ad4bc144.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 416,
+		"tests": 117,
+		"assets": 0,
+		"generated": 0,
+		"docs": 5,
+		"other": 4
+	},
+	"totalFiles": 542,
+	"symbolSummary": {
+		"files": 368,
+		"classes": 13,
+		"functions": 1176,
+		"exports": 909,
+		"samples": [
+			"renderAudioMixerPanel",
+			"mountAudioMixerPanel",
+			"renderBinPanel",
+			"mountBinPanel",
+			"renderColorPanel",
+			"mountColorPanel",
+			"renderEffectsPanel",
+			"mountEffectsPanel",
+			"renderExportPanel",
+			"mountExportPanel",
+			"renderPreviewMonitor",
+			"mountPreviewMonitor"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/apps/nesher-studio",
+			"file": "geelooy/apps/nesher-studio/index.html",
+			"title": "🦅 Nesher Studio",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

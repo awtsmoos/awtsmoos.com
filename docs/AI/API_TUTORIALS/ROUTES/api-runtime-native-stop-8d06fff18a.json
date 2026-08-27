@@ -1,0 +1,45 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-runtime-native-stop-8d06fff18a",
+	"route": "/api/runtime/native/stop",
+	"source": "geelooy/api/runtime/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/runtime",
+		"title": "Native Runtime",
+		"manual": "docs/TUTORIALS/API/RUNTIME.md"
+	},
+	"derech": {
+		"source": "geelooy/api/runtime/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/runtime"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [],
+	"statuses": [],
+	"headers": [],
+	"callers": [],
+	"callerCount": 0,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-runtime-native-stop-8d06fff18a.md",
+	"confidence": "unknown-method",
+	"related": [
+		{
+			"id": "api-runtime-native-capabilities-7b0ee881a8",
+			"route": "/api/runtime/native/capabilities"
+		},
+		{
+			"id": "api-runtime-native-launch-00685c52f8",
+			"route": "/api/runtime/native/launch"
+		},
+		{
+			"id": "api-runtime-native-status-71d1b10724",
+			"route": "/api/runtime/native/status"
+		}
+	]
+}

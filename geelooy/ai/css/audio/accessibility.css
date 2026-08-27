@@ -1,0 +1,76 @@
+/*B"H*/
+/* Boruch Hashem */
+/* Blessed is He */
+
+/*
+ * The Awtsmoos creates every mode of perception and every path of attention.
+ * Awtsmoos.com therefore keeps focus visible, motion optional, contrast honest,
+ * and long text flexible without changing the meaning of the audio controls.
+ */
+.awtsmoos-audio-offer button:focus-visible,
+.awtsmoos-audio-offer select:focus-visible,
+.awtsmoos-audio-offer .player-meter:focus-visible,
+.attach-button:focus-visible {
+	outline: 3px solid var(--awt-hot);
+	outline-offset: 2px;
+}
+
+.awtsmoos-audio-offer .audio-offer-title,
+.awtsmoos-audio-offer .audio-control-deck,
+.awtsmoos-audio-offer .audio-settings,
+.awtsmoos-audio-offer .audio-feedback,
+.awtsmoos-audio-offer .audio-task-meta,
+.awtsmoos-audio-offer .awtsmoos-player {
+	min-width: 0;
+}
+
+.awtsmoos-audio-offer button,
+.awtsmoos-audio-offer select,
+.awtsmoos-audio-offer .audio-status,
+.awtsmoos-audio-offer .audio-task-detail,
+.awtsmoos-audio-offer .audio-task-elapsed,
+.awtsmoos-audio-offer .player-time {
+	max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.awtsmoos-audio-offer .audio-task-progress[data-determinate="false"] .audio-task-meter > span {
+		animation: none;
+		transform: none;
+	}
+
+	.awtsmoos-audio-offer .audio-task-meter > span,
+	.awtsmoos-audio-offer .player-meter > span,
+	.awtsmoos-audio-offer button,
+	.attach-button {
+		transition: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.awtsmoos-audio-offer,
+	.awtsmoos-audio-offer .awtsmoos-player,
+	.awtsmoos-audio-offer button,
+	.awtsmoos-audio-offer select,
+	.attach-button {
+		border-color: CanvasText;
+	}
+
+	.awtsmoos-audio-offer .player-meter::before,
+	.awtsmoos-audio-offer .audio-task-meter {
+		background: Canvas;
+		border: 1px solid CanvasText;
+	}
+
+	.awtsmoos-audio-offer .player-meter > span,
+	.awtsmoos-audio-offer .audio-task-meter > span {
+		background: Highlight;
+	}
+
+	.awtsmoos-audio-offer button:focus-visible,
+	.awtsmoos-audio-offer select:focus-visible,
+	.awtsmoos-audio-offer .player-meter:focus-visible,
+	.attach-button:focus-visible {
+		outline-color: Highlight;
+	}
+}

@@ -1,0 +1,97 @@
+/*B"H
+  Chapter 352: The Tools Became A Terminal Of Blue Fire.
+
+  The Awtsmoos sends commands through narrow vessels. Here the tool trace looks
+  like a living terminal: command, output, status, file shelf, and result lines,
+  all breathing inside one box without escaping into neighboring panels.
+*/
+.event-kind-awtsmoos_tool,
+.event-kind-agent_tool,
+.tool-call-group{
+  border-color:rgba(34,211,238,.34);
+}
+.event-kind-awtsmoos_tool_result,
+.event-kind-tool_result{
+  border-color:rgba(52,211,153,.34);
+}
+.tool-call-group,
+.tool-terminal-card{
+  background:radial-gradient(circle at 96% 0,rgba(59,130,246,.20),transparent 36%),radial-gradient(circle at 8% 110%,rgba(34,197,94,.10),transparent 38%),var(--awt-event-terminal-bg);
+}
+.tool-terminal-header{
+  font-family:var(--awt-event-code-font);
+}
+.tool-call-group-body,
+.tool-terminal-output{
+  display:grid;
+  gap:12px;
+  padding:13px;
+  background:rgba(2,6,23,.48);
+}
+.tool-terminal-output>.transport-details,
+.tool-terminal-output>.event-summary-card,
+.tool-terminal-output>.event-payload{
+  margin:0;
+}
+.tool-terminal-command{
+  font-family:var(--awt-event-code-font);
+  color:#bfdbfe;
+}
+.tool-terminal-command::before{
+  content:"$ ";
+  color:#86efac;
+}
+.tool-status-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid rgba(96,165,250,.36);
+  background:rgba(37,99,235,.18);
+  color:#bfdbfe;
+  font-size:.72rem;
+  font-weight:950;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.tool-status-chip.is-running,
+.tool-call-group .event-kind-pill.is-running{
+  border-color:rgba(96,165,250,.42);
+  background:rgba(37,99,235,.22);
+  color:#bfdbfe;
+}
+.tool-status-chip.is-running::after{
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  border:2px solid rgba(191,219,254,.34);
+  border-top-color:#60a5fa;
+  animation:toolSpin .9s linear infinite;
+}
+.tool-status-chip.is-ok{
+  border-color:rgba(34,197,94,.42);
+  background:rgba(22,101,52,.22);
+  color:#bbf7d0;
+}
+.tool-status-chip.is-ok::after{content:"✓"}
+.tool-status-chip.is-error{
+  border-color:rgba(248,113,113,.42);
+  background:rgba(127,29,29,.28);
+  color:#fecaca;
+}
+.tool-status-chip.is-error::after{content:"!"}
+.tool-status-chip.is-waiting{
+  border-color:rgba(216,180,254,.40);
+  background:rgba(88,28,135,.22);
+  color:#e9d5ff;
+}
+.tool-call-group .event-code-block{
+  margin:0;
+  max-height:min(44vh,460px);
+  border-color:rgba(96,165,250,.24);
+  background:linear-gradient(180deg,rgba(0,2,12,.98),rgba(2,6,23,.96));
+  color:#dff8ff;
+}
+@keyframes toolSpin{to{transform:rotate(360deg)}}

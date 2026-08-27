@@ -1,0 +1,36 @@
+{
+	"BH": "B\"H",
+	"maxLines": 120,
+	"requiredHeader": ["B\"H", "Boruch Hashem", "Blessed is He"],
+	"requiredDocuments": [
+		"README.md",
+		"VECTOR_INDEX_INVARIANTS.md",
+		"DATABASE_LIFECYCLE_AND_MANIFESTS.md",
+		"RAG_INGESTION_AND_EMBEDDING_PIPELINE.md",
+		"INDEXED_SEARCH_PERFORMANCE_MODEL.md",
+		"AI_AGENT_DECISION_TREE.md",
+		"EMBEDDING_REUSE_POLICY.md",
+		"MANIFEST_SCHEMA.md",
+		"RAG_PATH_AND_RESTART_RULES.md",
+		"LIFECYCLE_WAL_LEASE_INVARIANTS.md",
+		"V2_ALLOCATOR_REUSE_AND_TAIL_RECLAIM.md",
+		"FIELD_GUIDE__RAG_REPAIR_WITHOUT_REEMBEDDING.md",
+		"FIELD_GUIDE__PUBLISHING_A_VACUUMED_VECTOR_DB.md",
+		"AI_SEARCH_AND_VECTOR_INDEX.md",
+		"TROUBLESHOOTING_RAG_SEARCH.md",
+		"REBUILD_VS_REUSE_DECISION_TREE.md"
+	],
+	"sourceAnchors": [
+		"index.js",
+		"database.js",
+		"core/wal.js",
+		"core/pager/readOnlyPager.js",
+		"core/allocator/defaultReuseOptions.js",
+		"core/allocator/allocationLeases.js",
+		"core/allocator/verifiedReuseGate.js",
+		"api/search/strictQuery.js",
+		"api/search/reindex/sourcePointers.js",
+		"core/registry/handle.js"
+	],
+	"requiredTerms": ["persisted HNSW", "read-only", "embeddings", "rollback", "approval"]
+}

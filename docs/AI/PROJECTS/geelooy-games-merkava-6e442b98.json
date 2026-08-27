@@ -1,0 +1,78 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-merkava-6e442b98",
+	"path": "geelooy/games/Merkava",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Merkava — War of the Sparks",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/Merkava/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-merkava-6e442b98.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 86,
+		"tests": 31,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 1
+	},
+	"totalFiles": 120,
+	"symbolSummary": {
+		"files": 76,
+		"classes": 39,
+		"functions": 154,
+		"exports": 129,
+		"samples": [
+			"appDiagnostics",
+			"createDiagnosticControls",
+			"checkpoint",
+			"setLane",
+			"chargeAbility",
+			"advanceLevel",
+			"setWorld",
+			"setLevel",
+			"grantPrutahs",
+			"defeatBoss",
+			"completeWorldRotation",
+			"clampIndex"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/libs",
+			"count": 2,
+			"examples": "geelooy/games/Merkava/src/render/createCoreMeshes.js; geelooy/games/Merkava/src/render/createEnemyMeshes.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/Merkava",
+			"file": "geelooy/games/Merkava/index.html",
+			"title": "Merkava — War of the Sparks",
+			"scripts": 1,
+			"styles": 2
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

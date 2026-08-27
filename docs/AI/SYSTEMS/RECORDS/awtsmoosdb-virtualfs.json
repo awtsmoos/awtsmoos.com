@@ -1,0 +1,66 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-system-tutorial-v1",
+	"systemId": "awtsmoosdb-virtualfs",
+	"district": "data",
+	"title": "AwtsmoosDB and VirtualFs",
+	"summary": "The newer `.awtsdb` storage engine and its virtual filesystem interface.",
+	"manuals": [
+		"docs/DATA/AWTSMOOSDB_AND_VIRTUALFS.md",
+		"docs/DATA/README.md"
+	],
+	"projects": [
+		{
+			"projectId": "ayzarim-dosdb-eaaa802e",
+			"path": "ayzarim/DosDB",
+			"type": "data",
+			"title": "ayzarim/DosDB",
+			"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/ayzarim-dosdb-eaaa802e.md"
+		}
+	],
+	"sources": [
+		"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/index.js",
+		"ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/fs/v3/VirtualFs.js"
+	],
+	"generatedEvidence": [],
+	"tags": [
+		"persistence",
+		"virtualfs",
+		"awtsmoosdb",
+		"migration"
+	],
+	"claimsBoundary": "Source paths establish the engine/interface boundary; generated docs do not infer transaction or consistency guarantees.",
+	"changeRisk": "Storage-engine, manifest, transaction, or path changes require compatibility review.",
+	"environmentEvidence": [
+		{
+			"name": "AWTSMOOS_EMBED_MODEL_ROOT",
+			"classification": "test/tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/ai_search_model_root_precedence_test.js"
+		},
+		{
+			"name": "AWTSMOOSDB_FAST_TEST",
+			"classification": "test/tuning",
+			"sources": 3,
+			"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/core/idle/fastGate.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/semantic_ai_dosdb_test.js"
+		},
+		{
+			"name": "AWTSMOOSDB_TEST_SCALE",
+			"classification": "test/tuning",
+			"sources": 1,
+			"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js"
+		},
+		{
+			"name": "NODE_ENV",
+			"classification": "runtime-config",
+			"sources": 3,
+			"exampleSources": "ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/test/lightning/env.js; geelooy/api/wallet/core/paypalEnvironment.js; geelooy/api/wallet/tests/paypalEnvironment.test.js"
+		}
+	],
+	"realtimeApplications": [],
+	"eventEvidence": [],
+	"tutorialFile": "docs/GENERATED/SYSTEM_TUTORIALS/SYSTEMS/awtsmoosdb-virtualfs.md",
+	"aiFile": "docs/AI/SYSTEMS/RECORDS/awtsmoosdb-virtualfs.json",
+	"provenance": "curated-system-semantics-plus-generated-local-source-evidence",
+	"navigationRule": "Human manual -> generated system tutorial/evidence -> related project/source -> tests/runtime verification."
+}

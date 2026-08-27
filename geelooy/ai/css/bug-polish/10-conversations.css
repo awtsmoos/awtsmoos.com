@@ -1,0 +1,78 @@
+/*B"H
+Chapter 433: The left rail became a ledger of sparks.
+Every provider and remembered chat receives a clean, glowing vessel.
+*/
+.sidebar { min-width: 250px; overflow: hidden; border-radius: 28px; }
+.conversation-list { display: flex; flex-direction: column; gap: 12px; padding: 14px; min-height: 100%; }
+.conversation-list::before {
+  content: "AWTSMOOS AI";
+  letter-spacing: .20em;
+  font-size: .75rem;
+  color: var(--bug-cyan);
+  font-weight: 900;
+  padding: 4px 2px 2px;
+}
+.refresh-button, #new-chat, .provider-key-row button, .bridge-actions button, .bridge-command button {
+  border: 1px solid rgba(104, 230, 255, .24);
+  background: linear-gradient(135deg, rgba(27,219,255,.18), rgba(142,76,255,.18));
+  color: #f8fdff;
+  border-radius: 16px;
+  padding: 11px 13px;
+  font-weight: 850;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+#new-chat { background: linear-gradient(135deg, #20dfff, #8d55ff); color: white; border: 0; }
+.service-selector, .provider-key-panel, .chatgpt-mode-wrap, .chatgpt-bridge-card {
+  border: 1px solid rgba(112, 232, 255, .16);
+  background: linear-gradient(180deg, rgba(8,18,34,.84), rgba(6,13,25,.72));
+  border-radius: 22px;
+  padding: 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+.service-selector label, .provider-key-form label, .chatgpt-bridge-card label {
+  display: block;
+  margin-bottom: 7px;
+  color: #a4f4ff;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .72rem;
+  font-weight: 900;
+}
+.service-selector select, .provider-key-input {
+  width: 100%;
+  color: #f6fdff;
+  background: rgba(3, 10, 21, .92);
+  border: 1px solid rgba(127,222,255,.22);
+  border-radius: 15px;
+  padding: 11px 12px;
+}
+.provider-key-row, .bridge-actions, .bridge-card-head { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.provider-key-row input { min-width: 0; flex: 1 1 170px; }
+.provider-key-row button { flex: 0 0 auto; }
+.provider-key-panel small, .chatgpt-bridge-card small, .bridge-summary { color: var(--bug-muted); line-height: 1.45; }
+.bridge-command {
+  display: grid;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  background: rgba(3, 10, 20, .62);
+}
+.bridge-command code { display: block; overflow: auto; color: #dffbff; background: rgba(0,0,0,.22); padding: 9px; border-radius: 12px; }
+#conversation-items { display: flex; flex-direction: column; gap: 8px; padding: 0; margin: 0; overflow: auto; }
+#conversation-items li {
+  list-style: none;
+  border: 1px solid rgba(111,225,255,.14);
+  background: linear-gradient(135deg, rgba(10,24,45,.88), rgba(10,18,32,.70));
+  color: #eaf9ff;
+  border-radius: 18px;
+  padding: 12px 13px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+#conversation-items li:hover { border-color: var(--bug-line-hot); transform: translateX(2px); }
+#conversation-items .is-loading, #conversation-items .conversation-error, #conversation-items li[class*="error"] {
+  color: #ffe1e8;
+  border-color: rgba(255,109,154,.32);
+  background: linear-gradient(135deg, rgba(68,20,38,.72), rgba(16,24,44,.80));
+}

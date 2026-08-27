@@ -1,0 +1,81 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-seven-mitzvos-50390da0",
+	"path": "geelooy/games/seven-mitzvos",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Seven Mitzvos · Living Material Worlds",
+	"entries": [
+		"index.html",
+		"package.json",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/seven-mitzvos/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-seven-mitzvos-50390da0.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 447,
+		"tests": 66,
+		"assets": 1,
+		"generated": 0,
+		"docs": 1,
+		"other": 10
+	},
+	"totalFiles": 525,
+	"symbolSummary": {
+		"files": 375,
+		"classes": 238,
+		"functions": 474,
+		"exports": 522,
+		"samples": [
+			"AccessibilityProfileService",
+			"AccessibleStateProjector",
+			"population",
+			"describeAlert",
+			"InputBindingService",
+			"setPersonAction",
+			"updatePersonAction",
+			"personActionName",
+			"createState",
+			"applyPose",
+			"required",
+			"appTemplate"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/games/scripts",
+			"count": 12,
+			"examples": "geelooy/games/seven-mitzvos/js/assets/advanced-model-hydrator.js; geelooy/games/seven-mitzvos/js/assets/gltf-model-library.js; geelooy/games/seven-mitzvos/js/city/city-district-builder.js"
+		},
+		{
+			"project": "geelooy/libs",
+			"count": 1,
+			"examples": "geelooy/games/seven-mitzvos/js/procedural/core-part-factory.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/seven-mitzvos",
+			"file": "geelooy/games/seven-mitzvos/index.html",
+			"title": "Seven Mitzvos · Living Material Worlds",
+			"scripts": 1,
+			"styles": 8
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

@@ -1,0 +1,69 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-games-sulam-ha-sod-6268c2f3",
+	"path": "geelooy/games/sulam-ha-sod",
+	"type": "game",
+	"family": {
+		"id": "games",
+		"title": "Games and Worlds"
+	},
+	"title": "Sulam HaSod",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md"
+	],
+	"humanDocumentation": [
+		"geelooy/games/sulam-ha-sod/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/GAMES.md",
+		"docs/APPS/GAMES_AND_SIMULATION.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/GAMES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-games-sulam-ha-sod-6268c2f3.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 152,
+		"tests": 14,
+		"assets": 0,
+		"generated": 0,
+		"docs": 1,
+		"other": 0
+	},
+	"totalFiles": 167,
+	"symbolSummary": {
+		"files": 144,
+		"classes": 28,
+		"functions": 157,
+		"exports": 243,
+		"samples": [
+			"CameraRig",
+			"Game",
+			"InputVessel",
+			"Renderer",
+			"LightningRenderer",
+			"PhysicsWorld",
+			"CanvasViewport",
+			"hardenCampaign",
+			"hardenLevel",
+			"chooseCruelX",
+			"rotate",
+			"fakeCoin"
+		]
+	},
+	"outgoingDependencies": [],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/games/sulam-ha-sod",
+			"file": "geelooy/games/sulam-ha-sod/index.html",
+			"title": "Sulam HaSod",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

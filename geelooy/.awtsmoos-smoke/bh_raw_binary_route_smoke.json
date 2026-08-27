@@ -1,0 +1,5 @@
+{
+  "ok": true,
+  "bytes": 12,
+  "playlist": "#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:2\n#EXT-X-MEDIA-SEQUENCE:0\n#EXTINF:2.000,\nraw-000001.ts\n#EXT-X-ENDLIST\n"
+}

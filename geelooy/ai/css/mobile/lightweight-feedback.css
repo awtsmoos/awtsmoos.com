@@ -1,0 +1,45 @@
+/* B"H
+  Chapter 3: The First Silence Was Given A Pulse.
+  Mobile startup must never feel dead. These lightweight status shells avoid
+  layout thrash while still showing the human that the stream-vessel is alive.
+*/
+@media (max-width: 680px) {
+  .chat-load-state,
+  .render-loading,
+  .message.is-loading {
+    margin: 6px !important;
+    padding: 10px 12px 10px 38px !important;
+    border-radius: 14px !important;
+    font-size: .86rem !important;
+    min-height: 42px !important;
+    box-shadow: none !important;
+    contain: layout paint !important;
+  }
+
+  .chat-load-state::after,
+  .event-hydration-loading::after {
+    animation-duration: 1.9s !important;
+    opacity: .45 !important;
+  }
+
+  .message-loading {
+    max-width: 100% !important;
+    flex-wrap: wrap !important;
+  }
+
+  .message-loading em {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #transport-status {
+    scrollbar-width: none !important;
+    padding-inline: 8px !important;
+  }
+
+  #transport-status::-webkit-scrollbar {
+    display: none !important;
+  }
+}

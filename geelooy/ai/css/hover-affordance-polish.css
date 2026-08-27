@@ -1,0 +1,35 @@
+/* B"H — Chapter 71: The Cockpit Learned To Answer The Hand */
+/* Every hover is a tiny revelation: not decoration, but a signal that the vessel
+   hears the user's motion before the click descends into action. */
+@media (hover:hover) and (pointer:fine){
+  #conversation-items li[data-id]{
+    transition:transform .16s ease,border-color .16s ease,background .16s ease,box-shadow .16s ease;
+  }
+  #conversation-items li[data-id]:hover{
+    transform:translateX(3px);
+    border-color:rgba(125,211,252,.38);
+    background:linear-gradient(135deg,rgba(14,165,233,.14),rgba(15,23,42,.72));
+    box-shadow:inset 3px 0 0 rgba(34,211,238,.55),0 12px 30px rgba(0,0,0,.18);
+  }
+  .message-shell:hover > .message{
+    border-color:rgba(125,211,252,.20);
+    box-shadow:0 14px 44px rgba(0,0,0,.20),0 0 0 1px rgba(125,211,252,.06);
+  }
+  .transport-details:hover,.thought-envelope-card:hover{
+    border-color:rgba(34,211,238,.34);
+    box-shadow:0 16px 46px rgba(0,0,0,.25),0 0 28px rgba(34,211,238,.08);
+  }
+  .transport-details > summary:hover,.thought-envelope-card > summary:hover{
+    color:#e0fbff;
+    background:linear-gradient(90deg,rgba(34,211,238,.10),transparent);
+  }
+  .event-panel-actions button:hover,.event-panel-actions button:focus-visible{
+    transform:translateY(-1px) scale(1.04);
+    border-color:rgba(125,211,252,.55);
+    box-shadow:0 0 0 3px rgba(34,211,238,.10),0 10px 24px rgba(0,0,0,.25);
+  }
+  .refresh-button:hover,#send-button:hover,.attach-button:hover{
+    transform:translateY(-1px);
+    filter:brightness(1.08) saturate(1.08);
+  }
+}

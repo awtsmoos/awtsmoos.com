@@ -1,0 +1,119 @@
+/* B"H — mobile drawer overlay: crisp drawers, no blurry veil.
+   The Awtsmoos grants the full AI vessel its side drawers, while embedded post
+   viewers keep the chat as a top-and-content river instead of a sidebar eclipse. */
+@media (max-width: 680px) {
+  html,
+  body,
+  .container,
+  .main,
+  #chat-box { overflow-x: hidden !important; }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .container {
+    grid-template-rows: minmax(0, 1fr) !important;
+    grid-template-areas: "main" !important;
+    padding-left: 54px !important;
+  }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(#left-resizer, #right-resizer) {
+    display: none !important;
+  }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(.sidebar, .automation-panel) {
+    position: fixed !important;
+    top: max(6px, env(safe-area-inset-top)) !important;
+    bottom: max(6px, env(safe-area-inset-bottom)) !important;
+    height: auto !important;
+    max-height: none !important;
+    z-index: 40 !important;
+    transition: width .18s ease, transform .18s ease, box-shadow .18s ease !important;
+    box-shadow: 0 20px 58px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08) !important;
+  }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .sidebar {
+    left: 6px !important;
+    width: min(86vw, 360px) !important;
+  }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) .automation-panel {
+    right: 6px !important;
+    width: min(92vw, 420px) !important;
+  }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-sidebar-collapsed="true"] .sidebar,
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] .automation-panel {
+    width: 46px !important;
+    min-width: 46px !important;
+    max-width: 46px !important;
+  }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] .automation-panel {
+    transform: translateX(calc(100% - 46px)) !important;
+  }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) .sidebar,
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) .automation-panel {
+    transform: translateX(0) !important;
+    z-index: 60 !important;
+  }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded) :is(.panel-topbar, .sidebar-header) {
+    min-height: 46px !important;
+    height: 46px !important;
+    padding: 6px !important;
+    gap: 6px !important;
+  }
+
+  .panel-title { font-size: .78rem !important; line-height: 1.1 !important; letter-spacing: .04em !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+  .panel-actions button { width: 34px !important; height: 34px !important; min-width: 34px !important; border-radius: 12px !important; font-size: 0 !important; }
+  .panel-actions [data-panel-action="toggle"]::before { content: "☰"; font-size: 1.08rem; line-height: 1; }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) #sidebar .panel-actions [data-panel-action="toggle"]::before,
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) #automation-panel .panel-actions [data-panel-action="toggle"]::before { content: "×"; }
+
+  body[data-sidebar-collapsed="true"] #sidebar :is(.panel-title, .panel-actions [data-panel-action="fullscreen"]),
+  body[data-automation-collapsed="true"] #automation-panel :is(.panel-title, .panel-actions [data-panel-action="fullscreen"]) { display: none !important; }
+
+  body[data-sidebar-collapsed="true"] #sidebar .panel-topbar,
+  body[data-automation-collapsed="true"] #automation-panel .panel-topbar { justify-content: center !important; }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-sidebar-collapsed="true"] #sidebar > :not(.panel-topbar),
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded)[data-automation-collapsed="true"] #automation-panel > :not(.panel-topbar) { display: none !important; }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"])::before,
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"])::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+    background: rgba(2, 6, 23, .18);
+    pointer-events: none;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-sidebar-collapsed="true"]) #sidebar,
+  body:not(.is-awtsmoos-embedded-ai):not(.is-ai-embedded):not([data-automation-collapsed="true"]) #automation-panel { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
+  .conversation-list,
+  .automation-panel > :not(.panel-topbar) { overflow-x: hidden !important; }
+
+  .message,
+  .bubble,
+  .event-region,
+  .event-lanes,
+  .transport-details,
+  .thought-envelope-card,
+  .event-text,
+  .event-markdown-rendered,
+  .md-code,
+  .right-tabs,
+  .automation-field,
+  .graph-node { max-width: 100% !important; min-width: 0 !important; overflow-x: hidden !important; word-break: break-word !important; overflow-wrap: anywhere !important; }
+
+  pre,
+  code,
+  .md-code code { white-space: pre-wrap !important; }
+
+  .right-tabs { flex-wrap: wrap !important; }
+  .right-tabs button { min-width: 0 !important; flex: 1 1 120px !important; }
+}

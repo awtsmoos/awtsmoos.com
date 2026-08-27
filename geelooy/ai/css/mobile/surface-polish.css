@@ -1,0 +1,48 @@
+/* B"H — mobile surface polish: no dead right void, no vertical rails */
+@media (max-width: 680px) {
+  html,
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-x: none !important;
+  }
+
+  .container,
+  .main,
+  .chat-box,
+  .input-area,
+  .attachment-tools,
+  .transport-status {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .sidebar.is-collapsed,
+  .automation-panel.is-collapsed,
+  .sidebar.is-detached,
+  .automation-panel.is-detached {
+    display: grid !important;
+    grid-template-rows: 70px !important;
+    border-radius: 20px !important;
+  }
+
+  .sidebar.is-collapsed .panel-topbar,
+  .automation-panel.is-collapsed .panel-topbar,
+  .sidebar.is-detached .panel-topbar,
+  .automation-panel.is-detached .panel-topbar {
+    flex-direction: row !important;
+    writing-mode: horizontal-tb !important;
+    white-space: nowrap !important;
+  }
+
+  .panel-actions button {
+    touch-action: manipulation !important;
+  }
+
+  .chat-box {
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}

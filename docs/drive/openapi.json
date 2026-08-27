@@ -1,0 +1,574 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Awtsmoos Drive API",
+    "version": "1.0.0",
+    "description": "Logical Drive management, bounded streaming upload, public hosting, quotas, credentials, reconciliation, migration, and Manager assets."
+  },
+  "servers": [
+    {
+      "url": "https://awtsmoos.com"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-awtsmoos-api-key"
+      },
+      "DriveBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "BH": {
+            "type": "string"
+          },
+          "ok": {
+            "const": false
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Entry": {
+        "type": "object",
+        "required": [
+          "path",
+          "type",
+          "ownerAlias"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "file",
+              "folder"
+            ]
+          },
+          "ownerAlias": {
+            "type": "string"
+          },
+          "objectHash": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "size": {
+            "type": "integer"
+          },
+          "mime": {
+            "type": "string"
+          },
+          "visibility": {
+            "enum": [
+              "public",
+              "private"
+            ]
+          },
+          "cachePolicy": {
+            "enum": [
+              "mutable",
+              "immutable"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trashedAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/social/drive/manager": {
+      "get": {
+        "summary": "Redirect to Manager directory",
+        "responses": {
+          "302": {
+            "description": "Redirect"
+          }
+        }
+      },
+      "head": {
+        "summary": "Manager redirect metadata",
+        "responses": {
+          "302": {
+            "description": "Redirect"
+          }
+        }
+      }
+    },
+    "/api/social/drive/manager/{assetPath}": {
+      "parameters": [
+        {
+          "name": "assetPath",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Serve Manager HTML, CSS, or JavaScript",
+        "responses": {
+          "200": {
+            "description": "Asset"
+          },
+          "404": {
+            "description": "Unknown or rejected asset"
+          },
+          "405": {
+            "description": "Unsupported method"
+          }
+        }
+      },
+      "head": {
+        "summary": "Manager asset metadata",
+        "responses": {
+          "200": {
+            "description": "Asset headers"
+          }
+        }
+      }
+    },
+    "/api/social/drive/{aliasId}/stream/{path}": {
+      "parameters": [
+        {
+          "name": "aliasId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        {
+          "name": "Content-Length",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "maximum": 536870912
+          }
+        }
+      ],
+      "put": {
+        "summary": "Bounded raw streaming upload",
+        "description": "Backpressured raw upload with incremental SHA-256, exact quota reservation, atomic content-addressed finalization, and idempotent replay.",
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "DriveBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Idempotent replay"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid length, path, or idempotency key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency conflict"
+          },
+          "411": {
+            "description": "Content-Length required"
+          },
+          "413": {
+            "description": "Quota or single-file limit exceeded"
+          }
+        }
+      }
+    },
+    "/api/social/drive/{aliasId}/actions/{action}": {
+      "parameters": [
+        {
+          "name": "aliasId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "action",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "enum": [
+              "move",
+              "copy",
+              "trash",
+              "restore",
+              "purge"
+            ]
+          }
+        }
+      ],
+      "post": {
+        "summary": "Perform a Drive action",
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "DriveBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action completed"
+          }
+        }
+      }
+    },
+    "/api/social/drive/{aliasId}/usage": {
+      "parameters": [
+        {
+          "name": "aliasId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read usage and quota",
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "DriveBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usage and quota"
+          }
+        }
+      }
+    },
+    "/api/social/drive/public/{aliasId}/{path}": {
+      "parameters": [
+        {
+          "name": "aliasId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Serve a public file",
+        "parameters": [
+          {
+            "name": "Range",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Modified-Since",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Complete file"
+          },
+          "206": {
+            "description": "Byte range"
+          },
+          "304": {
+            "description": "Not modified"
+          },
+          "404": {
+            "description": "Missing or non-public"
+          }
+        }
+      },
+      "head": {
+        "summary": "Read public file headers",
+        "responses": {
+          "200": {
+            "description": "File headers"
+          },
+          "404": {
+            "description": "Missing or non-public"
+          }
+        }
+      }
+    },
+    "/api/social/drive/{aliasId}/entries": {
+      "parameters": [
+        {
+          "name": "aliasId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List entries",
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "DriveBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "path",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "enum": [
+                "file",
+                "folder"
+              ]
+            }
+          },
+          {
+            "name": "visibility",
+            "in": "query",
+            "schema": {
+              "enum": [
+                "public",
+                "private"
+              ]
+            }
+          },
+          {
+            "name": "includeTrash",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "maximum": 100
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entry listing"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create file or folder using JSON content",
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "DriveBearer": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/api/social/drive/{aliasId}/entry/{path}": {
+      "parameters": [
+        {
+          "name": "aliasId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "path",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Read one logical entry",
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "DriveBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entry"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update entry metadata or buffered content",
+        "security": [
+          {
+            "ApiKey": []
+          },
+          {
+            "DriveBearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+/* B"H */
+/*
+  Chapter 10: The Cockpit Became a Crown of Moving Glass.
+  Headers stay fixed, bodies scroll, panels expand like palaces, and the
+  composer grows with the living word instead of choking beneath it.
+*/
+#automation-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+#automation-panel .right-tabs {
+  flex: 0 0 auto;
+  overflow: visible !important;
+  overflow: visible !important;
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background: linear-gradient(180deg, rgba(8,47,73,.96), rgba(2,8,23,.86));
+  border-bottom: 1px solid rgba(125,211,252,.18);
+}
+#automation-panel .right-panel-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.input-area {
+  align-items: flex-end;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(125,211,252,.14);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(2,6,23,.88), rgba(8,47,73,.34));
+  box-shadow: 0 -18px 45px rgba(0,0,0,.28);
+}
+#message-input {
+  min-height: 54px;
+  max-height: 220px;
+  resize: none;
+  line-height: 1.45;
+  transition: height .12s ease, border-color .16s ease, box-shadow .16s ease;
+}
+#message-input:focus {
+  border-color: rgba(34,211,238,.7);
+  box-shadow: 0 0 0 3px rgba(34,211,238,.12);
+}
+.event-title-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.event-talked-to {
+  color: rgba(203,241,255,.68);
+  font-size: .78rem;
+  font-weight: 700;
+}
+.event-panel-actions {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 6px;
+}
+.event-panel-actions button {
+  width: 26px;
+  height: 24px;
+  border: 1px solid rgba(125,211,252,.18);
+  border-radius: 9px;
+  color: #dffaff;
+  background: rgba(15,23,42,.72);
+  cursor: pointer;
+}
+.event-panel-actions button:hover {
+  background: rgba(34,211,238,.22);
+}
+.transport-details.is-maximized,
+.thought-envelope-card.is-maximized {
+  width: min(980px, 100%);
+  max-width: 100%;
+}
+.transport-details.is-fullscreen,
+.thought-envelope-card.is-fullscreen {
+  position: fixed;
+  inset: 16px;
+  z-index: 2147483000;
+  max-width: none;
+  background: #020817;
+  border: 1px solid rgba(34,211,238,.45);
+  border-radius: 22px;
+  box-shadow: 0 30px 120px rgba(0,0,0,.72);
+  overflow: auto;
+}
+.event-raw-lazy {
+  margin: 10px;
+  border-top: 1px solid rgba(151,205,255,.1);
+}
+.event-raw-lazy > summary {
+  cursor: pointer;
+  color: #a5f3fc;
+  padding: 10px 0;
+}
+.event-link-panel a {
+  display: inline-flex;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}

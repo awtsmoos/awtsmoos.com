@@ -1,0 +1,76 @@
+{
+	"BH": "B\"H / Boruch Hashem / Blessed is He",
+	"schema": "awtsmoos-ai-project-v2",
+	"provenance": "generated-from-local-source",
+	"projectId": "geelooy-heichel-review-b8b78ec5",
+	"path": "geelooy/heichel-review",
+	"type": "public",
+	"family": {
+		"id": "public",
+		"title": "Public and Other Boundaries"
+	},
+	"title": "Heichel Review and Governance Center",
+	"entries": [
+		"index.html",
+		"DOCUMENTATION.md",
+		"README.md",
+		"readme.md"
+	],
+	"humanDocumentation": [
+		"geelooy/heichel-review/DOCUMENTATION.md",
+		"docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md"
+	],
+	"humanManual": "docs/TUTORIALS/PROJECTS/PUBLIC_SURFACES.md",
+	"generatedTutorial": "docs/GENERATED/PROJECT_TUTORIALS/PROJECTS/geelooy-heichel-review-b8b78ec5.md",
+	"symlinkTarget": null,
+	"counts": {
+		"source": 26,
+		"tests": 2,
+		"assets": 0,
+		"generated": 0,
+		"docs": 2,
+		"other": 0
+	},
+	"totalFiles": 30,
+	"symbolSummary": {
+		"files": 13,
+		"classes": 8,
+		"functions": 14,
+		"exports": 12,
+		"samples": [
+			"GovernanceApi",
+			"renderInvitations",
+			"invitationCard",
+			"renderMembers",
+			"memberCard",
+			"GovernanceMutations",
+			"GovernancePanel",
+			"ReviewApi",
+			"ReviewController",
+			"async",
+			"decideSubmission",
+			"ReviewDetail"
+		]
+	},
+	"outgoingDependencies": [
+		{
+			"project": "geelooy/shared",
+			"count": 1,
+			"examples": "geelooy/heichel-review/js/main.js"
+		}
+	],
+	"incomingDependencies": [],
+	"externalDependencies": [],
+	"publicEntries": [
+		{
+			"url": "/heichel-review",
+			"file": "geelooy/heichel-review/index.html",
+			"title": "Heichel Review and Governance Center",
+			"scripts": 1,
+			"styles": 1
+		}
+	],
+	"requiresLocalDocumentation": true,
+	"documentationCovered": true,
+	"navigationRule": "Human guide -> generated project tutorial -> dependency/entry evidence -> current source/tests/runtime."
+}

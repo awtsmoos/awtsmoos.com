@@ -1,0 +1,48 @@
+{
+	"schema": "awtsmoos-api-tutorial-v1",
+	"id": "api-fetch-9837786494",
+	"route": "/api/fetch",
+	"source": "geelooy/api/fetch/_awtsmoos.derech.js",
+	"discoveryKind": "static-literal",
+	"family": {
+		"mount": "/api/fetch",
+		"title": "Fetch Proxy",
+		"manual": "docs/TUTORIALS/API/FETCH.md"
+	},
+	"derech": {
+		"source": "geelooy/api/fetch/_awtsmoos.derech.js",
+		"status": "OK",
+		"issue": "—",
+		"mount": "/api/fetch"
+	},
+	"dynamic": false,
+	"pathParameters": [],
+	"methods": [],
+	"methodEvidence": "unknown",
+	"vessels": [
+		"$_POST",
+		"headers",
+		"cookies",
+		"identity"
+	],
+	"statuses": [
+		"400",
+		"401",
+		"403",
+		"429"
+	],
+	"headers": [],
+	"callers": [
+		{
+			"literal": "/api/fetch",
+			"source": "geelooy/scripts/tricks/jem/script.js",
+			"kind": "runtime"
+		}
+	],
+	"callerCount": 1,
+	"tests": [],
+	"examples": [],
+	"tutorialFile": "docs/GENERATED/API_TUTORIALS/ROUTES/api-fetch-9837786494.md",
+	"confidence": "unknown-method",
+	"related": []
+}
