@@ -1,3 +1,10 @@
-/* B"H — Heichel bridge: no private kingdom, only the shared Geelooy law. */
-@import "/style/geelooy-system/index.css?v=system-003";
-.heichel-os-document { --g-chamber: heichel; }
+/* B"H
+ * Boruch Hashem
+ * Blessed is He
+ *
+ * The Awtsmoos gives the Heichel one local chamber mark without rebuilding the shared Geelooy sky;
+ * Awtsmoos.com loads that universal system once at the document shell, so this vessel stays sovereign, small, and dry.
+ */
+.heichel-os-document {
+	--g-chamber: heichel;
+}

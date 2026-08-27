@@ -1,107 +1,85 @@
-// /heichelos/heichel/modules/ui/controls.js
 // B"H
+// Boruch Hashem
+// Blessed is He
+
+/**
+ * @module HeichelOwnerControls
+ * @description
+ * The Awtsmoos gives owners explicit creation, selection, editing, and governance doors without global selector haze;
+ * Awtsmoos.com composes stable action buttons while selection state lives in its own smaller, testable phase.
+ */
+
 import { DOMElements } from '../dom.js';
 import { openModal } from '../modal.js';
 import * as api from '../../api.js';
-import { notify } from './render.js';
-import { getItemKey } from '../../state.js';
+import { createActionButton } from './controlButtons.js';
+export { toggleItemSelection, toggleSelectionMode } from './selectionControls.js';
+import { toggleSelectionMode } from './selectionControls.js';
 
+/**
+ * @description Adds the root-level editor control for Heichel owners; the Awtsmoos guards institutional identity while Awtsmoos.com keeps the editor flow outside ordinary series actions.
+ * @param {Object} appState - Current Heichel application state.
+ * @returns {HTMLButtonElement} Configured editor action button.
+ */
+function editorButton(appState) {
+	return createActionButton('Add New Editor', 'add-editor', async () => {
+		const editorAliasId = await window.AwtsmoosPrompt.go({
+			headerTxt: 'Enter Editor ID'
+		});
+		if (!editorAliasId) return;
+		await api.addEditor({
+			heichelId: appState.heichelData.id,
+			aliasId: window.curAlias,
+			editorAliasId
+		});
+	});
+}
+
+/**
+ * @description Renders owner-only creation and governance controls with stable action identities; the Awtsmoos reveals authority as explicit vessels while Awtsmoos.com keeps every control locally addressable.
+ * @param {Array<Object>} breadcrumb - Current series breadcrumb from root to active series.
+ * @param {Object} navigator - Active Heichel navigator used for modal reloads and deletion.
+ * @param {Object} appState - Current Heichel application state.
+ * @returns {void}
+ */
 export function renderOwnerControls(breadcrumb, navigator, appState) {
-    DOMElements.postsControls.innerHTML = '';
-    DOMElements.seriesControlsContainer.innerHTML = '';
-    DOMElements.seriesControls.innerHTML = '';
-
-    if (appState.ownsIt) {
-        const addPostBtn = createButton('Add New Post', () => {
-            window.open(`/heichelos/${appState.heichelId}/submit?parentSeriesId=${appState.currentSeries}`, '_blank');
-        });
-        DOMElements.postsControls.appendChild(addPostBtn);
-
-        const addSeriesBtn = createButton('Add New Series', () => openModal('series', navigator));
-        DOMElements.seriesControlsContainer.appendChild(addSeriesBtn);
-        
-        const selectBtn = createButton('Select Items', () => toggleSelectionMode(!appState.isSelectionMode, navigator, appState));
-        selectBtn.style.display="none"; // Initially hidden until content checked in rendering update
-
-        if(appState.currentSeries == "root") {
-             var addEditorBtn = createButton("Add New Editor", async () => {
-                var editorNm = await window.AwtsmoosPrompt.go({ headerTxt: "Enter Editor ID" });
-                if(!editorNm || !editorNm.length) {
-                    await window.AwtsmoosPrompt.go({ headerTxt: "Canceled", isAlert: true });
-                    return;
-                }
-                await api.addEditor({
-                    heichelId: appState.heichelData.id,
-                    aliasId:  window.curAlias,
-                    editorAliasId: editorNm
-                });
-            });
-            DOMElements.seriesControlsContainer.appendChild(addEditorBtn);
-        }
-        
-        DOMElements.seriesControlsContainer.appendChild(selectBtn);
-        
-        if (appState.currentSeries !== 'root') {
-            const editBtn = createButton('Edit Series', () => openModal('series', navigator, { mode: 'edit', seriesId: appState.currentSeries, title: breadcrumb[breadcrumb.length - 1]?.name || '' }));
-            const deleteBtn = createButton('Delete This Series', () => {
-                const parentItem = breadcrumb.length > 1 ? breadcrumb[breadcrumb.length - 2] : { id: 'root' };
-                navigator.deleteSingleItem({
-                    id: appState.currentSeries,
-                    type: 'series',
-                    parentId: parentItem.id
-                });
-            }, 'danger');
-            DOMElements.seriesControls.append(editBtn, deleteBtn);
-        }
-    } else {
-         DOMElements.controlsArea.classList.add("hidden");
-    }
-}
-
-function createButton(text, onClick, className='') {
-    const btn = document.createElement('button');
-    btn.textContent = text;
-    if (className) btn.classList.add(className);
-    btn.onclick = (e) => { e.preventDefault(); onClick(); };
-    return btn;
-}
-
-export function toggleSelectionMode(isActive, navigator, appState) {
-    appState.isSelectionMode = isActive;
-    document.querySelector('.heichel-page-container').classList.toggle('selection-mode-active', isActive);
-    
-    // Attempt to find the select button globally or query it (fragile but preserved from original logic)
-    const btns = document.querySelectorAll('button');
-    const selectBtn = Array.from(btns).find(b => b.textContent === 'Select Items' || b.textContent === 'Cancel Selection');
-    if(selectBtn) selectBtn.textContent = isActive ? 'Cancel Selection' : 'Select Items';
-
-    if (!isActive) {
-        clearAllSelections(appState);
-    }
-}
-
-export function toggleItemSelection(item, appState) {
-    const cardWrapper = document.querySelector(`.card-wrapper[data-id="${item.id}"][data-type="${item.type}"]`);
-    if (!cardWrapper) return;
-
-    const key = getItemKey(item);
-    if (appState.selectedItems.has(key)) {
-        appState.selectedItems.delete(key);
-        cardWrapper.classList.remove('selected');
-    } else {
-        const title = cardWrapper.querySelector('h2')?.textContent || 'Unnamed Item';
-        appState.selectedItems.set(key, { ...item, title });
-        cardWrapper.classList.add('selected');
-    }
-
-    const count = appState.selectedItems.size;
-    DOMElements.selectionCount.textContent = `${count} selected`;
-    DOMElements.bulkActionsBar.classList.toggle('visible', count > 0);
-}
-
-function clearAllSelections(appState) {
-    document.querySelectorAll('.card-wrapper.selected').forEach(el => el.classList.remove('selected'));
-    appState.selectedItems.clear();
-    DOMElements.selectionCount.textContent = '0 selected';
-    DOMElements.bulkActionsBar.classList.remove('visible');
+	DOMElements.postsControls.replaceChildren();
+	DOMElements.seriesControlsContainer.replaceChildren();
+	DOMElements.seriesControls.replaceChildren();
+	DOMElements.controlsArea.classList.toggle('hidden', !appState.ownsIt);
+	if (!appState.ownsIt) return;
+	const addPost = createActionButton('Add New Post', 'add-post', () => {
+		window.open(`/heichelos/${appState.heichelId}/submit?parentSeriesId=${appState.currentSeries}`, '_blank');
+	});
+	const addSeries = createActionButton('Add New Series', 'add-series', () => {
+		openModal('series', navigator);
+	});
+	const select = createActionButton('Select Items', 'selection-mode', () => {
+		toggleSelectionMode(!appState.isSelectionMode, navigator, appState);
+	});
+	select.hidden = true;
+	DOMElements.postsControls.append(addPost);
+	DOMElements.seriesControlsContainer.append(addSeries);
+	if (appState.currentSeries === 'root') {
+		DOMElements.seriesControlsContainer.append(editorButton(appState));
+	}
+	DOMElements.seriesControlsContainer.append(select);
+	if (appState.currentSeries === 'root') return;
+	const current = breadcrumb[breadcrumb.length - 1];
+	const parent = breadcrumb[breadcrumb.length - 2] || { id: 'root' };
+	const edit = createActionButton('Edit Series', 'edit-series', () => {
+		openModal('series', navigator, {
+			mode: 'edit',
+			seriesId: appState.currentSeries,
+			title: current?.name || ''
+		});
+	});
+	const remove = createActionButton('Delete This Series', 'delete-series', () => {
+		navigator.deleteSingleItem({
+			id: appState.currentSeries,
+			type: 'series',
+			parentId: parent.id
+		});
+	}, 'danger');
+	DOMElements.seriesControls.append(edit, remove);
 }

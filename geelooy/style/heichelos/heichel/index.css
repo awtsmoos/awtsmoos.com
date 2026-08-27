@@ -1,9 +1,12 @@
 /* B"H
  * Boruch Hashem
  * Blessed is He
- * The Heichel manifest preserves browser cache law and filesystem graph compatibility.
+ *
+ * The Awtsmoos gathers the Heichel's local vessels without loading the same world twice;
+ * Awtsmoos.com receives Social and Geelooy foundations from the page shell, while this manifest owns Heichel light.
+ * Shared legacy tokens and event compatibility remain explicit because the Social index does not contain their stream;
+ * every later import is Heichel-local or a consciously shared performance vessel, ordered as one lucid dream.
  */
-@import "/style/social-system/index.css?v=unified-ui-001";
 @import "/style/social-system/tokens.css?v=unified-ui-001";
 @import "/style/social-system/simple-events.css?v=unified-ui-001";
 @import "./tokens.css";
@@ -28,6 +31,7 @@
 @import "./future/bulk-actions.css";
 @import "./future/mini-mail.css";
 @import "./modal/index.css";
+@import "./future/legacy-dialog.css";
 @import "./future/responsive.css";
 @import "./future/accessibility.css";
 @import "../revamped-partials/heichel-boot-states.css";
